@@ -1,0 +1,37 @@
+{
+  "extends": [
+    "react-app",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["simple-import-sort"],
+  "rules": {
+    "@typescript-eslint/brace-style": [
+      "error",
+      "1tbs",
+      { "allowSingleLine": true }
+    ],
+
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/func-call-spacing": ["error"],
+    "@typescript-eslint/member-ordering": ["warn"],
+    "@typescript-eslint/no-require-imports": ["error"],
+    "@typescript-eslint/no-unused-expressions": "error",
+    "react/no-unused-prop-types": ["warn", { "skipShapeProps": true }],
+    "array-bracket-spacing": ["warn", "never"],
+    "max-len": ["warn", { "code": 120 }],
+    "no-console": "warn",
+    "no-plusplus": "error",
+    "no-undef": "warn",
+    "no-unused-expressions": "off",
+    "object-curly-spacing": ["warn", "always"],
+    "sort-imports": "off",
+    "import/order": "off",
+    "simple-import-sort/sort": "error",
+    "import/named": "off"
+  }
+}
