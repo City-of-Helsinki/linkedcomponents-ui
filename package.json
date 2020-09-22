@@ -24,6 +24,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "testcafe": "^1.9.3",
     "typescript": "~4.0.3",
     "waait": "^1.0.5"
   },
@@ -32,6 +33,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=false",
+    "browser-test": "testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
+    "browser-test:local": "BROWSER_TEST_ENV=local testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
+    "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" browser-tests/",
     "lint": "eslint --ext js,ts,tsx src",
     "lint:fix": "eslint --ext js,ts,tsx src --fix"
   },

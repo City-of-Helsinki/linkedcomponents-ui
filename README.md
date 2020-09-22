@@ -23,6 +23,18 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 Launches the test runner and generates coverage report
 
+### `yarn browser-test`
+
+Running browser tests against test environment
+
+Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
+
+### `yarn browser-test:local`
+
+Running browser tests against local environment
+
+Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
+
 ### `yarn build`
 
 Builds the app for production to the `build` folder.<br />
@@ -38,3 +50,7 @@ Run linter to all the files in app
 ### `yarn lint:fix`
 
 Run linter and fix all the linter errors
+
+## Browser tests
+
+Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
