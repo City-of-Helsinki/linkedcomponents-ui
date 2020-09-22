@@ -8,3 +8,5 @@ export enum SUPPORTED_LANGUAGES {
   SV = 'sv',
   EN = 'en',
 }
+
+export const MAIN_CONTENT_ID = 'maincontent';

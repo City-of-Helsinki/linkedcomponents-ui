@@ -11,6 +11,8 @@
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
     "classnames": "^2.2.6",
+    "hds-core": "^0.13.2",
+    "hds-react": "^0.13.2",
     "i18next": "^19.7.0",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-intervalplural-postprocessor": "^2.0.2",
@@ -49,6 +51,9 @@
       "src/index.tsx",
       "src/domain/app/i18n/i18nInit.ts",
       "src/utils/testUtils.ts"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!hds-react)/"
     ]
   },
   "browserslist": {

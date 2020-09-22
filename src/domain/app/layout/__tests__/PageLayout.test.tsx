@@ -1,7 +1,13 @@
 import React from 'react';
 
 import { SUPPORTED_LANGUAGES } from '../../../../constants';
-import { actWait, render } from '../../../../utils/testUtils';
+import {
+  actWait,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
+import translations from '../../i18n/fi.json';
 import PageLayout from '../PageLayout';
 
 const getWrapper = () => render(<PageLayout />);
@@ -47,4 +53,21 @@ test('alternate language links should be added', async () => {
       expect(link).toBeDefined();
     });
   }
+});
+
+test('menu should be opened by clicking menu button', async () => {
+  global.innerWidth = 500;
+  getWrapper();
+
+  const button = screen.getByRole('button', {
+    name: translations.navigation.menuOpenAriaLabel,
+  });
+
+  userEvent.click(button);
+
+  expect(
+    screen.getByRole('button', {
+      name: translations.navigation.menuCloseAriaLabel,
+    })
+  ).toBeDefined();
 });

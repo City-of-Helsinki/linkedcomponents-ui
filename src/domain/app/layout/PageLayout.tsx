@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
@@ -9,11 +10,18 @@ import styles from './pageLayout.module.scss';
 
 const PageLayout: React.FC = ({ children }) => {
   const locale = useLocale();
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   const path = window.location.pathname.replace(`/${locale}`, '');
 
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
-    <div className={styles.pageLayout}>
+    <div
+      className={classNames(styles.pageLayout, { [styles.menuOpen]: menuOpen })}
+    >
       <Helmet>
         <html lang={locale} />
 
@@ -30,8 +38,10 @@ const PageLayout: React.FC = ({ children }) => {
         })}
       </Helmet>
 
-      <Header />
-      <div className={styles.pageBody}>{children}</div>
+      <Header menuOpen={menuOpen} onMenuToggle={toggleMenu} />
+      <div aria-hidden={menuOpen} className={styles.pageBody}>
+        {children}
+      </div>
 
       <Footer />
     </div>
