@@ -5,6 +5,7 @@ import { Route, RouteComponentProps, Switch } from 'react-router';
 import { ROUTES } from '../../../constants';
 import { Language } from '../../../types';
 import LandingPage from '.././../landingPage/LandingPage';
+import PageLayout from '../layout/PageLayout';
 
 interface Params {
   locale: Language;
@@ -26,9 +27,15 @@ const LocaleRoutes: React.FC<Props> = ({
   }, [i18n, locale]);
 
   return (
-    <Switch>
-      <Route exact path={getLocelePath(ROUTES.HOME)} component={LandingPage} />
-    </Switch>
+    <PageLayout>
+      <Switch>
+        <Route
+          exact
+          path={getLocelePath(ROUTES.HOME)}
+          component={LandingPage}
+        />
+      </Switch>
+    </PageLayout>
   );
 };
 
