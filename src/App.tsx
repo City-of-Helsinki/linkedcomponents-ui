@@ -1,7 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const App = () => {
-  return <div>Linked components</div>;
+  const { t } = useTranslation();
+
+  return <div>{t('appName')}</div>;
 };
 
 export default App;
