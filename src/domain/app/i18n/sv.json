@@ -1,3 +1,14 @@
 {
-  "appName": "Linked Components"
+  "appName": "Linked Components",
+  "navigation": {
+    "languages": {
+      "en": "In English",
+      "fi": "Suomeksi",
+      "sv": "På svenska"
+    },
+    "languageSelectorAriaLabel": "Svenska - språkval",
+    "menuCloseAriaLabel": "Stäng menyn",
+    "menuOpenAriaLabel": "Öppna menyn",
+    "skipToContentLabel": "Gå till innehållet"
+  }
 }

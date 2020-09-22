@@ -1,4 +1,5 @@
 import './domain/app/i18n/i18nInit';
+import './assets/styles/main.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
