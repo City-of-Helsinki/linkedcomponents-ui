@@ -26,3 +26,11 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
+
+### `yarn lint`
+
+Run linter to all the files in app
+
+### `yarn lint:fix`
+
+Run linter and fix all the linter errors
