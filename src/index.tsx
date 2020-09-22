@@ -3,7 +3,7 @@ import './domain/app/i18n/i18nInit';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App';
+import App from './domain/app/App';
 
 ReactDOM.render(
   <React.StrictMode>

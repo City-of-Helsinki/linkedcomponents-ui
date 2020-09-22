@@ -6,14 +6,19 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
+    "@types/react-router": "^5.1.8",
+    "@types/react-router-dom": "^5.1.5",
     "i18next": "^19.7.0",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-intervalplural-postprocessor": "^2.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.7.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "typescript": "~4.0.3"
+    "typescript": "~4.0.3",
+    "waait": "^1.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,7 +42,8 @@
       "types.ts",
       ".*.d.ts",
       "src/index.tsx",
-      "src/domain/app/i18n/i18nInit.ts"
+      "src/domain/app/i18n/i18nInit.ts",
+      "src/utils/testUtils.ts"
     ]
   },
   "browserslist": {
@@ -55,12 +61,14 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
+    "@testing-library/react-hooks": "^3.4.1",
     "@testing-library/user-event": "^12.1.6",
     "@types/jest": "^24.0.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-simple-import-sort": "^5.0.3",
     "jest-environment-jsdom-sixteen": "^1.0.3",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "react-test-renderer": "^16.13.1"
   }
 }

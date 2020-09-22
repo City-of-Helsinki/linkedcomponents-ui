@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const App = () => {
+const LandingPage: React.FC = () => {
   const { t } = useTranslation();
 
   return <div>{t('appName')}</div>;
 };
 
-export default App;
+export default LandingPage;
