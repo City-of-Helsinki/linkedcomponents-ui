@@ -7,7 +7,7 @@ fixture('Landing page').page(getEnvUrl('fi'));
 test('Changing language', async (t) => {
   await t
     .click(header.languageSelector)
-    .click(header.languageSelectorItem0)
+    .click(header.languageSelectorItemSv)
     .expect(getPathname())
     .eql('/sv');
 });
