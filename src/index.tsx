@@ -1,4 +1,5 @@
 import './domain/app/i18n/i18nInit';
+import 'hds-core/lib/base.css';
 import './assets/styles/main.scss';
 
 import React from 'react';

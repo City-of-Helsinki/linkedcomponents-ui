@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  app:
+    # https://github.com/facebook/create-react-app/issues/8688
+    # The stdin_open setting circumvents the above issue. Without this
+    # setting, docker-compose up won't work as expected. I attempted
+    # to downgrade react-scripts into version 3.4.0, and I attempted to
+    # upgrade it into version 3.4.3, but neither route worked. Likely
+    # the wrong version of react-scripts was installed, but I wasn't
+    # able to understand why.
+    stdin_open: true
+    container_name: linkedcomponents-ui
+    build:
+      context: .
+      target: ${DOCKER_TARGET:-development}
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '3000:3000'
