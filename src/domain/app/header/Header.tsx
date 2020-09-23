@@ -1,6 +1,7 @@
 import { Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { createUseStyles } from 'react-jss';
 import { useHistory, useLocation } from 'react-router';
 
 import {
@@ -11,6 +12,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
+import { useTheme } from '../theme/Theme';
 
 export interface HeaderProps {
   menuOpen: boolean;
@@ -18,6 +20,17 @@ export interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
+  const { theme } = useTheme();
+  const useStyles = React.useMemo(
+    () =>
+      createUseStyles({
+        languageSelector: theme.languageSelector,
+        navigation: theme.navigation,
+      }),
+    [theme]
+  );
+  const classes = useStyles();
+
   const locale = useLocale();
   const history = useHistory();
   const location = useLocation();
@@ -48,6 +61,7 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
       menuOpenAriaLabel={t('navigation.menuOpenAriaLabel')}
       skipTo={`${location.pathname}${location.search}#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('navigation.skipToContentLabel')}
+      className={classes.navigation}
       title={t('appName')}
       titleUrl={`/${locale}${ROUTES.HOME}`}
       logoLanguage={locale === 'sv' ? 'sv' : 'fi'}
@@ -55,6 +69,7 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
       <Navigation.Actions>
         <Navigation.LanguageSelector
           ariaLabel={t('navigation.languageSelectorAriaLabel')}
+          className={classes.languageSelector}
           formatSelectedValue={formatSelectedValue}
           onLanguageChange={changeLanguage}
           options={languageOptions}
