@@ -2,6 +2,28 @@
 
 UI for Linked Components. Linked Components is a collection of software components and API endpoints that enables event management and distribution for different event providers in Finland
 
+## Development with Docker
+
+To build the project, you will need [Docker](https://www.docker.com/community-edition).
+
+Start the container
+
+    docker-compose up
+
+The web application should run at http://localhost:3000
+
+## Running production version with Docker
+
+Build the docker image
+
+    DOCKER_TARGET=production docker-compose build
+
+Start the container
+
+    docker-compose up
+
+The web application should run at http://localhost:3001
+
 ## Available Scripts
 
 In the project directory, you can run:
