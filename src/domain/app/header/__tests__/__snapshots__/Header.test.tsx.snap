@@ -2,7 +2,7 @@
 
 exports[`matches snapshot 1`] = `
 <header
-  class="Navigation-module_header__eRhbT Navigation-module_theme-white__2PEou theme-white navigation-0-2-2"
+  class="Navigation-module_header__eRhbT Navigation-module_theme-white__2PEou theme-white css-0"
 >
   <a
     class="Navigation-module_skipToContent__3oPXq button_hds-button__2lV7p button_hds-button--secondary__1Qz_H button_hds-button--theme-black__1-2qz"
@@ -41,7 +41,7 @@ exports[`matches snapshot 1`] = `
           class="NavigationActions-module_navigationActions__1NpDJ"
         >
           <div
-            class="NavigationLanguageSelector-module_languageSelectorDropdown__2GcGF NavigationDropdown-module_navigationDropdown__3xnox Dropdown-module_root__2LI4- languageSelector-0-2-1"
+            class="NavigationLanguageSelector-module_languageSelectorDropdown__2GcGF NavigationDropdown-module_navigationDropdown__3xnox Dropdown-module_root__2LI4- css-0"
           >
             <div
               style="border: 0px; clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;"
