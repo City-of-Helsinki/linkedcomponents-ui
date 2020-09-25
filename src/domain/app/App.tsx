@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import theme from '../../assets/theme/theme.json';
+import theme from '../../assets/theme/theme';
 import AppRoutes from './routes/AppRoutes';
 import { ThemeProvider } from './theme/Theme';
 
