@@ -4,6 +4,8 @@ import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import wait from 'waait';
 
+import { ThemeProvider } from '../domain/app/theme/Theme';
+
 export const arrowUpKeyPressHelper = (): boolean =>
   fireEvent.keyDown(document, { code: 38, key: 'ArrowUp' });
 
@@ -27,7 +29,9 @@ const customRender: CustomRender = (
   } = {}
 ) => {
   const Wrapper: React.FC = ({ children }) => (
-    <Router history={history}>{children}</Router>
+    <ThemeProvider>
+      <Router history={history}>{children}</Router>
+    </ThemeProvider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
@@ -45,11 +49,13 @@ const renderWithRoute: CustomRender = (
   } = {}
 ) => {
   const Wrapper: React.FC = ({ children }) => (
-    <Router history={history}>
-      <Route exact path={path}>
-        {children}
-      </Route>
-    </Router>
+    <ThemeProvider>
+      <Router history={history}>
+        <Route exact path={path}>
+          {children}
+        </Route>
+      </Router>
+    </ThemeProvider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });

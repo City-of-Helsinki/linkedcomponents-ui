@@ -1,3 +1,4 @@
+import { css } from 'emotion';
 import { Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +12,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
+import { useTheme } from '../theme/Theme';
 
 export interface HeaderProps {
   menuOpen: boolean;
@@ -18,6 +20,7 @@ export interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
+  const { theme } = useTheme();
   const locale = useLocale();
   const history = useHistory();
   const location = useLocation();
@@ -48,6 +51,7 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
       menuOpenAriaLabel={t('navigation.menuOpenAriaLabel')}
       skipTo={`${location.pathname}${location.search}#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('navigation.skipToContentLabel')}
+      className={css(theme.navigation)}
       title={t('appName')}
       titleUrl={`/${locale}${ROUTES.HOME}`}
       logoLanguage={locale === 'sv' ? 'sv' : 'fi'}
@@ -55,6 +59,7 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
       <Navigation.Actions>
         <Navigation.LanguageSelector
           ariaLabel={t('navigation.languageSelectorAriaLabel')}
+          className={css(theme.languageSelector)}
           formatSelectedValue={formatSelectedValue}
           onLanguageChange={changeLanguage}
           options={languageOptions}
