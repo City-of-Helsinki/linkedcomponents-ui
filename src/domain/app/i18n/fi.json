@@ -1,5 +1,14 @@
 {
   "appName": "Linked Components",
+  "createEventPage": {
+    "pageTitle": "Uusi tapahtuma"
+  },
+  "eventsPage": {
+    "pageTitle": "Etsi tapahtumia"
+  },
+  "helpPage": {
+    "pageTitle": "Lisätietoja"
+  },
   "navigation": {
     "languages": {
       "en": "In English",

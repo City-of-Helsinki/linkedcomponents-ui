@@ -1,5 +1,14 @@
 {
   "appName": "Linked Components",
+  "createEventPage": {
+    "pageTitle": "Nytt evenemang"
+  },
+  "eventsPage": {
+    "pageTitle": "Sök evenemangen"
+  },
+  "helpPage": {
+    "pageTitle": "Läs mer"
+  },
   "navigation": {
     "languages": {
       "en": "In English",

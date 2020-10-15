@@ -4,6 +4,9 @@ import { Route, RouteComponentProps, Switch } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import { Language } from '../../../types';
+import CreateEventPage from '.././../event/CreateEventPage';
+import EventsPage from '.././../events/EventsPage';
+import HelpPage from '.././../help/HelpPage';
 import LandingPage from '.././../landingPage/LandingPage';
 import PageLayout from '../layout/PageLayout';
 
@@ -20,7 +23,7 @@ const LocaleRoutes: React.FC<Props> = ({
 }) => {
   const { i18n } = useTranslation();
 
-  const getLocelePath = (path: string) => `/${locale}`;
+  const getLocelePath = (path: string) => `/${locale}${path}`;
 
   React.useEffect(() => {
     i18n.changeLanguage(locale);
@@ -34,6 +37,17 @@ const LocaleRoutes: React.FC<Props> = ({
           path={getLocelePath(ROUTES.HOME)}
           component={LandingPage}
         />
+        <Route
+          exact
+          path={getLocelePath(ROUTES.CREATE_EVENT)}
+          component={CreateEventPage}
+        />
+        <Route
+          exact
+          path={getLocelePath(ROUTES.SEARCH)}
+          component={EventsPage}
+        />
+        <Route exact path={getLocelePath(ROUTES.HELP)} component={HelpPage} />
       </Switch>
     </PageLayout>
   );

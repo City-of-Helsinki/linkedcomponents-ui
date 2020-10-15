@@ -1,5 +1,14 @@
 {
   "appName": "Linked Components",
+  "createEventPage": {
+    "pageTitle": "New event"
+  },
+  "eventsPage": {
+    "pageTitle": "Search events"
+  },
+  "helpPage": {
+    "pageTitle": "More information"
+  },
   "navigation": {
     "languages": {
       "en": "In English",
