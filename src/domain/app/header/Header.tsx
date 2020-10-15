@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { css } from 'emotion';
 import { Navigation } from 'hds-react';
 import React from 'react';
@@ -13,6 +14,7 @@ import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { useTheme } from '../theme/Theme';
+import styles from './header.module.scss';
 
 export interface HeaderProps {
   menuOpen: boolean;
@@ -43,6 +45,32 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     });
   };
 
+  const isTabActive = (pathname: string): boolean => {
+    return location.pathname.startsWith(pathname);
+  };
+
+  const goToPage = (pathname: string) => (
+    event?: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    event?.preventDefault();
+    history.push({ pathname });
+  };
+
+  const navigationItems = [
+    {
+      label: t('navigation.tabs.createEvent'),
+      url: `/${locale}${ROUTES.CREATE_EVENT}`,
+    },
+    {
+      label: t('navigation.tabs.searchEvent'),
+      url: `/${locale}${ROUTES.SEARCH}`,
+    },
+    {
+      label: t('navigation.tabs.help'),
+      url: `/${locale}${ROUTES.HELP}`,
+    },
+  ];
+
   return (
     <Navigation
       menuOpen={menuOpen}
@@ -51,11 +79,23 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
       menuOpenAriaLabel={t('navigation.menuOpenAriaLabel')}
       skipTo={`${location.pathname}${location.search}#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('navigation.skipToContentLabel')}
-      className={css(theme.navigation)}
+      className={classNames(css(theme.navigation), styles.navigation)}
+      onTitleClick={goToPage(`/${locale}${ROUTES.HOME}`)}
       title={t('appName')}
       titleUrl={`/${locale}${ROUTES.HOME}`}
       logoLanguage={locale === 'sv' ? 'sv' : 'fi'}
     >
+      <Navigation.Row>
+        {navigationItems.map((item, index) => (
+          <Navigation.Item
+            key={index}
+            active={isTabActive(item.url)}
+            href={item.url}
+            label={item.label}
+            onClick={goToPage(item.url)}
+          />
+        ))}
+      </Navigation.Row>
       <Navigation.Actions>
         <Navigation.LanguageSelector
           ariaLabel={t('navigation.languageSelectorAriaLabel')}

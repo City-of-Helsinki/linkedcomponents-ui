@@ -3,15 +3,16 @@ import { Theme } from '../../domain/app/theme/Theme';
 const theme: Theme = {
   navigation: {
     '--header-z-index': 10,
-    '--header-background-color': 'var(--color-white)',
-    '--header-color': 'var(--color-black-90)',
+    '--header-background-color': 'var(--color-coat-of-arms-blue)',
+    '--header-color': 'var(--color-white)',
     '--header-divider-color': 'var(--color-black-20)',
     '--header-focus-outline-color': 'var(--color-coat-of-arms-blue)',
     '--navigation-row-background-color': 'var(--color-white)',
-    '--navigation-row-color': 'var(--color-black-90)',
+    '--navigation-row-color': 'var(--color-coat-of-arms-blue)',
     '--navigation-row-focus-outline-color': 'var(--color-coat-of-arms-blue)',
+    '--navigation-item-color': 'var(--color-black-90)',
     '--mobile-menu-z-index': 9,
-    '--mobile-menu-background-color': 'var(--color-black)',
+    '--mobile-menu-background-color': 'var(--color-white)',
     '--mobile-menu-color': 'var(--color-black-90)',
   },
   languageSelector: {

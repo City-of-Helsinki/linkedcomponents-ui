@@ -1,5 +1,8 @@
 export enum ROUTES {
+  CREATE_EVENT = '/event/create',
+  HELP = '/help',
   HOME = '/',
+  SEARCH = '/search',
 }
 
 // Supported languages

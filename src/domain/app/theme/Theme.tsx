@@ -23,6 +23,7 @@ type NavigationCSSProperties = {
   '--header-focus-outline-color'?: string;
   '--navigation-row-color'?: string;
   '--navigation-row-focus-outline-color'?: string;
+  '--navigation-item-color'?: string;
   '--mobile-menu-z-index'?: number;
   '--mobile-menu-background-color'?: string;
   '--mobile-menu-color'?: string;

@@ -9,6 +9,11 @@
     "languageSelectorAriaLabel": "Svenska - språkval",
     "menuCloseAriaLabel": "Stäng menyn",
     "menuOpenAriaLabel": "Öppna menyn",
-    "skipToContentLabel": "Gå till innehållet"
+    "skipToContentLabel": "Gå till innehållet",
+    "tabs": {
+      "createEvent": "Nytt evenemang",
+      "help": "Läs mer",
+      "searchEvent": "Sök evenemangen"
+    }
   }
 }

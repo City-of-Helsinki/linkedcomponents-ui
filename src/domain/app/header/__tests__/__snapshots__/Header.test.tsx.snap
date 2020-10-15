@@ -2,7 +2,7 @@
 
 exports[`matches snapshot 1`] = `
 <header
-  class="Navigation-module_header__eRhbT Navigation-module_theme-white__2PEou theme-white css-0"
+  class="Navigation-module_header__eRhbT Navigation-module_theme-white__2PEou theme-white css-0 navigation"
 >
   <a
     class="Navigation-module_skipToContent__3oPXq button_hds-button__2lV7p button_hds-button--secondary__1Qz_H button_hds-button--theme-black__1-2qz"
@@ -22,6 +22,7 @@ exports[`matches snapshot 1`] = `
       >
         <svg
           class="Logo-module_logo__Y2mwP Navigation-module_logo__2yx3k"
+          role="img"
           viewBox="0 0 104 36"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -41,7 +42,7 @@ exports[`matches snapshot 1`] = `
           class="NavigationActions-module_navigationActions__1NpDJ"
         >
           <div
-            class="NavigationLanguageSelector-module_languageSelectorDropdown__2GcGF NavigationDropdown-module_navigationDropdown__3xnox Dropdown-module_root__2LI4- css-0"
+            class="NavigationLanguageSelector-module_languageSelectorDropdown__2GcGF NavigationDropdown-module_navigationDropdown__3xnox Dropdown-module_root__3ro8_ css-0"
           >
             <div
               style="border: 0px; clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;"
@@ -54,13 +55,13 @@ exports[`matches snapshot 1`] = `
               </label>
             </div>
             <div
-              class="NavigationLanguageSelector-module_wrapper__3sBVP NavigationDropdown-module_wrapper__3hWJ_ Dropdown-module_wrapper__1oIw5"
+              class="NavigationLanguageSelector-module_wrapper__3sBVP NavigationDropdown-module_wrapper__3hWJ_ Dropdown-module_wrapper__1sFxz"
             >
               <button
                 aria-expanded="false"
                 aria-haspopup="listbox"
                 aria-labelledby="languageDropdown-label languageDropdown-toggle-button"
-                class="NavigationLanguageSelector-module_buttonDropdown__2Usjk Dropdown-module_buttonDropdown__IwbnQ Dropdown-module_dropdown__22ZdF NavigationLanguageSelector-module_placeholder__2Ma6F Dropdown-module_placeholder__2nbDo"
+                class="NavigationLanguageSelector-module_buttonDropdown__2Usjk Dropdown-module_buttonDropdown__2xA1D Dropdown-module_dropdown__34HBV NavigationLanguageSelector-module_placeholder__2Ma6F Dropdown-module_placeholder__1kfMz"
                 id="languageDropdown-toggle-button"
                 type="button"
               >
@@ -71,6 +72,7 @@ exports[`matches snapshot 1`] = `
                 </span>
                 <svg
                   class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik NavigationLanguageSelector-module_angleIcon__2bCke NavigationDropdown-module_angleIcon__KCbuf"
+                  role="img"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -91,7 +93,7 @@ exports[`matches snapshot 1`] = `
             </div>
             <ul
               aria-labelledby="languageDropdown-label"
-              class="NavigationLanguageSelector-module_menu__3RKHm NavigationDropdown-module_menu__3DtYt Dropdown-module_menu__3rei6"
+              class="NavigationLanguageSelector-module_menu__3RKHm NavigationDropdown-module_menu__3DtYt Dropdown-module_menu__3xwA0"
               id="languageDropdown-menu"
               role="listbox"
               style="transform: translate3d(0, -2px, 0);"
@@ -102,5 +104,27 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
   </div>
+  <nav
+    class="NavigationRow-module_navigation__2npSC NavigationRow-module_subNav__OHwI1"
+  >
+    <a
+      class="NavigationRow-module_navigationItem__GHn9i helpers_button-reset__3sf_P"
+      href="/sv/event/create"
+    >
+      Uusi tapahtuma
+    </a>
+    <a
+      class="NavigationRow-module_navigationItem__GHn9i helpers_button-reset__3sf_P"
+      href="/sv/search"
+    >
+      Etsi tapahtumia
+    </a>
+    <a
+      class="NavigationRow-module_navigationItem__GHn9i helpers_button-reset__3sf_P"
+      href="/sv/help"
+    >
+      Lisätietoja
+    </a>
+  </nav>
 </header>
 `;

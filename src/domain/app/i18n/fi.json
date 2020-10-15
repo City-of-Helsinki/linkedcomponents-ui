@@ -9,6 +9,11 @@
     "languageSelectorAriaLabel": "Suomi - kielivalikko",
     "menuCloseAriaLabel": "Sulje valikko",
     "menuOpenAriaLabel": "Avaa valikko",
-    "skipToContentLabel": "Siirry sisältöön"
+    "skipToContentLabel": "Siirry sisältöön",
+    "tabs": {
+      "createEvent": "Uusi tapahtuma",
+      "help": "Lisätietoja",
+      "searchEvent": "Etsi tapahtumia"
+    }
   }
 }
