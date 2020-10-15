@@ -6,7 +6,7 @@ const theme: Theme = {
     '--header-background-color': 'var(--color-coat-of-arms-blue)',
     '--header-color': 'var(--color-white)',
     '--header-divider-color': 'var(--color-black-20)',
-    '--header-focus-outline-color': 'var(--color-coat-of-arms-blue)',
+    '--header-focus-outline-color': 'var(--color-white)',
     '--navigation-row-background-color': 'var(--color-white)',
     '--navigation-row-color': 'var(--color-coat-of-arms-blue)',
     '--navigation-row-focus-outline-color': 'var(--color-coat-of-arms-blue)',

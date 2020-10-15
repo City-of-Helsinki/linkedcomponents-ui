@@ -18,12 +18,6 @@ body {
   background-color: var(--color-black-5);
 }
 
-a {
-  &:focus {
-    outline: 2px solid var(--color-black);
-  }
-}
-
 button {
   border: none;
   background-color: transparent;
