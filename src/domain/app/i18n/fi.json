@@ -1,7 +1,20 @@
 {
   "appName": "Linked Components",
   "createEventPage": {
-    "pageTitle": "Uusi tapahtuma"
+    "pageTitle": "Uusi tapahtuma",
+    "steps": {
+      "classification": "Luokittelu",
+      "commitment": "Sitoomus",
+      "languages": "Kielet",
+      "media": "Media",
+      "place": "Paikka",
+      "price": "Hinta",
+      "ready": "Valmis",
+      "responsibilities": "Vastuut",
+      "targets": "Kohteet",
+      "time": "Aika",
+      "type": "Tyyppi"
+    }
   },
   "eventsPage": {
     "pageTitle": "Etsi tapahtumia"

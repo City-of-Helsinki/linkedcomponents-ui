@@ -1,7 +1,20 @@
 {
   "appName": "Linked Components",
   "createEventPage": {
-    "pageTitle": "Nytt evenemang"
+    "pageTitle": "Nytt evenemang",
+    "steps": {
+      "classification": "Klassificering",
+      "commitment": "Engagemang",
+      "languages": "Språk",
+      "media": "Media",
+      "place": "Plats",
+      "price": "Pris",
+      "ready": "Redo",
+      "responsibilities": "Ansvar",
+      "targets": "Mål",
+      "time": "Tid",
+      "type": "Typ"
+    }
   },
   "eventsPage": {
     "pageTitle": "Sök evenemangen"

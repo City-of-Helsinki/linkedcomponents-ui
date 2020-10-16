@@ -1,7 +1,20 @@
 {
   "appName": "Linked Components",
   "createEventPage": {
-    "pageTitle": "New event"
+    "pageTitle": "New event",
+    "steps": {
+      "classification": "Classification",
+      "commitment": "Commitment",
+      "languages": "Languages",
+      "media": "Media",
+      "place": "Place",
+      "price": "Price",
+      "ready": "Ready",
+      "responsibilities": "Responsibilities",
+      "targets": "Targets",
+      "time": "Time",
+      "type": "Type"
+    }
   },
   "eventsPage": {
     "pageTitle": "Search events"

@@ -1,6 +1,22 @@
 import { Theme } from '../../domain/app/theme/Theme';
 
 const theme: Theme = {
+  eventNavigation: {
+    '--circle-background-color': 'transparent',
+    '--circle-border-color': 'var(--color-bus)',
+    '--circle-color': 'var(--color-bus)',
+    '--circle-background-color-completed': 'var(--color-bus)',
+    '--circle-border-color-completed': 'var(--color-bus)',
+    '--circle-color-completed': 'var(--color-white)',
+    '--circle-background-color-disabled': 'var(--color-bus-light-20)',
+    '--circle-border-color-disabled': 'var(--color-bus-light-20)',
+    '--circle-color-disabled': 'var(--color-white)',
+    '--connection-line-color': 'var(--color-bus-light-20)',
+    '--label-color': 'var(--color-black-90)',
+  },
+  layout: {
+    '--page-background-color': 'var(--color-white)',
+  },
   navigation: {
     '--header-z-index': 10,
     '--header-background-color': 'var(--color-coat-of-arms-blue)',
