@@ -31,18 +31,14 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
   };
 
   const isPreviousDisabled = !activeTab;
-  const isNextDisabled =
-    activeTab === items.length - 1 || items[activeTab + 1]?.disabled;
+  const isNextDisabled: boolean =
+    activeTab === items.length - 1 || !!items[activeTab + 1]?.disabled;
 
   const previous = () => {
-    if (isPreviousDisabled) return;
-
     setActiveTab(activeTab - 1);
   };
 
   const next = () => {
-    if (isNextDisabled) return;
-
     setActiveTab(activeTab + 1);
   };
 
@@ -98,11 +94,13 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
       </div>
       <Container>
         {items.map((item, index) => {
+          const hidden = index !== activeTab;
           return (
             <div
+              aria-hidden={hidden}
               key={index}
               className={classNames(styles.content, {
-                [styles.hidden]: index !== activeTab,
+                [styles.hidden]: hidden,
               })}
             >
               {item.component}

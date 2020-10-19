@@ -5,8 +5,8 @@
   },
   "event": {
     "navigation": {
-      "buttonNext": "Tidigare",
-      "buttonPrevious": "Nästa",
+      "buttonNext": "Nästa",
+      "buttonPrevious": "Tidigare",
       "steps": {
         "classification": "Klassificering",
         "commitment": "Engagemang",

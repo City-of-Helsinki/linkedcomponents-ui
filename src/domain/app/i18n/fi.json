@@ -5,8 +5,8 @@
   },
   "event": {
     "navigation": {
-      "buttonNext": "Edellinen",
-      "buttonPrevious": "Seuraava",
+      "buttonNext": "Seuraava",
+      "buttonPrevious": "Edellinen",
       "steps": {
         "classification": "Luokittelu",
         "commitment": "Sitoomus",
