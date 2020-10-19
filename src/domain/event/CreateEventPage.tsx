@@ -12,60 +12,62 @@ const CreateEventPage: React.FC = () => {
       <EventNavigation
         items={[
           {
-            component: <div>{t('createEventPage.steps.type')}</div>,
+            component: <div>{t('event.navigation.steps.type')}</div>,
             isCompleted: true,
-            label: t('createEventPage.steps.type'),
+            label: t('event.navigation.steps.type'),
           },
           {
-            component: <div>{t('createEventPage.steps.languages')}</div>,
+            component: <div>{t('event.navigation.steps.languages')}</div>,
             isCompleted: false,
-            label: t('createEventPage.steps.languages'),
+            label: t('event.navigation.steps.languages'),
           },
           {
-            component: <div>{t('createEventPage.steps.responsibilities')}</div>,
+            component: (
+              <div>{t('event.navigation.steps.responsibilities')}</div>
+            ),
             isCompleted: false,
-            label: t('createEventPage.steps.responsibilities'),
+            label: t('event.navigation.steps.responsibilities'),
           },
           {
-            component: <div>{t('createEventPage.steps.time')}</div>,
+            component: <div>{t('event.navigation.steps.time')}</div>,
             isCompleted: false,
-            label: t('createEventPage.steps.time'),
+            label: t('event.navigation.steps.time'),
           },
           {
-            component: <div>{t('createEventPage.steps.place')}</div>,
+            component: <div>{t('event.navigation.steps.place')}</div>,
             isCompleted: false,
-            label: t('createEventPage.steps.place'),
+            label: t('event.navigation.steps.place'),
           },
           {
-            component: <div>{t('createEventPage.steps.price')}</div>,
+            component: <div>{t('event.navigation.steps.price')}</div>,
             isCompleted: false,
-            label: t('createEventPage.steps.price'),
+            label: t('event.navigation.steps.price'),
           },
           {
-            component: <div>{t('createEventPage.steps.media')}</div>,
+            component: <div>{t('event.navigation.steps.media')}</div>,
             isCompleted: false,
-            label: t('createEventPage.steps.media'),
+            label: t('event.navigation.steps.media'),
           },
           {
-            component: <div>{t('createEventPage.steps.classification')}</div>,
+            component: <div>{t('event.navigation.steps.classification')}</div>,
             isCompleted: false,
-            label: t('createEventPage.steps.classification'),
+            label: t('event.navigation.steps.classification'),
           },
           {
-            component: <div>{t('createEventPage.steps.targets')}</div>,
+            component: <div>{t('event.navigation.steps.targets')}</div>,
             isCompleted: false,
-            label: t('createEventPage.steps.targets'),
+            label: t('event.navigation.steps.targets'),
           },
           {
-            component: <div>{t('createEventPage.steps.commitment')}</div>,
+            component: <div>{t('event.navigation.steps.commitment')}</div>,
             isCompleted: false,
-            label: t('createEventPage.steps.commitment'),
+            label: t('event.navigation.steps.commitment'),
           },
           {
-            component: <div>{t('createEventPage.steps.ready')}</div>,
+            component: <div>{t('event.navigation.steps.ready')}</div>,
             disabled: true,
             isCompleted: false,
-            label: t('createEventPage.steps.ready'),
+            label: t('event.navigation.steps.ready'),
           },
         ]}
       ></EventNavigation>

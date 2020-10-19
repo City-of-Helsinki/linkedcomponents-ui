@@ -1,19 +1,25 @@
 {
   "appName": "Linked Components",
   "createEventPage": {
-    "pageTitle": "Uusi tapahtuma",
-    "steps": {
-      "classification": "Luokittelu",
-      "commitment": "Sitoomus",
-      "languages": "Kielet",
-      "media": "Media",
-      "place": "Paikka",
-      "price": "Hinta",
-      "ready": "Valmis",
-      "responsibilities": "Vastuut",
-      "targets": "Kohteet",
-      "time": "Aika",
-      "type": "Tyyppi"
+    "pageTitle": "Uusi tapahtuma"
+  },
+  "event": {
+    "navigation": {
+      "buttonNext": "Edellinen",
+      "buttonPrevious": "Seuraava",
+      "steps": {
+        "classification": "Luokittelu",
+        "commitment": "Sitoomus",
+        "languages": "Kielet",
+        "media": "Media",
+        "place": "Paikka",
+        "price": "Hinta",
+        "ready": "Valmis",
+        "responsibilities": "Vastuut",
+        "targets": "Kohteet",
+        "time": "Aika",
+        "type": "Tyyppi"
+      }
     }
   },
   "eventsPage": {

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
 import Container from '../../app/layout/Container';
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const EventNavigation: React.FC<Props> = ({ items }) => {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = React.useState(0);
 
@@ -53,6 +55,7 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
           {items.map((item, index) => {
             return (
               <div
+                key={index}
                 className={classNames(styles.item, {
                   [styles.completed]: item.isCompleted,
                   [styles.disabled]: item.disabled,
@@ -86,10 +89,10 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
             onClick={previous}
             variant="secondary"
           >
-            Edellinen
+            {t('event.navigation.buttonPrevious')}
           </Button>
           <Button disabled={isNextDisabled} onClick={next}>
-            Seuraava
+            {t('event.navigation.buttonNext')}
           </Button>
         </div>
       </div>

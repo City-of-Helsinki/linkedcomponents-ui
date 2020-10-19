@@ -1,19 +1,25 @@
 {
   "appName": "Linked Components",
   "createEventPage": {
-    "pageTitle": "Nytt evenemang",
-    "steps": {
-      "classification": "Klassificering",
-      "commitment": "Engagemang",
-      "languages": "Språk",
-      "media": "Media",
-      "place": "Plats",
-      "price": "Pris",
-      "ready": "Redo",
-      "responsibilities": "Ansvar",
-      "targets": "Mål",
-      "time": "Tid",
-      "type": "Typ"
+    "pageTitle": "Nytt evenemang"
+  },
+  "event": {
+    "navigation": {
+      "buttonNext": "Tidigare",
+      "buttonPrevious": "Nästa",
+      "steps": {
+        "classification": "Klassificering",
+        "commitment": "Engagemang",
+        "languages": "Språk",
+        "media": "Media",
+        "place": "Plats",
+        "price": "Pris",
+        "ready": "Redo",
+        "responsibilities": "Ansvar",
+        "targets": "Mål",
+        "time": "Tid",
+        "type": "Typ"
+      }
     }
   },
   "eventsPage": {
