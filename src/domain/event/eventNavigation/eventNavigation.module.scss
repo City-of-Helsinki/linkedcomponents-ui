@@ -28,12 +28,13 @@
     left: 0;
     right: 0;
     background-color: var(--color-black-5);
-    padding: var(--spacing-m);
+    padding: var(--spacing-s);
     display: grid;
     grid-gap: var(--spacing-m);
 
     @include medium-up {
       grid-template-columns: auto 1fr;
+      padding: var(--spacing-m);
       grid-gap: var(--spacing-l);
     }
 
@@ -63,6 +64,11 @@
       text-align: center;
       padding: var(--spacing-2-xs) 0;
       box-sizing: border-box;
+
+      &:first-child,
+      &:last-child {
+        min-width: unset;
+      }
     }
 
     .circleWrapper {
