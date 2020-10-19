@@ -1,3 +1,5 @@
+@import 'breakpoints';
+
 .eventNavigation {
   --circle-background-color: transparent;
   --circle-border-color: var(--color-bus);
@@ -26,10 +28,14 @@
     left: 0;
     right: 0;
     background-color: var(--color-black-5);
-    padding: var(--spacing-l);
+    padding: var(--spacing-m);
     display: grid;
-    grid-template-columns: auto 1fr;
-    grid-gap: var(--spacing-l);
+    grid-gap: var(--spacing-m);
+
+    @include medium-up {
+      grid-template-columns: auto 1fr;
+      grid-gap: var(--spacing-l);
+    }
 
     .circlesWrapper {
       display: flex;
@@ -38,13 +44,19 @@
 
     .buttonsWrapper {
       grid-gap: var(--spacing-m);
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       justify-content: flex-end;
       align-items: flex-start;
+
+      @include medium-up {
+        display: flex;
+      }
     }
 
     .item {
       cursor: pointer;
+      flex-shrink: 0;
       position: relative;
       display: inline-block;
       min-width: 65px;
