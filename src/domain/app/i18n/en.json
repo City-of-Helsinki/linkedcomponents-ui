@@ -1,9 +1,14 @@
 {
   "appName": "Linked Components",
   "createEventPage": {
-    "pageTitle": "New event"
+    "buttonPublish": "Publish",
+    "pageTitle": "New event",
+    "title": "New event"
   },
   "event": {
+    "form": {
+      "titleEventType": "Select event type"
+    },
     "navigation": {
       "buttonNext": "Next",
       "buttonPrevious": "Previous",
@@ -20,10 +25,43 @@
         "time": "Time",
         "type": "Type"
       }
+    },
+    "type": {
+      "course": "Course",
+      "event": "Event"
     }
   },
   "eventsPage": {
     "pageTitle": "Search events"
+  },
+  "form": {
+    "validation": {
+      "date": {
+        "future": "This date must be in the future",
+        "max": "This date must be before {{max}}",
+        "min": "This date must be after {{min}}",
+        "required": "This field is required"
+      },
+      "number": {
+        "max": "Maximum value is {{max}}",
+        "min": "Value must be at least {{min}}",
+        "required": "This field is required"
+      },
+      "string": {
+        "date": "This field must be a valid date",
+        "email": "This field must be a valid email",
+        "max": "This field can be up to {{max}} characters long",
+        "min": "This field must be at least {{min}} characters long",
+        "required": "This field is required",
+        "time": "Time must be given in the following format hh:mm",
+        "url": "This field must be a valid URL"
+      },
+      "time": {
+        "max": "This time must be before {{max}}",
+        "min": "This time must be after {{min}}",
+        "required": "This field is required"
+      }
+    }
   },
   "helpPage": {
     "pageTitle": "More information"

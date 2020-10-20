@@ -1,9 +1,14 @@
 {
   "appName": "Linked Components",
   "createEventPage": {
-    "pageTitle": "Nytt evenemang"
+    "buttonPublish": "Publicera",
+    "pageTitle": "Nytt evenemang",
+    "title": "Nytt evenemang"
   },
   "event": {
+    "form": {
+      "titleEventType": "Välj en evenemangtyp"
+    },
     "navigation": {
       "buttonNext": "Nästa",
       "buttonPrevious": "Tidigare",
@@ -20,10 +25,43 @@
         "time": "Tid",
         "type": "Typ"
       }
+    },
+    "type": {
+      "course": "Kurs",
+      "event": "Evenemang"
     }
   },
   "eventsPage": {
     "pageTitle": "Sök evenemangen"
+  },
+  "form": {
+    "validation": {
+      "date": {
+        "future": "Detta datum måste vara i framtiden",
+        "max": "Detta datum måste vara före {{max}}",
+        "min": "Detta datum måste vara efter {{min}}",
+        "required": "Detta fält krävs"
+      },
+      "number": {
+        "max": "Maxvärdet är {{max}}",
+        "min": "Värdet måste vara minst {{min}}",
+        "required": "Detta fält krävs"
+      },
+      "string": {
+        "date": "This field must be valid date",
+        "email": "Detta fält måste vara en giltig e-postmeddelande",
+        "max": "Detta fält kan vara upp till {{max}} tecken långt",
+        "min": "Detta fält måste vara minst {{min}} tecken långt",
+        "required": "Detta fält krävs",
+        "time": "Tid måste ges i följande format hh:mm",
+        "url": "Detta fält måste vara en giltig URL"
+      },
+      "time": {
+        "max": "Den här tiden måste vara innan {{max}}",
+        "min": "Den här tiden måste vara efter {{min}}",
+        "required": "Detta fält krävs"
+      }
+    }
   },
   "helpPage": {
     "pageTitle": "Läs mer"

@@ -1,0 +1,15 @@
+@import 'breakpoints';
+
+.typeRadioButtons {
+  display: grid;
+  align-items: flex-start;
+  grid-gap: var(--spacing-2-xs);
+
+  & > div {
+    margin-top: 0 !important;
+  }
+
+  @include medium_up {
+    grid-template-columns: 1fr 1fr;
+  }
+}
