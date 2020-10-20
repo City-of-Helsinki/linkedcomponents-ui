@@ -11,9 +11,26 @@
   },
   "event": {
     "form": {
-      "titleEventInfoLanguages": "Tapahtumatietojen syöttötiedot",
-      "titleEventType": "Valitse tapahtumatyyppi",
-      "titleInLanguage": "Tapahtuman kielet (ohjauskielet)"
+      "infoTextInfoLanguages": {
+        "course": "Valitse kielet joita käytetään kurssitietojen syötössä.",
+        "event": "Valitse kielet joita käytetään tapahtumatietojen syötössä."
+      },
+      "infoTextInLanguages": {
+        "course": "Valitse kielet joita kurssilla käytetään.",
+        "event": "Valitse kielet joita tapahtumassa käytetään."
+      },
+      "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
+      "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
+      "notificationTitleType": "Tapahtumatyyppi",
+      "titleInfoLanguages": {
+        "course": "Kurssitietojen syöttökielet",
+        "event": "Tapahtumatietojen syöttökielet"
+      },
+      "titleInLanguages": {
+        "course": "Kurssin kielet (ohjauskielet)",
+        "event": "Tapahtuman kielet (ohjauskielet)"
+      },
+      "titleEventType": "Valitse tapahtumatyyppi"
     },
     "language": {
       "ar": "Arabiaksi",

@@ -11,9 +11,26 @@
   },
   "event": {
     "form": {
-      "titleEventInfoLanguages": "This event will be presented in following languages",
-      "titleEventType": "Select event type",
-      "titleInLanguage": "Event languages (control languages)"
+      "infoTextInfoLanguages": {
+        "course": "Select the languages used for entering course information.",
+        "event": "Select the languages used for entering event information."
+      },
+      "infoTextInLanguages": {
+        "course": "Choose the languages used in the course.",
+        "event": "Choose the languages used in the event."
+      },
+      "infoTextType1": "Select the type of event. Is it an event or a course? The event is a one-time event and starts at a specific time, while the course may, as a rule, have several occurrences.",
+      "infoTextType2": "The choice of event type affects the choices made later in the input form.",
+      "notificationTitleType": "Event type",
+      "titleInfoLanguages": {
+        "course": "Course input languages",
+        "event": "Event input languages"
+      },
+      "titleInLanguages": {
+        "course": "Course languages (control languages)",
+        "event": "Event languages (control languages)"
+      },
+      "titleEventType": "Select event type"
     },
     "language": {
       "ar": "In Arabic",

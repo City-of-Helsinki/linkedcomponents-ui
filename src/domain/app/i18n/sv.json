@@ -11,9 +11,26 @@
   },
   "event": {
     "form": {
-      "titleEventInfoLanguages": "Detta evenemang kommer att presenteras på följande språk",
-      "titleEventType": "Välj en evenemangtyp",
-      "titleInLanguage": "evenemangsspråk (kontrollspråk)"
+      "infoTextInfoLanguages": {
+        "course": "Välj de språk som används för att mata in kursinformation.",
+        "event": "Välj de språk som används för att mata in evenemanginformation."
+      },
+      "infoTextInLanguages": {
+        "course": "Välj de språk som används i kursen.",
+        "event": "Välj de språk som används i evenemanget."
+      },
+      "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
+      "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
+      "notificationTitleType": "Evenemangtyp",
+      "titleInfoLanguages": {
+        "course": "Inmatningsspråk för kurs",
+        "event": "Inmatningsspråk för evenemang"
+      },
+      "titleInLanguages": {
+        "course": "Kursspråk (kontrollspråk)",
+        "event": "Evenemangsspråk (kontrollspråk)"
+      },
+      "titleEventType": "Välj en evenemangtyp"
     },
     "language": {
       "ar": "På arabiska",

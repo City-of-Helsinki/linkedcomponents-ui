@@ -4,7 +4,7 @@
   box-sizing: border-box;
   align-items: center;
   display: flex;
-  padding: 0 var(--spacing-2-xs) 0 var(--spacing-s);
+  padding: 0 var(--spacing-s);
 
   @include x-small-only {
     overflow: hidden;
