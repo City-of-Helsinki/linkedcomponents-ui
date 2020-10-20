@@ -39,6 +39,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "codegen": "graphql-codegen --config codegen.yml",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=false",
     "browser-test": "testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
@@ -83,6 +84,10 @@
   },
   "devDependencies": {
     "@apollo/react-testing": "^4.0.0",
+    "@graphql-codegen/cli": "^1.18.0",
+    "@graphql-codegen/typescript": "^1.17.11",
+    "@graphql-codegen/typescript-operations": "^1.17.8",
+    "@graphql-codegen/typescript-react-apollo": "^2.0.7",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
     "@testing-library/react-hooks": "^3.4.1",
