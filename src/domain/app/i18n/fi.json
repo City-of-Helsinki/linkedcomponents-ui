@@ -7,7 +7,16 @@
   },
   "event": {
     "form": {
+      "titleEventInfoLanguages": "Tapahtumatietojen syöttötiedot",
       "titleEventType": "Valitse tapahtumatyyppi"
+    },
+    "language": {
+      "ar": "Arabiaksi",
+      "en": "Englanniksi",
+      "fi": "Suomeksi",
+      "ru": "Venäjäksi",
+      "sv": "Ruotsiksi",
+      "zh_hans": "Kiinaksi"
     },
     "navigation": {
       "buttonNext": "Seuraava",

@@ -7,7 +7,16 @@
   },
   "event": {
     "form": {
+      "titleEventInfoLanguages": "Detta evenemang kommer att presenteras på följande språk",
       "titleEventType": "Välj en evenemangtyp"
+    },
+    "language": {
+      "ar": "På arabiska",
+      "en": "På engelska",
+      "fi": "På finska",
+      "ru": "På ryska",
+      "sv": "På svenska",
+      "zh_hans": "På kinesiska"
     },
     "navigation": {
       "buttonNext": "Nästa",

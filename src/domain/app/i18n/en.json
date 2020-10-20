@@ -7,7 +7,16 @@
   },
   "event": {
     "form": {
+      "titleEventInfoLanguages": "This event will be presented in following languages",
       "titleEventType": "Select event type"
+    },
+    "language": {
+      "ar": "In Arabic",
+      "en": "In English",
+      "fi": "In Finnish",
+      "ru": "In Russian",
+      "sv": "In Swedish",
+      "zh_hans": "In Chinese"
     },
     "navigation": {
       "buttonNext": "Next",
