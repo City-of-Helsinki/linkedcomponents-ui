@@ -1,0 +1,14 @@
+.eventPage {
+  h1,
+  h2 {
+    font-weight: normal;
+  }
+}
+
+.titleRow {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: var(--spacing-m);
+  align-items: center;
+}
