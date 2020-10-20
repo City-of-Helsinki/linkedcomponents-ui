@@ -6,7 +6,6 @@ import RadioButtonGroupField from '../../../../common/components/formFields/Radi
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import { OptionType } from '../../../../types';
 import { EVENT_TYPE } from '../../constants';
-import styles from './typeSection.module.scss';
 
 const TypeSection = () => {
   const { t } = useTranslation();
@@ -21,13 +20,11 @@ const TypeSection = () => {
     <>
       <h2>{t('event.form.titleEventType')}</h2>
       <InputRow>
-        <div className={styles.typeRadioButtons}>
-          <Field
-            name="type"
-            component={RadioButtonGroupField}
-            options={typeOptions}
-          />
-        </div>
+        <Field
+          name="type"
+          component={RadioButtonGroupField}
+          options={typeOptions}
+        />
       </InputRow>
     </>
   );

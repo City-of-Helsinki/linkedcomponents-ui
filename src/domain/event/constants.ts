@@ -8,4 +8,5 @@ export enum EVENT_TYPE {
 export const EVENT_INITIALVALUES = {
   type: EVENT_TYPE.EVENT,
   eventInfoLanguages: ['fi'],
+  inLanguage: ['fi'],
 };

@@ -1,5 +1,9 @@
 {
   "appName": "Linked Components",
+  "common": {
+    "showLess": "Näytä vähemmän",
+    "showMore": "Näytä lisää"
+  },
   "createEventPage": {
     "buttonPublish": "Julkaise",
     "pageTitle": "Uusi tapahtuma",
@@ -8,7 +12,8 @@
   "event": {
     "form": {
       "titleEventInfoLanguages": "Tapahtumatietojen syöttötiedot",
-      "titleEventType": "Valitse tapahtumatyyppi"
+      "titleEventType": "Valitse tapahtumatyyppi",
+      "titleInLanguage": "Tapahtuman kielet (ohjauskielet)"
     },
     "language": {
       "ar": "Arabiaksi",

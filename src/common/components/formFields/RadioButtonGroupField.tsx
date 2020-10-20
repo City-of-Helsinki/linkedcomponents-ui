@@ -3,6 +3,7 @@ import { RadioButton, RadioButtonProps } from 'hds-react';
 import React from 'react';
 
 import { OptionType } from '../../../types';
+import styles from './radioButtonGroupField.module.scss';
 
 type Props = {
   options: OptionType[];
@@ -16,7 +17,7 @@ const RadioButtonGroupField: React.FC<Props> = ({
   ...rest
 }) => {
   return (
-    <>
+    <div className={styles.radioButtonsWrapper}>
       {options.map((option, index) => (
         <RadioButton
           key={index}
@@ -29,7 +30,7 @@ const RadioButtonGroupField: React.FC<Props> = ({
           label={option.label}
         />
       ))}
-    </>
+    </div>
   );
 };
 
