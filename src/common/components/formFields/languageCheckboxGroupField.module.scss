@@ -1,9 +1,9 @@
 @import 'breakpoints';
 
-.eventInfoLanguageCheckboxes {
+.checkboxsWrapper {
   display: grid;
   align-items: flex-start;
-  grid-gap: var(--spacing-2-xs);
+  grid-gap: var(--spacing-m);
 
   & > div {
     margin-top: 0 !important;
@@ -12,4 +12,8 @@
   @include medium_up {
     grid-template-columns: 1fr 1fr 1fr;
   }
+}
+
+.buttonWrapper {
+  margin-top: var(--spacing-m);
 }

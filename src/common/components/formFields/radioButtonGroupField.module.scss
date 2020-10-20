@@ -1,9 +1,9 @@
 @import 'breakpoints';
 
-.typeRadioButtons {
+.radioButtonsWrapper {
   display: grid;
   align-items: flex-start;
-  grid-gap: var(--spacing-2-xs);
+  grid-gap: var(--spacing-m);
 
   & > div {
     margin-top: 0 !important;

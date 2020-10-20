@@ -1,5 +1,9 @@
 {
   "appName": "Linked Components",
+  "common": {
+    "showLess": "Show less",
+    "showMore": "Show more"
+  },
   "createEventPage": {
     "buttonPublish": "Publish",
     "pageTitle": "New event",
@@ -8,7 +12,8 @@
   "event": {
     "form": {
       "titleEventInfoLanguages": "This event will be presented in following languages",
-      "titleEventType": "Select event type"
+      "titleEventType": "Select event type",
+      "titleInLanguage": "Event languages (control languages)"
     },
     "language": {
       "ar": "In Arabic",

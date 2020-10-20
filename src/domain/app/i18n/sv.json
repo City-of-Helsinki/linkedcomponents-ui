@@ -1,5 +1,9 @@
 {
   "appName": "Linked Components",
+  "common": {
+    "showLess": "Visa mindre",
+    "showMore": "Visa mer"
+  },
   "createEventPage": {
     "buttonPublish": "Publicera",
     "pageTitle": "Nytt evenemang",
@@ -8,7 +12,8 @@
   "event": {
     "form": {
       "titleEventInfoLanguages": "Detta evenemang kommer att presenteras på följande språk",
-      "titleEventType": "Välj en evenemangtyp"
+      "titleEventType": "Välj en evenemangtyp",
+      "titleInLanguage": "evenemangsspråk (kontrollspråk)"
     },
     "language": {
       "ar": "På arabiska",
