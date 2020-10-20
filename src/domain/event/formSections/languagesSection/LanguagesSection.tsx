@@ -11,22 +11,7 @@ import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import { EVENT_INFO_LANGUAGES } from '../../constants';
-
-const languageWeight = (lang: string): number => {
-  switch (lang) {
-    case 'fi':
-      return 1;
-    case 'sv':
-      return 2;
-    case 'en':
-      return 2;
-    default:
-      return 3;
-  }
-};
-
-const sortLanguage = (a: OptionType, b: OptionType) =>
-  languageWeight(a.value) - languageWeight(b.value);
+import { sortLanguage } from '../../utils';
 
 const LanguagesSection = () => {
   const { t } = useTranslation();

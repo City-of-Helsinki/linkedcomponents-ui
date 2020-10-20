@@ -60,9 +60,13 @@
       "/__snapshots__/",
       "constants.ts",
       "types.ts",
+      "mutation.ts",
+      "query.ts",
       ".*.d.ts",
       "src/index.tsx",
+      "src/domain/app/apollo/apolloClient.ts",
       "src/domain/app/i18n/i18nInit.ts",
+      "src/generated/graphql.tsx",
       "src/utils/mockDataUtils.ts",
       "src/utils/testUtils.ts"
     ],

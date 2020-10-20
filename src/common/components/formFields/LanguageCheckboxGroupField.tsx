@@ -2,7 +2,6 @@ import { FieldProps } from 'formik';
 import { Checkbox, CheckboxProps, IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { t } from 'testcafe';
 
 import { OptionType } from '../../../types';
 import Button from '../button/Button';
