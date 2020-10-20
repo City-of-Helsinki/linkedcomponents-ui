@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../common/components/button/Button';
+import { useLanguagesQuery } from '../../schema';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INITIALVALUES } from './constants';
@@ -15,6 +16,9 @@ import { createValidationSchema } from './utils';
 const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
   const validationSchema = createValidationSchema();
+
+  const { data, loading } = useLanguagesQuery();
+  console.log(data?.languages.data, loading);
 
   return (
     <PageWrapper className={styles.eventPage} title="createEventPage.pageTitle">

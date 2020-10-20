@@ -19,8 +19,8 @@ const LanguagesSection = () => {
 
   return (
     <>
+      <h2>{t('event.form.titleEventInfoLanguages')}</h2>
       <InputRow>
-        <h2>{t('event.form.titleEventInfoLanguages')}</h2>
         <div className={styles.eventInfoLanguageCheckboxes}>
           <Field
             name="eventInfoLanguages"

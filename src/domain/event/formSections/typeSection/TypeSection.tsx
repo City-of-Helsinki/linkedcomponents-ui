@@ -19,8 +19,8 @@ const TypeSection = () => {
 
   return (
     <>
+      <h2>{t('event.form.titleEventType')}</h2>
       <InputRow>
-        <h2>{t('event.form.titleEventType')}</h2>
         <div className={styles.typeRadioButtons}>
           <Field
             name="type"
