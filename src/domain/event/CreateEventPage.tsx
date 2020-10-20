@@ -8,7 +8,8 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INITIALVALUES } from './constants';
 import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
-import TypeSection from './formSections/TypeSection';
+import LanguagesSection from './formSections/languagesSection/LanguagesSection';
+import TypeSection from './formSections/typeSection/TypeSection';
 import { createValidationSchema } from './utils';
 
 const CreateEventPage: React.FC = () => {
@@ -44,9 +45,7 @@ const CreateEventPage: React.FC = () => {
                     label: t('event.navigation.steps.type'),
                   },
                   {
-                    component: (
-                      <div>{t('event.navigation.steps.languages')}</div>
-                    ),
+                    component: <LanguagesSection />,
                     isCompleted: false,
                     label: t('event.navigation.steps.languages'),
                   },
