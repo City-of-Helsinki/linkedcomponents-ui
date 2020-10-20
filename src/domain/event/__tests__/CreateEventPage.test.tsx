@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { LanguagesDocument } from '../../../schema';
+import { LanguagesDocument } from '../../../generated/graphql';
 import { fakeLanguages } from '../../../utils/mockDataUtils';
 import { actWait, render, screen } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import CreateEventPage from '../CreateEventPage';
 
 const languages = fakeLanguages(10);
-const languagesResponse = { data: { keywords: languages } };
+const languagesResponse = { data: { languages: languages } };
 
 const mocks = [
   {

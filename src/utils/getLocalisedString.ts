@@ -1,26 +1,23 @@
+import isNil from 'lodash/isNil';
+import uniq from 'lodash/uniq';
+
 import { SUPPORTED_LANGUAGES } from '../constants';
 import { LocalisedObject } from '../generated/graphql';
 import { Language } from '../types';
 
 /**
- * Check is the instance that is rendering component client (not SSR)
+ * Return field in selected language or use backup language if needed
  */
 const getLocalisedString = (
-  obj: LocalisedObject | undefined | null = {},
+  obj: LocalisedObject | undefined | null,
   language: Language
 ): string => {
-  if (obj === null) {
-    return '';
-  }
+  if (isNil(obj)) return '';
 
-  const languages = [
-    language,
-    ...Object.values(SUPPORTED_LANGUAGES).filter((item) => item !== language),
-  ];
-  // Find first language which has value
-  const locale = languages.find((lng) => obj[lng]);
-  // Return value in correct language
-  return (locale && obj[locale]) || '';
+  const languages = uniq([language, ...Object.values(SUPPORTED_LANGUAGES)]);
+
+  const lang = languages.find((lng) => obj[lng]);
+  return (lang && obj[lang]) || '';
 };
 
 export default getLocalisedString;
