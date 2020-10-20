@@ -1,0 +1,12 @@
+overwrite: true
+schema: 'schema.js'
+documents: ['./src/**/mutation.ts', './src/**/query.ts']
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      withHooks: true
+      withComponent: false

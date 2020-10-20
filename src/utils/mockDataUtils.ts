@@ -2,7 +2,11 @@
 import faker from 'faker';
 import merge from 'lodash/merge';
 
-import { Language, LanguagesResponse, LocalizedObject } from '../schema';
+import {
+  Language,
+  LanguagesResponse,
+  LocalisedObject,
+} from '../generated/graphql';
 
 export const fakeLanguages = (
   count = 1,
@@ -23,14 +27,14 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language =>
     {
       id: faker.random.uuid(),
       translationAvailable: false,
-      name: fakeLocalizedObject(),
+      name: fakeLocalisedObject(),
       __typename: 'Language',
     },
     overrides
   );
 
-export const fakeLocalizedObject = (text?: string): LocalizedObject => ({
-  __typename: 'LocalizedObject',
+export const fakeLocalisedObject = (text?: string): LocalisedObject => ({
+  __typename: 'LocalisedObject',
   en: faker.random.words(),
   sv: faker.random.words(),
   fi: text || faker.random.words(),

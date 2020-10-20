@@ -36,6 +36,13 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
+### `yarn codegen`
+
+Codegen settings in <b>codegen.yml</b>
+
+- Generate static types for GraphQL queries by using the schema from the local schema
+- Generate react hooks for GraphQL queries from <b>query.ts</b> and <b>mutation.ts</b> files.
+
 ### `yarn test`
 
 Launches the test runner in the interactive watch mode.<br />
