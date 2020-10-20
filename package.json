@@ -62,6 +62,7 @@
       ".*.d.ts",
       "src/index.tsx",
       "src/domain/app/i18n/i18nInit.ts",
+      "src/utils/mockDataUtils.ts",
       "src/utils/testUtils.ts"
     ],
     "transformIgnorePatterns": [
@@ -81,15 +82,18 @@
     ]
   },
   "devDependencies": {
+    "@apollo/react-testing": "^4.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
     "@testing-library/react-hooks": "^3.4.1",
     "@testing-library/testcafe": "^4.2.3",
     "@testing-library/user-event": "^12.1.6",
+    "@types/faker": "^5.1.2",
     "@types/jest": "^24.0.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-simple-import-sort": "^5.0.3",
+    "faker": "^5.1.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "prettier": "^2.1.2",
     "react-test-renderer": "^16.13.1"
