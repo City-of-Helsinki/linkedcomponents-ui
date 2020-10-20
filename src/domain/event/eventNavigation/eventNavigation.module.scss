@@ -15,6 +15,8 @@
   --label-color: var(--color-black-90);
 
   .content {
+    width: 100%;
+
     &.hidden {
       visibility: hidden;
       position: absolute;
