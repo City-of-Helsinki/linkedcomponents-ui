@@ -12,13 +12,14 @@ export type Scalars = {
 
 export type LanguagesResponse = {
   __typename?: 'LanguagesResponse';
+  meta: Meta;
   data: Array<Language>;
 };
 
 export type Language = {
-  __typename?: 'EventDetails';
+  __typename?: 'Language';
   id: Scalars['ID'];
-  translation_available: boolean;
+  translationAvailable: boolean;
   name: LocalizedObject;
   internalContext?: Maybe<Scalars['String']>;
   internalId?: Maybe<Scalars['String']>;
