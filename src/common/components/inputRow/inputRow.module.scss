@@ -1,10 +1,26 @@
+@import 'breakpoints';
+
 .inputRow {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    grid-template-columns: 2fr 1fr;
+  }
 
   .inputColumn {
+    order: 2;
+
+    @include medium-up {
+      order: 1;
+    }
   }
 
   .infoColumn {
+    order: 1;
+
+    @include medium-up {
+      order: 2;
+    }
   }
 }
