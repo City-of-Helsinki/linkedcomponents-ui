@@ -34,11 +34,11 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
   const isNextDisabled: boolean =
     activeTab === items.length - 1 || !!items[activeTab + 1]?.disabled;
 
-  const handlePreviousButton = () => {
+  const handlePreviousClick = () => {
     setActiveTab(activeTab - 1);
   };
 
-  const handleNextButton = () => {
+  const handleNextClick = () => {
     setActiveTab(activeTab + 1);
   };
 
@@ -82,12 +82,12 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
         <div className={styles.buttonsWrapper}>
           <Button
             disabled={isPreviousDisabled}
-            onClick={handlePreviousButton}
+            onClick={handlePreviousClick}
             variant="secondary"
           >
             {t('event.navigation.buttonPrevious')}
           </Button>
-          <Button disabled={isNextDisabled} onClick={handleNextButton}>
+          <Button disabled={isNextDisabled} onClick={handleNextClick}>
             {t('event.navigation.buttonNext')}
           </Button>
         </div>
