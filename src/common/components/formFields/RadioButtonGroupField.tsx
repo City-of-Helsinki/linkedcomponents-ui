@@ -1,8 +1,9 @@
 import { FieldProps } from 'formik';
-import { RadioButton, RadioButtonProps } from 'hds-react';
+import { RadioButtonProps } from 'hds-react';
 import React from 'react';
 
 import { OptionType } from '../../../types';
+import RadioButton from '../radioButton/RadioButton';
 import styles from './radioButtonGroupField.module.scss';
 
 type Props = {
