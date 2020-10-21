@@ -1,10 +1,11 @@
 import { FieldProps } from 'formik';
-import { Checkbox, CheckboxProps, IconAngleDown, IconAngleUp } from 'hds-react';
+import { CheckboxProps, IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../types';
 import Button from '../button/Button';
+import Checkbox from '../checkbox/Checkbox';
 import styles from './languageCheckboxGroupField.module.scss';
 
 type Props = {
