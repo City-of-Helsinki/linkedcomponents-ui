@@ -20,6 +20,33 @@ type ButtonCSSProperties = {
   '--submit-input-focus-gutter-color'?: string;
 };
 
+type CheckboxCSSProperties = {
+  '--size'?: string;
+  '--icon-scale'?: number;
+  '--border-radius'?: string;
+  '--border-width'?: string;
+  '--outline-width'?: string;
+  '--label-font-size'?: string;
+  '--label-padding'?: string;
+  '--background-unselected'?: string;
+  '--background-selected'?: string;
+  '--background-hover'?: string;
+  '--background-disabled'?: string;
+  '--border-color-selected'?: string;
+  '--border-color-selected-hover'?: string;
+  '--border-color-selected-focus'?: string;
+  '--border-color-unselected'?: string;
+  '--border-color-unselected-hover'?: string;
+  '--border-color-unselected-focus'?: string;
+  '--border-color-disabled'?: string;
+  '--icon-color-unselected'?: string;
+  '--icon-color-selected'?: string;
+  '--icon-color-disabled'?: string;
+  '--focus-outline-color'?: string;
+  '--label-color'?: string;
+  '--label-color-disabled'?: string;
+};
+
 type EventNavigationCSSProperties = {
   '--circle-background-color'?: string;
   '--circle-border-color'?: string;
@@ -119,6 +146,7 @@ export type Theme = {
     success?: ButtonCSSProperties;
     danger?: ButtonCSSProperties;
   };
+  checkbox: CheckboxCSSProperties;
   eventNavigation: EventNavigationCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
@@ -141,6 +169,7 @@ export type Theme = {
 
 const defaultTheme: Theme = {
   button: {},
+  checkbox: {},
   eventNavigation: {},
   languageSelector: {},
   layout: {},
