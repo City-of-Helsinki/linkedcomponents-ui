@@ -1,6 +1,96 @@
 import { Theme } from '../../domain/app/theme/Theme';
 
+const commonButtonVariables = {
+  '--focus-outline-color': 'var(--color-coat-of-arms-blue)',
+  '--submit-input-focus-gutter-color': 'var(--color-white)',
+};
+
+const secondaryAndSumplementaryButtonVariables = {
+  '--background-color': 'transparent',
+  '--background-color-hover': 'var(--color-bus-light-5)',
+  '--background-color-focus': 'transparent',
+  '--background-color-hover-focus': 'var(--color-bus-light-5)',
+  '--background-color-disabled': 'transparent',
+  '--color': 'var(--color-bus)',
+  '--color-hover': 'var(--color-bus-dark-50)',
+  '--color-focus': 'var(--color-bus)',
+  '--color-hover-focus': 'var(--color-bus-dark-50)',
+  '--color-disabled': 'var(--color-black-40)',
+};
+
+const dangerAndSuccessButtonVariables = {
+  '--color': 'var(--color-white)',
+  '--color-hover': 'var(--color-white)',
+  '--color-focus': 'var(--color-white)',
+  '--color-hover-focus': 'var(--color-white)',
+  '--focus-outline-color': 'var(--color-coat-of-arms-blue)',
+};
+
 const theme: Theme = {
+  button: {
+    primary: {
+      ...commonButtonVariables,
+      '--background-color': 'var(--color-bus)',
+      '--background-color-hover': 'var(--color-bus-dark-50)',
+      '--background-color-focus': 'var(--color-bus)',
+      '--background-color-hover-focus': 'var(--color-bus-dark-50)',
+      '--background-color-disabled': 'var(--color-black-20)',
+      '--border-color': 'var(--color-bus)',
+      '--border-color-hover': 'var(--color-bus-dark-50)',
+      '--border-color-focus': 'var(--color-bus)',
+      '--border-color-hover-focus': 'var(--color-bus-dark-50)',
+      '--border-color-disabled': 'var(--color-black-20)',
+      '--color': 'var(--color-white)',
+      '--color-hover': 'var(--color-white)',
+      '--color-focus': 'var(--color-white)',
+      '--color-hover-focus': 'var(--color-white)',
+      '--color-disabled': 'var(--color-white)',
+    },
+    secondary: {
+      ...commonButtonVariables,
+      ...secondaryAndSumplementaryButtonVariables,
+      '--border-color': 'var(--color-bus)',
+      '--border-color-hover': 'var(--color-bus-dark-50)',
+      '--border-color-focus': 'var(--color-bus)',
+      '--border-color-hover-focus': 'var(--color-bus-dark-50)',
+      '--border-color-disabled': 'var(--color-black-50)',
+    },
+    supplementary: {
+      ...commonButtonVariables,
+      ...secondaryAndSumplementaryButtonVariables,
+      '--border-color': 'transparent',
+      '--border-color-hover': 'transparent',
+      '--border-color-focus': 'var(--color-coat-of-arms-blue)',
+      '--border-color-hover-focus': 'var(--color-coat-of-arms-blue)',
+      '--border-color-disabled': 'transparent',
+      '--focus-outline-color': 'transparent',
+      '--submit-input-focus-gutter-color': 'transparent',
+    },
+    success: {
+      ...commonButtonVariables,
+      ...dangerAndSuccessButtonVariables,
+      '--background-color': 'var(--color-success)',
+      '--background-color-hover': 'var(--color-success-dark)',
+      '--background-color-focus': 'var(--color-success)',
+      '--background-color-hover-focus': 'var(--color-success-dark)',
+      '--border-color': 'var(--color-success)',
+      '--border-color-hover': 'var(--color-success-dark)',
+      '--border-color-focus': 'var(--color-success)',
+      '--border-color-hover-focus': 'var(--color-success-dark)',
+    },
+    danger: {
+      ...commonButtonVariables,
+      ...dangerAndSuccessButtonVariables,
+      '--background-color': 'var(--color-error)',
+      '--background-color-hover': 'var(--color-error-dark)',
+      '--background-color-focus': 'var(--color-error)',
+      '--background-color-hover-focus': 'var(--color-error-dark)',
+      '--border-color': 'var(--color-error)',
+      '--border-color-hover': 'var(--color-error-dark)',
+      '--border-color-focus': 'var(--color-error)',
+      '--border-color-hover-focus': 'var(--color-error-dark)',
+    },
+  },
   eventNavigation: {
     '--circle-background-color': 'transparent',
     '--circle-border-color': 'var(--color-bus)',
