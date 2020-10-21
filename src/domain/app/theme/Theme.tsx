@@ -1,5 +1,25 @@
 import React, { useContext, useState } from 'react';
 
+type ButtonCSSProperties = {
+  '--background-color'?: string;
+  '--background-color-hover'?: string;
+  '--background-color-focus'?: string;
+  '--background-color-hover-focus'?: string;
+  '--background-color-disabled'?: string;
+  '--border-color'?: string;
+  '--border-color-hover'?: string;
+  '--border-color-focus'?: string;
+  '--border-color-hover-focus'?: string;
+  '--border-color-disabled'?: string;
+  '--color'?: string;
+  '--color-hover'?: string;
+  '--color-focus'?: string;
+  '--color-hover-focus'?: string;
+  '--color-disabled'?: string;
+  '--focus-outline-color'?: string;
+  '--submit-input-focus-gutter-color'?: string;
+};
+
 type EventNavigationCSSProperties = {
   '--circle-background-color'?: string;
   '--circle-border-color'?: string;
@@ -48,6 +68,13 @@ type NavigationCSSProperties = {
 };
 
 export type Theme = {
+  button: {
+    primary?: ButtonCSSProperties;
+    secondary?: ButtonCSSProperties;
+    supplementary?: ButtonCSSProperties;
+    success?: ButtonCSSProperties;
+    danger?: ButtonCSSProperties;
+  };
   eventNavigation: EventNavigationCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
@@ -55,6 +82,7 @@ export type Theme = {
 };
 
 const defaultTheme: Theme = {
+  button: {},
   eventNavigation: {},
   languageSelector: {},
   layout: {},
