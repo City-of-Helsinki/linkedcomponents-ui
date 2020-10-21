@@ -1,0 +1,71 @@
+import gql from 'graphql-tag';
+
+export const QUERY_EVENT_DETAILS = gql`
+  fragment externalLinkFields on ExternalLink {
+    name
+    link
+  }
+
+  fragment imageFields on Image {
+    id
+    name
+    url
+  }
+
+  fragment offerFields on Offer {
+    description {
+      ...localisedFields
+    }
+    infoUrl {
+      ...localisedFields
+    }
+    isFree
+    price {
+      ...localisedFields
+    }
+  }
+
+  fragment eventFields on Event {
+    id
+    description {
+      ...localisedFields
+    }
+    endTime
+    externalLinks {
+      ...externalLinkFields
+    }
+    eventStatus
+    images {
+      ...imageFields
+    }
+    infoUrl {
+      ...localisedFields
+    }
+    inLanguage {
+      ...languageFields
+    }
+    keywords {
+      ...keywordFields
+    }
+    location {
+      ...placeFields
+    }
+    name {
+      ...localisedFields
+    }
+    offers {
+      ...offerFields
+    }
+    provider {
+      ...localisedFields
+    }
+    publisher
+    shortDescription {
+      ...localisedFields
+    }
+    superEvent {
+      internalId
+    }
+    startTime
+  }
+`;
