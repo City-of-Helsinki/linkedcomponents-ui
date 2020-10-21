@@ -26,6 +26,16 @@ const dangerAndSuccessButtonVariables = {
   '--focus-outline-color': 'var(--color-coat-of-arms-blue)',
 };
 
+const commonNotificationVariables = {
+  '--notification-border-width': 'var(--spacing-2-xs)',
+  '--notification-color': 'var(--color-black-90)',
+  '--notification-focus-outline-color': 'var(--color-coat-of-arms-blue)',
+  '--notification-max-width-inline': 'none',
+  '--notification-max-width-toast': '21rem',
+  '--notification-offset': 'var(--spacing-layout-s)',
+  '--notification-z-index': 99,
+};
+
 const theme: Theme = {
   button: {
     primary: {
@@ -107,6 +117,19 @@ const theme: Theme = {
   layout: {
     '--page-background-color': 'var(--color-white)',
   },
+  languageSelector: {
+    '--dropdown-background-default': 'var(--color-black)',
+    '--dropdown-border-color-default': 'transparent',
+    '--dropdown-border-color-hover': 'transparent',
+    '--dropdown-border-color-focus': 'transparent',
+    '--dropdown-color-default': 'inherit',
+    '--placeholder-color': 'inherit',
+    '--menu-z-index': 10,
+    '--menu-item-background-default': 'var(--color-white)',
+    '--menu-item-background-hover': 'var(--color-black-10)',
+    '--menu-item-color-default': 'var(--color-black-90)',
+    '--menu-item-color-hover': 'var(--color-black-90)',
+  },
   navigation: {
     '--header-z-index': 10,
     '--header-background-color': 'var(--color-coat-of-arms-blue)',
@@ -121,18 +144,69 @@ const theme: Theme = {
     '--mobile-menu-background-color': 'var(--color-white)',
     '--mobile-menu-color': 'var(--color-black-90)',
   },
-  languageSelector: {
-    '--dropdown-background-default': 'var(--color-black)',
-    '--dropdown-border-color-default': 'transparent',
-    '--dropdown-border-color-hover': 'transparent',
-    '--dropdown-border-color-focus': 'transparent',
-    '--dropdown-color-default': 'inherit',
-    '--placeholder-color': 'inherit',
-    '--menu-z-index': 10,
-    '--menu-item-background-default': 'var(--color-white)',
-    '--menu-item-background-hover': 'var(--color-black-10)',
-    '--menu-item-color-default': 'var(--color-black-90)',
-    '--menu-item-color-hover': 'var(--color-black-90)',
+  notification: {
+    size: {
+      default: {
+        '--notification-padding': 'var(--spacing-s)',
+      },
+      large: {
+        '--notification-padding': 'var(--spacing-l)',
+      },
+      small: {
+        '--notification-padding': 'var(--spacing-2-xs)',
+      },
+    },
+    type: {
+      alert: {
+        ...commonNotificationVariables,
+        '--notification-background-color': 'var(--color-alert-light)',
+        '--notification-border-color': 'var(--color-alert-dark)',
+      },
+
+      error: {
+        ...commonNotificationVariables,
+        '--notification-background-color': 'var(--color-error-light)',
+        '--notification-border-color': 'var(--color-error)',
+      },
+      info: {
+        ...commonNotificationVariables,
+        '--notification-background-color': 'var(--color-info-light)',
+        '--notification-border-color': 'var(--color-info)',
+      },
+
+      success: {
+        ...commonNotificationVariables,
+        '--notification-background-color': 'var(--color-success-light)',
+        '--notification-border-color': 'var(--color-success)',
+      },
+    },
+  },
+  radioButton: {
+    '--size': '24px',
+    '--icon-scale': 0.5,
+    '--border-width': '2px',
+    '--outline-width': '3px',
+    '--label-font-size': 'var(--fontsize-body-m)',
+    '--label-padding': 'var(--spacing-2-xs)',
+    '--background': 'var(--color-white)',
+    '--background-hover': 'var(--color-white)',
+    '--background-focus': 'var(--color-white)',
+    '--background-unselected-disabled': 'var(--color-black-10)',
+    '--background-selected-disabled': 'var(--color-white)',
+    '--border-color-focus': 'var(--color-black-90)',
+    '--border-color-selected': 'var(--color-bus)',
+    '--border-color-selected-hover': 'var(--color-bus-dark-50)',
+    '--border-color-selected-disabled': 'var(--color-black-20)',
+    '--border-color-unselected': 'var(--color-black-50)',
+    '--border-color-unselected-hover': 'var(--color-black-90)',
+    '--border-color-unselected-disabled': 'var(--color-black-10)',
+    '--icon-color-selected': 'var(--color-bus)',
+    '--icon-color-unselected': 'transparent',
+    '--icon-color-hover': 'var(--color-bus-dark-50)',
+    '--icon-color-disabled': 'var(--color-black-10)',
+    '--focus-outline-color': 'var(--color-coat-of-arms-blue)',
+    '--label-color': 'var(--color-black-90)',
+    '--label-color-disabled': 'var(--color-black-40)',
   },
 };
 

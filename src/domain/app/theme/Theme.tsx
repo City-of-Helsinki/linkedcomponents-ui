@@ -67,6 +67,50 @@ type NavigationCSSProperties = {
   '--mobile-menu-color'?: string;
 };
 
+type NotificationCSSProperties = {
+  '--notification-background-color'?: string;
+  '--notification-border-color'?: string;
+  '--notification-border-width'?: string;
+  '--notification-color'?: string;
+  '--notification-focus-outline-color'?: string;
+  '--notification-max-width-inline'?: string;
+  '--notification-max-width-toast'?: string;
+  '--notification-offset'?: string;
+  '--notification-z-index'?: number;
+};
+
+type NotificationSizeCSSProperties = {
+  '--notification-padding'?: string;
+};
+
+type RadioButtonCSSProperties = {
+  '--size'?: string;
+  '--icon-scale'?: number;
+  '--border-width'?: string;
+  '--outline-width'?: string;
+  '--label-font-size'?: string;
+  '--label-padding'?: string;
+  '--background'?: string;
+  '--background-hover'?: string;
+  '--background-focus'?: string;
+  '--background-unselected-disabled'?: string;
+  '--background-selected-disabled'?: string;
+  '--border-color-focus'?: string;
+  '--border-color-selected'?: string;
+  '--border-color-selected-hover'?: string;
+  '--border-color-selected-disabled'?: string;
+  '--border-color-unselected'?: string;
+  '--border-color-unselected-hover'?: string;
+  '--border-color-unselected-disabled'?: string;
+  '--icon-color-selected'?: string;
+  '--icon-color-unselected'?: string;
+  '--icon-color-hover'?: string;
+  '--icon-color-disabled'?: string;
+  '--focus-outline-color'?: string;
+  '--label-color'?: string;
+  '--label-color-disabled'?: string;
+};
+
 export type Theme = {
   button: {
     primary?: ButtonCSSProperties;
@@ -79,6 +123,20 @@ export type Theme = {
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
   navigation: NavigationCSSProperties;
+  notification: {
+    size?: {
+      default?: NotificationSizeCSSProperties;
+      large?: NotificationSizeCSSProperties;
+      small?: NotificationSizeCSSProperties;
+    };
+    type?: {
+      alert?: NotificationCSSProperties;
+      error?: NotificationCSSProperties;
+      info?: NotificationCSSProperties;
+      success?: NotificationCSSProperties;
+    };
+  };
+  radioButton: RadioButtonCSSProperties;
 };
 
 const defaultTheme: Theme = {
@@ -87,6 +145,8 @@ const defaultTheme: Theme = {
   languageSelector: {},
   layout: {},
   navigation: {},
+  notification: {},
+  radioButton: {},
 };
 
 type ThemeContext = { setTheme: (theme: Theme) => void; theme: Theme };
