@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 export const QUERY_LANGUAGE = gql`
   fragment languageFields on Language {
     id
+    internalId
     name {
       ...localisedFields
     }
