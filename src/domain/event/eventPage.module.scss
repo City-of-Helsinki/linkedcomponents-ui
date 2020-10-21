@@ -1,17 +1,23 @@
 .eventPage {
   h1,
-  h2 {
+  h3 {
     font-weight: normal;
+  }
+  h1 {
+    color: var(--color-black-70);
+    font-size: var(--fontsize-heading-xxs);
+    margin-top: var(--spacing-m);
+    margin-bottom: calc(0rem - var(--spacing-3-xs));
+  }
+  h2 {
+    font-size: var(--fontsize-heading-l);
+    font-weight: 500;
+    margin: 0;
+  }
+  h3 {
+    font-size: var(--fontsize-heading-s);
   }
   p {
     margin-top: 0;
   }
-}
-
-.titleRow {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-gap: var(--spacing-m);
-  align-items: center;
 }

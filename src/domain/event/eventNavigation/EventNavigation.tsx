@@ -103,6 +103,12 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
                 [styles.hidden]: hidden,
               })}
             >
+              <div className={styles.titleRow}>
+                <h2>{item.label}</h2>
+                <Button disabled={true} variant="secondary" type="submit">
+                  {t('createEventPage.buttonSaveDraft')}
+                </Button>
+              </div>
               {item.component}
             </div>
           );

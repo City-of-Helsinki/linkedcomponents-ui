@@ -19,7 +19,7 @@ const TypeSection = () => {
 
   return (
     <>
-      <h2>{t('event.form.titleEventType')}</h2>
+      <h3>{t('event.form.titleEventType')}</h3>
       <InputRow
         info={
           <Notification
