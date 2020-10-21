@@ -62,6 +62,15 @@ test('should navigate to correct page with item click', async () => {
   });
 });
 
+test('should navigate to correct page with enter', async () => {
+  render(<EventNavigation items={steps} />);
+
+  stepLabels.forEach((label) => {
+    userEvent.type(screen.getByRole('link', { name: label }), '{enter}');
+    expect(screen.queryByRole('heading', { name: label })).toBeInTheDocument();
+  });
+});
+
 test("should not navigate to page by clicking item if it's disabled", async () => {
   const items = [...steps];
   items[2].disabled = true;
