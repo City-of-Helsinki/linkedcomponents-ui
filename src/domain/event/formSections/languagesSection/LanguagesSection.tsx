@@ -36,7 +36,7 @@ const LanguagesSection = () => {
 
   return (
     <LoadingSpinner isLoading={loading}>
-      <h2>{t(`event.form.titleInfoLanguages.${eventType}`)}</h2>
+      <h3>{t(`event.form.titleInfoLanguages.${eventType}`)}</h3>
       <InputRow
         info={
           <Notification
@@ -54,7 +54,7 @@ const LanguagesSection = () => {
         />
       </InputRow>
 
-      <h2>{t(`event.form.titleInLanguages.${eventType}`)}</h2>
+      <h3>{t(`event.form.titleInLanguages.${eventType}`)}</h3>
       <InputRow
         info={
           <Notification

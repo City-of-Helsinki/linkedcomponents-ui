@@ -5,7 +5,7 @@
     "showMore": "Show more"
   },
   "createEventPage": {
-    "buttonPublish": "Publish",
+    "buttonSaveDraft": "Save draft",
     "pageTitle": "New event",
     "title": "New event"
   },

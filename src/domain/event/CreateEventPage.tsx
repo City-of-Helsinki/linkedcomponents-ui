@@ -2,7 +2,6 @@ import { Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Button from '../../common/components/button/Button';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INITIALVALUES } from './constants';
@@ -29,12 +28,7 @@ const CreateEventPage: React.FC = () => {
           return (
             <>
               <Container>
-                <div className={styles.titleRow}>
-                  <h1>{t('createEventPage.title')}</h1>
-                  <Button disabled={true} type="submit">
-                    {t('createEventPage.buttonPublish')}
-                  </Button>
-                </div>
+                <h1>{t('createEventPage.title')}</h1>
               </Container>
               <EventNavigation
                 items={[
