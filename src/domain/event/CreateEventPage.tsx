@@ -1,29 +1,19 @@
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useEventsQuery } from '../../generated/graphql';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
-import { eventsPathBuilder } from '../events/utils';
 import { EVENT_INITIALVALUES } from './constants';
 import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
-import LanguagesSection from './formSections/languagesSection/LanguagesSection';
-import TypeSection from './formSections/typeSection/TypeSection';
+import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
 import { createValidationSchema } from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
   const validationSchema = createValidationSchema();
-  const { data, loading } = useEventsQuery({
-    variables: {
-      superEventType: ['umbrella'],
-      text: 'Cine',
-      createPath: eventsPathBuilder,
-    },
-  });
-  console.log(data, loading);
+
   return (
     <PageWrapper className={styles.eventPage} title="createEventPage.pageTitle">
       <Formik
@@ -35,7 +25,7 @@ const CreateEventPage: React.FC = () => {
       >
         {() => {
           return (
-            <>
+            <Form>
               <Container>
                 <h1>{t('createEventPage.title')}</h1>
               </Container>
@@ -52,9 +42,7 @@ const CreateEventPage: React.FC = () => {
                     label: t('event.navigation.steps.languages'),
                   },
                   {
-                    component: (
-                      <div>{t('event.navigation.steps.responsibilities')}</div>
-                    ),
+                    component: <ResponsibilitiesSection />,
                     isCompleted: false,
                     label: t('event.navigation.steps.responsibilities'),
                   },
@@ -105,7 +93,7 @@ const CreateEventPage: React.FC = () => {
                   },
                 ]}
               ></EventNavigation>
-            </>
+            </Form>
           );
         }}
       </Formik>

@@ -1,3 +1,4 @@
+import { SelectCustomTheme } from 'hds-react/components/Select';
 import React, { useContext, useState } from 'react';
 
 type ButtonCSSProperties = {
@@ -138,6 +139,17 @@ type RadioButtonCSSProperties = {
   '--label-color-disabled'?: string;
 };
 
+type SelectCSSProperties = {
+  '--border-radius'?: string;
+  '--border-width'?: string;
+  '--divider-width'?: string;
+  '--focus-outline-width'?: string;
+  '--dropdown-height'?: string;
+  '--menu-item-height'?: string;
+  '--icon-size'?: string;
+  '--menu-z-index'?: number;
+} & Partial<SelectCustomTheme>;
+
 export type Theme = {
   button: {
     primary?: ButtonCSSProperties;
@@ -165,6 +177,7 @@ export type Theme = {
     };
   };
   radioButton: RadioButtonCSSProperties;
+  select: SelectCSSProperties;
 };
 
 const defaultTheme: Theme = {
@@ -176,6 +189,7 @@ const defaultTheme: Theme = {
   navigation: {},
   notification: {},
   radioButton: {},
+  select: {},
 };
 
 type ThemeContext = { setTheme: (theme: Theme) => void; theme: Theme };

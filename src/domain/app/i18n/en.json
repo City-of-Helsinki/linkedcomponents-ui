@@ -21,6 +21,8 @@
       },
       "infoTextType1": "Select the type of event. Is it an event or a course? The event is a one-time event and starts at a specific time, while the course may, as a rule, have several occurrences.",
       "infoTextType2": "The choice of event type affects the choices made later in the input form.",
+      "labelHasUmbrella": "This event has an umbrella event.",
+      "labelIsUmbrella": "This event is an umbrella event.",
       "notificationTitleType": "Event type",
       "titleInfoLanguages": {
         "course": "Course input languages",
@@ -30,7 +32,8 @@
         "course": "Course languages (control languages)",
         "event": "Event languages (control languages)"
       },
-      "titleEventType": "Select event type"
+      "titleEventType": "Select event type",
+      "titleUmrellaEvent": "Umbrella events"
     },
     "language": {
       "ar": "In Arabic",
