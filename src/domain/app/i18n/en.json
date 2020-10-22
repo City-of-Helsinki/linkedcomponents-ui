@@ -3,6 +3,25 @@
   "createEventPage": {
     "pageTitle": "New event"
   },
+  "event": {
+    "navigation": {
+      "buttonNext": "Next",
+      "buttonPrevious": "Previous",
+      "steps": {
+        "classification": "Classification",
+        "commitment": "Commitment",
+        "languages": "Languages",
+        "media": "Media",
+        "place": "Place",
+        "price": "Price",
+        "ready": "Ready",
+        "responsibilities": "Responsibilities",
+        "targets": "Targets",
+        "time": "Time",
+        "type": "Type"
+      }
+    }
+  },
   "eventsPage": {
     "pageTitle": "Search events"
   },

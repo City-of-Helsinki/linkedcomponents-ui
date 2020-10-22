@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { css } from 'emotion';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
@@ -6,9 +7,11 @@ import { SUPPORTED_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
+import { useTheme } from '../theme/Theme';
 import styles from './pageLayout.module.scss';
 
 const PageLayout: React.FC = ({ children }) => {
+  const { theme } = useTheme();
   const locale = useLocale();
   const [menuOpen, setMenuOpen] = React.useState(false);
 
@@ -20,7 +23,9 @@ const PageLayout: React.FC = ({ children }) => {
 
   return (
     <div
-      className={classNames(styles.pageLayout, { [styles.menuOpen]: menuOpen })}
+      className={classNames(styles.pageLayout, css(theme.layout), {
+        [styles.menuOpen]: menuOpen,
+      })}
     >
       <Helmet>
         <html lang={locale} />

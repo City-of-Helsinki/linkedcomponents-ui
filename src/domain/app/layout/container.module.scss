@@ -1,0 +1,25 @@
+@import 'breakpoints';
+
+.container {
+  box-sizing: border-box;
+  align-items: center;
+  display: flex;
+  padding: 0 var(--spacing-2-xs) 0 var(--spacing-s);
+
+  @include x-small-only {
+    overflow: hidden;
+  }
+
+  @include small-down {
+    position: relative;
+  }
+
+  @include medium-up {
+    padding: 0 var(--spacing-m);
+  }
+
+  @include large-up {
+    margin: 0 auto;
+    max-width: var(--breakpoint-xl);
+  }
+}

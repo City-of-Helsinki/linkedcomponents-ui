@@ -1,5 +1,19 @@
 import React, { useContext, useState } from 'react';
 
+type EventNavigationCSSProperties = {
+  '--circle-background-color'?: string;
+  '--circle-border-color'?: string;
+  '--circle-color'?: string;
+  '--circle-background-color-completed'?: string;
+  '--circle-border-color-completed'?: string;
+  '--circle-color-completed'?: string;
+  '--circle-background-color-disabled'?: string;
+  '--circle-border-color-disabled'?: string;
+  '--circle-color-disabled'?: string;
+  '--connection-line-color'?: string;
+  '--label-color'?: string;
+};
+
 type LanguageSelectorCSSProperties = {
   '--dropdown-background-default'?: string;
   '--dropdown-border-color-default'?: string;
@@ -12,6 +26,10 @@ type LanguageSelectorCSSProperties = {
   '--menu-item-background-hover'?: string;
   '--menu-item-color-default'?: string;
   '--menu-item-color-hover'?: string;
+};
+
+type LayoutCSSProperties = {
+  '--page-background-color'?: string;
 };
 
 type NavigationCSSProperties = {
@@ -30,12 +48,16 @@ type NavigationCSSProperties = {
 };
 
 export type Theme = {
+  eventNavigation: EventNavigationCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
+  layout: LayoutCSSProperties;
   navigation: NavigationCSSProperties;
 };
 
 const defaultTheme: Theme = {
+  eventNavigation: {},
   languageSelector: {},
+  layout: {},
   navigation: {},
 };
 
