@@ -11,7 +11,7 @@ type Props = {
 } & FieldProps &
   CheckboxProps;
 
-const LanguageCheckboxGroupField: React.FC<Props> = ({
+const CheckboxField: React.FC<Props> = ({
   field: { name, value, ...field },
   form,
   label,
@@ -23,7 +23,7 @@ const LanguageCheckboxGroupField: React.FC<Props> = ({
     <Checkbox
       {...rest}
       {...field}
-      id={`${name}`}
+      id={name}
       name={name}
       checked={value}
       value={value}
@@ -32,4 +32,4 @@ const LanguageCheckboxGroupField: React.FC<Props> = ({
   );
 };
 
-export default LanguageCheckboxGroupField;
+export default CheckboxField;

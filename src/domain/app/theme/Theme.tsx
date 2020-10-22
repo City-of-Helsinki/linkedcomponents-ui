@@ -150,6 +150,31 @@ type SelectCSSProperties = {
   '--menu-z-index'?: number;
 } & Partial<SelectCustomTheme>;
 
+type TextInputCSSProperties = {
+  '--border-radius'?: string;
+  '--border-width'?: string;
+  '--outline-width'?: string;
+  '--input-height'?: string;
+  '--textarea-height'?: string;
+  '--icon-size'?: string;
+  '--helper-color-default'?: string;
+  '--helper-color-invalid'?: string;
+  '--icon-color-invalid'?: string;
+  '--input-background-default'?: string;
+  '--input-background-disabled'?: string;
+  '--input-border-color-default'?: string;
+  '--input-border-color-hover'?: string;
+  '--input-border-color-focus'?: string;
+  '--input-border-color-invalid'?: string;
+  '--input-border-color-disabled'?: string;
+  '--input-color-default'?: string;
+  '--input-color-disabled'?: string;
+  '--label-color-default'?: string;
+  '--label-color-invalid'?: string;
+  '--placeholder-color'?: string;
+  '--focus-outline-color'?: string;
+};
+
 export type Theme = {
   button: {
     primary?: ButtonCSSProperties;
@@ -178,6 +203,7 @@ export type Theme = {
   };
   radioButton: RadioButtonCSSProperties;
   select: SelectCSSProperties;
+  textInput: TextInputCSSProperties;
 };
 
 const defaultTheme: Theme = {
@@ -190,6 +216,7 @@ const defaultTheme: Theme = {
   notification: {},
   radioButton: {},
   select: {},
+  textInput: {},
 };
 
 type ThemeContext = { setTheme: (theme: Theme) => void; theme: Theme };

@@ -10,7 +10,7 @@ interface Props {
 const InputRow: React.FC<Props> = ({ children, info }) => {
   return (
     <div className={styles.inputRow}>
-      <div className={styles.infoColumn}>{info}</div>
+      {info && <div className={styles.infoColumn}>{info}</div>}
       <div className={styles.inputColumn}>{children}</div>
     </div>
   );
