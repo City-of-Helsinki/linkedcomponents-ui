@@ -23,7 +23,17 @@
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
       "labelHasUmbrella": "Tällä tapahtumalla on kattotapahtuma.",
       "labelIsUmbrella": "Tämä tapahtuma on kattotapahtuma.",
+      "labelProvider": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
       "notificationTitleType": "Tapahtumatyyppi",
+      "placeholderProvider": {
+          "ar": "Syötä tapahtuman järjestäjän nimi arabiaksi",
+          "en": "Syötä tapahtuman järjestäjän nimi englanniksi",
+          "fi": "Syötä tapahtuman järjestäjän nimi suomeksi",
+          "ru": "Syötä tapahtuman järjestäjän nimi venäjäksi",
+          "sv": "Syötä tapahtuman järjestäjän nimi ruotsiksi",
+          "zh_hans": "Syötä tapahtuman järjestäjän nimi kiinaksi"
+      },
+      "titleEventType": "Valitse tapahtumatyyppi",
       "titleInfoLanguages": {
         "course": "Kurssitietojen syöttökielet",
         "event": "Tapahtumatietojen syöttökielet"
@@ -32,7 +42,7 @@
         "course": "Kurssin kielet (ohjauskielet)",
         "event": "Tapahtuman kielet (ohjauskielet)"
       },
-      "titleEventType": "Valitse tapahtumatyyppi",
+      "titlePersonsInCharge": "Vastuuhenkilöt",
       "titleUmrellaEvent": "Kattotapahtumat"
     },
     "language": {

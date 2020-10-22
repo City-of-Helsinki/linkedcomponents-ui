@@ -6,7 +6,7 @@ import RadioButtonGroupField from '../../../../common/components/formFields/Radi
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
 import { OptionType } from '../../../../types';
-import { EVENT_TYPE } from '../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 
 const TypeSection = () => {
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ const TypeSection = () => {
         }
       >
         <Field
-          name="type"
+          name={EVENT_FIELDS.TYPE}
           component={RadioButtonGroupField}
           options={typeOptions}
         />
