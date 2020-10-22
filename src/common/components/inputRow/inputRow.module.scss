@@ -2,6 +2,7 @@
 
 .inputRow {
   display: grid;
+  margin: var(--spacing-m) 0;
   grid-gap: var(--spacing-m);
 
   @include medium-up {

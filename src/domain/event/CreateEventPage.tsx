@@ -7,7 +7,9 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INITIALVALUES } from './constants';
 import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
+import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
+import TypeSection from './formSections/typeSection/TypeSection';
 import { createValidationSchema } from './utils';
 
 const CreateEventPage: React.FC = () => {
