@@ -15,8 +15,15 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  event: Event;
   events: EventsResponse;
   languages: LanguagesResponse;
+};
+
+
+export type QueryEventArgs = {
+  id?: Maybe<Scalars['ID']>;
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 
@@ -297,6 +304,21 @@ export type EventFieldsFragment = (
     { __typename?: 'InternalIdObject' }
     & Pick<InternalIdObject, 'internalId'>
   )> }
+);
+
+export type EventQueryVariables = Exact<{
+  id: Scalars['ID'];
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type EventQuery = (
+  { __typename?: 'Query' }
+  & { event: (
+    { __typename?: 'Event' }
+    & EventFieldsFragment
+  ) }
 );
 
 export type EventsQueryVariables = Exact<{
@@ -585,6 +607,41 @@ export const MetaFieldsFragmentDoc = gql`
   previous
 }
     `;
+export const EventDocument = gql`
+    query Event($id: ID!, $include: [String], $createPath: Any) {
+  event(id: $id, include: $include) @rest(type: "Event", pathBuilder: $createPath) {
+    ...eventFields
+  }
+}
+    ${EventFieldsFragmentDoc}`;
+
+/**
+ * __useEventQuery__
+ *
+ * To run a query within a React component, call `useEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      include: // value for 'include'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useEventQuery(baseOptions?: Apollo.QueryHookOptions<EventQuery, EventQueryVariables>) {
+        return Apollo.useQuery<EventQuery, EventQueryVariables>(EventDocument, baseOptions);
+      }
+export function useEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EventQuery, EventQueryVariables>) {
+          return Apollo.useLazyQuery<EventQuery, EventQueryVariables>(EventDocument, baseOptions);
+        }
+export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
+export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
+export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
     query Events($combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
   events(combinedText: $combinedText, division: $division, end: $end, endsAfter: $endsAfter, endsBefore: $endsBefore, include: $include, inLanguage: $inLanguage, isFree: $isFree, keyword: $keyword, keywordAnd: $keywordAnd, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, startsAfter: $startsAfter, startsBefore: $startsBefore, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) @rest(type: "EventsResponse", pathBuilder: $createPath) {
@@ -651,7 +708,7 @@ export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
 export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
 export const LanguagesDocument = gql`
     query Languages {
-  languages @rest(type: "LanguagesResponse", path: "/language", method: "GET") {
+  languages @rest(type: "LanguagesResponse", path: "/language/", method: "GET") {
     meta {
       ...metaFields
     }

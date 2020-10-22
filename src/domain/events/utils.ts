@@ -108,6 +108,5 @@ export const eventsPathBuilder = ({ args }: EventsPathBuilderProps) => {
     query = composeQuery(query, 'translation', translation);
   }
 
-  console.log('test', args);
-  return `/event${query}`;
+  return `/event/${query}`;
 };

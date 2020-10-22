@@ -1,7 +1,11 @@
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { RestLink } from 'apollo-link-rest';
 
-import { EventsResponse, LanguagesResponse } from '../../../generated/graphql';
+import {
+  Event,
+  EventsResponse,
+  LanguagesResponse,
+} from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
 import {
   addTypenameEvent,
@@ -9,7 +13,20 @@ import {
   addTypenameMeta,
 } from './utils';
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        event(_, { args, toReference }) {
+          return toReference({
+            __typename: 'Event',
+            id: args?.id,
+          });
+        },
+      },
+    },
+  },
+});
 
 const linkedEventsLink = new RestLink({
   fieldNameNormalizer: normalizeKey,
@@ -22,6 +39,9 @@ const linkedEventsLink = new RestLink({
       data.data = data.data.map((language) => addTypenameLanguage(language));
 
       return data;
+    },
+    Event: (event: Event): Event | null => {
+      return addTypenameEvent(event);
     },
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);
