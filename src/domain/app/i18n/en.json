@@ -23,7 +23,17 @@
       "infoTextType2": "The choice of event type affects the choices made later in the input form.",
       "labelHasUmbrella": "This event has an umbrella event.",
       "labelIsUmbrella": "This event is an umbrella event.",
+      "labelProvider": "Event organizer (if different than the publisher)",
       "notificationTitleType": "Event type",
+      "placeholderProvider": {
+          "ar": "Enter the event organizer's name in Arabic",
+          "en": "Enter the event organizer's name in English",
+          "fi": "Enter the event organizer's name in Finnish",
+          "ru": "Enter the event organizer's name in Russian",
+          "sv": "Enter the event organizer's name in Swedish",
+          "zh_hans": "Enter the event organizer's name in Chinese"
+      },
+      "titleEventType": "Select event type",
       "titleInfoLanguages": {
         "course": "Course input languages",
         "event": "Event input languages"
@@ -32,7 +42,7 @@
         "course": "Course languages (control languages)",
         "event": "Event languages (control languages)"
       },
-      "titleEventType": "Select event type",
+      "titlePersonsInCharge": "Person(s) in charge",
       "titleUmrellaEvent": "Umbrella events"
     },
     "language": {

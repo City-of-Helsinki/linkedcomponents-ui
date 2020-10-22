@@ -23,7 +23,17 @@
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
       "labelHasUmbrella": "Detta evenemang har ett paraplyevenemang.",
       "labelIsUmbrella": "Detta evenemang är ett paraplyevenemang.",
+      "labelProvider": "Evenemangarrangör (om det är annorlunda än utgivaren)",
       "notificationTitleType": "Evenemangtyp",
+      "placeholderProvider": {
+        "ar": "Ange arrangörens namn på arabiska",
+        "en": "Ange arrangörens namn på engelska",
+        "fi": "Ange arrangörens namn på finska",
+        "ru": "Ange arrangörens namn på ryska",
+        "sv": "Ange arrangörens namn på svenska",
+        "zh_hans": "Ange arrangörens namn på kinesiska"
+      },
+      "titleEventType": "Välj en evenemangtyp",
       "titleInfoLanguages": {
         "course": "Inmatningsspråk för kurs",
         "event": "Inmatningsspråk för evenemang"
@@ -32,7 +42,7 @@
         "course": "Kursspråk (kontrollspråk)",
         "event": "Evenemangsspråk (kontrollspråk)"
       },
-      "titleEventType": "Välj en evenemangtyp",
+      "titlePersonsInCharge": "Ansvariga person(er)",
       "titleUmrellaEvent": "Paraplyevenemangen"
     },
     "language": {

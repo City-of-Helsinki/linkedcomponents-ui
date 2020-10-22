@@ -11,16 +11,16 @@ import { useLanguagesQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
-import { EVENT_INFO_LANGUAGES } from '../../constants';
+import { EVENT_FIELDS, ORDERED_EVENT_INFO_LANGUAGES } from '../../constants';
 import { sortLanguage } from '../../utils';
 
 const LanguagesSection = () => {
   const { t } = useTranslation();
-  const [{ value: eventType }] = useField({ name: 'type' });
+  const [{ value: eventType }] = useField({ name: EVENT_FIELDS.TYPE });
   const locale = useLocale();
   const { data, loading } = useLanguagesQuery();
 
-  const eventInfoLanguageOptions: OptionType[] = EVENT_INFO_LANGUAGES.map(
+  const eventInfoLanguageOptions: OptionType[] = ORDERED_EVENT_INFO_LANGUAGES.map(
     (type) => ({
       label: t(`event.language.${type}`),
       value: type,
@@ -48,7 +48,7 @@ const LanguagesSection = () => {
         }
       >
         <Field
-          name="eventInfoLanguages"
+          name={EVENT_FIELDS.EVENT_INFO_LANGUAGES}
           component={LanguageCheckboxGroupField}
           options={eventInfoLanguageOptions}
         />
@@ -66,7 +66,7 @@ const LanguagesSection = () => {
         }
       >
         <Field
-          name="inLanguage"
+          name={EVENT_FIELDS.IN_LANGUAGE}
           component={LanguageCheckboxGroupField}
           options={inLanguageOptions}
           visibleOptionAmount={3}
