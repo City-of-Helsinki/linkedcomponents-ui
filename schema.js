@@ -6,6 +6,7 @@ module.exports = buildSchema(/* GraphQL */ `
   scalar Any
 
   type Query {
+    event(id: ID, include: [String]): Event!
     events(
       combinedText: [String]
       division: [String]

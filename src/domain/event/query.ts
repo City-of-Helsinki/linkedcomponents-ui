@@ -68,4 +68,11 @@ export const QUERY_EVENT_DETAILS = gql`
     }
     startTime
   }
+
+  query Event($id: ID!, $include: [String], $createPath: Any) {
+    event(id: $id, include: $include)
+      @rest(type: "Event", pathBuilder: $createPath) {
+      ...eventFields
+    }
+  }
 `;
