@@ -6,7 +6,10 @@ export enum EVENT_TYPE {
 }
 
 export const EVENT_INITIALVALUES = {
-  type: EVENT_TYPE.EVENT,
   eventInfoLanguages: ['fi'],
+  hasUmbrella: false,
   inLanguage: ['fi'],
+  isUmbrella: false,
+  type: EVENT_TYPE.EVENT,
+  umbrellaEvent: null,
 };

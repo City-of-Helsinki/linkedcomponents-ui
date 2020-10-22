@@ -21,6 +21,8 @@
       },
       "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
+      "labelHasUmbrella": "Tällä tapahtumalla on kattotapahtuma.",
+      "labelIsUmbrella": "Tämä tapahtuma on kattotapahtuma.",
       "notificationTitleType": "Tapahtumatyyppi",
       "titleInfoLanguages": {
         "course": "Kurssitietojen syöttökielet",
@@ -30,7 +32,8 @@
         "course": "Kurssin kielet (ohjauskielet)",
         "event": "Tapahtuman kielet (ohjauskielet)"
       },
-      "titleEventType": "Valitse tapahtumatyyppi"
+      "titleEventType": "Valitse tapahtumatyyppi",
+      "titleUmrellaEvent": "Kattotapahtumat"
     },
     "language": {
       "ar": "Arabiaksi",

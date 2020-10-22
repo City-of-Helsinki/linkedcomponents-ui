@@ -21,6 +21,8 @@
       },
       "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
+      "labelHasUmbrella": "Detta evenemang har ett paraplyevenemang.",
+      "labelIsUmbrella": "Detta evenemang är ett paraplyevenemang.",
       "notificationTitleType": "Evenemangtyp",
       "titleInfoLanguages": {
         "course": "Inmatningsspråk för kurs",
@@ -30,7 +32,8 @@
         "course": "Kursspråk (kontrollspråk)",
         "event": "Evenemangsspråk (kontrollspråk)"
       },
-      "titleEventType": "Välj en evenemangtyp"
+      "titleEventType": "Välj en evenemangtyp",
+      "titleUmrellaEvent": "Paraplyevenemangen"
     },
     "language": {
       "ar": "På arabiska",
