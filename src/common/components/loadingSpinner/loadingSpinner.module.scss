@@ -1,60 +1,68 @@
-$spinnerWidth: 4.375rem;
-
-.spinnerWrapper {
+.loadingSpinnerWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
 
   height: 100%;
   width: 100%;
-
-  &.hasPadding {
-    padding: 10rem 0;
-  }
 }
 
-@keyframes spinner {
-  0% {
-    transform: rotate(0deg);
-  }
-  8.33% {
-    fill: var(--color-coat-of-arms-blue);
-  }
-  25% {
-    fill: var(--color-copper);
-  }
-  33.33% {
-    transform: rotate(360deg);
-  }
-  41.66% {
-    fill: var(--color-copper);
-  }
-  58.33% {
-    fill: var(--color-suomenlinna);
-  }
-  66.67% {
-    transform: rotate(720deg);
-  }
-  75% {
-    fill: ar(--color-suomenlinna);
-  }
-  91.67% {
-    fill: var(--color-coat-of-arms-blue);
-  }
-  100% {
-    transform: rotate(1080deg);
-  }
+.loadingSpinner {
+    --spinner-background-color: transparent;
+    --spinner-color: var(--color-bus);
+    --spinner-width: 120px;
+    --spinner-stroke-width: 20px;
+
+    $circleRadie: calc((100px - var(--spinner-stroke-width)) / 2);
+
+    svg {
+        height: var(--spinner-width);
+        width: var(--spinner-width);   
+    }
+
+    circle {
+        stroke: var(--spinner-background-color);
+        stroke-width: var(--spinner-stroke-width);
+        r: $circleRadie;
+    }
+
+    circle:nth-of-type(2) {
+        stroke-dasharray: 1 1;
+        animation: spin 3.6s linear infinite;
+        stroke: var(--spinner-color);
+        stroke-dashoffset: 0;
+        transform-origin: 50% 50%;
+    }
+
+    @keyframes spin {
+        0% {
+            visibility: visible;
+            stroke: var(--spinner-color);
+            stroke-dashoffset: -1;
+            transform: rotate(90deg);
+        }
+        33.75% {
+            stroke-dashoffset: 0;
+        }
+        37.5% {
+            transform: rotate(-180deg);
+        }
+        67.5% {
+            visibility: hidden;
+            stroke-dashoffset: 1;
+        }
+        75% {
+            visibility: hidden;
+            stroke-dashoffset: 1;
+            transform: rotate(-450deg);
+        }
+        100% {
+            visibility: hidden;
+            stroke-dashoffset: 1;
+            transform: rotate(-630deg);
+        }
+    }
+    
 }
 
-.spinner {
-  width: $spinnerWidth;
-  height: $spinnerWidth;
-  border-radius: 50%;
-  fill: var(--color-coat-of-arms-blue);
-  animation: spinner 3.6s ease-in-out infinite;
 
-  svg {
-    width: $spinnerWidth;
-    height: 57.14%;
-  }
-}
