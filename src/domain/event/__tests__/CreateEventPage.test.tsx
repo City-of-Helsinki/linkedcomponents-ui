@@ -7,7 +7,7 @@ import translations from '../../app/i18n/fi.json';
 import CreateEventPage from '../CreateEventPage';
 
 const languages = fakeLanguages(10);
-const languagesResponse = { data: { languages: languages } };
+const languagesResponse = { data: { languages } };
 
 const mocks = [
   {

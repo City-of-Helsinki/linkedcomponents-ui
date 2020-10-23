@@ -13,6 +13,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
+import isTestEnv from '../../../utils/isTestEnv';
 import Combobox from '../combobox/Combobox';
 
 const getEventFields = (event: EventFieldsFragment, locale: Language) => ({
@@ -33,7 +34,7 @@ type ValueType = string | null;
 export type UmbrellaEventSelectorProps = {
   name: string;
   value: ValueType;
-} & Omit<SingleSelectProps<OptionType>, 'options'>;
+} & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
 
 const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   label,
@@ -52,15 +53,21 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
     variables: {
       superEventType: ['umbrella'],
       text: search,
-      createPath: eventsPathBuilder,
+      createPath: isTestEnv
+        ? undefined
+        : /* istanbul ignore next */ eventsPathBuilder,
     },
   });
 
   const { data: eventData } = useEventQuery({
     skip: !value,
     variables: {
-      id: value,
-      createPath: eventPathBuilder,
+      id: value as string,
+
+      createPath: isTestEnv
+        ? undefined
+        : /* istanbul ignore next */
+          eventPathBuilder,
     },
   });
 
