@@ -12,4 +12,11 @@ export enum SUPPORTED_LANGUAGES {
   EN = 'en',
 }
 
+export const EXTLINK = {
+  EXTLINK_FACEBOOK: 'extlink_facebook',
+  EXTLINK_INSTAGRAM: 'extlink_instagram',
+  EXTLINK_TWITTER: 'extlink_twitter',
+  EXTLINK_YOUTUBE: 'extlink_youtube',
+};
+
 export const MAIN_CONTENT_ID = 'maincontent';

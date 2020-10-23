@@ -26,6 +26,7 @@ const LanguagesSection = () => {
       value: type,
     })
   );
+
   const inLanguageOptions: OptionType[] =
     data?.languages.data
       .map((language) => ({
