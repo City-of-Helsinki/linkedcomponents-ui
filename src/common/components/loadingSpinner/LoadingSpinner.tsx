@@ -1,30 +1,36 @@
 import classNames from 'classnames';
-import React, { FunctionComponent } from 'react';
+import { css } from 'emotion';
+import React from 'react';
 
-import IconLoadingSpinner from '../../../icons/IconLoadingSpinner';
+import { ReactComponent as SpinnerSvg } from '../../../assets/images/svg/spinner.svg';
+import { useTheme } from '../../../domain/app/theme/Theme';
 import styles from './loadingSpinner.module.scss';
 
 interface Props {
-  hasPadding?: boolean;
+  className?: string;
   isLoading: boolean;
 }
 
-const LoadingSpinner: FunctionComponent<Props> = ({
-  hasPadding = true,
-  isLoading,
+const LoadingSpinner: React.FC<Props> = ({
   children,
+  className,
+  isLoading,
 }) => {
+  const { theme } = useTheme();
   return (
     <>
       {isLoading ? (
         <div
-          className={classNames(styles.spinnerWrapper, {
-            [styles.hasPadding]: hasPadding,
-          })}
+          className={classNames(styles.loadingSpinnerWrapper, className)}
           data-testid="loading-spinner"
         >
-          <div className={styles.spinner}>
-            <IconLoadingSpinner />
+          <div
+            className={classNames(
+              styles.loadingSpinner,
+              css(theme.loadingSpinner)
+            )}
+          >
+            <SpinnerSvg />
           </div>
         </div>
       ) : (

@@ -36,6 +36,7 @@ const MultiLanguageField: React.FC<Props> = ({
         return (
           languages.includes(language) && (
             <Field
+              key={language}
               {...rest}
               component={TextInputField}
               name={`${name}.${language}`}

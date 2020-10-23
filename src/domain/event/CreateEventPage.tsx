@@ -2,6 +2,7 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INITIALVALUES } from './constants';
@@ -49,7 +50,7 @@ const CreateEventPage: React.FC = () => {
                     label: t('event.navigation.steps.responsibilities'),
                   },
                   {
-                    component: <div>{t('event.navigation.steps.time')}</div>,
+                    component: <LoadingSpinner isLoading={true} />,
                     isCompleted: false,
                     label: t('event.navigation.steps.time'),
                   },

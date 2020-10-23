@@ -80,6 +80,13 @@ type LayoutCSSProperties = {
   '--page-background-color'?: string;
 };
 
+type LoadingSpinnerCSSProperties = {
+  '--spinner-background-color'?: string;
+  '--spinner-color'?: string;
+  '--spinner-width'?: string;
+  '--spinner-stroke-width'?: string;
+};
+
 type NavigationCSSProperties = {
   '--header-z-index'?: number;
   '--header-background-color'?: string;
@@ -187,6 +194,7 @@ export type Theme = {
   eventNavigation: EventNavigationCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
+  loadingSpinner: LoadingSpinnerCSSProperties;
   navigation: NavigationCSSProperties;
   notification: {
     size?: {
@@ -212,6 +220,7 @@ const defaultTheme: Theme = {
   eventNavigation: {},
   languageSelector: {},
   layout: {},
+  loadingSpinner: {},
   navigation: {},
   notification: {},
   radioButton: {},

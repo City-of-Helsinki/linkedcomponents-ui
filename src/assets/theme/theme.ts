@@ -156,6 +156,12 @@ const theme: Theme = {
     '--menu-item-color-default': 'var(--color-black-90)',
     '--menu-item-color-hover': 'var(--color-black-90)',
   },
+  loadingSpinner: {
+    '--spinner-background-color': 'transparent',
+    '--spinner-color': 'var(--color-bus)',
+    '--spinner-width': '120px',
+    '--spinner-stroke-width': '20px',
+  },
   navigation: {
     '--header-z-index': 10,
     '--header-background-color': 'var(--color-coat-of-arms-blue)',
