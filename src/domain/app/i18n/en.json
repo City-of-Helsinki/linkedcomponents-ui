@@ -11,6 +11,7 @@
   },
   "event": {
     "form": {
+      "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextInfoLanguages": {
         "course": "Select the languages used for entering course information.",
         "event": "Select the languages used for entering event information."
@@ -24,6 +25,7 @@
       "labelHasUmbrella": "This event has an umbrella event.",
       "labelIsUmbrella": "This event is an umbrella event.",
       "labelProvider": "Event organizer (if different than the publisher)",
+      "labelUmbrellaEvent": "Umbrella event",
       "notificationTitleType": "Event type",
       "placeholderProvider": {
           "ar": "Enter the event organizer's name in Arabic",

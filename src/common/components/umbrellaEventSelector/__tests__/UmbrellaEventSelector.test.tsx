@@ -108,9 +108,11 @@ test('should open menu by clickin toggle button and list of options should be vi
 
   expect(inputField.getAttribute('aria-expanded')).toBe('true');
 
-  filteredEvents.data.forEach((option) => {
-    expect(
-      screen.queryByRole('option', { hidden: true, name: option.name.fi })
-    ).toBeInTheDocument();
+  filteredEvents.data.forEach(async (option) => {
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('option', { hidden: true, name: option.name.fi })
+      ).toBeInTheDocument();
+    });
   });
 });

@@ -11,6 +11,7 @@
   },
   "event": {
     "form": {
+      "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "infoTextInfoLanguages": {
         "course": "Valitse kielet joita käytetään kurssitietojen syötössä.",
         "event": "Valitse kielet joita käytetään tapahtumatietojen syötössä."
@@ -24,6 +25,7 @@
       "labelHasUmbrella": "Tällä tapahtumalla on kattotapahtuma.",
       "labelIsUmbrella": "Tämä tapahtuma on kattotapahtuma.",
       "labelProvider": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
+      "labelUmbrellaEvent": "Kattotapahtuma",
       "notificationTitleType": "Tapahtumatyyppi",
       "placeholderProvider": {
           "ar": "Syötä tapahtuman järjestäjän nimi arabiaksi",

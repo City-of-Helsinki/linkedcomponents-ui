@@ -49,8 +49,8 @@ const LanguagesSection = () => {
       <InputRow>
         {hasUmbrella && (
           <Field
-            helper="Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia."
-            label="Kattotapahtuma"
+            helper={t('event.form.helperUmbrellaEvent')}
+            label={t('event.form.labelUmbrellaEvent')}
             name={EVENT_FIELDS.UMBRELLA_EVENT}
             component={UmbrellaEventSelectorField}
           />
