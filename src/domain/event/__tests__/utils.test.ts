@@ -1,5 +1,14 @@
-import { OptionType } from '../../../types';
-import { sortLanguage } from '../utils';
+import { eventPathBuilder, sortLanguage } from '../utils';
+
+describe('eventPathBuilder function', () => {
+  it('should build correct path', () => {
+    expect(
+      eventPathBuilder({
+        args: { id: 'hel:123', include: ['include1', 'include2'] },
+      })
+    ).toBe('/event/hel:123/?include=include1,include2');
+  });
+});
 
 describe('sortLanguage function', () => {
   it('should sort languages correctly', () => {

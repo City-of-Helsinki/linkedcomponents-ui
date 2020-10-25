@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 import { EventQueryVariables } from '../../generated/graphql';
 import { OptionType } from '../../types';
-import composeQuery from '../../utils/composeQuery';
+import queryBuilder from '../../utils/queryBuilder';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 
 export const createValidationSchema = () =>
@@ -16,11 +16,10 @@ interface EventPathBuilderProps {
 
 export const eventPathBuilder = ({ args }: EventPathBuilderProps) => {
   const { id, include } = args;
-  let query = '';
+  const variableToKeyItems = [{ key: 'include', value: include }];
 
-  if (include && include.length) {
-    query = composeQuery(query, 'include', include.join(','));
-  }
+  const query = queryBuilder(variableToKeyItems);
+
   return `/event/${id}/${query}`;
 };
 
