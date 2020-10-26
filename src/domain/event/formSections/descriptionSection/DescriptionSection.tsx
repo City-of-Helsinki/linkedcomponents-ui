@@ -4,13 +4,18 @@ import { useTranslation } from 'react-i18next';
 
 import TextAreaField from '../../../../common/components/formFields/TextAreaField';
 import TextInputField from '../../../../common/components/formFields/TextInputField';
+import FormLanguageSelector from '../../../../common/components/formLanguageSelector/FormLanguageSelector';
 import lowercaseFirstLetter from '../../../../utils/lowercaseFirstLetter';
-import { EVENT_FIELDS, EVENT_INFO_LANGUAGES } from '../../constants';
+import {
+  EVENT_FIELDS,
+  EVENT_INFO_LANGUAGES,
+  ORDERED_EVENT_INFO_LANGUAGES,
+} from '../../constants';
 import styles from './descriptionSection.module.scss';
 
 const DescriptionSection = () => {
   const { t } = useTranslation();
-  const [{ value: eventInfoLanguages }] = useField<EVENT_INFO_LANGUAGES>({
+  const [{ value: eventInfoLanguages }] = useField<EVENT_INFO_LANGUAGES[]>({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
   const [{ value: type }] = useField({
@@ -31,10 +36,35 @@ const DescriptionSection = () => {
     t(`event.inLanguage.${selectedLanguage}`)
   );
 
+  const languageOptions = React.useMemo(
+    () =>
+      eventInfoLanguages
+        .map((language) => ({
+          isCompleted: false,
+          label: t(`event.language.${language}`),
+          value: language,
+        }))
+        .sort(
+          (a, b) =>
+            ORDERED_EVENT_INFO_LANGUAGES.indexOf(a.value) -
+            ORDERED_EVENT_INFO_LANGUAGES.indexOf(b.value)
+        ),
+    [eventInfoLanguages, t]
+  );
+
+  const handleSelectedLanguageChange = (language: string) => {
+    setSelectedLanguage(language as EVENT_INFO_LANGUAGES);
+  };
+
   return (
     <div className={styles.descriptionSection}>
       <div className={styles.languageSelectorWrapper}>
         <h3>{t('event.form.titleLanguageVersions')}</h3>
+        <FormLanguageSelector
+          onChange={handleSelectedLanguageChange}
+          options={languageOptions}
+          selectedLanguage={selectedLanguage}
+        />
       </div>
       <div className={styles.formFieldsWrapper}>
         <h3>{t(`event.form.titleDescription.${type}`)}</h3>
