@@ -22,11 +22,39 @@
       },
       "infoTextType1": "Select the type of event. Is it an event or a course? The event is a one-time event and starts at a specific time, while the course may, as a rule, have several occurrences.",
       "infoTextType2": "The choice of event type affects the choices made later in the input form.",
+      "labelDescription": {
+        "course": "Description of the course {{langText}}",
+        "event": "Description of the event {{langText}}"
+      },
       "labelHasUmbrella": "This event has an umbrella event.",
+      "labelInfoUrl": {
+        "course": "URL of the course home page {{langText}}",
+        "event": "URL of the event home page {{langText}}"
+      },
       "labelIsUmbrella": "This event is an umbrella event.",
+      "labelName": {
+        "course": "Course title {{langText}}",
+        "event": "Event title {{langText}}"
+      },
       "labelProvider": "Event organizer (if different than the publisher)",
+      "labelShortDescription": {
+        "course": "Short description {{langText}}",
+        "event": "Short description {{langText}}"
+      },
       "labelUmbrellaEvent": "Umbrella event",
       "notificationTitleType": "Event type",
+      "placeholderDescription": {
+        "course": "Enter a description of the course",
+        "event": "Enter a description of the event"
+      },
+      "placeholderInfoUrl": {
+        "course": "Enter the URL of the course home page",
+        "event": "Enter the URL of the event home page"
+      },
+      "placeholderName": {
+        "course": "Enter the course title",
+        "event": "Enter the event title"
+      },
       "placeholderProvider": {
           "ar": "Enter the event organizer's name in Arabic",
           "en": "Enter the event organizer's name in English",
@@ -35,7 +63,15 @@
           "sv": "Enter the event organizer's name in Swedish",
           "zh_hans": "Enter the event organizer's name in Chinese"
       },
+      "placeholderShortDescription": {
+        "course": "Enter a short description of the course",
+        "event": "Enter a short description of the event"
+      },
       "titleEventType": "Select event type",
+      "titleDescription": {
+        "course": "Course description",
+        "event": "Event description"
+      },
       "titleInfoLanguages": {
         "course": "Course input languages",
         "event": "Event input languages"
@@ -44,10 +80,11 @@
         "course": "Course languages (control languages)",
         "event": "Event languages (control languages)"
       },
+      "titleLanguageVersions": "Language versions",
       "titlePersonsInCharge": "Person(s) in charge",
       "titleUmrellaEvent": "Umbrella events"
     },
-    "language": {
+    "inLanguage": {
       "ar": "In Arabic",
       "en": "In English",
       "fi": "In Finnish",
@@ -55,12 +92,21 @@
       "sv": "In Swedish",
       "zh_hans": "In Chinese"
     },
+    "language": {
+      "ar": "Arabic",
+      "en": "English",
+      "fi": "Finnish",
+      "ru": "Russian",
+      "sv": "Swedish",
+      "zh_hans": "Chinese"
+    },
     "navigation": {
       "buttonNext": "Next",
       "buttonPrevious": "Previous",
       "steps": {
         "classification": "Classification",
         "commitment": "Commitment",
+        "description": "Description",
         "languages": "Languages",
         "media": "Media",
         "place": "Place",

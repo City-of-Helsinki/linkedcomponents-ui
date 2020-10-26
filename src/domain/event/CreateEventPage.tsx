@@ -8,6 +8,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INITIALVALUES } from './constants';
 import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
+import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
 import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
 import TypeSection from './formSections/typeSection/TypeSection';
@@ -48,6 +49,11 @@ const CreateEventPage: React.FC = () => {
                     component: <ResponsibilitiesSection />,
                     isCompleted: false,
                     label: t('event.navigation.steps.responsibilities'),
+                  },
+                  {
+                    component: <DescriptionSection />,
+                    isCompleted: false,
+                    label: t('event.navigation.steps.description'),
                   },
                   {
                     component: <LoadingSpinner isLoading={true} />,

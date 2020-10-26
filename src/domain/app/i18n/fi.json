@@ -22,11 +22,39 @@
       },
       "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
+      "labelDescription": {
+        "course": "Kurssin kuvaus {{langText}}",
+        "event": "Tapahtuman kuvaus {{langText}}"
+      },
       "labelHasUmbrella": "Tällä tapahtumalla on kattotapahtuma.",
+      "labelInfoUrl": {
+        "course": "Kurssin kotisivun URL {{langText}}",
+        "event": "Tapahtuman kotisivun URL {{langText}}"
+      },
       "labelIsUmbrella": "Tämä tapahtuma on kattotapahtuma.",
+      "labelName": {
+        "course": "Kurssin otsikko {{langText}}",
+        "event": "Tapahtuman otsikko {{langText}}"
+      },
       "labelProvider": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
+      "labelShortDescription": {
+        "course": "Lyhyt kuvaus {{langText}}",
+        "event": "Lyhyt kuvaus {{langText}}"
+      },
       "labelUmbrellaEvent": "Kattotapahtuma",
       "notificationTitleType": "Tapahtumatyyppi",
+      "placeholderDescription": {
+        "course": "Syötä kurssin kuvaus",
+        "event": "Syötä tapahtuman kuvaus"
+      },
+      "placeholderInfoUrl": {
+        "course": "Syötä kurssin kotisivun URL",
+        "event": "Syötä tapahtuman kotisivun URL"
+      },
+      "placeholderName": {
+        "course": "Syötä kurssin otsikko",
+        "event": "Syötä tapahtuman otsikko"
+      },
       "placeholderProvider": {
           "ar": "Syötä tapahtuman järjestäjän nimi arabiaksi",
           "en": "Syötä tapahtuman järjestäjän nimi englanniksi",
@@ -34,6 +62,14 @@
           "ru": "Syötä tapahtuman järjestäjän nimi venäjäksi",
           "sv": "Syötä tapahtuman järjestäjän nimi ruotsiksi",
           "zh_hans": "Syötä tapahtuman järjestäjän nimi kiinaksi"
+      },
+      "placeholderShortDescription": {
+        "course": "Syötä kurssin lyhyt kuvaus",
+        "event": "Syötä tapahtuman lyhyt kuvaus"
+      },
+      "titleDescription": {
+        "course": "Kurssin kuvaus",
+        "event": "Tapahtuman kuvaus"
       },
       "titleEventType": "Valitse tapahtumatyyppi",
       "titleInfoLanguages": {
@@ -44,10 +80,11 @@
         "course": "Kurssin kielet (ohjauskielet)",
         "event": "Tapahtuman kielet (ohjauskielet)"
       },
+      "titleLanguageVersions": "Kieliversiot",
       "titlePersonsInCharge": "Vastuuhenkilöt",
       "titleUmrellaEvent": "Kattotapahtumat"
     },
-    "language": {
+    "inLanguage": {
       "ar": "Arabiaksi",
       "en": "Englanniksi",
       "fi": "Suomeksi",
@@ -55,12 +92,21 @@
       "sv": "Ruotsiksi",
       "zh_hans": "Kiinaksi"
     },
+    "language": {
+      "ar": "Arabia",
+      "en": "Englanti",
+      "fi": "Suomi",
+      "ru": "Venäjä",
+      "sv": "Ruotsi",
+      "zh_hans": "Kiina"
+    },
     "navigation": {
       "buttonNext": "Seuraava",
       "buttonPrevious": "Edellinen",
       "steps": {
         "classification": "Luokittelu",
         "commitment": "Sitoomus",
+        "description": "Kuvaus",
         "languages": "Kielet",
         "media": "Media",
         "place": "Paikka",

@@ -73,7 +73,7 @@
       align-items: flex-start;
 
       @include medium-up {
-        display: flex;
+        grid-template-columns: auto auto;
       }
     }
 

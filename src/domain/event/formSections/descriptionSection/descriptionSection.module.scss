@@ -1,0 +1,25 @@
+@import 'breakpoints';
+
+.descriptionSection {
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    grid-template-columns: 1fr 4fr;
+    grid-gap: var(--spacing-xl);
+  }
+
+  .splittedRow {
+    margin-bottom: var(--spacing-m);
+    display: grid;
+    grid-gap: var(--spacing-m);
+
+    @include medium-up {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .row {
+    margin-bottom: var(--spacing-m);
+  }
+}
