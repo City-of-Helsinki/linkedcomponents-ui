@@ -6,8 +6,14 @@
   },
   "createEventPage": {
     "buttonSaveDraft": "Save draft",
-    "pageTitle": "New event",
-    "title": "New event"
+    "page": {
+      "course": "New course",
+      "event": "New event"
+    },
+    "title": {
+      "course": "New course",
+      "event": "New event"
+    }
   },
   "event": {
     "form": {
@@ -26,17 +32,26 @@
         "course": "Description of the course {{langText}}",
         "event": "Description of the event {{langText}}"
       },
-      "labelHasUmbrella": "This event has an umbrella event.",
+      "labelHasUmbrella": {
+        "course": "This course has an umbrella event.",
+        "event": "This event has an umbrella event."
+      },
       "labelInfoUrl": {
         "course": "URL of the course home page {{langText}}",
         "event": "URL of the event home page {{langText}}"
       },
-      "labelIsUmbrella": "This event is an umbrella event.",
+      "labelIsUmbrella": {
+        "course": "This course is an umbrella event.",
+        "event": "This event is an umbrella event."
+      },
       "labelName": {
         "course": "Course title {{langText}}",
         "event": "Event title {{langText}}"
       },
-      "labelProvider": "Event organizer (if different than the publisher)",
+      "labelProvider": {
+        "course": "Course organizer {{langText}} (if different than the publisher)",
+        "event": "Event organizer {{langText}} (if different than the publisher)"
+      },
       "labelShortDescription": {
         "course": "Short description {{langText}} (up to 160 characters)",
         "event": "Short description {{langText}} (up to 160 characters)"
@@ -56,12 +71,8 @@
         "event": "Enter the event title"
       },
       "placeholderProvider": {
-          "ar": "Enter the event organizer's name in Arabic",
-          "en": "Enter the event organizer's name in English",
-          "fi": "Enter the event organizer's name in Finnish",
-          "ru": "Enter the event organizer's name in Russian",
-          "sv": "Enter the event organizer's name in Swedish",
-          "zh_hans": "Enter the event organizer's name in Chinese"
+          "course": "Enter the course organizer's name",
+          "event": "Enter the event organizer's name"
       },
       "placeholderShortDescription": {
         "course": "Enter a short description of the course",
@@ -83,22 +94,6 @@
       "titleLanguageVersions": "Language versions",
       "titlePersonsInCharge": "Person(s) in charge",
       "titleUmrellaEvent": "Umbrella events"
-    },
-    "inLanguage": {
-      "ar": "In Arabic",
-      "en": "In English",
-      "fi": "In Finnish",
-      "ru": "In Russian",
-      "sv": "In Swedish",
-      "zh_hans": "In Chinese"
-    },
-    "language": {
-      "ar": "Arabic",
-      "en": "English",
-      "fi": "Finnish",
-      "ru": "Russian",
-      "sv": "Swedish",
-      "zh_hans": "Chinese"
     },
     "navigation": {
       "buttonNext": "Next",
@@ -127,6 +122,22 @@
     "pageTitle": "Search events"
   },
   "form": {
+    "inLanguage": {
+      "ar": "In Arabic",
+      "en": "In English",
+      "fi": "In Finnish",
+      "ru": "In Russian",
+      "sv": "In Swedish",
+      "zh_hans": "In Chinese"
+    },
+    "language": {
+      "ar": "Arabic",
+      "en": "English",
+      "fi": "Finnish",
+      "ru": "Russian",
+      "sv": "Swedish",
+      "zh_hans": "Chinese"
+    },
     "validation": {
       "date": {
         "future": "This date must be in the future",

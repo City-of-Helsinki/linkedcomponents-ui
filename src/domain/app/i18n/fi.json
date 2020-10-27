@@ -6,8 +6,14 @@
   },
   "createEventPage": {
     "buttonSaveDraft": "Tallenna luonnos",
-    "pageTitle": "Uusi tapahtuma",
-    "title": "Uusi tapahtuma"
+    "pageTitle": {
+      "course": "Uusi kurssi",
+      "event": "Uusi tapahtuma"
+    },
+    "title": {
+      "course": "Uusi kurssi",
+      "event": "Uusi tapahtuma"
+    }
   },
   "event": {
     "form": {
@@ -26,17 +32,26 @@
         "course": "Kurssin kuvaus {{langText}}",
         "event": "Tapahtuman kuvaus {{langText}}"
       },
-      "labelHasUmbrella": "Tällä tapahtumalla on kattotapahtuma.",
+      "labelHasUmbrella": {
+        "course": "Tällä kurssilla on kattotapahtuma.",
+        "event": "Tällä tapahtumalla on kattotapahtuma."
+      },
       "labelInfoUrl": {
         "course": "Kurssin kotisivun URL {{langText}}",
         "event": "Tapahtuman kotisivun URL {{langText}}"
       },
-      "labelIsUmbrella": "Tämä tapahtuma on kattotapahtuma.",
+      "labelIsUmbrella": { 
+        "course": "Tämä kurssi on kattotapahtuma.",
+        "event": "Tämä tapahtuma on kattotapahtuma."
+      },
       "labelName": {
         "course": "Kurssin otsikko {{langText}}",
         "event": "Tapahtuman otsikko {{langText}}"
       },
-      "labelProvider": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
+      "labelProvider": {
+        "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
+        "event": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)"
+      },
       "labelShortDescription": {
         "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
         "event": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
@@ -56,12 +71,8 @@
         "event": "Syötä tapahtuman otsikko"
       },
       "placeholderProvider": {
-          "ar": "Syötä tapahtuman järjestäjän nimi arabiaksi",
-          "en": "Syötä tapahtuman järjestäjän nimi englanniksi",
-          "fi": "Syötä tapahtuman järjestäjän nimi suomeksi",
-          "ru": "Syötä tapahtuman järjestäjän nimi venäjäksi",
-          "sv": "Syötä tapahtuman järjestäjän nimi ruotsiksi",
-          "zh_hans": "Syötä tapahtuman järjestäjän nimi kiinaksi"
+          "course": "Syötä kurssin järjestäjän nimi",
+          "event": "Syötä tapahtuman järjestäjän nimi"
       },
       "placeholderShortDescription": {
         "course": "Syötä kurssin lyhyt kuvaus",
@@ -83,22 +94,6 @@
       "titleLanguageVersions": "Kieliversiot",
       "titlePersonsInCharge": "Vastuuhenkilöt",
       "titleUmrellaEvent": "Kattotapahtumat"
-    },
-    "inLanguage": {
-      "ar": "Arabiaksi",
-      "en": "Englanniksi",
-      "fi": "Suomeksi",
-      "ru": "Venäjäksi",
-      "sv": "Ruotsiksi",
-      "zh_hans": "Kiinaksi"
-    },
-    "language": {
-      "ar": "Arabia",
-      "en": "Englanti",
-      "fi": "Suomi",
-      "ru": "Venäjä",
-      "sv": "Ruotsi",
-      "zh_hans": "Kiina"
     },
     "navigation": {
       "buttonNext": "Seuraava",
@@ -127,6 +122,22 @@
     "pageTitle": "Etsi tapahtumia"
   },
   "form": {
+    "inLanguage": {
+      "ar": "Arabiaksi",
+      "en": "Englanniksi",
+      "fi": "Suomeksi",
+      "ru": "Venäjäksi",
+      "sv": "Ruotsiksi",
+      "zh_hans": "Kiinaksi"
+    },
+    "language": {
+      "ar": "Arabia",
+      "en": "Englanti",
+      "fi": "Suomi",
+      "ru": "Venäjä",
+      "sv": "Ruotsi",
+      "zh_hans": "Kiina"
+    },
     "validation": {
       "date": {
         "future": "Tämän kentän on oltava tulevaisuudessa",

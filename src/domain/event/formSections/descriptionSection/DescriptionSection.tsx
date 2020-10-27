@@ -34,14 +34,14 @@ const DescriptionSection = () => {
   }, [eventInfoLanguages, selectedLanguage]);
 
   const langText = lowercaseFirstLetter(
-    t(`event.inLanguage.${selectedLanguage}`)
+    t(`form.inLanguage.${selectedLanguage}`)
   );
 
   const languageOptions = React.useMemo(
     () =>
       eventInfoLanguages
         .map((language) => ({
-          label: t(`event.language.${language}`),
+          label: t(`form.language.${language}`),
           value: language,
         }))
         .sort(

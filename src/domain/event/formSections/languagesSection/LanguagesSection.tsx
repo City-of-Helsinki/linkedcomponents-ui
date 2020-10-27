@@ -22,7 +22,7 @@ const LanguagesSection = () => {
 
   const eventInfoLanguageOptions: OptionType[] = ORDERED_EVENT_INFO_LANGUAGES.map(
     (type) => ({
-      label: t(`event.language.${type}`),
+      label: t(`form.language.${type}`),
       value: type,
     })
   );

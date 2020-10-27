@@ -6,8 +6,14 @@
   },
   "createEventPage": {
     "buttonSaveDraft": "Spara utkast",
-    "pageTitle": "Nytt evenemang",
-    "title": "Nytt evenemang"
+    "pageTitle": {
+      "course": "Nytt kurs",
+      "event": "Nytt evenemang"
+    },
+    "title": {
+      "course": "Nytt kurs",
+      "event": "Nytt evenemang"
+    }
   },
   "event": {
     "form": {
@@ -26,17 +32,26 @@
         "course": "Beskrivning av kursen {{langText}}",
         "event": "Beskrivning av evenemanget {{langText}}"
       },
-      "labelHasUmbrella": "Detta evenemang har ett paraplyevenemang.",
+      "labelHasUmbrella": {
+        "course": "Detta kurs har ett paraplyevenemang.",
+        "event": "Detta evenemang har ett paraplyevenemang."
+      },
       "labelInfoUrl": {
         "course": "Webbadressen till kursens hemsida {{langText}}",
         "event": "Webbadressen till evenemangets hemsida {{langText}}"
       },
-      "labelIsUmbrella": "Detta evenemang är ett paraplyevenemang.",
+      "labelIsUmbrella": {
+        "course": "Detta kurs är ett paraplyevenemang.",
+        "event": "Detta evenemang är ett paraplyevenemang."
+      },
       "labelName": {
         "course": "Kursens title {{langText}}",
         "event": "Evenemangs title {{langText}}"
        },
-      "labelProvider": "Evenemangarrangör (om det är annorlunda än utgivaren)",
+      "labelProvider": {
+        "course": "Kursarrangör {{langText}} (om det är annorlunda än utgivaren)",
+        "event": "Evenemangarrangör {{langText}} (om det är annorlunda än utgivaren)"
+      },
       "labelShortDescription": {
         "course": "Kort beskrivning {{langText}} (upp till 160 tecken)",
         "event": "Kort beskrivning {{langText}} (upp till 160 tecken)"
@@ -56,12 +71,8 @@
         "event": "Ange webbadressen till evenemangets hemsida"
       },
       "placeholderProvider": {
-        "ar": "Ange arrangörens namn på arabiska",
-        "en": "Ange arrangörens namn på engelska",
-        "fi": "Ange arrangörens namn på finska",
-        "ru": "Ange arrangörens namn på ryska",
-        "sv": "Ange arrangörens namn på svenska",
-        "zh_hans": "Ange arrangörens namn på kinesiska"
+        "course": "Ange kursarrangörens namn",
+        "event": "Ange evenemangsarrangörens namn"
       },
       "placeholderShortDescription": {
         "course": "Ange en kort beskrivning av kursen",
@@ -84,22 +95,6 @@
       
       "titlePersonsInCharge": "Ansvariga person(er)",
       "titleUmrellaEvent": "Paraplyevenemangen"
-    },
-    "inLanguage": {
-      "ar": "På arabiska",
-      "en": "På engelska",
-      "fi": "På finska",
-      "ru": "På ryska",
-      "sv": "På svenska",
-      "zh_hans": "På kinesiska"
-    },
-    "language": {
-      "ar": "Arabiska",
-      "en": "Engelska",
-      "fi": "Finska",
-      "ru": "Ryska",
-      "sv": "Svenska",
-      "zh_hans": "Kinesiska"
     },
     "navigation": {
       "buttonNext": "Nästa",
@@ -128,6 +123,22 @@
     "pageTitle": "Sök evenemangen"
   },
   "form": {
+    "inLanguage": {
+      "ar": "På arabiska",
+      "en": "På engelska",
+      "fi": "På finska",
+      "ru": "På ryska",
+      "sv": "På svenska",
+      "zh_hans": "På kinesiska"
+    },
+    "language": {
+      "ar": "Arabiska",
+      "en": "Engelska",
+      "fi": "Finska",
+      "ru": "Ryska",
+      "sv": "Svenska",
+      "zh_hans": "Kinesiska"
+    },
     "validation": {
       "date": {
         "future": "Detta datum måste vara i framtiden",

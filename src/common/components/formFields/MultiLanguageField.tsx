@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ORDERED_EVENT_INFO_LANGUAGES } from '../../../domain/event/constants';
+import lowerCaseFirstLetter from '../../../utils/lowercaseFirstLetter';
 import styles from './multiLanguageField.module.scss';
 import TextInputField from './TextInputField';
 
@@ -33,6 +34,8 @@ const MultiLanguageField: React.FC<Props> = ({
   return (
     <div className={styles.multiLanguageField}>
       {ORDERED_EVENT_INFO_LANGUAGES.map((language) => {
+        const langText = lowerCaseFirstLetter(t(`form.inLanguage.${language}`));
+
         return (
           languages.includes(language) && (
             <Field
@@ -40,15 +43,13 @@ const MultiLanguageField: React.FC<Props> = ({
               {...rest}
               component={TextInputField}
               name={`${name}.${language}`}
-              helper={
-                helperText || (helperKey && t(`${helperKey}.${language}`))
-              }
+              helper={helperText || (helperKey && t(helperKey, { langText }))}
               label={
-                label || labelText || (labelKey && t(`${labelKey}.${language}`))
+                label || labelText || (labelKey && t(labelKey, { langText }))
               }
               placeholder={
                 placeholder ||
-                (placeholderKey && t(`${placeholderKey}.${language}`))
+                (placeholderKey && t(placeholderKey, { langText }))
               }
             />
           )

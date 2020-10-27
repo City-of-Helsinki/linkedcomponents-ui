@@ -10,6 +10,9 @@ import { EVENT_FIELDS } from '../../constants';
 
 const LanguagesSection = () => {
   const { t } = useTranslation();
+  const [{ value: type }] = useField({
+    name: EVENT_FIELDS.TYPE,
+  });
   const [{ value: hasUmbrella }] = useField({
     name: EVENT_FIELDS.HAS_UMBRELLA,
   });
@@ -23,17 +26,17 @@ const LanguagesSection = () => {
       <h3>{t('event.form.titlePersonsInCharge')}</h3>
       <InputRow>
         <MultiLanguageField
-          label={t('event.form.labelProvider')}
+          labelKey={`event.form.labelProvider.${type}`}
           languages={eventInfoLanguages}
           name={EVENT_FIELDS.PROVIDER}
-          placeholderKey={'event.form.placeholderProvider'}
+          placeholderKey={t(`event.form.placeholderProvider.${type}`)}
         />
       </InputRow>
       <h3>{t('event.form.titleUmrellaEvent')}</h3>
       <InputRow>
         <Field
           disabled={hasUmbrella}
-          label={t('event.form.labelIsUmbrella')}
+          label={t(`event.form.labelIsUmbrella.${type}`)}
           name={EVENT_FIELDS.IS_UMBRELLA}
           component={CheckboxField}
         />
@@ -41,7 +44,7 @@ const LanguagesSection = () => {
       <InputRow>
         <Field
           disabled={isUmbrella}
-          label={t('event.form.labelHasUmbrella')}
+          label={t(`event.form.labelHasUmbrella.${type}`)}
           name={EVENT_FIELDS.HAS_UMBRELLA}
           component={CheckboxField}
         />

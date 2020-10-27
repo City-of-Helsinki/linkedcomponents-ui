@@ -18,20 +18,23 @@ const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <PageWrapper className={styles.eventPage} title="createEventPage.pageTitle">
-      <Formik
-        initialValues={EVENT_INITIALVALUES}
-        onSubmit={(values) => {
-          console.log('TODO: Submit event form with values: ', values);
-        }}
-        validationSchema={createValidationSchema}
-        validateOnMount
-      >
-        {() => {
-          return (
-            <Form>
+    <Formik
+      initialValues={EVENT_INITIALVALUES}
+      onSubmit={(values) => {
+        console.log('TODO: Submit event form with values: ', values);
+      }}
+      validationSchema={createValidationSchema}
+      validateOnMount
+    >
+      {({ values: { type } }) => {
+        return (
+          <Form>
+            <PageWrapper
+              className={styles.eventPage}
+              title={`createEventPage.pageTitle.${type}`}
+            >
               <Container>
-                <h1>{t('createEventPage.title')}</h1>
+                <h1>{t(`createEventPage.title.${type}`)}</h1>
               </Container>
               <EventNavigation
                 items={[
@@ -102,11 +105,11 @@ const CreateEventPage: React.FC = () => {
                   },
                 ]}
               ></EventNavigation>
-            </Form>
-          );
-        }}
-      </Formik>
-    </PageWrapper>
+            </PageWrapper>
+          </Form>
+        );
+      }}
+    </Formik>
   );
 };
 
