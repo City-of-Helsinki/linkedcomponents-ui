@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import TextAreaField from '../../../../common/components/formFields/TextAreaField';
 import TextInputField from '../../../../common/components/formFields/TextInputField';
 import FormLanguageSelector from '../../../../common/components/formLanguageSelector/FormLanguageSelector';
+import { CHARACTER_LIMITS } from '../../../../constants';
 import lowercaseFirstLetter from '../../../../utils/lowercaseFirstLetter';
 import {
   EVENT_FIELDS,
@@ -40,7 +41,6 @@ const DescriptionSection = () => {
     () =>
       eventInfoLanguages
         .map((language) => ({
-          isCompleted: false,
           label: t(`event.language.${language}`),
           value: language,
         }))
@@ -61,6 +61,12 @@ const DescriptionSection = () => {
       <div className={styles.languageSelectorWrapper}>
         <h3>{t('event.form.titleLanguageVersions')}</h3>
         <FormLanguageSelector
+          fields={[
+            EVENT_FIELDS.DESCRIPTION,
+            EVENT_FIELDS.INFO_URL,
+            EVENT_FIELDS.NAME,
+            EVENT_FIELDS.SHORT_DESCRIPTION,
+          ]}
           onChange={handleSelectedLanguageChange}
           options={languageOptions}
           selectedLanguage={selectedLanguage}
@@ -69,24 +75,27 @@ const DescriptionSection = () => {
       <div className={styles.formFieldsWrapper}>
         <h3>{t(`event.form.titleDescription.${type}`)}</h3>
         <div className={styles.splittedRow}>
-          <Field
-            component={TextInputField}
-            label={t(`event.form.labelName.${type}`, {
-              langText,
-            })}
-            name={`${EVENT_FIELDS.NAME}.${selectedLanguage}`}
-            placeholder={t(`event.form.placeholderName.${type}`)}
-            required={true}
-          />
-          <Field
-            component={TextInputField}
-            label={t(`event.form.labelInfoUrl.${type}`, {
-              langText,
-            })}
-            name={`${EVENT_FIELDS.INFO_URL}.${selectedLanguage}`}
-            placeholder={t(`event.form.placeholderInfoUrl.${type}`)}
-            required={true}
-          />
+          <div>
+            <Field
+              component={TextInputField}
+              label={t(`event.form.labelName.${type}`, {
+                langText,
+              })}
+              name={`${EVENT_FIELDS.NAME}.${selectedLanguage}`}
+              placeholder={t(`event.form.placeholderName.${type}`)}
+              required={true}
+            />
+          </div>
+          <div>
+            <Field
+              component={TextInputField}
+              label={t(`event.form.labelInfoUrl.${type}`, {
+                langText,
+              })}
+              name={`${EVENT_FIELDS.INFO_URL}.${selectedLanguage}`}
+              placeholder={t(`event.form.placeholderInfoUrl.${type}`)}
+            />
+          </div>
         </div>
 
         <div className={styles.row}>
@@ -97,6 +106,7 @@ const DescriptionSection = () => {
             })}
             name={`${EVENT_FIELDS.SHORT_DESCRIPTION}.${selectedLanguage}`}
             placeholder={t(`event.form.placeholderShortDescription.${type}`)}
+            maxLength={CHARACTER_LIMITS.SHORT_STRING}
             required={true}
           />
         </div>
@@ -108,6 +118,7 @@ const DescriptionSection = () => {
             })}
             name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
             placeholder={t(`event.form.placeholderDescription.${type}`)}
+            maxLength={CHARACTER_LIMITS.LONG_STRING}
             required={true}
           />
         </div>

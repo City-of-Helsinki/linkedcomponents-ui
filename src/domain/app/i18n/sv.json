@@ -38,8 +38,8 @@
        },
       "labelProvider": "Evenemangarrangör (om det är annorlunda än utgivaren)",
       "labelShortDescription": {
-        "course": "Kort beskrivning {{langText}}",
-        "event": "Kort beskrivning {{langText}}"
+        "course": "Kort beskrivning {{langText}} (upp till 160 tecken)",
+        "event": "Kort beskrivning {{langText}} (upp till 160 tecken)"
       },
       "labelUmbrellaEvent": "Paraplyevenemang",
       "notificationTitleType": "Evenemangtyp",
@@ -141,13 +141,15 @@
         "required": "Detta fält krävs"
       },
       "string": {
+        "charsLeft": "{{count}} tecken kvar",
+        "charsLeft_plural": "{{count}} tecken kvar",
         "date": "This field must be valid date",
         "email": "Detta fält måste vara en giltig e-postmeddelande",
         "max": "Detta fält kan vara upp till {{max}} tecken långt",
         "min": "Detta fält måste vara minst {{min}} tecken långt",
         "required": "Detta fält krävs",
         "time": "Tid måste ges i följande format hh:mm",
-        "url": "Detta fält måste vara en giltig URL"
+        "url": "Ange URL i rätt format (http: // ...)"
       },
       "time": {
         "max": "Den här tiden måste vara innan {{max}}",

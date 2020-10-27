@@ -38,8 +38,8 @@
       },
       "labelProvider": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
       "labelShortDescription": {
-        "course": "Lyhyt kuvaus {{langText}}",
-        "event": "Lyhyt kuvaus {{langText}}"
+        "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
+        "event": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
       },
       "labelUmbrellaEvent": "Kattotapahtuma",
       "notificationTitleType": "Tapahtumatyyppi",
@@ -140,13 +140,15 @@
         "required": "Tämä kenttä on pakollinen"
       },
       "string": {
+        "charsLeft": "{{count}} merkki jäljellä",
+        "charsLeft_plural": "{{count}} merkkiä jäljellä",
         "date": "Tämän kentän on oltava kelvollinen päivämäärä",
         "email": "Tämän kentän on oltava kelvollinen sähköpostiosoite",
         "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
         "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
         "required": "Tämä kenttä on pakollinen",
         "time": "Ajan tulee olla muotoa hh:mm",
-        "url": "Tämän kentän on oltava kelvollinen URL-osoite"
+        "url": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)"
       },
 
       "time": {

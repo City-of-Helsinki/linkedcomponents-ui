@@ -16,7 +16,6 @@ import { createValidationSchema } from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
-  const validationSchema = createValidationSchema();
 
   return (
     <PageWrapper className={styles.eventPage} title="createEventPage.pageTitle">
@@ -25,7 +24,8 @@ const CreateEventPage: React.FC = () => {
         onSubmit={(values) => {
           console.log('TODO: Submit event form with values: ', values);
         }}
-        validationSchema={validationSchema}
+        validationSchema={createValidationSchema}
+        validateOnMount
       >
         {() => {
           return (

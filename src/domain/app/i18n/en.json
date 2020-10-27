@@ -38,8 +38,8 @@
       },
       "labelProvider": "Event organizer (if different than the publisher)",
       "labelShortDescription": {
-        "course": "Short description {{langText}}",
-        "event": "Short description {{langText}}"
+        "course": "Short description {{langText}} (up to 160 characters)",
+        "event": "Short description {{langText}} (up to 160 characters)"
       },
       "labelUmbrellaEvent": "Umbrella event",
       "notificationTitleType": "Event type",
@@ -140,13 +140,15 @@
         "required": "This field is required"
       },
       "string": {
+        "charsLeft": "{{count}} character left",
+        "charsLeft_plural": "{{count}} characters left",
         "date": "This field must be a valid date",
         "email": "This field must be a valid email",
         "max": "This field can be up to {{max}} characters long",
         "min": "This field must be at least {{min}} characters long",
         "required": "This field is required",
         "time": "Time must be given in the following format hh:mm",
-        "url": "This field must be a valid URL"
+        "url": "Enter the URL in correct format (http://...)"
       },
       "time": {
         "max": "This time must be before {{max}}",
