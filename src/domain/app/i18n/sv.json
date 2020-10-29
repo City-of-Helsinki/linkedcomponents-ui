@@ -1,6 +1,17 @@
 {
   "appName": "Linked Components",
   "common": {
+    "datepicker": {
+      "accessibility": {
+        "buttonCalendar": "Kalendar",
+        "buttonNextMonth": "Nästa månad",
+        "buttonPreviousMonth": "Förra månaden",
+        "selectDate": "Välj {{value}}",
+        "selectTime": "Välj {{value}}",
+        "timeInstructions": "Välj tid med piltangenterna"
+      },
+      "buttonClose": "Stäng"
+    },
     "showLess": "Visa mindre",
     "showMore": "Visa mer"
   },
@@ -94,6 +105,10 @@
       "titleLanguageVersions": "Språkversioner",      
       
       "titlePersonsInCharge": "Ansvariga person(er)",
+      "titleTime": {
+        "course": "Kursdatum",
+        "event": "Evenemangdatum"
+      },
       "titleUmrellaEvent": "Paraplyevenemangen"
     },
     "navigation": {

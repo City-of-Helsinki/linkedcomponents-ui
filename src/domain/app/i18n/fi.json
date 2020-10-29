@@ -1,6 +1,17 @@
 {
   "appName": "Linked Components",
   "common": {
+    "datepicker": {
+      "accessibility": {
+        "buttonCalendar": "Kalenteri",
+        "buttonNextMonth": "Seuraava kuukausi",
+        "buttonPreviousMonth": "Edellinen kuukausi",
+        "selectDate": "Valitse {{value}}",
+        "selectTime": "Valitse kellonajaksi {{value}}",
+        "timeInstructions": "Valitse kellonaika nuolinäppäimillä"
+      },
+      "buttonClose": "Sulje"
+    },
     "showLess": "Näytä vähemmän",
     "showMore": "Näytä lisää"
   },
@@ -93,6 +104,10 @@
       },
       "titleLanguageVersions": "Kieliversiot",
       "titlePersonsInCharge": "Vastuuhenkilöt",
+      "titleTime": {
+        "course": "Kurssin ajankohdat",
+        "event": "Tapahtuman ajankohdat"
+      },
       "titleUmrellaEvent": "Kattotapahtumat"
     },
     "navigation": {

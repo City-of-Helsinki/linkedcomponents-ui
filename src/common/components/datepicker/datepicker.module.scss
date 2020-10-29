@@ -1,0 +1,153 @@
+.datepickerWrapper {
+  --selected-day-background-color: var(--color-bus);
+  --selected-day-color: var(--color-white);
+  --close-button-color: var(--color-bus);
+  --focused-day-border-color: var(--color-bus);
+  --hovered-day-background-color: #f0f0f0;
+  --disabled-day-color: #6d7278;
+  --month-title-color: var(--color-black);
+  --datepicker-background-color: var(--color-white);
+  --icon-calendar-width: 24px;
+  --width-error-icon: 1.5rem;
+  --spacing-input: var(--spacing-s);
+  --datepicker-container-padding: 1rem;
+  --datepicker-zindex: 101;
+}
+
+.datepickerWrapper {
+  .datepickerContainer {
+    padding: var(--datepicker-container-padding);
+    text-align: center;
+    line-height: 1.7rem;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    z-index: var(--datepicker-zindex);
+    top: 100%;
+    position: absolute;
+    background-color: var(--datepicker-background-color);
+  }
+
+  .selectorsWrapper {
+    display: flex;
+  }
+
+  .monthNavigation {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+    padding: 0 0.8rem;
+  }
+
+  .currentMonth {
+    font-size: 1rem;
+    color: var(--month-title-color);
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .datesContainer {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .weekdayRow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 0.5rem 0;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .closeButton {
+    color: var(--close-button-color);
+    font-weight: 500;
+    width: 100%;
+    margin: 0.8rem 0 0 0;
+  }
+
+  .dayButton {
+    padding: 0.3rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    width: 2.5rem;
+    height: 2.5rem;
+
+    &:hover {
+      background-color: var(--hovered-day-background-color);
+    }
+  }
+
+  .daySelected {
+    background-color: var(--selected-day-background-color) !important;
+    color: var(--selected-day-color);
+  }
+
+  .dayDisabled {
+    color: var(--disabled-day-color);
+    font-weight: normal;
+  }
+
+  .dayToday {
+    border: 1px solid var(--focused-day-border-color);
+  }
+
+  .monthNavButton {
+    width: 1rem;
+
+    svg {
+      display: block;
+    }
+  }
+
+  .datepickerInput {
+    padding-right: calc(
+      var(--icon-calendar-width) + var(--width-error-icon)
+    ) !important;
+
+    &.invalid {
+      padding-right: calc(
+        var(--icon-calendar-width) + var(--width-error-icon) +
+          var(--spacing-input)
+      ) !important;
+    }
+  }
+
+  .iconCalendar {
+    position: absolute;
+    width: var(--icon-calendar-width);
+    top: 26%;
+    right: var(--spacing-input);
+  }
+
+  .timesDivider {
+    border-left: 1px solid #d8d8d8;
+    margin-left: var(--datepicker-container-padding);
+  }
+
+  .timesList {
+    position: absolute;
+    text-align: left;
+    width: 100%;
+
+    padding: 0 var(--datepicker-container-padding);
+  }
+
+  .timesListContainer {
+    position: relative;
+    overflow-y: auto;
+    margin: calc(var(--datepicker-container-padding) * -1)
+      calc(var(--datepicker-container-padding) * -1)
+      calc(var(--datepicker-container-padding) * -1) 0;
+    width: 110px;
+  }
+
+  .timeItem {
+    padding: 0.4rem 0.7rem;
+    width: 100%;
+    text-align: left;
+    border: 1px solid transparent;
+
+    &.selectedTimeItem {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+}

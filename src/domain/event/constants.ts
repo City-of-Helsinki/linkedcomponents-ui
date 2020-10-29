@@ -2,6 +2,7 @@ import reduce from 'lodash/reduce';
 
 export enum EVENT_FIELDS {
   DESCRIPTION = 'description',
+  END_TIME = 'startTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
   HAS_UMBRELLA = 'hasUmbrella',
   IN_LANGUAGE = 'inLanguage',
@@ -10,6 +11,7 @@ export enum EVENT_FIELDS {
   NAME = 'name',
   PROVIDER = 'provider',
   SHORT_DESCRIPTION = 'shortDescription',
+  START_TIME = 'startTime',
   TYPE = 'type',
   UMBRELLA_EVENT = 'umbrellaEvent',
 }

@@ -1,6 +1,17 @@
 {
   "appName": "Linked Components",
   "common": {
+    "datepicker": {
+      "accessibility": {
+        "buttonCalendar": "Calendar",
+        "buttonNextMonth": "Next month",
+        "buttonPreviousMonth": "Previous month",
+        "selectDate": "Choose {{value}}",
+        "selectTime": "Choose {{value}}",
+        "timeInstructions": "Choose time with arrow keys"
+      },
+      "buttonClose": "Close"
+    },
     "showLess": "Show less",
     "showMore": "Show more"
   },
@@ -91,8 +102,13 @@
         "course": "Course languages (control languages)",
         "event": "Event languages (control languages)"
       },
+      
       "titleLanguageVersions": "Language versions",
       "titlePersonsInCharge": "Person(s) in charge",
+      "titleTime": {
+        "course": "Course dates",
+        "event": "Event dates"
+      },
       "titleUmrellaEvent": "Umbrella events"
     },
     "navigation": {
