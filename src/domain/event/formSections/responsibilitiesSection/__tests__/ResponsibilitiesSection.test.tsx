@@ -2,16 +2,15 @@ import { Formik } from 'formik';
 import range from 'lodash/range';
 import React from 'react';
 
-import translations from '../../,,/../../../app/i18n/fi.json';
 import { EventsDocument } from '../../../../../generated/graphql';
 import { fakeEvents } from '../../../../../utils/mockDataUtils';
 import {
-  actWait,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
+import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_INFO_LANGUAGES } from '../../../constants';
 import ResponsibilitiesSection from '../ResponsibilitiesSection';
 

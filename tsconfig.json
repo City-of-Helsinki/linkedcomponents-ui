@@ -16,5 +16,5 @@
     "jsx": "react"
   },
   "include": ["src"],
-  "exclude": ["**/*.test.*", "src/utils/testUtils.tsx"]
+  "exclude": ["**/*.test.*", "src/utils/testUtils.tsx", "src/utils/mockDataUtils.ts"]
 }
