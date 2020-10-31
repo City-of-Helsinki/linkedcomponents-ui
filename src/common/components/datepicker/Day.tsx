@@ -1,5 +1,6 @@
 import { useDay } from '@datepicker-react/hooks';
 import classNames from 'classnames';
+import addDays from 'date-fns/addDays';
 import formatDate from 'date-fns/format';
 import isSameDay from 'date-fns/isSameDay';
 import isToday from 'date-fns/isToday';
@@ -11,11 +12,11 @@ import { dateLocales } from './constants';
 import styles from './datepicker.module.scss';
 import DatepickerContext from './datepickerContext';
 
-const Day: React.FC<{ dayLabel: string; date: Date }> = ({
-  dayLabel,
+const Day: React.FC<{ date: Date; dayLabel: string }> = ({
   date,
+  dayLabel,
 }) => {
-  const dayRef = useRef(null);
+  const dayRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation();
   const locale = useLocale();
 
@@ -26,6 +27,8 @@ const Day: React.FC<{ dayLabel: string; date: Date }> = ({
     isDateHovered,
     isDateBlocked,
     isFirstOrLastSelectedDate,
+    maxBookingDate,
+    minBookingDate,
     onDateSelect,
     onDateFocus,
     onDateHover,
@@ -34,26 +37,60 @@ const Day: React.FC<{ dayLabel: string; date: Date }> = ({
 
   // after version 2.4.1 days won't focus automatically!!!!
   // https://github.com/tresko/react-datepicker/commit/eae4f52 <-- here is the change
+  React.useEffect(() => {
+    if (isDateFocused(date)) {
+      dayRef.current?.focus();
+    }
+  }, [dayRef, date, isDateFocused]);
 
-  // might need to add something like this here:
-  //   useEffect(() => {
-  //  if (dayRef && dayRef.current && isDateFocused(date)) {
-  //   dayRef.current.focus()
-  // }
-  //}, [dayRef, date, isDateFocused])
-  const { disabledDate, onClick, onKeyDown, onMouseEnter, tabIndex } = useDay({
+  const { disabledDate, onClick, onMouseEnter, tabIndex } = useDay({
     date,
     focusedDate,
-    isDateFocused,
-    isDateSelected,
-    isDateHovered,
     isDateBlocked,
+    isDateFocused,
+    isDateHovered,
+    isDateSelected,
     isFirstOrLastSelectedDate,
     onDateFocus,
-    onDateSelect,
     onDateHover,
-    dayRef,
+    onDateSelect,
   });
+
+  const getNextDate = (nextDate: Date): Date => {
+    if (
+      minBookingDate &&
+      !isSameDay(nextDate, minBookingDate) &&
+      nextDate < minBookingDate
+    ) {
+      return minBookingDate;
+    } else if (
+      maxBookingDate &&
+      !isSameDay(nextDate, maxBookingDate) &&
+      nextDate > maxBookingDate
+    ) {
+      return maxBookingDate;
+    } else {
+      return nextDate;
+    }
+  };
+
+  const focusDate = (nextDate: Date) => {
+    onDateFocus(getNextDate(nextDate));
+  };
+
+  // @datepicker-react/hooks asslo to set focus to disabled dates, so override onKeyDown function here
+  // and prevent it here
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'ArrowRight') {
+      focusDate(addDays(date, 1));
+    } else if (e.key === 'ArrowLeft') {
+      focusDate(addDays(date, -1));
+    } else if (e.key === 'ArrowUp') {
+      focusDate(addDays(date, -7));
+    } else if (e.key === 'ArrowDown') {
+      focusDate(addDays(date, 7));
+    }
+  };
 
   if (!dayLabel) {
     return <div />;
@@ -61,23 +98,23 @@ const Day: React.FC<{ dayLabel: string; date: Date }> = ({
 
   return (
     <button
-      className={classNames(styles.dayButton, {
-        [styles.daySelected]: selectedDate
-          ? isSameDay(selectedDate, date)
-          : false,
-        [styles.dayDisabled]: disabledDate,
-        [styles.dayToday]: isToday(date),
-      })}
-      onClick={onClick}
-      onKeyDown={onKeyDown}
-      onMouseEnter={onMouseEnter}
-      onFocus={() => onDateFocus(date)}
-      tabIndex={tabIndex}
-      type="button"
       ref={dayRef}
       aria-label={t('common.datepicker.accessibility.selectDate', {
         value: formatDate(date, 'dd.MM.yyyy', { locale: dateLocales[locale] }),
       })}
+      className={classNames(styles.dayButton, {
+        [styles.dayDisabled]: disabledDate,
+        [styles.daySelected]: selectedDate
+          ? isSameDay(selectedDate, date)
+          : false,
+        [styles.dayToday]: isToday(date),
+      })}
+      onClick={onClick}
+      onFocus={() => onDateFocus(date)}
+      onKeyDown={handleKeyDown}
+      onMouseEnter={onMouseEnter}
+      tabIndex={tabIndex}
+      type="button"
     >
       {dayLabel}
     </button>

@@ -5,9 +5,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { getStringErrorText } from '../../../utils/validationUtils';
-import Datepicker from '../datepicker/DatePicker';
+import Datepicker from '../datepicker/Datepicker';
 
-type Props = FieldProps & Omit<TextInputProps, 'form'>;
+type Props = {
+  maxBookingDate?: Date;
+  minBookingDate?: Date;
+} & FieldProps &
+  Omit<TextInputProps, 'form'>;
 
 const DatePickerField: React.FC<Props> = ({
   className,

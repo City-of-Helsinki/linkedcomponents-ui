@@ -3,7 +3,7 @@ import { TimeObject } from './types';
 export const formatTime = ({ hours, minutes }: TimeObject): string => {
   const hour = hours.toString().padStart(2, '0');
   const minute = minutes.toString().padStart(2, '0');
-  return `${hour}:${minute}`;
+  return `${hour}.${minute}`;
 };
 
 export const getTimes = (interval = 15): string[] => {

@@ -7,17 +7,25 @@ import classNames from 'classnames';
 import formatDate from 'date-fns/format';
 import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
+import { css } from 'emotion';
+import { TextInputProps } from 'hds-react/components/TextInput';
 import { IconAngleLeft, IconAngleRight, IconCalendar } from 'hds-react/icons';
 import uniqueId from 'lodash/uniqueId';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useTheme } from '../../../domain/app/theme/Theme';
 import useLocale from '../../../hooks/useLocale';
 import InputWrapper from '../inputWrapper/InputWrapper';
 import inputStyles from '../inputWrapper/inputWrapper.module.scss';
 import { TimeObject } from '../timepicker/types';
-import { getTimeObjects } from '../timepicker/utils';
-import { DATE_FORMAT, dateLocales, DATETIME_FORMAT } from './constants';
+import {
+  DATE_FORMAT,
+  dateLocales,
+  dateRegex,
+  DATETIME_FORMAT,
+  datetimeRegex,
+} from './constants';
 import styles from './datepicker.module.scss';
 import DatepickerContext from './datepickerContext';
 import Month from './Month';
@@ -28,141 +36,87 @@ function generateUniqueId(prefix = 'datepicker-id') {
   return `${prefix}-${uniqueId()}`;
 }
 
-const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
-const datetimeRegex = /^\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}$/;
-const MINUTE_INTERVAL = 15;
-
 export type DatepickerProps = {
   className?: string;
-  disabled?: boolean;
-  helperText?: string;
+  hideLabel?: boolean;
   id: string;
   invalidText?: string;
   labelText?: string;
+  maxBookingDate?: Date;
+  minBookingDate?: Date;
+  minuteInterval?: number;
   onBlur: () => void;
   onChange: (value?: Date | null) => void;
-  value: Date | null;
-  timeSelector?: boolean;
-  minuteInterval?: number;
-  hideLabel?: boolean;
   required?: boolean;
-};
+  timeSelector?: boolean;
+  value: Date | null;
+} & Omit<TextInputProps, 'onChange'>;
 
 const Datepicker: React.FC<DatepickerProps> = ({
   className,
-  value,
-  id,
   helperText,
+  hideLabel,
+  id,
   invalidText,
   labelText,
-  onChange,
-  onBlur,
-  timeSelector,
+  maxBookingDate,
+  minBookingDate = new Date(),
   minuteInterval,
-  hideLabel,
+  onBlur,
+  onChange,
   required,
+  timeSelector,
+  value,
+  ...rest
 }) => {
-  const [times] = useState(() =>
-    getTimeObjects(minuteInterval || MINUTE_INTERVAL)
+  const locale = useLocale();
+  const { t } = useTranslation();
+  const { theme } = useTheme();
+
+  const dateFormat = React.useMemo(
+    () => (timeSelector ? DATETIME_FORMAT : DATE_FORMAT),
+    [timeSelector]
   );
   const [dateValue, setDateValue] = useState('');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const datepickerClicked = React.useRef<boolean>(false);
+
   const container = React.useRef<HTMLDivElement>(null);
   const closeButton = React.useRef<HTMLButtonElement>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
   const datepickerContainer = React.useRef<HTMLDivElement>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const timesContainer = React.useRef<HTMLDivElement>(null);
+
   const dialogLabelId = React.useMemo(
     () => generateUniqueId('dialog-label'),
     []
   );
-  const locale = useLocale();
-  const { t } = useTranslation();
-
-  // Update formatted input string when date value changes
-  React.useEffect(() => {
-    if (!value) {
-      setDateValue('');
-    } else if (value && isValidDate(value)) {
-      if (timeSelector) {
-        const formattedDate = formatDate(value, DATETIME_FORMAT);
-        setDateValue(formattedDate);
-      } else {
-        const formattedDate = formatDate(value, DATE_FORMAT);
-        setDateValue(formattedDate);
-      }
-    }
-  }, [timeSelector, value]);
-
-  const handleDocumentKeyDown = (event: KeyboardEvent) => {
-    if (!isComponentFocused()) return;
-
-    switch (event.key) {
-      case 'Escape':
-        ensureCalendarIsClosed();
-        break;
-      case 'ArrowDown':
-        ensureCalendarIsOpen();
-        break;
-    }
-  };
-
-  const onDocumentClick = () => {
-    if (!isComponentFocused() && !datepickerClicked.current) {
-      ensureCalendarIsClosed();
-    }
-    datepickerClicked.current = false;
-  };
-
-  const onDocumentFocusin = () => {
-    if (!isComponentFocused()) {
-      ensureCalendarIsClosed();
-    }
-  };
-
-  React.useEffect(() => {
-    document.addEventListener('click', onDocumentClick);
-    document.addEventListener('keydown', handleDocumentKeyDown);
-    document.addEventListener('focusin', onDocumentFocusin);
-
-    return () => {
-      document.removeEventListener('click', onDocumentClick);
-      document.removeEventListener('keydown', handleDocumentKeyDown);
-      document.removeEventListener('focusin', onDocumentFocusin);
-    };
-  });
 
   const isComponentFocused = () => {
     const activeElement = document.activeElement;
 
-    if (container.current?.contains(activeElement)) {
-      return true;
-    }
-    return false;
+    return !!container.current?.contains(activeElement);
   };
 
   const setNewDateWithTime = (previousDate: Date, newDate: Date) => {
     const hours = previousDate.getHours();
     const minutes = previousDate.getMinutes();
     const date = new Date(newDate);
-    date.setMinutes(minutes);
+
     date.setHours(hours);
+    date.setMinutes(minutes);
+
     onChange(date);
   };
 
   const handleDateChange = (data: OnDatesChangeProps) => {
     if (!timeSelector) {
-      setIsCalendarOpen(false);
-      inputRef.current?.focus();
+      closeCalendar();
     }
 
     if (value && data.startDate) {
       setNewDateWithTime(value, data.startDate);
-    } else if (data.startDate) {
-      onChange(data.startDate);
     } else {
-      onChange(null);
+      onChange(data.startDate || null);
     }
   };
 
@@ -198,18 +152,16 @@ const Datepicker: React.FC<DatepickerProps> = ({
     }
   };
 
+  const closeCalendar = React.useCallback(() => {
+    ensureCalendarIsClosed();
+    inputRef.current?.focus();
+  }, [ensureCalendarIsClosed]);
+
   const handleInputFocus = () => {
     if (!isCalendarOpen) {
       setIsCalendarOpen(true);
     } else {
       setIsCalendarOpen(false);
-    }
-  };
-
-  const handleChange = (value: string) => {
-    const parsedDate = parseDate(value, DATE_FORMAT, new Date());
-    if (isValidDate(parsedDate)) {
-      onChange(parsedDate);
     }
   };
 
@@ -222,16 +174,27 @@ const Datepicker: React.FC<DatepickerProps> = ({
     return isParsedDateValid && dateRegex.test(inputValue);
   };
 
+  const handleChange = (dateStr: string) => {
+    const parsedDate = parseDate(dateStr, dateFormat, new Date());
+
+    if (isValidDate(parsedDate)) {
+      onChange(parsedDate);
+    } else if (!dateStr) {
+      onChange(null);
+    } else if (value) {
+      const formattedDate = formatDate(value, dateFormat);
+      setDateValue(formattedDate);
+    }
+  };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const eventValue = event.target.value;
-    const dateFormat = timeSelector ? DATETIME_FORMAT : DATE_FORMAT;
     const parsedDate = parseDate(event.target.value, dateFormat, new Date());
+
     setDateValue(eventValue);
 
     if (dateIsInValidFormat(parsedDate, eventValue)) {
       onChange(parsedDate);
-    } else {
-      onChange(null);
     }
   };
 
@@ -251,100 +214,143 @@ const Datepicker: React.FC<DatepickerProps> = ({
 
   const handleTimeClick = React.useCallback(
     (time: TimeObject): void => {
-      let newDate: Date;
-      if (value) {
-        newDate = new Date(value);
-      } else {
-        newDate = new Date();
-      }
+      const newDate = value ? new Date(value) : new Date();
+
       newDate.setHours(time.hours);
       newDate.setMinutes(time.minutes);
+
       onChange(newDate);
-      ensureCalendarIsClosed();
-      // focus input for screen readers
-      inputRef.current?.focus();
+      closeCalendar();
     },
-    [ensureCalendarIsClosed, onChange, value]
+    [closeCalendar, onChange, value]
   );
 
   const {
-    firstDayOfWeek,
     activeMonths: [activeMonth],
+    firstDayOfWeek,
+    focusedDate,
     isDateSelected,
     isDateHovered,
     isFirstOrLastSelectedDate,
     isDateBlocked,
     isDateFocused,
-    focusedDate,
+    goToNextMonths,
+    goToPreviousMonths,
     onDateHover,
     onDateSelect,
     onDateFocus,
-    goToPreviousMonths,
-    goToNextMonths,
   } = useDatepicker({
     startDate: isValidDate(value) ? value : new Date(),
     endDate: isValidDate(value) ? value : new Date(),
     focusedInput: START_DATE,
     onDatesChange: handleDateChange,
     numberOfMonths: 1,
-    minBookingDate: new Date(),
+    maxBookingDate: maxBookingDate,
+    minBookingDate: minBookingDate,
   });
 
   const { month, year } = activeMonth;
+
+  const handleDocumentKeyDown = (event: KeyboardEvent) => {
+    if (!isComponentFocused()) return;
+
+    switch (event.key) {
+      case 'Escape':
+        ensureCalendarIsClosed();
+        break;
+      case 'ArrowDown':
+        ensureCalendarIsOpen();
+        break;
+    }
+  };
+
+  const onDocumentClick = (event: MouseEvent) => {
+    const target = event.target;
+
+    if (!(target instanceof Node && container.current?.contains(target))) {
+      ensureCalendarIsClosed();
+    }
+  };
+
+  const onDocumentFocusin = () => {
+    if (!isComponentFocused()) {
+      ensureCalendarIsClosed();
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', handleDocumentKeyDown);
+    document.addEventListener('focusin', onDocumentFocusin);
+
+    return () => {
+      document.removeEventListener('click', onDocumentClick);
+      document.removeEventListener('keydown', handleDocumentKeyDown);
+      document.removeEventListener('focusin', onDocumentFocusin);
+    };
+  });
+
+  // Update formatted input string when date value changes
+  React.useEffect(() => {
+    if (!value) {
+      setDateValue('');
+    } else if (value && isValidDate(value)) {
+      const formattedDate = formatDate(value, dateFormat);
+      setDateValue(formattedDate);
+    }
+  }, [dateFormat, timeSelector, value]);
 
   return (
     <DatepickerContext.Provider
       value={{
         focusedDate,
-        isDateFocused,
-        isDateSelected,
-        isDateHovered,
         isDateBlocked,
+        isDateFocused,
+        isDateHovered,
+        isDateSelected,
         isFirstOrLastSelectedDate,
-        onDateSelect,
+        maxBookingDate,
+        minBookingDate,
         onDateFocus,
         onDateHover,
+        onDateSelect,
         selectedDate: value,
       }}
     >
       <div
         ref={container}
-        onKeyDown={preventArrowKeyScroll}
-        onClick={() => {
-          // prevent datepicker closing when clicking inside
-          datepickerClicked.current = true;
-          setTimeout(() => (datepickerClicked.current = false));
-        }}
         className={styles.datepickerWrapper}
+        onKeyDown={preventArrowKeyScroll}
       >
         <InputWrapper
-          className={className}
           id={id}
+          className={classNames(className, css(theme.datepicker))}
+          hasIcon
           helperText={invalidText || helperText}
+          hideLabel={hideLabel}
           invalid={!!invalidText}
           labelText={labelText}
-          hideLabel={hideLabel}
-          hasIcon
           required={required}
         >
           <input
-            name={id}
+            {...rest}
             id={id}
+            name={id}
             ref={inputRef}
             className={classNames(inputStyles.input, styles.datepickerInput, {
               [styles.invalid]: !!invalidText,
             })}
+            onBlur={handleInputBlur}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
-            value={dateValue}
             onKeyDown={handleInputKeyDown}
+            value={dateValue}
           />
           <button
             type="button"
-            onClick={toggleCalendar}
             aria-label={t('common.datepicker.accessibility.buttonCalendar')}
-            className={styles.iconCalendar}
+            className={styles.calendarButton}
+            onClick={toggleCalendar}
           >
             <IconCalendar />
           </button>
@@ -408,9 +414,9 @@ const Datepicker: React.FC<DatepickerProps> = ({
                 </div>
                 {timeSelector && (
                   <TimesList
-                    times={times}
-                    datetime={value}
                     ref={timesContainer}
+                    datetime={value}
+                    minuteInterval={minuteInterval}
                     onTimeClick={handleTimeClick}
                   />
                 )}

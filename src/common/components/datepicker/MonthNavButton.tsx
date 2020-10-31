@@ -14,8 +14,8 @@ const MonthNavButton: React.FC<ButtonProps> = ({
 }) => (
   <button
     className={styles.monthNavButton}
-    type="button"
     onClick={onClick}
+    type="button"
     {...props}
   >
     {children}

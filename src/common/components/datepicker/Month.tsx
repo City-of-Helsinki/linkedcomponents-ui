@@ -7,15 +7,16 @@ import Day from './Day';
 type FirstDayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6 | undefined;
 
 const Month: React.FC<{
-  year: number;
-  month: number;
   firstDayOfWeek: FirstDayOfWeek;
+  month: number;
+  year: number;
 }> = ({ year, month, firstDayOfWeek }) => {
   const { days, weekdayLabels } = useMonth({
-    year,
-    month,
     firstDayOfWeek,
+    month,
+    year,
   });
+
   return (
     <div>
       <div className={styles.weekdayRow}>
@@ -24,18 +25,17 @@ const Month: React.FC<{
         ))}
       </div>
       <div className={styles.datesContainer}>
-        {days.map((day, index) => {
-          if (typeof day === 'object') {
-            return (
-              <Day
-                date={day.date}
-                key={day.date.toString()}
-                dayLabel={day.dayLabel}
-              />
-            );
-          }
-          return <div key={index} />;
-        })}
+        {days.map((day, index) =>
+          typeof day === 'object' ? (
+            <Day
+              key={day.date.toString()}
+              date={day.date}
+              dayLabel={day.dayLabel}
+            />
+          ) : (
+            <div key={index} />
+          )
+        )}
       </div>
     </div>
   );

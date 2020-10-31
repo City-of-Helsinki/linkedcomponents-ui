@@ -48,6 +48,37 @@ type CheckboxCSSProperties = {
   '--label-color-disabled'?: string;
 };
 
+type DatepickerCSSProperties = {
+  '--calendar-button-height'?: string;
+  '--close-button-color'?: string;
+  '--day-background-color'?: string;
+  '--day-background-color-disabled'?: string;
+  '--day-background-color-focused'?: string;
+  '--day-background-color-hovered'?: string;
+  '--day-background-color-selected'?: string;
+  '--day-border-color'?: string;
+  '--day-border-color-disabled'?: string;
+  '--day-border-color-focused'?: string;
+  '--day-border-color-hovered'?: string;
+  '--day-border-color-selected'?: string;
+  '--day-color'?: string;
+  '--day-color-disabled'?: string;
+  '--day-color-focused'?: string;
+  '--day-color-hovered'?: string;
+  '--day-color-selected'?: string;
+  '--day-size'?: string;
+  '--datepicker-background-color'?: string;
+  '--datepicker-container-padding'?: string;
+  '--datepicker-z-index'?: number;
+  '--icon-width'?: string;
+  '--input-spacing'?: string;
+  '--month-title-color'?: string;
+  '--times-divider-border-color'?: string;
+  '--times-list-width'?: string;
+  '--time-item-background-color'?: string;
+  '--time-item-background-color-selected'?: string;
+};
+
 type EventNavigationCSSProperties = {
   '--circle-background-color'?: string;
   '--circle-border-color'?: string;
@@ -197,6 +228,7 @@ export type Theme = {
     danger?: ButtonCSSProperties;
   };
   checkbox: CheckboxCSSProperties;
+  datepicker: DatepickerCSSProperties;
   eventNavigation: EventNavigationCSSProperties;
   formLanguageSelector: FormLanguageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
@@ -224,6 +256,7 @@ export type Theme = {
 const defaultTheme: Theme = {
   button: {},
   checkbox: {},
+  datepicker: {},
   eventNavigation: {},
   formLanguageSelector: {},
   languageSelector: {},

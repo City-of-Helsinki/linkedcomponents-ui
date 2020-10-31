@@ -1,17 +1,32 @@
 .datepickerWrapper {
-  --selected-day-background-color: var(--color-bus);
-  --selected-day-color: var(--color-white);
+  --calendar-button-height: 56px;
   --close-button-color: var(--color-bus);
-  --focused-day-border-color: var(--color-bus);
-  --hovered-day-background-color: #f0f0f0;
-  --disabled-day-color: #6d7278;
-  --month-title-color: var(--color-black);
+  --day-background-color: transparent;
+  --day-background-color-disabled: transparent;
+  --day-background-color-focused: transparent;
+  --day-background-color-hovered: var(--color-black-10);
+  --day-background-color-selected: var(--color-bus);
+  --day-border-color: transparent;
+  --day-border-color-disabled: transparent;
+  --day-border-color-focused: var(--color-bus);
+  --day-border-color-hovered: transparent;
+  --day-border-color-selected: transparent;
+  --day-color: var(--color-black);
+  --day-color-disabled: #6d7278;
+  --day-color-focused: var(--color-black);
+  --day-color-hovered: var(--color-black);
+  --day-color-selected: var(--color-white);
+  --day-size: var(--spacing-xl);
   --datepicker-background-color: var(--color-white);
-  --icon-calendar-width: 24px;
-  --width-error-icon: 1.5rem;
-  --spacing-input: var(--spacing-s);
   --datepicker-container-padding: 1rem;
-  --datepicker-zindex: 101;
+  --datepicker-z-index: 101;
+  --icon-width: var(--spacing-m);
+  --input-spacing: var(--spacing-s);
+  --month-title-color: var(--color-black);
+  --times-divider-border-color: var(--color-black-10);
+  --times-list-width: 110px;
+  --time-item-background-color: transparent;
+  --time-item-background-color-selected: rgba(0, 0, 0, 0.1);
 }
 
 .datepickerWrapper {
@@ -20,7 +35,7 @@
     text-align: center;
     line-height: 1.7rem;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
-    z-index: var(--datepicker-zindex);
+    z-index: var(--datepicker-z-index);
     top: 100%;
     position: absolute;
     background-color: var(--datepicker-background-color);
@@ -33,12 +48,12 @@
   .monthNavigation {
     display: flex;
     justify-content: space-between;
-    margin: 0.5rem 0;
-    padding: 0 0.8rem;
+    margin: var(--spacing-2-xs) 0;
+    padding: 0 var(--spacing-xs);
   }
 
   .currentMonth {
-    font-size: 1rem;
+    font-size: var(--fontsize-body-m);
     color: var(--month-title-color);
     font-weight: 500;
     text-transform: capitalize;
@@ -52,7 +67,7 @@
   .weekdayRow {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    padding: 0.5rem 0;
+    padding: var(--spacing-2-xs) 0;
     font-weight: 500;
     text-transform: uppercase;
   }
@@ -61,33 +76,42 @@
     color: var(--close-button-color);
     font-weight: 500;
     width: 100%;
-    margin: 0.8rem 0 0 0;
+    margin: var(--spacing-xs) 0 0 0;
   }
 
   .dayButton {
-    padding: 0.3rem;
+    padding: var(--spacing-3-xs);
     font-weight: 500;
-    border: 1px solid transparent;
-    width: 2.5rem;
-    height: 2.5rem;
+    border: 1px solid var(--day-border-color);
+    width: var(--day-size);
+    height: var(--day-size);
+    background-color: var(--day-background-color);
+    color: var(--day-color);
 
     &:hover {
-      background-color: var(--hovered-day-background-color);
+      background-color: var(--day-background-color-hovered);
+      border-color: var(--day-border-color-hovered);
+      color: var(--day-color-hovered);
     }
   }
 
   .daySelected {
-    background-color: var(--selected-day-background-color) !important;
-    color: var(--selected-day-color);
+    background-color: var(--day-background-color-selected);
+    border-color: var(--day-border-color-selected);
+    color: var(--day-color-selected);
   }
 
   .dayDisabled {
-    color: var(--disabled-day-color);
+    background-color: var(--day-background-color-disabled);
+    border-color: var(--day-border-color-disabled);
+    color: var(--day-color-disabled);
     font-weight: normal;
   }
 
   .dayToday {
-    border: 1px solid var(--focused-day-border-color);
+    background-color: var(--day-background-color-focused);
+    border-color: var(--day-border-color-focused);
+    color: var(--day-color-focused);
   }
 
   .monthNavButton {
@@ -99,27 +123,31 @@
   }
 
   .datepickerInput {
-    padding-right: calc(
-      var(--icon-calendar-width) + var(--width-error-icon)
-    ) !important;
+    padding-right: calc(2 * var(--icon-width));
 
     &.invalid {
       padding-right: calc(
-        var(--icon-calendar-width) + var(--width-error-icon) +
-          var(--spacing-input)
+        2 * var(--icon-width) + var(--input-spacing)
       ) !important;
     }
   }
 
-  .iconCalendar {
+  .calendarButton {
     position: absolute;
-    width: var(--icon-calendar-width);
-    top: 26%;
-    right: var(--spacing-input);
+    right: 0;
+    padding: 0 var(--spacing-s);
+    height: var(--calendar-button-height);
+    right: 0;
+    width: auto;
+
+    svg {
+      height: var(--icon-width);
+      width: var(--icon-width);
+    }
   }
 
   .timesDivider {
-    border-left: 1px solid #d8d8d8;
+    border-left: 1px solid var(--times-divider-border-color);
     margin-left: var(--datepicker-container-padding);
   }
 
@@ -127,8 +155,7 @@
     position: absolute;
     text-align: left;
     width: 100%;
-
-    padding: 0 var(--datepicker-container-padding);
+    padding: 0;
   }
 
   .timesListContainer {
@@ -137,17 +164,18 @@
     margin: calc(var(--datepicker-container-padding) * -1)
       calc(var(--datepicker-container-padding) * -1)
       calc(var(--datepicker-container-padding) * -1) 0;
-    width: 110px;
+    width: var(--times-list-width);
   }
 
   .timeItem {
-    padding: 0.4rem 0.7rem;
+    padding: var(--spacing-2-xs) var(--spacing-xs);
     width: 100%;
     text-align: left;
     border: 1px solid transparent;
+    background-color: var(--time-item-background-color);
 
     &.selectedTimeItem {
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: var(--time-item-background-color-selected);
     }
   }
 }

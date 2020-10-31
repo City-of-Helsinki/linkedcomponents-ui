@@ -1548,10 +1548,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@datepicker-react/hooks@2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@datepicker-react/hooks/-/hooks-2.4.0.tgz#415745b6af5cc796ebcc9f70519009ae5c3397f9"
-  integrity sha512-gTLl5eFjGyjRjS8j5rmt1zIikUa2nbpXDpkuOS+7J2j2ByEkhvAjv0IyjH3/T6MMD2pO8YHSl79cJwRDK3wQww==
+"@datepicker-react/hooks@2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@datepicker-react/hooks/-/hooks-2.7.0.tgz#2f5b00dfc6b5439fdb8c902d39893669a2f04009"
+  integrity sha512-LdtrwTcwB7xzRwb++C66b9VOexeP0xa4K4WMvuSplD0hW4Uah5fOLZW+IJJaZEH1jDX++PFzEPQ6QxWNiFPrZA==
   dependencies:
     date-fns "^2.14.0"
 
