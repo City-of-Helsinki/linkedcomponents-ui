@@ -153,8 +153,8 @@ const Datepicker: React.FC<DatepickerProps> = ({
   };
 
   const closeCalendar = React.useCallback(() => {
-    ensureCalendarIsClosed();
     inputRef.current?.focus();
+    ensureCalendarIsClosed();
   }, [ensureCalendarIsClosed]);
 
   const handleInputFocus = () => {
@@ -219,8 +219,8 @@ const Datepicker: React.FC<DatepickerProps> = ({
       newDate.setHours(time.hours);
       newDate.setMinutes(time.minutes);
 
-      onChange(newDate);
       closeCalendar();
+      onChange(newDate);
     },
     [closeCalendar, onChange, value]
   );
@@ -256,9 +256,10 @@ const Datepicker: React.FC<DatepickerProps> = ({
 
     switch (event.key) {
       case 'Escape':
-        ensureCalendarIsClosed();
+        closeCalendar();
         break;
       case 'ArrowDown':
+      case 'ArrowUp':
         ensureCalendarIsOpen();
         break;
     }

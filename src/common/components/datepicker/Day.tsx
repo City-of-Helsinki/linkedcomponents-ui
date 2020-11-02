@@ -41,7 +41,7 @@ const Day: React.FC<{ date: Date; dayLabel: string }> = ({
     if (isDateFocused(date)) {
       dayRef.current?.focus();
     }
-  }, [dayRef, date, isDateFocused]);
+  }, [date, dayRef, isDateFocused]);
 
   const { disabledDate, onClick, onMouseEnter, tabIndex } = useDay({
     date,
