@@ -2150,6 +2150,11 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@juggle/resize-observer@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.2.0.tgz#5e0b448d27fe3091bae6216456512c5904d05661"
+  integrity sha512-fsLxt0CHx2HCV9EL8lDoVkwHffsA0snUpddYjdLyXcG5E41xaamn9ZyQqOE9TUJdrRlH8/hjIf+UdOdDeKCUgg==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -2183,6 +2188,11 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
+
+"@popperjs/core@2.5.3":
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.5.3.tgz#4982b0b66b7a4cf949b86f5d25a8cf757d3cfd9d"
+  integrity sha512-RFwCobxsvZ6j7twS7dHIZQZituMIDJJNHS/qY6iuthVebxS3zhRY+jaC2roEKiAYaVuTcGmX6Luc6YBcf6zJVg==
 
 "@reach/observe-rect@^1.1.0":
   version "1.2.0"
@@ -8043,23 +8053,26 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hds-core@0.14.0, hds-core@^0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.14.0.tgz#e89e193d5d7a8f7c47d62afa334f724f48f88211"
-  integrity sha512-WGKQcMGf8J3zNszafOvmvTM1QMZpVmiaUfxhq60cw+QXMObf7ePoG0EBhLYP+/d7086ctHm1sf0nlYY7T+3JZg==
+hds-core@0.15.0, hds-core@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.15.0.tgz#45af5486882f96d01c446a07a3d7c58f987f25aa"
+  integrity sha512-O0WLaId+ZkdLPQOvVR91JjQ/xhrbHwREthPKjHjH+ULp4O/JjmjsCBIrcbncE3ZZFh+MGuC/+gd/kXOb5+DJiA==
 
-hds-react@^0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-0.14.0.tgz#ae901fe85a24de2b651723ce9360806d2cc0eb8f"
-  integrity sha512-DTq5Zxcsxa2dADDG0+V3PNkuLP91QDeA0Rw+XH+34ETm+Aw0Crb7yFesvoQqRnjxflOoEtNqkxs55zK9TQ786Q==
+hds-react@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-0.15.0.tgz#a4bd90d6874ff64a4ab0d36374d7f686c1838a15"
+  integrity sha512-CG1ISYo8ZTHxhBkVix+rV0J83XHCjvuTYCqQA2KxkKjJHo8OnKq6Wwz2mqb17wak0jY4dhyFRI+NQInDi/cwIQ==
   dependencies:
     "@babel/runtime" "7.11.2"
+    "@juggle/resize-observer" "3.2.0"
+    "@popperjs/core" "2.5.3"
     "@react-aria/visually-hidden" "3.2.0"
     downshift "6.0.6"
-    hds-core "0.14.0"
+    hds-core "0.15.0"
     lodash.isequal "4.5.0"
     lodash.uniqueid "4.0.1"
     react-merge-refs "1.1.0"
+    react-popper "2.2.3"
     react-spring "9.0.0-rc.3"
     react-use-measure "2.0.1"
     react-virtual "2.2.7"
@@ -12710,7 +12723,7 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-fast-compare@^3.1.1:
+react-fast-compare@^3.0.1, react-fast-compare@^3.1.1:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
@@ -12747,6 +12760,14 @@ react-merge-refs@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
   integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
+
+react-popper@2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-2.2.3.tgz#33d425fa6975d4bd54d9acd64897a89d904b9d97"
+  integrity sha512-mOEiMNT1249js0jJvkrOjyHsGvqcJd3aGW/agkiMoZk3bZ1fXN1wQszIQSjHIai48fE67+zwF8Cs+C4fWqlfjw==
+  dependencies:
+    react-fast-compare "^3.0.1"
+    warning "^4.0.2"
 
 react-router-dom@^5.2.0:
   version "5.2.0"
@@ -15399,6 +15420,13 @@ walker@^1.0.7, walker@~1.0.5:
   integrity sha1-L3+bj9ENZ3JisYqITijRlhjgKPs=
   dependencies:
     makeerror "1.0.x"
+
+warning@^4.0.2:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
+  integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
+  dependencies:
+    loose-envify "^1.0.0"
 
 watchpack-chokidar2@^2.0.0:
   version "2.0.0"

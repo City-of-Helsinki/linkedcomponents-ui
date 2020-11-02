@@ -1,6 +1,9 @@
 {
   "appName": "Linked Components",
   "common": {
+    "combobox": {
+      "toggleButtonAriaLabel": "Menyn"
+    },
     "datepicker": {
       "accessibility": {
         "buttonCalendar": "Kalendar",
@@ -194,11 +197,11 @@
       "sv": "På svenska"
     },
     "languageSelectorAriaLabel": "Svenska - språkval",
-    "menuCloseAriaLabel": "Stäng menyn",
-    "menuOpenAriaLabel": "Öppna menyn",
+    "menuToggleAriaLabel": "Menyn",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
       "createEvent": "Nytt evenemang",
+      "events": "Evenemangen",
       "help": "Läs mer",
       "searchEvent": "Sök evenemangen"
     }

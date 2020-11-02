@@ -7,11 +7,11 @@
   --circle-background-color-completed: var(--color-bus);
   --circle-border-color-completed: var(--color-bus);
   --circle-color-completed: var(--color-white);
-  --circle-background-color-disabled: var(--color-bus-light-20);
-  --circle-border-color-disabled: var(--color-bus-light-20);
+  --circle-background-color-disabled: var(--color-bus-light);
+  --circle-border-color-disabled: var(--color-bus-light);
   --circle-color-disabled: var(--color-white);
   --circle-size: 35px;
-  --connection-line-color: var(--color-bus-light-20);
+  --connection-line-color: var(--color-bus-light);
   --label-color: var(--color-black-90);
 
   .content {
@@ -74,6 +74,9 @@
 
       @include medium-up {
         grid-template-columns: auto auto;
+        button {
+          width: max-content;
+        }
       }
     }
 

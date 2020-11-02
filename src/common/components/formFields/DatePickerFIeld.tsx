@@ -13,7 +13,7 @@ type Props = {
 } & FieldProps &
   Omit<TextInputProps, 'form'>;
 
-const DatePickerField: React.FC<Props> = ({
+const DatepickerField: React.FC<Props> = ({
   className,
   field: { name, onChange, onBlur, ...field },
   form,
@@ -62,4 +62,4 @@ const DatePickerField: React.FC<Props> = ({
   );
 };
 
-export default DatePickerField;
+export default DatepickerField;

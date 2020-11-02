@@ -1,6 +1,9 @@
 {
   "appName": "Linked Components",
   "common": {
+    "combobox": {
+      "toggleButtonAriaLabel": "Valikko"
+    },
     "datepicker": {
       "accessibility": {
         "buttonCalendar": "Kalenteri",
@@ -194,11 +197,11 @@
       "sv": "På svenska"
     },
     "languageSelectorAriaLabel": "Suomi - kielivalikko",
-    "menuCloseAriaLabel": "Sulje valikko",
-    "menuOpenAriaLabel": "Avaa valikko",
+    "menuToggleAriaLabel": "Valikko",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
       "createEvent": "Uusi tapahtuma",
+      "events": "Tapahtumat",
       "help": "Lisätietoja",
       "searchEvent": "Etsi tapahtumia"
     }

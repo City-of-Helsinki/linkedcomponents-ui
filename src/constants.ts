@@ -1,5 +1,6 @@
 export enum ROUTES {
   CREATE_EVENT = '/event/create',
+  EVENTS = '/events',
   HELP = '/help',
   HOME = '/',
   SEARCH = '/search',

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { Navigation } from 'hds-react';
+import { Navigation } from 'hds-react/components/Navigation';
+import { IconPlus } from 'hds-react/icons';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
@@ -35,10 +36,10 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     }));
   }, [t]);
 
-  const formatSelectedValue = ({ value }: OptionType): string =>
-    value.toUpperCase();
-
-  const changeLanguage = (newLanguage: OptionType) => {
+  const changeLanguage = (newLanguage: OptionType) => (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    event.preventDefault();
     history.push({
       pathname: updateLocaleParam(location.pathname, locale, newLanguage.value),
       search: location.search,
@@ -58,8 +59,8 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
 
   const navigationItems = [
     {
-      label: t('navigation.tabs.createEvent'),
-      url: `/${locale}${ROUTES.CREATE_EVENT}`,
+      label: t('navigation.tabs.events'),
+      url: `/${locale}${ROUTES.EVENTS}`,
     },
     {
       label: t('navigation.tabs.searchEvent'),
@@ -71,12 +72,19 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     },
   ];
 
+  const addEventItem = {
+    label: t('navigation.tabs.createEvent'),
+    url: `/${locale}${ROUTES.CREATE_EVENT}`,
+  };
+
+  const showAddButton =
+    location.pathname !== `/${locale}${ROUTES.CREATE_EVENT}`;
+
   return (
     <Navigation
       menuOpen={menuOpen}
       onMenuToggle={onMenuToggle}
-      menuCloseAriaLabel={t('navigation.menuCloseAriaLabel')}
-      menuOpenAriaLabel={t('navigation.menuOpenAriaLabel')}
+      menuToggleAriaLabel={t('navigation.menuToggleAriaLabel')}
       skipTo={`${location.pathname}${location.search}#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('navigation.skipToContentLabel')}
       className={classNames(css(theme.navigation), styles.navigation)}
@@ -90,23 +98,45 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
           <Navigation.Item
             key={index}
             active={isTabActive(item.url)}
+            className={styles.navigationItem}
             href={item.url}
             label={item.label}
             onClick={goToPage(item.url)}
           />
         ))}
+        <Navigation.Item
+          active={isTabActive(addEventItem.url)}
+          className={classNames(styles.navigationItem, styles.addEventItem, {
+            [styles.hidden]: !showAddButton,
+          })}
+          href={addEventItem.url}
+          label={
+            <span className={styles.navigationItemLabel}>
+              <IconPlus />
+              {addEventItem.label}
+            </span>
+          }
+          onClick={goToPage(addEventItem.url)}
+        />
       </Navigation.Row>
       <Navigation.Actions>
         <Navigation.LanguageSelector
-          ariaLabel={t('navigation.languageSelectorAriaLabel')}
-          className={css(theme.languageSelector)}
-          formatSelectedValue={formatSelectedValue}
-          onLanguageChange={changeLanguage}
-          options={languageOptions}
-          value={
-            languageOptions.find((item) => locale === item.value) as OptionType
-          }
-        />
+          buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
+          className={classNames(
+            styles.languageSelector,
+            css(theme.languageSelector)
+          )}
+          label={t(`navigation.languages.${locale}`)}
+        >
+          {languageOptions.map((option) => (
+            <Navigation.Item
+              href="#"
+              lang={option.value}
+              label={option.label}
+              onClick={changeLanguage(option)}
+            />
+          ))}
+        </Navigation.LanguageSelector>
       </Navigation.Actions>
     </Navigation>
   );

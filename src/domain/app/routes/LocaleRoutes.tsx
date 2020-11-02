@@ -44,6 +44,11 @@ const LocaleRoutes: React.FC<Props> = ({
         />
         <Route
           exact
+          path={getLocelePath(ROUTES.EVENTS)}
+          component={EventsPage}
+        />
+        <Route
+          exact
           path={getLocelePath(ROUTES.SEARCH)}
           component={EventsPage}
         />

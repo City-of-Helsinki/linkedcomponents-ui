@@ -1,7 +1,33 @@
+@import 'breakpoints';
+
 .navigation {
-  nav {
-    a {
-      color: var(--navigation-item-color) !important;
+  .navigationItem {
+    color: var(--navigation-item-color) !important;
+  }
+  .addEventItem {
+    margin-left: auto !important;
+
+    &.hidden {
+      visibility: hidden;
+    }
+
+    svg {
+      margin-right: var(--spacing-xs);
+    }
+  }
+  .navigationItemLabel {
+    display: flex;
+    align-items: center;
+  }
+
+  .languageSelector {
+    @include small-down {
+      position: absolute;
+      right: var(--spacing-5-xl);
+    }
+    & > div {
+      left: unset;
+      right: 0;
     }
   }
 }

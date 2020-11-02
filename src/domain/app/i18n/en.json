@@ -1,6 +1,9 @@
 {
   "appName": "Linked Components",
   "common": {
+    "combobox": {
+      "toggleButtonAriaLabel": "Menu"
+    },
     "datepicker": {
       "accessibility": {
         "buttonCalendar": "Calendar",
@@ -194,11 +197,11 @@
       "sv": "På svenska"
     },
     "languageSelectorAriaLabel": "English - language selection",
-    "menuCloseAriaLabel": "Close menu",
-    "menuOpenAriaLabel": "Open menu",
+    "menuToggleAriaLabel": "Menu",
     "skipToContentLabel": "Skip to content",
     "tabs": {
       "createEvent": "New event",
+      "events": "Events",
       "help": "More information",
       "searchEvent": "Search events"
     }
