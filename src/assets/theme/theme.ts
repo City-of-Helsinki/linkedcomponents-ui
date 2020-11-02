@@ -140,6 +140,11 @@ const theme: Theme = {
     '--connection-line-color': 'var(--color-bus-light-20)',
     '--label-color': 'var(--color-black-90)',
   },
+  formLanguageSelector: {
+    '--form-language-selector-color-icon': 'var(--color-success)',
+    '--form-language-selector-grid-gap': 'var(--spacing-m)',
+    '--form-language-selector-padding-top': '28px',
+  },
   layout: {
     '--page-background-color': 'var(--color-white)',
   },

@@ -61,6 +61,7 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
                 aria-label={item.label}
                 role="link"
                 tabIndex={item.disabled ? undefined : 0}
+                type="button"
                 onClick={handleItemClick(item, index)}
               >
                 <div className={styles.circleWrapper}>

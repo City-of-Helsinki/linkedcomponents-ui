@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
-import { EVENT_INITIALVALUES } from './constants';
+import { EVENT_INITIAL_VALUES } from './constants';
 import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
+import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
 import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
 import TypeSection from './formSections/typeSection/TypeSection';
@@ -15,22 +16,25 @@ import { createValidationSchema } from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
-  const validationSchema = createValidationSchema();
 
   return (
-    <PageWrapper className={styles.eventPage} title="createEventPage.pageTitle">
-      <Formik
-        initialValues={EVENT_INITIALVALUES}
-        onSubmit={(values) => {
-          console.log('TODO: Submit event form with values: ', values);
-        }}
-        validationSchema={validationSchema}
-      >
-        {() => {
-          return (
-            <Form>
+    <Formik
+      initialValues={EVENT_INITIAL_VALUES}
+      onSubmit={(values) => {
+        console.log('TODO: Submit event form with values: ', values);
+      }}
+      validationSchema={createValidationSchema}
+      validateOnMount
+    >
+      {({ values: { type } }) => {
+        return (
+          <Form>
+            <PageWrapper
+              className={styles.eventPage}
+              title={`createEventPage.pageTitle.${type}`}
+            >
               <Container>
-                <h1>{t('createEventPage.title')}</h1>
+                <h1>{t(`createEventPage.title.${type}`)}</h1>
               </Container>
               <EventNavigation
                 items={[
@@ -48,6 +52,11 @@ const CreateEventPage: React.FC = () => {
                     component: <ResponsibilitiesSection />,
                     isCompleted: false,
                     label: t('event.navigation.steps.responsibilities'),
+                  },
+                  {
+                    component: <DescriptionSection />,
+                    isCompleted: false,
+                    label: t('event.navigation.steps.description'),
                   },
                   {
                     component: <LoadingSpinner isLoading={true} />,
@@ -96,11 +105,11 @@ const CreateEventPage: React.FC = () => {
                   },
                 ]}
               ></EventNavigation>
-            </Form>
-          );
-        }}
-      </Formik>
-    </PageWrapper>
+            </PageWrapper>
+          </Form>
+        );
+      }}
+    </Formik>
   );
 };
 

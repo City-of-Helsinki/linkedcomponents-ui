@@ -12,6 +12,12 @@ export enum SUPPORTED_LANGUAGES {
   EN = 'en',
 }
 
+export enum CHARACTER_LIMITS {
+  SHORT_STRING = 160,
+  MEDIUM_STRING = 320,
+  LONG_STRING = 5000,
+}
+
 export const EXTLINK = {
   EXTLINK_FACEBOOK: 'extlink_facebook',
   EXTLINK_INSTAGRAM: 'extlink_instagram',

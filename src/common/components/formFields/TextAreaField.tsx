@@ -1,15 +1,15 @@
 import { FieldProps, useField } from 'formik';
-import { TextInputProps } from 'hds-react/components/TextInput';
+import { TextAreaProps } from 'hds-react/components/Textarea';
 import isNil from 'lodash/isNil';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { getStringErrorText } from '../../../utils/validationUtils';
-import TextInput from '../textInput/TextInput';
+import TextArea from '../textArea/TextArea';
 
-type Props = FieldProps & TextInputProps;
+type Props = FieldProps & TextAreaProps;
 
-const TextInputField: React.FC<Props> = ({
+const TextAreaField: React.FC<Props> = ({
   field: { name, value, ...field },
   form,
   helperText,
@@ -31,7 +31,7 @@ const TextInputField: React.FC<Props> = ({
     : undefined;
 
   return (
-    <TextInput
+    <TextArea
       {...rest}
       {...field}
       id={name}
@@ -44,4 +44,4 @@ const TextInputField: React.FC<Props> = ({
   );
 };
 
-export default TextInputField;
+export default TextAreaField;

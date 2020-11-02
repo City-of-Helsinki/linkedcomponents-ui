@@ -62,6 +62,12 @@ type EventNavigationCSSProperties = {
   '--label-color'?: string;
 };
 
+type FormLanguageSelectorCSSProperties = {
+  '--form-language-selector-color-icon'?: string;
+  '--form-language-selector-grid-gap'?: string;
+  '--form-language-selector-padding-top'?: string;
+};
+
 type LanguageSelectorCSSProperties = {
   '--dropdown-background-default'?: string;
   '--dropdown-border-color-default'?: string;
@@ -192,6 +198,7 @@ export type Theme = {
   };
   checkbox: CheckboxCSSProperties;
   eventNavigation: EventNavigationCSSProperties;
+  formLanguageSelector: FormLanguageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;
@@ -218,6 +225,7 @@ const defaultTheme: Theme = {
   button: {},
   checkbox: {},
   eventNavigation: {},
+  formLanguageSelector: {},
   languageSelector: {},
   layout: {},
   loadingSpinner: {},

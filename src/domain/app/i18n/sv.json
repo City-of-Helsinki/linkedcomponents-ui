@@ -6,8 +6,14 @@
   },
   "createEventPage": {
     "buttonSaveDraft": "Spara utkast",
-    "pageTitle": "Nytt evenemang",
-    "title": "Nytt evenemang"
+    "pageTitle": {
+      "course": "Nytt kurs",
+      "event": "Nytt evenemang"
+    },
+    "title": {
+      "course": "Nytt kurs",
+      "event": "Nytt evenemang"
+    }
   },
   "event": {
     "form": {
@@ -22,18 +28,59 @@
       },
       "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
-      "labelHasUmbrella": "Detta evenemang har ett paraplyevenemang.",
-      "labelIsUmbrella": "Detta evenemang är ett paraplyevenemang.",
-      "labelProvider": "Evenemangarrangör (om det är annorlunda än utgivaren)",
+      "labelDescription": {
+        "course": "Beskrivning av kursen {{langText}}",
+        "event": "Beskrivning av evenemanget {{langText}}"
+      },
+      "labelHasUmbrella": {
+        "course": "Detta kurs har ett paraplyevenemang.",
+        "event": "Detta evenemang har ett paraplyevenemang."
+      },
+      "labelInfoUrl": {
+        "course": "Webbadressen till kursens hemsida {{langText}}",
+        "event": "Webbadressen till evenemangets hemsida {{langText}}"
+      },
+      "labelIsUmbrella": {
+        "course": "Detta kurs är ett paraplyevenemang.",
+        "event": "Detta evenemang är ett paraplyevenemang."
+      },
+      "labelName": {
+        "course": "Kursens title {{langText}}",
+        "event": "Evenemangs title {{langText}}"
+       },
+      "labelProvider": {
+        "course": "Kursarrangör {{langText}} (om det är annorlunda än utgivaren)",
+        "event": "Evenemangarrangör {{langText}} (om det är annorlunda än utgivaren)"
+      },
+      "labelShortDescription": {
+        "course": "Kort beskrivning {{langText}} (upp till 160 tecken)",
+        "event": "Kort beskrivning {{langText}} (upp till 160 tecken)"
+      },
       "labelUmbrellaEvent": "Paraplyevenemang",
       "notificationTitleType": "Evenemangtyp",
+      "placeholderDescription": {
+        "course": "Ange en beskrivning av kursen",
+        "event": "Ange en beskrivning av evenemanget"
+      },
+      "placeholderInfoUrl": {
+        "course": "Enter the URL of the course home page",
+        "event": "Enter the URL of the event home page"
+      },
+      "placeholderName": {
+        "course": "Ange webbadressen till kursens hemsida",
+        "event": "Ange webbadressen till evenemangets hemsida"
+      },
       "placeholderProvider": {
-        "ar": "Ange arrangörens namn på arabiska",
-        "en": "Ange arrangörens namn på engelska",
-        "fi": "Ange arrangörens namn på finska",
-        "ru": "Ange arrangörens namn på ryska",
-        "sv": "Ange arrangörens namn på svenska",
-        "zh_hans": "Ange arrangörens namn på kinesiska"
+        "course": "Ange kursarrangörens namn",
+        "event": "Ange evenemangsarrangörens namn"
+      },
+      "placeholderShortDescription": {
+        "course": "Ange en kort beskrivning av kursen",
+        "event": "Ange en kort beskrivning av evenemanget"
+      },
+      "titleDescription": {
+        "course": "Kursbeskrivning",
+        "event": "Evenemangbeskrivning"
       },
       "titleEventType": "Välj en evenemangtyp",
       "titleInfoLanguages": {
@@ -44,16 +91,10 @@
         "course": "Kursspråk (kontrollspråk)",
         "event": "Evenemangsspråk (kontrollspråk)"
       },
+      "titleLanguageVersions": "Språkversioner",      
+      
       "titlePersonsInCharge": "Ansvariga person(er)",
       "titleUmrellaEvent": "Paraplyevenemangen"
-    },
-    "language": {
-      "ar": "På arabiska",
-      "en": "På engelska",
-      "fi": "På finska",
-      "ru": "På ryska",
-      "sv": "På svenska",
-      "zh_hans": "På kinesiska"
     },
     "navigation": {
       "buttonNext": "Nästa",
@@ -61,6 +102,7 @@
       "steps": {
         "classification": "Klassificering",
         "commitment": "Engagemang",
+        "description": "Beskrivning",
         "languages": "Språk",
         "media": "Media",
         "place": "Plats",
@@ -81,6 +123,22 @@
     "pageTitle": "Sök evenemangen"
   },
   "form": {
+    "inLanguage": {
+      "ar": "På arabiska",
+      "en": "På engelska",
+      "fi": "På finska",
+      "ru": "På ryska",
+      "sv": "På svenska",
+      "zh_hans": "På kinesiska"
+    },
+    "language": {
+      "ar": "Arabiska",
+      "en": "Engelska",
+      "fi": "Finska",
+      "ru": "Ryska",
+      "sv": "Svenska",
+      "zh_hans": "Kinesiska"
+    },
     "validation": {
       "date": {
         "future": "Detta datum måste vara i framtiden",
@@ -94,13 +152,15 @@
         "required": "Detta fält krävs"
       },
       "string": {
+        "charsLeft": "{{count}} tecken kvar",
+        "charsLeft_plural": "{{count}} tecken kvar",
         "date": "This field must be valid date",
         "email": "Detta fält måste vara en giltig e-postmeddelande",
         "max": "Detta fält kan vara upp till {{max}} tecken långt",
         "min": "Detta fält måste vara minst {{min}} tecken långt",
         "required": "Detta fält krävs",
         "time": "Tid måste ges i följande format hh:mm",
-        "url": "Detta fält måste vara en giltig URL"
+        "url": "Ange URL i rätt format (http: // ...)"
       },
       "time": {
         "max": "Den här tiden måste vara innan {{max}}",

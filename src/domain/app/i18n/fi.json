@@ -6,8 +6,14 @@
   },
   "createEventPage": {
     "buttonSaveDraft": "Tallenna luonnos",
-    "pageTitle": "Uusi tapahtuma",
-    "title": "Uusi tapahtuma"
+    "pageTitle": {
+      "course": "Uusi kurssi",
+      "event": "Uusi tapahtuma"
+    },
+    "title": {
+      "course": "Uusi kurssi",
+      "event": "Uusi tapahtuma"
+    }
   },
   "event": {
     "form": {
@@ -22,18 +28,59 @@
       },
       "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
-      "labelHasUmbrella": "Tällä tapahtumalla on kattotapahtuma.",
-      "labelIsUmbrella": "Tämä tapahtuma on kattotapahtuma.",
-      "labelProvider": "Tapahtuman järjestäjä (jos eri kuin julkaisija)",
+      "labelDescription": {
+        "course": "Kurssin kuvaus {{langText}}",
+        "event": "Tapahtuman kuvaus {{langText}}"
+      },
+      "labelHasUmbrella": {
+        "course": "Tällä kurssilla on kattotapahtuma.",
+        "event": "Tällä tapahtumalla on kattotapahtuma."
+      },
+      "labelInfoUrl": {
+        "course": "Kurssin kotisivun URL {{langText}}",
+        "event": "Tapahtuman kotisivun URL {{langText}}"
+      },
+      "labelIsUmbrella": { 
+        "course": "Tämä kurssi on kattotapahtuma.",
+        "event": "Tämä tapahtuma on kattotapahtuma."
+      },
+      "labelName": {
+        "course": "Kurssin otsikko {{langText}}",
+        "event": "Tapahtuman otsikko {{langText}}"
+      },
+      "labelProvider": {
+        "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
+        "event": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)"
+      },
+      "labelShortDescription": {
+        "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
+        "event": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
+      },
       "labelUmbrellaEvent": "Kattotapahtuma",
       "notificationTitleType": "Tapahtumatyyppi",
+      "placeholderDescription": {
+        "course": "Syötä kurssin kuvaus",
+        "event": "Syötä tapahtuman kuvaus"
+      },
+      "placeholderInfoUrl": {
+        "course": "Syötä kurssin kotisivun URL",
+        "event": "Syötä tapahtuman kotisivun URL"
+      },
+      "placeholderName": {
+        "course": "Syötä kurssin otsikko",
+        "event": "Syötä tapahtuman otsikko"
+      },
       "placeholderProvider": {
-          "ar": "Syötä tapahtuman järjestäjän nimi arabiaksi",
-          "en": "Syötä tapahtuman järjestäjän nimi englanniksi",
-          "fi": "Syötä tapahtuman järjestäjän nimi suomeksi",
-          "ru": "Syötä tapahtuman järjestäjän nimi venäjäksi",
-          "sv": "Syötä tapahtuman järjestäjän nimi ruotsiksi",
-          "zh_hans": "Syötä tapahtuman järjestäjän nimi kiinaksi"
+          "course": "Syötä kurssin järjestäjän nimi",
+          "event": "Syötä tapahtuman järjestäjän nimi"
+      },
+      "placeholderShortDescription": {
+        "course": "Syötä kurssin lyhyt kuvaus",
+        "event": "Syötä tapahtuman lyhyt kuvaus"
+      },
+      "titleDescription": {
+        "course": "Kurssin kuvaus",
+        "event": "Tapahtuman kuvaus"
       },
       "titleEventType": "Valitse tapahtumatyyppi",
       "titleInfoLanguages": {
@@ -44,16 +91,9 @@
         "course": "Kurssin kielet (ohjauskielet)",
         "event": "Tapahtuman kielet (ohjauskielet)"
       },
+      "titleLanguageVersions": "Kieliversiot",
       "titlePersonsInCharge": "Vastuuhenkilöt",
       "titleUmrellaEvent": "Kattotapahtumat"
-    },
-    "language": {
-      "ar": "Arabiaksi",
-      "en": "Englanniksi",
-      "fi": "Suomeksi",
-      "ru": "Venäjäksi",
-      "sv": "Ruotsiksi",
-      "zh_hans": "Kiinaksi"
     },
     "navigation": {
       "buttonNext": "Seuraava",
@@ -61,6 +101,7 @@
       "steps": {
         "classification": "Luokittelu",
         "commitment": "Sitoomus",
+        "description": "Kuvaus",
         "languages": "Kielet",
         "media": "Media",
         "place": "Paikka",
@@ -81,6 +122,22 @@
     "pageTitle": "Etsi tapahtumia"
   },
   "form": {
+    "inLanguage": {
+      "ar": "Arabiaksi",
+      "en": "Englanniksi",
+      "fi": "Suomeksi",
+      "ru": "Venäjäksi",
+      "sv": "Ruotsiksi",
+      "zh_hans": "Kiinaksi"
+    },
+    "language": {
+      "ar": "Arabia",
+      "en": "Englanti",
+      "fi": "Suomi",
+      "ru": "Venäjä",
+      "sv": "Ruotsi",
+      "zh_hans": "Kiina"
+    },
     "validation": {
       "date": {
         "future": "Tämän kentän on oltava tulevaisuudessa",
@@ -94,13 +151,15 @@
         "required": "Tämä kenttä on pakollinen"
       },
       "string": {
+        "charsLeft": "{{count}} merkki jäljellä",
+        "charsLeft_plural": "{{count}} merkkiä jäljellä",
         "date": "Tämän kentän on oltava kelvollinen päivämäärä",
         "email": "Tämän kentän on oltava kelvollinen sähköpostiosoite",
         "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
         "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
         "required": "Tämä kenttä on pakollinen",
         "time": "Ajan tulee olla muotoa hh:mm",
-        "url": "Tämän kentän on oltava kelvollinen URL-osoite"
+        "url": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)"
       },
 
       "time": {

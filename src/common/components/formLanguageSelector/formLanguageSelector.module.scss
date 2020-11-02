@@ -1,0 +1,18 @@
+@import 'breakpoints';
+
+.formLanguageSelector {
+  --form-language-selector-color-icon: var(--color-success);
+  --form-language-selector-grid-gap: var(--spacing-m);
+  --form-language-selector-padding-top: 28px;
+
+  display: grid;
+  grid-gap: var(--form-language-selector-grid-gap);
+
+  @include medium-up {
+    padding-top: var(--form-language-selector-padding-top);
+  }
+
+  .icon {
+    color: var(--form-language-selector-color-icon);
+  }
+}
