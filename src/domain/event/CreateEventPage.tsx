@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import Container from '../app/layout/Container';
 import PageWrapper from '../app/layout/PageWrapper';
-import { EVENT_INITIALVALUES } from './constants';
+import { EVENT_INITIAL_VALUES } from './constants';
 import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
 import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
@@ -19,7 +19,7 @@ const CreateEventPage: React.FC = () => {
 
   return (
     <Formik
-      initialValues={EVENT_INITIALVALUES}
+      initialValues={EVENT_INITIAL_VALUES}
       onSubmit={(values) => {
         console.log('TODO: Submit event form with values: ', values);
       }}
