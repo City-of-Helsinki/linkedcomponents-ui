@@ -14,7 +14,7 @@ type FieldLabelProps = {
   tooltipText?: string;
 };
 
-export const FieldLabel = ({
+const FieldLabel = ({
   hidden,
   inputId,
   label,
@@ -44,3 +44,5 @@ export const FieldLabel = ({
     )}
   </>
 );
+
+export default FieldLabel;

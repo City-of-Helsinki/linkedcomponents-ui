@@ -33,7 +33,7 @@ const TimesList = React.forwardRef<HTMLDivElement, TimesListProps>(
             datetime.getHours() === time.hours &&
             datetime.getMinutes() === time.minutes
         );
-        return index < 0 ? 0 : index;
+        return Math.max(0, index);
       }
 
       return 0;

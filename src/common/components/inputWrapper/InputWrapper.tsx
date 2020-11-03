@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { FieldLabel } from '../fieldLabel/FieldLabel';
+import FieldLabel from '../fieldLabel/FieldLabel';
 import styles from './inputWrapper.module.scss';
 
 type InputWrapperProps = {
