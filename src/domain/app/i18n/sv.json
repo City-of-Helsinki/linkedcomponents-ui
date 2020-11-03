@@ -15,6 +15,14 @@
       },
       "buttonClose": "Stäng"
     },
+    "dropdownSelect": {
+      "accessibility": {
+        "noResults": "Inga alternativ är tillgängliga",
+        "selectionMessage": "{{value}} har valts.",
+        "statusMessage": "{{count}} alternativet är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja.",
+        "statusMessage_plural": "{{count}} alternativ är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja."
+      }
+    },
     "showLess": "Visa mindre",
     "showMore": "Visa mer"
   },

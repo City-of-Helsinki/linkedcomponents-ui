@@ -6,7 +6,7 @@ export const formatTime = ({ hours, minutes }: TimeObject): string => {
   return `${hour}.${minute}`;
 };
 
-export const getTimes = (interval = 15): string[] => {
+export const getTimes = (interval: number): string[] => {
   const times = [];
 
   for (let h = 0; h < 24; h += 1) {
@@ -18,7 +18,7 @@ export const getTimes = (interval = 15): string[] => {
   return times;
 };
 
-export const getTimeObjects = (interval = 15): TimeObject[] => {
+export const getTimeObjects = (interval: number): TimeObject[] => {
   const times: TimeObject[] = [];
 
   for (let h = 0; h < 24; h += 1) {

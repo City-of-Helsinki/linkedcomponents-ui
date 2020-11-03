@@ -15,6 +15,14 @@
       },
       "buttonClose": "Close"
     },
+    "dropdownSelect": {
+      "accessibility": {
+        "noResults": "No options are available",
+        "selectionMessage": "{{value}} has been selected.",
+        "statusMessage": "{{count}} option is available, use up and down arrow keys to navigate. Press Enter key to select.",
+        "statusMessage_plural": "{{count}} options are available, use up and down arrow keys to navigate. Press Enter key to select."
+      }
+    },
     "showLess": "Show less",
     "showMore": "Show more"
   },
