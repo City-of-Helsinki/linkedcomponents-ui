@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DatepickerField from '../../../../common/components/formFields/DatepickerField';
+import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
 import { EVENT_FIELDS } from '../../constants';
@@ -16,7 +17,7 @@ const TypeSection = () => {
       <h3>{t(`event.form.titleTime.${type}`)}</h3>
 
       <InputRow info={<Notification label={'TODO'} type="info"></Notification>}>
-        <div>
+        <FormGroup>
           <Field
             component={DatepickerField}
             name={EVENT_FIELDS.START_TIME}
@@ -25,8 +26,8 @@ const TypeSection = () => {
             required={true}
             timeSelector={true}
           />
-        </div>
-        <div>
+        </FormGroup>
+        <FormGroup>
           <Field
             component={DatepickerField}
             name={EVENT_FIELDS.END_TIME}
@@ -35,7 +36,7 @@ const TypeSection = () => {
             required={true}
             timeSelector={true}
           />
-        </div>
+        </FormGroup>
       </InputRow>
     </>
   );

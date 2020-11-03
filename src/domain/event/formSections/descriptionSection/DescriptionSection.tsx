@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import TextAreaField from '../../../../common/components/formFields/TextAreaField';
 import TextInputField from '../../../../common/components/formFields/TextInputField';
+import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import FormLanguageSelector from '../../../../common/components/formLanguageSelector/FormLanguageSelector';
 import { CHARACTER_LIMITS } from '../../../../constants';
 import lowercaseFirstLetter from '../../../../utils/lowercaseFirstLetter';
@@ -75,7 +76,7 @@ const DescriptionSection = () => {
       <div className={styles.formFieldsWrapper}>
         <h3>{t(`event.form.titleDescription.${type}`)}</h3>
         <div className={styles.splittedRow}>
-          <div>
+          <FormGroup>
             <Field
               component={TextInputField}
               label={t(`event.form.labelName.${type}`, {
@@ -85,8 +86,8 @@ const DescriptionSection = () => {
               placeholder={t(`event.form.placeholderName.${type}`)}
               required={true}
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Field
               component={TextInputField}
               label={t(`event.form.labelInfoUrl.${type}`, {
@@ -95,10 +96,10 @@ const DescriptionSection = () => {
               name={`${EVENT_FIELDS.INFO_URL}.${selectedLanguage}`}
               placeholder={t(`event.form.placeholderInfoUrl.${type}`)}
             />
-          </div>
+          </FormGroup>
         </div>
 
-        <div className={styles.row}>
+        <FormGroup>
           <Field
             component={TextInputField}
             label={t(`event.form.labelShortDescription.${type}`, {
@@ -109,8 +110,8 @@ const DescriptionSection = () => {
             maxLength={CHARACTER_LIMITS.SHORT_STRING}
             required={true}
           />
-        </div>
-        <div className={styles.row}>
+        </FormGroup>
+        <FormGroup>
           <Field
             component={TextAreaField}
             label={t(`event.form.labelDescription.${type}`, {
@@ -121,7 +122,7 @@ const DescriptionSection = () => {
             maxLength={CHARACTER_LIMITS.LONG_STRING}
             required={true}
           />
-        </div>
+        </FormGroup>
       </div>
     </div>
   );
