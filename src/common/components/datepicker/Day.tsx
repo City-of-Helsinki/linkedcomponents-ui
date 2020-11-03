@@ -78,7 +78,7 @@ const Day: React.FC<{ date: Date; dayLabel: string }> = ({
     onDateFocus(getNextDate(nextDate));
   };
 
-  // @datepicker-react/hooks asslo to set focus to disabled dates, so override onKeyDown function here
+  // @datepicker-react/hooks allows to set focus to disabled dates, so override onKeyDown function here
   // and prevent it here
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === 'ArrowRight') {

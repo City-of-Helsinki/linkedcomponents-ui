@@ -27,9 +27,9 @@ import Month from './Month';
 import MonthNavButton from './MonthNavButton';
 import TimesList from './TimesList';
 
-function generateUniqueId(prefix = 'datepicker-id') {
+const generateUniqueId = (prefix: string) => {
   return `${prefix}-${uniqueId()}`;
-}
+};
 
 export type DatepickerProps = {
   maxBookingDate?: Date;
@@ -39,7 +39,7 @@ export type DatepickerProps = {
   onChange: (value?: Date | null) => void;
   timeSelector?: boolean;
   value: Date | null;
-} & Omit<TextInputProps, 'onChange'>;
+} & Omit<TextInputProps, 'onBlur' | 'onChange' | 'value'>;
 
 const Datepicker: React.FC<DatepickerProps> = ({
   className,
@@ -54,7 +54,6 @@ const Datepicker: React.FC<DatepickerProps> = ({
   minuteInterval,
   onBlur,
   onChange,
-  placeholder,
   required,
   style,
   timeSelector,
@@ -95,8 +94,8 @@ const Datepicker: React.FC<DatepickerProps> = ({
   const setNewDateWithTime = (previousDate: Date, newDate: Date) => {
     const hours = previousDate.getHours();
     const minutes = previousDate.getMinutes();
-    const date = new Date(newDate);
 
+    const date = new Date(newDate);
     date.setHours(hours);
     date.setMinutes(minutes);
 
