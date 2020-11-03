@@ -60,14 +60,10 @@ test('menu should be opened by clicking menu button', async () => {
   getWrapper();
 
   const button = screen.getByRole('button', {
-    name: translations.navigation.menuOpenAriaLabel,
+    name: translations.navigation.menuToggleAriaLabel,
   });
 
   userEvent.click(button);
 
-  expect(
-    screen.getByRole('button', {
-      name: translations.navigation.menuCloseAriaLabel,
-    })
-  ).toBeDefined();
+  expect(screen.getByRole('navigation')).toBeInTheDocument();
 });

@@ -130,6 +130,7 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
         >
           {languageOptions.map((option) => (
             <Navigation.Item
+              key={option.value}
               href="#"
               lang={option.value}
               label={option.label}
