@@ -46,6 +46,10 @@
         "course": "Beskrivning av kursen {{langText}}",
         "event": "Beskrivning av evenemanget {{langText}}"
       },
+      "labelEndTime": {
+        "course": "Kurs slutar",
+        "event": "Evenemang slutar"
+      },
       "labelHasUmbrella": {
         "course": "Detta kurs har ett paraplyevenemang.",
         "event": "Detta evenemang har ett paraplyevenemang."
@@ -70,12 +74,17 @@
         "course": "Kort beskrivning {{langText}} (upp till 160 tecken)",
         "event": "Kort beskrivning {{langText}} (upp till 160 tecken)"
       },
+      "labelStartTime": {
+        "course": "Kurs startar",
+        "event": "Evenemang startar"
+      },
       "labelUmbrellaEvent": "Paraplyevenemang",
       "notificationTitleType": "Evenemangtyp",
       "placeholderDescription": {
         "course": "Ange en beskrivning av kursen",
         "event": "Ange en beskrivning av evenemanget"
       },
+      "placeholderEndTime": "dd.mm.åååå hh.mm",
       "placeholderInfoUrl": {
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
@@ -92,6 +101,7 @@
         "course": "Ange en kort beskrivning av kursen",
         "event": "Ange en kort beskrivning av evenemanget"
       },
+      "placeholderStartTime": "dd.mm.åååå hh.mm",
       "titleDescription": {
         "course": "Kursbeskrivning",
         "event": "Evenemangbeskrivning"

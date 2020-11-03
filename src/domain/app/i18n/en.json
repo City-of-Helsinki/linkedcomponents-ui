@@ -46,6 +46,10 @@
         "course": "Description of the course {{langText}}",
         "event": "Description of the event {{langText}}"
       },
+      "labelEndTime": {
+        "course": "Course ends",
+        "event": "Event ends"
+      },
       "labelHasUmbrella": {
         "course": "This course has an umbrella event.",
         "event": "This event has an umbrella event."
@@ -70,12 +74,17 @@
         "course": "Short description {{langText}} (up to 160 characters)",
         "event": "Short description {{langText}} (up to 160 characters)"
       },
+      "labelStartTime": {
+        "course": "Course starts",
+        "event": "Event starts"
+      },
       "labelUmbrellaEvent": "Umbrella event",
       "notificationTitleType": "Event type",
       "placeholderDescription": {
         "course": "Enter a description of the course",
         "event": "Enter a description of the event"
       },
+      "placeholderEndTime": "dd.mm.yyyy hh.mm",
       "placeholderInfoUrl": {
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
@@ -92,11 +101,12 @@
         "course": "Enter a short description of the course",
         "event": "Enter a short description of the event"
       },
-      "titleEventType": "Select event type",
+      "placeholderStartTime": "dd.mm.yyyy hh.mm",
       "titleDescription": {
         "course": "Course description",
         "event": "Event description"
       },
+      "titleEventType": "Select event type",
       "titleInfoLanguages": {
         "course": "Course input languages",
         "event": "Event input languages"

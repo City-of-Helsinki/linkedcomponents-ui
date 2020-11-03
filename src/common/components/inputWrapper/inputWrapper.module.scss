@@ -1,14 +1,6 @@
 .root {
-  --icon-width: 1.5rem;
   composes: hds-text-input from '~hds-core/lib/components/text-input/text-input.css';
-}
-
-.label {
-  composes: hds-text-input__label from '~hds-core/lib/components/text-input/text-input.css';
-}
-
-.hiddenLabel {
-  composes: hiddenFromScreen from '~hds-core/lib/utils/helpers.css';
+  position: relative;
 }
 
 .inputWrapper {
@@ -23,31 +15,14 @@
   composes: hds-text-input__helper-text from '~hds-core/lib/components/text-input/text-input.css';
 }
 
+.invalid {
+  composes: hds-text-input--invalid from '~hds-core/lib/components/text-input/text-input.css';
+}
+
 .hasIcon {
   .inputWrapper {
     &::after {
       right: calc(var(--border-width) + var(--icon-width)) !important;
     }
   }
-}
-
-.requiredIndicator {
-  color: var(--color-black-90);
-  display: inline-block;
-  font-size: var(--fontsize-body-xl);
-  line-height: 1;
-  margin-left: var(--spacing-2-xs);
-  transform: translateY(var(--spacing-3-xs));
-}
-
-.invalidText {
-  composes: hds-text-input__helper-text from '~hds-core/lib/components/text-input/text-input.css';
-}
-
-.invalid {
-  composes: hds-text-input--invalid from '~hds-core/lib/components/text-input/text-input.css';
-}
-
-.readOnly {
-  composes: hds-text-input--read-only from '~hds-core/lib/components/text-input/text-input.css';
 }

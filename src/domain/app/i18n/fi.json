@@ -46,6 +46,10 @@
         "course": "Kurssin kuvaus {{langText}}",
         "event": "Tapahtuman kuvaus {{langText}}"
       },
+      "labelEndTime": {
+        "course": "Kurssi päättyy",
+        "event": "Tapahtuma päättyy"
+      },
       "labelHasUmbrella": {
         "course": "Tällä kurssilla on kattotapahtuma.",
         "event": "Tällä tapahtumalla on kattotapahtuma."
@@ -70,12 +74,17 @@
         "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
         "event": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
       },
+      "labelStartTime": {
+        "course": "Kurssi alkaa",
+        "event": "Tapahtuma alkaa"
+      },
       "labelUmbrellaEvent": "Kattotapahtuma",
       "notificationTitleType": "Tapahtumatyyppi",
       "placeholderDescription": {
         "course": "Syötä kurssin kuvaus",
         "event": "Syötä tapahtuman kuvaus"
       },
+      "placeholderEndTime": "dd.mm.vvvv hh.mm",
       "placeholderInfoUrl": {
         "course": "Syötä kurssin kotisivun URL",
         "event": "Syötä tapahtuman kotisivun URL"
@@ -92,6 +101,7 @@
         "course": "Syötä kurssin lyhyt kuvaus",
         "event": "Syötä tapahtuman lyhyt kuvaus"
       },
+      "placeholderStartTime": "dd.mm.vvvv hh.mm",
       "titleDescription": {
         "course": "Kurssin kuvaus",
         "event": "Tapahtuman kuvaus"

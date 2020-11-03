@@ -19,6 +19,9 @@ export enum CHARACTER_LIMITS {
   LONG_STRING = 5000,
 }
 
+export const DATE_FORMAT = 'dd.MM.yyyy';
+export const DATETIME_FORMAT = `${DATE_FORMAT} HH.mm`;
+
 export const EXTLINK = {
   EXTLINK_FACEBOOK: 'extlink_facebook',
   EXTLINK_INSTAGRAM: 'extlink_instagram',

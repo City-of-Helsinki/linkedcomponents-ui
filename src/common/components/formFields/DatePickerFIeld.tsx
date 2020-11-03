@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { FieldProps, useField } from 'formik';
 import { TextInputProps } from 'hds-react';
 import React from 'react';
@@ -14,11 +13,9 @@ type Props = {
   Omit<TextInputProps, 'form'>;
 
 const DatepickerField: React.FC<Props> = ({
-  className,
   field: { name, onChange, onBlur, ...field },
   form,
   helperText,
-  required,
   ...rest
 }) => {
   const { t } = useTranslation();
@@ -52,12 +49,11 @@ const DatepickerField: React.FC<Props> = ({
       {...field}
       {...rest}
       id={name}
-      required={required}
-      onChange={handleChange}
+      name={name}
       onBlur={handleBlur}
+      onChange={handleChange}
       helperText={errorText || helperText}
-      invalidText={errorText}
-      className={classNames(className)}
+      invalid={!!errorText}
     />
   );
 };

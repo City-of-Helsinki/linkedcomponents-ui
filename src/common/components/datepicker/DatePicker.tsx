@@ -14,18 +14,13 @@ import uniqueId from 'lodash/uniqueId';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { DATE_FORMAT, DATETIME_FORMAT } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import useLocale from '../../../hooks/useLocale';
 import InputWrapper from '../inputWrapper/InputWrapper';
 import inputStyles from '../inputWrapper/inputWrapper.module.scss';
 import { TimeObject } from '../timepicker/types';
-import {
-  DATE_FORMAT,
-  dateLocales,
-  dateRegex,
-  DATETIME_FORMAT,
-  datetimeRegex,
-} from './constants';
+import { dateLocales, dateRegex, datetimeRegex } from './constants';
 import styles from './datepicker.module.scss';
 import DatepickerContext from './datepickerContext';
 import Month from './Month';
@@ -37,17 +32,11 @@ function generateUniqueId(prefix = 'datepicker-id') {
 }
 
 export type DatepickerProps = {
-  className?: string;
-  hideLabel?: boolean;
-  id: string;
-  invalidText?: string;
-  labelText?: string;
   maxBookingDate?: Date;
   minBookingDate?: Date;
   minuteInterval?: number;
   onBlur: () => void;
   onChange: (value?: Date | null) => void;
-  required?: boolean;
   timeSelector?: boolean;
   value: Date | null;
 } & Omit<TextInputProps, 'onChange'>;
@@ -57,15 +46,21 @@ const Datepicker: React.FC<DatepickerProps> = ({
   helperText,
   hideLabel,
   id,
-  invalidText,
+  invalid,
+  label,
   labelText,
   maxBookingDate,
   minBookingDate = new Date(),
   minuteInterval,
   onBlur,
   onChange,
+  placeholder,
   required,
+  style,
   timeSelector,
+  tooltipButtonLabel,
+  tooltipLabel,
+  tooltipText,
   value,
   ...rest
 }) => {
@@ -301,6 +296,22 @@ const Datepicker: React.FC<DatepickerProps> = ({
     }
   }, [dateFormat, timeSelector, value]);
 
+  const wrapperProps = {
+    className: classNames(className, css(theme.datepicker)),
+    hasIcon: true,
+    helperText,
+    hideLabel,
+    id,
+    invalid,
+    label,
+    labelText,
+    required,
+    style,
+    tooltipLabel,
+    tooltipText,
+    tooltipButtonLabel,
+  };
+
   return (
     <DatepickerContext.Provider
       value={{
@@ -323,23 +334,14 @@ const Datepicker: React.FC<DatepickerProps> = ({
         className={styles.datepickerWrapper}
         onKeyDown={preventArrowKeyScroll}
       >
-        <InputWrapper
-          id={id}
-          className={classNames(className, css(theme.datepicker))}
-          hasIcon
-          helperText={invalidText || helperText}
-          hideLabel={hideLabel}
-          invalid={!!invalidText}
-          labelText={labelText}
-          required={required}
-        >
+        <InputWrapper {...wrapperProps}>
           <input
             {...rest}
             id={id}
             name={id}
             ref={inputRef}
             className={classNames(inputStyles.input, styles.datepickerInput, {
-              [styles.invalid]: !!invalidText,
+              [styles.invalid]: invalid,
             })}
             onBlur={handleInputBlur}
             onChange={handleInputChange}
@@ -363,9 +365,6 @@ const Datepicker: React.FC<DatepickerProps> = ({
               aria-modal="true"
               labelled-by={dialogLabelId}
             >
-              <p className="sr-only" aria-live="polite">
-                {labelText}
-              </p>
               <div className={styles.selectorsWrapper}>
                 <div>
                   <div className={styles.monthNavigation}>
