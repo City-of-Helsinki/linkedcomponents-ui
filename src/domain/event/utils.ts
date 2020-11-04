@@ -26,6 +26,37 @@ const createMultiLanguageFieldValidation = (
   );
 };
 
+const eventTimeValidation = {
+  [EVENT_FIELDS.START_TIME]: Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
+      startTime ? isFuture(startTime) : true
+    ),
+  [EVENT_FIELDS.END_TIME]: Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    // test that startsTime is before endsTime
+    .when(
+      [EVENT_FIELDS.START_TIME],
+      (startTime: Date | null, schema: Yup.DateSchema) => {
+        if (startTime) {
+          return schema.test(
+            'isBeforeStartTime',
+            () => ({
+              key: VALIDATION_MESSAGE_KEYS.TIME_MAX,
+              min: formatDate(startTime, DATETIME_FORMAT),
+            }),
+            (endTime) => {
+              return endTime ? isBefore(startTime, endTime) : true;
+            }
+          );
+        }
+        return schema;
+      }
+    ),
+};
+
 export const createValidationSchema = () => {
   return Yup.object().shape({
     [EVENT_FIELDS.TYPE]: Yup.string().required(
@@ -57,34 +88,10 @@ export const createValidationSchema = () => {
           createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
         )
     ),
-    [EVENT_FIELDS.START_TIME]: Yup.date()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-      .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-      .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-        startTime ? isFuture(startTime) : true
-      ),
-    [EVENT_FIELDS.END_TIME]: Yup.date()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-      .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-      // test that startsTime is before endsTime
-      .when(
-        [EVENT_FIELDS.START_TIME],
-        (startTime: Date | null, schema: Yup.DateSchema) => {
-          if (startTime) {
-            return schema.test(
-              'isBeforeStartTime',
-              () => ({
-                key: VALIDATION_MESSAGE_KEYS.TIME_MAX,
-                min: formatDate(startTime, DATETIME_FORMAT),
-              }),
-              (endTime) => {
-                return endTime ? isBefore(startTime, endTime) : true;
-              }
-            );
-          }
-          return schema;
-        }
-      ),
+    ...eventTimeValidation,
+    [EVENT_FIELDS.EVENT_TIMES]: Yup.array().of(
+      Yup.object().shape({ ...eventTimeValidation })
+    ),
   });
 };
 

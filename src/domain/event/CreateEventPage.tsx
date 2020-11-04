@@ -25,6 +25,8 @@ const CreateEventPage: React.FC = () => {
         console.log('TODO: Submit event form with values: ', values);
       }}
       validationSchema={createValidationSchema}
+      validateOnBlur={true}
+      validateOnChange={false}
       validateOnMount
     >
       {({ values: { type } }) => {
