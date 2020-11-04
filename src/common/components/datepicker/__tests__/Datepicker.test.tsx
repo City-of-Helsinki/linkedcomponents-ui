@@ -92,7 +92,7 @@ describe('<Datepicker />', () => {
     expect(selectedDateButton).toHaveClass('daySelected');
   });
 
-  it('show change date by typing', async () => {
+  it('should change date by typing', async () => {
     const placeholder = 'Datepicker placeholder';
     const onChange = jest.fn();
     renderDatepicker({ value: new Date(2020, 6, 5), onChange, placeholder });
@@ -109,13 +109,13 @@ describe('<Datepicker />', () => {
     userEvent.type(input, '06.07.2020');
     expect(onChange).toBeCalledWith(new Date(2020, 6, 6));
 
-    // Should return previous value is typing invalid date
+    // Should return previous value if typing invalid date
     userEvent.type(input, 'qwerty');
     pressKey({ key: 'Enter' });
     expect(onChange).toHaveBeenLastCalledWith(new Date(2020, 6, 6));
   });
 
-  it('show change date by typing when timeSelector is available', async () => {
+  it('should change date by typing when timeSelector is available', async () => {
     const placeholder = 'Datepicker placeholder';
     const onChange = jest.fn();
     renderDatepicker({

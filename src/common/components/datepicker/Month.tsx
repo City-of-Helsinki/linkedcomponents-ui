@@ -1,10 +1,8 @@
-import { useMonth } from '@datepicker-react/hooks';
+import { FirstDayOfWeek, useMonth } from '@datepicker-react/hooks';
 import React from 'react';
 
 import styles from './datepicker.module.scss';
 import Day from './Day';
-
-type FirstDayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6 | undefined;
 
 const Month: React.FC<{
   firstDayOfWeek: FirstDayOfWeek;

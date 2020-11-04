@@ -117,20 +117,20 @@ test('should and and delete event time', async () => {
   );
   expect(screen.getAllByRole('textbox', { name: endTimeName })).toHaveLength(1);
 
-  const addButtons = screen.getByRole('button', {
+  const addButton = screen.getByRole('button', {
     name: translations.event.form.buttonAddEventTime,
   });
-  userEvent.click(addButtons);
+  userEvent.click(addButton);
 
   expect(screen.getAllByRole('textbox', { name: startTimeName })).toHaveLength(
     2
   );
   expect(screen.getAllByRole('textbox', { name: endTimeName })).toHaveLength(2);
 
-  const deleteButtons = screen.getByRole('button', {
+  const deleteButton = screen.getByRole('button', {
     name: translations.event.form.buttonDeleteEventTime,
   });
-  userEvent.click(deleteButtons);
+  userEvent.click(deleteButton);
 
   expect(screen.getAllByRole('textbox', { name: startTimeName })).toHaveLength(
     1

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 export interface KeyboardNavigationProps {
   container: React.MutableRefObject<HTMLDivElement | null>;
@@ -39,14 +39,11 @@ const useDropdownKeyboardNavigation = ({
     [listLength]
   );
 
-  const isComponentFocused = useCallback(() => {
+  const isComponentFocused = React.useCallback(() => {
     const active = document.activeElement;
-    const current = container && container.current;
+    const current = container.current;
 
-    if (current && active instanceof Node && current.contains(active)) {
-      return true;
-    }
-    return false;
+    return !!current?.contains(active);
   }, [container]);
 
   const handleKeyDown = React.useCallback(
