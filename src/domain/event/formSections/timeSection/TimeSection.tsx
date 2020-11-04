@@ -8,8 +8,8 @@ import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
 import { useTheme } from '../../../app/theme/Theme';
 import { EVENT_FIELDS } from '../../constants';
-import Occasion from './Occasion';
-import Occasions from './Occasions';
+import EventTime from './EventTime';
+import EventTimes from './EventTimes';
 import styles from './timeSection.module.scss';
 
 const TypeSection = () => {
@@ -25,13 +25,19 @@ const TypeSection = () => {
         info={
           <Notification
             className={styles.notification}
-            label={'TODO'}
+            label={t(`event.form.notificationTitleEventTimes.${type}`)}
             type="info"
-          ></Notification>
+          >
+            <p>{t(`event.form.infoTextEventTimes1.${type}`)}</p>
+            <p>{t(`event.form.infoTextEventTimes2.${type}`)}</p>
+            <p>{t(`event.form.infoTextEventTimes3.${type}`)}</p>
+            <p>{t(`event.form.infoTextEventTimes4.${type}`)}</p>
+            <p>{t(`event.form.infoTextEventTimes5.${type}`)}</p>
+          </Notification>
         }
       >
-        <Occasion occasionPath="" type={type} />
-        <Occasions />
+        <EventTime eventTimePath="" type={type} />
+        <EventTimes />
       </InputRow>
     </div>
   );

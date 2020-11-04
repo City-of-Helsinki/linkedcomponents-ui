@@ -39,9 +39,29 @@
   },
   "event": {
     "form": {
-      "buttonAddOccasion": "Lisää uusi ajankohta",
-      "buttonDeleteOccasion": "Poista ajankohta",
+      "buttonAddEventTime": "Lisää uusi ajankohta",
+      "buttonDeleteEventTime": "Poista ajankohta",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
+      "infoTextEventTimes1": {
+        "course": "Useana päivänä toistuvan kurssin lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
+        "event": "Useana päivänä toistuvan tapahtuman lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu."
+      },
+      "infoTextEventTimes2": {
+        "course": "Kirjoita kurssin alkamispäivä ja myös alkamisaika, jos kurssi alkaa tiettyyn kellonaikaan.",
+        "event": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan."
+      },
+      "infoTextEventTimes3": {
+        "course": "Kirjoita myös päättymispäivä sekä päättymisaika, jos kurssi päättyy tiettyyn kellonaikaan.",
+        "event": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan."
+      },
+      "infoTextEventTimes4": {
+        "course": "Jos kurssi järjestetään useamman kerran, voit lisätä kurssille uusia ajankohtia. Jos kurssi toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva kurssi.",
+        "event": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma."
+      },
+      "infoTextEventTimes5": {
+        "course": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.",
+        "event": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin."
+      },
       "infoTextInfoLanguages": {
         "course": "Valitse kielet joita käytetään kurssitietojen syötössä.",
         "event": "Valitse kielet joita käytetään tapahtumatietojen syötössä."
@@ -90,6 +110,10 @@
       },
       "labelUmbrellaEvent": "Kattotapahtuma",
       "notificationTitleType": "Tapahtumatyyppi",
+      "notificationTitleEventTimes": {
+        "course": "Kurssin ajankohdat",
+        "event": "Tapahtuman ajankohdat"
+      },
       "placeholderDescription": {
         "course": "Syötä kurssin kuvaus",
         "event": "Syötä tapahtuman kuvaus"

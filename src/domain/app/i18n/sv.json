@@ -39,9 +39,29 @@
   },
   "event": {
     "form": {
-      "buttonAddOccasion": "Lägg till ett nytt tillfälle",
-      "buttonDeleteOccasion": "Ta bort tillfälle",
+      "buttonAddEventTime": "Lägg till ny tid",
+      "buttonDeleteEventTime": "Radera tid",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
+      "infoTextEventTimes1": {
+        "course": "För att lägga till en flerdagars återkommande kurs finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande kurs” -verktyg.",
+        "event": "För att lägga till en flerdagars återkommande evenemang finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande evenemang” -verktyg."
+      },
+      "infoTextEventTimes2": {
+        "course": "Ange starttid för kursen och även starttiden om kursen börjar vid en viss tidpunkt.",
+        "event": "Ange starttid för evenemanget och även starttiden om evenemanget börjar vid en viss tidpunkt."
+      },
+      "infoTextEventTimes3": {
+        "course": "Ange också sluttid samt sluttid om kursen slutar vid en viss tidpunkt.",
+        "event": "Ange också sluttid samt sluttid om evenemanget slutar vid en viss tidpunkt."
+      },
+      "infoTextEventTimes4": {
+        "course": "Om kursen hålls mer än en gång kan du lägga till nya tid i kursen. Om kursen upprepas regelbundet kan du lägga till alla gånger samtidigt genom att välja Återkommande kurs.",
+        "event": "Om evenemanget hålls mer än en gång kan du lägga till nya tid i evenemanget. Om evenemanget upprepas regelbundet kan du lägga till alla gånger samtidigt genom att välja Återkommande evenemang."
+      },
+      "infoTextEventTimes5": {
+        "course": "För att ta bort en extra tid, välj papperskorgen ikonen bredvid tiden.",
+        "event": "För att ta bort en extra tid, välj papperskorgen ikonen bredvid tiden."
+      },
       "infoTextInfoLanguages": {
         "course": "Välj de språk som används för att mata in kursinformation.",
         "event": "Välj de språk som används för att mata in evenemanginformation."
@@ -90,6 +110,10 @@
       },
       "labelUmbrellaEvent": "Paraplyevenemang",
       "notificationTitleType": "Evenemangtyp",
+      "notificationTitleEventTimes": {
+        "course": "Kurstider",
+        "event": "Evenemamgtider"
+      },
       "placeholderDescription": {
         "course": "Ange en beskrivning av kursen",
         "event": "Ange en beskrivning av evenemanget"
@@ -129,8 +153,8 @@
       
       "titlePersonsInCharge": "Ansvariga person(er)",
       "titleTime": {
-        "course": "Kursdatum",
-        "event": "Evenemangdatum"
+        "course": "Kurstider",
+        "event": "Evenemangtider"
       },
       "titleUmrellaEvent": "Paraplyevenemangen"
     },

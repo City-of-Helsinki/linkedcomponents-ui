@@ -6,32 +6,32 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../../../common/components/button/Button';
 import { EVENT_FIELDS } from '../../constants';
 import { EventTime as EventTimeType } from '../../types';
-import { getEmptyOccasion } from '../../utils';
-import EventTime from './Occasion';
+import { getEmptyEventTime } from '../../utils';
+import EventTime from './EventTime';
 import TimeSectionRow from './TimeSectionRow';
 
-const getOccasionPath = (index: number) =>
-  `${EVENT_FIELDS.OCCASIONS}[${index}]`;
+const getEventTimePath = (index: number) =>
+  `${EVENT_FIELDS.EVENT_TIMES}[${index}]`;
 
-const Occasions = () => {
+const EventTimes = () => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({
     name: EVENT_FIELDS.TYPE,
   });
   const [{ value: eventTimes }] = useField({
-    name: EVENT_FIELDS.OCCASIONS,
+    name: EVENT_FIELDS.EVENT_TIMES,
   });
 
   return (
     <FieldArray
-      name={EVENT_FIELDS.OCCASIONS}
+      name={EVENT_FIELDS.EVENT_TIMES}
       render={(arrayHelpers) => (
         <div>
-          {eventTimes.map((event: EventTimeType, index: number) => {
+          {eventTimes.map((eventTime: EventTimeType, index: number) => {
             return (
               <EventTime
-                occasionPath={getOccasionPath(index)}
+                eventTimePath={getEventTimePath(index)}
                 onDelete={() => arrayHelpers.remove(index)}
                 type={type}
               />
@@ -42,11 +42,11 @@ const Occasions = () => {
               <Button
                 type="button"
                 fullWidth={true}
-                onClick={() => arrayHelpers.push(getEmptyOccasion())}
+                onClick={() => arrayHelpers.push(getEmptyEventTime())}
                 iconLeft={<IconPlus />}
                 variant="primary"
               >
-                {t('event.form.buttonAddOccasion')}
+                {t('event.form.buttonAddEventTime')}
               </Button>
             }
           />
@@ -56,4 +56,4 @@ const Occasions = () => {
   );
 };
 
-export default Occasions;
+export default EventTimes;

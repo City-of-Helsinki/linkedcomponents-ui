@@ -39,9 +39,29 @@
   },
   "event": {
     "form": {
-      "buttonAddOccasion": "Add new occasion",
-      "buttonDeleteOccasion": "Delete occasion",
+      "buttonAddEventTime": "Add new time",
+      "buttonDeleteEventTime": "Delete time",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
+      "infoTextEventTimes1": {
+        "course": "To add a multi-day recurring course, there is an “Add New Time” button and a regular “Recurring Course” tool for a regularly recurring course.",
+        "event": "To add a multi-day recurring event, there is an “Add New Time” button and a regular “Recurring Event” tool for a regularly recurring event."
+      },
+      "infoTextEventTimes2": {
+        "course": "Enter the start date of the course and also the start time if the course starts at a specific time.",
+        "event": "Enter the start date of the event and also the start time if the event starts at a specific time."
+      },
+      "infoTextEventTimes3": {
+        "course": "Also enter the end date as well as the end time if the course ends at a specific time.",
+        "event": "Also enter the end date as well as the end time if the event ends at a specific time."
+      },
+      "infoTextEventTimes4": {
+        "course": "If the course is held more than once, you can add new dates to the course. If the course repeats regularly, you can add all times at once by selecting Recurring Course.",
+        "event": "If the event is held more than once, you can add new dates to the event. If the event repeats regularly, you can add all times at once by selecting Recurring Event."
+      },
+      "infoTextEventTimes5": {
+        "course": "To delete an extra time, select the trash can icon next to the time.",
+        "event": "To delete an extra time, select the trash can icon next to the time."
+      },
       "infoTextInfoLanguages": {
         "course": "Select the languages used for entering course information.",
         "event": "Select the languages used for entering event information."
@@ -90,6 +110,10 @@
       },
       "labelUmbrellaEvent": "Umbrella event",
       "notificationTitleType": "Event type",
+      "notificationTitleEventTimes": {
+        "course": "Course times",
+        "event": "Event times"
+      },
       "placeholderDescription": {
         "course": "Enter a description of the course",
         "event": "Enter a description of the event"

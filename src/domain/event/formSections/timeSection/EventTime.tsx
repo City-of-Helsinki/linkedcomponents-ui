@@ -9,12 +9,12 @@ import { EVENT_FIELDS } from '../../constants';
 import TimeSectionRow from './TimeSectionRow';
 
 type Props = {
-  occasionPath: string;
+  eventTimePath: string;
   onDelete?: () => void;
   type: string;
 };
 
-const Occasion: React.FC<Props> = ({ occasionPath, onDelete, type }) => {
+const EventTime: React.FC<Props> = ({ eventTimePath, onDelete, type }) => {
   const { t } = useTranslation();
 
   return (
@@ -24,7 +24,7 @@ const Occasion: React.FC<Props> = ({ occasionPath, onDelete, type }) => {
           <FormGroup>
             <Field
               component={DatepickerField}
-              name={`${occasionPath}.${EVENT_FIELDS.START_TIME}`}
+              name={`${eventTimePath}.${EVENT_FIELDS.START_TIME}`}
               label={t(`event.form.labelStartTime.${type}`)}
               placeholder={t('event.form.placeholderStartTime')}
               required={true}
@@ -34,7 +34,7 @@ const Occasion: React.FC<Props> = ({ occasionPath, onDelete, type }) => {
           <FormGroup>
             <Field
               component={DatepickerField}
-              name={`${occasionPath}.${EVENT_FIELDS.END_TIME}`}
+              name={`${eventTimePath}.${EVENT_FIELDS.END_TIME}`}
               label={t(`event.form.labelEndTime.${type}`)}
               placeholder={t('event.form.placeholderEndTime')}
               required={true}
@@ -55,4 +55,4 @@ const Occasion: React.FC<Props> = ({ occasionPath, onDelete, type }) => {
   );
 };
 
-export default Occasion;
+export default EventTime;

@@ -117,7 +117,7 @@ const languageWeight = (lang: string): number => {
 export const sortLanguage = (a: OptionType, b: OptionType) =>
   languageWeight(a.value) - languageWeight(b.value);
 
-export const getEmptyOccasion = (): EventTime => {
+export const getEmptyEventTime = (): EventTime => {
   return {
     [EVENT_FIELDS.END_TIME]: null,
     [EVENT_FIELDS.START_TIME]: null,
