@@ -11,6 +11,7 @@ import queryBuilder from '../../utils/queryBuilder';
 import { createStringError } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { EVENT_FIELDS } from './constants';
+import { EventTime } from './types';
 
 const createMultiLanguageFieldValidation = (
   rule: Yup.Schema<string | null | undefined>
@@ -115,3 +116,10 @@ const languageWeight = (lang: string): number => {
 
 export const sortLanguage = (a: OptionType, b: OptionType) =>
   languageWeight(a.value) - languageWeight(b.value);
+
+export const getEmptyOccasion = (): EventTime => {
+  return {
+    [EVENT_FIELDS.END_TIME]: null,
+    [EVENT_FIELDS.START_TIME]: null,
+  };
+};

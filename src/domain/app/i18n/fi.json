@@ -39,6 +39,8 @@
   },
   "event": {
     "form": {
+      "buttonAddOccasion": "Lisää uusi ajankohta",
+      "buttonDeleteOccasion": "Poista ajankohta",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "infoTextInfoLanguages": {
         "course": "Valitse kielet joita käytetään kurssitietojen syötössä.",

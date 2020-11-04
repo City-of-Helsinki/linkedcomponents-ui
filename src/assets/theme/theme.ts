@@ -157,6 +157,11 @@ const theme: Theme = {
     '--time-item-background-color': 'transparent',
     '--time-item-background-color-selected': 'rgba(0, 0, 0, 0.1)',
   },
+  deleteButton: {
+    '--delete-button-color': 'var(--color-error)',
+    '--delete-button-height': '56px',
+    '--delete-button-padding': 'var(--spacing-s)',
+  },
   eventNavigation: {
     '--circle-background-color': 'transparent',
     '--circle-border-color': 'var(--color-bus)',
@@ -344,6 +349,21 @@ const theme: Theme = {
     '--label-color-invalid': 'var(--color-black-90)',
     '--placeholder-color': 'var(--color-black-60)',
     '--focus-outline-color': 'var(--color-coat-of-arms)',
+  },
+  timeSection: {
+    '--button-wrapper-min-width': '56px',
+    '--input-max-width': '566px',
+    '--label-height': '28px',
+  },
+  timepicker: {
+    '--menu-background-color': 'var(--color-white)',
+    '--menu-border-color': 'var(--input-border-color-default)',
+    '--menu-max-height': '20rem',
+    '--menu-z-index': 101,
+    '--menu-item-background-color': 'transparent',
+    '--menu-item-background-color-highlighted': 'var(--color-black-10)',
+    '--menu-item-fontsize': 'var(--fontsize-body-l)',
+    '--menu-item-spacing': 'var(--spacing-s)',
   },
 };
 

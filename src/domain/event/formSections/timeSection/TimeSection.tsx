@@ -1,44 +1,39 @@
-import { Field, useField } from 'formik';
+import classNames from 'classnames';
+import { css } from 'emotion';
+import { useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DatepickerField from '../../../../common/components/formFields/DatepickerField';
-import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
+import { useTheme } from '../../../app/theme/Theme';
 import { EVENT_FIELDS } from '../../constants';
+import Occasion from './Occasion';
+import Occasions from './Occasions';
+import styles from './timeSection.module.scss';
 
 const TypeSection = () => {
+  const { theme } = useTheme();
   const { t } = useTranslation();
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);
 
   return (
-    <>
+    <div className={classNames(styles.timeSection, css(theme.timeSection))}>
       <h3>{t(`event.form.titleTime.${type}`)}</h3>
 
-      <InputRow info={<Notification label={'TODO'} type="info"></Notification>}>
-        <FormGroup>
-          <Field
-            component={DatepickerField}
-            name={EVENT_FIELDS.START_TIME}
-            label={t(`event.form.labelStartTime.${type}`)}
-            placeholder={t('event.form.placeholderStartTime')}
-            required={true}
-            timeSelector={true}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Field
-            component={DatepickerField}
-            name={EVENT_FIELDS.END_TIME}
-            label={t(`event.form.labelEndTime.${type}`)}
-            placeholder={t('event.form.placeholderEndTime')}
-            required={true}
-            timeSelector={true}
-          />
-        </FormGroup>
+      <InputRow
+        info={
+          <Notification
+            className={styles.notification}
+            label={'TODO'}
+            type="info"
+          ></Notification>
+        }
+      >
+        <Occasion occasionPath="" type={type} />
+        <Occasions />
       </InputRow>
-    </>
+    </div>
   );
 };
 

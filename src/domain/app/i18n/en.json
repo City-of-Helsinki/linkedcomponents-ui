@@ -39,6 +39,8 @@
   },
   "event": {
     "form": {
+      "buttonAddOccasion": "Add new occasion",
+      "buttonDeleteOccasion": "Delete occasion",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextInfoLanguages": {
         "course": "Select the languages used for entering course information.",

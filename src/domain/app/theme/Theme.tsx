@@ -79,6 +79,12 @@ type DatepickerCSSProperties = {
   '--time-item-background-color-selected'?: string;
 };
 
+type DeleteButtonCSSProperties = {
+  '--delete-button-color'?: string;
+  '--delete-button-height'?: string;
+  '--delete-button-padding'?: string;
+};
+
 type EventNavigationCSSProperties = {
   '--circle-background-color'?: string;
   '--circle-border-color'?: string;
@@ -219,6 +225,23 @@ type TextInputCSSProperties = {
   '--focus-outline-color'?: string;
 };
 
+type TimeSectionCSSProperties = {
+  '--button-wrapper-min-width'?: string;
+  '--input-max-width'?: string;
+  '--label-height'?: string;
+};
+
+type TimepickerCSSProperties = {
+  '--menu-background-color'?: string;
+  '--menu-border-color'?: string;
+  '--menu-max-height'?: string;
+  '--menu-z-index'?: number;
+  '--menu-item-background-color'?: string;
+  '--menu-item-background-color-highlighted'?: string;
+  '--menu-item-fontsize'?: string;
+  '--menu-item-spacing'?: string;
+};
+
 export type Theme = {
   button: {
     primary?: ButtonCSSProperties;
@@ -229,6 +252,7 @@ export type Theme = {
   };
   checkbox: CheckboxCSSProperties;
   datepicker: DatepickerCSSProperties;
+  deleteButton: DeleteButtonCSSProperties;
   eventNavigation: EventNavigationCSSProperties;
   formLanguageSelector: FormLanguageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
@@ -251,12 +275,15 @@ export type Theme = {
   radioButton: RadioButtonCSSProperties;
   select: SelectCSSProperties;
   textInput: TextInputCSSProperties;
+  timeSection: TimeSectionCSSProperties;
+  timepicker: TimepickerCSSProperties;
 };
 
 const defaultTheme: Theme = {
   button: {},
   checkbox: {},
   datepicker: {},
+  deleteButton: {},
   eventNavigation: {},
   formLanguageSelector: {},
   languageSelector: {},
@@ -267,6 +294,8 @@ const defaultTheme: Theme = {
   radioButton: {},
   select: {},
   textInput: {},
+  timeSection: {},
+  timepicker: {},
 };
 
 type ThemeContext = { setTheme: (theme: Theme) => void; theme: Theme };

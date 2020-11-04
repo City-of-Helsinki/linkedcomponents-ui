@@ -39,6 +39,8 @@
   },
   "event": {
     "form": {
+      "buttonAddOccasion": "Lägg till ett nytt tillfälle",
+      "buttonDeleteOccasion": "Ta bort tillfälle",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "infoTextInfoLanguages": {
         "course": "Välj de språk som används för att mata in kursinformation.",

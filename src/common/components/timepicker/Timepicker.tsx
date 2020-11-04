@@ -1,9 +1,11 @@
 import classNames from 'classnames';
 import { useCombobox, UseComboboxState } from 'downshift';
+import { css } from 'emotion';
 import { TextInputProps } from 'hds-react/components/TextInput';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useTheme } from '../../../domain/app/theme/Theme';
 import {
   getA11ySelectionMessage,
   getA11yStatusMessage,
@@ -29,6 +31,7 @@ const Timepicker: React.FC<Props> = ({
   value,
   ...rest
 }) => {
+  const { theme } = useTheme();
   const [timesList] = React.useState(() => getTimes(minuteInterval));
   const [inputItems, setInputItems] = React.useState(timesList);
   // used to prevent onBlur being called when user is clicking menu item with mouse
@@ -89,7 +92,7 @@ const Timepicker: React.FC<Props> = ({
 
   return (
     <InputWrapper
-      className={classNames(styles.wrapper, className)}
+      className={classNames(styles.wrapper, className, css(theme.timepicker))}
       {...rest}
       {...labelProps}
       id={htmlFor}
