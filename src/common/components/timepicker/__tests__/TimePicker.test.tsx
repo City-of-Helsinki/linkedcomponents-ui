@@ -1,10 +1,12 @@
-import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import {
   arrowDownKeyPressHelper,
   enterKeyPressHelper,
+  render,
+  screen,
+  waitFor,
 } from '../../../../utils/testUtils';
 import Timepicker, { Props } from '../Timepicker';
 

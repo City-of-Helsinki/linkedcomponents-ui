@@ -31,6 +31,7 @@ const EventTimes = () => {
           {eventTimes.map((eventTime: EventTimeType, index: number) => {
             return (
               <EventTime
+                key={index}
                 eventTimePath={getEventTimePath(index)}
                 onDelete={() => arrayHelpers.remove(index)}
                 type={type}

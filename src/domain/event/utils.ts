@@ -35,7 +35,7 @@ const eventTimeValidation = {
     ),
   [EVENT_FIELDS.END_TIME]: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     // test that startsTime is before endsTime
     .when(
       [EVENT_FIELDS.START_TIME],
@@ -44,7 +44,7 @@ const eventTimeValidation = {
           return schema.test(
             'isBeforeStartTime',
             () => ({
-              key: VALIDATION_MESSAGE_KEYS.TIME_MAX,
+              key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
               min: formatDate(startTime, DATETIME_FORMAT),
             }),
             (endTime) => {
