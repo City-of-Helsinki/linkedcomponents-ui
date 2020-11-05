@@ -1,17 +1,20 @@
 import classNames from 'classnames';
+import capitalize from 'lodash/capitalize';
 import React from 'react';
 
+import { INPUT_MAX_WIDTHS } from '../../../constants';
 import styles from './inputWrapper.module.scss';
 
 type Columns = 6 | 10;
 type InputColumns = 4 | 5 | 6 | 7 | 8;
+type MaxWidth = INPUT_MAX_WIDTHS.MEDIUM | INPUT_MAX_WIDTHS.LARGE;
 type Offset = 0 | 1 | 2;
 
 type Props = {
   button?: React.ReactNode;
   columns: Columns;
   inputColumns: InputColumns;
-  minWidth?: string;
+  maxWidth?: MaxWidth;
   offset?: Offset;
 };
 
@@ -20,7 +23,7 @@ const InputWrapper: React.FC<Props> = ({
   children,
   columns,
   inputColumns,
-  minWidth,
+  maxWidth,
   offset = 0,
 }) => {
   return (
@@ -30,9 +33,10 @@ const InputWrapper: React.FC<Props> = ({
       <div
         className={classNames(
           styles[`inputColumns${inputColumns}`],
-          styles[`offset${offset}`]
+          styles[`offset${offset}`],
+          maxWidth && styles[`maxWidth${capitalize(maxWidth)}`]
         )}
-        style={{ minWidth }}
+        style={{ maxWidth }}
       >
         {children}
       </div>

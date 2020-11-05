@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import RadioButtonGroupField from '../../../../common/components/formFields/RadioButtonGroupField';
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
-import { INPUT_MIN_WIDTHS } from '../../../../constants';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { OptionType } from '../../../../types';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import InputWrapper from '../InputWrapper';
@@ -37,7 +37,7 @@ const TypeSection = () => {
         <InputWrapper
           columns={6}
           inputColumns={4}
-          minWidth={INPUT_MIN_WIDTHS.MEDIUM}
+          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
         >
           <Field
             name={EVENT_FIELDS.TYPE}

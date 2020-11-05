@@ -189,6 +189,11 @@ type RadioButtonCSSProperties = {
   '--label-color-disabled'?: string;
 };
 
+type RootCSSProperties = {
+  '--input-max-width-m'?: string;
+  '--input-max-width-l'?: string;
+};
+
 type SelectCSSProperties = {
   '--border-radius'?: string;
   '--border-width'?: string;
@@ -227,7 +232,6 @@ type TextInputCSSProperties = {
 
 type TimeSectionCSSProperties = {
   '--button-wrapper-min-width'?: string;
-  '--input-max-width'?: string;
   '--label-height'?: string;
 };
 
@@ -273,6 +277,7 @@ export type Theme = {
     };
   };
   radioButton: RadioButtonCSSProperties;
+  root: RootCSSProperties;
   select: SelectCSSProperties;
   textInput: TextInputCSSProperties;
   timeSection: TimeSectionCSSProperties;
@@ -292,6 +297,7 @@ const defaultTheme: Theme = {
   navigation: {},
   notification: {},
   radioButton: {},
+  root: {},
   select: {},
   textInput: {},
   timeSection: {},

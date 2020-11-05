@@ -6,7 +6,7 @@ import CheckboxField from '../../../../common/components/formFields/CheckboxFiel
 import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
 import UmbrellaEventSelectorField from '../../../../common/components/formFields/UmbrellaEventSelectorField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import { INPUT_MIN_WIDTHS } from '../../../../constants';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
 import InputWrapper from '../InputWrapper';
 
@@ -27,15 +27,15 @@ const LanguagesSection = () => {
     <>
       <InputWrapper
         columns={10}
-        inputColumns={4}
-        minWidth={INPUT_MIN_WIDTHS.MEDIUM}
+        inputColumns={8}
+        maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
       >
         <h3>{t('event.form.titlePersonsInCharge')}</h3>
         <MultiLanguageField
           labelKey={`event.form.labelProvider.${type}`}
           languages={eventInfoLanguages}
           name={EVENT_FIELDS.PROVIDER}
-          placeholderKey={t(`event.form.placeholderProvider.${type}`)}
+          placeholder={t(`event.form.placeholderProvider.${type}`)}
         />
         <h3>{t('event.form.titleUmrellaEvent')}</h3>
         <FormGroup>

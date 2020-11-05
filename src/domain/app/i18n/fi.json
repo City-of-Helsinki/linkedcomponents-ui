@@ -92,6 +92,7 @@
         "course": "Tämä kurssi on kattotapahtuma.",
         "event": "Tämä tapahtuma on kattotapahtuma."
       },
+      "labelLocationExtraInfo": "{{langText}}",
       "labelName": {
         "course": "Kurssin otsikko {{langText}}",
         "event": "Tapahtuman otsikko {{langText}}"
@@ -123,6 +124,7 @@
         "course": "Syötä kurssin kotisivun URL",
         "event": "Syötä tapahtuman kotisivun URL"
       },
+      "placeholderLocationExtraInfo": "Syötä lisätietoja tapahtumapaikasta {{langText}}",
       "placeholderName": {
         "course": "Syötä kurssin otsikko",
         "event": "Syötä tapahtuman otsikko"
@@ -150,6 +152,7 @@
         "event": "Tapahtuman kielet (ohjauskielet)"
       },
       "titleLanguageVersions": "Kieliversiot",
+      "titleLocationExtraInfo": "Paikan lisätiedot",
       "titlePersonsInCharge": "Vastuuhenkilöt",
       "titleTime": {
         "course": "Kurssin ajankohdat",

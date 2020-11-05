@@ -1,8 +1,6 @@
 @import 'breakpoints';
 
 .inputWrapper {
-  --inputColumnOffset: 0;
-
   display: grid;
   grid-gap: var(--spacing-m);
 
@@ -16,30 +14,48 @@
     }
 
     .inputColumns4 {
-      grid-column: calc(var(--inputColumnOffset) + 1) /
-        calc(var(--inputColumnOffset) + 5);
+      grid-column: calc(var(--input-column-offset) + 1) /
+        calc(var(--input-column-offset) + 5);
     }
 
     .inputColumns5 {
-      grid-column: calc(var(--inputColumnOffset) + 1) /
-        calc(var(--inputColumnOffset) + 6);
+      grid-column: calc(var(--input-column-offset) + 1) /
+        calc(var(--input-column-offset) + 6);
     }
 
     .inputColumns6 {
-      grid-column: calc(var(--inputColumnOffset) + 1) /
-        calc(var(--inputColumnOffset) + 7);
+      grid-column: calc(var(--input-column-offset) + 1) /
+        calc(var(--input-column-offset) + 7);
+    }
+
+    .inputColumns7 {
+      grid-column: calc(var(--input-column-offset) + 1) /
+        calc(var(--input-column-offset) + 8);
+    }
+
+    .inputColumns8 {
+      grid-column: calc(var(--input-column-offset) + 1) /
+        calc(var(--input-column-offset) + 9);
+    }
+
+    .maxWidthLarge {
+      max-width: var(--input-max-width-l);
+    }
+
+    .maxWidthMedium {
+      max-width: var(--input-max-width-m);
     }
 
     .offset0 {
-      --inputColumnOffset: 0;
+      --input-column-offset: 0;
     }
 
     .offset1 {
-      --inputColumnOffset: 1;
+      --input-column-offset: 1;
     }
 
     .offset2 {
-      --inputColumnOffset: 2;
+      --input-column-offset: 2;
     }
   }
 }

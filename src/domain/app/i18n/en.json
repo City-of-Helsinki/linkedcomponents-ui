@@ -92,6 +92,7 @@
         "course": "This course is an umbrella event.",
         "event": "This event is an umbrella event."
       },
+      "labelLocationExtraInfo": "{{langText}}",
       "labelName": {
         "course": "Course title {{langText}}",
         "event": "Event title {{langText}}"
@@ -123,6 +124,7 @@
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
       },
+      "placeholderLocationExtraInfo": "Enter more information about the venue {{langText}}",
       "placeholderName": {
         "course": "Enter the course title",
         "event": "Enter the event title"
@@ -151,6 +153,7 @@
       },
       
       "titleLanguageVersions": "Language versions",
+      "titleLocationExtraInfo": "Additional location information",
       "titlePersonsInCharge": "Person(s) in charge",
       "titleTime": {
         "course": "Course dates",

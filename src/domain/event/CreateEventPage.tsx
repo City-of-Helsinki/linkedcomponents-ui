@@ -11,6 +11,7 @@ import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
 import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
 import LanguagesSection from './formSections/languagesSection/LanguagesSection';
+import PlaceSection from './formSections/placeSection/PlaceSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
@@ -69,12 +70,12 @@ const CreateEventPage: React.FC = () => {
                       label: t('event.navigation.steps.time'),
                     },
                     {
-                      component: <LoadingSpinner isLoading={true} />,
+                      component: <PlaceSection />,
                       isCompleted: false,
                       label: t('event.navigation.steps.place'),
                     },
                     {
-                      component: <div>{t('event.navigation.steps.price')}</div>,
+                      component: <LoadingSpinner isLoading={true} />,
                       isCompleted: false,
                       label: t('event.navigation.steps.price'),
                     },

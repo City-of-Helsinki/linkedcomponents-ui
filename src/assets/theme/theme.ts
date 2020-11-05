@@ -280,6 +280,10 @@ const theme: Theme = {
     '--label-color': 'var(--color-black-90)',
     '--label-color-disabled': 'var(--color-black-40)',
   },
+  root: {
+    '--input-max-width-m': '448px',
+    '--input-max-width-l': '566px',
+  },
   select: {
     '--border-radius': '2px',
     '--border-width': '2px',
@@ -352,7 +356,6 @@ const theme: Theme = {
   },
   timeSection: {
     '--button-wrapper-min-width': '56px',
-    '--input-max-width': '448px',
     '--label-height': '28px',
   },
   timepicker: {

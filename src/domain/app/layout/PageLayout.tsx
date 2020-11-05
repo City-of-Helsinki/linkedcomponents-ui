@@ -23,9 +23,14 @@ const PageLayout: React.FC = ({ children }) => {
 
   return (
     <div
-      className={classNames(styles.pageLayout, css(theme.layout), {
-        [styles.menuOpen]: menuOpen,
-      })}
+      className={classNames(
+        styles.pageLayout,
+        css(theme.layout),
+        css(theme.root),
+        {
+          [styles.menuOpen]: menuOpen,
+        }
+      )}
     >
       <Helmet>
         <html lang={locale} />

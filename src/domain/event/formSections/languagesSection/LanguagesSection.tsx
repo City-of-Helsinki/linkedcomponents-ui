@@ -7,7 +7,7 @@ import LanguageCheckboxGroupField from '../../../../common/components/formFields
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import Notification from '../../../../common/components/notification/Notification';
-import { INPUT_MIN_WIDTHS } from '../../../../constants';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { useLanguagesQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
@@ -53,8 +53,8 @@ const LanguagesSection = () => {
       >
         <InputWrapper
           columns={6}
-          inputColumns={4}
-          minWidth={INPUT_MIN_WIDTHS.MEDIUM}
+          inputColumns={6}
+          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
         >
           <Field
             name={EVENT_FIELDS.EVENT_INFO_LANGUAGES}
@@ -78,8 +78,8 @@ const LanguagesSection = () => {
       >
         <InputWrapper
           columns={6}
-          inputColumns={4}
-          minWidth={INPUT_MIN_WIDTHS.MEDIUM}
+          inputColumns={6}
+          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
         >
           <Field
             name={EVENT_FIELDS.IN_LANGUAGE}
