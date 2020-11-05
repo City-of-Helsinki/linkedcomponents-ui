@@ -62,14 +62,17 @@
     left: 0;
     right: 0;
     background-color: var(--color-black-5);
-    padding: var(--spacing-s);
-    display: grid;
-    grid-gap: var(--spacing-m);
 
-    @include medium-up {
-      grid-template-columns: repeat(12, 1fr);
-      padding: var(--spacing-m);
+    .eventNavigationPanelWrapper {
+      display: grid;
+      padding: var(--spacing-s) 0;
       grid-gap: var(--spacing-m);
+
+      @include medium-up {
+        grid-template-columns: repeat(12, 1fr);
+        padding: var(--spacing-m) 0;
+        grid-gap: var(--spacing-m);
+      }
     }
 
     .circlesWrapper {
