@@ -18,6 +18,8 @@ export type Query = {
   event: Event;
   events: EventsResponse;
   languages: LanguagesResponse;
+  place: Place;
+  places: PlacesResponse;
 };
 
 
@@ -54,6 +56,23 @@ export type QueryEventsArgs = {
   translation?: Maybe<Scalars['String']>;
 };
 
+
+export type QueryPlaceArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPlacesArgs = {
+  dataSource?: Maybe<Scalars['String']>;
+  division?: Maybe<Array<Maybe<Scalars['String']>>>;
+  hasUpcomingEvents?: Maybe<Scalars['Boolean']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  showAllPlaces?: Maybe<Scalars['Boolean']>;
+  sort?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+};
+
 export type EventsResponse = {
   __typename?: 'EventsResponse';
   meta: Meta;
@@ -64,6 +83,12 @@ export type LanguagesResponse = {
   __typename?: 'LanguagesResponse';
   meta: Meta;
   data: Array<Maybe<Language>>;
+};
+
+export type PlacesResponse = {
+  __typename?: 'PlacesResponse';
+  meta: Meta;
+  data: Array<Maybe<Place>>;
 };
 
 export type Meta = {
@@ -356,7 +381,7 @@ export type EventsQuery = (
     { __typename?: 'EventsResponse' }
     & { meta: (
       { __typename?: 'Meta' }
-      & Pick<Meta, 'count' | 'next' | 'previous'>
+      & MetaFieldsFragment
     ), data: Array<Maybe<(
       { __typename?: 'Event' }
       & EventFieldsFragment
@@ -448,6 +473,47 @@ export type PlaceFieldsFragment = (
     { __typename?: 'Position' }
     & PositionFieldsFragment
   )> }
+);
+
+export type PlaceQueryVariables = Exact<{
+  id: Scalars['ID'];
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type PlaceQuery = (
+  { __typename?: 'Query' }
+  & { place: (
+    { __typename?: 'Place' }
+    & PlaceFieldsFragment
+  ) }
+);
+
+export type PlacesQueryVariables = Exact<{
+  dataSource?: Maybe<Scalars['String']>;
+  division?: Maybe<Array<Maybe<Scalars['String']>>>;
+  hasUpcomingEvents?: Maybe<Scalars['Boolean']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  showAllPlaces?: Maybe<Scalars['Boolean']>;
+  sort?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type PlacesQuery = (
+  { __typename?: 'Query' }
+  & { places: (
+    { __typename?: 'PlacesResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & MetaFieldsFragment
+    ), data: Array<Maybe<(
+      { __typename?: 'Place' }
+      & PlaceFieldsFragment
+    )>> }
+  ) }
 );
 
 export const LocalisedFieldsFragmentDoc = gql`
@@ -646,16 +712,15 @@ export const EventsDocument = gql`
     query Events($combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
   events(combinedText: $combinedText, division: $division, end: $end, endsAfter: $endsAfter, endsBefore: $endsBefore, include: $include, inLanguage: $inLanguage, isFree: $isFree, keyword: $keyword, keywordAnd: $keywordAnd, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, startsAfter: $startsAfter, startsBefore: $startsBefore, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) @rest(type: "EventsResponse", pathBuilder: $createPath) {
     meta {
-      count
-      next
-      previous
+      ...metaFields
     }
     data {
       ...eventFields
     }
   }
 }
-    ${EventFieldsFragmentDoc}`;
+    ${MetaFieldsFragmentDoc}
+${EventFieldsFragmentDoc}`;
 
 /**
  * __useEventsQuery__
@@ -744,3 +809,84 @@ export function useLanguagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type LanguagesQueryHookResult = ReturnType<typeof useLanguagesQuery>;
 export type LanguagesLazyQueryHookResult = ReturnType<typeof useLanguagesLazyQuery>;
 export type LanguagesQueryResult = Apollo.QueryResult<LanguagesQuery, LanguagesQueryVariables>;
+export const PlaceDocument = gql`
+    query Place($id: ID!, $createPath: Any) {
+  place(id: $id) @rest(type: "Place", pathBuilder: $createPath) {
+    ...placeFields
+  }
+}
+    ${PlaceFieldsFragmentDoc}`;
+
+/**
+ * __usePlaceQuery__
+ *
+ * To run a query within a React component, call `usePlaceQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlaceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePlaceQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function usePlaceQuery(baseOptions?: Apollo.QueryHookOptions<PlaceQuery, PlaceQueryVariables>) {
+        return Apollo.useQuery<PlaceQuery, PlaceQueryVariables>(PlaceDocument, baseOptions);
+      }
+export function usePlaceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PlaceQuery, PlaceQueryVariables>) {
+          return Apollo.useLazyQuery<PlaceQuery, PlaceQueryVariables>(PlaceDocument, baseOptions);
+        }
+export type PlaceQueryHookResult = ReturnType<typeof usePlaceQuery>;
+export type PlaceLazyQueryHookResult = ReturnType<typeof usePlaceLazyQuery>;
+export type PlaceQueryResult = Apollo.QueryResult<PlaceQuery, PlaceQueryVariables>;
+export const PlacesDocument = gql`
+    query Places($dataSource: String, $division: [String], $hasUpcomingEvents: Boolean, $page: Int, $pageSize: Int, $showAllPlaces: Boolean, $sort: String, $text: String, $createPath: Any) {
+  places(dataSource: $dataSource, division: $division, hasUpcomingEvents: $hasUpcomingEvents, page: $page, pageSize: $pageSize, showAllPlaces: $showAllPlaces, sort: $sort, text: $text) @rest(type: "PlacesResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...placeFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${PlaceFieldsFragmentDoc}`;
+
+/**
+ * __usePlacesQuery__
+ *
+ * To run a query within a React component, call `usePlacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePlacesQuery({
+ *   variables: {
+ *      dataSource: // value for 'dataSource'
+ *      division: // value for 'division'
+ *      hasUpcomingEvents: // value for 'hasUpcomingEvents'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      showAllPlaces: // value for 'showAllPlaces'
+ *      sort: // value for 'sort'
+ *      text: // value for 'text'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function usePlacesQuery(baseOptions?: Apollo.QueryHookOptions<PlacesQuery, PlacesQueryVariables>) {
+        return Apollo.useQuery<PlacesQuery, PlacesQueryVariables>(PlacesDocument, baseOptions);
+      }
+export function usePlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PlacesQuery, PlacesQueryVariables>) {
+          return Apollo.useLazyQuery<PlacesQuery, PlacesQueryVariables>(PlacesDocument, baseOptions);
+        }
+export type PlacesQueryHookResult = ReturnType<typeof usePlacesQuery>;
+export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
+export type PlacesQueryResult = Apollo.QueryResult<PlacesQuery, PlacesQueryVariables>;

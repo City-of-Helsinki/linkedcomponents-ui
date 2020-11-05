@@ -34,6 +34,17 @@ module.exports = buildSchema(/* GraphQL */ `
       translation: String
     ): EventsResponse!
     languages: LanguagesResponse!
+    place(id: ID!): Place!
+    places(
+      dataSource: String
+      division: [String]
+      hasUpcomingEvents: Boolean
+      page: Int
+      pageSize: Int
+      showAllPlaces: Boolean
+      sort: String
+      text: String
+    ): PlacesResponse!
   }
 
   type EventsResponse {
@@ -44,6 +55,11 @@ module.exports = buildSchema(/* GraphQL */ `
   type LanguagesResponse {
     meta: Meta!
     data: [Language]!
+  }
+
+  type PlacesResponse {
+    meta: Meta!
+    data: [Place]!
   }
 
   type Meta {

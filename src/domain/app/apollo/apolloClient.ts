@@ -5,12 +5,15 @@ import {
   Event,
   EventsResponse,
   LanguagesResponse,
+  Place,
+  PlacesResponse,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
 import {
   addTypenameEvent,
   addTypenameLanguage,
   addTypenameMeta,
+  addTypenamePlace,
 } from './utils';
 
 const cache = new InMemoryCache({
@@ -20,6 +23,12 @@ const cache = new InMemoryCache({
         event(_, { args, toReference }) {
           return toReference({
             __typename: 'Event',
+            id: args?.id,
+          });
+        },
+        place(_, { args, toReference }) {
+          return toReference({
+            __typename: 'Place',
             id: args?.id,
           });
         },
@@ -46,6 +55,15 @@ const linkedEventsLink = new RestLink({
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((event) => addTypenameEvent(event));
+
+      return data;
+    },
+    Place: (place: Place): Place | null => {
+      return addTypenamePlace(place);
+    },
+    PlacesResponse: (data: PlacesResponse): PlacesResponse => {
+      data.meta = addTypenameMeta(data.meta);
+      data.data = data.data.map((place) => addTypenamePlace(place));
 
       return data;
     },
