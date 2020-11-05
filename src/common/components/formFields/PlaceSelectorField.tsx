@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../types';
 import { getStringErrorText } from '../../../utils/validationUtils';
-import UmbrellaEventSelector, {
-  UmbrellaEventSelectorProps,
-} from '../umbrellaEventSelector/UmbrellaEventSelector';
+import PlaceSelector, {
+  PlaceSelectorProps,
+} from '../placeSelector/PlaceSelector';
 
-type Props = UmbrellaEventSelectorProps & FieldProps;
+type Props = PlaceSelectorProps & FieldProps;
 
-const UmbrellaEventSelectorField: React.FC<Props> = ({
+const PlaceSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
   helper,
@@ -34,7 +34,7 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
   };
 
   return (
-    <UmbrellaEventSelector
+    <PlaceSelector
       {...rest}
       {...field}
       onBlur={handleBlur}
@@ -47,4 +47,4 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
   );
 };
 
-export default UmbrellaEventSelectorField;
+export default PlaceSelectorField;

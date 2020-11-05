@@ -4,12 +4,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 
-import { eventPathBuilder } from '../../../domain/event/utils';
-import { eventsPathBuilder } from '../../../domain/events/utils';
 import {
-  EventFieldsFragment,
-  useEventQuery,
-  useEventsQuery,
+  placePathBuilder,
+  placesPathBuilder,
+} from '../../../domain/place/utils';
+import {
+  PlaceFieldsFragment,
+  usePlaceQuery,
+  usePlacesQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
@@ -17,27 +19,40 @@ import getLocalisedString from '../../../utils/getLocalisedString';
 import isTestEnv from '../../../utils/isTestEnv';
 import Combobox from '../combobox/Combobox';
 
-const getEventFields = (event: EventFieldsFragment, locale: Language) => ({
-  name: getLocalisedString(event.name, locale),
-  id: event.id,
+const getPlaceFields = (place: PlaceFieldsFragment, locale: Language) => ({
+  id: place.id || '',
+  name: getLocalisedString(place.name, locale),
+  streetAddress: getLocalisedString(place.streetAddress, locale),
+  addressLocality: getLocalisedString(place.addressLocality, locale),
 });
 
 const getOption = (
-  event: EventFieldsFragment,
+  place: PlaceFieldsFragment,
   locale: Language
 ): OptionType => {
-  const { name: label, id: value } = getEventFields(event, locale);
-  return { label, value };
+  const { addressLocality, name, streetAddress, id: value } = getPlaceFields(
+    place,
+    locale
+  );
+
+  const addressText = [streetAddress, addressLocality]
+    .filter((t) => t)
+    .join(', ');
+
+  return {
+    label: `${name} (${addressText})`,
+    value,
+  };
 };
 
 type ValueType = string | null;
 
-export type UmbrellaEventSelectorProps = {
+export type PlaceSelectorProps = {
   name: string;
   value: ValueType;
 } & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
 
-const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
+const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   label,
   name,
   value,
@@ -47,29 +62,27 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   const locale = useLocale();
   const [search, setSearch] = React.useState('');
   const [options, setOptions] = React.useState<OptionType[]>([]);
-  const [selectedEvent, setSelectedEvent] = React.useState<OptionType | null>(
+  const [selectedPlace, setSelectedPlace] = React.useState<OptionType | null>(
     null
   );
 
-  const { data: eventsData } = useEventsQuery({
+  const { data: placesData } = usePlacesQuery({
     variables: {
-      superEventType: ['umbrella'],
       text: search,
       createPath: isTestEnv
         ? undefined
-        : /* istanbul ignore next */ eventsPathBuilder,
+        : /* istanbul ignore next */ placesPathBuilder,
     },
   });
 
-  const { data: eventData } = useEventQuery({
+  const { data: placeData } = usePlaceQuery({
     skip: !value,
     variables: {
       id: value as string,
-
       createPath: isTestEnv
         ? undefined
         : /* istanbul ignore next */
-          eventPathBuilder,
+          placePathBuilder,
     },
   });
 
@@ -84,22 +97,22 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   };
 
   React.useEffect(() => {
-    if (eventsData?.events.data) {
+    if (placesData?.places.data) {
       setOptions(
         sortBy(
-          eventsData.events.data.map((event) =>
-            getOption(event as EventFieldsFragment, locale)
+          placesData.places.data.map((place) =>
+            getOption(place as PlaceFieldsFragment, locale)
           ),
           ['label']
         )
       );
     }
-  }, [eventsData, locale]);
+  }, [locale, placesData]);
 
-  const option = eventData?.event ? getOption(eventData.event, locale) : null;
+  const option = placeData?.place ? getOption(placeData.place, locale) : null;
 
   useDeepCompareEffect(() => {
-    setSelectedEvent(option);
+    setSelectedPlace(option);
   }, [{ option }]);
 
   return (
@@ -113,9 +126,9 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
       toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedEvent as OptionType | undefined}
+      value={selectedPlace as OptionType | undefined}
     />
   );
 };
 
-export default UmbrellaEventSelector;
+export default PlaceSelector;
