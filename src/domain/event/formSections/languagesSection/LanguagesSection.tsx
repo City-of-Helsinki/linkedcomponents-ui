@@ -15,6 +15,7 @@ import getLocalisedString from '../../../../utils/getLocalisedString';
 import { EVENT_FIELDS, ORDERED_EVENT_INFO_LANGUAGES } from '../../constants';
 import { sortLanguage } from '../../utils';
 import InputWrapper from '../InputWrapper';
+import styles from './languagesSection.module.scss';
 
 const LanguagesSection = () => {
   const { t } = useTranslation();
@@ -41,6 +42,7 @@ const LanguagesSection = () => {
     <LoadingSpinner isLoading={loading}>
       <h3>{t(`event.form.titleInfoLanguages.${eventType}`)}</h3>
       <InputRow
+        className={styles.infoLanguageRow}
         info={
           <Notification
             label={t(`event.form.titleInfoLanguages.${eventType}`)}
@@ -64,7 +66,9 @@ const LanguagesSection = () => {
         </InputWrapper>
       </InputRow>
 
-      <h3>{t(`event.form.titleInLanguages.${eventType}`)}</h3>
+      <h3 className={styles.inLanguagesTitle}>
+        {t(`event.form.titleInLanguages.${eventType}`)}
+      </h3>
       <InputRow
         info={
           <Notification

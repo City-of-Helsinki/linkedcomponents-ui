@@ -1,0 +1,13 @@
+@import 'breakpoints';
+
+.infoLanguageRow {
+  @include medium-up {
+    margin-bottom: 0px;
+  }
+}
+
+.inLanguagesTitle {
+  @include medium-up {
+    margin-top: 0px;
+  }
+}
