@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import Container from '../app/layout/Container';
+import FormContainer from '../app/layout/FormContainer';
 import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INITIAL_VALUES } from './constants';
 import EventNavigation from './eventNavigation/EventNavigation';
@@ -37,77 +38,81 @@ const CreateEventPage: React.FC = () => {
               title={`createEventPage.pageTitle.${type}`}
             >
               <Container>
-                <h1>{t(`createEventPage.title.${type}`)}</h1>
+                <FormContainer>
+                  <h1>{t(`createEventPage.title.${type}`)}</h1>
+                </FormContainer>
+                <EventNavigation
+                  items={[
+                    {
+                      component: <TypeSection />,
+                      isCompleted: true,
+                      label: t('event.navigation.steps.type'),
+                    },
+                    {
+                      component: <LanguagesSection />,
+                      isCompleted: false,
+                      label: t('event.navigation.steps.languages'),
+                    },
+                    {
+                      component: <ResponsibilitiesSection />,
+                      isCompleted: false,
+                      label: t('event.navigation.steps.responsibilities'),
+                    },
+                    {
+                      component: <DescriptionSection />,
+                      isCompleted: false,
+                      label: t('event.navigation.steps.description'),
+                    },
+                    {
+                      component: <TimeSection />,
+                      isCompleted: false,
+                      label: t('event.navigation.steps.time'),
+                    },
+                    {
+                      component: <LoadingSpinner isLoading={true} />,
+                      isCompleted: false,
+                      label: t('event.navigation.steps.place'),
+                    },
+                    {
+                      component: <div>{t('event.navigation.steps.price')}</div>,
+                      isCompleted: false,
+                      label: t('event.navigation.steps.price'),
+                    },
+                    {
+                      component: <div>{t('event.navigation.steps.media')}</div>,
+                      isCompleted: false,
+                      label: t('event.navigation.steps.media'),
+                    },
+                    {
+                      component: (
+                        <div>{t('event.navigation.steps.classification')}</div>
+                      ),
+                      isCompleted: false,
+                      label: t('event.navigation.steps.classification'),
+                    },
+                    {
+                      component: (
+                        <div>{t('event.navigation.steps.targets')}</div>
+                      ),
+                      isCompleted: false,
+                      label: t('event.navigation.steps.targets'),
+                    },
+                    {
+                      component: (
+                        <div>{t('event.navigation.steps.commitment')}</div>
+                      ),
+                      isCompleted: false,
+                      label: t('event.navigation.steps.commitment'),
+                    },
+                    {
+                      component: <div>{t('event.navigation.steps.ready')}</div>,
+                      disabled: true,
+                      isCompleted: false,
+                      label: t('event.navigation.steps.ready'),
+                    },
+                  ]}
+                ></EventNavigation>
               </Container>
-              <EventNavigation
-                items={[
-                  {
-                    component: <TypeSection />,
-                    isCompleted: true,
-                    label: t('event.navigation.steps.type'),
-                  },
-                  {
-                    component: <LanguagesSection />,
-                    isCompleted: false,
-                    label: t('event.navigation.steps.languages'),
-                  },
-                  {
-                    component: <ResponsibilitiesSection />,
-                    isCompleted: false,
-                    label: t('event.navigation.steps.responsibilities'),
-                  },
-                  {
-                    component: <DescriptionSection />,
-                    isCompleted: false,
-                    label: t('event.navigation.steps.description'),
-                  },
-                  {
-                    component: <TimeSection />,
-                    isCompleted: false,
-                    label: t('event.navigation.steps.time'),
-                  },
-                  {
-                    component: <LoadingSpinner isLoading={true} />,
-                    isCompleted: false,
-                    label: t('event.navigation.steps.place'),
-                  },
-                  {
-                    component: <div>{t('event.navigation.steps.price')}</div>,
-                    isCompleted: false,
-                    label: t('event.navigation.steps.price'),
-                  },
-                  {
-                    component: <div>{t('event.navigation.steps.media')}</div>,
-                    isCompleted: false,
-                    label: t('event.navigation.steps.media'),
-                  },
-                  {
-                    component: (
-                      <div>{t('event.navigation.steps.classification')}</div>
-                    ),
-                    isCompleted: false,
-                    label: t('event.navigation.steps.classification'),
-                  },
-                  {
-                    component: <div>{t('event.navigation.steps.targets')}</div>,
-                    isCompleted: false,
-                    label: t('event.navigation.steps.targets'),
-                  },
-                  {
-                    component: (
-                      <div>{t('event.navigation.steps.commitment')}</div>
-                    ),
-                    isCompleted: false,
-                    label: t('event.navigation.steps.commitment'),
-                  },
-                  {
-                    component: <div>{t('event.navigation.steps.ready')}</div>,
-                    disabled: true,
-                    isCompleted: false,
-                    label: t('event.navigation.steps.ready'),
-                  },
-                ]}
-              ></EventNavigation>
             </PageWrapper>
           </Form>
         );

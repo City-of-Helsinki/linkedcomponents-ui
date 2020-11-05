@@ -5,8 +5,8 @@
   grid-gap: var(--spacing-m);
 
   @include medium-up {
-    grid-template-columns: 1fr 4fr;
-    grid-gap: var(--spacing-xl);
+    grid-template-columns: 2fr 8fr;
+    grid-gap: var(--spacing-m);
   }
 
   .splittedRow {

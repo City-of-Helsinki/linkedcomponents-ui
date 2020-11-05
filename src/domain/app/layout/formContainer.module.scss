@@ -1,0 +1,14 @@
+@import 'breakpoints';
+
+.formContainer {
+  display: grid;
+
+  @include x-large-up {
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: var(--spacing-m);
+
+    .contentWrapper {
+      grid-column: 2 / 12;
+    }
+  }
+}

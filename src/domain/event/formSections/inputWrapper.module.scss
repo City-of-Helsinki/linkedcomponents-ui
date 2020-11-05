@@ -1,0 +1,45 @@
+@import 'breakpoints';
+
+.inputWrapper {
+  --inputColumnOffset: 0;
+
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    &.columns6 {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    &.columns10 {
+      grid-template-columns: repeat(10, 1fr);
+    }
+
+    .inputColumns4 {
+      grid-column: calc(var(--inputColumnOffset) + 1) /
+        calc(var(--inputColumnOffset) + 5);
+    }
+
+    .inputColumns5 {
+      grid-column: calc(var(--inputColumnOffset) + 1) /
+        calc(var(--inputColumnOffset) + 6);
+    }
+
+    .inputColumns6 {
+      grid-column: calc(var(--inputColumnOffset) + 1) /
+        calc(var(--inputColumnOffset) + 7);
+    }
+
+    .offset0 {
+      --inputColumnOffset: 0;
+    }
+
+    .offset1 {
+      --inputColumnOffset: 1;
+    }
+
+    .offset2 {
+      --inputColumnOffset: 2;
+    }
+  }
+}

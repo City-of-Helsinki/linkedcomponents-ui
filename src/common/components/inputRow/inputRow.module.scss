@@ -6,7 +6,33 @@
   grid-gap: var(--spacing-m);
 
   @include medium-up {
-    grid-template-columns: 2fr 1fr;
+    &.infoWidth1 {
+      grid-template-columns: 9fr 1fr;
+    }
+    &.infoWidth2 {
+      grid-template-columns: 8fr 2fr;
+    }
+    &.infoWidth3 {
+      grid-template-columns: 7fr 3fr;
+    }
+    &.infoWidth4 {
+      grid-template-columns: 6fr 4fr;
+    }
+    &.infoWidth5 {
+      grid-template-columns: 5fr 5fr;
+    }
+    &.infoWidth6 {
+      grid-template-columns: 4fr 6fr;
+    }
+    &.infoWidth7 {
+      grid-template-columns: 3fr 7fr;
+    }
+    &.infoWidth8 {
+      grid-template-columns: 2fr 8fr;
+    }
+    &.infoWidth9 {
+      grid-template-columns: 1fr 9fr;
+    }
   }
 
   .inputColumn {

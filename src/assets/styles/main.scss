@@ -16,6 +16,8 @@ body {
 #root {
   flex: 1;
   background-color: var(--color-black-5);
+  --breakpoint-xl: 1440px;
+  --container-width-xl: 1392px;
 }
 
 button {

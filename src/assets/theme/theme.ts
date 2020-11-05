@@ -352,7 +352,7 @@ const theme: Theme = {
   },
   timeSection: {
     '--button-wrapper-min-width': '56px',
-    '--input-max-width': '566px',
+    '--input-max-width': '448px',
     '--label-height': '28px',
   },
   timepicker: {

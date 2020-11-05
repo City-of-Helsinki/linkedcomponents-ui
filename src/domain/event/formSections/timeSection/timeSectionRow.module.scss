@@ -1,9 +1,17 @@
+@import 'breakpoints';
+
 .timeSectionRow {
   display: grid;
-  grid-template-columns: minmax(0, var(--input-max-width)) auto;
+  grid-template-columns: 1fr var(--button-wrapper-min-width);
+
+  @include medium-up {
+    grid-template-columns: minmax(0, var(--input-max-width)) auto;
+  }
 
   .inputWrapper {
-    max-width: var(--input-max-width);
+    @include medium-up {
+      max-width: var(--input-max-width);
+    }
   }
 
   .buttonWrapper {

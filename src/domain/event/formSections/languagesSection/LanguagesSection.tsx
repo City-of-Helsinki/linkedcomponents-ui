@@ -7,12 +7,14 @@ import LanguageCheckboxGroupField from '../../../../common/components/formFields
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import Notification from '../../../../common/components/notification/Notification';
+import { INPUT_MIN_WIDTHS } from '../../../../constants';
 import { useLanguagesQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import { EVENT_FIELDS, ORDERED_EVENT_INFO_LANGUAGES } from '../../constants';
 import { sortLanguage } from '../../utils';
+import InputWrapper from '../InputWrapper';
 
 const LanguagesSection = () => {
   const { t } = useTranslation();
@@ -47,12 +49,19 @@ const LanguagesSection = () => {
             <p>{t(`event.form.infoTextInfoLanguages.${eventType}`)}</p>
           </Notification>
         }
+        infoWidth={4}
       >
-        <Field
-          name={EVENT_FIELDS.EVENT_INFO_LANGUAGES}
-          component={LanguageCheckboxGroupField}
-          options={eventInfoLanguageOptions}
-        />
+        <InputWrapper
+          columns={6}
+          inputColumns={4}
+          minWidth={INPUT_MIN_WIDTHS.MEDIUM}
+        >
+          <Field
+            name={EVENT_FIELDS.EVENT_INFO_LANGUAGES}
+            component={LanguageCheckboxGroupField}
+            options={eventInfoLanguageOptions}
+          />
+        </InputWrapper>
       </InputRow>
 
       <h3>{t(`event.form.titleInLanguages.${eventType}`)}</h3>
@@ -65,13 +74,20 @@ const LanguagesSection = () => {
             <p>{t(`event.form.infoTextInLanguages.${eventType}`)}</p>
           </Notification>
         }
+        infoWidth={4}
       >
-        <Field
-          name={EVENT_FIELDS.IN_LANGUAGE}
-          component={LanguageCheckboxGroupField}
-          options={inLanguageOptions}
-          visibleOptionAmount={3}
-        />
+        <InputWrapper
+          columns={6}
+          inputColumns={4}
+          minWidth={INPUT_MIN_WIDTHS.MEDIUM}
+        >
+          <Field
+            name={EVENT_FIELDS.IN_LANGUAGE}
+            component={LanguageCheckboxGroupField}
+            options={inLanguageOptions}
+            visibleOptionAmount={3}
+          />
+        </InputWrapper>
       </InputRow>
     </LoadingSpinner>
   );

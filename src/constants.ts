@@ -19,6 +19,10 @@ export enum CHARACTER_LIMITS {
   LONG_STRING = 5000,
 }
 
+export enum INPUT_MIN_WIDTHS {
+  MEDIUM = '448px',
+}
+
 export const DATE_FORMAT = 'dd.MM.yyyy';
 export const DATETIME_FORMAT = `${DATE_FORMAT} HH.mm`;
 
