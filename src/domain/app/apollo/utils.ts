@@ -1,9 +1,9 @@
 import {
+  AtIdObject,
   Division,
   Event,
   ExternalLink,
   Image,
-  InternalIdObject,
   Keyword,
   Language,
   LocalisedObject,
@@ -46,9 +46,8 @@ export const addTypenameEvent = (event?: Event | null): Event | null =>
         location: addTypenamePlace(event.location),
         offers: event.offers?.map((offer) => addTypenameOffer(offer)) || [],
         subEvents:
-          event.subEvents?.map((subEvent) =>
-            addTypenameInternalIdObject(subEvent)
-          ) || [],
+          event.subEvents?.map((subEvent) => addTypenameAtIdObject(subEvent)) ||
+          [],
         __typename: 'Event',
       }
     : null;
@@ -71,13 +70,13 @@ export const addTypenameImage = (image?: Image | null): Image | null =>
       }
     : null;
 
-export const addTypenameInternalIdObject = (
-  item?: InternalIdObject | null
-): InternalIdObject | null =>
+export const addTypenameAtIdObject = (
+  item?: AtIdObject | null
+): AtIdObject | null =>
   item
     ? {
         ...item,
-        __typename: 'InternalIdObject',
+        __typename: 'AtIdObject',
       }
     : null;
 

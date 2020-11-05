@@ -15,11 +15,12 @@ import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
 import isTestEnv from '../../../utils/isTestEnv';
+import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
 
 const getEventFields = (event: EventFieldsFragment, locale: Language) => ({
   name: getLocalisedString(event.name, locale),
-  id: event.id,
+  id: event.atId || '',
 });
 
 const getOption = (
@@ -64,7 +65,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   const { data: eventData } = useEventQuery({
     skip: !value,
     variables: {
-      id: value as string,
+      id: parseIdFromAtId(value) as string,
 
       createPath: isTestEnv
         ? undefined

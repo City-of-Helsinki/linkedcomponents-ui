@@ -99,11 +99,13 @@
         "course": "Tämä kurssi on kattotapahtuma.",
         "event": "Tämä tapahtuma on kattotapahtuma."
       },
+      "labelLocation": "Paikka",
       "labelLocationExtraInfo": "{{langText}}",
       "labelName": {
         "course": "Kurssin otsikko {{langText}}",
         "event": "Tapahtuman otsikko {{langText}}"
       },
+      "labelLocationId": "Paikan ID:",
       "labelProvider": {
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "event": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)"
@@ -132,6 +134,7 @@
         "course": "Syötä kurssin kotisivun URL",
         "event": "Syötä tapahtuman kotisivun URL"
       },
+      "placeholderLocation": "Valitse tai hae tapahtumapaikka",
       "placeholderLocationExtraInfo": "Syötä lisätietoja tapahtumapaikasta {{langText}}",
       "placeholderName": {
         "course": "Syötä kurssin otsikko",

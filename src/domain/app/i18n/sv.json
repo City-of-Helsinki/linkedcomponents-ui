@@ -99,7 +99,9 @@
         "course": "Detta kurs är ett paraplyevenemang.",
         "event": "Detta evenemang är ett paraplyevenemang."
       },
+      "labelLocation": "Plats",
       "labelLocationExtraInfo": "{{langText}}",
+      "labelLocationId": "Plats ID:",
       "labelName": {
         "course": "Kursens title {{langText}}",
         "event": "Evenemangs title {{langText}}"
@@ -132,6 +134,7 @@
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
       },
+      "placeholderLocation": "Välj eller sök efter en plats",
       "placeholderLocationExtraInfo": "Ange mer information om arenan {{langText}}",
       "placeholderName": {
         "course": "Ange webbadressen till kursens hemsida",

@@ -17,10 +17,11 @@ import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
 import isTestEnv from '../../../utils/isTestEnv';
+import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
 
 const getPlaceFields = (place: PlaceFieldsFragment, locale: Language) => ({
-  id: place.id || '',
+  id: place.atId || '',
   name: getLocalisedString(place.name, locale),
   streetAddress: getLocalisedString(place.streetAddress, locale),
   addressLocality: getLocalisedString(place.addressLocality, locale),
@@ -40,7 +41,7 @@ const getOption = (
     .join(', ');
 
   return {
-    label: `${name} (${addressText})`,
+    label: `${name}${addressText && ` (${addressText})`}`,
     value,
   };
 };
@@ -78,7 +79,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const { data: placeData } = usePlaceQuery({
     skip: !value,
     variables: {
-      id: value as string,
+      id: parseIdFromAtId(value) as string,
       createPath: isTestEnv
         ? undefined
         : /* istanbul ignore next */

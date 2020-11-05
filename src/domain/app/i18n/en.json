@@ -99,7 +99,9 @@
         "course": "This course is an umbrella event.",
         "event": "This event is an umbrella event."
       },
+      "labelLocation": "Location",
       "labelLocationExtraInfo": "{{langText}}",
+      "labelLocationId": "Location ID:",
       "labelName": {
         "course": "Course title {{langText}}",
         "event": "Event title {{langText}}"
@@ -132,6 +134,7 @@
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
       },
+      "placeholderLocation": "Select or search for a venue",
       "placeholderLocationExtraInfo": "Enter more information about the venue {{langText}}",
       "placeholderName": {
         "course": "Enter the course title",

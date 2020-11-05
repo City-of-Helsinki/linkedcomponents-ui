@@ -13,6 +13,7 @@ import {
   LanguagesResponse,
   LocalisedObject,
   Place,
+  PlacesResponse,
 } from '../generated/graphql';
 
 export const fakeEvents = (
@@ -33,7 +34,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
   return merge(
     {
       id: `hel:${faker.random.uuid()}`,
-      internalId: faker.random.uuid(),
+      atId: faker.random.uuid(),
       name: fakeLocalisedObject(faker.name.title()),
       publisher: 'provider:123',
       provider: fakeLocalisedObject(),
@@ -76,7 +77,7 @@ export const fakeImage = (overrides?: Partial<Image>): Image =>
   merge(
     {
       id: faker.random.uuid(),
-      internalId: 'https://api.hel.fi/linkedevents-test/v1/image/48566/',
+      atId: 'https://api.hel.fi/linkedevents-test/v1/image/48566/',
       license: 'cc_by',
       name: faker.random.words(),
       url: 'https://api.hel.fi/linkedevents-test/media/images/test.png',
@@ -91,10 +92,10 @@ export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword =>
   merge(
     {
       id: faker.random.uuid(),
+      atId: 'https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/',
       dataSource: 'yso',
       hasUpcomingEvents: true,
       name: fakeLocalisedObject(),
-      internalId: 'https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/',
       __typename: 'Keyword',
     },
     overrides
@@ -118,7 +119,7 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language =>
   merge(
     {
       id: faker.random.uuid(),
-      internalId: 'https://api.hel.fi/linkedevents-test/v1/language/en/',
+      atId: 'https://api.hel.fi/linkedevents-test/v1/language/en/',
       translationAvailable: false,
       name: fakeLocalisedObject(),
       __typename: 'Language',
@@ -126,11 +127,25 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language =>
     overrides
   );
 
+export const fakePlaces = (
+  count = 1,
+  places?: Partial<Place>[]
+): PlacesResponse => ({
+  data: generateNodeArray((i) => fakePlace(places?.[i]), count),
+  meta: {
+    count: count,
+    next: '',
+    previous: '',
+    __typename: 'Meta',
+  },
+  __typename: 'PlacesResponse',
+});
+
 export const fakePlace = (overrides?: Partial<Place>): Place =>
   merge(
     {
       id: faker.random.uuid(),
-      internalId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
+      atId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
       name: fakeLocalisedObject(),
       streetAddress: fakeLocalisedObject(),
       addressLocality: fakeLocalisedObject(),

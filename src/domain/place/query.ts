@@ -14,6 +14,7 @@ export const QUERY_PLACE = gql`
 
   fragment placeFields on Place {
     id
+    atId
     addressLocality {
       ...localisedFields
     }
@@ -25,8 +26,6 @@ export const QUERY_PLACE = gql`
     infoUrl {
       ...localisedFields
     }
-    internalId
-
     name {
       ...localisedFields
     }

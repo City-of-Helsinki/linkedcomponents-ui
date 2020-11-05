@@ -109,7 +109,7 @@ export type Division = {
 export type Event = {
   __typename?: 'Event';
   id: Scalars['ID'];
-  audience: Array<Maybe<InternalIdObject>>;
+  audience: Array<Maybe<AtIdObject>>;
   audienceMaxAge?: Maybe<Scalars['String']>;
   audienceMinAge?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
@@ -135,12 +135,12 @@ export type Event = {
   publisher?: Maybe<Scalars['ID']>;
   shortDescription?: Maybe<LocalisedObject>;
   startTime?: Maybe<Scalars['String']>;
-  subEvents: Array<Maybe<InternalIdObject>>;
-  superEvent?: Maybe<InternalIdObject>;
+  subEvents: Array<Maybe<AtIdObject>>;
+  superEvent?: Maybe<AtIdObject>;
   superEventType?: Maybe<Scalars['String']>;
-  internalId?: Maybe<Scalars['String']>;
-  internalContext?: Maybe<Scalars['String']>;
-  internalType?: Maybe<Scalars['String']>;
+  atId?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
 };
 
 export type ExternalLink = {
@@ -171,14 +171,14 @@ export type Image = {
   photographerName?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
-  internalId?: Maybe<Scalars['String']>;
-  internalContext?: Maybe<Scalars['String']>;
-  internalType?: Maybe<Scalars['String']>;
+  atId?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
 };
 
-export type InternalIdObject = {
-  __typename?: 'InternalIdObject';
-  internalId?: Maybe<Scalars['String']>;
+export type AtIdObject = {
+  __typename?: 'AtIdObject';
+  atId?: Maybe<Scalars['String']>;
 };
 
 export type Keyword = {
@@ -195,9 +195,9 @@ export type Keyword = {
   name?: Maybe<LocalisedObject>;
   nEvents?: Maybe<Scalars['Int']>;
   publisher?: Maybe<Scalars['ID']>;
-  internalId?: Maybe<Scalars['String']>;
-  internalContext?: Maybe<Scalars['String']>;
-  internalType?: Maybe<Scalars['String']>;
+  atId?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
 };
 
 export type Language = {
@@ -205,9 +205,9 @@ export type Language = {
   id?: Maybe<Scalars['ID']>;
   translationAvailable?: Maybe<Scalars['Boolean']>;
   name?: Maybe<LocalisedObject>;
-  internalId?: Maybe<Scalars['String']>;
-  internalContext?: Maybe<Scalars['String']>;
-  internalType?: Maybe<Scalars['String']>;
+  atId?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
 };
 
 export type LocalisedObject = {
@@ -253,9 +253,9 @@ export type Place = {
   replacedBy?: Maybe<Scalars['String']>;
   streetAddress?: Maybe<LocalisedObject>;
   telephone?: Maybe<LocalisedObject>;
-  internalId?: Maybe<Scalars['String']>;
-  internalContext?: Maybe<Scalars['String']>;
-  internalType?: Maybe<Scalars['String']>;
+  atId?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
 };
 
 export type Position = {
@@ -291,7 +291,7 @@ export type OfferFieldsFragment = (
 
 export type EventFieldsFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'endTime' | 'eventStatus' | 'publisher' | 'startTime'>
+  & Pick<Event, 'id' | 'atId' | 'endTime' | 'eventStatus' | 'publisher' | 'startTime'>
   & { description?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -326,8 +326,8 @@ export type EventFieldsFragment = (
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
   )>, superEvent?: Maybe<(
-    { __typename?: 'InternalIdObject' }
-    & Pick<InternalIdObject, 'internalId'>
+    { __typename?: 'AtIdObject' }
+    & Pick<AtIdObject, 'atId'>
   )> }
 );
 
@@ -401,7 +401,7 @@ export type MetaFieldsFragment = (
 
 export type KeywordFieldsFragment = (
   { __typename?: 'Keyword' }
-  & Pick<Keyword, 'id' | 'dataSource' | 'hasUpcomingEvents' | 'internalId'>
+  & Pick<Keyword, 'id' | 'atId' | 'dataSource' | 'hasUpcomingEvents'>
   & { name?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -410,7 +410,7 @@ export type KeywordFieldsFragment = (
 
 export type LanguageFieldsFragment = (
   { __typename?: 'Language' }
-  & Pick<Language, 'id' | 'internalId'>
+  & Pick<Language, 'id' | 'atId'>
   & { name?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -450,7 +450,7 @@ export type PositionFieldsFragment = (
 
 export type PlaceFieldsFragment = (
   { __typename?: 'Place' }
-  & Pick<Place, 'id' | 'email' | 'hasUpcomingEvents' | 'internalId' | 'postalCode'>
+  & Pick<Place, 'id' | 'atId' | 'email' | 'hasUpcomingEvents' | 'postalCode'>
   & { addressLocality?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -539,7 +539,7 @@ export const ImageFieldsFragmentDoc = gql`
 export const LanguageFieldsFragmentDoc = gql`
     fragment languageFields on Language {
   id
-  internalId
+  atId
   name {
     ...localisedFields
   }
@@ -548,9 +548,9 @@ export const LanguageFieldsFragmentDoc = gql`
 export const KeywordFieldsFragmentDoc = gql`
     fragment keywordFields on Keyword {
   id
+  atId
   dataSource
   hasUpcomingEvents
-  internalId
   name {
     ...localisedFields
   }
@@ -572,6 +572,7 @@ export const PositionFieldsFragmentDoc = gql`
 export const PlaceFieldsFragmentDoc = gql`
     fragment placeFields on Place {
   id
+  atId
   addressLocality {
     ...localisedFields
   }
@@ -583,7 +584,6 @@ export const PlaceFieldsFragmentDoc = gql`
   infoUrl {
     ...localisedFields
   }
-  internalId
   name {
     ...localisedFields
   }
@@ -618,6 +618,7 @@ export const OfferFieldsFragmentDoc = gql`
 export const EventFieldsFragmentDoc = gql`
     fragment eventFields on Event {
   id
+  atId
   description {
     ...localisedFields
   }
@@ -655,7 +656,7 @@ export const EventFieldsFragmentDoc = gql`
     ...localisedFields
   }
   superEvent {
-    internalId
+    atId
   }
   startTime
 }

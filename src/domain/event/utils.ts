@@ -92,6 +92,9 @@ export const createValidationSchema = () => {
     [EVENT_FIELDS.EVENT_TIMES]: Yup.array().of(
       Yup.object().shape({ ...eventTimeValidation })
     ),
+    [EVENT_FIELDS.LOCATION]: Yup.string()
+      .nullable()
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     [EVENT_FIELDS.LOCATION_EXTRA_INFO]: createMultiLanguageFieldValidation(
       Yup.string().max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
         createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
