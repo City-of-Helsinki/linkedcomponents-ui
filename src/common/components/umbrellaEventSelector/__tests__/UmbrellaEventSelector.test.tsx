@@ -84,7 +84,7 @@ const defaultProps: UmbrellaEventSelectorProps = {
 const renderComponent = (props?: Partial<UmbrellaEventSelectorProps>) =>
   render(<UmbrellaEventSelector {...defaultProps} {...props} />, { mocks });
 
-test('should combobox value to selected event', async () => {
+test('should combobox input value to be selected event', async () => {
   renderComponent();
 
   await actWait();

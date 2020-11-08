@@ -21,7 +21,7 @@ import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
 
 const getPlaceFields = (place: PlaceFieldsFragment, locale: Language) => ({
-  id: place.atId || '',
+  id: place.atId as string,
   name: getLocalisedString(place.name, locale),
   streetAddress: getLocalisedString(place.streetAddress, locale),
   addressLocality: getLocalisedString(place.addressLocality, locale),

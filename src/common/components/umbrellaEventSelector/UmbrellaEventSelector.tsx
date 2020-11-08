@@ -20,7 +20,7 @@ import Combobox from '../combobox/Combobox';
 
 const getEventFields = (event: EventFieldsFragment, locale: Language) => ({
   name: getLocalisedString(event.name, locale),
-  id: event.atId || '',
+  id: event.atId as string,
 });
 
 const getOption = (
@@ -58,7 +58,8 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
       text: search,
       createPath: isTestEnv
         ? undefined
-        : /* istanbul ignore next */ eventsPathBuilder,
+        : /* istanbul ignore next */
+          eventsPathBuilder,
     },
   });
 
