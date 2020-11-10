@@ -79,6 +79,14 @@
       },
       "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel golvnummer eller klassrumsnamn.",
       "infoTextLocation4": "Om den exakta platsen inte finns i listan väljer du närmaste gatuadress som plats och anger namnet på arenan eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
+      "infoTextOffers1": {
+        "course": "Ange om kursen är gratis. Ange priset för den avgiftsbelagda kursen i formuläret “5€”.",
+        "event": "Ange om evenemanget är gratis. Ange priset för det avgiftsbelagda evenemanget i formuläret “5€”."
+      },
+      "infoTextOffers2": {
+        "course": "Om kursen har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation.",
+        "event": "Om evenemanget har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation."
+      },
       "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
       "labelDescription": {
@@ -133,6 +141,7 @@
         "event": "Evenemamgtider"
       },
       "notificationTitleLocation": "Venue",
+      "notificationTitleOffers": "Prisinformation",
       "notificationTitleType": "Evenemangtyp",
       "placeholderDescription": {
         "course": "Ange en beskrivning av kursen",

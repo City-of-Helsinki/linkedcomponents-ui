@@ -37,6 +37,7 @@ const Offers = () => {
               />
             );
           })}
+
           <PriceSectionRow
             input={
               <Button
