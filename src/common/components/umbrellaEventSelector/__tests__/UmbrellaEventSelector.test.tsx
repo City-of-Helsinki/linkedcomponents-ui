@@ -15,12 +15,18 @@ import UmbrellaEventSelector, {
 } from '../UmbrellaEventSelector';
 
 const eventId = 'hel:123';
+const eventAtId = `https://api.hel.fi/linkedevents/v1/event/${eventId}/`;
 const eventName = 'Event name';
 const helper = 'Helper text';
 const label = 'Select umbrella event';
 const name = 'umbrellaEvent';
 
-const event = fakeEvent({ id: eventId, name: { fi: eventName } });
+const event = fakeEvent({
+  id: eventId,
+  atId: eventAtId,
+  name: { fi: eventName },
+});
+
 const eventResponse = { data: { event: event } };
 
 const eventNames = range(1, 6).map((val) => `Event name ${val}`);
@@ -72,13 +78,13 @@ const defaultProps: UmbrellaEventSelectorProps = {
   helper,
   label,
   name,
-  value: eventId,
+  value: eventAtId,
 };
 
 const renderComponent = (props?: Partial<UmbrellaEventSelectorProps>) =>
   render(<UmbrellaEventSelector {...defaultProps} {...props} />, { mocks });
 
-test('should combobox value to selected event', async () => {
+test('should combobox input value to be selected event', async () => {
   renderComponent();
 
   await actWait();

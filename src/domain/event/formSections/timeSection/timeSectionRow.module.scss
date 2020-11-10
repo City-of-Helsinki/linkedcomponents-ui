@@ -1,13 +1,21 @@
+@import 'breakpoints';
+
 .timeSectionRow {
   display: grid;
-  grid-template-columns: minmax(0, var(--input-max-width)) auto;
+  grid-template-columns: 1fr var(--input-height);
+
+  @include medium-up {
+    grid-template-columns: minmax(0, var(--input-max-width-m)) auto;
+  }
 
   .inputWrapper {
-    max-width: var(--input-max-width);
+    @include medium-up {
+      max-width: var(--input-max-width-m);
+    }
   }
 
   .buttonWrapper {
-    min-width: var(--button-wrapper-min-width);
+    min-width: var(--input-height);
     padding-top: var(--label-height);
   }
 }

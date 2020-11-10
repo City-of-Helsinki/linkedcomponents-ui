@@ -7,7 +7,7 @@ import TextInputField from '../../../../common/components/formFields/TextInputFi
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import FormLanguageSelector from '../../../../common/components/formLanguageSelector/FormLanguageSelector';
 import { CHARACTER_LIMITS } from '../../../../constants';
-import lowercaseFirstLetter from '../../../../utils/lowercaseFirstLetter';
+import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';
 import {
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
@@ -34,7 +34,7 @@ const DescriptionSection = () => {
     }
   }, [eventInfoLanguages, selectedLanguage]);
 
-  const langText = lowercaseFirstLetter(
+  const langText = lowerCaseFirstLetter(
     t(`form.inLanguage.${selectedLanguage}`)
   );
 

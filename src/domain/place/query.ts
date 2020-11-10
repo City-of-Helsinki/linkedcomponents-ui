@@ -14,6 +14,7 @@ export const QUERY_PLACE = gql`
 
   fragment placeFields on Place {
     id
+    atId
     addressLocality {
       ...localisedFields
     }
@@ -25,8 +26,6 @@ export const QUERY_PLACE = gql`
     infoUrl {
       ...localisedFields
     }
-    internalId
-
     name {
       ...localisedFields
     }
@@ -39,6 +38,41 @@ export const QUERY_PLACE = gql`
     }
     position {
       ...positionFields
+    }
+  }
+
+  query Place($id: ID!, $createPath: Any) {
+    place(id: $id) @rest(type: "Place", pathBuilder: $createPath) {
+      ...placeFields
+    }
+  }
+  query Places(
+    $dataSource: String
+    $division: [String]
+    $hasUpcomingEvents: Boolean
+    $page: Int
+    $pageSize: Int
+    $showAllPlaces: Boolean
+    $sort: String
+    $text: String
+    $createPath: Any
+  ) {
+    places(
+      dataSource: $dataSource
+      division: $division
+      hasUpcomingEvents: $hasUpcomingEvents
+      page: $page
+      pageSize: $pageSize
+      showAllPlaces: $showAllPlaces
+      sort: $sort
+      text: $text
+    ) @rest(type: "PlacesResponse", pathBuilder: $createPath) {
+      meta {
+        ...metaFields
+      }
+      data {
+        ...placeFields
+      }
     }
   }
 `;

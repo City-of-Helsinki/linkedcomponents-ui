@@ -70,6 +70,13 @@
         "course": "Välj de språk som används i kursen.",
         "event": "Välj de språk som används i evenemanget."
       },
+      "infoTextLocation1": "Ange platsens namn eller gatuadress i fältet och välj rätt plats i listan.",
+      "infoTextLocation2": {
+        "course": "Om kursen bara hålls på distans på Internet, välj Internet som plats. Händelsens URL anges i hemsidans fält och / eller händelsen i sociala mediefält.",
+        "event": "Om evenemanget bara hålls på distans på Internet, välj Internet som plats. Händelsens URL anges i hemsidans fält och / eller händelsen i sociala mediefält."
+      },
+      "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel golvnummer eller klassrumsnamn.",
+      "infoTextLocation4": "Om den exakta platsen inte finns i listan väljer du närmaste gatuadress som plats och anger namnet på arenan eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
       "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
       "labelDescription": {
@@ -92,6 +99,9 @@
         "course": "Detta kurs är ett paraplyevenemang.",
         "event": "Detta evenemang är ett paraplyevenemang."
       },
+      "labelLocation": "Plats",
+      "labelLocationExtraInfo": "{{langText}}",
+      "labelLocationId": "Plats ID:",
       "labelName": {
         "course": "Kursens title {{langText}}",
         "event": "Evenemangs title {{langText}}"
@@ -109,11 +119,12 @@
         "event": "Evenemang startar"
       },
       "labelUmbrellaEvent": "Paraplyevenemang",
-      "notificationTitleType": "Evenemangtyp",
       "notificationTitleEventTimes": {
         "course": "Kurstider",
         "event": "Evenemamgtider"
       },
+      "notificationTitleLocation": "Venue",
+      "notificationTitleType": "Evenemangtyp",
       "placeholderDescription": {
         "course": "Ange en beskrivning av kursen",
         "event": "Ange en beskrivning av evenemanget"
@@ -123,6 +134,8 @@
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
       },
+      "placeholderLocation": "Välj eller sök efter en plats",
+      "placeholderLocationExtraInfo": "Ange mer information om arenan {{langText}}",
       "placeholderName": {
         "course": "Ange webbadressen till kursens hemsida",
         "event": "Ange webbadressen till evenemangets hemsida"
@@ -149,8 +162,9 @@
         "course": "Kursspråk (kontrollspråk)",
         "event": "Evenemangsspråk (kontrollspråk)"
       },
-      "titleLanguageVersions": "Språkversioner",      
-      
+      "titleLanguageVersions": "Språkversioner",
+      "titleLocation": "Venue",
+      "titleLocationExtraInfo": "Ytterligare platsinformation",
       "titlePersonsInCharge": "Ansvariga person(er)",
       "titleTime": {
         "course": "Kurstider",

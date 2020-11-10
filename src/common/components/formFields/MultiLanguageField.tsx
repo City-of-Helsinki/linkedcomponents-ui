@@ -4,7 +4,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ORDERED_EVENT_INFO_LANGUAGES } from '../../../domain/event/constants';
-import lowerCaseFirstLetter from '../../../utils/lowercaseFirstLetter';
+import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
+import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import styles from './multiLanguageField.module.scss';
 import TextInputField from './TextInputField';
 
@@ -45,7 +46,9 @@ const MultiLanguageField: React.FC<Props> = ({
               name={`${name}.${language}`}
               helper={helperText || (helperKey && t(helperKey, { langText }))}
               label={
-                label || labelText || (labelKey && t(labelKey, { langText }))
+                label ||
+                labelText ||
+                (labelKey && upperCaseFirstLetter(t(labelKey, { langText })))
               }
               placeholder={
                 placeholder ||

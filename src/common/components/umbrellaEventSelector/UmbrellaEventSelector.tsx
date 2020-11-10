@@ -15,11 +15,12 @@ import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
 import isTestEnv from '../../../utils/isTestEnv';
+import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
 
 const getEventFields = (event: EventFieldsFragment, locale: Language) => ({
   name: getLocalisedString(event.name, locale),
-  id: event.id,
+  id: event.atId as string,
 });
 
 const getOption = (
@@ -57,14 +58,15 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
       text: search,
       createPath: isTestEnv
         ? undefined
-        : /* istanbul ignore next */ eventsPathBuilder,
+        : /* istanbul ignore next */
+          eventsPathBuilder,
     },
   });
 
   const { data: eventData } = useEventQuery({
     skip: !value,
     variables: {
-      id: value as string,
+      id: parseIdFromAtId(value) as string,
 
       createPath: isTestEnv
         ? undefined
@@ -110,7 +112,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
       id={name}
       label={label}
       options={options}
-      toggleButtonAriaLabel={t('common.comboboc.toggleButtonAriaLabel')}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
       value={selectedEvent as OptionType | undefined}

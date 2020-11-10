@@ -27,6 +27,7 @@ export const QUERY_EVENT_DETAILS = gql`
 
   fragment eventFields on Event {
     id
+    atId
     description {
       ...localisedFields
     }
@@ -64,7 +65,7 @@ export const QUERY_EVENT_DETAILS = gql`
       ...localisedFields
     }
     superEvent {
-      internalId
+      atId
     }
     startTime
   }

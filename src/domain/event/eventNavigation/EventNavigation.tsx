@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
 import Container from '../../app/layout/Container';
+import FormContainer from '../../app/layout/FormContainer';
 import { useTheme } from '../../app/theme/Theme';
 import styles from './eventNavigation.module.scss';
 
@@ -47,63 +48,72 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
       className={classNames(styles.eventNavigation, css(theme.eventNavigation))}
     >
       <div className={styles.eventNavigationPanel}>
-        <div className={styles.circlesWrapper} role="navigation">
-          {items.map((item, index) => {
-            return (
-              <button
-                key={index}
-                className={classNames(styles.item, {
-                  [styles.completed]: item.isCompleted,
-                  [styles.disabled]: item.disabled,
-                })}
-                aria-current={index === activeTab ? 'step' : false}
-                aria-disabled={item.disabled}
-                aria-label={item.label}
-                role="link"
-                tabIndex={item.disabled ? undefined : 0}
-                type="button"
-                onClick={handleItemClick(item, index)}
-              >
-                <div className={styles.circleWrapper}>
-                  <div className={styles.leftLine}>
-                    <div className={styles.connectionLine} />
-                  </div>
-                  <div className={styles.circle}>
-                    {item.isCompleted ? '✓' : index + 1}
-                  </div>
-                  <div className={styles.rightLine}>
-                    <div className={styles.connectionLine} />
-                  </div>
-                </div>
-                <div className={styles.label}>{item.label}</div>
-              </button>
-            );
-          })}
-        </div>
-        <div className={styles.buttonsWrapper}>
-          <Button
-            disabled={isPreviousDisabled}
-            onClick={handlePreviousClick}
-            variant="secondary"
-          >
-            {t('event.navigation.buttonPrevious')}
-          </Button>
-          <Button disabled={isNextDisabled} onClick={handleNextClick}>
-            {t('event.navigation.buttonNext')}
-          </Button>
-        </div>
-      </div>
-      <Container>
-        {items.map((item, index) => {
-          const hidden = index !== activeTab;
-          return (
-            <div
-              aria-hidden={hidden}
-              key={index}
-              className={classNames(styles.content, {
-                [styles.hidden]: hidden,
+        <Container>
+          <div className={styles.eventNavigationPanelWrapper}>
+            <div className={styles.circlesWrapper} role="navigation">
+              {items.map((item, index) => {
+                return (
+                  <button
+                    key={index}
+                    className={classNames(styles.item, {
+                      [styles.completed]: item.isCompleted,
+                      [styles.disabled]: item.disabled,
+                    })}
+                    aria-current={index === activeTab ? 'step' : false}
+                    aria-disabled={item.disabled}
+                    aria-label={item.label}
+                    role="link"
+                    tabIndex={item.disabled ? undefined : 0}
+                    type="button"
+                    onClick={handleItemClick(item, index)}
+                  >
+                    <div className={styles.circleWrapper}>
+                      <div className={styles.leftLine}>
+                        <div className={styles.connectionLine} />
+                      </div>
+                      <div className={styles.circle}>
+                        {item.isCompleted ? '✓' : index + 1}
+                      </div>
+                      <div className={styles.rightLine}>
+                        <div className={styles.connectionLine} />
+                      </div>
+                    </div>
+                    <div className={styles.label}>{item.label}</div>
+                  </button>
+                );
               })}
-            >
+            </div>
+            <div className={styles.buttonsWrapper}>
+              <Button
+                disabled={isPreviousDisabled}
+                fullWidth={true}
+                onClick={handlePreviousClick}
+                variant="secondary"
+              >
+                {t('event.navigation.buttonPrevious')}
+              </Button>
+              <Button
+                disabled={isNextDisabled}
+                fullWidth={true}
+                onClick={handleNextClick}
+              >
+                {t('event.navigation.buttonNext')}
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </div>
+      {items.map((item, index) => {
+        const hidden = index !== activeTab;
+        return (
+          <div
+            aria-hidden={hidden}
+            key={index}
+            className={classNames(styles.content, {
+              [styles.hidden]: hidden,
+            })}
+          >
+            <FormContainer>
               <div className={styles.titleRow}>
                 <h2>{item.label}</h2>
                 <Button disabled={true} variant="secondary" type="submit">
@@ -111,10 +121,10 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
                 </Button>
               </div>
               {item.component}
-            </div>
-          );
-        })}
-      </Container>
+            </FormContainer>
+          </div>
+        );
+      })}
     </div>
   );
 };

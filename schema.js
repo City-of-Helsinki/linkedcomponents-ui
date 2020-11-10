@@ -34,6 +34,17 @@ module.exports = buildSchema(/* GraphQL */ `
       translation: String
     ): EventsResponse!
     languages: LanguagesResponse!
+    place(id: ID!): Place!
+    places(
+      dataSource: String
+      division: [String]
+      hasUpcomingEvents: Boolean
+      page: Int
+      pageSize: Int
+      showAllPlaces: Boolean
+      sort: String
+      text: String
+    ): PlacesResponse!
   }
 
   type EventsResponse {
@@ -44,6 +55,11 @@ module.exports = buildSchema(/* GraphQL */ `
   type LanguagesResponse {
     meta: Meta!
     data: [Language]!
+  }
+
+  type PlacesResponse {
+    meta: Meta!
+    data: [Place]!
   }
 
   type Meta {
@@ -61,7 +77,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Event {
     id: ID!
-    audience: [InternalIdObject]!
+    audience: [AtIdObject]!
     audienceMaxAge: String
     audienceMinAge: String
     createdTime: String
@@ -87,15 +103,15 @@ module.exports = buildSchema(/* GraphQL */ `
     publisher: ID
     shortDescription: LocalisedObject
     startTime: String
-    subEvents: [InternalIdObject]!
-    superEvent: InternalIdObject
+    subEvents: [AtIdObject]!
+    superEvent: AtIdObject
     superEventType: String
-    # @id is renamed as internalId so it's usable on GraphQl
-    internalId: String
-    # @context is renamed as internalContext so it's usable on GraphQl
-    internalContext: String
-    # @type is renamed as internalType so it's usable on GraphQl
-    internalType: String
+    # @id is renamed as atId so it's usable on GraphQl
+    atId: String
+    # @context is renamed as atContext so it's usable on GraphQl
+    atContext: String
+    # @type is renamed as atType so it's usable on GraphQl
+    atType: String
   }
 
   type ExternalLink {
@@ -123,17 +139,17 @@ module.exports = buildSchema(/* GraphQL */ `
     photographerName: String
     publisher: String
     url: String
-    # @id is renamed as internalId so it's usable on GraphQl
-    internalId: String
-    # @context is renamed as internalContext so it's usable on GraphQl
-    internalContext: String
-    # @type is renamed as internalType so it's usable on GraphQl
-    internalType: String
+    # @id is renamed as atId so it's usable on GraphQl
+    atId: String
+    # @context is renamed as atContext so it's usable on GraphQl
+    atContext: String
+    # @type is renamed as atType so it's usable on GraphQl
+    atType: String
   }
 
-  type InternalIdObject {
-    # @id is renamed as internalId so it's usable on GraphQl
-    internalId: String
+  type AtIdObject {
+    # @id is renamed as atId so it's usable on GraphQl
+    atId: String
   }
 
   type Keyword {
@@ -149,24 +165,24 @@ module.exports = buildSchema(/* GraphQL */ `
     name: LocalisedObject
     nEvents: Int
     publisher: ID
-    # @id is renamed as internalId so it's usable on GraphQl
-    internalId: String
-    # @context is renamed as internalContext so it's usable on GraphQl
-    internalContext: String
-    # @type is renamed as internalType so it's usable on GraphQl
-    internalType: String
+    # @id is renamed as atId so it's usable on GraphQl
+    atId: String
+    # @context is renamed as atContext so it's usable on GraphQl
+    atContext: String
+    # @type is renamed as atType so it's usable on GraphQl
+    atType: String
   }
 
   type Language {
     id: ID
     translationAvailable: Boolean
     name: LocalisedObject
-    # @id is renamed as internalId so it's usable on GraphQl
-    internalId: String
-    # @context is renamed as internalContext so it's usable on GraphQl
-    internalContext: String
-    # @type is renamed as internalType so it's usable on GraphQl
-    internalType: String
+    # @id is renamed as atId so it's usable on GraphQl
+    atId: String
+    # @context is renamed as atContext so it's usable on GraphQl
+    atContext: String
+    # @type is renamed as atType so it's usable on GraphQl
+    atType: String
   }
 
   type LocalisedObject {
@@ -209,12 +225,12 @@ module.exports = buildSchema(/* GraphQL */ `
     replacedBy: String
     streetAddress: LocalisedObject
     telephone: LocalisedObject
-    # @id is renamed as internalId so it's usable on GraphQl
-    internalId: String
-    # @context is renamed as internalContext so it's usable on GraphQl
-    internalContext: String
-    # @type is renamed as internalType so it's usable on GraphQl
-    internalType: String
+    # @id is renamed as atId so it's usable on GraphQl
+    atId: String
+    # @context is renamed as atContext so it's usable on GraphQl
+    atContext: String
+    # @type is renamed as atType so it's usable on GraphQl
+    atType: String
   }
 
   type Position {

@@ -1,15 +1,31 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import styles from './inputRow.module.scss';
 
+type InfoWidth = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
 interface Props {
   children: React.ReactNode;
+  className?: string;
   info?: React.ReactElement;
+  infoWidth?: InfoWidth;
 }
 
-const InputRow: React.FC<Props> = ({ children, info }) => {
+const InputRow: React.FC<Props> = ({
+  children,
+  className,
+  info,
+  infoWidth = 4,
+}) => {
   return (
-    <div className={styles.inputRow}>
+    <div
+      className={classNames(
+        styles.inputRow,
+        styles[`infoWidth${infoWidth}`],
+        className
+      )}
+    >
       {info && <div className={styles.infoColumn}>{info}</div>}
       <div className={styles.inputColumn}>{children}</div>
     </div>

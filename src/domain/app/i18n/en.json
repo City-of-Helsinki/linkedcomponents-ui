@@ -70,6 +70,13 @@
         "course": "Choose the languages used in the course.",
         "event": "Choose the languages used in the event."
       },
+      "infoTextLocation1": "Enter the name or street address of the venue in the field and select the correct venue from the list.",
+      "infoTextLocation2": {
+        "course": "If the course is only held remotely on the Internet, select Internet as the venue. The event URL is entered in the home page field and / or the event on social media fields.",
+        "event": "If the event is only held remotely on the Internet, select Internet as the venue. The event URL is entered in the home page field and / or the event on social media fields."
+      },
+      "infoTextLocation3": "If the venue is found in the list, its location does not need to be described separately. However, you can provide additional information to find the venue, such as the floor number or classroom name.",
+      "infoTextLocation4": "If the exact venue is not found in the list, select the nearest street address as the venue and enter the name of the venue or other detailed arrival instructions in the additional information field.",
       "infoTextType1": "Select the type of event. Is it an event or a course? The event is a one-time event and starts at a specific time, while the course may, as a rule, have several occurrences.",
       "infoTextType2": "The choice of event type affects the choices made later in the input form.",
       "labelDescription": {
@@ -92,6 +99,9 @@
         "course": "This course is an umbrella event.",
         "event": "This event is an umbrella event."
       },
+      "labelLocation": "Location",
+      "labelLocationExtraInfo": "{{langText}}",
+      "labelLocationId": "Location ID:",
       "labelName": {
         "course": "Course title {{langText}}",
         "event": "Event title {{langText}}"
@@ -109,11 +119,12 @@
         "event": "Event starts"
       },
       "labelUmbrellaEvent": "Umbrella event",
-      "notificationTitleType": "Event type",
       "notificationTitleEventTimes": {
         "course": "Course times",
         "event": "Event times"
       },
+      "notificationTitleLocation": "Venue",
+      "notificationTitleType": "Event type",
       "placeholderDescription": {
         "course": "Enter a description of the course",
         "event": "Enter a description of the event"
@@ -123,6 +134,8 @@
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
       },
+      "placeholderLocation": "Select or search for a venue",
+      "placeholderLocationExtraInfo": "Enter more information about the venue {{langText}}",
       "placeholderName": {
         "course": "Enter the course title",
         "event": "Enter the event title"
@@ -151,6 +164,8 @@
       },
       
       "titleLanguageVersions": "Language versions",
+      "titleLocation": "Venue",
+      "titleLocationExtraInfo": "Additional location information",
       "titlePersonsInCharge": "Person(s) in charge",
       "titleTime": {
         "course": "Course dates",

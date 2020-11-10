@@ -4,6 +4,7 @@ import addDays from 'date-fns/addDays';
 import formatDate from 'date-fns/format';
 import isSameDay from 'date-fns/isSameDay';
 import isToday from 'date-fns/isToday';
+import isNil from 'lodash/isNil';
 import React, { useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -81,14 +82,16 @@ const Day: React.FC<{ date: Date; dayLabel: string }> = ({
   // @datepicker-react/hooks allows to set focus to disabled dates, so override onKeyDown function here
   // to prevent moving to disabled dates
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === 'ArrowRight') {
-      focusDate(addDays(date, 1));
-    } else if (e.key === 'ArrowLeft') {
-      focusDate(addDays(date, -1));
-    } else if (e.key === 'ArrowUp') {
-      focusDate(addDays(date, -7));
-    } else if (e.key === 'ArrowDown') {
-      focusDate(addDays(date, 7));
+    const keysToNumber: { [key: string]: number } = {
+      ArrowDown: 7,
+      ArrowLeft: -1,
+      ArrowRight: 1,
+      ArrowUp: -7,
+    };
+    const days = keysToNumber[e.key];
+
+    if (!isNil(days)) {
+      focusDate(addDays(date, days));
     }
   };
 

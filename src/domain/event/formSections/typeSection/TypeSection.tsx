@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next';
 import RadioButtonGroupField from '../../../../common/components/formFields/RadioButtonGroupField';
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { OptionType } from '../../../../types';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
+import InputWrapper from '../InputWrapper';
 
 const TypeSection = () => {
   const { t } = useTranslation();
@@ -30,12 +32,19 @@ const TypeSection = () => {
             <p>{t('event.form.infoTextType2')}</p>
           </Notification>
         }
+        infoWidth={5}
       >
-        <Field
-          name={EVENT_FIELDS.TYPE}
-          component={RadioButtonGroupField}
-          options={typeOptions}
-        />
+        <InputWrapper
+          columns={6}
+          inputColumns={4}
+          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
+        >
+          <Field
+            name={EVENT_FIELDS.TYPE}
+            component={RadioButtonGroupField}
+            options={typeOptions}
+          />
+        </InputWrapper>
       </InputRow>
     </>
   );

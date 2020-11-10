@@ -1,12 +1,7 @@
 @import 'breakpoints';
-.timeSection {
-  --button-wrapper-min-width: 56px;
-  --input-max-width: 566px;
-  --label-height: 28px;
 
-  .notification {
-    @include medium-up {
-      margin-top: var(--label-height);
-    }
+.notification {
+  @include medium-up {
+    margin-top: var(--label-height);
   }
 }

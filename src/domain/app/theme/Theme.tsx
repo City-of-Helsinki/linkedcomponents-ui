@@ -101,8 +101,6 @@ type EventNavigationCSSProperties = {
 
 type FormLanguageSelectorCSSProperties = {
   '--form-language-selector-color-icon'?: string;
-  '--form-language-selector-grid-gap'?: string;
-  '--form-language-selector-padding-top'?: string;
 };
 
 type LanguageSelectorCSSProperties = {
@@ -189,6 +187,13 @@ type RadioButtonCSSProperties = {
   '--label-color-disabled'?: string;
 };
 
+type RootCSSProperties = {
+  '--input-height'?: string;
+  '--input-max-width-m'?: string;
+  '--input-max-width-l'?: string;
+  '--label-height'?: string;
+};
+
 type SelectCSSProperties = {
   '--border-radius'?: string;
   '--border-width'?: string;
@@ -223,12 +228,6 @@ type TextInputCSSProperties = {
   '--label-color-invalid'?: string;
   '--placeholder-color'?: string;
   '--focus-outline-color'?: string;
-};
-
-type TimeSectionCSSProperties = {
-  '--button-wrapper-min-width'?: string;
-  '--input-max-width'?: string;
-  '--label-height'?: string;
 };
 
 type TimepickerCSSProperties = {
@@ -273,9 +272,9 @@ export type Theme = {
     };
   };
   radioButton: RadioButtonCSSProperties;
+  root: RootCSSProperties;
   select: SelectCSSProperties;
   textInput: TextInputCSSProperties;
-  timeSection: TimeSectionCSSProperties;
   timepicker: TimepickerCSSProperties;
 };
 
@@ -292,9 +291,9 @@ const defaultTheme: Theme = {
   navigation: {},
   notification: {},
   radioButton: {},
+  root: {},
   select: {},
   textInput: {},
-  timeSection: {},
   timepicker: {},
 };
 

@@ -16,6 +16,10 @@ body {
 #root {
   flex: 1;
   background-color: var(--color-black-5);
+  --breakpoint-xl: 1440px;
+  --container-width-xl: 1392px;
+  --input-max-width-m: 448px;
+  --input-max-width-l: 566px;
 }
 
 button {

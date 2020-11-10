@@ -29,8 +29,8 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
     onBlur({ target: { id: name, value } });
   };
 
-  const handleChange = (selected: OptionType) => {
-    onChange({ target: { id: name, value: selected.value } });
+  const handleChange = (selected: OptionType | null) => {
+    onChange({ target: { id: name, value: selected?.value || null } });
   };
 
   return (

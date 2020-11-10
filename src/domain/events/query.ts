@@ -55,9 +55,7 @@ export const QUERY_EVENTS = gql`
       translation: $translation
     ) @rest(type: "EventsResponse", pathBuilder: $createPath) {
       meta {
-        count
-        next
-        previous
+        ...metaFields
       }
       data {
         ...eventFields

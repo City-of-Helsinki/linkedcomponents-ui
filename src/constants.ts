@@ -19,6 +19,11 @@ export enum CHARACTER_LIMITS {
   LONG_STRING = 5000,
 }
 
+export enum INPUT_MAX_WIDTHS {
+  MEDIUM = 'MEDIUM',
+  LARGE = 'LARGE',
+}
+
 export const DATE_FORMAT = 'dd.MM.yyyy';
 export const DATETIME_FORMAT = `${DATE_FORMAT} HH.mm`;
 

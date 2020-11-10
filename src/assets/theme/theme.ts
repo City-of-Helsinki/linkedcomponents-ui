@@ -177,8 +177,6 @@ const theme: Theme = {
   },
   formLanguageSelector: {
     '--form-language-selector-color-icon': 'var(--color-success)',
-    '--form-language-selector-grid-gap': 'var(--spacing-m)',
-    '--form-language-selector-padding-top': '28px',
   },
   layout: {
     '--page-background-color': 'var(--color-white)',
@@ -280,6 +278,12 @@ const theme: Theme = {
     '--label-color': 'var(--color-black-90)',
     '--label-color-disabled': 'var(--color-black-40)',
   },
+  root: {
+    '--input-height': '56px',
+    '--input-max-width-m': '448px',
+    '--input-max-width-l': '566px',
+    '--label-height': '28px',
+  },
   select: {
     '--border-radius': '2px',
     '--border-width': '2px',
@@ -349,11 +353,6 @@ const theme: Theme = {
     '--label-color-invalid': 'var(--color-black-90)',
     '--placeholder-color': 'var(--color-black-60)',
     '--focus-outline-color': 'var(--color-coat-of-arms)',
-  },
-  timeSection: {
-    '--button-wrapper-min-width': '56px',
-    '--input-max-width': '566px',
-    '--label-height': '28px',
   },
   timepicker: {
     '--menu-background-color': 'var(--color-white)',

@@ -3,7 +3,7 @@ import range from 'lodash/range';
 import React from 'react';
 
 import { EventsDocument } from '../../../../../generated/graphql';
-import lowerCaseFirstLetter from '../../../../../utils/lowercaseFirstLetter';
+import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
 import { fakeEvents } from '../../../../../utils/mockDataUtils';
 import {
   render,
@@ -32,6 +32,7 @@ const eventsVariables = {
   superEventType: ['umbrella'],
   text: '',
 };
+
 const mocks = [
   {
     request: {

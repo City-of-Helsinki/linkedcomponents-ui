@@ -3,7 +3,7 @@
 .container {
   box-sizing: border-box;
   align-items: center;
-  display: flex;
+  display: block;
   padding: 0 var(--spacing-s);
 
   @include x-small-only {

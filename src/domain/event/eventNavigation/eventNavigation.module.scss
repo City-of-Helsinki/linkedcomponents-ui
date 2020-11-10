@@ -40,6 +40,18 @@
       grid-template-columns: 1fr auto;
       grid-gap: var(--spacing-m);
       align-items: center;
+
+      @include medium-up {
+        grid-template-columns: repeat(10, 1fr);
+
+        h2 {
+          grid-column: 1 / 9;
+        }
+
+        button {
+          grid-column: 9 / 11;
+        }
+      }
     }
   }
 
@@ -50,33 +62,37 @@
     left: 0;
     right: 0;
     background-color: var(--color-black-5);
-    padding: var(--spacing-s);
-    display: grid;
-    grid-gap: var(--spacing-m);
 
-    @include medium-up {
-      grid-template-columns: auto 1fr;
-      padding: var(--spacing-m);
-      grid-gap: var(--spacing-l);
+    .eventNavigationPanelWrapper {
+      display: grid;
+      padding: var(--spacing-s) 0;
+      grid-gap: var(--spacing-m);
+
+      @include medium-up {
+        grid-template-columns: repeat(12, 1fr);
+        padding: var(--spacing-m) 0;
+        grid-gap: var(--spacing-m);
+      }
     }
 
     .circlesWrapper {
       display: flex;
       overflow: auto;
+
+      @include medium-up {
+        grid-column: 1 / 9;
+      }
     }
 
     .buttonsWrapper {
-      grid-gap: var(--spacing-m);
       display: grid;
       grid-template-columns: 1fr 1fr;
+      grid-gap: var(--spacing-m);
       justify-content: flex-end;
       align-items: flex-start;
 
       @include medium-up {
-        grid-template-columns: auto auto;
-        button {
-          width: max-content;
-        }
+        grid-column: 9 / 13;
       }
     }
 
