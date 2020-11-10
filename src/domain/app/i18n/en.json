@@ -40,7 +40,9 @@
   "event": {
     "form": {
       "buttonAddEventTime": "Add new time",
+      "buttonAddOffer": "Add new pricing information",
       "buttonDeleteEventTime": "Delete time",
+      "buttonDeleteOffer": "Delete pricing information",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextEventTimes1": {
         "course": "To add a multi-day recurring course, there is an “Add New Time” button and a regular “Recurring Course” tool for a regularly recurring course.",
@@ -87,6 +89,10 @@
         "course": "Course ends",
         "event": "Event ends"
       },
+      "labelHasPrice": {
+        "course": "The course is chargeable",
+        "event": "The event is chargeable"
+      },
       "labelHasUmbrella": {
         "course": "This course has an umbrella event.",
         "event": "This event has an umbrella event."
@@ -106,6 +112,9 @@
         "course": "Course title {{langText}}",
         "event": "Event title {{langText}}"
       },
+      "labelOfferDescription": "{{langText}}",
+      "labelOfferInfoUrl": "{{langText}}",
+      "labelOfferPrice": "{{langText}}",
       "labelProvider": {
         "course": "Course organizer {{langText}} (if different than the publisher)",
         "event": "Event organizer {{langText}} (if different than the publisher)"
@@ -140,6 +149,12 @@
         "course": "Enter the course title",
         "event": "Enter the event title"
       },
+      "placeholderOfferDescription": "Enter a description of the price information {{langText}}",
+      "placeholderOfferInfoUrl": "Enter the URL for the ticket sale or registration {{langText}}",
+      "placeholderOfferPrice": {
+        "course": "Enter the price of the course {{langText}}",
+        "event": "Enter the price of the event {{langText}}"
+      },
       "placeholderProvider": {
           "course": "Enter the course organizer's name",
           "event": "Enter the event organizer's name"
@@ -166,7 +181,15 @@
       "titleLanguageVersions": "Language versions",
       "titleLocation": "Venue",
       "titleLocationExtraInfo": "Additional location information",
+      "titleOfferDescription": "Description of price information",
+      "titleOfferInfoUrl": "Link to ticket sales or registration",
+      "titleOfferPrice": "Price",
       "titlePersonsInCharge": "Person(s) in charge",
+      "titlePriceInfo": {
+        "course": "Course price information",
+        "event": "Event price information"
+      },
+      "titlePrice": "Price",
       "titleTime": {
         "course": "Course dates",
         "event": "Event dates"

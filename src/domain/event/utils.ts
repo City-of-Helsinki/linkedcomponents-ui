@@ -10,8 +10,8 @@ import { OptionType } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 import { createStringError } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { EVENT_FIELDS } from './constants';
-import { EventTime } from './types';
+import { EMPTY_MULTI_LANGUAGE_OBJECT, EVENT_FIELDS } from './constants';
+import { EventTime, Offer } from './types';
 
 const createMultiLanguageFieldValidation = (
   rule: Yup.Schema<string | null | undefined>
@@ -136,5 +136,13 @@ export const getEmptyEventTime = (): EventTime => {
   return {
     [EVENT_FIELDS.END_TIME]: null,
     [EVENT_FIELDS.START_TIME]: null,
+  };
+};
+
+export const getEmptyOffer = (): Offer => {
+  return {
+    [EVENT_FIELDS.OFFER_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [EVENT_FIELDS.OFFER_INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [EVENT_FIELDS.OFFER_PRICE]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   };
 };
