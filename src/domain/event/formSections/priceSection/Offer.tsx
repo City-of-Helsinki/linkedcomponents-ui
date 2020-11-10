@@ -13,12 +13,12 @@ import PriceSectionRow from './PriceSectionRow';
 
 type Props = {
   offerPath: string;
-  onDelete?: () => void;
+  onDelete: () => void;
   type: string;
 };
 
 const getFieldName = (offerPath: string, field: string) =>
-  offerPath ? `${offerPath}.${field}` : field;
+  `${offerPath}.${field}`;
 
 const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
   const { t } = useTranslation();
@@ -77,12 +77,10 @@ const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
             </>
           }
           button={
-            onDelete ? (
-              <DeleteButton
-                label={t('event.form.buttonDeleteOffer')}
-                onClick={onDelete}
-              />
-            ) : undefined
+            <DeleteButton
+              label={t('event.form.buttonDeleteOffer')}
+              onClick={onDelete}
+            />
           }
         />
       </InputRow>
