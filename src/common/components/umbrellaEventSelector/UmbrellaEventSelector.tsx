@@ -1,6 +1,7 @@
 import { SingleSelectProps } from 'hds-react/components/Select';
 import sortBy from 'lodash/sortBy';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import { eventPathBuilder } from '../../../domain/event/utils';
@@ -42,6 +43,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   value,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = React.useState('');
   const [options, setOptions] = React.useState<OptionType[]>([]);
@@ -108,6 +110,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
       id={name}
       label={label}
       options={options}
+      toggleButtonAriaLabel={t('common.comboboc.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
       value={selectedEvent as OptionType | undefined}

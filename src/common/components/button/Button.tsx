@@ -13,7 +13,7 @@ const Button: React.FC<ButtonProps> = ({
   const { theme } = useTheme();
   return (
     <BaseButton
-      variant={variant}
+      variant={variant as any}
       {...rest}
       className={classNames(className, css(theme.button[variant]))}
     />

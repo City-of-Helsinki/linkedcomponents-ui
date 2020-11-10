@@ -59,7 +59,7 @@ test('onMenuToggle function should be called', async () => {
   renderComponent({ onMenuToggle });
 
   const button = screen.getByRole('button', {
-    name: translations.navigation.menuOpenAriaLabel,
+    name: translations.navigation.menuToggleAriaLabel,
   });
 
   userEvent.click(button);
@@ -73,11 +73,11 @@ test('should change language', async () => {
   expect(history.location.pathname).toBe('/fi');
 
   const button = screen.getByRole('button', {
-    name: `${translations.navigation.languageSelectorAriaLabel} FI`,
+    name: translations.navigation.languageSelectorAriaLabel,
   });
   userEvent.click(button);
 
-  const svOption = screen.getByRole('option', {
+  const svOption = screen.getByRole('link', {
     name: translations.navigation.languages.sv,
   });
   userEvent.click(svOption);

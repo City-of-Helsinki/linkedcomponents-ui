@@ -1,0 +1,3 @@
+.indicator {
+  composes: hds-text-input__required from '~hds-core/lib/components/text-input/text-input.css';
+}

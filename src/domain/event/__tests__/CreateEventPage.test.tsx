@@ -26,9 +26,11 @@ test('should show correct title', async () => {
   const title = document.title;
 
   expect(title).toBe(
-    `${translations.createEventPage.pageTitle} - ${translations.appName}`
+    `${translations.createEventPage.pageTitle.event} - ${translations.appName}`
   );
   expect(
-    screen.getByRole('heading', { name: translations.createEventPage.title })
+    screen.getByRole('heading', {
+      name: translations.createEventPage.title.event,
+    })
   ).toBeInTheDocument();
 });

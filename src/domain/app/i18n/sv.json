@@ -1,6 +1,28 @@
 {
   "appName": "Linked Components",
   "common": {
+    "combobox": {
+      "toggleButtonAriaLabel": "Menyn"
+    },
+    "datepicker": {
+      "accessibility": {
+        "buttonCalendar": "Kalendar",
+        "buttonNextMonth": "Nästa månad",
+        "buttonPreviousMonth": "Förra månaden",
+        "selectDate": "Välj {{value}}",
+        "selectTime": "Välj {{value}}",
+        "timeInstructions": "Välj tid med piltangenterna"
+      },
+      "buttonClose": "Stäng"
+    },
+    "dropdownSelect": {
+      "accessibility": {
+        "noResults": "Inga alternativ är tillgängliga",
+        "selectionMessage": "{{value}} har valts.",
+        "statusMessage": "{{count}} alternativet är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja.",
+        "statusMessage_plural": "{{count}} alternativ är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja."
+      }
+    },
     "showLess": "Visa mindre",
     "showMore": "Visa mer"
   },
@@ -17,7 +39,29 @@
   },
   "event": {
     "form": {
+      "buttonAddEventTime": "Lägg till ny tid",
+      "buttonDeleteEventTime": "Radera tid",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
+      "infoTextEventTimes1": {
+        "course": "För att lägga till en flerdagars återkommande kurs finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande kurs” -verktyg.",
+        "event": "För att lägga till en flerdagars återkommande evenemang finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande evenemang” -verktyg."
+      },
+      "infoTextEventTimes2": {
+        "course": "Ange starttid för kursen och även starttiden om kursen börjar vid en viss tidpunkt.",
+        "event": "Ange starttid för evenemanget och även starttiden om evenemanget börjar vid en viss tidpunkt."
+      },
+      "infoTextEventTimes3": {
+        "course": "Ange också sluttid samt sluttid om kursen slutar vid en viss tidpunkt.",
+        "event": "Ange också sluttid samt sluttid om evenemanget slutar vid en viss tidpunkt."
+      },
+      "infoTextEventTimes4": {
+        "course": "Om kursen hålls mer än en gång kan du lägga till nya tid i kursen. Om kursen upprepas regelbundet kan du lägga till alla gånger samtidigt genom att välja Återkommande kurs.",
+        "event": "Om evenemanget hålls mer än en gång kan du lägga till nya tid i evenemanget. Om evenemanget upprepas regelbundet kan du lägga till alla gånger samtidigt genom att välja Återkommande evenemang."
+      },
+      "infoTextEventTimes5": {
+        "course": "För att ta bort en extra tid, välj papperskorgen ikonen bredvid tiden.",
+        "event": "För att ta bort en extra tid, välj papperskorgen ikonen bredvid tiden."
+      },
       "infoTextInfoLanguages": {
         "course": "Välj de språk som används för att mata in kursinformation.",
         "event": "Välj de språk som används för att mata in evenemanginformation."
@@ -31,6 +75,10 @@
       "labelDescription": {
         "course": "Beskrivning av kursen {{langText}}",
         "event": "Beskrivning av evenemanget {{langText}}"
+      },
+      "labelEndTime": {
+        "course": "Kurs slutar",
+        "event": "Evenemang slutar"
       },
       "labelHasUmbrella": {
         "course": "Detta kurs har ett paraplyevenemang.",
@@ -56,12 +104,21 @@
         "course": "Kort beskrivning {{langText}} (upp till 160 tecken)",
         "event": "Kort beskrivning {{langText}} (upp till 160 tecken)"
       },
+      "labelStartTime": {
+        "course": "Kurs startar",
+        "event": "Evenemang startar"
+      },
       "labelUmbrellaEvent": "Paraplyevenemang",
       "notificationTitleType": "Evenemangtyp",
+      "notificationTitleEventTimes": {
+        "course": "Kurstider",
+        "event": "Evenemamgtider"
+      },
       "placeholderDescription": {
         "course": "Ange en beskrivning av kursen",
         "event": "Ange en beskrivning av evenemanget"
       },
+      "placeholderEndTime": "dd.mm.åååå hh.mm",
       "placeholderInfoUrl": {
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
@@ -78,6 +135,7 @@
         "course": "Ange en kort beskrivning av kursen",
         "event": "Ange en kort beskrivning av evenemanget"
       },
+      "placeholderStartTime": "dd.mm.åååå hh.mm",
       "titleDescription": {
         "course": "Kursbeskrivning",
         "event": "Evenemangbeskrivning"
@@ -94,6 +152,10 @@
       "titleLanguageVersions": "Språkversioner",      
       
       "titlePersonsInCharge": "Ansvariga person(er)",
+      "titleTime": {
+        "course": "Kurstider",
+        "event": "Evenemangtider"
+      },
       "titleUmrellaEvent": "Paraplyevenemangen"
     },
     "navigation": {
@@ -179,11 +241,11 @@
       "sv": "På svenska"
     },
     "languageSelectorAriaLabel": "Svenska - språkval",
-    "menuCloseAriaLabel": "Stäng menyn",
-    "menuOpenAriaLabel": "Öppna menyn",
+    "menuToggleAriaLabel": "Menyn",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
       "createEvent": "Nytt evenemang",
+      "events": "Evenemangen",
       "help": "Läs mer",
       "searchEvent": "Sök evenemangen"
     }

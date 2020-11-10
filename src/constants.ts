@@ -1,5 +1,6 @@
 export enum ROUTES {
   CREATE_EVENT = '/event/create',
+  EVENTS = '/events',
   HELP = '/help',
   HOME = '/',
   SEARCH = '/search',
@@ -17,6 +18,9 @@ export enum CHARACTER_LIMITS {
   MEDIUM_STRING = 320,
   LONG_STRING = 5000,
 }
+
+export const DATE_FORMAT = 'dd.MM.yyyy';
+export const DATETIME_FORMAT = `${DATE_FORMAT} HH.mm`;
 
 export const EXTLINK = {
   EXTLINK_FACEBOOK: 'extlink_facebook',

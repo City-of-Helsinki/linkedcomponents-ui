@@ -3,6 +3,7 @@ import range from 'lodash/range';
 import React from 'react';
 
 import { EventsDocument } from '../../../../../generated/graphql';
+import lowerCaseFirstLetter from '../../../../../utils/lowercaseFirstLetter';
 import { fakeEvents } from '../../../../../utils/mockDataUtils';
 import {
   render,
@@ -11,9 +12,14 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import { EVENT_FIELDS, EVENT_INFO_LANGUAGES } from '../../../constants';
+import {
+  EVENT_FIELDS,
+  EVENT_INFO_LANGUAGES,
+  EVENT_TYPE,
+} from '../../../constants';
 import ResponsibilitiesSection from '../ResponsibilitiesSection';
 
+const type = EVENT_TYPE.EVENT;
 const eventNames = range(1, 6).map((val) => `Event name ${val}`);
 const events = fakeEvents(
   eventNames.length,
@@ -48,6 +54,7 @@ const renderComponent = () =>
         [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: languages,
         [EVENT_FIELDS.HAS_UMBRELLA]: false,
         [EVENT_FIELDS.IS_UMBRELLA]: false,
+        [EVENT_FIELDS.TYPE]: type,
         [EVENT_FIELDS.UMBRELLA_EVENT]: null,
       }}
       onSubmit={jest.fn()}
@@ -61,22 +68,29 @@ test('should render responsibilities section', () => {
   renderComponent();
 
   languages.forEach((language) => {
+    const langText = lowerCaseFirstLetter(
+      translations.form.inLanguage[language]
+    );
+
     expect(
-      screen.queryByPlaceholderText(
-        translations.event.form.placeholderProvider[language]
+      screen.queryByLabelText(
+        translations.event.form.labelProvider[type].replace(
+          '{{langText}}',
+          langText
+        )
       )
     ).toBeInTheDocument();
   });
 
   expect(
     screen.queryByRole('checkbox', {
-      name: translations.event.form.labelHasUmbrella,
+      name: translations.event.form.labelHasUmbrella[type],
     })
   ).toBeInTheDocument();
 
   expect(
     screen.queryByRole('checkbox', {
-      name: translations.event.form.labelIsUmbrella,
+      name: translations.event.form.labelIsUmbrella[type],
     })
   ).toBeInTheDocument();
 });
@@ -86,7 +100,7 @@ test('should render umberlla event selector if isUmbrella is checked', async () 
 
   userEvent.click(
     screen.getByRole('checkbox', {
-      name: translations.event.form.labelHasUmbrella,
+      name: translations.event.form.labelHasUmbrella[type],
     })
   );
 

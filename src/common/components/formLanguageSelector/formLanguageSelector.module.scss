@@ -15,4 +15,10 @@
   .icon {
     color: var(--form-language-selector-color-icon);
   }
+
+  button {
+    span {
+      padding-right: var(--spacing-s) !important;
+    }
+  }
 }

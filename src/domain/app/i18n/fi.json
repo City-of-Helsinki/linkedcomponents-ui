@@ -1,6 +1,28 @@
 {
   "appName": "Linked Components",
   "common": {
+    "combobox": {
+      "toggleButtonAriaLabel": "Valikko"
+    },
+    "datepicker": {
+      "accessibility": {
+        "buttonCalendar": "Kalenteri",
+        "buttonNextMonth": "Seuraava kuukausi",
+        "buttonPreviousMonth": "Edellinen kuukausi",
+        "selectDate": "Valitse {{value}}",
+        "selectTime": "Valitse kellonajaksi {{value}}",
+        "timeInstructions": "Valitse kellonaika nuolinäppäimillä"
+      },
+      "buttonClose": "Sulje"
+    },
+    "dropdownSelect": {
+      "accessibility": {
+        "noResults": "Ei vaihtoehtoja",
+        "selectionMessage": "{{value}} on valittu.",
+        "statusMessage": "{{count}} vaihtoehto valittavissa, siirry nuolinäppäimillä ylös ja alas. Paina Enter-näppäintä valitaksesi.",
+        "statusMessage_plural": "{{count}} vaihtoehtoa valittavissa, siirry nuolinäppäimillä ylös ja alas. Paina Enter-näppäintä valitaksesi."
+      }
+    },
     "showLess": "Näytä vähemmän",
     "showMore": "Näytä lisää"
   },
@@ -17,7 +39,29 @@
   },
   "event": {
     "form": {
+      "buttonAddEventTime": "Lisää uusi ajankohta",
+      "buttonDeleteEventTime": "Poista ajankohta",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
+      "infoTextEventTimes1": {
+        "course": "Useana päivänä toistuvan kurssin lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
+        "event": "Useana päivänä toistuvan tapahtuman lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu."
+      },
+      "infoTextEventTimes2": {
+        "course": "Kirjoita kurssin alkamispäivä ja myös alkamisaika, jos kurssi alkaa tiettyyn kellonaikaan.",
+        "event": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan."
+      },
+      "infoTextEventTimes3": {
+        "course": "Kirjoita myös päättymispäivä sekä päättymisaika, jos kurssi päättyy tiettyyn kellonaikaan.",
+        "event": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan."
+      },
+      "infoTextEventTimes4": {
+        "course": "Jos kurssi järjestetään useamman kerran, voit lisätä kurssille uusia ajankohtia. Jos kurssi toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva kurssi.",
+        "event": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma."
+      },
+      "infoTextEventTimes5": {
+        "course": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.",
+        "event": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin."
+      },
       "infoTextInfoLanguages": {
         "course": "Valitse kielet joita käytetään kurssitietojen syötössä.",
         "event": "Valitse kielet joita käytetään tapahtumatietojen syötössä."
@@ -31,6 +75,10 @@
       "labelDescription": {
         "course": "Kurssin kuvaus {{langText}}",
         "event": "Tapahtuman kuvaus {{langText}}"
+      },
+      "labelEndTime": {
+        "course": "Kurssi päättyy",
+        "event": "Tapahtuma päättyy"
       },
       "labelHasUmbrella": {
         "course": "Tällä kurssilla on kattotapahtuma.",
@@ -56,12 +104,21 @@
         "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
         "event": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
       },
+      "labelStartTime": {
+        "course": "Kurssi alkaa",
+        "event": "Tapahtuma alkaa"
+      },
       "labelUmbrellaEvent": "Kattotapahtuma",
       "notificationTitleType": "Tapahtumatyyppi",
+      "notificationTitleEventTimes": {
+        "course": "Kurssin ajankohdat",
+        "event": "Tapahtuman ajankohdat"
+      },
       "placeholderDescription": {
         "course": "Syötä kurssin kuvaus",
         "event": "Syötä tapahtuman kuvaus"
       },
+      "placeholderEndTime": "dd.mm.vvvv hh.mm",
       "placeholderInfoUrl": {
         "course": "Syötä kurssin kotisivun URL",
         "event": "Syötä tapahtuman kotisivun URL"
@@ -78,6 +135,7 @@
         "course": "Syötä kurssin lyhyt kuvaus",
         "event": "Syötä tapahtuman lyhyt kuvaus"
       },
+      "placeholderStartTime": "dd.mm.vvvv hh.mm",
       "titleDescription": {
         "course": "Kurssin kuvaus",
         "event": "Tapahtuman kuvaus"
@@ -93,6 +151,10 @@
       },
       "titleLanguageVersions": "Kieliversiot",
       "titlePersonsInCharge": "Vastuuhenkilöt",
+      "titleTime": {
+        "course": "Kurssin ajankohdat",
+        "event": "Tapahtuman ajankohdat"
+      },
       "titleUmrellaEvent": "Kattotapahtumat"
     },
     "navigation": {
@@ -179,11 +241,11 @@
       "sv": "På svenska"
     },
     "languageSelectorAriaLabel": "Suomi - kielivalikko",
-    "menuCloseAriaLabel": "Sulje valikko",
-    "menuOpenAriaLabel": "Avaa valikko",
+    "menuToggleAriaLabel": "Valikko",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
       "createEvent": "Uusi tapahtuma",
+      "events": "Tapahtumat",
       "help": "Lisätietoja",
       "searchEvent": "Etsi tapahtumia"
     }

@@ -2,7 +2,9 @@ import reduce from 'lodash/reduce';
 
 export enum EVENT_FIELDS {
   DESCRIPTION = 'description',
+  END_TIME = 'endTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
+  EVENT_TIMES = 'eventTImes',
   HAS_UMBRELLA = 'hasUmbrella',
   IN_LANGUAGE = 'inLanguage',
   INFO_URL = 'infoUrl',
@@ -10,6 +12,7 @@ export enum EVENT_FIELDS {
   NAME = 'name',
   PROVIDER = 'provider',
   SHORT_DESCRIPTION = 'shortDescription',
+  START_TIME = 'startTime',
   TYPE = 'type',
   UMBRELLA_EVENT = 'umbrellaEvent',
 }
@@ -45,7 +48,9 @@ export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
 
 export const EVENT_INITIAL_VALUES = {
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+  [EVENT_FIELDS.END_TIME]: null,
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
+  [EVENT_FIELDS.EVENT_TIMES]: [],
   [EVENT_FIELDS.HAS_UMBRELLA]: false,
   [EVENT_FIELDS.IN_LANGUAGE]: ['fi'],
   [EVENT_FIELDS.INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
@@ -53,6 +58,7 @@ export const EVENT_INITIAL_VALUES = {
   [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.PROVIDER]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.SHORT_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+  [EVENT_FIELDS.START_TIME]: null,
   [EVENT_FIELDS.TYPE]: EVENT_TYPE.EVENT,
   [EVENT_FIELDS.UMBRELLA_EVENT]: null,
 };

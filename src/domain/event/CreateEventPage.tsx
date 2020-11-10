@@ -11,6 +11,7 @@ import styles from './eventPage.module.scss';
 import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
 import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
+import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import { createValidationSchema } from './utils';
 
@@ -24,6 +25,8 @@ const CreateEventPage: React.FC = () => {
         console.log('TODO: Submit event form with values: ', values);
       }}
       validationSchema={createValidationSchema}
+      validateOnBlur={true}
+      validateOnChange={false}
       validateOnMount
     >
       {({ values: { type } }) => {
@@ -59,12 +62,12 @@ const CreateEventPage: React.FC = () => {
                     label: t('event.navigation.steps.description'),
                   },
                   {
-                    component: <LoadingSpinner isLoading={true} />,
+                    component: <TimeSection />,
                     isCompleted: false,
                     label: t('event.navigation.steps.time'),
                   },
                   {
-                    component: <div>{t('event.navigation.steps.place')}</div>,
+                    component: <LoadingSpinner isLoading={true} />,
                     isCompleted: false,
                     label: t('event.navigation.steps.place'),
                   },

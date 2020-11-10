@@ -1,13 +1,17 @@
+import formatDate from 'date-fns/format';
+import isBefore from 'date-fns/isBefore';
+import isFuture from 'date-fns/isFuture';
 import reduce from 'lodash/reduce';
 import * as Yup from 'yup';
 
-import { CHARACTER_LIMITS } from '../../constants';
+import { CHARACTER_LIMITS, DATETIME_FORMAT } from '../../constants';
 import { EventQueryVariables } from '../../generated/graphql';
 import { OptionType } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 import { createStringError } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { EVENT_FIELDS } from './constants';
+import { EventTime } from './types';
 
 const createMultiLanguageFieldValidation = (
   rule: Yup.Schema<string | null | undefined>
@@ -20,6 +24,37 @@ const createMultiLanguageFieldValidation = (
       });
     }
   );
+};
+
+const eventTimeValidation = {
+  [EVENT_FIELDS.START_TIME]: Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
+      startTime ? isFuture(startTime) : true
+    ),
+  [EVENT_FIELDS.END_TIME]: Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    // test that startsTime is before endsTime
+    .when(
+      [EVENT_FIELDS.START_TIME],
+      (startTime: Date | null, schema: Yup.DateSchema) => {
+        if (startTime) {
+          return schema.test(
+            'isBeforeStartTime',
+            () => ({
+              key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
+              min: formatDate(startTime, DATETIME_FORMAT),
+            }),
+            (endTime) => {
+              return endTime ? isBefore(startTime, endTime) : true;
+            }
+          );
+        }
+        return schema;
+      }
+    ),
 };
 
 export const createValidationSchema = () => {
@@ -53,6 +88,10 @@ export const createValidationSchema = () => {
           createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
         )
     ),
+    ...eventTimeValidation,
+    [EVENT_FIELDS.EVENT_TIMES]: Yup.array().of(
+      Yup.object().shape({ ...eventTimeValidation })
+    ),
   });
 };
 
@@ -84,3 +123,10 @@ const languageWeight = (lang: string): number => {
 
 export const sortLanguage = (a: OptionType, b: OptionType) =>
   languageWeight(a.value) - languageWeight(b.value);
+
+export const getEmptyEventTime = (): EventTime => {
+  return {
+    [EVENT_FIELDS.END_TIME]: null,
+    [EVENT_FIELDS.START_TIME]: null,
+  };
+};

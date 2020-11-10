@@ -1,6 +1,28 @@
 {
   "appName": "Linked Components",
   "common": {
+    "combobox": {
+      "toggleButtonAriaLabel": "Menu"
+    },
+    "datepicker": {
+      "accessibility": {
+        "buttonCalendar": "Calendar",
+        "buttonNextMonth": "Next month",
+        "buttonPreviousMonth": "Previous month",
+        "selectDate": "Choose {{value}}",
+        "selectTime": "Choose {{value}}",
+        "timeInstructions": "Choose time with arrow keys"
+      },
+      "buttonClose": "Close"
+    },
+    "dropdownSelect": {
+      "accessibility": {
+        "noResults": "No options are available",
+        "selectionMessage": "{{value}} has been selected.",
+        "statusMessage": "{{count}} option is available, use up and down arrow keys to navigate. Press Enter key to select.",
+        "statusMessage_plural": "{{count}} options are available, use up and down arrow keys to navigate. Press Enter key to select."
+      }
+    },
     "showLess": "Show less",
     "showMore": "Show more"
   },
@@ -17,7 +39,29 @@
   },
   "event": {
     "form": {
+      "buttonAddEventTime": "Add new time",
+      "buttonDeleteEventTime": "Delete time",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
+      "infoTextEventTimes1": {
+        "course": "To add a multi-day recurring course, there is an “Add New Time” button and a regular “Recurring Course” tool for a regularly recurring course.",
+        "event": "To add a multi-day recurring event, there is an “Add New Time” button and a regular “Recurring Event” tool for a regularly recurring event."
+      },
+      "infoTextEventTimes2": {
+        "course": "Enter the start date of the course and also the start time if the course starts at a specific time.",
+        "event": "Enter the start date of the event and also the start time if the event starts at a specific time."
+      },
+      "infoTextEventTimes3": {
+        "course": "Also enter the end date as well as the end time if the course ends at a specific time.",
+        "event": "Also enter the end date as well as the end time if the event ends at a specific time."
+      },
+      "infoTextEventTimes4": {
+        "course": "If the course is held more than once, you can add new dates to the course. If the course repeats regularly, you can add all times at once by selecting Recurring Course.",
+        "event": "If the event is held more than once, you can add new dates to the event. If the event repeats regularly, you can add all times at once by selecting Recurring Event."
+      },
+      "infoTextEventTimes5": {
+        "course": "To delete an extra time, select the trash can icon next to the time.",
+        "event": "To delete an extra time, select the trash can icon next to the time."
+      },
       "infoTextInfoLanguages": {
         "course": "Select the languages used for entering course information.",
         "event": "Select the languages used for entering event information."
@@ -31,6 +75,10 @@
       "labelDescription": {
         "course": "Description of the course {{langText}}",
         "event": "Description of the event {{langText}}"
+      },
+      "labelEndTime": {
+        "course": "Course ends",
+        "event": "Event ends"
       },
       "labelHasUmbrella": {
         "course": "This course has an umbrella event.",
@@ -56,12 +104,21 @@
         "course": "Short description {{langText}} (up to 160 characters)",
         "event": "Short description {{langText}} (up to 160 characters)"
       },
+      "labelStartTime": {
+        "course": "Course starts",
+        "event": "Event starts"
+      },
       "labelUmbrellaEvent": "Umbrella event",
       "notificationTitleType": "Event type",
+      "notificationTitleEventTimes": {
+        "course": "Course times",
+        "event": "Event times"
+      },
       "placeholderDescription": {
         "course": "Enter a description of the course",
         "event": "Enter a description of the event"
       },
+      "placeholderEndTime": "dd.mm.yyyy hh.mm",
       "placeholderInfoUrl": {
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
@@ -78,11 +135,12 @@
         "course": "Enter a short description of the course",
         "event": "Enter a short description of the event"
       },
-      "titleEventType": "Select event type",
+      "placeholderStartTime": "dd.mm.yyyy hh.mm",
       "titleDescription": {
         "course": "Course description",
         "event": "Event description"
       },
+      "titleEventType": "Select event type",
       "titleInfoLanguages": {
         "course": "Course input languages",
         "event": "Event input languages"
@@ -91,8 +149,13 @@
         "course": "Course languages (control languages)",
         "event": "Event languages (control languages)"
       },
+      
       "titleLanguageVersions": "Language versions",
       "titlePersonsInCharge": "Person(s) in charge",
+      "titleTime": {
+        "course": "Course dates",
+        "event": "Event dates"
+      },
       "titleUmrellaEvent": "Umbrella events"
     },
     "navigation": {
@@ -178,11 +241,11 @@
       "sv": "På svenska"
     },
     "languageSelectorAriaLabel": "English - language selection",
-    "menuCloseAriaLabel": "Close menu",
-    "menuOpenAriaLabel": "Open menu",
+    "menuToggleAriaLabel": "Menu",
     "skipToContentLabel": "Skip to content",
     "tabs": {
       "createEvent": "New event",
+      "events": "Events",
       "help": "More information",
       "searchEvent": "Search events"
     }

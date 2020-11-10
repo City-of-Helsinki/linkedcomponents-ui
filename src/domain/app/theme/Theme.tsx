@@ -48,6 +48,43 @@ type CheckboxCSSProperties = {
   '--label-color-disabled'?: string;
 };
 
+type DatepickerCSSProperties = {
+  '--calendar-button-height'?: string;
+  '--close-button-color'?: string;
+  '--day-background-color'?: string;
+  '--day-background-color-disabled'?: string;
+  '--day-background-color-focused'?: string;
+  '--day-background-color-hovered'?: string;
+  '--day-background-color-selected'?: string;
+  '--day-border-color'?: string;
+  '--day-border-color-disabled'?: string;
+  '--day-border-color-focused'?: string;
+  '--day-border-color-hovered'?: string;
+  '--day-border-color-selected'?: string;
+  '--day-color'?: string;
+  '--day-color-disabled'?: string;
+  '--day-color-focused'?: string;
+  '--day-color-hovered'?: string;
+  '--day-color-selected'?: string;
+  '--day-size'?: string;
+  '--datepicker-background-color'?: string;
+  '--datepicker-container-padding'?: string;
+  '--datepicker-z-index'?: number;
+  '--icon-width'?: string;
+  '--input-spacing'?: string;
+  '--month-title-color'?: string;
+  '--times-divider-border-color'?: string;
+  '--times-list-width'?: string;
+  '--time-item-background-color'?: string;
+  '--time-item-background-color-selected'?: string;
+};
+
+type DeleteButtonCSSProperties = {
+  '--delete-button-color'?: string;
+  '--delete-button-height'?: string;
+  '--delete-button-padding'?: string;
+};
+
 type EventNavigationCSSProperties = {
   '--circle-background-color'?: string;
   '--circle-border-color'?: string;
@@ -188,6 +225,23 @@ type TextInputCSSProperties = {
   '--focus-outline-color'?: string;
 };
 
+type TimeSectionCSSProperties = {
+  '--button-wrapper-min-width'?: string;
+  '--input-max-width'?: string;
+  '--label-height'?: string;
+};
+
+type TimepickerCSSProperties = {
+  '--menu-background-color'?: string;
+  '--menu-border-color'?: string;
+  '--menu-max-height'?: string;
+  '--menu-z-index'?: number;
+  '--menu-item-background-color'?: string;
+  '--menu-item-background-color-highlighted'?: string;
+  '--menu-item-fontsize'?: string;
+  '--menu-item-spacing'?: string;
+};
+
 export type Theme = {
   button: {
     primary?: ButtonCSSProperties;
@@ -197,6 +251,8 @@ export type Theme = {
     danger?: ButtonCSSProperties;
   };
   checkbox: CheckboxCSSProperties;
+  datepicker: DatepickerCSSProperties;
+  deleteButton: DeleteButtonCSSProperties;
   eventNavigation: EventNavigationCSSProperties;
   formLanguageSelector: FormLanguageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
@@ -219,11 +275,15 @@ export type Theme = {
   radioButton: RadioButtonCSSProperties;
   select: SelectCSSProperties;
   textInput: TextInputCSSProperties;
+  timeSection: TimeSectionCSSProperties;
+  timepicker: TimepickerCSSProperties;
 };
 
 const defaultTheme: Theme = {
   button: {},
   checkbox: {},
+  datepicker: {},
+  deleteButton: {},
   eventNavigation: {},
   formLanguageSelector: {},
   languageSelector: {},
@@ -234,6 +294,8 @@ const defaultTheme: Theme = {
   radioButton: {},
   select: {},
   textInput: {},
+  timeSection: {},
+  timepicker: {},
 };
 
 type ThemeContext = { setTheme: (theme: Theme) => void; theme: Theme };

@@ -2,26 +2,27 @@
 
 exports[`matches snapshot 1`] = `
 <header
-  class="Navigation-module_header__eRhbT Navigation-module_theme-white__2PEou theme-white css-0 navigation"
+  class="Navigation-module_header__2HNOX Navigation-module_theme-light__36nmi css-0 navigation"
 >
   <a
-    class="Navigation-module_skipToContent__3oPXq button_hds-button__2lV7p button_hds-button--secondary__1Qz_H button_hds-button--theme-black__1-2qz"
+    class="Navigation-module_skipToContent__2p54x"
     href="/sv#maincontent"
   >
     Siirry sisältöön
   </a>
   <div
-    class="Navigation-module_headerBackgroundWrapper__xo2kI"
+    class="Navigation-module_headerBackgroundWrapper__137R3"
   >
     <div
-      class="Navigation-module_headerContainer__3uPBL"
+      class="Navigation-module_headerContainer__2YPsu"
     >
       <a
-        class="Navigation-module_title__2Qf0w"
+        class="Navigation-module_title__3zRBe"
         href="/sv/"
       >
         <svg
-          class="Logo-module_logo__Y2mwP Navigation-module_logo__2yx3k"
+          aria-hidden="true"
+          class="Logo-module_logo__Y2mwP Navigation-module_logo__1sEy6"
           role="img"
           viewBox="0 0 104 36"
           xmlns="http://www.w3.org/2000/svg"
@@ -36,94 +37,159 @@ exports[`matches snapshot 1`] = `
         </span>
       </a>
       <div
-        class="Navigation-module_headerContent__2O0xc"
+        class="Navigation-module_headerContent__3zHbK"
       >
         <div
-          class="NavigationActions-module_navigationActions__1NpDJ"
+          class="NavigationActions-module_navigationActions__2D8MK"
         >
           <div
-            class="NavigationLanguageSelector-module_languageSelectorDropdown__2GcGF NavigationDropdown-module_navigationDropdown__3xnox Dropdown-module_root__3ro8_ css-0"
+            class="MenuButton-module_menuButton__3T9k9 languageSelector css-0"
           >
-            <div
-              style="border: 0px; clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;"
+            <button
+              aria-controls="languageSelector-menu"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-label="Suomi - kielivalikko"
+              class="MenuButton-module_toggleButton__3WH1a"
+              id="languageSelector-button"
+              type="button"
             >
-              <label
-                for="languageDropdown-toggle-button"
-                id="languageDropdown-label"
+              <span
+                class="MenuButton-module_toggleButtonLabel__3NiHR"
               >
-                Suomi - kielivalikko
-              </label>
-            </div>
+                På svenska
+              </span>
+              <svg
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  fill="none"
+                  fill-rule="evenodd"
+                >
+                  <path
+                    d="M0 0h24v24H0z"
+                  />
+                  <path
+                    d="M12 13.5l5-5 1.5 1.5-6.5 6.5L5.5 10 7 8.5z"
+                    fill="currentColor"
+                  />
+                </g>
+              </svg>
+            </button>
             <div
-              class="NavigationLanguageSelector-module_wrapper__3sBVP NavigationDropdown-module_wrapper__3hWJ_ Dropdown-module_wrapper__1sFxz"
+              aria-labelledby="languageSelector-button"
+              class="Menu-module_menu__FuqT0"
+              id="languageSelector-menu"
+              role="region"
+              style="top: 10px; min-width: 190px;"
             >
-              <button
-                aria-expanded="false"
-                aria-haspopup="listbox"
-                aria-labelledby="languageDropdown-label languageDropdown-toggle-button"
-                class="NavigationLanguageSelector-module_buttonDropdown__2Usjk Dropdown-module_buttonDropdown__2xA1D Dropdown-module_dropdown__34HBV NavigationLanguageSelector-module_placeholder__2Ma6F Dropdown-module_placeholder__1kfMz"
-                id="languageDropdown-toggle-button"
-                type="button"
+              <a
+                class="Menu-module_item__3yQdE "
+                href="#"
+                lang="fi"
               >
                 <span
-                  class="NavigationLanguageSelector-module_label__17jOt"
+                  class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
                 >
-                  SV
+                  Suomeksi
                 </span>
-                <svg
-                  class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik NavigationLanguageSelector-module_angleIcon__2bCke NavigationDropdown-module_angleIcon__KCbuf"
-                  role="img"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+              </a>
+              <a
+                class="Menu-module_item__3yQdE "
+                href="#"
+                lang="sv"
+              >
+                <span
+                  class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
                 >
-                  <g
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <path
-                      d="M0 0h24v24H0z"
-                    />
-                    <path
-                      d="M12 13.5l5-5 1.5 1.5-6.5 6.5L5.5 10 7 8.5z"
-                      fill="currentColor"
-                    />
-                  </g>
-                </svg>
-              </button>
+                  På svenska
+                </span>
+              </a>
+              <a
+                class="Menu-module_item__3yQdE "
+                href="#"
+                lang="en"
+              >
+                <span
+                  class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+                >
+                  In English
+                </span>
+              </a>
             </div>
-            <ul
-              aria-labelledby="languageDropdown-label"
-              class="NavigationLanguageSelector-module_menu__3RKHm NavigationDropdown-module_menu__3DtYt Dropdown-module_menu__3xwA0"
-              id="languageDropdown-menu"
-              role="listbox"
-              style="transform: translate3d(0, -2px, 0);"
-              tabindex="-1"
-            />
           </div>
         </div>
       </div>
     </div>
   </div>
   <nav
-    class="NavigationRow-module_navigation__2npSC NavigationRow-module_subNav__OHwI1"
+    class="NavigationRow-module_navigation__24tui NavigationRow-module_subNav__3fDXv"
   >
     <a
-      class="NavigationRow-module_navigationItem__GHn9i helpers_button-reset__3sf_P"
-      href="/sv/event/create"
+      class="NavigationItem-module_rowItem__2QxRz navigationItem"
+      href="/sv/events"
     >
-      Uusi tapahtuma
+      <span
+        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+      >
+        Tapahtumat
+      </span>
     </a>
     <a
-      class="NavigationRow-module_navigationItem__GHn9i helpers_button-reset__3sf_P"
+      class="NavigationItem-module_rowItem__2QxRz navigationItem"
       href="/sv/search"
     >
-      Etsi tapahtumia
+      <span
+        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+      >
+        Etsi tapahtumia
+      </span>
     </a>
     <a
-      class="NavigationRow-module_navigationItem__GHn9i helpers_button-reset__3sf_P"
+      class="NavigationItem-module_rowItem__2QxRz navigationItem"
       href="/sv/help"
     >
-      Lisätietoja
+      <span
+        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+      >
+        Lisätietoja
+      </span>
+    </a>
+    <a
+      class="NavigationItem-module_rowItem__2QxRz navigationItem addEventItem"
+      href="/sv/event/create"
+    >
+      <span
+        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
+      >
+        <span
+          class="navigationItemLabel"
+        >
+          <svg
+            class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+            role="img"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              fill="none"
+              fill-rule="evenodd"
+            >
+              <path
+                d="M0 0h24v24H0z"
+              />
+              <path
+                d="M13 6v5h5v2h-5v5h-2v-5H6v-2h5V6z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+          Uusi tapahtuma
+        </span>
+      </span>
     </a>
   </nav>
 </header>

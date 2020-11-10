@@ -1,0 +1,13 @@
+.timeSectionRow {
+  display: grid;
+  grid-template-columns: minmax(0, var(--input-max-width)) auto;
+
+  .inputWrapper {
+    max-width: var(--input-max-width);
+  }
+
+  .buttonWrapper {
+    min-width: var(--button-wrapper-min-width);
+    padding-top: var(--label-height);
+  }
+}

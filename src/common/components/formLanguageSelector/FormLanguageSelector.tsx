@@ -53,7 +53,7 @@ const FormLanguageSelector: React.FC<Props> = ({
             variant={
               language.value === selectedLanguage
                 ? 'secondary'
-                : 'supplementary'
+                : ('supplementary' as any)
             }
           >
             {language.label}
