@@ -33,6 +33,9 @@
     &.infoWidth9 {
       grid-template-columns: 1fr 9fr;
     }
+    &.infoWidth10 {
+      grid-template-columns: 0fr 10fr;
+    }
   }
 
   .inputColumn {

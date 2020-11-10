@@ -4,7 +4,7 @@ export enum EVENT_FIELDS {
   DESCRIPTION = 'description',
   END_TIME = 'endTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
-  EVENT_TIMES = 'eventTImes',
+  EVENT_TIMES = 'eventTimes',
   HAS_UMBRELLA = 'hasUmbrella',
   IN_LANGUAGE = 'inLanguage',
   INFO_URL = 'infoUrl',
