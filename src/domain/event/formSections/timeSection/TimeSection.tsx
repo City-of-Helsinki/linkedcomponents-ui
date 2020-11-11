@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next';
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
 import { EVENT_FIELDS } from '../../constants';
+import styles from '../../eventPage.module.scss';
 import EventTime from './EventTime';
 import EventTimes from './EventTimes';
-import styles from './timeSection.module.scss';
 
 const TypeSection = () => {
   const { t } = useTranslation();

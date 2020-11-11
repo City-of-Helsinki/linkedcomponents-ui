@@ -4,11 +4,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../common/components/button/Button';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
 import { Offer as OfferType } from '../../types';
 import { getEmptyOffer } from '../../utils';
+import FieldArrayRow from '../FieldArrayRow';
 import Offer from './Offer';
-import PriceSectionRow from './PriceSectionRow';
 
 const getOfferPath = (index: number) => `${EVENT_FIELDS.OFFERS}[${index}]`;
 
@@ -38,7 +39,7 @@ const Offers = () => {
             );
           })}
 
-          <PriceSectionRow
+          <FieldArrayRow
             input={
               <Button
                 type="button"
@@ -50,6 +51,7 @@ const Offers = () => {
                 {t('event.form.buttonAddOffer')}
               </Button>
             }
+            inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
           />
         </div>
       )}

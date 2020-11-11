@@ -5,8 +5,9 @@ import { useTranslation } from 'react-i18next';
 import DeleteButton from '../../../../common/components/deleteButton/DeleteButton';
 import DatepickerField from '../../../../common/components/formFields/DatepickerField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
-import TimeSectionRow from './TimeSectionRow';
+import FieldArrayRow from '../FieldArrayRow';
 
 type Props = {
   eventTimePath: string;
@@ -21,7 +22,7 @@ const EventTime: React.FC<Props> = ({ eventTimePath, onDelete, type }) => {
   const { t } = useTranslation();
 
   return (
-    <TimeSectionRow
+    <FieldArrayRow
       input={
         <>
           <FormGroup>
@@ -46,6 +47,7 @@ const EventTime: React.FC<Props> = ({ eventTimePath, onDelete, type }) => {
           </FormGroup>
         </>
       }
+      inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
       button={
         onDelete ? (
           <DeleteButton

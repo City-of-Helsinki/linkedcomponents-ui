@@ -87,6 +87,10 @@
         "course": "If the course has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field.",
         "event": "If the event has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field."
       },
+      "infoTextSocialMedia": {
+        "course": "Optional. In the URL field, enter the SoMe links for the course.",
+        "event": "Optional. In the URL field, enter the SoMe links for the event."
+      },
       "infoTextType1": "Select the type of event. Is it an event or a course? The event is a one-time event and starts at a specific time, while the course may, as a rule, have several occurrences.",
       "infoTextType2": "The choice of event type affects the choices made later in the input form.",
       "labelDescription": {
@@ -97,6 +101,7 @@
         "course": "Course ends",
         "event": "Event ends"
       },
+      "labelFacebookUrl": "Facebook",
       "labelHasPrice": {
         "course": "The course is chargeable",
         "event": "The event is chargeable"
@@ -109,6 +114,7 @@
         "course": "URL of the course home page {{langText}}",
         "event": "URL of the event home page {{langText}}"
       },
+      "labelInstagramUrl": "Instagram",
       "labelIsUmbrella": {
         "course": "This course is an umbrella event.",
         "event": "This event is an umbrella event."
@@ -135,6 +141,7 @@
         "course": "Course starts",
         "event": "Event starts"
       },
+      "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Umbrella event",
       "notificationTitleEventTimes": {
         "course": "Course times",
@@ -148,9 +155,17 @@
         "event": "Enter a description of the event"
       },
       "placeholderEndTime": "dd.mm.yyyy hh.mm",
+      "placeholderFacebookUrl": {
+        "course": "Enter the URL of the course's Facebook page",
+        "event": "Enter the URL of the event's Facebook page"
+      },
       "placeholderInfoUrl": {
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
+      },
+      "placeholderInstagramUrl": {
+        "course": "Enter the URL of the course's Instagram page",
+        "event": "Enter the URL of the event's Instagram page"
       },
       "placeholderLocation": "Select or search for a venue",
       "placeholderLocationExtraInfo": "Enter more information about the venue {{langText}}",
@@ -173,6 +188,10 @@
         "event": "Enter a short description of the event"
       },
       "placeholderStartTime": "dd.mm.yyyy hh.mm",
+      "placeholderTwitterUrl": {
+        "course": "Enter the URL of the course's Twitter page",
+        "event": "Enter the URL of the event's Twitter page"
+      },
       "titleDescription": {
         "course": "Course description",
         "event": "Event description"
@@ -199,6 +218,10 @@
         "event": "Event price information"
       },
       "titlePrice": "Price",
+      "titleSocialMedia": {
+        "course": "Course on social media",
+        "event": "Event on social media"
+      },
       "titleTime": {
         "course": "Course dates",
         "event": "Event dates"
@@ -213,11 +236,11 @@
         "commitment": "Commitment",
         "description": "Description",
         "languages": "Languages",
-        "media": "Media",
         "place": "Place",
         "price": "Price",
         "ready": "Ready",
         "responsibilities": "Responsibilities",
+        "socialMedia": "SoMe",
         "targets": "Targets",
         "time": "Time",
         "type": "Type"

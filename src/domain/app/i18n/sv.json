@@ -87,6 +87,10 @@
         "course": "Om kursen har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation.",
         "event": "Om evenemanget har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation."
       },
+      "infoTextSocialMedia": {
+        "course": "Frivillig. I URL-fältet anger du SoMe-länkarna för kursen.",
+        "event": "Frivillig. I URL-fältet anger du SoMe-länkarna för evenemanget."
+      },
       "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
       "labelDescription": {
@@ -97,6 +101,7 @@
         "course": "Kurs slutar",
         "event": "Evenemang slutar"
       },
+      "labelFacebookUrl": "Facebook",
       "labelHasPrice": {
         "course": "Kursen är debiterbar",
         "event": "Evenemanget är debiterbar"
@@ -109,6 +114,7 @@
         "course": "Webbadressen till kursens hemsida {{langText}}",
         "event": "Webbadressen till evenemangets hemsida {{langText}}"
       },
+      "labelInstagramUrl": "Instagram",
       "labelIsUmbrella": {
         "course": "Detta kurs är ett paraplyevenemang.",
         "event": "Detta evenemang är ett paraplyevenemang."
@@ -135,6 +141,7 @@
         "course": "Kurs startar",
         "event": "Evenemang startar"
       },
+      "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Paraplyevenemang",
       "notificationTitleEventTimes": {
         "course": "Kurstider",
@@ -148,9 +155,17 @@
         "event": "Ange en beskrivning av evenemanget"
       },
       "placeholderEndTime": "dd.mm.åååå hh.mm",
+      "placeholderFacebookUrl": {
+        "course": "Ange webbadressen till kursens Facebook-sida",
+        "event": "Ange webbadressen till evenemangets Facebook-sida"
+      },
       "placeholderInfoUrl": {
         "course": "Enter the URL of the course home page",
         "event": "Enter the URL of the event home page"
+      },
+      "placeholderInstagramUrl": {
+        "course": "Ange webbadressen till kursens Instagram-sida",
+        "event": "Ange webbadressen till evenemangets Instagram-sida"
       },
       "placeholderLocation": "Välj eller sök efter en plats",
       "placeholderLocationExtraInfo": "Ange mer information om arenan {{langText}}",
@@ -173,6 +188,10 @@
         "event": "Ange en kort beskrivning av evenemanget"
       },
       "placeholderStartTime": "dd.mm.åååå hh.mm",
+      "placeholderTwitterUrl": {
+        "course": "Ange webbadressen till kursens Twitter-sida",
+        "event": "Ange webbadressen till evenemangets Twitter-sida"
+      },
       "titleDescription": {
         "course": "Kursbeskrivning",
         "event": "Evenemangbeskrivning"
@@ -198,6 +217,10 @@
         "event": "Prisinformation för evenemang"
       },
       "titlePrice": "Pris",
+      "titleSocialMedia": {
+        "course": "Kurs på sociala medier",
+        "event": "Evenemang pä sociala medier"
+      },
       "titleTime": {
         "course": "Kurstider",
         "event": "Evenemangtider"
@@ -212,11 +235,11 @@
         "commitment": "Engagemang",
         "description": "Beskrivning",
         "languages": "Språk",
-        "media": "Media",
         "place": "Plats",
         "price": "Pris",
         "ready": "Redo",
         "responsibilities": "Ansvar",
+        "socialMedia": "SoMe",
         "targets": "Mål",
         "time": "Tid",
         "type": "Typ"

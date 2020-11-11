@@ -4,11 +4,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../common/components/button/Button';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
 import { EventTime as EventTimeType } from '../../types';
 import { getEmptyEventTime } from '../../utils';
+import FieldArrayRow from '../FieldArrayRow';
 import EventTime from './EventTime';
-import TimeSectionRow from './TimeSectionRow';
 
 const getEventTimePath = (index: number) =>
   `${EVENT_FIELDS.EVENT_TIMES}[${index}]`;
@@ -38,7 +39,7 @@ const EventTimes = () => {
               />
             );
           })}
-          <TimeSectionRow
+          <FieldArrayRow
             input={
               <Button
                 type="button"
@@ -50,6 +51,7 @@ const EventTimes = () => {
                 {t('event.form.buttonAddEventTime')}
               </Button>
             }
+            inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
           />
         </div>
       )}

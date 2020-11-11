@@ -7,9 +7,10 @@ import MultiLanguageField from '../../../../common/components/formFields/MultiLa
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
-import styles from './offer.module.scss';
-import PriceSectionRow from './PriceSectionRow';
+import styles from '../../eventPage.module.scss';
+import FieldArrayRow from '../FieldArrayRow';
 
 type Props = {
   offerPath: string;
@@ -42,7 +43,7 @@ const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
           </Notification>
         }
       >
-        <PriceSectionRow
+        <FieldArrayRow
           input={
             <>
               <FormGroup>
@@ -76,6 +77,7 @@ const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
               </FormGroup>
             </>
           }
+          inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
           button={
             <DeleteButton
               label={t('event.form.buttonDeleteOffer')}
