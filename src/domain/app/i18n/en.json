@@ -44,6 +44,10 @@
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
+      "infoTextAudience": {
+        "course": "If the course does not have a specific target group, don't select anything",
+        "event": "If the event does not have a specific target group, don't select anything"
+      },
       "infoTextEventTimes1": {
         "course": "To add a multi-day recurring course, there is an “Add New Time” button and a regular “Recurring Course” tool for a regularly recurring course.",
         "event": "To add a multi-day recurring event, there is an “Add New Time” button and a regular “Recurring Event” tool for a regularly recurring event."
@@ -201,6 +205,7 @@
         "course": "Enter the URL of the course's Twitter page",
         "event": "Enter the URL of the event's Twitter page"
       },
+      "titleAudience": "Target groups",
       "titleDescription": {
         "course": "Course description",
         "event": "Event description"
@@ -242,6 +247,7 @@
       "buttonNext": "Next",
       "buttonPrevious": "Previous",
       "steps": {
+        "audience": "Targets",
         "classification": "Classification",
         "commitment": "Commitment",
         "description": "Description",
@@ -252,7 +258,6 @@
         "ready": "Ready",
         "responsibilities": "Responsibilities",
         "socialMedia": "SoMe",
-        "targets": "Targets",
         "time": "Time",
         "type": "Type"
       }

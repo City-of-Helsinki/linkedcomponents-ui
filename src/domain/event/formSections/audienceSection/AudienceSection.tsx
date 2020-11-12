@@ -15,7 +15,7 @@ import { keywordSetPathBuilder } from '../../../keywordSet/utils';
 import { EVENT_FIELDS } from '../../constants';
 import InputWrapper from '../InputWrapper';
 
-const ClassificationSection = () => {
+const TargetGroupSection = () => {
   const { t } = useTranslation();
   const locale = useLocale();
 
@@ -24,12 +24,12 @@ const ClassificationSection = () => {
       createPath: isTestEnv
         ? undefined
         : /* istanbul ignore next */ keywordSetPathBuilder,
-      id: KEYWORD_SETS.TOPICS,
+      id: KEYWORD_SETS.AUDIENCES,
       include: [INCLUDE.KEYWORDS],
     },
   });
 
-  const keywordOptions =
+  const audienceOptions =
     data?.keywordSet?.keywords?.map((keyword) => ({
       label: capitalize(getLocalisedString(keyword?.name, locale)),
       value: keyword?.atId,
@@ -39,14 +39,11 @@ const ClassificationSection = () => {
 
   return (
     <>
-      <h3>{t(`event.form.titleMainCategories`)}</h3>
+      <h3>{t(`event.form.titleAudience`)}</h3>
       <InputRow
         info={
-          <Notification
-            label={t(`event.form.notificationTitleMainCategories.${type}`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextMainCategories`)}</p>
+          <Notification label={t(`event.form.titleAudience`)} type="info">
+            <p>{t(`event.form.infoTextAudience.${type}`)}</p>
           </Notification>
         }
         infoWidth={4}
@@ -57,38 +54,16 @@ const ClassificationSection = () => {
           maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
         >
           <Field
-            name={EVENT_FIELDS.KEYWORDS}
+            name={EVENT_FIELDS.AUDIENCE}
             component={CheckboxGroupField}
             columns={2}
-            options={keywordOptions}
+            options={audienceOptions}
             visibleOptionAmount={10}
           />
-        </InputWrapper>
-      </InputRow>
-
-      <h3>{t(`event.form.titleKeywords`)}</h3>
-      <InputRow
-        info={
-          <Notification label={t(`event.form.titleKeywords`)} type="info">
-            <p>{t(`event.form.infoTextKeywords.${type}`)}</p>
-          </Notification>
-        }
-        infoWidth={4}
-      >
-        <InputWrapper
-          columns={6}
-          inputColumns={6}
-          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-        >
-          {/* <Field
-            name={EVENT_FIELDS.TYPE}
-            component={RadioButtonGroupField}
-            options={typeOptions}
-          /> */}
         </InputWrapper>
       </InputRow>
     </>
   );
 };
 
-export default ClassificationSection;
+export default TargetGroupSection;

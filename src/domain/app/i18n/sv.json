@@ -44,6 +44,10 @@
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
+      "infoTextAudience": {
+        "course": "Om kursen inte har en specifik publik, välj inget.",
+        "event": "Om evenemanget inte har en specifik publik, välj inget."
+      },
       "infoTextEventTimes1": {
         "course": "För att lägga till en flerdagars återkommande kurs finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande kurs” -verktyg.",
         "event": "För att lägga till en flerdagars återkommande evenemang finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande evenemang” -verktyg."
@@ -201,6 +205,7 @@
         "course": "Ange webbadressen till kursens Twitter-sida",
         "event": "Ange webbadressen till evenemangets Twitter-sida"
       },
+      "titleAudience": "Målgrupper",
       "titleDescription": {
         "course": "Kursbeskrivning",
         "event": "Evenemangbeskrivning"
@@ -242,6 +247,7 @@
       "buttonNext": "Nästa",
       "buttonPrevious": "Tidigare",
       "steps": {
+        "audience": "Mål",
         "classification": "Klassificering",
         "commitment": "Engagemang",
         "description": "Beskrivning",
@@ -252,7 +258,6 @@
         "ready": "Redo",
         "responsibilities": "Ansvar",
         "socialMedia": "SoMe",
-        "targets": "Mål",
         "time": "Tid",
         "type": "Typ"
       }

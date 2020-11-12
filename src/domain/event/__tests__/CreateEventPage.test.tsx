@@ -15,6 +15,11 @@ import { actWait, render, screen } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import CreateEventPage from '../CreateEventPage';
 
+const audiencesKeywordSet = fakeKeywordSet();
+const audiencesKeywordSetResponse = {
+  data: { keywordSet: audiencesKeywordSet },
+};
+
 const topicsKeywordSet = fakeKeywordSet();
 const topicsKeywordSetResponse = { data: { keywordSet: topicsKeywordSet } };
 
@@ -30,6 +35,17 @@ const placesVariables = {
 };
 
 const mocks = [
+  {
+    request: {
+      query: KeywordSetDocument,
+      variables: {
+        createPath: undefined,
+        id: KEYWORD_SETS.AUDIENCES,
+        include: [INCLUDE.KEYWORDS],
+      },
+    },
+    result: audiencesKeywordSetResponse,
+  },
   {
     request: {
       query: KeywordSetDocument,
@@ -66,6 +82,7 @@ test('should show correct title', async () => {
   expect(title).toBe(
     `${translations.createEventPage.pageTitle.event} - ${translations.appName}`
   );
+
   expect(
     screen.getByRole('heading', {
       name: translations.createEventPage.title.event,

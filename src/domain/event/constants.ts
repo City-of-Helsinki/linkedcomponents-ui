@@ -3,6 +3,7 @@ import reduce from 'lodash/reduce';
 import { MultiLanguageObject } from './types';
 
 export enum EVENT_FIELDS {
+  AUDIENCE = 'audience',
   DESCRIPTION = 'description',
   END_TIME = 'endTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
@@ -61,6 +62,7 @@ export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
 ) as MultiLanguageObject;
 
 export const EVENT_INITIAL_VALUES = {
+  [EVENT_FIELDS.AUDIENCE]: [],
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.END_TIME]: null,
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],

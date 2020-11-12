@@ -44,6 +44,10 @@
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
+      "infoTextAudience": {
+        "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
+        "event": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään."
+      },
       "infoTextEventTimes1": {
         "course": "Useana päivänä toistuvan kurssin lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
         "event": "Useana päivänä toistuvan tapahtuman lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu."
@@ -201,6 +205,7 @@
         "course": "Syötä kurssin Twitter-sivun URL",
         "event": "Syötä tapahtuman Twitter-sivun URL"
       },
+      "titleAudience": "Kohderyhmät",
       "titleDescription": {
         "course": "Kurssin kuvaus",
         "event": "Tapahtuman kuvaus"
@@ -242,6 +247,7 @@
       "buttonNext": "Seuraava",
       "buttonPrevious": "Edellinen",
       "steps": {
+        "audience": "Kohteet",
         "classification": "Luokittelu",
         "commitment": "Sitoomus",
         "description": "Kuvaus",
@@ -252,7 +258,6 @@
         "ready": "Valmis",
         "responsibilities": "Vastuut",
         "socialMedia": "SoMe",
-        "targets": "Kohteet",
         "time": "Aika",
         "type": "Tyyppi"
       }
