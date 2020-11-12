@@ -17,6 +17,8 @@ export type Query = {
   __typename?: 'Query';
   event: Event;
   events: EventsResponse;
+  keywordSet?: Maybe<KeywordSet>;
+  keywordSets: KeywordSetsResponse;
   languages: LanguagesResponse;
   place: Place;
   places: PlacesResponse;
@@ -57,6 +59,17 @@ export type QueryEventsArgs = {
 };
 
 
+export type QueryKeywordSetArgs = {
+  id: Scalars['ID'];
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+
+export type QueryKeywordSetsArgs = {
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+
 export type QueryPlaceArgs = {
   id: Scalars['ID'];
 };
@@ -77,6 +90,12 @@ export type EventsResponse = {
   __typename?: 'EventsResponse';
   meta: Meta;
   data: Array<Maybe<Event>>;
+};
+
+export type KeywordSetsResponse = {
+  __typename?: 'KeywordSetsResponse';
+  meta: Meta;
+  data: Array<Maybe<KeywordSet>>;
 };
 
 export type LanguagesResponse = {
@@ -195,6 +214,22 @@ export type Keyword = {
   name?: Maybe<LocalisedObject>;
   nEvents?: Maybe<Scalars['Int']>;
   publisher?: Maybe<Scalars['ID']>;
+  atId?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
+};
+
+export type KeywordSet = {
+  __typename?: 'KeywordSet';
+  id?: Maybe<Scalars['ID']>;
+  keywords?: Maybe<Array<Maybe<Keyword>>>;
+  usage?: Maybe<Scalars['String']>;
+  createdTime?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
+  image?: Maybe<Image>;
+  dataSource?: Maybe<Scalars['String']>;
+  organization?: Maybe<Scalars['String']>;
+  name?: Maybe<LocalisedObject>;
   atId?: Maybe<Scalars['String']>;
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
@@ -406,6 +441,53 @@ export type KeywordFieldsFragment = (
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
   )> }
+);
+
+export type KeywordSetFieldsFragment = (
+  { __typename?: 'KeywordSet' }
+  & Pick<KeywordSet, 'id' | 'atId' | 'dataSource'>
+  & { keywords?: Maybe<Array<Maybe<(
+    { __typename?: 'Keyword' }
+    & KeywordFieldsFragment
+  )>>>, name?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
+  )> }
+);
+
+export type KeywordSetQueryVariables = Exact<{
+  id: Scalars['ID'];
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type KeywordSetQuery = (
+  { __typename?: 'Query' }
+  & { keywordSet?: Maybe<(
+    { __typename?: 'KeywordSet' }
+    & KeywordSetFieldsFragment
+  )> }
+);
+
+export type KeywordSetsQueryVariables = Exact<{
+  include?: Maybe<Array<Maybe<Scalars['String']>>>;
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type KeywordSetsQuery = (
+  { __typename?: 'Query' }
+  & { keywordSets: (
+    { __typename?: 'KeywordSetsResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & MetaFieldsFragment
+    ), data: Array<Maybe<(
+      { __typename?: 'KeywordSet' }
+      & KeywordSetFieldsFragment
+    )>> }
+  ) }
 );
 
 export type LanguageFieldsFragment = (
@@ -674,6 +756,20 @@ export const MetaFieldsFragmentDoc = gql`
   previous
 }
     `;
+export const KeywordSetFieldsFragmentDoc = gql`
+    fragment keywordSetFields on KeywordSet {
+  id
+  atId
+  dataSource
+  keywords {
+    ...keywordFields
+  }
+  name {
+    ...localisedFields
+  }
+}
+    ${KeywordFieldsFragmentDoc}
+${LocalisedFieldsFragmentDoc}`;
 export const EventDocument = gql`
     query Event($id: ID!, $include: [String], $createPath: Any) {
   event(id: $id, include: $include) @rest(type: "Event", pathBuilder: $createPath) {
@@ -772,6 +868,81 @@ export function useEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Eve
 export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
 export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
 export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
+export const KeywordSetDocument = gql`
+    query KeywordSet($id: ID!, $include: [String], $createPath: Any) {
+  keywordSet(id: $id, include: $include) @rest(type: "KeywordSet", pathBuilder: $createPath) {
+    ...keywordSetFields
+  }
+}
+    ${KeywordSetFieldsFragmentDoc}`;
+
+/**
+ * __useKeywordSetQuery__
+ *
+ * To run a query within a React component, call `useKeywordSetQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKeywordSetQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKeywordSetQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      include: // value for 'include'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useKeywordSetQuery(baseOptions?: Apollo.QueryHookOptions<KeywordSetQuery, KeywordSetQueryVariables>) {
+        return Apollo.useQuery<KeywordSetQuery, KeywordSetQueryVariables>(KeywordSetDocument, baseOptions);
+      }
+export function useKeywordSetLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KeywordSetQuery, KeywordSetQueryVariables>) {
+          return Apollo.useLazyQuery<KeywordSetQuery, KeywordSetQueryVariables>(KeywordSetDocument, baseOptions);
+        }
+export type KeywordSetQueryHookResult = ReturnType<typeof useKeywordSetQuery>;
+export type KeywordSetLazyQueryHookResult = ReturnType<typeof useKeywordSetLazyQuery>;
+export type KeywordSetQueryResult = Apollo.QueryResult<KeywordSetQuery, KeywordSetQueryVariables>;
+export const KeywordSetsDocument = gql`
+    query KeywordSets($include: [String], $createPath: Any) {
+  keywordSets(include: $include) @rest(type: "KeywordSetsResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...keywordSetFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${KeywordSetFieldsFragmentDoc}`;
+
+/**
+ * __useKeywordSetsQuery__
+ *
+ * To run a query within a React component, call `useKeywordSetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKeywordSetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKeywordSetsQuery({
+ *   variables: {
+ *      include: // value for 'include'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useKeywordSetsQuery(baseOptions?: Apollo.QueryHookOptions<KeywordSetsQuery, KeywordSetsQueryVariables>) {
+        return Apollo.useQuery<KeywordSetsQuery, KeywordSetsQueryVariables>(KeywordSetsDocument, baseOptions);
+      }
+export function useKeywordSetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KeywordSetsQuery, KeywordSetsQueryVariables>) {
+          return Apollo.useLazyQuery<KeywordSetsQuery, KeywordSetsQueryVariables>(KeywordSetsDocument, baseOptions);
+        }
+export type KeywordSetsQueryHookResult = ReturnType<typeof useKeywordSetsQuery>;
+export type KeywordSetsLazyQueryHookResult = ReturnType<typeof useKeywordSetsLazyQuery>;
+export type KeywordSetsQueryResult = Apollo.QueryResult<KeywordSetsQuery, KeywordSetsQueryVariables>;
 export const LanguagesDocument = gql`
     query Languages {
   languages @rest(type: "LanguagesResponse", path: "/language/", method: "GET") {

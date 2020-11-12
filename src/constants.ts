@@ -24,6 +24,15 @@ export enum INPUT_MAX_WIDTHS {
   LARGE = 'LARGE',
 }
 
+export enum KEYWORD_SETS {
+  AUDIENCES = 'helsinki:audiences',
+  TOPICS = 'helsinki:topics',
+}
+
+export enum INCLUDE {
+  KEYWORDS = 'keywords',
+}
+
 export const DATE_FORMAT = 'dd.MM.yyyy';
 export const DATETIME_FORMAT = `${DATE_FORMAT} HH.mm`;
 

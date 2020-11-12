@@ -4,6 +4,8 @@ import { RestLink } from 'apollo-link-rest';
 import {
   Event,
   EventsResponse,
+  KeywordSet,
+  KeywordSetsResponse,
   LanguagesResponse,
   Place,
   PlacesResponse,
@@ -11,6 +13,7 @@ import {
 import { normalizeKey } from '../../../utils/apolloUtils';
 import {
   addTypenameEvent,
+  addTypenameKeywordSet,
   addTypenameLanguage,
   addTypenameMeta,
   addTypenamePlace,
@@ -23,6 +26,12 @@ const cache = new InMemoryCache({
         event(_, { args, toReference }) {
           return toReference({
             __typename: 'Event',
+            id: args?.id,
+          });
+        },
+        keywordSet(_, { args, toReference }) {
+          return toReference({
+            __typename: 'KeywordSet',
             id: args?.id,
           });
         },
@@ -43,18 +52,29 @@ const linkedEventsLink = new RestLink({
     'Content-Type': 'application/json',
   },
   typePatcher: {
-    LanguagesResponse: (data: LanguagesResponse): LanguagesResponse => {
-      data.meta = addTypenameMeta(data.meta);
-      data.data = data.data.map((language) => addTypenameLanguage(language));
-
-      return data;
-    },
     Event: (event: Event): Event | null => {
       return addTypenameEvent(event);
     },
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((event) => addTypenameEvent(event));
+
+      return data;
+    },
+    KeywordSet: (keywordSet: KeywordSet): KeywordSet | null => {
+      return addTypenameKeywordSet(keywordSet);
+    },
+    KeywordSetsResponse: (data: KeywordSetsResponse): KeywordSetsResponse => {
+      data.meta = addTypenameMeta(data.meta);
+      data.data = data.data.map((keywordSet) =>
+        addTypenameKeywordSet(keywordSet)
+      );
+
+      return data;
+    },
+    LanguagesResponse: (data: LanguagesResponse): LanguagesResponse => {
+      data.meta = addTypenameMeta(data.meta);
+      data.data = data.data.map((language) => addTypenameLanguage(language));
 
       return data;
     },

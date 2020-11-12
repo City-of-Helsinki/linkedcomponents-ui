@@ -5,6 +5,7 @@ import {
   ExternalLink,
   Image,
   Keyword,
+  KeywordSet,
   Language,
   LocalisedObject,
   Meta,
@@ -86,6 +87,20 @@ export const addTypenameKeyword = (keyword?: Keyword | null): Keyword | null =>
         ...keyword,
         name: addTypenameLocalisedObject(keyword?.name),
         __typename: 'Keyword',
+      }
+    : null;
+
+export const addTypenameKeywordSet = (
+  keywordSet?: KeywordSet | null
+): KeywordSet | null =>
+  keywordSet
+    ? {
+        ...keywordSet,
+        keywords:
+          keywordSet.keywords?.map((keyword) => addTypenameKeyword(keyword)) ||
+          [],
+        name: addTypenameLocalisedObject(keywordSet?.name),
+        __typename: 'KeywordSet',
       }
     : null;
 
