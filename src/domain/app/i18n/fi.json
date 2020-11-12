@@ -72,6 +72,10 @@
         "course": "Valitse kielet joita kurssilla käytetään.",
         "event": "Valitse kielet joita tapahtumassa käytetään."
       },
+      "infoTextKeywords": {
+        "course": "Liitä kurssiin vähintään yksi asiasana, joka kuvaa kurssin teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
+        "event": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta."
+      },
       "infoTextLocation1": "Kirjoita kenttään tapahtumapaikan nimi tai katuosoite ja valitse oikea paikka listasta.",
       "infoTextLocation2": {
         "course": "Jos kurssi järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Tapahtuman URL-osoite laitetaan kotisivu-kenttään ja/tai tapahtuma sosiaalisessa mediassa -kenttiin.",
@@ -79,6 +83,7 @@
       },
       "infoTextLocation3": "Jos tapahtumapaikka löytyy listasta, sen sijaintia ei tarvitse kuvailla erikseen. Voit kuitenkin antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi kerrosnumeron tai luokkahuoneen nimen.",
       "infoTextLocation4": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
+      "infoTextMainCategories": "Valitse vähintään yksi pääluokka (kategoria)",
       "infoTextOffers1": {
         "course": "Merkitse onko kurssi maksuton. Syötä maksulliselle kurssille hinta muodossa “5€”.",
         "event": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa “5€”."
@@ -148,6 +153,10 @@
         "event": "Tapahtuman ajankohdat"
       },
       "notificationTitleLocation": "Tapahtumapaikka",
+      "notificationTitleMainCategories": {
+        "course": "Kurssin luokittelu",
+        "event": "Tapahtuman luokittelu"
+      },
       "notificationTitleOffers": "Hintatiedot",
       "notificationTitleType": "Tapahtumatyyppi",
       "placeholderDescription": {
@@ -205,9 +214,11 @@
         "course": "Kurssin kielet (ohjauskielet)",
         "event": "Tapahtuman kielet (ohjauskielet)"
       },
+      "titleKeywords": "Lisää avainsanoja",
       "titleLanguageVersions": "Kieliversiot",
       "titleLocation": "Tapahtumapaikka",
       "titleLocationExtraInfo": "Paikan lisätiedot",
+      "titleMainCategories": "Pääluokat (kategoriat)",
       "titleOfferDescription": "Hintatietojen kuvaus",
       "titleOfferInfoUrl": "Linkki lipunmyyntiin tai ilmoittautumiseen",
       "titleOfferPrice": "Hinta",
@@ -235,6 +246,7 @@
         "commitment": "Sitoomus",
         "description": "Kuvaus",
         "languages": "Kielet",
+        "image": "Kuva",
         "place": "Paikka",
         "price": "Hinta",
         "ready": "Valmis",

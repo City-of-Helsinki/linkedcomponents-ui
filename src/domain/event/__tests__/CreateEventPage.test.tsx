@@ -1,10 +1,22 @@
 import React from 'react';
 
-import { LanguagesDocument, PlacesDocument } from '../../../generated/graphql';
-import { fakeLanguages, fakePlaces } from '../../../utils/mockDataUtils';
+import { INCLUDE, KEYWORD_SETS } from '../../../constants';
+import {
+  KeywordSetDocument,
+  LanguagesDocument,
+  PlacesDocument,
+} from '../../../generated/graphql';
+import {
+  fakeKeywordSet,
+  fakeLanguages,
+  fakePlaces,
+} from '../../../utils/mockDataUtils';
 import { actWait, render, screen } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import CreateEventPage from '../CreateEventPage';
+
+const topicsKeywordSet = fakeKeywordSet();
+const topicsKeywordSetResponse = { data: { keywordSet: topicsKeywordSet } };
 
 const languages = fakeLanguages(10);
 const languagesResponse = { data: { languages } };
@@ -18,6 +30,17 @@ const placesVariables = {
 };
 
 const mocks = [
+  {
+    request: {
+      query: KeywordSetDocument,
+      variables: {
+        createPath: undefined,
+        id: KEYWORD_SETS.TOPICS,
+        include: [INCLUDE.KEYWORDS],
+      },
+    },
+    result: topicsKeywordSetResponse,
+  },
   {
     request: {
       query: LanguagesDocument,

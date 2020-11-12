@@ -9,6 +9,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INITIAL_VALUES } from './constants';
 import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
+import ClassificationSection from './formSections/classificationSection/ClassificationSection';
 import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
 import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import PlaceSection from './formSections/placeSection/PlaceSection';
@@ -88,6 +89,11 @@ const CreateEventPage: React.FC = () => {
                     },
                     {
                       component: <LoadingSpinner isLoading={true} />,
+                      isCompleted: false,
+                      label: t('event.navigation.steps.image'),
+                    },
+                    {
+                      component: <ClassificationSection />,
                       isCompleted: false,
                       label: t('event.navigation.steps.classification'),
                     },

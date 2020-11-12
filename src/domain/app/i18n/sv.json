@@ -72,6 +72,10 @@
         "course": "Välj de språk som används i kursen.",
         "event": "Välj de språk som används i evenemanget."
       },
+      "infoTextKeywords": {
+        "course": "Bifoga minst ett nyckelord till kursen som beskriver temat för kursen. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till i listan nedan.",
+        "event": "Bifoga minst ett nyckelord till evenemanget som beskriver temat för evenemanget. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till i listan nedan."
+      },
       "infoTextLocation1": "Ange platsens namn eller gatuadress i fältet och välj rätt plats i listan.",
       "infoTextLocation2": {
         "course": "Om kursen bara hålls på distans på Internet, välj Internet som plats. Händelsens URL anges i hemsidans fält och / eller händelsen i sociala mediefält.",
@@ -79,6 +83,7 @@
       },
       "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel golvnummer eller klassrumsnamn.",
       "infoTextLocation4": "Om den exakta platsen inte finns i listan väljer du närmaste gatuadress som plats och anger namnet på arenan eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
+      "infoTextMainCategories": "Välj minst en huvudkategori",
       "infoTextOffers1": {
         "course": "Ange om kursen är gratis. Ange priset för den avgiftsbelagda kursen i formuläret “5€”.",
         "event": "Ange om evenemanget är gratis. Ange priset för det avgiftsbelagda evenemanget i formuläret “5€”."
@@ -148,6 +153,10 @@
         "event": "Evenemamgtider"
       },
       "notificationTitleLocation": "Venue",
+      "notificationTitleMainCategories": {
+        "course": "Kursklassificering",
+        "event": "Evenemangklassificering"
+      },
       "notificationTitleOffers": "Prisinformation",
       "notificationTitleType": "Evenemangtyp",
       "placeholderDescription": {
@@ -205,9 +214,11 @@
         "course": "Kursspråk (kontrollspråk)",
         "event": "Evenemangsspråk (kontrollspråk)"
       },
+      "titleKeywords": "Lägg till nyckelord",
       "titleLanguageVersions": "Språkversioner",
       "titleLocation": "Venue",
       "titleLocationExtraInfo": "Ytterligare platsinformation",
+      "titleMainCategories": "Huvudkategorier",
       "titleOfferDescription": "Beskrivning av prisinformation",
       "titleOfferInfoUrl": "Länk till biljettförsäljning eller registrering",
       "titleOfferPrice": "Pris",
@@ -234,6 +245,7 @@
         "classification": "Klassificering",
         "commitment": "Engagemang",
         "description": "Beskrivning",
+        "image": "Bild",
         "languages": "Språk",
         "place": "Plats",
         "price": "Pris",
