@@ -3,7 +3,7 @@ import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import LanguageCheckboxGroupField from '../../../../common/components/formFields/LanguageCheckboxGroupField';
+import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import Notification from '../../../../common/components/notification/Notification';
@@ -60,7 +60,9 @@ const LanguagesSection = () => {
         >
           <Field
             name={EVENT_FIELDS.EVENT_INFO_LANGUAGES}
-            component={LanguageCheckboxGroupField}
+            component={CheckboxGroupField}
+            columns={3}
+            min={1}
             options={eventInfoLanguageOptions}
           />
         </InputWrapper>
@@ -87,7 +89,9 @@ const LanguagesSection = () => {
         >
           <Field
             name={EVENT_FIELDS.IN_LANGUAGE}
-            component={LanguageCheckboxGroupField}
+            component={CheckboxGroupField}
+            columns={3}
+            min={1}
             options={inLanguageOptions}
             visibleOptionAmount={3}
           />
