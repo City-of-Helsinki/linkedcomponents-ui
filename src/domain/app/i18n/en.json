@@ -288,6 +288,11 @@
       "zh_hans": "Chinese"
     },
     "validation": {
+      "array": {
+        "min": "At least {{min}} item must be selected",
+        "min_plural": "At least {{min}} item must be selected",
+        "required": "At least 1 item must be selected"
+      },
       "date": {
         "future": "This date must be in the future",
         "max": "This date must be before {{max}}",

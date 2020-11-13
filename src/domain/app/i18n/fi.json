@@ -288,6 +288,11 @@
       "zh_hans": "Kiina"
     },
     "validation": {
+      "array": {
+        "min": "Vähintään {{min}} vaihtoehto tulee olla valittuna",
+        "min_plural": "Vähintään {{min}} vaihtoehtoa tulee olla valittuna",
+        "required": "Vähintään 1 vaihtoehto tulee olla valittuna"
+      },
       "date": {
         "future": "Tämän kentän on oltava tulevaisuudessa",
         "max": "Tämän kentän on oltava ennen {{max}}",

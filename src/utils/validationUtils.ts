@@ -1,7 +1,20 @@
 import { TFunction } from 'i18next';
-import { TestMessageParams } from 'yup';
+import { ArrayLocale, StringLocale, TestMessageParams } from 'yup';
 
-import { StringError } from '../types';
+import { Error } from '../types';
+
+type ArrayError = Error<ArrayLocale>;
+type StringError = Error<StringLocale>;
+
+export const createArrayError = (
+  message: Partial<TestMessageParams>,
+  key: string
+): ArrayError => {
+  return {
+    ...message,
+    key,
+  };
+};
 
 export const createStringError = (
   message: Partial<TestMessageParams>,
@@ -19,8 +32,8 @@ export const createStringError = (
  * @param {Function} t
  * @return {string}
  */
-export const getStringErrorText = (
-  error: string | StringError | undefined,
+export const getErrorText = (
+  error: string | Error<StringLocale> | undefined,
   touched: boolean,
   t: TFunction
 ) => {

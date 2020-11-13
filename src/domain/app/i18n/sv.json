@@ -288,6 +288,11 @@
       "zh_hans": "Kinesiska"
     },
     "validation": {
+      "array": {
+        "min": "Minst {{min}} objekt måste väljas",
+        "min_plural": "Minst {{min}} objekt måste väljas",
+        "required": "Minst 1 objekt måste väljas"
+      },
       "date": {
         "future": "Detta datum måste vara i framtiden",
         "max": "Detta datum måste vara före {{max}}",

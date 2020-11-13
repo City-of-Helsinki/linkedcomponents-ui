@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
+import KeywordSelectorFields from '../../../../common/components/formFields/KeywordSelectorFields';
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
 import { INCLUDE, INPUT_MAX_WIDTHS, KEYWORD_SETS } from '../../../../constants';
@@ -80,11 +81,10 @@ const ClassificationSection = () => {
           inputColumns={6}
           maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
         >
-          {/* <Field
-            name={EVENT_FIELDS.TYPE}
-            component={RadioButtonGroupField}
-            options={typeOptions}
-          /> */}
+          <Field
+            name={EVENT_FIELDS.KEYWORDS}
+            component={KeywordSelectorFields}
+          />
         </InputWrapper>
       </InputRow>
     </>

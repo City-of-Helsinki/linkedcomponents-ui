@@ -11,6 +11,7 @@ import {
   Keyword,
   KeywordSet,
   KeywordSetsResponse,
+  KeywordsResponse,
   Language,
   LanguagesResponse,
   LocalisedObject,
@@ -89,6 +90,20 @@ export const fakeImage = (overrides?: Partial<Image>): Image =>
     },
     overrides
   );
+
+export const fakeKeywords = (
+  count = 1,
+  keywords?: Partial<Keyword>[]
+): KeywordsResponse => ({
+  data: generateNodeArray((i) => fakeKeyword(keywords?.[i]), count),
+  meta: {
+    count: count,
+    next: '',
+    previous: '',
+    __typename: 'Meta',
+  },
+  __typename: 'KeywordsResponse',
+});
 
 export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword =>
   merge(

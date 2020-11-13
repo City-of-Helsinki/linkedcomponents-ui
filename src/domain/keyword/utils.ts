@@ -49,3 +49,19 @@ export const keywordsPathBuilder = ({ args }: KeywordsPathBuilderProps) => {
 
   return `/keyword/${query}`;
 };
+
+export const getKeywordFromCache = async (
+  id: string,
+  apolloClient: ApolloClient<object>
+): Promise<Keyword | null> => {
+  try {
+    const { data: keywordData } = await apolloClient.query<KeywordQuery>({
+      query: KeywordDocument,
+      variables: { id, createPath: keywordPathBuilder },
+    });
+
+    return keywordData.keyword;
+  } catch (e) {
+    return null;
+  }
+};

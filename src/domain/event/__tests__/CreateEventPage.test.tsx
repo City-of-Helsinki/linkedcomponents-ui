@@ -2,11 +2,13 @@ import React from 'react';
 
 import { INCLUDE, KEYWORD_SETS } from '../../../constants';
 import {
+  KeywordsDocument,
   KeywordSetDocument,
   LanguagesDocument,
   PlacesDocument,
 } from '../../../generated/graphql';
 import {
+  fakeKeywords,
   fakeKeywordSet,
   fakeLanguages,
   fakePlaces,
@@ -14,6 +16,11 @@ import {
 import { actWait, render, screen } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import CreateEventPage from '../CreateEventPage';
+
+const keywords = fakeKeywords(1);
+const keywordsResponse = {
+  data: { keywords },
+};
 
 const audiencesKeywordSet = fakeKeywordSet();
 const audiencesKeywordSetResponse = {
@@ -35,6 +42,16 @@ const placesVariables = {
 };
 
 const mocks = [
+  {
+    request: {
+      query: KeywordsDocument,
+      variables: {
+        createPath: undefined,
+        freeText: '',
+      },
+    },
+    result: keywordsResponse,
+  },
   {
     request: {
       query: KeywordSetDocument,

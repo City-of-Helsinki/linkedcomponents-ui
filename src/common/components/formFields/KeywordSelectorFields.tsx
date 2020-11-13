@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../types';
 import { getErrorText } from '../../../utils/validationUtils';
-import UmbrellaEventSelector, {
-  UmbrellaEventSelectorProps,
-} from '../umbrellaEventSelector/UmbrellaEventSelector';
+import KeywordSelector, {
+  KeywordSelectorProps,
+} from '../keywordSelector/KeywordSelector';
 
-type Props = UmbrellaEventSelectorProps & FieldProps;
+type Props = KeywordSelectorProps & FieldProps;
 
-const UmbrellaEventSelectorField: React.FC<Props> = ({
+const KeywordSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
   helper,
@@ -29,12 +29,14 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
     onBlur({ target: { id: name, value } });
   };
 
-  const handleChange = (selected: OptionType | null) => {
-    onChange({ target: { id: name, value: selected?.value || null } });
+  const handleChange = (selected: OptionType[]) => {
+    onChange({
+      target: { id: name, value: selected.map((item) => item.value) },
+    });
   };
 
   return (
-    <UmbrellaEventSelector
+    <KeywordSelector
       {...rest}
       {...field}
       onBlur={handleBlur}
@@ -47,4 +49,4 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
   );
 };
 
-export default UmbrellaEventSelectorField;
+export default KeywordSelectorField;
