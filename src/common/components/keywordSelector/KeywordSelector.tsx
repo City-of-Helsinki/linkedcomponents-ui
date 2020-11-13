@@ -47,7 +47,14 @@ type KeywordQueryProps = {
 
 const KeywordQuery: React.FC<KeywordQueryProps> = ({ id }) => {
   // hook to fetch keyword so KeywordSelector can get keyword from the cache
-  useKeywordQuery({ variables: { id, createPath: keywordPathBuilder } });
+  useKeywordQuery({
+    variables: {
+      id,
+      createPath: isTestEnv
+        ? undefined
+        : /* istanbul ignore next */ keywordPathBuilder,
+    },
+  });
 
   return null;
 };

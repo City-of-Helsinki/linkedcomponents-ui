@@ -7,6 +7,7 @@ import {
   KeywordQueryVariables,
   KeywordsQueryVariables,
 } from '../../generated/graphql';
+import isTestEnv from '../../utils/isTestEnv';
 import queryBuilder from '../../utils/queryBuilder';
 
 interface KeywordPathBuilderProps {
@@ -57,7 +58,12 @@ export const getKeywordFromCache = async (
   try {
     const { data: keywordData } = await apolloClient.query<KeywordQuery>({
       query: KeywordDocument,
-      variables: { id, createPath: keywordPathBuilder },
+      variables: {
+        id,
+        createPath: isTestEnv
+          ? undefined
+          : /* istanbul ignore next */ keywordPathBuilder,
+      },
     });
 
     return keywordData.keyword;
