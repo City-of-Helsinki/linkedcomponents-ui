@@ -17,6 +17,8 @@ export type Query = {
   __typename?: 'Query';
   event: Event;
   events: EventsResponse;
+  keyword: Keyword;
+  keywords: KeywordsResponse;
   keywordSet?: Maybe<KeywordSet>;
   keywordSets: KeywordSetsResponse;
   languages: LanguagesResponse;
@@ -59,6 +61,23 @@ export type QueryEventsArgs = {
 };
 
 
+export type QueryKeywordArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryKeywordsArgs = {
+  dataSource?: Maybe<Scalars['String']>;
+  freeText?: Maybe<Scalars['String']>;
+  hasUpcomingEvents?: Maybe<Scalars['Boolean']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  showAllKeywords?: Maybe<Scalars['Boolean']>;
+  sort?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+};
+
+
 export type QueryKeywordSetArgs = {
   id: Scalars['ID'];
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -90,6 +109,12 @@ export type EventsResponse = {
   __typename?: 'EventsResponse';
   meta: Meta;
   data: Array<Maybe<Event>>;
+};
+
+export type KeywordsResponse = {
+  __typename?: 'KeywordsResponse';
+  meta: Meta;
+  data: Array<Maybe<Keyword>>;
 };
 
 export type KeywordSetsResponse = {
@@ -441,6 +466,47 @@ export type KeywordFieldsFragment = (
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
   )> }
+);
+
+export type KeywordQueryVariables = Exact<{
+  id: Scalars['ID'];
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type KeywordQuery = (
+  { __typename?: 'Query' }
+  & { keyword: (
+    { __typename?: 'Keyword' }
+    & KeywordFieldsFragment
+  ) }
+);
+
+export type KeywordsQueryVariables = Exact<{
+  dataSource?: Maybe<Scalars['String']>;
+  freeText?: Maybe<Scalars['String']>;
+  hasUpcomingEvents?: Maybe<Scalars['Boolean']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  showAllKeywords?: Maybe<Scalars['Boolean']>;
+  sort?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type KeywordsQuery = (
+  { __typename?: 'Query' }
+  & { keywords: (
+    { __typename?: 'KeywordsResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & Pick<Meta, 'count' | 'next' | 'previous'>
+    ), data: Array<Maybe<(
+      { __typename?: 'Keyword' }
+      & KeywordFieldsFragment
+    )>> }
+  ) }
 );
 
 export type KeywordSetFieldsFragment = (
@@ -868,6 +934,88 @@ export function useEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Eve
 export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
 export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
 export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
+export const KeywordDocument = gql`
+    query Keyword($id: ID!, $createPath: Any) {
+  keyword(id: $id) @rest(type: "Keyword", pathBuilder: $createPath) {
+    ...keywordFields
+  }
+}
+    ${KeywordFieldsFragmentDoc}`;
+
+/**
+ * __useKeywordQuery__
+ *
+ * To run a query within a React component, call `useKeywordQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKeywordQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKeywordQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useKeywordQuery(baseOptions?: Apollo.QueryHookOptions<KeywordQuery, KeywordQueryVariables>) {
+        return Apollo.useQuery<KeywordQuery, KeywordQueryVariables>(KeywordDocument, baseOptions);
+      }
+export function useKeywordLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KeywordQuery, KeywordQueryVariables>) {
+          return Apollo.useLazyQuery<KeywordQuery, KeywordQueryVariables>(KeywordDocument, baseOptions);
+        }
+export type KeywordQueryHookResult = ReturnType<typeof useKeywordQuery>;
+export type KeywordLazyQueryHookResult = ReturnType<typeof useKeywordLazyQuery>;
+export type KeywordQueryResult = Apollo.QueryResult<KeywordQuery, KeywordQueryVariables>;
+export const KeywordsDocument = gql`
+    query Keywords($dataSource: String, $freeText: String, $hasUpcomingEvents: Boolean, $page: Int, $pageSize: Int, $showAllKeywords: Boolean, $sort: String, $text: String, $createPath: Any) {
+  keywords(dataSource: $dataSource, freeText: $freeText, hasUpcomingEvents: $hasUpcomingEvents, page: $page, pageSize: $pageSize, showAllKeywords: $showAllKeywords, sort: $sort, text: $text) @rest(type: "KeywordsResponse", pathBuilder: $createPath) {
+    meta {
+      count
+      next
+      previous
+    }
+    data {
+      ...keywordFields
+    }
+  }
+}
+    ${KeywordFieldsFragmentDoc}`;
+
+/**
+ * __useKeywordsQuery__
+ *
+ * To run a query within a React component, call `useKeywordsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useKeywordsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useKeywordsQuery({
+ *   variables: {
+ *      dataSource: // value for 'dataSource'
+ *      freeText: // value for 'freeText'
+ *      hasUpcomingEvents: // value for 'hasUpcomingEvents'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      showAllKeywords: // value for 'showAllKeywords'
+ *      sort: // value for 'sort'
+ *      text: // value for 'text'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useKeywordsQuery(baseOptions?: Apollo.QueryHookOptions<KeywordsQuery, KeywordsQueryVariables>) {
+        return Apollo.useQuery<KeywordsQuery, KeywordsQueryVariables>(KeywordsDocument, baseOptions);
+      }
+export function useKeywordsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<KeywordsQuery, KeywordsQueryVariables>) {
+          return Apollo.useLazyQuery<KeywordsQuery, KeywordsQueryVariables>(KeywordsDocument, baseOptions);
+        }
+export type KeywordsQueryHookResult = ReturnType<typeof useKeywordsQuery>;
+export type KeywordsLazyQueryHookResult = ReturnType<typeof useKeywordsLazyQuery>;
+export type KeywordsQueryResult = Apollo.QueryResult<KeywordsQuery, KeywordsQueryVariables>;
 export const KeywordSetDocument = gql`
     query KeywordSet($id: ID!, $include: [String], $createPath: Any) {
   keywordSet(id: $id, include: $include) @rest(type: "KeywordSet", pathBuilder: $createPath) {

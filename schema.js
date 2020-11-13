@@ -33,6 +33,17 @@ module.exports = buildSchema(/* GraphQL */ `
       text: String
       translation: String
     ): EventsResponse!
+    keyword(id: ID!): Keyword!
+    keywords(
+      dataSource: String
+      freeText: String
+      hasUpcomingEvents: Boolean
+      page: Int
+      pageSize: Int
+      showAllKeywords: Boolean
+      sort: String
+      text: String
+    ): KeywordsResponse!
     keywordSet(id: ID!, include: [String]): KeywordSet
     keywordSets(include: [String]): KeywordSetsResponse!
     languages: LanguagesResponse!
@@ -52,6 +63,11 @@ module.exports = buildSchema(/* GraphQL */ `
   type EventsResponse {
     meta: Meta!
     data: [Event]!
+  }
+
+  type KeywordsResponse {
+    meta: Meta!
+    data: [Keyword]!
   }
 
   type KeywordSetsResponse {
