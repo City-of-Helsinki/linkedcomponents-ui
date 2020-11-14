@@ -17,9 +17,9 @@ const createMultiLanguageValidation = (
   languages: string[],
   rule: Yup.Schema<string | null | undefined>
 ) => {
-  return Yup.object().shape({
-    ...reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {}),
-  });
+  return Yup.object().shape(
+    reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {})
+  );
 };
 
 const createMultiLanguageValidationByInfoLanguages = (
