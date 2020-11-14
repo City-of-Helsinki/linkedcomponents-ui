@@ -47,6 +47,7 @@ const keywordsVariables = {
 const keyword = keywords.data[0];
 const keywordName = keyword.name.fi;
 const keywordId = keyword.id;
+const keywordAtId = keyword.atId;
 
 const keywordResponse = { data: { keyword } };
 
@@ -86,13 +87,19 @@ const mocks = [
   },
 ];
 
-const renderComponent = () =>
+type InitialValues = {
+  [EVENT_FIELDS.KEYWORDS]: string[];
+  [EVENT_FIELDS.TYPE]: string;
+};
+
+const defaultInitialValues: InitialValues = {
+  [EVENT_FIELDS.KEYWORDS]: [],
+  [EVENT_FIELDS.TYPE]: type,
+};
+const renderComponent = (initialValues?: Partial<InitialValues>) =>
   render(
     <Formik
-      initialValues={{
-        [EVENT_FIELDS.KEYWORDS]: [],
-        [EVENT_FIELDS.TYPE]: type,
-      }}
+      initialValues={{ ...defaultInitialValues, ...initialValues }}
       onSubmit={jest.fn()}
       enableReinitialize={true}
     >
@@ -102,7 +109,7 @@ const renderComponent = () =>
   );
 
 test('should render classification section', async () => {
-  renderComponent();
+  renderComponent({ [EVENT_FIELDS.KEYWORDS]: [keywordAtId] });
 
   await waitFor(() => {
     expect(
@@ -131,6 +138,15 @@ test('should render classification section', async () => {
 
   infoTexts.forEach((infoText) => {
     expect(screen.queryByText(infoText));
+  });
+
+  await waitFor(() => {
+    expect(
+      screen.queryByRole('link', {
+        name: new RegExp(keywordName, 'i'),
+        hidden: true,
+      })
+    ).toBeInTheDocument();
   });
 });
 
