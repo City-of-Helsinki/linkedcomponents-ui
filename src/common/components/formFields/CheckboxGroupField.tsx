@@ -33,7 +33,7 @@ const CheckboxGroupField: React.FC<Props> = ({
 
   const visibleOptions = [...options].slice(
     0,
-    showAll ? -1 : visibleOptionAmount
+    showAll ? undefined : visibleOptionAmount
   );
 
   const toggleShowAll = () => {

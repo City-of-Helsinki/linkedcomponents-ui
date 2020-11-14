@@ -128,6 +128,7 @@
         "course": "Tämä kurssi on kattotapahtuma.",
         "event": "Tämä tapahtuma on kattotapahtuma."
       },
+      "labelKeywords": "Avainsanahaku",
       "labelLocation": "Paikka",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Paikan ID:",
@@ -180,6 +181,7 @@
         "course": "Syötä kurssin Instagram-sivun URL",
         "event": "Syötä tapahtuman Instagram-sivun URL"
       },
+      "placeholderKeywords": "Hae tai valitse avainsanoja",
       "placeholderLocation": "Valitse tai hae tapahtumapaikka",
       "placeholderLocationExtraInfo": "Syötä lisätietoja tapahtumapaikasta {{langText}}",
       "placeholderName": {

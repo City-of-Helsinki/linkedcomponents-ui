@@ -14,6 +14,7 @@ import getLocalisedString from '../../../../utils/getLocalisedString';
 import isTestEnv from '../../../../utils/isTestEnv';
 import { keywordSetPathBuilder } from '../../../keywordSet/utils';
 import { EVENT_FIELDS } from '../../constants';
+import styles from '../../eventPage.module.scss';
 import InputWrapper from '../InputWrapper';
 
 const ClassificationSection = () => {
@@ -70,7 +71,11 @@ const ClassificationSection = () => {
       <h3>{t(`event.form.titleKeywords`)}</h3>
       <InputRow
         info={
-          <Notification label={t(`event.form.titleKeywords`)} type="info">
+          <Notification
+            className={styles.notification}
+            label={t(`event.form.titleKeywords`)}
+            type="info"
+          >
             <p>{t(`event.form.infoTextKeywords.${type}`)}</p>
           </Notification>
         }
@@ -84,6 +89,9 @@ const ClassificationSection = () => {
           <Field
             name={EVENT_FIELDS.KEYWORDS}
             component={KeywordSelectorFields}
+            label={t(`event.form.labelKeywords`)}
+            placeholder={t(`event.form.placeholderKeywords`)}
+            required={true}
           />
         </InputWrapper>
       </InputRow>

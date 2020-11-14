@@ -128,6 +128,7 @@
         "course": "This course is an umbrella event.",
         "event": "This event is an umbrella event."
       },
+      "labelKeywords": "Keyword search",
       "labelLocation": "Location",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Location ID:",
@@ -180,6 +181,7 @@
         "course": "Enter the URL of the course's Instagram page",
         "event": "Enter the URL of the event's Instagram page"
       },
+      "placeholderKeywords": "Search or select keywords",
       "placeholderLocation": "Select or search for a venue",
       "placeholderLocationExtraInfo": "Enter more information about the venue {{langText}}",
       "placeholderName": {

@@ -128,6 +128,7 @@
         "course": "Detta kurs är ett paraplyevenemang.",
         "event": "Detta evenemang är ett paraplyevenemang."
       },
+      "labelKeywords": "Nyckelordssökning",
       "labelLocation": "Plats",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Plats ID:",
@@ -180,6 +181,7 @@
         "course": "Ange webbadressen till kursens Instagram-sida",
         "event": "Ange webbadressen till evenemangets Instagram-sida"
       },
+      "placeholderKeywords": "Sök eller välj nyckelord",
       "placeholderLocation": "Välj eller sök efter en plats",
       "placeholderLocationExtraInfo": "Ange mer information om arenan {{langText}}",
       "placeholderName": {
