@@ -40,7 +40,9 @@
   "event": {
     "form": {
       "buttonAddEventTime": "Lägg till ny tid",
+      "buttonAddOffer": "Lägg till ny prisinformation",
       "buttonDeleteEventTime": "Radera tid",
+      "buttonDeleteOffer": "Radera prisinformation",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "infoTextEventTimes1": {
         "course": "För att lägga till en flerdagars återkommande kurs finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande kurs” -verktyg.",
@@ -77,6 +79,14 @@
       },
       "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel golvnummer eller klassrumsnamn.",
       "infoTextLocation4": "Om den exakta platsen inte finns i listan väljer du närmaste gatuadress som plats och anger namnet på arenan eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
+      "infoTextOffers1": {
+        "course": "Ange om kursen är gratis. Ange priset för den avgiftsbelagda kursen i formuläret “5€”.",
+        "event": "Ange om evenemanget är gratis. Ange priset för det avgiftsbelagda evenemanget i formuläret “5€”."
+      },
+      "infoTextOffers2": {
+        "course": "Om kursen har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation.",
+        "event": "Om evenemanget har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation."
+      },
       "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
       "labelDescription": {
@@ -86,6 +96,10 @@
       "labelEndTime": {
         "course": "Kurs slutar",
         "event": "Evenemang slutar"
+      },
+      "labelHasPrice": {
+        "course": "Kursen är debiterbar",
+        "event": "Evenemanget är debiterbar"
       },
       "labelHasUmbrella": {
         "course": "Detta kurs har ett paraplyevenemang.",
@@ -105,7 +119,10 @@
       "labelName": {
         "course": "Kursens title {{langText}}",
         "event": "Evenemangs title {{langText}}"
-       },
+      }, 
+      "labelOfferDescription": "{{langText}}",
+      "labelOfferInfoUrl": "{{langText}}",
+      "labelOfferPrice": "{{langText}}",
       "labelProvider": {
         "course": "Kursarrangör {{langText}} (om det är annorlunda än utgivaren)",
         "event": "Evenemangarrangör {{langText}} (om det är annorlunda än utgivaren)"
@@ -124,6 +141,7 @@
         "event": "Evenemamgtider"
       },
       "notificationTitleLocation": "Venue",
+      "notificationTitleOffers": "Prisinformation",
       "notificationTitleType": "Evenemangtyp",
       "placeholderDescription": {
         "course": "Ange en beskrivning av kursen",
@@ -139,6 +157,12 @@
       "placeholderName": {
         "course": "Ange webbadressen till kursens hemsida",
         "event": "Ange webbadressen till evenemangets hemsida"
+      },
+      "placeholderOfferDescription": "Ange en beskrivning av prisinformationen {{langText}}",
+      "placeholderOfferInfoUrl": "Ange webbadressen till biljettförsäljning eller registrering {{langText}}",
+      "placeholderOfferPrice": {
+        "course": "Ange priset för kursen {{langText}}",
+        "event": "Ange priset för evenemanget {{langText}}"
       },
       "placeholderProvider": {
         "course": "Ange kursarrangörens namn",
@@ -165,7 +189,15 @@
       "titleLanguageVersions": "Språkversioner",
       "titleLocation": "Venue",
       "titleLocationExtraInfo": "Ytterligare platsinformation",
+      "titleOfferDescription": "Beskrivning av prisinformation",
+      "titleOfferInfoUrl": "Länk till biljettförsäljning eller registrering",
+      "titleOfferPrice": "Pris",
       "titlePersonsInCharge": "Ansvariga person(er)",
+      "titlePriceInfo": {
+        "course": "Prisinformation för kurs",
+        "event": "Prisinformation för evenemang"
+      },
+      "titlePrice": "Pris",
       "titleTime": {
         "course": "Kurstider",
         "event": "Evenemangtider"

@@ -40,7 +40,9 @@
   "event": {
     "form": {
       "buttonAddEventTime": "Lisää uusi ajankohta",
+      "buttonAddOffer": "Lisää uusi hintatieto",
       "buttonDeleteEventTime": "Poista ajankohta",
+      "buttonDeleteOffer": "Poista hintatieto",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "infoTextEventTimes1": {
         "course": "Useana päivänä toistuvan kurssin lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
@@ -77,6 +79,14 @@
       },
       "infoTextLocation3": "Jos tapahtumapaikka löytyy listasta, sen sijaintia ei tarvitse kuvailla erikseen. Voit kuitenkin antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi kerrosnumeron tai luokkahuoneen nimen.",
       "infoTextLocation4": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
+      "infoTextOffers1": {
+        "course": "Merkitse onko kurssi maksuton. Syötä maksulliselle kurssille hinta muodossa “5€”.",
+        "event": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa “5€”."
+      },
+      "infoTextOffers2": {
+        "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
+        "event": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
+      },
       "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
       "labelDescription": {
@@ -86,6 +96,10 @@
       "labelEndTime": {
         "course": "Kurssi päättyy",
         "event": "Tapahtuma päättyy"
+      },
+      "labelHasPrice": {
+        "course": "Kurssi on maksullinen",
+        "event": "Tapahtuma on maksullinen"
       },
       "labelHasUmbrella": {
         "course": "Tällä kurssilla on kattotapahtuma.",
@@ -101,11 +115,14 @@
       },
       "labelLocation": "Paikka",
       "labelLocationExtraInfo": "{{langText}}",
+      "labelLocationId": "Paikan ID:",
       "labelName": {
         "course": "Kurssin otsikko {{langText}}",
         "event": "Tapahtuman otsikko {{langText}}"
       },
-      "labelLocationId": "Paikan ID:",
+      "labelOfferDescription": "{{langText}}",
+      "labelOfferInfoUrl": "{{langText}}",
+      "labelOfferPrice": "{{langText}}",
       "labelProvider": {
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "event": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)"
@@ -124,6 +141,7 @@
         "event": "Tapahtuman ajankohdat"
       },
       "notificationTitleLocation": "Tapahtumapaikka",
+      "notificationTitleOffers": "Hintatiedot",
       "notificationTitleType": "Tapahtumatyyppi",
       "placeholderDescription": {
         "course": "Syötä kurssin kuvaus",
@@ -139,6 +157,12 @@
       "placeholderName": {
         "course": "Syötä kurssin otsikko",
         "event": "Syötä tapahtuman otsikko"
+      },
+      "placeholderOfferDescription": "Syötä hintatietojen kuvaus {{langText}}",
+      "placeholderOfferInfoUrl": "Syötä lipunmyynnin tai ilmoittautumisen URL {{langText}}",
+      "placeholderOfferPrice": {
+        "course": "Syötä kurssin hinta {{langText}}",
+        "event": "Syötä tapahtuman hinta {{langText}}"
       },
       "placeholderProvider": {
           "course": "Syötä kurssin järjestäjän nimi",
@@ -165,7 +189,15 @@
       "titleLanguageVersions": "Kieliversiot",
       "titleLocation": "Tapahtumapaikka",
       "titleLocationExtraInfo": "Paikan lisätiedot",
+      "titleOfferDescription": "Hintatietojen kuvaus",
+      "titleOfferInfoUrl": "Linkki lipunmyyntiin tai ilmoittautumiseen",
+      "titleOfferPrice": "Hinta",
       "titlePersonsInCharge": "Vastuuhenkilöt",
+      "titlePriceInfo": {
+        "course": "Kurssin hintatiedot",
+        "event": "Tapahtuman hintatiedot"
+      },
+      "titlePrice": "Hinta",
       "titleTime": {
         "course": "Kurssin ajankohdat",
         "event": "Tapahtuman ajankohdat"

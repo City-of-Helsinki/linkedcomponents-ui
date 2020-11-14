@@ -1,10 +1,13 @@
 import reduce from 'lodash/reduce';
 
+import { MultiLanguageObject } from './types';
+
 export enum EVENT_FIELDS {
   DESCRIPTION = 'description',
   END_TIME = 'endTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
   EVENT_TIMES = 'eventTimes',
+  HAS_PRICE = 'hasPrice',
   HAS_UMBRELLA = 'hasUmbrella',
   IN_LANGUAGE = 'inLanguage',
   INFO_URL = 'infoUrl',
@@ -12,6 +15,11 @@ export enum EVENT_FIELDS {
   LOCATION = 'location',
   LOCATION_EXTRA_INFO = 'locationExtraInfo',
   NAME = 'name',
+  OFFER_DESCRIPTION = 'description',
+  OFFER_INFO_URL = 'info_url',
+  OFFER_IS_FREE = 'is_free',
+  OFFER_PRICE = 'price',
+  OFFERS = 'offers',
   PROVIDER = 'provider',
   SHORT_DESCRIPTION = 'shortDescription',
   START_TIME = 'startTime',
@@ -46,13 +54,14 @@ export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
   EVENT_INFO_LANGUAGES,
   (acc, lang) => ({ ...acc, [lang]: '' }),
   {}
-);
+) as MultiLanguageObject;
 
 export const EVENT_INITIAL_VALUES = {
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.END_TIME]: null,
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
   [EVENT_FIELDS.EVENT_TIMES]: [],
+  [EVENT_FIELDS.HAS_PRICE]: false,
   [EVENT_FIELDS.HAS_UMBRELLA]: false,
   [EVENT_FIELDS.IN_LANGUAGE]: ['fi'],
   [EVENT_FIELDS.INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
@@ -60,6 +69,7 @@ export const EVENT_INITIAL_VALUES = {
   [EVENT_FIELDS.LOCATION]: null,
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+  [EVENT_FIELDS.OFFERS]: [],
   [EVENT_FIELDS.PROVIDER]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.SHORT_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.START_TIME]: null,

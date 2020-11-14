@@ -107,7 +107,7 @@ test('should show error message when end time is before start time', async () =>
   });
 });
 
-test('should and and delete event time', async () => {
+test('should add and delete event time', async () => {
   renderTimeSection();
   const startTimeName = translations.event.form.labelStartTime[type];
   const endTimeName = translations.event.form.labelEndTime[type];

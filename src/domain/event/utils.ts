@@ -10,19 +10,24 @@ import { OptionType } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 import { createStringError } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { EVENT_FIELDS } from './constants';
-import { EventTime } from './types';
+import { EMPTY_MULTI_LANGUAGE_OBJECT, EVENT_FIELDS } from './constants';
+import { EventTime, Offer } from './types';
 
-const createMultiLanguageFieldValidation = (
+const createMultiLanguageValidation = (
+  languages: string[],
+  rule: Yup.Schema<string | null | undefined>
+) => {
+  return Yup.object().shape(
+    reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {})
+  );
+};
+
+const createMultiLanguageValidationByInfoLanguages = (
   rule: Yup.Schema<string | null | undefined>
 ) => {
   return Yup.object().when(
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-    (value: string[]) => {
-      return Yup.object().shape({
-        ...reduce(value, (acc, lang) => ({ ...acc, [lang]: rule }), {}),
-      });
-    }
+    (languages: string[]) => createMultiLanguageValidation(languages, rule)
   );
 };
 
@@ -68,20 +73,20 @@ export const createValidationSchema = () => {
         is: (value) => value,
         then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
       }),
-    [EVENT_FIELDS.NAME]: createMultiLanguageFieldValidation(
+    [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
       Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     ),
-    [EVENT_FIELDS.INFO_URL]: createMultiLanguageFieldValidation(
+    [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
       Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
     ),
-    [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageFieldValidation(
+    [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
       Yup.string()
         .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
         .max(CHARACTER_LIMITS.LONG_STRING, (param) =>
           createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
         )
     ),
-    [EVENT_FIELDS.SHORT_DESCRIPTION]: createMultiLanguageFieldValidation(
+    [EVENT_FIELDS.SHORT_DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
       Yup.string()
         .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
         .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
@@ -95,10 +100,39 @@ export const createValidationSchema = () => {
     [EVENT_FIELDS.LOCATION]: Yup.string()
       .nullable()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    [EVENT_FIELDS.LOCATION_EXTRA_INFO]: createMultiLanguageFieldValidation(
+    [EVENT_FIELDS.LOCATION_EXTRA_INFO]: createMultiLanguageValidationByInfoLanguages(
       Yup.string().max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
         createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
       )
+    ),
+    [EVENT_FIELDS.OFFERS]: Yup.array().when(
+      [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
+      (
+        hasPrice: boolean,
+        eventInfoLanguage: string[],
+        schema: Yup.ArraySchema<any>
+      ) => {
+        return hasPrice
+          ? Yup.array().of(
+              Yup.object().shape({
+                [EVENT_FIELDS.OFFER_DESCRIPTION]: createMultiLanguageValidation(
+                  eventInfoLanguage,
+                  Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+                ),
+                [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
+                  eventInfoLanguage,
+                  Yup.string()
+                    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+                    .url(VALIDATION_MESSAGE_KEYS.URL)
+                ),
+                [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
+                  eventInfoLanguage,
+                  Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+                ),
+              })
+            )
+          : schema;
+      }
     ),
   });
 };
@@ -136,5 +170,13 @@ export const getEmptyEventTime = (): EventTime => {
   return {
     [EVENT_FIELDS.END_TIME]: null,
     [EVENT_FIELDS.START_TIME]: null,
+  };
+};
+
+export const getEmptyOffer = (): Offer => {
+  return {
+    [EVENT_FIELDS.OFFER_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [EVENT_FIELDS.OFFER_INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [EVENT_FIELDS.OFFER_PRICE]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   };
 };
