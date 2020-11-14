@@ -80,9 +80,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
       setSearch(inputValue);
     }, 0);
 
-    return items.filter((item) =>
-      item.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
+    return items;
   };
 
   React.useEffect(() => {
