@@ -87,6 +87,10 @@
         "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
         "event": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
       },
+      "infoTextSocialMedia": {
+        "course": "Valinnainen. Syötä URL-kenttään kurssin SoMe-linkit.",
+        "event": "Valinnainen. Syötä URL-kenttään tapahtuman SoMe-linkit."
+      },
       "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
       "labelDescription": {
@@ -97,6 +101,7 @@
         "course": "Kurssi päättyy",
         "event": "Tapahtuma päättyy"
       },
+      "labelFacebookUrl": "Facebook",
       "labelHasPrice": {
         "course": "Kurssi on maksullinen",
         "event": "Tapahtuma on maksullinen"
@@ -109,6 +114,7 @@
         "course": "Kurssin kotisivun URL {{langText}}",
         "event": "Tapahtuman kotisivun URL {{langText}}"
       },
+      "labelInstagramUrl": "Instagram",
       "labelIsUmbrella": { 
         "course": "Tämä kurssi on kattotapahtuma.",
         "event": "Tämä tapahtuma on kattotapahtuma."
@@ -135,6 +141,7 @@
         "course": "Kurssi alkaa",
         "event": "Tapahtuma alkaa"
       },
+      "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Kattotapahtuma",
       "notificationTitleEventTimes": {
         "course": "Kurssin ajankohdat",
@@ -148,9 +155,17 @@
         "event": "Syötä tapahtuman kuvaus"
       },
       "placeholderEndTime": "dd.mm.vvvv hh.mm",
+      "placeholderFacebookUrl": {
+        "course": "Syötä kurssin Facebook-sivun URL",
+        "event": "Syötä tapahtuman Facebook-sivun URL"
+      },
       "placeholderInfoUrl": {
         "course": "Syötä kurssin kotisivun URL",
         "event": "Syötä tapahtuman kotisivun URL"
+      },
+      "placeholderInstagramUrl": {
+        "course": "Syötä kurssin Instagram-sivun URL",
+        "event": "Syötä tapahtuman Instagram-sivun URL"
       },
       "placeholderLocation": "Valitse tai hae tapahtumapaikka",
       "placeholderLocationExtraInfo": "Syötä lisätietoja tapahtumapaikasta {{langText}}",
@@ -173,6 +188,10 @@
         "event": "Syötä tapahtuman lyhyt kuvaus"
       },
       "placeholderStartTime": "dd.mm.vvvv hh.mm",
+      "placeholderTwitterUrl": {
+        "course": "Syötä kurssin Twitter-sivun URL",
+        "event": "Syötä tapahtuman Twitter-sivun URL"
+      },
       "titleDescription": {
         "course": "Kurssin kuvaus",
         "event": "Tapahtuman kuvaus"
@@ -198,6 +217,10 @@
         "event": "Tapahtuman hintatiedot"
       },
       "titlePrice": "Hinta",
+      "titleSocialMedia": {
+        "course": "Kurssi sosiaalisessa mediassa",
+        "event": "Tapahtuma sosiaalisessa mediassa"
+      },
       "titleTime": {
         "course": "Kurssin ajankohdat",
         "event": "Tapahtuman ajankohdat"
@@ -212,11 +235,11 @@
         "commitment": "Sitoomus",
         "description": "Kuvaus",
         "languages": "Kielet",
-        "media": "Media",
         "place": "Paikka",
         "price": "Hinta",
         "ready": "Valmis",
         "responsibilities": "Vastuut",
+        "socialMedia": "SoMe",
         "targets": "Kohteet",
         "time": "Aika",
         "type": "Tyyppi"

@@ -10,6 +10,7 @@ import Notification from '../../../../common/components/notification/Notificatio
 import { CHARACTER_LIMITS, INPUT_MAX_WIDTHS } from '../../../../constants';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import { EVENT_FIELDS } from '../../constants';
+import stylesEventPage from '../../eventPage.module.scss';
 import InputWrapper from '../InputWrapper';
 import styles from './placeSection.module.scss';
 
@@ -32,7 +33,7 @@ const PlaceSection = () => {
       <InputRow
         info={
           <Notification
-            className={styles.notification}
+            className={stylesEventPage.notification}
             label={t(`event.form.notificationTitleLocation`)}
             type="info"
           >

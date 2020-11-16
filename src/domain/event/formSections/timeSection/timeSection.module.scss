@@ -1,7 +1,0 @@
-@import 'breakpoints';
-
-.notification {
-  @include medium-up {
-    margin-top: var(--label-height);
-  }
-}

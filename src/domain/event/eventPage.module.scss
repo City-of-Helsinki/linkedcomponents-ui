@@ -1,3 +1,5 @@
+@import 'breakpoints';
+
 .eventPage {
   h1,
   h3 {
@@ -19,5 +21,11 @@
   }
   p {
     margin-top: 0;
+  }
+
+  .notification {
+    @include medium-up {
+      margin-top: var(--label-height);
+    }
   }
 }

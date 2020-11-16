@@ -1,0 +1,35 @@
+@import 'breakpoints';
+
+.fieldArrayRow {
+  display: grid;
+  grid-template-columns: 1fr var(--input-height);
+
+  .buttonWrapper {
+    min-width: var(--input-height);
+    padding-top: var(--label-height);
+  }
+
+  &.inputWidthMedium {
+    @include medium-up {
+      grid-template-columns: minmax(0, var(--input-max-width-m)) auto;
+    }
+
+    .inputWrapper {
+      @include medium-up {
+        max-width: var(--input-max-width-m);
+      }
+    }
+  }
+
+  &.inputWidthLarge {
+    @include medium-up {
+      grid-template-columns: minmax(0, var(--input-max-width-l)) auto;
+    }
+
+    .inputWrapper {
+      @include medium-up {
+        max-width: var(--input-max-width-l);
+      }
+    }
+  }
+}

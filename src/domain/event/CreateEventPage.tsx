@@ -14,6 +14,7 @@ import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import PlaceSection from './formSections/placeSection/PlaceSection';
 import PriceSection from './formSections/priceSection/PriceSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
+import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import { createValidationSchema } from './utils';
@@ -81,14 +82,12 @@ const CreateEventPage: React.FC = () => {
                       label: t('event.navigation.steps.price'),
                     },
                     {
-                      component: <LoadingSpinner isLoading={true} />,
+                      component: <SocialMediaSection />,
                       isCompleted: false,
-                      label: t('event.navigation.steps.media'),
+                      label: t('event.navigation.steps.socialMedia'),
                     },
                     {
-                      component: (
-                        <div>{t('event.navigation.steps.classification')}</div>
-                      ),
+                      component: <LoadingSpinner isLoading={true} />,
                       isCompleted: false,
                       label: t('event.navigation.steps.classification'),
                     },
