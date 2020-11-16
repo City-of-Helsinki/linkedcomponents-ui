@@ -1,6 +1,7 @@
 {
   "appName": "Linked Components",
   "common": {
+    "close": "Stäng",
     "combobox": {
       "toggleButtonAriaLabel": "Menyn"
     },

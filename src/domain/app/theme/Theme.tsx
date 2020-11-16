@@ -128,6 +128,16 @@ type LoadingSpinnerCSSProperties = {
   '--spinner-stroke-width'?: string;
 };
 
+type MocalCSSProperties = {
+  '--modal-background-color'?: string;
+  '--modal-bottom'?: string;
+  '--modal-max-width'?: string;
+  '--modal-top'?: string;
+  '--modal-z-index'?: number;
+  '--modal-heading-background-color'?: string;
+  '--modal-heading-color'?: string;
+};
+
 type NavigationCSSProperties = {
   '--header-z-index'?: number;
   '--header-background-color'?: string;
@@ -257,6 +267,7 @@ export type Theme = {
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;
+  modal: MocalCSSProperties;
   navigation: NavigationCSSProperties;
   notification: {
     size?: {
@@ -288,6 +299,7 @@ const defaultTheme: Theme = {
   languageSelector: {},
   layout: {},
   loadingSpinner: {},
+  modal: {},
   navigation: {},
   notification: {},
   radioButton: {},

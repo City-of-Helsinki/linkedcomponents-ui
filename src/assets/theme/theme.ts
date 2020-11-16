@@ -200,6 +200,15 @@ const theme: Theme = {
     '--spinner-width': '120px',
     '--spinner-stroke-width': '20px',
   },
+  modal: {
+    '--modal-background-color': 'var(--color-white)',
+    '--modal-bottom': '0px',
+    '--modal-max-width': '1157px',
+    '--modal-top': '0px',
+    '--modal-z-index': 100,
+    '--modal-heading-background-color': 'var(--color-coat-of-arms)',
+    '--modal-heading-color': 'var(--color-white)',
+  },
   navigation: {
     '--header-z-index': 10,
     '--header-background-color': 'var(--color-coat-of-arms)',

@@ -1,6 +1,7 @@
 {
   "appName": "Linked Components",
   "common": {
+    "close": "Close",
     "combobox": {
       "toggleButtonAriaLabel": "Menu"
     },

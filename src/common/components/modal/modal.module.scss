@@ -1,0 +1,76 @@
+@import 'breakpoints';
+
+.modalPortal {
+  --modal-background-color: var(--color-white);
+  --modal-bottom: 0px;
+  --modal-max-width: 1157px;
+  --modal-top: 0px;
+  --modal-z-index: 100;
+  --modal-heading-background-color: var(--color-coat-of-arms);
+  --modal-heading-color: var(--color-white);
+}
+
+.bodyOpen {
+  overflow: hidden;
+}
+
+.overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: var(--modal-z-index);
+}
+
+.modal {
+  position: absolute;
+  top: var(--modal-top);
+  bottom: var(--modal-bottom);
+  padding: 0px;
+  background: var(--modal-background-color);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+  outline: none;
+  overflow: auto;
+  z-index: var(--modal-z-index);
+  width: 100%;
+  max-width: var(--modal-max-width);
+  margin: 0px auto;
+  transform: translateX(-50%);
+  margin-left: 50%;
+}
+
+.headingWrapper {
+  display: grid;
+  color: var(--modal-heading-color);
+  background-color: var(--modal-heading-background-color);
+  grid-template-columns: 1fr auto;
+
+  h2 {
+    margin: 0;
+    padding: var(--spacing-m) var(--spacing-s);
+    font-size: var(--fontsize-heading-s);
+    font-weight: normal;
+  }
+
+  .closeButton {
+    color: var(--modal-heading-color);
+    padding: var(--spacing-m) var(--spacing-s);
+  }
+}
+
+.contentWrapper {
+  padding: var(--spacing-m) var(--spacing-s);
+
+  @include large-up {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: var(--spacing-m);
+
+    .content {
+      grid-column: 2 / 12;
+    }
+  }
+}
