@@ -39,7 +39,8 @@ const Timepicker: React.FC<Props> = ({
   const [timesList] = React.useState(() => getTimes(minuteInterval));
   const [inputItems, setInputItems] = React.useState(timesList);
   // used to prevent onBlur being called when user is clicking menu item with mouse
-  const menuItemClicked = React.useRef<boolean>(false);
+  const menuItemMouseDown = React.useRef<boolean>(false);
+  const menuItemMouseUp = React.useRef<boolean>(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const { t } = useTranslation();
@@ -78,14 +79,17 @@ const Timepicker: React.FC<Props> = ({
   });
 
   const handleInputOnFocus = () => {
-    openMenu();
+    if (!menuItemMouseUp.current) {
+      openMenu();
+    }
+    menuItemMouseUp.current = false;
   };
 
   const handleInputOnBlur = () => {
-    if (!menuItemClicked.current) {
+    if (!menuItemMouseDown.current) {
       onBlur(selectedItem || value);
     }
-    menuItemClicked.current = false;
+    menuItemMouseDown.current = false;
   };
 
   const toggleCalendar = () => {
@@ -134,27 +138,32 @@ const Timepicker: React.FC<Props> = ({
         })}
       >
         {showDropdown &&
-          inputItems.map((item, index) => (
-            <ScrollIntoViewWithFocus
-              isFocused={highlightedIndex === index}
-              {...getItemProps({
-                as: 'li',
-                key: `${item}${index}`,
-                item,
-                index,
-                className: classNames(styles.dropdownMenuItem, {
-                  [styles.isHighlighted]: highlightedIndex === index,
-                }),
-                // prevent onBlur being called when clicking menu item
-                onMouseDown: () => {
-                  menuItemClicked.current = true;
-                  setTimeout(() => (menuItemClicked.current = false));
-                },
-              })}
-            >
-              {item}
-            </ScrollIntoViewWithFocus>
-          ))}
+          inputItems.map((item, index) => {
+            const isHighlighted = highlightedIndex === index;
+            const { ref, ...itemProps } = getItemProps({
+              as: 'li',
+              key: `${item}${index}`,
+              item,
+              index,
+              className: classNames(styles.dropdownMenuItem, {
+                [styles.isHighlighted]: isHighlighted,
+              }),
+              // prevent onBlur being called when clicking menu item
+              onMouseDown: () => {
+                menuItemMouseDown.current = true;
+              },
+              // prevent input to be focused when clicking menu item
+              onMouseUp: () => {
+                menuItemMouseUp.current = true;
+              },
+            });
+
+            return (
+              <ScrollIntoViewWithFocus isFocused={isHighlighted} {...itemProps}>
+                {item}
+              </ScrollIntoViewWithFocus>
+            );
+          })}
       </ul>
     </InputWrapper>
   );
