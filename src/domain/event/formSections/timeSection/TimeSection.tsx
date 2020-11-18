@@ -34,6 +34,7 @@ const TypeSection = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
+        shouldCloseOnEsc={false}
         title={t(`event.form.modalTitleRecurringEvent`)}
       >
         <RecurringEventsForm onSubmit={closeModal} type={type} />
