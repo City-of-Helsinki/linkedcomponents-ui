@@ -25,7 +25,12 @@
       }
     },
     "showLess": "Show less",
-    "showMore": "Show more"
+    "showMore": "Show more",
+    "timepicker": {
+      "accessibility": {
+        "buttonTimeList": "Times"
+      }
+    }
   },
   "createEventPage": {
     "buttonSaveDraft": "Save draft",
@@ -42,8 +47,10 @@
     "form": {
       "buttonAddEventTime": "Add new time",
       "buttonAddOffer": "Add new pricing information",
+      "buttonAddRecurringEvent": "Add recurring event",
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
+      "buttonOpenRecurringEventSettings": "Open recurring event settings",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextAudience": {
         "course": "If the course does not have a specific target group, don't select anything",
@@ -144,6 +151,16 @@
         "course": "Course organizer {{langText}} (if different than the publisher)",
         "event": "Event organizer {{langText}} (if different than the publisher)"
       },
+      "labelRecurringEventEndDate": "Repetition ends",
+      "labelRecurringEventEndTime": {
+        "course": "Course ends at",
+        "event": "Event ends at"
+      },
+      "labelRecurringEventStartDate": "Repetition starts",
+      "labelRecurringEventStartTime": {
+        "course": "Course starts at",
+        "event": "Event starts at"
+      },
       "labelShortDescription": {
         "course": "Short description {{langText}} (up to 160 characters)",
         "event": "Short description {{langText}} (up to 160 characters)"
@@ -154,6 +171,7 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Umbrella event",
+      "modalTitleRecurringEvent": "Specify recurring event",
       "notificationTitleEventTimes": {
         "course": "Course times",
         "event": "Event times"
@@ -199,6 +217,10 @@
           "course": "Enter the course organizer's name",
           "event": "Enter the event organizer's name"
       },
+      "placeholderRecurringEventEndDate": "dd.mm.yyyy",
+      "placeholderRecurringEventEndTime": "hh.mm",
+      "placeholderRecurringEventStartDate": "dd.mm.yyyy",
+      "placeholderRecurringEventStartTime": "hh.mm",
       "placeholderShortDescription": {
         "course": "Enter a short description of the course",
         "event": "Enter a short description of the event"
@@ -236,6 +258,9 @@
         "event": "Event price information"
       },
       "titlePrice": "Price",
+      "titleRecurringEventRepeatDays": "Repeat days",
+      "titleRecurringEventRepeatInterval": "Repeat interval",
+      "titleRecurringEventStarts": "Start",
       "titleSocialMedia": {
         "course": "Course on social media",
         "event": "Event on social media"
@@ -323,6 +348,15 @@
         "min": "This time must be after {{min}}",
         "required": "This field is required"
       }
+    },
+    "weekDayAbbreviation": {
+      "fri": "Fri",
+      "mon": "Mon", 
+      "sat": "Sat",
+      "sun": "Sun",
+      "thu": "Thu",
+      "tue": "Tue",
+      "wed": "Wed"
     }
   },
   "helpPage": {

@@ -2,6 +2,15 @@ import reduce from 'lodash/reduce';
 
 import { MultiLanguageObject } from './types';
 
+export enum RECURRING_EVENT_FIELDS {
+  END_DATE = 'endDate',
+  END_TIME = 'endTime',
+  REPEAT_DAYS = 'repeatDays',
+  REPEAT_INTERVAL = 'repeatInterval',
+  START_DATE = 'startDate',
+  START_TIME = 'startTime',
+}
+
 export enum EVENT_FIELDS {
   AUDIENCE = 'audience',
   DESCRIPTION = 'description',
@@ -60,6 +69,15 @@ export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
   (acc, lang) => ({ ...acc, [lang]: '' }),
   {}
 ) as MultiLanguageObject;
+
+export const RECURRING_EVENT_INITIAL_VALUES = {
+  [RECURRING_EVENT_FIELDS.END_DATE]: null,
+  [RECURRING_EVENT_FIELDS.END_TIME]: '',
+  [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: [],
+  [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: 1,
+  [RECURRING_EVENT_FIELDS.START_DATE]: null,
+  [RECURRING_EVENT_FIELDS.START_TIME]: '',
+};
 
 export const EVENT_INITIAL_VALUES = {
   [EVENT_FIELDS.AUDIENCE]: [],

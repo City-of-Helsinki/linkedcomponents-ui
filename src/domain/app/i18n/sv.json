@@ -25,7 +25,12 @@
       }
     },
     "showLess": "Visa mindre",
-    "showMore": "Visa mer"
+    "showMore": "Visa mer",
+    "timepicker": {
+      "accessibility": {
+        "buttonTimeList": "Tider"
+      }
+    }
   },
   "createEventPage": {
     "buttonSaveDraft": "Spara utkast",
@@ -42,8 +47,10 @@
     "form": {
       "buttonAddEventTime": "Lägg till ny tid",
       "buttonAddOffer": "Lägg till ny prisinformation",
+      "buttonAddRecurringEvent": "Lägg till återkommande evenemang",
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
+      "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik publik, välj inget.",
@@ -144,6 +151,16 @@
         "course": "Kursarrangör {{langText}} (om det är annorlunda än utgivaren)",
         "event": "Evenemangarrangör {{langText}} (om det är annorlunda än utgivaren)"
       },
+      "labelRecurringEventEndDate": "Upprepningen slutar",
+      "labelRecurringEventEndTime": {
+        "course": "Kursen slutar kl",
+        "event": "Evenemanget slutar kl"
+      },
+      "labelRecurringEventStartDate": "Upprepningen börjar",
+      "labelRecurringEventStartTime": {
+        "course": "Kursen börjar kl",
+        "event": "Evenemanget börjar kl"
+      },
       "labelShortDescription": {
         "course": "Kort beskrivning {{langText}} (upp till 160 tecken)",
         "event": "Kort beskrivning {{langText}} (upp till 160 tecken)"
@@ -154,6 +171,7 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Paraplyevenemang",
+      "modalTitleRecurringEvent": "Ange återkommande evenemang",
       "notificationTitleEventTimes": {
         "course": "Kurstider",
         "event": "Evenemamgtider"
@@ -199,6 +217,10 @@
         "course": "Ange kursarrangörens namn",
         "event": "Ange evenemangsarrangörens namn"
       },
+      "placeholderRecurringEventEndDate": "dd.mm.åååå",
+      "placeholderRecurringEventEndTime": "hh.mm",
+      "placeholderRecurringEventStartDate": "dd.mm.åååå",
+      "placeholderRecurringEventStartTime": "hh.mm",
       "placeholderShortDescription": {
         "course": "Ange en kort beskrivning av kursen",
         "event": "Ange en kort beskrivning av evenemanget"
@@ -236,6 +258,9 @@
         "event": "Prisinformation för evenemang"
       },
       "titlePrice": "Pris",
+      "titleRecurringEventRepeatDays": "Uppspelningsdagar",
+      "titleRecurringEventRepeatInterval": "Uppspelningsintervall",
+      "titleRecurringEventStarts": "Början",
       "titleSocialMedia": {
         "course": "Kurs på sociala medier",
         "event": "Evenemang pä sociala medier"
@@ -323,6 +348,15 @@
         "min": "Den här tiden måste vara efter {{min}}",
         "required": "Detta fält krävs"
       }
+    },
+    "weekDayAbbreviation": {
+      "fri": "Fre",
+      "mon": "Mån", 
+      "sat": "Lör",
+      "sun": "Sön",
+      "thu": "Tors",
+      "tue": "Tis",
+      "wed": "Ons"
     }
   },
   "helpPage": {

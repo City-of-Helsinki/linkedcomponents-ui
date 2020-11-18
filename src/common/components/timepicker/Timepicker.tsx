@@ -101,6 +101,7 @@ const Timepicker: React.FC<Props> = ({
     className: classNames(inputStyles.input, styles.timepickerInput),
     onFocus: handleInputOnFocus,
     onBlur: handleInputOnBlur,
+    ref: inputRef,
     value: value,
   });
   const { htmlFor, ...labelProps } = getLabelProps();
@@ -115,12 +116,7 @@ const Timepicker: React.FC<Props> = ({
       labelId={labelProps.id}
     >
       <div {...getComboboxProps()} className={styles.inputWrapper}>
-        <input
-          {...inputProps}
-          id={inputId}
-          placeholder={placeholder}
-          ref={inputRef}
-        />
+        <input {...inputProps} id={inputId} placeholder={placeholder} />
         <button
           type="button"
           aria-label={t('common.timepicker.accessibility.buttonTimeList')}

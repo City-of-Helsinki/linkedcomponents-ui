@@ -25,7 +25,12 @@
       }
     },
     "showLess": "Näytä vähemmän",
-    "showMore": "Näytä lisää"
+    "showMore": "Näytä lisää",
+    "timepicker": {
+      "accessibility": {
+        "buttonTimeList": "Kellonajat"
+      }
+    }
   },
   "createEventPage": {
     "buttonSaveDraft": "Tallenna luonnos",
@@ -42,8 +47,10 @@
     "form": {
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddOffer": "Lisää uusi hintatieto",
+      "buttonAddRecurringEvent": "Lisää toistuva tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
+      "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
@@ -144,6 +151,16 @@
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "event": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)"
       },
+      "labelRecurringEventEndDate": "Toisto loppuu",
+      "labelRecurringEventEndTime": {
+        "course": "Kurssi loppuu klo",
+        "event": "Tapahtuma loppuu klo"
+      },
+      "labelRecurringEventStartDate": "Toisto alkaa",
+      "labelRecurringEventStartTime": {
+        "course": "Kurssi alkaa klo",
+        "event": "Tapahtuma alkaa klo"
+      },
       "labelShortDescription": {
         "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
         "event": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
@@ -154,6 +171,7 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Kattotapahtuma",
+      "modalTitleRecurringEvent": "Määritä toistuva tapahtuma",
       "notificationTitleEventTimes": {
         "course": "Kurssin ajankohdat",
         "event": "Tapahtuman ajankohdat"
@@ -169,7 +187,7 @@
         "course": "Syötä kurssin kuvaus",
         "event": "Syötä tapahtuman kuvaus"
       },
-      "placeholderEndTime": "dd.mm.vvvv hh.mm",
+      "placeholderEndTime": "pp.kk.vvvv hh.mm",
       "placeholderFacebookUrl": {
         "course": "Syötä kurssin Facebook-sivun URL",
         "event": "Syötä tapahtuman Facebook-sivun URL"
@@ -199,11 +217,15 @@
           "course": "Syötä kurssin järjestäjän nimi",
           "event": "Syötä tapahtuman järjestäjän nimi"
       },
+      "placeholderRecurringEventEndDate": "pp.kk.vvvv",
+      "placeholderRecurringEventEndTime": "hh.mm",
+      "placeholderRecurringEventStartDate": "pp.kk.vvvv",
+      "placeholderRecurringEventStartTime": "hh.mm",
       "placeholderShortDescription": {
         "course": "Syötä kurssin lyhyt kuvaus",
         "event": "Syötä tapahtuman lyhyt kuvaus"
       },
-      "placeholderStartTime": "dd.mm.vvvv hh.mm",
+      "placeholderStartTime": "pp.kk.vvvv hh.mm",
       "placeholderTwitterUrl": {
         "course": "Syötä kurssin Twitter-sivun URL",
         "event": "Syötä tapahtuman Twitter-sivun URL"
@@ -236,6 +258,9 @@
         "event": "Tapahtuman hintatiedot"
       },
       "titlePrice": "Hinta",
+      "titleRecurringEventRepeatDays": "Toistopäivät",
+      "titleRecurringEventRepeatInterval": "Toistoväli (intervalli)",
+      "titleRecurringEventStarts": "Aloitus",
       "titleSocialMedia": {
         "course": "Kurssi sosiaalisessa mediassa",
         "event": "Tapahtuma sosiaalisessa mediassa"
@@ -324,6 +349,15 @@
         "min": "Arvon tulee olla vähintään {{min}}",
         "max": "Arvon tulee olla enintään {{max}}"
       }
+    },
+    "weekDayAbbreviation": {
+      "fri": "Pe",
+      "mon": "Ma", 
+      "sat": "La",
+      "sun": "Su",
+      "thu": "To",
+      "tue": "Ti",
+      "wed": "Ke"
     }
   },
   "helpPage": {

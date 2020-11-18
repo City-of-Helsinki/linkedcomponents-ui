@@ -33,6 +33,16 @@ export enum INCLUDE {
   KEYWORDS = 'keywords',
 }
 
+export enum WEEK_DAY {
+  MON = 'mon',
+  TUE = 'tue',
+  WED = 'wed',
+  THU = 'thu',
+  FRI = 'fri',
+  SAT = 'sat',
+  SUN = 'sun',
+}
+
 export const DATE_FORMAT = 'dd.MM.yyyy';
 export const DATETIME_FORMAT = `${DATE_FORMAT} HH.mm`;
 

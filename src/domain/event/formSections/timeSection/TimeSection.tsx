@@ -1,20 +1,43 @@
 import { useField } from 'formik';
+import { IconCalendarPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Button from '../../../../common/components/button/Button';
+import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import InputRow from '../../../../common/components/inputRow/InputRow';
+import Modal from '../../../../common/components/modal/Modal';
 import Notification from '../../../../common/components/notification/Notification';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
+import FieldArrayRow from '../FieldArrayRow';
 import EventTime from './EventTime';
 import EventTimes from './EventTimes';
+import RecurringEventsForm from './recurringEventsForm/RecurringEventsForm';
 
 const TypeSection = () => {
   const { t } = useTranslation();
+  const [isModalOpen, setIsmodalOpen] = React.useState(false);
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);
+
+  const openModal = () => {
+    setIsmodalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsmodalOpen(false);
+  };
 
   return (
     <>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={t(`event.form.modalTitleRecurringEvent`)}
+      >
+        <RecurringEventsForm onSubmit={closeModal} type={type} />
+      </Modal>
       <h3>{t(`event.form.titleTime.${type}`)}</h3>
 
       <InputRow
@@ -33,7 +56,24 @@ const TypeSection = () => {
         }
       >
         <EventTime eventTimePath="" type={type} />
-        <EventTimes />
+        <FormGroup>
+          <EventTimes />
+        </FormGroup>
+
+        <FieldArrayRow
+          input={
+            <Button
+              fullWidth={true}
+              iconLeft={<IconCalendarPlus />}
+              onClick={openModal}
+              type="button"
+              variant="supplementary"
+            >
+              {t(`event.form.buttonOpenRecurringEventSettings`)}
+            </Button>
+          }
+          inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
+        />
       </InputRow>
     </>
   );
