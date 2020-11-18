@@ -14,6 +14,7 @@ import {
   RECURRING_EVENT_FIELDS,
   RECURRING_EVENT_INITIAL_VALUES,
 } from '../../../constants';
+import { createRecurringEventValidationSchema } from '../../../utils';
 import styles from './recurringEventsForm.module.scss';
 
 interface Props {
@@ -38,6 +39,7 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
       onSubmit={(values) => {
         onSubmit();
       }}
+      validationSchema={createRecurringEventValidationSchema}
     >
       {() => {
         return (

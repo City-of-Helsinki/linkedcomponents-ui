@@ -116,6 +116,7 @@ const Timepicker: React.FC<Props> = ({
       className={classNames(styles.wrapper, className, css(theme.timepicker))}
       {...rest}
       {...labelProps}
+      hasIcon={true}
       id={htmlFor}
       labelId={labelProps.id}
     >

@@ -30,3 +30,10 @@
 .buttonWrapper {
   margin-top: var(--spacing-m);
 }
+
+.errorText {
+  color: var(--color-error);
+  display: block;
+  font-size: var(--fontsize-body-m);
+  margin-top: var(--spacing-2-xs);
+}

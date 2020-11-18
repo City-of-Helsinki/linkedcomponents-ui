@@ -1,10 +1,15 @@
 import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
 import isFuture from 'date-fns/isFuture';
+import parseDate from 'date-fns/parse';
 import reduce from 'lodash/reduce';
 import * as Yup from 'yup';
 
-import { CHARACTER_LIMITS, DATETIME_FORMAT } from '../../constants';
+import {
+  CHARACTER_LIMITS,
+  DATE_FORMAT,
+  DATETIME_FORMAT,
+} from '../../constants';
 import { EventQueryVariables } from '../../generated/graphql';
 import { OptionType } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
@@ -13,7 +18,11 @@ import {
   createStringError,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { EMPTY_MULTI_LANGUAGE_OBJECT, EVENT_FIELDS } from './constants';
+import {
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  EVENT_FIELDS,
+  RECURRING_EVENT_FIELDS,
+} from './constants';
 import { EventTime, Offer } from './types';
 
 const createMultiLanguageValidation = (
@@ -65,7 +74,7 @@ const eventTimeValidation = {
     ),
 };
 
-export const createValidationSchema = () => {
+export const createEventValidationSchema = () => {
   return Yup.object().shape({
     [EVENT_FIELDS.TYPE]: Yup.string().required(
       VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
@@ -144,6 +153,88 @@ export const createValidationSchema = () => {
       .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
       .min(1, (param) =>
         createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
+      ),
+  });
+};
+
+export const isValidTime = (time: string) =>
+  /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
+
+export const createRecurringEventValidationSchema = () => {
+  return Yup.object().shape({
+    [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.string().required(
+      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+    [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
+      .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
+      .min(1, (param) =>
+        createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
+      ),
+    [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
+      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+      .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+      .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
+        startTime ? isFuture(startTime) : true
+      ),
+    [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
+      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+      .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+      // test that startsTime is before endsTime
+      .when(
+        [RECURRING_EVENT_FIELDS.START_DATE],
+        (startDate: Date | null, schema: Yup.DateSchema) => {
+          if (startDate) {
+            return schema.test(
+              'isBeforeStartDate',
+              () => ({
+                key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
+                min: formatDate(startDate, DATE_FORMAT),
+              }),
+              (endDate) => {
+                return endDate ? isBefore(startDate, endDate) : true;
+              }
+            );
+          }
+          return schema;
+        }
+      ),
+    [RECURRING_EVENT_FIELDS.START_TIME]: Yup.string()
+      .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+      .test(
+        'isValidTime',
+        VALIDATION_MESSAGE_KEYS.TIME,
+        (value) => !!value && isValidTime(value)
+      ),
+    [RECURRING_EVENT_FIELDS.END_TIME]: Yup.string()
+      .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+      .test(
+        'isValidTime',
+        VALIDATION_MESSAGE_KEYS.TIME,
+        (value) => !!value && isValidTime(value)
+      )
+      // test that startsAt is before endsAt time
+      .when(
+        [RECURRING_EVENT_FIELDS.START_TIME],
+        (startsAt: string, schema: Yup.StringSchema) => {
+          if (isValidTime(startsAt)) {
+            return schema.test(
+              'isBeforeStartTime',
+              () => ({
+                key: VALIDATION_MESSAGE_KEYS.TIME_MAX,
+                min: startsAt,
+              }),
+              (endsAt) => {
+                return !!endsAt && isValidTime(endsAt)
+                  ? isBefore(
+                      parseDate(startsAt, 'HH.mm', new Date()),
+                      parseDate(endsAt, 'HH.mm', new Date())
+                    )
+                  : true;
+              }
+            );
+          }
+          return schema;
+        }
       ),
   });
 };
