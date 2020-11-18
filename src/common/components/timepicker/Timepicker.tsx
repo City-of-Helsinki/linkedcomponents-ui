@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { useCombobox, UseComboboxState } from 'downshift';
 import { css } from 'emotion';
 import { TextInputProps } from 'hds-react/components/TextInput';
+import { IconClock } from 'hds-react/icons';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,15 +13,17 @@ import {
 } from '../../../utils/accessibilityUtils';
 import InputWrapper from '../inputWrapper/InputWrapper';
 import inputStyles from '../inputWrapper/inputWrapper.module.scss';
+import ScrollIntoViewWithFocus from '../scrollIntoViewWithFocus/ScrollIntoViewWithFocus';
 import { DEFAULT_TIME_INTERVAL } from './constants';
 import styles from './timepicker.module.scss';
 import { getTimes } from './utils';
 
 export type Props = {
-  onBlur: (value?: string) => void;
+  onBlur: (value: string) => void;
   onChange: (value: string) => void;
   minuteInterval?: number;
-} & Omit<TextInputProps, 'onBlur' | 'onChange'>;
+  value: string;
+} & Omit<TextInputProps, 'onBlur' | 'onChange' | 'value'>;
 
 const Timepicker: React.FC<Props> = ({
   className,
@@ -28,6 +31,7 @@ const Timepicker: React.FC<Props> = ({
   minuteInterval = DEFAULT_TIME_INTERVAL,
   onBlur,
   onChange,
+  placeholder,
   value,
   ...rest
 }) => {
@@ -36,13 +40,15 @@ const Timepicker: React.FC<Props> = ({
   const [inputItems, setInputItems] = React.useState(timesList);
   // used to prevent onBlur being called when user is clicking menu item with mouse
   const menuItemClicked = React.useRef<boolean>(false);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
   const { t } = useTranslation();
 
   const handleInputValueChange = ({
     inputValue,
   }: Partial<UseComboboxState<string>>) => {
     if (inputValue) {
-      const modifiedInputValue = inputValue.replace('.', ':').toLowerCase();
+      const modifiedInputValue = inputValue.replace(':', '.').toLowerCase();
       setInputItems(
         timesList.filter((time) => time.startsWith(modifiedInputValue))
       );
@@ -53,6 +59,7 @@ const Timepicker: React.FC<Props> = ({
   };
 
   const {
+    closeMenu,
     isOpen,
     selectedItem,
     openMenu,
@@ -81,8 +88,17 @@ const Timepicker: React.FC<Props> = ({
     menuItemClicked.current = false;
   };
 
+  const toggleCalendar = () => {
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+      inputRef.current?.focus();
+    }
+  };
+
   const { id: inputId, ...inputProps } = getInputProps({
-    className: classNames(inputStyles.input),
+    className: classNames(inputStyles.input, styles.timepickerInput),
     onFocus: handleInputOnFocus,
     onBlur: handleInputOnBlur,
     value: value,
@@ -98,8 +114,21 @@ const Timepicker: React.FC<Props> = ({
       id={htmlFor}
       labelId={labelProps.id}
     >
-      <div {...getComboboxProps()}>
-        <input id={inputId} {...inputProps} />
+      <div {...getComboboxProps()} className={styles.inputWrapper}>
+        <input
+          {...inputProps}
+          id={inputId}
+          placeholder={placeholder}
+          ref={inputRef}
+        />
+        <button
+          type="button"
+          aria-label={t('common.timepicker.accessibility.buttonTimeList')}
+          className={styles.calendarButton}
+          onClick={toggleCalendar}
+        >
+          <IconClock />
+        </button>
       </div>
       <ul
         {...getMenuProps({
@@ -110,8 +139,10 @@ const Timepicker: React.FC<Props> = ({
       >
         {showDropdown &&
           inputItems.map((item, index) => (
-            <li
+            <ScrollIntoViewWithFocus
+              isFocused={highlightedIndex === index}
               {...getItemProps({
+                as: 'li',
                 key: `${item}${index}`,
                 item,
                 index,
@@ -126,7 +157,7 @@ const Timepicker: React.FC<Props> = ({
               })}
             >
               {item}
-            </li>
+            </ScrollIntoViewWithFocus>
           ))}
       </ul>
     </InputWrapper>
