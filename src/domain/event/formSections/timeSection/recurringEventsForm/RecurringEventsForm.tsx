@@ -71,18 +71,34 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
             <FormGroup>
               <div className={styles.splittedRow}>
                 <div>
-                  <FormGroup>
-                    <FastField
-                      component={DatepickerField}
-                      name={RECURRING_EVENT_FIELDS.START_DATE}
-                      label={t('event.form.labelRecurringEventStartDate')}
-                      placeholder={t(
-                        'event.form.placeholderRecurringEventStartDate'
-                      )}
-                      required={true}
-                      timeSelector={false}
-                    />
-                  </FormGroup>
+                  <FastField
+                    component={DatepickerField}
+                    name={RECURRING_EVENT_FIELDS.START_DATE}
+                    label={t('event.form.labelRecurringEventStartDate')}
+                    placeholder={t(
+                      'event.form.placeholderRecurringEventStartDate'
+                    )}
+                    required={true}
+                    timeSelector={false}
+                  />
+                </div>
+                <div>
+                  <FastField
+                    component={DatepickerField}
+                    name={RECURRING_EVENT_FIELDS.END_DATE}
+                    label={t('event.form.labelRecurringEventEndDate')}
+                    placeholder={t(
+                      'event.form.placeholderRecurringEventEndDate'
+                    )}
+                    required={true}
+                    timeSelector={false}
+                  />
+                </div>
+              </div>
+            </FormGroup>
+            <FormGroup>
+              <div className={styles.splittedRow}>
+                <div>
                   <FastField
                     component={TimepickerField}
                     name={RECURRING_EVENT_FIELDS.START_TIME}
@@ -94,18 +110,6 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
                   />
                 </div>
                 <div>
-                  <FormGroup>
-                    <FastField
-                      component={DatepickerField}
-                      name={RECURRING_EVENT_FIELDS.END_DATE}
-                      label={t('event.form.labelRecurringEventEndDate')}
-                      placeholder={t(
-                        'event.form.placeholderRecurringEventEndDate'
-                      )}
-                      required={true}
-                      timeSelector={false}
-                    />
-                  </FormGroup>
                   <FastField
                     component={TimepickerField}
                     name={RECURRING_EVENT_FIELDS.END_TIME}

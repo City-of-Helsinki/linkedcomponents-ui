@@ -1,6 +1,7 @@
 import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
 import isFuture from 'date-fns/isFuture';
+import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import reduce from 'lodash/reduce';
 import * as Yup from 'yup';
@@ -57,7 +58,7 @@ const eventTimeValidation = {
     .when(
       [EVENT_FIELDS.START_TIME],
       (startTime: Date | null, schema: Yup.DateSchema) => {
-        if (startTime) {
+        if (startTime && isValid(startTime)) {
           return schema.test(
             'isBeforeStartTime',
             () => ({
@@ -183,7 +184,7 @@ export const createRecurringEventValidationSchema = () => {
       .when(
         [RECURRING_EVENT_FIELDS.START_DATE],
         (startDate: Date | null, schema: Yup.DateSchema) => {
-          if (startDate) {
+          if (startDate && isValid(startDate)) {
             return schema.test(
               'isBeforeStartDate',
               () => ({
