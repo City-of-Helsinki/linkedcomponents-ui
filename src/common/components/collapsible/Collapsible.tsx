@@ -7,10 +7,10 @@ import React from 'react';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import styles from './collapsible.module.scss';
 
-const generateUniqueId = (prefix = 'collapsible') => `${prefix}-${uniqueId()}`;
+const generateUniqueId = (prefix: string) => `${prefix}-${uniqueId()}`;
 
 type Props = {
-  headingLevel: number;
+  headingLevel?: number;
   title: string;
 };
 
@@ -35,12 +35,6 @@ const Collabsible: React.FC<Props> = ({
     setIsOpen(!isOpen);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      togglePanel();
-    }
-  };
-
   return (
     <div
       className={classNames(styles.collapsible, css(theme.collapsible), {
@@ -48,22 +42,18 @@ const Collabsible: React.FC<Props> = ({
       })}
     >
       <div role="heading" aria-level={headingLevel}>
-        <div
+        <button
           className={styles.button}
           id={collapsibleHeadingId}
           aria-expanded={isOpen}
           aria-controls={collapsiblePanelId}
           onClick={togglePanel}
-          onKeyDown={handleKeyDown}
-          role="button"
-          tabIndex={0}
         >
           {isOpen ? <IconAngleUp size="m" /> : <IconAngleDown size="m" />}
           {title}
-        </div>
+        </button>
       </div>
       <div
-        className="accordion__panel"
         role="region"
         aria-labelledby={collapsibleHeadingId}
         id={collapsiblePanelId}

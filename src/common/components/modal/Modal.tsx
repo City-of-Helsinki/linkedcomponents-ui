@@ -10,6 +10,7 @@ import CloseButton from '../closeButton/CloseButton';
 import styles from './modal.module.scss';
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
+/* istanbul ignore next */
 if (!isTextEnv) {
   ReactModal.setAppElement('#root');
 }
