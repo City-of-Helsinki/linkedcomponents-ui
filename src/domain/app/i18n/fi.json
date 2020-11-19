@@ -55,6 +55,7 @@
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
+      "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
@@ -159,6 +160,10 @@
       "labelRecurringEventEndTime": {
         "course": "Kurssi päättyy klo",
         "event": "Tapahtuma päättyy klo"
+      },
+      "labelRecurringEventRepeatInterval": {
+        "course": "Kurssi toistuu",
+        "event": "Tapahtuma toistuu"
       },
       "labelRecurringEventStartDate": "Toisto alkaa",
       "labelRecurringEventStartTime": {

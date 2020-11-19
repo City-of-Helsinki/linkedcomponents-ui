@@ -1,5 +1,6 @@
 import reduce from 'lodash/reduce';
 
+import { WEEK_DAY } from '../../constants';
 import {
   EventFields,
   MultiLanguageObject,
@@ -38,7 +39,7 @@ export enum EVENT_FIELDS {
   OFFER_PRICE = 'price',
   OFFERS = 'offers',
   PROVIDER = 'provider',
-  RECURRING_EVENTS = 'recussingEvents',
+  RECURRING_EVENTS = 'recurringEvents',
   SHORT_DESCRIPTION = 'shortDescription',
   START_TIME = 'startTime',
   TYPE = 'type',

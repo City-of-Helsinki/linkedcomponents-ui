@@ -54,6 +54,7 @@
       "buttonAddRecurringEvent": "Add recurring event",
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
+      "buttonDeleteRecurringEvent": "Delete recurring event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextAudience": {
@@ -159,6 +160,10 @@
       "labelRecurringEventEndTime": {
         "course": "Course ends at",
         "event": "Event ends at"
+      },
+      "labelRecurringEventRepeatInterval": {
+        "course": "Course is repeated",
+        "event": "Event is repeated"
       },
       "labelRecurringEventStartDate": "Repetition starts",
       "labelRecurringEventStartTime": {

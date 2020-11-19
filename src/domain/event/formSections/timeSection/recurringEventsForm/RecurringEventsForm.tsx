@@ -29,6 +29,7 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
     label: weeks.toString(),
     value: weeks,
   }));
+
   const weekDayOptions = Object.values(WEEK_DAY).map((weekday) => ({
     label: t(`form.weekDayAbbreviation.${weekday}`),
     value: weekday,
@@ -50,6 +51,9 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
                   <FastField
                     component={SingleComboboxField}
                     columns={4}
+                    label={t(
+                      `event.form.labelRecurringEventRepeatInterval.${type}`
+                    )}
                     name={RECURRING_EVENT_FIELDS.REPEAT_INTERVAL}
                     options={intervalOptions}
                     required={true}

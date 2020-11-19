@@ -28,7 +28,7 @@ const RecurringEvents = () => {
           {recurringEvents.map(
             (settings: RecurringEventSettings, index: number) => {
               return (
-                <FormGroup>
+                <FormGroup key={index}>
                   <RecurringEvent
                     key={index}
                     onDelete={() => {

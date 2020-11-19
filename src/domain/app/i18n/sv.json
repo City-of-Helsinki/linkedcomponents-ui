@@ -54,6 +54,7 @@
       "buttonAddRecurringEvent": "Lägg till återkommande evenemang",
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
+      "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "infoTextAudience": {
@@ -159,6 +160,10 @@
       "labelRecurringEventEndTime": {
         "course": "Kursen slutar kl",
         "event": "Evenemanget slutar kl"
+      },
+      "labelRecurringEventRepeatInterval": {
+        "course": "Kursen upprepas",
+        "event": "Evenemanget upprepas"
       },
       "labelRecurringEventStartDate": "Upprepningen börjar",
       "labelRecurringEventStartTime": {

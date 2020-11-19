@@ -26,6 +26,7 @@ const Modal: React.FC<Props> = ({ children, onClose, title, ...rest }) => {
   return (
     <ReactModal
       {...rest}
+      ariaHideApp={!isTextEnv}
       bodyOpenClassName={styles.bodyOpen}
       portalClassName={styles.modalPortal}
       className={classNames(styles.modal, css(theme.modal))}
