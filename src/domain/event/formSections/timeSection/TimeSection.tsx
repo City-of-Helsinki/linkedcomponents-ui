@@ -11,15 +11,22 @@ import Notification from '../../../../common/components/notification/Notificatio
 import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
+import { RecurringEventSettings } from '../../types';
 import FieldArrayRow from '../FieldArrayRow';
 import EventTime from './EventTime';
 import EventTimes from './EventTimes';
+import RecurringEvents from './RecurringEvents';
 import RecurringEventsForm from './recurringEventsForm/RecurringEventsForm';
 
 const TypeSection = () => {
   const { t } = useTranslation();
   const [isModalOpen, setIsmodalOpen] = React.useState(false);
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);
+  const [
+    { value: recurringEvents },
+    ,
+    { setValue: setRecurringEvents },
+  ] = useField(EVENT_FIELDS.RECURRING_EVENTS);
 
   const openModal = () => {
     setIsmodalOpen(true);
@@ -27,6 +34,13 @@ const TypeSection = () => {
 
   const closeModal = () => {
     setIsmodalOpen(false);
+  };
+
+  const addRecurringEventSettings = (values: RecurringEventSettings) => {
+    recurringEvents.push(values);
+    setRecurringEvents(recurringEvents);
+
+    closeModal();
   };
 
   return (
@@ -37,7 +51,7 @@ const TypeSection = () => {
         shouldCloseOnEsc={false}
         title={t(`event.form.modalTitleRecurringEvent`)}
       >
-        <RecurringEventsForm onSubmit={closeModal} type={type} />
+        <RecurringEventsForm onSubmit={addRecurringEventSettings} type={type} />
       </Modal>
       <h3>{t(`event.form.titleTime.${type}`)}</h3>
 
@@ -61,6 +75,7 @@ const TypeSection = () => {
           <EventTimes />
         </FormGroup>
 
+        <RecurringEvents />
         <FieldArrayRow
           input={
             <Button
@@ -73,7 +88,7 @@ const TypeSection = () => {
               {t(`event.form.buttonOpenRecurringEventSettings`)}
             </Button>
           }
-          inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
+          inputWidth={INPUT_MAX_WIDTHS.LARGE}
         />
       </InputRow>
     </>

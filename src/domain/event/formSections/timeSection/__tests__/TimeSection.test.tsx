@@ -10,7 +10,7 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { createValidationSchema } from '../../../utils';
+import { createEventValidationSchema } from '../../../utils';
 import TimeSection from '../TimeSection';
 
 const type = EVENT_TYPE.EVENT;
@@ -21,11 +21,12 @@ const renderTimeSection = () =>
       initialValues={{
         [EVENT_FIELDS.END_TIME]: null,
         [EVENT_FIELDS.EVENT_TIMES]: [],
+        [EVENT_FIELDS.RECURRING_EVENTS]: [],
         [EVENT_FIELDS.START_TIME]: null,
         [EVENT_FIELDS.TYPE]: type,
       }}
       onSubmit={jest.fn()}
-      validationSchema={createValidationSchema()}
+      validationSchema={createEventValidationSchema}
     >
       <TimeSection />
     </Formik>

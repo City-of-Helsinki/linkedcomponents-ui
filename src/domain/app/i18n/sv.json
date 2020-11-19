@@ -1,6 +1,10 @@
 {
   "appName": "Linked Components",
   "common": {
+    "and": "och",
+    "at": "kl {{time}}",
+    "betweenDates": "Mellan {{startDate}} och {{endDate}}",
+    "betweenTimes": "{{startTime}} – {{endTime}}",
     "close": "Stäng",
     "combobox": {
       "toggleButtonAriaLabel": "Menyn"
@@ -230,6 +234,25 @@
         "course": "Ange webbadressen till kursens Twitter-sida",
         "event": "Ange webbadressen till evenemangets Twitter-sida"
       },
+      "recurringEvent": {
+        "labelEndDate": "Upprepningen slutar:",
+        "labelEndTime": {
+          "course": "Kursen slutar kl:",
+          "event": "Evenemanget slutar kl:"
+        },
+        "labelRepeatInterval": {
+          "course": "Kursen upprepas:",
+          "event": "Evenemanget upprepas:"
+        },
+        "labelRepeatDays": "Uppspelningsdagar:",
+        "labelStartDate": "Upprepningen börjar:",
+        "labelStartTime": {
+          "course": "Kursen börjar kl:",
+          "event": "Evenemanget börjar kl:"
+        },
+        "textRepeatInterval": "Varje vecka",
+        "textRepeatInterval_plural": "Var {{count}}: e vecka"
+      },
       "titleAudience": "Målgrupper",
       "titleDescription": {
         "course": "Kursbeskrivning",
@@ -258,6 +281,7 @@
         "event": "Prisinformation för evenemang"
       },
       "titlePrice": "Pris",
+      "titleRecurringEvent": "Återkommande evenemang",
       "titleRecurringEventRepeatDays": "Uppspelningsdagar",
       "titleRecurringEventRepeatInterval": "Uppspelningsintervall",
       "titleRecurringEventStarts": "Början",
@@ -348,6 +372,15 @@
         "min": "Den här tiden måste vara efter {{min}}",
         "required": "Detta fält krävs"
       }
+    },
+    "weekDay": {
+      "fri": "Fredag",
+      "mon": "Måndag", 
+      "sat": "Lördag",
+      "sun": "Söndag",
+      "thu": "Torsdag",
+      "tue": "Tisdag",
+      "wed": "Onsdag"
     },
     "weekDayAbbreviation": {
       "fri": "Fre",

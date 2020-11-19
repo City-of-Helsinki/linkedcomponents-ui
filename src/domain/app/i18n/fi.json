@@ -1,6 +1,10 @@
 {
   "appName": "Linked Components",
   "common": {
+    "and": "ja",
+    "at": "klo {{time}}",
+    "betweenDates": "Ajalla {{startDate}} – {{endDate}}",
+    "betweenTimes": "{{startTime}} – {{endTime}}",
     "close": "Sulje",
     "combobox": {
       "toggleButtonAriaLabel": "Valikko"
@@ -151,10 +155,10 @@
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "event": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)"
       },
-      "labelRecurringEventEndDate": "Toisto loppuu",
+      "labelRecurringEventEndDate": "Toisto päättyy",
       "labelRecurringEventEndTime": {
-        "course": "Kurssi loppuu klo",
-        "event": "Tapahtuma loppuu klo"
+        "course": "Kurssi päättyy klo",
+        "event": "Tapahtuma päättyy klo"
       },
       "labelRecurringEventStartDate": "Toisto alkaa",
       "labelRecurringEventStartTime": {
@@ -230,6 +234,25 @@
         "course": "Syötä kurssin Twitter-sivun URL",
         "event": "Syötä tapahtuman Twitter-sivun URL"
       },
+      "recurringEvent": {
+        "labelEndDate": "Toisto päättyy:",
+        "labelEndTime": {
+          "course": "Kurssi päättyy klo:",
+          "event": "Tapahtuma päättyy klo:"
+        },
+        "labelRepeatInterval": {
+          "course": "Kurssi toistuu:",
+          "event": "Tapahtuma toistuu:"
+        },
+        "labelRepeatDays": "Toistopäivät:",
+        "labelStartDate": "Toisto alkaa:",
+        "labelStartTime": {
+          "course": "Kurssi alkaa klo:",
+          "event": "Tapahtuma alkaa klo:"
+        },
+        "textRepeatInterval": "Viikon välein",
+        "textRepeatInterval_plural": "{{count}} viikon välein"
+      },
       "titleAudience": "Kohderyhmät",
       "titleDescription": {
         "course": "Kurssin kuvaus",
@@ -258,6 +281,7 @@
         "event": "Tapahtuman hintatiedot"
       },
       "titlePrice": "Hinta",
+      "titleRecurringEvent": "Toistuva tapahtuma",
       "titleRecurringEventRepeatDays": "Toistopäivät",
       "titleRecurringEventRepeatInterval": "Toistoväli (intervalli)",
       "titleRecurringEventStarts": "Aloitus",
@@ -349,6 +373,15 @@
         "min": "Arvon tulee olla vähintään {{min}}",
         "max": "Arvon tulee olla enintään {{max}}"
       }
+    },
+    "weekDay": {
+      "fri": "Perjantai",
+      "mon": "Maanantai", 
+      "sat": "Lauantai",
+      "sun": "Sunnuntai",
+      "thu": "Torstai",
+      "tue": "Tiistai",
+      "wed": "Keskiviikko"
     },
     "weekDayAbbreviation": {
       "fri": "Pe",

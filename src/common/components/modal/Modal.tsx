@@ -5,11 +5,14 @@ import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import isTextEnv from '../../../utils/isTestEnv';
 import CloseButton from '../closeButton/CloseButton';
 import styles from './modal.module.scss';
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-ReactModal.setAppElement('#root');
+if (!isTextEnv) {
+  ReactModal.setAppElement('#root');
+}
 
 type Props = {
   onClose: (event?: React.MouseEvent | React.KeyboardEvent) => void;

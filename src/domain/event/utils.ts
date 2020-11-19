@@ -10,6 +10,7 @@ import {
   CHARACTER_LIMITS,
   DATE_FORMAT,
   DATETIME_FORMAT,
+  WEEK_DAY,
 } from '../../constants';
 import { EventQueryVariables } from '../../generated/graphql';
 import { OptionType } from '../../types';
@@ -252,6 +253,28 @@ export const eventPathBuilder = ({ args }: EventPathBuilderProps) => {
 
   return `/event/${id}/${query}`;
 };
+
+const weekDayWeight = (day: WEEK_DAY): number => {
+  switch (day) {
+    case WEEK_DAY.MON:
+      return 0;
+    case WEEK_DAY.TUE:
+      return 1;
+    case WEEK_DAY.WED:
+      return 2;
+    case WEEK_DAY.THU:
+      return 3;
+    case WEEK_DAY.FRI:
+      return 4;
+    case WEEK_DAY.SAT:
+      return 5;
+    case WEEK_DAY.SUN:
+      return 6;
+  }
+};
+
+export const sortWeekDays = (a: string, b: string) =>
+  weekDayWeight(a as WEEK_DAY) - weekDayWeight(b as WEEK_DAY);
 
 const languageWeight = (lang: string): number => {
   switch (lang) {

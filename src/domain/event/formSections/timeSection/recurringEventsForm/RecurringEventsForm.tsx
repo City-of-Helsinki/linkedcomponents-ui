@@ -14,11 +14,12 @@ import {
   RECURRING_EVENT_FIELDS,
   RECURRING_EVENT_INITIAL_VALUES,
 } from '../../../constants';
+import { RecurringEventSettings } from '../../../types';
 import { createRecurringEventValidationSchema } from '../../../utils';
 import styles from './recurringEventsForm.module.scss';
 
 interface Props {
-  onSubmit: () => void;
+  onSubmit: (values: RecurringEventSettings) => void;
   type: string;
 }
 
@@ -36,9 +37,7 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
   return (
     <Formik
       initialValues={RECURRING_EVENT_INITIAL_VALUES}
-      onSubmit={(values) => {
-        onSubmit();
-      }}
+      onSubmit={onSubmit}
       validationSchema={createRecurringEventValidationSchema}
     >
       {() => {

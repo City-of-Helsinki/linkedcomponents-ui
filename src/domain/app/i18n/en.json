@@ -1,6 +1,10 @@
 {
   "appName": "Linked Components",
   "common": {
+    "and": "and",
+    "at": "at {{time}}",
+    "betweenDates": "Between {{startDate}} and {{endDate}}",
+    "betweenTimes": "{{startTime}} – {{endTime}}",
     "close": "Close",
     "combobox": {
       "toggleButtonAriaLabel": "Menu"
@@ -230,6 +234,25 @@
         "course": "Enter the URL of the course's Twitter page",
         "event": "Enter the URL of the event's Twitter page"
       },
+      "recurringEvent": {
+        "labelEndDate": "Repetition ends:",
+        "labelEndTime": {
+          "course": "Course ends at:",
+          "event": "Event ends at:"
+        },
+        "labelRepeatInterval": {
+          "course": "Course repeats:",
+          "event": "Event repeats:"
+        },
+        "labelRepeatDays": "Repeat days:",
+        "labelStartDate": "Repetition starts:",
+        "labelStartTime": {
+          "course": "Course starts at:",
+          "event": "Event starts at:"
+        },
+        "textRepeatInterval": "Every week",
+        "textRepeatInterval_plural": "Every {{count}} weeks"
+      },
       "titleAudience": "Target groups",
       "titleDescription": {
         "course": "Course description",
@@ -258,6 +281,7 @@
         "event": "Event price information"
       },
       "titlePrice": "Price",
+      "titleRecurringEvent": "Recurring event",
       "titleRecurringEventRepeatDays": "Repeat days",
       "titleRecurringEventRepeatInterval": "Repeat interval",
       "titleRecurringEventStarts": "Start",
@@ -348,6 +372,15 @@
         "min": "This time must be after {{min}}",
         "required": "This field is required"
       }
+    },
+    "weekDay": {
+      "fri": "Friday",
+      "mon": "Monday", 
+      "sat": "Saturday",
+      "sun": "Sunday",
+      "thu": "Thursday",
+      "tue": "Tuesday",
+      "wed": "Wednesday"
     },
     "weekDayAbbreviation": {
       "fri": "Fri",

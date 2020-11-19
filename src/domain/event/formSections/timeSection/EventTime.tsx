@@ -47,7 +47,7 @@ const EventTime: React.FC<Props> = ({ eventTimePath, onDelete, type }) => {
           </FormGroup>
         </>
       }
-      inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
+      inputWidth={INPUT_MAX_WIDTHS.LARGE}
       button={
         onDelete ? (
           <DeleteButton

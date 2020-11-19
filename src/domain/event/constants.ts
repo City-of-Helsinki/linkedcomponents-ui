@@ -1,6 +1,10 @@
 import reduce from 'lodash/reduce';
 
-import { MultiLanguageObject } from './types';
+import {
+  EventFields,
+  MultiLanguageObject,
+  RecurringEventSettings,
+} from './types';
 
 export enum RECURRING_EVENT_FIELDS {
   END_DATE = 'endDate',
@@ -34,6 +38,7 @@ export enum EVENT_FIELDS {
   OFFER_PRICE = 'price',
   OFFERS = 'offers',
   PROVIDER = 'provider',
+  RECURRING_EVENTS = 'recussingEvents',
   SHORT_DESCRIPTION = 'shortDescription',
   START_TIME = 'startTime',
   TYPE = 'type',
@@ -70,7 +75,7 @@ export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
   {}
 ) as MultiLanguageObject;
 
-export const RECURRING_EVENT_INITIAL_VALUES = {
+export const RECURRING_EVENT_INITIAL_VALUES: RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.END_DATE]: null,
   [RECURRING_EVENT_FIELDS.END_TIME]: '',
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: [],
@@ -79,7 +84,7 @@ export const RECURRING_EVENT_INITIAL_VALUES = {
   [RECURRING_EVENT_FIELDS.START_TIME]: '',
 };
 
-export const EVENT_INITIAL_VALUES = {
+export const EVENT_INITIAL_VALUES: EventFields = {
   [EVENT_FIELDS.AUDIENCE]: [],
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.END_TIME]: null,
@@ -98,6 +103,7 @@ export const EVENT_INITIAL_VALUES = {
   [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.OFFERS]: [],
   [EVENT_FIELDS.PROVIDER]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+  [EVENT_FIELDS.RECURRING_EVENTS]: [],
   [EVENT_FIELDS.SHORT_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.START_TIME]: null,
   [EVENT_FIELDS.TYPE]: EVENT_TYPE.EVENT,
