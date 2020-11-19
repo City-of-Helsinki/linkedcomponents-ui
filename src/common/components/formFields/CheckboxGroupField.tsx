@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { OptionType } from '../../../types';
 import Button from '../button/Button';
 import Checkbox from '../checkbox/Checkbox';
-import inputStyles from '../inputWrapper/inputWrapper.module.scss';
 import styles from './checkboxGroupField.module.scss';
 
 type Columns = 2 | 3 | 4;

@@ -48,6 +48,20 @@ type CheckboxCSSProperties = {
   '--label-color-disabled'?: string;
 };
 
+type CollapsibleCSSProperties = {
+  '--heading-background-color'?: string;
+  '--heading-border-color'?: string;
+  '--heading-color'?: string;
+  '--heading-background-color-expanded'?: string;
+  '--heading-border-color-expanded'?: string;
+  '--heading-color-expanded'?: string;
+  '--heading-background-color-expanded-hover'?: string;
+  '--heading-border-color-expanded-hover'?: string;
+  '--heading-color-expanded-hover'?: string;
+  '--heading-background-color-hover'?: string;
+  '--heading-color-hover'?: string;
+};
+
 type DatepickerCSSProperties = {
   '--calendar-button-height'?: string;
   '--close-button-color'?: string;
@@ -260,6 +274,7 @@ export type Theme = {
     danger?: ButtonCSSProperties;
   };
   checkbox: CheckboxCSSProperties;
+  collapsible: CollapsibleCSSProperties;
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   eventNavigation: EventNavigationCSSProperties;
@@ -292,6 +307,7 @@ export type Theme = {
 const defaultTheme: Theme = {
   button: {},
   checkbox: {},
+  collapsible: {},
   datepicker: {},
   deleteButton: {},
   eventNavigation: {},
