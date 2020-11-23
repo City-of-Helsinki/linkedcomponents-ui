@@ -6,12 +6,10 @@ import { useTranslation } from 'react-i18next';
 
 import {
   getKeywordFromCache,
-  keywordPathBuilder,
   keywordsPathBuilder,
 } from '../../../domain/keyword/utils';
 import {
   KeywordFieldsFragment,
-  useKeywordQuery,
   useKeywordsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -39,24 +37,6 @@ const getOption = (
     label,
     value,
   };
-};
-
-type KeywordQueryProps = {
-  id: string;
-};
-
-const KeywordQuery: React.FC<KeywordQueryProps> = ({ id }) => {
-  // hook to fetch keyword so KeywordSelector can get keyword from the cache
-  useKeywordQuery({
-    variables: {
-      id,
-      createPath: isTestEnv
-        ? undefined
-        : /* istanbul ignore next */ keywordPathBuilder,
-    },
-  });
-
-  return null;
 };
 
 type ValueType = string;
@@ -134,13 +114,6 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
 
   return (
     <>
-      {value.map((keyword, index) => {
-        return (
-          // Make sure all selected keywords are fetched to cache
-          <KeywordQuery key={index} id={parseIdFromAtId(keyword) as string} />
-        );
-      })}
-
       <Combobox
         {...rest}
         multiselect={true}
