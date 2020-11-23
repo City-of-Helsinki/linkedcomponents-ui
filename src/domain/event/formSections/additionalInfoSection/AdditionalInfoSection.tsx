@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import DatepickerField from '../../../../common/components/formFields/DatepickerField';
 import TextInputField from '../../../../common/components/formFields/TextInputField';
-import TimepickerField from '../../../../common/components/formFields/TimepickerField';
-import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
 import { EVENT_FIELDS, EXTENSION_COURSE_FIELDS } from '../../constants';
@@ -19,6 +17,7 @@ const AdditionalInfoSection = () => {
     <>
       <h3>{t(`event.form.titleAudienceAge`)}</h3>
       <InputRow
+        className={styles.noBottomMargin}
         info={
           <Notification
             className={styles.notification}
@@ -53,8 +52,11 @@ const AdditionalInfoSection = () => {
         </div>
       </InputRow>
 
-      <h3>{t(`event.form.titleEnrolmentTime`)}</h3>
+      <h3 className={styles.noTopMargin}>
+        {t(`event.form.titleEnrolmentTime`)}
+      </h3>
       <InputRow
+        className={styles.noBottomMargin}
         info={
           <Notification
             className={styles.notification}
@@ -67,49 +69,29 @@ const AdditionalInfoSection = () => {
       >
         <div className={styles.splittedRow}>
           <div>
-            <FormGroup>
-              <Field
-                name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_START_DATE}`}
-                component={DatepickerField}
-                label={t(`event.form.extensionCourse.labelEnrolmenStartDate`)}
-                min={0}
-                placeholder={t(`common.placeholderDate`)}
-                timeSelector={false}
-              />
-            </FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME}`}
-              component={TimepickerField}
+              component={DatepickerField}
               label={t(`event.form.extensionCourse.labelEnrolmenStartTime`)}
-              min={0}
-              placeholder={t(`common.placeholderTime`)}
-              timeSelector={false}
+              placeholder={t(`common.placeholderDateTime`)}
+              timeSelector={true}
             />
           </div>
           <div>
-            <FormGroup>
-              <Field
-                name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_END_DATE}`}
-                component={DatepickerField}
-                label={t(`event.form.extensionCourse.labelEnrolmenEndDate`)}
-                min={0}
-                placeholder={t(`common.placeholderDate`)}
-                timeSelector={false}
-              />
-            </FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME}`}
-              component={TimepickerField}
+              component={DatepickerField}
               label={t(`event.form.extensionCourse.labelEnrolmenEndTime`)}
-              min={0}
-              placeholder={t(`common.placeholderTime`)}
-              timeSelector={false}
+              placeholder={t(`common.placeholderDateTime`)}
+              timeSelector={true}
             />
           </div>
         </div>
       </InputRow>
 
-      <h3>{t(`event.form.titleAttendeeCapacity`)}</h3>
+      <h3 className={styles.noTopMargin}>
+        {t(`event.form.titleAttendeeCapacity`)}
+      </h3>
       <InputRow
         info={
           <Notification

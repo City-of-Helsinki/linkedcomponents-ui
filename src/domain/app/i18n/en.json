@@ -60,10 +60,8 @@
       "buttonDeleteRecurringEvent": "Delete recurring event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
       "extensionCourse": {
-        "labelEnrolmenEndDate": "Registration ends",
-        "labelEnrolmenEndDateTime": "Registration ends at",
-        "labelEnrolmenStartDate": "Registration begins",
-        "labelEnrolmenStartTime": "Registration begins at",
+        "labelEnrolmenEndTime": "Registration ends",
+        "labelEnrolmenStartTime": "Registration begins",
         "labelMaximumAttendeeCapacity": "Maximum number of participants",
         "labelMinimimAttendeeCapacity": "Minimum number of participants",
         "placeholderMaximumAttendeeCapacity": "Enter maximum number of participants",

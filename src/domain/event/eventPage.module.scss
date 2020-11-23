@@ -38,3 +38,15 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.noBottomMargin {
+  @include medium-up {
+    margin-bottom: 0px !important;
+  }
+}
+
+.noTopMargin {
+  @include medium-up {
+    margin-top: 0px !important;
+  }
+}

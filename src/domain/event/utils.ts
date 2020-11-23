@@ -3,6 +3,7 @@ import isBefore from 'date-fns/isBefore';
 import isFuture from 'date-fns/isFuture';
 import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
+import setHours from 'date-fns/setHours';
 import reduce from 'lodash/reduce';
 import * as Yup from 'yup';
 
@@ -17,12 +18,14 @@ import { OptionType } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   createArrayError,
+  createNumberError,
   createStringError,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
+  EXTENSION_COURSE_FIELDS,
   RECURRING_EVENT_FIELDS,
 } from './constants';
 import { EventTime, Offer } from './types';
@@ -43,6 +46,57 @@ const createMultiLanguageValidationByInfoLanguages = (
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES],
     (languages: string[]) => createMultiLanguageValidation(languages, rule)
   );
+};
+
+const createExtensionCourseValidation = () => {
+  return Yup.object().shape({
+    [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
+      .nullable(true)
+      .min(0, (param) =>
+        createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+      ),
+    [EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
+      [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
+      (minimumAttendeeCapacity: number) => {
+        return Yup.number()
+          .nullable(true)
+          .min(minimumAttendeeCapacity || 0, (param) =>
+            createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+          );
+      }
+    ),
+    [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME]: Yup.date()
+      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+      .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+      .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
+        startTime ? isFuture(startTime) : true
+      ),
+    [EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME]: Yup.date()
+      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+      .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+      .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
+        endTime ? isFuture(endTime) : true
+      )
+      // test that startsTime is before endsTime
+      .when(
+        [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME],
+        (startTime: Date | null, schema: Yup.DateSchema) => {
+          if (startTime && isValid(startTime)) {
+            return schema.test(
+              'isBeforeStartTime',
+              () => ({
+                key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
+                min: formatDate(startTime, DATETIME_FORMAT),
+              }),
+              (endTime) => {
+                return endTime ? isBefore(startTime, endTime) : true;
+              }
+            );
+          }
+          return schema;
+        }
+      ),
+  });
 };
 
 const eventTimeValidation = {
@@ -156,6 +210,22 @@ export const createEventValidationSchema = () => {
       .min(1, (param) =>
         createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
       ),
+    [EVENT_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
+      .nullable(true)
+      .min(0, (param) =>
+        createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+      ),
+    [EVENT_FIELDS.AUDIENCE_MAX_AGE]: Yup.number().when(
+      [EVENT_FIELDS.AUDIENCE_MIN_AGE],
+      (audienceMinAge: number) => {
+        return Yup.number()
+          .nullable(true)
+          .min(audienceMinAge || 0, (param) =>
+            createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+          );
+      }
+    ),
+    [EVENT_FIELDS.EXTENSION_COURSE]: createExtensionCourseValidation(),
   });
 };
 
