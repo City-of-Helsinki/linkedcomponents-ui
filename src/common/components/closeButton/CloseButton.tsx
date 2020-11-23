@@ -10,7 +10,7 @@ type Props = {
   onClick: () => void;
 } & React.ComponentPropsWithoutRef<'button'>;
 
-const DeleteButton: React.FC<Props> = ({
+const CloseButton: React.FC<Props> = ({
   className,
   label,
   onClick,
@@ -30,4 +30,4 @@ const DeleteButton: React.FC<Props> = ({
   );
 };
 
-export default DeleteButton;
+export default CloseButton;

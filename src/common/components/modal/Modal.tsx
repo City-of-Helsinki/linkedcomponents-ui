@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
-import isTextEnv from '../../../utils/isTestEnv';
+import isTestEnv from '../../../utils/isTestEnv';
 import CloseButton from '../closeButton/CloseButton';
 import styles from './modal.module.scss';
 
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 /* istanbul ignore next */
-if (!isTextEnv) {
+if (!isTestEnv) {
   ReactModal.setAppElement('#root');
 }
 
@@ -27,7 +27,7 @@ const Modal: React.FC<Props> = ({ children, onClose, title, ...rest }) => {
   return (
     <ReactModal
       {...rest}
-      ariaHideApp={!isTextEnv}
+      ariaHideApp={!isTestEnv}
       bodyOpenClassName={styles.bodyOpen}
       portalClassName={styles.modalPortal}
       className={classNames(styles.modal, css(theme.modal))}
