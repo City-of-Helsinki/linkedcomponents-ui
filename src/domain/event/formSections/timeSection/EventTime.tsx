@@ -30,7 +30,7 @@ const EventTime: React.FC<Props> = ({ eventTimePath, onDelete, type }) => {
               component={DatepickerField}
               name={getFieldName(eventTimePath, EVENT_FIELDS.START_TIME)}
               label={t(`event.form.labelStartTime.${type}`)}
-              placeholder={t('event.form.placeholderStartTime')}
+              placeholder={t('common.placeholderDateTime')}
               required={true}
               timeSelector={true}
             />
@@ -40,7 +40,7 @@ const EventTime: React.FC<Props> = ({ eventTimePath, onDelete, type }) => {
               component={DatepickerField}
               name={getFieldName(eventTimePath, EVENT_FIELDS.END_TIME)}
               label={t(`event.form.labelEndTime.${type}`)}
-              placeholder={t('event.form.placeholderEndTime')}
+              placeholder={t('common.placeholderDateTime')}
               required={true}
               timeSelector={true}
             />

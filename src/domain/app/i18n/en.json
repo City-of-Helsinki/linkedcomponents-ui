@@ -28,6 +28,9 @@
         "statusMessage_plural": "{{count}} options are available, use up and down arrow keys to navigate. Press Enter key to select."
       }
     },
+    "placeholderDate": "dd.mm.yyyy",
+    "placeholderDateTime": "dd.mm.yyyy hh.mm",
+    "placeholderTime": "hh.mm",
     "showLess": "Show less",
     "showMore": "Show more",
     "timepicker": {
@@ -56,11 +59,24 @@
       "buttonDeleteOffer": "Delete pricing information",
       "buttonDeleteRecurringEvent": "Delete recurring event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
+      "extensionCourse": {
+        "labelEnrolmenEndDate": "Registration ends",
+        "labelEnrolmenEndDateTime": "Registration ends at",
+        "labelEnrolmenStartDate": "Registration begins",
+        "labelEnrolmenStartTime": "Registration begins at",
+        "labelMaximumAttendeeCapacity": "Maximum number of participants",
+        "labelMinimimAttendeeCapacity": "Minimum number of participants",
+        "placeholderMaximumAttendeeCapacity": "Enter maximum number of participants",
+        "placeholderMinimimAttendeeCapacity": "Enter minimum number of participants"
+      },
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
+      "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextAudience": {
         "course": "If the course does not have a specific target group, don't select anything",
         "event": "If the event does not have a specific target group, don't select anything"
       },
+      "infoTextAudienceAge": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextEnrolmentTime": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEventTimes1": {
         "course": "To add a multi-day recurring course, there is an “Add New Time” button and a regular “Recurring Course” tool for a regularly recurring course.",
         "event": "To add a multi-day recurring event, there is an “Add New Time” button and a regular “Recurring Event” tool for a regularly recurring event."
@@ -115,6 +131,8 @@
       },
       "infoTextType1": "Select the type of event. Is it an event or a course? The event is a one-time event and starts at a specific time, while the course may, as a rule, have several occurrences.",
       "infoTextType2": "The choice of event type affects the choices made later in the input form.",
+      "labelAudienceMaxAge": "Maximum age",
+      "labelAudienceMinAge": "Minimum age",
       "labelDescription": {
         "course": "Description of the course {{langText}}",
         "event": "Description of the event {{langText}}"
@@ -192,11 +210,18 @@
       },
       "notificationTitleOffers": "Price information",
       "notificationTitleType": "Event type",
+      "placeholderAudienceMaxAge": {
+        "course": "Enter the maximum age for the course",
+        "event": "Enter the maximum age for the event"
+      },
+      "placeholderAudienceMinAge": {
+        "course": "Enter the minimum age for the course",
+        "event": "Enter the minimum age for the event"
+      },
       "placeholderDescription": {
         "course": "Enter a description of the course",
         "event": "Enter a description of the event"
       },
-      "placeholderEndTime": "dd.mm.yyyy hh.mm",
       "placeholderFacebookUrl": {
         "course": "Enter the URL of the course's Facebook page",
         "event": "Enter the URL of the event's Facebook page"
@@ -226,15 +251,10 @@
           "course": "Enter the course organizer's name",
           "event": "Enter the event organizer's name"
       },
-      "placeholderRecurringEventEndDate": "dd.mm.yyyy",
-      "placeholderRecurringEventEndTime": "hh.mm",
-      "placeholderRecurringEventStartDate": "dd.mm.yyyy",
-      "placeholderRecurringEventStartTime": "hh.mm",
       "placeholderShortDescription": {
         "course": "Enter a short description of the course",
         "event": "Enter a short description of the event"
       },
-      "placeholderStartTime": "dd.mm.yyyy hh.mm",
       "placeholderTwitterUrl": {
         "course": "Enter the URL of the course's Twitter page",
         "event": "Enter the URL of the event's Twitter page"
@@ -258,11 +278,14 @@
         "textRepeatInterval": "Every week",
         "textRepeatInterval_plural": "Every {{count}} weeks"
       },
+      "titleAttendeeCapacity": "Attendee capacity",
       "titleAudience": "Target groups",
+      "titleAudienceAge": "Age restrictions",
       "titleDescription": {
         "course": "Course description",
         "event": "Event description"
       },
+      "titleEnrolmentTime": "Registration time",
       "titleEventType": "Select event type",
       "titleInfoLanguages": {
         "course": "Course input languages",
@@ -304,6 +327,7 @@
       "buttonNext": "Next",
       "buttonPrevious": "Previous",
       "steps": {
+        "additionalInfo": "Additional information",
         "audience": "Targets",
         "classification": "Classification",
         "commitment": "Commitment",

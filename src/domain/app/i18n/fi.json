@@ -28,6 +28,9 @@
         "statusMessage_plural": "{{count}} vaihtoehtoa valittavissa, siirry nuolinäppäimillä ylös ja alas. Paina Enter-näppäintä valitaksesi."
       }
     },
+    "placeholderDate": "pp.kk.vvvv",
+    "placeholderDateTime": "pp.kk.vvvv hh.mm",
+    "placeholderTime": "hh.mm",
     "showLess": "Näytä vähemmän",
     "showMore": "Näytä lisää",
     "timepicker": {
@@ -56,11 +59,24 @@
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
+      "extensionCourse": {
+        "labelEnrolmenEndDate": "Ilmoittautuminen päättyy",
+        "labelEnrolmenEndTime": "Ilmoittautuminen päättyy klo",
+        "labelEnrolmenStartDate": "Ilmoittautuminen alkaa",
+        "labelEnrolmenStartTime": "Ilmoittautuminen alkaa klo",
+        "labelMaximumAttendeeCapacity": "Enimmäisosallistujamäärä",
+        "labelMinimimAttendeeCapacity": "Vähimmäisosallistujamäärä",
+        "placeholderMaximumAttendeeCapacity": "Syötä enimmäisosallistujamäärä",
+        "placeholderMinimimAttendeeCapacity": "Syötä vähimmäisosallistujamäärä"
+      },
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
+      "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
         "event": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään."
       },
+      "infoTextAudienceAge": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextEnrolmentTime": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEventTimes1": {
         "course": "Useana päivänä toistuvan kurssin lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
         "event": "Useana päivänä toistuvan tapahtuman lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu."
@@ -115,6 +131,8 @@
       },
       "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
+      "labelAudienceMaxAge": "Yläikäraja",
+      "labelAudienceMinAge": "Alaikäraja",
       "labelDescription": {
         "course": "Kurssin kuvaus {{langText}}",
         "event": "Tapahtuman kuvaus {{langText}}"
@@ -192,11 +210,18 @@
       },
       "notificationTitleOffers": "Hintatiedot",
       "notificationTitleType": "Tapahtumatyyppi",
+      "placeholderAudienceMaxAge": {
+        "course": "Syötä kurssin yläikäraja",
+        "event": "Syötä tapahtuman yläikäraja"
+      },
+      "placeholderAudienceMinAge": {
+        "course": "Syötä kurssin alaikäraja",
+        "event": "Syötä tapahtuman alaikäraja"
+      },
       "placeholderDescription": {
         "course": "Syötä kurssin kuvaus",
         "event": "Syötä tapahtuman kuvaus"
       },
-      "placeholderEndTime": "pp.kk.vvvv hh.mm",
       "placeholderFacebookUrl": {
         "course": "Syötä kurssin Facebook-sivun URL",
         "event": "Syötä tapahtuman Facebook-sivun URL"
@@ -226,15 +251,10 @@
           "course": "Syötä kurssin järjestäjän nimi",
           "event": "Syötä tapahtuman järjestäjän nimi"
       },
-      "placeholderRecurringEventEndDate": "pp.kk.vvvv",
-      "placeholderRecurringEventEndTime": "hh.mm",
-      "placeholderRecurringEventStartDate": "pp.kk.vvvv",
-      "placeholderRecurringEventStartTime": "hh.mm",
       "placeholderShortDescription": {
         "course": "Syötä kurssin lyhyt kuvaus",
         "event": "Syötä tapahtuman lyhyt kuvaus"
       },
-      "placeholderStartTime": "pp.kk.vvvv hh.mm",
       "placeholderTwitterUrl": {
         "course": "Syötä kurssin Twitter-sivun URL",
         "event": "Syötä tapahtuman Twitter-sivun URL"
@@ -258,11 +278,14 @@
         "textRepeatInterval": "Viikon välein",
         "textRepeatInterval_plural": "{{count}} viikon välein"
       },
+      "titleAttendeeCapacity": "Osallistujamäärä",
       "titleAudience": "Kohderyhmät",
+      "titleAudienceAge": "Ikärajoitukset",
       "titleDescription": {
         "course": "Kurssin kuvaus",
         "event": "Tapahtuman kuvaus"
       },
+      "titleEnrolmentTime": "Ilmoittautumisaika",
       "titleEventType": "Valitse tapahtumatyyppi",
       "titleInfoLanguages": {
         "course": "Kurssitietojen syöttökielet",
@@ -304,6 +327,7 @@
       "buttonNext": "Seuraava",
       "buttonPrevious": "Edellinen",
       "steps": {
+        "additionalInfo": "Lisätiedot",
         "audience": "Kohteet",
         "classification": "Luokittelu",
         "commitment": "Sitoomus",

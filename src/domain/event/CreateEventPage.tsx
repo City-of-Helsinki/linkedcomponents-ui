@@ -9,6 +9,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INITIAL_VALUES } from './constants';
 import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
+import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';
 import ClassificationSection from './formSections/classificationSection/ClassificationSection';
 import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
@@ -102,6 +103,11 @@ const CreateEventPage: React.FC = () => {
                       component: <AudienceSection />,
                       isCompleted: false,
                       label: t('event.navigation.steps.audience'),
+                    },
+                    {
+                      component: <AdditionalInfoSection />,
+                      isCompleted: false,
+                      label: t('event.navigation.steps.additionalInfo'),
                     },
                     {
                       component: (
