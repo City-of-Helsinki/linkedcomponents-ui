@@ -1,6 +1,6 @@
 # linkedcomponents-ui
 
-UI for Linked Components. Linked Components is a collection of software components and API endpoints that enables event management and distribution for different event providers in Finland
+UI for Linked Events. Linked Events is a collection of software components and API endpoints that enables event management and distribution for different event providers in Finland
 
 ## Development with Docker
 
