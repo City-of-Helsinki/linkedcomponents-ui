@@ -15,7 +15,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
-import isTestEnv from '../../../utils/isTestEnv';
+import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
 
@@ -64,9 +64,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   const { data: keywordsData } = useKeywordsQuery({
     variables: {
       freeText: search,
-      createPath: isTestEnv
-        ? undefined
-        : /* istanbul ignore next */ keywordsPathBuilder,
+      createPath: getPathBuilder(keywordsPathBuilder),
     },
   });
 

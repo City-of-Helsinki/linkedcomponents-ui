@@ -10,7 +10,7 @@ import { INCLUDE, INPUT_MAX_WIDTHS, KEYWORD_SETS } from '../../../../constants';
 import { useKeywordSetQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import getLocalisedString from '../../../../utils/getLocalisedString';
-import isTestEnv from '../../../../utils/isTestEnv';
+import getPathBuilder from '../../../../utils/getPathBuilder';
 import { keywordSetPathBuilder } from '../../../keywordSet/utils';
 import { EVENT_FIELDS } from '../../constants';
 import InputWrapper from '../InputWrapper';
@@ -21,9 +21,7 @@ const TargetGroupSection = () => {
 
   const { data } = useKeywordSetQuery({
     variables: {
-      createPath: isTestEnv
-        ? undefined
-        : /* istanbul ignore next */ keywordSetPathBuilder,
+      createPath: getPathBuilder(keywordSetPathBuilder),
       id: KEYWORD_SETS.AUDIENCES,
       include: [INCLUDE.KEYWORDS],
     },

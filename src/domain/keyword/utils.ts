@@ -7,7 +7,7 @@ import {
   KeywordQueryVariables,
   KeywordsQueryVariables,
 } from '../../generated/graphql';
-import isTestEnv from '../../utils/isTestEnv';
+import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 
 interface KeywordPathBuilderProps {
@@ -60,9 +60,7 @@ export const getKeywordFromCache = async (
       query: KeywordDocument,
       variables: {
         id,
-        createPath: isTestEnv
-          ? undefined
-          : /* istanbul ignore next */ keywordPathBuilder,
+        createPath: getPathBuilder(keywordPathBuilder),
       },
     });
 

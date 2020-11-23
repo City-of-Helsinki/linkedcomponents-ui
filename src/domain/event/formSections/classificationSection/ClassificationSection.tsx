@@ -11,7 +11,7 @@ import { INCLUDE, INPUT_MAX_WIDTHS, KEYWORD_SETS } from '../../../../constants';
 import { useKeywordSetQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import getLocalisedString from '../../../../utils/getLocalisedString';
-import isTestEnv from '../../../../utils/isTestEnv';
+import getPathBuilder from '../../../../utils/getPathBuilder';
 import { keywordSetPathBuilder } from '../../../keywordSet/utils';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
@@ -23,9 +23,7 @@ const ClassificationSection = () => {
 
   const { data } = useKeywordSetQuery({
     variables: {
-      createPath: isTestEnv
-        ? undefined
-        : /* istanbul ignore next */ keywordSetPathBuilder,
+      createPath: getPathBuilder(keywordSetPathBuilder),
       id: KEYWORD_SETS.TOPICS,
       include: [INCLUDE.KEYWORDS],
     },

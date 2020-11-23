@@ -16,7 +16,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
-import isTestEnv from '../../../utils/isTestEnv';
+import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
 
@@ -70,9 +70,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const { data: placesData } = usePlacesQuery({
     variables: {
       text: search,
-      createPath: isTestEnv
-        ? undefined
-        : /* istanbul ignore next */ placesPathBuilder,
+      createPath: getPathBuilder(placesPathBuilder),
     },
   });
 
@@ -80,10 +78,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     skip: !value,
     variables: {
       id: parseIdFromAtId(value) as string,
-      createPath: isTestEnv
-        ? undefined
-        : /* istanbul ignore next */
-          placePathBuilder,
+      createPath: getPathBuilder(placePathBuilder),
     },
   });
 
