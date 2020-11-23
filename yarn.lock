@@ -8053,22 +8053,22 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hds-core@0.15.1, hds-core@^0.15.1:
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.15.1.tgz#5a75270a7a0ed5f44329bef1a7fd9db1f3798bf6"
-  integrity sha512-i1abnrRXco7XSJ9X5xMjEuitVYYZSTZJU0osN4GQR66AA7DWPWzbMrYXEAQHe32F4isx2IBUkBkw+b+wiEfA6Q==
+hds-core@0.16.1, hds-core@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.16.1.tgz#c36fe6670d74916443468fab5167ddf5f379f57c"
+  integrity sha512-3wcO3J8cg92Ke5d4NY8PDcMT7IJrfqHf2WLsqhtjuhtNoM2EMSH7tyQA7h1vV+Jcdvcmp9hkh86tWQxCdJsvuw==
 
-hds-react@^0.15.1:
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-0.15.1.tgz#61865f04a0cbd8eee221576b24af4cb73aacf8de"
-  integrity sha512-/z+eT7rXd5jphzwjkO05CFsmmz7KJcNqovRT4yp5HbIBc3FR0Y4YqNpCm8Evjc/WuUJbMcMclrZNC0TC2JqoYA==
+hds-react@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-0.16.1.tgz#c849db0e2d4aad4d1ecda370a36b929d00f8df7c"
+  integrity sha512-Vsor0b7SmjEaC9GgC0e+ZsuMhVJM0NyA89gV5+IUMGrlSdrwZ8wEHAsVJQ5QQF7L5noFPWB07SdzYetLkFJW2w==
   dependencies:
     "@babel/runtime" "7.11.2"
     "@juggle/resize-observer" "3.2.0"
     "@popperjs/core" "2.5.3"
     "@react-aria/visually-hidden" "3.2.0"
     downshift "6.0.6"
-    hds-core "0.15.1"
+    hds-core "0.16.1"
     lodash.isequal "4.5.0"
     lodash.uniqueid "4.0.1"
     react-merge-refs "1.1.0"

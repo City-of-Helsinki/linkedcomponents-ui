@@ -14,7 +14,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
-import isTestEnv from '../../../utils/isTestEnv';
+import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
 
@@ -56,10 +56,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
     variables: {
       superEventType: ['umbrella'],
       text: search,
-      createPath: isTestEnv
-        ? undefined
-        : /* istanbul ignore next */
-          eventsPathBuilder,
+      createPath: getPathBuilder(eventsPathBuilder),
     },
   });
 
@@ -68,10 +65,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
     variables: {
       id: parseIdFromAtId(value) as string,
 
-      createPath: isTestEnv
-        ? undefined
-        : /* istanbul ignore next */
-          eventPathBuilder,
+      createPath: getPathBuilder(eventPathBuilder),
     },
   });
 
@@ -80,9 +74,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
       setSearch(inputValue);
     }, 0);
 
-    return items.filter((item) =>
-      item.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
+    return items;
   };
 
   React.useEffect(() => {

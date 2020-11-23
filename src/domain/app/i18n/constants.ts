@@ -1,4 +1,6 @@
 export enum VALIDATION_MESSAGE_KEYS {
+  ARRAY_MIN = 'form.validation.array.min',
+  ARRAY_REQUIRED = 'form.validation.array.required',
   DATE = 'form.validation.string.date',
   DATE_FUTURE = 'form.validation.date.future',
   DATE_MAX = 'form.validation.date.max',

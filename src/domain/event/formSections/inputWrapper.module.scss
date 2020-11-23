@@ -5,8 +5,24 @@
   grid-gap: var(--spacing-m);
 
   @include medium-up {
+    &.columns5 {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
     &.columns6 {
       grid-template-columns: repeat(6, 1fr);
+    }
+
+    &.columns7 {
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    &.columns8 {
+      grid-template-columns: repeat(8, 1fr);
+    }
+
+    &.columns9 {
+      grid-template-columns: repeat(9, 1fr);
     }
 
     &.columns10 {

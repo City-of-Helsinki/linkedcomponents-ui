@@ -8,61 +8,59 @@
 }
 
 .loadingSpinner {
-    --spinner-background-color: transparent;
-    --spinner-color: var(--color-bus);
-    --spinner-width: 120px;
-    --spinner-stroke-width: 20px;
+  --spinner-background-color: transparent;
+  --spinner-color: var(--color-bus);
+  --spinner-width: 120px;
+  --spinner-stroke-width: 20px;
 
-    $circleRadie: calc((100px - var(--spinner-stroke-width)) / 2);
+  $circleRadie: calc((100px - var(--spinner-stroke-width)) / 2);
 
-    svg {
-        height: var(--spinner-width);
-        width: var(--spinner-width);   
+  svg {
+    height: var(--spinner-width);
+    width: var(--spinner-width);
+    animation: rotate 3.6s linear infinite;
+  }
+
+  circle {
+    stroke: var(--spinner-background-color);
+    stroke-width: var(--spinner-stroke-width);
+    r: $circleRadie;
+  }
+
+  circle:nth-of-type(2) {
+    stroke-dasharray: 1 1;
+    animation: stroke-dashoffset 3.6s linear infinite;
+    stroke: var(--spinner-color);
+    stroke-dashoffset: 0;
+  }
+
+  @keyframes stroke-dashoffset {
+    0% {
+      visibility: visible;
+      stroke-dashoffset: -1;
     }
-
-    circle {
-        stroke: var(--spinner-background-color);
-        stroke-width: var(--spinner-stroke-width);
-        r: $circleRadie;
+    33.75% {
+      stroke-dashoffset: 0;
     }
-
-    circle:nth-of-type(2) {
-        stroke-dasharray: 1 1;
-        animation: spin 3.6s linear infinite;
-        stroke: var(--spinner-color);
-        stroke-dashoffset: 0;
-        transform-origin: 50% 50%;
+    67.5% {
+      visibility: hidden;
+      stroke-dashoffset: 1;
     }
-
-    @keyframes spin {
-        0% {
-            visibility: visible;
-            stroke: var(--spinner-color);
-            stroke-dashoffset: -1;
-            transform: rotate(90deg);
-        }
-        33.75% {
-            stroke-dashoffset: 0;
-        }
-        37.5% {
-            transform: rotate(-180deg);
-        }
-        67.5% {
-            visibility: hidden;
-            stroke-dashoffset: 1;
-        }
-        75% {
-            visibility: hidden;
-            stroke-dashoffset: 1;
-            transform: rotate(-450deg);
-        }
-        100% {
-            visibility: hidden;
-            stroke-dashoffset: 1;
-            transform: rotate(-630deg);
-        }
+    100% {
+      visibility: hidden;
+      stroke-dashoffset: 1;
     }
-    
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(90deg);
+    }
+    50% {
+      transform: rotate(-270deg);
+    }
+    100% {
+      transform: rotate(-630deg);
+    }
+  }
 }
-
-

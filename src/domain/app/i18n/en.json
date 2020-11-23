@@ -44,6 +44,10 @@
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
+      "infoTextAudience": {
+        "course": "If the course does not have a specific target group, don't select anything",
+        "event": "If the event does not have a specific target group, don't select anything"
+      },
       "infoTextEventTimes1": {
         "course": "To add a multi-day recurring course, there is an “Add New Time” button and a regular “Recurring Course” tool for a regularly recurring course.",
         "event": "To add a multi-day recurring event, there is an “Add New Time” button and a regular “Recurring Event” tool for a regularly recurring event."
@@ -72,6 +76,10 @@
         "course": "Choose the languages used in the course.",
         "event": "Choose the languages used in the event."
       },
+      "infoTextKeywords": {
+        "course": "Attach at least one keyword to the course that describes the theme of the course. Start typing a keyword and select the keyword you want to add from the list below.",
+        "event": "Attach at least one keyword to the event that describes the theme of the event. Start typing a keyword and select the keyword you want to add from the list below."
+      },
       "infoTextLocation1": "Enter the name or street address of the venue in the field and select the correct venue from the list.",
       "infoTextLocation2": {
         "course": "If the course is only held remotely on the Internet, select Internet as the venue. The event URL is entered in the home page field and / or the event on social media fields.",
@@ -79,6 +87,7 @@
       },
       "infoTextLocation3": "If the venue is found in the list, its location does not need to be described separately. However, you can provide additional information to find the venue, such as the floor number or classroom name.",
       "infoTextLocation4": "If the exact venue is not found in the list, select the nearest street address as the venue and enter the name of the venue or other detailed arrival instructions in the additional information field.",
+      "infoTextMainCategories": "Please select at least one main category",
       "infoTextOffers1": {
         "course": "Indicate if the course is free. Enter the price for the chargeable course in the form “5€”.",
         "event": "Indicate if the event is free. Enter the price for the chargeable event in the form “5€”."
@@ -119,6 +128,7 @@
         "course": "This course is an umbrella event.",
         "event": "This event is an umbrella event."
       },
+      "labelKeywords": "Keyword search",
       "labelLocation": "Location",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Location ID:",
@@ -148,6 +158,10 @@
         "event": "Event times"
       },
       "notificationTitleLocation": "Venue",
+      "notificationTitleMainCategories": {
+        "course": "Course classification",
+        "event": "Event classification"
+      },
       "notificationTitleOffers": "Price information",
       "notificationTitleType": "Event type",
       "placeholderDescription": {
@@ -167,6 +181,7 @@
         "course": "Enter the URL of the course's Instagram page",
         "event": "Enter the URL of the event's Instagram page"
       },
+      "placeholderKeywords": "Search or select keywords",
       "placeholderLocation": "Select or search for a venue",
       "placeholderLocationExtraInfo": "Enter more information about the venue {{langText}}",
       "placeholderName": {
@@ -192,6 +207,7 @@
         "course": "Enter the URL of the course's Twitter page",
         "event": "Enter the URL of the event's Twitter page"
       },
+      "titleAudience": "Target groups",
       "titleDescription": {
         "course": "Course description",
         "event": "Event description"
@@ -205,10 +221,11 @@
         "course": "Course languages (control languages)",
         "event": "Event languages (control languages)"
       },
-      
+      "titleKeywords": "Add keywords",
       "titleLanguageVersions": "Language versions",
       "titleLocation": "Venue",
       "titleLocationExtraInfo": "Additional location information",
+      "titleMainCategories": "Main categories",
       "titleOfferDescription": "Description of price information",
       "titleOfferInfoUrl": "Link to ticket sales or registration",
       "titleOfferPrice": "Price",
@@ -232,16 +249,17 @@
       "buttonNext": "Next",
       "buttonPrevious": "Previous",
       "steps": {
+        "audience": "Targets",
         "classification": "Classification",
         "commitment": "Commitment",
         "description": "Description",
         "languages": "Languages",
+        "image": "Image",
         "place": "Place",
         "price": "Price",
         "ready": "Ready",
         "responsibilities": "Responsibilities",
         "socialMedia": "SoMe",
-        "targets": "Targets",
         "time": "Time",
         "type": "Type"
       }
@@ -272,6 +290,11 @@
       "zh_hans": "Chinese"
     },
     "validation": {
+      "array": {
+        "min": "At least {{min}} item must be selected",
+        "min_plural": "At least {{min}} item must be selected",
+        "required": "At least 1 item must be selected"
+      },
       "date": {
         "future": "This date must be in the future",
         "max": "This date must be before {{max}}",

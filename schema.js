@@ -33,6 +33,19 @@ module.exports = buildSchema(/* GraphQL */ `
       text: String
       translation: String
     ): EventsResponse!
+    keyword(id: ID!): Keyword!
+    keywords(
+      dataSource: String
+      freeText: String
+      hasUpcomingEvents: Boolean
+      page: Int
+      pageSize: Int
+      showAllKeywords: Boolean
+      sort: String
+      text: String
+    ): KeywordsResponse!
+    keywordSet(id: ID!, include: [String]): KeywordSet
+    keywordSets(include: [String]): KeywordSetsResponse!
     languages: LanguagesResponse!
     place(id: ID!): Place!
     places(
@@ -50,6 +63,16 @@ module.exports = buildSchema(/* GraphQL */ `
   type EventsResponse {
     meta: Meta!
     data: [Event]!
+  }
+
+  type KeywordsResponse {
+    meta: Meta!
+    data: [Keyword]!
+  }
+
+  type KeywordSetsResponse {
+    meta: Meta!
+    data: [KeywordSet]!
   }
 
   type LanguagesResponse {
@@ -165,6 +188,24 @@ module.exports = buildSchema(/* GraphQL */ `
     name: LocalisedObject
     nEvents: Int
     publisher: ID
+    # @id is renamed as atId so it's usable on GraphQl
+    atId: String
+    # @context is renamed as atContext so it's usable on GraphQl
+    atContext: String
+    # @type is renamed as atType so it's usable on GraphQl
+    atType: String
+  }
+
+  type KeywordSet {
+    id: ID
+    keywords: [Keyword]
+    usage: String
+    createdTime: String
+    lastModifiedTime: String
+    image: Image
+    dataSource: String
+    organization: String
+    name: LocalisedObject
     # @id is renamed as atId so it's usable on GraphQl
     atId: String
     # @context is renamed as atContext so it's usable on GraphQl

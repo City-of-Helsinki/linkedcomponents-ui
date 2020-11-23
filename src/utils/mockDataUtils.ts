@@ -9,6 +9,9 @@ import {
   ExternalLink,
   Image,
   Keyword,
+  KeywordSet,
+  KeywordSetsResponse,
+  KeywordsResponse,
   Language,
   LanguagesResponse,
   LocalisedObject,
@@ -88,6 +91,20 @@ export const fakeImage = (overrides?: Partial<Image>): Image =>
     overrides
   );
 
+export const fakeKeywords = (
+  count = 1,
+  keywords?: Partial<Keyword>[]
+): KeywordsResponse => ({
+  data: generateNodeArray((i) => fakeKeyword(keywords?.[i]), count),
+  meta: {
+    count: count,
+    next: '',
+    previous: '',
+    __typename: 'Meta',
+  },
+  __typename: 'KeywordsResponse',
+});
+
 export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword =>
   merge(
     {
@@ -97,6 +114,34 @@ export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword =>
       hasUpcomingEvents: true,
       name: fakeLocalisedObject(),
       __typename: 'Keyword',
+    },
+    overrides
+  );
+
+export const fakeKeywordSets = (
+  count = 1,
+  keywordSets?: Partial<KeywordSet>[]
+): KeywordSetsResponse => ({
+  data: generateNodeArray((i) => fakeKeywordSet(keywordSets?.[i]), count),
+  meta: {
+    count: count,
+    next: '',
+    previous: '',
+    __typename: 'Meta',
+  },
+  __typename: 'KeywordSetsResponse',
+});
+
+export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet =>
+  merge(
+    {
+      id: faker.random.uuid(),
+      atId:
+        'https://api.hel.fi/linkedevents-test/v1/keyword_set/helsinki:audience/',
+      dataSource: 'helsinki',
+      keywords: [],
+      name: fakeLocalisedObject(),
+      __typename: 'KeywordSet',
     },
     overrides
   );

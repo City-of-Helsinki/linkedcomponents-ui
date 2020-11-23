@@ -1,5 +1,3 @@
-import { StringLocale } from 'yup';
-
 export type Language = 'en' | 'fi' | 'sv';
 
 export type OptionType = {
@@ -7,6 +5,6 @@ export type OptionType = {
   value: string;
 };
 
-export type StringError = {
+export type Error<T> = {
   key: string;
-} & StringLocale;
+} & T;

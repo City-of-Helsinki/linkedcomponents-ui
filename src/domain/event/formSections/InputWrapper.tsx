@@ -5,7 +5,7 @@ import React from 'react';
 import { INPUT_MAX_WIDTHS } from '../../../constants';
 import styles from './inputWrapper.module.scss';
 
-type Columns = 6 | 10;
+type Columns = 5 | 6 | 7 | 8 | 9 | 10;
 type InputColumns = 4 | 5 | 6 | 7 | 8;
 type MaxWidth = INPUT_MAX_WIDTHS.MEDIUM | INPUT_MAX_WIDTHS.LARGE;
 type Offset = 0 | 1 | 2;

@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../types';
-import { getStringErrorText } from '../../../utils/validationUtils';
+import { getErrorText } from '../../../utils/validationUtils';
 import PlaceSelector, {
   PlaceSelectorProps,
 } from '../placeSelector/PlaceSelector';
@@ -19,7 +19,7 @@ const PlaceSelectorField: React.FC<Props> = ({
   const { t } = useTranslation();
   const [, { touched, error }] = useField(name);
 
-  const errorText = React.useMemo(() => getStringErrorText(error, touched, t), [
+  const errorText = React.useMemo(() => getErrorText(error, touched, t), [
     error,
     t,
     touched,

@@ -9,8 +9,16 @@
     margin-top: 0 !important;
   }
 
-  @include medium_up {
-    grid-template-columns: 1fr 1fr 1fr;
+  &.columns2 {
+    @include medium_up {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &.columns3 {
+    @include medium_up {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
   }
 }
 

@@ -31,7 +31,7 @@ it('should call onChange', () => {
     </Formik>
   );
 
-  const svButton = screen.getByRole('button', { name: options[1].label });
+  const svButton = screen.getByRole('link', { name: options[1].label });
 
   userEvent.click(svButton);
   expect(onChange).toBeCalledWith(options[1].value);

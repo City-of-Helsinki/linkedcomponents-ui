@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { getStringErrorText } from '../../../utils/validationUtils';
+import { getErrorText } from '../../../utils/validationUtils';
 import TextInput from '../textInput/TextInput';
 
 type Props = FieldProps & TextInputProps;
@@ -19,7 +19,7 @@ const TextInputField: React.FC<Props> = ({
   const { t } = useTranslation();
   const [, { touched, error }] = useField(name);
 
-  const errorText = React.useMemo(() => getStringErrorText(error, touched, t), [
+  const errorText = React.useMemo(() => getErrorText(error, touched, t), [
     error,
     t,
     touched,

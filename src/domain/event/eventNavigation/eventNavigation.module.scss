@@ -14,6 +14,8 @@
   --connection-line-color: var(--color-bus-light);
   --label-color: var(--color-black-90);
 
+  display: grid;
+
   .content {
     width: 100%;
     padding-bottom: 14.25rem;

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { FieldProps } from 'formik';
 import { CheckboxProps, IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
@@ -6,17 +7,23 @@ import { useTranslation } from 'react-i18next';
 import { OptionType } from '../../../types';
 import Button from '../button/Button';
 import Checkbox from '../checkbox/Checkbox';
-import styles from './languageCheckboxGroupField.module.scss';
+import styles from './checkboxGroupField.module.scss';
+
+type Columns = 2 | 3;
 
 type Props = {
+  columns: Columns;
+  min: number;
   options: OptionType[];
   visibleOptionAmount?: number;
 } & FieldProps &
   CheckboxProps;
 
-const LanguageCheckboxGroupField: React.FC<Props> = ({
+const CheckboxGroupField: React.FC<Props> = ({
+  columns = 2,
   field: { name, value, ...field },
   form,
+  min = 0,
   options,
   visibleOptionAmount,
   ...rest
@@ -26,7 +33,7 @@ const LanguageCheckboxGroupField: React.FC<Props> = ({
 
   const visibleOptions = [...options].slice(
     0,
-    showAll ? -1 : visibleOptionAmount
+    showAll ? undefined : visibleOptionAmount
   );
 
   const toggleShowAll = () => {
@@ -35,10 +42,15 @@ const LanguageCheckboxGroupField: React.FC<Props> = ({
 
   return (
     <>
-      <div className={styles.checkboxsWrapper}>
+      <div
+        className={classNames(
+          styles.checkboxsWrapper,
+          styles[`columns${columns}`]
+        )}
+      >
         {visibleOptions.map((option, index) => {
           const checked = value.includes(option.value);
-          const disabled = checked && value.length === 1;
+          const disabled = checked && value.length <= min;
 
           return (
             <Checkbox
@@ -70,4 +82,4 @@ const LanguageCheckboxGroupField: React.FC<Props> = ({
   );
 };
 
-export default LanguageCheckboxGroupField;
+export default CheckboxGroupField;

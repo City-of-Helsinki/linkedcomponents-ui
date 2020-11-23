@@ -35,12 +35,14 @@ const FormLanguageSelector: React.FC<Props> = ({
         styles.formLanguageSelector,
         css(theme.formLanguageSelector)
       )}
+      role="navigation"
     >
       {options.map((language) => {
         const errors = fields
           .map((field) => getFieldMeta(`${field}.${language.value}`).error)
           .filter((e) => e);
         const isCompleted = !errors.length;
+        const isSelected = language.value === selectedLanguage;
 
         return (
           <Button
@@ -50,11 +52,9 @@ const FormLanguageSelector: React.FC<Props> = ({
             }
             onClick={handleChange(language.value)}
             fullWidth={true}
-            variant={
-              language.value === selectedLanguage
-                ? 'secondary'
-                : ('supplementary' as any)
-            }
+            aria-current={isSelected ? 'step' : 'false'}
+            role="link"
+            variant={isSelected ? 'secondary' : ('supplementary' as any)}
           >
             {language.label}
           </Button>

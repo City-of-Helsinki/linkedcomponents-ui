@@ -44,6 +44,10 @@
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
+      "infoTextAudience": {
+        "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
+        "event": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään."
+      },
       "infoTextEventTimes1": {
         "course": "Useana päivänä toistuvan kurssin lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
         "event": "Useana päivänä toistuvan tapahtuman lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu."
@@ -72,6 +76,10 @@
         "course": "Valitse kielet joita kurssilla käytetään.",
         "event": "Valitse kielet joita tapahtumassa käytetään."
       },
+      "infoTextKeywords": {
+        "course": "Liitä kurssiin vähintään yksi asiasana, joka kuvaa kurssin teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
+        "event": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta."
+      },
       "infoTextLocation1": "Kirjoita kenttään tapahtumapaikan nimi tai katuosoite ja valitse oikea paikka listasta.",
       "infoTextLocation2": {
         "course": "Jos kurssi järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Tapahtuman URL-osoite laitetaan kotisivu-kenttään ja/tai tapahtuma sosiaalisessa mediassa -kenttiin.",
@@ -79,6 +87,7 @@
       },
       "infoTextLocation3": "Jos tapahtumapaikka löytyy listasta, sen sijaintia ei tarvitse kuvailla erikseen. Voit kuitenkin antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi kerrosnumeron tai luokkahuoneen nimen.",
       "infoTextLocation4": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
+      "infoTextMainCategories": "Valitse vähintään yksi pääluokka (kategoria)",
       "infoTextOffers1": {
         "course": "Merkitse onko kurssi maksuton. Syötä maksulliselle kurssille hinta muodossa “5€”.",
         "event": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa “5€”."
@@ -119,6 +128,7 @@
         "course": "Tämä kurssi on kattotapahtuma.",
         "event": "Tämä tapahtuma on kattotapahtuma."
       },
+      "labelKeywords": "Avainsanahaku",
       "labelLocation": "Paikka",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Paikan ID:",
@@ -148,6 +158,10 @@
         "event": "Tapahtuman ajankohdat"
       },
       "notificationTitleLocation": "Tapahtumapaikka",
+      "notificationTitleMainCategories": {
+        "course": "Kurssin luokittelu",
+        "event": "Tapahtuman luokittelu"
+      },
       "notificationTitleOffers": "Hintatiedot",
       "notificationTitleType": "Tapahtumatyyppi",
       "placeholderDescription": {
@@ -167,6 +181,7 @@
         "course": "Syötä kurssin Instagram-sivun URL",
         "event": "Syötä tapahtuman Instagram-sivun URL"
       },
+      "placeholderKeywords": "Hae tai valitse avainsanoja",
       "placeholderLocation": "Valitse tai hae tapahtumapaikka",
       "placeholderLocationExtraInfo": "Syötä lisätietoja tapahtumapaikasta {{langText}}",
       "placeholderName": {
@@ -192,6 +207,7 @@
         "course": "Syötä kurssin Twitter-sivun URL",
         "event": "Syötä tapahtuman Twitter-sivun URL"
       },
+      "titleAudience": "Kohderyhmät",
       "titleDescription": {
         "course": "Kurssin kuvaus",
         "event": "Tapahtuman kuvaus"
@@ -205,9 +221,11 @@
         "course": "Kurssin kielet (ohjauskielet)",
         "event": "Tapahtuman kielet (ohjauskielet)"
       },
+      "titleKeywords": "Lisää avainsanoja",
       "titleLanguageVersions": "Kieliversiot",
       "titleLocation": "Tapahtumapaikka",
       "titleLocationExtraInfo": "Paikan lisätiedot",
+      "titleMainCategories": "Pääluokat (kategoriat)",
       "titleOfferDescription": "Hintatietojen kuvaus",
       "titleOfferInfoUrl": "Linkki lipunmyyntiin tai ilmoittautumiseen",
       "titleOfferPrice": "Hinta",
@@ -231,16 +249,17 @@
       "buttonNext": "Seuraava",
       "buttonPrevious": "Edellinen",
       "steps": {
+        "audience": "Kohteet",
         "classification": "Luokittelu",
         "commitment": "Sitoomus",
         "description": "Kuvaus",
         "languages": "Kielet",
+        "image": "Kuva",
         "place": "Paikka",
         "price": "Hinta",
         "ready": "Valmis",
         "responsibilities": "Vastuut",
         "socialMedia": "SoMe",
-        "targets": "Kohteet",
         "time": "Aika",
         "type": "Tyyppi"
       }
@@ -271,6 +290,11 @@
       "zh_hans": "Kiina"
     },
     "validation": {
+      "array": {
+        "min": "Vähintään {{min}} vaihtoehto tulee olla valittuna",
+        "min_plural": "Vähintään {{min}} vaihtoehtoa tulee olla valittuna",
+        "required": "Vähintään 1 vaihtoehto tulee olla valittuna"
+      },
       "date": {
         "future": "Tämän kentän on oltava tulevaisuudessa",
         "max": "Tämän kentän on oltava ennen {{max}}",

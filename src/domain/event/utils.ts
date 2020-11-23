@@ -8,7 +8,10 @@ import { CHARACTER_LIMITS, DATETIME_FORMAT } from '../../constants';
 import { EventQueryVariables } from '../../generated/graphql';
 import { OptionType } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
-import { createStringError } from '../../utils/validationUtils';
+import {
+  createArrayError,
+  createStringError,
+} from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { EMPTY_MULTI_LANGUAGE_OBJECT, EVENT_FIELDS } from './constants';
 import { EventTime, Offer } from './types';
@@ -137,6 +140,11 @@ export const createValidationSchema = () => {
     [EVENT_FIELDS.FACEBOOK_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
     [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
     [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
+    [EVENT_FIELDS.KEYWORDS]: Yup.array()
+      .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
+      .min(1, (param) =>
+        createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
+      ),
   });
 };
 

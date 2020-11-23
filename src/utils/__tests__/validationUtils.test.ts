@@ -1,4 +1,4 @@
-import { createStringError, getStringErrorText } from '../validationUtils';
+import { createStringError, getErrorText } from '../validationUtils';
 
 describe('createStringError', () => {
   it('should return error object', () => {
@@ -7,16 +7,16 @@ describe('createStringError', () => {
   });
 });
 
-describe('getStringErrorText', () => {
+describe('getErrorText', () => {
   it('should return error text', () => {
     const t = jest.fn();
     const errorKey = 'errorkey';
     const error = { value: 10, key: errorKey };
 
-    getStringErrorText(errorKey, true, t);
+    getErrorText(errorKey, true, t);
     expect(t).toBeCalledWith(errorKey);
 
-    getStringErrorText(error, true, t);
+    getErrorText(error, true, t);
     expect(t).toBeCalledWith(error.key, error);
   });
 });

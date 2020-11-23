@@ -44,6 +44,10 @@
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
+      "infoTextAudience": {
+        "course": "Om kursen inte har en specifik publik, välj inget.",
+        "event": "Om evenemanget inte har en specifik publik, välj inget."
+      },
       "infoTextEventTimes1": {
         "course": "För att lägga till en flerdagars återkommande kurs finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande kurs” -verktyg.",
         "event": "För att lägga till en flerdagars återkommande evenemang finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande evenemang” -verktyg."
@@ -72,6 +76,10 @@
         "course": "Välj de språk som används i kursen.",
         "event": "Välj de språk som används i evenemanget."
       },
+      "infoTextKeywords": {
+        "course": "Bifoga minst ett nyckelord till kursen som beskriver temat för kursen. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till i listan nedan.",
+        "event": "Bifoga minst ett nyckelord till evenemanget som beskriver temat för evenemanget. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till i listan nedan."
+      },
       "infoTextLocation1": "Ange platsens namn eller gatuadress i fältet och välj rätt plats i listan.",
       "infoTextLocation2": {
         "course": "Om kursen bara hålls på distans på Internet, välj Internet som plats. Händelsens URL anges i hemsidans fält och / eller händelsen i sociala mediefält.",
@@ -79,6 +87,7 @@
       },
       "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel golvnummer eller klassrumsnamn.",
       "infoTextLocation4": "Om den exakta platsen inte finns i listan väljer du närmaste gatuadress som plats och anger namnet på arenan eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
+      "infoTextMainCategories": "Välj minst en huvudkategori",
       "infoTextOffers1": {
         "course": "Ange om kursen är gratis. Ange priset för den avgiftsbelagda kursen i formuläret “5€”.",
         "event": "Ange om evenemanget är gratis. Ange priset för det avgiftsbelagda evenemanget i formuläret “5€”."
@@ -119,6 +128,7 @@
         "course": "Detta kurs är ett paraplyevenemang.",
         "event": "Detta evenemang är ett paraplyevenemang."
       },
+      "labelKeywords": "Nyckelordssökning",
       "labelLocation": "Plats",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Plats ID:",
@@ -148,6 +158,10 @@
         "event": "Evenemamgtider"
       },
       "notificationTitleLocation": "Venue",
+      "notificationTitleMainCategories": {
+        "course": "Kursklassificering",
+        "event": "Evenemangklassificering"
+      },
       "notificationTitleOffers": "Prisinformation",
       "notificationTitleType": "Evenemangtyp",
       "placeholderDescription": {
@@ -167,6 +181,7 @@
         "course": "Ange webbadressen till kursens Instagram-sida",
         "event": "Ange webbadressen till evenemangets Instagram-sida"
       },
+      "placeholderKeywords": "Sök eller välj nyckelord",
       "placeholderLocation": "Välj eller sök efter en plats",
       "placeholderLocationExtraInfo": "Ange mer information om arenan {{langText}}",
       "placeholderName": {
@@ -192,6 +207,7 @@
         "course": "Ange webbadressen till kursens Twitter-sida",
         "event": "Ange webbadressen till evenemangets Twitter-sida"
       },
+      "titleAudience": "Målgrupper",
       "titleDescription": {
         "course": "Kursbeskrivning",
         "event": "Evenemangbeskrivning"
@@ -205,9 +221,11 @@
         "course": "Kursspråk (kontrollspråk)",
         "event": "Evenemangsspråk (kontrollspråk)"
       },
+      "titleKeywords": "Lägg till nyckelord",
       "titleLanguageVersions": "Språkversioner",
       "titleLocation": "Venue",
       "titleLocationExtraInfo": "Ytterligare platsinformation",
+      "titleMainCategories": "Huvudkategorier",
       "titleOfferDescription": "Beskrivning av prisinformation",
       "titleOfferInfoUrl": "Länk till biljettförsäljning eller registrering",
       "titleOfferPrice": "Pris",
@@ -231,16 +249,17 @@
       "buttonNext": "Nästa",
       "buttonPrevious": "Tidigare",
       "steps": {
+        "audience": "Mål",
         "classification": "Klassificering",
         "commitment": "Engagemang",
         "description": "Beskrivning",
+        "image": "Bild",
         "languages": "Språk",
         "place": "Plats",
         "price": "Pris",
         "ready": "Redo",
         "responsibilities": "Ansvar",
         "socialMedia": "SoMe",
-        "targets": "Mål",
         "time": "Tid",
         "type": "Typ"
       }
@@ -271,6 +290,11 @@
       "zh_hans": "Kinesiska"
     },
     "validation": {
+      "array": {
+        "min": "Minst {{min}} objekt måste väljas",
+        "min_plural": "Minst {{min}} objekt måste väljas",
+        "required": "Minst 1 objekt måste väljas"
+      },
       "date": {
         "future": "Detta datum måste vara i framtiden",
         "max": "Detta datum måste vara före {{max}}",

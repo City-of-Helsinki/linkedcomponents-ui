@@ -3,6 +3,7 @@ import reduce from 'lodash/reduce';
 import { MultiLanguageObject } from './types';
 
 export enum EVENT_FIELDS {
+  AUDIENCE = 'audience',
   DESCRIPTION = 'description',
   END_TIME = 'endTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
@@ -14,6 +15,7 @@ export enum EVENT_FIELDS {
   INFO_URL = 'infoUrl',
   INSTAGRAM_URL = 'instagramUrl',
   IS_UMBRELLA = 'isUmbrella',
+  KEYWORDS = 'keywords',
   LOCATION = 'location',
   LOCATION_EXTRA_INFO = 'locationExtraInfo',
   NAME = 'name',
@@ -60,6 +62,7 @@ export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
 ) as MultiLanguageObject;
 
 export const EVENT_INITIAL_VALUES = {
+  [EVENT_FIELDS.AUDIENCE]: [],
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.END_TIME]: null,
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
@@ -71,6 +74,7 @@ export const EVENT_INITIAL_VALUES = {
   [EVENT_FIELDS.INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.INSTAGRAM_URL]: '',
   [EVENT_FIELDS.IS_UMBRELLA]: false,
+  [EVENT_FIELDS.KEYWORDS]: [],
   [EVENT_FIELDS.LOCATION]: null,
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
