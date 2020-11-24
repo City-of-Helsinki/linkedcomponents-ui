@@ -37,8 +37,7 @@ const TypeSection = () => {
   };
 
   const addRecurringEventSettings = (values: RecurringEventSettings) => {
-    recurringEvents.push(values);
-    setRecurringEvents(recurringEvents);
+    setRecurringEvents([...recurringEvents, values]);
 
     closeModal();
   };
