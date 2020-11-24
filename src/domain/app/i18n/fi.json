@@ -60,8 +60,8 @@
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
       "extensionCourse": {
-        "labelEnrolmenEndTime": "Ilmoittautuminen päättyy",
-        "labelEnrolmenStartTime": "Ilmoittautuminen alkaa",
+        "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
+        "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
         "labelMaximumAttendeeCapacity": "Enimmäisosallistujamäärä",
         "labelMinimimAttendeeCapacity": "Vähimmäisosallistujamäärä",
         "placeholderMaximumAttendeeCapacity": "Syötä enimmäisosallistujamäärä",

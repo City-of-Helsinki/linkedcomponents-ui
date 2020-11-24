@@ -3,7 +3,6 @@ import isBefore from 'date-fns/isBefore';
 import isFuture from 'date-fns/isFuture';
 import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
-import setHours from 'date-fns/setHours';
 import reduce from 'lodash/reduce';
 import * as Yup from 'yup';
 

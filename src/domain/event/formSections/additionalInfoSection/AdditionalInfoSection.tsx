@@ -72,7 +72,7 @@ const AdditionalInfoSection = () => {
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME}`}
               component={DatepickerField}
-              label={t(`event.form.extensionCourse.labelEnrolmenStartTime`)}
+              label={t(`event.form.extensionCourse.labelEnrolmentStartTime`)}
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />
@@ -81,7 +81,7 @@ const AdditionalInfoSection = () => {
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME}`}
               component={DatepickerField}
-              label={t(`event.form.extensionCourse.labelEnrolmenEndTime`)}
+              label={t(`event.form.extensionCourse.labelEnrolmentEndTime`)}
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />

@@ -60,8 +60,8 @@
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
       "extensionCourse": {
-        "labelEnrolmenEndTime": "Registreringen slutar",
-        "labelEnrolmenStartTime": "Registreringen börjar",
+        "labelEnrolmentEndTime": "Registreringen slutar",
+        "labelEnrolmentStartTime": "Registreringen börjar",
         "labelMaximumAttendeeCapacity": "Maximalt antal deltagare",
         "labelMinimimAttendeeCapacity": "Minsta antal deltagare",
         "placeholderMaximumAttendeeCapacity": "Ange maximalt antal deltagare",
