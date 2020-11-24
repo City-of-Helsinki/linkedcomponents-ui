@@ -369,7 +369,7 @@
         "max": "This field can be up to {{max}} characters long",
         "min": "This field must be at least {{min}} characters long",
         "required": "This field is required",
-        "time": "Time must be given in the following format hh:mm",
+        "time": "Time must be given in the following format hh.mm",
         "url": "Enter the URL in correct format (http://...)"
       },
       "time": {

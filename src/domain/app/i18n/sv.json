@@ -369,7 +369,7 @@
         "max": "Detta fält kan vara upp till {{max}} tecken långt",
         "min": "Detta fält måste vara minst {{min}} tecken långt",
         "required": "Detta fält krävs",
-        "time": "Tid måste ges i följande format hh:mm",
+        "time": "Tid måste ges i följande format hh.mm",
         "url": "Ange URL i rätt format (http: // ...)"
       },
       "time": {

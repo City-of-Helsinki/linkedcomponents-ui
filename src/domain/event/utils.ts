@@ -1,5 +1,5 @@
 import formatDate from 'date-fns/format';
-import isBefore from 'date-fns/isBefore';
+import isAfter from 'date-fns/isAfter';
 import isFuture from 'date-fns/isFuture';
 import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
@@ -67,7 +67,7 @@ const eventTimeValidation = {
               min: formatDate(startTime, DATETIME_FORMAT),
             }),
             (endTime) => {
-              return endTime ? isBefore(startTime, endTime) : true;
+              return endTime ? !isAfter(startTime, endTime) : true;
             }
           );
         }
@@ -193,7 +193,7 @@ export const createRecurringEventValidationSchema = () => {
                 min: formatDate(startDate, DATE_FORMAT),
               }),
               (endDate) => {
-                return endDate ? isBefore(startDate, endDate) : true;
+                return endDate ? !isAfter(startDate, endDate) : true;
               }
             );
           }
@@ -227,9 +227,13 @@ export const createRecurringEventValidationSchema = () => {
               }),
               (endsAt) => {
                 return !!endsAt && isValidTime(endsAt)
-                  ? isBefore(
-                      parseDate(startsAt, 'HH.mm', new Date()),
-                      parseDate(endsAt, 'HH.mm', new Date())
+                  ? !isAfter(
+                      parseDate(
+                        startsAt.replace(':', '.'),
+                        'HH.mm',
+                        new Date()
+                      ),
+                      parseDate(endsAt.replace(':', '.'), 'HH.mm', new Date())
                     )
                   : true;
               }

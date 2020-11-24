@@ -369,7 +369,7 @@
         "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
         "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
         "required": "Tämä kenttä on pakollinen",
-        "time": "Ajan tulee olla muotoa hh:mm",
+        "time": "Ajan tulee olla muotoa hh.mm",
         "url": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)"
       },
 

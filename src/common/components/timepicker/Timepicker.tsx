@@ -56,6 +56,7 @@ const Timepicker: React.FC<Props> = ({
     } else {
       setInputItems(timesList);
     }
+
     onChange(inputValue || '');
   };
 
@@ -87,7 +88,13 @@ const Timepicker: React.FC<Props> = ({
 
   const handleInputOnBlur = () => {
     if (!menuItemMouseDown.current) {
-      onBlur(selectedItem || value);
+      const modifiedInputValue = value.replace(':', '.').toLowerCase();
+
+      if (modifiedInputValue !== value) {
+        onChange(modifiedInputValue);
+      }
+
+      onBlur(selectedItem || modifiedInputValue);
     }
     menuItemMouseDown.current = false;
   };
