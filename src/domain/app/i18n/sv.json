@@ -351,9 +351,11 @@
         "required": "Minst 1 objekt måste väljas"
       },
       "date": {
+        "after": "Detta datum måste vara efter {{after}}",
+        "before": "Detta datum måste vara före {{before}}",
         "future": "Detta datum måste vara i framtiden",
-        "max": "Detta datum måste vara före {{max}}",
-        "min": "Detta datum måste vara efter {{min}}",
+        "max": "Detta datum måste vara senast {{max}}",
+        "min": "Detta datum måste vara minst {{min}}",
         "required": "Detta fält krävs"
       },
       "number": {
@@ -373,8 +375,10 @@
         "url": "Ange URL i rätt format (http: // ...)"
       },
       "time": {
-        "max": "Den här tiden måste vara innan {{max}}",
-        "min": "Den här tiden måste vara efter {{min}}",
+        "after": "Den här tiden måste vara efter {{after}}",
+        "before": "Den här tiden måste vara före {{before}}",
+        "max": "Den här tiden måste vara senast {{max}}",
+        "min": "Den här tiden måste vara minst {{min}}",
         "required": "Detta fält krävs"
       }
     },

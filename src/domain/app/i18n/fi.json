@@ -351,9 +351,11 @@
         "required": "Vähintään 1 vaihtoehto tulee olla valittuna"
       },
       "date": {
-        "future": "Tämän kentän on oltava tulevaisuudessa",
-        "max": "Tämän kentän on oltava ennen {{max}}",
-        "min": "Tämän kentän on oltava {{min}} jälkeen",
+        "after": "Tämän päivämäärän tulee olla {{after}} jälkeen",
+        "before": "Tämän päivämäärän tulee olla ennen {{before}}",
+        "future": "Tämän päivämäärän tulee olla tulevaisuudessa",
+        "max": "Tämän päivämäärän tulee olla enintään {{max}}",
+        "min": "Tämän päivämäärän tulee olla vähintään {{min}}",
         "required": "Tämä kenttä on pakollinen"
       },
       "number": {
@@ -374,9 +376,11 @@
       },
 
       "time": {
+        "after": "Tämän kellonajan tulee olla {{after}} jälkeen",
+        "before": "Tämän kellonajan tulee olla ennen {{before}}",
         "required": "Tämä kenttä on pakollinen",
-        "min": "Arvon tulee olla vähintään {{min}}",
-        "max": "Arvon tulee olla enintään {{max}}"
+        "max": "Tämän kellonajan tulee olla enintään {{max}}",
+        "min": "Tämän kellonajan tulee olla vähintään {{min}}"
       }
     },
     "weekDay": {

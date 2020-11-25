@@ -1,5 +1,5 @@
 import formatDate from 'date-fns/format';
-import isAfter from 'date-fns/isAfter';
+import isBefore from 'date-fns/isBefore';
 import isFuture from 'date-fns/isFuture';
 import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
@@ -63,11 +63,11 @@ const eventTimeValidation = {
           return schema.test(
             'isBeforeStartTime',
             () => ({
-              key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-              min: formatDate(startTime, DATETIME_FORMAT),
+              key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
+              after: formatDate(startTime, DATETIME_FORMAT),
             }),
             (endTime) => {
-              return endTime ? !isAfter(startTime, endTime) : true;
+              return endTime ? isBefore(startTime, endTime) : true;
             }
           );
         }
@@ -189,11 +189,11 @@ export const createRecurringEventValidationSchema = () => {
             return schema.test(
               'isBeforeStartDate',
               () => ({
-                key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-                min: formatDate(startDate, DATE_FORMAT),
+                key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
+                after: formatDate(startDate, DATE_FORMAT),
               }),
               (endDate) => {
-                return endDate ? !isAfter(startDate, endDate) : true;
+                return endDate ? isBefore(startDate, endDate) : true;
               }
             );
           }
@@ -222,20 +222,20 @@ export const createRecurringEventValidationSchema = () => {
             return schema.test(
               'isBeforeStartTime',
               () => ({
-                key: VALIDATION_MESSAGE_KEYS.TIME_MAX,
-                min: startsAt,
+                key: VALIDATION_MESSAGE_KEYS.TIME_AFTER,
+                after: startsAt,
               }),
               (endsAt) => {
-                return !!endsAt && isValidTime(endsAt)
-                  ? !isAfter(
-                      parseDate(
-                        startsAt.replace(':', '.'),
-                        'HH.mm',
-                        new Date()
-                      ),
-                      parseDate(endsAt.replace(':', '.'), 'HH.mm', new Date())
-                    )
-                  : true;
+                if (endsAt && isValidTime(endsAt)) {
+                  const modifiedStartsAt = startsAt.replace(':', '.');
+                  const modifiedEndsAt = endsAt.replace(':', '.');
+
+                  return isBefore(
+                    parseDate(modifiedStartsAt, 'HH.mm', new Date()),
+                    parseDate(modifiedEndsAt, 'HH.mm', new Date())
+                  );
+                }
+                return true;
               }
             );
           }

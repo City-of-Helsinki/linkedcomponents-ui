@@ -351,9 +351,11 @@
         "required": "At least 1 item must be selected"
       },
       "date": {
+        "after": "This date must be after {{after}}",
+        "before": "This date must be before {{before}}",
         "future": "This date must be in the future",
-        "max": "This date must be before {{max}}",
-        "min": "This date must be after {{min}}",
+        "max": "This date must be no later than {{max}}",
+        "min": "This date must be at least {{min}}",
         "required": "This field is required"
       },
       "number": {
@@ -373,8 +375,10 @@
         "url": "Enter the URL in correct format (http://...)"
       },
       "time": {
-        "max": "This time must be before {{max}}",
-        "min": "This time must be after {{min}}",
+        "after": "This time must be after {{after}}",
+        "before": "This time must be before {{before}}",
+        "max": "This time must be no later than {{max}}",
+        "min": "This date must be at least {{min}}",
         "required": "This field is required"
       }
     },
