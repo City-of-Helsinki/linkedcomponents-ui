@@ -1,6 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
+import translations from '../../../../domain/app/i18n/fi.json';
 import {
   arrowDownKeyPressHelper,
   enterKeyPressHelper,
@@ -120,4 +121,24 @@ it('should call onBlur', async () => {
 
   userEvent.click(container);
   expect(onBlur).toBeCalledWith('12.15');
+});
+
+it('should toggle menu by clicking toggle button', () => {
+  renderTimepicker();
+
+  expect(
+    screen.queryByRole('option', { name: '00.00' })
+  ).not.toBeInTheDocument();
+
+  const toggleButton = screen.getByRole('button', {
+    name: translations.common.timepicker.accessibility.buttonTimeList,
+  });
+
+  userEvent.click(toggleButton);
+  expect(screen.queryByRole('option', { name: '00.00' })).toBeInTheDocument();
+
+  userEvent.click(toggleButton);
+  expect(
+    screen.queryByRole('option', { name: '00.00' })
+  ).not.toBeInTheDocument();
 });

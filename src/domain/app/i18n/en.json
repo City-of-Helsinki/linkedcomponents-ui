@@ -1,6 +1,11 @@
 {
-  "appName": "Linked Components",
+  "appName": "Linked Events",
   "common": {
+    "and": "and",
+    "at": "at {{time}}",
+    "betweenDates": "Between {{startDate}} and {{endDate}}",
+    "betweenTimes": "{{startTime}} – {{endTime}}",
+    "close": "Close",
     "combobox": {
       "toggleButtonAriaLabel": "Menu"
     },
@@ -24,7 +29,12 @@
       }
     },
     "showLess": "Show less",
-    "showMore": "Show more"
+    "showMore": "Show more",
+    "timepicker": {
+      "accessibility": {
+        "buttonTimeList": "Times"
+      }
+    }
   },
   "createEventPage": {
     "buttonSaveDraft": "Save draft",
@@ -41,8 +51,11 @@
     "form": {
       "buttonAddEventTime": "Add new time",
       "buttonAddOffer": "Add new pricing information",
+      "buttonAddRecurringEvent": "Add recurring event",
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
+      "buttonDeleteRecurringEvent": "Delete recurring event",
+      "buttonOpenRecurringEventSettings": "Open recurring event settings",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextAudience": {
         "course": "If the course does not have a specific target group, don't select anything",
@@ -143,6 +156,20 @@
         "course": "Course organizer {{langText}} (if different than the publisher)",
         "event": "Event organizer {{langText}} (if different than the publisher)"
       },
+      "labelRecurringEventEndDate": "Repetition ends",
+      "labelRecurringEventEndTime": {
+        "course": "Course ends at",
+        "event": "Event ends at"
+      },
+      "labelRecurringEventRepeatInterval": {
+        "course": "Course is repeated",
+        "event": "Event is repeated"
+      },
+      "labelRecurringEventStartDate": "Repetition starts",
+      "labelRecurringEventStartTime": {
+        "course": "Course starts at",
+        "event": "Event starts at"
+      },
       "labelShortDescription": {
         "course": "Short description {{langText}} (up to 160 characters)",
         "event": "Short description {{langText}} (up to 160 characters)"
@@ -153,6 +180,7 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Umbrella event",
+      "modalTitleRecurringEvent": "Specify recurring event",
       "notificationTitleEventTimes": {
         "course": "Course times",
         "event": "Event times"
@@ -198,6 +226,10 @@
           "course": "Enter the course organizer's name",
           "event": "Enter the event organizer's name"
       },
+      "placeholderRecurringEventEndDate": "dd.mm.yyyy",
+      "placeholderRecurringEventEndTime": "hh.mm",
+      "placeholderRecurringEventStartDate": "dd.mm.yyyy",
+      "placeholderRecurringEventStartTime": "hh.mm",
       "placeholderShortDescription": {
         "course": "Enter a short description of the course",
         "event": "Enter a short description of the event"
@@ -206,6 +238,25 @@
       "placeholderTwitterUrl": {
         "course": "Enter the URL of the course's Twitter page",
         "event": "Enter the URL of the event's Twitter page"
+      },
+      "recurringEvent": {
+        "labelEndDate": "Repetition ends:",
+        "labelEndTime": {
+          "course": "Course ends at:",
+          "event": "Event ends at:"
+        },
+        "labelRepeatInterval": {
+          "course": "Course repeats:",
+          "event": "Event repeats:"
+        },
+        "labelRepeatDays": "Repeat days:",
+        "labelStartDate": "Repetition starts:",
+        "labelStartTime": {
+          "course": "Course starts at:",
+          "event": "Event starts at:"
+        },
+        "textRepeatInterval": "Every week",
+        "textRepeatInterval_plural": "Every {{count}} weeks"
       },
       "titleAudience": "Target groups",
       "titleDescription": {
@@ -235,6 +286,10 @@
         "event": "Event price information"
       },
       "titlePrice": "Price",
+      "titleRecurringEvent": "Recurring event",
+      "titleRecurringEventRepeatDays": "Repeat days",
+      "titleRecurringEventRepeatInterval": "Repeat interval",
+      "titleRecurringEventStarts": "Start",
       "titleSocialMedia": {
         "course": "Course on social media",
         "event": "Event on social media"
@@ -296,9 +351,11 @@
         "required": "At least 1 item must be selected"
       },
       "date": {
+        "after": "This date must be after {{after}}",
+        "before": "This date must be before {{before}}",
         "future": "This date must be in the future",
-        "max": "This date must be before {{max}}",
-        "min": "This date must be after {{min}}",
+        "max": "This date must be no later than {{max}}",
+        "min": "This date must be at least {{min}}",
         "required": "This field is required"
       },
       "number": {
@@ -314,14 +371,34 @@
         "max": "This field can be up to {{max}} characters long",
         "min": "This field must be at least {{min}} characters long",
         "required": "This field is required",
-        "time": "Time must be given in the following format hh:mm",
+        "time": "Time must be given in the following format hh.mm",
         "url": "Enter the URL in correct format (http://...)"
       },
       "time": {
-        "max": "This time must be before {{max}}",
-        "min": "This time must be after {{min}}",
+        "after": "This time must be after {{after}}",
+        "before": "This time must be before {{before}}",
+        "max": "This time must be no later than {{max}}",
+        "min": "This date must be at least {{min}}",
         "required": "This field is required"
       }
+    },
+    "weekDay": {
+      "fri": "Friday",
+      "mon": "Monday", 
+      "sat": "Saturday",
+      "sun": "Sunday",
+      "thu": "Thursday",
+      "tue": "Tuesday",
+      "wed": "Wednesday"
+    },
+    "weekDayAbbreviation": {
+      "fri": "Fri",
+      "mon": "Mon", 
+      "sat": "Sat",
+      "sun": "Sun",
+      "thu": "Thu",
+      "tue": "Tue",
+      "wed": "Wed"
     }
   },
   "helpPage": {

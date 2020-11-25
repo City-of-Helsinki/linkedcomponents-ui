@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FieldProps } from 'formik';
+import { ErrorMessage, FieldProps } from 'formik';
 import { CheckboxProps, IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,7 @@ import Button from '../button/Button';
 import Checkbox from '../checkbox/Checkbox';
 import styles from './checkboxGroupField.module.scss';
 
-type Columns = 2 | 3;
+type Columns = 2 | 3 | 4;
 
 type Props = {
   columns: Columns;
@@ -67,6 +67,9 @@ const CheckboxGroupField: React.FC<Props> = ({
           );
         })}
       </div>
+      <ErrorMessage name={name}>
+        {(error) => <div className={styles.errorText}>{t(error)}</div>}
+      </ErrorMessage>
       {visibleOptionAmount && (
         <div className={styles.buttonWrapper}>
           <Button

@@ -9,16 +9,23 @@ type InputWidth = INPUT_MAX_WIDTHS.MEDIUM | INPUT_MAX_WIDTHS.LARGE;
 
 type Props = {
   button?: React.ReactNode;
+  hasLabel?: boolean;
   input: React.ReactNode;
   inputWidth: InputWidth;
 };
 
-const FieldArrayRow: React.FC<Props> = ({ button, input, inputWidth }) => {
+const FieldArrayRow: React.FC<Props> = ({
+  button,
+  hasLabel = true,
+  input,
+  inputWidth,
+}) => {
   return (
     <div
       className={classNames(
         styles.fieldArrayRow,
-        styles[`inputWidth${capitalize(inputWidth)}`]
+        styles[`inputWidth${capitalize(inputWidth)}`],
+        { [styles.hasLabel]: hasLabel }
       )}
     >
       <div className={styles.inputWrapper}>{input}</div>

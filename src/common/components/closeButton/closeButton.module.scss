@@ -1,0 +1,7 @@
+.closeButton {
+  --close-button-color: var(--color-black);
+  --close-button-padding: var(--spacing-xs);
+
+  color: var(--close-button-color);
+  padding: 0 var(--close-button-padding);
+}

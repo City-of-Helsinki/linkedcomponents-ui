@@ -1,4 +1,5 @@
 .wrapper {
+  --icon-width: var(--spacing-m);
   --menu-background-color: var(--color-white);
   --menu-border-color: var(--input-border-color-default);
   --menu-max-height: 20rem;
@@ -10,6 +11,34 @@
 }
 
 .wrapper {
+  .inputWrapper {
+    width: 100%;
+  }
+
+  .timepickerInput {
+    padding-right: calc(2 * var(--icon-width));
+
+    &.invalid {
+      padding-right: calc(
+        2 * var(--icon-width) + var(--input-spacing)
+      ) !important;
+    }
+  }
+
+  .calendarButton {
+    position: absolute;
+    right: 0;
+    padding: 0 var(--spacing-s);
+    height: var(--input-height);
+    right: 0;
+    width: auto;
+
+    svg {
+      height: var(--icon-width);
+      width: var(--icon-width);
+    }
+  }
+
   .dropdownMenu {
     position: absolute;
     padding: 0;

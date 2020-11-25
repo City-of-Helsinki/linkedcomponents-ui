@@ -33,7 +33,7 @@ exports[`matches snapshot 1`] = `
           />
         </svg>
         <span>
-          Linked Components
+          Linked Events
         </span>
       </a>
       <div

@@ -48,6 +48,20 @@ type CheckboxCSSProperties = {
   '--label-color-disabled'?: string;
 };
 
+type CollapsibleCSSProperties = {
+  '--heading-background-color'?: string;
+  '--heading-border-color'?: string;
+  '--heading-color'?: string;
+  '--heading-background-color-expanded'?: string;
+  '--heading-border-color-expanded'?: string;
+  '--heading-color-expanded'?: string;
+  '--heading-background-color-expanded-hover'?: string;
+  '--heading-border-color-expanded-hover'?: string;
+  '--heading-color-expanded-hover'?: string;
+  '--heading-background-color-hover'?: string;
+  '--heading-color-hover'?: string;
+};
+
 type DatepickerCSSProperties = {
   '--calendar-button-height'?: string;
   '--close-button-color'?: string;
@@ -126,6 +140,16 @@ type LoadingSpinnerCSSProperties = {
   '--spinner-color'?: string;
   '--spinner-width'?: string;
   '--spinner-stroke-width'?: string;
+};
+
+type MocalCSSProperties = {
+  '--modal-background-color'?: string;
+  '--modal-bottom'?: string;
+  '--modal-max-width'?: string;
+  '--modal-top'?: string;
+  '--modal-z-index'?: number;
+  '--modal-heading-background-color'?: string;
+  '--modal-heading-color'?: string;
 };
 
 type NavigationCSSProperties = {
@@ -250,6 +274,7 @@ export type Theme = {
     danger?: ButtonCSSProperties;
   };
   checkbox: CheckboxCSSProperties;
+  collapsible: CollapsibleCSSProperties;
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   eventNavigation: EventNavigationCSSProperties;
@@ -257,6 +282,7 @@ export type Theme = {
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;
+  modal: MocalCSSProperties;
   navigation: NavigationCSSProperties;
   notification: {
     size?: {
@@ -281,6 +307,7 @@ export type Theme = {
 const defaultTheme: Theme = {
   button: {},
   checkbox: {},
+  collapsible: {},
   datepicker: {},
   deleteButton: {},
   eventNavigation: {},
@@ -288,6 +315,7 @@ const defaultTheme: Theme = {
   languageSelector: {},
   layout: {},
   loadingSpinner: {},
+  modal: {},
   navigation: {},
   notification: {},
   radioButton: {},

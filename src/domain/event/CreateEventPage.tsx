@@ -19,7 +19,7 @@ import ResponsibilitiesSection from './formSections/responsibilitiesSection/Resp
 import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
-import { createValidationSchema } from './utils';
+import { createEventValidationSchema } from './utils';
 
 const CreateEventPage: React.FC = () => {
   const { t } = useTranslation();
@@ -30,7 +30,7 @@ const CreateEventPage: React.FC = () => {
       onSubmit={(values) => {
         console.log('TODO: Submit event form with values: ', values);
       }}
-      validationSchema={createValidationSchema}
+      validationSchema={createEventValidationSchema}
       validateOnBlur={true}
       validateOnChange={false}
       validateOnMount

@@ -6,7 +6,6 @@
 
   .buttonWrapper {
     min-width: var(--input-height);
-    padding-top: var(--label-height);
   }
 
   &.inputWidthMedium {
@@ -30,6 +29,12 @@
       @include medium-up {
         max-width: var(--input-max-width-l);
       }
+    }
+  }
+
+  &.hasLabel {
+    .buttonWrapper {
+      padding-top: var(--label-height);
     }
   }
 }

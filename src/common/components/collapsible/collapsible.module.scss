@@ -1,0 +1,51 @@
+.collapsible {
+  --border-radius: 0px;
+  --border-width: 2px;
+  --heading-background-color: var(--color-white);
+  --heading-border-color: var(--color-bus);
+  --heading-color: var(--color-bus);
+  --heading-background-color-expanded: var(--color-bus);
+  --heading-border-color-expanded: var(--color-bus);
+  --heading-color-expanded: var(--color-white);
+  --heading-background-color-expanded-hover: var(--color-bus-dark);
+  --heading-border-color-expanded-hover: var(--color-bus-dark);
+  --heading-color-expanded-hover: var(--color-white);
+  --heading-background-color-hover: var(--color-bus-light);
+  --heading-color-hover: var(--color-bus-dark);
+}
+
+.button {
+  background-color: var(--heading-background-color);
+  border: var(--border-width) solid var(--heading-border-color);
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  color: var(--heading-color);
+  font-size: var(--fontsize-heading-xs);
+  min-height: var(--input-height);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: var(--spacing-s);
+  padding: 0 var(--spacing-s);
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--heading-background-color-hover);
+    border-radius: var(--border-radius-hover);
+  }
+}
+
+.expanded {
+  .button {
+    background-color: var(--heading-background-color-expanded);
+    border-color: var(--heading-border-color-expanded);
+    color: var(--heading-color-expanded);
+
+    &:hover {
+      background-color: var(--heading-background-color-expanded-hover);
+      border-color: var(--heading-border-color-expanded-hover);
+      color: var(--heading-color-expanded-hover);
+    }
+  }
+}

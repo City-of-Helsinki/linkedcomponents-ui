@@ -1,6 +1,11 @@
 {
-  "appName": "Linked Components",
+  "appName": "Linked Events",
   "common": {
+    "and": "ja",
+    "at": "klo {{time}}",
+    "betweenDates": "Ajalla {{startDate}} – {{endDate}}",
+    "betweenTimes": "{{startTime}} – {{endTime}}",
+    "close": "Sulje",
     "combobox": {
       "toggleButtonAriaLabel": "Valikko"
     },
@@ -24,7 +29,12 @@
       }
     },
     "showLess": "Näytä vähemmän",
-    "showMore": "Näytä lisää"
+    "showMore": "Näytä lisää",
+    "timepicker": {
+      "accessibility": {
+        "buttonTimeList": "Kellonajat"
+      }
+    }
   },
   "createEventPage": {
     "buttonSaveDraft": "Tallenna luonnos",
@@ -41,8 +51,11 @@
     "form": {
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddOffer": "Lisää uusi hintatieto",
+      "buttonAddRecurringEvent": "Lisää toistuva tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
+      "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
+      "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
@@ -143,6 +156,20 @@
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "event": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)"
       },
+      "labelRecurringEventEndDate": "Toisto päättyy",
+      "labelRecurringEventEndTime": {
+        "course": "Kurssi päättyy klo",
+        "event": "Tapahtuma päättyy klo"
+      },
+      "labelRecurringEventRepeatInterval": {
+        "course": "Kurssi toistuu",
+        "event": "Tapahtuma toistuu"
+      },
+      "labelRecurringEventStartDate": "Toisto alkaa",
+      "labelRecurringEventStartTime": {
+        "course": "Kurssi alkaa klo",
+        "event": "Tapahtuma alkaa klo"
+      },
       "labelShortDescription": {
         "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
         "event": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
@@ -153,6 +180,7 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Kattotapahtuma",
+      "modalTitleRecurringEvent": "Määritä toistuva tapahtuma",
       "notificationTitleEventTimes": {
         "course": "Kurssin ajankohdat",
         "event": "Tapahtuman ajankohdat"
@@ -168,7 +196,7 @@
         "course": "Syötä kurssin kuvaus",
         "event": "Syötä tapahtuman kuvaus"
       },
-      "placeholderEndTime": "dd.mm.vvvv hh.mm",
+      "placeholderEndTime": "pp.kk.vvvv hh.mm",
       "placeholderFacebookUrl": {
         "course": "Syötä kurssin Facebook-sivun URL",
         "event": "Syötä tapahtuman Facebook-sivun URL"
@@ -198,14 +226,37 @@
           "course": "Syötä kurssin järjestäjän nimi",
           "event": "Syötä tapahtuman järjestäjän nimi"
       },
+      "placeholderRecurringEventEndDate": "pp.kk.vvvv",
+      "placeholderRecurringEventEndTime": "hh.mm",
+      "placeholderRecurringEventStartDate": "pp.kk.vvvv",
+      "placeholderRecurringEventStartTime": "hh.mm",
       "placeholderShortDescription": {
         "course": "Syötä kurssin lyhyt kuvaus",
         "event": "Syötä tapahtuman lyhyt kuvaus"
       },
-      "placeholderStartTime": "dd.mm.vvvv hh.mm",
+      "placeholderStartTime": "pp.kk.vvvv hh.mm",
       "placeholderTwitterUrl": {
         "course": "Syötä kurssin Twitter-sivun URL",
         "event": "Syötä tapahtuman Twitter-sivun URL"
+      },
+      "recurringEvent": {
+        "labelEndDate": "Toisto päättyy:",
+        "labelEndTime": {
+          "course": "Kurssi päättyy klo:",
+          "event": "Tapahtuma päättyy klo:"
+        },
+        "labelRepeatInterval": {
+          "course": "Kurssi toistuu:",
+          "event": "Tapahtuma toistuu:"
+        },
+        "labelRepeatDays": "Toistopäivät:",
+        "labelStartDate": "Toisto alkaa:",
+        "labelStartTime": {
+          "course": "Kurssi alkaa klo:",
+          "event": "Tapahtuma alkaa klo:"
+        },
+        "textRepeatInterval": "Viikon välein",
+        "textRepeatInterval_plural": "{{count}} viikon välein"
       },
       "titleAudience": "Kohderyhmät",
       "titleDescription": {
@@ -235,6 +286,10 @@
         "event": "Tapahtuman hintatiedot"
       },
       "titlePrice": "Hinta",
+      "titleRecurringEvent": "Toistuva tapahtuma",
+      "titleRecurringEventRepeatDays": "Toistopäivät",
+      "titleRecurringEventRepeatInterval": "Toistoväli (intervalli)",
+      "titleRecurringEventStarts": "Aloitus",
       "titleSocialMedia": {
         "course": "Kurssi sosiaalisessa mediassa",
         "event": "Tapahtuma sosiaalisessa mediassa"
@@ -296,9 +351,11 @@
         "required": "Vähintään 1 vaihtoehto tulee olla valittuna"
       },
       "date": {
-        "future": "Tämän kentän on oltava tulevaisuudessa",
-        "max": "Tämän kentän on oltava ennen {{max}}",
-        "min": "Tämän kentän on oltava {{min}} jälkeen",
+        "after": "Tämän päivämäärän tulee olla {{after}} jälkeen",
+        "before": "Tämän päivämäärän tulee olla ennen {{before}}",
+        "future": "Tämän päivämäärän tulee olla tulevaisuudessa",
+        "max": "Tämän päivämäärän tulee olla enintään {{max}}",
+        "min": "Tämän päivämäärän tulee olla vähintään {{min}}",
         "required": "Tämä kenttä on pakollinen"
       },
       "number": {
@@ -314,15 +371,35 @@
         "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
         "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
         "required": "Tämä kenttä on pakollinen",
-        "time": "Ajan tulee olla muotoa hh:mm",
+        "time": "Ajan tulee olla muotoa hh.mm",
         "url": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)"
       },
 
       "time": {
+        "after": "Tämän kellonajan tulee olla {{after}} jälkeen",
+        "before": "Tämän kellonajan tulee olla ennen {{before}}",
         "required": "Tämä kenttä on pakollinen",
-        "min": "Arvon tulee olla vähintään {{min}}",
-        "max": "Arvon tulee olla enintään {{max}}"
+        "max": "Tämän kellonajan tulee olla enintään {{max}}",
+        "min": "Tämän kellonajan tulee olla vähintään {{min}}"
       }
+    },
+    "weekDay": {
+      "fri": "Perjantai",
+      "mon": "Maanantai", 
+      "sat": "Lauantai",
+      "sun": "Sunnuntai",
+      "thu": "Torstai",
+      "tue": "Tiistai",
+      "wed": "Keskiviikko"
+    },
+    "weekDayAbbreviation": {
+      "fri": "Pe",
+      "mon": "Ma", 
+      "sat": "La",
+      "sun": "Su",
+      "thu": "To",
+      "tue": "Ti",
+      "wed": "Ke"
     }
   },
   "helpPage": {

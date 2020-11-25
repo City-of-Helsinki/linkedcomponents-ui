@@ -11,17 +11,29 @@
 
   &.columns2 {
     @include medium_up {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
   &.columns3 {
     @include medium_up {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  &.columns4 {
+    @include medium_up {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 }
 
 .buttonWrapper {
   margin-top: var(--spacing-m);
+}
+
+.errorText {
+  color: var(--color-error);
+  display: block;
+  font-size: var(--fontsize-body-m);
+  margin-top: var(--spacing-2-xs);
 }
