@@ -17,6 +17,7 @@ import { OptionType } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { signIn, signOut } from '../../auth/authenticate';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
+import { clearEventFormData } from '../../event/utils';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
 
@@ -62,6 +63,11 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     history.push({ pathname });
   };
 
+  const goToCreateEvent = () => {
+    clearEventFormData();
+    goToPage(createEventItem.url);
+  };
+
   const navigationItems = [
     {
       label: t('navigation.tabs.events'),
@@ -77,7 +83,7 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     },
   ];
 
-  const addEventItem = {
+  const createEventItem = {
     label: t('navigation.tabs.createEvent'),
     url: `/${locale}${ROUTES.CREATE_EVENT}`,
   };
@@ -114,18 +120,18 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
           />
         ))}
         <Navigation.Item
-          active={isTabActive(addEventItem.url)}
+          active={isTabActive(createEventItem.url)}
           className={classNames(styles.navigationItem, styles.addEventItem, {
             [styles.hidden]: !showAddButton,
           })}
-          href={addEventItem.url}
+          href={createEventItem.url}
           label={
             <span className={styles.navigationItemLabel}>
               <IconPlus />
-              {addEventItem.label}
+              {createEventItem.label}
             </span>
           }
-          onClick={goToPage(addEventItem.url)}
+          onClick={goToCreateEvent}
         />
       </Navigation.Row>
       <Navigation.Actions>

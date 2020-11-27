@@ -2,11 +2,13 @@ import classNames from 'classnames';
 import { css } from 'emotion';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory, useLocation } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import Container from '../../app/layout/Container';
 import FormContainer from '../../app/layout/FormContainer';
 import { useTheme } from '../../app/theme/Theme';
+import { URL_PARAMS } from '../constants';
 import styles from './eventNavigation.module.scss';
 
 interface EventNavigationItem {
@@ -22,13 +24,35 @@ interface Props {
 
 const EventNavigation: React.FC<Props> = ({ items }) => {
   const { t } = useTranslation();
+  const history = useHistory();
+  const location = useLocation();
   const { theme } = useTheme();
-  const [activeTab, setActiveTab] = React.useState(0);
+  const searchParams = new URLSearchParams(location.search);
 
+  const defaultTab: number = React.useMemo(() => {
+    const tab = Number(searchParams.get(URL_PARAMS.TAB));
+
+    if (Number.isInteger(tab)) {
+      return tab < items.length && !items[tab].disabled ? tab : 0;
+    }
+    return 0;
+  }, [items, searchParams]);
+
+  const [activeTab, setActiveTab] = React.useState(defaultTab || 0);
+
+  const handleActiveTabChange = (index: number) => {
+    const search = location.search;
+    const searchParams = new URLSearchParams(search);
+
+    setActiveTab(index);
+
+    searchParams.set(URL_PARAMS.TAB, index.toString());
+    history.push({ ...location, search: searchParams.toString() });
+  };
   const handleItemClick = (item: EventNavigationItem, index: number) => () => {
     if (item.disabled) return;
 
-    setActiveTab(index);
+    handleActiveTabChange(index);
   };
 
   const isPreviousDisabled = !activeTab;
@@ -36,11 +60,11 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
     activeTab === items.length - 1 || !!items[activeTab + 1]?.disabled;
 
   const handlePreviousClick = () => {
-    setActiveTab(activeTab - 1);
+    handleActiveTabChange(activeTab - 1);
   };
 
   const handleNextClick = () => {
-    setActiveTab(activeTab + 1);
+    handleActiveTabChange(activeTab + 1);
   };
 
   return (

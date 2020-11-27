@@ -57,4 +57,8 @@ export const EXTLINK = {
   EXTLINK_YOUTUBE: 'extlink_youtube',
 };
 
+export enum FORM_NAMES {
+  EVENT_FORM = 'event-form',
+}
+
 export const MAIN_CONTENT_ID = 'maincontent';

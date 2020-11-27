@@ -68,5 +68,8 @@ export const clearAllState = async () => {
   await Promise.all([
     // Clear backend auth data
     store.dispatch(resetApiTokenData()),
+
+    // Clear session storage
+    sessionStorage.clear(),
   ]);
 };
