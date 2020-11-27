@@ -113,7 +113,7 @@ test('should validate min and max audience ages', async () => {
   ).toBeInTheDocument();
 });
 
-test('should validate menrolment start and end dates', async () => {
+test('should validate enrolment start and end dates', async () => {
   advanceTo('2020-11-10');
   renderComponent();
 
@@ -144,7 +144,7 @@ test('should validate menrolment start and end dates', async () => {
 
   await waitFor(() => {
     expect(
-      screen.queryByText(`Tämän kentän on oltava ${startTime} jälkeen`)
+      screen.queryByText(`Tämän päivämäärän tulee olla vähintään ${startTime}`)
     ).toBeInTheDocument();
   });
 });

@@ -1,10 +1,13 @@
 import { MockedProvider, MockedResponse } from '@apollo/react-testing';
+import { AnyAction, Store } from '@reduxjs/toolkit';
 import { act, fireEvent, render, RenderResult } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
 import React from 'react';
+import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
 import wait from 'waait';
 
+import { store as reduxStore } from '../domain/app/store/store';
 import { ThemeProvider } from '../domain/app/theme/Theme';
 
 type CustomRender = {
@@ -15,6 +18,7 @@ type CustomRender = {
       mocks?: MockedResponse[];
       path?: string;
       routes?: string[];
+      store?: Store<any, AnyAction>;
     }
   ): CustomRenderResult;
 };
@@ -42,14 +46,17 @@ const customRender: CustomRender = (
     mocks,
     routes = ['/'],
     history = createMemoryHistory({ initialEntries: routes }),
+    store = reduxStore,
   } = {}
 ) => {
   const Wrapper: React.FC = ({ children }) => (
-    <ThemeProvider>
-      <MockedProvider mocks={mocks}>
-        <Router history={history}>{children}</Router>
-      </MockedProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider>
+        <MockedProvider mocks={mocks}>
+          <Router history={history}>{children}</Router>
+        </MockedProvider>
+      </ThemeProvider>
+    </Provider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
@@ -65,18 +72,21 @@ const renderWithRoute: CustomRender = (
     path = '/',
     routes = ['/'],
     history = createMemoryHistory({ initialEntries: routes }),
+    store = reduxStore,
   } = {}
 ) => {
   const Wrapper: React.FC = ({ children }) => (
-    <ThemeProvider>
-      <MockedProvider mocks={mocks}>
-        <Router history={history}>
-          <Route exact path={path}>
-            {children}
-          </Route>
-        </Router>
-      </MockedProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider>
+        <MockedProvider mocks={mocks}>
+          <Router history={history}>
+            <Route exact path={path}>
+              {children}
+            </Route>
+          </Router>
+        </MockedProvider>
+      </ThemeProvider>
+    </Provider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });

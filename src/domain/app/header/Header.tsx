@@ -65,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
 
   const goToCreateEvent = () => {
     clearEventFormData();
-    goToPage(createEventItem.url);
+    goToPage(createEventItem.url)();
   };
 
   const navigationItems = [
