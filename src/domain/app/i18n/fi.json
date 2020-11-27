@@ -34,11 +34,17 @@
         "statusMessage_plural": "{{count}} vaihtoehtoa valittavissa, siirry nuolinäppäimillä ylös ja alas. Paina Enter-näppäintä valitaksesi."
       }
     },
+    "feedback": {
+      "text": "Anna palautetta ja vaikuta",
+      "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta"
+    },
     "placeholderDate": "pp.kk.vvvv",
     "placeholderDateTime": "pp.kk.vvvv hh.mm",
     "placeholderTime": "hh.mm",
     "showLess": "Näytä vähemmän",
     "showMore": "Näytä lisää",
+    "signIn": "Kirjaudu sisään",
+    "signOut": "Kirjaudu ulos",
     "timepicker": {
       "accessibility": {
         "buttonTimeList": "Kellonajat"
@@ -433,6 +439,11 @@
   "helpPage": {
     "pageTitle": "Lisätietoja"
   },
+  "logoutPage": {
+    "buttonGoToHome": "Etusivulle",
+    "pageTitle": "Olet kirjautunut ulos",
+    "text": "Olet kirjautunut ulos palvelusta. Kirjaudu takaisin sisään tai palaa etusivulle."
+  },
   "navigation": {
     "languages": {
       "en": "In English",
@@ -442,8 +453,6 @@
     "languageSelectorAriaLabel": "Suomi - kielivalikko",
     "menuToggleAriaLabel": "Valikko",
     "skipToContentLabel": "Siirry sisältöön",
-    "signIn": "Kirjaudu sisään",
-    "signOut": "Kirjaudu ulos",
     "tabs": {
       "createEvent": "Uusi tapahtuma",
       "events": "Tapahtumat",

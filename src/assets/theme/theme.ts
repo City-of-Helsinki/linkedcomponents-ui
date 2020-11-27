@@ -175,6 +175,10 @@ const theme: Theme = {
     '--delete-button-height': '56px',
     '--delete-button-padding': 'var(--spacing-s)',
   },
+  errorTemplate: {
+    '--error-template-icon-color': 'var(--color-bus)',
+    '--error-template-icon-size': '112px',
+  },
   eventNavigation: {
     '--circle-background-color': 'transparent',
     '--circle-border-color': 'var(--color-bus)',

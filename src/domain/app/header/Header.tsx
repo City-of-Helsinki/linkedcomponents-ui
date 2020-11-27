@@ -132,12 +132,12 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
         {/* USER */}
         <Navigation.User
           authenticated={authenticated}
-          label={t('navigation.signIn')}
+          label={t('common.signIn')}
           onSignIn={handleSignIn}
           userName={user?.profile.name || user?.profile.email}
         >
           <Navigation.Item
-            label={t('navigation.signOut')}
+            label={t('common.signOut')}
             href="#"
             icon={<IconSignout aria-hidden />}
             variant="supplementary"

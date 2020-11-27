@@ -34,11 +34,17 @@
         "statusMessage_plural": "{{count}} alternativ är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja."
       }
     },
+    "feedback": {
+      "text": "Ge respons och påverka",
+      "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
+    },
     "placeholderDate": "dd.mm.åååå",
     "placeholderDateTime": "dd.mm.åååå hh.mm",
     "placeholderTime": "hh.mm",
     "showLess": "Visa mindre",
     "showMore": "Visa mer",
+    "signIn": "Logga in",
+    "signOut": "Logga ut",
     "timepicker": {
       "accessibility": {
         "buttonTimeList": "Tider"
@@ -432,6 +438,11 @@
   "helpPage": {
     "pageTitle": "Läs mer"
   },
+  "logoutPage": {
+    "buttonGoToHome": "Till startsidan",
+    "pageTitle": "Du är utloggad",
+    "text": "Du har loggat ut från tjänsten. Logga in igen eller återvänd till startsidan."
+  },
   "navigation": {
     "languages": {
       "en": "In English",
@@ -440,8 +451,6 @@
     },
     "languageSelectorAriaLabel": "Svenska - språkval",
     "menuToggleAriaLabel": "Menyn",
-    "signIn": "Logga in",
-    "signOut": "Logga ut",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
       "createEvent": "Nytt evenemang",
