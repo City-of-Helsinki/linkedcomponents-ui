@@ -1,4 +1,5 @@
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { RestLink } from 'apollo-link-rest';
 
 import {
@@ -13,6 +14,9 @@ import {
   PlacesResponse,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
+import { apiTokenSelector } from '../../auth/selectors';
+import i18n from '../i18n/i18nInit';
+import { store } from '../store/store';
 import {
   addTypenameEvent,
   addTypenameKeyword,
@@ -53,6 +57,18 @@ const cache = new InMemoryCache({
       },
     },
   },
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = apiTokenSelector(store.getState());
+
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : null,
+      'Accept-language': i18n.language,
+    },
+  };
 });
 
 const linkedEventsLink = new RestLink({
@@ -111,7 +127,7 @@ const linkedEventsLink = new RestLink({
 
 const apolloClient = new ApolloClient({
   cache,
-  link: ApolloLink.from([linkedEventsLink]),
+  link: ApolloLink.from([authLink, linkedEventsLink]),
 });
 
 export default apolloClient;

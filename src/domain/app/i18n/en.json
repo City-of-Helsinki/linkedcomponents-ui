@@ -1,5 +1,11 @@
 {
   "appName": "Linked Events",
+  "authentication": {
+    "errorMessage": "An error occured while logging in. Please try again",
+    "networkError": {
+      "message": "Login error: Check your network connection or try again later"
+    }
+  },
   "common": {
     "and": "and",
     "at": "at {{time}}",
@@ -434,6 +440,8 @@
     },
     "languageSelectorAriaLabel": "English - language selection",
     "menuToggleAriaLabel": "Menu",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
     "skipToContentLabel": "Skip to content",
     "tabs": {
       "createEvent": "New event",

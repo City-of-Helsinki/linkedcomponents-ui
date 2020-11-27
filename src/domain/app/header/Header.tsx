@@ -1,9 +1,10 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
 import { Navigation } from 'hds-react/components/Navigation';
-import { IconPlus } from 'hds-react/icons';
+import { IconPlus, IconSignout } from 'hds-react/icons';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
 
 import {
@@ -14,6 +15,8 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
+import { signIn, signOut } from '../../auth/authenticate';
+import { authenticatedSelector, userSelector } from '../../auth/selectors';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
 
@@ -28,6 +31,8 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
   const history = useHistory();
   const location = useLocation();
   const { t } = useTranslation();
+  const authenticated = useSelector(authenticatedSelector);
+  const user = useSelector(userSelector);
 
   const languageOptions: OptionType[] = React.useMemo(() => {
     return Object.values(SUPPORTED_LANGUAGES).map((language) => ({
@@ -77,6 +82,10 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     url: `/${locale}${ROUTES.CREATE_EVENT}`,
   };
 
+  const handleSignIn = () => {
+    signIn(`${location.pathname}${location.search}`);
+  };
+
   const showAddButton =
     location.pathname !== `/${locale}${ROUTES.CREATE_EVENT}`;
 
@@ -120,6 +129,24 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
         />
       </Navigation.Row>
       <Navigation.Actions>
+        {/* USER */}
+        <Navigation.User
+          authenticated={authenticated}
+          label={t('navigation.signIn')}
+          onSignIn={handleSignIn}
+          userName={user?.profile.name || user?.profile.email}
+        >
+          <Navigation.Item
+            label={t('navigation.signOut')}
+            href="#"
+            icon={<IconSignout aria-hidden />}
+            variant="supplementary"
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              signOut();
+            }}
+          />
+        </Navigation.User>
         <Navigation.LanguageSelector
           buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
           className={classNames(

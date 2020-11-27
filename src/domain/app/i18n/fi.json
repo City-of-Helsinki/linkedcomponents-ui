@@ -1,5 +1,11 @@
 {
   "appName": "Linked Events",
+  "authentication": {
+    "errorMessage": "Tapahtui virhe. Yritä uudestaan",
+    "networkError": {
+      "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
+    }
+  },
   "common": {
     "and": "ja",
     "at": "klo {{time}}",
@@ -436,6 +442,8 @@
     "languageSelectorAriaLabel": "Suomi - kielivalikko",
     "menuToggleAriaLabel": "Valikko",
     "skipToContentLabel": "Siirry sisältöön",
+    "signIn": "Kirjaudu sisään",
+    "signOut": "Kirjaudu ulos",
     "tabs": {
       "createEvent": "Uusi tapahtuma",
       "events": "Tapahtumat",

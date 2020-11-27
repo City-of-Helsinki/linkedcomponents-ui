@@ -1,3 +1,8 @@
+import { Action } from '@reduxjs/toolkit';
+import { ThunkAction } from 'redux-thunk';
+
+import rootReducer from './domain/app/store/reducers';
+
 export type Language = 'en' | 'fi' | 'sv';
 
 export type OptionType = {
@@ -8,3 +13,7 @@ export type OptionType = {
 export type Error<T> = {
   key: string;
 } & T;
+
+export type StoreState = ReturnType<typeof rootReducer>;
+
+export type StoreThunk = ThunkAction<void, StoreState, null, Action<string>>;

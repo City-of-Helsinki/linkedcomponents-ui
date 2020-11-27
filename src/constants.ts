@@ -1,10 +1,14 @@
 export enum ROUTES {
+  CALLBACK = '/callback',
   CREATE_EVENT = '/event/create',
   EVENTS = '/events',
   HELP = '/help',
   HOME = '/',
+  LOGOUT = '/logout',
   SEARCH = '/search',
 }
+
+export const OIDC_API_TOKEN_ENDPOINT = `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`;
 
 // Supported languages
 export enum SUPPORTED_LANGUAGES {
