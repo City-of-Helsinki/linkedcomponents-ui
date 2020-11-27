@@ -1,15 +1,31 @@
 import { TFunction } from 'i18next';
-import { ArrayLocale, StringLocale, TestMessageParams } from 'yup';
+import {
+  ArrayLocale,
+  NumberLocale,
+  StringLocale,
+  TestMessageParams,
+} from 'yup';
 
 import { Error } from '../types';
 
 type ArrayError = Error<ArrayLocale>;
+type NumberError = Error<NumberLocale>;
 type StringError = Error<StringLocale>;
 
 export const createArrayError = (
   message: Partial<TestMessageParams>,
   key: string
 ): ArrayError => {
+  return {
+    ...message,
+    key,
+  };
+};
+
+export const createNumberError = (
+  message: Partial<TestMessageParams>,
+  key: string
+): NumberError => {
   return {
     ...message,
     key,

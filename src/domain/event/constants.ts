@@ -15,12 +15,22 @@ export enum RECURRING_EVENT_FIELDS {
   START_TIME = 'startTime',
 }
 
+export enum EXTENSION_COURSE_FIELDS {
+  ENROLMENT_END_TIME = 'enrolmentEndTime',
+  ENROLMENT_START_TIME = 'enrolmentStartTime',
+  MAXIMUM_ATTENDEE_CAPACITY = 'maximumAttendeeCapacity',
+  MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
+}
+
 export enum EVENT_FIELDS {
   AUDIENCE = 'audience',
+  AUDIENCE_MAX_AGE = 'audienceMaxAge',
+  AUDIENCE_MIN_AGE = 'audienceMinAge',
   DESCRIPTION = 'description',
   END_TIME = 'endTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
   EVENT_TIMES = 'eventTimes',
+  EXTENSION_COURSE = 'extensionCourse',
   FACEBOOK_URL = 'facebookUrl',
   HAS_PRICE = 'hasPrice',
   HAS_UMBRELLA = 'hasUmbrella',
@@ -86,10 +96,18 @@ export const RECURRING_EVENT_INITIAL_VALUES: RecurringEventSettings = {
 
 export const EVENT_INITIAL_VALUES: EventFields = {
   [EVENT_FIELDS.AUDIENCE]: [],
+  [EVENT_FIELDS.AUDIENCE_MAX_AGE]: '',
+  [EVENT_FIELDS.AUDIENCE_MIN_AGE]: '',
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.END_TIME]: null,
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
   [EVENT_FIELDS.EVENT_TIMES]: [],
+  [EVENT_FIELDS.EXTENSION_COURSE]: {
+    [EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME]: null,
+    [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME]: null,
+    [EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: '',
+    [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
+  },
   [EVENT_FIELDS.FACEBOOK_URL]: '',
   [EVENT_FIELDS.HAS_PRICE]: false,
   [EVENT_FIELDS.HAS_UMBRELLA]: false,

@@ -14,9 +14,9 @@ import {
   RECURRING_EVENT_FIELDS,
   RECURRING_EVENT_INITIAL_VALUES,
 } from '../../../constants';
+import styles from '../../../eventPage.module.scss';
 import { RecurringEventSettings } from '../../../types';
 import { createRecurringEventValidationSchema } from '../../../utils';
-import styles from './recurringEventsForm.module.scss';
 
 interface Props {
   onSubmit: (values: RecurringEventSettings) => void;
@@ -78,9 +78,7 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
                     component={DatepickerField}
                     name={RECURRING_EVENT_FIELDS.START_DATE}
                     label={t('event.form.labelRecurringEventStartDate')}
-                    placeholder={t(
-                      'event.form.placeholderRecurringEventStartDate'
-                    )}
+                    placeholder={t('common.placeholderDate')}
                     required={true}
                     timeSelector={false}
                   />
@@ -90,9 +88,7 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
                     component={DatepickerField}
                     name={RECURRING_EVENT_FIELDS.END_DATE}
                     label={t('event.form.labelRecurringEventEndDate')}
-                    placeholder={t(
-                      'event.form.placeholderRecurringEventEndDate'
-                    )}
+                    placeholder={t('common.placeholderDate')}
                     required={true}
                     timeSelector={false}
                   />
@@ -106,9 +102,7 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
                     component={TimepickerField}
                     name={RECURRING_EVENT_FIELDS.START_TIME}
                     label={t(`event.form.labelRecurringEventStartTime.${type}`)}
-                    placeholder={t(
-                      'event.form.placeholderRecurringEventStartTime'
-                    )}
+                    placeholder={t('common.placeholderTime')}
                     required={true}
                   />
                 </div>
@@ -117,9 +111,7 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
                     component={TimepickerField}
                     name={RECURRING_EVENT_FIELDS.END_TIME}
                     label={t(`event.form.labelRecurringEventEndTime.${type}`)}
-                    placeholder={t(
-                      'event.form.placeholderRecurringEventEndTime'
-                    )}
+                    placeholder={t('common.placeholderTime')}
                     required={true}
                   />
                 </div>

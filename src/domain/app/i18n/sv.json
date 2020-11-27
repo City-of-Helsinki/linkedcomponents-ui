@@ -28,6 +28,9 @@
         "statusMessage_plural": "{{count}} alternativ är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja."
       }
     },
+    "placeholderDate": "dd.mm.åååå",
+    "placeholderDateTime": "dd.mm.åååå hh.mm",
+    "placeholderTime": "hh.mm",
     "showLess": "Visa mindre",
     "showMore": "Visa mer",
     "timepicker": {
@@ -56,11 +59,22 @@
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
+      "extensionCourse": {
+        "labelEnrolmentEndTime": "Registreringen slutar",
+        "labelEnrolmentStartTime": "Registreringen börjar",
+        "labelMaximumAttendeeCapacity": "Maximalt antal deltagare",
+        "labelMinimimAttendeeCapacity": "Minsta antal deltagare",
+        "placeholderMaximumAttendeeCapacity": "Ange maximalt antal deltagare",
+        "placeholderMinimimAttendeeCapacity": "Ange minsta antal deltagare"
+      },
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
+      "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik publik, välj inget.",
         "event": "Om evenemanget inte har en specifik publik, välj inget."
       },
+      "infoTextAudienceAge": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextEnrolmentTime": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEventTimes1": {
         "course": "För att lägga till en flerdagars återkommande kurs finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande kurs” -verktyg.",
         "event": "För att lägga till en flerdagars återkommande evenemang finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande evenemang” -verktyg."
@@ -115,6 +129,8 @@
       },
       "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
+      "labelAudienceMaxAge": "Högsta ålder",
+      "labelAudienceMinAge": "Lägsta ålder",
       "labelDescription": {
         "course": "Beskrivning av kursen {{langText}}",
         "event": "Beskrivning av evenemanget {{langText}}"
@@ -192,11 +208,18 @@
       },
       "notificationTitleOffers": "Prisinformation",
       "notificationTitleType": "Evenemangtyp",
+      "placeholderAudienceMaxAge": {
+        "course": "Ange högsta ålder för kursen",
+        "event": "Ange högsta ålder för evenemanget"
+      },
+      "placeholderAudienceMinAge": {
+        "course": "Ange lägsta ålder för kursen",
+        "event": "Ange lägsta ålder för evenemanget"
+      },
       "placeholderDescription": {
         "course": "Ange en beskrivning av kursen",
         "event": "Ange en beskrivning av evenemanget"
       },
-      "placeholderEndTime": "dd.mm.åååå hh.mm",
       "placeholderFacebookUrl": {
         "course": "Ange webbadressen till kursens Facebook-sida",
         "event": "Ange webbadressen till evenemangets Facebook-sida"
@@ -226,15 +249,10 @@
         "course": "Ange kursarrangörens namn",
         "event": "Ange evenemangsarrangörens namn"
       },
-      "placeholderRecurringEventEndDate": "dd.mm.åååå",
-      "placeholderRecurringEventEndTime": "hh.mm",
-      "placeholderRecurringEventStartDate": "dd.mm.åååå",
-      "placeholderRecurringEventStartTime": "hh.mm",
       "placeholderShortDescription": {
         "course": "Ange en kort beskrivning av kursen",
         "event": "Ange en kort beskrivning av evenemanget"
       },
-      "placeholderStartTime": "dd.mm.åååå hh.mm",
       "placeholderTwitterUrl": {
         "course": "Ange webbadressen till kursens Twitter-sida",
         "event": "Ange webbadressen till evenemangets Twitter-sida"
@@ -258,11 +276,14 @@
         "textRepeatInterval": "Varje vecka",
         "textRepeatInterval_plural": "Var {{count}}: e vecka"
       },
+      "titleAttendeeCapacity": "Deltagarkapacitet",
       "titleAudience": "Målgrupper",
+      "titleAudienceAge": "Åldersbegränsningar",
       "titleDescription": {
         "course": "Kursbeskrivning",
         "event": "Evenemangbeskrivning"
       },
+      "titleEnrolmentTime": "Registreringstid",
       "titleEventType": "Välj en evenemangtyp",
       "titleInfoLanguages": {
         "course": "Inmatningsspråk för kurs",
@@ -304,6 +325,7 @@
       "buttonNext": "Nästa",
       "buttonPrevious": "Tidigare",
       "steps": {
+        "additionalInfo": "Ytterligare information",
         "audience": "Mål",
         "classification": "Klassificering",
         "commitment": "Engagemang",

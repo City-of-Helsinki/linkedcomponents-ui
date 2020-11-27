@@ -22,10 +22,31 @@
   p {
     margin-top: 0;
   }
+}
 
-  .notification {
-    @include medium-up {
-      margin-top: var(--label-height);
-    }
+.notification {
+  @include medium-up {
+    margin-top: var(--label-height);
+  }
+}
+
+.splittedRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.noBottomMargin {
+  @include medium-up {
+    margin-bottom: 0px !important;
+  }
+}
+
+.noTopMargin {
+  @include medium-up {
+    margin-top: 0px !important;
   }
 }
