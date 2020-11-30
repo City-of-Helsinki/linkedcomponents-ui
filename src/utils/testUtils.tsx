@@ -5,6 +5,8 @@ import { createMemoryHistory, History } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Router } from 'react-router-dom';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import wait from 'waait';
 
 import { store as reduxStore } from '../domain/app/store/store';
@@ -93,7 +95,12 @@ const renderWithRoute: CustomRender = (
   return { ...renderResult, history };
 };
 
-export { actWait, customRender as render, renderWithRoute };
+const getMockReduxStore = () => {
+  const middlewares = [thunk];
+  return configureMockStore(middlewares)();
+};
+
+export { actWait, customRender as render, getMockReduxStore, renderWithRoute };
 
 // re-export everything
 export * from '@testing-library/react';

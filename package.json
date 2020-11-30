@@ -79,6 +79,7 @@
       "src/domain/app/apollo/apolloClient.ts",
       "src/domain/app/apollo/utils.ts",
       "src/domain/app/i18n/i18nInit.ts",
+      "src/domain/auth/userManager.ts",
       "src/generated/graphql.tsx",
       "src/utils/mockDataUtils.ts",
       "src/utils/testUtils.ts"
@@ -120,6 +121,7 @@
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jest-localstorage-mock": "^2.4.3",
     "prettier": "^2.1.2",
-    "react-test-renderer": "^16.13.1"
+    "react-test-renderer": "^16.13.1",
+    "redux-mock-store": "^1.5.4"
   }
 }
