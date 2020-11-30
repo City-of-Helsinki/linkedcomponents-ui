@@ -13,6 +13,7 @@ const FormikPersist = ({
   isSessionStorage = false,
   name,
 }: PersistProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formik = useFormikContext<any>();
 
   const saveForm = React.useCallback(
@@ -36,6 +37,7 @@ const FormikPersist = ({
     const maybeState = isSessionStorage
       ? window.sessionStorage.getItem(name)
       : window.localStorage.getItem(name);
+
     if (maybeState && maybeState !== null) {
       formik.setFormikState(JSON.parse(maybeState));
 
