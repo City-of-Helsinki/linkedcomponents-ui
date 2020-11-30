@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { render, waitFor } from '@testing-library/react';
 import { Formik, FormikProps } from 'formik';
 import * as React from 'react';

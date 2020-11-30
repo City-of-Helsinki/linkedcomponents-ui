@@ -1,3 +1,6 @@
+import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
+import { StoreState } from './types';
+
 export enum ROUTES {
   CALLBACK = '/callback',
   CREATE_EVENT = '/event/create',
@@ -60,5 +63,9 @@ export const EXTLINK = {
 export enum FORM_NAMES {
   EVENT_FORM = 'event-form',
 }
+
+export const defaultStoreState: StoreState = {
+  authentication: defaultAuthReducerState,
+};
 
 export const MAIN_CONTENT_ID = 'maincontent';

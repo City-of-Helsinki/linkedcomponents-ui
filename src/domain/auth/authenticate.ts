@@ -11,7 +11,7 @@ import {
   resetApiTokenData,
   startFetchingToken,
 } from './actions';
-import { ApiTokenResponse } from './types';
+import { TokenResponse } from './types';
 import userManager from './userManager';
 
 export const signIn = (path?: string) => {
@@ -38,7 +38,7 @@ export const getApiToken = (accessToken: string): StoreThunk => async (
   try {
     dispatch(startFetchingToken());
 
-    const res: AxiosResponse<ApiTokenResponse> = await axios.get(
+    const res: AxiosResponse<TokenResponse> = await axios.get(
       OIDC_API_TOKEN_ENDPOINT,
       {
         headers: {

@@ -1,9 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { API_TOKEN_ACTIONS } from './constants';
-import { ApiTokenResponse } from './types';
+import { TokenResponse } from './types';
 
-const fetchTokenSuccess = createAction<ApiTokenResponse>(
+const fetchTokenSuccess = createAction<TokenResponse>(
   API_TOKEN_ACTIONS.FETCH_TOKEN_SUCCESS
 );
 
