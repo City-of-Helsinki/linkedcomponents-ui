@@ -6,6 +6,8 @@ import { ReactComponent as SpinnerSvg } from '../../../assets/images/svg/spinner
 import { useTheme } from '../../../domain/app/theme/Theme';
 import styles from './loadingSpinner.module.scss';
 
+export const testId = 'loading-spinner';
+
 interface Props {
   className?: string;
   isLoading: boolean;
@@ -22,7 +24,7 @@ const LoadingSpinner: React.FC<Props> = ({
       {isLoading ? (
         <div
           className={classNames(styles.loadingSpinnerWrapper, className)}
-          data-testid="loading-spinner"
+          data-testid={testId}
         >
           <div
             className={classNames(

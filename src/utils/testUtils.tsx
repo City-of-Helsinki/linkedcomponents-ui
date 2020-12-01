@@ -9,8 +9,10 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import wait from 'waait';
 
+import { defaultStoreState } from '../constants';
 import { store as reduxStore } from '../domain/app/store/store';
 import { ThemeProvider } from '../domain/app/theme/Theme';
+import { StoreState } from '../types';
 
 type CustomRender = {
   (
@@ -20,7 +22,7 @@ type CustomRender = {
       mocks?: MockedResponse[];
       path?: string;
       routes?: string[];
-      store?: Store<any, AnyAction>;
+      store?: Store<StoreState, AnyAction>;
     }
   ): CustomRenderResult;
 };
@@ -95,9 +97,9 @@ const renderWithRoute: CustomRender = (
   return { ...renderResult, history };
 };
 
-const getMockReduxStore = () => {
+const getMockReduxStore = (initialState: StoreState = defaultStoreState) => {
   const middlewares = [thunk];
-  return configureMockStore(middlewares)();
+  return configureMockStore(middlewares)(initialState);
 };
 
 export { actWait, customRender as render, getMockReduxStore, renderWithRoute };

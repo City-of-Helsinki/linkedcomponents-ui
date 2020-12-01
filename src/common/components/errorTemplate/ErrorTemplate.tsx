@@ -27,25 +27,23 @@ const ErrorPage: React.FC<Props> = ({ buttons, text }) => {
   };
 
   return (
-    <div>
-      <Container
-        className={classNames(styles.errorTemplate, css(theme.errorTemplate))}
-      >
-        <div className={styles.content}>
-          <IconAlertCircle className={styles.icon} />
-          <p>{text}</p>
-          <div className={styles.buttonsWrapper}>{buttons}</div>
-          <Button
-            iconLeft={<IconSpeechbubbleText />}
-            iconRight={<IconAngleRight />}
-            onClick={goToFeedback}
-            variant="supplementary"
-          >
-            {t('common.feedback.text')}
-          </Button>
-        </div>
-      </Container>
-    </div>
+    <Container
+      className={classNames(styles.errorTemplate, css(theme.errorTemplate))}
+    >
+      <div className={styles.content}>
+        <IconAlertCircle className={styles.icon} />
+        <p>{text}</p>
+        <div className={styles.buttonsWrapper}>{buttons}</div>
+        <Button
+          iconLeft={<IconSpeechbubbleText />}
+          iconRight={<IconAngleRight />}
+          onClick={goToFeedback}
+          variant="supplementary"
+        >
+          {t('common.feedback.text')}
+        </Button>
+      </div>
+    </Container>
   );
 };
 
