@@ -5,6 +5,8 @@ import { RestLink } from 'apollo-link-rest';
 import {
   Event,
   EventsResponse,
+  Image,
+  ImagesResponse,
   Keyword,
   KeywordSet,
   KeywordSetsResponse,
@@ -19,6 +21,7 @@ import i18n from '../i18n/i18nInit';
 import { store } from '../store/store';
 import {
   addTypenameEvent,
+  addTypenameImage,
   addTypenameKeyword,
   addTypenameKeywordSet,
   addTypenameLanguage,
@@ -33,6 +36,12 @@ const cache = new InMemoryCache({
         event(_, { args, toReference }) {
           return toReference({
             __typename: 'Event',
+            id: args?.id,
+          });
+        },
+        image(_, { args, toReference }) {
+          return toReference({
+            __typename: 'Image',
             id: args?.id,
           });
         },
@@ -83,6 +92,15 @@ const linkedEventsLink = new RestLink({
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((event) => addTypenameEvent(event));
+
+      return data;
+    },
+    Image: (image: Image): Image | null => {
+      return addTypenameImage(image);
+    },
+    ImagesResponse: (data: ImagesResponse): ImagesResponse => {
+      data.meta = addTypenameMeta(data.meta);
+      data.data = data.data.map((image) => addTypenameImage(image));
 
       return data;
     },

@@ -22,6 +22,8 @@ export type Query = {
   keywordSet?: Maybe<KeywordSet>;
   keywordSets: KeywordSetsResponse;
   languages: LanguagesResponse;
+  image: Image;
+  images: ImagesResponse;
   place: Place;
   places: PlacesResponse;
 };
@@ -89,6 +91,19 @@ export type QueryKeywordSetsArgs = {
 };
 
 
+export type QueryImageArgs = {
+  id?: Maybe<Scalars['ID']>;
+};
+
+
+export type QueryImagesArgs = {
+  dataSource?: Maybe<Scalars['String']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  publisher?: Maybe<Scalars['ID']>;
+};
+
+
 export type QueryPlaceArgs = {
   id: Scalars['ID'];
 };
@@ -109,6 +124,12 @@ export type EventsResponse = {
   __typename?: 'EventsResponse';
   meta: Meta;
   data: Array<Maybe<Event>>;
+};
+
+export type ImagesResponse = {
+  __typename?: 'ImagesResponse';
+  meta: Meta;
+  data: Array<Maybe<Image>>;
 };
 
 export type KeywordsResponse = {
@@ -206,6 +227,7 @@ export type ExtensionCourse = {
 export type Image = {
   __typename?: 'Image';
   id?: Maybe<Scalars['ID']>;
+  altText?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   cropping?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
@@ -327,11 +349,6 @@ export type Position = {
 export type ExternalLinkFieldsFragment = (
   { __typename?: 'ExternalLink' }
   & Pick<ExternalLink, 'name' | 'link'>
-);
-
-export type ImageFieldsFragment = (
-  { __typename?: 'Image' }
-  & Pick<Image, 'id' | 'name' | 'url'>
 );
 
 export type OfferFieldsFragment = (
@@ -459,6 +476,48 @@ export type MetaFieldsFragment = (
   & Pick<Meta, 'count' | 'next' | 'previous'>
 );
 
+export type ImageFieldsFragment = (
+  { __typename?: 'Image' }
+  & Pick<Image, 'id' | 'atId' | 'altText' | 'license' | 'name' | 'photographerName' | 'url'>
+);
+
+export type ImageQueryVariables = Exact<{
+  id: Scalars['ID'];
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type ImageQuery = (
+  { __typename?: 'Query' }
+  & { image: (
+    { __typename?: 'Image' }
+    & ImageFieldsFragment
+  ) }
+);
+
+export type ImagesQueryVariables = Exact<{
+  dataSource?: Maybe<Scalars['String']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  publisher?: Maybe<Scalars['ID']>;
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type ImagesQuery = (
+  { __typename?: 'Query' }
+  & { images: (
+    { __typename?: 'ImagesResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & MetaFieldsFragment
+    ), data: Array<Maybe<(
+      { __typename?: 'Image' }
+      & ImageFieldsFragment
+    )>> }
+  ) }
+);
+
 export type KeywordFieldsFragment = (
   { __typename?: 'Keyword' }
   & Pick<Keyword, 'id' | 'atId' | 'dataSource' | 'hasUpcomingEvents'>
@@ -501,7 +560,7 @@ export type KeywordsQuery = (
     { __typename?: 'KeywordsResponse' }
     & { meta: (
       { __typename?: 'Meta' }
-      & Pick<Meta, 'count' | 'next' | 'previous'>
+      & MetaFieldsFragment
     ), data: Array<Maybe<(
       { __typename?: 'Keyword' }
       & KeywordFieldsFragment
@@ -680,7 +739,11 @@ export const ExternalLinkFieldsFragmentDoc = gql`
 export const ImageFieldsFragmentDoc = gql`
     fragment imageFields on Image {
   id
+  atId
+  altText
+  license
   name
+  photographerName
   url
 }
     `;
@@ -934,6 +997,83 @@ export function useEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Eve
 export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
 export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
 export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
+export const ImageDocument = gql`
+    query Image($id: ID!, $createPath: Any) {
+  image(id: $id) @rest(type: "Image", pathBuilder: $createPath) {
+    ...imageFields
+  }
+}
+    ${ImageFieldsFragmentDoc}`;
+
+/**
+ * __useImageQuery__
+ *
+ * To run a query within a React component, call `useImageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useImageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useImageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useImageQuery(baseOptions?: Apollo.QueryHookOptions<ImageQuery, ImageQueryVariables>) {
+        return Apollo.useQuery<ImageQuery, ImageQueryVariables>(ImageDocument, baseOptions);
+      }
+export function useImageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ImageQuery, ImageQueryVariables>) {
+          return Apollo.useLazyQuery<ImageQuery, ImageQueryVariables>(ImageDocument, baseOptions);
+        }
+export type ImageQueryHookResult = ReturnType<typeof useImageQuery>;
+export type ImageLazyQueryHookResult = ReturnType<typeof useImageLazyQuery>;
+export type ImageQueryResult = Apollo.QueryResult<ImageQuery, ImageQueryVariables>;
+export const ImagesDocument = gql`
+    query Images($dataSource: String, $page: Int, $pageSize: Int, $publisher: ID, $createPath: Any) {
+  images(dataSource: $dataSource, page: $page, pageSize: $pageSize, publisher: $publisher) @rest(type: "ImagesResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...imageFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${ImageFieldsFragmentDoc}`;
+
+/**
+ * __useImagesQuery__
+ *
+ * To run a query within a React component, call `useImagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useImagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useImagesQuery({
+ *   variables: {
+ *      dataSource: // value for 'dataSource'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      publisher: // value for 'publisher'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useImagesQuery(baseOptions?: Apollo.QueryHookOptions<ImagesQuery, ImagesQueryVariables>) {
+        return Apollo.useQuery<ImagesQuery, ImagesQueryVariables>(ImagesDocument, baseOptions);
+      }
+export function useImagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ImagesQuery, ImagesQueryVariables>) {
+          return Apollo.useLazyQuery<ImagesQuery, ImagesQueryVariables>(ImagesDocument, baseOptions);
+        }
+export type ImagesQueryHookResult = ReturnType<typeof useImagesQuery>;
+export type ImagesLazyQueryHookResult = ReturnType<typeof useImagesLazyQuery>;
+export type ImagesQueryResult = Apollo.QueryResult<ImagesQuery, ImagesQueryVariables>;
 export const KeywordDocument = gql`
     query Keyword($id: ID!, $createPath: Any) {
   keyword(id: $id) @rest(type: "Keyword", pathBuilder: $createPath) {
@@ -972,16 +1112,15 @@ export const KeywordsDocument = gql`
     query Keywords($dataSource: String, $freeText: String, $hasUpcomingEvents: Boolean, $page: Int, $pageSize: Int, $showAllKeywords: Boolean, $sort: String, $text: String, $createPath: Any) {
   keywords(dataSource: $dataSource, freeText: $freeText, hasUpcomingEvents: $hasUpcomingEvents, page: $page, pageSize: $pageSize, showAllKeywords: $showAllKeywords, sort: $sort, text: $text) @rest(type: "KeywordsResponse", pathBuilder: $createPath) {
     meta {
-      count
-      next
-      previous
+      ...metaFields
     }
     data {
       ...keywordFields
     }
   }
 }
-    ${KeywordFieldsFragmentDoc}`;
+    ${MetaFieldsFragmentDoc}
+${KeywordFieldsFragmentDoc}`;
 
 /**
  * __useKeywordsQuery__

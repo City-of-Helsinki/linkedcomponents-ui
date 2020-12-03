@@ -47,6 +47,13 @@ module.exports = buildSchema(/* GraphQL */ `
     keywordSet(id: ID!, include: [String]): KeywordSet
     keywordSets(include: [String]): KeywordSetsResponse!
     languages: LanguagesResponse!
+    image(id: ID): Image!
+    images(
+      dataSource: String
+      page: Int
+      pageSize: Int
+      publisher: ID
+    ): ImagesResponse!
     place(id: ID!): Place!
     places(
       dataSource: String
@@ -63,6 +70,11 @@ module.exports = buildSchema(/* GraphQL */ `
   type EventsResponse {
     meta: Meta!
     data: [Event]!
+  }
+
+  type ImagesResponse {
+    meta: Meta!
+    data: [Image]!
   }
 
   type KeywordsResponse {
@@ -153,6 +165,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Image {
     id: ID
+    altText: String
     createdTime: String
     cropping: String
     dataSource: String

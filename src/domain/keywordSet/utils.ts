@@ -2,17 +2,12 @@ import {
   KeywordSetQueryVariables,
   KeywordSetsQueryVariables,
 } from '../../generated/graphql';
+import { PathBuilderProps } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 
-interface KeywordSetPathBuilderProps {
-  args: KeywordSetQueryVariables;
-}
-
-interface KeywordSetsPathBuilderProps {
-  args: KeywordSetsQueryVariables;
-}
-
-export const keywordSetPathBuilder = ({ args }: KeywordSetPathBuilderProps) => {
+export const keywordSetPathBuilder = ({
+  args,
+}: PathBuilderProps<KeywordSetQueryVariables>) => {
   const { id, include } = args;
   const variableToKeyItems = [{ key: 'include', value: include }];
 
@@ -23,7 +18,7 @@ export const keywordSetPathBuilder = ({ args }: KeywordSetPathBuilderProps) => {
 
 export const keywordSetsPathBuilder = ({
   args,
-}: KeywordSetsPathBuilderProps) => {
+}: PathBuilderProps<KeywordSetsQueryVariables>) => {
   const { include } = args;
   const variableToKeyItems = [{ key: 'include', value: include }];
 

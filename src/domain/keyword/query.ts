@@ -39,9 +39,7 @@ export const QUERY_KEYWORD = gql`
       text: $text
     ) @rest(type: "KeywordsResponse", pathBuilder: $createPath) {
       meta {
-        count
-        next
-        previous
+        ...metaFields
       }
       data {
         ...keywordFields

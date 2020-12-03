@@ -7,24 +7,21 @@ import {
   KeywordQueryVariables,
   KeywordsQueryVariables,
 } from '../../generated/graphql';
+import { PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 
-interface KeywordPathBuilderProps {
-  args: KeywordQueryVariables;
-}
-
-interface KeywordsPathBuilderProps {
-  args: KeywordsQueryVariables;
-}
-
-export const keywordPathBuilder = ({ args }: KeywordPathBuilderProps) => {
+export const keywordPathBuilder = ({
+  args,
+}: PathBuilderProps<KeywordQueryVariables>) => {
   const { id } = args;
 
   return `/keyword/${id}/`;
 };
 
-export const keywordsPathBuilder = ({ args }: KeywordsPathBuilderProps) => {
+export const keywordsPathBuilder = ({
+  args,
+}: PathBuilderProps<KeywordsQueryVariables>) => {
   const {
     dataSource,
     freeText,

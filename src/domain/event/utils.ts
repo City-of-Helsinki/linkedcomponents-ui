@@ -14,7 +14,7 @@ import {
   WEEK_DAY,
 } from '../../constants';
 import { EventQueryVariables } from '../../generated/graphql';
-import { OptionType } from '../../types';
+import { OptionType, PathBuilderProps } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   createArrayError,
@@ -315,11 +315,13 @@ export const createRecurringEventValidationSchema = () => {
   });
 };
 
-interface EventPathBuilderProps {
-  args: EventQueryVariables;
-}
+export const createAddImageValidationSchema = () => {
+  return Yup.object().shape({});
+};
 
-export const eventPathBuilder = ({ args }: EventPathBuilderProps) => {
+export const eventPathBuilder = ({
+  args,
+}: PathBuilderProps<EventQueryVariables>) => {
   const { id, include } = args;
   const variableToKeyItems = [{ key: 'include', value: include }];
 
