@@ -38,7 +38,7 @@ const FormikPersist = ({
       ? window.sessionStorage.getItem(name)
       : window.localStorage.getItem(name);
 
-    if (maybeState && maybeState !== null) {
+    if (maybeState) {
       formik.setFormikState(JSON.parse(maybeState));
 
       // Validate form after setting state

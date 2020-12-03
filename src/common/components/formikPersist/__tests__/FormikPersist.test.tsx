@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { render, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import { Formik, FormikProps } from 'formik';
 import * as React from 'react';
 
@@ -38,7 +38,7 @@ test('attempts to rehydrate on mount', async () => {
 
   expect(injected.values.name).toEqual('Name from local storage');
 
-  await waitFor(() => {
+  act(() => {
     injected.setValues({ name: 'changed value' });
   });
 
@@ -77,9 +77,10 @@ test('attempts to rehydrate on mount if session storage is true on props', async
 
   expect(injected.values.name).toEqual('Name from session storage');
 
-  await waitFor(() => {
+  act(() => {
     injected.setValues({ name: 'changed value' });
   });
+
   expect(injected.values.name).toEqual('changed value');
 
   await waitFor(() => {
