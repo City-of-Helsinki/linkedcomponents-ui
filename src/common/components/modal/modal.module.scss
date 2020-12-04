@@ -1,6 +1,7 @@
 @import 'breakpoints';
 
 .modalPortal {
+  --modal-label-height: 22px;
   --modal-background-color: var(--color-white);
   --modal-bottom: 0px;
   --modal-max-width: 1157px;

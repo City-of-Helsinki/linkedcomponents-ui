@@ -122,6 +122,10 @@ type FormLanguageSelectorCSSProperties = {
   '--form-language-selector-color-icon'?: string;
 };
 
+type ImageSelectorCSSProperties = {
+  '--image-selector-focus-outline-color'?: string;
+};
+
 type LanguageSelectorCSSProperties = {
   '--dropdown-background-default'?: string;
   '--dropdown-border-color-default'?: string;
@@ -147,9 +151,10 @@ type LoadingSpinnerCSSProperties = {
   '--spinner-stroke-width'?: string;
 };
 
-type MocalCSSProperties = {
+type ModalCSSProperties = {
   '--modal-background-color'?: string;
   '--modal-bottom'?: string;
+  '--modal-label-height'?: string;
   '--modal-max-width'?: string;
   '--modal-top'?: string;
   '--modal-z-index'?: number;
@@ -285,10 +290,11 @@ export type Theme = {
   errorTemplate: ErrorTemplateCSSProperties;
   eventNavigation: EventNavigationCSSProperties;
   formLanguageSelector: FormLanguageSelectorCSSProperties;
+  imageSelector: ImageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;
-  modal: MocalCSSProperties;
+  modal: ModalCSSProperties;
   navigation: NavigationCSSProperties;
   notification: {
     size?: {
@@ -319,6 +325,7 @@ const defaultTheme: Theme = {
   errorTemplate: {},
   eventNavigation: {},
   formLanguageSelector: {},
+  imageSelector: {},
   languageSelector: {},
   layout: {},
   loadingSpinner: {},

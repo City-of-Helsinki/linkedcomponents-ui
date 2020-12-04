@@ -195,6 +195,9 @@ const theme: Theme = {
   formLanguageSelector: {
     '--form-language-selector-color-icon': 'var(--color-success)',
   },
+  imageSelector: {
+    '--image-selector-focus-outline-color': 'var(--color-coat-of-arms)',
+  },
   layout: {
     '--page-background-color': 'var(--color-white)',
   },
@@ -220,6 +223,7 @@ const theme: Theme = {
   modal: {
     '--modal-background-color': 'var(--color-white)',
     '--modal-bottom': '0px',
+    '--modal-label-height': '22px',
     '--modal-max-width': '1157px',
     '--modal-top': '0px',
     '--modal-z-index': 100,

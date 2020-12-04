@@ -1,0 +1,86 @@
+@import 'breakpoints';
+
+.imageSelector {
+  --image-selector-focus-outline-color: var(--color-coat-of-arms);
+
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    grid-template-columns: 1fr auto;
+  }
+
+  .imagesGrid {
+    display: grid;
+    grid-auto-rows: 1fr;
+    grid-gap: var(--spacing-m);
+    grid-template-columns: repeat(3, 1fr);
+
+    @include medium-up {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .imagesGrid::before {
+    content: '';
+    width: 0;
+    padding-bottom: 100%;
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+  }
+
+  .imagesGrid > *:first-child {
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+  }
+
+  .image {
+    --border-width: 2px;
+    --outline-gutter: 2px;
+    --outline-width: 3px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    outline: none;
+  }
+
+  .image:disabled {
+    cursor: not-allowed;
+  }
+
+  .image:after {
+    --size: 100%;
+    border: var(--outline-width) solid transparent;
+    content: '';
+    height: var(--size);
+    position: absolute;
+    width: var(--size);
+  }
+
+  .image:focus:after,
+  .image:not([disabled]):hover:after,
+  .image.checked:after {
+    --size: calc(
+      100% +
+        calc(
+          var(--outline-width) * 2 + var(--border-width) * 2 +
+            var(--outline-gutter) * 2
+        )
+    );
+    border-color: var(--image-selector-focus-outline-color);
+  }
+
+  .image.checked:after {
+    background-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .buttonWrapper {
+    display: flex;
+  }
+}

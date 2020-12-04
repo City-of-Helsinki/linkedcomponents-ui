@@ -82,21 +82,24 @@ export const fakeImages = (
   __typename: 'ImagesResponse',
 });
 
-export const fakeImage = (overrides?: Partial<Image>): Image =>
-  merge<Image, typeof overrides>(
+export const fakeImage = (overrides?: Partial<Image>): Image => {
+  const id = faker.random.uuid();
+
+  return merge<Image, typeof overrides>(
     {
-      id: faker.random.uuid(),
-      atId: 'https://api.hel.fi/linkedevents-test/v1/image/48566/',
+      id,
+      atId: `https://api.hel.fi/linkedevents-test/v1/image/${id}/`,
       altText: faker.image.cats(),
       license: 'cc_by',
       name: faker.random.words(),
-      url: 'https://api.hel.fi/linkedevents-test/media/images/test.png',
+      url: faker.internet.url(),
       cropping: '59,0,503,444',
       photographerName: faker.name.firstName(),
       __typename: 'Image',
     },
     overrides
   );
+};
 
 export const fakeKeywords = (
   count = 1,
