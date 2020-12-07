@@ -1,6 +1,7 @@
 import reduce from 'lodash/reduce';
 
 import {
+  AddImageSettings,
   EventFields,
   MultiLanguageObject,
   RecurringEventSettings,
@@ -13,6 +14,11 @@ export enum RECURRING_EVENT_FIELDS {
   REPEAT_INTERVAL = 'repeatInterval',
   START_DATE = 'startDate',
   START_TIME = 'startTime',
+}
+
+export enum ADD_IMAGE_FIELDS {
+  SELECTED_IMAGE = 'selectedImage',
+  URL = 'url',
 }
 
 export enum EXTENSION_COURSE_FIELDS {
@@ -92,6 +98,11 @@ export const RECURRING_EVENT_INITIAL_VALUES: RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: 1,
   [RECURRING_EVENT_FIELDS.START_DATE]: null,
   [RECURRING_EVENT_FIELDS.START_TIME]: '',
+};
+
+export const ADD_IMAGE_INITIAL_VALUES: AddImageSettings = {
+  [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [],
+  [ADD_IMAGE_FIELDS.URL]: '',
 };
 
 export const EVENT_INITIAL_VALUES: EventFields = {

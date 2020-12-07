@@ -1,0 +1,25 @@
+@import 'breakpoints';
+
+.separationLine {
+  border-top: 1px solid var(--color-black-10);
+  margin: var(--spacing-m) 0 var(--spacing-l);
+}
+
+.imageUrlRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .buttonsColumn {
+    display: grid;
+    grid-gap: var(--spacing-m);
+    grid-template-columns: 1fr 1fr;
+
+    @include medium-up {
+      padding-top: var(--modal-label-height);
+    }
+  }
+}

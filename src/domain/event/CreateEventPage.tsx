@@ -15,6 +15,7 @@ import AdditionalInfoSection from './formSections/additionalInfoSection/Addition
 import AudienceSection from './formSections/audienceSection/AudienceSection';
 import ClassificationSection from './formSections/classificationSection/ClassificationSection';
 import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
+import ImageSection from './formSections/imageSection/ImageSection';
 import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import PlaceSection from './formSections/placeSection/PlaceSection';
 import PriceSection from './formSections/priceSection/PriceSection';
@@ -96,7 +97,7 @@ const CreateEventPage: React.FC = () => {
                       label: t('event.navigation.steps.socialMedia'),
                     },
                     {
-                      component: <LoadingSpinner isLoading={true} />,
+                      component: <ImageSection />,
                       isCompleted: false,
                       label: t('event.navigation.steps.image'),
                     },
@@ -116,9 +117,7 @@ const CreateEventPage: React.FC = () => {
                       label: t('event.navigation.steps.additionalInfo'),
                     },
                     {
-                      component: (
-                        <div>{t('event.navigation.steps.commitment')}</div>
-                      ),
+                      component: <LoadingSpinner isLoading={true} />,
                       isCompleted: false,
                       label: t('event.navigation.steps.commitment'),
                     },

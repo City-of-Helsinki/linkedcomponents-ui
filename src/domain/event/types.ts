@@ -1,4 +1,5 @@
 import {
+  ADD_IMAGE_FIELDS,
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
   EXTENSION_COURSE_FIELDS,
@@ -70,4 +71,9 @@ export type RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: number;
   [RECURRING_EVENT_FIELDS.START_DATE]: Date | null;
   [RECURRING_EVENT_FIELDS.START_TIME]: string;
+};
+
+export type AddImageSettings = {
+  [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: string[];
+  [ADD_IMAGE_FIELDS.URL]: string;
 };

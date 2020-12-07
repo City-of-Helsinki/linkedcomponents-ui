@@ -23,6 +23,7 @@ import {
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
+  ADD_IMAGE_FIELDS,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
   EXTENSION_COURSE_FIELDS,
@@ -316,7 +317,23 @@ export const createRecurringEventValidationSchema = () => {
 };
 
 export const createAddImageValidationSchema = () => {
-  return Yup.object().shape({});
+  return Yup.object().shape(
+    {
+      [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: Yup.array().when(
+        [ADD_IMAGE_FIELDS.URL],
+        (url: string, schema: Yup.ArraySchema<string>) => {
+          return url ? schema.min(0) : schema.min(1);
+        }
+      ),
+      [ADD_IMAGE_FIELDS.URL]: Yup.string().when(
+        [ADD_IMAGE_FIELDS.SELECTED_IMAGE],
+        (ids: string[], schema: Yup.StringSchema) => {
+          return ids.length ? schema : schema.url(VALIDATION_MESSAGE_KEYS.URL);
+        }
+      ),
+    },
+    [[ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL]]
+  );
 };
 
 export const eventPathBuilder = ({

@@ -129,6 +129,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
                 disabled={disabled}
                 style={{ backgroundImage: `url(${image.url})` }}
                 role="checkbox"
+                type="button"
                 aria-checked={checked}
                 onClick={handleChange(image)}
               />
