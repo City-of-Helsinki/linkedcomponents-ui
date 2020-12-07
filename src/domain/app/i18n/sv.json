@@ -7,10 +7,12 @@
     }
   },
   "common": {
+    "add": "Lägg till",
     "and": "och",
     "at": "kl {{time}}",
     "betweenDates": "Mellan {{startDate}} och {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "cancel": "Annullera",
     "close": "Stäng",
     "combobox": {
       "toggleButtonAriaLabel": "Menyn"
@@ -38,11 +40,17 @@
       "text": "Ge respons och påverka",
       "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
     },
+    "imageUploader": {
+      "buttonDropImage": "Släpp en bild i området eller lägg till från din dator genom att klicka",
+      "notAllowedFileFormat": "Filformat är inte tillåtet",
+      "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
+    },
     "placeholderDate": "dd.mm.åååå",
     "placeholderDateTime": "dd.mm.åååå hh.mm",
     "placeholderTime": "hh.mm",
     "showLess": "Visa mindre",
     "showMore": "Visa mer",
+    "showMoreWithCount": "Visa mer ({{count}})",
     "signIn": "Logga in",
     "signOut": "Logga ut",
     "timepicker": {
@@ -65,6 +73,10 @@
   "event": {
     "form": {
       "buttonAddEventTime": "Lägg till ny tid",
+      "buttonAddImage": {
+        "course": "Lägg till en bild eller video av kursen",
+        "event": "Lägg till en bild eller video av evenemanget"
+      },
       "buttonAddOffer": "Lägg till ny prisinformation",
       "buttonAddRecurringEvent": "Lägg till återkommande evenemang",
       "buttonDeleteEventTime": "Radera tid",
@@ -80,6 +92,13 @@
         "placeholderMinimimAttendeeCapacity": "Ange minsta antal deltagare"
       },
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
+      "image": {
+        "labelUrl": "Bildens URL",
+        "placeholderUrl": "Ange bildens URL",
+        "titleImportFromHardDisk": "Importera en ny bild från hårddisken",
+        "titleImportFromInternet": "Importera en ny bild från internet",
+        "titleUseImportedImage": "Använd en tidigare importerad bild"
+      },
       "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik publik, välj inget.",
@@ -107,6 +126,12 @@
         "course": "För att ta bort en extra tid, välj papperskorgen ikonen bredvid tiden.",
         "event": "För att ta bort en extra tid, välj papperskorgen ikonen bredvid tiden."
       },
+      "infoTextImage1": {
+        "course": "Frivillig. Försök alltid hitta en bild för kursen. Bilden kan markeras CC 4.0 BY (se förklaring) eller \"använd endast i samband med kursen\". Några fritt användbara illustrationer finns på hel.fi/tapahtumakuvat.",
+        "event": "Frivillig. Försök alltid hitta en bild för evenemanget. Bilden kan markeras CC 4.0 BY (se förklaring) eller \"använd endast i samband med evenemanget \". Några fritt användbara illustrationer finns på hel.fi/tapahtumakuvat."
+      },
+      "infoTextImage2": "Innan du matar redigerar du bilden så att den passar nätverket och till ett horisontellt bildförhållande 3: 2, till exempel 1200 × 800 pixlar. Det är viktigt att filstorleken förblir rimlig även för mobil användning, helst mindre än 200 kilobyte (kb).",
+      "infoTextImage3": "Ge bilden eller videon ett namn och beskriv kort vad som händer i den.",
       "infoTextInfoLanguages": {
         "course": "Välj de språk som används för att mata in kursinformation.",
         "event": "Välj de språk som används för att mata in evenemanginformation."
@@ -208,10 +233,15 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Paraplyevenemang",
+      "modalTitleImage": "Lägg till en bild",
       "modalTitleRecurringEvent": "Ange återkommande evenemang",
       "notificationTitleEventTimes": {
         "course": "Kurstider",
         "event": "Evenemamgtider"
+      },
+      "notificationTitleImage": {
+        "course": "Bild eller video relaterad till kursen",
+        "event": "Bild eller video relaterad till evenemanget"
       },
       "notificationTitleLocation": "Venue",
       "notificationTitleMainCategories": {
@@ -297,6 +327,10 @@
       },
       "titleEnrolmentTime": "Registreringstid",
       "titleEventType": "Välj en evenemangtyp",
+      "titleImage": {
+        "course": "Kursbild",
+        "event": "Evenemangbild"
+      },
       "titleInfoLanguages": {
         "course": "Inmatningsspråk för kurs",
         "event": "Inmatningsspråk för evenemang"

@@ -7,10 +7,12 @@
     }
   },
   "common": {
+    "add": "Add",
     "and": "and",
     "at": "at {{time}}",
     "betweenDates": "Between {{startDate}} and {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "cancel": "Cancel",
     "close": "Close",
     "combobox": {
       "toggleButtonAriaLabel": "Menu"
@@ -38,11 +40,17 @@
       "text": "Give feedback and make an impact",
       "url": "https://www.hel.fi/helsinki/en/administration/participate/feedback/"
     },
+    "imageUploader": {
+      "buttonDropImage": "Drop an image into the area or add from your computer by clicking",
+      "notAllowedFileFormat": "File format is not allowed",
+      "tooLargeFileSize": "File size is too large. Maximum file size is {{maxSize}} MB"
+    },
     "placeholderDate": "dd.mm.yyyy",
     "placeholderDateTime": "dd.mm.yyyy hh.mm",
     "placeholderTime": "hh.mm",
     "showLess": "Show less",
     "showMore": "Show more",
+    "showMoreWithCount": "Show more ({{count}})",
     "signIn": "Sign in",
     "signOut": "Sign out",
     "timepicker": {
@@ -65,6 +73,10 @@
   "event": {
     "form": {
       "buttonAddEventTime": "Add new time",
+      "buttonAddImage": {
+        "course": "Add a photo or video of the course",
+        "event": "Add a photo or video of the event"
+      },
       "buttonAddOffer": "Add new pricing information",
       "buttonAddRecurringEvent": "Add recurring event",
       "buttonDeleteEventTime": "Delete time",
@@ -80,6 +92,13 @@
         "placeholderMinimimAttendeeCapacity": "Enter minimum number of participants"
       },
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
+      "image": {
+        "labelUrl": "Image URL",
+        "placeholderUrl": "Enter image URL",
+        "titleImportFromHardDisk": "Import new image from your hard disk",
+        "titleImportFromInternet": "Import new image from internet",
+        "titleUseImportedImage": "Use a previously imported image"
+      },
       "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextAudience": {
         "course": "If the course does not have a specific target group, don't select anything",
@@ -107,6 +126,12 @@
         "course": "To delete an extra time, select the trash can icon next to the time.",
         "event": "To delete an extra time, select the trash can icon next to the time."
       },
+      "infoTextImage1": {
+        "course": "Optional. Always try to find a picture for the course. The image can be marked CC 4.0 BY (see explanation) or \"use only in connection with the course \". Some freely usable illustrations can be found at hel.fi/tapahtumakuvat.",
+        "event": "Optional. Always try to find a picture for the event. The image can be marked CC 4.0 BY (see explanation) or \"use only in connection with the event \". Some freely usable illustrations can be found at hel.fi/tapahtumakuvat."
+      },
+      "infoTextImage2": "Before uploading, edit the image to fit the network and to a 3: 2 horizontal aspect ratio, such as 1200 × 800px. It is essential that the file size remains reasonable for mobile use as well, preferably less than 200 kilobytes (kb).",
+      "infoTextImage3": "Give the image or video a name and briefly describe what is happening in it.",
       "infoTextInfoLanguages": {
         "course": "Select the languages used for entering course information.",
         "event": "Select the languages used for entering event information."
@@ -208,10 +233,15 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Umbrella event",
+      "modalTitleImage": "Add image",
       "modalTitleRecurringEvent": "Specify recurring event",
       "notificationTitleEventTimes": {
         "course": "Course times",
         "event": "Event times"
+      },
+      "notificationTitleImage": {
+        "course": "Image or video related to the course",
+        "event": "Image or video related to the event"
       },
       "notificationTitleLocation": "Venue",
       "notificationTitleMainCategories": {
@@ -297,6 +327,10 @@
       },
       "titleEnrolmentTime": "Registration time",
       "titleEventType": "Select event type",
+      "titleImage": {
+        "course": "Course image",
+        "event": "Event image"
+      },
       "titleInfoLanguages": {
         "course": "Course input languages",
         "event": "Event input languages"

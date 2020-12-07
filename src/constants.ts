@@ -69,4 +69,7 @@ export const defaultStoreState: StoreState = {
   authentication: defaultAuthReducerState,
 };
 
+export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/gif', 'image/png'];
+export const MAX_IMAGE_SIZE_MB = 2;
+
 export const MAIN_CONTENT_ID = 'maincontent';
