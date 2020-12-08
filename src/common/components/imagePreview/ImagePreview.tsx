@@ -3,6 +3,10 @@ import React from 'react';
 
 import styles from './imagePreview.module.scss';
 
+export const testIds = {
+  image: 'image-preview-image',
+};
+
 export interface ImagePreviewProps {
   imageUrl?: string | null;
   label: string;
@@ -32,6 +36,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
     >
       {imageUrl ? (
         <div
+          data-testid={testIds.image}
           className={styles.image}
           style={{ backgroundImage: `url(${imageUrl})` }}
         />

@@ -491,6 +491,9 @@
   "helpPage": {
     "pageTitle": "Lisätietoja"
   },
+  "image": {
+    "uploadError": "Kuvan tallentaminen epäonnistui"
+  },
   "logoutPage": {
     "buttonGoToHome": "Etusivulle",
     "pageTitle": "Olet kirjautunut ulos",

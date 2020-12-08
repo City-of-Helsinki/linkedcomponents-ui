@@ -490,6 +490,9 @@
   "helpPage": {
     "pageTitle": "More information"
   },
+  "image": {
+    "uploadError": "Failed to upload the image"
+  },
   "logoutPage": {
     "buttonGoToHome": "To home page",
     "pageTitle": "You are logged out",

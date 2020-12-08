@@ -11,6 +11,7 @@ import { Image, ImagesQuery, useImagesQuery } from '../../../generated/graphql';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import Button from '../button/Button';
+import { PAGE_SIZE } from './constants';
 import styles from './imageSelector.module.scss';
 
 export interface ImageSelectorProps {
@@ -38,7 +39,10 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     loading,
     fetchMore: fetchMoreImages,
   } = useImagesQuery({
-    variables: { createPath: getPathBuilder(imagesPathBuilder), pageSize: 5 },
+    variables: {
+      createPath: getPathBuilder(imagesPathBuilder),
+      pageSize: PAGE_SIZE,
+    },
   });
 
   const nextPage: number | null = React.useMemo(() => {

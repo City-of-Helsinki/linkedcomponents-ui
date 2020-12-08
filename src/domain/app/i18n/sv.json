@@ -490,6 +490,9 @@
   "helpPage": {
     "pageTitle": "Läs mer"
   },
+  "image": {
+    "uploadError": "Det gick inte att ladda upp bilden"
+  },
   "logoutPage": {
     "buttonGoToHome": "Till startsidan",
     "pageTitle": "Du är utloggad",

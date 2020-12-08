@@ -1,0 +1,28 @@
+@import 'breakpoints';
+
+.imagePreviewWrapper {
+  height: 100%;
+}
+
+.imageDetailsRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    grid-template-columns: repeat(10, 1fr);
+
+    .buttonColumn {
+      grid-column: 1 / 6;
+    }
+
+    .imageDetailsColumn {
+      grid-column: 6 / 11;
+    }
+  }
+}
+
+.buttonWrapper {
+  @include medium-up {
+    margin-top: var(--label-height);
+  }
+}
