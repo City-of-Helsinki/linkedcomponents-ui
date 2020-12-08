@@ -1,9 +1,11 @@
 import {
+  ImageFieldsFragment,
   ImageQueryVariables,
   ImagesQueryVariables,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
+import { DEFAULT_LICENSE_TYPE } from './constants';
 
 export const imagePathBuilder = ({
   args,
@@ -28,3 +30,12 @@ export const imagesPathBuilder = ({
 
   return `/image/${query}`;
 };
+
+export const getImageFields = (image: ImageFieldsFragment) => ({
+  id: image.id,
+  atId: image.atId,
+  altText: image.altText || '',
+  license: image.license || DEFAULT_LICENSE_TYPE,
+  name: image.name || '',
+  photographerName: image.photographerName || '',
+});

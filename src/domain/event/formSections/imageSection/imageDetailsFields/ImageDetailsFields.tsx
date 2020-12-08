@@ -1,0 +1,168 @@
+import { useApolloClient } from '@apollo/client';
+import { Field, useField, useFormikContext } from 'formik';
+import camelCase from 'lodash/camelCase';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+import RadioButtonGroupField from '../../../../../common/components/formFields/RadioButtonGroupField';
+import TextInputField from '../../../../../common/components/formFields/TextInputField';
+import { CHARACTER_LIMITS } from '../../../../../constants';
+import { ImageDocument, ImageQuery } from '../../../../../generated/graphql';
+import getPathBuilder from '../../../../../utils/getPathBuilder';
+import parseIdFromAtId from '../../../../../utils/parseIdFromAtId';
+import {
+  DEFAULT_LICENSE_TYPE,
+  LICENSE_TYPES,
+} from '../../../../image/constants';
+import { getImageFields, imagePathBuilder } from '../../../../image/utils';
+import { EVENT_FIELDS, IMAGE_DETAILS_FIELDS } from '../../../constants';
+import eventPageStyles from '../../../eventPage.module.scss';
+import styles from './imageDetailsFields.module.scss';
+
+export interface ImageDetailsFieldsProps {
+  field: string;
+  imageAtId?: string;
+}
+
+const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
+  field,
+  imageAtId,
+}) => {
+  const { t } = useTranslation();
+  const [{ value: type }] = useField({
+    name: EVENT_FIELDS.TYPE,
+  });
+  const licenseOptions = [
+    {
+      label: t(`event.form.image.license.${camelCase(LICENSE_TYPES.CC_BY)}`),
+      value: LICENSE_TYPES.CC_BY,
+    },
+    {
+      label: t(
+        `event.form.image.license.${camelCase(
+          LICENSE_TYPES.EVENT_ONLY
+        )}.${type}`
+      ),
+      value: LICENSE_TYPES.EVENT_ONLY,
+    },
+  ];
+
+  const { setFieldValue } = useFormikContext();
+
+  const altTextField = React.useMemo(
+    () => `${field}.${IMAGE_DETAILS_FIELDS.ALT_TEXT}`,
+    [field]
+  );
+  const licenseField = React.useMemo(
+    () => `${field}.${IMAGE_DETAILS_FIELDS.LICENSE}`,
+    [field]
+  );
+  const nameField = React.useMemo(
+    () => `${field}.${IMAGE_DETAILS_FIELDS.NAME}`,
+    [field]
+  );
+  const photographerNameField = React.useMemo(
+    () => `${field}.${IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME}`,
+    [field]
+  );
+
+  const apolloClient = useApolloClient();
+
+  const clearFields = React.useCallback(() => {
+    setFieldValue(
+      field,
+      {
+        [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
+        [IMAGE_DETAILS_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
+        [IMAGE_DETAILS_FIELDS.NAME]: '',
+        [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+      },
+      true
+    );
+  }, [field, setFieldValue]);
+
+  React.useEffect(() => {
+    if (imageAtId) {
+      const setImageFieldValues = async () => {
+        try {
+          const { data } = await apolloClient.query<ImageQuery>({
+            query: ImageDocument,
+            variables: {
+              createPath: getPathBuilder(imagePathBuilder),
+              id: parseIdFromAtId(imageAtId),
+            },
+          });
+          const imageFields = getImageFields(data.image);
+          setFieldValue(
+            field,
+            {
+              [IMAGE_DETAILS_FIELDS.ALT_TEXT]: imageFields.altText,
+              [IMAGE_DETAILS_FIELDS.LICENSE]: imageFields.license,
+              [IMAGE_DETAILS_FIELDS.NAME]: imageFields.name,
+              [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]:
+                imageFields.photographerName,
+            },
+            true
+          );
+        } catch (err) {
+          // clear values when error happens
+          clearFields();
+        }
+      };
+
+      setImageFieldValues();
+    } else {
+      // clear values when error happens
+      clearFields();
+    }
+  }, [apolloClient, clearFields, field, imageAtId, setFieldValue]);
+
+  const disabled = !imageAtId;
+
+  return (
+    <div className={styles.imageDetailsFields}>
+      <div>
+        <Field
+          disabled={disabled}
+          name={altTextField}
+          component={TextInputField}
+          label={t(`event.form.image.labelAltText`)}
+          maxLength={CHARACTER_LIMITS.SHORT_STRING}
+          placeholder={t(`event.form.image.placeholderAltText`)}
+        />
+      </div>
+      <div>
+        <Field
+          disabled={disabled}
+          name={nameField}
+          component={TextInputField}
+          label={t(`event.form.image.labelName`)}
+          maxLength={CHARACTER_LIMITS.MEDIUM_STRING}
+          placeholder={t(`event.form.image.placeholderName`)}
+        />
+      </div>
+      <div>
+        <Field
+          disabled={disabled}
+          name={photographerNameField}
+          component={TextInputField}
+          label={t(`event.form.image.labelPhotographerName`)}
+          placeholder={t(`event.form.image.placeholderPhotographerName`)}
+        />
+      </div>
+      <div>
+        <h3 className={eventPageStyles.noTopMargin}>
+          {t(`event.form.image.titleLicense`)}
+        </h3>
+        <Field
+          disabled={disabled}
+          name={licenseField}
+          component={RadioButtonGroupField}
+          options={licenseOptions}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default ImageDetailsFields;

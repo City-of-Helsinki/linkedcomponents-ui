@@ -27,6 +27,8 @@ import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
   EXTENSION_COURSE_FIELDS,
+  IMAGE_ALT_TEXT_MIN_LENGTH,
+  IMAGE_DETAILS_FIELDS,
   RECURRING_EVENT_FIELDS,
 } from './constants';
 import { EventTime, Offer } from './types';
@@ -131,6 +133,21 @@ const eventTimeValidation = {
     ),
 };
 
+const imageDetailsValidation = {
+  [IMAGE_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .min(IMAGE_ALT_TEXT_MIN_LENGTH, (param) =>
+      createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MIN)
+    )
+    .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
+      createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+    ),
+  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string().max(
+    CHARACTER_LIMITS.MEDIUM_STRING,
+    (param) => createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+  ),
+};
+
 export const createEventValidationSchema = () => {
   return Yup.object().shape({
     [EVENT_FIELDS.TYPE]: Yup.string().required(
@@ -200,6 +217,14 @@ export const createEventValidationSchema = () => {
                 ),
               })
             )
+          : schema;
+      }
+    ),
+    [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
+      [EVENT_FIELDS.IMAGES],
+      (images: string[], schema: Yup.ObjectSchema<any>) => {
+        return images && images.length
+          ? Yup.object().shape(imageDetailsValidation)
           : schema;
       }
     ),

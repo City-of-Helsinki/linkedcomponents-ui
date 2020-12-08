@@ -83,6 +83,10 @@
       "buttonDeleteOffer": "Delete pricing information",
       "buttonDeleteRecurringEvent": "Delete recurring event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
+      "buttonRemoveImage": {
+        "course": "Remove photo of the course",
+        "event": "Remove photo of the event"
+      },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Registration ends",
         "labelEnrolmentStartTime": "Registration begins",
@@ -93,10 +97,24 @@
       },
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "image": {
+        "labelAltText": "Alt text of the image",
+        "labelName": "Caption",
+        "labelPhotographerName": "Photographer name",
         "labelUrl": "Image URL",
+        "license": {
+          "ccBy": "Creative Commons BY 4.0",
+          "eventOnly": {
+            "course": "Image may be used only for this course",
+            "event": "Image may be used only for this event"
+          } 
+        },
+        "placeholderAltText": "Enter image alt text for screen readers",
+        "placeholderName": "Enter caption",
+        "placeholderPhotographerName": "Enter photographer name",
         "placeholderUrl": "Enter image URL",
         "titleImportFromHardDisk": "Import new image from your hard disk",
         "titleImportFromInternet": "Import new image from internet",
+        "titleLicense": "License",
         "titleUseImportedImage": "Use a previously imported image"
       },
       "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",

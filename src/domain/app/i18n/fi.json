@@ -83,6 +83,10 @@
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
+      "buttonRemoveImage": {
+        "course": "Poista kurssin kuva",
+        "event": "Poista tapahtuman kuva"
+      },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
         "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
@@ -93,10 +97,24 @@
       },
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "image": {
+        "labelAltText": "Kuvan alt-teksti",
+        "labelName": "Kuvateksti",
+        "labelPhotographerName": "Kuvaajan nimi",
         "labelUrl": "Kuvan URL-osoite",
+        "license": {
+          "ccBy": "Creative Commons BY 4.0",
+          "eventOnly": {
+            "course": "Käyttö rajattu kurssin yhteyteen",
+            "event": "Käyttö rajattu tapahtuman yhteyteen"
+          } 
+        },
+        "placeholderAltText": "Syötä kuvan alt-teksti",
+        "placeholderName": "Syötä kuvateksti",
+        "placeholderPhotographerName": "Syötä kuvaajan nimi",
         "placeholderUrl": "Syötä kuvan URL-osoite",
         "titleImportFromHardDisk": "Tuo uusi kuva kiintolevyltä",
         "titleImportFromInternet": "Tuo uusi kuva internetistä",
+        "titleLicense": "Lisenssi",
         "titleUseImportedImage": "Käytä aiemmin tuotua kuvaa"
       },
       "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",

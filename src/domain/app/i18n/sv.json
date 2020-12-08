@@ -83,6 +83,10 @@
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
+      "buttonRemoveImage": {
+        "course": "Ta bort bilden av kursen",
+        "event": "Ta bort bilden av evenemanget"
+      },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Registreringen slutar",
         "labelEnrolmentStartTime": "Registreringen börjar",
@@ -93,10 +97,24 @@
       },
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "image": {
+        "labelAltText": "Bildens alt-text",
+        "labelName": "Rubrik",
+        "labelPhotographerName": "Fotografens namn",
         "labelUrl": "Bildens URL",
+        "license": {
+          "ccBy": "Creative Commons BY 4.0",
+          "eventOnly": {
+            "course": "Bilden får endast användas för den här kursen",
+            "event": "Bilden får endast användas för detta evenemang"
+          } 
+        },
+        "placeholderAltText": "Ange bildalternativtexten för skärmläsare",
+        "placeholderName": "Ange rubrik",
+        "placeholderPhotographerName": "Ange fotografens namn",
         "placeholderUrl": "Ange bildens URL",
         "titleImportFromHardDisk": "Importera en ny bild från hårddisken",
         "titleImportFromInternet": "Importera en ny bild från internet",
+        "titleLicense": "Licens",
         "titleUseImportedImage": "Använd en tidigare importerad bild"
       },
       "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",

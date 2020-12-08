@@ -1,4 +1,7 @@
-import { imagePathBuilder, imagesPathBuilder } from '../utils';
+import { ImageFieldsFragment } from '../../../generated/graphql';
+import { fakeImage } from '../../../utils/mockDataUtils';
+import { DEFAULT_LICENSE_TYPE } from '../constants';
+import { getImageFields, imagePathBuilder, imagesPathBuilder } from '../utils';
 
 describe('imagePathBuilder function', () => {
   it('should build correct path', () => {
@@ -35,5 +38,22 @@ describe('imagesPathBuilder function', () => {
         args: { publisher: 'hel:123' },
       })
     ).toBe('/image/?publisher=hel:123');
+  });
+});
+
+describe('getCollectionFields function', () => {
+  it('should return default values if field value is not defined', () => {
+    const image = fakeImage({
+      altText: null,
+      license: null,
+      name: null,
+      photographerName: null,
+    }) as ImageFieldsFragment;
+    const { altText, license, name, photographerName } = getImageFields(image);
+
+    expect(altText).toBe('');
+    expect(license).toBe(DEFAULT_LICENSE_TYPE);
+    expect(name).toBe('');
+    expect(photographerName).toBe('');
   });
 });
