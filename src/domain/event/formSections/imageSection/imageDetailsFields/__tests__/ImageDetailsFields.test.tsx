@@ -4,7 +4,6 @@ import React from 'react';
 import { ImageDocument } from '../../../../../../generated/graphql';
 import { fakeImage } from '../../../../../../utils/mockDataUtils';
 import {
-  actWait,
   render,
   screen,
   userEvent,

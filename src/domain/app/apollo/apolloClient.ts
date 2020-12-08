@@ -1,6 +1,7 @@
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { RestLink } from 'apollo-link-rest';
+import snakeCase from 'lodash/snakeCase';
 
 import {
   Event,
@@ -14,6 +15,7 @@ import {
   LanguagesResponse,
   Place,
   PlacesResponse,
+  UploadImageMutationInput,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
 import { apiTokenSelector } from '../../auth/selectors';
@@ -28,6 +30,41 @@ import {
   addTypenameMeta,
   addTypenamePlace,
 } from './utils';
+
+const uploadImageSerializer = (
+  data: UploadImageMutationInput,
+  headers: Headers
+) => {
+  const formData = new FormData();
+  const { image, url, ...restFields } = data;
+
+  data.image
+    ? formData.append('image', image)
+    : formData.append('url', url || '');
+
+  for (const key in restFields) {
+    if (restFields.hasOwnProperty(key)) {
+      formData.append(
+        snakeCase(key),
+        restFields[key as keyof typeof restFields] || ''
+      );
+    }
+  }
+
+  // TODO: Apikey authentication is used only for local testing. Reason for this
+  // is that OpenId authentication is not yet implemented on BE side
+  // Remove apikey header when authentication is ready
+  headers.set('apikey', '84f869cd-8e33-4d19-b54b-673e63d29df1');
+
+  // Delete Content-Type header so browsers will detect Content-Type automatically
+  // and set correct boundary
+  headers.delete('content-type');
+
+  return {
+    body: formData,
+    headers,
+  };
+};
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -81,6 +118,9 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const linkedEventsLink = new RestLink({
+  bodySerializers: {
+    uploadImageSerializer,
+  },
   fieldNameNormalizer: normalizeKey,
   headers: {
     'Content-Type': 'application/json',

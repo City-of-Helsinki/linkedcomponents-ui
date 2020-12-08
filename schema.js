@@ -5,6 +5,10 @@ const { buildSchema } = require('graphql');
 module.exports = buildSchema(/* GraphQL */ `
   scalar Any
 
+  type Mutation {
+    uploadImage(input: UploadImageMutationInput!): Image!
+  }
+
   type Query {
     event(id: ID, include: [String]): Event!
     events(
@@ -65,6 +69,15 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): PlacesResponse!
+  }
+
+  input UploadImageMutationInput {
+    altText: String
+    image: Any
+    license: String
+    name: String!
+    photographerName: String
+    url: String
   }
 
   type EventsResponse {
