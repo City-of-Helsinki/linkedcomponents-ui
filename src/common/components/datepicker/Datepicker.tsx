@@ -201,6 +201,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    /* istanbul ignore else  */
     if (e.key === 'Enter') {
       handleChange(dateValue);
     }

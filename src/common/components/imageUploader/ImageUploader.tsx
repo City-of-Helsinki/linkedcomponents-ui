@@ -77,12 +77,14 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files?.[0];
 
+    /* istanbul ignore else  */
     if (imageFile) {
       handleFile(imageFile);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    /* istanbul ignore else  */
     if (e.key === 'Enter') {
       fileInput.current?.click();
     }

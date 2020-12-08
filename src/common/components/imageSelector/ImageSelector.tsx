@@ -47,6 +47,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   }, [imagesData]);
 
   const fetchMore = async () => {
+    /* istanbul ignore else  */
     if (nextPage) {
       try {
         setLoadingMore(true);
