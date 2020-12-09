@@ -48,8 +48,7 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
 
     searchParams.set(URL_PARAMS.TAB, index.toString());
 
-    location.search = searchParams.toString();
-    history.push(location);
+    history.push({ search: searchParams.toString() });
   };
 
   const handleItemClick = (item: EventNavigationItem, index: number) => () => {
