@@ -99,6 +99,11 @@ type DeleteButtonCSSProperties = {
   '--delete-button-padding'?: string;
 };
 
+type ErrorTemplateCSSProperties = {
+  '--error-template-icon-color'?: string;
+  '--error-template-icon-size'?: string;
+};
+
 type EventNavigationCSSProperties = {
   '--circle-background-color'?: string;
   '--circle-border-color'?: string;
@@ -277,6 +282,7 @@ export type Theme = {
   collapsible: CollapsibleCSSProperties;
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
+  errorTemplate: ErrorTemplateCSSProperties;
   eventNavigation: EventNavigationCSSProperties;
   formLanguageSelector: FormLanguageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
@@ -310,6 +316,7 @@ const defaultTheme: Theme = {
   collapsible: {},
   datepicker: {},
   deleteButton: {},
+  errorTemplate: {},
   eventNavigation: {},
   formLanguageSelector: {},
   languageSelector: {},

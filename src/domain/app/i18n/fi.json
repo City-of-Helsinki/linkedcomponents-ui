@@ -1,5 +1,11 @@
 {
   "appName": "Linked Events",
+  "authentication": {
+    "errorMessage": "Tapahtui virhe. Yritä uudestaan",
+    "networkError": {
+      "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
+    }
+  },
   "common": {
     "and": "ja",
     "at": "klo {{time}}",
@@ -28,11 +34,17 @@
         "statusMessage_plural": "{{count}} vaihtoehtoa valittavissa, siirry nuolinäppäimillä ylös ja alas. Paina Enter-näppäintä valitaksesi."
       }
     },
+    "feedback": {
+      "text": "Anna palautetta ja vaikuta",
+      "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta"
+    },
     "placeholderDate": "pp.kk.vvvv",
     "placeholderDateTime": "pp.kk.vvvv hh.mm",
     "placeholderTime": "hh.mm",
     "showLess": "Näytä vähemmän",
     "showMore": "Näytä lisää",
+    "signIn": "Kirjaudu sisään",
+    "signOut": "Kirjaudu ulos",
     "timepicker": {
       "accessibility": {
         "buttonTimeList": "Kellonajat"
@@ -426,6 +438,11 @@
   },
   "helpPage": {
     "pageTitle": "Lisätietoja"
+  },
+  "logoutPage": {
+    "buttonGoToHome": "Etusivulle",
+    "pageTitle": "Olet kirjautunut ulos",
+    "text": "Olet kirjautunut ulos palvelusta. Kirjaudu takaisin sisään tai palaa etusivulle."
   },
   "navigation": {
     "languages": {

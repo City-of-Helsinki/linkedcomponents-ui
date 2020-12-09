@@ -2,7 +2,9 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { FORM_NAMES } from '../../constants';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -39,6 +41,10 @@ const CreateEventPage: React.FC = () => {
       {({ values: { type } }) => {
         return (
           <Form>
+            <FormikPersist
+              name={FORM_NAMES.EVENT_FORM}
+              isSessionStorage={true}
+            />
             <PageWrapper
               className={styles.eventPage}
               title={`createEventPage.pageTitle.${type}`}

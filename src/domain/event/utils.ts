@@ -10,6 +10,7 @@ import {
   CHARACTER_LIMITS,
   DATE_FORMAT,
   DATETIME_FORMAT,
+  FORM_NAMES,
   WEEK_DAY,
 } from '../../constants';
 import { EventQueryVariables } from '../../generated/graphql';
@@ -378,4 +379,8 @@ export const getEmptyOffer = (): Offer => {
     [EVENT_FIELDS.OFFER_INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
     [EVENT_FIELDS.OFFER_PRICE]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   };
+};
+
+export const clearEventFormData = () => {
+  sessionStorage.removeItem(FORM_NAMES.EVENT_FORM);
 };

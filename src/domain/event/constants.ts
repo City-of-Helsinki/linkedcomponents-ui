@@ -128,3 +128,7 @@ export const EVENT_INITIAL_VALUES: EventFields = {
   [EVENT_FIELDS.TWITTER_URL]: '',
   [EVENT_FIELDS.UMBRELLA_EVENT]: null,
 };
+
+export enum URL_PARAMS {
+  TAB = 'tab',
+}

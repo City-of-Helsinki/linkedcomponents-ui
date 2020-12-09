@@ -112,7 +112,7 @@ test('should show error message when end time is before start time', async () =>
   await waitFor(() => {
     expect(
       screen.queryByText(
-        translations.form.validation.date.min.replace('{{min}}', startTime)
+        translations.form.validation.date.after.replace('{{after}}', startTime)
       )
     ).toBeInTheDocument();
   });

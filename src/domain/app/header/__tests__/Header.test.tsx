@@ -34,6 +34,10 @@ test('should show navigation links and click should route to correct pages', asy
       url: `/fi${ROUTES.CREATE_EVENT}`,
     },
     {
+      name: translations.navigation.tabs.events,
+      url: `/fi${ROUTES.EVENTS}`,
+    },
+    {
       name: translations.navigation.tabs.searchEvent,
       url: `/fi${ROUTES.SEARCH}`,
     },
@@ -44,11 +48,12 @@ test('should show navigation links and click should route to correct pages', asy
   ];
 
   links.forEach(({ name, url }) => {
-    const link = screen.queryByRole('link', { name });
+    const link = screen.getByRole('link', { name });
 
     expect(link).toBeInTheDocument();
 
     userEvent.click(link);
+
     expect(history.location.pathname).toBe(url);
   });
 });

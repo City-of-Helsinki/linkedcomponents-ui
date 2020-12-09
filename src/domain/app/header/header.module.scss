@@ -4,8 +4,11 @@
   .navigationItem {
     color: var(--navigation-item-color) !important;
   }
+
   .addEventItem {
-    margin-left: auto !important;
+    @include medium-up {
+      margin-left: auto !important;
+    }
 
     &.hidden {
       visibility: hidden;

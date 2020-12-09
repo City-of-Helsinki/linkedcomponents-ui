@@ -1,10 +1,18 @@
+import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
+import { StoreState } from './types';
+
 export enum ROUTES {
+  CALLBACK = '/callback',
   CREATE_EVENT = '/event/create',
   EVENTS = '/events',
   HELP = '/help',
   HOME = '/',
+  LOGOUT = '/logout',
   SEARCH = '/search',
+  SILENT_CALLBACK = '/silent-callback',
 }
+
+export const OIDC_API_TOKEN_ENDPOINT = `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`;
 
 // Supported languages
 export enum SUPPORTED_LANGUAGES {
@@ -51,6 +59,14 @@ export const EXTLINK = {
   EXTLINK_INSTAGRAM: 'extlink_instagram',
   EXTLINK_TWITTER: 'extlink_twitter',
   EXTLINK_YOUTUBE: 'extlink_youtube',
+};
+
+export enum FORM_NAMES {
+  EVENT_FORM = 'event-form',
+}
+
+export const defaultStoreState: StoreState = {
+  authentication: defaultAuthReducerState,
 };
 
 export const MAIN_CONTENT_ID = 'maincontent';

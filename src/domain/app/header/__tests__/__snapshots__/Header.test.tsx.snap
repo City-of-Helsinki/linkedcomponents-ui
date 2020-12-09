@@ -8,7 +8,7 @@ exports[`matches snapshot 1`] = `
     class="Navigation-module_skipToContent__2p54x"
     href="/sv#maincontent"
   >
-    Siirry sisältöön
+    Gå till innehållet
   </a>
   <div
     class="Navigation-module_headerBackgroundWrapper__137R3"
@@ -43,13 +43,52 @@ exports[`matches snapshot 1`] = `
           class="NavigationActions-module_navigationActions__2D8MK"
         >
           <div
+            class="NavigationUser-module_user__4HdTn"
+          >
+            <button
+              class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV Button-module_theme-black__m8giY button_hds-button--theme-black__3K_k4 Button-module_fullWidth__31eVK button_hds-button--fullwidth__1_hG9 NavigationUser-module_signInButton__2bwjA"
+              type="button"
+            >
+              <div
+                aria-hidden="true"
+                class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                  role="img"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <path
+                      d="M0 0h24v24H0z"
+                    />
+                    <path
+                      d="M21 2v20H8v-5h2v3h9V4h-9v3H8V2h13zm-8.5 5l5 5-5 5-1.5-1.5 2.5-2.501L2 13v-2l11.499-.001L11 8.5 12.5 7z"
+                      fill="currentColor"
+                    />
+                  </g>
+                </svg>
+              </div>
+              <span
+                class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
+              >
+                Logga in
+              </span>
+            </button>
+          </div>
+          <div
             class="MenuButton-module_menuButton__3T9k9 languageSelector css-0"
           >
             <button
               aria-controls="languageSelector-menu"
               aria-expanded="false"
               aria-haspopup="true"
-              aria-label="Suomi - kielivalikko"
+              aria-label="Svenska - språkval"
               class="MenuButton-module_toggleButton__3WH1a"
               id="languageSelector-button"
               type="button"
@@ -135,7 +174,7 @@ exports[`matches snapshot 1`] = `
       <span
         class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
       >
-        Tapahtumat
+        Evenemangen
       </span>
     </a>
     <a
@@ -145,7 +184,7 @@ exports[`matches snapshot 1`] = `
       <span
         class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
       >
-        Etsi tapahtumia
+        Sök evenemangen
       </span>
     </a>
     <a
@@ -155,7 +194,7 @@ exports[`matches snapshot 1`] = `
       <span
         class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
       >
-        Lisätietoja
+        Läs mer
       </span>
     </a>
     <a
@@ -187,7 +226,7 @@ exports[`matches snapshot 1`] = `
               />
             </g>
           </svg>
-          Uusi tapahtuma
+          Nytt evenemang
         </span>
       </span>
     </a>

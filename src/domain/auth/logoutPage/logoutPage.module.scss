@@ -1,0 +1,9 @@
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: var(--spacing-m);
+}
+
+.loadingSpinner {
+  margin-top: var(--spacing-5-xl);
+}

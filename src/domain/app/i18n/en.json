@@ -1,5 +1,11 @@
 {
   "appName": "Linked Events",
+  "authentication": {
+    "errorMessage": "An error occured while logging in. Please try again",
+    "networkError": {
+      "message": "Login error: Check your network connection or try again later"
+    }
+  },
   "common": {
     "and": "and",
     "at": "at {{time}}",
@@ -28,11 +34,17 @@
         "statusMessage_plural": "{{count}} options are available, use up and down arrow keys to navigate. Press Enter key to select."
       }
     },
+    "feedback": {
+      "text": "Give feedback and make an impact",
+      "url": "https://www.hel.fi/helsinki/en/administration/participate/feedback/"
+    },
     "placeholderDate": "dd.mm.yyyy",
     "placeholderDateTime": "dd.mm.yyyy hh.mm",
     "placeholderTime": "hh.mm",
     "showLess": "Show less",
     "showMore": "Show more",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
     "timepicker": {
       "accessibility": {
         "buttonTimeList": "Times"
@@ -425,6 +437,11 @@
   },
   "helpPage": {
     "pageTitle": "More information"
+  },
+  "logoutPage": {
+    "buttonGoToHome": "To home page",
+    "pageTitle": "You are logged out",
+    "text": "You have been logged out of the service. Log back in or return to the home page."
   },
   "navigation": {
     "languages": {
