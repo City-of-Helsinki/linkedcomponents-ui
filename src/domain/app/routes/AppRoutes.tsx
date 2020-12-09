@@ -8,6 +8,7 @@ import { resetApiTokenData } from '../../auth/actions';
 import { getApiToken } from '../../auth/authenticate';
 import OidcCallback from '../../auth/oidcCallback/OidcCallback';
 import { userSelector } from '../../auth/selectors';
+import SilentCallback from '../../auth/silentCallback/SilentCallback';
 import LocaleRoutes from './LocaleRoutes';
 
 const localeParam = `:locale(${Object.values(SUPPORTED_LANGUAGES).join('|')})`;
@@ -30,6 +31,7 @@ const AppRoutes: React.FC = () => {
   return (
     <Switch>
       <Route path={ROUTES.CALLBACK} component={OidcCallback} />
+      <Route exact path={ROUTES.SILENT_CALLBACK} component={SilentCallback} />
       <Redirect exact path="/" to={`/${currentLocale}`} />
       <Route path={`/${localeParam}`} component={LocaleRoutes} />
       <Route

@@ -22,7 +22,7 @@ const settings: UserManagerSettings = {
   redirect_uri: `${origin}${ROUTES.CALLBACK}`,
   loadUserInfo: true,
   response_type: 'id_token token',
-  silent_redirect_uri: `${origin}/silent-callback.html`,
+  silent_redirect_uri: `${origin}${ROUTES.SILENT_CALLBACK}`,
   scope: process.env.REACT_APP_OIDC_SCOPE,
   post_logout_redirect_uri: `${origin}${ROUTES.LOGOUT}`,
 };

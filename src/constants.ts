@@ -9,6 +9,7 @@ export enum ROUTES {
   HOME = '/',
   LOGOUT = '/logout',
   SEARCH = '/search',
+  SILENT_CALLBACK = '/silent-callback',
 }
 
 export const OIDC_API_TOKEN_ENDPOINT = `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`;

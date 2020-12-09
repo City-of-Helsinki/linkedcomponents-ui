@@ -47,8 +47,11 @@ const EventNavigation: React.FC<Props> = ({ items }) => {
     setActiveTab(index);
 
     searchParams.set(URL_PARAMS.TAB, index.toString());
-    history.push({ ...location, search: searchParams.toString() });
+
+    location.search = searchParams.toString();
+    history.push(location);
   };
+
   const handleItemClick = (item: EventNavigationItem, index: number) => () => {
     if (item.disabled) return;
 
