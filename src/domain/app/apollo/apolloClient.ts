@@ -54,7 +54,7 @@ const uploadImageSerializer = (
   // TODO: Apikey authentication is used only for local testing. Reason for this
   // is that OpenId authentication is not yet implemented on BE side
   // Remove apikey header when authentication is ready
-  headers.set('apikey', '84f869cd-8e33-4d19-b54b-673e63d29df1');
+  // headers.set('apikey', '50381be7-fef2-4783-b181-3181f6492f3f');
 
   // Delete Content-Type header so browsers will detect Content-Type automatically
   // and set correct boundary
