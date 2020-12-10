@@ -21,12 +21,10 @@
   }
 }
 
-.dropZone > p {
-  display: flex;
+.dropZone {
   width: 100%;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 
   svg {
     margin-right: var(--spacing-xs);
