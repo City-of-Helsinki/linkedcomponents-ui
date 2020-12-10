@@ -31,6 +31,10 @@ import {
   addTypenamePlace,
 } from './utils';
 
+// This serializer is needed to send image upload data to API as multipart/form-data content.
+// Apollo sets Content-type to application/json by default and we need to delete Content-type
+// from the header so fetch can automatically identify content type to be multipart/form-data
+// and sets boundary correctly
 const uploadImageSerializer = (
   data: UploadImageMutationInput,
   headers: Headers
