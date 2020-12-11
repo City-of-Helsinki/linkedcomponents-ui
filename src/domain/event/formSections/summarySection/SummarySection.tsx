@@ -13,7 +13,11 @@ import { EVENT_FIELDS } from '../../constants';
 import InputWrapper from '../InputWrapper';
 import styles from './summarySection.module.scss';
 
-const SummarySection = () => {
+interface SummarySectionProps {
+  onSaveDraft: () => void;
+}
+
+const SummarySection: React.FC<SummarySectionProps> = ({ onSaveDraft }) => {
   const { isValid } = useFormikContext();
   const locale = useLocale();
   const { t } = useTranslation();
@@ -61,7 +65,12 @@ const SummarySection = () => {
             <Button fullWidth={true} disabled={!isValid}>
               {t(`event.form.buttonPublish.${type}`)}
             </Button>
-            <Button fullWidth={true} disabled={!isVerified}>
+            <Button
+              fullWidth={true}
+              disabled={!isVerified}
+              onClick={onSaveDraft}
+              type="button"
+            >
               {t('event.form.buttonSaveDraft')}
             </Button>
           </div>

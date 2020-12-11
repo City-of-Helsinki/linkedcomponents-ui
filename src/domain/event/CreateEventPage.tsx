@@ -38,7 +38,14 @@ const CreateEventPage: React.FC = () => {
       validationSchema={createEventValidationSchema}
       validateOnMount
     >
-      {({ values: { type } }) => {
+      {({ values: { type, ...restValues } }) => {
+        const saveDraft = () => {
+          console.log('TODO: Save draft with values: ', {
+            type,
+            ...restValues,
+          });
+        };
+
         return (
           <Form>
             <FormikPersist
@@ -116,7 +123,7 @@ const CreateEventPage: React.FC = () => {
                       label: t('event.navigation.steps.additionalInfo'),
                     },
                     {
-                      component: <SummarySection />,
+                      component: <SummarySection onSaveDraft={saveDraft} />,
                       isCompleted: false,
                       label: t('event.navigation.steps.summary'),
                     },
