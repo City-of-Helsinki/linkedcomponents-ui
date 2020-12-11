@@ -13,8 +13,8 @@ type Offset = 0 | 1 | 2;
 type Props = {
   button?: React.ReactNode;
   className?: string;
-  columns: Columns;
-  inputColumns: InputColumns;
+  columns?: Columns;
+  inputColumns?: InputColumns;
   maxWidth?: MaxWidth;
   offset?: Offset;
 };
@@ -23,8 +23,8 @@ const InputWrapper: React.FC<Props> = ({
   button,
   children,
   className,
-  columns,
-  inputColumns,
+  columns = 6,
+  inputColumns = 6,
   maxWidth,
   offset = 0,
 }) => {

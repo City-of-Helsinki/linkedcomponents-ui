@@ -43,13 +43,9 @@ const PlaceSection = () => {
             <p>{t(`event.form.infoTextLocation4`)}</p>
           </Notification>
         }
-        infoWidth={4}
+        infoColumns={4}
       >
-        <InputWrapper
-          columns={6}
-          inputColumns={6}
-          maxWidth={INPUT_MAX_WIDTHS.LARGE}
-        >
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.LARGE}>
           <FormGroup>
             <Field
               component={PlaceSelectorField}

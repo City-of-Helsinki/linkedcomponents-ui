@@ -45,6 +45,7 @@
       "notAllowedFileFormat": "Filformat är inte tillåtet",
       "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
     },
+    "openInNewTab": "(öppnas i en ny flik)",
     "placeholderDate": "dd.mm.åååå",
     "placeholderDateTime": "dd.mm.åååå hh.mm",
     "placeholderTime": "hh.mm",
@@ -60,7 +61,6 @@
     }
   },
   "createEventPage": {
-    "buttonSaveDraft": "Spara utkast",
     "pageTitle": {
       "course": "Nytt kurs",
       "event": "Nytt evenemang"
@@ -83,10 +83,16 @@
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
+      "buttonPublish": {
+        "course": "Lägg upp kursen",
+        "event": "Lägg upp evenemanget"
+      },
       "buttonRemoveImage": {
         "course": "Ta bort bilden av kursen",
         "event": "Ta bort bilden av evenemanget"
       },
+      "buttonSaveDraft": "Spara utkast",
+      "checkboxIsVerified": "Jag verifierar att informationen jag har gett är korrekt och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och föreskrifter {{openInNewTab}}\">alla instruktioner och föreskrifter</a> som gäller Helsingfors stads kurser och evenemang.",
       "extensionCourse": {
         "labelEnrolmentEndTime": "Registreringen slutar",
         "labelEnrolmentStartTime": "Registreringen börjar",
@@ -178,6 +184,7 @@
         "course": "Om kursen har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation.",
         "event": "Om evenemanget har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation."
       },
+      "infoTextPublishing": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam.",
       "infoTextSocialMedia": {
         "course": "Frivillig. I URL-fältet anger du SoMe-länkarna för kursen.",
         "event": "Frivillig. I URL-fältet anger du SoMe-länkarna för evenemanget."
@@ -251,6 +258,10 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Paraplyevenemang",
+      "linkReadMoreAboutPublishing": {
+        "course": "Läs mer om ämnet för kurspublikationen",
+        "event": "Läs mer om ämnet för evenemangspublikationen"
+      },
       "modalTitleImage": "Lägg till en bild",
       "modalTitleRecurringEvent": "Ange återkommande evenemang",
       "notificationTitleEventTimes": {
@@ -267,6 +278,10 @@
         "event": "Evenemangklassificering"
       },
       "notificationTitleOffers": "Prisinformation",
+      "notificationTitlePublishing": {
+        "course": "Publicering av kursen på hel.fi-webbplatser",
+        "event": "Publicering av evenemanget på hel.fi-webbplatser"
+      },
       "notificationTitleType": "Evenemangtyp",
       "placeholderAudienceMaxAge": {
         "course": "Ange högsta ålder för kursen",
@@ -379,6 +394,10 @@
         "course": "Kurs på sociala medier",
         "event": "Evenemang pä sociala medier"
       },
+      "titleSummary": {
+        "course": "Sammanfattning av kursinformation",
+        "event": "Sammanfattning av evenemanginformation"
+      },
       "titleTime": {
         "course": "Kurstider",
         "event": "Evenemangtider"
@@ -392,15 +411,14 @@
         "additionalInfo": "Ytterligare information",
         "audience": "Mål",
         "classification": "Klassificering",
-        "commitment": "Engagemang",
         "description": "Beskrivning",
         "image": "Bild",
         "languages": "Språk",
         "place": "Plats",
         "price": "Pris",
-        "ready": "Redo",
         "responsibilities": "Ansvar",
         "socialMedia": "SoMe",
+        "summary": "Sammanfattning",
         "time": "Tid",
         "type": "Typ"
       }
@@ -444,6 +462,7 @@
         "min": "Detta datum måste vara minst {{min}}",
         "required": "Detta fält krävs"
       },
+      "eventInfoVerified": "Informationen måste verifieras",
       "number": {
         "max": "Maxvärdet är {{max}}",
         "min": "Värdet måste vara minst {{min}}",

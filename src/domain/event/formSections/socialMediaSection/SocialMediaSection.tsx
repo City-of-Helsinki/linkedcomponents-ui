@@ -29,11 +29,7 @@ const SocialMediaSection = () => {
           </Notification>
         }
       >
-        <InputWrapper
-          columns={6}
-          inputColumns={6}
-          maxWidth={INPUT_MAX_WIDTHS.LARGE}
-        >
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.LARGE}>
           <FormGroup>
             <Field
               component={TextInputField}

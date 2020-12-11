@@ -3,26 +3,26 @@ import React from 'react';
 
 import styles from './inputRow.module.scss';
 
-type InfoWidth = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type InfoColumns = 4 | 5;
 
 interface Props {
   children: React.ReactNode;
   className?: string;
   info?: React.ReactElement;
-  infoWidth?: InfoWidth;
+  infoColumns?: InfoColumns;
 }
 
 const InputRow: React.FC<Props> = ({
   children,
   className,
   info,
-  infoWidth = 4,
+  infoColumns = 4,
 }) => {
   return (
     <div
       className={classNames(
         styles.inputRow,
-        styles[`infoWidth${infoWidth}`],
+        styles[`infoColumns${infoColumns}`],
         className
       )}
     >

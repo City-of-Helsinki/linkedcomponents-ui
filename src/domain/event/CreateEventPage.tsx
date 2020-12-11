@@ -21,6 +21,7 @@ import PlaceSection from './formSections/placeSection/PlaceSection';
 import PriceSection from './formSections/priceSection/PriceSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
 import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSection';
+import SummarySection from './formSections/summarySection/SummarySection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import { createEventValidationSchema } from './utils';
@@ -35,8 +36,6 @@ const CreateEventPage: React.FC = () => {
         console.log('TODO: Submit event form with values: ', values);
       }}
       validationSchema={createEventValidationSchema}
-      validateOnBlur={true}
-      validateOnChange={false}
       validateOnMount
     >
       {({ values: { type } }) => {
@@ -117,15 +116,9 @@ const CreateEventPage: React.FC = () => {
                       label: t('event.navigation.steps.additionalInfo'),
                     },
                     {
-                      component: <LoadingSpinner isLoading={true} />,
+                      component: <SummarySection />,
                       isCompleted: false,
-                      label: t('event.navigation.steps.commitment'),
-                    },
-                    {
-                      component: <div>{t('event.navigation.steps.ready')}</div>,
-                      disabled: true,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.ready'),
+                      label: t('event.navigation.steps.summary'),
                     },
                   ]}
                 ></EventNavigation>

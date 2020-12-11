@@ -51,13 +51,9 @@ const LanguagesSection = () => {
             <p>{t(`event.form.infoTextInfoLanguages.${eventType}`)}</p>
           </Notification>
         }
-        infoWidth={4}
+        infoColumns={4}
       >
-        <InputWrapper
-          columns={6}
-          inputColumns={6}
-          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-        >
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
           <Field
             name={EVENT_FIELDS.EVENT_INFO_LANGUAGES}
             component={CheckboxGroupField}
@@ -80,13 +76,9 @@ const LanguagesSection = () => {
             <p>{t(`event.form.infoTextInLanguages.${eventType}`)}</p>
           </Notification>
         }
-        infoWidth={4}
+        infoColumns={4}
       >
-        <InputWrapper
-          columns={6}
-          inputColumns={6}
-          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-        >
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
           <Field
             name={EVENT_FIELDS.IN_LANGUAGE}
             component={CheckboxGroupField}

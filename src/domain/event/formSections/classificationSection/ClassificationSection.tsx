@@ -49,13 +49,9 @@ const ClassificationSection = () => {
             <p>{t(`event.form.infoTextMainCategories`)}</p>
           </Notification>
         }
-        infoWidth={4}
+        infoColumns={4}
       >
-        <InputWrapper
-          columns={6}
-          inputColumns={6}
-          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-        >
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
           <Field
             name={EVENT_FIELDS.KEYWORDS}
             component={CheckboxGroupField}
@@ -77,13 +73,9 @@ const ClassificationSection = () => {
             <p>{t(`event.form.infoTextKeywords.${type}`)}</p>
           </Notification>
         }
-        infoWidth={4}
+        infoColumns={4}
       >
-        <InputWrapper
-          columns={6}
-          inputColumns={6}
-          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-        >
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
           <Field
             name={EVENT_FIELDS.KEYWORDS}
             component={KeywordSelectorFields}

@@ -132,12 +132,10 @@ const ImageSection = () => {
             <p>{t(`event.form.infoTextImage3`)}</p>
           </Notification>
         }
-        infoWidth={5}
+        infoColumns={5}
       >
         <InputWrapper
           className={styles.imagePreviewWrapper}
-          columns={6}
-          inputColumns={6}
           maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
         >
           <ImagePreview
@@ -152,8 +150,6 @@ const ImageSection = () => {
         <div className={styles.buttonColumn}>
           <InputWrapper
             className={styles.buttonWrapper}
-            columns={6}
-            inputColumns={6}
             maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
           >
             {!!images.length ? (
