@@ -12,6 +12,7 @@ type Offset = 0 | 1 | 2;
 
 type Props = {
   button?: React.ReactNode;
+  className?: string;
   columns: Columns;
   inputColumns: InputColumns;
   maxWidth?: MaxWidth;
@@ -21,6 +22,7 @@ type Props = {
 const InputWrapper: React.FC<Props> = ({
   button,
   children,
+  className,
   columns,
   inputColumns,
   maxWidth,
@@ -28,7 +30,11 @@ const InputWrapper: React.FC<Props> = ({
 }) => {
   return (
     <div
-      className={classNames(styles.inputWrapper, styles[`columns${columns}`])}
+      className={classNames(
+        styles.inputWrapper,
+        styles[`columns${columns}`],
+        className
+      )}
     >
       <div
         className={classNames(

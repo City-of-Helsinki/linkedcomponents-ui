@@ -1,10 +1,13 @@
 import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { RestLink } from 'apollo-link-rest';
+import snakeCase from 'lodash/snakeCase';
 
 import {
   Event,
   EventsResponse,
+  Image,
+  ImagesResponse,
   Keyword,
   KeywordSet,
   KeywordSetsResponse,
@@ -12,6 +15,7 @@ import {
   LanguagesResponse,
   Place,
   PlacesResponse,
+  UploadImageMutationInput,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
 import { apiTokenSelector } from '../../auth/selectors';
@@ -19,12 +23,52 @@ import i18n from '../i18n/i18nInit';
 import { store } from '../store/store';
 import {
   addTypenameEvent,
+  addTypenameImage,
   addTypenameKeyword,
   addTypenameKeywordSet,
   addTypenameLanguage,
   addTypenameMeta,
   addTypenamePlace,
 } from './utils';
+
+// This serializer is needed to send image upload data to API as multipart/form-data content.
+// Apollo sets Content-type to application/json by default and we need to delete Content-type
+// from the header so fetch can automatically identify content type to be multipart/form-data
+// and sets boundary correctly
+const uploadImageSerializer = (
+  data: UploadImageMutationInput,
+  headers: Headers
+) => {
+  const formData = new FormData();
+  const { image, url, ...restFields } = data;
+
+  data.image
+    ? formData.append('image', image)
+    : formData.append('url', url || '');
+
+  for (const key in restFields) {
+    if (restFields.hasOwnProperty(key)) {
+      formData.append(
+        snakeCase(key),
+        restFields[key as keyof typeof restFields] || ''
+      );
+    }
+  }
+
+  // TODO: Apikey authentication is used only for local testing. Reason for this
+  // is that OpenId authentication is not yet implemented on BE side
+  // Remove apikey header when authentication is ready
+  // headers.set('apikey', '50381be7-fef2-4783-b181-3181f6492f3f');
+
+  // Delete Content-Type header so browsers will detect Content-Type automatically
+  // and set correct boundary
+  headers.delete('content-type');
+
+  return {
+    body: formData,
+    headers,
+  };
+};
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -33,6 +77,12 @@ const cache = new InMemoryCache({
         event(_, { args, toReference }) {
           return toReference({
             __typename: 'Event',
+            id: args?.id,
+          });
+        },
+        image(_, { args, toReference }) {
+          return toReference({
+            __typename: 'Image',
             id: args?.id,
           });
         },
@@ -72,6 +122,9 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const linkedEventsLink = new RestLink({
+  bodySerializers: {
+    uploadImageSerializer,
+  },
   fieldNameNormalizer: normalizeKey,
   headers: {
     'Content-Type': 'application/json',
@@ -83,6 +136,15 @@ const linkedEventsLink = new RestLink({
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((event) => addTypenameEvent(event));
+
+      return data;
+    },
+    Image: (image: Image): Image | null => {
+      return addTypenameImage(image);
+    },
+    ImagesResponse: (data: ImagesResponse): ImagesResponse => {
+      data.meta = addTypenameMeta(data.meta);
+      data.data = data.data.map((image) => addTypenameImage(image));
 
       return data;
     },

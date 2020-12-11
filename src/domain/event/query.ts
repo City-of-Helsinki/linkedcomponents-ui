@@ -1,15 +1,9 @@
 import gql from 'graphql-tag';
 
-export const QUERY_EVENT_DETAILS = gql`
+export const QUERY_EVENT = gql`
   fragment externalLinkFields on ExternalLink {
     name
     link
-  }
-
-  fragment imageFields on Image {
-    id
-    name
-    url
   }
 
   fragment offerFields on Offer {

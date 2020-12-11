@@ -13,11 +13,31 @@ beforeEach(() => {
 
 const formName = 'form-name';
 
+const defaultState = {
+  values: { name: 'Name from local storage' },
+  errors: {},
+  touched: {},
+  isSubmitting: false,
+  isValidating: false,
+  submitCount: 0,
+  initialValues: { name: 'Test name' },
+  initialErrors: {},
+  initialTouched: {},
+  isValid: true,
+  dirty: true,
+  validateOnBlur: true,
+  validateOnChange: true,
+  validateOnMount: false,
+};
+
 test('attempts to rehydrate on mount', async () => {
   let injected: FormikProps<{ name: string }>;
 
   (localStorage.getItem as jest.Mock).mockReturnValueOnce(
-    '{"values":{"name":"Name from local storage"},"errors":{},"touched":{},"isSubmitting":false,"isValidating":false,"submitCount":0,"initialValues":{"name":"Test name"},"initialErrors":{},"initialTouched":{},"isValid":true,"dirty":true,"validateOnBlur":true,"validateOnChange":true,"validateOnMount":false}'
+    JSON.stringify({
+      ...defaultState,
+      values: { name: 'Name from local storage' },
+    })
   );
 
   render(
@@ -47,7 +67,7 @@ test('attempts to rehydrate on mount', async () => {
   await waitFor(() => {
     expect(localStorage.setItem).toHaveBeenCalledWith(
       formName,
-      '{"values":{"name":"changed value"},"errors":{},"touched":{},"isSubmitting":false,"isValidating":false,"submitCount":0,"initialValues":{"name":"Test name"},"initialErrors":{},"initialTouched":{},"isValid":true,"dirty":true,"validateOnBlur":true,"validateOnChange":true,"validateOnMount":false}'
+      JSON.stringify({ ...defaultState, values: { name: 'changed value' } })
     );
   });
 });
@@ -56,7 +76,10 @@ test('attempts to rehydrate on mount if session storage is true on props', async
   let injected: FormikProps<{ name: string }>;
 
   (sessionStorage.getItem as jest.Mock).mockReturnValueOnce(
-    '{"values":{"name":"Name from session storage"},"errors":{},"touched":{},"isSubmitting":false,"isValidating":false,"submitCount":0,"initialValues":{"name":"Test name"},"initialErrors":{},"initialTouched":{},"isValid":true,"dirty":true,"validateOnBlur":true,"validateOnChange":true,"validateOnMount":false}'
+    JSON.stringify({
+      ...defaultState,
+      values: { name: 'Name from session storage' },
+    })
   );
 
   render(
@@ -86,7 +109,7 @@ test('attempts to rehydrate on mount if session storage is true on props', async
   await waitFor(() => {
     expect(sessionStorage.setItem).toHaveBeenCalledWith(
       formName,
-      '{"values":{"name":"changed value"},"errors":{},"touched":{},"isSubmitting":false,"isValidating":false,"submitCount":0,"initialValues":{"name":"Test name"},"initialErrors":{},"initialTouched":{},"isValid":true,"dirty":true,"validateOnBlur":true,"validateOnChange":true,"validateOnMount":false}'
+      JSON.stringify({ ...defaultState, values: { name: 'changed value' } })
     );
   });
 });

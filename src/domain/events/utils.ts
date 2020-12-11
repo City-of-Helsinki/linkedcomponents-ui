@@ -1,11 +1,10 @@
 import { EventsQueryVariables } from '../../generated/graphql';
+import { PathBuilderProps } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 
-interface EventsPathBuilderProps {
-  args: EventsQueryVariables;
-}
-
-export const eventsPathBuilder = ({ args }: EventsPathBuilderProps) => {
+export const eventsPathBuilder = ({
+  args,
+}: PathBuilderProps<EventsQueryVariables>) => {
   const {
     combinedText,
     division,

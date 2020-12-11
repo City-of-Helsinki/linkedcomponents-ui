@@ -7,10 +7,12 @@
     }
   },
   "common": {
+    "add": "Lisää",
     "and": "ja",
     "at": "klo {{time}}",
     "betweenDates": "Ajalla {{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "cancel": "Peruuta",
     "close": "Sulje",
     "combobox": {
       "toggleButtonAriaLabel": "Valikko"
@@ -38,11 +40,17 @@
       "text": "Anna palautetta ja vaikuta",
       "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta"
     },
+    "imageUploader": {
+      "buttonDropImage": "Pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
+      "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
+      "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
+    },
     "placeholderDate": "pp.kk.vvvv",
     "placeholderDateTime": "pp.kk.vvvv hh.mm",
     "placeholderTime": "hh.mm",
     "showLess": "Näytä vähemmän",
     "showMore": "Näytä lisää",
+    "showMoreWithCount": "Näytä lisää ({{count}})",
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
     "timepicker": {
@@ -65,12 +73,20 @@
   "event": {
     "form": {
       "buttonAddEventTime": "Lisää uusi ajankohta",
+      "buttonAddImage": {
+        "course": "Lisää kurssin kuva tai video",
+        "event": "Lisää tapahtuman kuva tai video"
+      },
       "buttonAddOffer": "Lisää uusi hintatieto",
       "buttonAddRecurringEvent": "Lisää toistuva tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
+      "buttonRemoveImage": {
+        "course": "Poista kurssin kuva",
+        "event": "Poista tapahtuman kuva"
+      },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
         "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
@@ -80,6 +96,27 @@
         "placeholderMinimimAttendeeCapacity": "Syötä vähimmäisosallistujamäärä"
       },
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
+      "image": {
+        "labelAltText": "Kuvan alt-teksti",
+        "labelName": "Kuvateksti",
+        "labelPhotographerName": "Kuvaajan nimi",
+        "labelUrl": "Kuvan URL-osoite",
+        "license": {
+          "ccBy": "Creative Commons BY 4.0",
+          "eventOnly": {
+            "course": "Käyttö rajattu kurssin yhteyteen",
+            "event": "Käyttö rajattu tapahtuman yhteyteen"
+          } 
+        },
+        "placeholderAltText": "Syötä kuvan alt-teksti",
+        "placeholderName": "Syötä kuvateksti",
+        "placeholderPhotographerName": "Syötä kuvaajan nimi",
+        "placeholderUrl": "Syötä kuvan URL-osoite",
+        "titleImportFromHardDisk": "Tuo uusi kuva kiintolevyltä",
+        "titleImportFromInternet": "Tuo uusi kuva internetistä",
+        "titleLicense": "Lisenssi",
+        "titleUseImportedImage": "Käytä aiemmin tuotua kuvaa"
+      },
       "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
@@ -107,6 +144,12 @@
         "course": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.",
         "event": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin."
       },
+      "infoTextImage1": {
+        "course": "Valinnainen. Pyri aina löytämään kurssille kuva. Kuvalle voi merkitä käyttöoikeuden CC 4.0 BY (ks. selitys) tai \"käyttö vain kuvan yhteydessä\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy osoitteesta hel.fi/tapahtumakuvat.",
+        "event": "Valinnainen. Pyri aina löytämään tapahtumalle kuva. Kuvalle voi merkitä käyttöoikeuden CC 4.0 BY (ks. selitys) tai \"käyttö vain tapahtuman yhteydessä\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy osoitteesta hel.fi/tapahtumakuvat."
+      },
+      "infoTextImage2": "Muokkaa kuva ennen syöttöä verkkoon sopivaksi ja 3:2 -vaakakuvasuhteeseen, esim. 1200×800px. Olennaista on, että tiedostokoko pysyy kohtuullisena myös mobiilikäyttöön eli mieluiten alle 200 kilotavun (kt).",
+      "infoTextImage3": "Anna kuvalle tai videolle nimi ja kuvaile lyhyesti mitä siinä tapahtuu.",
       "infoTextInfoLanguages": {
         "course": "Valitse kielet joita käytetään kurssitietojen syötössä.",
         "event": "Valitse kielet joita käytetään tapahtumatietojen syötössä."
@@ -208,10 +251,15 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Kattotapahtuma",
+      "modalTitleImage": "Lisää kuva",
       "modalTitleRecurringEvent": "Määritä toistuva tapahtuma",
       "notificationTitleEventTimes": {
         "course": "Kurssin ajankohdat",
         "event": "Tapahtuman ajankohdat"
+      },
+      "notificationTitleImage": {
+        "course": "Kurssiin liittyvä kuva tai video",
+        "event": "Tapahtumaan liittyvä kuva tai video"
       },
       "notificationTitleLocation": "Tapahtumapaikka",
       "notificationTitleMainCategories": {
@@ -297,6 +345,10 @@
       },
       "titleEnrolmentTime": "Ilmoittautumisaika",
       "titleEventType": "Valitse tapahtumatyyppi",
+      "titleImage": {
+        "course": "Kurssin kuva",
+        "event": "Tapahtuman kuva"
+      },
       "titleInfoLanguages": {
         "course": "Kurssitietojen syöttökielet",
         "event": "Tapahtumatietojen syöttökielet"
@@ -438,6 +490,9 @@
   },
   "helpPage": {
     "pageTitle": "Lisätietoja"
+  },
+  "image": {
+    "uploadError": "Kuvan tallentaminen epäonnistui"
   },
   "logoutPage": {
     "buttonGoToHome": "Etusivulle",

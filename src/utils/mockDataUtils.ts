@@ -8,6 +8,7 @@ import {
   EventsResponse,
   ExternalLink,
   Image,
+  ImagesResponse,
   Keyword,
   KeywordSet,
   KeywordSetsResponse,
@@ -15,6 +16,7 @@ import {
   Language,
   LanguagesResponse,
   LocalisedObject,
+  Meta,
   Place,
   PlacesResponse,
 } from '../generated/graphql';
@@ -24,17 +26,12 @@ export const fakeEvents = (
   events?: Partial<Event>[]
 ): EventsResponse => ({
   data: generateNodeArray((i) => fakeEvent(events?.[i]), count),
-  meta: {
-    __typename: 'Meta',
-    count: count,
-    next: '',
-    previous: '',
-  },
+  meta: fakeMeta(count),
   __typename: 'EventsResponse',
 });
 
 export const fakeEvent = (overrides?: Partial<Event>): Event => {
-  return merge(
+  return merge<Event, typeof overrides>(
     {
       id: `hel:${faker.random.uuid()}`,
       atId: faker.random.uuid(),
@@ -67,7 +64,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
 export const fakeExternalLink = (
   overrides?: Partial<ExternalLink>
 ): ExternalLink =>
-  merge(
+  merge<ExternalLink, typeof overrides>(
     {
       link: faker.internet.url(),
       name: EXTLINK.EXTLINK_FACEBOOK,
@@ -76,37 +73,45 @@ export const fakeExternalLink = (
     overrides
   );
 
-export const fakeImage = (overrides?: Partial<Image>): Image =>
-  merge(
+export const fakeImages = (
+  count = 1,
+  images?: Partial<Image>[]
+): ImagesResponse => ({
+  data: generateNodeArray((i) => fakeImage(images?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'ImagesResponse',
+});
+
+export const fakeImage = (overrides?: Partial<Image>): Image => {
+  const id = faker.random.uuid();
+
+  return merge<Image, typeof overrides>(
     {
-      id: faker.random.uuid(),
-      atId: 'https://api.hel.fi/linkedevents-test/v1/image/48566/',
+      id,
+      atId: `https://api.hel.fi/linkedevents-test/v1/image/${id}/`,
+      altText: faker.image.cats(),
       license: 'cc_by',
       name: faker.random.words(),
-      url: 'https://api.hel.fi/linkedevents-test/media/images/test.png',
+      url: faker.internet.url(),
       cropping: '59,0,503,444',
       photographerName: faker.name.firstName(),
       __typename: 'Image',
     },
     overrides
   );
+};
 
 export const fakeKeywords = (
   count = 1,
   keywords?: Partial<Keyword>[]
 ): KeywordsResponse => ({
   data: generateNodeArray((i) => fakeKeyword(keywords?.[i]), count),
-  meta: {
-    count: count,
-    next: '',
-    previous: '',
-    __typename: 'Meta',
-  },
+  meta: fakeMeta(count),
   __typename: 'KeywordsResponse',
 });
 
 export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword =>
-  merge(
+  merge<Keyword, typeof overrides>(
     {
       id: faker.random.uuid(),
       atId: 'https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/',
@@ -123,17 +128,12 @@ export const fakeKeywordSets = (
   keywordSets?: Partial<KeywordSet>[]
 ): KeywordSetsResponse => ({
   data: generateNodeArray((i) => fakeKeywordSet(keywordSets?.[i]), count),
-  meta: {
-    count: count,
-    next: '',
-    previous: '',
-    __typename: 'Meta',
-  },
+  meta: fakeMeta(count),
   __typename: 'KeywordSetsResponse',
 });
 
 export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet =>
-  merge(
+  merge<KeywordSet, typeof overrides>(
     {
       id: faker.random.uuid(),
       atId:
@@ -151,17 +151,12 @@ export const fakeLanguages = (
   languages?: Partial<Language>[]
 ): LanguagesResponse => ({
   data: generateNodeArray((i) => fakeLanguage(languages?.[i]), count),
-  meta: {
-    count: count,
-    next: '',
-    previous: '',
-    __typename: 'Meta',
-  },
+  meta: fakeMeta(count),
   __typename: 'LanguagesResponse',
 });
 
 export const fakeLanguage = (overrides?: Partial<Language>): Language =>
-  merge(
+  merge<Language, typeof overrides>(
     {
       id: faker.random.uuid(),
       atId: 'https://api.hel.fi/linkedevents-test/v1/language/en/',
@@ -177,17 +172,12 @@ export const fakePlaces = (
   places?: Partial<Place>[]
 ): PlacesResponse => ({
   data: generateNodeArray((i) => fakePlace(places?.[i]), count),
-  meta: {
-    count: count,
-    next: '',
-    previous: '',
-    __typename: 'Meta',
-  },
+  meta: fakeMeta(count),
   __typename: 'PlacesResponse',
 });
 
 export const fakePlace = (overrides?: Partial<Place>): Place =>
-  merge(
+  merge<Place, typeof overrides>(
     {
       id: faker.random.uuid(),
       atId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
@@ -212,6 +202,17 @@ export const fakeLocalisedObject = (text?: string): LocalisedObject => ({
   sv: faker.random.words(),
   fi: text || faker.random.words(),
 });
+
+export const fakeMeta = (count = 1, overrides?: Partial<Meta>): Meta =>
+  merge<Meta, typeof overrides>(
+    {
+      __typename: 'Meta',
+      count: count,
+      next: '',
+      previous: '',
+    },
+    overrides
+  );
 
 const generateNodeArray = <T extends (...args: any) => any>(
   fakeFunc: T,

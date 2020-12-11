@@ -1,6 +1,8 @@
 import reduce from 'lodash/reduce';
 
+import { DEFAULT_LICENSE_TYPE } from '../image/constants';
 import {
+  AddImageSettings,
   EventFields,
   MultiLanguageObject,
   RecurringEventSettings,
@@ -13,6 +15,18 @@ export enum RECURRING_EVENT_FIELDS {
   REPEAT_INTERVAL = 'repeatInterval',
   START_DATE = 'startDate',
   START_TIME = 'startTime',
+}
+
+export enum ADD_IMAGE_FIELDS {
+  SELECTED_IMAGE = 'selectedImage',
+  URL = 'url',
+}
+
+export enum IMAGE_DETAILS_FIELDS {
+  ALT_TEXT = 'altText',
+  LICENSE = 'license',
+  NAME = 'name',
+  PHOTOGRAPHER_NAME = 'photographerName',
 }
 
 export enum EXTENSION_COURSE_FIELDS {
@@ -34,6 +48,8 @@ export enum EVENT_FIELDS {
   FACEBOOK_URL = 'facebookUrl',
   HAS_PRICE = 'hasPrice',
   HAS_UMBRELLA = 'hasUmbrella',
+  IMAGES = 'images',
+  IMAGE_DETAILS = 'imageDetails',
   IN_LANGUAGE = 'inLanguage',
   INFO_URL = 'infoUrl',
   INSTAGRAM_URL = 'instagramUrl',
@@ -94,6 +110,11 @@ export const RECURRING_EVENT_INITIAL_VALUES: RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.START_TIME]: '',
 };
 
+export const ADD_IMAGE_INITIAL_VALUES: AddImageSettings = {
+  [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [],
+  [ADD_IMAGE_FIELDS.URL]: '',
+};
+
 export const EVENT_INITIAL_VALUES: EventFields = {
   [EVENT_FIELDS.AUDIENCE]: [],
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: '',
@@ -111,6 +132,13 @@ export const EVENT_INITIAL_VALUES: EventFields = {
   [EVENT_FIELDS.FACEBOOK_URL]: '',
   [EVENT_FIELDS.HAS_PRICE]: false,
   [EVENT_FIELDS.HAS_UMBRELLA]: false,
+  [EVENT_FIELDS.IMAGES]: [],
+  [EVENT_FIELDS.IMAGE_DETAILS]: {
+    [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
+    [IMAGE_DETAILS_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
+    [IMAGE_DETAILS_FIELDS.NAME]: '',
+    [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+  },
   [EVENT_FIELDS.IN_LANGUAGE]: ['fi'],
   [EVENT_FIELDS.INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.INSTAGRAM_URL]: '',
@@ -132,3 +160,5 @@ export const EVENT_INITIAL_VALUES: EventFields = {
 export enum URL_PARAMS {
   TAB = 'tab',
 }
+
+export const IMAGE_ALT_TEXT_MIN_LENGTH = 6;

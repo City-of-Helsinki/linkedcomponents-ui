@@ -1,0 +1,28 @@
+@import 'breakpoints';
+
+.imagePreview {
+  --image-preview-background-color: var(--color-black-10);
+  --image-preview-min-height: 339px;
+
+  background-color: var(--image-preview-background-color);
+  display: grid;
+  height: 100%;
+
+  cursor: pointer;
+
+  @include small-down {
+    min-height: var(--image-preview-min-height);
+  }
+
+  .image {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .placeholderImage {
+    align-items: center;
+    display: grid;
+    justify-items: center;
+  }
+}

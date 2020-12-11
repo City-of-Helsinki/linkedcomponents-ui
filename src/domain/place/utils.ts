@@ -2,23 +2,20 @@ import {
   PlaceQueryVariables,
   PlacesQueryVariables,
 } from '../../generated/graphql';
+import { PathBuilderProps } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 
-interface PlacePathBuilderProps {
-  args: PlaceQueryVariables;
-}
-
-export const placePathBuilder = ({ args }: PlacePathBuilderProps) => {
+export const placePathBuilder = ({
+  args,
+}: PathBuilderProps<PlaceQueryVariables>) => {
   const { id } = args;
 
   return `/place/${id}/`;
 };
 
-interface PlacesPathBuilderProps {
-  args: PlacesQueryVariables;
-}
-
-export const placesPathBuilder = ({ args }: PlacesPathBuilderProps) => {
+export const placesPathBuilder = ({
+  args,
+}: PathBuilderProps<PlacesQueryVariables>) => {
   const {
     dataSource,
     division,

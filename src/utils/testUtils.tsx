@@ -69,6 +69,26 @@ const customRender: CustomRender = (
 
 const actWait = (amount?: number): Promise<void> => act(() => wait(amount));
 
+type MockFileArgs = {
+  name?: string;
+  size?: number;
+  type?: string;
+};
+
+export const mockFile = ({
+  name = 'testfile.png',
+  size = 0,
+  type = 'image/png',
+}: MockFileArgs) => {
+  const content = [...Array(size)]
+    .map(() => Math.random().toString(36)[2])
+    .join('');
+
+  return new File([content], name, {
+    type,
+  });
+};
+
 const renderWithRoute: CustomRender = (
   ui,
   {

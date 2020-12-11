@@ -14,7 +14,7 @@ import {
   WEEK_DAY,
 } from '../../constants';
 import { EventQueryVariables } from '../../generated/graphql';
-import { OptionType } from '../../types';
+import { OptionType, PathBuilderProps } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   createArrayError,
@@ -23,9 +23,12 @@ import {
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
+  ADD_IMAGE_FIELDS,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
   EXTENSION_COURSE_FIELDS,
+  IMAGE_ALT_TEXT_MIN_LENGTH,
+  IMAGE_DETAILS_FIELDS,
   RECURRING_EVENT_FIELDS,
 } from './constants';
 import { EventTime, Offer } from './types';
@@ -130,6 +133,21 @@ const eventTimeValidation = {
     ),
 };
 
+const imageDetailsValidation = {
+  [IMAGE_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .min(IMAGE_ALT_TEXT_MIN_LENGTH, (param) =>
+      createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MIN)
+    )
+    .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
+      createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+    ),
+  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string().max(
+    CHARACTER_LIMITS.MEDIUM_STRING,
+    (param) => createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+  ),
+};
+
 export const createEventValidationSchema = () => {
   return Yup.object().shape({
     [EVENT_FIELDS.TYPE]: Yup.string().required(
@@ -199,6 +217,14 @@ export const createEventValidationSchema = () => {
                 ),
               })
             )
+          : schema;
+      }
+    ),
+    [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
+      [EVENT_FIELDS.IMAGES],
+      (images: string[], schema: Yup.ObjectSchema<any>) => {
+        return images && images.length
+          ? Yup.object().shape(imageDetailsValidation)
           : schema;
       }
     ),
@@ -315,11 +341,29 @@ export const createRecurringEventValidationSchema = () => {
   });
 };
 
-interface EventPathBuilderProps {
-  args: EventQueryVariables;
-}
+export const createAddImageValidationSchema = () => {
+  return Yup.object().shape(
+    {
+      [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: Yup.array().when(
+        [ADD_IMAGE_FIELDS.URL],
+        (url: string, schema: Yup.ArraySchema<string>) => {
+          return url ? schema.min(0) : schema.min(1);
+        }
+      ),
+      [ADD_IMAGE_FIELDS.URL]: Yup.string().when(
+        [ADD_IMAGE_FIELDS.SELECTED_IMAGE],
+        (ids: string[], schema: Yup.StringSchema) => {
+          return ids.length ? schema : schema.url(VALIDATION_MESSAGE_KEYS.URL);
+        }
+      ),
+    },
+    [[ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL]]
+  );
+};
 
-export const eventPathBuilder = ({ args }: EventPathBuilderProps) => {
+export const eventPathBuilder = ({
+  args,
+}: PathBuilderProps<EventQueryVariables>) => {
   const { id, include } = args;
   const variableToKeyItems = [{ key: 'include', value: include }];
 
