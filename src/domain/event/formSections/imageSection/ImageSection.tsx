@@ -13,6 +13,7 @@ import Notification from '../../../../common/components/notification/Notificatio
 import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import {
   useImageQuery,
+  useImagesLazyQuery,
   useImagesQuery,
   useUploadImageMutation,
 } from '../../../../generated/graphql';
@@ -37,8 +38,8 @@ const ImageSection = () => {
     name: EVENT_FIELDS.IMAGES,
   });
 
-  const { refetch: refetchImages } = useImagesQuery({
-    skip: true,
+  const [refetchImages] = useImagesLazyQuery({
+    fetchPolicy: 'network-only',
     variables: {
       createPath: getPathBuilder(imagesPathBuilder),
       pageSize: IMAGES_PAGE_SIZE,
