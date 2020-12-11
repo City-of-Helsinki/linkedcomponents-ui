@@ -9,7 +9,6 @@ import styles from './imageUploader.module.scss';
 
 export const testIds = {
   input: 'image-uploader-file-input',
-  label: 'image-uploader-file-label',
 };
 
 export interface ImageUploaderProps {
@@ -91,7 +90,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onChange }) => {
         hidden={true}
       />
       <button
-        data-testid={testIds.label}
         className={classNames(styles.dropZone, { [styles.hover]: hovered })}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}

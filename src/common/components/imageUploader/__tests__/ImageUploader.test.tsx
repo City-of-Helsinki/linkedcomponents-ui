@@ -1,9 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { toast } from 'react-toastify';
 
 import translations from '../../../../domain/app/i18n/fi.json';
-import { enterKeyPressHelper, mockFile } from '../../../../utils/testUtils';
+import { mockFile } from '../../../../utils/testUtils';
 import ImageUploader, { ImageUploaderProps, testIds } from '../ImageUploader';
 
 const defaultProps: ImageUploaderProps = {
@@ -17,7 +18,9 @@ test('should render ImageUploader', () => {
   renderComponent();
 
   expect(
-    screen.getByLabelText(translations.common.imageUploader.buttonDropImage)
+    screen.getByRole('button', {
+      name: translations.common.imageUploader.buttonDropImage,
+    })
   ).toBeInTheDocument();
 });
 
@@ -76,15 +79,17 @@ test('should call onChange', async () => {
   expect(onChange).toBeCalledWith(file);
 });
 
-test('should open file selection dialog by clicking enter', async () => {
+test('should open file selection dialog by clicking button', async () => {
   const onChange = jest.fn();
   renderComponent({ onChange });
 
   const fileInput = screen.getByTestId(testIds.input);
-  const label = screen.getByTestId(testIds.label);
+  const button = screen.getByRole('button', {
+    name: translations.common.imageUploader.buttonDropImage,
+  });
   const spy = jest.spyOn(fileInput, 'click');
 
-  enterKeyPressHelper(label);
+  userEvent.click(button);
 
   expect(spy).toBeCalled();
 });
@@ -93,10 +98,12 @@ test('should onChange when droping file', async () => {
   const onChange = jest.fn();
   renderComponent({ onChange });
 
-  const label = screen.getByTestId(testIds.label);
+  const button = screen.getByRole('button', {
+    name: translations.common.imageUploader.buttonDropImage,
+  });
   const file = mockFile({});
 
-  fireEvent.drop(label, {
+  fireEvent.drop(button, {
     dataTransfer: {
       files: [file],
     },
@@ -108,13 +115,15 @@ test('should onChange when droping file', async () => {
 test('should show border for label by dragOver', async () => {
   renderComponent();
 
-  const label = screen.getByTestId(testIds.label);
+  const button = screen.getByRole('button', {
+    name: translations.common.imageUploader.buttonDropImage,
+  });
 
-  fireEvent.dragOver(label);
+  fireEvent.dragOver(button);
 
-  expect(label).toHaveClass('hover');
+  expect(button).toHaveClass('hover');
 
-  fireEvent.dragLeave(label);
+  fireEvent.dragLeave(button);
 
-  expect(label).not.toHaveClass('hover');
+  expect(button).not.toHaveClass('hover');
 });
