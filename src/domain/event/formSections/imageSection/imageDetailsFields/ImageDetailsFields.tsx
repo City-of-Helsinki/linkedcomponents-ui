@@ -49,22 +49,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
 
   const { setFieldValue } = useFormikContext();
 
-  const altTextField = React.useMemo(
-    () => `${field}.${IMAGE_DETAILS_FIELDS.ALT_TEXT}`,
-    [field]
-  );
-  const licenseField = React.useMemo(
-    () => `${field}.${IMAGE_DETAILS_FIELDS.LICENSE}`,
-    [field]
-  );
-  const nameField = React.useMemo(
-    () => `${field}.${IMAGE_DETAILS_FIELDS.NAME}`,
-    [field]
-  );
-  const photographerNameField = React.useMemo(
-    () => `${field}.${IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME}`,
-    [field]
-  );
+  const getFieldName = (path: string) => `${field}.${path}`;
 
   const apolloClient = useApolloClient();
 
@@ -124,7 +109,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
       <div>
         <Field
           disabled={disabled}
-          name={altTextField}
+          name={getFieldName(IMAGE_DETAILS_FIELDS.ALT_TEXT)}
           component={TextInputField}
           label={t(`event.form.image.labelAltText`)}
           maxLength={CHARACTER_LIMITS.SHORT_STRING}
@@ -134,7 +119,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
       <div>
         <Field
           disabled={disabled}
-          name={nameField}
+          name={getFieldName(IMAGE_DETAILS_FIELDS.NAME)}
           component={TextInputField}
           label={t(`event.form.image.labelName`)}
           maxLength={CHARACTER_LIMITS.MEDIUM_STRING}
@@ -144,7 +129,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
       <div>
         <Field
           disabled={disabled}
-          name={photographerNameField}
+          name={getFieldName(IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME)}
           component={TextInputField}
           label={t(`event.form.image.labelPhotographerName`)}
           placeholder={t(`event.form.image.placeholderPhotographerName`)}
@@ -156,7 +141,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
         </h3>
         <Field
           disabled={disabled}
-          name={licenseField}
+          name={getFieldName(IMAGE_DETAILS_FIELDS.LICENSE)}
           component={RadioButtonGroupField}
           options={licenseOptions}
         />
