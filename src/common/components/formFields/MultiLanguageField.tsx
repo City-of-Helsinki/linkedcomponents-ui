@@ -39,22 +39,23 @@ const MultiLanguageField: React.FC<Props> = ({
 
         return (
           languages.includes(language) && (
-            <Field
-              key={language}
-              {...rest}
-              component={TextInputField}
-              name={`${name}.${language}`}
-              helper={helperText || (helperKey && t(helperKey, { langText }))}
-              label={
-                label ||
-                labelText ||
-                (labelKey && upperCaseFirstLetter(t(labelKey, { langText })))
-              }
-              placeholder={
-                placeholder ||
-                (placeholderKey && t(placeholderKey, { langText }))
-              }
-            />
+            <div key={language}>
+              <Field
+                {...rest}
+                component={TextInputField}
+                name={`${name}.${language}`}
+                helper={helperText || (helperKey && t(helperKey, { langText }))}
+                label={
+                  label ||
+                  labelText ||
+                  (labelKey && upperCaseFirstLetter(t(labelKey, { langText })))
+                }
+                placeholder={
+                  placeholder ||
+                  (placeholderKey && t(placeholderKey, { langText }))
+                }
+              />
+            </div>
           )
         );
       })}

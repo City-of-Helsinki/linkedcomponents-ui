@@ -87,7 +87,7 @@ const TypeSection = () => {
               {t(`event.form.buttonOpenRecurringEventSettings`)}
             </Button>
           }
-          inputWidth={INPUT_MAX_WIDTHS.LARGE}
+          inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
         />
       </InputRow>
     </>

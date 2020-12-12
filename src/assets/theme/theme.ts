@@ -312,7 +312,7 @@ const theme: Theme = {
     '--input-height': '56px',
     '--input-max-width-m': '448px',
     '--input-max-width-l': '566px',
-    '--label-height': '28px',
+    '--label-height': '22px',
   },
   select: {
     '--border-radius': '2px',

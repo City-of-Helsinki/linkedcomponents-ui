@@ -1,0 +1,135 @@
+@import 'breakpoints';
+
+.listItem {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  width: calc(100% + var(--spacing-m));
+  padding: 0 var(--spacing-m);
+  margin-left: calc(0px - var(--spacing-m));
+  margin-right: calc(0px - var(--spacing-m));
+  border-bottom: 1px solid var(--color-black-20);
+  height: var(--spacing-4-xl);
+  z-index: 1;
+
+  svg {
+    margin-right: var(--spacing-s);
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    width: 100vw;
+    top: 0;
+    bottom: -1px;
+    z-index: 1;
+    border-bottom: 1px solid var(--color-black-20);
+  }
+
+  &:after {
+    @include small-down {
+      content: '';
+      position: absolute;
+      left: 100%;
+      width: 100vw;
+      top: 0;
+      bottom: -1px;
+      z-index: 1;
+      border-bottom: 1px solid var(--color-black-20);
+    }
+  }
+}
+
+.sideNavigation {
+  position: relative;
+  background-color: var(--color-black-5);
+}
+
+.sideNavigation::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  width: 100vw;
+  top: 0;
+  bottom: 0;
+  background-color: var(--color-black-5);
+}
+
+.sideNavigation::after {
+  @include small-down {
+    content: '';
+    position: absolute;
+    left: 100%;
+    width: 100vw;
+    top: 0;
+    bottom: 0;
+    background-color: var(--color-black-5);
+  }
+}
+
+.headings {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include medium-up {
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    max-height: 100vh;
+    margin-left: -100vw;
+    padding-left: 100vw;
+  }
+}
+
+.heading {
+  .menu {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.headingTitle {
+  composes: listItem;
+
+  background-color: var(--color-black-5);
+  font-weight: 500;
+
+  &:after,
+  &:before {
+    background-color: var(--color-black-5);
+  }
+}
+
+.heading.open {
+  .headingTitle {
+    background-color: var(--color-coat-of-arms-medium-light);
+
+    &:after,
+    &:before {
+      background-color: var(--color-coat-of-arms-medium-light);
+    }
+  }
+}
+
+.item {
+  composes: listItem;
+
+  background-color: var(--color-white);
+
+  &:after,
+  &:before {
+    background-color: var(--color-white);
+  }
+
+  &.active {
+    background-color: var(--color-coat-of-arms-light);
+
+    &:after,
+    &:before {
+      background-color: var(--color-coat-of-arms-light);
+    }
+  }
+}

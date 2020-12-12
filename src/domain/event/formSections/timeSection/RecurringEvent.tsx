@@ -113,7 +113,7 @@ const RecurringEvent: React.FC<Props> = ({
           </table>
         </Collapsible>
       }
-      inputWidth={INPUT_MAX_WIDTHS.LARGE}
+      inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
       button={
         onDelete ? (
           <DeleteButton

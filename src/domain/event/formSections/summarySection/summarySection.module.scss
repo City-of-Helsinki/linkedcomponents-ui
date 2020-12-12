@@ -1,6 +1,7 @@
-.buttonWrapper {
-  background-color: var(--color-black-5);
+.panel {
+  background-color: var(--color-info-light);
   padding: var(--spacing-m);
   display: grid;
   grid-gap: var(--spacing-m);
+  margin-bottom: var(--spacing-layout-xl);
 }

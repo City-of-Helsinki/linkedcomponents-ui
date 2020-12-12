@@ -1,0 +1,33 @@
+@import 'breakpoints';
+
+.breadcrumb {
+  background-color: var(--color-white);
+  z-index: 100;
+  margin: 0 calc(0px - var(--spacing-m));
+  margin-bottom: var(--spacing-m);
+  padding: 0 var(--spacing-m);
+  height: var(--spacing-4-xl);
+  display: flex;
+
+  @include medium-up {
+    position: sticky;
+    top: 0;
+  }
+
+  ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin: 0 var(--spacing-3-xs);
+    }
+  }
+}

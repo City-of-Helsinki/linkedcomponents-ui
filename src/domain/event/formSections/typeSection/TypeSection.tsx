@@ -32,7 +32,7 @@ const TypeSection = () => {
             <p>{t('event.form.infoTextType2')}</p>
           </Notification>
         }
-        infoColumns={5}
+        infoColumns={4}
       >
         <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
           <Field

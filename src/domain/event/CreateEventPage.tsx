@@ -2,14 +2,11 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Button from '../../common/components/button/Button';
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
-import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { FORM_NAMES } from '../../constants';
-import Container from '../app/layout/Container';
-import FormContainer from '../app/layout/FormContainer';
 import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INITIAL_VALUES } from './constants';
-import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';
@@ -24,6 +21,7 @@ import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSec
 import SummarySection from './formSections/summarySection/SummarySection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
+import Section from './section/Section';
 import { createEventValidationSchema } from './utils';
 
 const CreateEventPage: React.FC = () => {
@@ -33,15 +31,18 @@ const CreateEventPage: React.FC = () => {
     <Formik
       initialValues={EVENT_INITIAL_VALUES}
       onSubmit={(values) => {
+        alert('TODO: Publish event');
         console.log('TODO: Submit event form with values: ', values);
       }}
       validationSchema={createEventValidationSchema}
       validateOnMount
     >
-      {({ values: { type, ...restValues } }) => {
+      {({ isValid, values: { isVerified, type, ...restValues } }) => {
         const saveDraft = () => {
+          alert('TODO: Save draft');
           console.log('TODO: Save draft with values: ', {
             type,
+            isVerified,
             ...restValues,
           });
         };
@@ -56,80 +57,58 @@ const CreateEventPage: React.FC = () => {
               className={styles.eventPage}
               title={`createEventPage.pageTitle.${type}`}
             >
-              <Container>
-                <FormContainer>
-                  <h1>{t(`createEventPage.title.${type}`)}</h1>
-                </FormContainer>
-                <EventNavigation
-                  items={[
-                    {
-                      component: <TypeSection />,
-                      isCompleted: true,
-                      label: t('event.navigation.steps.type'),
-                    },
-                    {
-                      component: <LanguagesSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.languages'),
-                    },
-                    {
-                      component: <ResponsibilitiesSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.responsibilities'),
-                    },
-                    {
-                      component: <DescriptionSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.description'),
-                    },
-                    {
-                      component: <TimeSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.time'),
-                    },
-                    {
-                      component: <PlaceSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.place'),
-                    },
-                    {
-                      component: <PriceSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.price'),
-                    },
-                    {
-                      component: <SocialMediaSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.socialMedia'),
-                    },
-                    {
-                      component: <ImageSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.image'),
-                    },
-                    {
-                      component: <ClassificationSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.classification'),
-                    },
-                    {
-                      component: <AudienceSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.audience'),
-                    },
-                    {
-                      component: <AdditionalInfoSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.additionalInfo'),
-                    },
-                    {
-                      component: <SummarySection onSaveDraft={saveDraft} />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.summary'),
-                    },
-                  ]}
-                ></EventNavigation>
-              </Container>
+              <Section title={t('event.navigation.steps.type')}>
+                <TypeSection />
+              </Section>
+              <Section title={t('event.navigation.steps.languages')}>
+                <LanguagesSection />
+              </Section>
+              <Section title={t('event.navigation.steps.responsibilities')}>
+                <ResponsibilitiesSection />
+              </Section>
+              <Section title={t('event.navigation.steps.description')}>
+                <DescriptionSection />
+              </Section>
+              <Section title={t('event.navigation.steps.time')}>
+                <TimeSection />
+              </Section>
+              <Section title={t('event.navigation.steps.place')}>
+                <PlaceSection />
+              </Section>
+              <Section title={t('event.navigation.steps.price')}>
+                <PriceSection />
+              </Section>
+              <Section title={t('event.navigation.steps.socialMedia')}>
+                <SocialMediaSection />
+              </Section>
+              <Section title={t('event.navigation.steps.image')}>
+                <ImageSection />
+              </Section>
+              <Section title={t('event.navigation.steps.classification')}>
+                <ClassificationSection />
+              </Section>
+              <Section title={t('event.navigation.steps.audience')}>
+                <AudienceSection />
+              </Section>
+              <Section title={t('event.navigation.steps.additionalInfo')}>
+                <AdditionalInfoSection />
+              </Section>
+              <SummarySection />
+
+              <div className={styles.buttonPanel}>
+                <div className={styles.saveButtonWrapper}>
+                  <Button
+                    disabled={!isVerified}
+                    onClick={saveDraft}
+                    variant="secondary"
+                  >
+                    {t('event.form.buttonSaveDraft')}
+                  </Button>
+                  <Button disabled={!isValid} type="submit">
+                    {t(`event.form.buttonPublish.${type}`)}
+                  </Button>
+                </div>
+              </div>
             </PageWrapper>
           </Form>
         );

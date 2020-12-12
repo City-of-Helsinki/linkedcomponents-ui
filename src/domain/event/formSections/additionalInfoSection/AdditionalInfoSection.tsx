@@ -4,10 +4,13 @@ import { useTranslation } from 'react-i18next';
 
 import DatepickerField from '../../../../common/components/formFields/DatepickerField';
 import TextInputField from '../../../../common/components/formFields/TextInputField';
+import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS, EXTENSION_COURSE_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
+import InputWrapper from '../InputWrapper';
 
 const AdditionalInfoSection = () => {
   const { t } = useTranslation();
@@ -28,8 +31,8 @@ const AdditionalInfoSection = () => {
           </Notification>
         }
       >
-        <div className={styles.splittedRow}>
-          <div>
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
+          <FormGroup>
             <Field
               name={EVENT_FIELDS.AUDIENCE_MIN_AGE}
               component={TextInputField}
@@ -38,8 +41,8 @@ const AdditionalInfoSection = () => {
               placeholder={t(`event.form.placeholderAudienceMinAge.${type}`)}
               type="number"
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Field
               name={EVENT_FIELDS.AUDIENCE_MAX_AGE}
               component={TextInputField}
@@ -48,13 +51,11 @@ const AdditionalInfoSection = () => {
               placeholder={t(`event.form.placeholderAudienceMaxAge.${type}`)}
               type="number"
             />
-          </div>
-        </div>
+          </FormGroup>
+        </InputWrapper>
       </InputRow>
 
-      <h3 className={styles.noTopMargin}>
-        {t(`event.form.titleEnrolmentTime`)}
-      </h3>
+      <h3>{t(`event.form.titleEnrolmentTime`)}</h3>
       <InputRow
         className={styles.noBottomMargin}
         info={
@@ -67,8 +68,8 @@ const AdditionalInfoSection = () => {
           </Notification>
         }
       >
-        <div className={styles.splittedRow}>
-          <div>
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
+          <FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME}`}
               component={DatepickerField}
@@ -76,8 +77,8 @@ const AdditionalInfoSection = () => {
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME}`}
               component={DatepickerField}
@@ -85,13 +86,11 @@ const AdditionalInfoSection = () => {
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />
-          </div>
-        </div>
+          </FormGroup>
+        </InputWrapper>
       </InputRow>
 
-      <h3 className={styles.noTopMargin}>
-        {t(`event.form.titleAttendeeCapacity`)}
-      </h3>
+      <h3>{t(`event.form.titleAttendeeCapacity`)}</h3>
       <InputRow
         info={
           <Notification
@@ -103,8 +102,8 @@ const AdditionalInfoSection = () => {
           </Notification>
         }
       >
-        <div className={styles.splittedRow}>
-          <div>
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
+          <FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY}`}
               component={TextInputField}
@@ -117,8 +116,8 @@ const AdditionalInfoSection = () => {
               )}
               type="number"
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}`}
               component={TextInputField}
@@ -131,8 +130,8 @@ const AdditionalInfoSection = () => {
               )}
               type="number"
             />
-          </div>
-        </div>
+          </FormGroup>
+        </InputWrapper>
       </InputRow>
     </>
   );

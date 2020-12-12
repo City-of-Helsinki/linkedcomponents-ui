@@ -50,3 +50,34 @@
     margin-top: 0px !important;
   }
 }
+
+.buttonPanel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-white);
+  padding: var(--spacing-s);
+  z-index: 100;
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    position: sticky;
+    left: unset;
+    right: unset;
+    margin: 0 calc(0px - var(--spacing-m));
+    padding: var(--spacing-s) var(--spacing-m);
+    grid-template-columns: 4fr 6fr;
+  }
+
+  .saveButtonWrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: var(--spacing-m);
+
+    @include medium-up {
+      grid-column: 2;
+    }
+  }
+}

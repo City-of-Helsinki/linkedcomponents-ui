@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
 import { Navigation } from 'hds-react/components/Navigation';
-import { IconPlus, IconSignout } from 'hds-react/icons';
+import { IconSignout } from 'hds-react/icons';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -17,7 +17,6 @@ import { OptionType } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { signIn, signOut } from '../../auth/authenticate';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
-import { clearEventFormData } from '../../event/utils';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
 
@@ -52,10 +51,6 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     });
   };
 
-  const isTabActive = (pathname: string): boolean => {
-    return location.pathname.startsWith(pathname);
-  };
-
   const goToPage = (pathname: string) => (
     event?: React.MouseEvent<HTMLAnchorElement>
   ) => {
@@ -63,37 +58,9 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     history.push({ pathname });
   };
 
-  const goToCreateEvent = () => {
-    clearEventFormData();
-    goToPage(createEventItem.url)();
-  };
-
-  const navigationItems = [
-    {
-      label: t('navigation.tabs.events'),
-      url: `/${locale}${ROUTES.EVENTS}`,
-    },
-    {
-      label: t('navigation.tabs.searchEvent'),
-      url: `/${locale}${ROUTES.SEARCH}`,
-    },
-    {
-      label: t('navigation.tabs.help'),
-      url: `/${locale}${ROUTES.HELP}`,
-    },
-  ];
-
-  const createEventItem = {
-    label: t('navigation.tabs.createEvent'),
-    url: `/${locale}${ROUTES.CREATE_EVENT}`,
-  };
-
   const handleSignIn = () => {
     signIn(`${location.pathname}${location.search}`);
   };
-
-  const showAddButton =
-    location.pathname !== `/${locale}${ROUTES.CREATE_EVENT}`;
 
   return (
     <Navigation
@@ -108,32 +75,6 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
       titleUrl={`/${locale}${ROUTES.HOME}`}
       logoLanguage={locale === 'sv' ? 'sv' : 'fi'}
     >
-      <Navigation.Row>
-        {navigationItems.map((item, index) => (
-          <Navigation.Item
-            key={index}
-            active={isTabActive(item.url)}
-            className={styles.navigationItem}
-            href={item.url}
-            label={item.label}
-            onClick={goToPage(item.url)}
-          />
-        ))}
-        <Navigation.Item
-          active={isTabActive(createEventItem.url)}
-          className={classNames(styles.navigationItem, styles.addEventItem, {
-            [styles.hidden]: !showAddButton,
-          })}
-          href={createEventItem.url}
-          label={
-            <span className={styles.navigationItemLabel}>
-              <IconPlus />
-              {createEventItem.label}
-            </span>
-          }
-          onClick={goToCreateEvent}
-        />
-      </Navigation.Row>
       <Navigation.Actions>
         {/* USER */}
         <Navigation.User

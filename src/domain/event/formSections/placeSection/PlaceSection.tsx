@@ -45,7 +45,7 @@ const PlaceSection = () => {
         }
         infoColumns={4}
       >
-        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.LARGE}>
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
           <FormGroup>
             <Field
               component={PlaceSelectorField}

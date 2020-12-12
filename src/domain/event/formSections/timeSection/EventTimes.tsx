@@ -51,7 +51,7 @@ const EventTimes = () => {
                 {t('event.form.buttonAddEventTime')}
               </Button>
             }
-            inputWidth={INPUT_MAX_WIDTHS.LARGE}
+            inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
           />
         </div>
       )}

@@ -14,7 +14,6 @@ import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import {
   useImageQuery,
   useImagesLazyQuery,
-  useImagesQuery,
   useUploadImageMutation,
 } from '../../../../generated/graphql';
 import getPathBuilder from '../../../../utils/getPathBuilder';
@@ -132,7 +131,7 @@ const ImageSection = () => {
             <p>{t(`event.form.infoTextImage3`)}</p>
           </Notification>
         }
-        infoColumns={5}
+        infoColumns={4}
       >
         <InputWrapper
           className={styles.imagePreviewWrapper}
@@ -148,10 +147,7 @@ const ImageSection = () => {
 
       <div className={styles.imageDetailsRow}>
         <div className={styles.buttonColumn}>
-          <InputWrapper
-            className={styles.buttonWrapper}
-            maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-          >
+          <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
             {!!images.length ? (
               <Button
                 fullWidth={true}
@@ -170,13 +166,17 @@ const ImageSection = () => {
               </Button>
             )}
           </InputWrapper>
+          <InputWrapper
+            className={styles.buttonWrapper}
+            maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
+          >
+            <ImageDetailsFields
+              field={EVENT_FIELDS.IMAGE_DETAILS}
+              imageAtId={imageAtId}
+            />
+          </InputWrapper>
         </div>
-        <div className={styles.imageDetailsColumn}>
-          <ImageDetailsFields
-            field={EVENT_FIELDS.IMAGE_DETAILS}
-            imageAtId={imageAtId}
-          />
-        </div>
+        <div className={styles.imageDetailsColumn}></div>
       </div>
     </>
   );

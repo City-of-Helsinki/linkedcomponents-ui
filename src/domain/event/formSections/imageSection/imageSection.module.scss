@@ -22,6 +22,9 @@
 }
 
 .buttonWrapper {
+  display: grid;
+  grid-gap: var(--spacing-m);
+
   @include medium-up {
     margin-top: var(--label-height);
   }

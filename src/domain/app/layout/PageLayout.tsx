@@ -8,7 +8,10 @@ import useLocale from '../../../hooks/useLocale';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import { useTheme } from '../theme/Theme';
+import Breadcrumb from './Breadcrumb';
+import Container from './Container';
 import styles from './pageLayout.module.scss';
+import SideNavigation from './SideNavigation';
 
 const PageLayout: React.FC = ({ children }) => {
   const { theme } = useTheme();
@@ -50,7 +53,15 @@ const PageLayout: React.FC = ({ children }) => {
 
       <Header menuOpen={menuOpen} onMenuToggle={toggleMenu} />
       <div aria-hidden={menuOpen} className={styles.pageBody}>
-        {children}
+        <Container>
+          <div className={styles.bodyWrapper}>
+            <SideNavigation />
+            <div>
+              <Breadcrumb />
+              {children}
+            </div>
+          </div>
+        </Container>
       </div>
 
       <Footer />

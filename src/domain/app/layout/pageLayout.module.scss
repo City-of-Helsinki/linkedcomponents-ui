@@ -1,3 +1,5 @@
+@import 'breakpoints';
+
 .pageLayout {
   height: 100%;
   width: 100%;
@@ -26,4 +28,13 @@
   display: grid;
   align-content: flex-start;
   background-color: var(--page-background-color);
+
+  .bodyWrapper {
+    display: grid;
+
+    @include medium-up {
+      grid-template-columns: 1fr 5fr;
+      grid-gap: var(--spacing-m);
+    }
+  }
 }

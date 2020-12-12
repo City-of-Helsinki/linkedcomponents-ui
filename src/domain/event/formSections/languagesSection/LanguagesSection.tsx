@@ -13,7 +13,6 @@ import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import { EVENT_FIELDS, ORDERED_EVENT_INFO_LANGUAGES } from '../../constants';
-import styles from '../../eventPage.module.scss';
 import { sortLanguage } from '../../utils';
 import InputWrapper from '../InputWrapper';
 
@@ -42,7 +41,6 @@ const LanguagesSection = () => {
     <LoadingSpinner isLoading={loading}>
       <h3>{t(`event.form.titleInfoLanguages.${eventType}`)}</h3>
       <InputRow
-        className={styles.noBottomMargin}
         info={
           <Notification
             label={t(`event.form.titleInfoLanguages.${eventType}`)}
@@ -64,9 +62,7 @@ const LanguagesSection = () => {
         </InputWrapper>
       </InputRow>
 
-      <h3 className={styles.noTopMargin}>
-        {t(`event.form.titleInLanguages.${eventType}`)}
-      </h3>
+      <h3>{t(`event.form.titleInLanguages.${eventType}`)}</h3>
       <InputRow
         info={
           <Notification
