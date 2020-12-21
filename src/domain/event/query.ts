@@ -51,6 +51,7 @@ export const QUERY_EVENT = gql`
     offers {
       ...offerFields
     }
+    publicationStatus
     provider {
       ...localisedFields
     }
