@@ -69,6 +69,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
 
   const { data: placesData } = usePlacesQuery({
     variables: {
+      showAllPlaces: true,
       text: search,
       createPath: getPathBuilder(placesPathBuilder),
     },

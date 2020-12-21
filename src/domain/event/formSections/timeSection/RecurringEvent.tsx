@@ -21,6 +21,14 @@ const RecurringEvent: React.FC<Props> = ({
   recurringEvent,
   type,
 }) => {
+  const startDate =
+    typeof recurringEvent.startDate === 'string'
+      ? new Date(recurringEvent.startDate)
+      : recurringEvent.startDate;
+  const endDate =
+    typeof recurringEvent.endDate === 'string'
+      ? new Date(recurringEvent.endDate)
+      : recurringEvent.endDate;
   const { t } = useTranslation();
   const sortedRepeatDays = [...recurringEvent.repeatDays].sort(sortWeekDays);
 
@@ -48,12 +56,8 @@ const RecurringEvent: React.FC<Props> = ({
       weekDayAbbreviationsText,
     ].join(' '),
     t('common.betweenDates', {
-      startDate:
-        recurringEvent.startDate &&
-        formatDate(recurringEvent.startDate, DATE_FORMAT),
-      endDate:
-        recurringEvent.endDate &&
-        formatDate(recurringEvent.endDate, DATE_FORMAT),
+      startDate: startDate && formatDate(startDate, DATE_FORMAT),
+      endDate: endDate && formatDate(endDate, DATE_FORMAT),
     }),
     t('common.betweenTimes', {
       startTime: recurringEvent.startTime,
@@ -82,15 +86,11 @@ const RecurringEvent: React.FC<Props> = ({
     },
     {
       label: t(`event.form.recurringEvent.labelStartDate`),
-      text:
-        recurringEvent.startDate &&
-        formatDate(recurringEvent.startDate, DATE_FORMAT),
+      text: startDate && formatDate(startDate, DATE_FORMAT),
     },
     {
       label: t(`event.form.recurringEvent.labelEndDate`),
-      text:
-        recurringEvent.endDate &&
-        formatDate(recurringEvent.endDate, DATE_FORMAT),
+      text: endDate && formatDate(endDate, DATE_FORMAT),
     },
   ];
 

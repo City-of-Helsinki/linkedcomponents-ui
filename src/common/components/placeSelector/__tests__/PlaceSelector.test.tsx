@@ -41,6 +41,7 @@ const placesResponse = { data: { places } };
 
 const defaultPlacesVariables = {
   createPath: undefined,
+  showAllPlaces: true,
   text: '',
 };
 

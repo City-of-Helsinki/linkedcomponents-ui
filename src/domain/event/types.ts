@@ -1,3 +1,4 @@
+import { PublicationStatus } from '../../generated/graphql';
 import {
   ADD_IMAGE_FIELDS,
   EVENT_FIELDS,
@@ -8,6 +9,12 @@ import {
 } from './constants';
 
 export type EventFields = {
+  id: string;
+  atId: string;
+  publicationStatus: PublicationStatus;
+};
+
+export type EventFormFields = {
   [EVENT_FIELDS.AUDIENCE]: string[];
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: number | '';
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: number | '';
@@ -36,9 +43,9 @@ export type EventFields = {
   [EVENT_FIELDS.RECURRING_EVENTS]: RecurringEventSettings[];
   [EVENT_FIELDS.SHORT_DESCRIPTION]: MultiLanguageObject;
   [EVENT_FIELDS.START_TIME]: Date | null;
+  [EVENT_FIELDS.SUPER_EVENT]: string | null;
   [EVENT_FIELDS.TYPE]: string;
   [EVENT_FIELDS.TWITTER_URL]: string;
-  [EVENT_FIELDS.UMBRELLA_EVENT]: string | null;
 };
 
 export type MultiLanguageObject = {
@@ -76,11 +83,11 @@ export type Offer = {
 };
 
 export type RecurringEventSettings = {
-  [RECURRING_EVENT_FIELDS.END_DATE]: Date | null;
+  [RECURRING_EVENT_FIELDS.END_DATE]: Date | string | null;
   [RECURRING_EVENT_FIELDS.END_TIME]: string;
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: string[];
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: number;
-  [RECURRING_EVENT_FIELDS.START_DATE]: Date | null;
+  [RECURRING_EVENT_FIELDS.START_DATE]: Date | string | null;
   [RECURRING_EVENT_FIELDS.START_TIME]: string;
 };
 

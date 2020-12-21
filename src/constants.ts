@@ -4,6 +4,7 @@ import { StoreState } from './types';
 export enum ROUTES {
   CALLBACK = '/callback',
   CREATE_EVENT = '/event/create',
+  EVENT_SAVED = '/event/completed/:id',
   EVENTS = '/events',
   HELP = '/help',
   HOME = '/',

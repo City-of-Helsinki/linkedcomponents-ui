@@ -70,6 +70,11 @@
       "event": "New event"
     }
   },
+  "errors": {
+    "authorizationRequired": "Sign in to perform this action",
+    "serverError": "Server error.",
+    "validationError": "There are errors on the form. Please check the form."
+  },
   "event": {
     "form": {
       "buttonAddEventTime": "Add new time",
@@ -402,7 +407,8 @@
         "course": "Course dates",
         "event": "Event dates"
       },
-      "titleUmrellaEvent": "Umbrella events"
+      "titleUmrellaEvent": "Umbrella events",
+      "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
     },
     "navigation": {
       "buttonNext": "Next",
@@ -427,6 +433,14 @@
       "course": "Course",
       "event": "Event"
     }
+  },
+  "eventSavedPage": {
+    "buttonAddEvent": "Add new event",
+    "buttonBackToEvents": "Back to events",
+    "pageTitleDraftSaved": "Draft saved",
+    "pageTitlePublished": "Event published",
+    "titleDraftSaved": "Draft successfully saved",
+    "titlePublished": "Event successfully published"
   },
   "eventsPage": {
     "pageTitle": "Search events"
@@ -464,6 +478,7 @@
       },
       "eventInfoVerified": "The information must be verified",
       "number": {
+        "integer": "Value must be an integer",
         "max": "Maximum value is {{max}}",
         "min": "Value must be at least {{min}}",
         "required": "This field is required"

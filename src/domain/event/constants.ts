@@ -3,7 +3,7 @@ import reduce from 'lodash/reduce';
 import { DEFAULT_LICENSE_TYPE } from '../image/constants';
 import {
   AddImageSettings,
-  EventFields,
+  EventFormFields,
   MultiLanguageObject,
   RecurringEventSettings,
 } from './types';
@@ -68,9 +68,9 @@ export enum EVENT_FIELDS {
   RECURRING_EVENTS = 'recurringEvents',
   SHORT_DESCRIPTION = 'shortDescription',
   START_TIME = 'startTime',
+  SUPER_EVENT = 'superEvent',
   TYPE = 'type',
   TWITTER_URL = 'twitterUrl',
-  UMBRELLA_EVENT = 'umbrellaEvent',
 }
 
 export enum EVENT_INFO_LANGUAGES {
@@ -116,7 +116,7 @@ export const ADD_IMAGE_INITIAL_VALUES: AddImageSettings = {
   [ADD_IMAGE_FIELDS.URL]: '',
 };
 
-export const EVENT_INITIAL_VALUES: EventFields = {
+export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.AUDIENCE]: [],
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: '',
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: '',
@@ -140,7 +140,7 @@ export const EVENT_INITIAL_VALUES: EventFields = {
     [IMAGE_DETAILS_FIELDS.NAME]: '',
     [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
   },
-  [EVENT_FIELDS.IN_LANGUAGE]: ['fi'],
+  [EVENT_FIELDS.IN_LANGUAGE]: [],
   [EVENT_FIELDS.IS_VERIFIED]: false,
   [EVENT_FIELDS.INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.INSTAGRAM_URL]: '',
@@ -154,9 +154,9 @@ export const EVENT_INITIAL_VALUES: EventFields = {
   [EVENT_FIELDS.RECURRING_EVENTS]: [],
   [EVENT_FIELDS.SHORT_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.START_TIME]: null,
+  [EVENT_FIELDS.SUPER_EVENT]: null,
   [EVENT_FIELDS.TYPE]: EVENT_TYPE.EVENT,
   [EVENT_FIELDS.TWITTER_URL]: '',
-  [EVENT_FIELDS.UMBRELLA_EVENT]: null,
 };
 
 export enum URL_PARAMS {

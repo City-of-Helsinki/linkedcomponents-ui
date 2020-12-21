@@ -55,8 +55,8 @@ const renderComponent = () =>
         [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: languages,
         [EVENT_FIELDS.HAS_UMBRELLA]: false,
         [EVENT_FIELDS.IS_UMBRELLA]: false,
+        [EVENT_FIELDS.SUPER_EVENT]: null,
         [EVENT_FIELDS.TYPE]: type,
-        [EVENT_FIELDS.UMBRELLA_EVENT]: null,
       }}
       onSubmit={jest.fn()}
     >

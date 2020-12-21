@@ -10,6 +10,7 @@ export enum VALIDATION_MESSAGE_KEYS {
   DATE_REQUIRED = 'form.validation.date.required',
   EMAIL = 'form.validation.string.email',
   EVENT_INFO_VERIFIED = 'form.validation.eventInfoVerified',
+  NUMBER_INTEGER = 'form.validation.number.integer',
   NUMBER_MAX = 'form.validation.number.max',
   NUMBER_MIN = 'form.validation.number.min',
   NUMBER_REQUIRED = 'form.validation.number.required',

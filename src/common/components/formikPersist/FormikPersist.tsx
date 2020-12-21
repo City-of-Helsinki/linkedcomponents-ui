@@ -13,11 +13,14 @@ const FormikPersist = ({
   isSessionStorage = false,
   name,
 }: PersistProps) => {
+  const isMounted = React.useRef(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formik = useFormikContext<any>();
 
   const saveForm = React.useCallback(
     debounce((data: FormikProps<{}>) => {
+      if (!isMounted.current) return;
+
       if (isSessionStorage) {
         window.sessionStorage.setItem(name, JSON.stringify(data));
       } else {
@@ -32,6 +35,7 @@ const FormikPersist = ({
   }, [formik, saveForm]);
 
   React.useEffect(() => {
+    isMounted.current = true;
     let timeout: number;
 
     const maybeState = isSessionStorage
@@ -48,6 +52,7 @@ const FormikPersist = ({
     }
     return () => {
       clearTimeout(timeout);
+      isMounted.current = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

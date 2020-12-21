@@ -14,7 +14,6 @@ import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import {
   useImageQuery,
   useImagesLazyQuery,
-  useImagesQuery,
   useUploadImageMutation,
 } from '../../../../generated/graphql';
 import getPathBuilder from '../../../../utils/getPathBuilder';
