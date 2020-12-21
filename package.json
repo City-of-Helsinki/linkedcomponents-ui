@@ -81,6 +81,7 @@
       "src/domain/app/i18n/i18nInit.ts",
       "src/domain/auth/userManager.ts",
       "src/domain/auth/oidcCallback/OidcCallback.tsx",
+      "src/domain/auth/silentCallback/SilentCallback.tsx",
       "src/generated/graphql.tsx",
       "src/utils/mockDataUtils.ts",
       "src/utils/testUtils.ts"

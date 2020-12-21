@@ -38,6 +38,7 @@ const placesResponse = { data: { places } };
 
 const placesVariables = {
   createPath: undefined,
+  showAllPlaces: true,
   text: '',
 };
 

@@ -19,6 +19,7 @@ import {
   Meta,
   Place,
   PlacesResponse,
+  PublicationStatus,
 } from '../generated/graphql';
 
 export const fakeEvents = (
@@ -52,6 +53,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       externalLinks: [fakeExternalLink()],
       offers: [] as any,
       subEvents: [] as any,
+      publicationStatus: PublicationStatus.Public,
       eventStatus: 'EventScheduled',
       superEvent: null,
       dataSource: 'hel',
@@ -198,9 +200,12 @@ export const fakePlace = (overrides?: Partial<Place>): Place =>
 
 export const fakeLocalisedObject = (text?: string): LocalisedObject => ({
   __typename: 'LocalisedObject',
+  ar: faker.random.words(),
   en: faker.random.words(),
-  sv: faker.random.words(),
   fi: text || faker.random.words(),
+  ru: faker.random.words(),
+  sv: faker.random.words(),
+  zhHans: faker.random.words(),
 });
 
 export const fakeMeta = (count = 1, overrides?: Partial<Meta>): Meta =>
