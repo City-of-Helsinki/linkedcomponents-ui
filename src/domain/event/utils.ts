@@ -540,12 +540,14 @@ export const clearEventFormData = () => {
 };
 
 export const getEventFields = (event: EventFieldsFragment): EventFields => ({
-  id: event.id as string,
-  atId: event.atId as string,
+  id: event.id || '',
+  atId: event.atId || '',
   publicationStatus: event.publicationStatus || PublicationStatus.Public,
 });
 
-const generateEventTimes = (settings: RecurringEventSettings): EventTime[] => {
+export const generateEventTimesFromRecurringEvent = (
+  settings: RecurringEventSettings
+): EventTime[] => {
   const {
     startDate,
     startTime,
@@ -556,6 +558,7 @@ const generateEventTimes = (settings: RecurringEventSettings): EventTime[] => {
   } = settings;
   const eventTimes: EventTime[] = [];
 
+  /* istanbul ignore else  */
   if (startDate && endDate && repeatInterval > 0) {
     const dayCodes: Record<string, number> = {
       [WEEK_DAY.MON]: 1,
@@ -584,6 +587,7 @@ const generateEventTimes = (settings: RecurringEventSettings): EventTime[] => {
           ),
           formattedStartTime.minutes
         );
+        /* istanbul ignore else  */
         if (
           isWithinInterval(possibleStartDate, {
             start: recurrenceStart,
@@ -595,6 +599,7 @@ const generateEventTimes = (settings: RecurringEventSettings): EventTime[] => {
         }
       }
 
+      /* istanbul ignore else  */
       if (firstMatchWeekday) {
         let matchWeekday = firstMatchWeekday;
         while (
@@ -617,7 +622,7 @@ const generateEventTimes = (settings: RecurringEventSettings): EventTime[] => {
     });
   }
 
-  return sortBy(eventTimes, 'endTime');
+  return eventTimes;
 };
 
 /**
@@ -626,7 +631,7 @@ const generateEventTimes = (settings: RecurringEventSettings): EventTime[] => {
  * - earliest date of sub events as startTime
  * - latest date of sub events as endTime
  */
-export const calculateSuperEventTime = (eventTimes: EventTime[]) => {
+export const calculateSuperEventTime = (eventTimes: EventTime[]): EventTime => {
   const startTimes: Date[] = [];
   const endTimes: Date[] = [];
 
@@ -649,8 +654,8 @@ export const calculateSuperEventTime = (eventTimes: EventTime[]) => {
     : undefined;
 
   return {
-    startTime: superEventStartTime?.toISOString(),
-    endTime: superEventEndTime?.toISOString(),
+    startTime: superEventStartTime || null,
+    endTime: superEventEndTime || null,
   };
 };
 
@@ -658,21 +663,20 @@ export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
   const { endTime, eventTimes, recurringEvents, startTime } = formValues;
   const allEventTimes: EventTime[] = [];
 
+  /* istanbul ignore else  */
   if (endTime || startTime) {
     allEventTimes.push({ endTime, startTime });
   }
 
-  eventTimes.forEach((item) => {
-    if (item.endTime || item.startTime) {
-      allEventTimes.push(item);
-    }
-  });
-
-  recurringEvents.forEach((settings) =>
-    allEventTimes.push(...generateEventTimes(settings))
+  allEventTimes.push(
+    ...eventTimes.filter(({ endTime, startTime }) => endTime || startTime)
   );
 
-  return uniqWith(allEventTimes, isEqual);
+  recurringEvents.forEach((settings) =>
+    allEventTimes.push(...generateEventTimesFromRecurringEvent(settings))
+  );
+
+  return sortBy(uniqWith(allEventTimes, isEqual), 'startTime');
 };
 
 export const filterUnselectedLanguages = (
@@ -731,6 +735,7 @@ export const getEventPayload = (
     ...(audienceMinAge ? { audienceMinAge } : ''),
     externalLinks: externalLinkFields
       .map((field) => {
+        /* istanbul ignore else  */
         if (field.value) {
           return {
             name: field.field,
@@ -738,7 +743,6 @@ export const getEventPayload = (
             language: EVENT_INFO_LANGUAGES.FI, // TODO: Which languages here?
           };
         }
-        return undefined;
       })
       .filter((item) => item) as ExternalLinkInput[],
     description: filterUnselectedLanguages(description, eventInfoLanguages),
@@ -753,7 +757,15 @@ export const getEventPayload = (
     ),
     name: filterUnselectedLanguages(name, eventInfoLanguages),
     offers: hasPrice
-      ? offers.map((offer) => ({ ...offer, isFree: false }))
+      ? offers.map((offer) => ({
+          description: filterUnselectedLanguages(
+            offer.description,
+            eventInfoLanguages
+          ),
+          infoUrl: filterUnselectedLanguages(offer.infoUrl, eventInfoLanguages),
+          price: filterUnselectedLanguages(offer.price, eventInfoLanguages),
+          isFree: false,
+        }))
       : [{ isFree: true }],
     provider: filterUnselectedLanguages(provider, eventInfoLanguages),
     shortDescription: filterUnselectedLanguages(
@@ -762,7 +774,7 @@ export const getEventPayload = (
     ),
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : undefined,
     superEventType:
-      isUmbrella && !uniqEventTimes.length ? SuperEventType.Umbrella : null,
+      isUmbrella && uniqEventTimes.length <= 1 ? SuperEventType.Umbrella : null,
   };
 
   if (uniqEventTimes.length > 1) {
@@ -806,8 +818,8 @@ export const getRecurringEventPayload = (
 
   return {
     ...basePayload[0],
-    startTime: superEventTime.startTime,
-    endTime: superEventTime.endTime,
+    startTime: superEventTime.startTime?.toISOString(),
+    endTime: superEventTime.endTime?.toISOString(),
     superEventType: SuperEventType.Recurring,
     subEvents,
   };

@@ -40,7 +40,7 @@ const renderComponent = (mocks: MockedResponse[]) =>
 
 test('should render all components for draft event', async () => {
   const mocks = getMocks(PublicationStatus.Draft);
-  const { history } = renderComponent(mocks);
+  renderComponent(mocks);
 
   await waitFor(() => {
     expect(
