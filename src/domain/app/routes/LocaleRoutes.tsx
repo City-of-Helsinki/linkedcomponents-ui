@@ -4,6 +4,7 @@ import { Route, RouteComponentProps, Switch } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import { Language } from '../../../types';
+import EventSavedPage from '../../eventCreated/EventSavedPage';
 import LogoutPage from '.././../auth/logoutPage/LogoutPage';
 import CreateEventPage from '.././../event/CreateEventPage';
 import EventsPage from '.././../events/EventsPage';
@@ -42,6 +43,11 @@ const LocaleRoutes: React.FC<Props> = ({
           exact
           path={getLocelePath(ROUTES.CREATE_EVENT)}
           component={CreateEventPage}
+        />
+        <Route
+          exact
+          path={getLocelePath(ROUTES.EVENT_SAVED)}
+          component={EventSavedPage}
         />
         <Route
           exact
