@@ -1,15 +1,17 @@
 import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { ROUTES } from '../../constants';
 import {
   EventFieldsFragment,
   PublicationStatus,
   useEventQuery,
 } from '../../generated/graphql';
+import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
@@ -23,7 +25,18 @@ type EventSavedPageProps = {
 
 const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
   const { t } = useTranslation();
+  const history = useHistory();
+  const locale = useLocale();
+
   const { publicationStatus } = getEventFields(event);
+
+  const goToEvents = () => {
+    history.push(`/${locale}${ROUTES.EVENTS}`);
+  };
+
+  const goToCreateEvent = () => {
+    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+  };
 
   return (
     <PageWrapper
@@ -42,10 +55,14 @@ const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
           </h1>
 
           <div className={styles.buttonPanel}>
-            <Button iconLeft={<IconArrowLeft />} variant="secondary">
+            <Button
+              onClick={goToEvents}
+              iconLeft={<IconArrowLeft />}
+              variant="secondary"
+            >
               {t('eventSavedPage.buttonBackToEvents')}
             </Button>
-            <Button variant="primary">
+            <Button onClick={goToCreateEvent} variant="primary">
               {t('eventSavedPage.buttonAddEvent')}
             </Button>
           </div>
@@ -62,7 +79,6 @@ const EventSavedPageWrapper = () => {
     skip: !eventId,
     variables: {
       id: eventId,
-
       createPath: getPathBuilder(eventPathBuilder),
     },
   });

@@ -4,7 +4,7 @@ import { Route, RouteComponentProps, Switch } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import { Language } from '../../../types';
-import EventSavedPage from '../../eventCreated/EventSavedPage';
+import EventSavedPage from '../../eventSaved/EventSavedPage';
 import LogoutPage from '.././../auth/logoutPage/LogoutPage';
 import CreateEventPage from '.././../event/CreateEventPage';
 import EventsPage from '.././../events/EventsPage';
