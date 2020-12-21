@@ -742,6 +742,8 @@ export const getEventPayload = (
             link: field.value,
             language: EVENT_INFO_LANGUAGES.FI, // TODO: Which languages here?
           };
+        } else {
+          return null;
         }
       })
       .filter((item) => item) as ExternalLinkInput[],

@@ -547,5 +547,10 @@
       "help": "More information",
       "searchEvent": "Search events"
     }
+  },
+  "notFound": {
+    "buttonGoToHome": "To home page",
+    "pageTitle": "Not found",
+    "text": "The content you were looking for could not be found. Log in or return to the home page."
   }
 }

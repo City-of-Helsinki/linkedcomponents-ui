@@ -547,5 +547,10 @@
       "help": "Läs mer",
       "searchEvent": "Sök evenemangen"
     }
+  },
+  "notFound": {
+    "buttonGoToHome": "Till startsidan",
+    "pageTitle": "Hittades inte",
+    "text": "Innehållet du letade efter kunde inte hittas. Logga in igen eller återvänd till startsidan."
   }
 }

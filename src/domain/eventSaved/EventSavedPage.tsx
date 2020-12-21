@@ -17,6 +17,7 @@ import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import PageWrapper from '../app/layout/PageWrapper';
 import { eventPathBuilder, getEventFields } from '../event/utils';
+import NotFound from '../notFound/NotFound';
 import styles from './eventSavedPage.module.scss';
 
 type EventSavedPageProps = {
@@ -85,7 +86,7 @@ const EventSavedPageWrapper = () => {
 
   return (
     <LoadingSpinner isLoading={loading}>
-      {eventData && <EventSavedPage event={eventData.event} />}
+      {eventData ? <EventSavedPage event={eventData.event} /> : <NotFound />}
     </LoadingSpinner>
   );
 };

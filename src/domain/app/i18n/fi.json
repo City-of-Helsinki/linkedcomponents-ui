@@ -548,5 +548,10 @@
       "help": "Lisätietoja",
       "searchEvent": "Etsi tapahtumia"
     }
+  },
+  "notFound": {
+    "buttonGoToHome": "Etusivulle",
+    "pageTitle": "Sisältöä ei löydy",
+    "text": "Etsimääsi sisältöä ei löydy. Kirjaudu sisään tai palaa kotisivulle."
   }
 }
