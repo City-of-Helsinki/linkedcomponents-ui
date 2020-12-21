@@ -44,13 +44,9 @@ const TargetGroupSection = () => {
             <p>{t(`event.form.infoTextAudience.${type}`)}</p>
           </Notification>
         }
-        infoWidth={4}
+        infoColumns={4}
       >
-        <InputWrapper
-          columns={6}
-          inputColumns={6}
-          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-        >
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
           <Field
             name={EVENT_FIELDS.AUDIENCE}
             component={CheckboxGroupField}

@@ -45,6 +45,7 @@
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
+    "openInNewTab": "(avataan uudessa välilehdessä)",
     "placeholderDate": "pp.kk.vvvv",
     "placeholderDateTime": "pp.kk.vvvv hh.mm",
     "placeholderTime": "hh.mm",
@@ -60,7 +61,6 @@
     }
   },
   "createEventPage": {
-    "buttonSaveDraft": "Tallenna luonnos",
     "pageTitle": {
       "course": "Uusi kurssi",
       "event": "Uusi tapahtuma"
@@ -83,10 +83,16 @@
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
+      "buttonPublish": {
+        "course": "Julkaise kurssi",
+        "event": "Julkaise tapahtuma"
+      },
       "buttonRemoveImage": {
         "course": "Poista kurssin kuva",
         "event": "Poista tapahtuman kuva"
       },
+      "buttonSaveDraft": "Tallenna luonnos",
+      "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
       "extensionCourse": {
         "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
         "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
@@ -178,6 +184,7 @@
         "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
         "event": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
       },
+      "infoTextPublishing": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam.",
       "infoTextSocialMedia": {
         "course": "Valinnainen. Syötä URL-kenttään kurssin SoMe-linkit.",
         "event": "Valinnainen. Syötä URL-kenttään tapahtuman SoMe-linkit."
@@ -251,6 +258,10 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Kattotapahtuma",
+      "linkReadMoreAboutPublishing": {
+        "course": "Lue lisää aiheesta kurssin julkaisu",
+        "event": "Lue lisää aiheesta tapahtuman julkaisu"
+      },
       "modalTitleImage": "Lisää kuva",
       "modalTitleRecurringEvent": "Määritä toistuva tapahtuma",
       "notificationTitleEventTimes": {
@@ -267,6 +278,10 @@
         "event": "Tapahtuman luokittelu"
       },
       "notificationTitleOffers": "Hintatiedot",
+      "notificationTitlePublishing": {
+        "course": "Kurssin julkaisu hel.fi -sivustoilla",
+        "event": "Tapahtuman julkaisu hel.fi -sivustoilla"
+      },
       "notificationTitleType": "Tapahtumatyyppi",
       "placeholderAudienceMaxAge": {
         "course": "Syötä kurssin yläikäraja",
@@ -379,6 +394,10 @@
         "course": "Kurssi sosiaalisessa mediassa",
         "event": "Tapahtuma sosiaalisessa mediassa"
       },
+      "titleSummary": {
+        "course": "Yhteenveto kurssin tiedoista",
+        "event": "Yhteenveto tapahtuman tiedoista"
+      },
       "titleTime": {
         "course": "Kurssin ajankohdat",
         "event": "Tapahtuman ajankohdat"
@@ -392,15 +411,14 @@
         "additionalInfo": "Lisätiedot",
         "audience": "Kohteet",
         "classification": "Luokittelu",
-        "commitment": "Sitoomus",
         "description": "Kuvaus",
         "languages": "Kielet",
         "image": "Kuva",
         "place": "Paikka",
         "price": "Hinta",
-        "ready": "Valmis",
         "responsibilities": "Vastuut",
         "socialMedia": "SoMe",
+        "summary": "Yhteenveto",
         "time": "Aika",
         "type": "Tyyppi"
       }
@@ -444,6 +462,7 @@
         "min": "Tämän päivämäärän tulee olla vähintään {{min}}",
         "required": "Tämä kenttä on pakollinen"
       },
+      "eventInfoVerified": "Tietojen tulee olla vahvistettu",
       "number": {
         "max": "Arvon tulee olla enintään {{max}}",
         "min": "Arvon tulee olla vähintään {{min}}",

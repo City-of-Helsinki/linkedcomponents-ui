@@ -25,11 +25,7 @@ const LanguagesSection = () => {
 
   return (
     <>
-      <InputWrapper
-        columns={10}
-        inputColumns={8}
-        maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-      >
+      <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
         <h3>{t('event.form.titlePersonsInCharge')}</h3>
         <MultiLanguageField
           labelKey={`event.form.labelProvider.${type}`}

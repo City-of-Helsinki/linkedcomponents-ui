@@ -252,6 +252,10 @@ export const createEventValidationSchema = () => {
       }
     ),
     [EVENT_FIELDS.EXTENSION_COURSE]: createExtensionCourseValidation(),
+    [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
+      [true],
+      VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
+    ),
   });
 };
 

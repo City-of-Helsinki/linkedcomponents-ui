@@ -45,6 +45,7 @@
       "notAllowedFileFormat": "File format is not allowed",
       "tooLargeFileSize": "File size is too large. Maximum file size is {{maxSize}} MB"
     },
+    "openInNewTab": "(opens in a new tab)",
     "placeholderDate": "dd.mm.yyyy",
     "placeholderDateTime": "dd.mm.yyyy hh.mm",
     "placeholderTime": "hh.mm",
@@ -60,7 +61,6 @@
     }
   },
   "createEventPage": {
-    "buttonSaveDraft": "Save draft",
     "page": {
       "course": "New course",
       "event": "New event"
@@ -83,10 +83,16 @@
       "buttonDeleteOffer": "Delete pricing information",
       "buttonDeleteRecurringEvent": "Delete recurring event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
+      "buttonPublish": {
+        "course": "Publish course",
+        "event": "Publish event"
+      },
       "buttonRemoveImage": {
         "course": "Remove photo of the course",
         "event": "Remove photo of the event"
       },
+      "buttonSaveDraft": "Save draft",
+      "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
       "extensionCourse": {
         "labelEnrolmentEndTime": "Registration ends",
         "labelEnrolmentStartTime": "Registration begins",
@@ -178,6 +184,7 @@
         "course": "If the course has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field.",
         "event": "If the event has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field."
       },
+      "infoTextPublishing": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam.",
       "infoTextSocialMedia": {
         "course": "Optional. In the URL field, enter the SoMe links for the course.",
         "event": "Optional. In the URL field, enter the SoMe links for the event."
@@ -251,6 +258,10 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Umbrella event",
+      "linkReadMoreAboutPublishing": {
+        "course": "Read more on the topic of the course publication",
+        "event": "Read more on the topic of the event publication"
+      },
       "modalTitleImage": "Add image",
       "modalTitleRecurringEvent": "Specify recurring event",
       "notificationTitleEventTimes": {
@@ -267,6 +278,10 @@
         "event": "Event classification"
       },
       "notificationTitleOffers": "Price information",
+      "notificationTitlePublishing": {
+        "course": "Publication of the course on hel.fi websites",
+        "event": "Publication of the event on hel.fi websites"
+      },
       "notificationTitleType": "Event type",
       "placeholderAudienceMaxAge": {
         "course": "Enter the maximum age for the course",
@@ -379,6 +394,10 @@
         "course": "Course on social media",
         "event": "Event on social media"
       },
+      "titleSummary": {
+        "course": "Summary of course information",
+        "event": "Summary of event information"
+      },
       "titleTime": {
         "course": "Course dates",
         "event": "Event dates"
@@ -392,15 +411,14 @@
         "additionalInfo": "Additional information",
         "audience": "Targets",
         "classification": "Classification",
-        "commitment": "Commitment",
         "description": "Description",
         "languages": "Languages",
         "image": "Image",
         "place": "Place",
         "price": "Price",
-        "ready": "Ready",
         "responsibilities": "Responsibilities",
         "socialMedia": "SoMe",
+        "summary": "Summary",
         "time": "Time",
         "type": "Type"
       }
@@ -444,6 +462,7 @@
         "min": "This date must be at least {{min}}",
         "required": "This field is required"
       },
+      "eventInfoVerified": "The information must be verified",
       "number": {
         "max": "Maximum value is {{max}}",
         "min": "Value must be at least {{min}}",

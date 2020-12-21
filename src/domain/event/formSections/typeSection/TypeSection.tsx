@@ -32,13 +32,9 @@ const TypeSection = () => {
             <p>{t('event.form.infoTextType2')}</p>
           </Notification>
         }
-        infoWidth={5}
+        infoColumns={5}
       >
-        <InputWrapper
-          columns={6}
-          inputColumns={4}
-          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-        >
+        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
           <Field
             name={EVENT_FIELDS.TYPE}
             columns={3}
