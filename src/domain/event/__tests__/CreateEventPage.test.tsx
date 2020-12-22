@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { testId } from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { INCLUDE, KEYWORD_SETS } from '../../../constants';
 import {
   KeywordsDocument,
@@ -13,7 +14,7 @@ import {
   fakeLanguages,
   fakePlaces,
 } from '../../../utils/mockDataUtils';
-import { actWait, render, screen } from '../../../utils/testUtils';
+import { render, screen, waitFor } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import CreateEventPage from '../CreateEventPage';
 
@@ -93,17 +94,13 @@ const mocks = [
 test('should show correct title', async () => {
   render(<CreateEventPage />, { mocks });
 
-  await actWait(300);
+  await waitFor(() => {
+    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
+  });
 
   const title = document.title;
 
   expect(title).toBe(
     `${translations.createEventPage.pageTitle.event} - ${translations.appName}`
   );
-
-  expect(
-    screen.getByRole('heading', {
-      name: translations.createEventPage.title.event,
-    })
-  ).toBeInTheDocument();
 });

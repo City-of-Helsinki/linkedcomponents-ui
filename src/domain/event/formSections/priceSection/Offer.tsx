@@ -50,7 +50,6 @@ const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
             />
           }
         >
-          {' '}
           <>
             <FormGroup>
               <MultiLanguageField

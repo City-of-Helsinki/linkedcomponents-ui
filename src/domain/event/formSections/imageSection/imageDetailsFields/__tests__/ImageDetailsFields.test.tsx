@@ -19,7 +19,7 @@ import {
   EVENT_TYPE,
   IMAGE_DETAILS_FIELDS,
 } from '../../../../constants';
-import { createEventValidationSchema } from '../../../../utils';
+import { eventValidationSchema } from '../../../../utils';
 import ImageDetailsFields, {
   ImageDetailsFieldsProps,
 } from '../ImageDetailsFields';
@@ -92,7 +92,7 @@ const renderComponent = (
     <Formik
       onSubmit={jest.fn()}
       initialValues={initialValues || defaultInitialValus}
-      validationSchema={createEventValidationSchema}
+      validationSchema={eventValidationSchema}
     >
       <ImageDetailsFields {...defaultProps} {...props} />
     </Formik>,

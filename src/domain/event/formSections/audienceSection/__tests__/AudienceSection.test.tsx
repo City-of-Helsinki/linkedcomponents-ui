@@ -67,12 +67,11 @@ test('should render audience section', async () => {
   renderComponent();
 
   await waitFor(() => {
-    // Notification has same label so test that length is 2
     expect(
-      screen.queryAllByRole('heading', {
+      screen.queryByRole('heading', {
         name: translations.event.form.titleAudience,
       })
-    ).toHaveLength(2);
+    ).toBeInTheDocument();
   });
 
   expect(

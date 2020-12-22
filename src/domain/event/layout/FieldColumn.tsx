@@ -8,13 +8,11 @@ import styles from './fieldColumn.module.scss';
 type MaxWidth = INPUT_MAX_WIDTHS.MEDIUM | INPUT_MAX_WIDTHS.LARGE;
 
 type Props = {
-  button?: React.ReactNode;
   className?: string;
   maxWidth?: MaxWidth;
 };
 
 const FieldColumn: React.FC<Props> = ({
-  button,
   children,
   className,
   maxWidth = INPUT_MAX_WIDTHS.MEDIUM,
@@ -24,7 +22,6 @@ const FieldColumn: React.FC<Props> = ({
       <div className={styles[`maxWidth${capitalize(maxWidth)}`]}>
         {children}
       </div>
-      {button && <div>{button}</div>}
     </div>
   );
 };

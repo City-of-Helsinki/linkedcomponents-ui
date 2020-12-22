@@ -52,7 +52,7 @@ const EventTime: React.FC<Props> = ({ eventTimePath, onDelete, type }) => {
             timeSelector={true}
           />
         </FormGroup>
-      </>{' '}
+      </>
     </FieldWithButton>
   );
 };

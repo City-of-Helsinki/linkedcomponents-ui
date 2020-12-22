@@ -12,8 +12,8 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { EventFields } from '../../../types';
-import { createEventValidationSchema } from '../../../utils';
+import { EventFormFields } from '../../../types';
+import { eventValidationSchema } from '../../../utils';
 import TimeSection from '../TimeSection';
 
 configure({ defaultHidden: true });
@@ -28,7 +28,7 @@ const defaultInitialValue = {
   [EVENT_FIELDS.TYPE]: type,
 };
 
-const renderTimeSection = (initialValues?: Partial<EventFields>) =>
+const renderTimeSection = (initialValues?: Partial<EventFormFields>) =>
   render(
     <Formik
       initialValues={{
@@ -36,7 +36,7 @@ const renderTimeSection = (initialValues?: Partial<EventFields>) =>
         ...initialValues,
       }}
       onSubmit={jest.fn()}
-      validationSchema={createEventValidationSchema}
+      validationSchema={eventValidationSchema}
     >
       <TimeSection />
     </Formik>
@@ -77,8 +77,10 @@ test('should render TimeSection', () => {
     screen.queryByRole('textbox', { name });
   });
 
-  // TODO: Add also "Avaa toistuvan tapahtuman asetukset" button to this array when implemented
-  const buttons = [translations.event.form.buttonAddEventTime];
+  const buttons = [
+    translations.event.form.buttonAddEventTime,
+    translations.event.form.buttonAddRecurringEvent,
+  ];
 
   buttons.forEach((name) => {
     screen.queryByRole('button', { name });
