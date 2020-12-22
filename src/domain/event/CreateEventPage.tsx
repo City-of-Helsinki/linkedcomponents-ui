@@ -232,6 +232,7 @@ const CreateEventPage: React.FC = () => {
               abortEarly: false,
             });
 
+            clearErrors();
             saveEvent(values, PublicationStatus.Draft);
           } catch (error) {
             showErrors(error);
@@ -245,6 +246,7 @@ const CreateEventPage: React.FC = () => {
             const values = { type, ...restValues };
 
             clearErrors();
+
             await eventValidationSchema.validate(values, {
               abortEarly: false,
             });
