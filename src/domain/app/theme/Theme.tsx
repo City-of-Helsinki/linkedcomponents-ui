@@ -119,7 +119,9 @@ type EventNavigationCSSProperties = {
 };
 
 type FormLanguageSelectorCSSProperties = {
-  '--form-language-selector-color-icon'?: string;
+  '--form-language-selector-icon-color'?: string;
+  '--form-language-selector-item-color'?: string;
+  '--form-language-selector-item-color-active'?: string;
 };
 
 type ImageSelectorCSSProperties = {

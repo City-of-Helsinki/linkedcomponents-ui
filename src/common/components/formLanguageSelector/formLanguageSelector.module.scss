@@ -2,21 +2,50 @@
 
 .formLanguageSelector {
   --form-language-selector-color-icon: var(--color-success);
+  --form-language-selector-item-color: var(--color-bus);
+  --form-language-selector-item-color-active: var(--color-bus);
 
-  display: grid;
-  grid-gap: var(--spacing-m);
+  display: flex;
+  grid-gap: var(--spacing-xs);
+  height: var(--spacing-3-xl);
+  border-bottom: 2px solid var(--color-black-10);
 
   @include medium-up {
     padding-top: var(--label-height);
   }
 
   .icon {
-    color: var(--form-language-selector-color-icon);
+    color: var(--form-language-selector-icon-color);
+    margin-right: var(--spacing-s);
   }
 
-  button {
-    span {
-      padding-right: var(--spacing-s) !important;
-    }
+  .item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: var(--form-language-selector-item-color);
+    padding: 0px var(--spacing-s);
+  }
+
+  .item:hover:not(:focus):after {
+    background-color: var(--form-language-selector-item-color-active);
+    bottom: 0;
+    content: '';
+    height: var(--spacing-3-xs);
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+  }
+
+  .item.isSelected:after {
+    background-color: var(--form-language-selector-item-color-active);
+    bottom: 0;
+    content: '';
+    height: var(--spacing-3-xs);
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
   }
 }

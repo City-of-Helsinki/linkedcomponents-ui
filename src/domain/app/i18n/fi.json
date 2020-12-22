@@ -136,6 +136,7 @@
         "event": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään."
       },
       "infoTextAudienceAge": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEnrolmentTime": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEventTimes1": {
         "course": "Useana päivänä toistuvan kurssin lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
@@ -268,6 +269,10 @@
       "labelUmbrellaEvent": "Kattotapahtuma",
       "modalTitleImage": "Lisää kuva",
       "modalTitleRecurringEvent": "Määritä toistuva tapahtuma",
+      "notificationTitleDescription": {
+        "course": "Kurssin kuvaus",
+        "event": "Tapahtuman kuvaus"
+      },
       "notificationTitleEventTimes": {
         "course": "Kurssin ajankohdat",
         "event": "Tapahtuman ajankohdat"
@@ -370,10 +375,6 @@
       "titleAttendeeCapacity": "Osallistujamäärä",
       "titleAudience": "Kohderyhmät",
       "titleAudienceAge": "Ikärajoitukset",
-      "titleDescription": {
-        "course": "Kurssin kuvaus",
-        "event": "Tapahtuman kuvaus"
-      },
       "titleEnrolmentTime": "Ilmoittautumisaika",
       "titleEventType": "Valitse tapahtumatyyppi",
       "titleImage": {
@@ -389,7 +390,6 @@
         "event": "Tapahtuman kielet (ohjauskielet)"
       },
       "titleKeywords": "Lisää avainsanoja",
-      "titleLanguageVersions": "Kieliversiot",
       "titleLocation": "Tapahtumapaikka",
       "titleLocationExtraInfo": "Paikan lisätiedot",
       "titleMainCategories": "Pääluokat (kategoriat)",

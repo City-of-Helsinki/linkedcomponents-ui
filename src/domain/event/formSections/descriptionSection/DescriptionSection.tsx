@@ -6,6 +6,7 @@ import TextAreaField from '../../../../common/components/formFields/TextAreaFiel
 import TextInputField from '../../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import FormLanguageSelector from '../../../../common/components/formLanguageSelector/FormLanguageSelector';
+import Notification from '../../../../common/components/notification/Notification';
 import { CHARACTER_LIMITS } from '../../../../constants';
 import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';
 import {
@@ -13,7 +14,9 @@ import {
   EVENT_INFO_LANGUAGES,
   ORDERED_EVENT_INFO_LANGUAGES,
 } from '../../constants';
-import styles from './descriptionSection.module.scss';
+import styles from '../../eventPage.module.scss';
+import FieldColumn from '../../layout/FieldColumn';
+import FieldRow from '../../layout/FieldRow';
 
 const DescriptionSection = () => {
   const { t } = useTranslation();
@@ -58,24 +61,31 @@ const DescriptionSection = () => {
   };
 
   return (
-    <div className={styles.descriptionSection}>
-      <div className={styles.languageSelectorWrapper}>
-        <h3>{t('event.form.titleLanguageVersions')}</h3>
-        <FormLanguageSelector
-          fields={[
-            EVENT_FIELDS.DESCRIPTION,
-            EVENT_FIELDS.INFO_URL,
-            EVENT_FIELDS.NAME,
-            EVENT_FIELDS.SHORT_DESCRIPTION,
-          ]}
-          onChange={handleSelectedLanguageChange}
-          options={languageOptions}
-          selectedLanguage={selectedLanguage}
-        />
-      </div>
-      <div className={styles.formFieldsWrapper}>
-        <h3>{t(`event.form.titleDescription.${type}`)}</h3>
-        <div className={styles.splittedRow}>
+    <div>
+      <FormLanguageSelector
+        fields={[
+          EVENT_FIELDS.DESCRIPTION,
+          EVENT_FIELDS.INFO_URL,
+          EVENT_FIELDS.NAME,
+          EVENT_FIELDS.SHORT_DESCRIPTION,
+        ]}
+        onChange={handleSelectedLanguageChange}
+        options={languageOptions}
+        selectedLanguage={selectedLanguage}
+      />
+
+      <FieldRow
+        notification={
+          <Notification
+            className={styles.notification}
+            label={t(`event.form.notificationTitleDescription.${type}`)}
+            type="info"
+          >
+            <p>{t(`event.form.infoTextDescription`)}</p>
+          </Notification>
+        }
+      >
+        <FieldColumn>
           <FormGroup>
             <Field
               component={TextInputField}
@@ -97,33 +107,32 @@ const DescriptionSection = () => {
               placeholder={t(`event.form.placeholderInfoUrl.${type}`)}
             />
           </FormGroup>
-        </div>
-
-        <FormGroup>
-          <Field
-            component={TextInputField}
-            label={t(`event.form.labelShortDescription.${type}`, {
-              langText,
-            })}
-            name={`${EVENT_FIELDS.SHORT_DESCRIPTION}.${selectedLanguage}`}
-            placeholder={t(`event.form.placeholderShortDescription.${type}`)}
-            maxLength={CHARACTER_LIMITS.SHORT_STRING}
-            required={true}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Field
-            component={TextAreaField}
-            label={t(`event.form.labelDescription.${type}`, {
-              langText,
-            })}
-            name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
-            placeholder={t(`event.form.placeholderDescription.${type}`)}
-            maxLength={CHARACTER_LIMITS.LONG_STRING}
-            required={true}
-          />
-        </FormGroup>
-      </div>
+          <FormGroup>
+            <Field
+              component={TextInputField}
+              label={t(`event.form.labelShortDescription.${type}`, {
+                langText,
+              })}
+              name={`${EVENT_FIELDS.SHORT_DESCRIPTION}.${selectedLanguage}`}
+              placeholder={t(`event.form.placeholderShortDescription.${type}`)}
+              maxLength={CHARACTER_LIMITS.SHORT_STRING}
+              required={true}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Field
+              component={TextAreaField}
+              label={t(`event.form.labelDescription.${type}`, {
+                langText,
+              })}
+              name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
+              placeholder={t(`event.form.placeholderDescription.${type}`)}
+              maxLength={CHARACTER_LIMITS.LONG_STRING}
+              required={true}
+            />
+          </FormGroup>
+        </FieldColumn>
+      </FieldRow>
     </div>
   );
 };

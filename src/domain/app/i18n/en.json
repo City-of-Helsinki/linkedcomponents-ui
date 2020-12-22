@@ -136,6 +136,7 @@
         "event": "If the event does not have a specific target group, don't select anything"
       },
       "infoTextAudienceAge": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEnrolmentTime": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEventTimes1": {
         "course": "To add a multi-day recurring course, there is an “Add New Time” button and a regular “Recurring Course” tool for a regularly recurring course.",
@@ -268,6 +269,10 @@
       "labelUmbrellaEvent": "Umbrella event",
       "modalTitleImage": "Add image",
       "modalTitleRecurringEvent": "Specify recurring event",
+      "notificationTitleDescription": {
+        "course": "Course description",
+        "event": "Event description"
+      },
       "notificationTitleEventTimes": {
         "course": "Course times",
         "event": "Event times"
@@ -370,10 +375,6 @@
       "titleAttendeeCapacity": "Attendee capacity",
       "titleAudience": "Target groups",
       "titleAudienceAge": "Age restrictions",
-      "titleDescription": {
-        "course": "Course description",
-        "event": "Event description"
-      },
       "titleEnrolmentTime": "Registration time",
       "titleEventType": "Select event type",
       "titleImage": {
@@ -389,7 +390,6 @@
         "event": "Event languages (control languages)"
       },
       "titleKeywords": "Add keywords",
-      "titleLanguageVersions": "Language versions",
       "titleLocation": "Venue",
       "titleLocationExtraInfo": "Additional location information",
       "titleMainCategories": "Main categories",

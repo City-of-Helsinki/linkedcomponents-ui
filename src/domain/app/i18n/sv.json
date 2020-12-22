@@ -136,6 +136,7 @@
         "event": "Om evenemanget inte har en specifik publik, välj inget."
       },
       "infoTextAudienceAge": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEnrolmentTime": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEventTimes1": {
         "course": "För att lägga till en flerdagars återkommande kurs finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande kurs” -verktyg.",
@@ -268,6 +269,10 @@
       "labelUmbrellaEvent": "Paraplyevenemang",
       "modalTitleImage": "Lägg till en bild",
       "modalTitleRecurringEvent": "Ange återkommande evenemang",
+      "notificationTitleDescription": {
+        "course": "Kursbeskrivning",
+        "event": "Evenemangbeskrivning"
+      },
       "notificationTitleEventTimes": {
         "course": "Kurstider",
         "event": "Evenemamgtider"
@@ -370,10 +375,6 @@
       "titleAttendeeCapacity": "Deltagarkapacitet",
       "titleAudience": "Målgrupper",
       "titleAudienceAge": "Åldersbegränsningar",
-      "titleDescription": {
-        "course": "Kursbeskrivning",
-        "event": "Evenemangbeskrivning"
-      },
       "titleEnrolmentTime": "Registreringstid",
       "titleEventType": "Välj en evenemangtyp",
       "titleImage": {
@@ -389,7 +390,6 @@
         "event": "Evenemangsspråk (kontrollspråk)"
       },
       "titleKeywords": "Lägg till nyckelord",
-      "titleLanguageVersions": "Språkversioner",
       "titleLocation": "Venue",
       "titleLocationExtraInfo": "Ytterligare platsinformation",
       "titleMainCategories": "Huvudkategorier",
