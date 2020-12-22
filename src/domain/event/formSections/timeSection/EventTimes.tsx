@@ -4,11 +4,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../common/components/button/Button';
-import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
+import FieldWithButton from '../../layout/FieldWithButton';
 import { EventTime as EventTimeType } from '../../types';
 import { getEmptyEventTime } from '../../utils';
-import FieldArrayRow from '../FieldArrayRow';
 import EventTime from './EventTime';
 
 const getEventTimePath = (index: number) =>
@@ -39,20 +38,17 @@ const EventTimes = () => {
               />
             );
           })}
-          <FieldArrayRow
-            input={
-              <Button
-                type="button"
-                fullWidth={true}
-                onClick={() => arrayHelpers.push(getEmptyEventTime())}
-                iconLeft={<IconPlus />}
-                variant="primary"
-              >
-                {t('event.form.buttonAddEventTime')}
-              </Button>
-            }
-            inputWidth={INPUT_MAX_WIDTHS.LARGE}
-          />
+          <FieldWithButton>
+            <Button
+              type="button"
+              fullWidth={true}
+              onClick={() => arrayHelpers.push(getEmptyEventTime())}
+              iconLeft={<IconPlus />}
+              variant="primary"
+            >
+              {t('event.form.buttonAddEventTime')}
+            </Button>
+          </FieldWithButton>
         </div>
       )}
     />

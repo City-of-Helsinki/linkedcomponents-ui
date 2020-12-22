@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 import Button from '../../../../common/components/button/Button';
+import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import ImagePreview from '../../../../common/components/imagePreview/ImagePreview';
 import { PAGE_SIZE as IMAGES_PAGE_SIZE } from '../../../../common/components/imageSelector/constants';
-import InputRow from '../../../../common/components/inputRow/InputRow';
 import Modal from '../../../../common/components/modal/Modal';
 import Notification from '../../../../common/components/notification/Notification';
 import { INPUT_MAX_WIDTHS } from '../../../../constants';
@@ -20,8 +20,9 @@ import getPathBuilder from '../../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import { imagePathBuilder, imagesPathBuilder } from '../../../image/utils';
 import { EVENT_FIELDS } from '../../constants';
+import FieldColumn from '../../layout/FieldColumn';
+import FieldRow from '../../layout/FieldRow';
 import { AddImageSettings } from '../../types';
-import InputWrapper from '../InputWrapper';
 import AddImageForm from './addImageForm/AddImageForm';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';
 import styles from './imageSection.module.scss';
@@ -120,8 +121,8 @@ const ImageSection = () => {
         />
       </Modal>
       <h3>{t(`event.form.titleImage.${type}`)}</h3>
-      <InputRow
-        info={
+      <FieldRow
+        notification={
           <Notification
             label={t(`event.form.notificationTitleImage.${type}`)}
             type="info"
@@ -131,9 +132,8 @@ const ImageSection = () => {
             <p>{t(`event.form.infoTextImage3`)}</p>
           </Notification>
         }
-        infoColumns={5}
       >
-        <InputWrapper
+        <FieldColumn
           className={styles.imagePreviewWrapper}
           maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
         >
@@ -142,15 +142,11 @@ const ImageSection = () => {
             label={t(`event.form.buttonAddImage.${type}`)}
             onClick={openModal}
           />
-        </InputWrapper>
-      </InputRow>
-
-      <div className={styles.imageDetailsRow}>
-        <div className={styles.buttonColumn}>
-          <InputWrapper
-            className={styles.buttonWrapper}
-            maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-          >
+        </FieldColumn>
+      </FieldRow>
+      <FieldRow>
+        <FieldColumn>
+          <FormGroup>
             {!!images.length ? (
               <Button
                 fullWidth={true}
@@ -168,15 +164,14 @@ const ImageSection = () => {
                 {t(`event.form.buttonAddImage.${type}`)}
               </Button>
             )}
-          </InputWrapper>
-        </div>
-        <div className={styles.imageDetailsColumn}>
+          </FormGroup>
+
           <ImageDetailsFields
             field={EVENT_FIELDS.IMAGE_DETAILS}
             imageAtId={imageAtId}
           />
-        </div>
-      </div>
+        </FieldColumn>
+      </FieldRow>
     </>
   );
 };

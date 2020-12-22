@@ -1,0 +1,36 @@
+@import 'breakpoints';
+
+.fieldWithButton {
+  display: grid;
+  grid-template-columns: 1fr var(--input-height);
+
+  .buttonColumn {
+    min-width: var(--input-height);
+  }
+
+  &.widthMedium {
+    @include medium-up {
+      grid-template-columns: minmax(0, var(--input-max-width-m)) auto;
+
+      .inputColumn {
+        max-width: var(--input-max-width-m);
+      }
+    }
+  }
+
+  &.widthLarge {
+    @include medium-up {
+      grid-template-columns: minmax(0, var(--input-max-width-l)) auto;
+
+      .inputColumn {
+        max-width: var(--input-max-width-l);
+      }
+    }
+  }
+
+  &.hasLabel {
+    .buttonColumn {
+      padding-top: var(--label-height);
+    }
+  }
+}

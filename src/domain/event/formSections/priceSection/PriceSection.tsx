@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 import CheckboxField from '../../../../common/components/formFields/CheckboxField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
-import InputWrapper from '../InputWrapper';
+import FieldColumn from '../../layout/FieldColumn';
+import FieldRow from '../../layout/FieldRow';
 import Offers from './Offers';
 
-const LanguagesSection = () => {
+const PriceSection = () => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({
@@ -21,23 +21,21 @@ const LanguagesSection = () => {
 
   return (
     <>
-      <InputWrapper
-        columns={10}
-        inputColumns={8}
-        maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
-      >
-        <h3>{t(`event.form.titlePriceInfo.${type}`)}</h3>
-        <FormGroup>
-          <Field
-            label={t(`event.form.labelHasPrice.${type}`)}
-            name={EVENT_FIELDS.HAS_PRICE}
-            component={CheckboxField}
-          />
-        </FormGroup>
-      </InputWrapper>
+      <h3>{t(`event.form.titlePriceInfo.${type}`)}</h3>
+      <FieldRow>
+        <FieldColumn>
+          <FormGroup>
+            <Field
+              label={t(`event.form.labelHasPrice.${type}`)}
+              name={EVENT_FIELDS.HAS_PRICE}
+              component={CheckboxField}
+            />
+          </FormGroup>
+        </FieldColumn>
+      </FieldRow>
       {hasPrice && <Offers />}
     </>
   );
 };
 
-export default LanguagesSection;
+export default PriceSection;

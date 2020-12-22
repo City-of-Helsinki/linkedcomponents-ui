@@ -4,7 +4,9 @@
     "errorMessage": "Ett fel uppstod. Försök igen",
     "networkError": {
       "message": "Inloggningsfel: Kontrollera din nätverksanslutning eller försök igen senare"
-    }
+    },
+    "noRightsCreateEvent": "Du har inte tillräckliga rättigheter att skapa evenemang.",
+    "noRightsPublishEvent": "Du har inte tillräckliga rättigheter att publicera evenemang."
   },
   "common": {
     "add": "Lägg till",
@@ -189,13 +191,14 @@
         "course": "Om kursen har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation.",
         "event": "Om evenemanget har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation."
       },
-      "infoTextPublishing": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam.",
+      "infoTextProvider": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "infoTextSocialMedia": {
         "course": "Frivillig. I URL-fältet anger du SoMe-länkarna för kursen.",
         "event": "Frivillig. I URL-fältet anger du SoMe-länkarna för evenemanget."
       },
       "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
+      "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
       "labelDescription": {
@@ -263,10 +266,6 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Paraplyevenemang",
-      "linkReadMoreAboutPublishing": {
-        "course": "Läs mer om ämnet för kurspublikationen",
-        "event": "Läs mer om ämnet för evenemangspublikationen"
-      },
       "modalTitleImage": "Lägg till en bild",
       "modalTitleRecurringEvent": "Ange återkommande evenemang",
       "notificationTitleEventTimes": {
@@ -283,10 +282,8 @@
         "event": "Evenemangklassificering"
       },
       "notificationTitleOffers": "Prisinformation",
-      "notificationTitlePublishing": {
-        "course": "Publicering av kursen på hel.fi-webbplatser",
-        "event": "Publicering av evenemanget på hel.fi-webbplatser"
-      },
+      "notificationTitleProvider": "Arrangör",
+      "notificationTitleUmrellaEvent": "Paraplyevenemang",
       "notificationTitleType": "Evenemangtyp",
       "placeholderAudienceMaxAge": {
         "course": "Ange högsta ålder för kursen",
@@ -356,6 +353,20 @@
         "textRepeatInterval": "Varje vecka",
         "textRepeatInterval_plural": "Var {{count}}: e vecka"
       },
+      "sections": {
+        "additionalInfo": "Ytterligare information",
+        "audience": "Målgrupper",
+        "classification": "Klassificering",
+        "description": "Beskrivning",
+        "image": "Bild",
+        "languages": "Språk",
+        "place": "Plats",
+        "price": "Pris",
+        "responsibilities": "Ansvar",
+        "socialMedia": "SoMe",
+        "time": "Tid",
+        "type": "Evenemangtyp"
+      },
       "titleAttendeeCapacity": "Deltagarkapacitet",
       "titleAudience": "Målgrupper",
       "titleAudienceAge": "Åldersbegränsningar",
@@ -399,35 +410,12 @@
         "course": "Kurs på sociala medier",
         "event": "Evenemang pä sociala medier"
       },
-      "titleSummary": {
-        "course": "Sammanfattning av kursinformation",
-        "event": "Sammanfattning av evenemanginformation"
-      },
       "titleTime": {
         "course": "Kurstider",
         "event": "Evenemangtider"
       },
       "titleUmrellaEvent": "Paraplyevenemangen",
       "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett paraplyevenemang."
-    },
-    "navigation": {
-      "buttonNext": "Nästa",
-      "buttonPrevious": "Tidigare",
-      "steps": {
-        "additionalInfo": "Ytterligare information",
-        "audience": "Mål",
-        "classification": "Klassificering",
-        "description": "Beskrivning",
-        "image": "Bild",
-        "languages": "Språk",
-        "place": "Plats",
-        "price": "Pris",
-        "responsibilities": "Ansvar",
-        "socialMedia": "SoMe",
-        "summary": "Sammanfattning",
-        "time": "Tid",
-        "type": "Typ"
-      }
     },
     "type": {
       "course": "Kurs",

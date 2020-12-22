@@ -195,121 +195,119 @@ const imageDetailsValidation = {
   ),
 };
 
-export const createEventValidationSchema = () => {
-  return Yup.object().shape({
-    [EVENT_FIELDS.TYPE]: Yup.string().required(
-      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-    ),
-    [EVENT_FIELDS.SUPER_EVENT]: Yup.string()
-      .nullable()
-      .when([EVENT_FIELDS.HAS_UMBRELLA], {
-        is: (value) => value,
-        then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-      }),
-    [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    ),
-    [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-    ),
-    [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string()
-        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-        .max(CHARACTER_LIMITS.LONG_STRING, (param) =>
-          createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-        )
-    ),
-    [EVENT_FIELDS.SHORT_DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string()
-        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-        .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
-          createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-        )
-    ),
-    ...createEventTimeValidation(PublicationStatus.Public),
-    [EVENT_FIELDS.EVENT_TIMES]: Yup.array().of(
-      Yup.object().shape({
-        ...createEventTimeValidation(PublicationStatus.Public),
-      })
-    ),
-    [EVENT_FIELDS.LOCATION]: Yup.string()
-      .nullable()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    [EVENT_FIELDS.LOCATION_EXTRA_INFO]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string().max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
+export const eventValidationSchema = Yup.object().shape({
+  [EVENT_FIELDS.TYPE]: Yup.string().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
+  [EVENT_FIELDS.SUPER_EVENT]: Yup.string()
+    .nullable()
+    .when([EVENT_FIELDS.HAS_UMBRELLA], {
+      is: (value) => value,
+      then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    }),
+  [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
+    Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+  ),
+  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
+    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+  ),
+  [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
+    Yup.string()
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      .max(CHARACTER_LIMITS.LONG_STRING, (param) =>
         createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
       )
-    ),
-    [EVENT_FIELDS.OFFERS]: Yup.array().when(
-      [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-      (
-        hasPrice: boolean,
-        eventInfoLanguage: string[],
-        schema: Yup.ArraySchema<any>
-      ) => {
-        return hasPrice
-          ? Yup.array().of(
-              Yup.object().shape({
-                [EVENT_FIELDS.OFFER_DESCRIPTION]: createMultiLanguageValidation(
-                  eventInfoLanguage,
-                  Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-                ),
-                [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
-                  eventInfoLanguage,
-                  Yup.string()
-                    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-                    .url(VALIDATION_MESSAGE_KEYS.URL)
-                ),
-                [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
-                  eventInfoLanguage,
-                  Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-                ),
-              })
-            )
-          : schema;
-      }
-    ),
-    [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
-      [EVENT_FIELDS.IMAGES],
-      (images: string[], schema: Yup.ObjectSchema<any>) => {
-        return images && images.length
-          ? Yup.object().shape(imageDetailsValidation)
-          : schema;
-      }
-    ),
-    [EVENT_FIELDS.FACEBOOK_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
-    [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
-    [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
-    [EVENT_FIELDS.KEYWORDS]: Yup.array()
-      .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-      .min(1, (param) =>
-        createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
-      ),
-    [EVENT_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
-      .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-      .min(0, (param) =>
-        createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+  ),
+  [EVENT_FIELDS.SHORT_DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
+    Yup.string()
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
+        createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
       )
-      .nullable()
-      .transform(transformNumber),
-    [EVENT_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
-      .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-      .when(
-        [EVENT_FIELDS.AUDIENCE_MIN_AGE],
-        (audienceMinAge: number, schema: Yup.NumberSchema) =>
-          schema.min(audienceMinAge || 0, (param) =>
-            createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+  ),
+  ...createEventTimeValidation(PublicationStatus.Public),
+  [EVENT_FIELDS.EVENT_TIMES]: Yup.array().of(
+    Yup.object().shape({
+      ...createEventTimeValidation(PublicationStatus.Public),
+    })
+  ),
+  [EVENT_FIELDS.LOCATION]: Yup.string()
+    .nullable()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+  [EVENT_FIELDS.LOCATION_EXTRA_INFO]: createMultiLanguageValidationByInfoLanguages(
+    Yup.string().max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
+      createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+    )
+  ),
+  [EVENT_FIELDS.OFFERS]: Yup.array().when(
+    [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
+    (
+      hasPrice: boolean,
+      eventInfoLanguage: string[],
+      schema: Yup.ArraySchema<any>
+    ) => {
+      return hasPrice
+        ? Yup.array().of(
+            Yup.object().shape({
+              [EVENT_FIELDS.OFFER_DESCRIPTION]: createMultiLanguageValidation(
+                eventInfoLanguage,
+                Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+              ),
+              [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
+                eventInfoLanguage,
+                Yup.string()
+                  .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+                  .url(VALIDATION_MESSAGE_KEYS.URL)
+              ),
+              [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
+                eventInfoLanguage,
+                Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+              ),
+            })
           )
-      )
-      .nullable()
-      .transform(transformNumber),
-    [EVENT_FIELDS.EXTENSION_COURSE]: createExtensionCourseValidation(),
-    [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
-      [true],
-      VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
+        : schema;
+    }
+  ),
+  [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
+    [EVENT_FIELDS.IMAGES],
+    (images: string[], schema: Yup.ObjectSchema<any>) => {
+      return images && images.length
+        ? Yup.object().shape(imageDetailsValidation)
+        : schema;
+    }
+  ),
+  [EVENT_FIELDS.FACEBOOK_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
+  [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
+  [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
+  [EVENT_FIELDS.KEYWORDS]: Yup.array()
+    .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
+    .min(1, (param) =>
+      createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
     ),
-  });
-};
+  [EVENT_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
+    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+    .min(0, (param) =>
+      createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+    )
+    .nullable()
+    .transform(transformNumber),
+  [EVENT_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
+    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+    .when(
+      [EVENT_FIELDS.AUDIENCE_MIN_AGE],
+      (audienceMinAge: number, schema: Yup.NumberSchema) =>
+        schema.min(audienceMinAge || 0, (param) =>
+          createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+        )
+    )
+    .nullable()
+    .transform(transformNumber),
+  [EVENT_FIELDS.EXTENSION_COURSE]: createExtensionCourseValidation(),
+  [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
+    [true],
+    VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
+  ),
+});
 
 export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(

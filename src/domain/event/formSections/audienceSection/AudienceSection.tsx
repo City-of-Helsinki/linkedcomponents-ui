@@ -4,18 +4,18 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
-import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
-import { INCLUDE, INPUT_MAX_WIDTHS, KEYWORD_SETS } from '../../../../constants';
+import { INCLUDE, KEYWORD_SETS } from '../../../../constants';
 import { useKeywordSetQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import getPathBuilder from '../../../../utils/getPathBuilder';
 import { keywordSetPathBuilder } from '../../../keywordSet/utils';
 import { EVENT_FIELDS } from '../../constants';
-import InputWrapper from '../InputWrapper';
+import FieldColumn from '../../layout/FieldColumn';
+import FieldRow from '../../layout/FieldRow';
 
-const TargetGroupSection = () => {
+const AudienceSection = () => {
   const { t } = useTranslation();
   const locale = useLocale();
 
@@ -37,16 +37,14 @@ const TargetGroupSection = () => {
 
   return (
     <>
-      <h3>{t(`event.form.titleAudience`)}</h3>
-      <InputRow
-        info={
+      <FieldRow
+        notification={
           <Notification label={t(`event.form.titleAudience`)} type="info">
             <p>{t(`event.form.infoTextAudience.${type}`)}</p>
           </Notification>
         }
-        infoColumns={4}
       >
-        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
+        <FieldColumn>
           <Field
             name={EVENT_FIELDS.AUDIENCE}
             component={CheckboxGroupField}
@@ -54,10 +52,10 @@ const TargetGroupSection = () => {
             options={audienceOptions}
             visibleOptionAmount={10}
           />
-        </InputWrapper>
-      </InputRow>
+        </FieldColumn>
+      </FieldRow>
     </>
   );
 };
 
-export default TargetGroupSection;
+export default AudienceSection;

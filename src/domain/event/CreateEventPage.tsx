@@ -1,4 +1,5 @@
 import { Form, Formik } from 'formik';
+import forEach from 'lodash/forEach';
 import set from 'lodash/set';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,20 +8,25 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
-import { FORM_NAMES, ROUTES } from '../../constants';
+import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { FORM_NAMES, INCLUDE, KEYWORD_SETS, ROUTES } from '../../constants';
 import {
   PublicationStatus,
   useCreateEventMutation,
   useCreateEventsMutation,
+  useKeywordSetQuery,
+  useLanguagesQuery,
   useUpdateImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import getPathBuilder from '../../utils/getPathBuilder';
 import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import PageWrapper from '../app/layout/PageWrapper';
-import { EVENT_INITIAL_VALUES } from './constants';
-import EventNavigation from './eventNavigation/EventNavigation';
+import { keywordSetPathBuilder } from '../keywordSet/utils';
+import ButtonPanel from './buttonPanel/ButtonPanel';
+import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from './constants';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';
@@ -35,11 +41,12 @@ import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSec
 import SummarySection from './formSections/summarySection/SummarySection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
+import Section from './layout/Section';
 import { EventFormFields } from './types';
 import {
   clearEventFormData,
-  createEventValidationSchema,
   draftEventValidationSchema,
+  eventValidationSchema,
   getEventPayload,
   getRecurringEventPayload,
 } from './utils';
@@ -51,6 +58,26 @@ const CreateEventPage: React.FC = () => {
   const [createEventMutation] = useCreateEventMutation();
   const [createEventsMutation] = useCreateEventsMutation();
   const [updateImage] = useUpdateImageMutation();
+
+  const { loading: loadingLanguages } = useLanguagesQuery();
+
+  const { loading: loadingKeywords } = useKeywordSetQuery({
+    variables: {
+      createPath: getPathBuilder(keywordSetPathBuilder),
+      id: KEYWORD_SETS.TOPICS,
+      include: [INCLUDE.KEYWORDS],
+    },
+  });
+
+  const { loading: loadingAudiences } = useKeywordSetQuery({
+    variables: {
+      createPath: getPathBuilder(keywordSetPathBuilder),
+      id: KEYWORD_SETS.AUDIENCES,
+      include: [INCLUDE.KEYWORDS],
+    },
+  });
+
+  const loading = loadingLanguages || loadingKeywords || loadingAudiences;
 
   const goToEventSavedPage = (id: string) => {
     clearEventFormData();
@@ -139,10 +166,59 @@ const CreateEventPage: React.FC = () => {
       onSubmit={(values) => {
         saveEvent(values, PublicationStatus.Public);
       }}
-      validationSchema={createEventValidationSchema}
+      validationSchema={eventValidationSchema}
       validateOnMount
+      validateOnBlur={true}
+      validateOnChange={true}
     >
-      {({ values: { type, ...restValues }, setErrors }) => {
+      {({ values: { type, ...restValues }, setErrors, setTouched }) => {
+        const getFocusableFieldId = (fieldName: string): string => {
+          // For the select elements, focus the toggle button
+          if (
+            fieldName === EVENT_FIELDS.KEYWORDS ||
+            fieldName === EVENT_FIELDS.LOCATION ||
+            fieldName === EVENT_FIELDS.SUPER_EVENT
+          ) {
+            return `${fieldName}-input`;
+          }
+
+          return fieldName;
+        };
+
+        const scrollToFirstError = (error: Yup.ValidationError) => {
+          forEach(error.inner, (e) => {
+            const field = document.getElementById(getFocusableFieldId(e.path));
+
+            if (field) {
+              field.focus();
+              return false;
+            }
+          });
+        };
+
+        const showErrors = (error: Yup.ValidationError) => {
+          if (error.name === 'ValidationError') {
+            const newErrors = error.inner.reduce(
+              (acc: object, e: Yup.ValidationError) =>
+                e.errors[0] ? set(acc, e.path, e.errors[0]) : acc,
+              {}
+            );
+            const touchedFields = error.inner.reduce(
+              (acc: object, e: Yup.ValidationError) =>
+                e.errors[0] ? set(acc, e.path, true) : acc,
+              {}
+            );
+
+            setErrors(newErrors);
+            setTouched(touchedFields);
+            scrollToFirstError(error);
+          }
+        };
+
+        const clearErrors = () => {
+          setErrors({});
+        };
+
         const saveDraft = async () => {
           try {
             const values = { type, ...restValues };
@@ -151,26 +227,32 @@ const CreateEventPage: React.FC = () => {
               abortEarly: false,
             });
 
+            clearErrors();
             saveEvent(values, PublicationStatus.Draft);
           } catch (error) {
-            if (error.name === 'ValidationError') {
-              const newErrors = error.inner.reduce(
-                (acc: object, e: Yup.ValidationError) =>
-                  e.errors[0] ? set(acc, e.path, e.errors[0]) : acc,
-                {}
-              );
-              // TODO: Show validations errors and scroll to first error.
-              // Implement when all event fields are at same page
-              toast.error(
-                'TODO: Show validation errors and scroll to first error. Implement when all fields are at same page'
-              );
-              setErrors(newErrors);
-            }
+            showErrors(error);
+          }
+        };
+
+        const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+
+          try {
+            const values = { type, ...restValues };
+
+            await eventValidationSchema.validate(values, {
+              abortEarly: false,
+            });
+
+            clearErrors();
+            saveEvent(values, PublicationStatus.Public);
+          } catch (error) {
+            showErrors(error);
           }
         };
 
         return (
-          <Form>
+          <Form onSubmit={onSubmit} noValidate={true}>
             <FormikPersist
               name={FORM_NAMES.EVENT_FORM}
               isSessionStorage={true}
@@ -179,80 +261,51 @@ const CreateEventPage: React.FC = () => {
               className={styles.eventPage}
               title={`createEventPage.pageTitle.${type}`}
             >
-              <Container>
-                <FormContainer>
-                  <h1>{t(`createEventPage.title.${type}`)}</h1>
-                </FormContainer>
-                <EventNavigation
-                  items={[
-                    {
-                      component: <TypeSection />,
-                      isCompleted: true,
-                      label: t('event.navigation.steps.type'),
-                    },
-                    {
-                      component: <LanguagesSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.languages'),
-                    },
-                    {
-                      component: <ResponsibilitiesSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.responsibilities'),
-                    },
-                    {
-                      component: <DescriptionSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.description'),
-                    },
-                    {
-                      component: <TimeSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.time'),
-                    },
-                    {
-                      component: <PlaceSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.place'),
-                    },
-                    {
-                      component: <PriceSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.price'),
-                    },
-                    {
-                      component: <SocialMediaSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.socialMedia'),
-                    },
-                    {
-                      component: <ImageSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.image'),
-                    },
-                    {
-                      component: <ClassificationSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.classification'),
-                    },
-                    {
-                      component: <AudienceSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.audience'),
-                    },
-                    {
-                      component: <AdditionalInfoSection />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.additionalInfo'),
-                    },
-                    {
-                      component: <SummarySection onSaveDraft={saveDraft} />,
-                      isCompleted: false,
-                      label: t('event.navigation.steps.summary'),
-                    },
-                  ]}
-                ></EventNavigation>
-              </Container>
+              <LoadingSpinner isLoading={loading}>
+                <Container>
+                  <FormContainer>
+                    <Section title={t('event.form.sections.type')}>
+                      <TypeSection />
+                    </Section>
+                    <Section title={t('event.form.sections.languages')}>
+                      <LanguagesSection />
+                    </Section>
+                    <Section title={t('event.form.sections.responsibilities')}>
+                      <ResponsibilitiesSection />
+                    </Section>
+                    <Section title={t('event.form.sections.description')}>
+                      <DescriptionSection />
+                    </Section>
+                    <Section title={t('event.form.sections.time')}>
+                      <TimeSection />
+                    </Section>
+                    <Section title={t('event.form.sections.place')}>
+                      <PlaceSection />
+                    </Section>
+                    <Section title={t('event.form.sections.price')}>
+                      <PriceSection />
+                    </Section>
+                    <Section title={t('event.form.sections.socialMedia')}>
+                      <SocialMediaSection />
+                    </Section>
+                    <Section title={t('event.form.sections.image')}>
+                      <ImageSection />
+                    </Section>
+                    <Section title={t('event.form.sections.classification')}>
+                      <ClassificationSection />
+                    </Section>
+                    <Section title={t('event.form.sections.audience')}>
+                      <AudienceSection />
+                    </Section>
+                    <Section title={t('event.form.sections.additionalInfo')}>
+                      <AdditionalInfoSection />
+                    </Section>
+
+                    <SummarySection />
+                  </FormContainer>
+                </Container>
+                <ButtonPanel onSaveDraft={saveDraft} />
+              </LoadingSpinner>
             </PageWrapper>
           </Form>
         );

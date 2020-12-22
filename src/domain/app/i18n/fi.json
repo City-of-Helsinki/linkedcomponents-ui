@@ -4,7 +4,9 @@
     "errorMessage": "Tapahtui virhe. Yritä uudestaan",
     "networkError": {
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
-    }
+    },
+    "noRightsCreateEvent": "Sinulla ei ole oikeuksia luoda tapahtumia.",
+    "noRightsPublishEvent": "Sinulla ei ole oikeuksia julkaista tapahtumia."
   },
   "common": {
     "add": "Lisää",
@@ -189,13 +191,14 @@
         "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
         "event": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
       },
-      "infoTextPublishing": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam.",
+      "infoTextProvider": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "infoTextSocialMedia": {
         "course": "Valinnainen. Syötä URL-kenttään kurssin SoMe-linkit.",
         "event": "Valinnainen. Syötä URL-kenttään tapahtuman SoMe-linkit."
       },
       "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
+      "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
       "labelDescription": {
@@ -263,10 +266,6 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Kattotapahtuma",
-      "linkReadMoreAboutPublishing": {
-        "course": "Lue lisää aiheesta kurssin julkaisu",
-        "event": "Lue lisää aiheesta tapahtuman julkaisu"
-      },
       "modalTitleImage": "Lisää kuva",
       "modalTitleRecurringEvent": "Määritä toistuva tapahtuma",
       "notificationTitleEventTimes": {
@@ -283,11 +282,9 @@
         "event": "Tapahtuman luokittelu"
       },
       "notificationTitleOffers": "Hintatiedot",
-      "notificationTitlePublishing": {
-        "course": "Kurssin julkaisu hel.fi -sivustoilla",
-        "event": "Tapahtuman julkaisu hel.fi -sivustoilla"
-      },
+      "notificationTitleProvider": "Järjestäjä",
       "notificationTitleType": "Tapahtumatyyppi",
+      "notificationTitleUmrellaEvent": "Kattotapahtuma",
       "placeholderAudienceMaxAge": {
         "course": "Syötä kurssin yläikäraja",
         "event": "Syötä tapahtuman yläikäraja"
@@ -356,6 +353,20 @@
         "textRepeatInterval": "Viikon välein",
         "textRepeatInterval_plural": "{{count}} viikon välein"
       },
+      "sections": {
+        "additionalInfo": "Lisätiedot",
+        "audience": "Kohderyhmät",
+        "classification": "Luokittelu",
+        "description": "Kuvaus",
+        "languages": "Kielet",
+        "image": "Kuva",
+        "place": "Paikka",
+        "price": "Hinta",
+        "responsibilities": "Vastuut",
+        "socialMedia": "SoMe",
+        "time": "Aika",
+        "type": "Tapahtumatyyppi"
+      },
       "titleAttendeeCapacity": "Osallistujamäärä",
       "titleAudience": "Kohderyhmät",
       "titleAudienceAge": "Ikärajoitukset",
@@ -399,35 +410,12 @@
         "course": "Kurssi sosiaalisessa mediassa",
         "event": "Tapahtuma sosiaalisessa mediassa"
       },
-      "titleSummary": {
-        "course": "Yhteenveto kurssin tiedoista",
-        "event": "Yhteenveto tapahtuman tiedoista"
-      },
       "titleTime": {
         "course": "Kurssin ajankohdat",
         "event": "Tapahtuman ajankohdat"
       },
       "titleUmrellaEvent": "Kattotapahtumat",
       "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
-    },
-    "navigation": {
-      "buttonNext": "Seuraava",
-      "buttonPrevious": "Edellinen",
-      "steps": {
-        "additionalInfo": "Lisätiedot",
-        "audience": "Kohteet",
-        "classification": "Luokittelu",
-        "description": "Kuvaus",
-        "languages": "Kielet",
-        "image": "Kuva",
-        "place": "Paikka",
-        "price": "Hinta",
-        "responsibilities": "Vastuut",
-        "socialMedia": "SoMe",
-        "summary": "Yhteenveto",
-        "time": "Aika",
-        "type": "Tyyppi"
-      }
     },
     "type": {
       "course": "Kurssi",

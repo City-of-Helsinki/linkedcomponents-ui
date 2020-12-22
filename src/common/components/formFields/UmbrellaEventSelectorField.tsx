@@ -37,6 +37,7 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
     <UmbrellaEventSelector
       {...rest}
       {...field}
+      name={name}
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}

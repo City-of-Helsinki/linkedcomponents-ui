@@ -5,12 +5,11 @@ import { useTranslation } from 'react-i18next';
 import DeleteButton from '../../../../common/components/deleteButton/DeleteButton';
 import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
-import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
-import FieldArrayRow from '../FieldArrayRow';
+import FieldRow from '../../layout/FieldRow';
+import FieldWithButton from '../../layout/FieldWithButton';
 
 type Props = {
   offerPath: string;
@@ -31,8 +30,8 @@ const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
   return (
     <>
       <h3>{t('event.form.titleOfferPrice')}</h3>
-      <InputRow
-        info={
+      <FieldRow
+        notification={
           <Notification
             className={styles.notification}
             label={t(`event.form.notificationTitleOffers`)}
@@ -43,49 +42,48 @@ const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
           </Notification>
         }
       >
-        <FieldArrayRow
-          input={
-            <>
-              <FormGroup>
-                <MultiLanguageField
-                  name={getFieldName(offerPath, EVENT_FIELDS.OFFER_PRICE)}
-                  labelKey={`event.form.labelOfferPrice`}
-                  languages={eventInfoLanguages}
-                  placeholderKey={`event.form.placeholderOfferPrice.${type}`}
-                  required={true}
-                />
-              </FormGroup>
-              <FormGroup>
-                <h3>{t('event.form.titleOfferInfoUrl')}</h3>
-                <MultiLanguageField
-                  name={getFieldName(offerPath, EVENT_FIELDS.OFFER_INFO_URL)}
-                  labelKey={`event.form.labelOfferInfoUrl`}
-                  languages={eventInfoLanguages}
-                  placeholderKey={`event.form.placeholderOfferInfoUrl`}
-                  required={true}
-                />
-              </FormGroup>
-              <FormGroup>
-                <h3>{t('event.form.titleOfferDescription')}</h3>
-                <MultiLanguageField
-                  name={getFieldName(offerPath, EVENT_FIELDS.OFFER_DESCRIPTION)}
-                  labelKey={`event.form.labelOfferDescription`}
-                  languages={eventInfoLanguages}
-                  placeholderKey={`event.form.placeholderOfferDescription`}
-                  required={true}
-                />
-              </FormGroup>
-            </>
-          }
-          inputWidth={INPUT_MAX_WIDTHS.MEDIUM}
+        <FieldWithButton
           button={
             <DeleteButton
               label={t('event.form.buttonDeleteOffer')}
               onClick={onDelete}
             />
           }
-        />
-      </InputRow>
+        >
+          {' '}
+          <>
+            <FormGroup>
+              <MultiLanguageField
+                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_PRICE)}
+                labelKey={`event.form.labelOfferPrice`}
+                languages={eventInfoLanguages}
+                placeholderKey={`event.form.placeholderOfferPrice.${type}`}
+                required={true}
+              />
+            </FormGroup>
+            <FormGroup>
+              <h3>{t('event.form.titleOfferInfoUrl')}</h3>
+              <MultiLanguageField
+                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_INFO_URL)}
+                labelKey={`event.form.labelOfferInfoUrl`}
+                languages={eventInfoLanguages}
+                placeholderKey={`event.form.placeholderOfferInfoUrl`}
+                required={true}
+              />
+            </FormGroup>
+            <FormGroup>
+              <h3>{t('event.form.titleOfferDescription')}</h3>
+              <MultiLanguageField
+                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_DESCRIPTION)}
+                labelKey={`event.form.labelOfferDescription`}
+                languages={eventInfoLanguages}
+                placeholderKey={`event.form.placeholderOfferDescription`}
+                required={true}
+              />
+            </FormGroup>
+          </>
+        </FieldWithButton>
+      </FieldRow>
     </>
   );
 };

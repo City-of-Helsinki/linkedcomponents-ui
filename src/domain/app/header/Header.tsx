@@ -63,9 +63,9 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     history.push({ pathname });
   };
 
-  const goToCreateEvent = () => {
+  const goToCreateEvent = (event: React.MouseEvent<HTMLAnchorElement>) => {
     clearEventFormData();
-    goToPage(createEventItem.url)();
+    goToPage(createEventItem.url)(event);
   };
 
   const navigationItems = [

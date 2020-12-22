@@ -7,11 +7,13 @@ import CheckboxField from '../../../../common/components/formFields/CheckboxFiel
 import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
 import UmbrellaEventSelectorField from '../../../../common/components/formFields/UmbrellaEventSelectorField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import { INPUT_MAX_WIDTHS } from '../../../../constants';
+import Notification from '../../../../common/components/notification/Notification';
 import { EVENT_FIELDS } from '../../constants';
-import InputWrapper from '../InputWrapper';
+import styles from '../../eventPage.module.scss';
+import FieldColumn from '../../layout/FieldColumn';
+import FieldRow from '../../layout/FieldRow';
 
-const LanguagesSection = () => {
+const ResponsibilitiesSection = () => {
   const { t } = useTranslation();
   const [{ value: type }] = useField({
     name: EVENT_FIELDS.TYPE,
@@ -44,45 +46,73 @@ const LanguagesSection = () => {
 
   return (
     <>
-      <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
-        <h3>{t('event.form.titlePersonsInCharge')}</h3>
-        <MultiLanguageField
-          labelKey={`event.form.labelProvider.${type}`}
-          languages={eventInfoLanguages}
-          name={EVENT_FIELDS.PROVIDER}
-          placeholder={t(`event.form.placeholderProvider.${type}`)}
-        />
-        <h3>{t('event.form.titleUmrellaEvent')}</h3>
-        <FormGroup>
-          <Field
-            disabled={disabledIsUmbrella}
-            label={t(`event.form.labelIsUmbrella.${type}`)}
-            name={EVENT_FIELDS.IS_UMBRELLA}
-            component={CheckboxField}
-            title={disabledIsUmbrella && t('event.form.tooltipEventIsUmbrella')}
+      <h3>{t('event.form.titlePersonsInCharge')}</h3>
+      <FieldRow
+        notification={
+          <Notification
+            className={styles.notification}
+            label={t('event.form.notificationTitleProvider')}
+            type="info"
+          >
+            <p>{t('event.form.infoTextProvider')}</p>
+          </Notification>
+        }
+      >
+        <FieldColumn>
+          <MultiLanguageField
+            labelKey={`event.form.labelProvider.${type}`}
+            languages={eventInfoLanguages}
+            name={EVENT_FIELDS.PROVIDER}
+            placeholder={t(`event.form.placeholderProvider.${type}`)}
           />
-        </FormGroup>
-        <FormGroup>
-          <Field
-            disabled={isUmbrella}
-            label={t(`event.form.labelHasUmbrella.${type}`)}
-            name={EVENT_FIELDS.HAS_UMBRELLA}
-            component={CheckboxField}
-          />
-        </FormGroup>
-        {hasUmbrella && (
+        </FieldColumn>
+      </FieldRow>
+
+      <h3>{t('event.form.titleUmrellaEvent')}</h3>
+      <FieldRow
+        notification={
+          <Notification
+            label={t('event.form.notificationTitleUmrellaEvent')}
+            type="info"
+          >
+            <p>{t('event.form.infoTextUmrellaEvent')}</p>
+          </Notification>
+        }
+      >
+        <FieldColumn>
           <FormGroup>
             <Field
-              helper={t('event.form.helperUmbrellaEvent')}
-              label={t('event.form.labelUmbrellaEvent')}
-              name={EVENT_FIELDS.SUPER_EVENT}
-              component={UmbrellaEventSelectorField}
+              disabled={disabledIsUmbrella}
+              label={t(`event.form.labelIsUmbrella.${type}`)}
+              name={EVENT_FIELDS.IS_UMBRELLA}
+              component={CheckboxField}
+              title={
+                disabledIsUmbrella && t('event.form.tooltipEventIsUmbrella')
+              }
             />
           </FormGroup>
-        )}
-      </InputWrapper>
+          <FormGroup>
+            <Field
+              disabled={isUmbrella}
+              label={t(`event.form.labelHasUmbrella.${type}`)}
+              name={EVENT_FIELDS.HAS_UMBRELLA}
+              component={CheckboxField}
+            />
+          </FormGroup>
+          {hasUmbrella && (
+            <FormGroup>
+              <Field
+                helper={t('event.form.helperUmbrellaEvent')}
+                label={t('event.form.labelUmbrellaEvent')}
+                name={EVENT_FIELDS.SUPER_EVENT}
+                component={UmbrellaEventSelectorField}
+              />
+            </FormGroup>
+          )}
+        </FieldColumn>
+      </FieldRow>
     </>
   );
 };
 
-export default LanguagesSection;
+export default ResponsibilitiesSection;
