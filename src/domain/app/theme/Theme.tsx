@@ -104,20 +104,6 @@ type ErrorTemplateCSSProperties = {
   '--error-template-icon-size'?: string;
 };
 
-type EventNavigationCSSProperties = {
-  '--circle-background-color'?: string;
-  '--circle-border-color'?: string;
-  '--circle-color'?: string;
-  '--circle-background-color-completed'?: string;
-  '--circle-border-color-completed'?: string;
-  '--circle-color-completed'?: string;
-  '--circle-background-color-disabled'?: string;
-  '--circle-border-color-disabled'?: string;
-  '--circle-color-disabled'?: string;
-  '--connection-line-color'?: string;
-  '--label-color'?: string;
-};
-
 type FormLanguageSelectorCSSProperties = {
   '--form-language-selector-icon-color'?: string;
   '--form-language-selector-item-color'?: string;
@@ -290,7 +276,6 @@ export type Theme = {
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
-  eventNavigation: EventNavigationCSSProperties;
   formLanguageSelector: FormLanguageSelectorCSSProperties;
   imageSelector: ImageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
@@ -325,7 +310,6 @@ const defaultTheme: Theme = {
   datepicker: {},
   deleteButton: {},
   errorTemplate: {},
-  eventNavigation: {},
   formLanguageSelector: {},
   imageSelector: {},
   languageSelector: {},
