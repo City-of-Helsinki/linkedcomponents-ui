@@ -36,7 +36,7 @@ const TypeSection = () => {
         <FieldColumn>
           <Field
             name={EVENT_FIELDS.TYPE}
-            columns={3}
+            columns={1}
             component={RadioButtonGroupField}
             options={typeOptions}
           />

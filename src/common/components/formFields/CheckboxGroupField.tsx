@@ -9,7 +9,7 @@ import Button from '../button/Button';
 import Checkbox from '../checkbox/Checkbox';
 import styles from './checkboxGroupField.module.scss';
 
-type Columns = 2 | 3 | 4;
+type Columns = 1 | 2 | 3 | 4;
 
 type Props = {
   columns: Columns;
