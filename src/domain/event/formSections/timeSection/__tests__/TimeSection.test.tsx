@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 
 import { WEEK_DAY } from '../../../../../constants';
 import {
@@ -278,31 +279,35 @@ test('should add new recurring event', async () => {
 
   userEvent.click(screen.getByRole('checkbox', { name: /ma/i }));
 
-  const startDateInput = screen.getByRole('textbox', {
-    name: translations.event.form.labelRecurringEventStartDate,
-  });
-  userEvent.click(startDateInput);
-  userEvent.type(startDateInput, '18.11.2020');
+  const fields = [
+    {
+      name: translations.event.form.labelRecurringEventStartDate,
+      value: '18.11.2020',
+    },
+    {
+      name: translations.event.form.labelRecurringEventEndDate,
+      value: '25.09.2021',
+    },
+    {
+      name: translations.event.form.labelRecurringEventStartTime[type],
+      value: '12.30',
+    },
+    {
+      name: translations.event.form.labelRecurringEventEndTime[type],
+      value: '14.00',
+    },
+  ];
 
-  const endDateInput = screen.getByRole('textbox', {
-    name: translations.event.form.labelRecurringEventEndDate,
-  });
-  userEvent.click(endDateInput);
-  userEvent.type(endDateInput, '25.09.2021');
+  fields.forEach(({ name, value }) => {
+    const input = screen.getByRole('textbox', { name });
+    userEvent.click(input);
+    userEvent.type(input, value);
 
-  const startTimeInput = screen.getByRole('textbox', {
-    name: translations.event.form.labelRecurringEventStartTime[type],
+    act(() => {
+      expect(input).toHaveValue(value);
+    });
   });
-  userEvent.click(startTimeInput);
-  userEvent.type(startTimeInput, '12.30');
 
-  const endTimeInput = screen.getByRole('textbox', {
-    name: translations.event.form.labelRecurringEventEndTime[type],
-  });
-  userEvent.click(endTimeInput);
-  userEvent.type(endTimeInput, '14.00');
-
-  userEvent.click(startTimeInput);
   userEvent.click(
     screen.getByRole('button', {
       name: translations.event.form.buttonAddRecurringEvent,
@@ -311,13 +316,9 @@ test('should add new recurring event', async () => {
 
   await waitFor(() => {
     expect(
-      screen.queryByRole('heading', { name: modalTitleText })
-    ).not.toBeInTheDocument();
+      screen.getByRole('button', {
+        name: 'Viikon välein Ma, Ajalla 18.11.2020 – 25.09.2021, 12.30 – 14.00',
+      })
+    ).toBeInTheDocument();
   });
-
-  expect(
-    screen.getByRole('button', {
-      name: 'Viikon välein Ma, Ajalla 18.11.2020 – 25.09.2021, 12.30 – 14.00',
-    })
-  ).toBeInTheDocument();
 });

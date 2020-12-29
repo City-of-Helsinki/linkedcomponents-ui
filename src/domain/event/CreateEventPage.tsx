@@ -118,6 +118,7 @@ const CreateEventPage: React.FC = () => {
 
         const subEventIds =
           eventsData.data?.createEvents.map((item) => item.atId as string) ||
+          /* istanbul ignore next */
           [];
         const recurringEventPayload = getRecurringEventPayload(
           payload,
@@ -143,6 +144,7 @@ const CreateEventPage: React.FC = () => {
     } catch (e) {
       const { networkError } = e;
 
+      /* istanbul ignore else */
       if (networkError) {
         switch (networkError.statusCode) {
           case 400:
@@ -155,17 +157,16 @@ const CreateEventPage: React.FC = () => {
             toast.error(t('errors.serverError'));
         }
       }
-      // eslint-disable-next-line no-console
-      console.error('Failed to save event with error', e);
     }
   };
 
   return (
     <Formik
       initialValues={EVENT_INITIAL_VALUES}
-      onSubmit={(values) => {
-        saveEvent(values, PublicationStatus.Public);
-      }}
+      // We have custom way to handle onSubmit so here is empty function
+      // to silent TypeScript error. The reason for custom onSubmit is that
+      // we want to scroll to first invalid field if error occurs
+      onSubmit={/* istanbul ignore next */ () => undefined}
       validationSchema={eventValidationSchema}
       validateOnMount
       validateOnBlur={true}
@@ -189,6 +190,7 @@ const CreateEventPage: React.FC = () => {
           forEach(error.inner, (e) => {
             const field = document.getElementById(getFocusableFieldId(e.path));
 
+            /* istanbul ignore else */
             if (field) {
               field.focus();
               return false;
@@ -197,15 +199,15 @@ const CreateEventPage: React.FC = () => {
         };
 
         const showErrors = (error: Yup.ValidationError) => {
+          /* istanbul ignore else */
           if (error.name === 'ValidationError') {
             const newErrors = error.inner.reduce(
               (acc: object, e: Yup.ValidationError) =>
-                e.errors[0] ? set(acc, e.path, e.errors[0]) : acc,
+                set(acc, e.path, e.errors[0]),
               {}
             );
             const touchedFields = error.inner.reduce(
-              (acc: object, e: Yup.ValidationError) =>
-                e.errors[0] ? set(acc, e.path, true) : acc,
+              (acc: object, e: Yup.ValidationError) => set(acc, e.path, true),
               {}
             );
 
@@ -223,11 +225,11 @@ const CreateEventPage: React.FC = () => {
           try {
             const values = { type, ...restValues };
 
+            clearErrors();
             await draftEventValidationSchema.validate(values, {
               abortEarly: false,
             });
 
-            clearErrors();
             saveEvent(values, PublicationStatus.Draft);
           } catch (error) {
             showErrors(error);
@@ -240,11 +242,11 @@ const CreateEventPage: React.FC = () => {
           try {
             const values = { type, ...restValues };
 
+            clearErrors();
             await eventValidationSchema.validate(values, {
               abortEarly: false,
             });
 
-            clearErrors();
             saveEvent(values, PublicationStatus.Public);
           } catch (error) {
             showErrors(error);

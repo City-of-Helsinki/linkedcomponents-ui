@@ -32,10 +32,12 @@ export const fakeEvents = (
 });
 
 export const fakeEvent = (overrides?: Partial<Event>): Event => {
+  const id = overrides?.id || faker.random.uuid();
+
   return merge<Event, typeof overrides>(
     {
-      id: `hel:${faker.random.uuid()}`,
-      atId: faker.random.uuid(),
+      id,
+      atId: `https://api.hel.fi/linkedevents-test/v1/event/${id}/`,
       name: fakeLocalisedObject(faker.name.title()),
       publisher: 'provider:123',
       provider: fakeLocalisedObject(),
@@ -85,7 +87,7 @@ export const fakeImages = (
 });
 
 export const fakeImage = (overrides?: Partial<Image>): Image => {
-  const id = faker.random.uuid();
+  const id = overrides?.id || faker.random.uuid();
 
   return merge<Image, typeof overrides>(
     {
@@ -112,11 +114,13 @@ export const fakeKeywords = (
   __typename: 'KeywordsResponse',
 });
 
-export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword =>
-  merge<Keyword, typeof overrides>(
+export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword => {
+  const id = overrides?.id || faker.random.uuid();
+
+  return merge<Keyword, typeof overrides>(
     {
-      id: faker.random.uuid(),
-      atId: 'https://api.hel.fi/linkedevents-test/v1/keyword/yso:p4363/',
+      id,
+      atId: `https://api.hel.fi/linkedevents-test/v1/keyword/${id}/`,
       dataSource: 'yso',
       hasUpcomingEvents: true,
       name: fakeLocalisedObject(),
@@ -124,6 +128,7 @@ export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword =>
     },
     overrides
   );
+};
 
 export const fakeKeywordSets = (
   count = 1,
@@ -134,12 +139,13 @@ export const fakeKeywordSets = (
   __typename: 'KeywordSetsResponse',
 });
 
-export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet =>
-  merge<KeywordSet, typeof overrides>(
+export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet => {
+  const id = overrides?.id || faker.random.uuid();
+
+  return merge<KeywordSet, typeof overrides>(
     {
-      id: faker.random.uuid(),
-      atId:
-        'https://api.hel.fi/linkedevents-test/v1/keyword_set/helsinki:audience/',
+      id,
+      atId: `https://api.hel.fi/linkedevents-test/v1/keyword_set/${id}/`,
       dataSource: 'helsinki',
       keywords: [],
       name: fakeLocalisedObject(),
@@ -147,6 +153,7 @@ export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet =>
     },
     overrides
   );
+};
 
 export const fakeLanguages = (
   count = 1,
@@ -157,17 +164,20 @@ export const fakeLanguages = (
   __typename: 'LanguagesResponse',
 });
 
-export const fakeLanguage = (overrides?: Partial<Language>): Language =>
-  merge<Language, typeof overrides>(
+export const fakeLanguage = (overrides?: Partial<Language>): Language => {
+  const id = overrides?.id || faker.random.uuid();
+
+  return merge<Language, typeof overrides>(
     {
-      id: faker.random.uuid(),
-      atId: 'https://api.hel.fi/linkedevents-test/v1/language/en/',
+      id,
+      atId: `https://api.hel.fi/linkedevents-test/v1/language/${id}/`,
       translationAvailable: false,
       name: fakeLocalisedObject(),
       __typename: 'Language',
     },
     overrides
   );
+};
 
 export const fakePlaces = (
   count = 1,
@@ -178,11 +188,13 @@ export const fakePlaces = (
   __typename: 'PlacesResponse',
 });
 
-export const fakePlace = (overrides?: Partial<Place>): Place =>
-  merge<Place, typeof overrides>(
+export const fakePlace = (overrides?: Partial<Place>): Place => {
+  const id = overrides?.id || faker.random.uuid();
+
+  return merge<Place, typeof overrides>(
     {
-      id: faker.random.uuid(),
-      atId: 'https://api.hel.fi/linkedevents-test/v1/place/tprek:15376/',
+      id,
+      atId: `https://api.hel.fi/linkedevents-test/v1/place/${id}/`,
       name: fakeLocalisedObject(),
       streetAddress: fakeLocalisedObject(),
       addressLocality: fakeLocalisedObject(),
@@ -197,6 +209,7 @@ export const fakePlace = (overrides?: Partial<Place>): Place =>
     },
     overrides
   );
+};
 
 export const fakeLocalisedObject = (text?: string): LocalisedObject => ({
   __typename: 'LocalisedObject',
