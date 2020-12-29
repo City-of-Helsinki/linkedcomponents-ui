@@ -19,13 +19,6 @@ import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import PageWrapper from '../app/layout/PageWrapper';
-import {
-  clearEventFormData,
-  createEventValidationSchema,
-  draftEventValidationSchema,
-  getEventPayload,
-  getRecurringEventPayload,
-} from './/utils';
 import { EVENT_INITIAL_VALUES } from './constants';
 import EventNavigation from './eventNavigation/EventNavigation';
 import styles from './eventPage.module.scss';
@@ -43,6 +36,13 @@ import SummarySection from './formSections/summarySection/SummarySection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import { EventFormFields } from './types';
+import {
+  clearEventFormData,
+  createEventValidationSchema,
+  draftEventValidationSchema,
+  getEventPayload,
+  getRecurringEventPayload,
+} from './utils';
 
 const CreateEventPage: React.FC = () => {
   const history = useHistory();
