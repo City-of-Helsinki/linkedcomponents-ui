@@ -23,6 +23,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
+import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { keywordSetPathBuilder } from '../keywordSet/utils';
 import ButtonPanel from './buttonPanel/ButtonPanel';
@@ -268,49 +269,53 @@ const CreateEventPage: React.FC = () => {
               title={`createEventPage.pageTitle.${type}`}
             >
               <LoadingSpinner isLoading={loading}>
-                <Container>
-                  <FormContainer>
-                    <Section title={t('event.form.sections.type')}>
-                      <TypeSection />
-                    </Section>
-                    <Section title={t('event.form.sections.languages')}>
-                      <LanguagesSection />
-                    </Section>
-                    <Section title={t('event.form.sections.responsibilities')}>
-                      <ResponsibilitiesSection />
-                    </Section>
-                    <Section title={t('event.form.sections.description')}>
-                      <DescriptionSection />
-                    </Section>
-                    <Section title={t('event.form.sections.time')}>
-                      <TimeSection />
-                    </Section>
-                    <Section title={t('event.form.sections.place')}>
-                      <PlaceSection />
-                    </Section>
-                    <Section title={t('event.form.sections.price')}>
-                      <PriceSection />
-                    </Section>
-                    <Section title={t('event.form.sections.socialMedia')}>
-                      <SocialMediaSection />
-                    </Section>
-                    <Section title={t('event.form.sections.image')}>
-                      <ImageSection />
-                    </Section>
-                    <Section title={t('event.form.sections.classification')}>
-                      <ClassificationSection />
-                    </Section>
-                    <Section title={t('event.form.sections.audience')}>
-                      <AudienceSection />
-                    </Section>
-                    <Section title={t('event.form.sections.additionalInfo')}>
-                      <AdditionalInfoSection />
-                    </Section>
+                <MainContent offset={-130}>
+                  <Container>
+                    <FormContainer>
+                      <Section title={t('event.form.sections.type')}>
+                        <TypeSection />
+                      </Section>
+                      <Section title={t('event.form.sections.languages')}>
+                        <LanguagesSection />
+                      </Section>
+                      <Section
+                        title={t('event.form.sections.responsibilities')}
+                      >
+                        <ResponsibilitiesSection />
+                      </Section>
+                      <Section title={t('event.form.sections.description')}>
+                        <DescriptionSection />
+                      </Section>
+                      <Section title={t('event.form.sections.time')}>
+                        <TimeSection />
+                      </Section>
+                      <Section title={t('event.form.sections.place')}>
+                        <PlaceSection />
+                      </Section>
+                      <Section title={t('event.form.sections.price')}>
+                        <PriceSection />
+                      </Section>
+                      <Section title={t('event.form.sections.socialMedia')}>
+                        <SocialMediaSection />
+                      </Section>
+                      <Section title={t('event.form.sections.image')}>
+                        <ImageSection />
+                      </Section>
+                      <Section title={t('event.form.sections.classification')}>
+                        <ClassificationSection />
+                      </Section>
+                      <Section title={t('event.form.sections.audience')}>
+                        <AudienceSection />
+                      </Section>
+                      <Section title={t('event.form.sections.additionalInfo')}>
+                        <AdditionalInfoSection />
+                      </Section>
 
-                    <SummarySection />
-                  </FormContainer>
-                </Container>
-                <ButtonPanel onSaveDraft={saveDraft} />
+                      <SummarySection />
+                    </FormContainer>
+                  </Container>
+                  <ButtonPanel onSaveDraft={saveDraft} />
+                </MainContent>
               </LoadingSpinner>
             </PageWrapper>
           </Form>

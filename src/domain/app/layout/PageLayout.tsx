@@ -7,10 +7,10 @@ import { SUPPORTED_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
-import ResetFocus from '../resetFocus/ResetFocus';
-import ScrollToTop from '../scrollToTop/ScrollToTop';
 import { useTheme } from '../theme/Theme';
 import styles from './pageLayout.module.scss';
+import ResetFocus from './ResetFocus';
+import ScrollToTop from './ScrollToTop';
 
 const PageLayout: React.FC = ({ children }) => {
   const { theme } = useTheme();

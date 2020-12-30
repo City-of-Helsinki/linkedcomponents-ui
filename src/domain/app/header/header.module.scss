@@ -3,6 +3,10 @@
 .navigation {
   z-index: var(--header-z-index);
 
+  > a:first-child {
+    z-index: calc(var(--header-z-index) + 1) !important;
+  }
+
   .navigationItem {
     color: var(--navigation-item-color) !important;
   }
