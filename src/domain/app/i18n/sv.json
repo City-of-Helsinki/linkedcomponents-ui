@@ -510,6 +510,11 @@
       "wed": "Ons"
     }
   },
+  "footer": {
+    "backToTopLabel": "Tillbaka till toppen",
+    "copyrightHolder": "Helsingfors stad",
+    "copyrightText": "Alla rättigheter förbehållna."
+  },
   "helpPage": {
     "pageTitle": "Läs mer"
   },

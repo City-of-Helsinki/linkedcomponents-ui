@@ -1,17 +1,56 @@
+import { AnyAction, Store } from '@reduxjs/toolkit';
 import i18n from 'i18next';
+import merge from 'lodash/merge';
 import React from 'react';
 
-import { ROUTES } from '../../../../constants';
-import { act, render, screen, userEvent } from '../../../../utils/testUtils';
+import { defaultStoreState, ROUTES } from '../../../../constants';
+import { StoreState } from '../../../../types';
+import {
+  act,
+  getMockReduxStore,
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
-import Header, { HeaderProps } from '../Header';
+import { API_CLIENT_ID } from '../../../auth/constants';
+import userManager from '../../../auth/userManager';
+import Header from '../Header';
 
-const defaultProps: HeaderProps = {
-  menuOpen: false,
-  onMenuToggle: jest.fn(),
+const renderComponent = (store?: Store<StoreState, AnyAction>, route = '/fi') =>
+  render(<Header />, { routes: [route], store });
+
+const findComponent = (
+  key:
+    | 'languageSelector'
+    | 'menuButton'
+    | 'navigation'
+    | 'signInButton'
+    | 'signOutLink'
+    | 'svOption'
+) => {
+  switch (key) {
+    case 'languageSelector':
+      return screen.findByRole('button', {
+        name: translations.navigation.languageSelectorAriaLabel,
+      });
+    case 'menuButton':
+      return screen.findByRole('button', {
+        name: translations.navigation.menuToggleAriaLabel,
+      });
+    case 'navigation':
+      return screen.findByRole('navigation');
+    case 'signInButton':
+      return screen.findByRole('button', { name: translations.common.signIn });
+    case 'signOutLink':
+      return screen.findByRole('link', { name: translations.common.signOut });
+    case 'svOption':
+      return screen.findByRole('link', {
+        name: translations.navigation.languages.sv,
+      });
+  }
 };
-const renderComponent = (props?: Partial<HeaderProps>, route = '/fi') =>
-  render(<Header {...defaultProps} {...props} />, { routes: [route] });
 
 beforeEach(() => {
   act(() => {
@@ -26,7 +65,7 @@ test('matches snapshot', async () => {
   expect(container.firstChild).toMatchSnapshot();
 });
 
-test('should show navigation links and click should route to correct pages', async () => {
+test('should show navigation links and should route to correct page after clicking link', async () => {
   const { history } = renderComponent();
   const links = [
     {
@@ -58,17 +97,16 @@ test('should show navigation links and click should route to correct pages', asy
   });
 });
 
-test('onMenuToggle function should be called', async () => {
+test('should show mobile menu', async () => {
   global.innerWidth = 500;
-  const onMenuToggle = jest.fn();
-  renderComponent({ onMenuToggle });
+  renderComponent();
 
-  const button = screen.getByRole('button', {
-    name: translations.navigation.menuToggleAriaLabel,
-  });
+  expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
 
-  userEvent.click(button);
-  expect(onMenuToggle).toBeCalled();
+  const menuButton = await findComponent('menuButton');
+  userEvent.click(menuButton);
+
+  await findComponent('navigation');
 });
 
 test('should change language', async () => {
@@ -77,15 +115,53 @@ test('should change language', async () => {
 
   expect(history.location.pathname).toBe('/fi');
 
-  const button = screen.getByRole('button', {
-    name: translations.navigation.languageSelectorAriaLabel,
-  });
-  userEvent.click(button);
+  const languageSelectorButton = await findComponent('languageSelector');
+  userEvent.click(languageSelectorButton);
 
-  const svOption = screen.getByRole('link', {
-    name: translations.navigation.languages.sv,
-  });
+  const svOption = await findComponent('svOption');
   userEvent.click(svOption);
 
   expect(history.location.pathname).toBe('/sv');
+});
+
+test('should start log in process', async () => {
+  userManager.signinRedirect = jest.fn();
+  (userManager.signinRedirect as jest.Mock).mockImplementationOnce(() =>
+    Promise.resolve({})
+  );
+
+  renderComponent();
+
+  const signInButton = await findComponent('signInButton');
+  userEvent.click(signInButton);
+
+  expect(userManager.signinRedirect).toBeCalled();
+});
+
+test('should start logout process', async () => {
+  const signoutRedirect = jest.fn();
+  userManager.signoutRedirect = signoutRedirect;
+
+  const apiToken = { [API_CLIENT_ID]: 'api-token' };
+  const userName = 'Test user';
+  const user = { profile: { name: userName } };
+  const state = merge({}, defaultStoreState, {
+    authentication: {
+      oidc: { user },
+      token: { apiToken },
+    },
+  });
+  const store = getMockReduxStore(state);
+
+  renderComponent(store);
+
+  const userMenuButton = await screen.findByRole('button', { name: userName });
+  userEvent.click(userMenuButton);
+
+  const signOutLink = await findComponent('signOutLink');
+  userEvent.click(signOutLink);
+
+  await waitFor(() => {
+    expect(signoutRedirect).toBeCalled();
+  });
 });

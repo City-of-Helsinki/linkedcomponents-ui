@@ -1,6 +1,8 @@
 @import 'breakpoints';
 
 .navigation {
+  z-index: var(--header-z-index);
+
   .navigationItem {
     color: var(--navigation-item-color) !important;
   }

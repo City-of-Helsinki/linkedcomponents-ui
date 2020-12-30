@@ -511,6 +511,11 @@
       "wed": "Ke"
     }
   },
+  "footer": {
+    "backToTopLabel": "Palaa ylös",
+    "copyrightHolder": "Helsingin kaupunki",
+    "copyrightText": "Kaikki oikeudet pidätetään."
+  },
   "helpPage": {
     "pageTitle": "Lisätietoja"
   },

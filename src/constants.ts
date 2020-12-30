@@ -73,4 +73,19 @@ export const defaultStoreState: StoreState = {
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/gif', 'image/png'];
 export const MAX_IMAGE_SIZE_MB = 2;
 
+export const NAVIGATION_ITEMS = [
+  {
+    labelKey: 'navigation.tabs.events',
+    url: ROUTES.EVENTS,
+  },
+  {
+    labelKey: 'navigation.tabs.searchEvent',
+    url: ROUTES.SEARCH,
+  },
+  {
+    labelKey: 'navigation.tabs.help',
+    url: ROUTES.HELP,
+  },
+];
+
 export const MAIN_CONTENT_ID = 'maincontent';

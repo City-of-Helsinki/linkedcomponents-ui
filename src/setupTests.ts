@@ -6,4 +6,4 @@ import './test/testI18nInit';
 import '@testing-library/jest-dom/extend-expect';
 import 'jest-localstorage-mock';
 
-jest.setTimeout(50000);
+jest.setTimeout(100000);

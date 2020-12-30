@@ -434,6 +434,11 @@
   "eventsPage": {
     "pageTitle": "Search events"
   },
+  "footer": {
+    "backToTopLabel": "Back to top",
+    "copyrightHolder": "City of Helsinki",
+    "copyrightText": "All rights reserved."
+  },
   "form": {
     "inLanguage": {
       "ar": "In Arabic",

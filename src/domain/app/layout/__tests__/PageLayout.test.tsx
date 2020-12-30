@@ -6,6 +6,7 @@ import {
   render,
   screen,
   userEvent,
+  within,
 } from '../../../../utils/testUtils';
 import translations from '../../i18n/fi.json';
 import PageLayout from '../PageLayout';
@@ -44,6 +45,7 @@ test('alternate language links should be added', async () => {
   const head = document.querySelector('head');
 
   const links = head?.querySelectorAll(`[rel="alternate"]`);
+
   if (links) {
     Object.values(SUPPORTED_LANGUAGES).forEach((lang) => {
       const link = Array.from(links).find((item) =>
@@ -59,11 +61,14 @@ test('menu should be opened by clicking menu button', async () => {
   global.innerWidth = 500;
   getWrapper();
 
-  const button = screen.getByRole('button', {
+  const withinHeader = within(screen.getByRole('banner'));
+  const button = withinHeader.getByRole('button', {
     name: translations.navigation.menuToggleAriaLabel,
   });
 
+  expect(withinHeader.queryByRole('navigation')).not.toBeInTheDocument();
+
   userEvent.click(button);
 
-  expect(screen.getByRole('navigation')).toBeInTheDocument();
+  expect(withinHeader.getByRole('navigation')).toBeInTheDocument();
 });

@@ -179,11 +179,16 @@ const theme: Theme = {
     '--error-template-icon-color': 'var(--color-bus)',
     '--error-template-icon-size': '112px',
   },
+  footer: {
+    '--footer-background': 'var(--color-black-5)',
+    '--footer-color': 'var(--color-black)',
+    '--footer-divider-color': 'var(--color-black-20)',
+    '--footer-focus-outline-color': 'var(--color-coat-of-arms)',
+  },
   formLanguageSelector: {
     '--form-language-selector-icon-color': 'var(--color-success)',
     '--form-language-selector-item-color': 'var(--color-bus)',
     '--form-language-selector-item-color-active': 'var(--color-bus)',
-  },
   imageSelector: {
     '--image-selector-focus-outline-color': 'var(--color-coat-of-arms)',
   },
@@ -220,7 +225,7 @@ const theme: Theme = {
     '--modal-heading-color': 'var(--color-white)',
   },
   navigation: {
-    '--header-z-index': 10,
+    '--header-z-index': 101,
     '--header-background-color': 'var(--color-coat-of-arms)',
     '--header-color': 'var(--color-white)',
     '--header-divider-color': 'var(--color-black-20)',
@@ -229,7 +234,7 @@ const theme: Theme = {
     '--navigation-row-color': 'var(--color-coat-of-arms)',
     '--navigation-row-focus-outline-color': 'var(--color-coat-of-arms)',
     '--navigation-item-color': 'var(--color-black-90)',
-    '--mobile-menu-z-index': 9,
+    '--mobile-menu-z-index': 101,
     '--mobile-menu-background-color': 'var(--color-white)',
     '--mobile-menu-color': 'var(--color-black-90)',
   },

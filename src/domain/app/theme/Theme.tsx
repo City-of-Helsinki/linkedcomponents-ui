@@ -1,3 +1,4 @@
+import { FooterCustomTheme } from 'hds-react/components/Footer';
 import { SelectCustomTheme } from 'hds-react/components/Select';
 import React, { useContext, useState } from 'react';
 
@@ -276,6 +277,7 @@ export type Theme = {
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
+  footer: Partial<FooterCustomTheme>;
   formLanguageSelector: FormLanguageSelectorCSSProperties;
   imageSelector: ImageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
@@ -310,6 +312,7 @@ const defaultTheme: Theme = {
   datepicker: {},
   deleteButton: {},
   errorTemplate: {},
+  footer: {},
   formLanguageSelector: {},
   imageSelector: {},
   languageSelector: {},

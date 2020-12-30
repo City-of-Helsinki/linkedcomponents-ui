@@ -13,23 +13,15 @@ import styles from './pageLayout.module.scss';
 const PageLayout: React.FC = ({ children }) => {
   const { theme } = useTheme();
   const locale = useLocale();
-  const [menuOpen, setMenuOpen] = React.useState(false);
 
   const path = window.location.pathname.replace(`/${locale}`, '');
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
 
   return (
     <div
       className={classNames(
         styles.pageLayout,
         css(theme.layout),
-        css(theme.root),
-        {
-          [styles.menuOpen]: menuOpen,
-        }
+        css(theme.root)
       )}
     >
       <Helmet>
@@ -48,10 +40,8 @@ const PageLayout: React.FC = ({ children }) => {
         })}
       </Helmet>
 
-      <Header menuOpen={menuOpen} onMenuToggle={toggleMenu} />
-      <div aria-hidden={menuOpen} className={styles.pageBody}>
-        {children}
-      </div>
+      <Header />
+      <div className={styles.pageBody}>{children}</div>
 
       <Footer />
     </div>
