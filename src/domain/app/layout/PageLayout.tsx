@@ -7,6 +7,8 @@ import { SUPPORTED_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
+import ResetFocus from '../resetFocus/ResetFocus';
+import ScrollToTop from '../scrollToTop/ScrollToTop';
 import { useTheme } from '../theme/Theme';
 import styles from './pageLayout.module.scss';
 
@@ -24,6 +26,8 @@ const PageLayout: React.FC = ({ children }) => {
         css(theme.root)
       )}
     >
+      <ResetFocus />
+      <ScrollToTop />
       <Helmet>
         <html lang={locale} />
 

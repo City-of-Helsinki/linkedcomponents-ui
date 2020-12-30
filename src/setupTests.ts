@@ -6,4 +6,7 @@ import './test/testI18nInit';
 import '@testing-library/jest-dom/extend-expect';
 import 'jest-localstorage-mock';
 
+// Mock scrollTo function
+window.scrollTo = jest.fn();
+
 jest.setTimeout(100000);
