@@ -185,10 +185,6 @@ const theme: Theme = {
     '--footer-divider-color': 'var(--color-black-20)',
     '--footer-focus-outline-color': 'var(--color-coat-of-arms)',
   },
-  formLanguageSelector: {
-    '--form-language-selector-icon-color': 'var(--color-success)',
-    '--form-language-selector-item-color': 'var(--color-bus)',
-    '--form-language-selector-item-color-active': 'var(--color-bus)',
   imageSelector: {
     '--image-selector-focus-outline-color': 'var(--color-coat-of-arms)',
   },
@@ -353,6 +349,11 @@ const theme: Theme = {
     '--multiselect-checkbox-color-selected': 'var(--color-white)',
     '--multiselect-checkbox-color-selected-disabled': 'var(--color-white)',
     '--placeholder-color': 'var(--color-black-60)',
+  },
+  tabSelector: {
+    '--tab-selector-icon-color': 'var(--color-success)',
+    '--tab-selector-item-color': 'var(--color-bus)',
+    '--tab-selector-item-color-active': 'var(--color-bus)',
   },
   textInput: {
     '--border-radius': '2px',

@@ -105,12 +105,6 @@ type ErrorTemplateCSSProperties = {
   '--error-template-icon-size'?: string;
 };
 
-type FormLanguageSelectorCSSProperties = {
-  '--form-language-selector-icon-color'?: string;
-  '--form-language-selector-item-color'?: string;
-  '--form-language-selector-item-color-active'?: string;
-};
-
 type ImageSelectorCSSProperties = {
   '--image-selector-focus-outline-color'?: string;
 };
@@ -228,6 +222,12 @@ type SelectCSSProperties = {
   '--menu-z-index'?: number;
 } & Partial<SelectCustomTheme>;
 
+type TabSelectorCSSProperties = {
+  '--tab-selector-icon-color'?: string;
+  '--tab-selector-item-color'?: string;
+  '--tab-selector-item-color-active'?: string;
+};
+
 type TextInputCSSProperties = {
   '--border-radius'?: string;
   '--border-width'?: string;
@@ -278,7 +278,6 @@ export type Theme = {
   deleteButton: DeleteButtonCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
   footer: Partial<FooterCustomTheme>;
-  formLanguageSelector: FormLanguageSelectorCSSProperties;
   imageSelector: ImageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
@@ -301,6 +300,7 @@ export type Theme = {
   radioButton: RadioButtonCSSProperties;
   root: RootCSSProperties;
   select: SelectCSSProperties;
+  tabSelector: TabSelectorCSSProperties;
   textInput: TextInputCSSProperties;
   timepicker: TimepickerCSSProperties;
 };
@@ -313,7 +313,6 @@ const defaultTheme: Theme = {
   deleteButton: {},
   errorTemplate: {},
   footer: {},
-  formLanguageSelector: {},
   imageSelector: {},
   languageSelector: {},
   layout: {},
@@ -324,6 +323,7 @@ const defaultTheme: Theme = {
   radioButton: {},
   root: {},
   select: {},
+  tabSelector: {},
   textInput: {},
   timepicker: {},
 };

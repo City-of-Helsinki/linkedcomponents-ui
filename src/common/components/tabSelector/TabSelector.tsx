@@ -1,28 +1,57 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { useFormikContext } from 'formik';
+import { IconCheck } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import { OptionType } from '../../../types';
-import { Item } from '../tabSelector/TabSelector';
-import styles from '../tabSelector/tabSelector.module.scss';
+import styles from './tabSelector.module.scss';
+
+interface ItemProps {
+  isCompleted?: boolean;
+  isSelected: boolean;
+  option: OptionType;
+  onClick: (value: string) => void;
+}
+
+const Item: React.FC<ItemProps> = ({
+  isCompleted = false,
+  isSelected,
+  option,
+  onClick,
+}) => {
+  const handleClick = () => {
+    onClick(option.value);
+  };
+
+  return (
+    <button
+      className={classNames(styles.item, { [styles.isSelected]: isSelected })}
+      key={option.value}
+      onClick={handleClick}
+      aria-current={isSelected ? 'step' : 'false'}
+      role="link"
+      type="button"
+    >
+      {isCompleted ? <IconCheck className={styles.icon} /> : null}
+      {option.label}
+    </button>
+  );
+};
 
 interface Props {
-  fields: string[];
   onChange: (selected: string) => void;
   options: OptionType[];
   selectedLanguage: string;
 }
 
-const FormLanguageSelector: React.FC<Props> = ({
-  fields,
+const TabSelector: React.FC<Props> = ({
   onChange,
   options,
   selectedLanguage,
 }) => {
   const { theme } = useTheme();
-  const { getFieldMeta } = useFormikContext();
+
   const handleChange = (newLanguage: string) => {
     onChange(newLanguage);
   };
@@ -33,16 +62,11 @@ const FormLanguageSelector: React.FC<Props> = ({
       role="navigation"
     >
       {options.map((option) => {
-        const errors = fields
-          .map((field) => getFieldMeta(`${field}.${option.value}`).error)
-          .filter((e) => e);
-        const isCompleted = !errors.length;
         const isSelected = option.value === selectedLanguage;
 
         return (
           <Item
             key={option.value}
-            isCompleted={isCompleted}
             isSelected={isSelected}
             option={option}
             onClick={handleChange}
@@ -53,4 +77,5 @@ const FormLanguageSelector: React.FC<Props> = ({
   );
 };
 
-export default FormLanguageSelector;
+export default TabSelector;
+export { Item };
