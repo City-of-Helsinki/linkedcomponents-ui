@@ -53,7 +53,7 @@ const LogoutPage = () => {
               type="button"
               variant="secondary"
             >
-              {t('logoutPage.buttonGoToHome')}
+              {t('common.goToHome')}
             </Button>
             <Button
               fullWidth={true}

@@ -42,6 +42,7 @@
       "text": "Ge respons och påverka",
       "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
     },
+    "goToHome": "Till startsidan",
     "imageUploader": {
       "buttonDropImage": "Släpp en bild i området eller lägg till från din dator genom att klicka",
       "notAllowedFileFormat": "Filformat är inte tillåtet",
@@ -516,7 +517,6 @@
     "uploadError": "Det gick inte att ladda upp bilden"
   },
   "logoutPage": {
-    "buttonGoToHome": "Till startsidan",
     "pageTitle": "Du är utloggad",
     "text": "Du har loggat ut från tjänsten. Logga in igen eller återvänd till startsidan."
   },
@@ -537,8 +537,11 @@
     }
   },
   "notFound": {
-    "buttonGoToHome": "Till startsidan",
     "pageTitle": "Hittades inte",
     "text": "Innehållet du letade efter kunde inte hittas. Logga in igen eller återvänd till startsidan."
+  },
+  "notSigned": {
+    "pageTitle": "Inloggning krävs",
+    "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
   }
 }

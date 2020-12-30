@@ -42,6 +42,7 @@
       "text": "Give feedback and make an impact",
       "url": "https://www.hel.fi/helsinki/en/administration/participate/feedback/"
     },
+    "goToHome": "To home page",
     "imageUploader": {
       "buttonDropImage": "Drop an image into the area or add from your computer by clicking",
       "notAllowedFileFormat": "File format is not allowed",
@@ -516,7 +517,6 @@
     "uploadError": "Failed to upload the image"
   },
   "logoutPage": {
-    "buttonGoToHome": "To home page",
     "pageTitle": "You are logged out",
     "text": "You have been logged out of the service. Log back in or return to the home page."
   },
@@ -537,8 +537,11 @@
     }
   },
   "notFound": {
-    "buttonGoToHome": "To home page",
     "pageTitle": "Not found",
     "text": "The content you were looking for could not be found. Log in or return to the home page."
+  },
+  "notSigned": {
+    "pageTitle": "Login required",
+    "text": "You must be logged in to view this content. Log in or return to the home page."
   }
 }

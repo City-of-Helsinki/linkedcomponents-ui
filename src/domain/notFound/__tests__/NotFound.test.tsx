@@ -15,10 +15,7 @@ test('should render not found page', () => {
 
   expect(screen.getByText(translations.notFound.text)).toBeInTheDocument();
 
-  const buttons = [
-    translations.common.signIn,
-    translations.notFound.buttonGoToHome,
-  ];
+  const buttons = [translations.common.signIn, translations.common.goToHome];
 
   buttons.forEach((name) => {
     expect(screen.getByRole('button', { name })).toBeInTheDocument();
@@ -29,7 +26,7 @@ test('should route to home page', () => {
   const { history } = renderComponent();
 
   userEvent.click(
-    screen.getByRole('button', { name: translations.notFound.buttonGoToHome })
+    screen.getByRole('button', { name: translations.common.goToHome })
   );
 
   expect(history.location.pathname).toBe('/fi/');

@@ -42,6 +42,7 @@
       "text": "Anna palautetta ja vaikuta",
       "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta"
     },
+    "goToHome": "Etusivulle",
     "imageUploader": {
       "buttonDropImage": "Pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
@@ -517,7 +518,6 @@
     "uploadError": "Kuvan tallentaminen epäonnistui"
   },
   "logoutPage": {
-    "buttonGoToHome": "Etusivulle",
     "pageTitle": "Olet kirjautunut ulos",
     "text": "Olet kirjautunut ulos palvelusta. Kirjaudu takaisin sisään tai palaa etusivulle."
   },
@@ -538,8 +538,11 @@
     }
   },
   "notFound": {
-    "buttonGoToHome": "Etusivulle",
     "pageTitle": "Sisältöä ei löydy",
     "text": "Etsimääsi sisältöä ei löydy. Kirjaudu sisään tai palaa kotisivulle."
+  },
+  "notSigned": {
+    "pageTitle": "Kirjautuminen vaaditaan",
+    "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
   }
 }

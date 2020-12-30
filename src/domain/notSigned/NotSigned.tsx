@@ -1,7 +1,7 @@
 import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
@@ -9,23 +9,24 @@ import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
 import PageWrapper from '../app/layout/PageWrapper';
 import { signIn } from '../auth/authenticate';
-import styles from './notFound.module.scss';
+import styles from './notSigned.module.scss';
 
-const NotFoundPage = () => {
+const NotSignedPage = () => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
+  const location = useLocation();
 
   const goToHome = () => {
     history.push(`/${locale}${ROUTES.HOME}`);
   };
 
   const handleSignIn = () => {
-    signIn(`/${locale}${ROUTES.HOME}`);
+    signIn(`${location.pathname}${location.search}`);
   };
 
   return (
-    <PageWrapper title={t('notFound.pageTitle')}>
+    <PageWrapper title={t('notSigned.pageTitle')}>
       <ErrorTemplate
         buttons={
           <div className={styles.buttons}>
@@ -48,10 +49,10 @@ const NotFoundPage = () => {
             </Button>
           </div>
         }
-        text={t('notFound.text')}
+        text={t('notSigned.text')}
       />
     </PageWrapper>
   );
 };
 
-export default NotFoundPage;
+export default NotSignedPage;
