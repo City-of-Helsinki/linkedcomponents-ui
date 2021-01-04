@@ -14,6 +14,7 @@
     "at": "kl {{time}}",
     "betweenDates": "Mellan {{startDate}} och {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonAddEvent": "Lägg till ett ny evenemang",
     "cancel": "Annullera",
     "close": "Stäng",
     "combobox": {
@@ -440,7 +441,6 @@
     }
   },
   "eventSavedPage": {
-    "buttonAddEvent": "Lägg till ett ny evenemang",
     "buttonBackToEvents": "Tillbaka till evenemang",
     "pageTitleDraftSaved": "Utkastet har sparats",
     "pageTitlePublished": "Evenemanget har publicerats",
@@ -448,7 +448,13 @@
     "titlePublished": "Evenemanget har publicerats"
   },
   "eventsPage": {
-    "pageTitle": "Sök evenemangen"
+    "pageTitle": "Mina evenemangen",
+    "tabs": {
+      "drafts": "Utkast ({{count}})",
+      "published": "Publicerad ({{count}})",
+      "waitingApproval": "Väntan ({{count}})"
+    },
+    "title": "Mina evenemangen"
   },
   "form": {
     "inLanguage": {

@@ -100,5 +100,5 @@ test('should route to create event page', async () => {
   const addEventButton = await findComponent('addEventButton');
   userEvent.click(addEventButton);
 
-  expect(history.location.pathname).toBe('/fi/event/create');
+  expect(history.location.pathname).toBe('/fi/events/create');
 });

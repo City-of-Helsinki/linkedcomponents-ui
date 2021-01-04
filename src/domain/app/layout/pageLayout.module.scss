@@ -15,7 +15,6 @@
   display: grid;
   align-content: flex-start;
   background-color: var(--page-background-color);
-  padding-bottom: var(--spacing-5-xl);
   padding-top: var(--page-layout-body-mobile-padding-top);
 
   @include medium-up {

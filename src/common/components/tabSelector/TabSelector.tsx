@@ -40,12 +40,14 @@ const Item: React.FC<ItemProps> = ({
 };
 
 interface Props {
+  className?: string;
   onChange: (selected: string) => void;
   options: OptionType[];
   selectedLanguage: string;
 }
 
 const TabSelector: React.FC<Props> = ({
+  className,
   onChange,
   options,
   selectedLanguage,
@@ -58,7 +60,11 @@ const TabSelector: React.FC<Props> = ({
 
   return (
     <div
-      className={classNames(styles.tabSelector, css(theme.tabSelector))}
+      className={classNames(
+        styles.tabSelector,
+        css(theme.tabSelector),
+        className
+      )}
       role="navigation"
     >
       {options.map((option) => {

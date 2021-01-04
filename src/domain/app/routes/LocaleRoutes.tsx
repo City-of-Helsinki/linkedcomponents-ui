@@ -7,6 +7,7 @@ import { Language } from '../../../types';
 import EventSavedPage from '../../eventSaved/EventSavedPage';
 import LogoutPage from '.././../auth/logoutPage/LogoutPage';
 import CreateEventPage from '.././../event/CreateEventPage';
+import EventPage from '.././../event/EventPage';
 import EventsPage from '.././../events/EventsPage';
 import HelpPage from '.././../help/HelpPage';
 import LandingPage from '.././../landingPage/LandingPage';
@@ -50,6 +51,7 @@ const LocaleRoutes: React.FC<Props> = ({
           path={getLocelePath(ROUTES.EVENT_SAVED)}
           component={EventSavedPage}
         />
+        <Route exact path={getLocelePath(ROUTES.EVENT)} component={EventPage} />
         <Route
           exact
           path={getLocelePath(ROUTES.EVENTS)}

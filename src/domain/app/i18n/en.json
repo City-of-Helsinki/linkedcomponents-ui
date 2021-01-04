@@ -14,6 +14,7 @@
     "at": "at {{time}}",
     "betweenDates": "Between {{startDate}} and {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonAddEvent": "Add new event",
     "cancel": "Cancel",
     "close": "Close",
     "combobox": {
@@ -440,7 +441,6 @@
     }
   },
   "eventSavedPage": {
-    "buttonAddEvent": "Add new event",
     "buttonBackToEvents": "Back to events",
     "pageTitleDraftSaved": "Draft saved",
     "pageTitlePublished": "Event published",
@@ -448,7 +448,13 @@
     "titlePublished": "Event successfully published"
   },
   "eventsPage": {
-    "pageTitle": "Search events"
+    "pageTitle": "My events",
+    "tabs": {
+      "drafts": "Drafts ({{count}})",
+      "published": "Published ({{count}})",
+      "waitingApproval": "Waiting ({{count}})"
+    },
+    "title": "My events"
   },
   "footer": {
     "backToTopLabel": "Back to top",

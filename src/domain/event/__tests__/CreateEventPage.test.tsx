@@ -613,7 +613,7 @@ describe('save draft event', () => {
 
     await waitFor(() => {
       expect(history.location.pathname).toBe(
-        `/fi/event/completed/${eventValues.id}`
+        `/fi/events/completed/${eventValues.id}`
       );
     });
   });
@@ -745,7 +745,7 @@ test('should route to event completed page after publishing event', async () => 
 
   await waitFor(() => {
     expect(history.location.pathname).toBe(
-      `/fi/event/completed/${eventValues.id}`
+      `/fi/events/completed/${eventValues.id}`
     );
   });
 });

@@ -201,7 +201,7 @@ exports[`matches snapshot 1`] = `
     </a>
     <a
       class="NavigationItem-module_rowItem__2QxRz navigationItem addEventItem"
-      href="/sv/event/create"
+      href="/sv/events/create"
     >
       <span
         class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"

@@ -14,6 +14,7 @@
     "at": "klo {{time}}",
     "betweenDates": "Ajalla {{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonAddEvent": "Lisää uusi tapahtuma",
     "cancel": "Peruuta",
     "close": "Sulje",
     "combobox": {
@@ -440,7 +441,6 @@
     }
   },
   "eventSavedPage": {
-    "buttonAddEvent": "Syötä uusi tapahtuma",
     "buttonBackToEvents": "Palaa tapahtumiin",
     "pageTitleDraftSaved": "Luonnos tallennettu",
     "pageTitlePublished": "Tapahtuma julkaistu",
@@ -448,7 +448,13 @@
     "titlePublished": "Tapahtuma julkaistu onnistuneesti"
   },
   "eventsPage": {
-    "pageTitle": "Etsi tapahtumia"
+    "pageTitle": "Omat tapahtumat",
+    "tabs": {
+      "drafts": "Luonnokset ({{count}})",
+      "published": "Julkaistut ({{count}})",
+      "waitingApproval": "Odottaa ({{count}})"
+    },
+    "title": "Omat tapahtumat"
   },
   "form": {
     "inLanguage": {
