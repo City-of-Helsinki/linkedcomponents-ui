@@ -17,6 +17,7 @@ import {
   LanguagesResponse,
   LocalisedObject,
   Meta,
+  Offer,
   Organization,
   Place,
   PlacesResponse,
@@ -47,18 +48,18 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       provider: fakeLocalisedObject(),
       shortDescription: fakeLocalisedObject(),
       description: fakeLocalisedObject(),
-      images: [fakeImage()],
+      images: [],
       infoUrl: fakeLocalisedObject(),
-      inLanguage: [fakeLanguage()],
+      inLanguage: [],
       audience: [],
-      keywords: [fakeKeyword()],
+      keywords: [],
       location: fakePlace(),
       startTime: '2020-07-13T05:51:05.761000Z',
       endTime: null,
       datePublished: null,
-      externalLinks: [fakeExternalLink()],
-      offers: [] as any,
-      subEvents: [] as any,
+      externalLinks: [],
+      offers: [],
+      subEvents: [],
       publicationStatus: PublicationStatus.Public,
       eventStatus: 'EventScheduled',
       superEvent: null,
@@ -182,6 +183,21 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language => {
     overrides
   );
 };
+
+export const fakeOffer = (overrides?: Partial<Offer>): Offer =>
+  merge(
+    {
+      description: fakeLocalisedObject(),
+      infoUrl: fakeLocalisedObject(faker.internet.url()),
+      isFree: false,
+      price: fakeLocalisedObject(),
+      __typename: 'Offer',
+    },
+    overrides
+  );
+
+export const fakeOffers = (count = 1, offers?: Partial<Offer>[]): Offer[] =>
+  generateNodeArray((i) => fakeOffer(offers?.[i]), count);
 
 export const fakeOrganization = (
   overrides?: Partial<Organization>

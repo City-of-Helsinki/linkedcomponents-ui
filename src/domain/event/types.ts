@@ -11,7 +11,21 @@ import {
 export type EventFields = {
   id: string;
   atId: string;
+  addressLocality: string;
+  audienceMaxAge: number | null;
+  audienceMinAge: number | null;
+  endTime: Date | null;
+  eventUrl: string;
+  freeEvent: boolean;
+  imageUrl: string | null;
+  inLanguage: string[];
+  locationName: string;
+  name: string;
+  offers: Offer[];
   publicationStatus: PublicationStatus;
+  publisher: string | null;
+  startTime: Date | null;
+  streetAddress: string;
 };
 
 export type EventFormFields = {

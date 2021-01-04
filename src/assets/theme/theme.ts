@@ -179,6 +179,15 @@ const theme: Theme = {
     '--error-template-icon-color': 'var(--color-bus)',
     '--error-template-icon-size': '112px',
   },
+  eventCard: {
+    '--event-card-background-color': 'var(--color-white)',
+    '--event-card-color': 'var(--color-black-60)',
+    '--event-card-heading-color': 'var(--color-black-90)',
+    '--event-card-image-background-color': 'var(--color-black-10)',
+    '--event-card-image-min-height': '7.5rem',
+    '--event-card-mobile-image-min-height': '12rem',
+  },
+
   footer: {
     '--footer-background': 'var(--color-black-5)',
     '--footer-color': 'var(--color-black)',

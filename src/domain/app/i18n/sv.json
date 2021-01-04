@@ -79,6 +79,11 @@
     "validationError": "Det finns fel på formuläret. Kontrollera formuläret."
   },
   "event": {
+    "audienceAge": {
+      "between": "{{min}} – {{max}} år",
+      "over": "Över {{min}} år",
+      "under": "Under {{max}} år"
+    },
     "form": {
       "buttonAddEventTime": "Lägg till ny tid",
       "buttonAddImage": {
@@ -417,6 +422,11 @@
       },
       "titleUmrellaEvent": "Paraplyevenemangen",
       "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett paraplyevenemang."
+    },
+    "freeEvent": "Fri",
+    "publicationStatus": {
+      "draft": "Förslag",
+      "public": "Offentlig"
     },
     "type": {
       "course": "Kurs",

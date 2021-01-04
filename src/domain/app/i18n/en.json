@@ -79,6 +79,11 @@
     "validationError": "There are errors on the form. Please check the form."
   },
   "event": {
+    "audienceAge": {
+      "between": "{{min}} – {{max}} yr.",
+      "over": "Over {{min}} yr.",
+      "under": "Under {{max}} yr."
+    },
     "form": {
       "buttonAddEventTime": "Add new time",
       "buttonAddImage": {
@@ -417,6 +422,11 @@
       },
       "titleUmrellaEvent": "Umbrella events",
       "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
+    },
+    "freeEvent": "Free",
+    "publicationStatus": {
+      "draft": "Draft",
+      "public": "Public"
     },
     "type": {
       "course": "Course",

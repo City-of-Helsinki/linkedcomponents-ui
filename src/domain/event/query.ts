@@ -22,6 +22,8 @@ export const QUERY_EVENT = gql`
   fragment eventFields on Event {
     id
     atId
+    audienceMaxAge
+    audienceMinAge
     description {
       ...localisedFields
     }

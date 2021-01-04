@@ -105,6 +105,15 @@ type ErrorTemplateCSSProperties = {
   '--error-template-icon-size'?: string;
 };
 
+type eventCardCSSProperties = {
+  '--event-card-background-color'?: string;
+  '--event-card-color'?: string;
+  '--event-card-heading-color'?: string;
+  '--event-card-image-background-color'?: string;
+  '--event-card-image-min-height'?: string;
+  '--event-card-mobile-image-min-height'?: string;
+};
+
 type ImageSelectorCSSProperties = {
   '--image-selector-focus-outline-color'?: string;
 };
@@ -277,6 +286,7 @@ export type Theme = {
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
+  eventCard: eventCardCSSProperties;
   footer: Partial<FooterCustomTheme>;
   imageSelector: ImageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
@@ -312,6 +322,7 @@ const defaultTheme: Theme = {
   datepicker: {},
   deleteButton: {},
   errorTemplate: {},
+  eventCard: {},
   footer: {},
   imageSelector: {},
   languageSelector: {},

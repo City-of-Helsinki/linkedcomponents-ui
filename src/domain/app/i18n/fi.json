@@ -79,6 +79,11 @@
     "validationError": "Lomakkeessa on virheitä. Tarkasta lomake."
   },
   "event": {
+    "audienceAge": {
+      "between": "{{min}} – {{max}} v",
+      "over": "Yli {{min}} v",
+      "under": "Alle {{max}} v"
+    },
     "form": {
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddImage": {
@@ -417,6 +422,11 @@
       },
       "titleUmrellaEvent": "Kattotapahtumat",
       "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
+    },
+    "freeEvent": "Maksuton",
+    "publicationStatus": {
+      "draft": "Luonnos",
+      "public": "Julkaistu"
     },
     "type": {
       "course": "Kurssi",
