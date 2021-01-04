@@ -49,6 +49,12 @@
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
     "openInNewTab": "(avataan uudessa välilehdessä)",
+    "pagination": {
+      "navigation": "Sivunavigointi",
+      "next": "Seuraava sivu",
+      "page": "Sivu {{page}}",
+      "previous": "Edellinen sivu"
+    },
     "placeholderDate": "pp.kk.vvvv",
     "placeholderDateTime": "pp.kk.vvvv hh.mm",
     "placeholderTime": "hh.mm",

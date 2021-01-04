@@ -49,6 +49,12 @@
       "tooLargeFileSize": "File size is too large. Maximum file size is {{maxSize}} MB"
     },
     "openInNewTab": "(opens in a new tab)",
+    "pagination": {
+      "navigation": "Page navigation",
+      "next": "Next page",
+      "page": "Page {{page}}",
+      "previous": "Previous page"
+    },
     "placeholderDate": "dd.mm.yyyy",
     "placeholderDateTime": "dd.mm.yyyy hh.mm",
     "placeholderTime": "hh.mm",

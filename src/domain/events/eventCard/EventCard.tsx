@@ -61,7 +61,10 @@ const EventCard: React.FC<Props> = ({ event }) => {
       .join(', ') || '-';
 
   return (
-    <Link className={classNames(styles.eventCard, css(theme))} to={eventUrl}>
+    <Link
+      className={classNames(styles.eventCard, css(theme.eventCard))}
+      to={eventUrl}
+    >
       <div
         data-testid={testIds.image}
         className={styles.imageWrapper}

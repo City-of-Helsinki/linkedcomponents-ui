@@ -185,6 +185,19 @@ type NotificationSizeCSSProperties = {
   '--notification-padding'?: string;
 };
 
+type PaginationCSSProperties = {
+  '--pagination-item-background-color'?: string;
+  '--pagination-item-background-color-disabled'?: string;
+  '--pagination-item-background-color-hover'?: string;
+  '--pagination-item-background-color-selected'?: string;
+  '--pagination-item-color'?: string;
+  '--pagination-item-color-disabled'?: string;
+  '--pagination-item-color-hover'?: string;
+  '--pagination-item-color-selected'?: string;
+  '--pagination-item-size'?: string;
+  '--pagination-item-border-radius'?: string;
+};
+
 type RadioButtonCSSProperties = {
   '--size'?: string;
   '--icon-scale'?: number;
@@ -307,6 +320,7 @@ export type Theme = {
       success?: NotificationCSSProperties;
     };
   };
+  pagination: PaginationCSSProperties;
   radioButton: RadioButtonCSSProperties;
   root: RootCSSProperties;
   select: SelectCSSProperties;
@@ -331,6 +345,7 @@ const defaultTheme: Theme = {
   modal: {},
   navigation: {},
   notification: {},
+  pagination: {},
   radioButton: {},
   root: {},
   select: {},

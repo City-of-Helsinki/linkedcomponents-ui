@@ -49,6 +49,12 @@
       "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
     },
     "openInNewTab": "(öppnas i en ny flik)",
+    "pagination": {
+      "navigation": "Sidnavigering",
+      "next": "Nästa sida",
+      "page": "Sida {{page}}",
+      "previous": "Föregående sida"
+    },
     "placeholderDate": "dd.mm.åååå",
     "placeholderDateTime": "dd.mm.åååå hh.mm",
     "placeholderTime": "hh.mm",

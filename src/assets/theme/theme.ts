@@ -280,6 +280,19 @@ const theme: Theme = {
       },
     },
   },
+  pagination: {
+    '--pagination-item-background-color': 'transparent',
+    '--pagination-item-background-color-disabled': 'transparent',
+    '--pagination-item-background-color-hover':
+      'var(--color-coat-of-arms-light)',
+    '--pagination-item-background-color-selected': 'var(--color-coat-of-arms)',
+    '--pagination-item-color': 'var(--color-black)',
+    '--pagination-item-color-disabled': 'var(--color-black-40)',
+    '--pagination-item-color-hover': 'var(--color-black)',
+    '--pagination-item-color-selected': 'var(--color-white)',
+    '--pagination-item-size': '40px',
+    '--pagination-item-border-radius': '20px',
+  },
   radioButton: {
     '--size': '24px',
     '--icon-scale': 0.5,
