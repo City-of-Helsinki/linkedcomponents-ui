@@ -257,13 +257,7 @@ export const eventValidationSchema = Yup.object().shape({
               ),
               [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
                 eventInfoLanguage,
-                Yup.string()
-                  .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-                  .url(VALIDATION_MESSAGE_KEYS.URL)
-              ),
-              [EVENT_FIELDS.OFFER_DESCRIPTION]: createMultiLanguageValidation(
-                eventInfoLanguage,
-                Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+                Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
               ),
             })
           )

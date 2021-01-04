@@ -67,7 +67,6 @@ const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
                 labelKey={`event.form.labelOfferInfoUrl`}
                 languages={eventInfoLanguages}
                 placeholderKey={`event.form.placeholderOfferInfoUrl`}
-                required={true}
               />
             </FormGroup>
             <FormGroup>
@@ -77,7 +76,6 @@ const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
                 labelKey={`event.form.labelOfferDescription`}
                 languages={eventInfoLanguages}
                 placeholderKey={`event.form.placeholderOfferDescription`}
-                required={true}
               />
             </FormGroup>
           </>
