@@ -269,7 +269,7 @@ const CreateEventPage: React.FC = () => {
               title={`createEventPage.pageTitle.${type}`}
             >
               <LoadingSpinner isLoading={loading}>
-                <MainContent offset={-130}>
+                <MainContent>
                   <Container>
                     <FormContainer>
                       <Section title={t('event.form.sections.type')}>

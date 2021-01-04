@@ -15,7 +15,7 @@ interface Props {
 const MainContent: React.FC<Props> = ({
   children,
   duration = 100,
-  offset = -150,
+  offset = -130,
   onScrollFn,
 }) => {
   const { hash } = useLocation();

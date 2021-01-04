@@ -9,6 +9,7 @@ import ErrorTemplate from '../../../common/components/errorTemplate/ErrorTemplat
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
+import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 import { signIn } from '../authenticate';
 import { authenticatedSelector, loadingSelector } from '../selectors';
@@ -43,30 +44,32 @@ const LogoutPage = () => {
 
   return (
     <PageWrapper title={t('logoutPage.pageTitle')}>
-      <ErrorTemplate
-        buttons={
-          <div className={styles.buttons}>
-            <Button
-              fullWidth={true}
-              iconLeft={<IconArrowLeft />}
-              onClick={goToHome}
-              type="button"
-              variant="secondary"
-            >
-              {t('common.goToHome')}
-            </Button>
-            <Button
-              fullWidth={true}
-              onClick={handleSignIn}
-              type="button"
-              variant="primary"
-            >
-              {t('common.signIn')}
-            </Button>
-          </div>
-        }
-        text={t('logoutPage.text')}
-      />
+      <MainContent>
+        <ErrorTemplate
+          buttons={
+            <div className={styles.buttons}>
+              <Button
+                fullWidth={true}
+                iconLeft={<IconArrowLeft />}
+                onClick={goToHome}
+                type="button"
+                variant="secondary"
+              >
+                {t('common.goToHome')}
+              </Button>
+              <Button
+                fullWidth={true}
+                onClick={handleSignIn}
+                type="button"
+                variant="primary"
+              >
+                {t('common.signIn')}
+              </Button>
+            </div>
+          }
+          text={t('logoutPage.text')}
+        />
+      </MainContent>
     </PageWrapper>
   );
 };
