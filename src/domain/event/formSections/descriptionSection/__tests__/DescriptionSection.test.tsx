@@ -1,13 +1,7 @@
 import { Formik } from 'formik';
 import React from 'react';
 
-import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
-import {
-  actWait,
-  render,
-  screen,
-  userEvent,
-} from '../../../../../utils/testUtils';
+import { render, screen, userEvent } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -72,58 +66,83 @@ const renderComponent = (initialValues?: Partial<InitialValues>) => {
   };
 };
 
-test('should show description form section fields', () => {
-  const langText = lowerCaseFirstLetter(translations.form.inLanguage.fi);
+const findComponent = (
+  key:
+    | 'descriptionFi'
+    | 'descriptionSv'
+    | 'fiButton'
+    | 'infoUrlFi'
+    | 'infoUrlSv'
+    | 'nameFi'
+    | 'nameSv'
+    | 'shortDescriptionFi'
+    | 'shortDescriptionSv'
+    | 'svButton'
+) => {
+  switch (key) {
+    case 'descriptionFi':
+      return screen.findByRole('textbox', {
+        name: /tapahtuman kuvaus suomeksi/i,
+      });
+    case 'descriptionSv':
+      return screen.findByRole('textbox', {
+        name: /tapahtuman kuvaus ruotsiksi/i,
+      });
+    case 'fiButton':
+      return screen.findByRole('link', {
+        name: /suomi/i,
+      });
+    case 'infoUrlFi':
+      return screen.findByRole('textbox', {
+        name: /tapahtuman kotisivun url suomeksi/i,
+      });
+    case 'infoUrlSv':
+      return screen.findByRole('textbox', {
+        name: /tapahtuman kotisivun url ruotsiksi/i,
+      });
+    case 'nameFi':
+      return screen.findByRole('textbox', {
+        name: /tapahtuman otsikko suomeksi/i,
+      });
+    case 'nameSv':
+      return screen.findByRole('textbox', {
+        name: /tapahtuman otsikko ruotsiksi/i,
+      });
+    case 'shortDescriptionFi':
+      return screen.findByRole('textbox', {
+        name: /lyhyt kuvaus suomeksi/i,
+      });
+    case 'shortDescriptionSv':
+      return screen.findByRole('textbox', {
+        name: /lyhyt kuvaus ruotsiksi/i,
+      });
+    case 'svButton':
+      return screen.findByRole('link', {
+        name: /ruotsi/i,
+      });
+  }
+};
 
+test('should show description form section fields', async () => {
   renderComponent();
-  const fieldLabels = [
-    translations.event.form.labelName[type].replace('{{langText}}', langText),
-    translations.event.form.labelInfoUrl[type].replace(
-      '{{langText}}',
-      langText
-    ),
-    translations.event.form.labelShortDescription[type].replace(
-      '{{langText}}',
-      langText
-    ),
-    translations.event.form.labelDescription[type].replace(
-      '{{langText}}',
-      langText
-    ),
-  ];
 
-  fieldLabels.forEach((name) => {
-    expect(screen.queryByRole('textbox', { name })).toBeInTheDocument();
-  });
+  await findComponent('nameFi');
+  await findComponent('infoUrlFi');
+  await findComponent('shortDescriptionFi');
+  await findComponent('descriptionFi');
 });
 
-test('should change form section language', () => {
+test('should change form section language', async () => {
   renderComponent();
 
   userEvent.click(
     screen.getByRole('link', { name: translations.form.language.sv })
   );
 
-  const langText = lowerCaseFirstLetter(translations.form.inLanguage.sv);
-  const fieldLabels = [
-    translations.event.form.labelName[type].replace('{{langText}}', langText),
-    translations.event.form.labelInfoUrl[type].replace(
-      '{{langText}}',
-      langText
-    ),
-    translations.event.form.labelShortDescription[type].replace(
-      '{{langText}}',
-      langText
-    ),
-    translations.event.form.labelDescription[type].replace(
-      '{{langText}}',
-      langText
-    ),
-  ];
-
-  fieldLabels.forEach((name) => {
-    expect(screen.queryByRole('textbox', { name })).toBeInTheDocument();
-  });
+  await findComponent('nameSv');
+  await findComponent('infoUrlSv');
+  await findComponent('shortDescriptionSv');
+  await findComponent('descriptionSv');
 });
 
 // eslint-disable-next-line max-len
@@ -135,40 +154,19 @@ test('should change selected language when current selected language is removed 
     ],
   });
 
-  const fiButtonText = translations.form.language.fi;
-  const svButtonText = translations.form.language.sv;
+  const fiButton = await findComponent('fiButton');
+  const svButton = await findComponent('svButton');
 
-  expect(
-    screen.queryByRole('link', { name: fiButtonText })
-  ).toBeInTheDocument();
-  expect(
-    screen.queryByRole('link', { name: svButtonText })
-  ).toBeInTheDocument();
-
-  expect(
-    screen
-      .queryByRole('link', { name: fiButtonText })
-      .getAttribute('aria-current')
-  ).toBe('step');
-  expect(
-    screen
-      .queryByRole('link', { name: svButtonText })
-      .getAttribute('aria-current')
-  ).toBe('false');
+  expect(fiButton).toBeInTheDocument();
+  expect(svButton).toBeInTheDocument();
+  expect(fiButton.getAttribute('aria-current')).toBe('step');
+  expect(svButton.getAttribute('aria-current')).toBe('false');
 
   rerender({
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.SV],
   });
-  await actWait();
 
-  expect(
-    screen.queryByRole('link', { name: fiButtonText })
-  ).not.toBeInTheDocument();
-  expect(screen.getByRole('link', { name: svButtonText })).toBeInTheDocument();
-
-  expect(
-    screen
-      .queryByRole('link', { name: svButtonText })
-      .getAttribute('aria-current')
-  ).toBe('step');
+  expect(fiButton).not.toBeInTheDocument();
+  expect(svButton).toBeInTheDocument();
+  expect(svButton.getAttribute('aria-current')).toBe('step');
 });
