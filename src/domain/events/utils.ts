@@ -6,6 +6,8 @@ export const eventsPathBuilder = ({
   args,
 }: PathBuilderProps<EventsQueryVariables>) => {
   const {
+    adminUser,
+    createdBy,
     combinedText,
     division,
     end,
@@ -21,7 +23,9 @@ export const eventsPathBuilder = ({
     location,
     page,
     pageSize,
+    publicationStatus,
     publisher,
+    showAll,
     sort,
     start,
     startsAfter,
@@ -33,6 +37,8 @@ export const eventsPathBuilder = ({
   } = args;
 
   const variableToKeyItems = [
+    { key: 'admin_user', value: adminUser },
+    { key: 'created_by', value: createdBy },
     { key: 'combined_text', value: combinedText },
     { key: 'division', value: division },
     { key: 'end', value: end },
@@ -48,7 +54,9 @@ export const eventsPathBuilder = ({
     { key: 'location', value: location },
     { key: 'page', value: page },
     { key: 'page_size', value: pageSize },
+    { key: 'publication_status', value: publicationStatus },
     { key: 'publisher', value: publisher },
+    { key: 'show_all', value: showAll },
     { key: 'sort', value: sort },
     { key: 'start', value: start },
     { key: 'starts_after', value: startsAfter },

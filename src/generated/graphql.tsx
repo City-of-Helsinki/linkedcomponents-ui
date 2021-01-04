@@ -52,8 +52,10 @@ export type Query = {
   languages: LanguagesResponse;
   image: Image;
   images: ImagesResponse;
+  organization: Organization;
   place: Place;
   places: PlacesResponse;
+  user: User;
 };
 
 
@@ -64,6 +66,8 @@ export type QueryEventArgs = {
 
 
 export type QueryEventsArgs = {
+  adminUser?: Maybe<Scalars['Boolean']>;
+  createdBy?: Maybe<Scalars['String']>;
   combinedText?: Maybe<Array<Maybe<Scalars['String']>>>;
   division?: Maybe<Array<Maybe<Scalars['String']>>>;
   end?: Maybe<Scalars['String']>;
@@ -79,7 +83,9 @@ export type QueryEventsArgs = {
   location?: Maybe<Array<Maybe<Scalars['String']>>>;
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
-  publisher?: Maybe<Scalars['ID']>;
+  publicationStatus?: Maybe<PublicationStatus>;
+  publisher?: Maybe<Array<Maybe<Scalars['String']>>>;
+  showAll?: Maybe<Scalars['Boolean']>;
   sort?: Maybe<Scalars['String']>;
   start?: Maybe<Scalars['String']>;
   startsAfter?: Maybe<Scalars['String']>;
@@ -132,6 +138,11 @@ export type QueryImagesArgs = {
 };
 
 
+export type QueryOrganizationArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryPlaceArgs = {
   id: Scalars['ID'];
 };
@@ -146,6 +157,11 @@ export type QueryPlacesArgs = {
   showAllPlaces?: Maybe<Scalars['Boolean']>;
   sort?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['ID'];
 };
 
 export enum PublicationStatus {
@@ -280,8 +296,8 @@ export type Event = {
   __typename?: 'Event';
   id: Scalars['ID'];
   audience: Array<Maybe<AtIdObject>>;
-  audienceMaxAge?: Maybe<Scalars['String']>;
-  audienceMinAge?: Maybe<Scalars['String']>;
+  audienceMaxAge?: Maybe<Scalars['Int']>;
+  audienceMinAge?: Maybe<Scalars['Int']>;
   createdTime?: Maybe<Scalars['String']>;
   customData?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
@@ -416,6 +432,27 @@ export type Offer = {
   price?: Maybe<LocalisedObject>;
 };
 
+export type Organization = {
+  __typename?: 'Organization';
+  affiliatedOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
+  classification?: Maybe<Scalars['String']>;
+  createdTime?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Scalars['String']>;
+  dissolutionDate?: Maybe<Scalars['String']>;
+  foundingDate?: Maybe<Scalars['String']>;
+  hasRegularUsers?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['String']>;
+  isAffiliated?: Maybe<Scalars['Boolean']>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  parentOrganization?: Maybe<Scalars['String']>;
+  replacedBy?: Maybe<Scalars['String']>;
+  subOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
+  atContext?: Maybe<Scalars['String']>;
+  atId?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
+};
+
 export type Place = {
   __typename?: 'Place';
   id?: Maybe<Scalars['ID']>;
@@ -453,6 +490,23 @@ export type Position = {
   __typename?: 'Position';
   coordinates: Array<Maybe<Scalars['Float']>>;
   type?: Maybe<Scalars['String']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  adminOrganizations: Array<Scalars['String']>;
+  dateJoined?: Maybe<Scalars['String']>;
+  departmentName?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  isStaff?: Maybe<Scalars['Boolean']>;
+  lastLogin?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  organization?: Maybe<Scalars['String']>;
+  organizationMemberships: Array<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+  uuid?: Maybe<Scalars['String']>;
 };
 
 export type CreateEventMutationVariables = Exact<{
@@ -503,7 +557,7 @@ export type OfferFieldsFragment = (
 
 export type EventFieldsFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'atId' | 'endTime' | 'eventStatus' | 'publicationStatus' | 'publisher' | 'startTime'>
+  & Pick<Event, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'endTime' | 'eventStatus' | 'publicationStatus' | 'publisher' | 'startTime'>
   & { description?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -559,6 +613,8 @@ export type EventQuery = (
 );
 
 export type EventsQueryVariables = Exact<{
+  adminUser?: Maybe<Scalars['Boolean']>;
+  createdBy?: Maybe<Scalars['String']>;
   combinedText?: Maybe<Array<Maybe<Scalars['String']>>>;
   division?: Maybe<Array<Maybe<Scalars['String']>>>;
   end?: Maybe<Scalars['String']>;
@@ -574,7 +630,9 @@ export type EventsQueryVariables = Exact<{
   location?: Maybe<Array<Maybe<Scalars['String']>>>;
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
-  publisher?: Maybe<Scalars['ID']>;
+  publicationStatus?: Maybe<PublicationStatus>;
+  publisher?: Maybe<Array<Maybe<Scalars['String']>>>;
+  showAll?: Maybe<Scalars['Boolean']>;
   sort?: Maybe<Scalars['String']>;
   start?: Maybe<Scalars['String']>;
   startsAfter?: Maybe<Scalars['String']>;
@@ -802,6 +860,25 @@ export type LanguagesQuery = (
   ) }
 );
 
+export type OrganizationFieldsFragment = (
+  { __typename?: 'Organization' }
+  & Pick<Organization, 'affiliatedOrganizations' | 'classification' | 'createdTime' | 'dataSource' | 'dissolutionDate' | 'foundingDate' | 'hasRegularUsers' | 'id' | 'isAffiliated' | 'lastModifiedTime' | 'name' | 'parentOrganization' | 'replacedBy' | 'subOrganizations'>
+);
+
+export type OrganizationQueryVariables = Exact<{
+  id: Scalars['ID'];
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type OrganizationQuery = (
+  { __typename?: 'Query' }
+  & { organization: (
+    { __typename?: 'Organization' }
+    & OrganizationFieldsFragment
+  ) }
+);
+
 export type DivisionFieldsFragment = (
   { __typename?: 'Division' }
   & Pick<Division, 'type'>
@@ -881,6 +958,25 @@ export type PlacesQuery = (
       { __typename?: 'Place' }
       & PlaceFieldsFragment
     )>> }
+  ) }
+);
+
+export type UserFieldsFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'adminOrganizations' | 'dateJoined' | 'departmentName' | 'displayName' | 'email' | 'firstName' | 'isStaff' | 'lastLogin' | 'lastName' | 'organization' | 'organizationMemberships' | 'username' | 'uuid'>
+);
+
+export type UserQueryVariables = Exact<{
+  id: Scalars['ID'];
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type UserQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'User' }
+    & UserFieldsFragment
   ) }
 );
 
@@ -994,6 +1090,8 @@ export const EventFieldsFragmentDoc = gql`
     fragment eventFields on Event {
   id
   atId
+  audienceMaxAge
+  audienceMinAge
   description {
     ...localisedFields
   }
@@ -1064,6 +1162,41 @@ export const KeywordSetFieldsFragmentDoc = gql`
 }
     ${KeywordFieldsFragmentDoc}
 ${LocalisedFieldsFragmentDoc}`;
+export const OrganizationFieldsFragmentDoc = gql`
+    fragment organizationFields on Organization {
+  affiliatedOrganizations
+  classification
+  createdTime
+  dataSource
+  dissolutionDate
+  foundingDate
+  hasRegularUsers
+  id
+  isAffiliated
+  lastModifiedTime
+  name
+  parentOrganization
+  replacedBy
+  subOrganizations
+}
+    `;
+export const UserFieldsFragmentDoc = gql`
+    fragment userFields on User {
+  adminOrganizations
+  dateJoined
+  departmentName
+  displayName
+  email
+  firstName
+  isStaff
+  lastLogin
+  lastName
+  organization
+  organizationMemberships
+  username
+  uuid
+}
+    `;
 export const CreateEventDocument = gql`
     mutation CreateEvent($input: CreateEventMutationInput!) {
   createEvent(input: $input) @rest(type: "Event", path: "/event/", method: "POST", bodyKey: "input") {
@@ -1164,8 +1297,8 @@ export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
-    query Events($combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
-  events(combinedText: $combinedText, division: $division, end: $end, endsAfter: $endsAfter, endsBefore: $endsBefore, include: $include, inLanguage: $inLanguage, isFree: $isFree, keyword: $keyword, keywordAnd: $keywordAnd, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publisher: $publisher, sort: $sort, start: $start, startsAfter: $startsAfter, startsBefore: $startsBefore, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) @rest(type: "EventsResponse", pathBuilder: $createPath) {
+    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
+  events(adminUser: $adminUser, createdBy: $createdBy, combinedText: $combinedText, division: $division, end: $end, endsAfter: $endsAfter, endsBefore: $endsBefore, include: $include, inLanguage: $inLanguage, isFree: $isFree, keyword: $keyword, keywordAnd: $keywordAnd, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publicationStatus: $publicationStatus, publisher: $publisher, showAll: $showAll, sort: $sort, start: $start, startsAfter: $startsAfter, startsBefore: $startsBefore, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) @rest(type: "EventsResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -1189,6 +1322,8 @@ ${EventFieldsFragmentDoc}`;
  * @example
  * const { data, loading, error } = useEventsQuery({
  *   variables: {
+ *      adminUser: // value for 'adminUser'
+ *      createdBy: // value for 'createdBy'
  *      combinedText: // value for 'combinedText'
  *      division: // value for 'division'
  *      end: // value for 'end'
@@ -1204,7 +1339,9 @@ ${EventFieldsFragmentDoc}`;
  *      location: // value for 'location'
  *      page: // value for 'page'
  *      pageSize: // value for 'pageSize'
+ *      publicationStatus: // value for 'publicationStatus'
  *      publisher: // value for 'publisher'
+ *      showAll: // value for 'showAll'
  *      sort: // value for 'sort'
  *      start: // value for 'start'
  *      startsAfter: // value for 'startsAfter'
@@ -1561,6 +1698,40 @@ export function useLanguagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type LanguagesQueryHookResult = ReturnType<typeof useLanguagesQuery>;
 export type LanguagesLazyQueryHookResult = ReturnType<typeof useLanguagesLazyQuery>;
 export type LanguagesQueryResult = Apollo.QueryResult<LanguagesQuery, LanguagesQueryVariables>;
+export const OrganizationDocument = gql`
+    query Organization($id: ID!, $createPath: Any) {
+  organization(id: $id) @rest(type: "Organization", pathBuilder: $createPath) {
+    ...organizationFields
+  }
+}
+    ${OrganizationFieldsFragmentDoc}`;
+
+/**
+ * __useOrganizationQuery__
+ *
+ * To run a query within a React component, call `useOrganizationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganizationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrganizationQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useOrganizationQuery(baseOptions?: Apollo.QueryHookOptions<OrganizationQuery, OrganizationQueryVariables>) {
+        return Apollo.useQuery<OrganizationQuery, OrganizationQueryVariables>(OrganizationDocument, baseOptions);
+      }
+export function useOrganizationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrganizationQuery, OrganizationQueryVariables>) {
+          return Apollo.useLazyQuery<OrganizationQuery, OrganizationQueryVariables>(OrganizationDocument, baseOptions);
+        }
+export type OrganizationQueryHookResult = ReturnType<typeof useOrganizationQuery>;
+export type OrganizationLazyQueryHookResult = ReturnType<typeof useOrganizationLazyQuery>;
+export type OrganizationQueryResult = Apollo.QueryResult<OrganizationQuery, OrganizationQueryVariables>;
 export const PlaceDocument = gql`
     query Place($id: ID!, $createPath: Any) {
   place(id: $id) @rest(type: "Place", pathBuilder: $createPath) {
@@ -1642,3 +1813,37 @@ export function usePlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pla
 export type PlacesQueryHookResult = ReturnType<typeof usePlacesQuery>;
 export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
 export type PlacesQueryResult = Apollo.QueryResult<PlacesQuery, PlacesQueryVariables>;
+export const UserDocument = gql`
+    query User($id: ID!, $createPath: Any) {
+  user(id: $id) @rest(type: "User", pathBuilder: $createPath) {
+    ...userFields
+  }
+}
+    ${UserFieldsFragmentDoc}`;
+
+/**
+ * __useUserQuery__
+ *
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useUserQuery(baseOptions?: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+      }
+export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+        }
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;

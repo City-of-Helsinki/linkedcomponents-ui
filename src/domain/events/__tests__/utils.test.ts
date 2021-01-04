@@ -1,11 +1,20 @@
+import { PublicationStatus } from '../../../generated/graphql';
 import { eventsPathBuilder } from '../utils';
 
 describe('eventsPathBuilder function', () => {
   it('should create correct path for events request', () => {
     const items = [
       {
+        args: { adminUser: true },
+        expectedPath: '/event/?admin_user=true',
+      },
+      {
         args: { combinedText: ['text1', 'text2'] },
         expectedPath: '/event/?combined_text=text1,text2',
+      },
+      {
+        args: { createdBy: 'me' },
+        expectedPath: '/event/?created_by=me',
       },
       {
         args: { division: ['division1', 'division2'] },
@@ -60,16 +69,24 @@ describe('eventsPathBuilder function', () => {
         expectedPath: '/event/?location=location1,location2',
       },
       {
-        args: { publisher: 'hel:123' },
-        expectedPath: '/event/?publisher=hel:123',
-      },
-      {
         args: { page: 2 },
         expectedPath: '/event/?page=2',
       },
       {
         args: { pageSize: 10 },
         expectedPath: '/event/?page_size=10',
+      },
+      {
+        args: { publicationStatus: PublicationStatus.Draft },
+        expectedPath: '/event/?publication_status=draft',
+      },
+      {
+        args: { publisher: ['publisher1', 'publisher2'] },
+        expectedPath: '/event/?publisher=publisher1,publisher2',
+      },
+      {
+        args: { showAll: true },
+        expectedPath: '/event/?show_all=true',
       },
       {
         args: { sort: 'start' },

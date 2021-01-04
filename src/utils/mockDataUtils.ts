@@ -17,9 +17,11 @@ import {
   LanguagesResponse,
   LocalisedObject,
   Meta,
+  Organization,
   Place,
   PlacesResponse,
   PublicationStatus,
+  User,
 } from '../generated/graphql';
 
 export const fakeEvents = (
@@ -38,6 +40,8 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
     {
       id,
       atId: `https://api.hel.fi/linkedevents-test/v1/event/${id}/`,
+      audienceMaxAge: null,
+      audienceMinAge: null,
       name: fakeLocalisedObject(faker.name.title()),
       publisher: 'provider:123',
       provider: fakeLocalisedObject(),
@@ -179,6 +183,33 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language => {
   );
 };
 
+export const fakeOrganization = (
+  overrides?: Partial<Organization>
+): Organization => {
+  const id = overrides?.id || faker.random.uuid();
+  return merge<Organization, typeof overrides>(
+    {
+      affiliatedOrganizations: [],
+      id,
+      atId: `https://api.hel.fi/linkedevents-test/v1/organization/${id}/`,
+      classification: faker.random.words(),
+      createdTime: null,
+      dataSource: faker.random.uuid(),
+      dissolutionDate: null,
+      foundingDate: null,
+      hasRegularUsers: false,
+      isAffiliated: false,
+      lastModifiedTime: null,
+      name: faker.random.words(),
+      parentOrganization: null,
+      replacedBy: null,
+      subOrganizations: [],
+      __typename: 'Organization',
+    },
+    overrides
+  );
+};
+
 export const fakePlaces = (
   count = 1,
   places?: Partial<Place>[]
@@ -206,6 +237,28 @@ export const fakePlace = (overrides?: Partial<Place>): Place => {
       position: null,
       divisions: [],
       __typename: 'Place',
+    },
+    overrides
+  );
+};
+
+export const fakeUser = (overrides?: Partial<User>): User => {
+  return merge<User, typeof overrides>(
+    {
+      adminOrganizations: [],
+      dateJoined: null,
+      departmentName: faker.random.words(),
+      displayName: faker.random.words(),
+      email: faker.internet.email(),
+      firstName: faker.name.firstName(),
+      isStaff: false,
+      lastLogin: faker.name.lastName(),
+      lastName: faker.name.lastName(),
+      organization: faker.random.words(),
+      organizationMemberships: [],
+      username: faker.name.lastName(),
+      uuid: faker.random.uuid(),
+      __typename: 'User',
     },
     overrides
   );

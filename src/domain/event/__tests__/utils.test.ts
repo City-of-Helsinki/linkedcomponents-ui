@@ -434,7 +434,8 @@ describe('getRecurringEventPayload function', () => {
 describe('getEventFields function', () => {
   it('should return default values if value is not set', () => {
     const { id, atId, publicationStatus } = getEventFields(
-      fakeEvent({ id: null, atId: null, publicationStatus: null })
+      fakeEvent({ id: null, atId: null, publicationStatus: null }),
+      'fi'
     );
 
     expect(id).toBe('');
