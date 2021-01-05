@@ -448,7 +448,22 @@
     "titlePublished": "Evenemanget har publicerats"
   },
   "eventsPage": {
+    "count": "{{count}} evenemang",
+    "count_plural": "{{count}} evenemang",
+    "labelSort": "Sortera efter",
     "pageTitle": "Mina evenemangen",
+    "sortOptions": {
+      "duration": "Varaktighet, stigande",
+      "durationDesc": "Varaktighet, fallande",
+      "endTime": "Sluttid, stigande",
+      "endTimeDesc": "Sluttid, fallande",
+      "lastModifiedTime": "Senast modifierad, stigande",
+      "lastModifiedTimeDesc": "Senast modifierad, fallande",
+      "name": "Name, stigande",
+      "nameDesc": "Name, fallande",
+      "startTime": "Starttid, stigande",
+      "startTimeDesc": "Starttid, fallande"
+    },
     "tabs": {
       "drafts": "Utkast ({{count}})",
       "published": "Publicerad ({{count}})",

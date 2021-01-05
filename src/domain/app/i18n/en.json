@@ -448,7 +448,22 @@
     "titlePublished": "Event successfully published"
   },
   "eventsPage": {
+    "count": "{{count}} event",
+    "count_plural": "{{count}} events",
+    "labelSort": "Sort by",
     "pageTitle": "My events",
+    "sortOptions": {
+      "duration": "Duration, ascending",
+      "durationDesc": "Duration, descending",
+      "endTime": "End time, ascending",
+      "endTimeDesc": "End time, descending",
+      "lastModifiedTime": "Last modified, ascending",
+      "lastModifiedTimeDesc": "Last modified, descending",
+      "name": "Name, ascending",
+      "nameDesc": "Name, descending",
+      "startTime": "Start time, ascending",
+      "startTimeDesc": "Start time, descending"
+    },
     "tabs": {
       "drafts": "Drafts ({{count}})",
       "published": "Published ({{count}})",

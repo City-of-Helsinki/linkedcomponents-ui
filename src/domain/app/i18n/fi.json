@@ -448,7 +448,22 @@
     "titlePublished": "Tapahtuma julkaistu onnistuneesti"
   },
   "eventsPage": {
+    "count": "{{count}} tapahtuma",
+    "count_plural": "{{count}} tapahtumaa",
+    "labelSort": "Lajitteluperuste",
     "pageTitle": "Omat tapahtumat",
+    "sortOptions": {
+      "duration": "Kesto, nouseva",
+      "durationDesc": "Kesto, laskeva",
+      "endTime": "Loppuaika, nouseva",
+      "endTimeDesc": "Loppuaika, laskeva",
+      "lastModifiedTime": "Viimeki muokattu, nouseva",
+      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva",
+      "name": "Nimi, nouseva",
+      "nameDesc": "Nimi, laskeva",
+      "startTime": "Alkuaika, nouseva",
+      "startTimeDesc": "Alkuaika, laskeva"
+    },
     "tabs": {
       "drafts": "Luonnokset ({{count}})",
       "published": "Julkaistut ({{count}})",

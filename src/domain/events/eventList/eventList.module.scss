@@ -1,6 +1,45 @@
+@import 'breakpoints';
+
 .eventCards {
   display: grid;
   grid-gap: var(--spacing-m);
   padding-top: var(--spacing-m);
   margin-bottom: var(--spacing-m);
+}
+
+.listStyleRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: var(--spacing-m);
+
+  .listStyleSelectorColumn {
+    display: grid;
+    align-content: flex-end;
+  }
+  .count {
+    display: grid;
+    align-content: center;
+    min-height: var(--input-height);
+    font-size: var(--fontsize-heading-xs);
+    font-weight: 700;
+  }
+
+  @include medium-up {
+    grid-template-columns: repeat(10, 1fr);
+    .listStyleSelectorColumn {
+      grid-column: 1 / 7;
+    }
+    .sortSelector {
+      grid-column: 7 / 11;
+    }
+  }
+
+  @include large-up {
+    .listStyleSelectorColumn {
+      grid-column: 1 / 8;
+    }
+    .sortSelector {
+      grid-column: 8 / 11;
+    }
+  }
 }
