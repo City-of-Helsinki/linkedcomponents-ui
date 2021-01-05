@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the component 1`] = `
+<div>
+  <div>
+    <div
+      class="tabList css-0"
+      role="tablist"
+    >
+      <button
+        aria-controls="tab-tabs-0-panel"
+        aria-selected="true"
+        class="tab isActive"
+        id="tab-tabs-0-button"
+        role="tab"
+        tabindex="0"
+        type="button"
+      >
+        <svg
+          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik icon"
+          role="img"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g
+            fill="none"
+            fill-rule="evenodd"
+          >
+            <rect
+              height="24"
+              width="24"
+            />
+            <polygon
+              fill="currentColor"
+              points="21 7 10 18 4.5 12.5 6 11 10 15 19.5 5.5"
+            />
+          </g>
+        </svg>
+        Tab 1
+      </button>
+      <button
+        aria-controls="tab-tabs-1-panel"
+        aria-selected="false"
+        class="tab"
+        id="tab-tabs-1-button"
+        role="tab"
+        tabindex="-1"
+        type="button"
+      >
+        Tab 2
+      </button>
+      <button
+        aria-controls="tab-tabs-2-panel"
+        aria-selected="false"
+        class="tab"
+        id="tab-tabs-2-button"
+        role="tab"
+        tabindex="-1"
+        type="button"
+      >
+        Tab 3
+      </button>
+    </div>
+    <div
+      aria-labelledby="tab-tabs-0-button"
+      id="tab-tabs-0-panel"
+      role="tabpanel"
+    >
+      Panel 1
+    </div>
+  </div>
+</div>
+`;

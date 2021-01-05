@@ -7,6 +7,7 @@ import TextInputField from '../../../../common/components/formFields/TextInputFi
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import FormLanguageSelector from '../../../../common/components/formLanguageSelector/FormLanguageSelector';
 import Notification from '../../../../common/components/notification/Notification';
+import TabPanel from '../../../../common/components/tabs/TabPanel';
 import { CHARACTER_LIMITS } from '../../../../constants';
 import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';
 import {
@@ -69,70 +70,81 @@ const DescriptionSection = () => {
           EVENT_FIELDS.NAME,
           EVENT_FIELDS.SHORT_DESCRIPTION,
         ]}
+        name="description-language"
         onChange={handleSelectedLanguageChange}
         options={languageOptions}
         selectedLanguage={selectedLanguage}
-      />
-
-      <FieldRow
-        notification={
-          <Notification
-            className={styles.notification}
-            label={t(`event.form.notificationTitleDescription.${type}`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextDescription`)}</p>
-          </Notification>
-        }
       >
-        <FieldColumn>
-          <FormGroup>
-            <Field
-              component={TextInputField}
-              label={t(`event.form.labelName.${type}`, {
-                langText,
-              })}
-              name={`${EVENT_FIELDS.NAME}.${selectedLanguage}`}
-              placeholder={t(`event.form.placeholderName.${type}`)}
-              required={true}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Field
-              component={TextInputField}
-              label={t(`event.form.labelInfoUrl.${type}`, {
-                langText,
-              })}
-              name={`${EVENT_FIELDS.INFO_URL}.${selectedLanguage}`}
-              placeholder={t(`event.form.placeholderInfoUrl.${type}`)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Field
-              component={TextInputField}
-              label={t(`event.form.labelShortDescription.${type}`, {
-                langText,
-              })}
-              name={`${EVENT_FIELDS.SHORT_DESCRIPTION}.${selectedLanguage}`}
-              placeholder={t(`event.form.placeholderShortDescription.${type}`)}
-              maxLength={CHARACTER_LIMITS.SHORT_STRING}
-              required={true}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Field
-              component={TextAreaField}
-              label={t(`event.form.labelDescription.${type}`, {
-                langText,
-              })}
-              name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
-              placeholder={t(`event.form.placeholderDescription.${type}`)}
-              maxLength={CHARACTER_LIMITS.LONG_STRING}
-              required={true}
-            />
-          </FormGroup>
-        </FieldColumn>
-      </FieldRow>
+        {languageOptions.map(({ value }) => {
+          return (
+            <TabPanel key={value}>
+              <FieldRow
+                notification={
+                  <Notification
+                    className={styles.notification}
+                    label={t(`event.form.notificationTitleDescription.${type}`)}
+                    type="info"
+                  >
+                    <p>{t(`event.form.infoTextDescription`)}</p>
+                  </Notification>
+                }
+              >
+                <FieldColumn>
+                  <FormGroup>
+                    <Field
+                      component={TextInputField}
+                      label={t(`event.form.labelName.${type}`, {
+                        langText,
+                      })}
+                      name={`${EVENT_FIELDS.NAME}.${selectedLanguage}`}
+                      placeholder={t(`event.form.placeholderName.${type}`)}
+                      required={true}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Field
+                      component={TextInputField}
+                      label={t(`event.form.labelInfoUrl.${type}`, {
+                        langText,
+                      })}
+                      name={`${EVENT_FIELDS.INFO_URL}.${selectedLanguage}`}
+                      placeholder={t(`event.form.placeholderInfoUrl.${type}`)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Field
+                      component={TextInputField}
+                      label={t(`event.form.labelShortDescription.${type}`, {
+                        langText,
+                      })}
+                      name={`${EVENT_FIELDS.SHORT_DESCRIPTION}.${selectedLanguage}`}
+                      placeholder={t(
+                        `event.form.placeholderShortDescription.${type}`
+                      )}
+                      maxLength={CHARACTER_LIMITS.SHORT_STRING}
+                      required={true}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Field
+                      component={TextAreaField}
+                      label={t(`event.form.labelDescription.${type}`, {
+                        langText,
+                      })}
+                      name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
+                      placeholder={t(
+                        `event.form.placeholderDescription.${type}`
+                      )}
+                      maxLength={CHARACTER_LIMITS.LONG_STRING}
+                      required={true}
+                    />
+                  </FormGroup>
+                </FieldColumn>
+              </FieldRow>
+            </TabPanel>
+          );
+        })}
+      </FormLanguageSelector>
     </div>
   );
 };

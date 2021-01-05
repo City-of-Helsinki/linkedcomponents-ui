@@ -1,9 +1,9 @@
 @import 'breakpoints';
 
-.tabSelector {
-  --tab-selector-color-icon: var(--color-success);
-  --tab-selector-selector-item-color: var(--color-bus);
-  --tab-selector-selector-item-color-active: var(--color-bus);
+.tabList {
+  --tabs-icon-color: var(--color-success);
+  --tabs-tab-color: var(--color-bus);
+  --tabs-tab-color-active: var(--color-bus);
 
   display: flex;
   grid-gap: var(--spacing-xs);
@@ -11,21 +11,21 @@
   border-bottom: 2px solid var(--color-black-10);
 
   .icon {
-    color: var(--tab-selector-icon-color);
+    color: var(--tabs-icon-color);
     margin-right: var(--spacing-s);
   }
 
-  .item {
+  .tab {
     position: relative;
     display: flex;
     align-items: center;
-    color: var(--tab-selector-item-color);
+    color: var(--tabs-tab-color);
     padding: 0px var(--spacing-s);
   }
 
-  .item:hover:not(:focus):after,
-  .item.isSelected:after {
-    background-color: var(--tab-selector-item-color-active);
+  .tab:hover:not(:focus):after,
+  .tab.isActive:after {
+    background-color: var(--tabs-tab-color-active);
     bottom: 0;
     content: '';
     height: var(--spacing-3-xs);

@@ -25,13 +25,14 @@ it('should call onChange', () => {
     <Formik initialValues={{}} onSubmit={jest.fn()}>
       <FormLanguageSelector
         {...defaultProps}
+        name="language-selector"
         onChange={onChange}
         selectedLanguage="fi"
       />
     </Formik>
   );
 
-  const svButton = screen.getByRole('link', { name: options[1].label });
+  const svButton = screen.getByRole('tab', { name: options[1].label });
 
   userEvent.click(svButton);
   expect(onChange).toBeCalledWith(options[1].value);

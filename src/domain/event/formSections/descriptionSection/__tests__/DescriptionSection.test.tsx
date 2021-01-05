@@ -2,7 +2,6 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import { render, screen, userEvent } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
@@ -89,9 +88,7 @@ const findComponent = (
         name: /tapahtuman kuvaus ruotsiksi/i,
       });
     case 'fiButton':
-      return screen.findByRole('link', {
-        name: /suomi/i,
-      });
+      return screen.findByRole('tab', { name: /suomi/i });
     case 'infoUrlFi':
       return screen.findByRole('textbox', {
         name: /tapahtuman kotisivun url suomeksi/i,
@@ -117,9 +114,7 @@ const findComponent = (
         name: /lyhyt kuvaus ruotsiksi/i,
       });
     case 'svButton':
-      return screen.findByRole('link', {
-        name: /ruotsi/i,
-      });
+      return screen.findByRole('tab', { name: /ruotsi/i });
   }
 };
 
@@ -135,9 +130,8 @@ test('should show description form section fields', async () => {
 test('should change form section language', async () => {
   renderComponent();
 
-  userEvent.click(
-    screen.getByRole('link', { name: translations.form.language.sv })
-  );
+  const svButton = await findComponent('svButton');
+  userEvent.click(svButton);
 
   await findComponent('nameSv');
   await findComponent('infoUrlSv');
@@ -159,8 +153,8 @@ test('should change selected language when current selected language is removed 
 
   expect(fiButton).toBeInTheDocument();
   expect(svButton).toBeInTheDocument();
-  expect(fiButton.getAttribute('aria-current')).toBe('step');
-  expect(svButton.getAttribute('aria-current')).toBe('false');
+  expect(fiButton.getAttribute('aria-selected')).toBe('true');
+  expect(svButton.getAttribute('aria-selected')).toBe('false');
 
   rerender({
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.SV],
@@ -168,5 +162,5 @@ test('should change selected language when current selected language is removed 
 
   expect(fiButton).not.toBeInTheDocument();
   expect(svButton).toBeInTheDocument();
-  expect(svButton.getAttribute('aria-current')).toBe('step');
+  expect(svButton.getAttribute('aria-selected')).toBe('true');
 });

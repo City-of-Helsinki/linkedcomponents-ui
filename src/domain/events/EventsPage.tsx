@@ -6,7 +6,8 @@ import { useHistory } from 'react-router';
 
 import Button from '../,,/../../common/components/button/Button';
 import LoadingSpinner from '../,,/../../common/components/loadingSpinner/LoadingSpinner';
-import TabSelector from '../,,/../../common/components/tabSelector/TabSelector';
+import TabPanel from '../../common/components/tabs/TabPanel';
+import Tabs from '../../common/components/tabs/Tabs';
 import { ROUTES } from '../../constants';
 import {
   PublicationStatus,
@@ -142,20 +143,28 @@ const EventsPage: React.FC<Props> = ({ user }) => {
               >
                 {t('common.buttonAddEvent')}
               </Button>
-              <TabSelector
+              <Tabs
                 className={styles.tabSelector}
+                name="event-list"
                 onChange={setActiveTab}
                 options={tabOptions}
-                selectedLanguage={activeTab}
+                activeTab={activeTab}
               />
             </div>
-            <EventList
-              skip={getEventListSkip(activeTab as TABS, adminOrganizations)}
-              variables={getEventListVariables(
-                activeTab as TABS,
-                adminOrganizations
-              )}
-            />
+            {tabOptions.map(({ value }, index) => {
+              const isActive = activeTab === value;
+              return (
+                <TabPanel isActive={isActive} index={index} name="event-list">
+                  <EventList
+                    skip={getEventListSkip(value, adminOrganizations)}
+                    baseVariables={getEventListVariables(
+                      value,
+                      adminOrganizations
+                    )}
+                  />
+                </TabPanel>
+              );
+            })}
           </FormContainer>
         </Container>
       </MainContent>

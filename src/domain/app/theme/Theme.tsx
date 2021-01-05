@@ -244,10 +244,10 @@ type SelectCSSProperties = {
   '--menu-z-index'?: number;
 } & Partial<SelectCustomTheme>;
 
-type TabSelectorCSSProperties = {
-  '--tab-selector-icon-color'?: string;
-  '--tab-selector-item-color'?: string;
-  '--tab-selector-item-color-active'?: string;
+type TabsCSSProperties = {
+  '--tabs-icon-color'?: string;
+  '--tabs-tab-color'?: string;
+  '--tabs-tab-color-active'?: string;
 };
 
 type TextInputCSSProperties = {
@@ -324,7 +324,7 @@ export type Theme = {
   radioButton: RadioButtonCSSProperties;
   root: RootCSSProperties;
   select: SelectCSSProperties;
-  tabSelector: TabSelectorCSSProperties;
+  tabs: TabsCSSProperties;
   textInput: TextInputCSSProperties;
   timepicker: TimepickerCSSProperties;
 };
@@ -349,7 +349,7 @@ const defaultTheme: Theme = {
   radioButton: {},
   root: {},
   select: {},
-  tabSelector: {},
+  tabs: {},
   textInput: {},
   timepicker: {},
 };
