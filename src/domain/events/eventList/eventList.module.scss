@@ -1,21 +1,25 @@
 @import 'breakpoints';
+@import 'mixins';
 
-.eventCards {
+.eventCards,
+.table {
   display: grid;
   grid-gap: var(--spacing-m);
-  padding-top: var(--spacing-m);
-  margin-bottom: var(--spacing-m);
+  margin: var(--spacing-m) 0;
 }
 
 .listStyleRow {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: var(--spacing-m);
+  margin-top: var(--spacing-l);
 
   .listStyleSelectorColumn {
     display: grid;
+    grid-template-columns: auto 1fr;
     align-content: flex-end;
   }
+
   .count {
     display: grid;
     align-content: center;
@@ -41,5 +45,9 @@
     .sortSelector {
       grid-column: 8 / 11;
     }
+  }
+
+  .sortOrderSelector label {
+    @include hidden-from-screen;
   }
 }

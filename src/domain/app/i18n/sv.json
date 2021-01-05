@@ -448,9 +448,14 @@
     "titlePublished": "Evenemanget har publicerats"
   },
   "eventsPage": {
+    "captionListTypes": "Listtyp",
     "count": "{{count}} evenemang",
     "count_plural": "{{count}} evenemang",
     "labelSort": "Sortera efter",
+    "listTypes": {
+      "cardList": "Evenemangkort",
+      "table": "Tabell"
+    },
     "pageTitle": "Mina evenemangen",
     "sortOptions": {
       "duration": "Varaktighet, stigande",

@@ -448,9 +448,14 @@
     "titlePublished": "Tapahtuma julkaistu onnistuneesti"
   },
   "eventsPage": {
+    "captionListTypes": "Luettelotyyppi",
     "count": "{{count}} tapahtuma",
     "count_plural": "{{count}} tapahtumaa",
     "labelSort": "Lajitteluperuste",
+    "listTypes": {
+      "cardList": "Tapahtumakortit",
+      "table": "Taulukko"
+    },
     "pageTitle": "Omat tapahtumat",
     "sortOptions": {
       "duration": "Kesto, nouseva",

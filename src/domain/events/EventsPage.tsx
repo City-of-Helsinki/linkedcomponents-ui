@@ -25,7 +25,11 @@ import { userSelector } from '../auth/selectors';
 import { eventsPathBuilder } from '../events/utils';
 import NotSigned from '../notSigned/NotSigned';
 import { getUserFields, userPathBuilder } from '../user/utils';
-import { EVENTS_PAGE_SIZE } from './constants';
+import {
+  DEFAULT_EVENT_LIST_TYPE,
+  EVENT_LIST_TYPES,
+  EVENTS_PAGE_SIZE,
+} from './constants';
 import EventList from './eventList/EventList';
 import styles from './events.module.scss';
 
@@ -85,6 +89,9 @@ const getEventListSkip = (tab: TABS, adminOrganizations: string[]) => {
 const EventsPage: React.FC<Props> = ({ user }) => {
   const [activeTab, setActiveTab] = React.useState<string>(
     TABS.WAITING_APPROVAL
+  );
+  const [listType, setListType] = React.useState<EVENT_LIST_TYPES>(
+    DEFAULT_EVENT_LIST_TYPE
   );
   const locale = useLocale();
   const history = useHistory();
@@ -156,6 +163,8 @@ const EventsPage: React.FC<Props> = ({ user }) => {
               return (
                 <TabPanel isActive={isActive} index={index} name="event-list">
                   <EventList
+                    listType={listType}
+                    setListType={setListType}
                     skip={getEventListSkip(value, adminOrganizations)}
                     baseVariables={getEventListVariables(
                       value,

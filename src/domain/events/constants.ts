@@ -1,5 +1,12 @@
 export const EVENTS_PAGE_SIZE = 5;
 
+export enum EVENT_LIST_TYPES {
+  CARD_LIST = 'cardList',
+  TABLE = 'table',
+}
+
+export const DEFAULT_EVENT_LIST_TYPE = EVENT_LIST_TYPES.TABLE;
+
 export enum EVENT_SORT_OPTIONS {
   DURATION = 'duration',
   DURATION_DESC = '-duration',
