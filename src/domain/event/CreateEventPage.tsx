@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import forEach from 'lodash/forEach';
 import set from 'lodash/set';
@@ -25,6 +26,7 @@ import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { clearEventsQueries } from '../events/utils';
 import { keywordSetPathBuilder } from '../keywordSet/utils';
 import ButtonPanel from './buttonPanel/ButtonPanel';
 import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from './constants';
@@ -59,6 +61,7 @@ const SELECT_FIELDS = [
 ];
 
 const CreateEventPage: React.FC = () => {
+  const apolloClient = useApolloClient();
   const history = useHistory();
   const locale = useLocale();
   const { t } = useTranslation();
@@ -138,6 +141,8 @@ const CreateEventPage: React.FC = () => {
           },
         });
 
+        // Clear all events queries from apollo cache to show added events in event list
+        clearEventsQueries(apolloClient);
         goToEventSavedPage(recurringEventData.data?.createEvent.id as string);
       } else {
         const data = await createEventMutation({
@@ -146,6 +151,8 @@ const CreateEventPage: React.FC = () => {
           },
         });
 
+        // Clear all events queries from apollo cache to show added events in event list
+        clearEventsQueries(apolloClient);
         goToEventSavedPage(data.data?.createEvent.id as string);
       }
     } catch (e) {
