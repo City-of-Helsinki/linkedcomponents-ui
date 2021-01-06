@@ -49,6 +49,7 @@
       "notAllowedFileFormat": "File format is not allowed",
       "tooLargeFileSize": "File size is too large. Maximum file size is {{maxSize}} MB"
     },
+    "noResults": "No results", 
     "openInNewTab": "(opens in a new tab)",
     "pagination": {
       "navigation": "Page navigation",
@@ -451,6 +452,20 @@
     "captionListTypes": "List type",
     "count": "{{count}} event",
     "count_plural": "{{count}} events",
+    "datetime": "{{date}} at {{time}}",
+    "eventsTableCaption": {
+      "drafts": "Draft events, sorted by {{sort}}",
+      "published": "Published events, sorted by {{sort}}",
+      "waitingApproval": "Events awaiting approval, sorted by {{sort}}"
+    },
+    "eventsTableColumns": {
+      "endTime": "End time",
+      "id": "ID",
+      "name": "Name",
+      "publisher": "Publisher",
+      "startTime": "Start time",
+      "status": "Status"
+    },
     "labelSort": "Sort by",
     "listTypes": {
       "cardList": "Event cards",

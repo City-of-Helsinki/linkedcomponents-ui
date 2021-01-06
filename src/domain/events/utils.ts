@@ -1,3 +1,5 @@
+import { ApolloClient } from '@apollo/client';
+
 import { EventsQueryVariables } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
@@ -70,4 +72,8 @@ export const eventsPathBuilder = ({
   const query = queryBuilder(variableToKeyItems);
 
   return `/event/${query}`;
+};
+
+export const clearEventsQueries = (apolloClient: ApolloClient<object>) => {
+  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
 };

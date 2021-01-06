@@ -1,6 +1,19 @@
 @import 'breakpoints';
 @import 'mixins';
 
+.contentWrapperCardList {
+  padding-bottom: var(--spacing-5-xl);
+}
+
+.contentWrapperTable {
+  background-color: var(--color-white);
+  margin-top: var(--spacing-4-xl);
+}
+
+.contentContainer {
+  overflow: visible;
+}
+
 .eventCards,
 .table {
   display: grid;
@@ -8,13 +21,25 @@
   margin: var(--spacing-m) 0;
 }
 
-.listStyleRow {
+.table {
+  margin-top: calc(0px - var(--spacing-4-xl));
+
+  @include small-down {
+    max-width: calc(100vw - 2 * var(--spacing-m));
+    overflow: auto;
+  }
+}
+
+.listTypeRow {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   grid-gap: var(--spacing-m);
   margin-top: var(--spacing-l);
 
-  .listStyleSelectorColumn {
+  @include medium-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .listTypeSelectorColumn {
     display: grid;
     grid-template-columns: auto 1fr;
     align-content: flex-end;
@@ -25,12 +50,12 @@
     align-content: center;
     min-height: var(--input-height);
     font-size: var(--fontsize-heading-xs);
-    font-weight: 700;
+    font-weight: 600;
   }
 
   @include medium-up {
     grid-template-columns: repeat(10, 1fr);
-    .listStyleSelectorColumn {
+    .listTypeSelectorColumn {
       grid-column: 1 / 7;
     }
     .sortSelector {
@@ -39,7 +64,7 @@
   }
 
   @include large-up {
-    .listStyleSelectorColumn {
+    .listTypeSelectorColumn {
       grid-column: 1 / 8;
     }
     .sortSelector {

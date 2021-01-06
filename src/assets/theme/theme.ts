@@ -293,6 +293,16 @@ const theme: Theme = {
     '--pagination-item-size': '40px',
     '--pagination-item-border-radius': '20px',
   },
+  publicationStatus: {
+    '--publication-status-color-draft': 'var(--color-black-60)',
+    '--publication-status-color-public': 'var(--color-success)',
+  },
+  publicationStatusTag: {
+    '--publication-status-tag-background-color-draft': 'var(--color-alert)',
+    '--publication-status-tag-color-draft': 'var(--color-black-90)',
+    '--publication-status-tag-background-color-public': 'var(--color-success)',
+    '--publication-status-tag-color-public': 'var(--color-white)',
+  },
   radioButton: {
     '--size': '24px',
     '--icon-scale': 0.5,
@@ -371,6 +381,11 @@ const theme: Theme = {
     '--multiselect-checkbox-color-selected': 'var(--color-white)',
     '--multiselect-checkbox-color-selected-disabled': 'var(--color-white)',
     '--placeholder-color': 'var(--color-black-60)',
+  },
+  table: {
+    '--table-body-background': 'var(--color-white)',
+    '--table-body-row-border-color': 'var(--color-black-10)',
+    '--table-head-background': 'var(--color-black-5)',
   },
   tabs: {
     '--tabs-icon-color': 'var(--color-success)',

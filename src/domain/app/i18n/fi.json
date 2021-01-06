@@ -49,6 +49,7 @@
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
+    "noResults": "Ei tuloksia",
     "openInNewTab": "(avataan uudessa välilehdessä)",
     "pagination": {
       "navigation": "Sivunavigointi",
@@ -451,6 +452,20 @@
     "captionListTypes": "Luettelotyyppi",
     "count": "{{count}} tapahtuma",
     "count_plural": "{{count}} tapahtumaa",
+    "datetime": "{{date}} klo {{time}}",
+    "eventsTableCaption": {
+      "drafts": "Luonnokset, järjestys {{sort}}",
+      "published": "Julkaistut tapahtumat, järjestys {{sort}}",
+      "waitingApproval": "Hyväksyntää odottavat tapahtumat, järjestys {{sort}}"
+    },
+    "eventsTableColumns": {
+      "endTime": "Loppuaika",
+      "id": "ID",
+      "name": "Nimi",
+      "publisher": "Julkaisija",
+      "startTime": "Alkuaika",
+      "status": "Status"
+    },
     "labelSort": "Lajitteluperuste",
     "listTypes": {
       "cardList": "Tapahtumakortit",
@@ -462,7 +477,7 @@
       "durationDesc": "Kesto, laskeva",
       "endTime": "Loppuaika, nouseva",
       "endTimeDesc": "Loppuaika, laskeva",
-      "lastModifiedTime": "Viimeki muokattu, nouseva",
+      "lastModifiedTime": "Viimeksi muokattu, nouseva",
       "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva",
       "name": "Nimi, nouseva",
       "nameDesc": "Nimi, laskeva",

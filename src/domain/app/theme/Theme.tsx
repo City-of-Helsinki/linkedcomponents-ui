@@ -198,6 +198,18 @@ type PaginationCSSProperties = {
   '--pagination-item-border-radius'?: string;
 };
 
+type PublicationStatusCSSProperties = {
+  '--publication-status-color-draft'?: string;
+  '--publication-status-color-public'?: string;
+};
+
+type PublicationStatusTagCSSProperties = {
+  '--publication-status-tag-background-color-draft'?: string;
+  '--publication-status-tag-color-draft'?: string;
+  '--publication-status-tag-background-color-public'?: string;
+  '--publication-status-tag-color-public'?: string;
+};
+
 type RadioButtonCSSProperties = {
   '--size'?: string;
   '--icon-scale'?: number;
@@ -243,6 +255,12 @@ type SelectCSSProperties = {
   '--icon-size'?: string;
   '--menu-z-index'?: number;
 } & Partial<SelectCustomTheme>;
+
+type TableCSSProperties = {
+  '--table-body-background'?: string;
+  '--table-body-row-border-color'?: string;
+  '--table-head-background'?: string;
+};
 
 type TabsCSSProperties = {
   '--tabs-icon-color'?: string;
@@ -321,9 +339,12 @@ export type Theme = {
     };
   };
   pagination: PaginationCSSProperties;
+  publicationStatus: PublicationStatusCSSProperties;
+  publicationStatusTag: PublicationStatusTagCSSProperties;
   radioButton: RadioButtonCSSProperties;
   root: RootCSSProperties;
   select: SelectCSSProperties;
+  table: TableCSSProperties;
   tabs: TabsCSSProperties;
   textInput: TextInputCSSProperties;
   timepicker: TimepickerCSSProperties;
@@ -346,9 +367,12 @@ const defaultTheme: Theme = {
   navigation: {},
   notification: {},
   pagination: {},
+  publicationStatus: {},
+  publicationStatusTag: {},
   radioButton: {},
   root: {},
   select: {},
+  table: {},
   tabs: {},
   textInput: {},
   timepicker: {},

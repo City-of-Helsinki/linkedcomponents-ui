@@ -1,0 +1,22 @@
+@import 'mixins';
+
+.eventsTable {
+  caption {
+    @include hidden-from-screen;
+  }
+}
+
+.idColumn,
+.statusColumn {
+  width: 1%;
+}
+
+.timeColumn {
+  white-space: nowrap;
+  width: 140px;
+}
+
+.nameColumn,
+.publisherColumn {
+  width: 50%;
+}

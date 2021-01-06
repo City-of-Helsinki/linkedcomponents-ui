@@ -8,8 +8,6 @@ export enum EVENT_LIST_TYPES {
 export const DEFAULT_EVENT_LIST_TYPE = EVENT_LIST_TYPES.TABLE;
 
 export enum EVENT_SORT_OPTIONS {
-  DURATION = 'duration',
-  DURATION_DESC = '-duration',
   END_TIME = 'end_time',
   END_TIME_DESC = '-end_time',
   LAST_MODIFIED_TIME = 'last_modified_time',
@@ -18,6 +16,12 @@ export enum EVENT_SORT_OPTIONS {
   NAME_DESC = '-name',
   START_TIME = 'start_time',
   START_TIME_DESC = '-start_time',
+}
+
+export enum EVENTS_PAGE_TABS {
+  DRAFTS = 'DRAFTS',
+  PUBLISHED = 'PUBLISHED',
+  WAITING_APPROVAL = 'WAITING_APPROVAL',
 }
 
 export const DEFAULT_EVENT_SORT = EVENT_SORT_OPTIONS.LAST_MODIFIED_TIME_DESC;

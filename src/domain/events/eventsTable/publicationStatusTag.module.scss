@@ -1,0 +1,28 @@
+.publicationStatusTag {
+  --publication-status-tag-background-color-draft: var(--color-alert);
+  --publication-status-tag-color-draft: var(--color-black-90);
+  --publication-status-tag-background-color-public: var(--color-success);
+  --publication-status-tag-color-public: var(--color-white);
+
+  display: flex;
+  align-items: center;
+  font-size: var(--fontsize-body-s);
+  height: var(--spacing-layout-s);
+  padding: var(--spacing-3-xs) var(--spacing-xs) var(--spacing-3-xs)
+    var(--spacing-2-xs);
+  box-sizing: border-box;
+
+  svg {
+    margin-right: var(--spacing-3-xs);
+  }
+}
+
+.statusDraft {
+  background-color: var(--publication-status-tag-background-color-draft);
+  color: var(--publication-status-tag-color-draft);
+}
+
+.statusPublic {
+  background-color: var(--publication-status-tag-background-color-public);
+  color: var(--publication-status-tag-color-public);
+}

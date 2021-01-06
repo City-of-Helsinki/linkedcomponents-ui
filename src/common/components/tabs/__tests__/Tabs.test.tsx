@@ -79,6 +79,7 @@ test('should call onKeyDown and change focused tab', async () => {
   const tab1 = await findComponent('tab1');
   const tab2 = await findComponent('tab2');
   const tab3 = await findComponent('tab3');
+  userEvent.click(tab1);
   expect(tab1).toHaveFocus();
 
   arrowRightKeyPressHelper(tab1);
@@ -95,6 +96,7 @@ test('should call onChange', async () => {
 
   const tab1 = await findComponent('tab1');
   const tab2 = await findComponent('tab2');
+  userEvent.click(tab1);
   expect(tab1).toHaveFocus();
 
   userEvent.click(tab2);

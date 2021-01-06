@@ -1,0 +1,58 @@
+.table {
+  --table-body-background: var(--color-white);
+  --table-body-row-border-color: var(--color-black-10);
+  --table-head-background: var(--color-black-5);
+
+  border-collapse: collapse;
+  font-size: var(--fontsize-body-m);
+
+  thead tr,
+  tbody tr {
+    height: var(--spacing-4-xl);
+
+    td,
+    th {
+      text-align: left;
+      padding: var(--spacing-xs) var(--spacing-s);
+    }
+  }
+
+  thead {
+    tr {
+      th {
+        background-color: var(--table-head-background);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        background-color: var(--table-body-background);
+        border-bottom: 1px solid var(--table-body-row-border-color);
+      }
+    }
+  }
+}
+
+.sortableColumnButton {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  font-weight: 600;
+  white-space: nowrap;
+
+  svg {
+    margin-right: var(--spacing-2-xs);
+  }
+}
+
+.noDataRow {
+  td {
+    text-align: center !important;
+    font-weight: 500;
+  }
+}

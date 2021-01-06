@@ -49,6 +49,7 @@
       "notAllowedFileFormat": "Filformat är inte tillåtet",
       "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
     },
+    "noResults": "Inga resultat",
     "openInNewTab": "(öppnas i en ny flik)",
     "pagination": {
       "navigation": "Sidnavigering",
@@ -451,6 +452,20 @@
     "captionListTypes": "Listtyp",
     "count": "{{count}} evenemang",
     "count_plural": "{{count}} evenemang",
+    "datetime": "{{date}} på {{time}}",
+    "eventsTableCaption": {
+      "drafts": "Utkasta evenemangen, sorterade efter {{sort}}",
+      "published": "Publicerade evenemangen, sorterade efter {{sort}}",
+      "waitingApproval": "Evenemangen som väntar på godkännande, sorterade efter {{sort}}"
+    },
+    "eventsTableColumns": {
+      "endTime": "Sluttid",
+      "id": "ID",
+      "name": "Namn",
+      "publisher": "Utgivare",
+      "startTime": "Starttid",
+      "status": "Status"
+    },
     "labelSort": "Sortera efter",
     "listTypes": {
       "cardList": "Evenemangkort",

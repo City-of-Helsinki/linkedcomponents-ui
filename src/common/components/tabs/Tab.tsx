@@ -26,13 +26,14 @@ const Tab: React.FC<TabProps> = ({
   option,
   setFocusedTab,
 }) => {
+  const isMounted = React.useRef(false);
   const ref = React.useRef<HTMLButtonElement>(null);
   const handleClick = () => {
     onClick(option.value);
   };
 
   React.useEffect(() => {
-    if (isFocused) {
+    if (isMounted.current && isFocused) {
       ref.current?.focus();
     }
   }, [index, isFocused]);
@@ -43,6 +44,14 @@ const Tab: React.FC<TabProps> = ({
       setFocusedTab(index);
     }
   };
+
+  React.useEffect(() => {
+    isMounted.current = true;
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   return (
     <button

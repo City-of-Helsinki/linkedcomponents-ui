@@ -27,23 +27,23 @@ import NotSigned from '../notSigned/NotSigned';
 import { getUserFields, userPathBuilder } from '../user/utils';
 import {
   DEFAULT_EVENT_LIST_TYPE,
+  DEFAULT_EVENT_SORT,
   EVENT_LIST_TYPES,
+  EVENT_SORT_OPTIONS,
   EVENTS_PAGE_SIZE,
+  EVENTS_PAGE_TABS,
 } from './constants';
 import EventList from './eventList/EventList';
 import styles from './events.module.scss';
-
-enum TABS {
-  DRAFTS = 'DRAFTS',
-  PUBLISHED = 'PUBLISHED',
-  WAITING_APPROVAL = 'WAITING_APPROVAL',
-}
 
 interface Props {
   user: UserFieldsFragment;
 }
 
-const getEventListVariables = (tab: TABS, adminOrganizations: string[]) => {
+const getEventListVariables = (
+  tab: EVENTS_PAGE_TABS,
+  adminOrganizations: string[]
+) => {
   const baseVariables = {
     include: ['in_language', 'location'],
     pageSize: EVENTS_PAGE_SIZE,
@@ -52,21 +52,21 @@ const getEventListVariables = (tab: TABS, adminOrganizations: string[]) => {
   };
 
   switch (tab) {
-    case TABS.DRAFTS:
+    case EVENTS_PAGE_TABS.DRAFTS:
       return {
         ...baseVariables,
         createdBy: 'me',
         publicationStatus: PublicationStatus.Draft,
         showAll: true,
       };
-    case TABS.PUBLISHED:
+    case EVENTS_PAGE_TABS.PUBLISHED:
       return {
         ...baseVariables,
         adminUser: true,
         publisher: adminOrganizations,
         publicationStatus: PublicationStatus.Public,
       };
-    case TABS.WAITING_APPROVAL:
+    case EVENTS_PAGE_TABS.WAITING_APPROVAL:
       return {
         ...baseVariables,
         adminUser: true,
@@ -76,38 +76,56 @@ const getEventListVariables = (tab: TABS, adminOrganizations: string[]) => {
   }
 };
 
-const getEventListSkip = (tab: TABS, adminOrganizations: string[]) => {
+const getEventListSkip = (
+  tab: EVENTS_PAGE_TABS,
+  adminOrganizations: string[]
+) => {
   switch (tab) {
-    case TABS.DRAFTS:
+    case EVENTS_PAGE_TABS.DRAFTS:
       return false;
-    case TABS.PUBLISHED:
-    case TABS.WAITING_APPROVAL:
+    case EVENTS_PAGE_TABS.PUBLISHED:
+    case EVENTS_PAGE_TABS.WAITING_APPROVAL:
       return !adminOrganizations.length;
   }
 };
 
 const EventsPage: React.FC<Props> = ({ user }) => {
-  const [activeTab, setActiveTab] = React.useState<string>(
-    TABS.WAITING_APPROVAL
+  const [activeTab, setActiveTab] = React.useState<EVENTS_PAGE_TABS>(
+    EVENTS_PAGE_TABS.WAITING_APPROVAL
   );
   const [listType, setListType] = React.useState<EVENT_LIST_TYPES>(
     DEFAULT_EVENT_LIST_TYPE
+  );
+  const [sort, setSort] = React.useState<EVENT_SORT_OPTIONS>(
+    DEFAULT_EVENT_SORT
   );
   const locale = useLocale();
   const history = useHistory();
   const { t } = useTranslation();
   const { adminOrganizations } = getUserFields(user);
   const { data: waitingApprovalEventsData } = useEventsQuery({
-    skip: getEventListSkip(TABS.WAITING_APPROVAL, adminOrganizations),
-    variables: getEventListVariables(TABS.WAITING_APPROVAL, adminOrganizations),
+    skip: getEventListSkip(
+      EVENTS_PAGE_TABS.WAITING_APPROVAL,
+      adminOrganizations
+    ),
+    variables: getEventListVariables(
+      EVENTS_PAGE_TABS.WAITING_APPROVAL,
+      adminOrganizations
+    ),
   });
   const { data: publishedEventsData } = useEventsQuery({
-    skip: getEventListSkip(TABS.PUBLISHED, adminOrganizations),
-    variables: getEventListVariables(TABS.PUBLISHED, adminOrganizations),
+    skip: getEventListSkip(EVENTS_PAGE_TABS.PUBLISHED, adminOrganizations),
+    variables: getEventListVariables(
+      EVENTS_PAGE_TABS.PUBLISHED,
+      adminOrganizations
+    ),
   });
   const { data: draftEventsData } = useEventsQuery({
-    skip: getEventListSkip(TABS.DRAFTS, adminOrganizations),
-    variables: getEventListVariables(TABS.DRAFTS, adminOrganizations),
+    skip: getEventListSkip(EVENTS_PAGE_TABS.DRAFTS, adminOrganizations),
+    variables: getEventListVariables(
+      EVENTS_PAGE_TABS.DRAFTS,
+      adminOrganizations
+    ),
   });
 
   const tabOptions = [
@@ -115,24 +133,28 @@ const EventsPage: React.FC<Props> = ({ user }) => {
       label: t('eventsPage.tabs.waitingApproval', {
         count: waitingApprovalEventsData?.events.meta.count || 0,
       }),
-      value: TABS.WAITING_APPROVAL,
+      value: EVENTS_PAGE_TABS.WAITING_APPROVAL,
     },
     {
       label: t('eventsPage.tabs.published', {
         count: publishedEventsData?.events.meta.count || 0,
       }),
-      value: TABS.PUBLISHED,
+      value: EVENTS_PAGE_TABS.PUBLISHED,
     },
     {
       label: t('eventsPage.tabs.drafts', {
         count: draftEventsData?.events.meta.count || 0,
       }),
-      value: TABS.DRAFTS,
+      value: EVENTS_PAGE_TABS.DRAFTS,
     },
   ];
 
   const goToCreateEvent = () => {
     history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+  };
+
+  const handleChangeTab = (newTab: string) => {
+    setActiveTab(newTab as EVENTS_PAGE_TABS);
   };
 
   return (
@@ -153,29 +175,34 @@ const EventsPage: React.FC<Props> = ({ user }) => {
               <Tabs
                 className={styles.tabSelector}
                 name="event-list"
-                onChange={setActiveTab}
+                onChange={handleChangeTab}
                 options={tabOptions}
                 activeTab={activeTab}
               />
             </div>
-            {tabOptions.map(({ value }, index) => {
-              const isActive = activeTab === value;
-              return (
-                <TabPanel isActive={isActive} index={index} name="event-list">
-                  <EventList
-                    listType={listType}
-                    setListType={setListType}
-                    skip={getEventListSkip(value, adminOrganizations)}
-                    baseVariables={getEventListVariables(
-                      value,
-                      adminOrganizations
-                    )}
-                  />
-                </TabPanel>
-              );
-            })}
           </FormContainer>
         </Container>
+        {tabOptions.map(({ value }, index) => {
+          const isActive = activeTab === value;
+          return (
+            <TabPanel
+              key={index}
+              isActive={isActive}
+              index={index}
+              name="event-list"
+            >
+              <EventList
+                activeTab={activeTab}
+                baseVariables={getEventListVariables(value, adminOrganizations)}
+                listType={listType}
+                setListType={setListType}
+                setSort={setSort}
+                skip={getEventListSkip(value, adminOrganizations)}
+                sort={sort}
+              />
+            </TabPanel>
+          );
+        })}
       </MainContent>
     </PageWrapper>
   );
