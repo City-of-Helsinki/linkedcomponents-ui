@@ -3,7 +3,6 @@ import { css } from 'emotion';
 import {
   IconClock,
   IconEye,
-  IconGlobe,
   IconLocation,
   IconTicket,
   IconUser,
@@ -13,6 +12,7 @@ import { Link } from 'react-router-dom';
 
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import IconFlag from '../../../icons/IconFlag';
 import { useTheme } from '../../app/theme/Theme';
 import { getEventFields } from '../../event/utils';
 import AudienceAgeText from './AudienceAgeText';
@@ -84,7 +84,13 @@ const EventCard: React.FC<Props> = ({ event }) => {
           <div>
             {/* TODO: Change to flag icon when available in HDS */}
             <TextWithIcon
-              icon={<IconGlobe aria-hidden={true} />}
+              icon={
+                <IconFlag
+                  size="xs"
+                  style={{ padding: '4px' }}
+                  aria-hidden={true}
+                />
+              }
               text={inLanguageText}
             />
           </div>

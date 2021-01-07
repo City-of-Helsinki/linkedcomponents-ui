@@ -108,6 +108,7 @@ type ErrorTemplateCSSProperties = {
 type eventCardCSSProperties = {
   '--event-card-background-color'?: string;
   '--event-card-color'?: string;
+  '--event-card-icon-color'?: string;
   '--event-card-heading-color'?: string;
   '--event-card-image-background-color'?: string;
   '--event-card-image-min-height'?: string;

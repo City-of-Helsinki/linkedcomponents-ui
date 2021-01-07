@@ -182,6 +182,7 @@ const theme: Theme = {
   eventCard: {
     '--event-card-background-color': 'var(--color-white)',
     '--event-card-color': 'var(--color-black-60)',
+    '--event-card-icon-color': 'var(--color-black-90)',
     '--event-card-heading-color': 'var(--color-black-90)',
     '--event-card-image-background-color': 'var(--color-black-10)',
     '--event-card-image-min-height': '7.5rem',
