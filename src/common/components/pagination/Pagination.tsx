@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { IconAngleLeft, IconAngleRight } from 'hds-react/icons';
+import { IconAngleLeft, IconAngleRight } from 'hds-react';
 import range from 'lodash/range';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

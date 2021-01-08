@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { IconCheck, IconPen } from 'hds-react/icons';
+import { IconCheck, IconPen } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

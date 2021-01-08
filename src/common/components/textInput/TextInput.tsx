@@ -1,9 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import {
-  TextInput as BaseTextInput,
-  TextInputProps,
-} from 'hds-react/components/TextInput';
+import { TextInput as BaseTextInput, TextInputProps } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';

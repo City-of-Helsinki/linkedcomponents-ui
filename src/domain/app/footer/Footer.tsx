@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { Footer as HdsFooter } from 'hds-react/components/Footer';
+import { Footer as HdsFooter } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';

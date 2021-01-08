@@ -1,5 +1,5 @@
 import { FieldProps, useField } from 'formik';
-import { TextAreaProps } from 'hds-react/components/Textarea';
+import { TextAreaProps } from 'hds-react';
 import isNil from 'lodash/isNil';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

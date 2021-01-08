@@ -4,7 +4,7 @@ import {
   IconSortAlphabeticalDescending,
   IconSortAscending,
   IconSortDescending,
-} from 'hds-react/icons';
+} from 'hds-react';
 import React from 'react';
 
 import styles from './table.module.scss';

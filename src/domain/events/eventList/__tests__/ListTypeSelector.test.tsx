@@ -1,4 +1,4 @@
-import { IconInfoCircle } from 'hds-react/icons';
+import { IconInfoCircle } from 'hds-react';
 import React from 'react';
 
 import { render, screen, userEvent } from '../../../../utils/testUtils';

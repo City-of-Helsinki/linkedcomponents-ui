@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { Select, SingleSelectProps } from 'hds-react/components/Select';
+import { Select, SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 

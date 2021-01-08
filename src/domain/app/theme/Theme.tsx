@@ -1,5 +1,4 @@
-import { FooterCustomTheme } from 'hds-react/components/Footer';
-import { SelectCustomTheme } from 'hds-react/components/Select';
+import { FooterCustomTheme, SelectCustomTheme } from 'hds-react';
 import React, { useContext, useState } from 'react';
 
 type ButtonCSSProperties = {

@@ -1,4 +1,4 @@
-import { IconPlus } from 'hds-react/icons';
+import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';

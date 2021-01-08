@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { Navigation } from 'hds-react/components/Navigation';
-import { IconPlus, IconSignout } from 'hds-react/icons';
+import { IconPlus, IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';

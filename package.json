@@ -85,11 +85,9 @@
       "src/domain/auth/oidcCallback/OidcCallback.tsx",
       "src/domain/auth/silentCallback/SilentCallback.tsx",
       "src/generated/graphql.tsx",
+      "src/icons/",
       "src/utils/mockDataUtils.ts",
       "src/utils/testUtils.ts"
-    ],
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!hds-react)/"
     ]
   },
   "browserslist": {

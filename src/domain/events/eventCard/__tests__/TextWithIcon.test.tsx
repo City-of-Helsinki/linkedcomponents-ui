@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { IconInfoCircle } from 'hds-react/icons';
+import { IconInfoCircle } from 'hds-react';
 import React from 'react';
 
 import TextWithIcon from '../TextWithIcon';
