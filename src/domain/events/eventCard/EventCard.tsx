@@ -6,7 +6,7 @@ import {
   IconLocation,
   IconTicket,
   IconUser,
-} from 'hds-react/icons';
+} from 'hds-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -82,15 +82,8 @@ const EventCard: React.FC<Props> = ({ event }) => {
             />
           </div>
           <div>
-            {/* TODO: Change to flag icon when available in HDS */}
             <TextWithIcon
-              icon={
-                <IconFlag
-                  size="xs"
-                  style={{ padding: '4px' }}
-                  aria-hidden={true}
-                />
-              }
+              icon={<IconFlag aria-hidden={true} />}
               text={inLanguageText}
             />
           </div>
