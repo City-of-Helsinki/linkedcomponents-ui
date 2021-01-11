@@ -53,7 +53,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   value,
   ...rest
 }) => {
-  let timer: NodeJS.Timeout;
+  let timer: number;
   const isMounted = useIsMounted();
   const apolloClient = useApolloClient();
   const { t } = useTranslation();
@@ -76,7 +76,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
       if (isMounted) {
         setSearch(inputValue);
       }
-    }, 0);
+    });
 
     return items;
   };

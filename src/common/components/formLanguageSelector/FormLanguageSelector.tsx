@@ -21,15 +21,11 @@ const Item: React.FC<ItemProps> = ({
   language,
   onClick,
 }) => {
-  const handleClick = () => {
-    onClick(language.value);
-  };
-
   return (
     <button
       className={classNames(styles.item, { [styles.isSelected]: isSelected })}
       key={language.value}
-      onClick={handleClick}
+      onClick={() => onClick(language.value)}
       aria-current={isSelected ? 'step' : 'false'}
       role="link"
       type="button"

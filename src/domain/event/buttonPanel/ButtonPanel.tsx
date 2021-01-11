@@ -30,7 +30,7 @@ const ButtonPanel: React.FC<Props> = ({ onSaveDraft }) => {
                 fullWidth={true}
                 onClick={onSaveDraft}
                 title={
-                  !authenticated ? t('authentication.noRightsCreateEvent') : ''
+                  authenticated ? '' : t('authentication.noRightsCreateEvent')
                 }
                 type="button"
                 variant="secondary"

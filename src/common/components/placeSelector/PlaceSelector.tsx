@@ -60,7 +60,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   value,
   ...rest
 }) => {
-  let timer: NodeJS.Timeout;
+  let timer: number;
   const isMounted = useIsMounted();
   const { t } = useTranslation();
   const locale = useLocale();
@@ -91,7 +91,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
       if (isMounted) {
         setSearch(inputValue);
       }
-    }, 0);
+    });
 
     return items;
   };
