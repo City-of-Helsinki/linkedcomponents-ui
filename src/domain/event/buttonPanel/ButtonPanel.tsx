@@ -43,7 +43,7 @@ const ButtonPanel: React.FC<Props> = ({ onSaveDraft }) => {
                 disabled={!authenticated}
                 fullWidth={true}
                 title={
-                  !authenticated ? t('authentication.noRightsPublishEvent') : ''
+                  authenticated ? '' : t('authentication.noRightsPublishEvent')
                 }
                 type="submit"
               >
