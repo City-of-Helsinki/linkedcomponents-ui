@@ -2,9 +2,10 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import translations from '../../../../domain/app/i18n/fi.json';
-import { render, screen } from '../../../../utils/testUtils';
+import { configure, render, screen } from '../../../../utils/testUtils';
 import Pagination, { PaginationProps } from '../Pagination';
 
+configure({ defaultHidden: true });
 const defaultProps: PaginationProps = {
   pageCount: 10,
   selectedPage: 1,
@@ -26,6 +27,24 @@ const findElement = (key: 'next' | 'previous') => {
 
 const renderComponent = (props?: Partial<PaginationProps>) =>
   render(<Pagination {...defaultProps} {...props} />);
+
+const testVisiblePages = (visiblePages: number[]) => {
+  for (const page of visiblePages) {
+    screen.getByRole('button', { name: `Sivu ${page}` });
+  }
+};
+
+const testHiddenPages = (hiddenPages: number[]) => {
+  for (const page of hiddenPages) {
+    expect(
+      screen.queryByRole('button', { name: `Sivu ${page}` })
+    ).not.toBeInTheDocument();
+  }
+};
+
+const testHiddenPagesButtonAmount = (length: number) => {
+  expect(screen.queryAllByRole('button', { name: `...` })).toHaveLength(length);
+};
 
 test('previous button should be disabled', async () => {
   renderComponent({ selectedPage: 1 });
@@ -76,19 +95,9 @@ test('should show correct pages when there are right hidden pages but no left hi
   const visiblePages = [1, 2, 3, 4, 5, 10];
   const hiddenPages = [6, 7, 8, 9];
 
-  visiblePages.forEach((page) => {
-    expect(
-      screen.queryByRole('button', { name: `Sivu ${page}` })
-    ).toBeInTheDocument();
-  });
-
-  hiddenPages.forEach((page) => {
-    expect(
-      screen.queryByRole('button', { name: `Sivu ${page}` })
-    ).not.toBeInTheDocument();
-  });
-
-  expect(screen.getAllByRole('button', { name: `...` })).toHaveLength(1);
+  testVisiblePages(visiblePages);
+  testHiddenPages(hiddenPages);
+  testHiddenPagesButtonAmount(1);
 });
 
 test('should show correct pages when there are left hidden pages but no right hidden pages', async () => {
@@ -96,19 +105,9 @@ test('should show correct pages when there are left hidden pages but no right hi
   const visiblePages = [1, 6, 7, 8, 9, 10];
   const hiddenPages = [2, 3, 4, 5];
 
-  visiblePages.forEach((page) => {
-    expect(
-      screen.queryByRole('button', { name: `Sivu ${page}` })
-    ).toBeInTheDocument();
-  });
-
-  hiddenPages.forEach((page) => {
-    expect(
-      screen.queryByRole('button', { name: `Sivu ${page}` })
-    ).not.toBeInTheDocument();
-  });
-
-  expect(screen.getAllByRole('button', { name: `...` })).toHaveLength(1);
+  testVisiblePages(visiblePages);
+  testHiddenPages(hiddenPages);
+  testHiddenPagesButtonAmount(1);
 });
 
 test('should show correct pages when there are left hidden pages and right hidden pages', async () => {
@@ -116,30 +115,15 @@ test('should show correct pages when there are left hidden pages and right hidde
   const visiblePages = [1, 5, 6, 7, 10];
   const hiddenPages = [2, 3, 4, 8, 9];
 
-  visiblePages.forEach((page) => {
-    expect(
-      screen.queryByRole('button', { name: `Sivu ${page}` })
-    ).toBeInTheDocument();
-  });
-
-  hiddenPages.forEach((page) => {
-    expect(
-      screen.queryByRole('button', { name: `Sivu ${page}` })
-    ).not.toBeInTheDocument();
-  });
-
-  expect(screen.getAllByRole('button', { name: `...` })).toHaveLength(2);
+  testVisiblePages(visiblePages);
+  testHiddenPages(hiddenPages);
+  testHiddenPagesButtonAmount(2);
 });
 
 test('should not have hidden pages', async () => {
   renderComponent({ pageCount: 2, selectedPage: 1 });
   const visiblePages = [1, 2];
 
-  visiblePages.forEach((page) => {
-    expect(
-      screen.queryByRole('button', { name: `Sivu ${page}` })
-    ).toBeInTheDocument();
-  });
-
-  expect(screen.queryAllByRole('button', { name: `...` })).toHaveLength(0);
+  testVisiblePages(visiblePages);
+  testHiddenPagesButtonAmount(0);
 });

@@ -12,8 +12,10 @@ import {
   fakeOrganization,
   fakePlace,
 } from '../../../../utils/mockDataUtils';
-import { render, screen } from '../../../../utils/testUtils';
+import { configure, render, screen } from '../../../../utils/testUtils';
 import EventCard, { testIds } from '../EventCard';
+
+configure({ defaultHidden: true });
 
 const imageUrl = 'http://imageurl.com';
 const organizationId = 'hel:123';
@@ -68,13 +70,13 @@ test('should render event card fields', async () => {
   render(<EventCard event={event} />, { mocks });
 
   await screen.findByRole('heading', { name: eventValues.name });
-  const imageWrapper = await screen.findByTestId(testIds.image);
+  const imageWrapper = screen.getByTestId(testIds.image);
   expect(imageWrapper.style.backgroundImage).toBe('url(http://imageurl.com)');
-  await screen.findByText('04.01.2021 – 23.01.2021');
-  await screen.findByText(eventValues.inLanguage);
-  await screen.findByText('Location name, Street address, Helsinki');
+  screen.getByText('04.01.2021 – 23.01.2021');
+  screen.getByText(eventValues.inLanguage);
+  screen.getByText('Location name, Street address, Helsinki');
   await screen.findByText(organizationName);
-  await screen.findByText('Maksuton');
-  await screen.findByText('12 – 18 v');
-  await screen.findByText('Julkaistu');
+  screen.getByText('Maksuton');
+  screen.getByText('12 – 18 v');
+  screen.getByText('Julkaistu');
 });

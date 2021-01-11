@@ -37,7 +37,13 @@ const EventTableRow: React.FC<Props> = ({ event }) => {
           {id}
         </Link>
       </td>
-      <td>{publisher ? <PublisherName id={publisher} /> : '-'}</td>
+      <td>
+        {publisher ? (
+          <PublisherName id={publisher} />
+        ) : (
+          /* istanbul ignore next */ '-'
+        )}
+      </td>
       <td>{name}</td>
       <td className={styles.timeColumn}>
         {startTime
@@ -45,7 +51,7 @@ const EventTableRow: React.FC<Props> = ({ event }) => {
               date: formatDate(startTime),
               time: formatDate(startTime, timeFormat, locale),
             })
-          : '-'}
+          : /* istanbul ignore next */ '-'}
       </td>
       <td className={styles.timeColumn}>
         {endTime

@@ -25,11 +25,11 @@ import {
 import EventCard from '../eventCard/EventCard';
 import EventsTable from '../eventsTable/EventsTable';
 import useEventListTypeOptions from '../hooks/useEventListTypeOptions';
-import useEventSortOptions from '../hooks/useEventSortOption';
+import useEventSortOptions from '../hooks/useEventSortOptions';
 import styles from './eventList.module.scss';
 import ListTypeSelector from './ListTypeSelector';
 
-interface Props {
+export interface EventListProps {
   activeTab: EVENTS_PAGE_TABS;
   baseVariables: EventsQueryVariables;
   listType: EVENT_LIST_TYPES;
@@ -43,7 +43,7 @@ const getPageCount = (count: number, pageSize: number) => {
   return Math.ceil(count / pageSize);
 };
 
-const EventList: React.FC<Props> = ({
+const EventList: React.FC<EventListProps> = ({
   activeTab,
   baseVariables,
   listType,
@@ -53,12 +53,12 @@ const EventList: React.FC<Props> = ({
   sort,
 }) => {
   const { t } = useTranslation();
-  const { pageSize } = baseVariables;
+  const { pageSize = EVENTS_PAGE_SIZE } = baseVariables;
   const [selectedPage, setSelectedPage] = React.useState(1);
 
   const listTypeOptions = useEventListTypeOptions();
   const sortOptions = useEventSortOptions();
-  const variables = { ...baseVariables };
+  const variables = { ...baseVariables, pageSize };
 
   const { data: eventsData, loading, refetch } = useEventsQuery({
     skip,

@@ -9,7 +9,7 @@ const renderComponent = (props: PriceTextProps) =>
 
 test('should render correct text when event is free', () => {
   renderComponent({ freeEvent: true, offers: [] });
-  expect(screen.getByText('Maksuton')).toBeInTheDocument();
+  screen.getByText('Maksuton');
 });
 
 test('should render correct text when event is not free and offers are set', () => {
@@ -20,7 +20,7 @@ test('should render correct text when event is not free and offers are set', () 
       { price: { fi: 'Hinta 2' }, isFree: false },
     ]),
   });
-  expect(screen.getByText('Hinta 1, Hinta 2')).toBeInTheDocument();
+  screen.getByText('Hinta 1, Hinta 2');
 });
 
 test('should render correct text when event is not free but offers are empty', () => {
@@ -28,5 +28,5 @@ test('should render correct text when event is not free but offers are empty', (
     freeEvent: false,
     offers: [],
   });
-  expect(screen.getByText('-')).toBeInTheDocument();
+  screen.getByText('-');
 });

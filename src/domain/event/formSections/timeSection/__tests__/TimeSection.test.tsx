@@ -1,7 +1,6 @@
 import { Formik } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
 
 import { WEEK_DAY } from '../../../../../constants';
 import {
@@ -66,7 +65,7 @@ test('should render TimeSection', () => {
   ];
 
   texts.forEach((text) => {
-    expect(screen.queryByText(text)).toBeInTheDocument();
+    screen.getByText(text);
   });
 
   const fields = [
@@ -75,16 +74,16 @@ test('should render TimeSection', () => {
   ];
 
   fields.forEach((name) => {
-    screen.queryByRole('textbox', { name });
+    screen.getByRole('textbox', { name });
   });
 
   const buttons = [
     translations.event.form.buttonAddEventTime,
-    translations.event.form.buttonAddRecurringEvent,
+    translations.event.form.buttonOpenRecurringEventSettings,
   ];
 
   buttons.forEach((name) => {
-    screen.queryByRole('button', { name });
+    screen.getByRole('button', { name });
   });
 });
 
@@ -112,13 +111,9 @@ test('should show error message when end time is before start time', async () =>
 
   expect(endInput).toHaveValue(endTime);
 
-  await waitFor(() => {
-    expect(
-      screen.queryByText(
-        translations.form.validation.date.after.replace('{{after}}', startTime)
-      )
-    ).toBeInTheDocument();
-  });
+  await screen.findByText(
+    translations.form.validation.date.after.replace('{{after}}', startTime)
+  );
 });
 
 test('should add and delete event time', async () => {
@@ -126,30 +121,36 @@ test('should add and delete event time', async () => {
   const startTimeName = translations.event.form.labelStartTime[type];
   const endTimeName = translations.event.form.labelEndTime[type];
 
-  expect(screen.getAllByRole('textbox', { name: startTimeName })).toHaveLength(
+  expect(
+    screen.queryAllByRole('textbox', { name: startTimeName })
+  ).toHaveLength(1);
+  expect(screen.queryAllByRole('textbox', { name: endTimeName })).toHaveLength(
     1
   );
-  expect(screen.getAllByRole('textbox', { name: endTimeName })).toHaveLength(1);
 
   const addButton = screen.getByRole('button', {
     name: translations.event.form.buttonAddEventTime,
   });
   userEvent.click(addButton);
 
-  expect(screen.getAllByRole('textbox', { name: startTimeName })).toHaveLength(
+  expect(
+    screen.queryAllByRole('textbox', { name: startTimeName })
+  ).toHaveLength(2);
+  expect(screen.queryAllByRole('textbox', { name: endTimeName })).toHaveLength(
     2
   );
-  expect(screen.getAllByRole('textbox', { name: endTimeName })).toHaveLength(2);
 
   const deleteButton = screen.getByRole('button', {
     name: translations.event.form.buttonDeleteEventTime,
   });
   userEvent.click(deleteButton);
 
-  expect(screen.getAllByRole('textbox', { name: startTimeName })).toHaveLength(
+  expect(
+    screen.queryAllByRole('textbox', { name: startTimeName })
+  ).toHaveLength(1);
+  expect(screen.queryAllByRole('textbox', { name: endTimeName })).toHaveLength(
     1
   );
-  expect(screen.getAllByRole('textbox', { name: endTimeName })).toHaveLength(1);
 });
 
 test('should open recurring event settings modal and close it with close button', async () => {
@@ -167,9 +168,7 @@ test('should open recurring event settings modal and close it with close button'
     })
   );
 
-  expect(
-    screen.queryByRole('heading', { name: modalTitleText })
-  ).toBeInTheDocument();
+  screen.getByRole('heading', { name: modalTitleText });
 
   userEvent.click(
     screen.queryByRole('button', {
@@ -218,14 +217,15 @@ test('should render recurring event settings info and delete it with delete butt
     'Viikon välein Ma, Ti, Ke, To, Pe, La ja Su, Ajalla 10.12.2020 – 12.12.2021, 12.30 – 14.00';
 
   // Should not show recurring event details
-  infoCells.forEach((text) => {
-    expect(
-      screen.queryByRole('cell', { name: text, hidden: false })
-    ).not.toBeInTheDocument();
-  });
+  expect(
+    screen.queryByRole('cell', { name: 'Viikon välein', hidden: false })
+  ).not.toBeInTheDocument();
 
   const toggleButton = screen.getByRole('button', {
     name: toggleButtonText,
+  });
+  const deleteButton = screen.getByRole('button', {
+    name: translations.event.form.buttonDeleteRecurringEvent,
   });
 
   userEvent.click(toggleButton);
@@ -240,24 +240,14 @@ test('should render recurring event settings info and delete it with delete butt
   userEvent.click(toggleButton);
 
   // Should not show recurring event details
-  infoCells.forEach((text) => {
-    expect(
-      screen.queryByRole('cell', { name: text, hidden: false })
-    ).not.toBeInTheDocument();
-  });
+  expect(
+    screen.queryByRole('cell', { name: 'Viikon välein', hidden: false })
+  ).not.toBeInTheDocument();
 
-  userEvent.click(
-    screen.getByRole('button', {
-      name: translations.event.form.buttonDeleteRecurringEvent,
-    })
-  );
+  userEvent.click(deleteButton);
 
   // Recurring event should be removed
-  expect(
-    screen.queryByRole('button', {
-      name: toggleButtonText,
-    })
-  ).not.toBeInTheDocument();
+  expect(toggleButton).not.toBeInTheDocument();
 });
 
 test('should add new recurring event', async () => {
@@ -271,11 +261,7 @@ test('should add new recurring event', async () => {
   );
 
   const modalTitleText = translations.event.form.modalTitleRecurringEvent;
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('heading', { name: modalTitleText })
-    ).toBeInTheDocument();
-  });
+  await screen.findByRole('heading', { name: modalTitleText });
 
   userEvent.click(screen.getByRole('checkbox', { name: /ma/i }));
 
@@ -298,15 +284,15 @@ test('should add new recurring event', async () => {
     },
   ];
 
-  fields.forEach(({ name, value }) => {
+  for (const { name, value } of fields) {
     const input = screen.getByRole('textbox', { name });
     userEvent.click(input);
     userEvent.type(input, value);
 
-    act(() => {
+    await waitFor(() => {
       expect(input).toHaveValue(value);
     });
-  });
+  }
 
   userEvent.click(
     screen.getByRole('button', {
@@ -314,11 +300,7 @@ test('should add new recurring event', async () => {
     })
   );
 
-  await waitFor(() => {
-    expect(
-      screen.getByRole('button', {
-        name: 'Viikon välein Ma, Ajalla 18.11.2020 – 25.09.2021, 12.30 – 14.00',
-      })
-    ).toBeInTheDocument();
+  await screen.findByRole('button', {
+    name: 'Viikon välein Ma, Ajalla 18.11.2020 – 25.09.2021, 12.30 – 14.00',
   });
 });

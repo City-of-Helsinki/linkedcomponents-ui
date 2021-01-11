@@ -8,20 +8,20 @@ const renderComponent = (props: AudienceAgeTextProps) =>
 
 test('should render correct text when only minAge is set', () => {
   renderComponent({ maxAge: null, minAge: 12 });
-  expect(screen.getByText('Yli 12 v')).toBeInTheDocument();
+  screen.getByText('Yli 12 v');
 });
 
 test('should render correct text when only maxAge is set', () => {
   renderComponent({ maxAge: 12, minAge: null });
-  expect(screen.getByText('Alle 12 v')).toBeInTheDocument();
+  screen.getByText('Alle 12 v');
 });
 
 test('should render correct text when both maxAge and minAge are set', () => {
   renderComponent({ maxAge: 18, minAge: 12 });
-  expect(screen.getByText('12 – 18 v')).toBeInTheDocument();
+  screen.getByText('12 – 18 v');
 });
 
 test('should render correct text when both maxAge and minAge are unset', () => {
   renderComponent({ maxAge: null, minAge: null });
-  expect(screen.getByText('-')).toBeInTheDocument();
+  screen.getByText('-');
 });

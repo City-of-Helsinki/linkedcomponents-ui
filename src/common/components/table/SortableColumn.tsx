@@ -9,7 +9,7 @@ import React from 'react';
 
 import styles from './table.module.scss';
 
-interface Props {
+export interface SortableColumnProps {
   className?: string;
   label: string;
   onClick: (value: string) => void;
@@ -18,7 +18,7 @@ interface Props {
   type?: 'default' | 'text';
 }
 
-const SortableColumn: React.FC<Props> = ({
+const SortableColumn: React.FC<SortableColumnProps> = ({
   className,
   label,
   onClick,

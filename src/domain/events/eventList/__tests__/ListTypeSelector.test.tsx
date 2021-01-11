@@ -1,8 +1,15 @@
 import { IconInfoCircle } from 'hds-react';
 import React from 'react';
 
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
 import ListTypeSelector from '../ListTypeSelector';
+
+configure({ defaultHidden: true });
 
 const caption = 'Select type';
 const options = [
@@ -29,31 +36,31 @@ const renderComponent = (onChange = jest.fn()) =>
     />
   );
 
-const findComponent = (key: 'caption' | 'type1' | 'type2') => {
+const getComponent = (key: 'caption' | 'type1' | 'type2') => {
   switch (key) {
     case 'caption':
-      return screen.findByRole('group', { name: caption });
+      return screen.getByRole('group', { name: caption });
     case 'type1':
-      return screen.findByRole('radio', { name: options[0].label });
+      return screen.getByRole('radio', { name: options[0].label });
     case 'type2':
-      return screen.findByRole('radio', { name: options[1].label });
+      return screen.getByRole('radio', { name: options[1].label });
   }
 };
 
-test('should render component', async () => {
+test('should render component', () => {
   renderComponent();
 
-  await findComponent('caption');
-  await findComponent('type1');
-  await findComponent('type2');
+  getComponent('caption');
+  getComponent('type1');
+  getComponent('type2');
 });
 
-test('should call onChange', async () => {
+test('should call onChange', () => {
   const onChange = jest.fn();
   renderComponent(onChange);
 
-  const type1Radio = await findComponent('type1');
-  const type2Radio = await findComponent('type2');
+  const type1Radio = getComponent('type1');
+  const type2Radio = getComponent('type2');
   expect(type1Radio).toBeChecked();
 
   userEvent.click(type2Radio);

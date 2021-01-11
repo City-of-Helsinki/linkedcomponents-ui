@@ -7,16 +7,21 @@ import Table from '../../../common/components/table/Table';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import { EVENT_SORT_OPTIONS } from '../constants';
 import styles from './eventsTable.module.scss';
-import EventTableRow from './EventTableRow';
+import EventTableRow from './EventsTableRow';
 
-interface Props {
+export interface EventsTableProps {
   caption: string;
   events: EventFieldsFragment[];
   setSort: (sort: EVENT_SORT_OPTIONS) => void;
   sort: EVENT_SORT_OPTIONS;
 }
 
-const EventsTable: React.FC<Props> = ({ caption, events, setSort, sort }) => {
+const EventsTable: React.FC<EventsTableProps> = ({
+  caption,
+  events,
+  setSort,
+  sort,
+}) => {
   const table = React.useRef<HTMLTableElement>(null);
   const { t } = useTranslation();
   const [focused, setFocused] = React.useState(false);
