@@ -51,6 +51,12 @@ import {
   getRecurringEventPayload,
 } from './utils';
 
+const SELECT_FIELDS = [
+  EVENT_FIELDS.KEYWORDS,
+  EVENT_FIELDS.LOCATION,
+  EVENT_FIELDS.SUPER_EVENT,
+];
+
 const CreateEventPage: React.FC = () => {
   const history = useHistory();
   const locale = useLocale();
@@ -175,11 +181,7 @@ const CreateEventPage: React.FC = () => {
       {({ values: { type, ...restValues }, setErrors, setTouched }) => {
         const getFocusableFieldId = (fieldName: string): string => {
           // For the select elements, focus the toggle button
-          if (
-            fieldName === EVENT_FIELDS.KEYWORDS ||
-            fieldName === EVENT_FIELDS.LOCATION ||
-            fieldName === EVENT_FIELDS.SUPER_EVENT
-          ) {
+          if (SELECT_FIELDS.find((item) => item === fieldName)) {
             return `${fieldName}-input`;
           }
 
