@@ -12,6 +12,7 @@ import {
   KeywordFieldsFragment,
   useKeywordsQuery,
 } from '../../../generated/graphql';
+import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
@@ -53,7 +54,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   ...rest
 }) => {
   let timer: NodeJS.Timeout;
-  const isMounted = React.useRef(false);
+  const isMounted = useIsMounted();
   const apolloClient = useApolloClient();
   const { t } = useTranslation();
   const locale = useLocale();
@@ -72,7 +73,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
 
   const handleFilter = (items: OptionType[], inputValue: string) => {
     timer = setTimeout(() => {
-      if (isMounted.current) {
+      if (isMounted) {
         setSearch(inputValue);
       }
     }, 0);
@@ -115,12 +116,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   }, [apolloClient, locale, value]);
 
   React.useEffect(() => {
-    isMounted.current = true;
-
-    return () => {
-      clearTimeout(timer);
-      isMounted.current = false;
-    };
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

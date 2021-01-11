@@ -2,6 +2,8 @@ import { FormikProps, useFormikContext } from 'formik';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
 
+import useIsMounted from '../../../hooks/useIsMounted';
+
 export interface PersistProps {
   name: string;
   debounceTime?: number;
@@ -13,14 +15,14 @@ const FormikPersist = ({
   isSessionStorage = false,
   name,
 }: PersistProps) => {
-  const isMounted = React.useRef(false);
+  const isMounted = useIsMounted();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formik = useFormikContext<any>();
 
   const saveForm = React.useCallback(
     debounce((data: FormikProps<{}>) => {
       /* istanbul ignore next  */
-      if (!isMounted.current) return;
+      if (!isMounted) return;
 
       if (isSessionStorage) {
         window.sessionStorage.setItem(name, JSON.stringify(data));
@@ -36,7 +38,6 @@ const FormikPersist = ({
   }, [formik, saveForm]);
 
   React.useEffect(() => {
-    isMounted.current = true;
     let timeout: number;
 
     const maybeState = isSessionStorage
@@ -51,10 +52,7 @@ const FormikPersist = ({
         formik.validateForm();
       });
     }
-    return () => {
-      clearTimeout(timeout);
-      isMounted.current = false;
-    };
+    return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

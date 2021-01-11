@@ -13,6 +13,7 @@ import {
   usePlaceQuery,
   usePlacesQuery,
 } from '../../../generated/graphql';
+import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
@@ -60,7 +61,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   ...rest
 }) => {
   let timer: NodeJS.Timeout;
-  const isMounted = React.useRef(false);
+  const isMounted = useIsMounted();
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = React.useState('');
@@ -87,7 +88,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
 
   const handleFilter = (items: OptionType[], inputValue: string) => {
     timer = setTimeout(() => {
-      if (isMounted.current) {
+      if (isMounted) {
         setSearch(inputValue);
       }
     }, 0);
@@ -109,12 +110,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   }, [locale, placesData]);
 
   React.useEffect(() => {
-    isMounted.current = true;
-
-    return () => {
-      clearTimeout(timer);
-      isMounted.current = false;
-    };
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
