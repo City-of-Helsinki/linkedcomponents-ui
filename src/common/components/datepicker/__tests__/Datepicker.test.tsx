@@ -4,6 +4,7 @@ import { fi } from 'date-fns/locale';
 import { advanceTo } from 'jest-date-mock';
 import React from 'react';
 
+import translations from '../../../../domain/app/i18n/fi.json';
 import {
   configure,
   fireEvent,
@@ -11,7 +12,6 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
-import translations from '../..//../../domain/app/i18n/fi.json';
 import Datepicker, { DatepickerProps } from '../Datepicker';
 
 configure({ defaultHidden: true });

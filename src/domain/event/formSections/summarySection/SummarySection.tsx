@@ -62,7 +62,7 @@ const SummarySection: React.FC<SummarySectionProps> = ({ onSaveDraft }) => {
               name={[EVENT_FIELDS.IS_VERIFIED]}
               component={CheckboxField}
             />
-            <Button fullWidth={true} disabled={!isValid}>
+            <Button fullWidth={true} disabled={!isValid} type="submit">
               {t(`event.form.buttonPublish.${type}`)}
             </Button>
             <Button

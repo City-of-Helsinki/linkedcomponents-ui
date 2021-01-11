@@ -81,7 +81,6 @@ const ClassificationSection = () => {
             component={KeywordSelectorFields}
             label={t(`event.form.labelKeywords`)}
             placeholder={t(`event.form.placeholderKeywords`)}
-            required={true}
           />
         </InputWrapper>
       </InputRow>

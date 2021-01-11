@@ -6,6 +6,9 @@ module.exports = buildSchema(/* GraphQL */ `
   scalar Any
 
   type Mutation {
+    createEvent(input: CreateEventMutationInput!): Event!
+    createEvents(input: [CreateEventMutationInput!]!): [Event!]!
+    updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
   }
 
@@ -69,6 +72,74 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): PlacesResponse!
+  }
+
+  enum PublicationStatus {
+    draft
+    public
+  }
+
+  enum SuperEventType {
+    recurring
+    umbrella
+  }
+
+  input ExternalLinkInput {
+    name: String
+    link: String
+    language: String
+  }
+
+  input IdObjectInput {
+    atId: String!
+  }
+
+  input LocalisedObjectInput {
+    ar: String
+    en: String
+    fi: String
+    ru: String
+    sv: String
+    zhHans: String
+  }
+
+  input OfferInput {
+    description: LocalisedObjectInput
+    infoUrl: LocalisedObjectInput
+    isFree: Boolean
+    price: LocalisedObjectInput
+  }
+
+  input CreateEventMutationInput {
+    publicationStatus: PublicationStatus
+    audience: [IdObjectInput!]
+    audienceMaxAge: Int
+    audienceMinAge: Int
+    description: LocalisedObjectInput
+    endTime: String
+    externalLinks: [ExternalLinkInput]
+    images: [IdObjectInput!]
+    inLanguage: [IdObjectInput!]
+    infoUrl: LocalisedObjectInput
+    keywords: [IdObjectInput!]
+    location: IdObjectInput
+    locationExtraInfo: LocalisedObjectInput
+    name: LocalisedObjectInput
+    offers: [OfferInput!]
+    provider: LocalisedObjectInput
+    shortDescription: LocalisedObjectInput
+    startTime: String
+    subEvents: [IdObjectInput!]
+    superEvent: IdObjectInput
+    superEventType: SuperEventType
+  }
+
+  input UpdateImageMutationInput {
+    altText: String
+    id: ID!
+    license: String
+    name: String!
+    photographerName: String
   }
 
   input UploadImageMutationInput {
@@ -149,6 +220,7 @@ module.exports = buildSchema(/* GraphQL */ `
     provider: LocalisedObject
     providerContactInfo: String
     publisher: ID
+    publicationStatus: PublicationStatus
     shortDescription: LocalisedObject
     startTime: String
     subEvents: [AtIdObject]!
@@ -253,9 +325,12 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type LocalisedObject {
-    fi: String
-    sv: String
+    ar: String
     en: String
+    fi: String
+    ru: String
+    sv: String
+    zhHans: String
   }
 
   type Offer {

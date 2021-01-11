@@ -13,7 +13,7 @@ type Props = {
   Omit<TextInputProps, 'form'>;
 
 const DatepickerField: React.FC<Props> = ({
-  field: { name, onChange, onBlur, ...field },
+  field: { name, onChange, onBlur, value, ...field },
   form,
   helperText,
   ...rest
@@ -54,6 +54,7 @@ const DatepickerField: React.FC<Props> = ({
       onChange={handleChange}
       helperText={errorText || helperText}
       invalid={!!errorText}
+      value={typeof value === 'string' ? new Date(value) : value}
     />
   );
 };

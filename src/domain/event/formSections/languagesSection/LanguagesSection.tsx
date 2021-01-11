@@ -34,7 +34,7 @@ const LanguagesSection = () => {
     data?.languages.data
       .map((language) => ({
         label: capitalize(getLocalisedString(language?.name, locale)),
-        value: language?.id as string,
+        value: language?.atId as string,
       }))
       .sort(sortLanguage) || [];
 
@@ -83,7 +83,6 @@ const LanguagesSection = () => {
             name={EVENT_FIELDS.IN_LANGUAGE}
             component={CheckboxGroupField}
             columns={3}
-            min={1}
             options={inLanguageOptions}
             visibleOptionAmount={3}
           />

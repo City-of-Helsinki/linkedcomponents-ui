@@ -1,0 +1,22 @@
+@import 'breakpoints';
+
+.buttonPanel {
+  margin: var(--spacing-xl) calc(0px - var(--spacing-m)) 0;
+  padding: var(--spacing-m);
+  background-color: var(--color-info-light);
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    grid-template-columns: repeat(10, 1fr);
+    button:first-child {
+      grid-column: 1 / 4;
+    }
+
+    button:last-child {
+      grid-column: 4 / 7;
+    }
+  }
+}

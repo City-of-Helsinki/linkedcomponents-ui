@@ -58,7 +58,7 @@ test('should start log in process', () => {
   expect(userManager.signinRedirect).toBeCalled();
 });
 
-test('should redirect to home page when use is authenticated', () => {
+test('should redirect to home page when user is authenticated', () => {
   const apiToken = { [API_CLIENT_ID]: 'api-token' };
   const user = { name: 'Test user' };
   const state = merge({}, defaultStoreState, {

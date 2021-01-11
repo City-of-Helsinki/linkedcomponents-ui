@@ -70,6 +70,11 @@
       "event": "Nytt evenemang"
     }
   },
+  "errors": {
+    "authorizationRequired": "Logga in för att utföra den här åtgärden.",
+    "serverError": "Serverfel.",
+    "validationError": "Det finns fel på formuläret. Kontrollera formuläret."
+  },
   "event": {
     "form": {
       "buttonAddEventTime": "Lägg till ny tid",
@@ -402,7 +407,8 @@
         "course": "Kurstider",
         "event": "Evenemangtider"
       },
-      "titleUmrellaEvent": "Paraplyevenemangen"
+      "titleUmrellaEvent": "Paraplyevenemangen",
+      "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett paraplyevenemang."
     },
     "navigation": {
       "buttonNext": "Nästa",
@@ -427,6 +433,14 @@
       "course": "Kurs",
       "event": "Evenemang"
     }
+  },
+  "eventSavedPage": {
+    "buttonAddEvent": "Lägg till ett ny evenemang",
+    "buttonBackToEvents": "Tillbaka till evenemang",
+    "pageTitleDraftSaved": "Utkastet har sparats",
+    "pageTitlePublished": "Evenemanget har publicerats",
+    "titleDraftSaved": "Utkastet har sparats",
+    "titlePublished": "Evenemanget har publicerats"
   },
   "eventsPage": {
     "pageTitle": "Sök evenemangen"
@@ -464,6 +478,7 @@
       },
       "eventInfoVerified": "Informationen måste verifieras",
       "number": {
+        "integer": "Värdet måste vara ett heltal",
         "max": "Maxvärdet är {{max}}",
         "min": "Värdet måste vara minst {{min}}",
         "required": "Detta fält krävs"
@@ -532,5 +547,10 @@
       "help": "Läs mer",
       "searchEvent": "Sök evenemangen"
     }
+  },
+  "notFound": {
+    "buttonGoToHome": "Till startsidan",
+    "pageTitle": "Hittades inte",
+    "text": "Innehållet du letade efter kunde inte hittas. Logga in igen eller återvänd till startsidan."
   }
 }

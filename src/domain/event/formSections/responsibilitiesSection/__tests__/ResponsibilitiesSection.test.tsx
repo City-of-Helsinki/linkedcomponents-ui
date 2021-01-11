@@ -17,6 +17,7 @@ import {
   EVENT_INFO_LANGUAGES,
   EVENT_TYPE,
 } from '../../../constants';
+import { RecurringEventSettings } from '../../../types';
 import ResponsibilitiesSection from '../ResponsibilitiesSection';
 
 const type = EVENT_TYPE.EVENT;
@@ -48,16 +49,30 @@ const languages: EVENT_INFO_LANGUAGES[] = [
   EVENT_INFO_LANGUAGES.SV,
 ];
 
-const renderComponent = () =>
+type InitialValues = {
+  [EVENT_FIELDS.EVENT_TIMES]: string[];
+  [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: string[];
+  [EVENT_FIELDS.HAS_UMBRELLA]: boolean;
+  [EVENT_FIELDS.IS_UMBRELLA]: boolean;
+  [EVENT_FIELDS.RECURRING_EVENTS]: RecurringEventSettings[];
+  [EVENT_FIELDS.SUPER_EVENT]: string | null;
+  [EVENT_FIELDS.TYPE]: string;
+};
+
+const defaultInitialValues: InitialValues = {
+  [EVENT_FIELDS.EVENT_TIMES]: [],
+  [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: languages,
+  [EVENT_FIELDS.HAS_UMBRELLA]: false,
+  [EVENT_FIELDS.IS_UMBRELLA]: false,
+  [EVENT_FIELDS.RECURRING_EVENTS]: [],
+  [EVENT_FIELDS.SUPER_EVENT]: null,
+  [EVENT_FIELDS.TYPE]: type,
+};
+
+const renderComponent = (initialValues?: InitialValues) =>
   render(
     <Formik
-      initialValues={{
-        [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: languages,
-        [EVENT_FIELDS.HAS_UMBRELLA]: false,
-        [EVENT_FIELDS.IS_UMBRELLA]: false,
-        [EVENT_FIELDS.TYPE]: type,
-        [EVENT_FIELDS.UMBRELLA_EVENT]: null,
-      }}
+      initialValues={initialValues || defaultInitialValues}
       onSubmit={jest.fn()}
     >
       <ResponsibilitiesSection />
@@ -96,7 +111,7 @@ test('should render responsibilities section', () => {
   ).toBeInTheDocument();
 });
 
-test('should render umberlla event selector if isUmbrella is checked', async () => {
+test('should render umbrella event selector if hasUmbrella is checked', async () => {
   renderComponent();
 
   userEvent.click(
@@ -111,5 +126,46 @@ test('should render umberlla event selector if isUmbrella is checked', async () 
         name: new RegExp(translations.event.form.labelUmbrellaEvent),
       })
     ).toBeInTheDocument();
+  });
+});
+
+test('should uncheck isUmbrella checkbox if eventTimes is not empty', async () => {
+  renderComponent({
+    ...defaultInitialValues,
+    isUmbrella: true,
+    eventTimes: ['123'],
+  });
+
+  const isUmbrellaCheckbox = screen.getByRole('checkbox', {
+    name: translations.event.form.labelIsUmbrella[type],
+  });
+
+  await waitFor(() => {
+    expect(isUmbrellaCheckbox).not.toBeChecked();
+  });
+});
+
+test('should uncheck isUmbrella checkbox if recurringsEvents is not empty', async () => {
+  renderComponent({
+    ...defaultInitialValues,
+    isUmbrella: true,
+    recurringEvents: [
+      {
+        endDate: new Date(),
+        endTime: '14:15',
+        repeatDays: [],
+        repeatInterval: 1,
+        startDate: new Date(),
+        startTime: '12:15',
+      },
+    ],
+  });
+
+  const isUmbrellaCheckbox = screen.getByRole('checkbox', {
+    name: translations.event.form.labelIsUmbrella[type],
+  });
+
+  await waitFor(() => {
+    expect(isUmbrellaCheckbox).not.toBeChecked();
   });
 });

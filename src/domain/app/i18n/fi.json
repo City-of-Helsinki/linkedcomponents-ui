@@ -70,6 +70,11 @@
       "event": "Uusi tapahtuma"
     }
   },
+  "errors": {
+    "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",
+    "serverError": "Virhe palvelimella.",
+    "validationError": "Lomakkeessa on virheitä. Tarkasta lomake."
+  },
   "event": {
     "form": {
       "buttonAddEventTime": "Lisää uusi ajankohta",
@@ -402,7 +407,8 @@
         "course": "Kurssin ajankohdat",
         "event": "Tapahtuman ajankohdat"
       },
-      "titleUmrellaEvent": "Kattotapahtumat"
+      "titleUmrellaEvent": "Kattotapahtumat",
+      "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
     },
     "navigation": {
       "buttonNext": "Seuraava",
@@ -427,6 +433,14 @@
       "course": "Kurssi",
       "event": "Tapahtuma"
     }
+  },
+  "eventSavedPage": {
+    "buttonAddEvent": "Syötä uusi tapahtuma",
+    "buttonBackToEvents": "Palaa tapahtumiin",
+    "pageTitleDraftSaved": "Luonnos tallennettu",
+    "pageTitlePublished": "Tapahtuma julkaistu",
+    "titleDraftSaved": "Luonnos tallennettu onnistuneesti",
+    "titlePublished": "Tapahtuma julkaistu onnistuneesti"
   },
   "eventsPage": {
     "pageTitle": "Etsi tapahtumia"
@@ -464,6 +478,7 @@
       },
       "eventInfoVerified": "Tietojen tulee olla vahvistettu",
       "number": {
+        "integer": "Arvon tulee olla kokonaisluku",
         "max": "Arvon tulee olla enintään {{max}}",
         "min": "Arvon tulee olla vähintään {{min}}",
         "required": "Tämä kenttä on pakollinen"
@@ -533,5 +548,10 @@
       "help": "Lisätietoja",
       "searchEvent": "Etsi tapahtumia"
     }
+  },
+  "notFound": {
+    "buttonGoToHome": "Etusivulle",
+    "pageTitle": "Sisältöä ei löydy",
+    "text": "Etsimääsi sisältöä ei löydy. Kirjaudu sisään tai palaa kotisivulle."
   }
 }

@@ -1,6 +1,7 @@
 import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import CheckboxField from '../../../../common/components/formFields/CheckboxField';
 import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
@@ -18,10 +19,28 @@ const LanguagesSection = () => {
   const [{ value: hasUmbrella }] = useField({
     name: EVENT_FIELDS.HAS_UMBRELLA,
   });
-  const [{ value: isUmbrella }] = useField({ name: EVENT_FIELDS.IS_UMBRELLA });
+  const [{ value: isUmbrella }, , { setValue: setIsUmbrella }] = useField({
+    name: EVENT_FIELDS.IS_UMBRELLA,
+  });
+  const [{ value: eventTimes }] = useField<string[]>({
+    name: EVENT_FIELDS.EVENT_TIMES,
+  });
+  const [{ value: recurringEvents }] = useField<string[]>({
+    name: EVENT_FIELDS.RECURRING_EVENTS,
+  });
   const [{ value: eventInfoLanguages }] = useField({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
+
+  useDeepCompareEffect(() => {
+    // Set is umbrella to false if event has more than one event time
+    if ((eventTimes.length || recurringEvents.length) && isUmbrella) {
+      setIsUmbrella(false);
+    }
+  }, [{ eventTimes, isUmbrella, recurringEvents }]);
+
+  const disabledIsUmbrella: boolean =
+    hasUmbrella || eventTimes.length || recurringEvents.length;
 
   return (
     <>
@@ -36,10 +55,11 @@ const LanguagesSection = () => {
         <h3>{t('event.form.titleUmrellaEvent')}</h3>
         <FormGroup>
           <Field
-            disabled={hasUmbrella}
+            disabled={disabledIsUmbrella}
             label={t(`event.form.labelIsUmbrella.${type}`)}
             name={EVENT_FIELDS.IS_UMBRELLA}
             component={CheckboxField}
+            title={disabledIsUmbrella && t('event.form.tooltipEventIsUmbrella')}
           />
         </FormGroup>
         <FormGroup>
@@ -55,7 +75,7 @@ const LanguagesSection = () => {
             <Field
               helper={t('event.form.helperUmbrellaEvent')}
               label={t('event.form.labelUmbrellaEvent')}
-              name={EVENT_FIELDS.UMBRELLA_EVENT}
+              name={EVENT_FIELDS.SUPER_EVENT}
               component={UmbrellaEventSelectorField}
             />
           </FormGroup>

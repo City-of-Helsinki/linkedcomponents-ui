@@ -15,7 +15,25 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createEvent: Event;
+  createEvents: Array<Event>;
+  updateImage: Image;
   uploadImage: Image;
+};
+
+
+export type MutationCreateEventArgs = {
+  input: CreateEventMutationInput;
+};
+
+
+export type MutationCreateEventsArgs = {
+  input: Array<CreateEventMutationInput>;
+};
+
+
+export type MutationUpdateImageArgs = {
+  input: UpdateImageMutationInput;
 };
 
 
@@ -130,6 +148,74 @@ export type QueryPlacesArgs = {
   text?: Maybe<Scalars['String']>;
 };
 
+export enum PublicationStatus {
+  Draft = 'draft',
+  Public = 'public'
+}
+
+export enum SuperEventType {
+  Recurring = 'recurring',
+  Umbrella = 'umbrella'
+}
+
+export type ExternalLinkInput = {
+  name?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  language?: Maybe<Scalars['String']>;
+};
+
+export type IdObjectInput = {
+  atId: Scalars['String'];
+};
+
+export type LocalisedObjectInput = {
+  ar?: Maybe<Scalars['String']>;
+  en?: Maybe<Scalars['String']>;
+  fi?: Maybe<Scalars['String']>;
+  ru?: Maybe<Scalars['String']>;
+  sv?: Maybe<Scalars['String']>;
+  zhHans?: Maybe<Scalars['String']>;
+};
+
+export type OfferInput = {
+  description?: Maybe<LocalisedObjectInput>;
+  infoUrl?: Maybe<LocalisedObjectInput>;
+  isFree?: Maybe<Scalars['Boolean']>;
+  price?: Maybe<LocalisedObjectInput>;
+};
+
+export type CreateEventMutationInput = {
+  publicationStatus?: Maybe<PublicationStatus>;
+  audience?: Maybe<Array<IdObjectInput>>;
+  audienceMaxAge?: Maybe<Scalars['Int']>;
+  audienceMinAge?: Maybe<Scalars['Int']>;
+  description?: Maybe<LocalisedObjectInput>;
+  endTime?: Maybe<Scalars['String']>;
+  externalLinks?: Maybe<Array<Maybe<ExternalLinkInput>>>;
+  images?: Maybe<Array<IdObjectInput>>;
+  inLanguage?: Maybe<Array<IdObjectInput>>;
+  infoUrl?: Maybe<LocalisedObjectInput>;
+  keywords?: Maybe<Array<IdObjectInput>>;
+  location?: Maybe<IdObjectInput>;
+  locationExtraInfo?: Maybe<LocalisedObjectInput>;
+  name?: Maybe<LocalisedObjectInput>;
+  offers?: Maybe<Array<OfferInput>>;
+  provider?: Maybe<LocalisedObjectInput>;
+  shortDescription?: Maybe<LocalisedObjectInput>;
+  startTime?: Maybe<Scalars['String']>;
+  subEvents?: Maybe<Array<IdObjectInput>>;
+  superEvent?: Maybe<IdObjectInput>;
+  superEventType?: Maybe<SuperEventType>;
+};
+
+export type UpdateImageMutationInput = {
+  altText?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  license?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  photographerName?: Maybe<Scalars['String']>;
+};
+
 export type UploadImageMutationInput = {
   altText?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['Any']>;
@@ -217,6 +303,7 @@ export type Event = {
   provider?: Maybe<LocalisedObject>;
   providerContactInfo?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['ID']>;
+  publicationStatus?: Maybe<PublicationStatus>;
   shortDescription?: Maybe<LocalisedObject>;
   startTime?: Maybe<Scalars['String']>;
   subEvents: Array<Maybe<AtIdObject>>;
@@ -313,9 +400,12 @@ export type Language = {
 
 export type LocalisedObject = {
   __typename?: 'LocalisedObject';
-  fi?: Maybe<Scalars['String']>;
-  sv?: Maybe<Scalars['String']>;
+  ar?: Maybe<Scalars['String']>;
   en?: Maybe<Scalars['String']>;
+  fi?: Maybe<Scalars['String']>;
+  ru?: Maybe<Scalars['String']>;
+  sv?: Maybe<Scalars['String']>;
+  zhHans?: Maybe<Scalars['String']>;
 };
 
 export type Offer = {
@@ -365,6 +455,32 @@ export type Position = {
   type?: Maybe<Scalars['String']>;
 };
 
+export type CreateEventMutationVariables = Exact<{
+  input: CreateEventMutationInput;
+}>;
+
+
+export type CreateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { createEvent: (
+    { __typename?: 'Event' }
+    & EventFieldsFragment
+  ) }
+);
+
+export type CreateEventsMutationVariables = Exact<{
+  input: Array<CreateEventMutationInput>;
+}>;
+
+
+export type CreateEventsMutation = (
+  { __typename?: 'Mutation' }
+  & { createEvents: Array<(
+    { __typename?: 'Event' }
+    & EventFieldsFragment
+  )> }
+);
+
 export type ExternalLinkFieldsFragment = (
   { __typename?: 'ExternalLink' }
   & Pick<ExternalLink, 'name' | 'link'>
@@ -387,7 +503,7 @@ export type OfferFieldsFragment = (
 
 export type EventFieldsFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'atId' | 'endTime' | 'eventStatus' | 'publisher' | 'startTime'>
+  & Pick<Event, 'id' | 'atId' | 'endTime' | 'eventStatus' | 'publicationStatus' | 'publisher' | 'startTime'>
   & { description?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -487,12 +603,25 @@ export type EventsQuery = (
 
 export type LocalisedFieldsFragment = (
   { __typename?: 'LocalisedObject' }
-  & Pick<LocalisedObject, 'en' | 'fi' | 'sv'>
+  & Pick<LocalisedObject, 'ar' | 'en' | 'fi' | 'ru' | 'sv' | 'zhHans'>
 );
 
 export type MetaFieldsFragment = (
   { __typename?: 'Meta' }
   & Pick<Meta, 'count' | 'next' | 'previous'>
+);
+
+export type UpdateImageMutationVariables = Exact<{
+  input: UpdateImageMutationInput;
+}>;
+
+
+export type UpdateImageMutation = (
+  { __typename?: 'Mutation' }
+  & { updateImage: (
+    { __typename?: 'Image' }
+    & ImageFieldsFragment
+  ) }
 );
 
 export type UploadImageMutationVariables = Exact<{
@@ -757,9 +886,12 @@ export type PlacesQuery = (
 
 export const LocalisedFieldsFragmentDoc = gql`
     fragment localisedFields on LocalisedObject {
+  ar
   en
   fi
+  ru
   sv
+  zhHans
 }
     `;
 export const ExternalLinkFieldsFragmentDoc = gql`
@@ -891,6 +1023,7 @@ export const EventFieldsFragmentDoc = gql`
   offers {
     ...offerFields
   }
+  publicationStatus
   provider {
     ...localisedFields
   }
@@ -931,6 +1064,70 @@ export const KeywordSetFieldsFragmentDoc = gql`
 }
     ${KeywordFieldsFragmentDoc}
 ${LocalisedFieldsFragmentDoc}`;
+export const CreateEventDocument = gql`
+    mutation CreateEvent($input: CreateEventMutationInput!) {
+  createEvent(input: $input) @rest(type: "Event", path: "/event/", method: "POST", bodyKey: "input") {
+    ...eventFields
+  }
+}
+    ${EventFieldsFragmentDoc}`;
+export type CreateEventMutationFn = Apollo.MutationFunction<CreateEventMutation, CreateEventMutationVariables>;
+
+/**
+ * __useCreateEventMutation__
+ *
+ * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateEventMutation(baseOptions?: Apollo.MutationHookOptions<CreateEventMutation, CreateEventMutationVariables>) {
+        return Apollo.useMutation<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument, baseOptions);
+      }
+export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
+export type CreateEventMutationResult = Apollo.MutationResult<CreateEventMutation>;
+export type CreateEventMutationOptions = Apollo.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
+export const CreateEventsDocument = gql`
+    mutation CreateEvents($input: [CreateEventMutationInput!]!) {
+  createEvents(input: $input) @rest(type: "Event", path: "/event/", method: "POST", bodyKey: "input") {
+    ...eventFields
+  }
+}
+    ${EventFieldsFragmentDoc}`;
+export type CreateEventsMutationFn = Apollo.MutationFunction<CreateEventsMutation, CreateEventsMutationVariables>;
+
+/**
+ * __useCreateEventsMutation__
+ *
+ * To run a mutation, you first call `useCreateEventsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventsMutation, { data, loading, error }] = useCreateEventsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateEventsMutation(baseOptions?: Apollo.MutationHookOptions<CreateEventsMutation, CreateEventsMutationVariables>) {
+        return Apollo.useMutation<CreateEventsMutation, CreateEventsMutationVariables>(CreateEventsDocument, baseOptions);
+      }
+export type CreateEventsMutationHookResult = ReturnType<typeof useCreateEventsMutation>;
+export type CreateEventsMutationResult = Apollo.MutationResult<CreateEventsMutation>;
+export type CreateEventsMutationOptions = Apollo.BaseMutationOptions<CreateEventsMutation, CreateEventsMutationVariables>;
 export const EventDocument = gql`
     query Event($id: ID!, $include: [String], $createPath: Any) {
   event(id: $id, include: $include) @rest(type: "Event", pathBuilder: $createPath) {
@@ -1029,6 +1226,38 @@ export function useEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Eve
 export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
 export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
 export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
+export const UpdateImageDocument = gql`
+    mutation UpdateImage($input: UpdateImageMutationInput!) {
+  updateImage(input: $input) @rest(type: "Image", path: "/image/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    ...imageFields
+  }
+}
+    ${ImageFieldsFragmentDoc}`;
+export type UpdateImageMutationFn = Apollo.MutationFunction<UpdateImageMutation, UpdateImageMutationVariables>;
+
+/**
+ * __useUpdateImageMutation__
+ *
+ * To run a mutation, you first call `useUpdateImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateImageMutation, { data, loading, error }] = useUpdateImageMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateImageMutation(baseOptions?: Apollo.MutationHookOptions<UpdateImageMutation, UpdateImageMutationVariables>) {
+        return Apollo.useMutation<UpdateImageMutation, UpdateImageMutationVariables>(UpdateImageDocument, baseOptions);
+      }
+export type UpdateImageMutationHookResult = ReturnType<typeof useUpdateImageMutation>;
+export type UpdateImageMutationResult = Apollo.MutationResult<UpdateImageMutation>;
+export type UpdateImageMutationOptions = Apollo.BaseMutationOptions<UpdateImageMutation, UpdateImageMutationVariables>;
 export const UploadImageDocument = gql`
     mutation UploadImage($input: UploadImageMutationInput!) {
   uploadImage(input: $input) @rest(type: "Image", path: "/image/", method: "POST", bodySerializer: "uploadImageSerializer") {
