@@ -5,14 +5,13 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../common/components/button/Button';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import InputRow from '../../../../common/components/inputRow/InputRow';
 import Modal from '../../../../common/components/modal/Modal';
 import Notification from '../../../../common/components/notification/Notification';
-import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
+import FieldRow from '../../layout/FieldRow';
+import FieldWithButton from '../../layout/FieldWithButton';
 import { RecurringEventSettings } from '../../types';
-import FieldArrayRow from '../FieldArrayRow';
 import EventTime from './EventTime';
 import EventTimes from './EventTimes';
 import RecurringEvents from './RecurringEvents';
@@ -54,8 +53,8 @@ const TypeSection = () => {
       </Modal>
       <h3>{t(`event.form.titleTime.${type}`)}</h3>
 
-      <InputRow
-        info={
+      <FieldRow
+        notification={
           <Notification
             className={styles.notification}
             label={t(`event.form.notificationTitleEventTimes.${type}`)}
@@ -75,21 +74,18 @@ const TypeSection = () => {
         </FormGroup>
 
         <RecurringEvents />
-        <FieldArrayRow
-          input={
-            <Button
-              fullWidth={true}
-              iconLeft={<IconCalendarPlus />}
-              onClick={openModal}
-              type="button"
-              variant="supplementary"
-            >
-              {t(`event.form.buttonOpenRecurringEventSettings`)}
-            </Button>
-          }
-          inputWidth={INPUT_MAX_WIDTHS.LARGE}
-        />
-      </InputRow>
+        <FieldWithButton>
+          <Button
+            fullWidth={true}
+            iconLeft={<IconCalendarPlus />}
+            onClick={openModal}
+            type="button"
+            variant="supplementary"
+          >
+            {t(`event.form.buttonOpenRecurringEventSettings`)}
+          </Button>
+        </FieldWithButton>
+      </FieldRow>
     </>
   );
 };

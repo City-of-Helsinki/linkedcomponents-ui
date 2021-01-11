@@ -37,6 +37,7 @@ const PlaceSelectorField: React.FC<Props> = ({
     <PlaceSelector
       {...rest}
       {...field}
+      name={name}
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}

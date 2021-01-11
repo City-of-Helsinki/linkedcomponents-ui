@@ -33,7 +33,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
       validateOnMount={true}
       validationSchema={createAddImageValidationSchema}
     >
-      {({ values: { selectedImage, url }, isValid, errors }) => {
+      {({ values: { selectedImage, url }, isValid }) => {
         return (
           <Form className={styles.addImageForm}>
             <h3>{t('event.form.image.titleUseImportedImage')}</h3>

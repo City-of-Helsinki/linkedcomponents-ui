@@ -7,7 +7,7 @@ import { OptionType } from '../../../types';
 import RadioButton from '../radioButton/RadioButton';
 import styles from './radioButtonGroupField.module.scss';
 
-type Columns = 2 | 3 | 4;
+type Columns = 1 | 2 | 3 | 4;
 
 type Props = {
   columns: Columns;

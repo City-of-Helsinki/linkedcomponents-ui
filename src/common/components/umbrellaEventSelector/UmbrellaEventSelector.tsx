@@ -72,7 +72,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   const handleFilter = (items: OptionType[], inputValue: string) => {
     setTimeout(() => {
       setSearch(inputValue);
-    }, 0);
+    });
 
     return items;
   };

@@ -14,7 +14,7 @@ import {
   EVENT_TYPE,
   EXTENSION_COURSE_FIELDS,
 } from '../../../constants';
-import { createEventValidationSchema } from '../../../utils';
+import { eventValidationSchema } from '../../../utils';
 import AdditionalInfoSection from '../AdditionalInfoSection';
 
 const type = EVENT_TYPE.EVENT;
@@ -37,7 +37,7 @@ const renderComponent = () =>
       initialValues={{ ...initialValues }}
       onSubmit={jest.fn()}
       enableReinitialize={true}
-      validationSchema={createEventValidationSchema}
+      validationSchema={eventValidationSchema}
     >
       <AdditionalInfoSection />
     </Formik>

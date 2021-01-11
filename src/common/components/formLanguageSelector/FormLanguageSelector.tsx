@@ -6,8 +6,35 @@ import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import { OptionType } from '../../../types';
-import Button from '../button/Button';
 import styles from './formLanguageSelector.module.scss';
+
+interface ItemProps {
+  isCompleted: boolean;
+  isSelected: boolean;
+  language: OptionType;
+  onClick: (value: string) => void;
+}
+
+const Item: React.FC<ItemProps> = ({
+  isCompleted,
+  isSelected,
+  language,
+  onClick,
+}) => {
+  return (
+    <button
+      className={classNames(styles.item, { [styles.isSelected]: isSelected })}
+      key={language.value}
+      onClick={() => onClick(language.value)}
+      aria-current={isSelected ? 'step' : 'false'}
+      role="link"
+      type="button"
+    >
+      {isCompleted ? <IconCheck className={styles.icon} /> : null}
+      {language.label}
+    </button>
+  );
+};
 
 interface Props {
   fields: string[];
@@ -25,7 +52,7 @@ const FormLanguageSelector: React.FC<Props> = ({
   const { theme } = useTheme();
   const { getFieldMeta } = useFormikContext();
 
-  const handleChange = (newLanguage: string) => () => {
+  const handleChange = (newLanguage: string) => {
     onChange(newLanguage);
   };
 
@@ -45,19 +72,13 @@ const FormLanguageSelector: React.FC<Props> = ({
         const isSelected = language.value === selectedLanguage;
 
         return (
-          <Button
+          <Item
             key={language.value}
-            iconRight={
-              isCompleted ? <IconCheck className={styles.icon} /> : null
-            }
-            onClick={handleChange(language.value)}
-            fullWidth={true}
-            aria-current={isSelected ? 'step' : 'false'}
-            role="link"
-            variant={isSelected ? 'secondary' : ('supplementary' as any)}
-          >
-            {language.label}
-          </Button>
+            isCompleted={isCompleted}
+            isSelected={isSelected}
+            language={language}
+            onClick={handleChange}
+          />
         );
       })}
     </div>

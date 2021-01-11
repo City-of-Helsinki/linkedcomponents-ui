@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 
 import Collapsible from '../../../../common/components/collapsible/Collapsible';
 import DeleteButton from '../../../../common/components/deleteButton/DeleteButton';
-import { DATE_FORMAT, INPUT_MAX_WIDTHS } from '../../../../constants';
+import { DATE_FORMAT } from '../../../../constants';
+import FieldWithButton from '../../layout/FieldWithButton';
 import { RecurringEventSettings } from '../../types';
 import { sortWeekDays } from '../../utils';
-import FieldArrayRow from '../FieldArrayRow';
 import styles from './recurringEvent.module.scss';
 
 type Props = {
@@ -95,34 +95,32 @@ const RecurringEvent: React.FC<Props> = ({
   ];
 
   return (
-    <FieldArrayRow
+    <FieldWithButton
       hasLabel={false}
-      input={
-        <Collapsible headingLevel={3} title={title}>
-          <table className={styles.recurringEventTable}>
-            <tbody>
-              {tableRows.map((row, index) => (
-                <tr key={index}>
-                  <th>
-                    <div>{row.label}</div>
-                  </th>
-                  <td>{row.text}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Collapsible>
-      }
-      inputWidth={INPUT_MAX_WIDTHS.LARGE}
       button={
-        onDelete ? (
+        onDelete && (
           <DeleteButton
             label={t('event.form.buttonDeleteRecurringEvent')}
             onClick={onDelete}
           />
-        ) : undefined
+        )
       }
-    />
+    >
+      <Collapsible headingLevel={3} title={title}>
+        <table className={styles.recurringEventTable}>
+          <tbody>
+            {tableRows.map((row, index) => (
+              <tr key={index}>
+                <th>
+                  <div>{row.label}</div>
+                </th>
+                <td>{row.text}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Collapsible>
+    </FieldWithButton>
   );
 };
 

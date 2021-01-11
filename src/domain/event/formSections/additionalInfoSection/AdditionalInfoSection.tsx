@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 import DatepickerField from '../../../../common/components/formFields/DatepickerField';
 import TextInputField from '../../../../common/components/formFields/TextInputField';
-import InputRow from '../../../../common/components/inputRow/InputRow';
+import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import { EVENT_FIELDS, EXTENSION_COURSE_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
+import FieldColumn from '../../layout/FieldColumn';
+import FieldRow from '../../layout/FieldRow';
 
 const AdditionalInfoSection = () => {
   const { t } = useTranslation();
@@ -16,9 +18,8 @@ const AdditionalInfoSection = () => {
   return (
     <>
       <h3>{t(`event.form.titleAudienceAge`)}</h3>
-      <InputRow
-        className={styles.noBottomMargin}
-        info={
+      <FieldRow
+        notification={
           <Notification
             className={styles.notification}
             label={t(`event.form.titleAudienceAge`)}
@@ -28,8 +29,8 @@ const AdditionalInfoSection = () => {
           </Notification>
         }
       >
-        <div className={styles.splittedRow}>
-          <div>
+        <FieldColumn>
+          <FormGroup>
             <Field
               name={EVENT_FIELDS.AUDIENCE_MIN_AGE}
               component={TextInputField}
@@ -38,8 +39,8 @@ const AdditionalInfoSection = () => {
               placeholder={t(`event.form.placeholderAudienceMinAge.${type}`)}
               type="number"
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Field
               name={EVENT_FIELDS.AUDIENCE_MAX_AGE}
               component={TextInputField}
@@ -48,16 +49,15 @@ const AdditionalInfoSection = () => {
               placeholder={t(`event.form.placeholderAudienceMaxAge.${type}`)}
               type="number"
             />
-          </div>
-        </div>
-      </InputRow>
+          </FormGroup>
+        </FieldColumn>
+      </FieldRow>
 
       <h3 className={styles.noTopMargin}>
         {t(`event.form.titleEnrolmentTime`)}
       </h3>
-      <InputRow
-        className={styles.noBottomMargin}
-        info={
+      <FieldRow
+        notification={
           <Notification
             className={styles.notification}
             label={t(`event.form.titleEnrolmentTime`)}
@@ -67,8 +67,8 @@ const AdditionalInfoSection = () => {
           </Notification>
         }
       >
-        <div className={styles.splittedRow}>
-          <div>
+        <FieldColumn>
+          <FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME}`}
               component={DatepickerField}
@@ -76,8 +76,8 @@ const AdditionalInfoSection = () => {
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME}`}
               component={DatepickerField}
@@ -85,15 +85,15 @@ const AdditionalInfoSection = () => {
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />
-          </div>
-        </div>
-      </InputRow>
+          </FormGroup>
+        </FieldColumn>
+      </FieldRow>
 
       <h3 className={styles.noTopMargin}>
         {t(`event.form.titleAttendeeCapacity`)}
       </h3>
-      <InputRow
-        info={
+      <FieldRow
+        notification={
           <Notification
             className={styles.notification}
             label={t(`event.form.titleAttendeeCapacity`)}
@@ -103,8 +103,8 @@ const AdditionalInfoSection = () => {
           </Notification>
         }
       >
-        <div className={styles.splittedRow}>
-          <div>
+        <FieldColumn>
+          <FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY}`}
               component={TextInputField}
@@ -117,8 +117,8 @@ const AdditionalInfoSection = () => {
               )}
               type="number"
             />
-          </div>
-          <div>
+          </FormGroup>
+          <FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}`}
               component={TextInputField}
@@ -131,9 +131,9 @@ const AdditionalInfoSection = () => {
               )}
               type="number"
             />
-          </div>
-        </div>
-      </InputRow>
+          </FormGroup>
+        </FieldColumn>
+      </FieldRow>
     </>
   );
 };

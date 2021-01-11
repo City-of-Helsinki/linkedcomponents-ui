@@ -3,35 +3,35 @@ import capitalize from 'lodash/capitalize';
 import React from 'react';
 
 import { INPUT_MAX_WIDTHS } from '../../../constants';
-import styles from './fieldArrayRow.module.scss';
+import styles from './fieldWithButton.module.scss';
 
 type InputWidth = INPUT_MAX_WIDTHS.MEDIUM | INPUT_MAX_WIDTHS.LARGE;
 
 type Props = {
   button?: React.ReactNode;
+  children: React.ReactNode;
   hasLabel?: boolean;
-  input: React.ReactNode;
-  inputWidth: InputWidth;
+  labelMaxWidth?: InputWidth;
 };
 
-const FieldArrayRow: React.FC<Props> = ({
+const FieldWithButton: React.FC<Props> = ({
   button,
+  children,
   hasLabel = true,
-  input,
-  inputWidth,
+  labelMaxWidth = INPUT_MAX_WIDTHS.MEDIUM,
 }) => {
   return (
     <div
       className={classNames(
-        styles.fieldArrayRow,
-        styles[`inputWidth${capitalize(inputWidth)}`],
+        styles.fieldWithButton,
+        styles[`width${capitalize(labelMaxWidth)}`],
         { [styles.hasLabel]: hasLabel }
       )}
     >
-      <div className={styles.inputWrapper}>{input}</div>
-      <div className={styles.buttonWrapper}>{button}</div>
+      <div className={styles.fieldColumn}>{children}</div>
+      <div className={styles.buttonColumn}>{button}</div>
     </div>
   );
 };
 
-export default FieldArrayRow;
+export default FieldWithButton;

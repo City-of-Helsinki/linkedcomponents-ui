@@ -4,12 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 import TextInputField from '../../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
-import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
-import InputWrapper from '../InputWrapper';
+import FieldColumn from '../../layout/FieldColumn';
+import FieldRow from '../../layout/FieldRow';
 
 const SocialMediaSection = () => {
   const { t } = useTranslation();
@@ -18,8 +17,8 @@ const SocialMediaSection = () => {
   return (
     <>
       <h3>{t(`event.form.titleSocialMedia.${type}`)}</h3>
-      <InputRow
-        info={
+      <FieldRow
+        notification={
           <Notification
             className={styles.notification}
             label={t(`event.form.titleSocialMedia.${type}`)}
@@ -29,7 +28,7 @@ const SocialMediaSection = () => {
           </Notification>
         }
       >
-        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.LARGE}>
+        <FieldColumn>
           <FormGroup>
             <Field
               component={TextInputField}
@@ -54,8 +53,8 @@ const SocialMediaSection = () => {
               placeholder={t(`event.form.placeholderInstagramUrl.${type}`)}
             />
           </FormGroup>
-        </InputWrapper>
-      </InputRow>
+        </FieldColumn>
+      </FieldRow>
     </>
   );
 };

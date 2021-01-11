@@ -4,7 +4,9 @@
     "errorMessage": "An error occured while logging in. Please try again",
     "networkError": {
       "message": "Login error: Check your network connection or try again later"
-    }
+    },
+    "noRightsCreateEvent": "You have insufficient rights to create events.",
+    "noRightsPublishEvent": "You have insufficient rights to publish events."
   },
   "common": {
     "add": "Add",
@@ -134,6 +136,7 @@
         "event": "If the event does not have a specific target group, don't select anything"
       },
       "infoTextAudienceAge": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEnrolmentTime": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
       "infoTextEventTimes1": {
         "course": "To add a multi-day recurring course, there is an “Add New Time” button and a regular “Recurring Course” tool for a regularly recurring course.",
@@ -189,13 +192,14 @@
         "course": "If the course has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field.",
         "event": "If the event has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field."
       },
-      "infoTextPublishing": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam.",
+      "infoTextProvider": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "infoTextSocialMedia": {
         "course": "Optional. In the URL field, enter the SoMe links for the course.",
         "event": "Optional. In the URL field, enter the SoMe links for the event."
       },
       "infoTextType1": "Select the type of event. Is it an event or a course? The event is a one-time event and starts at a specific time, while the course may, as a rule, have several occurrences.",
       "infoTextType2": "The choice of event type affects the choices made later in the input form.",
+      "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
       "labelDescription": {
@@ -263,12 +267,12 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Umbrella event",
-      "linkReadMoreAboutPublishing": {
-        "course": "Read more on the topic of the course publication",
-        "event": "Read more on the topic of the event publication"
-      },
       "modalTitleImage": "Add image",
       "modalTitleRecurringEvent": "Specify recurring event",
+      "notificationTitleDescription": {
+        "course": "Course description",
+        "event": "Event description"
+      },
       "notificationTitleEventTimes": {
         "course": "Course times",
         "event": "Event times"
@@ -283,11 +287,9 @@
         "event": "Event classification"
       },
       "notificationTitleOffers": "Price information",
-      "notificationTitlePublishing": {
-        "course": "Publication of the course on hel.fi websites",
-        "event": "Publication of the event on hel.fi websites"
-      },
+      "notificationTitleProvider": "Organizer",
       "notificationTitleType": "Event type",
+      "notificationTitleUmrellaEvent": "Umbrella event",
       "placeholderAudienceMaxAge": {
         "course": "Enter the maximum age for the course",
         "event": "Enter the maximum age for the event"
@@ -356,13 +358,23 @@
         "textRepeatInterval": "Every week",
         "textRepeatInterval_plural": "Every {{count}} weeks"
       },
+      "sections": {
+        "additionalInfo": "Additional information",
+        "audience": "Target groups",
+        "classification": "Classification",
+        "description": "Description",
+        "languages": "Languages",
+        "image": "Image",
+        "place": "Place",
+        "price": "Price",
+        "responsibilities": "Responsibilities",
+        "socialMedia": "SoMe",
+        "time": "Time",
+        "type": "Event type"
+      },
       "titleAttendeeCapacity": "Attendee capacity",
       "titleAudience": "Target groups",
       "titleAudienceAge": "Age restrictions",
-      "titleDescription": {
-        "course": "Course description",
-        "event": "Event description"
-      },
       "titleEnrolmentTime": "Registration time",
       "titleEventType": "Select event type",
       "titleImage": {
@@ -378,7 +390,6 @@
         "event": "Event languages (control languages)"
       },
       "titleKeywords": "Add keywords",
-      "titleLanguageVersions": "Language versions",
       "titleLocation": "Venue",
       "titleLocationExtraInfo": "Additional location information",
       "titleMainCategories": "Main categories",
@@ -399,35 +410,12 @@
         "course": "Course on social media",
         "event": "Event on social media"
       },
-      "titleSummary": {
-        "course": "Summary of course information",
-        "event": "Summary of event information"
-      },
       "titleTime": {
         "course": "Course dates",
         "event": "Event dates"
       },
       "titleUmrellaEvent": "Umbrella events",
       "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
-    },
-    "navigation": {
-      "buttonNext": "Next",
-      "buttonPrevious": "Previous",
-      "steps": {
-        "additionalInfo": "Additional information",
-        "audience": "Targets",
-        "classification": "Classification",
-        "description": "Description",
-        "languages": "Languages",
-        "image": "Image",
-        "place": "Place",
-        "price": "Price",
-        "responsibilities": "Responsibilities",
-        "socialMedia": "SoMe",
-        "summary": "Summary",
-        "time": "Time",
-        "type": "Type"
-      }
     },
     "type": {
       "course": "Course",

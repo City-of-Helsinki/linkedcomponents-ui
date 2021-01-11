@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
 import PlaceSelectorField from '../../../../common/components/formFields/PlaceSelectorField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
-import { CHARACTER_LIMITS, INPUT_MAX_WIDTHS } from '../../../../constants';
+import { CHARACTER_LIMITS } from '../../../../constants';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import { EVENT_FIELDS } from '../../constants';
 import stylesEventPage from '../../eventPage.module.scss';
-import InputWrapper from '../InputWrapper';
+import FieldColumn from '../../layout/FieldColumn';
+import FieldRow from '../../layout/FieldRow';
 import styles from './placeSection.module.scss';
 
 const PlaceSection = () => {
@@ -30,8 +30,8 @@ const PlaceSection = () => {
   return (
     <>
       <h3>{t(`event.form.titleLocation`)}</h3>
-      <InputRow
-        info={
+      <FieldRow
+        notification={
           <Notification
             className={stylesEventPage.notification}
             label={t(`event.form.notificationTitleLocation`)}
@@ -43,9 +43,8 @@ const PlaceSection = () => {
             <p>{t(`event.form.infoTextLocation4`)}</p>
           </Notification>
         }
-        infoColumns={4}
       >
-        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.LARGE}>
+        <FieldColumn>
           <FormGroup>
             <Field
               component={PlaceSelectorField}
@@ -65,8 +64,8 @@ const PlaceSection = () => {
             name={EVENT_FIELDS.LOCATION_EXTRA_INFO}
             placeholderKey={`event.form.placeholderLocationExtraInfo`}
           />
-        </InputWrapper>
-      </InputRow>
+        </FieldColumn>
+      </FieldRow>
     </>
   );
 };

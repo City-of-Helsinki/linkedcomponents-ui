@@ -4,18 +4,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
-import InputRow from '../../../../common/components/inputRow/InputRow';
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import Notification from '../../../../common/components/notification/Notification';
-import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import { useLanguagesQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import { EVENT_FIELDS, ORDERED_EVENT_INFO_LANGUAGES } from '../../constants';
-import styles from '../../eventPage.module.scss';
+import FieldColumn from '../../layout/FieldColumn';
+import FieldRow from '../../layout/FieldRow';
 import { sortLanguage } from '../../utils';
-import InputWrapper from '../InputWrapper';
 
 const LanguagesSection = () => {
   const { t } = useTranslation();
@@ -41,9 +39,8 @@ const LanguagesSection = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       <h3>{t(`event.form.titleInfoLanguages.${eventType}`)}</h3>
-      <InputRow
-        className={styles.noBottomMargin}
-        info={
+      <FieldRow
+        notification={
           <Notification
             label={t(`event.form.titleInfoLanguages.${eventType}`)}
             type="info"
@@ -51,9 +48,8 @@ const LanguagesSection = () => {
             <p>{t(`event.form.infoTextInfoLanguages.${eventType}`)}</p>
           </Notification>
         }
-        infoColumns={4}
       >
-        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
+        <FieldColumn>
           <Field
             name={EVENT_FIELDS.EVENT_INFO_LANGUAGES}
             component={CheckboxGroupField}
@@ -61,14 +57,12 @@ const LanguagesSection = () => {
             min={1}
             options={eventInfoLanguageOptions}
           />
-        </InputWrapper>
-      </InputRow>
+        </FieldColumn>
+      </FieldRow>
 
-      <h3 className={styles.noTopMargin}>
-        {t(`event.form.titleInLanguages.${eventType}`)}
-      </h3>
-      <InputRow
-        info={
+      <h3>{t(`event.form.titleInLanguages.${eventType}`)}</h3>
+      <FieldRow
+        notification={
           <Notification
             label={t(`event.form.titleInLanguages.${eventType}`)}
             type="info"
@@ -76,9 +70,8 @@ const LanguagesSection = () => {
             <p>{t(`event.form.infoTextInLanguages.${eventType}`)}</p>
           </Notification>
         }
-        infoColumns={4}
       >
-        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
+        <FieldColumn>
           <Field
             name={EVENT_FIELDS.IN_LANGUAGE}
             component={CheckboxGroupField}
@@ -86,8 +79,8 @@ const LanguagesSection = () => {
             options={inLanguageOptions}
             visibleOptionAmount={3}
           />
-        </InputWrapper>
-      </InputRow>
+        </FieldColumn>
+      </FieldRow>
     </LoadingSpinner>
   );
 };

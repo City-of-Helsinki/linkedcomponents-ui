@@ -5,9 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
 import KeywordSelectorFields from '../../../../common/components/formFields/KeywordSelectorFields';
-import InputRow from '../../../../common/components/inputRow/InputRow';
 import Notification from '../../../../common/components/notification/Notification';
-import { INCLUDE, INPUT_MAX_WIDTHS, KEYWORD_SETS } from '../../../../constants';
+import { INCLUDE, KEYWORD_SETS } from '../../../../constants';
 import { useKeywordSetQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import getLocalisedString from '../../../../utils/getLocalisedString';
@@ -15,7 +14,8 @@ import getPathBuilder from '../../../../utils/getPathBuilder';
 import { keywordSetPathBuilder } from '../../../keywordSet/utils';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
-import InputWrapper from '../InputWrapper';
+import FieldColumn from '../../layout/FieldColumn';
+import FieldRow from '../../layout/FieldRow';
 
 const ClassificationSection = () => {
   const { t } = useTranslation();
@@ -40,8 +40,8 @@ const ClassificationSection = () => {
   return (
     <>
       <h3>{t(`event.form.titleMainCategories`)}</h3>
-      <InputRow
-        info={
+      <FieldRow
+        notification={
           <Notification
             label={t(`event.form.notificationTitleMainCategories.${type}`)}
             type="info"
@@ -49,9 +49,8 @@ const ClassificationSection = () => {
             <p>{t(`event.form.infoTextMainCategories`)}</p>
           </Notification>
         }
-        infoColumns={4}
       >
-        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
+        <FieldColumn>
           <Field
             name={EVENT_FIELDS.KEYWORDS}
             component={CheckboxGroupField}
@@ -59,12 +58,12 @@ const ClassificationSection = () => {
             options={keywordOptions}
             visibleOptionAmount={10}
           />
-        </InputWrapper>
-      </InputRow>
+        </FieldColumn>
+      </FieldRow>
 
       <h3>{t(`event.form.titleKeywords`)}</h3>
-      <InputRow
-        info={
+      <FieldRow
+        notification={
           <Notification
             className={styles.notification}
             label={t(`event.form.titleKeywords`)}
@@ -73,17 +72,16 @@ const ClassificationSection = () => {
             <p>{t(`event.form.infoTextKeywords.${type}`)}</p>
           </Notification>
         }
-        infoColumns={4}
       >
-        <InputWrapper maxWidth={INPUT_MAX_WIDTHS.MEDIUM}>
+        <FieldColumn>
           <Field
             name={EVENT_FIELDS.KEYWORDS}
             component={KeywordSelectorFields}
             label={t(`event.form.labelKeywords`)}
             placeholder={t(`event.form.placeholderKeywords`)}
           />
-        </InputWrapper>
-      </InputRow>
+        </FieldColumn>
+      </FieldRow>
     </>
   );
 };

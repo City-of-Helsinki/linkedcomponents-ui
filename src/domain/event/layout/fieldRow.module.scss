@@ -1,21 +1,15 @@
 @import 'breakpoints';
 
-.inputRow {
+.fieldRow {
   display: grid;
   margin: var(--spacing-m) 0;
   grid-gap: var(--spacing-m);
 
   @include medium-up {
-    &.infoColumns4 {
-      grid-template-columns: 6fr 4fr;
-    }
-
-    &.infoColumns5 {
-      grid-template-columns: 5fr 5fr;
-    }
+    grid-template-columns: 6fr 4fr;
   }
 
-  .inputColumn {
+  .fieldColumn {
     order: 2;
 
     @include medium-up {
@@ -23,7 +17,7 @@
     }
   }
 
-  .infoColumn {
+  .notificationColumn {
     order: 1;
 
     @include medium-up {

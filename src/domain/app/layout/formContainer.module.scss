@@ -2,6 +2,7 @@
 
 .formContainer {
   display: grid;
+  line-height: var(--lineheight-l);
 
   @include x-large-up {
     grid-template-columns: repeat(12, 1fr);

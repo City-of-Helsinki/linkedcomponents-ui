@@ -25,6 +25,7 @@ const RecurringEvents = () => {
           {!!recurringEvents.length && (
             <h3>{t('event.form.titleRecurringEvent')}</h3>
           )}
+
           {recurringEvents.map(
             (settings: RecurringEventSettings, index: number) => {
               return (

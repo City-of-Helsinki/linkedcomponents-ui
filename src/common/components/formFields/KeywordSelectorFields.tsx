@@ -39,6 +39,7 @@ const KeywordSelectorField: React.FC<Props> = ({
     <KeywordSelector
       {...rest}
       {...field}
+      name={name}
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}

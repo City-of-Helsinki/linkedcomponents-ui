@@ -1,0 +1,38 @@
+@import 'breakpoints';
+
+.buttonPanel {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-m) 0;
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-black-10);
+  z-index: 100;
+}
+
+.buttonsRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  grid-template-columns: repeat(2, 1fr);
+
+  .draftButtonColumn {
+    grid-column: 1;
+  }
+
+  .publishButtonColumn {
+    grid-column: 2;
+  }
+
+  @include medium-up {
+    grid-template-columns: repeat(10, 1fr);
+
+    .draftButtonColumn {
+      grid-column: 5 / 8;
+    }
+
+    .publishButtonColumn {
+      grid-column: 8 / 11;
+    }
+  }
+}
