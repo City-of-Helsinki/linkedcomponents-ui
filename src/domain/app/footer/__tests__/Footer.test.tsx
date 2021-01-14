@@ -2,14 +2,12 @@ import i18n from 'i18next';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { act, render, screen, userEvent } from '../../../../utils/testUtils';
+import { render, screen, userEvent } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
 import Footer from '../Footer';
 
 beforeEach(() => {
-  act(() => {
-    i18n.changeLanguage('fi');
-  });
+  i18n.changeLanguage('fi');
 });
 
 const renderComponent = (route = '/fi') =>

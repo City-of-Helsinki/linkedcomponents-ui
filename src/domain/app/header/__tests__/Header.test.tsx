@@ -6,7 +6,6 @@ import React from 'react';
 import { defaultStoreState, ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
 import {
-  act,
   getMockReduxStore,
   render,
   screen,
@@ -53,9 +52,7 @@ const findComponent = (
 };
 
 beforeEach(() => {
-  act(() => {
-    i18n.changeLanguage('fi');
-  });
+  i18n.changeLanguage('fi');
 });
 
 test('matches snapshot', async () => {

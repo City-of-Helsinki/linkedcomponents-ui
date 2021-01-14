@@ -1,6 +1,5 @@
 import i18n from 'i18next';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
 
 import { render } from '../../../../utils/testUtils';
 import AppRoutes from '../AppRoutes';
@@ -9,9 +8,7 @@ const getWrapper = (route: string) =>
   render(<AppRoutes />, { routes: [route] });
 
 beforeEach(() => {
-  act(() => {
-    i18n.changeLanguage('fi');
-  });
+  i18n.changeLanguage('fi');
 });
 
 it('user from supported locale will be redirect to App with that locale', async () => {
