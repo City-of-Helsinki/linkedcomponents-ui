@@ -20,11 +20,13 @@ const PublisherName: React.FC<PublisherNameProps> = ({ organization }) => {
   return <>{name}</>;
 };
 
-interface Props {
+interface PublisherNameContainerProps {
   id: string;
 }
 
-const PublisherNameContainer: React.FC<Props> = ({ id }) => {
+const PublisherNameContainer: React.FC<PublisherNameContainerProps> = ({
+  id,
+}) => {
   const { data: organizationData } = useOrganizationQuery({
     variables: { id, createPath: getPathBuilder(organizationPathBuilder) },
   });
