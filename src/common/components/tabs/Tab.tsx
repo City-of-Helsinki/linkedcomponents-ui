@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { IconCheck } from 'hds-react';
 import React from 'react';
 
+import useIsMounted from '../../../hooks/useIsMounted';
 import { OptionType } from '../../../types';
 import styles from './tabs.module.scss';
 
@@ -26,17 +27,17 @@ const Tab: React.FC<TabProps> = ({
   option,
   setFocusedTab,
 }) => {
-  const isMounted = React.useRef(false);
+  const isMounted = useIsMounted();
   const ref = React.useRef<HTMLButtonElement>(null);
   const handleClick = () => {
     onClick(option.value);
   };
 
   React.useEffect(() => {
-    if (isMounted.current && isFocused) {
+    if (isMounted && isFocused) {
       ref.current?.focus();
     }
-  }, [index, isFocused]);
+  }, [index, isFocused, isMounted]);
 
   const onFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -44,14 +45,6 @@ const Tab: React.FC<TabProps> = ({
       setFocusedTab(index);
     }
   };
-
-  React.useEffect(() => {
-    isMounted.current = true;
-
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
 
   return (
     <button
