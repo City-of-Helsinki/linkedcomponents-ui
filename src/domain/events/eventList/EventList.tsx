@@ -156,7 +156,7 @@ const EventList: React.FC<EventListProps> = ({
                   setSelectedPage={handleSelectedPageChange}
                 />
               )}
-              <FeedbackButton color="black" />
+              <FeedbackButton theme="black" />
             </FormContainer>
           </Container>
         </div>
