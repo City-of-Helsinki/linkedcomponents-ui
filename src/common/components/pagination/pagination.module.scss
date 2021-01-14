@@ -38,19 +38,19 @@
       background-color: var(--pagination-item-background-color-selected);
       color: var(--pagination-item-color-selected);
     }
+
+    &:not(:disabled) {
+      cursor: pointer;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      color: var(--pagination-item-color-disabled);
+      background-color: var(--pagination-item-background-color-disabled);
+    }
   }
 
   &:not(:last-child) {
     margin-right: var(--spacing-2-xs);
-  }
-
-  .pageLink:not(:disabled) {
-    cursor: pointer;
-  }
-
-  .pageLink:disabled {
-    cursor: not-allowed;
-    color: var(--pagination-item-color-disabled);
-    background-color: var(--pagination-item-background-color-disabled);
   }
 }

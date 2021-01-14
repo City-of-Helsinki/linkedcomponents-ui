@@ -21,17 +21,17 @@
     align-items: center;
     color: var(--tabs-tab-color);
     padding: 0px var(--spacing-s);
-  }
 
-  .tab:hover:not(:focus):after,
-  .tab.isActive:after {
-    background-color: var(--tabs-tab-color-active);
-    bottom: 0;
-    content: '';
-    height: var(--spacing-3-xs);
-    left: 0;
-    pointer-events: none;
-    position: absolute;
-    width: 100%;
+    &:hover:not(:focus):after,
+    &.isActive:after {
+      background-color: var(--tabs-tab-color-active);
+      bottom: 0;
+      content: '';
+      height: var(--spacing-3-xs);
+      left: 0;
+      pointer-events: none;
+      position: absolute;
+      width: 100%;
+    }
   }
 }
