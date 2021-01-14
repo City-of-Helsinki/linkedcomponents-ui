@@ -42,17 +42,14 @@ test('should route to home page', () => {
 });
 
 test('should start log in process', () => {
-  userManager.signinRedirect = jest.fn();
-  (userManager.signinRedirect as jest.Mock).mockImplementationOnce(() =>
-    Promise.resolve({})
-  );
+  const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
   renderComponent();
 
   userEvent.click(
     screen.getByRole('button', { name: translations.common.signIn })
   );
 
-  expect(userManager.signinRedirect).toBeCalled();
+  expect(signinRedirect).toBeCalled();
 });
 
 test('should redirect to home page when user is authenticated', () => {

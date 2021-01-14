@@ -52,6 +52,7 @@ const findComponent = (
 };
 
 beforeEach(() => {
+  jest.restoreAllMocks();
   i18n.changeLanguage('fi');
 });
 
@@ -122,22 +123,18 @@ test('should change language', async () => {
 });
 
 test('should start log in process', async () => {
-  userManager.signinRedirect = jest.fn();
-  (userManager.signinRedirect as jest.Mock).mockImplementationOnce(() =>
-    Promise.resolve({})
-  );
+  const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
 
   renderComponent();
 
   const signInButton = await findComponent('signInButton');
   userEvent.click(signInButton);
 
-  expect(userManager.signinRedirect).toBeCalled();
+  expect(signinRedirect).toBeCalled();
 });
 
 test('should start logout process', async () => {
-  const signoutRedirect = jest.fn();
-  userManager.signoutRedirect = signoutRedirect;
+  const signoutRedirect = jest.spyOn(userManager, 'signoutRedirect');
 
   const apiToken = { [API_CLIENT_ID]: 'api-token' };
   const userName = 'Test user';

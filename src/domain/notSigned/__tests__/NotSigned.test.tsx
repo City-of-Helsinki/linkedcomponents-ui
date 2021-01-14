@@ -41,14 +41,11 @@ test('should route to home page', async () => {
 });
 
 test('should start log in process', async () => {
-  userManager.signinRedirect = jest.fn();
-  (userManager.signinRedirect as jest.Mock).mockImplementationOnce(() =>
-    Promise.resolve({})
-  );
+  const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
   renderComponent();
   const signInButton = await findComponent('signInButton');
 
   userEvent.click(signInButton);
 
-  expect(userManager.signinRedirect).toBeCalled();
+  expect(signinRedirect).toBeCalled();
 });

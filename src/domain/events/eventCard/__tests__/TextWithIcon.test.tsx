@@ -9,5 +9,5 @@ test('should match snapshot', () => {
     <TextWithIcon icon={<IconInfoCircle />} text={'Text'} />
   );
 
-  expect(container.innerHTML).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
