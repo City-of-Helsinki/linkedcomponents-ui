@@ -55,14 +55,11 @@ const Tabs: React.FC<Props> = ({
       );
     })
     .map((child, index) => {
-      /* istanbul ignore else  */
-      if (React.isValidElement(child)) {
-        const isActive = activeIndex === index;
-        // Pass index prop to the TabPanel
-        return React.cloneElement(child, { index, name, isActive });
-      } else {
-        return child;
-      }
+      return React.cloneElement(child as React.ReactElement, {
+        index,
+        name,
+        isActive: activeIndex === index,
+      });
     });
 
   return (
@@ -73,16 +70,13 @@ const Tabs: React.FC<Props> = ({
         onKeyDown={onKeyDown}
       >
         {options.map((option, index) => {
-          const isFocused = index === focusedTab;
-          const isActive = option.value === activeTab;
-
           return (
             <Tab
               key={option.value}
               index={index}
               isCompleted={option.isCompleted}
-              isFocused={isFocused}
-              isActive={isActive}
+              isFocused={index === focusedTab}
+              isActive={option.value === activeTab}
               name={name}
               option={option}
               onClick={handleChange}
