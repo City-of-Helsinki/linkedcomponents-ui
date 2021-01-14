@@ -36,7 +36,7 @@ const findComponent = (
   switch (key) {
     case 'addEventButton':
       return screen.findByRole('button', {
-        name: translations.eventSavedPage.buttonAddEvent,
+        name: translations.common.buttonAddEvent,
       });
     case 'backToEventsButton':
       return screen.findByRole('button', {
