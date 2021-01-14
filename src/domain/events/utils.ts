@@ -1,8 +1,13 @@
 import { ApolloClient } from '@apollo/client';
 
-import { EventsQueryVariables } from '../../generated/graphql';
+import {
+  EventsQueryVariables,
+  PublicationStatus,
+} from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
+import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
+import { EVENTS_PAGE_SIZE, EVENTS_PAGE_TABS } from './constants';
 
 export const eventsPathBuilder = ({
   args,
@@ -76,4 +81,53 @@ export const eventsPathBuilder = ({
 
 export const clearEventsQueries = (apolloClient: ApolloClient<object>) => {
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
+};
+
+export const getEventsQueryVariables = (
+  tab: EVENTS_PAGE_TABS,
+  adminOrganizations: string[]
+) => {
+  const baseVariables = {
+    include: ['in_language', 'location'],
+    pageSize: EVENTS_PAGE_SIZE,
+    superEventType: ['none'],
+    createPath: getPathBuilder(eventsPathBuilder),
+  };
+
+  switch (tab) {
+    case EVENTS_PAGE_TABS.DRAFTS:
+      return {
+        ...baseVariables,
+        createdBy: 'me',
+        publicationStatus: PublicationStatus.Draft,
+        showAll: true,
+      };
+    case EVENTS_PAGE_TABS.PUBLISHED:
+      return {
+        ...baseVariables,
+        adminUser: true,
+        publisher: adminOrganizations,
+        publicationStatus: PublicationStatus.Public,
+      };
+    case EVENTS_PAGE_TABS.WAITING_APPROVAL:
+      return {
+        ...baseVariables,
+        adminUser: true,
+        publisher: adminOrganizations,
+        publicationStatus: PublicationStatus.Draft,
+      };
+  }
+};
+
+export const getEventsQuerySkip = (
+  tab: EVENTS_PAGE_TABS,
+  adminOrganizations: string[]
+) => {
+  switch (tab) {
+    case EVENTS_PAGE_TABS.DRAFTS:
+      return false;
+    case EVENTS_PAGE_TABS.PUBLISHED:
+    case EVENTS_PAGE_TABS.WAITING_APPROVAL:
+      return !adminOrganizations.length;
+  }
 };

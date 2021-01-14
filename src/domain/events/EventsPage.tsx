@@ -10,7 +10,6 @@ import TabPanel from '../../common/components/tabs/TabPanel';
 import Tabs from '../../common/components/tabs/Tabs';
 import { ROUTES } from '../../constants';
 import {
-  PublicationStatus,
   useEventsQuery,
   UserFieldsFragment,
   useUserQuery,
@@ -22,7 +21,6 @@ import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { userSelector } from '../auth/selectors';
-import { eventsPathBuilder } from '../events/utils';
 import NotSigned from '../notSigned/NotSigned';
 import { getUserFields, userPathBuilder } from '../user/utils';
 import {
@@ -30,64 +28,15 @@ import {
   DEFAULT_EVENT_SORT,
   EVENT_LIST_TYPES,
   EVENT_SORT_OPTIONS,
-  EVENTS_PAGE_SIZE,
   EVENTS_PAGE_TABS,
 } from './constants';
 import EventList from './eventList/EventList';
 import styles from './events.module.scss';
+import { getEventsQuerySkip, getEventsQueryVariables } from './utils';
 
 interface Props {
   user: UserFieldsFragment;
 }
-
-const getEventListVariables = (
-  tab: EVENTS_PAGE_TABS,
-  adminOrganizations: string[]
-) => {
-  const baseVariables = {
-    include: ['in_language', 'location'],
-    pageSize: EVENTS_PAGE_SIZE,
-    superEventType: ['none'],
-    createPath: getPathBuilder(eventsPathBuilder),
-  };
-
-  switch (tab) {
-    case EVENTS_PAGE_TABS.DRAFTS:
-      return {
-        ...baseVariables,
-        createdBy: 'me',
-        publicationStatus: PublicationStatus.Draft,
-        showAll: true,
-      };
-    case EVENTS_PAGE_TABS.PUBLISHED:
-      return {
-        ...baseVariables,
-        adminUser: true,
-        publisher: adminOrganizations,
-        publicationStatus: PublicationStatus.Public,
-      };
-    case EVENTS_PAGE_TABS.WAITING_APPROVAL:
-      return {
-        ...baseVariables,
-        adminUser: true,
-        publisher: adminOrganizations,
-        publicationStatus: PublicationStatus.Draft,
-      };
-  }
-};
-
-const getEventListSkip = (
-  tab: EVENTS_PAGE_TABS,
-  adminOrganizations: string[]
-) => {
-  switch (tab) {
-    case EVENTS_PAGE_TABS.DRAFTS:
-      return false;
-    case EVENTS_PAGE_TABS.PUBLISHED:
-    case EVENTS_PAGE_TABS.WAITING_APPROVAL:
-      return !adminOrganizations.length;
-  }
-};
 
 const EventsPage: React.FC<Props> = ({ user }) => {
   const [activeTab, setActiveTab] = React.useState<EVENTS_PAGE_TABS>(
@@ -104,25 +53,25 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   const { t } = useTranslation();
   const { adminOrganizations } = getUserFields(user);
   const { data: waitingApprovalEventsData } = useEventsQuery({
-    skip: getEventListSkip(
+    skip: getEventsQuerySkip(
       EVENTS_PAGE_TABS.WAITING_APPROVAL,
       adminOrganizations
     ),
-    variables: getEventListVariables(
+    variables: getEventsQueryVariables(
       EVENTS_PAGE_TABS.WAITING_APPROVAL,
       adminOrganizations
     ),
   });
   const { data: publishedEventsData } = useEventsQuery({
-    skip: getEventListSkip(EVENTS_PAGE_TABS.PUBLISHED, adminOrganizations),
-    variables: getEventListVariables(
+    skip: getEventsQuerySkip(EVENTS_PAGE_TABS.PUBLISHED, adminOrganizations),
+    variables: getEventsQueryVariables(
       EVENTS_PAGE_TABS.PUBLISHED,
       adminOrganizations
     ),
   });
   const { data: draftEventsData } = useEventsQuery({
-    skip: getEventListSkip(EVENTS_PAGE_TABS.DRAFTS, adminOrganizations),
-    variables: getEventListVariables(
+    skip: getEventsQuerySkip(EVENTS_PAGE_TABS.DRAFTS, adminOrganizations),
+    variables: getEventsQueryVariables(
       EVENTS_PAGE_TABS.DRAFTS,
       adminOrganizations
     ),
@@ -193,11 +142,14 @@ const EventsPage: React.FC<Props> = ({ user }) => {
             >
               <EventList
                 activeTab={activeTab}
-                baseVariables={getEventListVariables(value, adminOrganizations)}
+                baseVariables={getEventsQueryVariables(
+                  value,
+                  adminOrganizations
+                )}
                 listType={listType}
                 setListType={setListType}
                 setSort={setSort}
-                skip={getEventListSkip(value, adminOrganizations)}
+                skip={getEventsQuerySkip(value, adminOrganizations)}
                 sort={sort}
               />
             </TabPanel>
