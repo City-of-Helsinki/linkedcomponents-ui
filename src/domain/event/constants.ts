@@ -22,6 +22,11 @@ export enum ADD_IMAGE_FIELDS {
   URL = 'url',
 }
 
+export enum EDIT_MODE {
+  CREATE = 'create',
+  EDIT = 'edit',
+}
+
 export enum IMAGE_DETAILS_FIELDS {
   ALT_TEXT = 'altText',
   LICENSE = 'license',

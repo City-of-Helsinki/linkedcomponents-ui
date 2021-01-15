@@ -13,7 +13,7 @@ import EventTime from './EventTime';
 const getEventTimePath = (index: number) =>
   `${EVENT_FIELDS.EVENT_TIMES}[${index}]`;
 
-const EventTimes = () => {
+const EventTimes: React.FC = () => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({

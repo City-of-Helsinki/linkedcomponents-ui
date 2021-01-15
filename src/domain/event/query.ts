@@ -19,11 +19,15 @@ export const QUERY_EVENT = gql`
     }
   }
 
-  fragment eventFields on Event {
+  fragment baseEventFields on Event {
     id
     atId
+    audience {
+      ...keywordFields
+    }
     audienceMaxAge
     audienceMinAge
+    createdBy
     description {
       ...localisedFields
     }
@@ -44,8 +48,12 @@ export const QUERY_EVENT = gql`
     keywords {
       ...keywordFields
     }
+    lastModifiedTime
     location {
       ...placeFields
+    }
+    locationExtraInfo {
+      ...localisedFields
     }
     name {
       ...localisedFields
@@ -61,10 +69,15 @@ export const QUERY_EVENT = gql`
     shortDescription {
       ...localisedFields
     }
-    superEvent {
-      atId
-    }
     startTime
+    superEventType
+  }
+
+  fragment eventFields on Event {
+    ...baseEventFields
+    superEvent {
+      ...baseEventFields
+    }
   }
 
   query Event($id: ID!, $include: [String], $createPath: Any) {

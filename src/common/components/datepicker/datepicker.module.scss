@@ -144,6 +144,10 @@
       height: var(--icon-width);
       width: var(--icon-width);
     }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 
   .timesDivider {

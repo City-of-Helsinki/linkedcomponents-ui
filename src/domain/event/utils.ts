@@ -12,6 +12,7 @@ import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import subDays from 'date-fns/subDays';
 import isEqual from 'lodash/isEqual';
+import keys from 'lodash/keys';
 import reduce from 'lodash/reduce';
 import sortBy from 'lodash/sortBy';
 import uniqWith from 'lodash/uniqWith';
@@ -32,7 +33,9 @@ import {
   EventFieldsFragment,
   EventQueryVariables,
   ExternalLinkInput,
+  LocalisedFieldsFragment,
   LocalisedObject,
+  Maybe,
   PublicationStatus,
   SuperEventType,
 } from '../../generated/graphql';
@@ -52,15 +55,18 @@ import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
+  EVENT_INITIAL_VALUES,
   EXTENSION_COURSE_FIELDS,
   IMAGE_ALT_TEXT_MIN_LENGTH,
   IMAGE_DETAILS_FIELDS,
+  ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
 } from './constants';
 import {
   EventFields,
   EventFormFields,
   EventTime,
+  MultiLanguageObject,
   Offer,
   RecurringEventSettings,
 } from './types';
@@ -556,13 +562,17 @@ export const getEventFields = (
     atId: event.atId || '',
     audienceMaxAge: event.audienceMaxAge || null,
     audienceMinAge: event.audienceMinAge || null,
+    createdBy: event.createdBy || '',
     endTime: event.endTime ? new Date(event.endTime) : null,
-    eventUrl: `/${language}${ROUTES.EVENT.replace(':id', id)}`,
+    eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
     freeEvent: !!event.offers[0]?.isFree,
     imageUrl: event.images.find((image) => image?.url)?.url || null,
     inLanguage: event.inLanguage
       .map((item) => getLocalisedString(item?.name, language))
       .filter((e) => e),
+    lastModifiedTime: event.lastModifiedTime
+      ? new Date(event.lastModifiedTime)
+      : null,
     name: getLocalisedString(event.name, language),
     offers: event.offers.filter(
       (offer) => !!offer && !offer?.isFree
@@ -853,5 +863,117 @@ export const getRecurringEventPayload = (
     endTime: superEventTime.endTime?.toISOString(),
     superEventType: SuperEventType.Recurring,
     subEvents,
+  };
+};
+
+const SKIP_FIELDS = new Set([
+  'location',
+  'keywords',
+  'audience',
+  'languages',
+  'in_language',
+  'sub_events',
+]);
+
+// Enumerate all the property names of an object recursively.
+function* propertyNames(obj: object): any {
+  for (const name of keys(obj)) {
+    const val = (obj as Record<string, unknown>)[name];
+    if (val instanceof Object && !SKIP_FIELDS.has(name)) {
+      yield* propertyNames(val);
+    }
+    if (val && val !== '') {
+      yield name;
+    }
+  }
+}
+
+export const getEventInfoLanguages = (event: EventFieldsFragment): string[] => {
+  const languages = new Set(ORDERED_EVENT_INFO_LANGUAGES);
+  const foundLanguages = new Set<string>();
+
+  for (const name of propertyNames(event)) {
+    if (foundLanguages.size === languages.size) {
+      break;
+    }
+    if (languages.has(name)) {
+      foundLanguages.add(name);
+    }
+  }
+  return Array.from(foundLanguages);
+};
+
+export const getLocalisedObject = (
+  obj?: Maybe<LocalisedFieldsFragment>,
+  defaultValue = ''
+): MultiLanguageObject => {
+  return reduce(
+    ORDERED_EVENT_INFO_LANGUAGES,
+    (acc, lang) => ({
+      ...acc,
+      [lang]: (obj && (obj as Record<string, unknown>)[lang]) || defaultValue,
+    }),
+    {}
+  ) as MultiLanguageObject;
+};
+
+export const getEventInitialValues = (
+  event: EventFieldsFragment
+): EventFormFields => {
+  // set the 'hasUmbrella' checkbox as checked, if:
+  //  - the event has a super event with the super event type 'umbrella'
+  //  - the super event value is not empty
+  const hasUmbrella =
+    event.superEvent?.superEventType === SuperEventType.Umbrella &&
+    !!event.superEvent.atId;
+  // set the 'isUmbrella' checkbox as checked, if:
+  //  - super event type of the event is 'umbrella'
+  const isUmbrella = event.superEventType === SuperEventType.Umbrella;
+  const hasPrice = !event.offers[0]?.isFree;
+
+  return {
+    ...EVENT_INITIAL_VALUES,
+    eventInfoLanguages: getEventInfoLanguages(event),
+    inLanguage: event.inLanguage
+      .map((language) => language?.atId as string)
+      .filter((l) => l),
+    provider: getLocalisedObject(event.provider),
+    hasUmbrella: hasUmbrella,
+    isUmbrella: isUmbrella,
+    superEvent: event.superEvent?.atId || '',
+    name: getLocalisedObject(event.name),
+    infoUrl: getLocalisedObject(event.infoUrl),
+    shortDescription: getLocalisedObject(event.shortDescription),
+    description: getLocalisedObject(event.description),
+    startTime: event.startTime ? new Date(event.startTime) : null,
+    endTime: event.endTime ? new Date(event.endTime) : null,
+    location: event.location?.atId || '',
+    locationExtraInfo: getLocalisedObject(event.locationExtraInfo),
+    hasPrice,
+    offers: hasPrice
+      ? event.offers
+          .filter((offer) => !offer?.isFree)
+          .map((offer) => ({
+            description: getLocalisedObject(offer?.description),
+            infoUrl: getLocalisedObject(offer?.infoUrl),
+            price: getLocalisedObject(offer?.price),
+          }))
+      : [],
+    facebookUrl:
+      event.externalLinks.find(
+        (link) => link?.name === EXTLINK.EXTLINK_FACEBOOK
+      )?.link || '',
+    twitterUrl:
+      event.externalLinks.find((link) => link?.name === EXTLINK.EXTLINK_TWITTER)
+        ?.link || '',
+    instagramUrl:
+      event.externalLinks.find(
+        (link) => link?.name === EXTLINK.EXTLINK_INSTAGRAM
+      )?.link || '',
+    images: event.images.map((image) => image?.atId as string),
+    keywords: event.keywords.map((keyword) => keyword?.atId as string),
+    audience: event.audience.map((keyword) => keyword?.atId as string),
+    audienceMaxAge: event.audienceMaxAge || '',
+    audienceMinAge: event.audienceMinAge || '',
   };
 };

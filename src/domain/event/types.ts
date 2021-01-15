@@ -14,11 +14,13 @@ export type EventFields = {
   addressLocality: string;
   audienceMaxAge: number | null;
   audienceMinAge: number | null;
+  createdBy: string;
   endTime: Date | null;
   eventUrl: string;
   freeEvent: boolean;
   imageUrl: string | null;
   inLanguage: string[];
+  lastModifiedTime: Date | null;
   locationName: string;
   name: string;
   offers: Offer[];

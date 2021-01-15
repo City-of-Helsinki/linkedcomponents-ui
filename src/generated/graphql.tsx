@@ -295,9 +295,10 @@ export type Division = {
 export type Event = {
   __typename?: 'Event';
   id: Scalars['ID'];
-  audience: Array<Maybe<AtIdObject>>;
+  audience: Array<Maybe<Keyword>>;
   audienceMaxAge?: Maybe<Scalars['Int']>;
   audienceMinAge?: Maybe<Scalars['Int']>;
+  createdBy?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   customData?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
@@ -323,7 +324,7 @@ export type Event = {
   shortDescription?: Maybe<LocalisedObject>;
   startTime?: Maybe<Scalars['String']>;
   subEvents: Array<Maybe<AtIdObject>>;
-  superEvent?: Maybe<AtIdObject>;
+  superEvent?: Maybe<Event>;
   superEventType?: Maybe<Scalars['String']>;
   atId?: Maybe<Scalars['String']>;
   atContext?: Maybe<Scalars['String']>;
@@ -555,10 +556,13 @@ export type OfferFieldsFragment = (
   )> }
 );
 
-export type EventFieldsFragment = (
+export type BaseEventFieldsFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'endTime' | 'eventStatus' | 'publicationStatus' | 'publisher' | 'startTime'>
-  & { description?: Maybe<(
+  & Pick<Event, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'createdBy' | 'endTime' | 'eventStatus' | 'lastModifiedTime' | 'publicationStatus' | 'publisher' | 'startTime' | 'superEventType'>
+  & { audience: Array<Maybe<(
+    { __typename?: 'Keyword' }
+    & KeywordFieldsFragment
+  )>>, description?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
   )>, externalLinks: Array<Maybe<(
@@ -579,6 +583,9 @@ export type EventFieldsFragment = (
   )>>, location?: Maybe<(
     { __typename?: 'Place' }
     & PlaceFieldsFragment
+  )>, locationExtraInfo?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
   )>, name?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -591,10 +598,16 @@ export type EventFieldsFragment = (
   )>, shortDescription?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
-  )>, superEvent?: Maybe<(
-    { __typename?: 'AtIdObject' }
-    & Pick<AtIdObject, 'atId'>
   )> }
+);
+
+export type EventFieldsFragment = (
+  { __typename?: 'Event' }
+  & { superEvent?: Maybe<(
+    { __typename?: 'Event' }
+    & BaseEventFieldsFragment
+  )> }
+  & BaseEventFieldsFragment
 );
 
 export type EventQueryVariables = Exact<{
@@ -990,6 +1003,17 @@ export const LocalisedFieldsFragmentDoc = gql`
   zhHans
 }
     `;
+export const KeywordFieldsFragmentDoc = gql`
+    fragment keywordFields on Keyword {
+  id
+  atId
+  dataSource
+  hasUpcomingEvents
+  name {
+    ...localisedFields
+  }
+}
+    ${LocalisedFieldsFragmentDoc}`;
 export const ExternalLinkFieldsFragmentDoc = gql`
     fragment externalLinkFields on ExternalLink {
   name
@@ -1011,17 +1035,6 @@ export const LanguageFieldsFragmentDoc = gql`
     fragment languageFields on Language {
   id
   atId
-  name {
-    ...localisedFields
-  }
-}
-    ${LocalisedFieldsFragmentDoc}`;
-export const KeywordFieldsFragmentDoc = gql`
-    fragment keywordFields on Keyword {
-  id
-  atId
-  dataSource
-  hasUpcomingEvents
   name {
     ...localisedFields
   }
@@ -1086,12 +1099,16 @@ export const OfferFieldsFragmentDoc = gql`
   }
 }
     ${LocalisedFieldsFragmentDoc}`;
-export const EventFieldsFragmentDoc = gql`
-    fragment eventFields on Event {
+export const BaseEventFieldsFragmentDoc = gql`
+    fragment baseEventFields on Event {
   id
   atId
+  audience {
+    ...keywordFields
+  }
   audienceMaxAge
   audienceMinAge
+  createdBy
   description {
     ...localisedFields
   }
@@ -1112,8 +1129,12 @@ export const EventFieldsFragmentDoc = gql`
   keywords {
     ...keywordFields
   }
+  lastModifiedTime
   location {
     ...placeFields
+  }
+  locationExtraInfo {
+    ...localisedFields
   }
   name {
     ...localisedFields
@@ -1129,18 +1150,24 @@ export const EventFieldsFragmentDoc = gql`
   shortDescription {
     ...localisedFields
   }
-  superEvent {
-    atId
-  }
   startTime
+  superEventType
 }
-    ${LocalisedFieldsFragmentDoc}
+    ${KeywordFieldsFragmentDoc}
+${LocalisedFieldsFragmentDoc}
 ${ExternalLinkFieldsFragmentDoc}
 ${ImageFieldsFragmentDoc}
 ${LanguageFieldsFragmentDoc}
-${KeywordFieldsFragmentDoc}
 ${PlaceFieldsFragmentDoc}
 ${OfferFieldsFragmentDoc}`;
+export const EventFieldsFragmentDoc = gql`
+    fragment eventFields on Event {
+  ...baseEventFields
+  superEvent {
+    ...baseEventFields
+  }
+}
+    ${BaseEventFieldsFragmentDoc}`;
 export const MetaFieldsFragmentDoc = gql`
     fragment metaFields on Meta {
   count

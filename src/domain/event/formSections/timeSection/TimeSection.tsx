@@ -17,7 +17,7 @@ import EventTimes from './EventTimes';
 import RecurringEvents from './RecurringEvents';
 import RecurringEventsForm from './recurringEventsForm/RecurringEventsForm';
 
-const TypeSection = () => {
+const TypeSection: React.FC = () => {
   const { t } = useTranslation();
   const [isModalOpen, setIsmodalOpen] = React.useState(false);
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);

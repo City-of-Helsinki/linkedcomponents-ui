@@ -1,0 +1,15 @@
+.eventInfo {
+  margin-bottom: var(--spacing-3-xl);
+
+  p {
+    margin: var(--spacing-2-xs) 0 !important;
+  }
+
+  .time {
+    color: var(--color-black-60);
+  }
+
+  .author {
+    color: var(--color-black-90);
+  }
+}

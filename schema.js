@@ -202,9 +202,10 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Event {
     id: ID!
-    audience: [AtIdObject]!
+    audience: [Keyword]!
     audienceMaxAge: Int
     audienceMinAge: Int
+    createdBy: String
     createdTime: String
     customData: String
     dataSource: String
@@ -230,7 +231,7 @@ module.exports = buildSchema(/* GraphQL */ `
     shortDescription: LocalisedObject
     startTime: String
     subEvents: [AtIdObject]!
-    superEvent: AtIdObject
+    superEvent: Event
     superEventType: String
     # @id is renamed as atId so it's usable on GraphQl
     atId: String

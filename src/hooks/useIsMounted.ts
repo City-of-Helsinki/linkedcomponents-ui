@@ -5,7 +5,6 @@ const useIsMounted = (): boolean => {
 
   React.useEffect(() => {
     isMounted.current = true;
-
     return () => {
       isMounted.current = false;
     };
