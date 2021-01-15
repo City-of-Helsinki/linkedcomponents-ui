@@ -2776,6 +2776,13 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-scroll@^1.8.2":
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/@types/react-scroll/-/react-scroll-1.8.2.tgz#44bbbadabb9014517eb865d6fa47937535a2234a"
+  integrity sha512-oavV6BZLfaIghX4JSmrm6mJkeVayQlmsFx1Rz8ffGjMngHAI/juZkRZM/zV/H5D0pGqjzACvBmKYUU4YBecwLg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-test-renderer@*":
   version "16.9.3"
   resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-16.9.3.tgz#96bab1860904366f4e848b739ba0e2f67bcae87e"
@@ -8130,22 +8137,22 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hds-core@0.16.1, hds-core@^0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.16.1.tgz#c36fe6670d74916443468fab5167ddf5f379f57c"
-  integrity sha512-3wcO3J8cg92Ke5d4NY8PDcMT7IJrfqHf2WLsqhtjuhtNoM2EMSH7tyQA7h1vV+Jcdvcmp9hkh86tWQxCdJsvuw==
+hds-core@0.19.0, hds-core@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.19.0.tgz#d95d33a28533b4ca3530f6f100393b154818c011"
+  integrity sha512-5VJLowqXsqaVEVVHNRdgDDZdFEslP+ua15bfIalortSqo1vvBwZT0soYUhr3tr2af5MSQfExu4nblwbx80cx0Q==
 
-hds-react@^0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-0.16.1.tgz#c849db0e2d4aad4d1ecda370a36b929d00f8df7c"
-  integrity sha512-Vsor0b7SmjEaC9GgC0e+ZsuMhVJM0NyA89gV5+IUMGrlSdrwZ8wEHAsVJQ5QQF7L5noFPWB07SdzYetLkFJW2w==
+hds-react@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-0.19.0.tgz#8d45f62bc71bb238c559391a163c27b782f7603c"
+  integrity sha512-ujxrJOlgXTKktLxn4naoi0pAfkrfn40qvrS5tpbDLQaw2KFr2NlPSCbjybLz2mg38++G4sARym3RHhuYDVpq0g==
   dependencies:
     "@babel/runtime" "7.11.2"
     "@juggle/resize-observer" "3.2.0"
     "@popperjs/core" "2.5.3"
     "@react-aria/visually-hidden" "3.2.0"
     downshift "6.0.6"
-    hds-core "0.16.1"
+    hds-core "0.19.0"
     lodash.isequal "4.5.0"
     lodash.uniqueid "4.0.1"
     react-merge-refs "1.1.0"
@@ -10274,6 +10281,11 @@ lodash.templatesettings@^4.0.0:
   integrity sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==
   dependencies:
     lodash._reinterpolate "^3.0.0"
+
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
 lodash.uniq@^4.5.0:
   version "4.5.0"
@@ -12985,6 +12997,14 @@ react-scripts@3.4.3:
     workbox-webpack-plugin "4.3.1"
   optionalDependencies:
     fsevents "2.1.2"
+
+react-scroll@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/react-scroll/-/react-scroll-1.8.1.tgz#eb4052265f1606cf60855c981ebcfed1bc3beff3"
+  integrity sha512-UAKmawFHn+c7x/DoXuHqOsQ5xwNk2Dxv7vP8Ft41K2hglPWkshcSos0tMTr8704UkFqImoUGzMTdN4vuZXoqbw==
+  dependencies:
+    lodash.throttle "^4.1.1"
+    prop-types "^15.7.2"
 
 react-side-effect@^2.1.0:
   version "2.1.0"

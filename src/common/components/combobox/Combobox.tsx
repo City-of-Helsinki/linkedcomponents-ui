@@ -1,9 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import {
-  Combobox as BaseCombobox,
-  ComboboxProps,
-} from 'hds-react/components/Combobox';
+import { Combobox as BaseCombobox, ComboboxProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 

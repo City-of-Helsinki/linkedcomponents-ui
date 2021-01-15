@@ -15,6 +15,8 @@ module.exports = buildSchema(/* GraphQL */ `
   type Query {
     event(id: ID, include: [String]): Event!
     events(
+      adminUser: Boolean
+      createdBy: String
       combinedText: [String]
       division: [String]
       end: String
@@ -30,7 +32,9 @@ module.exports = buildSchema(/* GraphQL */ `
       location: [String]
       page: Int
       pageSize: Int
-      publisher: ID
+      publicationStatus: PublicationStatus
+      publisher: [String]
+      showAll: Boolean
       sort: String
       start: String
       startsAfter: String
@@ -61,6 +65,7 @@ module.exports = buildSchema(/* GraphQL */ `
       pageSize: Int
       publisher: ID
     ): ImagesResponse!
+    organization(id: ID!): Organization!
     place(id: ID!): Place!
     places(
       dataSource: String
@@ -72,6 +77,7 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): PlacesResponse!
+    user(id: ID!): User!
   }
 
   enum PublicationStatus {
@@ -197,8 +203,8 @@ module.exports = buildSchema(/* GraphQL */ `
   type Event {
     id: ID!
     audience: [AtIdObject]!
-    audienceMaxAge: String
-    audienceMinAge: String
+    audienceMaxAge: Int
+    audienceMinAge: Int
     createdTime: String
     customData: String
     dataSource: String
@@ -340,6 +346,26 @@ module.exports = buildSchema(/* GraphQL */ `
     price: LocalisedObject
   }
 
+  type Organization {
+    affiliatedOrganizations: [String]
+    classification: String
+    createdTime: String
+    dataSource: String
+    dissolutionDate: String
+    foundingDate: String
+    hasRegularUsers: Boolean
+    id: String
+    isAffiliated: Boolean
+    lastModifiedTime: String
+    name: String
+    parentOrganization: String
+    replacedBy: String
+    subOrganizations: [String]
+    atContext: String
+    atId: String
+    atType: String
+  }
+
   type Place {
     id: ID
     addressCountry: String
@@ -378,5 +404,21 @@ module.exports = buildSchema(/* GraphQL */ `
   type Position {
     coordinates: [Float]!
     type: String
+  }
+
+  type User {
+    adminOrganizations: [String!]!
+    dateJoined: String
+    departmentName: String
+    displayName: String
+    email: String
+    firstName: String
+    isStaff: Boolean
+    lastLogin: String
+    lastName: String
+    organization: String
+    organizationMemberships: [String!]!
+    username: String
+    uuid: String
   }
 `);

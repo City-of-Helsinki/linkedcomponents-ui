@@ -8,8 +8,12 @@ import formatDate from 'date-fns/format';
 import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import { css } from 'emotion';
-import { TextInputProps } from 'hds-react/components/TextInput';
-import { IconAngleLeft, IconAngleRight, IconCalendar } from 'hds-react/icons';
+import {
+  IconAngleLeft,
+  IconAngleRight,
+  IconCalendar,
+  TextInputProps,
+} from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';

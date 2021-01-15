@@ -1,0 +1,11 @@
+.publicationStatus {
+  --publication-status-color-draft: var(--color-black-60);
+  --publication-status-color-public: var(--color-success);
+}
+.statusDraft {
+  color: var(--publication-status-color-draft);
+}
+
+.statusPublic {
+  color: var(--publication-status-color-public);
+}

@@ -9,29 +9,25 @@ import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import { useTheme } from '../theme/Theme';
 import styles from './pageLayout.module.scss';
+import ResetFocus from './ResetFocus';
+import ScrollToTop from './ScrollToTop';
 
 const PageLayout: React.FC = ({ children }) => {
   const { theme } = useTheme();
   const locale = useLocale();
-  const [menuOpen, setMenuOpen] = React.useState(false);
 
   const path = window.location.pathname.replace(`/${locale}`, '');
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
 
   return (
     <div
       className={classNames(
         styles.pageLayout,
         css(theme.layout),
-        css(theme.root),
-        {
-          [styles.menuOpen]: menuOpen,
-        }
+        css(theme.root)
       )}
     >
+      <ResetFocus />
+      <ScrollToTop />
       <Helmet>
         <html lang={locale} />
 
@@ -48,10 +44,8 @@ const PageLayout: React.FC = ({ children }) => {
         })}
       </Helmet>
 
-      <Header menuOpen={menuOpen} onMenuToggle={toggleMenu} />
-      <div aria-hidden={menuOpen} className={styles.pageBody}>
-        {children}
-      </div>
+      <Header />
+      <div className={styles.pageBody}>{children}</div>
 
       <Footer />
     </div>

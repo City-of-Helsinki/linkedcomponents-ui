@@ -1,8 +1,7 @@
 import classNames from 'classnames';
 import { useCombobox, UseComboboxState } from 'downshift';
 import { css } from 'emotion';
-import { TextInputProps } from 'hds-react/components/TextInput';
-import { IconClock } from 'hds-react/icons';
+import { IconClock, TextInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 

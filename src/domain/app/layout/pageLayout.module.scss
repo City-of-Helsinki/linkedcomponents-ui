@@ -1,29 +1,23 @@
+@import 'breakpoints';
+
 .pageLayout {
+  --page-layout-body-padding-top: 129px;
+  --page-layout-body-mobile-padding-top: 73px;
+
   height: 100%;
   width: 100%;
   display: grid;
   grid-template-rows: auto 1fr auto;
   position: relative;
-
-  &.menuOpen {
-    header {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-    }
-
-    > div:nth-child(2) {
-      visibility: hidden;
-    }
-    > div:nth-child(3) {
-      visibility: hidden;
-    }
-  }
 }
 
 .pageBody {
   display: grid;
   align-content: flex-start;
   background-color: var(--page-background-color);
+  padding-top: var(--page-layout-body-mobile-padding-top);
+
+  @include medium-up {
+    padding-top: var(--page-layout-body-padding-top);
+  }
 }

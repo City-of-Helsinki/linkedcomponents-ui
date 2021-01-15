@@ -1,5 +1,5 @@
 import { Field } from 'formik';
-import { TextInputProps } from 'hds-react/components/TextInput';
+import { TextInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 

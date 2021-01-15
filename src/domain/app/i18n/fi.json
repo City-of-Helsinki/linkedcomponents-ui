@@ -14,6 +14,7 @@
     "at": "klo {{time}}",
     "betweenDates": "Ajalla {{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonAddEvent": "Lisää uusi tapahtuma",
     "cancel": "Peruuta",
     "close": "Sulje",
     "combobox": {
@@ -42,12 +43,20 @@
       "text": "Anna palautetta ja vaikuta",
       "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta"
     },
+    "goToHome": "Etusivulle",
     "imageUploader": {
       "buttonDropImage": "Pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
+    "noResults": "Ei tuloksia",
     "openInNewTab": "(avataan uudessa välilehdessä)",
+    "pagination": {
+      "navigation": "Sivunavigointi",
+      "next": "Seuraava sivu",
+      "page": "Sivu {{page}}",
+      "previous": "Edellinen sivu"
+    },
     "placeholderDate": "pp.kk.vvvv",
     "placeholderDateTime": "pp.kk.vvvv hh.mm",
     "placeholderTime": "hh.mm",
@@ -78,6 +87,11 @@
     "validationError": "Lomakkeessa on virheitä. Tarkasta lomake."
   },
   "event": {
+    "audienceAge": {
+      "between": "{{min}} – {{max}} v",
+      "over": "Yli {{min}} v",
+      "under": "Alle {{max}} v"
+    },
     "form": {
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddImage": {
@@ -417,13 +431,17 @@
       "titleUmrellaEvent": "Kattotapahtumat",
       "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
     },
+    "freeEvent": "Maksuton",
+    "publicationStatus": {
+      "draft": "Luonnos",
+      "public": "Julkaistu"
+    },
     "type": {
       "course": "Kurssi",
       "event": "Tapahtuma"
     }
   },
   "eventSavedPage": {
-    "buttonAddEvent": "Syötä uusi tapahtuma",
     "buttonBackToEvents": "Palaa tapahtumiin",
     "pageTitleDraftSaved": "Luonnos tallennettu",
     "pageTitlePublished": "Tapahtuma julkaistu",
@@ -431,7 +449,47 @@
     "titlePublished": "Tapahtuma julkaistu onnistuneesti"
   },
   "eventsPage": {
-    "pageTitle": "Etsi tapahtumia"
+    "captionListTypes": "Luettelotyyppi",
+    "count": "{{count}} tapahtuma",
+    "count_plural": "{{count}} tapahtumaa",
+    "datetime": "{{date}} klo {{time}}",
+    "eventsTableCaption": {
+      "drafts": "Luonnokset, järjestys {{sort}}",
+      "published": "Julkaistut tapahtumat, järjestys {{sort}}",
+      "waitingApproval": "Hyväksyntää odottavat tapahtumat, järjestys {{sort}}"
+    },
+    "eventsTableColumns": {
+      "endTime": "Loppuaika",
+      "id": "ID",
+      "name": "Nimi",
+      "publisher": "Julkaisija",
+      "startTime": "Alkuaika",
+      "status": "Status"
+    },
+    "labelSort": "Lajitteluperuste",
+    "listTypes": {
+      "cardList": "Tapahtumakortit",
+      "table": "Taulukko"
+    },
+    "pageTitle": "Omat tapahtumat",
+    "sortOptions": {
+      "duration": "Kesto, nouseva",
+      "durationDesc": "Kesto, laskeva",
+      "endTime": "Loppuaika, nouseva",
+      "endTimeDesc": "Loppuaika, laskeva",
+      "lastModifiedTime": "Viimeksi muokattu, nouseva",
+      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva",
+      "name": "Nimi, nouseva",
+      "nameDesc": "Nimi, laskeva",
+      "startTime": "Alkuaika, nouseva",
+      "startTimeDesc": "Alkuaika, laskeva"
+    },
+    "tabs": {
+      "drafts": "Luonnokset ({{count}})",
+      "published": "Julkaistut ({{count}})",
+      "waitingApproval": "Odottaa ({{count}})"
+    },
+    "title": "Omat tapahtumat"
   },
   "form": {
     "inLanguage": {
@@ -510,6 +568,11 @@
       "wed": "Ke"
     }
   },
+  "footer": {
+    "backToTopLabel": "Palaa ylös",
+    "copyrightHolder": "Helsingin kaupunki",
+    "copyrightText": "Kaikki oikeudet pidätetään."
+  },
   "helpPage": {
     "pageTitle": "Lisätietoja"
   },
@@ -517,7 +580,6 @@
     "uploadError": "Kuvan tallentaminen epäonnistui"
   },
   "logoutPage": {
-    "buttonGoToHome": "Etusivulle",
     "pageTitle": "Olet kirjautunut ulos",
     "text": "Olet kirjautunut ulos palvelusta. Kirjaudu takaisin sisään tai palaa etusivulle."
   },
@@ -538,8 +600,11 @@
     }
   },
   "notFound": {
-    "buttonGoToHome": "Etusivulle",
     "pageTitle": "Sisältöä ei löydy",
     "text": "Etsimääsi sisältöä ei löydy. Kirjaudu sisään tai palaa kotisivulle."
+  },
+  "notSigned": {
+    "pageTitle": "Kirjautuminen vaaditaan",
+    "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
   }
 }

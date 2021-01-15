@@ -2,11 +2,11 @@
 
 exports[`matches snapshot 1`] = `
 <header
-  class="Navigation-module_header__2HNOX Navigation-module_theme-light__36nmi css-0 navigation"
+  class="Navigation-module_header__2HNOX Navigation-module_fixed__1UOw3 Navigation-module_theme-light__36nmi css-0 navigation"
 >
   <a
     class="Navigation-module_skipToContent__2p54x"
-    href="/sv#maincontent"
+    href="#maincontent"
   >
     Gå till innehållet
   </a>
@@ -24,6 +24,7 @@ exports[`matches snapshot 1`] = `
           aria-hidden="true"
           class="Logo-module_logo__Y2mwP Navigation-module_logo__1sEy6"
           role="img"
+          title="Helsingfors stad"
           viewBox="0 0 104 36"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -99,6 +100,7 @@ exports[`matches snapshot 1`] = `
                 På svenska
               </span>
               <svg
+                aria-hidden="true"
                 class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
                 role="img"
                 viewBox="0 0 24 24"
@@ -199,7 +201,7 @@ exports[`matches snapshot 1`] = `
     </a>
     <a
       class="NavigationItem-module_rowItem__2QxRz navigationItem addEventItem"
-      href="/sv/event/create"
+      href="/sv/events/create"
     >
       <span
         class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"

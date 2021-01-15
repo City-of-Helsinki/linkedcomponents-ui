@@ -1,0 +1,78 @@
+@import 'breakpoints';
+@import 'mixins';
+
+.contentWrapperCardList {
+  padding-bottom: var(--spacing-5-xl);
+}
+
+.contentWrapperTable {
+  background-color: var(--color-white);
+  margin-top: var(--spacing-4-xl);
+}
+
+.contentContainer {
+  overflow: visible;
+}
+
+.eventCards,
+.table {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  margin: var(--spacing-m) 0;
+}
+
+.table {
+  margin-top: calc(0px - var(--spacing-4-xl));
+
+  @include small-down {
+    max-width: calc(100vw - 2 * var(--spacing-m));
+    overflow: auto;
+  }
+}
+
+.listTypeRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  margin-top: var(--spacing-l);
+
+  @include medium-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .listTypeSelectorColumn {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-content: flex-end;
+  }
+
+  .count {
+    display: grid;
+    align-content: center;
+    min-height: var(--input-height);
+    font-size: var(--fontsize-heading-xs);
+    font-weight: 600;
+  }
+
+  @include medium-up {
+    grid-template-columns: repeat(10, 1fr);
+    .listTypeSelectorColumn {
+      grid-column: 1 / 7;
+    }
+    .sortSelector {
+      grid-column: 7 / 11;
+    }
+  }
+
+  @include large-up {
+    .listTypeSelectorColumn {
+      grid-column: 1 / 8;
+    }
+    .sortSelector {
+      grid-column: 8 / 11;
+    }
+  }
+
+  .sortOrderSelector label {
+    @include hidden-from-screen;
+  }
+}

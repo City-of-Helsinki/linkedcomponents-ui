@@ -36,7 +36,7 @@ const findComponent = (
   switch (key) {
     case 'addEventButton':
       return screen.findByRole('button', {
-        name: translations.eventSavedPage.buttonAddEvent,
+        name: translations.common.buttonAddEvent,
       });
     case 'backToEventsButton':
       return screen.findByRole('button', {
@@ -100,5 +100,5 @@ test('should route to create event page', async () => {
   const addEventButton = await findComponent('addEventButton');
   userEvent.click(addEventButton);
 
-  expect(history.location.pathname).toBe('/fi/event/create');
+  expect(history.location.pathname).toBe('/fi/events/create');
 });

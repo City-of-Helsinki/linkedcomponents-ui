@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { Button as BaseButton, ButtonProps } from 'hds-react/components/Button';
+import { Button as BaseButton, ButtonProps } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';

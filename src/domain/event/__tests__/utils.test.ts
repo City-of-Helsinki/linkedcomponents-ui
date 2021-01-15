@@ -1,5 +1,5 @@
 import { PublicationStatus, SuperEventType } from '../../../generated/graphql';
-import { fakeEvent } from '../../../utils/mockDataUtils';
+import { fakeEvent, fakeOffers } from '../../../utils/mockDataUtils';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_INITIAL_VALUES,
@@ -433,12 +433,33 @@ describe('getRecurringEventPayload function', () => {
 
 describe('getEventFields function', () => {
   it('should return default values if value is not set', () => {
-    const { id, atId, publicationStatus } = getEventFields(
-      fakeEvent({ id: null, atId: null, publicationStatus: null })
+    const {
+      endTime,
+      id,
+      atId,
+      imageUrl,
+      publisher,
+      publicationStatus,
+      startTime,
+    } = getEventFields(
+      fakeEvent({
+        endTime: '',
+        id: null,
+        atId: null,
+        images: [],
+        publisher: '',
+        publicationStatus: null,
+        startTime: '',
+      }),
+      'fi'
     );
 
+    expect(endTime).toBe(null);
     expect(id).toBe('');
     expect(atId).toBe('');
+    expect(imageUrl).toBe(null);
+    expect(publisher).toBe(null);
     expect(publicationStatus).toBe('public');
+    expect(startTime).toBe(null);
   });
 });

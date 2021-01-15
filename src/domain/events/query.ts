@@ -2,6 +2,8 @@ import gql from 'graphql-tag';
 
 export const QUERY_EVENTS = gql`
   query Events(
+    $adminUser: Boolean
+    $createdBy: String
     $combinedText: [String]
     $division: [String]
     $end: String
@@ -17,7 +19,9 @@ export const QUERY_EVENTS = gql`
     $location: [String]
     $page: Int
     $pageSize: Int
-    $publisher: ID
+    $publicationStatus: PublicationStatus
+    $publisher: [String]
+    $showAll: Boolean
     $sort: String
     $start: String
     $startsAfter: String
@@ -29,6 +33,8 @@ export const QUERY_EVENTS = gql`
     $createPath: Any
   ) {
     events(
+      adminUser: $adminUser
+      createdBy: $createdBy
       combinedText: $combinedText
       division: $division
       end: $end
@@ -44,7 +50,9 @@ export const QUERY_EVENTS = gql`
       location: $location
       page: $page
       pageSize: $pageSize
+      publicationStatus: $publicationStatus
       publisher: $publisher
+      showAll: $showAll
       sort: $sort
       start: $start
       startsAfter: $startsAfter

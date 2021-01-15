@@ -12,44 +12,40 @@ afterEach(() => {
 });
 
 it('should show toast error message when login fails', async () => {
-  toast.error = jest.fn();
+  const toastError = jest.spyOn(toast, 'error');
   const error = { message: 'General error' };
-
-  userManager.signinRedirect = jest.fn();
-  (userManager.signinRedirect as jest.Mock).mockImplementationOnce(() =>
-    Promise.reject({ ...error })
-  );
+  const signinRedirect = jest
+    .spyOn(userManager, 'signinRedirect')
+    .mockRejectedValue(error);
 
   await signIn();
 
-  expect(userManager.signinRedirect).toHaveBeenCalledTimes(1);
-  expect(userManager.signinRedirect).toHaveBeenCalledWith({
+  expect(signinRedirect).toHaveBeenCalledTimes(1);
+  expect(signinRedirect).toHaveBeenCalledWith({
     data: { path: '/' },
     // eslint-disable-next-line @typescript-eslint/camelcase
     ui_locales: 'fi',
   });
-  expect(toast.error).toBeCalledWith('Tapahtui virhe. Yritä uudestaan');
+  expect(toastError).toBeCalledWith('Tapahtui virhe. Yritä uudestaan');
 });
 
 it('should show toast error message when login fails with NetworkError', async () => {
-  toast.error = jest.fn();
+  const toastError = jest.spyOn(toast, 'error');
   const error = { message: 'Network Error' };
+  const signinRedirect = jest
+    .spyOn(userManager, 'signinRedirect')
+    .mockRejectedValue(error);
   const path = '/fi/events';
-
-  userManager.signinRedirect = jest.fn();
-  (userManager.signinRedirect as jest.Mock).mockImplementationOnce(() =>
-    Promise.reject({ ...error })
-  );
 
   await signIn(path);
 
-  expect(userManager.signinRedirect).toHaveBeenCalledTimes(1);
-  expect(userManager.signinRedirect).toHaveBeenCalledWith({
+  expect(signinRedirect).toHaveBeenCalledTimes(1);
+  expect(signinRedirect).toHaveBeenCalledWith({
     data: { path },
     // eslint-disable-next-line @typescript-eslint/camelcase
     ui_locales: 'fi',
   });
-  expect(toast.error).toBeCalledWith(
+  expect(toastError).toBeCalledWith(
     'Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan'
   );
 });
@@ -59,15 +55,14 @@ it('should get api token', async () => {
   const accessToken = 'access-token';
   const apiToken = 'api-token';
 
-  mockAxios.get = jest.fn();
-  (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
-    Promise.resolve({ data: { [API_CLIENT_ID]: apiToken } })
-  );
+  const axiosGet = jest
+    .spyOn(mockAxios, 'get')
+    .mockResolvedValue({ data: { [API_CLIENT_ID]: apiToken } });
 
   await mockStore.dispatch(getApiToken(accessToken));
 
-  expect(mockAxios.get).toHaveBeenCalledTimes(1);
-  expect(mockAxios.get).toHaveBeenCalledWith(
+  expect(axiosGet).toHaveBeenCalledTimes(1);
+  expect(axiosGet).toHaveBeenCalledWith(
     `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`,
     {
       headers: { Authorization: `bearer ${accessToken}` },
@@ -89,20 +84,17 @@ it('should get api token', async () => {
 });
 
 it('should show toast error message when failing to get api token', async () => {
-  toast.error = jest.fn();
+  const toastError = jest.spyOn(toast, 'error');
   const mockStore = getMockReduxStore();
   const accessToken = 'access-token';
   const error = 'error';
 
-  mockAxios.get = jest.fn();
-  (mockAxios.get as jest.Mock).mockImplementationOnce(() =>
-    Promise.reject(error)
-  );
+  const axiosGet = jest.spyOn(mockAxios, 'get').mockRejectedValue(error);
 
   await mockStore.dispatch(getApiToken(accessToken));
 
-  expect(mockAxios.get).toHaveBeenCalledTimes(1);
-  expect(mockAxios.get).toHaveBeenCalledWith(
+  expect(axiosGet).toHaveBeenCalledTimes(1);
+  expect(axiosGet).toHaveBeenCalledWith(
     `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`,
     {
       headers: { Authorization: `bearer ${accessToken}` },
@@ -122,7 +114,7 @@ it('should show toast error message when failing to get api token', async () => 
     expect(actions).toContainEqual(action);
   });
 
-  expect(toast.error).toBeCalled();
+  expect(toastError).toBeCalledWith('Tapahtui virhe. Yritä uudestaan');
 });
 
 it('should clear redux store and session storage when signing out ', () => {

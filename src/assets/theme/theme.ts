@@ -179,10 +179,21 @@ const theme: Theme = {
     '--error-template-icon-color': 'var(--color-bus)',
     '--error-template-icon-size': '112px',
   },
-  formLanguageSelector: {
-    '--form-language-selector-icon-color': 'var(--color-success)',
-    '--form-language-selector-item-color': 'var(--color-bus)',
-    '--form-language-selector-item-color-active': 'var(--color-bus)',
+  eventCard: {
+    '--event-card-background-color': 'var(--color-white)',
+    '--event-card-color': 'var(--color-black-60)',
+    '--event-card-icon-color': 'var(--color-black-90)',
+    '--event-card-heading-color': 'var(--color-black-90)',
+    '--event-card-image-background-color': 'var(--color-black-10)',
+    '--event-card-image-min-height': '7.5rem',
+    '--event-card-mobile-image-min-height': '12rem',
+  },
+
+  footer: {
+    '--footer-background': 'var(--color-black-5)',
+    '--footer-color': 'var(--color-black)',
+    '--footer-divider-color': 'var(--color-black-20)',
+    '--footer-focus-outline-color': 'var(--color-coat-of-arms)',
   },
   imageSelector: {
     '--image-selector-focus-outline-color': 'var(--color-coat-of-arms)',
@@ -220,7 +231,7 @@ const theme: Theme = {
     '--modal-heading-color': 'var(--color-white)',
   },
   navigation: {
-    '--header-z-index': 10,
+    '--header-z-index': 101,
     '--header-background-color': 'var(--color-coat-of-arms)',
     '--header-color': 'var(--color-white)',
     '--header-divider-color': 'var(--color-black-20)',
@@ -229,7 +240,7 @@ const theme: Theme = {
     '--navigation-row-color': 'var(--color-coat-of-arms)',
     '--navigation-row-focus-outline-color': 'var(--color-coat-of-arms)',
     '--navigation-item-color': 'var(--color-black-90)',
-    '--mobile-menu-z-index': 9,
+    '--mobile-menu-z-index': 101,
     '--mobile-menu-background-color': 'var(--color-white)',
     '--mobile-menu-color': 'var(--color-black-90)',
   },
@@ -269,6 +280,29 @@ const theme: Theme = {
         '--notification-border-color': 'var(--color-success)',
       },
     },
+  },
+  pagination: {
+    '--pagination-item-background-color': 'transparent',
+    '--pagination-item-background-color-disabled': 'transparent',
+    '--pagination-item-background-color-hover':
+      'var(--color-coat-of-arms-light)',
+    '--pagination-item-background-color-selected': 'var(--color-coat-of-arms)',
+    '--pagination-item-color': 'var(--color-black)',
+    '--pagination-item-color-disabled': 'var(--color-black-40)',
+    '--pagination-item-color-hover': 'var(--color-black)',
+    '--pagination-item-color-selected': 'var(--color-white)',
+    '--pagination-item-size': '40px',
+    '--pagination-item-border-radius': '20px',
+  },
+  publicationStatus: {
+    '--publication-status-color-draft': 'var(--color-black-60)',
+    '--publication-status-color-public': 'var(--color-success)',
+  },
+  publicationStatusTag: {
+    '--publication-status-tag-background-color-draft': 'var(--color-alert)',
+    '--publication-status-tag-color-draft': 'var(--color-black-90)',
+    '--publication-status-tag-background-color-public': 'var(--color-success)',
+    '--publication-status-tag-color-public': 'var(--color-white)',
   },
   radioButton: {
     '--size': '24px',
@@ -348,6 +382,16 @@ const theme: Theme = {
     '--multiselect-checkbox-color-selected': 'var(--color-white)',
     '--multiselect-checkbox-color-selected-disabled': 'var(--color-white)',
     '--placeholder-color': 'var(--color-black-60)',
+  },
+  table: {
+    '--table-body-background': 'var(--color-white)',
+    '--table-body-row-border-color': 'var(--color-black-10)',
+    '--table-head-background': 'var(--color-black-5)',
+  },
+  tabs: {
+    '--tabs-icon-color': 'var(--color-success)',
+    '--tabs-tab-color': 'var(--color-bus)',
+    '--tabs-tab-color-active': 'var(--color-bus)',
   },
   textInput: {
     '--border-radius': '2px',

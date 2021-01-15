@@ -1,7 +1,6 @@
 import addDays from 'date-fns/addDays';
 import addWeeks from 'date-fns/addWeeks';
 import endOfDay from 'date-fns/endOfDay';
-import formatDate from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
 import isFuture from 'date-fns/isFuture';
 import isValid from 'date-fns/isValid';
@@ -25,6 +24,7 @@ import {
   DATETIME_FORMAT,
   EXTLINK,
   FORM_NAMES,
+  ROUTES,
   WEEK_DAY,
 } from '../../constants';
 import {
@@ -36,8 +36,10 @@ import {
   PublicationStatus,
   SuperEventType,
 } from '../../generated/graphql';
-import { OptionType, PathBuilderProps } from '../../types';
+import { Language, OptionType, PathBuilderProps } from '../../types';
 import dropNilAndEmptyString from '../../utils/dropNilAndEmptyString';
+import formatDate from '../../utils/formatDate';
+import getLocalisedString from '../../utils/getLocalisedString';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   createArrayError,
@@ -255,13 +257,7 @@ export const eventValidationSchema = Yup.object().shape({
               ),
               [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
                 eventInfoLanguage,
-                Yup.string()
-                  .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-                  .url(VALIDATION_MESSAGE_KEYS.URL)
-              ),
-              [EVENT_FIELDS.OFFER_DESCRIPTION]: createMultiLanguageValidation(
-                eventInfoLanguage,
-                Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+                Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
               ),
             })
           )
@@ -537,11 +533,46 @@ export const clearEventFormData = () => {
   sessionStorage.removeItem(FORM_NAMES.EVENT_FORM);
 };
 
-export const getEventFields = (event: EventFieldsFragment): EventFields => ({
-  id: event.id || '',
-  atId: event.atId || '',
-  publicationStatus: event.publicationStatus || PublicationStatus.Public,
-});
+const getEventLocationFields = (
+  event: EventFieldsFragment,
+  language: Language
+) => {
+  const location = event.location;
+  return {
+    addressLocality: getLocalisedString(location?.addressLocality, language),
+    locationName: getLocalisedString(location?.name, language),
+    streetAddress: getLocalisedString(location?.streetAddress, language),
+  };
+};
+
+export const getEventFields = (
+  event: EventFieldsFragment,
+  language: Language
+): EventFields => {
+  const id = event.id || '';
+
+  return {
+    id,
+    atId: event.atId || '',
+    audienceMaxAge: event.audienceMaxAge || null,
+    audienceMinAge: event.audienceMinAge || null,
+    endTime: event.endTime ? new Date(event.endTime) : null,
+    eventUrl: `/${language}${ROUTES.EVENT.replace(':id', id)}`,
+    freeEvent: !!event.offers[0]?.isFree,
+    imageUrl: event.images.find((image) => image?.url)?.url || null,
+    inLanguage: event.inLanguage
+      .map((item) => getLocalisedString(item?.name, language))
+      .filter((e) => e),
+    name: getLocalisedString(event.name, language),
+    offers: event.offers.filter(
+      (offer) => !!offer && !offer?.isFree
+    ) as Offer[],
+    publisher: event.publisher || null,
+    publicationStatus: event.publicationStatus || PublicationStatus.Public,
+    startTime: event.startTime ? new Date(event.startTime) : null,
+    ...getEventLocationFields(event, language),
+  };
+};
 
 export const generateEventTimesFromRecurringEvent = (
   settings: RecurringEventSettings

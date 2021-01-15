@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import forEach from 'lodash/forEach';
 import set from 'lodash/set';
@@ -23,7 +24,9 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
+import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { clearEventsQueries } from '../events/utils';
 import { keywordSetPathBuilder } from '../keywordSet/utils';
 import ButtonPanel from './buttonPanel/ButtonPanel';
 import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from './constants';
@@ -58,6 +61,7 @@ const SELECT_FIELDS = [
 ];
 
 const CreateEventPage: React.FC = () => {
+  const apolloClient = useApolloClient();
   const history = useHistory();
   const locale = useLocale();
   const { t } = useTranslation();
@@ -137,6 +141,8 @@ const CreateEventPage: React.FC = () => {
           },
         });
 
+        // Clear all events queries from apollo cache to show added events in event list
+        clearEventsQueries(apolloClient);
         goToEventSavedPage(recurringEventData.data?.createEvent.id as string);
       } else {
         const data = await createEventMutation({
@@ -145,6 +151,8 @@ const CreateEventPage: React.FC = () => {
           },
         });
 
+        // Clear all events queries from apollo cache to show added events in event list
+        clearEventsQueries(apolloClient);
         goToEventSavedPage(data.data?.createEvent.id as string);
       }
     } catch (e) {
@@ -232,6 +240,7 @@ const CreateEventPage: React.FC = () => {
               abortEarly: false,
             });
 
+            clearErrors();
             saveEvent(values, PublicationStatus.Draft);
           } catch (error) {
             showErrors(error);
@@ -245,6 +254,7 @@ const CreateEventPage: React.FC = () => {
             const values = { type, ...restValues };
 
             clearErrors();
+
             await eventValidationSchema.validate(values, {
               abortEarly: false,
             });
@@ -266,49 +276,53 @@ const CreateEventPage: React.FC = () => {
               title={`createEventPage.pageTitle.${type}`}
             >
               <LoadingSpinner isLoading={loading}>
-                <Container>
-                  <FormContainer>
-                    <Section title={t('event.form.sections.type')}>
-                      <TypeSection />
-                    </Section>
-                    <Section title={t('event.form.sections.languages')}>
-                      <LanguagesSection />
-                    </Section>
-                    <Section title={t('event.form.sections.responsibilities')}>
-                      <ResponsibilitiesSection />
-                    </Section>
-                    <Section title={t('event.form.sections.description')}>
-                      <DescriptionSection />
-                    </Section>
-                    <Section title={t('event.form.sections.time')}>
-                      <TimeSection />
-                    </Section>
-                    <Section title={t('event.form.sections.place')}>
-                      <PlaceSection />
-                    </Section>
-                    <Section title={t('event.form.sections.price')}>
-                      <PriceSection />
-                    </Section>
-                    <Section title={t('event.form.sections.socialMedia')}>
-                      <SocialMediaSection />
-                    </Section>
-                    <Section title={t('event.form.sections.image')}>
-                      <ImageSection />
-                    </Section>
-                    <Section title={t('event.form.sections.classification')}>
-                      <ClassificationSection />
-                    </Section>
-                    <Section title={t('event.form.sections.audience')}>
-                      <AudienceSection />
-                    </Section>
-                    <Section title={t('event.form.sections.additionalInfo')}>
-                      <AdditionalInfoSection />
-                    </Section>
+                <MainContent>
+                  <Container>
+                    <FormContainer>
+                      <Section title={t('event.form.sections.type')}>
+                        <TypeSection />
+                      </Section>
+                      <Section title={t('event.form.sections.languages')}>
+                        <LanguagesSection />
+                      </Section>
+                      <Section
+                        title={t('event.form.sections.responsibilities')}
+                      >
+                        <ResponsibilitiesSection />
+                      </Section>
+                      <Section title={t('event.form.sections.description')}>
+                        <DescriptionSection />
+                      </Section>
+                      <Section title={t('event.form.sections.time')}>
+                        <TimeSection />
+                      </Section>
+                      <Section title={t('event.form.sections.place')}>
+                        <PlaceSection />
+                      </Section>
+                      <Section title={t('event.form.sections.price')}>
+                        <PriceSection />
+                      </Section>
+                      <Section title={t('event.form.sections.socialMedia')}>
+                        <SocialMediaSection />
+                      </Section>
+                      <Section title={t('event.form.sections.image')}>
+                        <ImageSection />
+                      </Section>
+                      <Section title={t('event.form.sections.classification')}>
+                        <ClassificationSection />
+                      </Section>
+                      <Section title={t('event.form.sections.audience')}>
+                        <AudienceSection />
+                      </Section>
+                      <Section title={t('event.form.sections.additionalInfo')}>
+                        <AdditionalInfoSection />
+                      </Section>
 
-                    <SummarySection />
-                  </FormContainer>
-                </Container>
-                <ButtonPanel onSaveDraft={saveDraft} />
+                      <SummarySection />
+                    </FormContainer>
+                  </Container>
+                  <ButtonPanel onSaveDraft={saveDraft} />
+                </MainContent>
               </LoadingSpinner>
             </PageWrapper>
           </Form>

@@ -1,5 +1,5 @@
 import { useField } from 'formik';
-import { IconMinusCircle, IconPlusCircle } from 'hds-react/icons';
+import { IconMinusCircle, IconPlusCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';

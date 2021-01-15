@@ -35,6 +35,12 @@ export const arrowUpKeyPressHelper = (el?: HTMLElement): boolean =>
 export const arrowDownKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 40, key: 'ArrowDown' });
 
+export const arrowLeftKeyPressHelper = (el?: HTMLElement): boolean =>
+  fireEvent.keyDown(el || document, { code: 38, key: 'ArrowLeft' });
+
+export const arrowRightKeyPressHelper = (el?: HTMLElement): boolean =>
+  fireEvent.keyDown(el || document, { code: 38, key: 'ArrowRight' });
+
 export const enterKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 13, key: 'Enter' });
 

@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { Navigation } from 'hds-react/components/Navigation';
-import { IconPlus, IconSignout } from 'hds-react/icons';
+import { IconPlus, IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -9,6 +8,7 @@ import { useHistory, useLocation } from 'react-router';
 
 import {
   MAIN_CONTENT_ID,
+  NAVIGATION_ITEMS,
   ROUTES,
   SUPPORTED_LANGUAGES,
 } from '../../../constants';
@@ -21,12 +21,7 @@ import { clearEventFormData } from '../../event/utils';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
 
-export interface HeaderProps {
-  menuOpen: boolean;
-  onMenuToggle: () => void;
-}
-
-const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
+const Header: React.FC = () => {
   const { theme } = useTheme();
   const locale = useLocale();
   const history = useHistory();
@@ -34,6 +29,7 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
   const user = useSelector(userSelector);
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   const languageOptions: OptionType[] = React.useMemo(() => {
     return Object.values(SUPPORTED_LANGUAGES).map((language) => ({
@@ -61,6 +57,7 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
   ) => {
     event?.preventDefault();
     history.push({ pathname });
+    toggleMenu();
   };
 
   const goToCreateEvent = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -68,20 +65,10 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     goToPage(createEventItem.url)(event);
   };
 
-  const navigationItems = [
-    {
-      label: t('navigation.tabs.events'),
-      url: `/${locale}${ROUTES.EVENTS}`,
-    },
-    {
-      label: t('navigation.tabs.searchEvent'),
-      url: `/${locale}${ROUTES.SEARCH}`,
-    },
-    {
-      label: t('navigation.tabs.help'),
-      url: `/${locale}${ROUTES.HELP}`,
-    },
-  ];
+  const navigationItems = NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
+    label: t(labelKey),
+    url: `/${locale}${url}`,
+  }));
 
   const createEventItem = {
     label: t('navigation.tabs.createEvent'),
@@ -92,15 +79,25 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
     signIn(`${location.pathname}${location.search}`);
   };
 
+  const handleSignOut = (e: React.MouseEvent) => {
+    e.preventDefault();
+    signOut();
+  };
+
   const showAddButton =
     location.pathname !== `/${locale}${ROUTES.CREATE_EVENT}`;
 
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <Navigation
+      fixed={true}
       menuOpen={menuOpen}
-      onMenuToggle={onMenuToggle}
+      onMenuToggle={toggleMenu}
       menuToggleAriaLabel={t('navigation.menuToggleAriaLabel')}
-      skipTo={`${location.pathname}${location.search}#${MAIN_CONTENT_ID}`}
+      skipTo={`#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('navigation.skipToContentLabel')}
       className={classNames(css(theme.navigation), styles.navigation)}
       onTitleClick={goToPage(`/${locale}${ROUTES.HOME}`)}
@@ -147,10 +144,7 @@ const Header: React.FC<HeaderProps> = ({ menuOpen, onMenuToggle }) => {
             href="#"
             icon={<IconSignout aria-hidden />}
             variant="supplementary"
-            onClick={(e: React.MouseEvent) => {
-              e.preventDefault();
-              signOut();
-            }}
+            onClick={handleSignOut}
           />
         </Navigation.User>
         <Navigation.LanguageSelector

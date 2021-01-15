@@ -1,9 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import {
-  TextArea as BaseTextArea,
-  TextAreaProps,
-} from 'hds-react/components/Textarea';
+import { TextArea as BaseTextArea, TextAreaProps } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';

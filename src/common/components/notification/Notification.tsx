@@ -4,7 +4,7 @@ import {
   Notification as BaseNotification,
   NotificationProps,
   NotificationSizeToast,
-} from 'hds-react/components/Notification';
+} from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';

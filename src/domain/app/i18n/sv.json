@@ -14,6 +14,7 @@
     "at": "kl {{time}}",
     "betweenDates": "Mellan {{startDate}} och {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonAddEvent": "Lägg till ett ny evenemang",
     "cancel": "Annullera",
     "close": "Stäng",
     "combobox": {
@@ -42,12 +43,20 @@
       "text": "Ge respons och påverka",
       "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
     },
+    "goToHome": "Till startsidan",
     "imageUploader": {
       "buttonDropImage": "Släpp en bild i området eller lägg till från din dator genom att klicka",
       "notAllowedFileFormat": "Filformat är inte tillåtet",
       "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
     },
+    "noResults": "Inga resultat",
     "openInNewTab": "(öppnas i en ny flik)",
+    "pagination": {
+      "navigation": "Sidnavigering",
+      "next": "Nästa sida",
+      "page": "Sida {{page}}",
+      "previous": "Föregående sida"
+    },
     "placeholderDate": "dd.mm.åååå",
     "placeholderDateTime": "dd.mm.åååå hh.mm",
     "placeholderTime": "hh.mm",
@@ -78,6 +87,11 @@
     "validationError": "Det finns fel på formuläret. Kontrollera formuläret."
   },
   "event": {
+    "audienceAge": {
+      "between": "{{min}} – {{max}} år",
+      "over": "Över {{min}} år",
+      "under": "Under {{max}} år"
+    },
     "form": {
       "buttonAddEventTime": "Lägg till ny tid",
       "buttonAddImage": {
@@ -417,13 +431,17 @@
       "titleUmrellaEvent": "Paraplyevenemangen",
       "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett paraplyevenemang."
     },
+    "freeEvent": "Fri",
+    "publicationStatus": {
+      "draft": "Förslag",
+      "public": "Offentlig"
+    },
     "type": {
       "course": "Kurs",
       "event": "Evenemang"
     }
   },
   "eventSavedPage": {
-    "buttonAddEvent": "Lägg till ett ny evenemang",
     "buttonBackToEvents": "Tillbaka till evenemang",
     "pageTitleDraftSaved": "Utkastet har sparats",
     "pageTitlePublished": "Evenemanget har publicerats",
@@ -431,7 +449,47 @@
     "titlePublished": "Evenemanget har publicerats"
   },
   "eventsPage": {
-    "pageTitle": "Sök evenemangen"
+    "captionListTypes": "Listtyp",
+    "count": "{{count}} evenemang",
+    "count_plural": "{{count}} evenemang",
+    "datetime": "{{date}} på {{time}}",
+    "eventsTableCaption": {
+      "drafts": "Utkasta evenemangen, sorterade efter {{sort}}",
+      "published": "Publicerade evenemangen, sorterade efter {{sort}}",
+      "waitingApproval": "Evenemangen som väntar på godkännande, sorterade efter {{sort}}"
+    },
+    "eventsTableColumns": {
+      "endTime": "Sluttid",
+      "id": "ID",
+      "name": "Namn",
+      "publisher": "Utgivare",
+      "startTime": "Starttid",
+      "status": "Status"
+    },
+    "labelSort": "Sortera efter",
+    "listTypes": {
+      "cardList": "Evenemangkort",
+      "table": "Tabell"
+    },
+    "pageTitle": "Mina evenemangen",
+    "sortOptions": {
+      "duration": "Varaktighet, stigande",
+      "durationDesc": "Varaktighet, fallande",
+      "endTime": "Sluttid, stigande",
+      "endTimeDesc": "Sluttid, fallande",
+      "lastModifiedTime": "Senast modifierad, stigande",
+      "lastModifiedTimeDesc": "Senast modifierad, fallande",
+      "name": "Name, stigande",
+      "nameDesc": "Name, fallande",
+      "startTime": "Starttid, stigande",
+      "startTimeDesc": "Starttid, fallande"
+    },
+    "tabs": {
+      "drafts": "Utkast ({{count}})",
+      "published": "Publicerad ({{count}})",
+      "waitingApproval": "Väntan ({{count}})"
+    },
+    "title": "Mina evenemangen"
   },
   "form": {
     "inLanguage": {
@@ -509,6 +567,11 @@
       "wed": "Ons"
     }
   },
+  "footer": {
+    "backToTopLabel": "Tillbaka till toppen",
+    "copyrightHolder": "Helsingfors stad",
+    "copyrightText": "Alla rättigheter förbehållna."
+  },
   "helpPage": {
     "pageTitle": "Läs mer"
   },
@@ -516,7 +579,6 @@
     "uploadError": "Det gick inte att ladda upp bilden"
   },
   "logoutPage": {
-    "buttonGoToHome": "Till startsidan",
     "pageTitle": "Du är utloggad",
     "text": "Du har loggat ut från tjänsten. Logga in igen eller återvänd till startsidan."
   },
@@ -537,8 +599,11 @@
     }
   },
   "notFound": {
-    "buttonGoToHome": "Till startsidan",
     "pageTitle": "Hittades inte",
     "text": "Innehållet du letade efter kunde inte hittas. Logga in igen eller återvänd till startsidan."
+  },
+  "notSigned": {
+    "pageTitle": "Inloggning krävs",
+    "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
   }
 }

@@ -1,13 +1,19 @@
+import classNames from 'classnames';
+import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 
+import styles from './pageWrapper.module.scss';
+
 export interface PageWrapperProps {
+  backgroundColor?: 'white' | 'gray';
   className?: string;
   title?: string;
 }
 
 const PageWrapper: React.FC<PageWrapperProps> = ({
+  backgroundColor = 'white',
   children,
   className,
   title = 'appName',
@@ -24,7 +30,13 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   };
 
   return (
-    <div className={className}>
+    <div
+      className={classNames(
+        styles.pageWrapper,
+        [styles[`backgroundColor${capitalize(backgroundColor)}`]],
+        className
+      )}
+    >
       <Helmet>
         <title>{translatedTitle}</title>
 

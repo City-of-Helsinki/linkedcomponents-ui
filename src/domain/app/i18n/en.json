@@ -14,6 +14,7 @@
     "at": "at {{time}}",
     "betweenDates": "Between {{startDate}} and {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonAddEvent": "Add new event",
     "cancel": "Cancel",
     "close": "Close",
     "combobox": {
@@ -42,12 +43,20 @@
       "text": "Give feedback and make an impact",
       "url": "https://www.hel.fi/helsinki/en/administration/participate/feedback/"
     },
+    "goToHome": "To home page",
     "imageUploader": {
       "buttonDropImage": "Drop an image into the area or add from your computer by clicking",
       "notAllowedFileFormat": "File format is not allowed",
       "tooLargeFileSize": "File size is too large. Maximum file size is {{maxSize}} MB"
     },
+    "noResults": "No results", 
     "openInNewTab": "(opens in a new tab)",
+    "pagination": {
+      "navigation": "Page navigation",
+      "next": "Next page",
+      "page": "Page {{page}}",
+      "previous": "Previous page"
+    },
     "placeholderDate": "dd.mm.yyyy",
     "placeholderDateTime": "dd.mm.yyyy hh.mm",
     "placeholderTime": "hh.mm",
@@ -78,6 +87,11 @@
     "validationError": "There are errors on the form. Please check the form."
   },
   "event": {
+    "audienceAge": {
+      "between": "{{min}} – {{max}} yr.",
+      "over": "Over {{min}} yr.",
+      "under": "Under {{max}} yr."
+    },
     "form": {
       "buttonAddEventTime": "Add new time",
       "buttonAddImage": {
@@ -417,13 +431,17 @@
       "titleUmrellaEvent": "Umbrella events",
       "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
     },
+    "freeEvent": "Free",
+    "publicationStatus": {
+      "draft": "Draft",
+      "public": "Public"
+    },
     "type": {
       "course": "Course",
       "event": "Event"
     }
   },
   "eventSavedPage": {
-    "buttonAddEvent": "Add new event",
     "buttonBackToEvents": "Back to events",
     "pageTitleDraftSaved": "Draft saved",
     "pageTitlePublished": "Event published",
@@ -431,7 +449,52 @@
     "titlePublished": "Event successfully published"
   },
   "eventsPage": {
-    "pageTitle": "Search events"
+    "captionListTypes": "List type",
+    "count": "{{count}} event",
+    "count_plural": "{{count}} events",
+    "datetime": "{{date}} at {{time}}",
+    "eventsTableCaption": {
+      "drafts": "Draft events, sorted by {{sort}}",
+      "published": "Published events, sorted by {{sort}}",
+      "waitingApproval": "Events awaiting approval, sorted by {{sort}}"
+    },
+    "eventsTableColumns": {
+      "endTime": "End time",
+      "id": "ID",
+      "name": "Name",
+      "publisher": "Publisher",
+      "startTime": "Start time",
+      "status": "Status"
+    },
+    "labelSort": "Sort by",
+    "listTypes": {
+      "cardList": "Event cards",
+      "table": "Table"
+    },
+    "pageTitle": "My events",
+    "sortOptions": {
+      "duration": "Duration, ascending",
+      "durationDesc": "Duration, descending",
+      "endTime": "End time, ascending",
+      "endTimeDesc": "End time, descending",
+      "lastModifiedTime": "Last modified, ascending",
+      "lastModifiedTimeDesc": "Last modified, descending",
+      "name": "Name, ascending",
+      "nameDesc": "Name, descending",
+      "startTime": "Start time, ascending",
+      "startTimeDesc": "Start time, descending"
+    },
+    "tabs": {
+      "drafts": "Drafts ({{count}})",
+      "published": "Published ({{count}})",
+      "waitingApproval": "Waiting ({{count}})"
+    },
+    "title": "My events"
+  },
+  "footer": {
+    "backToTopLabel": "Back to top",
+    "copyrightHolder": "City of Helsinki",
+    "copyrightText": "All rights reserved."
   },
   "form": {
     "inLanguage": {
@@ -516,7 +579,6 @@
     "uploadError": "Failed to upload the image"
   },
   "logoutPage": {
-    "buttonGoToHome": "To home page",
     "pageTitle": "You are logged out",
     "text": "You have been logged out of the service. Log back in or return to the home page."
   },
@@ -537,8 +599,11 @@
     }
   },
   "notFound": {
-    "buttonGoToHome": "To home page",
     "pageTitle": "Not found",
     "text": "The content you were looking for could not be found. Log in or return to the home page."
+  },
+  "notSigned": {
+    "pageTitle": "Login required",
+    "text": "You must be logged in to view this content. Log in or return to the home page."
   }
 }

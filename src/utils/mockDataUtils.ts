@@ -17,9 +17,12 @@ import {
   LanguagesResponse,
   LocalisedObject,
   Meta,
+  Offer,
+  Organization,
   Place,
   PlacesResponse,
   PublicationStatus,
+  User,
 } from '../generated/graphql';
 
 export const fakeEvents = (
@@ -38,23 +41,25 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
     {
       id,
       atId: `https://api.hel.fi/linkedevents-test/v1/event/${id}/`,
+      audienceMaxAge: null,
+      audienceMinAge: null,
       name: fakeLocalisedObject(faker.name.title()),
       publisher: 'provider:123',
       provider: fakeLocalisedObject(),
       shortDescription: fakeLocalisedObject(),
       description: fakeLocalisedObject(),
-      images: [fakeImage()],
+      images: [],
       infoUrl: fakeLocalisedObject(),
-      inLanguage: [fakeLanguage()],
+      inLanguage: [],
       audience: [],
-      keywords: [fakeKeyword()],
+      keywords: [],
       location: fakePlace(),
       startTime: '2020-07-13T05:51:05.761000Z',
       endTime: null,
       datePublished: null,
-      externalLinks: [fakeExternalLink()],
-      offers: [] as any,
-      subEvents: [] as any,
+      externalLinks: [],
+      offers: [],
+      subEvents: [],
       publicationStatus: PublicationStatus.Public,
       eventStatus: 'EventScheduled',
       superEvent: null,
@@ -179,6 +184,48 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language => {
   );
 };
 
+export const fakeOffer = (overrides?: Partial<Offer>): Offer =>
+  merge(
+    {
+      description: fakeLocalisedObject(),
+      infoUrl: fakeLocalisedObject(faker.internet.url()),
+      isFree: false,
+      price: fakeLocalisedObject(),
+      __typename: 'Offer',
+    },
+    overrides
+  );
+
+export const fakeOffers = (count = 1, offers?: Partial<Offer>[]): Offer[] =>
+  generateNodeArray((i) => fakeOffer(offers?.[i]), count);
+
+export const fakeOrganization = (
+  overrides?: Partial<Organization>
+): Organization => {
+  const id = overrides?.id || faker.random.uuid();
+  return merge<Organization, typeof overrides>(
+    {
+      affiliatedOrganizations: [],
+      id,
+      atId: `https://api.hel.fi/linkedevents-test/v1/organization/${id}/`,
+      classification: faker.random.words(),
+      createdTime: null,
+      dataSource: faker.random.uuid(),
+      dissolutionDate: null,
+      foundingDate: null,
+      hasRegularUsers: false,
+      isAffiliated: false,
+      lastModifiedTime: null,
+      name: faker.random.words(),
+      parentOrganization: null,
+      replacedBy: null,
+      subOrganizations: [],
+      __typename: 'Organization',
+    },
+    overrides
+  );
+};
+
 export const fakePlaces = (
   count = 1,
   places?: Partial<Place>[]
@@ -206,6 +253,28 @@ export const fakePlace = (overrides?: Partial<Place>): Place => {
       position: null,
       divisions: [],
       __typename: 'Place',
+    },
+    overrides
+  );
+};
+
+export const fakeUser = (overrides?: Partial<User>): User => {
+  return merge<User, typeof overrides>(
+    {
+      adminOrganizations: [],
+      dateJoined: null,
+      departmentName: faker.random.words(),
+      displayName: faker.random.words(),
+      email: faker.internet.email(),
+      firstName: faker.name.firstName(),
+      isStaff: false,
+      lastLogin: faker.name.lastName(),
+      lastName: faker.name.lastName(),
+      organization: faker.random.words(),
+      organizationMemberships: [],
+      username: faker.name.lastName(),
+      uuid: faker.random.uuid(),
+      __typename: 'User',
     },
     overrides
   );

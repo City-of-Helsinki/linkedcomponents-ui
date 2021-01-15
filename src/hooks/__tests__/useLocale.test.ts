@@ -4,9 +4,7 @@ import i18n from 'i18next';
 import useLocale from '../useLocale';
 
 beforeEach(() => {
-  act(() => {
-    i18n.changeLanguage('fi');
-  });
+  i18n.changeLanguage('fi');
 });
 
 test('should return selected language', () => {

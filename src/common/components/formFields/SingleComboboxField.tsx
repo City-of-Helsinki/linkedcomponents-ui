@@ -1,5 +1,5 @@
 import { FieldProps, useField } from 'formik';
-import { SingleSelectProps } from 'hds-react/components/Select';
+import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 

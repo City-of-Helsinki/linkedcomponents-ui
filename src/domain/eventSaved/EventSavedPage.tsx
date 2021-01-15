@@ -29,7 +29,7 @@ const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
   const history = useHistory();
   const locale = useLocale();
 
-  const { publicationStatus } = getEventFields(event);
+  const { publicationStatus } = getEventFields(event, locale);
 
   const goToEvents = () => {
     history.push(`/${locale}${ROUTES.EVENTS}`);
@@ -64,7 +64,7 @@ const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
               {t('eventSavedPage.buttonBackToEvents')}
             </Button>
             <Button onClick={goToCreateEvent} variant="primary">
-              {t('eventSavedPage.buttonAddEvent')}
+              {t('common.buttonAddEvent')}
             </Button>
           </div>
         </FormContainer>

@@ -1,4 +1,4 @@
-import { SelectCustomTheme } from 'hds-react/components/Select';
+import { FooterCustomTheme, SelectCustomTheme } from 'hds-react';
 import React, { useContext, useState } from 'react';
 
 type ButtonCSSProperties = {
@@ -104,10 +104,14 @@ type ErrorTemplateCSSProperties = {
   '--error-template-icon-size'?: string;
 };
 
-type FormLanguageSelectorCSSProperties = {
-  '--form-language-selector-icon-color'?: string;
-  '--form-language-selector-item-color'?: string;
-  '--form-language-selector-item-color-active'?: string;
+type eventCardCSSProperties = {
+  '--event-card-background-color'?: string;
+  '--event-card-color'?: string;
+  '--event-card-icon-color'?: string;
+  '--event-card-heading-color'?: string;
+  '--event-card-image-background-color'?: string;
+  '--event-card-image-min-height'?: string;
+  '--event-card-mobile-image-min-height'?: string;
 };
 
 type ImageSelectorCSSProperties = {
@@ -181,6 +185,31 @@ type NotificationSizeCSSProperties = {
   '--notification-padding'?: string;
 };
 
+type PaginationCSSProperties = {
+  '--pagination-item-background-color'?: string;
+  '--pagination-item-background-color-disabled'?: string;
+  '--pagination-item-background-color-hover'?: string;
+  '--pagination-item-background-color-selected'?: string;
+  '--pagination-item-color'?: string;
+  '--pagination-item-color-disabled'?: string;
+  '--pagination-item-color-hover'?: string;
+  '--pagination-item-color-selected'?: string;
+  '--pagination-item-size'?: string;
+  '--pagination-item-border-radius'?: string;
+};
+
+type PublicationStatusCSSProperties = {
+  '--publication-status-color-draft'?: string;
+  '--publication-status-color-public'?: string;
+};
+
+type PublicationStatusTagCSSProperties = {
+  '--publication-status-tag-background-color-draft'?: string;
+  '--publication-status-tag-color-draft'?: string;
+  '--publication-status-tag-background-color-public'?: string;
+  '--publication-status-tag-color-public'?: string;
+};
+
 type RadioButtonCSSProperties = {
   '--size'?: string;
   '--icon-scale'?: number;
@@ -226,6 +255,18 @@ type SelectCSSProperties = {
   '--icon-size'?: string;
   '--menu-z-index'?: number;
 } & Partial<SelectCustomTheme>;
+
+type TableCSSProperties = {
+  '--table-body-background'?: string;
+  '--table-body-row-border-color'?: string;
+  '--table-head-background'?: string;
+};
+
+type TabsCSSProperties = {
+  '--tabs-icon-color'?: string;
+  '--tabs-tab-color'?: string;
+  '--tabs-tab-color-active'?: string;
+};
 
 type TextInputCSSProperties = {
   '--border-radius'?: string;
@@ -276,7 +317,8 @@ export type Theme = {
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
-  formLanguageSelector: FormLanguageSelectorCSSProperties;
+  eventCard: eventCardCSSProperties;
+  footer: Partial<FooterCustomTheme>;
   imageSelector: ImageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
@@ -296,9 +338,14 @@ export type Theme = {
       success?: NotificationCSSProperties;
     };
   };
+  pagination: PaginationCSSProperties;
+  publicationStatus: PublicationStatusCSSProperties;
+  publicationStatusTag: PublicationStatusTagCSSProperties;
   radioButton: RadioButtonCSSProperties;
   root: RootCSSProperties;
   select: SelectCSSProperties;
+  table: TableCSSProperties;
+  tabs: TabsCSSProperties;
   textInput: TextInputCSSProperties;
   timepicker: TimepickerCSSProperties;
 };
@@ -310,7 +357,8 @@ const defaultTheme: Theme = {
   datepicker: {},
   deleteButton: {},
   errorTemplate: {},
-  formLanguageSelector: {},
+  eventCard: {},
+  footer: {},
   imageSelector: {},
   languageSelector: {},
   layout: {},
@@ -318,9 +366,14 @@ const defaultTheme: Theme = {
   modal: {},
   navigation: {},
   notification: {},
+  pagination: {},
+  publicationStatus: {},
+  publicationStatusTag: {},
   radioButton: {},
   root: {},
   select: {},
+  table: {},
+  tabs: {},
   textInput: {},
   timepicker: {},
 };

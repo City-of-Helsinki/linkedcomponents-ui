@@ -30,7 +30,7 @@ const FormikPersist = ({
         window.localStorage.setItem(name, JSON.stringify(data));
       }
     }, debounceTime),
-    [debounceTime, isSessionStorage, name]
+    [debounceTime, isMounted, isSessionStorage, name]
   );
 
   React.useEffect(() => {
