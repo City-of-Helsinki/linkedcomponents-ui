@@ -17,6 +17,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createEvent: Event;
   createEvents: Array<Event>;
+  updateEvent: Event;
   updateImage: Image;
   uploadImage: Image;
 };
@@ -29,6 +30,11 @@ export type MutationCreateEventArgs = {
 
 export type MutationCreateEventsArgs = {
   input: Array<CreateEventMutationInput>;
+};
+
+
+export type MutationUpdateEventArgs = {
+  input: UpdateEventMutationInput;
 };
 
 
@@ -208,6 +214,31 @@ export type OfferInput = {
 };
 
 export type CreateEventMutationInput = {
+  publicationStatus?: Maybe<PublicationStatus>;
+  audience?: Maybe<Array<IdObjectInput>>;
+  audienceMaxAge?: Maybe<Scalars['Int']>;
+  audienceMinAge?: Maybe<Scalars['Int']>;
+  description?: Maybe<LocalisedObjectInput>;
+  endTime?: Maybe<Scalars['String']>;
+  externalLinks?: Maybe<Array<Maybe<ExternalLinkInput>>>;
+  images?: Maybe<Array<IdObjectInput>>;
+  inLanguage?: Maybe<Array<IdObjectInput>>;
+  infoUrl?: Maybe<LocalisedObjectInput>;
+  keywords?: Maybe<Array<IdObjectInput>>;
+  location?: Maybe<IdObjectInput>;
+  locationExtraInfo?: Maybe<LocalisedObjectInput>;
+  name?: Maybe<LocalisedObjectInput>;
+  offers?: Maybe<Array<OfferInput>>;
+  provider?: Maybe<LocalisedObjectInput>;
+  shortDescription?: Maybe<LocalisedObjectInput>;
+  startTime?: Maybe<Scalars['String']>;
+  subEvents?: Maybe<Array<IdObjectInput>>;
+  superEvent?: Maybe<IdObjectInput>;
+  superEventType?: Maybe<SuperEventType>;
+};
+
+export type UpdateEventMutationInput = {
+  id: Scalars['ID'];
   publicationStatus?: Maybe<PublicationStatus>;
   audience?: Maybe<Array<IdObjectInput>>;
   audienceMaxAge?: Maybe<Scalars['Int']>;
@@ -525,6 +556,19 @@ export type CreateEventMutationVariables = Exact<{
 export type CreateEventMutation = (
   { __typename?: 'Mutation' }
   & { createEvent: (
+    { __typename?: 'Event' }
+    & EventFieldsFragment
+  ) }
+);
+
+export type UpdateEventMutationVariables = Exact<{
+  input: UpdateEventMutationInput;
+}>;
+
+
+export type UpdateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEvent: (
     { __typename?: 'Event' }
     & EventFieldsFragment
   ) }
@@ -1269,6 +1313,38 @@ export function useCreateEventMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
 export type CreateEventMutationResult = Apollo.MutationResult<CreateEventMutation>;
 export type CreateEventMutationOptions = Apollo.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
+export const UpdateEventDocument = gql`
+    mutation UpdateEvent($input: UpdateEventMutationInput!) {
+  updateEvent(input: $input) @rest(type: "Event", path: "/event/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    ...eventFields
+  }
+}
+    ${EventFieldsFragmentDoc}`;
+export type UpdateEventMutationFn = Apollo.MutationFunction<UpdateEventMutation, UpdateEventMutationVariables>;
+
+/**
+ * __useUpdateEventMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateEventMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEventMutation, UpdateEventMutationVariables>) {
+        return Apollo.useMutation<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument, baseOptions);
+      }
+export type UpdateEventMutationHookResult = ReturnType<typeof useUpdateEventMutation>;
+export type UpdateEventMutationResult = Apollo.MutationResult<UpdateEventMutation>;
+export type UpdateEventMutationOptions = Apollo.BaseMutationOptions<UpdateEventMutation, UpdateEventMutationVariables>;
 export const CreateEventsDocument = gql`
     mutation CreateEvents($input: [CreateEventMutationInput!]!) {
   createEvents(input: $input) @rest(type: "Event", path: "/event/", method: "POST", bodyKey: "input") {

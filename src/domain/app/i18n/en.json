@@ -107,6 +107,7 @@
       },
       "buttonAddOffer": "Add new pricing information",
       "buttonAddRecurringEvent": "Add recurring event",
+      "buttonBack": "Back",
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
       "buttonDeleteRecurringEvent": "Delete recurring event",
@@ -120,6 +121,8 @@
         "event": "Remove photo of the event"
       },
       "buttonSaveDraft": "Save draft",
+      "buttonUpdateDraft": "Save changes to draft",
+      "buttonUpdatePublic": "Save changes to published event",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
       "extensionCourse": {
         "labelEnrolmentEndTime": "Registration ends",

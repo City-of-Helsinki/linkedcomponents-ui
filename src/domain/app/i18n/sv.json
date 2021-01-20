@@ -107,6 +107,7 @@
       },
       "buttonAddOffer": "Lägg till ny prisinformation",
       "buttonAddRecurringEvent": "Lägg till återkommande evenemang",
+      "buttonBack": "Tillbaka",
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
@@ -120,6 +121,8 @@
         "event": "Ta bort bilden av evenemanget"
       },
       "buttonSaveDraft": "Spara utkast",
+      "buttonUpdateDraft": "Spara ändringar i utkastet",
+      "buttonUpdatePublic": "Spara ändringar i publicerad evenemanget",
       "checkboxIsVerified": "Jag verifierar att informationen jag har gett är korrekt och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och föreskrifter {{openInNewTab}}\">alla instruktioner och föreskrifter</a> som gäller Helsingfors stads kurser och evenemang.",
       "extensionCourse": {
         "labelEnrolmentEndTime": "Registreringen slutar",

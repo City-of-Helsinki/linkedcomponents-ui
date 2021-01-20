@@ -1,13 +1,38 @@
 @import 'breakpoints';
+@import 'mixins';
 
 .editButtonPanel {
+  --edit-button-panel-background-color: var(--color-coat-of-arms);
+  --edit-button-panel-button-background-color: var(--color-coat-of-arms);
+  --edit-button-panel-button-background-color-hover: var(
+    --color-coat-of-arms-dark
+  );
+  --edit-button-panel-button-background-color-focus: var(--color-coat-of-arms);
+  --edit-button-panel-button-background-color-hover-focus: var(
+    --color-coat-of-arms-dark
+  );
+  --edit-button-panel-button-background-color-disabled: var(
+    --color-coat-of-arms
+  );
+  --edit-button-panel-button-border-color: var(--color-white);
+  --edit-button-panel-button-border-color-hover: var(--color-white);
+  --edit-button-panel-button-border-color-focus: var(--color-white);
+  --edit-button-panel-button-border-color-hover-focus: var(--color-white);
+  --edit-button-panel-button-border-color-disabled: var(--color-black-40);
+  --edit-button-panel-button-color: var(--color-white);
+  --edit-button-panel-button-color-hover: var(--color-white);
+  --edit-button-panel-button-color-focus: var(--color-white);
+  --edit-button-panel-button-color-hover-focus: var(--color-white);
+  --edit-button-panel-button-color-disabled: var(--color-black-40);
+  --edit-button-panel-button-focus-outline-color: var(--color-white);
+
   position: sticky;
   margin-top: -1px;
   top: 0;
   left: 0;
   right: 0;
   padding: var(--spacing-m) 0;
-  background-color: var(--color-coat-of-arms);
+  background-color: var(--edit-button-panel-background-color);
   z-index: 100;
 }
 
@@ -46,27 +71,51 @@
   }
 
   button {
-    --background-color: var(--color-coat-of-arms);
-    --background-color-hover: var(--color-coat-of-arms-dark);
-    --background-color-focus: var(--color-coat-of-arms);
-    --background-color-hover-focus: var(--color-coat-of-arms-dark);
-    --background-color-disabled: var(--color-coat-of-arms);
-    --border-color: var(--color-white);
-    --color: var(--color-white);
-    --border-color-hover: var(--color-white);
-    --border-color-focus: var(--color-white);
-    --border-color-hover-focus: var(--color-white);
-    --border-color-disabled: var(--color-black-40);
-    --color-hover: var(--color-white);
-    --color-focus: var(--color-white);
-    --color-hover-focus: var(--color-white);
-    --color-disabled: var(--color-black-40);
-    --focus-outline-color: var(--color-white);
+    --background-color: var(--edit-button-panel-button-background-color);
+    --background-color-hover: var(
+      --edit-button-panel-button-background-color-hover
+    );
+    --background-color-focus: var(
+      --edit-button-panel-button-background-color-focus
+    );
+    --background-color-hover-focus: var(
+      --edit-button-panel-button-background-color-hover-focus
+    );
+    --background-color-disabled: var(
+      --edit-button-panel-button-background-color-disabled
+    );
+    --border-color: var(--edit-button-panel-button-border-color);
+    --border-color-hover: var(--edit-button-panel-button-border-color-hover);
+    --border-color-focus: var(--edit-button-panel-button-border-color-focus);
+    --border-color-hover-focus: var(
+      --edit-button-panel-button-border-color-hover-focus
+    );
+    --border-color-disabled: var(
+      --edit-button-panel-button-border-color-disabled
+    );
+    --color: var(--edit-button-panel-button-color);
+    --color-hover: var(--edit-button-panel-button-color-hover);
+    --color-focus: var(--edit-button-panel-button-color-focus);
+    --color-hover-focus: var(--edit-button-panel-button-color-hover-focus);
+    --color-disabled: var(--edit-button-panel-button-color-disabled);
+    --focus-outline-color: var(--edit-button-panel-button-focus-outline-color);
 
     white-space: nowrap;
 
     & > div {
       flex-shrink: 0;
     }
+  }
+}
+
+.backButton {
+  height: var(--spacing-3-xl);
+
+  div {
+    margin-left: 0 !important;
+  }
+
+  span {
+    @include hidden-from-screen;
   }
 }

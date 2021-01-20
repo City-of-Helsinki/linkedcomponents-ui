@@ -11,9 +11,12 @@ import parseDate from 'date-fns/parse';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import subDays from 'date-fns/subDays';
+import { FormikErrors, FormikTouched } from 'formik';
+import forEach from 'lodash/forEach';
 import isEqual from 'lodash/isEqual';
 import keys from 'lodash/keys';
 import reduce from 'lodash/reduce';
+import set from 'lodash/set';
 import sortBy from 'lodash/sortBy';
 import uniqWith from 'lodash/uniqWith';
 import * as Yup from 'yup';
@@ -62,6 +65,7 @@ import {
   IMAGE_DETAILS_FIELDS,
   ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
+  SELECT_FIELDS,
 } from './constants';
 import {
   EventFields,
@@ -979,5 +983,52 @@ export const getEventInitialValues = (
     audience: event.audience.map((keyword) => keyword?.atId as string),
     audienceMaxAge: event.audienceMaxAge || '',
     audienceMinAge: event.audienceMinAge || '',
+    isVerified: true,
   };
+};
+
+const getFocusableFieldId = (fieldName: string): string => {
+  // For the select elements, focus the toggle button
+  if (SELECT_FIELDS.find((item) => item === fieldName)) {
+    return `${fieldName}-input`;
+  }
+
+  return fieldName;
+};
+
+export const scrollToFirstError = (error: Yup.ValidationError) => {
+  forEach(error.inner, (e) => {
+    const field = document.getElementById(getFocusableFieldId(e.path));
+
+    /* istanbul ignore else */
+    if (field) {
+      field.focus();
+      return false;
+    }
+  });
+};
+
+export const showErrors = (
+  error: Yup.ValidationError,
+  setErrors: (errors: FormikErrors<EventFormFields>) => void,
+  setTouched: (
+    touched: FormikTouched<EventFormFields>,
+    shouldValidate?: boolean
+  ) => void
+) => {
+  /* istanbul ignore else */
+  if (error.name === 'ValidationError') {
+    const newErrors = error.inner.reduce(
+      (acc: object, e: Yup.ValidationError) => set(acc, e.path, e.errors[0]),
+      {}
+    );
+    const touchedFields = error.inner.reduce(
+      (acc: object, e: Yup.ValidationError) => set(acc, e.path, true),
+      {}
+    );
+
+    setErrors(newErrors);
+    setTouched(touchedFields);
+    scrollToFirstError(error);
+  }
 };

@@ -1,16 +1,27 @@
+import { useApolloClient } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { EventFieldsFragment, useEventQuery } from '../../generated/graphql';
+import { ROUTES } from '../../constants';
+import {
+  EventFieldsFragment,
+  PublicationStatus,
+  useEventQuery,
+  useUpdateEventMutation,
+  useUpdateImageMutation,
+} from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
+import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { clearEventsQueries } from '../events/utils';
 import NotFound from '../notFound/NotFound';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import EventInfo from './EventInfo';
@@ -27,12 +38,17 @@ import ResponsibilitiesSection from './formSections/responsibilitiesSection/Resp
 import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
+import useEventFieldsData from './hooks/useEventFieldsData';
 import Section from './layout/Section';
+import { EventFormFields } from './types';
 import {
+  draftEventValidationSchema,
   eventPathBuilder,
   eventValidationSchema,
   getEventFields,
   getEventInitialValues,
+  getEventPayload,
+  showErrors,
 } from './utils';
 
 interface EditEventPageProps {
@@ -40,12 +56,79 @@ interface EditEventPageProps {
 }
 
 const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
+  const apolloClient = useApolloClient();
   const { t } = useTranslation();
+  const history = useHistory();
   const locale = useLocale();
-  const { name } = getEventFields(event, locale);
+  const { id, name } = getEventFields(event, locale);
   const initialValues = React.useMemo(() => {
     return getEventInitialValues(event);
   }, [event]);
+
+  const [updateEventMutation] = useUpdateEventMutation();
+  const [updateImage] = useUpdateImageMutation();
+
+  const goToEventSavedPage = (id: string) => {
+    history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
+  };
+
+  const saveImageIfNeeded = async (values: EventFormFields) => {
+    const { imageDetails, images } = values;
+    const imageId = images[0];
+
+    if (imageId) {
+      await updateImage({
+        variables: {
+          input: {
+            id: parseIdFromAtId(imageId) as string,
+            ...imageDetails,
+          },
+        },
+      });
+    }
+  };
+
+  const saveEvent = async (
+    values: EventFormFields,
+    publicationStatus: PublicationStatus
+  ) => {
+    try {
+      const subEvents = event.subEvents;
+      if (subEvents.length) {
+        alert('TODO: Save super event and sub events');
+      } else {
+        await saveImageIfNeeded(values);
+
+        const payload = getEventPayload(values, publicationStatus);
+
+        const data = await updateEventMutation({
+          variables: {
+            input: { id, ...payload },
+          },
+        });
+
+        // Clear all events queries from apollo cache to show added events in event list
+        clearEventsQueries(apolloClient);
+        // goToEventSavedPage(data.data?.updateEvent.id as string);
+      }
+    } catch (e) {
+      const { networkError } = e;
+
+      /* istanbul ignore else */
+      if (networkError) {
+        switch (networkError.statusCode) {
+          case 400:
+            toast.error(t('errors.validationError'));
+            break;
+          case 401:
+            toast.error(t('errors.authorizationRequired'));
+            break;
+          default:
+            toast.error(t('errors.serverError'));
+        }
+      }
+    }
+  };
 
   return (
     <Formik
@@ -59,7 +142,31 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
       validateOnBlur={true}
       validateOnChange={true}
     >
-      {() => {
+      {({ values, setErrors, setTouched }) => {
+        const clearErrors = () => {
+          setErrors({});
+        };
+
+        const handleUpdate = async (publicationStatus: PublicationStatus) => {
+          try {
+            clearErrors();
+            if (publicationStatus === PublicationStatus.Draft) {
+              await draftEventValidationSchema.validate(values, {
+                abortEarly: false,
+              });
+            } else {
+              await eventValidationSchema.validate(values, {
+                abortEarly: false,
+              });
+            }
+
+            clearErrors();
+            saveEvent(values, publicationStatus);
+          } catch (error) {
+            showErrors(error, setErrors, setTouched);
+          }
+        };
+
         return (
           <Form noValidate={true}>
             <PageWrapper
@@ -68,11 +175,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
               title={name}
             >
               <MainContent>
-                <EditButtonPanel
-                  onSaveDraft={() => {
-                    alert('TODO: SAVE DRAFT');
-                  }}
-                />
+                <EditButtonPanel event={event} onUpdate={handleUpdate} />
                 <Container>
                   <FormContainer className={styles.editPageContentContainer}>
                     <EventInfo event={event} />
@@ -126,7 +229,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
 
 const EditEventPageWrapper: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: eventData, loading } = useEventQuery({
+  const { data: eventData, loading: loadingEvent } = useEventQuery({
     fetchPolicy: 'no-cache',
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
@@ -134,6 +237,9 @@ const EditEventPageWrapper: React.FC = () => {
       include: ['audience', 'keywords', 'location', 'super_event'],
     },
   });
+  const { loading: loadingEventFieldsData } = useEventFieldsData();
+
+  const loading = loadingEvent || loadingEventFieldsData;
 
   return (
     <LoadingSpinner isLoading={loading}>

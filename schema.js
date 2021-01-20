@@ -8,6 +8,7 @@ module.exports = buildSchema(/* GraphQL */ `
   type Mutation {
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
+    updateEvent(input: UpdateEventMutationInput!): Event!
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
   }
@@ -124,6 +125,31 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input CreateEventMutationInput {
+    publicationStatus: PublicationStatus
+    audience: [IdObjectInput!]
+    audienceMaxAge: Int
+    audienceMinAge: Int
+    description: LocalisedObjectInput
+    endTime: String
+    externalLinks: [ExternalLinkInput]
+    images: [IdObjectInput!]
+    inLanguage: [IdObjectInput!]
+    infoUrl: LocalisedObjectInput
+    keywords: [IdObjectInput!]
+    location: IdObjectInput
+    locationExtraInfo: LocalisedObjectInput
+    name: LocalisedObjectInput
+    offers: [OfferInput!]
+    provider: LocalisedObjectInput
+    shortDescription: LocalisedObjectInput
+    startTime: String
+    subEvents: [IdObjectInput!]
+    superEvent: IdObjectInput
+    superEventType: SuperEventType
+  }
+
+  input UpdateEventMutationInput {
+    id: ID!
     publicationStatus: PublicationStatus
     audience: [IdObjectInput!]
     audienceMaxAge: Int
