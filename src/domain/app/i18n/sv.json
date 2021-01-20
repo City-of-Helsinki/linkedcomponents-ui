@@ -92,7 +92,14 @@
       "over": "Över {{min}} år",
       "under": "Under {{max}} år"
     },
+    "eventStatus": {
+      "eventCancelled": "Inställt",
+      "eventPostponed": "Uppskjuten",
+      "eventRescheduled": "Omplanerad",
+      "eventScheduled": "Planerad"
+    },
     "form": {
+      "buttonAcceptAndPublish": "Acceptera och publicera",
       "buttonAddEventTime": "Lägg till ny tid",
       "buttonAddImage": {
         "course": "Lägg till en bild eller video av kursen",
@@ -214,6 +221,8 @@
       "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
       "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextUmbrellaSubEvent": "Om du vill lägga till detta evenemang under ett paraplyevenemang kan du göra det från tillhörande",
+      "infoTextUmbrellaSubEventLink": "toppnivåevenemanget",
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
       "labelDescription": {
@@ -435,6 +444,10 @@
     "publicationStatus": {
       "draft": "Förslag",
       "public": "Offentlig"
+    },
+    "superEventType": {
+      "recurring": "Serier",
+      "umbrella": "Paraply"
     },
     "type": {
       "course": "Kurs",

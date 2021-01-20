@@ -80,6 +80,13 @@ module.exports = buildSchema(/* GraphQL */ `
     user(id: ID!): User!
   }
 
+  enum EventStatus {
+    EventCancelled
+    EventPostponed
+    EventRescheduled
+    EventScheduled
+  }
+
   enum PublicationStatus {
     draft
     public
@@ -214,7 +221,7 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     extensionCourse: ExtensionCourse
     externalLinks: [ExternalLink]!
-    eventStatus: String
+    eventStatus: EventStatus
     images: [Image]!
     infoUrl: LocalisedObject
     inLanguage: [Language]!
@@ -230,7 +237,7 @@ module.exports = buildSchema(/* GraphQL */ `
     publicationStatus: PublicationStatus
     shortDescription: LocalisedObject
     startTime: String
-    subEvents: [AtIdObject]!
+    subEvents: [Event]!
     superEvent: Event
     superEventType: String
     # @id is renamed as atId so it's usable on GraphQl

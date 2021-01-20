@@ -20,3 +20,33 @@
 .publisherColumn {
   width: 50%;
 }
+
+.idWrapper {
+  display: flex;
+  align-items: center;
+
+  button {
+    display: flex;
+    padding: 0 var(--spacing-3-xs);
+  }
+}
+
+.noBorder {
+  td {
+    border-bottom: 1px solid transparent !important;
+  }
+}
+
+.superEventTypeTag {
+  margin-right: var(--spacing-2-xs);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: var(--spacing-2-xs);
+
+  > div {
+    width: 100%;
+  }
+}

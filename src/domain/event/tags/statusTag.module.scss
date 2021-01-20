@@ -1,0 +1,50 @@
+.statusTag {
+  --status-tag-background-color-cancelled: var(--color-error);
+  --status-tag-color-cancelled: var(--color-white);
+  --status-tag-background-color-postponed: var(--color-alert);
+  --status-tag-color-postponed: var(--color-white);
+  --status-tag-background-color-draft: var(--color-info);
+  --status-tag-color-draft: var(--color-white);
+  --status-tag-background-color-public: var(--color-success);
+  --status-tag-color-public: var(--color-white);
+
+  display: flex;
+  align-items: center;
+  font-size: var(--fontsize-body-s);
+  height: var(--spacing-layout-s);
+  padding: var(--spacing-3-xs) var(--spacing-xs) var(--spacing-3-xs)
+    var(--spacing-2-xs);
+  box-sizing: border-box;
+
+  svg {
+    margin-right: var(--spacing-3-xs);
+  }
+}
+
+.sizeS {
+  font-size: var(--fontsize-body-s);
+}
+
+.sizeM {
+  font-size: var(--fontsize-body-m);
+}
+
+.statusEventCancelled {
+  background-color: var(--status-tag-background-color-cancelled);
+  color: var(--status-tag-color-cancelled);
+}
+
+.statusEventPostponned {
+  background-color: var(--status-tag-background-color-postponned);
+  color: var(--status-tag-color-postponned);
+}
+
+.statusDraft {
+  background-color: var(--status-tag-background-color-draft);
+  color: var(--status-tag-color-draft);
+}
+
+.statusPublic {
+  background-color: var(--status-tag-background-color-public);
+  color: var(--status-tag-color-public);
+}

@@ -1,0 +1,80 @@
+import { LoadingSpinner } from 'hds-react';
+import React from 'react';
+
+import { useEventsQuery } from '../../../generated/graphql';
+import getNextPage from '../../../utils/getNextPage';
+import getPathBuilder from '../../../utils/getPathBuilder';
+import { eventsPathBuilder } from '../utils';
+import EventTableRow from './EventsTableRow';
+
+const PAGE_SIZE = 100;
+
+interface Props {
+  eventId: string;
+  level: number;
+}
+
+const SubEventRows: React.FC<Props> = ({ eventId, level }) => {
+  const variables = React.useMemo(() => {
+    return {
+      createPath: getPathBuilder(eventsPathBuilder),
+      pageSize: PAGE_SIZE,
+      showAll: true,
+      superEvent: eventId,
+    };
+  }, [eventId]);
+
+  const { data, fetchMore, loading } = useEventsQuery({
+    variables,
+  });
+
+  const nextPage = React.useMemo(() => {
+    const meta = data?.events.meta;
+    return meta ? getNextPage(meta) : null;
+  }, [data]);
+
+  const events = data?.events.data || [];
+
+  React.useEffect(() => {
+    if (nextPage) {
+      fetchMore({
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult) return prev;
+
+          const events = [...prev.events.data, ...fetchMoreResult.events.data];
+          fetchMoreResult.events.data = events;
+          return fetchMoreResult;
+        },
+        variables: {
+          ...variables,
+          page: nextPage,
+        },
+      });
+    }
+  }, [fetchMore, nextPage, variables]);
+
+  return loading ? (
+    <tr>
+      <td colSpan={6}>
+        <LoadingSpinner small={true} />
+      </td>
+    </tr>
+  ) : (
+    <>
+      {events.map((event, index) => {
+        return (
+          event && (
+            <EventTableRow
+              key={event?.id || index}
+              hideBorder={index + 1 !== events.length}
+              event={event}
+              level={level + 1}
+            />
+          )
+        );
+      })}
+    </>
+  );
+};
+
+export default SubEventRows;

@@ -12,4 +12,15 @@
   .author {
     color: var(--color-black-90);
   }
+
+  .statusTag {
+    display: flex;
+    margin-bottom: var(--spacing-m);
+  }
+
+  .heading {
+    display: flex;
+    align-items: center;
+    grid-gap: var(--spacing-xs);
+  }
 }

@@ -164,6 +164,13 @@ export type QueryUserArgs = {
   id: Scalars['ID'];
 };
 
+export enum EventStatus {
+  EventCancelled = 'EventCancelled',
+  EventPostponed = 'EventPostponed',
+  EventRescheduled = 'EventRescheduled',
+  EventScheduled = 'EventScheduled'
+}
+
 export enum PublicationStatus {
   Draft = 'draft',
   Public = 'public'
@@ -307,7 +314,7 @@ export type Event = {
   endTime?: Maybe<Scalars['String']>;
   extensionCourse?: Maybe<ExtensionCourse>;
   externalLinks: Array<Maybe<ExternalLink>>;
-  eventStatus?: Maybe<Scalars['String']>;
+  eventStatus?: Maybe<EventStatus>;
   images: Array<Maybe<Image>>;
   infoUrl?: Maybe<LocalisedObject>;
   inLanguage: Array<Maybe<Language>>;
@@ -323,7 +330,7 @@ export type Event = {
   publicationStatus?: Maybe<PublicationStatus>;
   shortDescription?: Maybe<LocalisedObject>;
   startTime?: Maybe<Scalars['String']>;
-  subEvents: Array<Maybe<AtIdObject>>;
+  subEvents: Array<Maybe<Event>>;
   superEvent?: Maybe<Event>;
   superEventType?: Maybe<Scalars['String']>;
   atId?: Maybe<Scalars['String']>;
@@ -606,7 +613,10 @@ export type EventFieldsFragment = (
   & { superEvent?: Maybe<(
     { __typename?: 'Event' }
     & BaseEventFieldsFragment
-  )> }
+  )>, subEvents: Array<Maybe<(
+    { __typename?: 'Event' }
+    & BaseEventFieldsFragment
+  )>> }
   & BaseEventFieldsFragment
 );
 
@@ -1164,6 +1174,9 @@ export const EventFieldsFragmentDoc = gql`
     fragment eventFields on Event {
   ...baseEventFields
   superEvent {
+    ...baseEventFields
+  }
+  subEvents {
     ...baseEventFields
   }
 }

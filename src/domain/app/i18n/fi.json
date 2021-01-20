@@ -92,7 +92,14 @@
       "over": "Yli {{min}} v",
       "under": "Alle {{max}} v"
     },
+    "eventStatus": {
+      "eventCancelled": "Peruutettu",
+      "eventPostponed": "Lykätty",
+      "eventRescheduled": "Ajoitettu uudelleen",
+      "eventScheduled": "Ajoitettu"
+    },
     "form": {
+      "buttonAcceptAndPublish": "Hyväksy ja julkaise",
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddImage": {
         "course": "Lisää kurssin kuva tai video",
@@ -214,6 +221,8 @@
       "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
       "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextUmbrellaSubEvent": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se",
+      "infoTextUmbrellaSubEventLink": "sarjan ylätapahtumasta",
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
       "labelDescription": {
@@ -435,6 +444,10 @@
     "publicationStatus": {
       "draft": "Luonnos",
       "public": "Julkaistu"
+    },
+    "superEventType": {
+      "recurring": "Sarja",
+      "umbrella": "Kattotapahtuma"
     },
     "type": {
       "course": "Kurssi",

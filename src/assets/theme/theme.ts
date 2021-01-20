@@ -188,7 +188,6 @@ const theme: Theme = {
     '--event-card-image-min-height': '7.5rem',
     '--event-card-mobile-image-min-height': '12rem',
   },
-
   footer: {
     '--footer-background': 'var(--color-black-5)',
     '--footer-color': 'var(--color-black)',
@@ -298,12 +297,6 @@ const theme: Theme = {
     '--publication-status-color-draft': 'var(--color-black-60)',
     '--publication-status-color-public': 'var(--color-success)',
   },
-  publicationStatusTag: {
-    '--publication-status-tag-background-color-draft': 'var(--color-alert)',
-    '--publication-status-tag-color-draft': 'var(--color-black-90)',
-    '--publication-status-tag-background-color-public': 'var(--color-success)',
-    '--publication-status-tag-color-public': 'var(--color-white)',
-  },
   radioButton: {
     '--size': '24px',
     '--icon-scale': 0.5,
@@ -382,6 +375,22 @@ const theme: Theme = {
     '--multiselect-checkbox-color-selected': 'var(--color-white)',
     '--multiselect-checkbox-color-selected-disabled': 'var(--color-white)',
     '--placeholder-color': 'var(--color-black-60)',
+  },
+  statusTag: {
+    '--status-tag-background-color-cancelled': 'var(--color-error)',
+    '--status-tag-color-cancelled': 'var(--color-white)',
+    '--status-tag-background-color-postponed': 'var(--color-alert)',
+    '--status-tag-color-postponed': 'var(--color-white)',
+    '--status-tag-background-color-draft': 'var(--color-info)',
+    '--status-tag-color-draft': 'var(--color-white)',
+    '--status-tag-background-color-public': 'var(--color-success)',
+    '--status-tag-color-public': 'var(--color-white)',
+  },
+  superEventTypeTag: {
+    '--super-event-type-tag-background-color-recurring': 'var(--color-success)',
+    '--super-event-type-tag-color-recurring': 'var(--color-white)',
+    '--super-event-type-tag-background-color-umbrella': 'var(--color-info)',
+    '--super-event-type-tag-color-umbrella': 'var(--color-white)',
   },
   table: {
     '--table-body-background': 'var(--color-white)',

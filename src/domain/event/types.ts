@@ -1,4 +1,4 @@
-import { PublicationStatus } from '../../generated/graphql';
+import { EventStatus, PublicationStatus } from '../../generated/graphql';
 import {
   ADD_IMAGE_FIELDS,
   EVENT_FIELDS,
@@ -16,6 +16,7 @@ export type EventFields = {
   audienceMinAge: number | null;
   createdBy: string;
   endTime: Date | null;
+  eventStatus: EventStatus;
   eventUrl: string;
   freeEvent: boolean;
   imageUrl: string | null;
@@ -26,6 +27,8 @@ export type EventFields = {
   offers: Offer[];
   publicationStatus: PublicationStatus;
   publisher: string | null;
+  superEventAtId: string | null;
+  superEventType: string | null;
   startTime: Date | null;
   streetAddress: string;
 };

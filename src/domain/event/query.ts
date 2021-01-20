@@ -78,6 +78,9 @@ export const QUERY_EVENT = gql`
     superEvent {
       ...baseEventFields
     }
+    subEvents {
+      ...baseEventFields
+    }
   }
 
   query Event($id: ID!, $include: [String], $createPath: Any) {

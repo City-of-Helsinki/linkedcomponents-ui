@@ -92,7 +92,14 @@
       "over": "Over {{min}} yr.",
       "under": "Under {{max}} yr."
     },
+    "eventStatus": {
+      "eventCancelled": "Cancelled",
+      "eventPostponed": "Postponed",
+      "eventRescheduled": "Rescheduled",
+      "eventScheduled": "Scheduled"
+    },
     "form": {
+      "buttonAcceptAndPublish": "Accept and publish",
       "buttonAddEventTime": "Add new time",
       "buttonAddImage": {
         "course": "Add a photo or video of the course",
@@ -214,6 +221,8 @@
       "infoTextType1": "Select the type of event. Is it an event or a course? The event is a one-time event and starts at a specific time, while the course may, as a rule, have several occurrences.",
       "infoTextType2": "The choice of event type affects the choices made later in the input form.",
       "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextUmbrellaSubEvent": "If you wish to add this event under an umbrella event, you may do so from the associated",
+      "infoTextUmbrellaSubEventLink": "top level event",
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
       "labelDescription": {
@@ -300,6 +309,7 @@
         "course": "Course classification",
         "event": "Event classification"
       },
+
       "notificationTitleOffers": "Price information",
       "notificationTitleProvider": "Organizer",
       "notificationTitleType": "Event type",
@@ -435,6 +445,10 @@
     "publicationStatus": {
       "draft": "Draft",
       "public": "Public"
+    },
+    "superEventType": {
+      "recurring": "Series",
+      "umbrella": "Umbrella"
     },
     "type": {
       "course": "Course",

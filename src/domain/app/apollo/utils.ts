@@ -50,8 +50,7 @@ export const addTypenameEvent = (event?: Event | null): Event | null =>
           ? addTypenameEvent(event.superEvent)
           : null,
         subEvents:
-          event.subEvents?.map((subEvent) => addTypenameAtIdObject(subEvent)) ||
-          [],
+          event.subEvents?.map((subEvent) => addTypenameEvent(subEvent)) || [],
         __typename: 'Event',
       }
     : null;
