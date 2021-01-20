@@ -26,19 +26,6 @@
     color: var(--navigation-item-color) !important;
   }
 
-  .addEventItem {
-    @include medium-up {
-      margin-left: auto !important;
-    }
-
-    &.hidden {
-      visibility: hidden;
-    }
-
-    svg {
-      margin-right: var(--spacing-xs);
-    }
-  }
   .navigationItemLabel {
     display: flex;
     align-items: center;
