@@ -9,6 +9,7 @@ import { useHistory, useLocation } from 'react-router';
 import {
   MAIN_CONTENT_ID,
   NAVIGATION_ITEMS,
+  PAGE_HEADER_ID,
   ROUTES,
   SUPPORTED_LANGUAGES,
 } from '../../../constants';
@@ -87,19 +88,25 @@ const Header: React.FC = () => {
   const showAddButton =
     location.pathname !== `/${locale}${ROUTES.CREATE_EVENT}`;
 
+  const hideNavRow = location.pathname.includes(
+    `${ROUTES.EDIT_EVENT.replace(':id', '')}`
+  );
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
   return (
     <Navigation
-      fixed={true}
+      id={PAGE_HEADER_ID}
       menuOpen={menuOpen}
       onMenuToggle={toggleMenu}
       menuToggleAriaLabel={t('navigation.menuToggleAriaLabel')}
       skipTo={`#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('navigation.skipToContentLabel')}
-      className={classNames(css(theme.navigation), styles.navigation)}
+      className={classNames(css(theme.navigation), styles.navigation, {
+        [styles.hideNavRow]: hideNavRow,
+      })}
       onTitleClick={goToPage(`/${locale}${ROUTES.HOME}`)}
       title={t('appName')}
       titleUrl={`/${locale}${ROUTES.HOME}`}

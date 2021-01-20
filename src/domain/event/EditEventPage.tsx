@@ -12,6 +12,7 @@ import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import NotFound from '../notFound/NotFound';
+import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import EventInfo from './EventInfo';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
@@ -67,6 +68,11 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
               title={name}
             >
               <MainContent>
+                <EditButtonPanel
+                  onSaveDraft={() => {
+                    alert('TODO: SAVE DRAFT');
+                  }}
+                />
                 <Container>
                   <FormContainer className={styles.editPageContentContainer}>
                     <EventInfo event={event} />
@@ -78,7 +84,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
                       <LanguagesSection />
                     </Section>
                     <Section title={t('event.form.sections.responsibilities')}>
-                      <ResponsibilitiesSection />
+                      <ResponsibilitiesSection savedEvent={event} />
                     </Section>
                     <Section title={t('event.form.sections.description')}>
                       <DescriptionSection />

@@ -1,0 +1,72 @@
+@import 'breakpoints';
+
+.editButtonPanel {
+  position: sticky;
+  margin-top: -1px;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-m) 0;
+  background-color: var(--color-coat-of-arms);
+  z-index: 100;
+}
+
+.buttonsRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  .saveButtonWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--spacing-m);
+  }
+
+  @include medium-up {
+    grid-template-columns: 1fr 2fr 2fr;
+
+    .actionButtonWrapper {
+      display: flex;
+    }
+
+    .saveButtonWrapper {
+      display: flex;
+    }
+  }
+
+  @include large-up {
+    grid-template-columns: 1fr 6fr 1fr 4fr;
+
+    .actionButtonWrapper {
+      display: flex;
+    }
+
+    .saveButtonWrapper {
+      grid-column: 4;
+    }
+  }
+
+  button {
+    --background-color: var(--color-coat-of-arms);
+    --background-color-hover: var(--color-coat-of-arms-dark);
+    --background-color-focus: var(--color-coat-of-arms);
+    --background-color-hover-focus: var(--color-coat-of-arms-dark);
+    --background-color-disabled: var(--color-coat-of-arms);
+    --border-color: var(--color-white);
+    --color: var(--color-white);
+    --border-color-hover: var(--color-white);
+    --border-color-focus: var(--color-white);
+    --border-color-hover-focus: var(--color-white);
+    --border-color-disabled: var(--color-black-40);
+    --color-hover: var(--color-white);
+    --color-focus: var(--color-white);
+    --color-hover-focus: var(--color-white);
+    --color-disabled: var(--color-black-40);
+    --focus-outline-color: var(--color-white);
+
+    white-space: nowrap;
+
+    & > div {
+      flex-shrink: 0;
+    }
+  }
+}

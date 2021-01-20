@@ -89,4 +89,5 @@ export const NAVIGATION_ITEMS = [
   },
 ];
 
+export const PAGE_HEADER_ID = 'page-header';
 export const MAIN_CONTENT_ID = 'maincontent';

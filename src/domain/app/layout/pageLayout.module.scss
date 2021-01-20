@@ -1,9 +1,6 @@
 @import 'breakpoints';
 
 .pageLayout {
-  --page-layout-body-padding-top: 129px;
-  --page-layout-body-mobile-padding-top: 73px;
-
   height: 100%;
   width: 100%;
   display: grid;
@@ -15,9 +12,4 @@
   display: grid;
   align-content: flex-start;
   background-color: var(--page-background-color);
-  padding-top: var(--page-layout-body-mobile-padding-top);
-
-  @include medium-up {
-    padding-top: var(--page-layout-body-padding-top);
-  }
 }
