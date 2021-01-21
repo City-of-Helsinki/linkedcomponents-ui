@@ -1,0 +1,18 @@
+.eventHierarchy {
+  display: grid;
+  grid-gap: var(--spacing-2-xs);
+}
+
+.eventHierarchyRow {
+  display: flex;
+  align-items: center;
+  grid-gap: var(--spacing-2-xs);
+
+  button {
+    padding: 0;
+  }
+
+  .name {
+    font-weight: 500;
+  }
+}

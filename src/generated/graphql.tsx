@@ -18,6 +18,7 @@ export type Mutation = {
   createEvent: Event;
   createEvents: Array<Event>;
   updateEvent: Event;
+  updateEvents: Array<Event>;
   updateImage: Image;
   uploadImage: Image;
 };
@@ -35,6 +36,11 @@ export type MutationCreateEventsArgs = {
 
 export type MutationUpdateEventArgs = {
   input: UpdateEventMutationInput;
+};
+
+
+export type MutationUpdateEventsArgs = {
+  input: Array<UpdateEventMutationInput>;
 };
 
 
@@ -363,7 +369,7 @@ export type Event = {
   startTime?: Maybe<Scalars['String']>;
   subEvents: Array<Maybe<Event>>;
   superEvent?: Maybe<Event>;
-  superEventType?: Maybe<Scalars['String']>;
+  superEventType?: Maybe<SuperEventType>;
   atId?: Maybe<Scalars['String']>;
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
@@ -587,6 +593,19 @@ export type CreateEventsMutation = (
   )> }
 );
 
+export type UpdateEventsMutationVariables = Exact<{
+  input: Array<UpdateEventMutationInput>;
+}>;
+
+
+export type UpdateEventsMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEvents: Array<(
+    { __typename?: 'Event' }
+    & EventFieldsFragment
+  )> }
+);
+
 export type ExternalLinkFieldsFragment = (
   { __typename?: 'ExternalLink' }
   & Pick<ExternalLink, 'name' | 'link'>
@@ -659,6 +678,10 @@ export type EventFieldsFragment = (
     & BaseEventFieldsFragment
   )>, subEvents: Array<Maybe<(
     { __typename?: 'Event' }
+    & { subEvents: Array<Maybe<(
+      { __typename?: 'Event' }
+      & BaseEventFieldsFragment
+    )>> }
     & BaseEventFieldsFragment
   )>> }
   & BaseEventFieldsFragment
@@ -1222,6 +1245,9 @@ export const EventFieldsFragmentDoc = gql`
   }
   subEvents {
     ...baseEventFields
+    subEvents {
+      ...baseEventFields
+    }
   }
 }
     ${BaseEventFieldsFragmentDoc}`;
@@ -1377,6 +1403,38 @@ export function useCreateEventsMutation(baseOptions?: Apollo.MutationHookOptions
 export type CreateEventsMutationHookResult = ReturnType<typeof useCreateEventsMutation>;
 export type CreateEventsMutationResult = Apollo.MutationResult<CreateEventsMutation>;
 export type CreateEventsMutationOptions = Apollo.BaseMutationOptions<CreateEventsMutation, CreateEventsMutationVariables>;
+export const UpdateEventsDocument = gql`
+    mutation UpdateEvents($input: [UpdateEventMutationInput!]!) {
+  updateEvents(input: $input) @rest(type: "Event", path: "/event/", method: "PUT", bodyKey: "input") {
+    ...eventFields
+  }
+}
+    ${EventFieldsFragmentDoc}`;
+export type UpdateEventsMutationFn = Apollo.MutationFunction<UpdateEventsMutation, UpdateEventsMutationVariables>;
+
+/**
+ * __useUpdateEventsMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventsMutation, { data, loading, error }] = useUpdateEventsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateEventsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEventsMutation, UpdateEventsMutationVariables>) {
+        return Apollo.useMutation<UpdateEventsMutation, UpdateEventsMutationVariables>(UpdateEventsDocument, baseOptions);
+      }
+export type UpdateEventsMutationHookResult = ReturnType<typeof useUpdateEventsMutation>;
+export type UpdateEventsMutationResult = Apollo.MutationResult<UpdateEventsMutation>;
+export type UpdateEventsMutationOptions = Apollo.BaseMutationOptions<UpdateEventsMutation, UpdateEventsMutationVariables>;
 export const EventDocument = gql`
     query Event($id: ID!, $include: [String], $createPath: Any) {
   event(id: $id, include: $include) @rest(type: "Event", pathBuilder: $createPath) {

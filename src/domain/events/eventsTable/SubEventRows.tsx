@@ -5,7 +5,7 @@ import { useEventsQuery } from '../../../generated/graphql';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { eventsPathBuilder } from '../utils';
-import EventTableRow from './EventsTableRow';
+import EventTableRow, { PADDING } from './EventsTableRow';
 
 const PAGE_SIZE = 100;
 
@@ -56,7 +56,9 @@ const SubEventRows: React.FC<Props> = ({ eventId, level }) => {
   return loading ? (
     <tr>
       <td colSpan={6}>
-        <LoadingSpinner small={true} />
+        <div style={{ paddingLeft: level * PADDING }}>
+          <LoadingSpinner small={true} />
+        </div>
       </td>
     </tr>
   ) : (

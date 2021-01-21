@@ -585,6 +585,8 @@ export const getEventFields = (
     ) as Offer[],
     publisher: event.publisher || null,
     publicationStatus: event.publicationStatus || PublicationStatus.Public,
+    subEventAtIds:
+      event.subEvents?.map((subEvent) => subEvent?.atId as string) || [],
     superEventAtId: event.superEvent?.atId || null,
     superEventType: event.superEventType || null,
     startTime: event.startTime ? new Date(event.startTime) : null,

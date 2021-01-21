@@ -60,6 +60,7 @@
     "placeholderDate": "pp.kk.vvvv",
     "placeholderDateTime": "pp.kk.vvvv hh.mm",
     "placeholderTime": "hh.mm",
+    "save": "Tallenna",
     "showLess": "Näytä vähemmän",
     "showMore": "Näytä lisää",
     "showMoreWithCount": "Näytä lisää ({{count}})",
@@ -449,6 +450,7 @@
       "draft": "Luonnos",
       "public": "Julkaistu"
     },
+    "subEvents": "Alatapahtumat",
     "superEventType": {
       "recurring": "Sarja",
       "umbrella": "Kattotapahtuma"
@@ -456,6 +458,11 @@
     "type": {
       "course": "Kurssi",
       "event": "Tapahtuma"
+    },
+    "updateEventModal": {
+      "text1": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+      "text2": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+      "title": "Varmista tapahtuman tallentaminen"
     }
   },
   "eventSavedPage": {
@@ -592,9 +599,6 @@
   },
   "helpPage": {
     "pageTitle": "Lisätietoja"
-  },
-  "image": {
-    "uploadError": "Kuvan tallentaminen epäonnistui"
   },
   "logoutPage": {
     "pageTitle": "Olet kirjautunut ulos",

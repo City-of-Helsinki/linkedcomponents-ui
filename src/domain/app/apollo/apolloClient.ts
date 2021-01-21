@@ -1,4 +1,9 @@
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  ServerError,
+} from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { RestLink } from 'apollo-link-rest';
@@ -195,9 +200,22 @@ const linkedEventsLink = new RestLink({
   uri: process.env.REACT_APP_LINKED_EVENTS_URL,
 });
 
-const errorLink = onError(({ networkError }) => {
-  if (networkError) {
-    switch ((networkError as any).statusCode) {
+const QUERIES_TO_SHOW_ERROR = ['User'];
+
+const errorLink = onError(({ networkError, operation }) => {
+  const isMutation = Boolean(
+    operation.query.definitions.find(
+      (definition) =>
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'mutation'
+    )
+  );
+
+  if (
+    (isMutation || QUERIES_TO_SHOW_ERROR.includes(operation.operationName)) &&
+    networkError
+  ) {
+    switch ((networkError as ServerError).statusCode) {
       case 400:
         toast.error(i18n.t('errors.validationError'));
         break;

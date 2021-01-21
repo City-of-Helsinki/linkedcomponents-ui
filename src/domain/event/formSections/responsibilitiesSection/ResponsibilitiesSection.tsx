@@ -56,14 +56,6 @@ const ResponsibilitiesSection: React.FC<Props> = ({ savedEvent }) => {
   const superEventSuperEventType = savedEvent?.superEvent?.superEventType;
   const superEventId = savedEvent?.superEvent?.id;
 
-  /**
-   * Returns the disabled state for the umbrella checkboxes
-   *
-   * The 'has_umbrella' checkbox should be disabled when:
-   *  - The 'is_umbrella' checkbox is checked
-   *  - The event being edited is an umbrella event
-   *  - The event being edited is a sub event of a super (recurring) event
-   */
   const getDisabled = (
     name: EVENT_FIELDS.HAS_UMBRELLA | EVENT_FIELDS.IS_UMBRELLA
   ): boolean => {

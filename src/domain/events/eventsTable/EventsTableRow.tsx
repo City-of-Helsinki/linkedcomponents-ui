@@ -14,6 +14,8 @@ import PublisherName from '../eventCard/PublisherName';
 import styles from './eventsTable.module.scss';
 import SubEventRows from './SubEventRows';
 
+export const PADDING = 24;
+
 interface Props {
   event: EventFieldsFragment;
   hideBorder?: boolean;
@@ -46,9 +48,12 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
     <>
       <tr className={open || hideBorder ? styles.noBorder : undefined}>
         <td>
-          <div className={styles.idWrapper} style={{ paddingLeft: level * 24 }}>
+          <div
+            className={styles.idWrapper}
+            style={{ paddingLeft: level * PADDING }}
+          >
             {!!superEventType && (
-              <button onClick={toggle}>
+              <button aria-label={t('event.subEvents')} onClick={toggle}>
                 {open ? (
                   <IconAngleUp aria-hidden={true} size="s" />
                 ) : (

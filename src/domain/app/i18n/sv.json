@@ -60,6 +60,7 @@
     "placeholderDate": "dd.mm.åååå",
     "placeholderDateTime": "dd.mm.åååå hh.mm",
     "placeholderTime": "hh.mm",
+    "save": "Spara",
     "showLess": "Visa mindre",
     "showMore": "Visa mer",
     "showMoreWithCount": "Visa mer ({{count}})",
@@ -449,6 +450,7 @@
       "draft": "Förslag",
       "public": "Offentlig"
     },
+    "subEvents": "Underevenemangen",
     "superEventType": {
       "recurring": "Serier",
       "umbrella": "Paraply"
@@ -456,6 +458,11 @@
     "type": {
       "course": "Kurs",
       "event": "Evenemang"
+    },
+    "updateEventModal": {
+      "text1": "Data lagras för alla evenemang i denna serie. Ändringar av dessa evenemang kommer att gå förlorade. Är du säker på att du vill fortsätta?",
+      "text2": "Uppgifterna lagras i följande evenemangen",
+      "title": "Spara evenemanget"
     }
   },
   "eventSavedPage": {
@@ -591,9 +598,6 @@
   },
   "helpPage": {
     "pageTitle": "Läs mer"
-  },
-  "image": {
-    "uploadError": "Det gick inte att ladda upp bilden"
   },
   "logoutPage": {
     "pageTitle": "Du är utloggad",

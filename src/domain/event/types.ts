@@ -27,6 +27,7 @@ export type EventFields = {
   offers: Offer[];
   publicationStatus: PublicationStatus;
   publisher: string | null;
+  subEventAtIds: string[];
   superEventAtId: string | null;
   superEventType: string | null;
   startTime: Date | null;

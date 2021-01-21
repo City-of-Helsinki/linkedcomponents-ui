@@ -26,4 +26,11 @@ export const MUTATION_EVENT = gql`
       ...eventFields
     }
   }
+
+  mutation UpdateEvents($input: [UpdateEventMutationInput!]!) {
+    updateEvents(input: $input)
+      @rest(type: "Event", path: "/event/", method: "PUT", bodyKey: "input") {
+      ...eventFields
+    }
+  }
 `;

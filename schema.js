@@ -9,6 +9,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     updateEvent(input: UpdateEventMutationInput!): Event!
+    updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
   }
@@ -265,7 +266,7 @@ module.exports = buildSchema(/* GraphQL */ `
     startTime: String
     subEvents: [Event]!
     superEvent: Event
-    superEventType: String
+    superEventType: SuperEventType
     # @id is renamed as atId so it's usable on GraphQl
     atId: String
     # @context is renamed as atContext so it's usable on GraphQl

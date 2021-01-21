@@ -127,6 +127,7 @@ const CreateEventPage: React.FC = () => {
       }
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
+      /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
     }

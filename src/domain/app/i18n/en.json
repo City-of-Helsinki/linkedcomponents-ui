@@ -60,6 +60,7 @@
     "placeholderDate": "dd.mm.yyyy",
     "placeholderDateTime": "dd.mm.yyyy hh.mm",
     "placeholderTime": "hh.mm",
+    "save": "Save",
     "showLess": "Show less",
     "showMore": "Show more",
     "showMoreWithCount": "Show more ({{count}})",
@@ -450,6 +451,7 @@
       "draft": "Draft",
       "public": "Public"
     },
+    "subEvents": "Sub-events",
     "superEventType": {
       "recurring": "Series",
       "umbrella": "Umbrella"
@@ -457,6 +459,11 @@
     "type": {
       "course": "Course",
       "event": "Event"
+    },
+    "updateEventModal": {
+      "text1": "Data is stored for all events in this series. Changes to these events will be lost. Are you sure you want to continue?",
+      "text2": "The data is updated in the following events",
+      "title": "Save event"
     }
   },
   "eventSavedPage": {
@@ -592,9 +599,6 @@
   },
   "helpPage": {
     "pageTitle": "More information"
-  },
-  "image": {
-    "uploadError": "Failed to upload the image"
   },
   "logoutPage": {
     "pageTitle": "You are logged out",

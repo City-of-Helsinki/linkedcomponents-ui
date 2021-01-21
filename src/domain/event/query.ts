@@ -80,6 +80,9 @@ export const QUERY_EVENT = gql`
     }
     subEvents {
       ...baseEventFields
+      subEvents {
+        ...baseEventFields
+      }
     }
   }
 

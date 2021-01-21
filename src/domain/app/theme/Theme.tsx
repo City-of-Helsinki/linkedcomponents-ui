@@ -147,11 +147,16 @@ type ModalCSSProperties = {
   '--modal-background-color'?: string;
   '--modal-bottom'?: string;
   '--modal-label-height'?: string;
-  '--modal-max-width'?: string;
+  '--modal-max-width-m'?: string;
+  '--modal-max-width-l'?: string;
   '--modal-top'?: string;
   '--modal-z-index'?: number;
   '--modal-heading-background-color'?: string;
   '--modal-heading-color'?: string;
+  '--modal-heading-background-color-alert'?: string;
+  '--modal-heading-color-alert'?: string;
+  '--modal-heading-background-color-info'?: string;
+  '--modal-heading-color-info'?: string;
 };
 
 type NavigationCSSProperties = {

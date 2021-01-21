@@ -2,7 +2,7 @@
   --status-tag-background-color-cancelled: var(--color-error);
   --status-tag-color-cancelled: var(--color-white);
   --status-tag-background-color-postponed: var(--color-alert);
-  --status-tag-color-postponed: var(--color-white);
+  --status-tag-color-postponed: var(--color-black);
   --status-tag-background-color-draft: var(--color-info);
   --status-tag-color-draft: var(--color-white);
   --status-tag-background-color-public: var(--color-success);
@@ -34,9 +34,9 @@
   color: var(--status-tag-color-cancelled);
 }
 
-.statusEventPostponned {
-  background-color: var(--status-tag-background-color-postponned);
-  color: var(--status-tag-color-postponned);
+.statusEventPostponed {
+  background-color: var(--status-tag-background-color-postponed);
+  color: var(--status-tag-color-postponed);
 }
 
 .statusDraft {
