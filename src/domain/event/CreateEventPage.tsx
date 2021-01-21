@@ -3,7 +3,6 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -127,21 +126,9 @@ const CreateEventPage: React.FC = () => {
         goToEventSavedPage(data.data?.createEvent.id as string);
       }
     } catch (e) {
-      const { networkError } = e;
-
-      /* istanbul ignore else */
-      if (networkError) {
-        switch (networkError.statusCode) {
-          case 400:
-            toast.error(t('errors.validationError'));
-            break;
-          case 401:
-            toast.error(t('errors.authorizationRequired'));
-            break;
-          default:
-            toast.error(t('errors.serverError'));
-        }
-      }
+      // Network errors will be handled on apolloClient error link. Only show error on console here.
+      // eslint-disable-next-line no-console
+      console.error(e);
     }
   };
 

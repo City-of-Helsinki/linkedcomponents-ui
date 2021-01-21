@@ -3,7 +3,6 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
-import { toast } from 'react-toastify';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
@@ -109,24 +108,12 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
 
         // Clear all events queries from apollo cache to show added events in event list
         clearEventsQueries(apolloClient);
-        // goToEventSavedPage(data.data?.updateEvent.id as string);
+        goToEventSavedPage(data.data?.updateEvent.id as string);
       }
     } catch (e) {
-      const { networkError } = e;
-
-      /* istanbul ignore else */
-      if (networkError) {
-        switch (networkError.statusCode) {
-          case 400:
-            toast.error(t('errors.validationError'));
-            break;
-          case 401:
-            toast.error(t('errors.authorizationRequired'));
-            break;
-          default:
-            toast.error(t('errors.serverError'));
-        }
-      }
+      // Network errors will be handled on apolloClient error link. Only show error on console here.
+      // eslint-disable-next-line no-console
+      console.error(e);
     }
   };
 
@@ -234,7 +221,13 @@ const EditEventPageWrapper: React.FC = () => {
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
       id,
-      include: ['audience', 'keywords', 'location', 'super_event'],
+      include: [
+        'audience',
+        'keywords',
+        'location',
+        'sub_events',
+        'super_event',
+      ],
     },
   });
   const { loading: loadingEventFieldsData } = useEventFieldsData();

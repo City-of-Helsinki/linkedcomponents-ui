@@ -83,6 +83,7 @@
   },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",
+    "forbidden": "Sinulla ei ole lupaa suorittaa tätä toimintoa.",
     "serverError": "Virhe palvelimella.",
     "validationError": "Lomakkeessa on virheitä. Tarkasta lomake."
   },

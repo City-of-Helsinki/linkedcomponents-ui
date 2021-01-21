@@ -83,6 +83,7 @@
   },
   "errors": {
     "authorizationRequired": "Sign in to perform this action",
+    "forbidden": "You do not have permission to perform this operation.",
     "serverError": "Server error.",
     "validationError": "There are errors on the form. Please check the form."
   },
