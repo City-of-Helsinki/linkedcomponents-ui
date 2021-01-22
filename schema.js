@@ -132,6 +132,7 @@ module.exports = buildSchema(/* GraphQL */ `
     audienceMinAge: Int
     description: LocalisedObjectInput
     endTime: String
+    eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
     inLanguage: [IdObjectInput!]
@@ -157,6 +158,7 @@ module.exports = buildSchema(/* GraphQL */ `
     audienceMinAge: Int
     description: LocalisedObjectInput
     endTime: String
+    eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
     inLanguage: [IdObjectInput!]

@@ -6,7 +6,8 @@
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
     "noRightsCreateEvent": "Sinulla ei ole oikeuksia luoda tapahtumia.",
-    "noRightsPublishEvent": "Sinulla ei ole oikeuksia julkaista tapahtumia."
+    "noRightsPublishEvent": "Sinulla ei ole oikeuksia julkaista tapahtumia.",
+    "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia."
   },
   "common": {
     "add": "Lisää",
@@ -15,7 +16,7 @@
     "betweenDates": "Ajalla {{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lisää uusi tapahtuma",
-    "cancel": "Peruuta",
+    "cancel": "Kumoa",
     "close": "Sulje",
     "combobox": {
       "toggleButtonAriaLabel": "Valikko"
@@ -111,6 +112,7 @@
       "buttonAddOffer": "Lisää uusi hintatieto",
       "buttonAddRecurringEvent": "Lisää toistuva tapahtuma",
       "buttonBack": "Takaisin",
+      "buttonCancel":  "Peruuta tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
@@ -128,6 +130,9 @@
       "buttonUpdateDraft": "Tallenna muutokset luonnokseen",
       "buttonUpdatePublic": "Tallenna muutokset julkaistuun tapahtumaan",
       "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
+      "editButtonPanel": {
+        "tooltipCancelledEvent": "Peruttuja tapahtumia ei voi muokata."
+      },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
         "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
@@ -448,6 +453,13 @@
       "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
     },
     "freeEvent": "Maksuton",
+    "cancelEventModal": {
+      "buttonCancel": "Peruuta tapahtuma",
+      "text1": "Tämä toiminto peruuttaa tapahtuman. Voit myös lykätä tapahtuman tulevaisuuteen, tai poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
+      "text2": "Seuraavat tapahtumat poistetaan:",
+      "title": "Varmista tapahtuman peruminen",
+      "warning": "Muistathan, että perumisen sijaan voit myös järjestää tapahtuman etänä internetissä. Valitse tällöin muokkauslomakkeella tapahtumapaikaksi Internet. Voit myös lykätä tapahtuman tulevaisuuteen."
+    },
     "postponeEventModal": {
       "buttonPostpone": "Lykkää tapahtumaa",
       "text1": "Tämä toiminto lykkää tapahtuman tulevaisuuteen. Lykättyäsi voit myöhemmin syöttää tapahtumalle uuden ajankohdan.",

@@ -226,6 +226,7 @@ export type CreateEventMutationInput = {
   audienceMinAge?: Maybe<Scalars['Int']>;
   description?: Maybe<LocalisedObjectInput>;
   endTime?: Maybe<Scalars['String']>;
+  eventStatus?: Maybe<EventStatus>;
   externalLinks?: Maybe<Array<Maybe<ExternalLinkInput>>>;
   images?: Maybe<Array<IdObjectInput>>;
   inLanguage?: Maybe<Array<IdObjectInput>>;
@@ -251,6 +252,7 @@ export type UpdateEventMutationInput = {
   audienceMinAge?: Maybe<Scalars['Int']>;
   description?: Maybe<LocalisedObjectInput>;
   endTime?: Maybe<Scalars['String']>;
+  eventStatus?: Maybe<EventStatus>;
   externalLinks?: Maybe<Array<Maybe<ExternalLinkInput>>>;
   images?: Maybe<Array<IdObjectInput>>;
   inLanguage?: Maybe<Array<IdObjectInput>>;

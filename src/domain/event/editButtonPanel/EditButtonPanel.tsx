@@ -1,6 +1,7 @@
 import {
   IconArrowLeft,
   IconCalendarClock,
+  IconCalendarCross,
   IconCheck,
   IconPen,
 } from 'hds-react';
@@ -13,6 +14,7 @@ import Button from '../../../common/components/button/Button';
 import { PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import {
   EventFieldsFragment,
+  EventStatus,
   PublicationStatus,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -23,6 +25,7 @@ import { getEventFields } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export enum BUTTONS {
+  CANCEL = 'cancel',
   POSTPONE = 'postpone',
   PUBLISH = 'publish',
   UPDATE_DRAFT = 'updateDraft',
@@ -31,6 +34,7 @@ export enum BUTTONS {
 
 interface Props {
   event: EventFieldsFragment;
+  onCancel: () => void;
   onPostpone: () => void;
   onUpdate: (publicationStatus: PublicationStatus) => void;
 }
@@ -40,19 +44,51 @@ const getTop = (): number => {
   return pageHeader?.clientHeight ? pageHeader.clientHeight - 2 : 0;
 };
 
-const EditButtonPanel: React.FC<Props> = ({ event, onPostpone, onUpdate }) => {
+const NOT_ALLOWED_WHEN_CANCELLED = [
+  BUTTONS.CANCEL,
+  BUTTONS.POSTPONE,
+  BUTTONS.PUBLISH,
+  BUTTONS.UPDATE_DRAFT,
+  BUTTONS.UPDATE_PUBLIC,
+];
+
+const iconMap = {
+  [BUTTONS.CANCEL]: <IconCalendarCross />,
+  [BUTTONS.POSTPONE]: <IconCalendarClock />,
+  [BUTTONS.PUBLISH]: <IconCheck />,
+  [BUTTONS.UPDATE_DRAFT]: <IconPen />,
+  [BUTTONS.UPDATE_PUBLIC]: <IconPen />,
+};
+
+const labelKeyMap = {
+  [BUTTONS.CANCEL]: 'event.form.buttonCancel',
+  [BUTTONS.POSTPONE]: 'event.form.buttonPostpone',
+  [BUTTONS.PUBLISH]: 'event.form.buttonAcceptAndPublish',
+  [BUTTONS.UPDATE_DRAFT]: 'event.form.buttonUpdateDraft',
+  [BUTTONS.UPDATE_PUBLIC]: 'event.form.buttonUpdatePublic',
+};
+
+const EditButtonPanel: React.FC<Props> = ({
+  event,
+  onCancel,
+  onPostpone,
+  onUpdate,
+}) => {
   const [top, setTop] = React.useState(getTop());
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
   const locale = useLocale();
   const history = useHistory();
   const windowSize = useWindowSize();
-  const { publicationStatus } = getEventFields(event, locale);
+  const { eventStatus, publicationStatus } = getEventFields(event, locale);
+  const isCancelled = eventStatus === EventStatus.EventCancelled;
   const isDraft = publicationStatus === PublicationStatus.Draft;
   const isPublic = publicationStatus === PublicationStatus.Public;
 
   const getIsButtonVisible = (button: BUTTONS) => {
     switch (button) {
+      case BUTTONS.CANCEL:
+        return isPublic;
       case BUTTONS.POSTPONE:
         return isPublic;
       case BUTTONS.PUBLISH:
@@ -72,6 +108,47 @@ const EditButtonPanel: React.FC<Props> = ({ event, onPostpone, onUpdate }) => {
     setTop(getTop());
   }, [windowSize]);
 
+  const getDisabled = (button: BUTTONS): boolean => {
+    if (
+      !authenticated ||
+      (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(button))
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const getButtonTitle = (button: BUTTONS): string => {
+    if (!authenticated) {
+      return t('authentication.noRightsUpdateEvent');
+    } else if (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(button)) {
+      return t('event.form.editButtonPanel.tooltipCancelledEvent');
+    } else {
+      return '';
+    }
+  };
+
+  const getActionButton = ({
+    button,
+    onClick,
+  }: {
+    button: BUTTONS;
+    onClick: () => void;
+  }) => {
+    return getIsButtonVisible(button) ? (
+      <Button
+        disabled={getDisabled(button)}
+        iconLeft={iconMap[button]}
+        onClick={onClick}
+        title={getButtonTitle(button)}
+        type="button"
+      >
+        {t(labelKeyMap[button])}
+      </Button>
+    ) : null;
+  };
+
   return (
     <div className={styles.editButtonPanel} style={{ top }}>
       <Container>
@@ -89,63 +166,31 @@ const EditButtonPanel: React.FC<Props> = ({ event, onPostpone, onUpdate }) => {
             </Button>
           </div>
           <div className={styles.actionButtonWrapper}>
-            {getIsButtonVisible(BUTTONS.POSTPONE) && (
-              <Button
-                disabled={!authenticated}
-                iconLeft={<IconCalendarClock />}
-                onClick={() => onPostpone()}
-                title={
-                  authenticated ? '' : t('authentication.noRightsCreateEvent')
-                }
-                type="button"
-              >
-                {t('event.form.buttonPostpone')}
-              </Button>
-            )}
+            {getActionButton({
+              button: BUTTONS.POSTPONE,
+              onClick: onPostpone,
+            })}
+            {getActionButton({
+              button: BUTTONS.CANCEL,
+              onClick: onCancel,
+            })}
           </div>
           <div className={styles.saveButtonWrapper}>
             {/* Buttons for draft event */}
-            {getIsButtonVisible(BUTTONS.UPDATE_DRAFT) && (
-              <Button
-                disabled={!authenticated}
-                iconLeft={<IconPen />}
-                onClick={() => onUpdate(PublicationStatus.Draft)}
-                title={
-                  authenticated ? '' : t('authentication.noRightsCreateEvent')
-                }
-                type="button"
-              >
-                {t('event.form.buttonUpdateDraft')}
-              </Button>
-            )}
-            {getIsButtonVisible(BUTTONS.PUBLISH) && (
-              <Button
-                disabled={!authenticated}
-                iconLeft={<IconCheck />}
-                onClick={() => onUpdate(PublicationStatus.Public)}
-                title={
-                  authenticated ? '' : t('authentication.noRightsPublishEvent')
-                }
-                type="button"
-              >
-                {t(`event.form.buttonAcceptAndPublish`)}
-              </Button>
-            )}
+            {getActionButton({
+              button: BUTTONS.UPDATE_DRAFT,
+              onClick: () => onUpdate(PublicationStatus.Draft),
+            })}
+            {getActionButton({
+              button: BUTTONS.PUBLISH,
+              onClick: () => onUpdate(PublicationStatus.Public),
+            })}
 
             {/* Buttons for public event */}
-            {getIsButtonVisible(BUTTONS.UPDATE_PUBLIC) && (
-              <Button
-                disabled={!authenticated}
-                iconLeft={<IconPen />}
-                onClick={() => onUpdate(PublicationStatus.Public)}
-                title={
-                  authenticated ? '' : t('authentication.noRightsCreateEvent')
-                }
-                type="button"
-              >
-                {t('event.form.buttonUpdatePublic')}
-              </Button>
-            )}
+            {getActionButton({
+              button: BUTTONS.UPDATE_PUBLIC,
+              onClick: () => onUpdate(PublicationStatus.Public),
+            })}
           </div>
         </div>
       </Container>

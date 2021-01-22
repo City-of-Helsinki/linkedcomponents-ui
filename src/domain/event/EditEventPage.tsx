@@ -11,6 +11,7 @@ import {
   EventStatus,
   PublicationStatus,
   SuperEventType,
+  UpdateEventMutationInput,
   useEventQuery,
   useUpdateEventsMutation,
   useUpdateImageMutation,
@@ -43,6 +44,7 @@ import TypeSection from './formSections/typeSection/TypeSection';
 import useEventFieldsData from './hooks/useEventFieldsData';
 import useRelatedEvents from './hooks/useRelatedEvents';
 import Section from './layout/Section';
+import ConfirmCancelModal from './modals/ConfirmCancelModal';
 import ConfirmPostponeModal from './modals/ConfirmPostponeModal';
 import ConfirmUpdateModal from './modals/ConfirmUpdateModal';
 import { EventFormFields } from './types';
@@ -62,6 +64,7 @@ interface EditEventPageProps {
 }
 
 enum MODALS {
+  CANCEL = 'cancel',
   POSTPONE = 'postpone',
   UPDATE = 'update',
 }
@@ -109,11 +112,45 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
     }
   };
 
+  const updateEvents = async (payload: UpdateEventMutationInput[]) => {
+    await updateEventsMutation({
+      variables: {
+        input: payload,
+      },
+    });
+
+    // Clear all events queries from apollo cache to show edited events in event list
+    clearEventsQueries(apolloClient);
+    goToEventSavedPage(id);
+  };
+
+  const cancelEvent = async () => {
+    try {
+      // Make sure all related events are fetched
+      const allEvents = await getRelatedEvents({ apolloClient, event });
+      const payload: UpdateEventMutationInput[] = allEvents.map((item) => ({
+        ...getEventPayload(
+          getEventInitialValues(item),
+          item.publicationStatus as PublicationStatus
+        ),
+        eventStatus: EventStatus.EventCancelled,
+        id: item.id,
+      }));
+
+      await updateEvents(payload);
+    } catch (e) {
+      // Network errors will be handled on apolloClient error link. Only show error on console here.
+      /* istanbul ignore next  */
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
+  };
+
   const postponeEvent = async () => {
     try {
       // Make sure all related events are fetched
       const allEvents = await getRelatedEvents({ apolloClient, event });
-      const payload = allEvents.map((item) => ({
+      const payload: UpdateEventMutationInput[] = allEvents.map((item) => ({
         ...getEventPayload(
           getEventInitialValues(item),
           item.publicationStatus as PublicationStatus
@@ -122,17 +159,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
         startTime: null,
         endTime: null,
       }));
-      console.log(allEvents);
 
-      await updateEventsMutation({
-        variables: {
-          input: payload,
-        },
-      });
-
-      // Clear all events queries from apollo cache to show added events in event list
-      clearEventsQueries(apolloClient);
-      goToEventSavedPage(id);
+      await updateEvents(payload);
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
@@ -151,7 +179,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
       await saveImageIfNeeded(values);
 
       const basePayload = getEventPayload(values, publicationStatus);
-      const payload = [{ ...basePayload, id }];
+      const payload: UpdateEventMutationInput[] = [{ ...basePayload, id }];
 
       if (superEventType === SuperEventType.Recurring) {
         payload.push(
@@ -172,15 +200,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
         );
       }
 
-      await updateEventsMutation({
-        variables: {
-          input: payload,
-        },
-      });
-
-      // Clear all events queries from apollo cache to show added events in event list
-      clearEventsQueries(apolloClient);
-      goToEventSavedPage(id);
+      await updateEvents(payload);
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
@@ -238,6 +258,15 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
 
         return (
           <>
+            <ConfirmCancelModal
+              event={event}
+              isOpen={modal === MODALS.CANCEL}
+              onCancel={() => {
+                closeModal();
+                cancelEvent();
+              }}
+              onClose={closeModal}
+            />
             <ConfirmPostponeModal
               event={event}
               isOpen={modal === MODALS.POSTPONE}
@@ -265,6 +294,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
                 <MainContent>
                   <EditButtonPanel
                     event={event}
+                    onCancel={() => setModal(MODALS.CANCEL)}
                     onPostpone={() => setModal(MODALS.POSTPONE)}
                     onUpdate={handleUpdate}
                   />

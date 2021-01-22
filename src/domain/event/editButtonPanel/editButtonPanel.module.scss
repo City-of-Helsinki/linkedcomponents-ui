@@ -40,33 +40,29 @@
   display: grid;
   grid-gap: var(--spacing-m);
 
+  .actionButtonWrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    grid-gap: var(--spacing-m);
+  }
+
   .saveButtonWrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
     grid-gap: var(--spacing-m);
   }
 
   @include medium-up {
     grid-template-columns: 1fr 2fr 2fr;
-
-    .actionButtonWrapper {
-      display: flex;
-    }
-
-    .saveButtonWrapper {
-      display: flex;
-    }
   }
 
   @include large-up {
-    grid-template-columns: 1fr 6fr 1fr 4fr;
-
-    .actionButtonWrapper {
-      display: flex;
-    }
+    grid-template-columns: 1fr 6fr 5fr;
 
     .saveButtonWrapper {
-      grid-column: 4;
+      justify-content: flex-end;
     }
   }
 
