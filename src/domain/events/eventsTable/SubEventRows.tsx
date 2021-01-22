@@ -1,13 +1,12 @@
 import { LoadingSpinner } from 'hds-react';
 import React from 'react';
 
+import { MAX_PAGE_SIZE } from '../../../constants';
 import { useEventsQuery } from '../../../generated/graphql';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { eventsPathBuilder } from '../utils';
 import EventTableRow, { PADDING } from './EventsTableRow';
-
-const PAGE_SIZE = 100;
 
 interface Props {
   eventId: string;
@@ -18,7 +17,7 @@ const SubEventRows: React.FC<Props> = ({ eventId, level }) => {
   const variables = React.useMemo(() => {
     return {
       createPath: getPathBuilder(eventsPathBuilder),
-      pageSize: PAGE_SIZE,
+      pageSize: MAX_PAGE_SIZE,
       showAll: true,
       superEvent: eventId,
     };

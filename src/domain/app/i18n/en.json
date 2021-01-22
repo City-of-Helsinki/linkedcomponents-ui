@@ -70,7 +70,8 @@
       "accessibility": {
         "buttonTimeList": "Times"
       }
-    }
+    },
+    "warning": "Warning!"
   },
   "createEventPage": {
     "page": {
@@ -114,6 +115,7 @@
       "buttonDeleteOffer": "Delete pricing information",
       "buttonDeleteRecurringEvent": "Delete recurring event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
+      "buttonPostpone": "Postpone event",
       "buttonPublish": {
         "course": "Publish course",
         "event": "Publish event"
@@ -447,6 +449,12 @@
       "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
     },
     "freeEvent": "Free",
+    "postponeEventModal": {
+      "buttonPostpone": "Postpone event",
+      "text1": "This function postpones the event to the future. After postponing, you can later enter a new time for the event.",
+      "text2": "The following events will be postponed:",
+      "title": "Postpone event"
+    },
     "publicationStatus": {
       "draft": "Draft",
       "public": "Public"

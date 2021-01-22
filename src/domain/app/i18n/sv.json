@@ -70,7 +70,8 @@
       "accessibility": {
         "buttonTimeList": "Tider"
       }
-    }
+    }, 
+    "warning": "Varning!"
   },
   "createEventPage": {
     "pageTitle": {
@@ -114,6 +115,7 @@
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
+      "buttonPostpone": "Skjuta upp evenemanget",
       "buttonPublish": {
         "course": "Lägg upp kursen",
         "event": "Lägg upp evenemanget"
@@ -446,6 +448,12 @@
       "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett paraplyevenemang."
     },
     "freeEvent": "Fri",
+    "postponeEventModal": {
+      "buttonPostpone": "Skjuta upp evenemanget",
+      "text1": "Denna funktion skjuter upp evenemanget till framtiden. Efter att ha skjutit upp kan du senare ange en ny tid för evenemanget.",
+      "text2": "Följande evenemang kommer att skjutas upp:",
+      "title": "Skjuta upp evenemanget"
+    },
     "publicationStatus": {
       "draft": "Förslag",
       "public": "Offentlig"

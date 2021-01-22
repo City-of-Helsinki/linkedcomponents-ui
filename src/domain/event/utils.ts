@@ -1,3 +1,4 @@
+import { ApolloClient } from '@apollo/client';
 import addDays from 'date-fns/addDays';
 import addWeeks from 'date-fns/addWeeks';
 import endOfDay from 'date-fns/endOfDay';
@@ -28,6 +29,7 @@ import {
   DATETIME_FORMAT,
   EXTLINK,
   FORM_NAMES,
+  MAX_PAGE_SIZE,
   ROUTES,
   WEEK_DAY,
 } from '../../constants';
@@ -35,6 +37,8 @@ import {
   CreateEventMutationInput,
   EventFieldsFragment,
   EventQueryVariables,
+  EventsDocument,
+  EventsQuery,
   EventStatus,
   ExternalLinkInput,
   LocalisedFieldsFragment,
@@ -47,6 +51,8 @@ import { Language, OptionType, PathBuilderProps } from '../../types';
 import dropNilAndEmptyString from '../../utils/dropNilAndEmptyString';
 import formatDate from '../../utils/formatDate';
 import getLocalisedString from '../../utils/getLocalisedString';
+import getNextPage from '../../utils/getNextPage';
+import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   createArrayError,
@@ -54,10 +60,13 @@ import {
   createStringError,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
+import { EVENT_SORT_OPTIONS } from '../events/constants';
+import { eventsPathBuilder } from '../events/utils';
 import {
   ADD_IMAGE_FIELDS,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
+  EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
   EVENT_INITIAL_VALUES,
   EXTENSION_COURSE_FIELDS,
@@ -1033,4 +1042,52 @@ export const showErrors = (
     setTouched(touchedFields);
     scrollToFirstError(error);
   }
+};
+
+export const getRelatedEvents = async ({
+  event,
+  apolloClient,
+}: {
+  apolloClient: ApolloClient<object>;
+  event: EventFieldsFragment;
+}): Promise<EventFieldsFragment[]> => {
+  const subEvents = event.subEvents;
+  const allRelatedEvents: EventFieldsFragment[] = [event];
+
+  for (const subEvent of subEvents) {
+    allRelatedEvents.push(subEvent as EventFieldsFragment);
+
+    const id = subEvent?.id;
+    const variables = {
+      createPath: getPathBuilder(eventsPathBuilder),
+      include: EVENT_INCLUDES,
+      pageSize: MAX_PAGE_SIZE,
+      showAll: true,
+      sort: EVENT_SORT_OPTIONS.START_TIME,
+      superEvent: id,
+    };
+
+    const { data } = await apolloClient.query<EventsQuery>({
+      query: EventsDocument,
+      variables,
+    });
+
+    console.log(data);
+
+    allRelatedEvents.push(...(data.events.data as EventFieldsFragment[]));
+
+    let nextPage = getNextPage(data.events.meta);
+
+    while (nextPage) {
+      const { data } = await apolloClient.query<EventsQuery>({
+        query: EventsDocument,
+        variables: { ...variables, page: nextPage },
+      });
+
+      allRelatedEvents.push(...(data.events.data as EventFieldsFragment[]));
+
+      nextPage = getNextPage(data.events.meta);
+    }
+  }
+  return allRelatedEvents;
 };

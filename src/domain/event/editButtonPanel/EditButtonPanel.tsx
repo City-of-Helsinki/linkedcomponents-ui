@@ -1,4 +1,9 @@
-import { IconArrowLeft, IconCheck, IconPen } from 'hds-react';
+import {
+  IconArrowLeft,
+  IconCalendarClock,
+  IconCheck,
+  IconPen,
+} from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -18,6 +23,7 @@ import { getEventFields } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export enum BUTTONS {
+  POSTPONE = 'postpone',
   PUBLISH = 'publish',
   UPDATE_DRAFT = 'updateDraft',
   UPDATE_PUBLIC = 'updatePublic',
@@ -25,6 +31,7 @@ export enum BUTTONS {
 
 interface Props {
   event: EventFieldsFragment;
+  onPostpone: () => void;
   onUpdate: (publicationStatus: PublicationStatus) => void;
 }
 
@@ -33,7 +40,7 @@ const getTop = (): number => {
   return pageHeader?.clientHeight ? pageHeader.clientHeight - 2 : 0;
 };
 
-const EditButtonPanel: React.FC<Props> = ({ event, onUpdate }) => {
+const EditButtonPanel: React.FC<Props> = ({ event, onPostpone, onUpdate }) => {
   const [top, setTop] = React.useState(getTop());
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
@@ -46,6 +53,8 @@ const EditButtonPanel: React.FC<Props> = ({ event, onUpdate }) => {
 
   const getIsButtonVisible = (button: BUTTONS) => {
     switch (button) {
+      case BUTTONS.POSTPONE:
+        return isPublic;
       case BUTTONS.PUBLISH:
         return isDraft;
       case BUTTONS.UPDATE_DRAFT:
@@ -79,7 +88,21 @@ const EditButtonPanel: React.FC<Props> = ({ event, onUpdate }) => {
               {t('event.form.buttonBack')}
             </Button>
           </div>
-          <div className={styles.actionButtonWrapper}></div>
+          <div className={styles.actionButtonWrapper}>
+            {getIsButtonVisible(BUTTONS.POSTPONE) && (
+              <Button
+                disabled={!authenticated}
+                iconLeft={<IconCalendarClock />}
+                onClick={() => onPostpone()}
+                title={
+                  authenticated ? '' : t('authentication.noRightsCreateEvent')
+                }
+                type="button"
+              >
+                {t('event.form.buttonPostpone')}
+              </Button>
+            )}
+          </div>
           <div className={styles.saveButtonWrapper}>
             {/* Buttons for draft event */}
             {getIsButtonVisible(BUTTONS.UPDATE_DRAFT) && (

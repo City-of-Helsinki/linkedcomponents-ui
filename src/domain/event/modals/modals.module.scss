@@ -8,3 +8,8 @@
   margin: 0 calc(0px - var(--spacing-l));
   margin-bottom: calc(0px - var(--spacing-l));
 }
+
+.warning {
+  margin-bottom: calc(0px - var(--spacing-m)) !important;
+  text-transform: uppercase;
+}

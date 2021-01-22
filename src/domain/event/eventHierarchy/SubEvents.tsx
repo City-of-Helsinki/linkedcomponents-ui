@@ -1,6 +1,7 @@
 import { LoadingSpinner } from 'hds-react';
 import React from 'react';
 
+import { MAX_PAGE_SIZE } from '../../../constants';
 import {
   EventFieldsFragment,
   useEventsQuery,
@@ -10,10 +11,9 @@ import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { EVENT_SORT_OPTIONS } from '../../events/constants';
 import { eventsPathBuilder } from '../../events/utils';
+import { EVENT_INCLUDES } from '../constants';
 import { getEventFields } from '../utils';
 import EventHierarchyRow from './EventHierarchyRow';
-
-const PAGE_SIZE = 100;
 
 interface SubEventsProps {
   closedIds: string[];
@@ -32,7 +32,8 @@ const SubEvents: React.FC<SubEventsProps> = ({ closedIds, event, toggle }) => {
   const variables = React.useMemo(() => {
     return {
       createPath: getPathBuilder(eventsPathBuilder),
-      pageSize: PAGE_SIZE,
+      include: EVENT_INCLUDES,
+      pageSize: MAX_PAGE_SIZE,
       showAll: true,
       sort: EVENT_SORT_OPTIONS.START_TIME,
       superEvent: id,

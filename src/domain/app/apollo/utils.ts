@@ -44,6 +44,8 @@ export const addTypenameEvent = (event?: Event | null): Event | null =>
           [],
         keywords:
           event.keywords?.map((keyword) => addTypenameKeyword(keyword)) || [],
+        audience:
+          event.audience?.map((keyword) => addTypenameKeyword(keyword)) || [],
         location: addTypenamePlace(event.location),
         offers: event.offers?.map((offer) => addTypenameOffer(offer)) || [],
         superEvent: event.superEvent

@@ -170,3 +170,11 @@ export const SELECT_FIELDS = [
   EVENT_FIELDS.LOCATION,
   EVENT_FIELDS.SUPER_EVENT,
 ];
+
+export const EVENT_INCLUDES = [
+  'audience',
+  'keywords',
+  'location',
+  'sub_events',
+  'super_event',
+];

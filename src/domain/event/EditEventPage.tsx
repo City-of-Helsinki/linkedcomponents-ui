@@ -24,6 +24,7 @@ import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { clearEventsQueries } from '../events/utils';
 import NotFound from '../notFound/NotFound';
+import { EVENT_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import EventInfo from './EventInfo';
 import styles from './eventPage.module.scss';
@@ -40,7 +41,9 @@ import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSec
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import useEventFieldsData from './hooks/useEventFieldsData';
+import useRelatedEvents from './hooks/useRelatedEvents';
 import Section from './layout/Section';
+import ConfirmPostponeModal from './modals/ConfirmPostponeModal';
 import ConfirmUpdateModal from './modals/ConfirmUpdateModal';
 import { EventFormFields } from './types';
 import {
@@ -50,6 +53,7 @@ import {
   getEventFields,
   getEventInitialValues,
   getEventPayload,
+  getRelatedEvents,
   showErrors,
 } from './utils';
 
@@ -58,6 +62,7 @@ interface EditEventPageProps {
 }
 
 enum MODALS {
+  POSTPONE = 'postpone',
   UPDATE = 'update',
 }
 
@@ -81,6 +86,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
 
   const [updateEventsMutation] = useUpdateEventsMutation();
   const [updateImage] = useUpdateImageMutation();
+  // Prefetch all related events which are used when postpone/delete/cancel events
+  useRelatedEvents(event);
 
   const goToEventSavedPage = (id: string) => {
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
@@ -99,6 +106,38 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
           },
         },
       });
+    }
+  };
+
+  const postponeEvent = async () => {
+    try {
+      // Make sure all related events are fetched
+      const allEvents = await getRelatedEvents({ apolloClient, event });
+      const payload = allEvents.map((item) => ({
+        ...getEventPayload(
+          getEventInitialValues(item),
+          item.publicationStatus as PublicationStatus
+        ),
+        id: item.id,
+        startTime: null,
+        endTime: null,
+      }));
+      console.log(allEvents);
+
+      await updateEventsMutation({
+        variables: {
+          input: payload,
+        },
+      });
+
+      // Clear all events queries from apollo cache to show added events in event list
+      clearEventsQueries(apolloClient);
+      goToEventSavedPage(id);
+    } catch (e) {
+      // Network errors will be handled on apolloClient error link. Only show error on console here.
+      /* istanbul ignore next  */
+      // eslint-disable-next-line no-console
+      console.error(e);
     }
   };
 
@@ -199,6 +238,15 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
 
         return (
           <>
+            <ConfirmPostponeModal
+              event={event}
+              isOpen={modal === MODALS.POSTPONE}
+              onClose={closeModal}
+              onPostpone={() => {
+                closeModal();
+                postponeEvent();
+              }}
+            />
             <ConfirmUpdateModal
               event={event}
               isOpen={modal === MODALS.UPDATE}
@@ -215,7 +263,11 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
                 title={name}
               >
                 <MainContent>
-                  <EditButtonPanel event={event} onUpdate={handleUpdate} />
+                  <EditButtonPanel
+                    event={event}
+                    onPostpone={() => setModal(MODALS.POSTPONE)}
+                    onUpdate={handleUpdate}
+                  />
                   <Container>
                     <FormContainer className={styles.editPageContentContainer}>
                       <EventInfo event={event} />
@@ -277,13 +329,7 @@ const EditEventPageWrapper: React.FC = () => {
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
       id,
-      include: [
-        'audience',
-        'keywords',
-        'location',
-        'sub_events',
-        'super_event',
-      ],
+      include: EVENT_INCLUDES,
     },
   });
   const { loading: loadingEventFieldsData } = useEventFieldsData();

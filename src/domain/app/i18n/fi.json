@@ -70,7 +70,8 @@
       "accessibility": {
         "buttonTimeList": "Kellonajat"
       }
-    }
+    },
+    "warning": "Varoitus!"
   },
   "createEventPage": {
     "pageTitle": {
@@ -114,6 +115,7 @@
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
+      "buttonPostpone": "Lykkää tapahtumaa",
       "buttonPublish": {
         "course": "Julkaise kurssi",
         "event": "Julkaise tapahtuma"
@@ -446,6 +448,12 @@
       "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
     },
     "freeEvent": "Maksuton",
+    "postponeEventModal": {
+      "buttonPostpone": "Lykkää tapahtumaa",
+      "text1": "Tämä toiminto lykkää tapahtuman tulevaisuuteen. Lykättyäsi voit myöhemmin syöttää tapahtumalle uuden ajankohdan.",
+      "text2": "Seuraavat tapahtumat lykätään:",
+      "title": "Varmista tapahtuman lykkääminen"
+    },
     "publicationStatus": {
       "draft": "Luonnos",
       "public": "Julkaistu"
