@@ -6,7 +6,7 @@ import formatDate from '../../../utils/formatDate';
 import SuperEventTypeTag from '../tags/SuperEventTypeTag';
 import styles from './eventHierarchy.module.scss';
 
-const PADDING = 24;
+export const PADDING = 24;
 
 interface Props {
   id: string;

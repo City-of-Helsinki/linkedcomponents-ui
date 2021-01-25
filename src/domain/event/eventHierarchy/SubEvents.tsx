@@ -13,7 +13,7 @@ import { EVENT_SORT_OPTIONS } from '../../events/constants';
 import { eventsPathBuilder } from '../../events/utils';
 import { EVENT_INCLUDES } from '../constants';
 import { getEventFields } from '../utils';
-import EventHierarchyRow from './EventHierarchyRow';
+import EventHierarchyRow, { PADDING } from './EventHierarchyRow';
 
 interface SubEventsProps {
   closedIds: string[];
@@ -89,7 +89,9 @@ const SubEvents: React.FC<SubEventsProps> = ({
       />
 
       {loading ? (
-        <LoadingSpinner small={true} />
+        <div style={{ paddingLeft: level * PADDING }}>
+          <LoadingSpinner small={true} />
+        </div>
       ) : (
         <>
           {open &&
