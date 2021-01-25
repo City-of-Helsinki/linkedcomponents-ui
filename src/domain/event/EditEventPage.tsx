@@ -84,6 +84,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     locale
   );
   const [modal, setModal] = React.useState<MODALS | null>(null);
+  const [saving, setSaving] = React.useState<MODALS | null>(null);
   const [nextPublicationStatus, setNextPublicationStatus] = React.useState(
     publicationStatus
   );
@@ -135,6 +136,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 
   const cancelEvent = async () => {
     try {
+      setSaving(MODALS.CANCEL);
       // Make sure all related events are fetched
       const allEvents = await getRelatedEvents({ apolloClient, event });
       const payload: UpdateEventMutationInput[] = allEvents.map((item) => ({
@@ -147,18 +149,22 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       }));
 
       await updateEvents(payload);
-      refetchEvent();
+      await refetchEvent();
       window.scrollTo(0, 0);
+      closeModal();
+      setSaving(null);
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
+      setSaving(null);
     }
   };
 
   const deleteEvent = async () => {
     try {
+      setSaving(MODALS.DELETE);
       // Make sure all related events are fetched
       const allEvents = await getRelatedEvents({ apolloClient, event });
       const allEventIds = flatMap(allEvents, 'id');
@@ -169,16 +175,20 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       // Clear all events queries from apollo cache to show edited events in event list
       clearEventsQueries(apolloClient);
       goToEventsPage();
+      closeModal();
+      setSaving(null);
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
+      setSaving(null);
     }
   };
 
   const postponeEvent = async () => {
     try {
+      setSaving(MODALS.POSTPONE);
       // Make sure all related events are fetched
       const allEvents = await getRelatedEvents({ apolloClient, event });
       const payload: UpdateEventMutationInput[] = allEvents.map((item) => ({
@@ -192,13 +202,16 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       }));
 
       await updateEvents(payload);
-      refetchEvent();
+      await refetchEvent();
       window.scrollTo(0, 0);
+      closeModal();
+      setSaving(null);
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
+      setSaving(null);
     }
   };
 
@@ -207,6 +220,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     publicationStatus: PublicationStatus
   ) => {
     try {
+      setSaving(MODALS.UPDATE);
       const subEvents = event.subEvents;
 
       await saveImageIfNeeded(values);
@@ -234,13 +248,16 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       }
 
       await updateEvents(payload);
-      refetchEvent();
+      await refetchEvent();
       window.scrollTo(0, 0);
+      closeModal();
+      setSaving(null);
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
+      setSaving(null);
     }
   };
 
@@ -297,36 +314,30 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
             <ConfirmCancelModal
               event={event}
               isOpen={modal === MODALS.CANCEL}
-              onCancel={() => {
-                closeModal();
-                cancelEvent();
-              }}
+              isSaving={saving === MODALS.CANCEL}
+              onCancel={cancelEvent}
               onClose={closeModal}
             />
             <ConfirmDeleteModal
               event={event}
               isOpen={modal === MODALS.DELETE}
-              onDelete={() => {
-                closeModal();
-                deleteEvent();
-              }}
+              isSaving={saving === MODALS.DELETE}
+              onDelete={deleteEvent}
               onClose={closeModal}
             />
             <ConfirmPostponeModal
               event={event}
               isOpen={modal === MODALS.POSTPONE}
+              isSaving={saving === MODALS.POSTPONE}
               onClose={closeModal}
-              onPostpone={() => {
-                closeModal();
-                postponeEvent();
-              }}
+              onPostpone={postponeEvent}
             />
             <ConfirmUpdateModal
               event={event}
               isOpen={modal === MODALS.UPDATE}
+              isSaving={saving === MODALS.UPDATE}
               onClose={closeModal}
               onSave={() => {
-                closeModal();
                 saveEvent(values, nextPublicationStatus);
               }}
             />

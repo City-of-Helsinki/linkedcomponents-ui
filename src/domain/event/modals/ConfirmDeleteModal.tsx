@@ -1,3 +1,4 @@
+import { IconCross, LoadingSpinner } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,6 +11,7 @@ import styles from './modals.module.scss';
 interface Props {
   event: EventFieldsFragment;
   isOpen: boolean;
+  isSaving: boolean;
   onClose: () => void;
   onDelete: () => void;
 }
@@ -17,6 +19,7 @@ interface Props {
 const ConfirmUpdateModal: React.FC<Props> = ({
   event,
   isOpen,
+  isSaving,
   onClose,
   onDelete,
 }) => {
@@ -41,7 +44,18 @@ const ConfirmUpdateModal: React.FC<Props> = ({
       <p>{t('event.deleteEventModal.text3')}</p>
       <EventHierarchy event={event} />
       <div className={styles.modalButtonWrapper}>
-        <Button onClick={onDelete} type="button" variant="danger">
+        <Button
+          iconLeft={
+            isSaving ? (
+              <LoadingSpinner className={styles.loadingSpinner} small={true} />
+            ) : (
+              <IconCross />
+            )
+          }
+          onClick={onDelete}
+          type="button"
+          variant="danger"
+        >
           {t('event.deleteEventModal.buttonDelete')}
         </Button>
         <Button

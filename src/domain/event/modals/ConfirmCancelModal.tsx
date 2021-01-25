@@ -1,3 +1,4 @@
+import { IconCalendarCross, LoadingSpinner } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,6 +11,7 @@ import styles from './modals.module.scss';
 interface Props {
   event: EventFieldsFragment;
   isOpen: boolean;
+  isSaving: boolean;
   onCancel: () => void;
   onClose: () => void;
 }
@@ -17,6 +19,7 @@ interface Props {
 const ConfirmUpdateModal: React.FC<Props> = ({
   event,
   isOpen,
+  isSaving,
   onCancel,
   onClose,
 }) => {
@@ -41,7 +44,18 @@ const ConfirmUpdateModal: React.FC<Props> = ({
       <p>{t('event.cancelEventModal.text2')}</p>
       <EventHierarchy event={event} />
       <div className={styles.modalButtonWrapper}>
-        <Button onClick={onCancel} type="button" variant="danger">
+        <Button
+          iconLeft={
+            isSaving ? (
+              <LoadingSpinner className={styles.loadingSpinner} small={true} />
+            ) : (
+              <IconCalendarCross />
+            )
+          }
+          onClick={onCancel}
+          type="button"
+          variant="danger"
+        >
           {t('event.cancelEventModal.buttonCancel')}
         </Button>
         <Button

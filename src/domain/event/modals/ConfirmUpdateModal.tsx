@@ -1,3 +1,4 @@
+import { IconPen, LoadingSpinner } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,6 +11,7 @@ import styles from './modals.module.scss';
 interface Props {
   event: EventFieldsFragment;
   isOpen: boolean;
+  isSaving: boolean;
   onClose: () => void;
   onSave: () => void;
 }
@@ -17,6 +19,7 @@ interface Props {
 const ConfirmUpdateModal: React.FC<Props> = ({
   event,
   isOpen,
+  isSaving,
   onClose,
   onSave,
 }) => {
@@ -35,7 +38,17 @@ const ConfirmUpdateModal: React.FC<Props> = ({
       <p>{t('event.updateEventModal.text2')}</p>
       <EventHierarchy event={event} />
       <div className={styles.modalButtonWrapper}>
-        <Button onClick={onSave} type="button">
+        <Button
+          iconLeft={
+            isSaving ? (
+              <LoadingSpinner className={styles.loadingSpinner} small={true} />
+            ) : (
+              <IconPen />
+            )
+          }
+          onClick={onSave}
+          type="button"
+        >
           {t('common.save')}
         </Button>
         <Button onClick={onClose} variant="secondary" type="button">

@@ -1,3 +1,4 @@
+import { IconCalendarClock, LoadingSpinner } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,6 +11,7 @@ import styles from './modals.module.scss';
 interface Props {
   event: EventFieldsFragment;
   isOpen: boolean;
+  isSaving: boolean;
   onClose: () => void;
   onPostpone: () => void;
 }
@@ -17,6 +19,7 @@ interface Props {
 const ConfirmUpdateModal: React.FC<Props> = ({
   event,
   isOpen,
+  isSaving,
   onClose,
   onPostpone,
 }) => {
@@ -38,7 +41,17 @@ const ConfirmUpdateModal: React.FC<Props> = ({
       <p>{t('event.postponeEventModal.text2')}</p>
       <EventHierarchy event={event} />
       <div className={styles.modalButtonWrapper}>
-        <Button onClick={onPostpone} type="button">
+        <Button
+          iconLeft={
+            isSaving ? (
+              <LoadingSpinner className={styles.loadingSpinner} small={true} />
+            ) : (
+              <IconCalendarClock />
+            )
+          }
+          onClick={onPostpone}
+          type="button"
+        >
           {t('event.postponeEventModal.buttonPostpone')}
         </Button>
         <Button onClick={onClose} variant="secondary" type="button">
