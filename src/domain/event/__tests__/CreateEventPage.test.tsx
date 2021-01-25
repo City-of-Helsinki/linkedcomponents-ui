@@ -1,9 +1,9 @@
+/* eslint-disable no-console */
 import { MockedResponse } from '@apollo/react-testing';
 import { advanceTo, clear } from 'jest-date-mock';
 import merge from 'lodash/merge';
 import range from 'lodash/range';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { testId } from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { defaultStoreState, INCLUDE, KEYWORD_SETS } from '../../../constants';
@@ -451,7 +451,7 @@ const selectImage = async () => {
   });
 };
 
-test('should focus to first error when trying to save draft event', async () => {
+test('should focus to first validation error when trying to save draft event', async () => {
   renderComponent();
 
   await waitFor(() => {
@@ -468,7 +468,7 @@ test('should focus to first error when trying to save draft event', async () => 
   });
 });
 
-test('should focus to select component in case of error', async () => {
+test('should focus to select component in case of validation error', async () => {
   renderComponent();
 
   await waitFor(() => {
@@ -490,7 +490,7 @@ test('should focus to select component in case of error', async () => {
   });
 });
 
-test('should focus to first error when trying to publish event', async () => {
+test('should focus to first validation error when trying to publish event', async () => {
   renderComponent();
 
   await waitFor(() => {
@@ -520,8 +520,6 @@ describe('save draft event', () => {
   const renderSaveDraftComponent = async (
     createEventResponse: MockedResponse
   ) => {
-    toast.error = jest.fn();
-
     const mocks = [...defaultMocks, createEventResponse];
     const component = renderComponent(mocks);
 
@@ -553,6 +551,7 @@ describe('save draft event', () => {
   };
 
   it('should show toast message when 400 error is returned when trying to save event', async () => {
+    console.error = jest.fn();
     await renderSaveDraftComponent({
       request: {
         query: CreateEventDocument,
@@ -562,37 +561,8 @@ describe('save draft event', () => {
     });
 
     await waitFor(() => {
-      expect(toast.error).toBeCalledWith(translations.errors.validationError);
-    });
-  });
-
-  it('should show toast message when 401 error is returned when trying to save event', async () => {
-    await renderSaveDraftComponent({
-      request: {
-        query: CreateEventDocument,
-        variables: draftPayload,
-      },
-      error: createNetwordError(401),
-    });
-
-    await waitFor(() => {
-      expect(toast.error).toBeCalledWith(
-        translations.errors.authorizationRequired
-      );
-    });
-  });
-
-  it('should show toast message when 500 error is returned when trying to save event', async () => {
-    await renderSaveDraftComponent({
-      request: {
-        query: CreateEventDocument,
-        variables: draftPayload,
-      },
-      error: createNetwordError(500),
-    });
-
-    await waitFor(() => {
-      expect(toast.error).toBeCalledWith(translations.errors.serverError);
+      // Apollo client will also show toast error but test here only that console error is shown
+      expect(console.error).toBeCalled();
     });
   });
 
@@ -621,7 +591,6 @@ describe('save draft event', () => {
 
 test('should route to event completed page after publishing event', async () => {
   advanceTo('2020-12-20');
-  toast.error = jest.fn();
 
   const subEvents = fakeEvents(
     eventValues.subEvents.length,

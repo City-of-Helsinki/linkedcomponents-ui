@@ -2,7 +2,8 @@
 
 exports[`matches snapshot 1`] = `
 <header
-  class="Navigation-module_header__2HNOX Navigation-module_fixed__1UOw3 Navigation-module_theme-light__36nmi css-0 navigation"
+  class="Navigation-module_header__2HNOX Navigation-module_theme-light__36nmi css-0 navigation"
+  id="page-header"
 >
   <a
     class="Navigation-module_skipToContent__2p54x"
@@ -197,39 +198,6 @@ exports[`matches snapshot 1`] = `
         class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
       >
         Läs mer
-      </span>
-    </a>
-    <a
-      class="NavigationItem-module_rowItem__2QxRz navigationItem addEventItem"
-      href="/sv/events/create"
-    >
-      <span
-        class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
-      >
-        <span
-          class="navigationItemLabel"
-        >
-          <svg
-            class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
-            role="img"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g
-              fill="none"
-              fill-rule="evenodd"
-            >
-              <path
-                d="M0 0h24v24H0z"
-              />
-              <path
-                d="M13 6v5h5v2h-5v5h-2v-5H6v-2h5V6z"
-                fill="currentColor"
-              />
-            </g>
-          </svg>
-          Nytt evenemang
-        </span>
       </span>
     </a>
   </nav>
