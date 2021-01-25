@@ -27,7 +27,7 @@
     margin: 0;
   }
 
-  svg {
+  .icon {
     color: var(--event-card-icon-color);
   }
 
@@ -37,10 +37,13 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    display: flex;
+    padding: var(--spacing-m);
 
     @include medium-up {
       min-height: var(--event-card-image-min-height);
       grid-column: 1 /3;
+      padding: var(--spacing-xs);
     }
   }
 
@@ -110,5 +113,10 @@
         }
       }
     }
+  }
+  .eventStatusTagWrapper {
+    color: unset;
+    display: flex;
+    margin-top: -4px;
   }
 }
