@@ -64,6 +64,7 @@ import {
 
 interface EditEventPageProps {
   event: EventFieldsFragment;
+  refetch: () => void;
 }
 
 enum MODALS {
@@ -73,7 +74,7 @@ enum MODALS {
   UPDATE = 'update',
 }
 
-const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
+const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const apolloClient = useApolloClient();
   const { t } = useTranslation();
   const history = useHistory();
@@ -96,10 +97,6 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
   const [updateImage] = useUpdateImageMutation();
   // Prefetch all related events which are used when postpone/delete/cancel events
   useRelatedEvents(event);
-
-  const goToEventSavedPage = (id: string) => {
-    history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
-  };
 
   const goToEventsPage = () => {
     history.push(`/${locale}${ROUTES.EVENTS}`);
@@ -130,7 +127,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
 
     // Clear all events queries from apollo cache to show edited events in event list
     clearEventsQueries(apolloClient);
-    goToEventSavedPage(id);
+  };
+
+  const refetchEvent = () => {
+    refetch();
   };
 
   const cancelEvent = async () => {
@@ -147,6 +147,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
       }));
 
       await updateEvents(payload);
+      refetchEvent();
+      window.scrollTo(0, 0);
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
@@ -190,6 +192,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
       }));
 
       await updateEvents(payload);
+      refetchEvent();
+      window.scrollTo(0, 0);
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
@@ -230,6 +234,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
       }
 
       await updateEvents(payload);
+      refetchEvent();
+      window.scrollTo(0, 0);
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
@@ -248,6 +254,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
       // We have custom way to handle onSubmit so here is empty function
       // to silent TypeScript error. The reason for custom onSubmit is that
       // we want to scroll to first invalid field if error occurs
+      enableReinitialize={true}
       onSubmit={/* istanbul ignore next */ () => undefined}
       validationSchema={eventValidationSchema}
       validateOnMount
@@ -393,7 +400,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
 
 const EditEventPageWrapper: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: eventData, loading: loadingEvent } = useEventQuery({
+  const { data: eventData, loading: loadingEvent, refetch } = useEventQuery({
     fetchPolicy: 'no-cache',
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
@@ -401,6 +408,7 @@ const EditEventPageWrapper: React.FC = () => {
       include: EVENT_INCLUDES,
     },
   });
+
   const { loading: loadingEventFieldsData } = useEventFieldsData();
 
   const loading = loadingEvent || loadingEventFieldsData;
@@ -408,7 +416,7 @@ const EditEventPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {eventData?.event ? (
-        <EditEventPage event={eventData.event} />
+        <EditEventPage event={eventData.event} refetch={refetch} />
       ) : (
         <NotFound />
       )}
