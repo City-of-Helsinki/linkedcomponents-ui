@@ -31,6 +31,7 @@ const EventHierarchy: React.FC<Props> = ({ event }) => {
     <div className={styles.eventHierarchy}>
       <EventHierarchyRow
         id={id}
+        level={0}
         name={name}
         open={open}
         startTime={startTime}
@@ -46,6 +47,7 @@ const EventHierarchy: React.FC<Props> = ({ event }) => {
                 key={subEvent.atId}
                 closedIds={closedIds}
                 event={subEvent}
+                level={1}
                 toggle={toggle}
               />
             )

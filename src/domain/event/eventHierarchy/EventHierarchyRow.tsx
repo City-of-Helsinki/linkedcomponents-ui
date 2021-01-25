@@ -10,7 +10,7 @@ const PADDING = 24;
 
 interface Props {
   id: string;
-  level?: number;
+  level: number;
   name: string;
   open?: boolean;
   startTime: Date | null;
@@ -20,7 +20,7 @@ interface Props {
 
 const EventHierarchyRow: React.FC<Props> = ({
   id,
-  level = 0,
+  level,
   name,
   open,
   startTime,

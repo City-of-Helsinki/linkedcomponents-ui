@@ -18,10 +18,16 @@ import EventHierarchyRow from './EventHierarchyRow';
 interface SubEventsProps {
   closedIds: string[];
   event: EventFieldsFragment;
+  level: number;
   toggle: (id: string) => void;
 }
 
-const SubEvents: React.FC<SubEventsProps> = ({ closedIds, event, toggle }) => {
+const SubEvents: React.FC<SubEventsProps> = ({
+  closedIds,
+  event,
+  level,
+  toggle,
+}) => {
   const locale = useLocale();
   const { id, name, subEventAtIds, startTime, superEventType } = getEventFields(
     event,
@@ -74,7 +80,7 @@ const SubEvents: React.FC<SubEventsProps> = ({ closedIds, event, toggle }) => {
     <>
       <EventHierarchyRow
         id={id}
-        level={1}
+        level={level}
         name={name}
         open={open}
         startTime={startTime}
@@ -88,21 +94,16 @@ const SubEvents: React.FC<SubEventsProps> = ({ closedIds, event, toggle }) => {
         <>
           {open &&
             subEvents.map((subEvent) => {
-              const {
-                id: subEventId,
-                name: subEventName,
-                startTime: subEventStartTime,
-              } = getEventFields(subEvent as EventFieldsFragment, locale);
-
               return (
-                <EventHierarchyRow
-                  key={subEventId}
-                  id={subEventId}
-                  level={2}
-                  name={subEventName}
-                  startTime={subEventStartTime}
-                  superEventType={null}
-                />
+                subEvent && (
+                  <SubEvents
+                    key={subEvent.atId}
+                    closedIds={closedIds}
+                    event={subEvent}
+                    level={level + 1}
+                    toggle={toggle}
+                  />
+                )
               );
             })}
         </>

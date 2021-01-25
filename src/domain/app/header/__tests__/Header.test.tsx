@@ -67,10 +67,6 @@ test('should show navigation links and should route to correct page after clicki
   const { history } = renderComponent();
   const links = [
     {
-      name: translations.navigation.tabs.createEvent,
-      url: `/fi${ROUTES.CREATE_EVENT}`,
-    },
-    {
       name: translations.navigation.tabs.events,
       url: `/fi${ROUTES.EVENTS}`,
     },

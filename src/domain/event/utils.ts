@@ -1044,6 +1044,59 @@ export const showErrors = (
   }
 };
 
+const getSubEvents = async ({
+  event,
+  apolloClient,
+}: {
+  apolloClient: ApolloClient<object>;
+  event: EventFieldsFragment;
+}) => {
+  const subEvents: EventFieldsFragment[] = [];
+
+  const id = event.id;
+  const variables = {
+    createPath: getPathBuilder(eventsPathBuilder),
+    include: EVENT_INCLUDES,
+    pageSize: MAX_PAGE_SIZE,
+    showAll: true,
+    sort: EVENT_SORT_OPTIONS.START_TIME,
+    superEvent: id,
+  };
+
+  const { data } = await apolloClient.query<EventsQuery>({
+    query: EventsDocument,
+    variables,
+  });
+
+  subEvents.push(...(data.events.data as EventFieldsFragment[]));
+
+  let nextPage = getNextPage(data.events.meta);
+
+  while (nextPage) {
+    const { data } = await apolloClient.query<EventsQuery>({
+      query: EventsDocument,
+      variables: { ...variables, page: nextPage },
+    });
+
+    subEvents.push(...(data.events.data as EventFieldsFragment[]));
+
+    nextPage = getNextPage(data.events.meta);
+  }
+
+  // Check is subEvent a super event and recursively add it's sub events if needed
+  for (const subEvent of subEvents) {
+    if (subEvent.superEventType) {
+      const subSubEvents = await getSubEvents({
+        apolloClient,
+        event: subEvent,
+      });
+      subEvents.push(...subSubEvents);
+    }
+  }
+
+  return subEvents;
+};
+
 export const getRelatedEvents = async ({
   event,
   apolloClient,
@@ -1055,39 +1108,13 @@ export const getRelatedEvents = async ({
   const allRelatedEvents: EventFieldsFragment[] = [event];
 
   for (const subEvent of subEvents) {
-    allRelatedEvents.push(subEvent as EventFieldsFragment);
-
-    const id = subEvent?.id;
-    const variables = {
-      createPath: getPathBuilder(eventsPathBuilder),
-      include: EVENT_INCLUDES,
-      pageSize: MAX_PAGE_SIZE,
-      showAll: true,
-      sort: EVENT_SORT_OPTIONS.START_TIME,
-      superEvent: id,
-    };
-
-    const { data } = await apolloClient.query<EventsQuery>({
-      query: EventsDocument,
-      variables,
+    const subSubEvents = await getSubEvents({
+      apolloClient,
+      event: subEvent as EventFieldsFragment,
     });
-
-    console.log(data);
-
-    allRelatedEvents.push(...(data.events.data as EventFieldsFragment[]));
-
-    let nextPage = getNextPage(data.events.meta);
-
-    while (nextPage) {
-      const { data } = await apolloClient.query<EventsQuery>({
-        query: EventsDocument,
-        variables: { ...variables, page: nextPage },
-      });
-
-      allRelatedEvents.push(...(data.events.data as EventFieldsFragment[]));
-
-      nextPage = getNextPage(data.events.meta);
-    }
+    allRelatedEvents.push(subEvent as EventFieldsFragment);
+    allRelatedEvents.push(...subSubEvents);
   }
+
   return allRelatedEvents;
 };

@@ -1,5 +1,6 @@
 import { useApolloClient } from '@apollo/client';
 import { Form, Formik } from 'formik';
+import flatMap from 'lodash/flatMap';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
@@ -12,6 +13,7 @@ import {
   PublicationStatus,
   SuperEventType,
   UpdateEventMutationInput,
+  useDeleteEventMutation,
   useEventQuery,
   useUpdateEventsMutation,
   useUpdateImageMutation,
@@ -45,6 +47,7 @@ import useEventFieldsData from './hooks/useEventFieldsData';
 import useRelatedEvents from './hooks/useRelatedEvents';
 import Section from './layout/Section';
 import ConfirmCancelModal from './modals/ConfirmCancelModal';
+import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import ConfirmPostponeModal from './modals/ConfirmPostponeModal';
 import ConfirmUpdateModal from './modals/ConfirmUpdateModal';
 import { EventFormFields } from './types';
@@ -65,6 +68,7 @@ interface EditEventPageProps {
 
 enum MODALS {
   CANCEL = 'cancel',
+  DELETE = 'delete',
   POSTPONE = 'postpone',
   UPDATE = 'update',
 }
@@ -87,6 +91,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
     return getEventInitialValues(event);
   }, [event]);
 
+  const [deleteEventMutation] = useDeleteEventMutation();
   const [updateEventsMutation] = useUpdateEventsMutation();
   const [updateImage] = useUpdateImageMutation();
   // Prefetch all related events which are used when postpone/delete/cancel events
@@ -94,6 +99,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
 
   const goToEventSavedPage = (id: string) => {
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
+  };
+
+  const goToEventsPage = () => {
+    history.push(`/${locale}${ROUTES.EVENTS}`);
   };
 
   const saveImageIfNeeded = async (values: EventFormFields) => {
@@ -138,6 +147,26 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
       }));
 
       await updateEvents(payload);
+    } catch (e) {
+      // Network errors will be handled on apolloClient error link. Only show error on console here.
+      /* istanbul ignore next  */
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
+  };
+
+  const deleteEvent = async () => {
+    try {
+      // Make sure all related events are fetched
+      const allEvents = await getRelatedEvents({ apolloClient, event });
+      const allEventIds = flatMap(allEvents, 'id');
+      for (const id of allEventIds) {
+        await deleteEventMutation({ variables: { id } });
+      }
+
+      // Clear all events queries from apollo cache to show edited events in event list
+      clearEventsQueries(apolloClient);
+      goToEventsPage();
     } catch (e) {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
@@ -267,6 +296,15 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
               }}
               onClose={closeModal}
             />
+            <ConfirmDeleteModal
+              event={event}
+              isOpen={modal === MODALS.DELETE}
+              onDelete={() => {
+                closeModal();
+                deleteEvent();
+              }}
+              onClose={closeModal}
+            />
             <ConfirmPostponeModal
               event={event}
               isOpen={modal === MODALS.POSTPONE}
@@ -295,6 +333,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event }) => {
                   <EditButtonPanel
                     event={event}
                     onCancel={() => setModal(MODALS.CANCEL)}
+                    onDelete={() => setModal(MODALS.DELETE)}
                     onPostpone={() => setModal(MODALS.POSTPONE)}
                     onUpdate={handleUpdate}
                   />

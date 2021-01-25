@@ -10,15 +10,15 @@ import styles from './modals.module.scss';
 interface Props {
   event: EventFieldsFragment;
   isOpen: boolean;
-  onCancel: () => void;
   onClose: () => void;
+  onDelete: () => void;
 }
 
 const ConfirmUpdateModal: React.FC<Props> = ({
   event,
   isOpen,
-  onCancel,
   onClose,
+  onDelete,
 }) => {
   const { t } = useTranslation();
 
@@ -28,21 +28,21 @@ const ConfirmUpdateModal: React.FC<Props> = ({
       onClose={onClose}
       shouldCloseOnEsc={true}
       size="m"
-      title={t('event.cancelEventModal.title')}
+      title={t('event.deleteEventModal.title')}
       type="alert"
     >
-      <p>
-        <strong>{t('event.cancelEventModal.warning')}</strong>
-      </p>
       <p className={styles.warning}>
         <strong>{t('common.warning')}</strong>
       </p>
-      <p>{t('event.cancelEventModal.text1')}</p>
-      <p>{t('event.cancelEventModal.text2')}</p>
+      <p>
+        <div>{t('event.deleteEventModal.text1')} </div>
+        <div>{t('event.deleteEventModal.text2')}</div>
+      </p>
+      <p>{t('event.deleteEventModal.text3')}</p>
       <EventHierarchy event={event} />
       <div className={styles.modalButtonWrapper}>
-        <Button onClick={onCancel} type="button" variant="danger">
-          {t('event.cancelEventModal.buttonCancel')}
+        <Button onClick={onDelete} type="button" variant="danger">
+          {t('event.deleteEventModal.buttonDelete')}
         </Button>
         <Button
           onClick={onClose}

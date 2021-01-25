@@ -8,6 +8,13 @@ export const MUTATION_EVENT = gql`
     }
   }
 
+  mutation DeleteEvent($id: ID!) {
+    deleteEvent(id: $id)
+      @rest(type: "NoContent", path: "/event/{args.id}/", method: "DELETE") {
+      noContent
+    }
+  }
+
   mutation UpdateEvent($input: UpdateEventMutationInput!) {
     updateEvent(input: $input)
       @rest(

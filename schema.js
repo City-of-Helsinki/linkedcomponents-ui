@@ -8,10 +8,15 @@ module.exports = buildSchema(/* GraphQL */ `
   type Mutation {
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
+    deleteEvent(id: ID!): NoContent
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
+  }
+
+  type NoContent {
+    noContent: Boolean
   }
 
   type Query {

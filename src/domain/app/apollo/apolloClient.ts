@@ -225,6 +225,12 @@ const errorLink = onError(({ networkError, operation }) => {
       case 403:
         toast.error(i18n.t('errors.forbidden'));
         break;
+      case 404:
+        toast.error(i18n.t('errors.notFound'));
+        break;
+      case 410:
+        toast.error(i18n.t('errors.delete'));
+        break;
       default:
         toast.error(i18n.t('errors.serverError'));
     }

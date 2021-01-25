@@ -86,7 +86,9 @@
   },
   "errors": {
     "authorizationRequired": "Logga in för att utföra den här åtgärden.",
+    "deleted": "Innehållet har tagits bort",
     "forbidden": "Du har inte behörighet att utföra den här åtgärden.",
+    "notFound": "Hittades inte",
     "serverError": "Serverfel.",
     "validationError": "Det finns fel på formuläret. Kontrollera formuläret."
   },
@@ -95,6 +97,20 @@
       "between": "{{min}} – {{max}} år",
       "over": "Över {{min}} år",
       "under": "Under {{max}} år"
+    },
+    "cancelEventModal": {
+      "buttonCancel": "Avbryt evenemanget",
+      "text1": "Denna åtgärd avbryter evenemanget. Du kan också skjuta upp evenemanget eller ta bort en händelse du angav av misstag.",
+      "text2": "Följande evenemangen kommer att avbrytas:",
+      "title": "Avbryt evenemanget",
+      "warning": "Kom ihåg att istället för att avbryta kan du också vara värd för evenemanget på distans online. I så fall använder du redigeringsformuläret för att välja Internet som plats. Du kan också skjuta upp evenemanget till framtiden."
+    },
+    "deleteEventModal": {
+      "buttonDelete": "Radera evenemang",
+      "text1": "Denna funktion raderar evenemanget permanent.",
+      "text2": "Om det behövs kan du också avbryta eller skjuta upp evenemanget.",
+      "text3": "Följande evenemangen kommer att radera:",
+      "title": "Radera evenemang"
     },
     "eventStatus": {
       "eventCancelled": "Inställt",
@@ -113,6 +129,7 @@
       "buttonAddRecurringEvent": "Lägg till återkommande evenemang",
       "buttonBack": "Tillbaka",
       "buttonCancel": "Avbryt evenemanget",
+      "buttonDelete":  "Redare evenemanget",
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
@@ -453,13 +470,6 @@
       "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett paraplyevenemang."
     },
     "freeEvent": "Fri",
-    "cancelEventModal": {
-      "buttonCancel": "Avbryt evenemanget",
-      "text1": "Denna åtgärd avbryter evenemanget. Du kan också skjuta upp evenemanget eller ta bort en händelse du angav av misstag.",
-      "text2": "Följande evenemangen raderas:",
-      "title": "Avbryt evenemanget",
-      "warning": "Kom ihåg att istället för att avbryta kan du också vara värd för evenemanget på distans online. I så fall använder du redigeringsformuläret för att välja Internet som plats. Du kan också skjuta upp evenemanget till framtiden."
-    },
     "postponeEventModal": {
       "buttonPostpone": "Skjuta upp evenemanget",
       "text1": "Denna funktion skjuter upp evenemanget till framtiden. Efter att ha skjutit upp kan du senare ange en ny tid för evenemanget.",

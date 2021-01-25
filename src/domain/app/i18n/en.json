@@ -86,7 +86,9 @@
   },
   "errors": {
     "authorizationRequired": "Sign in to perform this action",
+    "deleted": "Content is deleted",
     "forbidden": "You do not have permission to perform this operation.",
+    "notFound": "Not found",
     "serverError": "Server error.",
     "validationError": "There are errors on the form. Please check the form."
   },
@@ -95,6 +97,20 @@
       "between": "{{min}} – {{max}} yr.",
       "over": "Over {{min}} yr.",
       "under": "Under {{max}} yr."
+    },
+    "cancelEventModal": {
+      "buttonCancel": "Cancel event",
+      "text1": "This action cancels the event. You can also postpone the event, or delete an event that you entered accidentally.",
+      "text2": "The following events will be cancelled:",
+      "title": "Cancel event",
+      "warning": "Remember that instead of canceling, you can also host the event remotely online. In this case, use the edit form to select Internet as the venue. You can also postpone the event to the future."
+    },
+    "deleteEventModal": {
+      "buttonDelete": "Delete event",
+      "text1": "This function permanently deletes the event.",
+      "text2": "If necessary, you can also cancel or postpone the event.",
+      "text3": "The following events will be deleted:",
+      "title": "Delete event"
     },
     "eventStatus": {
       "eventCancelled": "Cancelled",
@@ -113,6 +129,7 @@
       "buttonAddRecurringEvent": "Add recurring event",
       "buttonBack": "Back",
       "buttonCancel":  "Cancel event",
+      "buttonDelete":  "Delete event",
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
       "buttonDeleteRecurringEvent": "Delete recurring event",
@@ -454,13 +471,6 @@
       "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
     },
     "freeEvent": "Free",
-    "cancelEventModal": {
-      "buttonCancel": "Cancel event",
-      "text1": "This action cancels the event. You can also postpone the event, or delete an event that you entered accidentally.",
-      "text2": "The following events will be deleted:",
-      "title": "Cancel event",
-      "warning": "Remember that instead of canceling, you can also host the event remotely online. In this case, use the edit form to select Internet as the venue. You can also postpone the event to the future."
-    },
     "postponeEventModal": {
       "buttonPostpone": "Postpone event",
       "text1": "This function postpones the event to the future. After postponing, you can later enter a new time for the event.",

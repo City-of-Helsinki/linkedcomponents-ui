@@ -3,6 +3,7 @@ import {
   IconCalendarClock,
   IconCalendarCross,
   IconCheck,
+  IconCross,
   IconPen,
 } from 'hds-react';
 import React from 'react';
@@ -26,6 +27,7 @@ import styles from './editButtonPanel.module.scss';
 
 export enum BUTTONS {
   CANCEL = 'cancel',
+  DELETE = 'delete',
   POSTPONE = 'postpone',
   PUBLISH = 'publish',
   UPDATE_DRAFT = 'updateDraft',
@@ -35,6 +37,7 @@ export enum BUTTONS {
 interface Props {
   event: EventFieldsFragment;
   onCancel: () => void;
+  onDelete: () => void;
   onPostpone: () => void;
   onUpdate: (publicationStatus: PublicationStatus) => void;
 }
@@ -54,6 +57,7 @@ const NOT_ALLOWED_WHEN_CANCELLED = [
 
 const iconMap = {
   [BUTTONS.CANCEL]: <IconCalendarCross />,
+  [BUTTONS.DELETE]: <IconCross />,
   [BUTTONS.POSTPONE]: <IconCalendarClock />,
   [BUTTONS.PUBLISH]: <IconCheck />,
   [BUTTONS.UPDATE_DRAFT]: <IconPen />,
@@ -62,6 +66,7 @@ const iconMap = {
 
 const labelKeyMap = {
   [BUTTONS.CANCEL]: 'event.form.buttonCancel',
+  [BUTTONS.DELETE]: 'event.form.buttonDelete',
   [BUTTONS.POSTPONE]: 'event.form.buttonPostpone',
   [BUTTONS.PUBLISH]: 'event.form.buttonAcceptAndPublish',
   [BUTTONS.UPDATE_DRAFT]: 'event.form.buttonUpdateDraft',
@@ -71,6 +76,7 @@ const labelKeyMap = {
 const EditButtonPanel: React.FC<Props> = ({
   event,
   onCancel,
+  onDelete,
   onPostpone,
   onUpdate,
 }) => {
@@ -88,7 +94,9 @@ const EditButtonPanel: React.FC<Props> = ({
   const getIsButtonVisible = (button: BUTTONS) => {
     switch (button) {
       case BUTTONS.CANCEL:
-        return isPublic;
+        return true;
+      case BUTTONS.DELETE:
+        return true;
       case BUTTONS.POSTPONE:
         return isPublic;
       case BUTTONS.PUBLISH:
@@ -165,32 +173,38 @@ const EditButtonPanel: React.FC<Props> = ({
               {t('event.form.buttonBack')}
             </Button>
           </div>
-          <div className={styles.actionButtonWrapper}>
-            {getActionButton({
-              button: BUTTONS.POSTPONE,
-              onClick: onPostpone,
-            })}
-            {getActionButton({
-              button: BUTTONS.CANCEL,
-              onClick: onCancel,
-            })}
-          </div>
-          <div className={styles.saveButtonWrapper}>
-            {/* Buttons for draft event */}
-            {getActionButton({
-              button: BUTTONS.UPDATE_DRAFT,
-              onClick: () => onUpdate(PublicationStatus.Draft),
-            })}
-            {getActionButton({
-              button: BUTTONS.PUBLISH,
-              onClick: () => onUpdate(PublicationStatus.Public),
-            })}
+          <div className={styles.editButtonWrapper}>
+            <div className={styles.actionButtonWrapper}>
+              {getActionButton({
+                button: BUTTONS.POSTPONE,
+                onClick: onPostpone,
+              })}
+              {getActionButton({
+                button: BUTTONS.CANCEL,
+                onClick: onCancel,
+              })}
+              {getActionButton({
+                button: BUTTONS.DELETE,
+                onClick: onDelete,
+              })}
+            </div>
+            <div className={styles.saveButtonWrapper}>
+              {/* Buttons for draft event */}
+              {getActionButton({
+                button: BUTTONS.UPDATE_DRAFT,
+                onClick: () => onUpdate(PublicationStatus.Draft),
+              })}
+              {getActionButton({
+                button: BUTTONS.PUBLISH,
+                onClick: () => onUpdate(PublicationStatus.Public),
+              })}
 
-            {/* Buttons for public event */}
-            {getActionButton({
-              button: BUTTONS.UPDATE_PUBLIC,
-              onClick: () => onUpdate(PublicationStatus.Public),
-            })}
+              {/* Buttons for public event */}
+              {getActionButton({
+                button: BUTTONS.UPDATE_PUBLIC,
+                onClick: () => onUpdate(PublicationStatus.Public),
+              })}
+            </div>
           </div>
         </div>
       </Container>

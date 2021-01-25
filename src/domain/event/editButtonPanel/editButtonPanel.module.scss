@@ -40,26 +40,35 @@
   display: grid;
   grid-gap: var(--spacing-m);
 
-  .actionButtonWrapper {
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
+  .editButtonWrapper {
+    display: grid;
     grid-gap: var(--spacing-m);
-  }
 
-  .saveButtonWrapper {
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    grid-gap: var(--spacing-m);
+    @include large-up {
+      display: flex;
+    }
+
+    .actionButtonWrapper {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      grid-gap: var(--spacing-m);
+    }
+
+    .saveButtonWrapper {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      grid-gap: var(--spacing-m);
+    }
   }
 
   @include medium-up {
-    grid-template-columns: 1fr 2fr 2fr;
+    grid-template-columns: 1fr;
   }
 
   @include large-up {
-    grid-template-columns: 1fr 6fr 5fr;
+    grid-template-columns: 1fr 11fr;
 
     .saveButtonWrapper {
       justify-content: flex-end;
