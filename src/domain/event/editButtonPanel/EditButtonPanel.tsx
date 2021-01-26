@@ -34,7 +34,7 @@ export enum BUTTONS {
   UPDATE_PUBLIC = 'updatePublic',
 }
 
-interface Props {
+export interface EditButtonPanelProps {
   event: EventFieldsFragment;
   onCancel: () => void;
   onDelete: () => void;
@@ -73,7 +73,7 @@ const labelKeyMap = {
   [BUTTONS.UPDATE_PUBLIC]: 'event.form.buttonUpdatePublic',
 };
 
-const EditButtonPanel: React.FC<Props> = ({
+const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   event,
   onCancel,
   onDelete,
