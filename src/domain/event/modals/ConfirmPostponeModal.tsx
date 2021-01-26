@@ -8,7 +8,7 @@ import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
 import styles from './modals.module.scss';
 
-interface Props {
+export interface ConfirmPostponeModalProps {
   event: EventFieldsFragment;
   isOpen: boolean;
   isSaving: boolean;
@@ -16,7 +16,7 @@ interface Props {
   onPostpone: () => void;
 }
 
-const ConfirmUpdateModal: React.FC<Props> = ({
+const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
   event,
   isOpen,
   isSaving,
@@ -62,4 +62,4 @@ const ConfirmUpdateModal: React.FC<Props> = ({
   );
 };
 
-export default ConfirmUpdateModal;
+export default ConfirmPostponeModal;

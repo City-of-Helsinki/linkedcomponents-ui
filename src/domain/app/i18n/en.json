@@ -481,7 +481,6 @@
       "draft": "Draft",
       "public": "Public"
     },
-    "subEvents": "Sub-events",
     "superEventType": {
       "recurring": "Series",
       "umbrella": "Umbrella"
@@ -508,6 +507,10 @@
     "count": "{{count}} event",
     "count_plural": "{{count}} events",
     "datetime": "{{date}} at {{time}}",
+    "eventsTable": {
+      "hideSubEvents": "Hide sub-events: {{name}}",
+      "showSubEvents": "Show sub-events: {{name}}"
+    },
     "eventsTableCaption": {
       "drafts": "Draft events, sorted by {{sort}}",
       "published": "Published events, sorted by {{sort}}",
@@ -558,7 +561,7 @@
       "fi": "In Finnish",
       "ru": "In Russian",
       "sv": "In Swedish",
-      "zh_hans": "In Chinese"
+      "zhHans": "In Chinese"
     },
     "language": {
       "ar": "Arabic",
@@ -566,7 +569,7 @@
       "fi": "Finnish",
       "ru": "Russian",
       "sv": "Swedish",
-      "zh_hans": "Chinese"
+      "zhHans": "Chinese"
     },
     "validation": {
       "array": {

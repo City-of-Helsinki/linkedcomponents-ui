@@ -948,7 +948,7 @@ export const getEventInitialValues = (
   // set the 'isUmbrella' checkbox as checked, if:
   //  - super event type of the event is 'umbrella'
   const isUmbrella = event.superEventType === SuperEventType.Umbrella;
-  const hasPrice = !event.offers[0]?.isFree;
+  const hasPrice = event.offers?.[0]?.isFree === false;
 
   return {
     ...EVENT_INITIAL_VALUES,

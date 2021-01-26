@@ -9,6 +9,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import isTestEnv from '../../../utils/isTestEnv';
 import { EVENT_SORT_OPTIONS } from '../../events/constants';
 import { eventsPathBuilder } from '../../events/utils';
 import { EVENT_INCLUDES } from '../constants';
@@ -33,6 +34,7 @@ const SubEvents: React.FC<SubEventsProps> = ({
     event,
     locale
   );
+
   const open = !closedIds.includes(id);
 
   const variables = React.useMemo(() => {
@@ -62,6 +64,7 @@ const SubEvents: React.FC<SubEventsProps> = ({
     if (nextPage) {
       fetchMore({
         updateQuery: (prev, { fetchMoreResult }) => {
+          /* istanbul ignore next  */
           if (!fetchMoreResult) return prev;
 
           const events = [...prev.events.data, ...fetchMoreResult.events.data];
@@ -83,14 +86,19 @@ const SubEvents: React.FC<SubEventsProps> = ({
         level={level}
         name={name}
         open={open}
+        showToggleButton={!!subEventAtIds.length}
         startTime={startTime}
         superEventType={superEventType}
-        toggle={!!subEventAtIds.length ? toggle : undefined}
+        toggle={toggle}
       />
 
       {loading ? (
         <div style={{ paddingLeft: level * PADDING }}>
-          <LoadingSpinner small={true} />
+          {/* Timer of Loading spinner throws an error on jest tests after component unmount */}
+          {!isTestEnv && (
+            /* istanbul ignore next */
+            <LoadingSpinner small={true} />
+          )}
         </div>
       ) : (
         <>

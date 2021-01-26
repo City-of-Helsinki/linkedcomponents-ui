@@ -13,9 +13,10 @@ interface Props {
   level: number;
   name: string;
   open?: boolean;
+  showToggleButton: boolean;
   startTime: Date | null;
   superEventType: string | null;
-  toggle?: (id: string) => void;
+  toggle: (id: string) => void;
 }
 
 const EventHierarchyRow: React.FC<Props> = ({
@@ -23,17 +24,15 @@ const EventHierarchyRow: React.FC<Props> = ({
   level,
   name,
   open,
+  showToggleButton,
   startTime,
   superEventType,
   toggle,
 }) => {
-  const showToggleButton = Boolean(toggle);
   const { t } = useTranslation();
 
   const handleToggle = () => {
-    if (toggle) {
-      toggle(id);
-    }
+    toggle(id);
   };
 
   return (
@@ -43,7 +42,11 @@ const EventHierarchyRow: React.FC<Props> = ({
     >
       {showToggleButton && (
         <button
-          aria-label={t('event.subEvents')}
+          aria-label={
+            open
+              ? t('eventsPage.eventsTable.hideSubEvents', { name })
+              : t('eventsPage.eventsTable.showSubEvents', { name })
+          }
           onClick={handleToggle}
           type="button"
         >

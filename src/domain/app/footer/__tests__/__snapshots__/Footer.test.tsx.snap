@@ -68,7 +68,7 @@ exports[`matches snapshot 1`] = `
         href="/sv/events"
       >
         <span>
-          Tapahtumat
+          Evenemangen
         </span>
       </a>
       <a
@@ -76,7 +76,7 @@ exports[`matches snapshot 1`] = `
         href="/sv/search"
       >
         <span>
-          Etsi tapahtumia
+          Sök evenemangen
         </span>
       </a>
       <a
@@ -84,7 +84,7 @@ exports[`matches snapshot 1`] = `
         href="/sv/help"
       >
         <span>
-          Lisätietoja
+          Läs mer
         </span>
       </a>
     </nav>
@@ -101,10 +101,10 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="FooterItem-module_item__1i8Z8"
-        href="https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta"
+        href="https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
       >
         <span>
-          Anna palautetta ja vaikuta
+          Ge respons och påverka
         </span>
       </a>
       <button
@@ -112,7 +112,7 @@ exports[`matches snapshot 1`] = `
         role="link"
         type="button"
       >
-        Palaa ylös
+        Tillbaka till toppen
         <svg
           aria-hidden="true"
           class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
@@ -149,7 +149,7 @@ exports[`matches snapshot 1`] = `
     >
       <span>
         © 
-        Helsingin kaupunki
+        Helsingfors stad
          
         2021
       </span>
@@ -159,7 +159,7 @@ exports[`matches snapshot 1`] = `
         •
       </span>
       <span>
-        Kaikki oikeudet pidätetään.
+        Alla rättigheter förbehållna.
       </span>
     </div>
   </div>

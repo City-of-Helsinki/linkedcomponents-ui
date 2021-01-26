@@ -21,7 +21,7 @@ const EventHierarchy: React.FC<Props> = ({ event }) => {
   );
   const open = !closedIds.includes(id);
 
-  const subEvents = (event.subEvents as EventFieldsFragment[]) || [];
+  const subEvents = event.subEvents as EventFieldsFragment[];
 
   const toggle = (eventId: string) => {
     setClosedIds(xor(closedIds, [eventId]));
@@ -34,9 +34,10 @@ const EventHierarchy: React.FC<Props> = ({ event }) => {
         level={0}
         name={name}
         open={open}
+        showToggleButton={!!subEventAtIds.length}
         startTime={startTime}
         superEventType={superEventType}
-        toggle={!!subEventAtIds.length ? toggle : undefined}
+        toggle={toggle}
       />
 
       {open &&

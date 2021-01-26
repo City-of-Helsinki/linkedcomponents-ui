@@ -8,7 +8,7 @@ import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
 import styles from './modals.module.scss';
 
-interface Props {
+export interface ConfirmDeleteModalProps {
   event: EventFieldsFragment;
   isOpen: boolean;
   isSaving: boolean;
@@ -16,7 +16,7 @@ interface Props {
   onDelete: () => void;
 }
 
-const ConfirmUpdateModal: React.FC<Props> = ({
+const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   event,
   isOpen,
   isSaving,
@@ -37,10 +37,8 @@ const ConfirmUpdateModal: React.FC<Props> = ({
       <p className={styles.warning}>
         <strong>{t('common.warning')}</strong>
       </p>
-      <p>
-        <div>{t('event.deleteEventModal.text1')} </div>
-        <div>{t('event.deleteEventModal.text2')}</div>
-      </p>
+      <p>{t('event.deleteEventModal.text1')} </p>
+      <p style={{ marginTop: 0 }}>{t('event.deleteEventModal.text2')}</p>
       <p>{t('event.deleteEventModal.text3')}</p>
       <EventHierarchy event={event} />
       <div className={styles.modalButtonWrapper}>
@@ -71,4 +69,4 @@ const ConfirmUpdateModal: React.FC<Props> = ({
   );
 };
 
-export default ConfirmUpdateModal;
+export default ConfirmDeleteModal;

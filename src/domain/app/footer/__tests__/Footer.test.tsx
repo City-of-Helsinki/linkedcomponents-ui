@@ -17,6 +17,7 @@ test('matches snapshot', async () => {
   i18n.changeLanguage('sv');
   const { container } = renderComponent('/sv');
 
+  await screen.findByRole('link', { name: 'Evenemangen' });
   expect(container.firstChild).toMatchSnapshot();
 });
 

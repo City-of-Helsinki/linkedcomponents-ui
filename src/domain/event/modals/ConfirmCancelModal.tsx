@@ -8,7 +8,7 @@ import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
 import styles from './modals.module.scss';
 
-interface Props {
+export interface ConfirmCancelModalProps {
   event: EventFieldsFragment;
   isOpen: boolean;
   isSaving: boolean;
@@ -16,7 +16,7 @@ interface Props {
   onClose: () => void;
 }
 
-const ConfirmUpdateModal: React.FC<Props> = ({
+const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
   event,
   isOpen,
   isSaving,
@@ -71,4 +71,4 @@ const ConfirmUpdateModal: React.FC<Props> = ({
   );
 };
 
-export default ConfirmUpdateModal;
+export default ConfirmCancelModal;

@@ -507,6 +507,10 @@
     "count": "{{count}} tapahtuma",
     "count_plural": "{{count}} tapahtumaa",
     "datetime": "{{date}} klo {{time}}",
+    "eventsTable": {
+      "hideSubEvents": "Piilota alatapahtumat: {{name}}",
+      "showSubEvents": "Näytä alatapahtumat: {{name}}"
+    },
     "eventsTableCaption": {
       "drafts": "Luonnokset, järjestys {{sort}}",
       "published": "Julkaistut tapahtumat, järjestys {{sort}}",
@@ -552,7 +556,7 @@
       "fi": "Suomeksi",
       "ru": "Venäjäksi",
       "sv": "Ruotsiksi",
-      "zh_hans": "Kiinaksi"
+      "zhHans": "Kiinaksi"
     },
     "language": {
       "ar": "Arabia",
@@ -560,7 +564,7 @@
       "fi": "Suomi",
       "ru": "Venäjä",
       "sv": "Ruotsi",
-      "zh_hans": "Kiina"
+      "zhHans": "Kiina"
     },
     "validation": {
       "array": {

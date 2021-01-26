@@ -79,7 +79,7 @@ export enum EVENT_INFO_LANGUAGES {
   FI = 'fi',
   RU = 'ru',
   SV = 'sv',
-  ZH_HANS = 'zh_hans',
+  ZH_HANS = 'zhHans',
 }
 
 export const ORDERED_EVENT_INFO_LANGUAGES = [

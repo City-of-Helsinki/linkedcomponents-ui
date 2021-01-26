@@ -38,6 +38,7 @@ const SubEventRows: React.FC<Props> = ({ eventId, level }) => {
     if (nextPage) {
       fetchMore({
         updateQuery: (prev, { fetchMoreResult }) => {
+          /* istanbul ignore next */
           if (!fetchMoreResult) return prev;
 
           const events = [...prev.events.data, ...fetchMoreResult.events.data];
@@ -66,7 +67,7 @@ const SubEventRows: React.FC<Props> = ({ eventId, level }) => {
         return (
           event && (
             <EventTableRow
-              key={event?.id || index}
+              key={event.id}
               hideBorder={index + 1 !== events.length}
               event={event}
               level={level + 1}

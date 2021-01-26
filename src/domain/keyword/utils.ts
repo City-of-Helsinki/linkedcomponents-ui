@@ -63,6 +63,7 @@ export const getKeywordFromCache = async (
 
     return keywordData.keyword;
   } catch (e) {
+    /* istanbul ignore next  */
     return null;
   }
 };

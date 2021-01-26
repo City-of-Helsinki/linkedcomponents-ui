@@ -7,27 +7,31 @@ import { getRelatedEvents } from '../utils';
 const useRelatedEvents = (event: EventFieldsFragment) => {
   const apolloClient = useApolloClient();
   const subEvents = event.subEvents;
-  const [allEvents, setAllEvents] = React.useState<EventFieldsFragment[]>([]);
+  const [events, setEvents] = React.useState<EventFieldsFragment[]>([]);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     const setRelatedEvents = async () => {
       try {
+        setLoading(true);
         const allRelatedEvents = await getRelatedEvents({
           apolloClient,
           event,
         });
 
-        setAllEvents(allRelatedEvents);
-      } catch (error) {
-        /* istanbul ignore next */
+        setEvents(allRelatedEvents);
+        setLoading(false);
+      } catch (error) /* istanbul ignore next */ {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch related events with error', error);
+        setLoading(false);
       }
     };
-    setRelatedEvents();
-  }, [apolloClient, event, setAllEvents, subEvents]);
 
-  return allEvents;
+    setRelatedEvents();
+  }, [apolloClient, event, setEvents, subEvents]);
+
+  return { events, loading };
 };
 
 export default useRelatedEvents;

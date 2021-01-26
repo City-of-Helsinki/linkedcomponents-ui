@@ -53,7 +53,14 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
             style={{ paddingLeft: level * PADDING }}
           >
             {!!superEventType && (
-              <button aria-label={t('event.subEvents')} onClick={toggle}>
+              <button
+                aria-label={
+                  open
+                    ? t('eventsPage.eventsTable.hideSubEvents', { name })
+                    : t('eventsPage.eventsTable.showSubEvents', { name })
+                }
+                onClick={toggle}
+              >
                 {open ? (
                   <IconAngleUp aria-hidden={true} size="s" />
                 ) : (

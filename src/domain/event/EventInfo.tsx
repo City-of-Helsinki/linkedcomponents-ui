@@ -32,9 +32,10 @@ const EventInfo: React.FC<Props> = ({ event }) => {
         />
       </div>
 
-      <h1 className={styles.heading}>
-        {name} <SuperEventTypeTag superEventType={superEventType} />
-      </h1>
+      <div className={styles.heading}>
+        <h1>{name}</h1>
+        <SuperEventTypeTag superEventType={superEventType} />
+      </div>
 
       <p className={styles.time}>
         <i>{formatDate(lastModifiedTime, DATETIME_FORMAT)}</i>

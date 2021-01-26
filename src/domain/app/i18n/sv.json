@@ -507,6 +507,10 @@
     "count": "{{count}} evenemang",
     "count_plural": "{{count}} evenemang",
     "datetime": "{{date}} på {{time}}",
+    "eventsTable": {
+      "hideSubEvents": "Dölj underevenemangen: {{name}}",
+      "showSubEvents": "Visa underevenemangen: {{name}}"
+    },
     "eventsTableCaption": {
       "drafts": "Utkasta evenemangen, sorterade efter {{sort}}",
       "published": "Publicerade evenemangen, sorterade efter {{sort}}",
@@ -552,7 +556,7 @@
       "fi": "På finska",
       "ru": "På ryska",
       "sv": "På svenska",
-      "zh_hans": "På kinesiska"
+      "zhHans": "På kinesiska"
     },
     "language": {
       "ar": "Arabiska",
@@ -560,7 +564,7 @@
       "fi": "Finska",
       "ru": "Ryska",
       "sv": "Svenska",
-      "zh_hans": "Kinesiska"
+      "zhHans": "Kinesiska"
     },
     "validation": {
       "array": {

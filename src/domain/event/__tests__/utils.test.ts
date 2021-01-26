@@ -1,8 +1,22 @@
-import { PublicationStatus, SuperEventType } from '../../../generated/graphql';
-import { fakeEvent, fakeOffers } from '../../../utils/mockDataUtils';
+import { EXTLINK } from '../../../constants';
+import {
+  EventStatus,
+  PublicationStatus,
+  SuperEventType,
+} from '../../../generated/graphql';
+import {
+  fakeEvent,
+  fakeExternalLink,
+  fakeImages,
+  fakeKeywords,
+  fakeLanguages,
+  fakeOffers,
+  fakePlace,
+} from '../../../utils/mockDataUtils';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_INITIAL_VALUES,
+  EVENT_TYPE,
 } from '../constants';
 import { EventFormFields } from '../types';
 import {
@@ -11,6 +25,8 @@ import {
   filterUnselectedLanguages,
   generateEventTimesFromRecurringEvent,
   getEventFields,
+  getEventInfoLanguages,
+  getEventInitialValues,
   getEventPayload,
   getEventTimes,
   getRecurringEventPayload,
@@ -437,29 +453,326 @@ describe('getEventFields function', () => {
       endTime,
       id,
       atId,
+      eventStatus,
       imageUrl,
+      lastModifiedTime,
       publisher,
       publicationStatus,
+      subEventAtIds,
+      superEventAtId,
       startTime,
     } = getEventFields(
       fakeEvent({
         endTime: '',
+        eventStatus: null,
         id: null,
         atId: null,
         images: [],
+        lastModifiedTime: '',
         publisher: '',
         publicationStatus: null,
+        subEvents: null,
+        superEvent: null,
         startTime: '',
       }),
       'fi'
     );
 
     expect(endTime).toBe(null);
+    expect(eventStatus).toBe(EventStatus.EventScheduled);
     expect(id).toBe('');
     expect(atId).toBe('');
     expect(imageUrl).toBe(null);
+    expect(lastModifiedTime).toBe(null);
     expect(publisher).toBe(null);
     expect(publicationStatus).toBe('public');
     expect(startTime).toBe(null);
+    expect(subEventAtIds).toEqual([]);
+    expect(superEventAtId).toBe(null);
+  });
+});
+
+describe('getEventInfoLanguages function', () => {
+  it('should return event info languages', () => {
+    expect(
+      getEventInfoLanguages(
+        fakeEvent({
+          name: {
+            ar: 'Name ar',
+            en: 'Name en',
+            fi: 'Name fi',
+            ru: 'Name ru',
+            sv: 'Name sv',
+            zhHans: 'Name zh',
+          },
+        })
+      )
+    ).toEqual(['ar', 'en', 'fi', 'ru', 'sv', 'zhHans']);
+  });
+});
+
+describe('getEventInitialValues function', () => {
+  it('should return event edit form initial values', () => {
+    const audienceAtIds = [
+      `https://api.hel.fi/linkedevents-test/v1/keyword/audience:1/`,
+      `https://api.hel.fi/linkedevents-test/v1/keyword/audience:2/`,
+    ];
+    const audienceMaxAge = 18;
+    const audienceMinAge = 12;
+    const description = {
+      ar: 'Description ar',
+      en: 'Description en',
+      fi: 'Description fi',
+      ru: 'Description ru',
+      sv: 'Description sv',
+      zhHans: 'Description zh',
+    };
+    const endTime = new Date('2021-07-13T05:51:05.761Z');
+    const extensionCourse = {
+      enrolmentEndTime: null,
+      enrolmentStartTime: null,
+      maximumAttendeeCapacity: '',
+      minimumAttendeeCapacity: '',
+    };
+    const facebookUrl = 'http://facebook.com';
+    const imageDetails = {
+      altText: '',
+      license: 'cc_by',
+      name: '',
+      photographerName: '',
+    };
+    const imageAtIds = [
+      `https://api.hel.fi/linkedevents-test/v1/image/image:1/`,
+    ];
+    const infoUrl = {
+      ar: 'Info url ar',
+      en: 'Info url en',
+      fi: 'Info url fi',
+      ru: 'Info url ru',
+      sv: 'Info url sv',
+      zhHans: 'Info url zh',
+    };
+    const inLanguageAtIds = [
+      `https://api.hel.fi/linkedevents-test/v1/language/language:1/`,
+      `https://api.hel.fi/linkedevents-test/v1/language/language:2/`,
+    ];
+    const instagramUrl = 'http://instagram.com';
+    const keywordAtIds = [
+      `https://api.hel.fi/linkedevents-test/v1/keyword/keyword:1/`,
+      `https://api.hel.fi/linkedevents-test/v1/keyword/keyword:2/`,
+    ];
+    const locationAtId =
+      'https://api.hel.fi/linkedevents-test/v1/place/location:1/';
+    const locationExtraInfo = {
+      ar: 'Location extra info ar',
+      en: 'Location extra info en',
+      fi: 'Location extra info fi',
+      ru: 'Location extra info ru',
+      sv: 'Location extra info sv',
+      zhHans: 'Location extra info zh',
+    };
+    const name = {
+      ar: 'Name ar',
+      en: 'Name en',
+      fi: 'Name fi',
+      ru: 'Name ru',
+      sv: 'Name sv',
+      zhHans: 'Name zh',
+    };
+    const offers = [
+      {
+        description: {
+          ar: 'Description ar',
+          en: 'Description en',
+          fi: 'Description fi',
+          ru: 'Description ru',
+          sv: 'Description sv',
+          zhHans: 'Description zh',
+        },
+        infoUrl: {
+          ar: 'http://infourl.com',
+          en: 'http://infourl.com',
+          fi: 'http://infourl.com',
+          ru: 'http://infourl.com',
+          sv: 'http://infourl.com',
+          zhHans: 'http://infourl.com',
+        },
+        price: {
+          ar: 'Price ar',
+          en: 'Price en',
+          fi: 'Price fi',
+          ru: 'Price ru',
+          sv: 'Price sv',
+          zhHans: 'Price zh',
+        },
+      },
+    ];
+    const provider = {
+      ar: 'Provider ar',
+      en: 'Provider en',
+      fi: 'Provider fi',
+      ru: 'Provider ru',
+      sv: 'Provider sv',
+      zhHans: 'Provider zh',
+    };
+    const shortDescription = {
+      ar: 'Short description ar',
+      en: 'Short description en',
+      fi: 'Short description fi',
+      ru: 'Short description ru',
+      sv: 'Short description sv',
+      zhHans: 'Short description zh',
+    };
+    const startTime = new Date('2020-07-13T05:51:05.761Z');
+    const superEventType = null;
+    const superEventAtId =
+      'https://api.hel.fi/linkedevents-test/v1/event/event:543/';
+    const twitterUrl = 'http://twitter.com';
+
+    expect(
+      getEventInitialValues(
+        fakeEvent({
+          audience: fakeKeywords(
+            audienceAtIds.length,
+            audienceAtIds.map((atId) => ({ atId }))
+          ).data,
+          audienceMaxAge,
+          audienceMinAge,
+          description,
+          endTime: endTime.toISOString(),
+          externalLinks: [
+            fakeExternalLink({
+              name: EXTLINK.EXTLINK_FACEBOOK,
+              link: facebookUrl,
+            }),
+            fakeExternalLink({
+              name: EXTLINK.EXTLINK_INSTAGRAM,
+              link: instagramUrl,
+            }),
+            fakeExternalLink({
+              name: EXTLINK.EXTLINK_TWITTER,
+              link: twitterUrl,
+            }),
+          ],
+          images: fakeImages(
+            imageAtIds.length,
+            imageAtIds.map((atId) => ({ atId, ...imageDetails }))
+          ).data,
+          infoUrl,
+          inLanguage: fakeLanguages(
+            inLanguageAtIds.length,
+            inLanguageAtIds.map((atId) => ({ atId }))
+          ).data,
+          keywords: fakeKeywords(
+            keywordAtIds.length,
+            keywordAtIds.map((atId) => ({ atId }))
+          ).data,
+          location: fakePlace({ atId: locationAtId }),
+          locationExtraInfo,
+          name,
+          offers: fakeOffers(
+            offers.length,
+            offers.map((offer) => ({
+              ...offer,
+              isFree: false,
+            }))
+          ),
+          provider,
+          shortDescription,
+          startTime: startTime.toISOString(),
+          superEvent: fakeEvent({
+            atId: superEventAtId,
+            superEventType: SuperEventType.Umbrella,
+          }),
+          superEventType,
+        })
+      )
+    ).toEqual({
+      audience: audienceAtIds,
+      audienceMaxAge,
+      audienceMinAge,
+      description,
+      endTime,
+      extensionCourse,
+      eventInfoLanguages: ['ar', 'en', 'fi', 'ru', 'sv', 'zhHans'],
+      eventTimes: [],
+      facebookUrl,
+      hasPrice: true,
+      hasUmbrella: true,
+      imageDetails,
+      images: imageAtIds,
+      infoUrl,
+      inLanguage: inLanguageAtIds,
+      instagramUrl,
+      isUmbrella: false,
+      isVerified: true,
+      keywords: keywordAtIds,
+      location: locationAtId,
+      locationExtraInfo,
+      name,
+      offers,
+      provider,
+      recurringEvents: [],
+      shortDescription,
+      startTime,
+      superEvent: superEventAtId,
+      twitterUrl,
+      type: EVENT_TYPE.EVENT,
+    });
+  });
+
+  it('should return event edit form initial values', () => {
+    const expectedName = {
+      ar: '',
+      en: '',
+      fi: 'Name fi',
+      ru: '',
+      sv: '',
+      zhHans: '',
+    };
+    const {
+      audienceMaxAge,
+      audienceMinAge,
+      endTime,
+      facebookUrl,
+      instagramUrl,
+      location,
+      name,
+      offers,
+      startTime,
+      superEvent,
+      twitterUrl,
+    } = getEventInitialValues(
+      fakeEvent({
+        audienceMaxAge: null,
+        audienceMinAge: null,
+        endTime: null,
+        externalLinks: [],
+        location: null,
+        name: {
+          ar: null,
+          en: null,
+          fi: 'Name fi',
+          ru: null,
+          sv: null,
+          zhHans: null,
+        },
+        offers: null,
+        startTime: null,
+        superEvent: null,
+      })
+    );
+
+    expect(audienceMaxAge).toEqual('');
+    expect(audienceMinAge).toEqual('');
+    expect(endTime).toEqual(null);
+    expect(facebookUrl).toEqual('');
+    expect(instagramUrl).toEqual('');
+    expect(location).toEqual('');
+    expect(name).toEqual(expectedName);
+    expect(offers).toEqual([]);
+    expect(startTime).toEqual(null);
+    expect(superEvent).toEqual(superEvent);
+    expect(twitterUrl).toEqual('');
   });
 });
