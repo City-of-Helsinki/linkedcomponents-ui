@@ -16,7 +16,11 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import PageWrapper from '../app/layout/PageWrapper';
-import { eventPathBuilder, getEventFields } from '../event/utils';
+import {
+  clearEventFormData,
+  eventPathBuilder,
+  getEventFields,
+} from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import styles from './eventSavedPage.module.scss';
 
@@ -36,6 +40,7 @@ const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
   };
 
   const goToCreateEvent = () => {
+    clearEventFormData();
     history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 

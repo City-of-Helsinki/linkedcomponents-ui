@@ -40,7 +40,6 @@ import useEventFieldsData from './hooks/useEventFieldsData';
 import Section from './layout/Section';
 import { EventFormFields } from './types';
 import {
-  clearEventFormData,
   draftEventValidationSchema,
   eventValidationSchema,
   getEventPayload,
@@ -60,7 +59,6 @@ const CreateEventPage: React.FC = () => {
   const { loading } = useEventFieldsData();
 
   const goToEventSavedPage = (id: string) => {
-    clearEventFormData();
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
   };
 
