@@ -25,7 +25,7 @@ import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
-import { clearEventsQueries } from '../events/utils';
+import { clearEventsQueries, resetEventListPage } from '../events/utils';
 import NotFound from '../notFound/NotFound';
 import { EVENT_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
@@ -129,6 +129,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 
     // Clear all events queries from apollo cache to show edited events in event list
     clearEventsQueries(apolloClient);
+    // This action will change LE response so clear event list page
+    resetEventListPage();
   };
 
   const refetchEvent = () => {
@@ -175,6 +177,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 
       // Clear all events queries from apollo cache to show edited events in event list
       clearEventsQueries(apolloClient);
+      // This action will change LE response so clear event list page
+      await resetEventListPage();
       goToEventsPage();
       closeModal();
       setSaving(null);

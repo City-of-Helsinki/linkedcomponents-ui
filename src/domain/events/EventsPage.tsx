@@ -1,7 +1,7 @@
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import Button from '../../common/components/button/Button';
@@ -20,19 +20,24 @@ import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { store } from '../app/store/store';
 import { userSelector } from '../auth/selectors';
 import { clearEventFormData } from '../event/utils';
 import NotSigned from '../notSigned/NotSigned';
 import { getUserFields, userPathBuilder } from '../user/utils';
+import { setEventListOptions } from './actions';
 import {
-  DEFAULT_EVENT_LIST_TYPE,
-  DEFAULT_EVENT_SORT,
   EVENT_LIST_TYPES,
   EVENT_SORT_OPTIONS,
   EVENTS_PAGE_TABS,
 } from './constants';
 import EventList from './eventList/EventList';
 import styles from './events.module.scss';
+import {
+  eventListSortSelector,
+  eventListTabSelector,
+  eventListTypeSelector,
+} from './selectors';
 import { getEventsQuerySkip, getEventsQueryVariables } from './utils';
 
 interface Props {
@@ -40,15 +45,23 @@ interface Props {
 }
 
 const EventsPage: React.FC<Props> = ({ user }) => {
-  const [activeTab, setActiveTab] = React.useState<EVENTS_PAGE_TABS>(
-    EVENTS_PAGE_TABS.WAITING_APPROVAL
-  );
-  const [listType, setListType] = React.useState<EVENT_LIST_TYPES>(
-    DEFAULT_EVENT_LIST_TYPE
-  );
-  const [sort, setSort] = React.useState<EVENT_SORT_OPTIONS>(
-    DEFAULT_EVENT_SORT
-  );
+  const dispatch = useDispatch();
+  const activeTab = useSelector(eventListTabSelector);
+  const listType = useSelector(eventListTypeSelector);
+  const sort = useSelector(eventListSortSelector);
+
+  const setActiveTab = async (selectedTab: EVENTS_PAGE_TABS) => {
+    dispatch(setEventListOptions({ tab: selectedTab }));
+  };
+
+  const setListType = (selectedListType: EVENT_LIST_TYPES) => {
+    dispatch(setEventListOptions({ listType: selectedListType }));
+  };
+
+  const setSort = (selectedSort: EVENT_SORT_OPTIONS) => {
+    dispatch(setEventListOptions({ sort: selectedSort }));
+  };
+
   const locale = useLocale();
   const history = useHistory();
   const { t } = useTranslation();

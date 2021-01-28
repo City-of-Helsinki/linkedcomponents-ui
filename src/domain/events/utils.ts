@@ -7,6 +7,8 @@ import {
 import { PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
+import { store } from '../app/store/store';
+import { setEventListOptions } from './actions';
 import { EVENTS_PAGE_SIZE, EVENTS_PAGE_TABS } from './constants';
 
 export const eventsPathBuilder = ({
@@ -130,4 +132,8 @@ export const getEventsQuerySkip = (
     case EVENTS_PAGE_TABS.WAITING_APPROVAL:
       return !adminOrganizations.length;
   }
+};
+
+export const resetEventListPage = async () => {
+  await store.dispatch(setEventListOptions({ page: 1 }));
 };
