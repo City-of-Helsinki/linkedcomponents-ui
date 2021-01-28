@@ -107,6 +107,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     const { imageDetails, images } = values;
     const imageId = images[0];
 
+    /* istanbul ignore else */
     if (imageId) {
       await updateImage({
         variables: {
@@ -145,6 +146,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
           item.publicationStatus as PublicationStatus
         ),
         eventStatus: EventStatus.EventCancelled,
+        superEventType: item.superEventType,
         id: item.id,
       }));
 
@@ -153,9 +155,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       window.scrollTo(0, 0);
       closeModal();
       setSaving(null);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
-      /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
       setSaving(null);
@@ -177,9 +178,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       goToEventsPage();
       closeModal();
       setSaving(null);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
-      /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
       setSaving(null);
@@ -196,6 +196,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
           getEventInitialValues(item),
           item.publicationStatus as PublicationStatus
         ),
+        superEventType: item.superEventType,
         id: item.id,
         startTime: null,
         endTime: null,
@@ -206,9 +207,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       window.scrollTo(0, 0);
       closeModal();
       setSaving(null);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
-      /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
       setSaving(null);
@@ -229,6 +229,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       const payload: UpdateEventMutationInput[] = [{ ...basePayload, id }];
 
       if (superEventType === SuperEventType.Recurring) {
+        payload[0].superEventType = SuperEventType.Recurring;
         payload.push(
           ...subEvents
             // Editing cancelled events is not allowed so filter them out to avoid server error
@@ -252,9 +253,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       window.scrollTo(0, 0);
       closeModal();
       setSaving(null);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next  */ {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
-      /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
       setSaving(null);

@@ -36,20 +36,6 @@ const DescriptionSection = () => {
     name: EVENT_FIELDS.TYPE,
   });
 
-  const [selectedLanguage, setSelectedLanguage] = React.useState(
-    eventInfoLanguages[0]
-  );
-
-  React.useEffect(() => {
-    if (!eventInfoLanguages.includes(selectedLanguage)) {
-      setSelectedLanguage(eventInfoLanguages[0]);
-    }
-  }, [eventInfoLanguages, selectedLanguage]);
-
-  const langText = lowerCaseFirstLetter(
-    t(`form.inLanguage.${selectedLanguage}`)
-  );
-
   const languageOptions = React.useMemo(
     () =>
       eventInfoLanguages
@@ -70,6 +56,20 @@ const DescriptionSection = () => {
             ORDERED_EVENT_INFO_LANGUAGES.indexOf(b.value)
         ),
     [eventInfoLanguages, getFieldMeta, t]
+  );
+
+  const [selectedLanguage, setSelectedLanguage] = React.useState(
+    languageOptions[0]?.value
+  );
+
+  React.useEffect(() => {
+    if (!eventInfoLanguages.includes(selectedLanguage)) {
+      setSelectedLanguage(eventInfoLanguages[0]);
+    }
+  }, [eventInfoLanguages, selectedLanguage]);
+
+  const langText = lowerCaseFirstLetter(
+    t(`form.inLanguage.${selectedLanguage}`)
   );
 
   const handleSelectedLanguageChange = (language: string) => {

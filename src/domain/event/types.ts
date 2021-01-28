@@ -1,4 +1,8 @@
-import { EventStatus, PublicationStatus } from '../../generated/graphql';
+import {
+  EventStatus,
+  PublicationStatus,
+  SuperEventType,
+} from '../../generated/graphql';
 import {
   ADD_IMAGE_FIELDS,
   EVENT_FIELDS,
@@ -29,7 +33,7 @@ export type EventFields = {
   publisher: string | null;
   subEventAtIds: string[];
   superEventAtId: string | null;
-  superEventType: string | null;
+  superEventType: SuperEventType | null;
   startTime: Date | null;
   streetAddress: string;
 };

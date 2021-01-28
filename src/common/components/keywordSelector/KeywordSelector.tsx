@@ -108,7 +108,6 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
             : { label: '', value: '' };
         })
       );
-
       setSelectedKeywords(keywords);
     };
 
