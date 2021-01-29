@@ -21,7 +21,7 @@ it('should set list type', () => {
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   });
 
-  expect(state.listType).toEqual(EVENT_LIST_TYPES.CARD_LIST);
+  expect(state.listOptions.listType).toEqual(EVENT_LIST_TYPES.CARD_LIST);
 });
 
 it('should set sort', () => {
@@ -32,7 +32,7 @@ it('should set sort', () => {
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   });
 
-  expect(state.sort).toEqual(EVENT_SORT_OPTIONS.END_TIME);
+  expect(state.listOptions.sort).toEqual(EVENT_SORT_OPTIONS.END_TIME);
 });
 
 it('should set tab', () => {
@@ -43,7 +43,7 @@ it('should set tab', () => {
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   });
 
-  expect(state.tab).toEqual(EVENTS_PAGE_TABS.PUBLISHED);
+  expect(state.listOptions.tab).toEqual(EVENTS_PAGE_TABS.PUBLISHED);
 });
 
 it('should set page', () => {
@@ -54,7 +54,7 @@ it('should set page', () => {
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   });
 
-  expect(state.page).toEqual(5);
+  expect(state.listOptions.page).toEqual(5);
 });
 
 it('should reset page after changing sort', () => {
@@ -65,7 +65,7 @@ it('should reset page after changing sort', () => {
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   });
 
-  expect(state.page).toEqual(5);
+  expect(state.listOptions.page).toEqual(5);
 
   state = reducer(state, {
     payload: {
@@ -74,7 +74,7 @@ it('should reset page after changing sort', () => {
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   });
 
-  expect(state.page).toEqual(1);
+  expect(state.listOptions.page).toEqual(1);
 });
 
 it('should reset page after changing tab', () => {
@@ -85,7 +85,7 @@ it('should reset page after changing tab', () => {
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   });
 
-  expect(state.page).toEqual(5);
+  expect(state.listOptions.page).toEqual(5);
 
   state = reducer(state, {
     payload: {
@@ -94,7 +94,7 @@ it('should reset page after changing tab', () => {
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   });
 
-  expect(state.page).toEqual(1);
+  expect(state.listOptions.page).toEqual(1);
 });
 
 it('should not reset page after changing list type', () => {
@@ -105,7 +105,7 @@ it('should not reset page after changing list type', () => {
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   });
 
-  expect(state.page).toEqual(5);
+  expect(state.listOptions.page).toEqual(5);
 
   state = reducer(state, {
     payload: {
@@ -114,5 +114,5 @@ it('should not reset page after changing list type', () => {
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   });
 
-  expect(state.page).toEqual(5);
+  expect(state.listOptions.page).toEqual(5);
 });

@@ -1,6 +1,7 @@
 import { IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { EventFieldsFragment } from '../../../generated/graphql';
@@ -10,7 +11,9 @@ import formatDate from '../../../utils/formatDate';
 import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
+import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import PublisherName from '../eventCard/PublisherName';
+import { expandedEventsSelector } from '../selectors';
 import styles from './eventsTable.module.scss';
 import SubEventRows from './SubEventRows';
 
@@ -22,9 +25,10 @@ interface Props {
 
 const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
   const { t } = useTranslation();
-  const [open, setOpen] = React.useState(false);
   const locale = useLocale();
   const timeFormat = useTimeFormat();
+  const dispatch = useDispatch();
+  const expandedEvents = useSelector(expandedEventsSelector);
 
   const {
     eventUrl,
@@ -38,9 +42,14 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
     subEventAtIds,
     superEventType,
   } = getEventFields(event, locale);
+  const open = expandedEvents.includes(id);
 
   const toggle = () => {
-    setOpen(!open);
+    if (open) {
+      dispatch(removeExpandedEvent(id));
+    } else {
+      dispatch(addExpandedEvent(id));
+    }
   };
 
   return (
