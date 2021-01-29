@@ -14,8 +14,6 @@ import PublisherName from '../eventCard/PublisherName';
 import styles from './eventsTable.module.scss';
 import SubEventRows from './SubEventRows';
 
-export const PADDING = 24;
-
 interface Props {
   event: EventFieldsFragment;
   hideBorder?: boolean;
@@ -37,6 +35,7 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
     publicationStatus,
     publisher,
     startTime,
+    subEventAtIds,
     superEventType,
   } = getEventFields(event, locale);
 
@@ -50,9 +49,9 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
         <td>
           <div
             className={styles.idWrapper}
-            style={{ paddingLeft: level * PADDING }}
+            style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}
           >
-            {!!superEventType && (
+            {!!subEventAtIds.length && (
               <button
                 aria-label={
                   open
@@ -110,7 +109,9 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
           </div>
         </td>
       </tr>
-      {!!superEventType && open && <SubEventRows eventId={id} level={level} />}
+      {!!subEventAtIds.length && open && (
+        <SubEventRows eventId={id} level={level} />
+      )}
     </>
   );
 };

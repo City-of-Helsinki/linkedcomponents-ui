@@ -6,8 +6,6 @@ import formatDate from '../../../utils/formatDate';
 import SuperEventTypeTag from '../tags/SuperEventTypeTag';
 import styles from './eventHierarchy.module.scss';
 
-export const PADDING = 24;
-
 interface Props {
   id: string;
   level: number;
@@ -38,7 +36,7 @@ const EventHierarchyRow: React.FC<Props> = ({
   return (
     <div
       className={styles.eventHierarchyRow}
-      style={{ paddingLeft: level * PADDING }}
+      style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}
     >
       {showToggleButton && (
         <button

@@ -507,6 +507,10 @@
     "count": "{{count}} evenemang",
     "count_plural": "{{count}} evenemang",
     "datetime": "{{date}} på {{time}}",
+    "eventCard": {
+      "hideSubEvents": "Dölj underevenemangen",
+      "showSubEvents": "Visa underevenemangen ({{count}})"
+    },
     "eventsTable": {
       "hideSubEvents": "Dölj underevenemangen: {{name}}",
       "showSubEvents": "Visa underevenemangen: {{name}}"

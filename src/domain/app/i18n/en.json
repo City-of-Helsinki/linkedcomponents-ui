@@ -507,6 +507,10 @@
     "count": "{{count}} event",
     "count_plural": "{{count}} events",
     "datetime": "{{date}} at {{time}}",
+    "eventCard": {
+      "hideSubEvents": "Hide sub-events",
+      "showSubEvents": "Show sub-events ({{count}})"
+    },
     "eventsTable": {
       "hideSubEvents": "Hide sub-events: {{name}}",
       "showSubEvents": "Show sub-events: {{name}}"

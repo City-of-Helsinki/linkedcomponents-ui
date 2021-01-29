@@ -20,7 +20,6 @@ import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
-import { store } from '../app/store/store';
 import { userSelector } from '../auth/selectors';
 import { clearEventFormData } from '../event/utils';
 import NotSigned from '../notSigned/NotSigned';

@@ -507,6 +507,10 @@
     "count": "{{count}} tapahtuma",
     "count_plural": "{{count}} tapahtumaa",
     "datetime": "{{date}} klo {{time}}",
+    "eventCard": {
+      "hideSubEvents": "Piilota alatapahtumat",
+      "showSubEvents": "Näytä alatapahtumat ({{count}})"
+    },
     "eventsTable": {
       "hideSubEvents": "Piilota alatapahtumat: {{name}}",
       "showSubEvents": "Näytä alatapahtumat: {{name}}"

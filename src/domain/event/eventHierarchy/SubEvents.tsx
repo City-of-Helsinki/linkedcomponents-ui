@@ -1,20 +1,14 @@
 import { LoadingSpinner } from 'hds-react';
 import React from 'react';
 
-import { MAX_PAGE_SIZE } from '../../../constants';
-import {
-  EventFieldsFragment,
-  useEventsQuery,
-} from '../../../generated/graphql';
+import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import getNextPage from '../../../utils/getNextPage';
-import getPathBuilder from '../../../utils/getPathBuilder';
 import isTestEnv from '../../../utils/isTestEnv';
 import { EVENT_SORT_OPTIONS } from '../../events/constants';
-import { eventsPathBuilder } from '../../events/utils';
+import useSubEvents from '../../events/hooks/useSubEvents';
 import { EVENT_INCLUDES } from '../constants';
 import { getEventFields } from '../utils';
-import EventHierarchyRow, { PADDING } from './EventHierarchyRow';
+import EventHierarchyRow from './EventHierarchyRow';
 
 interface SubEventsProps {
   closedIds: string[];
@@ -34,50 +28,16 @@ const SubEvents: React.FC<SubEventsProps> = ({
     event,
     locale
   );
-
   const open = !closedIds.includes(id);
 
-  const variables = React.useMemo(() => {
-    return {
-      createPath: getPathBuilder(eventsPathBuilder),
-      include: EVENT_INCLUDES,
-      pageSize: MAX_PAGE_SIZE,
-      showAll: true,
-      sort: EVENT_SORT_OPTIONS.START_TIME,
-      superEvent: id,
-    };
-  }, [id]);
-
-  const { data, fetchMore, loading } = useEventsQuery({
+  const { subEvents, loading } = useSubEvents({
     skip: !subEventAtIds.length,
-    variables,
+    superEventId: id,
+    variableOverrides: {
+      include: EVENT_INCLUDES,
+      sort: EVENT_SORT_OPTIONS.START_TIME,
+    },
   });
-
-  const nextPage = React.useMemo(() => {
-    const meta = data?.events.meta;
-    return meta ? getNextPage(meta) : null;
-  }, [data]);
-
-  const subEvents = data?.events.data || [];
-
-  React.useEffect(() => {
-    if (nextPage) {
-      fetchMore({
-        updateQuery: (prev, { fetchMoreResult }) => {
-          /* istanbul ignore next  */
-          if (!fetchMoreResult) return prev;
-
-          const events = [...prev.events.data, ...fetchMoreResult.events.data];
-          fetchMoreResult.events.data = events;
-          return fetchMoreResult;
-        },
-        variables: {
-          ...variables,
-          page: nextPage,
-        },
-      });
-    }
-  }, [fetchMore, nextPage, variables]);
 
   return (
     <>
@@ -93,7 +53,7 @@ const SubEvents: React.FC<SubEventsProps> = ({
       />
 
       {loading ? (
-        <div style={{ paddingLeft: level * PADDING }}>
+        <div style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}>
           {/* Timer of Loading spinner throws an error on jest tests after component unmount */}
           {!isTestEnv && (
             /* istanbul ignore next */
