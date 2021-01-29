@@ -1,7 +1,5 @@
-import merge from 'lodash/merge';
 import React from 'react';
 
-import { defaultStoreState } from '../../../constants';
 import {
   EventsDocument,
   OrganizationDocument,
@@ -13,6 +11,11 @@ import {
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import {
+  fakeAuthenticatedStoreState,
+  fakeEventsListOptionsState,
+  fakeEventsState,
+} from '../../../utils/mockStoreUtils';
+import {
   actWait,
   configure,
   getMockReduxStore,
@@ -21,7 +24,6 @@ import {
   userEvent,
 } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
-import { API_CLIENT_ID } from '../../auth/constants';
 import {
   EVENT_LIST_TYPES,
   EVENT_SORT_OPTIONS,
@@ -33,15 +35,7 @@ import EventsPage from '../EventsPage';
 
 configure({ defaultHidden: true });
 
-const userId = 'user123';
-const apiToken = { [API_CLIENT_ID]: 'api-token' };
-const user = { profile: { name: 'Test user', sub: userId } };
-const authenticatedState = merge({}, defaultStoreState, {
-  authentication: {
-    oidc: { user },
-    token: { apiToken },
-  },
-});
+const storeState = fakeAuthenticatedStoreState();
 
 const adminOrganization = 'helsinki';
 const userData = fakeUser({ adminOrganizations: [adminOrganization] });
@@ -117,7 +111,7 @@ const mocks = [
   {
     request: {
       query: UserDocument,
-      variables: { id: userId, createPath: undefined },
+      variables: { id: 'user:1', createPath: undefined },
     },
     result: userResponse,
   },
@@ -214,7 +208,7 @@ test('should show correct title if user is not logged in', async () => {
 });
 
 test('should render events page', async () => {
-  const store = getMockReduxStore(authenticatedState);
+  const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
   await findElement('waitingApprovalTab');
@@ -224,7 +218,7 @@ test('should render events page', async () => {
 });
 
 test('should open create event page', async () => {
-  const store = getMockReduxStore(authenticatedState);
+  const store = getMockReduxStore(storeState);
   const { history } = render(<EventsPage />, { mocks, store });
 
   await findElement('waitingApprovalTab');
@@ -235,7 +229,7 @@ test('should open create event page', async () => {
 });
 
 test('should store new listType to redux store', async () => {
-  const store = getMockReduxStore(authenticatedState);
+  const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
   const eventCardTypeRadio = await findElement('eventCardType');
@@ -253,7 +247,7 @@ test('should store new listType to redux store', async () => {
 });
 
 test('should store new active tab to redux store', async () => {
-  const store = getMockReduxStore(authenticatedState);
+  const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
   await findElement('waitingApprovalTable');
@@ -273,7 +267,7 @@ test('should store new active tab to redux store', async () => {
 });
 
 test('should store new sort to redux store', async () => {
-  const store = getMockReduxStore(authenticatedState);
+  const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
   await findElement('waitingApprovalTable');
@@ -292,11 +286,14 @@ test('should store new sort to redux store', async () => {
 });
 
 test('should render public events when published tab is selected', async () => {
-  const state = {
-    ...authenticatedState,
-    events: { ...authenticatedState.events, tab: EVENTS_PAGE_TABS.PUBLISHED },
-  };
-  const store = getMockReduxStore(state);
+  const storeState = fakeAuthenticatedStoreState({
+    events: fakeEventsState({
+      listOptions: fakeEventsListOptionsState({
+        tab: EVENTS_PAGE_TABS.PUBLISHED,
+      }),
+    }),
+  });
+  const store = getMockReduxStore(storeState);
 
   render(<EventsPage />, { mocks, store });
 

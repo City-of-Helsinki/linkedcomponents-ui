@@ -1,11 +1,10 @@
 import { AnyAction, Store } from '@reduxjs/toolkit';
-import merge from 'lodash/merge';
 import React from 'react';
 
-import { defaultStoreState } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
 import { fakeEvent } from '../../../../utils/mockDataUtils';
+import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   configure,
   getMockReduxStore,
@@ -13,7 +12,6 @@ import {
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
-import { API_CLIENT_ID } from '../../../auth/constants';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
@@ -28,15 +26,7 @@ const defaultProps: EditButtonPanelProps = {
   onUpdate: jest.fn(),
 };
 
-const apiToken = { [API_CLIENT_ID]: 'api-token' };
-const userName = 'Test user';
-const user = { profile: { name: userName } };
-const state = merge({}, defaultStoreState, {
-  authentication: {
-    oidc: { user },
-    token: { apiToken },
-  },
-});
+const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
 const renderComponent = ({

@@ -1,12 +1,11 @@
 /* eslint-disable no-console */
 import { MockedResponse } from '@apollo/react-testing';
 import { advanceTo, clear } from 'jest-date-mock';
-import merge from 'lodash/merge';
 import range from 'lodash/range';
 import React from 'react';
 
 import { testId } from '../../../common/components/loadingSpinner/LoadingSpinner';
-import { defaultStoreState, INCLUDE, KEYWORD_SETS } from '../../../constants';
+import { INCLUDE, KEYWORD_SETS } from '../../../constants';
 import {
   CreateEventDocument,
   CreateEventsDocument,
@@ -30,6 +29,7 @@ import {
   fakeLanguages,
   fakePlaces,
 } from '../../../utils/mockDataUtils';
+import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
   configure,
@@ -40,7 +40,6 @@ import {
   waitFor,
 } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
-import { API_CLIENT_ID } from '../../auth/constants';
 import CreateEventPage from '../CreateEventPage';
 
 configure({ defaultHidden: true });
@@ -315,14 +314,7 @@ const eventValues = {
   ],
 };
 
-const apiToken = { [API_CLIENT_ID]: 'api-token' };
-const user = { name: 'Test user' };
-const state = merge({}, defaultStoreState, {
-  authentication: {
-    oidc: { user },
-    token: { apiToken },
-  },
-});
+const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
