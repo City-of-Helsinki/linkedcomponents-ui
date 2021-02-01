@@ -1,33 +1,35 @@
+import classNames from 'classnames';
 import { IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { EventFieldsFragment } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import SuperEventTypeTag from '../tags/SuperEventTypeTag';
+import { getEventFields } from '../utils';
 import styles from './eventHierarchy.module.scss';
 
 interface Props {
-  id: string;
+  disabled?: boolean;
+  event: EventFieldsFragment;
   level: number;
-  name: string;
   open?: boolean;
   showToggleButton: boolean;
-  startTime: Date | null;
-  superEventType: string | null;
   toggle: (id: string) => void;
 }
 
 const EventHierarchyRow: React.FC<Props> = ({
-  id,
+  disabled,
+  event,
   level,
-  name,
   open,
   showToggleButton,
-  startTime,
-  superEventType,
   toggle,
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
+  const { id, name, startTime, superEventType } = getEventFields(event, locale);
 
   const handleToggle = () => {
     toggle(id);
@@ -35,7 +37,9 @@ const EventHierarchyRow: React.FC<Props> = ({
 
   return (
     <div
-      className={styles.eventHierarchyRow}
+      className={classNames(styles.eventHierarchyRow, {
+        [styles.disabled]: disabled,
+      })}
       style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}
     >
       {showToggleButton && (
@@ -45,6 +49,7 @@ const EventHierarchyRow: React.FC<Props> = ({
               ? t('eventsPage.eventsTable.hideSubEvents', { name })
               : t('eventsPage.eventsTable.showSubEvents', { name })
           }
+          disabled={disabled}
           onClick={handleToggle}
           type="button"
         >

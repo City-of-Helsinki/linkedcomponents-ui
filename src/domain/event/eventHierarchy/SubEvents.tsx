@@ -24,10 +24,7 @@ const SubEvents: React.FC<SubEventsProps> = ({
   toggle,
 }) => {
   const locale = useLocale();
-  const { id, name, subEventAtIds, startTime, superEventType } = getEventFields(
-    event,
-    locale
-  );
+  const { id, subEventAtIds } = getEventFields(event, locale);
   const open = !closedIds.includes(id);
 
   const { subEvents, loading } = useSubEvents({
@@ -42,13 +39,10 @@ const SubEvents: React.FC<SubEventsProps> = ({
   return (
     <>
       <EventHierarchyRow
-        id={id}
+        event={event}
         level={level}
-        name={name}
         open={open}
         showToggleButton={!!subEventAtIds.length}
-        startTime={startTime}
-        superEventType={superEventType}
         toggle={toggle}
       />
 

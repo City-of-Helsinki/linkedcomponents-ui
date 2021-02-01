@@ -29,6 +29,7 @@ import { clearEventsQueries, resetEventListPage } from '../events/utils';
 import NotFound from '../notFound/NotFound';
 import { EVENT_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
+import EventHierarchy from './eventHierarchy/EventHierarchy';
 import EventInfo from './EventInfo';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
@@ -400,6 +401,9 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                       </Section>
                       <Section title={t('event.form.sections.additionalInfo')}>
                         <AdditionalInfoSection />
+                      </Section>
+                      <Section title={t('event.form.sections.linksToEvents')}>
+                        <EventHierarchy event={event} showSuperEvent={true} />
                       </Section>
                     </FormContainer>
                   </Container>

@@ -10,50 +10,65 @@ import SubEvents from './SubEvents';
 
 interface Props {
   event: EventFieldsFragment;
+  showSuperEvent?: boolean;
 }
 
-const EventHierarchy: React.FC<Props> = ({ event }) => {
+const EventHierarchy: React.FC<Props> = ({ event, showSuperEvent }) => {
   const locale = useLocale();
   const [closedIds, setClosedIds] = React.useState<string[]>([]);
-  const { id, name, startTime, subEventAtIds, superEventType } = getEventFields(
-    event,
-    locale
-  );
-  const open = !closedIds.includes(id);
-
+  const { id, subEventAtIds } = getEventFields(event, locale);
   const subEvents = event.subEvents as EventFieldsFragment[];
+  const superEvent = event.superEvent;
+  const open = !closedIds.includes(id);
+  const superEventOpen = Boolean(
+    !superEvent?.id || !closedIds.includes(superEvent?.id)
+  );
 
   const toggle = (eventId: string) => {
     setClosedIds(xor(closedIds, [eventId]));
   };
 
+  const isSuperEventVisible = Boolean(showSuperEvent && superEvent);
+
   return (
     <div className={styles.eventHierarchy}>
-      <EventHierarchyRow
-        id={id}
-        level={0}
-        name={name}
-        open={open}
-        showToggleButton={!!subEventAtIds.length}
-        startTime={startTime}
-        superEventType={superEventType}
-        toggle={toggle}
-      />
+      {isSuperEventVisible && (
+        <EventHierarchyRow
+          disabled={true}
+          event={superEvent as EventFieldsFragment}
+          level={0}
+          open={superEventOpen}
+          showToggleButton={true}
+          toggle={toggle}
+        />
+      )}
+      {!showSuperEvent ||
+        (superEventOpen && (
+          <>
+            <EventHierarchyRow
+              level={isSuperEventVisible ? 1 : 0}
+              event={event}
+              open={open}
+              showToggleButton={!!subEventAtIds.length}
+              toggle={toggle}
+            />
 
-      {open &&
-        subEvents.map((subEvent) => {
-          return (
-            subEvent && (
-              <SubEvents
-                key={subEvent.atId}
-                closedIds={closedIds}
-                event={subEvent}
-                level={1}
-                toggle={toggle}
-              />
-            )
-          );
-        })}
+            {open &&
+              subEvents.map((subEvent) => {
+                return (
+                  subEvent && (
+                    <SubEvents
+                      key={subEvent.atId}
+                      closedIds={closedIds}
+                      event={subEvent}
+                      level={isSuperEventVisible ? 2 : 1}
+                      toggle={toggle}
+                    />
+                  )
+                );
+              })}
+          </>
+        ))}
     </div>
   );
 };

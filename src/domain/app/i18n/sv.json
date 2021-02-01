@@ -417,6 +417,7 @@
         "description": "Beskrivning",
         "image": "Bild",
         "languages": "Språk",
+        "linksToEvents": "Länkar till andra evenemang",
         "place": "Plats",
         "price": "Pris",
         "responsibilities": "Ansvar",
