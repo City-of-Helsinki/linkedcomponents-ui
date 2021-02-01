@@ -6,6 +6,15 @@ import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
 import EventHierarchy from '../EventHierarchy';
 
+const superEventId = 'superevent:1';
+const superEventName = 'Super event 1';
+
+const superEvent = fakeEvent({
+  id: superEventId,
+  name: { fi: superEventName },
+  superEventType: SuperEventType.Umbrella,
+});
+
 const eventId = 'umbrella:1';
 const eventName = 'Umbrella event 1';
 const subEventFields = [{ id: 'recurring:1', name: 'Recurring event 1' }];
@@ -49,6 +58,7 @@ const event = fakeEvent({
   id: eventId,
   name: { fi: eventName },
   subEvents: subEvents.data,
+  superEvent: superEvent,
   superEventType: SuperEventType.Umbrella,
 });
 
@@ -123,8 +133,10 @@ const mocks = [
   },
 ];
 
-const renderComponent = () =>
-  render(<EventHierarchy event={event} />, { mocks });
+const renderComponent = (showSuperEvent = false) =>
+  render(<EventHierarchy event={event} showSuperEvent={showSuperEvent} />, {
+    mocks,
+  });
 
 const eventsShouldBeVisible = async (eventNames: string[]) => {
   for (const name of eventNames) {
@@ -138,7 +150,7 @@ const eventsShouldBeHidden = (eventNames: string[]) => {
   }
 };
 
-test('should render all events in heirarchy by default', async () => {
+test('should render all events (except super event) in hierarchy by default', async () => {
   renderComponent();
   const allEvents = [
     eventName,
@@ -146,6 +158,22 @@ test('should render all events in heirarchy by default', async () => {
     ...map(subSubEventFields, 'name'),
     ...map(subSubEventPage2Fields, 'name'),
     ...map(subSubSubEventFields, 'name'),
+  ];
+  await eventsShouldBeVisible(allEvents);
+
+  // Super event is hidden by default
+  await eventsShouldBeHidden([superEventName]);
+});
+
+test('should render also super event', async () => {
+  renderComponent(true);
+  const allEvents = [
+    eventName,
+    ...flatMap(subEventFields, 'name'),
+    ...flatMap(subSubEventFields, 'name'),
+    ...flatMap(subSubEventPage2Fields, 'name'),
+    ...flatMap(subSubSubEventFields, 'name'),
+    superEventName,
   ];
   await eventsShouldBeVisible(allEvents);
 });

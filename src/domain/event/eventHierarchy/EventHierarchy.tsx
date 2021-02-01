@@ -42,33 +42,32 @@ const EventHierarchy: React.FC<Props> = ({ event, showSuperEvent }) => {
           toggle={toggle}
         />
       )}
-      {!showSuperEvent ||
-        (superEventOpen && (
-          <>
-            <EventHierarchyRow
-              level={isSuperEventVisible ? 1 : 0}
-              event={event}
-              open={open}
-              showToggleButton={!!subEventAtIds.length}
-              toggle={toggle}
-            />
+      {(!showSuperEvent || superEventOpen) && (
+        <>
+          <EventHierarchyRow
+            level={isSuperEventVisible ? 1 : 0}
+            event={event}
+            open={open}
+            showToggleButton={!!subEventAtIds.length}
+            toggle={toggle}
+          />
 
-            {open &&
-              subEvents.map((subEvent) => {
-                return (
-                  subEvent && (
-                    <SubEvents
-                      key={subEvent.atId}
-                      closedIds={closedIds}
-                      event={subEvent}
-                      level={isSuperEventVisible ? 2 : 1}
-                      toggle={toggle}
-                    />
-                  )
-                );
-              })}
-          </>
-        ))}
+          {open &&
+            subEvents.map((subEvent) => {
+              return (
+                subEvent && (
+                  <SubEvents
+                    key={subEvent.atId}
+                    closedIds={closedIds}
+                    event={subEvent}
+                    level={isSuperEventVisible ? 2 : 1}
+                    toggle={toggle}
+                  />
+                )
+              );
+            })}
+        </>
+      )}
     </div>
   );
 };
