@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
+import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import {
   EventFieldsFragment,
@@ -137,26 +139,53 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     }
   };
 
-  const getActionButton = ({
+  const getActionItemProps = ({
     button,
     onClick,
   }: {
     button: BUTTONS;
     onClick: () => void;
-  }) => {
-    return getIsButtonVisible(button) ? (
-      <Button
-        disabled={getDisabled(button)}
-        iconLeft={iconMap[button]}
-        onClick={onClick}
-        title={getButtonTitle(button)}
-        type="button"
-      >
-        {t(labelKeyMap[button])}
-      </Button>
-    ) : null;
+  }): MenuItemOptionProps | null => {
+    return getIsButtonVisible(button)
+      ? {
+          disabled: getDisabled(button),
+          icon: iconMap[button],
+          label: t(labelKeyMap[button]),
+          onClick,
+          title: getButtonTitle(button),
+        }
+      : null;
   };
 
+  const actionItems: MenuItemOptionProps[] = [
+    /* Actions for draft event */
+    getActionItemProps({
+      button: BUTTONS.UPDATE_DRAFT,
+      onClick: () => onUpdate(PublicationStatus.Draft),
+    }),
+    getActionItemProps({
+      button: BUTTONS.PUBLISH,
+      onClick: () => onUpdate(PublicationStatus.Public),
+    }),
+    /* Actions for public event */
+    getActionItemProps({
+      button: BUTTONS.UPDATE_PUBLIC,
+      onClick: () => onUpdate(PublicationStatus.Public),
+    }),
+    /* Actions for all event */
+    getActionItemProps({
+      button: BUTTONS.POSTPONE,
+      onClick: onPostpone,
+    }),
+    getActionItemProps({
+      button: BUTTONS.CANCEL,
+      onClick: onCancel,
+    }),
+    getActionItemProps({
+      button: BUTTONS.DELETE,
+      onClick: onDelete,
+    }),
+  ].filter((i) => i) as MenuItemOptionProps[];
   return (
     <div className={styles.editButtonPanel} style={{ top }}>
       <Container>
@@ -174,37 +203,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
             </Button>
           </div>
           <div className={styles.editButtonWrapper}>
-            <div className={styles.actionButtonWrapper}>
-              {getActionButton({
-                button: BUTTONS.POSTPONE,
-                onClick: onPostpone,
-              })}
-              {getActionButton({
-                button: BUTTONS.CANCEL,
-                onClick: onCancel,
-              })}
-              {getActionButton({
-                button: BUTTONS.DELETE,
-                onClick: onDelete,
-              })}
-            </div>
-            <div className={styles.saveButtonWrapper}>
-              {/* Buttons for draft event */}
-              {getActionButton({
-                button: BUTTONS.UPDATE_DRAFT,
-                onClick: () => onUpdate(PublicationStatus.Draft),
-              })}
-              {getActionButton({
-                button: BUTTONS.PUBLISH,
-                onClick: () => onUpdate(PublicationStatus.Public),
-              })}
-
-              {/* Buttons for public event */}
-              {getActionButton({
-                button: BUTTONS.UPDATE_PUBLIC,
-                onClick: () => onUpdate(PublicationStatus.Public),
-              })}
-            </div>
+            <MenuDropdown
+              items={actionItems}
+              buttonLabel={t('event.form.buttonActions')}
+            />
           </div>
         </div>
       </Container>

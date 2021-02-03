@@ -174,7 +174,7 @@ const findButton = (
       });
     case 'updatePublic':
       return screen.findByRole('button', {
-        name: 'Tallenna muutokset julkaistuun tapahtumaan',
+        name: 'Tallenna muutokset',
       });
   }
 };

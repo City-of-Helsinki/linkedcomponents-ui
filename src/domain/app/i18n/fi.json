@@ -120,6 +120,7 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Hyväksy ja julkaise",
+      "buttonActions": "Toiminnot",
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddImage": {
         "course": "Lisää kurssin kuva tai video",
@@ -145,7 +146,7 @@
       },
       "buttonSaveDraft": "Tallenna luonnos",
       "buttonUpdateDraft": "Tallenna muutokset luonnokseen",
-      "buttonUpdatePublic": "Tallenna muutokset julkaistuun tapahtumaan",
+      "buttonUpdatePublic": "Tallenna muutokset",
       "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
       "editButtonPanel": {
         "tooltipCancelledEvent": "Peruttuja tapahtumia ei voi muokata."
