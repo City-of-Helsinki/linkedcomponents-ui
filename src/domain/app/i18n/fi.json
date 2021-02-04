@@ -133,6 +133,7 @@
       "buttonDelete":  "Poista tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
+      "buttonEdit":  "Muokkaa tapahtumaa",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
       "buttonPostpone": "Lykkää tapahtumaa",

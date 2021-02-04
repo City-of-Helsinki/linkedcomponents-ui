@@ -82,6 +82,7 @@ const EventsTable: React.FC<EventsTableProps> = ({
           <th className={styles.statusColumn}>
             {t('eventsPage.eventsTableColumns.status')}
           </th>
+          <th className={styles.actionButtonsColumn}></th>
         </tr>
       </thead>
       <tbody>

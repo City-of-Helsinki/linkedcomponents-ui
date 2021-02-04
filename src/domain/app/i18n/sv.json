@@ -134,6 +134,7 @@
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
+      "buttonEdit":  "Redigera evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
       "buttonPostpone": "Skjuta upp evenemanget",
       "buttonPublish": {

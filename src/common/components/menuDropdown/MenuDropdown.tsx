@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { IconAngleDown, IconAngleUp } from 'hds-react';
+import { ButtonProps, IconAngleDown, IconAngleUp } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import React, { useRef, useState } from 'react';
 
@@ -13,6 +13,7 @@ import styles from './menuDropdown.module.scss';
 import { MenuItemOptionProps } from './MenuItem';
 
 export type MenuDropdownProps = React.PropsWithChildren<{
+  button?: React.ReactElement;
   buttonAriaLabel?: string;
   buttonLabel: string;
   className?: string;
@@ -21,6 +22,7 @@ export type MenuDropdownProps = React.PropsWithChildren<{
 }>;
 
 const MenuDropdown = ({
+  button,
   buttonAriaLabel,
   buttonLabel,
   className,
@@ -125,6 +127,38 @@ const MenuDropdown = ({
     };
   });
 
+  const getToggleButton = () => {
+    const commonProps: Partial<ButtonProps> = {
+      id: buttonId,
+      'aria-label': buttonAriaLabel || buttonLabel,
+      'aria-haspopup': true,
+      'aria-controls': menuId,
+      'aria-expanded': menuOpen,
+      onClick: toggleMenu,
+      type: 'button',
+    };
+    return button ? (
+      React.cloneElement(button, { ...commonProps })
+    ) : (
+      <Button
+        {...commonProps}
+        fullWidth={true}
+        iconRight={
+          menuOpen ? <IconAngleUp aria-hidden /> : <IconAngleDown aria-hidden />
+        }
+        variant={'secondary'}
+      >
+        <span>{buttonLabel}</span>
+      </Button>
+    );
+  };
+
+  const toggleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <div
       ref={containerRef}
@@ -134,22 +168,7 @@ const MenuDropdown = ({
         className
       )}
     >
-      <Button
-        id={buttonId}
-        aria-label={buttonAriaLabel}
-        aria-haspopup="true"
-        aria-controls={menuId}
-        aria-expanded={menuOpen}
-        fullWidth={true}
-        iconRight={
-          menuOpen ? <IconAngleUp aria-hidden /> : <IconAngleDown aria-hidden />
-        }
-        onClick={() => setMenuOpen(!menuOpen)}
-        type="button"
-        variant={'secondary'}
-      >
-        <span>{buttonLabel}</span>
-      </Button>
+      {getToggleButton()}
       <Menu
         ariaLabelledBy={buttonId}
         focusedIndex={focusedIndex}

@@ -12,6 +12,7 @@ import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
+import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import PublisherName from '../eventCard/PublisherName';
 import { expandedEventsSelector } from '../selectors';
 import styles from './eventsTable.module.scss';
@@ -116,6 +117,14 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
               publicationStatus={publicationStatus}
             />
           </div>
+        </td>
+        <td className={styles.actionButtonsColumn}>
+          <ActionsDropdown
+            onCancel={() => console.log('cancel')}
+            onDelete={() => console.log('delete')}
+            onPostpone={() => console.log('postpone')}
+            event={event}
+          />
         </td>
       </tr>
       {!!subEventAtIds.length && open && (

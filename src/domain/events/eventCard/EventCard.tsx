@@ -22,6 +22,7 @@ import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
+import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import { expandedEventsSelector } from '../selectors';
 import AudienceAgeText from './AudienceAgeText';
 import DateText from './DateText';
@@ -108,6 +109,13 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
             <SuperEventTypeTag superEventType={superEventType} />
           </div>
           <div className={styles.eventInfoWrapper}>
+            <ActionsDropdown
+              className={styles.actionButtons}
+              onCancel={() => console.log('cancel')}
+              onDelete={() => console.log('delete')}
+              onPostpone={() => console.log('postpone')}
+              event={event}
+            />
             <div className={styles.nameRow}>
               <h2>{name}</h2>
             </div>

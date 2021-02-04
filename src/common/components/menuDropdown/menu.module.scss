@@ -4,6 +4,7 @@
   --menu-dropdown-border-width: 1px;
   --menu-dropdown-max-width: 25rem;
   --menu-dropdown-top-margin: 0;
+  --menu-dropdown-z-index: 1;
   --menu-dropdown-item-background-color: var(--color-white);
   --menu-dropdown-item-background-color-disabled: var(--color-white);
   --menu-dropdown-item-background-color-highlighted: var(--color-bus);
@@ -26,6 +27,7 @@
     width: max-content;
     left: unset;
     right: 0;
+    z-index: var(--menu-dropdown-z-index);
   }
 }
 

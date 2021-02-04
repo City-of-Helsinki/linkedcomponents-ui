@@ -134,6 +134,7 @@
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
       "buttonDeleteRecurringEvent": "Delete recurring event",
+      "buttonEdit":  "Edit event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
       "buttonPostpone": "Postpone event",
       "buttonPublish": {

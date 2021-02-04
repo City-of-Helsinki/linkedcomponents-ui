@@ -48,6 +48,7 @@
   }
 
   .eventInfoWrapper {
+    position: relative;
     display: grid;
     padding: var(--spacing-m);
     line-height: var(--lineheight-m);
@@ -56,6 +57,12 @@
     @include medium-up {
       padding: var(--spacing-s) 0;
       grid-column: 3 / 11;
+    }
+
+    .actionButtons {
+      position: absolute;
+      right: var(--spacing-s);
+      top: var(--spacing-s);
     }
 
     .nameRow {
