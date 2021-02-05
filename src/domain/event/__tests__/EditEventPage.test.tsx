@@ -293,7 +293,6 @@ test('should postpone event', async () => {
   userEvent.click(postponeButton);
 
   const withinModal = within(screen.getByRole('dialog'));
-  // Postpone event button inside modal
   const postponeEventButton = await withinModal.findByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
