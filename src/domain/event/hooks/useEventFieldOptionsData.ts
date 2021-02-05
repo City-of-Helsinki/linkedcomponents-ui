@@ -6,10 +6,11 @@ import {
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { keywordSetPathBuilder } from '../../keywordSet/utils';
 
-const useEventFieldsData = () => {
+// Hook to get data for the languages, audience and keywords checkboxes
+const useEventFieldOptionsData = () => {
   const { loading: loadingLanguages } = useLanguagesQuery();
 
-  const { loading: loadingKeywords } = useKeywordSetQuery({
+  const { data: topicsData, loading: loadingKeywords } = useKeywordSetQuery({
     variables: {
       createPath: getPathBuilder(keywordSetPathBuilder),
       id: KEYWORD_SETS.TOPICS,
@@ -17,7 +18,7 @@ const useEventFieldsData = () => {
     },
   });
 
-  const { loading: loadingAudiences } = useKeywordSetQuery({
+  const { data: audienceData, loading: loadingAudiences } = useKeywordSetQuery({
     variables: {
       createPath: getPathBuilder(keywordSetPathBuilder),
       id: KEYWORD_SETS.AUDIENCES,
@@ -27,7 +28,7 @@ const useEventFieldsData = () => {
 
   const loading = loadingLanguages || loadingKeywords || loadingAudiences;
 
-  return { loading };
+  return { audienceData, loading, topicsData };
 };
 
-export default useEventFieldsData;
+export default useEventFieldOptionsData;

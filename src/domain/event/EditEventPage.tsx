@@ -43,7 +43,7 @@ import ResponsibilitiesSection from './formSections/responsibilitiesSection/Resp
 import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
-import useEventFieldsData from './hooks/useEventFieldsData';
+import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import useRelatedEvents from './hooks/useRelatedEvents';
 import Section from './layout/Section';
 import ConfirmCancelModal from './modals/ConfirmCancelModal';
@@ -420,9 +420,10 @@ const EditEventPageWrapper: React.FC = () => {
     },
   });
 
-  const { loading: loadingEventFieldsData } = useEventFieldsData();
+  // Load options for inLanguage, audience and keywords checkboxes
+  const { loading: loadingEventFieldOptions } = useEventFieldOptionsData();
 
-  const loading = loadingEvent || loadingEventFieldsData;
+  const loading = loadingEvent || loadingEventFieldOptions;
 
   return (
     <LoadingSpinner isLoading={loading}>

@@ -6,14 +6,11 @@ import { useTranslation } from 'react-i18next';
 import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
 import KeywordSelectorFields from '../../../../common/components/formFields/KeywordSelectorFields';
 import Notification from '../../../../common/components/notification/Notification';
-import { INCLUDE, KEYWORD_SETS } from '../../../../constants';
-import { useKeywordSetQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import getLocalisedString from '../../../../utils/getLocalisedString';
-import getPathBuilder from '../../../../utils/getPathBuilder';
-import { keywordSetPathBuilder } from '../../../keywordSet/utils';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
+import useEventFieldOptionsData from '../../hooks/useEventFieldOptionsData';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 
@@ -21,16 +18,10 @@ const ClassificationSection = () => {
   const { t } = useTranslation();
   const locale = useLocale();
 
-  const { data } = useKeywordSetQuery({
-    variables: {
-      createPath: getPathBuilder(keywordSetPathBuilder),
-      id: KEYWORD_SETS.TOPICS,
-      include: [INCLUDE.KEYWORDS],
-    },
-  });
+  const { topicsData } = useEventFieldOptionsData();
 
   const keywordOptions =
-    data?.keywordSet?.keywords?.map((keyword) => ({
+    topicsData?.keywordSet?.keywords?.map((keyword) => ({
       label: capitalize(getLocalisedString(keyword?.name, locale)),
       value: keyword?.atId,
     })) || [];

@@ -2,6 +2,10 @@ import { Formik } from 'formik';
 import range from 'lodash/range';
 import React from 'react';
 
+import {
+  mockedAudienceKeywordSetResponse,
+  mockedLanguagesResponse,
+} from '../../../__mocks__/constants';
 import { INCLUDE, KEYWORD_SETS } from '../../../../../constants';
 import {
   KeywordDocument,
@@ -85,6 +89,8 @@ const mocks = [
     },
     result: topicsKeywordSetResponse,
   },
+  mockedAudienceKeywordSetResponse,
+  mockedLanguagesResponse,
 ];
 
 type InitialValues = {

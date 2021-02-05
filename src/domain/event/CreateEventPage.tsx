@@ -36,7 +36,7 @@ import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSec
 import SummarySection from './formSections/summarySection/SummarySection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
-import useEventFieldsData from './hooks/useEventFieldsData';
+import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import Section from './layout/Section';
 import { EventFormFields } from './types';
 import {
@@ -56,7 +56,8 @@ const CreateEventPage: React.FC = () => {
   const [createEventsMutation] = useCreateEventsMutation();
   const [updateImage] = useUpdateImageMutation();
 
-  const { loading } = useEventFieldsData();
+  // Load options for inLanguage, audience and keywords checkboxes
+  const { loading } = useEventFieldOptionsData();
 
   const goToEventSavedPage = (id: string) => {
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);

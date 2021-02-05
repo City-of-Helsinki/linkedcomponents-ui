@@ -5,13 +5,10 @@ import { useTranslation } from 'react-i18next';
 
 import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
 import Notification from '../../../../common/components/notification/Notification';
-import { INCLUDE, KEYWORD_SETS } from '../../../../constants';
-import { useKeywordSetQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import getLocalisedString from '../../../../utils/getLocalisedString';
-import getPathBuilder from '../../../../utils/getPathBuilder';
-import { keywordSetPathBuilder } from '../../../keywordSet/utils';
 import { EVENT_FIELDS } from '../../constants';
+import useEventFieldOptionsData from '../../hooks/useEventFieldOptionsData';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 
@@ -19,16 +16,10 @@ const AudienceSection = () => {
   const { t } = useTranslation();
   const locale = useLocale();
 
-  const { data } = useKeywordSetQuery({
-    variables: {
-      createPath: getPathBuilder(keywordSetPathBuilder),
-      id: KEYWORD_SETS.AUDIENCES,
-      include: [INCLUDE.KEYWORDS],
-    },
-  });
+  const { audienceData } = useEventFieldOptionsData();
 
   const audienceOptions =
-    data?.keywordSet?.keywords?.map((keyword) => ({
+    audienceData?.keywordSet?.keywords?.map((keyword) => ({
       label: capitalize(getLocalisedString(keyword?.name, locale)),
       value: keyword?.atId,
     })) || [];
