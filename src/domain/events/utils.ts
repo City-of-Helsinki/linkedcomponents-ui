@@ -85,6 +85,13 @@ export const clearEventsQueries = (apolloClient: ApolloClient<object>) => {
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
 };
 
+export const clearEventQuery = (
+  apolloClient: ApolloClient<object>,
+  eventId: string
+) => {
+  apolloClient.cache.evict({ id: `Event:${eventId}` });
+};
+
 export const getEventsQueryVariables = (
   tab: EVENTS_PAGE_TABS,
   adminOrganizations: string[]

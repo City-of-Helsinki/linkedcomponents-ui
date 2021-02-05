@@ -14,7 +14,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
-import { clearEventsQueries, resetEventListPage } from '../../events/utils';
+import { clearEventQuery } from '../../events/utils';
 import { EventFormFields } from '../types';
 import {
   getEventFields,
@@ -59,11 +59,6 @@ const useEventUpdateActions = ({ event }: Props) => {
         input: payload,
       },
     });
-
-    // Clear all events queries from apollo cache to show edited events in event list
-    clearEventsQueries(apolloClient);
-    // This action will change LE response so clear event list page
-    resetEventListPage();
   };
 
   const cancelEvent = async ({ onError, onSuccess }: Callbacks) => {
@@ -105,12 +100,15 @@ const useEventUpdateActions = ({ event }: Props) => {
       // Make sure all related events are fetched
       const allEvents = await getRelatedEvents({ apolloClient, event });
       const allEventIds = flatMap(allEvents, 'id');
+
       for (const id of allEventIds) {
         await deleteEventMutation({ variables: { id } });
       }
 
-      // Clear all events queries from apollo cache to show edited events in event list
-      clearEventsQueries(apolloClient);
+      // Clear all events from apollo cache
+      for (const id of allEventIds) {
+        clearEventQuery(apolloClient, id);
+      }
 
       // Call callback function if defined
       /* istanbul ignore else */

@@ -109,13 +109,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
             <SuperEventTypeTag superEventType={superEventType} />
           </div>
           <div className={styles.eventInfoWrapper}>
-            <ActionsDropdown
-              className={styles.actionButtons}
-              onCancel={() => console.log('cancel')}
-              onDelete={() => console.log('delete')}
-              onPostpone={() => console.log('postpone')}
-              event={event}
-            />
+            <ActionsDropdown className={styles.actionButtons} event={event} />
             <div className={styles.nameRow}>
               <h2>{name}</h2>
             </div>

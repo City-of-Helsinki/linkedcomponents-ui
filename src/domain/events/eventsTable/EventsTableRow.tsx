@@ -119,12 +119,7 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
           </div>
         </td>
         <td className={styles.actionButtonsColumn}>
-          <ActionsDropdown
-            onCancel={() => console.log('cancel')}
-            onDelete={() => console.log('delete')}
-            onPostpone={() => console.log('postpone')}
-            event={event}
-          />
+          <ActionsDropdown event={event} />
         </td>
       </tr>
       {!!subEventAtIds.length && open && (

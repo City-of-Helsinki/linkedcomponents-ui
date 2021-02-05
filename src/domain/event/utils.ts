@@ -13,6 +13,7 @@ import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import subDays from 'date-fns/subDays';
 import { FormikErrors, FormikTouched } from 'formik';
+import { TFunction } from 'i18next';
 import forEach from 'lodash/forEach';
 import isEqual from 'lodash/isEqual';
 import keys from 'lodash/keys';
@@ -22,6 +23,7 @@ import sortBy from 'lodash/sortBy';
 import uniqWith from 'lodash/uniqWith';
 import * as Yup from 'yup';
 
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { getTimeObject } from '../../common/components/timepicker/utils';
 import {
   CHARACTER_LIMITS,
@@ -65,6 +67,9 @@ import { eventsPathBuilder } from '../events/utils';
 import {
   ADD_IMAGE_FIELDS,
   EMPTY_MULTI_LANGUAGE_OBJECT,
+  EVENT_ACTION_BUTTONS,
+  EVENT_ACTION_ICONS,
+  EVENT_ACTION_LABEL_KEYS,
   EVENT_FIELDS,
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
@@ -72,6 +77,7 @@ import {
   EXTENSION_COURSE_FIELDS,
   IMAGE_ALT_TEXT_MIN_LENGTH,
   IMAGE_DETAILS_FIELDS,
+  NOT_ALLOWED_WHEN_CANCELLED,
   ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
   SELECT_FIELDS,
@@ -1051,7 +1057,10 @@ const getSubEvents = async ({
   apolloClient: ApolloClient<object>;
   event: EventFieldsFragment;
 }) => {
+  if (!event.superEventType) return [];
+
   const subEvents: EventFieldsFragment[] = [];
+  const subSubEvents: EventFieldsFragment[] = [];
 
   const id = event.id;
   const variables = {
@@ -1086,15 +1095,16 @@ const getSubEvents = async ({
   // Check is subEvent a super event and recursively add it's sub events if needed
   for (const subEvent of subEvents) {
     if (subEvent.superEventType) {
-      const subSubEvents = await getSubEvents({
+      const items = await getSubEvents({
         apolloClient,
         event: subEvent,
       });
-      subEvents.push(...subSubEvents);
+
+      subSubEvents.push(...items);
     }
   }
 
-  return subEvents;
+  return [...subEvents, ...subSubEvents];
 };
 
 export const getRelatedEvents = async ({
@@ -1104,17 +1114,120 @@ export const getRelatedEvents = async ({
   apolloClient: ApolloClient<object>;
   event: EventFieldsFragment;
 }): Promise<EventFieldsFragment[]> => {
-  const subEvents = event.subEvents;
   const allRelatedEvents: EventFieldsFragment[] = [event];
 
-  for (const subEvent of subEvents) {
-    const subSubEvents = await getSubEvents({
-      apolloClient,
-      event: subEvent as EventFieldsFragment,
-    });
-    allRelatedEvents.push(subEvent as EventFieldsFragment);
-    allRelatedEvents.push(...subSubEvents);
-  }
+  const subEvents = await getSubEvents({
+    apolloClient,
+    event,
+  });
+  allRelatedEvents.push(...subEvents);
 
   return allRelatedEvents;
+};
+
+const getIsActionButtonDisabled = ({
+  authenticated,
+  button,
+  isCancelled,
+}: {
+  authenticated: boolean;
+  button: EVENT_ACTION_BUTTONS;
+  isCancelled: boolean;
+}): boolean => {
+  if (button === EVENT_ACTION_BUTTONS.EDIT) {
+    return false;
+  } else if (
+    !authenticated ||
+    (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(button))
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const getIsActionButtonVisible = ({
+  button,
+  isDraft,
+  isPublic,
+}: {
+  button: EVENT_ACTION_BUTTONS;
+  isDraft: boolean;
+  isPublic: boolean;
+}) => {
+  switch (button) {
+    case EVENT_ACTION_BUTTONS.CANCEL:
+      return true;
+    case EVENT_ACTION_BUTTONS.DELETE:
+      return true;
+    case EVENT_ACTION_BUTTONS.EDIT:
+      return true;
+    case EVENT_ACTION_BUTTONS.POSTPONE:
+      return isPublic;
+    case EVENT_ACTION_BUTTONS.PUBLISH:
+      return isDraft;
+    case EVENT_ACTION_BUTTONS.UPDATE_DRAFT:
+      return isDraft;
+    case EVENT_ACTION_BUTTONS.UPDATE_PUBLIC:
+      return isPublic;
+  }
+};
+
+const getActionButtonTitle = ({
+  authenticated,
+  button,
+  isCancelled,
+  t,
+}: {
+  authenticated: boolean;
+  button: EVENT_ACTION_BUTTONS;
+  isCancelled: boolean;
+  t: TFunction;
+}): string => {
+  if (button === EVENT_ACTION_BUTTONS.EDIT) {
+    return '';
+  } else if (!authenticated) {
+    return t('authentication.noRightsUpdateEvent');
+  } else if (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(button)) {
+    return t('event.form.editButtonPanel.tooltipCancelledEvent');
+  } else {
+    return '';
+  }
+};
+
+export const getActionButtonProps = ({
+  authenticated,
+  button,
+  event,
+  onClick,
+  t,
+}: {
+  authenticated: boolean;
+  button: EVENT_ACTION_BUTTONS;
+  event: EventFieldsFragment;
+  onClick: () => void;
+  t: TFunction;
+}): MenuItemOptionProps | null => {
+  const { eventStatus, publicationStatus } = getEventFields(event, 'fi');
+  const isCancelled = eventStatus === EventStatus.EventCancelled;
+  const isDraft = publicationStatus === PublicationStatus.Draft;
+  const isPublic = publicationStatus === PublicationStatus.Public;
+  return getIsActionButtonVisible({ button, isDraft, isPublic })
+    ? {
+        disabled: getIsActionButtonDisabled({
+          authenticated,
+          button,
+          isCancelled,
+        }),
+        icon: EVENT_ACTION_ICONS[button],
+        label: t(EVENT_ACTION_LABEL_KEYS[button]),
+        onClick,
+        title: getActionButtonTitle({
+          authenticated,
+          button,
+          isCancelled,
+          t,
+        }),
+      }
+    : null;
 };

@@ -37,7 +37,7 @@ import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSec
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
-import useEventUpdateActions from './hooks/useEventUpdateActions';
+import useEventUpdateActions, { MODALS } from './hooks/useEventUpdateActions';
 import useRelatedEvents from './hooks/useRelatedEvents';
 import Section from './layout/Section';
 import ConfirmCancelModal from './modals/ConfirmCancelModal';
@@ -59,13 +59,6 @@ interface EditEventPageProps {
   refetch: () => void;
 }
 
-enum MODALS {
-  CANCEL = 'cancel',
-  DELETE = 'delete',
-  POSTPONE = 'postpone',
-  UPDATE = 'update',
-}
-
 const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -80,9 +73,9 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 
   const {
     cancelEvent,
-    closeModal: closeModalHook,
+    closeModal,
     deleteEvent,
-    saving: savingHook,
+    saving,
     openModal,
     postponeEvent,
     setOpenModal,
@@ -189,29 +182,29 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
             <ConfirmCancelModal
               event={event}
               isOpen={openModal === MODALS.CANCEL}
-              isSaving={savingHook === MODALS.CANCEL}
+              isSaving={saving === MODALS.CANCEL}
               onCancel={onCancel}
-              onClose={closeModalHook}
+              onClose={closeModal}
             />
             <ConfirmDeleteModal
               event={event}
               isOpen={openModal === MODALS.DELETE}
-              isSaving={savingHook === MODALS.DELETE}
-              onClose={closeModalHook}
+              isSaving={saving === MODALS.DELETE}
+              onClose={closeModal}
               onDelete={onDelete}
             />
             <ConfirmPostponeModal
               event={event}
               isOpen={openModal === MODALS.POSTPONE}
-              isSaving={savingHook === MODALS.POSTPONE}
-              onClose={closeModalHook}
+              isSaving={saving === MODALS.POSTPONE}
+              onClose={closeModal}
               onPostpone={onPostpone}
             />
             <ConfirmUpdateModal
               event={event}
               isOpen={openModal === MODALS.UPDATE}
-              isSaving={savingHook === MODALS.UPDATE}
-              onClose={closeModalHook}
+              isSaving={saving === MODALS.UPDATE}
+              onClose={closeModal}
               onSave={() => {
                 onUpdate(values, nextPublicationStatus);
               }}
