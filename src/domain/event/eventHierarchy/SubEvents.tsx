@@ -103,8 +103,8 @@ const SubEvents: React.FC<SubEventsProps> = ({
       ) : (
         <>
           {open &&
-            subEvents.map((subEvent) => {
-              return (
+            subEvents.map(
+              (subEvent) =>
                 subEvent && (
                   <SubEvents
                     key={subEvent.atId}
@@ -114,8 +114,7 @@ const SubEvents: React.FC<SubEventsProps> = ({
                     toggle={toggle}
                   />
                 )
-              );
-            })}
+            )}
         </>
       )}
     </>

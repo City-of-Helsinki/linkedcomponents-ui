@@ -930,7 +930,7 @@ export const getLocalisedObject = (
     ORDERED_EVENT_INFO_LANGUAGES,
     (acc, lang) => ({
       ...acc,
-      [lang]: (obj && (obj as Record<string, unknown>)[lang]) || defaultValue,
+      [lang]: (obj && obj[lang]) || defaultValue,
     }),
     {}
   ) as MultiLanguageObject;
