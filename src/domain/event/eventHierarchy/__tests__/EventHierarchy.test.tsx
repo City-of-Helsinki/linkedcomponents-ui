@@ -6,29 +6,23 @@ import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
 import EventHierarchy from '../EventHierarchy';
 
-const superEventId = 'superevent:1';
-const superEventName = 'Super event 1';
-
-const superEvent = fakeEvent({
-  id: superEventId,
-  name: { fi: superEventName },
-  superEventType: SuperEventType.Umbrella,
-});
-
-const eventId = 'umbrella:1';
-const eventName = 'Umbrella event 1';
-const subEventFields = [{ id: 'recurring:1', name: 'Recurring event 1' }];
-const subSubEventFields = [{ id: 'event:1', name: 'Event 1' }];
-const subSubEventPage2Fields = [
-  { id: 'event:2', name: 'Event 2' },
-  { id: 'event:3', name: 'Event 3' },
-  { id: 'event:4', name: 'Event 4' },
-];
 const subSubSubEventFields = [{ id: 'subevent:1', name: 'Sub event 1' }];
 const subSubSubEvents = fakeEvents(
   subSubSubEventFields.length,
   subSubSubEventFields.map(({ id, name }) => ({ id, name: { fi: name } }))
 );
+
+const subSubEventPage2Fields = [
+  { id: 'event:2', name: 'Event 2' },
+  { id: 'event:3', name: 'Event 3' },
+  { id: 'event:4', name: 'Event 4' },
+];
+const subSubPage2Events = fakeEvents(
+  subSubEventPage2Fields.length,
+  subSubEventPage2Fields.map(({ id, name }) => ({ id, name: { fi: name } }))
+);
+
+const subSubEventFields = [{ id: 'event:1', name: 'Event 1' }];
 const subSubEvents = fakeEvents(
   subSubEventFields.length,
   subSubEventFields.map(({ id, name }) => ({
@@ -39,10 +33,7 @@ const subSubEvents = fakeEvents(
   }))
 );
 
-const subSubPage2Events = fakeEvents(
-  subSubEventPage2Fields.length,
-  subSubEventPage2Fields.map(({ id, name }) => ({ id, name: { fi: name } }))
-);
+const subEventFields = [{ id: 'recurring:1', name: 'Recurring event 1' }];
 
 const subEvents = fakeEvents(
   subEventFields.length,
@@ -54,6 +45,16 @@ const subEvents = fakeEvents(
   }))
 );
 
+const superEventId = 'superevent:1';
+const superEventName = 'Super event 1';
+const superEvent = fakeEvent({
+  id: superEventId,
+  name: { fi: superEventName },
+  superEventType: SuperEventType.Umbrella,
+});
+
+const eventId = 'umbrella:1';
+const eventName = 'Umbrella event 1';
 const event = fakeEvent({
   id: eventId,
   name: { fi: eventName },
@@ -61,6 +62,12 @@ const event = fakeEvent({
   superEvent: superEvent,
   superEventType: SuperEventType.Umbrella,
 });
+
+const subSubSubEventsResponse = {
+  data: {
+    events: subSubSubEvents,
+  },
+};
 
 const count = subSubEventFields.length + subSubEventPage2Fields.length;
 const subSubEventsResponse = {
@@ -88,11 +95,12 @@ const subSubEventsPage2Response = {
   },
 };
 
-const subSubSubEventsResponse = {
+const subEventsResponse = {
   data: {
-    events: subSubSubEvents,
+    events: subEvents,
   },
 };
+
 const baseVariables = {
   createPath: undefined,
   include: ['audience', 'keywords', 'location', 'sub_events', 'super_event'],
@@ -100,16 +108,31 @@ const baseVariables = {
   showAll: true,
   sort: 'start_time',
 };
-const subSubEventsVariables = {
-  ...baseVariables,
-  superEvent: subEventFields[0].id,
-};
+
 const subSubSubEventsVariables = {
   ...baseVariables,
   superEvent: subSubEventFields[0].id,
 };
 
+const subSubEventsVariables = {
+  ...baseVariables,
+  superEvent: subEventFields[0].id,
+};
+const subSubEventsPage2Variables = { ...subSubEventsVariables, page: 2 };
+
+const subEventsVariables = {
+  ...baseVariables,
+  superEvent: eventId,
+};
+
 const mocks = [
+  {
+    request: {
+      query: EventsDocument,
+      variables: subSubSubEventsVariables,
+    },
+    result: subSubSubEventsResponse,
+  },
   {
     request: {
       query: EventsDocument,
@@ -120,16 +143,16 @@ const mocks = [
   {
     request: {
       query: EventsDocument,
-      variables: { ...subSubEventsVariables, page: 2 },
+      variables: subSubEventsPage2Variables,
     },
     result: subSubEventsPage2Response,
   },
   {
     request: {
       query: EventsDocument,
-      variables: subSubSubEventsVariables,
+      variables: subEventsVariables,
     },
-    result: subSubSubEventsResponse,
+    result: subEventsResponse,
   },
 ];
 
