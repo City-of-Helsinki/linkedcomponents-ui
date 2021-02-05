@@ -1,6 +1,6 @@
 import { MockedProvider } from '@apollo/react-testing';
 import { renderHook } from '@testing-library/react-hooks';
-import flatMap from 'lodash/flatMap';
+import map from 'lodash/map';
 import React from 'react';
 
 import { EventsDocument, SuperEventType } from '../../../../generated/graphql';
@@ -140,7 +140,7 @@ test('should return all related events', async () => {
   await waitForNextUpdate();
 
   expect(result.current.loading).toBeFalsy();
-  expect(flatMap(result.current.events, 'id')).toEqual([
+  expect(map(result.current.events, 'id')).toEqual([
     eventId,
     ...subEventIds,
     ...subSubEventIds,

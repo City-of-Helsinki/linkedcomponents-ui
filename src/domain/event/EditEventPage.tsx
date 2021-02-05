@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client';
 import { Form, Formik } from 'formik';
-import flatMap from 'lodash/flatMap';
+import map from 'lodash/map';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
@@ -168,7 +168,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       setSaving(MODALS.DELETE);
       // Make sure all related events are fetched
       const allEvents = await getRelatedEvents({ apolloClient, event });
-      const allEventIds = flatMap(allEvents, 'id');
+      const allEventIds = map(allEvents, 'id');
       for (const id of allEventIds) {
         await deleteEventMutation({ variables: { id } });
       }

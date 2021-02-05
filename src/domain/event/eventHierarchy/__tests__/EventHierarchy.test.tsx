@@ -1,4 +1,4 @@
-import flatMap from 'lodash/flatMap';
+import map from 'lodash/map';
 import React from 'react';
 
 import { EventsDocument, SuperEventType } from '../../../../generated/graphql';
@@ -132,9 +132,9 @@ const eventsShouldBeVisible = async (eventNames: string[]) => {
   }
 };
 
-const eventsShouldBeHidden = async (eventNames: string[]) => {
+const eventsShouldBeHidden = (eventNames: string[]) => {
   for (const name of eventNames) {
-    await expect(screen.queryByText(name)).not.toBeInTheDocument();
+    expect(screen.queryByText(name)).not.toBeInTheDocument();
   }
 };
 
@@ -142,10 +142,10 @@ test('should render all events in heirarchy by default', async () => {
   renderComponent();
   const allEvents = [
     eventName,
-    ...flatMap(subEventFields, 'name'),
-    ...flatMap(subSubEventFields, 'name'),
-    ...flatMap(subSubEventPage2Fields, 'name'),
-    ...flatMap(subSubSubEventFields, 'name'),
+    ...map(subEventFields, 'name'),
+    ...map(subSubEventFields, 'name'),
+    ...map(subSubEventPage2Fields, 'name'),
+    ...map(subSubSubEventFields, 'name'),
   ];
   await eventsShouldBeVisible(allEvents);
 });
@@ -155,10 +155,10 @@ test('should hide/show sub-events when clicking toggle button', async () => {
 
   await eventsShouldBeVisible([
     eventName,
-    ...flatMap(subEventFields, 'name'),
-    ...flatMap(subSubEventFields, 'name'),
-    ...flatMap(subSubEventPage2Fields, 'name'),
-    ...flatMap(subSubSubEventFields, 'name'),
+    ...map(subEventFields, 'name'),
+    ...map(subSubEventFields, 'name'),
+    ...map(subSubEventPage2Fields, 'name'),
+    ...map(subSubSubEventFields, 'name'),
   ]);
 
   const hideUmbrellaButton = await screen.findByRole('button', {
@@ -168,11 +168,11 @@ test('should hide/show sub-events when clicking toggle button', async () => {
 
   await eventsShouldBeVisible([eventName]);
 
-  await eventsShouldBeHidden([
-    ...flatMap(subEventFields, 'name'),
-    ...flatMap(subSubEventFields, 'name'),
-    ...flatMap(subSubEventPage2Fields, 'name'),
-    ...flatMap(subSubSubEventFields, 'name'),
+  eventsShouldBeHidden([
+    ...map(subEventFields, 'name'),
+    ...map(subSubEventFields, 'name'),
+    ...map(subSubEventPage2Fields, 'name'),
+    ...map(subSubSubEventFields, 'name'),
   ]);
 
   const showUmbrellaButton = await screen.findByRole('button', {
@@ -182,10 +182,10 @@ test('should hide/show sub-events when clicking toggle button', async () => {
 
   await eventsShouldBeVisible([
     eventName,
-    ...flatMap(subEventFields, 'name'),
-    ...flatMap(subSubEventFields, 'name'),
-    ...flatMap(subSubEventPage2Fields, 'name'),
-    ...flatMap(subSubSubEventFields, 'name'),
+    ...map(subEventFields, 'name'),
+    ...map(subSubEventFields, 'name'),
+    ...map(subSubEventPage2Fields, 'name'),
+    ...map(subSubSubEventFields, 'name'),
   ]);
 
   const hideRecurringButton = await screen.findByRole('button', {
@@ -195,12 +195,12 @@ test('should hide/show sub-events when clicking toggle button', async () => {
 
   await eventsShouldBeVisible([
     eventName,
-    ...flatMap(subEventFields, 'name'),
-    ...flatMap(subSubEventFields, 'name'),
-    ...flatMap(subSubEventPage2Fields, 'name'),
+    ...map(subEventFields, 'name'),
+    ...map(subSubEventFields, 'name'),
+    ...map(subSubEventPage2Fields, 'name'),
   ]);
 
-  await eventsShouldBeHidden([...flatMap(subSubSubEventFields, 'name')]);
+  eventsShouldBeHidden([...map(subSubSubEventFields, 'name')]);
 
   const showRecurringButton = await screen.findByRole('button', {
     name: `Näytä alatapahtumat: ${subSubEventFields[0].name}`,
@@ -209,9 +209,9 @@ test('should hide/show sub-events when clicking toggle button', async () => {
 
   await eventsShouldBeVisible([
     eventName,
-    ...flatMap(subEventFields, 'name'),
-    ...flatMap(subSubEventFields, 'name'),
-    ...flatMap(subSubEventPage2Fields, 'name'),
-    ...flatMap(subSubSubEventFields, 'name'),
+    ...map(subEventFields, 'name'),
+    ...map(subSubEventFields, 'name'),
+    ...map(subSubEventPage2Fields, 'name'),
+    ...map(subSubSubEventFields, 'name'),
   ]);
 });
