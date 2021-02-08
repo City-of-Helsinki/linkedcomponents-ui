@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import { IconCheck } from 'hds-react';
 import React from 'react';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import useIsMounted from '../../../hooks/useIsMounted';
 import { OptionType } from '../../../types';
@@ -34,11 +33,12 @@ const Tab: React.FC<TabProps> = ({
     onClick(option.value);
   };
 
-  useDeepCompareEffect(() => {
+  React.useEffect(() => {
     if (isMounted && isFocused) {
       ref.current?.focus();
     }
-  }, [{ index, isFocused }]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, isFocused]);
 
   const onFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
     event.preventDefault();
