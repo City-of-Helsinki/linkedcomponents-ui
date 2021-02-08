@@ -72,7 +72,22 @@
     }
   }
 
-  .sortOrderSelector label {
-    @include hidden-from-screen;
+  .sortOrderSelector {
+    --dropdown-border-color-default: transparent;
+    --dropdown-background-default: transparent;
+
+    label {
+      @include hidden-from-screen;
+    }
+    button {
+      justify-content: center;
+      font-weight: 500;
+      grid-gap: var(--spacing-s);
+
+      svg {
+        position: unset;
+        margin-top: -2px;
+      }
+    }
   }
 }
