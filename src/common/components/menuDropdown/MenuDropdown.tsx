@@ -1,8 +1,11 @@
+import { ResizeObserver } from '@juggle/resize-observer';
 import classNames from 'classnames';
 import { css } from 'emotion';
 import { ButtonProps, IconAngleDown, IconAngleUp } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import React, { useRef, useState } from 'react';
+import mergeRefs from 'react-merge-refs';
+import useMeasure from 'react-use-measure';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import useDropdownKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
@@ -30,6 +33,11 @@ const MenuDropdown = ({
   items,
 }: MenuDropdownProps) => {
   const { theme } = useTheme();
+  const [ref, menuContainerSize] = useMeasure({
+    debounce: 0,
+    scroll: false,
+    polyfill: ResizeObserver,
+  });
   const disabledIndices = React.useMemo(
     () =>
       items.reduce(
@@ -146,7 +154,7 @@ const MenuDropdown = ({
         iconRight={
           menuOpen ? <IconAngleUp aria-hidden /> : <IconAngleDown aria-hidden />
         }
-        variant={'secondary'}
+        variant="secondary"
       >
         <span>{buttonLabel}</span>
       </Button>
@@ -161,7 +169,7 @@ const MenuDropdown = ({
 
   return (
     <div
-      ref={containerRef}
+      ref={mergeRefs<HTMLDivElement>([ref, containerRef])}
       className={classNames(
         styles.menuDropdown,
         css(theme.menuDropdown),
@@ -174,6 +182,7 @@ const MenuDropdown = ({
         focusedIndex={focusedIndex}
         id={menuId}
         items={items}
+        menuContainerSize={menuContainerSize}
         menuOpen={menuOpen}
         setFocusedIndex={setFocusedIndex}
       />

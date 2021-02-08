@@ -21,6 +21,7 @@
     border: var(--menu-dropdown-border-width) solid
       var(--menu-dropdown-border-color);
     margin: var(--menu-dropdown-top-margin) 0 0;
+    box-sizing: border-box;
     max-width: var(--menu-dropdown-max-width);
     padding: var(--spacing-3-xs) 0;
     position: absolute;
