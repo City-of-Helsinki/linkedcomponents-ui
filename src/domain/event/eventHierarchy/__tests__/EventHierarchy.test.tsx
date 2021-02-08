@@ -192,10 +192,10 @@ test('should render also super event', async () => {
   renderComponent(true);
   const allEvents = [
     eventName,
-    ...flatMap(subEventFields, 'name'),
-    ...flatMap(subSubEventFields, 'name'),
-    ...flatMap(subSubEventPage2Fields, 'name'),
-    ...flatMap(subSubSubEventFields, 'name'),
+    ...map(subEventFields, 'name'),
+    ...map(subSubEventFields, 'name'),
+    ...map(subSubEventPage2Fields, 'name'),
+    ...map(subSubSubEventFields, 'name'),
     superEventName,
   ];
   await eventsShouldBeVisible(allEvents);
