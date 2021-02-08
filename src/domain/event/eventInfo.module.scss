@@ -1,0 +1,26 @@
+.eventInfo {
+  margin-bottom: var(--spacing-3-xl);
+
+  p {
+    margin: var(--spacing-2-xs) 0 !important;
+  }
+
+  .time {
+    color: var(--color-black-60);
+  }
+
+  .author {
+    color: var(--color-black-90);
+  }
+
+  .statusTag {
+    display: flex;
+    margin-bottom: var(--spacing-m);
+  }
+
+  .heading {
+    display: flex;
+    align-items: center;
+    grid-gap: var(--spacing-xs);
+  }
+}

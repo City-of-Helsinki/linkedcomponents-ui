@@ -23,7 +23,9 @@ const SingleSelect: React.FC<SingleSelectProps<OptionType>> = ({
       {...rest}
       className={classNames(className, css(theme.select))}
       getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
-      getA11ySelectionMessage={(options) => getA11ySelectionMessage(options, t)}
+      getA11ySelectionMessage={(options) =>
+        /* istanbul ignore next */ getA11ySelectionMessage(options, t)
+      }
     />
   );
 };

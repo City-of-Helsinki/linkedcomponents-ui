@@ -19,36 +19,38 @@ const PageLayout: React.FC = ({ children }) => {
   const path = window.location.pathname.replace(`/${locale}`, '');
 
   return (
-    <div
-      className={classNames(
-        styles.pageLayout,
-        css(theme.layout),
-        css(theme.root)
-      )}
-    >
+    <>
       <ResetFocus />
       <ScrollToTop />
-      <Helmet>
-        <html lang={locale} />
+      <div
+        className={classNames(
+          styles.pageLayout,
+          css(theme.layout),
+          css(theme.root)
+        )}
+      >
+        <Helmet>
+          <html lang={locale} />
 
-        {Object.values(SUPPORTED_LANGUAGES).map((language) => {
-          const langCode = language.toLowerCase();
-          return (
-            <link
-              key={langCode}
-              rel="alternate"
-              hrefLang={langCode}
-              href={`/${langCode}` + path}
-            />
-          );
-        })}
-      </Helmet>
+          {Object.values(SUPPORTED_LANGUAGES).map((language) => {
+            const langCode = language.toLowerCase();
+            return (
+              <link
+                key={langCode}
+                rel="alternate"
+                hrefLang={langCode}
+                href={`/${langCode}` + path}
+              />
+            );
+          })}
+        </Helmet>
 
-      <Header />
-      <div className={styles.pageBody}>{children}</div>
+        <Header />
+        <div className={styles.pageBody}>{children}</div>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 };
 

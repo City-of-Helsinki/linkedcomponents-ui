@@ -4,8 +4,8 @@ import { StoreState } from './types';
 export enum ROUTES {
   CALLBACK = '/callback',
   CREATE_EVENT = '/events/create',
+  EDIT_EVENT = '/events/edit/:id',
   EVENT_SAVED = '/events/completed/:id',
-  EVENT = '/events/:id',
   EVENTS = '/events',
   HELP = '/help',
   HOME = '/',
@@ -74,6 +74,8 @@ export const defaultStoreState: StoreState = {
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/gif', 'image/png'];
 export const MAX_IMAGE_SIZE_MB = 2;
 
+export const MAX_PAGE_SIZE = 100;
+
 export const NAVIGATION_ITEMS = [
   {
     labelKey: 'navigation.tabs.events',
@@ -89,4 +91,5 @@ export const NAVIGATION_ITEMS = [
   },
 ];
 
+export const PAGE_HEADER_ID = 'page-header';
 export const MAIN_CONTENT_ID = 'maincontent';

@@ -17,6 +17,9 @@ export type Mutation = {
   __typename?: 'Mutation';
   createEvent: Event;
   createEvents: Array<Event>;
+  deleteEvent?: Maybe<NoContent>;
+  updateEvent: Event;
+  updateEvents: Array<Event>;
   updateImage: Image;
   uploadImage: Image;
 };
@@ -32,6 +35,21 @@ export type MutationCreateEventsArgs = {
 };
 
 
+export type MutationDeleteEventArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateEventArgs = {
+  input: UpdateEventMutationInput;
+};
+
+
+export type MutationUpdateEventsArgs = {
+  input: Array<UpdateEventMutationInput>;
+};
+
+
 export type MutationUpdateImageArgs = {
   input: UpdateImageMutationInput;
 };
@@ -39,6 +57,11 @@ export type MutationUpdateImageArgs = {
 
 export type MutationUploadImageArgs = {
   input: UploadImageMutationInput;
+};
+
+export type NoContent = {
+  __typename?: 'NoContent';
+  noContent?: Maybe<Scalars['Boolean']>;
 };
 
 export type Query = {
@@ -164,6 +187,13 @@ export type QueryUserArgs = {
   id: Scalars['ID'];
 };
 
+export enum EventStatus {
+  EventCancelled = 'EventCancelled',
+  EventPostponed = 'EventPostponed',
+  EventRescheduled = 'EventRescheduled',
+  EventScheduled = 'EventScheduled'
+}
+
 export enum PublicationStatus {
   Draft = 'draft',
   Public = 'public'
@@ -207,6 +237,33 @@ export type CreateEventMutationInput = {
   audienceMinAge?: Maybe<Scalars['Int']>;
   description?: Maybe<LocalisedObjectInput>;
   endTime?: Maybe<Scalars['String']>;
+  eventStatus?: Maybe<EventStatus>;
+  externalLinks?: Maybe<Array<Maybe<ExternalLinkInput>>>;
+  images?: Maybe<Array<IdObjectInput>>;
+  inLanguage?: Maybe<Array<IdObjectInput>>;
+  infoUrl?: Maybe<LocalisedObjectInput>;
+  keywords?: Maybe<Array<IdObjectInput>>;
+  location?: Maybe<IdObjectInput>;
+  locationExtraInfo?: Maybe<LocalisedObjectInput>;
+  name?: Maybe<LocalisedObjectInput>;
+  offers?: Maybe<Array<OfferInput>>;
+  provider?: Maybe<LocalisedObjectInput>;
+  shortDescription?: Maybe<LocalisedObjectInput>;
+  startTime?: Maybe<Scalars['String']>;
+  subEvents?: Maybe<Array<IdObjectInput>>;
+  superEvent?: Maybe<IdObjectInput>;
+  superEventType?: Maybe<SuperEventType>;
+};
+
+export type UpdateEventMutationInput = {
+  id: Scalars['ID'];
+  publicationStatus?: Maybe<PublicationStatus>;
+  audience?: Maybe<Array<IdObjectInput>>;
+  audienceMaxAge?: Maybe<Scalars['Int']>;
+  audienceMinAge?: Maybe<Scalars['Int']>;
+  description?: Maybe<LocalisedObjectInput>;
+  endTime?: Maybe<Scalars['String']>;
+  eventStatus?: Maybe<EventStatus>;
   externalLinks?: Maybe<Array<Maybe<ExternalLinkInput>>>;
   images?: Maybe<Array<IdObjectInput>>;
   inLanguage?: Maybe<Array<IdObjectInput>>;
@@ -295,9 +352,10 @@ export type Division = {
 export type Event = {
   __typename?: 'Event';
   id: Scalars['ID'];
-  audience: Array<Maybe<AtIdObject>>;
+  audience: Array<Maybe<Keyword>>;
   audienceMaxAge?: Maybe<Scalars['Int']>;
   audienceMinAge?: Maybe<Scalars['Int']>;
+  createdBy?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   customData?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
@@ -306,7 +364,7 @@ export type Event = {
   endTime?: Maybe<Scalars['String']>;
   extensionCourse?: Maybe<ExtensionCourse>;
   externalLinks: Array<Maybe<ExternalLink>>;
-  eventStatus?: Maybe<Scalars['String']>;
+  eventStatus?: Maybe<EventStatus>;
   images: Array<Maybe<Image>>;
   infoUrl?: Maybe<LocalisedObject>;
   inLanguage: Array<Maybe<Language>>;
@@ -322,9 +380,9 @@ export type Event = {
   publicationStatus?: Maybe<PublicationStatus>;
   shortDescription?: Maybe<LocalisedObject>;
   startTime?: Maybe<Scalars['String']>;
-  subEvents: Array<Maybe<AtIdObject>>;
-  superEvent?: Maybe<AtIdObject>;
-  superEventType?: Maybe<Scalars['String']>;
+  subEvents: Array<Maybe<Event>>;
+  superEvent?: Maybe<Event>;
+  superEventType?: Maybe<SuperEventType>;
   atId?: Maybe<Scalars['String']>;
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
@@ -522,6 +580,32 @@ export type CreateEventMutation = (
   ) }
 );
 
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteEventMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteEvent?: Maybe<(
+    { __typename?: 'NoContent' }
+    & Pick<NoContent, 'noContent'>
+  )> }
+);
+
+export type UpdateEventMutationVariables = Exact<{
+  input: UpdateEventMutationInput;
+}>;
+
+
+export type UpdateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEvent: (
+    { __typename?: 'Event' }
+    & EventFieldsFragment
+  ) }
+);
+
 export type CreateEventsMutationVariables = Exact<{
   input: Array<CreateEventMutationInput>;
 }>;
@@ -530,6 +614,19 @@ export type CreateEventsMutationVariables = Exact<{
 export type CreateEventsMutation = (
   { __typename?: 'Mutation' }
   & { createEvents: Array<(
+    { __typename?: 'Event' }
+    & EventFieldsFragment
+  )> }
+);
+
+export type UpdateEventsMutationVariables = Exact<{
+  input: Array<UpdateEventMutationInput>;
+}>;
+
+
+export type UpdateEventsMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEvents: Array<(
     { __typename?: 'Event' }
     & EventFieldsFragment
   )> }
@@ -555,10 +652,13 @@ export type OfferFieldsFragment = (
   )> }
 );
 
-export type EventFieldsFragment = (
+export type BaseEventFieldsFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'endTime' | 'eventStatus' | 'publicationStatus' | 'publisher' | 'startTime'>
-  & { description?: Maybe<(
+  & Pick<Event, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'createdBy' | 'endTime' | 'eventStatus' | 'lastModifiedTime' | 'publicationStatus' | 'publisher' | 'startTime' | 'superEventType'>
+  & { audience: Array<Maybe<(
+    { __typename?: 'Keyword' }
+    & KeywordFieldsFragment
+  )>>, description?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
   )>, externalLinks: Array<Maybe<(
@@ -579,6 +679,9 @@ export type EventFieldsFragment = (
   )>>, location?: Maybe<(
     { __typename?: 'Place' }
     & PlaceFieldsFragment
+  )>, locationExtraInfo?: Maybe<(
+    { __typename?: 'LocalisedObject' }
+    & LocalisedFieldsFragment
   )>, name?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -591,10 +694,23 @@ export type EventFieldsFragment = (
   )>, shortDescription?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
-  )>, superEvent?: Maybe<(
-    { __typename?: 'AtIdObject' }
-    & Pick<AtIdObject, 'atId'>
   )> }
+);
+
+export type EventFieldsFragment = (
+  { __typename?: 'Event' }
+  & { superEvent?: Maybe<(
+    { __typename?: 'Event' }
+    & BaseEventFieldsFragment
+  )>, subEvents: Array<Maybe<(
+    { __typename?: 'Event' }
+    & { subEvents: Array<Maybe<(
+      { __typename?: 'Event' }
+      & BaseEventFieldsFragment
+    )>> }
+    & BaseEventFieldsFragment
+  )>> }
+  & BaseEventFieldsFragment
 );
 
 export type EventQueryVariables = Exact<{
@@ -990,6 +1106,17 @@ export const LocalisedFieldsFragmentDoc = gql`
   zhHans
 }
     `;
+export const KeywordFieldsFragmentDoc = gql`
+    fragment keywordFields on Keyword {
+  id
+  atId
+  dataSource
+  hasUpcomingEvents
+  name {
+    ...localisedFields
+  }
+}
+    ${LocalisedFieldsFragmentDoc}`;
 export const ExternalLinkFieldsFragmentDoc = gql`
     fragment externalLinkFields on ExternalLink {
   name
@@ -1011,17 +1138,6 @@ export const LanguageFieldsFragmentDoc = gql`
     fragment languageFields on Language {
   id
   atId
-  name {
-    ...localisedFields
-  }
-}
-    ${LocalisedFieldsFragmentDoc}`;
-export const KeywordFieldsFragmentDoc = gql`
-    fragment keywordFields on Keyword {
-  id
-  atId
-  dataSource
-  hasUpcomingEvents
   name {
     ...localisedFields
   }
@@ -1086,12 +1202,16 @@ export const OfferFieldsFragmentDoc = gql`
   }
 }
     ${LocalisedFieldsFragmentDoc}`;
-export const EventFieldsFragmentDoc = gql`
-    fragment eventFields on Event {
+export const BaseEventFieldsFragmentDoc = gql`
+    fragment baseEventFields on Event {
   id
   atId
+  audience {
+    ...keywordFields
+  }
   audienceMaxAge
   audienceMinAge
+  createdBy
   description {
     ...localisedFields
   }
@@ -1112,8 +1232,12 @@ export const EventFieldsFragmentDoc = gql`
   keywords {
     ...keywordFields
   }
+  lastModifiedTime
   location {
     ...placeFields
+  }
+  locationExtraInfo {
+    ...localisedFields
   }
   name {
     ...localisedFields
@@ -1129,18 +1253,30 @@ export const EventFieldsFragmentDoc = gql`
   shortDescription {
     ...localisedFields
   }
-  superEvent {
-    atId
-  }
   startTime
+  superEventType
 }
-    ${LocalisedFieldsFragmentDoc}
+    ${KeywordFieldsFragmentDoc}
+${LocalisedFieldsFragmentDoc}
 ${ExternalLinkFieldsFragmentDoc}
 ${ImageFieldsFragmentDoc}
 ${LanguageFieldsFragmentDoc}
-${KeywordFieldsFragmentDoc}
 ${PlaceFieldsFragmentDoc}
 ${OfferFieldsFragmentDoc}`;
+export const EventFieldsFragmentDoc = gql`
+    fragment eventFields on Event {
+  ...baseEventFields
+  superEvent {
+    ...baseEventFields
+  }
+  subEvents {
+    ...baseEventFields
+    subEvents {
+      ...baseEventFields
+    }
+  }
+}
+    ${BaseEventFieldsFragmentDoc}`;
 export const MetaFieldsFragmentDoc = gql`
     fragment metaFields on Meta {
   count
@@ -1229,6 +1365,70 @@ export function useCreateEventMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
 export type CreateEventMutationResult = Apollo.MutationResult<CreateEventMutation>;
 export type CreateEventMutationOptions = Apollo.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
+export const DeleteEventDocument = gql`
+    mutation DeleteEvent($id: ID!) {
+  deleteEvent(id: $id) @rest(type: "NoContent", path: "/event/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteEventMutationFn = Apollo.MutationFunction<DeleteEventMutation, DeleteEventMutationVariables>;
+
+/**
+ * __useDeleteEventMutation__
+ *
+ * To run a mutation, you first call `useDeleteEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEventMutation, { data, loading, error }] = useDeleteEventMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteEventMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEventMutation, DeleteEventMutationVariables>) {
+        return Apollo.useMutation<DeleteEventMutation, DeleteEventMutationVariables>(DeleteEventDocument, baseOptions);
+      }
+export type DeleteEventMutationHookResult = ReturnType<typeof useDeleteEventMutation>;
+export type DeleteEventMutationResult = Apollo.MutationResult<DeleteEventMutation>;
+export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<DeleteEventMutation, DeleteEventMutationVariables>;
+export const UpdateEventDocument = gql`
+    mutation UpdateEvent($input: UpdateEventMutationInput!) {
+  updateEvent(input: $input) @rest(type: "Event", path: "/event/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    ...eventFields
+  }
+}
+    ${EventFieldsFragmentDoc}`;
+export type UpdateEventMutationFn = Apollo.MutationFunction<UpdateEventMutation, UpdateEventMutationVariables>;
+
+/**
+ * __useUpdateEventMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateEventMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEventMutation, UpdateEventMutationVariables>) {
+        return Apollo.useMutation<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument, baseOptions);
+      }
+export type UpdateEventMutationHookResult = ReturnType<typeof useUpdateEventMutation>;
+export type UpdateEventMutationResult = Apollo.MutationResult<UpdateEventMutation>;
+export type UpdateEventMutationOptions = Apollo.BaseMutationOptions<UpdateEventMutation, UpdateEventMutationVariables>;
 export const CreateEventsDocument = gql`
     mutation CreateEvents($input: [CreateEventMutationInput!]!) {
   createEvents(input: $input) @rest(type: "Event", path: "/event/", method: "POST", bodyKey: "input") {
@@ -1261,6 +1461,38 @@ export function useCreateEventsMutation(baseOptions?: Apollo.MutationHookOptions
 export type CreateEventsMutationHookResult = ReturnType<typeof useCreateEventsMutation>;
 export type CreateEventsMutationResult = Apollo.MutationResult<CreateEventsMutation>;
 export type CreateEventsMutationOptions = Apollo.BaseMutationOptions<CreateEventsMutation, CreateEventsMutationVariables>;
+export const UpdateEventsDocument = gql`
+    mutation UpdateEvents($input: [UpdateEventMutationInput!]!) {
+  updateEvents(input: $input) @rest(type: "Event", path: "/event/", method: "PUT", bodyKey: "input") {
+    ...eventFields
+  }
+}
+    ${EventFieldsFragmentDoc}`;
+export type UpdateEventsMutationFn = Apollo.MutationFunction<UpdateEventsMutation, UpdateEventsMutationVariables>;
+
+/**
+ * __useUpdateEventsMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventsMutation, { data, loading, error }] = useUpdateEventsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateEventsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEventsMutation, UpdateEventsMutationVariables>) {
+        return Apollo.useMutation<UpdateEventsMutation, UpdateEventsMutationVariables>(UpdateEventsDocument, baseOptions);
+      }
+export type UpdateEventsMutationHookResult = ReturnType<typeof useUpdateEventsMutation>;
+export type UpdateEventsMutationResult = Apollo.MutationResult<UpdateEventsMutation>;
+export type UpdateEventsMutationOptions = Apollo.BaseMutationOptions<UpdateEventsMutation, UpdateEventsMutationVariables>;
 export const EventDocument = gql`
     query Event($id: ID!, $include: [String], $createPath: Any) {
   event(id: $id, include: $include) @rest(type: "Event", pathBuilder: $createPath) {

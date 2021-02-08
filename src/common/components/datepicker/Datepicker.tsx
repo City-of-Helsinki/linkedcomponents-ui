@@ -47,6 +47,7 @@ export type DatepickerProps = {
 
 const Datepicker: React.FC<DatepickerProps> = ({
   className,
+  disabled,
   helperText,
   hideLabel,
   id,
@@ -302,6 +303,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
 
   const wrapperProps = {
     className: classNames(className, css(theme.datepicker)),
+    disabled,
     hasIcon: true,
     helperText,
     hideLabel,
@@ -347,6 +349,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
             className={classNames(inputStyles.input, styles.datepickerInput, {
               [styles.invalid]: invalid,
             })}
+            disabled={disabled}
             onBlur={handleInputBlur}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
@@ -357,6 +360,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
             type="button"
             aria-label={t('common.datepicker.accessibility.buttonCalendar')}
             className={styles.calendarButton}
+            disabled={disabled}
             onClick={toggleCalendar}
           >
             <IconCalendar />

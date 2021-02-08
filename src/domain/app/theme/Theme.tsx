@@ -104,7 +104,7 @@ type ErrorTemplateCSSProperties = {
   '--error-template-icon-size'?: string;
 };
 
-type eventCardCSSProperties = {
+type EventCardCSSProperties = {
   '--event-card-background-color'?: string;
   '--event-card-color'?: string;
   '--event-card-icon-color'?: string;
@@ -147,11 +147,16 @@ type ModalCSSProperties = {
   '--modal-background-color'?: string;
   '--modal-bottom'?: string;
   '--modal-label-height'?: string;
-  '--modal-max-width'?: string;
+  '--modal-max-width-m'?: string;
+  '--modal-max-width-l'?: string;
   '--modal-top'?: string;
   '--modal-z-index'?: number;
   '--modal-heading-background-color'?: string;
   '--modal-heading-color'?: string;
+  '--modal-heading-background-color-alert'?: string;
+  '--modal-heading-color-alert'?: string;
+  '--modal-heading-background-color-info'?: string;
+  '--modal-heading-color-info'?: string;
 };
 
 type NavigationCSSProperties = {
@@ -203,13 +208,6 @@ type PublicationStatusCSSProperties = {
   '--publication-status-color-public'?: string;
 };
 
-type PublicationStatusTagCSSProperties = {
-  '--publication-status-tag-background-color-draft'?: string;
-  '--publication-status-tag-color-draft'?: string;
-  '--publication-status-tag-background-color-public'?: string;
-  '--publication-status-tag-color-public'?: string;
-};
-
 type RadioButtonCSSProperties = {
   '--size'?: string;
   '--icon-scale'?: number;
@@ -255,6 +253,24 @@ type SelectCSSProperties = {
   '--icon-size'?: string;
   '--menu-z-index'?: number;
 } & Partial<SelectCustomTheme>;
+
+type StatusTagCSSProperties = {
+  '--status-tag-background-color-cancelled'?: string;
+  '--status-tag-color-cancelled'?: string;
+  '--status-tag-background-color-postponed'?: string;
+  '--status-tag-color-postponed'?: string;
+  '--status-tag-background-color-draft'?: string;
+  '--status-tag-color-draft'?: string;
+  '--status-tag-background-color-public'?: string;
+  '--status-tag-color-public'?: string;
+};
+
+type SuperEventTypeTagCSSProperties = {
+  '--super-event-type-tag-background-color-recurring'?: string;
+  '--super-event-type-tag-color-recurring'?: string;
+  '--super-event-type-tag-background-color-umbrella'?: string;
+  '--super-event-type-tag-color-umbrella'?: string;
+};
 
 type TableCSSProperties = {
   '--table-body-background'?: string;
@@ -317,7 +333,7 @@ export type Theme = {
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
-  eventCard: eventCardCSSProperties;
+  eventCard: EventCardCSSProperties;
   footer: Partial<FooterCustomTheme>;
   imageSelector: ImageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
@@ -340,10 +356,11 @@ export type Theme = {
   };
   pagination: PaginationCSSProperties;
   publicationStatus: PublicationStatusCSSProperties;
-  publicationStatusTag: PublicationStatusTagCSSProperties;
   radioButton: RadioButtonCSSProperties;
   root: RootCSSProperties;
   select: SelectCSSProperties;
+  statusTag: StatusTagCSSProperties;
+  superEventTypeTag: SuperEventTypeTagCSSProperties;
   table: TableCSSProperties;
   tabs: TabsCSSProperties;
   textInput: TextInputCSSProperties;
@@ -368,10 +385,11 @@ const defaultTheme: Theme = {
   notification: {},
   pagination: {},
   publicationStatus: {},
-  publicationStatusTag: {},
   radioButton: {},
   root: {},
   select: {},
+  statusTag: {},
+  superEventTypeTag: {},
   table: {},
   tabs: {},
   textInput: {},

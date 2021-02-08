@@ -1,35 +1,27 @@
 import { useApolloClient } from '@apollo/client';
 import { Form, Formik } from 'formik';
-import forEach from 'lodash/forEach';
-import set from 'lodash/set';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
-import * as Yup from 'yup';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { FORM_NAMES, INCLUDE, KEYWORD_SETS, ROUTES } from '../../constants';
+import { FORM_NAMES, ROUTES } from '../../constants';
 import {
   PublicationStatus,
   useCreateEventMutation,
   useCreateEventsMutation,
-  useKeywordSetQuery,
-  useLanguagesQuery,
   useUpdateImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import getPathBuilder from '../../utils/getPathBuilder';
 import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { clearEventsQueries } from '../events/utils';
-import { keywordSetPathBuilder } from '../keywordSet/utils';
 import ButtonPanel from './buttonPanel/ButtonPanel';
-import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from './constants';
+import { EVENT_INITIAL_VALUES } from './constants';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';
@@ -44,21 +36,16 @@ import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSec
 import SummarySection from './formSections/summarySection/SummarySection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
+import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import Section from './layout/Section';
 import { EventFormFields } from './types';
 import {
-  clearEventFormData,
   draftEventValidationSchema,
   eventValidationSchema,
   getEventPayload,
   getRecurringEventPayload,
+  showErrors,
 } from './utils';
-
-const SELECT_FIELDS = [
-  EVENT_FIELDS.KEYWORDS,
-  EVENT_FIELDS.LOCATION,
-  EVENT_FIELDS.SUPER_EVENT,
-];
 
 const CreateEventPage: React.FC = () => {
   const apolloClient = useApolloClient();
@@ -69,28 +56,10 @@ const CreateEventPage: React.FC = () => {
   const [createEventsMutation] = useCreateEventsMutation();
   const [updateImage] = useUpdateImageMutation();
 
-  const { loading: loadingLanguages } = useLanguagesQuery();
-
-  const { loading: loadingKeywords } = useKeywordSetQuery({
-    variables: {
-      createPath: getPathBuilder(keywordSetPathBuilder),
-      id: KEYWORD_SETS.TOPICS,
-      include: [INCLUDE.KEYWORDS],
-    },
-  });
-
-  const { loading: loadingAudiences } = useKeywordSetQuery({
-    variables: {
-      createPath: getPathBuilder(keywordSetPathBuilder),
-      id: KEYWORD_SETS.AUDIENCES,
-      include: [INCLUDE.KEYWORDS],
-    },
-  });
-
-  const loading = loadingLanguages || loadingKeywords || loadingAudiences;
+  // Load options for inLanguage, audience and keywords checkboxes
+  const { loading } = useEventFieldOptionsData();
 
   const goToEventSavedPage = (id: string) => {
-    clearEventFormData();
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
   };
 
@@ -156,21 +125,10 @@ const CreateEventPage: React.FC = () => {
         goToEventSavedPage(data.data?.createEvent.id as string);
       }
     } catch (e) {
-      const { networkError } = e;
-
-      /* istanbul ignore else */
-      if (networkError) {
-        switch (networkError.statusCode) {
-          case 400:
-            toast.error(t('errors.validationError'));
-            break;
-          case 401:
-            toast.error(t('errors.authorizationRequired'));
-            break;
-          default:
-            toast.error(t('errors.serverError'));
-        }
-      }
+      // Network errors will be handled on apolloClient error link. Only show error on console here.
+      /* istanbul ignore next  */
+      // eslint-disable-next-line no-console
+      console.error(e);
     }
   };
 
@@ -187,46 +145,6 @@ const CreateEventPage: React.FC = () => {
       validateOnChange={true}
     >
       {({ values: { type, ...restValues }, setErrors, setTouched }) => {
-        const getFocusableFieldId = (fieldName: string): string => {
-          // For the select elements, focus the toggle button
-          if (SELECT_FIELDS.find((item) => item === fieldName)) {
-            return `${fieldName}-input`;
-          }
-
-          return fieldName;
-        };
-
-        const scrollToFirstError = (error: Yup.ValidationError) => {
-          forEach(error.inner, (e) => {
-            const field = document.getElementById(getFocusableFieldId(e.path));
-
-            /* istanbul ignore else */
-            if (field) {
-              field.focus();
-              return false;
-            }
-          });
-        };
-
-        const showErrors = (error: Yup.ValidationError) => {
-          /* istanbul ignore else */
-          if (error.name === 'ValidationError') {
-            const newErrors = error.inner.reduce(
-              (acc: object, e: Yup.ValidationError) =>
-                set(acc, e.path, e.errors[0]),
-              {}
-            );
-            const touchedFields = error.inner.reduce(
-              (acc: object, e: Yup.ValidationError) => set(acc, e.path, true),
-              {}
-            );
-
-            setErrors(newErrors);
-            setTouched(touchedFields);
-            scrollToFirstError(error);
-          }
-        };
-
         const clearErrors = () => {
           setErrors({});
         };
@@ -243,7 +161,7 @@ const CreateEventPage: React.FC = () => {
             clearErrors();
             saveEvent(values, PublicationStatus.Draft);
           } catch (error) {
-            showErrors(error);
+            showErrors(error, setErrors, setTouched);
           }
         };
 
@@ -261,7 +179,7 @@ const CreateEventPage: React.FC = () => {
 
             saveEvent(values, PublicationStatus.Public);
           } catch (error) {
-            showErrors(error);
+            showErrors(error, setErrors, setTouched);
           }
         };
 

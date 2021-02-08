@@ -6,7 +6,8 @@
       "message": "Login error: Check your network connection or try again later"
     },
     "noRightsCreateEvent": "You have insufficient rights to create events.",
-    "noRightsPublishEvent": "You have insufficient rights to publish events."
+    "noRightsPublishEvent": "You have insufficient rights to publish events.",
+    "noRightsUpdateEvent": "You have insufficient rights to edit events."
   },
   "common": {
     "add": "Add",
@@ -15,7 +16,7 @@
     "betweenDates": "Between {{startDate}} and {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Add new event",
-    "cancel": "Cancel",
+    "cancel": "Undo",
     "close": "Close",
     "combobox": {
       "toggleButtonAriaLabel": "Menu"
@@ -60,6 +61,7 @@
     "placeholderDate": "dd.mm.yyyy",
     "placeholderDateTime": "dd.mm.yyyy hh.mm",
     "placeholderTime": "hh.mm",
+    "save": "Save",
     "showLess": "Show less",
     "showMore": "Show more",
     "showMoreWithCount": "Show more ({{count}})",
@@ -69,7 +71,8 @@
       "accessibility": {
         "buttonTimeList": "Times"
       }
-    }
+    },
+    "warning": "Warning!"
   },
   "createEventPage": {
     "page": {
@@ -83,6 +86,9 @@
   },
   "errors": {
     "authorizationRequired": "Sign in to perform this action",
+    "deleted": "Content is deleted",
+    "forbidden": "You do not have permission to perform this operation.",
+    "notFound": "Not found",
     "serverError": "Server error.",
     "validationError": "There are errors on the form. Please check the form."
   },
@@ -92,7 +98,28 @@
       "over": "Over {{min}} yr.",
       "under": "Under {{max}} yr."
     },
+    "cancelEventModal": {
+      "buttonCancel": "Cancel event",
+      "text1": "This action cancels the event. You can also postpone the event, or delete an event that you entered accidentally.",
+      "text2": "The following events will be cancelled:",
+      "title": "Cancel event",
+      "warning": "Remember that instead of canceling, you can also host the event remotely online. In this case, use the edit form to select Internet as the venue. You can also postpone the event to the future."
+    },
+    "deleteEventModal": {
+      "buttonDelete": "Delete event",
+      "text1": "This function permanently deletes the event.",
+      "text2": "If necessary, you can also cancel or postpone the event.",
+      "text3": "The following events will be deleted:",
+      "title": "Delete event"
+    },
+    "eventStatus": {
+      "eventCancelled": "Cancelled",
+      "eventPostponed": "Postponed",
+      "eventRescheduled": "Rescheduled",
+      "eventScheduled": "Scheduled"
+    },
     "form": {
+      "buttonAcceptAndPublish": "Accept and publish",
       "buttonAddEventTime": "Add new time",
       "buttonAddImage": {
         "course": "Add a photo or video of the course",
@@ -100,10 +127,14 @@
       },
       "buttonAddOffer": "Add new pricing information",
       "buttonAddRecurringEvent": "Add recurring event",
+      "buttonBack": "Back",
+      "buttonCancel":  "Cancel event",
+      "buttonDelete":  "Delete event",
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
       "buttonDeleteRecurringEvent": "Delete recurring event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
+      "buttonPostpone": "Postpone event",
       "buttonPublish": {
         "course": "Publish course",
         "event": "Publish event"
@@ -113,7 +144,12 @@
         "event": "Remove photo of the event"
       },
       "buttonSaveDraft": "Save draft",
+      "buttonUpdateDraft": "Save changes to draft",
+      "buttonUpdatePublic": "Save changes to published event",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
+      "editButtonPanel": {
+        "tooltipCancelledEvent": "Cancelled events can't be edited."
+      },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Registration ends",
         "labelEnrolmentStartTime": "Registration begins",
@@ -214,6 +250,8 @@
       "infoTextType1": "Select the type of event. Is it an event or a course? The event is a one-time event and starts at a specific time, while the course may, as a rule, have several occurrences.",
       "infoTextType2": "The choice of event type affects the choices made later in the input form.",
       "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextUmbrellaSubEvent": "If you wish to add this event under an umbrella event, you may do so from the associated",
+      "infoTextUmbrellaSubEventLink": "top level event",
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
       "labelDescription": {
@@ -300,6 +338,7 @@
         "course": "Course classification",
         "event": "Event classification"
       },
+
       "notificationTitleOffers": "Price information",
       "notificationTitleProvider": "Organizer",
       "notificationTitleType": "Event type",
@@ -432,13 +471,28 @@
       "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
     },
     "freeEvent": "Free",
+    "postponeEventModal": {
+      "buttonPostpone": "Postpone event",
+      "text1": "This function postpones the event to the future. After postponing, you can later enter a new time for the event.",
+      "text2": "The following events will be postponed:",
+      "title": "Postpone event"
+    },
     "publicationStatus": {
       "draft": "Draft",
       "public": "Public"
     },
+    "superEventType": {
+      "recurring": "Series",
+      "umbrella": "Umbrella"
+    },
     "type": {
       "course": "Course",
       "event": "Event"
+    },
+    "updateEventModal": {
+      "text1": "Data is stored for all events in this series. Changes to these events will be lost. Are you sure you want to continue?",
+      "text2": "The data is updated in the following events",
+      "title": "Save event"
     }
   },
   "eventSavedPage": {
@@ -453,6 +507,10 @@
     "count": "{{count}} event",
     "count_plural": "{{count}} events",
     "datetime": "{{date}} at {{time}}",
+    "eventsTable": {
+      "hideSubEvents": "Hide sub-events: {{name}}",
+      "showSubEvents": "Show sub-events: {{name}}"
+    },
     "eventsTableCaption": {
       "drafts": "Draft events, sorted by {{sort}}",
       "published": "Published events, sorted by {{sort}}",
@@ -503,7 +561,7 @@
       "fi": "In Finnish",
       "ru": "In Russian",
       "sv": "In Swedish",
-      "zh_hans": "In Chinese"
+      "zhHans": "In Chinese"
     },
     "language": {
       "ar": "Arabic",
@@ -511,7 +569,7 @@
       "fi": "Finnish",
       "ru": "Russian",
       "sv": "Swedish",
-      "zh_hans": "Chinese"
+      "zhHans": "Chinese"
     },
     "validation": {
       "array": {
@@ -574,9 +632,6 @@
   },
   "helpPage": {
     "pageTitle": "More information"
-  },
-  "image": {
-    "uploadError": "Failed to upload the image"
   },
   "logoutPage": {
     "pageTitle": "You are logged out",

@@ -8,8 +8,15 @@ module.exports = buildSchema(/* GraphQL */ `
   type Mutation {
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
+    deleteEvent(id: ID!): NoContent
+    updateEvent(input: UpdateEventMutationInput!): Event!
+    updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
+  }
+
+  type NoContent {
+    noContent: Boolean
   }
 
   type Query {
@@ -80,6 +87,13 @@ module.exports = buildSchema(/* GraphQL */ `
     user(id: ID!): User!
   }
 
+  enum EventStatus {
+    EventCancelled
+    EventPostponed
+    EventRescheduled
+    EventScheduled
+  }
+
   enum PublicationStatus {
     draft
     public
@@ -123,6 +137,33 @@ module.exports = buildSchema(/* GraphQL */ `
     audienceMinAge: Int
     description: LocalisedObjectInput
     endTime: String
+    eventStatus: EventStatus
+    externalLinks: [ExternalLinkInput]
+    images: [IdObjectInput!]
+    inLanguage: [IdObjectInput!]
+    infoUrl: LocalisedObjectInput
+    keywords: [IdObjectInput!]
+    location: IdObjectInput
+    locationExtraInfo: LocalisedObjectInput
+    name: LocalisedObjectInput
+    offers: [OfferInput!]
+    provider: LocalisedObjectInput
+    shortDescription: LocalisedObjectInput
+    startTime: String
+    subEvents: [IdObjectInput!]
+    superEvent: IdObjectInput
+    superEventType: SuperEventType
+  }
+
+  input UpdateEventMutationInput {
+    id: ID!
+    publicationStatus: PublicationStatus
+    audience: [IdObjectInput!]
+    audienceMaxAge: Int
+    audienceMinAge: Int
+    description: LocalisedObjectInput
+    endTime: String
+    eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
     inLanguage: [IdObjectInput!]
@@ -202,9 +243,10 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Event {
     id: ID!
-    audience: [AtIdObject]!
+    audience: [Keyword]!
     audienceMaxAge: Int
     audienceMinAge: Int
+    createdBy: String
     createdTime: String
     customData: String
     dataSource: String
@@ -213,7 +255,7 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     extensionCourse: ExtensionCourse
     externalLinks: [ExternalLink]!
-    eventStatus: String
+    eventStatus: EventStatus
     images: [Image]!
     infoUrl: LocalisedObject
     inLanguage: [Language]!
@@ -229,9 +271,9 @@ module.exports = buildSchema(/* GraphQL */ `
     publicationStatus: PublicationStatus
     shortDescription: LocalisedObject
     startTime: String
-    subEvents: [AtIdObject]!
-    superEvent: AtIdObject
-    superEventType: String
+    subEvents: [Event]!
+    superEvent: Event
+    superEventType: SuperEventType
     # @id is renamed as atId so it's usable on GraphQl
     atId: String
     # @context is renamed as atContext so it's usable on GraphQl

@@ -37,7 +37,8 @@ const Tab: React.FC<TabProps> = ({
     if (isMounted && isFocused) {
       ref.current?.focus();
     }
-  }, [index, isFocused, isMounted]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, isFocused]);
 
   const onFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
     event.preventDefault();

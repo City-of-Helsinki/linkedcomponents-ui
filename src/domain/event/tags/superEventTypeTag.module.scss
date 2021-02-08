@@ -1,0 +1,32 @@
+.superEventTypeTag {
+  --super-event-type-tag-background-color-recurring: var(--color-success);
+  --super-event-type-tag-color-recurring: var(--color-white);
+  --super-event-type-tag-background-color-umbrella: var(--color-info);
+  --super-event-type-tag-color-umbrella: var(--color-white);
+
+  display: flex;
+  align-items: center;
+  font-size: var(--fontsize-body-s);
+  height: var(--spacing-layout-s);
+  padding: var(--spacing-3-xs) var(--spacing-xs);
+  border-radius: var(--spacing-s);
+  box-sizing: border-box;
+}
+
+.sizeS {
+  font-size: var(--fontsize-body-s);
+}
+
+.sizeM {
+  font-size: var(--fontsize-body-m);
+}
+
+.superEventTypeRecurring {
+  background-color: var(--super-event-type-tag-background-color-recurring);
+  color: var(--super-event-type-tag-color-recurring);
+}
+
+.superEventTypeUmbrella {
+  background-color: var(--super-event-type-tag-background-color-umbrella);
+  color: var(--super-event-type-tag-color-umbrella);
+}

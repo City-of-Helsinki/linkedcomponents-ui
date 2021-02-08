@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import Button from '../,,/../../common/components/button/Button';
-import LoadingSpinner from '../,,/../../common/components/loadingSpinner/LoadingSpinner';
+import Button from '../../common/components/button/Button';
+import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import TabPanel from '../../common/components/tabs/TabPanel';
 import Tabs from '../../common/components/tabs/Tabs';
 import { ROUTES } from '../../constants';
@@ -21,6 +21,7 @@ import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { userSelector } from '../auth/selectors';
+import { clearEventFormData } from '../event/utils';
 import NotSigned from '../notSigned/NotSigned';
 import { getUserFields, userPathBuilder } from '../user/utils';
 import {
@@ -99,6 +100,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   ];
 
   const goToCreateEvent = () => {
+    clearEventFormData();
     history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 

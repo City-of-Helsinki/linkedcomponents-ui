@@ -2,7 +2,6 @@ import { useField } from 'formik';
 import { IconMinusCircle, IconPlusCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import Button from '../../../../common/components/button/Button';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
@@ -99,8 +98,10 @@ const ImageSection = () => {
       // Update images for image selector to show new image as a first item
       refetchImages();
     } catch (e) {
+      // Network errors will be handled on apolloClient error link. Only show error on console here.
       /* istanbul ignore next  */
-      toast.error(t('image.uploadError'));
+      // eslint-disable-next-line no-console
+      console.error(e);
     }
   };
 

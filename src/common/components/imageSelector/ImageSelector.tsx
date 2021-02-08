@@ -58,12 +58,13 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
 
         await fetchMoreImages({
           updateQuery: (prev: ImagesQuery, { fetchMoreResult }) => {
+            /* istanbul ignore next */
             if (!fetchMoreResult?.images) {
               return prev;
             }
 
-            const prevImages = prev.images?.data || [];
-            const newImages = fetchMoreResult.images?.data || [];
+            const prevImages = prev.images?.data;
+            const newImages = fetchMoreResult.images.data;
             fetchMoreResult.images.data = [...prevImages, ...newImages];
 
             return fetchMoreResult;
@@ -73,7 +74,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
           },
         });
         setLoadingMore(false);
-      } catch (e) {
+      } catch (e) /* istanbul ignore next */ {
         setLoadingMore(false);
       }
     }

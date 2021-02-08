@@ -1,7 +1,14 @@
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  ServerError,
+} from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
 import { RestLink } from 'apollo-link-rest';
 import snakeCase from 'lodash/snakeCase';
+import { toast } from 'react-toastify';
 
 import {
   Event,
@@ -193,9 +200,46 @@ const linkedEventsLink = new RestLink({
   uri: process.env.REACT_APP_LINKED_EVENTS_URL,
 });
 
+const QUERIES_TO_SHOW_ERROR = ['User'];
+
+const errorLink = onError(({ networkError, operation }) => {
+  const isMutation = Boolean(
+    operation.query.definitions.find(
+      (definition) =>
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'mutation'
+    )
+  );
+
+  if (
+    (isMutation || QUERIES_TO_SHOW_ERROR.includes(operation.operationName)) &&
+    networkError
+  ) {
+    switch ((networkError as ServerError).statusCode) {
+      case 400:
+        toast.error(i18n.t('errors.validationError'));
+        break;
+      case 401:
+        toast.error(i18n.t('errors.authorizationRequired'));
+        break;
+      case 403:
+        toast.error(i18n.t('errors.forbidden'));
+        break;
+      case 404:
+        toast.error(i18n.t('errors.notFound'));
+        break;
+      case 410:
+        toast.error(i18n.t('errors.delete'));
+        break;
+      default:
+        toast.error(i18n.t('errors.serverError'));
+    }
+  }
+});
+
 const apolloClient = new ApolloClient({
   cache,
-  link: ApolloLink.from([authLink, linkedEventsLink]),
+  link: ApolloLink.from([errorLink, authLink, linkedEventsLink]),
 });
 
 export default apolloClient;

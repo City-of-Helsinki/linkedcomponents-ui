@@ -90,7 +90,7 @@ export const getEventsQueryVariables = (
   const baseVariables = {
     include: ['in_language', 'location'],
     pageSize: EVENTS_PAGE_SIZE,
-    superEventType: ['none'],
+    superEvent: 'none',
     createPath: getPathBuilder(eventsPathBuilder),
   };
 

@@ -14,12 +14,13 @@ import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import IconFlag from '../../../icons/IconFlag';
 import { useTheme } from '../../app/theme/Theme';
+import StatusTag from '../../event/tags/StatusTag';
+import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
 import AudienceAgeText from './AudienceAgeText';
 import DateText from './DateText';
 import styles from './eventCard.module.scss';
 import PriceText from './PriceText';
-import PublicationStatus from './PublicationStatus';
 import PublisherName from './PublisherName';
 import TextWithIcon from './TextWithIcon';
 
@@ -40,6 +41,7 @@ const EventCard: React.FC<Props> = ({ event }) => {
     audienceMaxAge,
     audienceMinAge,
     endTime,
+    eventStatus,
     eventUrl,
     freeEvent,
     imageUrl,
@@ -51,6 +53,7 @@ const EventCard: React.FC<Props> = ({ event }) => {
     publicationStatus,
     startTime,
     streetAddress,
+    superEventType,
   } = getEventFields(event, locale);
 
   const inLanguageText = inLanguage.join(', ') || '-';
@@ -69,7 +72,9 @@ const EventCard: React.FC<Props> = ({ event }) => {
         data-testid={testIds.image}
         className={styles.imageWrapper}
         style={{ backgroundImage: imageUrl ? `url(${imageUrl})` : undefined }}
-      ></div>
+      >
+        <SuperEventTypeTag superEventType={superEventType} />
+      </div>
       <div className={styles.eventInfoWrapper}>
         <div className={styles.nameRow}>
           <h2>{name}</h2>
@@ -77,13 +82,13 @@ const EventCard: React.FC<Props> = ({ event }) => {
         <div className={styles.dateRow}>
           <div>
             <TextWithIcon
-              icon={<IconClock aria-hidden={true} />}
+              icon={<IconClock aria-hidden={true} className={styles.icon} />}
               text={<DateText endTime={endTime} startTime={startTime} />}
             />
           </div>
           <div>
             <TextWithIcon
-              icon={<IconFlag aria-hidden={true} />}
+              icon={<IconFlag aria-hidden={true} className={styles.icon} />}
               text={inLanguageText}
             />
           </div>
@@ -94,7 +99,9 @@ const EventCard: React.FC<Props> = ({ event }) => {
             <div>{publisher ? <PublisherName id={publisher} /> : '-'}</div>
             <div>
               <TextWithIcon
-                icon={<IconLocation aria-hidden={true} />}
+                icon={
+                  <IconLocation aria-hidden={true} className={styles.icon} />
+                }
                 text={locationText}
               />
             </div>
@@ -102,13 +109,13 @@ const EventCard: React.FC<Props> = ({ event }) => {
           <div className={styles.ticketColumn}>
             <div>
               <TextWithIcon
-                icon={<IconTicket aria-hidden={true} />}
+                icon={<IconTicket aria-hidden={true} className={styles.icon} />}
                 text={<PriceText freeEvent={freeEvent} offers={offers} />}
               />
             </div>
             <div>
               <TextWithIcon
-                icon={<IconUser aria-hidden={true} />}
+                icon={<IconUser aria-hidden={true} className={styles.icon} />}
                 text={
                   <AudienceAgeText
                     maxAge={audienceMaxAge}
@@ -119,9 +126,14 @@ const EventCard: React.FC<Props> = ({ event }) => {
             </div>
             <div>
               <TextWithIcon
-                icon={<IconEye aria-hidden={true} />}
+                icon={<IconEye aria-hidden={true} className={styles.icon} />}
                 text={
-                  <PublicationStatus publicationStatus={publicationStatus} />
+                  <div className={styles.eventStatusTagWrapper}>
+                    <StatusTag
+                      eventStatus={eventStatus}
+                      publicationStatus={publicationStatus}
+                    />
+                  </div>
                 }
               />
             </div>

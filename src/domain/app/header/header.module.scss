@@ -2,6 +2,21 @@
 
 .navigation {
   z-index: var(--header-z-index);
+  left: 0;
+  position: sticky;
+  top: 0;
+
+  &.hideNavRow {
+    @include medium-up {
+      > div:first-of-type {
+        border: none;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  }
 
   > a:first-child {
     z-index: calc(var(--header-z-index) + 1) !important;
@@ -11,19 +26,6 @@
     color: var(--navigation-item-color) !important;
   }
 
-  .addEventItem {
-    @include medium-up {
-      margin-left: auto !important;
-    }
-
-    &.hidden {
-      visibility: hidden;
-    }
-
-    svg {
-      margin-right: var(--spacing-xs);
-    }
-  }
   .navigationItemLabel {
     display: flex;
     align-items: center;

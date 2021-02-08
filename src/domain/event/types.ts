@@ -1,4 +1,8 @@
-import { PublicationStatus } from '../../generated/graphql';
+import {
+  EventStatus,
+  PublicationStatus,
+  SuperEventType,
+} from '../../generated/graphql';
 import {
   ADD_IMAGE_FIELDS,
   EVENT_FIELDS,
@@ -14,16 +18,22 @@ export type EventFields = {
   addressLocality: string;
   audienceMaxAge: number | null;
   audienceMinAge: number | null;
+  createdBy: string;
   endTime: Date | null;
+  eventStatus: EventStatus;
   eventUrl: string;
   freeEvent: boolean;
   imageUrl: string | null;
   inLanguage: string[];
+  lastModifiedTime: Date | null;
   locationName: string;
   name: string;
   offers: Offer[];
   publicationStatus: PublicationStatus;
   publisher: string | null;
+  subEventAtIds: string[];
+  superEventAtId: string | null;
+  superEventType: SuperEventType | null;
   startTime: Date | null;
   streetAddress: string;
 };

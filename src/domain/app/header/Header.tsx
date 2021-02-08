@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { IconPlus, IconSignout, Navigation } from 'hds-react';
+import { IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { useHistory, useLocation } from 'react-router';
 import {
   MAIN_CONTENT_ID,
   NAVIGATION_ITEMS,
+  PAGE_HEADER_ID,
   ROUTES,
   SUPPORTED_LANGUAGES,
 } from '../../../constants';
@@ -17,7 +18,6 @@ import { OptionType } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { signIn, signOut } from '../../auth/authenticate';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
-import { clearEventFormData } from '../../event/utils';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
 
@@ -60,20 +60,10 @@ const Header: React.FC = () => {
     toggleMenu();
   };
 
-  const goToCreateEvent = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    clearEventFormData();
-    goToPage(createEventItem.url)(event);
-  };
-
   const navigationItems = NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
     label: t(labelKey),
     url: `/${locale}${url}`,
   }));
-
-  const createEventItem = {
-    label: t('navigation.tabs.createEvent'),
-    url: `/${locale}${ROUTES.CREATE_EVENT}`,
-  };
 
   const handleSignIn = () => {
     signIn(`${location.pathname}${location.search}`);
@@ -84,8 +74,9 @@ const Header: React.FC = () => {
     signOut();
   };
 
-  const showAddButton =
-    location.pathname !== `/${locale}${ROUTES.CREATE_EVENT}`;
+  const hideNavRow = location.pathname.includes(
+    `${ROUTES.EDIT_EVENT.replace(':id', '')}`
+  );
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -93,13 +84,15 @@ const Header: React.FC = () => {
 
   return (
     <Navigation
-      fixed={true}
+      id={PAGE_HEADER_ID}
       menuOpen={menuOpen}
       onMenuToggle={toggleMenu}
       menuToggleAriaLabel={t('navigation.menuToggleAriaLabel')}
       skipTo={`#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('navigation.skipToContentLabel')}
-      className={classNames(css(theme.navigation), styles.navigation)}
+      className={classNames(css(theme.navigation), styles.navigation, {
+        [styles.hideNavRow]: hideNavRow,
+      })}
       onTitleClick={goToPage(`/${locale}${ROUTES.HOME}`)}
       title={t('appName')}
       titleUrl={`/${locale}${ROUTES.HOME}`}
@@ -116,20 +109,6 @@ const Header: React.FC = () => {
             onClick={goToPage(item.url)}
           />
         ))}
-        <Navigation.Item
-          active={isTabActive(createEventItem.url)}
-          className={classNames(styles.navigationItem, styles.addEventItem, {
-            [styles.hidden]: !showAddButton,
-          })}
-          href={createEventItem.url}
-          label={
-            <span className={styles.navigationItemLabel}>
-              <IconPlus />
-              {createEventItem.label}
-            </span>
-          }
-          onClick={goToCreateEvent}
-        />
       </Navigation.Row>
       <Navigation.Actions>
         {/* USER */}

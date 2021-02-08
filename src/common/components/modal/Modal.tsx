@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
+import { IconAlertCircle, IconInfoCircle } from 'hds-react';
+import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
@@ -17,10 +19,19 @@ if (!isTestEnv) {
 
 type Props = {
   onClose: (event?: React.MouseEvent | React.KeyboardEvent) => void;
+  size?: 'm' | 'l';
   title: string;
+  type?: 'alert' | 'form' | 'info';
 } & Omit<ReactModal.Props, 'onRequestClose'>;
 
-const Modal: React.FC<Props> = ({ children, onClose, title, ...rest }) => {
+const Modal: React.FC<Props> = ({
+  children,
+  onClose,
+  size = 'l',
+  title,
+  type = 'form',
+  ...rest
+}) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
 
@@ -30,17 +41,32 @@ const Modal: React.FC<Props> = ({ children, onClose, title, ...rest }) => {
       ariaHideApp={!isTestEnv}
       bodyOpenClassName={styles.bodyOpen}
       portalClassName={styles.modalPortal}
-      className={classNames(styles.modal, css(theme.modal))}
+      className={classNames(
+        styles.modal,
+        styles[`size${capitalize(size)}`],
+        styles[`type${capitalize(type)}`],
+        css(theme.modal)
+      )}
       overlayClassName={styles.overlay}
       onRequestClose={onClose}
     >
       <div className={styles.headingWrapper}>
-        <h2>{title}</h2>
-        <CloseButton
-          className={styles.closeButton}
-          onClick={onClose}
-          label={t('common.close')}
-        />
+        <div className={styles.heading}>
+          {size === 'm' && (
+            <>
+              {type === 'alert' && <IconAlertCircle />}
+              {type === 'info' && <IconInfoCircle />}
+            </>
+          )}
+          <h2>{title}</h2>
+          {size === 'l' && (
+            <CloseButton
+              className={styles.closeButton}
+              onClick={onClose}
+              label={t('common.close')}
+            />
+          )}
+        </div>
       </div>
       <div className={styles.contentWrapper}>
         <div className={styles.content}>{children}</div>

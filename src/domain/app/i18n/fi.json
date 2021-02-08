@@ -6,7 +6,8 @@
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
     "noRightsCreateEvent": "Sinulla ei ole oikeuksia luoda tapahtumia.",
-    "noRightsPublishEvent": "Sinulla ei ole oikeuksia julkaista tapahtumia."
+    "noRightsPublishEvent": "Sinulla ei ole oikeuksia julkaista tapahtumia.",
+    "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia."
   },
   "common": {
     "add": "Lisää",
@@ -15,7 +16,7 @@
     "betweenDates": "Ajalla {{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lisää uusi tapahtuma",
-    "cancel": "Peruuta",
+    "cancel": "Kumoa",
     "close": "Sulje",
     "combobox": {
       "toggleButtonAriaLabel": "Valikko"
@@ -60,6 +61,7 @@
     "placeholderDate": "pp.kk.vvvv",
     "placeholderDateTime": "pp.kk.vvvv hh.mm",
     "placeholderTime": "hh.mm",
+    "save": "Tallenna",
     "showLess": "Näytä vähemmän",
     "showMore": "Näytä lisää",
     "showMoreWithCount": "Näytä lisää ({{count}})",
@@ -69,7 +71,8 @@
       "accessibility": {
         "buttonTimeList": "Kellonajat"
       }
-    }
+    },
+    "warning": "Varoitus!"
   },
   "createEventPage": {
     "pageTitle": {
@@ -83,6 +86,9 @@
   },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",
+    "deleted": "Sisältö on poistettu",
+    "forbidden": "Sinulla ei ole lupaa suorittaa tätä toimintoa.",
+    "notFound": "Sisältöä ei löydy",
     "serverError": "Virhe palvelimella.",
     "validationError": "Lomakkeessa on virheitä. Tarkasta lomake."
   },
@@ -92,7 +98,28 @@
       "over": "Yli {{min}} v",
       "under": "Alle {{max}} v"
     },
+    "cancelEventModal": {
+      "buttonCancel": "Peruuta tapahtuma",
+      "text1": "Tämä toiminto peruuttaa tapahtuman. Voit myös lykätä tapahtuman tulevaisuuteen, tai poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
+      "text2": "Seuraavat tapahtumat peruutetaan:",
+      "title": "Varmista tapahtuman peruminen",
+      "warning": "Muistathan, että perumisen sijaan voit myös järjestää tapahtuman etänä internetissä. Valitse tällöin muokkauslomakkeella tapahtumapaikaksi Internet. Voit myös lykätä tapahtuman tulevaisuuteen."
+    },
+    "deleteEventModal": {
+      "buttonDelete": "Poista tapahtuma",
+      "text1": "Tämä toiminto poistaa tapahtuman lopullisesti.",
+      "text2": "Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
+      "text3": "Seuraavat tapahtumat poistetaan:",
+      "title": "Varmista tapahtuman poistaminen"
+    },
+    "eventStatus": {
+      "eventCancelled": "Peruutettu",
+      "eventPostponed": "Lykätty",
+      "eventRescheduled": "Ajoitettu uudelleen",
+      "eventScheduled": "Ajoitettu"
+    },
     "form": {
+      "buttonAcceptAndPublish": "Hyväksy ja julkaise",
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddImage": {
         "course": "Lisää kurssin kuva tai video",
@@ -100,10 +127,14 @@
       },
       "buttonAddOffer": "Lisää uusi hintatieto",
       "buttonAddRecurringEvent": "Lisää toistuva tapahtuma",
+      "buttonBack": "Takaisin",
+      "buttonCancel":  "Peruuta tapahtuma",
+      "buttonDelete":  "Poista tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
+      "buttonPostpone": "Lykkää tapahtumaa",
       "buttonPublish": {
         "course": "Julkaise kurssi",
         "event": "Julkaise tapahtuma"
@@ -113,7 +144,12 @@
         "event": "Poista tapahtuman kuva"
       },
       "buttonSaveDraft": "Tallenna luonnos",
+      "buttonUpdateDraft": "Tallenna muutokset luonnokseen",
+      "buttonUpdatePublic": "Tallenna muutokset julkaistuun tapahtumaan",
       "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
+      "editButtonPanel": {
+        "tooltipCancelledEvent": "Peruttuja tapahtumia ei voi muokata."
+      },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
         "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
@@ -214,6 +250,8 @@
       "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
       "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextUmbrellaSubEvent": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se",
+      "infoTextUmbrellaSubEventLink": "sarjan ylätapahtumasta",
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
       "labelDescription": {
@@ -432,13 +470,29 @@
       "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
     },
     "freeEvent": "Maksuton",
+    "postponeEventModal": {
+      "buttonPostpone": "Lykkää tapahtumaa",
+      "text1": "Tämä toiminto lykkää tapahtuman tulevaisuuteen. Lykättyäsi voit myöhemmin syöttää tapahtumalle uuden ajankohdan.",
+      "text2": "Seuraavat tapahtumat lykätään:",
+      "title": "Varmista tapahtuman lykkääminen"
+    },
     "publicationStatus": {
       "draft": "Luonnos",
       "public": "Julkaistu"
     },
+    "subEvents": "Alatapahtumat",
+    "superEventType": {
+      "recurring": "Sarja",
+      "umbrella": "Kattotapahtuma"
+    },
     "type": {
       "course": "Kurssi",
       "event": "Tapahtuma"
+    },
+    "updateEventModal": {
+      "text1": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+      "text2": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+      "title": "Varmista tapahtuman tallentaminen"
     }
   },
   "eventSavedPage": {
@@ -453,6 +507,10 @@
     "count": "{{count}} tapahtuma",
     "count_plural": "{{count}} tapahtumaa",
     "datetime": "{{date}} klo {{time}}",
+    "eventsTable": {
+      "hideSubEvents": "Piilota alatapahtumat: {{name}}",
+      "showSubEvents": "Näytä alatapahtumat: {{name}}"
+    },
     "eventsTableCaption": {
       "drafts": "Luonnokset, järjestys {{sort}}",
       "published": "Julkaistut tapahtumat, järjestys {{sort}}",
@@ -498,7 +556,7 @@
       "fi": "Suomeksi",
       "ru": "Venäjäksi",
       "sv": "Ruotsiksi",
-      "zh_hans": "Kiinaksi"
+      "zhHans": "Kiinaksi"
     },
     "language": {
       "ar": "Arabia",
@@ -506,7 +564,7 @@
       "fi": "Suomi",
       "ru": "Venäjä",
       "sv": "Ruotsi",
-      "zh_hans": "Kiina"
+      "zhHans": "Kiina"
     },
     "validation": {
       "array": {
@@ -575,9 +633,6 @@
   },
   "helpPage": {
     "pageTitle": "Lisätietoja"
-  },
-  "image": {
-    "uploadError": "Kuvan tallentaminen epäonnistui"
   },
   "logoutPage": {
     "pageTitle": "Olet kirjautunut ulos",

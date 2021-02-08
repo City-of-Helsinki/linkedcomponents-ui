@@ -1,13 +1,13 @@
 import classNames from 'classnames';
-import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 
+import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import styles from './pageWrapper.module.scss';
 
 export interface PageWrapperProps {
-  backgroundColor?: 'white' | 'gray';
+  backgroundColor?: 'white' | 'gray' | 'coatOfArms';
   className?: string;
   title?: string;
 }
@@ -33,7 +33,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
     <div
       className={classNames(
         styles.pageWrapper,
-        [styles[`backgroundColor${capitalize(backgroundColor)}`]],
+        [styles[`backgroundColor${upperCaseFirstLetter(backgroundColor)}`]],
         className
       )}
     >

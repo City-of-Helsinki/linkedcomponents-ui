@@ -6,7 +6,8 @@
       "message": "Inloggningsfel: Kontrollera din nätverksanslutning eller försök igen senare"
     },
     "noRightsCreateEvent": "Du har inte tillräckliga rättigheter att skapa evenemang.",
-    "noRightsPublishEvent": "Du har inte tillräckliga rättigheter att publicera evenemang."
+    "noRightsPublishEvent": "Du har inte tillräckliga rättigheter att publicera evenemang.",
+    "noRightsUpdateEvent": "Du har inte tillräckliga rättigheter för att redigera evenemang."
   },
   "common": {
     "add": "Lägg till",
@@ -15,7 +16,7 @@
     "betweenDates": "Mellan {{startDate}} och {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lägg till ett ny evenemang",
-    "cancel": "Annullera",
+    "cancel": "Ångra",
     "close": "Stäng",
     "combobox": {
       "toggleButtonAriaLabel": "Menyn"
@@ -60,6 +61,7 @@
     "placeholderDate": "dd.mm.åååå",
     "placeholderDateTime": "dd.mm.åååå hh.mm",
     "placeholderTime": "hh.mm",
+    "save": "Spara",
     "showLess": "Visa mindre",
     "showMore": "Visa mer",
     "showMoreWithCount": "Visa mer ({{count}})",
@@ -69,7 +71,8 @@
       "accessibility": {
         "buttonTimeList": "Tider"
       }
-    }
+    }, 
+    "warning": "Varning!"
   },
   "createEventPage": {
     "pageTitle": {
@@ -83,6 +86,9 @@
   },
   "errors": {
     "authorizationRequired": "Logga in för att utföra den här åtgärden.",
+    "deleted": "Innehållet har tagits bort",
+    "forbidden": "Du har inte behörighet att utföra den här åtgärden.",
+    "notFound": "Hittades inte",
     "serverError": "Serverfel.",
     "validationError": "Det finns fel på formuläret. Kontrollera formuläret."
   },
@@ -92,7 +98,28 @@
       "over": "Över {{min}} år",
       "under": "Under {{max}} år"
     },
+    "cancelEventModal": {
+      "buttonCancel": "Avbryt evenemanget",
+      "text1": "Denna åtgärd avbryter evenemanget. Du kan också skjuta upp evenemanget eller ta bort en händelse du angav av misstag.",
+      "text2": "Följande evenemangen kommer att avbrytas:",
+      "title": "Avbryt evenemanget",
+      "warning": "Kom ihåg att istället för att avbryta kan du också vara värd för evenemanget på distans online. I så fall använder du redigeringsformuläret för att välja Internet som plats. Du kan också skjuta upp evenemanget till framtiden."
+    },
+    "deleteEventModal": {
+      "buttonDelete": "Radera evenemang",
+      "text1": "Denna funktion raderar evenemanget permanent.",
+      "text2": "Om det behövs kan du också avbryta eller skjuta upp evenemanget.",
+      "text3": "Följande evenemangen kommer att radera:",
+      "title": "Radera evenemang"
+    },
+    "eventStatus": {
+      "eventCancelled": "Inställt",
+      "eventPostponed": "Uppskjuten",
+      "eventRescheduled": "Omplanerad",
+      "eventScheduled": "Planerad"
+    },
     "form": {
+      "buttonAcceptAndPublish": "Acceptera och publicera",
       "buttonAddEventTime": "Lägg till ny tid",
       "buttonAddImage": {
         "course": "Lägg till en bild eller video av kursen",
@@ -100,10 +127,14 @@
       },
       "buttonAddOffer": "Lägg till ny prisinformation",
       "buttonAddRecurringEvent": "Lägg till återkommande evenemang",
+      "buttonBack": "Tillbaka",
+      "buttonCancel": "Avbryt evenemanget",
+      "buttonDelete":  "Redare evenemanget",
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
+      "buttonPostpone": "Skjuta upp evenemanget",
       "buttonPublish": {
         "course": "Lägg upp kursen",
         "event": "Lägg upp evenemanget"
@@ -113,7 +144,12 @@
         "event": "Ta bort bilden av evenemanget"
       },
       "buttonSaveDraft": "Spara utkast",
+      "buttonUpdateDraft": "Spara ändringar i utkastet",
+      "buttonUpdatePublic": "Spara ändringar i publicerad evenemanget",
       "checkboxIsVerified": "Jag verifierar att informationen jag har gett är korrekt och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och föreskrifter {{openInNewTab}}\">alla instruktioner och föreskrifter</a> som gäller Helsingfors stads kurser och evenemang.",
+      "editButtonPanel": {
+        "tooltipCancelledEvent": "Avbrutna evenemang kan inte redigeras."
+      },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Registreringen slutar",
         "labelEnrolmentStartTime": "Registreringen börjar",
@@ -214,6 +250,8 @@
       "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
       "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
       "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextUmbrellaSubEvent": "Om du vill lägga till detta evenemang under ett paraplyevenemang kan du göra det från tillhörande",
+      "infoTextUmbrellaSubEventLink": "toppnivåevenemanget",
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
       "labelDescription": {
@@ -432,13 +470,29 @@
       "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett paraplyevenemang."
     },
     "freeEvent": "Fri",
+    "postponeEventModal": {
+      "buttonPostpone": "Skjuta upp evenemanget",
+      "text1": "Denna funktion skjuter upp evenemanget till framtiden. Efter att ha skjutit upp kan du senare ange en ny tid för evenemanget.",
+      "text2": "Följande evenemang kommer att skjutas upp:",
+      "title": "Skjuta upp evenemanget"
+    },
     "publicationStatus": {
       "draft": "Förslag",
       "public": "Offentlig"
     },
+    "subEvents": "Underevenemangen",
+    "superEventType": {
+      "recurring": "Serier",
+      "umbrella": "Paraply"
+    },
     "type": {
       "course": "Kurs",
       "event": "Evenemang"
+    },
+    "updateEventModal": {
+      "text1": "Data lagras för alla evenemang i denna serie. Ändringar av dessa evenemang kommer att gå förlorade. Är du säker på att du vill fortsätta?",
+      "text2": "Uppgifterna lagras i följande evenemangen",
+      "title": "Spara evenemanget"
     }
   },
   "eventSavedPage": {
@@ -453,6 +507,10 @@
     "count": "{{count}} evenemang",
     "count_plural": "{{count}} evenemang",
     "datetime": "{{date}} på {{time}}",
+    "eventsTable": {
+      "hideSubEvents": "Dölj underevenemangen: {{name}}",
+      "showSubEvents": "Visa underevenemangen: {{name}}"
+    },
     "eventsTableCaption": {
       "drafts": "Utkasta evenemangen, sorterade efter {{sort}}",
       "published": "Publicerade evenemangen, sorterade efter {{sort}}",
@@ -498,7 +556,7 @@
       "fi": "På finska",
       "ru": "På ryska",
       "sv": "På svenska",
-      "zh_hans": "På kinesiska"
+      "zhHans": "På kinesiska"
     },
     "language": {
       "ar": "Arabiska",
@@ -506,7 +564,7 @@
       "fi": "Finska",
       "ru": "Ryska",
       "sv": "Svenska",
-      "zh_hans": "Kinesiska"
+      "zhHans": "Kinesiska"
     },
     "validation": {
       "array": {
@@ -574,9 +632,6 @@
   },
   "helpPage": {
     "pageTitle": "Läs mer"
-  },
-  "image": {
-    "uploadError": "Det gick inte att ladda upp bilden"
   },
   "logoutPage": {
     "pageTitle": "Du är utloggad",

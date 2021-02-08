@@ -1,3 +1,4 @@
+import { ApolloClient } from '@apollo/client';
 import addDays from 'date-fns/addDays';
 import addWeeks from 'date-fns/addWeeks';
 import endOfDay from 'date-fns/endOfDay';
@@ -11,8 +12,12 @@ import parseDate from 'date-fns/parse';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import subDays from 'date-fns/subDays';
+import { FormikErrors, FormikTouched } from 'formik';
+import forEach from 'lodash/forEach';
 import isEqual from 'lodash/isEqual';
+import keys from 'lodash/keys';
 import reduce from 'lodash/reduce';
+import set from 'lodash/set';
 import sortBy from 'lodash/sortBy';
 import uniqWith from 'lodash/uniqWith';
 import * as Yup from 'yup';
@@ -24,6 +29,7 @@ import {
   DATETIME_FORMAT,
   EXTLINK,
   FORM_NAMES,
+  MAX_PAGE_SIZE,
   ROUTES,
   WEEK_DAY,
 } from '../../constants';
@@ -31,8 +37,13 @@ import {
   CreateEventMutationInput,
   EventFieldsFragment,
   EventQueryVariables,
+  EventsDocument,
+  EventsQuery,
+  EventStatus,
   ExternalLinkInput,
+  LocalisedFieldsFragment,
   LocalisedObject,
+  Maybe,
   PublicationStatus,
   SuperEventType,
 } from '../../generated/graphql';
@@ -40,6 +51,8 @@ import { Language, OptionType, PathBuilderProps } from '../../types';
 import dropNilAndEmptyString from '../../utils/dropNilAndEmptyString';
 import formatDate from '../../utils/formatDate';
 import getLocalisedString from '../../utils/getLocalisedString';
+import getNextPage from '../../utils/getNextPage';
+import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   createArrayError,
@@ -47,20 +60,27 @@ import {
   createStringError,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
+import { EVENT_SORT_OPTIONS } from '../events/constants';
+import { eventsPathBuilder } from '../events/utils';
 import {
   ADD_IMAGE_FIELDS,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
+  EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
+  EVENT_INITIAL_VALUES,
   EXTENSION_COURSE_FIELDS,
   IMAGE_ALT_TEXT_MIN_LENGTH,
   IMAGE_DETAILS_FIELDS,
+  ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
+  SELECT_FIELDS,
 } from './constants';
 import {
   EventFields,
   EventFormFields,
   EventTime,
+  MultiLanguageObject,
   Offer,
   RecurringEventSettings,
 } from './types';
@@ -556,19 +576,28 @@ export const getEventFields = (
     atId: event.atId || '',
     audienceMaxAge: event.audienceMaxAge || null,
     audienceMinAge: event.audienceMinAge || null,
+    createdBy: event.createdBy || '',
     endTime: event.endTime ? new Date(event.endTime) : null,
-    eventUrl: `/${language}${ROUTES.EVENT.replace(':id', id)}`,
+    eventStatus: event.eventStatus || EventStatus.EventScheduled,
+    eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
     freeEvent: !!event.offers[0]?.isFree,
     imageUrl: event.images.find((image) => image?.url)?.url || null,
     inLanguage: event.inLanguage
       .map((item) => getLocalisedString(item?.name, language))
       .filter((e) => e),
+    lastModifiedTime: event.lastModifiedTime
+      ? new Date(event.lastModifiedTime)
+      : null,
     name: getLocalisedString(event.name, language),
     offers: event.offers.filter(
       (offer) => !!offer && !offer?.isFree
     ) as Offer[],
     publisher: event.publisher || null,
     publicationStatus: event.publicationStatus || PublicationStatus.Public,
+    subEventAtIds:
+      event.subEvents?.map((subEvent) => subEvent?.atId as string) || [],
+    superEventAtId: event.superEvent?.atId || null,
+    superEventType: event.superEventType || null,
     startTime: event.startTime ? new Date(event.startTime) : null,
     ...getEventLocationFields(event, language),
   };
@@ -854,4 +883,238 @@ export const getRecurringEventPayload = (
     superEventType: SuperEventType.Recurring,
     subEvents,
   };
+};
+
+const SKIP_FIELDS = new Set([
+  'location',
+  'keywords',
+  'audience',
+  'languages',
+  'in_language',
+  'sub_events',
+]);
+
+// Enumerate all the property names of an object recursively.
+function* propertyNames(obj: object): any {
+  for (const name of keys(obj)) {
+    const val = (obj as Record<string, unknown>)[name];
+    if (val instanceof Object && !SKIP_FIELDS.has(name)) {
+      yield* propertyNames(val);
+    }
+    if (val && val !== '') {
+      yield name;
+    }
+  }
+}
+
+export const getEventInfoLanguages = (event: EventFieldsFragment): string[] => {
+  const languages = new Set(ORDERED_EVENT_INFO_LANGUAGES);
+  const foundLanguages = new Set<string>();
+
+  for (const name of propertyNames(event)) {
+    if (foundLanguages.size === languages.size) {
+      break;
+    }
+    if (languages.has(name)) {
+      foundLanguages.add(name);
+    }
+  }
+  return Array.from(foundLanguages);
+};
+
+export const getLocalisedObject = (
+  obj?: Maybe<LocalisedFieldsFragment>,
+  defaultValue = ''
+): MultiLanguageObject => {
+  return reduce(
+    ORDERED_EVENT_INFO_LANGUAGES,
+    (acc, lang) => ({
+      ...acc,
+      [lang]: (obj && obj[lang]) || defaultValue,
+    }),
+    {}
+  ) as MultiLanguageObject;
+};
+
+export const getEventInitialValues = (
+  event: EventFieldsFragment
+): EventFormFields => {
+  // set the 'hasUmbrella' checkbox as checked, if:
+  //  - the event has a super event with the super event type 'umbrella'
+  //  - the super event value is not empty
+  const hasUmbrella =
+    event.superEvent?.superEventType === SuperEventType.Umbrella &&
+    !!event.superEvent.atId;
+  // set the 'isUmbrella' checkbox as checked, if:
+  //  - super event type of the event is 'umbrella'
+  const isUmbrella = event.superEventType === SuperEventType.Umbrella;
+  const hasPrice = event.offers?.[0]?.isFree === false;
+
+  return {
+    ...EVENT_INITIAL_VALUES,
+    eventInfoLanguages: getEventInfoLanguages(event),
+    inLanguage: event.inLanguage
+      .map((language) => language?.atId as string)
+      .filter((l) => l),
+    provider: getLocalisedObject(event.provider),
+    hasUmbrella: hasUmbrella,
+    isUmbrella: isUmbrella,
+    superEvent: event.superEvent?.atId || '',
+    name: getLocalisedObject(event.name),
+    infoUrl: getLocalisedObject(event.infoUrl),
+    shortDescription: getLocalisedObject(event.shortDescription),
+    description: getLocalisedObject(event.description),
+    startTime: event.startTime ? new Date(event.startTime) : null,
+    endTime: event.endTime ? new Date(event.endTime) : null,
+    location: event.location?.atId || '',
+    locationExtraInfo: getLocalisedObject(event.locationExtraInfo),
+    hasPrice,
+    offers: hasPrice
+      ? event.offers
+          .filter((offer) => !offer?.isFree)
+          .map((offer) => ({
+            description: getLocalisedObject(offer?.description),
+            infoUrl: getLocalisedObject(offer?.infoUrl),
+            price: getLocalisedObject(offer?.price),
+          }))
+      : [],
+    facebookUrl:
+      event.externalLinks.find(
+        (link) => link?.name === EXTLINK.EXTLINK_FACEBOOK
+      )?.link || '',
+    twitterUrl:
+      event.externalLinks.find((link) => link?.name === EXTLINK.EXTLINK_TWITTER)
+        ?.link || '',
+    instagramUrl:
+      event.externalLinks.find(
+        (link) => link?.name === EXTLINK.EXTLINK_INSTAGRAM
+      )?.link || '',
+    images: event.images.map((image) => image?.atId as string),
+    keywords: event.keywords.map((keyword) => keyword?.atId as string),
+    audience: event.audience.map((keyword) => keyword?.atId as string),
+    audienceMaxAge: event.audienceMaxAge || '',
+    audienceMinAge: event.audienceMinAge || '',
+    isVerified: true,
+  };
+};
+
+const getFocusableFieldId = (fieldName: string): string => {
+  // For the select elements, focus the toggle button
+  if (SELECT_FIELDS.find((item) => item === fieldName)) {
+    return `${fieldName}-input`;
+  }
+
+  return fieldName;
+};
+
+export const scrollToFirstError = (error: Yup.ValidationError) => {
+  forEach(error.inner, (e) => {
+    const field = document.getElementById(getFocusableFieldId(e.path));
+
+    /* istanbul ignore else */
+    if (field) {
+      field.focus();
+      return false;
+    }
+  });
+};
+
+export const showErrors = (
+  error: Yup.ValidationError,
+  setErrors: (errors: FormikErrors<EventFormFields>) => void,
+  setTouched: (
+    touched: FormikTouched<EventFormFields>,
+    shouldValidate?: boolean
+  ) => void
+) => {
+  /* istanbul ignore else */
+  if (error.name === 'ValidationError') {
+    const newErrors = error.inner.reduce(
+      (acc: object, e: Yup.ValidationError) => set(acc, e.path, e.errors[0]),
+      {}
+    );
+    const touchedFields = error.inner.reduce(
+      (acc: object, e: Yup.ValidationError) => set(acc, e.path, true),
+      {}
+    );
+
+    setErrors(newErrors);
+    setTouched(touchedFields);
+    scrollToFirstError(error);
+  }
+};
+
+const getSubEvents = async ({
+  event,
+  apolloClient,
+}: {
+  apolloClient: ApolloClient<object>;
+  event: EventFieldsFragment;
+}) => {
+  const subEvents: EventFieldsFragment[] = [];
+
+  const id = event.id;
+  const variables = {
+    createPath: getPathBuilder(eventsPathBuilder),
+    include: EVENT_INCLUDES,
+    pageSize: MAX_PAGE_SIZE,
+    showAll: true,
+    sort: EVENT_SORT_OPTIONS.START_TIME,
+    superEvent: id,
+  };
+
+  const { data } = await apolloClient.query<EventsQuery>({
+    query: EventsDocument,
+    variables,
+  });
+
+  subEvents.push(...(data.events.data as EventFieldsFragment[]));
+
+  let nextPage = getNextPage(data.events.meta);
+
+  while (nextPage) {
+    const { data } = await apolloClient.query<EventsQuery>({
+      query: EventsDocument,
+      variables: { ...variables, page: nextPage },
+    });
+
+    subEvents.push(...(data.events.data as EventFieldsFragment[]));
+
+    nextPage = getNextPage(data.events.meta);
+  }
+
+  // Check is subEvent a super event and recursively add it's sub events if needed
+  for (const subEvent of subEvents) {
+    if (subEvent.superEventType) {
+      const subSubEvents = await getSubEvents({
+        apolloClient,
+        event: subEvent,
+      });
+      subEvents.push(...subSubEvents);
+    }
+  }
+
+  return subEvents;
+};
+
+export const getRelatedEvents = async ({
+  event,
+  apolloClient,
+}: {
+  apolloClient: ApolloClient<object>;
+  event: EventFieldsFragment;
+}): Promise<EventFieldsFragment[]> => {
+  const subEvents = event.subEvents;
+  const allRelatedEvents: EventFieldsFragment[] = [event];
+
+  for (const subEvent of subEvents) {
+    const subSubEvents = await getSubEvents({
+      apolloClient,
+      event: subEvent as EventFieldsFragment,
+    });
+    allRelatedEvents.push(subEvent as EventFieldsFragment);
+    allRelatedEvents.push(...subSubEvents);
+  }
+
+  return allRelatedEvents;
 };

@@ -2,6 +2,10 @@ import { Formik } from 'formik';
 import range from 'lodash/range';
 import React from 'react';
 
+import {
+  mockedLanguagesResponse,
+  mockedTopicsKeywordSetResponse,
+} from '../../../__mocks__/constants';
 import { INCLUDE, KEYWORD_SETS } from '../../../../../constants';
 import { KeywordSetDocument } from '../../../../../generated/graphql';
 import {
@@ -46,6 +50,8 @@ const mocks = [
     },
     result: audiencesKeywordSetResponse,
   },
+  mockedLanguagesResponse,
+  mockedTopicsKeywordSetResponse,
 ];
 
 const renderComponent = () =>

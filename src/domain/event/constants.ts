@@ -79,7 +79,7 @@ export enum EVENT_INFO_LANGUAGES {
   FI = 'fi',
   RU = 'ru',
   SV = 'sv',
-  ZH_HANS = 'zh_hans',
+  ZH_HANS = 'zhHans',
 }
 
 export const ORDERED_EVENT_INFO_LANGUAGES = [
@@ -164,3 +164,17 @@ export enum URL_PARAMS {
 }
 
 export const IMAGE_ALT_TEXT_MIN_LENGTH = 6;
+
+export const SELECT_FIELDS = [
+  EVENT_FIELDS.KEYWORDS,
+  EVENT_FIELDS.LOCATION,
+  EVENT_FIELDS.SUPER_EVENT,
+];
+
+export const EVENT_INCLUDES = [
+  'audience',
+  'keywords',
+  'location',
+  'sub_events',
+  'super_event',
+];
