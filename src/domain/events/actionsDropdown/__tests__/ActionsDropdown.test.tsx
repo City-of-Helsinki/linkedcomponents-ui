@@ -52,11 +52,13 @@ const renderComponent = ({
   render(<ActionsDropdown {...defaultProps} {...props} />, { mocks, store });
 
 const findComponent = (
-  key: 'cancel' | 'delete' | 'edit' | 'menu' | 'postpone' | 'toggle'
+  key: 'cancel' | 'copy' | 'delete' | 'edit' | 'menu' | 'postpone' | 'toggle'
 ) => {
   switch (key) {
     case 'cancel':
       return screen.findByRole('button', { name: 'Peruuta tapahtuma' });
+    case 'copy':
+      return screen.findByRole('button', { name: 'Kopioi pohjaksi' });
     case 'delete':
       return screen.findByRole('button', { name: 'Poista tapahtuma' });
     case 'edit':
@@ -94,6 +96,7 @@ test('should render correct buttons for draft event', async () => {
   await openMenu();
 
   await findComponent('cancel');
+  await findComponent('copy');
   await findComponent('delete');
   await findComponent('edit');
 
@@ -104,7 +107,7 @@ test('should render correct buttons for draft event', async () => {
   });
 });
 
-test('only edit button should be enabled when user is not logged in (draft)', async () => {
+test('only edit and copy buttons should be enabled when user is not logged in (draft)', async () => {
   renderComponent({ props: { event: draftEvent } });
 
   await openMenu();
@@ -112,12 +115,12 @@ test('only edit button should be enabled when user is not logged in (draft)', as
   const buttons = screen.getAllByRole('button', {
     name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
   });
-
   expect(buttons).toHaveLength(2);
   buttons.forEach((button) => {
     expect(button).toBeDisabled();
   });
 
+  await findComponent('copy');
   await findComponent('edit');
 });
 
@@ -130,12 +133,13 @@ test('should render correct buttons for public event', async () => {
   await openMenu();
 
   await findComponent('cancel');
+  await findComponent('copy');
   await findComponent('delete');
   await findComponent('edit');
   await findComponent('postpone');
 });
 
-test('only edit and delete button should be enabled when event is cancelled', async () => {
+test('only copy, edit and delete button should be enabled when event is cancelled', async () => {
   renderComponent({ props: { event: cancelledEvent }, store });
 
   await openMenu();
@@ -150,11 +154,12 @@ test('only edit and delete button should be enabled when event is cancelled', as
     expect(button).toBeDisabled();
   });
 
+  await findComponent('copy');
   await findComponent('delete');
   await findComponent('edit');
 });
 
-test('only edit button should be enabled when user is not logged in (public)', async () => {
+test('only copy and edit button should be enabled when user is not logged in (public)', async () => {
   renderComponent({ props: { event: publicEvent } });
 
   await openMenu();
@@ -169,7 +174,19 @@ test('only edit button should be enabled when user is not logged in (public)', a
     expect(button).toBeDisabled();
   });
 
+  await findComponent('copy');
   await findComponent('edit');
+});
+
+test('should route to create event page when clicking copy button', async () => {
+  const { history } = renderComponent({ props: { event: publicEvent } });
+
+  await openMenu();
+
+  const copyButton = await findComponent('copy');
+  userEvent.click(copyButton);
+
+  expect(history.location.pathname).toBe(`/fi/events/create`);
 });
 
 test('should route to edit page when clicking edit button', async () => {

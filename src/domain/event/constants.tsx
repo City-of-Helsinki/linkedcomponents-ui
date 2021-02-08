@@ -1,6 +1,7 @@
 import {
   IconCalendarClock,
   IconCalendarCross,
+  IconCalendarPlus,
   IconCheck,
   IconCogwheel,
   IconCross,
@@ -190,6 +191,7 @@ export const EVENT_INCLUDES = [
 
 export enum EVENT_ACTION_BUTTONS {
   CANCEL = 'cancel',
+  COPY = 'copy',
   DELETE = 'delete',
   EDIT = 'edit',
   POSTPONE = 'postpone',
@@ -197,6 +199,11 @@ export enum EVENT_ACTION_BUTTONS {
   UPDATE_DRAFT = 'updateDraft',
   UPDATE_PUBLIC = 'updatePublic',
 }
+
+export const AUHENTICATION_NOT_NEEDED = [
+  EVENT_ACTION_BUTTONS.COPY,
+  EVENT_ACTION_BUTTONS.EDIT,
+];
 
 export const NOT_ALLOWED_WHEN_CANCELLED = [
   EVENT_ACTION_BUTTONS.CANCEL,
@@ -208,6 +215,7 @@ export const NOT_ALLOWED_WHEN_CANCELLED = [
 
 export const EVENT_ACTION_ICONS = {
   [EVENT_ACTION_BUTTONS.CANCEL]: <IconCalendarCross />,
+  [EVENT_ACTION_BUTTONS.COPY]: <IconCalendarPlus />,
   [EVENT_ACTION_BUTTONS.DELETE]: <IconCross />,
   [EVENT_ACTION_BUTTONS.EDIT]: <IconCogwheel />,
   [EVENT_ACTION_BUTTONS.POSTPONE]: <IconCalendarClock />,
@@ -218,6 +226,7 @@ export const EVENT_ACTION_ICONS = {
 
 export const EVENT_ACTION_LABEL_KEYS = {
   [EVENT_ACTION_BUTTONS.CANCEL]: 'event.form.buttonCancel',
+  [EVENT_ACTION_BUTTONS.COPY]: 'event.form.buttonCopy',
   [EVENT_ACTION_BUTTONS.DELETE]: 'event.form.buttonDelete',
   [EVENT_ACTION_BUTTONS.EDIT]: 'event.form.buttonEdit',
   [EVENT_ACTION_BUTTONS.POSTPONE]: 'event.form.buttonPostpone',

@@ -41,6 +41,7 @@ const findComponent = (
   key:
     | 'back'
     | 'cancel'
+    | 'copy'
     | 'delete'
     | 'menu'
     | 'postpone'
@@ -54,6 +55,8 @@ const findComponent = (
       return screen.findByRole('button', { name: 'Takaisin' });
     case 'cancel':
       return screen.findByRole('button', { name: 'Peruuta tapahtuma' });
+    case 'copy':
+      return screen.findByRole('button', { name: 'Kopioi pohjaksi' });
     case 'delete':
       return screen.findByRole('button', { name: 'Poista tapahtuma' });
     case 'menu':
@@ -107,6 +110,8 @@ test('should render correct buttons for draft event', async () => {
   userEvent.click(cancelButton);
   expect(onCancel).toBeCalled();
 
+  await findComponent('copy');
+
   const deleteButton = await findComponent('delete');
   userEvent.click(deleteButton);
   expect(onDelete).toBeCalled();
@@ -126,7 +131,7 @@ test('should render correct buttons for draft event', async () => {
   });
 });
 
-test('all buttons should be disabled when user is not logged in (draft)', async () => {
+test('only copy button should be enabled when user is not logged in (draft)', async () => {
   const event = fakeEvent({ publicationStatus: PublicationStatus.Draft });
   renderComponent({ props: { event } });
 
@@ -139,6 +144,8 @@ test('all buttons should be disabled when user is not logged in (draft)', async 
   buttons.forEach((button) => {
     expect(button).toBeDisabled();
   });
+
+  await findComponent('copy');
 });
 
 test('should render correct buttons for public event', async () => {
@@ -153,6 +160,8 @@ test('should render correct buttons for public event', async () => {
   });
 
   await openMenu();
+
+  await findComponent('copy');
 
   const postponeButton = await findComponent('postpone');
   userEvent.click(postponeButton);
@@ -177,7 +186,7 @@ test('should render correct buttons for public event', async () => {
   });
 });
 
-test('only delete button should be enabled when event is cancelled', async () => {
+test('only copy and delete button should be enabled when event is cancelled', async () => {
   const event = fakeEvent({
     eventStatus: EventStatus.EventCancelled,
     publicationStatus: PublicationStatus.Public,
@@ -196,10 +205,11 @@ test('only delete button should be enabled when event is cancelled', async () =>
     expect(button).toBeDisabled();
   });
 
+  await findComponent('copy');
   await findComponent('delete');
 });
 
-test('all buttons should be disabled when user is not logged in (public)', async () => {
+test('only copy button should be enabledwhen user is not logged in (public)', async () => {
   const event = fakeEvent({ publicationStatus: PublicationStatus.Public });
   renderComponent({ props: { event } });
 
@@ -212,6 +222,20 @@ test('all buttons should be disabled when user is not logged in (public)', async
   buttons.forEach((button) => {
     expect(button).toBeDisabled();
   });
+
+  await findComponent('copy');
+});
+
+test('should route to create event page when clicking copy button', async () => {
+  const event = fakeEvent({ publicationStatus: PublicationStatus.Public });
+  const { history } = renderComponent({ props: { event } });
+
+  await openMenu();
+
+  const copyButton = await findComponent('copy');
+  userEvent.click(copyButton);
+
+  expect(history.location.pathname).toBe('/fi/events/create');
 });
 
 test('should route to events page when clicking back button', async () => {

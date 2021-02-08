@@ -7,7 +7,7 @@ import { useHistory } from 'react-router';
 import Button from '../../../common/components/button/Button';
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
-import { PAGE_HEADER_ID, ROUTES } from '../../../constants';
+import { FORM_NAMES, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import {
   EventFieldsFragment,
   PublicationStatus,
@@ -17,7 +17,7 @@ import useWindowSize from '../../../hooks/useWindowSize';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EVENT_ACTION_BUTTONS } from '../constants';
-import { getActionButtonProps } from '../utils';
+import { getActionButtonProps, getEventInitialValues } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditButtonPanelProps {
@@ -51,6 +51,14 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     history.push(`/${locale}${ROUTES.EVENTS}`);
   };
 
+  const copyEvent = () => {
+    sessionStorage.setItem(
+      FORM_NAMES.EVENT_FORM,
+      JSON.stringify({ values: getEventInitialValues(event) })
+    );
+    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+  };
+
   React.useEffect(() => {
     setTop(getTop());
   }, [windowSize]);
@@ -76,6 +84,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionItemProps({
       button: EVENT_ACTION_BUTTONS.UPDATE_DRAFT,
       onClick: () => onUpdate(PublicationStatus.Draft),
+    }),
+    getActionItemProps({
+      button: EVENT_ACTION_BUTTONS.COPY,
+      onClick: copyEvent,
     }),
     getActionItemProps({
       button: EVENT_ACTION_BUTTONS.PUBLISH,

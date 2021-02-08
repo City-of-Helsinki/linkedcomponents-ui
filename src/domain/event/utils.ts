@@ -66,6 +66,7 @@ import { EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
 import {
   ADD_IMAGE_FIELDS,
+  AUHENTICATION_NOT_NEEDED,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_ACTION_BUTTONS,
   EVENT_ACTION_ICONS,
@@ -1134,7 +1135,7 @@ const getIsActionButtonDisabled = ({
   button: EVENT_ACTION_BUTTONS;
   isCancelled: boolean;
 }): boolean => {
-  if (button === EVENT_ACTION_BUTTONS.EDIT) {
+  if (AUHENTICATION_NOT_NEEDED.includes(button)) {
     return false;
   } else if (
     !authenticated ||
@@ -1157,6 +1158,8 @@ const getIsActionButtonVisible = ({
 }) => {
   switch (button) {
     case EVENT_ACTION_BUTTONS.CANCEL:
+      return true;
+    case EVENT_ACTION_BUTTONS.COPY:
       return true;
     case EVENT_ACTION_BUTTONS.DELETE:
       return true;
@@ -1184,7 +1187,7 @@ const getActionButtonTitle = ({
   isCancelled: boolean;
   t: TFunction;
 }): string => {
-  if (button === EVENT_ACTION_BUTTONS.EDIT) {
+  if (AUHENTICATION_NOT_NEEDED.includes(button)) {
     return '';
   } else if (!authenticated) {
     return t('authentication.noRightsUpdateEvent');

@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
-import { ROUTES } from '../../../constants';
+import { FORM_NAMES, ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { authenticatedSelector } from '../../auth/selectors';
@@ -17,7 +17,11 @@ import useEventUpdateActions, {
 import ConfirmCancelModal from '../../event/modals/ConfirmCancelModal';
 import ConfirmDeleteModal from '../../event/modals/ConfirmDeleteModal';
 import ConfirmPostponeModal from '../../event/modals/ConfirmPostponeModal';
-import { getActionButtonProps, getEventFields } from '../../event/utils';
+import {
+  getActionButtonProps,
+  getEventFields,
+  getEventInitialValues,
+} from '../../event/utils';
 import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {
@@ -61,6 +65,14 @@ const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
     history.push(`/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`);
   };
 
+  const copyEvent = () => {
+    sessionStorage.setItem(
+      FORM_NAMES.EVENT_FORM,
+      JSON.stringify({ values: getEventInitialValues(event) })
+    );
+    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+  };
+
   const getActionItemProps = ({
     button,
     onClick,
@@ -81,6 +93,10 @@ const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
     getActionItemProps({
       button: EVENT_ACTION_BUTTONS.EDIT,
       onClick: goToEditEventPage,
+    }),
+    getActionItemProps({
+      button: EVENT_ACTION_BUTTONS.COPY,
+      onClick: copyEvent,
     }),
     getActionItemProps({
       button: EVENT_ACTION_BUTTONS.POSTPONE,
