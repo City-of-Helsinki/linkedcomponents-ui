@@ -13,6 +13,7 @@ import EventHierarchyRow from './EventHierarchyRow';
 interface SubEventsProps {
   closedIds: string[];
   event: EventFieldsFragment;
+  eventNameRenderer?: (event: EventFieldsFragment) => React.ReactElement;
   level: number;
   toggle: (id: string) => void;
 }
@@ -20,6 +21,7 @@ interface SubEventsProps {
 const SubEvents: React.FC<SubEventsProps> = ({
   closedIds,
   event,
+  eventNameRenderer,
   level,
   toggle,
 }) => {
@@ -40,6 +42,7 @@ const SubEvents: React.FC<SubEventsProps> = ({
     <>
       <EventHierarchyRow
         event={event}
+        eventNameRenderer={eventNameRenderer}
         level={level}
         open={open}
         showToggleButton={!!subEventAtIds.length}
@@ -64,6 +67,7 @@ const SubEvents: React.FC<SubEventsProps> = ({
                     key={subEvent.atId}
                     closedIds={closedIds}
                     event={subEvent}
+                    eventNameRenderer={eventNameRenderer}
                     level={level + 1}
                     toggle={toggle}
                   />

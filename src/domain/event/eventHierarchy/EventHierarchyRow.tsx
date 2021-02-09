@@ -13,6 +13,7 @@ import styles from './eventHierarchy.module.scss';
 interface Props {
   disabled?: boolean;
   event: EventFieldsFragment;
+  eventNameRenderer?: (event: EventFieldsFragment) => React.ReactElement;
   level: number;
   open?: boolean;
   showToggleButton: boolean;
@@ -22,6 +23,7 @@ interface Props {
 const EventHierarchyRow: React.FC<Props> = ({
   disabled,
   event,
+  eventNameRenderer,
   level,
   open,
   showToggleButton,
@@ -61,7 +63,9 @@ const EventHierarchyRow: React.FC<Props> = ({
         </button>
       )}
       <SuperEventTypeTag superEventType={superEventType} />
-      <span className={styles.name}>{name}</span>
+      <span className={styles.name}>
+        {eventNameRenderer ? eventNameRenderer(event) : name}
+      </span>
       {startTime && <span>({formatDate(startTime)})</span>}
     </div>
   );

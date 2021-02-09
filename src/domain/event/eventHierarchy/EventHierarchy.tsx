@@ -7,11 +7,16 @@ import EventHierarchyRow from './EventHierarchyRow';
 import SubEvents from './SubEvents';
 
 interface Props {
+  eventNameRenderer?: (event: EventFieldsFragment) => React.ReactElement;
   event: EventFieldsFragment;
   showSuperEvent?: boolean;
 }
 
-const EventHierarchy: React.FC<Props> = ({ event, showSuperEvent }) => {
+const EventHierarchy: React.FC<Props> = ({
+  event,
+  eventNameRenderer,
+  showSuperEvent,
+}) => {
   const [closedIds, setClosedIds] = React.useState<string[]>([]);
   const superEvent = event.superEvent;
   const superEventOpen = Boolean(
@@ -30,6 +35,7 @@ const EventHierarchy: React.FC<Props> = ({ event, showSuperEvent }) => {
         <EventHierarchyRow
           disabled={true}
           event={superEvent as EventFieldsFragment}
+          eventNameRenderer={eventNameRenderer}
           level={0}
           open={superEventOpen}
           showToggleButton={true}
@@ -40,6 +46,7 @@ const EventHierarchy: React.FC<Props> = ({ event, showSuperEvent }) => {
         <SubEvents
           closedIds={closedIds}
           event={event}
+          eventNameRenderer={eventNameRenderer}
           level={isSuperEventVisible ? 1 : 0}
           toggle={toggle}
         />

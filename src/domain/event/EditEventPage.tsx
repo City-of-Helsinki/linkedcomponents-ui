@@ -2,6 +2,7 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
@@ -63,7 +64,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const { name, publicationStatus, superEventType } = getEventFields(
+  const { id, name, publicationStatus, superEventType } = getEventFields(
     event,
     locale
   );
@@ -266,7 +267,28 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                         <AdditionalInfoSection />
                       </Section>
                       <Section title={t('event.form.sections.linksToEvents')}>
-                        <EventHierarchy event={event} showSuperEvent={true} />
+                        <EventHierarchy
+                          event={event}
+                          eventNameRenderer={(item) => {
+                            const {
+                              eventUrl,
+                              id: itemId,
+                              name,
+                            } = getEventFields(item, locale);
+                            if (id === itemId) {
+                              return <>{name}</>;
+                            }
+                            return (
+                              <Link
+                                className={styles.hierarchyLink}
+                                to={eventUrl}
+                              >
+                                {name}
+                              </Link>
+                            );
+                          }}
+                          showSuperEvent={true}
+                        />
                       </Section>
                     </FormContainer>
                   </Container>
