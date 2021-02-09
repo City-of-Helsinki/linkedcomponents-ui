@@ -12,7 +12,7 @@ import parseDate from 'date-fns/parse';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import subDays from 'date-fns/subDays';
-import { FormikErrors, FormikTouched } from 'formik';
+import { FormikErrors, FormikState, FormikTouched } from 'formik';
 import { TFunction } from 'i18next';
 import forEach from 'lodash/forEach';
 import isEqual from 'lodash/isEqual';
@@ -1233,4 +1233,23 @@ export const getActionButtonProps = ({
         }),
       }
     : null;
+};
+
+export const copyEventToSessionStorage = async (event: EventFieldsFragment) => {
+  const state: FormikState<EventFormFields> = {
+    errors: {},
+    isSubmitting: false,
+    isValidating: false,
+    submitCount: 0,
+    touched: {},
+    values: {
+      ...getEventInitialValues(event),
+      hasUmbrella: false,
+      isUmbrella: false,
+      isVerified: false,
+      superEvent: null,
+    },
+  };
+
+  sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
 };

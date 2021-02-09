@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
-import { FORM_NAMES, ROUTES } from '../../../constants';
+import { ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { authenticatedSelector } from '../../auth/selectors';
@@ -18,9 +18,9 @@ import ConfirmCancelModal from '../../event/modals/ConfirmCancelModal';
 import ConfirmDeleteModal from '../../event/modals/ConfirmDeleteModal';
 import ConfirmPostponeModal from '../../event/modals/ConfirmPostponeModal';
 import {
+  copyEventToSessionStorage,
   getActionButtonProps,
   getEventFields,
-  getEventInitialValues,
 } from '../../event/utils';
 import styles from './actionsDropdown.module.scss';
 
@@ -65,11 +65,8 @@ const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
     history.push(`/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`);
   };
 
-  const copyEvent = () => {
-    sessionStorage.setItem(
-      FORM_NAMES.EVENT_FORM,
-      JSON.stringify({ values: getEventInitialValues(event) })
-    );
+  const copyEvent = async () => {
+    await copyEventToSessionStorage(event);
     history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
