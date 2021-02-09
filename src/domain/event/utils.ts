@@ -50,7 +50,6 @@ import {
   SuperEventType,
 } from '../../generated/graphql';
 import { Language, OptionType, PathBuilderProps } from '../../types';
-import dropNilAndEmptyString from '../../utils/dropNilAndEmptyString';
 import formatDate from '../../utils/formatDate';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
