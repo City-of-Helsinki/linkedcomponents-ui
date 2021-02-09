@@ -4,7 +4,6 @@ import {
   IconAngleDown,
   IconAngleUp,
   IconClock,
-  IconEye,
   IconLocation,
   IconTicket,
   IconUser,
@@ -168,19 +167,12 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                   />
                 </div>
                 <div>
-                  <TextWithIcon
-                    icon={
-                      <IconEye aria-hidden={true} className={styles.icon} />
-                    }
-                    text={
-                      <div className={styles.eventStatusTagWrapper}>
-                        <StatusTag
-                          eventStatus={eventStatus}
-                          publicationStatus={publicationStatus}
-                        />
-                      </div>
-                    }
-                  />
+                  <div className={styles.eventStatusTagWrapper}>
+                    <StatusTag
+                      eventStatus={eventStatus}
+                      publicationStatus={publicationStatus}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
