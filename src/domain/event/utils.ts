@@ -749,10 +749,79 @@ export const filterUnselectedLanguages = (
   eventInfoLanguages: string[]
 ) =>
   Object.entries(obj).reduce(
-    (acc, [k, v]) =>
-      eventInfoLanguages.includes(k) ? { ...acc, [k]: v } : acc,
+    (acc, [k, v]) => ({
+      ...acc,
+      [k]: eventInfoLanguages.includes(k) ? v : null,
+    }),
     {}
   );
+
+const formatDescription = (formValues: EventFormFields) => {
+  const formattedDescriptions = { ...formValues.description };
+  const audience = formValues.audience;
+  // look for the Service Centre Card keyword
+  const shouldAppendDescription = audience.find((item) =>
+    item.includes('/keyword/helsinki:aflfbat76e/')
+  );
+  const descriptionDataMapping = {
+    fi: {
+      text: [
+        'Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on',
+        'palvelukeskuskortti',
+      ],
+      link: 'https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252',
+    },
+    sv: {
+      text: [
+        'Evenemanget är avsett endast för pensionärer eller arbetslösa med',
+        'servicecentralkort',
+      ],
+      link: 'https://www.hel.fi/sote/sv/tjanster/tjanstebeskrivning?id=3252',
+    },
+    en: {
+      text: [
+        'The event is intended only for retired or unemployed persons with a',
+        'Service Centre Card',
+      ],
+      link: 'https://www.hel.fi/sote/en/services/service-desription?id=3252',
+    },
+  };
+
+  Object.entries(formattedDescriptions).forEach(([key, value]) => {
+    if (value) {
+      const description = value
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/\n/g, '<br/>')
+        .replace(/&/g, '&amp;');
+      // check if the value is already wrapped in a <p> tag
+      const formattedDescription =
+        description.startsWith('<p>') && description.endsWith('</p>')
+          ? description
+          : `<p>${description}</p>`;
+
+      // append description if Service Centre Card is selected in audience
+      // only append languages that are defined in the data mapping
+      const descriptionAppendData =
+        descriptionDataMapping[key as keyof typeof descriptionDataMapping];
+      if (
+        shouldAppendDescription &&
+        descriptionDataMapping.hasOwnProperty(key) &&
+        !formattedDescription.includes(descriptionAppendData.link)
+      ) {
+        // eslint-disable-next-line max-len
+        const specialDescription = `<p>${descriptionAppendData.text[0]} <a href="${descriptionAppendData.link}">${descriptionAppendData.text[1]}</a>.</p>`;
+        formattedDescriptions[key as keyof MultiLanguageObject] =
+          specialDescription + formattedDescription;
+      } else {
+        formattedDescriptions[
+          key as keyof MultiLanguageObject
+        ] = formattedDescription;
+      }
+    }
+  });
+
+  return formattedDescriptions;
+};
 
 export const getEventPayload = (
   formValues: EventFormFields,
@@ -762,7 +831,6 @@ export const getEventPayload = (
     audience,
     audienceMaxAge,
     audienceMinAge,
-    description,
     endTime,
     eventInfoLanguages,
     facebookUrl,
@@ -812,7 +880,10 @@ export const getEventPayload = (
         }
       })
       .filter((item) => item) as ExternalLinkInput[],
-    description: filterUnselectedLanguages(description, eventInfoLanguages),
+    description: filterUnselectedLanguages(
+      formatDescription(formValues),
+      eventInfoLanguages
+    ),
     images: images.map((atId) => ({ atId })),
     infoUrl: filterUnselectedLanguages(infoUrl, eventInfoLanguages),
     inLanguage: inLanguage.map((atId) => ({ atId })),
@@ -855,7 +926,7 @@ export const getEventPayload = (
         : undefined),
     }));
 
-    return payload.map((item) => dropNilAndEmptyString(item));
+    return payload;
   } else {
     const payload: CreateEventMutationInput = {
       ...basePayload,
@@ -865,7 +936,7 @@ export const getEventPayload = (
         : undefined),
     };
 
-    return dropNilAndEmptyString(payload);
+    return payload;
   }
 };
 
@@ -943,6 +1014,25 @@ export const getLocalisedObject = (
   ) as MultiLanguageObject;
 };
 
+const getTrimmedDescription = (event: EventFieldsFragment) => {
+  const description = getLocalisedObject(event.description);
+
+  for (const lang in description) {
+    /* istanbul ignore else */
+    if (description[lang as keyof MultiLanguageObject]) {
+      description[lang as keyof MultiLanguageObject] = description[
+        lang as keyof MultiLanguageObject
+      ]
+        .replace(/<\/p><p[\w\s"=]*>/gi, '\n\n')
+        .replace(/<br\s*[/]?>/gi, '\n')
+        .replace(/<p[\w\s"=]*>/g, '')
+        .replace(/<\/p>/g, '')
+        .replace(/&amp;/g, '&');
+    }
+  }
+  return description;
+};
+
 export const getEventInitialValues = (
   event: EventFieldsFragment
 ): EventFormFields => {
@@ -980,7 +1070,7 @@ export const getEventInitialValues = (
     name: getLocalisedObject(event.name),
     infoUrl: getLocalisedObject(event.infoUrl),
     shortDescription: getLocalisedObject(event.shortDescription),
-    description: getLocalisedObject(event.description),
+    description: getTrimmedDescription(event),
     startTime: event.startTime ? new Date(event.startTime) : null,
     endTime: event.endTime ? new Date(event.endTime) : null,
     location: event.location?.atId || '',

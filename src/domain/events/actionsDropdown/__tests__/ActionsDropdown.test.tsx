@@ -20,7 +20,7 @@ import {
   mockedCancelEventResponse,
   mockedDeleteEventResponse,
   mockedPostponeEventResponse,
-} from '../../../event/__mocks__/constants';
+} from '../../../event/__mocks__/editEventPage';
 import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
 
 configure({ defaultHidden: true });
@@ -199,7 +199,9 @@ test('should route to edit page when clicking edit button', async () => {
   const editButton = await findComponent('edit');
   userEvent.click(editButton);
 
-  expect(history.location.pathname).toBe(`/fi/events/edit/${eventId}`);
+  await waitFor(() => {
+    expect(history.location.pathname).toBe(`/fi/events/edit/${eventId}`);
+  });
 });
 
 test('should cancel event', async () => {

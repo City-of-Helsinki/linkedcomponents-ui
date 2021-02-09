@@ -1,34 +1,30 @@
 /* eslint-disable no-console */
 import { MockedResponse } from '@apollo/react-testing';
 import { advanceTo, clear } from 'jest-date-mock';
-import range from 'lodash/range';
 import React from 'react';
 
+import {
+  eventValues,
+  imageDetails,
+  keywordName,
+  mockedAudienceKeywordSetResponse,
+  mockedCreateDraftEventResponse,
+  mockedCreatePublicEventResponse,
+  mockedCreateSubEventsResponse,
+  mockedFilteredPlacesResponse,
+  mockedImageResponse,
+  mockedImagesResponse,
+  mockedKeywordResponse,
+  mockedKeywordsResponse,
+  mockedLanguagesResponse,
+  mockedPlaceResponse,
+  mockedPlacesResponse,
+  mockedTopicsKeywordSetResponse,
+  mockedUmbrellaEventsResponse,
+  mockedUpdateImageResponse,
+  selectedPlaceText,
+} from '../__mocks__/createEventPage';
 import { testId } from '../../../common/components/loadingSpinner/LoadingSpinner';
-import { INCLUDE, KEYWORD_SETS } from '../../../constants';
-import {
-  CreateEventDocument,
-  CreateEventsDocument,
-  EventsDocument,
-  ImageDocument,
-  ImagesDocument,
-  KeywordDocument,
-  KeywordsDocument,
-  KeywordSetDocument,
-  LanguagesDocument,
-  PlaceDocument,
-  PlacesDocument,
-  UpdateImageDocument,
-} from '../../../generated/graphql';
-import {
-  fakeEvent,
-  fakeEvents,
-  fakeImages,
-  fakeKeywords,
-  fakeKeywordSet,
-  fakeLanguages,
-  fakePlaces,
-} from '../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
@@ -44,275 +40,21 @@ import CreateEventPage from '../CreateEventPage';
 
 configure({ defaultHidden: true });
 
-const events = fakeEvents(1);
-const eventsResponse = { data: { events } };
-
-const imagePayload = {
-  input: {
-    id: 'image:1',
-    altText: 'Image alt text',
-    license: 'cc_by',
-    name: 'Image name',
-    photographerName: 'Imahe photographer',
-  },
-};
-
-const images = fakeImages(5, [imagePayload.input]);
-const imagesResponse = {
-  data: {
-    images,
-  },
-};
-
-const image = images.data[0];
-const imageAtId = image.atId;
-const imageResponse = {
-  data: {
-    image,
-  },
-};
-
-const keywordNames = range(1, 5).map((index) => `Keyword ${index}`);
-const keywords = fakeKeywords(
-  keywordNames.length,
-  keywordNames.map((name, index) => ({
-    id: `${index + 1}`,
-    atId: `https://api.hel.fi/linkedevents-test/v1/keyword/${index + 1}/`,
-    name: { fi: name },
-  }))
-);
-const keywordsResponse = {
-  data: { keywords },
-};
-
-const keyword = keywords.data[0];
-const keywordName = keyword.name.fi;
-const keywordId = keyword.id;
-const keywordAtId = keyword.atId;
-
-const keywordResponse = { data: { keyword } };
-
-const audiencesKeywordSet = fakeKeywordSet();
-const audiencesKeywordSetResponse = {
-  data: { keywordSet: audiencesKeywordSet },
-};
-
-const topicsKeywordSet = fakeKeywordSet({
-  keywords: keywords.data,
-});
-const topicsKeywordSetResponse = { data: { keywordSet: topicsKeywordSet } };
-
-const languages = fakeLanguages(10);
-const languagesResponse = { data: { languages } };
-
-const places = fakePlaces(10);
-const placesResponse = { data: { places } };
-
-const place = places.data[0];
-const streetAddress = place.streetAddress.fi;
-const addressLocality = place.addressLocality.fi;
-const placeId = place.id;
-const placeAtId = place.atId;
-const placeName = place.name.fi;
-const selectedPlaceText = `${placeName} (${streetAddress}, ${addressLocality})`;
-
-const placeResponse = { data: { place } };
-
-const placesVariables = {
-  createPath: undefined,
-  showAllPlaces: true,
-  text: '',
-};
-
-const filteredPlacesVariables = {
-  createPath: undefined,
-  showAllPlaces: true,
-  text: selectedPlaceText,
-};
-
-const filteredPlaces = fakePlaces(1, [place]);
-const filteredPlacesResponse = { data: { places: filteredPlaces } };
-
-const filteredPlacesMockedResponse = {
-  request: {
-    query: PlacesDocument,
-    variables: filteredPlacesVariables,
-  },
-  result: filteredPlacesResponse,
-};
-
-const draftPayload = {
-  input: {
-    publicationStatus: 'draft',
-    audience: [],
-    externalLinks: [],
-    description: {},
-    images: [],
-    infoUrl: {},
-    inLanguage: [],
-    keywords: [],
-    locationExtraInfo: {},
-    name: { fi: 'Event name' },
-    offers: [{ isFree: true }],
-    provider: {},
-    shortDescription: {},
-  },
-};
-
-const basePublicEvent = {
-  publicationStatus: 'public',
-  audience: [],
-  externalLinks: [],
-  description: { fi: 'Description' },
-  images: [{ atId: imageAtId }],
-  infoUrl: {},
-  inLanguage: [],
-  location: {
-    atId: placeAtId,
-  },
-  keywords: [{ atId: keywordAtId }],
-  locationExtraInfo: {},
-  name: { fi: 'Event name' },
-  offers: [{ isFree: true }],
-  provider: {},
-  shortDescription: { fi: 'Short description' },
-};
-
-const subEventsPayload = {
-  input: [
-    {
-      ...basePublicEvent,
-      endTime: '2020-12-31T21:00:00.000Z',
-      startTime: '2020-12-31T18:00:00.000Z',
-    },
-    {
-      ...basePublicEvent,
-      endTime: '2021-01-03T21:00:00.000Z',
-      startTime: '2021-01-03T18:00:00.000Z',
-    },
-  ],
-};
-
-const publishPayload = {
-  input: {
-    ...basePublicEvent,
-    endTime: '2021-01-03T21:00:00.000Z',
-    startTime: '2020-12-31T18:00:00.000Z',
-    superEventType: 'recurring',
-    subEvents: [
-      { atId: 'https://api.hel.fi/linkedevents-test/v1/event/event:1/' },
-      { atId: 'https://api.hel.fi/linkedevents-test/v1/event/event:2/' },
-    ],
-  },
-};
-
 const defaultMocks = [
-  {
-    request: {
-      query: ImagesDocument,
-      variables: { createPath: undefined, pageSize: 5 },
-    },
-    result: imagesResponse,
-    newData: () => imagesResponse,
-  },
-  {
-    request: {
-      query: ImageDocument,
-      variables: { createPath: undefined, id: image.id },
-    },
-    result: imageResponse,
-  },
-  {
-    request: {
-      query: KeywordDocument,
-      variables: { id: keywordId, createPath: undefined },
-    },
-    result: keywordResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: {
-        createPath: undefined,
-        superEventType: ['umbrella'],
-        text: '',
-      },
-    },
-    result: eventsResponse,
-  },
-  {
-    request: {
-      query: KeywordsDocument,
-      variables: {
-        createPath: undefined,
-        freeText: '',
-      },
-    },
-    result: keywordsResponse,
-  },
-  {
-    request: {
-      query: KeywordSetDocument,
-      variables: {
-        createPath: undefined,
-        id: KEYWORD_SETS.AUDIENCES,
-        include: [INCLUDE.KEYWORDS],
-      },
-    },
-    result: audiencesKeywordSetResponse,
-  },
-  {
-    request: {
-      query: KeywordSetDocument,
-      variables: {
-        createPath: undefined,
-        id: KEYWORD_SETS.TOPICS,
-        include: [INCLUDE.KEYWORDS],
-      },
-    },
-    result: topicsKeywordSetResponse,
-  },
-  {
-    request: {
-      query: LanguagesDocument,
-    },
-    result: languagesResponse,
-  },
-  {
-    request: {
-      query: PlaceDocument,
-      variables: { id: placeId, createPath: undefined },
-    },
-    result: placeResponse,
-  },
-  {
-    request: {
-      query: PlacesDocument,
-      variables: placesVariables,
-    },
-    result: placesResponse,
-  },
+  mockedImagesResponse,
+  mockedImageResponse,
+  mockedKeywordResponse,
+  mockedKeywordsResponse,
+  mockedUmbrellaEventsResponse,
+  mockedAudienceKeywordSetResponse,
+  mockedTopicsKeywordSetResponse,
+  mockedLanguagesResponse,
+  mockedPlaceResponse,
+  mockedPlacesResponse,
   // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
-  filteredPlacesMockedResponse,
-  filteredPlacesMockedResponse,
+  mockedFilteredPlacesResponse,
+  mockedFilteredPlacesResponse,
 ];
-
-const eventValues = {
-  description: 'Description',
-  endTime: '31.12.2020 21.00',
-  id: 'hel:123',
-  subEvents: ['event:1', 'event:2'],
-  atId: 'https://api.hel.fi/linkedevents-test/v1/event/hel:123/',
-  name: 'Event name',
-  shortDescription: 'Short description',
-  startTime: '31.12.2020 18.00',
-  eventTimes: [
-    {
-      endTime: '03.01.2021 21.00',
-      startTime: '03.01.2021 18.00',
-    },
-  ],
-};
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
@@ -423,7 +165,7 @@ const selectImage = async () => {
   const imageModalHeading = await findComponent('imageModalHeading');
 
   const imageCheckbox = await screen.findByRole('checkbox', {
-    name: image.name,
+    name: imageDetails.name,
   });
 
   userEvent.click(imageCheckbox);
@@ -500,15 +242,6 @@ test('should focus to first validation error when trying to publish event', asyn
 });
 
 describe('save draft event', () => {
-  type NetworkError = { statusCode?: number } & Error;
-
-  const createNetwordError = (statusCode: number): NetworkError => {
-    const error: NetworkError = new Error();
-    error.statusCode = statusCode;
-
-    return error;
-  };
-
   const renderSaveDraftComponent = async (
     createEventResponse: MockedResponse
   ) => {
@@ -542,36 +275,10 @@ describe('save draft event', () => {
     return component;
   };
 
-  it('should show toast message when 400 error is returned when trying to save event', async () => {
-    console.error = jest.fn();
-    await renderSaveDraftComponent({
-      request: {
-        query: CreateEventDocument,
-        variables: draftPayload,
-      },
-      error: createNetwordError(400),
-    });
-
-    await waitFor(() => {
-      // Apollo client will also show toast error but test here only that console error is shown
-      expect(console.error).toBeCalled();
-    });
-  });
-
   it('should route to event completed page after saving draft event', async () => {
-    const event = fakeEvent({
-      id: eventValues.id,
-      atId: eventValues.id,
-      name: { fi: eventValues.name },
-    });
-    const eventResponse = { data: { createEvent: event } };
-    const { history } = await renderSaveDraftComponent({
-      request: {
-        query: CreateEventDocument,
-        variables: draftPayload,
-      },
-      result: eventResponse,
-    });
+    const { history } = await renderSaveDraftComponent(
+      mockedCreateDraftEventResponse
+    );
 
     await waitFor(() => {
       expect(history.location.pathname).toBe(
@@ -584,43 +291,11 @@ describe('save draft event', () => {
 test('should route to event completed page after publishing event', async () => {
   advanceTo('2020-12-20');
 
-  const subEvents = fakeEvents(
-    eventValues.subEvents.length,
-    eventValues.subEvents.map((id) => ({
-      id,
-    }))
-  );
-  const createEventsResponse = { data: { createEvents: subEvents.data } };
-
-  const event = fakeEvent({
-    id: eventValues.id,
-  });
-  const createEventResponse = { data: { createEvent: event } };
-  const updateImageResponse = { data: { updateImage: image } };
-
   const mocks: MockedResponse[] = [
     ...defaultMocks,
-    {
-      request: {
-        query: CreateEventsDocument,
-        variables: subEventsPayload,
-      },
-      result: createEventsResponse,
-    },
-    {
-      request: {
-        query: CreateEventDocument,
-        variables: publishPayload,
-      },
-      result: createEventResponse,
-    },
-    {
-      request: {
-        query: UpdateImageDocument,
-        variables: imagePayload,
-      },
-      result: updateImageResponse,
-    },
+    mockedCreateSubEventsResponse,
+    mockedCreatePublicEventResponse,
+    mockedUpdateImageResponse,
   ];
   const { history } = renderComponent(mocks);
 
@@ -704,9 +379,12 @@ test('should route to event completed page after publishing event', async () => 
 
   userEvent.click(publishButton);
 
-  await waitFor(() => {
-    expect(history.location.pathname).toBe(
-      `/fi/events/completed/${eventValues.id}`
-    );
-  });
+  await waitFor(
+    () => {
+      expect(history.location.pathname).toBe(
+        `/fi/events/completed/${eventValues.id}`
+      );
+    },
+    { timeout: 10000 }
+  );
 });
