@@ -1,0 +1,46 @@
+@import 'breakpoints';
+@import 'widths';
+
+.searchPanel {
+  --event-search-panel-background-color: var(--color-coat-of-arms);
+  --event-search-panel-label-color: var(--color-white);
+  --event-search-panel-koros-height: 70px;
+
+  .searchPanelWrapper {
+    position: relative;
+    z-index: 1;
+    background-color: var(--event-search-panel-background-color);
+    padding: var(--spacing-4-xl) 0;
+  }
+
+  .searchRow {
+    display: grid;
+    grid-gap: var(--spacing-m);
+
+    @include medium-up {
+      display: flex;
+
+      .inputWrapper {
+        flex: 1 1 0%;
+      }
+
+      .buttonWrapper {
+        @include min-width-column(2);
+        align-items: flex-end;
+        display: flex;
+      }
+    }
+  }
+
+  .searchInput {
+    label {
+      font-size: var(--fontsize-heading-s);
+      color: var(--event-search-panel-label-color);
+    }
+  }
+
+  .koros {
+    margin-top: calc(0px - var(--event-search-panel-koros-height));
+    fill: var(--event-search-panel-background-color);
+  }
+}

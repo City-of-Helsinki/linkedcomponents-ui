@@ -114,6 +114,11 @@ type EventCardCSSProperties = {
   '--event-card-mobile-image-min-height'?: string;
 };
 
+type EventSearchPanelCSSProperties = {
+  '--event-search-panel-background-color'?: string;
+  '--event-search-panel-label-color'?: string;
+};
+
 type ImageSelectorCSSProperties = {
   '--image-selector-focus-outline-color'?: string;
 };
@@ -237,6 +242,8 @@ type RadioButtonCSSProperties = {
 };
 
 type RootCSSProperties = {
+  '--focus-outline-color'?: string;
+  '--focus-outline-width'?: string;
   '--input-height'?: string;
   '--input-max-width-m'?: string;
   '--input-max-width-l'?: string;
@@ -334,6 +341,7 @@ export type Theme = {
   deleteButton: DeleteButtonCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
   eventCard: EventCardCSSProperties;
+  eventSearchPanel: EventSearchPanelCSSProperties;
   footer: Partial<FooterCustomTheme>;
   imageSelector: ImageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
@@ -375,6 +383,7 @@ const defaultTheme: Theme = {
   deleteButton: {},
   errorTemplate: {},
   eventCard: {},
+  eventSearchPanel: {},
   footer: {},
   imageSelector: {},
   languageSelector: {},

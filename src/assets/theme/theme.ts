@@ -188,6 +188,10 @@ const theme: Theme = {
     '--event-card-image-min-height': '7.5rem',
     '--event-card-mobile-image-min-height': '12rem',
   },
+  eventSearchPanel: {
+    '--event-search-panel-background-color': 'var(--color-coat-of-arms)',
+    '--event-search-panel-label-color': 'var(--color-white)',
+  },
   footer: {
     '--footer-background': 'var(--color-black-5)',
     '--footer-color': 'var(--color-black)',
@@ -330,6 +334,8 @@ const theme: Theme = {
     '--label-color-disabled': 'var(--color-black-40)',
   },
   root: {
+    '--focus-outline-color': 'var(--color-coat-of-arms)',
+    '--focus-outline-width': '3px',
     '--input-height': '56px',
     '--input-max-width-m': '448px',
     '--input-max-width-l': '566px',

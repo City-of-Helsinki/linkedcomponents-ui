@@ -73,14 +73,6 @@ exports[`matches snapshot 1`] = `
       </a>
       <a
         class="FooterItem-module_item__1i8Z8"
-        href="/sv/search"
-      >
-        <span>
-          Sök evenemangen
-        </span>
-      </a>
-      <a
-        class="FooterItem-module_item__1i8Z8"
         href="/sv/help"
       >
         <span>

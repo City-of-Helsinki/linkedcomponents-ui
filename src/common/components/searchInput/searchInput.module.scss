@@ -1,0 +1,35 @@
+@import 'mixins';
+
+.input {
+  composes: hds-text-input__input from '~hds-core/lib/components/text-input/text-input.css';
+}
+
+.buttons {
+  position: absolute;
+  right: var(--spacing-s);
+  top: var(--spacing-xs);
+  transform: translateY(2px);
+  display: flex;
+}
+
+.button {
+  @include button-reset;
+  color: var(--dropdown-color-default);
+  outline: none;
+  display: flex;
+  margin-left: var(--spacing-xs);
+
+  &.hidden {
+    @include hidden-from-screen;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 var(--focus-outline-width) var(--focus-outline-color);
+  }
+}
+
+.searchIcon {
+  color: var(--dropdown-color-default);
+  display: flex;
+}

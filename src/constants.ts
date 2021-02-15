@@ -82,10 +82,6 @@ export const NAVIGATION_ITEMS = [
     url: ROUTES.EVENTS,
   },
   {
-    labelKey: 'navigation.tabs.searchEvent',
-    url: ROUTES.SEARCH,
-  },
-  {
     labelKey: 'navigation.tabs.help',
     url: ROUTES.HELP,
   },

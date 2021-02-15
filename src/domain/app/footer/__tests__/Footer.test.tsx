@@ -29,10 +29,6 @@ test('should show navigation links and should route to correct page after clicki
       url: `/fi${ROUTES.EVENTS}`,
     },
     {
-      name: translations.navigation.tabs.searchEvent,
-      url: `/fi${ROUTES.SEARCH}`,
-    },
-    {
       name: translations.navigation.tabs.help,
       url: `/fi${ROUTES.HELP}`,
     },

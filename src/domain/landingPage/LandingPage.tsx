@@ -1,12 +1,14 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import PageWrapper from '../app/layout/PageWrapper';
+import Hero from './hero/Hero';
 
 const LandingPage: React.FC = () => {
-  const { t } = useTranslation();
-
-  return <PageWrapper>{t('appName')}</PageWrapper>;
+  return (
+    <PageWrapper>
+      <Hero />
+    </PageWrapper>
+  );
 };
 
 export default LandingPage;

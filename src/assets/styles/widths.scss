@@ -1,0 +1,27 @@
+$minWidths: (
+  1: 94px,
+  2: 212px,
+  3: 330px,
+  4: 448px,
+  5: 566px,
+  6: 684px,
+  7: 802px,
+  8: 920px,
+  9: 1038px,
+  10: 1156px,
+  11: 1274px,
+  12: 1392px,
+);
+
+@mixin min-width-column($column) {
+  // If the column count exists in the map.
+  @if map-has-key($minWidths, $column) {
+    // Get the minimum width.
+    min-width: map-get($minWidths, $column);
+
+    // If the column count doesn't exist in the map.
+  } @else {
+    // Log a warning.
+    @warn 'Invalid column count: #{$column}.';
+  }
+}

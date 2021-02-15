@@ -625,6 +625,15 @@
       "wed": "Ons"
     }
   },
+  "eventSearchPage": {
+    "pageTitle": "Sök evenemangen",
+    "searchPanel": {
+      "buttonClear": "Klar",
+      "buttonSearch": "Sök evenemangen",
+      "labelSearch": "Sök i Linked Events gränssnittet",
+      "placeholderSearch": "Sök efter evenemangen i Linked Events gränssnittet"
+    }
+  },
   "footer": {
     "backToTopLabel": "Tillbaka till toppen",
     "copyrightHolder": "Helsingfors stad",
@@ -632,6 +641,9 @@
   },
   "helpPage": {
     "pageTitle": "Läs mer"
+  },
+  "landingPage": {
+    "heroTitle": "Kolla in den nya tjänsten"
   },
   "logoutPage": {
     "pageTitle": "Du är utloggad",
@@ -645,12 +657,12 @@
     },
     "languageSelectorAriaLabel": "Svenska - språkval",
     "menuToggleAriaLabel": "Menyn",
+    "searchEvents": "Sök evenemangen",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
       "createEvent": "Nytt evenemang",
       "events": "Evenemangen",
-      "help": "Läs mer",
-      "searchEvent": "Sök evenemangen"
+      "help": "Läs mer"
     }
   },
   "notFound": {

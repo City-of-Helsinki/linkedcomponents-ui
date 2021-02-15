@@ -626,6 +626,15 @@
       "wed": "Ke"
     }
   },
+  "eventSearchPage": {
+    "pageTitle": "Etsi tapahtumia",
+    "searchPanel": {
+      "buttonClear": "Tyhjennä",
+      "buttonSearch": "Etsi tapahtumia",
+      "labelSearch": "Hae Linked Events -rajapinnasta",
+      "placeholderSearch": "Hae tapahtumia Linked Events -rajapinnasta"
+    }
+  },
   "footer": {
     "backToTopLabel": "Palaa ylös",
     "copyrightHolder": "Helsingin kaupunki",
@@ -633,6 +642,9 @@
   },
   "helpPage": {
     "pageTitle": "Lisätietoja"
+  },
+  "landingPage": {
+    "heroTitle": "Tutustu uuteen palveluun"
   },
   "logoutPage": {
     "pageTitle": "Olet kirjautunut ulos",
@@ -646,12 +658,12 @@
     },
     "languageSelectorAriaLabel": "Suomi - kielivalikko",
     "menuToggleAriaLabel": "Valikko",
+    "searchEvents": "Etsi tapahtumia",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
       "createEvent": "Uusi tapahtuma",
       "events": "Tapahtumat",
-      "help": "Lisätietoja",
-      "searchEvent": "Etsi tapahtumia"
+      "help": "Lisätietoja"
     }
   },
   "notFound": {
