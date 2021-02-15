@@ -186,7 +186,9 @@ test('should route to create event page when clicking copy button', async () => 
   const copyButton = await findComponent('copy');
   userEvent.click(copyButton);
 
-  expect(history.location.pathname).toBe(`/fi/events/create`);
+  await waitFor(() => {
+    expect(history.location.pathname).toBe(`/fi/events/create`);
+  });
 });
 
 test('should route to edit page when clicking edit button', async () => {
