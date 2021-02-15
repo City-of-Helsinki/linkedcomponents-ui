@@ -14,6 +14,11 @@ env:
   BUILD_ARTIFACT_FOLDER: 'build_artifacts'
   SERVICE_ARTIFACT_FOLDER: 'service_artifacts'
   SERVICE_PORT: 80
+  K8S_REQUEST_CPU: 1m
+  K8S_REQUEST_RAM: 10Mi
+  K8S_LIMIT_CPU: 50m
+  K8S_LIMIT_RAM: 20Mi
+  K8S_REPLICACOUNT: 2
 
 jobs:
   build:
@@ -45,5 +50,6 @@ jobs:
           track: 'stable'
         env:
           K8S_NAMESPACE: ${{ secrets.K8S_NAMESPACE_STABLE }}
+          K8S_ADDITIONAL_HOSTNAMES: ${{ secrets.K8S_ADDITIONAL_HOSTNAMES }}
           ENVIRONMENT_URL: https://${{ secrets.ENVIRONMENT_URL_STABLE }}
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-production

@@ -17,7 +17,8 @@
   },
   "include": ["src"],
   "exclude": [
-    "**/*.test.*", 
+    "**/__mocks__/*",
+    "**/__tests__/*",
     "src/utils/testUtils.tsx", 
     "src/utils/mockDataUtils.ts", 
     "src/utils/mockStoreUtils.ts"
