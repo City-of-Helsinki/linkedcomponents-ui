@@ -19,16 +19,27 @@
 
     @include medium-up {
       display: flex;
+    }
 
-      .inputWrapper {
-        flex: 1 1 0%;
-      }
+    .inputWrapper {
+      flex: 1 1 0%;
+      display: grid;
+      grid-gap: var(--spacing-m);
 
-      .buttonWrapper {
-        @include min-width-column(2);
-        align-items: flex-end;
-        display: flex;
+      .advancedFilters {
+        display: grid;
+        grid-gap: var(--spacing-m);
+
+        @include large-up {
+          grid-template-columns: 3fr 3fr 2fr;
+        }
       }
+    }
+
+    .buttonWrapper {
+      @include min-width-column(2);
+      align-items: flex-end;
+      display: flex;
     }
   }
 

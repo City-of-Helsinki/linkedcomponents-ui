@@ -4,26 +4,24 @@ import isNil from 'lodash/isNil';
 import isNumber from 'lodash/isNumber';
 
 export const getSearchQuery = (filters: {
-  [key: string]: boolean | number | number[] | string | string[];
+  [key: string]: undefined | boolean | number | number[] | string | string[];
 }) => {
-  const query: string[] = [];
+  const urlParams = new URLSearchParams();
 
   forEach(filters, (filter, key) => {
     /* istanbul ignore else */
-    if (!isEmpty(filter) || isNumber(filter) || typeof filter === 'boolean') {
+    if (typeof filter === 'boolean') {
+      urlParams.append(key, encodeURIComponent(filter));
+    } else if (!isEmpty(filter) || isNumber(filter)) {
       if (Array.isArray(filter)) {
-        const items: Array<string | number> = [];
-
         filter.forEach((item: string | number) => {
-          items.push(encodeURIComponent(item));
+          urlParams.append(key, item.toString());
         });
-
-        query.push(`${key}=${items.join(',')}`);
       } /* istanbul ignore else */ else if (!isNil(filter)) {
-        query.push(`${key}=${encodeURIComponent(filter)}`);
+        urlParams.append(key, filter.toString());
       }
     }
   });
 
-  return query.length ? `?${query.join('&')}` : '';
+  return urlParams.toString();
 };

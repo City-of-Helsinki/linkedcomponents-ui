@@ -4,20 +4,14 @@ import { useTranslation } from 'react-i18next';
 
 import RadioButtonGroupField from '../../../../common/components/formFields/RadioButtonGroupField';
 import Notification from '../../../../common/components/notification/Notification';
-import { OptionType } from '../../../../types';
-import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
+import { EVENT_FIELDS } from '../../constants';
+import useEventTypeOptions from '../../hooks/useEventTypeOptions';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 
 const TypeSection = () => {
   const { t } = useTranslation();
-
-  const typeOptions: OptionType[] = [EVENT_TYPE.EVENT, EVENT_TYPE.COURSE].map(
-    (type) => ({
-      label: t(`event.type.${type}`),
-      value: type,
-    })
-  );
+  const typeOptions = useEventTypeOptions();
 
   return (
     <>

@@ -10,12 +10,14 @@ export const getEventsQueryVariables = (
   search: string
 ): EventsQueryVariables => {
   const searchParams = new URLSearchParams(search);
+  const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
   const text = searchParams.get(EVENT_SEARCH_PARAMS.TEXT);
 
   const variables: EventsQueryVariables = {
     createPath: getPathBuilder(eventsPathBuilder),
     include: ['in_language', 'location'],
     pageSize: EVENTS_PAGE_SIZE,
+    location: places,
     superEvent: 'none',
     text,
   };
@@ -27,10 +29,14 @@ export const getEventSearchInitialValues = (
   search: string
 ): EventSearchInitialValues => {
   const searchParams = new URLSearchParams(search);
+  const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
   const text = searchParams.get(EVENT_SEARCH_PARAMS.TEXT);
+  const types = searchParams.getAll(EVENT_SEARCH_PARAMS.TYPE);
 
   return {
+    places,
     text: text || '',
+    types,
   };
 };
 
