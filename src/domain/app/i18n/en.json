@@ -50,6 +50,10 @@
       "notAllowedFileFormat": "File format is not allowed",
       "tooLargeFileSize": "File size is too large. Maximum file size is {{maxSize}} MB"
     },
+    "multiSelectDropdown": {
+      "buttonClear": "Clear",
+      "searchPlaceholder": "Search"
+    },
     "noResults": "No results", 
     "openInNewTab": "(opens in a new tab)",
     "pagination": {
@@ -554,6 +558,8 @@
     "searchPanel": {
       "buttonClear": "Clear",
       "buttonSearch": "Search events",
+      "labelEventType": "Type",
+      "labelPlace": "Search venue",
       "labelSearch": "Search in the Linked Events interface",
       "placeholderSearch": "Search for events in the Linked Events interface"
     }

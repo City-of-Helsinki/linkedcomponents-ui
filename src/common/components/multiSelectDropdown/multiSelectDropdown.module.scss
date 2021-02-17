@@ -1,0 +1,77 @@
+@import 'mixins';
+
+.dropdown {
+  --border-width: 2px;
+  --divider-color: var(--color-black-50);
+  --button-border-width: 2px;
+  --divider-width: 1px;
+  --multi-select-dropdown-height: var(--spacing-3-xl);
+  --multi-select-dropdown-menu-item-height: calc(
+    var(--multi-select-dropdown-height) - var(--border-width) * 2
+  );
+  --multi-select-dropdown-background: var(--color-white);
+  --multi-select-dropdown-border-color: var(--color-white);
+  --multi-select-dropdown-border-color-focus: var(--color-black);
+  --multi-select-dropdown-color: var(--color-black);
+  --multi-select-dropdown-clear-button-color: var(--color-black-60);
+  --multi-select-dropdown-icon-size: 24px;
+  --multi-select-dropdown-menu-background: var(--color-white);
+  --multi-select-dropdown-menu-color: var(--color-black);
+  --multi-select-dropdown-menu-max-height: 18.35rem;
+  --multi-select-dropdown-menu-z-index: 1;
+
+  background: var(--multi-select-dropdown-background);
+  position: relative;
+  box-sizing: border-box;
+
+  .icon {
+    color: var(--multi-select-dropdown-color);
+    display: flex;
+    margin-right: var(--spacing-2-xs);
+  }
+
+  .title {
+    position: relative;
+    flex: 1 1 0%;
+    text-align: left;
+    color: var(--multi-select-dropdown-color);
+  }
+
+  .angleIcon {
+    position: absolute;
+    right: var(--spacing-s);
+    top: var(--spacing-xs);
+    transform: translateY(2px);
+    height: var(--multi-select-dropdown-icon-size);
+    width: var(--multi-select-dropdown-icon-size);
+  }
+
+  &.open {
+    .angleIcon {
+      transform: rotateX(180deg) translateY(-2px);
+    }
+
+    .toggleButton {
+      border-color: var(--multi-select-dropdown-border-color-focus);
+      border-bottom-color: transparent;
+    }
+  }
+
+  .toggleButton {
+    cursor: pointer;
+    border: var(--border-width) solid var(--multi-select-dropdown-border-color);
+    background: transparent;
+    min-height: var(--multi-select-dropdown-height);
+    padding: 0 calc(var(--spacing-l) + var(--multi-select-dropdown-icon-size)) 0
+      var(--spacing-s);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    outline: none;
+
+    &:focus {
+      border-color: var(--multi-select-dropdown-border-color-focus);
+    }
+  }
+}

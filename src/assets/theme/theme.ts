@@ -238,6 +238,18 @@ const theme: Theme = {
     '--modal-heading-background-color-info': 'var(--color-bus)',
     '--modal-heading-color-info': 'var(--color-white)',
   },
+  multiSelectDropdown: {
+    '--multi-select-dropdown-background': 'var(--color-white)',
+    '--multi-select-dropdown-border-color': 'var(--color-white)',
+    '--multi-select-dropdown-border-color-focus': 'var(--color-black)',
+    '--multi-select-dropdown-color': 'var(--color-black)',
+    '--multi-select-dropdown-clear-button-color': 'var(--color-black-60)',
+    '--multi-select-dropdown-icon-size': '24px',
+    '--multi-select-dropdown-menu-background': 'var(--color-white)',
+    '--multi-select-dropdown-menu-color': 'var(--color-black)',
+    '--multi-select-dropdown-menu-max-height': '18.35rem',
+    '--multi-select-dropdown-menu-z-index': 1,
+  },
   navigation: {
     '--header-z-index': 101,
     '--header-background-color': 'var(--color-coat-of-arms)',

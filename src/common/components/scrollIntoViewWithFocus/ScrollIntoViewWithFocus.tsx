@@ -3,6 +3,7 @@ import useDeepCompareEffect from 'use-deep-compare-effect';
 
 interface Props {
   as?: 'div' | 'li';
+  className?: string;
   children: React.ReactNode;
   isFocused: boolean;
   scrollIntoViewOptions?: ScrollIntoViewOptions;
@@ -11,6 +12,7 @@ interface Props {
 const ScrollIntoViewWithFocus: React.FC<Props> = ({
   as: Tag = 'div',
   children,
+  className,
   isFocused,
   scrollIntoViewOptions = { block: 'nearest', inline: 'nearest' },
   ...rest
@@ -25,7 +27,7 @@ const ScrollIntoViewWithFocus: React.FC<Props> = ({
   }, [isFocused, scrollIntoViewOptions]);
 
   return (
-    <Tag ref={selfRef} {...rest}>
+    <Tag {...rest} className={className} ref={selfRef}>
       {children}
     </Tag>
   );

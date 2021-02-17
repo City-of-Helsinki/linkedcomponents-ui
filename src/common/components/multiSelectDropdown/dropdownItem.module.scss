@@ -1,0 +1,8 @@
+.dropdownItem {
+  margin: 0;
+  padding: var(--spacing-xs) var(--spacing-s);
+
+  &.isFirst {
+    margin-top: var(--spacing-xs);
+  }
+}

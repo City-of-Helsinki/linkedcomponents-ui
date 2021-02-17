@@ -164,6 +164,19 @@ type ModalCSSProperties = {
   '--modal-heading-color-info'?: string;
 };
 
+type MultiSelectDropdownCSSProperties = {
+  '--multi-select-dropdown-background'?: string;
+  '--multi-select-dropdown-border-color'?: string;
+  '--multi-select-dropdown-border-color-focus'?: string;
+  '--multi-select-dropdown-color'?: string;
+  '--multi-select-dropdown-clear-button-color'?: string;
+  '--multi-select-dropdown-icon-size'?: string;
+  '--multi-select-dropdown-menu-background'?: string;
+  '--multi-select-dropdown-menu-color'?: string;
+  '--multi-select-dropdown-menu-max-height'?: string;
+  '--multi-select-dropdown-menu-z-index'?: number;
+};
+
 type NavigationCSSProperties = {
   '--header-z-index'?: number;
   '--header-background-color'?: string;
@@ -348,6 +361,7 @@ export type Theme = {
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;
   modal: ModalCSSProperties;
+  multiSelectDropdown: MultiSelectDropdownCSSProperties;
   navigation: NavigationCSSProperties;
   notification: {
     size?: {
@@ -390,6 +404,7 @@ const defaultTheme: Theme = {
   layout: {},
   loadingSpinner: {},
   modal: {},
+  multiSelectDropdown: {},
   navigation: {},
   notification: {},
   pagination: {},

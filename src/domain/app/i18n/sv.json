@@ -50,6 +50,10 @@
       "notAllowedFileFormat": "Filformat är inte tillåtet",
       "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
     },
+    "multiSelectDropdown": {
+      "buttonClear": "Klar",
+      "searchPlaceholder": "Sök"
+    },
     "noResults": "Inga resultat",
     "openInNewTab": "(öppnas i en ny flik)",
     "pagination": {
@@ -630,6 +634,8 @@
     "searchPanel": {
       "buttonClear": "Klar",
       "buttonSearch": "Sök evenemangen",
+      "labelEventType": "Typ",
+      "labelPlace": "Sök evenemangsplats",
       "labelSearch": "Sök i Linked Events gränssnittet",
       "placeholderSearch": "Sök efter evenemangen i Linked Events gränssnittet"
     }

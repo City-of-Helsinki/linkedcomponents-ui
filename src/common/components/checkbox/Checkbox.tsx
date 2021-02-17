@@ -5,14 +5,17 @@ import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 
-const Checkbox: React.FC<CheckboxProps> = ({ className, ...rest }) => {
-  const { theme } = useTheme();
-  return (
-    <BaseCheckbox
-      {...rest}
-      className={classNames(className, css(theme.checkbox))}
-    />
-  );
-};
+const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
+  ({ className, ...rest }, ref) => {
+    const { theme } = useTheme();
+    return (
+      <BaseCheckbox
+        {...rest}
+        className={classNames(className, css(theme.checkbox))}
+        ref={ref}
+      />
+    );
+  }
+);
 
 export default Checkbox;

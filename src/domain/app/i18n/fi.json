@@ -50,6 +50,10 @@
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
+    "multiSelectDropdown": {
+      "buttonClear": "Tyhjennä",
+      "searchPlaceholder": "Hae"
+    },
     "noResults": "Ei tuloksia",
     "openInNewTab": "(avataan uudessa välilehdessä)",
     "pagination": {
@@ -631,6 +635,8 @@
     "searchPanel": {
       "buttonClear": "Tyhjennä",
       "buttonSearch": "Etsi tapahtumia",
+      "labelEventType": "Tyyppi",
+      "labelPlace": "Etsi tapahtumapaikka",
       "labelSearch": "Hae Linked Events -rajapinnasta",
       "placeholderSearch": "Hae tapahtumia Linked Events -rajapinnasta"
     }
