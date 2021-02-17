@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
-  getKeywordFromCache,
+  getKeywordQueryResult,
   keywordsPathBuilder,
 } from '../../../domain/keyword/utils';
 import {
@@ -98,7 +98,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     const getSelectedKeywordsFromCache = async () => {
       const keywords = await Promise.all(
         value.map(async (id) => {
-          const keyword = await getKeywordFromCache(
+          const keyword = await getKeywordQueryResult(
             parseIdFromAtId(id) as string,
             apolloClient
           );

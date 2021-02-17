@@ -1,8 +1,14 @@
+import { ApolloClient } from '@apollo/client';
+
 import {
+  Place,
+  PlaceDocument,
+  PlaceQuery,
   PlaceQueryVariables,
   PlacesQueryVariables,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
+import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 
 export const placePathBuilder = ({
@@ -41,4 +47,38 @@ export const placesPathBuilder = ({
   const query = queryBuilder(variableToKeyItems);
 
   return `/place/${query}`;
+};
+
+export const getPlaceFromCache = (
+  id: string,
+  apolloClient: ApolloClient<object>
+): Place | null => {
+  const data = apolloClient.readQuery<PlaceQuery>({
+    query: PlaceDocument,
+    variables: {
+      id,
+      createPath: getPathBuilder(placePathBuilder),
+    },
+  });
+
+  return data?.place || null;
+};
+
+export const getPlaceQueryResult = async (
+  id: string,
+  apolloClient: ApolloClient<object>
+): Promise<Place | null> => {
+  try {
+    const { data: placeData } = await apolloClient.query<PlaceQuery>({
+      query: PlaceDocument,
+      variables: {
+        id,
+        createPath: getPathBuilder(placePathBuilder),
+      },
+    });
+
+    return placeData.place;
+  } /* istanbul ignore next  */ catch (e) {
+    return null;
+  }
 };
