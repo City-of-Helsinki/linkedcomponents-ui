@@ -50,6 +50,7 @@
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
+    "loading": "Ladataan...",
     "multiSelectDropdown": {
       "buttonClear": "Tyhjennä",
       "searchPlaceholder": "Hae"
@@ -631,6 +632,7 @@
     }
   },
   "eventSearchPage": {
+    "buttonClearFilters": "Tyhjennä hakuehdot",
     "pageTitle": "Etsi tapahtumia",
     "searchPanel": {
       "buttonClear": "Tyhjennä",

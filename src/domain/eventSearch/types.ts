@@ -11,3 +11,5 @@ export type EventSearchInitialValues = {
   text: string;
   types: string[];
 };
+
+export type EventFilterType = 'place' | 'text' | 'type';

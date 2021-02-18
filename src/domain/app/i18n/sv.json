@@ -50,6 +50,7 @@
       "notAllowedFileFormat": "Filformat är inte tillåtet",
       "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
     },
+    "loading": "Läser in...",
     "multiSelectDropdown": {
       "buttonClear": "Klar",
       "searchPlaceholder": "Sök"
@@ -630,6 +631,7 @@
     }
   },
   "eventSearchPage": {
+    "buttonClearFilters": "Töm sökfilter",
     "pageTitle": "Sök evenemangen",
     "searchPanel": {
       "buttonClear": "Klar",

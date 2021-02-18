@@ -3,13 +3,24 @@ import { ApolloClient } from '@apollo/client';
 import {
   Place,
   PlaceDocument,
+  PlaceFieldsFragment,
   PlaceQuery,
   PlaceQueryVariables,
   PlacesQueryVariables,
 } from '../../generated/graphql';
-import { PathBuilderProps } from '../../types';
+import { Language, PathBuilderProps } from '../../types';
+import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
+
+export const getPlaceFields = (
+  place: PlaceFieldsFragment,
+  locale: Language
+) => {
+  return {
+    name: getLocalisedString(place.name, locale),
+  };
+};
 
 export const placePathBuilder = ({
   args,

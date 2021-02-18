@@ -19,6 +19,7 @@ import {
   getEventSearchInitialValues,
   getEventSearchQuery,
 } from '../../eventSearch/utils';
+import FilterSummary from '../filterSummary/FilterSummary';
 import PlaceSelector from './placeSelector/PlaceSelector';
 import styles from './searchPanel.module.scss';
 
@@ -133,6 +134,7 @@ const SearchPanel: React.FC = () => {
                 </Button>
               </div>
             </div>
+            <FilterSummary />
           </FormContainer>
         </Container>
       </section>
