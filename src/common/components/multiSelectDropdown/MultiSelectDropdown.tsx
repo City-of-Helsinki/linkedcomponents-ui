@@ -1,14 +1,12 @@
-import classNames from 'classnames';
-import { css } from 'emotion';
-import { IconAngleDown } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 
-import { useTheme } from '../../../domain/app/theme/Theme';
+import useDropdownCloseEvents from '../../../hooks/useDropdownCloseEvents';
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
 import { OptionType } from '../../../types';
-import DropdownMenu from './DropdownMenu';
-import styles from './multiSelectDropdown.module.scss';
+import Dropdown from '../dropdown/Dropdown';
+import ToggleButton from '../dropdown/ToggleButton';
+import MultiSelectDropdownMenu from './MultiSelectDropdownMenu';
 
 export interface MultiselectDropdownProps {
   icon: React.ReactElement;
@@ -37,7 +35,6 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   toggleButtonLabel,
   value,
 }) => {
-  const { theme } = useTheme();
   const id = _id || uniqueId('multi-select-dropdown');
   const toggleButtonId = `${id}-toggle-button`;
   const menuId = `${id}-menu`;
@@ -67,6 +64,9 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
     [setSearchValue]
   );
 
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  useDropdownCloseEvents({ container: dropdown, setIsMenuOpen });
+
   const {
     focusedIndex,
     setup: setupKeyboardNav,
@@ -89,18 +89,6 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
       }
     },
   });
-
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-  const handleDocumentClick = (event: MouseEvent) => {
-    const target = event.target;
-    const current = dropdown.current;
-
-    // Close menu when clicking outside of the component
-    if (!(target instanceof Node && current?.contains(target))) {
-      setIsMenuOpen(false);
-    }
-  };
 
   const toggleOption = React.useCallback(
     (option: OptionType) => {
@@ -127,24 +115,11 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
     setIsMenuOpen(!isMenuOpen);
   }, [isMenuOpen]);
 
-  const handleDocumentFocusin = (event: FocusEvent) => {
-    const target = event.target;
-    const current = dropdown.current;
-
-    if (!(target instanceof Node && current?.contains(target))) {
-      setIsMenuOpen(false);
-    }
-  };
-
   React.useEffect(() => {
     setupKeyboardNav();
-    document.addEventListener('click', handleDocumentClick);
-    document.addEventListener('focusin', handleDocumentFocusin);
-    // Clean up event listener to prevent memory leaks
+
     return () => {
       teardownKeyboardNav();
-      document.removeEventListener('click', handleDocumentClick);
-      document.removeEventListener('focusin', handleDocumentFocusin);
     };
   }, [setupKeyboardNav, teardownKeyboardNav]);
 
@@ -185,44 +160,30 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   }, [handleInputValueChange, isMenuOpen]);
 
   return (
-    <div
-      className={classNames(
-        styles.dropdown,
-        { [styles.open]: isMenuOpen },
-        css(theme.multiSelectDropdown)
-      )}
-      ref={dropdown}
-    >
-      <button
+    <Dropdown ref={dropdown}>
+      <ToggleButton
         ref={toggleButton}
-        aria-controls={menuId}
-        aria-expanded={isMenuOpen}
-        aria-label={toggleButtonLabel}
-        className={styles.toggleButton}
+        icon={icon}
         id={toggleButtonId}
+        isOpen={isMenuOpen}
+        menuId={menuId}
         onClick={toggleMenu}
-        type="button"
-      >
-        <span className={styles.icon} aria-hidden>
-          {icon}
-        </span>
-        <div className={styles.title}>{selectedText || toggleButtonLabel}</div>
-        <IconAngleDown className={styles.angleIcon} aria-hidden />
-      </button>
-      <DropdownMenu
+        selectedText={selectedText?.toString()}
+        toggleButtonLabel={toggleButtonLabel}
+      />
+      <MultiSelectDropdownMenu
         focusedIndex={focusedIndex}
         id={menuId}
         isOpen={isMenuOpen}
         onClear={handleClear}
         onItemChange={handleItemChange}
-        onSearchChange={handleSearchValueChange}
+        onSearchChange={showSearch ? handleSearchValueChange : undefined}
         options={filteredOptions}
         searchPlaceholder={searchPlaceholder}
         searchValue={searchValue}
-        showSearch={showSearch}
         value={value}
       />
-    </div>
+    </Dropdown>
   );
 };
 

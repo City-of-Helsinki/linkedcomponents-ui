@@ -164,17 +164,20 @@ type ModalCSSProperties = {
   '--modal-heading-color-info'?: string;
 };
 
-type MultiSelectDropdownCSSProperties = {
-  '--multi-select-dropdown-background'?: string;
-  '--multi-select-dropdown-border-color'?: string;
-  '--multi-select-dropdown-border-color-focus'?: string;
-  '--multi-select-dropdown-color'?: string;
-  '--multi-select-dropdown-clear-button-color'?: string;
-  '--multi-select-dropdown-icon-size'?: string;
-  '--multi-select-dropdown-menu-background'?: string;
-  '--multi-select-dropdown-menu-color'?: string;
-  '--multi-select-dropdown-menu-max-height'?: string;
-  '--multi-select-dropdown-menu-z-index'?: number;
+type DropdownCSSProperties = {
+  '--dropdown-background'?: string;
+  '--dropdown-border-color'?: string;
+  '--dropdown-border-color-focus'?: string;
+  '--dropdown-color'?: string;
+  '--dropdown-button-height'?: string;
+  '--dropdown-clear-button-color'?: string;
+  '--dropdown-clear-button-border-top-color'?: string;
+  '--dropdown-divider-color'?: string;
+  '--dropdown-icon-size'?: string;
+  '--dropdown-menu-background'?: string;
+  '--dropdown-menu-color'?: string;
+  '--dropdown-menu-max-height'?: string;
+  '--dropdown-menu-z-index'?: number;
 };
 
 type NavigationCSSProperties = {
@@ -352,6 +355,7 @@ export type Theme = {
   collapsible: CollapsibleCSSProperties;
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
+  dropdown: DropdownCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
   eventCard: EventCardCSSProperties;
   eventSearchPanel: EventSearchPanelCSSProperties;
@@ -361,7 +365,6 @@ export type Theme = {
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;
   modal: ModalCSSProperties;
-  multiSelectDropdown: MultiSelectDropdownCSSProperties;
   navigation: NavigationCSSProperties;
   notification: {
     size?: {
@@ -395,6 +398,7 @@ const defaultTheme: Theme = {
   collapsible: {},
   datepicker: {},
   deleteButton: {},
+  dropdown: {},
   errorTemplate: {},
   eventCard: {},
   eventSearchPanel: {},
@@ -404,7 +408,7 @@ const defaultTheme: Theme = {
   layout: {},
   loadingSpinner: {},
   modal: {},
-  multiSelectDropdown: {},
+
   navigation: {},
   notification: {},
   pagination: {},
