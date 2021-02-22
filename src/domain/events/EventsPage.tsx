@@ -1,7 +1,6 @@
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import Button from '../../common/components/button/Button';
@@ -9,21 +8,16 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import TabPanel from '../../common/components/tabs/TabPanel';
 import Tabs from '../../common/components/tabs/Tabs';
 import { ROUTES } from '../../constants';
-import {
-  useEventsQuery,
-  UserFieldsFragment,
-  useUserQuery,
-} from '../../generated/graphql';
+import { useEventsQuery, UserFieldsFragment } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
-import { userSelector } from '../auth/selectors';
 import { clearEventFormData } from '../event/utils';
 import NotSigned from '../notSigned/NotSigned';
-import { getUserFields, userPathBuilder } from '../user/utils';
+import useUser from '../user/hooks/useUser';
+import { getUserFields } from '../user/utils';
 import {
   DEFAULT_EVENT_LIST_TYPE,
   DEFAULT_EVENT_SORT,
@@ -163,20 +157,11 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 };
 
 const EventsPageWrapper: React.FC = () => {
-  const user = useSelector(userSelector);
-  const userId = user?.profile.sub;
-
-  const { data: userData, loading: loadingUser } = useUserQuery({
-    skip: !userId,
-    variables: {
-      id: userId as string,
-      createPath: getPathBuilder(userPathBuilder),
-    },
-  });
+  const { loading: loadingUser, user } = useUser();
 
   return (
     <LoadingSpinner isLoading={loadingUser}>
-      {userData?.user ? <EventsPage user={userData.user} /> : <NotSigned />}
+      {user ? <EventsPage user={user} /> : <NotSigned />}
     </LoadingSpinner>
   );
 };
