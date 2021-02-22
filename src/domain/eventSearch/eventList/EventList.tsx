@@ -108,6 +108,7 @@ const EventList: React.FC<EventListProps> = ({
 
             {pageCount > 1 && (
               <Pagination
+                className={styles.pagination}
                 pageCount={pageCount}
                 selectedPage={selectedPage}
                 setSelectedPage={handleSelectedPageChange}

@@ -1,4 +1,4 @@
-export const EVENTS_PAGE_SIZE = 5;
+export const EVENTS_PAGE_SIZE = 10;
 
 export enum EVENT_LIST_TYPES {
   CARD_LIST = 'cardList',

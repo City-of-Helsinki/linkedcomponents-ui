@@ -32,6 +32,14 @@
       },
       "buttonClose": "Stäng"
     },
+    "dateSelector": {
+      "buttonToggle": "Välj tidpunkt",
+      "placeholderEndDate": "Avslutar dd.mm.åååå",
+      "placeholderStartDate": "Börjar dd.mm.åååå"
+    },
+    "dropdown": {
+      "buttonClear": "Klar"
+    },
     "dropdownSelect": {
       "accessibility": {
         "noResults": "Inga alternativ är tillgängliga",
@@ -52,7 +60,6 @@
     },
     "loading": "Läser in...",
     "multiSelectDropdown": {
-      "buttonClear": "Klar",
       "searchPlaceholder": "Sök"
     },
     "noResults": "Inga resultat",

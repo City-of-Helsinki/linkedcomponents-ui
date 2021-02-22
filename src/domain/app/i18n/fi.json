@@ -32,6 +32,14 @@
       },
       "buttonClose": "Sulje"
     },
+    "dateSelector": {
+      "buttonToggle": "Valitse päivämäärät",
+      "placeholderEndDate": "Loppuu pp.kk.vvvv",
+      "placeholderStartDate": "Alkaa pp.kk.vvvv"
+    },
+    "dropdown": {
+      "buttonClear": "Tyhjennä"
+    },
     "dropdownSelect": {
       "accessibility": {
         "noResults": "Ei vaihtoehtoja",
@@ -52,7 +60,6 @@
     },
     "loading": "Ladataan...",
     "multiSelectDropdown": {
-      "buttonClear": "Tyhjennä",
       "searchPlaceholder": "Hae"
     },
     "noResults": "Ei tuloksia",

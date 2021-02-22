@@ -8,7 +8,7 @@
 
   .searchPanelWrapper {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     background-color: var(--event-search-panel-background-color);
     padding: var(--spacing-4-xl) 0;
   }
@@ -19,12 +19,17 @@
 
     @include medium-up {
       display: flex;
+      grid-gap: unset;
     }
 
     .inputWrapper {
       flex: 1 1 0%;
       display: grid;
       grid-gap: var(--spacing-m);
+
+      @include medium-up {
+        margin-right: var(--spacing-m);
+      }
 
       .advancedFilters {
         display: grid;

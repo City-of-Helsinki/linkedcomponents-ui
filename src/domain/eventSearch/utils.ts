@@ -1,4 +1,7 @@
+import isValid from 'date-fns/isValid';
+
 import { EventsQueryVariables } from '../../generated/graphql';
+import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
 import { getSearchQuery } from '../../utils/searchUtils';
 import { EVENTS_PAGE_SIZE } from '../events/constants';
@@ -10,15 +13,19 @@ export const getEventsQueryVariables = (
   search: string
 ): EventsQueryVariables => {
   const searchParams = new URLSearchParams(search);
+  const end = searchParams.get(EVENT_SEARCH_PARAMS.END);
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
+  const start = searchParams.get(EVENT_SEARCH_PARAMS.START);
   const text = searchParams.get(EVENT_SEARCH_PARAMS.TEXT);
 
   const variables: EventsQueryVariables = {
     createPath: getPathBuilder(eventsPathBuilder),
+    end,
     include: ['in_language', 'location'],
     pageSize: EVENTS_PAGE_SIZE,
     location: places,
-    superEvent: 'none',
+    start,
+    // superEvent: 'none',
     text,
   };
 
@@ -29,17 +36,29 @@ export const getEventSearchInitialValues = (
   search: string
 ): EventSearchInitialValues => {
   const searchParams = new URLSearchParams(search);
+  const end = searchParams.get(EVENT_SEARCH_PARAMS.END);
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
+  const start = searchParams.get(EVENT_SEARCH_PARAMS.START);
   const text = searchParams.get(EVENT_SEARCH_PARAMS.TEXT);
   const types = searchParams.getAll(EVENT_SEARCH_PARAMS.TYPE);
 
   return {
+    end: end && isValid(new Date(end)) ? new Date(end) : null,
     places,
+    start: start && isValid(new Date(start)) ? new Date(start) : null,
     text: text || '',
     types,
   };
 };
 
-export const getEventSearchQuery = (filters: EventFilters): string => {
-  return getSearchQuery(filters);
+export const getEventSearchQuery = ({
+  end,
+  start,
+  ...rest
+}: EventFilters): string => {
+  return getSearchQuery({
+    ...rest,
+    end: end ? formatDate(end, 'yyyy-MM-dd') : undefined,
+    start: start ? formatDate(start, 'yyyy-MM-dd') : undefined,
+  });
 };

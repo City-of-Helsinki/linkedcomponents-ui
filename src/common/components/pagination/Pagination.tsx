@@ -9,6 +9,7 @@ import { useTheme } from '../../../domain/app/theme/Theme';
 import styles from './pagination.module.scss';
 
 export interface PaginationProps {
+  className?: string;
   pageCount: number;
   selectedPage: number;
   pageNeighbours?: number;
@@ -16,6 +17,7 @@ export interface PaginationProps {
 }
 
 const Pagination: React.FC<PaginationProps> = ({
+  className,
   pageCount,
   selectedPage,
   pageNeighbours = 1,
@@ -74,7 +76,13 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav aria-label={t('common.pagination.navigation')}>
-      <ul className={classNames(styles.pagination, css(theme.pagination))}>
+      <ul
+        className={classNames(
+          styles.pagination,
+          className,
+          css(theme.pagination)
+        )}
+      >
         <li className={styles.pageItem}>
           <button
             aria-label={t('common.pagination.previous')}

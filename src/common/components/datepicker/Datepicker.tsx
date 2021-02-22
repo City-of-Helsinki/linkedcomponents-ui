@@ -36,10 +36,12 @@ const generateUniqueId = (prefix: string) => {
 };
 
 export type DatepickerProps = {
+  focusedDate?: Date | null;
+  icon?: React.ReactElement;
   maxBookingDate?: Date;
   minBookingDate?: Date;
   minuteInterval?: number;
-  onBlur: () => void;
+  onBlur?: () => void;
   onChange: (value?: Date | null) => void;
   timeSelector?: boolean;
   value: Date | null;
@@ -48,14 +50,16 @@ export type DatepickerProps = {
 const Datepicker: React.FC<DatepickerProps> = ({
   className,
   disabled,
+  focusedDate: _focusedDate,
   helperText,
   hideLabel,
+  icon,
   id,
   invalid,
   label,
   labelText,
   maxBookingDate,
-  minBookingDate = new Date(),
+  minBookingDate,
   minuteInterval,
   onBlur,
   onChange,
@@ -318,6 +322,13 @@ const Datepicker: React.FC<DatepickerProps> = ({
     tooltipButtonLabel,
   };
 
+  React.useEffect(() => {
+    if (isCalendarOpen && _focusedDate && !value) {
+      onDateFocus(_focusedDate);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCalendarOpen]);
+
   return (
     <DatepickerContext.Provider
       value={{
@@ -363,7 +374,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
             disabled={disabled}
             onClick={toggleCalendar}
           >
-            <IconCalendar />
+            {icon || <IconCalendar aria-hidden />}
           </button>
           {isCalendarOpen && (
             <div
@@ -382,7 +393,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
                         'common.datepicker.accessibility.buttonPreviousMonth'
                       )}
                     >
-                      <IconAngleLeft />
+                      <IconAngleLeft aria-hidden />
                     </MonthNavButton>
                     <div
                       className={styles.currentMonth}
@@ -399,7 +410,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
                         'common.datepicker.accessibility.buttonNextMonth'
                       )}
                     >
-                      <IconAngleRight />
+                      <IconAngleRight aria-hidden />
                     </MonthNavButton>
                   </div>
                   <div className={styles.daysContainer}>

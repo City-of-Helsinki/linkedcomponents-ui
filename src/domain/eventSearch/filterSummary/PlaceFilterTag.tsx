@@ -7,7 +7,7 @@ import getPathBuilder from '../../../utils/getPathBuilder';
 import { getPlaceFields, placePathBuilder } from '../../place/utils';
 import FilterTag, { FilterTagProps } from './FilterTag';
 
-type Props = Omit<FilterTagProps, 'text'>;
+type Props = Omit<FilterTagProps, 'text' | 'type'>;
 
 const PlaceFilterTag: React.FC<Props> = ({ value, ...rest }) => {
   const { t } = useTranslation();
@@ -23,8 +23,9 @@ const PlaceFilterTag: React.FC<Props> = ({ value, ...rest }) => {
   return (
     <FilterTag
       {...rest}
-      value={value}
       text={loading ? t('common.loading') : name}
+      type="place"
+      value={value}
     />
   );
 };

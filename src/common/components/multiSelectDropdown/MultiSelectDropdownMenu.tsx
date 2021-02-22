@@ -49,7 +49,7 @@ const MultiSelectDropdownMenu: React.FC<Props> = ({
 
   return (
     <DropdownMenu
-      clearButtonLabel={t('common.multiSelectDropdown.buttonClear')}
+      clearButtonLabel={t('common.dropdown.buttonClear')}
       onClear={onClear}
       onSearchChange={onSearchChange}
       id={id}

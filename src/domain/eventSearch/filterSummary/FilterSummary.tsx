@@ -6,6 +6,7 @@ import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { EventFilterType } from '../types';
 import { getEventSearchInitialValues, getEventSearchQuery } from '../utils';
+import DateFilterTag from './DateFilterTag';
 import EventTypeFilterTag from './EventTypeFilterTag';
 import styles from './filterSummary.module.scss';
 import FilterTag from './FilterTag';
@@ -17,7 +18,9 @@ const FilterSummary: React.FC = () => {
   const locale = useLocale();
   const history = useHistory();
   const { search } = useLocation();
-  const { places, text, types } = getEventSearchInitialValues(search);
+  const { end, places, start, text, types } = getEventSearchInitialValues(
+    search
+  );
 
   const clearFilters = () => {
     history.push(`/${locale}${ROUTES.SEARCH}`);
@@ -31,8 +34,10 @@ const FilterSummary: React.FC = () => {
     type: EventFilterType;
   }) => {
     const search = getEventSearchQuery({
+      end: type === 'date' ? null : end,
       place:
         type === 'place' ? places.filter((item) => item !== value) : places,
+      start: type === 'date' ? null : start,
       text: type === 'text' ? '' : text,
       type: type === 'type' ? types.filter((item) => item !== value) : types,
     });
@@ -40,7 +45,9 @@ const FilterSummary: React.FC = () => {
     history.push({ pathname: `/${locale}${ROUTES.SEARCH}`, search });
   };
 
-  const hasFilters = Boolean(places.length || text || types.length);
+  const hasFilters = Boolean(
+    end || places.length || start || text || types.length
+  );
 
   if (!hasFilters) return null;
 
@@ -54,18 +61,17 @@ const FilterSummary: React.FC = () => {
           value={text}
         />
       )}
+      {(end || start) && (
+        <DateFilterTag end={end} onDelete={removeFilter} start={start} />
+      )}
       {places.map((place) => {
         return (
-          <PlaceFilterTag onDelete={removeFilter} type="place" value={place} />
+          <PlaceFilterTag key={place} onDelete={removeFilter} value={place} />
         );
       })}
       {types.map((type) => {
         return (
-          <EventTypeFilterTag
-            onDelete={removeFilter}
-            type="type"
-            value={type}
-          />
+          <EventTypeFilterTag key={type} onDelete={removeFilter} value={type} />
         );
       })}
 

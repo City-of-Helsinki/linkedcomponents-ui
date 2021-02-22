@@ -32,6 +32,14 @@
       },
       "buttonClose": "Close"
     },
+    "dateSelector": {
+      "buttonToggle": "Select dates",
+      "placeholderEndDate": "Ends dd.mm.yyyy",
+      "placeholderStartDate": "Starts dd.mm.yyyy"
+    },
+    "dropdown": {
+      "buttonClear": "Clear"
+    },
     "dropdownSelect": {
       "accessibility": {
         "noResults": "No options are available",
@@ -52,7 +60,6 @@
     },
     "loading": "Loading...",
     "multiSelectDropdown": {
-      "buttonClear": "Clear",
       "searchPlaceholder": "Search"
     },
     "noResults": "No results", 

@@ -5,6 +5,10 @@
   margin-bottom: var(--spacing-3-xl);
 }
 
+.pagination {
+  justify-content: center;
+}
+
 .eventCards,
 .table {
   display: grid;
