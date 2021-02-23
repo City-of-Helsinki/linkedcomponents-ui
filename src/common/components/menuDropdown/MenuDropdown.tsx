@@ -38,13 +38,9 @@ const MenuDropdown = ({
     scroll: false,
     polyfill: ResizeObserver,
   });
-  const disabledIndices = React.useMemo(
-    () =>
-      items.reduce(
-        (acc: number[], item, i) => (item.disabled ? [...acc, i] : acc),
-        []
-      ),
-    [items]
+  const disabledIndices = items.reduce(
+    (acc: number[], item, i) => (item.disabled ? [...acc, i] : acc),
+    []
   );
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
