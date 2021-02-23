@@ -32,7 +32,6 @@ const MenuItem: React.FC<MenuItemProps> = ({
       | React.FocusEvent<HTMLButtonElement>
       | React.MouseEvent<HTMLButtonElement>
   ) => {
-    event.preventDefault();
     /* istanbul ignore else */
     if (!disabled) {
       setFocusedIndex(index);
