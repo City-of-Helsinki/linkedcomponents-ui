@@ -25,6 +25,16 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    onClose();
+  };
+
+  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    onDelete();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -50,14 +60,14 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
               <IconCross />
             )
           }
-          onClick={onDelete}
+          onClick={handleDelete}
           type="button"
           variant="danger"
         >
           {t('event.deleteEventModal.buttonDelete')}
         </Button>
         <Button
-          onClick={onClose}
+          onClick={handleClose}
           theme="black"
           type="button"
           variant="secondary"

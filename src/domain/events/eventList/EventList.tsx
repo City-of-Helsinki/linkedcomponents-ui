@@ -1,7 +1,7 @@
 import camelCase from 'lodash/camelCase';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import useDeepCompareEffect from 'use-deep-compare-effect';
+import { useDispatch, useSelector } from 'react-redux';
 
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -16,6 +16,7 @@ import { OptionType } from '../../../types';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import Container from '../../app/layout/Container';
 import FormContainer from '../../app/layout/FormContainer';
+import { setEventListOptions } from '../actions';
 import {
   EVENT_LIST_TYPES,
   EVENT_SORT_OPTIONS,
@@ -26,6 +27,7 @@ import EventCard from '../eventCard/EventCard';
 import EventsTable from '../eventsTable/EventsTable';
 import useEventListTypeOptions from '../hooks/useEventListTypeOptions';
 import useEventSortOptions from '../hooks/useEventSortOptions';
+import { eventListPageSelector } from '../selectors';
 import styles from './eventList.module.scss';
 import ListTypeSelector from './ListTypeSelector';
 
@@ -53,8 +55,13 @@ const EventList: React.FC<EventListProps> = ({
   sort,
 }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const { pageSize = EVENTS_PAGE_SIZE } = baseVariables;
-  const [selectedPage, setSelectedPage] = React.useState(1);
+  const selectedPage = useSelector(eventListPageSelector);
+
+  const setSelectedPage = (page: number) => {
+    dispatch(setEventListOptions({ page }));
+  };
 
   const listTypeOptions = useEventListTypeOptions();
   const sortOptions = useEventSortOptions();
@@ -69,7 +76,7 @@ const EventList: React.FC<EventListProps> = ({
 
   const handleSelectedPageChange = (page: number) => {
     setSelectedPage(page);
-    refetch({ ...variables, page, sort });
+    refetch({ ...variables, ...{ page: page > 1 ? page : undefined }, sort });
   };
 
   const handleSortSelectorChange = (sortOption: OptionType) => {
@@ -78,16 +85,11 @@ const EventList: React.FC<EventListProps> = ({
 
   const handleSortChange = (val: EVENT_SORT_OPTIONS) => {
     setSort(val);
-    setSelectedPage(1);
-    refetch({ ...variables, page: 1, sort: val });
+    refetch({ ...variables, sort: val });
   };
 
   const eventsCount = eventsData?.events.meta.count || 0;
   const pageCount = getPageCount(eventsCount, pageSize || EVENTS_PAGE_SIZE);
-
-  useDeepCompareEffect(() => {
-    setSelectedPage(1);
-  }, [baseVariables]);
 
   const getTableCaption = () => {
     return t(`eventsPage.eventsTableCaption.${camelCase(activeTab)}`, {

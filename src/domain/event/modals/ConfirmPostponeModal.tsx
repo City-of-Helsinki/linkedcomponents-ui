@@ -25,6 +25,16 @@ const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    onClose();
+  };
+
+  const handlePostpone = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    onPostpone();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -49,12 +59,12 @@ const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
               <IconCalendarClock />
             )
           }
-          onClick={onPostpone}
+          onClick={handlePostpone}
           type="button"
         >
           {t('event.postponeEventModal.buttonPostpone')}
         </Button>
-        <Button onClick={onClose} variant="secondary" type="button">
+        <Button onClick={handleClose} variant="secondary" type="button">
           {t('common.cancel')}
         </Button>
       </div>

@@ -1,10 +1,10 @@
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import i18n from 'i18next';
-import merge from 'lodash/merge';
 import React from 'react';
 
-import { defaultStoreState, ROUTES } from '../../../../constants';
+import { ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
+import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   getMockReduxStore,
   render,
@@ -13,7 +13,6 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
-import { API_CLIENT_ID } from '../../../auth/constants';
 import userManager from '../../../auth/userManager';
 import Header from '../Header';
 
@@ -132,16 +131,9 @@ test('should start log in process', async () => {
 test('should start logout process', async () => {
   const signoutRedirect = jest.spyOn(userManager, 'signoutRedirect');
 
-  const apiToken = { [API_CLIENT_ID]: 'api-token' };
-  const userName = 'Test user';
-  const user = { profile: { name: userName } };
-  const state = merge({}, defaultStoreState, {
-    authentication: {
-      oidc: { user },
-      token: { apiToken },
-    },
-  });
-  const store = getMockReduxStore(state);
+  const storeState = fakeAuthenticatedStoreState();
+  const userName = storeState.authentication.oidc.user.profile.name;
+  const store = getMockReduxStore(storeState);
 
   renderComponent(store);
 

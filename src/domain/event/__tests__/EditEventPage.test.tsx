@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/react-testing';
-import merge from 'lodash/merge';
 import React from 'react';
 
 import {
@@ -32,8 +31,9 @@ import {
   mockedUpdateEventWithSubEventResponse,
   mockedUpdateImageResponse,
 } from '../__mocks__/constants';
-import { defaultStoreState, ROUTES } from '../../../constants';
+import { ROUTES } from '../../../constants';
 import { EventDocument } from '../../../generated/graphql';
+import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   configure,
   getMockReduxStore,
@@ -43,7 +43,6 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
-import { API_CLIENT_ID } from '../../auth/constants';
 import EditEventPage from '../EditEventPage';
 
 configure({ defaultHidden: true });
@@ -61,16 +60,8 @@ const baseMocks = [
   mockedFilteredPlacesResponse,
 ];
 
-const apiToken = { [API_CLIENT_ID]: 'api-token' };
-const userName = 'Test user';
-const user = { profile: { name: userName } };
-const state = merge({}, defaultStoreState, {
-  authentication: {
-    oidc: { user },
-    token: { apiToken },
-  },
-});
-const store = getMockReduxStore(state);
+const storeState = fakeAuthenticatedStoreState();
+const store = getMockReduxStore(storeState);
 
 const route = ROUTES.EDIT_EVENT.replace(':id', eventId);
 
@@ -183,7 +174,7 @@ const findButton = (
       });
     case 'updatePublic':
       return screen.findByRole('button', {
-        name: 'Tallenna muutokset julkaistuun tapahtumaan',
+        name: 'Tallenna muutokset',
       });
   }
 };
@@ -302,7 +293,6 @@ test('should postpone event', async () => {
   userEvent.click(postponeButton);
 
   const withinModal = within(screen.getByRole('dialog'));
-  // Postpone event button inside modal
   const postponeEventButton = await withinModal.findByRole('button', {
     name: 'Lykkää tapahtumaa',
   });

@@ -2,6 +2,9 @@
 @import 'mixins';
 
 .editButtonPanel {
+  --back-button-width: 96px;
+  --actions-button-width: 212px;
+
   --edit-button-panel-background-color: var(--color-coat-of-arms);
   --edit-button-panel-button-background-color: var(--color-coat-of-arms);
   --edit-button-panel-button-background-color-hover: var(
@@ -37,42 +40,16 @@
 }
 
 .buttonsRow {
-  display: grid;
+  display: flex;
   grid-gap: var(--spacing-m);
+  justify-content: space-between;
+
+  .backButtonWrapper {
+    width: var(--back-button-width);
+  }
 
   .editButtonWrapper {
-    display: grid;
-    grid-gap: var(--spacing-m);
-
-    @include large-up {
-      display: flex;
-    }
-
-    .actionButtonWrapper {
-      display: flex;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      grid-gap: var(--spacing-m);
-    }
-
-    .saveButtonWrapper {
-      display: flex;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      grid-gap: var(--spacing-m);
-    }
-  }
-
-  @include medium-up {
-    grid-template-columns: 1fr;
-  }
-
-  @include large-up {
-    grid-template-columns: 1fr 11fr;
-
-    .saveButtonWrapper {
-      justify-content: flex-end;
-    }
+    width: var(--actions-button-width);
   }
 
   button {
@@ -104,8 +81,6 @@
     --color-hover-focus: var(--edit-button-panel-button-color-hover-focus);
     --color-disabled: var(--edit-button-panel-button-color-disabled);
     --focus-outline-color: var(--edit-button-panel-button-focus-outline-color);
-
-    white-space: nowrap;
 
     & > div {
       flex-shrink: 0;

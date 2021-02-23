@@ -1,13 +1,12 @@
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import { Formik } from 'formik';
-import merge from 'lodash/merge';
 import React from 'react';
 
 import { defaultStoreState } from '../../../../constants';
 import { StoreState } from '../../../../types';
+import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import { getMockReduxStore, render, screen } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
-import { API_CLIENT_ID } from '../../../auth/constants';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import ButtonPanel from '../ButtonPanel';
 
@@ -38,15 +37,8 @@ test('buttons should be disabled when user is not authenticated', () => {
 });
 
 test('buttons should be enabled when user is authenticated', () => {
-  const apiToken = { [API_CLIENT_ID]: 'api-token' };
-  const user = { name: 'Test user' };
-  const state = merge({}, defaultStoreState, {
-    authentication: {
-      oidc: { user },
-      token: { apiToken },
-    },
-  });
-  const store = getMockReduxStore(state);
+  const storeState = fakeAuthenticatedStoreState();
+  const store = getMockReduxStore(storeState);
 
   renderComponent(store);
 

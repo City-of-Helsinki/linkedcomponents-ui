@@ -1,7 +1,5 @@
-import merge from 'lodash/merge';
 import React from 'react';
 
-import { defaultStoreState } from '../../../constants';
 import {
   EventsDocument,
   OrganizationDocument,
@@ -13,6 +11,11 @@ import {
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import {
+  fakeAuthenticatedStoreState,
+  fakeEventsListOptionsState,
+  fakeEventsState,
+} from '../../../utils/mockStoreUtils';
+import {
   actWait,
   configure,
   getMockReduxStore,
@@ -21,20 +24,18 @@ import {
   userEvent,
 } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
-import { API_CLIENT_ID } from '../../auth/constants';
+import {
+  EVENT_LIST_TYPES,
+  EVENT_SORT_OPTIONS,
+  EVENTS_ACTIONS,
+  EVENTS_PAGE_SIZE,
+  EVENTS_PAGE_TABS,
+} from '../constants';
 import EventsPage from '../EventsPage';
 
 configure({ defaultHidden: true });
 
-const userId = 'user123';
-const apiToken = { [API_CLIENT_ID]: 'api-token' };
-const user = { profile: { name: 'Test user', sub: userId } };
-const state = merge({}, defaultStoreState, {
-  authentication: {
-    oidc: { user },
-    token: { apiToken },
-  },
-});
+const storeState = fakeAuthenticatedStoreState();
 
 const adminOrganization = 'helsinki';
 const userData = fakeUser({ adminOrganizations: [adminOrganization] });
@@ -47,11 +48,14 @@ const organizationResponse = {
   data: { events: organization },
 };
 
-const waitingApprovalEventsVariables = {
+const baseEventsVariables = {
   createPath: undefined,
   include: ['in_language', 'location'],
-  pageSize: 5,
+  pageSize: EVENTS_PAGE_SIZE,
   superEvent: 'none',
+};
+const waitingApprovalEventsVariables = {
+  ...baseEventsVariables,
   adminUser: true,
   publisher: ['helsinki'],
   publicationStatus: 'draft',
@@ -68,10 +72,7 @@ const waitingApprovalEventsResponse = {
 };
 
 const publicEventsVariables = {
-  createPath: undefined,
-  include: ['in_language', 'location'],
-  pageSize: 5,
-  superEvent: 'none',
+  ...baseEventsVariables,
   adminUser: true,
   publisher: ['helsinki'],
   publicationStatus: 'public',
@@ -89,10 +90,7 @@ const publicEventsResponse = {
 };
 
 const draftEventsVariables = {
-  createPath: undefined,
-  include: ['in_language', 'location'],
-  pageSize: 5,
-  superEvent: 'none',
+  ...baseEventsVariables,
   createdBy: 'me',
   publicationStatus: 'draft',
   showAll: true,
@@ -113,7 +111,7 @@ const mocks = [
   {
     request: {
       query: UserDocument,
-      variables: { id: userId, createPath: undefined },
+      variables: { id: 'user:1', createPath: undefined },
     },
     result: userResponse,
   },
@@ -121,6 +119,13 @@ const mocks = [
     request: {
       query: EventsDocument,
       variables: waitingApprovalEventsVariables,
+    },
+    result: waitingApprovalEventsResponse,
+  },
+  {
+    request: {
+      query: EventsDocument,
+      variables: { ...waitingApprovalEventsVariables, sort: 'name' },
     },
     result: waitingApprovalEventsResponse,
   },
@@ -152,8 +157,10 @@ const findElement = (
   key:
     | 'createEventButton'
     | 'draftsTab'
+    | 'eventCardType'
     | 'publishedTable'
     | 'publishedTab'
+    | 'sortName'
     | 'waitingApprovalTab'
     | 'waitingApprovalTable'
 ) => {
@@ -164,6 +171,8 @@ const findElement = (
       return screen.findByRole('tab', {
         name: `Luonnokset (${draftEventsCount})`,
       });
+    case 'eventCardType':
+      return screen.findByRole('radio', { name: /tapahtumakortit/i });
     case 'publishedTab':
       return screen.findByRole('tab', {
         name: `Julkaistut (${publicEventsCount})`,
@@ -173,6 +182,8 @@ const findElement = (
         name: /julkaistut tapahtumat, järjestys viimeksi muokattu, laskeva/i,
         hidden: true,
       });
+    case 'sortName':
+      return screen.findByRole('button', { name: /nimi/i });
     case 'waitingApprovalTab':
       return screen.findByRole('tab', {
         name: `Odottaa (${waitingApprovalEventsCount})`,
@@ -197,7 +208,7 @@ test('should show correct title if user is not logged in', async () => {
 });
 
 test('should render events page', async () => {
-  const store = getMockReduxStore(state);
+  const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
   await findElement('waitingApprovalTab');
@@ -206,8 +217,8 @@ test('should render events page', async () => {
   await findElement('waitingApprovalTable');
 });
 
-test('should render events page', async () => {
-  const store = getMockReduxStore(state);
+test('should open create event page', async () => {
+  const store = getMockReduxStore(storeState);
   const { history } = render(<EventsPage />, { mocks, store });
 
   await findElement('waitingApprovalTab');
@@ -217,14 +228,74 @@ test('should render events page', async () => {
   expect(history.location.pathname).toBe('/fi/events/create');
 });
 
-test('should change to public events', async () => {
-  const store = getMockReduxStore(state);
+test('should store new listType to redux store', async () => {
+  const store = getMockReduxStore(storeState);
+  render(<EventsPage />, { mocks, store });
+
+  const eventCardTypeRadio = await findElement('eventCardType');
+  userEvent.click(eventCardTypeRadio);
+
+  // Test if your store dispatched the expected actions
+  const actions = store.getActions();
+  const expectedAction = {
+    payload: {
+      listType: EVENT_LIST_TYPES.CARD_LIST,
+    },
+    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
+  };
+  expect(actions).toEqual([expectedAction]);
+});
+
+test('should store new active tab to redux store', async () => {
+  const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
   await findElement('waitingApprovalTable');
 
   const publishedTab = await findElement('publishedTab');
   userEvent.click(publishedTab);
+
+  // Test if your store dispatched the expected actions
+  const actions = store.getActions();
+  const expectedAction = {
+    payload: {
+      tab: EVENTS_PAGE_TABS.PUBLISHED,
+    },
+    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
+  };
+  expect(actions).toEqual([expectedAction]);
+});
+
+test('should store new sort to redux store', async () => {
+  const store = getMockReduxStore(storeState);
+  render(<EventsPage />, { mocks, store });
+
+  await findElement('waitingApprovalTable');
+  const sortNameButton = await findElement('sortName');
+  userEvent.click(sortNameButton);
+
+  // Test if your store dispatched the expected actions
+  const actions = store.getActions();
+  const expectedAction = {
+    payload: {
+      sort: EVENT_SORT_OPTIONS.NAME,
+    },
+    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
+  };
+  expect(actions).toEqual([expectedAction]);
+});
+
+test('should render public events when published tab is selected', async () => {
+  const storeState = fakeAuthenticatedStoreState({
+    events: fakeEventsState({
+      listOptions: fakeEventsListOptionsState({
+        tab: EVENTS_PAGE_TABS.PUBLISHED,
+      }),
+    }),
+  });
+  const store = getMockReduxStore(storeState);
+
+  render(<EventsPage />, { mocks, store });
 
   await findElement('publishedTable');
 });

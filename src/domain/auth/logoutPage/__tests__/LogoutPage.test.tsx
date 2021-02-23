@@ -1,10 +1,14 @@
 import { AnyAction, Store } from '@reduxjs/toolkit';
-import merge from 'lodash/merge';
 import React from 'react';
 
 import { testId as loadingSpinnerTestId } from '../../../../common/components/loadingSpinner/LoadingSpinner';
-import { defaultStoreState } from '../../../../constants';
 import { StoreState } from '../../../../types';
+import {
+  fakeAuthenticatedStoreState,
+  fakeAuthenticationState,
+  fakeOidcState,
+  fakeStoreState,
+} from '../../../../utils/mockStoreUtils';
 import {
   getMockReduxStore,
   render,
@@ -12,7 +16,6 @@ import {
   userEvent,
 } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
-import { API_CLIENT_ID } from '../../constants';
 import userManager from '../../userManager';
 import LogoutPage from '../LogoutPage';
 
@@ -53,15 +56,8 @@ test('should start log in process', () => {
 });
 
 test('should redirect to home page when user is authenticated', () => {
-  const apiToken = { [API_CLIENT_ID]: 'api-token' };
-  const user = { name: 'Test user' };
-  const state = merge({}, defaultStoreState, {
-    authentication: {
-      oidc: { user },
-      token: { apiToken },
-    },
-  });
-  const store = getMockReduxStore(state);
+  const storeState = fakeAuthenticatedStoreState();
+  const store = getMockReduxStore(storeState);
 
   const { history } = renderComponent(store);
 
@@ -69,10 +65,10 @@ test('should redirect to home page when user is authenticated', () => {
 });
 
 test('should render loading spinner when loading authenticion state', () => {
-  const state = merge({}, defaultStoreState, {
-    authentication: {
-      oidc: { isLoadingUser: true },
-    },
+  const state = fakeStoreState({
+    authentication: fakeAuthenticationState({
+      oidc: fakeOidcState({ user: null, isLoadingUser: true }),
+    }),
   });
   const store = getMockReduxStore(state);
 

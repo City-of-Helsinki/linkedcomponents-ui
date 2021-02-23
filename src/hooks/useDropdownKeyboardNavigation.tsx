@@ -2,6 +2,7 @@ import React from 'react';
 
 export interface KeyboardNavigationProps {
   container: React.MutableRefObject<HTMLDivElement | null>;
+  disabledIndices?: number[];
   listLength: number;
   initialFocusedIndex?: number;
   onKeyDown?: (event: KeyboardEvent) => void;
@@ -16,27 +17,38 @@ interface DropdownKeyboardNavigationState {
 
 const useDropdownKeyboardNavigation = ({
   container,
+  disabledIndices = [],
   listLength,
   initialFocusedIndex,
   onKeyDown,
 }: KeyboardNavigationProps): DropdownKeyboardNavigationState => {
   const [focusedIndex, setFocusedIndex] = React.useState<number>(-1);
   const [isInitialNavigation, setIsInitialNavigation] = React.useState(true);
-  const isStartingPosition = focusedIndex === -1;
 
-  const focusOption = React.useCallback(
+  const getNextIndex = React.useCallback(
     (direction: 'down' | 'up', index: number) => {
       switch (direction) {
         case 'down':
-          setFocusedIndex(index < listLength - 1 ? index + 1 : 0);
-          break;
+          return index < listLength - 1 ? index + 1 : 0;
         case 'up':
-          setFocusedIndex(index > 0 ? index - 1 : listLength - 1);
-          break;
+          return index > 0 ? index - 1 : listLength - 1;
       }
-      setIsInitialNavigation(false);
     },
     [listLength]
+  );
+
+  const focusOption = React.useCallback(
+    (direction: 'down' | 'up', index: number) => {
+      let nextIndex = getNextIndex(direction, index);
+
+      while (nextIndex !== index && disabledIndices.includes(nextIndex)) {
+        nextIndex = getNextIndex(direction, nextIndex);
+      }
+      setFocusedIndex(nextIndex);
+
+      setIsInitialNavigation(false);
+    },
+    [disabledIndices, getNextIndex]
   );
 
   const isComponentFocused = React.useCallback(() => {
@@ -56,8 +68,6 @@ const useDropdownKeyboardNavigation = ({
         case 'ArrowUp':
           if (isInitialNavigation && typeof initialFocusedIndex === 'number') {
             focusOption('up', initialFocusedIndex);
-          } else if (isStartingPosition) {
-            setFocusedIndex(listLength - 1);
           } else {
             focusOption('up', focusedIndex);
           }
@@ -83,8 +93,6 @@ const useDropdownKeyboardNavigation = ({
       initialFocusedIndex,
       isComponentFocused,
       isInitialNavigation,
-      isStartingPosition,
-      listLength,
       onKeyDown,
     ]
   );

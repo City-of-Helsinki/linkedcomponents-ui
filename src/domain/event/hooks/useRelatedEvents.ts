@@ -7,7 +7,6 @@ import { getRelatedEvents } from '../utils';
 // This hook returns all events that should be updated when user saves changes to super event
 const useRelatedEvents = (event: EventFieldsFragment) => {
   const apolloClient = useApolloClient();
-  const subEvents = event.subEvents;
   const [events, setEvents] = React.useState<EventFieldsFragment[]>([]);
   const [loading, setLoading] = React.useState(false);
 
@@ -30,7 +29,7 @@ const useRelatedEvents = (event: EventFieldsFragment) => {
     };
 
     setRelatedEvents();
-  }, [apolloClient, event, setEvents, subEvents]);
+  }, [apolloClient, event, setEvents]);
 
   return { events, loading };
 };

@@ -6,10 +6,6 @@
   display: block;
   padding: 0 var(--spacing-s);
 
-  @include x-small-only {
-    overflow: hidden;
-  }
-
   @include small-down {
     position: relative;
   }

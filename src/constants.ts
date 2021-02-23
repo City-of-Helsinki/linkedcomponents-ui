@@ -1,4 +1,5 @@
 import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
+import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
 import { StoreState } from './types';
 
 export enum ROUTES {
@@ -69,6 +70,7 @@ export enum FORM_NAMES {
 
 export const defaultStoreState: StoreState = {
   authentication: defaultAuthReducerState,
+  events: defaultEventsReducerState,
 };
 
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/gif', 'image/png'];

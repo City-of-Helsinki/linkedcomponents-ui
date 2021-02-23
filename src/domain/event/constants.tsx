@@ -1,4 +1,14 @@
+import {
+  IconCalendarClock,
+  IconCalendarCross,
+  IconCalendarPlus,
+  IconCheck,
+  IconCogwheel,
+  IconCross,
+  IconPen,
+} from 'hds-react';
 import reduce from 'lodash/reduce';
+import React from 'react';
 
 import { DEFAULT_LICENSE_TYPE } from '../image/constants';
 import {
@@ -178,3 +188,49 @@ export const EVENT_INCLUDES = [
   'sub_events',
   'super_event',
 ];
+
+export enum EVENT_ACTION_BUTTONS {
+  CANCEL = 'cancel',
+  COPY = 'copy',
+  DELETE = 'delete',
+  EDIT = 'edit',
+  POSTPONE = 'postpone',
+  PUBLISH = 'publish',
+  UPDATE_DRAFT = 'updateDraft',
+  UPDATE_PUBLIC = 'updatePublic',
+}
+
+export const AUHENTICATION_NOT_NEEDED = [
+  EVENT_ACTION_BUTTONS.COPY,
+  EVENT_ACTION_BUTTONS.EDIT,
+];
+
+export const NOT_ALLOWED_WHEN_CANCELLED = [
+  EVENT_ACTION_BUTTONS.CANCEL,
+  EVENT_ACTION_BUTTONS.POSTPONE,
+  EVENT_ACTION_BUTTONS.PUBLISH,
+  EVENT_ACTION_BUTTONS.UPDATE_DRAFT,
+  EVENT_ACTION_BUTTONS.UPDATE_PUBLIC,
+];
+
+export const EVENT_ACTION_ICONS = {
+  [EVENT_ACTION_BUTTONS.CANCEL]: <IconCalendarCross />,
+  [EVENT_ACTION_BUTTONS.COPY]: <IconCalendarPlus />,
+  [EVENT_ACTION_BUTTONS.DELETE]: <IconCross />,
+  [EVENT_ACTION_BUTTONS.EDIT]: <IconCogwheel />,
+  [EVENT_ACTION_BUTTONS.POSTPONE]: <IconCalendarClock />,
+  [EVENT_ACTION_BUTTONS.PUBLISH]: <IconCheck />,
+  [EVENT_ACTION_BUTTONS.UPDATE_DRAFT]: <IconPen />,
+  [EVENT_ACTION_BUTTONS.UPDATE_PUBLIC]: <IconPen />,
+};
+
+export const EVENT_ACTION_LABEL_KEYS = {
+  [EVENT_ACTION_BUTTONS.CANCEL]: 'event.form.buttonCancel',
+  [EVENT_ACTION_BUTTONS.COPY]: 'event.form.buttonCopy',
+  [EVENT_ACTION_BUTTONS.DELETE]: 'event.form.buttonDelete',
+  [EVENT_ACTION_BUTTONS.EDIT]: 'event.form.buttonEdit',
+  [EVENT_ACTION_BUTTONS.POSTPONE]: 'event.form.buttonPostpone',
+  [EVENT_ACTION_BUTTONS.PUBLISH]: 'event.form.buttonAcceptAndPublish',
+  [EVENT_ACTION_BUTTONS.UPDATE_DRAFT]: 'event.form.buttonUpdateDraft',
+  [EVENT_ACTION_BUTTONS.UPDATE_PUBLIC]: 'event.form.buttonUpdatePublic',
+};

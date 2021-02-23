@@ -25,6 +25,16 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    onClose();
+  };
+
+  const handleSave = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    onSave();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -46,12 +56,12 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
               <IconPen />
             )
           }
-          onClick={onSave}
+          onClick={handleSave}
           type="button"
         >
           {t('common.save')}
         </Button>
-        <Button onClick={onClose} variant="secondary" type="button">
+        <Button onClick={handleClose} variant="secondary" type="button">
           {t('common.cancel')}
         </Button>
       </div>
