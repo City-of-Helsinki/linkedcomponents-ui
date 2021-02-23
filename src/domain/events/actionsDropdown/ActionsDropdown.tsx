@@ -139,6 +139,7 @@ const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
           </button>
         }
         className={className}
+        fixedPosition={true}
         items={actionItems}
         buttonLabel={t('event.form.buttonActions')}
       />

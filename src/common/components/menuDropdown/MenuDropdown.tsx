@@ -20,6 +20,7 @@ export type MenuDropdownProps = React.PropsWithChildren<{
   buttonAriaLabel?: string;
   buttonLabel: string;
   className?: string;
+  fixedPosition?: boolean;
   id?: string;
   items: MenuItemOptionProps[];
 }>;
@@ -29,13 +30,13 @@ const MenuDropdown = ({
   buttonAriaLabel,
   buttonLabel,
   className,
+  fixedPosition = false,
   id: _id,
   items,
 }: MenuDropdownProps) => {
   const { theme } = useTheme();
   const [ref, menuContainerSize] = useMeasure({
-    debounce: 0,
-    scroll: false,
+    scroll: fixedPosition,
     polyfill: ResizeObserver,
   });
   const disabledIndices = items.reduce(
@@ -175,6 +176,7 @@ const MenuDropdown = ({
       {getToggleButton()}
       <Menu
         ariaLabelledBy={buttonId}
+        fixedPosition={fixedPosition}
         focusedIndex={focusedIndex}
         id={menuId}
         items={items}
