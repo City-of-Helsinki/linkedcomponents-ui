@@ -35,15 +35,16 @@ const MenuDropdown = ({
   items,
 }: MenuDropdownProps) => {
   const { theme } = useTheme();
-  const [ref, menuContainerSize] = useMeasure({
-    scroll: fixedPosition,
-    polyfill: ResizeObserver,
-  });
   const disabledIndices = items.reduce(
     (acc: number[], item, i) => (item.disabled ? [...acc, i] : acc),
     []
   );
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [ref, menuContainerSize] = useMeasure({
+    // Detect scroll events only if menu is open to improve performance
+    scroll: fixedPosition && menuOpen,
+    polyfill: ResizeObserver,
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const id = useRef<string>(_id || uniqueId('menu-dropdown-')).current;
   const buttonId = `${id}-button`;
