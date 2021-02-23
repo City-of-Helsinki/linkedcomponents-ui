@@ -1,6 +1,7 @@
 import { IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { EventFieldsFragment } from '../../../generated/graphql';
@@ -10,11 +11,12 @@ import formatDate from '../../../utils/formatDate';
 import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
+import { addExpandedEvent, removeExpandedEvent } from '../actions';
+import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import PublisherName from '../eventCard/PublisherName';
+import { expandedEventsSelector } from '../selectors';
 import styles from './eventsTable.module.scss';
 import SubEventRows from './SubEventRows';
-
-export const PADDING = 24;
 
 interface Props {
   event: EventFieldsFragment;
@@ -24,9 +26,10 @@ interface Props {
 
 const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
   const { t } = useTranslation();
-  const [open, setOpen] = React.useState(false);
   const locale = useLocale();
   const timeFormat = useTimeFormat();
+  const dispatch = useDispatch();
+  const expandedEvents = useSelector(expandedEventsSelector);
 
   const {
     eventUrl,
@@ -37,11 +40,17 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
     publicationStatus,
     publisher,
     startTime,
+    subEventAtIds,
     superEventType,
   } = getEventFields(event, locale);
+  const open = expandedEvents.includes(id);
 
   const toggle = () => {
-    setOpen(!open);
+    if (open) {
+      dispatch(removeExpandedEvent(id));
+    } else {
+      dispatch(addExpandedEvent(id));
+    }
   };
 
   return (
@@ -50,9 +59,9 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
         <td>
           <div
             className={styles.idWrapper}
-            style={{ paddingLeft: level * PADDING }}
+            style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}
           >
-            {!!superEventType && (
+            {!!subEventAtIds.length && (
               <button
                 aria-label={
                   open
@@ -109,8 +118,13 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
             />
           </div>
         </td>
+        <td className={styles.actionButtonsColumn}>
+          <ActionsDropdown event={event} />
+        </td>
       </tr>
-      {!!superEventType && open && <SubEventRows eventId={id} level={level} />}
+      {!!subEventAtIds.length && open && (
+        <SubEventRows eventId={id} level={level} />
+      )}
     </>
   );
 };

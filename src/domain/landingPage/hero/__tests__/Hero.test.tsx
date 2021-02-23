@@ -4,13 +4,13 @@ import { render, screen, userEvent } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
 import Hero from '../Hero';
 
-test('should render hero', async () => {
+test('should render hero', () => {
   render(<Hero />);
 
-  await screen.findByRole('heading', {
+  screen.getByRole('heading', {
     name: translations.landingPage.heroTitle,
   });
-  await screen.findByRole('textbox', {
+  screen.getByRole('searchbox', {
     name: translations.eventSearchPage.searchPanel.labelSearch,
   });
 
@@ -21,12 +21,12 @@ test('should render hero', async () => {
   ).toHaveLength(2);
 });
 
-test('should route to search page when click button inside search input', async () => {
+test('should route to search page when click button inside search input', () => {
   const searchValue = 'search';
 
   const { history } = render(<Hero />);
 
-  const searchInput = await screen.findByRole('textbox', {
+  const searchInput = screen.getByRole('searchbox', {
     name: translations.eventSearchPage.searchPanel.labelSearch,
   });
   userEvent.type(searchInput, searchValue);
@@ -40,12 +40,12 @@ test('should route to search page when click button inside search input', async 
   expect(history.location.search).toBe(`?text=${searchValue}`);
 });
 
-test('should route to search page when click search button', async () => {
+test('should route to search page when click search button', () => {
   const searchValue = 'search';
 
   const { history } = render(<Hero />);
 
-  const searchInput = await screen.findByRole('textbox', {
+  const searchInput = screen.getByRole('searchbox', {
     name: translations.eventSearchPage.searchPanel.labelSearch,
   });
   userEvent.type(searchInput, searchValue);

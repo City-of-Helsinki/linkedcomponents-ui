@@ -15,4 +15,17 @@
   .name {
     font-weight: 500;
   }
+
+  &.disabled {
+    opacity: 0.7;
+
+    .name {
+      font-weight: normal;
+    }
+
+    button {
+      color: var(--color-black-90);
+      cursor: not-allowed;
+    }
+  }
 }

@@ -1,19 +1,18 @@
 import { AnyAction, Store } from '@reduxjs/toolkit';
-import merge from 'lodash/merge';
 import React from 'react';
 
-import { defaultStoreState } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
 import { fakeEvent } from '../../../../utils/mockDataUtils';
+import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   configure,
   getMockReduxStore,
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../../utils/testUtils';
-import { API_CLIENT_ID } from '../../../auth/constants';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
@@ -28,15 +27,7 @@ const defaultProps: EditButtonPanelProps = {
   onUpdate: jest.fn(),
 };
 
-const apiToken = { [API_CLIENT_ID]: 'api-token' };
-const userName = 'Test user';
-const user = { profile: { name: userName } };
-const state = merge({}, defaultStoreState, {
-  authentication: {
-    oidc: { user },
-    token: { apiToken },
-  },
-});
+const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
 const renderComponent = ({
@@ -51,9 +42,12 @@ const findComponent = (
   key:
     | 'back'
     | 'cancel'
+    | 'copy'
     | 'delete'
+    | 'menu'
     | 'postpone'
     | 'publish'
+    | 'toggle'
     | 'updateDraft'
     | 'updatePublic'
 ) => {
@@ -62,34 +56,62 @@ const findComponent = (
       return screen.findByRole('button', { name: 'Takaisin' });
     case 'cancel':
       return screen.findByRole('button', { name: 'Peruuta tapahtuma' });
+    case 'copy':
+      return screen.findByRole('button', { name: 'Kopioi pohjaksi' });
     case 'delete':
       return screen.findByRole('button', { name: 'Poista tapahtuma' });
+    case 'menu':
+      return screen.findByRole('region', { name: /toiminnot/i });
     case 'postpone':
       return screen.findByRole('button', { name: 'Lykkää tapahtumaa' });
     case 'publish':
       return screen.findByRole('button', { name: 'Hyväksy ja julkaise' });
+    case 'toggle':
+      return screen.findByRole('button', { name: /toiminnot/i });
     case 'updateDraft':
       return screen.findByRole('button', {
         name: 'Tallenna muutokset luonnokseen',
       });
     case 'updatePublic':
       return screen.findByRole('button', {
-        name: 'Tallenna muutokset julkaistuun tapahtumaan',
+        name: 'Tallenna muutokset',
       });
   }
 };
 
+const openMenu = async () => {
+  const toggleButton = await findComponent('toggle');
+  userEvent.click(toggleButton);
+  await findComponent('menu');
+
+  return toggleButton;
+};
+
+test('should toggle menu by clicking actions button', async () => {
+  const event = fakeEvent({ publicationStatus: PublicationStatus.Draft });
+  renderComponent({ props: { event }, store });
+
+  const toggleButton = await openMenu();
+  userEvent.click(toggleButton);
+  expect(
+    screen.queryByRole('region', { name: /toiminnot/i })
+  ).not.toBeInTheDocument();
+});
+
 test('should render correct buttons for draft event', async () => {
   const event = fakeEvent({ publicationStatus: PublicationStatus.Draft });
-
   const onCancel = jest.fn();
   const onDelete = jest.fn();
   const onUpdate = jest.fn();
   renderComponent({ props: { event, onCancel, onDelete, onUpdate }, store });
 
+  await openMenu();
+
   const cancelButton = await findComponent('cancel');
   userEvent.click(cancelButton);
   expect(onCancel).toBeCalled();
+
+  await findComponent('copy');
 
   const deleteButton = await findComponent('delete');
   userEvent.click(deleteButton);
@@ -103,20 +125,18 @@ test('should render correct buttons for draft event', async () => {
   userEvent.click(publishButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
 
-  const hiddenButtons = [
-    'Lykkää tapahtumaa',
-    'Tallenna muutokset julkaistuun tapahtumaan',
-  ];
+  const hiddenButtons = ['Lykkää tapahtumaa', 'Tallenna muutokset'];
 
   hiddenButtons.forEach((name) => {
     expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
   });
 });
 
-test('all buttons should be disabled when user is not logged in (draft)', async () => {
+test('only copy button should be enabled when user is not logged in (draft)', async () => {
   const event = fakeEvent({ publicationStatus: PublicationStatus.Draft });
-
   renderComponent({ props: { event } });
+
+  await openMenu();
 
   const buttons = screen.getAllByRole('button', {
     name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
@@ -125,11 +145,12 @@ test('all buttons should be disabled when user is not logged in (draft)', async 
   buttons.forEach((button) => {
     expect(button).toBeDisabled();
   });
+
+  await findComponent('copy');
 });
 
 test('should render correct buttons for public event', async () => {
   const event = fakeEvent({ publicationStatus: PublicationStatus.Public });
-
   const onCancel = jest.fn();
   const onDelete = jest.fn();
   const onPostpone = jest.fn();
@@ -138,6 +159,10 @@ test('should render correct buttons for public event', async () => {
     props: { event, onCancel, onDelete, onPostpone, onUpdate },
     store,
   });
+
+  await openMenu();
+
+  await findComponent('copy');
 
   const postponeButton = await findComponent('postpone');
   userEvent.click(postponeButton);
@@ -162,13 +187,14 @@ test('should render correct buttons for public event', async () => {
   });
 });
 
-test('only delete button should be enabled when event is cancelled', async () => {
+test('only copy and delete button should be enabled when event is cancelled', async () => {
   const event = fakeEvent({
     eventStatus: EventStatus.EventCancelled,
     publicationStatus: PublicationStatus.Public,
   });
-
   renderComponent({ props: { event }, store });
+
+  await openMenu();
 
   const disabledButtons = screen.getAllByRole('button', {
     name: 'Peruttuja tapahtumia ei voi muokata.',
@@ -180,13 +206,15 @@ test('only delete button should be enabled when event is cancelled', async () =>
     expect(button).toBeDisabled();
   });
 
+  await findComponent('copy');
   await findComponent('delete');
 });
 
-test('all buttons should be disabled when user is not logged in (public)', async () => {
+test('only copy button should be enabledwhen user is not logged in (public)', async () => {
   const event = fakeEvent({ publicationStatus: PublicationStatus.Public });
-
   renderComponent({ props: { event } });
+
+  await openMenu();
 
   const buttons = screen.getAllByRole('button', {
     name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
@@ -195,15 +223,32 @@ test('all buttons should be disabled when user is not logged in (public)', async
   buttons.forEach((button) => {
     expect(button).toBeDisabled();
   });
+
+  await findComponent('copy');
+});
+
+test('should route to create event page when clicking copy button', async () => {
+  const event = fakeEvent({ publicationStatus: PublicationStatus.Public });
+  const { history } = renderComponent({ props: { event } });
+
+  await openMenu();
+
+  const copyButton = await findComponent('copy');
+  userEvent.click(copyButton);
+
+  await waitFor(() => {
+    expect(history.location.pathname).toBe('/fi/events/create');
+  });
 });
 
 test('should route to events page when clicking back button', async () => {
   const event = fakeEvent({ publicationStatus: PublicationStatus.Public });
-
   const { history } = renderComponent({ props: { event } });
 
   const backButton = await findComponent('back');
   userEvent.click(backButton);
 
-  expect(history.location.pathname).toBe('/fi/events');
+  await waitFor(() => {
+    expect(history.location.pathname).toBe('/fi/events');
+  });
 });

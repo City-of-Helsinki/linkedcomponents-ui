@@ -148,6 +148,15 @@ type LoadingSpinnerCSSProperties = {
   '--spinner-stroke-width'?: string;
 };
 
+type MenuDropdownCSSProperties = {
+  '--menu-dropdown-item-background-color'?: string;
+  '--menu-dropdown-item-background-color-disabled'?: string;
+  '--menu-dropdown-item-background-color-highlighted'?: string;
+  '--menu-dropdown-item-color'?: string;
+  '--menu-dropdown-item-color-disabled'?: string;
+  '--menu-dropdown-item-color-highlighted'?: string;
+};
+
 type ModalCSSProperties = {
   '--modal-background-color'?: string;
   '--modal-bottom'?: string;
@@ -364,6 +373,7 @@ export type Theme = {
   languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;
+  menuDropdown: MenuDropdownCSSProperties;
   modal: ModalCSSProperties;
   navigation: NavigationCSSProperties;
   notification: {
@@ -407,6 +417,7 @@ const defaultTheme: Theme = {
   languageSelector: {},
   layout: {},
   loadingSpinner: {},
+  menuDropdown: {},
   modal: {},
 
   navigation: {},

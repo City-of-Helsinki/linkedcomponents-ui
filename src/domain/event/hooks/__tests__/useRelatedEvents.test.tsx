@@ -45,6 +45,12 @@ const event = fakeEvent({
   superEventType: SuperEventType.Umbrella,
 });
 
+const subEventsResponse = {
+  data: {
+    events: subEvents,
+  },
+};
+
 const count = subSubEventIds.length + subSubEventPage2Ids.length;
 const subSubEventsResponse = {
   data: {
@@ -83,6 +89,10 @@ const baseVariables = {
   showAll: true,
   sort: 'start_time',
 };
+const subEventsVariables = {
+  ...baseVariables,
+  superEvent: eventId,
+};
 const subSubEventsVariables = {
   ...baseVariables,
   superEvent: subEventIds[0],
@@ -93,6 +103,13 @@ const subSubSubEventsVariables = {
 };
 
 const mocks = [
+  {
+    request: {
+      query: EventsDocument,
+      variables: subEventsVariables,
+    },
+    result: subEventsResponse,
+  },
   {
     request: {
       query: EventsDocument,

@@ -22,10 +22,21 @@ const defaultProps: SearchInputProps = {
 const renderComponent = (props?: Partial<SearchInputProps>) =>
   render(<SearchInput {...defaultProps} {...props} />);
 
+const getElement = (key: 'clearButton' | 'input' | 'searchButton') => {
+  switch (key) {
+    case 'clearButton':
+      return screen.getByRole('button', { name: 'Clear' });
+    case 'input':
+      return screen.getByRole('searchbox', { name: label });
+    case 'searchButton':
+      return screen.getByRole('button', { name: 'Search' });
+  }
+};
+
 test('should render component with default texts', async () => {
   renderComponent({ value: '' });
 
-  screen.getByRole('textbox', { name: label });
+  getElement('input');
   screen.getByRole('button', { name: 'Search' });
   expect(
     screen.queryByRole('button', { name: 'Clear' })
@@ -37,10 +48,10 @@ test('should clear search value', async () => {
   const setValue = jest.fn();
   renderComponent({ setValue, value: searchValue });
 
-  const searchInput = screen.getByRole('textbox', { name: label });
+  const searchInput = getElement('input');
   expect(searchInput).toHaveValue(searchValue);
 
-  const clearButton = screen.getByRole('button', { name: 'Clear' });
+  const clearButton = getElement('clearButton');
   userEvent.click(clearButton);
 
   expect(setValue).toBeCalledWith('');
@@ -51,7 +62,7 @@ test('should call onSearch when clicking search button', async () => {
   const onSearch = jest.fn();
   renderComponent({ onSearch, value: searchValue });
 
-  const searchButton = screen.getByRole('button', { name: 'Search' });
+  const searchButton = getElement('searchButton');
   userEvent.click(searchButton);
 
   expect(onSearch).toBeCalledWith(searchValue);
@@ -62,7 +73,7 @@ test('should call onSearch when pressing enter', async () => {
   const onSearch = jest.fn();
   renderComponent({ onSearch, value: searchValue });
 
-  const searchInput = screen.getByRole('textbox', { name: label });
+  const searchInput = getElement('input');
   userEvent.click(searchInput);
   userEvent.type(searchInput, '{enter}');
 

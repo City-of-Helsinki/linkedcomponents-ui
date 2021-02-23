@@ -5,7 +5,7 @@ import React from 'react';
 import {
   mockedLanguagesResponse,
   mockedTopicsKeywordSetResponse,
-} from '../../../__mocks__/constants';
+} from '../../../__mocks__/editEventPage';
 import { INCLUDE, KEYWORD_SETS } from '../../../../../constants';
 import { KeywordSetDocument } from '../../../../../generated/graphql';
 import {

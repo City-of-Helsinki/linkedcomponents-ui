@@ -35,22 +35,66 @@ import {
 
 const defaultEventPayload = {
   audience: [],
-  description: {},
+  description: {
+    ar: null,
+    en: null,
+    fi: '',
+    ru: null,
+    sv: null,
+    zhHans: null,
+  },
   externalLinks: [],
   images: [],
   inLanguage: [],
-  infoUrl: {},
+  infoUrl: {
+    ar: null,
+    en: null,
+    fi: '',
+    ru: null,
+    sv: null,
+    zhHans: null,
+  },
   keywords: [],
-  locationExtraInfo: {},
-  name: {},
+  locationExtraInfo: {
+    ar: null,
+    en: null,
+    fi: '',
+    ru: null,
+    sv: null,
+    zhHans: null,
+  },
+  name: {
+    ar: null,
+    en: null,
+    fi: '',
+    ru: null,
+    sv: null,
+    zhHans: null,
+  },
   offers: [
     {
       isFree: true,
     },
   ],
-  provider: {},
+  provider: {
+    ar: null,
+    en: null,
+    fi: '',
+    ru: null,
+    sv: null,
+    zhHans: null,
+  },
   publicationStatus: PublicationStatus.Draft,
-  shortDescription: {},
+  shortDescription: {
+    ar: null,
+    en: null,
+    fi: '',
+    ru: null,
+    sv: null,
+    zhHans: null,
+  },
+  superEvent: undefined,
+  superEventType: null,
 };
 
 describe('eventPathBuilder function', () => {
@@ -201,7 +245,7 @@ describe('getEventTimes function', () => {
 });
 
 describe('filterUnselectedLanguages function', () => {
-  it('should not return data for unselected languages', () => {
+  it('should set data as null for unselected languages', () => {
     expect(
       filterUnselectedLanguages(
         {
@@ -212,6 +256,7 @@ describe('filterUnselectedLanguages function', () => {
       )
     ).toEqual({
       fi: 'Value 1',
+      sv: null,
     });
   });
 });
@@ -304,65 +349,112 @@ describe('getEventPayload function', () => {
 
     expect(payload).toEqual({
       ...defaultEventPayload,
+      publicationStatus: 'draft',
       audience: [{ atId: 'audience:1' }],
       audienceMaxAge: 18,
       audienceMinAge: 12,
-      description: {
-        fi: 'Description fi',
-      },
-      endTime: '2020-01-02T15:15:00.000Z',
       externalLinks: [
         {
-          language: 'fi',
-          link: 'http://facebook.com',
           name: 'extlink_facebook',
+          link: 'http://facebook.com',
+          language: 'fi',
         },
         {
-          language: 'fi',
-          link: 'http://instagram.com',
           name: 'extlink_instagram',
+          link: 'http://instagram.com',
+          language: 'fi',
         },
         {
-          language: 'fi',
-          link: 'http://twitter.com',
           name: 'extlink_twitter',
+          link: 'http://twitter.com',
+          language: 'fi',
         },
       ],
+      description: {
+        ar: null,
+        en: null,
+        fi: '<p>Description fi</p>',
+        ru: null,
+        sv: '',
+        zhHans: null,
+      },
       images: [{ atId: 'image:1' }],
       infoUrl: {
+        ar: null,
+        en: null,
         fi: 'http://infourlfi.com',
+        ru: null,
+        sv: '',
+        zhHans: null,
       },
       inLanguage: [{ atId: 'language:1' }],
-      keywords: [{ atId: 'keyword:1' }],
       location: { atId: 'location:1' },
+      keywords: [{ atId: 'keyword:1' }],
       locationExtraInfo: {
+        ar: null,
+        en: null,
         fi: 'Location extra info fi',
+        ru: null,
+        sv: '',
+        zhHans: null,
       },
       name: {
+        ar: null,
+        en: null,
         fi: 'Name fi',
+        ru: null,
+        sv: '',
+        zhHans: null,
       },
       offers: [
         {
           description: {
+            ar: null,
+            en: null,
             fi: 'Description fi',
+            ru: null,
+            sv: '',
+            zhHans: null,
           },
           infoUrl: {
+            ar: null,
+            en: null,
             fi: 'http://urlfi.com',
+            ru: null,
+            sv: '',
+            zhHans: null,
+          },
+          price: {
+            ar: null,
+            en: null,
+            fi: 'Price fi',
+            ru: null,
+            sv: '',
+            zhHans: null,
           },
           isFree: false,
-          price: {
-            fi: 'Price fi',
-          },
         },
       ],
       provider: {
+        ar: null,
+        en: null,
         fi: 'Provider fi',
+        ru: null,
+        sv: '',
+        zhHans: null,
       },
       shortDescription: {
+        ar: null,
+        en: null,
         fi: 'Short description fi',
+        ru: null,
+        sv: '',
+        zhHans: null,
       },
-      startTime: '2020-01-02T12:15:00.000Z',
+      superEvent: undefined,
       superEventType: SuperEventType.Umbrella,
+      endTime: '2020-01-02T15:15:00.000Z',
+      startTime: '2020-01-02T12:15:00.000Z',
     });
   });
 
@@ -399,6 +491,37 @@ describe('getEventPayload function', () => {
         superEvent: { atId: 'hel:123' },
       },
     ]);
+  });
+
+  it('should add link to description if audience is Service Centre Card', () => {
+    const payload = getEventPayload(
+      {
+        ...EVENT_INITIAL_VALUES,
+        audience: ['/keyword/helsinki:aflfbat76e/'],
+        audienceMaxAge: 18,
+        audienceMinAge: 12,
+        eventInfoLanguages: ['en', 'fi', 'sv'],
+        description: {
+          ...EMPTY_MULTI_LANGUAGE_OBJECT,
+          fi: 'Description fi',
+          en: 'Description en',
+          sv: 'Description sv',
+        },
+      },
+      PublicationStatus.Draft
+    );
+
+    expect(!Array.isArray(payload) && payload.description).toEqual({
+      ar: null,
+      en:
+        '<p>The event is intended only for retired or unemployed persons with a <a href="https://www.hel.fi/sote/en/services/service-desription?id=3252">Service Centre Card</a>.</p><p>Description en</p>',
+      fi:
+        '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252">palvelukeskuskortti</a>.</p><p>Description fi</p>',
+      ru: null,
+      sv:
+        '<p>Evenemanget är avsett endast för pensionärer eller arbetslösa med <a href="https://www.hel.fi/sote/sv/tjanster/tjanstebeskrivning?id=3252">servicecentralkort</a>.</p><p>Description sv</p>',
+      zhHans: null,
+    });
   });
 });
 

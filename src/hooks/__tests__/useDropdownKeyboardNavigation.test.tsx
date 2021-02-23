@@ -5,18 +5,24 @@ import useDropdownKeyboardNavigation, {
   KeyboardNavigationProps,
 } from '../useDropdownKeyboardNavigation';
 
-function renderNavigationHook(
-  props: Pick<
-    KeyboardNavigationProps,
-    'initialFocusedIndex' | 'listLength' | 'onKeyDown'
-  >
-) {
+const defaultProps: Pick<
+  KeyboardNavigationProps,
+  'initialFocusedIndex' | 'listLength' | 'onKeyDown'
+> = {
+  listLength: 4,
+};
+
+const renderNavigationHook = (props?: Partial<KeyboardNavigationProps>) => {
   const div = document.createElement('div');
   div.setAttribute('tabIndex', '0');
   document.body.appendChild(div);
 
   const { result, ...rest } = renderHook(() =>
-    useDropdownKeyboardNavigation({ ...props, container: { current: div } })
+    useDropdownKeyboardNavigation({
+      ...defaultProps,
+      container: { current: div },
+      ...props,
+    })
   );
 
   result.current.setup();
@@ -43,13 +49,11 @@ function renderNavigationHook(
   };
 
   return { result, ...rest, arrowDown, arrowUp, esc };
-}
+};
 
 describe('useDropdownKeyboardNavigation', () => {
   it('changes focusedIndex correctly', async () => {
-    const { result, arrowDown, arrowUp } = renderNavigationHook({
-      listLength: 4,
-    });
+    const { result, arrowDown, arrowUp } = renderNavigationHook();
 
     arrowDown();
 
@@ -73,9 +77,27 @@ describe('useDropdownKeyboardNavigation', () => {
     expect(result.current.focusedIndex).toBe(3);
   });
 
+  it('changes focusedIndex correctly when some items are disabled', async () => {
+    const { result, arrowDown, arrowUp } = renderNavigationHook({
+      disabledIndices: [2],
+    });
+
+    arrowDown();
+
+    expect(result.current.focusedIndex).toBe(0);
+
+    arrowDown();
+    arrowDown();
+
+    expect(result.current.focusedIndex).toBe(3);
+
+    arrowUp();
+
+    expect(result.current.focusedIndex).toBe(1);
+  });
+
   it('changes focusedIndex correctly when initialFocusedIndex is given and arrow down is pressed', () => {
     const { result, arrowDown } = renderNavigationHook({
-      listLength: 4,
       initialFocusedIndex: 2,
     });
 
@@ -94,7 +116,6 @@ describe('useDropdownKeyboardNavigation', () => {
 
   it('changes focusedIndex correctly when initialFocusedIndex is given and arrow up is pressed', () => {
     const { result, arrowUp } = renderNavigationHook({
-      listLength: 4,
       initialFocusedIndex: 2,
     });
 
@@ -113,7 +134,6 @@ describe('useDropdownKeyboardNavigation', () => {
 
   it('resets focusedIndex when esc key is pressed', () => {
     const { result, arrowDown, esc } = renderNavigationHook({
-      listLength: 4,
       initialFocusedIndex: 0,
     });
 
@@ -130,7 +150,6 @@ describe('useDropdownKeyboardNavigation', () => {
   it('should call onKeyDown', () => {
     const onKeyDown = jest.fn();
     const { arrowDown } = renderNavigationHook({
-      listLength: 4,
       initialFocusedIndex: 0,
       onKeyDown,
     });

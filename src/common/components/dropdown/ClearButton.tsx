@@ -1,4 +1,3 @@
-import { IconSearch } from 'hds-react';
 import React from 'react';
 
 import styles from './dropdown.module.scss';

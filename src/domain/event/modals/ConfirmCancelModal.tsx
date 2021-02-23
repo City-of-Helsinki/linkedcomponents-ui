@@ -25,6 +25,16 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const handleCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    onCancel();
+  };
+
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    onClose();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -52,14 +62,14 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
               <IconCalendarCross />
             )
           }
-          onClick={onCancel}
+          onClick={handleCancel}
           type="button"
           variant="danger"
         >
           {t('event.cancelEventModal.buttonCancel')}
         </Button>
         <Button
-          onClick={onClose}
+          onClick={handleClose}
           theme="black"
           type="button"
           variant="secondary"

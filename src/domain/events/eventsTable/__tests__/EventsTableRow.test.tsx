@@ -1,6 +1,8 @@
 import { MockedResponse } from '@apollo/react-testing';
+import range from 'lodash/range';
 import React from 'react';
 
+import { MAX_PAGE_SIZE } from '../../../../constants';
 import {
   EventFieldsFragment,
   EventsDocument,
@@ -38,18 +40,23 @@ const renderComponent = (event: EventFieldsFragment, mocks: MockedResponse[]) =>
     { mocks }
   );
 
+const eventValues = {
+  id: 'event:1',
+  endTime: '2020-01-02T12:27:34+00:00',
+  publicationStatus: PublicationStatus.Public,
+  publisher: organizationId,
+  name: 'Event name',
+  startTime: '2019-11-08T12:27:34+00:00',
+};
+
 test('should render event data correctly', async () => {
-  const id = 'event:1';
-  const eventName = 'Event name';
-  const endTime = '2020-01-02T12:27:34+00:00';
-  const startTime = '2019-11-08T12:27:34+00:00';
   const event = fakeEvent({
-    endTime,
-    id,
-    name: { fi: eventName },
-    publicationStatus: PublicationStatus.Public,
+    endTime: eventValues.endTime,
+    id: eventValues.id,
+    name: { fi: eventValues.name },
+    publicationStatus: eventValues.publicationStatus,
     publisher: organizationId,
-    startTime,
+    startTime: eventValues.startTime,
   });
 
   const mocks = [
@@ -64,81 +71,60 @@ test('should render event data correctly', async () => {
 
   renderComponent(event, mocks);
 
-  screen.getByText(id);
-  screen.getByRole('link', { name: eventName });
-  screen.getAllByRole('cell', { name: eventName });
+  screen.getByText(eventValues.id);
+  screen.getByRole('link', { name: eventValues.name });
+  screen.getAllByRole('cell', { name: eventValues.name });
   await screen.findByRole('cell', { name: organizationName });
   screen.getByRole('cell', { name: '08.11.2019 klo 12.27' });
   screen.getByRole('cell', { name: '02.01.2020 klo 12.27' });
   screen.getByRole('cell', { name: 'Julkaistu' });
+
+  // Toggle button should not be visible
+  expect(
+    screen.queryByRole('button', {
+      name: `Näytä alatapahtumat: ${eventValues.name}`,
+    })
+  ).not.toBeInTheDocument();
 });
 
 test('should show sub events', async () => {
-  const subEventId = 'subevent:1';
-  const subEventName = 'Sub event 1';
-  const subEvents = fakeEvents(1, [
-    {
-      id: subEventId,
-      name: { fi: subEventName },
-      publisher: organizationId,
-    },
-  ]);
-
-  const subEventPage2Id = 'subevent:2';
-  const subEventPage2Name = 'Sub event 2';
-  const subEventsPage2 = fakeEvents(1, [
-    {
-      id: subEventPage2Id,
-      name: { fi: subEventPage2Name },
-      publisher: organizationId,
-    },
-  ]);
-  const count = subEvents.data.length + subEventsPage2.data.length;
-  const subEventsResponse = {
-    data: {
-      events: {
-        ...subEvents,
-        meta: {
-          ...subEvents.meta,
-          count,
-          next: 'http://localhost:8000/v1/event/?page=2',
-        },
-      },
-    },
-  };
-  const subEventsPage2Response = {
-    data: {
-      events: {
-        ...subEventsPage2,
-        meta: {
-          ...subEventsPage2.meta,
-          count,
-          previous: 'http://localhost:8000/v1/event/',
-        },
-      },
-    },
+  const commonEventInfo = {
+    id: eventValues.id,
+    publicationStatus: eventValues.publicationStatus,
+    publisher: eventValues.publisher,
   };
 
-  const eventId = 'event:1';
-  const eventName = 'Event name';
-  const endTime = '2020-01-02T12:27:34+00:00';
-  const startTime = '2019-11-08T12:27:34+00:00';
-  const event = fakeEvent({
-    endTime,
-    id: eventId,
-    name: { fi: eventName },
-    publisher: organizationId,
-    startTime,
-    subEvents: subEvents.data,
-    superEventType: SuperEventType.Recurring,
-  });
+  const subEventFields = range(1, 11).map((n) => ({
+    id: `subevent:${n}`,
+    name: `Sub-event ${n} name`,
+  }));
 
+  const subEvents = fakeEvents(
+    subEventFields.length,
+    subEventFields.map(({ id, name }) => ({
+      ...commonEventInfo,
+      id,
+      name: { fi: name },
+    }))
+  );
+
+  const subEventsResponse = { data: { events: subEvents } };
   const subEventsVariables = {
     createPath: undefined,
-    pageSize: 100,
+    pageSize: MAX_PAGE_SIZE,
     showAll: true,
-    superEvent: eventId,
+    superEvent: eventValues.id,
   };
+
+  const event = fakeEvent({
+    ...commonEventInfo,
+    id: eventValues.id,
+    endTime: eventValues.endTime,
+    name: { fi: eventValues.name },
+    startTime: eventValues.startTime,
+    superEventType: SuperEventType.Recurring,
+    subEvents: subEvents.data,
+  });
 
   const mocks = [
     {
@@ -155,28 +141,27 @@ test('should show sub events', async () => {
       },
       result: subEventsResponse,
     },
-    {
-      request: {
-        query: EventsDocument,
-        variables: {
-          ...subEventsVariables,
-          page: 2,
-        },
-      },
-      result: subEventsPage2Response,
-    },
   ];
 
   renderComponent(event, mocks);
 
-  const toggleButton = await screen.findByRole('button', {
-    name: `Näytä alatapahtumat: ${eventName}`,
+  const showMoreButton = await screen.findByRole('button', {
+    name: `Näytä alatapahtumat: ${eventValues.name}`,
   });
-  userEvent.click(toggleButton);
+  userEvent.click(showMoreButton);
 
-  await screen.findByRole('button', {
-    name: `Piilota alatapahtumat: ${eventName}`,
+  // Should show sub-events
+  for (const { name } of subEventFields) {
+    await screen.findByRole('link', { name });
+  }
+
+  const hideButton = await screen.findByRole('button', {
+    name: `Piilota alatapahtumat: ${eventValues.name}`,
   });
-  await screen.findByRole('link', { name: subEventName });
-  await screen.findByRole('link', { name: subEventPage2Name });
+  userEvent.click(hideButton);
+
+  // Sub-events should be hidden
+  for (const { name } of subEventFields) {
+    expect(screen.queryByRole('link', { name })).not.toBeInTheDocument();
+  }
 });

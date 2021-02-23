@@ -14,6 +14,11 @@ env:
   BUILD_ARTIFACT_FOLDER: 'build_artifacts'
   SERVICE_ARTIFACT_FOLDER: 'service_artifacts'
   SERVICE_PORT: 80
+  K8S_REQUEST_CPU: 1m
+  K8S_REQUEST_RAM: 10Mi
+  K8S_LIMIT_CPU: 50m
+  K8S_LIMIT_RAM: 20Mi
+  K8S_REPLICACOUNT: 2
 
 jobs:
   build:
@@ -26,10 +31,10 @@ jobs:
         env:
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-staging
           DOCKER_BUILD_ARG_SASS_PATH: './src/assets/styles'
-          DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
-          DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
-          DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'https://api.hel.fi/auth/linkedevents-ui'
-          DOCKER_BUILD_ARG_REACT_APP_OIDC_SCOPE: 'openid profile https://api.hel.fi/auth/linkedevents'
+          DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1'
+          DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://api.hel.fi/sso'
+          DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'linkedcomponents-ui-test'
+          DOCKER_BUILD_ARG_REACT_APP_OIDC_SCOPE: 'openid profile https://api.hel.fi/auth/linkedeventsdev'
 
   staging:
     runs-on: ubuntu-latest

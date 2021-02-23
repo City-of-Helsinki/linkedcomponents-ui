@@ -19,7 +19,7 @@ import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
-import { clearEventsQueries } from '../events/utils';
+import { clearEventsQueries, resetEventListPage } from '../events/utils';
 import ButtonPanel from './buttonPanel/ButtonPanel';
 import { EVENT_INITIAL_VALUES } from './constants';
 import styles from './eventPage.module.scss';
@@ -112,6 +112,8 @@ const CreateEventPage: React.FC = () => {
 
         // Clear all events queries from apollo cache to show added events in event list
         clearEventsQueries(apolloClient);
+        // This action will change LE response so clear event list page
+        resetEventListPage();
         goToEventSavedPage(recurringEventData.data?.createEvent.id as string);
       } else {
         const data = await createEventMutation({
@@ -122,11 +124,12 @@ const CreateEventPage: React.FC = () => {
 
         // Clear all events queries from apollo cache to show added events in event list
         clearEventsQueries(apolloClient);
+        // This action will change LE response so clear event list page
+        resetEventListPage();
         goToEventSavedPage(data.data?.createEvent.id as string);
       }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
-      /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
     }

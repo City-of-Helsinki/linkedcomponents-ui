@@ -132,6 +132,7 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Acceptera och publicera",
+      "buttonActions": "Åtgärder",
       "buttonAddEventTime": "Lägg till ny tid",
       "buttonAddImage": {
         "course": "Lägg till en bild eller video av kursen",
@@ -141,10 +142,12 @@
       "buttonAddRecurringEvent": "Lägg till återkommande evenemang",
       "buttonBack": "Tillbaka",
       "buttonCancel": "Avbryt evenemanget",
+      "buttonCopy": "Kopiera som mall",
       "buttonDelete":  "Redare evenemanget",
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
+      "buttonEdit":  "Redigera evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
       "buttonPostpone": "Skjuta upp evenemanget",
       "buttonPublish": {
@@ -157,7 +160,7 @@
       },
       "buttonSaveDraft": "Spara utkast",
       "buttonUpdateDraft": "Spara ändringar i utkastet",
-      "buttonUpdatePublic": "Spara ändringar i publicerad evenemanget",
+      "buttonUpdatePublic": "Spara ändringar",
       "checkboxIsVerified": "Jag verifierar att informationen jag har gett är korrekt och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och föreskrifter {{openInNewTab}}\">alla instruktioner och föreskrifter</a> som gäller Helsingfors stads kurser och evenemang.",
       "editButtonPanel": {
         "tooltipCancelledEvent": "Avbrutna evenemang kan inte redigeras."
@@ -429,6 +432,7 @@
         "description": "Beskrivning",
         "image": "Bild",
         "languages": "Språk",
+        "linksToEvents": "Länkar till andra evenemang",
         "place": "Plats",
         "price": "Pris",
         "responsibilities": "Ansvar",
@@ -519,6 +523,10 @@
     "count": "{{count}} evenemang",
     "count_plural": "{{count}} evenemang",
     "datetime": "{{date}} på {{time}}",
+    "eventCard": {
+      "hideSubEvents": "Dölj underevenemangen",
+      "showSubEvents": "Visa underevenemangen ({{count}})"
+    },
     "eventsTable": {
       "hideSubEvents": "Dölj underevenemangen: {{name}}",
       "showSubEvents": "Visa underevenemangen: {{name}}"

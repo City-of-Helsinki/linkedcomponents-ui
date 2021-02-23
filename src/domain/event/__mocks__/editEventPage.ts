@@ -46,6 +46,14 @@ const description = {
   sv: 'Description sv',
   zhHans: 'Description zh',
 };
+const formattedDescription = {
+  ar: '<p>Description ar</p>',
+  en: '<p>Description en</p>',
+  fi: '<p>Description fi</p>',
+  ru: '<p>Description ru</p>',
+  sv: '<p>Description sv</p>',
+  zhHans: '<p>Description zh</p>',
+};
 const endTime = new Date('2021-07-13T05:51:05.761Z');
 const facebookUrl = 'http://facebook.com';
 const imageDetails = {
@@ -235,7 +243,7 @@ const basePayload = {
     { name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl, language: 'fi' },
     { name: EXTLINK.EXTLINK_TWITTER, link: twitterUrl, language: 'fi' },
   ],
-  description,
+  description: formattedDescription,
   images: imageAtIds.map((atId) => ({ atId })),
   infoUrl,
   inLanguage: inLanguageAtIds.map((atId) => ({ atId })),
@@ -248,6 +256,8 @@ const basePayload = {
   shortDescription,
   endTime: endTime.toISOString(),
   startTime: startTime.toISOString(),
+  superEvent: undefined,
+  superEventType: null,
   id: eventId,
 };
 
@@ -301,6 +311,7 @@ const cancelEventVariables = {
     },
   ],
 };
+
 const cancelEventResponse = {
   data: { event: { ...event, eventStatus: EventStatus.EventCancelled } },
 };

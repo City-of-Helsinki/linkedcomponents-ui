@@ -7,6 +7,8 @@ import {
 import { PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
+import { store } from '../app/store/store';
+import { setEventListOptions } from './actions';
 import { EVENTS_PAGE_SIZE, EVENTS_PAGE_TABS } from './constants';
 
 export const eventsPathBuilder = ({
@@ -83,6 +85,13 @@ export const clearEventsQueries = (apolloClient: ApolloClient<object>) => {
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
 };
 
+export const clearEventQuery = (
+  apolloClient: ApolloClient<object>,
+  eventId: string
+) => {
+  apolloClient.cache.evict({ id: `Event:${eventId}` });
+};
+
 export const getEventsQueryVariables = (
   tab: EVENTS_PAGE_TABS,
   adminOrganizations: string[]
@@ -130,4 +139,8 @@ export const getEventsQuerySkip = (
     case EVENTS_PAGE_TABS.WAITING_APPROVAL:
       return !adminOrganizations.length;
   }
+};
+
+export const resetEventListPage = () => {
+  store.dispatch(setEventListOptions({ page: 1 }));
 };

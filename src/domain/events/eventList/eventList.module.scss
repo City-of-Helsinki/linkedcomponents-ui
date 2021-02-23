@@ -11,7 +11,7 @@
 }
 
 .contentContainer {
-  overflow: visible;
+  overflow: auto;
 }
 
 .eventCards,
@@ -23,10 +23,11 @@
 
 .table {
   margin-top: calc(0px - var(--spacing-4-xl));
+  max-width: calc(100vw - 2 * var(--spacing-s));
+  overflow: auto;
 
-  @include small-down {
+  @include medium-up {
     max-width: calc(100vw - 2 * var(--spacing-m));
-    overflow: auto;
   }
 }
 
@@ -72,7 +73,22 @@
     }
   }
 
-  .sortOrderSelector label {
-    @include hidden-from-screen;
+  .sortOrderSelector {
+    --dropdown-border-color-default: transparent;
+    --dropdown-background-default: transparent;
+
+    label {
+      @include hidden-from-screen;
+    }
+    button {
+      justify-content: center;
+      font-weight: 500;
+      grid-gap: var(--spacing-s);
+
+      svg {
+        position: unset;
+        margin-top: -2px;
+      }
+    }
   }
 }

@@ -132,6 +132,7 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Accept and publish",
+      "buttonActions": "Actions",
       "buttonAddEventTime": "Add new time",
       "buttonAddImage": {
         "course": "Add a photo or video of the course",
@@ -140,11 +141,13 @@
       "buttonAddOffer": "Add new pricing information",
       "buttonAddRecurringEvent": "Add recurring event",
       "buttonBack": "Back",
-      "buttonCancel":  "Cancel event",
-      "buttonDelete":  "Delete event",
+      "buttonCancel": "Cancel event",
+      "buttonCopy": "Copy as template",
+      "buttonDelete": "Delete event",
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
       "buttonDeleteRecurringEvent": "Delete recurring event",
+      "buttonEdit": "Edit event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
       "buttonPostpone": "Postpone event",
       "buttonPublish": {
@@ -157,7 +160,7 @@
       },
       "buttonSaveDraft": "Save draft",
       "buttonUpdateDraft": "Save changes to draft",
-      "buttonUpdatePublic": "Save changes to published event",
+      "buttonUpdatePublic": "Save changes",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
       "editButtonPanel": {
         "tooltipCancelledEvent": "Cancelled events can't be edited."
@@ -428,8 +431,9 @@
         "audience": "Target groups",
         "classification": "Classification",
         "description": "Description",
-        "languages": "Languages",
         "image": "Image",
+        "languages": "Languages",
+        "linksToEvents": "Links to other events",
         "place": "Place",
         "price": "Price",
         "responsibilities": "Responsibilities",
@@ -519,6 +523,10 @@
     "count": "{{count}} event",
     "count_plural": "{{count}} events",
     "datetime": "{{date}} at {{time}}",
+    "eventCard": {
+      "hideSubEvents": "Hide sub-events",
+      "showSubEvents": "Show sub-events ({{count}})"
+    },
     "eventsTable": {
       "hideSubEvents": "Hide sub-events: {{name}}",
       "showSubEvents": "Show sub-events: {{name}}"

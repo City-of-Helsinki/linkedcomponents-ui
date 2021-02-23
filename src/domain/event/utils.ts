@@ -12,7 +12,8 @@ import parseDate from 'date-fns/parse';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import subDays from 'date-fns/subDays';
-import { FormikErrors, FormikTouched } from 'formik';
+import { FormikErrors, FormikState, FormikTouched } from 'formik';
+import { TFunction } from 'i18next';
 import forEach from 'lodash/forEach';
 import isEqual from 'lodash/isEqual';
 import keys from 'lodash/keys';
@@ -22,6 +23,7 @@ import sortBy from 'lodash/sortBy';
 import uniqWith from 'lodash/uniqWith';
 import * as Yup from 'yup';
 
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { getTimeObject } from '../../common/components/timepicker/utils';
 import {
   CHARACTER_LIMITS,
@@ -48,7 +50,6 @@ import {
   SuperEventType,
 } from '../../generated/graphql';
 import { Language, OptionType, PathBuilderProps } from '../../types';
-import dropNilAndEmptyString from '../../utils/dropNilAndEmptyString';
 import formatDate from '../../utils/formatDate';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
@@ -64,7 +65,11 @@ import { EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
 import {
   ADD_IMAGE_FIELDS,
+  AUHENTICATION_NOT_NEEDED,
   EMPTY_MULTI_LANGUAGE_OBJECT,
+  EVENT_ACTION_BUTTONS,
+  EVENT_ACTION_ICONS,
+  EVENT_ACTION_LABEL_KEYS,
   EVENT_FIELDS,
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
@@ -72,6 +77,7 @@ import {
   EXTENSION_COURSE_FIELDS,
   IMAGE_ALT_TEXT_MIN_LENGTH,
   IMAGE_DETAILS_FIELDS,
+  NOT_ALLOWED_WHEN_CANCELLED,
   ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
   SELECT_FIELDS,
@@ -742,10 +748,79 @@ export const filterUnselectedLanguages = (
   eventInfoLanguages: string[]
 ) =>
   Object.entries(obj).reduce(
-    (acc, [k, v]) =>
-      eventInfoLanguages.includes(k) ? { ...acc, [k]: v } : acc,
+    (acc, [k, v]) => ({
+      ...acc,
+      [k]: eventInfoLanguages.includes(k) ? v : null,
+    }),
     {}
   );
+
+const formatDescription = (formValues: EventFormFields) => {
+  const formattedDescriptions = { ...formValues.description };
+  const audience = formValues.audience;
+  // look for the Service Centre Card keyword
+  const shouldAppendDescription = audience.find((item) =>
+    item.includes('/keyword/helsinki:aflfbat76e/')
+  );
+  const descriptionDataMapping = {
+    fi: {
+      text: [
+        'Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on',
+        'palvelukeskuskortti',
+      ],
+      link: 'https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252',
+    },
+    sv: {
+      text: [
+        'Evenemanget är avsett endast för pensionärer eller arbetslösa med',
+        'servicecentralkort',
+      ],
+      link: 'https://www.hel.fi/sote/sv/tjanster/tjanstebeskrivning?id=3252',
+    },
+    en: {
+      text: [
+        'The event is intended only for retired or unemployed persons with a',
+        'Service Centre Card',
+      ],
+      link: 'https://www.hel.fi/sote/en/services/service-desription?id=3252',
+    },
+  };
+
+  Object.entries(formattedDescriptions).forEach(([key, value]) => {
+    if (value) {
+      const description = value
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/\n/g, '<br/>')
+        .replace(/&/g, '&amp;');
+      // check if the value is already wrapped in a <p> tag
+      const formattedDescription =
+        description.startsWith('<p>') && description.endsWith('</p>')
+          ? description
+          : `<p>${description}</p>`;
+
+      // append description if Service Centre Card is selected in audience
+      // only append languages that are defined in the data mapping
+      const descriptionAppendData =
+        descriptionDataMapping[key as keyof typeof descriptionDataMapping];
+      if (
+        shouldAppendDescription &&
+        descriptionDataMapping.hasOwnProperty(key) &&
+        !formattedDescription.includes(descriptionAppendData.link)
+      ) {
+        // eslint-disable-next-line max-len
+        const specialDescription = `<p>${descriptionAppendData.text[0]} <a href="${descriptionAppendData.link}">${descriptionAppendData.text[1]}</a>.</p>`;
+        formattedDescriptions[key as keyof MultiLanguageObject] =
+          specialDescription + formattedDescription;
+      } else {
+        formattedDescriptions[
+          key as keyof MultiLanguageObject
+        ] = formattedDescription;
+      }
+    }
+  });
+
+  return formattedDescriptions;
+};
 
 export const getEventPayload = (
   formValues: EventFormFields,
@@ -755,7 +830,6 @@ export const getEventPayload = (
     audience,
     audienceMaxAge,
     audienceMinAge,
-    description,
     endTime,
     eventInfoLanguages,
     facebookUrl,
@@ -805,7 +879,10 @@ export const getEventPayload = (
         }
       })
       .filter((item) => item) as ExternalLinkInput[],
-    description: filterUnselectedLanguages(description, eventInfoLanguages),
+    description: filterUnselectedLanguages(
+      formatDescription(formValues),
+      eventInfoLanguages
+    ),
     images: images.map((atId) => ({ atId })),
     infoUrl: filterUnselectedLanguages(infoUrl, eventInfoLanguages),
     inLanguage: inLanguage.map((atId) => ({ atId })),
@@ -848,7 +925,7 @@ export const getEventPayload = (
         : undefined),
     }));
 
-    return payload.map((item) => dropNilAndEmptyString(item));
+    return payload;
   } else {
     const payload: CreateEventMutationInput = {
       ...basePayload,
@@ -858,7 +935,7 @@ export const getEventPayload = (
         : undefined),
     };
 
-    return dropNilAndEmptyString(payload);
+    return payload;
   }
 };
 
@@ -936,6 +1013,25 @@ export const getLocalisedObject = (
   ) as MultiLanguageObject;
 };
 
+const getTrimmedDescription = (event: EventFieldsFragment) => {
+  const description = getLocalisedObject(event.description);
+
+  for (const lang in description) {
+    /* istanbul ignore else */
+    if (description[lang as keyof MultiLanguageObject]) {
+      description[lang as keyof MultiLanguageObject] = description[
+        lang as keyof MultiLanguageObject
+      ]
+        .replace(/<\/p><p[\w\s"=]*>/gi, '\n\n')
+        .replace(/<br\s*[/]?>/gi, '\n')
+        .replace(/<p[\w\s"=]*>/g, '')
+        .replace(/<\/p>/g, '')
+        .replace(/&amp;/g, '&');
+    }
+  }
+  return description;
+};
+
 export const getEventInitialValues = (
   event: EventFieldsFragment
 ): EventFormFields => {
@@ -953,6 +1049,16 @@ export const getEventInitialValues = (
   return {
     ...EVENT_INITIAL_VALUES,
     eventInfoLanguages: getEventInfoLanguages(event),
+    imageDetails: {
+      altText:
+        event.images[0]?.altText || EVENT_INITIAL_VALUES.imageDetails.altText,
+      license:
+        event.images[0]?.license || EVENT_INITIAL_VALUES.imageDetails.license,
+      name: event.images[0]?.name || EVENT_INITIAL_VALUES.imageDetails.name,
+      photographerName:
+        event.images[0]?.photographerName ||
+        EVENT_INITIAL_VALUES.imageDetails.photographerName,
+    },
     inLanguage: event.inLanguage
       .map((language) => language?.atId as string)
       .filter((l) => l),
@@ -963,7 +1069,7 @@ export const getEventInitialValues = (
     name: getLocalisedObject(event.name),
     infoUrl: getLocalisedObject(event.infoUrl),
     shortDescription: getLocalisedObject(event.shortDescription),
-    description: getLocalisedObject(event.description),
+    description: getTrimmedDescription(event),
     startTime: event.startTime ? new Date(event.startTime) : null,
     endTime: event.endTime ? new Date(event.endTime) : null,
     location: event.location?.atId || '',
@@ -1051,7 +1157,10 @@ const getSubEvents = async ({
   apolloClient: ApolloClient<object>;
   event: EventFieldsFragment;
 }) => {
+  if (!event.superEventType) return [];
+
   const subEvents: EventFieldsFragment[] = [];
+  const subSubEvents: EventFieldsFragment[] = [];
 
   const id = event.id;
   const variables = {
@@ -1086,15 +1195,16 @@ const getSubEvents = async ({
   // Check is subEvent a super event and recursively add it's sub events if needed
   for (const subEvent of subEvents) {
     if (subEvent.superEventType) {
-      const subSubEvents = await getSubEvents({
+      const items = await getSubEvents({
         apolloClient,
         event: subEvent,
       });
-      subEvents.push(...subSubEvents);
+
+      subSubEvents.push(...items);
     }
   }
 
-  return subEvents;
+  return [...subEvents, ...subSubEvents];
 };
 
 export const getRelatedEvents = async ({
@@ -1104,17 +1214,141 @@ export const getRelatedEvents = async ({
   apolloClient: ApolloClient<object>;
   event: EventFieldsFragment;
 }): Promise<EventFieldsFragment[]> => {
-  const subEvents = event.subEvents;
   const allRelatedEvents: EventFieldsFragment[] = [event];
 
-  for (const subEvent of subEvents) {
-    const subSubEvents = await getSubEvents({
-      apolloClient,
-      event: subEvent as EventFieldsFragment,
-    });
-    allRelatedEvents.push(subEvent as EventFieldsFragment);
-    allRelatedEvents.push(...subSubEvents);
-  }
+  const subEvents = await getSubEvents({
+    apolloClient,
+    event,
+  });
+  allRelatedEvents.push(...subEvents);
 
   return allRelatedEvents;
+};
+
+const getIsActionButtonDisabled = ({
+  authenticated,
+  button,
+  isCancelled,
+}: {
+  authenticated: boolean;
+  button: EVENT_ACTION_BUTTONS;
+  isCancelled: boolean;
+}): boolean => {
+  if (AUHENTICATION_NOT_NEEDED.includes(button)) {
+    return false;
+  } else if (
+    !authenticated ||
+    (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(button))
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const getIsActionButtonVisible = ({
+  button,
+  isDraft,
+  isPublic,
+}: {
+  button: EVENT_ACTION_BUTTONS;
+  isDraft: boolean;
+  isPublic: boolean;
+}) => {
+  switch (button) {
+    case EVENT_ACTION_BUTTONS.CANCEL:
+      return true;
+    case EVENT_ACTION_BUTTONS.COPY:
+      return true;
+    case EVENT_ACTION_BUTTONS.DELETE:
+      return true;
+    case EVENT_ACTION_BUTTONS.EDIT:
+      return true;
+    case EVENT_ACTION_BUTTONS.POSTPONE:
+      return isPublic;
+    case EVENT_ACTION_BUTTONS.PUBLISH:
+      return isDraft;
+    case EVENT_ACTION_BUTTONS.UPDATE_DRAFT:
+      return isDraft;
+    case EVENT_ACTION_BUTTONS.UPDATE_PUBLIC:
+      return isPublic;
+  }
+};
+
+const getActionButtonTitle = ({
+  authenticated,
+  button,
+  isCancelled,
+  t,
+}: {
+  authenticated: boolean;
+  button: EVENT_ACTION_BUTTONS;
+  isCancelled: boolean;
+  t: TFunction;
+}): string => {
+  if (AUHENTICATION_NOT_NEEDED.includes(button)) {
+    return '';
+  } else if (!authenticated) {
+    return t('authentication.noRightsUpdateEvent');
+  } else if (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(button)) {
+    return t('event.form.editButtonPanel.tooltipCancelledEvent');
+  } else {
+    return '';
+  }
+};
+
+export const getActionButtonProps = ({
+  authenticated,
+  button,
+  event,
+  onClick,
+  t,
+}: {
+  authenticated: boolean;
+  button: EVENT_ACTION_BUTTONS;
+  event: EventFieldsFragment;
+  onClick: () => void;
+  t: TFunction;
+}): MenuItemOptionProps | null => {
+  const { eventStatus, publicationStatus } = getEventFields(event, 'fi');
+  const isCancelled = eventStatus === EventStatus.EventCancelled;
+  const isDraft = publicationStatus === PublicationStatus.Draft;
+  const isPublic = publicationStatus === PublicationStatus.Public;
+  return getIsActionButtonVisible({ button, isDraft, isPublic })
+    ? {
+        disabled: getIsActionButtonDisabled({
+          authenticated,
+          button,
+          isCancelled,
+        }),
+        icon: EVENT_ACTION_ICONS[button],
+        label: t(EVENT_ACTION_LABEL_KEYS[button]),
+        onClick,
+        title: getActionButtonTitle({
+          authenticated,
+          button,
+          isCancelled,
+          t,
+        }),
+      }
+    : null;
+};
+
+export const copyEventToSessionStorage = async (event: EventFieldsFragment) => {
+  const state: FormikState<EventFormFields> = {
+    errors: {},
+    isSubmitting: false,
+    isValidating: false,
+    submitCount: 0,
+    touched: {},
+    values: {
+      ...getEventInitialValues(event),
+      hasUmbrella: false,
+      isUmbrella: false,
+      isVerified: false,
+      superEvent: null,
+    },
+  };
+
+  sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
 };

@@ -132,6 +132,7 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Hyväksy ja julkaise",
+      "buttonActions": "Toiminnot",
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddImage": {
         "course": "Lisää kurssin kuva tai video",
@@ -141,9 +142,11 @@
       "buttonAddRecurringEvent": "Lisää toistuva tapahtuma",
       "buttonBack": "Takaisin",
       "buttonCancel":  "Peruuta tapahtuma",
+      "buttonCopy": "Kopioi pohjaksi",
       "buttonDelete":  "Poista tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
+      "buttonEdit":  "Muokkaa tapahtumaa",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
       "buttonPostpone": "Lykkää tapahtumaa",
@@ -157,7 +160,7 @@
       },
       "buttonSaveDraft": "Tallenna luonnos",
       "buttonUpdateDraft": "Tallenna muutokset luonnokseen",
-      "buttonUpdatePublic": "Tallenna muutokset julkaistuun tapahtumaan",
+      "buttonUpdatePublic": "Tallenna muutokset",
       "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
       "editButtonPanel": {
         "tooltipCancelledEvent": "Peruttuja tapahtumia ei voi muokata."
@@ -427,8 +430,9 @@
         "audience": "Kohderyhmät",
         "classification": "Luokittelu",
         "description": "Kuvaus",
-        "languages": "Kielet",
         "image": "Kuva",
+        "languages": "Kielet",
+        "linksToEvents": "Kytkökset muihin tapahtumiin",
         "place": "Paikka",
         "price": "Hinta",
         "responsibilities": "Vastuut",
@@ -519,6 +523,10 @@
     "count": "{{count}} tapahtuma",
     "count_plural": "{{count}} tapahtumaa",
     "datetime": "{{date}} klo {{time}}",
+    "eventCard": {
+      "hideSubEvents": "Piilota alatapahtumat",
+      "showSubEvents": "Näytä alatapahtumat ({{count}})"
+    },
     "eventsTable": {
       "hideSubEvents": "Piilota alatapahtumat: {{name}}",
       "showSubEvents": "Näytä alatapahtumat: {{name}}"

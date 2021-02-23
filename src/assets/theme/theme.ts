@@ -238,6 +238,14 @@ const theme: Theme = {
     '--spinner-width': '120px',
     '--spinner-stroke-width': '20px',
   },
+  menuDropdown: {
+    '--menu-dropdown-item-background-color': 'var(--color-white)',
+    '--menu-dropdown-item-background-color-disabled': 'var(--color-white)',
+    '--menu-dropdown-item-background-color-highlighted': 'var(--color-bus)',
+    '--menu-dropdown-item-color': 'var(--color-black-90)',
+    '--menu-dropdown-item-color-disabled': 'var(--color-black-40)',
+    '--menu-dropdown-item-color-highlighted': 'var(--color-white)',
+  },
   modal: {
     '--modal-background-color': 'var(--color-white)',
     '--modal-bottom': '0px',
