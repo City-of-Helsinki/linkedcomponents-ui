@@ -960,6 +960,16 @@ export const getEventInitialValues = (
   return {
     ...EVENT_INITIAL_VALUES,
     eventInfoLanguages: getEventInfoLanguages(event),
+    imageDetails: {
+      altText:
+        event.images[0]?.altText || EVENT_INITIAL_VALUES.imageDetails.altText,
+      license:
+        event.images[0]?.license || EVENT_INITIAL_VALUES.imageDetails.license,
+      name: event.images[0]?.name || EVENT_INITIAL_VALUES.imageDetails.name,
+      photographerName:
+        event.images[0]?.photographerName ||
+        EVENT_INITIAL_VALUES.imageDetails.photographerName,
+    },
     inLanguage: event.inLanguage
       .map((language) => language?.atId as string)
       .filter((l) => l),
