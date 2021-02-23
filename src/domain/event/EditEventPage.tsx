@@ -1,3 +1,4 @@
+import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +9,8 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import { ROUTES } from '../../constants';
 import {
   EventFieldsFragment,
+  EventQuery,
+  EventQueryVariables,
   PublicationStatus,
   SuperEventType,
   useEventQuery,
@@ -57,7 +60,9 @@ import {
 
 interface EditEventPageProps {
   event: EventFieldsFragment;
-  refetch: () => void;
+  refetch: (
+    variables?: Partial<EventQueryVariables>
+  ) => Promise<ApolloQueryResult<EventQuery>>;
 }
 
 const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
@@ -94,7 +99,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     history.push(`/${locale}${ROUTES.EVENTS}`);
   };
 
-  const onCancel = async () => {
+  const onCancel = () => {
     cancelEvent({
       onSuccess: async () => {
         await refetch();
@@ -103,17 +108,17 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     });
   };
 
-  const onDelete = async () => {
+  const onDelete = () => {
     deleteEvent({
-      onSuccess: async () => {
+      onSuccess: () => {
         // This action will change LE response so clear event list page
-        await resetEventListPage();
+        resetEventListPage();
         goToEventsPage();
       },
     });
   };
 
-  const onPostpone = async () => {
+  const onPostpone = () => {
     postponeEvent({
       onSuccess: async () => {
         await refetch();
@@ -122,7 +127,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     });
   };
 
-  const onUpdate = async (
+  const onUpdate = (
     values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {

@@ -141,6 +141,6 @@ export const getEventsQuerySkip = (
   }
 };
 
-export const resetEventListPage = async () => {
-  await store.dispatch(setEventListOptions({ page: 1 }));
+export const resetEventListPage = () => {
+  store.dispatch(setEventListOptions({ page: 1 }));
 };

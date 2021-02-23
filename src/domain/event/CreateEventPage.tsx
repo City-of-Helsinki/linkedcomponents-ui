@@ -113,7 +113,7 @@ const CreateEventPage: React.FC = () => {
         // Clear all events queries from apollo cache to show added events in event list
         clearEventsQueries(apolloClient);
         // This action will change LE response so clear event list page
-        await resetEventListPage();
+        resetEventListPage();
         goToEventSavedPage(recurringEventData.data?.createEvent.id as string);
       } else {
         const data = await createEventMutation({
@@ -125,7 +125,7 @@ const CreateEventPage: React.FC = () => {
         // Clear all events queries from apollo cache to show added events in event list
         clearEventsQueries(apolloClient);
         // This action will change LE response so clear event list page
-        await resetEventListPage();
+        resetEventListPage();
         goToEventSavedPage(data.data?.createEvent.id as string);
       }
     } catch (e) {

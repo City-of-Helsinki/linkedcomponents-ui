@@ -49,16 +49,16 @@ const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
     setOpenModal,
   } = useEventUpdateActions({ event });
 
-  const onCancel = async () => {
-    cancelEvent({});
+  const onCancel = () => {
+    cancelEvent();
   };
 
-  const onDelete = async () => {
-    deleteEvent({});
+  const onDelete = () => {
+    deleteEvent();
   };
 
-  const onPostpone = async () => {
-    postponeEvent({});
+  const onPostpone = () => {
+    postponeEvent();
   };
 
   const goToEditEventPage = () => {

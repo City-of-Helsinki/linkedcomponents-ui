@@ -61,7 +61,7 @@ const useEventUpdateActions = ({ event }: Props) => {
     });
   };
 
-  const cancelEvent = async ({ onError, onSuccess }: Callbacks) => {
+  const cancelEvent = async (callbacks?: Callbacks) => {
     try {
       setSaving(MODALS.CANCEL);
       // Make sure all related events are fetched
@@ -79,22 +79,18 @@ const useEventUpdateActions = ({ event }: Props) => {
       await updateEvents(payload);
 
       // Call callback function if defined
-      /* istanbul ignore else */
-      if (onSuccess) {
-        await onSuccess();
-      }
+      await (callbacks?.onSuccess && callbacks.onSuccess());
+
       closeModal();
       setSaving(null);
     } catch (e) /* istanbul ignore next */ {
       setSaving(null);
       // Call callback function if defined
-      if (onError) {
-        onError();
-      }
+      await (callbacks?.onError && callbacks.onError());
     }
   };
 
-  const deleteEvent = async ({ onError, onSuccess }: Callbacks) => {
+  const deleteEvent = async (callbacks?: Callbacks) => {
     try {
       setSaving(MODALS.DELETE);
       // Make sure all related events are fetched
@@ -111,22 +107,18 @@ const useEventUpdateActions = ({ event }: Props) => {
       }
 
       // Call callback function if defined
-      /* istanbul ignore else */
-      if (onSuccess) {
-        await onSuccess();
-      }
+      await (callbacks?.onSuccess && callbacks.onSuccess());
+
       closeModal();
       setSaving(null);
     } catch (e) /* istanbul ignore next */ {
       setSaving(null);
       // Call callback function if defined
-      if (onError) {
-        onError();
-      }
+      await (callbacks?.onError && callbacks.onError());
     }
   };
 
-  const postponeEvent = async ({ onError, onSuccess }: Callbacks) => {
+  const postponeEvent = async (callbacks?: Callbacks) => {
     try {
       setSaving(MODALS.POSTPONE);
       // Make sure all related events are fetched
@@ -145,18 +137,14 @@ const useEventUpdateActions = ({ event }: Props) => {
       await updateEvents(payload);
 
       // Call callback function if defined
-      /* istanbul ignore else */
-      if (onSuccess) {
-        await onSuccess();
-      }
+      await (callbacks?.onSuccess && callbacks.onSuccess());
+
       closeModal();
       setSaving(null);
     } catch (e) /* istanbul ignore next */ {
       setSaving(null);
       // Call callback function if defined
-      if (onError) {
-        onError();
-      }
+      await (callbacks?.onError && callbacks.onError());
     }
   };
 
@@ -180,7 +168,7 @@ const useEventUpdateActions = ({ event }: Props) => {
   const updateEvent = async (
     values: EventFormFields,
     publicationStatus: PublicationStatus,
-    { onError, onSuccess }: Callbacks
+    callbacks?: Callbacks
   ) => {
     try {
       setSaving(MODALS.UPDATE);
@@ -215,18 +203,14 @@ const useEventUpdateActions = ({ event }: Props) => {
       await updateEvents(payload);
 
       // Call callback function if defined
-      /* istanbul ignore else */
-      if (onSuccess) {
-        await onSuccess();
-      }
+      await (callbacks?.onSuccess && callbacks.onSuccess());
+
       closeModal();
       setSaving(null);
     } catch (e) /* istanbul ignore next */ {
       setSaving(null);
       // Call callback function if defined
-      if (onError) {
-        onError();
-      }
+      await (callbacks?.onError && callbacks.onError());
     }
   };
 
