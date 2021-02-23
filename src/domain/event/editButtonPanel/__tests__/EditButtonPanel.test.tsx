@@ -248,5 +248,7 @@ test('should route to events page when clicking back button', async () => {
   const backButton = await findComponent('back');
   userEvent.click(backButton);
 
-  expect(history.location.pathname).toBe('/fi/events');
+  await waitFor(() => {
+    expect(history.location.pathname).toBe('/fi/events');
+  });
 });

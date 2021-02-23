@@ -83,10 +83,6 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       onClick: () => onUpdate(PublicationStatus.Draft),
     }),
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.COPY,
-      onClick: copyEvent,
-    }),
-    getActionItemProps({
       button: EVENT_ACTION_BUTTONS.PUBLISH,
       onClick: () => onUpdate(PublicationStatus.Public),
     }),
@@ -96,6 +92,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       onClick: () => onUpdate(PublicationStatus.Public),
     }),
     /* Actions for all event */
+    getActionItemProps({
+      button: EVENT_ACTION_BUTTONS.COPY,
+      onClick: copyEvent,
+    }),
     getActionItemProps({
       button: EVENT_ACTION_BUTTONS.POSTPONE,
       onClick: onPostpone,
@@ -128,8 +128,9 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           </div>
           <div className={styles.editButtonWrapper}>
             <MenuDropdown
-              items={actionItems}
               buttonLabel={t('event.form.buttonActions')}
+              closeOnItemClick={true}
+              items={actionItems}
             />
           </div>
         </div>

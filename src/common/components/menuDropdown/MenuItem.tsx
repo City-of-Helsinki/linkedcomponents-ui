@@ -27,6 +27,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   setFocusedIndex,
   title,
 }) => {
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
   const onFocusOrMouseOver = (
     event:
       | React.FocusEvent<HTMLButtonElement>
@@ -38,17 +39,18 @@ const MenuItem: React.FC<MenuItemProps> = ({
     }
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
-    onClick(event);
-  };
+  React.useEffect(() => {
+    if (isFocused) {
+      buttonRef.current?.focus();
+    }
+  }, [isFocused]);
 
   return (
     <button
+      ref={buttonRef}
       className={classNames(styles.item, { [styles.highlighted]: isFocused })}
       disabled={disabled}
-      onClick={handleClick}
+      onClick={onClick}
       onMouseOver={onFocusOrMouseOver}
       onFocus={onFocusOrMouseOver}
       title={title}

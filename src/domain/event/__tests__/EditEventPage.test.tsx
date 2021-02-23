@@ -30,7 +30,7 @@ import {
   mockedUpdateEventResponse,
   mockedUpdateEventWithSubEventResponse,
   mockedUpdateImageResponse,
-} from '../__mocks__/constants';
+} from '../__mocks__/editEventPage';
 import { ROUTES } from '../../../constants';
 import { EventDocument } from '../../../generated/graphql';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';

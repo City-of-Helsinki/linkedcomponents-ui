@@ -5,19 +5,18 @@ import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 
-const Button: React.FC<ButtonProps> = ({
-  className,
-  variant = 'primary',
-  ...rest
-}) => {
-  const { theme } = useTheme();
-  return (
-    <BaseButton
-      variant={variant as any}
-      {...rest}
-      className={classNames(className, css(theme.button[variant]))}
-    />
-  );
-};
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant = 'primary', ...rest }, ref) => {
+    const { theme } = useTheme();
+    return (
+      <BaseButton
+        variant={variant as any}
+        className={classNames(className, css(theme.button[variant]))}
+        ref={ref}
+        {...rest}
+      />
+    );
+  }
+);
 
 export default Button;

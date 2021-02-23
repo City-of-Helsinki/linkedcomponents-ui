@@ -128,9 +128,8 @@ const CreateEventPage: React.FC = () => {
         resetEventListPage();
         goToEventSavedPage(data.data?.createEvent.id as string);
       }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
       // Network errors will be handled on apolloClient error link. Only show error on console here.
-      /* istanbul ignore next  */
       // eslint-disable-next-line no-console
       console.error(e);
     }
