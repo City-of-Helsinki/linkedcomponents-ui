@@ -9,7 +9,8 @@ import ToggleButton from '../dropdown/ToggleButton';
 import MultiSelectDropdownMenu from './MultiSelectDropdownMenu';
 
 export interface MultiselectDropdownProps {
-  icon: React.ReactElement;
+  clearButtonLabel?: string;
+  icon?: React.ReactElement;
   id?: string;
   onChange: (values: OptionType[]) => void;
   options: OptionType[];
@@ -23,6 +24,7 @@ export interface MultiselectDropdownProps {
 }
 
 const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
+  clearButtonLabel,
   icon,
   id: _id,
   onChange,
@@ -52,17 +54,6 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
       ),
     ].filter((e) => e) as OptionType[];
   }, [options, searchValue]);
-
-  const handleInputValueChange = React.useCallback(
-    (val: string) => {
-      setInternalSearchValue(val);
-
-      if (setSearchValue) {
-        setSearchValue(val);
-      }
-    },
-    [setSearchValue]
-  );
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   useDropdownCloseEvents({ container: dropdown, setIsMenuOpen });
@@ -102,6 +93,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   );
 
   const ensureMenuIsOpen = React.useCallback(() => {
+    /* istanbul ignore else */
     if (!isMenuOpen) {
       setIsMenuOpen(true);
     }
@@ -123,20 +115,31 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
     };
   }, [setupKeyboardNav, teardownKeyboardNav]);
 
-  const handleClear = React.useCallback(() => {
-    onChange([]);
-    handleInputValueChange('');
-  }, [handleInputValueChange, onChange]);
-
   const handleItemChange = (option: OptionType) => {
     toggleOption(option);
   };
 
-  const handleSearchValueChange = (
+  const handleSearchValueChange = React.useCallback(
+    (val: string) => {
+      setInternalSearchValue(val);
+
+      if (setSearchValue) {
+        setSearchValue(val);
+      }
+    },
+    [setSearchValue]
+  );
+
+  const handleSearchInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    handleInputValueChange(event.target.value);
+    handleSearchValueChange(event.target.value);
   };
+
+  const handleClear = React.useCallback(() => {
+    onChange([]);
+    handleSearchValueChange('');
+  }, [handleSearchValueChange, onChange]);
 
   const selectedText = React.useMemo(() => {
     const valueLabels = value
@@ -155,9 +158,9 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
 
   React.useEffect(() => {
     if (!isMenuOpen) {
-      handleInputValueChange('');
+      handleSearchValueChange('');
     }
-  }, [handleInputValueChange, isMenuOpen]);
+  }, [handleSearchValueChange, isMenuOpen]);
 
   return (
     <Dropdown ref={dropdown}>
@@ -172,12 +175,13 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
         toggleButtonLabel={toggleButtonLabel}
       />
       <MultiSelectDropdownMenu
+        clearButtonLabel={clearButtonLabel}
         focusedIndex={focusedIndex}
         id={menuId}
         isOpen={isMenuOpen}
         onClear={handleClear}
         onItemChange={handleItemChange}
-        onSearchChange={showSearch ? handleSearchValueChange : undefined}
+        onSearchChange={showSearch ? handleSearchInputChange : undefined}
         options={filteredOptions}
         searchPlaceholder={searchPlaceholder}
         searchValue={searchValue}

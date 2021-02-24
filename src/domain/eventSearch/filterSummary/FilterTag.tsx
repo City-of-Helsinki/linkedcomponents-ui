@@ -1,5 +1,6 @@
 import { Tag } from 'hds-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { EventFilterType } from '../types';
 
@@ -16,12 +17,19 @@ const FilterTag: React.FC<FilterTagProps> = ({
   type,
   value,
 }) => {
+  const { t } = useTranslation();
   const deleteFilter = () => {
     onDelete({ type, value });
   };
 
   return (
-    <Tag deleteButtonAriaLabel={text} onDelete={deleteFilter}>
+    <Tag
+      deleteButtonAriaLabel={t(
+        'eventSearchPage.searchPanel.buttonRemoveFilter',
+        { name: text }
+      )}
+      onDelete={deleteFilter}
+    >
       {text}
     </Tag>
   );

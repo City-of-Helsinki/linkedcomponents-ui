@@ -38,6 +38,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    /* istanbul ignore else */
     if (event.key === 'Enter') {
       handleItemChange();
     }

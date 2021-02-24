@@ -9,8 +9,11 @@
   justify-content: center;
 }
 
-.eventCards,
-.table {
+.contentContainer {
+  overflow: auto;
+}
+
+.eventCards {
   display: grid;
   grid-gap: var(--spacing-m);
   margin: var(--spacing-m) 0;

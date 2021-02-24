@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { IconCalendar, IconHeart, IconLocation, Koros } from 'hds-react';
+import { IconHeart, IconLocation, Koros } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
@@ -114,7 +114,6 @@ const SearchPanel: React.FC = () => {
                 <div className={styles.advancedFilters}>
                   <div>
                     <DateSelectorDropdown
-                      icon={<IconCalendar />}
                       onChangeDate={handleChangeDate}
                       value={{ endDate, startDate }}
                     />

@@ -3,15 +3,15 @@
 
 .contentWrapperCardList {
   padding-bottom: var(--spacing-5-xl);
+
+  .contentContainer {
+    overflow: auto;
+  }
 }
 
 .contentWrapperTable {
   background-color: var(--color-white);
   margin-top: var(--spacing-4-xl);
-}
-
-.contentContainer {
-  overflow: auto;
 }
 
 .eventCards,

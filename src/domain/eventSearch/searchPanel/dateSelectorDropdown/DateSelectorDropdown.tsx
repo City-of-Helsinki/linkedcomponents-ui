@@ -14,7 +14,7 @@ export enum DATE_FIELDS {
 }
 
 export interface DateSelectorProps {
-  icon: React.ReactElement;
+  icon?: React.ReactElement;
   id?: string;
   onChangeDate: (field: DATE_FIELDS, value: Date | null) => void;
   toggleButtonLabel?: string;
@@ -45,6 +45,7 @@ const DateSelectorDropdown: React.FC<DateSelectorProps> = ({
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   useDropdownCloseEvents({ container: dropdownRef, setIsMenuOpen });
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

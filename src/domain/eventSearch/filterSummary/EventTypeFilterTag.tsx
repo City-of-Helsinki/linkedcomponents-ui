@@ -11,7 +11,10 @@ const EventTypeFilterTag: React.FC<Props> = ({ value, ...rest }) => {
   return (
     <FilterTag
       {...rest}
-      text={eventTypeOptions.find((item) => item.value === value)?.label || '-'}
+      text={
+        eventTypeOptions.find((item) => item.value === value)?.label ||
+        /* istanbul ignore next */ '-'
+      }
       type="type"
       value={value}
     />

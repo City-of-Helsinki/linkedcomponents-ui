@@ -72,7 +72,7 @@ export const getPlaceFromCache = (
     },
   });
 
-  return data?.place || null;
+  return data?.place || /* istanbul ignore next */ null;
 };
 
 export const getPlaceQueryResult = async (
@@ -89,7 +89,7 @@ export const getPlaceQueryResult = async (
     });
 
     return placeData.place;
-  } /* istanbul ignore next  */ catch (e) {
+  } catch (e) /* istanbul ignore next */ {
     return null;
   }
 };

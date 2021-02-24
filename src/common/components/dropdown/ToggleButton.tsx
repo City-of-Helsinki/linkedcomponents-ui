@@ -5,7 +5,7 @@ import React from 'react';
 import styles from './dropdown.module.scss';
 
 export interface ToggleButtonProps {
-  icon: React.ReactElement;
+  icon?: React.ReactElement;
   id: string;
   isOpen: boolean;
   menuId: string;
@@ -30,9 +30,11 @@ const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
         onClick={onClick}
         type="button"
       >
-        <span className={styles.icon} aria-hidden>
-          {icon}
-        </span>
+        {icon && (
+          <span className={styles.icon} aria-hidden>
+            {icon}
+          </span>
+        )}
         <div className={styles.title}>{selectedText || toggleButtonLabel}</div>
         <IconAngleDown className={styles.angleIcon} aria-hidden />
       </button>

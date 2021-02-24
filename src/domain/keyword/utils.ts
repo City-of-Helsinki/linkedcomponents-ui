@@ -62,7 +62,7 @@ export const getKeywordQueryResult = async (
     });
 
     return keywordData.keyword;
-  } /* istanbul ignore next  */ catch (e) {
+  } catch (e) /* istanbul ignore next */ {
     return null;
   }
 };

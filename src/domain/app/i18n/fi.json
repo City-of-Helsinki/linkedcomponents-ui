@@ -651,6 +651,7 @@
     "pageTitle": "Etsi tapahtumia",
     "searchPanel": {
       "buttonClear": "Tyhjennä",
+      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
       "buttonSearch": "Etsi tapahtumia",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikka",

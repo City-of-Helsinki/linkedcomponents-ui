@@ -6,6 +6,7 @@ import DropdownMenu from '../dropdown/DropdownMenu';
 import DropdownItem from './DropdownItem';
 
 interface Props {
+  clearButtonLabel?: string;
   focusedIndex: number;
   id: string;
   isOpen: boolean;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const MultiSelectDropdownMenu: React.FC<Props> = ({
+  clearButtonLabel,
   focusedIndex,
   id,
   isOpen,
@@ -49,7 +51,7 @@ const MultiSelectDropdownMenu: React.FC<Props> = ({
 
   return (
     <DropdownMenu
-      clearButtonLabel={t('common.dropdown.buttonClear')}
+      clearButtonLabel={clearButtonLabel || t('common.dropdown.buttonClear')}
       onClear={onClear}
       onSearchChange={onSearchChange}
       id={id}
