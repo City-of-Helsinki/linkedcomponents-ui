@@ -9,6 +9,7 @@ import {
   PlaceFieldsFragment,
   usePlacesQuery,
 } from '../../../../generated/graphql';
+import useIsMounted from '../../../../hooks/useIsMounted';
 import useLocale from '../../../../hooks/useLocale';
 import { Language, OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
@@ -36,17 +37,19 @@ const getOption = (
   };
 };
 
-type Props = { value: string[] } & Omit<
+export type PlaceSelectorProps = { value: string[] } & Omit<
   MultiselectDropdownProps,
   'options' | 'value'
 >;
 
-const PlaceSelector: React.FC<Props> = ({
+const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   id,
   toggleButtonLabel,
   value,
   ...rest
 }) => {
+  const isMounted = useIsMounted();
+
   const apolloClient = useApolloClient();
   const locale = useLocale();
   const [searchValue, setSearchValue] = React.useState('');
@@ -79,15 +82,18 @@ const PlaceSelector: React.FC<Props> = ({
       const places = await Promise.all(
         value.map(async (id) => {
           const place = await getPlaceQueryResult(id, apolloClient);
-
-          return place ? getOption(place as PlaceFieldsFragment, locale) : null;
+          return place
+            ? getOption(place as PlaceFieldsFragment, locale)
+            : /* istanbul ignore next */ null;
         })
       );
 
-      setSelectedPlaces(places.filter((p) => p) as OptionType[]);
+      if (isMounted.current) {
+        setSelectedPlaces(places.filter((p) => p) as OptionType[]);
+      }
     };
-
     getSelectedPlacesFromCache();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apolloClient, locale, value]);
 
   return (
@@ -100,7 +106,8 @@ const PlaceSelector: React.FC<Props> = ({
 
         return place
           ? getOption(place as PlaceFieldsFragment, locale).label
-          : '';
+          : /* istanbul ignore next */
+            '';
       }}
       searchValue={searchValue}
       setSearchValue={setSearchValue}

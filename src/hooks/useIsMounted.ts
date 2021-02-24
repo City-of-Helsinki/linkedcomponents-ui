@@ -1,6 +1,6 @@
 import React from 'react';
 
-const useIsMounted = (): boolean => {
+const useIsMounted = (): React.MutableRefObject<boolean> => {
   const isMounted = React.useRef(false);
 
   React.useEffect(() => {
@@ -10,7 +10,7 @@ const useIsMounted = (): boolean => {
     };
   }, []);
 
-  return isMounted.current;
+  return isMounted;
 };
 
 export default useIsMounted;

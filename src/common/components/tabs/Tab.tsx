@@ -34,7 +34,7 @@ const Tab: React.FC<TabProps> = ({
   };
 
   React.useEffect(() => {
-    if (isMounted && isFocused) {
+    if (isMounted.current && isFocused) {
       ref.current?.focus();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

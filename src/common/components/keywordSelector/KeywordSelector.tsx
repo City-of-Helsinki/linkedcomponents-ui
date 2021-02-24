@@ -73,7 +73,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
 
   const handleFilter = (items: OptionType[], inputValue: string) => {
     timer = setTimeout(() => {
-      if (isMounted) {
+      if (isMounted.current) {
         setSearch(inputValue);
       }
     });
