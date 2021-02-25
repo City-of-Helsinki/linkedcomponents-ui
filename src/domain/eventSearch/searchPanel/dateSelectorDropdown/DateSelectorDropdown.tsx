@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../common/components/dropdown/Dropdown';
 import ToggleButton from '../../../../common/components/dropdown/ToggleButton';
 import useDropdownCloseEvents from '../../../../hooks/useDropdownCloseEvents';
+import useIsComponentFocused from '../../../../hooks/useIsComponentFocused';
 import formatDate from '../../../../utils/formatDate';
 import DateSelectorDropdownMenu from './DateSelectorDropdownMenu';
 
@@ -40,6 +41,8 @@ const DateSelectorDropdown: React.FC<DateSelectorProps> = ({
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const toggleButtonRef = React.useRef<HTMLButtonElement>(null);
 
+  const isComponentFocused = useIsComponentFocused(dropdownRef);
+
   const toggleButtonLabel: string =
     _toggleButtonLabel || t('common.dateSelector.buttonToggle');
 
@@ -63,13 +66,6 @@ const DateSelectorDropdown: React.FC<DateSelectorProps> = ({
   const setFocusToToggleButton = () => {
     toggleButtonRef.current?.focus();
   };
-
-  const isComponentFocused = React.useCallback(() => {
-    const active = document.activeElement;
-    const current = dropdownRef.current;
-
-    return !!current?.contains(active);
-  }, []);
 
   const handleKeyDown = React.useCallback(
     (event: KeyboardEvent) => {

@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 
 import { DATE_FORMAT, DATETIME_FORMAT } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
+import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
 import InputWrapper from '../inputWrapper/InputWrapper';
 import inputStyles from '../inputWrapper/inputWrapper.module.scss';
@@ -89,16 +90,12 @@ const Datepicker: React.FC<DatepickerProps> = ({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timesContainer = React.useRef<HTMLDivElement>(null);
 
+  const isComponentFocused = useIsComponentFocused(container);
+
   const dialogLabelId = React.useMemo(
     () => generateUniqueId('dialog-label'),
     []
   );
-
-  const isComponentFocused = () => {
-    const activeElement = document.activeElement;
-
-    return !!container.current?.contains(activeElement);
-  };
 
   const setNewDateWithTime = (previousDate: Date, newDate: Date) => {
     const hours = previousDate.getHours();
