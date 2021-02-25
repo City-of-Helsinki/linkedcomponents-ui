@@ -21,8 +21,8 @@ const FormikPersist = ({
 
   const saveForm = React.useCallback(
     debounce((data: FormikProps<{}>) => {
-      /* istanbul ignore next  */
-      if (!isMounted) return;
+      /* istanbul ignore next */
+      if (!isMounted.current) return;
 
       if (isSessionStorage) {
         window.sessionStorage.setItem(name, JSON.stringify(data));

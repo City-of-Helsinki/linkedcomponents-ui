@@ -4,7 +4,7 @@ import {
   ReducerState,
 } from './types';
 
-export const EVENTS_PAGE_SIZE = 5;
+export const EVENTS_PAGE_SIZE = 10;
 
 export const EVENTS_ACTIONS = {
   ADD_EXPANDED_EVENT: 'ADD_EXPANDED_EVENT',

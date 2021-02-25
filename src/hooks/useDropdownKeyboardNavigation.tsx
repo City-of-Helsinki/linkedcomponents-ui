@@ -1,5 +1,7 @@
 import React from 'react';
 
+import useIsComponentFocused from './useIsComponentFocused';
+
 export interface KeyboardNavigationProps {
   container: React.MutableRefObject<HTMLDivElement | null>;
   disabledIndices?: number[];
@@ -24,6 +26,7 @@ const useDropdownKeyboardNavigation = ({
 }: KeyboardNavigationProps): DropdownKeyboardNavigationState => {
   const [focusedIndex, setFocusedIndex] = React.useState<number>(-1);
   const [isInitialNavigation, setIsInitialNavigation] = React.useState(true);
+  const isComponentFocused = useIsComponentFocused(container);
 
   const getNextIndex = React.useCallback(
     (direction: 'down' | 'up', index: number) => {
@@ -50,13 +53,6 @@ const useDropdownKeyboardNavigation = ({
     },
     [disabledIndices, getNextIndex]
   );
-
-  const isComponentFocused = React.useCallback(() => {
-    const active = document.activeElement;
-    const current = container.current;
-
-    return !!current?.contains(active);
-  }, [container]);
 
   const handleKeyDown = React.useCallback(
     (event: KeyboardEvent) => {

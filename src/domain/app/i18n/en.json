@@ -32,6 +32,14 @@
       },
       "buttonClose": "Close"
     },
+    "dateSelector": {
+      "buttonToggle": "Select dates",
+      "placeholderEndDate": "Ends dd.mm.yyyy",
+      "placeholderStartDate": "Starts dd.mm.yyyy"
+    },
+    "dropdown": {
+      "buttonClear": "Clear"
+    },
     "dropdownSelect": {
       "accessibility": {
         "noResults": "No options are available",
@@ -49,6 +57,10 @@
       "buttonDropImage": "Drop an image into the area or add from your computer by clicking",
       "notAllowedFileFormat": "File format is not allowed",
       "tooLargeFileSize": "File size is too large. Maximum file size is {{maxSize}} MB"
+    },
+    "loading": "Loading...",
+    "multiSelectDropdown": {
+      "searchPlaceholder": "Search"
     },
     "noResults": "No results", 
     "openInNewTab": "(opens in a new tab)",
@@ -557,6 +569,19 @@
     },
     "title": "My events"
   },
+  "eventSearchPage": {
+    "buttonClearFilters": "Clear filters",
+    "pageTitle": "Search events",
+    "searchPanel": {
+      "buttonClear": "Clear",
+      "buttonRemoveFilter": "Remove filter: {{name}}",
+      "buttonSearch": "Search events",
+      "labelEventType": "Type",
+      "labelPlace": "Search venue",
+      "labelSearch": "Search in the Linked Events interface",
+      "placeholderSearch": "Search for events in the Linked Events interface"
+    }
+  },
   "footer": {
     "backToTopLabel": "Back to top",
     "copyrightHolder": "City of Helsinki",
@@ -641,6 +666,9 @@
   "helpPage": {
     "pageTitle": "More information"
   },
+  "landingPage": {
+    "heroTitle": "Check out the new service"
+  },
   "logoutPage": {
     "pageTitle": "You are logged out",
     "text": "You have been logged out of the service. Log back in or return to the home page."
@@ -653,12 +681,12 @@
     },
     "languageSelectorAriaLabel": "English - language selection",
     "menuToggleAriaLabel": "Menu",
+    "searchEvents": "Search events",
     "skipToContentLabel": "Skip to content",
     "tabs": {
       "createEvent": "New event",
       "events": "Events",
-      "help": "More information",
-      "searchEvent": "Search events"
+      "help": "More information"
     }
   },
   "notFound": {

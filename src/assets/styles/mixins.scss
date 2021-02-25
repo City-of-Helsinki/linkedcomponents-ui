@@ -1,3 +1,12 @@
+@mixin button-reset {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
 @mixin hidden-from-screen {
   border: 0;
   clip: rect(0 0 0 0);

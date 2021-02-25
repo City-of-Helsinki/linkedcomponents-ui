@@ -1,0 +1,28 @@
+.filterSummary {
+  --filter-summary-color: var(--color-white);
+
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-xs);
+  margin-top: var(--spacing-m);
+  grid-gap: var(--spacing-xs);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .clearButton {
+    padding: 0;
+    color: var(--filter-summary-color);
+    font-size: var(--fontsize-body-m);
+    font-weight: 500;
+    border: 2px solid transparent;
+    text-decoration: underline;
+    text-align: left;
+
+    &:focus {
+      outline: 2px solid var(--filter-summary-color);
+      outline-offset: var(--spacing-3-xs);
+    }
+  }
+}

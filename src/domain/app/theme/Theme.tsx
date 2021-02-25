@@ -114,6 +114,11 @@ type EventCardCSSProperties = {
   '--event-card-mobile-image-min-height'?: string;
 };
 
+type EventSearchPanelCSSProperties = {
+  '--event-search-panel-background-color'?: string;
+  '--event-search-panel-label-color'?: string;
+};
+
 type ImageSelectorCSSProperties = {
   '--image-selector-focus-outline-color'?: string;
 };
@@ -166,6 +171,22 @@ type ModalCSSProperties = {
   '--modal-heading-color-alert'?: string;
   '--modal-heading-background-color-info'?: string;
   '--modal-heading-color-info'?: string;
+};
+
+type DropdownCSSProperties = {
+  '--dropdown-background'?: string;
+  '--dropdown-border-color'?: string;
+  '--dropdown-border-color-focus'?: string;
+  '--dropdown-color'?: string;
+  '--dropdown-button-height'?: string;
+  '--dropdown-clear-button-color'?: string;
+  '--dropdown-clear-button-border-top-color'?: string;
+  '--dropdown-divider-color'?: string;
+  '--dropdown-icon-size'?: string;
+  '--dropdown-menu-background'?: string;
+  '--dropdown-menu-color'?: string;
+  '--dropdown-menu-max-height'?: string;
+  '--dropdown-menu-z-index'?: number;
 };
 
 type NavigationCSSProperties = {
@@ -246,6 +267,8 @@ type RadioButtonCSSProperties = {
 };
 
 type RootCSSProperties = {
+  '--focus-outline-color'?: string;
+  '--focus-outline-width'?: string;
   '--input-height'?: string;
   '--input-max-width-m'?: string;
   '--input-max-width-l'?: string;
@@ -341,8 +364,10 @@ export type Theme = {
   collapsible: CollapsibleCSSProperties;
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
+  dropdown: DropdownCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
   eventCard: EventCardCSSProperties;
+  eventSearchPanel: EventSearchPanelCSSProperties;
   footer: Partial<FooterCustomTheme>;
   imageSelector: ImageSelectorCSSProperties;
   languageSelector: LanguageSelectorCSSProperties;
@@ -383,8 +408,10 @@ const defaultTheme: Theme = {
   collapsible: {},
   datepicker: {},
   deleteButton: {},
+  dropdown: {},
   errorTemplate: {},
   eventCard: {},
+  eventSearchPanel: {},
   footer: {},
   imageSelector: {},
   languageSelector: {},
@@ -392,6 +419,7 @@ const defaultTheme: Theme = {
   loadingSpinner: {},
   menuDropdown: {},
   modal: {},
+
   navigation: {},
   notification: {},
   pagination: {},

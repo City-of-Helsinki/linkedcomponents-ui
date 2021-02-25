@@ -175,6 +175,21 @@ const theme: Theme = {
     '--delete-button-height': '56px',
     '--delete-button-padding': 'var(--spacing-s)',
   },
+  dropdown: {
+    '--dropdown-background': 'var(--color-white)',
+    '--dropdown-border-color': 'var(--color-white)',
+    '--dropdown-border-color-focus': 'var(--color-black)',
+    '--dropdown-color': 'var(--color-black)',
+    '--dropdown-button-height': 'var(--spacing-3-xl)',
+    '--dropdown-clear-button-color': 'var(--color-black-60)',
+    '--dropdown-clear-button-border-top-color': 'var(--color-silver)',
+    '--dropdown-divider-color': 'var(--color-silver)',
+    '--dropdown-icon-size': '24px',
+    '--dropdown-menu-background': 'var(--color-white)',
+    '--dropdown-menu-color': 'var(--color-black)',
+    '--dropdown-menu-max-height': '18.35rem',
+    '--dropdown-menu-z-index': 100,
+  },
   errorTemplate: {
     '--error-template-icon-color': 'var(--color-bus)',
     '--error-template-icon-size': '112px',
@@ -187,6 +202,10 @@ const theme: Theme = {
     '--event-card-image-background-color': 'var(--color-black-10)',
     '--event-card-image-min-height': '7.5rem',
     '--event-card-mobile-image-min-height': '12rem',
+  },
+  eventSearchPanel: {
+    '--event-search-panel-background-color': 'var(--color-coat-of-arms)',
+    '--event-search-panel-label-color': 'var(--color-white)',
   },
   footer: {
     '--footer-background': 'var(--color-black-5)',
@@ -338,6 +357,8 @@ const theme: Theme = {
     '--label-color-disabled': 'var(--color-black-40)',
   },
   root: {
+    '--focus-outline-color': 'var(--color-coat-of-arms)',
+    '--focus-outline-width': '3px',
     '--input-height': '56px',
     '--input-max-width-m': '448px',
     '--input-max-width-l': '566px',

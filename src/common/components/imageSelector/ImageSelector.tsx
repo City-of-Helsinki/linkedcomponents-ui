@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import { imagesPathBuilder } from '../../../domain/image/utils';
 import { Image, ImagesQuery, useImagesQuery } from '../../../generated/graphql';
+import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import Button from '../button/Button';
@@ -31,8 +32,11 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
+
   const container = React.useRef<HTMLDivElement | null>(null);
   const [loadingMore, setLoadingMore] = React.useState(false);
+
+  const isComponentFocused = useIsComponentFocused(container);
 
   const {
     data: imagesData,
@@ -93,12 +97,6 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   const imagesLeft = imagesData
     ? imagesData?.images.meta.count - imagesData?.images.data.length
     : 0;
-
-  const isComponentFocused = () => {
-    const activeElement = document.activeElement;
-
-    return !!container.current?.contains(activeElement);
-  };
 
   const handleDocumentFocusin = () => {
     if (!isComponentFocused()) {

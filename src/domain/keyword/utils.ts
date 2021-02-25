@@ -48,7 +48,7 @@ export const keywordsPathBuilder = ({
   return `/keyword/${query}`;
 };
 
-export const getKeywordFromCache = async (
+export const getKeywordQueryResult = async (
   id: string,
   apolloClient: ApolloClient<object>
 ): Promise<Keyword | null> => {
@@ -62,8 +62,7 @@ export const getKeywordFromCache = async (
     });
 
     return keywordData.keyword;
-  } catch (e) {
-    /* istanbul ignore next  */
+  } catch (e) /* istanbul ignore next */ {
     return null;
   }
 };

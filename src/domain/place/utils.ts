@@ -1,9 +1,26 @@
+import { ApolloClient } from '@apollo/client';
+
 import {
+  Place,
+  PlaceDocument,
+  PlaceFieldsFragment,
+  PlaceQuery,
   PlaceQueryVariables,
   PlacesQueryVariables,
 } from '../../generated/graphql';
-import { PathBuilderProps } from '../../types';
+import { Language, PathBuilderProps } from '../../types';
+import getLocalisedString from '../../utils/getLocalisedString';
+import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
+
+export const getPlaceFields = (
+  place: PlaceFieldsFragment,
+  locale: Language
+) => {
+  return {
+    name: getLocalisedString(place.name, locale),
+  };
+};
 
 export const placePathBuilder = ({
   args,
@@ -41,4 +58,38 @@ export const placesPathBuilder = ({
   const query = queryBuilder(variableToKeyItems);
 
   return `/place/${query}`;
+};
+
+export const getPlaceFromCache = (
+  id: string,
+  apolloClient: ApolloClient<object>
+): Place | null => {
+  const data = apolloClient.readQuery<PlaceQuery>({
+    query: PlaceDocument,
+    variables: {
+      id,
+      createPath: getPathBuilder(placePathBuilder),
+    },
+  });
+
+  return data?.place || /* istanbul ignore next */ null;
+};
+
+export const getPlaceQueryResult = async (
+  id: string,
+  apolloClient: ApolloClient<object>
+): Promise<Place | null> => {
+  try {
+    const { data: placeData } = await apolloClient.query<PlaceQuery>({
+      query: PlaceDocument,
+      variables: {
+        id,
+        createPath: getPathBuilder(placePathBuilder),
+      },
+    });
+
+    return placeData.place;
+  } catch (e) /* istanbul ignore next */ {
+    return null;
+  }
 };

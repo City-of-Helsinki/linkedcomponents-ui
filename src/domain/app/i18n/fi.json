@@ -32,6 +32,14 @@
       },
       "buttonClose": "Sulje"
     },
+    "dateSelector": {
+      "buttonToggle": "Valitse päivämäärät",
+      "placeholderEndDate": "Loppuu pp.kk.vvvv",
+      "placeholderStartDate": "Alkaa pp.kk.vvvv"
+    },
+    "dropdown": {
+      "buttonClear": "Tyhjennä"
+    },
     "dropdownSelect": {
       "accessibility": {
         "noResults": "Ei vaihtoehtoja",
@@ -49,6 +57,10 @@
       "buttonDropImage": "Pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
+    },
+    "loading": "Ladataan...",
+    "multiSelectDropdown": {
+      "searchPlaceholder": "Hae"
     },
     "noResults": "Ei tuloksia",
     "openInNewTab": "(avataan uudessa välilehdessä)",
@@ -634,6 +646,19 @@
       "wed": "Ke"
     }
   },
+  "eventSearchPage": {
+    "buttonClearFilters": "Tyhjennä hakuehdot",
+    "pageTitle": "Etsi tapahtumia",
+    "searchPanel": {
+      "buttonClear": "Tyhjennä",
+      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
+      "buttonSearch": "Etsi tapahtumia",
+      "labelEventType": "Tyyppi",
+      "labelPlace": "Etsi tapahtumapaikka",
+      "labelSearch": "Hae Linked Events -rajapinnasta",
+      "placeholderSearch": "Hae tapahtumia Linked Events -rajapinnasta"
+    }
+  },
   "footer": {
     "backToTopLabel": "Palaa ylös",
     "copyrightHolder": "Helsingin kaupunki",
@@ -641,6 +666,9 @@
   },
   "helpPage": {
     "pageTitle": "Lisätietoja"
+  },
+  "landingPage": {
+    "heroTitle": "Tutustu uuteen palveluun"
   },
   "logoutPage": {
     "pageTitle": "Olet kirjautunut ulos",
@@ -654,12 +682,12 @@
     },
     "languageSelectorAriaLabel": "Suomi - kielivalikko",
     "menuToggleAriaLabel": "Valikko",
+    "searchEvents": "Etsi tapahtumia",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
       "createEvent": "Uusi tapahtuma",
       "events": "Tapahtumat",
-      "help": "Lisätietoja",
-      "searchEvent": "Etsi tapahtumia"
+      "help": "Lisätietoja"
     }
   },
   "notFound": {

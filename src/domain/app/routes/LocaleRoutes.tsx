@@ -6,6 +6,7 @@ import { ROUTES } from '../../../constants';
 import { Language } from '../../../types';
 import EditEventPage from '../../event/EditEventPage';
 import EventSavedPage from '../../eventSaved/EventSavedPage';
+import EventSearchPage from '../../eventSearch/EventSearchPage';
 import LogoutPage from '.././../auth/logoutPage/LogoutPage';
 import CreateEventPage from '.././../event/CreateEventPage';
 import EventsPage from '.././../events/EventsPage';
@@ -69,7 +70,7 @@ const LocaleRoutes: React.FC<Props> = ({
         <Route
           exact
           path={getLocalePath(ROUTES.SEARCH)}
-          component={EventsPage}
+          component={EventSearchPage}
         />
         <Route exact path={getLocalePath(ROUTES.HELP)} component={HelpPage} />
         <Route component={NotFound} />

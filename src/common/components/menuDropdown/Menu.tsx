@@ -27,7 +27,7 @@ type MenuProps = React.ComponentPropsWithoutRef<'div'> & {
 
 export const Menu = ({
   ariaLabelledBy,
-  fixedPosition = false,
+  fixedPosition,
   focusedIndex,
   id,
   items,
@@ -38,7 +38,7 @@ export const Menu = ({
   ...rest
 }: MenuProps) => {
   const menuStyles: MenuStyles = React.useMemo(() => {
-    const { height = 0, right = 0, top = 0, width = 0 } = menuContainerSize;
+    const { height, right, top, width } = menuContainerSize;
     // the menu width should be at least 190px
     const minWidth = MENU_MIN_WIDTH >= width ? MENU_MIN_WIDTH : width;
     return {

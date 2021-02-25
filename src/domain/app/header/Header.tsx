@@ -18,6 +18,7 @@ import { OptionType } from '../../../types';
 import updateLocaleParam from '../../../utils/updateLocaleParam';
 import { signIn, signOut } from '../../auth/authenticate';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
+import { getEventSearchQuery } from '../../eventSearch/utils';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
 
@@ -82,6 +83,13 @@ const Header: React.FC = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const handleSearch = (text: string) => {
+    history.push({
+      pathname: `/${locale}${ROUTES.SEARCH}`,
+      search: getEventSearchQuery({ text }),
+    });
+  };
+
   return (
     <Navigation
       id={PAGE_HEADER_ID}
@@ -111,6 +119,10 @@ const Header: React.FC = () => {
         ))}
       </Navigation.Row>
       <Navigation.Actions>
+        <Navigation.Search
+          onSearch={handleSearch}
+          searchLabel={t('navigation.searchEvents')}
+        />
         {/* USER */}
         <Navigation.User
           authenticated={authenticated}

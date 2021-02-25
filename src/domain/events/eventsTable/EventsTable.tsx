@@ -5,6 +5,7 @@ import NoDataRow from '../../../common/components/table/NoDataRow';
 import SortableColumn from '../../../common/components/table/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import { EventFieldsFragment } from '../../../generated/graphql';
+import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import { EVENT_SORT_OPTIONS } from '../constants';
 import styles from './eventsTable.module.scss';
 import EventTableRow from './EventsTableRow';
@@ -30,11 +31,7 @@ const EventsTable: React.FC<EventsTableProps> = ({
     setSort(key as EVENT_SORT_OPTIONS);
   };
 
-  const isComponentFocused = () => {
-    const activeElement = document.activeElement;
-
-    return !!table.current?.contains(activeElement);
-  };
+  const isComponentFocused = useIsComponentFocused(table);
 
   const onDocumentFocusin = () => {
     setFocused(isComponentFocused());

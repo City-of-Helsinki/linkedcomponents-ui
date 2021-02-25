@@ -9,6 +9,7 @@ import useMeasure from 'react-use-measure';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import useDropdownKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
+import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import Button from '../button/Button';
 // eslint-disable-next-line import/no-named-as-default
 import Menu from './Menu';
@@ -42,6 +43,7 @@ const MenuDropdown = ({
     []
   );
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
   const [ref, menuContainerSize] = useMeasure({
     // Detect scroll events only if menu is open to improve performance
     scroll: fixedPosition && menuOpen,
@@ -51,13 +53,11 @@ const MenuDropdown = ({
   const toggleButton = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const isComponentFocused = useIsComponentFocused(containerRef);
+
   const id = useRef<string>(_id || uniqueId('menu-dropdown-')).current;
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
-
-  const isComponentFocused = (): boolean => {
-    return Boolean(containerRef.current?.contains(document.activeElement));
-  };
 
   const {
     focusedIndex,

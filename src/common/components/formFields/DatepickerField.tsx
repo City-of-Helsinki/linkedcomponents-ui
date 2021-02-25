@@ -54,6 +54,7 @@ const DatepickerField: React.FC<Props> = ({
       onChange={handleChange}
       helperText={errorText || helperText}
       invalid={!!errorText}
+      minBookingDate={new Date()}
       value={typeof value === 'string' ? new Date(value) : value}
     />
   );

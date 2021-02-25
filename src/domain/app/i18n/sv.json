@@ -32,6 +32,14 @@
       },
       "buttonClose": "Stäng"
     },
+    "dateSelector": {
+      "buttonToggle": "Välj tidpunkt",
+      "placeholderEndDate": "Avslutar dd.mm.åååå",
+      "placeholderStartDate": "Börjar dd.mm.åååå"
+    },
+    "dropdown": {
+      "buttonClear": "Klar"
+    },
     "dropdownSelect": {
       "accessibility": {
         "noResults": "Inga alternativ är tillgängliga",
@@ -49,6 +57,10 @@
       "buttonDropImage": "Släpp en bild i området eller lägg till från din dator genom att klicka",
       "notAllowedFileFormat": "Filformat är inte tillåtet",
       "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
+    },
+    "loading": "Läser in...",
+    "multiSelectDropdown": {
+      "searchPlaceholder": "Sök"
     },
     "noResults": "Inga resultat",
     "openInNewTab": "(öppnas i en ny flik)",
@@ -633,6 +645,19 @@
       "wed": "Ons"
     }
   },
+  "eventSearchPage": {
+    "buttonClearFilters": "Töm sökfilter",
+    "pageTitle": "Sök evenemangen",
+    "searchPanel": {
+      "buttonClear": "Klar",
+      "buttonRemoveFilter": "Ta bort filtret: {{name}}",
+      "buttonSearch": "Sök evenemangen",
+      "labelEventType": "Typ",
+      "labelPlace": "Sök evenemangsplats",
+      "labelSearch": "Sök i Linked Events gränssnittet",
+      "placeholderSearch": "Sök efter evenemangen i Linked Events gränssnittet"
+    }
+  },
   "footer": {
     "backToTopLabel": "Tillbaka till toppen",
     "copyrightHolder": "Helsingfors stad",
@@ -640,6 +665,9 @@
   },
   "helpPage": {
     "pageTitle": "Läs mer"
+  },
+  "landingPage": {
+    "heroTitle": "Kolla in den nya tjänsten"
   },
   "logoutPage": {
     "pageTitle": "Du är utloggad",
@@ -653,12 +681,12 @@
     },
     "languageSelectorAriaLabel": "Svenska - språkval",
     "menuToggleAriaLabel": "Menyn",
+    "searchEvents": "Sök evenemangen",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
       "createEvent": "Nytt evenemang",
       "events": "Evenemangen",
-      "help": "Läs mer",
-      "searchEvent": "Sök evenemangen"
+      "help": "Läs mer"
     }
   },
   "notFound": {

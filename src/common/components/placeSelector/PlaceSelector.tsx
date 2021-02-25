@@ -88,7 +88,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
 
   const handleFilter = (items: OptionType[], inputValue: string) => {
     timer = setTimeout(() => {
-      if (isMounted) {
+      if (isMounted.current) {
         setSearch(inputValue);
       }
     });

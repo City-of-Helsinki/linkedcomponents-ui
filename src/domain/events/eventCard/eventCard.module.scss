@@ -14,6 +14,11 @@
   color: var(--event-card-color);
   font-size: var(--fontsize-body-s);
   text-decoration: none;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
+  }
 
   @include medium-up {
     grid-template-columns: repeat(10, 1fr);

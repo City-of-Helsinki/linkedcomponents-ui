@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 
 import { DATE_FORMAT, DATETIME_FORMAT } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
+import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
 import InputWrapper from '../inputWrapper/InputWrapper';
 import inputStyles from '../inputWrapper/inputWrapper.module.scss';
@@ -36,10 +37,12 @@ const generateUniqueId = (prefix: string) => {
 };
 
 export type DatepickerProps = {
+  focusedDate?: Date | null;
+  icon?: React.ReactElement;
   maxBookingDate?: Date;
   minBookingDate?: Date;
   minuteInterval?: number;
-  onBlur: () => void;
+  onBlur?: () => void;
   onChange: (value?: Date | null) => void;
   timeSelector?: boolean;
   value: Date | null;
@@ -48,14 +51,16 @@ export type DatepickerProps = {
 const Datepicker: React.FC<DatepickerProps> = ({
   className,
   disabled,
+  focusedDate: _focusedDate,
   helperText,
   hideLabel,
+  icon,
   id,
   invalid,
   label,
   labelText,
   maxBookingDate,
-  minBookingDate = new Date(),
+  minBookingDate,
   minuteInterval,
   onBlur,
   onChange,
@@ -85,16 +90,12 @@ const Datepicker: React.FC<DatepickerProps> = ({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timesContainer = React.useRef<HTMLDivElement>(null);
 
+  const isComponentFocused = useIsComponentFocused(container);
+
   const dialogLabelId = React.useMemo(
     () => generateUniqueId('dialog-label'),
     []
   );
-
-  const isComponentFocused = () => {
-    const activeElement = document.activeElement;
-
-    return !!container.current?.contains(activeElement);
-  };
 
   const setNewDateWithTime = (previousDate: Date, newDate: Date) => {
     const hours = previousDate.getHours();
@@ -318,6 +319,13 @@ const Datepicker: React.FC<DatepickerProps> = ({
     tooltipButtonLabel,
   };
 
+  React.useEffect(() => {
+    if (isCalendarOpen && _focusedDate && !value) {
+      onDateFocus(_focusedDate);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCalendarOpen]);
+
   return (
     <DatepickerContext.Provider
       value={{
@@ -363,7 +371,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
             disabled={disabled}
             onClick={toggleCalendar}
           >
-            <IconCalendar />
+            {icon || <IconCalendar aria-hidden />}
           </button>
           {isCalendarOpen && (
             <div
@@ -382,7 +390,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
                         'common.datepicker.accessibility.buttonPreviousMonth'
                       )}
                     >
-                      <IconAngleLeft />
+                      <IconAngleLeft aria-hidden />
                     </MonthNavButton>
                     <div
                       className={styles.currentMonth}
@@ -399,7 +407,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
                         'common.datepicker.accessibility.buttonNextMonth'
                       )}
                     >
-                      <IconAngleRight />
+                      <IconAngleRight aria-hidden />
                     </MonthNavButton>
                   </div>
                   <div className={styles.daysContainer}>

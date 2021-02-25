@@ -70,10 +70,6 @@ test('should show navigation links and should route to correct page after clicki
       url: `/fi${ROUTES.EVENTS}`,
     },
     {
-      name: translations.navigation.tabs.searchEvent,
-      url: `/fi${ROUTES.SEARCH}`,
-    },
-    {
       name: translations.navigation.tabs.help,
       url: `/fi${ROUTES.HELP}`,
     },
@@ -146,4 +142,22 @@ test('should start logout process', async () => {
   await waitFor(() => {
     expect(signoutRedirect).toBeCalled();
   });
+});
+
+test('should route to search page', async () => {
+  const searchValue = 'search';
+  const { history } = renderComponent();
+
+  const openSearchButton = await screen.findByRole('button', {
+    name: 'Etsi tapahtumia',
+  });
+  userEvent.click(openSearchButton);
+
+  const searchInput = screen.getByPlaceholderText('Etsi tapahtumia');
+  userEvent.click(searchInput);
+  userEvent.type(searchInput, searchValue);
+  userEvent.type(searchInput, '{enter}');
+
+  expect(history.location.pathname).toBe('/fi/search');
+  expect(history.location.search).toBe(`?text=${searchValue}`);
 });
