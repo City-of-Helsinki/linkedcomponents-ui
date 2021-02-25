@@ -26,6 +26,14 @@ import DateSelectorDropdown, {
 import PlaceSelector from './placeSelector/PlaceSelector';
 import styles from './searchPanel.module.scss';
 
+type SearchState = {
+  end: Date | null;
+  place: string[];
+  start: Date | null;
+  text: string;
+  type: string[];
+};
+
 const SearchPanel: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
@@ -35,42 +43,46 @@ const SearchPanel: React.FC = () => {
 
   const eventTypeOptions = useEventTypeOptions();
 
-  const [searchValue, setSearchValue] = React.useState('');
-  const [startDate, setStartDate] = React.useState<Date | null>(null);
-  const [endDate, setEndDate] = React.useState<Date | null>(null);
-  const [selectedPlaces, setSelectedPlaces] = React.useState<string[]>([]);
-  const [selectedEventTypes, setSelectedEventTypes] = React.useState<string[]>(
-    []
+  const [searchState, setSearchState] = React.useReducer(
+    (prevState: SearchState, updatedProperty: Partial<SearchState>) => ({
+      ...prevState,
+      ...updatedProperty,
+    }),
+    {
+      end: null,
+      place: [],
+      start: null,
+      text: '',
+      type: [],
+    }
   );
 
-  const handleSearch = (text: string) => {
+  const handleSearch = () => {
     history.push({
       pathname: `/${locale}${ROUTES.SEARCH}`,
-      search: getEventSearchQuery({
-        end: endDate,
-        place: selectedPlaces,
-        start: startDate,
-        text,
-        type: selectedEventTypes,
-      }),
+      search: getEventSearchQuery(searchState),
     });
   };
 
   const handleChangePlaces = (newPlaces: OptionType[]) => {
-    setSelectedPlaces(newPlaces.map((item) => item.value));
+    setSearchState({ place: newPlaces.map((item) => item.value) });
   };
 
   const handleChangeEventTypes = (newTypes: OptionType[]) => {
-    setSelectedEventTypes(newTypes.map((item) => item.value));
+    setSearchState({ type: newTypes.map((type) => type.value) });
+  };
+
+  const handleChangeText = (text: string) => {
+    setSearchState({ text });
   };
 
   const handleChangeDate = (field: DATE_FIELDS, value: Date | null) => {
     switch (field) {
       case DATE_FIELDS.END_DATE:
-        setEndDate(value);
+        setSearchState({ end: value });
         break;
       case DATE_FIELDS.START_DATE:
-        setStartDate(value);
+        setSearchState({ start: value });
         break;
     }
   };
@@ -79,11 +91,7 @@ const SearchPanel: React.FC = () => {
     const { end, places, start, text, types } = getEventSearchInitialValues(
       location.search
     );
-    setEndDate(end);
-    setStartDate(start);
-    setSelectedPlaces(places);
-    setSearchValue(text);
-    setSelectedEventTypes(types);
+    setSearchState({ end, place: places, start, text, type: types });
   }, [location.search]);
 
   return (
@@ -108,14 +116,17 @@ const SearchPanel: React.FC = () => {
                   searchButtonAriaLabel={t(
                     'eventSearchPage.searchPanel.buttonSearch'
                   )}
-                  setValue={setSearchValue}
-                  value={searchValue}
+                  setValue={handleChangeText}
+                  value={searchState.text}
                 />
                 <div className={styles.advancedFilters}>
                   <div>
                     <DateSelectorDropdown
                       onChangeDate={handleChangeDate}
-                      value={{ endDate, startDate }}
+                      value={{
+                        endDate: searchState.end,
+                        startDate: searchState.start,
+                      }}
                     />
                   </div>
                   <div>
@@ -125,7 +136,7 @@ const SearchPanel: React.FC = () => {
                       toggleButtonLabel={t(
                         'eventSearchPage.searchPanel.labelPlace'
                       )}
-                      value={selectedPlaces}
+                      value={searchState.place}
                     />
                   </div>
                   <div>
@@ -137,7 +148,7 @@ const SearchPanel: React.FC = () => {
                       toggleButtonLabel={t(
                         'eventSearchPage.searchPanel.labelEventType'
                       )}
-                      value={selectedEventTypes
+                      value={searchState.type
                         .map(
                           (type) =>
                             eventTypeOptions.find(
@@ -152,7 +163,7 @@ const SearchPanel: React.FC = () => {
               <div className={styles.buttonWrapper}>
                 <Button
                   fullWidth={true}
-                  onClick={() => handleSearch(searchValue)}
+                  onClick={handleSearch}
                   variant="success"
                 >
                   {t('eventSearchPage.searchPanel.buttonSearch')}
