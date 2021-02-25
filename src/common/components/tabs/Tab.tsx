@@ -27,7 +27,6 @@ const Tab: React.FC<TabProps> = ({
   option,
   setFocusedTab,
 }) => {
-  const isMounted = useIsMounted();
   const ref = React.useRef<HTMLButtonElement>(null);
   const handleClick = () => {
     onClick(option.value);
@@ -38,7 +37,11 @@ const Tab: React.FC<TabProps> = ({
       ref.current?.focus();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, isFocused]);
+  }, [isFocused]);
+
+  // Keep useIsMounted hook after useEffect hook so the focus is not
+  // set to focused tab on page load
+  const isMounted = useIsMounted();
 
   const onFocus = (event: React.FocusEvent<HTMLButtonElement>) => {
     event.preventDefault();
