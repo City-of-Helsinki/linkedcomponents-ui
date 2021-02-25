@@ -41,8 +41,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   const toggleButtonId = `${id}-toggle-button`;
   const menuId = `${id}-menu`;
   const [internalSearchValue, setInternalSearchValue] = React.useState('');
-  const searchValue =
-    _searchValue !== undefined ? _searchValue : internalSearchValue;
+  const searchValue = _searchValue ?? internalSearchValue;
 
   const dropdown = React.useRef<HTMLDivElement | null>(null);
   const toggleButton = React.useRef<HTMLButtonElement | null>(null);
@@ -143,13 +142,11 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
 
   const selectedText = React.useMemo(() => {
     const valueLabels = value
-      .map((val) => {
-        if (renderOptionText) {
-          return renderOptionText(val);
-        } else {
-          return options.find((option) => option.value === val.value)?.label;
-        }
-      })
+      .map(
+        (val) =>
+          renderOptionText?.(val) ??
+          options.find((option) => option.value === val.value)?.label
+      )
       .sort();
     return valueLabels.length > 1
       ? `${valueLabels[0]} + ${valueLabels.length - 1}`

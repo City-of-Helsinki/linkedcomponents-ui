@@ -7,19 +7,11 @@ interface ClearButtonProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const ClearButton = React.forwardRef<HTMLButtonElement, ClearButtonProps>(
-  ({ children, onClick }, ref) => {
-    return (
-      <button
-        ref={ref}
-        className={styles.clearButton}
-        onClick={onClick}
-        type="button"
-      >
-        {children}
-      </button>
-    );
-  }
-);
-
+const ClearButton = ({ children, onClick }: ClearButtonProps) => {
+  return (
+    <button className={styles.clearButton} onClick={onClick} type="button">
+      {children}
+    </button>
+  );
+};
 export default ClearButton;

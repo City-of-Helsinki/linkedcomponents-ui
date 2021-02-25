@@ -33,7 +33,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const id = useRef<string>(_id || uniqueId('search-input-')).current;
+  const id = _id || uniqueId('search-input-');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);

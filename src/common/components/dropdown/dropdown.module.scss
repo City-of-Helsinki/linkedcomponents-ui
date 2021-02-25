@@ -1,3 +1,4 @@
+@import 'breakpoints';
 @import 'mixins';
 
 .dropdown {
@@ -72,8 +73,6 @@
       }
     }
   }
-
-  @import 'breakpoints';
 
   .dropdownMenu {
     background: var(--dropdown-menu-background);

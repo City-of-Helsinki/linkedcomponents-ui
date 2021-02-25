@@ -144,7 +144,7 @@ test('should start logout process', async () => {
   });
 });
 
-test('should route to serach page', async () => {
+test('should route to search page', async () => {
   const searchValue = 'search';
   const { history } = renderComponent();
 
