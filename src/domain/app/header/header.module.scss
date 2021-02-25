@@ -3,7 +3,7 @@
 .navigation {
   z-index: var(--header-z-index);
   left: 0;
-  position: sticky;
+  position: sticky !important;
   top: 0;
 
   &.hideNavRow {
