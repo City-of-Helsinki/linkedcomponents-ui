@@ -28,6 +28,7 @@ export const QUERY_EVENT = gql`
     audienceMaxAge
     audienceMinAge
     createdBy
+    deleted
     description {
       ...localisedFields
     }

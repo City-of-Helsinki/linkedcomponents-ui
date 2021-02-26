@@ -163,7 +163,13 @@
       "buttonUpdatePublic": "Save changes",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
       "editButtonPanel": {
-        "tooltipCancelledEvent": "Cancelled events can't be edited."
+        "warningCancelledEvent": "Cancelled events can't be edited.",
+        "warningCannotCancelDraft": "Event drafts can't be cancelled.",
+        "warningCannotPostponeDraft": "Event drafts can't be postponed.",
+        "warningCannotPublishSubEvent": "A sub event of a series cannot be published.",
+        "warningDeletedEvent": "Deleted events can't be edited.",
+        "warningEventInPast": "Past events can't be edited.",
+        "warningNoRightsToEdit": "You have insufficient rights to edit this event."
       },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Registration ends",

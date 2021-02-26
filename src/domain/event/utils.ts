@@ -4,6 +4,7 @@ import addWeeks from 'date-fns/addWeeks';
 import endOfDay from 'date-fns/endOfDay';
 import isBefore from 'date-fns/isBefore';
 import isFuture from 'date-fns/isFuture';
+import isPast from 'date-fns/isPast';
 import isValid from 'date-fns/isValid';
 import isWithinInterval from 'date-fns/isWithinInterval';
 import maxDate from 'date-fns/max';
@@ -11,6 +12,7 @@ import minDate from 'date-fns/min';
 import parseDate from 'date-fns/parse';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
+import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import { FormikErrors, FormikState, FormikTouched } from 'formik';
 import { TFunction } from 'i18next';
@@ -46,8 +48,10 @@ import {
   LocalisedFieldsFragment,
   LocalisedObject,
   Maybe,
+  OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
+  UserFieldsFragment,
 } from '../../generated/graphql';
 import { Language, OptionType, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
@@ -67,9 +71,9 @@ import {
   ADD_IMAGE_FIELDS,
   AUHENTICATION_NOT_NEEDED,
   EMPTY_MULTI_LANGUAGE_OBJECT,
-  EVENT_ACTION_BUTTONS,
   EVENT_ACTION_ICONS,
   EVENT_ACTION_LABEL_KEYS,
+  EVENT_ACTIONS,
   EVENT_FIELDS,
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
@@ -78,6 +82,8 @@ import {
   IMAGE_ALT_TEXT_MIN_LENGTH,
   IMAGE_DETAILS_FIELDS,
   NOT_ALLOWED_WHEN_CANCELLED,
+  NOT_ALLOWED_WHEN_DELETED,
+  NOT_ALLOWED_WHEN_IN_PAST,
   ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
   SELECT_FIELDS,
@@ -583,6 +589,7 @@ export const getEventFields = (
     audienceMaxAge: event.audienceMaxAge || null,
     audienceMinAge: event.audienceMinAge || null,
     createdBy: event.createdBy || '',
+    deleted: event.deleted ?? null,
     endTime: event.endTime ? new Date(event.endTime) : null,
     eventStatus: event.eventStatus || EventStatus.EventScheduled,
     eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
@@ -1225,111 +1232,203 @@ export const getRelatedEvents = async ({
   return allRelatedEvents;
 };
 
-const getIsActionButtonDisabled = ({
-  authenticated,
-  button,
-  isCancelled,
-}: {
-  authenticated: boolean;
-  button: EVENT_ACTION_BUTTONS;
-  isCancelled: boolean;
-}): boolean => {
-  if (AUHENTICATION_NOT_NEEDED.includes(button)) {
-    return false;
-  } else if (
-    !authenticated ||
-    (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(button))
-  ) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
 const getIsActionButtonVisible = ({
-  button,
+  action,
   isDraft,
   isPublic,
 }: {
-  button: EVENT_ACTION_BUTTONS;
+  action: EVENT_ACTIONS;
   isDraft: boolean;
   isPublic: boolean;
 }) => {
-  switch (button) {
-    case EVENT_ACTION_BUTTONS.CANCEL:
+  switch (action) {
+    case EVENT_ACTIONS.CANCEL:
+    case EVENT_ACTIONS.COPY:
+    case EVENT_ACTIONS.DELETE:
+    case EVENT_ACTIONS.EDIT:
+    case EVENT_ACTIONS.POSTPONE:
       return true;
-    case EVENT_ACTION_BUTTONS.COPY:
-      return true;
-    case EVENT_ACTION_BUTTONS.DELETE:
-      return true;
-    case EVENT_ACTION_BUTTONS.EDIT:
-      return true;
-    case EVENT_ACTION_BUTTONS.POSTPONE:
-      return isPublic;
-    case EVENT_ACTION_BUTTONS.PUBLISH:
+    case EVENT_ACTIONS.PUBLISH:
       return isDraft;
-    case EVENT_ACTION_BUTTONS.UPDATE_DRAFT:
+    case EVENT_ACTIONS.UPDATE_DRAFT:
       return isDraft;
-    case EVENT_ACTION_BUTTONS.UPDATE_PUBLIC:
+    case EVENT_ACTIONS.UPDATE_PUBLIC:
       return isPublic;
   }
 };
 
-const getActionButtonTitle = ({
+const getEventActionWarning = ({
+  action,
   authenticated,
-  button,
-  isCancelled,
+  event,
   t,
+  userMayEdit,
 }: {
+  action: EVENT_ACTIONS;
   authenticated: boolean;
-  button: EVENT_ACTION_BUTTONS;
-  isCancelled: boolean;
+  event: EventFieldsFragment;
   t: TFunction;
+  userMayEdit: boolean;
 }): string => {
-  if (AUHENTICATION_NOT_NEEDED.includes(button)) {
+  const {
+    deleted,
+    endTime,
+    eventStatus,
+    publicationStatus,
+    startTime,
+  } = getEventFields(event, 'fi');
+  const isCancelled = eventStatus === EventStatus.EventCancelled;
+  const isDraft = publicationStatus === PublicationStatus.Draft;
+  const isSubEvent = Boolean(event.superEvent);
+  const eventIsInThePast =
+    (endTime && isPast(endTime)) ||
+    (!endTime && startTime && isBefore(startTime, startOfDay(new Date())));
+
+  if (AUHENTICATION_NOT_NEEDED.includes(action)) {
     return '';
   } else if (!authenticated) {
     return t('authentication.noRightsUpdateEvent');
-  } else if (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(button)) {
-    return t('event.form.editButtonPanel.tooltipCancelledEvent');
+  } else if (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(action)) {
+    return t('event.form.editButtonPanel.warningCancelledEvent');
+  } else if (deleted && NOT_ALLOWED_WHEN_DELETED.includes(action)) {
+    return t('event.form.editButtonPanel.warningDeletedEvent');
+  } else if (eventIsInThePast && NOT_ALLOWED_WHEN_IN_PAST.includes(action)) {
+    return t('event.form.editButtonPanel.warningEventInPast');
+  } else if (isDraft && action === EVENT_ACTIONS.CANCEL) {
+    return t('event.form.editButtonPanel.warningCannotCancelDraft');
+  } else if (isDraft && action === EVENT_ACTIONS.POSTPONE) {
+    return t('event.form.editButtonPanel.warningCannotPostponeDraft');
+  } else if (isDraft && action === EVENT_ACTIONS.PUBLISH && isSubEvent) {
+    return t('event.form.editButtonPanel.warningCannotPublishSubEvent');
+  } else if (!userMayEdit) {
+    return t('event.form.editButtonPanel.warningNoRightsToEdit');
   } else {
     return '';
   }
 };
 
-export const getActionButtonProps = ({
+export const checkMayUserEditEvent = ({
+  event,
+  organizationAncestors,
+  user,
+}: {
+  event: EventFieldsFragment;
+  organizationAncestors: OrganizationFieldsFragment[];
+  user?: UserFieldsFragment;
+}) => {
+  const adminOrganizations = user?.adminOrganizations;
+  const organizationMemberships = user?.organizationMemberships;
+  const userOrganization = user?.organization;
+  const eventPublisher = event.publisher;
+
+  const publicationStatus = event.publicationStatus;
+  const userHasOrganizations =
+    adminOrganizations?.length || organizationMemberships?.length;
+
+  let userMayEdit = false;
+
+  // users that don't belong to any organization are not allowed to edit
+  if (!userHasOrganizations) {
+    return false;
+  }
+  // If present, also check event organization ancestors for admin orgs.
+  // Check admin_organizations and organization_membership, but fall back to user.organization if needed
+  if (eventPublisher && organizationAncestors && adminOrganizations) {
+    userMayEdit =
+      adminOrganizations.includes(eventPublisher) ||
+      adminOrganizations.some((id) =>
+        organizationAncestors.map((org) => org.id).includes(id)
+      );
+  } else if (eventPublisher && adminOrganizations) {
+    userMayEdit = adminOrganizations.includes(eventPublisher);
+  } else {
+    userMayEdit = eventPublisher === userOrganization;
+  }
+
+  // exceptions to the above:
+  if (eventPublisher && organizationMemberships && !userMayEdit) {
+    // non-admins may still edit drafts if they are organization members
+    userMayEdit =
+      organizationMemberships.includes(eventPublisher) &&
+      publicationStatus === PublicationStatus.Draft;
+  }
+
+  return userMayEdit;
+};
+
+type EventEditability = {
+  editable: boolean;
+  warning: string;
+};
+
+export const checkIsEventActionAllowed = ({
+  action,
   authenticated,
-  button,
+  event,
+  organizationAncestors,
+  t,
+  user,
+}: {
+  action: EVENT_ACTIONS;
+  authenticated: boolean;
+  event: EventFieldsFragment;
+  organizationAncestors: OrganizationFieldsFragment[];
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): EventEditability => {
+  const userMayEdit = checkMayUserEditEvent({
+    event,
+    organizationAncestors,
+    user,
+  });
+  const warning = getEventActionWarning({
+    action,
+    authenticated,
+    event,
+    t,
+    userMayEdit,
+  });
+
+  return { editable: !warning, warning };
+};
+
+export const getActionButtonProps = ({
+  action,
+  authenticated,
   event,
   onClick,
+  organizationAncestors,
   t,
+  user,
 }: {
+  action: EVENT_ACTIONS;
   authenticated: boolean;
-  button: EVENT_ACTION_BUTTONS;
   event: EventFieldsFragment;
   onClick: () => void;
+  organizationAncestors: OrganizationFieldsFragment[];
   t: TFunction;
+  user?: UserFieldsFragment;
 }): MenuItemOptionProps | null => {
-  const { eventStatus, publicationStatus } = getEventFields(event, 'fi');
-  const isCancelled = eventStatus === EventStatus.EventCancelled;
+  const { publicationStatus } = getEventFields(event, 'fi');
   const isDraft = publicationStatus === PublicationStatus.Draft;
   const isPublic = publicationStatus === PublicationStatus.Public;
-  return getIsActionButtonVisible({ button, isDraft, isPublic })
+
+  const { editable, warning } = checkIsEventActionAllowed({
+    action,
+    authenticated,
+    event,
+    organizationAncestors,
+    t,
+    user,
+  });
+
+  return getIsActionButtonVisible({ action, isDraft, isPublic })
     ? {
-        disabled: getIsActionButtonDisabled({
-          authenticated,
-          button,
-          isCancelled,
-        }),
-        icon: EVENT_ACTION_ICONS[button],
-        label: t(EVENT_ACTION_LABEL_KEYS[button]),
+        disabled: !editable,
+        icon: EVENT_ACTION_ICONS[action],
+        label: t(EVENT_ACTION_LABEL_KEYS[action]),
         onClick,
-        title: getActionButtonTitle({
-          authenticated,
-          button,
-          isCancelled,
-          t,
-        }),
+        title: warning,
       }
     : null;
 };

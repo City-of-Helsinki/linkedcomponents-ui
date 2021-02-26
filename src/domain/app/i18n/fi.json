@@ -163,7 +163,13 @@
       "buttonUpdatePublic": "Tallenna muutokset",
       "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
       "editButtonPanel": {
-        "tooltipCancelledEvent": "Peruttuja tapahtumia ei voi muokata."
+        "warningCancelledEvent": "Peruttuja tapahtumia ei voi muokata.",
+        "warningCannotCancelDraft": "Tapahtumaluonnosta ei voi perua.",
+        "warningCannotPostponeDraft": "Tapahtumaluonnosta ei voi lykätä.",
+        "warningCannotPublishSubEvent": "Sarjan alatapahtumia ei voi julkaista.",
+        "warningDeletedEvent": "Poistettuja tapahtumia ei voi muokata.",
+        "warningEventInPast": "Menneisyydessä olevia tapahtumia ei voi muokata.",
+        "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa."
       },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",

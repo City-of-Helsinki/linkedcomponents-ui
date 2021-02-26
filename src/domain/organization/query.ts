@@ -24,4 +24,21 @@ export const QUERY_ORGANIZATION = gql`
       ...organizationFields
     }
   }
+
+  query Organizations(
+    $child: ID
+    $createPath: Any
+    $page: Int
+    $pageSize: Int
+  ) {
+    organizations(child: $child, page: $page, pageSize: $pageSize)
+      @rest(type: "OrganizationsResponse", pathBuilder: $createPath) {
+      meta {
+        ...metaFields
+      }
+      data {
+        ...organizationFields
+      }
+    }
+  }
 `;

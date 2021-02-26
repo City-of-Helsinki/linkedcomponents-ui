@@ -19,6 +19,7 @@ export type EventFields = {
   audienceMaxAge: number | null;
   audienceMinAge: number | null;
   createdBy: string;
+  deleted: string | null;
   endTime: Date | null;
   eventStatus: EventStatus;
   eventUrl: string;

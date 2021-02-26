@@ -10,7 +10,8 @@ import { ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { authenticatedSelector } from '../../auth/selectors';
-import { EVENT_ACTION_BUTTONS } from '../../event/constants';
+import { EVENT_ACTIONS } from '../../event/constants';
+import useEventOrganization from '../../event/hooks/useEventOrganizationAncestors';
 import useEventUpdateActions, {
   MODALS,
 } from '../../event/hooks/useEventUpdateActions';
@@ -22,6 +23,7 @@ import {
   getActionButtonProps,
   getEventFields,
 } from '../../event/utils';
+import useUser from '../../user/hooks/useUser';
 import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {
@@ -48,6 +50,8 @@ const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
     postponeEvent,
     setOpenModal,
   } = useEventUpdateActions({ event });
+  const { organizationAncestors } = useEventOrganization(event);
+  const { user } = useUser();
 
   const onCancel = () => {
     cancelEvent();
@@ -71,40 +75,42 @@ const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
   };
 
   const getActionItemProps = ({
-    button,
+    action,
     onClick,
   }: {
-    button: EVENT_ACTION_BUTTONS;
+    action: EVENT_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
     return getActionButtonProps({
+      action,
       authenticated,
-      button,
       event,
       onClick,
+      organizationAncestors,
       t,
+      user,
     });
   };
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.EDIT,
+      action: EVENT_ACTIONS.EDIT,
       onClick: goToEditEventPage,
     }),
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.COPY,
+      action: EVENT_ACTIONS.COPY,
       onClick: copyEvent,
     }),
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.POSTPONE,
+      action: EVENT_ACTIONS.POSTPONE,
       onClick: () => setOpenModal(MODALS.POSTPONE),
     }),
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.CANCEL,
+      action: EVENT_ACTIONS.CANCEL,
       onClick: () => setOpenModal(MODALS.CANCEL),
     }),
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.DELETE,
+      action: EVENT_ACTIONS.DELETE,
       onClick: () => setOpenModal(MODALS.DELETE),
     }),
   ].filter((i) => i) as MenuItemOptionProps[];

@@ -76,6 +76,7 @@ export type Query = {
   image: Image;
   images: ImagesResponse;
   organization: Organization;
+  organizations: OrganizationsResponse;
   place: Place;
   places: PlacesResponse;
   user: User;
@@ -163,6 +164,13 @@ export type QueryImagesArgs = {
 
 export type QueryOrganizationArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryOrganizationsArgs = {
+  child?: Maybe<Scalars['ID']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
 };
 
 
@@ -360,6 +368,7 @@ export type Event = {
   customData?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
   datePublished?: Maybe<Scalars['String']>;
+  deleted?: Maybe<Scalars['String']>;
   description?: Maybe<LocalisedObject>;
   endTime?: Maybe<Scalars['String']>;
   extensionCourse?: Maybe<ExtensionCourse>;
@@ -511,6 +520,12 @@ export type Organization = {
   atType?: Maybe<Scalars['String']>;
 };
 
+export type OrganizationsResponse = {
+  __typename?: 'OrganizationsResponse';
+  meta: Meta;
+  data: Array<Maybe<Organization>>;
+};
+
 export type Place = {
   __typename?: 'Place';
   id?: Maybe<Scalars['ID']>;
@@ -654,7 +669,7 @@ export type OfferFieldsFragment = (
 
 export type BaseEventFieldsFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'createdBy' | 'endTime' | 'eventStatus' | 'lastModifiedTime' | 'publicationStatus' | 'publisher' | 'startTime' | 'superEventType'>
+  & Pick<Event, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'createdBy' | 'deleted' | 'endTime' | 'eventStatus' | 'lastModifiedTime' | 'publicationStatus' | 'publisher' | 'startTime' | 'superEventType'>
   & { audience: Array<Maybe<(
     { __typename?: 'Keyword' }
     & KeywordFieldsFragment
@@ -995,6 +1010,28 @@ export type OrganizationQuery = (
   ) }
 );
 
+export type OrganizationsQueryVariables = Exact<{
+  child?: Maybe<Scalars['ID']>;
+  createPath?: Maybe<Scalars['Any']>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type OrganizationsQuery = (
+  { __typename?: 'Query' }
+  & { organizations: (
+    { __typename?: 'OrganizationsResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & MetaFieldsFragment
+    ), data: Array<Maybe<(
+      { __typename?: 'Organization' }
+      & OrganizationFieldsFragment
+    )>> }
+  ) }
+);
+
 export type DivisionFieldsFragment = (
   { __typename?: 'Division' }
   & Pick<Division, 'type'>
@@ -1212,6 +1249,7 @@ export const BaseEventFieldsFragmentDoc = gql`
   audienceMaxAge
   audienceMinAge
   createdBy
+  deleted
   description {
     ...localisedFields
   }
@@ -1964,6 +2002,48 @@ export function useOrganizationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type OrganizationQueryHookResult = ReturnType<typeof useOrganizationQuery>;
 export type OrganizationLazyQueryHookResult = ReturnType<typeof useOrganizationLazyQuery>;
 export type OrganizationQueryResult = Apollo.QueryResult<OrganizationQuery, OrganizationQueryVariables>;
+export const OrganizationsDocument = gql`
+    query Organizations($child: ID, $createPath: Any, $page: Int, $pageSize: Int) {
+  organizations(child: $child, page: $page, pageSize: $pageSize) @rest(type: "OrganizationsResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...organizationFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${OrganizationFieldsFragmentDoc}`;
+
+/**
+ * __useOrganizationsQuery__
+ *
+ * To run a query within a React component, call `useOrganizationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganizationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrganizationsQuery({
+ *   variables: {
+ *      child: // value for 'child'
+ *      createPath: // value for 'createPath'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *   },
+ * });
+ */
+export function useOrganizationsQuery(baseOptions?: Apollo.QueryHookOptions<OrganizationsQuery, OrganizationsQueryVariables>) {
+        return Apollo.useQuery<OrganizationsQuery, OrganizationsQueryVariables>(OrganizationsDocument, baseOptions);
+      }
+export function useOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrganizationsQuery, OrganizationsQueryVariables>) {
+          return Apollo.useLazyQuery<OrganizationsQuery, OrganizationsQueryVariables>(OrganizationsDocument, baseOptions);
+        }
+export type OrganizationsQueryHookResult = ReturnType<typeof useOrganizationsQuery>;
+export type OrganizationsLazyQueryHookResult = ReturnType<typeof useOrganizationsLazyQuery>;
+export type OrganizationsQueryResult = Apollo.QueryResult<OrganizationsQuery, OrganizationsQueryVariables>;
 export const PlaceDocument = gql`
     query Place($id: ID!, $createPath: Any) {
   place(id: $id) @rest(type: "Place", pathBuilder: $createPath) {
