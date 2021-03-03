@@ -48,6 +48,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       createdBy: null,
       dataSource: 'hel',
       datePublished: null,
+      deleted: null,
       description: fakeLocalisedObject(),
       endTime: null,
       eventStatus: EventStatus.EventScheduled,
@@ -230,6 +231,12 @@ export const fakeOrganization = (
     overrides
   );
 };
+
+export const fakeOrganizations = (
+  count = 1,
+  organizations?: Partial<Organization>[]
+): Organization[] =>
+  generateNodeArray((i) => fakeOrganization(organizations?.[i]), count);
 
 export const fakePlaces = (
   count = 1,
