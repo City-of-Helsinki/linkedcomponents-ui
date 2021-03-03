@@ -160,7 +160,6 @@ const CreateEventPage: React.FC = () => {
         setErrors,
         setTouched,
       }) => {
-        console.log(errors, touched);
         const clearErrors = () => {
           setErrors({});
         };
