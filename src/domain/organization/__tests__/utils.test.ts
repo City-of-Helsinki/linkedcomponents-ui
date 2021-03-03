@@ -1,10 +1,22 @@
 import { fakeOrganization } from '../../../utils/mockDataUtils';
-import { getOrganizationFields, organizationPathBuilder } from '../utils';
+import {
+  getOrganizationFields,
+  organizationPathBuilder,
+  organizationsPathBuilder,
+} from '../utils';
 
 describe('organizationPathBuilder function', () => {
   it('should create correct path for organization request', () => {
     expect(organizationPathBuilder({ args: { id: '123' } })).toBe(
       '/organization/123/'
+    );
+  });
+});
+
+describe('organizationsPathBuilder function', () => {
+  it('should create correct path for organizations request', () => {
+    expect(organizationsPathBuilder({ args: { child: '123' } })).toBe(
+      '/organization/?child=123'
     );
   });
 });

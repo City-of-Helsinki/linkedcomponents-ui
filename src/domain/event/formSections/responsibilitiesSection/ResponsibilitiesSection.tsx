@@ -24,11 +24,13 @@ import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 import { getEventFields } from '../../utils';
 
-interface Props {
+export interface ResponsibilitiesSectionProps {
   savedEvent?: EventFieldsFragment;
 }
 
-const ResponsibilitiesSection: React.FC<Props> = ({ savedEvent }) => {
+const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
+  savedEvent,
+}) => {
   const locale = useLocale();
   const { user } = useUser();
   const { organizations: userOrganizations } = useUserOrganizations(user);
@@ -125,11 +127,9 @@ const ResponsibilitiesSection: React.FC<Props> = ({ savedEvent }) => {
   }, [{ eventTimes, isUmbrella, recurringEvents }]);
 
   useDeepCompareEffect(() => {
-    if (!savedEvent) {
+    if (!savedEvent && user && publisher) {
       // Set default publisher after user logs in if publisher is not set
-      if (user && publisher) {
-        setPublisher(user.organization ?? '');
-      }
+      setPublisher(user.organization ?? '');
     }
   }, [{ user }]);
 

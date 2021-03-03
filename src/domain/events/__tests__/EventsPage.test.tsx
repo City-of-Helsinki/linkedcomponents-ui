@@ -43,7 +43,7 @@ const storeState = fakeAuthenticatedStoreState();
 const adminOrganization = 'helsinki';
 const userData = fakeUser({ adminOrganizations: [adminOrganization] });
 const userResponse = { data: { user: userData } };
-const mocedUserResponse = {
+const mockedUserResponse: MockedResponse = {
   request: {
     query: UserDocument,
     variables: { id: 'user:1', createPath: undefined },
@@ -170,7 +170,7 @@ const mockedDraftEventsResponse: MockedResponse = {
 };
 
 const mocks = [
-  mocedUserResponse,
+  mockedUserResponse,
   mockedWaitingApprovalEventsResponse,
   mockedSortedWaitingApprovalEventsResponse,
   mockedPublisEventsResponse,

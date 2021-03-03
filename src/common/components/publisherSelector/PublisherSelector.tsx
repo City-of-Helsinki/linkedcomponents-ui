@@ -59,11 +59,9 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
     setSelectedOrganization(selectedValue);
   }, [{ organizationData }]);
 
-  const options = React.useMemo(() => {
-    return publisher
-      ? [selectedOrganization as OptionType]
-      : organizations.map((org) => getOption(org));
-  }, [organizations, publisher, selectedOrganization]);
+  const options = publisher
+    ? [selectedOrganization as OptionType]
+    : organizations.map((org) => getOption(org));
 
   return (
     <SingleSelect

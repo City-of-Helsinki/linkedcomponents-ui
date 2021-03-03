@@ -5,6 +5,7 @@ import { MAX_PAGE_SIZE } from '../../../../constants';
 import {
   EventsDocument,
   OrganizationDocument,
+  OrganizationsDocument,
   PublicationStatus,
   SuperEventType,
 } from '../../../../generated/graphql';
@@ -15,6 +16,7 @@ import {
   fakeLanguages,
   fakeOffers,
   fakeOrganization,
+  fakeOrganizations,
   fakePlace,
 } from '../../../../utils/mockDataUtils';
 import {
@@ -47,8 +49,29 @@ const eventValues = {
 
 const organizationName = 'Organization name';
 const organization = fakeOrganization({ name: organizationName });
-const organizationResponse = { data: { organization } };
 const organizationVariables = { id: organizationId, createPath: undefined };
+const organizationResponse = { data: { organization } };
+const mockedOrganizationResponse = {
+  request: {
+    query: OrganizationDocument,
+    variables: organizationVariables,
+  },
+  result: organizationResponse,
+};
+
+const organizationsVariables = {
+  child: organizationId,
+  pageSize: MAX_PAGE_SIZE,
+  createPath: undefined,
+};
+const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
+const mockedOrganizationsResponse = {
+  request: {
+    query: OrganizationsDocument,
+    variables: organizationsVariables,
+  },
+  result: organizationsResponse,
+};
 
 const commonEventInfo = {
   id: eventValues.id,
@@ -79,13 +102,19 @@ const subEvents = fakeEvents(
     name: { fi: name },
   }))
 );
-
-const subEventsResponse = { data: { events: subEvents } };
 const subEventsVariables = {
   createPath: undefined,
   pageSize: MAX_PAGE_SIZE,
   showAll: true,
   superEvent: eventValues.id,
+};
+const subEventsResponse = { data: { events: subEvents } };
+const mockedSubEventsResponse = {
+  request: {
+    query: EventsDocument,
+    variables: subEventsVariables,
+  },
+  result: subEventsResponse,
 };
 
 const event = fakeEvent({
@@ -99,20 +128,9 @@ const event = fakeEvent({
 });
 
 const mocks = [
-  {
-    request: {
-      query: EventsDocument,
-      variables: subEventsVariables,
-    },
-    result: subEventsResponse,
-  },
-  {
-    request: {
-      query: OrganizationDocument,
-      variables: organizationVariables,
-    },
-    result: organizationResponse,
-  },
+  mockedSubEventsResponse,
+  mockedOrganizationResponse,
+  mockedOrganizationsResponse,
 ];
 
 test('should render event card fields', async () => {

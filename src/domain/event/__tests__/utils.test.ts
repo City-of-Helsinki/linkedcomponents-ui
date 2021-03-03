@@ -85,6 +85,7 @@ const defaultEventPayload = {
     zhHans: null,
   },
   publicationStatus: PublicationStatus.Draft,
+  publisher: '',
   shortDescription: {
     ar: null,
     en: null,
@@ -336,6 +337,7 @@ describe('getEventPayload function', () => {
           en: 'Provider en',
           sv: '',
         },
+        publisher: 'publisher:1',
         shortDescription: {
           ...EMPTY_MULTI_LANGUAGE_OBJECT,
           fi: 'Short description fi',
@@ -443,6 +445,7 @@ describe('getEventPayload function', () => {
         sv: '',
         zhHans: null,
       },
+      publisher: 'publisher:1',
       shortDescription: {
         ar: null,
         en: null,
@@ -738,6 +741,7 @@ describe('getEventInitialValues function', () => {
       sv: 'Provider sv',
       zhHans: 'Provider zh',
     };
+    const publisher = 'publisher:123';
     const shortDescription = {
       ar: 'Short description ar',
       en: 'Short description en',
@@ -801,6 +805,7 @@ describe('getEventInitialValues function', () => {
             }))
           ),
           provider,
+          publisher,
           shortDescription,
           startTime: startTime.toISOString(),
           superEvent: fakeEvent({
@@ -835,6 +840,7 @@ describe('getEventInitialValues function', () => {
       name,
       offers,
       provider,
+      publisher,
       recurringEvents: [],
       shortDescription,
       startTime,
@@ -844,7 +850,7 @@ describe('getEventInitialValues function', () => {
     });
   });
 
-  it('should return event edit form initial values', () => {
+  it('should return event edit form default initial values', () => {
     const expectedName = {
       ar: '',
       en: '',

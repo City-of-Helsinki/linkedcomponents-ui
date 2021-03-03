@@ -7,6 +7,7 @@ import {
   OrganizationFieldsFragment,
   UserFieldsFragment,
 } from '../../../generated/graphql';
+import useIsMounted from '../../../hooks/useIsMounted';
 import { getOrganizationQueryResult } from '../../organization/utils';
 
 type userOrganizationsState = {
@@ -17,6 +18,7 @@ type userOrganizationsState = {
 const useUserOrganizations = (
   user?: UserFieldsFragment
 ): userOrganizationsState => {
+  const isMounted = useIsMounted();
   const apolloClient = useApolloClient();
   const [loading, setLoading] = React.useState(false);
   const [organizations, setOrganizations] = React.useState<
@@ -44,20 +46,25 @@ const useUserOrganizations = (
           })
         );
 
-        setOrganizations(
-          sortBy(
-            userOrganizations.filter(
-              (org) => org
-            ) as OrganizationFieldsFragment[],
-            'name'
-          )
-        );
-        setLoading(false);
-      } catch (e) {
+        /* istanbul ignore else */
+        if (isMounted.current) {
+          setOrganizations(
+            sortBy(
+              userOrganizations.filter(
+                (org) => org
+              ) as OrganizationFieldsFragment[],
+              'name'
+            )
+          );
+          setLoading(false);
+        }
+      } catch (e) /* istanbul ignore next */ {
         setLoading(false);
       }
     };
     getUserOrganizations();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apolloClient, user]);
 
   return { loading, organizations };
