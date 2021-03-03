@@ -37,7 +37,8 @@ const TextAreaField: React.FC<Props> = ({
       id={name}
       name={name}
       value={value}
-      helperText={errorText || helperText || charsLeftText}
+      errorText={errorText}
+      helperText={helperText || charsLeftText}
       invalid={!!errorText}
       maxLength={maxLength}
     />

@@ -37,8 +37,9 @@ const TextInputField: React.FC<Props> = ({
       id={name}
       name={name}
       value={value}
-      helperText={errorText || helperText || charsLeftText}
-      invalid={!!errorText}
+      errorText={errorText}
+      helperText={helperText || charsLeftText}
+      invalid={Boolean(errorText)}
       maxLength={maxLength}
     />
   );
