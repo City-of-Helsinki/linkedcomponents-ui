@@ -149,6 +149,7 @@ module.exports = buildSchema(/* GraphQL */ `
     name: LocalisedObjectInput
     offers: [OfferInput!]
     provider: LocalisedObjectInput
+    publisher: String
     shortDescription: LocalisedObjectInput
     startTime: String
     subEvents: [IdObjectInput!]

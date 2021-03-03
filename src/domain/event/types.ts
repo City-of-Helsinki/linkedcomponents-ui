@@ -26,6 +26,8 @@ export type EventFields = {
   freeEvent: boolean;
   imageUrl: string | null;
   inLanguage: string[];
+  isDraft: boolean;
+  isPublic: boolean;
   lastModifiedTime: Date | null;
   locationName: string;
   name: string;
@@ -65,6 +67,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.NAME]: MultiLanguageObject;
   [EVENT_FIELDS.OFFERS]: Offer[];
   [EVENT_FIELDS.PROVIDER]: MultiLanguageObject;
+  [EVENT_FIELDS.PUBLISHER]: string;
   [EVENT_FIELDS.RECURRING_EVENTS]: RecurringEventSettings[];
   [EVENT_FIELDS.SHORT_DESCRIPTION]: MultiLanguageObject;
   [EVENT_FIELDS.START_TIME]: Date | null;

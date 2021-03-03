@@ -1,9 +1,15 @@
+import { ApolloClient } from '@apollo/client';
+
 import {
+  Organization,
+  OrganizationDocument,
   OrganizationFieldsFragment,
+  OrganizationQuery,
   OrganizationQueryVariables,
   OrganizationsQueryVariables,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
+import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import { OrganizationFields } from './types';
 
@@ -32,3 +38,24 @@ export const getOrganizationFields = (
 ): OrganizationFields => ({
   name: organization.name || '',
 });
+
+export const getOrganizationQueryResult = async (
+  id: string,
+  apolloClient: ApolloClient<object>
+): Promise<Organization | null> => {
+  try {
+    const { data: organizationData } = await apolloClient.query<
+      OrganizationQuery
+    >({
+      query: OrganizationDocument,
+      variables: {
+        id,
+        createPath: getPathBuilder(organizationPathBuilder),
+      },
+    });
+
+    return organizationData.organization;
+  } catch (e) /* istanbul ignore next */ {
+    return null;
+  }
+};

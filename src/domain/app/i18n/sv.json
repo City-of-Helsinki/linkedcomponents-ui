@@ -5,8 +5,6 @@
     "networkError": {
       "message": "Inloggningsfel: Kontrollera din nätverksanslutning eller försök igen senare"
     },
-    "noRightsCreateEvent": "Du har inte tillräckliga rättigheter att skapa evenemang.",
-    "noRightsPublishEvent": "Du har inte tillräckliga rättigheter att publicera evenemang.",
     "noRightsUpdateEvent": "Du har inte tillräckliga rättigheter för att redigera evenemang."
   },
   "common": {
@@ -149,6 +147,11 @@
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
       "buttonEdit":  "Redigera evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
+      "buttonPanel": {
+        "warningNoRightsCreate": "Du har inte tillräckliga rättigheter för att skapa detta evenemang.",
+        "warningNoRightsToPublish": "Du har inte tillräckliga rättigheter att publicera detta evenemang.",
+        "warningNotAuthenticated": "Du måste vara inloggad för att skapa evenemang."
+      },
       "buttonPostpone": "Skjuta upp evenemanget",
       "buttonPublish": {
         "course": "Lägg upp kursen",
@@ -264,6 +267,7 @@
         "event": "Om evenemanget har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation."
       },
       "infoTextProvider": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextPublisher": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "infoTextSocialMedia": {
         "course": "Frivillig. I URL-fältet anger du SoMe-länkarna för kursen.",
         "event": "Frivillig. I URL-fältet anger du SoMe-länkarna för evenemanget."
@@ -316,6 +320,10 @@
         "course": "Kursarrangör {{langText}} (om det är annorlunda än utgivaren)",
         "event": "Evenemangarrangör {{langText}} (om det är annorlunda än utgivaren)"
       },
+      "labelPublisher": {
+        "course": "Kursutgivare",
+        "event": "Evenemangsutgivare"
+      },
       "labelRecurringEventEndDate": "Upprepningen slutar",
       "labelRecurringEventEndTime": {
         "course": "Kursen slutar kl",
@@ -361,6 +369,7 @@
       },
       "notificationTitleOffers": "Prisinformation",
       "notificationTitleProvider": "Arrangör",
+      "notificationTitlePublisher": "Utgivare",
       "notificationTitleUmrellaEvent": "Paraplyevenemang",
       "notificationTitleType": "Evenemangtyp",
       "placeholderAudienceMaxAge": {
@@ -606,6 +615,8 @@
         "min": "Detta datum måste vara minst {{min}}",
         "required": "Detta fält krävs"
       },
+      "draftCannotBeUmbrella": "Utkast kan inte vara paraplyevenemang",
+      "draftCannotHaveUmbrella": "Utkast kan inte ha paraplyevenemang",
       "eventInfoVerified": "Informationen måste verifieras",
       "number": {
         "integer": "Värdet måste vara ett heltal",

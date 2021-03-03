@@ -311,6 +311,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 const EditEventPageWrapper: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { loading: loadingUser } = useUser();
+
   const { data: eventData, loading: loadingEvent, refetch } = useEventQuery({
     fetchPolicy: 'no-cache',
     skip: loadingUser,

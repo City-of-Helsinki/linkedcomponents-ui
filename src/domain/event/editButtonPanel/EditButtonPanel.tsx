@@ -17,9 +17,9 @@ import useWindowSize from '../../../hooks/useWindowSize';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
 import useUser from '../../user/hooks/useUser';
-import { EVENT_ACTIONS } from '../constants';
+import { EVENT_EDIT_ACTIONS } from '../constants';
 import useEventOrganizationAncestors from '../hooks/useEventOrganizationAncestors';
-import { copyEventToSessionStorage, getActionButtonProps } from '../utils';
+import { copyEventToSessionStorage, getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditButtonPanelProps {
@@ -69,10 +69,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     action,
     onClick,
   }: {
-    action: EVENT_ACTIONS;
+    action: EVENT_EDIT_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getActionButtonProps({
+    return getEditButtonProps({
       action,
       authenticated,
       event,
@@ -85,34 +85,34 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: EVENT_ACTIONS.COPY,
+      action: EVENT_EDIT_ACTIONS.COPY,
       onClick: copyEvent,
     }),
     /* Actions for draft event */
     getActionItemProps({
-      action: EVENT_ACTIONS.UPDATE_DRAFT,
+      action: EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
       onClick: () => onUpdate(PublicationStatus.Draft),
     }),
     getActionItemProps({
-      action: EVENT_ACTIONS.PUBLISH,
+      action: EVENT_EDIT_ACTIONS.PUBLISH,
       onClick: () => onUpdate(PublicationStatus.Public),
     }),
     /* Actions for public event */
     getActionItemProps({
-      action: EVENT_ACTIONS.UPDATE_PUBLIC,
+      action: EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
       onClick: () => onUpdate(PublicationStatus.Public),
     }),
     /* Actions for all event */
     getActionItemProps({
-      action: EVENT_ACTIONS.POSTPONE,
+      action: EVENT_EDIT_ACTIONS.POSTPONE,
       onClick: onPostpone,
     }),
     getActionItemProps({
-      action: EVENT_ACTIONS.CANCEL,
+      action: EVENT_EDIT_ACTIONS.CANCEL,
       onClick: onCancel,
     }),
     getActionItemProps({
-      action: EVENT_ACTIONS.DELETE,
+      action: EVENT_EDIT_ACTIONS.DELETE,
       onClick: onDelete,
     }),
   ].filter((i) => i) as MenuItemOptionProps[];

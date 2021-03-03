@@ -10,7 +10,7 @@ import { ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { authenticatedSelector } from '../../auth/selectors';
-import { EVENT_ACTIONS } from '../../event/constants';
+import { EVENT_EDIT_ACTIONS } from '../../event/constants';
 import useEventOrganization from '../../event/hooks/useEventOrganizationAncestors';
 import useEventUpdateActions, {
   MODALS,
@@ -20,7 +20,7 @@ import ConfirmDeleteModal from '../../event/modals/ConfirmDeleteModal';
 import ConfirmPostponeModal from '../../event/modals/ConfirmPostponeModal';
 import {
   copyEventToSessionStorage,
-  getActionButtonProps,
+  getEditButtonProps,
   getEventFields,
 } from '../../event/utils';
 import useUser from '../../user/hooks/useUser';
@@ -78,10 +78,10 @@ const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
     action,
     onClick,
   }: {
-    action: EVENT_ACTIONS;
+    action: EVENT_EDIT_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getActionButtonProps({
+    return getEditButtonProps({
       action,
       authenticated,
       event,
@@ -94,23 +94,23 @@ const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: EVENT_ACTIONS.EDIT,
+      action: EVENT_EDIT_ACTIONS.EDIT,
       onClick: goToEditEventPage,
     }),
     getActionItemProps({
-      action: EVENT_ACTIONS.COPY,
+      action: EVENT_EDIT_ACTIONS.COPY,
       onClick: copyEvent,
     }),
     getActionItemProps({
-      action: EVENT_ACTIONS.POSTPONE,
+      action: EVENT_EDIT_ACTIONS.POSTPONE,
       onClick: () => setOpenModal(MODALS.POSTPONE),
     }),
     getActionItemProps({
-      action: EVENT_ACTIONS.CANCEL,
+      action: EVENT_EDIT_ACTIONS.CANCEL,
       onClick: () => setOpenModal(MODALS.CANCEL),
     }),
     getActionItemProps({
-      action: EVENT_ACTIONS.DELETE,
+      action: EVENT_EDIT_ACTIONS.DELETE,
       onClick: () => setOpenModal(MODALS.DELETE),
     }),
   ].filter((i) => i) as MenuItemOptionProps[];

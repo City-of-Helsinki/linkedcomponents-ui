@@ -71,9 +71,10 @@ import {
   ADD_IMAGE_FIELDS,
   AUHENTICATION_NOT_NEEDED,
   EMPTY_MULTI_LANGUAGE_OBJECT,
-  EVENT_ACTION_ICONS,
-  EVENT_ACTION_LABEL_KEYS,
-  EVENT_ACTIONS,
+  EVENT_CREATE_ACTIONS,
+  EVENT_EDIT_ACTIONS,
+  EVENT_EDIT_ICONS,
+  EVENT_EDIT_LABEL_KEYS,
   EVENT_FIELDS,
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
@@ -239,6 +240,9 @@ export const eventValidationSchema = Yup.object().shape({
       is: (value) => value,
       then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     }),
+  [EVENT_FIELDS.PUBLISHER]: Yup.string().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
   [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
   ),
@@ -338,6 +342,17 @@ export const eventValidationSchema = Yup.object().shape({
 });
 
 export const draftEventValidationSchema = Yup.object().shape({
+  [EVENT_FIELDS.PUBLISHER]: Yup.string().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
+  [EVENT_FIELDS.HAS_UMBRELLA]: Yup.bool().oneOf(
+    [false],
+    VALIDATION_MESSAGE_KEYS.DRAFT_CANNOT_HAVE_UMBRELLA
+  ),
+  [EVENT_FIELDS.IS_UMBRELLA]: Yup.bool().oneOf(
+    [false],
+    VALIDATION_MESSAGE_KEYS.DRAFT_CANNOT_BE_UMBRELLA
+  ),
   [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
   ),
@@ -582,6 +597,7 @@ export const getEventFields = (
   language: Language
 ): EventFields => {
   const id = event.id || '';
+  const publicationStatus = event.publicationStatus || PublicationStatus.Public;
 
   return {
     id,
@@ -598,6 +614,8 @@ export const getEventFields = (
     inLanguage: event.inLanguage
       .map((item) => getLocalisedString(item?.name, language))
       .filter((e) => e),
+    isDraft: publicationStatus === PublicationStatus.Draft,
+    isPublic: publicationStatus === PublicationStatus.Public,
     lastModifiedTime: event.lastModifiedTime
       ? new Date(event.lastModifiedTime)
       : null,
@@ -606,7 +624,7 @@ export const getEventFields = (
       (offer) => !!offer && !offer?.isFree
     ) as Offer[],
     publisher: event.publisher || null,
-    publicationStatus: event.publicationStatus || PublicationStatus.Public,
+    publicationStatus,
     subEventAtIds:
       event.subEvents?.map((subEvent) => subEvent?.atId as string) || [],
     superEventAtId: event.superEvent?.atId || null,
@@ -853,6 +871,7 @@ export const getEventPayload = (
     name,
     offers,
     provider,
+    publisher,
     shortDescription,
     startTime,
     superEvent,
@@ -912,6 +931,7 @@ export const getEventPayload = (
         }))
       : [{ isFree: true }],
     provider: filterUnselectedLanguages(provider, eventInfoLanguages),
+    publisher,
     shortDescription: filterUnselectedLanguages(
       shortDescription,
       eventInfoLanguages
@@ -1069,6 +1089,7 @@ export const getEventInitialValues = (
     inLanguage: event.inLanguage
       .map((language) => language?.atId as string)
       .filter((l) => l),
+    publisher: event.publisher ?? '',
     provider: getLocalisedObject(event.provider),
     hasUmbrella: hasUmbrella,
     isUmbrella: isUmbrella,
@@ -1232,53 +1253,85 @@ export const getRelatedEvents = async ({
   return allRelatedEvents;
 };
 
-const getIsActionButtonVisible = ({
+export const checkCanUserDoAction = ({
   action,
-  isDraft,
-  isPublic,
+  event,
+  organizationAncestors,
+  user,
 }: {
-  action: EVENT_ACTIONS;
-  isDraft: boolean;
-  isPublic: boolean;
+  action: EVENT_EDIT_ACTIONS;
+  event: EventFieldsFragment;
+  organizationAncestors: OrganizationFieldsFragment[];
+  user?: UserFieldsFragment;
 }) => {
+  const adminOrganizations = user?.adminOrganizations;
+  const eventPublisher = event.publisher;
+
+  if (action === EVENT_EDIT_ACTIONS.PUBLISH) {
+    if (eventPublisher && organizationAncestors && adminOrganizations) {
+      return (
+        adminOrganizations.includes(eventPublisher) ||
+        adminOrganizations.some((id) =>
+          organizationAncestors.map((org) => org.id).includes(id)
+        )
+      );
+    }
+  }
+
+  return true;
+};
+
+const getIsEditButtonVisible = ({
+  action,
+  event,
+  organizationAncestors,
+  user,
+}: {
+  action: EVENT_EDIT_ACTIONS;
+  event: EventFieldsFragment;
+  organizationAncestors: OrganizationFieldsFragment[];
+  user?: UserFieldsFragment;
+}) => {
+  const { isDraft, isPublic } = getEventFields(event, 'fi');
+
   switch (action) {
-    case EVENT_ACTIONS.CANCEL:
-    case EVENT_ACTIONS.COPY:
-    case EVENT_ACTIONS.DELETE:
-    case EVENT_ACTIONS.EDIT:
-    case EVENT_ACTIONS.POSTPONE:
+    case EVENT_EDIT_ACTIONS.CANCEL:
+    case EVENT_EDIT_ACTIONS.COPY:
+    case EVENT_EDIT_ACTIONS.DELETE:
+    case EVENT_EDIT_ACTIONS.EDIT:
+    case EVENT_EDIT_ACTIONS.POSTPONE:
       return true;
-    case EVENT_ACTIONS.PUBLISH:
+    case EVENT_EDIT_ACTIONS.PUBLISH:
+      return (
+        isDraft &&
+        checkCanUserDoAction({ action, event, organizationAncestors, user })
+      );
+    case EVENT_EDIT_ACTIONS.UPDATE_DRAFT:
       return isDraft;
-    case EVENT_ACTIONS.UPDATE_DRAFT:
-      return isDraft;
-    case EVENT_ACTIONS.UPDATE_PUBLIC:
+    case EVENT_EDIT_ACTIONS.UPDATE_PUBLIC:
       return isPublic;
   }
 };
 
-const getEventActionWarning = ({
+const getEditEventWarning = ({
   action,
   authenticated,
   event,
   t,
   userMayEdit,
 }: {
-  action: EVENT_ACTIONS;
+  action: EVENT_EDIT_ACTIONS;
   authenticated: boolean;
   event: EventFieldsFragment;
   t: TFunction;
   userMayEdit: boolean;
 }): string => {
-  const {
-    deleted,
-    endTime,
-    eventStatus,
-    publicationStatus,
-    startTime,
-  } = getEventFields(event, 'fi');
+  const { deleted, endTime, eventStatus, isDraft, startTime } = getEventFields(
+    event,
+    'fi'
+  );
   const isCancelled = eventStatus === EventStatus.EventCancelled;
-  const isDraft = publicationStatus === PublicationStatus.Draft;
+
   const isSubEvent = Boolean(event.superEvent);
   const eventIsInThePast =
     (endTime && isPast(endTime)) ||
@@ -1294,11 +1347,11 @@ const getEventActionWarning = ({
     return t('event.form.editButtonPanel.warningDeletedEvent');
   } else if (eventIsInThePast && NOT_ALLOWED_WHEN_IN_PAST.includes(action)) {
     return t('event.form.editButtonPanel.warningEventInPast');
-  } else if (isDraft && action === EVENT_ACTIONS.CANCEL) {
+  } else if (isDraft && action === EVENT_EDIT_ACTIONS.CANCEL) {
     return t('event.form.editButtonPanel.warningCannotCancelDraft');
-  } else if (isDraft && action === EVENT_ACTIONS.POSTPONE) {
+  } else if (isDraft && action === EVENT_EDIT_ACTIONS.POSTPONE) {
     return t('event.form.editButtonPanel.warningCannotPostponeDraft');
-  } else if (isDraft && action === EVENT_ACTIONS.PUBLISH && isSubEvent) {
+  } else if (isDraft && action === EVENT_EDIT_ACTIONS.PUBLISH && isSubEvent) {
     return t('event.form.editButtonPanel.warningCannotPublishSubEvent');
   } else if (!userMayEdit) {
     return t('event.form.editButtonPanel.warningNoRightsToEdit');
@@ -1361,7 +1414,7 @@ type EventEditability = {
   warning: string;
 };
 
-export const checkIsEventActionAllowed = ({
+export const checkIsEditActionAllowed = ({
   action,
   authenticated,
   event,
@@ -1369,7 +1422,7 @@ export const checkIsEventActionAllowed = ({
   t,
   user,
 }: {
-  action: EVENT_ACTIONS;
+  action: EVENT_EDIT_ACTIONS;
   authenticated: boolean;
   event: EventFieldsFragment;
   organizationAncestors: OrganizationFieldsFragment[];
@@ -1381,7 +1434,8 @@ export const checkIsEventActionAllowed = ({
     organizationAncestors,
     user,
   });
-  const warning = getEventActionWarning({
+
+  const warning = getEditEventWarning({
     action,
     authenticated,
     event,
@@ -1392,7 +1446,7 @@ export const checkIsEventActionAllowed = ({
   return { editable: !warning, warning };
 };
 
-export const getActionButtonProps = ({
+export const getEditButtonProps = ({
   action,
   authenticated,
   event,
@@ -1401,7 +1455,7 @@ export const getActionButtonProps = ({
   t,
   user,
 }: {
-  action: EVENT_ACTIONS;
+  action: EVENT_EDIT_ACTIONS;
   authenticated: boolean;
   event: EventFieldsFragment;
   onClick: () => void;
@@ -1409,11 +1463,7 @@ export const getActionButtonProps = ({
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps | null => {
-  const { publicationStatus } = getEventFields(event, 'fi');
-  const isDraft = publicationStatus === PublicationStatus.Draft;
-  const isPublic = publicationStatus === PublicationStatus.Public;
-
-  const { editable, warning } = checkIsEventActionAllowed({
+  const { editable, warning } = checkIsEditActionAllowed({
     action,
     authenticated,
     event,
@@ -1422,15 +1472,76 @@ export const getActionButtonProps = ({
     user,
   });
 
-  return getIsActionButtonVisible({ action, isDraft, isPublic })
+  return getIsEditButtonVisible({
+    action,
+    event,
+    organizationAncestors,
+    user,
+  })
     ? {
         disabled: !editable,
-        icon: EVENT_ACTION_ICONS[action],
-        label: t(EVENT_ACTION_LABEL_KEYS[action]),
+        icon: EVENT_EDIT_ICONS[action],
+        label: t(EVENT_EDIT_LABEL_KEYS[action]),
         onClick,
         title: warning,
       }
     : null;
+};
+
+export const isCreateEventButtonVisible = ({
+  action,
+  authenticated,
+  publisher,
+  user,
+}: {
+  action: EVENT_CREATE_ACTIONS;
+  authenticated: boolean;
+  publisher: string;
+  user?: UserFieldsFragment;
+}) => {
+  const adminOrganizations = user?.adminOrganizations ?? [];
+  const organizationMemberships = user?.organizationMemberships ?? [];
+  const canCreateDraft = organizationMemberships.includes(publisher);
+  const canPublish = adminOrganizations.includes(publisher);
+
+  switch (action) {
+    case EVENT_CREATE_ACTIONS.CREATE_DRAFT:
+      return canCreateDraft || canPublish;
+    case EVENT_CREATE_ACTIONS.PUBLISH:
+      return !authenticated || canPublish;
+  }
+};
+
+export const getCreateEventButtonWarning = ({
+  action,
+  authenticated,
+  publisher,
+  t,
+  user,
+}: {
+  action: EVENT_CREATE_ACTIONS;
+  authenticated: boolean;
+  publisher: string;
+  t: TFunction;
+  user?: UserFieldsFragment;
+}) => {
+  const adminOrganizations = user?.adminOrganizations ?? [];
+  const organizationMemberships = user?.organizationMemberships ?? [];
+  const canCreateDraft = organizationMemberships.includes(publisher);
+  const canPublish = adminOrganizations.includes(publisher);
+
+  if (!authenticated) {
+    return t('event.form.buttonPanel.warningNotAuthenticated');
+  } else if (
+    action === EVENT_CREATE_ACTIONS.CREATE_DRAFT &&
+    !(canCreateDraft || canPublish)
+  ) {
+    return t('event.form.buttonPanel.warningNoRightsCreate');
+  } else if (action === EVENT_CREATE_ACTIONS.PUBLISH && !canPublish) {
+    return t('event.form.buttonPanel.warningNoRightsPublish');
+  } else {
+    return '';
+  }
 };
 
 export const copyEventToSessionStorage = async (event: EventFieldsFragment) => {

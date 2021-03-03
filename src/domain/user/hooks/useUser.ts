@@ -27,6 +27,7 @@ const useUser = (): UserState => {
       createPath: getPathBuilder(userPathBuilder),
     },
   });
+
   return { loading: loadingUser || loadingTokens, user: userData?.user };
 };
 

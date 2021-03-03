@@ -256,6 +256,7 @@ export type CreateEventMutationInput = {
   name?: Maybe<LocalisedObjectInput>;
   offers?: Maybe<Array<OfferInput>>;
   provider?: Maybe<LocalisedObjectInput>;
+  publisher?: Maybe<Scalars['String']>;
   shortDescription?: Maybe<LocalisedObjectInput>;
   startTime?: Maybe<Scalars['String']>;
   subEvents?: Maybe<Array<IdObjectInput>>;

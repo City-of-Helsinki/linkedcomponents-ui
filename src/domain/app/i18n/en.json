@@ -5,8 +5,6 @@
     "networkError": {
       "message": "Login error: Check your network connection or try again later"
     },
-    "noRightsCreateEvent": "You have insufficient rights to create events.",
-    "noRightsPublishEvent": "You have insufficient rights to publish events.",
     "noRightsUpdateEvent": "You have insufficient rights to edit events."
   },
   "common": {
@@ -149,6 +147,11 @@
       "buttonDeleteRecurringEvent": "Delete recurring event",
       "buttonEdit": "Edit event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
+      "buttonPanel": {
+        "warningNoRightsCreate": "You have insufficient rights to create this event.",
+        "warningNoRightsToPublish": "You have insufficient rights to publish this event.",
+        "warningNotAuthenticated": "You must be logged in to create events."
+      },
       "buttonPostpone": "Postpone event",
       "buttonPublish": {
         "course": "Publish course",
@@ -264,6 +267,7 @@
         "event": "If the event has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field."
       },
       "infoTextProvider": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextPublisher": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "infoTextSocialMedia": {
         "course": "Optional. In the URL field, enter the SoMe links for the course.",
         "event": "Optional. In the URL field, enter the SoMe links for the event."
@@ -316,6 +320,10 @@
         "course": "Course organizer {{langText}} (if different than the publisher)",
         "event": "Event organizer {{langText}} (if different than the publisher)"
       },
+      "labelPublisher": {
+        "course": "Course publisher",
+        "event": "Event publisher"
+      },
       "labelRecurringEventEndDate": "Repetition ends",
       "labelRecurringEventEndTime": {
         "course": "Course ends at",
@@ -362,6 +370,7 @@
 
       "notificationTitleOffers": "Price information",
       "notificationTitleProvider": "Organizer",
+      "notificationTitlePublisher": "Publisher",
       "notificationTitleType": "Event type",
       "notificationTitleUmrellaEvent": "Umbrella event",
       "placeholderAudienceMaxAge": {
@@ -624,6 +633,8 @@
         "min": "This date must be at least {{min}}",
         "required": "This field is required"
       },
+      "draftCannotBeUmbrella": "Draft can't be umbrella event",
+      "draftCannotHaveUmbrella": "Draft can't have umbrella event",
       "eventInfoVerified": "The information must be verified",
       "number": {
         "integer": "Value must be an integer",

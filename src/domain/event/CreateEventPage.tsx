@@ -20,6 +20,7 @@ import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { clearEventsQueries, resetEventListPage } from '../events/utils';
+import useUser from '../user/hooks/useUser';
 import ButtonPanel from './buttonPanel/ButtonPanel';
 import { EVENT_INITIAL_VALUES } from './constants';
 import styles from './eventPage.module.scss';
@@ -52,12 +53,10 @@ const CreateEventPage: React.FC = () => {
   const history = useHistory();
   const locale = useLocale();
   const { t } = useTranslation();
+  const { user } = useUser();
   const [createEventMutation] = useCreateEventMutation();
   const [createEventsMutation] = useCreateEventsMutation();
   const [updateImage] = useUpdateImageMutation();
-
-  // Load options for inLanguage, audience and keywords checkboxes
-  const { loading } = useEventFieldOptionsData();
 
   const goToEventSavedPage = (id: string) => {
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
@@ -135,26 +134,40 @@ const CreateEventPage: React.FC = () => {
     }
   };
 
+  const initialValues = React.useMemo(
+    () => ({
+      ...EVENT_INITIAL_VALUES,
+      publisher: user?.organization ?? '',
+    }),
+    [user]
+  );
   return (
     <Formik
-      initialValues={EVENT_INITIAL_VALUES}
+      initialValues={initialValues}
       // We have custom way to handle onSubmit so here is empty function
       // to silent TypeScript error. The reason for custom onSubmit is that
       // we want to scroll to first invalid field if error occurs
       onSubmit={/* istanbul ignore next */ () => undefined}
       validationSchema={eventValidationSchema}
       validateOnMount
-      validateOnBlur={true}
+      validateOnBlur={false}
       validateOnChange={true}
     >
-      {({ values: { type, ...restValues }, setErrors, setTouched }) => {
+      {({
+        errors,
+        touched,
+        values: { publisher, type, ...restValues },
+        setErrors,
+        setTouched,
+      }) => {
+        console.log(errors, touched);
         const clearErrors = () => {
           setErrors({});
         };
 
         const saveDraft = async () => {
           try {
-            const values = { type, ...restValues };
+            const values = { publisher, type, ...restValues };
 
             clearErrors();
             await draftEventValidationSchema.validate(values, {
@@ -172,7 +185,7 @@ const CreateEventPage: React.FC = () => {
           e.preventDefault();
 
           try {
-            const values = { type, ...restValues };
+            const values = { publisher, type, ...restValues };
 
             clearErrors();
 
@@ -196,55 +209,51 @@ const CreateEventPage: React.FC = () => {
               className={styles.eventPage}
               title={`createEventPage.pageTitle.${type}`}
             >
-              <LoadingSpinner isLoading={loading}>
-                <MainContent>
-                  <Container>
-                    <FormContainer>
-                      <Section title={t('event.form.sections.type')}>
-                        <TypeSection />
-                      </Section>
-                      <Section title={t('event.form.sections.languages')}>
-                        <LanguagesSection />
-                      </Section>
-                      <Section
-                        title={t('event.form.sections.responsibilities')}
-                      >
-                        <ResponsibilitiesSection />
-                      </Section>
-                      <Section title={t('event.form.sections.description')}>
-                        <DescriptionSection />
-                      </Section>
-                      <Section title={t('event.form.sections.time')}>
-                        <TimeSection />
-                      </Section>
-                      <Section title={t('event.form.sections.place')}>
-                        <PlaceSection />
-                      </Section>
-                      <Section title={t('event.form.sections.price')}>
-                        <PriceSection />
-                      </Section>
-                      <Section title={t('event.form.sections.socialMedia')}>
-                        <SocialMediaSection />
-                      </Section>
-                      <Section title={t('event.form.sections.image')}>
-                        <ImageSection />
-                      </Section>
-                      <Section title={t('event.form.sections.classification')}>
-                        <ClassificationSection />
-                      </Section>
-                      <Section title={t('event.form.sections.audience')}>
-                        <AudienceSection />
-                      </Section>
-                      <Section title={t('event.form.sections.additionalInfo')}>
-                        <AdditionalInfoSection />
-                      </Section>
+              <MainContent>
+                <Container>
+                  <FormContainer>
+                    <Section title={t('event.form.sections.type')}>
+                      <TypeSection />
+                    </Section>
+                    <Section title={t('event.form.sections.languages')}>
+                      <LanguagesSection />
+                    </Section>
+                    <Section title={t('event.form.sections.responsibilities')}>
+                      <ResponsibilitiesSection />
+                    </Section>
+                    <Section title={t('event.form.sections.description')}>
+                      <DescriptionSection />
+                    </Section>
+                    <Section title={t('event.form.sections.time')}>
+                      <TimeSection />
+                    </Section>
+                    <Section title={t('event.form.sections.place')}>
+                      <PlaceSection />
+                    </Section>
+                    <Section title={t('event.form.sections.price')}>
+                      <PriceSection />
+                    </Section>
+                    <Section title={t('event.form.sections.socialMedia')}>
+                      <SocialMediaSection />
+                    </Section>
+                    <Section title={t('event.form.sections.image')}>
+                      <ImageSection />
+                    </Section>
+                    <Section title={t('event.form.sections.classification')}>
+                      <ClassificationSection />
+                    </Section>
+                    <Section title={t('event.form.sections.audience')}>
+                      <AudienceSection />
+                    </Section>
+                    <Section title={t('event.form.sections.additionalInfo')}>
+                      <AdditionalInfoSection />
+                    </Section>
 
-                      <SummarySection />
-                    </FormContainer>
-                  </Container>
-                  <ButtonPanel onSaveDraft={saveDraft} />
-                </MainContent>
-              </LoadingSpinner>
+                    <SummarySection />
+                  </FormContainer>
+                </Container>
+                <ButtonPanel onSaveDraft={saveDraft} publisher={publisher} />
+              </MainContent>
             </PageWrapper>
           </Form>
         );
@@ -253,4 +262,19 @@ const CreateEventPage: React.FC = () => {
   );
 };
 
-export default CreateEventPage;
+const CreateEventPageWrapper: React.FC = () => {
+  const { loading: loadingUser } = useUser();
+
+  // Load options for inLanguage, audience and keywords checkboxes
+  const { loading: loadingEventFieldOptions } = useEventFieldOptionsData();
+
+  const loading = loadingEventFieldOptions || loadingUser;
+
+  return (
+    <LoadingSpinner isLoading={loading}>
+      <CreateEventPage />
+    </LoadingSpinner>
+  );
+};
+
+export default CreateEventPageWrapper;

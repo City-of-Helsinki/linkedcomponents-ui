@@ -5,8 +5,6 @@
     "networkError": {
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
-    "noRightsCreateEvent": "Sinulla ei ole oikeuksia luoda tapahtumia.",
-    "noRightsPublishEvent": "Sinulla ei ole oikeuksia julkaista tapahtumia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia."
   },
   "common": {
@@ -149,6 +147,11 @@
       "buttonEdit":  "Muokkaa tapahtumaa",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
+      "buttonPanel": {
+        "warningNoRightsCreate": "Sinulla ei ole oikeuksia luoda tätä tapahtumaa.",
+        "warningNoRightsToPublish": "Sinulla ei ole oikeuksia julkaista tätä tapahtumaa.",
+        "warningNotAuthenticated": "Jos haluat julkaista tapahtuman, kirjaudu ensin sisään."
+      },
       "buttonPostpone": "Lykkää tapahtumaa",
       "buttonPublish": {
         "course": "Julkaise kurssi",
@@ -264,6 +267,7 @@
         "event": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
       },
       "infoTextProvider": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextPublisher": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "infoTextSocialMedia": {
         "course": "Valinnainen. Syötä URL-kenttään kurssin SoMe-linkit.",
         "event": "Valinnainen. Syötä URL-kenttään tapahtuman SoMe-linkit."
@@ -316,6 +320,10 @@
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "event": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)"
       },
+      "labelPublisher": {
+        "course": "Kurssin julkaisija",
+        "event": "Tapahtuman julkaisija"
+      },
       "labelRecurringEventEndDate": "Toisto päättyy",
       "labelRecurringEventEndTime": {
         "course": "Kurssi päättyy klo",
@@ -361,6 +369,7 @@
       },
       "notificationTitleOffers": "Hintatiedot",
       "notificationTitleProvider": "Järjestäjä",
+      "notificationTitlePublisher": "Julkaisija",
       "notificationTitleType": "Tapahtumatyyppi",
       "notificationTitleUmrellaEvent": "Kattotapahtuma",
       "placeholderAudienceMaxAge": {
@@ -606,6 +615,8 @@
         "min": "Tämän päivämäärän tulee olla vähintään {{min}}",
         "required": "Tämä kenttä on pakollinen"
       },
+      "draftCannotBeUmbrella": "Luonnos ei voi olla kattotapahtuma",
+      "draftCannotHaveUmbrella": "Luonnoksella ei voi olla kattotapahtumaa",
       "eventInfoVerified": "Tietojen tulee olla vahvistettu",
       "number": {
         "integer": "Arvon tulee olla kokonaisluku",
