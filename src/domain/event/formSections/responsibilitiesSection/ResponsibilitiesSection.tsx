@@ -177,7 +177,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             label={t(`event.form.labelPublisher.${type}`)}
             name={EVENT_FIELDS.PUBLISHER}
             component={PublisherSelectorField}
-            clearable={false}
+            publisher={savedEvent?.publisher}
           />
         </FieldColumn>
       </FieldRow>

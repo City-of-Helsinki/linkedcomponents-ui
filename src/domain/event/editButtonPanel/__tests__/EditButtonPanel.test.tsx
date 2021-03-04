@@ -156,7 +156,7 @@ test('only copy button should be enabled when user is not logged in (draft)', as
   const buttons = screen.getAllByRole('button', {
     name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
   });
-  expect(buttons).toHaveLength(5);
+  expect(buttons).toHaveLength(4);
   buttons.forEach((button) => {
     expect(button).toBeDisabled();
   });

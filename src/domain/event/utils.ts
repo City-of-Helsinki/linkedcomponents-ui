@@ -1263,19 +1263,33 @@ export const checkCanUserDoAction = ({
   event: EventFieldsFragment;
   organizationAncestors: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
-}) => {
-  const adminOrganizations = user?.adminOrganizations;
+}): boolean => {
+  const { isDraft } = getEventFields(event, 'fi');
+  const adminOrganizations = user?.adminOrganizations ?? [];
+  const organizationMemberships = user?.organizationMemberships ?? [];
   const eventPublisher = event.publisher;
 
-  if (action === EVENT_EDIT_ACTIONS.PUBLISH) {
-    if (eventPublisher && organizationAncestors && adminOrganizations) {
-      return (
-        adminOrganizations.includes(eventPublisher) ||
+  const isRegularUser = Boolean(
+    eventPublisher && organizationMemberships.includes(eventPublisher)
+  );
+  const isAdminUser = Boolean(
+    eventPublisher &&
+      (adminOrganizations.includes(eventPublisher) ||
         adminOrganizations.some((id) =>
           organizationAncestors.map((org) => org.id).includes(id)
-        )
-      );
-    }
+        ))
+  );
+
+  switch (action) {
+    case EVENT_EDIT_ACTIONS.CANCEL:
+    case EVENT_EDIT_ACTIONS.DELETE:
+    case EVENT_EDIT_ACTIONS.POSTPONE:
+      return isDraft ? isRegularUser || isAdminUser : isAdminUser;
+    case EVENT_EDIT_ACTIONS.PUBLISH:
+    case EVENT_EDIT_ACTIONS.UPDATE_PUBLIC:
+      return isAdminUser;
+    case EVENT_EDIT_ACTIONS.UPDATE_DRAFT:
+      return isRegularUser || isAdminUser;
   }
 
   return true;
@@ -1313,18 +1327,18 @@ const getIsEditButtonVisible = ({
   }
 };
 
-const getEditEventWarning = ({
+export const getEditEventWarning = ({
   action,
   authenticated,
   event,
   t,
-  userMayEdit,
+  userCanDoAction,
 }: {
   action: EVENT_EDIT_ACTIONS;
   authenticated: boolean;
   event: EventFieldsFragment;
   t: TFunction;
-  userMayEdit: boolean;
+  userCanDoAction: boolean;
 }): string => {
   const { deleted, endTime, eventStatus, isDraft, startTime } = getEventFields(
     event,
@@ -1353,60 +1367,11 @@ const getEditEventWarning = ({
     return t('event.form.editButtonPanel.warningCannotPostponeDraft');
   } else if (isDraft && action === EVENT_EDIT_ACTIONS.PUBLISH && isSubEvent) {
     return t('event.form.editButtonPanel.warningCannotPublishSubEvent');
-  } else if (!userMayEdit) {
+  } else if (!userCanDoAction) {
     return t('event.form.editButtonPanel.warningNoRightsToEdit');
   } else {
     return '';
   }
-};
-
-export const checkMayUserEditEvent = ({
-  event,
-  organizationAncestors,
-  user,
-}: {
-  event: EventFieldsFragment;
-  organizationAncestors: OrganizationFieldsFragment[];
-  user?: UserFieldsFragment;
-}) => {
-  const adminOrganizations = user?.adminOrganizations;
-  const organizationMemberships = user?.organizationMemberships;
-  const userOrganization = user?.organization;
-  const eventPublisher = event.publisher;
-
-  const publicationStatus = event.publicationStatus;
-  const userHasOrganizations =
-    adminOrganizations?.length || organizationMemberships?.length;
-
-  let userMayEdit = false;
-
-  // users that don't belong to any organization are not allowed to edit
-  if (!userHasOrganizations) {
-    return false;
-  }
-  // If present, also check event organization ancestors for admin orgs.
-  // Check admin_organizations and organization_membership, but fall back to user.organization if needed
-  if (eventPublisher && organizationAncestors && adminOrganizations) {
-    userMayEdit =
-      adminOrganizations.includes(eventPublisher) ||
-      adminOrganizations.some((id) =>
-        organizationAncestors.map((org) => org.id).includes(id)
-      );
-  } else if (eventPublisher && adminOrganizations) {
-    userMayEdit = adminOrganizations.includes(eventPublisher);
-  } else {
-    userMayEdit = eventPublisher === userOrganization;
-  }
-
-  // exceptions to the above:
-  if (eventPublisher && organizationMemberships && !userMayEdit) {
-    // non-admins may still edit drafts if they are organization members
-    userMayEdit =
-      organizationMemberships.includes(eventPublisher) &&
-      publicationStatus === PublicationStatus.Draft;
-  }
-
-  return userMayEdit;
 };
 
 type EventEditability = {
@@ -1429,7 +1394,8 @@ export const checkIsEditActionAllowed = ({
   t: TFunction;
   user?: UserFieldsFragment;
 }): EventEditability => {
-  const userMayEdit = checkMayUserEditEvent({
+  const userCanDoAction = checkCanUserDoAction({
+    action,
     event,
     organizationAncestors,
     user,
@@ -1440,7 +1406,7 @@ export const checkIsEditActionAllowed = ({
     authenticated,
     event,
     t,
-    userMayEdit,
+    userCanDoAction,
   });
 
   return { editable: !warning, warning };
