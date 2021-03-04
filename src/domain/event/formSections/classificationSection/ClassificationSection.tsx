@@ -1,5 +1,6 @@
 import { Field, useField } from 'formik';
 import capitalize from 'lodash/capitalize';
+import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -20,12 +21,13 @@ const ClassificationSection = () => {
 
   const { topicsData } = useEventFieldOptionsData();
 
-  const keywordOptions =
+  const keywordOptions = sortBy(
     topicsData?.keywordSet?.keywords?.map((keyword) => ({
       label: capitalize(getLocalisedString(keyword?.name, locale)),
       value: keyword?.atId,
-    })) || [];
-
+    })) || [],
+    'label'
+  );
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
 
   return (
