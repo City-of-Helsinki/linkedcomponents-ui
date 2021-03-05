@@ -21,7 +21,7 @@ import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { clearEventsQueries, resetEventListPage } from '../events/utils';
 import ButtonPanel from './buttonPanel/ButtonPanel';
-import { EVENT_INITIAL_VALUES } from './constants';
+import { EVENT_INFO_LANGUAGES, EVENT_INITIAL_VALUES } from './constants';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';
@@ -55,6 +55,9 @@ const CreateEventPage: React.FC = () => {
   const [createEventMutation] = useCreateEventMutation();
   const [createEventsMutation] = useCreateEventsMutation();
   const [updateImage] = useUpdateImageMutation();
+  const [descriptionLanguage, setDescriptionLanguage] = React.useState(
+    EVENT_INITIAL_VALUES.eventInfoLanguages[0] as EVENT_INFO_LANGUAGES
+  );
 
   // Load options for inLanguage, audience and keywords checkboxes
   const { loading } = useEventFieldOptionsData();
@@ -152,42 +155,43 @@ const CreateEventPage: React.FC = () => {
           setErrors({});
         };
 
-        const saveDraft = async () => {
-          try {
-            const values = { type, ...restValues };
-
-            clearErrors();
-            await draftEventValidationSchema.validate(values, {
-              abortEarly: false,
-            });
-
-            clearErrors();
-            saveEvent(values, PublicationStatus.Draft);
-          } catch (error) {
-            showErrors(error, setErrors, setTouched);
-          }
-        };
-
-        const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-
+        const handleSubmit = async (
+          publicationStatus: PublicationStatus,
+          event?: React.FormEvent<HTMLFormElement>
+        ) => {
+          event?.preventDefault();
           try {
             const values = { type, ...restValues };
 
             clearErrors();
 
-            await eventValidationSchema.validate(values, {
-              abortEarly: false,
-            });
+            if (publicationStatus === PublicationStatus.Draft) {
+              await draftEventValidationSchema.validate(values, {
+                abortEarly: false,
+              });
+            } else {
+              await eventValidationSchema.validate(values, {
+                abortEarly: false,
+              });
+            }
 
-            saveEvent(values, PublicationStatus.Public);
+            saveEvent(values, publicationStatus);
           } catch (error) {
-            showErrors(error, setErrors, setTouched);
+            showErrors({
+              descriptionLanguage,
+              error,
+              setErrors,
+              setDescriptionLanguage,
+              setTouched,
+            });
           }
         };
 
         return (
-          <Form onSubmit={onSubmit} noValidate={true}>
+          <Form
+            onSubmit={(event) => handleSubmit(PublicationStatus.Public, event)}
+            noValidate={true}
+          >
             <FormikPersist
               name={FORM_NAMES.EVENT_FORM}
               isSessionStorage={true}
@@ -212,7 +216,10 @@ const CreateEventPage: React.FC = () => {
                         <ResponsibilitiesSection />
                       </Section>
                       <Section title={t('event.form.sections.description')}>
-                        <DescriptionSection />
+                        <DescriptionSection
+                          selectedLanguage={descriptionLanguage}
+                          setSelectedLanguage={setDescriptionLanguage}
+                        />
                       </Section>
                       <Section title={t('event.form.sections.time')}>
                         <TimeSection />
@@ -242,7 +249,9 @@ const CreateEventPage: React.FC = () => {
                       <SummarySection />
                     </FormContainer>
                   </Container>
-                  <ButtonPanel onSaveDraft={saveDraft} />
+                  <ButtonPanel
+                    onSaveDraft={() => handleSubmit(PublicationStatus.Draft)}
+                  />
                 </MainContent>
               </LoadingSpinner>
             </PageWrapper>

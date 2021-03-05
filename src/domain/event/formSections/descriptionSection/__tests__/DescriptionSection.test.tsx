@@ -9,7 +9,9 @@ import {
   EVENT_TYPE,
 } from '../../../constants';
 import { MultiLanguageObject } from '../../../types';
-import DescriptionSection from '../DescriptionSection';
+import DescriptionSection, {
+  DescriptionSectionProps,
+} from '../DescriptionSection';
 
 const languages: EVENT_INFO_LANGUAGES[] = [
   EVENT_INFO_LANGUAGES.FI,
@@ -35,14 +37,22 @@ const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.TYPE]: type,
 };
 
-const renderComponent = (initialValues?: Partial<InitialValues>) => {
+const defaultProps: DescriptionSectionProps = {
+  selectedLanguage: languages[0],
+  setSelectedLanguage: jest.fn(),
+};
+
+const renderComponent = (
+  initialValues?: Partial<InitialValues>,
+  props?: Partial<DescriptionSectionProps>
+) => {
   const { rerender, ...rest } = render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
       onSubmit={jest.fn()}
       enableReinitialize={true}
     >
-      <DescriptionSection />
+      <DescriptionSection {...defaultProps} {...props} />
     </Formik>
   );
 
@@ -58,7 +68,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) => {
           onSubmit={jest.fn()}
           enableReinitialize={true}
         >
-          <DescriptionSection />
+          <DescriptionSection {...defaultProps} {...props} />
         </Formik>
       ),
     ...rest,
@@ -128,25 +138,27 @@ test('should show description form section fields', async () => {
 });
 
 test('should change form section language', async () => {
-  renderComponent();
+  const setSelectedLanguage = jest.fn();
+  renderComponent(undefined, { setSelectedLanguage });
 
   const svButton = await findComponent('svButton');
   userEvent.click(svButton);
 
-  await findComponent('nameSv');
-  await findComponent('infoUrlSv');
-  await findComponent('shortDescriptionSv');
-  await findComponent('descriptionSv');
+  expect(setSelectedLanguage).toBeCalledWith('sv');
 });
 
 // eslint-disable-next-line max-len
 test('should change selected language when current selected language is removed from event info languages', async () => {
-  const { rerender } = renderComponent({
-    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
-      EVENT_INFO_LANGUAGES.FI,
-      EVENT_INFO_LANGUAGES.SV,
-    ],
-  });
+  const setSelectedLanguage = jest.fn();
+  const { rerender } = renderComponent(
+    {
+      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
+        EVENT_INFO_LANGUAGES.FI,
+        EVENT_INFO_LANGUAGES.SV,
+      ],
+    },
+    { setSelectedLanguage }
+  );
 
   const fiButton = await findComponent('fiButton');
   const svButton = await findComponent('svButton');
@@ -160,7 +172,5 @@ test('should change selected language when current selected language is removed 
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.SV],
   });
 
-  expect(fiButton).not.toBeInTheDocument();
-  expect(svButton).toBeInTheDocument();
-  expect(svButton.getAttribute('aria-selected')).toBe('true');
+  expect(setSelectedLanguage).toBeCalledWith('sv');
 });

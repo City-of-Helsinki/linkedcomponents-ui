@@ -66,6 +66,7 @@ import { eventsPathBuilder } from '../events/utils';
 import {
   ADD_IMAGE_FIELDS,
   AUHENTICATION_NOT_NEEDED,
+  DESCRIPTION_SECTION_FIELDS,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_ACTION_BUTTONS,
   EVENT_ACTION_ICONS,
@@ -1113,8 +1114,29 @@ const getFocusableFieldId = (fieldName: string): string => {
   return fieldName;
 };
 
-export const scrollToFirstError = (error: Yup.ValidationError) => {
+export const scrollToFirstError = ({
+  descriptionLanguage,
+  error,
+  setDescriptionLanguage,
+}: {
+  descriptionLanguage: EVENT_INFO_LANGUAGES;
+  error: Yup.ValidationError;
+  setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
+}) => {
   forEach(error.inner, (e) => {
+    const descriptionField = DESCRIPTION_SECTION_FIELDS.find((field) =>
+      e.path.startsWith(field)
+    );
+    if (descriptionField) {
+      const fieldLanguage = e.path.split('.')[1];
+
+      // Change description section language if selected language
+      // is different than field language
+      if (fieldLanguage !== descriptionLanguage) {
+        setDescriptionLanguage(fieldLanguage as EVENT_INFO_LANGUAGES);
+      }
+    }
+
     const field = document.getElementById(getFocusableFieldId(e.path));
 
     /* istanbul ignore else */
@@ -1125,14 +1147,22 @@ export const scrollToFirstError = (error: Yup.ValidationError) => {
   });
 };
 
-export const showErrors = (
-  error: Yup.ValidationError,
-  setErrors: (errors: FormikErrors<EventFormFields>) => void,
+export const showErrors = ({
+  descriptionLanguage,
+  error,
+  setErrors,
+  setDescriptionLanguage,
+  setTouched,
+}: {
+  descriptionLanguage: EVENT_INFO_LANGUAGES;
+  error: Yup.ValidationError;
+  setErrors: (errors: FormikErrors<EventFormFields>) => void;
+  setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
   setTouched: (
     touched: FormikTouched<EventFormFields>,
     shouldValidate?: boolean
-  ) => void
-) => {
+  ) => void;
+}) => {
   /* istanbul ignore else */
   if (error.name === 'ValidationError') {
     const newErrors = error.inner.reduce(
@@ -1146,7 +1176,7 @@ export const showErrors = (
 
     setErrors(newErrors);
     setTouched(touchedFields);
-    scrollToFirstError(error);
+    scrollToFirstError({ descriptionLanguage, error, setDescriptionLanguage });
   }
 };
 
