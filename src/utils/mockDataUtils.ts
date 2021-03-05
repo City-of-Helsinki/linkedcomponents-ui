@@ -24,6 +24,7 @@ import {
   PlacesResponse,
   PublicationStatus,
   User,
+  Video,
 } from '../generated/graphql';
 
 export const fakeEvents = (
@@ -69,6 +70,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       subEvents: [],
       superEvent: null,
       superEventType: null,
+      videos: [],
       __typename: 'Event',
     },
     overrides
@@ -284,6 +286,17 @@ export const fakeUser = (overrides?: Partial<User>): User => {
     overrides
   );
 };
+
+export const fakeVideo = (overrides?: Partial<Video>): Video =>
+  merge<Video, typeof overrides>(
+    {
+      altText: faker.random.image(),
+      name: faker.random.image(),
+      url: faker.internet.url(),
+      __typename: 'Video',
+    },
+    overrides
+  );
 
 export const fakeLocalisedObject = (text?: string): LocalisedObject => ({
   __typename: 'LocalisedObject',
