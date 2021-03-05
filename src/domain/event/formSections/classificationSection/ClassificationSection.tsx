@@ -1,5 +1,4 @@
 import { Field, useField } from 'formik';
-import capitalize from 'lodash/capitalize';
 import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +7,7 @@ import CheckboxGroupField from '../../../../common/components/formFields/Checkbo
 import KeywordSelectorFields from '../../../../common/components/formFields/KeywordSelectorFields';
 import Notification from '../../../../common/components/notification/Notification';
 import useLocale from '../../../../hooks/useLocale';
-import getLocalisedString from '../../../../utils/getLocalisedString';
+import { getKeywordOption } from '../../../keywordSet/utils';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useEventFieldOptionsData from '../../hooks/useEventFieldOptionsData';
@@ -22,12 +21,12 @@ const ClassificationSection = () => {
   const { topicsData } = useEventFieldOptionsData();
 
   const keywordOptions = sortBy(
-    topicsData?.keywordSet?.keywords?.map((keyword) => ({
-      label: capitalize(getLocalisedString(keyword?.name, locale)),
-      value: keyword?.atId,
-    })) || [],
+    topicsData?.keywordSet?.keywords?.map((keyword) =>
+      getKeywordOption({ keyword, locale })
+    ) || [],
     'label'
   );
+
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
 
   return (
