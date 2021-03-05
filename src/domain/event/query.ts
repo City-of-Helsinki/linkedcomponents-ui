@@ -6,6 +6,12 @@ export const QUERY_EVENT = gql`
     link
   }
 
+  fragment videoFields on Video {
+    altText
+    name
+    url
+  }
+
   fragment offerFields on Offer {
     description {
       ...localisedFields
@@ -71,6 +77,9 @@ export const QUERY_EVENT = gql`
     }
     startTime
     superEventType
+    videos {
+      ...videoFields
+    }
   }
 
   fragment eventFields on Event {

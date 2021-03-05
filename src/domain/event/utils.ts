@@ -82,6 +82,7 @@ import {
   ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
   SELECT_FIELDS,
+  VIDEO_DETAILS_FIELDS,
 } from './constants';
 import {
   EventFields,
@@ -90,6 +91,7 @@ import {
   MultiLanguageObject,
   Offer,
   RecurringEventSettings,
+  VideoDetails,
 } from './types';
 
 const transformNumber = (value: number, originalValue: string) =>
@@ -556,6 +558,14 @@ export const getEmptyOffer = (): Offer => {
   };
 };
 
+export const getEmptyVideo = (): VideoDetails => {
+  return {
+    [VIDEO_DETAILS_FIELDS.ALT_TEXT]: '',
+    [VIDEO_DETAILS_FIELDS.NAME]: '',
+    [VIDEO_DETAILS_FIELDS.URL]: '',
+  };
+};
+
 export const clearEventFormData = () => {
   sessionStorage.removeItem(FORM_NAMES.EVENT_FORM);
 };
@@ -851,6 +861,7 @@ export const getEventPayload = (
     startTime,
     superEvent,
     twitterUrl,
+    videos,
   } = formValues;
 
   const externalLinkFields = [
@@ -913,6 +924,7 @@ export const getEventPayload = (
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : undefined,
     superEventType:
       isUmbrella && uniqEventTimes.length <= 1 ? SuperEventType.Umbrella : null,
+    videos: videos.filter((video) => video.altText || video.name || video.url),
   };
 
   if (uniqEventTimes.length > 1) {
@@ -1097,6 +1109,13 @@ export const getEventInitialValues = (
         (link) => link?.name === EXTLINK.EXTLINK_INSTAGRAM
       )?.link || '',
     images: event.images.map((image) => image?.atId as string),
+    videos: event.videos.length
+      ? event.videos.map((video) => ({
+          altText: video?.altText ?? '',
+          name: video?.name ?? '',
+          url: video?.url ?? '',
+        }))
+      : [getEmptyVideo()],
     keywords: event.keywords.map((keyword) => keyword?.atId as string),
     audience: event.audience.map((keyword) => keyword?.atId as string),
     audienceMaxAge: event.audienceMaxAge || '',

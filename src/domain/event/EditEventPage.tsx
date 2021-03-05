@@ -40,6 +40,7 @@ import ResponsibilitiesSection from './formSections/responsibilitiesSection/Resp
 import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
+import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import useEventUpdateActions, { MODALS } from './hooks/useEventUpdateActions';
 import useRelatedEvents from './hooks/useRelatedEvents';
@@ -274,6 +275,9 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                       </Section>
                       <Section title={t('event.form.sections.image')}>
                         <ImageSection />
+                      </Section>
+                      <Section title={t('event.form.sections.video')}>
+                        <VideoSection />
                       </Section>
                       <Section title={t('event.form.sections.classification')}>
                         <ClassificationSection />

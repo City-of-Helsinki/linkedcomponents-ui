@@ -36,6 +36,7 @@ import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSec
 import SummarySection from './formSections/summarySection/SummarySection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
+import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import Section from './layout/Section';
 import { EventFormFields } from './types';
@@ -235,6 +236,9 @@ const CreateEventPage: React.FC = () => {
                       </Section>
                       <Section title={t('event.form.sections.image')}>
                         <ImageSection />
+                      </Section>
+                      <Section title={t('event.form.sections.video')}>
+                        <VideoSection />
                       </Section>
                       <Section title={t('event.form.sections.classification')}>
                         <ClassificationSection />

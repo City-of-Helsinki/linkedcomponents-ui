@@ -39,6 +39,12 @@ export enum IMAGE_DETAILS_FIELDS {
   PHOTOGRAPHER_NAME = 'photographerName',
 }
 
+export enum VIDEO_DETAILS_FIELDS {
+  ALT_TEXT = 'altText',
+  NAME = 'name',
+  URL = 'url',
+}
+
 export enum EXTENSION_COURSE_FIELDS {
   ENROLMENT_END_TIME = 'enrolmentEndTime',
   ENROLMENT_START_TIME = 'enrolmentStartTime',
@@ -81,6 +87,7 @@ export enum EVENT_FIELDS {
   SUPER_EVENT = 'superEvent',
   TYPE = 'type',
   TWITTER_URL = 'twitterUrl',
+  VIDEOS = 'videos',
 }
 
 export enum EVENT_INFO_LANGUAGES {
@@ -167,6 +174,13 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.SUPER_EVENT]: null,
   [EVENT_FIELDS.TYPE]: EVENT_TYPE.EVENT,
   [EVENT_FIELDS.TWITTER_URL]: '',
+  [EVENT_FIELDS.VIDEOS]: [
+    {
+      [VIDEO_DETAILS_FIELDS.ALT_TEXT]: '',
+      [VIDEO_DETAILS_FIELDS.NAME]: '',
+      [VIDEO_DETAILS_FIELDS.URL]: '',
+    },
+  ],
 };
 
 export enum URL_PARAMS {

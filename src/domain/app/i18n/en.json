@@ -135,11 +135,12 @@
       "buttonActions": "Actions",
       "buttonAddEventTime": "Add new time",
       "buttonAddImage": {
-        "course": "Add a photo or video of the course",
-        "event": "Add a photo or video of the event"
+        "course": "Add a photo of the course",
+        "event": "Add a photo of the event"
       },
       "buttonAddOffer": "Add new pricing information",
       "buttonAddRecurringEvent": "Add recurring event",
+      "buttonAddVideo": "Add video",
       "buttonBack": "Back",
       "buttonCancel": "Cancel event",
       "buttonCopy": "Copy as template",
@@ -147,6 +148,7 @@
       "buttonDeleteEventTime": "Delete time",
       "buttonDeleteOffer": "Delete pricing information",
       "buttonDeleteRecurringEvent": "Delete recurring event",
+      "buttonDeleteVideo": "Delete video",
       "buttonEdit": "Edit event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
       "buttonPostpone": "Postpone event",
@@ -228,7 +230,7 @@
         "event": "Optional. Always try to find a picture for the event. The image can be marked CC 4.0 BY (see explanation) or \"use only in connection with the event \". Some freely usable illustrations can be found at hel.fi/tapahtumakuvat."
       },
       "infoTextImage2": "Before uploading, edit the image to fit the network and to a 3: 2 horizontal aspect ratio, such as 1200 × 800px. It is essential that the file size remains reasonable for mobile use as well, preferably less than 200 kilobytes (kb).",
-      "infoTextImage3": "Give the image or video a name and briefly describe what is happening in it.",
+      "infoTextImage3": "Give the image a name and briefly describe what is happening in it.",
       "infoTextInfoLanguages": {
         "course": "Select the languages used for entering course information.",
         "event": "Select the languages used for entering event information."
@@ -267,6 +269,11 @@
       "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "infoTextUmbrellaSubEvent": "If you wish to add this event under an umbrella event, you may do so from the associated",
       "infoTextUmbrellaSubEventLink": "top level event",
+      "infoTextTitleVideo1": {
+        "course": "If the course involves a video, you can add its address here.",
+        "event": "If the event involves a video, you can add its address here."
+      },
+      "infoTextTitleVideo2": "Give the video a name and a brief description of what is happening in it.",
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
       "labelDescription": {
@@ -334,6 +341,9 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Umbrella event",
+      "labelVideoAltText": "Video alt text",
+      "labelVideoName": "The name of the video",
+      "labelVideoUrl": "The URL of the video",
       "modalTitleImage": "Add image",
       "modalTitleRecurringEvent": "Specify recurring event",
       "notificationTitleDescription": {
@@ -345,8 +355,8 @@
         "event": "Event times"
       },
       "notificationTitleImage": {
-        "course": "Image or video related to the course",
-        "event": "Image or video related to the event"
+        "course": "Image related to the course",
+        "event": "Image related to the event"
       },
       "notificationTitleLocation": "Venue",
       "notificationTitleMainCategories": {
@@ -358,6 +368,10 @@
       "notificationTitleProvider": "Organizer",
       "notificationTitleType": "Event type",
       "notificationTitleUmrellaEvent": "Umbrella event",
+      "notificationTitleVideo": {
+        "course": "Video related to the course",
+        "event": "Video related to the event"
+      },
       "placeholderAudienceMaxAge": {
         "course": "Enter the maximum age for the course",
         "event": "Enter the maximum age for the event"
@@ -407,6 +421,9 @@
         "course": "Enter the URL of the course's Twitter page",
         "event": "Enter the URL of the event's Twitter page"
       },
+      "placeholderVideoAltText": "Enter the alt text of the video for screen readers",
+      "placeholderVideoName": "Enter a name for the video",
+      "placeholderVideoUrl": "Enter the URL of the video",
       "recurringEvent": {
         "labelEndDate": "Repetition ends:",
         "labelEndTime": {
@@ -439,7 +456,8 @@
         "responsibilities": "Responsibilities",
         "socialMedia": "Social media",
         "time": "Time",
-        "type": "Event type"
+        "type": "Event type",
+        "video": "Video"
       },
       "titleAttendeeCapacity": "Attendee capacity",
       "titleAudience": "Target groups",
@@ -484,6 +502,10 @@
         "event": "Event dates"
       },
       "titleUmrellaEvent": "Umbrella events",
+      "titleVideo": {
+        "course": "Video of the course",
+        "event": "Video of the event"
+      },
       "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
     },
     "freeEvent": "Free",
