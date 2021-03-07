@@ -1,4 +1,4 @@
-import { Field, useField } from 'formik';
+import { FastField, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -24,17 +24,30 @@ const getFieldName = (videoPath: string, field: string) =>
 const Video: React.FC<Props> = ({ canDelete, onDelete, type, videoPath }) => {
   const { t } = useTranslation();
 
+  const fieldNames = React.useMemo(
+    () => ({
+      altText: getFieldName(videoPath, VIDEO_DETAILS_FIELDS.ALT_TEXT),
+      name: getFieldName(videoPath, VIDEO_DETAILS_FIELDS.NAME),
+      url: getFieldName(videoPath, VIDEO_DETAILS_FIELDS.URL),
+    }),
+    [videoPath]
+  );
+
+  const [{ value: altText }] = useField({
+    name: fieldNames.altText,
+  });
   const [{ value: name }] = useField({
-    name: getFieldName(videoPath, VIDEO_DETAILS_FIELDS.NAME),
+    name: fieldNames.name,
   });
   const [{ value: url }] = useField({
-    name: getFieldName(videoPath, VIDEO_DETAILS_FIELDS.URL),
-  });
-  const [{ value: altText }] = useField({
-    name: getFieldName(videoPath, VIDEO_DETAILS_FIELDS.ALT_TEXT),
+    name: fieldNames.url,
   });
 
-  const isRequired = Boolean(name || url || altText);
+  const isRequired = React.useMemo(() => Boolean(name || url || altText), [
+    altText,
+    name,
+    url,
+  ]);
 
   return (
     <>
@@ -63,18 +76,18 @@ const Video: React.FC<Props> = ({ canDelete, onDelete, type, videoPath }) => {
         >
           <>
             <FormGroup>
-              <Field
+              <FastField
                 component={TextInputField}
-                name={getFieldName(videoPath, VIDEO_DETAILS_FIELDS.NAME)}
+                name={fieldNames.name}
                 label={t(`event.form.labelVideoName`)}
                 placeholder={t(`event.form.placeholderVideoName`)}
                 required={isRequired}
               />
             </FormGroup>
             <FormGroup>
-              <Field
+              <FastField
                 component={TextInputField}
-                name={getFieldName(videoPath, VIDEO_DETAILS_FIELDS.ALT_TEXT)}
+                name={fieldNames.altText}
                 label={t(`event.form.labelVideoAltText`)}
                 placeholder={t(`event.form.placeholderVideoAltText`)}
                 required={isRequired}
@@ -82,9 +95,9 @@ const Video: React.FC<Props> = ({ canDelete, onDelete, type, videoPath }) => {
             </FormGroup>
 
             <FormGroup>
-              <Field
+              <FastField
                 component={TextInputField}
-                name={getFieldName(videoPath, VIDEO_DETAILS_FIELDS.URL)}
+                name={fieldNames.url}
                 label={t(`event.form.labelVideoUrl`)}
                 placeholder={t(`event.form.placeholderVideoUrl`)}
                 required={isRequired}
