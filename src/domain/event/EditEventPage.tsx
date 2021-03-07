@@ -262,7 +262,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                         />
                       </Section>
                       <Section title={t('event.form.sections.time')}>
-                        <TimeSection />
+                        <TimeSection savedEvent={event} />
                       </Section>
                       <Section title={t('event.form.sections.place')}>
                         <PlaceSection />

@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../common/components/button/Button';
+import { EventFieldsFragment } from '../../../../generated/graphql';
 import { EVENT_FIELDS } from '../../constants';
 import FieldWithButton from '../../layout/FieldWithButton';
 import { EventTime as EventTimeType } from '../../types';
@@ -13,7 +14,11 @@ import EventTime from './EventTime';
 const getEventTimePath = (index: number) =>
   `${EVENT_FIELDS.EVENT_TIMES}[${index}]`;
 
-const EventTimes: React.FC = () => {
+interface EventTimesProps {
+  savedEvent?: EventFieldsFragment;
+}
+
+const EventTimes: React.FC<EventTimesProps> = ({ savedEvent }) => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({
@@ -34,12 +39,14 @@ const EventTimes: React.FC = () => {
                 key={index}
                 eventTimePath={getEventTimePath(index)}
                 onDelete={() => arrayHelpers.remove(index)}
+                savedEvent={savedEvent}
                 type={type}
               />
             );
           })}
           <FieldWithButton>
             <Button
+              disabled={Boolean(savedEvent)}
               type="button"
               fullWidth={true}
               onClick={() => arrayHelpers.push(getEmptyEventTime())}
