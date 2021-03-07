@@ -51,6 +51,7 @@ const PlaceSection = () => {
               label={t('event.form.labelLocation')}
               name={EVENT_FIELDS.LOCATION}
               placeholder={t('event.form.placeholderLocation')}
+              required={true}
             />
             <div className={styles.locationId}>
               {t('event.form.labelLocationId')} {parseIdFromAtId(location)}
