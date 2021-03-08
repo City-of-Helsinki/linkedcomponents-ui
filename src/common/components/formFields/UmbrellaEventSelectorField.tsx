@@ -19,11 +19,7 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
   const { t } = useTranslation();
   const [, { touched, error }] = useField(name);
 
-  const errorText = React.useMemo(() => getErrorText(error, touched, t), [
-    error,
-    t,
-    touched,
-  ]);
+  const errorText = getErrorText(error, touched, t);
 
   const handleBlur = () => {
     onBlur({ target: { id: name, value } });
