@@ -1,6 +1,11 @@
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
 
+import {
+  event,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+} from '../../__mocks__/editEventPage';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
 import { fakeEvent } from '../../../../utils/mockDataUtils';
@@ -17,8 +22,6 @@ import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
 
-const event = fakeEvent();
-
 const defaultProps: EditButtonPanelProps = {
   event: event,
   onCancel: jest.fn(),
@@ -29,6 +32,7 @@ const defaultProps: EditButtonPanelProps = {
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const renderComponent = ({
   props,
@@ -36,7 +40,8 @@ const renderComponent = ({
 }: {
   props?: Partial<EditButtonPanelProps>;
   store?: Store<StoreState, AnyAction>;
-}) => render(<EditButtonPanel {...defaultProps} {...props} />, { store });
+}) =>
+  render(<EditButtonPanel {...defaultProps} {...props} />, { mocks, store });
 
 const findComponent = (
   key:
@@ -88,8 +93,10 @@ const openMenu = async () => {
 };
 
 test('should toggle menu by clicking actions button', async () => {
-  const event = fakeEvent({ publicationStatus: PublicationStatus.Draft });
-  renderComponent({ props: { event }, store });
+  renderComponent({
+    props: { event: { ...event, publicationStatus: PublicationStatus.Draft } },
+    store,
+  });
 
   const toggleButton = await openMenu();
   userEvent.click(toggleButton);
@@ -99,17 +106,20 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render correct buttons for draft event', async () => {
-  const event = fakeEvent({ publicationStatus: PublicationStatus.Draft });
   const onCancel = jest.fn();
   const onDelete = jest.fn();
   const onUpdate = jest.fn();
-  renderComponent({ props: { event, onCancel, onDelete, onUpdate }, store });
+  renderComponent({
+    props: {
+      event: { ...event, publicationStatus: PublicationStatus.Draft },
+      onCancel,
+      onDelete,
+      onUpdate,
+    },
+    store,
+  });
 
   await openMenu();
-
-  const cancelButton = await findComponent('cancel');
-  userEvent.click(cancelButton);
-  expect(onCancel).toBeCalled();
 
   await findComponent('copy');
 
@@ -125,7 +135,11 @@ test('should render correct buttons for draft event', async () => {
   userEvent.click(publishButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
 
-  const hiddenButtons = ['Lykkää tapahtumaa', 'Tallenna muutokset'];
+  const hiddenButtons = [
+    'Lykkää tapahtumaa',
+    'Peruuta tapahtuma',
+    'Tallenna muutokset',
+  ];
 
   hiddenButtons.forEach((name) => {
     expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
@@ -133,8 +147,9 @@ test('should render correct buttons for draft event', async () => {
 });
 
 test('only copy button should be enabled when user is not logged in (draft)', async () => {
-  const event = fakeEvent({ publicationStatus: PublicationStatus.Draft });
-  renderComponent({ props: { event } });
+  renderComponent({
+    props: { event: { ...event, publicationStatus: PublicationStatus.Draft } },
+  });
 
   await openMenu();
 
@@ -150,13 +165,18 @@ test('only copy button should be enabled when user is not logged in (draft)', as
 });
 
 test('should render correct buttons for public event', async () => {
-  const event = fakeEvent({ publicationStatus: PublicationStatus.Public });
   const onCancel = jest.fn();
   const onDelete = jest.fn();
   const onPostpone = jest.fn();
   const onUpdate = jest.fn();
   renderComponent({
-    props: { event, onCancel, onDelete, onPostpone, onUpdate },
+    props: {
+      event: { ...event, publicationStatus: PublicationStatus.Public },
+      onCancel,
+      onDelete,
+      onPostpone,
+      onUpdate,
+    },
     store,
   });
 
@@ -188,11 +208,16 @@ test('should render correct buttons for public event', async () => {
 });
 
 test('only copy and delete button should be enabled when event is cancelled', async () => {
-  const event = fakeEvent({
-    eventStatus: EventStatus.EventCancelled,
-    publicationStatus: PublicationStatus.Public,
+  renderComponent({
+    props: {
+      event: {
+        ...event,
+        eventStatus: EventStatus.EventCancelled,
+        publicationStatus: PublicationStatus.Public,
+      },
+    },
+    store,
   });
-  renderComponent({ props: { event }, store });
 
   await openMenu();
 
@@ -211,8 +236,9 @@ test('only copy and delete button should be enabled when event is cancelled', as
 });
 
 test('only copy button should be enabledwhen user is not logged in (public)', async () => {
-  const event = fakeEvent({ publicationStatus: PublicationStatus.Public });
-  renderComponent({ props: { event } });
+  renderComponent({
+    props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
+  });
 
   await openMenu();
 
@@ -228,8 +254,9 @@ test('only copy button should be enabledwhen user is not logged in (public)', as
 });
 
 test('should route to create event page when clicking copy button', async () => {
-  const event = fakeEvent({ publicationStatus: PublicationStatus.Public });
-  const { history } = renderComponent({ props: { event } });
+  const { history } = renderComponent({
+    props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
+  });
 
   await openMenu();
 
@@ -242,8 +269,9 @@ test('should route to create event page when clicking copy button', async () => 
 });
 
 test('should route to events page when clicking back button', async () => {
-  const event = fakeEvent({ publicationStatus: PublicationStatus.Public });
-  const { history } = renderComponent({ props: { event } });
+  const { history } = renderComponent({
+    props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
+  });
 
   const backButton = await findComponent('back');
   userEvent.click(backButton);

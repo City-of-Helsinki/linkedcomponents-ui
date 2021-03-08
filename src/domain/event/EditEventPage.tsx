@@ -23,6 +23,7 @@ import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { resetEventListPage } from '../events/utils';
 import NotFound from '../notFound/NotFound';
+import useUser from '../user/hooks/useUser';
 import { EVENT_INCLUDES, EVENT_INFO_LANGUAGES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import EventHierarchy from './eventHierarchy/EventHierarchy';
@@ -326,8 +327,11 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 
 const EditEventPageWrapper: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { loading: loadingUser } = useUser();
+
   const { data: eventData, loading: loadingEvent, refetch } = useEventQuery({
     fetchPolicy: 'no-cache',
+    skip: loadingUser,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
       id,
@@ -338,7 +342,7 @@ const EditEventPageWrapper: React.FC = () => {
   // Load options for inLanguage, audience and keywords checkboxes
   const { loading: loadingEventFieldOptions } = useEventFieldOptionsData();
 
-  const loading = loadingEvent || loadingEventFieldOptions;
+  const loading = loadingEvent || loadingEventFieldOptions || loadingUser;
 
   return (
     <LoadingSpinner isLoading={loading}>

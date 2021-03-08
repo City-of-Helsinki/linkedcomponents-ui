@@ -73,6 +73,7 @@ module.exports = buildSchema(/* GraphQL */ `
       publisher: ID
     ): ImagesResponse!
     organization(id: ID!): Organization!
+    organizations(child: ID, page: Int, pageSize: Int): OrganizationsResponse!
     place(id: ID!): Place!
     places(
       dataSource: String
@@ -154,6 +155,7 @@ module.exports = buildSchema(/* GraphQL */ `
     name: LocalisedObjectInput
     offers: [OfferInput!]
     provider: LocalisedObjectInput
+    publisher: String
     shortDescription: LocalisedObjectInput
     startTime: String
     subEvents: [IdObjectInput!]
@@ -259,6 +261,7 @@ module.exports = buildSchema(/* GraphQL */ `
     customData: String
     dataSource: String
     datePublished: String
+    deleted: String
     description: LocalisedObject
     endTime: String
     extensionCourse: ExtensionCourse
@@ -415,6 +418,11 @@ module.exports = buildSchema(/* GraphQL */ `
     atContext: String
     atId: String
     atType: String
+  }
+
+  type OrganizationsResponse {
+    meta: Meta!
+    data: [Organization]!
   }
 
   type Place {

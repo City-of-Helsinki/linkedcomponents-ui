@@ -1,3 +1,5 @@
+import { advanceTo, clear } from 'jest-date-mock';
+
 import { EXTLINK } from '../../../constants';
 import {
   EventStatus,
@@ -11,20 +13,25 @@ import {
   fakeKeywords,
   fakeLanguages,
   fakeOffers,
+  fakeOrganization,
   fakePlace,
+  fakeUser,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
+  EVENT_EDIT_ACTIONS,
   EVENT_INITIAL_VALUES,
   EVENT_TYPE,
 } from '../constants';
 import { EventFormFields } from '../types';
 import {
   calculateSuperEventTime,
+  checkCanUserDoAction,
   eventPathBuilder,
   filterUnselectedLanguages,
   generateEventTimesFromRecurringEvent,
+  getEditEventWarning,
   getEventFields,
   getEventInfoLanguages,
   getEventInitialValues,
@@ -86,6 +93,7 @@ const defaultEventPayload = {
     zhHans: null,
   },
   publicationStatus: PublicationStatus.Draft,
+  publisher: '',
   shortDescription: {
     ar: null,
     en: null,
@@ -98,6 +106,10 @@ const defaultEventPayload = {
   superEventType: null,
   videos: [],
 };
+
+beforeEach(() => {
+  clear();
+});
 
 describe('eventPathBuilder function', () => {
   it('should build correct path', () => {
@@ -338,6 +350,7 @@ describe('getEventPayload function', () => {
           en: 'Provider en',
           sv: '',
         },
+        publisher: 'publisher:1',
         shortDescription: {
           ...EMPTY_MULTI_LANGUAGE_OBJECT,
           fi: 'Short description fi',
@@ -452,6 +465,7 @@ describe('getEventPayload function', () => {
         sv: '',
         zhHans: null,
       },
+      publisher: 'publisher:1',
       shortDescription: {
         ar: null,
         en: null,
@@ -750,6 +764,7 @@ describe('getEventInitialValues function', () => {
       sv: 'Provider sv',
       zhHans: 'Provider zh',
     };
+    const publisher = 'publisher:123';
     const shortDescription = {
       ar: 'Short description ar',
       en: 'Short description en',
@@ -816,6 +831,7 @@ describe('getEventInitialValues function', () => {
             }))
           ),
           provider,
+          publisher,
           shortDescription,
           startTime: startTime.toISOString(),
           superEvent: fakeEvent({
@@ -851,6 +867,7 @@ describe('getEventInitialValues function', () => {
       name,
       offers,
       provider,
+      publisher,
       recurringEvents: [],
       shortDescription,
       startTime,
@@ -861,7 +878,7 @@ describe('getEventInitialValues function', () => {
     });
   });
 
-  it('should return event edit form initial values', () => {
+  it('should return event edit form default initial values', () => {
     const expectedName = {
       ar: '',
       en: '',
@@ -914,5 +931,441 @@ describe('getEventInitialValues function', () => {
     expect(startTime).toEqual(null);
     expect(superEvent).toEqual(superEvent);
     expect(twitterUrl).toEqual('');
+  });
+});
+
+describe('checkCanUserDoAction function', () => {
+  it('should allow/deny correct actions if adminArganizations contains event publisher', () => {
+    const publisher = 'publisher:1';
+    const event = fakeEvent({ publisher });
+    const user = fakeUser({ adminOrganizations: [publisher] });
+
+    const allowedActions = [
+      EVENT_EDIT_ACTIONS.CANCEL,
+      EVENT_EDIT_ACTIONS.COPY,
+      EVENT_EDIT_ACTIONS.DELETE,
+      EVENT_EDIT_ACTIONS.EDIT,
+      EVENT_EDIT_ACTIONS.POSTPONE,
+      EVENT_EDIT_ACTIONS.PUBLISH,
+      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          event,
+          organizationAncestors: [],
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow/deny correct actions if organizationAncestores contains any of the adminArganizations', () => {
+    const publisher = 'publisher:1';
+    const adminOrganization = 'admin:1';
+    const event = fakeEvent({ publisher });
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    const allowedActions = [
+      EVENT_EDIT_ACTIONS.CANCEL,
+      EVENT_EDIT_ACTIONS.COPY,
+      EVENT_EDIT_ACTIONS.DELETE,
+      EVENT_EDIT_ACTIONS.EDIT,
+      EVENT_EDIT_ACTIONS.POSTPONE,
+      EVENT_EDIT_ACTIONS.PUBLISH,
+      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          event,
+          organizationAncestors: [fakeOrganization({ id: adminOrganization })],
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow/deny correct actions if organizationMembers contains event publisher and event is draft', () => {
+    const publisher = 'publisher:1';
+    const event = fakeEvent({
+      publisher,
+      publicationStatus: PublicationStatus.Draft,
+    });
+    const user = fakeUser({ organizationMemberships: [publisher] });
+
+    const allowedActions = [
+      EVENT_EDIT_ACTIONS.CANCEL,
+      EVENT_EDIT_ACTIONS.COPY,
+      EVENT_EDIT_ACTIONS.DELETE,
+      EVENT_EDIT_ACTIONS.EDIT,
+      EVENT_EDIT_ACTIONS.POSTPONE,
+
+      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          event,
+          organizationAncestors: [],
+          user,
+        })
+      ).toBe(true);
+    });
+
+    const deniedActions = [
+      EVENT_EDIT_ACTIONS.PUBLISH,
+      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          event,
+          organizationAncestors: [],
+          user,
+        })
+      ).toBe(false);
+    });
+  });
+
+  it('should allow/deny correct actions if organizationMembers contains event publisher and event is public', () => {
+    const publisher = 'publisher:1';
+    const event = fakeEvent({
+      publisher,
+      publicationStatus: PublicationStatus.Public,
+    });
+    const user = fakeUser({ organizationMemberships: [publisher] });
+
+    const allowedActions = [
+      EVENT_EDIT_ACTIONS.COPY,
+      EVENT_EDIT_ACTIONS.EDIT,
+      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          event,
+          organizationAncestors: [],
+          user,
+        })
+      ).toBe(true);
+    });
+
+    const deniedActions = [
+      EVENT_EDIT_ACTIONS.CANCEL,
+      EVENT_EDIT_ACTIONS.DELETE,
+      EVENT_EDIT_ACTIONS.POSTPONE,
+      EVENT_EDIT_ACTIONS.PUBLISH,
+      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          event,
+          organizationAncestors: [],
+          user,
+        })
+      ).toBe(false);
+    });
+  });
+
+  it('should allow/deny correct actions if user is not member of any organization', () => {
+    const publisher = 'publisher:1';
+    const event = fakeEvent({ publisher });
+    const user = fakeUser({
+      adminOrganizations: [],
+      organizationMemberships: [],
+    });
+
+    const deniedActions = [
+      EVENT_EDIT_ACTIONS.CANCEL,
+      EVENT_EDIT_ACTIONS.DELETE,
+      EVENT_EDIT_ACTIONS.POSTPONE,
+      EVENT_EDIT_ACTIONS.PUBLISH,
+      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          event,
+          organizationAncestors: [],
+          user,
+        })
+      ).toBe(false);
+    });
+
+    const allowedActions = [EVENT_EDIT_ACTIONS.COPY, EVENT_EDIT_ACTIONS.EDIT];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          event,
+          organizationAncestors: [],
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+});
+
+describe('getEditEventWarning function', () => {
+  it('should return correct warning if user is not authenticated', () => {
+    const event = fakeEvent();
+
+    const allowedActions = [EVENT_EDIT_ACTIONS.COPY, EVENT_EDIT_ACTIONS.EDIT];
+
+    const commonProps = {
+      authenticated: false,
+      event,
+      t: (s) => s,
+      userCanDoAction: false,
+    };
+
+    allowedActions.forEach((action) => {
+      expect(
+        getEditEventWarning({
+          action,
+          ...commonProps,
+        })
+      ).toBe('');
+    });
+
+    const deniedActions = [
+      EVENT_EDIT_ACTIONS.CANCEL,
+      EVENT_EDIT_ACTIONS.DELETE,
+      EVENT_EDIT_ACTIONS.POSTPONE,
+      EVENT_EDIT_ACTIONS.PUBLISH,
+      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(
+        getEditEventWarning({
+          action,
+          ...commonProps,
+        })
+      ).toBe('authentication.noRightsUpdateEvent');
+    });
+  });
+
+  it('should return correct warning if event is cancelled', () => {
+    const event = fakeEvent({ eventStatus: EventStatus.EventCancelled });
+
+    const allowedActions = [
+      EVENT_EDIT_ACTIONS.COPY,
+      EVENT_EDIT_ACTIONS.DELETE,
+      EVENT_EDIT_ACTIONS.EDIT,
+    ];
+
+    const commonProps = {
+      authenticated: true,
+      event,
+      t: (s) => s,
+      userCanDoAction: true,
+    };
+    allowedActions.forEach((action) => {
+      expect(
+        getEditEventWarning({
+          ...commonProps,
+          action,
+        })
+      ).toBe('');
+    });
+
+    const deniedActions = [
+      EVENT_EDIT_ACTIONS.CANCEL,
+      EVENT_EDIT_ACTIONS.POSTPONE,
+      EVENT_EDIT_ACTIONS.PUBLISH,
+      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(
+        getEditEventWarning({
+          ...commonProps,
+          action,
+        })
+      ).toBe('event.form.editButtonPanel.warningCancelledEvent');
+    });
+  });
+
+  it('should return correct warning if event is cancelled', () => {
+    const event = fakeEvent({ deleted: '2021-12-12' });
+
+    const allowedActions = [EVENT_EDIT_ACTIONS.COPY, EVENT_EDIT_ACTIONS.EDIT];
+
+    const commonProps = {
+      authenticated: true,
+      event,
+      t: (s) => s,
+      userCanDoAction: true,
+    };
+    allowedActions.forEach((action) => {
+      expect(
+        getEditEventWarning({
+          ...commonProps,
+          action,
+        })
+      ).toBe('');
+    });
+
+    const deniedActions = [
+      EVENT_EDIT_ACTIONS.CANCEL,
+      EVENT_EDIT_ACTIONS.DELETE,
+      EVENT_EDIT_ACTIONS.POSTPONE,
+      EVENT_EDIT_ACTIONS.PUBLISH,
+      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(
+        getEditEventWarning({
+          ...commonProps,
+          action,
+        })
+      ).toBe('event.form.editButtonPanel.warningDeletedEvent');
+    });
+  });
+
+  it('should return correct warning if event is in the past', () => {
+    advanceTo('2021-01-01');
+    const event = fakeEvent({ endTime: '2020-12-12', startTime: '2020-12-10' });
+
+    const allowedActions = [
+      EVENT_EDIT_ACTIONS.COPY,
+      EVENT_EDIT_ACTIONS.DELETE,
+      EVENT_EDIT_ACTIONS.EDIT,
+    ];
+
+    const commonProps = {
+      authenticated: true,
+      event,
+      t: (s) => s,
+      userCanDoAction: true,
+    };
+    allowedActions.forEach((action) => {
+      expect(
+        getEditEventWarning({
+          ...commonProps,
+          action,
+        })
+      ).toBe('');
+    });
+
+    const deniedActions = [
+      EVENT_EDIT_ACTIONS.CANCEL,
+      EVENT_EDIT_ACTIONS.POSTPONE,
+      EVENT_EDIT_ACTIONS.PUBLISH,
+      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(
+        getEditEventWarning({
+          ...commonProps,
+          action,
+        })
+      ).toBe('event.form.editButtonPanel.warningEventInPast');
+    });
+  });
+
+  it('should return correct warning if trying to cancel draft event', () => {
+    advanceTo('2020-10-12');
+    const event = fakeEvent({
+      endTime: '2021-02-01',
+      startTime: '2021-01-01',
+      publicationStatus: PublicationStatus.Draft,
+    });
+
+    expect(
+      getEditEventWarning({
+        authenticated: true,
+        event,
+        t: (s) => s,
+        userCanDoAction: true,
+        action: EVENT_EDIT_ACTIONS.CANCEL,
+      })
+    ).toBe('event.form.editButtonPanel.warningCannotCancelDraft');
+  });
+
+  it('should return correct warning if trying to postpone draft event', () => {
+    advanceTo('2020-10-12');
+    const event = fakeEvent({
+      endTime: '2021-02-01',
+      startTime: '2021-01-01',
+      publicationStatus: PublicationStatus.Draft,
+    });
+
+    expect(
+      getEditEventWarning({
+        authenticated: true,
+        event,
+        t: (s) => s,
+        userCanDoAction: true,
+        action: EVENT_EDIT_ACTIONS.POSTPONE,
+      })
+    ).toBe('event.form.editButtonPanel.warningCannotPostponeDraft');
+  });
+
+  it('should return correct warning if trying to publish sub-event', () => {
+    advanceTo('2020-10-12');
+    const event = fakeEvent({
+      endTime: '2021-02-01',
+      startTime: '2021-01-01',
+      superEvent: fakeEvent(),
+      publicationStatus: PublicationStatus.Draft,
+    });
+
+    expect(
+      getEditEventWarning({
+        authenticated: true,
+        event,
+        t: (s) => s,
+        userCanDoAction: true,
+        action: EVENT_EDIT_ACTIONS.PUBLISH,
+      })
+    ).toBe('event.form.editButtonPanel.warningCannotPublishSubEvent');
+  });
+
+  it('should return correct warning if user cannot do action', () => {
+    advanceTo('2020-10-12');
+    const event = fakeEvent({
+      endTime: '2021-02-01',
+      startTime: '2021-01-01',
+      superEvent: fakeEvent(),
+      publicationStatus: PublicationStatus.Draft,
+    });
+
+    expect(
+      getEditEventWarning({
+        authenticated: true,
+        event,
+        t: (s) => s,
+        userCanDoAction: false,
+        action: EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      })
+    ).toBe('event.form.editButtonPanel.warningNoRightsToEdit');
   });
 });

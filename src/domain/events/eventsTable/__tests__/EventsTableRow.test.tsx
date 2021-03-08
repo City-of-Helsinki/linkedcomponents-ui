@@ -7,6 +7,7 @@ import {
   EventFieldsFragment,
   EventsDocument,
   OrganizationDocument,
+  OrganizationsDocument,
   PublicationStatus,
   SuperEventType,
 } from '../../../../generated/graphql';
@@ -14,6 +15,7 @@ import {
   fakeEvent,
   fakeEvents,
   fakeOrganization,
+  fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
 import {
   configure,
@@ -28,7 +30,29 @@ configure({ defaultHidden: true });
 const organizationId = 'hel:123';
 const organizationName = 'Organization name';
 const organization = fakeOrganization({ name: organizationName });
+const organizationVariables = { id: organizationId, createPath: undefined };
 const organizationResponse = { data: { organization } };
+const mockedOrganizationResponse: MockedResponse = {
+  request: {
+    query: OrganizationDocument,
+    variables: organizationVariables,
+  },
+  result: organizationResponse,
+};
+
+const organizationsVariables = {
+  child: organizationId,
+  pageSize: MAX_PAGE_SIZE,
+  createPath: undefined,
+};
+const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
+const mockedOrganizationsResponse: MockedResponse = {
+  request: {
+    query: OrganizationsDocument,
+    variables: organizationsVariables,
+  },
+  result: organizationsResponse,
+};
 
 const renderComponent = (event: EventFieldsFragment, mocks: MockedResponse[]) =>
   render(
@@ -59,15 +83,7 @@ test('should render event data correctly', async () => {
     startTime: eventValues.startTime,
   });
 
-  const mocks = [
-    {
-      request: {
-        query: OrganizationDocument,
-        variables: { id: organizationId, createPath: undefined },
-      },
-      result: organizationResponse,
-    },
-  ];
+  const mocks = [mockedOrganizationResponse, mockedOrganizationsResponse];
 
   renderComponent(event, mocks);
 
@@ -107,13 +123,19 @@ test('should show sub events', async () => {
       name: { fi: name },
     }))
   );
-
-  const subEventsResponse = { data: { events: subEvents } };
   const subEventsVariables = {
     createPath: undefined,
     pageSize: MAX_PAGE_SIZE,
     showAll: true,
     superEvent: eventValues.id,
+  };
+  const subEventsResponse = { data: { events: subEvents } };
+  const mockedSubEventsResponse: MockedResponse = {
+    request: {
+      query: EventsDocument,
+      variables: subEventsVariables,
+    },
+    result: subEventsResponse,
   };
 
   const event = fakeEvent({
@@ -127,20 +149,9 @@ test('should show sub events', async () => {
   });
 
   const mocks = [
-    {
-      request: {
-        query: OrganizationDocument,
-        variables: { id: organizationId, createPath: undefined },
-      },
-      result: organizationResponse,
-    },
-    {
-      request: {
-        query: EventsDocument,
-        variables: subEventsVariables,
-      },
-      result: subEventsResponse,
-    },
+    mockedOrganizationResponse,
+    mockedOrganizationsResponse,
+    mockedSubEventsResponse,
   ];
 
   renderComponent(event, mocks);

@@ -17,11 +17,13 @@ import {
   mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
+  mockedOrganizationResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,
   mockedTopicsKeywordSetResponse,
   mockedUmbrellaEventsResponse,
   mockedUpdateImageResponse,
+  mockedUserResponse,
   selectedPlaceText,
 } from '../__mocks__/createEventPage';
 import { testId } from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -54,6 +56,8 @@ const defaultMocks = [
   // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
   mockedFilteredPlacesResponse,
   mockedFilteredPlacesResponse,
+  mockedOrganizationResponse,
+  mockedUserResponse,
 ];
 
 const state = fakeAuthenticatedStoreState();

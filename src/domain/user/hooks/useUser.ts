@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import { User, useUserQuery } from '../../../generated/graphql';
+import { UserFieldsFragment, useUserQuery } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import {
   apiTokenSelector,
@@ -11,7 +11,7 @@ import { userPathBuilder } from '../utils';
 
 type UserState = {
   loading: boolean;
-  user?: User;
+  user?: UserFieldsFragment;
 };
 
 const useUser = (): UserState => {
@@ -27,6 +27,7 @@ const useUser = (): UserState => {
       createPath: getPathBuilder(userPathBuilder),
     },
   });
+
   return { loading: loadingUser || loadingTokens, user: userData?.user };
 };
 

@@ -18,6 +18,8 @@ import {
   mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedOrganizationResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,
   mockedPostponedEventResponse,
@@ -30,6 +32,7 @@ import {
   mockedUpdateEventResponse,
   mockedUpdateEventWithSubEventResponse,
   mockedUpdateImageResponse,
+  mockedUserResponse,
 } from '../__mocks__/editEventPage';
 import { ROUTES } from '../../../constants';
 import { EventDocument } from '../../../generated/graphql';
@@ -58,6 +61,9 @@ const baseMocks = [
   mockedPlaceResponse,
   mockedPlacesResponse,
   mockedFilteredPlacesResponse,
+  mockedUserResponse,
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
 ];
 
 const storeState = fakeAuthenticatedStoreState();

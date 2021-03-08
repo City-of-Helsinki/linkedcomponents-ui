@@ -89,7 +89,7 @@ test('fields should be set required if any field is not empty', async () => {
 
     for (const field of inputs) {
       await waitFor(() => {
-        expect((field as HTMLInputElement).required).toBeTruthy();
+        expect((field as HTMLInputElement).required).toBe(true);
       });
     }
 

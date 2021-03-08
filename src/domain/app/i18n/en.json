@@ -5,8 +5,6 @@
     "networkError": {
       "message": "Login error: Check your network connection or try again later"
     },
-    "noRightsCreateEvent": "You have insufficient rights to create events.",
-    "noRightsPublishEvent": "You have insufficient rights to publish events.",
     "noRightsUpdateEvent": "You have insufficient rights to edit events."
   },
   "common": {
@@ -151,6 +149,11 @@
       "buttonDeleteVideo": "Delete video",
       "buttonEdit": "Edit event",
       "buttonOpenRecurringEventSettings": "Open recurring event settings",
+      "buttonPanel": {
+        "warningNoRightsCreate": "You have insufficient rights to create this event.",
+        "warningNoRightsToPublish": "You have insufficient rights to publish this event.",
+        "warningNotAuthenticated": "You must be logged in to create events."
+      },
       "buttonPostpone": "Postpone event",
       "buttonPublish": {
         "course": "Publish course",
@@ -165,7 +168,13 @@
       "buttonUpdatePublic": "Save changes",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
       "editButtonPanel": {
-        "tooltipCancelledEvent": "Cancelled events can't be edited."
+        "warningCancelledEvent": "Cancelled events can't be edited.",
+        "warningCannotCancelDraft": "Event drafts can't be cancelled.",
+        "warningCannotPostponeDraft": "Event drafts can't be postponed.",
+        "warningCannotPublishSubEvent": "A sub event of a series cannot be published.",
+        "warningDeletedEvent": "Deleted events can't be edited.",
+        "warningEventInPast": "Past events can't be edited.",
+        "warningNoRightsToEdit": "You have insufficient rights to edit this event."
       },
       "extensionCourse": {
         "labelEnrolmentEndTime": "Registration ends",
@@ -260,6 +269,7 @@
         "event": "If the event has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field."
       },
       "infoTextProvider": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextPublisher": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "infoTextSocialMedia": {
         "course": "Optional. In the URL field, enter the SoMe links for the course.",
         "event": "Optional. In the URL field, enter the SoMe links for the event."
@@ -317,6 +327,10 @@
         "course": "Course organizer {{langText}} (if different than the publisher)",
         "event": "Event organizer {{langText}} (if different than the publisher)"
       },
+      "labelPublisher": {
+        "course": "Course publisher",
+        "event": "Event publisher"
+      },
       "labelRecurringEventEndDate": "Repetition ends",
       "labelRecurringEventEndTime": {
         "course": "Course ends at",
@@ -366,6 +380,7 @@
 
       "notificationTitleOffers": "Price information",
       "notificationTitleProvider": "Organizer",
+      "notificationTitlePublisher": "Publisher",
       "notificationTitleType": "Event type",
       "notificationTitleUmrellaEvent": "Umbrella event",
       "notificationTitleVideo": {
@@ -640,6 +655,8 @@
         "min": "This date must be at least {{min}}",
         "required": "This field is required"
       },
+      "draftCannotBeUmbrella": "Draft can't be umbrella event",
+      "draftCannotHaveUmbrella": "Draft can't have umbrella event",
       "eventInfoVerified": "The information must be verified",
       "number": {
         "integer": "Value must be an integer",

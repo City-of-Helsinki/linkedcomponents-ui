@@ -1,13 +1,16 @@
+import { MockedResponse } from '@apollo/react-testing';
 import React from 'react';
 
 import {
   EventsDocument,
   OrganizationDocument,
+  OrganizationsDocument,
   UserDocument,
 } from '../../../generated/graphql';
 import {
   fakeEvents,
   fakeOrganization,
+  fakeOrganizations,
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import {
@@ -40,12 +43,44 @@ const storeState = fakeAuthenticatedStoreState();
 const adminOrganization = 'helsinki';
 const userData = fakeUser({ adminOrganizations: [adminOrganization] });
 const userResponse = { data: { user: userData } };
+const mockedUserResponse: MockedResponse = {
+  request: {
+    query: UserDocument,
+    variables: { id: 'user:1', createPath: undefined },
+  },
+  result: userResponse,
+};
 
 const organizationId = 'helsinki';
-const organizationVariables = { createPath: undefined, id: organizationId };
 const organization = fakeOrganization();
+const organizationVariables = { createPath: undefined, id: organizationId };
 const organizationResponse = {
-  data: { events: organization },
+  data: { organization },
+};
+const mockedOrganizationResponse: MockedResponse = {
+  request: {
+    query: OrganizationDocument,
+    variables: organizationVariables,
+  },
+  // To make sure organization is found also after changing tab to published events
+  newData: () => organizationResponse,
+};
+
+const organizationsVariables = {
+  createPath: undefined,
+  child: 'helsinki',
+  pageSize: 100,
+};
+const organizationsResponse = {
+  data: { organizations: fakeOrganizations(0) },
+};
+const mockedOrganizationsResponse: MockedResponse = {
+  request: {
+    query: OrganizationsDocument,
+    variables: organizationsVariables,
+  },
+  // To make sure organization is found also after changing tab to published events
+  newData: () => organizationsResponse,
 };
 
 const baseEventsVariables = {
@@ -54,12 +89,7 @@ const baseEventsVariables = {
   pageSize: EVENTS_PAGE_SIZE,
   superEvent: 'none',
 };
-const waitingApprovalEventsVariables = {
-  ...baseEventsVariables,
-  adminUser: true,
-  publisher: ['helsinki'],
-  publicationStatus: 'draft',
-};
+
 const waitingApprovalEventsCount = 3;
 const waitingApprovalEvents = fakeEvents(
   waitingApprovalEventsCount,
@@ -67,15 +97,28 @@ const waitingApprovalEvents = fakeEvents(
     publisher: organizationId,
   })
 );
-const waitingApprovalEventsResponse = {
-  data: { events: waitingApprovalEvents },
-};
-
-const publicEventsVariables = {
+const waitingApprovalEventsVariables = {
   ...baseEventsVariables,
   adminUser: true,
   publisher: ['helsinki'],
-  publicationStatus: 'public',
+  publicationStatus: 'draft',
+};
+const waitingApprovalEventsResponse = {
+  data: { events: waitingApprovalEvents },
+};
+const mockedWaitingApprovalEventsResponse: MockedResponse = {
+  request: {
+    query: EventsDocument,
+    variables: waitingApprovalEventsVariables,
+  },
+  result: waitingApprovalEventsResponse,
+};
+const mockedSortedWaitingApprovalEventsResponse: MockedResponse = {
+  request: {
+    query: EventsDocument,
+    variables: { ...waitingApprovalEventsVariables, sort: 'name' },
+  },
+  result: waitingApprovalEventsResponse,
 };
 
 const publicEventsCount = 2;
@@ -85,15 +128,21 @@ const publicEvents = fakeEvents(
     publisher: organizationId,
   })
 );
+const publicEventsVariables = {
+  ...baseEventsVariables,
+  adminUser: true,
+  publisher: ['helsinki'],
+  publicationStatus: 'public',
+};
 const publicEventsResponse = {
   data: { events: publicEvents },
 };
-
-const draftEventsVariables = {
-  ...baseEventsVariables,
-  createdBy: 'me',
-  publicationStatus: 'draft',
-  showAll: true,
+const mockedPublisEventsResponse: MockedResponse = {
+  request: {
+    query: EventsDocument,
+    variables: publicEventsVariables,
+  },
+  result: publicEventsResponse,
 };
 
 const draftEventsCount = 7;
@@ -103,54 +152,31 @@ const draftEvents = fakeEvents(
     publisher: organizationId,
   })
 );
+const draftEventsVariables = {
+  ...baseEventsVariables,
+  createdBy: 'me',
+  publicationStatus: 'draft',
+  showAll: true,
+};
 const draftEventsResponse = {
   data: { events: draftEvents },
 };
+const mockedDraftEventsResponse: MockedResponse = {
+  request: {
+    query: EventsDocument,
+    variables: draftEventsVariables,
+  },
+  result: draftEventsResponse,
+};
 
 const mocks = [
-  {
-    request: {
-      query: UserDocument,
-      variables: { id: 'user:1', createPath: undefined },
-    },
-    result: userResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: waitingApprovalEventsVariables,
-    },
-    result: waitingApprovalEventsResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: { ...waitingApprovalEventsVariables, sort: 'name' },
-    },
-    result: waitingApprovalEventsResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: publicEventsVariables,
-    },
-    result: publicEventsResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: draftEventsVariables,
-    },
-    result: draftEventsResponse,
-  },
-  {
-    request: {
-      query: OrganizationDocument,
-      variables: organizationVariables,
-    },
-    // To make sure organization is found also after changing tab to published events
-    newData: () => organizationResponse,
-  },
+  mockedUserResponse,
+  mockedWaitingApprovalEventsResponse,
+  mockedSortedWaitingApprovalEventsResponse,
+  mockedPublisEventsResponse,
+  mockedDraftEventsResponse,
+  mockedOrganizationResponse,
+  mockedOrganizationsResponse,
 ];
 
 const findElement = (

@@ -20,6 +20,8 @@ import {
   KeywordSetsResponse,
   KeywordsResponse,
   LanguagesResponse,
+  Organization,
+  OrganizationsResponse,
   Place,
   PlacesResponse,
   UploadImageMutationInput,
@@ -35,6 +37,7 @@ import {
   addTypenameKeywordSet,
   addTypenameLanguage,
   addTypenameMeta,
+  addTypenameOrganization,
   addTypenamePlace,
 } from './utils';
 
@@ -97,6 +100,12 @@ const cache = new InMemoryCache({
         keywordSet(_, { args, toReference }) {
           return toReference({
             __typename: 'KeywordSet',
+            id: args?.id,
+          });
+        },
+        organization(_, { args, toReference }) {
+          return toReference({
+            __typename: 'Organization',
             id: args?.id,
           });
         },
@@ -184,6 +193,19 @@ const linkedEventsLink = new RestLink({
     LanguagesResponse: (data: LanguagesResponse): LanguagesResponse => {
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((language) => addTypenameLanguage(language));
+
+      return data;
+    },
+    Organization: (organization: Organization): Organization | null => {
+      return addTypenameOrganization(organization);
+    },
+    OrganizationsResponse: (
+      data: OrganizationsResponse
+    ): OrganizationsResponse => {
+      data.meta = addTypenameMeta(data.meta);
+      data.data = data.data.map((organization) =>
+        addTypenameOrganization(organization)
+      );
 
       return data;
     },

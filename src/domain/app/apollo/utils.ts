@@ -10,6 +10,7 @@ import {
   LocalisedObject,
   Meta,
   Offer,
+  Organization,
   Place,
   Position,
 } from '../../../generated/graphql';
@@ -142,6 +143,16 @@ export const addTypenameOffer = (offer?: Offer | null): Offer | null =>
         infoUrl: addTypenameLocalisedObject(offer.infoUrl),
         price: addTypenameLocalisedObject(offer.price),
         __typename: 'Offer',
+      }
+    : null;
+
+export const addTypenameOrganization = (
+  organization?: Organization | null
+): Organization | null =>
+  organization
+    ? {
+        ...organization,
+        __typename: 'Organization',
       }
     : null;
 

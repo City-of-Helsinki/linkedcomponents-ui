@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../types';
 import { getErrorText } from '../../../utils/validationUtils';
-import UmbrellaEventSelector, {
-  UmbrellaEventSelectorProps,
-} from '../umbrellaEventSelector/UmbrellaEventSelector';
+import PublisherSelector, {
+  PublisherSelectorProps,
+} from '../publisherSelector/PublisherSelector';
 
-type Props = UmbrellaEventSelectorProps & FieldProps;
+type Props = PublisherSelectorProps & FieldProps;
 
-const UmbrellaEventSelectorField: React.FC<Props> = ({
+const PublisherSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
   helper,
@@ -30,7 +30,7 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
   };
 
   return (
-    <UmbrellaEventSelector
+    <PublisherSelector
       {...rest}
       {...field}
       name={name}
@@ -44,4 +44,4 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
   );
 };
 
-export default UmbrellaEventSelectorField;
+export default PublisherSelectorField;

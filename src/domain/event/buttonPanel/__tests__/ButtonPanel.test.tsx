@@ -2,6 +2,10 @@ import { AnyAction, Store } from '@reduxjs/toolkit';
 import { Formik } from 'formik';
 import React from 'react';
 
+import {
+  mockedUserResponse,
+  organizationId,
+} from '../../__mocks__/createEventPage';
 import { defaultStoreState } from '../../../../constants';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
@@ -10,33 +14,32 @@ import translations from '../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import ButtonPanel from '../ButtonPanel';
 
+const mocks = [mockedUserResponse];
+
 const renderComponent = (store?: Store<StoreState, AnyAction>) =>
   render(
     <Formik
       initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.EVENT }}
       onSubmit={jest.fn()}
     >
-      <ButtonPanel onSaveDraft={jest.fn()} />
+      <ButtonPanel onSaveDraft={jest.fn()} publisher={organizationId} />
     </Formik>,
-    { store }
+    { mocks, store }
   );
 
-test('buttons should be disabled when user is not authenticated', () => {
+test('publish should be disabled when user is not authenticated', () => {
   const store = getMockReduxStore(defaultStoreState);
 
   renderComponent(store);
 
-  const buttons = [
-    translations.authentication.noRightsCreateEvent,
-    translations.authentication.noRightsPublishEvent,
-  ];
+  const buttons = [translations.event.form.buttonPanel.warningNotAuthenticated];
 
   buttons.forEach((name) => {
     expect(screen.getByRole('button', { name })).toBeDisabled();
   });
 });
 
-test('buttons should be enabled when user is authenticated', () => {
+test('buttons should be enabled when user is authenticated', async () => {
   const storeState = fakeAuthenticatedStoreState();
   const store = getMockReduxStore(storeState);
 
@@ -47,7 +50,8 @@ test('buttons should be enabled when user is authenticated', () => {
     translations.event.form.buttonPublish.event,
   ];
 
-  buttons.forEach((name) => {
-    expect(screen.getByRole('button', { name })).toBeEnabled();
-  });
+  for (const name of buttons) {
+    const button = await screen.findByRole('button', { name });
+    expect(button).toBeEnabled();
+  }
 });

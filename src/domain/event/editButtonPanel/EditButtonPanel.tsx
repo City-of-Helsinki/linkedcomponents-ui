@@ -16,8 +16,10 @@ import useLocale from '../../../hooks/useLocale';
 import useWindowSize from '../../../hooks/useWindowSize';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
-import { EVENT_ACTION_BUTTONS } from '../constants';
-import { copyEventToSessionStorage, getActionButtonProps } from '../utils';
+import useUser from '../../user/hooks/useUser';
+import { EVENT_EDIT_ACTIONS } from '../constants';
+import useEventOrganizationAncestors from '../hooks/useEventOrganizationAncestors';
+import { copyEventToSessionStorage, getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditButtonPanelProps {
@@ -47,6 +49,9 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const history = useHistory();
   const windowSize = useWindowSize();
 
+  const { organizationAncestors } = useEventOrganizationAncestors(event);
+  const { user } = useUser();
+
   const goToEventsPage = () => {
     history.push(`/${locale}${ROUTES.EVENTS}`);
   };
@@ -61,51 +66,53 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   }, [windowSize]);
 
   const getActionItemProps = ({
-    button,
+    action,
     onClick,
   }: {
-    button: EVENT_ACTION_BUTTONS;
+    action: EVENT_EDIT_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getActionButtonProps({
+    return getEditButtonProps({
+      action,
       authenticated,
-      button,
       event,
       onClick,
+      organizationAncestors,
       t,
+      user,
     });
   };
 
   const actionItems: MenuItemOptionProps[] = [
+    getActionItemProps({
+      action: EVENT_EDIT_ACTIONS.COPY,
+      onClick: copyEvent,
+    }),
     /* Actions for draft event */
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.UPDATE_DRAFT,
+      action: EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
       onClick: () => onUpdate(PublicationStatus.Draft),
     }),
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.PUBLISH,
+      action: EVENT_EDIT_ACTIONS.PUBLISH,
       onClick: () => onUpdate(PublicationStatus.Public),
     }),
     /* Actions for public event */
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.UPDATE_PUBLIC,
+      action: EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
       onClick: () => onUpdate(PublicationStatus.Public),
     }),
     /* Actions for all event */
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.COPY,
-      onClick: copyEvent,
-    }),
-    getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.POSTPONE,
+      action: EVENT_EDIT_ACTIONS.POSTPONE,
       onClick: onPostpone,
     }),
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.CANCEL,
+      action: EVENT_EDIT_ACTIONS.CANCEL,
       onClick: onCancel,
     }),
     getActionItemProps({
-      button: EVENT_ACTION_BUTTONS.DELETE,
+      action: EVENT_EDIT_ACTIONS.DELETE,
       onClick: onDelete,
     }),
   ].filter((i) => i) as MenuItemOptionProps[];

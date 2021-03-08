@@ -57,6 +57,6 @@ test('start and end times should be disabled when editing recurring event', () =
   fields.forEach((name) => {
     expect(
       (screen.getByRole('textbox', { name }) as HTMLInputElement).disabled
-    ).toBeTruthy();
+    ).toBe(true);
   });
 });

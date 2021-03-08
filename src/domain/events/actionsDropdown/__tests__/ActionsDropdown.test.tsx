@@ -19,7 +19,9 @@ import {
   eventId,
   mockedCancelEventResponse,
   mockedDeleteEventResponse,
+  mockedOrganizationAncestorsResponse,
   mockedPostponeEventResponse,
+  mockedUserResponse,
 } from '../../../event/__mocks__/editEventPage';
 import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
 
@@ -28,6 +30,8 @@ configure({ defaultHidden: true });
 const defaultProps: ActionsDropdownProps = {
   event,
 };
+
+const defaultMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const cancelledEvent = {
   ...event,
@@ -41,7 +45,7 @@ const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
 const renderComponent = ({
-  mocks,
+  mocks = defaultMocks,
   props,
   store,
 }: {
@@ -95,12 +99,11 @@ test('should render correct buttons for draft event', async () => {
 
   await openMenu();
 
-  await findComponent('cancel');
   await findComponent('copy');
   await findComponent('delete');
   await findComponent('edit');
 
-  const hiddenButtons = ['Lykkää tapahtumaa'];
+  const hiddenButtons = ['Lykkää tapahtumaa', 'Peruuta tapahtuma'];
 
   hiddenButtons.forEach((name) => {
     expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
@@ -115,7 +118,7 @@ test('only edit and copy buttons should be enabled when user is not logged in (d
   const buttons = screen.getAllByRole('button', {
     name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
   });
-  expect(buttons).toHaveLength(2);
+  expect(buttons).toHaveLength(3);
   buttons.forEach((button) => {
     expect(button).toBeDisabled();
   });
@@ -205,7 +208,7 @@ test('should route to edit page when clicking edit button', async () => {
 });
 
 test('should cancel event', async () => {
-  const mocks: MockedResponse[] = [mockedCancelEventResponse];
+  const mocks: MockedResponse[] = [...defaultMocks, mockedCancelEventResponse];
 
   renderComponent({ props: { event }, mocks, store });
 
@@ -226,7 +229,7 @@ test('should cancel event', async () => {
 });
 
 test('should delete event', async () => {
-  const mocks: MockedResponse[] = [mockedDeleteEventResponse];
+  const mocks: MockedResponse[] = [...defaultMocks, mockedDeleteEventResponse];
 
   renderComponent({ props: { event }, mocks, store });
 
@@ -247,7 +250,10 @@ test('should delete event', async () => {
 });
 
 test('should postpone event', async () => {
-  const mocks: MockedResponse[] = [mockedPostponeEventResponse];
+  const mocks: MockedResponse[] = [
+    ...defaultMocks,
+    mockedPostponeEventResponse,
+  ];
 
   renderComponent({ props: { event }, mocks, store });
 

@@ -1,6 +1,6 @@
 import { MockedResponse } from '@apollo/react-testing';
 
-import { EXTLINK } from '../../../constants';
+import { EXTLINK, MAX_PAGE_SIZE } from '../../../constants';
 import {
   DeleteEventDocument,
   EventDocument,
@@ -11,12 +11,15 @@ import {
   KeywordsDocument,
   KeywordSetDocument,
   LanguagesDocument,
+  OrganizationDocument,
+  OrganizationsDocument,
   PlaceDocument,
   PlacesDocument,
   PublicationStatus,
   SuperEventType,
   UpdateEventsDocument,
   UpdateImageDocument,
+  UserDocument,
 } from '../../../generated/graphql';
 import {
   fakeEvent,
@@ -27,8 +30,11 @@ import {
   fakeKeywordSet,
   fakeLanguages,
   fakeOffers,
+  fakeOrganization,
+  fakeOrganizations,
   fakePlace,
   fakePlaces,
+  fakeUser,
 } from '../../../utils/mockDataUtils';
 
 const eventId = 'helsinki:1';
@@ -143,6 +149,7 @@ const provider = {
   sv: 'Provider sv',
   zhHans: 'Provider zh',
 };
+const publisher = 'publisher:1';
 const shortDescription = {
   ar: 'Short description ar',
   en: 'Short description en',
@@ -228,6 +235,7 @@ const eventOverrides = {
     }))
   ),
   provider,
+  publisher,
   shortDescription,
   startTime: startTime.toISOString(),
   superEventType,
@@ -254,6 +262,7 @@ const basePayload = {
   name,
   offers: offers.map((offer) => ({ ...offer, isFree: false })),
   provider,
+  publisher,
   shortDescription,
   endTime: endTime.toISOString(),
   startTime: startTime.toISOString(),
@@ -595,6 +604,39 @@ const mockedLanguagesResponse: MockedResponse = {
   result: languagesResponse,
 };
 
+// Organization mocked
+const organization = fakeOrganization({
+  id: publisher,
+});
+const organizationVariables = {
+  createPath: undefined,
+  id: publisher,
+};
+const organizationResponse = { data: { organization } };
+const mockedOrganizationResponse = {
+  request: {
+    query: OrganizationDocument,
+    variables: organizationVariables,
+  },
+  result: organizationResponse,
+};
+
+const organizationAncestorsVariables = {
+  createPath: undefined,
+  child: publisher,
+  pageSize: MAX_PAGE_SIZE,
+};
+const organizationAncestorsResponse = {
+  data: { organizations: fakeOrganizations(0) },
+};
+const mockedOrganizationAncestorsResponse: MockedResponse = {
+  request: {
+    query: OrganizationsDocument,
+    variables: organizationAncestorsVariables,
+  },
+  result: organizationAncestorsResponse,
+};
+
 // Place mocks
 const placeVariables = {
   createPath: undefined,
@@ -636,6 +678,24 @@ const mockedFilteredPlacesResponse: MockedResponse = {
   result: placesResponse,
 };
 
+// User mocks
+const user = fakeUser({
+  organization: publisher,
+  adminOrganizations: [publisher],
+});
+const userVariables = {
+  createPath: undefined,
+  id: 'user:1',
+};
+const userResponse = { data: { user } };
+const mockedUserResponse = {
+  request: {
+    query: UserDocument,
+    variables: userVariables,
+  },
+  result: userResponse,
+};
+
 export {
   audienceName,
   event,
@@ -654,6 +714,8 @@ export {
   mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedOrganizationResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,
   mockedPostponedEventResponse,
@@ -666,4 +728,5 @@ export {
   mockedUpdateEventResponse,
   mockedUpdateEventWithSubEventResponse,
   mockedUpdateImageResponse,
+  mockedUserResponse,
 };

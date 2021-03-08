@@ -19,11 +19,7 @@ const TextAreaField: React.FC<Props> = ({
   const { t } = useTranslation();
   const [, { touched, error }] = useField(name);
 
-  const errorText = React.useMemo(() => getErrorText(error, touched, t), [
-    error,
-    t,
-    touched,
-  ]);
+  const errorText = getErrorText(error, touched, t);
 
   const charsLeft = !isNil(maxLength) ? maxLength - value.length : undefined;
   const charsLeftText = !isNil(charsLeft)
@@ -37,7 +33,8 @@ const TextAreaField: React.FC<Props> = ({
       id={name}
       name={name}
       value={value}
-      helperText={errorText || helperText || charsLeftText}
+      errorText={errorText}
+      helperText={helperText || charsLeftText}
       invalid={!!errorText}
       maxLength={maxLength}
     />

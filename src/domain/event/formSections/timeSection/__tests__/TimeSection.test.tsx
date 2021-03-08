@@ -128,8 +128,8 @@ test('add button should be disabled when editing existing event', async () => {
   const addRecurringEventButton = screen.getByRole('button', {
     name: translations.event.form.buttonOpenRecurringEventSettings,
   });
-  expect((addButton as HTMLButtonElement).disabled).toBeTruthy();
-  expect((addRecurringEventButton as HTMLButtonElement).disabled).toBeTruthy();
+  expect((addButton as HTMLButtonElement).disabled).toBe(true);
+  expect((addRecurringEventButton as HTMLButtonElement).disabled).toBe(true);
 });
 
 test('should add and delete event time', async () => {

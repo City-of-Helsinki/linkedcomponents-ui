@@ -13,9 +13,11 @@ import {
   KeywordsDocument,
   KeywordSetDocument,
   LanguagesDocument,
+  OrganizationDocument,
   PlaceDocument,
   PlacesDocument,
   UpdateImageDocument,
+  UserDocument,
 } from '../../../generated/graphql';
 import {
   fakeEvent,
@@ -25,8 +27,10 @@ import {
   fakeKeywords,
   fakeKeywordSet,
   fakeLanguages,
+  fakeOrganization,
   fakePlace,
   fakePlaces,
+  fakeUser,
 } from '../../../utils/mockDataUtils';
 
 const eventValues = {
@@ -64,6 +68,9 @@ const keywords = fakeKeywords(
     name: { fi: name },
   }))
 );
+
+const organizationId = 'organization:1';
+const organizationName = 'Organization name';
 
 const placeName = 'Place name';
 const streetAddress = 'Street address';
@@ -111,6 +118,7 @@ const baseEventPayload = {
   },
   offers: [{ isFree: true }],
   provider: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
+  publisher: organizationId,
   shortDescription: {
     ar: null,
     en: null,
@@ -398,6 +406,40 @@ const mockedFilteredPlacesResponse = {
   result: filteredPlacesResponse,
 };
 
+const organization = fakeOrganization({
+  id: organizationId,
+  name: organizationName,
+});
+const organizationVariables = {
+  createPath: undefined,
+  id: organizationId,
+};
+const organizationResponse = { data: { organization } };
+const mockedOrganizationResponse = {
+  request: {
+    query: OrganizationDocument,
+    variables: organizationVariables,
+  },
+  result: organizationResponse,
+};
+
+const user = fakeUser({
+  organization: organizationId,
+  adminOrganizations: [organizationId],
+});
+const userVariables = {
+  createPath: undefined,
+  id: 'user:1',
+};
+const userResponse = { data: { user } };
+const mockedUserResponse = {
+  request: {
+    query: UserDocument,
+    variables: userVariables,
+  },
+  result: userResponse,
+};
+
 export {
   eventValues,
   imageDetails,
@@ -412,10 +454,13 @@ export {
   mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
+  mockedOrganizationResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,
   mockedTopicsKeywordSetResponse,
   mockedUmbrellaEventsResponse,
   mockedUpdateImageResponse,
+  mockedUserResponse,
+  organizationId,
   selectedPlaceText,
 };

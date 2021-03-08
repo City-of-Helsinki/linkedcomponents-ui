@@ -23,11 +23,7 @@ const InputField: React.FC<Props> = (props) => {
   } = props;
   const [, { touched, error }] = useField(name);
 
-  const errorText = React.useMemo(() => getErrorText(error, touched, t), [
-    error,
-    t,
-    touched,
-  ]);
+  const errorText = getErrorText(error, touched, t);
 
   const handleBlur = (val: string) => {
     onBlur({
