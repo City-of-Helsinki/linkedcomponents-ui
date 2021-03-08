@@ -7,6 +7,7 @@ import Button from '../../../../common/components/button/Button';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Modal from '../../../../common/components/modal/Modal';
 import Notification from '../../../../common/components/notification/Notification';
+import { EventFieldsFragment } from '../../../../generated/graphql';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import FieldRow from '../../layout/FieldRow';
@@ -17,7 +18,11 @@ import EventTimes from './EventTimes';
 import RecurringEvents from './RecurringEvents';
 import RecurringEventsForm from './recurringEventsForm/RecurringEventsForm';
 
-const TypeSection: React.FC = () => {
+export interface TimeSectionProps {
+  savedEvent?: EventFieldsFragment;
+}
+
+const TimeSection: React.FC<TimeSectionProps> = ({ savedEvent }) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsmodalOpen] = React.useState(false);
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);
@@ -68,14 +73,15 @@ const TypeSection: React.FC = () => {
           </Notification>
         }
       >
-        <EventTime eventTimePath="" type={type} />
+        <EventTime eventTimePath="" savedEvent={savedEvent} type={type} />
         <FormGroup>
-          <EventTimes />
+          <EventTimes savedEvent={savedEvent} />
         </FormGroup>
 
         <RecurringEvents />
         <FieldWithButton>
           <Button
+            disabled={Boolean(savedEvent)}
             fullWidth={true}
             iconLeft={<IconCalendarPlus />}
             onClick={openModal}
@@ -90,4 +96,4 @@ const TypeSection: React.FC = () => {
   );
 };
 
-export default TypeSection;
+export default TimeSection;

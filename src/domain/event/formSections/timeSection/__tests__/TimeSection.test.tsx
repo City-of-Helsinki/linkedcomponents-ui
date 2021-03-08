@@ -3,6 +3,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import { WEEK_DAY } from '../../../../../constants';
+import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import {
   configure,
   render,
@@ -14,7 +15,7 @@ import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { EventFormFields } from '../../../types';
 import { eventValidationSchema } from '../../../utils';
-import TimeSection from '../TimeSection';
+import TimeSection, { TimeSectionProps } from '../TimeSection';
 
 configure({ defaultHidden: true });
 
@@ -28,7 +29,10 @@ const defaultInitialValue = {
   [EVENT_FIELDS.TYPE]: type,
 };
 
-const renderTimeSection = (initialValues?: Partial<EventFormFields>) =>
+const renderTimeSection = (
+  initialValues?: Partial<EventFormFields>,
+  props?: TimeSectionProps
+) =>
   render(
     <Formik
       initialValues={{
@@ -38,7 +42,7 @@ const renderTimeSection = (initialValues?: Partial<EventFormFields>) =>
       onSubmit={jest.fn()}
       validationSchema={eventValidationSchema}
     >
-      <TimeSection />
+      <TimeSection {...props} />
     </Formik>
   );
 
@@ -114,6 +118,18 @@ test('should show error message when end time is before start time', async () =>
   await screen.findByText(
     translations.form.validation.date.after.replace('{{after}}', startTime)
   );
+});
+
+test('add button should be disabled when editing existing event', async () => {
+  renderTimeSection(undefined, { savedEvent: fakeEvent() });
+  const addButton = screen.getByRole('button', {
+    name: translations.event.form.buttonAddEventTime,
+  });
+  const addRecurringEventButton = screen.getByRole('button', {
+    name: translations.event.form.buttonOpenRecurringEventSettings,
+  });
+  expect((addButton as HTMLButtonElement).disabled).toBeTruthy();
+  expect((addRecurringEventButton as HTMLButtonElement).disabled).toBeTruthy();
 });
 
 test('should add and delete event time', async () => {

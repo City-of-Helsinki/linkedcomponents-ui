@@ -70,6 +70,7 @@ import { eventsPathBuilder } from '../events/utils';
 import {
   ADD_IMAGE_FIELDS,
   AUHENTICATION_NOT_NEEDED,
+  DESCRIPTION_SECTION_FIELDS,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_CREATE_ACTIONS,
   EVENT_EDIT_ACTIONS,
@@ -88,6 +89,7 @@ import {
   ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
   SELECT_FIELDS,
+  VIDEO_DETAILS_FIELDS,
 } from './constants';
 import {
   EventFields,
@@ -96,6 +98,7 @@ import {
   MultiLanguageObject,
   Offer,
   RecurringEventSettings,
+  VideoDetails,
 } from './types';
 
 const transformNumber = (value: number, originalValue: string) =>
@@ -119,60 +122,58 @@ const createMultiLanguageValidationByInfoLanguages = (
   );
 };
 
-const createExtensionCourseValidation = () => {
-  return Yup.object().shape({
-    [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME]: Yup.date()
-      .nullable()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-      .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-        startTime ? isFuture(startTime) : true
-      ),
-    [EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME]: Yup.date()
-      .nullable()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-      .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
-        endTime ? isFuture(endTime) : true
-      )
-      // test that startsTime is before endsTime
-      .when(
-        [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME],
-        (startTime: Date | null, schema: Yup.DateSchema) => {
-          if (startTime && isValid(startTime)) {
-            return schema.test(
-              'isBeforeStartTime',
-              () => ({
-                key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-                min: formatDate(startTime, DATETIME_FORMAT),
-              }),
-              (endTime) => {
-                return endTime ? isBefore(startTime, endTime) : true;
-              }
-            );
-          }
-          return schema;
+const extensionCourseValidation = Yup.object().shape({
+  [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
+      startTime ? isFuture(startTime) : true
+    ),
+  [EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
+      endTime ? isFuture(endTime) : true
+    )
+    // test that startsTime is before endsTime
+    .when(
+      [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME],
+      (startTime: Date | null, schema: Yup.DateSchema) => {
+        if (startTime && isValid(startTime)) {
+          return schema.test(
+            'isBeforeStartTime',
+            () => ({
+              key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
+              min: formatDate(startTime, DATETIME_FORMAT),
+            }),
+            (endTime) => {
+              return endTime ? isBefore(startTime, endTime) : true;
+            }
+          );
         }
-      ),
-    [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
-      .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-      .min(0, (param) =>
-        createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-      )
-      .nullable()
-      .transform(transformNumber),
-    [EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
-      [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-      (minimumAttendeeCapacity: number) => {
-        return Yup.number()
-          .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-          .min(minimumAttendeeCapacity || 0, (param) =>
-            createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-          )
-          .nullable()
-          .transform(transformNumber);
+        return schema;
       }
     ),
-  });
-};
+  [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
+    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+    .min(0, (param) =>
+      createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+    )
+    .nullable()
+    .transform(transformNumber),
+  [EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
+    [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
+    (minimumAttendeeCapacity: number) => {
+      return Yup.number()
+        .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+        .min(minimumAttendeeCapacity || 0, (param) =>
+          createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+        )
+        .nullable()
+        .transform(transformNumber);
+    }
+  ),
+});
 
 const createEventTimeValidation = (publicationStatus: PublicationStatus) => ({
   [EVENT_FIELDS.START_TIME]: Yup.date()
@@ -215,7 +216,43 @@ const createEventTimeValidation = (publicationStatus: PublicationStatus) => ({
     ),
 });
 
-const imageDetailsValidation = {
+const videoValidation = Yup.object().shape(
+  {
+    [VIDEO_DETAILS_FIELDS.ALT_TEXT]: Yup.string().when(
+      [VIDEO_DETAILS_FIELDS.NAME, VIDEO_DETAILS_FIELDS.URL],
+      (name: string, url: string, schema: Yup.StringSchema) => {
+        return name || url
+          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+          : schema;
+      }
+    ),
+    [VIDEO_DETAILS_FIELDS.NAME]: Yup.string().when(
+      [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.URL],
+      (altText: string, url: string, schema: Yup.StringSchema) => {
+        return altText || url
+          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+          : schema;
+      }
+    ),
+    [VIDEO_DETAILS_FIELDS.URL]: Yup.string()
+      .url(VALIDATION_MESSAGE_KEYS.URL)
+      .when(
+        [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.NAME],
+        (altText: string, name: string, schema: Yup.StringSchema) => {
+          return altText || name
+            ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+            : schema;
+        }
+      ),
+  },
+  [
+    [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.NAME],
+    [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.URL],
+    [VIDEO_DETAILS_FIELDS.NAME, VIDEO_DETAILS_FIELDS.URL],
+  ]
+);
+
+const imageDetailsValidation = Yup.object().shape({
   [IMAGE_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .min(IMAGE_ALT_TEXT_MIN_LENGTH, (param) =>
@@ -228,7 +265,7 @@ const imageDetailsValidation = {
     CHARACTER_LIMITS.MEDIUM_STRING,
     (param) => createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
   ),
-};
+});
 
 export const eventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.TYPE]: Yup.string().required(
@@ -306,11 +343,10 @@ export const eventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
     [EVENT_FIELDS.IMAGES],
     (images: string[], schema: Yup.ObjectSchema<any>) => {
-      return images && images.length
-        ? Yup.object().shape(imageDetailsValidation)
-        : schema;
+      return images && images.length ? imageDetailsValidation : schema;
     }
   ),
+  [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoValidation),
   [EVENT_FIELDS.KEYWORDS]: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
     .min(1, (param) =>
@@ -334,7 +370,7 @@ export const eventValidationSchema = Yup.object().shape({
     )
     .nullable()
     .transform(transformNumber),
-  [EVENT_FIELDS.EXTENSION_COURSE]: createExtensionCourseValidation(),
+  [EVENT_FIELDS.EXTENSION_COURSE]: extensionCourseValidation,
   [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
     [true],
     VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
@@ -377,11 +413,10 @@ export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
     [EVENT_FIELDS.IMAGES],
     (images: string[], schema: Yup.ObjectSchema<any>) => {
-      return images && images.length
-        ? Yup.object().shape(imageDetailsValidation)
-        : schema;
+      return images && images.length ? imageDetailsValidation : schema;
     }
   ),
+  [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoValidation),
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
     .min(0, (param) =>
@@ -573,6 +608,14 @@ export const getEmptyOffer = (): Offer => {
     [EVENT_FIELDS.OFFER_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
     [EVENT_FIELDS.OFFER_INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
     [EVENT_FIELDS.OFFER_PRICE]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+  };
+};
+
+export const getEmptyVideo = (): VideoDetails => {
+  return {
+    [VIDEO_DETAILS_FIELDS.ALT_TEXT]: '',
+    [VIDEO_DETAILS_FIELDS.NAME]: '',
+    [VIDEO_DETAILS_FIELDS.URL]: '',
   };
 };
 
@@ -876,6 +919,7 @@ export const getEventPayload = (
     startTime,
     superEvent,
     twitterUrl,
+    videos,
   } = formValues;
 
   const externalLinkFields = [
@@ -939,6 +983,7 @@ export const getEventPayload = (
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : undefined,
     superEventType:
       isUmbrella && uniqEventTimes.length <= 1 ? SuperEventType.Umbrella : null,
+    videos: videos.filter((video) => video.altText || video.name || video.url),
   };
 
   if (uniqEventTimes.length > 1) {
@@ -1124,6 +1169,13 @@ export const getEventInitialValues = (
         (link) => link?.name === EXTLINK.EXTLINK_INSTAGRAM
       )?.link || '',
     images: event.images.map((image) => image?.atId as string),
+    videos: event.videos.length
+      ? event.videos.map((video) => ({
+          altText: video?.altText ?? '',
+          name: video?.name ?? '',
+          url: video?.url ?? '',
+        }))
+      : [getEmptyVideo()],
     keywords: event.keywords.map((keyword) => keyword?.atId as string),
     audience: event.audience.map((keyword) => keyword?.atId as string),
     audienceMaxAge: event.audienceMaxAge || '',
@@ -1141,8 +1193,29 @@ const getFocusableFieldId = (fieldName: string): string => {
   return fieldName;
 };
 
-export const scrollToFirstError = (error: Yup.ValidationError) => {
+export const scrollToFirstError = ({
+  descriptionLanguage,
+  error,
+  setDescriptionLanguage,
+}: {
+  descriptionLanguage: EVENT_INFO_LANGUAGES;
+  error: Yup.ValidationError;
+  setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
+}) => {
   forEach(error.inner, (e) => {
+    const descriptionField = DESCRIPTION_SECTION_FIELDS.find((field) =>
+      e.path.startsWith(field)
+    );
+    if (descriptionField) {
+      const fieldLanguage = e.path.split('.')[1];
+
+      // Change description section language if selected language
+      // is different than field language
+      if (fieldLanguage !== descriptionLanguage) {
+        setDescriptionLanguage(fieldLanguage as EVENT_INFO_LANGUAGES);
+      }
+    }
+
     const field = document.getElementById(getFocusableFieldId(e.path));
 
     /* istanbul ignore else */
@@ -1153,14 +1226,22 @@ export const scrollToFirstError = (error: Yup.ValidationError) => {
   });
 };
 
-export const showErrors = (
-  error: Yup.ValidationError,
-  setErrors: (errors: FormikErrors<EventFormFields>) => void,
+export const showErrors = ({
+  descriptionLanguage,
+  error,
+  setErrors,
+  setDescriptionLanguage,
+  setTouched,
+}: {
+  descriptionLanguage: EVENT_INFO_LANGUAGES;
+  error: Yup.ValidationError;
+  setErrors: (errors: FormikErrors<EventFormFields>) => void;
+  setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
   setTouched: (
     touched: FormikTouched<EventFormFields>,
     shouldValidate?: boolean
-  ) => void
-) => {
+  ) => void;
+}) => {
   /* istanbul ignore else */
   if (error.name === 'ValidationError') {
     const newErrors = error.inner.reduce(
@@ -1174,7 +1255,7 @@ export const showErrors = (
 
     setErrors(newErrors);
     setTouched(touchedFields);
-    scrollToFirstError(error);
+    scrollToFirstError({ descriptionLanguage, error, setDescriptionLanguage });
   }
 };
 

@@ -22,7 +22,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { clearEventsQueries, resetEventListPage } from '../events/utils';
 import useUser from '../user/hooks/useUser';
 import ButtonPanel from './buttonPanel/ButtonPanel';
-import { EVENT_INITIAL_VALUES } from './constants';
+import { EVENT_INFO_LANGUAGES, EVENT_INITIAL_VALUES } from './constants';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';
@@ -37,6 +37,7 @@ import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSec
 import SummarySection from './formSections/summarySection/SummarySection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
+import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import Section from './layout/Section';
 import { EventFormFields } from './types';
@@ -57,6 +58,9 @@ const CreateEventPage: React.FC = () => {
   const [createEventMutation] = useCreateEventMutation();
   const [createEventsMutation] = useCreateEventsMutation();
   const [updateImage] = useUpdateImageMutation();
+  const [descriptionLanguage, setDescriptionLanguage] = React.useState(
+    EVENT_INITIAL_VALUES.eventInfoLanguages[0] as EVENT_INFO_LANGUAGES
+  );
 
   const goToEventSavedPage = (id: string) => {
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
@@ -164,42 +168,44 @@ const CreateEventPage: React.FC = () => {
           setErrors({});
         };
 
-        const saveDraft = async () => {
-          try {
-            const values = { publisher, type, ...restValues };
-
-            clearErrors();
-            await draftEventValidationSchema.validate(values, {
-              abortEarly: false,
-            });
-
-            clearErrors();
-            saveEvent(values, PublicationStatus.Draft);
-          } catch (error) {
-            showErrors(error, setErrors, setTouched);
-          }
-        };
-
-        const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
+        const handleSubmit = async (
+          publicationStatus: PublicationStatus,
+          event?: React.FormEvent<HTMLFormElement>
+        ) => {
+          event?.preventDefault();
 
           try {
             const values = { publisher, type, ...restValues };
 
             clearErrors();
 
-            await eventValidationSchema.validate(values, {
-              abortEarly: false,
-            });
+            if (publicationStatus === PublicationStatus.Draft) {
+              await draftEventValidationSchema.validate(values, {
+                abortEarly: false,
+              });
+            } else {
+              await eventValidationSchema.validate(values, {
+                abortEarly: false,
+              });
+            }
 
-            saveEvent(values, PublicationStatus.Public);
+            saveEvent(values, publicationStatus);
           } catch (error) {
-            showErrors(error, setErrors, setTouched);
+            showErrors({
+              descriptionLanguage,
+              error,
+              setErrors,
+              setDescriptionLanguage,
+              setTouched,
+            });
           }
         };
 
         return (
-          <Form onSubmit={onSubmit} noValidate={true}>
+          <Form
+            onSubmit={(event) => handleSubmit(PublicationStatus.Public, event)}
+            noValidate={true}
+          >
             <FormikPersist
               name={FORM_NAMES.EVENT_FORM}
               isSessionStorage={true}
@@ -221,7 +227,10 @@ const CreateEventPage: React.FC = () => {
                       <ResponsibilitiesSection />
                     </Section>
                     <Section title={t('event.form.sections.description')}>
-                      <DescriptionSection />
+                      <DescriptionSection
+                        selectedLanguage={descriptionLanguage}
+                        setSelectedLanguage={setDescriptionLanguage}
+                      />
                     </Section>
                     <Section title={t('event.form.sections.time')}>
                       <TimeSection />
@@ -238,6 +247,9 @@ const CreateEventPage: React.FC = () => {
                     <Section title={t('event.form.sections.image')}>
                       <ImageSection />
                     </Section>
+                    <Section title={t('event.form.sections.video')}>
+                      <VideoSection />
+                    </Section>
                     <Section title={t('event.form.sections.classification')}>
                       <ClassificationSection />
                     </Section>
@@ -251,7 +263,10 @@ const CreateEventPage: React.FC = () => {
                     <SummarySection />
                   </FormContainer>
                 </Container>
-                <ButtonPanel onSaveDraft={saveDraft} publisher={publisher} />
+                <ButtonPanel
+                  onSaveDraft={() => handleSubmit(PublicationStatus.Draft)}
+                  publisher={publisher}
+                />
               </MainContent>
             </PageWrapper>
           </Form>

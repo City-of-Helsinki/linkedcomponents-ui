@@ -133,20 +133,22 @@
       "buttonActions": "Toiminnot",
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddImage": {
-        "course": "Lisää kurssin kuva tai video",
-        "event": "Lisää tapahtuman kuva tai video"
+        "course": "Lisää kurssin kuva",
+        "event": "Lisää tapahtuman kuva"
       },
       "buttonAddOffer": "Lisää uusi hintatieto",
       "buttonAddRecurringEvent": "Lisää toistuva tapahtuma",
+      "buttonAddVideo": "Lisää video",
       "buttonBack": "Takaisin",
       "buttonCancel":  "Peruuta tapahtuma",
       "buttonCopy": "Kopioi pohjaksi",
       "buttonDelete":  "Poista tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteOffer": "Poista hintatieto",
+      "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
+      "buttonDeleteVideo": "Poista video",
       "buttonEdit":  "Muokkaa tapahtumaa",
       "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
-      "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
       "buttonPanel": {
         "warningNoRightsCreate": "Sinulla ei ole oikeuksia luoda tätä tapahtumaa.",
         "warningNoRightsToPublish": "Sinulla ei ole oikeuksia julkaista tätä tapahtumaa.",
@@ -193,7 +195,7 @@
           "eventOnly": {
             "course": "Käyttö rajattu kurssin yhteyteen",
             "event": "Käyttö rajattu tapahtuman yhteyteen"
-          } 
+          }
         },
         "placeholderAltText": "Syötä kuvan alt-teksti",
         "placeholderName": "Syötä kuvateksti",
@@ -237,7 +239,7 @@
         "event": "Valinnainen. Pyri aina löytämään tapahtumalle kuva. Kuvalle voi merkitä käyttöoikeuden CC 4.0 BY (ks. selitys) tai \"käyttö vain tapahtuman yhteydessä\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy osoitteesta hel.fi/tapahtumakuvat."
       },
       "infoTextImage2": "Muokkaa kuva ennen syöttöä verkkoon sopivaksi ja 3:2 -vaakakuvasuhteeseen, esim. 1200×800px. Olennaista on, että tiedostokoko pysyy kohtuullisena myös mobiilikäyttöön eli mieluiten alle 200 kilotavun (kt).",
-      "infoTextImage3": "Anna kuvalle tai videolle nimi ja kuvaile lyhyesti mitä siinä tapahtuu.",
+      "infoTextImage3": "Anna kuvalle nimi ja kuvaile lyhyesti mitä siinä tapahtuu.",
       "infoTextInfoLanguages": {
         "course": "Valitse kielet joita käytetään kurssitietojen syötössä.",
         "event": "Valitse kielet joita käytetään tapahtumatietojen syötössä."
@@ -277,6 +279,11 @@
       "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "infoTextUmbrellaSubEvent": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se",
       "infoTextUmbrellaSubEventLink": "sarjan ylätapahtumasta",
+      "infoTextVideo1": {
+        "course": "Jos kurssiin liittyy video, voit lisätä sen osoitteen tässä.",
+        "event": "Jos tapahtumaan liittyy video, voit lisätä sen osoitteen tässä."
+      },
+      "infoTextVideo2": "Anna videolle nimi ja kuvaa lyhyesti mitä siinä tapahtuu.",
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
       "labelDescription": {
@@ -301,7 +308,7 @@
         "event": "Tapahtuman kotisivun URL {{langText}}"
       },
       "labelInstagramUrl": "Instagram",
-      "labelIsUmbrella": { 
+      "labelIsUmbrella": {
         "course": "Tämä kurssi on kattotapahtuma.",
         "event": "Tämä tapahtuma on kattotapahtuma."
       },
@@ -348,6 +355,9 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Kattotapahtuma",
+      "labelVideoAltText": "Videon alt-teksti",
+      "labelVideoName": "Videon nimi",
+      "labelVideoUrl": "Videon URL-osoite",
       "modalTitleImage": "Lisää kuva",
       "modalTitleRecurringEvent": "Määritä toistuva tapahtuma",
       "notificationTitleDescription": {
@@ -359,8 +369,8 @@
         "event": "Tapahtuman ajankohdat"
       },
       "notificationTitleImage": {
-        "course": "Kurssiin liittyvä kuva tai video",
-        "event": "Tapahtumaan liittyvä kuva tai video"
+        "course": "Kurssiin liittyvä kuva",
+        "event": "Tapahtumaan liittyvä kuva"
       },
       "notificationTitleLocation": "Tapahtumapaikka",
       "notificationTitleMainCategories": {
@@ -372,6 +382,10 @@
       "notificationTitlePublisher": "Julkaisija",
       "notificationTitleType": "Tapahtumatyyppi",
       "notificationTitleUmrellaEvent": "Kattotapahtuma",
+      "notificationTitleVideo": {
+        "course": "Kurssiin liittyvä video",
+        "event": "Tapahtumaan liittyvä video"
+      },
       "placeholderAudienceMaxAge": {
         "course": "Syötä kurssin yläikäraja",
         "event": "Syötä tapahtuman yläikäraja"
@@ -421,6 +435,9 @@
         "course": "Syötä kurssin Twitter-sivun URL",
         "event": "Syötä tapahtuman Twitter-sivun URL"
       },
+      "placeholderVideoAltText": "Syötä videon alt-teksti ruudunlukijoita varten",
+      "placeholderVideoName": "Syötä videon nimi",
+      "placeholderVideoUrl": "Syötä videon URL-osoite",
       "recurringEvent": {
         "labelEndDate": "Toisto päättyy:",
         "labelEndTime": {
@@ -451,9 +468,10 @@
         "place": "Paikka",
         "price": "Hinta",
         "responsibilities": "Vastuut",
-        "socialMedia": "SoMe",
+        "socialMedia": "Sosiaalinen media",
         "time": "Aika",
-        "type": "Tapahtumatyyppi"
+        "type": "Tapahtumatyyppi",
+        "video": "Video"
       },
       "titleAttendeeCapacity": "Osallistujamäärä",
       "titleAudience": "Kohderyhmät",
@@ -498,6 +516,10 @@
         "event": "Tapahtuman ajankohdat"
       },
       "titleUmrellaEvent": "Kattotapahtumat",
+      "titleVideo": {
+        "course": "Kurssin video",
+        "event": "Tapahtuman video"
+      },
       "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
     },
     "freeEvent": "Maksuton",
@@ -646,7 +668,7 @@
     },
     "weekDay": {
       "fri": "Perjantai",
-      "mon": "Maanantai", 
+      "mon": "Maanantai",
       "sat": "Lauantai",
       "sun": "Sunnuntai",
       "thu": "Torstai",
@@ -655,7 +677,7 @@
     },
     "weekDayAbbreviation": {
       "fri": "Pe",
-      "mon": "Ma", 
+      "mon": "Ma",
       "sat": "La",
       "sun": "Su",
       "thu": "To",

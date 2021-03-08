@@ -162,8 +162,8 @@ test('should show 10 first topics by default and rest by clicking show more', as
   await waitFor(() => {
     expect(screen.queryByLabelText(keywordNames[0])).toBeInTheDocument();
   });
-  const defaultKeywords = keywordNames.slice(0, 10);
-  const restKeywords = keywordNames.slice(10);
+  const defaultKeywords = [...keywordNames].sort().slice(0, 10);
+  const restKeywords = [...keywordNames].sort().slice(10);
 
   defaultKeywords.forEach((keyword) => {
     expect(screen.queryByLabelText(keyword)).toBeInTheDocument();

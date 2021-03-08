@@ -10,6 +10,7 @@ import {
   EXTENSION_COURSE_FIELDS,
   IMAGE_DETAILS_FIELDS,
   RECURRING_EVENT_FIELDS,
+  VIDEO_DETAILS_FIELDS,
 } from './constants';
 
 export type EventFields = {
@@ -74,6 +75,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.SUPER_EVENT]: string | null;
   [EVENT_FIELDS.TYPE]: string;
   [EVENT_FIELDS.TWITTER_URL]: string;
+  [EVENT_FIELDS.VIDEOS]: VideoDetails[];
 };
 
 export type MultiLanguageObject = {
@@ -102,6 +104,12 @@ export type ImageDetails = {
   [IMAGE_DETAILS_FIELDS.LICENSE]: string;
   [IMAGE_DETAILS_FIELDS.NAME]: string;
   [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: string;
+};
+
+export type VideoDetails = {
+  [VIDEO_DETAILS_FIELDS.ALT_TEXT]: string;
+  [VIDEO_DETAILS_FIELDS.NAME]: string;
+  [VIDEO_DETAILS_FIELDS.URL]: string;
 };
 
 export type Offer = {

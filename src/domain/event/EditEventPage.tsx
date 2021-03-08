@@ -24,7 +24,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { resetEventListPage } from '../events/utils';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
-import { EVENT_INCLUDES } from './constants';
+import { EVENT_INCLUDES, EVENT_INFO_LANGUAGES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import EventHierarchy from './eventHierarchy/EventHierarchy';
 import EventInfo from './EventInfo';
@@ -41,6 +41,7 @@ import ResponsibilitiesSection from './formSections/responsibilitiesSection/Resp
 import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
+import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import useEventUpdateActions, { MODALS } from './hooks/useEventUpdateActions';
 import useRelatedEvents from './hooks/useRelatedEvents';
@@ -92,6 +93,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const initialValues = React.useMemo(() => {
     return getEventInitialValues(event);
   }, [event]);
+
+  const [descriptionLanguage, setDescriptionLanguage] = React.useState(
+    initialValues.eventInfoLanguages[0] as EVENT_INFO_LANGUAGES
+  );
 
   // Prefetch all related events which are used when postpone/delete/cancel events
   useRelatedEvents(event);
@@ -180,7 +185,13 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
               onUpdate(values, publicationStatus);
             }
           } catch (error) {
-            showErrors(error, setErrors, setTouched);
+            showErrors({
+              descriptionLanguage,
+              error,
+              setErrors,
+              setDescriptionLanguage,
+              setTouched,
+            });
           }
         };
 
@@ -246,10 +257,13 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                         <ResponsibilitiesSection savedEvent={event} />
                       </Section>
                       <Section title={t('event.form.sections.description')}>
-                        <DescriptionSection />
+                        <DescriptionSection
+                          selectedLanguage={descriptionLanguage}
+                          setSelectedLanguage={setDescriptionLanguage}
+                        />
                       </Section>
                       <Section title={t('event.form.sections.time')}>
-                        <TimeSection />
+                        <TimeSection savedEvent={event} />
                       </Section>
                       <Section title={t('event.form.sections.place')}>
                         <PlaceSection />
@@ -262,6 +276,9 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                       </Section>
                       <Section title={t('event.form.sections.image')}>
                         <ImageSection />
+                      </Section>
+                      <Section title={t('event.form.sections.video')}>
+                        <VideoSection />
                       </Section>
                       <Section title={t('event.form.sections.classification')}>
                         <ClassificationSection />

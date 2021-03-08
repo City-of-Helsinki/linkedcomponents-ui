@@ -238,6 +238,12 @@ export type OfferInput = {
   price?: Maybe<LocalisedObjectInput>;
 };
 
+export type VideoInput = {
+  altText?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
 export type CreateEventMutationInput = {
   publicationStatus?: Maybe<PublicationStatus>;
   audience?: Maybe<Array<IdObjectInput>>;
@@ -262,6 +268,7 @@ export type CreateEventMutationInput = {
   subEvents?: Maybe<Array<IdObjectInput>>;
   superEvent?: Maybe<IdObjectInput>;
   superEventType?: Maybe<SuperEventType>;
+  videos?: Maybe<Array<Maybe<VideoInput>>>;
 };
 
 export type UpdateEventMutationInput = {
@@ -288,6 +295,7 @@ export type UpdateEventMutationInput = {
   subEvents?: Maybe<Array<IdObjectInput>>;
   superEvent?: Maybe<IdObjectInput>;
   superEventType?: Maybe<SuperEventType>;
+  videos?: Maybe<Array<Maybe<VideoInput>>>;
 };
 
 export type UpdateImageMutationInput = {
@@ -393,6 +401,7 @@ export type Event = {
   subEvents: Array<Maybe<Event>>;
   superEvent?: Maybe<Event>;
   superEventType?: Maybe<SuperEventType>;
+  videos: Array<Maybe<Video>>;
   atId?: Maybe<Scalars['String']>;
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
@@ -583,6 +592,13 @@ export type User = {
   uuid?: Maybe<Scalars['String']>;
 };
 
+export type Video = {
+  __typename?: 'Video';
+  altText?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
 export type CreateEventMutationVariables = Exact<{
   input: CreateEventMutationInput;
 }>;
@@ -653,6 +669,11 @@ export type ExternalLinkFieldsFragment = (
   & Pick<ExternalLink, 'name' | 'link'>
 );
 
+export type VideoFieldsFragment = (
+  { __typename?: 'Video' }
+  & Pick<Video, 'altText' | 'name' | 'url'>
+);
+
 export type OfferFieldsFragment = (
   { __typename?: 'Offer' }
   & Pick<Offer, 'isFree'>
@@ -710,7 +731,10 @@ export type BaseEventFieldsFragment = (
   )>, shortDescription?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
-  )> }
+  )>, videos: Array<Maybe<(
+    { __typename?: 'Video' }
+    & VideoFieldsFragment
+  )>> }
 );
 
 export type EventFieldsFragment = (
@@ -1240,6 +1264,13 @@ export const OfferFieldsFragmentDoc = gql`
   }
 }
     ${LocalisedFieldsFragmentDoc}`;
+export const VideoFieldsFragmentDoc = gql`
+    fragment videoFields on Video {
+  altText
+  name
+  url
+}
+    `;
 export const BaseEventFieldsFragmentDoc = gql`
     fragment baseEventFields on Event {
   id
@@ -1294,6 +1325,9 @@ export const BaseEventFieldsFragmentDoc = gql`
   }
   startTime
   superEventType
+  videos {
+    ...videoFields
+  }
 }
     ${KeywordFieldsFragmentDoc}
 ${LocalisedFieldsFragmentDoc}
@@ -1301,7 +1335,8 @@ ${ExternalLinkFieldsFragmentDoc}
 ${ImageFieldsFragmentDoc}
 ${LanguageFieldsFragmentDoc}
 ${PlaceFieldsFragmentDoc}
-${OfferFieldsFragmentDoc}`;
+${OfferFieldsFragmentDoc}
+${VideoFieldsFragmentDoc}`;
 export const EventFieldsFragmentDoc = gql`
     fragment eventFields on Event {
   ...baseEventFields

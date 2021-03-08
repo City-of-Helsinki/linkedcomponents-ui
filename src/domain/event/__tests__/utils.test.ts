@@ -16,6 +16,7 @@ import {
   fakeOrganization,
   fakePlace,
   fakeUser,
+  fakeVideo,
 } from '../../../utils/mockDataUtils';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -103,6 +104,7 @@ const defaultEventPayload = {
   },
   superEvent: undefined,
   superEventType: null,
+  videos: [],
 };
 
 beforeEach(() => {
@@ -356,6 +358,13 @@ describe('getEventPayload function', () => {
           sv: '',
         },
         startTime: new Date('2020-01-02T12:15:00.000Z'),
+        videos: [
+          {
+            altText: 'alt text',
+            name: 'video name',
+            url: 'httl://www.url.com',
+          },
+        ],
       },
       PublicationStatus.Draft
     );
@@ -469,6 +478,9 @@ describe('getEventPayload function', () => {
       superEventType: SuperEventType.Umbrella,
       endTime: '2020-01-02T15:15:00.000Z',
       startTime: '2020-01-02T12:15:00.000Z',
+      videos: [
+        { altText: 'alt text', name: 'video name', url: 'httl://www.url.com' },
+      ],
     });
   });
 
@@ -766,6 +778,9 @@ describe('getEventInitialValues function', () => {
     const superEventAtId =
       'https://api.hel.fi/linkedevents-test/v1/event/event:543/';
     const twitterUrl = 'http://twitter.com';
+    const videos = [
+      { altText: 'alt text', name: 'video name', url: 'httl://www.url.com' },
+    ];
 
     expect(
       getEventInitialValues(
@@ -824,6 +839,7 @@ describe('getEventInitialValues function', () => {
             superEventType: SuperEventType.Umbrella,
           }),
           superEventType,
+          videos: videos.map((video) => fakeVideo(video)),
         })
       )
     ).toEqual({
@@ -858,6 +874,7 @@ describe('getEventInitialValues function', () => {
       superEvent: superEventAtId,
       twitterUrl,
       type: EVENT_TYPE.EVENT,
+      videos,
     });
   });
 

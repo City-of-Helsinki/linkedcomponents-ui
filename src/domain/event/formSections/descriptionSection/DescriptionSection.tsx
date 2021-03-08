@@ -26,7 +26,15 @@ const FIELDS = [
   EVENT_FIELDS.SHORT_DESCRIPTION,
 ];
 
-const DescriptionSection = () => {
+export interface DescriptionSectionProps {
+  selectedLanguage: EVENT_INFO_LANGUAGES;
+  setSelectedLanguage: (value: EVENT_INFO_LANGUAGES) => void;
+}
+
+const DescriptionSection: React.FC<DescriptionSectionProps> = ({
+  selectedLanguage,
+  setSelectedLanguage,
+}) => {
   const { getFieldMeta } = useFormikContext();
   const { t } = useTranslation();
   const [{ value: eventInfoLanguages }] = useField<EVENT_INFO_LANGUAGES[]>({
@@ -58,15 +66,11 @@ const DescriptionSection = () => {
     [eventInfoLanguages, getFieldMeta, t]
   );
 
-  const [selectedLanguage, setSelectedLanguage] = React.useState(
-    languageOptions[0]?.value
-  );
-
   React.useEffect(() => {
     if (!eventInfoLanguages.includes(selectedLanguage)) {
       setSelectedLanguage(eventInfoLanguages[0]);
     }
-  }, [eventInfoLanguages, selectedLanguage]);
+  }, [eventInfoLanguages, selectedLanguage, setSelectedLanguage]);
 
   const langText = lowerCaseFirstLetter(
     t(`form.inLanguage.${selectedLanguage}`)

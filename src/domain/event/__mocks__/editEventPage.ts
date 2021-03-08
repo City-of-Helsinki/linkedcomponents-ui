@@ -253,6 +253,7 @@ const basePayload = {
   ],
   description: formattedDescription,
   images: imageAtIds.map((atId) => ({ atId })),
+  videos: [],
   infoUrl,
   inLanguage: inLanguageAtIds.map((atId) => ({ atId })),
   location: { atId: locationAtId },

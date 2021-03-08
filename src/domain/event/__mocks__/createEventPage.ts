@@ -129,6 +129,7 @@ const baseEventPayload = {
   },
   superEvent: undefined,
   superEventType: null,
+  videos: [],
 };
 
 const basePublicEventPayload = {

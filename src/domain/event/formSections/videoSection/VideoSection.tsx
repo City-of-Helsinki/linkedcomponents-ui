@@ -4,56 +4,49 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../common/components/button/Button';
-import { EventFieldsFragment } from '../../../../generated/graphql';
 import { EVENT_FIELDS } from '../../constants';
 import FieldWithButton from '../../layout/FieldWithButton';
-import { EventTime as EventTimeType } from '../../types';
-import { getEmptyEventTime } from '../../utils';
-import EventTime from './EventTime';
+import { getEmptyOffer } from '../../utils';
+import Video from './Video';
 
-const getEventTimePath = (index: number) =>
-  `${EVENT_FIELDS.EVENT_TIMES}[${index}]`;
+const getVideoPath = (index: number) => `${EVENT_FIELDS.VIDEOS}[${index}]`;
 
-interface EventTimesProps {
-  savedEvent?: EventFieldsFragment;
-}
-
-const EventTimes: React.FC<EventTimesProps> = ({ savedEvent }) => {
+const VideoSection = () => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({
     name: EVENT_FIELDS.TYPE,
   });
-  const [{ value: eventTimes }] = useField({
-    name: EVENT_FIELDS.EVENT_TIMES,
+  const [{ value: videos }] = useField({
+    name: EVENT_FIELDS.VIDEOS,
   });
 
   return (
     <FieldArray
-      name={EVENT_FIELDS.EVENT_TIMES}
+      name={EVENT_FIELDS.VIDEOS}
       render={(arrayHelpers) => (
         <div>
-          {eventTimes.map((eventTime: EventTimeType, index: number) => {
+          {videos.map((video: object, index: number) => {
             return (
-              <EventTime
+              <Video
                 key={index}
-                eventTimePath={getEventTimePath(index)}
+                canDelete={videos.length > 1}
                 onDelete={() => arrayHelpers.remove(index)}
-                savedEvent={savedEvent}
                 type={type}
+                videoPath={getVideoPath(index)}
               />
             );
           })}
+
           <FieldWithButton>
             <Button
-              disabled={Boolean(savedEvent)}
               type="button"
               fullWidth={true}
-              onClick={() => arrayHelpers.push(getEmptyEventTime())}
+              onClick={() => arrayHelpers.push(getEmptyOffer())}
               iconLeft={<IconPlus />}
               variant="primary"
             >
-              {t('event.form.buttonAddEventTime')}
+              {t('event.form.buttonAddVideo')}
             </Button>
           </FieldWithButton>
         </div>
@@ -62,4 +55,4 @@ const EventTimes: React.FC<EventTimesProps> = ({ savedEvent }) => {
   );
 };
 
-export default EventTimes;
+export default VideoSection;

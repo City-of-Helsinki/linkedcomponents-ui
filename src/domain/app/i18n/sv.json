@@ -133,11 +133,12 @@
       "buttonActions": "Åtgärder",
       "buttonAddEventTime": "Lägg till ny tid",
       "buttonAddImage": {
-        "course": "Lägg till en bild eller video av kursen",
-        "event": "Lägg till en bild eller video av evenemanget"
+        "course": "Lägg till en bild av kursen",
+        "event": "Lägg till en bild av evenemanget"
       },
       "buttonAddOffer": "Lägg till ny prisinformation",
       "buttonAddRecurringEvent": "Lägg till återkommande evenemang",
+      "buttonAddVideo": "Lägg till video",
       "buttonBack": "Tillbaka",
       "buttonCancel": "Avbryt evenemanget",
       "buttonCopy": "Kopiera som mall",
@@ -145,6 +146,7 @@
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
+      "buttonDeleteVideo": "Radera video",
       "buttonEdit":  "Redigera evenemang",
       "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
       "buttonPanel": {
@@ -237,7 +239,7 @@
         "event": "Frivillig. Försök alltid hitta en bild för evenemanget. Bilden kan markeras CC 4.0 BY (se förklaring) eller \"använd endast i samband med evenemanget \". Några fritt användbara illustrationer finns på hel.fi/tapahtumakuvat."
       },
       "infoTextImage2": "Innan du matar redigerar du bilden så att den passar nätverket och till ett horisontellt bildförhållande 3: 2, till exempel 1200 × 800 pixlar. Det är viktigt att filstorleken förblir rimlig även för mobil användning, helst mindre än 200 kilobyte (kb).",
-      "infoTextImage3": "Ge bilden eller videon ett namn och beskriv kort vad som händer i den.",
+      "infoTextImage3": "Ge bilden ett namn och beskriv kort vad som händer i den.",
       "infoTextInfoLanguages": {
         "course": "Välj de språk som används för att mata in kursinformation.",
         "event": "Välj de språk som används för att mata in evenemanginformation."
@@ -277,6 +279,11 @@
       "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "infoTextUmbrellaSubEvent": "Om du vill lägga till detta evenemang under ett paraplyevenemang kan du göra det från tillhörande",
       "infoTextUmbrellaSubEventLink": "toppnivåevenemanget",
+      "infoTextTitleVideo1": {
+        "course": "Om kursen involverar en video kan du lägga till dess adress här.",
+        "event": "Om evenemanget involverar en video kan du lägga till dess adress här."
+      },
+      "infoTextTitleVideo2": "Ge videon ett namn och en kort beskrivning av vad som händer i den.",
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
       "labelDescription": {
@@ -348,6 +355,9 @@
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Paraplyevenemang",
+      "labelVideoAltText": "Video alt text",
+      "labelVideoName": "Namnet på videon",
+      "labelVideoUrl": "Webbadressen till videon",
       "modalTitleImage": "Lägg till en bild",
       "modalTitleRecurringEvent": "Ange återkommande evenemang",
       "notificationTitleDescription": {
@@ -359,8 +369,8 @@
         "event": "Evenemamgtider"
       },
       "notificationTitleImage": {
-        "course": "Bild eller video relaterad till kursen",
-        "event": "Bild eller video relaterad till evenemanget"
+        "course": "Bild relaterad till kursen",
+        "event": "Bild relaterad till evenemanget"
       },
       "notificationTitleLocation": "Venue",
       "notificationTitleMainCategories": {
@@ -372,6 +382,10 @@
       "notificationTitlePublisher": "Utgivare",
       "notificationTitleUmrellaEvent": "Paraplyevenemang",
       "notificationTitleType": "Evenemangtyp",
+      "notificationTitleVideo": {
+        "course": "Video relaterat till kursen",
+        "event": "Video relaterat till evenemanget"
+      },
       "placeholderAudienceMaxAge": {
         "course": "Ange högsta ålder för kursen",
         "event": "Ange högsta ålder för evenemanget"
@@ -421,6 +435,9 @@
         "course": "Ange webbadressen till kursens Twitter-sida",
         "event": "Ange webbadressen till evenemangets Twitter-sida"
       },
+      "placeholderVideoAltText": "Ange alt-texten för videon för skärmläsare",
+      "placeholderVideoName": "Ange ett namn på videon",
+      "placeholderVideoUrl": "Ange webbadressen till videon",
       "recurringEvent": {
         "labelEndDate": "Upprepningen slutar:",
         "labelEndTime": {
@@ -451,9 +468,10 @@
         "place": "Plats",
         "price": "Pris",
         "responsibilities": "Ansvar",
-        "socialMedia": "SoMe",
+        "socialMedia": "Sociala media",
         "time": "Tid",
-        "type": "Evenemangtyp"
+        "type": "Evenemangtyp",
+        "video": "Video"
       },
       "titleAttendeeCapacity": "Deltagarkapacitet",
       "titleAudience": "Målgrupper",
@@ -498,6 +516,10 @@
         "event": "Evenemangtider"
       },
       "titleUmrellaEvent": "Paraplyevenemangen",
+      "titleVideo": {
+        "course": "Video av kursen",
+        "event": "Video av evenemanget"
+      },
       "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett paraplyevenemang."
     },
     "freeEvent": "Fri",

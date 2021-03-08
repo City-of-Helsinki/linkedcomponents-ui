@@ -131,6 +131,12 @@ module.exports = buildSchema(/* GraphQL */ `
     price: LocalisedObjectInput
   }
 
+  input VideoInput {
+    altText: String
+    name: String
+    url: String
+  }
+
   input CreateEventMutationInput {
     publicationStatus: PublicationStatus
     audience: [IdObjectInput!]
@@ -155,6 +161,7 @@ module.exports = buildSchema(/* GraphQL */ `
     subEvents: [IdObjectInput!]
     superEvent: IdObjectInput
     superEventType: SuperEventType
+    videos: [VideoInput]
   }
 
   input UpdateEventMutationInput {
@@ -181,6 +188,7 @@ module.exports = buildSchema(/* GraphQL */ `
     subEvents: [IdObjectInput!]
     superEvent: IdObjectInput
     superEventType: SuperEventType
+    videos: [VideoInput]
   }
 
   input UpdateImageMutationInput {
@@ -277,6 +285,7 @@ module.exports = buildSchema(/* GraphQL */ `
     subEvents: [Event]!
     superEvent: Event
     superEventType: SuperEventType
+    videos: [Video]!
     # @id is renamed as atId so it's usable on GraphQl
     atId: String
     # @context is renamed as atContext so it's usable on GraphQl
@@ -470,5 +479,11 @@ module.exports = buildSchema(/* GraphQL */ `
     organizationMemberships: [String!]!
     username: String
     uuid: String
+  }
+
+  type Video {
+    altText: String
+    name: String
+    url: String
   }
 `);
