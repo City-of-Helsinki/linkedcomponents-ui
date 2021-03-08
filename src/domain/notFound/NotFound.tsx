@@ -12,7 +12,11 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { signIn } from '../auth/authenticate';
 import styles from './notFound.module.scss';
 
-const NotFoundPage = () => {
+interface Props {
+  pathAfterSignIn?: string;
+}
+
+const NotFoundPage: React.FC<Props> = ({ pathAfterSignIn }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();
@@ -22,7 +26,7 @@ const NotFoundPage = () => {
   };
 
   const handleSignIn = () => {
-    signIn(`/${locale}${ROUTES.HOME}`);
+    signIn(pathAfterSignIn ?? `/${locale}${ROUTES.HOME}`);
   };
 
   return (

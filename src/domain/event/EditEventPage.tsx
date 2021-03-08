@@ -2,7 +2,7 @@ import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -326,6 +326,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 };
 
 const EditEventPageWrapper: React.FC = () => {
+  const location = useLocation();
   const { id } = useParams<{ id: string }>();
   const { loading: loadingUser } = useUser();
 
@@ -349,7 +350,7 @@ const EditEventPageWrapper: React.FC = () => {
       {eventData?.event ? (
         <EditEventPage event={eventData.event} refetch={refetch} />
       ) : (
-        <NotFound />
+        <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}
     </LoadingSpinner>
   );

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { getMockReduxStore } from '../../../utils/testUtils';
 import { store as reduxStore } from '../../app/store/store';
-import { getApiToken, signIn, signOut } from '../authenticate';
+import { getApiToken, renewApiToken, signIn, signOut } from '../authenticate';
 import { API_CLIENT_ID, API_TOKEN_ACTIONS } from '../constants';
 import userManager from '../userManager';
 
@@ -83,6 +83,38 @@ it('should get api token', async () => {
   });
 });
 
+it('should renew api token', async () => {
+  const mockStore = getMockReduxStore();
+  const accessToken = 'access-token';
+  const apiToken = 'api-token';
+
+  const axiosGet = jest
+    .spyOn(mockAxios, 'get')
+    .mockResolvedValue({ data: { [API_CLIENT_ID]: apiToken } });
+
+  await mockStore.dispatch(getApiToken(accessToken));
+
+  expect(axiosGet).toHaveBeenCalledTimes(1);
+  expect(axiosGet).toHaveBeenCalledWith(
+    `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`,
+    {
+      headers: { Authorization: `bearer ${accessToken}` },
+    }
+  );
+
+  const expectedActions = [
+    {
+      type: API_TOKEN_ACTIONS.FETCH_TOKEN_SUCCESS,
+      payload: { [API_CLIENT_ID]: apiToken },
+    },
+  ];
+  const actions = mockStore.getActions();
+
+  expectedActions.forEach((action) => {
+    expect(actions).toContainEqual(action);
+  });
+});
+
 it('should show toast error message when failing to get api token', async () => {
   const toastError = jest.spyOn(toast, 'error');
   const mockStore = getMockReduxStore();
@@ -103,6 +135,39 @@ it('should show toast error message when failing to get api token', async () => 
 
   const expectedActions = [
     { type: API_TOKEN_ACTIONS.START_FETCHING_TOKEN, payload: undefined },
+    {
+      type: API_TOKEN_ACTIONS.FETCH_TOKEN_ERROR,
+      payload: error,
+    },
+  ];
+  const actions = mockStore.getActions();
+
+  expectedActions.forEach((action) => {
+    expect(actions).toContainEqual(action);
+  });
+
+  expect(toastError).toBeCalledWith('Tapahtui virhe. Yritä uudestaan');
+});
+
+it('should show toast error message when failing to renew api token', async () => {
+  const toastError = jest.spyOn(toast, 'error');
+  const mockStore = getMockReduxStore();
+  const accessToken = 'access-token';
+  const error = 'error';
+
+  const axiosGet = jest.spyOn(mockAxios, 'get').mockRejectedValue(error);
+
+  await mockStore.dispatch(renewApiToken(accessToken));
+
+  expect(axiosGet).toHaveBeenCalledTimes(1);
+  expect(axiosGet).toHaveBeenCalledWith(
+    `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`,
+    {
+      headers: { Authorization: `bearer ${accessToken}` },
+    }
+  );
+
+  const expectedActions = [
     {
       type: API_TOKEN_ACTIONS.FETCH_TOKEN_ERROR,
       payload: error,

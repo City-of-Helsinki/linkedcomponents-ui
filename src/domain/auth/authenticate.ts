@@ -54,6 +54,26 @@ export const getApiToken = (accessToken: string): StoreThunk => async (
   }
 };
 
+export const renewApiToken = (accessToken: string): StoreThunk => async (
+  dispatch: Function
+) => {
+  try {
+    const res: AxiosResponse<TokenResponse> = await axios.get(
+      OIDC_API_TOKEN_ENDPOINT,
+      {
+        headers: {
+          Authorization: `bearer ${accessToken}`,
+        },
+      }
+    );
+
+    dispatch(fetchTokenSuccess(res.data));
+  } catch (e) {
+    dispatch(fetchTokenError(e));
+    toast.error(i18n.t('authentication.errorMessage'));
+  }
+};
+
 export const signOut = async () => {
   try {
     await clearAllState();

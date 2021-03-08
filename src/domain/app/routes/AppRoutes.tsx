@@ -1,14 +1,11 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router';
 
 import { ROUTES, SUPPORTED_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
-import { resetApiTokenData } from '../../auth/actions';
-import { getApiToken } from '../../auth/authenticate';
 import OidcCallback from '../../auth/oidcCallback/OidcCallback';
-import { userSelector } from '../../auth/selectors';
 import SilentCallback from '../../auth/silentCallback/SilentCallback';
+import useApiToken from '../hooks/useApiToken';
 import LocaleRoutes from './LocaleRoutes';
 
 const localeParam = `:locale(${Object.values(SUPPORTED_LANGUAGES).join('|')})`;
@@ -16,17 +13,8 @@ const localeParam = `:locale(${Object.values(SUPPORTED_LANGUAGES).join('|')})`;
 const AppRoutes: React.FC = () => {
   const currentLocale = useLocale();
 
-  const dispatch = useDispatch();
-  const user = useSelector(userSelector);
-
-  React.useEffect(() => {
-    // Get new api token after new access token
-    if (user?.access_token) {
-      dispatch(getApiToken(user.access_token));
-    } else {
-      dispatch(resetApiTokenData());
-    }
-  }, [dispatch, user]);
+  // Hook to update api token
+  useApiToken();
 
   return (
     <Switch>
