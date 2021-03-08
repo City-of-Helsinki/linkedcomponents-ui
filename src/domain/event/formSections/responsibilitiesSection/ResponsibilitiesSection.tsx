@@ -1,7 +1,6 @@
 import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
 import PublisherSelectorField from '../../../../common/components/formFields/PublisherSelectorField';
@@ -48,12 +47,13 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
     }
   };
 
-  useDeepCompareEffect(() => {
+  React.useEffect(() => {
     if (!savedEvent && user && publisher) {
       // Set default publisher after user logs in if publisher is not set
       setPublisher(user.organization ?? '');
     }
-  }, [{ user }]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <>

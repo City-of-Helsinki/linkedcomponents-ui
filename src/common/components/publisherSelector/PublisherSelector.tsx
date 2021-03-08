@@ -1,6 +1,5 @@
 import { SingleSelectProps } from 'hds-react';
 import React from 'react';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import { organizationPathBuilder } from '../../../domain/organization/utils';
 import useUser from '../../../domain/user/hooks/useUser';
@@ -51,13 +50,13 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
     },
   });
 
-  useDeepCompareEffect(() => {
+  React.useEffect(() => {
     const selectedValue = organizationData?.organization
       ? getOption(organizationData.organization)
       : null;
 
     setSelectedOrganization(selectedValue);
-  }, [{ organizationData }]);
+  }, [organizationData]);
 
   const options = publisher
     ? [selectedOrganization as OptionType]

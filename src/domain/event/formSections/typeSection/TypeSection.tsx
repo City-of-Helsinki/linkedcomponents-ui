@@ -2,7 +2,6 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import CheckboxField from '../../../../common/components/formFields/CheckboxField';
 import RadioButtonGroupField from '../../../../common/components/formFields/RadioButtonGroupField';
@@ -100,12 +99,12 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
   const disabledIsUmbrella: boolean =
     hasUmbrella || eventTimes.length || recurringEvents.length;
 
-  useDeepCompareEffect(() => {
+  React.useEffect(() => {
     // Set is umbrella to false if event has more than one event time
     if ((eventTimes.length || recurringEvents.length) && isUmbrella) {
       setIsUmbrella(false);
     }
-  }, [{ eventTimes, isUmbrella, recurringEvents }]);
+  }, [eventTimes, isUmbrella, recurringEvents.length, setIsUmbrella]);
 
   return (
     <>
