@@ -8,7 +8,6 @@ import {
 import { fakeOrganization, fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
-  actWait,
   getMockReduxStore,
   render,
   screen,

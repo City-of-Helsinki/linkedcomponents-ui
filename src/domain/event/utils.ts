@@ -1434,25 +1434,41 @@ export const getEditEventWarning = ({
 
   if (AUHENTICATION_NOT_NEEDED.includes(action)) {
     return '';
-  } else if (!authenticated) {
-    return t('authentication.noRightsUpdateEvent');
-  } else if (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(action)) {
-    return t('event.form.editButtonPanel.warningCancelledEvent');
-  } else if (deleted && NOT_ALLOWED_WHEN_DELETED.includes(action)) {
-    return t('event.form.editButtonPanel.warningDeletedEvent');
-  } else if (eventIsInThePast && NOT_ALLOWED_WHEN_IN_PAST.includes(action)) {
-    return t('event.form.editButtonPanel.warningEventInPast');
-  } else if (isDraft && action === EVENT_EDIT_ACTIONS.CANCEL) {
-    return t('event.form.editButtonPanel.warningCannotCancelDraft');
-  } else if (isDraft && action === EVENT_EDIT_ACTIONS.POSTPONE) {
-    return t('event.form.editButtonPanel.warningCannotPostponeDraft');
-  } else if (isDraft && action === EVENT_EDIT_ACTIONS.PUBLISH && isSubEvent) {
-    return t('event.form.editButtonPanel.warningCannotPublishSubEvent');
-  } else if (!userCanDoAction) {
-    return t('event.form.editButtonPanel.warningNoRightsToEdit');
-  } else {
-    return '';
   }
+
+  if (!authenticated) {
+    return t('authentication.noRightsUpdateEvent');
+  }
+
+  if (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(action)) {
+    return t('event.form.editButtonPanel.warningCancelledEvent');
+  }
+
+  if (deleted && NOT_ALLOWED_WHEN_DELETED.includes(action)) {
+    return t('event.form.editButtonPanel.warningDeletedEvent');
+  }
+
+  if (eventIsInThePast && NOT_ALLOWED_WHEN_IN_PAST.includes(action)) {
+    return t('event.form.editButtonPanel.warningEventInPast');
+  }
+
+  if (isDraft && action === EVENT_EDIT_ACTIONS.CANCEL) {
+    return t('event.form.editButtonPanel.warningCannotCancelDraft');
+  }
+
+  if (isDraft && action === EVENT_EDIT_ACTIONS.POSTPONE) {
+    return t('event.form.editButtonPanel.warningCannotPostponeDraft');
+  }
+
+  if (isDraft && action === EVENT_EDIT_ACTIONS.PUBLISH && isSubEvent) {
+    return t('event.form.editButtonPanel.warningCannotPublishSubEvent');
+  }
+
+  if (!userCanDoAction) {
+    return t('event.form.editButtonPanel.warningNoRightsToEdit');
+  }
+
+  return '';
 };
 
 type EventEditability = {
@@ -1579,16 +1595,20 @@ export const getCreateEventButtonWarning = ({
 
   if (!authenticated) {
     return t('event.form.buttonPanel.warningNotAuthenticated');
-  } else if (
+  }
+
+  if (
     action === EVENT_CREATE_ACTIONS.CREATE_DRAFT &&
     !(canCreateDraft || canPublish)
   ) {
     return t('event.form.buttonPanel.warningNoRightsCreate');
-  } else if (action === EVENT_CREATE_ACTIONS.PUBLISH && !canPublish) {
-    return t('event.form.buttonPanel.warningNoRightsPublish');
-  } else {
-    return '';
   }
+
+  if (action === EVENT_CREATE_ACTIONS.PUBLISH && !canPublish) {
+    return t('event.form.buttonPanel.warningNoRightsPublish');
+  }
+
+  return '';
 };
 
 export const copyEventToSessionStorage = async (event: EventFieldsFragment) => {

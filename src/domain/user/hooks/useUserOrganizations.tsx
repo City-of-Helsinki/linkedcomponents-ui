@@ -37,13 +37,9 @@ const useUserOrganizations = (
         setLoading(true);
 
         const userOrganizations = await Promise.all(
-          organizationIds.map(async (id) => {
-            const userOrganization = await getOrganizationQueryResult(
-              id as string,
-              apolloClient
-            );
-            return userOrganization;
-          })
+          organizationIds.map((id) =>
+            getOrganizationQueryResult(id as string, apolloClient)
+          )
         );
 
         /* istanbul ignore else */

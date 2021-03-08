@@ -959,7 +959,7 @@ describe('checkCanUserDoAction function', () => {
           organizationAncestors: [],
           user,
         })
-      ).toBeTruthy();
+      ).toBe(true);
     });
   });
 
@@ -988,7 +988,7 @@ describe('checkCanUserDoAction function', () => {
           organizationAncestors: [fakeOrganization({ id: adminOrganization })],
           user,
         })
-      ).toBeTruthy();
+      ).toBe(true);
     });
   });
 
@@ -1018,7 +1018,7 @@ describe('checkCanUserDoAction function', () => {
           organizationAncestors: [],
           user,
         })
-      ).toBeTruthy();
+      ).toBe(true);
     });
 
     const deniedActions = [
@@ -1034,7 +1034,7 @@ describe('checkCanUserDoAction function', () => {
           organizationAncestors: [],
           user,
         })
-      ).toBeFalsy();
+      ).toBe(false);
     });
   });
 
@@ -1060,7 +1060,7 @@ describe('checkCanUserDoAction function', () => {
           organizationAncestors: [],
           user,
         })
-      ).toBeTruthy();
+      ).toBe(true);
     });
 
     const deniedActions = [
@@ -1079,7 +1079,7 @@ describe('checkCanUserDoAction function', () => {
           organizationAncestors: [],
           user,
         })
-      ).toBeFalsy();
+      ).toBe(false);
     });
   });
 
@@ -1108,7 +1108,7 @@ describe('checkCanUserDoAction function', () => {
           organizationAncestors: [],
           user,
         })
-      ).toBeFalsy();
+      ).toBe(false);
     });
 
     const allowedActions = [EVENT_EDIT_ACTIONS.COPY, EVENT_EDIT_ACTIONS.EDIT];
@@ -1121,7 +1121,7 @@ describe('checkCanUserDoAction function', () => {
           organizationAncestors: [],
           user,
         })
-      ).toBeTruthy();
+      ).toBe(true);
     });
   });
 });

@@ -146,7 +146,7 @@ const getHookWrapper = (mocks = []) => {
     }
   );
   // Test the initial state of the request
-  expect(result.current.loading).toBeTruthy();
+  expect(result.current.loading).toBe(true);
   expect(result.current.events).toEqual([]);
   return { result, waitForNextUpdate };
 };
