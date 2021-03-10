@@ -2,7 +2,7 @@ import { Field, useField, useFormikContext } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import TextAreaField from '../../../../common/components/formFields/TextAreaField';
+import TextEditorField from '../../../../common/components/formFields/TextEditorField';
 import TextInputField from '../../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
@@ -140,7 +140,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   </FormGroup>
                   <FormGroup>
                     <Field
-                      component={TextAreaField}
+                      component={TextEditorField}
                       label={t(`event.form.labelDescription.${type}`, {
                         langText,
                       })}

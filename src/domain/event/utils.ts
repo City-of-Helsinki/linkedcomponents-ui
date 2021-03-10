@@ -89,6 +89,7 @@ import {
   ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
   SELECT_FIELDS,
+  TEXT_EDITOR_FIELDS,
   VIDEO_DETAILS_FIELDS,
 } from './constants';
 import {
@@ -1184,13 +1185,17 @@ export const getEventInitialValues = (
   };
 };
 
-const getFocusableFieldId = (fieldName: string): string => {
+const getFocusableFieldId = (
+  fieldName: string
+): { fieldId: string; type: 'default' | 'select' | 'textEditor' } => {
   // For the select elements, focus the toggle button
   if (SELECT_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-input`;
+    return { fieldId: `${fieldName}-input`, type: 'select' };
+  } else if (TEXT_EDITOR_FIELDS.find((item) => fieldName.startsWith(item))) {
+    return { fieldId: `${fieldName}-text-editor`, type: 'textEditor' };
   }
 
-  return fieldName;
+  return { fieldId: fieldName, type: 'default' };
 };
 
 export const scrollToFirstError = ({
@@ -1216,11 +1221,17 @@ export const scrollToFirstError = ({
       }
     }
 
-    const field = document.getElementById(getFocusableFieldId(e.path));
+    const { fieldId, type: fieldType } = getFocusableFieldId(e.path);
+    const field = document.getElementById(fieldId);
 
     /* istanbul ignore else */
     if (field) {
-      field.focus();
+      if (fieldType === 'textEditor') {
+        field.click();
+      } else {
+        field.focus();
+      }
+
       return false;
     }
   });

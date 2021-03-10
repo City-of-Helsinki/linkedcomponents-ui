@@ -204,6 +204,8 @@ export const SELECT_FIELDS = [
   EVENT_FIELDS.SUPER_EVENT,
 ];
 
+export const TEXT_EDITOR_FIELDS = [EVENT_FIELDS.DESCRIPTION];
+
 export const EVENT_INCLUDES = [
   'audience',
   'keywords',
