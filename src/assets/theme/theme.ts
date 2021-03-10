@@ -436,6 +436,12 @@ const theme: Theme = {
     '--tabs-tab-color': 'var(--color-bus)',
     '--tabs-tab-color-active': 'var(--color-bus)',
   },
+  textEditor: {
+    '--text-editor-border-color': 'var(--color-black-50)',
+    '--text-editor-editor-max-height': '20rem',
+    '--text-editor-editor-min-height': 'var(--spacing-layout-2-xl)',
+    '--text-editor-toolbar-border-color': 'var(--color-black-20)',
+  },
   textInput: {
     '--border-radius': '2px',
     '--border-width': '2px',
