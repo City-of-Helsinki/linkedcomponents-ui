@@ -899,6 +899,7 @@ describe('getEventInitialValues function', () => {
       startTime,
       superEvent,
       twitterUrl,
+      videos,
     } = getEventInitialValues(
       fakeEvent({
         audienceMaxAge: null,
@@ -917,6 +918,7 @@ describe('getEventInitialValues function', () => {
         offers: null,
         startTime: null,
         superEvent: null,
+        videos: [{}],
       })
     );
 
@@ -931,6 +933,7 @@ describe('getEventInitialValues function', () => {
     expect(startTime).toEqual(null);
     expect(superEvent).toEqual(superEvent);
     expect(twitterUrl).toEqual('');
+    expect(videos).toEqual([{ altText: '', name: '', url: '' }]);
   });
 });
 

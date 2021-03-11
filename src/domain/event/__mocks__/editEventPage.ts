@@ -35,6 +35,7 @@ import {
   fakePlace,
   fakePlaces,
   fakeUser,
+  fakeVideo,
 } from '../../../utils/mockDataUtils';
 
 const eventId = 'helsinki:1';
@@ -45,20 +46,20 @@ const audienceAtIds = [
 const audienceMaxAge = 18;
 const audienceMinAge = 12;
 const description = {
-  ar: 'Description ar',
-  en: 'Description en',
+  ar: null,
+  en: null,
   fi: 'Description fi',
-  ru: 'Description ru',
+  ru: null,
   sv: 'Description sv',
-  zhHans: 'Description zh',
+  zhHans: null,
 };
 const formattedDescription = {
-  ar: '<p>Description ar</p>',
-  en: '<p>Description en</p>',
+  ar: null,
+  en: null,
   fi: '<p>Description fi</p>',
-  ru: '<p>Description ru</p>',
+  ru: null,
   sv: '<p>Description sv</p>',
-  zhHans: '<p>Description zh</p>',
+  zhHans: null,
 };
 const endTime = new Date('2021-07-13T05:51:05.761Z');
 const facebookUrl = 'http://facebook.com';
@@ -74,12 +75,12 @@ const imageAtIds = [
 ];
 
 const infoUrl = {
-  ar: 'http://infourl.ar',
-  en: 'http://infourl.en',
+  ar: null,
+  en: null,
   fi: 'http://infourl.fi',
-  ru: 'http://infourl.ru',
+  ru: null,
   sv: 'http://infourl.sv',
-  zhHans: 'http://infourl.zh',
+  zhHans: null,
 };
 const inLanguageAtIds = [
   `https://api.hel.fi/linkedevents-test/v1/language/language:1/`,
@@ -98,69 +99,74 @@ const addressLocality = 'Helsinki';
 const locationId = 'location:1';
 const locationAtId = `https://api.hel.fi/linkedevents-test/v1/place/${locationId}/`;
 const locationExtraInfo = {
-  ar: 'Location extra info ar',
-  en: 'Location extra info en',
+  ar: null,
+  en: null,
   fi: 'Location extra info fi',
-  ru: 'Location extra info ru',
+  ru: null,
   sv: 'Location extra info sv',
-  zhHans: 'Location extra info zh',
+  zhHans: null,
 };
 const name = {
-  ar: 'Name ar',
-  en: 'Name en',
+  ar: null,
+  en: null,
   fi: 'Name fi',
-  ru: 'Name ru',
+  ru: null,
   sv: 'Name sv',
-  zhHans: 'Name zh',
+  zhHans: null,
 };
 const offers = [
   {
     description: {
-      ar: 'Description ar',
-      en: 'Description en',
+      ar: null,
+      en: null,
       fi: 'Description fi',
-      ru: 'Description ru',
+      ru: null,
       sv: 'Description sv',
-      zhHans: 'Description zh',
+      zhHans: null,
     },
     infoUrl: {
-      ar: 'http://infourl.com',
-      en: 'http://infourl.com',
+      ar: null,
+      en: null,
       fi: 'http://infourl.com',
-      ru: 'http://infourl.com',
+      ru: null,
       sv: 'http://infourl.com',
-      zhHans: 'http://infourl.com',
+      zhHans: null,
     },
     price: {
-      ar: 'Price ar',
-      en: 'Price en',
+      ar: null,
+      en: null,
       fi: 'Price fi',
-      ru: 'Price ru',
+      ru: null,
       sv: 'Price sv',
-      zhHans: 'Price zh',
+      zhHans: null,
     },
   },
 ];
 const provider = {
-  ar: 'Provider ar',
-  en: 'Provider en',
+  ar: null,
+  en: null,
   fi: 'Provider fi',
-  ru: 'Provider ru',
+  ru: null,
   sv: 'Provider sv',
-  zhHans: 'Provider zh',
+  zhHans: null,
 };
 const publisher = 'publisher:1';
 const shortDescription = {
-  ar: 'Short description ar',
-  en: 'Short description en',
+  ar: null,
+  en: null,
   fi: 'Short description fi',
-  ru: 'Short description ru',
+  ru: null,
   sv: 'Short description sv',
-  zhHans: 'Short description zh',
+  zhHans: null,
 };
 const startTime = new Date('2021-07-11T05:51:05.761Z');
 const superEventType = null;
 const twitterUrl = 'http://twitter.com';
+const videoDetails = {
+  altText: 'Video alt text',
+  name: 'Video name',
+  url: 'http://videourl.com',
+};
 
 const audience = fakeKeywords(
   audienceAtIds.length,
@@ -239,6 +245,7 @@ const eventOverrides = {
   shortDescription,
   startTime: startTime.toISOString(),
   superEventType,
+  videos: [fakeVideo(videoDetails)],
 };
 
 const basePayload = {
@@ -253,7 +260,7 @@ const basePayload = {
   ],
   description: formattedDescription,
   images: imageAtIds.map((atId) => ({ atId })),
-  videos: [],
+  videos: [videoDetails],
   infoUrl,
   inLanguage: inLanguageAtIds.map((atId) => ({ atId })),
   location: { atId: locationAtId },
@@ -293,6 +300,9 @@ const expectedValues = {
   startTime: '11.07.2021 05.51',
   twitterUrl,
   updatedLastModifiedTime: '23.08.2021 12.00',
+  videoAltText: videoDetails.altText,
+  videoName: videoDetails.name,
+  videoUrl: videoDetails.url,
 };
 
 const event = fakeEvent(eventOverrides);
@@ -698,6 +708,7 @@ const mockedUserResponse = {
 
 export {
   audienceName,
+  cancelEventVariables,
   event,
   eventId,
   expectedValues,

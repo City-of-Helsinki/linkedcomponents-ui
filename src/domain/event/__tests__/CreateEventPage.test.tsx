@@ -30,8 +30,10 @@ import { testId } from '../../../common/components/loadingSpinner/LoadingSpinner
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
+  actWait,
   configure,
   getMockReduxStore,
+  pasteToTextEditor,
   render,
   screen,
   userEvent,
@@ -228,6 +230,51 @@ test('should focus to select component in case of validation error', async () =>
   });
 });
 
+test('should focus to text editor component in case of validation error', async () => {
+  renderComponent();
+
+  await waitFor(() => {
+    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
+  });
+
+  const nameTextbox = await findComponent('name');
+  const shortDescriptionTextbox = await findComponent('shortDescription');
+  const descriptionTextbox = await findComponent('description');
+
+  const addEventTimeButton = await findComponent('addEventTime');
+  userEvent.click(addEventTimeButton);
+
+  const textboxes = [
+    {
+      textbox: nameTextbox,
+      value: eventValues.name,
+    },
+    {
+      textbox: shortDescriptionTextbox,
+      value: eventValues.shortDescription,
+    },
+  ];
+
+  textboxes.forEach(({ textbox, value }) => {
+    userEvent.click(textbox);
+    userEvent.type(textbox, value);
+
+    act(() => {
+      expect(nameTextbox).toHaveValue(eventValues.name);
+    });
+  });
+
+  await actWait(5000);
+
+  const publishButton = await findComponent('publish');
+
+  userEvent.click(publishButton);
+
+  await waitFor(() => {
+    expect(descriptionTextbox).toHaveFocus();
+  });
+});
+
 test('should focus to first validation error when trying to publish event', async () => {
   renderComponent();
 
@@ -319,6 +366,9 @@ test('should route to event completed page after publishing event', async () => 
   const secondStartTimeTextbox = await findComponent('secondStartTime');
   const secondEndTimeTextbox = await findComponent('secondEndTime');
 
+  pasteToTextEditor(descriptionTextbox, eventValues.description);
+  userEvent.dblClick(descriptionTextbox);
+
   const textboxes = [
     {
       textbox: nameTextbox,
@@ -327,10 +377,6 @@ test('should route to event completed page after publishing event', async () => 
     {
       textbox: shortDescriptionTextbox,
       value: eventValues.shortDescription,
-    },
-    {
-      textbox: descriptionTextbox,
-      value: eventValues.description,
     },
     {
       textbox: startTimeTextbox,

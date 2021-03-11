@@ -10,12 +10,9 @@ import TabPanel from '../../../../common/components/tabs/TabPanel';
 import Tabs from '../../../../common/components/tabs/Tabs';
 import { CHARACTER_LIMITS } from '../../../../constants';
 import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';
-import {
-  EVENT_FIELDS,
-  EVENT_INFO_LANGUAGES,
-  ORDERED_EVENT_INFO_LANGUAGES,
-} from '../../constants';
+import { EVENT_FIELDS, EVENT_INFO_LANGUAGES } from '../../constants';
 import styles from '../../eventPage.module.scss';
+import useSortedInfoLanguages from '../../hooks/useSortedInfoLanguages';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 
@@ -43,27 +40,22 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   const [{ value: type }] = useField({
     name: EVENT_FIELDS.TYPE,
   });
+  const sortedEventInfoLanguages = useSortedInfoLanguages(eventInfoLanguages);
 
   const languageOptions = React.useMemo(
     () =>
-      eventInfoLanguages
-        .map((language) => {
-          const errors = FIELDS.map(
-            (field) => getFieldMeta(`${field}.${language}`).error
-          ).filter((e) => e);
+      sortedEventInfoLanguages.map((language) => {
+        const errors = FIELDS.map(
+          (field) => getFieldMeta(`${field}.${language}`).error
+        ).filter((e) => e);
 
-          return {
-            isCompleted: !errors.length,
-            label: t(`form.language.${language}`),
-            value: language,
-          };
-        })
-        .sort(
-          (a, b) =>
-            ORDERED_EVENT_INFO_LANGUAGES.indexOf(a.value) -
-            ORDERED_EVENT_INFO_LANGUAGES.indexOf(b.value)
-        ),
-    [eventInfoLanguages, getFieldMeta, t]
+        return {
+          isCompleted: !errors.length,
+          label: t(`form.language.${language}`),
+          value: language,
+        };
+      }),
+    [getFieldMeta, sortedEventInfoLanguages, t]
   );
 
   React.useEffect(() => {

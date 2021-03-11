@@ -1,7 +1,9 @@
 import { useApolloClient } from '@apollo/client';
+import diff from 'lodash/difference';
 import map from 'lodash/map';
 import React from 'react';
 
+import { cancelEventVariables } from '../__mocks__/editEventPage';
 import {
   EventFieldsFragment,
   EventStatus,

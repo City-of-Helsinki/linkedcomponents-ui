@@ -41,6 +41,7 @@ const toolbarOptions = {
 
 export type TextEditorProps = {
   disabled?: boolean;
+  label: string;
   onBlur: (event?: React.SyntheticEvent<{}>) => void;
   onChange: (value: string) => void;
   placeholder?: string;
@@ -84,7 +85,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
 
   const onEditorStateChange = (editorState: EditorState) => {
     setEditorState(editorState);
-
     if (editorState.getCurrentContent().getPlainText()) {
       onChange(draftToHtml(convertToRaw(editorState.getCurrentContent())));
     } else {
@@ -128,6 +128,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
         <Editor
           ref={editorRef}
           {...rest}
+          ariaLabel={label}
           editorState={editorState}
           onBlur={(ev: React.SyntheticEvent<{}>) => {
             onBlur(ev);

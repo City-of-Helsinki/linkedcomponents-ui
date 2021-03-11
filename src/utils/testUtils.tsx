@@ -1,6 +1,12 @@
 import { MockedProvider, MockedResponse } from '@apollo/react-testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
-import { act, fireEvent, render, RenderResult } from '@testing-library/react';
+import {
+  act,
+  createEvent,
+  fireEvent,
+  render,
+  RenderResult,
+} from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -128,7 +134,33 @@ const getMockReduxStore = (initialState: StoreState = defaultStoreState) => {
   return configureMockStore(middlewares)(initialState);
 };
 
-export { actWait, customRender as render, getMockReduxStore, renderWithRoute };
+const createPasteEvent = (html: string) => {
+  const text = html.replace('<[^>]*>', '');
+  return {
+    clipboardData: {
+      types: ['text/plain', 'text/html'],
+      getData: (type) => (type === 'text/plain' ? text : html),
+    },
+  };
+};
+
+const pasteToTextEditor = (
+  editor: Element | Node | Document | Window,
+  text: string
+) => {
+  const eventProperties = createPasteEvent(text);
+  const pasteEvent = createEvent.paste(editor, eventProperties);
+  fireEvent(editor, pasteEvent);
+};
+
+export {
+  actWait,
+  createPasteEvent,
+  customRender as render,
+  getMockReduxStore,
+  pasteToTextEditor,
+  renderWithRoute,
+};
 
 // re-export everything
 export * from '@testing-library/react';

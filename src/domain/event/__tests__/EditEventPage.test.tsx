@@ -101,6 +101,9 @@ const findInput = (
     | 'shortDescriptionFi'
     | 'startTime'
     | 'twitterUrl'
+    | 'videoAltText'
+    | 'videoName'
+    | 'videoUrl'
 ) => {
   switch (key) {
     case 'audience':
@@ -113,7 +116,7 @@ const findInput = (
       return screen.findByRole('spinbutton', { name: /alaikäraja/i });
     case 'descriptionFi':
       return screen.findByRole('textbox', {
-        name: /tapahtuman kuvaus suomeksi \*/i,
+        name: /tapahtuman kuvaus suomeksi/i,
       });
     case 'endTime':
       return screen.findByRole('textbox', { name: /tapahtuma päättyy/i });
@@ -161,6 +164,12 @@ const findInput = (
       return screen.findByRole('textbox', { name: /tapahtuma alkaa/i });
     case 'twitterUrl':
       return screen.findByRole('textbox', { name: /twitter/i });
+    case 'videoAltText':
+      return screen.findByRole('textbox', { name: /videon alt-teksti/i });
+    case 'videoName':
+      return screen.findByRole('textbox', { name: /videon nimi/i });
+    case 'videoUrl':
+      return screen.findByRole('textbox', { name: /videon url-osoite/i });
   }
 };
 
@@ -201,8 +210,7 @@ test.skip('should initialize event form fields', async () => {
   const shortDescriptionFiInput = await findInput('shortDescriptionFi');
   expect(shortDescriptionFiInput).toHaveValue(expectedValues.shortDescription);
 
-  const descriptionFiInput = await findInput('descriptionFi');
-  expect(descriptionFiInput).toHaveValue(expectedValues.description);
+  await findInput('descriptionFi');
 
   const startTimeInput = await findInput('startTime');
   expect(startTimeInput).toHaveValue(expectedValues.startTime);
@@ -238,6 +246,15 @@ test.skip('should initialize event form fields', async () => {
   expect(imagePhotographerNameInput).toHaveValue(
     expectedValues.imagePhotographerName
   );
+
+  const videoAltTextInput = await findInput('videoAltText');
+  expect(videoAltTextInput).toHaveValue(expectedValues.videoAltText);
+
+  const videoNameInput = await findInput('videoName');
+  expect(videoNameInput).toHaveValue(expectedValues.videoName);
+
+  const videoUrlInput = await findInput('videoUrl');
+  expect(videoUrlInput).toHaveValue(expectedValues.videoUrl);
 
   const keywordCheckbox = await findInput('keyword');
   expect(keywordCheckbox).toBeChecked();
