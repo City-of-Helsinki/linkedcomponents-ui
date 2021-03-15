@@ -705,6 +705,13 @@
   "helpPage": {
     "pageTitle": "More information"
   },
+  "image": {
+    "warningLogInToUpdate": "Sign in to edit this image.",
+    "warningLogInToUpload": "Sign in to add images.",
+    "warningNoImageSelected": "No image selected.",
+    "warningNoRightsToUpdate": "You have insufficient rights to edit this image.",
+    "warningNoRightsToUpload": "You have insufficient rights to add images."
+  },
   "landingPage": {
     "heroTitle": "Check out the new service"
   },

@@ -706,6 +706,13 @@
   "helpPage": {
     "pageTitle": "Lisätietoja"
   },
+  "image": {
+    "warningLogInToUpdate": "Kirjaudu sisään muokataksesi kuvaa.",
+    "warningLogInToUpload": "Kirjaudu sisään lisätäksesi kuvia.",
+    "warningNoImageSelected": "Kuvaa ei ole valittu",
+    "warningNoRightsToUpdate": "Sinulla ei ole oikeuksia muokata tätä kuvaa",
+    "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia"
+  },
   "landingPage": {
     "heroTitle": "Tutustu uuteen palveluun"
   },

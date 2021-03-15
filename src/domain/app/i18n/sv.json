@@ -705,6 +705,13 @@
   "helpPage": {
     "pageTitle": "Läs mer"
   },
+  "image": {
+    "warningLogInToUpdate": "Logga in för att redigera den här bilden.",
+    "warningLogInToUpload": "Logga in för att lägga till bilder.",
+    "warningNoImageSelected": "Ingen bild vald.",
+    "warningNoRightsToUpdate": "Du har inte tillräckliga rättigheter för att redigera den här bilden.",
+    "warningNoRightsToUpload": "You have insufficient rights to add images."
+  },
   "landingPage": {
     "heroTitle": "Kolla in den nya tjänsten"
   },

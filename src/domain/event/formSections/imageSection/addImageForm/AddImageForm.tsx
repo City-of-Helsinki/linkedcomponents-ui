@@ -6,6 +6,7 @@ import Button from '../../../../../common/components/button/Button';
 import ImageSelectorField from '../../../../../common/components/formFields/ImageSelectorField';
 import TextInputField from '../../../../../common/components/formFields/TextInputField';
 import ImageUploader from '../../../../../common/components/imageUploader/ImageUploader';
+import useIsImageUploadAllowed from '../../../../image/hooks/useIsImageUploadAllowed';
 import { ADD_IMAGE_FIELDS, ADD_IMAGE_INITIAL_VALUES } from '../../../constants';
 import { AddImageSettings } from '../../../types';
 import { createAddImageValidationSchema } from '../../../utils';
@@ -15,14 +16,17 @@ export interface AddImageFormProps {
   onCancel: () => void;
   onFileChange: (file: File) => void;
   onSubmit: (values: AddImageSettings) => void;
+  publisher: string;
 }
 
 const AddImageForm: React.FC<AddImageFormProps> = ({
   onCancel,
   onFileChange,
   onSubmit,
+  publisher,
 }) => {
   const { t } = useTranslation();
+  const { allowed, warning } = useIsImageUploadAllowed({ publisher });
 
   return (
     <Formik
@@ -42,22 +46,28 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
               component={ImageSelectorField}
               disabled={Boolean(url)}
               multiple={false}
+              publisher={publisher}
             />
             <div className={styles.separationLine} />
 
             <h3>{t('event.form.image.titleImportFromHardDisk')}</h3>
-            <ImageUploader onChange={onFileChange} />
+            <ImageUploader
+              disabled={!allowed}
+              onChange={onFileChange}
+              title={warning}
+            />
             <div className={styles.separationLine} />
 
             <h3>{t('event.form.image.titleImportFromInternet')}</h3>
             <div className={styles.imageUrlRow}>
               <div>
                 <Field
-                  disabled={Boolean(selectedImage.length)}
+                  disabled={!allowed || Boolean(selectedImage.length)}
                   name={ADD_IMAGE_FIELDS.URL}
                   component={TextInputField}
                   label={t(`event.form.image.labelUrl`)}
                   placeholder={t(`event.form.image.placeholderUrl`)}
+                  title={warning}
                 />
               </div>
               <div className={styles.buttonsColumn}>

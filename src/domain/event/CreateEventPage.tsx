@@ -11,10 +11,8 @@ import {
   PublicationStatus,
   useCreateEventMutation,
   useCreateEventsMutation,
-  useUpdateImageMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
@@ -39,6 +37,7 @@ import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
+import useUpdateImageIfNeeded from './hooks/useUpdateImageIfNeeded';
 import Section from './layout/Section';
 import { EventFormFields } from './types';
 import {
@@ -57,7 +56,7 @@ const CreateEventPage: React.FC = () => {
   const { user } = useUser();
   const [createEventMutation] = useCreateEventMutation();
   const [createEventsMutation] = useCreateEventsMutation();
-  const [updateImage] = useUpdateImageMutation();
+  const { updateImageIfNeeded } = useUpdateImageIfNeeded();
   const [descriptionLanguage, setDescriptionLanguage] = React.useState(
     EVENT_INITIAL_VALUES.eventInfoLanguages[0] as EVENT_INFO_LANGUAGES
   );
@@ -66,28 +65,12 @@ const CreateEventPage: React.FC = () => {
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
   };
 
-  const saveImageIfNeeded = async (values: EventFormFields) => {
-    const { imageDetails, images } = values;
-    const imageId = images[0];
-
-    if (imageId) {
-      await updateImage({
-        variables: {
-          input: {
-            id: parseIdFromAtId(imageId) as string,
-            ...imageDetails,
-          },
-        },
-      });
-    }
-  };
-
   const saveEvent = async (
     values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
     try {
-      await saveImageIfNeeded(values);
+      await updateImageIfNeeded(values);
 
       const payload = getEventPayload(values, publicationStatus);
 
@@ -158,8 +141,6 @@ const CreateEventPage: React.FC = () => {
       validateOnChange={true}
     >
       {({
-        errors,
-        touched,
         values: { publisher, type, ...restValues },
         setErrors,
         setTouched,

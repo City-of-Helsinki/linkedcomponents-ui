@@ -14,6 +14,7 @@ import {
   DEFAULT_LICENSE_TYPE,
   LICENSE_TYPES,
 } from '../../../../image/constants';
+import useIsImageEditable from '../../../../image/hooks/useIsImageEditable';
 import { getImageFields, imagePathBuilder } from '../../../../image/utils';
 import { EVENT_FIELDS, IMAGE_DETAILS_FIELDS } from '../../../constants';
 import eventPageStyles from '../../../eventPage.module.scss';
@@ -28,6 +29,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
   field,
   imageAtId,
 }) => {
+  const { editable, warning } = useIsImageEditable({ imageAtId });
   const { t } = useTranslation();
   const [{ value: type }] = useField({
     name: EVENT_FIELDS.TYPE,
@@ -102,37 +104,43 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
     }
   }, [apolloClient, clearFields, field, imageAtId, setFieldValue]);
 
-  const disabled = !imageAtId;
+  React.useEffect(() => {
+    setFieldValue(EVENT_FIELDS.IS_IMAGE_EDITABLE, editable, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editable]);
 
   return (
     <div className={styles.imageDetailsFields}>
       <div>
         <Field
-          disabled={disabled}
+          disabled={!editable}
           name={getFieldName(IMAGE_DETAILS_FIELDS.ALT_TEXT)}
           component={TextInputField}
           label={t(`event.form.image.labelAltText`)}
           maxLength={CHARACTER_LIMITS.SHORT_STRING}
           placeholder={t(`event.form.image.placeholderAltText`)}
+          title={warning}
         />
       </div>
       <div>
         <Field
-          disabled={disabled}
+          disabled={!editable}
           name={getFieldName(IMAGE_DETAILS_FIELDS.NAME)}
           component={TextInputField}
           label={t(`event.form.image.labelName`)}
           maxLength={CHARACTER_LIMITS.MEDIUM_STRING}
           placeholder={t(`event.form.image.placeholderName`)}
+          title={warning}
         />
       </div>
       <div>
         <Field
-          disabled={disabled}
+          disabled={!editable}
           name={getFieldName(IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME)}
           component={TextInputField}
           label={t(`event.form.image.labelPhotographerName`)}
           placeholder={t(`event.form.image.placeholderPhotographerName`)}
+          title={warning}
         />
       </div>
       <div>
@@ -140,10 +148,11 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
           {t(`event.form.image.titleLicense`)}
         </h3>
         <Field
-          disabled={disabled}
+          disabled={!editable}
           name={getFieldName(IMAGE_DETAILS_FIELDS.LICENSE)}
           component={RadioButtonGroupField}
           options={licenseOptions}
+          title={warning}
         />
       </div>
     </div>

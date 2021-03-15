@@ -1,11 +1,14 @@
 import { ApolloClient } from '@apollo/client';
 
+import { MAX_PAGE_SIZE } from '../../constants';
 import {
   Organization,
   OrganizationDocument,
   OrganizationFieldsFragment,
   OrganizationQuery,
   OrganizationQueryVariables,
+  OrganizationsDocument,
+  OrganizationsQuery,
   OrganizationsQueryVariables,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
@@ -57,5 +60,34 @@ export const getOrganizationQueryResult = async (
     return organizationData.organization;
   } catch (e) /* istanbul ignore next */ {
     return null;
+  }
+};
+
+export const getOrganizationAncestorsQueryResult = async (
+  publisher: string,
+  apolloClient: ApolloClient<object>
+): Promise<Organization[]> => {
+  try {
+    if (!publisher) {
+      return [];
+    }
+
+    const { data: organizationsData } = await apolloClient.query<
+      OrganizationsQuery
+    >({
+      query: OrganizationsDocument,
+      variables: {
+        child: publisher as string,
+        createPath: getPathBuilder(organizationsPathBuilder),
+        pageSize: MAX_PAGE_SIZE,
+      },
+    });
+
+    return (
+      (organizationsData?.organizations.data as OrganizationFieldsFragment[]) ||
+      []
+    );
+  } catch (e) /* istanbul ignore next */ {
+    return [];
   }
 };
