@@ -94,7 +94,7 @@ test('should open file selection dialog by clicking button', async () => {
   expect(spy).toBeCalled();
 });
 
-test('should onChange when droping file', async () => {
+test('should call onChange when droping file', async () => {
   const onChange = jest.fn();
   renderComponent({ onChange });
 
@@ -110,6 +110,24 @@ test('should onChange when droping file', async () => {
   });
 
   expect(onChange).toBeCalledWith(file);
+});
+
+test('should not call onChange when droping file if component is disabled', async () => {
+  const onChange = jest.fn();
+  renderComponent({ disabled: true, onChange });
+
+  const button = screen.getByRole('button', {
+    name: translations.common.imageUploader.buttonDropImage,
+  });
+  const file = mockFile({});
+
+  fireEvent.drop(button, {
+    dataTransfer: {
+      files: [file],
+    },
+  });
+
+  expect(onChange).not.toBeCalledWith(file);
 });
 
 test('should show border for label by dragOver', async () => {

@@ -83,11 +83,8 @@ export const getOrganizationAncestorsQueryResult = async (
       },
     });
 
-    return (
-      (organizationsData?.organizations.data as OrganizationFieldsFragment[]) ||
-      []
-    );
-  } catch (e) /* istanbul ignore next */ {
+    return organizationsData.organizations.data as OrganizationFieldsFragment[];
+  } catch (e) {
     return [];
   }
 };

@@ -12,7 +12,7 @@ export const testIds = {
 };
 
 export interface ImageUploaderProps {
-  disabled: boolean;
+  disabled?: boolean;
   onChange: (file: File) => void;
   title?: string;
 }
