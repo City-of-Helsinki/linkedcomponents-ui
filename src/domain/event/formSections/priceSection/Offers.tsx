@@ -33,6 +33,7 @@ const Offers = () => {
                 key={index}
                 offerPath={getOfferPath(index)}
                 onDelete={() => arrayHelpers.remove(index)}
+                showInstructions={!index}
                 type={type}
               />
             );

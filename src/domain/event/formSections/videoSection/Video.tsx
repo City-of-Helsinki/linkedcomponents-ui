@@ -14,6 +14,7 @@ import FieldWithButton from '../../layout/FieldWithButton';
 type Props = {
   canDelete: boolean;
   onDelete: () => void;
+  showInstructions?: boolean;
   type: string;
   videoPath: string;
 };
@@ -21,7 +22,13 @@ type Props = {
 const getFieldName = (videoPath: string, field: string) =>
   `${videoPath}.${field}`;
 
-const Video: React.FC<Props> = ({ canDelete, onDelete, type, videoPath }) => {
+const Video: React.FC<Props> = ({
+  canDelete,
+  onDelete,
+  showInstructions,
+  type,
+  videoPath,
+}) => {
   const { t } = useTranslation();
 
   const fieldNames = React.useMemo(
@@ -54,14 +61,16 @@ const Video: React.FC<Props> = ({ canDelete, onDelete, type, videoPath }) => {
       <h3>{t(`event.form.titleVideo.${type}`)}</h3>
       <FieldRow
         notification={
-          <Notification
-            className={styles.notification}
-            label={t(`event.form.notificationTitleVideo.${type}`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextVideo1.${type}`)}</p>
-            <p>{t(`event.form.infoTextVideo2`)}</p>
-          </Notification>
+          showInstructions ? (
+            <Notification
+              className={styles.notification}
+              label={t(`event.form.notificationTitleVideo.${type}`)}
+              type="info"
+            >
+              <p>{t(`event.form.infoTextVideo1.${type}`)}</p>
+              <p>{t(`event.form.infoTextVideo2`)}</p>
+            </Notification>
+          ) : undefined
         }
       >
         <FieldWithButton
