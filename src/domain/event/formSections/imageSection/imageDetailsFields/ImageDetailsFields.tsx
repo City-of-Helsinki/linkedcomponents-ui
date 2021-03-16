@@ -31,6 +31,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
 }) => {
   const { editable, warning } = useIsImageEditable({ imageAtId });
   const { t } = useTranslation();
+
   const [{ value: type }] = useField({
     name: EVENT_FIELDS.TYPE,
   });

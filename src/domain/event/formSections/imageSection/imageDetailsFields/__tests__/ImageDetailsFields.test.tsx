@@ -1,9 +1,21 @@
+import { MockedResponse } from '@apollo/react-testing';
 import { Formik } from 'formik';
 import React from 'react';
 
-import { ImageDocument } from '../../../../../../generated/graphql';
-import { fakeImage } from '../../../../../../utils/mockDataUtils';
+import { MAX_PAGE_SIZE } from '../../../../../../constants';
 import {
+  ImageDocument,
+  OrganizationsDocument,
+  UserDocument,
+} from '../../../../../../generated/graphql';
+import {
+  fakeImage,
+  fakeOrganizations,
+  fakeUser,
+} from '../../../../../../utils/mockDataUtils';
+import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
+import {
+  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -29,36 +41,79 @@ const defaultProps: ImageDetailsFieldsProps = {
 };
 
 const id = 'hel:123';
-const imageDetails = {
+const publisher = 'publisher:1';
+const imageFields = {
   id,
   atId: `https://api.hel.fi/linkedevents-test/v1/image/${id}/`,
   altText: 'Alt',
   license: LICENSE_TYPES.EVENT_ONLY,
   name: 'Image name',
   photographerName: 'Photographer name',
+  publisher,
 };
+const image = fakeImage(imageFields);
+const imageVariables = { createPath: undefined, id };
+const imageResponse = { data: { image } };
+const mockedImageResponse = {
+  request: {
+    query: ImageDocument,
+    variables: imageVariables,
+  },
+  result: imageResponse,
+};
+
 const notFoundId = 'not-found';
 const notFoundAtId = `https://api.hel.fi/linkedevents-test/v1/image/${notFoundId}/`;
-
-const image = fakeImage(imageDetails);
-const imageResponse = { data: { image } };
-
-const mocks = [
-  {
-    request: {
-      query: ImageDocument,
-      variables: { createPath: undefined, id },
-    },
-    result: imageResponse,
+const notFoundVariables = { createPath: undefined, id: notFoundId };
+const mockedNotFoundResponse = {
+  request: {
+    query: ImageDocument,
+    variables: notFoundVariables,
   },
-  {
-    request: {
-      query: ImageDocument,
-      variables: { createPath: undefined, id: notFoundId },
-    },
-    error: new Error('not found'),
+  error: new Error('not found'),
+};
+
+const organizationsVariables = {
+  child: publisher,
+  createPath: undefined,
+  pageSize: MAX_PAGE_SIZE,
+};
+const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
+const mockedOrganizationsResponse = {
+  request: {
+    query: OrganizationsDocument,
+    variables: organizationsVariables,
   },
+  result: organizationsResponse,
+};
+
+const user = fakeUser({
+  organization: publisher,
+  adminOrganizations: [publisher],
+  organizationMemberships: [],
+});
+const userVariables = {
+  createPath: undefined,
+  id: 'user:1',
+};
+const userResponse = { data: { user } };
+const mockedUserResponse = {
+  request: {
+    query: UserDocument,
+    variables: userVariables,
+  },
+  result: userResponse,
+};
+
+const defaultMocks = [
+  mockedImageResponse,
+  mockedNotFoundResponse,
+  mockedOrganizationsResponse,
+  mockedUserResponse,
 ];
+
+const state = fakeAuthenticatedStoreState();
+const store = getMockReduxStore(state);
 
 const eventType = EVENT_TYPE.EVENT;
 
@@ -84,10 +139,15 @@ const defaultInitialValus: InitialValues = {
   [EVENT_FIELDS.TYPE]: eventType,
 };
 
-const renderComponent = (
-  props?: Partial<ImageDetailsFieldsProps>,
-  initialValues?: InitialValues
-) =>
+const renderComponent = ({
+  initialValues,
+  mocks = defaultMocks,
+  props,
+}: {
+  initialValues?: InitialValues;
+  mocks?: MockedResponse[];
+  props?: Partial<ImageDetailsFieldsProps>;
+}) =>
   render(
     <Formik
       onSubmit={jest.fn()}
@@ -96,11 +156,11 @@ const renderComponent = (
     >
       <ImageDetailsFields {...defaultProps} {...props} />
     </Formik>,
-    { mocks }
+    { mocks, store }
   );
 
 test('all fields should be disabled when imageAtId is null', () => {
-  renderComponent({ imageAtId: null });
+  renderComponent({ props: { imageAtId: null } });
 
   const fields = [
     translations.event.form.image.labelAltText,
@@ -120,9 +180,8 @@ test('all fields should be disabled when imageAtId is null', () => {
 });
 
 test('should clear field values when imageAtId is null', () => {
-  renderComponent(
-    { imageAtId: null },
-    {
+  renderComponent({
+    initialValues: {
       [EVENT_FIELDS.IMAGES]: [],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
         [IMAGE_DETAILS_FIELDS.ALT_TEXT]: 'Lorem ipsum',
@@ -131,8 +190,9 @@ test('should clear field values when imageAtId is null', () => {
         [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
       },
       [EVENT_FIELDS.TYPE]: eventType,
-    }
-  );
+    },
+    props: { imageAtId: null },
+  });
 
   const fields = [
     translations.event.form.image.labelAltText,
@@ -152,9 +212,8 @@ test('should clear field values when imageAtId is null', () => {
 });
 
 test('should clear field values when image with imageAtId does not exist', async () => {
-  renderComponent(
-    { imageAtId: notFoundAtId },
-    {
+  renderComponent({
+    initialValues: {
       [EVENT_FIELDS.IMAGES]: [notFoundAtId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
         [IMAGE_DETAILS_FIELDS.ALT_TEXT]: 'Lorem ipsum',
@@ -163,8 +222,9 @@ test('should clear field values when image with imageAtId does not exist', async
         [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
       },
       [EVENT_FIELDS.TYPE]: eventType,
-    }
-  );
+    },
+    props: { imageAtId: notFoundAtId },
+  });
 
   await waitFor(() => {
     expect(
@@ -186,40 +246,99 @@ test('should clear field values when image with imageAtId does not exist', async
 });
 
 test('should set field values', async () => {
-  renderComponent({ imageAtId: imageDetails.atId });
+  renderComponent({ props: { imageAtId: imageFields.atId } });
 
-  await waitFor(() => {
-    expect(
-      screen.getByRole('textbox', {
-        name: translations.event.form.image.labelAltText,
-      })
-    ).toHaveValue(imageDetails.altText);
+  const altTextInput = screen.getByRole('textbox', {
+    name: translations.event.form.image.labelAltText,
+  });
+  const nameInput = screen.getByRole('textbox', {
+    name: translations.event.form.image.labelName,
+  });
+  const photographerNameInput = screen.getByRole('textbox', {
+    name: translations.event.form.image.labelPhotographerName,
   });
 
-  expect(
-    screen.getByRole('textbox', {
-      name: translations.event.form.image.labelName,
-    })
-  ).toHaveValue(imageDetails.name);
+  const fields = [
+    { input: altTextInput, expectedValue: imageFields.altText },
+    { input: nameInput, expectedValue: imageFields.name },
+    {
+      input: photographerNameInput,
+      expectedValue: imageFields.photographerName,
+    },
+  ];
 
-  expect(
-    screen.getByRole('textbox', {
-      name: translations.event.form.image.labelPhotographerName,
-    })
-  ).toHaveValue(imageDetails.photographerName);
+  for (const { input, expectedValue } of fields) {
+    await waitFor(() => {
+      expect(input).toHaveValue(expectedValue);
+      expect(input).toBeEnabled();
+    });
+  }
 
-  expect(
-    screen.getByRole('radio', {
-      name: translations.event.form.image.license.eventOnly[eventType],
-    })
-  ).toBeChecked();
+  const eventOnlyRadio = screen.getByRole('radio', {
+    name: translations.event.form.image.license.eventOnly[eventType],
+  });
+  expect(eventOnlyRadio).toBeChecked();
+  expect(eventOnlyRadio).toBeEnabled();
+});
+
+test("all fields should be disabled when user doesn't have permission to edit image", async () => {
+  const user = fakeUser({
+    organization: '',
+    adminOrganizations: [],
+    organizationMemberships: [],
+  });
+  const userResponse = { data: { user } };
+  const mockedUserResponse = {
+    request: {
+      query: UserDocument,
+      variables: userVariables,
+    },
+    result: userResponse,
+  };
+
+  const mocks = [
+    ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),
+    mockedUserResponse,
+  ];
+  renderComponent({ mocks, props: { imageAtId: imageFields.atId } });
+
+  const altTextInput = screen.getByRole('textbox', {
+    name: translations.event.form.image.labelAltText,
+  });
+  const nameInput = screen.getByRole('textbox', {
+    name: translations.event.form.image.labelName,
+  });
+  const photographerNameInput = screen.getByRole('textbox', {
+    name: translations.event.form.image.labelPhotographerName,
+  });
+
+  const fields = [
+    { input: altTextInput, expectedValue: imageFields.altText },
+    { input: nameInput, expectedValue: imageFields.name },
+    {
+      input: photographerNameInput,
+      expectedValue: imageFields.photographerName,
+    },
+  ];
+
+  for (const { input, expectedValue } of fields) {
+    await waitFor(() => {
+      expect(input).toHaveValue(expectedValue);
+      expect(input).toBeDisabled();
+    });
+  }
+
+  const eventOnlyRadio = screen.getByRole('radio', {
+    name: translations.event.form.image.license.eventOnly[eventType],
+  });
+  expect(eventOnlyRadio).toBeChecked();
+  expect(eventOnlyRadio).toBeDisabled();
 });
 
 test('should show validation error when entering too short altText', async () => {
-  renderComponent(
-    { imageAtId: imageDetails.atId },
-    {
-      [EVENT_FIELDS.IMAGES]: [imageDetails.atId],
+  renderComponent({
+    initialValues: {
+      [EVENT_FIELDS.IMAGES]: [imageFields.atId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
         [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
         [IMAGE_DETAILS_FIELDS.LICENSE]: LICENSE_TYPES.CC_BY,
@@ -227,15 +346,16 @@ test('should show validation error when entering too short altText', async () =>
         [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
       },
       [EVENT_FIELDS.TYPE]: eventType,
-    }
-  );
+    },
+    props: { imageAtId: imageFields.atId },
+  });
 
   const altTextInput = screen.getByRole('textbox', {
     name: translations.event.form.image.labelAltText,
   });
 
   await waitFor(() => {
-    expect(altTextInput).toHaveValue(imageDetails.altText);
+    expect(altTextInput).toHaveValue(imageFields.altText);
   });
 
   userEvent.click(altTextInput);
@@ -244,9 +364,5 @@ test('should show validation error when entering too short altText', async () =>
 
   userEvent.tab();
 
-  await waitFor(() => {
-    expect(
-      screen.queryByText('Tämä kenttä tulee olla vähintään 6 merkkiä pitkä')
-    ).toBeInTheDocument();
-  });
+  await screen.findByText('Tämä kenttä tulee olla vähintään 6 merkkiä pitkä');
 });

@@ -20,6 +20,7 @@ import {
   Meta,
   Offer,
   Organization,
+  OrganizationsResponse,
   Place,
   PlacesResponse,
   PublicationStatus,
@@ -112,6 +113,7 @@ export const fakeImage = (overrides?: Partial<Image>): Image => {
       url: faker.internet.url(),
       cropping: '59,0,503,444',
       photographerName: faker.name.firstName(),
+      publisher: faker.random.uuid(),
       __typename: 'Image',
     },
     overrides
@@ -237,8 +239,11 @@ export const fakeOrganization = (
 export const fakeOrganizations = (
   count = 1,
   organizations?: Partial<Organization>[]
-): Organization[] =>
-  generateNodeArray((i) => fakeOrganization(organizations?.[i]), count);
+): OrganizationsResponse => ({
+  data: generateNodeArray((i) => fakeOrganization(organizations?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'OrganizationsResponse',
+});
 
 export const fakePlaces = (
   count = 1,

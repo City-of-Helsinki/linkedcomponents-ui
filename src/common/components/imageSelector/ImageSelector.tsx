@@ -20,7 +20,7 @@ export interface ImageSelectorProps {
   multiple?: boolean;
   onBlur?: (value: string[]) => void;
   onChange: (value: string[]) => void;
-  publisher: '';
+  publisher: string;
   value: string[];
 }
 

@@ -169,7 +169,7 @@ const audience = fakeKeywords(
 
 const images = fakeImages(
   imageAtIds.length,
-  imageAtIds.map((atId) => ({ atId, id: imageId, ...imageDetails }))
+  imageAtIds.map((atId) => ({ atId, id: imageId, ...imageDetails, publisher }))
 );
 
 const keywords = fakeKeywords(

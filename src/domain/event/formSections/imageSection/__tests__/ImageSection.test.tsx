@@ -1,16 +1,27 @@
+import { MockedResponse } from '@apollo/react-testing';
 import { Formik } from 'formik';
 import React from 'react';
 
 import { testIds as imagePreviewTestIds } from '../../../../../common/components/imagePreview/ImagePreview';
+import { PAGE_SIZE } from '../../../../../common/components/imageSelector/constants';
 import { testIds as imageUploaderTestIds } from '../../../../../common/components/imageUploader/ImageUploader';
+import { MAX_PAGE_SIZE } from '../../../../../constants';
 import {
   ImageDocument,
   ImagesDocument,
+  OrganizationsDocument,
   UploadImageDocument,
+  UserDocument,
 } from '../../../../../generated/graphql';
-import { fakeImages } from '../../../../../utils/mockDataUtils';
+import {
+  fakeImages,
+  fakeOrganizations,
+  fakeUser,
+} from '../../../../../utils/mockDataUtils';
+import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
 import {
   fireEvent,
+  getMockReduxStore,
   mockFile,
   render,
   screen,
@@ -26,9 +37,16 @@ import {
 } from '../../../constants';
 import ImageSection from '../ImageSection';
 
+const publisher = 'publisher:1';
+
 const eventType = EVENT_TYPE.EVENT;
 
-const images = fakeImages(5);
+const images = fakeImages(PAGE_SIZE, [{ publisher }]);
+const imagesVariables = {
+  createPath: undefined,
+  pageSize: PAGE_SIZE,
+  publisher,
+};
 const imagesResponse = {
   data: {
     images: {
@@ -41,58 +59,116 @@ const imagesResponse = {
     },
   },
 };
+const mockedImagesResponse = {
+  request: {
+    query: ImagesDocument,
+    variables: imagesVariables,
+  },
+  result: imagesResponse,
+  newData: () => imagesResponse,
+};
 
 const image = images.data[0];
+const imageVariables = { createPath: undefined, id: image.id };
 const imageResponse = {
   data: {
     image,
   },
+};
+const mockedImageResponse = {
+  request: {
+    query: ImageDocument,
+    variables: imageVariables,
+  },
+  result: imageResponse,
 };
 
 const imageAtId = image.atId;
 const imageUrl = image.url;
 const file = mockFile({});
 
+const uploadImage1Variables = {
+  image: undefined,
+  name: '',
+  publisher,
+  url: imageUrl,
+};
 const uploadImageResponse = {
   data: {
     uploadImage: image,
   },
 };
+const mockedUploadImage1Response = {
+  request: {
+    query: UploadImageDocument,
+    variables: {
+      input: uploadImage1Variables,
+    },
+  },
+  result: uploadImageResponse,
+};
+
+const uploadImage2Variables = {
+  image: file,
+  name: '',
+  publisher,
+  url: undefined,
+};
+const mockedUploadImage2Response = {
+  request: {
+    query: UploadImageDocument,
+    variables: {
+      input: uploadImage2Variables,
+    },
+  },
+  result: uploadImageResponse,
+};
+
+const organizationsVariables = {
+  child: publisher,
+  createPath: undefined,
+  pageSize: MAX_PAGE_SIZE,
+};
+const organizationsResponse = {
+  data: { organizations: fakeOrganizations(0) },
+};
+const mockedOrganizationsResponse = {
+  request: {
+    query: OrganizationsDocument,
+    variables: organizationsVariables,
+  },
+  result: organizationsResponse,
+};
+
+const user = fakeUser({
+  organization: publisher,
+  adminOrganizations: [publisher],
+  organizationMemberships: [],
+});
+const userVariables = {
+  createPath: undefined,
+  id: 'user:1',
+};
+const userResponse = { data: { user } };
+const mockedUserResponse: MockedResponse = {
+  request: {
+    query: UserDocument,
+    variables: userVariables,
+  },
+  result: userResponse,
+};
+
 const mocks = [
-  {
-    request: {
-      query: ImagesDocument,
-      variables: { createPath: undefined, pageSize: 5 },
-    },
-    result: imagesResponse,
-    newData: () => imagesResponse,
-  },
-  {
-    request: {
-      query: ImageDocument,
-      variables: { createPath: undefined, id: image.id },
-    },
-    result: imageResponse,
-  },
-  {
-    request: {
-      query: UploadImageDocument,
-      variables: {
-        input: { image: undefined, name: '', url: imageUrl },
-      },
-    },
-    result: uploadImageResponse,
-  },
-  {
-    request: {
-      query: UploadImageDocument,
-      variables: {
-        input: { image: file, name: '', url: undefined },
-      },
-    },
-    result: uploadImageResponse,
-  },
+  mockedImagesResponse,
+  mockedImageResponse,
+  mockedUploadImage1Response,
+  mockedUploadImage2Response,
+  mockedOrganizationsResponse,
+  mockedUserResponse,
 ];
+
+const state = fakeAuthenticatedStoreState();
+const store = getMockReduxStore(state);
 
 const renderComponent = (images = []) =>
   render(
@@ -106,12 +182,13 @@ const renderComponent = (images = []) =>
           [IMAGE_DETAILS_FIELDS.NAME]: '',
           [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
         },
+        [EVENT_FIELDS.PUBLISHER]: publisher,
       }}
       onSubmit={jest.fn()}
     >
       <ImageSection />
     </Formik>,
-    { mocks }
+    { mocks, store }
   );
 
 test('should select existing image', async () => {
@@ -121,36 +198,26 @@ test('should select existing image', async () => {
   const addButton = screen.getAllByRole('button', {
     name: translations.event.form.buttonAddImage[eventType],
   })[0];
-
   userEvent.click(addButton);
 
-  expect(
-    screen.getByRole('heading', {
-      name: translations.event.form.modalTitleImage,
-    })
-  ).toBeInTheDocument();
-
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('checkbox', { name: images.data[0].name })
-    ).toBeInTheDocument();
+  screen.getByRole('heading', {
+    name: translations.event.form.modalTitleImage,
   });
 
-  userEvent.click(screen.getByRole('checkbox', { name: images.data[0].name }));
+  const imageCheckbox = await screen.findByRole('checkbox', {
+    name: images.data[0].name,
+  });
+  userEvent.click(imageCheckbox);
 
-  const submitButton = screen.queryByRole('button', {
+  const submitButton = screen.getByRole('button', {
     name: translations.common.add,
   });
-
   await waitFor(() => {
     expect(submitButton).toBeEnabled();
   });
-
   userEvent.click(submitButton);
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(imagePreviewTestIds.image)).toBeInTheDocument();
-  });
+  await screen.findByTestId(imagePreviewTestIds.image);
 });
 
 test('should remove image', async () => {
@@ -163,7 +230,6 @@ test('should remove image', async () => {
   const removeButton = screen.getAllByRole('button', {
     name: translations.event.form.buttonRemoveImage[eventType],
   })[0];
-
   userEvent.click(removeButton);
 
   await waitFor(() => {
@@ -180,26 +246,19 @@ test('should create and select new image by selecting image file', async () => {
   const addButton = screen.getAllByRole('button', {
     name: translations.event.form.buttonAddImage[eventType],
   })[0];
-
   userEvent.click(addButton);
 
-  expect(
-    screen.getByRole('heading', {
-      name: translations.event.form.modalTitleImage,
-    })
-  ).toBeInTheDocument();
+  screen.getByRole('heading', {
+    name: translations.event.form.modalTitleImage,
+  });
 
   const fileInput = screen.getByTestId(imageUploaderTestIds.input);
-
   Object.defineProperty(fileInput, 'files', {
     value: [file],
   });
-
   fireEvent.change(fileInput);
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(imagePreviewTestIds.image)).toBeInTheDocument();
-  });
+  await screen.findByTestId(imagePreviewTestIds.image);
 });
 
 test('should create and select new image by entering image url', async () => {
@@ -209,29 +268,26 @@ test('should create and select new image by entering image url', async () => {
   const addButton = screen.getAllByRole('button', {
     name: translations.event.form.buttonAddImage[eventType],
   })[0];
-
   userEvent.click(addButton);
 
-  expect(
-    screen.getByRole('heading', {
-      name: translations.event.form.modalTitleImage,
-    })
-  ).toBeInTheDocument();
+  screen.getByRole('heading', {
+    name: translations.event.form.modalTitleImage,
+  });
 
   const urlInput = screen.getByRole('textbox', {
     name: translations.event.form.image.labelUrl,
   });
-
+  await waitFor(() => {
+    expect(urlInput).toBeEnabled();
+  });
   userEvent.type(urlInput, imageUrl);
 
   const submitButton = screen.queryByRole('button', {
     name: translations.common.add,
   });
-
   await waitFor(() => {
     expect(submitButton).toBeEnabled();
   });
-
   userEvent.click(submitButton);
 
   await waitFor(() => {
