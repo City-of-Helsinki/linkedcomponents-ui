@@ -160,14 +160,17 @@ const CreateEventPage: React.FC = () => {
 
             clearErrors();
 
-            if (publicationStatus === PublicationStatus.Draft) {
-              await draftEventValidationSchema.validate(values, {
-                abortEarly: false,
-              });
-            } else {
-              await eventValidationSchema.validate(values, {
-                abortEarly: false,
-              });
+            switch (publicationStatus) {
+              case PublicationStatus.Draft:
+                await draftEventValidationSchema.validate(values, {
+                  abortEarly: false,
+                });
+                break;
+              case PublicationStatus.Public:
+                await eventValidationSchema.validate(values, {
+                  abortEarly: false,
+                });
+                break;
             }
 
             saveEvent(values, publicationStatus);

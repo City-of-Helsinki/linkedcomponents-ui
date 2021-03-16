@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 import { MockedResponse } from '@apollo/react-testing';
+import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
   eventValues,
+  imageAtId,
   imageDetails,
+  keywordAtId,
   keywordName,
   mockedAudienceKeywordSetResponse,
   mockedCreateDraftEventResponse,
@@ -18,18 +21,20 @@ import {
   mockedKeywordsResponse,
   mockedLanguagesResponse,
   mockedOrganizationResponse,
+  mockedOrganizationsResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,
   mockedTopicsKeywordSetResponse,
   mockedUmbrellaEventsResponse,
   mockedUpdateImageResponse,
   mockedUserResponse,
-  selectedPlaceText,
+  organizationId,
+  placeAtId,
 } from '../__mocks__/createEventPage';
 import { testId } from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { FORM_NAMES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
-  act,
   configure,
   getMockReduxStore,
   render,
@@ -38,7 +43,12 @@ import {
   waitFor,
 } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
+import {
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  EVENT_INITIAL_VALUES,
+} from '../constants';
 import CreateEventPage from '../CreateEventPage';
+import { EventFormFields } from '../types';
 
 configure({ defaultHidden: true });
 
@@ -57,6 +67,7 @@ const defaultMocks = [
   mockedFilteredPlacesResponse,
   mockedFilteredPlacesResponse,
   mockedOrganizationResponse,
+  mockedOrganizationsResponse,
   mockedUserResponse,
 ];
 
@@ -75,6 +86,19 @@ afterAll(() => {
   // Clear system time
   clear();
 });
+
+const setFormValues = (values: EventFormFields) => {
+  const state: FormikState<EventFormFields> = {
+    errors: {},
+    isSubmitting: false,
+    isValidating: false,
+    submitCount: 0,
+    touched: {},
+    values,
+  };
+
+  sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
+};
 
 const findComponent = async (
   key:
@@ -161,34 +185,6 @@ const findComponent = async (
   }
 };
 
-const selectImage = async () => {
-  const addImageButton = await findComponent('addImageButton');
-
-  userEvent.click(addImageButton);
-
-  const imageModalHeading = await findComponent('imageModalHeading');
-
-  const imageCheckbox = await screen.findByRole('checkbox', {
-    name: imageDetails.name,
-  });
-
-  userEvent.click(imageCheckbox);
-
-  const submitImageButton = screen.queryByRole('button', {
-    name: translations.common.add,
-  });
-
-  await waitFor(() => {
-    expect(submitImageButton).toBeEnabled();
-  });
-
-  userEvent.click(submitImageButton);
-
-  await waitFor(() => {
-    expect(imageModalHeading).not.toBeInTheDocument();
-  });
-};
-
 test('should focus to first validation error when trying to save draft event', async () => {
   renderComponent();
 
@@ -207,15 +203,15 @@ test('should focus to first validation error when trying to save draft event', a
 });
 
 test('should focus to select component in case of validation error', async () => {
+  setFormValues({
+    ...EVENT_INITIAL_VALUES,
+    hasUmbrella: true,
+  });
   renderComponent();
 
   await waitFor(() => {
     expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
   });
-
-  const hasUmbrellaCheckbox = await findComponent('hasUmbrella');
-
-  userEvent.click(hasUmbrellaCheckbox);
 
   const superEventSelect = await findComponent('superEvent');
 
@@ -228,72 +224,66 @@ test('should focus to select component in case of validation error', async () =>
   });
 });
 
-test('should focus to first validation error when trying to publish event', async () => {
-  renderComponent();
+it('should route to event completed page after saving draft event', async () => {
+  setFormValues({
+    ...EVENT_INITIAL_VALUES,
+    isVerified: true,
+    name: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
+  });
+
+  const mocks = [...defaultMocks, mockedCreateDraftEventResponse];
+  const { history } = renderComponent(mocks);
 
   await waitFor(() => {
     expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
   });
 
-  const nameTextbox = await findComponent('name');
-  const publishButton = await findComponent('publish');
+  const saveDraftButton = await findComponent('saveDraft');
 
-  userEvent.click(publishButton);
+  userEvent.click(saveDraftButton);
 
   await waitFor(() => {
-    expect(nameTextbox).toHaveFocus();
-  });
-});
-
-describe('save draft event', () => {
-  const renderSaveDraftComponent = async (
-    createEventResponse: MockedResponse
-  ) => {
-    const mocks = [...defaultMocks, createEventResponse];
-    const component = renderComponent(mocks);
-
-    await waitFor(() => {
-      expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
-    });
-
-    const nameTextbox = await findComponent('name');
-
-    userEvent.type(nameTextbox, eventValues.name);
-
-    await waitFor(() => {
-      expect(nameTextbox).toHaveValue(eventValues.name);
-    });
-
-    const isVerifiedCheckbox = await findComponent('isVerified');
-
-    userEvent.click(isVerifiedCheckbox);
-
-    await waitFor(() => {
-      expect(isVerifiedCheckbox).toBeChecked();
-    });
-
-    const saveDraftButton = await findComponent('saveDraft');
-
-    userEvent.click(saveDraftButton);
-
-    return component;
-  };
-
-  it('should route to event completed page after saving draft event', async () => {
-    const { history } = await renderSaveDraftComponent(
-      mockedCreateDraftEventResponse
+    expect(history.location.pathname).toBe(
+      `/fi/events/completed/${eventValues.id}`
     );
-
-    await waitFor(() => {
-      expect(history.location.pathname).toBe(
-        `/fi/events/completed/${eventValues.id}`
-      );
-    });
   });
 });
 
 test('should route to event completed page after publishing event', async () => {
   advanceTo('2020-12-20');
+
+  setFormValues({
+    ...EVENT_INITIAL_VALUES,
+    publisher: organizationId,
+    description: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.description,
+    },
+    endTime: new Date('2020-12-31T21:00:00.000Z'),
+    eventTimes: [
+      {
+        endTime: new Date('2021-01-03T21:00:00.000Z'),
+        startTime: new Date('2021-01-03T18:00:00.000Z'),
+      },
+    ],
+    images: [imageAtId],
+    imageDetails,
+    isVerified: true,
+    keywords: [keywordAtId],
+    location: placeAtId,
+    name: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
+    shortDescription: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.shortDescription,
+    },
+    startTime: new Date('2020-12-31T18:00:00.000Z'),
+  });
 
   const mocks: MockedResponse[] = [
     ...defaultMocks,
@@ -307,80 +297,7 @@ test('should route to event completed page after publishing event', async () => 
     expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
   });
 
-  const startTimeTextbox = await findComponent('startTime');
-  const endTimeTextbox = await findComponent('endTime');
-  const nameTextbox = await findComponent('name');
-  const shortDescriptionTextbox = await findComponent('shortDescription');
-  const descriptionTextbox = await findComponent('description');
-
-  const addEventTimeButton = await findComponent('addEventTime');
-  userEvent.click(addEventTimeButton);
-
-  const secondStartTimeTextbox = await findComponent('secondStartTime');
-  const secondEndTimeTextbox = await findComponent('secondEndTime');
-
-  const textboxes = [
-    {
-      textbox: nameTextbox,
-      value: eventValues.name,
-    },
-    {
-      textbox: shortDescriptionTextbox,
-      value: eventValues.shortDescription,
-    },
-    {
-      textbox: descriptionTextbox,
-      value: eventValues.description,
-    },
-    {
-      textbox: startTimeTextbox,
-      value: eventValues.startTime,
-    },
-    {
-      textbox: endTimeTextbox,
-      value: eventValues.endTime,
-    },
-    {
-      textbox: secondStartTimeTextbox,
-      value: eventValues.eventTimes[0].startTime,
-    },
-    {
-      textbox: secondEndTimeTextbox,
-      value: eventValues.eventTimes[0].endTime,
-    },
-  ];
-
-  textboxes.forEach(({ textbox, value }) => {
-    userEvent.click(textbox);
-    userEvent.type(textbox, value);
-
-    act(() => {
-      expect(nameTextbox).toHaveValue(eventValues.name);
-    });
-  });
-
-  userEvent.click(screen.getByRole('button', { name: /paikka: valikko/i }));
-  userEvent.click(
-    screen.getByRole('option', {
-      name: selectedPlaceText,
-    })
-  );
-
-  await selectImage();
-
-  const keywordCheckbox = await findComponent('keyword');
-  const isVerifiedCheckbox = await findComponent('isVerified');
-  const checkboxes = [keywordCheckbox, isVerifiedCheckbox];
-
-  checkboxes.forEach((checkbox) => {
-    userEvent.click(checkbox);
-    act(() => {
-      expect(checkbox).toBeChecked();
-    });
-  });
-
   const publishButton = await findComponent('publish');
-
   userEvent.click(publishButton);
 
   await waitFor(
