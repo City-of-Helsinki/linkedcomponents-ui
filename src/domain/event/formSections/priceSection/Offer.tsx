@@ -14,13 +14,19 @@ import FieldWithButton from '../../layout/FieldWithButton';
 type Props = {
   offerPath: string;
   onDelete: () => void;
+  showInstructions?: boolean;
   type: string;
 };
 
 const getFieldName = (offerPath: string, field: string) =>
   `${offerPath}.${field}`;
 
-const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
+const Offer: React.FC<Props> = ({
+  offerPath,
+  onDelete,
+  showInstructions,
+  type,
+}) => {
   const { t } = useTranslation();
 
   const [{ value: eventInfoLanguages }] = useField({
@@ -32,14 +38,16 @@ const Offer: React.FC<Props> = ({ offerPath, onDelete, type }) => {
       <h3>{t('event.form.titleOfferPrice')}</h3>
       <FieldRow
         notification={
-          <Notification
-            className={styles.notification}
-            label={t(`event.form.notificationTitleOffers`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextOffers1.${type}`)}</p>
-            <p>{t(`event.form.infoTextOffers2.${type}`)}</p>
-          </Notification>
+          showInstructions ? (
+            <Notification
+              className={styles.notification}
+              label={t(`event.form.notificationTitleOffers`)}
+              type="info"
+            >
+              <p>{t(`event.form.infoTextOffers1.${type}`)}</p>
+              <p>{t(`event.form.infoTextOffers2.${type}`)}</p>
+            </Notification>
+          ) : undefined
         }
       >
         <FieldWithButton

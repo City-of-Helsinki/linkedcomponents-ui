@@ -47,7 +47,7 @@
       }
     },
     "feedback": {
-      "text": "Anna palautetta ja vaikuta",
+      "text": "Anna palautetta",
       "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta"
     },
     "goToHome": "Etusivulle",
@@ -497,7 +497,6 @@
       "titleOfferDescription": "Hintatietojen kuvaus",
       "titleOfferInfoUrl": "Linkki lipunmyyntiin tai ilmoittautumiseen",
       "titleOfferPrice": "Hinta",
-      "titlePersonsInCharge": "Vastuuhenkilöt",
       "titlePriceInfo": {
         "course": "Kurssin hintatiedot",
         "event": "Tapahtuman hintatiedot"
@@ -714,7 +713,7 @@
     "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia"
   },
   "landingPage": {
-    "heroTitle": "Tutustu uuteen palveluun"
+    "heroTitle": "Helsingin tapahtumat ja harrastukset"
   },
   "logoutPage": {
     "pageTitle": "Olet kirjautunut ulos",

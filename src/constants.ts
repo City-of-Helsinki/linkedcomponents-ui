@@ -20,7 +20,8 @@ export const OIDC_API_TOKEN_ENDPOINT = `${process.env.REACT_APP_OIDC_AUTHORITY}/
 // Supported languages
 export enum SUPPORTED_LANGUAGES {
   FI = 'fi',
-  SV = 'sv',
+  // TODO: Add Swedish to supported languages when UI texts has been translated
+  // SV = 'sv',
   EN = 'en',
 }
 

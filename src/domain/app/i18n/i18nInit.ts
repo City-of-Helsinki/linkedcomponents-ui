@@ -31,7 +31,8 @@ i18n
     whitelist: [
       SUPPORTED_LANGUAGES.EN,
       SUPPORTED_LANGUAGES.FI,
-      SUPPORTED_LANGUAGES.SV,
+      // TODO: Add Swedish to supported languages when UI texts has been translated
+      // SUPPORTED_LANGUAGES.SV,
     ],
     resources: {
       en: {

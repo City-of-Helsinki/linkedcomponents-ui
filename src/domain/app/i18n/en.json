@@ -47,7 +47,7 @@
       }
     },
     "feedback": {
-      "text": "Give feedback and make an impact",
+      "text": "Give feedback",
       "url": "https://www.hel.fi/helsinki/en/administration/participate/feedback/"
     },
     "goToHome": "To home page",
@@ -498,7 +498,6 @@
       "titleOfferDescription": "Description of price information",
       "titleOfferInfoUrl": "Link to ticket sales or registration",
       "titleOfferPrice": "Price",
-      "titlePersonsInCharge": "Person(s) in charge",
       "titlePriceInfo": {
         "course": "Course price information",
         "event": "Event price information"
@@ -713,7 +712,7 @@
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
   "landingPage": {
-    "heroTitle": "Check out the new service"
+    "heroTitle": "Events and hobbies in Helsinki"
   },
   "logoutPage": {
     "pageTitle": "You are logged out",

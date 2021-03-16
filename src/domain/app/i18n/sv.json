@@ -47,7 +47,7 @@
       }
     },
     "feedback": {
-      "text": "Ge respons och påverka",
+      "text": "Ge respons",
       "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
     },
     "goToHome": "Till startsidan",
@@ -497,7 +497,6 @@
       "titleOfferDescription": "Beskrivning av prisinformation",
       "titleOfferInfoUrl": "Länk till biljettförsäljning eller registrering",
       "titleOfferPrice": "Pris",
-      "titlePersonsInCharge": "Ansvariga person(er)",
       "titlePriceInfo": {
         "course": "Prisinformation för kurs",
         "event": "Prisinformation för evenemang"
@@ -713,7 +712,7 @@
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
   "landingPage": {
-    "heroTitle": "Kolla in den nya tjänsten"
+    "heroTitle": "Evenemang och hobbyer i Helsingfors"
   },
   "logoutPage": {
     "pageTitle": "Du är utloggad",

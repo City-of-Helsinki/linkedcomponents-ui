@@ -32,6 +32,7 @@ const VideoSection = () => {
                 key={index}
                 canDelete={videos.length > 1}
                 onDelete={() => arrayHelpers.remove(index)}
+                showInstructions={!index}
                 type={type}
                 videoPath={getVideoPath(index)}
               />
