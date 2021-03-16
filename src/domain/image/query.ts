@@ -8,6 +8,7 @@ export const QUERY_IMAGE = gql`
     license
     name
     photographerName
+    publisher
     url
   }
 

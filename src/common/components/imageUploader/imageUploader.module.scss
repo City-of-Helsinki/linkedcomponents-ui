@@ -1,7 +1,10 @@
 .imageUploader {
   --image-loader-background-color: var(--color-white);
+  --image-loader-background-color-disabled: var(--color-white);
   --image-loader-border-color: var(--color-coat-of-arms);
+  --image-loader-border-color-disabled: var(--color-black-40);
   --image-loader-color: var(--color-coat-of-arms);
+  --image-loader-color-disabled: var(--color-black-40);
   --image-loader-color-hover: var(--color-coat-of-arms);
   --image-loader-min-height: 104px;
 }
@@ -28,5 +31,12 @@
 
   svg {
     margin-right: var(--spacing-xs);
+  }
+
+  &:disabled {
+    cursor: no-drop;
+    background-color: var(--image-loader-background-color-disabled);
+    border-color: var(--image-loader-border-color-disabled);
+    color: var(--image-loader-color-disabled);
   }
 }

@@ -60,6 +60,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.IN_LANGUAGE]: string[];
   [EVENT_FIELDS.INFO_URL]: MultiLanguageObject;
   [EVENT_FIELDS.INSTAGRAM_URL]: string;
+  [EVENT_FIELDS.IS_IMAGE_EDITABLE]: boolean;
   [EVENT_FIELDS.IS_VERIFIED]: boolean;
   [EVENT_FIELDS.IS_UMBRELLA]: boolean;
   [EVENT_FIELDS.KEYWORDS]: string[];

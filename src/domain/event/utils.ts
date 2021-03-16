@@ -341,9 +341,15 @@ export const eventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
   [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
-    [EVENT_FIELDS.IMAGES],
-    (images: string[], schema: Yup.ObjectSchema<any>) => {
-      return images && images.length ? imageDetailsValidation : schema;
+    [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
+    (
+      images: string[],
+      isImageEditable: boolean,
+      schema: Yup.ObjectSchema<any>
+    ) => {
+      return isImageEditable && images && images.length
+        ? imageDetailsValidation
+        : schema;
     }
   ),
   [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoValidation),
@@ -411,9 +417,15 @@ export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(),
   [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(),
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
-    [EVENT_FIELDS.IMAGES],
-    (images: string[], schema: Yup.ObjectSchema<any>) => {
-      return images && images.length ? imageDetailsValidation : schema;
+    [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
+    (
+      images: string[],
+      isImageEditable: boolean,
+      schema: Yup.ObjectSchema<any>
+    ) => {
+      return isImageEditable && images && images.length
+        ? imageDetailsValidation
+        : schema;
     }
   ),
   [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoValidation),

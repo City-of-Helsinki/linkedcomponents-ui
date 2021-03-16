@@ -8,14 +8,23 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { PAGE_SIZE } from '../constants';
 import ImageSelector, { ImageSelectorProps } from '../ImageSelector';
+
+const publisher = 'publisher:1';
 
 const defaultProps: ImageSelectorProps = {
   onChange: jest.fn(),
+  publisher,
   value: [],
 };
 
-const images = fakeImages(5);
+const images = fakeImages(PAGE_SIZE);
+const imagesVariables = {
+  createPath: undefined,
+  pageSize: PAGE_SIZE,
+  publisher,
+};
 const imagesResponse = {
   data: {
     images: {
@@ -28,8 +37,21 @@ const imagesResponse = {
     },
   },
 };
+const mockedImagesReponse = {
+  request: {
+    query: ImagesDocument,
+    variables: imagesVariables,
+  },
+  result: imagesResponse,
+};
 
-const loadMoreImages = fakeImages(5);
+const loadMoreImages = fakeImages(PAGE_SIZE);
+const loadMoreImagesVariables = {
+  createPath: undefined,
+  page: 2,
+  pageSize: PAGE_SIZE,
+  publisher,
+};
 const loadMoreImagesResponse = {
   data: {
     images: {
@@ -42,23 +64,15 @@ const loadMoreImagesResponse = {
     },
   },
 };
+const mockedLoadMoreImagesResponse = {
+  request: {
+    query: ImagesDocument,
+    variables: loadMoreImagesVariables,
+  },
+  result: loadMoreImagesResponse,
+};
 
-const mocks = [
-  {
-    request: {
-      query: ImagesDocument,
-      variables: { createPath: undefined, pageSize: 5 },
-    },
-    result: imagesResponse,
-  },
-  {
-    request: {
-      query: ImagesDocument,
-      variables: { createPath: undefined, page: 2, pageSize: 5 },
-    },
-    result: loadMoreImagesResponse,
-  },
-];
+const mocks = [mockedImagesReponse, mockedLoadMoreImagesResponse];
 
 const renderComponent = (props?: Partial<ImageSelectorProps>) =>
   render(<ImageSelector {...defaultProps} {...props} />, { mocks });
