@@ -68,7 +68,7 @@ exports[`should render component 1`] = `
         <span
           class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
         >
-          Anna palautetta ja vaikuta
+          Anna palautetta
         </span>
         <div
           aria-hidden="true"
