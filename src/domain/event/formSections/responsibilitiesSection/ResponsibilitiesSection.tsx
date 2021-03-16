@@ -57,7 +57,6 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
 
   return (
     <>
-      <h3>{t('event.form.titlePersonsInCharge')}</h3>
       <FieldRow
         notification={
           <Notification
