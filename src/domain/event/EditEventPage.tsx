@@ -246,7 +246,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                       <EventInfo event={event} />
 
                       <Section title={t('event.form.sections.type')}>
-                        <TypeSection />
+                        <TypeSection savedEvent={event} />
                       </Section>
                       <Section title={t('event.form.sections.languages')}>
                         <LanguagesSection />

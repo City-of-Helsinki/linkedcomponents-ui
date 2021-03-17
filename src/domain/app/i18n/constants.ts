@@ -1,8 +1,6 @@
 export enum VALIDATION_MESSAGE_KEYS {
   ARRAY_MIN = 'form.validation.array.min',
   ARRAY_REQUIRED = 'form.validation.array.required',
-  DRAFT_CANNOT_BE_UMBRELLA = 'form.validation.draftCannotBeUmbrella',
-  DRAFT_CANNOT_HAVE_UMBRELLA = 'form.validation.draftCannotHaveUmbrella',
   DATE = 'form.validation.string.date',
   DATE_FUTURE = 'form.validation.date.future',
   DATE_AFTER = 'form.validation.date.after',
