@@ -138,7 +138,7 @@ test('should render classification section', async () => {
   ).toHaveLength(2);
 
   const infoTexts = [
-    translations.event.form.infoTextMainCategories,
+    translations.event.form.infoTextMainCategories[type],
     translations.event.form.infoTextKeywords[type],
   ];
 

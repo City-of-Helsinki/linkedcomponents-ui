@@ -52,7 +52,7 @@ const TimeSection: React.FC<TimeSectionProps> = ({ savedEvent }) => {
         isOpen={isModalOpen}
         onClose={closeModal}
         shouldCloseOnEsc={false}
-        title={t(`event.form.modalTitleRecurringEvent`)}
+        title={t(`event.form.modalTitleRecurringEvent.${type}`)}
       >
         <RecurringEventsForm onSubmit={addRecurringEventSettings} type={type} />
       </Modal>
@@ -69,11 +69,11 @@ const TimeSection: React.FC<TimeSectionProps> = ({ savedEvent }) => {
             <p>{t(`event.form.infoTextEventTimes2.${type}`)}</p>
             <p>{t(`event.form.infoTextEventTimes3.${type}`)}</p>
             <p>{t(`event.form.infoTextEventTimes4.${type}`)}</p>
-            <p>{t(`event.form.infoTextEventTimes5.${type}`)}</p>
+            <p>{t(`event.form.infoTextEventTimes5`)}</p>
           </Notification>
         }
       >
-        <EventTime eventTimePath="" savedEvent={savedEvent} type={type} />
+        <EventTime eventTimePath="" savedEvent={savedEvent} />
         <FormGroup>
           <EventTimes savedEvent={savedEvent} />
         </FormGroup>
@@ -88,7 +88,7 @@ const TimeSection: React.FC<TimeSectionProps> = ({ savedEvent }) => {
             type="button"
             variant="supplementary"
           >
-            {t(`event.form.buttonOpenRecurringEventSettings`)}
+            {t(`event.form.buttonOpenRecurringEventSettings.${type}`)}
           </Button>
         </FieldWithButton>
       </FieldRow>

@@ -25,7 +25,7 @@ const AdditionalInfoSection = () => {
             label={t(`event.form.titleAudienceAge`)}
             type="info"
           >
-            <p>{t(`event.form.infoTextAudienceAge`)}</p>
+            <p>{t(`event.form.infoTextAudienceAge.${type}`)}</p>
           </Notification>
         }
       >
@@ -63,7 +63,7 @@ const AdditionalInfoSection = () => {
             label={t(`event.form.titleEnrolmentTime`)}
             type="info"
           >
-            <p>{t(`event.form.infoTextEnrolmentTime`)}</p>
+            <p>{t(`event.form.infoTextEnrolmentTime.${type}`)}</p>
           </Notification>
         }
       >
@@ -99,7 +99,7 @@ const AdditionalInfoSection = () => {
             label={t(`event.form.titleAttendeeCapacity`)}
             type="info"
           >
-            <p>{t(`event.form.infoTextAttendeeCapacity`)}</p>
+            <p>{t(`event.form.infoTextAttendeeCapacity.${type}`)}</p>
           </Notification>
         }
       >

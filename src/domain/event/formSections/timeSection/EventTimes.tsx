@@ -21,9 +21,6 @@ interface EventTimesProps {
 const EventTimes: React.FC<EventTimesProps> = ({ savedEvent }) => {
   const { t } = useTranslation();
 
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
   const [{ value: eventTimes }] = useField({
     name: EVENT_FIELDS.EVENT_TIMES,
   });
@@ -40,7 +37,6 @@ const EventTimes: React.FC<EventTimesProps> = ({ savedEvent }) => {
                 eventTimePath={getEventTimePath(index)}
                 onDelete={() => arrayHelpers.remove(index)}
                 savedEvent={savedEvent}
-                type={type}
               />
             );
           })}

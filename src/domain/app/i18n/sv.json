@@ -137,7 +137,10 @@
         "event": "Lägg till en bild av evenemanget"
       },
       "buttonAddOffer": "Lägg till ny prisinformation",
-      "buttonAddRecurringEvent": "Lägg till återkommande evenemang",
+      "buttonAddRecurringEvent": {
+        "course": "Lägg till återkommande kurs",
+        "event": "Lägg till återkommande evenemang"
+      },
       "buttonAddVideo": "Lägg till video",
       "buttonBack": "Tillbaka",
       "buttonCancel": "Avbryt evenemanget",
@@ -148,7 +151,10 @@
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
       "buttonDeleteVideo": "Radera video",
       "buttonEdit":  "Redigera evenemang",
-      "buttonOpenRecurringEventSettings": "Öppna inställningarna för återkommande evenemang",
+      "buttonOpenRecurringEventSettings": {
+        "course": "Öppna inställningarna för återkommande kurs",
+        "event": "Öppna inställningarna för återkommande evenemang"
+      },
       "buttonPanel": {
         "warningNoRightsCreate": "Du har inte tillräckliga rättigheter för att skapa detta evenemang.",
         "warningNoRightsToPublish": "Du har inte tillräckliga rättigheter att publicera detta evenemang.",
@@ -206,21 +212,37 @@
         "titleLicense": "Licens",
         "titleUseImportedImage": "Använd en tidigare importerad bild"
       },
-      "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextAttendeeCapacity": {
+        "course": "Om antalet deltagare i kursen är begränsat, ange lägsta och högsta antal deltagare här.",
+        "event": "Om antalet deltagare i evenemanget är begränsat, ange lägsta och högsta antal deltagare här."
+      },
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik publik, välj inget.",
         "event": "Om evenemanget inte har en specifik publik, välj inget."
       },
-      "infoTextAudienceAge": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
-      "infoTextDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
-      "infoTextEnrolmentTime": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextAudienceAge": {
+        "course": "Om bara personer i en viss ålder får delta i kursen, ställ in åldersgränserna här.",
+        "event": "Om bara personer i en viss ålder får delta i evenemanget, ställ in åldersgränserna här."
+      },
+      "infoTextDescription1": {
+        "course": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om kursen kortfattat.",
+        "event": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om evenemanget kortfattat."
+      },
+      "infoTextDescription2": {
+        "course": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i kursen.",
+        "event": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i evenemanget."
+      },
+      "infoTextEnrolmentTime": {
+        "course": "Om det är möjligt att registrera sig för kursen, ange start- och sluttiderna för registreringen här.",
+        "event": "Om det är möjligt att registrera sig för evenemanget, ange start- och sluttiderna för registreringen här."
+      },
       "infoTextEventTimes1": {
-        "course": "För att lägga till en flerdagars återkommande kurs finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande kurs” -verktyg.",
-        "event": "För att lägga till en flerdagars återkommande evenemang finns en “Lägg till ny tid” -knapp och en regelbundet återkommande kurs med sitt eget ”Återkommande evenemang” -verktyg."
+        "course": "För att lägga till en flerdagars återkommande kurs finns det knappen Lägg till ny tid och ett vanligt återkommande kursverktyg för en regelbundet återkommande kurs.",
+        "event": "För att lägga till ett flerdagars återkommande evenemang finns det knappen Lägg till ny tid och ett vanligt återkommande evenemangverktyg för ett regelbundet återkommande evenemang."
       },
       "infoTextEventTimes2": {
-        "course": "Ange starttid för kursen och även starttiden om kursen börjar vid en viss tidpunkt.",
-        "event": "Ange starttid för evenemanget och även starttiden om evenemanget börjar vid en viss tidpunkt."
+        "course": "Ange startdatumet för kursen och även starttiden om kursen börjar vid en viss tidpunkt.",
+        "event": "Ange startdatumet för evenemanget och även starttiden om evenemanget börjar vid en viss tidpunkt."
       },
       "infoTextEventTimes3": {
         "course": "Ange också sluttid samt sluttid om kursen slutar vid en viss tidpunkt.",
@@ -230,23 +252,20 @@
         "course": "Om kursen hålls mer än en gång kan du lägga till nya tid i kursen. Om kursen upprepas regelbundet kan du lägga till alla gånger samtidigt genom att välja Återkommande kurs.",
         "event": "Om evenemanget hålls mer än en gång kan du lägga till nya tid i evenemanget. Om evenemanget upprepas regelbundet kan du lägga till alla gånger samtidigt genom att välja Återkommande evenemang."
       },
-      "infoTextEventTimes5": {
-        "course": "För att ta bort en extra tid, välj papperskorgen ikonen bredvid tiden.",
-        "event": "För att ta bort en extra tid, välj papperskorgen ikonen bredvid tiden."
-      },
+      "infoTextEventTimes5": "För att radera en extra tid, välj minussymbolen bredvid tiden.",
       "infoTextImage1": {
-        "course": "Frivillig. Försök alltid hitta en bild för kursen. Bilden kan markeras CC 4.0 BY (se förklaring) eller \"använd endast i samband med kursen\". Några fritt användbara illustrationer finns på hel.fi/tapahtumakuvat.",
-        "event": "Frivillig. Försök alltid hitta en bild för evenemanget. Bilden kan markeras CC 4.0 BY (se förklaring) eller \"använd endast i samband med evenemanget \". Några fritt användbara illustrationer finns på hel.fi/tapahtumakuvat."
+        "course": "Försök alltid hitta en bild för kursen. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras ganska fritt, eller \"Använd begränsad till kursen \". Några fritt användbara illustrationer finns på <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"evenemangsbilder-sidan {{openInNewTab}}\">evenemangsbilder-sidan.</a>",
+        "event": "Försök alltid hitta en bild för evenemanget. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras ganska fritt, eller \"Använd begränsad till evenemanget \". Några fritt användbara illustrationer finns på <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"evenemangsbilder-sidan {{openInNewTab}}\">evenemangsbilder-sidan.</a>"
       },
       "infoTextImage2": "Innan du matar redigerar du bilden så att den passar nätverket och till ett horisontellt bildförhållande 3: 2, till exempel 1200 × 800 pixlar. Det är viktigt att filstorleken förblir rimlig även för mobil användning, helst mindre än 200 kilobyte (kb).",
       "infoTextImage3": "Ge bilden ett namn och beskriv kort vad som händer i den.",
       "infoTextInfoLanguages": {
-        "course": "Välj de språk som används för att mata in kursinformation.",
-        "event": "Välj de språk som används för att mata in evenemanginformation."
+        "course": "Välj de språk som du vill visa kursinformation för den här tjänsten på.",
+        "event": "Välj de språk som du vill visa evenemanginformation för den här tjänsten på."
       },
       "infoTextInLanguages": {
-        "course": "Välj de språk som används i kursen.",
-        "event": "Välj de språk som används i evenemanget."
+        "course": "Välj de språk som ska användas för kommunikation under kursen.",
+        "event": "Välj de språk som ska användas för kommunikation under evenemanget."
       },
       "infoTextKeywords": {
         "course": "Bifoga minst ett nyckelord till kursen som beskriver temat för kursen. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till i listan nedan.",
@@ -254,12 +273,15 @@
       },
       "infoTextLocation1": "Ange platsens namn eller gatuadress i fältet och välj rätt plats i listan.",
       "infoTextLocation2": {
-        "course": "Om kursen bara hålls på distans på Internet, välj Internet som plats. Händelsens URL anges i hemsidans fält och / eller händelsen i sociala mediefält.",
-        "event": "Om evenemanget bara hålls på distans på Internet, välj Internet som plats. Händelsens URL anges i hemsidans fält och / eller händelsen i sociala mediefält."
+        "course": "Om kursen bara hålls på distans på Internet, välj Internet som plats. Kursens URL anges i hemsidans fält och / eller kursen i sociala mediefält.",
+        "event": "Om evenemanget bara hålls på distans på Internet, välj Internet som plats. Evenemangets URL anges i hemsidans fält och / eller evenemanget i sociala mediefält."
       },
       "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel golvnummer eller klassrumsnamn.",
       "infoTextLocation4": "Om den exakta platsen inte finns i listan väljer du närmaste gatuadress som plats och anger namnet på arenan eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
-      "infoTextMainCategories": "Välj minst en huvudkategori",
+      "infoTextMainCategories": {
+        "course": "Välj minst en huvudkategori. Att använda rätt huvudkategorier gör det lättare att hitta kursen.",
+        "event": "Välj minst en huvudkategori. Att använda rätt huvudkategorier gör det lättare att hitta evenemanget."
+      },
       "infoTextOffers1": {
         "course": "Ange om kursen är gratis. Ange priset för den avgiftsbelagda kursen i formuläret “5€”.",
         "event": "Ange om evenemanget är gratis. Ange priset för det avgiftsbelagda evenemanget i formuläret “5€”."
@@ -268,22 +290,28 @@
         "course": "Om kursen har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation.",
         "event": "Om evenemanget har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation."
       },
-      "infoTextProvider": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "infoTextPublisher": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "infoTextSocialMedia": {
-        "course": "Frivillig. I URL-fältet anger du SoMe-länkarna för kursen.",
-        "event": "Frivillig. I URL-fältet anger du SoMe-länkarna för evenemanget."
+      "infoTextProvider": {
+        "course": "Ange namnet på organisationen som är värd för kursen om arrangören inte är densamma som utgivaren.",
+        "event": "Ange namnet på organisationen som är värd för evenemanget om arrangören inte är densamma som utgivaren."
       },
-      "infoTextType1": "Välj typ av evenemang. Är det ett evenemang eller en kurs? Evenmang är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen som regel kan ha flera förekomst.",
-      "infoTextType2": "Valet av evenemangtyp påverkar de val som görs senare i inmatningsformuläret.",
-      "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextPublisher": {
+        "course": "Välj den organisation som ska visas som kursförläggare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
+        "event": "Välj den organisation som ska visas som evenemangsutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation."
+      },
+      "infoTextSocialMedia": {
+        "course": "Kopiera kursens sociala medier länkar (URL: er) här.",
+        "event": "Kopiera evenemangets sociala medier länkar (URL: er) här."
+      },
+      "infoTextType1": "Är det ett evenemang eller en kurs? Evenemanget är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen i allmänhet kan ha flera evenemang och aktiviteterna är målinriktade. I vissa fall kallas kursen också en hobby.",
+      "infoTextType2": "Valet av evenemangtyp påverkar hur och i vilka tjänster evenemanget visas för användaren.",
+      "infoTextUmrellaEvent": "Flera olika evenemang kan grupperas under paraplyevenemanget. Till exempel kan en festival vara ett paraplyevenemang med flera evenemang under.",
       "infoTextUmbrellaSubEvent": "Om du vill lägga till detta evenemang under ett paraplyevenemang kan du göra det från tillhörande",
       "infoTextUmbrellaSubEventLink": "toppnivåevenemanget",
-      "infoTextTitleVideo1": {
+      "infoTextVideo1": {
         "course": "Om kursen involverar en video kan du lägga till dess adress här.",
         "event": "Om evenemanget involverar en video kan du lägga till dess adress här."
       },
-      "infoTextTitleVideo2": "Ge videon ett namn och en kort beskrivning av vad som händer i den.",
+      "infoTextVideo2": "Ge videon ett namn och en kort beskrivning av vad som händer i den.",
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
       "labelDescription": {
@@ -359,7 +387,10 @@
       "labelVideoName": "Namnet på videon",
       "labelVideoUrl": "Webbadressen till videon",
       "modalTitleImage": "Lägg till en bild",
-      "modalTitleRecurringEvent": "Ange återkommande evenemang",
+      "modalTitleRecurringEvent": {
+        "course": "Ange återkommande kurs",
+        "event": "Ange återkommande evenemang"
+      },
       "notificationTitleDescription": {
         "course": "Kursbeskrivning",
         "event": "Evenemangbeskrivning"
@@ -636,8 +667,6 @@
         "min": "Detta datum måste vara minst {{min}}",
         "required": "Detta fält krävs"
       },
-      "draftCannotBeUmbrella": "Utkast kan inte vara paraplyevenemang",
-      "draftCannotHaveUmbrella": "Utkast kan inte ha paraplyevenemang",
       "eventInfoVerified": "Informationen måste verifieras",
       "number": {
         "integer": "Värdet måste vara ett heltal",

@@ -38,7 +38,7 @@ const ClassificationSection = () => {
             label={t(`event.form.notificationTitleMainCategories.${type}`)}
             type="info"
           >
-            <p>{t(`event.form.infoTextMainCategories`)}</p>
+            <p>{t(`event.form.infoTextMainCategories.${type}`)}</p>
           </Notification>
         }
       >
