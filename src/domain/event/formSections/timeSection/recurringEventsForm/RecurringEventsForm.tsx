@@ -122,7 +122,7 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
                 <div></div>
                 <div>
                   <Button fullWidth={true} type="submit">
-                    {t('event.form.buttonAddRecurringEvent')}
+                    {t(`event.form.buttonAddRecurringEvent.${type}`)}
                   </Button>
                 </div>
               </div>

@@ -64,7 +64,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             label={t('event.form.notificationTitlePublisher')}
             type="info"
           >
-            <p>{t('event.form.infoTextPublisher')}</p>
+            <p>{t(`event.form.infoTextPublisher.${type}`)}</p>
           </Notification>
         }
       >
@@ -86,7 +86,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             label={t('event.form.notificationTitleProvider')}
             type="info"
           >
-            <p>{t('event.form.infoTextProvider')}</p>
+            <p>{t(`event.form.infoTextProvider.${type}`)}</p>
           </Notification>
         }
       >

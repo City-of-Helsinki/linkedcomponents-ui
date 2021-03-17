@@ -162,7 +162,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
               name={EVENT_FIELDS.IS_UMBRELLA}
               component={CheckboxField}
               title={
-                disabledIsUmbrella && t('event.form.tooltipEventIsUmbrella')
+                disabledIsUmbrella ? t('event.form.tooltipEventIsUmbrella') : ''
               }
             />
           </FormGroup>

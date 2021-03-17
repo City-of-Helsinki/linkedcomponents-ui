@@ -65,7 +65,7 @@ test('should render TimeSection', () => {
     translations.event.form.infoTextEventTimes2[type],
     translations.event.form.infoTextEventTimes3[type],
     translations.event.form.infoTextEventTimes4[type],
-    translations.event.form.infoTextEventTimes5[type],
+    translations.event.form.infoTextEventTimes5,
   ];
 
   texts.forEach((text) => {
@@ -83,7 +83,7 @@ test('should render TimeSection', () => {
 
   const buttons = [
     translations.event.form.buttonAddEventTime,
-    translations.event.form.buttonOpenRecurringEventSettings,
+    translations.event.form.buttonOpenRecurringEventSettings[type],
   ];
 
   buttons.forEach((name) => {
@@ -126,7 +126,7 @@ test('add button should be disabled when editing existing event', async () => {
     name: translations.event.form.buttonAddEventTime,
   });
   const addRecurringEventButton = screen.getByRole('button', {
-    name: translations.event.form.buttonOpenRecurringEventSettings,
+    name: translations.event.form.buttonOpenRecurringEventSettings[type],
   });
   expect((addButton as HTMLButtonElement).disabled).toBe(true);
   expect((addRecurringEventButton as HTMLButtonElement).disabled).toBe(true);
@@ -172,7 +172,7 @@ test('should add and delete event time', async () => {
 test('should open recurring event settings modal and close it with close button', async () => {
   renderTimeSection();
 
-  const modalTitleText = translations.event.form.modalTitleRecurringEvent;
+  const modalTitleText = translations.event.form.modalTitleRecurringEvent[type];
 
   expect(
     screen.queryByRole('heading', { name: modalTitleText })
@@ -180,7 +180,7 @@ test('should open recurring event settings modal and close it with close button'
 
   userEvent.click(
     screen.queryByRole('button', {
-      name: translations.event.form.buttonOpenRecurringEventSettings,
+      name: translations.event.form.buttonOpenRecurringEventSettings[type],
     })
   );
 
@@ -272,11 +272,11 @@ test('should add new recurring event', async () => {
 
   userEvent.click(
     screen.getByRole('button', {
-      name: translations.event.form.buttonOpenRecurringEventSettings,
+      name: translations.event.form.buttonOpenRecurringEventSettings[type],
     })
   );
 
-  const modalTitleText = translations.event.form.modalTitleRecurringEvent;
+  const modalTitleText = translations.event.form.modalTitleRecurringEvent[type];
   await screen.findByRole('heading', { name: modalTitleText });
 
   userEvent.click(screen.getByRole('checkbox', { name: /ma/i }));
@@ -312,7 +312,7 @@ test('should add new recurring event', async () => {
 
   userEvent.click(
     screen.getByRole('button', {
-      name: translations.event.form.buttonAddRecurringEvent,
+      name: translations.event.form.buttonAddRecurringEvent[type],
     })
   );
 

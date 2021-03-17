@@ -387,14 +387,6 @@ export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.PUBLISHER]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
-  [EVENT_FIELDS.HAS_UMBRELLA]: Yup.bool().oneOf(
-    [false],
-    VALIDATION_MESSAGE_KEYS.DRAFT_CANNOT_HAVE_UMBRELLA
-  ),
-  [EVENT_FIELDS.IS_UMBRELLA]: Yup.bool().oneOf(
-    [false],
-    VALIDATION_MESSAGE_KEYS.DRAFT_CANNOT_BE_UMBRELLA
-  ),
   [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
   ),

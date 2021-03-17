@@ -131,7 +131,13 @@ const ImageSection = () => {
             label={t(`event.form.notificationTitleImage.${type}`)}
             type="info"
           >
-            <p>{t(`event.form.infoTextImage1.${type}`)}</p>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: t(`event.form.infoTextImage1.${type}`, {
+                  openInNewTab: t('common.openInNewTab'),
+                }),
+              }}
+            />
             <p>{t(`event.form.infoTextImage2`)}</p>
             <p>{t(`event.form.infoTextImage3`)}</p>
           </Notification>
