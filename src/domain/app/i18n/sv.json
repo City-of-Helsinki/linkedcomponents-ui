@@ -758,9 +758,8 @@
     "searchEvents": "Sök evenemangen",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
-      "createEvent": "Nytt evenemang",
       "events": "Evenemangen",
-      "help": "Läs mer"
+      "help": "Instruktioner"
     }
   },
   "notFound": {

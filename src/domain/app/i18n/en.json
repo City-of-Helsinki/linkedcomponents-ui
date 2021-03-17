@@ -758,9 +758,8 @@
     "searchEvents": "Search events",
     "skipToContentLabel": "Skip to content",
     "tabs": {
-      "createEvent": "New event",
       "events": "Events",
-      "help": "More information"
+      "help": "Instructions"
     }
   },
   "notFound": {

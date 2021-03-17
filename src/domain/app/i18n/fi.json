@@ -732,7 +732,7 @@
     "copyrightText": "Kaikki oikeudet pidätetään."
   },
   "helpPage": {
-    "pageTitle": "Lisätietoja"
+    "pageTitle": "Ohjeet"
   },
   "image": {
     "warningLogInToUpdate": "Kirjaudu sisään muokataksesi kuvaa.",
@@ -759,9 +759,8 @@
     "searchEvents": "Etsi tapahtumia",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
-      "createEvent": "Uusi tapahtuma",
       "events": "Tapahtumat",
-      "help": "Lisätietoja"
+      "help": "Ohjeet"
     }
   },
   "notFound": {
