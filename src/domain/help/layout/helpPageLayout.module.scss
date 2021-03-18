@@ -21,7 +21,7 @@
         
         @include medium-up {
             margin-top: 0;
-            
+
             & > div {
                 position: sticky;
                 overflow: auto;
@@ -35,6 +35,9 @@
     }
 
     .content {
+        padding-bottom: var(--spacing-2-xl);
+        line-height: var(--lineheight-l);
+
         @include medium-only {
             grid-column: 3 / 9;
         };

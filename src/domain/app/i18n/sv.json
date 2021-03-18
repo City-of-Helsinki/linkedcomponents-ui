@@ -731,7 +731,8 @@
     "copyrightText": "Alla rättigheter förbehållna."
   },
   "helpPage": {
-    "pageTitle": "Läs mer",
+    "pageTitle": "Hjälp",
+    "pageTitleFeatures": "Servicefunktioner",
     "sideNavigation": {
       "labelApi": "API",
       "labelContact": "Ta kontakt",
@@ -776,7 +777,7 @@
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
       "events": "Evenemangen",
-      "help": "Instruktioner"
+      "help": "Hjälp"
     }
   },
   "notFound": {

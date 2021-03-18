@@ -731,7 +731,8 @@
     }
   },
   "helpPage": {
-    "pageTitle": "More information",
+    "pageTitle": "Help",
+    "pageTitleFeatures": "Service features",
     "sideNavigation": {
       "labelApi": "API",
       "labelContact": "Contact us",
@@ -776,7 +777,7 @@
     "skipToContentLabel": "Skip to content",
     "tabs": {
       "events": "Events",
-      "help": "Instructions"
+      "help": "Help"
     }
   },
   "notFound": {

@@ -733,6 +733,7 @@
   },
   "helpPage": {
     "pageTitle": "Ohjeet",
+    "pageTitleFeatures": "Palvelun ominaisuudet",
     "sideNavigation": {
       "labelApi": "Rajapinta",
       "labelContact": "Ota yhteyttä",

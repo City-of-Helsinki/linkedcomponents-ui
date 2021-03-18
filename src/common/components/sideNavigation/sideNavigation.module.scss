@@ -87,7 +87,7 @@
         }
 
         & > a {
-            font-weight: 500;
+            font-weight: 600;
 
             &:focus {
                 background-color: var(--side-navigation-level-background-color-focus-active);
@@ -98,12 +98,14 @@
 }
 
 .mainLevel {
+    font-size: var(--fontsize-body-l);
+
     & > a {
-        font-weight: 500;
+        font-weight: 600;
         grid-template-columns: var(--side-navigation-icon-size) 1fr;
     }
     & > button {
-        font-weight: 500;
+        font-weight: 600;
         grid-template-columns: var(--side-navigation-icon-size) 1fr var(--side-navigation-icon-size);
     }
     
@@ -122,4 +124,8 @@
             transform: rotate(180deg);
         }
     }
+}
+
+.subLevel {
+    font-size: var(--fontsize-body-m);
 }
