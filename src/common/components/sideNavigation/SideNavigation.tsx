@@ -1,8 +1,10 @@
 import classNames from 'classnames';
+import { css } from 'emotion';
 import { IconAngleDown, IconAngleUp } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import React, { useContext } from 'react';
 
+import { useTheme } from '../../../domain/app/theme/Theme';
 import useBreakpoint from '../../../hooks/useBreakpoint';
 import useDropdownCloseEvents from '../../../hooks/useDropdownCloseEvents';
 import { FCWithName } from '../../../types';
@@ -41,6 +43,8 @@ const SideNavigation = ({
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
 
+  const { theme } = useTheme();
+
   const mainLevels = React.Children.map(children, (child, index) => {
     if (
       React.isValidElement(child) &&
@@ -58,7 +62,11 @@ const SideNavigation = ({
 
   return (
     <nav
-      className={classNames(styles.sideNavigation, className)}
+      className={classNames(
+        styles.sideNavigation,
+        css(theme.sideNavigation),
+        className
+      )}
       id={id}
       ref={container}
       style={style}

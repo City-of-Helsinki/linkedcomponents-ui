@@ -410,6 +410,23 @@ const theme: Theme = {
     '--multiselect-checkbox-color-selected-disabled': 'var(--color-white)',
     '--placeholder-color': 'var(--color-black-60)',
   },
+  sideNavigation: {
+    '--side-navigation-background-color': 'var(--color-white)',
+    '--side-navigation-active-indicator-background-color': 'var(--color-bus)',
+    '--side-navigation-icon-size': 'var(--spacing-m)',
+    '--side-navigation-level-border-color': 'var(--color-white)',
+    '--side-navigation-level-border-color-focus': 'var(--color-coat-of-arms)',
+    '--side-navigation-level-border-color-hover': 'var(--color-black-5)',
+    '--side-navigation-level-border-width': '2px',
+    '--side-navigation-level-background-color': 'var(--color-white)',
+    '--side-navigation-level-background-color-focus-active':
+      'var(--color-black-5)',
+    '--side-navigation-level-background-color-hover': 'var(--color-black-5)',
+    '--side-navigation-level-color': 'var(--color-black)',
+    '--side-navigation-mobile-menu-border-color': 'var(--color-black)',
+    '--side-navigation-mobile-menu-border-width': '2px',
+    '--side-navigation-mobile-menu-z-index': 100,
+  },
   statusTag: {
     '--status-tag-background-color-cancelled': 'var(--color-error)',
     '--status-tag-color-cancelled': 'var(--color-white)',
