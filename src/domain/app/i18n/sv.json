@@ -746,7 +746,8 @@
       "labelSourceCode": "Källkod",
       "labelSupport": "Stöd",
       "labelTechnology": "Teknologi",
-      "labelTermsOfUse": "Användarvillkor"
+      "labelTermsOfUse": "Användarvillkor",
+      "toggleButtonLabel": "Navigera till hjälpsidan"
     }
   },
   "image": {

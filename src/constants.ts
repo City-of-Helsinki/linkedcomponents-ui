@@ -2,6 +2,14 @@ import { defaultReducerState as defaultAuthReducerState } from './domain/auth/co
 import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
 import { StoreState } from './types';
 
+export const BREAKPOINTS = {
+  XS: 576,
+  SM: 768,
+  MD: 1024,
+  LG: 1200,
+  XLG: 1600,
+};
+
 export enum ROUTES {
   CALLBACK = '/callback',
   CREATE_EVENT = '/events/create',

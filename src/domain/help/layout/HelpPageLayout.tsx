@@ -140,7 +140,9 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
               top: sideNavigationTop,
             }}
           >
-            <SideNavigation>
+            <SideNavigation
+              toggleButtonLabel={t('helpPage.sideNavigation.toggleButtonLabel')}
+            >
               {levels.map(
                 ({ icon, label, subLevels, to, type }, mainLevelIndex) => {
                   return (

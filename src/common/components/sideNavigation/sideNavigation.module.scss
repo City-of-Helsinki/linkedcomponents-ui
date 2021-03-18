@@ -10,14 +10,35 @@
     --side-navigation-level-background-color-focus-active: var(--color-black-5);
     --side-navigation-level-background-color-hover: var(--color-black-5);
     --side-navigation-level-color: var(--color-black);
+    --side-navigation-mobile-menu-border-color: var(--color-black);
+    --side-navigation-mobile-menu-border-width: 2px;
+    --side-navigation-mobile-menu-z-index: 100;
 
     background-color: var(--side-navigation-background-color);
+    position: relative;
 }
 
 .mainLevelList {
     margin: 0;
     padding: var(--spacing-m) 0;
     list-style: none;
+}
+
+.mainLevelListMobile {
+    display: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &.open {
+        border: var(--side-navigation-mobile-menu-border-width) solid var(--side-navigation-mobile-menu-border-color);
+        display: block;
+        position: absolute;
+        background-color: var(--side-navigation-background-color);
+        z-index: var(--side-navigation-mobile-menu-z-index);
+        left: 0;
+        right: 0;
+    }
 }
 
 .mainLevel,
@@ -27,7 +48,7 @@
         display: grid;
         margin: 0;
         width: 100%;
-        padding: var(--spacing-2-xs) var(--spacing-m);
+        padding: var(--spacing-2-xs) var(--spacing-s);
         min-height: var(--spacing-2-xl);
         grid-gap: var(--spacing-xs);
         align-items: center;
@@ -66,6 +87,8 @@
         }
 
         & > a {
+            font-weight: 500;
+
             &:focus {
                 background-color: var(--side-navigation-level-background-color-focus-active);
             }
@@ -76,9 +99,11 @@
 
 .mainLevel {
     & > a {
+        font-weight: 500;
         grid-template-columns: var(--side-navigation-icon-size) 1fr;
     }
     & > button {
+        font-weight: 500;
         grid-template-columns: var(--side-navigation-icon-size) 1fr var(--side-navigation-icon-size);
     }
     

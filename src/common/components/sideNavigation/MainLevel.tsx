@@ -35,7 +35,7 @@ const MainLevel = ({
   const id = _id ?? uniqueId('side-navigation-');
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
-  const { openMainLevels, setOpenMainLevels } = useContext(
+  const { openMainLevels, setIsMobileMenuOpen, setOpenMainLevels } = useContext(
     SideNavigationContext
   );
 
@@ -79,7 +79,13 @@ const MainLevel = ({
       style={style}
     >
       {type === 'link' && (
-        <Link aria-current={active ? 'page' : 'false'} to={to}>
+        <Link
+          aria-current={active ? 'page' : 'false'}
+          onClick={() => {
+            setIsMobileMenuOpen(false);
+          }}
+          to={to}
+        >
           <span className={styles.iconWrapper} aria-hidden={true}>
             {icon}
           </span>

@@ -26,7 +26,7 @@ const SubLevel = ({
   to,
 }: SubLevelProps) => {
   const id = _id ?? uniqueId('side-navigation-');
-  const { openMainLevels, setOpenMainLevels } = useContext(
+  const { openMainLevels, setIsMobileMenuOpen, setOpenMainLevels } = useContext(
     SideNavigationContext
   );
 
@@ -47,7 +47,13 @@ const SubLevel = ({
       id={id}
       style={style}
     >
-      <Link aria-current={active ? 'page' : 'false'} to={to}>
+      <Link
+        aria-current={active ? 'page' : 'false'}
+        onClick={() => {
+          setIsMobileMenuOpen(false);
+        }}
+        to={to}
+      >
         {label}
       </Link>
     </li>

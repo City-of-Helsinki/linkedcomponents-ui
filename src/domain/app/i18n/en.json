@@ -746,7 +746,8 @@
       "labelSourceCode": "Source code",
       "labelSupport": "Support",
       "labelTechnology": "Technology",
-      "labelTermsOfUse": "Terms of use"
+      "labelTermsOfUse": "Terms of use",
+      "toggleButtonLabel": "Navigate to help page"
     }
   },
   "image": {

@@ -747,7 +747,8 @@
       "labelSourceCode": "Lähdekoodi",
       "labelSupport": "Tuki",
       "labelTechnology": "Teknologia",
-      "labelTermsOfUse": "Käyttöehdot"
+      "labelTermsOfUse": "Käyttöehdot",
+      "toggleButtonLabel": "Siirry ohjesivulle"
     }
   },
   "image": {
