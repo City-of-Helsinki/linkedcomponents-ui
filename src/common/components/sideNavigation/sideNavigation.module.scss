@@ -1,0 +1,100 @@
+.sideNavigation {
+    --side-navigation-background-color: var(--color-white);
+    --side-navigation-active-indicator-background-color: var(--color-bus);
+    --side-navigation-icon-size: var(--spacing-m);
+    --side-navigation-level-border-color: var(--color-white);
+    --side-navigation-level-border-color-focus: var(--color-coat-of-arms);
+    --side-navigation-level-border-color-hover: var(--color-black-5);
+    --side-navigation-level-border-width: 2px;
+    --side-navigation-level-background-color: var(--color-white);
+    --side-navigation-level-background-color-focus-active: var(--color-black-5);
+    --side-navigation-level-background-color-hover: var(--color-black-5);
+    --side-navigation-level-color: var(--color-black);
+
+    background-color: var(--side-navigation-background-color);
+}
+
+.mainLevelList {
+    margin: 0;
+    padding: var(--spacing-m) 0;
+    list-style: none;
+}
+
+.mainLevel,
+.subLevel {
+    & > a, & > button {
+        box-sizing: border-box;
+        display: grid;
+        margin: 0;
+        width: 100%;
+        padding: var(--spacing-2-xs) var(--spacing-m);
+        min-height: var(--spacing-2-xl);
+        grid-gap: var(--spacing-xs);
+        align-items: center;
+        text-align: left;
+        text-decoration: none;
+        border: var(--side-navigation-level-border-width) solid var(--side-navigation-level-border-color);
+        background-color: var(--side-navigation-level-background-color);
+        color: var(--side-navigation-level-color);
+        outline: none;
+
+        &:hover {
+            background-color: var(--side-navigation-level-background-color-hover);
+            border-color: var(--side-navigation-level-border-color-hover);
+        }
+
+        &:focus {
+            border-color: var(--side-navigation-level-border-color-focus);
+        }
+
+        span {
+            display: flex;
+        }
+    }
+
+    &.active {
+        position: relative;
+
+        &::before {
+            position: absolute;
+            display: block;
+            content: "";
+            width: var(--spacing-3-xs);
+            background: var(--side-navigation-active-indicator-background-color);
+            top: 0;
+            bottom: 0;
+        }
+
+        & > a {
+            &:focus {
+                background-color: var(--side-navigation-level-background-color-focus-active);
+            }
+        }
+        
+    }
+}
+
+.mainLevel {
+    & > a {
+        grid-template-columns: var(--side-navigation-icon-size) 1fr;
+    }
+    & > button {
+        grid-template-columns: var(--side-navigation-icon-size) 1fr var(--side-navigation-icon-size);
+    }
+    
+    .mainLevelListMenu {
+        display: none;
+    }
+
+    &.open {
+        .mainLevelListMenu {
+            padding: var(--spacing-3-xs) 0;
+            display: block;
+            list-style: none;
+        }
+        
+        .arrowIcon {
+            transform: rotate(180deg);
+        }
+    }
+}

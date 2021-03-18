@@ -732,7 +732,23 @@
     "copyrightText": "Kaikki oikeudet pidätetään."
   },
   "helpPage": {
-    "pageTitle": "Ohjeet"
+    "pageTitle": "Ohjeet",
+    "sideNavigation": {
+      "labelApi": "Rajapinta",
+      "labelContact": "Ota yhteyttä",
+      "labelControlPanel": "Hallintapaneeli",
+      "labelDocumentation": "Dokumentaatio",
+      "labelFaq": "UKK",
+      "labelFeatures": "Palvelun ominaisuudet",
+      "labelGeneral": "Yleistä",
+      "labelImageRights": "Kuvaoikeudet",
+      "labelInstructions": "Ohjeet",
+      "labelPlatform": "Alusta",
+      "labelSourceCode": "Lähdekoodi",
+      "labelSupport": "Tuki",
+      "labelTechnology": "Teknologia",
+      "labelTermsOfUse": "Käyttöehdot"
+    }
   },
   "image": {
     "warningLogInToUpdate": "Kirjaudu sisään muokataksesi kuvaa.",

@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-import { SUPPORTED_LANGUAGES } from '../../../constants';
+import { ROUTES, SUPPORTED_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
@@ -20,7 +20,9 @@ const PageLayout: React.FC = ({ children }) => {
 
   return (
     <>
-      <ResetFocus />
+      <ResetFocus
+        ignoredPaths={[{ pathname: ROUTES.HELP, props: { exact: false } }]}
+      />
       <ScrollToTop />
       <div
         className={classNames(

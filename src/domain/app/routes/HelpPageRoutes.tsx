@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import { Language } from '../../../types';
+import HelpPageLayout from '../../help/layout/HelpPageLayout';
 import ApiPage from '../../help/pages/ApiPage';
 import ContactPage from '../../help/pages/ContactPage';
 import ControlPanelPage from '../../help/pages/ControlPanelPage';
@@ -111,24 +112,26 @@ const HelpPageRoutes: React.FC<Props> = ({ locale }) => {
   const getLocalePath = (path: string) => `/${locale}${path}`;
 
   return (
-    <Switch>
-      <Redirect
-        exact
-        path={getLocalePath(ROUTES.HELP)}
-        to={getLocalePath(ROUTES.INSTRUCTIONS)}
-      />
-      <Route path={getLocalePath(ROUTES.INSTRUCTIONS)}>
-        <InstructionsRoutes locale={locale} />
-      </Route>
-      <Route path={getLocalePath(ROUTES.TECHNOLOGY)}>
-        <TechnologyRoutes locale={locale} />
-      </Route>
-      <Route path={getLocalePath(ROUTES.SUPPORT)}>
-        <SupportRoutes locale={locale} />
-      </Route>
-      <Route path={getLocalePath(ROUTES.FEATURES)} component={FeaturesPage} />
-      <Route component={NotFound} />
-    </Switch>
+    <HelpPageLayout>
+      <Switch>
+        <Redirect
+          exact
+          path={getLocalePath(ROUTES.HELP)}
+          to={getLocalePath(ROUTES.INSTRUCTIONS)}
+        />
+        <Route path={getLocalePath(ROUTES.INSTRUCTIONS)}>
+          <InstructionsRoutes locale={locale} />
+        </Route>
+        <Route path={getLocalePath(ROUTES.TECHNOLOGY)}>
+          <TechnologyRoutes locale={locale} />
+        </Route>
+        <Route path={getLocalePath(ROUTES.SUPPORT)}>
+          <SupportRoutes locale={locale} />
+        </Route>
+        <Route path={getLocalePath(ROUTES.FEATURES)} component={FeaturesPage} />
+        <Route component={NotFound} />
+      </Switch>
+    </HelpPageLayout>
   );
 };
 

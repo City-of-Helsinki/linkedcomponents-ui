@@ -731,7 +731,23 @@
     "copyrightText": "Alla rättigheter förbehållna."
   },
   "helpPage": {
-    "pageTitle": "Läs mer"
+    "pageTitle": "Läs mer",
+    "sideNavigation": {
+      "labelApi": "API",
+      "labelContact": "Ta kontakt",
+      "labelControlPanel": "Kontrollpanel",
+      "labelDocumentation": "Dokumentation",
+      "labelFaq": "FAQ",
+      "labelFeatures": "Servicefunktioner",
+      "labelGeneral": "Allmän",
+      "labelImageRights": "Bildrättigheter",
+      "labelInstructions": "Instruktioner",
+      "labelPlatform": "Plattform",
+      "labelSourceCode": "Källkod",
+      "labelSupport": "Stöd",
+      "labelTechnology": "Teknologi",
+      "labelTermsOfUse": "Användarvillkor"
+    }
   },
   "image": {
     "warningLogInToUpdate": "Logga in för att redigera den här bilden.",

@@ -731,7 +731,23 @@
     }
   },
   "helpPage": {
-    "pageTitle": "More information"
+    "pageTitle": "More information",
+    "sideNavigation": {
+      "labelApi": "API",
+      "labelContact": "Contact us",
+      "labelControlPanel": "Control panel",
+      "labelDocumentation": "Documentation",
+      "labelFaq": "FAQ",
+      "labelFeatures": "Searvice features",
+      "labelGeneral": "General",
+      "labelImageRights": "Image rights",
+      "labelInstructions": "Instructions",
+      "labelPlatform": "Platform",
+      "labelSourceCode": "Source code",
+      "labelSupport": "Support",
+      "labelTechnology": "Technology",
+      "labelTermsOfUse": "Terms of use"
+    }
   },
   "image": {
     "warningLogInToUpdate": "Sign in to edit this image.",

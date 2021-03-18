@@ -1,0 +1,42 @@
+@import "breakpoints";
+
+.helpPageLayout {
+    display: grid;
+    grid-gap: var(--spacing-m);
+
+    @include medium-only {
+        grid-template-columns: repeat(8, 1fr);
+    }
+
+    @include large-up {
+        grid-template-columns: repeat(12, 1fr);
+    }
+
+    .sideNavigation {
+        @include medium-only {
+            grid-column: 1 / 3;
+        };
+        
+        @include medium-up {
+            & > div {
+                position: sticky;
+                overflow: auto;
+            }
+            
+        };
+
+        @include large-up {
+            grid-column: 1 / 4;
+        };
+    }
+
+    .content {
+        @include medium-only {
+            grid-column: 3 / 9;
+        };
+
+        @include large-up {
+            grid-column: 4 / 13;
+        };
+    }
+}
