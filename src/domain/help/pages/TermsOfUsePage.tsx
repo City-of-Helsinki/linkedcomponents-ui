@@ -59,13 +59,14 @@ const TermsOfUsePage = () => {
               it is not content otherwise contrary to law or good practice.
             </p>
             <p>
-              Helsingin kaupunki ei takaa palvelun käyttäjien sivulle lisäämien
-              Materiaalien oikeellisuutta eikä vastaa niiden virheellisyydestä.
+              The City of Helsinki does not guarantee the correctness of the
+              Materials added to the page by the users of the service and is not
+              responsible for their inaccuracy.
             </p>
             <p>
-              Helsingin kaupungilla on kaikki oikeudet muokata ja poistaa
-              tapahtumarajapintaan syötettyjä Materiaaleja. Helsingin kaupunki
-              ei sitoudu julkaisemaan mitään Materiaaleja.
+              The City of Helsinki has all the rights to edit and delete the
+              Materials entered in the event interface. The City of Helsinki
+              does not undertake to publish any Materials.
             </p>
           </>
         );
@@ -116,14 +117,13 @@ const TermsOfUsePage = () => {
               hyvän tavan vastainen.
             </p>
             <p>
-              The City of Helsinki does not guarantee the correctness of the
-              Materials added to the page by the users of the service and is not
-              responsible for their inaccuracy.
+              Helsingin kaupunki ei takaa palvelun käyttäjien sivulle lisäämien
+              Materiaalien oikeellisuutta eikä vastaa niiden virheellisyydestä.
             </p>
             <p>
-              The City of Helsinki has all the rights to edit and delete the
-              Materials entered in the event interface. The City of Helsinki
-              does not undertake to publish any Materials.
+              Helsingin kaupungilla on kaikki oikeudet muokata ja poistaa
+              tapahtumarajapintaan syötettyjä Materiaaleja. Helsingin kaupunki
+              ei sitoudu julkaisemaan mitään Materiaaleja.
             </p>
           </>
         );
