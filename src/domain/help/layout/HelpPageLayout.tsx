@@ -1,6 +1,5 @@
 import {
   IconCogwheel,
-  IconErrorFill,
   IconHome,
   IconLayers,
   IconQuestionCircle,

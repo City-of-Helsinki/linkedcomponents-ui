@@ -733,6 +733,7 @@
   },
   "helpPage": {
     "pageTitle": "Ohjeet",
+    "pageTitleControlPanel": "Hallintapaneeli",
     "pageTitleFeatures": "Palvelun ominaisuudet",
     "pageTitleInstructions": "Ohjeet",
     "pageTitlePlatform": "Alusta",

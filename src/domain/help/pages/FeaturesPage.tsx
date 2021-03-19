@@ -97,6 +97,7 @@ const FeaturesPage = () => {
         );
     }
   };
+
   return (
     <PageWrapper title="helpPage.pageTitleFeatures">
       {getContent(locale)}

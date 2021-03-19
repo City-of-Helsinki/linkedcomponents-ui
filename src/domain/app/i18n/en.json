@@ -732,6 +732,7 @@
   },
   "helpPage": {
     "pageTitle": "Help",
+    "pageTitleControlPanel": "Control panel",
     "pageTitleFeatures": "Service features",
     "pageTitleInstructions": "Instructions",
     "pageTitlePlatform": "Platform",
