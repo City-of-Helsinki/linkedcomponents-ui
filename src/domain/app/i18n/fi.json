@@ -734,6 +734,7 @@
   "helpPage": {
     "pageTitle": "Ohjeet",
     "pageTitleFeatures": "Palvelun ominaisuudet",
+    "pageTitleTermsOfUse": "Käyttöehdot",
     "sideNavigation": {
       "labelApi": "Rajapinta",
       "labelContact": "Ota yhteyttä",

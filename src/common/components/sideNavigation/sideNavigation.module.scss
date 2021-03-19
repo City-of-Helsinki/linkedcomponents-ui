@@ -98,7 +98,7 @@
 }
 
 .mainLevel {
-    font-size: var(--fontsize-body-l);
+    font-size: var(--fontsize-body-m);
 
     & > a {
         font-weight: 600;
@@ -127,5 +127,5 @@
 }
 
 .subLevel {
-    font-size: var(--fontsize-body-m);
+    font-size: var(--fontsize-body-s);
 }

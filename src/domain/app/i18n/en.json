@@ -733,6 +733,7 @@
   "helpPage": {
     "pageTitle": "Help",
     "pageTitleFeatures": "Service features",
+    "pageTitleTermsOfUse": "Terms of use",
     "sideNavigation": {
       "labelApi": "API",
       "labelContact": "Contact us",
