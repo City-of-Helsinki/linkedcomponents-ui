@@ -734,6 +734,7 @@
   "helpPage": {
     "pageTitle": "Ohjeet",
     "pageTitleFeatures": "Palvelun ominaisuudet",
+    "pageTitlePlatform": "Alusta",
     "pageTitleTermsOfUse": "Käyttöehdot",
     "sideNavigation": {
       "labelApi": "Rajapinta",

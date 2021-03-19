@@ -733,6 +733,7 @@
   "helpPage": {
     "pageTitle": "Hjälp",
     "pageTitleFeatures": "Servicefunktioner",
+    "pageTitlePlatform": "Plattform",
     "pageTitleTermsOfUse": "Användarvillkor",
     "sideNavigation": {
       "labelApi": "API",
