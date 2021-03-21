@@ -732,10 +732,15 @@
   },
   "helpPage": {
     "pageTitle": "Hjälp",
+    "pageTitleApi": "API",
     "pageTitleControlPanel": "Kontrollpanel",
+    "pageTitleDocumentation": "Dokumentation",
     "pageTitleFeatures": "Servicefunktioner",
+    "pageTitleImageRights": "Bildrättigheter",
     "pageTitleInstructions": "Instruktioner",
     "pageTitlePlatform": "Plattform",
+    "pageTitleSourceCode": "Källkod",
+    "pageTitleTechnology": "Teknologi",
     "pageTitleTermsOfUse": "Användarvillkor",
     "sideNavigation": {
       "labelApi": "API",

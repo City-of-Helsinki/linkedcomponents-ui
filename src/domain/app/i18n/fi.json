@@ -733,10 +733,15 @@
   },
   "helpPage": {
     "pageTitle": "Ohjeet",
+    "pageTitleApi": "Rajapinta",
     "pageTitleControlPanel": "Hallintapaneeli",
+    "pageTitleDocumentation": "Dokumentaatio",
     "pageTitleFeatures": "Palvelun ominaisuudet",
+    "pageTitleImageRights": "Kuvaoikeudet",
     "pageTitleInstructions": "Ohjeet",
     "pageTitlePlatform": "Alusta",
+    "pageTitleSourceCode": "Lähdekoodi",
+    "pageTitleTechnology": "Teknologia",
     "pageTitleTermsOfUse": "Käyttöehdot",
     "sideNavigation": {
       "labelApi": "Rajapinta",

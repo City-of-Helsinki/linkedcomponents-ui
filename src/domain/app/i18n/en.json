@@ -732,10 +732,15 @@
   },
   "helpPage": {
     "pageTitle": "Help",
+    "pageTitleApi": "API",
     "pageTitleControlPanel": "Control panel",
+    "pageTitleDocumentation": "Documentation",
     "pageTitleFeatures": "Service features",
+    "pageTitleImageRights": "Image rights",
     "pageTitleInstructions": "Instructions",
     "pageTitlePlatform": "Platform",
+    "pageTitleSourceCode": "Source code",
+    "pageTitleTechnology": "Technology",
     "pageTitleTermsOfUse": "Terms of use",
     "sideNavigation": {
       "labelApi": "API",
