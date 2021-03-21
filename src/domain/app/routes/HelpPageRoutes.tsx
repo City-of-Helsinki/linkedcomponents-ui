@@ -30,7 +30,7 @@ const InstructionsRoutes: React.FC<Props> = ({ locale }) => {
       <Redirect
         exact
         path={getLocalePath(ROUTES.INSTRUCTIONS)}
-        to={getLocalePath(ROUTES.INSTRUCTIONS_GENERAL)}
+        to={getLocalePath(ROUTES.INSTRUCTIONS_PLATFORM)}
       />
       <Route
         path={getLocalePath(ROUTES.INSTRUCTIONS_CONTROL_PANEL)}
