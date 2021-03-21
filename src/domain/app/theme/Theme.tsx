@@ -295,7 +295,7 @@ type SideNavigationCSSProperties = {
   '--side-navigation-level-border-color-hover'?: string;
   '--side-navigation-level-border-width'?: string;
   '--side-navigation-level-background-color'?: string;
-  '--side-navigation-level-background-color-focus-active'?: string;
+  '--side-navigation-level-background-color-active'?: string;
   '--side-navigation-level-background-color-hover'?: string;
   '--side-navigation-level-color'?: string;
   '--side-navigation-mobile-menu-border-color'?: string;

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import {
   IconCogwheel,
   IconHome,
@@ -16,6 +17,12 @@ import useLocale from '../../../hooks/useLocale';
 import useWindowSize from '../../../hooks/useWindowSize';
 import Container from '../../app/layout/Container';
 import styles from './helpPageLayout.module.scss';
+
+const PAGES_WITH_GRAY_BACKGROUND: string[] = [ROUTES.INSTRUCTIONS_FAQ];
+const PAGES_WITH_FULL_WIDTH_CONTENT: string[] = [
+  ROUTES.INSTRUCTIONS_FAQ,
+  ROUTES.INSTRUCTIONS_PLATFORM,
+];
 
 const getSideNavigationTop = (): number => {
   const pageHeader = document.getElementById(PAGE_HEADER_ID);
@@ -45,14 +52,32 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
     return pathname === localePath;
   };
 
+  const getBackgroundColorClassName = () => {
+    if (
+      PAGES_WITH_GRAY_BACKGROUND.includes(pathname.replace(`/${locale}`, ''))
+    ) {
+      return styles.backgroundGray;
+    }
+    return styles.backgroundWhite;
+  };
+
+  const getContentWidthClassName = () => {
+    if (
+      PAGES_WITH_FULL_WIDTH_CONTENT.includes(pathname.replace(`/${locale}`, ''))
+    ) {
+      return styles.contentFullWidth;
+    }
+    return styles.contentDefault;
+  };
+
   const instructionsSubLevels = [
-    {
-      label: t('helpPage.sideNavigation.labelGeneral'),
-      to: getLocalePath(ROUTES.INSTRUCTIONS_GENERAL),
-    },
     {
       label: t('helpPage.sideNavigation.labelPlatform'),
       to: getLocalePath(ROUTES.INSTRUCTIONS_PLATFORM),
+    },
+    {
+      label: t('helpPage.sideNavigation.labelGeneral'),
+      to: getLocalePath(ROUTES.INSTRUCTIONS_GENERAL),
     },
     {
       label: t('helpPage.sideNavigation.labelControlPanel'),
@@ -130,48 +155,61 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
   ];
 
   return (
-    <Container>
-      <div className={styles.helpPageLayout}>
-        <div className={styles.sideNavigation}>
-          <div
-            style={{
-              maxHeight: `calc(100vh - ${sideNavigationTop}px)`,
-              top: sideNavigationTop,
-            }}
-          >
-            <SideNavigation
-              toggleButtonLabel={t('helpPage.sideNavigation.toggleButtonLabel')}
+    <div
+      className={classNames(
+        styles.helpPageWrapper,
+        getBackgroundColorClassName()
+      )}
+    >
+      <Container>
+        <div className={styles.helpPageLayout}>
+          <div className={styles.sideNavigation}>
+            <div
+              style={{
+                maxHeight: `calc(100vh - ${sideNavigationTop}px)`,
+                top: sideNavigationTop,
+              }}
             >
-              {levels.map(
-                ({ icon, label, subLevels, to, type }, mainLevelIndex) => {
-                  return (
-                    <MainLevel
-                      key={mainLevelIndex}
-                      active={getIsActive(to)}
-                      icon={icon}
-                      label={label}
-                      to={to}
-                      type={type as 'link' | 'toggle'}
-                    >
-                      {subLevels?.map((props, subLevelIndex) => {
-                        return (
-                          <SubLevel
-                            key={subLevelIndex}
-                            {...props}
-                            active={getIsActive(props.to)}
-                          />
-                        );
-                      })}
-                    </MainLevel>
-                  );
-                }
-              )}
-            </SideNavigation>
+              <SideNavigation
+                toggleButtonLabel={t(
+                  'helpPage.sideNavigation.toggleButtonLabel'
+                )}
+              >
+                {levels.map(
+                  ({ icon, label, subLevels, to, type }, mainLevelIndex) => {
+                    return (
+                      <MainLevel
+                        key={mainLevelIndex}
+                        active={getIsActive(to)}
+                        icon={icon}
+                        label={label}
+                        to={to}
+                        type={type as 'link' | 'toggle'}
+                      >
+                        {subLevels?.map((props, subLevelIndex) => {
+                          return (
+                            <SubLevel
+                              key={subLevelIndex}
+                              {...props}
+                              active={getIsActive(props.to)}
+                            />
+                          );
+                        })}
+                      </MainLevel>
+                    );
+                  }
+                )}
+              </SideNavigation>
+            </div>
+          </div>
+          <div
+            className={classNames(styles.content, getContentWidthClassName())}
+          >
+            {children}
           </div>
         </div>
-        <div className={styles.content}>{children}</div>
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

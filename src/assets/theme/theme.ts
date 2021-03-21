@@ -419,8 +419,7 @@ const theme: Theme = {
     '--side-navigation-level-border-color-hover': 'var(--color-black-5)',
     '--side-navigation-level-border-width': '2px',
     '--side-navigation-level-background-color': 'var(--color-white)',
-    '--side-navigation-level-background-color-focus-active':
-      'var(--color-black-5)',
+    '--side-navigation-level-background-color-active': 'var(--color-black-5)',
     '--side-navigation-level-background-color-hover': 'var(--color-black-5)',
     '--side-navigation-level-color': 'var(--color-black)',
     '--side-navigation-mobile-menu-border-color': 'var(--color-black)',
