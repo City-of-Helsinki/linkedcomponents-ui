@@ -1,4 +1,4 @@
-import { IconCogwheel, IconPhone, IconUploadCloud } from 'hds-react';
+import { IconCogwheel, IconPhone } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
