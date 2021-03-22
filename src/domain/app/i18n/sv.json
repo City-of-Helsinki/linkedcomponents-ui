@@ -731,6 +731,17 @@
     "copyrightText": "Alla rättigheter förbehållna."
   },
   "helpPage": {
+    "contactPage": {
+      "buttonSend": "Skicka",
+      "labelEmail": "E-postadress",
+      "labelFeedback": "Respons",
+      "labelName": "Name",
+      "pageTitle": "Ta kontakt", 
+      "placeholderEmail": "Skriv in din e-postadress",
+      "placeholderFeedback": "Ange respons",
+      "placeholderName": "Enter name",
+      "text": "Kontakta oss med hjälp av formuläret nedan."
+    },
     "pageTitle": "Hjälp",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Kontrollpanel",

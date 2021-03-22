@@ -732,6 +732,17 @@
     "copyrightText": "Kaikki oikeudet pidätetään."
   },
   "helpPage": {
+    "contactPage": {
+      "buttonSend": "Lähetä",
+      "labelEmail": "Sähköposti",
+      "labelFeedback": "Palaute/asia",
+      "labelName": "Nimi",
+      "pageTitle": "Ota yhteyttä", 
+      "placeholderEmail": "Syötä sähköposti",
+      "placeholderFeedback": "Syötä palaute/asia",
+      "placeholderName": "Syötä nimi",
+      "text": "Ota yhteyttä meihin alla olevalla lomakkeella."
+    },
     "pageTitle": "Ohjeet",
     "pageTitleApi": "Rajapinta",
     "pageTitleControlPanel": "Hallintapaneeli",

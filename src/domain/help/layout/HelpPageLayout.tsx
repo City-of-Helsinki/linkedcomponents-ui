@@ -166,6 +166,7 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
           <div className={styles.sideNavigation}>
             <div
               style={{
+                height: '100%',
                 maxHeight: `calc(100vh - ${sideNavigationTop}px)`,
                 top: sideNavigationTop,
               }}

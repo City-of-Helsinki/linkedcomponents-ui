@@ -731,6 +731,17 @@
     }
   },
   "helpPage": {
+    "contactPage": {
+      "buttonSend": "Send",
+      "labelEmail": "Email",
+      "labelFeedback": "Feedback",
+      "labelName": "Name",
+      "pageTitle": "Contact us", 
+      "placeholderEmail": "Enter email",
+      "placeholderFeedback": "Enter feedback",
+      "placeholderName": "Enter name",
+      "text": "Contact us using the form below."
+    },
     "pageTitle": "Help",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Control panel",

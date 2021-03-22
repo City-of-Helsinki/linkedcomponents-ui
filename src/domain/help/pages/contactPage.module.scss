@@ -1,0 +1,9 @@
+@import "breakpoints";
+
+.contactForm {
+    display: grid;
+    
+    @include medium-up {
+        max-width: var(--input-max-width-m);
+    }
+}
