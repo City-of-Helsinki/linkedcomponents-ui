@@ -78,6 +78,7 @@
       ".*.d.ts",
       "src/index.tsx",
       "src/common/components/datepicker/datepickerContext.tsx",
+      "src/common/components/sideNavigation/SideNavigationContext.tsx",
       "src/domain/app/apollo/apolloClient.ts",
       "src/domain/app/apollo/utils.ts",
       "src/domain/app/hooks/useApiToken.tsx",

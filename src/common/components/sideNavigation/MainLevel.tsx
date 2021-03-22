@@ -42,6 +42,7 @@ const MainLevel = ({
   const isOpen = openMainLevels.includes(index as number);
 
   const subLevels = React.Children.map(children, (child, subLevelIndex) => {
+    /* istanbul ignore else  */
     if (
       React.isValidElement(child) &&
       (child.type as FCWithName).componentName === 'SubLevel'
@@ -50,9 +51,9 @@ const MainLevel = ({
         id: `${id}-${subLevelIndex}`,
         mainLevelIndex: index,
       });
+    } else {
+      return null;
     }
-
-    return null;
   })?.filter((el) => el);
 
   React.useEffect(() => {
@@ -69,6 +70,7 @@ const MainLevel = ({
         : [...openMainLevels, index as number]
     );
   };
+
   return (
     <li
       className={classNames(
@@ -117,6 +119,7 @@ const MainLevel = ({
           aria-labelledby={buttonId}
           className={styles.mainLevelListMenu}
           id={menuId}
+          aria-hidden={!isOpen}
         >
           {subLevels}
         </ul>

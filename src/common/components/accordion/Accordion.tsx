@@ -37,6 +37,7 @@ const Accordion: React.FC<AccordionProps> = ({
         aria-label={toggleButtonLabel}
         {...contentProps}
         className={styles.content}
+        role="region"
       >
         {children}
       </div>

@@ -46,14 +46,15 @@ const SideNavigation = ({
   const { theme } = useTheme();
 
   const mainLevels = React.Children.map(children, (child, index) => {
+    /* istanbul ignore else  */
     if (
       React.isValidElement(child) &&
       (child.type as FCWithName).componentName === 'MainLevel'
     ) {
       return React.cloneElement(child, { id: `${id}-${index}`, index });
+    } else {
+      return null;
     }
-
-    return null;
   });
 
   const toggle = () => {
@@ -93,6 +94,7 @@ const SideNavigation = ({
               }),
               role: 'region',
               'aria-labelledby': buttonId,
+              'aria-hidden': !isMobileMenuOpen,
             }
           : { className: styles.mainLevelList })}
         id={menuId}

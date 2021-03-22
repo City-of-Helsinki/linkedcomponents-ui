@@ -76,7 +76,7 @@ exports[`matches snapshot 1`] = `
         href="/sv/help"
       >
         <span>
-          Instruktioner
+          Hjälp
         </span>
       </a>
     </nav>
