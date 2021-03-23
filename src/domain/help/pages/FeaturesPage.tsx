@@ -51,11 +51,11 @@ const FeaturesPage = () => {
             </p>
             <h2>Linked Events API</h2>
             <p>
-              Det offentliga gränssnittet låter dig fritt söka efter evenemang
-              för din egen tjänst. Du kan också föreslå för oss om det finns en
-              databas som ska länkas till Linked Events.
+              Julkisen rajapinnan avulla voit vapaasti hakea tapahtumia omaan
+              palveluusi. Voit myös ehdottaa meille, jos on olemassa jokin
+              tietopankki, mikä tulisi kytkeä Linked Evensiin.
             </p>
-            <h2>Stöd och vidareutveckling</h2>
+            <h2>Tuki ja jatkokehitys</h2>
             <p>
               Ota meihin yhteyttä jos haluat lisätietoa tai sinulla on
               ehdotuksia miten voisimme parantaa palvelua. Ohjeet-osiosta löydät
@@ -79,11 +79,11 @@ const FeaturesPage = () => {
             </p>
             <h2>Linked Events API</h2>
             <p>
-              Julkisen rajapinnan avulla voit vapaasti hakea tapahtumia omaan
-              palveluusi. Voit myös ehdottaa meille, jos on olemassa jokin
-              tietopankki, mikä tulisi kytkeä Linked Evensiin.
+              Det offentliga gränssnittet låter dig fritt söka efter evenemang
+              för din egen tjänst. Du kan också föreslå för oss om det finns en
+              databas som ska länkas till Linked Events.
             </p>
-            <h2>Tuki ja jatkokehitys</h2>
+            <h2>Stöd och vidareutveckling</h2>
             <p>
               Kontakta oss om du vill ha mer information eller har några förslag
               på hur vi kan förbättra tjänsten. I avsnittet Hjälp hittar du mer
