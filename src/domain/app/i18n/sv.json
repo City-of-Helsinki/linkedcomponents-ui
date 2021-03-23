@@ -19,6 +19,20 @@
     "combobox": {
       "toggleButtonAriaLabel": "Menyn"
     },
+    "cookieConsent": {
+      "buttonAcceptAll": "Alla",
+      "buttonAcceptOnlyNecessary": "Endast nödvändigt",
+      "buttonDecline": "Nedgång",
+      "checkboxAccept": "Jag har läst och godkänt <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"användarvillkoren {{openInNewTab}}\">användarvillkoren</a>",
+      "checkboxAcceptAriaLabel": "Jag har läst och godkänt användarvillkoren",
+      "linkDataProtection": {
+        "text": "Läs mer om Helsingfors stads integritetspolicy här",
+        "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd"
+      },
+      "text1": "Genom att välja ”acceptera” accepterar jag användarvillkoren. Därefter måste du acceptera antingen väsentliga eller alla kakor.",
+      "text2": "Vi använder också cookies för att förbättra din användarupplevelse på webbplatsen.",
+      "title": "Användningsvillkor för Linked Events och kakor"
+    },
     "datepicker": {
       "accessibility": {
         "buttonCalendar": "Kalendar",
@@ -81,7 +95,7 @@
       "accessibility": {
         "buttonTimeList": "Tider"
       }
-    }, 
+    },
     "warning": "Varning!"
   },
   "createEventPage": {
@@ -201,7 +215,7 @@
           "eventOnly": {
             "course": "Bilden får endast användas för den här kursen",
             "event": "Bilden får endast användas för detta evenemang"
-          } 
+          }
         },
         "placeholderAltText": "Ange bildalternativtexten för skärmläsare",
         "placeholderName": "Ange rubrik",
@@ -347,7 +361,7 @@
       "labelName": {
         "course": "Kursens title {{langText}}",
         "event": "Evenemangs title {{langText}}"
-      }, 
+      },
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
@@ -695,7 +709,7 @@
     },
     "weekDay": {
       "fri": "Fredag",
-      "mon": "Måndag", 
+      "mon": "Måndag",
       "sat": "Lördag",
       "sun": "Söndag",
       "thu": "Torsdag",
@@ -704,7 +718,7 @@
     },
     "weekDayAbbreviation": {
       "fri": "Fre",
-      "mon": "Mån", 
+      "mon": "Mån",
       "sat": "Lör",
       "sun": "Sön",
       "thu": "Tors",
@@ -736,7 +750,7 @@
       "labelEmail": "E-postadress",
       "labelFeedback": "Respons",
       "labelName": "Name",
-      "pageTitle": "Ta kontakt", 
+      "pageTitle": "Ta kontakt",
       "placeholderEmail": "Skriv in din e-postadress",
       "placeholderFeedback": "Ange respons",
       "placeholderName": "Enter name",

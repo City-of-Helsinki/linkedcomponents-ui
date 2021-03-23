@@ -19,6 +19,20 @@
     "combobox": {
       "toggleButtonAriaLabel": "Valikko"
     },
+    "cookieConsent": {
+      "buttonAcceptAll": "Kaikki",
+      "buttonAcceptOnlyNecessary": "Vain välttämättömät",
+      "buttonDecline": "En hyväksy",
+      "checkboxAccept": "Olen lukenut ja hyväksyn palvelun <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"käyttöehdot {{openInNewTab}}\">käyttöehdot</a>",
+      "checkboxAcceptAriaLabel": "Olen lukenut ja hyväksyn palvelun käyttöehdot",
+      "linkDataProtection": {
+        "text": "Lue lisää Helsingin kaupungin tietosuojakäytännöistä täältä",
+        "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/"
+      },
+      "text1": "Valitsemalla ”hyväksy” hyväksyn palvelun käyttöehdot. Seuraavaksi tulee hyväksyä joko välttämättömät tai kaikki evästeet.",
+      "text2": "Käytämme lisäksi evästeitä parantaaksemme käyttökokemustasi sivustolla.",
+      "title": "Linked Events käyttöehdot ja evästeet"
+    },
     "datepicker": {
       "accessibility": {
         "buttonCalendar": "Kalenteri",
@@ -737,7 +751,7 @@
       "labelEmail": "Sähköposti",
       "labelFeedback": "Palaute/asia",
       "labelName": "Nimi",
-      "pageTitle": "Ota yhteyttä", 
+      "pageTitle": "Ota yhteyttä",
       "placeholderEmail": "Syötä sähköposti",
       "placeholderFeedback": "Syötä palaute/asia",
       "placeholderName": "Syötä nimi",

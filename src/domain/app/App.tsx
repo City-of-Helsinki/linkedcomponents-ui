@@ -10,6 +10,7 @@ import { OidcProvider } from 'redux-oidc';
 import theme from '../../assets/theme/theme';
 import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
+import { CookieConsentProvider } from './cookieConsent/CookieConsentContext';
 import AppRoutes from './routes/AppRoutes';
 import { store } from './store/store';
 import { ThemeProvider } from './theme/Theme';
@@ -21,9 +22,11 @@ const App: React.FC = () => {
         <ThemeProvider initTheme={theme}>
           <ToastContainer />
           <BrowserRouter>
-            <ApolloProvider client={apolloClient}>
-              <AppRoutes />
-            </ApolloProvider>
+            <CookieConsentProvider>
+              <ApolloProvider client={apolloClient}>
+                <AppRoutes />
+              </ApolloProvider>
+            </CookieConsentProvider>
           </BrowserRouter>
         </ThemeProvider>
       </OidcProvider>

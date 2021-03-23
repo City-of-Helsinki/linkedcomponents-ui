@@ -1,0 +1,14 @@
+.checkbox {
+    margin-top: var(--spacing-m);
+}
+
+.buttonWrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: var(--spacing-m);
+
+    button {
+        margin-right: var(--spacing-s);
+        white-space: nowrap;
+    }
+}

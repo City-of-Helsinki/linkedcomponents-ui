@@ -19,6 +19,20 @@
     "combobox": {
       "toggleButtonAriaLabel": "Menu"
     },
+    "cookieConsent": {
+      "buttonAcceptAll": "All",
+      "buttonAcceptOnlyNecessary": "Only necessary",
+      "buttonDecline": "Decline",
+      "checkboxAccept": "I have read and accept the <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"terms of service {{openInNewTab}}\">terms of service</a>",
+      "checkboxAcceptAriaLabel": "I have read and accept the terms of service</a>",
+      "linkDataProtection": {
+        "text": "Read more about the City of Helsinki's privacy policy here",
+        "url": "https://www.hel.fi/helsinki/en/administration/information/data-protection"
+      },
+      "text1": "By selecting “accept”, I accept the terms of service. Next, you must accept either essential or all cookies.",
+      "text2": "We also use cookies to improve your user experience on the site.",
+      "title": "Linked Events Terms of Use and Cookies"
+    },
     "datepicker": {
       "accessibility": {
         "buttonCalendar": "Calendar",
@@ -60,7 +74,7 @@
     "multiSelectDropdown": {
       "searchPlaceholder": "Search"
     },
-    "noResults": "No results", 
+    "noResults": "No results",
     "openInNewTab": "(opens in a new tab)",
     "pagination": {
       "navigation": "Page navigation",
@@ -201,7 +215,7 @@
           "eventOnly": {
             "course": "Image may be used only for this course",
             "event": "Image may be used only for this event"
-          } 
+          }
         },
         "placeholderAltText": "Enter image alt text for screen readers",
         "placeholderName": "Enter caption",
@@ -713,7 +727,7 @@
     },
     "weekDay": {
       "fri": "Friday",
-      "mon": "Monday", 
+      "mon": "Monday",
       "sat": "Saturday",
       "sun": "Sunday",
       "thu": "Thursday",
@@ -722,7 +736,7 @@
     },
     "weekDayAbbreviation": {
       "fri": "Fri",
-      "mon": "Mon", 
+      "mon": "Mon",
       "sat": "Sat",
       "sun": "Sun",
       "thu": "Thu",
@@ -736,7 +750,7 @@
       "labelEmail": "Email",
       "labelFeedback": "Feedback",
       "labelName": "Name",
-      "pageTitle": "Contact us", 
+      "pageTitle": "Contact us",
       "placeholderEmail": "Enter email",
       "placeholderFeedback": "Enter feedback",
       "placeholderName": "Enter name",
