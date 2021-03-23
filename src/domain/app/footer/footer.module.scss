@@ -1,4 +1,8 @@
 .footer {
   max-width: 100vw;
   line-height: var(--lineheight-l);
+
+   & > div:first-child {
+     height: 15px;
+   }
 }
