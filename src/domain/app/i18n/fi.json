@@ -732,7 +732,58 @@
     "copyrightText": "Kaikki oikeudet pidätetään."
   },
   "helpPage": {
-    "pageTitle": "Lisätietoja"
+    "contactPage": {
+      "buttonSend": "Lähetä",
+      "labelEmail": "Sähköposti",
+      "labelFeedback": "Palaute/asia",
+      "labelName": "Nimi",
+      "pageTitle": "Ota yhteyttä", 
+      "placeholderEmail": "Syötä sähköposti",
+      "placeholderFeedback": "Syötä palaute/asia",
+      "placeholderName": "Syötä nimi",
+      "text": "Ota yhteyttä meihin alla olevalla lomakkeella."
+    },
+    "pageTitle": "Ohjeet",
+    "pageTitleApi": "Rajapinta",
+    "pageTitleControlPanel": "Hallintapaneeli",
+    "pageTitleDocumentation": "Dokumentaatio",
+    "pageTitleFaq": "Usein kysytyt kysymykset",
+    "pageTitleFeatures": "Palvelun ominaisuudet",
+    "pageTitleImageRights": "Kuvaoikeudet",
+    "pageTitleInstructions": "Ohjeet",
+    "pageTitleSourceCode": "Lähdekoodi",
+    "pageTitleTechnology": "Teknologia",
+    "pageTitleTermsOfUse": "Käyttöehdot",
+    "platformPage": {
+      "pageTitle": "Alusta",
+      "textApi": "Julkisen rajapinnan avulla voit hakea tapahtumia omaan palveluusi. Voit myös ehdottaa meille olemassa olevaa tietopankkia, mikä tulisi kytkeä Linked Eventsiin.",
+      "textEventManagement": "Linked Events hallintapaneelin avulla syötetään tapahtumia, kursseja ja vapaaehtoistehtäviä, sekä hallitataan niihin liittyviä tietoja ja materiaaleja.",
+      "textMainContent1": "Linked Events on Helsingin kaupungin kehittämä avoin rajapinta Helsingin kaupungin tapahtumille, kursseille ja vapaaehtoistehtäville. Tämä sivusto tarjoaa työkalut ja ohjeet niiden hallintaan sekä dokumentaation julkisen rajapinnan käyttämiseen.",
+      "textMainContent2": "Tapahtumia saa syöttää kaupungin luvalla. Niiden ei tarvitse olla kaupungin järjestämiä. Tapahtumalle voi antaa useita päivämääriä. Tässä tapauksessa tapahtumasarjalle luodaan automaattisesti kattotapahtuma.",
+      "textSupport": "Ota meihin yhteyttä jos haluat lisätietoa tai sinulla on ehdotuksia miten voisimme parantaa palvelua. Ohjeet-osiosta löydät tarkempaa tietoa ja yhteydenottolomakkeen.",
+      "titleApi": "Linked Events API",
+      "titleEventManagement": "Tapahtumien hallinta",
+      "titlePlatform": "Alusta",
+      "titleServiceHighlights": "Palvelun kohokohdat",
+      "titleSupport": "Tuki ja jatkokehitys"
+    },
+    "sideNavigation": {
+      "labelApi": "Rajapinta",
+      "labelContact": "Ota yhteyttä",
+      "labelControlPanel": "Hallintapaneeli",
+      "labelDocumentation": "Dokumentaatio",
+      "labelFaq": "UKK",
+      "labelFeatures": "Palvelun ominaisuudet",
+      "labelGeneral": "Yleistä",
+      "labelImageRights": "Kuvaoikeudet",
+      "labelInstructions": "Ohjeet",
+      "labelPlatform": "Alusta",
+      "labelSourceCode": "Lähdekoodi",
+      "labelSupport": "Tuki",
+      "labelTechnology": "Teknologia",
+      "labelTermsOfUse": "Käyttöehdot",
+      "toggleButtonLabel": "Siirry ohjesivulle"
+    }
   },
   "image": {
     "warningLogInToUpdate": "Kirjaudu sisään muokataksesi kuvaa.",
@@ -759,9 +810,8 @@
     "searchEvents": "Etsi tapahtumia",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
-      "createEvent": "Uusi tapahtuma",
       "events": "Tapahtumat",
-      "help": "Lisätietoja"
+      "help": "Ohjeet"
     }
   },
   "notFound": {

@@ -10,10 +10,10 @@ import EventSearchPage from '../../eventSearch/EventSearchPage';
 import LogoutPage from '.././../auth/logoutPage/LogoutPage';
 import CreateEventPage from '.././../event/CreateEventPage';
 import EventsPage from '.././../events/EventsPage';
-import HelpPage from '.././../help/HelpPage';
 import LandingPage from '.././../landingPage/LandingPage';
 import NotFound from '.././../notFound/NotFound';
 import PageLayout from '../layout/PageLayout';
+import HelpPageRoutes from './HelpPageRoutes';
 
 interface Params {
   locale: Language;
@@ -72,7 +72,9 @@ const LocaleRoutes: React.FC<Props> = ({
           path={getLocalePath(ROUTES.SEARCH)}
           component={EventSearchPage}
         />
-        <Route exact path={getLocalePath(ROUTES.HELP)} component={HelpPage} />
+        <Route path={getLocalePath(ROUTES.HELP)}>
+          <HelpPageRoutes locale={locale} />
+        </Route>
         <Route component={NotFound} />
       </Switch>
     </PageLayout>

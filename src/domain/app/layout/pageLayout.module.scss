@@ -1,6 +1,8 @@
 @import 'breakpoints';
 
 .pageLayout {
+  --footer-koro-height: 14px;
+
   height: 100%;
   width: 100%;
   display: grid;
@@ -12,4 +14,6 @@
   display: grid;
   align-content: flex-start;
   background-color: var(--page-background-color);
+  margin-bottom: calc(0px - var(--footer-koro-height));
+  padding-bottom: var(--footer-koro-height);
 }

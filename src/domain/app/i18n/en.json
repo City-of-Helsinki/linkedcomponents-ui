@@ -731,7 +731,58 @@
     }
   },
   "helpPage": {
-    "pageTitle": "More information"
+    "contactPage": {
+      "buttonSend": "Send",
+      "labelEmail": "Email",
+      "labelFeedback": "Feedback",
+      "labelName": "Name",
+      "pageTitle": "Contact us", 
+      "placeholderEmail": "Enter email",
+      "placeholderFeedback": "Enter feedback",
+      "placeholderName": "Enter name",
+      "text": "Contact us using the form below."
+    },
+    "pageTitle": "Help",
+    "pageTitleApi": "API",
+    "pageTitleControlPanel": "Control panel",
+    "pageTitleDocumentation": "Documentation",
+    "pageTitleFaq": "Frequently asked questions",
+    "pageTitleFeatures": "Service features",
+    "pageTitleImageRights": "Image rights",
+    "pageTitleInstructions": "Instructions",
+    "pageTitleSourceCode": "Source code",
+    "pageTitleTechnology": "Technology",
+    "pageTitleTermsOfUse": "Terms of use",
+    "platformPage": {
+      "pageTitle": "Platform",
+      "textApi": "The public API allows you to retrieve events for your own service. You can also suggest us an existing databank that should be linked to Linked Events.",
+      "textEventManagement": "The Linked Events control panel is used to enter events, courses, and volunteer assignments, and to manage related information and materials.",
+      "textMainContent1": "Linked Events is an open interface developed by the City of Helsinki for events, courses and volunteer assignments in the City of Helsinki. This site provides tools and instructions for managing them and documentation to use the public interface.",
+      "textMainContent2": "Events may be entered with the permission of the city. They don’t have to be organized by the city. You can enter multiple dates for an event. In this case, an umbrella event is automatically created for the event sequence.",
+      "textSupport": "Contact us if you would like more information or have any suggestions on how we could improve the service. In the Help section, you will find more detailed information and a contact form.",
+      "titleApi": "Linked Events API",
+      "titleEventManagement": "Event management",
+      "titlePlatform": "Platform",
+      "titleServiceHighlights": "Service highlights",
+      "titleSupport": "Support and further development"
+    },
+    "sideNavigation": {
+      "labelApi": "API",
+      "labelContact": "Contact us",
+      "labelControlPanel": "Control panel",
+      "labelDocumentation": "Documentation",
+      "labelFaq": "FAQ",
+      "labelFeatures": "Searvice features",
+      "labelGeneral": "General",
+      "labelImageRights": "Image rights",
+      "labelInstructions": "Instructions",
+      "labelPlatform": "Platform",
+      "labelSourceCode": "Source code",
+      "labelSupport": "Support",
+      "labelTechnology": "Technology",
+      "labelTermsOfUse": "Terms of use",
+      "toggleButtonLabel": "Navigate to help page"
+    }
   },
   "image": {
     "warningLogInToUpdate": "Sign in to edit this image.",
@@ -758,9 +809,8 @@
     "searchEvents": "Search events",
     "skipToContentLabel": "Skip to content",
     "tabs": {
-      "createEvent": "New event",
       "events": "Events",
-      "help": "More information"
+      "help": "Help"
     }
   },
   "notFound": {

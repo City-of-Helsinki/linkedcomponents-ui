@@ -2,17 +2,40 @@ import { defaultReducerState as defaultAuthReducerState } from './domain/auth/co
 import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
 import { StoreState } from './types';
 
+export const BREAKPOINTS = {
+  XS: 576,
+  SM: 768,
+  MD: 1024,
+  LG: 1200,
+  XLG: 1600,
+};
+
 export enum ROUTES {
   CALLBACK = '/callback',
   CREATE_EVENT = '/events/create',
   EDIT_EVENT = '/events/edit/:id',
   EVENT_SAVED = '/events/completed/:id',
   EVENTS = '/events',
+  FEATURES = '/help/features',
   HELP = '/help',
   HOME = '/',
+  INSTRUCTIONS = '/help/instructions',
+  INSTRUCTIONS_CONTROL_PANEL = '/help/instructions/control-panel',
+  INSTRUCTIONS_FAQ = '/help/instructions/faq',
+  INSTRUCTIONS_GENERAL = '/help/instructions/general',
+  INSTRUCTIONS_PLATFORM = '/help/instructions/platform',
   LOGOUT = '/logout',
   SEARCH = '/search',
   SILENT_CALLBACK = '/silent-callback',
+  SUPPORT = '/help/support',
+  SUPPORT_CONTACT = '/help/support/contact',
+  SUPPORT_TERMS_OF_USE = '/help/support/terms-of-use',
+  TECHNOLOGY = '/help/technology',
+  TECHNOLOGY_API = '/help/technology/api',
+  TECHNOLOGY_DOCUMENTATION = '/help/technology/documentation',
+  TECHNOLOGY_GENERAL = '/help/technology/general',
+  TECHNOLOGY_IMAGE_RIGHTS = '/help/technology/image-rights',
+  TECHNOLOGY_SOURCE_CODE = '/help/technology/source-code',
 }
 
 export const OIDC_API_TOKEN_ENDPOINT = `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`;

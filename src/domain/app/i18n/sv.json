@@ -731,7 +731,58 @@
     "copyrightText": "Alla rättigheter förbehållna."
   },
   "helpPage": {
-    "pageTitle": "Läs mer"
+    "contactPage": {
+      "buttonSend": "Skicka",
+      "labelEmail": "E-postadress",
+      "labelFeedback": "Respons",
+      "labelName": "Name",
+      "pageTitle": "Ta kontakt", 
+      "placeholderEmail": "Skriv in din e-postadress",
+      "placeholderFeedback": "Ange respons",
+      "placeholderName": "Enter name",
+      "text": "Kontakta oss med hjälp av formuläret nedan."
+    },
+    "pageTitle": "Hjälp",
+    "pageTitleApi": "API",
+    "pageTitleControlPanel": "Kontrollpanel",
+    "pageTitleDocumentation": "Dokumentation",
+    "pageTitleFaq": "Vanliga frågor",
+    "pageTitleFeatures": "Servicefunktioner",
+    "pageTitleImageRights": "Bildrättigheter",
+    "pageTitleInstructions": "Instruktioner",
+    "pageTitleSourceCode": "Källkod",
+    "pageTitleTechnology": "Teknologi",
+    "pageTitleTermsOfUse": "Användarvillkor",
+    "platformPage": {
+      "pageTitle": "Plattform",
+      "textApi": "Med det offentliga API: et kan du hämta evenemang för din egen tjänst. Du kan också föreslå oss en befintlig databank som ska länkas till länkade evenemang.",
+      "textEventManagement": "Kontrollpanelen för Linked Events används för att ange evenemang, kurser och volontäruppgifter och för att hantera relaterad information och material.",
+      "textMainContent1": "Linked Events är ett öppet gränssnitt utvecklat av Helsingfors stad för evenemang, kurser och volontäruppdrag i Helsingfors stad. Denna webbplats innehåller verktyg och instruktioner för hantering av dem och dokumentation för att använda det offentliga gränssnittet.",
+      "textMainContent2": "Evenemang kan skrivas in med tillstånd av staden. De behöver inte organiseras av staden. Du kan ange flera datum för ett evenemang. I det här fallet skapas ett paraplyevenemang automatiskt för evenemangssekvensen.",
+      "textSupport": "Kontakta oss om du vill ha mer information eller har några förslag på hur vi kan förbättra tjänsten. I avsnittet Hjälp hittar du mer detaljerad information och ett kontaktformulär.",
+      "titleApi": "Linked Events API",
+      "titleEventManagement": "Evenemanghantering",
+      "titlePlatform": "Plattform",
+      "titleServiceHighlights": "Servicehöjdpunkter",
+      "titleSupport": "Stöd och vidareutveckling"
+    },
+    "sideNavigation": {
+      "labelApi": "API",
+      "labelContact": "Ta kontakt",
+      "labelControlPanel": "Kontrollpanel",
+      "labelDocumentation": "Dokumentation",
+      "labelFaq": "FAQ",
+      "labelFeatures": "Servicefunktioner",
+      "labelGeneral": "Allmän",
+      "labelImageRights": "Bildrättigheter",
+      "labelInstructions": "Instruktioner",
+      "labelPlatform": "Plattform",
+      "labelSourceCode": "Källkod",
+      "labelSupport": "Stöd",
+      "labelTechnology": "Teknologi",
+      "labelTermsOfUse": "Användarvillkor",
+      "toggleButtonLabel": "Navigera till hjälpsidan"
+    }
   },
   "image": {
     "warningLogInToUpdate": "Logga in för att redigera den här bilden.",
@@ -758,9 +809,8 @@
     "searchEvents": "Sök evenemangen",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
-      "createEvent": "Nytt evenemang",
       "events": "Evenemangen",
-      "help": "Läs mer"
+      "help": "Hjälp"
     }
   },
   "notFound": {

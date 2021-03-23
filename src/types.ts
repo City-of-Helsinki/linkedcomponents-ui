@@ -5,6 +5,8 @@ import rootReducer from './domain/app/store/reducers';
 
 export type Language = 'en' | 'fi' | 'sv';
 
+export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xlg';
+
 export type OptionType = {
   label: string;
   value: string;
