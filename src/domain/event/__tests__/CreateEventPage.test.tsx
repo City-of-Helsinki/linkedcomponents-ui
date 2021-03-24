@@ -35,6 +35,8 @@ import { testId } from '../../../common/components/loadingSpinner/LoadingSpinner
 import { FORM_NAMES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
+  actWait,
   configure,
   getMockReduxStore,
   render,
@@ -221,6 +223,35 @@ test('should focus to select component in case of validation error', async () =>
 
   await waitFor(() => {
     expect(superEventSelect).toHaveFocus();
+  });
+});
+
+test('should focus to text editor component in case of validation error', async () => {
+  setFormValues({
+    ...EVENT_INITIAL_VALUES,
+    name: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
+    shortDescription: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.shortDescription,
+    },
+  });
+  renderComponent();
+
+  await waitFor(() => {
+    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
+  });
+
+  const descriptionTextbox = await findComponent('description');
+
+  const publishButton = await findComponent('publish');
+
+  userEvent.click(publishButton);
+
+  await waitFor(() => {
+    expect(descriptionTextbox).toHaveFocus();
   });
 });
 

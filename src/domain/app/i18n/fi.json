@@ -90,6 +90,42 @@
     "showMoreWithCount": "Näytä lisää ({{count}})",
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
+    "textEditor": {
+      "add": "Lisää",
+      "cancel": "Kumoa",
+      "blocktype": {
+        "h1": "H1",
+        "h2": "H2",
+        "h3": "H3",
+        "h4": "H4",
+        "h5": "H5",
+        "h6": "H6",
+        "blocktype": "Tekstityyppi",
+        "normal": "Normaali"
+      },
+      "history": {
+        "history": "Historia",
+        "redo": "Tee uudelleen",
+        "undo": "Kumoa"
+      },
+      "inline": {
+        "bold": "Lihavoitu",
+        "italic": "Kursivoitu",
+        "underline": "Alleviivattu"
+      },
+      "link": {
+        "link": "Linkki",
+        "linkTarget": "Linkin kohde",
+        "linkTargetOption": "Avaa linkki uudessa ikkunassa",
+        "linkTitle": "Linkin otsikko",
+        "unlink": "Poista linkitys"
+      },
+      "list": {
+        "list": "Lista",
+        "ordered": "Järjestetty",
+        "unordered": "Järjestämätön"
+      }
+    },
     "timepicker": {
       "accessibility": {
         "buttonTimeList": "Kellonajat"

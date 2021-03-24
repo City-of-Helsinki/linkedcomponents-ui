@@ -90,6 +90,42 @@
     "showMoreWithCount": "Show more ({{count}})",
     "signIn": "Sign in",
     "signOut": "Sign out",
+    "textEditor": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "blocktype": {
+        "blocktype": "Block Type",
+        "h1": "H1",
+        "h2": "H2",
+        "h3": "H3",
+        "h4": "H4",
+        "h5": "H5",
+        "h6": "H6",
+        "normal": "Normal"
+      },
+      "history": {
+        "history": "History",
+        "redo": "Redo",
+        "undo": "Undo"
+      },
+      "inline": {
+        "bold": "Bold",
+        "italic": "Italic",
+        "underline": "Underline"
+      },
+      "link": {
+        "link": "Link",
+        "linkTarget": "Link Target",
+        "linkTargetOption": "Open link in new window",
+        "linkTitle": "Link Title",
+        "unlink": "Unlink"
+      },
+      "list": {
+        "list": "List",
+        "ordered": "Ordered",
+        "unordered": "Unordered"
+      }
+    },
     "timepicker": {
       "accessibility": {
         "buttonTimeList": "Times"

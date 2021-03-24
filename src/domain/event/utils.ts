@@ -23,6 +23,7 @@ import reduce from 'lodash/reduce';
 import set from 'lodash/set';
 import sortBy from 'lodash/sortBy';
 import uniqWith from 'lodash/uniqWith';
+import sanitize from 'sanitize-html';
 import * as Yup from 'yup';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
@@ -89,6 +90,8 @@ import {
   ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
   SELECT_FIELDS,
+  TEXT_EDITOR_ALLOWED_TAGS,
+  TEXT_EDITOR_FIELDS,
   VIDEO_DETAILS_FIELDS,
 } from './constants';
 import {
@@ -858,17 +861,18 @@ const formatDescription = (formValues: EventFormFields) => {
     },
   };
 
-  Object.entries(formattedDescriptions).forEach(([key, value]) => {
-    if (value) {
-      const description = value
-        .replace(/\n\n/g, '</p><p>')
-        .replace(/\n/g, '<br/>')
-        .replace(/&/g, '&amp;');
-      // check if the value is already wrapped in a <p> tag
+  Object.entries(formattedDescriptions).forEach(([key, description]) => {
+    if (description) {
+      const trimmedDescription = description.trim();
       const formattedDescription =
-        description.startsWith('<p>') && description.endsWith('</p>')
-          ? description
-          : `<p>${description}</p>`;
+        TEXT_EDITOR_ALLOWED_TAGS.find((tag: string) =>
+          trimmedDescription.startsWith(`<${tag}>`)
+        ) &&
+        TEXT_EDITOR_ALLOWED_TAGS.find((tag: string) =>
+          trimmedDescription.endsWith(`</${tag}>`)
+        )
+          ? trimmedDescription
+          : `<p>${trimmedDescription}</p>`;
 
       // append description if Service Centre Card is selected in audience
       // only append languages that are defined in the data mapping
@@ -1043,8 +1047,9 @@ const SKIP_FIELDS = new Set([
   'keywords',
   'audience',
   'languages',
-  'in_language',
-  'sub_events',
+  'inLanguage',
+  'subEvents',
+  'superEvent',
 ]);
 
 // Enumerate all the property names of an object recursively.
@@ -1089,20 +1094,25 @@ export const getLocalisedObject = (
   ) as MultiLanguageObject;
 };
 
-const getTrimmedDescription = (event: EventFieldsFragment) => {
+const getSanitazedDescription = (event: EventFieldsFragment) => {
   const description = getLocalisedObject(event.description);
 
   for (const lang in description) {
     /* istanbul ignore else */
     if (description[lang as keyof MultiLanguageObject]) {
-      description[lang as keyof MultiLanguageObject] = description[
-        lang as keyof MultiLanguageObject
-      ]
-        .replace(/<\/p><p[\w\s"=]*>/gi, '\n\n')
-        .replace(/<br\s*[/]?>/gi, '\n')
-        .replace(/<p[\w\s"=]*>/g, '')
-        .replace(/<\/p>/g, '')
-        .replace(/&amp;/g, '&');
+      description[lang as keyof MultiLanguageObject] = sanitize(
+        unescape(description[lang as keyof MultiLanguageObject]),
+        {
+          allowedTags: TEXT_EDITOR_ALLOWED_TAGS,
+          allowedAttributes: {
+            a: ['href', 'target'],
+            // We don't currently allow img itself by default, but this
+            // would make sense if we did. You could add srcset here,
+            // and if you do the URL is checked for safety
+            img: ['src'],
+          },
+        }
+      );
     }
   }
   return description;
@@ -1146,7 +1156,7 @@ export const getEventInitialValues = (
     name: getLocalisedObject(event.name),
     infoUrl: getLocalisedObject(event.infoUrl),
     shortDescription: getLocalisedObject(event.shortDescription),
-    description: getTrimmedDescription(event),
+    description: getSanitazedDescription(event),
     startTime: event.startTime ? new Date(event.startTime) : null,
     endTime: event.endTime ? new Date(event.endTime) : null,
     location: event.location?.atId || '',
@@ -1188,13 +1198,17 @@ export const getEventInitialValues = (
   };
 };
 
-const getFocusableFieldId = (fieldName: string): string => {
+const getFocusableFieldId = (
+  fieldName: string
+): { fieldId: string; type: 'default' | 'select' | 'textEditor' } => {
   // For the select elements, focus the toggle button
   if (SELECT_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-input`;
+    return { fieldId: `${fieldName}-input`, type: 'select' };
+  } else if (TEXT_EDITOR_FIELDS.find((item) => fieldName.startsWith(item))) {
+    return { fieldId: `${fieldName}-text-editor`, type: 'textEditor' };
   }
 
-  return fieldName;
+  return { fieldId: fieldName, type: 'default' };
 };
 
 export const scrollToFirstError = ({
@@ -1220,11 +1234,17 @@ export const scrollToFirstError = ({
       }
     }
 
-    const field = document.getElementById(getFocusableFieldId(e.path));
+    const { fieldId, type: fieldType } = getFocusableFieldId(e.path);
+    const field = document.getElementById(fieldId);
 
     /* istanbul ignore else */
     if (field) {
-      field.focus();
+      if (fieldType === 'textEditor') {
+        field.click();
+      } else {
+        field.focus();
+      }
+
       return false;
     }
   });

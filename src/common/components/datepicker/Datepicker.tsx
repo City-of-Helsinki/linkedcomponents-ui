@@ -51,6 +51,7 @@ export type DatepickerProps = {
 const Datepicker: React.FC<DatepickerProps> = ({
   className,
   disabled,
+  errorText,
   focusedDate: _focusedDate,
   helperText,
   hideLabel,
@@ -305,6 +306,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
   const wrapperProps = {
     className: classNames(className, css(theme.datepicker)),
     disabled,
+    errorText,
     hasIcon: true,
     helperText,
     hideLabel,

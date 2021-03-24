@@ -333,6 +333,13 @@ type TabsCSSProperties = {
   '--tabs-tab-color-active'?: string;
 };
 
+type TextEditorCSSProperties = {
+  '--text-editor-border-color'?: string;
+  '--text-editor-editor-max-height'?: string;
+  '--text-editor-editor-min-height'?: string;
+  '--text-editor-toolbar-border-color'?: string;
+};
+
 type TextInputCSSProperties = {
   '--border-radius'?: string;
   '--border-width'?: string;
@@ -416,6 +423,7 @@ export type Theme = {
   superEventTypeTag: SuperEventTypeTagCSSProperties;
   table: TableCSSProperties;
   tabs: TabsCSSProperties;
+  textEditor: TextEditorCSSProperties;
   textInput: TextInputCSSProperties;
   timepicker: TimepickerCSSProperties;
 };
@@ -449,6 +457,7 @@ const defaultTheme: Theme = {
   superEventTypeTag: {},
   table: {},
   tabs: {},
+  textEditor: {},
   textInput: {},
   timepicker: {},
 };

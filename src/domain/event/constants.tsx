@@ -206,6 +206,29 @@ export const SELECT_FIELDS = [
   EVENT_FIELDS.SUPER_EVENT,
 ];
 
+export const TEXT_EDITOR_ALLOWED_TAGS: string[] = [
+  'a',
+  'b',
+  'br',
+  'div',
+  'em',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'i',
+  'li',
+  'ol',
+  'p',
+  'span',
+  'strong',
+  'ul',
+];
+
+export const TEXT_EDITOR_FIELDS = [EVENT_FIELDS.DESCRIPTION];
+
 export const EVENT_INCLUDES = [
   'audience',
   'keywords',

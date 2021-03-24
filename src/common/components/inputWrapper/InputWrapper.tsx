@@ -4,9 +4,10 @@ import React from 'react';
 import FieldLabel from '../fieldLabel/FieldLabel';
 import styles from './inputWrapper.module.scss';
 
-type InputWrapperProps = {
+export type InputWrapperProps = {
   children?: React.ReactNode;
   className?: string;
+  errorText?: string;
   hasIcon?: boolean;
   helperText?: string;
   hideLabel?: boolean;
@@ -16,14 +17,16 @@ type InputWrapperProps = {
   labelText?: string;
   required?: boolean;
   style?: React.CSSProperties;
+  successText?: string;
   tooltipLabel?: string;
   tooltipText?: string;
   tooltipButtonLabel?: string;
 };
 
-const InputWrapper = ({
+const InputWrapper: React.FC<InputWrapperProps> = ({
   children,
   className = '',
+  errorText,
   hasIcon = false,
   helperText,
   hideLabel = false,
@@ -33,14 +36,19 @@ const InputWrapper = ({
   labelText,
   required = false,
   style,
+  successText,
   tooltipLabel,
   tooltipText,
   tooltipButtonLabel,
-}: InputWrapperProps) => (
+}) => (
   <div
     className={classNames(
       styles.root,
-      { [styles.hasIcon]: hasIcon, [styles.invalid]: invalid },
+      {
+        [styles.hasIcon]: hasIcon,
+        [styles.invalid]: invalid,
+        [styles.success]: successText,
+      },
       className
     )}
     style={style}
@@ -57,7 +65,21 @@ const InputWrapper = ({
       />
     )}
     <div className={classNames(styles.inputWrapper)}>{children}</div>
-    {helperText && <div className={styles.helperText}>{helperText}</div>}
+    {errorText && (
+      <div className={styles.errorText} id={`${id}-error`}>
+        {errorText}
+      </div>
+    )}
+    {successText && (
+      <div className={styles.successText} id={`${id}-success`}>
+        {successText}
+      </div>
+    )}
+    {helperText && (
+      <div className={styles.helperText} id={`${id}-helper`}>
+        {helperText}
+      </div>
+    )}
   </div>
 );
 

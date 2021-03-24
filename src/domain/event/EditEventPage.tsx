@@ -45,6 +45,7 @@ import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import useEventUpdateActions, { MODALS } from './hooks/useEventUpdateActions';
 import useRelatedEvents from './hooks/useRelatedEvents';
+import useSortedInfoLanguages from './hooks/useSortedInfoLanguages';
 import Section from './layout/Section';
 import ConfirmCancelModal from './modals/ConfirmCancelModal';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
@@ -75,6 +76,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     event,
     locale
   );
+
   const [nextPublicationStatus, setNextPublicationStatus] = React.useState(
     publicationStatus
   );
@@ -144,6 +146,14 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       },
     });
   };
+
+  const sortedEventInfoLanguages = useSortedInfoLanguages(
+    initialValues.eventInfoLanguages as EVENT_INFO_LANGUAGES[]
+  );
+
+  React.useEffect(() => {
+    setDescriptionLanguage(sortedEventInfoLanguages[0]);
+  }, [sortedEventInfoLanguages]);
 
   return (
     <Formik
