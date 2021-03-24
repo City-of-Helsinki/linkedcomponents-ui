@@ -25,12 +25,11 @@
       "buttonDecline": "Nedgång",
       "checkboxAccept": "Jag har läst och godkänt <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"användarvillkoren {{openInNewTab}}\">användarvillkoren</a>",
       "checkboxAcceptAriaLabel": "Jag har läst och godkänt användarvillkoren",
-      "linkDataProtection": {
-        "text": "Läs mer om Helsingfors stads integritetspolicy här",
-        "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd"
-      },
-      "text1": "Genom att välja ”acceptera” accepterar jag användarvillkoren. Därefter måste du acceptera antingen väsentliga eller alla kakor.",
-      "text2": "Vi använder också cookies för att förbättra din användarupplevelse på webbplatsen.",
+      "linkDataProtection": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd",
+      "linkPrivacyPolicy": "TODO: ADD LINK",
+      "text1": "Genom att välja ”acceptera” godkänner du användarvillkoren. Därefter måste du acceptera antingen väsentliga eller alla kakor.",
+      "text2": "Läs mer om vår <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"integritetspolicy {{openInNewTab}}\">integritetspolicy</a> och <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registerbeskrivning {{openInNewTab}}\">registerbeskrivning</a>.",
+      "text3": "Vi använder cookies för att förbättra din användarupplevelse på webbplatsen.",
       "title": "Användningsvillkor för Linked Events och kakor"
     },
     "datepicker": {

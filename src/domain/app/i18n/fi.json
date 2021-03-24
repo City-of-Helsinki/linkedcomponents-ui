@@ -25,12 +25,11 @@
       "buttonDecline": "En hyväksy",
       "checkboxAccept": "Olen lukenut ja hyväksyn palvelun <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"käyttöehdot {{openInNewTab}}\">käyttöehdot</a>",
       "checkboxAcceptAriaLabel": "Olen lukenut ja hyväksyn palvelun käyttöehdot",
-      "linkDataProtection": {
-        "text": "Lue lisää Helsingin kaupungin tietosuojakäytännöistä täältä",
-        "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/"
-      },
-      "text1": "Valitsemalla ”hyväksy” hyväksyn palvelun käyttöehdot. Seuraavaksi tulee hyväksyä joko välttämättömät tai kaikki evästeet.",
-      "text2": "Käytämme lisäksi evästeitä parantaaksemme käyttökokemustasi sivustolla.",
+      "linkDataProtection": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/",
+      "linkPrivacyPolicy": "TODO: ADD LINK",
+      "text1": "Valitsemalla ”hyväksy” hyväksyt palvelun käyttöehdot. Seuraavaksi tulee hyväksyä joko välttämättömät tai kaikki evästeet.",
+      "text2": "Lue lisää <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"tietosuojakäytännöistä {{openInNewTab}}\">tietosuojakäytännöistä</a> ja <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"rekisteriselosteesta {{openInNewTab}}\">rekisteriselosteesta</a>.",
+      "text3": "Käytämme evästeitä parantaaksemme käyttökokemustasi sivustolla.",
       "title": "Linked Events käyttöehdot ja evästeet"
     },
     "datepicker": {

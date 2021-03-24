@@ -25,12 +25,11 @@
       "buttonDecline": "Decline",
       "checkboxAccept": "I have read and accept the <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"terms of service {{openInNewTab}}\">terms of service</a>",
       "checkboxAcceptAriaLabel": "I have read and accept the terms of service</a>",
-      "linkDataProtection": {
-        "text": "Read more about the City of Helsinki's privacy policy here",
-        "url": "https://www.hel.fi/helsinki/en/administration/information/data-protection"
-      },
-      "text1": "By selecting “accept”, I accept the terms of service. Next, you must accept either essential or all cookies.",
-      "text2": "We also use cookies to improve your user experience on the site.",
+      "linkDataProtection": "https://www.hel.fi/helsinki/en/administration/information/data-protection",
+      "linkPrivacyPolicy": "TODO: ADD LINK",
+      "text1": "By selecting “accept” you agree to the terms of service. Next, you must accept either essential or all cookies.",
+      "text2": "Read more about our <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"privacy policy {{openInNewTab}}\">privacy policy</a> and <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registry description {{openInNewTab}}\">registry description</a>.",
+      "text3": "We use cookies to improve your user experience on the site.",
       "title": "Linked Events Terms of Use and Cookies"
     },
     "datepicker": {

@@ -21,7 +21,7 @@ beforeEach(() => {
 const renderApp = () => render(<App />);
 
 const texts = {
-  acceptChechbox: /olen lukenut ja hyväksyn palvelun käyttöehdot/i,
+  acceptChechbox: /olen lukenut ja hyväksyt palvelun käyttöehdot/i,
   acceptAllButton: /kaikki/i,
   acceptOnlyNecessaryButton: /vain välttämättömät/i,
   declinedButton: 'En hyväksy',

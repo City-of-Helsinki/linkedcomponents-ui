@@ -3,7 +3,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Checkbox from '../../../common/components/checkbox/Checkbox';
-import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import Modal from '../../../common/components/modal/Modal';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
@@ -46,14 +45,18 @@ const CookieConsentModal: React.FC<Props> = ({
     >
       <p>
         <strong>{t('common.cookieConsent.text1')}</strong>
-        <br />
-
-        <ExternalLink href={t('common.cookieConsent.linkDataProtection.url')}>
-          {t('common.cookieConsent.linkDataProtection.text')}
-        </ExternalLink>
       </p>
       <p>
-        <strong>{t('common.cookieConsent.text2')}</strong>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: t('common.cookieConsent.text2', {
+              openInNewTab: t('common.openInNewTab'),
+              urlDataProtection: t('common.cookieConsent.linkDataProtection'),
+              urlPrivacyPolicy: t('common.cookieConsent.linkPrivacyPolicy'),
+            }),
+          }}
+        />
+        {t('common.cookieConsent.text3')}
       </p>
 
       <Checkbox
@@ -75,8 +78,18 @@ const CookieConsentModal: React.FC<Props> = ({
       />
 
       <div className={styles.buttonWrapper}>
-        <Button onClick={closeModal} type="button" variant="secondary">
-          {t('common.cookieConsent.buttonDecline')}
+        <Button
+          disabled={!confirmed}
+          onClick={() => {
+            saveConsentToCookie({
+              required: true,
+              tracking: true,
+            });
+          }}
+          type="button"
+          variant="primary"
+        >
+          {t('common.cookieConsent.buttonAcceptAll')}
         </Button>
         <Button
           disabled={!confirmed}
@@ -95,14 +108,14 @@ const CookieConsentModal: React.FC<Props> = ({
           disabled={!confirmed}
           onClick={() => {
             saveConsentToCookie({
-              required: true,
-              tracking: true,
+              required: false,
+              tracking: false,
             });
           }}
           type="button"
-          variant="primary"
+          variant="secondary"
         >
-          {t('common.cookieConsent.buttonAcceptAll')}
+          {t('common.cookieConsent.buttonDecline')}
         </Button>
       </div>
     </Modal>

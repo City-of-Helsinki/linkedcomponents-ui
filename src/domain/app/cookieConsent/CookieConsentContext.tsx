@@ -79,7 +79,7 @@ export const CookieConsentProvider: React.FC = ({ children }) => {
   React.useEffect(() => {
     if (
       !NO_COOKIE_CONSENT_PATHS.includes(pathname.replace(`/${locale}`, '')) &&
-      (!consent.acceptedAt || !consent.required)
+      !consent.acceptedAt
     ) {
       setIsConsentModalOpen(true);
     }
