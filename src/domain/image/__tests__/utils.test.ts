@@ -1,7 +1,18 @@
 import { ImageFieldsFragment } from '../../../generated/graphql';
-import { fakeImage } from '../../../utils/mockDataUtils';
-import { DEFAULT_LICENSE_TYPE } from '../constants';
-import { getImageFields, imagePathBuilder, imagesPathBuilder } from '../utils';
+import {
+  fakeImage,
+  fakeOrganization,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
+import i18 from '../../app/i18n/i18nInit';
+import { DEFAULT_LICENSE_TYPE, IMAGE_ACTIONS } from '../constants';
+import {
+  checkCanUserDoAction,
+  getImageActionWarning,
+  getImageFields,
+  imagePathBuilder,
+  imagesPathBuilder,
+} from '../utils';
 
 describe('imagePathBuilder function', () => {
   it('should build correct path', () => {
@@ -55,5 +66,127 @@ describe('getCollectionFields function', () => {
     expect(license).toBe(DEFAULT_LICENSE_TYPE);
     expect(name).toBe('');
     expect(photographerName).toBe('');
+  });
+});
+
+describe('checkCanUserDoAction function', () => {
+  it('should allow correct actions if adminArganizations contains publisher', () => {
+    const publisher = 'publisher:1';
+    const user = fakeUser({ adminOrganizations: [publisher] });
+
+    const allowedActions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if organizationAncestores contains any of the adminArganizations', () => {
+    const publisher = 'publisher:1';
+    const adminOrganization = 'admin:1';
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    const allowedActions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [fakeOrganization({ id: adminOrganization })],
+          publisher: publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if organizationMembers contains publisher', () => {
+    const publisher = 'publisher:1';
+    const user = fakeUser({ organizationMemberships: [publisher] });
+
+    const allowedActions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+});
+
+describe('getImageActionWarning function', () => {
+  it('should return correct warning if publisher is empty', () => {
+    const actions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
+    actions.forEach((action) => {
+      expect(
+        getImageActionWarning({
+          action,
+          authenticated: false,
+          publisher: '',
+          t: (s) => i18.t(s),
+          userCanDoAction: false,
+        })
+      ).toBe('Kuvaa ei ole valittu');
+    });
+  });
+
+  it('should return correct warning if user is not authenticates', () => {
+    const actions = [
+      {
+        action: IMAGE_ACTIONS.UPDATE,
+        warning: 'Kirjaudu sisään muokataksesi kuvaa.',
+      },
+      {
+        action: IMAGE_ACTIONS.UPLOAD,
+        warning: 'Kirjaudu sisään lisätäksesi kuvia.',
+      },
+    ];
+    actions.forEach(({ action, warning }) => {
+      expect(
+        getImageActionWarning({
+          action,
+          authenticated: false,
+          publisher: 'publisher:1',
+          t: (s) => i18.t(s),
+          userCanDoAction: false,
+        })
+      ).toBe(warning);
+    });
+  });
+
+  it('should return correct warning if user is not allowed to do action', () => {
+    const actions = [
+      {
+        action: IMAGE_ACTIONS.UPDATE,
+        warning: 'Sinulla ei ole oikeuksia muokata tätä kuvaa',
+      },
+      {
+        action: IMAGE_ACTIONS.UPLOAD,
+        warning: 'Sinulla ei ole oikeuksia lisätä kuvia',
+      },
+    ];
+    actions.forEach(({ action, warning }) => {
+      expect(
+        getImageActionWarning({
+          action,
+          authenticated: true,
+          publisher: 'publisher:1',
+          t: (s) => i18.t(s),
+          userCanDoAction: false,
+        })
+      ).toBe(warning);
+    });
   });
 });

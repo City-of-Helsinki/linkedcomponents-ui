@@ -12,10 +12,16 @@ export const testIds = {
 };
 
 export interface ImageUploaderProps {
+  disabled?: boolean;
   onChange: (file: File) => void;
+  title?: string;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onChange }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({
+  disabled,
+  onChange,
+  title,
+}) => {
   const { t } = useTranslation();
   const fileInput = React.useRef<HTMLInputElement | null>(null);
   const [hovered, setHovered] = React.useState(false);
@@ -58,6 +64,9 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onChange }) => {
     //prevent the browser from opening the image
     event.preventDefault();
     event.stopPropagation();
+
+    if (disabled) return;
+
     //let's grab the image file
     const imageFile = event.dataTransfer.files[0];
 
@@ -83,6 +92,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onChange }) => {
     <div className={styles.imageUploader}>
       <input
         data-testid={testIds.input}
+        disabled={disabled}
         ref={fileInput}
         type="file"
         onChange={handleChange}
@@ -91,10 +101,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onChange }) => {
       />
       <button
         className={classNames(styles.dropZone, { [styles.hover]: hovered })}
+        disabled={disabled}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={handleClick}
+        title={title}
       >
         <IconDownload aria-hidden={true} />
         {t('common.imageUploader.buttonDropImage')}

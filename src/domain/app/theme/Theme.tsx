@@ -286,6 +286,23 @@ type SelectCSSProperties = {
   '--menu-z-index'?: number;
 } & Partial<SelectCustomTheme>;
 
+type SideNavigationCSSProperties = {
+  '--side-navigation-background-color'?: string;
+  '--side-navigation-active-indicator-background-color'?: string;
+  '--side-navigation-icon-size'?: string;
+  '--side-navigation-level-border-color'?: string;
+  '--side-navigation-level-border-color-focus'?: string;
+  '--side-navigation-level-border-color-hover'?: string;
+  '--side-navigation-level-border-width'?: string;
+  '--side-navigation-level-background-color'?: string;
+  '--side-navigation-level-background-color-active'?: string;
+  '--side-navigation-level-background-color-hover'?: string;
+  '--side-navigation-level-color'?: string;
+  '--side-navigation-mobile-menu-border-color'?: string;
+  '--side-navigation-mobile-menu-border-width'?: string;
+  '--side-navigation-mobile-menu-z-index'?: number;
+};
+
 type StatusTagCSSProperties = {
   '--status-tag-background-color-cancelled'?: string;
   '--status-tag-color-cancelled'?: string;
@@ -401,6 +418,7 @@ export type Theme = {
   radioButton: RadioButtonCSSProperties;
   root: RootCSSProperties;
   select: SelectCSSProperties;
+  sideNavigation: SideNavigationCSSProperties;
   statusTag: StatusTagCSSProperties;
   superEventTypeTag: SuperEventTypeTagCSSProperties;
   table: TableCSSProperties;
@@ -434,6 +452,7 @@ const defaultTheme: Theme = {
   radioButton: {},
   root: {},
   select: {},
+  sideNavigation: {},
   statusTag: {},
   superEventTypeTag: {},
   table: {},

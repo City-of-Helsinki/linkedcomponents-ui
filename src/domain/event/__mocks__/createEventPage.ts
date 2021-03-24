@@ -1,7 +1,8 @@
 import { MockedResponse } from '@apollo/react-testing';
 import range from 'lodash/range';
 
-import { INCLUDE, KEYWORD_SETS } from '../../../constants';
+import { PAGE_SIZE } from '../../../common/components/imageSelector/constants';
+import { INCLUDE, KEYWORD_SETS, MAX_PAGE_SIZE } from '../../../constants';
 import {
   CreateEventDocument,
   CreateEventsDocument,
@@ -14,6 +15,7 @@ import {
   KeywordSetDocument,
   LanguagesDocument,
   OrganizationDocument,
+  OrganizationsDocument,
   PlaceDocument,
   PlacesDocument,
   UpdateImageDocument,
@@ -28,6 +30,7 @@ import {
   fakeKeywordSet,
   fakeLanguages,
   fakeOrganization,
+  fakeOrganizations,
   fakePlace,
   fakePlaces,
   fakeUser,
@@ -49,6 +52,10 @@ const eventValues = {
     },
   ],
 };
+
+const organizationId = 'organization:1';
+const organizationName = 'Organization name';
+
 const imageDetails = {
   altText: 'Image alt text',
   license: 'cc_by',
@@ -57,7 +64,12 @@ const imageDetails = {
 };
 const imageId = 'image:1';
 const imageAtId = `https://api.hel.fi/linkedevents-test/v1/image/${imageId}/`;
-const image = fakeImage({ ...imageDetails, id: imageId, atId: imageAtId });
+const image = fakeImage({
+  ...imageDetails,
+  id: imageId,
+  atId: imageAtId,
+  publisher: organizationId,
+});
 
 const keywordNames = range(1, 5).map((index) => `Keyword name ${index}`);
 const keywords = fakeKeywords(
@@ -68,9 +80,6 @@ const keywords = fakeKeywords(
     name: { fi: name },
   }))
 );
-
-const organizationId = 'organization:1';
-const organizationName = 'Organization name';
 
 const placeName = 'Place name';
 const streetAddress = 'Street address';
@@ -279,7 +288,12 @@ const mockedUpdateImageResponse: MockedResponse = {
   result: updateImageResponse,
 };
 
-const images = fakeImages(5, [image]);
+const images = fakeImages(PAGE_SIZE, [image]);
+const imagesVariables = {
+  createPath: undefined,
+  pageSize: PAGE_SIZE,
+  publisher: organizationId,
+};
 const imagesResponse = {
   data: {
     images,
@@ -288,7 +302,7 @@ const imagesResponse = {
 const mockedImagesResponse: MockedResponse = {
   request: {
     query: ImagesDocument,
-    variables: { createPath: undefined, pageSize: 5 },
+    variables: imagesVariables,
   },
   result: imagesResponse,
   newData: () => imagesResponse,
@@ -423,6 +437,20 @@ const mockedOrganizationResponse = {
   result: organizationResponse,
 };
 
+const organizationsVariables = {
+  createPath: undefined,
+  child: organizationId,
+  pageSize: MAX_PAGE_SIZE,
+};
+const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
+const mockedOrganizationsResponse = {
+  request: {
+    query: OrganizationsDocument,
+    variables: organizationsVariables,
+  },
+  result: organizationsResponse,
+};
+
 const user = fakeUser({
   organization: organizationId,
   adminOrganizations: [organizationId],
@@ -442,7 +470,9 @@ const mockedUserResponse = {
 
 export {
   eventValues,
+  imageAtId,
   imageDetails,
+  keywordAtId,
   keywordName,
   mockedAudienceKeywordSetResponse,
   mockedCreateDraftEventResponse,
@@ -455,6 +485,7 @@ export {
   mockedKeywordsResponse,
   mockedLanguagesResponse,
   mockedOrganizationResponse,
+  mockedOrganizationsResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,
   mockedTopicsKeywordSetResponse,
@@ -462,5 +493,6 @@ export {
   mockedUpdateImageResponse,
   mockedUserResponse,
   organizationId,
+  placeAtId,
   selectedPlaceText,
 };

@@ -312,6 +312,7 @@ export type UploadImageMutationInput = {
   license?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   photographerName?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
 
@@ -853,7 +854,7 @@ export type UploadImageMutation = (
 
 export type ImageFieldsFragment = (
   { __typename?: 'Image' }
-  & Pick<Image, 'id' | 'atId' | 'altText' | 'license' | 'name' | 'photographerName' | 'url'>
+  & Pick<Image, 'id' | 'atId' | 'altText' | 'license' | 'name' | 'photographerName' | 'publisher' | 'url'>
 );
 
 export type ImageQueryVariables = Exact<{
@@ -1193,6 +1194,7 @@ export const ImageFieldsFragmentDoc = gql`
   license
   name
   photographerName
+  publisher
   url
 }
     `;

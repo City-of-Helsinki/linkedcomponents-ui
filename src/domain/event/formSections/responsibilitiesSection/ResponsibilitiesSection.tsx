@@ -57,28 +57,6 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
 
   return (
     <>
-      <h3>{t('event.form.titlePersonsInCharge')}</h3>
-      <FieldRow
-        notification={
-          <Notification
-            className={styles.notification}
-            label={t('event.form.notificationTitleProvider')}
-            type="info"
-          >
-            <p>{t('event.form.infoTextProvider')}</p>
-          </Notification>
-        }
-      >
-        <FieldColumn>
-          <MultiLanguageField
-            labelKey={`event.form.labelProvider.${type}`}
-            languages={eventInfoLanguages}
-            name={EVENT_FIELDS.PROVIDER}
-            placeholder={t(`event.form.placeholderProvider.${type}`)}
-          />
-        </FieldColumn>
-      </FieldRow>
-
       <FieldRow
         notification={
           <Notification
@@ -86,7 +64,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             label={t('event.form.notificationTitlePublisher')}
             type="info"
           >
-            <p>{t('event.form.infoTextPublisher')}</p>
+            <p>{t(`event.form.infoTextPublisher.${type}`)}</p>
           </Notification>
         }
       >
@@ -97,6 +75,27 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             name={EVENT_FIELDS.PUBLISHER}
             component={PublisherSelectorField}
             publisher={savedEvent?.publisher}
+          />
+        </FieldColumn>
+      </FieldRow>
+
+      <FieldRow
+        notification={
+          <Notification
+            className={styles.notification}
+            label={t('event.form.notificationTitleProvider')}
+            type="info"
+          >
+            <p>{t(`event.form.infoTextProvider.${type}`)}</p>
+          </Notification>
+        }
+      >
+        <FieldColumn>
+          <MultiLanguageField
+            labelKey={`event.form.labelProvider.${type}`}
+            languages={eventInfoLanguages}
+            name={EVENT_FIELDS.PROVIDER}
+            placeholder={t(`event.form.placeholderProvider.${type}`)}
           />
         </FieldColumn>
       </FieldRow>

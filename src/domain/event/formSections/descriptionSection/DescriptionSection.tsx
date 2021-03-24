@@ -90,7 +90,8 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                     label={t(`event.form.notificationTitleDescription.${type}`)}
                     type="info"
                   >
-                    <p>{t(`event.form.infoTextDescription`)}</p>
+                    <p>{t(`event.form.infoTextDescription1.${type}`)}</p>
+                    <p>{t(`event.form.infoTextDescription2.${type}`)}</p>
                   </Notification>
                 }
               >

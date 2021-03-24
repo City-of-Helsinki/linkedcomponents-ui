@@ -21,14 +21,18 @@ const renderComponent = (store?: Store<StoreState, AnyAction>, route = '/fi') =>
 
 const findComponent = (
   key:
+    | 'enOption'
     | 'languageSelector'
     | 'menuButton'
     | 'navigation'
     | 'signInButton'
     | 'signOutLink'
-    | 'svOption'
 ) => {
   switch (key) {
+    case 'enOption':
+      return screen.findByRole('link', {
+        name: translations.navigation.languages.en,
+      });
     case 'languageSelector':
       return screen.findByRole('button', {
         name: translations.navigation.languageSelectorAriaLabel,
@@ -43,10 +47,6 @@ const findComponent = (
       return screen.findByRole('button', { name: translations.common.signIn });
     case 'signOutLink':
       return screen.findByRole('link', { name: translations.common.signOut });
-    case 'svOption':
-      return screen.findByRole('link', {
-        name: translations.navigation.languages.sv,
-      });
   }
 };
 
@@ -55,7 +55,8 @@ beforeEach(() => {
   i18n.changeLanguage('fi');
 });
 
-test('matches snapshot', async () => {
+// TODO: Skip this test because SV UI language is temporarily disabled
+test.skip('matches snapshot', async () => {
   i18n.changeLanguage('sv');
   const { container } = renderComponent(undefined, '/sv');
 
@@ -107,10 +108,10 @@ test('should change language', async () => {
   const languageSelectorButton = await findComponent('languageSelector');
   userEvent.click(languageSelectorButton);
 
-  const svOption = await findComponent('svOption');
-  userEvent.click(svOption);
+  const enOption = await findComponent('enOption');
+  userEvent.click(enOption);
 
-  expect(history.location.pathname).toBe('/sv');
+  expect(history.location.pathname).toBe('/en');
 });
 
 test('should start log in process', async () => {

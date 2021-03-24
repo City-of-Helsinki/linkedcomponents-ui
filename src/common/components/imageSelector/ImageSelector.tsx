@@ -20,6 +20,7 @@ export interface ImageSelectorProps {
   multiple?: boolean;
   onBlur?: (value: string[]) => void;
   onChange: (value: string[]) => void;
+  publisher: string;
   value: string[];
 }
 
@@ -28,6 +29,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   multiple = false,
   onBlur,
   onChange,
+  publisher,
   value,
 }) => {
   const { theme } = useTheme();
@@ -46,6 +48,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     variables: {
       createPath: getPathBuilder(imagesPathBuilder),
       pageSize: PAGE_SIZE,
+      publisher,
     },
   });
 
@@ -119,27 +122,31 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
       ref={container}
     >
       <div className={styles.imagesGrid}>
-        {imagesData?.images.data.map((image) => {
-          const checked = value.includes(image?.atId as string);
+        {imagesData?.images.data.length ? (
+          imagesData?.images.data.map((image) => {
+            const checked = value.includes(image?.atId as string);
 
-          return (
-            image?.url && (
-              <button
-                key={image.id}
-                className={classNames(styles.image, {
-                  [styles.checked]: checked,
-                })}
-                aria-label={image.name as string}
-                disabled={disabled}
-                style={{ backgroundImage: `url(${image.url})` }}
-                role="checkbox"
-                type="button"
-                aria-checked={checked}
-                onClick={handleChange(image)}
-              />
-            )
-          );
-        })}
+            return (
+              image?.url && (
+                <button
+                  key={image.id}
+                  className={classNames(styles.image, {
+                    [styles.checked]: checked,
+                  })}
+                  aria-label={image.name as string}
+                  disabled={disabled}
+                  style={{ backgroundImage: `url(${image.url})` }}
+                  role="checkbox"
+                  type="button"
+                  aria-checked={checked}
+                  onClick={handleChange(image)}
+                />
+              )
+            );
+          })
+        ) : (
+          <div className={styles.noImages}>Ei kuvia</div>
+        )}
       </div>
       <div className={styles.buttonWrapper}>
         <Button

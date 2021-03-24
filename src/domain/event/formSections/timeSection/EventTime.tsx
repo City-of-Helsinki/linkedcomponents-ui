@@ -1,4 +1,4 @@
-import { FastField } from 'formik';
+import { FastField, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -16,7 +16,6 @@ export type EventTimeProps = {
   eventTimePath: string;
   onDelete?: () => void;
   savedEvent?: EventFieldsFragment;
-  type: string;
 };
 
 const getFieldName = (eventTimePath: string, field: string) =>
@@ -26,8 +25,11 @@ const EventTime: React.FC<EventTimeProps> = ({
   eventTimePath,
   onDelete,
   savedEvent,
-  type,
 }) => {
+  const [{ value: type }] = useField({
+    name: EVENT_FIELDS.TYPE,
+  });
+
   const isRecurringEvent =
     savedEvent?.superEventType === SuperEventType.Recurring;
   const { t } = useTranslation();
@@ -46,6 +48,8 @@ const EventTime: React.FC<EventTimeProps> = ({
       <>
         <FormGroup>
           <FastField
+            // Use type as key for the component to force rerender when event type changes
+            key={type}
             component={DatepickerField}
             disabled={isRecurringEvent}
             name={getFieldName(eventTimePath, EVENT_FIELDS.START_TIME)}
@@ -57,6 +61,8 @@ const EventTime: React.FC<EventTimeProps> = ({
         </FormGroup>
         <FormGroup>
           <FastField
+            // Use type as key for the component to force rerender when event type changes
+            key={type}
             component={DatepickerField}
             disabled={isRecurringEvent}
             name={getFieldName(eventTimePath, EVENT_FIELDS.END_TIME)}

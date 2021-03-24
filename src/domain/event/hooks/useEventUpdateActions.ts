@@ -1,9 +1,7 @@
 import { useApolloClient } from '@apollo/client';
-import diff from 'lodash/difference';
 import map from 'lodash/map';
 import React from 'react';
 
-import { cancelEventVariables } from '../__mocks__/editEventPage';
 import {
   EventFieldsFragment,
   EventStatus,
@@ -12,10 +10,8 @@ import {
   UpdateEventMutationInput,
   useDeleteEventMutation,
   useUpdateEventsMutation,
-  useUpdateImageMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import { clearEventQuery } from '../../events/utils';
 import { EventFormFields } from '../types';
 import {
@@ -24,6 +20,7 @@ import {
   getEventPayload,
   getRelatedEvents,
 } from '../utils';
+import useUpdateImageIfNeeded from './useUpdateImageIfNeeded';
 
 export enum MODALS {
   CANCEL = 'cancel',
@@ -49,7 +46,7 @@ const useEventUpdateActions = ({ event }: Props) => {
 
   const [deleteEventMutation] = useDeleteEventMutation();
   const [updateEventsMutation] = useUpdateEventsMutation();
-  const [updateImageMutation] = useUpdateImageMutation();
+  const { updateImageIfNeeded } = useUpdateImageIfNeeded();
 
   const closeModal = () => {
     setOpenModal(null);
@@ -150,23 +147,6 @@ const useEventUpdateActions = ({ event }: Props) => {
     }
   };
 
-  const saveImageIfNeeded = async (values: EventFormFields) => {
-    const { imageDetails, images } = values;
-    const imageId = images[0];
-
-    /* istanbul ignore else */
-    if (imageId) {
-      await updateImageMutation({
-        variables: {
-          input: {
-            id: parseIdFromAtId(imageId) as string,
-            ...imageDetails,
-          },
-        },
-      });
-    }
-  };
-
   const updateEvent = async (
     values: EventFormFields,
     publicationStatus: PublicationStatus,
@@ -177,7 +157,7 @@ const useEventUpdateActions = ({ event }: Props) => {
       const { atId, id, superEventType } = getEventFields(event, locale);
       const subEvents = event.subEvents;
 
-      await saveImageIfNeeded(values);
+      await updateImageIfNeeded(values);
 
       const basePayload = getEventPayload(values, publicationStatus);
       const payload: UpdateEventMutationInput[] = [{ ...basePayload, id }];

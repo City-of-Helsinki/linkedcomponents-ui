@@ -859,6 +859,7 @@ describe('getEventInitialValues function', () => {
       infoUrl,
       inLanguage: inLanguageAtIds,
       instagramUrl,
+      isImageEditable: false,
       isUmbrella: false,
       isVerified: true,
       keywords: keywordAtIds,

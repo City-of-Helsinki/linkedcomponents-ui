@@ -76,7 +76,7 @@ exports[`matches snapshot 1`] = `
         href="/sv/help"
       >
         <span>
-          Läs mer
+          Hjälp
         </span>
       </a>
     </nav>
@@ -96,7 +96,7 @@ exports[`matches snapshot 1`] = `
         href="https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
       >
         <span>
-          Ge respons och påverka
+          Ge respons
         </span>
       </a>
       <button

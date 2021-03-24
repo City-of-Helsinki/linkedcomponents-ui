@@ -80,6 +80,18 @@
     background-color: rgba(255, 255, 255, 0.35);
   }
 
+  .noImages {
+    grid-column: 1 / 4 !important;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    font-size: var(--fontsize-heading-m);
+
+    @include medium-up {
+      grid-column: 1 / 6 !important;
+    }
+  }
+
   .buttonWrapper {
     display: flex;
   }

@@ -12,6 +12,7 @@ const ExternalLink: React.FC<Props> = ({ children, className, ...rest }) => {
     <a
       aria-label={`${children} ${t('common.openInNewTab')}`}
       className={className}
+      target="_blank"
       {...rest}
     >
       {children}

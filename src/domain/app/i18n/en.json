@@ -19,6 +19,19 @@
     "combobox": {
       "toggleButtonAriaLabel": "Menu"
     },
+    "cookieConsent": {
+      "buttonAcceptAll": "All",
+      "buttonAcceptOnlyNecessary": "Only necessary",
+      "buttonDecline": "Decline",
+      "checkboxAccept": "I have read and accept the <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"terms of service {{openInNewTab}}\">terms of service</a>",
+      "checkboxAcceptAriaLabel": "I have read and accept the terms of service</a>",
+      "linkDataProtection": "https://www.hel.fi/helsinki/en/administration/information/data-protection",
+      "linkPrivacyPolicy": "TODO: ADD LINK",
+      "text1": "By selecting “accept” you agree to the terms of service. Next, you must accept either essential or all cookies.",
+      "text2": "Read more about our <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"privacy policy {{openInNewTab}}\">privacy policy</a> and <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registry description {{openInNewTab}}\">registry description</a>.",
+      "text3": "We use cookies to improve your user experience on the site.",
+      "title": "Linked Events Terms of Use and Cookies"
+    },
     "datepicker": {
       "accessibility": {
         "buttonCalendar": "Calendar",
@@ -47,7 +60,7 @@
       }
     },
     "feedback": {
-      "text": "Give feedback and make an impact",
+      "text": "Give feedback",
       "url": "https://www.hel.fi/helsinki/en/administration/participate/feedback/"
     },
     "goToHome": "To home page",
@@ -60,7 +73,7 @@
     "multiSelectDropdown": {
       "searchPlaceholder": "Search"
     },
-    "noResults": "No results", 
+    "noResults": "No results",
     "openInNewTab": "(opens in a new tab)",
     "pagination": {
       "navigation": "Page navigation",
@@ -173,7 +186,10 @@
         "event": "Add a photo of the event"
       },
       "buttonAddOffer": "Add new pricing information",
-      "buttonAddRecurringEvent": "Add recurring event",
+      "buttonAddRecurringEvent": {
+        "course": "Add recurring course",
+        "event": "Add recurring event"
+      },
       "buttonAddVideo": "Add video",
       "buttonBack": "Back",
       "buttonCancel": "Cancel event",
@@ -184,7 +200,10 @@
       "buttonDeleteRecurringEvent": "Delete recurring event",
       "buttonDeleteVideo": "Delete video",
       "buttonEdit": "Edit event",
-      "buttonOpenRecurringEventSettings": "Open recurring event settings",
+      "buttonOpenRecurringEventSettings": {
+        "course": "Open recurring course settings",
+        "event": "Open recurring event settings"
+      },
       "buttonPanel": {
         "warningNoRightsCreate": "You have insufficient rights to create this event.",
         "warningNoRightsToPublish": "You have insufficient rights to publish this event.",
@@ -231,7 +250,7 @@
           "eventOnly": {
             "course": "Image may be used only for this course",
             "event": "Image may be used only for this event"
-          } 
+          }
         },
         "placeholderAltText": "Enter image alt text for screen readers",
         "placeholderName": "Enter caption",
@@ -242,17 +261,33 @@
         "titleLicense": "License",
         "titleUseImportedImage": "Use a previously imported image"
       },
-      "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextAttendeeCapacity": {
+        "course": "If the number of participants in the course is limited, specify the minimum and maximum number of participants here.",
+        "event": "If the number of participants in the event is limited, specify the minimum and maximum number of participants here."
+      },
       "infoTextAudience": {
         "course": "If the course does not have a specific target group, don't select anything",
         "event": "If the event does not have a specific target group, don't select anything"
       },
-      "infoTextAudienceAge": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
-      "infoTextDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
-      "infoTextEnrolmentTime": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextAudienceAge": {
+        "course": "If only people of a certain age are allowed to participate in the course, set the age limits here.",
+        "event": "If only people of a certain age are allowed to participate in the event, set the age limits here."
+      },
+      "infoTextDescription1": {
+        "course": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the course concisely.",
+        "event": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the event concisely."
+      },
+      "infoTextDescription2": {
+        "course": "The description is a longer and more detailed description of the content of the course.",
+        "event": "The description is a longer and more detailed description of the content of the event."
+      },
+      "infoTextEnrolmentTime": {
+        "course": "If it is possible to register for the course, specify the start and end times of the registration here.",
+        "event": "If it is possible to register for the event, specify the start and end times of the registration here."
+      },
       "infoTextEventTimes1": {
-        "course": "To add a multi-day recurring course, there is an “Add New Time” button and a regular “Recurring Course” tool for a regularly recurring course.",
-        "event": "To add a multi-day recurring event, there is an “Add New Time” button and a regular “Recurring Event” tool for a regularly recurring event."
+        "course": "To add a multi-day recurring course, there is an Add New Time button and a regular Recurring Course tool for a regularly recurring course.",
+        "event": "To add a multi-day recurring event, there is an Add New Time button and a regular Recurring Event tool for a regularly recurring event."
       },
       "infoTextEventTimes2": {
         "course": "Enter the start date of the course and also the start time if the course starts at a specific time.",
@@ -266,23 +301,20 @@
         "course": "If the course is held more than once, you can add new dates to the course. If the course repeats regularly, you can add all times at once by selecting Recurring Course.",
         "event": "If the event is held more than once, you can add new dates to the event. If the event repeats regularly, you can add all times at once by selecting Recurring Event."
       },
-      "infoTextEventTimes5": {
-        "course": "To delete an extra time, select the trash can icon next to the time.",
-        "event": "To delete an extra time, select the trash can icon next to the time."
-      },
+      "infoTextEventTimes5": "To delete an extra time, select the minus symbol next to the time.",
       "infoTextImage1": {
-        "course": "Optional. Always try to find a picture for the course. The image can be marked CC 4.0 BY (see explanation) or \"use only in connection with the course \". Some freely usable illustrations can be found at hel.fi/tapahtumakuvat.",
-        "event": "Optional. Always try to find a picture for the event. The image can be marked CC 4.0 BY (see explanation) or \"use only in connection with the event \". Some freely usable illustrations can be found at hel.fi/tapahtumakuvat."
+        "course": "Always try to find a picture for the course. The image can be licensed under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.en\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, in which case the image can be shared and modified quite freely, or \"Use limited to the course \". Some freely usable illustrations can be found on the <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"event images page {{openInNewTab}}\">event images page.</a>",
+        "event": "Always try to find a picture for the event. The image can be licensed under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.en\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, in which case the image can be shared and modified quite freely, or \"Use limited to the event \". Some freely usable illustrations can be found on the <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"event images page {{openInNewTab}}\">event images page.</a>"
       },
       "infoTextImage2": "Before uploading, edit the image to fit the network and to a 3: 2 horizontal aspect ratio, such as 1200 × 800px. It is essential that the file size remains reasonable for mobile use as well, preferably less than 200 kilobytes (kb).",
       "infoTextImage3": "Give the image a name and briefly describe what is happening in it.",
       "infoTextInfoLanguages": {
-        "course": "Select the languages used for entering course information.",
-        "event": "Select the languages used for entering event information."
+        "course": "Select the languages in which you want to display course information for this service.",
+        "event": "Select the languages in which you want to display event information for this service."
       },
       "infoTextInLanguages": {
-        "course": "Choose the languages used in the course.",
-        "event": "Choose the languages used in the event."
+        "course": "Select the languages which will be used for communication during the course.",
+        "event": "Select the languages which will be used for communication during the event."
       },
       "infoTextKeywords": {
         "course": "Attach at least one keyword to the course that describes the theme of the course. Start typing a keyword and select the keyword you want to add from the list below.",
@@ -290,12 +322,15 @@
       },
       "infoTextLocation1": "Enter the name or street address of the venue in the field and select the correct venue from the list.",
       "infoTextLocation2": {
-        "course": "If the course is only held remotely on the Internet, select Internet as the venue. The event URL is entered in the home page field and / or the event on social media fields.",
+        "course": "If the course is only held remotely on the Internet, select Internet as the venue. The course URL is entered in the home page field and / or the course on social media fields.",
         "event": "If the event is only held remotely on the Internet, select Internet as the venue. The event URL is entered in the home page field and / or the event on social media fields."
       },
       "infoTextLocation3": "If the venue is found in the list, its location does not need to be described separately. However, you can provide additional information to find the venue, such as the floor number or classroom name.",
       "infoTextLocation4": "If the exact venue is not found in the list, select the nearest street address as the venue and enter the name of the venue or other detailed arrival instructions in the additional information field.",
-      "infoTextMainCategories": "Please select at least one main category",
+      "infoTextMainCategories": {
+        "course": "Please select at least one main category. Using the right main categories makes it easier to find the course.",
+        "event": "Please select at least one main category. Using the right main categories makes it easier to find the event."
+      },
       "infoTextOffers1": {
         "course": "Indicate if the course is free. Enter the price for the chargeable course in the form “5€”.",
         "event": "Indicate if the event is free. Enter the price for the chargeable event in the form “5€”."
@@ -304,22 +339,28 @@
         "course": "If the course has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field.",
         "event": "If the event has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field."
       },
-      "infoTextProvider": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "infoTextPublisher": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "infoTextSocialMedia": {
-        "course": "Optional. In the URL field, enter the SoMe links for the course.",
-        "event": "Optional. In the URL field, enter the SoMe links for the event."
+      "infoTextProvider": {
+        "course": "Enter the name of the organization hosting the course if the organizer is not the same as the publisher.",
+        "event": "Enter the name of the organization hosting the event if the organizer is not the same as the publisher."
       },
-      "infoTextType1": "Select the type of event. Is it an event or a course? The event is a one-time event and starts at a specific time, while the course may, as a rule, have several occurrences.",
-      "infoTextType2": "The choice of event type affects the choices made later in the input form.",
-      "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextPublisher": {
+        "course": "Select the organization that will be displayed as the course publisher. You do not need to make a selection if you only have publishing rights for one organization.",
+        "event": "Select the organization that will be displayed as the event publisher. You do not need to make a selection if you only have publishing rights for one organization."
+      },
+      "infoTextSocialMedia": {
+        "course": "Copy the course's social media links (URLs) here.",
+        "event": "Copy the event's social media links (URLs) here."
+      },
+      "infoTextType1": "Is it an event or a course? The event is a one-time event and starts at a certain time, while the course can generally have several events and the activities are goal-oriented. In some cases, the course is also called a hobby.",
+      "infoTextType2": "The choice of event type affects how and in which services the event is displayed to the user.",
+      "infoTextUmrellaEvent": "Several different events can be grouped under the umbrella event. For example, a festival can be an umbrella event with several events underneath.",
       "infoTextUmbrellaSubEvent": "If you wish to add this event under an umbrella event, you may do so from the associated",
       "infoTextUmbrellaSubEventLink": "top level event",
-      "infoTextTitleVideo1": {
+      "infoTextVideo1": {
         "course": "If the course involves a video, you can add its address here.",
         "event": "If the event involves a video, you can add its address here."
       },
-      "infoTextTitleVideo2": "Give the video a name and a brief description of what is happening in it.",
+      "infoTextVideo2": "Give the video a name and a brief description of what is happening in it.",
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
       "labelDescription": {
@@ -395,7 +436,10 @@
       "labelVideoName": "The name of the video",
       "labelVideoUrl": "The URL of the video",
       "modalTitleImage": "Add image",
-      "modalTitleRecurringEvent": "Specify recurring event",
+      "modalTitleRecurringEvent": {
+        "course": "Specify recurring course",
+        "event": "Specify recurring event"
+      },
       "notificationTitleDescription": {
         "course": "Course description",
         "event": "Event description"
@@ -534,7 +578,6 @@
       "titleOfferDescription": "Description of price information",
       "titleOfferInfoUrl": "Link to ticket sales or registration",
       "titleOfferPrice": "Price",
-      "titlePersonsInCharge": "Person(s) in charge",
       "titlePriceInfo": {
         "course": "Course price information",
         "event": "Event price information"
@@ -691,8 +734,6 @@
         "min": "This date must be at least {{min}}",
         "required": "This field is required"
       },
-      "draftCannotBeUmbrella": "Draft can't be umbrella event",
-      "draftCannotHaveUmbrella": "Draft can't have umbrella event",
       "eventInfoVerified": "The information must be verified",
       "number": {
         "integer": "Value must be an integer",
@@ -721,7 +762,7 @@
     },
     "weekDay": {
       "fri": "Friday",
-      "mon": "Monday", 
+      "mon": "Monday",
       "sat": "Saturday",
       "sun": "Sunday",
       "thu": "Thursday",
@@ -730,7 +771,7 @@
     },
     "weekDayAbbreviation": {
       "fri": "Fri",
-      "mon": "Mon", 
+      "mon": "Mon",
       "sat": "Sat",
       "sun": "Sun",
       "thu": "Thu",
@@ -739,10 +780,68 @@
     }
   },
   "helpPage": {
-    "pageTitle": "More information"
+    "contactPage": {
+      "buttonSend": "Send",
+      "labelEmail": "Email",
+      "labelFeedback": "Feedback",
+      "labelName": "Name",
+      "pageTitle": "Contact us",
+      "placeholderEmail": "Enter email",
+      "placeholderFeedback": "Enter feedback",
+      "placeholderName": "Enter name",
+      "text": "Contact us using the form below."
+    },
+    "pageTitle": "Help",
+    "pageTitleApi": "API",
+    "pageTitleControlPanel": "Control panel",
+    "pageTitleDocumentation": "Documentation",
+    "pageTitleFaq": "Frequently asked questions",
+    "pageTitleFeatures": "Service features",
+    "pageTitleImageRights": "Image rights",
+    "pageTitleInstructions": "Instructions",
+    "pageTitleSourceCode": "Source code",
+    "pageTitleTechnology": "Technology",
+    "pageTitleTermsOfUse": "Terms of use",
+    "platformPage": {
+      "pageTitle": "Platform",
+      "textApi": "The public API allows you to retrieve events for your own service. You can also suggest us an existing databank that should be linked to Linked Events.",
+      "textEventManagement": "The Linked Events control panel is used to enter events, courses, and volunteer assignments, and to manage related information and materials.",
+      "textMainContent1": "Linked Events is an open interface developed by the City of Helsinki for events, courses and volunteer assignments in the City of Helsinki. This site provides tools and instructions for managing them and documentation to use the public interface.",
+      "textMainContent2": "Events may be entered with the permission of the city. They don’t have to be organized by the city. You can enter multiple dates for an event. In this case, an umbrella event is automatically created for the event sequence.",
+      "textSupport": "Contact us if you would like more information or have any suggestions on how we could improve the service. In the Help section, you will find more detailed information and a contact form.",
+      "titleApi": "Linked Events API",
+      "titleEventManagement": "Event management",
+      "titlePlatform": "Platform",
+      "titleServiceHighlights": "Service highlights",
+      "titleSupport": "Support and further development"
+    },
+    "sideNavigation": {
+      "labelApi": "API",
+      "labelContact": "Contact us",
+      "labelControlPanel": "Control panel",
+      "labelDocumentation": "Documentation",
+      "labelFaq": "FAQ",
+      "labelFeatures": "Searvice features",
+      "labelGeneral": "General",
+      "labelImageRights": "Image rights",
+      "labelInstructions": "Instructions",
+      "labelPlatform": "Platform",
+      "labelSourceCode": "Source code",
+      "labelSupport": "Support",
+      "labelTechnology": "Technology",
+      "labelTermsOfUse": "Terms of use",
+      "toggleButtonLabel": "Navigate to help page"
+    }
+  },
+  "image": {
+    "warningLogInToUpdate": "Sign in to edit this image.",
+    "warningLogInToUpload": "Sign in to add images.",
+    "warningNoImageSelected": "No image selected.",
+    "warningNoRightsToUpdate": "You have insufficient rights to edit this image.",
+    "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
   "landingPage": {
-    "heroTitle": "Check out the new service"
+    "heroTitle": "Events and hobbies in Helsinki"
   },
   "logoutPage": {
     "pageTitle": "You are logged out",
@@ -759,9 +858,8 @@
     "searchEvents": "Search events",
     "skipToContentLabel": "Skip to content",
     "tabs": {
-      "createEvent": "New event",
       "events": "Events",
-      "help": "More information"
+      "help": "Help"
     }
   },
   "notFound": {

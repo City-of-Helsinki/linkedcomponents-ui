@@ -3,21 +3,23 @@ import React from 'react';
 
 import { SuperEventType } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
-import { render, screen } from '../../../../../utils/testUtils';
+import { configure, render, screen } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import EventTime, { EventTimeProps } from '../EventTime';
+
+configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.EVENT;
 
 const defaultProps: EventTimeProps = {
   eventTimePath: 'time[0]',
-  type: type,
 };
 
 const initialValues = {
   [EVENT_FIELDS.END_TIME]: new Date('2021-12-01'),
   [EVENT_FIELDS.START_TIME]: new Date('2021-12-12'),
+  [EVENT_FIELDS.TYPE]: type,
 };
 
 const renderComponent = (props?: Partial<EventTimeProps>) =>
@@ -39,8 +41,8 @@ test('start and end times should be enabled when editing umbrella event', () => 
 
   fields.forEach((name) => {
     expect(
-      (screen.getByRole('textbox', { name }) as HTMLInputElement).disabled
-    ).toBeFalsy();
+      screen.getByRole('textbox', { name }) as HTMLInputElement
+    ).toBeEnabled();
   });
 });
 
@@ -56,7 +58,7 @@ test('start and end times should be disabled when editing recurring event', () =
 
   fields.forEach((name) => {
     expect(
-      (screen.getByRole('textbox', { name }) as HTMLInputElement).disabled
-    ).toBe(true);
+      screen.getByRole('textbox', { name }) as HTMLInputElement
+    ).toBeDisabled();
   });
 });

@@ -19,6 +19,19 @@
     "combobox": {
       "toggleButtonAriaLabel": "Valikko"
     },
+    "cookieConsent": {
+      "buttonAcceptAll": "Kaikki",
+      "buttonAcceptOnlyNecessary": "Vain välttämättömät",
+      "buttonDecline": "En hyväksy",
+      "checkboxAccept": "Olen lukenut ja hyväksyn palvelun <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"käyttöehdot {{openInNewTab}}\">käyttöehdot</a>",
+      "checkboxAcceptAriaLabel": "Olen lukenut ja hyväksyn palvelun käyttöehdot",
+      "linkDataProtection": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/",
+      "linkPrivacyPolicy": "TODO: ADD LINK",
+      "text1": "Valitsemalla ”hyväksy” hyväksyt palvelun käyttöehdot. Seuraavaksi tulee hyväksyä joko välttämättömät tai kaikki evästeet.",
+      "text2": "Lue lisää <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"tietosuojakäytännöistä {{openInNewTab}}\">tietosuojakäytännöistä</a> ja <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"rekisteriselosteesta {{openInNewTab}}\">rekisteriselosteesta</a>.",
+      "text3": "Käytämme evästeitä parantaaksemme käyttökokemustasi sivustolla.",
+      "title": "Linked Events käyttöehdot ja evästeet"
+    },
     "datepicker": {
       "accessibility": {
         "buttonCalendar": "Kalenteri",
@@ -47,7 +60,7 @@
       }
     },
     "feedback": {
-      "text": "Anna palautetta ja vaikuta",
+      "text": "Anna palautetta",
       "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta"
     },
     "goToHome": "Etusivulle",
@@ -173,7 +186,10 @@
         "event": "Lisää tapahtuman kuva"
       },
       "buttonAddOffer": "Lisää uusi hintatieto",
-      "buttonAddRecurringEvent": "Lisää toistuva tapahtuma",
+      "buttonAddRecurringEvent": {
+        "course": "Lisää toistuva kurssi",
+        "event": "Lisää toistuva tapahtuma"
+      },
       "buttonAddVideo": "Lisää video",
       "buttonBack": "Takaisin",
       "buttonCancel":  "Peruuta tapahtuma",
@@ -184,7 +200,10 @@
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
       "buttonDeleteVideo": "Poista video",
       "buttonEdit":  "Muokkaa tapahtumaa",
-      "buttonOpenRecurringEventSettings": "Avaa toistuvan tapahtuman asetukset",
+      "buttonOpenRecurringEventSettings": {
+        "course": "Avaa toistuvan kurssin asetukset",
+        "event": "Avaa toistuvan tapahtuman asetukset"
+      },
       "buttonPanel": {
         "warningNoRightsCreate": "Sinulla ei ole oikeuksia luoda tätä tapahtumaa.",
         "warningNoRightsToPublish": "Sinulla ei ole oikeuksia julkaista tätä tapahtumaa.",
@@ -242,17 +261,33 @@
         "titleLicense": "Lisenssi",
         "titleUseImportedImage": "Käytä aiemmin tuotua kuvaa"
       },
-      "infoTextAttendeeCapacity": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextAttendeeCapacity": {
+        "course": "Jos kurssin osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
+        "event": "Jos tapahtuman osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä."
+      },
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
         "event": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään."
       },
-      "infoTextAudienceAge": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
-      "infoTextDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
-      "infoTextEnrolmentTime": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam",
+      "infoTextAudienceAge": {
+        "course": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua kurssille, määritä ikärajat tässä.",
+        "event": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua tapahtumaan, määritä ikärajat tässä."
+      },
+      "infoTextDescription1": {
+        "course": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo kurssista olennaisimmat asiat ytimekkäästi.",
+        "event": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo tapahtumasta olennaisimmat asiat ytimekkäästi."
+      },
+      "infoTextDescription2": {
+        "course": "Kuvaus on pidempi ja tarkempi selostus kurssin sisällöstä.",
+        "event": "Kuvaus on pidempi ja tarkempi selostus tapahtuman sisällöstä."
+      },
+      "infoTextEnrolmentTime": {
+        "course": "Jos kurssille on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
+        "event": "Jos tapahtumaan on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä."
+      },
       "infoTextEventTimes1": {
-        "course": "Useana päivänä toistuvan kurssin lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
-        "event": "Useana päivänä toistuvan tapahtuman lisäämiseksi on “Lisää uusi ajankohta” -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu."
+        "course": "Useana päivänä toistuvan kurssin lisäämiseksi on Lisää uusi ajankohta -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
+        "event": "Useana päivänä toistuvan tapahtuman lisäämiseksi on Lisää uusi ajankohta -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu."
       },
       "infoTextEventTimes2": {
         "course": "Kirjoita kurssin alkamispäivä ja myös alkamisaika, jos kurssi alkaa tiettyyn kellonaikaan.",
@@ -266,23 +301,20 @@
         "course": "Jos kurssi järjestetään useamman kerran, voit lisätä kurssille uusia ajankohtia. Jos kurssi toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva kurssi.",
         "event": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma."
       },
-      "infoTextEventTimes5": {
-        "course": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin.",
-        "event": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan roskakorisymbolin."
-      },
+      "infoTextEventTimes5": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan miinussymbolin.",
       "infoTextImage1": {
-        "course": "Valinnainen. Pyri aina löytämään kurssille kuva. Kuvalle voi merkitä käyttöoikeuden CC 4.0 BY (ks. selitys) tai \"käyttö vain kuvan yhteydessä\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy osoitteesta hel.fi/tapahtumakuvat.",
-        "event": "Valinnainen. Pyri aina löytämään tapahtumalle kuva. Kuvalle voi merkitä käyttöoikeuden CC 4.0 BY (ks. selitys) tai \"käyttö vain tapahtuman yhteydessä\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy osoitteesta hel.fi/tapahtumakuvat."
+        "course": "Pyri aina löytämään kurssille kuva. Kuvalle voi merkitä käyttöoikeuden <a href=\"https://creativecommons.org/licenses/by/4.0/deed.fi\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, jolloin kuvaa voi melko vapaasti jakaa ja muunnella, tai \"Käyttö rajattu kurssin yhteyteen\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"tapahtumakuvat-sivulta {{openInNewTab}}\">tapahtumakuvat-sivulta</a>.",
+        "event": "Pyri aina löytämään tapahtumalle kuva. Kuvalle voi merkitä käyttöoikeuden <a href=\"https://creativecommons.org/licenses/by/4.0/deed.fi\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, jolloin kuvaa voi melko vapaasti jakaa ja muunnella, tai \"Käyttö rajattu tapahtuman yhteyteen\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"tapahtumakuvat-sivulta {{openInNewTab}}\">tapahtumakuvat-sivulta</a>."
       },
       "infoTextImage2": "Muokkaa kuva ennen syöttöä verkkoon sopivaksi ja 3:2 -vaakakuvasuhteeseen, esim. 1200×800px. Olennaista on, että tiedostokoko pysyy kohtuullisena myös mobiilikäyttöön eli mieluiten alle 200 kilotavun (kt).",
       "infoTextImage3": "Anna kuvalle nimi ja kuvaile lyhyesti mitä siinä tapahtuu.",
       "infoTextInfoLanguages": {
-        "course": "Valitse kielet joita käytetään kurssitietojen syötössä.",
-        "event": "Valitse kielet joita käytetään tapahtumatietojen syötössä."
+        "course": "Valitse kielet, joilla haluat kuvata kurssin tiedot tässä palvelussa.",
+        "event": "Valitse kielet, joilla haluat kuvata tapahtuman tiedot tässä palvelussa."
       },
       "infoTextInLanguages": {
-        "course": "Valitse kielet joita kurssilla käytetään.",
-        "event": "Valitse kielet joita tapahtumassa käytetään."
+        "course": "Valitse kielet, joilla kurssilla kommunikoidaan kurssin aikana.",
+        "event": "Valitse kielet, joilla tapahtumassa kommunikoidaan tapahtuman aikana."
       },
       "infoTextKeywords": {
         "course": "Liitä kurssiin vähintään yksi asiasana, joka kuvaa kurssin teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
@@ -290,12 +322,15 @@
       },
       "infoTextLocation1": "Kirjoita kenttään tapahtumapaikan nimi tai katuosoite ja valitse oikea paikka listasta.",
       "infoTextLocation2": {
-        "course": "Jos kurssi järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Tapahtuman URL-osoite laitetaan kotisivu-kenttään ja/tai tapahtuma sosiaalisessa mediassa -kenttiin.",
+        "course": "Jos kurssi järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Kurssin URL-osoite laitetaan kotisivu-kenttään ja/tai kurssi sosiaalisessa mediassa -kenttiin.",
         "event": "Jos tapahtuma järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Tapahtuman URL-osoite laitetaan kotisivu-kenttään ja/tai tapahtuma sosiaalisessa mediassa -kenttiin."
       },
       "infoTextLocation3": "Jos tapahtumapaikka löytyy listasta, sen sijaintia ei tarvitse kuvailla erikseen. Voit kuitenkin antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi kerrosnumeron tai luokkahuoneen nimen.",
       "infoTextLocation4": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
-      "infoTextMainCategories": "Valitse vähintään yksi pääluokka (kategoria)",
+      "infoTextMainCategories": {
+        "course": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa kurssin löytämistä.",
+        "event": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa tapahtuman löytämistä."
+      },
       "infoTextOffers1": {
         "course": "Merkitse onko kurssi maksuton. Syötä maksulliselle kurssille hinta muodossa “5€”.",
         "event": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa “5€”."
@@ -304,15 +339,21 @@
         "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
         "event": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
       },
-      "infoTextProvider": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "infoTextPublisher": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "infoTextSocialMedia": {
-        "course": "Valinnainen. Syötä URL-kenttään kurssin SoMe-linkit.",
-        "event": "Valinnainen. Syötä URL-kenttään tapahtuman SoMe-linkit."
+      "infoTextProvider": {
+        "course": "Kirjoita tähän kurssin järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija.",
+        "event": "Kirjoita tähän tapahtuman järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija."
       },
-      "infoTextType1": "Valitse tapahtuman tyyppi. Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja.",
-      "infoTextType2": "Tapahtumatyypin valinta vaikuttaa myöhemmin syöttölomakkeessa tehtäviin valintoihin.",
-      "infoTextUmrellaEvent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "infoTextPublisher": {
+        "course": "Valitse organisaatio, joka näytetään kurssin julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet.",
+        "event": "Valitse organisaatio, joka näytetään tapahtuman julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet."
+      },
+      "infoTextSocialMedia": {
+        "course": "Kopioi tähän kurssin sosiaalisen median linkit (URL-osoitteet).",
+        "event": "Kopioi tähän tapahtuman sosiaalisen median linkit (URL-osoitteet)."
+      },
+      "infoTextType1": "Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja ja toiminta on tavoitteellista. Joissakin tapauksissa kurssia kutsutaan myös harrastukseksi.",
+      "infoTextType2": "Tapahtumatyypin valinta vaikuttaa siihen, miten ja missä palveluissa tapahtuma näytetään käyttäjälle.",
+      "infoTextUmrellaEvent": "Kattotapahtuman alle voi koota useampia erilaisia tapahtumia. Esimerkiksi festivaali voi olla kattotapahtuma, jonka alla on useita tapahtumia.",
       "infoTextUmbrellaSubEvent": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se",
       "infoTextUmbrellaSubEventLink": "sarjan ylätapahtumasta",
       "infoTextVideo1": {
@@ -395,7 +436,10 @@
       "labelVideoName": "Videon nimi",
       "labelVideoUrl": "Videon URL-osoite",
       "modalTitleImage": "Lisää kuva",
-      "modalTitleRecurringEvent": "Määritä toistuva tapahtuma",
+      "modalTitleRecurringEvent": {
+        "course": "Määritä toistuva kurssi",
+        "event": "Määritä toistuva tapahtuma"
+      },
       "notificationTitleDescription": {
         "course": "Kurssin kuvaus",
         "event": "Tapahtuman kuvaus"
@@ -533,7 +577,6 @@
       "titleOfferDescription": "Hintatietojen kuvaus",
       "titleOfferInfoUrl": "Linkki lipunmyyntiin tai ilmoittautumiseen",
       "titleOfferPrice": "Hinta",
-      "titlePersonsInCharge": "Vastuuhenkilöt",
       "titlePriceInfo": {
         "course": "Kurssin hintatiedot",
         "event": "Tapahtuman hintatiedot"
@@ -673,8 +716,6 @@
         "min": "Tämän päivämäärän tulee olla vähintään {{min}}",
         "required": "Tämä kenttä on pakollinen"
       },
-      "draftCannotBeUmbrella": "Luonnos ei voi olla kattotapahtuma",
-      "draftCannotHaveUmbrella": "Luonnoksella ei voi olla kattotapahtumaa",
       "eventInfoVerified": "Tietojen tulee olla vahvistettu",
       "number": {
         "integer": "Arvon tulee olla kokonaisluku",
@@ -740,10 +781,68 @@
     "copyrightText": "Kaikki oikeudet pidätetään."
   },
   "helpPage": {
-    "pageTitle": "Lisätietoja"
+    "contactPage": {
+      "buttonSend": "Lähetä",
+      "labelEmail": "Sähköposti",
+      "labelFeedback": "Palaute/asia",
+      "labelName": "Nimi",
+      "pageTitle": "Ota yhteyttä",
+      "placeholderEmail": "Syötä sähköposti",
+      "placeholderFeedback": "Syötä palaute/asia",
+      "placeholderName": "Syötä nimi",
+      "text": "Ota yhteyttä meihin alla olevalla lomakkeella."
+    },
+    "pageTitle": "Ohjeet",
+    "pageTitleApi": "Rajapinta",
+    "pageTitleControlPanel": "Hallintapaneeli",
+    "pageTitleDocumentation": "Dokumentaatio",
+    "pageTitleFaq": "Usein kysytyt kysymykset",
+    "pageTitleFeatures": "Palvelun ominaisuudet",
+    "pageTitleImageRights": "Kuvaoikeudet",
+    "pageTitleInstructions": "Ohjeet",
+    "pageTitleSourceCode": "Lähdekoodi",
+    "pageTitleTechnology": "Teknologia",
+    "pageTitleTermsOfUse": "Käyttöehdot",
+    "platformPage": {
+      "pageTitle": "Alusta",
+      "textApi": "Julkisen rajapinnan avulla voit hakea tapahtumia omaan palveluusi. Voit myös ehdottaa meille olemassa olevaa tietopankkia, mikä tulisi kytkeä Linked Eventsiin.",
+      "textEventManagement": "Linked Events hallintapaneelin avulla syötetään tapahtumia, kursseja ja vapaaehtoistehtäviä, sekä hallitataan niihin liittyviä tietoja ja materiaaleja.",
+      "textMainContent1": "Linked Events on Helsingin kaupungin kehittämä avoin rajapinta Helsingin kaupungin tapahtumille, kursseille ja vapaaehtoistehtäville. Tämä sivusto tarjoaa työkalut ja ohjeet niiden hallintaan sekä dokumentaation julkisen rajapinnan käyttämiseen.",
+      "textMainContent2": "Tapahtumia saa syöttää kaupungin luvalla. Niiden ei tarvitse olla kaupungin järjestämiä. Tapahtumalle voi antaa useita päivämääriä. Tässä tapauksessa tapahtumasarjalle luodaan automaattisesti kattotapahtuma.",
+      "textSupport": "Ota meihin yhteyttä jos haluat lisätietoa tai sinulla on ehdotuksia miten voisimme parantaa palvelua. Ohjeet-osiosta löydät tarkempaa tietoa ja yhteydenottolomakkeen.",
+      "titleApi": "Linked Events API",
+      "titleEventManagement": "Tapahtumien hallinta",
+      "titlePlatform": "Alusta",
+      "titleServiceHighlights": "Palvelun kohokohdat",
+      "titleSupport": "Tuki ja jatkokehitys"
+    },
+    "sideNavigation": {
+      "labelApi": "Rajapinta",
+      "labelContact": "Ota yhteyttä",
+      "labelControlPanel": "Hallintapaneeli",
+      "labelDocumentation": "Dokumentaatio",
+      "labelFaq": "UKK",
+      "labelFeatures": "Palvelun ominaisuudet",
+      "labelGeneral": "Yleistä",
+      "labelImageRights": "Kuvaoikeudet",
+      "labelInstructions": "Ohjeet",
+      "labelPlatform": "Alusta",
+      "labelSourceCode": "Lähdekoodi",
+      "labelSupport": "Tuki",
+      "labelTechnology": "Teknologia",
+      "labelTermsOfUse": "Käyttöehdot",
+      "toggleButtonLabel": "Siirry ohjesivulle"
+    }
+  },
+  "image": {
+    "warningLogInToUpdate": "Kirjaudu sisään muokataksesi kuvaa.",
+    "warningLogInToUpload": "Kirjaudu sisään lisätäksesi kuvia.",
+    "warningNoImageSelected": "Kuvaa ei ole valittu",
+    "warningNoRightsToUpdate": "Sinulla ei ole oikeuksia muokata tätä kuvaa",
+    "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia"
   },
   "landingPage": {
-    "heroTitle": "Tutustu uuteen palveluun"
+    "heroTitle": "Helsingin tapahtumat ja harrastukset"
   },
   "logoutPage": {
     "pageTitle": "Olet kirjautunut ulos",
@@ -760,9 +859,8 @@
     "searchEvents": "Etsi tapahtumia",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
-      "createEvent": "Uusi tapahtuma",
       "events": "Tapahtumat",
-      "help": "Lisätietoja"
+      "help": "Ohjeet"
     }
   },
   "notFound": {

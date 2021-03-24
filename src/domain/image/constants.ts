@@ -4,3 +4,8 @@ export enum LICENSE_TYPES {
 }
 
 export const DEFAULT_LICENSE_TYPE = LICENSE_TYPES.CC_BY;
+
+export enum IMAGE_ACTIONS {
+  UPDATE = 'update',
+  UPLOAD = 'upload',
+}

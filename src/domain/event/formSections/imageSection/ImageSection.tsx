@@ -31,6 +31,7 @@ const ImageSection = () => {
 
   const [isModalOpen, setIsmodalOpen] = React.useState(false);
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: publisher }] = useField({ name: EVENT_FIELDS.PUBLISHER });
 
   const [uploadImageMutation] = useUploadImageMutation();
   const [{ value: images }, , { setValue: setImagesValue }] = useField({
@@ -42,6 +43,7 @@ const ImageSection = () => {
     variables: {
       createPath: getPathBuilder(imagesPathBuilder),
       pageSize: IMAGES_PAGE_SIZE,
+      publisher,
     },
   });
 
@@ -89,7 +91,7 @@ const ImageSection = () => {
     try {
       const data = await uploadImageMutation({
         variables: {
-          input: { image, name: '', url },
+          input: { image, name: '', publisher, url },
         },
       });
 
@@ -119,6 +121,7 @@ const ImageSection = () => {
             uploadImage({ image });
           }}
           onSubmit={handleAddImageFormSubmit}
+          publisher={publisher}
         />
       </Modal>
       <h3>{t(`event.form.titleImage.${type}`)}</h3>
@@ -128,7 +131,13 @@ const ImageSection = () => {
             label={t(`event.form.notificationTitleImage.${type}`)}
             type="info"
           >
-            <p>{t(`event.form.infoTextImage1.${type}`)}</p>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: t(`event.form.infoTextImage1.${type}`, {
+                  openInNewTab: t('common.openInNewTab'),
+                }),
+              }}
+            />
             <p>{t(`event.form.infoTextImage2`)}</p>
             <p>{t(`event.form.infoTextImage3`)}</p>
           </Notification>

@@ -344,9 +344,15 @@ export const eventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
   [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
-    [EVENT_FIELDS.IMAGES],
-    (images: string[], schema: Yup.ObjectSchema<any>) => {
-      return images && images.length ? imageDetailsValidation : schema;
+    [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
+    (
+      images: string[],
+      isImageEditable: boolean,
+      schema: Yup.ObjectSchema<any>
+    ) => {
+      return isImageEditable && images && images.length
+        ? imageDetailsValidation
+        : schema;
     }
   ),
   [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoValidation),
@@ -384,14 +390,6 @@ export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.PUBLISHER]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
-  [EVENT_FIELDS.HAS_UMBRELLA]: Yup.bool().oneOf(
-    [false],
-    VALIDATION_MESSAGE_KEYS.DRAFT_CANNOT_HAVE_UMBRELLA
-  ),
-  [EVENT_FIELDS.IS_UMBRELLA]: Yup.bool().oneOf(
-    [false],
-    VALIDATION_MESSAGE_KEYS.DRAFT_CANNOT_BE_UMBRELLA
-  ),
   [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
   ),
@@ -414,9 +412,15 @@ export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(),
   [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(),
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
-    [EVENT_FIELDS.IMAGES],
-    (images: string[], schema: Yup.ObjectSchema<any>) => {
-      return images && images.length ? imageDetailsValidation : schema;
+    [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
+    (
+      images: string[],
+      isImageEditable: boolean,
+      schema: Yup.ObjectSchema<any>
+    ) => {
+      return isImageEditable && images && images.length
+        ? imageDetailsValidation
+        : schema;
     }
   ),
   [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoValidation),
