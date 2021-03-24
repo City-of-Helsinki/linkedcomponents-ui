@@ -47,7 +47,7 @@ const CookieConsentModal: React.FC<Props> = ({
         <strong>{t('common.cookieConsent.text1')}</strong>
       </p>
       <p>
-        <div
+        <span
           dangerouslySetInnerHTML={{
             __html: t('common.cookieConsent.text2', {
               openInNewTab: t('common.openInNewTab'),
@@ -56,6 +56,7 @@ const CookieConsentModal: React.FC<Props> = ({
             }),
           }}
         />
+        <br />
         {t('common.cookieConsent.text3')}
       </p>
 

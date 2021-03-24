@@ -1,7 +1,7 @@
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { render, screen, userEvent, waitFor } from '../../../utils/testUtils';
+import { render, screen, userEvent } from '../../../utils/testUtils';
 import App from '../App';
 
 const getCookie = jest.fn();
@@ -21,7 +21,7 @@ beforeEach(() => {
 const renderApp = () => render(<App />);
 
 const texts = {
-  acceptChechbox: /olen lukenut ja hyväksyt palvelun käyttöehdot/i,
+  acceptCheckbox: /olen lukenut ja hyväksyn palvelun käyttöehdot/i,
   acceptAllButton: /kaikki/i,
   acceptOnlyNecessaryButton: /vain välttämättömät/i,
   declinedButton: 'En hyväksy',
@@ -32,7 +32,7 @@ it('renders without crashing', () => {
   renderApp();
 });
 
-it('should show cookie consent modal if consent is saved to cookie', async () => {
+it('should show cookie consent modal if consent is not saved to cookie', async () => {
   renderApp();
   await screen.findByRole('heading', { name: texts.modalTitle });
 });
@@ -48,33 +48,24 @@ it('should not show cookie consent modal if consent is saved', async () => {
 });
 
 it('should close cookie consent modal by clicking Decline button', async () => {
+  advanceTo('2021-12-12');
   renderApp();
+
   await screen.findByRole('heading', { name: texts.modalTitle });
+
+  const acceptCheckbox = screen.getByRole('checkbox', {
+    name: texts.acceptCheckbox,
+  });
+  userEvent.click(acceptCheckbox);
+
   const declineButton = screen.getByRole('button', {
     name: texts.declinedButton,
   });
   userEvent.click(declineButton);
 
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('heading', { name: texts.modalTitle })
-    ).not.toBeInTheDocument();
-  });
-});
-
-it('should close cookie consent modal by clicking Decline button', async () => {
-  renderApp();
-  await screen.findByRole('heading', { name: texts.modalTitle });
-  const declineButton = screen.getByRole('button', {
-    name: texts.declinedButton,
-  });
-  userEvent.click(declineButton);
-
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('heading', { name: texts.modalTitle })
-    ).not.toBeInTheDocument();
-  });
+  expect(setCookie).toBeCalledWith(
+    'CONSENT={"required":false,"tracking":false,"acceptedAt":"2021-12-12T00:00:00.000Z"};expires=Mon, 12 Dec 2022 00:00:00 GMT;path=/'
+  );
 });
 
 it('should store consent to cookie when clicing accept only necessary button', async () => {
@@ -83,7 +74,7 @@ it('should store consent to cookie when clicing accept only necessary button', a
 
   await screen.findByRole('heading', { name: texts.modalTitle });
   const acceptCheckbox = screen.getByRole('checkbox', {
-    name: texts.acceptChechbox,
+    name: texts.acceptCheckbox,
   });
   userEvent.click(acceptCheckbox);
 
@@ -103,7 +94,7 @@ it('should store consent to cookie when clicing accept all button', async () => 
 
   await screen.findByRole('heading', { name: texts.modalTitle });
   const acceptCheckbox = screen.getByRole('checkbox', {
-    name: texts.acceptChechbox,
+    name: texts.acceptCheckbox,
   });
   userEvent.click(acceptCheckbox);
 
