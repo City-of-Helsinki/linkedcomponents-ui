@@ -18,6 +18,7 @@
 
     background-color: var(--side-navigation-background-color);
     position: relative;
+    box-sizing: border-box;
 
     @include medium-up {
         height: 100%;
