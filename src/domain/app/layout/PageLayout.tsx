@@ -12,6 +12,10 @@ import styles from './pageLayout.module.scss';
 import ResetFocus from './ResetFocus';
 import ScrollToTop from './ScrollToTop';
 
+const RESET_IGNORED_PATHS = [
+  { pathname: ROUTES.HELP, props: { exact: false } },
+];
+
 const PageLayout: React.FC = ({ children }) => {
   const { theme } = useTheme();
   const locale = useLocale();
@@ -20,9 +24,7 @@ const PageLayout: React.FC = ({ children }) => {
 
   return (
     <>
-      <ResetFocus
-        ignoredPaths={[{ pathname: ROUTES.HELP, props: { exact: false } }]}
-      />
+      <ResetFocus ignoredPaths={RESET_IGNORED_PATHS} />
       <ScrollToTop />
       <div
         className={classNames(
