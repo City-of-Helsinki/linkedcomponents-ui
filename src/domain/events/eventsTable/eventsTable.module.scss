@@ -1,6 +1,12 @@
 @import 'mixins';
 
 .eventsTable {
+  a, button, input {
+    &:focus {
+      outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    }
+  }
+  
   caption {
     @include hidden-from-screen;
   }
@@ -32,7 +38,7 @@
 }
 
 .actionButtonsColumn {
-  padding: 0 !important;
+  padding: var(--focus-outline-width) !important;
 }
 
 .noBorder {

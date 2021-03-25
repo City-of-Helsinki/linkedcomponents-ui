@@ -126,6 +126,10 @@ const Header: React.FC = () => {
         {/* USER */}
         <Navigation.User
           authenticated={authenticated}
+          className={classNames(
+            styles.userDropdown,
+            css(theme.navigationDropdown)
+          )}
           label={t('common.signIn')}
           onSignIn={handleSignIn}
           userName={user?.profile.name || user?.profile.email}
@@ -142,7 +146,7 @@ const Header: React.FC = () => {
           buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
           className={classNames(
             styles.languageSelector,
-            css(theme.languageSelector)
+            css(theme.navigationDropdown)
           )}
           label={t(`navigation.languages.${locale}`)}
         >

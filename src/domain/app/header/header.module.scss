@@ -6,6 +6,10 @@
   position: sticky !important;
   top: 0;
 
+  a, button, input, * {
+    border-radius: 0px;
+  };
+
   &.hideNavRow {
     @include medium-up {
       > div:first-of-type {
@@ -18,12 +22,24 @@
     }
   }
 
+  div[role=search] {
+    @include medium-up {
+      & > div {
+        min-width: 16rem;
+      }
+    }
+  }
+
   > a:first-child {
     z-index: calc(var(--header-z-index) + 1) !important;
   }
 
   .navigationItem {
     color: var(--navigation-item-color) !important;
+
+    &:before {
+      border-radius: 0px;
+    } 
   }
 
   .navigationItemLabel {
@@ -31,11 +47,34 @@
     align-items: center;
   }
 
+  .userDropdown, 
+  .languageSelector {
+    --menu-border-width: 0px;
+    --menu-border-color: transparent;
+    --menu-button-focus-outline-color: var(--color-white);
+    --menu-item-background-color: var(--color-white);
+    --menu-item-background-color-highlighted: var(--color-black-10);
+    --menu-item-color: var(--color-black-90);
+    --menu-item-color-highlighted: var(--color-black);
+
+    & > div {
+      box-shadow: var(--shadow-m);
+    }
+  }
+
+  .userDropdown {
+    & > div {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
   .languageSelector {
     @include small-down {
       position: absolute;
       right: var(--spacing-5-xl);
     }
+    
     & > div {
       left: unset;
       right: 0;

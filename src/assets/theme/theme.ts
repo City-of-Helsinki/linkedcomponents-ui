@@ -219,19 +219,6 @@ const theme: Theme = {
   layout: {
     '--page-background-color': 'var(--color-white)',
   },
-  languageSelector: {
-    '--dropdown-background-default': 'var(--color-black)',
-    '--dropdown-border-color-default': 'transparent',
-    '--dropdown-border-color-hover': 'transparent',
-    '--dropdown-border-color-focus': 'transparent',
-    '--dropdown-color-default': 'inherit',
-    '--placeholder-color': 'inherit',
-    '--menu-z-index': 10,
-    '--menu-item-background-default': 'var(--color-white)',
-    '--menu-item-background-hover': 'var(--color-black-10)',
-    '--menu-item-color-default': 'var(--color-black-90)',
-    '--menu-item-color-hover': 'var(--color-black-90)',
-  },
   loadingSpinner: {
     '--spinner-background-color': 'transparent',
     '--spinner-color': 'var(--color-bus)',
@@ -262,11 +249,12 @@ const theme: Theme = {
     '--modal-heading-color-info': 'var(--color-white)',
   },
   navigation: {
-    '--header-z-index': 101,
+    '--header-z-index': 102,
     '--header-background-color': 'var(--color-coat-of-arms)',
     '--header-color': 'var(--color-white)',
     '--header-divider-color': 'var(--color-black-20)',
     '--header-focus-outline-color': 'var(--color-white)',
+    '--header-focus-outline-border-radius': '0px',
     '--navigation-row-background-color': 'var(--color-white)',
     '--navigation-row-color': 'var(--color-coat-of-arms)',
     '--navigation-row-focus-outline-color': 'var(--color-coat-of-arms)',
@@ -274,6 +262,15 @@ const theme: Theme = {
     '--mobile-menu-z-index': 101,
     '--mobile-menu-background-color': 'var(--color-white)',
     '--mobile-menu-color': 'var(--color-black-90)',
+  },
+  navigationDropdown: {
+    '--menu-border-width': '0px',
+    '--menu-border-color': 'transparent',
+    '--menu-button-focus-outline-color': 'var(--color-white)',
+    '--menu-item-background-color': 'var(--color-white)',
+    '--menu-item-background-color-highlighted': 'var(--color-black-10)',
+    '--menu-item-color': 'var(--color-black-90)',
+    '--menu-item-color-highlighted': 'var(--color-black)',
   },
   notification: {
     size: {

@@ -123,18 +123,14 @@ type ImageSelectorCSSProperties = {
   '--image-selector-focus-outline-color'?: string;
 };
 
-type LanguageSelectorCSSProperties = {
-  '--dropdown-background-default'?: string;
-  '--dropdown-border-color-default'?: string;
-  '--dropdown-border-color-hover'?: string;
-  '--dropdown-border-color-focus'?: string;
-  '--dropdown-color-default'?: string;
-  '--placeholder-color'?: string;
-  '--menu-z-index'?: number;
-  '--menu-item-background-default'?: string;
-  '--menu-item-background-hover'?: string;
-  '--menu-item-color-default'?: string;
-  '--menu-item-color-hover'?: string;
+type NavigationDropdownCSSProperties = {
+  '--menu-border-width'?: string;
+  '--menu-border-color'?: string;
+  '--menu-button-focus-outline-color'?: string;
+  '--menu-item-background-color'?: string;
+  '--menu-item-background-color-highlighted'?: string;
+  '--menu-item-color'?: string;
+  '--menu-item-color-highlighted'?: string;
 };
 
 type LayoutCSSProperties = {
@@ -196,6 +192,7 @@ type NavigationCSSProperties = {
   '--header-divider-color'?: string;
   '--navigation-row-background-color'?: string;
   '--header-focus-outline-color'?: string;
+  '--header-focus-outline-border-radius'?: string;
   '--navigation-row-color'?: string;
   '--navigation-row-focus-outline-color'?: string;
   '--navigation-item-color'?: string;
@@ -394,12 +391,12 @@ export type Theme = {
   eventSearchPanel: EventSearchPanelCSSProperties;
   footer: Partial<FooterCustomTheme>;
   imageSelector: ImageSelectorCSSProperties;
-  languageSelector: LanguageSelectorCSSProperties;
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;
   menuDropdown: MenuDropdownCSSProperties;
   modal: ModalCSSProperties;
   navigation: NavigationCSSProperties;
+  navigationDropdown: NavigationDropdownCSSProperties;
   notification: {
     size?: {
       default?: NotificationSizeCSSProperties;
@@ -440,12 +437,12 @@ const defaultTheme: Theme = {
   eventSearchPanel: {},
   footer: {},
   imageSelector: {},
-  languageSelector: {},
   layout: {},
   loadingSpinner: {},
   menuDropdown: {},
   modal: {},
   navigation: {},
+  navigationDropdown: {},
   notification: {},
   pagination: {},
   publicationStatus: {},
