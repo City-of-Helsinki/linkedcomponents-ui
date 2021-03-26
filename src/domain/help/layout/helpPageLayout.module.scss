@@ -34,13 +34,25 @@
         };
         
         @include medium-up {
+            height: 100%;
+            background-color: var(--color-white);
+            position: relative;
             margin-top: 0;
+
+            &:before {
+                content: "";
+                position: absolute;
+                background-color: var(--color-white);
+                top: 0;
+                bottom: 0;
+                width: 100vw;
+                left: -100vw;
+            }
 
             & > div {
                 position: sticky;
                 overflow: auto;
             }
-            
         };
 
         @include large-up {
