@@ -32,7 +32,8 @@ const SubLevel = ({
 
   useEffect(() => {
     if (active && !openMainLevels.includes(mainLevelIndex as number)) {
-      setOpenMainLevels([...openMainLevels, mainLevelIndex as number]);
+      // Only one level can be open at same time
+      setOpenMainLevels([mainLevelIndex as number]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);

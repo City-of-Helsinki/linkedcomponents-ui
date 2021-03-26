@@ -185,7 +185,6 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
                         icon={icon}
                         label={label}
                         to={to}
-                        type={type as 'link' | 'toggle'}
                       >
                         {subLevels?.map((props, subLevelIndex) => {
                           return (

@@ -17,7 +17,6 @@ export type MainLevelProps = React.PropsWithChildren<{
   label: string;
   style?: React.CSSProperties;
   to: string;
-  type: 'link' | 'toggle';
 }>;
 
 const MainLevel = ({
@@ -30,7 +29,6 @@ const MainLevel = ({
   label,
   style,
   to,
-  type,
 }: MainLevelProps) => {
   const id = _id ?? uniqueId('side-navigation-');
   const buttonId = `${id}-button`;
@@ -58,18 +56,13 @@ const MainLevel = ({
 
   React.useEffect(() => {
     if (active && !openMainLevels.includes(index as number)) {
-      setOpenMainLevels([...openMainLevels, index as number]);
+      // Only one level can be open at same time
+      setOpenMainLevels([index as number]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
-  const toggleMenu = () => {
-    setOpenMainLevels(
-      openMainLevels.includes(index as number)
-        ? openMainLevels.filter((n) => n !== (index as number))
-        : [...openMainLevels, index as number]
-    );
-  };
+  const hasSublevels = Boolean(subLevels?.length);
 
   return (
     <li
@@ -80,40 +73,30 @@ const MainLevel = ({
       )}
       style={style}
     >
-      {type === 'link' && (
-        <Link
-          aria-current={active ? 'page' : 'false'}
-          onClick={() => {
+      <Link
+        aria-current={active ? 'page' : 'false'}
+        onClick={() => {
+          // Only one level can be open at same time
+          setOpenMainLevels([index as number]);
+
+          if (!hasSublevels) {
             setIsMobileMenuOpen(false);
-          }}
-          to={to}
-        >
-          <span className={styles.iconWrapper} aria-hidden={true}>
-            {icon}
-          </span>
-          <span>{label}</span>
-        </Link>
-      )}
-      {type === 'toggle' && (
-        <button
-          id={buttonId}
-          aria-controls={menuId}
-          aria-expanded={isOpen}
-          aria-haspopup={true}
-          onClick={toggleMenu}
-          type="button"
-        >
-          <span className={styles.iconWrapper} aria-hidden={true}>
-            {icon}
-          </span>
-          <span>{label}</span>
+          }
+        }}
+        to={to}
+      >
+        <span className={styles.iconWrapper} aria-hidden={true}>
+          {icon}
+        </span>
+        <span>{label}</span>
+        {hasSublevels && (
           <span className={styles.arrowIcon} aria-hidden={true}>
             <IconAngleDown />
           </span>
-        </button>
-      )}
+        )}
+      </Link>
 
-      {Boolean(subLevels?.length) && (
+      {hasSublevels && (
         <ul
           role="region"
           aria-labelledby={buttonId}

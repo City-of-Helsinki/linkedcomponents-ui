@@ -27,7 +27,6 @@ test('should open main level if sub level is active', async () => {
         icon={<IconAngleDown />}
         label={mainLevelLabel1}
         to={url}
-        type="toggle"
       >
         <SubLevel active={false} label={subLevelLabel1} to={url} />
       </MainLevel>
@@ -36,15 +35,14 @@ test('should open main level if sub level is active', async () => {
         icon={<IconAngleDown />}
         label={mainLevelLabel2}
         to={url}
-        type="toggle"
       >
         <SubLevel active={true} label={subLevelLabel2} to={url} />
       </MainLevel>
     </SideNavigation>
   );
 
-  await screen.findByRole('button', { name: mainLevelLabel1 });
-  await screen.findByRole('button', { name: mainLevelLabel2 });
+  await screen.findByRole('link', { name: mainLevelLabel1 });
+  await screen.findByRole('link', { name: mainLevelLabel2 });
   await screen.findByRole('link', { name: subLevelLabel2 });
 
   expect(
@@ -60,7 +58,6 @@ test('should open sub levels if main level is active', async () => {
         icon={<IconAngleDown />}
         label={mainLevelLabel1}
         to={url}
-        type="toggle"
       >
         <SubLevel active={false} label={subLevelLabel1} to={url} />
       </MainLevel>
@@ -69,7 +66,6 @@ test('should open sub levels if main level is active', async () => {
         icon={<IconAngleDown />}
         label={mainLevelLabel2}
         to={url}
-        type="toggle"
       >
         <SubLevel active={false} label={subLevelLabel2} to={url} />
       </MainLevel>
@@ -78,13 +74,12 @@ test('should open sub levels if main level is active', async () => {
         icon={<IconAngleDown />}
         label={mainLevelLabel3}
         to={url}
-        type="link"
       />
     </SideNavigation>
   );
 
-  await screen.findByRole('button', { name: mainLevelLabel1 });
-  await screen.findByRole('button', { name: mainLevelLabel2 });
+  await screen.findByRole('link', { name: mainLevelLabel1 });
+  await screen.findByRole('link', { name: mainLevelLabel2 });
   await screen.findByRole('link', { name: mainLevelLabel3 });
   await screen.findByRole('link', { name: subLevelLabel2 });
 
@@ -101,7 +96,6 @@ test('should show/hide sub levels', async () => {
         icon={<IconAngleDown />}
         label={mainLevelLabel1}
         to={url}
-        type="toggle"
       >
         <SubLevel active={false} label={subLevelLabel1} to={url} />
       </MainLevel>
@@ -110,17 +104,16 @@ test('should show/hide sub levels', async () => {
         icon={<IconAngleDown />}
         label={mainLevelLabel2}
         to={url}
-        type="toggle"
       >
         <SubLevel active={false} label={subLevelLabel2} to={url} />
       </MainLevel>
     </SideNavigation>
   );
 
-  const mainLevelButton1 = await screen.findByRole('button', {
+  const mainLevelLink1 = await screen.findByRole('link', {
     name: mainLevelLabel1,
   });
-  await screen.findByRole('button', { name: mainLevelLabel2 });
+  await screen.findByRole('link', { name: mainLevelLabel2 });
 
   expect(
     screen.queryByRole('link', { name: subLevelLabel1 })
@@ -129,18 +122,10 @@ test('should show/hide sub levels', async () => {
     screen.queryByRole('link', { name: subLevelLabel2 })
   ).not.toBeInTheDocument();
 
-  userEvent.click(mainLevelButton1);
+  userEvent.click(mainLevelLink1);
 
   await screen.findByRole('link', {
     name: subLevelLabel1,
-  });
-
-  userEvent.click(mainLevelButton1);
-
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('link', { name: subLevelLabel1 })
-    ).not.toBeInTheDocument();
   });
 });
 
@@ -154,7 +139,6 @@ test('should open mobile menu', async () => {
         icon={<IconAngleDown />}
         label={mainLevelLabel1}
         to={url}
-        type="toggle"
       >
         <SubLevel active={false} label={subLevelLabel1} to={url} />
       </MainLevel>
@@ -163,7 +147,6 @@ test('should open mobile menu', async () => {
         icon={<IconAngleDown />}
         label={mainLevelLabel2}
         to={url}
-        type="toggle"
       >
         <SubLevel active={false} label={subLevelLabel2} to={url} />
       </MainLevel>
@@ -172,7 +155,6 @@ test('should open mobile menu', async () => {
         icon={<IconAngleDown />}
         label={mainLevelLabel3}
         to={url}
-        type="link"
       />
     </SideNavigation>
   );
@@ -197,10 +179,10 @@ test('should open mobile menu', async () => {
 
   userEvent.click(toggleButton);
 
-  const mainLevelButton2 = await screen.findByRole('button', {
+  const mainLevelLink2 = await screen.findByRole('link', {
     name: mainLevelLabel2,
   });
-  userEvent.click(mainLevelButton2);
+  userEvent.click(mainLevelLink2);
 
   // Mobile menu should be closed by clicking sub-level link
   const subLevelLink2 = await screen.findByRole('link', {
