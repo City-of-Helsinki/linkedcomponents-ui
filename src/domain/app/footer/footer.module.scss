@@ -5,4 +5,15 @@
    & > div:first-child {
      height: 15px;
    }
+
+   &.themeSupport {
+    --footer-background: var(--footer-background-support);
+    --footer-color: var(--footer-color-support);
+    --footer-divider-color: var(--footer-divider-color-support);
+    --footer-focus-outline-color: var(--footer-focus-outline-color-support);
+
+     & > div:first-child {
+      height: 0;
+    }
+  }
 }

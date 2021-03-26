@@ -119,6 +119,13 @@ type EventSearchPanelCSSProperties = {
   '--event-search-panel-label-color'?: string;
 };
 
+type FooterCSSProperties = {
+  '--footer-background-support'?: string;
+  '--footer-color-support'?: string;
+  '--footer-divider-color-support'?: string;
+  '--footer-focus-outline-color-support'?: string;
+} & Partial<FooterCustomTheme>;
+
 type ImageSelectorCSSProperties = {
   '--image-selector-focus-outline-color'?: string;
 };
@@ -389,7 +396,7 @@ export type Theme = {
   errorTemplate: ErrorTemplateCSSProperties;
   eventCard: EventCardCSSProperties;
   eventSearchPanel: EventSearchPanelCSSProperties;
-  footer: Partial<FooterCustomTheme>;
+  footer: FooterCSSProperties;
   imageSelector: ImageSelectorCSSProperties;
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;

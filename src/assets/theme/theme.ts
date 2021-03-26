@@ -208,10 +208,14 @@ const theme: Theme = {
     '--event-search-panel-label-color': 'var(--color-white)',
   },
   footer: {
-    '--footer-background': 'var(--color-coat-of-arms)',
-    '--footer-color': 'var(--color-white)',
-    '--footer-divider-color': 'var(--color-white)',
-    '--footer-focus-outline-color': 'var(--color-white)',
+    '--footer-background': 'var(--color-black-5)',
+    '--footer-color': 'var(--color-black)',
+    '--footer-divider-color': 'var(--color-black-20)',
+    '--footer-focus-outline-color': 'var(--color-coat-of-arms)',
+    '--footer-background-support': 'var(--color-coat-of-arms)',
+    '--footer-color-support': 'var(--color-white)',
+    '--footer-divider-color-support': 'var(--color-white)',
+    '--footer-focus-outline-color-support': 'var(--color-white)',
   },
   imageSelector: {
     '--image-selector-focus-outline-color': 'var(--color-coat-of-arms)',
