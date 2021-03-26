@@ -87,9 +87,7 @@ test('should render event data correctly', async () => {
 
   renderComponent(event, mocks);
 
-  screen.getByText(eventValues.id);
   screen.getByRole('link', { name: eventValues.name });
-  screen.getAllByRole('cell', { name: eventValues.name });
   await screen.findByRole('cell', { name: organizationName });
   screen.getByRole('cell', { name: '08.11.2019 klo 12.27' });
   screen.getByRole('cell', { name: '02.01.2020 klo 12.27' });

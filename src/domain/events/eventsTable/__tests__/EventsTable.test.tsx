@@ -26,9 +26,8 @@ test('should render events table', () => {
   renderComponent();
 
   const columnHeaders = [
-    'ID',
-    'Julkaisija',
     'Nimi',
+    'Julkaisija',
     'Alkuaika',
     'Loppuaika',
     'Status',
@@ -41,7 +40,7 @@ test('should render events table', () => {
 });
 
 test('should render all events', () => {
-  const eventNames = range(1, 11).map((n) => `Event name ${n}`);
+  const eventNames = range(1, 5).map((n) => `Event name ${n}`);
   renderComponent({
     events: fakeEvents(
       eventNames.length,

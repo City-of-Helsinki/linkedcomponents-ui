@@ -1,6 +1,10 @@
 @import 'mixins';
 
 .eventsTable {
+  tbody tr td {
+    white-space: nowrap;
+  }
+
   a, button, input {
     &:focus {
       outline: var(--focus-outline-width) solid var(--focus-outline-color);
@@ -12,7 +16,6 @@
   }
 }
 
-.idColumn,
 .statusColumn {
   width: 1%;
 }
@@ -27,13 +30,14 @@
   width: 50%;
 }
 
-.idWrapper {
+.nameWrapper {
   display: flex;
   align-items: center;
 
   button {
     display: flex;
-    padding: 0 var(--spacing-3-xs);
+    padding: 0;
+    margin-right: var(--spacing-2-xs);
   }
 }
 

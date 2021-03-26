@@ -58,7 +58,7 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
       <tr className={open || hideBorder ? styles.noBorder : undefined}>
         <td>
           <div
-            className={styles.idWrapper}
+            className={styles.nameWrapper}
             style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}
           >
             {!!subEventAtIds.length && (
@@ -81,9 +81,7 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
               className={styles.superEventTypeTag}
               superEventType={superEventType}
             />
-            <Link aria-label={name} to={eventUrl}>
-              {id}
-            </Link>
+            <Link to={eventUrl}>{name}</Link>
           </div>
         </td>
         <td>
@@ -93,7 +91,6 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
             /* istanbul ignore next */ '-'
           )}
         </td>
-        <td>{name}</td>
         <td className={styles.timeColumn}>
           {startTime
             ? t('eventsPage.datetime', {

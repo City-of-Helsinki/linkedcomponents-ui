@@ -50,12 +50,6 @@ const EventsTable: React.FC<EventsTableProps> = ({
       <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
       <thead>
         <tr>
-          <th className={styles.idColumn}>
-            {t('eventsPage.eventsTableColumns.id')}
-          </th>
-          <th className={styles.publisherColumn}>
-            {t('eventsPage.eventsTableColumns.publisher')}
-          </th>
           <SortableColumn
             className={styles.nameColumn}
             label={t('eventsPage.eventsTableColumns.name')}
@@ -64,6 +58,9 @@ const EventsTable: React.FC<EventsTableProps> = ({
             sortKey={EVENT_SORT_OPTIONS.NAME}
             type="text"
           />
+          <th className={styles.publisherColumn}>
+            {t('eventsPage.eventsTableColumns.publisher')}
+          </th>
           <SortableColumn
             label={t('eventsPage.eventsTableColumns.startTime')}
             onClick={handleSort}
