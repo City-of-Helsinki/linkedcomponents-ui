@@ -2,6 +2,7 @@
 
 .input {
   composes: hds-text-input__input from '~hds-core/lib/components/text-input/text-input.css';
+  --input-border-color-default: var(--input-background-default);
 }
 
 .buttons {

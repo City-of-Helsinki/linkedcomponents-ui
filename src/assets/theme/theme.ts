@@ -232,10 +232,11 @@ const theme: Theme = {
   menuDropdown: {
     '--menu-dropdown-item-background-color': 'var(--color-white)',
     '--menu-dropdown-item-background-color-disabled': 'var(--color-white)',
-    '--menu-dropdown-item-background-color-highlighted': 'var(--color-bus)',
+    '--menu-dropdown-item-background-color-highlighted':
+      'var(--color-black-10)',
     '--menu-dropdown-item-color': 'var(--color-black-90)',
     '--menu-dropdown-item-color-disabled': 'var(--color-black-40)',
-    '--menu-dropdown-item-color-highlighted': 'var(--color-white)',
+    '--menu-dropdown-item-color-highlighted': 'var(--color-black-90)',
   },
   modal: {
     '--modal-background-color': 'var(--color-white)',
