@@ -31,127 +31,126 @@ export interface ActionsDropdownProps {
   event: EventFieldsFragment;
 }
 
-const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
-  className,
-  event,
-}) => {
-  const { t } = useTranslation();
-  const authenticated = useSelector(authenticatedSelector);
-  const locale = useLocale();
-  const history = useHistory();
-  const { id } = getEventFields(event, locale);
+const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
+  ({ className, event }, ref) => {
+    const { t } = useTranslation();
+    const authenticated = useSelector(authenticatedSelector);
+    const locale = useLocale();
+    const history = useHistory();
+    const { id } = getEventFields(event, locale);
 
-  const {
-    cancelEvent,
-    closeModal,
-    deleteEvent,
-    saving,
-    openModal,
-    postponeEvent,
-    setOpenModal,
-  } = useEventUpdateActions({ event });
-  const { organizationAncestors } = useEventOrganization(event);
-  const { user } = useUser();
+    const {
+      cancelEvent,
+      closeModal,
+      deleteEvent,
+      saving,
+      openModal,
+      postponeEvent,
+      setOpenModal,
+    } = useEventUpdateActions({ event });
+    const { organizationAncestors } = useEventOrganization(event);
+    const { user } = useUser();
 
-  const onCancel = () => {
-    cancelEvent();
-  };
+    const onCancel = () => {
+      cancelEvent();
+    };
 
-  const onDelete = () => {
-    deleteEvent();
-  };
+    const onDelete = () => {
+      deleteEvent();
+    };
 
-  const onPostpone = () => {
-    postponeEvent();
-  };
+    const onPostpone = () => {
+      postponeEvent();
+    };
 
-  const goToEditEventPage = () => {
-    history.push(`/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`);
-  };
+    const goToEditEventPage = () => {
+      history.push(`/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`);
+    };
 
-  const copyEvent = async () => {
-    await copyEventToSessionStorage(event);
-    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
-  };
+    const copyEvent = async () => {
+      await copyEventToSessionStorage(event);
+      history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+    };
 
-  const getActionItemProps = ({
-    action,
-    onClick,
-  }: {
-    action: EVENT_EDIT_ACTIONS;
-    onClick: () => void;
-  }): MenuItemOptionProps | null => {
-    return getEditButtonProps({
+    const getActionItemProps = ({
       action,
-      authenticated,
-      event,
       onClick,
-      organizationAncestors,
-      t,
-      user,
-    });
-  };
+    }: {
+      action: EVENT_EDIT_ACTIONS;
+      onClick: () => void;
+    }): MenuItemOptionProps | null => {
+      return getEditButtonProps({
+        action,
+        authenticated,
+        event,
+        onClick,
+        organizationAncestors,
+        t,
+        user,
+      });
+    };
 
-  const actionItems: MenuItemOptionProps[] = [
-    getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.EDIT,
-      onClick: goToEditEventPage,
-    }),
-    getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.COPY,
-      onClick: copyEvent,
-    }),
-    getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.POSTPONE,
-      onClick: () => setOpenModal(MODALS.POSTPONE),
-    }),
-    getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.CANCEL,
-      onClick: () => setOpenModal(MODALS.CANCEL),
-    }),
-    getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.DELETE,
-      onClick: () => setOpenModal(MODALS.DELETE),
-    }),
-  ].filter((i) => i) as MenuItemOptionProps[];
+    const actionItems: MenuItemOptionProps[] = [
+      getActionItemProps({
+        action: EVENT_EDIT_ACTIONS.EDIT,
+        onClick: goToEditEventPage,
+      }),
+      getActionItemProps({
+        action: EVENT_EDIT_ACTIONS.COPY,
+        onClick: copyEvent,
+      }),
+      getActionItemProps({
+        action: EVENT_EDIT_ACTIONS.POSTPONE,
+        onClick: () => setOpenModal(MODALS.POSTPONE),
+      }),
+      getActionItemProps({
+        action: EVENT_EDIT_ACTIONS.CANCEL,
+        onClick: () => setOpenModal(MODALS.CANCEL),
+      }),
+      getActionItemProps({
+        action: EVENT_EDIT_ACTIONS.DELETE,
+        onClick: () => setOpenModal(MODALS.DELETE),
+      }),
+    ].filter((i) => i) as MenuItemOptionProps[];
 
-  return (
-    <>
-      <ConfirmCancelModal
-        event={event}
-        isOpen={openModal === MODALS.CANCEL}
-        isSaving={saving === MODALS.CANCEL}
-        onCancel={onCancel}
-        onClose={closeModal}
-      />
-      <ConfirmDeleteModal
-        event={event}
-        isOpen={openModal === MODALS.DELETE}
-        isSaving={saving === MODALS.DELETE}
-        onClose={closeModal}
-        onDelete={onDelete}
-      />
-      <ConfirmPostponeModal
-        event={event}
-        isOpen={openModal === MODALS.POSTPONE}
-        isSaving={saving === MODALS.POSTPONE}
-        onClose={closeModal}
-        onPostpone={onPostpone}
-      />
-      <MenuDropdown
-        button={
-          <button className={styles.toggleButton}>
-            <IconMenuDots aria-hidden={true} />
-          </button>
-        }
-        buttonLabel={t('event.form.buttonActions')}
-        className={className}
-        closeOnItemClick={true}
-        fixedPosition={true}
-        items={actionItems}
-      />
-    </>
-  );
-};
+    return (
+      <div ref={ref}>
+        <ConfirmCancelModal
+          event={event}
+          isOpen={openModal === MODALS.CANCEL}
+          isSaving={saving === MODALS.CANCEL}
+          onCancel={onCancel}
+          onClose={closeModal}
+        />
+        <ConfirmDeleteModal
+          event={event}
+          isOpen={openModal === MODALS.DELETE}
+          isSaving={saving === MODALS.DELETE}
+          onClose={closeModal}
+          onDelete={onDelete}
+        />
+        <ConfirmPostponeModal
+          event={event}
+          isOpen={openModal === MODALS.POSTPONE}
+          isSaving={saving === MODALS.POSTPONE}
+          onClose={closeModal}
+          onPostpone={onPostpone}
+        />
+        <MenuDropdown
+          button={
+            <button className={styles.toggleButton}>
+              <IconMenuDots aria-hidden={true} />
+            </button>
+          }
+          buttonLabel={t('event.form.buttonActions')}
+          className={className}
+          closeOnItemClick={true}
+          fixedPosition={true}
+          items={actionItems}
+        />
+      </div>
+    );
+  }
+);
 
 export default ActionsDropdown;

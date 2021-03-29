@@ -58,7 +58,7 @@ const renderComponent = (event: EventFieldsFragment, mocks: MockedResponse[]) =>
   render(
     <table>
       <tbody>
-        <EventsTableRow event={event} />
+        <EventsTableRow event={event} onRowClick={jest.fn()} />
       </tbody>
     </table>,
     { mocks }
@@ -87,7 +87,7 @@ test('should render event data correctly', async () => {
 
   renderComponent(event, mocks);
 
-  screen.getByRole('link', { name: eventValues.name });
+  screen.getByRole('button', { name: eventValues.name });
   await screen.findByRole('cell', { name: organizationName });
   screen.getByRole('cell', { name: '08.11.2019 klo 12.27' });
   screen.getByRole('cell', { name: '02.01.2020 klo 12.27' });
@@ -108,7 +108,7 @@ test('should show sub events', async () => {
     publisher: eventValues.publisher,
   };
 
-  const subEventFields = range(1, 11).map((n) => ({
+  const subEventFields = range(1, 3).map((n) => ({
     id: `subevent:${n}`,
     name: `Sub-event ${n} name`,
   }));
@@ -161,7 +161,7 @@ test('should show sub events', async () => {
 
   // Should show sub-events
   for (const { name } of subEventFields) {
-    await screen.findByRole('link', { name });
+    await screen.findByRole('button', { name });
   }
 
   const hideButton = await screen.findByRole('button', {
@@ -171,6 +171,6 @@ test('should show sub events', async () => {
 
   // Sub-events should be hidden
   for (const { name } of subEventFields) {
-    expect(screen.queryByRole('link', { name })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
   }
 });

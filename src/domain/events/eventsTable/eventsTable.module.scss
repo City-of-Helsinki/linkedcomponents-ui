@@ -1,8 +1,17 @@
 @import 'mixins';
 
 .eventsTable {
-  tbody tr td {
-    white-space: nowrap;
+  tbody tr {
+    cursor: pointer;
+
+    &:focus {
+      outline: var(--focus-outline-width) solid var(--focus-outline-color);
+      outline-offset: calc(0px - var(--focus-outline-width));
+    }
+    
+    td {
+      white-space: nowrap;
+    }
   }
 
   a, button, input {

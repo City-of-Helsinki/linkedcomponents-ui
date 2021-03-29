@@ -25,20 +25,24 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleClose = (event?: React.MouseEvent | React.KeyboardEvent) => {
+    event?.preventDefault();
+    event?.stopPropagation();
+
     onClose();
   };
 
   const handleSave = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.stopPropagation();
+
     onSave();
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       shouldCloseOnEsc={true}
       size="m"
       title={t('event.updateEventModal.title')}

@@ -25,20 +25,24 @@ const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleClose = (event?: React.MouseEvent | React.KeyboardEvent) => {
+    event?.preventDefault();
+    event?.stopPropagation();
+
     onClose();
   };
 
   const handlePostpone = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.stopPropagation();
+
     onPostpone();
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       shouldCloseOnEsc={true}
       size="m"
       title={t('event.postponeEventModal.title')}

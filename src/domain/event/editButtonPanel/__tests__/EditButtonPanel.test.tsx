@@ -60,7 +60,7 @@ const findComponent = (
     case 'back':
       return screen.findByRole('button', { name: 'Takaisin' });
     case 'cancel':
-      return screen.findByRole('button', { name: 'Peruuta tapahtuma' });
+      return screen.getByRole('button', { name: 'Peruuta tapahtuma' });
     case 'copy':
       return screen.findByRole('button', { name: 'Kopioi pohjaksi' });
     case 'delete':
@@ -127,13 +127,19 @@ test('should render correct buttons for draft event', async () => {
   userEvent.click(deleteButton);
   expect(onDelete).toBeCalled();
 
+  await openMenu();
+
   const updateButton = await findComponent('updateDraft');
   userEvent.click(updateButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Draft);
 
+  await openMenu();
+
   const publishButton = await findComponent('publish');
   userEvent.click(publishButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
+
+  await openMenu();
 
   const hiddenButtons = [
     'Lykkää tapahtumaa',
@@ -188,17 +194,25 @@ test('should render correct buttons for public event', async () => {
   userEvent.click(postponeButton);
   expect(onPostpone).toBeCalled();
 
+  await openMenu();
+
   const cancelButton = await findComponent('cancel');
   userEvent.click(cancelButton);
   expect(onCancel).toBeCalled();
+
+  await openMenu();
 
   const deleteButton = await findComponent('delete');
   userEvent.click(deleteButton);
   expect(onDelete).toBeCalled();
 
+  await openMenu();
+
   const updateButton = await findComponent('updatePublic');
   userEvent.click(updateButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
+
+  await openMenu();
 
   const hiddenButtons = ['Tallenna muutokset luonnokseen'];
 
@@ -235,7 +249,7 @@ test('only copy and delete button should be enabled when event is cancelled', as
   await findComponent('delete');
 });
 
-test('only copy button should be enabledwhen user is not logged in (public)', async () => {
+test('only copy button should be enabled when user is not logged in (public)', async () => {
   renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });

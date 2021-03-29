@@ -25,20 +25,24 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleClose = (event?: React.MouseEvent | React.KeyboardEvent) => {
+    event?.preventDefault();
+    event?.stopPropagation();
+
     onClose();
   };
 
   const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.stopPropagation();
+
     onDelete();
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       shouldCloseOnEsc={true}
       size="m"
       title={t('event.deleteEventModal.title')}

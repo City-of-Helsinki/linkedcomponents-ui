@@ -81,6 +81,7 @@ const renderComponent = (mocks: MockedResponse[] = baseMocks) =>
 
 const findInput = (
   key:
+    | 'actionsButton'
     | 'audience'
     | 'audienceMaxAge'
     | 'audienceMinAge'
@@ -171,6 +172,16 @@ const findInput = (
     case 'videoUrl':
       return screen.findByRole('textbox', { name: /videon url-osoite/i });
   }
+};
+
+const openMenu = async () => {
+  const toggleButton = await screen.findByRole('button', {
+    name: /toiminnot/i,
+  });
+  userEvent.click(toggleButton);
+  await screen.findByRole('region', { name: /toiminnot/i });
+
+  return toggleButton;
 };
 
 const findButton = (
@@ -282,6 +293,7 @@ test('should cancel event', async () => {
 
   renderComponent(mocks);
 
+  await openMenu();
   const cancelButton = await findButton('cancel');
   userEvent.click(cancelButton);
 
@@ -312,6 +324,7 @@ test('should postpone event', async () => {
   const endTimeInput = await findInput('endTime');
   expect(endTimeInput).toHaveValue(expectedValues.endTime);
 
+  await openMenu();
   const postponeButton = await findButton('postpone');
   userEvent.click(postponeButton);
 
@@ -336,6 +349,7 @@ test('should delete event', async () => {
 
   const { history } = renderComponent(mocks);
 
+  await openMenu();
   const deleteButton = await findButton('delete');
   userEvent.click(deleteButton);
 
@@ -369,6 +383,7 @@ test('should update event', async () => {
 
   await screen.findByText(expectedValues.lastModifiedTime);
 
+  await openMenu();
   const updateButton = await findButton('updatePublic');
   userEvent.click(updateButton);
 
@@ -397,6 +412,7 @@ test('should update recurring event', async () => {
 
   await screen.findByText(expectedValues.lastModifiedTime);
 
+  await openMenu();
   const updateButton = await findButton('updatePublic');
   userEvent.click(updateButton);
 
@@ -421,6 +437,7 @@ test('should scroll to first error when validation error is thrown', async () =>
   ];
   renderComponent(mocks);
 
+  await openMenu();
   const updateButton = await findButton('updateDraft');
   userEvent.click(updateButton);
 

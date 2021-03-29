@@ -27,18 +27,22 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
 
   const handleCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.stopPropagation();
+
     onCancel();
   };
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleClose = (event?: React.MouseEvent | React.KeyboardEvent) => {
+    event?.preventDefault();
+    event?.stopPropagation();
+
     onClose();
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       shouldCloseOnEsc={true}
       size="m"
       title={t('event.cancelEventModal.title')}

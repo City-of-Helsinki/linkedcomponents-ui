@@ -123,7 +123,7 @@ const MenuDropdown = ({
     }
   };
 
-  const handleItemClick = () => {
+  const handleItemClick = (event?: React.MouseEvent<HTMLElement>) => {
     if (closeOnItemClick) {
       ensureMenuIsClosed();
       setFocusToButton();
@@ -178,6 +178,7 @@ const MenuDropdown = ({
 
   const toggleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.stopPropagation();
 
     setMenuOpen(!menuOpen);
   };

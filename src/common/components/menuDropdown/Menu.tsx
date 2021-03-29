@@ -48,6 +48,10 @@ export const Menu = ({
     };
   }, [fixedPosition, menuContainerSize]);
 
+  if (!menuOpen) {
+    return null;
+  }
+
   return (
     <div
       role="region"

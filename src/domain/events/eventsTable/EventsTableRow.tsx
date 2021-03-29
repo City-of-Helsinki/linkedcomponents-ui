@@ -2,7 +2,6 @@ import { IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -22,17 +21,24 @@ interface Props {
   event: EventFieldsFragment;
   hideBorder?: boolean;
   level?: number;
+  onRowClick: (event: EventFieldsFragment) => void;
 }
 
-const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
+const EventTableRow: React.FC<Props> = ({
+  event,
+  hideBorder,
+  level = 0,
+  onRowClick,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const timeFormat = useTimeFormat();
   const dispatch = useDispatch();
   const expandedEvents = useSelector(expandedEventsSelector);
+  const actionsDropdownRef = React.useRef<HTMLDivElement>(null);
+  const rowRef = React.useRef<HTMLTableRowElement>(null);
 
   const {
-    eventUrl,
     endTime,
     eventStatus,
     id,
@@ -45,7 +51,10 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
   } = getEventFields(event, locale);
   const open = expandedEvents.includes(id);
 
-  const toggle = () => {
+  const toggle = (ev: React.MouseEvent) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+
     if (open) {
       dispatch(removeExpandedEvent(id));
     } else {
@@ -53,9 +62,34 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
     }
   };
 
+  const handleRowClick = (ev: React.MouseEvent) => {
+    if (
+      !(
+        ev.target instanceof Node &&
+        actionsDropdownRef.current?.contains(ev.target)
+      )
+    ) {
+      onRowClick(event);
+    }
+  };
+
+  const handleKeyDown = (ev: React.KeyboardEvent) => {
+    if (ev.key === 'Enter' && ev.target === rowRef.current) {
+      onRowClick(event);
+    }
+  };
+
   return (
     <>
-      <tr className={open || hideBorder ? styles.noBorder : undefined}>
+      <tr
+        ref={rowRef}
+        role="button"
+        aria-label={name}
+        className={open || hideBorder ? styles.noBorder : undefined}
+        onClick={handleRowClick}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+      >
         <td>
           <div
             className={styles.nameWrapper}
@@ -81,7 +115,7 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
               className={styles.superEventTypeTag}
               superEventType={superEventType}
             />
-            <Link to={eventUrl}>{name}</Link>
+            <span>{name}</span>
           </div>
         </td>
         <td>
@@ -116,11 +150,11 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
           </div>
         </td>
         <td className={styles.actionButtonsColumn}>
-          <ActionsDropdown event={event} />
+          <ActionsDropdown ref={actionsDropdownRef} event={event} />
         </td>
       </tr>
       {!!subEventAtIds.length && open && (
-        <SubEventRows eventId={id} level={level} />
+        <SubEventRows eventId={id} level={level} onRowClick={onRowClick} />
       )}
     </>
   );
