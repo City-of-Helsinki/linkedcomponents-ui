@@ -15,11 +15,11 @@ const FeedbackButton: React.FC<Omit<ButtonProps, 'children'>> = (props) => {
 
   return (
     <Button
+      {...props}
       iconLeft={<IconSpeechbubbleText />}
       iconRight={<IconAngleRight />}
       onClick={goToFeedback}
       variant="supplementary"
-      {...props}
       className={classNames(props.className, styles.feedbackButton)}
     >
       {t('common.feedback.text')}
