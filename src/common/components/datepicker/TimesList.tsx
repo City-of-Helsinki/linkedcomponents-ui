@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { IconCheck } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -154,6 +155,7 @@ const TimeItem: React.FC<TimeItemProps> = ({
         type="button"
       >
         {formatTime(time)}
+        {selected && <IconCheck aria-hidden={true} />}
       </button>
     </ScrollIntoViewWithFocus>
   );

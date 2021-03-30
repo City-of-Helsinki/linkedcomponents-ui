@@ -10,6 +10,7 @@ import {
   getA11ySelectionMessage,
   getA11yStatusMessage,
 } from '../../../utils/accessibilityUtils';
+import styles from '../select/select.module.scss';
 
 const SingleSelect: React.FC<SingleSelectProps<OptionType>> = ({
   className,
@@ -21,7 +22,7 @@ const SingleSelect: React.FC<SingleSelectProps<OptionType>> = ({
   return (
     <Select
       {...rest}
-      className={classNames(className, css(theme.select))}
+      className={classNames(className, css(theme.select), styles.select)}
       getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
       getA11ySelectionMessage={(options) =>
         /* istanbul ignore next */ getA11ySelectionMessage(options, t)

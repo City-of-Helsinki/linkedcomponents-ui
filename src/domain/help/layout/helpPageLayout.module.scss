@@ -1,4 +1,6 @@
 @import "breakpoints";
+@import "mixins";
+
 .helpPageWrapper {
     --footer-koro-height: 14px;
 
@@ -82,6 +84,10 @@
             @include large-up {
                 grid-column: 4 / 13;
             };  
+        }
+
+        a {
+            @include focus-outline(0px);
         }
 
         h1, h2, h3, h4, h5, h6 {

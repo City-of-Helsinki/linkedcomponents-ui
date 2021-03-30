@@ -1,0 +1,21 @@
+.combobox {
+    > div:focus-within {
+        box-shadow: none;
+
+        input:global(.focus-visible) {
+            outline: var(--focus-outline-width) solid var(--focus-outline-color);
+            outline-offset: 1px;
+        }
+    }
+}
+
+.select {
+    > div:focus-within {
+        box-shadow: none;
+
+        button:global(.focus-visible) {
+            outline: var(--focus-outline-width) solid var(--focus-outline-color);
+            outline-offset: 1px;
+        }
+    }
+}

@@ -6,6 +6,12 @@
      height: 15px;
    }
 
+   a, button {
+     &:focus:not(:global(.focus-visible))::after {
+      --footer-focus-outline-color: transparent;
+     }
+   }
+
    &.themeSupport {
     --footer-background: var(--footer-background-support);
     --footer-color: var(--footer-color-support);

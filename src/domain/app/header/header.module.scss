@@ -10,6 +10,13 @@
     border-radius: 0px;
   };
 
+  a, button {
+    &:focus:not(:global(.focus-visible)) {
+      box-shadow: none;
+      --header-focus-outline-color: transparent;
+    }
+  };
+
   &.hideNavRow {
     @include medium-up {
       > div:first-of-type {
@@ -40,6 +47,10 @@
     &:before {
       border-radius: 0px;
     } 
+
+    &:focus:not(:global(.focus-visible)) {
+      --item-focus-outline-color: transparent;
+    }
   }
 
   .navigationItemLabel {
@@ -56,6 +67,14 @@
     --menu-item-background-color-highlighted: var(--color-black-10);
     --menu-item-color: var(--color-black-90);
     --menu-item-color-highlighted: var(--color-black);
+
+    &:focus-within {
+      box-shadow: none;
+
+      button:global(.focus-visible) {
+        box-shadow: 0 0 0 3px var(--menu-button-focus-outline-color);
+      }
+    }
 
     & > div {
       box-shadow: var(--shadow-m);

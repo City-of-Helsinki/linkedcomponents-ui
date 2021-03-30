@@ -35,6 +35,8 @@
     display: flex;
     justify-content: center;
     cursor: pointer;
+
+    @include focus-outline(0px);
   }
 
   label {

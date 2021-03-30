@@ -1,8 +1,10 @@
+import classNames from 'classnames';
 import { ButtonProps, IconAngleRight, IconSpeechbubbleText } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../button/Button';
+import styles from './feedbackButton.module.scss';
 
 const FeedbackButton: React.FC<Omit<ButtonProps, 'children'>> = (props) => {
   const { t } = useTranslation();
@@ -18,6 +20,7 @@ const FeedbackButton: React.FC<Omit<ButtonProps, 'children'>> = (props) => {
       onClick={goToFeedback}
       variant="supplementary"
       {...props}
+      className={classNames(props.className, styles.feedbackButton)}
     >
       {t('common.feedback.text')}
     </Button>

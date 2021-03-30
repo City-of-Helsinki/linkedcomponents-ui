@@ -71,6 +71,10 @@
             border-color: var(--side-navigation-level-border-color-focus) !important;
         }
 
+        &:focus:not(:global(.focus-visible)) {
+            border-color: transparent !important;
+        }
+
         span {
             display: flex;
         }

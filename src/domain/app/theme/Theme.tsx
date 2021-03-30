@@ -63,7 +63,6 @@ type CollapsibleCSSProperties = {
 };
 
 type DatepickerCSSProperties = {
-  '--calendar-button-height'?: string;
   '--close-button-color'?: string;
   '--day-background-color'?: string;
   '--day-background-color-disabled'?: string;
@@ -90,13 +89,15 @@ type DatepickerCSSProperties = {
   '--times-divider-border-color'?: string;
   '--times-list-width'?: string;
   '--time-item-background-color'?: string;
+  '--time-item-background-color-focused'?: string;
   '--time-item-background-color-selected'?: string;
+  '--time-item-color'?: string;
+  '--time-item-color-focused'?: string;
+  '--time-item-color-selected'?: string;
 };
 
 type DeleteButtonCSSProperties = {
   '--delete-button-color'?: string;
-  '--delete-button-height'?: string;
-  '--delete-button-padding'?: string;
 };
 
 type ErrorTemplateCSSProperties = {
@@ -163,7 +164,6 @@ type MenuDropdownCSSProperties = {
 type ModalCSSProperties = {
   '--modal-background-color'?: string;
   '--modal-bottom'?: string;
-  '--modal-label-height'?: string;
   '--modal-max-width-m'?: string;
   '--modal-max-width-l'?: string;
   '--modal-top'?: string;

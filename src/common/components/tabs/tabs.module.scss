@@ -6,7 +6,6 @@
   --tabs-tab-color-active: var(--color-bus);
 
   display: flex;
-  grid-gap: var(--spacing-xs);
   height: var(--spacing-3-xl);
   border-bottom: 2px solid var(--color-black-10);
 
@@ -16,13 +15,50 @@
   }
 
   .tab {
+    --focus-outline-width: 3px;
+    --focus-outline-adjust: 2px;
+
     position: relative;
     display: flex;
     align-items: center;
     color: var(--tabs-tab-color);
-    padding: 0px var(--spacing-s);
+    padding: 0px var(--spacing-3-xs);
 
-    &:hover:not(:focus):after,
+    &:not(:first-child) {
+      margin-left: var(--spacing-m);
+    }
+
+    @include medium-up {
+      &:not(:first-child) {
+        margin-left: var(--spacing-l);
+      } 
+    }
+    
+    &:focus {
+      outline: none;
+
+      &:before {
+        box-shadow: 0 0 0 var(--focus-outline-width) var(--focus-outline-color);
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: calc(100% - var(--focus-outline-width) * 2);
+        width: 100%;
+        transform: translateY(calc(var(--focus-outline-width)));
+        pointer-events: none;
+      }
+    }
+
+    &.isActive::before {
+      height: calc(100% - var(--focus-outline-adjust));
+    }
+
+    &:not(:global(.focus-visible)):before {
+      box-shadow: none;
+    }
+
+    &:hover:after,
     &.isActive:after {
       background-color: var(--tabs-tab-color-active);
       bottom: 0;

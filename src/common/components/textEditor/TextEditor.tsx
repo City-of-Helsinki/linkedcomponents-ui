@@ -209,10 +209,10 @@ const TextEditor: React.FC<TextEditorProps> = ({
               // List
               'components.controls.list.list': t('common.textEditor.list.list'),
               'components.controls.list.unordered': t(
-                'common.textEditor.link.unordered'
+                'common.textEditor.list.unordered'
               ),
               'components.controls.list.ordered': t(
-                'common.textEditor.link.ordered'
+                'common.textEditor.list.ordered'
               ),
             },
           }}

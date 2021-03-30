@@ -1,3 +1,5 @@
+@import "mixins";
+
 .accordion {
     --accordion-background-color: var(--color-white);
 
@@ -11,8 +13,11 @@
         display: flex;
         align-items: center;
         color: var(--color-black);
+        cursor: pointer;
         font-weight: 500;
         font-size: var(--fontsize-body-m);
+
+        @include focus-outline(0px);
 
         span:not(:last-child) {
             margin-right: var(--spacing-xs);

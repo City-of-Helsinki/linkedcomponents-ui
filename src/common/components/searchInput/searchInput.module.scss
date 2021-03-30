@@ -24,7 +24,7 @@
     @include hidden-from-screen;
   }
 
-  &:focus {
+  &:focus:global(.focus-visible) {
     outline: none;
     box-shadow: 0 0 0 var(--focus-outline-width) var(--focus-outline-color);
   }
