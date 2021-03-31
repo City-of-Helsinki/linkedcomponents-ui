@@ -264,10 +264,11 @@ const imageDetailsValidation = Yup.object().shape({
     .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
       createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
     ),
-  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string().max(
-    CHARACTER_LIMITS.MEDIUM_STRING,
-    (param) => createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-  ),
+  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(CHARACTER_LIMITS.MEDIUM_STRING, (param) =>
+      createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+    ),
 });
 
 export const eventValidationSchema = Yup.object().shape({

@@ -246,7 +246,7 @@
       "helperRecurringEventRepeatInterval": "In weeks",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "image": {
-        "labelAltText": "Alt text of the image",
+        "labelAltText": "Alternate image text for screen readers (alt text)",
         "labelName": "Caption",
         "labelPhotographerName": "Photographer name",
         "labelUrl": "Image URL",
@@ -313,6 +313,7 @@
       },
       "infoTextImage2": "Before uploading, edit the image to fit the network and to a 3: 2 horizontal aspect ratio, such as 1200 × 800px. It is essential that the file size remains reasonable for mobile use as well, preferably less than 200 kilobytes (kb).",
       "infoTextImage3": "Give the image a name and briefly describe what is happening in it.",
+      "infoTextImage4": "Alt text improves accessibility because screen readers pass alt text to the user. So describe the content of the picture in an understandable way.",
       "infoTextInfoLanguages": {
         "course": "Select the languages in which you want to display course information for this service.",
         "event": "Select the languages in which you want to display event information for this service."

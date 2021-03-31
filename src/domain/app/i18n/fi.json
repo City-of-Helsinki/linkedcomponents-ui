@@ -246,7 +246,7 @@
       "helperRecurringEventRepeatInterval": "Viikon välein",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "image": {
-        "labelAltText": "Kuvan alt-teksti",
+        "labelAltText": "Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti)",
         "labelName": "Kuvateksti",
         "labelPhotographerName": "Kuvaajan nimi",
         "labelUrl": "Kuvan URL-osoite",
@@ -313,6 +313,7 @@
       },
       "infoTextImage2": "Muokkaa kuva ennen syöttöä verkkoon sopivaksi ja 3:2 -vaakakuvasuhteeseen, esim. 1200×800px. Olennaista on, että tiedostokoko pysyy kohtuullisena myös mobiilikäyttöön eli mieluiten alle 200 kilotavun (kt).",
       "infoTextImage3": "Anna kuvalle nimi ja kuvaile lyhyesti mitä siinä tapahtuu.",
+      "infoTextImage4": "Alt-teksti parantaa saavutettavuutta, sillä ruudunlukuohjelmat välittävät alt-tekstin sisällön käyttäjälle. Kuvaa tähän kohtaan siis kuvan sisältö ymmärrettävästi.",
       "infoTextInfoLanguages": {
         "course": "Valitse kielet, joilla haluat kuvata kurssin tiedot tässä palvelussa.",
         "event": "Valitse kielet, joilla haluat kuvata tapahtuman tiedot tässä palvelussa."

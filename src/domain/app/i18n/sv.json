@@ -246,7 +246,7 @@
       "helperRecurringEventRepeatInterval": "I veckor",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "image": {
-        "labelAltText": "Bildens alt-text",
+        "labelAltText": "Alternativ bildtext för skärmläsare (alt text)",
         "labelName": "Rubrik",
         "labelPhotographerName": "Fotografens namn",
         "labelUrl": "Bildens URL",
@@ -313,6 +313,7 @@
       },
       "infoTextImage2": "Innan du matar redigerar du bilden så att den passar nätverket och till ett horisontellt bildförhållande 3: 2, till exempel 1200 × 800 pixlar. Det är viktigt att filstorleken förblir rimlig även för mobil användning, helst mindre än 200 kilobyte (kb).",
       "infoTextImage3": "Ge bilden ett namn och beskriv kort vad som händer i den.",
+      "infoTextImage4": "Alt-text förbättrar tillgängligheten eftersom skärmläsare skickar alt-text till användaren. Så beskriv innehållet i bilden på ett förståeligt sätt.",
       "infoTextInfoLanguages": {
         "course": "Välj de språk som du vill visa kursinformation för den här tjänsten på.",
         "event": "Välj de språk som du vill visa evenemanginformation för den här tjänsten på."
