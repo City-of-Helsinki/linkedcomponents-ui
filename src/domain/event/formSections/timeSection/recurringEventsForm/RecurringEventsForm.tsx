@@ -44,6 +44,9 @@ const RecurringEventsForm: React.FC<Props> = ({ onSubmit, type }) => {
                   <h3>{t('event.form.titleRecurringEventRepeatInterval')}</h3>
                   <FastField
                     component={NumberInputField}
+                    helperText={t(
+                      `event.form.helperRecurringEventRepeatInterval`
+                    )}
                     label={t(
                       `event.form.labelRecurringEventRepeatInterval.${type}`
                     )}

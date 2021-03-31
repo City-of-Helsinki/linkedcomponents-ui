@@ -243,6 +243,7 @@
         "placeholderMaximumAttendeeCapacity": "Enter maximum number of participants",
         "placeholderMinimimAttendeeCapacity": "Enter minimum number of participants"
       },
+      "helperRecurringEventRepeatInterval": "In weeks",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "image": {
         "labelAltText": "Alt text of the image",
@@ -418,8 +419,8 @@
         "event": "Event ends at"
       },
       "labelRecurringEventRepeatInterval": {
-        "course": "Course is repeated every X weeks",
-        "event": "Event is repeated every X weeks"
+        "course": "Course is repeated",
+        "event": "Event is repeated"
       },
       "labelRecurringEventStartDate": "Repetition starts",
       "labelRecurringEventStartTime": {

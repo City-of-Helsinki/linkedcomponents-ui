@@ -243,6 +243,7 @@
         "placeholderMaximumAttendeeCapacity": "Syötä enimmäisosallistujamäärä",
         "placeholderMinimimAttendeeCapacity": "Syötä vähimmäisosallistujamäärä"
       },
+      "helperRecurringEventRepeatInterval": "Viikon välein",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "image": {
         "labelAltText": "Kuvan alt-teksti",
@@ -418,8 +419,8 @@
         "event": "Tapahtuma päättyy klo"
       },
       "labelRecurringEventRepeatInterval": {
-        "course": "Kurssi toistuu X viikon välein",
-        "event": "Tapahtuma toistuu X viikon välein"
+        "course": "Kurssi toistu",
+        "event": "Tapahtuma toistuu"
       },
       "labelRecurringEventStartDate": "Toisto alkaa",
       "labelRecurringEventStartTime": {

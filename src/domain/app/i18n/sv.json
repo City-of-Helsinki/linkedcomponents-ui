@@ -243,6 +243,7 @@
         "placeholderMaximumAttendeeCapacity": "Ange maximalt antal deltagare",
         "placeholderMinimimAttendeeCapacity": "Ange minsta antal deltagare"
       },
+      "helperRecurringEventRepeatInterval": "I veckor",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "image": {
         "labelAltText": "Bildens alt-text",
@@ -418,8 +419,8 @@
         "event": "Evenemanget slutar kl"
       },
       "labelRecurringEventRepeatInterval": {
-        "course": "Kursen upprepas var X vecka",
-        "event": "Evenemanget upprepas var X vecka"
+        "course": "Kursen upprepas",
+        "event": "Evenemanget upprepas"
       },
       "labelRecurringEventStartDate": "Upprepningen börjar",
       "labelRecurringEventStartTime": {
