@@ -140,6 +140,7 @@ const ImageSection = () => {
             />
             <p>{t(`event.form.infoTextImage2`)}</p>
             <p>{t(`event.form.infoTextImage3`)}</p>
+            <p>{t(`event.form.infoTextImage4`)}</p>
           </Notification>
         }
       >
@@ -147,15 +148,14 @@ const ImageSection = () => {
           className={styles.imagePreviewWrapper}
           maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
         >
-          <ImagePreview
-            imageUrl={imageUrl}
-            label={t(`event.form.buttonAddImage.${type}`)}
-            onClick={openModal}
-          />
-        </FieldColumn>
-      </FieldRow>
-      <FieldRow>
-        <FieldColumn>
+          <FormGroup>
+            <ImagePreview
+              imageUrl={imageUrl}
+              label={t(`event.form.buttonAddImage.${type}`)}
+              onClick={openModal}
+            />
+          </FormGroup>
+
           <FormGroup>
             {!!images.length ? (
               <Button
