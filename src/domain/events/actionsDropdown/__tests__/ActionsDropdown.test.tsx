@@ -68,11 +68,11 @@ const findComponent = (
     case 'edit':
       return screen.findByRole('button', { name: 'Muokkaa tapahtumaa' });
     case 'menu':
-      return screen.findByRole('region', { name: /toiminnot/i });
+      return screen.findByRole('region', { name: /valinnat/i });
     case 'postpone':
       return screen.findByRole('button', { name: 'Lykkää tapahtumaa' });
     case 'toggle':
-      return screen.findByRole('button', { name: /toiminnot/i });
+      return screen.findByRole('button', { name: /valinnat/i });
   }
 };
 
@@ -90,7 +90,7 @@ test('should toggle menu by clicking actions button', async () => {
   const toggleButton = await openMenu();
   userEvent.click(toggleButton);
   expect(
-    screen.queryByRole('region', { name: /toiminnot/i })
+    screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
 });
 

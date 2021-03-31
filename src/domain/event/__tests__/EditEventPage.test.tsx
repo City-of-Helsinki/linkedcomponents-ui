@@ -176,10 +176,10 @@ const findInput = (
 
 const openMenu = async () => {
   const toggleButton = await screen.findByRole('button', {
-    name: /toiminnot/i,
+    name: /valinnat/i,
   });
   userEvent.click(toggleButton);
-  await screen.findByRole('region', { name: /toiminnot/i });
+  await screen.findByRole('region', { name: /valinnat/i });
 
   return toggleButton;
 };
@@ -196,7 +196,7 @@ const findButton = (
       return screen.findByRole('button', { name: 'Lykkää tapahtumaa' });
     case 'updateDraft':
       return screen.findByRole('button', {
-        name: 'Tallenna muutokset luonnokseen',
+        name: 'Tallenna luonnos',
       });
     case 'updatePublic':
       return screen.findByRole('button', {
@@ -383,7 +383,6 @@ test('should update event', async () => {
 
   await screen.findByText(expectedValues.lastModifiedTime);
 
-  await openMenu();
   const updateButton = await findButton('updatePublic');
   userEvent.click(updateButton);
 
@@ -412,7 +411,6 @@ test('should update recurring event', async () => {
 
   await screen.findByText(expectedValues.lastModifiedTime);
 
-  await openMenu();
   const updateButton = await findButton('updatePublic');
   userEvent.click(updateButton);
 
@@ -437,7 +435,6 @@ test('should scroll to first error when validation error is thrown', async () =>
   ];
   renderComponent(mocks);
 
-  await openMenu();
   const updateButton = await findButton('updateDraft');
   userEvent.click(updateButton);
 

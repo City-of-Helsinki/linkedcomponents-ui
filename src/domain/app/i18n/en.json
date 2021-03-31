@@ -223,7 +223,7 @@
         "event": "Remove photo of the event"
       },
       "buttonSaveDraft": "Save draft",
-      "buttonUpdateDraft": "Save changes to draft",
+      "buttonUpdateDraft": "Save draft",
       "buttonUpdatePublic": "Save changes",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
       "editButtonPanel": {

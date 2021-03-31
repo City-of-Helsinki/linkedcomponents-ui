@@ -1,10 +1,8 @@
 @import 'breakpoints';
 @import 'mixins';
+@import 'widths';
 
 .editButtonPanel {
-  --back-button-width: 96px;
-  --actions-button-width: 212px;
-
   --edit-button-panel-background-color: var(--color-coat-of-arms);
   --edit-button-panel-button-background-color: var(--color-coat-of-arms);
   --edit-button-panel-button-background-color-hover: var(
@@ -19,12 +17,12 @@
   --edit-button-panel-button-focus-outline-color: var(--color-white);
 
   position: sticky;
-  margin-top: -1px;
-  top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
   padding: var(--spacing-m) 0;
-  background-color: var(--edit-button-panel-background-color);
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-black-10);
   z-index: 100;
 }
 
@@ -32,36 +30,25 @@
   display: flex;
   grid-gap: var(--spacing-m);
   justify-content: space-between;
+  flex-wrap: wrap;
 
-  .backButtonWrapper {
-    width: var(--back-button-width);
+  .buttonWrapper {
+    display: flex;
+
+    > button:not(:last-child) {
+      margin-right: var(--spacing-m);
+    }
   }
 
-  .editButtonWrapper {
-    width: var(--actions-button-width);
+  .smallButton {
+    @include min-width-column(1);
+  }
+
+  .mediumButton {
+    @include min-width-column(2);
   }
 
   button {
-    --background-color: var(--edit-button-panel-button-background-color);
-    --background-color-hover: var(
-      --edit-button-panel-button-background-color-hover
-    );
-    --background-color-focus: var(
-      --edit-button-panel-button-background-color-focus
-    );
-    --background-color-hover-focus: var(
-      --edit-button-panel-button-background-color-hover-focus
-    );
-    --border-color: var(--edit-button-panel-button-border-color);
-    --border-color-hover: var(--edit-button-panel-button-border-color);
-    --border-color-focus: var(--edit-button-panel-button-border-color);
-    --border-color-hover-focus: var(--edit-button-panel-button-border-color);
-    --color: var(--edit-button-panel-button-color);
-    --color-hover: var(--edit-button-panel-button-color);
-    --color-focus: var(--edit-button-panel-button-color);
-    --color-hover-focus: var(--edit-button-panel-button-color);
-    --focus-outline-color: var(--edit-button-panel-button-focus-outline-color);
-
     & > div {
       flex-shrink: 0;
     }

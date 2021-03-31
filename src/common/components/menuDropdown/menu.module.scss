@@ -29,6 +29,16 @@
     left: unset;
     right: 0;
     z-index: var(--menu-dropdown-z-index);
+
+    &.menuPositionBottom {
+      top: 100%;
+      bottom: unset;
+    }
+
+    &.menuPositionTop {
+      bottom: 100%;
+      top: unset;
+    }
   }
 }
 

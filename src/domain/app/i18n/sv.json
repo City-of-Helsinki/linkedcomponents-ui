@@ -223,7 +223,7 @@
         "event": "Ta bort bilden av evenemanget"
       },
       "buttonSaveDraft": "Spara utkast",
-      "buttonUpdateDraft": "Spara ändringar i utkastet",
+      "buttonUpdateDraft": "Spara utkast",
       "buttonUpdatePublic": "Spara ändringar",
       "checkboxIsVerified": "Jag verifierar att informationen jag har gett är korrekt och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och föreskrifter {{openInNewTab}}\">alla instruktioner och föreskrifter</a> som gäller Helsingfors stads kurser och evenemang.",
       "editButtonPanel": {
