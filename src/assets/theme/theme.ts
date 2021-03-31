@@ -207,6 +207,16 @@ const theme: Theme = {
   eventSearchPanel: {
     '--event-search-panel-background-color': 'var(--color-coat-of-arms)',
     '--event-search-panel-label-color': 'var(--color-white)',
+    '--event-search-panel-button-background-color': 'var(--color-coat-of-arms)',
+    '--event-search-panel-button-background-color-hover':
+      'var(--color-coat-of-arms-dark)',
+    '--event-search-panel-button-background-color-focus':
+      'var(--color-coat-of-arms)',
+    '--event-search-panel-button-background-color-hover-focus':
+      'var(--color-coat-of-arms-dark)',
+    '--event-search-panel-button-border-color': 'var(--color-white)',
+    '--event-search-panel-button-color': 'var(--color-white)',
+    '--event-search-panel-button-focus-outline-color': 'var(--color-white)',
   },
   footer: {
     '--footer-background': 'var(--color-black-5)',

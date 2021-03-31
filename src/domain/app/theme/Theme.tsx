@@ -118,6 +118,13 @@ type EventCardCSSProperties = {
 type EventSearchPanelCSSProperties = {
   '--event-search-panel-background-color'?: string;
   '--event-search-panel-label-color'?: string;
+  '--event-search-panel-button-background-color'?: string;
+  '--event-search-panel-button-background-color-hover'?: string;
+  '--event-search-panel-button-background-color-focus'?: string;
+  '--event-search-panel-button-background-color-hover-focus'?: string;
+  '--event-search-panel-button-border-color'?: string;
+  '--event-search-panel-button-color'?: string;
+  '--event-search-panel-button-focus-outline-color'?: string;
 };
 
 type FooterCSSProperties = {
