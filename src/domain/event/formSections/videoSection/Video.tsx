@@ -87,6 +87,15 @@ const Video: React.FC<Props> = ({
             <FormGroup>
               <FastField
                 component={TextInputField}
+                name={fieldNames.url}
+                label={t(`event.form.labelVideoUrl`)}
+                placeholder={t(`event.form.placeholderVideoUrl`)}
+                required={isRequired}
+              />
+            </FormGroup>
+            <FormGroup>
+              <FastField
+                component={TextInputField}
                 name={fieldNames.name}
                 label={t(`event.form.labelVideoName`)}
                 placeholder={t(`event.form.placeholderVideoName`)}
@@ -99,16 +108,6 @@ const Video: React.FC<Props> = ({
                 name={fieldNames.altText}
                 label={t(`event.form.labelVideoAltText`)}
                 placeholder={t(`event.form.placeholderVideoAltText`)}
-                required={isRequired}
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <FastField
-                component={TextInputField}
-                name={fieldNames.url}
-                label={t(`event.form.labelVideoUrl`)}
-                placeholder={t(`event.form.placeholderVideoUrl`)}
                 required={isRequired}
               />
             </FormGroup>
