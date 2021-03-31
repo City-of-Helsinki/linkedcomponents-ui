@@ -359,7 +359,8 @@
       },
       "infoTextType1": "Is it an event or a course? The event is a one-time event and starts at a certain time, while the course can generally have several events and the activities are goal-oriented. In some cases, the course is also called a hobby.",
       "infoTextType2": "The choice of event type affects how and in which services the event is displayed to the user.",
-      "infoTextUmrellaEvent": "Several different events can be grouped under the umbrella event. For example, a festival can be an umbrella event with several events underneath.",
+      "infoTextUmrellaEvent1": "Several different events can be grouped under the umbrella event. For example, a festival can be an umbrella event with several events underneath.",
+      "infoTextUmrellaEvent2": "Umbrella event options can be left unchecked in most cases",
       "infoTextUmbrellaSubEvent": "If you wish to add this event under an umbrella event, you may do so from the associated",
       "infoTextUmbrellaSubEventLink": "top level event",
       "infoTextVideo1": {

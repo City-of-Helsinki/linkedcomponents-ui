@@ -359,7 +359,8 @@
       },
       "infoTextType1": "Är det ett evenemang eller en kurs? Evenemanget är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen i allmänhet kan ha flera evenemang och aktiviteterna är målinriktade. I vissa fall kallas kursen också en hobby.",
       "infoTextType2": "Valet av evenemangtyp påverkar hur och i vilka tjänster evenemanget visas för användaren.",
-      "infoTextUmrellaEvent": "Flera olika evenemang kan grupperas under paraplyevenemanget. Till exempel kan en festival vara ett paraplyevenemang med flera evenemang under.",
+      "infoTextUmrellaEvent1": "Flera olika evenemang kan grupperas under paraplyevenemanget. Till exempel kan en festival vara ett paraplyevenemang med flera evenemang under.",
+      "infoTextUmrellaEvent2": "Paraplyevenemangalternativ kan lämnas omarkerade i de flesta fall",
       "infoTextUmbrellaSubEvent": "Om du vill lägga till detta evenemang under ett paraplyevenemang kan du göra det från tillhörande",
       "infoTextUmbrellaSubEventLink": "toppnivåevenemanget",
       "infoTextVideo1": {

@@ -359,7 +359,8 @@
       },
       "infoTextType1": "Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja ja toiminta on tavoitteellista. Joissakin tapauksissa kurssia kutsutaan myös harrastukseksi.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa siihen, miten ja missä palveluissa tapahtuma näytetään käyttäjälle.",
-      "infoTextUmrellaEvent": "Kattotapahtuman alle voi koota useampia erilaisia tapahtumia. Esimerkiksi festivaali voi olla kattotapahtuma, jonka alla on useita tapahtumia.",
+      "infoTextUmrellaEvent1": "Kattotapahtuman alle voi koota useampia erilaisia tapahtumia. Esimerkiksi festivaali voi olla kattotapahtuma, jonka alla on useita tapahtumia.",
+      "infoTextUmrellaEvent2": "Kattotapahtuma-valinnat voi jättää valitsematta useimmissa tapauksissa",
       "infoTextUmbrellaSubEvent": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se",
       "infoTextUmbrellaSubEventLink": "sarjan ylätapahtumasta",
       "infoTextVideo1": {
