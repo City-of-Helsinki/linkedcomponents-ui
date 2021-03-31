@@ -1,14 +1,7 @@
 import React from 'react';
 
 import { SUPPORTED_LANGUAGES } from '../../../../constants';
-import {
-  actWait,
-  render,
-  screen,
-  userEvent,
-  within,
-} from '../../../../utils/testUtils';
-import translations from '../../i18n/fi.json';
+import { actWait, render } from '../../../../utils/testUtils';
 import PageLayout from '../PageLayout';
 
 const getWrapper = () => render(<PageLayout />);
@@ -55,20 +48,4 @@ test('alternate language links should be added', async () => {
       expect(link).toBeDefined();
     });
   }
-});
-
-test('menu should be opened by clicking menu button', async () => {
-  global.innerWidth = 500;
-  getWrapper();
-
-  const withinHeader = within(screen.getByRole('banner'));
-  const button = withinHeader.getByRole('button', {
-    name: translations.navigation.menuToggleAriaLabel,
-  });
-
-  expect(withinHeader.queryByRole('navigation')).not.toBeInTheDocument();
-
-  userEvent.click(button);
-
-  expect(withinHeader.getByRole('navigation')).toBeInTheDocument();
 });

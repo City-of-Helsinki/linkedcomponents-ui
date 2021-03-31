@@ -453,9 +453,15 @@ export const isValidTime = (time: string) =>
 
 export const createRecurringEventValidationSchema = () => {
   return Yup.object().shape({
-    [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.string().required(
-      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-    ),
+    [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
+      .nullable()
+      .min(1, (param) =>
+        createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+      )
+      .max(4, (param) =>
+        createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MAX)
+      )
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
       .min(1, (param) =>

@@ -74,6 +74,10 @@
       "searchPlaceholder": "Search"
     },
     "noResults": "No results",
+    "numberInput": {
+      "buttonDecrease": "Descrease",
+      "buttonIncrease": "Increase" 
+    },
     "openInNewTab": "(opens in a new tab)",
     "pagination": {
       "navigation": "Page navigation",
@@ -414,8 +418,8 @@
         "event": "Event ends at"
       },
       "labelRecurringEventRepeatInterval": {
-        "course": "Course is repeated",
-        "event": "Event is repeated"
+        "course": "Course is repeated every X weeks",
+        "event": "Event is repeated every X weeks"
       },
       "labelRecurringEventStartDate": "Repetition starts",
       "labelRecurringEventStartTime": {

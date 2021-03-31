@@ -38,7 +38,7 @@ exports[`should render component 1`] = `
         </div>
       </div>
       <button
-        class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV css-0"
+        class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV feedbackButton button css-0"
         type="button"
       >
         <div

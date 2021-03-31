@@ -74,6 +74,10 @@
       "searchPlaceholder": "Hae"
     },
     "noResults": "Ei tuloksia",
+    "numberInput": {
+      "buttonDecrease": "Vähennä",
+      "buttonIncrease": "Lisää" 
+    },
     "openInNewTab": "(avataan uudessa välilehdessä)",
     "pagination": {
       "navigation": "Sivunavigointi",
@@ -414,8 +418,8 @@
         "event": "Tapahtuma päättyy klo"
       },
       "labelRecurringEventRepeatInterval": {
-        "course": "Kurssi toistuu",
-        "event": "Tapahtuma toistuu"
+        "course": "Kurssi toistuu X viikon välein",
+        "event": "Tapahtuma toistuu X viikon välein"
       },
       "labelRecurringEventStartDate": "Toisto alkaa",
       "labelRecurringEventStartTime": {

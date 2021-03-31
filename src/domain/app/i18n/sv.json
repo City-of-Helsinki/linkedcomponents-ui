@@ -74,6 +74,10 @@
       "searchPlaceholder": "Sök"
     },
     "noResults": "Inga resultat",
+    "numberInput": {
+      "buttonDecrease": "Minska",
+      "buttonIncrease": "Öka" 
+    },
     "openInNewTab": "(öppnas i en ny flik)",
     "pagination": {
       "navigation": "Sidnavigering",
@@ -414,8 +418,8 @@
         "event": "Evenemanget slutar kl"
       },
       "labelRecurringEventRepeatInterval": {
-        "course": "Kursen upprepas",
-        "event": "Evenemanget upprepas"
+        "course": "Kursen upprepas var X vecka",
+        "event": "Evenemanget upprepas var X vecka"
       },
       "labelRecurringEventStartDate": "Upprepningen börjar",
       "labelRecurringEventStartTime": {

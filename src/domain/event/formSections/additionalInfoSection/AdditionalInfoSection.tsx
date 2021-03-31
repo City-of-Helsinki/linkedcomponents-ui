@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DatepickerField from '../../../../common/components/formFields/DatepickerField';
-import TextInputField from '../../../../common/components/formFields/TextInputField';
+import NumberInputField from '../../../../common/components/formFields/NumberInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import { EVENT_FIELDS, EXTENSION_COURSE_FIELDS } from '../../constants';
@@ -33,21 +33,19 @@ const AdditionalInfoSection = () => {
           <FormGroup>
             <Field
               name={EVENT_FIELDS.AUDIENCE_MIN_AGE}
-              component={TextInputField}
+              component={NumberInputField}
               label={t(`event.form.labelAudienceMinAge`)}
               min={0}
               placeholder={t(`event.form.placeholderAudienceMinAge.${type}`)}
-              type="number"
             />
           </FormGroup>
           <FormGroup>
             <Field
               name={EVENT_FIELDS.AUDIENCE_MAX_AGE}
-              component={TextInputField}
+              component={NumberInputField}
               label={t(`event.form.labelAudienceMaxAge`)}
               min={0}
               placeholder={t(`event.form.placeholderAudienceMaxAge.${type}`)}
-              type="number"
             />
           </FormGroup>
         </FieldColumn>
@@ -107,7 +105,7 @@ const AdditionalInfoSection = () => {
           <FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY}`}
-              component={TextInputField}
+              component={NumberInputField}
               label={t(
                 `event.form.extensionCourse.labelMinimimAttendeeCapacity`
               )}
@@ -115,13 +113,12 @@ const AdditionalInfoSection = () => {
               placeholder={t(
                 `event.form.extensionCourse.placeholderMinimimAttendeeCapacity`
               )}
-              type="number"
             />
           </FormGroup>
           <FormGroup>
             <Field
               name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}`}
-              component={TextInputField}
+              component={NumberInputField}
               label={t(
                 `event.form.extensionCourse.labelMaximumAttendeeCapacity`
               )}
@@ -129,7 +126,6 @@ const AdditionalInfoSection = () => {
               placeholder={t(
                 `event.form.extensionCourse.placeholderMaximumAttendeeCapacity`
               )}
-              type="number"
             />
           </FormGroup>
         </FieldColumn>
