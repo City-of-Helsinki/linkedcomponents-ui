@@ -20,6 +20,7 @@ export interface ImageSelectorProps {
   multiple?: boolean;
   onBlur?: (value: string[]) => void;
   onChange: (value: string[]) => void;
+  onDoubleClick?: (image: Image) => void;
   publisher: string;
   value: string[];
 }
@@ -29,6 +30,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   multiple = false,
   onBlur,
   onChange,
+  onDoubleClick,
   publisher,
   value,
 }) => {
@@ -97,6 +99,10 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     }
   };
 
+  const handleDoubleClick = (image: Image) => () => {
+    onDoubleClick && onDoubleClick(image);
+  };
+
   const imagesLeft = imagesData
     ? imagesData?.images.meta.count - imagesData?.images.data.length
     : 0;
@@ -140,6 +146,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
                   type="button"
                   aria-checked={checked}
                   onClick={handleChange(image)}
+                  onDoubleClick={handleDoubleClick(image)}
                 />
               )
             );

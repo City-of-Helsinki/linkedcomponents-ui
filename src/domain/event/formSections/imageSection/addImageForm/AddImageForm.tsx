@@ -6,6 +6,7 @@ import Button from '../../../../../common/components/button/Button';
 import ImageSelectorField from '../../../../../common/components/formFields/ImageSelectorField';
 import TextInputField from '../../../../../common/components/formFields/TextInputField';
 import ImageUploader from '../../../../../common/components/imageUploader/ImageUploader';
+import { Image } from '../../../../../generated/graphql';
 import useIsImageUploadAllowed from '../../../../image/hooks/useIsImageUploadAllowed';
 import { ADD_IMAGE_FIELDS, ADD_IMAGE_INITIAL_VALUES } from '../../../constants';
 import { AddImageSettings } from '../../../types';
@@ -46,6 +47,12 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
               component={ImageSelectorField}
               disabled={Boolean(url)}
               multiple={false}
+              onDoubleClick={(image: Image) => {
+                onSubmit({
+                  [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [image.atId as string],
+                  [ADD_IMAGE_FIELDS.URL]: '',
+                });
+              }}
               publisher={publisher}
             />
             <div className={styles.separationLine} />
