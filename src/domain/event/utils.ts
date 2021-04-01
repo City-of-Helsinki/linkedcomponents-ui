@@ -46,6 +46,7 @@ import {
   EventsQuery,
   EventStatus,
   ExternalLinkInput,
+  Language as LELanguage,
   LocalisedFieldsFragment,
   LocalisedObject,
   Maybe,
@@ -54,7 +55,7 @@ import {
   SuperEventType,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { Language, OptionType, PathBuilderProps } from '../../types';
+import { Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
@@ -607,8 +608,8 @@ const languageWeight = (lang: string): number => {
   }
 };
 
-export const sortLanguage = (a: OptionType, b: OptionType) =>
-  languageWeight(a.value) - languageWeight(b.value);
+export const sortLanguage = (a: LELanguage, b: LELanguage) =>
+  languageWeight(a.id as string) - languageWeight(b.id as string);
 
 export const getEmptyEventTime = (): EventTime => {
   return {
