@@ -59,6 +59,8 @@
         "statusMessage_plural": "{{count}} alternativ är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja."
       }
     },
+    "eventAmount": "{{count}} evenemang",
+    "eventAmount_plural": "{{count}} evenemang",
     "feedback": {
       "text": "Ge respons",
       "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"

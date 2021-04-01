@@ -561,7 +561,9 @@ const mockedKeywordResponse: MockedResponse = {
 };
 const keywordsVariables = {
   createPath: undefined,
-  freeText: '',
+  dataSource: 'yso',
+  showAllKeywords: true,
+  text: '',
 };
 const keywordsResponse = { data: { keywords } };
 const mockedKeywordsResponse: MockedResponse = {

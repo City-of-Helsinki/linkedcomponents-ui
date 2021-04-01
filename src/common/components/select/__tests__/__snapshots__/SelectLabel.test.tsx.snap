@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `"<div aria-label=\\"Label text - 10 tapahtumaa\\" class=\\"label\\"><div class=\\"text\\">Label text</div><div class=\\"amount\\">(10 tapahtumaa)</div></div>"`;

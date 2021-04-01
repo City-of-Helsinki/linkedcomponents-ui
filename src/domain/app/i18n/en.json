@@ -59,6 +59,8 @@
         "statusMessage_plural": "{{count}} options are available, use up and down arrow keys to navigate. Press Enter key to select."
       }
     },
+    "eventAmount": "{{count}} event",
+    "eventAmount_plural": "{{count}} events",
     "feedback": {
       "text": "Give feedback",
       "url": "https://www.hel.fi/helsinki/en/administration/participate/feedback/"

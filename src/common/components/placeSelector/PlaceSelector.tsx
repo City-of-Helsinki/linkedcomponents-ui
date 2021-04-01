@@ -1,8 +1,7 @@
 import { SingleSelectProps } from 'hds-react';
-import sortBy from 'lodash/sortBy';
+import { TFunction } from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import {
   placePathBuilder,
@@ -20,29 +19,47 @@ import getLocalisedString from '../../../utils/getLocalisedString';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
+import styles from './placeSelector.module.scss';
 
 const getPlaceFields = (place: PlaceFieldsFragment, locale: Language) => ({
   id: place.atId as string,
   name: getLocalisedString(place.name, locale),
+  nEvents: place.nEvents as number,
   streetAddress: getLocalisedString(place.streetAddress, locale),
   addressLocality: getLocalisedString(place.addressLocality, locale),
 });
 
-const getOption = (
-  place: PlaceFieldsFragment,
-  locale: Language
-): OptionType => {
-  const { addressLocality, name, streetAddress, id: value } = getPlaceFields(
-    place,
-    locale
-  );
+const getOption = ({
+  locale,
+  place,
+  showEventAmount = true,
+  t,
+}: {
+  place: PlaceFieldsFragment;
+  locale: Language;
+  showEventAmount?: boolean;
+  t: TFunction;
+}): OptionType => {
+  const {
+    addressLocality,
+    name,
+    nEvents,
+    streetAddress,
+    id: value,
+  } = getPlaceFields(place, locale);
 
   const addressText = [streetAddress, addressLocality]
     .filter((t) => t)
     .join(', ');
 
+  const label = `${name}${addressText && ` (${addressText})`}`;
+
   return {
-    label: `${name}${addressText && ` (${addressText})`}`,
+    label: showEventAmount
+      ? // TODO: Use SelectLabel component when HDS support React elements as label
+        // ((<SelectLabel nEvents={nEvents} text={label} />) as any)
+        `${label} \n${t('common.eventAmount', { count: nEvents })}`
+      : label,
     value,
   };
 };
@@ -66,9 +83,6 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const locale = useLocale();
   const [search, setSearch] = React.useState('');
   const [options, setOptions] = React.useState<OptionType[]>([]);
-  const [selectedPlace, setSelectedPlace] = React.useState<OptionType | null>(
-    null
-  );
 
   const { data: placesData } = usePlacesQuery({
     variables: {
@@ -99,30 +113,28 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   React.useEffect(() => {
     if (placesData?.places.data) {
       setOptions(
-        sortBy(
-          placesData.places.data.map((place) =>
-            getOption(place as PlaceFieldsFragment, locale)
-          ),
-          ['label']
+        placesData.places.data.map((place) =>
+          getOption({ place: place as PlaceFieldsFragment, locale, t })
         )
       );
     }
-  }, [locale, placesData]);
+  }, [locale, placesData, t]);
 
   React.useEffect(() => {
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const option = placeData?.place ? getOption(placeData.place, locale) : null;
-
-  useDeepCompareEffect(() => {
-    setSelectedPlace(option);
-  }, [{ option }]);
+  const selectedPlace = React.useMemo(() => {
+    return placeData?.place
+      ? getOption({ locale, place: placeData.place, showEventAmount: false, t })
+      : null;
+  }, [locale, placeData, t]);
 
   return (
     <Combobox
       {...rest}
+      className={styles.placeSelector}
       multiselect={false}
       filter={handleFilter}
       id={name}

@@ -27,6 +27,7 @@ const Combobox: React.FC<ComboboxProps<OptionType>> = ({
       getA11ySelectionMessage={(options) =>
         /* istanbul ignore next */ getA11ySelectionMessage(options, t)
       }
+      virtualized={true}
     />
   );
 };

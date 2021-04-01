@@ -1,21 +1,30 @@
 .combobox {
-    > div:focus-within {
-        box-shadow: none;
+  > div:focus-within {
+    box-shadow: none;
 
-        input:global(.focus-visible) {
-            outline: var(--focus-outline-width) solid var(--focus-outline-color);
-            outline-offset: 1px;
-        }
+    input:global(.focus-visible) {
+      outline: var(--focus-outline-width) solid var(--focus-outline-color);
+      outline-offset: 1px;
     }
+  }
+}
+
+.label {
+  .text {
+    color: var(--color-black-90);
+  }
+  .amount {
+    color: var(--color-black-60);
+  }
 }
 
 .select {
-    > div:focus-within {
-        box-shadow: none;
+  > div:focus-within {
+    box-shadow: none;
 
-        button:global(.focus-visible) {
-            outline: var(--focus-outline-width) solid var(--focus-outline-color);
-            outline-offset: 1px;
-        }
+    button:global(.focus-visible) {
+      outline: var(--focus-outline-width) solid var(--focus-outline-color);
+      outline-offset: 1px;
     }
+  }
 }
