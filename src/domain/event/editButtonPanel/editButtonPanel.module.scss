@@ -27,16 +27,31 @@
 }
 
 .buttonsRow {
-  display: flex;
-  grid-gap: var(--spacing-m);
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-gap: var(--spacing-s);
+
+  @include medium-up {
+    display: flex;
+    grid-gap: unset;
+    justify-content: space-between;
+
+    > div:not(:last-child) {
+      margin-right: var(--spacing-m);
+    }
+  }
 
   .buttonWrapper {
-    display: flex;
+    display: grid;
+    grid-gap: var(--spacing-s);
+    grid-template-columns: repeat(2, 1fr);
 
-    > button:not(:last-child) {
-      margin-right: var(--spacing-m);
+    @include medium-up {
+      display: flex;
+      grid-gap: unset;
+
+      > button:not(:last-child) {
+        margin-right: var(--spacing-m);
+      }
     }
   }
 
@@ -57,6 +72,12 @@
 
 .backButton {
   height: var(--spacing-3-xl);
+  @include max-width-column(1);
+  justify-self: flex-end;
+
+  @include medium-up {
+    justify-self: normal;
+  }
 
   div {
     margin-left: 0 !important;

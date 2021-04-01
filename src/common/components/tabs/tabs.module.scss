@@ -6,7 +6,7 @@
   --tabs-tab-color-active: var(--color-bus);
 
   display: flex;
-  height: var(--spacing-3-xl);
+  flex-wrap: wrap;
   border-bottom: 2px solid var(--color-black-10);
 
   .icon {
@@ -23,23 +23,24 @@
     align-items: center;
     color: var(--tabs-tab-color);
     padding: 0px var(--spacing-3-xs);
+    height: var(--spacing-3-xl);
 
-    &:not(:first-child) {
-      margin-left: var(--spacing-m);
+    &:not(:last-child) {
+      margin-right: var(--spacing-m);
     }
 
     @include medium-up {
       &:not(:first-child) {
         margin-left: var(--spacing-l);
-      } 
+      }
     }
-    
+
     &:focus {
       outline: none;
 
       &:before {
         box-shadow: 0 0 0 var(--focus-outline-width) var(--focus-outline-color);
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
         top: 0;
