@@ -5,8 +5,8 @@ import uniqueId from 'lodash/uniqueId';
 import React, { useContext } from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
-import useBreakpoint from '../../../hooks/useBreakpoint';
 import useDropdownCloseEvents from '../../../hooks/useDropdownCloseEvents';
+import useIsMobile from '../../../hooks/useIsMobile';
 import { FCWithName } from '../../../types';
 import Button from '../button/Button';
 import styles from './sideNavigation.module.scss';
@@ -33,11 +33,7 @@ const SideNavigation = ({
   const container = React.useRef<HTMLDivElement>(null);
   useDropdownCloseEvents({ container, setIsMenuOpen: setIsMobileMenuOpen });
 
-  const breakpoint = useBreakpoint();
-  const isMobile = React.useMemo(
-    () => breakpoint === 'xs' || breakpoint === 'sm',
-    [breakpoint]
-  );
+  const isMobile = useIsMobile();
 
   const id = _id ?? uniqueId('side-navigation-');
   const buttonId = `${id}-button`;

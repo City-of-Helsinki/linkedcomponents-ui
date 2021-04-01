@@ -55,6 +55,14 @@
     }
   }
 
+  .actionsDropdown {
+    justify-self: flex-end;
+
+    @include medium-up {
+      @include min-width-column(2);
+    }
+  }
+
   .smallButton {
     @include min-width-column(1);
   }
@@ -73,11 +81,6 @@
 .backButton {
   height: var(--spacing-3-xl);
   @include max-width-column(1);
-  justify-self: flex-end;
-
-  @include medium-up {
-    justify-self: normal;
-  }
 
   div {
     margin-left: 0 !important;
@@ -85,5 +88,16 @@
 
   span {
     @include hidden-from-screen;
+  }
+}
+
+.toggleButton {
+  height: var(--spacing-3-xl);
+  padding: var(--spacing-3-xs);
+
+  @include focus-outline(0px);
+
+  svg {
+    transform: rotate(90deg);
   }
 }

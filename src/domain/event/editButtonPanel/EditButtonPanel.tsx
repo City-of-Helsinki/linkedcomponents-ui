@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ButtonVariant, IconArrowLeft } from 'hds-react';
+import { ButtonVariant, IconArrowLeft, IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../generated/graphql';
+import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import Container from '../../app/layout/Container';
 import FormContainer from '../../app/layout/FormContainer';
@@ -44,6 +45,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const authenticated = useSelector(authenticatedSelector);
   const locale = useLocale();
   const history = useHistory();
+  const isMobile = useIsMobile();
 
   const { organizationAncestors } = useEventOrganizationAncestors(event);
   const { user } = useUser();
@@ -152,8 +154,15 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
               >
                 {t('event.form.buttonBack')}
               </Button>
-              <div className={styles.mediumButton}>
+              <div className={styles.actionsDropdown}>
                 <MenuDropdown
+                  button={
+                    isMobile ? (
+                      <button className={styles.toggleButton}>
+                        <IconMenuDots aria-hidden={true} />
+                      </button>
+                    ) : undefined
+                  }
                   buttonLabel={t('event.form.buttonActions')}
                   closeOnItemClick={true}
                   items={actionItems}

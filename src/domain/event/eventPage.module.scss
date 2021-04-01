@@ -33,8 +33,15 @@
 
 .numberRow {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: var(--spacing-m);
+  grid-gap: var(--spacing-s);
+
+  @include small-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include medium-up {
+    grid-gap: var(--spacing-m);
+  }
 }
 
 .noBottomMargin {

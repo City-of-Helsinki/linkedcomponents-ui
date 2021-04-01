@@ -30,8 +30,8 @@
     }
 
     @include medium-up {
-      &:not(:first-child) {
-        margin-left: var(--spacing-l);
+      &:not(:last-child) {
+        margin-right: var(--spacing-l);
       }
     }
 
