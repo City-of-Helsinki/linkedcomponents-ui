@@ -5,12 +5,24 @@
     margin: var(--spacing-2-xs) 0 !important;
   }
 
-  .time {
+  .editingInfo {
     color: var(--color-black-60);
-  }
 
-  .author {
-    color: var(--color-black-90);
+    span:not(:last-child) {
+      margin-right: var(--spacing-2-xs);
+    }
+
+    .creatorBadge {
+      background: var(--color-coat-of-arms-medium-light);
+      color: var(--color-black-90);
+      display: inline-flex;
+      height: var(--spacing-m);
+      width: var(--spacing-m);
+      border-radius: 50%;
+      font-weight: 500;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   .statusTag {
