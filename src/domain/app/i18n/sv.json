@@ -72,6 +72,7 @@
       "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
     },
     "loading": "Läser in...",
+    "loadingFinished": "Laddningen är klar",
     "multiSelectDropdown": {
       "searchPlaceholder": "Sök"
     },

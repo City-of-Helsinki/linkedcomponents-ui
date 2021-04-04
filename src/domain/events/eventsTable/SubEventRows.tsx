@@ -1,8 +1,9 @@
-import { LoadingSpinner } from 'hds-react';
 import React from 'react';
 
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useSubEvents from '../hooks/useSubEvents';
+import styles from './eventsTable.module.scss';
 import EventTableRow from './EventsTableRow';
 
 interface Props {
@@ -18,7 +19,11 @@ const SubEventRows: React.FC<Props> = ({ eventId, level, onRowClick }) => {
     <tr>
       <td colSpan={6}>
         <div style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}>
-          <LoadingSpinner small={true} />
+          <LoadingSpinner
+            className={styles.loadingSpinner}
+            isLoading={loading}
+            small={true}
+          />
         </div>
       </td>
     </tr>

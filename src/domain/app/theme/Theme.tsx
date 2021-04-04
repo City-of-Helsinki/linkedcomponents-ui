@@ -1,4 +1,8 @@
-import { FooterCustomTheme, SelectCustomTheme } from 'hds-react';
+import {
+  FooterCustomTheme,
+  LoadingSpinnerCustomTheme,
+  SelectCustomTheme,
+} from 'hds-react';
 import React, { useContext, useState } from 'react';
 
 type ButtonCSSProperties = {
@@ -153,11 +157,11 @@ type LayoutCSSProperties = {
 };
 
 type LoadingSpinnerCSSProperties = {
-  '--spinner-background-color'?: string;
-  '--spinner-color'?: string;
-  '--spinner-width'?: string;
-  '--spinner-stroke-width'?: string;
-};
+  '--spinner-size'?: string;
+  '--spinner-thickness'?: string;
+  '--spinner-size-small'?: string;
+  '--spinner-thickness-small'?: string;
+} & Partial<LoadingSpinnerCustomTheme>;
 
 type MenuDropdownCSSProperties = {
   '--menu-dropdown-item-background-color'?: string;

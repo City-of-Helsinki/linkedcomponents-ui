@@ -72,6 +72,7 @@
       "tooLargeFileSize": "File size is too large. Maximum file size is {{maxSize}} MB"
     },
     "loading": "Loading...",
+    "loadingFinished": "Loading finished",
     "multiSelectDropdown": {
       "searchPlaceholder": "Search"
     },

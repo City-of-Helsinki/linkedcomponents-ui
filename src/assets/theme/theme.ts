@@ -235,10 +235,11 @@ const theme: Theme = {
     '--page-background-color': 'var(--color-white)',
   },
   loadingSpinner: {
-    '--spinner-background-color': 'transparent',
     '--spinner-color': 'var(--color-bus)',
-    '--spinner-width': '120px',
-    '--spinner-stroke-width': '20px',
+    '--spinner-size': '7.5rem',
+    '--spinner-thickness': '1.25rem',
+    '--spinner-size-small': '1.5rem',
+    '--spinner-thickness-small': '0.1875rem',
   },
   menuDropdown: {
     '--menu-dropdown-item-background-color': 'var(--color-white)',

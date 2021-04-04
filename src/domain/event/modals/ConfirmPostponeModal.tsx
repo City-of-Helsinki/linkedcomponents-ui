@@ -1,8 +1,9 @@
-import { IconCalendarClock, LoadingSpinner } from 'hds-react';
+import { IconCalendarClock } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
@@ -58,7 +59,11 @@ const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
         <Button
           iconLeft={
             isSaving ? (
-              <LoadingSpinner className={styles.loadingSpinner} small={true} />
+              <LoadingSpinner
+                className={styles.loadingSpinner}
+                isLoading={isSaving}
+                small={true}
+              />
             ) : (
               <IconCalendarClock />
             )
