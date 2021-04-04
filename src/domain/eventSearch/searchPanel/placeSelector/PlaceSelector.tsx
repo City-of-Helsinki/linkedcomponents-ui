@@ -11,6 +11,7 @@ import {
 } from '../../../../generated/graphql';
 import useIsMounted from '../../../../hooks/useIsMounted';
 import useLocale from '../../../../hooks/useLocale';
+import useShowLoadingSpinner from '../../../../hooks/useShowLoadingSpinner';
 import { Language, OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import getPathBuilder from '../../../../utils/getPathBuilder';
@@ -62,6 +63,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
       text: searchValue,
     },
   });
+  const showLoadingSpinner = useShowLoadingSpinner(loading);
 
   React.useEffect(() => {
     if (placesData?.places.data) {
@@ -111,7 +113,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
       searchValue={searchValue}
       setSearchValue={setSearchValue}
       showSearch={true}
-      showLoadingSpinner={loading}
+      showLoadingSpinner={showLoadingSpinner}
       toggleButtonLabel={toggleButtonLabel}
       value={selectedPlaces}
     />
