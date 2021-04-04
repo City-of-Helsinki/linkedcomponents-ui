@@ -1,5 +1,6 @@
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import useDropdownCloseEvents from '../../../hooks/useDropdownCloseEvents';
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
@@ -12,6 +13,8 @@ export interface MultiselectDropdownProps {
   clearButtonLabel?: string;
   icon?: React.ReactElement;
   id?: string;
+  loadingSpinnerFinishedText?: string;
+  loadingSpinnerText?: string;
   onChange: (values: OptionType[]) => void;
   options: OptionType[];
   renderOptionText?: (option: OptionType) => React.ReactChild;
@@ -19,6 +22,7 @@ export interface MultiselectDropdownProps {
   searchValue?: string;
   setSearchValue?: (newVal: string) => void;
   showSearch?: boolean;
+  showLoadingSpinner?: boolean;
   toggleButtonLabel: string;
   value: OptionType[];
 }
@@ -27,18 +31,23 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   clearButtonLabel,
   icon,
   id: _id,
+  loadingSpinnerFinishedText,
+  loadingSpinnerText: _loadingSpinnerText,
   onChange,
   options,
   renderOptionText,
   searchPlaceholder,
   searchValue: _searchValue,
   setSearchValue,
+  showLoadingSpinner,
   showSearch = false,
   toggleButtonLabel,
   value,
 }) => {
+  const { t } = useTranslation();
   const id = _id || uniqueId('multi-select-dropdown');
   const toggleButtonId = `${id}-toggle-button`;
+  const loadingSpinnerText = t('common.loading') || _loadingSpinnerText;
   const menuId = `${id}-menu`;
   const [internalSearchValue, setInternalSearchValue] = React.useState('');
   const searchValue = _searchValue ?? internalSearchValue;
@@ -176,12 +185,15 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
         focusedIndex={focusedIndex}
         id={menuId}
         isOpen={isMenuOpen}
+        loadingSpinnerFinishedText={loadingSpinnerFinishedText}
+        loadingSpinnerText={loadingSpinnerText}
         onClear={handleClear}
         onItemChange={handleItemChange}
         onSearchChange={showSearch ? handleSearchInputChange : undefined}
         options={filteredOptions}
         searchPlaceholder={searchPlaceholder}
         searchValue={searchValue}
+        showLoadingSpinner={showLoadingSpinner}
         value={value}
       />
     </Dropdown>

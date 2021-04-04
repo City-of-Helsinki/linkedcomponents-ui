@@ -20,7 +20,6 @@ const places = fakePlaces(
 );
 const placesVariables = {
   createPath: undefined,
-  showAllPlaces: true,
   text: '',
 };
 const placesResponse = { data: { places } };

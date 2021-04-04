@@ -56,10 +56,9 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const [options, setOptions] = React.useState<OptionType[]>([]);
   const [selectedPlaces, setSelectedPlaces] = React.useState<OptionType[]>([]);
 
-  const { data: placesData } = usePlacesQuery({
+  const { data: placesData, loading } = usePlacesQuery({
     variables: {
       createPath: getPathBuilder(placesPathBuilder),
-      showAllPlaces: true,
       text: searchValue,
     },
   });
@@ -112,6 +111,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
       searchValue={searchValue}
       setSearchValue={setSearchValue}
       showSearch={true}
+      showLoadingSpinner={loading}
       toggleButtonLabel={toggleButtonLabel}
       value={selectedPlaces}
     />
