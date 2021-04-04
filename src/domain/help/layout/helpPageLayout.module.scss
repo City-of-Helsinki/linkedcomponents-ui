@@ -1,6 +1,10 @@
 @import 'breakpoints';
 @import 'mixins';
 
+.helpPageWrapper {
+  width: 100%;
+}
+
 .backgroundWhite {
   background-color: var(--color-white);
 }
