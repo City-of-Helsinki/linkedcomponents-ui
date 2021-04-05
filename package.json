@@ -24,6 +24,7 @@
     "@types/yup": "^0.29.8",
     "apollo-link-rest": "^0.8.0-beta.0",
     "axios": "^0.21.0",
+    "browser-image-compression": "^1.0.14",
     "classnames": "^2.2.6",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
