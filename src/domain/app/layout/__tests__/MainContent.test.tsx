@@ -2,7 +2,7 @@ import * as React from 'react';
 import { scroller } from 'react-scroll';
 
 import { MAIN_CONTENT_ID } from '../../../../constants';
-import { actWait, render, screen, waitFor } from '../../../../utils/testUtils';
+import { render, screen, waitFor } from '../../../../utils/testUtils';
 import MainContent from '../MainContent';
 
 const renderComponent = (

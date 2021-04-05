@@ -1,6 +1,8 @@
 import { useApolloClient } from '@apollo/client';
 import map from 'lodash/map';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import {
   EventFieldsFragment,
@@ -12,12 +14,17 @@ import {
   useUpdateEventsMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import { authenticatedSelector } from '../../auth/selectors';
 import { clearEventQuery } from '../../events/utils';
+import useUser from '../../user/hooks/useUser';
+import { EVENT_EDIT_ACTIONS } from '../constants';
 import { EventFormFields } from '../types';
 import {
+  checkIsEditActionAllowed,
   getEventFields,
   getEventInitialValues,
   getEventPayload,
+  getOrganizationAncestors,
   getRelatedEvents,
 } from '../utils';
 import useUpdateImageIfNeeded from './useUpdateImageIfNeeded';
@@ -39,7 +46,10 @@ interface Props {
 }
 
 const useEventUpdateActions = ({ event }: Props) => {
+  const { t } = useTranslation();
   const apolloClient = useApolloClient();
+  const authenticated = useSelector(authenticatedSelector);
+  const { user } = useUser();
   const locale = useLocale();
   const [openModal, setOpenModal] = React.useState<MODALS | null>(null);
   const [saving, setSaving] = React.useState<MODALS | null>(null);
@@ -60,20 +70,54 @@ const useEventUpdateActions = ({ event }: Props) => {
     });
   };
 
+  const getEditableEvents = async (
+    events: EventFieldsFragment[],
+    action: EVENT_EDIT_ACTIONS
+  ) => {
+    const editableEvents: EventFieldsFragment[] = [];
+    for (event of events) {
+      const organizationAncestors = await getOrganizationAncestors({
+        event,
+        apolloClient,
+      });
+      const { editable } = checkIsEditActionAllowed({
+        action,
+        authenticated,
+        event,
+        organizationAncestors,
+        t,
+        user,
+      });
+
+      if (editable) {
+        editableEvents.push(event);
+      }
+    }
+
+    return editableEvents;
+  };
+
   const cancelEvent = async (callbacks?: Callbacks) => {
     try {
       setSaving(MODALS.CANCEL);
-      // Make sure all related events are fetched
+      // Check that user has permission to cancel events
       const allEvents = await getRelatedEvents({ apolloClient, event });
-      const payload: UpdateEventMutationInput[] = allEvents.map((item) => ({
-        ...getEventPayload(
-          getEventInitialValues(item),
-          item.publicationStatus as PublicationStatus
-        ),
-        eventStatus: EventStatus.EventCancelled,
-        superEventType: item.superEventType,
-        id: item.id,
-      }));
+      const editableEvents = await getEditableEvents(
+        allEvents,
+        EVENT_EDIT_ACTIONS.CANCEL
+      );
+
+      const payload: UpdateEventMutationInput[] = editableEvents.map(
+        (item) => ({
+          ...getEventPayload(
+            getEventInitialValues(item),
+            item.publicationStatus as PublicationStatus
+          ),
+          eventStatus: EventStatus.EventCancelled,
+          superEventType: item.superEventType,
+          id: item.id,
+        })
+      );
 
       await updateEvents(payload);
 
@@ -92,16 +136,20 @@ const useEventUpdateActions = ({ event }: Props) => {
   const deleteEvent = async (callbacks?: Callbacks) => {
     try {
       setSaving(MODALS.DELETE);
-      // Make sure all related events are fetched
+      // Check that user has permission to delete events
       const allEvents = await getRelatedEvents({ apolloClient, event });
-      const allEventIds = map(allEvents, 'id');
+      const deletableEvents = await getEditableEvents(
+        allEvents,
+        EVENT_EDIT_ACTIONS.CANCEL
+      );
+      const deletableEventIds = map(deletableEvents, 'id');
 
-      for (const id of allEventIds) {
+      for (const id of deletableEventIds) {
         await deleteEventMutation({ variables: { id } });
       }
 
       // Clear all events from apollo cache
-      for (const id of allEventIds) {
+      for (const id of deletableEventIds) {
         clearEventQuery(apolloClient, id);
       }
 
@@ -120,18 +168,25 @@ const useEventUpdateActions = ({ event }: Props) => {
   const postponeEvent = async (callbacks?: Callbacks) => {
     try {
       setSaving(MODALS.POSTPONE);
-      // Make sure all related events are fetched
+      // Check that user has permission to postpone events
       const allEvents = await getRelatedEvents({ apolloClient, event });
-      const payload: UpdateEventMutationInput[] = allEvents.map((item) => ({
-        ...getEventPayload(
-          getEventInitialValues(item),
-          item.publicationStatus as PublicationStatus
-        ),
-        superEventType: item.superEventType,
-        id: item.id,
-        startTime: null,
-        endTime: null,
-      }));
+      const editableEvents = await getEditableEvents(
+        allEvents,
+        EVENT_EDIT_ACTIONS.CANCEL
+      );
+
+      const payload: UpdateEventMutationInput[] = editableEvents.map(
+        (item) => ({
+          ...getEventPayload(
+            getEventInitialValues(item),
+            item.publicationStatus as PublicationStatus
+          ),
+          superEventType: item.superEventType,
+          id: item.id,
+          startTime: null,
+          endTime: null,
+        })
+      );
 
       await updateEvents(payload);
 
@@ -155,7 +210,13 @@ const useEventUpdateActions = ({ event }: Props) => {
     try {
       setSaving(MODALS.UPDATE);
       const { atId, id, superEventType } = getEventFields(event, locale);
-      const subEvents = event.subEvents;
+      // Check that user has permission to update sub-events
+      const subEvents = await getEditableEvents(
+        (event.subEvents || []) as EventFieldsFragment[],
+        publicationStatus === PublicationStatus.Draft
+          ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
+          : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC
+      );
 
       await updateImageIfNeeded(values);
 

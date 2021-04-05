@@ -50,6 +50,8 @@ import {
   LocalisedObject,
   Maybe,
   OrganizationFieldsFragment,
+  OrganizationsDocument,
+  OrganizationsQuery,
   PublicationStatus,
   SuperEventType,
   UserFieldsFragment,
@@ -68,6 +70,7 @@ import {
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
+import { organizationPathBuilder } from '../organization/utils';
 import {
   ADD_IMAGE_FIELDS,
   AUHENTICATION_NOT_NEEDED,
@@ -1356,6 +1359,29 @@ export const getRelatedEvents = async ({
   allRelatedEvents.push(...subEvents);
 
   return allRelatedEvents;
+};
+
+export const getOrganizationAncestors = async ({
+  event,
+  apolloClient,
+}: {
+  apolloClient: ApolloClient<object>;
+  event: EventFieldsFragment;
+}): Promise<OrganizationFieldsFragment[]> => {
+  try {
+    const { data } = await apolloClient.query<OrganizationsQuery>({
+      query: OrganizationsDocument,
+      variables: {
+        child: event.publisher as string,
+        createPath: getPathBuilder(organizationPathBuilder),
+        pageSize: MAX_PAGE_SIZE,
+      },
+    });
+
+    return data.organizations.data as OrganizationFieldsFragment[];
+  } catch (e) {
+    return [];
+  }
 };
 
 export const checkCanUserDoAction = ({
