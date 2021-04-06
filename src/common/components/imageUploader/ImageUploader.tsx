@@ -1,10 +1,17 @@
+import imageCompression from 'browser-image-compression';
 import classNames from 'classnames';
 import { IconDownload } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { ACCEPTED_IMAGE_TYPES, MAX_IMAGE_SIZE_MB } from '../../../constants';
+import {
+  ACCEPTED_IMAGE_TYPES,
+  COMPRESSABLE_IMAGE_TYPES,
+  MAX_IMAGE_SIZE_MB,
+  MAX_IMAGE_WIDTH,
+} from '../../../constants';
+import isTestEnv from '../../../utils/isTestEnv';
 import styles from './imageUploader.module.scss';
 
 export const testIds = {
@@ -26,17 +33,39 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   const fileInput = React.useRef<HTMLInputElement | null>(null);
   const [hovered, setHovered] = React.useState(false);
 
-  const handleFile = (file: File) => {
+  /* istanbul ignore next */
+  const getCompressedFile = async (file: File) => {
+    try {
+      if (!isTestEnv && COMPRESSABLE_IMAGE_TYPES.includes(file.type)) {
+        const blob = await imageCompression(file, {
+          maxSizeMB: MAX_IMAGE_SIZE_MB,
+          maxWidthOrHeight: MAX_IMAGE_WIDTH,
+        });
+
+        return new File([blob], file.name, { type: file.type });
+      }
+      return file;
+    } catch (e) {
+      return file;
+    }
+  };
+
+  const handleFile = async (file: File) => {
     if (!validateImageFileType(file)) {
       toast.error(t('common.imageUploader.notAllowedFileFormat'));
-    } else if (!validateFileSize(file)) {
+      return;
+    }
+
+    const compressedFile = await getCompressedFile(file);
+
+    if (!validateFileSize(compressedFile)) {
       toast.error(
         t('common.imageUploader.tooLargeFileSize', {
           maxSize: MAX_IMAGE_SIZE_MB,
         })
       );
     } else {
-      onChange(file);
+      onChange(compressedFile);
     }
   };
 
@@ -78,7 +107,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const imageFile = event.target.files?.[0];
 
-    /* istanbul ignore else  */
+    /* istanbul ignore else */
     if (imageFile) {
       handleFile(imageFile);
     }
