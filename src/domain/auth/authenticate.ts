@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 
@@ -26,8 +27,7 @@ export const signIn = (path?: string) => {
         toast.error(i18n.t('authentication.networkError.message'));
       } else {
         toast.error(i18n.t('authentication.errorMessage'));
-        // TODO: Send error to Sentry
-        // Sentry.captureException(error);
+        Sentry.captureException(error);
       }
     });
 };
@@ -79,8 +79,7 @@ export const signOut = async () => {
     await clearAllState();
     await userManager.signoutRedirect();
   } catch (e) {
-    // TODO: Send error to Sentry
-    // Sentry.captureException(e);
+    Sentry.captureException(e);
   }
 };
 

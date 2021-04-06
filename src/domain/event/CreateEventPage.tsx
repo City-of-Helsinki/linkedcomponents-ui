@@ -1,13 +1,14 @@
-import { useApolloClient } from '@apollo/client';
+import { FetchResult, useApolloClient } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { FORM_NAMES, ROUTES } from '../../constants';
 import {
+  CreateEventsMutation,
   PublicationStatus,
   useCreateEventMutation,
   useCreateEventsMutation,
@@ -17,6 +18,7 @@ import Container from '../app/layout/Container';
 import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { reportError } from '../app/sentry/utils';
 import { clearEventsQueries, resetEventListPage } from '../events/utils';
 import useUser from '../user/hooks/useUser';
 import ButtonPanel from './buttonPanel/ButtonPanel';
@@ -51,6 +53,7 @@ import {
 const CreateEventPage: React.FC = () => {
   const apolloClient = useApolloClient();
   const history = useHistory();
+  const location = useLocation();
   const locale = useLocale();
   const { t } = useTranslation();
   const { user } = useUser();
@@ -71,29 +74,55 @@ const CreateEventPage: React.FC = () => {
   ) => {
     try {
       await updateImageIfNeeded(values);
+    } catch (error) /* istanbul ignore next */ {
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          images: values.images,
+          imageDetails: values.imageDetails,
+        },
+        location,
+        message: 'Failed to update image',
+        user,
+      });
+    }
+    const payload = getEventPayload(values, publicationStatus);
 
-      const payload = getEventPayload(values, publicationStatus);
+    if (Array.isArray(payload)) {
+      let eventsData: FetchResult<CreateEventsMutation> | null = null;
 
-      if (Array.isArray(payload)) {
-        const eventsData = await createEventsMutation({
-          variables: {
-            input: payload,
-          },
+      try {
+        eventsData = await createEventsMutation({
+          variables: { input: payload },
         });
-
-        const subEventIds =
-          eventsData.data?.createEvents.map((item) => item.atId as string) ||
-          /* istanbul ignore next */
-          [];
-        const recurringEventPayload = getRecurringEventPayload(
-          payload,
-          subEventIds
-        );
-
-        const recurringEventData = await createEventMutation({
-          variables: {
-            input: recurringEventPayload,
+      } catch (error) /* istanbul ignore next */ {
+        // Report error to Sentry
+        reportError({
+          data: {
+            error,
+            payload,
+            payloadAsString: JSON.stringify(payload),
           },
+          location,
+          message: 'Failed to create sub-events event',
+          user,
+        });
+        return;
+      }
+
+      const subEventIds =
+        eventsData?.data?.createEvents.map((item) => item.atId as string) ||
+        /* istanbul ignore next */
+        [];
+      const recurringEventPayload = getRecurringEventPayload(
+        payload,
+        subEventIds
+      );
+
+      try {
+        const recurringEventData = await createEventMutation({
+          variables: { input: recurringEventPayload },
         });
 
         // Clear all events queries from apollo cache to show added events in event list
@@ -101,11 +130,23 @@ const CreateEventPage: React.FC = () => {
         // This action will change LE response so clear event list page
         resetEventListPage();
         goToEventSavedPage(recurringEventData.data?.createEvent.id as string);
-      } else {
-        const data = await createEventMutation({
-          variables: {
-            input: payload,
+      } catch (error) /* istanbul ignore next */ {
+        // Report error to Sentry
+        reportError({
+          data: {
+            error,
+            payload: recurringEventPayload,
+            payloadAsString: JSON.stringify(recurringEventPayload),
           },
+          location,
+          message: 'Failed to create recurring event',
+          user,
+        });
+      }
+    } else {
+      try {
+        const data = await createEventMutation({
+          variables: { input: payload },
         });
 
         // Clear all events queries from apollo cache to show added events in event list
@@ -113,11 +154,19 @@ const CreateEventPage: React.FC = () => {
         // This action will change LE response so clear event list page
         resetEventListPage();
         goToEventSavedPage(data.data?.createEvent.id as string);
+      } catch (error) /* istanbul ignore next */ {
+        // Report error to Sentry
+        reportError({
+          data: {
+            error,
+            payload,
+            payloadAsString: JSON.stringify(payload),
+          },
+          location,
+          message: 'Failed to create event',
+          user,
+        });
       }
-    } catch (e) /* istanbul ignore next */ {
-      // Network errors will be handled on apolloClient error link. Only show error on console here.
-      // eslint-disable-next-line no-console
-      console.error(e);
     }
   };
 
@@ -128,6 +177,7 @@ const CreateEventPage: React.FC = () => {
     }),
     [user]
   );
+
   return (
     <Formik
       initialValues={initialValues}

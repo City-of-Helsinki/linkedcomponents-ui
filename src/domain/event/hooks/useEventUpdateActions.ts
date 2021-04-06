@@ -3,6 +3,7 @@ import map from 'lodash/map';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 
 import {
   EventFieldsFragment,
@@ -14,6 +15,7 @@ import {
   useUpdateEventsMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector } from '../../auth/selectors';
 import { clearEventQuery } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
@@ -51,6 +53,7 @@ const useEventUpdateActions = ({ event }: Props) => {
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const locale = useLocale();
+  const location = useLocation();
   const [openModal, setOpenModal] = React.useState<MODALS | null>(null);
   const [saving, setSaving] = React.useState<MODALS | null>(null);
 
@@ -98,6 +101,7 @@ const useEventUpdateActions = ({ event }: Props) => {
   };
 
   const cancelEvent = async (callbacks?: Callbacks) => {
+    let payload: UpdateEventMutationInput[] = [];
     try {
       setSaving(MODALS.CANCEL);
       // Check that user has permission to cancel events
@@ -107,17 +111,15 @@ const useEventUpdateActions = ({ event }: Props) => {
         EVENT_EDIT_ACTIONS.CANCEL
       );
 
-      const payload: UpdateEventMutationInput[] = editableEvents.map(
-        (item) => ({
-          ...getEventPayload(
-            getEventInitialValues(item),
-            item.publicationStatus as PublicationStatus
-          ),
-          eventStatus: EventStatus.EventCancelled,
-          superEventType: item.superEventType,
-          id: item.id,
-        })
-      );
+      payload = editableEvents.map((item) => ({
+        ...getEventPayload(
+          getEventInitialValues(item),
+          item.publicationStatus as PublicationStatus
+        ),
+        eventStatus: EventStatus.EventCancelled,
+        superEventType: item.superEventType,
+        id: item.id,
+      }));
 
       await updateEvents(payload);
 
@@ -126,14 +128,28 @@ const useEventUpdateActions = ({ event }: Props) => {
 
       closeModal();
       setSaving(null);
-    } catch (e) /* istanbul ignore next */ {
+    } catch (error) /* istanbul ignore next */ {
       setSaving(null);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          event,
+          eventAsString: JSON.stringify(event),
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to cancel event',
+        user,
+      });
       // Call callback function if defined
       await (callbacks?.onError && callbacks.onError());
     }
   };
 
   const deleteEvent = async (callbacks?: Callbacks) => {
+    let deletableEventIds: string[] = [];
     try {
       setSaving(MODALS.DELETE);
       // Check that user has permission to delete events
@@ -142,7 +158,7 @@ const useEventUpdateActions = ({ event }: Props) => {
         allEvents,
         EVENT_EDIT_ACTIONS.CANCEL
       );
-      const deletableEventIds = map(deletableEvents, 'id');
+      deletableEventIds = map(deletableEvents, 'id');
 
       for (const id of deletableEventIds) {
         await deleteEventMutation({ variables: { id } });
@@ -158,14 +174,27 @@ const useEventUpdateActions = ({ event }: Props) => {
 
       closeModal();
       setSaving(null);
-    } catch (e) /* istanbul ignore next */ {
+    } catch (error) /* istanbul ignore next */ {
       setSaving(null);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          event,
+          eventAsString: JSON.stringify(event),
+          eventIds: deletableEventIds,
+        },
+        location,
+        message: 'Failed to delete event',
+        user,
+      });
       // Call callback function if defined
       await (callbacks?.onError && callbacks.onError());
     }
   };
 
   const postponeEvent = async (callbacks?: Callbacks) => {
+    let payload: UpdateEventMutationInput[] = [];
     try {
       setSaving(MODALS.POSTPONE);
       // Check that user has permission to postpone events
@@ -175,18 +204,16 @@ const useEventUpdateActions = ({ event }: Props) => {
         EVENT_EDIT_ACTIONS.CANCEL
       );
 
-      const payload: UpdateEventMutationInput[] = editableEvents.map(
-        (item) => ({
-          ...getEventPayload(
-            getEventInitialValues(item),
-            item.publicationStatus as PublicationStatus
-          ),
-          superEventType: item.superEventType,
-          id: item.id,
-          startTime: null,
-          endTime: null,
-        })
-      );
+      payload = editableEvents.map((item) => ({
+        ...getEventPayload(
+          getEventInitialValues(item),
+          item.publicationStatus as PublicationStatus
+        ),
+        superEventType: item.superEventType,
+        id: item.id,
+        startTime: null,
+        endTime: null,
+      }));
 
       await updateEvents(payload);
 
@@ -195,8 +222,21 @@ const useEventUpdateActions = ({ event }: Props) => {
 
       closeModal();
       setSaving(null);
-    } catch (e) /* istanbul ignore next */ {
+    } catch (error) /* istanbul ignore next */ {
       setSaving(null);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          event,
+          eventAsString: JSON.stringify(event),
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to cancel event',
+        user,
+      });
       // Call callback function if defined
       await (callbacks?.onError && callbacks.onError());
     }
@@ -207,6 +247,7 @@ const useEventUpdateActions = ({ event }: Props) => {
     publicationStatus: PublicationStatus,
     callbacks?: Callbacks
   ) => {
+    let payload: UpdateEventMutationInput[] = [];
     try {
       setSaving(MODALS.UPDATE);
       const { atId, id, superEventType } = getEventFields(event, locale);
@@ -221,7 +262,7 @@ const useEventUpdateActions = ({ event }: Props) => {
       await updateImageIfNeeded(values);
 
       const basePayload = getEventPayload(values, publicationStatus);
-      const payload: UpdateEventMutationInput[] = [{ ...basePayload, id }];
+      payload = [{ ...basePayload, id }];
 
       if (superEventType === SuperEventType.Recurring) {
         payload[0].superEventType = SuperEventType.Recurring;
@@ -250,8 +291,21 @@ const useEventUpdateActions = ({ event }: Props) => {
 
       closeModal();
       setSaving(null);
-    } catch (e) /* istanbul ignore next */ {
+    } catch (error) /* istanbul ignore next */ {
       setSaving(null);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          event,
+          eventAsString: JSON.stringify(event),
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to update event',
+        user,
+      });
       // Call callback function if defined
       await (callbacks?.onError && callbacks.onError());
     }

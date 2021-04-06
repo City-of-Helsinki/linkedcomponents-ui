@@ -9,7 +9,7 @@ import {
 } from '../../auth/selectors';
 import { userPathBuilder } from '../utils';
 
-type UserState = {
+export type UserState = {
   loading: boolean;
   user?: UserFieldsFragment;
 };
