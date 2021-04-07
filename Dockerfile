@@ -38,6 +38,23 @@ CMD ["yarn", "start"]
 FROM appbase as staticbuilder
 # ===================================
 COPY . /app/
+
+# set sass path to support scss import
+ARG SASS_PATH=./src/assets/styles
+ENV SASS_PATH $SASS_PATH
+
+# Set LinkedEvents url
+ARG REACT_APP_LINKED_EVENTS_URL
+
+# Set OIDC settings
+ARG REACT_APP_OIDC_AUTHORITY
+ARG REACT_APP_OIDC_CLIENT_ID
+ARG REACT_APP_OIDC_SCOPE
+
+# Set Sentry settings
+ARG REACT_APP_SENTRY_DSN
+ARG REACT_APP_SENTRY_ENVIRONMENT
+
 RUN yarn build
 
 # =============================

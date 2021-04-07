@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -38,9 +38,11 @@ test('should show error message if trying to enter file with invalid type', asyn
 
   fireEvent.change(fileInput);
 
-  expect(toast.error).toBeCalledWith(
-    translations.common.imageUploader.notAllowedFileFormat
-  );
+  await waitFor(() => {
+    expect(toast.error).toBeCalledWith(
+      translations.common.imageUploader.notAllowedFileFormat
+    );
+  });
 });
 
 test('should show error message if trying to enter too large file', async () => {
@@ -57,9 +59,11 @@ test('should show error message if trying to enter too large file', async () => 
 
   fireEvent.change(fileInput);
 
-  expect(toast.error).toBeCalledWith(
-    'Tiedostokoko on liian suuri. Tiedoston maksimikoko on 2 Mt'
-  );
+  await waitFor(() => {
+    expect(toast.error).toBeCalledWith(
+      'Tiedostokoko on liian suuri. Tiedoston maksimikoko on 2 Mt'
+    );
+  });
 });
 
 test('should call onChange', async () => {
@@ -76,7 +80,9 @@ test('should call onChange', async () => {
 
   fireEvent.change(fileInput);
 
-  expect(onChange).toBeCalledWith(file);
+  await waitFor(() => {
+    expect(onChange).toBeCalledWith(file);
+  });
 });
 
 test('should open file selection dialog by clicking button', async () => {
@@ -109,7 +115,9 @@ test('should call onChange when droping file', async () => {
     },
   });
 
-  expect(onChange).toBeCalledWith(file);
+  await waitFor(() => {
+    expect(onChange).toBeCalledWith(file);
+  });
 });
 
 test('should not call onChange when droping file if component is disabled', async () => {

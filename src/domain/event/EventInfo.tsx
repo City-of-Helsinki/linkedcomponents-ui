@@ -22,6 +22,7 @@ const CreatorBadge: React.FC<CreatorBadgeProps> = ({ createdBy }) => {
 interface Props {
   event: EventFieldsFragment;
 }
+
 const EventInfo: React.FC<Props> = ({ event }) => {
   const locale = useLocale();
   const {

@@ -168,7 +168,9 @@
       "buttonCancel": "Cancel event",
       "text1": "This action cancels the event. You can also postpone the event, or delete an event that you entered accidentally.",
       "text2": "The following events will be cancelled:",
+      "textPastEventAreNotUpdated": "Please also note that the changes only apply to future events in the series. Past events in the series are not cancelled when cancelling the umbrella event.",
       "title": "Cancel event",
+      "titlePastEventAreNotUpdated": "Past events in the series will not be cancelled",
       "warning": "Remember that instead of canceling, you can also host the event remotely online. In this case, use the edit form to select Internet as the venue. You can also postpone the event to the future."
     },
     "deleteEventModal": {
@@ -617,7 +619,9 @@
       "buttonPostpone": "Postpone event",
       "text1": "This function postpones the event to the future. After postponing, you can later enter a new time for the event.",
       "text2": "The following events will be postponed:",
-      "title": "Postpone event"
+      "textPastEventAreNotUpdated": "Please also note that the changes only apply to future events in the series. Past events in the series are not postponed when postponing the roof event.",
+      "title": "Postpone event",
+      "titlePastEventAreNotUpdated": "Past events in the series will not be postponed"
     },
     "publicationStatus": {
       "draft": "Draft",
@@ -634,7 +638,9 @@
     "updateEventModal": {
       "text1": "Data is stored for all events in this series. Changes to these events will be lost. Are you sure you want to continue?",
       "text2": "The data is updated in the following events",
-      "title": "Save event"
+      "textPastEventAreNotUpdated": "Please also note that the changes only apply to future events in the series. Past events in the series are not edited when editing the umbrella event.",
+      "title": "Save event",
+      "titlePastEventAreNotUpdated": "Past events in the series will not be edited"
     }
   },
   "eventSavedPage": {

@@ -168,7 +168,9 @@
       "buttonCancel": "Avbryt evenemanget",
       "text1": "Denna åtgärd avbryter evenemanget. Du kan också skjuta upp evenemanget eller ta bort en händelse du angav av misstag.",
       "text2": "Följande evenemangen kommer att avbrytas:",
+      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien avbryts inte när paraplyevenemang avbryts.",
       "title": "Avbryt evenemanget",
+      "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att avbrytas",
       "warning": "Kom ihåg att istället för att avbryta kan du också vara värd för evenemanget på distans online. I så fall använder du redigeringsformuläret för att välja Internet som plats. Du kan också skjuta upp evenemanget till framtiden."
     },
     "deleteEventModal": {
@@ -616,7 +618,9 @@
       "buttonPostpone": "Skjuta upp evenemanget",
       "text1": "Denna funktion skjuter upp evenemanget till framtiden. Efter att ha skjutit upp kan du senare ange en ny tid för evenemanget.",
       "text2": "Följande evenemang kommer att skjutas upp:",
-      "title": "Skjuta upp evenemanget"
+      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien skjuts inte upp när paraplyevenemang skjuts upp.",
+      "title": "Skjuta upp evenemanget",
+      "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att skjutas upp"
     },
     "publicationStatus": {
       "draft": "Förslag",
@@ -634,7 +638,9 @@
     "updateEventModal": {
       "text1": "Data lagras för alla evenemang i denna serie. Ändringar av dessa evenemang kommer att gå förlorade. Är du säker på att du vill fortsätta?",
       "text2": "Uppgifterna lagras i följande evenemangen",
-      "title": "Spara evenemanget"
+      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien redigeras inte när du redigerar paraplyevenemang.",
+      "title": "Spara evenemanget",
+      "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att redigeras"
     }
   },
   "eventSavedPage": {

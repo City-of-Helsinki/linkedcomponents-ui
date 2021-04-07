@@ -168,7 +168,9 @@
       "buttonCancel": "Peruuta tapahtuma",
       "text1": "Tämä toiminto peruuttaa tapahtuman. Voit myös lykätä tapahtuman tulevaisuuteen, tai poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
       "text2": "Seuraavat tapahtumat peruutetaan:",
+      "textPastEventAreNotUpdated": "Huomioithan myös, että muutokset pätevät vain sarjan tuleviin tapahtumiin. Sarjan menneitä tapahtumia ei peruta kattotapahtumaa peruttaessa.",
       "title": "Varmista tapahtuman peruminen",
+      "titlePastEventAreNotUpdated": "Sarjan menneitä tapahtumia ei peruta",
       "warning": "Muistathan, että perumisen sijaan voit myös järjestää tapahtuman etänä internetissä. Valitse tällöin muokkauslomakkeella tapahtumapaikaksi Internet. Voit myös lykätä tapahtuman tulevaisuuteen."
     },
     "deleteEventModal": {
@@ -616,7 +618,9 @@
       "buttonPostpone": "Lykkää tapahtumaa",
       "text1": "Tämä toiminto lykkää tapahtuman tulevaisuuteen. Lykättyäsi voit myöhemmin syöttää tapahtumalle uuden ajankohdan.",
       "text2": "Seuraavat tapahtumat lykätään:",
-      "title": "Varmista tapahtuman lykkääminen"
+      "textPastEventAreNotUpdated": "Huomioithan myös, että muutokset pätevät vain sarjan tuleviin tapahtumiin. Sarjan menneitä tapahtumia ei lykätä kattotapahtumaa lykätessä.",
+      "title": "Varmista tapahtuman lykkääminen",
+      "titlePastEventAreNotUpdated": "Sarjan menneitä tapahtumia ei lykätä"
     },
     "publicationStatus": {
       "draft": "Luonnos",
@@ -634,7 +638,9 @@
     "updateEventModal": {
       "text1": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
       "text2": "Tiedot tallennetaan seuraaviin tapahtumiin:",
-      "title": "Varmista tapahtuman tallentaminen"
+      "textPastEventAreNotUpdated": "Huomioithan myös, että muutokset pätevät vain sarjan tuleviin tapahtumiin. Sarjan menneitä tapahtumia ei muokata kattotapahtumaa muokatessa.",
+      "title": "Varmista tapahtuman tallentaminen",
+      "titlePastEventAreNotUpdated": "Sarjan menneitä tapahtumia ei muokata"
     }
   },
   "eventSavedPage": {

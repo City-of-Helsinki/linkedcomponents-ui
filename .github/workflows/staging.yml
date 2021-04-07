@@ -35,6 +35,7 @@ jobs:
           DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://api.hel.fi/sso'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'linkedcomponents-ui-test'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_SCOPE: 'openid profile https://api.hel.fi/auth/linkedeventsdev'
+          DOCKER_BUILD_ARG_REACT_APP_SENTRY_ENVIRONMENT: 'test'
 
   staging:
     runs-on: ubuntu-latest

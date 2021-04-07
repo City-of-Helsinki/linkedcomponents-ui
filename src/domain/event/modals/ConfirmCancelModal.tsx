@@ -58,6 +58,16 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
       <p>{t('event.cancelEventModal.text1')}</p>
       <p>{t('event.cancelEventModal.text2')}</p>
       <EventHierarchy event={event} />
+      {Boolean(event.superEventType) && (
+        <p>
+          <strong>
+            {t('event.cancelEventModal.titlePastEventAreNotUpdated')}
+          </strong>
+          <br />
+          {t('event.cancelEventModal.textPastEventAreNotUpdated')}
+        </p>
+      )}
+
       <div className={styles.modalButtonWrapper}>
         <Button
           iconLeft={

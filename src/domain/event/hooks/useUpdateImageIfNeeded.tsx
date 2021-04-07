@@ -65,6 +65,7 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
       }
     }
   };
+
   return { updateImageIfNeeded };
 };
 

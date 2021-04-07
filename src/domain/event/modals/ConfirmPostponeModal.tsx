@@ -55,6 +55,16 @@ const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
       <p>{t('event.postponeEventModal.text1')}</p>
       <p>{t('event.postponeEventModal.text2')}</p>
       <EventHierarchy event={event} />
+      {Boolean(event.superEventType) && (
+        <p>
+          <strong>
+            {t('event.postponeEventModal.titlePastEventAreNotUpdated')}
+          </strong>
+          <br />
+          {t('event.postponeEventModal.textPastEventAreNotUpdated')}
+        </p>
+      )}
+
       <div className={styles.modalButtonWrapper}>
         <Button
           iconLeft={

@@ -52,6 +52,13 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
       <p>{t('event.updateEventModal.text1')}</p>
       <p>{t('event.updateEventModal.text2')}</p>
       <EventHierarchy event={event} />
+      <p>
+        <strong>
+          {t('event.updateEventModal.titlePastEventAreNotUpdated')}
+        </strong>
+        <br />
+        {t('event.updateEventModal.textPastEventAreNotUpdated')}
+      </p>
       <div className={styles.modalButtonWrapper}>
         <Button
           iconLeft={
