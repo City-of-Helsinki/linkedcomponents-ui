@@ -95,6 +95,7 @@
       "src/domain/app/apollo/utils.ts",
       "src/domain/app/hooks/useApiToken.tsx",
       "src/domain/app/i18n/i18nInit.ts",
+      "src/domain/app/sentry/utils.ts",
       "src/domain/auth/userManager.ts",
       "src/domain/auth/oidcCallback/OidcCallback.tsx",
       "src/domain/auth/silentCallback/SilentCallback.tsx",
