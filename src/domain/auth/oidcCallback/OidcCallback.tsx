@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import { User } from 'oidc-client';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,10 +30,9 @@ const OidcCallback = (props: RouteChildrenProps) => {
       toast(t('authentication.errorMessage'), {
         type: toast.TYPE.ERROR,
       });
-      // TODO: Send errors to Sentry
       // Make sure that we only send errors to Sentry that are actual
       // programming/system errors, not end users's network errors.
-      //   Sentry.captureException(error);
+      Sentry.captureException(error);
     }
   };
 

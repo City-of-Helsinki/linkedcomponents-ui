@@ -35,8 +35,6 @@ import { testId } from '../../../common/components/loadingSpinner/LoadingSpinner
 import { FORM_NAMES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
-  act,
-  actWait,
   configure,
   getMockReduxStore,
   render,

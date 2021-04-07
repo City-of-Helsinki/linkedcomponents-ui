@@ -1,6 +1,9 @@
 import { useApolloClient } from '@apollo/client';
 import map from 'lodash/map';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 
 import {
   EventFieldsFragment,
@@ -12,12 +15,18 @@ import {
   useUpdateEventsMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import { reportError } from '../../app/sentry/utils';
+import { authenticatedSelector } from '../../auth/selectors';
 import { clearEventQuery } from '../../events/utils';
+import useUser from '../../user/hooks/useUser';
+import { EVENT_EDIT_ACTIONS } from '../constants';
 import { EventFormFields } from '../types';
 import {
+  checkIsEditActionAllowed,
   getEventFields,
   getEventInitialValues,
   getEventPayload,
+  getOrganizationAncestors,
   getRelatedEvents,
 } from '../utils';
 import useUpdateImageIfNeeded from './useUpdateImageIfNeeded';
@@ -39,8 +48,12 @@ interface Props {
 }
 
 const useEventUpdateActions = ({ event }: Props) => {
+  const { t } = useTranslation();
   const apolloClient = useApolloClient();
+  const authenticated = useSelector(authenticatedSelector);
+  const { user } = useUser();
   const locale = useLocale();
+  const location = useLocation();
   const [openModal, setOpenModal] = React.useState<MODALS | null>(null);
   const [saving, setSaving] = React.useState<MODALS | null>(null);
 
@@ -60,12 +73,45 @@ const useEventUpdateActions = ({ event }: Props) => {
     });
   };
 
+  const getEditableEvents = async (
+    events: EventFieldsFragment[],
+    action: EVENT_EDIT_ACTIONS
+  ) => {
+    const editableEvents: EventFieldsFragment[] = [];
+    for (event of events) {
+      const organizationAncestors = await getOrganizationAncestors({
+        event,
+        apolloClient,
+      });
+      const { editable } = checkIsEditActionAllowed({
+        action,
+        authenticated,
+        event,
+        organizationAncestors,
+        t,
+        user,
+      });
+
+      if (editable) {
+        editableEvents.push(event);
+      }
+    }
+
+    return editableEvents;
+  };
+
   const cancelEvent = async (callbacks?: Callbacks) => {
+    let payload: UpdateEventMutationInput[] = [];
     try {
       setSaving(MODALS.CANCEL);
-      // Make sure all related events are fetched
+      // Check that user has permission to cancel events
       const allEvents = await getRelatedEvents({ apolloClient, event });
-      const payload: UpdateEventMutationInput[] = allEvents.map((item) => ({
+      const editableEvents = await getEditableEvents(
+        allEvents,
+        EVENT_EDIT_ACTIONS.CANCEL
+      );
+
+      payload = editableEvents.map((item) => ({
         ...getEventPayload(
           getEventInitialValues(item),
           item.publicationStatus as PublicationStatus
@@ -82,26 +128,44 @@ const useEventUpdateActions = ({ event }: Props) => {
 
       closeModal();
       setSaving(null);
-    } catch (e) /* istanbul ignore next */ {
+    } catch (error) /* istanbul ignore next */ {
       setSaving(null);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          event,
+          eventAsString: JSON.stringify(event),
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to cancel event',
+        user,
+      });
       // Call callback function if defined
       await (callbacks?.onError && callbacks.onError());
     }
   };
 
   const deleteEvent = async (callbacks?: Callbacks) => {
+    let deletableEventIds: string[] = [];
     try {
       setSaving(MODALS.DELETE);
-      // Make sure all related events are fetched
+      // Check that user has permission to delete events
       const allEvents = await getRelatedEvents({ apolloClient, event });
-      const allEventIds = map(allEvents, 'id');
+      const deletableEvents = await getEditableEvents(
+        allEvents,
+        EVENT_EDIT_ACTIONS.CANCEL
+      );
+      deletableEventIds = map(deletableEvents, 'id');
 
-      for (const id of allEventIds) {
+      for (const id of deletableEventIds) {
         await deleteEventMutation({ variables: { id } });
       }
 
       // Clear all events from apollo cache
-      for (const id of allEventIds) {
+      for (const id of deletableEventIds) {
         clearEventQuery(apolloClient, id);
       }
 
@@ -110,19 +174,37 @@ const useEventUpdateActions = ({ event }: Props) => {
 
       closeModal();
       setSaving(null);
-    } catch (e) /* istanbul ignore next */ {
+    } catch (error) /* istanbul ignore next */ {
       setSaving(null);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          event,
+          eventAsString: JSON.stringify(event),
+          eventIds: deletableEventIds,
+        },
+        location,
+        message: 'Failed to delete event',
+        user,
+      });
       // Call callback function if defined
       await (callbacks?.onError && callbacks.onError());
     }
   };
 
   const postponeEvent = async (callbacks?: Callbacks) => {
+    let payload: UpdateEventMutationInput[] = [];
     try {
       setSaving(MODALS.POSTPONE);
-      // Make sure all related events are fetched
+      // Check that user has permission to postpone events
       const allEvents = await getRelatedEvents({ apolloClient, event });
-      const payload: UpdateEventMutationInput[] = allEvents.map((item) => ({
+      const editableEvents = await getEditableEvents(
+        allEvents,
+        EVENT_EDIT_ACTIONS.CANCEL
+      );
+
+      payload = editableEvents.map((item) => ({
         ...getEventPayload(
           getEventInitialValues(item),
           item.publicationStatus as PublicationStatus
@@ -140,8 +222,21 @@ const useEventUpdateActions = ({ event }: Props) => {
 
       closeModal();
       setSaving(null);
-    } catch (e) /* istanbul ignore next */ {
+    } catch (error) /* istanbul ignore next */ {
       setSaving(null);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          event,
+          eventAsString: JSON.stringify(event),
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to cancel event',
+        user,
+      });
       // Call callback function if defined
       await (callbacks?.onError && callbacks.onError());
     }
@@ -152,15 +247,22 @@ const useEventUpdateActions = ({ event }: Props) => {
     publicationStatus: PublicationStatus,
     callbacks?: Callbacks
   ) => {
+    let payload: UpdateEventMutationInput[] = [];
     try {
       setSaving(MODALS.UPDATE);
       const { atId, id, superEventType } = getEventFields(event, locale);
-      const subEvents = event.subEvents;
+      // Check that user has permission to update sub-events
+      const subEvents = await getEditableEvents(
+        (event.subEvents || []) as EventFieldsFragment[],
+        publicationStatus === PublicationStatus.Draft
+          ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
+          : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC
+      );
 
       await updateImageIfNeeded(values);
 
       const basePayload = getEventPayload(values, publicationStatus);
-      const payload: UpdateEventMutationInput[] = [{ ...basePayload, id }];
+      payload = [{ ...basePayload, id }];
 
       if (superEventType === SuperEventType.Recurring) {
         payload[0].superEventType = SuperEventType.Recurring;
@@ -189,8 +291,21 @@ const useEventUpdateActions = ({ event }: Props) => {
 
       closeModal();
       setSaving(null);
-    } catch (e) /* istanbul ignore next */ {
+    } catch (error) /* istanbul ignore next */ {
       setSaving(null);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          event,
+          eventAsString: JSON.stringify(event),
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to update event',
+        user,
+      });
       // Call callback function if defined
       await (callbacks?.onError && callbacks.onError());
     }

@@ -6,6 +6,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
+import * as Sentry from '@sentry/browser';
 import { RestLink } from 'apollo-link-rest';
 import snakeCase from 'lodash/snakeCase';
 import { toast } from 'react-toastify';
@@ -224,7 +225,7 @@ const linkedEventsLink = new RestLink({
 
 const QUERIES_TO_SHOW_ERROR = ['User'];
 
-const errorLink = onError(({ networkError, operation }) => {
+const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   const isMutation = Boolean(
     operation.query.definitions.find(
       (definition) =>
@@ -232,6 +233,13 @@ const errorLink = onError(({ networkError, operation }) => {
         definition.operation === 'mutation'
     )
   );
+
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message, locations, path }) => {
+      const errorMessage = `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`;
+      Sentry.captureMessage(errorMessage);
+    });
+  }
 
   if (
     (isMutation || QUERIES_TO_SHOW_ERROR.includes(operation.operationName)) &&
