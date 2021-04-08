@@ -20,14 +20,27 @@ const ClassificationSection = () => {
 
   const { topicsData } = useEventFieldOptionsData();
 
-  const keywordOptions = sortBy(
-    topicsData?.keywordSet?.keywords?.map((keyword) =>
-      getKeywordOption({ keyword, locale })
-    ) || [],
-    'label'
+  const keywordOptions = React.useMemo(
+    () =>
+      sortBy(
+        topicsData?.keywordSet?.keywords?.map((keyword) =>
+          getKeywordOption({ keyword, locale })
+        ) || [],
+        'label'
+      ),
+    [locale, topicsData]
   );
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [, , { setValue: setMainCategories }] = useField({
+    name: EVENT_FIELDS.MAIN_CATEGORIES,
+  });
+
+  React.useEffect(() => {
+    // Set main categories to validate that at least one main category is selected
+    setMainCategories(keywordOptions.map((option) => option.value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keywordOptions]);
 
   return (
     <>
@@ -47,6 +60,7 @@ const ClassificationSection = () => {
             name={EVENT_FIELDS.KEYWORDS}
             component={CheckboxGroupField}
             columns={2}
+            id={EVENT_FIELDS.MAIN_CATEGORIES}
             options={keywordOptions}
             visibleOptionAmount={10}
           />

@@ -865,6 +865,7 @@ describe('getEventInitialValues function', () => {
       keywords: keywordAtIds,
       location: locationAtId,
       locationExtraInfo,
+      mainCategories: [],
       name,
       offers,
       provider,
