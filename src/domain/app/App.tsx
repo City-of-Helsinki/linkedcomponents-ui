@@ -20,7 +20,7 @@ const App: React.FC = () => {
     <Provider store={store}>
       <OidcProvider store={store} userManager={userManager}>
         <ThemeProvider initTheme={theme}>
-          <ToastContainer />
+          <ToastContainer hideProgressBar={true} />
           <BrowserRouter>
             <CookieConsentProvider>
               <ApolloProvider client={apolloClient}>
