@@ -3,14 +3,18 @@ import range from 'lodash/range';
 
 import { EventsDocument, PlacesDocument } from '../../../generated/graphql';
 import { fakeEvents, fakePlaces } from '../../../utils/mockDataUtils';
-import { DEFAULT_EVENT_SORT, EVENTS_PAGE_SIZE } from '../../events/constants';
+import {
+  DEFAULT_EVENT_SORT,
+  EVENT_LIST_INCLUDES,
+  EVENTS_PAGE_SIZE,
+} from '../../events/constants';
 
 const searchText = 'search';
 
 const eventsVariables = {
   createPath: undefined,
   end: null,
-  include: ['in_language', 'location'],
+  include: EVENT_LIST_INCLUDES,
   pageSize: EVENTS_PAGE_SIZE,
   location: [],
   start: null,
