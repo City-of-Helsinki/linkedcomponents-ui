@@ -31,6 +31,7 @@ import EventInfo from './EventInfo';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';
+import ChannelsSection from './formSections/channelsSection/ChannelsSection';
 import ClassificationSection from './formSections/classificationSection/ClassificationSection';
 import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
 import ImageSection from './formSections/imageSection/ImageSection';
@@ -38,7 +39,6 @@ import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import PlaceSection from './formSections/placeSection/PlaceSection';
 import PriceSection from './formSections/priceSection/PriceSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
-import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import VideoSection from './formSections/videoSection/VideoSection';
@@ -168,12 +168,13 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       validateOnBlur={true}
       validateOnChange={true}
     >
-      {({ values, setErrors, setTouched }) => {
+      {({ values: { type, ...restValues }, setErrors, setTouched }) => {
         const clearErrors = () => {
           setErrors({});
         };
 
         const handleUpdate = async (publicationStatus: PublicationStatus) => {
+          const values = { type, ...restValues };
           try {
             clearErrors();
             if (publicationStatus === PublicationStatus.Draft) {
@@ -234,6 +235,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
               isSaving={saving === MODALS.UPDATE}
               onClose={closeModal}
               onSave={() => {
+                const values = { type, ...restValues };
+
                 onUpdate(values, nextPublicationStatus);
               }}
             />
@@ -281,8 +284,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                       <Section title={t('event.form.sections.price')}>
                         <PriceSection />
                       </Section>
-                      <Section title={t('event.form.sections.socialMedia')}>
-                        <SocialMediaSection />
+                      <Section
+                        title={t(`event.form.sections.channels.${type}`)}
+                      >
+                        <ChannelsSection />
                       </Section>
                       <Section title={t('event.form.sections.image')}>
                         <ImageSection />

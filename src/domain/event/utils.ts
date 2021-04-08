@@ -290,9 +290,6 @@ export const eventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
   ),
-  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-  ),
   [EVENT_FIELDS.SHORT_DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
     Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
@@ -343,6 +340,9 @@ export const eventValidationSchema = Yup.object().shape({
           )
         : schema;
     }
+  ),
+  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
+    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
   ),
   [EVENT_FIELDS.FACEBOOK_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
   [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
@@ -424,6 +424,9 @@ export const draftEventValidationSchema = Yup.object().shape({
   ),
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
+  ),
+  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
+    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
   ),
   [EVENT_FIELDS.FACEBOOK_URL]: Yup.string().url(),
   [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(),

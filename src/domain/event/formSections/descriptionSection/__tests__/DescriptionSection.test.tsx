@@ -22,7 +22,6 @@ const type = EVENT_TYPE.EVENT;
 type InitialValues = {
   [EVENT_FIELDS.DESCRIPTION]: MultiLanguageObject;
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: EVENT_INFO_LANGUAGES[];
-  [EVENT_FIELDS.INFO_URL]: MultiLanguageObject;
   [EVENT_FIELDS.NAME]: MultiLanguageObject;
   [EVENT_FIELDS.SHORT_DESCRIPTION]: MultiLanguageObject;
   [EVENT_FIELDS.TYPE]: string;
@@ -31,7 +30,6 @@ type InitialValues = {
 const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: languages,
-  [EVENT_FIELDS.INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.SHORT_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.TYPE]: type,
@@ -80,8 +78,6 @@ const findComponent = (
     | 'descriptionFi'
     | 'descriptionSv'
     | 'fiButton'
-    | 'infoUrlFi'
-    | 'infoUrlSv'
     | 'nameFi'
     | 'nameSv'
     | 'shortDescriptionFi'
@@ -99,14 +95,6 @@ const findComponent = (
       });
     case 'fiButton':
       return screen.findByRole('tab', { name: /suomi/i });
-    case 'infoUrlFi':
-      return screen.findByRole('textbox', {
-        name: /tapahtuman kotisivun url suomeksi/i,
-      });
-    case 'infoUrlSv':
-      return screen.findByRole('textbox', {
-        name: /tapahtuman kotisivun url ruotsiksi/i,
-      });
     case 'nameFi':
       return screen.findByRole('textbox', {
         name: /tapahtuman otsikko suomeksi/i,
@@ -132,7 +120,6 @@ test('should show description form section fields', async () => {
   renderComponent();
 
   await findComponent('nameFi');
-  await findComponent('infoUrlFi');
   await findComponent('shortDescriptionFi');
   await findComponent('descriptionFi');
 });

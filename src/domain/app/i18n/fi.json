@@ -485,8 +485,8 @@
         "event": "Syötä tapahtuman Facebook-sivun URL"
       },
       "placeholderInfoUrl": {
-        "course": "Syötä kurssin kotisivun URL",
-        "event": "Syötä tapahtuman kotisivun URL"
+        "course": "Syötä kurssin kotisivun URL {{langText}}",
+        "event": "Syötä tapahtuman kotisivun URL {{langText}}"
       },
       "placeholderInstagramUrl": {
         "course": "Syötä kurssin Instagram-sivun URL",
@@ -542,6 +542,10 @@
       "sections": {
         "additionalInfo": "Lisätiedot",
         "audience": "Kohderyhmät",
+        "channels": {
+          "course": "Kurssin kanavat",
+          "event": "Tapahtuman kanavat"
+        },
         "classification": "Luokittelu",
         "description": "Kuvaus",
         "image": "Kuva",
@@ -550,7 +554,6 @@
         "place": "Paikka",
         "price": "Hinta",
         "responsibilities": "Vastuut",
-        "socialMedia": "Sosiaalinen media",
         "time": "Aika",
         "type": "Tapahtumatyyppi",
         "video": "Video"
@@ -567,6 +570,10 @@
       "titleInfoLanguages": {
         "course": "Kurssitietojen syöttökielet",
         "event": "Tapahtumatietojen syöttökielet"
+      },
+      "titleInfoUrl": {
+        "course": "Kurssin kotisivu",
+        "event": "Tapahtuman kotisivu"
       },
       "titleInLanguages": {
         "course": "Kurssin kielet (ohjauskielet)",
