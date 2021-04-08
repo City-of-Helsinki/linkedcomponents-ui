@@ -1,5 +1,6 @@
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
+import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
@@ -15,6 +16,7 @@ import {
   SuperEventType,
   useEventQuery,
 } from '../../generated/graphql';
+import useIsMounted from '../../hooks/useIsMounted';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
@@ -340,14 +342,35 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   );
 };
 
+const LOADING_USER_DEBOUNCE_TIME = 50;
+
 const EditEventPageWrapper: React.FC = () => {
+  const isMounted = useIsMounted();
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
   const { loading: loadingUser } = useUser();
 
+  const [debouncedLoadingUser, setDebouncedLoadingUser] = React.useState(
+    loadingUser
+  );
+
+  const handleLoadingUserChange = React.useCallback(
+    debounce((loading: boolean) => {
+      /* istanbul ignore next */
+      if (!isMounted.current) return;
+
+      setDebouncedLoadingUser(loading);
+    }, LOADING_USER_DEBOUNCE_TIME),
+    []
+  );
+
+  React.useEffect(() => {
+    handleLoadingUserChange(loadingUser);
+  }, [handleLoadingUserChange, loadingUser]);
+
   const { data: eventData, loading: loadingEvent, refetch } = useEventQuery({
     fetchPolicy: 'no-cache',
-    skip: loadingUser,
+    skip: debouncedLoadingUser,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
       id,
@@ -358,7 +381,8 @@ const EditEventPageWrapper: React.FC = () => {
   // Load options for inLanguage, audience and keywords checkboxes
   const { loading: loadingEventFieldOptions } = useEventFieldOptionsData();
 
-  const loading = loadingEvent || loadingEventFieldOptions || loadingUser;
+  const loading =
+    loadingEvent || loadingEventFieldOptions || debouncedLoadingUser;
 
   return (
     <LoadingSpinner isLoading={loading}>
