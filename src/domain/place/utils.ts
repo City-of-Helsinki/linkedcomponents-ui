@@ -18,7 +18,9 @@ export const getPlaceFields = (
   locale: Language
 ) => {
   return {
+    addressLocality: getLocalisedString(place.addressLocality, locale),
     name: getLocalisedString(place.name, locale),
+    streetAddress: getLocalisedString(place.streetAddress, locale),
   };
 };
 

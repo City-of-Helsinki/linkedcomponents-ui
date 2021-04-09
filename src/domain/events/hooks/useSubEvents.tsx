@@ -7,6 +7,7 @@ import {
 } from '../../../generated/graphql';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import { EVENT_LIST_INCLUDES } from '../constants';
 import { eventsPathBuilder } from '../utils';
 
 const useSubEvents = ({
@@ -21,6 +22,7 @@ const useSubEvents = ({
   const variables = React.useMemo(() => {
     return {
       createPath: getPathBuilder(eventsPathBuilder),
+      include: EVENT_LIST_INCLUDES,
       pageSize: MAX_PAGE_SIZE,
       showAll: true,
       superEvent: superEventId,

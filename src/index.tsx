@@ -13,6 +13,10 @@ if (process.env.REACT_APP_SENTRY_ENVIRONMENT) {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
     environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
+    ignoreErrors: [
+      'ResizeObserver loop completed with undelivered notifications',
+      'ResizeObserver loop limit exceeded',
+    ],
   });
 }
 

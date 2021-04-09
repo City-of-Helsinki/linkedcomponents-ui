@@ -66,6 +66,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.KEYWORDS]: string[];
   [EVENT_FIELDS.LOCATION]: string | null;
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: MultiLanguageObject;
+  [EVENT_FIELDS.MAIN_CATEGORIES]: string[];
   [EVENT_FIELDS.NAME]: MultiLanguageObject;
   [EVENT_FIELDS.OFFERS]: Offer[];
   [EVENT_FIELDS.PROVIDER]: MultiLanguageObject;

@@ -495,8 +495,8 @@
         "event": "Ange webbadressen till evenemangets Facebook-sida"
       },
       "placeholderInfoUrl": {
-        "course": "Enter the URL of the course home page",
-        "event": "Enter the URL of the event home page"
+        "course": "Enter the URL of the course home page {{langText}}",
+        "event": "Enter the URL of the event home page {{langText}}"
       },
       "placeholderInstagramUrl": {
         "course": "Ange webbadressen till kursens Instagram-sida",
@@ -552,6 +552,10 @@
       "sections": {
         "additionalInfo": "Ytterligare information",
         "audience": "Målgrupper",
+        "channels": {
+          "course": "Kurskanaler",
+          "event": "Evenemangskanaler"
+        },
         "classification": "Klassificering",
         "description": "Beskrivning",
         "image": "Bild",
@@ -560,7 +564,6 @@
         "place": "Plats",
         "price": "Pris",
         "responsibilities": "Ansvar",
-        "socialMedia": "Sociala media",
         "time": "Tid",
         "type": "Evenemangtyp",
         "video": "Video"
@@ -577,6 +580,10 @@
       "titleInfoLanguages": {
         "course": "Inmatningsspråk för kurs",
         "event": "Inmatningsspråk för evenemang"
+      },
+      "titleInfoUrl": {
+        "course": "Kursens hemsida",
+        "event": "Evenemangets hemsida"
       },
       "titleInLanguages": {
         "course": "Kursspråk (kontrollspråk)",

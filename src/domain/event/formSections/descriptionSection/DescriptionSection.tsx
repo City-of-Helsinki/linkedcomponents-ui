@@ -18,7 +18,6 @@ import FieldRow from '../../layout/FieldRow';
 
 const FIELDS = [
   EVENT_FIELDS.DESCRIPTION,
-  EVENT_FIELDS.INFO_URL,
   EVENT_FIELDS.NAME,
   EVENT_FIELDS.SHORT_DESCRIPTION,
 ];
@@ -105,16 +104,6 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                       name={`${EVENT_FIELDS.NAME}.${selectedLanguage}`}
                       placeholder={t(`event.form.placeholderName.${type}`)}
                       required={true}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Field
-                      component={TextInputField}
-                      label={t(`event.form.labelInfoUrl.${type}`, {
-                        langText,
-                      })}
-                      name={`${EVENT_FIELDS.INFO_URL}.${selectedLanguage}`}
-                      placeholder={t(`event.form.placeholderInfoUrl.${type}`)}
                     />
                   </FormGroup>
                   <FormGroup>

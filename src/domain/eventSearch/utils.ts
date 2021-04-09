@@ -4,7 +4,7 @@ import { EventsQueryVariables } from '../../generated/graphql';
 import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
 import { getSearchQuery } from '../../utils/searchUtils';
-import { EVENTS_PAGE_SIZE } from '../events/constants';
+import { EVENT_LIST_INCLUDES, EVENTS_PAGE_SIZE } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
 import { EVENT_SEARCH_PARAMS } from './constants';
 import { EventFilters, EventSearchInitialValues } from './types';
@@ -21,7 +21,7 @@ export const getEventsQueryVariables = (
   const variables: EventsQueryVariables = {
     createPath: getPathBuilder(eventsPathBuilder),
     end,
-    include: ['in_language', 'location'],
+    include: EVENT_LIST_INCLUDES,
     pageSize: EVENTS_PAGE_SIZE,
     location: places,
     start,

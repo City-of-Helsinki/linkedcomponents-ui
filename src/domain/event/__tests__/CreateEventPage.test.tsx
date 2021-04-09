@@ -253,6 +253,56 @@ test('should focus to text editor component in case of validation error', async 
   });
 });
 
+test('should focus to first main category checkbox if none main category is selected', async () => {
+  advanceTo('2020-12-20');
+
+  setFormValues({
+    ...EVENT_INITIAL_VALUES,
+    publisher: organizationId,
+    description: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.description,
+    },
+    endTime: new Date('2020-12-31T21:00:00.000Z'),
+    eventTimes: [],
+    images: [imageAtId],
+    imageDetails,
+    isVerified: true,
+    keywords: [],
+    location: placeAtId,
+    name: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
+    shortDescription: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.shortDescription,
+    },
+    startTime: new Date('2020-12-31T18:00:00.000Z'),
+  });
+
+  const mocks: MockedResponse[] = [
+    ...defaultMocks,
+    mockedCreateSubEventsResponse,
+    mockedCreatePublicEventResponse,
+    mockedUpdateImageResponse,
+  ];
+  renderComponent(mocks);
+
+  await waitFor(() => {
+    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
+  });
+
+  const publishButton = await findComponent('publish');
+  userEvent.click(publishButton);
+
+  const keywordCheckbox = await findComponent('keyword');
+
+  await waitFor(() => {
+    expect(keywordCheckbox).toHaveFocus();
+  });
+});
+
 it('should route to event completed page after saving draft event', async () => {
   setFormValues({
     ...EVENT_INITIAL_VALUES,

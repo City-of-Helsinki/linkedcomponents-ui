@@ -23,6 +23,7 @@ import reduce from 'lodash/reduce';
 import set from 'lodash/set';
 import sortBy from 'lodash/sortBy';
 import uniqWith from 'lodash/uniqWith';
+import { scroller } from 'react-scroll';
 import sanitize from 'sanitize-html';
 import * as Yup from 'yup';
 
@@ -291,9 +292,6 @@ export const eventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
   ),
-  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-  ),
   [EVENT_FIELDS.SHORT_DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
     Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
@@ -345,6 +343,9 @@ export const eventValidationSchema = Yup.object().shape({
         : schema;
     }
   ),
+  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
+    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+  ),
   [EVENT_FIELDS.FACEBOOK_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
   [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
   [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
@@ -361,6 +362,19 @@ export const eventValidationSchema = Yup.object().shape({
     }
   ),
   [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoValidation),
+  [EVENT_FIELDS.MAIN_CATEGORIES]: Yup.array().when(
+    [EVENT_FIELDS.KEYWORDS],
+    (keywords: string[], schema: Yup.ArraySchema<string>) => {
+      return schema.test(
+        'atLeastOneMainCategoryIsSelected',
+        VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED,
+        (mainCategories) =>
+          mainCategories
+            ? mainCategories.some((category) => keywords.includes(category))
+            : false
+      );
+    }
+  ),
   [EVENT_FIELDS.KEYWORDS]: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
     .min(1, (param) =>
@@ -412,6 +426,9 @@ export const draftEventValidationSchema = Yup.object().shape({
   ),
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
+  ),
+  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
+    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
   ),
   [EVENT_FIELDS.FACEBOOK_URL]: Yup.string().url(),
   [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(),
@@ -1211,12 +1228,17 @@ export const getEventInitialValues = (
 
 const getFocusableFieldId = (
   fieldName: string
-): { fieldId: string; type: 'default' | 'select' | 'textEditor' } => {
+): {
+  fieldId: string;
+  type: 'default' | 'checkboxGroup' | 'select' | 'textEditor';
+} => {
   // For the select elements, focus the toggle button
   if (SELECT_FIELDS.find((item) => item === fieldName)) {
     return { fieldId: `${fieldName}-input`, type: 'select' };
   } else if (TEXT_EDITOR_FIELDS.find((item) => fieldName.startsWith(item))) {
     return { fieldId: `${fieldName}-text-editor`, type: 'textEditor' };
+  } else if (fieldName === EVENT_FIELDS.MAIN_CATEGORIES) {
+    return { fieldId: fieldName, type: 'checkboxGroup' };
   }
 
   return { fieldId: fieldName, type: 'default' };
@@ -1250,6 +1272,21 @@ export const scrollToFirstError = ({
 
     /* istanbul ignore else */
     if (field) {
+      scroller.scrollTo(fieldId, {
+        delay: 0,
+        duration: 500,
+        offset: -200,
+        smooth: true,
+      });
+
+      if (fieldType === 'checkboxGroup') {
+        const focusable = field.querySelectorAll('input');
+
+        /* istanbul ignore else */
+        if (focusable?.[0]) {
+          focusable[0].focus();
+        }
+      }
       if (fieldType === 'textEditor') {
         field.click();
       } else {

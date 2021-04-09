@@ -496,8 +496,8 @@
         "event": "Enter the URL of the event's Facebook page"
       },
       "placeholderInfoUrl": {
-        "course": "Enter the URL of the course home page",
-        "event": "Enter the URL of the event home page"
+        "course": "Enter the URL of the course home page {{langText}}",
+        "event": "Enter the URL of the event home page {{langText}}"
       },
       "placeholderInstagramUrl": {
         "course": "Enter the URL of the course's Instagram page",
@@ -553,6 +553,10 @@
       "sections": {
         "additionalInfo": "Additional information",
         "audience": "Target groups",
+        "channels": {
+          "course": "Course channels",
+          "event": "Event channels"
+        },
         "classification": "Classification",
         "description": "Description",
         "image": "Image",
@@ -561,7 +565,6 @@
         "place": "Place",
         "price": "Price",
         "responsibilities": "Responsibilities",
-        "socialMedia": "Social media",
         "time": "Time",
         "type": "Event type",
         "video": "Video"
@@ -578,6 +581,10 @@
       "titleInfoLanguages": {
         "course": "Course input languages",
         "event": "Event input languages"
+      },
+      "titleInfoUrl": {
+        "course": "Course home page",
+        "event": "Event home page"
       },
       "titleInLanguages": {
         "course": "Course languages (control languages)",

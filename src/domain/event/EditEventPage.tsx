@@ -1,5 +1,6 @@
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
+import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
@@ -15,6 +16,7 @@ import {
   SuperEventType,
   useEventQuery,
 } from '../../generated/graphql';
+import useIsMounted from '../../hooks/useIsMounted';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
@@ -31,6 +33,7 @@ import EventInfo from './EventInfo';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';
+import ChannelsSection from './formSections/channelsSection/ChannelsSection';
 import ClassificationSection from './formSections/classificationSection/ClassificationSection';
 import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
 import ImageSection from './formSections/imageSection/ImageSection';
@@ -38,7 +41,6 @@ import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import PlaceSection from './formSections/placeSection/PlaceSection';
 import PriceSection from './formSections/priceSection/PriceSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
-import SocialMediaSection from './formSections/socialMediaSection/SocialMediaSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import VideoSection from './formSections/videoSection/VideoSection';
@@ -168,12 +170,13 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       validateOnBlur={true}
       validateOnChange={true}
     >
-      {({ values, setErrors, setTouched }) => {
+      {({ values: { type, ...restValues }, setErrors, setTouched }) => {
         const clearErrors = () => {
           setErrors({});
         };
 
         const handleUpdate = async (publicationStatus: PublicationStatus) => {
+          const values = { type, ...restValues };
           try {
             clearErrors();
             if (publicationStatus === PublicationStatus.Draft) {
@@ -234,6 +237,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
               isSaving={saving === MODALS.UPDATE}
               onClose={closeModal}
               onSave={() => {
+                const values = { type, ...restValues };
+
                 onUpdate(values, nextPublicationStatus);
               }}
             />
@@ -275,8 +280,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                       <Section title={t('event.form.sections.price')}>
                         <PriceSection />
                       </Section>
-                      <Section title={t('event.form.sections.socialMedia')}>
-                        <SocialMediaSection />
+                      <Section
+                        title={t(`event.form.sections.channels.${type}`)}
+                      >
+                        <ChannelsSection />
                       </Section>
                       <Section title={t('event.form.sections.image')}>
                         <ImageSection />
@@ -336,14 +343,35 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   );
 };
 
+const LOADING_USER_DEBOUNCE_TIME = 50;
+
 const EditEventPageWrapper: React.FC = () => {
+  const isMounted = useIsMounted();
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
   const { loading: loadingUser } = useUser();
 
+  const [debouncedLoadingUser, setDebouncedLoadingUser] = React.useState(
+    loadingUser
+  );
+
+  const handleLoadingUserChange = React.useCallback(
+    debounce((loading: boolean) => {
+      /* istanbul ignore next */
+      if (!isMounted.current) return;
+
+      setDebouncedLoadingUser(loading);
+    }, LOADING_USER_DEBOUNCE_TIME),
+    []
+  );
+
+  React.useEffect(() => {
+    handleLoadingUserChange(loadingUser);
+  }, [handleLoadingUserChange, loadingUser]);
+
   const { data: eventData, loading: loadingEvent, refetch } = useEventQuery({
     fetchPolicy: 'no-cache',
-    skip: loadingUser,
+    skip: debouncedLoadingUser,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
       id,
@@ -354,7 +382,8 @@ const EditEventPageWrapper: React.FC = () => {
   // Load options for inLanguage, audience and keywords checkboxes
   const { loading: loadingEventFieldOptions } = useEventFieldOptionsData();
 
-  const loading = loadingEvent || loadingEventFieldOptions || loadingUser;
+  const loading =
+    loadingEvent || loadingEventFieldOptions || debouncedLoadingUser;
 
   return (
     <LoadingSpinner isLoading={loading}>

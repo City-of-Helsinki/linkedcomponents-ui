@@ -13,6 +13,7 @@ type Columns = 1 | 2 | 3 | 4;
 
 type Props = {
   columns: Columns;
+  id?: string;
   min: number;
   options: OptionType[];
   visibleOptionAmount?: number;
@@ -23,6 +24,7 @@ const CheckboxGroupField: React.FC<Props> = ({
   columns = 2,
   field: { name, value, ...field },
   form,
+  id,
   min = 0,
   options,
   visibleOptionAmount,
@@ -43,6 +45,7 @@ const CheckboxGroupField: React.FC<Props> = ({
   return (
     <>
       <div
+        id={id}
         className={classNames(
           styles.checkboxsWrapper,
           styles[`columns${columns}`]
@@ -67,7 +70,7 @@ const CheckboxGroupField: React.FC<Props> = ({
           );
         })}
       </div>
-      <ErrorMessage name={name}>
+      <ErrorMessage name={id || name}>
         {(error) => <div className={styles.errorText}>{t(error)}</div>}
       </ErrorMessage>
       {visibleOptionAmount && (
