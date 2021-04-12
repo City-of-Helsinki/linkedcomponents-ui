@@ -140,16 +140,19 @@ describe('generateEventTimesFromRecurringEvent function', () => {
       startTime: '12:15',
       endDate: new Date('2020-12-31'),
       endTime: '14:15',
+      eventTimes: [],
       repeatInterval: 2,
       repeatDays: ['mon', 'thu'],
     });
     expect(eventTimes).toHaveLength(53);
     expect(eventTimes[0]).toEqual({
       endTime: new Date('2020-01-02T14:15:00.000Z'),
+      id: null,
       startTime: new Date('2020-01-02T12:15:00.000Z'),
     });
     expect(eventTimes[52]).toEqual({
       endTime: new Date('2020-12-20T14:15:00.000Z'),
+      id: null,
       startTime: new Date('2020-12-20T12:15:00.000Z'),
     });
   });
@@ -161,15 +164,18 @@ describe('calculateSuperEventTime function', () => {
       calculateSuperEventTime([
         {
           startTime: new Date('2020-01-02T14:15:00.000Z'),
+          id: null,
           endTime: new Date('2020-01-02T16:15:00.000Z'),
         },
         {
           startTime: new Date('2020-12-12T14:15:00.000Z'),
+          id: null,
           endTime: new Date('2020-12-12T16:15:00.000Z'),
         },
       ])
     ).toEqual({
       startTime: new Date('2020-01-02T14:15:00.000Z'),
+      id: null,
       endTime: new Date('2020-12-12T16:15:00.000Z'),
     });
   });
@@ -178,15 +184,18 @@ describe('calculateSuperEventTime function', () => {
     calculateSuperEventTime([
       {
         startTime: new Date('2020-01-02T14:15:00.000Z'),
+        id: null,
         endTime: null,
       },
       {
         startTime: new Date('2020-12-12T14:15:00.000Z'),
+        id: null,
         endTime: null,
       },
     ])
   ).toEqual({
     startTime: new Date('2020-01-02T14:15:00.000Z'),
+    id: null,
     endTime: new Date('2020-12-12T23:59:59.999Z'),
   });
 
@@ -194,15 +203,18 @@ describe('calculateSuperEventTime function', () => {
     calculateSuperEventTime([
       {
         startTime: null,
+        id: null,
         endTime: null,
       },
       {
         startTime: null,
+        id: null,
         endTime: null,
       },
     ])
   ).toEqual({
     startTime: null,
+    id: null,
     endTime: null,
   });
 });
@@ -216,10 +228,12 @@ describe('getEventTimes function', () => {
       eventTimes: [
         {
           startTime: new Date('2020-01-02T14:15:00.000Z'),
+          id: null,
           endTime: null,
         },
         {
           startTime: null,
+          id: null,
           endTime: new Date('2020-12-12T16:15:00.000Z'),
         },
       ],
@@ -229,6 +243,18 @@ describe('getEventTimes function', () => {
           startTime: '12:15',
           endDate: new Date('2020-12-31'),
           endTime: '14:15',
+          eventTimes: [
+            {
+              startTime: new Date('2020-01-15T14:15:00.000Z'),
+              id: null,
+              endTime: new Date('2020-01-15T16:15:00.000Z'),
+            },
+            {
+              startTime: new Date('2020-02-15T14:15:00.000Z'),
+              id: null,
+              endTime: new Date('2020-02-15T16:15:00.000Z'),
+            },
+          ],
           repeatInterval: 2,
           repeatDays: ['mon', 'thu'],
         },
@@ -236,13 +262,15 @@ describe('getEventTimes function', () => {
     };
     const eventTimes = getEventTimes(values);
 
-    expect(eventTimes).toHaveLength(56);
+    expect(eventTimes).toHaveLength(4);
     expect(eventTimes[0]).toEqual({
       endTime: null,
-      startTime: new Date('2020-01-02T10:00:00.000Z'),
+      id: null,
+      startTime: new Date('2020-01-02T14:15:00.000Z'),
     });
-    expect(eventTimes[55]).toEqual({
+    expect(eventTimes[3]).toEqual({
       endTime: new Date('2020-12-12T16:15:00.000Z'),
+      id: null,
       startTime: null,
     });
   });
@@ -478,10 +506,12 @@ describe('getEventPayload function', () => {
     const eventTimes = [
       {
         startTime: new Date('2020-01-02T14:15:00.000Z'),
+        id: null,
         endTime: null,
       },
       {
         startTime: null,
+        id: null,
         endTime: new Date('2020-12-12T16:15:00.000Z'),
       },
     ];

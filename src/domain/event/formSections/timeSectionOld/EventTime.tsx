@@ -39,7 +39,7 @@ const EventTime: React.FC<EventTimeProps> = ({
       button={
         onDelete && (
           <DeleteButton
-            label={t('event.form.buttonDeleteEventTime')}
+            ariaLabel={t('event.form.buttonDeleteEventTime')}
             onClick={onDelete}
           />
         )

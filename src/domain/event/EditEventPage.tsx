@@ -41,7 +41,7 @@ import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import PlaceSection from './formSections/placeSection/PlaceSection';
 import PriceSection from './formSections/priceSection/PriceSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
-import TimeSection from './formSections/timeSection/TimeSection';
+import TimeSection from './formSections/timeSectionOld/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';

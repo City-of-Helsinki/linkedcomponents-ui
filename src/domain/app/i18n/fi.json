@@ -11,7 +11,7 @@
     "add": "Lisää",
     "and": "ja",
     "at": "klo {{time}}",
-    "betweenDates": "Ajalla {{startDate}} – {{endDate}}",
+    "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lisää uusi tapahtuma",
     "cancel": "Kumoa",
@@ -48,6 +48,7 @@
       "placeholderEndDate": "Loppuu pp.kk.vvvv",
       "placeholderStartDate": "Alkaa pp.kk.vvvv"
     },
+    "delete": "Poista",
     "dropdown": {
       "buttonClear": "Tyhjennä"
     },
@@ -59,6 +60,7 @@
         "statusMessage_plural": "{{count}} vaihtoehtoa valittavissa, siirry nuolinäppäimillä ylös ja alas. Paina Enter-näppäintä valitaksesi."
       }
     },
+    "edit": "Muokkaa",
     "eventAmount": "{{count}} tapahtuma",
     "eventAmount_plural": "{{count}} tapahtumaa",
     "feedback": {
@@ -180,6 +182,10 @@
       "text3": "Seuraavat tapahtumat poistetaan:",
       "title": "Varmista tapahtuman poistaminen"
     },
+    "editEventTimeModal": {
+      "buttonSave": "Tallenna muutokset",
+      "title": "Muokkaa ajankohtaa"
+    },
     "eventStatus": {
       "eventCancelled": "Peruutettu",
       "eventPostponed": "Lykätty",
@@ -189,7 +195,7 @@
     "form": {
       "buttonAcceptAndPublish": "Hyväksy ja julkaise",
       "buttonActions": "Valinnat",
-      "buttonAddEventTime": "Lisää uusi ajankohta",
+      "buttonAddEventTime": "Lisää ajankohta",
       "buttonAddImage": {
         "course": "Lisää kurssin kuva",
         "event": "Lisää tapahtuman kuva"
@@ -442,6 +448,7 @@
         "course": "Kurssi alkaa",
         "event": "Tapahtuma alkaa"
       },
+      "labelTime": "Ajankohta",
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Kattotapahtuma",
       "labelVideoAltText": "Videon alt-teksti",
@@ -564,14 +571,20 @@
         "place": "Paikka",
         "price": "Hinta",
         "responsibilities": "Vastuut",
-        "time": "Aika",
+        "time": "Ajankohta",
         "type": "Tapahtumatyyppi",
         "video": "Video"
       },
+      "tabEventTime": "Tapahtuman ajankohta",
+      "tabRecurringEvent": "Toistuva tapahtuma",
       "titleAttendeeCapacity": "Osallistujamäärä",
       "titleAudience": "Kohderyhmät",
       "titleAudienceAge": "Ikärajoitukset",
       "titleEnrolmentTime": "Ilmoittautumisaika",
+      "titleEnterEventTime": {
+        "course":"Syötä kurssin ajankohta",
+        "event":"Syötä tapahtuman ajankohta"
+      },
       "titleEventType": "Valitse tapahtumatyyppi",
       "titleImage": {
         "course": "Kurssin kuva",
@@ -603,8 +616,6 @@
       "titlePrice": "Hinta",
       "titleRecurringEvent": "Toistuva tapahtuma",
       "titleRecurringEventRepeatDays": "Toistopäivät",
-      "titleRecurringEventRepeatInterval": "Toistoväli (intervalli)",
-      "titleRecurringEventStarts": "Aloitus",
       "titleSocialMedia": {
         "course": "Kurssi sosiaalisessa mediassa",
         "event": "Tapahtuma sosiaalisessa mediassa"

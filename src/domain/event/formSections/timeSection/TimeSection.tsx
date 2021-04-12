@@ -1,98 +1,76 @@
 import { useField } from 'formik';
-import { IconCalendarPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Button from '../../../../common/components/button/Button';
-import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import Modal from '../../../../common/components/modal/Modal';
-import Notification from '../../../../common/components/notification/Notification';
-import { EventFieldsFragment } from '../../../../generated/graphql';
+import TabPanel from '../../../../common/components/tabs/TabPanel';
+import Tabs from '../../../../common/components/tabs/Tabs';
+import pascalCase from '../../../../utils/pascalCase';
 import { EVENT_FIELDS } from '../../constants';
-import styles from '../../eventPage.module.scss';
-import FieldRow from '../../layout/FieldRow';
-import FieldWithButton from '../../layout/FieldWithButton';
-import { RecurringEventSettings } from '../../types';
-import EventTime from './EventTime';
-import EventTimes from './EventTimes';
-import RecurringEvents from './RecurringEvents';
-import RecurringEventsForm from './recurringEventsForm/RecurringEventsForm';
+import { EventTime, RecurringEventSettings } from '../../types';
+import EventTimeTab from './EventTimeTab';
+import RecurringEventTab from './RecurringEventTab';
 
-export interface TimeSectionProps {
-  savedEvent?: EventFieldsFragment;
+enum EVENT_TIME_TAB {
+  EVENT_TIME = 'EVENT_TIME',
+  RECURRING_EVENT = 'RECURRING_EVENT',
 }
 
-const TimeSection: React.FC<TimeSectionProps> = ({ savedEvent }) => {
+const TimeSection = () => {
   const { t } = useTranslation();
-  const [isModalOpen, setIsmodalOpen] = React.useState(false);
+
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);
+  const [{ value: eventTimes }, , { setValue: setEventTimes }] = useField<
+    EventTime[]
+  >(EVENT_FIELDS.EVENT_TIMES);
+
   const [
     { value: recurringEvents },
     ,
     { setValue: setRecurringEvents },
-  ] = useField(EVENT_FIELDS.RECURRING_EVENTS);
+  ] = useField<RecurringEventSettings[]>(EVENT_FIELDS.RECURRING_EVENTS);
 
-  const openModal = () => {
-    setIsmodalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsmodalOpen(false);
-  };
-
-  const addRecurringEventSettings = (values: RecurringEventSettings) => {
-    setRecurringEvents([...recurringEvents, values]);
-
-    closeModal();
-  };
+  const [activeTab, setActiveTab] = React.useState<EVENT_TIME_TAB>(
+    EVENT_TIME_TAB.EVENT_TIME
+  );
+  const tabOptions = React.useMemo(
+    () =>
+      [EVENT_TIME_TAB.EVENT_TIME, EVENT_TIME_TAB.RECURRING_EVENT].map((tab) => {
+        return {
+          label: t(`event.form.tab${pascalCase(tab)}`),
+          value: tab,
+        };
+      }),
+    [t]
+  );
 
   return (
-    <>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        shouldCloseOnEsc={false}
-        title={t(`event.form.modalTitleRecurringEvent.${type}`)}
+    <div>
+      <Tabs
+        name="event-time-tabs"
+        onChange={(tab) => setActiveTab(tab as EVENT_TIME_TAB)}
+        options={tabOptions}
+        activeTab={activeTab}
       >
-        <RecurringEventsForm onSubmit={addRecurringEventSettings} type={type} />
-      </Modal>
-      <h3>{t(`event.form.titleTime.${type}`)}</h3>
-
-      <FieldRow
-        notification={
-          <Notification
-            className={styles.notification}
-            label={t(`event.form.notificationTitleEventTimes.${type}`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextEventTimes1.${type}`)}</p>
-            <p>{t(`event.form.infoTextEventTimes2.${type}`)}</p>
-            <p>{t(`event.form.infoTextEventTimes3.${type}`)}</p>
-            <p>{t(`event.form.infoTextEventTimes4.${type}`)}</p>
-            <p>{t(`event.form.infoTextEventTimes5`)}</p>
-          </Notification>
-        }
-      >
-        <EventTime eventTimePath="" savedEvent={savedEvent} />
-        <FormGroup>
-          <EventTimes savedEvent={savedEvent} />
-        </FormGroup>
-
-        <RecurringEvents />
-        <FieldWithButton>
-          <Button
-            disabled={Boolean(savedEvent)}
-            fullWidth={true}
-            iconLeft={<IconCalendarPlus />}
-            onClick={openModal}
-            type="button"
-            variant="supplementary"
-          >
-            {t(`event.form.buttonOpenRecurringEventSettings.${type}`)}
-          </Button>
-        </FieldWithButton>
-      </FieldRow>
-    </>
+        <TabPanel isActive={activeTab === EVENT_TIME_TAB.EVENT_TIME}>
+          <EventTimeTab
+            eventTimes={eventTimes}
+            eventType={type}
+            recurringEvents={recurringEvents}
+            setEventTimes={setEventTimes}
+            setRecurringEvents={setRecurringEvents}
+          />
+        </TabPanel>
+        <TabPanel isActive={activeTab === EVENT_TIME_TAB.EVENT_TIME}>
+          <RecurringEventTab
+            eventTimes={eventTimes}
+            eventType={type}
+            recurringEvents={recurringEvents}
+            setEventTimes={setEventTimes}
+            setRecurringEvents={setRecurringEvents}
+          />
+        </TabPanel>
+      </Tabs>
+    </div>
   );
 };
 

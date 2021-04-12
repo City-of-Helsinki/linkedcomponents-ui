@@ -263,8 +263,13 @@ test('should focus to first main category checkbox if none main category is sele
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.description,
     },
-    endTime: new Date('2020-12-31T21:00:00.000Z'),
-    eventTimes: [],
+    eventTimes: [
+      {
+        endTime: new Date('2020-12-31T21:00:00.000Z'),
+        id: null,
+        startTime: new Date('2020-12-31T18:00:00.000Z'),
+      },
+    ],
     images: [imageAtId],
     imageDetails,
     isVerified: true,
@@ -278,7 +283,6 @@ test('should focus to first main category checkbox if none main category is sele
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.shortDescription,
     },
-    startTime: new Date('2020-12-31T18:00:00.000Z'),
   });
 
   const mocks: MockedResponse[] = [
@@ -341,10 +345,15 @@ test('should route to event completed page after publishing event', async () => 
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.description,
     },
-    endTime: new Date('2020-12-31T21:00:00.000Z'),
     eventTimes: [
       {
+        endTime: new Date('2020-12-31T21:00:00.000Z'),
+        id: null,
+        startTime: new Date('2020-12-31T18:00:00.000Z'),
+      },
+      {
         endTime: new Date('2021-01-03T21:00:00.000Z'),
+        id: null,
         startTime: new Date('2021-01-03T18:00:00.000Z'),
       },
     ],
@@ -361,7 +370,6 @@ test('should route to event completed page after publishing event', async () => 
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.shortDescription,
     },
-    startTime: new Date('2020-12-31T18:00:00.000Z'),
   });
 
   const mocks: MockedResponse[] = [

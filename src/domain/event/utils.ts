@@ -17,12 +17,10 @@ import subDays from 'date-fns/subDays';
 import { FormikErrors, FormikState, FormikTouched } from 'formik';
 import { TFunction } from 'i18next';
 import forEach from 'lodash/forEach';
-import isEqual from 'lodash/isEqual';
 import keys from 'lodash/keys';
 import reduce from 'lodash/reduce';
 import set from 'lodash/set';
 import sortBy from 'lodash/sortBy';
-import uniqWith from 'lodash/uniqWith';
 import { scroller } from 'react-scroll';
 import sanitize from 'sanitize-html';
 import * as Yup from 'yup';
@@ -86,6 +84,7 @@ import {
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
   EVENT_INITIAL_VALUES,
+  EVENT_TIME_FIELDS,
   EXTENSION_COURSE_FIELDS,
   IMAGE_ALT_TEXT_MIN_LENGTH,
   IMAGE_DETAILS_FIELDS,
@@ -183,26 +182,21 @@ const extensionCourseValidation = Yup.object().shape({
   ),
 });
 
-const createEventTimeValidation = (publicationStatus: PublicationStatus) => ({
+export const eventTimeValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.START_TIME]: Yup.date()
     .nullable()
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
       startTime ? isFuture(startTime) : true
-    )
-    .when([], (schema: Yup.DateSchema) => {
-      return publicationStatus === PublicationStatus.Draft
-        ? schema
-        : schema.required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED);
-    }),
+    ),
   [EVENT_FIELDS.END_TIME]: Yup.date()
     .nullable()
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .when([], (schema: Yup.DateSchema) => {
-      return publicationStatus === PublicationStatus.Draft
-        ? schema
-        : schema.required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED);
-    })
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
+      endTime ? isFuture(endTime) : true
+    )
     // test that startsTime is before endsTime
     .when(
       [EVENT_FIELDS.START_TIME],
@@ -305,12 +299,6 @@ export const eventValidationSchema = Yup.object().shape({
       .max(CHARACTER_LIMITS.LONG_STRING, (param) =>
         createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
       )
-  ),
-  ...createEventTimeValidation(PublicationStatus.Public),
-  [EVENT_FIELDS.EVENT_TIMES]: Yup.array().of(
-    Yup.object().shape({
-      ...createEventTimeValidation(PublicationStatus.Public),
-    })
   ),
   [EVENT_FIELDS.LOCATION]: Yup.string()
     .nullable()
@@ -418,12 +406,6 @@ export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().max(CHARACTER_LIMITS.LONG_STRING)
   ),
-  ...createEventTimeValidation(PublicationStatus.Draft),
-  [EVENT_FIELDS.EVENT_TIMES]: Yup.array().of(
-    Yup.object().shape({
-      ...createEventTimeValidation(PublicationStatus.Draft),
-    })
-  ),
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
   ),
@@ -473,94 +455,92 @@ export const draftEventValidationSchema = Yup.object().shape({
 export const isValidTime = (time: string) =>
   /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
 
-export const createRecurringEventValidationSchema = () => {
-  return Yup.object().shape({
-    [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
-      .nullable()
-      .min(1, (param) =>
-        createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-      )
-      .max(4, (param) =>
-        createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MAX)
-      )
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
-      .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-      .min(1, (param) =>
-        createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
-      ),
-    [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-      .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-      .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-        startTime ? isFuture(startTime) : true
-      ),
-    [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-      .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-      // test that startsTime is before endsTime
-      .when(
-        [RECURRING_EVENT_FIELDS.START_DATE],
-        (startDate: Date | null, schema: Yup.DateSchema) => {
-          if (startDate && isValid(startDate)) {
-            return schema.test(
-              'isBeforeStartDate',
-              () => ({
-                key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
-                after: formatDate(startDate, DATE_FORMAT),
-              }),
-              (endDate) => {
-                return endDate ? isBefore(startDate, endDate) : true;
-              }
-            );
-          }
-          return schema;
+export const recurringEventValidationSchema = Yup.object().shape({
+  [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
+    .nullable()
+    .min(1, (param) =>
+      createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+    )
+    .max(4, (param) =>
+      createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MAX)
+    )
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+  [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
+    .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
+    .min(1, (param) =>
+      createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
+    ),
+  [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
+      startTime ? isFuture(startTime) : true
+    ),
+  [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    // test that startsTime is before endsTime
+    .when(
+      [RECURRING_EVENT_FIELDS.START_DATE],
+      (startDate: Date | null, schema: Yup.DateSchema) => {
+        if (startDate && isValid(startDate)) {
+          return schema.test(
+            'isBeforeStartDate',
+            () => ({
+              key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
+              after: formatDate(startDate, DATE_FORMAT),
+            }),
+            (endDate) => {
+              return endDate ? isBefore(startDate, endDate) : true;
+            }
+          );
         }
-      ),
-    [RECURRING_EVENT_FIELDS.START_TIME]: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-      .test(
-        'isValidTime',
-        VALIDATION_MESSAGE_KEYS.TIME,
-        (value) => !!value && isValidTime(value)
-      ),
-    [RECURRING_EVENT_FIELDS.END_TIME]: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-      .test(
-        'isValidTime',
-        VALIDATION_MESSAGE_KEYS.TIME,
-        (value) => !!value && isValidTime(value)
-      )
-      // test that startsAt is before endsAt time
-      .when(
-        [RECURRING_EVENT_FIELDS.START_TIME],
-        (startsAt: string, schema: Yup.StringSchema) => {
-          if (isValidTime(startsAt)) {
-            return schema.test(
-              'isBeforeStartTime',
-              () => ({
-                key: VALIDATION_MESSAGE_KEYS.TIME_AFTER,
-                after: startsAt,
-              }),
-              (endsAt) => {
-                if (endsAt && isValidTime(endsAt)) {
-                  const modifiedStartsAt = startsAt.replace(':', '.');
-                  const modifiedEndsAt = endsAt.replace(':', '.');
+        return schema;
+      }
+    ),
+  [RECURRING_EVENT_FIELDS.START_TIME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .test(
+      'isValidTime',
+      VALIDATION_MESSAGE_KEYS.TIME,
+      (value) => !!value && isValidTime(value)
+    ),
+  [RECURRING_EVENT_FIELDS.END_TIME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .test(
+      'isValidTime',
+      VALIDATION_MESSAGE_KEYS.TIME,
+      (value) => !!value && isValidTime(value)
+    )
+    // test that startsAt is before endsAt time
+    .when(
+      [RECURRING_EVENT_FIELDS.START_TIME],
+      (startsAt: string, schema: Yup.StringSchema) => {
+        if (isValidTime(startsAt)) {
+          return schema.test(
+            'isBeforeStartTime',
+            () => ({
+              key: VALIDATION_MESSAGE_KEYS.TIME_AFTER,
+              after: startsAt,
+            }),
+            (endsAt) => {
+              if (endsAt && isValidTime(endsAt)) {
+                const modifiedStartsAt = startsAt.replace(':', '.');
+                const modifiedEndsAt = endsAt.replace(':', '.');
 
-                  return isBefore(
-                    parseDate(modifiedStartsAt, 'HH.mm', new Date()),
-                    parseDate(modifiedEndsAt, 'HH.mm', new Date())
-                  );
-                }
-                return true;
+                return isBefore(
+                  parseDate(modifiedStartsAt, 'HH.mm', new Date()),
+                  parseDate(modifiedEndsAt, 'HH.mm', new Date())
+                );
               }
-            );
-          }
-          return schema;
+              return true;
+            }
+          );
         }
-      ),
-  });
-};
+        return schema;
+      }
+    ),
+});
 
 export const createAddImageValidationSchema = () => {
   return Yup.object().shape(
@@ -633,8 +613,9 @@ export const sortLanguage = (a: LELanguage, b: LELanguage) =>
 
 export const getEmptyEventTime = (): EventTime => {
   return {
-    [EVENT_FIELDS.END_TIME]: null,
-    [EVENT_FIELDS.START_TIME]: null,
+    [EVENT_TIME_FIELDS.ID]: null,
+    [EVENT_TIME_FIELDS.END_TIME]: null,
+    [EVENT_TIME_FIELDS.START_TIME]: null,
   };
 };
 
@@ -776,6 +757,7 @@ export const generateEventTimesFromRecurringEvent = (
           })
         ) {
           eventTimes.push({
+            id: null,
             endTime: setMinutes(
               setHours(matchWeekday, formattedEndTime.hours),
               formattedEndTime.minutes
@@ -821,29 +803,23 @@ export const calculateSuperEventTime = (eventTimes: EventTime[]): EventTime => {
     : undefined;
 
   return {
+    id: null,
     startTime: superEventStartTime || null,
     endTime: superEventEndTime || null,
   };
 };
 
 export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
-  const { endTime, eventTimes, recurringEvents, startTime } = formValues;
+  const { eventTimes, recurringEvents } = formValues;
   const allEventTimes: EventTime[] = [];
 
-  /* istanbul ignore else  */
-  if (endTime || startTime) {
-    allEventTimes.push({ endTime, startTime });
-  }
-
-  allEventTimes.push(
-    ...eventTimes.filter(({ endTime, startTime }) => endTime || startTime)
-  );
+  allEventTimes.push(...eventTimes);
 
   recurringEvents.forEach((settings) =>
-    allEventTimes.push(...generateEventTimesFromRecurringEvent(settings))
+    allEventTimes.push(...settings.eventTimes)
   );
 
-  return sortBy(uniqWith(allEventTimes, isEqual), 'startTime');
+  return sortBy(allEventTimes, 'startTime');
 };
 
 export const filterUnselectedLanguages = (
@@ -964,7 +940,7 @@ export const getEventPayload = (
     { field: EXTLINK.EXTLINK_TWITTER, value: twitterUrl },
   ];
 
-  const uniqEventTimes = getEventTimes(formValues);
+  const eventTimes = getEventTimes(formValues);
 
   const basePayload: CreateEventMutationInput = {
     publicationStatus,
@@ -1018,12 +994,12 @@ export const getEventPayload = (
     ),
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : undefined,
     superEventType:
-      isUmbrella && uniqEventTimes.length <= 1 ? SuperEventType.Umbrella : null,
+      isUmbrella && eventTimes.length <= 1 ? SuperEventType.Umbrella : null,
     videos: videos.filter((video) => video.altText || video.name || video.url),
   };
 
-  if (uniqEventTimes.length > 1) {
-    const payload: CreateEventMutationInput[] = uniqEventTimes.map((time) => ({
+  if (eventTimes.length > 1) {
+    const payload: CreateEventMutationInput[] = eventTimes.map((time) => ({
       ...basePayload,
       ...(time.endTime
         ? { endTime: new Date(time.endTime).toISOString() }
@@ -1053,6 +1029,7 @@ export const getRecurringEventPayload = (
 ) => {
   const superEventTime = calculateSuperEventTime(
     basePayload.map(({ startTime, endTime }) => ({
+      id: null,
       endTime: endTime ? new Date(endTime) : null,
       startTime: startTime ? new Date(startTime) : null,
     }))

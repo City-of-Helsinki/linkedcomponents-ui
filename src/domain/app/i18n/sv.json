@@ -11,7 +11,7 @@
     "add": "Lägg till",
     "and": "och",
     "at": "kl {{time}}",
-    "betweenDates": "Mellan {{startDate}} och {{endDate}}",
+    "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lägg till ett ny evenemang",
     "cancel": "Ångra",
@@ -48,6 +48,7 @@
       "placeholderEndDate": "Avslutar dd.mm.åååå",
       "placeholderStartDate": "Börjar dd.mm.åååå"
     },
+    "delete": "Radera",
     "dropdown": {
       "buttonClear": "Klar"
     },
@@ -59,6 +60,7 @@
         "statusMessage_plural": "{{count}} alternativ är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja."
       }
     },
+    "edit": "Redigera",
     "eventAmount": "{{count}} evenemang",
     "eventAmount_plural": "{{count}} evenemang",
     "feedback": {
@@ -180,6 +182,10 @@
       "text3": "Följande evenemangen kommer att radera:",
       "title": "Radera evenemang"
     },
+    "editEventTimeModal": {
+      "buttonSave": "Spara ändringarna",
+      "title": "Redigera tiden"
+    },
     "eventStatus": {
       "eventCancelled": "Inställt",
       "eventPostponed": "Uppskjuten",
@@ -189,7 +195,7 @@
     "form": {
       "buttonAcceptAndPublish": "Acceptera och publicera",
       "buttonActions": "Åtgärder",
-      "buttonAddEventTime": "Lägg till ny tid",
+      "buttonAddEventTime": "Lägg till ett tid",
       "buttonAddImage": {
         "course": "Lägg till en bild av kursen",
         "event": "Lägg till en bild av evenemanget"
@@ -442,6 +448,7 @@
         "course": "Kurs startar",
         "event": "Evenemang startar"
       },
+      "labelTime": "Tid",
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Paraplyevenemang",
       "labelVideoAltText": "Video alt text",
@@ -572,6 +579,10 @@
       "titleAudience": "Målgrupper",
       "titleAudienceAge": "Åldersbegränsningar",
       "titleEnrolmentTime": "Registreringstid",
+      "titleEnterEventTime": {
+        "course":"Ange tidpunkten för kursen",
+        "event":"Ange tidpunkten för evenemanget"
+      },
       "titleEventType": "Välj en evenemangtyp",
       "titleImage": {
         "course": "Kursbild",
@@ -603,8 +614,6 @@
       "titlePrice": "Pris",
       "titleRecurringEvent": "Återkommande evenemang",
       "titleRecurringEventRepeatDays": "Uppspelningsdagar",
-      "titleRecurringEventRepeatInterval": "Uppspelningsintervall",
-      "titleRecurringEventStarts": "Början",
       "titleSocialMedia": {
         "course": "Kurs på sociala medier",
         "event": "Evenemang pä sociala medier"

@@ -7,6 +7,7 @@ import {
   ADD_IMAGE_FIELDS,
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
+  EVENT_TIME_FIELDS,
   EXTENSION_COURSE_FIELDS,
   IMAGE_DETAILS_FIELDS,
   RECURRING_EVENT_FIELDS,
@@ -96,9 +97,12 @@ export type ExtensionCourse = {
   [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
 };
 
+export type EVENT_TIME_FIELS = {};
+
 export type EventTime = {
   [EVENT_FIELDS.END_TIME]: Date | null;
-  [EVENT_FIELDS.START_TIME]: Date | null;
+  [EVENT_TIME_FIELDS.ID]: string | null;
+  [EVENT_TIME_FIELDS.START_TIME]: Date | null;
 };
 
 export type ImageDetails = {
@@ -123,6 +127,7 @@ export type Offer = {
 export type RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.END_DATE]: Date | string | null;
   [RECURRING_EVENT_FIELDS.END_TIME]: string;
+  [RECURRING_EVENT_FIELDS.EVENT_TIMES]: EventTime[];
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: string[];
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: number;
   [RECURRING_EVENT_FIELDS.START_DATE]: Date | string | null;

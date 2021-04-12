@@ -21,6 +21,7 @@ import {
 export enum RECURRING_EVENT_FIELDS {
   END_DATE = 'endDate',
   END_TIME = 'endTime',
+  EVENT_TIMES = 'eventTimes',
   REPEAT_DAYS = 'repeatDays',
   REPEAT_INTERVAL = 'repeatInterval',
   START_DATE = 'startDate',
@@ -50,6 +51,12 @@ export enum EXTENSION_COURSE_FIELDS {
   ENROLMENT_START_TIME = 'enrolmentStartTime',
   MAXIMUM_ATTENDEE_CAPACITY = 'maximumAttendeeCapacity',
   MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
+}
+
+export enum EVENT_TIME_FIELDS {
+  END_TIME = 'endTime',
+  ID = 'id',
+  START_TIME = 'startTime',
 }
 
 export enum EVENT_FIELDS {
@@ -125,6 +132,7 @@ export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
 export const RECURRING_EVENT_INITIAL_VALUES: RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.END_DATE]: null,
   [RECURRING_EVENT_FIELDS.END_TIME]: '',
+  [RECURRING_EVENT_FIELDS.EVENT_TIMES]: [],
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: [],
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: 1,
   [RECURRING_EVENT_FIELDS.START_DATE]: null,

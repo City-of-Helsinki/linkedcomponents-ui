@@ -48,9 +48,10 @@ const Collabsible: React.FC<Props> = ({
           aria-expanded={isOpen}
           aria-controls={collapsiblePanelId}
           onClick={togglePanel}
+          type="button"
         >
           {isOpen ? <IconAngleUp size="m" /> : <IconAngleDown size="m" />}
-          {title}
+          <span>{title}</span>
         </button>
       </div>
       <div

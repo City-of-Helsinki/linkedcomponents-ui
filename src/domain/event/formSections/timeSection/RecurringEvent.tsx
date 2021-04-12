@@ -6,20 +6,27 @@ import Collapsible from '../../../../common/components/collapsible/Collapsible';
 import DeleteButton from '../../../../common/components/deleteButton/DeleteButton';
 import { DATE_FORMAT } from '../../../../constants';
 import FieldWithButton from '../../layout/FieldWithButton';
-import { RecurringEventSettings } from '../../types';
+import { EventTime, RecurringEventSettings } from '../../types';
 import { sortWeekDays } from '../../utils';
-import styles from './recurringEvent.module.scss';
+import EventTimesTable from './EventTimesTable';
+import styles from './timeSection.module.scss';
 
 type Props = {
-  onDelete?: () => void;
+  eventType: string;
+  index: number;
+  onDelete: (index: number) => void;
+  onUpdateEventTimes: (index: number, eventTimes: EventTime[]) => void;
   recurringEvent: RecurringEventSettings;
-  type: string;
+  startIndex: number;
 };
 
 const RecurringEvent: React.FC<Props> = ({
+  eventType,
+  index,
   onDelete,
+  onUpdateEventTimes,
   recurringEvent,
-  type,
+  startIndex,
 }) => {
   const startDate =
     typeof recurringEvent.startDate === 'string'
@@ -32,7 +39,6 @@ const RecurringEvent: React.FC<Props> = ({
   const { t } = useTranslation();
   const sortedRepeatDays = [...recurringEvent.repeatDays].sort(sortWeekDays);
 
-  const weekDays = sortedRepeatDays.map((day) => t(`form.weekDay.${day}`));
   const weekDayAbbreviations = sortedRepeatDays.map((day) =>
     t(`form.weekDayAbbreviation.${day}`)
   );
@@ -44,81 +50,41 @@ const RecurringEvent: React.FC<Props> = ({
         }`
       : days.join('');
 
-  const weekDaysText = getWeekDaysText(weekDays);
-
   const weekDayAbbreviationsText = getWeekDaysText(weekDayAbbreviations);
 
   const title = [
-    [
-      t(`event.form.recurringEvent.textRepeatInterval`, {
-        count: recurringEvent.repeatInterval,
-      }),
-      weekDayAbbreviationsText,
-    ].join(' '),
+    weekDayAbbreviationsText,
+    t(`event.form.recurringEvent.textRepeatInterval`, {
+      count: recurringEvent.repeatInterval,
+    }),
     t('common.betweenDates', {
       startDate: startDate && formatDate(startDate, DATE_FORMAT),
       endDate: endDate && formatDate(endDate, DATE_FORMAT),
     }),
-    t('common.betweenTimes', {
-      startTime: recurringEvent.startTime,
-      endTime: recurringEvent.endTime,
-    }),
   ].join(', ');
-
-  const tableRows = [
-    {
-      label: t(`event.form.recurringEvent.labelRepeatInterval.${type}`),
-      text: t(`event.form.recurringEvent.textRepeatInterval`, {
-        count: recurringEvent.repeatInterval,
-      }),
-    },
-    {
-      label: t(`event.form.recurringEvent.labelRepeatDays`),
-      text: weekDaysText,
-    },
-    {
-      label: t(`event.form.recurringEvent.labelStartTime.${type}`),
-      text: t(`common.at`, { time: recurringEvent.startTime }),
-    },
-    {
-      label: t(`event.form.recurringEvent.labelEndTime.${type}`),
-      text: t(`common.at`, { time: recurringEvent.endTime }),
-    },
-    {
-      label: t(`event.form.recurringEvent.labelStartDate`),
-      text: startDate && formatDate(startDate, DATE_FORMAT),
-    },
-    {
-      label: t(`event.form.recurringEvent.labelEndDate`),
-      text: endDate && formatDate(endDate, DATE_FORMAT),
-    },
-  ];
 
   return (
     <FieldWithButton
       hasLabel={false}
       button={
-        onDelete && (
-          <DeleteButton
-            label={t('event.form.buttonDeleteRecurringEvent')}
-            onClick={onDelete}
-          />
-        )
+        <DeleteButton
+          ariaLabel={t('event.form.buttonDeleteRecurringEvent')}
+          className={styles.deleteButton}
+          onClick={() => {
+            onDelete(index);
+          }}
+        />
       }
     >
       <Collapsible headingLevel={3} title={title}>
-        <table className={styles.recurringEventTable}>
-          <tbody>
-            {tableRows.map((row, index) => (
-              <tr key={index}>
-                <th>
-                  <div>{row.label}</div>
-                </th>
-                <td>{row.text}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <EventTimesTable
+          eventTimes={recurringEvent.eventTimes}
+          eventType={eventType}
+          setEventTimes={(eventTimes: EventTime[]) => {
+            onUpdateEventTimes(index, eventTimes);
+          }}
+          startIndex={startIndex}
+        />
       </Collapsible>
     </FieldWithButton>
   );

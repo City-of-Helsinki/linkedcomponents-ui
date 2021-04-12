@@ -1,50 +1,66 @@
-import { FieldArray, useField } from 'formik';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import { EVENT_FIELDS } from '../../constants';
-import { RecurringEventSettings } from '../../types';
+import { EventTime, RecurringEventSettings } from '../../types';
 import RecurringEvent from './RecurringEvent';
 
-const RecurringEvents = () => {
-  const { t } = useTranslation();
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
+export interface RecurringEventsProps {
+  eventType: string;
+  recurringEvents: RecurringEventSettings[];
+  setRecurringEvents: (recurringEvenst: RecurringEventSettings[]) => void;
+}
 
-  const [{ value: recurringEvents }] = useField({
-    name: EVENT_FIELDS.RECURRING_EVENTS,
-  });
+const RecurringEvents: React.FC<RecurringEventsProps> = ({
+  eventType,
+  recurringEvents,
+  setRecurringEvents,
+}) => {
+  const handleDelete = (index: number) => {
+    setRecurringEvents(
+      recurringEvents.filter(
+        (recurringEvent, recurringEventIndex) => recurringEventIndex !== index
+      )
+    );
+  };
+
+  const handleUpdateEventTimes = (index: number, eventTimes: EventTime[]) => {
+    setRecurringEvents(
+      recurringEvents.map((recurringEvent, recurringEventIndex) =>
+        recurringEventIndex !== index
+          ? recurringEvent
+          : { ...recurringEvent, eventTimes }
+      )
+    );
+  };
+
+  const getStartIndex = (index: number) => {
+    let startIndex = 1;
+    recurringEvents.slice(0, index).forEach((recurringEvent) => {
+      startIndex = startIndex + recurringEvent.eventTimes.length;
+    });
+    return startIndex;
+  };
 
   return (
-    <FieldArray
-      name={EVENT_FIELDS.RECURRING_EVENTS}
-      render={(arrayHelpers) => (
-        <>
-          {!!recurringEvents.length && (
-            <h3>{t('event.form.titleRecurringEvent')}</h3>
-          )}
-
-          {recurringEvents.map(
-            (settings: RecurringEventSettings, index: number) => {
-              return (
-                <FormGroup key={index}>
-                  <RecurringEvent
-                    key={index}
-                    onDelete={() => {
-                      arrayHelpers.remove(index);
-                    }}
-                    recurringEvent={settings}
-                    type={type}
-                  />
-                </FormGroup>
-              );
-            }
-          )}
-        </>
+    <>
+      {recurringEvents.map(
+        (recurringEvent: RecurringEventSettings, index: number) => {
+          return (
+            <FormGroup key={index}>
+              <RecurringEvent
+                key={index}
+                eventType={eventType}
+                index={index}
+                onDelete={handleDelete}
+                onUpdateEventTimes={handleUpdateEventTimes}
+                recurringEvent={recurringEvent}
+                startIndex={getStartIndex(index)}
+              />
+            </FormGroup>
+          );
+        }
       )}
-    />
+    </>
   );
 };
 

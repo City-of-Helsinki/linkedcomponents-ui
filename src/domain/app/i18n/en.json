@@ -11,7 +11,7 @@
     "add": "Add",
     "and": "and",
     "at": "at {{time}}",
-    "betweenDates": "Between {{startDate}} and {{endDate}}",
+    "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Add new event",
     "cancel": "Undo",
@@ -48,6 +48,7 @@
       "placeholderEndDate": "Ends dd.mm.yyyy",
       "placeholderStartDate": "Starts dd.mm.yyyy"
     },
+    "delete": "Delete",
     "dropdown": {
       "buttonClear": "Clear"
     },
@@ -59,6 +60,7 @@
         "statusMessage_plural": "{{count}} options are available, use up and down arrow keys to navigate. Press Enter key to select."
       }
     },
+    "edit": "Edit",
     "eventAmount": "{{count}} event",
     "eventAmount_plural": "{{count}} events",
     "feedback": {
@@ -180,6 +182,10 @@
       "text3": "The following events will be deleted:",
       "title": "Delete event"
     },
+    "editEventTimeModal": {
+      "buttonSave": "Save changes",
+      "title": "Edit time"
+    },
     "eventStatus": {
       "eventCancelled": "Cancelled",
       "eventPostponed": "Postponed",
@@ -189,7 +195,7 @@
     "form": {
       "buttonAcceptAndPublish": "Accept and publish",
       "buttonActions": "Actions",
-      "buttonAddEventTime": "Add new time",
+      "buttonAddEventTime": "Add time",
       "buttonAddImage": {
         "course": "Add a photo of the course",
         "event": "Add a photo of the event"
@@ -442,6 +448,7 @@
         "course": "Course starts",
         "event": "Event starts"
       },
+      "labelTime": "Time",
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Umbrella event",
       "labelVideoAltText": "Video alt text",
@@ -569,10 +576,16 @@
         "type": "Event type",
         "video": "Video"
       },
+      "tabEventTime": "Event time",
+      "tabRecurringEvent": "Recurring event",
       "titleAttendeeCapacity": "Attendee capacity",
       "titleAudience": "Target groups",
       "titleAudienceAge": "Age restrictions",
       "titleEnrolmentTime": "Registration time",
+      "titleEnterEventTime": {
+        "course":"Enter the time of the course",
+        "event":"Enter the time of the event"
+      },
       "titleEventType": "Select event type",
       "titleImage": {
         "course": "Course image",
@@ -604,8 +617,6 @@
       "titlePrice": "Price",
       "titleRecurringEvent": "Recurring event",
       "titleRecurringEventRepeatDays": "Repeat days",
-      "titleRecurringEventRepeatInterval": "Repeat interval",
-      "titleRecurringEventStarts": "Start",
       "titleSocialMedia": {
         "course": "Course on social media",
         "event": "Event on social media"

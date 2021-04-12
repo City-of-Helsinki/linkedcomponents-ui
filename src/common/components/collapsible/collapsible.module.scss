@@ -1,17 +1,20 @@
+@import 'mixins';
+
 .collapsible {
   --border-radius: 0px;
   --border-width: 2px;
-  --heading-background-color: var(--color-white);
-  --heading-border-color: var(--color-bus);
-  --heading-color: var(--color-bus);
-  --heading-background-color-expanded: var(--color-bus);
-  --heading-border-color-expanded: var(--color-bus);
-  --heading-color-expanded: var(--color-white);
-  --heading-background-color-expanded-hover: var(--color-bus-dark);
-  --heading-border-color-expanded-hover: var(--color-bus-dark);
-  --heading-color-expanded-hover: var(--color-white);
+  --heading-background-color: var(--color-bus);
   --heading-background-color-hover: var(--color-bus-light);
+  --heading-background-color-expanded: var(--color-bus);
+  --heading-background-color-expanded-hover: var(--color-bus-dark);
+  --heading-border-color: var(--color-bus);
+  --heading-border-color-hover: var(--color-bus-dark);
+  --heading-border-color-expanded: var(--color-bus);
+  --heading-border-color-expanded-hover: var(--color-bus-dark);
+  --heading-color: var(--color-white);
   --heading-color-hover: var(--color-bus-dark);
+  --heading-color-expanded: var(--color-white);
+  --heading-color-expanded-hover: var(--color-white);
 }
 
 .button {
@@ -21,7 +24,7 @@
   box-sizing: border-box;
   color: var(--heading-color);
   font-size: var(--fontsize-heading-xs);
-  min-height: var(--input-height);
+  min-height: var(--spacing-4-xl);
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: var(--spacing-s);
@@ -30,10 +33,19 @@
   width: 100%;
   cursor: pointer;
 
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &:hover {
     background-color: var(--heading-background-color-hover);
-    border-radius: var(--border-radius-hover);
+    border-color: var(--heading-border-color-hover);
+    color: var(--heading-color-hover);
   }
+
+  @include focus-outline(2px);
 }
 
 .expanded {
