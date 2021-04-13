@@ -11,17 +11,19 @@ import {
   PublicationStatus,
   SuperEventType,
   UpdateEventMutationInput,
+  useCreateEventsMutation,
   useDeleteEventMutation,
   useUpdateEventsMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector } from '../../auth/selectors';
-import { clearEventQuery } from '../../events/utils';
+import { clearEventQuery, clearEventsQueries } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
-import { EventFormFields } from '../types';
+import { EventFormFields, EventTime } from '../types';
 import {
+  calculateSuperEventTime,
   checkIsEditActionAllowed,
   getEventFields,
   getEventInitialValues,
@@ -57,6 +59,7 @@ const useEventUpdateActions = ({ event }: Props) => {
   const [openModal, setOpenModal] = React.useState<MODALS | null>(null);
   const [saving, setSaving] = React.useState<MODALS | null>(null);
 
+  const [createEventsMutation] = useCreateEventsMutation();
   const [deleteEventMutation] = useDeleteEventMutation();
   const [updateEventsMutation] = useUpdateEventsMutation();
   const { updateImageIfNeeded } = useUpdateImageIfNeeded();
@@ -65,13 +68,12 @@ const useEventUpdateActions = ({ event }: Props) => {
     setOpenModal(null);
   };
 
-  const updateEvents = async (payload: UpdateEventMutationInput[]) => {
-    await updateEventsMutation({
+  const updateEvents = (payload: UpdateEventMutationInput[]) =>
+    updateEventsMutation({
       variables: {
         input: payload,
       },
     });
-  };
 
   const getEditableEvents = async (
     events: EventFieldsFragment[],
@@ -261,29 +263,113 @@ const useEventUpdateActions = ({ event }: Props) => {
 
       await updateImageIfNeeded(values);
 
-      const basePayload = getEventPayload(values, publicationStatus);
-      payload = [{ ...basePayload, id }];
+      const basePayload = getEventPayload(
+        {
+          ...values,
+          events: [],
+          eventTimes:
+            superEventType === SuperEventType.Recurring
+              ? []
+              : [values.events[0]].filter((e) => e),
+          recurringEvents: [],
+        },
+        publicationStatus
+      );
 
       if (superEventType === SuperEventType.Recurring) {
-        payload[0].superEventType = SuperEventType.Recurring;
-        payload.push(
-          ...subEvents
-            // Editing cancelled events is not allowed so filter them out to avoid server error
-            .filter(
-              (subEvents) =>
-                subEvents?.eventStatus !== EventStatus.EventCancelled
-            )
-            .map((subEvent) => ({
+        const subEventIds: string[] = [];
+
+        // Delete sub-events
+        const eventsToDelete = subEvents
+          .filter(
+            (subEvent) =>
+              !values.events.map((event) => event.id).includes(subEvent.id)
+          )
+          .map((event) => event.id);
+
+        for (const id of eventsToDelete) {
+          await deleteEventMutation({ variables: { id } });
+        }
+
+        // Update existing sub-events
+        const subEventsPayload: UpdateEventMutationInput[] = subEvents
+          .filter((subEvent) => !eventsToDelete.includes(subEvent.id))
+          .map((subEvent) => {
+            const eventTime = values.events.find(
+              (eventTime) => eventTime.id === subEvent.id
+            );
+            return {
               ...basePayload,
               id: subEvent?.id as string,
-              startTime: subEvent?.startTime,
-              endTime: subEvent?.endTime,
+              startTime: eventTime?.startTime?.toISOString() ?? null,
+              endTime: eventTime?.endTime?.toISOString() ?? null,
               superEvent: { atId },
               superEventType: subEvent?.superEventType,
-            }))
-        );
-      }
+            };
+          });
 
+        if (subEventsPayload.length) {
+          const subEventsData = await updateEvents(subEventsPayload);
+
+          if (subEventsData.data?.updateEvents.length) {
+            subEventIds.push(
+              ...subEventsData.data?.updateEvents.map(
+                (item) => item.atId as string
+              )
+            );
+          }
+        }
+
+        // Create new sub-events
+        const newEventTimes: EventTime[] = [...values.eventTimes];
+        values.recurringEvents.forEach((recurringEvent) => {
+          newEventTimes.push(...recurringEvent.eventTimes);
+        });
+
+        if (newEventTimes.length) {
+          const newSubEventsPayload = newEventTimes.map((eventTime) => {
+            return {
+              ...basePayload,
+              startTime: eventTime?.startTime?.toISOString() ?? null,
+              endTime: eventTime?.endTime?.toISOString() ?? null,
+              superEvent: { atId },
+              superEventType: null,
+            };
+          });
+
+          const newSubEventsData = await createEventsMutation({
+            variables: { input: newSubEventsPayload },
+          });
+
+          if (newSubEventsData.data?.createEvents.length) {
+            subEventIds.push(
+              ...newSubEventsData.data.createEvents.map(
+                (item) => item.atId as string
+              )
+            );
+          }
+        }
+
+        // Get payload to update recurring event
+        const superEventTime = calculateSuperEventTime([
+          ...values.events,
+          ...newEventTimes,
+        ]);
+
+        payload = [
+          {
+            ...basePayload,
+
+            endTime: superEventTime.endTime?.toISOString(),
+            id,
+            startTime: superEventTime.startTime?.toISOString(),
+            subEvents: subEventIds.map((atId) => ({ atId: atId })),
+            superEventType: SuperEventType.Recurring,
+          },
+        ];
+      } else {
+        payload = [{ ...basePayload, id }];
+      }
       await updateEvents(payload);
 
       // Call callback function if defined
@@ -291,6 +377,10 @@ const useEventUpdateActions = ({ event }: Props) => {
 
       closeModal();
       setSaving(null);
+
+      if (superEventType === SuperEventType.Recurring) {
+        clearEventsQueries(apolloClient);
+      }
     } catch (error) /* istanbul ignore next */ {
       setSaving(null);
       // Report error to Sentry

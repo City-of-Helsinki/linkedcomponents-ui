@@ -11,6 +11,10 @@ import TimepickerField from '../../../../common/components/formFields/Timepicker
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import { WEEK_DAY } from '../../../../constants';
 import {
+  EventFieldsFragment,
+  SuperEventType,
+} from '../../../../generated/graphql';
+import {
   RECURRING_EVENT_FIELDS,
   RECURRING_EVENT_INITIAL_VALUES,
 } from '../../constants';
@@ -25,10 +29,19 @@ import { sortEventTimes } from './utils';
 interface Props {
   eventType: string;
   onSubmit: (values: RecurringEventSettings) => void;
+  savedEvent?: EventFieldsFragment;
 }
 
-const AddRecurringEventForm: React.FC<Props> = ({ eventType, onSubmit }) => {
+const AddRecurringEventForm: React.FC<Props> = ({
+  eventType,
+  onSubmit,
+  savedEvent,
+}) => {
   const { t } = useTranslation();
+
+  const disabled =
+    savedEvent && savedEvent.superEventType !== SuperEventType.Recurring;
+
   const weekDayOptions = Object.values(WEEK_DAY).map((weekday) => ({
     label: t(`form.weekDayAbbreviation.${weekday}`),
     value: weekday,
@@ -60,6 +73,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ eventType, onSubmit }) => {
                 <div>
                   <FastField
                     component={NumberInputField}
+                    disabled={disabled}
                     helperText={t(
                       `event.form.helperRecurringEventRepeatInterval`
                     )}
@@ -80,6 +94,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ eventType, onSubmit }) => {
               <FastField
                 component={CheckboxGroupField}
                 columns={4}
+                disabled={disabled}
                 name={RECURRING_EVENT_FIELDS.REPEAT_DAYS}
                 options={weekDayOptions}
               />
@@ -87,6 +102,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ eventType, onSubmit }) => {
             <FormGroup>
               <FastField
                 component={DatepickerField}
+                disabled={disabled}
                 name={RECURRING_EVENT_FIELDS.START_DATE}
                 label={t('event.form.labelRecurringEventStartDate')}
                 placeholder={t('common.placeholderDate')}
@@ -97,6 +113,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ eventType, onSubmit }) => {
             <FormGroup>
               <FastField
                 component={DatepickerField}
+                disabled={disabled}
                 name={RECURRING_EVENT_FIELDS.END_DATE}
                 label={t('event.form.labelRecurringEventEndDate')}
                 placeholder={t('common.placeholderDate')}
@@ -109,6 +126,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ eventType, onSubmit }) => {
                 <div>
                   <FastField
                     component={TimepickerField}
+                    disabled={disabled}
                     name={RECURRING_EVENT_FIELDS.START_TIME}
                     label={t(
                       `event.form.labelRecurringEventStartTime.${eventType}`
@@ -120,6 +138,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ eventType, onSubmit }) => {
                 <div>
                   <FastField
                     component={TimepickerField}
+                    disabled={disabled}
                     name={RECURRING_EVENT_FIELDS.END_TIME}
                     label={t(
                       `event.form.labelRecurringEventEndTime.${eventType}`
@@ -132,7 +151,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ eventType, onSubmit }) => {
             </FormGroup>
             <FormGroup className={styles.buttonWrapper}>
               <Button
-                disabled={!isValid}
+                disabled={disabled || !isValid}
                 fullWidth={true}
                 iconLeft={<IconPlus aria-hidden={true} />}
                 onClick={() => handleSubmit()}

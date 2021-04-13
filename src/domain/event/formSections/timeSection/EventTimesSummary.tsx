@@ -1,27 +1,36 @@
 import React from 'react';
 
+import { EventFieldsFragment } from '../../../../generated/graphql';
 import FieldColumn from '../../layout/FieldColumn';
 import { EventTime, RecurringEventSettings } from '../../types';
 import EventTimesTable from './EventTimesTable';
 import RecurringEvents from './RecurringEvents';
+import SavedEvents from './SavedEvents';
 import styles from './timeSection.module.scss';
 
 export interface EventTimesSummaryProps {
+  events: EventTime[];
   eventTimes: EventTime[];
   eventType: string;
   recurringEvents: RecurringEventSettings[];
+  savedEvent?: EventFieldsFragment;
+  setEvents: (eventTimes: EventTime[]) => void;
   setEventTimes: (eventTimes: EventTime[]) => void;
   setRecurringEvents: (recurringEvents: RecurringEventSettings[]) => void;
 }
 
 const EventTimesSummary: React.FC<EventTimesSummaryProps> = ({
+  events,
   eventTimes,
   eventType,
   recurringEvents,
+  savedEvent,
+  setEvents,
   setEventTimes,
   setRecurringEvents,
 }) => {
-  const isVisible = eventTimes.length || recurringEvents.length;
+  const isVisible =
+    events.length || eventTimes.length || recurringEvents.length;
 
   if (!isVisible) {
     return null;
@@ -37,7 +46,16 @@ const EventTimesSummary: React.FC<EventTimesSummaryProps> = ({
 
   return (
     <div>
-      <div className={styles.divider} />
+      <FieldColumn>
+        <div className={styles.divider} />
+        <SavedEvents
+          events={events}
+          eventType={eventType}
+          savedEvent={savedEvent}
+          setEvents={setEvents}
+        />
+      </FieldColumn>
+
       <RecurringEvents
         eventType={eventType}
         recurringEvents={recurringEvents}

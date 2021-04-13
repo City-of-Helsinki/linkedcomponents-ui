@@ -48,7 +48,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: number | '';
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: number | '';
   [EVENT_FIELDS.DESCRIPTION]: MultiLanguageObject;
-  [EVENT_FIELDS.END_TIME]: Date | null;
+  [EVENT_FIELDS.EVENTS]: EventTime[];
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: string[];
   [EVENT_FIELDS.EVENT_TIMES]: EventTime[];
   [EVENT_FIELDS.EXTENSION_COURSE]: ExtensionCourse;
@@ -73,8 +73,9 @@ export type EventFormFields = {
   [EVENT_FIELDS.PROVIDER]: MultiLanguageObject;
   [EVENT_FIELDS.PUBLISHER]: string;
   [EVENT_FIELDS.RECURRING_EVENTS]: RecurringEventSettings[];
+  [EVENT_FIELDS.RECURRING_EVENT_END_TIME]: Date | null;
+  [EVENT_FIELDS.RECURRING_EVENT_START_TIME]: Date | null;
   [EVENT_FIELDS.SHORT_DESCRIPTION]: MultiLanguageObject;
-  [EVENT_FIELDS.START_TIME]: Date | null;
   [EVENT_FIELDS.SUPER_EVENT]: string | null;
   [EVENT_FIELDS.TYPE]: string;
   [EVENT_FIELDS.TWITTER_URL]: string;
@@ -100,7 +101,7 @@ export type ExtensionCourse = {
 export type EVENT_TIME_FIELS = {};
 
 export type EventTime = {
-  [EVENT_FIELDS.END_TIME]: Date | null;
+  [EVENT_TIME_FIELDS.END_TIME]: Date | null;
   [EVENT_TIME_FIELDS.ID]: string | null;
   [EVENT_TIME_FIELDS.START_TIME]: Date | null;
 };

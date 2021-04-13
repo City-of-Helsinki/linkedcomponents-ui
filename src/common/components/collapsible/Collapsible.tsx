@@ -10,17 +10,19 @@ import styles from './collapsible.module.scss';
 const generateUniqueId = (prefix: string) => `${prefix}-${uniqueId()}`;
 
 type Props = {
+  defaultOpen?: boolean;
   headingLevel?: number;
   title: string;
 };
 
 const Collabsible: React.FC<Props> = ({
   children,
+  defaultOpen = false,
   headingLevel = 3,
   title,
 }) => {
   const { theme } = useTheme();
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(defaultOpen);
 
   const collapsibleHeadingId = React.useMemo(
     () => generateUniqueId('collapsible-heading'),

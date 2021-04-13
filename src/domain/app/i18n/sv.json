@@ -749,6 +749,7 @@
         "required": "Detta fält krävs"
       },
       "eventInfoVerified": "Informationen måste verifieras",
+      "eventTimesRequired": "Minst 1 tid måste läggas till",
       "number": {
         "integer": "Värdet måste vara ett heltal",
         "max": "Maxvärdet är {{max}}",

@@ -751,6 +751,7 @@
         "required": "Tämä kenttä on pakollinen"
       },
       "eventInfoVerified": "Tietojen tulee olla vahvistettu",
+      "eventTimesRequired": "Vähintään 1 ajankohta vaaditaan",
       "number": {
         "integer": "Arvon tulee olla kokonaisluku",
         "max": "Arvon tulee olla enintään {{max}}",

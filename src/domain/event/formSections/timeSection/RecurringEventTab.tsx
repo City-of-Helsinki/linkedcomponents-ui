@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { EventFieldsFragment } from '../../../../generated/graphql';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 import { EventTime, RecurringEventSettings } from '../../types';
@@ -8,19 +9,26 @@ import AddRecurringEventForm from './AddRecurringEventForm';
 import EventTimesSummary from './EventTimesSummary';
 import TimeSectionNotification from './TimeSectionNotification';
 import { sortRecurringEvents } from './utils';
+import ValidationError from './ValidationError';
 
 export interface RecurringEventTabProps {
+  events: EventTime[];
   eventTimes: EventTime[];
   eventType: string;
   recurringEvents: RecurringEventSettings[];
+  savedEvent?: EventFieldsFragment;
+  setEvents: (eventTimes: EventTime[]) => void;
   setEventTimes: (eventTimes: EventTime[]) => void;
   setRecurringEvents: (recurringEvents: RecurringEventSettings[]) => void;
 }
 
 const RecurringEventTab: React.FC<RecurringEventTabProps> = ({
+  events,
   eventTimes,
   eventType,
   recurringEvents,
+  savedEvent,
+  setEvents,
   setEventTimes,
   setRecurringEvents,
 }) => {
@@ -43,12 +51,17 @@ const RecurringEventTab: React.FC<RecurringEventTabProps> = ({
           <AddRecurringEventForm
             eventType={eventType}
             onSubmit={addRecurringEvent}
+            savedEvent={savedEvent}
           />
+          <ValidationError />
         </FieldColumn>
         <EventTimesSummary
+          events={events}
           eventTimes={eventTimes}
           eventType={eventType}
           recurringEvents={recurringEvents}
+          savedEvent={savedEvent}
+          setEvents={setEvents}
           setEventTimes={setEventTimes}
           setRecurringEvents={setRecurringEvents}
         />

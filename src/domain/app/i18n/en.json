@@ -769,6 +769,7 @@
         "required": "This field is required"
       },
       "eventInfoVerified": "The information must be verified",
+      "eventTimesRequired": "At least 1 time must be added",
       "number": {
         "integer": "Value must be an integer",
         "max": "Maximum value is {{max}}",

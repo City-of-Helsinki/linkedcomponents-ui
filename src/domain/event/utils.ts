@@ -98,6 +98,7 @@ import {
   TEXT_EDITOR_FIELDS,
   VIDEO_DETAILS_FIELDS,
 } from './constants';
+import { sortEventTimes } from './formSections/timeSection/utils';
 import {
   EventFields,
   EventFormFields,
@@ -183,14 +184,14 @@ const extensionCourseValidation = Yup.object().shape({
 });
 
 export const eventTimeValidationSchema = Yup.object().shape({
-  [EVENT_FIELDS.START_TIME]: Yup.date()
+  [EVENT_TIME_FIELDS.START_TIME]: Yup.date()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
       startTime ? isFuture(startTime) : true
     ),
-  [EVENT_FIELDS.END_TIME]: Yup.date()
+  [EVENT_TIME_FIELDS.END_TIME]: Yup.date()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
@@ -199,7 +200,7 @@ export const eventTimeValidationSchema = Yup.object().shape({
     )
     // test that startsTime is before endsTime
     .when(
-      [EVENT_FIELDS.START_TIME],
+      [EVENT_TIME_FIELDS.START_TIME],
       (startTime: Date | null, schema: Yup.DateSchema) => {
         if (startTime && isValid(startTime)) {
           return schema.test(
@@ -217,6 +218,30 @@ export const eventTimeValidationSchema = Yup.object().shape({
       }
     ),
 });
+
+export const eventTimesValidation = Yup.array<EventTime>().when(
+  [EVENT_FIELDS.RECURRING_EVENTS, EVENT_FIELDS.EVENTS],
+  (
+    recurringEvents: RecurringEventSettings[],
+    events: EventTime[],
+    schema: Yup.ArraySchema<EventTime>
+  ) => {
+    return schema.test(
+      'hasAtLeaseOneEventTime',
+      VALIDATION_MESSAGE_KEYS.EVENT_TIMES_REQUIRED,
+      (eventTimes) => {
+        const allEventTimes = [...(eventTimes || []), ...events];
+        recurringEvents.forEach((recurringEvent) => {
+          allEventTimes.push(...recurringEvent.eventTimes);
+        });
+        return Boolean(
+          allEventTimes.filter(({ endTime, startTime }) => endTime && startTime)
+            .length
+        );
+      }
+    );
+  }
+);
 
 const videoValidation = Yup.object().shape(
   {
@@ -300,6 +325,7 @@ export const eventValidationSchema = Yup.object().shape({
         createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
       )
   ),
+  [EVENT_FIELDS.EVENT_TIMES]: eventTimesValidation,
   [EVENT_FIELDS.LOCATION]: Yup.string()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
@@ -409,6 +435,7 @@ export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
   ),
+  [EVENT_FIELDS.EVENT_TIMES]: eventTimesValidation,
   [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
   ),
@@ -810,9 +837,22 @@ export const calculateSuperEventTime = (eventTimes: EventTime[]): EventTime => {
 };
 
 export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
-  const { eventTimes, recurringEvents } = formValues;
+  const {
+    eventTimes,
+    recurringEvents,
+    recurringEventEndTime,
+    recurringEventStartTime,
+  } = formValues;
+
   const allEventTimes: EventTime[] = [];
 
+  if (recurringEventEndTime && recurringEventStartTime) {
+    allEventTimes.push({
+      endTime: recurringEventEndTime,
+      id: null,
+      startTime: recurringEventStartTime,
+    });
+  }
   allEventTimes.push(...eventTimes);
 
   recurringEvents.forEach((settings) =>
@@ -910,7 +950,6 @@ export const getEventPayload = (
     audience,
     audienceMaxAge,
     audienceMinAge,
-    endTime,
     eventInfoLanguages,
     facebookUrl,
     hasPrice,
@@ -928,7 +967,6 @@ export const getEventPayload = (
     provider,
     publisher,
     shortDescription,
-    startTime,
     superEvent,
     twitterUrl,
     videos,
@@ -1013,9 +1051,11 @@ export const getEventPayload = (
   } else {
     const payload: CreateEventMutationInput = {
       ...basePayload,
-      ...(endTime ? { endTime: new Date(endTime).toISOString() } : undefined),
-      ...(startTime
-        ? { startTime: new Date(startTime).toISOString() }
+      ...(eventTimes[0]?.endTime
+        ? { endTime: new Date(eventTimes[0].endTime).toISOString() }
+        : undefined),
+      ...(eventTimes[0]?.startTime
+        ? { startTime: new Date(eventTimes[0].startTime).toISOString() }
         : undefined),
     };
 
@@ -1136,10 +1176,39 @@ export const getEventInitialValues = (
   //  - super event type of the event is 'umbrella'
   const isUmbrella = event.superEventType === SuperEventType.Umbrella;
   const hasPrice = event.offers?.[0]?.isFree === false;
+  const events: EventTime[] =
+    event.superEventType === SuperEventType.Recurring
+      ? event.subEvents
+          .map((subEvent) => ({
+            endTime: subEvent?.endTime ? new Date(subEvent?.endTime) : null,
+            id: subEvent?.id ?? null,
+            startTime: subEvent?.startTime
+              ? new Date(subEvent?.startTime)
+              : null,
+          }))
+          .sort(sortEventTimes)
+      : [
+          {
+            endTime: event.endTime ? new Date(event.endTime) : null,
+            id: event.id,
+            startTime: event.startTime ? new Date(event.startTime) : null,
+          },
+        ];
 
   return {
     ...EVENT_INITIAL_VALUES,
+    audience: event.audience.map((keyword) => keyword?.atId as string),
+    audienceMaxAge: event.audienceMaxAge || '',
+    audienceMinAge: event.audienceMinAge || '',
+    description: getSanitazedDescription(event),
+    events,
     eventInfoLanguages: getEventInfoLanguages(event),
+    facebookUrl:
+      event.externalLinks.find(
+        (link) => link?.name === EXTLINK.EXTLINK_FACEBOOK
+      )?.link || '',
+    hasPrice,
+    hasUmbrella: hasUmbrella,
     imageDetails: {
       altText:
         event.images[0]?.altText || EVENT_INITIAL_VALUES.imageDetails.altText,
@@ -1150,23 +1219,21 @@ export const getEventInitialValues = (
         event.images[0]?.photographerName ||
         EVENT_INITIAL_VALUES.imageDetails.photographerName,
     },
+    images: event.images.map((image) => image?.atId as string),
+    infoUrl: getLocalisedObject(event.infoUrl),
     inLanguage: event.inLanguage
       .map((language) => language?.atId as string)
       .filter((l) => l),
-    publisher: event.publisher ?? '',
-    provider: getLocalisedObject(event.provider),
-    hasUmbrella: hasUmbrella,
+    instagramUrl:
+      event.externalLinks.find(
+        (link) => link?.name === EXTLINK.EXTLINK_INSTAGRAM
+      )?.link || '',
     isUmbrella: isUmbrella,
-    superEvent: event.superEvent?.atId || '',
-    name: getLocalisedObject(event.name),
-    infoUrl: getLocalisedObject(event.infoUrl),
-    shortDescription: getLocalisedObject(event.shortDescription),
-    description: getSanitazedDescription(event),
-    startTime: event.startTime ? new Date(event.startTime) : null,
-    endTime: event.endTime ? new Date(event.endTime) : null,
+    isVerified: true,
+    keywords: event.keywords.map((keyword) => keyword?.atId as string),
     location: event.location?.atId || '',
     locationExtraInfo: getLocalisedObject(event.locationExtraInfo),
-    hasPrice,
+    name: getLocalisedObject(event.name),
     offers: hasPrice
       ? event.offers
           .filter((offer) => !offer?.isFree)
@@ -1176,18 +1243,25 @@ export const getEventInitialValues = (
             price: getLocalisedObject(offer?.price),
           }))
       : [],
-    facebookUrl:
-      event.externalLinks.find(
-        (link) => link?.name === EXTLINK.EXTLINK_FACEBOOK
-      )?.link || '',
+    publisher: event.publisher ?? '',
+    provider: getLocalisedObject(event.provider),
+    recurringEventEndTime:
+      event.superEventType === SuperEventType.Recurring
+        ? event.endTime
+          ? new Date(event.endTime)
+          : null
+        : null,
+    recurringEventStartTime:
+      event.superEventType === SuperEventType.Recurring
+        ? event.startTime
+          ? new Date(event.startTime)
+          : null
+        : null,
+    shortDescription: getLocalisedObject(event.shortDescription),
+    superEvent: event.superEvent?.atId || '',
     twitterUrl:
       event.externalLinks.find((link) => link?.name === EXTLINK.EXTLINK_TWITTER)
         ?.link || '',
-    instagramUrl:
-      event.externalLinks.find(
-        (link) => link?.name === EXTLINK.EXTLINK_INSTAGRAM
-      )?.link || '',
-    images: event.images.map((image) => image?.atId as string),
     videos: event.videos.length
       ? event.videos.map((video) => ({
           altText: video?.altText ?? '',
@@ -1195,11 +1269,6 @@ export const getEventInitialValues = (
           url: video?.url ?? '',
         }))
       : [getEmptyVideo()],
-    keywords: event.keywords.map((keyword) => keyword?.atId as string),
-    audience: event.audience.map((keyword) => keyword?.atId as string),
-    audienceMaxAge: event.audienceMaxAge || '',
-    audienceMinAge: event.audienceMinAge || '',
-    isVerified: true,
   };
 };
 

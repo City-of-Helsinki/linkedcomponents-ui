@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import TabPanel from '../../../../common/components/tabs/TabPanel';
 import Tabs from '../../../../common/components/tabs/Tabs';
+import { EventFieldsFragment } from '../../../../generated/graphql';
 import pascalCase from '../../../../utils/pascalCase';
 import { EVENT_FIELDS } from '../../constants';
 import { EventTime, RecurringEventSettings } from '../../types';
@@ -15,13 +16,20 @@ enum EVENT_TIME_TAB {
   RECURRING_EVENT = 'RECURRING_EVENT',
 }
 
-const TimeSection = () => {
+interface Props {
+  savedEvent?: EventFieldsFragment;
+}
+
+const TimeSection: React.FC<Props> = ({ savedEvent }) => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);
   const [{ value: eventTimes }, , { setValue: setEventTimes }] = useField<
     EventTime[]
   >(EVENT_FIELDS.EVENT_TIMES);
+  const [{ value: events }, , { setValue: setEvents }] = useField<EventTime[]>(
+    EVENT_FIELDS.EVENTS
+  );
 
   const [
     { value: recurringEvents },
@@ -53,18 +61,24 @@ const TimeSection = () => {
       >
         <TabPanel isActive={activeTab === EVENT_TIME_TAB.EVENT_TIME}>
           <EventTimeTab
+            events={events}
             eventTimes={eventTimes}
             eventType={type}
             recurringEvents={recurringEvents}
+            savedEvent={savedEvent}
+            setEvents={setEvents}
             setEventTimes={setEventTimes}
             setRecurringEvents={setRecurringEvents}
           />
         </TabPanel>
         <TabPanel isActive={activeTab === EVENT_TIME_TAB.EVENT_TIME}>
           <RecurringEventTab
+            events={events}
             eventTimes={eventTimes}
             eventType={type}
             recurringEvents={recurringEvents}
+            savedEvent={savedEvent}
+            setEvents={setEvents}
             setEventTimes={setEventTimes}
             setRecurringEvents={setRecurringEvents}
           />
