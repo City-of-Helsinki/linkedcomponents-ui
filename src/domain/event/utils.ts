@@ -224,16 +224,16 @@ export const eventTimeValidationSchema = Yup.object().shape({
 export const eventTimesValidation = Yup.array<EventTime>().when(
   [EVENT_FIELDS.RECURRING_EVENTS, EVENT_FIELDS.EVENTS],
   (
-    recurringEvents: RecurringEventSettings[],
-    events: EventTime[],
+    recurringEvents: RecurringEventSettings[] | null,
+    events: EventTime[] | null,
     schema: Yup.ArraySchema<EventTime>
   ) => {
     return schema.test(
       'hasAtLeaseOneEventTime',
       VALIDATION_MESSAGE_KEYS.EVENT_TIMES_REQUIRED,
       (eventTimes) => {
-        const allEventTimes = [...(eventTimes || []), ...events];
-        recurringEvents.forEach((recurringEvent) => {
+        const allEventTimes = [...(eventTimes ?? []), ...(events ?? [])];
+        recurringEvents?.forEach((recurringEvent) => {
           allEventTimes.push(...recurringEvent.eventTimes);
         });
         return Boolean(
@@ -840,13 +840,14 @@ export const calculateSuperEventTime = (eventTimes: EventTime[]): EventTime => {
 
 export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
   const {
+    events,
     eventTimes,
     recurringEvents,
     recurringEventEndTime,
     recurringEventStartTime,
   } = formValues;
 
-  const allEventTimes: EventTime[] = [];
+  const allEventTimes: EventTime[] = [...events, ...eventTimes];
 
   if (recurringEventEndTime && recurringEventStartTime) {
     allEventTimes.push({
@@ -855,7 +856,6 @@ export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
       startTime: recurringEventStartTime,
     });
   }
-  allEventTimes.push(...eventTimes);
 
   recurringEvents.forEach((settings) =>
     allEventTimes.push(...settings.eventTimes)

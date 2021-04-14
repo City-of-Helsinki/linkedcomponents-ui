@@ -38,17 +38,21 @@ import {
 
 const eventValues = {
   description: 'Description',
-  endTime: '31.12.2020 21.00',
   id: 'hel:123',
   subEventIds: ['event:1', 'event:2'],
   atId: 'https://api.hel.fi/linkedevents-test/v1/event/hel:123/',
   name: 'Event name',
   shortDescription: 'Short description',
-  startTime: '31.12.2020 18.00',
   eventTimes: [
     {
-      endTime: '03.01.2021 21.00',
-      startTime: '03.01.2021 18.00',
+      endTime: new Date('2020-12-31T21:00:00.000Z'),
+      id: null,
+      startTime: new Date('2020-12-31T18:00:00.000Z'),
+    },
+    {
+      endTime: new Date('2021-01-03T21:00:00.000Z'),
+      id: null,
+      startTime: new Date('2021-01-03T18:00:00.000Z'),
     },
   ],
 };
@@ -171,6 +175,8 @@ const basePublicEventPayload = {
 const createDraftEventVariables = {
   input: {
     ...baseEventPayload,
+    endTime: '2020-12-31T21:00:00.000Z',
+    startTime: '2020-12-31T18:00:00.000Z',
   },
 };
 const createDraftEventResponse = {

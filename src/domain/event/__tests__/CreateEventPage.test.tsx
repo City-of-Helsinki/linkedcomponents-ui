@@ -263,13 +263,7 @@ test('should focus to first main category checkbox if none main category is sele
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.description,
     },
-    eventTimes: [
-      {
-        endTime: new Date('2020-12-31T21:00:00.000Z'),
-        id: null,
-        startTime: new Date('2020-12-31T18:00:00.000Z'),
-      },
-    ],
+    eventTimes: [eventValues.eventTimes[0]],
     images: [imageAtId],
     imageDetails,
     isVerified: true,
@@ -307,9 +301,10 @@ test('should focus to first main category checkbox if none main category is sele
   });
 });
 
-it('should route to event completed page after saving draft event', async () => {
+test('should route to event completed page after saving draft event', async () => {
   setFormValues({
     ...EVENT_INITIAL_VALUES,
+    eventTimes: [eventValues.eventTimes[0]],
     isVerified: true,
     name: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -345,18 +340,7 @@ test('should route to event completed page after publishing event', async () => 
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.description,
     },
-    eventTimes: [
-      {
-        endTime: new Date('2020-12-31T21:00:00.000Z'),
-        id: null,
-        startTime: new Date('2020-12-31T18:00:00.000Z'),
-      },
-      {
-        endTime: new Date('2021-01-03T21:00:00.000Z'),
-        id: null,
-        startTime: new Date('2021-01-03T18:00:00.000Z'),
-      },
-    ],
+    eventTimes: eventValues.eventTimes,
     images: [imageAtId],
     imageDetails,
     isVerified: true,

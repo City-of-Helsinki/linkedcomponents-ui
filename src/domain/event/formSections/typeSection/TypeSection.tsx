@@ -62,7 +62,9 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
     const savedEventIsRecurringEvent =
       savedSuperEventType === SuperEventType.Umbrella;
     const savedEventHasSubEvents = Boolean(savedEvent?.subEvents.length);
-    const hasEventTimes = Boolean(eventTimes.length || recurringEvents.length);
+    const hasEventTimes = Boolean(
+      eventTimes?.length || recurringEvents?.length
+    );
 
     switch (name) {
       /**
@@ -97,14 +99,20 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
   };
 
   const disabledIsUmbrella: boolean =
-    hasUmbrella || eventTimes.length || recurringEvents.length;
+    hasUmbrella || eventTimes?.length || recurringEvents?.length;
 
   React.useEffect(() => {
     // Set is umbrella to false if event has more than one event time
-    if ((eventTimes.length || recurringEvents.length) && isUmbrella) {
+    if ((eventTimes?.length || recurringEvents?.length) && isUmbrella) {
       setIsUmbrella(false);
     }
-  }, [eventTimes, isUmbrella, recurringEvents.length, setIsUmbrella]);
+  }, [
+    eventTimes,
+    isUmbrella,
+    recurringEvents,
+    recurringEvents.length,
+    setIsUmbrella,
+  ]);
 
   return (
     <>

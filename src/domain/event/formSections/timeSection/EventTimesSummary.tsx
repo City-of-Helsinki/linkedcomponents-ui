@@ -30,7 +30,7 @@ const EventTimesSummary: React.FC<EventTimesSummaryProps> = ({
   setRecurringEvents,
 }) => {
   const isVisible =
-    events.length || eventTimes.length || recurringEvents.length;
+    events?.length || eventTimes?.length || recurringEvents?.length;
 
   if (!isVisible) {
     return null;

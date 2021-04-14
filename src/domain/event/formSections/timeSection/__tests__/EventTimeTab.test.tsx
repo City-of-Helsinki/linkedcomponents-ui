@@ -1,3 +1,4 @@
+import { Formik } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
@@ -14,9 +15,11 @@ import EventTimeTab, { EventTimeTabProps } from '../EventTimeTab';
 configure({ defaultHidden: true });
 
 const defaultProps: EventTimeTabProps = {
+  events: [],
   eventType: EVENT_TYPE.EVENT,
   eventTimes: [],
   recurringEvents: [],
+  setEvents: jest.fn(),
   setEventTimes: jest.fn(),
   setRecurringEvents: jest.fn(),
 };
@@ -26,7 +29,11 @@ beforeEach(() => {
 });
 
 const renderComponent = (props?: Partial<EventTimeTabProps>) =>
-  render(<EventTimeTab {...defaultProps} {...props} />);
+  render(
+    <Formik initialValues={{}} onSubmit={jest.fn()}>
+      <EventTimeTab {...defaultProps} {...props} />
+    </Formik>
+  );
 
 const findElement = (key: 'addButton' | 'endTime' | 'startTime') => {
   switch (key) {

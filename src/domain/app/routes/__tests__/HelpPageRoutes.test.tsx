@@ -44,14 +44,14 @@ it('should render general instructions help page in English', async () => {
   i18n.changeLanguage('en');
   const { history } = renderRoute(ROUTES.INSTRUCTIONS_GENERAL, 'en');
 
-  await screen.findByRole('heading', { name: 'Instructions' });
+  await screen.findByRole('heading', { name: 'General' });
   expect(history.location.pathname).toBe('/en/help/instructions/general');
 });
 
 it('should render general instructions help page in Finnish', async () => {
   const { history } = renderRoute(ROUTES.INSTRUCTIONS_GENERAL);
 
-  await screen.findByRole('heading', { name: 'Ohjeet' });
+  await screen.findByRole('heading', { name: 'Yleistä' });
   expect(history.location.pathname).toBe('/fi/help/instructions/general');
 });
 
@@ -59,7 +59,7 @@ it('should render general instructions help page in Swedish', async () => {
   i18n.changeLanguage('sv');
   const { history } = renderRoute(ROUTES.INSTRUCTIONS_GENERAL, 'sv');
 
-  await screen.findByRole('heading', { name: 'Instruktioner' });
+  await screen.findByRole('heading', { name: 'Allmän' });
   expect(history.location.pathname).toBe('/sv/help/instructions/general');
 });
 
@@ -119,14 +119,14 @@ it('should render general technology help page in English', async () => {
   i18n.changeLanguage('en');
   const { history } = renderRoute(ROUTES.TECHNOLOGY_GENERAL, 'en');
 
-  await screen.findByRole('heading', { name: 'Technology' });
+  await screen.findByRole('heading', { name: 'General' });
   expect(history.location.pathname).toBe('/en/help/technology/general');
 });
 
 it('should render general technology help page in Finnish', async () => {
   const { history } = renderRoute(ROUTES.TECHNOLOGY_GENERAL);
 
-  await screen.findByRole('heading', { name: 'Teknologia' });
+  await screen.findByRole('heading', { name: 'Yleistä' });
   expect(history.location.pathname).toBe('/fi/help/technology/general');
 });
 
@@ -134,7 +134,7 @@ it('should render general technology help page in Swedish', async () => {
   i18n.changeLanguage('sv');
   const { history } = renderRoute(ROUTES.TECHNOLOGY_GENERAL, 'sv');
 
-  await screen.findByRole('heading', { name: 'Teknologi' });
+  await screen.findByRole('heading', { name: 'Allmän' });
   expect(history.location.pathname).toBe('/sv/help/technology/general');
 });
 

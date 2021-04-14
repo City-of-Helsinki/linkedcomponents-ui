@@ -16,6 +16,7 @@ import {
   useUpdateEventsMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector } from '../../auth/selectors';
 import { clearEventQuery, clearEventsQueries } from '../../events/utils';
@@ -115,15 +116,17 @@ const useEventUpdateActions = ({ event }: Props) => {
         EVENT_EDIT_ACTIONS.CANCEL
       );
 
-      payload = editableEvents.map((item) => ({
-        ...getEventPayload(
-          getEventInitialValues(item),
-          item.publicationStatus as PublicationStatus
-        ),
-        eventStatus: EventStatus.EventCancelled,
-        superEventType: item.superEventType,
-        id: item.id,
-      }));
+      payload = editableEvents.map((item) => {
+        return {
+          ...getEventPayload(
+            getEventInitialValues(item),
+            item.publicationStatus as PublicationStatus
+          ),
+          eventStatus: EventStatus.EventCancelled,
+          superEventType: item.superEventType,
+          id: item.id,
+        };
+      });
 
       await updateEvents(payload);
       await updateRecurringEventIfNeeded(event);
@@ -172,7 +175,7 @@ const useEventUpdateActions = ({ event }: Props) => {
       await updateRecurringEventIfNeeded(event);
       // Clear all events from apollo cache
       for (const id of deletableEventIds) {
-        clearEventQuery(apolloClient, id);
+        !isTestEnv && clearEventQuery(apolloClient, id);
       }
 
       // Call callback function if defined
@@ -377,7 +380,8 @@ const useEventUpdateActions = ({ event }: Props) => {
           },
         ];
         await updateEvents(payload);
-        clearEventsQueries(apolloClient);
+
+        !isTestEnv && clearEventsQueries(apolloClient);
       } else {
         payload = [{ ...basePayload, id }];
         await updateEvents(payload);

@@ -13,12 +13,13 @@ import {
   useEventQuery,
 } from '../../../../generated/graphql';
 import formatDate from '../../../../utils/formatDate';
+import getPathBuilder from '../../../../utils/getPathBuilder';
 import { authenticatedSelector } from '../../../auth/selectors';
 import useUser from '../../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../../constants';
 import useEventOrganizationAncestors from '../../hooks/useEventOrganizationAncestors';
 import { EventTime } from '../../types';
-import { getEditButtonProps } from '../../utils';
+import { eventPathBuilder, getEditButtonProps } from '../../utils';
 import EditEventTimeModal from './EditEventTimeModal';
 import styles from './timeSection.module.scss';
 import { sortEventTimes } from './utils';
@@ -46,7 +47,10 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
   const { data: eventData } = useEventQuery({
     skip: !eventTime.id,
-    variables: { id: eventTime.id as string },
+    variables: {
+      createPath: getPathBuilder(eventPathBuilder),
+      id: eventTime.id as string,
+    },
   });
   const { organizationAncestors } = useEventOrganizationAncestors(
     eventData?.event

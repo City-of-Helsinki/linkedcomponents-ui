@@ -323,6 +323,18 @@ const mockedEventResponse: MockedResponse = {
   result: eventResponse,
 };
 
+const eventTimeVariables = {
+  createPath: undefined,
+  id: eventId,
+};
+const mockedEventTimeResponse: MockedResponse = {
+  request: {
+    query: EventDocument,
+    variables: eventTimeVariables,
+  },
+  result: eventResponse,
+};
+
 const cancelEventVariables = {
   input: [
     {
@@ -442,6 +454,19 @@ const subEvents = fakeEvents(1, [
 ]);
 const subEventsResponse = { data: { events: subEvents } };
 
+const subEventTimeVariables = {
+  createPath: undefined,
+  id: subEventId,
+};
+const subEventTimeResponse = { data: { event: subEvents.data[0] } };
+const mockedSubEventTimeResponse: MockedResponse = {
+  request: {
+    query: EventDocument,
+    variables: subEventTimeVariables,
+  },
+  result: subEventTimeResponse,
+};
+
 const baseEventsVariables = {
   createPath: undefined,
   include: EVENT_INCLUDES,
@@ -482,12 +507,33 @@ const mockedEventWithSubEventResponse: MockedResponse = {
   result: eventWithSubEventResponse,
 };
 
-const updateEventWithSubEventVariables = {
+const updateRecurringEventVariables = {
   input: [
     {
       ...basePayload,
       superEventType: SuperEventType.Recurring,
+      subEvents: [{ atId: subEvents.data[0].atId }],
     },
+  ],
+};
+const updateRecurringEventResponse = {
+  data: {
+    event: {
+      ...eventWithSubEvent,
+      lastModifiedTime: updatedLastModifiedTime,
+    },
+  },
+};
+const mockedUpdateRecurringEventResponse: MockedResponse = {
+  request: {
+    query: UpdateEventsDocument,
+    variables: updateRecurringEventVariables,
+  },
+  result: updateRecurringEventResponse,
+};
+
+const updateSubEventsVariables = {
+  input: [
     {
       ...basePayload,
       id: subEventId,
@@ -498,24 +544,22 @@ const updateEventWithSubEventVariables = {
     },
   ],
 };
-const updateEventWithSubEventResponse = {
+const updateSubEventsResponse = {
   data: {
-    event: {
-      ...eventWithSubEvent,
-      lastModifiedTime: updatedLastModifiedTime,
-    },
+    updateEvents: subEvents.data,
   },
 };
-const mockedUpdateEventWithSubEventResponse: MockedResponse = {
+const mockedUpdateSubEventsResponse: MockedResponse = {
   request: {
     query: UpdateEventsDocument,
-    variables: updateEventWithSubEventVariables,
+    variables: updateSubEventsVariables,
   },
-  result: updateEventWithSubEventResponse,
+  result: updateSubEventsResponse,
 };
-const mockedUpdatedEventWithSubEventResponse: MockedResponse = {
+
+const mockedUpdatedRecurringEventResponse: MockedResponse = {
   request: { query: EventDocument, variables: eventVariables },
-  result: updateEventWithSubEventResponse,
+  result: updateRecurringEventResponse,
 };
 
 // Image mocks
@@ -721,6 +765,7 @@ export {
   mockedCancelledEventResponse,
   mockedDeleteEventResponse,
   mockedEventResponse,
+  mockedEventTimeResponse,
   mockedEventWithSubEventResponse,
   mockedFilteredPlacesResponse,
   mockedImageResponse,
@@ -735,12 +780,14 @@ export {
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
+  mockedSubEventTimeResponse,
   mockedSubSubEventsResponse,
   mockedTopicsKeywordSetResponse,
   mockedUpdatedEventResponse,
-  mockedUpdatedEventWithSubEventResponse,
+  mockedUpdatedRecurringEventResponse,
   mockedUpdateEventResponse,
-  mockedUpdateEventWithSubEventResponse,
+  mockedUpdateRecurringEventResponse,
+  mockedUpdateSubEventsResponse,
   mockedUpdateImageResponse,
   mockedUserResponse,
 };

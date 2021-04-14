@@ -11,6 +11,7 @@ import {
   mockedCancelledEventResponse,
   mockedDeleteEventResponse,
   mockedEventResponse,
+  mockedEventTimeResponse,
   mockedEventWithSubEventResponse,
   mockedFilteredPlacesResponse,
   mockedImageResponse,
@@ -25,13 +26,15 @@ import {
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
+  mockedSubEventTimeResponse,
   mockedSubSubEventsResponse,
   mockedTopicsKeywordSetResponse,
   mockedUpdatedEventResponse,
-  mockedUpdatedEventWithSubEventResponse,
+  mockedUpdatedRecurringEventResponse,
   mockedUpdateEventResponse,
-  mockedUpdateEventWithSubEventResponse,
   mockedUpdateImageResponse,
+  mockedUpdateRecurringEventResponse,
+  mockedUpdateSubEventsResponse,
   mockedUserResponse,
 } from '../__mocks__/editEventPage';
 import { ROUTES } from '../../../constants';
@@ -52,6 +55,7 @@ configure({ defaultHidden: true });
 
 const baseMocks = [
   mockedEventResponse,
+  mockedEventTimeResponse,
   mockedImageResponse,
   mockedKeywordResponse,
   mockedKeywordsResponse,
@@ -86,7 +90,6 @@ const findInput = (
     | 'audienceMaxAge'
     | 'audienceMinAge'
     | 'descriptionFi'
-    | 'endTime'
     | 'facebookUrl'
     | 'hasPrice'
     | 'imageAltText'
@@ -100,7 +103,6 @@ const findInput = (
     | 'nameFi'
     | 'providerFi'
     | 'shortDescriptionFi'
-    | 'startTime'
     | 'twitterUrl'
     | 'videoAltText'
     | 'videoName'
@@ -119,8 +121,6 @@ const findInput = (
       return screen.findByRole('textbox', {
         name: /tapahtuman kuvaus suomeksi/i,
       });
-    case 'endTime':
-      return screen.findByRole('textbox', { name: /tapahtuma päättyy/i });
     case 'facebookUrl':
       return screen.findByRole('textbox', { name: /facebook/i });
     case 'hasPrice':
@@ -161,8 +161,6 @@ const findInput = (
       return screen.findByRole('textbox', {
         name: /lyhyt kuvaus suomeksi \(korkeintaan 160 merkkiä\)/i,
       });
-    case 'startTime':
-      return screen.findByRole('textbox', { name: /tapahtuma alkaa/i });
     case 'twitterUrl':
       return screen.findByRole('textbox', { name: /twitter/i });
     case 'videoAltText':
@@ -175,9 +173,10 @@ const findInput = (
 };
 
 const openMenu = async () => {
-  const toggleButton = await screen.findByRole('button', {
+  const toggleButtons = await screen.findAllByRole('button', {
     name: /valinnat/i,
   });
+  const toggleButton = toggleButtons.pop();
   userEvent.click(toggleButton);
   await screen.findByRole('region', { name: /valinnat/i });
 
@@ -222,12 +221,6 @@ test.skip('should initialize event form fields', async () => {
   expect(shortDescriptionFiInput).toHaveValue(expectedValues.shortDescription);
 
   await findInput('descriptionFi');
-
-  const startTimeInput = await findInput('startTime');
-  expect(startTimeInput).toHaveValue(expectedValues.startTime);
-
-  const endTimeInput = await findInput('endTime');
-  expect(endTimeInput).toHaveValue(expectedValues.endTime);
 
   const locationInput = await findInput('location');
   expect(locationInput).toHaveValue(expectedValues.location);
@@ -318,12 +311,6 @@ test('should postpone event', async () => {
 
   renderComponent(mocks);
 
-  const startTimeInput = await findInput('startTime');
-  expect(startTimeInput).toHaveValue(expectedValues.startTime);
-
-  const endTimeInput = await findInput('endTime');
-  expect(endTimeInput).toHaveValue(expectedValues.endTime);
-
   await openMenu();
   const postponeButton = await findButton('postpone');
   userEvent.click(postponeButton);
@@ -335,9 +322,6 @@ test('should postpone event', async () => {
   userEvent.click(postponeEventButton);
 
   await screen.findByText('Lykätty', undefined, { timeout: 10000 });
-
-  expect(startTimeInput).toHaveValue('');
-  expect(endTimeInput).toHaveValue('');
 });
 
 test('should delete event', async () => {
@@ -394,13 +378,16 @@ test('should update event', async () => {
 test('should update recurring event', async () => {
   const mocks: MockedResponse[] = [
     ...baseMocks.filter((item) => item.request.query !== EventDocument),
+    mockedEventTimeResponse,
     mockedEventWithSubEventResponse,
     mockedSubEventsResponse,
+    mockedSubEventTimeResponse,
     mockedSubSubEventsResponse,
     // Request to update event
-    mockedUpdateEventWithSubEventResponse,
+    mockedUpdateSubEventsResponse,
+    mockedUpdateRecurringEventResponse,
     // Request to get mutated event
-    mockedUpdatedEventWithSubEventResponse,
+    mockedUpdatedRecurringEventResponse,
     mockedSubEventsResponse,
     mockedSubSubEventsResponse,
     // Request to update image
@@ -430,6 +417,7 @@ test('should update recurring event', async () => {
 test('should scroll to first error when validation error is thrown', async () => {
   const mocks: MockedResponse[] = [
     ...baseMocks.filter((item) => item.request.query !== EventDocument),
+    mockedEventTimeResponse,
     // Request to update event
     mockedInvalidEventResponse,
   ];

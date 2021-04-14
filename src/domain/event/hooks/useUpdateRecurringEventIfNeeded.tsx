@@ -94,6 +94,7 @@ const useUpdateRecurringEventIfNeeded = (): UpdateRecurringEventIfNeededState =>
           t,
           user,
         });
+        console.log('test');
         if (
           editable &&
           (shouldUpdateTime(startTime, newStartTime) ||
@@ -103,7 +104,7 @@ const useUpdateRecurringEventIfNeeded = (): UpdateRecurringEventIfNeededState =>
             variables: {
               input: {
                 ...getEventPayload(
-                  getEventInitialValues(superEvent),
+                  { ...getEventInitialValues(superEvent), events: [] },
                   publicationStatus
                 ),
                 id: superEvent.id as string,

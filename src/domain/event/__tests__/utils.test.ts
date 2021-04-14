@@ -223,8 +223,6 @@ describe('getEventTimes function', () => {
   it('should return all event times event time', () => {
     const values: EventFormFields = {
       ...EVENT_INITIAL_VALUES,
-      endTime: null,
-      startTime: new Date('2020-01-02T10:00:00.000Z'),
       eventTimes: [
         {
           startTime: new Date('2020-01-02T14:15:00.000Z'),
@@ -312,7 +310,6 @@ describe('getEventPayload function', () => {
           en: 'Description en',
           sv: '',
         },
-        endTime: new Date('2020-01-02T15:15:00.000Z'),
         facebookUrl: 'http://facebook.com',
         instagramUrl: 'http://instagram.com',
         twitterUrl: 'http://twitter.com',
@@ -375,7 +372,6 @@ describe('getEventPayload function', () => {
           en: 'Short description en',
           sv: '',
         },
-        startTime: new Date('2020-01-02T12:15:00.000Z'),
         videos: [
           {
             altText: 'alt text',
@@ -494,8 +490,6 @@ describe('getEventPayload function', () => {
       },
       superEvent: undefined,
       superEventType: SuperEventType.Umbrella,
-      endTime: '2020-01-02T15:15:00.000Z',
-      startTime: '2020-01-02T12:15:00.000Z',
       videos: [
         { altText: 'alt text', name: 'video name', url: 'httl://www.url.com' },
       ],
@@ -704,6 +698,7 @@ describe('getEventInitialValues function', () => {
       minimumAttendeeCapacity: '',
     };
     const facebookUrl = 'http://facebook.com';
+    const id = 'event:1';
     const imageDetails = {
       altText: '',
       license: 'cc_by',
@@ -827,6 +822,7 @@ describe('getEventInitialValues function', () => {
               link: twitterUrl,
             }),
           ],
+          id,
           images: fakeImages(
             imageAtIds.length,
             imageAtIds.map((atId) => ({ atId, ...imageDetails }))
@@ -867,10 +863,16 @@ describe('getEventInitialValues function', () => {
       audienceMaxAge,
       audienceMinAge,
       description,
-      endTime,
       extensionCourse,
       eventInfoLanguages: ['ar', 'en', 'fi', 'ru', 'sv', 'zhHans'],
       eventTimes: [],
+      events: [
+        {
+          endTime,
+          id,
+          startTime,
+        },
+      ],
       facebookUrl,
       hasPrice: true,
       hasUmbrella: true,
@@ -891,8 +893,9 @@ describe('getEventInitialValues function', () => {
       provider,
       publisher,
       recurringEvents: [],
+      recurringEventEndTime: null,
+      recurringEventStartTime: null,
       shortDescription,
-      startTime,
       superEvent: superEventAtId,
       twitterUrl,
       type: EVENT_TYPE.EVENT,
@@ -912,13 +915,11 @@ describe('getEventInitialValues function', () => {
     const {
       audienceMaxAge,
       audienceMinAge,
-      endTime,
       facebookUrl,
       instagramUrl,
       location,
       name,
       offers,
-      startTime,
       superEvent,
       twitterUrl,
       videos,
@@ -946,13 +947,11 @@ describe('getEventInitialValues function', () => {
 
     expect(audienceMaxAge).toEqual('');
     expect(audienceMinAge).toEqual('');
-    expect(endTime).toEqual(null);
     expect(facebookUrl).toEqual('');
     expect(instagramUrl).toEqual('');
     expect(location).toEqual('');
     expect(name).toEqual(expectedName);
     expect(offers).toEqual([]);
-    expect(startTime).toEqual(null);
     expect(superEvent).toEqual(superEvent);
     expect(twitterUrl).toEqual('');
     expect(videos).toEqual([{ altText: '', name: '', url: '' }]);
