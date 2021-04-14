@@ -1,12 +1,24 @@
 import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import MenuDropdown from '../../../../common/components/menuDropdown/MenuDropdown';
+import { MenuItemOptionProps } from '../../../../common/components/menuDropdown/MenuItem';
 import Table from '../../../../common/components/table/Table';
 import { DATETIME_FORMAT } from '../../../../constants';
+import {
+  EventFieldsFragment,
+  PublicationStatus,
+  useEventQuery,
+} from '../../../../generated/graphql';
 import formatDate from '../../../../utils/formatDate';
+import { authenticatedSelector } from '../../../auth/selectors';
+import useUser from '../../../user/hooks/useUser';
+import { EVENT_EDIT_ACTIONS } from '../../constants';
+import useEventOrganizationAncestors from '../../hooks/useEventOrganizationAncestors';
 import { EventTime } from '../../types';
+import { getEditButtonProps } from '../../utils';
 import EditEventTimeModal from './EditEventTimeModal';
 import styles from './timeSection.module.scss';
 import { sortEventTimes } from './utils';
@@ -29,7 +41,16 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   startIndex,
 }) => {
   const { t } = useTranslation();
+  const authenticated = useSelector(authenticatedSelector);
+  const { user } = useUser();
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
+  const { data: eventData } = useEventQuery({
+    skip: !eventTime.id,
+    variables: { id: eventTime.id as string },
+  });
+  const { organizationAncestors } = useEventOrganizationAncestors(
+    eventData?.event
+  );
 
   const { endTime, startTime } = eventTime;
 
@@ -53,19 +74,70 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
     closeEditModal();
   };
 
+  const getActionItemProps = ({
+    action,
+    onClick,
+  }: {
+    action: 'delete' | 'update';
+    onClick: () => void;
+  }): MenuItemOptionProps => {
+    const icons = {
+      delete: <IconCrossCircle aria-hidden={true} />,
+      update: <IconPen aria-hidden={true} />,
+    };
+    const labels = {
+      delete: t('common.delete'),
+      update: t('common.edit'),
+    };
+
+    const getEventEditAction = (event: EventFieldsFragment) => {
+      switch (action) {
+        case 'delete':
+          return EVENT_EDIT_ACTIONS.DELETE;
+        case 'update':
+          return event.publicationStatus === PublicationStatus.Draft
+            ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
+            : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
+      }
+    };
+
+    const baseOptions: MenuItemOptionProps = {
+      disabled: Boolean(eventTime.id),
+      icon: icons[action],
+      label: labels[action],
+      onClick,
+    };
+    if (eventData) {
+      const options = getEditButtonProps({
+        action: getEventEditAction(eventData.event),
+        authenticated,
+        event: eventData?.event,
+        onClick,
+        organizationAncestors,
+        t,
+        user,
+      });
+      return options
+        ? {
+            ...baseOptions,
+            disabled: options.disabled,
+            title: options.title,
+          }
+        : baseOptions;
+    } else {
+      return baseOptions;
+    }
+  };
+
   const actionItems = [
-    {
-      disabled: false,
-      icon: <IconPen />,
-      label: t('common.edit'),
+    getActionItemProps({
+      action: 'update',
       onClick: openEditModal,
-    },
-    {
-      disabled: false,
-      icon: <IconCrossCircle />,
-      label: t('common.delete'),
+    }),
+    getActionItemProps({
+      action: 'delete',
       onClick: () => onDelete(index),
-    },
+    }),
   ];
 
   return (

@@ -11,7 +11,7 @@ import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EVENT_EDIT_ACTIONS } from '../../event/constants';
-import useEventOrganization from '../../event/hooks/useEventOrganizationAncestors';
+import useEventOrganizationAncestors from '../../event/hooks/useEventOrganizationAncestors';
 import useEventUpdateActions, {
   MODALS,
 } from '../../event/hooks/useEventUpdateActions';
@@ -48,7 +48,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       postponeEvent,
       setOpenModal,
     } = useEventUpdateActions({ event });
-    const { organizationAncestors } = useEventOrganization(event);
+    const { organizationAncestors } = useEventOrganizationAncestors(event);
     const { user } = useUser();
 
     const onCancel = () => {
