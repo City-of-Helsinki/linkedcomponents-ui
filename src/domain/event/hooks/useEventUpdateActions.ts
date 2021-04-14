@@ -58,7 +58,7 @@ const useEventUpdateActions = ({ event }: Props) => {
   const locale = useLocale();
   const location = useLocation();
   const [openModal, setOpenModal] = React.useState<MODALS | null>(null);
-  const [saving, setSaving] = React.useState<MODALS | null>(null);
+  const [saving, setSaving] = React.useState<EVENT_EDIT_ACTIONS | null>(null);
 
   const [createEventsMutation] = useCreateEventsMutation();
   const [deleteEventMutation] = useDeleteEventMutation();
@@ -107,7 +107,7 @@ const useEventUpdateActions = ({ event }: Props) => {
   const cancelEvent = async (callbacks?: Callbacks) => {
     let payload: UpdateEventMutationInput[] = [];
     try {
-      setSaving(MODALS.CANCEL);
+      setSaving(EVENT_EDIT_ACTIONS.CANCEL);
       // Check that user has permission to cancel events
       const allEvents = await getRelatedEvents({ apolloClient, event });
       const editableEvents = await getEditableEvents(
@@ -156,12 +156,12 @@ const useEventUpdateActions = ({ event }: Props) => {
   const deleteEvent = async (callbacks?: Callbacks) => {
     let deletableEventIds: string[] = [];
     try {
-      setSaving(MODALS.DELETE);
+      setSaving(EVENT_EDIT_ACTIONS.DELETE);
       // Check that user has permission to delete events
       const allEvents = await getRelatedEvents({ apolloClient, event });
       const deletableEvents = await getEditableEvents(
         allEvents,
-        EVENT_EDIT_ACTIONS.CANCEL
+        EVENT_EDIT_ACTIONS.DELETE
       );
       deletableEventIds = map(deletableEvents, 'id');
 
@@ -202,12 +202,12 @@ const useEventUpdateActions = ({ event }: Props) => {
   const postponeEvent = async (callbacks?: Callbacks) => {
     let payload: UpdateEventMutationInput[] = [];
     try {
-      setSaving(MODALS.POSTPONE);
+      setSaving(EVENT_EDIT_ACTIONS.POSTPONE);
       // Check that user has permission to postpone events
       const allEvents = await getRelatedEvents({ apolloClient, event });
       const editableEvents = await getEditableEvents(
         allEvents,
-        EVENT_EDIT_ACTIONS.CANCEL
+        EVENT_EDIT_ACTIONS.POSTPONE
       );
 
       payload = editableEvents.map((item) => ({
@@ -256,14 +256,19 @@ const useEventUpdateActions = ({ event }: Props) => {
   ) => {
     let payload: UpdateEventMutationInput[] = [];
     try {
-      setSaving(MODALS.UPDATE);
+      const action =
+        event.publicationStatus === PublicationStatus.Draft
+          ? publicationStatus === PublicationStatus.Draft
+            ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
+            : EVENT_EDIT_ACTIONS.PUBLISH
+          : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
+
+      setSaving(action);
       const { atId, id, superEventType } = getEventFields(event, locale);
       // Check that user has permission to update sub-events
       const subEvents = await getEditableEvents(
         (event.subEvents || []) as EventFieldsFragment[],
-        publicationStatus === PublicationStatus.Draft
-          ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
-          : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC
+        action
       );
 
       await updateImageIfNeeded(values);
