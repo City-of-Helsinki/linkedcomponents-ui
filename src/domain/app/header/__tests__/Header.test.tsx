@@ -6,6 +6,7 @@ import { ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  configure,
   getMockReduxStore,
   render,
   screen,
@@ -16,37 +17,41 @@ import translations from '../../../app/i18n/fi.json';
 import userManager from '../../../auth/userManager';
 import Header from '../Header';
 
+configure({ defaultHidden: true });
+
 const renderComponent = (store?: Store<StoreState, AnyAction>, route = '/fi') =>
   render(<Header />, { routes: [route], store });
 
-const findComponent = (
-  key:
-    | 'enOption'
-    | 'languageSelector'
-    | 'menuButton'
-    | 'navigation'
-    | 'signInButton'
-    | 'signOutLink'
-) => {
+const findComponent = (key: 'enOption' | 'menuButton') => {
   switch (key) {
     case 'enOption':
       return screen.findByRole('link', {
+        hidden: false,
         name: translations.navigation.languages.en,
-      });
-    case 'languageSelector':
-      return screen.findByRole('button', {
-        name: translations.navigation.languageSelectorAriaLabel,
       });
     case 'menuButton':
       return screen.findByRole('button', {
         name: translations.navigation.menuToggleAriaLabel,
       });
-    case 'navigation':
-      return screen.findByRole('navigation');
+  }
+};
+
+const findComponents = (
+  key: 'languageSelector' | 'signInButton' | 'signOutLink'
+) => {
+  switch (key) {
+    case 'languageSelector':
+      return screen.findAllByRole('button', {
+        name: translations.navigation.languageSelectorAriaLabel,
+      });
     case 'signInButton':
-      return screen.findByRole('button', { name: translations.common.signIn });
+      return screen.findAllByRole('button', {
+        name: translations.common.signIn,
+      });
     case 'signOutLink':
-      return screen.findByRole('link', { name: translations.common.signOut });
+      return screen.findAllByRole('link', {
+        name: translations.common.signOut,
+      });
   }
 };
 
@@ -77,7 +82,7 @@ test('should show navigation links and should route to correct page after clicki
   ];
 
   links.forEach(({ name, url }) => {
-    const link = screen.getByRole('link', { name });
+    const link = screen.getAllByRole('link', { name })[0];
 
     expect(link).toBeInTheDocument();
 
@@ -91,12 +96,12 @@ test('should show mobile menu', async () => {
   global.innerWidth = 500;
   renderComponent();
 
-  expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+  expect(screen.getAllByRole('navigation')).toHaveLength(1);
 
   const menuButton = await findComponent('menuButton');
   userEvent.click(menuButton);
 
-  await findComponent('navigation');
+  expect(screen.getAllByRole('navigation')).toHaveLength(2);
 });
 
 test('should change language', async () => {
@@ -105,8 +110,8 @@ test('should change language', async () => {
 
   expect(history.location.pathname).toBe('/fi');
 
-  const languageSelectorButton = await findComponent('languageSelector');
-  userEvent.click(languageSelectorButton);
+  const languageSelectors = await findComponents('languageSelector');
+  userEvent.click(languageSelectors[0]);
 
   const enOption = await findComponent('enOption');
   userEvent.click(enOption);
@@ -119,8 +124,8 @@ test('should start log in process', async () => {
 
   renderComponent();
 
-  const signInButton = await findComponent('signInButton');
-  userEvent.click(signInButton);
+  const signInButtons = await findComponents('signInButton');
+  userEvent.click(signInButtons[0]);
 
   expect(signinRedirect).toBeCalled();
 });
@@ -137,8 +142,8 @@ test('should start logout process', async () => {
   const userMenuButton = await screen.findByRole('button', { name: userName });
   userEvent.click(userMenuButton);
 
-  const signOutLink = await findComponent('signOutLink');
-  userEvent.click(signOutLink);
+  const signOutLinks = await findComponents('signOutLink');
+  userEvent.click(signOutLinks[0]);
 
   await waitFor(() => {
     expect(signoutRedirect).toBeCalled();

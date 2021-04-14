@@ -59,22 +59,22 @@ const findComponent = (
     case 'back':
       return screen.findByRole('button', { name: 'Takaisin' });
     case 'cancel':
-      return screen.findByRole('button', { name: 'Peruuta tapahtuma' });
+      return screen.getByRole('button', { name: 'Peruuta tapahtuma' });
     case 'copy':
       return screen.findByRole('button', { name: 'Kopioi pohjaksi' });
     case 'delete':
       return screen.findByRole('button', { name: 'Poista tapahtuma' });
     case 'menu':
-      return screen.findByRole('region', { name: /toiminnot/i });
+      return screen.findByRole('region', { name: /valinnat/i });
     case 'postpone':
       return screen.findByRole('button', { name: 'Lykkää tapahtumaa' });
     case 'publish':
       return screen.findByRole('button', { name: 'Hyväksy ja julkaise' });
     case 'toggle':
-      return screen.findByRole('button', { name: /toiminnot/i });
+      return screen.findByRole('button', { name: /valinnat/i });
     case 'updateDraft':
       return screen.findByRole('button', {
-        name: 'Tallenna muutokset luonnokseen',
+        name: 'Tallenna luonnos',
       });
     case 'updatePublic':
       return screen.findByRole('button', {
@@ -100,7 +100,7 @@ test('should toggle menu by clicking actions button', async () => {
   const toggleButton = await openMenu();
   userEvent.click(toggleButton);
   expect(
-    screen.queryByRole('region', { name: /toiminnot/i })
+    screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
 });
 
@@ -133,6 +133,8 @@ test('should render correct buttons for draft event', async () => {
   const publishButton = await findComponent('publish');
   userEvent.click(publishButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
+
+  await openMenu();
 
   const hiddenButtons = [
     'Lykkää tapahtumaa',
@@ -187,9 +189,13 @@ test('should render correct buttons for public event', async () => {
   userEvent.click(postponeButton);
   expect(onPostpone).toBeCalled();
 
+  await openMenu();
+
   const cancelButton = await findComponent('cancel');
   userEvent.click(cancelButton);
   expect(onCancel).toBeCalled();
+
+  await openMenu();
 
   const deleteButton = await findComponent('delete');
   userEvent.click(deleteButton);
@@ -199,7 +205,9 @@ test('should render correct buttons for public event', async () => {
   userEvent.click(updateButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
 
-  const hiddenButtons = ['Tallenna muutokset luonnokseen'];
+  await openMenu();
+
+  const hiddenButtons = ['Tallenna luonnos'];
 
   hiddenButtons.forEach((name) => {
     expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
@@ -234,7 +242,7 @@ test('only copy and delete button should be enabled when event is cancelled', as
   await findComponent('delete');
 });
 
-test('only copy button should be enabledwhen user is not logged in (public)', async () => {
+test('only copy button should be enabled when user is not logged in (public)', async () => {
   renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });

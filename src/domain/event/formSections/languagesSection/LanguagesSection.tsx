@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import Notification from '../../../../common/components/notification/Notification';
-import { useLanguagesQuery } from '../../../../generated/graphql';
+import { Language, useLanguagesQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
@@ -28,13 +28,14 @@ const LanguagesSection = () => {
     })
   );
 
-  const inLanguageOptions: OptionType[] =
-    data?.languages.data
-      .map((language) => ({
-        label: capitalize(getLocalisedString(language?.name, locale)),
-        value: language?.atId as string,
-      }))
-      .sort(sortLanguage) || [];
+  const inLanguageOptions: OptionType[] = ([
+    ...(data?.languages.data || []),
+  ] as Language[])
+    .sort(sortLanguage)
+    .map((language) => ({
+      label: capitalize(getLocalisedString(language?.name, locale)),
+      value: language?.atId as string,
+    }));
 
   return (
     <LoadingSpinner isLoading={loading}>

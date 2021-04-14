@@ -166,7 +166,6 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
           <div className={styles.sideNavigation}>
             <div
               style={{
-                height: '100%',
                 maxHeight: `calc(100vh - ${sideNavigationTop}px)`,
                 top: sideNavigationTop,
               }}
@@ -185,7 +184,6 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
                         icon={icon}
                         label={label}
                         to={to}
-                        type={type as 'link' | 'toggle'}
                       >
                         {subLevels?.map((props, subLevelIndex) => {
                           return (

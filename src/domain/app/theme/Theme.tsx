@@ -1,4 +1,8 @@
-import { FooterCustomTheme, SelectCustomTheme } from 'hds-react';
+import {
+  FooterCustomTheme,
+  LoadingSpinnerCustomTheme,
+  SelectCustomTheme,
+} from 'hds-react';
 import React, { useContext, useState } from 'react';
 
 type ButtonCSSProperties = {
@@ -63,7 +67,6 @@ type CollapsibleCSSProperties = {
 };
 
 type DatepickerCSSProperties = {
-  '--calendar-button-height'?: string;
   '--close-button-color'?: string;
   '--day-background-color'?: string;
   '--day-background-color-disabled'?: string;
@@ -90,13 +93,15 @@ type DatepickerCSSProperties = {
   '--times-divider-border-color'?: string;
   '--times-list-width'?: string;
   '--time-item-background-color'?: string;
+  '--time-item-background-color-focused'?: string;
   '--time-item-background-color-selected'?: string;
+  '--time-item-color'?: string;
+  '--time-item-color-focused'?: string;
+  '--time-item-color-selected'?: string;
 };
 
 type DeleteButtonCSSProperties = {
   '--delete-button-color'?: string;
-  '--delete-button-height'?: string;
-  '--delete-button-padding'?: string;
 };
 
 type ErrorTemplateCSSProperties = {
@@ -117,7 +122,21 @@ type EventCardCSSProperties = {
 type EventSearchPanelCSSProperties = {
   '--event-search-panel-background-color'?: string;
   '--event-search-panel-label-color'?: string;
+  '--event-search-panel-button-background-color'?: string;
+  '--event-search-panel-button-background-color-hover'?: string;
+  '--event-search-panel-button-background-color-focus'?: string;
+  '--event-search-panel-button-background-color-hover-focus'?: string;
+  '--event-search-panel-button-border-color'?: string;
+  '--event-search-panel-button-color'?: string;
+  '--event-search-panel-button-focus-outline-color'?: string;
 };
+
+type FooterCSSProperties = {
+  '--footer-background-support'?: string;
+  '--footer-color-support'?: string;
+  '--footer-divider-color-support'?: string;
+  '--footer-focus-outline-color-support'?: string;
+} & Partial<FooterCustomTheme>;
 
 type ImageSelectorCSSProperties = {
   '--image-selector-focus-outline-color'?: string;
@@ -138,11 +157,11 @@ type LayoutCSSProperties = {
 };
 
 type LoadingSpinnerCSSProperties = {
-  '--spinner-background-color'?: string;
-  '--spinner-color'?: string;
-  '--spinner-width'?: string;
-  '--spinner-stroke-width'?: string;
-};
+  '--spinner-size'?: string;
+  '--spinner-thickness'?: string;
+  '--spinner-size-small'?: string;
+  '--spinner-thickness-small'?: string;
+} & Partial<LoadingSpinnerCustomTheme>;
 
 type MenuDropdownCSSProperties = {
   '--menu-dropdown-item-background-color'?: string;
@@ -156,7 +175,6 @@ type MenuDropdownCSSProperties = {
 type ModalCSSProperties = {
   '--modal-background-color'?: string;
   '--modal-bottom'?: string;
-  '--modal-label-height'?: string;
   '--modal-max-width-m'?: string;
   '--modal-max-width-l'?: string;
   '--modal-top'?: string;
@@ -389,7 +407,7 @@ export type Theme = {
   errorTemplate: ErrorTemplateCSSProperties;
   eventCard: EventCardCSSProperties;
   eventSearchPanel: EventSearchPanelCSSProperties;
-  footer: Partial<FooterCustomTheme>;
+  footer: FooterCSSProperties;
   imageSelector: ImageSelectorCSSProperties;
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;

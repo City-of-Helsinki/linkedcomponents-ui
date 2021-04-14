@@ -136,7 +136,8 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
             label={t('event.form.notificationTitleUmrellaEvent')}
             type="info"
           >
-            <p>{t('event.form.infoTextUmrellaEvent')}</p>
+            <p>{t('event.form.infoTextUmrellaEvent1')}</p>
+            <p>{t('event.form.infoTextUmrellaEvent2')}</p>
             {superEventId &&
               superEventSuperEventType === SuperEventType.Recurring && (
                 <p>

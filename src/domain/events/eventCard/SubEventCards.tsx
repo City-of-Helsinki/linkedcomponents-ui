@@ -1,8 +1,9 @@
-import { LoadingSpinner } from 'hds-react';
 import React from 'react';
 
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import useSubEvents from '../hooks/useSubEvents';
 import EventCard from './EventCard';
+import styles from './eventCard.module.scss';
 
 interface Props {
   eventId: string;
@@ -14,7 +15,11 @@ const SubEventRows: React.FC<Props> = ({ eventId, level }) => {
 
   return loading ? (
     <div style={{ paddingLeft: `calc(${level} * var(--spacing-l))` }}>
-      <LoadingSpinner small={true} />
+      <LoadingSpinner
+        className={styles.loadingSpinner}
+        isLoading={loading}
+        small={true}
+      />
     </div>
   ) : (
     <>

@@ -246,16 +246,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
               <PageWrapper
                 backgroundColor="coatOfArms"
                 className={styles.eventPage}
+                noFooter
                 title={name}
               >
                 <MainContent>
-                  <EditButtonPanel
-                    event={event}
-                    onCancel={() => setOpenModal(MODALS.CANCEL)}
-                    onDelete={() => setOpenModal(MODALS.DELETE)}
-                    onPostpone={() => setOpenModal(MODALS.POSTPONE)}
-                    onUpdate={handleUpdate}
-                  />
                   <Container>
                     <FormContainer className={styles.editPageContentContainer}>
                       <EventInfo event={event} />
@@ -332,6 +326,13 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                       </Section>
                     </FormContainer>
                   </Container>
+                  <EditButtonPanel
+                    event={event}
+                    onCancel={() => setOpenModal(MODALS.CANCEL)}
+                    onDelete={() => setOpenModal(MODALS.DELETE)}
+                    onPostpone={() => setOpenModal(MODALS.POSTPONE)}
+                    onUpdate={handleUpdate}
+                  />
                 </MainContent>
               </PageWrapper>
             </Form>

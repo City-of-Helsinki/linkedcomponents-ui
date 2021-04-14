@@ -19,11 +19,6 @@
     background-color: var(--side-navigation-background-color);
     position: relative;
     box-sizing: border-box;
-
-    @include medium-up {
-        height: 100%;
-        padding-bottom: var(--spacing-5-xl);
-    }
 }
 
 .mainLevelList {
@@ -76,6 +71,10 @@
             border-color: var(--side-navigation-level-border-color-focus) !important;
         }
 
+        &:focus:not(:global(.focus-visible)) {
+            border-color: transparent !important;
+        }
+
         span {
             display: flex;
         }
@@ -108,7 +107,7 @@
 
     & > a {
         font-weight: 600;
-        grid-template-columns: var(--side-navigation-icon-size) 1fr;
+        grid-template-columns: var(--side-navigation-icon-size) 1fr var(--side-navigation-icon-size);
     }
     & > button {
         font-weight: 600;

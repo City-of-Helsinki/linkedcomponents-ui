@@ -1,8 +1,9 @@
-import { IconCalendarCross, LoadingSpinner } from 'hds-react';
+import { IconCalendarCross } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
@@ -27,18 +28,22 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
 
   const handleCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.stopPropagation();
+
     onCancel();
   };
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleClose = (event?: React.MouseEvent | React.KeyboardEvent) => {
+    event?.preventDefault();
+    event?.stopPropagation();
+
     onClose();
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       shouldCloseOnEsc={true}
       size="m"
       title={t('event.cancelEventModal.title')}
@@ -67,7 +72,11 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
         <Button
           iconLeft={
             isSaving ? (
-              <LoadingSpinner className={styles.loadingSpinner} small={true} />
+              <LoadingSpinner
+                isLoading={isSaving}
+                className={styles.loadingSpinner}
+                small={true}
+              />
             ) : (
               <IconCalendarCross />
             )

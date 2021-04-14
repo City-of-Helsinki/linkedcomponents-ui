@@ -2,6 +2,7 @@
 
 .input {
   composes: hds-text-input__input from '~hds-core/lib/components/text-input/text-input.css';
+  --input-border-color-default: var(--input-background-default);
 }
 
 .buttons {
@@ -23,7 +24,7 @@
     @include hidden-from-screen;
   }
 
-  &:focus {
+  &:focus:global(.focus-visible) {
     outline: none;
     box-shadow: 0 0 0 var(--focus-outline-width) var(--focus-outline-color);
   }

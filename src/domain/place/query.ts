@@ -29,6 +29,7 @@ export const QUERY_PLACE = gql`
     name {
       ...localisedFields
     }
+    nEvents
     postalCode
     streetAddress {
       ...localisedFields

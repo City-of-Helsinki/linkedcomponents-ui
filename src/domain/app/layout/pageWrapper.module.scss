@@ -1,3 +1,7 @@
+.pageWrapper {
+  width: 100%;
+}
+
 .backgroundColorWhite {
   background-color: var(--color-white);
 }
@@ -10,4 +14,8 @@
 .backgroundColorCoatOfArms {
   background-color: var(--color-coat-of-arms-light);
   margin-bottom: var(--spacing-5-xl);
+}
+
+.noFooter {
+  margin-bottom: 0px !important;
 }

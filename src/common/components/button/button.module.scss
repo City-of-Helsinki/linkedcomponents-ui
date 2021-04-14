@@ -1,0 +1,3 @@
+.button:focus:not(:global(.focus-visible)) {
+  --focus-outline-color: transparent;
+}

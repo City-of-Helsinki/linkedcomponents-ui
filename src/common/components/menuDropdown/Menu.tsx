@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { RectReadOnly } from 'react-use-measure';
 
@@ -6,6 +7,8 @@ import styles from './menu.module.scss';
 import MenuItem, { MenuItemOptionProps } from './MenuItem';
 
 const MENU_MIN_WIDTH = 190;
+
+export type MenuPosition = 'bottom' | 'top';
 
 type MenuStyles = {
   minWidth?: number;
@@ -21,6 +24,7 @@ type MenuProps = React.ComponentPropsWithoutRef<'div'> & {
   items: MenuItemOptionProps[];
   menuContainerSize: RectReadOnly;
   menuOpen: boolean;
+  menuPosition?: MenuPosition;
   onItemClick?: (event?: React.MouseEvent<HTMLElement>) => void;
   setFocusedIndex: (index: number) => void;
 };
@@ -33,6 +37,7 @@ export const Menu = ({
   items,
   menuContainerSize,
   menuOpen,
+  menuPosition = 'bottom',
   onItemClick,
   setFocusedIndex,
   ...rest
@@ -48,13 +53,21 @@ export const Menu = ({
     };
   }, [fixedPosition, menuContainerSize]);
 
+  if (!menuOpen) {
+    return null;
+  }
+
   return (
     <div
       role="region"
       aria-hidden={!menuOpen}
       aria-labelledby={ariaLabelledBy}
       id={id}
-      className={classNames(styles.menu, { [styles.open]: menuOpen })}
+      className={classNames(
+        styles.menu,
+        styles[`menuPosition${capitalize(menuPosition)}`],
+        { [styles.open]: menuOpen }
+      )}
       style={{ ...menuStyles, position: fixedPosition ? 'fixed' : 'absolute' }}
       {...rest}
     >

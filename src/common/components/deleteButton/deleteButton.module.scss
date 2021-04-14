@@ -1,6 +1,6 @@
 .deleteButton {
   --delete-button-color: var(--color-error);
-  --delete-button-height: 56px;
+  --delete-button-height: var(--input-height);
   --delete-button-padding: var(--spacing-s);
 
   color: var(--delete-button-color);

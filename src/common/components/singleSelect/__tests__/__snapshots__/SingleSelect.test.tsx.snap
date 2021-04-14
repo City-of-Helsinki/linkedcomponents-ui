@@ -3,7 +3,7 @@
 exports[`renders the component 1`] = `
 <div>
   <div
-    class="Select-module_root__Ka5uO css-0"
+    class="Select-module_root__Ka5uO css-0 select"
   >
     <label
       class="FieldLabel-module_label__1zrXK "

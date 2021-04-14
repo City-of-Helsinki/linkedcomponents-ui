@@ -1,8 +1,9 @@
-import { IconCross, LoadingSpinner } from 'hds-react';
+import { IconCross } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
@@ -25,20 +26,24 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleClose = (event?: React.MouseEvent | React.KeyboardEvent) => {
+    event?.preventDefault();
+    event?.stopPropagation();
+
     onClose();
   };
 
   const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.stopPropagation();
+
     onDelete();
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       shouldCloseOnEsc={true}
       size="m"
       title={t('event.deleteEventModal.title')}
@@ -55,7 +60,11 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
         <Button
           iconLeft={
             isSaving ? (
-              <LoadingSpinner className={styles.loadingSpinner} small={true} />
+              <LoadingSpinner
+                className={styles.loadingSpinner}
+                isLoading={isSaving}
+                small={true}
+              />
             ) : (
               <IconCross />
             )

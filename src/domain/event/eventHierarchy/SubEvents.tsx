@@ -1,6 +1,6 @@
-import { LoadingSpinner } from 'hds-react';
 import React from 'react';
 
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
@@ -8,6 +8,7 @@ import { EVENT_SORT_OPTIONS } from '../../events/constants';
 import useSubEvents from '../../events/hooks/useSubEvents';
 import { EVENT_INCLUDES } from '../constants';
 import { getEventFields } from '../utils';
+import styles from './eventHierarchy.module.scss';
 import EventHierarchyRow from './EventHierarchyRow';
 
 interface SubEventsProps {
@@ -54,7 +55,11 @@ const SubEvents: React.FC<SubEventsProps> = ({
           {/* Timer of Loading spinner throws an error on jest tests after component unmount */}
           {!isTestEnv && (
             /* istanbul ignore next */
-            <LoadingSpinner small={true} />
+            <LoadingSpinner
+              className={styles.loadingSpinner}
+              isLoading={loading}
+              small={true}
+            />
           )}
         </div>
       ) : (

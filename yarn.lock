@@ -6156,15 +6156,15 @@ dataloader@2.0.0:
   resolved "https://registry.yarnpkg.com/dataloader/-/dataloader-2.0.0.tgz#41eaf123db115987e21ca93c005cd7753c55fe6f"
   integrity sha512-YzhyDAwA4TaQIhM5go+vCLmU0UikghC/t9DTQYZR2M/UvZ1MdOhPezSDZcjj9uqQJOMqjLcpWtyW2iNINdlatQ==
 
+date-fns@2.16.1, date-fns@^2.14.0:
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
+  integrity sha512-sAJVKx/FqrLYHAQeN7VpJrPhagZc9R4ImZIWYRFZaaohR3KzmuK88touwsSwSVT8Qcbd4zoDsnGfX4GFB4imyQ==
+
 date-fns@^1.27.2:
   version "1.30.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
-
-date-fns@^2.14.0:
-  version "2.16.1"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
-  integrity sha512-sAJVKx/FqrLYHAQeN7VpJrPhagZc9R4ImZIWYRFZaaohR3KzmuK88touwsSwSVT8Qcbd4zoDsnGfX4GFB4imyQ==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -7723,6 +7723,11 @@ fn-name@~3.0.0:
   resolved "https://registry.yarnpkg.com/fn-name/-/fn-name-3.0.0.tgz#0596707f635929634d791f452309ab41558e3c5c"
   integrity sha512-eNMNr5exLoavuAMhIUVsOKF79SWd/zG104ef6sxBTSw+cZc6BXdQXDvYcGvp0VbxVVSp1XDUNoz7mg1xMtSznA==
 
+focus-visible@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/focus-visible/-/focus-visible-5.2.0.tgz#3a9e41fccf587bd25dcc2ef045508284f0a4d6b3"
+  integrity sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==
+
 follow-redirects@^1.0.0, follow-redirects@^1.10.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
@@ -8324,23 +8329,25 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hds-core@0.21.0, hds-core@^0.21.0:
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.21.0.tgz#5c88c783ce4a4f04c9dec81eac89c3047e7b6753"
-  integrity sha512-il5MxtaRY2Exa8rS4mRhjimIWxXzPra6vRcZ1r7KmUo3aJm69B1ZYF0OXHuWeVSJewOzgyfEZahCT+Mzxq0MVw==
+hds-core@0.24.0, hds-core@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-0.24.0.tgz#9fcdf6f59fb295cc26940d93c3855c2b16d0e692"
+  integrity sha512-qBflENeTPYc7s+h745oGmSiRSXrmpVpXd94cmMnrZJcmjPIPxi7LFHz0sfOkNjpYfckrhXwRSkgbBmH9b1xENQ==
 
-hds-react@^0.21.0:
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-0.21.0.tgz#13a4124253a314e218f1caf8f556d906223ff3ec"
-  integrity sha512-u6GdIWqqV4va+4Wy4xrzhNKTMzf5Z81icAWHwoaB/nXBCVtw2V4nEHXTC7eCeFEplk1LH/dyvfPPN6b6auyorQ==
+hds-react@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-0.24.0.tgz#43fc3aacb6d5b81e2d59ab7a2aa3ba554f8af5f7"
+  integrity sha512-M1SgDXJzL0/oiFKV3GNuIa57dtSEDT/UcC0kXLnf78LdGRwIBS3P1r+u6FqKwQGI9igE+uNHZZIf3wlVixiDpA==
   dependencies:
     "@babel/runtime" "7.11.2"
     "@juggle/resize-observer" "3.2.0"
     "@popperjs/core" "2.5.3"
     "@react-aria/visually-hidden" "3.2.0"
+    date-fns "2.16.1"
     downshift "6.0.6"
-    hds-core "0.21.0"
+    hds-core "0.24.0"
     lodash.isequal "4.5.0"
+    lodash.isfunction "3.0.9"
     lodash.uniqueid "4.0.1"
     react-merge-refs "1.1.0"
     react-popper "2.2.3"
@@ -10460,6 +10467,11 @@ lodash.isequal@4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
   integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+
+lodash.isfunction@3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/lodash.isfunction/-/lodash.isfunction-3.0.9.tgz#06de25df4db327ac931981d1bdb067e5af68d051"
+  integrity sha512-AirXNj15uRIMMPihnkInB4i3NHeb4iBtNg9WRWuK2o31S+ePwwNmDPaTL3o7dTJ+VXNZim7rFs4rxN4YU1oUJw==
 
 lodash.isinteger@^4.0.4:
   version "4.0.4"

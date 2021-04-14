@@ -896,7 +896,7 @@ export type ImagesQuery = (
 
 export type KeywordFieldsFragment = (
   { __typename?: 'Keyword' }
-  & Pick<Keyword, 'id' | 'atId' | 'dataSource' | 'hasUpcomingEvents'>
+  & Pick<Keyword, 'id' | 'atId' | 'dataSource' | 'hasUpcomingEvents' | 'nEvents'>
   & { name?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -1074,7 +1074,7 @@ export type PositionFieldsFragment = (
 
 export type PlaceFieldsFragment = (
   { __typename?: 'Place' }
-  & Pick<Place, 'id' | 'atId' | 'email' | 'hasUpcomingEvents' | 'postalCode'>
+  & Pick<Place, 'id' | 'atId' | 'email' | 'hasUpcomingEvents' | 'nEvents' | 'postalCode'>
   & { addressLocality?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -1178,6 +1178,7 @@ export const KeywordFieldsFragmentDoc = gql`
   name {
     ...localisedFields
   }
+  nEvents
 }
     ${LocalisedFieldsFragmentDoc}`;
 export const ExternalLinkFieldsFragmentDoc = gql`
@@ -1238,6 +1239,7 @@ export const PlaceFieldsFragmentDoc = gql`
   name {
     ...localisedFields
   }
+  nEvents
   postalCode
   streetAddress {
     ...localisedFields

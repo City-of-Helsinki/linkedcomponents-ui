@@ -47,6 +47,7 @@ import {
   EventsQuery,
   EventStatus,
   ExternalLinkInput,
+  Language as LELanguage,
   LocalisedFieldsFragment,
   LocalisedObject,
   Maybe,
@@ -57,7 +58,7 @@ import {
   SuperEventType,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { Language, OptionType, PathBuilderProps } from '../../types';
+import { Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
@@ -268,10 +269,11 @@ const imageDetailsValidation = Yup.object().shape({
     .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
       createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
     ),
-  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string().max(
-    CHARACTER_LIMITS.MEDIUM_STRING,
-    (param) => createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-  ),
+  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(CHARACTER_LIMITS.MEDIUM_STRING, (param) =>
+      createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+    ),
 });
 
 export const eventValidationSchema = Yup.object().shape({
@@ -473,9 +475,15 @@ export const isValidTime = (time: string) =>
 
 export const createRecurringEventValidationSchema = () => {
   return Yup.object().shape({
-    [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.string().required(
-      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-    ),
+    [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
+      .nullable()
+      .min(1, (param) =>
+        createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+      )
+      .max(4, (param) =>
+        createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MAX)
+      )
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
       .min(1, (param) =>
@@ -620,8 +628,8 @@ const languageWeight = (lang: string): number => {
   }
 };
 
-export const sortLanguage = (a: OptionType, b: OptionType) =>
-  languageWeight(a.value) - languageWeight(b.value);
+export const sortLanguage = (a: LELanguage, b: LELanguage) =>
+  languageWeight(a.id as string) - languageWeight(b.id as string);
 
 export const getEmptyEventTime = (): EventTime => {
   return {

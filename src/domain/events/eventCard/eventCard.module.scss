@@ -1,4 +1,5 @@
 @import 'breakpoints';
+@import 'mixins';
 
 .eventCard {
   --event-card-background-color: var(--color-white);
@@ -19,6 +20,8 @@
   &:hover {
     box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
   }
+
+  @include focus-outline(0px);
 
   @include medium-up {
     grid-template-columns: repeat(10, 1fr);
@@ -144,4 +147,10 @@
   @include small-down {
     margin-right: 0 !important;
   }
+}
+
+.loadingSpinner {
+  padding: 0;
+  width: unset;
+  display: inline-flex;
 }

@@ -10,6 +10,7 @@ import {
   getA11ySelectionMessage,
   getA11yStatusMessage,
 } from '../../../utils/accessibilityUtils';
+import styles from '../select/select.module.scss';
 
 const Combobox: React.FC<ComboboxProps<OptionType>> = ({
   className,
@@ -21,11 +22,12 @@ const Combobox: React.FC<ComboboxProps<OptionType>> = ({
   return (
     <BaseCombobox
       {...rest}
-      className={classNames(className, css(theme.select))}
+      className={classNames(className, styles.combobox, css(theme.select))}
       getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
       getA11ySelectionMessage={(options) =>
         /* istanbul ignore next */ getA11ySelectionMessage(options, t)
       }
+      virtualized={true}
     />
   );
 };

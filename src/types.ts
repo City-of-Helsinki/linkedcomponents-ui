@@ -1,4 +1,5 @@
 import { Action } from '@reduxjs/toolkit';
+import React from 'react';
 import { ThunkAction } from 'redux-thunk';
 
 import rootReducer from './domain/app/store/reducers';

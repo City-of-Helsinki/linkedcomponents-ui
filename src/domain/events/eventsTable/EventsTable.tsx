@@ -1,11 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory, useLocation } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import SortableColumn from '../../../common/components/table/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
+import useLocale from '../../../hooks/useLocale';
+import { getEventFields } from '../../event/utils';
 import { EVENT_SORT_OPTIONS } from '../constants';
 import styles from './eventsTable.module.scss';
 import EventTableRow from './EventsTableRow';
@@ -23,8 +26,12 @@ const EventsTable: React.FC<EventsTableProps> = ({
   setSort,
   sort,
 }) => {
-  const table = React.useRef<HTMLTableElement>(null);
+  const locale = useLocale();
+  const history = useHistory();
+  const location = useLocation();
   const { t } = useTranslation();
+
+  const table = React.useRef<HTMLTableElement>(null);
   const [focused, setFocused] = React.useState(false);
 
   const handleSort = (key: string) => {
@@ -45,17 +52,16 @@ const EventsTable: React.FC<EventsTableProps> = ({
     };
   });
 
+  const handleRowClick = (event: EventFieldsFragment) => {
+    const { eventUrl } = getEventFields(event, locale);
+    history.push({ pathname: eventUrl, search: location.search });
+  };
+
   return (
     <Table ref={table} className={styles.eventsTable}>
       <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
       <thead>
         <tr>
-          <th className={styles.idColumn}>
-            {t('eventsPage.eventsTableColumns.id')}
-          </th>
-          <th className={styles.publisherColumn}>
-            {t('eventsPage.eventsTableColumns.publisher')}
-          </th>
           <SortableColumn
             className={styles.nameColumn}
             label={t('eventsPage.eventsTableColumns.name')}
@@ -64,6 +70,9 @@ const EventsTable: React.FC<EventsTableProps> = ({
             sortKey={EVENT_SORT_OPTIONS.NAME}
             type="text"
           />
+          <th className={styles.publisherColumn}>
+            {t('eventsPage.eventsTableColumns.publisher')}
+          </th>
           <SortableColumn
             label={t('eventsPage.eventsTableColumns.startTime')}
             onClick={handleSort}
@@ -84,7 +93,13 @@ const EventsTable: React.FC<EventsTableProps> = ({
       </thead>
       <tbody>
         {events.map((event) => {
-          return <EventTableRow key={event.id} event={event} />;
+          return (
+            <EventTableRow
+              key={event.id}
+              event={event}
+              onRowClick={handleRowClick}
+            />
+          );
         })}
         {!events.length && <NoDataRow colSpan={6} />}
       </tbody>

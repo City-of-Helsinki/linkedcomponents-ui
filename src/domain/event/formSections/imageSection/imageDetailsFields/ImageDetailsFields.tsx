@@ -120,6 +120,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
           label={t(`event.form.image.labelAltText`)}
           maxLength={CHARACTER_LIMITS.SHORT_STRING}
           placeholder={t(`event.form.image.placeholderAltText`)}
+          required={editable}
           title={warning}
         />
       </div>
@@ -131,6 +132,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
           label={t(`event.form.image.labelName`)}
           maxLength={CHARACTER_LIMITS.MEDIUM_STRING}
           placeholder={t(`event.form.image.placeholderName`)}
+          required={editable}
           title={warning}
         />
       </div>

@@ -12,6 +12,7 @@ import { EVENT_SORT_OPTIONS } from '../../constants';
 import EventsTable, { EventsTableProps } from '../EventsTable';
 
 configure({ defaultHidden: true });
+
 const defaultProps: EventsTableProps = {
   caption: 'Events table',
   events: [],
@@ -26,9 +27,8 @@ test('should render events table', () => {
   renderComponent();
 
   const columnHeaders = [
-    'ID',
-    'Julkaisija',
     'Nimi',
+    'Julkaisija',
     'Alkuaika',
     'Loppuaika',
     'Status',
@@ -41,7 +41,7 @@ test('should render events table', () => {
 });
 
 test('should render all events', () => {
-  const eventNames = range(1, 11).map((n) => `Event name ${n}`);
+  const eventNames = range(1, 5).map((n) => `Event name ${n}`);
   renderComponent({
     events: fakeEvents(
       eventNames.length,
@@ -50,8 +50,32 @@ test('should render all events', () => {
   });
 
   for (const name of eventNames) {
-    screen.getByRole('link', { name });
+    screen.getByRole('button', { name });
   }
+});
+
+test('should open event page by clicking event', () => {
+  const eventName = 'Event name';
+  const eventId = 'event:1';
+  const { history } = renderComponent({
+    events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
+  });
+
+  userEvent.click(screen.getByRole('button', { name: eventName }));
+
+  expect(history.location.pathname).toBe('/fi/events/edit/event:1');
+});
+
+test('should open event page by pressing enter on row', () => {
+  const eventName = 'Event name';
+  const eventId = 'event:1';
+  const { history } = renderComponent({
+    events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
+  });
+
+  userEvent.type(screen.getByRole('button', { name: eventName }), '{enter}');
+
+  expect(history.location.pathname).toBe('/fi/events/edit/event:1');
 });
 
 test('should call setSort when clicking sortable column header', () => {

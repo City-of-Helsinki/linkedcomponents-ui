@@ -1,39 +1,54 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
+import {
+  LoadingSpinner as HdsLoadingSpinner,
+  LoadingSpinnerProps,
+} from 'hds-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { ReactComponent as SpinnerSvg } from '../../../assets/images/svg/spinner.svg';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import styles from './loadingSpinner.module.scss';
 
 export const testId = 'loading-spinner';
 
-interface Props {
+type Props = {
   className?: string;
   isLoading: boolean;
-}
+} & LoadingSpinnerProps;
 
 const LoadingSpinner: React.FC<Props> = ({
   children,
   className,
   isLoading,
+  loadingFinishedText,
+  loadingText,
+  small,
+  ...rest
 }) => {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   return (
     <>
       {isLoading ? (
         <div
-          className={classNames(styles.loadingSpinnerWrapper, className)}
+          className={classNames(className, styles.loadingSpinnerWrapper)}
           data-testid={testId}
         >
-          <div
+          <HdsLoadingSpinner
+            {...rest}
             className={classNames(
               styles.loadingSpinner,
+              {
+                [styles.loadingSpinnerSmall]: small,
+              },
               css(theme.loadingSpinner)
             )}
-          >
-            <SpinnerSvg />
-          </div>
+            loadingText={loadingText || t('common.loadingText')}
+            loadingFinishedText={
+              loadingFinishedText || t('common.loadingFinishedText')
+            }
+          />
         </div>
       ) : (
         children

@@ -59,6 +59,8 @@
         "statusMessage_plural": "{{count}} vaihtoehtoa valittavissa, siirry nuolinäppäimillä ylös ja alas. Paina Enter-näppäintä valitaksesi."
       }
     },
+    "eventAmount": "{{count}} tapahtuma",
+    "eventAmount_plural": "{{count}} tapahtumaa",
     "feedback": {
       "text": "Anna palautetta",
       "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta"
@@ -70,10 +72,15 @@
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
     "loading": "Ladataan...",
+    "loadingFinished": "Lataaminen päättynyt",
     "multiSelectDropdown": {
       "searchPlaceholder": "Hae"
     },
     "noResults": "Ei tuloksia",
+    "numberInput": {
+      "buttonDecrease": "Vähennä",
+      "buttonIncrease": "Lisää" 
+    },
     "openInNewTab": "(avataan uudessa välilehdessä)",
     "pagination": {
       "navigation": "Sivunavigointi",
@@ -181,7 +188,7 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Hyväksy ja julkaise",
-      "buttonActions": "Toiminnot",
+      "buttonActions": "Valinnat",
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddImage": {
         "course": "Lisää kurssin kuva",
@@ -221,7 +228,7 @@
         "event": "Poista tapahtuman kuva"
       },
       "buttonSaveDraft": "Tallenna luonnos",
-      "buttonUpdateDraft": "Tallenna muutokset luonnokseen",
+      "buttonUpdateDraft": "Tallenna luonnos",
       "buttonUpdatePublic": "Tallenna muutokset",
       "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
       "editButtonPanel": {
@@ -241,9 +248,10 @@
         "placeholderMaximumAttendeeCapacity": "Syötä enimmäisosallistujamäärä",
         "placeholderMinimimAttendeeCapacity": "Syötä vähimmäisosallistujamäärä"
       },
+      "helperRecurringEventRepeatInterval": "Viikon välein",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "image": {
-        "labelAltText": "Kuvan alt-teksti",
+        "labelAltText": "Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti)",
         "labelName": "Kuvateksti",
         "labelPhotographerName": "Kuvaajan nimi",
         "labelUrl": "Kuvan URL-osoite",
@@ -310,6 +318,7 @@
       },
       "infoTextImage2": "Muokkaa kuva ennen syöttöä verkkoon sopivaksi ja 3:2 -vaakakuvasuhteeseen, esim. 1200×800px. Olennaista on, että tiedostokoko pysyy kohtuullisena myös mobiilikäyttöön eli mieluiten alle 200 kilotavun (kt).",
       "infoTextImage3": "Anna kuvalle nimi ja kuvaile lyhyesti mitä siinä tapahtuu.",
+      "infoTextImage4": "Alt-teksti parantaa saavutettavuutta, sillä ruudunlukuohjelmat välittävät alt-tekstin sisällön käyttäjälle. Kuvaa tähän kohtaan siis kuvan sisältö ymmärrettävästi.",
       "infoTextInfoLanguages": {
         "course": "Valitse kielet, joilla haluat kuvata kurssin tiedot tässä palvelussa.",
         "event": "Valitse kielet, joilla haluat kuvata tapahtuman tiedot tässä palvelussa."
@@ -355,7 +364,8 @@
       },
       "infoTextType1": "Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja ja toiminta on tavoitteellista. Joissakin tapauksissa kurssia kutsutaan myös harrastukseksi.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa siihen, miten ja missä palveluissa tapahtuma näytetään käyttäjälle.",
-      "infoTextUmrellaEvent": "Kattotapahtuman alle voi koota useampia erilaisia tapahtumia. Esimerkiksi festivaali voi olla kattotapahtuma, jonka alla on useita tapahtumia.",
+      "infoTextUmrellaEvent1": "Kattotapahtuman alle voi koota useampia erilaisia tapahtumia. Esimerkiksi festivaali voi olla kattotapahtuma, jonka alla on useita tapahtumia.",
+      "infoTextUmrellaEvent2": "Kattotapahtuma-valinnat voi jättää valitsematta useimmissa tapauksissa",
       "infoTextUmbrellaSubEvent": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se",
       "infoTextUmbrellaSubEventLink": "sarjan ylätapahtumasta",
       "infoTextVideo1": {
@@ -416,7 +426,7 @@
         "event": "Tapahtuma päättyy klo"
       },
       "labelRecurringEventRepeatInterval": {
-        "course": "Kurssi toistuu",
+        "course": "Kurssi toistu",
         "event": "Tapahtuma toistuu"
       },
       "labelRecurringEventStartDate": "Toisto alkaa",

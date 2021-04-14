@@ -139,6 +139,7 @@ export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword => {
       dataSource: 'yso',
       hasUpcomingEvents: true,
       name: fakeLocalisedObject(),
+      nEvents: 0,
       __typename: 'Keyword',
     },
     overrides
@@ -266,6 +267,7 @@ export const fakePlace = (overrides?: Partial<Place>): Place => {
       addressLocality: fakeLocalisedObject(),
       postalCode: faker.address.zipCode(),
       hasUpcomingEvents: true,
+      nEvents: 0,
       telephone: fakeLocalisedObject(),
       email: faker.internet.email(),
       infoUrl: fakeLocalisedObject(faker.internet.url()),

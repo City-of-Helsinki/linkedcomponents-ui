@@ -11,9 +11,14 @@
 }
 
 .pageBody {
-  display: grid;
+  display: flex;
   align-content: flex-start;
   background-color: var(--page-background-color);
   margin-bottom: calc(0px - var(--footer-koro-height));
   padding-bottom: var(--footer-koro-height);
+
+  &.noKoro {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
 }

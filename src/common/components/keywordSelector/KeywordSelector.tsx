@@ -1,6 +1,5 @@
 import { useApolloClient } from '@apollo/client';
 import { MultiSelectProps } from 'hds-react';
-import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -28,14 +27,17 @@ const getKeywordFields = (
   name: getLocalisedString(keyword.name, locale),
 });
 
-const getOption = (
-  keyword: KeywordFieldsFragment,
-  locale: Language
-): OptionType => {
-  const { id: value, name: label } = getKeywordFields(keyword, locale);
+const getOption = ({
+  keyword,
+  locale,
+}: {
+  keyword: KeywordFieldsFragment;
+  locale: Language;
+}): OptionType => {
+  const { id: value, name } = getKeywordFields(keyword, locale);
 
   return {
-    label,
+    label: name,
     value,
   };
 };
@@ -66,7 +68,9 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
 
   const { data: keywordsData } = useKeywordsQuery({
     variables: {
-      freeText: search,
+      dataSource: 'yso',
+      showAllKeywords: true,
+      text: search,
       createPath: getPathBuilder(keywordsPathBuilder),
     },
   });
@@ -84,11 +88,11 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   React.useEffect(() => {
     if (keywordsData?.keywords.data) {
       setOptions(
-        sortBy(
-          keywordsData.keywords.data.map((keyword) =>
-            getOption(keyword as KeywordFieldsFragment, locale)
-          ),
-          ['label']
+        keywordsData.keywords.data.map((keyword) =>
+          getOption({
+            keyword: keyword as KeywordFieldsFragment,
+            locale,
+          })
         )
       );
     }
@@ -104,7 +108,10 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
           );
 
           return keyword
-            ? getOption(keyword as KeywordFieldsFragment, locale)
+            ? getOption({
+                keyword: keyword as KeywordFieldsFragment,
+                locale,
+              })
             : { label: '', value: '' };
         })
       );

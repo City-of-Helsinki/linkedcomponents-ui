@@ -1,4 +1,7 @@
+@import "mixins";
+
 .wrapper {
+  --focus-outline-width: 3px;
   --icon-width: var(--spacing-m);
   --menu-background-color: var(--color-white);
   --menu-border-color: var(--input-border-color-default);
@@ -37,6 +40,8 @@
       height: var(--icon-width);
       width: var(--icon-width);
     }
+
+    @include focus-outline(calc(0px - var(--focus-outline-width)));
   }
 
   .dropdownMenu {
@@ -70,6 +75,9 @@
     font-size: var(--menu-item-fontsize);
     padding: var(--menu-item-spacing);
     background-color: var(--menu-item-background-color);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: var(--spacing-m);
 
     &:hover,
     &.isHighlighted {

@@ -11,6 +11,7 @@ import {
   fakeExternalLink,
   fakeImages,
   fakeKeywords,
+  fakeLanguage,
   fakeLanguages,
   fakeOffers,
   fakeOrganization,
@@ -123,22 +124,11 @@ describe('eventPathBuilder function', () => {
 
 describe('sortLanguage function', () => {
   it('should sort languages correctly', () => {
-    const en = {
-      label: 'Englanti',
-      value: 'en',
-    };
-    const fi = {
-      label: 'Suomi',
-      value: 'fi',
-    };
-    const ru = {
-      label: 'Venäjä',
-      value: 'ru',
-    };
-    const sv = {
-      label: 'Ruotsi',
-      value: 'sv',
-    };
+    const en = fakeLanguage({ name: { fi: 'Englanti' }, id: 'en' });
+    const fi = fakeLanguage({ name: { fi: 'Suomi' }, id: 'fi' });
+    const ru = fakeLanguage({ name: { fi: 'Venäjä' }, id: 'ru' });
+    const sv = fakeLanguage({ name: { fi: 'Ruotsi' }, id: 'sv' });
+
     expect([ru, en, sv, fi].sort(sortLanguage)).toEqual([fi, sv, en, ru]);
   });
 });

@@ -40,7 +40,9 @@ const keywordsResponse = { data: { keywords } };
 
 const keywordsVariables = {
   createPath: undefined,
-  freeText: '',
+  dataSource: 'yso',
+  showAllKeywords: true,
+  text: '',
 };
 
 const mocks = [

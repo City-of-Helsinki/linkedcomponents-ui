@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useCombobox, UseComboboxState } from 'downshift';
 import { css } from 'emotion';
-import { IconClock, TextInputProps } from 'hds-react';
+import { IconCheck, IconClock, TextInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -165,9 +165,12 @@ const Timepicker: React.FC<Props> = ({
               },
             });
 
+            const isSelected = item === selectedItem;
+
             return (
               <ScrollIntoViewWithFocus isFocused={isHighlighted} {...itemProps}>
-                {item}
+                <span>{item}</span>
+                {isSelected && <IconCheck aria-hidden={true} />}
               </ScrollIntoViewWithFocus>
             );
           })}

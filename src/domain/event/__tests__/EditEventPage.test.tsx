@@ -81,6 +81,7 @@ const renderComponent = (mocks: MockedResponse[] = baseMocks) =>
 
 const findInput = (
   key:
+    | 'actionsButton'
     | 'audience'
     | 'audienceMaxAge'
     | 'audienceMinAge'
@@ -173,6 +174,16 @@ const findInput = (
   }
 };
 
+const openMenu = async () => {
+  const toggleButton = await screen.findByRole('button', {
+    name: /valinnat/i,
+  });
+  userEvent.click(toggleButton);
+  await screen.findByRole('region', { name: /valinnat/i });
+
+  return toggleButton;
+};
+
 const findButton = (
   key: 'cancel' | 'delete' | 'postpone' | 'updateDraft' | 'updatePublic'
 ) => {
@@ -185,7 +196,7 @@ const findButton = (
       return screen.findByRole('button', { name: 'Lykkää tapahtumaa' });
     case 'updateDraft':
       return screen.findByRole('button', {
-        name: 'Tallenna muutokset luonnokseen',
+        name: 'Tallenna luonnos',
       });
     case 'updatePublic':
       return screen.findByRole('button', {
@@ -282,6 +293,7 @@ test('should cancel event', async () => {
 
   renderComponent(mocks);
 
+  await openMenu();
   const cancelButton = await findButton('cancel');
   userEvent.click(cancelButton);
 
@@ -312,6 +324,7 @@ test('should postpone event', async () => {
   const endTimeInput = await findInput('endTime');
   expect(endTimeInput).toHaveValue(expectedValues.endTime);
 
+  await openMenu();
   const postponeButton = await findButton('postpone');
   userEvent.click(postponeButton);
 
@@ -336,6 +349,7 @@ test('should delete event', async () => {
 
   const { history } = renderComponent(mocks);
 
+  await openMenu();
   const deleteButton = await findButton('delete');
   userEvent.click(deleteButton);
 

@@ -1,6 +1,10 @@
+@import "mixins";
+
 .toggleButton {
   padding: 0;
   display: flex;
+
+  @include focus-outline(0px);
 
   svg {
     transform: rotate(90deg);

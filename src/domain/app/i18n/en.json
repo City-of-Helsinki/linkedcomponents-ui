@@ -59,6 +59,8 @@
         "statusMessage_plural": "{{count}} options are available, use up and down arrow keys to navigate. Press Enter key to select."
       }
     },
+    "eventAmount": "{{count}} event",
+    "eventAmount_plural": "{{count}} events",
     "feedback": {
       "text": "Give feedback",
       "url": "https://www.hel.fi/helsinki/en/administration/participate/feedback/"
@@ -70,10 +72,15 @@
       "tooLargeFileSize": "File size is too large. Maximum file size is {{maxSize}} MB"
     },
     "loading": "Loading...",
+    "loadingFinished": "Loading finished",
     "multiSelectDropdown": {
       "searchPlaceholder": "Search"
     },
     "noResults": "No results",
+    "numberInput": {
+      "buttonDecrease": "Descrease",
+      "buttonIncrease": "Increase" 
+    },
     "openInNewTab": "(opens in a new tab)",
     "pagination": {
       "navigation": "Page navigation",
@@ -221,7 +228,7 @@
         "event": "Remove photo of the event"
       },
       "buttonSaveDraft": "Save draft",
-      "buttonUpdateDraft": "Save changes to draft",
+      "buttonUpdateDraft": "Save draft",
       "buttonUpdatePublic": "Save changes",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
       "editButtonPanel": {
@@ -241,9 +248,10 @@
         "placeholderMaximumAttendeeCapacity": "Enter maximum number of participants",
         "placeholderMinimimAttendeeCapacity": "Enter minimum number of participants"
       },
+      "helperRecurringEventRepeatInterval": "In weeks",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "image": {
-        "labelAltText": "Alt text of the image",
+        "labelAltText": "Alternate image text for screen readers (alt text)",
         "labelName": "Caption",
         "labelPhotographerName": "Photographer name",
         "labelUrl": "Image URL",
@@ -310,6 +318,7 @@
       },
       "infoTextImage2": "Before uploading, edit the image to fit the network and to a 3: 2 horizontal aspect ratio, such as 1200 × 800px. It is essential that the file size remains reasonable for mobile use as well, preferably less than 200 kilobytes (kb).",
       "infoTextImage3": "Give the image a name and briefly describe what is happening in it.",
+      "infoTextImage4": "Alt text improves accessibility because screen readers pass alt text to the user. So describe the content of the picture in an understandable way.",
       "infoTextInfoLanguages": {
         "course": "Select the languages in which you want to display course information for this service.",
         "event": "Select the languages in which you want to display event information for this service."
@@ -355,7 +364,8 @@
       },
       "infoTextType1": "Is it an event or a course? The event is a one-time event and starts at a certain time, while the course can generally have several events and the activities are goal-oriented. In some cases, the course is also called a hobby.",
       "infoTextType2": "The choice of event type affects how and in which services the event is displayed to the user.",
-      "infoTextUmrellaEvent": "Several different events can be grouped under the umbrella event. For example, a festival can be an umbrella event with several events underneath.",
+      "infoTextUmrellaEvent1": "Several different events can be grouped under the umbrella event. For example, a festival can be an umbrella event with several events underneath.",
+      "infoTextUmrellaEvent2": "Umbrella event options can be left unchecked in most cases",
       "infoTextUmbrellaSubEvent": "If you wish to add this event under an umbrella event, you may do so from the associated",
       "infoTextUmbrellaSubEventLink": "top level event",
       "infoTextVideo1": {

@@ -5,6 +5,7 @@ import { testId as loadingSpinnerTestId } from '../../../../common/components/lo
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import {
+  configure,
   render,
   screen,
   userEvent,
@@ -18,6 +19,8 @@ import {
   EVENTS_PAGE_TABS,
 } from '../../constants';
 import EventList, { EventListProps } from '../EventList';
+
+configure({ defaultHidden: true });
 
 const variables = {
   page: 1,
@@ -140,14 +143,14 @@ test('should render events of page 2', async () => {
   ).not.toBeInTheDocument();
 
   for (const name of eventNames) {
-    expect(screen.queryByRole('link', { name })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name })).toBeInTheDocument();
   }
 
   const page2Button = await findElement('page2');
   userEvent.click(page2Button);
 
   for (const name of eventNamesPage2) {
-    await screen.findByRole('link', { name });
+    await screen.findByRole('button', { name });
   }
 });
 

@@ -23,7 +23,7 @@
     justify-content: flex-end;
 
     .buttonColumn {
-      @include min-width-column(3);
+      @include min-width-column(2);
 
       &:not(:last-of-type) {
         margin-right: var(--spacing-m);

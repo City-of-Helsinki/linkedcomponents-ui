@@ -1,10 +1,8 @@
 @import 'breakpoints';
 @import 'mixins';
+@import 'widths';
 
 .editButtonPanel {
-  --back-button-width: 96px;
-  --actions-button-width: 212px;
-
   --edit-button-panel-background-color: var(--color-coat-of-arms);
   --edit-button-panel-button-background-color: var(--color-coat-of-arms);
   --edit-button-panel-button-background-color-hover: var(
@@ -14,74 +12,66 @@
   --edit-button-panel-button-background-color-hover-focus: var(
     --color-coat-of-arms-dark
   );
-  --edit-button-panel-button-background-color-disabled: var(
-    --color-coat-of-arms
-  );
   --edit-button-panel-button-border-color: var(--color-white);
-  --edit-button-panel-button-border-color-hover: var(--color-white);
-  --edit-button-panel-button-border-color-focus: var(--color-white);
-  --edit-button-panel-button-border-color-hover-focus: var(--color-white);
-  --edit-button-panel-button-border-color-disabled: var(--color-black-40);
   --edit-button-panel-button-color: var(--color-white);
-  --edit-button-panel-button-color-hover: var(--color-white);
-  --edit-button-panel-button-color-focus: var(--color-white);
-  --edit-button-panel-button-color-hover-focus: var(--color-white);
-  --edit-button-panel-button-color-disabled: var(--color-black-40);
   --edit-button-panel-button-focus-outline-color: var(--color-white);
 
   position: sticky;
-  margin-top: -1px;
-  top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
   padding: var(--spacing-m) 0;
-  background-color: var(--edit-button-panel-background-color);
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-black-10);
   z-index: 100;
 }
 
 .buttonsRow {
-  display: flex;
-  grid-gap: var(--spacing-m);
-  justify-content: space-between;
+  display: grid;
+  grid-gap: var(--spacing-s);
 
-  .backButtonWrapper {
-    width: var(--back-button-width);
+  @include medium-up {
+    display: flex;
+    grid-gap: unset;
+    justify-content: space-between;
+
+    > div:not(:last-child) {
+      margin-right: var(--spacing-m);
+    }
   }
 
-  .editButtonWrapper {
-    width: var(--actions-button-width);
+  .buttonWrapper {
+    display: grid;
+    grid-gap: var(--spacing-s);
+    grid-template-columns: repeat(2, 1fr);
+
+    @include medium-up {
+      display: flex;
+      grid-gap: unset;
+
+      > button:not(:last-child) {
+        margin-right: var(--spacing-m);
+      }
+    }
+  }
+
+  .actionsDropdown {
+    justify-self: flex-end;
+
+    @include medium-up {
+      @include min-width-column(2);
+    }
+  }
+
+  .smallButton {
+    @include min-width-column(1);
+  }
+
+  .mediumButton {
+    @include min-width-column(2);
   }
 
   button {
-    --background-color: var(--edit-button-panel-button-background-color);
-    --background-color-hover: var(
-      --edit-button-panel-button-background-color-hover
-    );
-    --background-color-focus: var(
-      --edit-button-panel-button-background-color-focus
-    );
-    --background-color-hover-focus: var(
-      --edit-button-panel-button-background-color-hover-focus
-    );
-    --background-color-disabled: var(
-      --edit-button-panel-button-background-color-disabled
-    );
-    --border-color: var(--edit-button-panel-button-border-color);
-    --border-color-hover: var(--edit-button-panel-button-border-color-hover);
-    --border-color-focus: var(--edit-button-panel-button-border-color-focus);
-    --border-color-hover-focus: var(
-      --edit-button-panel-button-border-color-hover-focus
-    );
-    --border-color-disabled: var(
-      --edit-button-panel-button-border-color-disabled
-    );
-    --color: var(--edit-button-panel-button-color);
-    --color-hover: var(--edit-button-panel-button-color-hover);
-    --color-focus: var(--edit-button-panel-button-color-focus);
-    --color-hover-focus: var(--edit-button-panel-button-color-hover-focus);
-    --color-disabled: var(--edit-button-panel-button-color-disabled);
-    --focus-outline-color: var(--edit-button-panel-button-focus-outline-color);
-
     & > div {
       flex-shrink: 0;
     }
@@ -90,6 +80,7 @@
 
 .backButton {
   height: var(--spacing-3-xl);
+  @include max-width-column(1);
 
   div {
     margin-left: 0 !important;
@@ -97,5 +88,16 @@
 
   span {
     @include hidden-from-screen;
+  }
+}
+
+.toggleButton {
+  height: var(--spacing-3-xl);
+  padding: var(--spacing-3-xs);
+
+  @include focus-outline(0px);
+
+  svg {
+    transform: rotate(90deg);
   }
 }

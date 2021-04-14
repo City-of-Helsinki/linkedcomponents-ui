@@ -5,6 +5,7 @@ import { testId as loadingSpinnerTestId } from '../../../../common/components/lo
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import {
+  configure,
   render,
   screen,
   userEvent,
@@ -16,6 +17,8 @@ import {
   EVENTS_PAGE_SIZE,
 } from '../../../events/constants';
 import EventList, { EventListProps } from '../EventList';
+
+configure({ defaultHidden: true });
 
 const count = 30;
 

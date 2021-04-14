@@ -1,8 +1,9 @@
-import { IconPen, LoadingSpinner } from 'hds-react';
+import { IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
@@ -25,20 +26,24 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleClose = (event?: React.MouseEvent | React.KeyboardEvent) => {
+    event?.preventDefault();
+    event?.stopPropagation();
+
     onClose();
   };
 
   const handleSave = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.stopPropagation();
+
     onSave();
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       shouldCloseOnEsc={true}
       size="m"
       title={t('event.updateEventModal.title')}
@@ -58,7 +63,11 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
         <Button
           iconLeft={
             isSaving ? (
-              <LoadingSpinner className={styles.loadingSpinner} small={true} />
+              <LoadingSpinner
+                className={styles.loadingSpinner}
+                isLoading={isSaving}
+                small={true}
+              />
             ) : (
               <IconPen />
             )

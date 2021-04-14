@@ -9,6 +9,7 @@ export const QUERY_KEYWORD = gql`
     name {
       ...localisedFields
     }
+    nEvents
   }
 
   query Keyword($id: ID!, $createPath: Any) {

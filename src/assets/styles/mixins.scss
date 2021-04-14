@@ -19,3 +19,14 @@
   width: 1px;
   white-space: nowrap;
 }
+
+@mixin focus-outline($offset: 0px, $color: var(--focus-outline-color)) {
+  &:focus {
+    outline: var(--focus-outline-width) solid $color;
+    outline-offset: $offset;
+
+    &:not(:global(.focus-visible)) {
+        outline: none;
+    }
+  }
+}

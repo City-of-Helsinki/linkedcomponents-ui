@@ -9,6 +9,7 @@ import styles from './pageWrapper.module.scss';
 export interface PageWrapperProps {
   backgroundColor?: 'white' | 'gray' | 'coatOfArms';
   className?: string;
+  noFooter?: boolean;
   title?: string;
 }
 
@@ -16,6 +17,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   backgroundColor = 'white',
   children,
   className,
+  noFooter = false,
   title = 'appName',
 }) => {
   const { t } = useTranslation();
@@ -34,6 +36,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
       className={classNames(
         styles.pageWrapper,
         [styles[`backgroundColor${upperCaseFirstLetter(backgroundColor)}`]],
+        { [styles.noFooter]: noFooter },
         className
       )}
     >

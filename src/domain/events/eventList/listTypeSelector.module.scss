@@ -3,8 +3,7 @@
 .listTypeSelector {
   --list-type-selector-option-color: var(--color-black-90);
   --list-type-selector-option-color-checked: var(--color-black-40);
-  --list-type-selector-option-background-color: 'transparent';
-  --list-type-selector-option-background-color: 'transparent';
+  --list-type-selector-option-background-color: var(--color-black-5);
   --list-type-selector-option-background-color-checked: var(--color-black-10);
   --list-type-selector-option-border-color: var(--color-black-40);
   --list-type-selector-option-size: 2rem;
@@ -35,6 +34,8 @@
     display: flex;
     justify-content: center;
     cursor: pointer;
+
+    @include focus-outline(0px);
   }
 
   label {

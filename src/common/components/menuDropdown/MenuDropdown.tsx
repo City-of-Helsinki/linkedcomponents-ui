@@ -12,7 +12,7 @@ import useDropdownKeyboardNavigation from '../../../hooks/useDropdownKeyboardNav
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import Button from '../button/Button';
 // eslint-disable-next-line import/no-named-as-default
-import Menu from './Menu';
+import Menu, { MenuPosition } from './Menu';
 import styles from './menuDropdown.module.scss';
 import { MenuItemOptionProps } from './MenuItem';
 
@@ -25,6 +25,7 @@ export type MenuDropdownProps = React.PropsWithChildren<{
   fixedPosition?: boolean;
   id?: string;
   items: MenuItemOptionProps[];
+  menuPosition?: MenuPosition;
 }>;
 
 const MenuDropdown = ({
@@ -36,6 +37,7 @@ const MenuDropdown = ({
   fixedPosition = false,
   id: _id,
   items,
+  menuPosition,
 }: MenuDropdownProps) => {
   const { theme } = useTheme();
   const disabledIndices = items.reduce(
@@ -123,7 +125,7 @@ const MenuDropdown = ({
     }
   };
 
-  const handleItemClick = () => {
+  const handleItemClick = (event?: React.MouseEvent<HTMLElement>) => {
     if (closeOnItemClick) {
       ensureMenuIsClosed();
       setFocusToButton();
@@ -178,6 +180,7 @@ const MenuDropdown = ({
 
   const toggleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    event.stopPropagation();
 
     setMenuOpen(!menuOpen);
   };
@@ -201,6 +204,7 @@ const MenuDropdown = ({
         onItemClick={handleItemClick}
         menuContainerSize={menuContainerSize}
         menuOpen={menuOpen}
+        menuPosition={menuPosition}
         setFocusedIndex={setFocusedIndex}
       />
     </div>

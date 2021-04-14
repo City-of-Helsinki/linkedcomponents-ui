@@ -31,6 +31,19 @@
   }
 }
 
+.numberRow {
+  display: grid;
+  grid-gap: var(--spacing-s);
+
+  @include small-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include medium-up {
+    grid-gap: var(--spacing-m);
+  }
+}
+
 .noBottomMargin {
   @include medium-up {
     margin-bottom: 0px !important;

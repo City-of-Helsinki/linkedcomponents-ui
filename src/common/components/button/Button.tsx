@@ -4,6 +4,7 @@ import { Button as BaseButton, ButtonProps } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import styles from './button.module.scss';
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', ...rest }, ref) => {
@@ -11,7 +12,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <BaseButton
         variant={variant as any}
-        className={classNames(className, css(theme.button[variant]))}
+        className={classNames(
+          className,
+          styles.button,
+          css(theme.button[variant])
+        )}
         ref={ref}
         {...rest}
       />

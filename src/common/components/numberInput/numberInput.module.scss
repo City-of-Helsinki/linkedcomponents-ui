@@ -1,0 +1,5 @@
+.numberInput {
+  button:focus:not(:global(.focus-visible)) {
+    outline: none;
+  }
+}

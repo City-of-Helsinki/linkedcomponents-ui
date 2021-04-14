@@ -1,4 +1,7 @@
+@import "mixins";
+
 .datepickerWrapper {
+  --focus-outline-width: 3px;
   --calendar-button-height: 56px;
   --close-button-color: var(--color-bus);
   --day-background-color: transparent;
@@ -26,7 +29,11 @@
   --times-divider-border-color: var(--color-black-10);
   --times-list-width: 110px;
   --time-item-background-color: transparent;
-  --time-item-background-color-selected: rgba(0, 0, 0, 0.1);
+  --time-item-background-color-focused: var(--color-black-10);
+  --time-item-background-color-selected: var(--color-white);
+  --time-item-color: var(--color-black-90);
+  --time-item-color-focused: var(--color-black-90);
+  --time-item-color-selected: var(--color-black-90);
 }
 
 .datepickerWrapper {
@@ -82,7 +89,6 @@
   .dayButton {
     padding: var(--spacing-3-xs);
     font-weight: 500;
-    border: 1px solid var(--day-border-color);
     width: var(--day-size);
     height: var(--day-size);
     background-color: var(--day-background-color);
@@ -93,12 +99,14 @@
       border-color: var(--day-border-color-hovered);
       color: var(--day-color-hovered);
     }
+
+    @include focus-outline(calc(0px - var(--focus-outline-width)), var(--day-border-color-focused));
   }
 
   .daySelected {
-    background-color: var(--day-background-color-selected);
-    border-color: var(--day-border-color-selected);
-    color: var(--day-color-selected);
+    background-color: var(--day-background-color-selected) !important;
+    border-color: var(--day-border-color-selected) !important;
+    color: var(--day-color-selected) !important;
   }
 
   .dayDisabled {
@@ -115,11 +123,14 @@
   }
 
   .monthNavButton {
-    width: 1rem;
+    width: var(--spacing-m);
+    padding: 0;
 
     svg {
       display: block;
     }
+
+    @include focus-outline(calc(0px - var(--focus-outline-width)));
   }
 
   .datepickerInput {
@@ -145,6 +156,8 @@
       width: var(--icon-width);
     }
 
+    @include focus-outline(calc(0px - var(--focus-outline-width)));
+
     &:disabled {
       cursor: not-allowed;
     }
@@ -169,17 +182,30 @@
       calc(var(--datepicker-container-padding) * -1)
       calc(var(--datepicker-container-padding) * -1) 0;
     width: var(--times-list-width);
+
+    @include focus-outline(calc(0px - var(--focus-outline-width)));
   }
 
   .timeItem {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: var(--spacing-2-xs);
     padding: var(--spacing-2-xs) var(--spacing-xs);
     width: 100%;
     text-align: left;
     border: 1px solid transparent;
     background-color: var(--time-item-background-color);
+    color: var(--time-item-color);
+    outline: none;
 
     &.selectedTimeItem {
       background-color: var(--time-item-background-color-selected);
+      color: var(--time-item-color-selected);
+    }
+
+    &:focus {
+      background-color: var(--time-item-background-color-focused);
+      color: var(--time-item-color-focused);
     }
   }
 }

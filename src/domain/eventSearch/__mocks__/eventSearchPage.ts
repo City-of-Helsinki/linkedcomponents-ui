@@ -40,7 +40,6 @@ const mockedEventsResponse: MockedResponse = {
 
 const placesVariables = {
   createPath: undefined,
-  showAllPlaces: true,
   text: '',
 };
 const placesResponse = { data: { places: fakePlaces(0) } };

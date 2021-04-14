@@ -110,24 +110,6 @@ const renderComponent = ({
   props?: Partial<AddImageFormProps>;
 }) => render(<AddImageForm {...defaultProps} {...props} />, { mocks, store });
 
-test('should render add image form', () => {
-  renderComponent({});
-
-  const titles = [
-    translations.event.form.image.titleUseImportedImage,
-    translations.event.form.image.titleImportFromHardDisk,
-    translations.event.form.image.titleImportFromInternet,
-  ];
-  titles.forEach((name) => {
-    screen.getByRole('heading', { name });
-  });
-
-  const buttons = [translations.common.cancel, translations.common.add];
-  buttons.forEach((name) => {
-    screen.getByRole('button', { name });
-  });
-});
-
 test('should call onCancel', async () => {
   const onCancel = jest.fn();
   renderComponent({ props: { onCancel } });
@@ -166,6 +148,31 @@ test('should call onSubmit with existing image', async () => {
   });
 
   userEvent.click(addButton);
+
+  await waitFor(() => {
+    expect(onSubmit).toBeCalledWith({
+      selectedImage: [images.data[0].atId],
+      url: '',
+    });
+  });
+});
+
+test('should call onSubmit by double clicking image', async () => {
+  const onSubmit = jest.fn();
+  renderComponent({ props: { onSubmit } });
+
+  const urlInput = screen.getByRole('textbox', {
+    name: translations.event.form.image.labelUrl,
+  });
+  const imageCheckbox = await screen.findByRole('checkbox', {
+    name: images.data[0].name,
+  });
+
+  await waitFor(() => {
+    expect(urlInput).toBeEnabled();
+  });
+
+  userEvent.dblClick(imageCheckbox);
 
   await waitFor(() => {
     expect(onSubmit).toBeCalledWith({

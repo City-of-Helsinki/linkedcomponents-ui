@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { css } from 'emotion';
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { matchPath, RouteProps, useLocation } from 'react-router';
 
 import { ROUTES, SUPPORTED_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
@@ -12,15 +13,37 @@ import styles from './pageLayout.module.scss';
 import ResetFocus from './ResetFocus';
 import ScrollToTop from './ScrollToTop';
 
+interface IgnorePathProps {
+  pathname: string;
+  props?: RouteProps;
+}
+
 const RESET_IGNORED_PATHS = [
   { pathname: ROUTES.HELP, props: { exact: false } },
 ];
 
+const NO_KORO_PATHS = [
+  { pathname: ROUTES.HELP, props: { exact: false } },
+  { pathname: ROUTES.EDIT_EVENT, props: { exact: true } },
+];
+
 const PageLayout: React.FC = ({ children }) => {
   const { theme } = useTheme();
+  const { pathname } = useLocation();
   const locale = useLocale();
 
   const path = window.location.pathname.replace(`/${locale}`, '');
+
+  const isMatch = (paths: IgnorePathProps[]) =>
+    paths.some((path) =>
+      matchPath(pathname, {
+        path: `/${locale}${path.pathname}`,
+        exact: path.props?.exact ?? true,
+        strict: path.props?.strict ?? true,
+      })
+    );
+
+  const noKoro = isMatch(NO_KORO_PATHS);
 
   return (
     <>
@@ -50,7 +73,11 @@ const PageLayout: React.FC = ({ children }) => {
         </Helmet>
 
         <Header />
-        <div className={styles.pageBody}>{children}</div>
+        <div
+          className={classNames(styles.pageBody, { [styles.noKoro]: noKoro })}
+        >
+          {children}
+        </div>
 
         <Footer />
       </div>

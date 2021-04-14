@@ -59,6 +59,8 @@
         "statusMessage_plural": "{{count}} alternativ är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja."
       }
     },
+    "eventAmount": "{{count}} evenemang",
+    "eventAmount_plural": "{{count}} evenemang",
     "feedback": {
       "text": "Ge respons",
       "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
@@ -70,10 +72,15 @@
       "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
     },
     "loading": "Läser in...",
+    "loadingFinished": "Laddningen är klar",
     "multiSelectDropdown": {
       "searchPlaceholder": "Sök"
     },
     "noResults": "Inga resultat",
+    "numberInput": {
+      "buttonDecrease": "Minska",
+      "buttonIncrease": "Öka" 
+    },
     "openInNewTab": "(öppnas i en ny flik)",
     "pagination": {
       "navigation": "Sidnavigering",
@@ -221,7 +228,7 @@
         "event": "Ta bort bilden av evenemanget"
       },
       "buttonSaveDraft": "Spara utkast",
-      "buttonUpdateDraft": "Spara ändringar i utkastet",
+      "buttonUpdateDraft": "Spara utkast",
       "buttonUpdatePublic": "Spara ändringar",
       "checkboxIsVerified": "Jag verifierar att informationen jag har gett är korrekt och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och föreskrifter {{openInNewTab}}\">alla instruktioner och föreskrifter</a> som gäller Helsingfors stads kurser och evenemang.",
       "editButtonPanel": {
@@ -241,9 +248,10 @@
         "placeholderMaximumAttendeeCapacity": "Ange maximalt antal deltagare",
         "placeholderMinimimAttendeeCapacity": "Ange minsta antal deltagare"
       },
+      "helperRecurringEventRepeatInterval": "I veckor",
       "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "image": {
-        "labelAltText": "Bildens alt-text",
+        "labelAltText": "Alternativ bildtext för skärmläsare (alt text)",
         "labelName": "Rubrik",
         "labelPhotographerName": "Fotografens namn",
         "labelUrl": "Bildens URL",
@@ -310,6 +318,7 @@
       },
       "infoTextImage2": "Innan du matar redigerar du bilden så att den passar nätverket och till ett horisontellt bildförhållande 3: 2, till exempel 1200 × 800 pixlar. Det är viktigt att filstorleken förblir rimlig även för mobil användning, helst mindre än 200 kilobyte (kb).",
       "infoTextImage3": "Ge bilden ett namn och beskriv kort vad som händer i den.",
+      "infoTextImage4": "Alt-text förbättrar tillgängligheten eftersom skärmläsare skickar alt-text till användaren. Så beskriv innehållet i bilden på ett förståeligt sätt.",
       "infoTextInfoLanguages": {
         "course": "Välj de språk som du vill visa kursinformation för den här tjänsten på.",
         "event": "Välj de språk som du vill visa evenemanginformation för den här tjänsten på."
@@ -355,7 +364,8 @@
       },
       "infoTextType1": "Är det ett evenemang eller en kurs? Evenemanget är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen i allmänhet kan ha flera evenemang och aktiviteterna är målinriktade. I vissa fall kallas kursen också en hobby.",
       "infoTextType2": "Valet av evenemangtyp påverkar hur och i vilka tjänster evenemanget visas för användaren.",
-      "infoTextUmrellaEvent": "Flera olika evenemang kan grupperas under paraplyevenemanget. Till exempel kan en festival vara ett paraplyevenemang med flera evenemang under.",
+      "infoTextUmrellaEvent1": "Flera olika evenemang kan grupperas under paraplyevenemanget. Till exempel kan en festival vara ett paraplyevenemang med flera evenemang under.",
+      "infoTextUmrellaEvent2": "Paraplyevenemangalternativ kan lämnas omarkerade i de flesta fall",
       "infoTextUmbrellaSubEvent": "Om du vill lägga till detta evenemang under ett paraplyevenemang kan du göra det från tillhörande",
       "infoTextUmbrellaSubEventLink": "toppnivåevenemanget",
       "infoTextVideo1": {

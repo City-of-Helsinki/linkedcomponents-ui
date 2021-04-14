@@ -1,7 +1,7 @@
 @import 'breakpoints';
 
 .modalPortal {
-  --modal-label-height: 22px;
+  --modal-label-height: 28px;
   --modal-background-color: var(--color-white);
   --modal-bottom: 0px;
   --modal-max-width-m: 558px;
@@ -61,6 +61,7 @@
   top: 0;
   background-color: var(--modal-heading-background-color);
   color: var(--modal-heading-color);
+  z-index: 1;
 
   .heading {
     display: grid;

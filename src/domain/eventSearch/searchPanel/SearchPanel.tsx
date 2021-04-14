@@ -162,6 +162,7 @@ const SearchPanel: React.FC = () => {
               </div>
               <div className={styles.buttonWrapper}>
                 <Button
+                  className={styles.button}
                   fullWidth={true}
                   onClick={handleSearch}
                   variant="success"

@@ -9,6 +9,16 @@ import StatusTag from './tags/StatusTag';
 import SuperEventTypeTag from './tags/SuperEventTypeTag';
 import { getEventFields } from './utils';
 
+interface CreatorBadgeProps {
+  createdBy: string;
+}
+
+const CreatorBadge: React.FC<CreatorBadgeProps> = ({ createdBy }) => {
+  return createdBy ? (
+    <span className={styles.creatorBadge}>{createdBy[0]}</span>
+  ) : null;
+};
+
 interface Props {
   event: EventFieldsFragment;
 }
@@ -38,10 +48,15 @@ const EventInfo: React.FC<Props> = ({ event }) => {
         <SuperEventTypeTag superEventType={superEventType} />
       </div>
 
-      <p className={styles.time}>
-        <i>{formatDate(lastModifiedTime, DATETIME_FORMAT)}</i>
+      <p className={styles.editingInfo}>
+        <span>{formatDate(lastModifiedTime, DATETIME_FORMAT)}</span>
+        {createdBy && (
+          <>
+            <CreatorBadge createdBy={createdBy} />
+            <span>{createdBy}</span>
+          </>
+        )}
       </p>
-      <p className={styles.author}>{createdBy || '-'}</p>
     </div>
   );
 };
