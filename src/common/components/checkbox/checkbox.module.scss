@@ -1,5 +1,5 @@
 .checkbox {
-    input[type='checkbox']:focus:not(:global(.focus-visible))+label:before {
-        --focus-outline-color: transparent;
-    }
+  input[type='checkbox']:focus:not(:global(.focus-visible)) + label:before {
+    --focus-outline-color: transparent;
+  }
 }
