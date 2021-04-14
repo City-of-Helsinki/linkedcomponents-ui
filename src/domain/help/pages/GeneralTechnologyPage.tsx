@@ -13,7 +13,7 @@ const GeneralTechnologyPage = () => {
       case 'en':
         return (
           <>
-            <h1>Technology</h1>
+            <h1>General</h1>
             <p>
               Linked Events is developed for the Django platform in Python and
               Javascript programming languages and utilizes a PostgreSQL
@@ -36,7 +36,7 @@ const GeneralTechnologyPage = () => {
       case 'fi':
         return (
           <>
-            <h1>Teknologia</h1>
+            <h1>Yleistä</h1>
             <p>
               Linked Events on kehitetty Django alustalle Python ja Javascript
               ohjelmointikielillä ja se hyödyntää PostgreSQL tietokantaa
@@ -59,7 +59,7 @@ const GeneralTechnologyPage = () => {
       case 'sv':
         return (
           <>
-            <h1>Teknologi</h1>
+            <h1>Allmän</h1>
             <p>
               Linked Events är utvecklat för Django-plattformen i
               programmeringsspråk Python och Javascript och använder en

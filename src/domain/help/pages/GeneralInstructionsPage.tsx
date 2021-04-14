@@ -13,7 +13,7 @@ const GeneralInstructionsPage = () => {
       case 'en':
         return (
           <>
-            <h1>Instructions</h1>
+            <h1>General</h1>
             <p>
               These Linked Events instructions provide answers to the most
               common questions, as well as instructions for using the control
@@ -43,7 +43,7 @@ const GeneralInstructionsPage = () => {
       case 'fi':
         return (
           <>
-            <h1>Ohjeet</h1>
+            <h1>Yleistä</h1>
             <p>
               Näistä Linked Events ohjeista löydät vastaukset yleisimpiin
               kysymyksiin sekä ohjeet hallintapaneelin ja rajapinnan käyttöön.
@@ -73,7 +73,7 @@ const GeneralInstructionsPage = () => {
       case 'sv':
         return (
           <>
-            <h1>Instruktioner</h1>
+            <h1>Allmän</h1>
             <p>
               Dessa "Linked Events" -instruktioner ger svar på de vanligaste
               frågorna samt instruktioner för användning av kontrollpanelen och
