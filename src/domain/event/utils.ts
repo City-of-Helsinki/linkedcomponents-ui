@@ -39,7 +39,9 @@ import {
 } from '../../constants';
 import {
   CreateEventMutationInput,
+  EventDocument,
   EventFieldsFragment,
+  EventQuery,
   EventQueryVariables,
   EventsDocument,
   EventsQuery,
@@ -1771,4 +1773,25 @@ export const copyEventToSessionStorage = async (event: EventFieldsFragment) => {
   };
 
   sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
+};
+
+export const getRecurringEvent = async (
+  id: string,
+  apolloClient: ApolloClient<object>
+): Promise<EventFieldsFragment | null> => {
+  try {
+    const { data: eventData } = await apolloClient.query<EventQuery>({
+      query: EventDocument,
+      fetchPolicy: 'no-cache',
+      variables: {
+        id,
+        include: EVENT_INCLUDES,
+        createPath: getPathBuilder(eventPathBuilder),
+      },
+    });
+
+    return eventData.event;
+  } catch (e) /* istanbul ignore next */ {
+    return null;
+  }
 };

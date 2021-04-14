@@ -14,6 +14,7 @@ import {
   fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
+import { EVENT_INCLUDES } from '../../constants';
 import EventHierarchy from '../EventHierarchy';
 
 const publisherId = 'publisher:1';
@@ -38,8 +39,8 @@ const mockedOrganizationsResponse: MockedResponse = {
 
 const baseEventsVariables = {
   createPath: undefined,
-  include: ['audience', 'keywords', 'location', 'sub_events', 'super_event'],
-  pageSize: 100,
+  include: EVENT_INCLUDES,
+  pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',
 };

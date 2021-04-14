@@ -11,6 +11,7 @@ import {
   fakeEvents,
   fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
+import { EVENT_INCLUDES } from '../../constants';
 
 const publisherId = 'publisher:1';
 
@@ -65,8 +66,8 @@ const event = fakeEvent({
 
 const baseVariables = {
   createPath: undefined,
-  include: ['audience', 'keywords', 'location', 'sub_events', 'super_event'],
-  pageSize: 100,
+  include: EVENT_INCLUDES,
+  pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',
   superEvent: subEventId,

@@ -32,6 +32,7 @@ import {
   getRelatedEvents,
 } from '../utils';
 import useUpdateImageIfNeeded from './useUpdateImageIfNeeded';
+import useUpdateRecurringEventIfNeeded from './useUpdateRecurringEventIfNeeded';
 
 export enum MODALS {
   CANCEL = 'cancel',
@@ -63,6 +64,7 @@ const useEventUpdateActions = ({ event }: Props) => {
   const [deleteEventMutation] = useDeleteEventMutation();
   const [updateEventsMutation] = useUpdateEventsMutation();
   const { updateImageIfNeeded } = useUpdateImageIfNeeded();
+  const { updateRecurringEventIfNeeded } = useUpdateRecurringEventIfNeeded();
 
   const closeModal = () => {
     setOpenModal(null);
@@ -124,6 +126,7 @@ const useEventUpdateActions = ({ event }: Props) => {
       }));
 
       await updateEvents(payload);
+      await updateRecurringEventIfNeeded(event);
 
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
@@ -166,6 +169,7 @@ const useEventUpdateActions = ({ event }: Props) => {
         await deleteEventMutation({ variables: { id } });
       }
 
+      await updateRecurringEventIfNeeded(event);
       // Clear all events from apollo cache
       for (const id of deletableEventIds) {
         clearEventQuery(apolloClient, id);
@@ -218,6 +222,7 @@ const useEventUpdateActions = ({ event }: Props) => {
       }));
 
       await updateEvents(payload);
+      await updateRecurringEventIfNeeded(event);
 
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
@@ -359,7 +364,6 @@ const useEventUpdateActions = ({ event }: Props) => {
         payload = [
           {
             ...basePayload,
-
             endTime: superEventTime.endTime?.toISOString(),
             id,
             startTime: superEventTime.startTime?.toISOString(),
@@ -367,20 +371,19 @@ const useEventUpdateActions = ({ event }: Props) => {
             superEventType: SuperEventType.Recurring,
           },
         ];
+        await updateEvents(payload);
+        clearEventsQueries(apolloClient);
       } else {
         payload = [{ ...basePayload, id }];
+        await updateEvents(payload);
+        await updateRecurringEventIfNeeded(event);
       }
-      await updateEvents(payload);
 
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
       closeModal();
       setSaving(null);
-
-      if (superEventType === SuperEventType.Recurring) {
-        clearEventsQueries(apolloClient);
-      }
     } catch (error) /* istanbul ignore next */ {
       setSaving(null);
       // Report error to Sentry

@@ -37,6 +37,7 @@ import {
   fakeUser,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
+import { EVENT_INCLUDES } from '../../event/constants';
 
 const eventId = 'helsinki:1';
 const audienceName = 'Audience name';
@@ -311,7 +312,7 @@ const event = fakeEvent(eventOverrides);
 const eventVariables = {
   createPath: undefined,
   id: eventId,
-  include: ['audience', 'keywords', 'location', 'sub_events', 'super_event'],
+  include: EVENT_INCLUDES,
 };
 const eventResponse = { data: { event } };
 const mockedEventResponse: MockedResponse = {
@@ -443,8 +444,8 @@ const subEventsResponse = { data: { events: subEvents } };
 
 const baseEventsVariables = {
   createPath: undefined,
-  include: ['audience', 'keywords', 'location', 'sub_events', 'super_event'],
-  pageSize: 100,
+  include: EVENT_INCLUDES,
+  pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',
 };
