@@ -1276,7 +1276,7 @@ const getFocusableFieldId = (
   fieldName: string
 ): {
   fieldId: string;
-  type: 'default' | 'checkboxGroup' | 'select' | 'textEditor';
+  type: 'default' | 'checkboxGroup' | 'eventTimes' | 'select' | 'textEditor';
 } => {
   // For the select elements, focus the toggle button
   if (SELECT_FIELDS.find((item) => item === fieldName)) {
@@ -1285,6 +1285,8 @@ const getFocusableFieldId = (
     return { fieldId: `${fieldName}-text-editor`, type: 'textEditor' };
   } else if (fieldName === EVENT_FIELDS.MAIN_CATEGORIES) {
     return { fieldId: fieldName, type: 'checkboxGroup' };
+  } else if (fieldName === EVENT_FIELDS.EVENT_TIMES) {
+    return { fieldId: `${fieldName}-error`, type: 'default' };
   }
 
   return { fieldId: fieldName, type: 'default' };

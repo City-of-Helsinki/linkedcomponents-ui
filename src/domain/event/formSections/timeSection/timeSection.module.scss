@@ -51,4 +51,9 @@
 
   composes: hds-text-input__error-text from '~hds-core/lib/components/text-input/text-input.css';
   margin-top: var(--spacing-m);
+
+  &:focus {
+    outline: var(--focus-outline-width) solid var(--helper-color-invalid);
+    outline-offset: var(--spacing-3-xs);
+  }
 }

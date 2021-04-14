@@ -16,6 +16,7 @@ const ValidationError = () => {
         <div
           className={styles.errorText}
           id={`${EVENT_FIELDS.EVENT_TIMES}-error`}
+          tabIndex={-1}
         >
           {t(error)}
         </div>
