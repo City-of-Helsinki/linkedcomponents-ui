@@ -56,7 +56,7 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
         validateOnMount
         validationSchema={eventTimeValidationSchema}
       >
-        {({ handleSubmit }) => {
+        {({ handleSubmit, values: { startTime } }) => {
           return (
             <>
               <div>
@@ -73,6 +73,8 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
                 <Field
                   component={DatepickerField}
                   name={EVENT_TIME_FIELDS.END_TIME}
+                  focusedDate={startTime}
+                  minBookingDate={startTime}
                   label={t(`event.form.labelEndTime.${eventType}`)}
                   placeholder={t('common.placeholderDateTime')}
                   required={true}

@@ -46,7 +46,7 @@ const AddEventTimeForm: React.FC<Props> = ({
       validateOnMount
       validationSchema={eventTimeValidationSchema}
     >
-      {({ handleSubmit, isValid }) => {
+      {({ handleSubmit, isValid, values: { startTime } }) => {
         return (
           <div>
             <FormGroup>
@@ -64,6 +64,8 @@ const AddEventTimeForm: React.FC<Props> = ({
               <Field
                 component={DatepickerField}
                 disabled={disabled}
+                focusedDate={startTime}
+                minBookingDate={startTime}
                 name={EVENT_TIME_FIELDS.END_TIME}
                 label={t(`event.form.labelEndTime.${eventType}`)}
                 placeholder={t('common.placeholderDateTime')}

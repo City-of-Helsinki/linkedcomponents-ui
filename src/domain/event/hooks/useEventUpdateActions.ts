@@ -1,5 +1,4 @@
 import { useApolloClient } from '@apollo/client';
-import { VariablesInAllowedPositionRule } from 'graphql';
 import map from 'lodash/map';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

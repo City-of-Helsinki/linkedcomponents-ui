@@ -1,4 +1,4 @@
-import { FastField, Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -65,13 +65,13 @@ const AddRecurringEventForm: React.FC<Props> = ({
       validateOnMount
       validationSchema={recurringEventValidationSchema}
     >
-      {({ handleSubmit, isValid }) => {
+      {({ handleSubmit, isValid, values: { startDate } }) => {
         return (
           <div>
             <FormGroup>
               <div className={styles.splittedRow}>
                 <div>
-                  <FastField
+                  <Field
                     component={NumberInputField}
                     disabled={disabled}
                     helperText={t(
@@ -91,7 +91,7 @@ const AddRecurringEventForm: React.FC<Props> = ({
 
             <h3>{t('event.form.titleRecurringEventRepeatDays')}</h3>
             <FormGroup>
-              <FastField
+              <Field
                 component={CheckboxGroupField}
                 columns={4}
                 disabled={disabled}
@@ -100,7 +100,7 @@ const AddRecurringEventForm: React.FC<Props> = ({
               />
             </FormGroup>
             <FormGroup>
-              <FastField
+              <Field
                 component={DatepickerField}
                 disabled={disabled}
                 name={RECURRING_EVENT_FIELDS.START_DATE}
@@ -111,9 +111,11 @@ const AddRecurringEventForm: React.FC<Props> = ({
               />
             </FormGroup>
             <FormGroup>
-              <FastField
+              <Field
                 component={DatepickerField}
                 disabled={disabled}
+                focusedDate={startDate}
+                minBookingDate={startDate}
                 name={RECURRING_EVENT_FIELDS.END_DATE}
                 label={t('event.form.labelRecurringEventEndDate')}
                 placeholder={t('common.placeholderDate')}
@@ -124,7 +126,7 @@ const AddRecurringEventForm: React.FC<Props> = ({
             <FormGroup>
               <div className={styles.splittedRow}>
                 <div>
-                  <FastField
+                  <Field
                     component={TimepickerField}
                     disabled={disabled}
                     name={RECURRING_EVENT_FIELDS.START_TIME}
@@ -136,7 +138,7 @@ const AddRecurringEventForm: React.FC<Props> = ({
                   />
                 </div>
                 <div>
-                  <FastField
+                  <Field
                     component={TimepickerField}
                     disabled={disabled}
                     name={RECURRING_EVENT_FIELDS.END_TIME}
