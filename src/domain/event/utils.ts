@@ -744,7 +744,7 @@ export const generateEventTimesFromRecurringEvent = (
       [WEEK_DAY.THU]: 4,
       [WEEK_DAY.FRI]: 5,
       [WEEK_DAY.SAT]: 6,
-      [WEEK_DAY.SUN]: 7,
+      [WEEK_DAY.SUN]: 0,
     };
 
     const recurrenceStart = endOfDay(subDays(new Date(startDate), 1));

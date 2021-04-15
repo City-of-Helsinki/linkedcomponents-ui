@@ -1,4 +1,5 @@
 import { useApolloClient } from '@apollo/client';
+import { VariablesInAllowedPositionRule } from 'graphql';
 import map from 'lodash/map';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -97,6 +98,7 @@ const useEventUpdateActions = ({ event }: Props) => {
         user,
       });
 
+      /* istanbul ignore else */
       if (editable) {
         editableEvents.push(event);
       }
@@ -175,6 +177,7 @@ const useEventUpdateActions = ({ event }: Props) => {
       await updateRecurringEventIfNeeded(event);
       // Clear all events from apollo cache
       for (const id of deletableEventIds) {
+        /* istanbul ignore next */
         !isTestEnv && clearEventQuery(apolloClient, id);
       }
 
@@ -321,9 +324,11 @@ const useEventUpdateActions = ({ event }: Props) => {
             };
           });
 
+        /* istanbul ignore else */
         if (subEventsPayload.length) {
           const subEventsData = await updateEvents(subEventsPayload);
 
+          /* istanbul ignore else */
           if (subEventsData.data?.updateEvents.length) {
             subEventIds.push(
               ...subEventsData.data?.updateEvents.map(
@@ -339,6 +344,7 @@ const useEventUpdateActions = ({ event }: Props) => {
           newEventTimes.push(...recurringEvent.eventTimes);
         });
 
+        /* istanbul ignore else */
         if (newEventTimes.length) {
           const newSubEventsPayload = newEventTimes.map((eventTime) => {
             return {
@@ -354,6 +360,7 @@ const useEventUpdateActions = ({ event }: Props) => {
             variables: { input: newSubEventsPayload },
           });
 
+          /* istanbul ignore else */
           if (newSubEventsData.data?.createEvents.length) {
             subEventIds.push(
               ...newSubEventsData.data.createEvents.map(
@@ -379,8 +386,10 @@ const useEventUpdateActions = ({ event }: Props) => {
             superEventType: SuperEventType.Recurring,
           },
         ];
+
         await updateEvents(payload);
 
+        /* istanbul ignore next */
         !isTestEnv && clearEventsQueries(apolloClient);
       } else {
         payload = [{ ...basePayload, id }];

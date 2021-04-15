@@ -94,7 +94,7 @@ const useUpdateRecurringEventIfNeeded = (): UpdateRecurringEventIfNeededState =>
           t,
           user,
         });
-        console.log('test');
+
         if (
           editable &&
           (shouldUpdateTime(startTime, newStartTime) ||

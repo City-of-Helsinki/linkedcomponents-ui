@@ -1,6 +1,6 @@
 import { advanceTo, clear } from 'jest-date-mock';
 
-import { EXTLINK } from '../../../constants';
+import { EXTLINK, WEEK_DAY } from '../../../constants';
 import {
   EventStatus,
   PublicationStatus,
@@ -40,6 +40,7 @@ import {
   getEventTimes,
   getRecurringEventPayload,
   sortLanguage,
+  sortWeekDays,
 } from '../utils';
 
 const defaultEventPayload = {
@@ -130,6 +131,30 @@ describe('sortLanguage function', () => {
     const sv = fakeLanguage({ name: { fi: 'Ruotsi' }, id: 'sv' });
 
     expect([ru, en, sv, fi].sort(sortLanguage)).toEqual([fi, sv, en, ru]);
+  });
+});
+
+describe('sortWeekDays function', () => {
+  it('should sort week days correctly', () => {
+    expect(
+      [
+        WEEK_DAY.SUN,
+        WEEK_DAY.SUN,
+        WEEK_DAY.FRI,
+        WEEK_DAY.THU,
+        WEEK_DAY.WED,
+        WEEK_DAY.TUE,
+        WEEK_DAY.MON,
+      ].sort(sortWeekDays)
+    ).toEqual([
+      WEEK_DAY.MON,
+      WEEK_DAY.TUE,
+      WEEK_DAY.WED,
+      WEEK_DAY.THU,
+      WEEK_DAY.FRI,
+      WEEK_DAY.SUN,
+      WEEK_DAY.SUN,
+    ]);
   });
 });
 

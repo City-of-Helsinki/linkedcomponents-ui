@@ -1,7 +1,12 @@
 import { MockedResponse } from '@apollo/react-testing';
+import addDays from 'date-fns/addDays';
+import addHours from 'date-fns/addHours';
+import startOfDay from 'date-fns/startOfDay';
+import omit from 'lodash/omit';
 
-import { EXTLINK, MAX_PAGE_SIZE } from '../../../constants';
+import { DATETIME_FORMAT, EXTLINK, MAX_PAGE_SIZE } from '../../../constants';
 import {
+  CreateEventsDocument,
   DeleteEventDocument,
   EventDocument,
   EventsDocument,
@@ -21,6 +26,7 @@ import {
   UpdateImageDocument,
   UserDocument,
 } from '../../../generated/graphql';
+import formatDate from '../../../utils/formatDate';
 import {
   fakeEvent,
   fakeEvents,
@@ -38,6 +44,8 @@ import {
   fakeVideo,
 } from '../../../utils/mockDataUtils';
 import { EVENT_INCLUDES } from '../../event/constants';
+
+const now = new Date();
 
 const eventId = 'helsinki:1';
 const audienceName = 'Audience name';
@@ -62,7 +70,8 @@ const formattedDescription = {
   sv: '<p>Description sv</p>',
   zhHans: null,
 };
-const endTime = new Date('2021-07-13T05:51:05.761Z');
+const startTime = addDays(addHours(startOfDay(now), 12), 1);
+const endTime = addHours(startTime, 3);
 const facebookUrl = 'http://facebook.com';
 const imageDetails = {
   altText: 'Image alt text',
@@ -160,7 +169,7 @@ const shortDescription = {
   sv: 'Short description sv',
   zhHans: null,
 };
-const startTime = new Date('2021-07-11T05:51:05.761Z');
+
 const superEventType = null;
 const twitterUrl = 'http://twitter.com';
 const videoDetails = {
@@ -284,7 +293,7 @@ const locationText = `${locationName} (${streetAddress}, ${addressLocality})`;
 const expectedValues = {
   audienceMaxAge,
   audienceMinAge,
-  endTime: '13.07.2021 05.51',
+  endTime: formatDate(endTime, DATETIME_FORMAT),
   description: description.fi,
   facebookUrl,
   imageAltText: imageDetails.altText,
@@ -298,7 +307,7 @@ const expectedValues = {
   name: name.fi,
   provider: provider.fi,
   shortDescription: shortDescription.fi,
-  startTime: '11.07.2021 05.51',
+  startTime: formatDate(startTime, DATETIME_FORMAT),
   twitterUrl,
   updatedLastModifiedTime: '23.08.2021 12.00',
   videoAltText: videoDetails.altText,
@@ -448,23 +457,79 @@ const mockedInvalidEventResponse: MockedResponse = {
   result: invalidEventResponse,
 };
 
-const subEventId = 'subevent:1';
-const subEvents = fakeEvents(1, [
-  { ...eventOverrides, id: subEventId, superEvent: event },
-]);
+formatDate(endTime, DATETIME_FORMAT);
+
+const subEventTimes = [
+  {
+    endTime,
+    id: 'subevent:1',
+    startTime,
+  },
+  {
+    endTime: addDays(endTime, 1),
+    id: 'subevent:2',
+    startTime: addDays(startTime, 1),
+  },
+];
+
+const newSubEventTimes = [
+  {
+    endTime: addDays(endTime, 2),
+    id: 'newsubevent:1',
+    startTime: addDays(startTime, 2),
+  },
+  {
+    endTime: addDays(endTime, 3),
+    id: 'newsubevent:2',
+    startTime: addDays(startTime, 3),
+  },
+];
+const subEvents = fakeEvents(
+  subEventTimes.length,
+  subEventTimes.map(({ endTime, id, startTime }) => ({
+    ...eventOverrides,
+    endTime: endTime.toISOString(),
+    id,
+    startTime: startTime.toISOString(),
+    superEvent: event,
+  }))
+);
+const newSubEvents = fakeEvents(
+  newSubEventTimes.length,
+  newSubEventTimes.map(({ endTime, id, startTime }) => ({
+    ...eventOverrides,
+    endTime: endTime.toISOString(),
+    id,
+    startTime: startTime.toISOString(),
+    superEvent: event,
+  }))
+);
+
 const subEventsResponse = { data: { events: subEvents } };
 
-const subEventTimeVariables = {
+const subEventTime1Variables = {
   createPath: undefined,
-  id: subEventId,
+  id: subEventTimes[0].id,
 };
-const subEventTimeResponse = { data: { event: subEvents.data[0] } };
-const mockedSubEventTimeResponse: MockedResponse = {
+const subEventTime1Response = { data: { event: subEvents.data[0] } };
+const mockedSubEventTime1Response: MockedResponse = {
   request: {
     query: EventDocument,
-    variables: subEventTimeVariables,
+    variables: subEventTime1Variables,
   },
-  result: subEventTimeResponse,
+  result: subEventTime1Response,
+};
+const subEventTime2Variables = {
+  createPath: undefined,
+  id: subEventTimes[1].id,
+};
+const subEventTime2Response = { data: { event: subEvents.data[1] } };
+const mockedSubEventTime2Response: MockedResponse = {
+  request: {
+    query: EventDocument,
+    variables: subEventTime2Variables,
+  },
+  result: subEventTime2Response,
 };
 
 const baseEventsVariables = {
@@ -487,7 +552,7 @@ const mockedSubSubEventsResponse: MockedResponse = {
     query: EventsDocument,
     variables: {
       ...baseEventsVariables,
-      superEvent: subEventId,
+      superEvent: subEventTimes[0].id,
     },
   },
   result: { data: { events: fakeEvents(0) } },
@@ -511,8 +576,13 @@ const updateRecurringEventVariables = {
   input: [
     {
       ...basePayload,
+      endTime: newSubEventTimes[1].endTime.toISOString(),
+      startTime: subEventTimes[1].startTime.toISOString(),
       superEventType: SuperEventType.Recurring,
-      subEvents: [{ atId: subEvents.data[0].atId }],
+      subEvents: [
+        { atId: subEvents.data[1].atId },
+        ...newSubEvents.data.map(({ atId }) => ({ atId })),
+      ],
     },
   ],
 };
@@ -532,21 +602,35 @@ const mockedUpdateRecurringEventResponse: MockedResponse = {
   result: updateRecurringEventResponse,
 };
 
+const deleteSubEvent1Variables = {
+  id: subEventTimes[0].id,
+};
+const deleteSubEvent1Response = {
+  data: null,
+};
+const mockedDeleteSubEvent1Response: MockedResponse = {
+  request: {
+    query: DeleteEventDocument,
+    variables: deleteSubEvent1Variables,
+  },
+  result: deleteSubEvent1Response,
+};
+
 const updateSubEventsVariables = {
-  input: [
-    {
-      ...basePayload,
-      id: subEventId,
-      superEvent: {
-        atId: eventWithSubEvent.atId,
-      },
-      superEventType: null,
+  input: [subEventTimes[1]].map(({ endTime, id, startTime }) => ({
+    ...basePayload,
+    endTime: endTime.toISOString(),
+    id,
+    startTime: startTime.toISOString(),
+    superEvent: {
+      atId: eventWithSubEvent.atId,
     },
-  ],
+    superEventType: null,
+  })),
 };
 const updateSubEventsResponse = {
   data: {
-    updateEvents: subEvents.data,
+    updateEvents: [subEvents.data[1]],
   },
 };
 const mockedUpdateSubEventsResponse: MockedResponse = {
@@ -555,6 +639,30 @@ const mockedUpdateSubEventsResponse: MockedResponse = {
     variables: updateSubEventsVariables,
   },
   result: updateSubEventsResponse,
+};
+
+const createNewSubEventsVariables = {
+  input: newSubEventTimes.map(({ endTime, id, startTime }) => ({
+    ...omit(basePayload, ['id']),
+    endTime: endTime.toISOString(),
+    startTime: startTime.toISOString(),
+    superEvent: {
+      atId: eventWithSubEvent.atId,
+    },
+    superEventType: null,
+  })),
+};
+const createNewSubEventsResponse = {
+  data: {
+    createEvents: newSubEvents.data,
+  },
+};
+const mockedCreateNewSubEventsResponse: MockedResponse = {
+  request: {
+    query: CreateEventsDocument,
+    variables: createNewSubEventsVariables,
+  },
+  result: createNewSubEventsResponse,
 };
 
 const mockedUpdatedRecurringEventResponse: MockedResponse = {
@@ -763,7 +871,9 @@ export {
   mockedAudienceKeywordSetResponse,
   mockedCancelEventResponse,
   mockedCancelledEventResponse,
+  mockedCreateNewSubEventsResponse,
   mockedDeleteEventResponse,
+  mockedDeleteSubEvent1Response,
   mockedEventResponse,
   mockedEventTimeResponse,
   mockedEventWithSubEventResponse,
@@ -780,7 +890,8 @@ export {
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
-  mockedSubEventTimeResponse,
+  mockedSubEventTime1Response,
+  mockedSubEventTime2Response,
   mockedSubSubEventsResponse,
   mockedTopicsKeywordSetResponse,
   mockedUpdatedEventResponse,
@@ -790,4 +901,6 @@ export {
   mockedUpdateSubEventsResponse,
   mockedUpdateImageResponse,
   mockedUserResponse,
+  newSubEventTimes,
+  subEventTimes,
 };

@@ -9,7 +9,9 @@ import {
   mockedAudienceKeywordSetResponse,
   mockedCancelEventResponse,
   mockedCancelledEventResponse,
+  mockedCreateNewSubEventsResponse,
   mockedDeleteEventResponse,
+  mockedDeleteSubEvent1Response,
   mockedEventResponse,
   mockedEventTimeResponse,
   mockedEventWithSubEventResponse,
@@ -26,7 +28,8 @@ import {
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
-  mockedSubEventTimeResponse,
+  mockedSubEventTime1Response,
+  mockedSubEventTime2Response,
   mockedSubSubEventsResponse,
   mockedTopicsKeywordSetResponse,
   mockedUpdatedEventResponse,
@@ -36,9 +39,12 @@ import {
   mockedUpdateRecurringEventResponse,
   mockedUpdateSubEventsResponse,
   mockedUserResponse,
+  newSubEventTimes,
+  subEventTimes,
 } from '../__mocks__/editEventPage';
-import { ROUTES } from '../../../constants';
+import { DATETIME_FORMAT, ROUTES } from '../../../constants';
 import { EventDocument } from '../../../generated/graphql';
+import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   configure,
@@ -203,6 +209,32 @@ const findButton = (
       });
   }
 };
+
+const findRecurringFormElement = (
+  key:
+    | 'addButton'
+    | 'endDate'
+    | 'endTime'
+    | 'monCheckbox'
+    | 'startDate'
+    | 'startTime'
+) => {
+  switch (key) {
+    case 'addButton':
+      return screen.findByRole('button', { name: /lisää toistuva tapahtuma/i });
+    case 'endDate':
+      return screen.findByRole('textbox', { name: /toisto päättyy/i });
+    case 'endTime':
+      return screen.findByRole('textbox', { name: /tapahtuma päättyy klo/i });
+    case 'monCheckbox':
+      return screen.findByRole('checkbox', { name: /ma/i });
+    case 'startDate':
+      return screen.findByRole('textbox', { name: /toisto alkaa/i });
+    case 'startTime':
+      return screen.findByRole('textbox', { name: /tapahtuma alkaa klo/i });
+  }
+};
+
 /** This test is quite heavy from the performance perspective so skip it 
  /* and enable it manually if needed */
 test.skip('should initialize event form fields', async () => {
@@ -378,13 +410,15 @@ test('should update event', async () => {
 test('should update recurring event', async () => {
   const mocks: MockedResponse[] = [
     ...baseMocks.filter((item) => item.request.query !== EventDocument),
-    mockedEventTimeResponse,
     mockedEventWithSubEventResponse,
     mockedSubEventsResponse,
-    mockedSubEventTimeResponse,
+    mockedSubEventTime1Response,
+    mockedSubEventTime2Response,
     mockedSubSubEventsResponse,
     // Request to update event
+    mockedDeleteSubEvent1Response,
     mockedUpdateSubEventsResponse,
+    mockedCreateNewSubEventsResponse,
     mockedUpdateRecurringEventResponse,
     // Request to get mutated event
     mockedUpdatedRecurringEventResponse,
@@ -397,6 +431,67 @@ test('should update recurring event', async () => {
   renderComponent(mocks);
 
   await screen.findByText(expectedValues.lastModifiedTime);
+
+  // Delete first sub-event
+  const tableRows = await screen.findAllByRole('row');
+  for (const row of tableRows) {
+    const withinRow = within(row);
+    if (
+      withinRow.queryByRole('cell', {
+        name: `${formatDate(
+          subEventTimes[0].startTime,
+          DATETIME_FORMAT
+        )} – ${formatDate(subEventTimes[0].endTime, DATETIME_FORMAT)}`,
+      })
+    ) {
+      const toggleMenuButton = withinRow.getByRole('button', {
+        name: /valinnat/i,
+      });
+      userEvent.click(toggleMenuButton);
+      const deleteButton = withinRow.getByRole('button', { name: /poista/i });
+      userEvent.click(deleteButton);
+    }
+  }
+
+  const recurringEventTab = screen.getByRole('tab', {
+    name: /toistuva tapahtuma/i,
+  });
+  userEvent.click(recurringEventTab);
+
+  const weekDays = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
+
+  const startDayCheckbox = screen.getByRole('checkbox', {
+    name: weekDays[newSubEventTimes[0].startTime.getDay()],
+  });
+  const endDayCheckbox = screen.getByRole('checkbox', {
+    name: weekDays[newSubEventTimes[1].startTime.getDay()],
+  });
+  const endDateInput = await findRecurringFormElement('endDate');
+  const endTimeInput = await findRecurringFormElement('endTime');
+  const startDateInput = await findRecurringFormElement('startDate');
+  const startTimeInput = await findRecurringFormElement('startTime');
+
+  userEvent.click(startDayCheckbox);
+  userEvent.click(endDayCheckbox);
+  userEvent.click(startDateInput);
+  userEvent.type(startDateInput, formatDate(newSubEventTimes[0].startTime));
+  userEvent.click(endDateInput);
+  userEvent.type(endDateInput, formatDate(newSubEventTimes[1].endTime));
+  userEvent.click(startTimeInput);
+  userEvent.type(
+    startTimeInput,
+    formatDate(newSubEventTimes[0].startTime, 'HH.mm')
+  );
+  userEvent.click(endTimeInput);
+  userEvent.type(
+    endTimeInput,
+    formatDate(newSubEventTimes[1].endTime, 'HH.mm')
+  );
+  const addButton = await findRecurringFormElement('addButton');
+  await waitFor(() => {
+    expect(addButton).toBeEnabled();
+  });
+  userEvent.click(addButton);
 
   const updateButton = await findButton('updatePublic');
   userEvent.click(updateButton);
