@@ -753,7 +753,11 @@ export const generateEventTimesFromRecurringEvent = (
     const formattedEndTime = getTimeObject(endTime);
 
     repeatDays.forEach((dayCode) => {
-      const day = dayCodes[dayCode];
+      const startDay = new Date(startDate).getDay();
+      const day =
+        startDay > dayCodes[dayCode]
+          ? 7 - (startDay - dayCodes[dayCode])
+          : dayCodes[dayCode] - startDay;
       let firstMatchWeekday;
 
       for (let i = 0; i <= repeatInterval; i = i + 1) {

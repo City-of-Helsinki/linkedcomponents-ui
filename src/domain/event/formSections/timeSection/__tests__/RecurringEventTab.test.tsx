@@ -97,15 +97,15 @@ test('should call setRecurringEvents', async () => {
         endTime: '15.00',
         eventTimes: [
           {
-            endTime: new Date('2021-05-02T15:00:00.000Z'),
+            endTime: new Date('2021-05-03T15:00:00.000Z'),
             id: null,
 
-            startTime: new Date('2021-05-02T12:00:00.000Z'),
+            startTime: new Date('2021-05-03T12:00:00.000Z'),
           },
           {
-            endTime: new Date('2021-05-09T15:00:00.000Z'),
+            endTime: new Date('2021-05-10T15:00:00.000Z'),
             id: null,
-            startTime: new Date('2021-05-09T12:00:00.000Z'),
+            startTime: new Date('2021-05-10T12:00:00.000Z'),
           },
         ],
         repeatDays: ['mon'],

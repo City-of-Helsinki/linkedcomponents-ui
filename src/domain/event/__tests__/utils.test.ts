@@ -171,14 +171,14 @@ describe('generateEventTimesFromRecurringEvent function', () => {
     });
     expect(eventTimes).toHaveLength(53);
     expect(eventTimes[0]).toEqual({
-      endTime: new Date('2020-01-02T14:15:00.000Z'),
+      endTime: new Date('2020-01-06T14:15:00.000Z'),
       id: null,
-      startTime: new Date('2020-01-02T12:15:00.000Z'),
+      startTime: new Date('2020-01-06T12:15:00.000Z'),
     });
     expect(eventTimes[52]).toEqual({
-      endTime: new Date('2020-12-20T14:15:00.000Z'),
+      endTime: new Date('2020-12-31T14:15:00.000Z'),
       id: null,
-      startTime: new Date('2020-12-20T12:15:00.000Z'),
+      startTime: new Date('2020-12-31T12:15:00.000Z'),
     });
   });
 });
