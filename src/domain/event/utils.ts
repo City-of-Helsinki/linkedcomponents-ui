@@ -24,7 +24,6 @@ import set from 'lodash/set';
 import sortBy from 'lodash/sortBy';
 import uniqWith from 'lodash/uniqWith';
 import { scroller } from 'react-scroll';
-import sanitize from 'sanitize-html';
 import * as Yup from 'yup';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
@@ -64,6 +63,7 @@ import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
+import sanitizeHtml from '../../utils/sanitizeHtml';
 import {
   createArrayError,
   createNumberError,
@@ -858,9 +858,15 @@ export const filterUnselectedLanguages = (
     {}
   );
 
-const formatDescription = (formValues: EventFormFields) => {
-  const formattedDescriptions = { ...formValues.description };
-  const audience = formValues.audience;
+export const formatSingleDescription = ({
+  audience = [],
+  description,
+  lang,
+}: {
+  audience: string[];
+  description: string;
+  lang: string;
+}): string => {
   // look for the Service Centre Card keyword
   const shouldAppendDescription = audience.find((item) =>
     item.includes('/keyword/helsinki:aflfbat76e/')
@@ -889,37 +895,53 @@ const formatDescription = (formValues: EventFormFields) => {
     },
   };
 
-  Object.entries(formattedDescriptions).forEach(([key, description]) => {
-    if (description) {
-      const trimmedDescription = description.trim();
-      const formattedDescription =
-        TEXT_EDITOR_ALLOWED_TAGS.find((tag: string) =>
-          trimmedDescription.startsWith(`<${tag}>`)
-        ) &&
-        TEXT_EDITOR_ALLOWED_TAGS.find((tag: string) =>
-          trimmedDescription.endsWith(`</${tag}>`)
-        )
-          ? trimmedDescription
-          : `<p>${trimmedDescription}</p>`;
+  if (description) {
+    const trimmedDescription = description.trim();
+    let formattedDescription =
+      TEXT_EDITOR_ALLOWED_TAGS.find((tag: string) =>
+        trimmedDescription.startsWith(`<${tag}>`)
+      ) &&
+      TEXT_EDITOR_ALLOWED_TAGS.find((tag: string) =>
+        trimmedDescription.endsWith(`</${tag}>`)
+      )
+        ? trimmedDescription
+        : `<p>${trimmedDescription}</p>`;
 
-      // append description if Service Centre Card is selected in audience
-      // only append languages that are defined in the data mapping
-      const descriptionAppendData =
-        descriptionDataMapping[key as keyof typeof descriptionDataMapping];
-      if (
-        shouldAppendDescription &&
-        descriptionDataMapping.hasOwnProperty(key) &&
-        !formattedDescription.includes(descriptionAppendData.link)
-      ) {
-        // eslint-disable-next-line max-len
-        const specialDescription = `<p>${descriptionAppendData.text[0]} <a href="${descriptionAppendData.link}">${descriptionAppendData.text[1]}</a>.</p>`;
-        formattedDescriptions[key as keyof MultiLanguageObject] =
-          specialDescription + formattedDescription;
-      } else {
-        formattedDescriptions[
-          key as keyof MultiLanguageObject
-        ] = formattedDescription;
-      }
+    formattedDescription = sanitizeHtml(formattedDescription);
+
+    // append description if Service Centre Card is selected in audience
+    // only append languages that are defined in the data mapping
+    const descriptionAppendData =
+      descriptionDataMapping[lang as keyof typeof descriptionDataMapping];
+    if (
+      shouldAppendDescription &&
+      descriptionDataMapping.hasOwnProperty(lang) &&
+      !formattedDescription.includes(descriptionAppendData.link)
+    ) {
+      // eslint-disable-next-line max-len
+      const specialDescription = `<p>${descriptionAppendData.text[0]} <a href="${descriptionAppendData.link}">${descriptionAppendData.text[1]}</a>.</p>`;
+      return specialDescription + formattedDescription;
+    } else {
+      return formattedDescription;
+    }
+  }
+  return '';
+};
+
+const formatDescription = (formValues: EventFormFields) => {
+  const formattedDescriptions = { ...formValues.description };
+  const audience = formValues.audience;
+
+  Object.entries(formattedDescriptions).forEach(([lang, description]) => {
+    const formattedDescription = formatSingleDescription({
+      audience,
+      description,
+      lang,
+    });
+    if (formattedDescription) {
+      formattedDescriptions[
+        lang as keyof MultiLanguageObject
+      ] = formattedDescription;
     }
   });
 
@@ -1122,24 +1144,14 @@ export const getLocalisedObject = (
   ) as MultiLanguageObject;
 };
 
-const getSanitazedDescription = (event: EventFieldsFragment) => {
+const getSanitizedDescription = (event: EventFieldsFragment) => {
   const description = getLocalisedObject(event.description);
 
   for (const lang in description) {
     /* istanbul ignore else */
     if (description[lang as keyof MultiLanguageObject]) {
-      description[lang as keyof MultiLanguageObject] = sanitize(
-        unescape(description[lang as keyof MultiLanguageObject]),
-        {
-          allowedTags: TEXT_EDITOR_ALLOWED_TAGS,
-          allowedAttributes: {
-            a: ['href', 'target'],
-            // We don't currently allow img itself by default, but this
-            // would make sense if we did. You could add srcset here,
-            // and if you do the URL is checked for safety
-            img: ['src'],
-          },
-        }
+      description[lang as keyof MultiLanguageObject] = sanitizeHtml(
+        description[lang as keyof MultiLanguageObject]
       );
     }
   }
@@ -1184,7 +1196,7 @@ export const getEventInitialValues = (
     name: getLocalisedObject(event.name),
     infoUrl: getLocalisedObject(event.infoUrl),
     shortDescription: getLocalisedObject(event.shortDescription),
-    description: getSanitazedDescription(event),
+    description: getSanitizedDescription(event),
     startTime: event.startTime ? new Date(event.startTime) : null,
     endTime: event.endTime ? new Date(event.endTime) : null,
     location: event.location?.atId || '',

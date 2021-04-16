@@ -10,6 +10,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import useIsMounted from '../../../hooks/useIsMounted';
 import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
 import styles from './textEditor.module.scss';
 
@@ -17,11 +18,11 @@ const toolbarOptions = {
   options: ['inline', 'blockType', 'list', 'link', 'history'],
   inline: {
     inDropdown: false,
-    options: ['bold', 'italic', 'underline'],
+    options: ['bold', 'italic'],
   },
   blockType: {
     inDropdown: true,
-    options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
+    options: ['Normal', 'Blockquote'],
   },
   list: {
     inDropdown: false,
@@ -39,12 +40,24 @@ const toolbarOptions = {
   },
 };
 
+const covertHtmlToEditorState = (html: string) => {
+  const blocksFromHtml = htmlToDraft(html);
+  const { contentBlocks, entityMap } = blocksFromHtml;
+  const contentState = ContentState.createFromBlockArray(
+    contentBlocks,
+    entityMap
+  );
+
+  return EditorState.createWithContent(contentState);
+};
+
 export type TextEditorProps = {
   disabled?: boolean;
   label: string;
   onBlur: (event?: React.SyntheticEvent<{}>) => void;
   onChange: (value: string) => void;
   placeholder?: string;
+  sanitizeAfterChange?: (html: string) => string;
   value: string;
 } & InputWrapperProps;
 
@@ -61,6 +74,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   onBlur,
   onChange,
   required,
+  sanitizeAfterChange,
   style,
   tooltipButtonLabel,
   tooltipLabel,
@@ -68,19 +82,15 @@ const TextEditor: React.FC<TextEditorProps> = ({
   value,
   ...rest
 }) => {
+  const isMounted = useIsMounted();
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const editorRef = React.useRef<Editor>(null);
   const [focused, setFocused] = React.useState(false);
   const { t } = useTranslation();
   const { theme } = useTheme();
 
-  const blocksFromHtml = htmlToDraft(value);
-  const { contentBlocks, entityMap } = blocksFromHtml;
-  const contentState = ContentState.createFromBlockArray(
-    contentBlocks,
-    entityMap
-  );
   const [editorState, setEditorState] = React.useState(
-    EditorState.createWithContent(contentState)
+    covertHtmlToEditorState(value)
   );
 
   const onEditorStateChange = (editorState: EditorState) => {
@@ -91,6 +101,23 @@ const TextEditor: React.FC<TextEditorProps> = ({
       onChange('');
     }
   };
+
+  const handleChange = React.useCallback(
+    (value: string) => {
+      if (
+        isMounted.current &&
+        !containerRef.current?.contains(document.activeElement) &&
+        sanitizeAfterChange
+      ) {
+        setEditorState(covertHtmlToEditorState(sanitizeAfterChange(value)));
+      }
+    },
+    [isMounted, sanitizeAfterChange]
+  );
+
+  React.useEffect(() => {
+    handleChange(value);
+  }, [handleChange, value]);
 
   const wrapperProps = {
     className,
@@ -116,6 +143,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
 
   return (
     <div
+      ref={containerRef}
       className={classNames(
         styles.textEditor,
         { [styles.invalid]: invalid },
@@ -132,6 +160,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           editorState={editorState}
           onBlur={(ev: React.SyntheticEvent<{}>) => {
             onBlur(ev);
+            handleChange(value);
             setFocused(false);
           }}
           onFocus={() => setFocused(true)}
@@ -165,6 +194,9 @@ const TextEditor: React.FC<TextEditorProps> = ({
               ),
               'components.controls.blocktype.h6': t(
                 'common.textEditor.blocktype.h6'
+              ),
+              'components.controls.blocktype.blockquote': t(
+                'common.textEditor.blocktype.blockquote'
               ),
               'components.controls.blocktype.blocktype': t(
                 'common.textEditor.blocktype.blocktype'
