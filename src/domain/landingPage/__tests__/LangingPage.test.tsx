@@ -27,4 +27,8 @@ test('should render landing page', async () => {
   screen.getByRole('link', {
     name: translations.landingPage.tapahtumatHelTitle,
   });
+
+  screen.getByRole('heading', {
+    name: translations.landingPage.titlePartners,
+  });
 });

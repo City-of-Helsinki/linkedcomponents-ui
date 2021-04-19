@@ -876,7 +876,8 @@
     "highlight3Title": "+2 500\ntapahtumatuottajaa",
     "myHelsinkiTitle": "MyHelsinki.fi",
     "tapahtumatHelDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.",
-    "tapahtumatHelTitle": "tapahtumat.hel.fi"
+    "tapahtumatHelTitle": "tapahtumat.hel.fi",
+    "titlePartners": "Palvelut jotka luottavat jo Linked Eventsiin"
   },
   "logoutPage": {
     "pageTitle": "Olet kirjautunut ulos",

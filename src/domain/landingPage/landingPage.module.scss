@@ -26,3 +26,29 @@
   display: grid;
   grid-gap: var(--spacing-m);
 }
+
+.partnersWrapper {
+  padding: var(--spacing-layout-xl);
+  text-align: center;
+
+  h2 {
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: var(--spacing-l);
+    color: var(--color-black-70);
+  }
+}
+
+.partners {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: var(--spacing-3-xl) var(--spacing-m);
+
+  @include medium-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include large-up {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
