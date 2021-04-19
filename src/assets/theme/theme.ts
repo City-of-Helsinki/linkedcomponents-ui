@@ -231,6 +231,36 @@ const theme: Theme = {
   imageSelector: {
     '--image-selector-focus-outline-color': 'var(--color-coat-of-arms)',
   },
+  landingPage: {
+    '--landing-page-cta-button-background-color': 'var(--color-coat-of-arms)',
+    '--landing-page-cta-button-background-color-hover':
+      'var(--color-coat-of-arms-dark)',
+    '--landing-page-cta-button-background-color-focus':
+      'var(--color-coat-of-arms)',
+    '--landing-page-cta-button-background-color-hover-focus':
+      'var(--color-coat-of-arms-dark)',
+    '--landing-page-cta-button-border-color': 'var(--color-coat-of-arms)',
+    '--landing-page-cta-button-border-color-hover':
+      'var(--color-coat-of-arms-dark)',
+    '--landing-page-cta-button-border-color-focus': 'var(--color-coat-of-arms)',
+    '--landing-page-cta-button-border-color-hover-focus':
+      'var(--color-coat-of-arms-dark)',
+    '--landing-page-cta-button-color': 'var(--color-white)',
+    '--landing-page-cta-button-focus-outline-color':
+      'var(--color-coat-of-arms)',
+    '--landing-page-hero-heading-color': 'var(--color-white)',
+    '--landing-page-hero-koros-color': 'var(--color-white)',
+    '--landing-page-search-button-background-color': 'transparent',
+    '--landing-page-search-button-background-color-hover':
+      'var(--color-coat-of-arms-dark)',
+    '--landing-page-search-button-background-color-focus':
+      'var(--color-coat-of-arms)',
+    '--landing-page-search-button-background-color-hover-focus':
+      'var(--color-coat-of-arms-dark)',
+    '--landing-page-search-button-border-color': 'var(--color-white)',
+    '--landing-page-search-button-color': 'var(--color-white)',
+    '--landing-page-search-button-focus-outline-color': 'var(--color-white)',
+  },
   layout: {
     '--page-background-color': 'var(--color-white)',
   },

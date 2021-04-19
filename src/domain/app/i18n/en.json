@@ -714,6 +714,7 @@
     "pageTitle": "Search events",
     "searchPanel": {
       "buttonClear": "Clear",
+      "buttonCreateNew": "Create new",
       "buttonRemoveFilter": "Remove filter: {{name}}",
       "buttonSearch": "Search events",
       "labelEventType": "Type",

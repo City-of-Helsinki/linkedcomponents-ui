@@ -790,6 +790,7 @@
     "pageTitle": "Sök evenemangen",
     "searchPanel": {
       "buttonClear": "Klar",
+      "buttonCreateNew": "Skapa ny",
       "buttonRemoveFilter": "Ta bort filtret: {{name}}",
       "buttonSearch": "Sök evenemangen",
       "labelEventType": "Typ",
