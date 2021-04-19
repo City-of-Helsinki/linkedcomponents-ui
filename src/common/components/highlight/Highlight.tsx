@@ -3,14 +3,14 @@ import React from 'react';
 
 import styles from './highlight.module.scss';
 
-interface HighlighProps {
+interface HighlightProps {
   className?: string;
   icon: React.ReactNode;
   text: string;
   title: string;
 }
 
-const Highlight: React.FC<HighlighProps> = ({
+const Highlight: React.FC<HighlightProps> = ({
   className,
   icon,
   text,
