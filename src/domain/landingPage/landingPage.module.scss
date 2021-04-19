@@ -28,7 +28,7 @@
 }
 
 .partnersWrapper {
-  padding: var(--spacing-layout-xl);
+  padding: var(--spacing-layout-xl) 0;
   text-align: center;
 
   h2 {
@@ -45,7 +45,7 @@
   grid-gap: var(--spacing-3-xl) var(--spacing-m);
 
   @include medium-up {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   @include large-up {
