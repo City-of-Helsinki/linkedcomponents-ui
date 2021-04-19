@@ -866,7 +866,13 @@
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
   "landingPage": {
-    "heroTitle": "Events and hobbies in Helsinki"
+    "heroTitle": "Events and hobbies in Helsinki",
+    "highlight1Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight1Title": "+35M\nevents per year",
+    "highlight2Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight2Title": "25,000 × Y / Z\ndigital service as a customer",
+    "highlight3Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight3Title": "+2 500\nevent producers"
   },
   "logoutPage": {
     "pageTitle": "You are logged out",

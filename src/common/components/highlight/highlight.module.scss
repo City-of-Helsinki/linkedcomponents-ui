@@ -1,0 +1,38 @@
+.highlight {
+  --highlight-icon-color: var(--color-coat-of-arms-medium-light);
+  --highlight-icon-size: 176px;
+  --highlight-title-color: var(--color-black);
+  --highlight-text-color: var(--color-black-80);
+
+  display: grid;
+  align-content: flex-start;
+
+  div {
+    display: flex;
+    justify-content: center;
+  }
+
+  .iconWrapper {
+    margin-bottom: var(--spacing-l);
+    svg {
+      color: var(--highlight-icon-color);
+      height: var(--highlight-icon-size);
+      width: var(--highlight-icon-size);
+    }
+  }
+
+  .title {
+    color: var(--highlight-title-color);
+    font-size: var(--fontsize-heading-s);
+    font-weight: 700;
+    margin-bottom: var(--spacing-2-xs);
+    text-align: center;
+    white-space: pre-line;
+  }
+
+  .text {
+    color: var(--highlight-text-color);
+    font-size: var(--fontsize-body-m);
+    text-align: center;
+  }
+}

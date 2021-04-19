@@ -1,0 +1,18 @@
+@import 'breakpoints';
+
+.highlights {
+  display: grid;
+  grid-gap: var(--spacing-2-xl);
+  padding-bottom: var(--spacing-3-xl);
+
+  @include medium-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.highlight {
+  --highlight-icon-color: var(--color-black-90);
+  --highlight-icon-size: 80px;
+  --highlight-title-color: var(--color-black-70);
+  --highlight-text-color: var(--color-black-70);
+}

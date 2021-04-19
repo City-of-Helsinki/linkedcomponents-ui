@@ -867,7 +867,13 @@
     "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia"
   },
   "landingPage": {
-    "heroTitle": "Helsingin tapahtumat ja harrastukset"
+    "heroTitle": "Helsingin tapahtumat ja harrastukset",
+    "highlight1Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight1Title": "+35M\ntapahtumaa vuodessa",
+    "highlight2Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight2Title": "25 000 × Y/Z\ndigipalvelua asiakkaana",
+    "highlight3Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight3Title": "+2 500\ntapahtumatuottajaa"
   },
   "logoutPage": {
     "pageTitle": "Olet kirjautunut ulos",

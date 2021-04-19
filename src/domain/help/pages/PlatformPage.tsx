@@ -3,27 +3,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import imageUrl from '../../../assets/images/png/platform-page.png';
+import Highlight from '../../../common/components/highlight/Highlight';
 import IconCloud from '../../../icons/IconCloud';
 import PageWrapper from '../../app/layout/PageWrapper';
 import styles from './platformPage.module.scss';
-
-interface HighlighProps {
-  icon: React.ReactNode;
-  text: string;
-  title: string;
-}
-
-const Highlight: React.FC<HighlighProps> = ({ icon, text, title }) => {
-  return (
-    <div className={styles.highlight}>
-      <div className={styles.iconWrapper} aria-hidden={true}>
-        {icon}
-      </div>
-      <div className={styles.title}>{title}</div>
-      <div className={styles.text}>{text}</div>
-    </div>
-  );
-};
 
 const PlatformPage = () => {
   const { t } = useTranslation();
