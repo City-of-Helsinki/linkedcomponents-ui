@@ -1,8 +1,10 @@
 import React from 'react';
 
-import { actWait, render, screen } from '../../../utils/testUtils';
+import { actWait, configure, render, screen } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import LandingPage from '../LandingPage';
+
+configure({ defaultHidden: true });
 
 test('should show correct title', async () => {
   render(<LandingPage />);
@@ -20,4 +22,9 @@ test('should render landing page', async () => {
   screen.getByText('+35M tapahtumaa vuodessa');
   screen.getByText('25 000 × Y/Z digipalvelua asiakkaana');
   screen.getByText('+2 500 tapahtumatuottajaa');
+
+  screen.getByRole('link', { name: translations.landingPage.myHelsinkiTitle });
+  screen.getByRole('link', {
+    name: translations.landingPage.tapahtumatHelTitle,
+  });
 });

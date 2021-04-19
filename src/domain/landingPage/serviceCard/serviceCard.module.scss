@@ -1,0 +1,91 @@
+@import 'breakpoints';
+@import 'mixins';
+@import 'widths';
+
+.serviceCard {
+  --service-card-background-color: var(--color-suomenlinna);
+  --service-card-button-background-color: var(--color-coat-of-arms);
+  --service-card-button-color: var(--color-white);
+  --service-card-button-size: var(--spacing-l);
+  --service-card-color: var(--color-black);
+  --service-card-description-font-size: var(--fontsize-body-l);
+  --service-card-description-line-height: var(--lineheight-l);
+  --service-card-min-height: 360px;
+  --service-card-title-font-size: 52px;
+  --service-card-title-line-height: var(--lineheight-m);
+
+  position: relative;
+  display: grid;
+  text-decoration: none;
+
+  @include focus-outline(0px);
+
+  .bgImage {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: var(--service-card-min-height);
+  }
+
+  .textWrapper {
+    padding: var(--spacing-l);
+    min-height: var(--service-card-min-height);
+    color: var(--service-card-color);
+    display: grid;
+    grid-gap: var(--spacing-m);
+    grid-template-rows: auto auto 1fr;
+
+    .iconButton {
+      background-color: var(--service-card-button-background-color);
+      color: var(--service-card-button-color);
+      padding: 0;
+      height: var(--service-card-button-size);
+      width: var(--service-card-button-size);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include focus-outline(-2px);
+    }
+
+    .title {
+      font-size: var(--service-card-title-font-size) !important;
+      line-height: var(--service-card-title-line-height) !important;
+      font-weight: 700;
+      margin: 0;
+
+      @include max-width-column(6);
+    }
+
+    .description {
+      font-size: var(--service-card-description-font-size);
+      line-height: var(--service-card-description-line-height);
+    }
+  }
+}
+
+.sizeMedium {
+  display: grid;
+
+  @include medium-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .textWrapper {
+    background-color: var(--service-card-background-color);
+  }
+}
+
+.sizeLarge {
+  .bgImage {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .textWrapper {
+    z-index: 1;
+  }
+}

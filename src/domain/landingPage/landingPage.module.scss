@@ -16,3 +16,13 @@
   --highlight-title-color: var(--color-black-70);
   --highlight-text-color: var(--color-black-70);
 }
+
+.serviceCardsWrapper {
+  padding: var(--spacing-2-xl) 0;
+  background-color: var(--color-black-5);
+}
+
+.serviceCards {
+  display: grid;
+  grid-gap: var(--spacing-m);
+}

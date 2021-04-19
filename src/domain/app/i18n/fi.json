@@ -873,7 +873,10 @@
     "highlight2Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
     "highlight2Title": "25 000 × Y/Z\ndigipalvelua asiakkaana",
     "highlight3Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
-    "highlight3Title": "+2 500\ntapahtumatuottajaa"
+    "highlight3Title": "+2 500\ntapahtumatuottajaa",
+    "myHelsinkiTitle": "MyHelsinki.fi",
+    "tapahtumatHelDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.",
+    "tapahtumatHelTitle": "tapahtumat.hel.fi"
   },
   "logoutPage": {
     "pageTitle": "Olet kirjautunut ulos",
