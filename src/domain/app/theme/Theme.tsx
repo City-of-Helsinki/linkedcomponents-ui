@@ -284,6 +284,8 @@ type RadioButtonCSSProperties = {
 type RootCSSProperties = {
   '--focus-outline-color'?: string;
   '--focus-outline-width'?: string;
+  '--helper-color-invalid'?: string;
+  '--icon-color-invalid'?: string;
   '--input-height'?: string;
   '--input-max-width-m'?: string;
   '--input-max-width-l'?: string;
@@ -363,8 +365,6 @@ type TextInputCSSProperties = {
   '--textarea-height'?: string;
   '--icon-size'?: string;
   '--helper-color-default'?: string;
-  '--helper-color-invalid'?: string;
-  '--icon-color-invalid'?: string;
   '--input-background-default'?: string;
   '--input-background-disabled'?: string;
   '--input-border-color-default'?: string;
