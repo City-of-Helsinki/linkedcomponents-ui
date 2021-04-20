@@ -4,8 +4,9 @@
 
 .serviceCard {
   --service-card-background-color: var(--color-suomenlinna);
-  --service-card-button-background-color: var(--color-coat-of-arms);
-  --service-card-button-color: var(--color-white);
+  --service-card-button-background-color: transparent;
+  --service-card-button-border-color: var(--color-black);
+  --service-card-button-color: var(--color-black);
   --service-card-button-size: var(--spacing-l);
   --service-card-color: var(--color-black);
   --service-card-description-font-size: var(--fontsize-body-l);
@@ -17,26 +18,26 @@
   position: relative;
   display: grid;
   text-decoration: none;
+  display: grid;
+
+  @include medium-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   @include focus-outline(0px);
 
-  .bgImage {
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    min-height: var(--service-card-min-height);
-  }
-
   .textWrapper {
+    background-color: var(--service-card-background-color);
     padding: var(--spacing-l);
     min-height: var(--service-card-min-height);
     color: var(--service-card-color);
     display: grid;
     grid-gap: var(--spacing-m);
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto 1fr auto;
 
     .iconButton {
       background-color: var(--service-card-button-background-color);
+      border: 2px solid var(--service-card-button-border-color);
       color: var(--service-card-button-color);
       padding: 0;
       height: var(--service-card-button-size);
@@ -45,7 +46,7 @@
       align-items: center;
       justify-content: center;
 
-      @include focus-outline(-2px);
+      @include focus-outline(0px);
     }
 
     .title {
@@ -61,6 +62,13 @@
       font-size: var(--service-card-description-font-size);
       line-height: var(--service-card-description-line-height);
     }
+  }
+
+  .bgImage {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: var(--service-card-min-height);
   }
 }
 
@@ -88,4 +96,12 @@
   .textWrapper {
     z-index: 1;
   }
+}
+
+.colorMetro {
+  --service-card-background-color: var(--color-metro-medium-light);
+}
+
+.colorSuomenlinna {
+  --service-card-background-color: var(--color-suomenlinna);
 }

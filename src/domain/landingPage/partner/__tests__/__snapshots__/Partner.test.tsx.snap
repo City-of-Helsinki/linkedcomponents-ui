@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+<div>
+  <a
+    aria-label="Partner name (avataan uudessa välilehdessä)"
+    class="partner"
+    href="www.testurl.com"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <img
+      alt="Partner name"
+      src="www.imageurl.com"
+    />
+  </a>
+</div>
+`;

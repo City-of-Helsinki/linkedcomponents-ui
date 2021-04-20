@@ -8,18 +8,18 @@ import styles from './serviceCard.module.scss';
 
 type ServiceCardProps = {
   backgroundImageUrl: string;
+  backgroundColor: 'metro' | 'suomenlinna';
   description?: string;
   href: string;
-  size?: 'medium' | 'large';
   title: string;
 } & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
   'aria-label': ariaLabel,
+  backgroundColor,
   backgroundImageUrl,
   description,
   href,
-  size = 'medium',
   title,
   ...rest
 }) => {
@@ -31,25 +31,25 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       aria-label={ariaLabel || `${title} ${t('common.openInNewTab')}`}
       className={classNames(
         styles.serviceCard,
-        styles[`size${capitalize(size)}`]
+        styles[`color${capitalize(backgroundColor)}`]
       )}
       href={href}
       rel="noopener noreferrer"
       target="_blank"
     >
-      <div
-        className={styles.bgImage}
-        style={{ backgroundImage: `url(${backgroundImageUrl})` }}
-      />
       <div className={styles.textWrapper}>
-        <button aria-hidden={true} className={styles.iconButton}>
-          <IconArrowRight aria-hidden={true} />
-        </button>
         <h2 className={styles.title}>{title}</h2>
         {!!description && (
           <div className={styles.description}>{description}</div>
         )}
+        <button aria-hidden={true} className={styles.iconButton}>
+          <IconArrowRight aria-hidden={true} />
+        </button>
       </div>
+      <div
+        className={styles.bgImage}
+        style={{ backgroundImage: `url(${backgroundImageUrl})` }}
+      />
     </a>
   );
 };

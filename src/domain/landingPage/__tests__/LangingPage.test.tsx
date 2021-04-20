@@ -23,12 +23,14 @@ test('should render landing page', async () => {
   screen.getByText('25 000 × Y/Z digipalvelua asiakkaana');
   screen.getByText('+2 500 tapahtumatuottajaa');
 
-  screen.getByRole('link', { name: translations.landingPage.myHelsinkiTitle });
   screen.getByRole('link', {
-    name: translations.landingPage.tapahtumatHelTitle,
+    name: new RegExp(translations.landingPage.myHelsinkiTitle),
+  });
+  screen.getByRole('link', {
+    name: new RegExp(translations.landingPage.tapahtumatHelTitle),
   });
 
   screen.getByRole('heading', {
-    name: translations.landingPage.titlePartners,
+    name: translations.landingPage.titleServices,
   });
 });

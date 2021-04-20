@@ -18,8 +18,16 @@
 }
 
 .serviceCardsWrapper {
-  padding: var(--spacing-2-xl) 0;
-  background-color: var(--color-black-5);
+  padding: 0 0 var(--spacing-layout-2-xl);
+  background-color: var(--color-white);
+
+  .title {
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: var(--spacing-l);
+    color: var(--color-black-70);
+    font-size: var(--fontsize-heading-l) !important;
+  }
 }
 
 .serviceCards {
