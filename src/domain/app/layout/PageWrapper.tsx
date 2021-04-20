@@ -1,9 +1,13 @@
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 import classNames from 'classnames';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
+import { useCookieConsent } from '../cookieConsent/CookieConsentContext';
 import styles from './pageWrapper.module.scss';
 
 export interface PageWrapperProps {
@@ -20,7 +24,10 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   noFooter = false,
   title = 'appName',
 }) => {
+  const { consent } = useCookieConsent();
   const { t } = useTranslation();
+  const location = useLocation();
+  const { trackPageView } = useMatomo();
 
   const translatedTitle =
     title !== 'appName' ? `${t(title)} - ${t('appName')}` : t('appName');
@@ -30,6 +37,16 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
     // image: image,
     title: translatedTitle,
   };
+
+  // Track page view
+  useDeepCompareEffect(() => {
+    if (consent.tracking) {
+      trackPageView({
+        documentTitle: translatedTitle,
+        href: window.location.href,
+      });
+    }
+  }, [{ pathname: location.pathname, search: location.search }]);
 
   return (
     <div
