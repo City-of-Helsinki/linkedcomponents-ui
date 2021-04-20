@@ -13,6 +13,7 @@ import useLocale from '../../../hooks/useLocale';
 import Container from '../../app/layout/Container';
 import FormContainer from '../../app/layout/FormContainer';
 import { useTheme } from '../../app/theme/Theme';
+import { clearEventFormData } from '../../event/utils';
 import { getEventSearchQuery } from '../../eventSearch/utils';
 import styles from './hero.module.scss';
 
@@ -24,6 +25,7 @@ const Hero: React.FC = () => {
   const [searchValue, setSearchValue] = React.useState('');
 
   const goToCreateEventPage = () => {
+    clearEventFormData();
     history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
