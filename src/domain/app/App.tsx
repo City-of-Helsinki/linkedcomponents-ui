@@ -16,9 +16,18 @@ import AppRoutes from './routes/AppRoutes';
 import { store } from './store/store';
 import { ThemeProvider } from './theme/Theme';
 
+const getMatomoUrlPath = (path: string) =>
+  `${process.env.REACT_APP_MATOMO_URL_BASE}${path}`;
+
 const instance = createInstance({
   disabled: process.env.REACT_APP_MATOMO_ENABLED !== 'true',
   urlBase: process.env.REACT_APP_MATOMO_URL_BASE as string,
+  srcUrl:
+    process.env.REACT_APP_MATOMO_SRC_URL &&
+    getMatomoUrlPath(process.env.REACT_APP_MATOMO_SRC_URL),
+  trackerUrl:
+    process.env.REACT_APP_MATOMO_TRACKER_URL &&
+    getMatomoUrlPath(process.env.REACT_APP_MATOMO_TRACKER_URL),
   siteId: Number(process.env.REACT_APP_MATOMO_SITE_ID),
 });
 
