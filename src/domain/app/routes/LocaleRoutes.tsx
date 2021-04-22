@@ -4,25 +4,19 @@ import { Route, RouteComponentProps, Switch } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import { Language } from '../../../types';
+import EventSavedPage from '../../eventSaved/EventSavedPage';
+import EventSearchPage from '../../eventSearch/EventSearchPage';
+import LogoutPage from '.././../auth/logoutPage/LogoutPage';
+import EventsPage from '.././../events/EventsPage';
+import LandingPage from '.././../landingPage/LandingPage';
+import NotFound from '.././../notFound/NotFound';
 import PageLayout from '../layout/PageLayout';
+import HelpPageRoutes from './HelpPageRoutes';
 
 const CreateEventPage = React.lazy(
   () => import('.././../event/CreateEventPage')
 );
 const EditEventPage = React.lazy(() => import('../../event/EditEventPage'));
-const EventSavedPage = React.lazy(
-  () => import('../../eventSaved/EventSavedPage')
-);
-const EventSearchPage = React.lazy(
-  () => import('../../eventSearch/EventSearchPage')
-);
-const EventsPage = React.lazy(() => import('.././../events/EventsPage'));
-const HelpPageRoutes = React.lazy(() => import('./HelpPageRoutes'));
-const LandingPage = React.lazy(() => import('.././../landingPage/LandingPage'));
-const LogoutPage = React.lazy(
-  () => import('.././../auth/logoutPage/LogoutPage')
-);
-const NotFound = React.lazy(() => import('.././../notFound/NotFound'));
 
 interface Params {
   locale: Language;
