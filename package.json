@@ -34,6 +34,7 @@
     "formik": "^2.2.0",
     "graphql": "^15.3.0",
     "graphql-anywhere": "^4.2.7",
+    "gzipper": "^4.5.0",
     "hds-core": "^0.24.0",
     "hds-react": "^0.24.0",
     "html-to-draftjs": "^1.5.0",
@@ -64,7 +65,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && gzipper compress ./build",
     "codegen": "graphql-codegen --config codegen.yml",
     "test": "TZ=UTC react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "TZ=UTC react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=false",
