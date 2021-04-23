@@ -75,6 +75,8 @@ const MainLevel = ({
     >
       <Link
         aria-current={active ? 'page' : 'false'}
+        aria-label={label}
+        id={buttonId}
         onClick={() => {
           // Only one level can be open at same time
           setOpenMainLevels([index as number]);
@@ -98,11 +100,10 @@ const MainLevel = ({
 
       {hasSublevels && (
         <ul
-          role="region"
-          aria-labelledby={buttonId}
           className={styles.mainLevelListMenu}
           id={menuId}
           aria-hidden={!isOpen}
+          aria-labelledby={buttonId}
         >
           {subLevels}
         </ul>
