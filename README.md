@@ -81,6 +81,10 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
+### `yarn generate-sitemap`
+
+Generate sitemap for the app. Sitemap is generated only if PUBLIC_URL is set and GENERATE_SITEMAP === true in .env file
+
 ### `yarn lint`
 
 Run linter to all the files in app

@@ -5,6 +5,7 @@
 !.env.development.local
 !.prod
 !public
+!scripts
 !src
 !package.json
 !tsconfig.json

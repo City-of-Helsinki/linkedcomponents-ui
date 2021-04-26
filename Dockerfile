@@ -39,6 +39,12 @@ FROM appbase as staticbuilder
 # ===================================
 COPY . /app/
 
+# Set public url
+ARG PUBLIC_URL
+
+# Set generate sitemap flag
+ARG GENERATE_SITEMAP
+
 # set sass path to support scss import
 ARG SASS_PATH=./src/assets/styles
 ENV SASS_PATH $SASS_PATH
