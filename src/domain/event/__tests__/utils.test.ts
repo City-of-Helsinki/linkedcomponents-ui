@@ -692,8 +692,8 @@ describe('getEventInitialValues function', () => {
       zhHans: 'Description zh',
     };
     const endTime = new Date('2021-07-13T05:51:05.761Z');
-    const enrolmentEndTime = null;
-    const enrolmentStartTime = null;
+    const enrolmentEndTime = new Date('2021-06-15T05:51:05.761Z');
+    const enrolmentStartTime = new Date('2021-05-05T05:51:05.761Z');
     const facebookUrl = 'http://facebook.com';
     const imageDetails = {
       altText: '',
@@ -790,6 +790,7 @@ describe('getEventInitialValues function', () => {
     const superEventType = null;
     const superEventAtId =
       'https://api.hel.fi/linkedevents-test/v1/event/event:543/';
+    const type = EventType.Course;
     const twitterUrl = 'http://twitter.com';
     const videos = [
       { altText: 'alt text', name: 'video name', url: 'httl://www.url.com' },
@@ -806,6 +807,8 @@ describe('getEventInitialValues function', () => {
           audienceMinAge,
           description,
           endTime: endTime.toISOString(),
+          enrolmentEndTime: enrolmentEndTime.toISOString(),
+          enrolmentStartTime: enrolmentStartTime.toISOString(),
           externalLinks: [
             fakeExternalLink({
               name: EXTLINK.EXTLINK_FACEBOOK,
@@ -852,6 +855,7 @@ describe('getEventInitialValues function', () => {
             superEventType: SuperEventType.Umbrella,
           }),
           superEventType,
+          typeId: type,
           videos: videos.map((video) => fakeVideo(video)),
         })
       )
@@ -891,7 +895,7 @@ describe('getEventInitialValues function', () => {
       startTime,
       superEvent: superEventAtId,
       twitterUrl,
-      type: EventType.General,
+      type,
       videos,
     });
   });
@@ -909,6 +913,8 @@ describe('getEventInitialValues function', () => {
       audienceMaxAge,
       audienceMinAge,
       endTime,
+      enrolmentEndTime,
+      enrolmentStartTime,
       facebookUrl,
       instagramUrl,
       location,
@@ -916,6 +922,7 @@ describe('getEventInitialValues function', () => {
       offers,
       startTime,
       superEvent,
+      type,
       twitterUrl,
       videos,
     } = getEventInitialValues(
@@ -923,6 +930,8 @@ describe('getEventInitialValues function', () => {
         audienceMaxAge: null,
         audienceMinAge: null,
         endTime: null,
+        enrolmentEndTime: null,
+        enrolmentStartTime: null,
         externalLinks: [],
         location: null,
         name: {
@@ -936,6 +945,7 @@ describe('getEventInitialValues function', () => {
         offers: null,
         startTime: null,
         superEvent: null,
+        typeId: null,
         videos: [{}],
       })
     );
@@ -943,6 +953,8 @@ describe('getEventInitialValues function', () => {
     expect(audienceMaxAge).toEqual('');
     expect(audienceMinAge).toEqual('');
     expect(endTime).toEqual(null);
+    expect(enrolmentEndTime).toEqual(null);
+    expect(enrolmentStartTime).toEqual(null);
     expect(facebookUrl).toEqual('');
     expect(instagramUrl).toEqual('');
     expect(location).toEqual('');
@@ -950,6 +962,7 @@ describe('getEventInitialValues function', () => {
     expect(offers).toEqual([]);
     expect(startTime).toEqual(null);
     expect(superEvent).toEqual(superEvent);
+    expect(type).toEqual(EventType.General);
     expect(twitterUrl).toEqual('');
     expect(videos).toEqual([{ altText: '', name: '', url: '' }]);
   });

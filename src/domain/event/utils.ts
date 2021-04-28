@@ -1197,7 +1197,7 @@ export const getEventInitialValues = (
 
   return {
     ...EVENT_INITIAL_VALUES,
-    type: event.typeId?.toLowerCase() ?? EventType.Course,
+    type: event.typeId?.toLowerCase() ?? EventType.General,
     eventInfoLanguages: getEventInfoLanguages(event),
     imageDetails: {
       altText:
@@ -1258,7 +1258,14 @@ export const getEventInitialValues = (
     audience: event.audience.map((keyword) => keyword?.atId as string),
     audienceMaxAge: event.audienceMaxAge || '',
     audienceMinAge: event.audienceMinAge || '',
+    enrolmentStartTime: event.enrolmentStartTime
+      ? new Date(event.enrolmentStartTime)
+      : null,
+    enrolmentEndTime: event.enrolmentEndTime
+      ? new Date(event.enrolmentEndTime)
+      : null,
     maximumAttendeeCapacity: event.maximumAttendeeCapacity ?? '',
+    minimumAttendeeCapacity: event.minimumAttendeeCapacity ?? '',
     isVerified: true,
   };
 };
