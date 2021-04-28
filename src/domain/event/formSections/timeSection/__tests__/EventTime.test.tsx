@@ -1,16 +1,16 @@
 import { Formik } from 'formik';
 import React from 'react';
 
-import { SuperEventType } from '../../../../../generated/graphql';
+import { EventType, SuperEventType } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import { configure, render, screen } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
+import { EVENT_FIELDS } from '../../../constants';
 import EventTime, { EventTimeProps } from '../EventTime';
 
 configure({ defaultHidden: true });
 
-const type = EVENT_TYPE.EVENT;
+const type = EventType.General;
 
 const defaultProps: EventTimeProps = {
   eventTimePath: 'time[0]',

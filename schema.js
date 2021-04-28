@@ -105,6 +105,12 @@ module.exports = buildSchema(/* GraphQL */ `
     umbrella
   }
 
+  enum EventType {
+    general
+    course
+    volunteering
+  }
+
   input ExternalLinkInput {
     name: String
     link: String
@@ -138,12 +144,13 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input CreateEventMutationInput {
-    publicationStatus: PublicationStatus
     audience: [IdObjectInput!]
     audienceMaxAge: Int
     audienceMinAge: Int
     description: LocalisedObjectInput
     endTime: String
+    enrolmentEndTime: String
+    enrolmentStartTime: String
     eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
@@ -152,26 +159,31 @@ module.exports = buildSchema(/* GraphQL */ `
     keywords: [IdObjectInput!]
     location: IdObjectInput
     locationExtraInfo: LocalisedObjectInput
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
     name: LocalisedObjectInput
     offers: [OfferInput!]
     provider: LocalisedObjectInput
+    publicationStatus: PublicationStatus
     publisher: String
     shortDescription: LocalisedObjectInput
     startTime: String
     subEvents: [IdObjectInput!]
     superEvent: IdObjectInput
     superEventType: SuperEventType
+    typeId: EventType
     videos: [VideoInput]
   }
 
   input UpdateEventMutationInput {
     id: ID!
-    publicationStatus: PublicationStatus
     audience: [IdObjectInput!]
     audienceMaxAge: Int
     audienceMinAge: Int
     description: LocalisedObjectInput
     endTime: String
+    enrolmentEndTime: String
+    enrolmentStartTime: String
     eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
@@ -180,14 +192,18 @@ module.exports = buildSchema(/* GraphQL */ `
     keywords: [IdObjectInput!]
     location: IdObjectInput
     locationExtraInfo: LocalisedObjectInput
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
     name: LocalisedObjectInput
     offers: [OfferInput!]
     provider: LocalisedObjectInput
+    publicationStatus: PublicationStatus
     shortDescription: LocalisedObjectInput
     startTime: String
     subEvents: [IdObjectInput!]
     superEvent: IdObjectInput
     superEventType: SuperEventType
+    typeId: EventType
     videos: [VideoInput]
   }
 
@@ -265,6 +281,8 @@ module.exports = buildSchema(/* GraphQL */ `
     deleted: String
     description: LocalisedObject
     endTime: String
+    enrolmentEndTime: String
+    enrolmentStartTime: String
     extensionCourse: ExtensionCourse
     externalLinks: [ExternalLink]!
     eventStatus: EventStatus
@@ -275,6 +293,8 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedTime: String
     location: Place
     locationExtraInfo: LocalisedObject
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
     name: LocalisedObject
     offers: [Offer]!
     provider: LocalisedObject
@@ -286,6 +306,7 @@ module.exports = buildSchema(/* GraphQL */ `
     subEvents: [Event]!
     superEvent: Event
     superEventType: SuperEventType
+    typeId: EventType
     videos: [Video]!
     # @id is renamed as atId so it's usable on GraphQl
     atId: String

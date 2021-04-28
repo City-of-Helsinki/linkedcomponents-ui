@@ -7,6 +7,7 @@ import { PAGE_SIZE } from '../../../../../common/components/imageSelector/consta
 import { testIds as imageUploaderTestIds } from '../../../../../common/components/imageUploader/ImageUploader';
 import { MAX_PAGE_SIZE } from '../../../../../constants';
 import {
+  EventType,
   ImageDocument,
   ImagesDocument,
   OrganizationsDocument,
@@ -30,16 +31,12 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { DEFAULT_LICENSE_TYPE } from '../../../../image/constants';
-import {
-  EVENT_FIELDS,
-  EVENT_TYPE,
-  IMAGE_DETAILS_FIELDS,
-} from '../../../constants';
+import { EVENT_FIELDS, IMAGE_DETAILS_FIELDS } from '../../../constants';
 import ImageSection from '../ImageSection';
 
 const publisher = 'publisher:1';
 
-const eventType = EVENT_TYPE.EVENT;
+const eventType = EventType.General;
 
 const images = fakeImages(PAGE_SIZE, [{ publisher }]);
 const imagesVariables = {

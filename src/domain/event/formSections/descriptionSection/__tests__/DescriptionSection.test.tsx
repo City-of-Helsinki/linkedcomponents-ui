@@ -1,12 +1,12 @@
 import { Formik } from 'formik';
 import React from 'react';
 
+import { EventType } from '../../../../../generated/graphql';
 import { render, screen, userEvent } from '../../../../../utils/testUtils';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
-  EVENT_TYPE,
 } from '../../../constants';
 import { MultiLanguageObject } from '../../../types';
 import DescriptionSection, {
@@ -17,7 +17,7 @@ const languages: EVENT_INFO_LANGUAGES[] = [
   EVENT_INFO_LANGUAGES.FI,
   EVENT_INFO_LANGUAGES.SV,
 ];
-const type = EVENT_TYPE.EVENT;
+const type = EventType.General;
 
 type InitialValues = {
   [EVENT_FIELDS.DESCRIPTION]: MultiLanguageObject;

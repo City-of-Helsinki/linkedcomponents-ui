@@ -144,11 +144,13 @@
   "createEventPage": {
     "pageTitle": {
       "course": "Uusi kurssi",
-      "event": "Uusi tapahtuma"
+      "general": "Uusi tapahtuma",
+      "volunteering": "Uusi vapaaehtoistyö"
     },
     "title": {
       "course": "Uusi kurssi",
-      "event": "Uusi tapahtuma"
+      "general": "Uusi tapahtuma",
+      "volunteering": "Uusi vapaaehtoistyö"
     }
   },
   "errors": {
@@ -193,12 +195,14 @@
       "buttonAddEventTime": "Lisää uusi ajankohta",
       "buttonAddImage": {
         "course": "Lisää kurssin kuva",
-        "event": "Lisää tapahtuman kuva"
+        "general": "Lisää tapahtuman kuva",
+        "volunteering": "Lisää vapaaehtoistyön kuva"
       },
       "buttonAddOffer": "Lisää uusi hintatieto",
       "buttonAddRecurringEvent": {
         "course": "Lisää toistuva kurssi",
-        "event": "Lisää toistuva tapahtuma"
+        "general": "Lisää toistuva tapahtuma",
+        "volunteering": "Lisää toistuva vapaaehtoistyö"
       },
       "buttonAddVideo": "Lisää video",
       "buttonBack": "Takaisin",
@@ -212,7 +216,8 @@
       "buttonEdit":  "Muokkaa tapahtumaa",
       "buttonOpenRecurringEventSettings": {
         "course": "Avaa toistuvan kurssin asetukset",
-        "event": "Avaa toistuvan tapahtuman asetukset"
+        "general": "Avaa toistuvan tapahtuman asetukset",
+        "volunteering": "Avaa toistuvan vapaaehtoistyön asetukset"
       },
       "buttonPanel": {
         "warningNoRightsCreate": "Sinulla ei ole oikeuksia luoda tätä tapahtumaa.",
@@ -222,11 +227,13 @@
       "buttonPostpone": "Lykkää tapahtumaa",
       "buttonPublish": {
         "course": "Julkaise kurssi",
-        "event": "Julkaise tapahtuma"
+        "general": "Julkaise tapahtuma",
+        "volunteering": "Julkaise vapaaehtoistyö"
       },
       "buttonRemoveImage": {
         "course": "Poista kurssin kuva",
-        "event": "Poista tapahtuman kuva"
+        "general": "Poista tapahtuman kuva",
+        "volunteering": "Poista vapaaehtpoistyön kuva"
       },
       "buttonSaveDraft": "Tallenna luonnos",
       "buttonUpdateDraft": "Tallenna luonnos",
@@ -260,7 +267,8 @@
           "ccBy": "Creative Commons BY 4.0",
           "eventOnly": {
             "course": "Käyttö rajattu kurssin yhteyteen",
-            "event": "Käyttö rajattu tapahtuman yhteyteen"
+            "general": "Käyttö rajattu tapahtuman yhteyteen",
+            "volunteering": "Käyttö rajattu vapaaehtoistyön yhteyteen"
           }
         },
         "placeholderAltText": "Syötä kuvan alt-teksti",
@@ -274,94 +282,115 @@
       },
       "infoTextAttendeeCapacity": {
         "course": "Jos kurssin osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
-        "event": "Jos tapahtuman osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä."
+        "general": "Jos tapahtuman osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
+        "volunteering": "Jos vapaaehtoistyön osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä."
       },
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
-        "event": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään."
+        "general": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
+        "volunteering": "Jos vapaaehtoistyöllä ei ole erityistä kohderyhmää, älä valitse mitään."
       },
       "infoTextAudienceAge": {
         "course": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua kurssille, määritä ikärajat tässä.",
-        "event": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua tapahtumaan, määritä ikärajat tässä."
+        "general": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua tapahtumaan, määritä ikärajat tässä.",
+        "volunteering": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua vapaaehtoistyöhön, määritä ikärajat tässä."
       },
       "infoTextDescription1": {
         "course": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo kurssista olennaisimmat asiat ytimekkäästi.",
-        "event": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo tapahtumasta olennaisimmat asiat ytimekkäästi."
+        "general": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo tapahtumasta olennaisimmat asiat ytimekkäästi.",
+        "volunteering": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo vapaaehtoistyöstä olennaisimmat asiat ytimekkäästi."
       },
       "infoTextDescription2": {
         "course": "Kuvaus on pidempi ja tarkempi selostus kurssin sisällöstä.",
-        "event": "Kuvaus on pidempi ja tarkempi selostus tapahtuman sisällöstä."
+        "general": "Kuvaus on pidempi ja tarkempi selostus tapahtuman sisällöstä.",
+        "volunteering": "Kuvaus on pidempi ja tarkempi selostus vapaaehtoistyön sisällöstä."
       },
       "infoTextEnrolmentTime": {
         "course": "Jos kurssille on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
-        "event": "Jos tapahtumaan on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä."
+        "general": "Jos tapahtumaan on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
+        "volunteering": "Jos vapaaehtoistyöhön on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä."
       },
       "infoTextEventTimes1": {
         "course": "Useana päivänä toistuvan kurssin lisäämiseksi on Lisää uusi ajankohta -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
-        "event": "Useana päivänä toistuvan tapahtuman lisäämiseksi on Lisää uusi ajankohta -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu."
+        "general": "Useana päivänä toistuvan tapahtuman lisäämiseksi on Lisää uusi ajankohta -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu.",
+        "volunteering": "Useana päivänä toistuvan vapaaehtoistyön lisäämiseksi on Lisää uusi ajankohta -nappi ja säännöllisesti toistuvalle vapaaehtoistyölle oma Toistuva vapaaehtoistyö -työkalu."
       },
       "infoTextEventTimes2": {
         "course": "Kirjoita kurssin alkamispäivä ja myös alkamisaika, jos kurssi alkaa tiettyyn kellonaikaan.",
-        "event": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan."
+        "general": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
+        "volunteering": "Kirjoita vapaaehtoistyön alkamispäivä ja myös alkamisaika, jos vapaaehtoistyö alkaa tiettyyn kellonaikaan."
       },
       "infoTextEventTimes3": {
         "course": "Kirjoita myös päättymispäivä sekä päättymisaika, jos kurssi päättyy tiettyyn kellonaikaan.",
-        "event": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan."
+        "general": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.",
+        "volunteering": "Kirjoita myös päättymispäivä sekä päättymisaika, jos vapaaehtoistyö päättyy tiettyyn kellonaikaan."
       },
       "infoTextEventTimes4": {
         "course": "Jos kurssi järjestetään useamman kerran, voit lisätä kurssille uusia ajankohtia. Jos kurssi toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva kurssi.",
-        "event": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma."
+        "general": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.",
+        "volunteering": "Jos vapaaehtoistyö järjestetään useamman kerran, voit lisätä vapaaehtoistyölle uusia ajankohtia. Jos vapaaehtoistyö toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva vapaaehtoistyö."
       },
       "infoTextEventTimes5": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan miinussymbolin.",
       "infoTextImage1": {
         "course": "Pyri aina löytämään kurssille kuva. Kuvalle voi merkitä käyttöoikeuden <a href=\"https://creativecommons.org/licenses/by/4.0/deed.fi\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, jolloin kuvaa voi melko vapaasti jakaa ja muunnella, tai \"Käyttö rajattu kurssin yhteyteen\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"tapahtumakuvat-sivulta {{openInNewTab}}\">tapahtumakuvat-sivulta</a>.",
-        "event": "Pyri aina löytämään tapahtumalle kuva. Kuvalle voi merkitä käyttöoikeuden <a href=\"https://creativecommons.org/licenses/by/4.0/deed.fi\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, jolloin kuvaa voi melko vapaasti jakaa ja muunnella, tai \"Käyttö rajattu tapahtuman yhteyteen\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"tapahtumakuvat-sivulta {{openInNewTab}}\">tapahtumakuvat-sivulta</a>."
+        "general": "Pyri aina löytämään tapahtumalle kuva. Kuvalle voi merkitä käyttöoikeuden <a href=\"https://creativecommons.org/licenses/by/4.0/deed.fi\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, jolloin kuvaa voi melko vapaasti jakaa ja muunnella, tai \"Käyttö rajattu tapahtuman yhteyteen\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"tapahtumakuvat-sivulta {{openInNewTab}}\">tapahtumakuvat-sivulta</a>.",
+        "volunteering": "Pyri aina löytämään vapaaehtoistyölle kuva. Kuvalle voi merkitä käyttöoikeuden <a href=\"https://creativecommons.org/licenses/by/4.0/deed.fi\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, jolloin kuvaa voi melko vapaasti jakaa ja muunnella, tai \"Käyttö rajattu vapaaehtoistyön yhteyteen\". Joitakin vapaasti käytettäviä kuvituskuvia löytyy <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"tapahtumakuvat-sivulta {{openInNewTab}}\">tapahtumakuvat-sivulta</a>."
       },
       "infoTextImage2": "Muokkaa kuva ennen syöttöä verkkoon sopivaksi ja 3:2 -vaakakuvasuhteeseen, esim. 1200×800px. Olennaista on, että tiedostokoko pysyy kohtuullisena myös mobiilikäyttöön eli mieluiten alle 200 kilotavun (kt).",
       "infoTextImage3": "Anna kuvalle nimi ja kuvaile lyhyesti mitä siinä tapahtuu.",
       "infoTextImage4": "Alt-teksti parantaa saavutettavuutta, sillä ruudunlukuohjelmat välittävät alt-tekstin sisällön käyttäjälle. Kuvaa tähän kohtaan siis kuvan sisältö ymmärrettävästi.",
       "infoTextInfoLanguages": {
         "course": "Valitse kielet, joilla haluat kuvata kurssin tiedot tässä palvelussa.",
-        "event": "Valitse kielet, joilla haluat kuvata tapahtuman tiedot tässä palvelussa."
+        "general": "Valitse kielet, joilla haluat kuvata tapahtuman tiedot tässä palvelussa.",
+        "volunteering": "Valitse kielet, joilla haluat kuvata vapaaehtoistyön tiedot tässä palvelussa."
       },
       "infoTextInLanguages": {
         "course": "Valitse kielet, joilla kurssilla kommunikoidaan kurssin aikana.",
-        "event": "Valitse kielet, joilla tapahtumassa kommunikoidaan tapahtuman aikana."
+        "general": "Valitse kielet, joilla tapahtumassa kommunikoidaan tapahtuman aikana.",
+        "volunteering": "Valitse kielet, joilla vapaaehtoistyössä kommunikoidaan tapahtuman aikana."
       },
       "infoTextKeywords": {
         "course": "Liitä kurssiin vähintään yksi asiasana, joka kuvaa kurssin teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
-        "event": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta."
+        "general": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
+        "volunteering": "Liitä vapaaehtoistyöhön vähintään yksi asiasana, joka kuvaa vapaaehtoistyön teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta."
       },
       "infoTextLocation1": "Kirjoita kenttään tapahtumapaikan nimi tai katuosoite ja valitse oikea paikka listasta.",
       "infoTextLocation2": {
         "course": "Jos kurssi järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Kurssin URL-osoite laitetaan kotisivu-kenttään ja/tai kurssi sosiaalisessa mediassa -kenttiin.",
-        "event": "Jos tapahtuma järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Tapahtuman URL-osoite laitetaan kotisivu-kenttään ja/tai tapahtuma sosiaalisessa mediassa -kenttiin."
+        "general": "Jos tapahtuma järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Tapahtuman URL-osoite laitetaan kotisivu-kenttään ja/tai tapahtuma sosiaalisessa mediassa -kenttiin.",
+        "volunteering": "Jos vapaaehtoistyö järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Vapaaehtoistön URL-osoite laitetaan kotisivu-kenttään ja/tai vapaaehtoistyö sosiaalisessa mediassa -kenttiin."
       },
       "infoTextLocation3": "Jos tapahtumapaikka löytyy listasta, sen sijaintia ei tarvitse kuvailla erikseen. Voit kuitenkin antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi kerrosnumeron tai luokkahuoneen nimen.",
       "infoTextLocation4": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
       "infoTextMainCategories": {
         "course": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa kurssin löytämistä.",
-        "event": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa tapahtuman löytämistä."
+        "general": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa tapahtuman löytämistä.",
+        "volunteering": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa vapaaehtoistyön löytämistä."
       },
       "infoTextOffers1": {
         "course": "Merkitse onko kurssi maksuton. Syötä maksulliselle kurssille hinta muodossa “5€”.",
-        "event": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa “5€”."
+        "general": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa “5€”.",
+        "volunteering": "Merkitse onko tapahtuma vapaaehtoistyö. Syötä maksulliselle vapaaehtoistyölle hinta muodossa “5€”."
       },
       "infoTextOffers2": {
         "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
-        "event": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
+        "general": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
+        "volunteering": "Jos vapaaehtoistyöllä on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
       },
       "infoTextProvider": {
         "course": "Kirjoita tähän kurssin järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija.",
-        "event": "Kirjoita tähän tapahtuman järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija."
+        "general": "Kirjoita tähän tapahtuman järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija.",
+        "volunteering": "Kirjoita tähän vapaaehtoistyön järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija."
       },
       "infoTextPublisher": {
         "course": "Valitse organisaatio, joka näytetään kurssin julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet.",
-        "event": "Valitse organisaatio, joka näytetään tapahtuman julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet."
+        "general": "Valitse organisaatio, joka näytetään tapahtuman julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet.",
+        "volunteering": "Valitse organisaatio, joka näytetään vapaaehtoistyön julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet."
       },
       "infoTextSocialMedia": {
         "course": "Kopioi tähän kurssin sosiaalisen median linkit (URL-osoitteet).",
-        "event": "Kopioi tähän tapahtuman sosiaalisen median linkit (URL-osoitteet)."
+        "general": "Kopioi tähän tapahtuman sosiaalisen median linkit (URL-osoitteet).",
+        "volunteering": "Kopioi tähän vapaaehtoistyön sosiaalisen median linkit (URL-osoitteet)."
       },
       "infoTextType1": "Onko kyseessä tapahtuma vai kurssi? Tapahtuma on kertaluontoinen ja alkaa tiettyyn kellonaikaan, kun taas kurssilla voi pääsääntöisesti olla useampia tapahtumakertoja ja toiminta on tavoitteellista. Joissakin tapauksissa kurssia kutsutaan myös harrastukseksi.",
       "infoTextType2": "Tapahtumatyypin valinta vaikuttaa siihen, miten ja missä palveluissa tapahtuma näytetään käyttäjälle.",
@@ -371,36 +400,43 @@
       "infoTextUmbrellaSubEventLink": "sarjan ylätapahtumasta",
       "infoTextVideo1": {
         "course": "Jos kurssiin liittyy video, voit lisätä sen osoitteen tässä.",
-        "event": "Jos tapahtumaan liittyy video, voit lisätä sen osoitteen tässä."
+        "general": "Jos tapahtumaan liittyy video, voit lisätä sen osoitteen tässä.",
+        "volunteering": "Jos vapaaehtoistyöhön liittyy video, voit lisätä sen osoitteen tässä."
       },
       "infoTextVideo2": "Anna videolle nimi ja kuvaa lyhyesti mitä siinä tapahtuu.",
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
       "labelDescription": {
         "course": "Kurssin kuvaus {{langText}}",
-        "event": "Tapahtuman kuvaus {{langText}}"
+        "general": "Tapahtuman kuvaus {{langText}}",
+        "volunteering": "Vapaaehtoistyön kuvaus {{langText}}"
       },
       "labelEndTime": {
         "course": "Kurssi päättyy",
-        "event": "Tapahtuma päättyy"
+        "general": "Tapahtuma päättyy",
+        "volunteering": "Vapaaehtoistyö päättyy"
       },
       "labelFacebookUrl": "Facebook",
       "labelHasPrice": {
         "course": "Kurssi on maksullinen",
-        "event": "Tapahtuma on maksullinen"
+        "general": "Tapahtuma on maksullinen",
+        "volunteering": "Vapaaehtoistyö on maksullinen"
       },
       "labelHasUmbrella": {
         "course": "Tällä kurssilla on kattotapahtuma.",
-        "event": "Tällä tapahtumalla on kattotapahtuma."
+        "general": "Tällä tapahtumalla on kattotapahtuma.",
+        "volunteering": "Tällä vapaaehtoistyöllä on kattotapahtuma."
       },
       "labelInfoUrl": {
         "course": "Kurssin kotisivun URL {{langText}}",
-        "event": "Tapahtuman kotisivun URL {{langText}}"
+        "general": "Tapahtuman kotisivun URL {{langText}}",
+        "volunteering": "Vapaaehtoistyön kotisivun URL {{langText}}"
       },
       "labelInstagramUrl": "Instagram",
       "labelIsUmbrella": {
         "course": "Tämä kurssi on kattotapahtuma.",
-        "event": "Tämä tapahtuma on kattotapahtuma."
+        "general": "Tämä tapahtuma on kattotapahtuma.",
+        "volunteering": "Tämä vapaaehtoistyö on kattotapahtuma."
       },
       "labelKeywords": "Avainsanahaku",
       "labelLocation": "Paikka",
@@ -408,40 +444,48 @@
       "labelLocationId": "Paikan ID:",
       "labelName": {
         "course": "Kurssin otsikko {{langText}}",
-        "event": "Tapahtuman otsikko {{langText}}"
+        "general": "Tapahtuman otsikko {{langText}}",
+        "volunteering": "Vapaaehtoistyön otsikko {{langText}}"
       },
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
       "labelProvider": {
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
-        "event": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)"
+        "general": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)",
+        "volunteering": "Vapaaehtoistyön järjestäjä {{langText}} (jos eri kuin julkaisija)"
       },
       "labelPublisher": {
         "course": "Kurssin julkaisija",
-        "event": "Tapahtuman julkaisija"
+        "general": "Tapahtuman julkaisija",
+        "volunteering": "Vapaaehtoistyön julkaisija"
       },
       "labelRecurringEventEndDate": "Toisto päättyy",
       "labelRecurringEventEndTime": {
         "course": "Kurssi päättyy klo",
-        "event": "Tapahtuma päättyy klo"
+        "general": "Tapahtuma päättyy klo",
+        "volunteering": "Vapaaehtoistyö päättyy klo"
       },
       "labelRecurringEventRepeatInterval": {
         "course": "Kurssi toistu",
-        "event": "Tapahtuma toistuu"
+        "general": "Tapahtuma toistuu",
+        "volunteering": "Vapaaehtoistyö toistuu"
       },
       "labelRecurringEventStartDate": "Toisto alkaa",
       "labelRecurringEventStartTime": {
         "course": "Kurssi alkaa klo",
-        "event": "Tapahtuma alkaa klo"
+        "general": "Tapahtuma alkaa klo",
+        "volunteering": "Vapaaehtoistyö alkaa klo"
       },
       "labelShortDescription": {
         "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
-        "event": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
+        "general": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
+        "volunteering": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
       },
       "labelStartTime": {
         "course": "Kurssi alkaa",
-        "event": "Tapahtuma alkaa"
+        "general": "Tapahtuma alkaa",
+        "volunteering": "Vapaaehtoistyö alkaa"
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Kattotapahtuma",
@@ -451,24 +495,29 @@
       "modalTitleImage": "Lisää kuva",
       "modalTitleRecurringEvent": {
         "course": "Määritä toistuva kurssi",
-        "event": "Määritä toistuva tapahtuma"
+        "general": "Määritä toistuva tapahtuma",
+        "volunteering": "Määritä toistuva vapaaehtoistyö"
       },
       "notificationTitleDescription": {
         "course": "Kurssin kuvaus",
-        "event": "Tapahtuman kuvaus"
+        "general": "Tapahtuman kuvaus",
+        "volunteering": "Vapaaehtoistyön kuvaus"
       },
       "notificationTitleEventTimes": {
         "course": "Kurssin ajankohdat",
-        "event": "Tapahtuman ajankohdat"
+        "general": "Tapahtuman ajankohdat",
+        "volunteering": "Vapaaehtoistyön ajankohdat"
       },
       "notificationTitleImage": {
         "course": "Kurssiin liittyvä kuva",
-        "event": "Tapahtumaan liittyvä kuva"
+        "general": "Tapahtumaan liittyvä kuva",
+        "volunteering": "Vapaaehtoistyöhön liittyvä kuva"
       },
       "notificationTitleLocation": "Tapahtumapaikka",
       "notificationTitleMainCategories": {
         "course": "Kurssin luokittelu",
-        "event": "Tapahtuman luokittelu"
+        "general": "Tapahtuman luokittelu",
+        "volunteering": "Vapaaehtoistyön luokittelu"
       },
       "notificationTitleOffers": "Hintatiedot",
       "notificationTitleProvider": "Järjestäjä",
@@ -477,56 +526,68 @@
       "notificationTitleUmrellaEvent": "Kattotapahtuma",
       "notificationTitleVideo": {
         "course": "Kurssiin liittyvä video",
-        "event": "Tapahtumaan liittyvä video"
+        "general": "Tapahtumaan liittyvä video",
+        "volunteering": "Vapaaehtoistyöhön liittyvä video"
       },
       "placeholderAudienceMaxAge": {
         "course": "Syötä kurssin yläikäraja",
-        "event": "Syötä tapahtuman yläikäraja"
+        "general": "Syötä tapahtuman yläikäraja",
+        "volunteering": "Syötä vapaaehtoistyön yläikäraja"
       },
       "placeholderAudienceMinAge": {
         "course": "Syötä kurssin alaikäraja",
-        "event": "Syötä tapahtuman alaikäraja"
+        "general": "Syötä tapahtuman alaikäraja",
+        "volunteering": "Syötä vapaaehtoistyön alaikäraja"
       },
       "placeholderDescription": {
         "course": "Syötä kurssin kuvaus",
-        "event": "Syötä tapahtuman kuvaus"
+        "general": "Syötä tapahtuman kuvaus",
+        "volunteering": "Syötä vapaaehtoistyön kuvaus"
       },
       "placeholderFacebookUrl": {
         "course": "Syötä kurssin Facebook-sivun URL",
-        "event": "Syötä tapahtuman Facebook-sivun URL"
+        "general": "Syötä tapahtuman Facebook-sivun URL",
+        "volunteering": "Syötä vapaaehtoistyön Facebook-sivun URL"
       },
       "placeholderInfoUrl": {
         "course": "Syötä kurssin kotisivun URL {{langText}}",
-        "event": "Syötä tapahtuman kotisivun URL {{langText}}"
+        "general": "Syötä tapahtuman kotisivun URL {{langText}}",
+        "volunteering": "Syötä vapaaehtoistyön kotisivun URL {{langText}}"
       },
       "placeholderInstagramUrl": {
         "course": "Syötä kurssin Instagram-sivun URL",
-        "event": "Syötä tapahtuman Instagram-sivun URL"
+        "general": "Syötä tapahtuman Instagram-sivun URL",
+        "volunteering": "Syötä vapaaehtoistyön Instagram-sivun URL"
       },
       "placeholderKeywords": "Hae tai valitse avainsanoja",
       "placeholderLocation": "Valitse tai hae tapahtumapaikka",
       "placeholderLocationExtraInfo": "Syötä lisätietoja tapahtumapaikasta {{langText}}",
       "placeholderName": {
         "course": "Syötä kurssin otsikko",
-        "event": "Syötä tapahtuman otsikko"
+        "general": "Syötä tapahtuman otsikko",
+        "volunteering": "Syötä vapaaehtoistyön otsikko"
       },
       "placeholderOfferDescription": "Syötä hintatietojen kuvaus {{langText}}",
       "placeholderOfferInfoUrl": "Syötä lipunmyynnin tai ilmoittautumisen URL {{langText}}",
       "placeholderOfferPrice": {
         "course": "Syötä kurssin hinta {{langText}}",
-        "event": "Syötä tapahtuman hinta {{langText}}"
+        "general": "Syötä tapahtuman hinta {{langText}}",
+        "volunteering": "Syötä vapaaehtoistyön hinta {{langText}}"
       },
       "placeholderProvider": {
-          "course": "Syötä kurssin järjestäjän nimi",
-          "event": "Syötä tapahtuman järjestäjän nimi"
+        "course": "Syötä kurssin järjestäjän nimi",
+        "general": "Syötä tapahtuman järjestäjän nimi",
+        "volunteering": "Syötä vapaaehtoistyön järjestäjän nimi"
       },
       "placeholderShortDescription": {
         "course": "Syötä kurssin lyhyt kuvaus",
-        "event": "Syötä tapahtuman lyhyt kuvaus"
+        "general": "Syötä tapahtuman lyhyt kuvaus",
+        "volunteering": "Syötä vapaaehtoistyön lyhyt kuvaus"
       },
       "placeholderTwitterUrl": {
         "course": "Syötä kurssin Twitter-sivun URL",
-        "event": "Syötä tapahtuman Twitter-sivun URL"
+        "general": "Syötä tapahtuman Twitter-sivun URL",
+        "volunteering": "Syötä vapaaehtoistyön Twitter-sivun URL"
       },
       "placeholderVideoAltText": "Syötä videon alt-teksti ruudunlukijoita varten",
       "placeholderVideoName": "Syötä videon nimi",
@@ -535,17 +596,20 @@
         "labelEndDate": "Toisto päättyy:",
         "labelEndTime": {
           "course": "Kurssi päättyy klo:",
-          "event": "Tapahtuma päättyy klo:"
+          "general": "Tapahtuma päättyy klo:",
+          "volunteering": "Vapaaehtoistyö päättyy klo:"
         },
         "labelRepeatInterval": {
           "course": "Kurssi toistuu:",
-          "event": "Tapahtuma toistuu:"
+          "general": "Tapahtuma toistuu:",
+          "volunteering": "Vapaaehtoistyö toistuu:"
         },
         "labelRepeatDays": "Toistopäivät:",
         "labelStartDate": "Toisto alkaa:",
         "labelStartTime": {
           "course": "Kurssi alkaa klo:",
-          "event": "Tapahtuma alkaa klo:"
+          "general": "Tapahtuma alkaa klo:",
+          "volunteering": "Vapaaehtoistyö alkaa klo:"
         },
         "textRepeatInterval": "Viikon välein",
         "textRepeatInterval_plural": "{{count}} viikon välein"
@@ -555,7 +619,8 @@
         "audience": "Kohderyhmät",
         "channels": {
           "course": "Kurssin kanavat",
-          "event": "Tapahtuman kanavat"
+          "general": "Tapahtuman kanavat",
+          "volunteering": "Vapaaehtoistyön kanavat"
         },
         "classification": "Luokittelu",
         "description": "Kuvaus",
@@ -576,19 +641,23 @@
       "titleEventType": "Valitse tapahtumatyyppi",
       "titleImage": {
         "course": "Kurssin kuva",
-        "event": "Tapahtuman kuva"
+        "general": "Tapahtuman kuva",
+        "volunteering": "Vapaaehtoistyön kuva"
       },
       "titleInfoLanguages": {
         "course": "Kurssitietojen syöttökielet",
-        "event": "Tapahtumatietojen syöttökielet"
+        "general": "Tapahtumatietojen syöttökielet",
+        "volunteering": "Vapaaehtoistyön tietojen syöttökielet"
       },
       "titleInfoUrl": {
         "course": "Kurssin kotisivu",
-        "event": "Tapahtuman kotisivu"
+        "general": "Tapahtuman kotisivu",
+        "volunteering": "Vapaaehtoistyön kotisivu"
       },
       "titleInLanguages": {
         "course": "Kurssin kielet (ohjauskielet)",
-        "event": "Tapahtuman kielet (ohjauskielet)"
+        "general": "Tapahtuman kielet (ohjauskielet)",
+        "volunteering": "Vapaaehtoistyön kielet (ohjauskielet)"
       },
       "titleKeywords": "Lisää avainsanoja",
       "titleLocation": "Tapahtumapaikka",
@@ -599,7 +668,8 @@
       "titleOfferPrice": "Hinta",
       "titlePriceInfo": {
         "course": "Kurssin hintatiedot",
-        "event": "Tapahtuman hintatiedot"
+        "general": "Tapahtuman hintatiedot",
+        "volunteering": "Vapaaehtoistyön hintatiedot"
       },
       "titlePrice": "Hinta",
       "titleRecurringEvent": "Toistuva tapahtuma",
@@ -608,16 +678,19 @@
       "titleRecurringEventStarts": "Aloitus",
       "titleSocialMedia": {
         "course": "Kurssi sosiaalisessa mediassa",
-        "event": "Tapahtuma sosiaalisessa mediassa"
+        "general": "Tapahtuma sosiaalisessa mediassa",
+        "volunteering": "Vapaaehtoistyö sosiaalisessa mediassa"
       },
       "titleTime": {
         "course": "Kurssin ajankohdat",
-        "event": "Tapahtuman ajankohdat"
+        "general": "Tapahtuman ajankohdat",
+        "volunteering": "Vapaaehtoistyön ajankohdat"
       },
       "titleUmrellaEvent": "Kattotapahtumat",
       "titleVideo": {
         "course": "Kurssin video",
-        "event": "Tapahtuman video"
+        "general": "Tapahtuman video",
+        "volunteering": "Vapaaehtoistyön video"
       },
       "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
     },
@@ -641,7 +714,8 @@
     },
     "type": {
       "course": "Kurssi",
-      "event": "Tapahtuma"
+      "general": "Tapahtuma",
+      "volunteering": "Vapaaehtoistyö"
     },
     "updateEventModal": {
       "text1": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",

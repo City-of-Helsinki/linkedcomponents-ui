@@ -10,6 +10,7 @@ import {
 import reduce from 'lodash/reduce';
 import React from 'react';
 
+import { EventType } from '../../generated/graphql';
 import { DEFAULT_LICENSE_TYPE } from '../image/constants';
 import {
   AddImageSettings,
@@ -45,19 +46,14 @@ export enum VIDEO_DETAILS_FIELDS {
   URL = 'url',
 }
 
-export enum EXTENSION_COURSE_FIELDS {
-  ENROLMENT_END_TIME = 'enrolmentEndTime',
-  ENROLMENT_START_TIME = 'enrolmentStartTime',
-  MAXIMUM_ATTENDEE_CAPACITY = 'maximumAttendeeCapacity',
-  MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
-}
-
 export enum EVENT_FIELDS {
   AUDIENCE = 'audience',
   AUDIENCE_MAX_AGE = 'audienceMaxAge',
   AUDIENCE_MIN_AGE = 'audienceMinAge',
   DESCRIPTION = 'description',
   END_TIME = 'endTime',
+  ENROLMENT_END_TIME = 'enrolmentEndTime',
+  ENROLMENT_START_TIME = 'enrolmentStartTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
   EVENT_TIMES = 'eventTimes',
   EXTENSION_COURSE = 'extensionCourse',
@@ -76,6 +72,8 @@ export enum EVENT_FIELDS {
   LOCATION = 'location',
   LOCATION_EXTRA_INFO = 'locationExtraInfo',
   MAIN_CATEGORIES = 'mainCategories',
+  MAXIMUM_ATTENDEE_CAPACITY = 'maximumAttendeeCapacity',
+  MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
   NAME = 'name',
   OFFER_DESCRIPTION = 'description',
   OFFER_INFO_URL = 'infoUrl',
@@ -111,11 +109,6 @@ export const ORDERED_EVENT_INFO_LANGUAGES = [
   EVENT_INFO_LANGUAGES.AR,
 ];
 
-export enum EVENT_TYPE {
-  COURSE = 'course',
-  EVENT = 'event',
-}
-
 export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
   EVENT_INFO_LANGUAGES,
   (acc, lang) => ({ ...acc, [lang]: '' }),
@@ -142,14 +135,10 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: '',
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.END_TIME]: null,
+  [EVENT_FIELDS.ENROLMENT_END_TIME]: null,
+  [EVENT_FIELDS.ENROLMENT_START_TIME]: null,
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
   [EVENT_FIELDS.EVENT_TIMES]: [],
-  [EVENT_FIELDS.EXTENSION_COURSE]: {
-    [EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME]: null,
-    [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME]: null,
-    [EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: '',
-    [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
-  },
   [EVENT_FIELDS.FACEBOOK_URL]: '',
   [EVENT_FIELDS.HAS_PRICE]: false,
   [EVENT_FIELDS.HAS_UMBRELLA]: false,
@@ -170,6 +159,8 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.LOCATION]: null,
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.MAIN_CATEGORIES]: [],
+  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: '',
+  [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
   [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.OFFERS]: [],
   [EVENT_FIELDS.PROVIDER]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
@@ -178,7 +169,7 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.SHORT_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.START_TIME]: null,
   [EVENT_FIELDS.SUPER_EVENT]: null,
-  [EVENT_FIELDS.TYPE]: EVENT_TYPE.EVENT,
+  [EVENT_FIELDS.TYPE]: EventType.General,
   [EVENT_FIELDS.TWITTER_URL]: '',
   [EVENT_FIELDS.VIDEOS]: [
     {

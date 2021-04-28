@@ -7,11 +7,12 @@ import {
   organizationId,
 } from '../../__mocks__/createEventPage';
 import { defaultStoreState } from '../../../../constants';
+import { EventType } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import { getMockReduxStore, render, screen } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
-import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
+import { EVENT_FIELDS } from '../../constants';
 import ButtonPanel from '../ButtonPanel';
 
 const mocks = [mockedUserResponse];
@@ -19,7 +20,7 @@ const mocks = [mockedUserResponse];
 const renderComponent = (store?: Store<StoreState, AnyAction>) =>
   render(
     <Formik
-      initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.EVENT }}
+      initialValues={{ [EVENT_FIELDS.TYPE]: EventType.General }}
       onSubmit={jest.fn()}
     >
       <ButtonPanel onSaveDraft={jest.fn()} publisher={organizationId} />
@@ -47,7 +48,7 @@ test('buttons should be enabled when user is authenticated', async () => {
 
   const buttons = [
     translations.event.form.buttonSaveDraft,
-    translations.event.form.buttonPublish.event,
+    translations.event.form.buttonPublish.general,
   ];
 
   for (const name of buttons) {

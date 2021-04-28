@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 import React from 'react';
 
+import { EventType } from '../../../../../generated/graphql';
 import {
   configure,
   render,
@@ -16,7 +17,7 @@ import VideoSection from '../VideoSection';
 
 configure({ defaultHidden: true });
 
-const type = EVENT_INITIAL_VALUES.type;
+const type = EventType.General;
 
 const defaultInitialValue = {
   [EVENT_FIELDS.TYPE]: type,

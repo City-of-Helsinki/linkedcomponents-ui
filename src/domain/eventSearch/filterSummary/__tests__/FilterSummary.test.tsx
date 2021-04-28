@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/react-testing';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { PlaceDocument } from '../../../../generated/graphql';
+import { EventType, PlaceDocument } from '../../../../generated/graphql';
 import { fakePlace } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
 import FilterSummary from '../FilterSummary';
@@ -10,7 +10,7 @@ import FilterSummary from '../FilterSummary';
 const text = 'Search word';
 const end = '2021-10-13';
 const start = '2021-10-05';
-const type = 'event';
+const type = EventType.General;
 
 const placeId = 'place:id';
 const placeName = 'Place name';

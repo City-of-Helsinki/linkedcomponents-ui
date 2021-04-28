@@ -1,19 +1,16 @@
 import { Formik } from 'formik';
 import React from 'react';
 
+import { EventType } from '../../../../../generated/graphql';
 import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
 import { render, screen } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import {
-  EVENT_FIELDS,
-  EVENT_INFO_LANGUAGES,
-  EVENT_TYPE,
-} from '../../../constants';
+import { EVENT_FIELDS, EVENT_INFO_LANGUAGES } from '../../../constants';
 import ResponsibilitiesSection, {
   ResponsibilitiesSectionProps,
 } from '../ResponsibilitiesSection';
 
-const type = EVENT_TYPE.EVENT;
+const type = EventType.General;
 
 const languages: EVENT_INFO_LANGUAGES[] = [
   EVENT_INFO_LANGUAGES.FI,

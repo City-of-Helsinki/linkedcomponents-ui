@@ -1,18 +1,15 @@
 import { Formik } from 'formik';
 import React from 'react';
 
+import { EventType } from '../../../../../generated/graphql';
 import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
 import { render, screen, userEvent } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import {
-  EVENT_FIELDS,
-  EVENT_INFO_LANGUAGES,
-  EVENT_TYPE,
-} from '../../../constants';
-import { createEventValidationSchema } from '../../../utils';
+import { EVENT_FIELDS, EVENT_INFO_LANGUAGES } from '../../../constants';
+import { eventValidationSchema } from '../../../utils';
 import PriceSection from '../PriceSection';
 
-const type = EVENT_TYPE.EVENT;
+const type = EventType.General;
 
 const renderTimeSection = () =>
   render(
@@ -24,7 +21,7 @@ const renderTimeSection = () =>
         [EVENT_FIELDS.TYPE]: type,
       }}
       onSubmit={jest.fn()}
-      validationSchema={createEventValidationSchema}
+      validationSchema={eventValidationSchema}
     >
       <PriceSection />
     </Formik>

@@ -7,7 +7,10 @@ import {
   mockedTopicsKeywordSetResponse,
 } from '../../../__mocks__/editEventPage';
 import { INCLUDE, KEYWORD_SETS } from '../../../../../constants';
-import { KeywordSetDocument } from '../../../../../generated/graphql';
+import {
+  EventType,
+  KeywordSetDocument,
+} from '../../../../../generated/graphql';
 import {
   fakeKeywords,
   fakeKeywordSet,
@@ -19,10 +22,10 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
+import { EVENT_FIELDS } from '../../../constants';
 import AudienceSection from '../AudienceSection';
 
-const type = EVENT_TYPE.EVENT;
+const type = EventType.General;
 
 const keywordNames = range(1, 16).map((index) => `Keyword ${index}`);
 const keywords = fakeKeywords(
