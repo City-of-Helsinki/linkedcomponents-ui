@@ -3,7 +3,6 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import { WEEK_DAY } from '../../../../../constants';
-import { EventType } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import {
   configure,
@@ -13,14 +12,14 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import { EVENT_FIELDS } from '../../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { EventFormFields } from '../../../types';
 import { eventValidationSchema } from '../../../utils';
 import TimeSection, { TimeSectionProps } from '../TimeSection';
 
 configure({ defaultHidden: true });
 
-const type = EventType.General;
+const type = EVENT_TYPE.General;
 
 const defaultInitialValue = {
   [EVENT_FIELDS.END_TIME]: null,

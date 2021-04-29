@@ -7,12 +7,11 @@ import {
   organizationId,
 } from '../../__mocks__/createEventPage';
 import { defaultStoreState } from '../../../../constants';
-import { EventType } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import { getMockReduxStore, render, screen } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
-import { EVENT_FIELDS } from '../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import ButtonPanel from '../ButtonPanel';
 
 const mocks = [mockedUserResponse];
@@ -20,7 +19,7 @@ const mocks = [mockedUserResponse];
 const renderComponent = (store?: Store<StoreState, AnyAction>) =>
   render(
     <Formik
-      initialValues={{ [EVENT_FIELDS.TYPE]: EventType.General }}
+      initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.General }}
       onSubmit={jest.fn()}
     >
       <ButtonPanel onSaveDraft={jest.fn()} publisher={organizationId} />

@@ -47,7 +47,7 @@ import {
   EventsDocument,
   EventsQuery,
   EventStatus,
-  EventType,
+  EventTypeId,
   ExternalLinkInput,
   Language as LELanguage,
   LocalisedFieldsFragment,
@@ -89,6 +89,7 @@ import {
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
   EVENT_INITIAL_VALUES,
+  EVENT_TYPE,
   IMAGE_ALT_TEXT_MIN_LENGTH,
   IMAGE_DETAILS_FIELDS,
   NOT_ALLOWED_WHEN_CANCELLED,
@@ -1063,7 +1064,7 @@ export const getEventPayload = (
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : undefined,
     superEventType:
       isUmbrella && uniqEventTimes.length <= 1 ? SuperEventType.Umbrella : null,
-    typeId: capitalize(type) as EventType,
+    typeId: capitalize(type) as EventTypeId,
     videos: videos.filter((video) => video.altText || video.name || video.url),
   };
 
@@ -1197,7 +1198,7 @@ export const getEventInitialValues = (
 
   return {
     ...EVENT_INITIAL_VALUES,
-    type: event.typeId?.toLowerCase() ?? EventType.General,
+    type: event.typeId?.toLowerCase() ?? EVENT_TYPE.General,
     eventInfoLanguages: getEventInfoLanguages(event),
     imageDetails: {
       altText:

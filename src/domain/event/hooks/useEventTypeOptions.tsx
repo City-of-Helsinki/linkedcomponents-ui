@@ -1,15 +1,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { EventType } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
+import { EVENT_TYPE } from '../constants';
 
 const useEventTypeOptions = () => {
   const { t } = useTranslation();
 
   const options: OptionType[] = React.useMemo(
     () =>
-      Object.values(EventType).map((type) => ({
+      Object.values(EVENT_TYPE).map((type) => ({
         label: t(`event.type.${type}`),
         value: type,
       })),

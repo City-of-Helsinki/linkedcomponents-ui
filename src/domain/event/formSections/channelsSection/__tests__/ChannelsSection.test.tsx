@@ -1,19 +1,19 @@
 import { Formik } from 'formik';
 import React from 'react';
 
-import { EventType } from '../../../../../generated/graphql';
 import { configure, render, screen } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
+  EVENT_TYPE,
 } from '../../../constants';
 import ChannelsSection from '../ChannelsSection';
 
 configure({ defaultHidden: true });
 
-const type = EventType.General;
+const type = EVENT_TYPE.General;
 
 const renderComponent = () =>
   render(

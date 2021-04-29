@@ -212,10 +212,10 @@ export enum SuperEventType {
   Umbrella = 'umbrella'
 }
 
-export enum EventType {
-  General = 'general',
-  Course = 'course',
-  Volunteering = 'volunteering'
+export enum EventTypeId {
+  General = 'General',
+  Course = 'Course',
+  Volunteering = 'Volunteering'
 }
 
 export type ExternalLinkInput = {
@@ -278,7 +278,7 @@ export type CreateEventMutationInput = {
   subEvents?: Maybe<Array<IdObjectInput>>;
   superEvent?: Maybe<IdObjectInput>;
   superEventType?: Maybe<SuperEventType>;
-  typeId?: Maybe<EventType>;
+  typeId?: Maybe<EventTypeId>;
   videos?: Maybe<Array<Maybe<VideoInput>>>;
 };
 
@@ -310,7 +310,7 @@ export type UpdateEventMutationInput = {
   subEvents?: Maybe<Array<IdObjectInput>>;
   superEvent?: Maybe<IdObjectInput>;
   superEventType?: Maybe<SuperEventType>;
-  typeId?: Maybe<EventType>;
+  typeId?: Maybe<EventTypeId>;
   videos?: Maybe<Array<Maybe<VideoInput>>>;
 };
 
@@ -422,7 +422,7 @@ export type Event = {
   subEvents: Array<Maybe<Event>>;
   superEvent?: Maybe<Event>;
   superEventType?: Maybe<SuperEventType>;
-  typeId?: Maybe<EventType>;
+  typeId?: Maybe<EventTypeId>;
   videos: Array<Maybe<Video>>;
   atId?: Maybe<Scalars['String']>;
   atContext?: Maybe<Scalars['String']>;

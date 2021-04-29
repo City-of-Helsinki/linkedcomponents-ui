@@ -3,7 +3,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 import { EXTLINK } from '../../../constants';
 import {
   EventStatus,
-  EventType,
+  EventTypeId,
   PublicationStatus,
   SuperEventType,
 } from '../../../generated/graphql';
@@ -24,6 +24,7 @@ import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_EDIT_ACTIONS,
   EVENT_INITIAL_VALUES,
+  EVENT_TYPE,
 } from '../constants';
 import { EventFormFields } from '../types';
 import {
@@ -111,7 +112,7 @@ const defaultEventPayload = {
   },
   superEvent: undefined,
   superEventType: null,
-  typeId: 'General' as EventType,
+  typeId: EventTypeId.General,
   videos: [],
 };
 
@@ -790,7 +791,7 @@ describe('getEventInitialValues function', () => {
     const superEventType = null;
     const superEventAtId =
       'https://api.hel.fi/linkedevents-test/v1/event/event:543/';
-    const type = EventType.Course;
+    const type = EVENT_TYPE.Course;
     const twitterUrl = 'http://twitter.com';
     const videos = [
       { altText: 'alt text', name: 'video name', url: 'httl://www.url.com' },
@@ -855,7 +856,7 @@ describe('getEventInitialValues function', () => {
             superEventType: SuperEventType.Umbrella,
           }),
           superEventType,
-          typeId: type,
+          typeId: EventTypeId.Course,
           videos: videos.map((video) => fakeVideo(video)),
         })
       )
@@ -962,7 +963,7 @@ describe('getEventInitialValues function', () => {
     expect(offers).toEqual([]);
     expect(startTime).toEqual(null);
     expect(superEvent).toEqual(superEvent);
-    expect(type).toEqual(EventType.General);
+    expect(type).toEqual(EVENT_TYPE.General);
     expect(twitterUrl).toEqual('');
     expect(videos).toEqual([{ altText: '', name: '', url: '' }]);
   });

@@ -105,10 +105,10 @@ module.exports = buildSchema(/* GraphQL */ `
     umbrella
   }
 
-  enum EventType {
-    general
-    course
-    volunteering
+  enum EventTypeId {
+    General
+    Course
+    Volunteering
   }
 
   input ExternalLinkInput {
@@ -171,7 +171,7 @@ module.exports = buildSchema(/* GraphQL */ `
     subEvents: [IdObjectInput!]
     superEvent: IdObjectInput
     superEventType: SuperEventType
-    typeId: EventType
+    typeId: EventTypeId
     videos: [VideoInput]
   }
 
@@ -203,7 +203,7 @@ module.exports = buildSchema(/* GraphQL */ `
     subEvents: [IdObjectInput!]
     superEvent: IdObjectInput
     superEventType: SuperEventType
-    typeId: EventType
+    typeId: EventTypeId
     videos: [VideoInput]
   }
 
@@ -306,7 +306,7 @@ module.exports = buildSchema(/* GraphQL */ `
     subEvents: [Event]!
     superEvent: Event
     superEventType: SuperEventType
-    typeId: EventType
+    typeId: EventTypeId
     videos: [Video]!
     # @id is renamed as atId so it's usable on GraphQl
     atId: String

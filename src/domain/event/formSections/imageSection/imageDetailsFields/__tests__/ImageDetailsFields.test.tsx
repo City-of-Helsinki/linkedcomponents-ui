@@ -4,7 +4,6 @@ import React from 'react';
 
 import { MAX_PAGE_SIZE } from '../../../../../../constants';
 import {
-  EventType,
   ImageDocument,
   OrganizationsDocument,
   UserDocument,
@@ -27,7 +26,11 @@ import {
   DEFAULT_LICENSE_TYPE,
   LICENSE_TYPES,
 } from '../../../../../image/constants';
-import { EVENT_FIELDS, IMAGE_DETAILS_FIELDS } from '../../../../constants';
+import {
+  EVENT_FIELDS,
+  EVENT_TYPE,
+  IMAGE_DETAILS_FIELDS,
+} from '../../../../constants';
 import { eventValidationSchema } from '../../../../utils';
 import ImageDetailsFields, {
   ImageDetailsFieldsProps,
@@ -112,7 +115,7 @@ const defaultMocks = [
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
-const eventType = EventType.General;
+const eventType = EVENT_TYPE.General;
 
 interface InitialValues {
   [EVENT_FIELDS.IMAGES]: string[];

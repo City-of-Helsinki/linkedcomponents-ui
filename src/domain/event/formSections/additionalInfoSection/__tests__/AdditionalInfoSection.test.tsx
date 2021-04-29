@@ -2,7 +2,6 @@ import { Formik } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { EventType } from '../../../../../generated/graphql';
 import {
   render,
   screen,
@@ -10,11 +9,11 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import { EVENT_FIELDS } from '../../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { eventValidationSchema } from '../../../utils';
 import AdditionalInfoSection from '../AdditionalInfoSection';
 
-const type = EventType.General;
+const type = EVENT_TYPE.General;
 
 const initialValues = {
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: '',

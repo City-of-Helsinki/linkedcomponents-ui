@@ -4,17 +4,16 @@ import React from 'react';
 
 import {
   EventsDocument,
-  EventType,
   SuperEventType,
 } from '../../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import { EVENT_FIELDS } from '../../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { RecurringEventSettings } from '../../../types';
 import TypeSection, { TypeSectionProps } from '../TypeSection';
 
-const type = EventType.General;
+const type = EVENT_TYPE.General;
 const eventNames = range(1, 6).map((val) => `Event name ${val}`);
 const events = fakeEvents(
   eventNames.length,

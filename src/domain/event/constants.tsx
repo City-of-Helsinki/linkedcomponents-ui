@@ -10,7 +10,6 @@ import {
 import reduce from 'lodash/reduce';
 import React from 'react';
 
-import { EventType } from '../../generated/graphql';
 import { DEFAULT_LICENSE_TYPE } from '../image/constants';
 import {
   AddImageSettings,
@@ -18,6 +17,12 @@ import {
   MultiLanguageObject,
   RecurringEventSettings,
 } from './types';
+
+export enum EVENT_TYPE {
+  General = 'general',
+  Course = 'course',
+  Volunteering = 'volunteering',
+}
 
 export enum RECURRING_EVENT_FIELDS {
   END_DATE = 'endDate',
@@ -169,7 +174,7 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.SHORT_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.START_TIME]: null,
   [EVENT_FIELDS.SUPER_EVENT]: null,
-  [EVENT_FIELDS.TYPE]: EventType.General,
+  [EVENT_FIELDS.TYPE]: EVENT_TYPE.General,
   [EVENT_FIELDS.TWITTER_URL]: '',
   [EVENT_FIELDS.VIDEOS]: [
     {
