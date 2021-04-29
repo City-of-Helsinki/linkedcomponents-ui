@@ -81,7 +81,7 @@
     "noResults": "No results",
     "numberInput": {
       "buttonDecrease": "Descrease",
-      "buttonIncrease": "Increase" 
+      "buttonIncrease": "Increase"
     },
     "openInNewTab": "(opens in a new tab)",
     "pagination": {
@@ -103,7 +103,8 @@
       "add": "Add",
       "cancel": "Cancel",
       "blocktype": {
-        "blocktype": "Block Type",
+        "blocktype": "Block type",
+        "blockquote": "Blockquote",
         "h1": "H1",
         "h2": "H2",
         "h3": "H3",

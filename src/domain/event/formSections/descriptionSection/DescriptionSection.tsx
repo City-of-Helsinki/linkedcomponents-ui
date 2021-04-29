@@ -15,6 +15,7 @@ import styles from '../../eventPage.module.scss';
 import useSortedInfoLanguages from '../../hooks/useSortedInfoLanguages';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
+import { formatSingleDescription } from '../../utils';
 
 const FIELDS = [
   EVENT_FIELDS.DESCRIPTION,
@@ -35,6 +36,9 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   const { t } = useTranslation();
   const [{ value: eventInfoLanguages }] = useField<EVENT_INFO_LANGUAGES[]>({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
+  });
+  const [{ value: audience }] = useField({
+    name: EVENT_FIELDS.AUDIENCE,
   });
   const [{ value: type }] = useField({
     name: EVENT_FIELDS.TYPE,
@@ -70,6 +74,16 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   const handleSelectedLanguageChange = (language: string) => {
     setSelectedLanguage(language as EVENT_INFO_LANGUAGES);
   };
+
+  const sanitizeDescriptionAfterChange = React.useCallback(
+    (value) =>
+      formatSingleDescription({
+        audience,
+        description: value,
+        lang: selectedLanguage,
+      }),
+    [audience, selectedLanguage]
+  );
 
   return (
     <div>
@@ -130,6 +144,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                       placeholder={t(
                         `event.form.placeholderDescription.${type}`
                       )}
+                      sanitizeAfterChange={sanitizeDescriptionAfterChange}
                       maxLength={CHARACTER_LIMITS.LONG_STRING}
                       required={true}
                     />
