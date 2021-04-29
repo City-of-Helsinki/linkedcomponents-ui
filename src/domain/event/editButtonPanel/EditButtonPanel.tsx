@@ -196,7 +196,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
                       )
                     }
                     className={styles.mediumButton}
-                    variant={variant as any}
+                    variant={variant as Exclude<ButtonVariant, 'supplementary'>}
                   >
                     {label}
                   </Button>
