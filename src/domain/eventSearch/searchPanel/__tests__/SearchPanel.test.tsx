@@ -156,6 +156,6 @@ test('should search events with correct search params', async () => {
 
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe(
-    '?place=place%3A1&text=search&type=event&end=2021-03-12&start=2021-03-05'
+    '?place=place%3A1&text=search&type=general&end=2021-03-12&start=2021-03-05'
   );
 });

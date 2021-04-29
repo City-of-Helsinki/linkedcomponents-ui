@@ -19,7 +19,7 @@ const mocks = [mockedUserResponse];
 const renderComponent = (store?: Store<StoreState, AnyAction>) =>
   render(
     <Formik
-      initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.EVENT }}
+      initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.General }}
       onSubmit={jest.fn()}
     >
       <ButtonPanel onSaveDraft={jest.fn()} publisher={organizationId} />
@@ -47,7 +47,7 @@ test('buttons should be enabled when user is authenticated', async () => {
 
   const buttons = [
     translations.event.form.buttonSaveDraft,
-    translations.event.form.buttonPublish.event,
+    translations.event.form.buttonPublish.general,
   ];
 
   for (const name of buttons) {

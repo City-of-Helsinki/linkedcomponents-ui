@@ -13,7 +13,7 @@ import ChannelsSection from '../ChannelsSection';
 
 configure({ defaultHidden: true });
 
-const type = EVENT_TYPE.EVENT;
+const type = EVENT_TYPE.General;
 
 const renderComponent = () =>
   render(

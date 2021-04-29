@@ -17,7 +17,7 @@ const languages: EVENT_INFO_LANGUAGES[] = [
   EVENT_INFO_LANGUAGES.FI,
   EVENT_INFO_LANGUAGES.SV,
 ];
-const type = EVENT_TYPE.EVENT;
+const type = EVENT_TYPE.General;
 
 type InitialValues = {
   [EVENT_FIELDS.DESCRIPTION]: MultiLanguageObject;

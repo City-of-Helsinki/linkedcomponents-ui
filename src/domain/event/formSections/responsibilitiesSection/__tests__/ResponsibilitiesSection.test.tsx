@@ -13,7 +13,7 @@ import ResponsibilitiesSection, {
   ResponsibilitiesSectionProps,
 } from '../ResponsibilitiesSection';
 
-const type = EVENT_TYPE.EVENT;
+const type = EVENT_TYPE.General;
 
 const languages: EVENT_INFO_LANGUAGES[] = [
   EVENT_INFO_LANGUAGES.FI,

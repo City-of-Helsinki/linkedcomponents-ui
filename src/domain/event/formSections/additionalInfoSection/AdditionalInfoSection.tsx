@@ -6,7 +6,7 @@ import DatepickerField from '../../../../common/components/formFields/Datepicker
 import NumberInputField from '../../../../common/components/formFields/NumberInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
-import { EVENT_FIELDS, EXTENSION_COURSE_FIELDS } from '../../constants';
+import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
@@ -70,7 +70,7 @@ const AdditionalInfoSection = () => {
         <FieldColumn>
           <FormGroup>
             <Field
-              name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME}`}
+              name={EVENT_FIELDS.ENROLMENT_START_TIME}
               component={DatepickerField}
               label={t(`event.form.extensionCourse.labelEnrolmentStartTime`)}
               placeholder={t(`common.placeholderDateTime`)}
@@ -79,7 +79,7 @@ const AdditionalInfoSection = () => {
           </FormGroup>
           <FormGroup>
             <Field
-              name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME}`}
+              name={EVENT_FIELDS.ENROLMENT_END_TIME}
               component={DatepickerField}
               label={t(`event.form.extensionCourse.labelEnrolmentEndTime`)}
               placeholder={t(`common.placeholderDateTime`)}
@@ -107,7 +107,7 @@ const AdditionalInfoSection = () => {
           <div className={styles.numberRow}>
             <FormGroup>
               <Field
-                name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY}`}
+                name={EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY}
                 component={NumberInputField}
                 label={t(
                   `event.form.extensionCourse.labelMinimimAttendeeCapacity`
@@ -118,7 +118,7 @@ const AdditionalInfoSection = () => {
             </FormGroup>
             <FormGroup>
               <Field
-                name={`${EVENT_FIELDS.EXTENSION_COURSE}.${EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}`}
+                name={EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
                 component={NumberInputField}
                 label={t(
                   `event.form.extensionCourse.labelMaximumAttendeeCapacity`

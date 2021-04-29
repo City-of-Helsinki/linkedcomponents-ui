@@ -19,7 +19,7 @@ import TimeSection, { TimeSectionProps } from '../TimeSection';
 
 configure({ defaultHidden: true });
 
-const type = EVENT_TYPE.EVENT;
+const type = EVENT_TYPE.General;
 
 const defaultInitialValue = {
   [EVENT_FIELDS.END_TIME]: null,

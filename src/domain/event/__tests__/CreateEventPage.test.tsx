@@ -127,7 +127,7 @@ const findComponent = async (
     case 'addImageButton':
       // Both add image button and preview image component have same label
       const addImageButtons = await screen.findAllByRole('button', {
-        name: translations.event.form.buttonAddImage.event,
+        name: translations.event.form.buttonAddImage.general,
       });
       return addImageButtons[0];
     case 'description':
@@ -156,7 +156,7 @@ const findComponent = async (
       });
     case 'publish':
       return screen.findByRole('button', {
-        name: translations.event.form.buttonPublish.event,
+        name: translations.event.form.buttonPublish.general,
       });
     case 'saveDraft':
       return screen.findByRole('button', {

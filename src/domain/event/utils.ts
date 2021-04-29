@@ -16,8 +16,10 @@ import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import { FormikErrors, FormikState, FormikTouched } from 'formik';
 import { TFunction } from 'i18next';
+import capitalize from 'lodash/capitalize';
 import forEach from 'lodash/forEach';
 import isEqual from 'lodash/isEqual';
+import isNumber from 'lodash/isNumber';
 import keys from 'lodash/keys';
 import reduce from 'lodash/reduce';
 import set from 'lodash/set';
@@ -45,6 +47,7 @@ import {
   EventsDocument,
   EventsQuery,
   EventStatus,
+  EventTypeId,
   ExternalLinkInput,
   Language as LELanguage,
   LocalisedFieldsFragment,
@@ -86,7 +89,7 @@ import {
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
   EVENT_INITIAL_VALUES,
-  EXTENSION_COURSE_FIELDS,
+  EVENT_TYPE,
   IMAGE_ALT_TEXT_MIN_LENGTH,
   IMAGE_DETAILS_FIELDS,
   NOT_ALLOWED_WHEN_CANCELLED,
@@ -130,14 +133,14 @@ const createMultiLanguageValidationByInfoLanguages = (
   );
 };
 
-const extensionCourseValidation = Yup.object().shape({
-  [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME]: Yup.date()
+const enrolmentFieldsValidation = {
+  [EVENT_FIELDS.ENROLMENT_START_TIME]: Yup.date()
     .nullable()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
       startTime ? isFuture(startTime) : true
     ),
-  [EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME]: Yup.date()
+  [EVENT_FIELDS.ENROLMENT_END_TIME]: Yup.date()
     .nullable()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
@@ -145,7 +148,7 @@ const extensionCourseValidation = Yup.object().shape({
     )
     // test that startsTime is before endsTime
     .when(
-      [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME],
+      [EVENT_FIELDS.ENROLMENT_START_TIME],
       (startTime: Date | null, schema: Yup.DateSchema) => {
         if (startTime && isValid(startTime)) {
           return schema.test(
@@ -162,15 +165,15 @@ const extensionCourseValidation = Yup.object().shape({
         return schema;
       }
     ),
-  [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
+  [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
     .min(0, (param) =>
       createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
     )
     .nullable()
     .transform(transformNumber),
-  [EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
-    [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
+  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
+    [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
     (minimumAttendeeCapacity: number) => {
       return Yup.number()
         .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
@@ -181,7 +184,7 @@ const extensionCourseValidation = Yup.object().shape({
         .transform(transformNumber);
     }
   ),
-});
+};
 
 const createEventTimeValidation = (publicationStatus: PublicationStatus) => ({
   [EVENT_FIELDS.START_TIME]: Yup.date()
@@ -398,7 +401,8 @@ export const eventValidationSchema = Yup.object().shape({
     )
     .nullable()
     .transform(transformNumber),
-  [EVENT_FIELDS.EXTENSION_COURSE]: extensionCourseValidation,
+  // Validate enrolment related fields
+  ...enrolmentFieldsValidation,
   [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
     [true],
     VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
@@ -464,6 +468,8 @@ export const draftEventValidationSchema = Yup.object().shape({
     )
     .nullable()
     .transform(transformNumber),
+  // Validate enrolment related fields
+  ...enrolmentFieldsValidation,
   [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
     [true],
     VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
@@ -957,6 +963,8 @@ export const getEventPayload = (
     audienceMaxAge,
     audienceMinAge,
     endTime,
+    enrolmentEndTime,
+    enrolmentStartTime,
     eventInfoLanguages,
     facebookUrl,
     hasPrice,
@@ -969,6 +977,8 @@ export const getEventPayload = (
     keywords,
     location,
     locationExtraInfo,
+    maximumAttendeeCapacity,
+    minimumAttendeeCapacity,
     name,
     offers,
     provider,
@@ -976,6 +986,7 @@ export const getEventPayload = (
     shortDescription,
     startTime,
     superEvent,
+    type,
     twitterUrl,
     videos,
   } = formValues;
@@ -991,8 +1002,14 @@ export const getEventPayload = (
   const basePayload: CreateEventMutationInput = {
     publicationStatus,
     audience: audience.map((atId) => ({ atId })),
-    ...(audienceMaxAge ? { audienceMaxAge } : undefined),
-    ...(audienceMinAge ? { audienceMinAge } : ''),
+    audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
+    audienceMinAge: isNumber(audienceMinAge) ? audienceMinAge : null,
+    enrolmentEndTime: enrolmentEndTime
+      ? new Date(enrolmentEndTime).toISOString()
+      : null,
+    enrolmentStartTime: enrolmentStartTime
+      ? new Date(enrolmentStartTime).toISOString()
+      : null,
     externalLinks: externalLinkFields
       .map((field) => {
         /* istanbul ignore else  */
@@ -1020,6 +1037,12 @@ export const getEventPayload = (
       locationExtraInfo,
       eventInfoLanguages
     ),
+    maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
+      ? maximumAttendeeCapacity
+      : null,
+    minimumAttendeeCapacity: isNumber(minimumAttendeeCapacity)
+      ? minimumAttendeeCapacity
+      : null,
     name: filterUnselectedLanguages(name, eventInfoLanguages),
     offers: hasPrice
       ? offers.map((offer) => ({
@@ -1041,6 +1064,7 @@ export const getEventPayload = (
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : undefined,
     superEventType:
       isUmbrella && uniqEventTimes.length <= 1 ? SuperEventType.Umbrella : null,
+    typeId: capitalize(type) as EventTypeId,
     videos: videos.filter((video) => video.altText || video.name || video.url),
   };
 
@@ -1174,6 +1198,7 @@ export const getEventInitialValues = (
 
   return {
     ...EVENT_INITIAL_VALUES,
+    type: event.typeId?.toLowerCase() ?? EVENT_TYPE.General,
     eventInfoLanguages: getEventInfoLanguages(event),
     imageDetails: {
       altText:
@@ -1234,6 +1259,14 @@ export const getEventInitialValues = (
     audience: event.audience.map((keyword) => keyword?.atId as string),
     audienceMaxAge: event.audienceMaxAge || '',
     audienceMinAge: event.audienceMinAge || '',
+    enrolmentStartTime: event.enrolmentStartTime
+      ? new Date(event.enrolmentStartTime)
+      : null,
+    enrolmentEndTime: event.enrolmentEndTime
+      ? new Date(event.enrolmentEndTime)
+      : null,
+    maximumAttendeeCapacity: event.maximumAttendeeCapacity ?? '',
+    minimumAttendeeCapacity: event.minimumAttendeeCapacity ?? '',
     isVerified: true,
   };
 };

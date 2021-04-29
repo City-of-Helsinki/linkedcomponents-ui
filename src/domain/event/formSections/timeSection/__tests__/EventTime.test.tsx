@@ -10,7 +10,7 @@ import EventTime, { EventTimeProps } from '../EventTime';
 
 configure({ defaultHidden: true });
 
-const type = EVENT_TYPE.EVENT;
+const type = EVENT_TYPE.General;
 
 const defaultProps: EventTimeProps = {
   eventTimePath: 'time[0]',

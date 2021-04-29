@@ -103,8 +103,12 @@ const keywordAtId = keyword.atId;
 const baseEventPayload = {
   publicationStatus: 'draft',
   audience: [],
+  audienceMaxAge: null,
+  audienceMinAge: null,
   externalLinks: [],
   description: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
+  enrolmentEndTime: null,
+  enrolmentStartTime: null,
   images: [],
   infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
   inLanguage: [],
@@ -117,6 +121,8 @@ const baseEventPayload = {
     sv: null,
     zhHans: null,
   },
+  maximumAttendeeCapacity: null,
+  minimumAttendeeCapacity: null,
   name: {
     ar: null,
     en: null,
@@ -138,6 +144,7 @@ const baseEventPayload = {
   },
   superEvent: undefined,
   superEventType: null,
+  typeId: 'General',
   videos: [],
 };
 

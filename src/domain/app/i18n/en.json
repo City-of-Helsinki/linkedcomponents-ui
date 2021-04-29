@@ -144,11 +144,13 @@
   "createEventPage": {
     "page": {
       "course": "New course",
-      "event": "New event"
+      "general": "New event",
+      "volunteering": "New volunteering"
     },
     "title": {
       "course": "New course",
-      "event": "New event"
+      "general": "New event",
+      "volunteering": "New volunteering"
     }
   },
   "errors": {
@@ -193,12 +195,14 @@
       "buttonAddEventTime": "Add new time",
       "buttonAddImage": {
         "course": "Add a photo of the course",
-        "event": "Add a photo of the event"
+        "general": "Add a photo of the event",
+        "volunteering": "Add a photo of the volunteering"
       },
       "buttonAddOffer": "Add new pricing information",
       "buttonAddRecurringEvent": {
         "course": "Add recurring course",
-        "event": "Add recurring event"
+        "general": "Add recurring event",
+        "volunteering": "Add recurring volunteering"
       },
       "buttonAddVideo": "Add video",
       "buttonBack": "Back",
@@ -212,7 +216,8 @@
       "buttonEdit": "Edit event",
       "buttonOpenRecurringEventSettings": {
         "course": "Open recurring course settings",
-        "event": "Open recurring event settings"
+        "general": "Open recurring event settings",
+        "volunteering": "Open recurring volunteering settings"
       },
       "buttonPanel": {
         "warningNoRightsCreate": "You have insufficient rights to create this event.",
@@ -222,11 +227,13 @@
       "buttonPostpone": "Postpone event",
       "buttonPublish": {
         "course": "Publish course",
-        "event": "Publish event"
+        "general": "Publish event",
+        "volunteering": "Publish volunteering"
       },
       "buttonRemoveImage": {
         "course": "Remove photo of the course",
-        "event": "Remove photo of the event"
+        "general": "Remove photo of the event",
+        "volunteering": "Remove photo of the volunteering"
       },
       "buttonSaveDraft": "Save draft",
       "buttonUpdateDraft": "Save draft",
@@ -260,7 +267,8 @@
           "ccBy": "Creative Commons BY 4.0",
           "eventOnly": {
             "course": "Image may be used only for this course",
-            "event": "Image may be used only for this event"
+            "general": "Image may be used only for this event",
+            "volunteering": "Image may be used only for this volunteering"
           }
         },
         "placeholderAltText": "Enter image alt text for screen readers",
@@ -274,94 +282,115 @@
       },
       "infoTextAttendeeCapacity": {
         "course": "If the number of participants in the course is limited, specify the minimum and maximum number of participants here.",
-        "event": "If the number of participants in the event is limited, specify the minimum and maximum number of participants here."
+        "general": "If the number of participants in the event is limited, specify the minimum and maximum number of participants here.",
+        "volunteering": "If the number of participants in the volunteering is limited, specify the minimum and maximum number of participants here."
       },
       "infoTextAudience": {
         "course": "If the course does not have a specific target group, don't select anything",
-        "event": "If the event does not have a specific target group, don't select anything"
+        "general": "If the event does not have a specific target group, don't select anything",
+        "volunteering": "If the volunteering does not have a specific target group, don't select anything"
       },
       "infoTextAudienceAge": {
         "course": "If only people of a certain age are allowed to participate in the course, set the age limits here.",
-        "event": "If only people of a certain age are allowed to participate in the event, set the age limits here."
+        "general": "If only people of a certain age are allowed to participate in the event, set the age limits here.",
+        "volunteering": "If only people of a certain age are allowed to participate in the volunteering, set the age limits here."
       },
       "infoTextDescription1": {
         "course": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the course concisely.",
-        "event": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the event concisely."
+        "general": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the event concisely.",
+        "volunteering": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the volunteering concisely."
       },
       "infoTextDescription2": {
         "course": "The description is a longer and more detailed description of the content of the course.",
-        "event": "The description is a longer and more detailed description of the content of the event."
+        "general": "The description is a longer and more detailed description of the content of the event.",
+        "volunteering": "The description is a longer and more detailed description of the content of the volunteering."
       },
       "infoTextEnrolmentTime": {
         "course": "If it is possible to register for the course, specify the start and end times of the registration here.",
-        "event": "If it is possible to register for the event, specify the start and end times of the registration here."
+        "general": "If it is possible to register for the event, specify the start and end times of the registration here.",
+        "volunteering": "If it is possible to register for the volunteering, specify the start and end times of the registration here."
       },
       "infoTextEventTimes1": {
         "course": "To add a multi-day recurring course, there is an Add New Time button and a regular Recurring Course tool for a regularly recurring course.",
-        "event": "To add a multi-day recurring event, there is an Add New Time button and a regular Recurring Event tool for a regularly recurring event."
+        "general": "To add a multi-day recurring event, there is an Add New Time button and a regular Recurring Event tool for a regularly recurring event.",
+        "volunteering": "To add a multi-day recurring volunteering, there is an Add New Time button and a regular Recurring Volunteering tool for a regularly recurring volunteering."
       },
       "infoTextEventTimes2": {
         "course": "Enter the start date of the course and also the start time if the course starts at a specific time.",
-        "event": "Enter the start date of the event and also the start time if the event starts at a specific time."
+        "general": "Enter the start date of the event and also the start time if the event starts at a specific time.",
+        "volunteering": "Enter the start date of the event and also the start time if the volunteering starts at a specific time."
       },
       "infoTextEventTimes3": {
         "course": "Also enter the end date as well as the end time if the course ends at a specific time.",
-        "event": "Also enter the end date as well as the end time if the event ends at a specific time."
+        "general": "Also enter the end date as well as the end time if the event ends at a specific time.",
+        "volunteering": "Also enter the end date as well as the end time if the volunteering ends at a specific time."
       },
       "infoTextEventTimes4": {
         "course": "If the course is held more than once, you can add new dates to the course. If the course repeats regularly, you can add all times at once by selecting Recurring Course.",
-        "event": "If the event is held more than once, you can add new dates to the event. If the event repeats regularly, you can add all times at once by selecting Recurring Event."
+        "general": "If the event is held more than once, you can add new dates to the event. If the event repeats regularly, you can add all times at once by selecting Recurring Event.",
+        "volunteering": "If the volunteering is held more than once, you can add new dates to the volunteering. If the volunteering repeats regularly, you can add all times at once by selecting Recurring Volunteering."
       },
       "infoTextEventTimes5": "To delete an extra time, select the minus symbol next to the time.",
       "infoTextImage1": {
         "course": "Always try to find a picture for the course. The image can be licensed under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.en\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, in which case the image can be shared and modified quite freely, or \"Use limited to the course \". Some freely usable illustrations can be found on the <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"event images page {{openInNewTab}}\">event images page.</a>",
-        "event": "Always try to find a picture for the event. The image can be licensed under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.en\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, in which case the image can be shared and modified quite freely, or \"Use limited to the event \". Some freely usable illustrations can be found on the <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"event images page {{openInNewTab}}\">event images page.</a>"
+        "general": "Always try to find a picture for the event. The image can be licensed under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.en\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, in which case the image can be shared and modified quite freely, or \"Use limited to the event \". Some freely usable illustrations can be found on the <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"event images page {{openInNewTab}}\">event images page.</a>",
+        "volunteering": "Always try to find a picture for the volunteering. The image can be licensed under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.en\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, in which case the image can be shared and modified quite freely, or \"Use limited to the volunteering \". Some freely usable illustrations can be found on the <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"event images page {{openInNewTab}}\">event images page.</a>"
       },
       "infoTextImage2": "Before uploading, edit the image to fit the network and to a 3: 2 horizontal aspect ratio, such as 1200 × 800px. It is essential that the file size remains reasonable for mobile use as well, preferably less than 200 kilobytes (kb).",
       "infoTextImage3": "Give the image a name and briefly describe what is happening in it.",
       "infoTextImage4": "Alt text improves accessibility because screen readers pass alt text to the user. So describe the content of the picture in an understandable way.",
       "infoTextInfoLanguages": {
         "course": "Select the languages in which you want to display course information for this service.",
-        "event": "Select the languages in which you want to display event information for this service."
+        "general": "Select the languages in which you want to display event information for this service.",
+        "volunteering": "Select the languages in which you want to display volunteering information for this service."
       },
       "infoTextInLanguages": {
         "course": "Select the languages which will be used for communication during the course.",
-        "event": "Select the languages which will be used for communication during the event."
+        "general": "Select the languages which will be used for communication during the event.",
+        "volunteering": "Select the languages which will be used for communication during the volunteering."
       },
       "infoTextKeywords": {
         "course": "Attach at least one keyword to the course that describes the theme of the course. Start typing a keyword and select the keyword you want to add from the list below.",
-        "event": "Attach at least one keyword to the event that describes the theme of the event. Start typing a keyword and select the keyword you want to add from the list below."
+        "general": "Attach at least one keyword to the event that describes the theme of the event. Start typing a keyword and select the keyword you want to add from the list below.",
+        "volunteering": "Attach at least one keyword to the volunteering that describes the theme of the volunteering. Start typing a keyword and select the keyword you want to add from the list below."
       },
       "infoTextLocation1": "Enter the name or street address of the venue in the field and select the correct venue from the list.",
       "infoTextLocation2": {
         "course": "If the course is only held remotely on the Internet, select Internet as the venue. The course URL is entered in the home page field and / or the course on social media fields.",
-        "event": "If the event is only held remotely on the Internet, select Internet as the venue. The event URL is entered in the home page field and / or the event on social media fields."
+        "general": "If the event is only held remotely on the Internet, select Internet as the venue. The event URL is entered in the home page field and / or the event on social media fields.",
+        "volunteering": "If the volunteering is only held remotely on the Internet, select Internet as the venue. The volunteering URL is entered in the home page field and / or the volunteering on social media fields."
       },
       "infoTextLocation3": "If the venue is found in the list, its location does not need to be described separately. However, you can provide additional information to find the venue, such as the floor number or classroom name.",
       "infoTextLocation4": "If the exact venue is not found in the list, select the nearest street address as the venue and enter the name of the venue or other detailed arrival instructions in the additional information field.",
       "infoTextMainCategories": {
         "course": "Please select at least one main category. Using the right main categories makes it easier to find the course.",
-        "event": "Please select at least one main category. Using the right main categories makes it easier to find the event."
+        "general": "Please select at least one main category. Using the right main categories makes it easier to find the event.",
+        "volunteering": "Please select at least one main category. Using the right main categories makes it easier to find the volunteering."
       },
       "infoTextOffers1": {
         "course": "Indicate if the course is free. Enter the price for the chargeable course in the form “5€”.",
-        "event": "Indicate if the event is free. Enter the price for the chargeable event in the form “5€”."
+        "general": "Indicate if the event is free. Enter the price for the chargeable event in the form “5€”.",
+        "volunteering": "Indicate if the volunteering is free. Enter the price for the chargeable volunteering in the form “5€”."
       },
       "infoTextOffers2": {
         "course": "If the course has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field.",
-        "event": "If the event has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field."
+        "general": "If the event has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field.",
+        "volunteering": "If the volunteering has several prices, click “Add new price information” and enter the name of each price group (e.g. Children) in the Description of price information field."
       },
       "infoTextProvider": {
         "course": "Enter the name of the organization hosting the course if the organizer is not the same as the publisher.",
-        "event": "Enter the name of the organization hosting the event if the organizer is not the same as the publisher."
+        "general": "Enter the name of the organization hosting the event if the organizer is not the same as the publisher.",
+        "volunteering": "Enter the name of the organization hosting the volunteering if the organizer is not the same as the publisher."
       },
       "infoTextPublisher": {
         "course": "Select the organization that will be displayed as the course publisher. You do not need to make a selection if you only have publishing rights for one organization.",
-        "event": "Select the organization that will be displayed as the event publisher. You do not need to make a selection if you only have publishing rights for one organization."
+        "general": "Select the organization that will be displayed as the event publisher. You do not need to make a selection if you only have publishing rights for one organization.",
+        "volunteering": "Select the organization that will be displayed as the volunteering publisher. You do not need to make a selection if you only have publishing rights for one organization."
       },
       "infoTextSocialMedia": {
         "course": "Copy the course's social media links (URLs) here.",
-        "event": "Copy the event's social media links (URLs) here."
+        "general": "Copy the event's social media links (URLs) here.",
+        "volunteering": "Copy the volunteering's social media links (URLs) here."
       },
       "infoTextType1": "Is it an event or a course? The event is a one-time event and starts at a certain time, while the course can generally have several events and the activities are goal-oriented. In some cases, the course is also called a hobby.",
       "infoTextType2": "The choice of event type affects how and in which services the event is displayed to the user.",
@@ -371,36 +400,43 @@
       "infoTextUmbrellaSubEventLink": "top level event",
       "infoTextVideo1": {
         "course": "If the course involves a video, you can add its address here.",
-        "event": "If the event involves a video, you can add its address here."
+        "general": "If the event involves a video, you can add its address here.",
+        "volunteering": "If the volunteering involves a video, you can add its address here."
       },
       "infoTextVideo2": "Give the video a name and a brief description of what is happening in it.",
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
       "labelDescription": {
         "course": "Description of the course {{langText}}",
-        "event": "Description of the event {{langText}}"
+        "general": "Description of the event {{langText}}",
+        "volunteering": "Description of the volunteering {{langText}}"
       },
       "labelEndTime": {
         "course": "Course ends",
-        "event": "Event ends"
+        "general": "Event ends",
+        "volunteering": "Volunteering ends"
       },
       "labelFacebookUrl": "Facebook",
       "labelHasPrice": {
         "course": "The course is chargeable",
-        "event": "The event is chargeable"
+        "general": "The event is chargeable",
+        "volunteering": "The volunteering is chargeable"
       },
       "labelHasUmbrella": {
         "course": "This course has an umbrella event.",
-        "event": "This event has an umbrella event."
+        "general": "This event has an umbrella event.",
+        "volunteering": "This volunteering has an umbrella event."
       },
       "labelInfoUrl": {
         "course": "URL of the course home page {{langText}}",
-        "event": "URL of the event home page {{langText}}"
+        "general": "URL of the event home page {{langText}}",
+        "volunteering": "URL of the volunteering home page {{langText}}"
       },
       "labelInstagramUrl": "Instagram",
       "labelIsUmbrella": {
         "course": "This course is an umbrella event.",
-        "event": "This event is an umbrella event."
+        "general": "This event is an umbrella event.",
+        "volunteering": "This volunteering is an umbrella event."
       },
       "labelKeywords": "Keyword search",
       "labelLocation": "Location",
@@ -408,40 +444,48 @@
       "labelLocationId": "Location ID:",
       "labelName": {
         "course": "Course title {{langText}}",
-        "event": "Event title {{langText}}"
+        "general": "Event title {{langText}}",
+        "volunteering": "Volunteering title {{langText}}"
       },
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
       "labelProvider": {
         "course": "Course organizer {{langText}} (if different than the publisher)",
-        "event": "Event organizer {{langText}} (if different than the publisher)"
+        "general": "Event organizer {{langText}} (if different than the publisher)",
+        "volunteering": "Volunteering organizer {{langText}} (if different than the publisher)"
       },
       "labelPublisher": {
         "course": "Course publisher",
-        "event": "Event publisher"
+        "general": "Event publisher",
+        "volunteering": "Volunteering publisher"
       },
       "labelRecurringEventEndDate": "Repetition ends",
       "labelRecurringEventEndTime": {
         "course": "Course ends at",
-        "event": "Event ends at"
+        "general": "Event ends at",
+        "volunteering": "Volunteering ends at"
       },
       "labelRecurringEventRepeatInterval": {
         "course": "Course is repeated",
-        "event": "Event is repeated"
+        "general": "Event is repeated",
+        "volunteering": "Volunteering is repeated"
       },
       "labelRecurringEventStartDate": "Repetition starts",
       "labelRecurringEventStartTime": {
         "course": "Course starts at",
-        "event": "Event starts at"
+        "general": "Event starts at",
+        "volunteering": "Volunteering starts at"
       },
       "labelShortDescription": {
         "course": "Short description {{langText}} (up to 160 characters)",
-        "event": "Short description {{langText}} (up to 160 characters)"
+        "general": "Short description {{langText}} (up to 160 characters)",
+        "volunteering": "Short description {{langText}} (up to 160 characters)"
       },
       "labelStartTime": {
         "course": "Course starts",
-        "event": "Event starts"
+        "general": "Event starts",
+        "volunteering": "Volunteering starts"
       },
       "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Umbrella event",
@@ -451,26 +495,30 @@
       "modalTitleImage": "Add image",
       "modalTitleRecurringEvent": {
         "course": "Specify recurring course",
-        "event": "Specify recurring event"
+        "general": "Specify recurring event",
+        "volunteering": "Specify recurring volunteering"
       },
       "notificationTitleDescription": {
         "course": "Course description",
-        "event": "Event description"
+        "general": "Event description",
+        "volunteering": "Volunteering description"
       },
       "notificationTitleEventTimes": {
         "course": "Course times",
-        "event": "Event times"
+        "general": "Event times",
+        "volunteering": "Volunteering times"
       },
       "notificationTitleImage": {
         "course": "Image related to the course",
-        "event": "Image related to the event"
+        "general": "Image related to the event",
+        "volunteering": "Image related to the volunteering"
       },
       "notificationTitleLocation": "Venue",
       "notificationTitleMainCategories": {
         "course": "Course classification",
-        "event": "Event classification"
+        "general": "Event classification",
+        "volunteering": "Volunteering classification"
       },
-
       "notificationTitleOffers": "Price information",
       "notificationTitleProvider": "Organizer",
       "notificationTitlePublisher": "Publisher",
@@ -478,56 +526,68 @@
       "notificationTitleUmrellaEvent": "Umbrella event",
       "notificationTitleVideo": {
         "course": "Video related to the course",
-        "event": "Video related to the event"
+        "general": "Video related to the event",
+        "volunteering": "Video related to the volunteering"
       },
       "placeholderAudienceMaxAge": {
         "course": "Enter the maximum age for the course",
-        "event": "Enter the maximum age for the event"
+        "general": "Enter the maximum age for the event",
+        "volunteering": "Enter the maximum age for the volunteering"
       },
       "placeholderAudienceMinAge": {
         "course": "Enter the minimum age for the course",
-        "event": "Enter the minimum age for the event"
+        "general": "Enter the minimum age for the event",
+        "volunteering": "Enter the minimum age for the volunteering"
       },
       "placeholderDescription": {
         "course": "Enter a description of the course",
-        "event": "Enter a description of the event"
+        "general": "Enter a description of the event",
+        "volunteering": "Enter a description of the volunteering"
       },
       "placeholderFacebookUrl": {
         "course": "Enter the URL of the course's Facebook page",
-        "event": "Enter the URL of the event's Facebook page"
+        "general": "Enter the URL of the event's Facebook page",
+        "volunteering": "Enter the URL of the volunteering's Facebook page"
       },
       "placeholderInfoUrl": {
         "course": "Enter the URL of the course home page {{langText}}",
-        "event": "Enter the URL of the event home page {{langText}}"
+        "general": "Enter the URL of the event home page {{langText}}",
+        "volunteering": "Enter the URL of the volunteering home page {{langText}}"
       },
       "placeholderInstagramUrl": {
         "course": "Enter the URL of the course's Instagram page",
-        "event": "Enter the URL of the event's Instagram page"
+        "general": "Enter the URL of the event's Instagram page",
+        "volunteering": "Enter the URL of the volunteering's Instagram page"
       },
       "placeholderKeywords": "Search or select keywords",
       "placeholderLocation": "Select or search for a venue",
       "placeholderLocationExtraInfo": "Enter more information about the venue {{langText}}",
       "placeholderName": {
         "course": "Enter the course title",
-        "event": "Enter the event title"
+        "general": "Enter the event title",
+        "volunteering": "Enter the volunteering title"
       },
       "placeholderOfferDescription": "Enter a description of the price information {{langText}}",
       "placeholderOfferInfoUrl": "Enter the URL for the ticket sale or registration {{langText}}",
       "placeholderOfferPrice": {
         "course": "Enter the price of the course {{langText}}",
-        "event": "Enter the price of the event {{langText}}"
+        "general": "Enter the price of the event {{langText}}",
+        "volunteering": "Enter the price of the volunteering {{langText}}"
       },
       "placeholderProvider": {
-          "course": "Enter the course organizer's name",
-          "event": "Enter the event organizer's name"
+        "course": "Enter the course organizer's name",
+        "general": "Enter the event organizer's name",
+        "volunteering": "Enter the volunteering organizer's name"
       },
       "placeholderShortDescription": {
         "course": "Enter a short description of the course",
-        "event": "Enter a short description of the event"
+        "general": "Enter a short description of the event",
+        "volunteering": "Enter a short description of the volunteering"
       },
       "placeholderTwitterUrl": {
         "course": "Enter the URL of the course's Twitter page",
-        "event": "Enter the URL of the event's Twitter page"
+        "general": "Enter the URL of the event's Twitter page",
+        "volunteering": "Enter the URL of the volunteering's Twitter page"
       },
       "placeholderVideoAltText": "Enter the alt text of the video for screen readers",
       "placeholderVideoName": "Enter a name for the video",
@@ -536,17 +596,20 @@
         "labelEndDate": "Repetition ends:",
         "labelEndTime": {
           "course": "Course ends at:",
-          "event": "Event ends at:"
+          "general": "Event ends at:",
+          "volunteering": "Volunteering ends at:"
         },
         "labelRepeatInterval": {
           "course": "Course repeats:",
-          "event": "Event repeats:"
+          "general": "Event repeats:",
+          "volunteering": "Volunteering repeats:"
         },
         "labelRepeatDays": "Repeat days:",
         "labelStartDate": "Repetition starts:",
         "labelStartTime": {
           "course": "Course starts at:",
-          "event": "Event starts at:"
+          "general": "Event starts at:",
+          "volunteering": "Volunteering starts at:"
         },
         "textRepeatInterval": "Every week",
         "textRepeatInterval_plural": "Every {{count}} weeks"
@@ -556,7 +619,8 @@
         "audience": "Target groups",
         "channels": {
           "course": "Course channels",
-          "event": "Event channels"
+          "general": "Event channels",
+          "volunteering": "Volunteering channels"
         },
         "classification": "Classification",
         "description": "Description",
@@ -577,19 +641,23 @@
       "titleEventType": "Select event type",
       "titleImage": {
         "course": "Course image",
-        "event": "Event image"
+        "general": "Event image",
+        "volunteering": "Volunteering image"
       },
       "titleInfoLanguages": {
         "course": "Course input languages",
-        "event": "Event input languages"
+        "general": "Event input languages",
+        "volunteering": "Volunteering input languages"
       },
       "titleInfoUrl": {
         "course": "Course home page",
-        "event": "Event home page"
+        "general": "Event home page",
+        "volunteering": "Volunteering home page"
       },
       "titleInLanguages": {
         "course": "Course languages (control languages)",
-        "event": "Event languages (control languages)"
+        "general": "Event languages (control languages)",
+        "volunteering": "Volunteering languages (control languages)"
       },
       "titleKeywords": "Add keywords",
       "titleLocation": "Venue",
@@ -600,7 +668,8 @@
       "titleOfferPrice": "Price",
       "titlePriceInfo": {
         "course": "Course price information",
-        "event": "Event price information"
+        "general": "Event price information",
+        "volunteering": "Volunteering price information"
       },
       "titlePrice": "Price",
       "titleRecurringEvent": "Recurring event",
@@ -609,16 +678,19 @@
       "titleRecurringEventStarts": "Start",
       "titleSocialMedia": {
         "course": "Course on social media",
-        "event": "Event on social media"
+        "general": "Event on social media",
+        "volunteering": "Volunteering on social media"
       },
       "titleTime": {
         "course": "Course dates",
-        "event": "Event dates"
+        "general": "Event dates",
+        "volunteering": "Volunteering dates"
       },
       "titleUmrellaEvent": "Umbrella events",
       "titleVideo": {
         "course": "Video of the course",
-        "event": "Video of the event"
+        "general": "Video of the event",
+        "volunteering": "Video of the volunteering"
       },
       "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
     },
@@ -641,7 +713,8 @@
     },
     "type": {
       "course": "Course",
-      "event": "Event"
+      "general": "Event",
+      "volunteering": "Volunteering"
     },
     "updateEventModal": {
       "text1": "Data is stored for all events in this series. Changes to these events will be lost. Are you sure you want to continue?",
