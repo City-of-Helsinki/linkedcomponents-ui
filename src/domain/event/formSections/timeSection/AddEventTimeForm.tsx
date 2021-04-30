@@ -1,4 +1,4 @@
-import { Field, Formik } from 'formik';
+import { Field, Formik, FormikHelpers } from 'formik';
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,7 @@ import DatepickerField from '../../../../common/components/formFields/Datepicker
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import { SuperEventType } from '../../../../generated/graphql';
 import { EVENT_TIME_FIELDS } from '../../constants';
-import { EventTime } from '../../types';
+import { EventTime, EventTimeFormFields } from '../../types';
 import { eventTimeValidationSchema } from '../../utils';
 import TimeSectionContext from './TimeSectionContext';
 
@@ -22,18 +22,23 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
   const disabled =
     savedEvent && savedEvent.superEventType !== SuperEventType.Recurring;
 
+  const submitAddEventTime = (
+    values: EventTimeFormFields,
+    formikHelpers: FormikHelpers<EventTimeFormFields>
+  ) => {
+    const { resetForm, validateForm } = formikHelpers;
+    addEventTime({
+      id: null,
+      ...values,
+    });
+    resetForm();
+    validateForm();
+  };
+
   return (
     <Formik
-      initialValues={{ endTime: null, startTime: null }}
-      onSubmit={(values, { resetForm, validateForm }) => {
-        addEventTime({
-          id: null,
-          endTime: values.endTime,
-          startTime: values.startTime,
-        });
-        resetForm();
-        validateForm();
-      }}
+      initialValues={{ endTime: null, startTime: null } as EventTimeFormFields}
+      onSubmit={submitAddEventTime}
       validateOnBlur
       validateOnChange
       validateOnMount

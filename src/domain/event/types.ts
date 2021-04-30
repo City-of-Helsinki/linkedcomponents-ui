@@ -84,6 +84,11 @@ export type EventFormFields = {
   [EVENT_FIELDS.VIDEOS]: VideoDetails[];
 };
 
+export type EventTimeFormFields = {
+  [EVENT_TIME_FIELDS.END_TIME]: Date | null;
+  [EVENT_TIME_FIELDS.START_TIME]: Date | null;
+};
+
 export type MultiLanguageObject = {
   [EVENT_INFO_LANGUAGES.AR]: string;
   [EVENT_INFO_LANGUAGES.EN]: string;

@@ -1,4 +1,4 @@
-import { Field, Formik } from 'formik';
+import { Field, Formik, FormikHelpers } from 'formik';
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -40,19 +40,26 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
     value: weekday,
   }));
 
+  const submitAddRecurringEvent = (
+    values: RecurringEventSettings,
+    formikHelpers: FormikHelpers<RecurringEventSettings>
+  ) => {
+    const { resetForm, validateForm } = formikHelpers;
+
+    onSubmit({
+      ...values,
+      eventTimes: generateEventTimesFromRecurringEvent(values).sort(
+        sortEventTimes
+      ),
+    });
+    resetForm();
+    validateForm();
+  };
+
   return (
     <Formik
       initialValues={RECURRING_EVENT_INITIAL_VALUES}
-      onSubmit={(values, { resetForm, validateForm }) => {
-        onSubmit({
-          ...values,
-          eventTimes: generateEventTimesFromRecurringEvent(values).sort(
-            sortEventTimes
-          ),
-        });
-        resetForm();
-        validateForm();
-      }}
+      onSubmit={submitAddRecurringEvent}
       validateOnBlur
       validateOnChange
       validateOnMount

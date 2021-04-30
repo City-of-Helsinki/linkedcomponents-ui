@@ -8,7 +8,7 @@ import DatepickerField from '../../../../common/components/formFields/Datepicker
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Modal from '../../../../common/components/modal/Modal';
 import { EVENT_TIME_FIELDS } from '../../constants';
-import { EventTime } from '../../types';
+import { EventTime, EventTimeFormFields } from '../../types';
 import { eventTimeValidationSchema } from '../../utils';
 import styles from './timeSection.module.scss';
 import TimeSectionContext from './TimeSectionContext';
@@ -29,6 +29,14 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
   const { t } = useTranslation();
   const { eventType } = React.useContext(TimeSectionContext);
 
+  const submitEditEventTime = (values: EventTimeFormFields) => {
+    onSave({
+      ...eventTime,
+      endTime: values.endTime,
+      startTime: values.startTime,
+    });
+  };
+
   return (
     <Modal
       className={styles.editEventModal}
@@ -44,13 +52,7 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
           endTime: eventTime.endTime,
           startTime: eventTime.startTime,
         }}
-        onSubmit={(values) => {
-          onSave({
-            ...eventTime,
-            endTime: values.endTime,
-            startTime: values.startTime,
-          });
-        }}
+        onSubmit={submitEditEventTime}
         validateOnBlur
         validateOnChange
         validateOnMount
