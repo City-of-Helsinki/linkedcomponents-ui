@@ -33,6 +33,9 @@
   .heading {
     display: flex;
     align-items: center;
-    grid-gap: var(--spacing-xs);
+
+    *:not(:last-child) {
+      margin-right: var(--spacing-xs);
+    }
   }
 }
