@@ -20,6 +20,7 @@ import {
 } from '../../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
 import {
+  configure,
   fireEvent,
   getMockReduxStore,
   mockFile,
@@ -36,6 +37,8 @@ import {
   IMAGE_DETAILS_FIELDS,
 } from '../../../constants';
 import ImageSection from '../ImageSection';
+
+configure({ defaultHidden: true });
 
 const publisher = 'publisher:1';
 
@@ -223,9 +226,7 @@ test('should select existing image', async () => {
 test('should remove image', async () => {
   renderComponent([imageAtId]);
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(imagePreviewTestIds.image)).toBeInTheDocument();
-  });
+  await screen.findByTestId(imagePreviewTestIds.image);
   // Both add button and preview image component have same label
   const removeButton = screen.getAllByRole('button', {
     name: translations.event.form.buttonRemoveImage[eventType],

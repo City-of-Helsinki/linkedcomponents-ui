@@ -55,39 +55,52 @@ const renderComponent = ({
 }) =>
   render(<ActionsDropdown {...defaultProps} {...props} />, { mocks, store });
 
-const findComponent = (
-  key: 'cancel' | 'copy' | 'delete' | 'edit' | 'menu' | 'postpone' | 'toggle'
-) => {
+const findElement = (key: 'cancel' | 'delete' | 'edit' | 'postpone') => {
   switch (key) {
     case 'cancel':
       return screen.findByRole('button', { name: 'Peruuta tapahtuma' });
-    case 'copy':
-      return screen.findByRole('button', { name: 'Kopioi pohjaksi' });
     case 'delete':
       return screen.findByRole('button', { name: 'Poista tapahtuma' });
     case 'edit':
       return screen.findByRole('button', { name: 'Muokkaa tapahtumaa' });
-    case 'menu':
-      return screen.findByRole('region', { name: /valinnat/i });
     case 'postpone':
       return screen.findByRole('button', { name: 'Lykkää tapahtumaa' });
-    case 'toggle':
-      return screen.findByRole('button', { name: /valinnat/i });
   }
 };
 
-const openMenu = async () => {
-  const toggleButton = await findComponent('toggle');
+const getElement = (
+  key: 'cancel' | 'copy' | 'delete' | 'edit' | 'menu' | 'postpone' | 'toggle'
+) => {
+  switch (key) {
+    case 'cancel':
+      return screen.getByRole('button', { name: 'Peruuta tapahtuma' });
+    case 'copy':
+      return screen.getByRole('button', { name: 'Kopioi pohjaksi' });
+    case 'delete':
+      return screen.getByRole('button', { name: 'Poista tapahtuma' });
+    case 'edit':
+      return screen.getByRole('button', { name: 'Muokkaa tapahtumaa' });
+    case 'menu':
+      return screen.getByRole('region', { name: /valinnat/i });
+    case 'postpone':
+      return screen.getByRole('button', { name: 'Lykkää tapahtumaa' });
+    case 'toggle':
+      return screen.getByRole('button', { name: /valinnat/i });
+  }
+};
+
+const openMenu = () => {
+  const toggleButton = getElement('toggle');
   userEvent.click(toggleButton);
-  await findComponent('menu');
+  getElement('menu');
 
   return toggleButton;
 };
 
-test('should toggle menu by clicking actions button', async () => {
+test('should toggle menu by clicking actions button', () => {
   renderComponent({ store });
 
-  const toggleButton = await openMenu();
+  const toggleButton = openMenu();
   userEvent.click(toggleButton);
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
@@ -97,11 +110,11 @@ test('should toggle menu by clicking actions button', async () => {
 test('should render correct buttons for draft event', async () => {
   renderComponent({ props: { event: draftEvent }, store });
 
-  await openMenu();
+  openMenu();
 
-  await findComponent('copy');
-  await findComponent('delete');
-  await findComponent('edit');
+  getElement('copy');
+  await findElement('delete');
+  getElement('edit');
 
   const hiddenButtons = ['Lykkää tapahtumaa', 'Peruuta tapahtuma'];
 
@@ -113,7 +126,7 @@ test('should render correct buttons for draft event', async () => {
 test('only edit and copy buttons should be enabled when user is not logged in (draft)', async () => {
   renderComponent({ props: { event: draftEvent } });
 
-  await openMenu();
+  openMenu();
 
   const buttons = screen.getAllByRole('button', {
     name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
@@ -123,8 +136,8 @@ test('only edit and copy buttons should be enabled when user is not logged in (d
     expect(button).toBeDisabled();
   });
 
-  await findComponent('copy');
-  await findComponent('edit');
+  getElement('copy');
+  await findElement('edit');
 });
 
 test('should render correct buttons for public event', async () => {
@@ -133,19 +146,19 @@ test('should render correct buttons for public event', async () => {
     store,
   });
 
-  await openMenu();
+  openMenu();
 
-  await findComponent('cancel');
-  await findComponent('copy');
-  await findComponent('delete');
-  await findComponent('edit');
-  await findComponent('postpone');
+  await findElement('cancel');
+  getElement('copy');
+  getElement('delete');
+  getElement('edit');
+  getElement('postpone');
 });
 
 test('only copy, edit and delete button should be enabled when event is cancelled', async () => {
   renderComponent({ props: { event: cancelledEvent }, store });
 
-  await openMenu();
+  openMenu();
 
   const disabledButtons = screen.getAllByRole('button', {
     name: 'Peruttuja tapahtumia ei voi muokata.',
@@ -157,15 +170,15 @@ test('only copy, edit and delete button should be enabled when event is cancelle
     expect(button).toBeDisabled();
   });
 
-  await findComponent('copy');
-  await findComponent('delete');
-  await findComponent('edit');
+  getElement('copy');
+  await findElement('delete');
+  getElement('edit');
 });
 
 test('only copy and edit button should be enabled when user is not logged in (public)', async () => {
   renderComponent({ props: { event: publicEvent } });
 
-  await openMenu();
+  openMenu();
 
   const buttons = screen.getAllByRole('button', {
     name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
@@ -177,16 +190,16 @@ test('only copy and edit button should be enabled when user is not logged in (pu
     expect(button).toBeDisabled();
   });
 
-  await findComponent('copy');
-  await findComponent('edit');
+  getElement('copy');
+  await findElement('edit');
 });
 
 test('should route to create event page when clicking copy button', async () => {
   const { history } = renderComponent({ props: { event: publicEvent } });
 
-  await openMenu();
+  openMenu();
 
-  const copyButton = await findComponent('copy');
+  const copyButton = getElement('copy');
   userEvent.click(copyButton);
 
   await waitFor(() => {
@@ -197,9 +210,9 @@ test('should route to create event page when clicking copy button', async () => 
 test('should route to edit page when clicking edit button', async () => {
   const { history } = renderComponent({ props: { event: publicEvent } });
 
-  await openMenu();
+  openMenu();
 
-  const editButton = await findComponent('edit');
+  const editButton = await findElement('edit');
   userEvent.click(editButton);
 
   await waitFor(() => {
@@ -212,13 +225,13 @@ test('should cancel event', async () => {
 
   renderComponent({ props: { event }, mocks, store });
 
-  await openMenu();
+  openMenu();
 
-  const cancelButton = await findComponent('cancel');
+  const cancelButton = await findElement('cancel');
   userEvent.click(cancelButton);
 
   const withinModal = within(screen.getByRole('dialog'));
-  const cancelEventButton = await withinModal.findByRole('button', {
+  const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta tapahtuma',
   });
   userEvent.click(cancelEventButton);
@@ -233,13 +246,13 @@ test('should delete event', async () => {
 
   renderComponent({ props: { event }, mocks, store });
 
-  await openMenu();
+  openMenu();
 
-  const deleteButton = await findComponent('delete');
+  const deleteButton = await findElement('delete');
   userEvent.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
-  const deleteEventButton = await withinModal.findByRole('button', {
+  const deleteEventButton = withinModal.getByRole('button', {
     name: 'Poista tapahtuma',
   });
   userEvent.click(deleteEventButton);
@@ -257,13 +270,13 @@ test('should postpone event', async () => {
 
   renderComponent({ props: { event }, mocks, store });
 
-  await openMenu();
+  openMenu();
 
-  const cancelButton = await findComponent('postpone');
-  userEvent.click(cancelButton);
+  const postponeButton = await findElement('postpone');
+  userEvent.click(postponeButton);
 
   const withinModal = within(screen.getByRole('dialog'));
-  const cancelEventButton = await withinModal.findByRole('button', {
+  const cancelEventButton = withinModal.getByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
   userEvent.click(cancelEventButton);

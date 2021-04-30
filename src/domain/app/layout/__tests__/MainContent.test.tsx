@@ -2,8 +2,15 @@ import * as React from 'react';
 import { scroller } from 'react-scroll';
 
 import { MAIN_CONTENT_ID } from '../../../../constants';
-import { render, screen, waitFor } from '../../../../utils/testUtils';
+import {
+  configure,
+  render,
+  screen,
+  waitFor,
+} from '../../../../utils/testUtils';
 import MainContent from '../MainContent';
+
+configure({ defaultHidden: true });
 
 const renderComponent = (
   onScrollFn?: () => void,
@@ -34,7 +41,7 @@ test('onScrollFn should be called and input should be focused', async () => {
 
   expect(onScrollFn).toBeCalledTimes(1);
 
-  const input = await screen.findByRole('textbox', { name: 'Input 1' });
+  const input = screen.getByRole('textbox', { name: 'Input 1' });
   await waitFor(() => {
     expect(input).toHaveFocus();
   });

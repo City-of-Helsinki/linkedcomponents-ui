@@ -1,8 +1,10 @@
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { render, screen, userEvent } from '../../../utils/testUtils';
+import { configure, render, screen, userEvent } from '../../../utils/testUtils';
 import App from '../App';
+
+configure({ defaultHidden: true });
 
 const getCookie = jest.fn();
 const setCookie = jest.fn();
@@ -28,13 +30,9 @@ const texts = {
   modalTitle: 'Linked Events käyttöehdot ja evästeet',
 };
 
-it('renders without crashing', () => {
-  renderApp();
-});
-
 it('should show cookie consent modal if consent is not saved to cookie', async () => {
   renderApp();
-  await screen.findByRole('heading', { name: texts.modalTitle });
+  screen.getByRole('heading', { name: texts.modalTitle });
 });
 
 it('should not show cookie consent modal if consent is saved', async () => {
@@ -50,8 +48,6 @@ it('should not show cookie consent modal if consent is saved', async () => {
 it('should close cookie consent modal by clicking Decline button', async () => {
   advanceTo('2021-12-12');
   renderApp();
-
-  await screen.findByRole('heading', { name: texts.modalTitle });
 
   const acceptCheckbox = screen.getByRole('checkbox', {
     name: texts.acceptCheckbox,
@@ -72,13 +68,12 @@ it('should store consent to cookie when clicing accept only necessary button', a
   advanceTo('2021-12-12');
   renderApp();
 
-  await screen.findByRole('heading', { name: texts.modalTitle });
   const acceptCheckbox = screen.getByRole('checkbox', {
     name: texts.acceptCheckbox,
   });
   userEvent.click(acceptCheckbox);
 
-  const acceptOnlyNecessaryButton = await screen.findByRole('button', {
+  const acceptOnlyNecessaryButton = screen.getByRole('button', {
     name: texts.acceptOnlyNecessaryButton,
   });
   userEvent.click(acceptOnlyNecessaryButton);
@@ -92,13 +87,12 @@ it('should store consent to cookie when clicing accept all button', async () => 
   advanceTo('2021-12-12');
   renderApp();
 
-  await screen.findByRole('heading', { name: texts.modalTitle });
   const acceptCheckbox = screen.getByRole('checkbox', {
     name: texts.acceptCheckbox,
   });
   userEvent.click(acceptCheckbox);
 
-  const acceptAllButton = await screen.findByRole('button', {
+  const acceptAllButton = screen.getByRole('button', {
     name: texts.acceptAllButton,
   });
   userEvent.click(acceptAllButton);

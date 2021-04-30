@@ -59,10 +59,10 @@ const defaultProps: PlaceSelectorProps = {
 const renderComponent = (props?: Partial<PlaceSelectorProps>) =>
   render(<PlaceSelector {...defaultProps} {...props} />, { mocks });
 
-const findElement = (key: 'toggleButton') => {
+const getElement = (key: 'toggleButton') => {
   switch (key) {
     case 'toggleButton':
-      return screen.findByRole('button', { name: toggleButtonLabel });
+      return screen.getByRole('button', { name: toggleButtonLabel });
   }
 };
 test('should render place selector', async () => {
@@ -70,7 +70,7 @@ test('should render place selector', async () => {
 
   await screen.findByText(place.name.fi);
 
-  const toggleButton = await findElement('toggleButton');
+  const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
   for (const { name } of placeOverrides) {

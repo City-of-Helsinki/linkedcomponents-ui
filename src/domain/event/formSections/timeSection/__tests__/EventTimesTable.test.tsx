@@ -66,9 +66,7 @@ test('should call setEventTimes when deleting an event time', async () => {
     name: /valinnat/i,
   })[0];
   userEvent.click(toggleMenuButton);
-  const deleteButton = screen.getByRole('button', {
-    name: /poista/i,
-  });
+  const deleteButton = screen.getByRole('button', { name: /poista/i });
   userEvent.click(deleteButton);
 
   expect(setEventTimes).toBeCalledWith([eventTime2]);
@@ -91,13 +89,15 @@ test('should call setEventTimes when updating an event time', async () => {
   });
   userEvent.click(editButton);
 
-  const startTimeInput = await screen.findByRole('textbox', {
+  const startTimeInput = screen.getByRole('textbox', {
     name: /tapahtuma alkaa/i,
   });
   userEvent.click(startTimeInput);
   userEvent.clear(startTimeInput);
   userEvent.type(startTimeInput, '02.05.2021 13.00');
-  const updateButton = await screen.findByRole('button', {
+  await waitFor(() => expect(startTimeInput).toHaveValue('02.05.2021 13.00'));
+
+  const updateButton = screen.getByRole('button', {
     name: /tallenna muutokset/i,
   });
   userEvent.click(updateButton);

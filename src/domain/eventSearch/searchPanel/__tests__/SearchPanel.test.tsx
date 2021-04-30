@@ -6,6 +6,7 @@ import { ROUTES } from '../../../../constants';
 import { PlaceDocument, PlacesDocument } from '../../../../generated/graphql';
 import { fakePlaces } from '../../../../utils/mockDataUtils';
 import {
+  configure,
   render,
   screen,
   userEvent,
@@ -14,6 +15,7 @@ import {
 import translations from '../../../app/i18n/fi.json';
 import SearchPanel from '../SearchPanel';
 
+configure({ defaultHidden: true });
 const placeOverrides = range(1, 5).map((i) => ({
   id: `place:${i}`,
   name: `Place name ${i}`,
@@ -52,7 +54,7 @@ const mockedPlaceResponse: MockedResponse = {
 
 const mocks = [mockedPlacesResponse, mockedPlaceResponse];
 
-const findElement = (
+const getElement = (
   key:
     | 'dateSelectorButton'
     | 'endDateInput'
@@ -63,28 +65,27 @@ const findElement = (
 ) => {
   switch (key) {
     case 'dateSelectorButton':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: translations.common.dateSelector.buttonToggle,
       });
     case 'endDateInput':
-      return screen.findByPlaceholderText(
+      return screen.getByPlaceholderText(
         translations.common.dateSelector.placeholderEndDate
       );
     case 'eventTypeSelectorButton':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: translations.eventSearchPage.searchPanel.labelEventType,
       });
-
     case 'placeSelectorButton':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: translations.eventSearchPage.searchPanel.labelPlace,
       });
     case 'searchInput':
-      return screen.findByRole('searchbox', {
+      return screen.getByRole('searchbox', {
         name: translations.eventSearchPage.searchPanel.labelSearch,
       });
     case 'startDateInput':
-      return screen.findByPlaceholderText(
+      return screen.getByPlaceholderText(
         translations.common.dateSelector.placeholderStartDate
       );
   }
@@ -97,8 +98,8 @@ test('should initialize search panel inputs', async () => {
   const searchValue = 'search';
   renderComponent(`${ROUTES.SEARCH}?text=${searchValue}`);
 
-  const searchInput = await findElement('searchInput');
-  expect(searchInput).toHaveValue(searchValue);
+  const searchInput = getElement('searchInput');
+  await waitFor(() => expect(searchInput).toHaveValue(searchValue));
 });
 
 test('should search events with correct search params', async () => {
@@ -112,39 +113,36 @@ test('should search events with correct search params', async () => {
   const { history } = renderComponent();
 
   // Text filtering
-  const searchInput = await findElement('searchInput');
+  const searchInput = getElement('searchInput');
   userEvent.type(searchInput, values.text);
+  await waitFor(() => expect(searchInput).toHaveValue(values.text));
 
   // Date filtering
-  const dateSelectorButton = await findElement('dateSelectorButton');
+  const dateSelectorButton = getElement('dateSelectorButton');
   userEvent.click(dateSelectorButton);
 
-  const startDateInput = await findElement('startDateInput');
+  const startDateInput = getElement('startDateInput');
   userEvent.click(startDateInput);
   userEvent.type(startDateInput, values.startDate);
-  await waitFor(() => {
-    expect(startDateInput).toHaveValue(values.startDate);
-  });
+  await waitFor(() => expect(startDateInput).toHaveValue(values.startDate));
 
-  const endDateInput = await findElement('endDateInput');
+  const endDateInput = getElement('endDateInput');
   userEvent.click(endDateInput);
   userEvent.type(endDateInput, values.endDate);
-  await waitFor(() => {
-    expect(endDateInput).toHaveValue(values.endDate);
-  });
+  await waitFor(() => expect(endDateInput).toHaveValue(values.endDate));
 
   // Place filtering
-  const placeSelectorButton = await findElement('placeSelectorButton');
+  const placeSelectorButton = getElement('placeSelectorButton');
   userEvent.click(placeSelectorButton);
-  const placeCheckbox = await screen.findByRole('checkbox', {
+  const placeCheckbox = screen.getByRole('checkbox', {
     name: placeOverrides[0].name,
   });
   userEvent.click(placeCheckbox);
 
   // Event type filtering
-  const eventTypeSelectorButton = await findElement('eventTypeSelectorButton');
+  const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
   userEvent.click(eventTypeSelectorButton);
-  const eventTypeCheckbox = await screen.findByRole('checkbox', {
+  const eventTypeCheckbox = screen.getByRole('checkbox', {
     name: 'Tapahtuma',
   });
   userEvent.click(eventTypeCheckbox);

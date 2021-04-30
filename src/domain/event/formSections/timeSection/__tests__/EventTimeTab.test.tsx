@@ -35,14 +35,14 @@ const renderComponent = (props?: Partial<EventTimeTabProps>) =>
     </Formik>
   );
 
-const findElement = (key: 'addButton' | 'endTime' | 'startTime') => {
+const getElement = (key: 'addButton' | 'endTime' | 'startTime') => {
   switch (key) {
     case 'addButton':
-      return screen.findByRole('button', { name: /lisää ajankohta/i });
+      return screen.getByRole('button', { name: /lisää ajankohta/i });
     case 'endTime':
-      return screen.findByRole('textbox', { name: /tapahtuma päättyy/i });
+      return screen.getByRole('textbox', { name: /tapahtuma päättyy/i });
     case 'startTime':
-      return screen.findByRole('textbox', { name: /tapahtuma alkaa/i });
+      return screen.getByRole('textbox', { name: /tapahtuma alkaa/i });
   }
 };
 
@@ -50,8 +50,8 @@ test('should call setEventTimes', async () => {
   advanceTo('2021-04-12');
   const setEventTimes = jest.fn();
   renderComponent({ setEventTimes });
-  const startTimeInput = await findElement('startTime');
-  const endTimeInput = await findElement('endTime');
+  const startTimeInput = getElement('startTime');
+  const endTimeInput = getElement('endTime');
 
   userEvent.click(startTimeInput);
   userEvent.type(startTimeInput, '14.04.2021 12.00');
@@ -59,7 +59,7 @@ test('should call setEventTimes', async () => {
   userEvent.click(endTimeInput);
   userEvent.type(endTimeInput, '14.04.2021 14.00');
 
-  const addButton = await findElement('addButton');
+  const addButton = getElement('addButton');
   await waitFor(() => {
     expect(addButton).toBeEnabled();
   });

@@ -31,12 +31,12 @@ import {
   organizationId,
   placeAtId,
 } from '../__mocks__/createEventPage';
-import { testId } from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { FORM_NAMES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   configure,
   getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
@@ -100,86 +100,36 @@ const setFormValues = (values: EventFormFields) => {
   sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
 };
 
-const findComponent = async (
+const getElement = (
   key:
-    | 'addEventTime'
-    | 'addImageButton'
     | 'description'
-    | 'endTime'
-    | 'hasUmbrella'
-    | 'imageModalHeading'
-    | 'isVerified'
     | 'keyword'
     | 'name'
     | 'publish'
     | 'saveDraft'
-    | 'secondEndTime'
-    | 'secondStartTime'
-    | 'shortDescription'
-    | 'startTime'
     | 'superEvent'
 ) => {
   switch (key) {
-    case 'addEventTime':
-      return screen.findByRole('button', {
-        name: translations.event.form.buttonAddEventTime,
-      });
-    case 'addImageButton':
-      // Both add image button and preview image component have same label
-      const addImageButtons = await screen.findAllByRole('button', {
-        name: translations.event.form.buttonAddImage.event,
-      });
-      return addImageButtons[0];
     case 'description':
-      return screen.findByRole('textbox', {
+      return screen.getByRole('textbox', {
         name: /tapahtuman kuvaus suomeksi/i,
       });
-    case 'endTime':
-      return screen.findByRole('textbox', { name: /tapahtuma päättyy/i });
-    case 'hasUmbrella':
-      return screen.findByRole('checkbox', {
-        name: /tällä tapahtumalla on kattotapahtuma\./i,
-      });
-    case 'imageModalHeading':
-      return screen.findByRole('heading', {
-        name: translations.event.form.modalTitleImage,
-      });
-    case 'isVerified':
-      return screen.findByRole('checkbox', {
-        name: /vakuutan, että antamani tiedot ovat oikein/i,
-      });
     case 'keyword':
-      return screen.findByRole('checkbox', { name: keywordName });
+      return screen.getByRole('checkbox', { name: keywordName });
     case 'name':
-      return screen.findByRole('textbox', {
+      return screen.getByRole('textbox', {
         name: /tapahtuman otsikko suomeksi/i,
       });
     case 'publish':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: translations.event.form.buttonPublish.event,
       });
     case 'saveDraft':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: translations.event.form.buttonSaveDraft,
       });
-    case 'secondEndTime':
-      const endTimeTextboxes = await screen.findAllByRole('textbox', {
-        name: /tapahtuma päättyy/i,
-      });
-      return endTimeTextboxes[1];
-    case 'secondStartTime':
-      const startTimeTextboxes = await screen.findAllByRole('textbox', {
-        name: /tapahtuma alkaa/i,
-      });
-      return startTimeTextboxes[1];
-    case 'shortDescription':
-      return screen.findByRole('textbox', {
-        name: /lyhyt kuvaus suomeksi \(korkeintaan 160 merkkiä\)/i,
-      });
-    case 'startTime':
-      return screen.findByRole('textbox', { name: /tapahtuma alkaa/i });
     case 'superEvent':
-      return screen.findByRole('combobox', {
+      return screen.getByRole('combobox', {
         name: new RegExp(translations.event.form.labelUmbrellaEvent),
       });
   }
@@ -188,12 +138,10 @@ const findComponent = async (
 test('should focus to first validation error when trying to save draft event', async () => {
   renderComponent();
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
-  });
+  await loadingSpinnerIsNotInDocument();
 
-  const nameTextbox = await findComponent('name');
-  const saveDraftButton = await findComponent('saveDraft');
+  const nameTextbox = getElement('name');
+  const saveDraftButton = getElement('saveDraft');
 
   userEvent.click(saveDraftButton);
 
@@ -209,13 +157,11 @@ test('should focus to select component in case of validation error', async () =>
   });
   renderComponent();
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
-  });
+  await loadingSpinnerIsNotInDocument();
 
-  const superEventSelect = await findComponent('superEvent');
+  const superEventSelect = getElement('superEvent');
 
-  const publishButton = await findComponent('publish');
+  const publishButton = getElement('publish');
 
   userEvent.click(publishButton);
 
@@ -238,13 +184,11 @@ test('should focus to text editor component in case of validation error', async 
   });
   renderComponent();
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
-  });
+  await loadingSpinnerIsNotInDocument();
 
-  const descriptionTextbox = await findComponent('description');
+  const descriptionTextbox = getElement('description');
 
-  const publishButton = await findComponent('publish');
+  const publishButton = getElement('publish');
 
   userEvent.click(publishButton);
 
@@ -287,14 +231,12 @@ test('should focus to first main category checkbox if none main category is sele
   ];
   renderComponent(mocks);
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
-  });
+  await loadingSpinnerIsNotInDocument();
 
-  const publishButton = await findComponent('publish');
+  const publishButton = getElement('publish');
   userEvent.click(publishButton);
 
-  const keywordCheckbox = await findComponent('keyword');
+  const keywordCheckbox = getElement('keyword');
 
   await waitFor(() => {
     expect(keywordCheckbox).toHaveFocus();
@@ -315,11 +257,9 @@ test('should route to event completed page after saving draft event', async () =
   const mocks = [...defaultMocks, mockedCreateDraftEventResponse];
   const { history } = renderComponent(mocks);
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
-  });
+  await loadingSpinnerIsNotInDocument();
 
-  const saveDraftButton = await findComponent('saveDraft');
+  const saveDraftButton = getElement('saveDraft');
 
   userEvent.click(saveDraftButton);
 
@@ -364,11 +304,9 @@ test('should route to event completed page after publishing event', async () => 
   ];
   const { history } = renderComponent(mocks);
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(testId)).not.toBeInTheDocument();
-  });
+  await loadingSpinnerIsNotInDocument();
 
-  const publishButton = await findComponent('publish');
+  const publishButton = getElement('publish');
   userEvent.click(publishButton);
 
   await waitFor(

@@ -27,7 +27,7 @@ import styles from './editButtonPanel.module.scss';
 
 type ActionButtonProps = {
   isSaving: boolean;
-  variant: ButtonVariant;
+  variant: Exclude<ButtonVariant, 'supplementary'>;
 } & MenuItemOptionProps;
 
 export interface EditButtonPanelProps {
@@ -90,7 +90,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   }: {
     action: EVENT_EDIT_ACTIONS;
     onClick: () => void;
-    variant: ButtonVariant;
+    variant: Exclude<ButtonVariant, 'supplementary'>;
   }): ActionButtonProps | null => {
     const buttonProps = getEditButtonProps({
       action,

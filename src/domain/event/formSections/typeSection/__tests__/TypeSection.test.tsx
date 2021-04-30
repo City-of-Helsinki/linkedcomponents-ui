@@ -7,11 +7,18 @@ import {
   SuperEventType,
 } from '../../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../../utils/mockDataUtils';
-import { render, screen, userEvent } from '../../../../../utils/testUtils';
+import {
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { RecurringEventSettings } from '../../../types';
 import TypeSection, { TypeSectionProps } from '../TypeSection';
+
+configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.EVENT;
 const eventNames = range(1, 6).map((val) => `Event name ${val}`);
@@ -68,20 +75,23 @@ const renderComponent = (
     { mocks }
   );
 
-const findElement = (
-  key: 'hasUmbrellaCheckbox' | 'isUmbrellaCheckbox' | 'umbrellaSelector'
-) => {
+const findElement = (key: 'isUmbrellaCheckbox') => {
   switch (key) {
-    case 'hasUmbrellaCheckbox':
-      return screen.findByRole('checkbox', {
-        name: translations.event.form.labelHasUmbrella[type],
-      });
     case 'isUmbrellaCheckbox':
       return screen.findByRole('checkbox', {
         name: translations.event.form.labelIsUmbrella[type],
       });
+  }
+};
+
+const getElement = (key: 'hasUmbrellaCheckbox' | 'umbrellaSelector') => {
+  switch (key) {
+    case 'hasUmbrellaCheckbox':
+      return screen.getByRole('checkbox', {
+        name: translations.event.form.labelHasUmbrella[type],
+      });
     case 'umbrellaSelector':
-      return screen.findByRole('combobox', {
+      return screen.getByRole('combobox', {
         name: new RegExp(translations.event.form.labelUmbrellaEvent),
       });
   }
@@ -90,17 +100,17 @@ const findElement = (
 test('should render type section', async () => {
   renderComponent();
 
-  await findElement('hasUmbrellaCheckbox');
+  getElement('hasUmbrellaCheckbox');
   await findElement('isUmbrellaCheckbox');
 });
 
 test('should render umbrella event selector if hasUmbrella is checked', async () => {
   renderComponent();
 
-  const hasUmbrellaCheckbox = await findElement('hasUmbrellaCheckbox');
+  const hasUmbrellaCheckbox = getElement('hasUmbrellaCheckbox');
   userEvent.click(hasUmbrellaCheckbox);
 
-  await findElement('umbrellaSelector');
+  getElement('umbrellaSelector');
 });
 
 test('should uncheck isUmbrella checkbox if eventTimes is not empty', async () => {
@@ -122,6 +132,7 @@ test('should uncheck isUmbrella checkbox if recurringsEvents is not empty', asyn
       {
         endDate: new Date(),
         endTime: '14:15',
+        eventTimes: [],
         repeatDays: [],
         repeatInterval: 1,
         startDate: new Date(),

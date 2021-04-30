@@ -260,6 +260,7 @@ const useEventUpdateActions = ({ event }: Props) => {
     callbacks?: Callbacks
   ) => {
     let payload: UpdateEventMutationInput[] = [];
+
     try {
       const action =
         event.publicationStatus === PublicationStatus.Draft
@@ -387,7 +388,6 @@ const useEventUpdateActions = ({ event }: Props) => {
         ];
 
         await updateEvents(payload);
-
         /* istanbul ignore next */
         !isTestEnv && clearEventsQueries(apolloClient);
       } else {

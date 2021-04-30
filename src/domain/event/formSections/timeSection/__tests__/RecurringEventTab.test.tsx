@@ -37,7 +37,7 @@ const renderComponent = (props?: Partial<RecurringEventTabProps>) =>
     </Formik>
   );
 
-const findElement = (
+const getElement = (
   key:
     | 'addButton'
     | 'endDate'
@@ -48,17 +48,17 @@ const findElement = (
 ) => {
   switch (key) {
     case 'addButton':
-      return screen.findByRole('button', { name: /lisää toistuva tapahtuma/i });
+      return screen.getByRole('button', { name: /lisää toistuva tapahtuma/i });
     case 'endDate':
-      return screen.findByRole('textbox', { name: /toisto päättyy/i });
+      return screen.getByRole('textbox', { name: /toisto päättyy/i });
     case 'endTime':
-      return screen.findByRole('textbox', { name: /tapahtuma päättyy klo/i });
+      return screen.getByRole('textbox', { name: /tapahtuma päättyy klo/i });
     case 'monCheckbox':
-      return screen.findByRole('checkbox', { name: /ma/i });
+      return screen.getByRole('checkbox', { name: /ma/i });
     case 'startDate':
-      return screen.findByRole('textbox', { name: /toisto alkaa/i });
+      return screen.getByRole('textbox', { name: /toisto alkaa/i });
     case 'startTime':
-      return screen.findByRole('textbox', { name: /tapahtuma alkaa klo/i });
+      return screen.getByRole('textbox', { name: /tapahtuma alkaa klo/i });
   }
 };
 
@@ -66,11 +66,11 @@ test('should call setRecurringEvents', async () => {
   advanceTo('2021-04-12');
   const setRecurringEvents = jest.fn();
   renderComponent({ setRecurringEvents });
-  const monCheckbox = await findElement('monCheckbox');
-  const endDateInput = await findElement('endDate');
-  const endTimeInput = await findElement('endTime');
-  const startDateInput = await findElement('startDate');
-  const startTimeInput = await findElement('startTime');
+  const monCheckbox = getElement('monCheckbox');
+  const endDateInput = getElement('endDate');
+  const endTimeInput = getElement('endTime');
+  const startDateInput = getElement('startDate');
+  const startTimeInput = getElement('startTime');
 
   userEvent.click(monCheckbox);
 
@@ -84,7 +84,7 @@ test('should call setRecurringEvents', async () => {
 
   userEvent.type(endTimeInput, '15.00');
 
-  const addButton = await findElement('addButton');
+  const addButton = getElement('addButton');
   await waitFor(() => {
     expect(addButton).toBeEnabled();
   });
