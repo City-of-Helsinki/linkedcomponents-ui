@@ -85,7 +85,7 @@ const ButtonPanel: React.FC<Props> = ({ onSaveDraft, publisher, saving }) => {
             {isEventButtonVisible(EVENT_CREATE_ACTIONS.PUBLISH) && (
               <div className={styles.buttonColumn}>
                 <Button
-                  disabled={Boolean(publishWarning)}
+                  disabled={Boolean(publishWarning || saving)}
                   fullWidth={true}
                   iconLeft={
                     saving === PublicationStatus.Public ? (

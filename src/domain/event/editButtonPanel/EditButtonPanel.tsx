@@ -180,10 +180,14 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
             </div>
             <div className={styles.buttonWrapper}>
               {actionButtons.map(
-                ({ icon, label, isSaving, variant, ...rest }, index) => (
+                (
+                  { icon, disabled, label, isSaving, variant, ...rest },
+                  index
+                ) => (
                   <Button
                     key={index}
                     {...rest}
+                    disabled={disabled || Boolean(saving)}
                     iconLeft={
                       isSaving ? (
                         <LoadingSpinner
