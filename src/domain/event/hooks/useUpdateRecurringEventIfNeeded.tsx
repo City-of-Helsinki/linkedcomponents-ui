@@ -42,6 +42,10 @@ const useUpdateRecurringEventIfNeeded = (): UpdateRecurringEventIfNeededState =>
     ((isNull(time) || isNull(newTime)) && time !== newTime) ||
     (time && newTime && !isEqual(time, newTime));
 
+  // Update recurring super event start and end time in cases that
+  // changes to sub-event causes changes to super event times. First calculate
+  // new end and start time and if they are different that current super event
+  // times update super event
   const updateRecurringEventIfNeeded = async (event: EventFieldsFragment) => {
     if (event.superEvent?.atId) {
       try {
