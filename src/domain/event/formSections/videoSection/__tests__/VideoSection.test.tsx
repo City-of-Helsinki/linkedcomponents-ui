@@ -9,14 +9,18 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from '../../../constants';
+import {
+  EVENT_FIELDS,
+  EVENT_INITIAL_VALUES,
+  EVENT_TYPE,
+} from '../../../constants';
 import { EventFormFields } from '../../../types';
 import { eventValidationSchema } from '../../../utils';
 import VideoSection from '../VideoSection';
 
 configure({ defaultHidden: true });
 
-const type = EVENT_INITIAL_VALUES.type;
+const type = EVENT_TYPE.General;
 
 const defaultInitialValue = {
   [EVENT_FIELDS.TYPE]: type,

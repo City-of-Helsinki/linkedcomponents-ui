@@ -42,7 +42,7 @@ configure({ defaultHidden: true });
 
 const publisher = 'publisher:1';
 
-const eventType = EVENT_TYPE.EVENT;
+const eventType = EVENT_TYPE.General;
 
 const images = fakeImages(PAGE_SIZE, [{ publisher }]);
 const imagesVariables = {

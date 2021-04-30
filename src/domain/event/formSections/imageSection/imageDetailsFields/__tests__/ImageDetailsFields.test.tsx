@@ -118,7 +118,7 @@ const defaultMocks = [
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
-const eventType = EVENT_TYPE.EVENT;
+const eventType = EVENT_TYPE.General;
 
 interface InitialValues {
   [EVENT_FIELDS.IMAGES]: string[];

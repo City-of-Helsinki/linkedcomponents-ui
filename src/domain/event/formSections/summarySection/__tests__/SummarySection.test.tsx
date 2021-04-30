@@ -5,7 +5,7 @@ import { render, screen } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import SummarySection from '../SummarySection';
 
-const eventType = EVENT_TYPE.EVENT;
+const eventType = EVENT_TYPE.General;
 
 const initialValues = {
   [EVENT_FIELDS.IS_VERIFIED]: false,

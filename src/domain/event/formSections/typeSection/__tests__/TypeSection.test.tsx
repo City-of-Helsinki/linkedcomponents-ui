@@ -20,7 +20,8 @@ import TypeSection, { TypeSectionProps } from '../TypeSection';
 
 configure({ defaultHidden: true });
 
-const type = EVENT_TYPE.EVENT;
+const type = EVENT_TYPE.General;
+
 const eventNames = range(1, 6).map((val) => `Event name ${val}`);
 const events = fakeEvents(
   eventNames.length,

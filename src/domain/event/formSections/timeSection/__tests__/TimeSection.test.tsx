@@ -12,13 +12,18 @@ import TimeSection from '../TimeSection';
 
 configure({ defaultHidden: true });
 
+const type = EVENT_TYPE.General;
+const defaultInitialValue = {
+  [EVENT_FIELDS.EVENT_TIMES]: [],
+  [EVENT_FIELDS.RECURRING_EVENTS]: [],
+  [EVENT_FIELDS.TYPE]: type,
+};
+
 const renderComponent = () =>
   render(
     <Formik
       initialValues={{
-        [EVENT_FIELDS.EVENT_TIMES]: [],
-        [EVENT_FIELDS.RECURRING_EVENTS]: [],
-        [EVENT_FIELDS.TYPE]: EVENT_TYPE.EVENT,
+        ...defaultInitialValue,
       }}
       onSubmit={jest.fn()}
     >

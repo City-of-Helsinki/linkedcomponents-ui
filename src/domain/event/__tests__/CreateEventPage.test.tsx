@@ -122,7 +122,7 @@ const getElement = (
       });
     case 'publish':
       return screen.getByRole('button', {
-        name: translations.event.form.buttonPublish.event,
+        name: translations.event.form.buttonPublish.general,
       });
     case 'saveDraft':
       return screen.getByRole('button', {

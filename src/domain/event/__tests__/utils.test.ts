@@ -3,6 +3,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 import { EXTLINK, WEEK_DAY } from '../../../constants';
 import {
   EventStatus,
+  EventTypeId,
   PublicationStatus,
   SuperEventType,
 } from '../../../generated/graphql';
@@ -45,6 +46,8 @@ import {
 
 const defaultEventPayload = {
   audience: [],
+  audienceMaxAge: null,
+  audienceMinAge: null,
   description: {
     ar: null,
     en: null,
@@ -53,6 +56,8 @@ const defaultEventPayload = {
     sv: null,
     zhHans: null,
   },
+  enrolmentEndTime: null,
+  enrolmentStartTime: null,
   externalLinks: [],
   images: [],
   inLanguage: [],
@@ -73,6 +78,8 @@ const defaultEventPayload = {
     sv: null,
     zhHans: null,
   },
+  maximumAttendeeCapacity: null,
+  minimumAttendeeCapacity: null,
   name: {
     ar: null,
     en: null,
@@ -106,6 +113,7 @@ const defaultEventPayload = {
   },
   superEvent: undefined,
   superEventType: null,
+  typeId: EventTypeId.General,
   videos: [],
 };
 
@@ -322,13 +330,40 @@ describe('getEventPayload function', () => {
       getEventPayload(EVENT_INITIAL_VALUES, PublicationStatus.Draft)
     ).toEqual(defaultEventPayload);
 
+    const audienceMaxAge = 18,
+      audienceMinAge = 12,
+      endTime = '2020-01-02T15:15:00.000Z',
+      enrolmentEndTime = '2020-01-01T15:15:00.000Z',
+      enrolmentStartTime = '2020-01-01T09:15:00.000Z',
+      maximumAttendeeCapacity = 10,
+      minimumAttendeeCapacity = 5,
+      publicationStatus = PublicationStatus.Draft,
+      publisher = 'publisher:1',
+      startTime = '2020-01-02T12:15:00.000Z',
+      videos = [
+        {
+          altText: 'alt text',
+          name: 'video name',
+          url: 'httl://www.url.com',
+        },
+      ];
+
     const payload = getEventPayload(
       {
         ...EVENT_INITIAL_VALUES,
         audience: ['audience:1'],
-        audienceMaxAge: 18,
-        audienceMinAge: 12,
+        audienceMaxAge,
+        audienceMinAge,
+        enrolmentEndTime: new Date(enrolmentEndTime),
+        enrolmentStartTime: new Date(enrolmentStartTime),
         eventInfoLanguages: ['fi', 'sv'],
+        eventTimes: [
+          {
+            endTime: new Date(endTime),
+            id: null,
+            startTime: new Date(startTime),
+          },
+        ],
         description: {
           ...EMPTY_MULTI_LANGUAGE_OBJECT,
           fi: 'Description fi',
@@ -355,6 +390,8 @@ describe('getEventPayload function', () => {
           en: 'Location extra info en',
           sv: '',
         },
+        maximumAttendeeCapacity,
+        minimumAttendeeCapacity,
         name: {
           ...EMPTY_MULTI_LANGUAGE_OBJECT,
           fi: 'Name fi',
@@ -390,30 +427,34 @@ describe('getEventPayload function', () => {
           en: 'Provider en',
           sv: '',
         },
-        publisher: 'publisher:1',
+        publisher,
         shortDescription: {
           ...EMPTY_MULTI_LANGUAGE_OBJECT,
           fi: 'Short description fi',
           en: 'Short description en',
           sv: '',
         },
-        videos: [
-          {
-            altText: 'alt text',
-            name: 'video name',
-            url: 'httl://www.url.com',
-          },
-        ],
+        videos,
       },
-      PublicationStatus.Draft
+      publicationStatus
     );
 
     expect(payload).toEqual({
       ...defaultEventPayload,
-      publicationStatus: 'draft',
       audience: [{ atId: 'audience:1' }],
-      audienceMaxAge: 18,
-      audienceMinAge: 12,
+      audienceMaxAge,
+      audienceMinAge,
+      description: {
+        ar: null,
+        en: null,
+        fi: '<p>Description fi</p>',
+        ru: null,
+        sv: '',
+        zhHans: null,
+      },
+      endTime,
+      enrolmentEndTime,
+      enrolmentStartTime,
       externalLinks: [
         {
           name: 'extlink_facebook',
@@ -431,14 +472,6 @@ describe('getEventPayload function', () => {
           language: 'fi',
         },
       ],
-      description: {
-        ar: null,
-        en: null,
-        fi: '<p>Description fi</p>',
-        ru: null,
-        sv: '',
-        zhHans: null,
-      },
       images: [{ atId: 'image:1' }],
       infoUrl: {
         ar: null,
@@ -459,6 +492,8 @@ describe('getEventPayload function', () => {
         sv: '',
         zhHans: null,
       },
+      maximumAttendeeCapacity,
+      minimumAttendeeCapacity,
       name: {
         ar: null,
         en: null,
@@ -504,7 +539,8 @@ describe('getEventPayload function', () => {
         sv: '',
         zhHans: null,
       },
-      publisher: 'publisher:1',
+      publisher,
+      publicationStatus,
       shortDescription: {
         ar: null,
         en: null,
@@ -513,11 +549,10 @@ describe('getEventPayload function', () => {
         sv: '',
         zhHans: null,
       },
+      startTime,
       superEvent: undefined,
       superEventType: SuperEventType.Umbrella,
-      videos: [
-        { altText: 'alt text', name: 'video name', url: 'httl://www.url.com' },
-      ],
+      videos,
     });
   });
 
@@ -716,12 +751,8 @@ describe('getEventInitialValues function', () => {
       zhHans: 'Description zh',
     };
     const endTime = new Date('2021-07-13T05:51:05.761Z');
-    const extensionCourse = {
-      enrolmentEndTime: null,
-      enrolmentStartTime: null,
-      maximumAttendeeCapacity: '',
-      minimumAttendeeCapacity: '',
-    };
+    const enrolmentEndTime = new Date('2021-06-15T05:51:05.761Z');
+    const enrolmentStartTime = new Date('2021-05-05T05:51:05.761Z');
     const facebookUrl = 'http://facebook.com';
     const id = 'event:1';
     const imageDetails = {
@@ -760,6 +791,8 @@ describe('getEventInitialValues function', () => {
       sv: 'Location extra info sv',
       zhHans: 'Location extra info zh',
     };
+    const maximumAttendeeCapacity = '';
+    const minimumAttendeeCapacity = '';
     const name = {
       ar: 'Name ar',
       en: 'Name en',
@@ -817,6 +850,7 @@ describe('getEventInitialValues function', () => {
     const superEventType = null;
     const superEventAtId =
       'https://api.hel.fi/linkedevents-test/v1/event/event:543/';
+    const type = EVENT_TYPE.Course;
     const twitterUrl = 'http://twitter.com';
     const videos = [
       { altText: 'alt text', name: 'video name', url: 'httl://www.url.com' },
@@ -833,6 +867,8 @@ describe('getEventInitialValues function', () => {
           audienceMinAge,
           description,
           endTime: endTime.toISOString(),
+          enrolmentEndTime: enrolmentEndTime.toISOString(),
+          enrolmentStartTime: enrolmentStartTime.toISOString(),
           externalLinks: [
             fakeExternalLink({
               name: EXTLINK.EXTLINK_FACEBOOK,
@@ -880,6 +916,7 @@ describe('getEventInitialValues function', () => {
             superEventType: SuperEventType.Umbrella,
           }),
           superEventType,
+          typeId: EventTypeId.Course,
           videos: videos.map((video) => fakeVideo(video)),
         })
       )
@@ -888,7 +925,8 @@ describe('getEventInitialValues function', () => {
       audienceMaxAge,
       audienceMinAge,
       description,
-      extensionCourse,
+      enrolmentEndTime,
+      enrolmentStartTime,
       eventInfoLanguages: ['ar', 'en', 'fi', 'ru', 'sv', 'zhHans'],
       eventTimes: [],
       events: [
@@ -913,6 +951,8 @@ describe('getEventInitialValues function', () => {
       location: locationAtId,
       locationExtraInfo,
       mainCategories: [],
+      maximumAttendeeCapacity,
+      minimumAttendeeCapacity,
       name,
       offers,
       provider,
@@ -923,7 +963,7 @@ describe('getEventInitialValues function', () => {
       shortDescription,
       superEvent: superEventAtId,
       twitterUrl,
-      type: EVENT_TYPE.EVENT,
+      type,
       videos,
     });
   });
@@ -940,12 +980,15 @@ describe('getEventInitialValues function', () => {
     const {
       audienceMaxAge,
       audienceMinAge,
+      enrolmentEndTime,
+      enrolmentStartTime,
       facebookUrl,
       instagramUrl,
       location,
       name,
       offers,
       superEvent,
+      type,
       twitterUrl,
       videos,
     } = getEventInitialValues(
@@ -953,6 +996,8 @@ describe('getEventInitialValues function', () => {
         audienceMaxAge: null,
         audienceMinAge: null,
         endTime: null,
+        enrolmentEndTime: null,
+        enrolmentStartTime: null,
         externalLinks: [],
         location: null,
         name: {
@@ -966,18 +1011,22 @@ describe('getEventInitialValues function', () => {
         offers: null,
         startTime: null,
         superEvent: null,
+        typeId: null,
         videos: [{}],
       })
     );
 
     expect(audienceMaxAge).toEqual('');
     expect(audienceMinAge).toEqual('');
+    expect(enrolmentEndTime).toEqual(null);
+    expect(enrolmentStartTime).toEqual(null);
     expect(facebookUrl).toEqual('');
     expect(instagramUrl).toEqual('');
     expect(location).toEqual('');
     expect(name).toEqual(expectedName);
     expect(offers).toEqual([]);
     expect(superEvent).toEqual(superEvent);
+    expect(type).toEqual(EVENT_TYPE.General);
     expect(twitterUrl).toEqual('');
     expect(videos).toEqual([{ altText: '', name: '', url: '' }]);
   });

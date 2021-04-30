@@ -7,7 +7,7 @@ import { EventTime, RecurringEventSettings } from '../../types';
 export const timeSectionContextDefaultValue: TimeSectionContextProps = {
   events: [],
   eventTimes: [],
-  eventType: EVENT_TYPE.EVENT,
+  eventType: EVENT_TYPE.General,
   recurringEvents: [],
   setEvents: () => undefined,
   setEventTimes: () => undefined,

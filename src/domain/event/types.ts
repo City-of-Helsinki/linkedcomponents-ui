@@ -8,7 +8,6 @@ import {
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
   EVENT_TIME_FIELDS,
-  EXTENSION_COURSE_FIELDS,
   IMAGE_DETAILS_FIELDS,
   RECURRING_EVENT_FIELDS,
   VIDEO_DETAILS_FIELDS,
@@ -51,7 +50,8 @@ export type EventFormFields = {
   [EVENT_FIELDS.EVENTS]: EventTime[];
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: string[];
   [EVENT_FIELDS.EVENT_TIMES]: EventTime[];
-  [EVENT_FIELDS.EXTENSION_COURSE]: ExtensionCourse;
+  [EVENT_FIELDS.ENROLMENT_END_TIME]: Date | null;
+  [EVENT_FIELDS.ENROLMENT_START_TIME]: Date | null;
   [EVENT_FIELDS.FACEBOOK_URL]: string;
   [EVENT_FIELDS.INSTAGRAM_URL]: string;
   [EVENT_FIELDS.HAS_PRICE]: boolean;
@@ -68,6 +68,8 @@ export type EventFormFields = {
   [EVENT_FIELDS.LOCATION]: string | null;
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: MultiLanguageObject;
   [EVENT_FIELDS.MAIN_CATEGORIES]: string[];
+  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
+  [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
   [EVENT_FIELDS.NAME]: MultiLanguageObject;
   [EVENT_FIELDS.OFFERS]: Offer[];
   [EVENT_FIELDS.PROVIDER]: MultiLanguageObject;
@@ -90,15 +92,6 @@ export type MultiLanguageObject = {
   [EVENT_INFO_LANGUAGES.SV]: string;
   [EVENT_INFO_LANGUAGES.ZH_HANS]: string;
 };
-
-export type ExtensionCourse = {
-  [EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME]: Date | null;
-  [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME]: Date | null;
-  [EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
-  [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
-};
-
-export type EVENT_TIME_FIELS = {};
 
 export type EventTime = {
   [EVENT_TIME_FIELDS.END_TIME]: Date | null;

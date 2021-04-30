@@ -11,6 +11,7 @@ import {
   EventDocument,
   EventsDocument,
   EventStatus,
+  EventTypeId,
   ImageDocument,
   KeywordDocument,
   KeywordsDocument,
@@ -263,6 +264,8 @@ const basePayload = {
   audience: audienceAtIds.map((atId) => ({ atId })),
   audienceMaxAge,
   audienceMinAge,
+  enrolmentEndTime: null,
+  enrolmentStartTime: null,
   externalLinks: [
     { name: EXTLINK.EXTLINK_FACEBOOK, link: facebookUrl, language: 'fi' },
     { name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl, language: 'fi' },
@@ -276,6 +279,8 @@ const basePayload = {
   location: { atId: locationAtId },
   keywords: keywordAtIds.map((atId) => ({ atId })),
   locationExtraInfo,
+  maximumAttendeeCapacity: null,
+  minimumAttendeeCapacity: null,
   name,
   offers: offers.map((offer) => ({ ...offer, isFree: false })),
   provider,
@@ -285,6 +290,7 @@ const basePayload = {
   startTime: startTime.toISOString(),
   superEvent: undefined,
   superEventType: null,
+  typeId: EventTypeId.General,
   id: eventId,
 };
 

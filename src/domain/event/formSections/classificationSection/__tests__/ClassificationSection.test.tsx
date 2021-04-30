@@ -29,7 +29,7 @@ import ClassificationSection from '../ClassificationSection';
 
 configure({ defaultHidden: true });
 
-const type = EVENT_TYPE.EVENT;
+const type = EVENT_TYPE.General;
 
 const keywordNames = range(1, 16).map((index) => `Keyword ${index}`);
 const keywords = fakeKeywords(
