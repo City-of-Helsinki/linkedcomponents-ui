@@ -9,31 +9,26 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
-import { EVENT_TYPE } from '../../../constants';
-import RecurringEventTab, {
-  RecurringEventTabProps,
-} from '../RecurringEventTab';
+import RecurringEventTab from '../RecurringEventTab';
+import TimeSectionContext, {
+  timeSectionContextDefaultValue,
+  TimeSectionContextProps,
+} from '../TimeSectionContext';
 
 configure({ defaultHidden: true });
-
-const defaultProps: RecurringEventTabProps = {
-  eventType: EVENT_TYPE.EVENT,
-  eventTimes: [],
-  events: [],
-  recurringEvents: [],
-  setEventTimes: jest.fn(),
-  setRecurringEvents: jest.fn(),
-  setEvents: jest.fn(),
-};
 
 beforeEach(() => {
   clear();
 });
 
-const renderComponent = (props?: Partial<RecurringEventTabProps>) =>
+const renderComponent = (context?: Partial<TimeSectionContextProps>) =>
   render(
     <Formik initialValues={{}} onSubmit={jest.fn()}>
-      <RecurringEventTab {...defaultProps} {...props} />
+      <TimeSectionContext.Provider
+        value={{ ...timeSectionContextDefaultValue, ...context }}
+      >
+        <RecurringEventTab />
+      </TimeSectionContext.Provider>
     </Formik>
   );
 

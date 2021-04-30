@@ -3,18 +3,13 @@ import React from 'react';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import { EventTime, RecurringEventSettings } from '../../types';
 import RecurringEvent from './RecurringEvent';
+import TimeSectionContext from './TimeSectionContext';
 
-export interface RecurringEventsProps {
-  eventType: string;
-  recurringEvents: RecurringEventSettings[];
-  setRecurringEvents: (recurringEvenst: RecurringEventSettings[]) => void;
-}
+const RecurringEvents: React.FC = () => {
+  const { recurringEvents, setRecurringEvents } = React.useContext(
+    TimeSectionContext
+  );
 
-const RecurringEvents: React.FC<RecurringEventsProps> = ({
-  eventType,
-  recurringEvents,
-  setRecurringEvents,
-}) => {
   const handleDelete = (index: number) => {
     setRecurringEvents(
       recurringEvents.filter(
@@ -49,7 +44,6 @@ const RecurringEvents: React.FC<RecurringEventsProps> = ({
             <FormGroup key={index}>
               <RecurringEvent
                 key={index}
-                eventType={eventType}
                 index={index}
                 onDelete={handleDelete}
                 onUpdateEventTimes={handleUpdateEventTimes}

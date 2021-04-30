@@ -1,34 +1,19 @@
 import React from 'react';
 
-import { EventFieldsFragment } from '../../../../generated/graphql';
 import FieldColumn from '../../layout/FieldColumn';
-import { EventTime, RecurringEventSettings } from '../../types';
 import EventTimesTable from './EventTimesTable';
 import RecurringEvents from './RecurringEvents';
 import SavedEvents from './SavedEvents';
 import styles from './timeSection.module.scss';
+import TimeSectionContext from './TimeSectionContext';
 
-export interface EventTimesSummaryProps {
-  events: EventTime[];
-  eventTimes: EventTime[];
-  eventType: string;
-  recurringEvents: RecurringEventSettings[];
-  savedEvent?: EventFieldsFragment;
-  setEvents: (eventTimes: EventTime[]) => void;
-  setEventTimes: (eventTimes: EventTime[]) => void;
-  setRecurringEvents: (recurringEvents: RecurringEventSettings[]) => void;
-}
-
-const EventTimesSummary: React.FC<EventTimesSummaryProps> = ({
-  events,
-  eventTimes,
-  eventType,
-  recurringEvents,
-  savedEvent,
-  setEvents,
-  setEventTimes,
-  setRecurringEvents,
-}) => {
+const EventTimesSummary: React.FC = () => {
+  const {
+    events,
+    eventTimes,
+    recurringEvents,
+    setEventTimes,
+  } = React.useContext(TimeSectionContext);
   const isVisible =
     events?.length || eventTimes?.length || recurringEvents?.length;
 
@@ -37,7 +22,7 @@ const EventTimesSummary: React.FC<EventTimesSummaryProps> = ({
   }
 
   const getStartIndex = () => {
-    let startIndex = 1;
+    let startIndex = 1 + events.length;
     recurringEvents.forEach((recurringEvent) => {
       startIndex = startIndex + recurringEvent.eventTimes.length;
     });
@@ -48,23 +33,13 @@ const EventTimesSummary: React.FC<EventTimesSummaryProps> = ({
     <div>
       <FieldColumn>
         <div className={styles.divider} />
-        <SavedEvents
-          events={events}
-          eventType={eventType}
-          savedEvent={savedEvent}
-          setEvents={setEvents}
-        />
+        <SavedEvents />
       </FieldColumn>
 
-      <RecurringEvents
-        eventType={eventType}
-        recurringEvents={recurringEvents}
-        setRecurringEvents={setRecurringEvents}
-      />
+      <RecurringEvents />
       <FieldColumn>
         <EventTimesTable
           eventTimes={eventTimes}
-          eventType={eventType}
           setEventTimes={setEventTimes}
           startIndex={getStartIndex()}
         />

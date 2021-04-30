@@ -4,28 +4,16 @@ import { useTranslation } from 'react-i18next';
 import Collapsible from '../../../../common/components/collapsible/Collapsible';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import { DATETIME_FORMAT } from '../../../../constants';
-import {
-  EventFieldsFragment,
-  SuperEventType,
-} from '../../../../generated/graphql';
+import { SuperEventType } from '../../../../generated/graphql';
 import formatDate from '../../../../utils/formatDate';
-import { EventTime } from '../../types';
 import EventTimesTable from './EventTimesTable';
+import TimeSectionContext from './TimeSectionContext';
 
-interface Props {
-  events: EventTime[];
-  eventType: string;
-  savedEvent?: EventFieldsFragment;
-  setEvents: (eventTimes: EventTime[]) => void;
-}
-
-const SavedEvents: React.FC<Props> = ({
-  events,
-  eventType,
-  savedEvent,
-  setEvents,
-}) => {
+const SavedEvents: React.FC = () => {
   const { t } = useTranslation();
+  const { events, setEvents, savedEvent } = React.useContext(
+    TimeSectionContext
+  );
   const isRecurringEvent =
     savedEvent?.superEventType === SuperEventType.Recurring;
 
@@ -48,18 +36,10 @@ const SavedEvents: React.FC<Props> = ({
               formatDate(new Date(savedEvent.endTime), DATETIME_FORMAT),
           })}
         >
-          <EventTimesTable
-            eventTimes={events}
-            eventType={eventType}
-            setEventTimes={setEvents}
-          />
+          <EventTimesTable eventTimes={events} setEventTimes={setEvents} />
         </Collapsible>
       ) : (
-        <EventTimesTable
-          eventTimes={events}
-          eventType={eventType}
-          setEventTimes={setEvents}
-        />
+        <EventTimesTable eventTimes={events} setEventTimes={setEvents} />
       )}
     </FormGroup>
   );

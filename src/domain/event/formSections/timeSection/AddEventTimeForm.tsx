@@ -6,26 +6,19 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../../../common/components/button/Button';
 import DatepickerField from '../../../../common/components/formFields/DatepickerField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import {
-  EventFieldsFragment,
-  SuperEventType,
-} from '../../../../generated/graphql';
+import { SuperEventType } from '../../../../generated/graphql';
 import { EVENT_TIME_FIELDS } from '../../constants';
 import { EventTime } from '../../types';
 import { eventTimeValidationSchema } from '../../utils';
+import TimeSectionContext from './TimeSectionContext';
 
 interface Props {
   addEventTime: (eventTime: EventTime) => void;
-  eventType: string;
-  savedEvent?: EventFieldsFragment;
 }
 
-const AddEventTimeForm: React.FC<Props> = ({
-  addEventTime,
-  eventType,
-  savedEvent,
-}) => {
+const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
   const { t } = useTranslation();
+  const { eventType, savedEvent } = React.useContext(TimeSectionContext);
   const disabled =
     savedEvent && savedEvent.superEventType !== SuperEventType.Recurring;
 

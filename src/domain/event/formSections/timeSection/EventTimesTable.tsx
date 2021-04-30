@@ -26,7 +26,6 @@ import { sortEventTimes } from './utils';
 
 interface EventTimeRowProps {
   eventTime: EventTime;
-  eventType: string;
   index: number;
   onDelete: (index: number) => void;
   onUpdate: (index: number, values: EventTime) => void;
@@ -35,7 +34,6 @@ interface EventTimeRowProps {
 
 const EventTimeRow: React.FC<EventTimeRowProps> = ({
   eventTime,
-  eventType,
   index,
   onDelete,
   onUpdate,
@@ -148,7 +146,6 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
     <>
       <EditEventTimeModal
         eventTime={eventTime}
-        eventType={eventType}
         isOpen={isEditModalOpen}
         onCancel={closeEditModal}
         onSave={handleUpdate}
@@ -177,14 +174,12 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
 
 export interface EventTimesTableProps {
   eventTimes: EventTime[];
-  eventType: string;
   setEventTimes: (eventTimes: EventTime[]) => void;
   startIndex?: number;
 }
 
 const EventTimesTable: React.FC<EventTimesTableProps> = ({
   eventTimes,
-  eventType,
   setEventTimes,
   startIndex = 1,
 }) => {
@@ -225,7 +220,6 @@ const EventTimesTable: React.FC<EventTimesTableProps> = ({
             <EventTimeRow
               key={index}
               eventTime={eventTime}
-              eventType={eventType}
               index={index}
               onDelete={handleDelete}
               onUpdate={handleUpdate}

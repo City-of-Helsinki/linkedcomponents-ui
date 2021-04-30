@@ -19,6 +19,7 @@
   .toggleButton {
     padding: 0;
     display: flex;
+    color: var(--color-black);
 
     @include focus-outline(0px);
 

@@ -10,6 +10,7 @@ import { EVENT_FIELDS } from '../../constants';
 import { EventTime, RecurringEventSettings } from '../../types';
 import EventTimeTab from './EventTimeTab';
 import RecurringEventTab from './RecurringEventTab';
+import TimeSectionContext from './TimeSectionContext';
 
 enum EVENT_TIME_TAB {
   EVENT_TIME = 'EVENT_TIME',
@@ -52,39 +53,34 @@ const TimeSection: React.FC<Props> = ({ savedEvent }) => {
   );
 
   return (
-    <div>
-      <Tabs
-        name="event-time-tabs"
-        onChange={(tab) => setActiveTab(tab as EVENT_TIME_TAB)}
-        options={tabOptions}
-        activeTab={activeTab}
-      >
-        <TabPanel isActive={activeTab === EVENT_TIME_TAB.EVENT_TIME}>
-          <EventTimeTab
-            events={events}
-            eventTimes={eventTimes}
-            eventType={type}
-            recurringEvents={recurringEvents}
-            savedEvent={savedEvent}
-            setEvents={setEvents}
-            setEventTimes={setEventTimes}
-            setRecurringEvents={setRecurringEvents}
-          />
-        </TabPanel>
-        <TabPanel isActive={activeTab === EVENT_TIME_TAB.EVENT_TIME}>
-          <RecurringEventTab
-            events={events}
-            eventTimes={eventTimes}
-            eventType={type}
-            recurringEvents={recurringEvents}
-            savedEvent={savedEvent}
-            setEvents={setEvents}
-            setEventTimes={setEventTimes}
-            setRecurringEvents={setRecurringEvents}
-          />
-        </TabPanel>
-      </Tabs>
-    </div>
+    <TimeSectionContext.Provider
+      value={{
+        events,
+        eventTimes,
+        eventType: type,
+        recurringEvents,
+        savedEvent,
+        setEvents,
+        setEventTimes,
+        setRecurringEvents,
+      }}
+    >
+      <div>
+        <Tabs
+          name="event-time-tabs"
+          onChange={(tab) => setActiveTab(tab as EVENT_TIME_TAB)}
+          options={tabOptions}
+          activeTab={activeTab}
+        >
+          <TabPanel isActive={activeTab === EVENT_TIME_TAB.EVENT_TIME}>
+            <EventTimeTab />
+          </TabPanel>
+          <TabPanel isActive={activeTab === EVENT_TIME_TAB.EVENT_TIME}>
+            <RecurringEventTab />
+          </TabPanel>
+        </Tabs>
+      </div>
+    </TimeSectionContext.Provider>
   );
 };
 

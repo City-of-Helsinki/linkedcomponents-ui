@@ -8,14 +8,12 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
-import { EVENT_TYPE } from '../../../constants';
 import EventTimesTable, { EventTimesTableProps } from '../EventTimesTable';
 
 configure({ defaultHidden: true });
 
 const defaultProps: EventTimesTableProps = {
   eventTimes: [],
-  eventType: EVENT_TYPE.EVENT,
   setEventTimes: jest.fn(),
 };
 

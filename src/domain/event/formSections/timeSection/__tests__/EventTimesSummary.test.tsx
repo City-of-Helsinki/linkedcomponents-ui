@@ -7,28 +7,27 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import { EVENT_TYPE } from '../../../constants';
 import { EventTime, RecurringEventSettings } from '../../../types';
-import EventTimesSummary, {
-  EventTimesSummaryProps,
-} from '../EventTimesSummary';
+import EventTimesSummary from '../EventTimesSummary';
+import TimeSectionContext, {
+  timeSectionContextDefaultValue,
+  TimeSectionContextProps,
+} from '../TimeSectionContext';
 
 configure({ defaultHidden: true });
-
-const defaultProps: EventTimesSummaryProps = {
-  eventType: EVENT_TYPE.EVENT,
-  eventTimes: [],
-  recurringEvents: [],
-  setEventTimes: jest.fn(),
-  setRecurringEvents: jest.fn(),
-};
 
 beforeEach(() => {
   clear();
 });
 
-const renderComponent = (props?: Partial<EventTimesSummaryProps>) =>
-  render(<EventTimesSummary {...defaultProps} {...props} />);
+const renderComponent = (context?: Partial<TimeSectionContextProps>) =>
+  render(
+    <TimeSectionContext.Provider
+      value={{ ...timeSectionContextDefaultValue, ...context }}
+    >
+      <EventTimesSummary />
+    </TimeSectionContext.Provider>
+  );
 
 test('should render event times summary', async () => {
   advanceTo('2021-04-12');

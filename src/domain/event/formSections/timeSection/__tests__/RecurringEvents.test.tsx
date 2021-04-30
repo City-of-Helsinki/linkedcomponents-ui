@@ -7,23 +7,26 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import { EVENT_TYPE } from '../../../constants';
-import RecurringEvents, { RecurringEventsProps } from '../RecurringEvents';
+import RecurringEvents from '../RecurringEvents';
+import TimeSectionContext, {
+  timeSectionContextDefaultValue,
+  TimeSectionContextProps,
+} from '../TimeSectionContext';
 
 configure({ defaultHidden: true });
-
-const defaultProps: RecurringEventsProps = {
-  eventType: EVENT_TYPE.EVENT,
-  recurringEvents: [],
-  setRecurringEvents: jest.fn(),
-};
 
 beforeEach(() => {
   clear();
 });
 
-const renderComponent = (props?: Partial<RecurringEventsProps>) =>
-  render(<RecurringEvents {...defaultProps} {...props} />);
+const renderComponent = (context?: Partial<TimeSectionContextProps>) =>
+  render(
+    <TimeSectionContext.Provider
+      value={{ ...timeSectionContextDefaultValue, ...context }}
+    >
+      <RecurringEvents />
+    </TimeSectionContext.Provider>
+  );
 
 const recurringEvent1 = {
   endDate: new Date('2021-05-15T00:00:00.000Z'),

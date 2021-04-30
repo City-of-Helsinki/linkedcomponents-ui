@@ -2,13 +2,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Notification from '../../../../common/components/notification/Notification';
+import TimeSectionContext from './TimeSectionContext';
 
-interface Props {
-  eventType: string;
-}
-
-const TimeSectionNotification: React.FC<Props> = ({ eventType }) => {
+const TimeSectionNotification: React.FC = () => {
   const { t } = useTranslation();
+  const { eventType } = React.useContext(TimeSectionContext);
 
   return (
     <Notification

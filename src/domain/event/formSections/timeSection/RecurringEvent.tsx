@@ -12,7 +12,6 @@ import EventTimesTable from './EventTimesTable';
 import styles from './timeSection.module.scss';
 
 type Props = {
-  eventType: string;
   index: number;
   onDelete: (index: number) => void;
   onUpdateEventTimes: (index: number, eventTimes: EventTime[]) => void;
@@ -21,7 +20,6 @@ type Props = {
 };
 
 const RecurringEvent: React.FC<Props> = ({
-  eventType,
   index,
   onDelete,
   onUpdateEventTimes,
@@ -79,7 +77,6 @@ const RecurringEvent: React.FC<Props> = ({
       <Collapsible headingLevel={3} title={title}>
         <EventTimesTable
           eventTimes={recurringEvent.eventTimes}
-          eventType={eventType}
           setEventTimes={(eventTimes: EventTime[]) => {
             onUpdateEventTimes(index, eventTimes);
           }}

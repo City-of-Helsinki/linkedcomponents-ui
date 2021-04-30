@@ -11,10 +11,10 @@ import { EVENT_TIME_FIELDS } from '../../constants';
 import { EventTime } from '../../types';
 import { eventTimeValidationSchema } from '../../utils';
 import styles from './timeSection.module.scss';
+import TimeSectionContext from './TimeSectionContext';
 
 export interface EditEventTimeModalProps {
   eventTime: EventTime;
-  eventType: string;
   isOpen: boolean;
   onCancel: () => void;
   onSave: (eventTime: EventTime) => void;
@@ -22,12 +22,12 @@ export interface EditEventTimeModalProps {
 
 const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
   eventTime,
-  eventType,
   isOpen,
   onCancel,
   onSave,
 }) => {
   const { t } = useTranslation();
+  const { eventType } = React.useContext(TimeSectionContext);
 
   return (
     <Modal

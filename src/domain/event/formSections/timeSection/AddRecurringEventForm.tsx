@@ -10,10 +10,7 @@ import NumberInputField from '../../../../common/components/formFields/NumberInp
 import TimepickerField from '../../../../common/components/formFields/TimepickerField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import { WEEK_DAY } from '../../../../constants';
-import {
-  EventFieldsFragment,
-  SuperEventType,
-} from '../../../../generated/graphql';
+import { SuperEventType } from '../../../../generated/graphql';
 import {
   RECURRING_EVENT_FIELDS,
   RECURRING_EVENT_INITIAL_VALUES,
@@ -24,20 +21,16 @@ import {
   generateEventTimesFromRecurringEvent,
   recurringEventValidationSchema,
 } from '../../utils';
+import TimeSectionContext from './TimeSectionContext';
 import { sortEventTimes } from './utils';
 
 interface Props {
-  eventType: string;
   onSubmit: (values: RecurringEventSettings) => void;
-  savedEvent?: EventFieldsFragment;
 }
 
-const AddRecurringEventForm: React.FC<Props> = ({
-  eventType,
-  onSubmit,
-  savedEvent,
-}) => {
+const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
   const { t } = useTranslation();
+  const { eventType, savedEvent } = React.useContext(TimeSectionContext);
 
   const disabled =
     savedEvent && savedEvent.superEventType !== SuperEventType.Recurring;

@@ -1,38 +1,21 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { EventFieldsFragment } from '../../../../generated/graphql';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
-import { EventTime, RecurringEventSettings } from '../../types';
+import { RecurringEventSettings } from '../../types';
 import AddRecurringEventForm from './AddRecurringEventForm';
 import EventTimesSummary from './EventTimesSummary';
+import TimeSectionContext from './TimeSectionContext';
 import TimeSectionNotification from './TimeSectionNotification';
 import { sortRecurringEvents } from './utils';
 import ValidationError from './ValidationError';
 
-export interface RecurringEventTabProps {
-  events: EventTime[];
-  eventTimes: EventTime[];
-  eventType: string;
-  recurringEvents: RecurringEventSettings[];
-  savedEvent?: EventFieldsFragment;
-  setEvents: (eventTimes: EventTime[]) => void;
-  setEventTimes: (eventTimes: EventTime[]) => void;
-  setRecurringEvents: (recurringEvents: RecurringEventSettings[]) => void;
-}
-
-const RecurringEventTab: React.FC<RecurringEventTabProps> = ({
-  events,
-  eventTimes,
-  eventType,
-  recurringEvents,
-  savedEvent,
-  setEvents,
-  setEventTimes,
-  setRecurringEvents,
-}) => {
+const RecurringEventTab: React.FC = () => {
   const { t } = useTranslation();
+  const { recurringEvents, setRecurringEvents } = React.useContext(
+    TimeSectionContext
+  );
 
   const addRecurringEvent = (recurringEvent: RecurringEventSettings) => {
     const sortedRecurringEvents = [...recurringEvents];
@@ -44,27 +27,12 @@ const RecurringEventTab: React.FC<RecurringEventTabProps> = ({
   return (
     <>
       <h3>{t('event.form.titleRecurringEvent')}</h3>
-      <FieldRow
-        notification={<TimeSectionNotification eventType={eventType} />}
-      >
+      <FieldRow notification={<TimeSectionNotification />}>
         <FieldColumn>
-          <AddRecurringEventForm
-            eventType={eventType}
-            onSubmit={addRecurringEvent}
-            savedEvent={savedEvent}
-          />
+          <AddRecurringEventForm onSubmit={addRecurringEvent} />
           <ValidationError />
         </FieldColumn>
-        <EventTimesSummary
-          events={events}
-          eventTimes={eventTimes}
-          eventType={eventType}
-          recurringEvents={recurringEvents}
-          savedEvent={savedEvent}
-          setEvents={setEvents}
-          setEventTimes={setEventTimes}
-          setRecurringEvents={setRecurringEvents}
-        />
+        <EventTimesSummary />
       </FieldRow>
     </>
   );
