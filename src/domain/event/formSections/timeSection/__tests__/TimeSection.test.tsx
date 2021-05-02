@@ -2,7 +2,10 @@ import { Formik } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { EventFieldsFragment } from '../../../../../generated/graphql';
+import {
+  EventFieldsFragment,
+  SuperEventType,
+} from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import {
   configure,
@@ -246,14 +249,10 @@ test('should add/delete recurring event', async () => {
   };
   renderComponent(initialValues);
 
-  screen.getByRole('heading', { name: 'Syötä tapahtuman ajankohta' });
-
   const recurringEventTab = screen.getByRole('tab', {
     name: /toistuva tapahtuma/i,
   });
   userEvent.click(recurringEventTab);
-
-  screen.getByRole('heading', { name: 'Toistuva tapahtuma' });
 
   const tueCheckbox = getRecurringEventElement('tueCheckbox');
   const endDateInput = getRecurringEventElement('endDate');
@@ -301,4 +300,56 @@ test('should add/delete recurring event', async () => {
       name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
     });
   });
+});
+
+test('should not be able to add new event times when editing single event', async () => {
+  advanceTo('2021-04-12');
+
+  const initialValues = {
+    [EVENT_FIELDS.EVENTS]: events,
+  };
+  renderComponent(
+    initialValues,
+    fakeEvent({
+      endTime: events[0].endTime.toISOString(),
+      startTime: events[0].startTime.toISOString(),
+      superEventType: null,
+    })
+  );
+
+  const singleEventStartTimeInput = getSingleEventElement('startTime');
+  expect(singleEventStartTimeInput).toBeDisabled();
+
+  const recurringEventTab = screen.getByRole('tab', {
+    name: /toistuva tapahtuma/i,
+  });
+  userEvent.click(recurringEventTab);
+  const recurringEventStartTimeInput = getRecurringEventElement('startTime');
+  expect(recurringEventStartTimeInput).toBeDisabled();
+});
+
+test('should be able to add new event times when editing recurring event', async () => {
+  advanceTo('2021-04-12');
+
+  const initialValues = {
+    [EVENT_FIELDS.EVENTS]: events,
+  };
+  renderComponent(
+    initialValues,
+    fakeEvent({
+      endTime: events[0].endTime.toISOString(),
+      startTime: events[0].startTime.toISOString(),
+      superEventType: SuperEventType.Recurring,
+    })
+  );
+
+  const singleEventStartTimeInput = getSingleEventElement('startTime');
+  expect(singleEventStartTimeInput).toBeEnabled();
+
+  const recurringEventTab = screen.getByRole('tab', {
+    name: /toistuva tapahtuma/i,
+  });
+  userEvent.click(recurringEventTab);
+  const recurringEventStartTimeInput = getRecurringEventElement('startTime');
+  expect(recurringEventStartTimeInput).toBeEnabled();
 });

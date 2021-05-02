@@ -131,28 +131,16 @@ const getInput = (key: 'nameFi') => {
   }
 };
 
-const getRecurringFormElement = (
-  key:
-    | 'addButton'
-    | 'endDate'
-    | 'endTime'
-    | 'monCheckbox'
-    | 'startDate'
-    | 'startTime'
+const getAddEventTimeFormElement = (
+  key: 'addButton' | 'endTime' | 'startTime'
 ) => {
   switch (key) {
     case 'addButton':
-      return screen.getByRole('button', { name: /lisää toistuva tapahtuma/i });
-    case 'endDate':
-      return screen.getByRole('textbox', { name: /toisto päättyy/i });
+      return screen.getByRole('button', { name: /lisää ajankohta/i });
     case 'endTime':
-      return screen.getByRole('textbox', { name: /tapahtuma päättyy klo/i });
-    case 'monCheckbox':
-      return screen.getByRole('checkbox', { name: /ma/i });
-    case 'startDate':
-      return screen.getByRole('textbox', { name: /toisto alkaa/i });
+      return screen.getByRole('textbox', { name: /tapahtuma päättyy/i });
     case 'startTime':
-      return screen.getByRole('textbox', { name: /tapahtuma alkaa klo/i });
+      return screen.getByRole('textbox', { name: /tapahtuma alkaa/i });
   }
 };
 
@@ -289,65 +277,40 @@ test('should update recurring event', async () => {
   screen.getByText(expectedValues.lastModifiedTime);
 
   // Delete first sub-event
-  const tableRows = screen.getAllByRole('row');
-  for (const row of tableRows) {
-    const withinRow = within(row);
-    if (
-      withinRow.queryByRole('cell', {
-        name: `${formatDate(
-          subEventTimes[0].startTime,
-          DATETIME_FORMAT
-        )} – ${formatDate(subEventTimes[0].endTime, DATETIME_FORMAT)}`,
-      })
-    ) {
-      const toggleMenuButton = withinRow.getByRole('button', {
-        name: /valinnat/i,
-      });
-      userEvent.click(toggleMenuButton);
-      const deleteButton = withinRow.getByRole('button', { name: /poista/i });
-      userEvent.click(deleteButton);
-    }
+  const withinRow = within(
+    screen.getByRole('row', {
+      name: `1 ${formatDate(
+        subEventTimes[0].startTime,
+        DATETIME_FORMAT
+      )} – ${formatDate(subEventTimes[0].endTime, DATETIME_FORMAT)}`,
+    })
+  );
+  const toggleMenuButton = withinRow.getByRole('button', {
+    name: /valinnat/i,
+  });
+  userEvent.click(toggleMenuButton);
+  const deleteButton = withinRow.getByRole('button', { name: /poista/i });
+  userEvent.click(deleteButton);
+
+  const endTimeInput = getAddEventTimeFormElement('endTime');
+  const startTimeInput = getAddEventTimeFormElement('startTime');
+  const addButton = getAddEventTimeFormElement('addButton');
+
+  for (const newEventTime of newSubEventTimes) {
+    userEvent.click(startTimeInput);
+    userEvent.type(
+      startTimeInput,
+      formatDate(newEventTime.startTime, DATETIME_FORMAT)
+    );
+    userEvent.click(endTimeInput);
+    userEvent.type(
+      endTimeInput,
+      formatDate(newEventTime.endTime, DATETIME_FORMAT)
+    );
+
+    await waitFor(() => expect(addButton).toBeEnabled());
+    userEvent.click(addButton);
   }
-
-  const recurringEventTab = screen.getByRole('tab', {
-    name: /toistuva tapahtuma/i,
-  });
-  userEvent.click(recurringEventTab);
-
-  const weekDays = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
-
-  const startDayCheckbox = screen.getByRole('checkbox', {
-    name: weekDays[newSubEventTimes[0].startTime.getDay()],
-  });
-  const endDayCheckbox = screen.getByRole('checkbox', {
-    name: weekDays[newSubEventTimes[1].startTime.getDay()],
-  });
-  const endDateInput = getRecurringFormElement('endDate');
-  const endTimeInput = getRecurringFormElement('endTime');
-  const startDateInput = getRecurringFormElement('startDate');
-  const startTimeInput = getRecurringFormElement('startTime');
-
-  userEvent.click(startDayCheckbox);
-  userEvent.click(endDayCheckbox);
-  userEvent.click(startDateInput);
-  userEvent.type(startDateInput, formatDate(newSubEventTimes[0].startTime));
-  userEvent.click(endDateInput);
-  userEvent.type(endDateInput, formatDate(newSubEventTimes[1].endTime));
-  userEvent.click(startTimeInput);
-  userEvent.type(
-    startTimeInput,
-    formatDate(newSubEventTimes[0].startTime, 'HH.mm')
-  );
-  userEvent.click(endTimeInput);
-  userEvent.type(
-    endTimeInput,
-    formatDate(newSubEventTimes[1].endTime, 'HH.mm')
-  );
-  const addButton = getRecurringFormElement('addButton');
-  await waitFor(() => {
-    expect(addButton).toBeEnabled();
-  });
-  userEvent.click(addButton);
 
   const updateButton = getButton('updatePublic');
   userEvent.click(updateButton);

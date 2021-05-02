@@ -484,11 +484,6 @@ const newSubEventTimes = [
     id: 'newsubevent:1',
     startTime: addDays(startTime, 2),
   },
-  {
-    endTime: addDays(endTime, 3),
-    id: 'newsubevent:2',
-    startTime: addDays(startTime, 3),
-  },
 ];
 const subEvents = fakeEvents(
   subEventTimes.length,
@@ -582,7 +577,7 @@ const updateRecurringEventVariables = {
   input: [
     {
       ...basePayload,
-      endTime: newSubEventTimes[1].endTime.toISOString(),
+      endTime: newSubEventTimes[0].endTime.toISOString(),
       startTime: subEventTimes[1].startTime.toISOString(),
       superEventType: SuperEventType.Recurring,
       subEvents: [
