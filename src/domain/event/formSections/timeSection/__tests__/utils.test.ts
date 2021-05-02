@@ -22,9 +22,16 @@ describe('sortEventTimes function', () => {
       id: '4',
       startTime: new Date('2021-05-02T12:00:00.000Z'),
     };
+    const eventTime5 = {
+      endTime: new Date('2021-05-11T15:00:00.000Z'),
+      id: '5',
+      startTime: new Date('2021-05-02T12:00:00.000Z'),
+    };
 
     expect(
-      [eventTime1, eventTime2, eventTime3, eventTime4].sort(sortEventTimes)
-    ).toEqual([eventTime1, eventTime4, eventTime3, eventTime2]);
+      [eventTime1, eventTime2, eventTime3, eventTime4, eventTime5].sort(
+        sortEventTimes
+      )
+    ).toEqual([eventTime5, eventTime1, eventTime4, eventTime3, eventTime2]);
   });
 });

@@ -7,9 +7,9 @@ import Button from '../../../../common/components/button/Button';
 import DatepickerField from '../../../../common/components/formFields/DatepickerField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Modal from '../../../../common/components/modal/Modal';
-import { EVENT_TIME_FIELDS } from '../../constants';
-import { EventTime, EventTimeFormFields } from '../../types';
-import { eventTimeValidationSchema } from '../../utils';
+import { EDIT_EVENT_TIME_FORM_NAME, EVENT_TIME_FIELDS } from '../../constants';
+import { EditEventTimeFormFields, EventTime } from '../../types';
+import { editEventTimeValidationSchema } from '../../utils';
 import styles from './timeSection.module.scss';
 import TimeSectionContext from './TimeSectionContext';
 
@@ -29,11 +29,11 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
   const { t } = useTranslation();
   const { eventType } = React.useContext(TimeSectionContext);
 
-  const submitEditEventTime = (values: EventTimeFormFields) => {
+  const submitEditEventTime = (values: EditEventTimeFormFields) => {
     onSave({
       ...eventTime,
-      endTime: values.endTime,
-      startTime: values.startTime,
+      endTime: values[EDIT_EVENT_TIME_FORM_NAME].endTime,
+      startTime: values[EDIT_EVENT_TIME_FORM_NAME].startTime,
     });
   };
 
@@ -49,23 +49,30 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
     >
       <Formik
         initialValues={{
-          endTime: eventTime.endTime,
-          startTime: eventTime.startTime,
+          [EDIT_EVENT_TIME_FORM_NAME]: {
+            endTime: eventTime.endTime,
+            startTime: eventTime.startTime,
+          },
         }}
         onSubmit={submitEditEventTime}
         validateOnBlur
         validateOnChange
         validateOnMount
-        validationSchema={eventTimeValidationSchema}
+        validationSchema={editEventTimeValidationSchema}
       >
-        {({ handleSubmit, values: { startTime } }) => {
+        {({
+          handleSubmit,
+          values: {
+            [EDIT_EVENT_TIME_FORM_NAME]: { startTime },
+          },
+        }) => {
           return (
             <>
               <div>
                 <FormGroup>
                   <Field
                     component={DatepickerField}
-                    name={EVENT_TIME_FIELDS.START_TIME}
+                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
                     label={t(`event.form.labelStartTime.${eventType}`)}
                     placeholder={t('common.placeholderDateTime')}
                     required={true}
@@ -74,7 +81,7 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
                 </FormGroup>
                 <Field
                   component={DatepickerField}
-                  name={EVENT_TIME_FIELDS.END_TIME}
+                  name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
                   focusedDate={startTime}
                   minBookingDate={startTime}
                   label={t(`event.form.labelEndTime.${eventType}`)}

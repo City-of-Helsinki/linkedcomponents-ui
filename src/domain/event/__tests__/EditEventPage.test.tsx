@@ -45,7 +45,6 @@ import { EventDocument } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
-  actWait,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,

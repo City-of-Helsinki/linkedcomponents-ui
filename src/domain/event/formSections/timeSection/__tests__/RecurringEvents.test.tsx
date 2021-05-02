@@ -77,29 +77,27 @@ test('should render component', async () => {
     name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
   });
   userEvent.click(toggleButton1);
-  screen.getByText('02.05.2021 12.00 – 02.05.2021 15.00');
-  screen.getByText('09.05.2021 12.00 – 09.05.2021 15.00');
+  screen.getByRole('row', {
+    name: '1 02.05.2021 12.00 – 02.05.2021 15.00',
+    hidden: false,
+  });
+  screen.getByRole('row', {
+    name: '2 09.05.2021 12.00 – 09.05.2021 15.00',
+    hidden: false,
+  });
 
   const toggleButton2 = screen.getByRole('button', {
     name: 'Ma ja Ke, Viikon välein, 01.06.2021 – 15.06.2021',
   });
   userEvent.click(toggleButton2);
-  screen.getByText('02.06.2021 12.00 – 02.06.2021 15.00');
-  screen.getByText('09.06.2021 12.00 – 09.06.2021 15.00');
-});
-
-test('should call setRecurringEvents when deleting a single recurring event', async () => {
-  const recurringEvents = [recurringEvent1];
-  const setRecurringEvents = jest.fn();
-
-  renderComponent({ recurringEvents, setRecurringEvents });
-
-  const deleteButton = screen.getByRole('button', {
-    name: 'Poista toistuva tapahtuma',
+  screen.getByRole('row', {
+    name: '3 02.06.2021 12.00 – 02.06.2021 15.00',
+    hidden: false,
   });
-  userEvent.click(deleteButton);
-
-  expect(setRecurringEvents).toBeCalledWith([]);
+  screen.getByRole('row', {
+    name: '4 09.06.2021 12.00 – 09.06.2021 15.00',
+    hidden: false,
+  });
 });
 
 test('should call setRecurringEvents when deleting a single event time', async () => {

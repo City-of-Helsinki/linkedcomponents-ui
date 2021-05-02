@@ -6,7 +6,7 @@ import RecurringEvent from './RecurringEvent';
 import TimeSectionContext from './TimeSectionContext';
 
 const RecurringEvents: React.FC = () => {
-  const { recurringEvents, setRecurringEvents } = React.useContext(
+  const { events, recurringEvents, setRecurringEvents } = React.useContext(
     TimeSectionContext
   );
 
@@ -29,7 +29,8 @@ const RecurringEvents: React.FC = () => {
   };
 
   const getStartIndex = (index: number) => {
-    let startIndex = 1;
+    let startIndex = 1 + events.length;
+
     recurringEvents.slice(0, index).forEach((recurringEvent) => {
       startIndex = startIndex + recurringEvent.eventTimes.length;
     });

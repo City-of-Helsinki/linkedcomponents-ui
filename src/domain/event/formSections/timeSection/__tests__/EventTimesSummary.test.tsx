@@ -73,9 +73,9 @@ test('should render event times summary', async () => {
   });
   userEvent.click(toggleButton);
 
-  screen.getByText('07.05.2021 12.00 – 07.05.2021 15.00');
-  screen.getByText('09.05.2021 12.00 – 09.05.2021 15.00');
+  screen.getByRole('row', { name: '1 07.05.2021 12.00 – 07.05.2021 15.00' });
+  screen.getByRole('row', { name: '2 09.05.2021 12.00 – 09.05.2021 15.00' });
 
-  screen.getByText('02.05.2021 12.00 – 02.05.2021 15.00');
-  screen.getByText('03.05.2021 12.00 – 03.05.2021 15.00');
+  screen.getByRole('row', { name: '3 02.05.2021 12.00 – 02.05.2021 15.00' });
+  screen.getByRole('row', { name: '4 03.05.2021 12.00 – 03.05.2021 15.00' });
 });

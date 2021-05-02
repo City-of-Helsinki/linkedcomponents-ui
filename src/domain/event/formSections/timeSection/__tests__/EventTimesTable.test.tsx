@@ -41,15 +41,15 @@ test('should not show event times table if eventTimes is empty', async () => {
   expect(screen.queryByRole('table')).not.toBeInTheDocument();
 });
 
-test('should render event times summary', async () => {
+test('should render event times table', async () => {
   advanceTo('2021-04-12');
   const eventTimes = [eventTime1, eventTime2];
 
   renderComponent({ eventTimes });
 
   screen.getByRole('table');
-  screen.getByText('02.05.2021 12.00 – 02.05.2021 15.00');
-  screen.getByText('03.05.2021 12.00 – 03.05.2021 15.00');
+  screen.getByRole('row', { name: '1 02.05.2021 12.00 – 02.05.2021 15.00' });
+  screen.getByRole('row', { name: '2 03.05.2021 12.00 – 03.05.2021 15.00' });
 });
 
 test('should call setEventTimes when deleting an event time', async () => {

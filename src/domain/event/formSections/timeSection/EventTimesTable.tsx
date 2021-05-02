@@ -1,5 +1,5 @@
 import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -10,6 +10,7 @@ import { DATETIME_FORMAT } from '../../../../constants';
 import {
   EventFieldsFragment,
   PublicationStatus,
+  SuperEventType,
   useEventQuery,
 } from '../../../../generated/graphql';
 import formatDate from '../../../../utils/formatDate';
@@ -22,6 +23,7 @@ import { EventTime } from '../../types';
 import { eventPathBuilder, getEditButtonProps } from '../../utils';
 import EditEventTimeModal from './EditEventTimeModal';
 import styles from './timeSection.module.scss';
+import TimeSectionContext from './TimeSectionContext';
 import { sortEventTimes } from './utils';
 
 interface EventTimeRowProps {
@@ -40,6 +42,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   startIndex,
 }) => {
   const { t } = useTranslation();
+  const { savedEvent } = useContext(TimeSectionContext);
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
@@ -119,13 +122,15 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
         t,
         user,
       });
-      return options
-        ? {
-            ...baseOptions,
-            disabled: options.disabled,
-            title: options.title,
-          }
-        : baseOptions;
+      return {
+        ...baseOptions,
+        disabled:
+          (action === EVENT_EDIT_ACTIONS.DELETE &&
+            savedEvent &&
+            savedEvent.superEventType !== SuperEventType.Recurring) ||
+          options?.disabled,
+        title: options?.title,
+      };
     } else {
       return baseOptions;
     }
@@ -150,6 +155,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
         onCancel={closeEditModal}
         onSave={handleUpdate}
       />
+
       <tr>
         <td>{startIndex + index}</td>
         <td>{dateText}</td>

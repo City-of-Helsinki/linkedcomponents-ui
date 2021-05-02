@@ -309,3 +309,6 @@ export const EVENT_EDIT_LABEL_KEYS = {
   [EVENT_EDIT_ACTIONS.UPDATE_DRAFT]: 'event.form.buttonUpdateDraft',
   [EVENT_EDIT_ACTIONS.UPDATE_PUBLIC]: 'event.form.buttonUpdatePublic',
 };
+
+export const ADD_EVENT_TIME_FORM_NAME = 'add-event-time';
+export const EDIT_EVENT_TIME_FORM_NAME = 'edit-event-time';

@@ -7,9 +7,9 @@ import Button from '../../../../common/components/button/Button';
 import DatepickerField from '../../../../common/components/formFields/DatepickerField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import { SuperEventType } from '../../../../generated/graphql';
-import { EVENT_TIME_FIELDS } from '../../constants';
-import { EventTime, EventTimeFormFields } from '../../types';
-import { eventTimeValidationSchema } from '../../utils';
+import { ADD_EVENT_TIME_FORM_NAME, EVENT_TIME_FIELDS } from '../../constants';
+import { AddEventTimeFormFields, EventTime } from '../../types';
+import { addEventTimeValidationSchema } from '../../utils';
 import TimeSectionContext from './TimeSectionContext';
 
 interface Props {
@@ -23,13 +23,13 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
     savedEvent && savedEvent.superEventType !== SuperEventType.Recurring;
 
   const submitAddEventTime = (
-    values: EventTimeFormFields,
-    formikHelpers: FormikHelpers<EventTimeFormFields>
+    values: AddEventTimeFormFields,
+    formikHelpers: FormikHelpers<AddEventTimeFormFields>
   ) => {
     const { resetForm, validateForm } = formikHelpers;
     addEventTime({
       id: null,
-      ...values,
+      ...values[ADD_EVENT_TIME_FORM_NAME],
     });
     resetForm();
     validateForm();
@@ -37,21 +37,34 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
 
   return (
     <Formik
-      initialValues={{ endTime: null, startTime: null } as EventTimeFormFields}
+      initialValues={
+        {
+          [ADD_EVENT_TIME_FORM_NAME]: {
+            endTime: null,
+            startTime: null,
+          },
+        } as AddEventTimeFormFields
+      }
       onSubmit={submitAddEventTime}
       validateOnBlur
       validateOnChange
       validateOnMount
-      validationSchema={eventTimeValidationSchema}
+      validationSchema={addEventTimeValidationSchema}
     >
-      {({ handleSubmit, isValid, values: { startTime } }) => {
+      {({
+        handleSubmit,
+        isValid,
+        values: {
+          [ADD_EVENT_TIME_FORM_NAME]: { startTime },
+        },
+      }) => {
         return (
           <div>
             <FormGroup>
               <Field
                 component={DatepickerField}
                 disabled={disabled}
-                name={EVENT_TIME_FIELDS.START_TIME}
+                name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
                 label={t(`event.form.labelStartTime.${eventType}`)}
                 placeholder={t('common.placeholderDateTime')}
                 required={true}
@@ -64,7 +77,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                 disabled={disabled}
                 focusedDate={startTime}
                 minBookingDate={startTime}
-                name={EVENT_TIME_FIELDS.END_TIME}
+                name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
                 label={t(`event.form.labelEndTime.${eventType}`)}
                 placeholder={t('common.placeholderDateTime')}
                 required={true}

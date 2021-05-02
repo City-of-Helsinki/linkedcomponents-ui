@@ -77,9 +77,11 @@ import { EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
 import { organizationPathBuilder } from '../organization/utils';
 import {
+  ADD_EVENT_TIME_FORM_NAME,
   ADD_IMAGE_FIELDS,
   AUHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
+  EDIT_EVENT_TIME_FORM_NAME,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_CREATE_ACTIONS,
   EVENT_EDIT_ACTIONS,
@@ -188,7 +190,7 @@ const enrolmentFieldsValidation = {
   ),
 };
 
-export const eventTimeValidationSchema = Yup.object().shape({
+export const eventTimeValidation = Yup.object().shape({
   [EVENT_TIME_FIELDS.START_TIME]: Yup.date()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
@@ -222,6 +224,14 @@ export const eventTimeValidationSchema = Yup.object().shape({
         return schema;
       }
     ),
+});
+
+export const addEventTimeValidationSchema = Yup.object().shape({
+  [ADD_EVENT_TIME_FORM_NAME]: eventTimeValidation,
+});
+
+export const editEventTimeValidationSchema = Yup.object().shape({
+  [EDIT_EVENT_TIME_FORM_NAME]: eventTimeValidation,
 });
 
 export const eventTimesValidation = Yup.array<EventTime>().when(

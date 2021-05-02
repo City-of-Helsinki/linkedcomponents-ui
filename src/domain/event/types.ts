@@ -4,7 +4,9 @@ import {
   SuperEventType,
 } from '../../generated/graphql';
 import {
+  ADD_EVENT_TIME_FORM_NAME,
   ADD_IMAGE_FIELDS,
+  EDIT_EVENT_TIME_FORM_NAME,
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
   EVENT_TIME_FIELDS,
@@ -84,9 +86,18 @@ export type EventFormFields = {
   [EVENT_FIELDS.VIDEOS]: VideoDetails[];
 };
 
-export type EventTimeFormFields = {
-  [EVENT_TIME_FIELDS.END_TIME]: Date | null;
-  [EVENT_TIME_FIELDS.START_TIME]: Date | null;
+export type AddEventTimeFormFields = {
+  [ADD_EVENT_TIME_FORM_NAME]: {
+    [EVENT_TIME_FIELDS.END_TIME]: Date | null;
+    [EVENT_TIME_FIELDS.START_TIME]: Date | null;
+  };
+};
+
+export type EditEventTimeFormFields = {
+  [EDIT_EVENT_TIME_FORM_NAME]: {
+    [EVENT_TIME_FIELDS.END_TIME]: Date | null;
+    [EVENT_TIME_FIELDS.START_TIME]: Date | null;
+  };
 };
 
 export type MultiLanguageObject = {
