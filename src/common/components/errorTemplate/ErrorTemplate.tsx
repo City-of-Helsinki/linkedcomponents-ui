@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { css } from 'emotion';
 import { IconAlertCircle } from 'hds-react';
 import React from 'react';
@@ -18,7 +17,8 @@ const ErrorPage: React.FC<Props> = ({ buttons, text }) => {
 
   return (
     <Container
-      className={classNames(styles.errorTemplate, css(theme.errorTemplate))}
+      className={css(theme.errorTemplate)}
+      contentWrapperClassName={styles.errorTemplate}
     >
       <div className={styles.content}>
         <IconAlertCircle className={styles.icon} />

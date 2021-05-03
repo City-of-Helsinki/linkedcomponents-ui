@@ -1,0 +1,62 @@
+@import 'breakpoints';
+
+.highlights {
+  display: grid;
+  grid-gap: var(--spacing-2-xl);
+  padding-bottom: var(--spacing-3-xl);
+
+  @include medium-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.highlight {
+  --highlight-icon-color: var(--color-black-90);
+  --highlight-icon-size: 80px;
+  --highlight-title-color: var(--color-black-70);
+  --highlight-text-color: var(--color-black-70);
+}
+
+.serviceCardsWrapper {
+  padding: 0 0 var(--spacing-layout-2-xl);
+  background-color: var(--color-white);
+
+  .title {
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: var(--spacing-l);
+    color: var(--color-black-70);
+    font-size: var(--fontsize-heading-l) !important;
+  }
+}
+
+.serviceCards {
+  display: grid;
+  grid-gap: var(--spacing-m);
+}
+
+.partnersWrapper {
+  padding: var(--spacing-layout-xl) 0;
+  text-align: center;
+
+  h2 {
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: var(--spacing-l);
+    color: var(--color-black-70);
+  }
+}
+
+.partners {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: var(--spacing-3-xl) var(--spacing-m);
+
+  @include medium-up {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @include large-up {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

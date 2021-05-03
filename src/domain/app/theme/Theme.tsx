@@ -154,6 +154,28 @@ type NavigationDropdownCSSProperties = {
   '--menu-item-color-highlighted'?: string;
 };
 
+type LandingPageCSSProperties = {
+  '--landing-page-cta-button-background-color'?: string;
+  '--landing-page-cta-button-background-color-hover'?: string;
+  '--landing-page-cta-button-background-color-focus'?: string;
+  '--landing-page-cta-button-background-color-hover-focus'?: string;
+  '--landing-page-cta-button-border-color'?: string;
+  '--landing-page-cta-button-border-color-hover'?: string;
+  '--landing-page-cta-button-border-color-focus'?: string;
+  '--landing-page-cta-button-border-color-hover-focus'?: string;
+  '--landing-page-cta-button-color'?: string;
+  '--landing-page-cta-button-focus-outline-color'?: string;
+  '--landing-page-hero-heading-color'?: string;
+  '--landing-page-hero-koros-color'?: string;
+  '--landing-page-search-button-background-color'?: string;
+  '--landing-page-search-button-background-color-hover'?: string;
+  '--landing-page-search-button-background-color-focus'?: string;
+  '--landing-page-search-button-background-color-hover-focus'?: string;
+  '--landing-page-search-button-border-color'?: string;
+  '--landing-page-search-button-color'?: string;
+  '--landing-page-search-button-focus-outline-color'?: string;
+};
+
 type LayoutCSSProperties = {
   '--page-background-color'?: string;
 };
@@ -411,6 +433,7 @@ export type Theme = {
   eventSearchPanel: EventSearchPanelCSSProperties;
   footer: FooterCSSProperties;
   imageSelector: ImageSelectorCSSProperties;
+  landingPage: LandingPageCSSProperties;
   layout: LayoutCSSProperties;
   loadingSpinner: LoadingSpinnerCSSProperties;
   menuDropdown: MenuDropdownCSSProperties;
@@ -457,6 +480,7 @@ const defaultTheme: Theme = {
   eventSearchPanel: {},
   footer: {},
   imageSelector: {},
+  landingPage: {},
   layout: {},
   loadingSpinner: {},
   menuDropdown: {},

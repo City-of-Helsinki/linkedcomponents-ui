@@ -1,11 +1,22 @@
 import React from 'react';
 
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
 import Hero from '../Hero';
 
+configure({ defaultHidden: true });
+
 test('should render hero', () => {
   render(<Hero />);
+
+  screen.getByRole('button', {
+    name: translations.eventSearchPage.searchPanel.buttonCreateNew,
+  });
 
   screen.getByRole('heading', {
     name: translations.landingPage.heroTitle,
@@ -19,6 +30,17 @@ test('should render hero', () => {
       name: translations.eventSearchPage.searchPanel.buttonSearch,
     })
   ).toHaveLength(2);
+});
+
+test('should route to create new page', () => {
+  const { history } = render(<Hero />);
+
+  const createButton = screen.getByRole('button', {
+    name: translations.eventSearchPage.searchPanel.buttonCreateNew,
+  });
+  userEvent.click(createButton);
+
+  expect(history.location.pathname).toBe('/fi/events/create');
 });
 
 test('should route to search page when click button inside search input', () => {

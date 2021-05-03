@@ -1,0 +1,15 @@
+.partner {
+  --partner-image-max-width: 200px;
+  --partner-image-max-height: 60px;
+
+  display: flex;
+  justify-content: center;
+
+  img {
+    max-height: var(--partner-image-max-height);
+    max-width: var(--partner-image-max-width);
+
+    height: 100%;
+    opacity: 0.6;
+  }
+}

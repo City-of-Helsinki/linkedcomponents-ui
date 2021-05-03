@@ -3,7 +3,7 @@
 .container {
   box-sizing: border-box;
   align-items: center;
-  display: block;
+  display: grid;
   padding: 0 var(--spacing-s);
   width: 100%;
 
@@ -18,5 +18,16 @@
   @include large-up {
     margin: 0 auto;
     max-width: var(--breakpoint-xl);
+  }
+
+  &.withOffset {
+    @include x-large-up {
+      grid-template-columns: repeat(12, 1fr);
+      grid-gap: var(--spacing-m);
+
+      .contentWrapper {
+        grid-column: 2 / 12;
+      }
+    }
   }
 }

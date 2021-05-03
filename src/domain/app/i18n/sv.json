@@ -875,6 +875,7 @@
     "pageTitle": "Sök evenemangen",
     "searchPanel": {
       "buttonClear": "Klar",
+      "buttonCreateNew": "Lägg till nytt evenemang",
       "buttonRemoveFilter": "Ta bort filtret: {{name}}",
       "buttonSearch": "Sök evenemangen",
       "labelEventType": "Typ",
@@ -950,7 +951,19 @@
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
   "landingPage": {
-    "heroTitle": "Evenemang och hobbyer i Helsingfors"
+    "heroTitle": "Evenemang och hobbyer i Helsingfors",
+    "highlight1Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight1Title": "+35\nmiljoner evenemang per år",
+    "highlight2Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight2Title": "25 000 × Y / Z\ndigital tjänst som kund",
+    "highlight3Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight3Title": "+2 500\nproducenter av evenemang",
+    "myHelsinkiDescription": "MyHelsinki.fi är en tjänst som sammanför innehåll om Helsingfors erbjudanden för besökare och företag. Webbplatsen hjälper till att hitta information om trender, attraktioner, restauranger och evenemang i staden samt avslöjar tips från invånarna. Think Sustainably -service erbjuder rekommendationer för Helsingfors hållbara erbjudanden.",
+    "myHelsinkiTitle": "MyHelsinki.fi",
+    "tapahtumatHelDescription": "En ny webbplats som sammanför Helsingfors stads evenemangsutbud. Tapahtumat.hel.fi erbjuder en lättanvänd händelsesökning, från vilken användaren kan söka efter händelser av intresse för honom, till exempel efter tid, plats eller händelsekategori. Nästa version av webbplatsen kommer också att samla hobbyer för barn och ungdomar som erbjuds av staden på ett ställe.",
+    "tapahtumatHelTitle": "tapahtumat.hel.fi",
+    "titlePartners": "Tjänster som redan är beroende av Linked Events",
+    "titleServices": "Helsingfors evenemangsplatser"
   },
   "logoutPage": {
     "pageTitle": "Du är utloggad",

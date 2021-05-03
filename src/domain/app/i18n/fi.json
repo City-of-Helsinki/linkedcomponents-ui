@@ -878,6 +878,7 @@
     "pageTitle": "Etsi tapahtumia",
     "searchPanel": {
       "buttonClear": "Tyhjennä",
+      "buttonCreateNew": "Lisää tekemistä",
       "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
       "buttonSearch": "Etsi tapahtumia",
       "labelEventType": "Tyyppi",
@@ -953,7 +954,19 @@
     "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia"
   },
   "landingPage": {
-    "heroTitle": "Helsingin tapahtumat ja harrastukset"
+    "heroTitle": "Helsingin tapahtumat ja harrastukset",
+    "highlight1Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight1Title": "+35M\ntapahtumaa vuodessa",
+    "highlight2Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight2Title": "25 000 × Y/Z\ndigipalvelua asiakkaana",
+    "highlight3Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
+    "highlight3Title": "+2 500\ntapahtumatuottajaa",
+    "myHelsinkiDescription": "MyHelsinki.fi on palvelu, joka kokoaa yhteen Helsingin elämyksellistä ja elinkeinopuolesta kertovaa sisältöä. Palvelun avulla on helppo löytää Helsingin ilmiöt, käyntikohteet, ravintolat, tapahtumat ja paikallisten asukkaiden vinkit. Valitse vastuullisemmin -palvelu tarjoaa suosituksia kaupungin vastuulliseen tarjontaan ja elämyksiin.",
+    "myHelsinkiTitle": "MyHelsinki.fi",
+    "tapahtumatHelDescription": "Uusi sivusto, joka kokoaa yhteen Helsingin kaupungin tapahtumatarjonnan. Tapahtumat.hel.fi tarjoaa helposti käytettävän tapahtumien haun, josta käyttäjä voi hakea itseä kiinnostavia tapahtumia esimerkiksi ajan, paikan tai tapahtumakategorian mukaan. Sivuston seuraava versio kokoaa samaan paikkaan myös kaupungin tarjoamat lasten ja nuorten harrastukset.",
+    "tapahtumatHelTitle": "tapahtumat.hel.fi",
+    "titlePartners": "Palvelut jotka luottavat jo Linked Eventsiin",
+    "titleServices": "Helsingin tapahtumasivustot"
   },
   "logoutPage": {
     "pageTitle": "Olet kirjautunut ulos",

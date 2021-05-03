@@ -8,7 +8,6 @@ import Button from '../../../common/components/button/Button';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { PublicationStatus } from '../../../generated/graphql';
 import Container from '../../app/layout/Container';
-import FormContainer from '../../app/layout/FormContainer';
 import { authenticatedSelector } from '../../auth/selectors';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_CREATE_ACTIONS, EVENT_FIELDS } from '../constants';
@@ -54,59 +53,57 @@ const ButtonPanel: React.FC<Props> = ({ onSaveDraft, publisher, saving }) => {
 
   return (
     <div className={styles.buttonPanel}>
-      <Container>
-        <FormContainer>
-          <div className={styles.buttonsRow}>
-            {isEventButtonVisible(EVENT_CREATE_ACTIONS.CREATE_DRAFT) && (
-              <div className={styles.buttonColumn}>
-                <Button
-                  disabled={Boolean(createWarning)}
-                  fullWidth={true}
-                  iconLeft={
-                    saving === PublicationStatus.Draft ? (
-                      <LoadingSpinner
-                        className={styles.loadingSpinner}
-                        isLoading={true}
-                        small={true}
-                      />
-                    ) : (
-                      <IconPen />
-                    )
-                  }
-                  onClick={onSaveDraft}
-                  title={createWarning}
-                  type="button"
-                  variant="secondary"
-                >
-                  {t('event.form.buttonSaveDraft')}
-                </Button>
-              </div>
-            )}
-            {isEventButtonVisible(EVENT_CREATE_ACTIONS.PUBLISH) && (
-              <div className={styles.buttonColumn}>
-                <Button
-                  disabled={Boolean(publishWarning || saving)}
-                  fullWidth={true}
-                  iconLeft={
-                    saving === PublicationStatus.Public ? (
-                      <LoadingSpinner
-                        className={styles.loadingSpinner}
-                        isLoading={true}
-                        small={true}
-                      />
-                    ) : (
-                      <IconCheck />
-                    )
-                  }
-                  title={publishWarning}
-                  type="submit"
-                >
-                  {t(`event.form.buttonPublish.${type}`)}
-                </Button>
-              </div>
-            )}
-          </div>
-        </FormContainer>
+      <Container withOffset={true}>
+        <div className={styles.buttonsRow}>
+          {isEventButtonVisible(EVENT_CREATE_ACTIONS.CREATE_DRAFT) && (
+            <div className={styles.buttonColumn}>
+              <Button
+                disabled={Boolean(createWarning)}
+                fullWidth={true}
+                iconLeft={
+                  saving === PublicationStatus.Draft ? (
+                    <LoadingSpinner
+                      className={styles.loadingSpinner}
+                      isLoading={true}
+                      small={true}
+                    />
+                  ) : (
+                    <IconPen />
+                  )
+                }
+                onClick={onSaveDraft}
+                title={createWarning}
+                type="button"
+                variant="secondary"
+              >
+                {t('event.form.buttonSaveDraft')}
+              </Button>
+            </div>
+          )}
+          {isEventButtonVisible(EVENT_CREATE_ACTIONS.PUBLISH) && (
+            <div className={styles.buttonColumn}>
+              <Button
+                disabled={Boolean(publishWarning || saving)}
+                fullWidth={true}
+                iconLeft={
+                  saving === PublicationStatus.Public ? (
+                    <LoadingSpinner
+                      className={styles.loadingSpinner}
+                      isLoading={true}
+                      small={true}
+                    />
+                  ) : (
+                    <IconCheck />
+                  )
+                }
+                title={publishWarning}
+                type="submit"
+              >
+                {t(`event.form.buttonPublish.${type}`)}
+              </Button>
+            </div>
+          )}
+        </div>
       </Container>
     </div>
   );
