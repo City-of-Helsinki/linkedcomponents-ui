@@ -771,8 +771,8 @@
     },
     "labelSort": "Sort by",
     "listTypes": {
-      "cardList": "Event cards",
-      "table": "Table"
+      "cardList": "Card view",
+      "table": "List view"
     },
     "pageTitle": "My events",
     "sortOptions": {
@@ -804,8 +804,8 @@
       "buttonSearch": "Search events",
       "labelEventType": "Type",
       "labelPlace": "Search venue",
-      "labelSearch": "Search in the Linked Events interface",
-      "placeholderSearch": "Search for events in the Linked Events interface"
+      "labelSearch": "Search Linked Events",
+      "placeholderSearch": "Search Linked Events"
     }
   },
   "footer": {
@@ -902,7 +902,7 @@
       "placeholderName": "Enter name",
       "text": "Contact us using the form below."
     },
-    "pageTitle": "Help",
+    "pageTitle": "Support",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Control panel",
     "pageTitleDocumentation": "Documentation",
@@ -982,7 +982,7 @@
     "skipToContentLabel": "Skip to content",
     "tabs": {
       "events": "Events",
-      "help": "Help"
+      "help": "Support"
     }
   },
   "notFound": {

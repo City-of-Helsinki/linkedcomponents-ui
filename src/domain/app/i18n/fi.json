@@ -772,8 +772,8 @@
     },
     "labelSort": "Lajitteluperuste",
     "listTypes": {
-      "cardList": "Tapahtumakortit",
-      "table": "Taulukko"
+      "cardList": "Korttinäkymä",
+      "table": "Listanäkymä"
     },
     "pageTitle": "Omat tapahtumat",
     "sortOptions": {
@@ -882,7 +882,7 @@
       "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
       "buttonSearch": "Etsi tapahtumia",
       "labelEventType": "Tyyppi",
-      "labelPlace": "Etsi tapahtumapaikka",
+      "labelPlace": "Etsi tapahtumapaikkaa",
       "labelSearch": "Hae Linked Events -rajapinnasta",
       "placeholderSearch": "Hae tapahtumia Linked Events -rajapinnasta"
     }
@@ -904,7 +904,7 @@
       "placeholderName": "Syötä nimi",
       "text": "Ota yhteyttä meihin alla olevalla lomakkeella."
     },
-    "pageTitle": "Ohjeet",
+    "pageTitle": "Tuki",
     "pageTitleApi": "Rajapinta",
     "pageTitleControlPanel": "Hallintapaneeli",
     "pageTitleDocumentation": "Dokumentaatio",
@@ -984,7 +984,7 @@
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
       "events": "Tapahtumat",
-      "help": "Ohjeet"
+      "help": "Tuki"
     }
   },
   "notFound": {

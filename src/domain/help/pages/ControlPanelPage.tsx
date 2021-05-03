@@ -371,7 +371,7 @@ const ControlPanelPage = () => {
             <p>Användargränssnittet kan användas för att</p>
             <ol type="a">
               <li>söka efter alla evenemang i staden</li>
-              <li>söka och redigera evenemang i din organisation</li>
+              <li>söka och redigera evenemanget i din organisation</li>
               <li>lägga till nya evenemang</li>
               <li>
                 moderera evenemang, dvs. acceptera evenemang som lagts till av

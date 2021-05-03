@@ -115,5 +115,20 @@ export const NAVIGATION_ITEMS = [
   },
 ];
 
+export const FOOTER_NAVIGATION_ITEMS = [
+  {
+    labelKey: 'navigation.tabs.events',
+    url: ROUTES.EVENTS,
+  },
+  {
+    labelKey: 'navigation.searchEvents',
+    url: ROUTES.SEARCH,
+  },
+  {
+    labelKey: 'navigation.tabs.help',
+    url: ROUTES.HELP,
+  },
+];
+
 export const PAGE_HEADER_ID = 'page-header';
 export const MAIN_CONTENT_ID = 'maincontent';

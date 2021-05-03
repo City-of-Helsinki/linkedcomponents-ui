@@ -71,7 +71,15 @@ exports[`matches snapshot 1`] = `
           href="/sv/events"
         >
           <span>
-            Evenemangen
+            Evenemang
+          </span>
+        </a>
+        <a
+          class="FooterItem-module_item__1i8Z8"
+          href="/sv/search"
+        >
+          <span>
+            Sök efter evenemang
           </span>
         </a>
         <a
@@ -79,7 +87,7 @@ exports[`matches snapshot 1`] = `
           href="/sv/help"
         >
           <span>
-            Hjälp
+            Stöd
           </span>
         </a>
       </nav>
@@ -99,7 +107,7 @@ exports[`matches snapshot 1`] = `
           href="https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
         >
           <span>
-            Ge respons
+            Ge feedback
           </span>
         </a>
         <button

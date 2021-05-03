@@ -199,7 +199,7 @@ const getElement = (
         name: `Luonnokset (${draftEventsCount})`,
       });
     case 'eventCardType':
-      return screen.getByRole('radio', { name: /tapahtumakortit/i });
+      return screen.getByRole('radio', { name: /korttinäkymä/i });
     case 'publishedTab':
       return screen.getByRole('tab', {
         name: `Julkaistut (${publicEventsCount})`,

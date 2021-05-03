@@ -5,7 +5,7 @@
     "networkError": {
       "message": "Inloggningsfel: Kontrollera din nätverksanslutning eller försök igen senare"
     },
-    "noRightsUpdateEvent": "Du har inte tillräckliga rättigheter för att redigera evenemang."
+    "noRightsUpdateEvent": "Du har inte tillräckliga rättigheter för att redigera evenemanget."
   },
   "common": {
     "add": "Lägg till",
@@ -13,7 +13,7 @@
     "at": "kl {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
-    "buttonAddEvent": "Lägg till ett ny evenemang",
+    "buttonAddEvent": "Lägg till evenemang",
     "cancel": "Ångra",
     "close": "Stäng",
     "combobox": {
@@ -44,13 +44,13 @@
       "buttonClose": "Stäng"
     },
     "dateSelector": {
-      "buttonToggle": "Välj tidpunkt",
+      "buttonToggle": "Välj datum",
       "placeholderEndDate": "Avslutar dd.mm.åååå",
       "placeholderStartDate": "Börjar dd.mm.åååå"
     },
     "delete": "Radera",
     "dropdown": {
-      "buttonClear": "Klar"
+      "buttonClear": "Töm"
     },
     "dropdownSelect": {
       "accessibility": {
@@ -64,7 +64,7 @@
     "eventAmount": "{{count}} evenemang",
     "eventAmount_plural": "{{count}} evenemang",
     "feedback": {
-      "text": "Ge respons",
+      "text": "Ge feedback",
       "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
     },
     "goToHome": "Till startsidan",
@@ -214,12 +214,12 @@
       "buttonBack": "Tillbaka",
       "buttonCancel": "Avbryt evenemanget",
       "buttonCopy": "Kopiera som mall",
-      "buttonDelete":  "Redare evenemanget",
+      "buttonDelete":  "Ta bort evenemanget",
       "buttonDeleteEventTime": "Radera tid",
       "buttonDeleteOffer": "Radera prisinformation",
       "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
       "buttonDeleteVideo": "Radera video",
-      "buttonEdit":  "Redigera evenemang",
+      "buttonEdit":  "Redigera evenemanget",
       "buttonOpenRecurringEventSettings": {
         "course": "Öppna inställningarna för återkommande kurs",
         "general": "Öppna inställningarna för återkommande evenemang",
@@ -230,7 +230,7 @@
         "warningNoRightsToPublish": "Du har inte tillräckliga rättigheter att publicera detta evenemang.",
         "warningNotAuthenticated": "Du måste vara inloggad för att skapa evenemang."
       },
-      "buttonPostpone": "Skjuta upp evenemanget",
+      "buttonPostpone": "Skjut upp evenemanget",
       "buttonPublish": {
         "course": "Lägg upp kursen",
         "general": "Lägg upp evenemanget",
@@ -706,11 +706,11 @@
     },
     "freeEvent": "Fri",
     "postponeEventModal": {
-      "buttonPostpone": "Skjuta upp evenemanget",
+      "buttonPostpone": "Skjut upp evenemanget",
       "text1": "Denna funktion skjuter upp evenemanget till framtiden. Efter att ha skjutit upp kan du senare ange en ny tid för evenemanget.",
       "text2": "Följande evenemang kommer att skjutas upp:",
       "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien skjuts inte upp när paraplyevenemang skjuts upp.",
-      "title": "Skjuta upp evenemanget",
+      "title": "Skjut upp evenemanget",
       "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att skjutas upp"
     },
     "publicationStatus": {
@@ -770,8 +770,8 @@
     },
     "labelSort": "Sortera efter",
     "listTypes": {
-      "cardList": "Evenemangkort",
-      "table": "Tabell"
+      "cardList": "Kortvy",
+      "table": "Listvy"
     },
     "pageTitle": "Mina evenemangen",
     "sortOptions": {
@@ -779,8 +779,8 @@
       "durationDesc": "Varaktighet, fallande",
       "endTime": "Sluttid, stigande",
       "endTimeDesc": "Sluttid, fallande",
-      "lastModifiedTime": "Senast modifierad, stigande",
-      "lastModifiedTimeDesc": "Senast modifierad, fallande",
+      "lastModifiedTime": "Senast ändrad, stigande",
+      "lastModifiedTimeDesc": "Senast ändrad, fallande",
       "name": "Name, stigande",
       "nameDesc": "Name, fallande",
       "startTime": "Starttid, stigande",
@@ -788,8 +788,8 @@
     },
     "tabs": {
       "drafts": "Utkast ({{count}})",
-      "published": "Publicerad ({{count}})",
-      "waitingApproval": "Väntan ({{count}})"
+      "published": "Publicerat ({{count}})",
+      "waitingApproval": "Väntar ({{count}})"
     },
     "title": "Mina evenemangen"
   },
@@ -872,16 +872,16 @@
   },
   "eventSearchPage": {
     "buttonClearFilters": "Töm sökfilter",
-    "pageTitle": "Sök evenemangen",
+    "pageTitle": "Sök efter evenemang",
     "searchPanel": {
       "buttonClear": "Klar",
       "buttonCreateNew": "Lägg till nytt evenemang",
       "buttonRemoveFilter": "Ta bort filtret: {{name}}",
-      "buttonSearch": "Sök evenemangen",
+      "buttonSearch": "Sök efter evenemang",
       "labelEventType": "Typ",
-      "labelPlace": "Sök evenemangsplats",
+      "labelPlace": "Sök plats",
       "labelSearch": "Sök i Linked Events gränssnittet",
-      "placeholderSearch": "Sök efter evenemangen i Linked Events gränssnittet"
+      "placeholderSearch": "Sök i Linked Events gränssnittet"
     }
   },
   "footer": {
@@ -977,11 +977,11 @@
     },
     "languageSelectorAriaLabel": "Svenska - språkval",
     "menuToggleAriaLabel": "Menyn",
-    "searchEvents": "Sök evenemangen",
+    "searchEvents": "Sök efter evenemang",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
-      "events": "Evenemangen",
-      "help": "Hjälp"
+      "events": "Evenemang",
+      "help": "Stöd"
     }
   },
   "notFound": {

@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
 
-import { NAVIGATION_ITEMS, ROUTES } from '../../../constants';
+import { FOOTER_NAVIGATION_ITEMS, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
   const locale = useLocale();
   const logoLanguage = locale === 'sv' ? 'sv' : 'fi';
 
-  const navigationItems = NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
+  const navigationItems = FOOTER_NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
     label: t(labelKey),
     url: `/${locale}${url}`,
   }));

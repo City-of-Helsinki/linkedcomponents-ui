@@ -6,7 +6,7 @@ test('should return list types in correct order', () => {
   const { result } = renderHook(() => useEventListTypeOptions());
 
   expect(result.current.map((options) => options.label)).toEqual([
-    'Taulukko',
-    'Tapahtumakortit',
+    'Listanäkymä',
+    'Korttinäkymä',
   ]);
 });

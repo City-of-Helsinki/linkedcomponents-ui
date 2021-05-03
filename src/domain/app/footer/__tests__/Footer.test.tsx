@@ -24,7 +24,7 @@ test('matches snapshot', async () => {
   i18n.changeLanguage('sv');
   const { container } = renderComponent('/sv');
 
-  screen.getByRole('link', { name: 'Evenemangen' });
+  screen.getByRole('link', { name: 'Evenemang' });
   expect(container.firstChild).toMatchSnapshot();
 });
 
@@ -36,6 +36,10 @@ test('should show navigation links and should route to correct page after clicki
       url: `/fi${ROUTES.EVENTS}`,
     },
     {
+      name: translations.navigation.searchEvents,
+      url: `/fi${ROUTES.SEARCH}`,
+    },
+    {
       name: translations.navigation.tabs.help,
       url: `/fi${ROUTES.HELP}`,
     },
@@ -43,8 +47,6 @@ test('should show navigation links and should route to correct page after clicki
 
   links.forEach(({ name, url }) => {
     const link = screen.getByRole('link', { name });
-
-    expect(link).toBeInTheDocument();
 
     userEvent.click(link);
 

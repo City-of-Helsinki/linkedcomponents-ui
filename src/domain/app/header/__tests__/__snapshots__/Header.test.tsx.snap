@@ -75,7 +75,7 @@ exports[`matches snapshot 1`] = `
               <span
                 class="NavigationSearch-module_label__TKB2v"
               >
-                Sök evenemangen
+                Sök efter evenemang
               </span>
             </button>
           </div>
@@ -212,7 +212,7 @@ exports[`matches snapshot 1`] = `
       <span
         class="NavigationItem-module_label__1UsXG button_hds-button__label__3r3Mi"
       >
-        Evenemangen
+        Evenemang
       </span>
     </a>
     <a
