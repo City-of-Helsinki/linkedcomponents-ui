@@ -69,8 +69,9 @@
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
-    "build": "react-scripts build && gzipper compress ./build && yarn generate-sitemap",
+    "build": "react-scripts build",
     "codegen": "graphql-codegen --config codegen.yml",
+    "compress": "gzipper compress ./build",
     "generate-sitemap": "ts-node  -P ./scripts/tsconfig.json -r dotenv/config scripts/generate-sitemap.ts",
     "test": "TZ=UTC react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "TZ=UTC react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=false",

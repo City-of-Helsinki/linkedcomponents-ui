@@ -142,6 +142,10 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
+### `yarn compress`
+
+Gzip compress build folder. Run this after building app to be able serve files in compressed format.
+
 ### `yarn generate-sitemap`
 
 Generate sitemap for the app. Sitemap is generated only if PUBLIC_URL is set and GENERATE_SITEMAP === true in .env file

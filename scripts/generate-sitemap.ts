@@ -138,6 +138,6 @@ const generateSitemap = async () => {
 };
 
 // Generate sitemap only if GENERATE_SITEMAP flag is true and PUBLIC_URL is set
-// if (HOST && process.env.GENERATE_SITEMAP === 'true') {
-generateSitemap();
-// }
+if (HOST && process.env.GENERATE_SITEMAP === 'true') {
+  generateSitemap();
+}
