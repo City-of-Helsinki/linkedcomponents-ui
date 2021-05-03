@@ -88,11 +88,13 @@ const SideNavigation = ({
               className: classNames(styles.mainLevelListMobile, {
                 [styles.open]: isMobileMenuOpen,
               }),
-              role: 'region',
               'aria-labelledby': buttonId,
               'aria-hidden': !isMobileMenuOpen,
             }
-          : { className: styles.mainLevelList })}
+          : {
+              'aria-label': toggleButtonLabel,
+              className: styles.mainLevelList,
+            })}
         id={menuId}
       >
         {mainLevels}

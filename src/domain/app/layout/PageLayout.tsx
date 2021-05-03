@@ -32,7 +32,8 @@ const PageLayout: React.FC = ({ children }) => {
   const { pathname } = useLocation();
   const locale = useLocale();
 
-  const path = window.location.pathname.replace(`/${locale}`, '');
+  const path = pathname.replace(`/${locale}`, '');
+  const host = window.location.origin;
 
   const isMatch = (paths: IgnorePathProps[]) =>
     paths.some((path) =>
@@ -59,6 +60,7 @@ const PageLayout: React.FC = ({ children }) => {
         <Helmet>
           <html lang={locale} />
 
+          <link rel="canonical" href={host + pathname} />
           {Object.values(SUPPORTED_LANGUAGES).map((language) => {
             const langCode = language.toLowerCase();
             return (
@@ -66,7 +68,7 @@ const PageLayout: React.FC = ({ children }) => {
                 key={langCode}
                 rel="alternate"
                 hrefLang={langCode}
-                href={`/${langCode}` + path}
+                href={`${host}/${langCode}${path}`}
               />
             );
           })}

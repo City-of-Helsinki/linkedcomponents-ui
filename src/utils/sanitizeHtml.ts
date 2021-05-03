@@ -1,13 +1,11 @@
-import sanitize from 'sanitize-html';
+import { sanitize } from 'dompurify';
 
 import { TEXT_EDITOR_ALLOWED_TAGS } from '../domain/event/constants';
 
 const sanitizeHtml = (html: string) =>
   sanitize(html, {
-    allowedTags: TEXT_EDITOR_ALLOWED_TAGS,
-    allowedAttributes: {
-      a: ['href', 'target'],
-    },
-  });
+    ALLOWED_TAGS: TEXT_EDITOR_ALLOWED_TAGS,
+    ALLOWED_ATTR: ['href', 'target'],
+  }).replace(/<br\s*[/]?>/gi, '<br />');
 
 export default sanitizeHtml;

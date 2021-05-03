@@ -74,7 +74,7 @@ Also add http:localhost:3000/ to Post Logout Redirect URIs of palvelutarjotin-ad
 
 TODO: Add instructions to set up local Linked Events REST API server when OIDC authentication is implemented there
 
-### palvelutarjotin-admin-ui
+### linkedcomponents-ui
 
 Copy `cp .env.development.local.example .env.development.local`
 
@@ -88,6 +88,15 @@ Run `yarn && yarn start`
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `yarn analyze`
+
+Source map explorer analyzes JavaScript bundles using the source maps. This helps you understand where code bloat is coming from.
+
+To analyze the bundle run the production build then run the analyze script.
+
+    yarn build
+    yarn analyze
 
 ### `yarn start`
 
@@ -132,6 +141,14 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
+
+### `yarn compress`
+
+Gzip compress build folder. Run this after building app to be able serve files in compressed format.
+
+### `yarn generate-sitemap`
+
+Generate sitemap for the app. Sitemap is generated only if PUBLIC_URL is set and GENERATE_SITEMAP === true in .env file
 
 ### `yarn lint`
 

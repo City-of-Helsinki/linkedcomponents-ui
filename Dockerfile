@@ -39,6 +39,12 @@ FROM appbase as staticbuilder
 # ===================================
 COPY . /app/
 
+# Set public url
+ARG PUBLIC_URL
+
+# Set generate sitemap flag
+ARG GENERATE_SITEMAP
+
 # set sass path to support scss import
 ARG SASS_PATH=./src/assets/styles
 ENV SASS_PATH $SASS_PATH
@@ -63,6 +69,8 @@ ARG DOCKER_BUILD_ARG_REACT_APP_MATOMO_TRACKER_URL
 ARG REACT_APP_MATOMO_ENABLED
 
 RUN yarn build
+RUN yarn compress
+RUN yarn generate-sitemap
 
 # =============================
 FROM nginx:1.17 as production
