@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconArrowRight } from 'hds-react';
+import { IconLinkExternal } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,9 +42,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         {!!description && (
           <div className={styles.description}>{description}</div>
         )}
-        <button aria-hidden={true} className={styles.iconButton}>
-          <IconArrowRight aria-hidden={true} />
-        </button>
+        <IconLinkExternal aria-hidden={true} />
       </div>
       <div
         className={styles.bgImage}

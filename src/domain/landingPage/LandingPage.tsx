@@ -2,8 +2,8 @@ import { IconPhoto } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import myHelsinkiImage from '../../assets/images/png/myhelsinki-card.png';
-import tapahtumatImage from '../../assets/images/png/tapahtumat-hel-card.png';
+import myHelsinkiImage from '../../assets/images/jpg/myhelsinki-card.jpg';
+import tapahtumatImage from '../../assets/images/jpg/tapahtumat-hel-card.jpg';
 import Highlight from '../../common/components/highlight/Highlight';
 import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';

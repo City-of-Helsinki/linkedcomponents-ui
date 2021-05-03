@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 
-import bgImage from '../../../assets/images/webp/landing-page-hero.webp';
+import bgImage from '../../../assets/images/jpg/landing-page-hero.jpg';
 import Button from '../../../common/components/button/Button';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import { ROUTES } from '../../../constants';

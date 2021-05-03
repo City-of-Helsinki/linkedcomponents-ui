@@ -3,7 +3,7 @@
 .container {
   box-sizing: border-box;
   align-items: center;
-  display: block;
+  display: grid;
   padding: 0 var(--spacing-s);
   width: 100%;
 
@@ -22,7 +22,6 @@
 
   &.withOffset {
     @include x-large-up {
-      display: grid;
       grid-template-columns: repeat(12, 1fr);
       grid-gap: var(--spacing-m);
 
