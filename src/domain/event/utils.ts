@@ -18,13 +18,11 @@ import { FormikErrors, FormikState, FormikTouched } from 'formik';
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import forEach from 'lodash/forEach';
-import isEqual from 'lodash/isEqual';
 import isNumber from 'lodash/isNumber';
 import keys from 'lodash/keys';
 import reduce from 'lodash/reduce';
 import set from 'lodash/set';
 import sortBy from 'lodash/sortBy';
-import uniqWith from 'lodash/uniqWith';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
@@ -42,7 +40,9 @@ import {
 } from '../../constants';
 import {
   CreateEventMutationInput,
+  EventDocument,
   EventFieldsFragment,
+  EventQuery,
   EventQueryVariables,
   EventsDocument,
   EventsQuery,
@@ -77,9 +77,11 @@ import { EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
 import { organizationPathBuilder } from '../organization/utils';
 import {
+  ADD_EVENT_TIME_FORM_NAME,
   ADD_IMAGE_FIELDS,
   AUHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
+  EDIT_EVENT_TIME_FORM_NAME,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_CREATE_ACTIONS,
   EVENT_EDIT_ACTIONS,
@@ -89,6 +91,7 @@ import {
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
   EVENT_INITIAL_VALUES,
+  EVENT_TIME_FIELDS,
   EVENT_TYPE,
   IMAGE_ALT_TEXT_MIN_LENGTH,
   IMAGE_DETAILS_FIELDS,
@@ -102,6 +105,7 @@ import {
   TEXT_EDITOR_FIELDS,
   VIDEO_DETAILS_FIELDS,
 } from './constants';
+import { sortEventTimes } from './formSections/timeSection/utils';
 import {
   EventFields,
   EventFormFields,
@@ -186,29 +190,24 @@ const enrolmentFieldsValidation = {
   ),
 };
 
-const createEventTimeValidation = (publicationStatus: PublicationStatus) => ({
-  [EVENT_FIELDS.START_TIME]: Yup.date()
+export const eventTimeValidation = Yup.object().shape({
+  [EVENT_TIME_FIELDS.START_TIME]: Yup.date()
     .nullable()
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
       startTime ? isFuture(startTime) : true
-    )
-    .when([], (schema: Yup.DateSchema) => {
-      return publicationStatus === PublicationStatus.Draft
-        ? schema
-        : schema.required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED);
-    }),
-  [EVENT_FIELDS.END_TIME]: Yup.date()
+    ),
+  [EVENT_TIME_FIELDS.END_TIME]: Yup.date()
     .nullable()
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .when([], (schema: Yup.DateSchema) => {
-      return publicationStatus === PublicationStatus.Draft
-        ? schema
-        : schema.required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED);
-    })
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
+      endTime ? isFuture(endTime) : true
+    )
     // test that startsTime is before endsTime
     .when(
-      [EVENT_FIELDS.START_TIME],
+      [EVENT_TIME_FIELDS.START_TIME],
       (startTime: Date | null, schema: Yup.DateSchema) => {
         if (startTime && isValid(startTime)) {
           return schema.test(
@@ -226,6 +225,38 @@ const createEventTimeValidation = (publicationStatus: PublicationStatus) => ({
       }
     ),
 });
+
+export const addEventTimeValidationSchema = Yup.object().shape({
+  [ADD_EVENT_TIME_FORM_NAME]: eventTimeValidation,
+});
+
+export const editEventTimeValidationSchema = Yup.object().shape({
+  [EDIT_EVENT_TIME_FORM_NAME]: eventTimeValidation,
+});
+
+export const eventTimesValidation = Yup.array<EventTime>().when(
+  [EVENT_FIELDS.RECURRING_EVENTS, EVENT_FIELDS.EVENTS],
+  (
+    recurringEvents: RecurringEventSettings[] | null,
+    events: EventTime[] | null,
+    schema: Yup.ArraySchema<EventTime>
+  ) => {
+    return schema.test(
+      'hasAtLeaseOneEventTime',
+      VALIDATION_MESSAGE_KEYS.EVENT_TIMES_REQUIRED,
+      (eventTimes) => {
+        const allEventTimes = [...(eventTimes ?? []), ...(events ?? [])];
+        recurringEvents?.forEach((recurringEvent) => {
+          allEventTimes.push(...recurringEvent.eventTimes);
+        });
+        return Boolean(
+          allEventTimes.filter(({ endTime, startTime }) => endTime && startTime)
+            .length
+        );
+      }
+    );
+  }
+);
 
 const videoValidation = Yup.object().shape(
   {
@@ -309,12 +340,7 @@ export const eventValidationSchema = Yup.object().shape({
         createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
       )
   ),
-  ...createEventTimeValidation(PublicationStatus.Public),
-  [EVENT_FIELDS.EVENT_TIMES]: Yup.array().of(
-    Yup.object().shape({
-      ...createEventTimeValidation(PublicationStatus.Public),
-    })
-  ),
+  [EVENT_FIELDS.EVENT_TIMES]: eventTimesValidation,
   [EVENT_FIELDS.LOCATION]: Yup.string()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
@@ -422,15 +448,10 @@ export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().max(CHARACTER_LIMITS.LONG_STRING)
   ),
-  ...createEventTimeValidation(PublicationStatus.Draft),
-  [EVENT_FIELDS.EVENT_TIMES]: Yup.array().of(
-    Yup.object().shape({
-      ...createEventTimeValidation(PublicationStatus.Draft),
-    })
-  ),
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
   ),
+  [EVENT_FIELDS.EVENT_TIMES]: eventTimesValidation,
   [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
   ),
@@ -479,94 +500,92 @@ export const draftEventValidationSchema = Yup.object().shape({
 export const isValidTime = (time: string) =>
   /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
 
-export const createRecurringEventValidationSchema = () => {
-  return Yup.object().shape({
-    [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
-      .nullable()
-      .min(1, (param) =>
-        createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-      )
-      .max(4, (param) =>
-        createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MAX)
-      )
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
-      .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-      .min(1, (param) =>
-        createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
-      ),
-    [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-      .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-      .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-        startTime ? isFuture(startTime) : true
-      ),
-    [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-      .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-      // test that startsTime is before endsTime
-      .when(
-        [RECURRING_EVENT_FIELDS.START_DATE],
-        (startDate: Date | null, schema: Yup.DateSchema) => {
-          if (startDate && isValid(startDate)) {
-            return schema.test(
-              'isBeforeStartDate',
-              () => ({
-                key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
-                after: formatDate(startDate, DATE_FORMAT),
-              }),
-              (endDate) => {
-                return endDate ? isBefore(startDate, endDate) : true;
-              }
-            );
-          }
-          return schema;
+export const recurringEventValidationSchema = Yup.object().shape({
+  [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
+    .nullable()
+    .min(1, (param) =>
+      createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+    )
+    .max(4, (param) =>
+      createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MAX)
+    )
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+  [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
+    .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
+    .min(1, (param) =>
+      createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
+    ),
+  [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
+      startTime ? isFuture(startTime) : true
+    ),
+  [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    // test that startsTime is before endsTime
+    .when(
+      [RECURRING_EVENT_FIELDS.START_DATE],
+      (startDate: Date | null, schema: Yup.DateSchema) => {
+        if (startDate && isValid(startDate)) {
+          return schema.test(
+            'isBeforeStartDate',
+            () => ({
+              key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
+              after: formatDate(startDate, DATE_FORMAT),
+            }),
+            (endDate) => {
+              return endDate ? isBefore(startDate, endDate) : true;
+            }
+          );
         }
-      ),
-    [RECURRING_EVENT_FIELDS.START_TIME]: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-      .test(
-        'isValidTime',
-        VALIDATION_MESSAGE_KEYS.TIME,
-        (value) => !!value && isValidTime(value)
-      ),
-    [RECURRING_EVENT_FIELDS.END_TIME]: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-      .test(
-        'isValidTime',
-        VALIDATION_MESSAGE_KEYS.TIME,
-        (value) => !!value && isValidTime(value)
-      )
-      // test that startsAt is before endsAt time
-      .when(
-        [RECURRING_EVENT_FIELDS.START_TIME],
-        (startsAt: string, schema: Yup.StringSchema) => {
-          if (isValidTime(startsAt)) {
-            return schema.test(
-              'isBeforeStartTime',
-              () => ({
-                key: VALIDATION_MESSAGE_KEYS.TIME_AFTER,
-                after: startsAt,
-              }),
-              (endsAt) => {
-                if (endsAt && isValidTime(endsAt)) {
-                  const modifiedStartsAt = startsAt.replace(':', '.');
-                  const modifiedEndsAt = endsAt.replace(':', '.');
+        return schema;
+      }
+    ),
+  [RECURRING_EVENT_FIELDS.START_TIME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .test(
+      'isValidTime',
+      VALIDATION_MESSAGE_KEYS.TIME,
+      (value) => !!value && isValidTime(value)
+    ),
+  [RECURRING_EVENT_FIELDS.END_TIME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .test(
+      'isValidTime',
+      VALIDATION_MESSAGE_KEYS.TIME,
+      (value) => !!value && isValidTime(value)
+    )
+    // test that startsAt is before endsAt time
+    .when(
+      [RECURRING_EVENT_FIELDS.START_TIME],
+      (startsAt: string, schema: Yup.StringSchema) => {
+        if (isValidTime(startsAt)) {
+          return schema.test(
+            'isBeforeStartTime',
+            () => ({
+              key: VALIDATION_MESSAGE_KEYS.TIME_AFTER,
+              after: startsAt,
+            }),
+            (endsAt) => {
+              if (endsAt && isValidTime(endsAt)) {
+                const modifiedStartsAt = startsAt.replace(':', '.');
+                const modifiedEndsAt = endsAt.replace(':', '.');
 
-                  return isBefore(
-                    parseDate(modifiedStartsAt, 'HH.mm', new Date()),
-                    parseDate(modifiedEndsAt, 'HH.mm', new Date())
-                  );
-                }
-                return true;
+                return isBefore(
+                  parseDate(modifiedStartsAt, 'HH.mm', new Date()),
+                  parseDate(modifiedEndsAt, 'HH.mm', new Date())
+                );
               }
-            );
-          }
-          return schema;
+              return true;
+            }
+          );
         }
-      ),
-  });
-};
+        return schema;
+      }
+    ),
+});
 
 export const createAddImageValidationSchema = () => {
   return Yup.object().shape(
@@ -639,8 +658,9 @@ export const sortLanguage = (a: LELanguage, b: LELanguage) =>
 
 export const getEmptyEventTime = (): EventTime => {
   return {
-    [EVENT_FIELDS.END_TIME]: null,
-    [EVENT_FIELDS.START_TIME]: null,
+    [EVENT_TIME_FIELDS.ID]: null,
+    [EVENT_TIME_FIELDS.END_TIME]: null,
+    [EVENT_TIME_FIELDS.START_TIME]: null,
   };
 };
 
@@ -740,7 +760,7 @@ export const generateEventTimesFromRecurringEvent = (
       [WEEK_DAY.THU]: 4,
       [WEEK_DAY.FRI]: 5,
       [WEEK_DAY.SAT]: 6,
-      [WEEK_DAY.SUN]: 7,
+      [WEEK_DAY.SUN]: 0,
     };
 
     const recurrenceStart = endOfDay(subDays(new Date(startDate), 1));
@@ -749,7 +769,11 @@ export const generateEventTimesFromRecurringEvent = (
     const formattedEndTime = getTimeObject(endTime);
 
     repeatDays.forEach((dayCode) => {
-      const day = dayCodes[dayCode];
+      const startDay = new Date(startDate).getDay();
+      const day =
+        startDay > dayCodes[dayCode]
+          ? 7 - (startDay - dayCodes[dayCode])
+          : dayCodes[dayCode] - startDay;
       let firstMatchWeekday;
 
       for (let i = 0; i <= repeatInterval; i = i + 1) {
@@ -782,6 +806,7 @@ export const generateEventTimesFromRecurringEvent = (
           })
         ) {
           eventTimes.push({
+            id: null,
             endTime: setMinutes(
               setHours(matchWeekday, formattedEndTime.hours),
               formattedEndTime.minutes
@@ -827,29 +852,36 @@ export const calculateSuperEventTime = (eventTimes: EventTime[]): EventTime => {
     : undefined;
 
   return {
+    id: null,
     startTime: superEventStartTime || null,
     endTime: superEventEndTime || null,
   };
 };
 
 export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
-  const { endTime, eventTimes, recurringEvents, startTime } = formValues;
-  const allEventTimes: EventTime[] = [];
+  const {
+    events,
+    eventTimes,
+    recurringEvents,
+    recurringEventEndTime,
+    recurringEventStartTime,
+  } = formValues;
 
-  /* istanbul ignore else  */
-  if (endTime || startTime) {
-    allEventTimes.push({ endTime, startTime });
+  const allEventTimes: EventTime[] = [...events, ...eventTimes];
+
+  if (recurringEventEndTime && recurringEventStartTime) {
+    allEventTimes.push({
+      endTime: recurringEventEndTime,
+      id: null,
+      startTime: recurringEventStartTime,
+    });
   }
 
-  allEventTimes.push(
-    ...eventTimes.filter(({ endTime, startTime }) => endTime || startTime)
-  );
-
   recurringEvents.forEach((settings) =>
-    allEventTimes.push(...generateEventTimesFromRecurringEvent(settings))
+    allEventTimes.push(...settings.eventTimes)
   );
 
-  return sortBy(uniqWith(allEventTimes, isEqual), 'startTime');
+  return sortBy(allEventTimes, 'startTime');
 };
 
 export const filterUnselectedLanguages = (
@@ -962,7 +994,6 @@ export const getEventPayload = (
     audience,
     audienceMaxAge,
     audienceMinAge,
-    endTime,
     enrolmentEndTime,
     enrolmentStartTime,
     eventInfoLanguages,
@@ -984,7 +1015,6 @@ export const getEventPayload = (
     provider,
     publisher,
     shortDescription,
-    startTime,
     superEvent,
     type,
     twitterUrl,
@@ -997,7 +1027,7 @@ export const getEventPayload = (
     { field: EXTLINK.EXTLINK_TWITTER, value: twitterUrl },
   ];
 
-  const uniqEventTimes = getEventTimes(formValues);
+  const eventTimes = getEventTimes(formValues);
 
   const basePayload: CreateEventMutationInput = {
     publicationStatus,
@@ -1063,13 +1093,13 @@ export const getEventPayload = (
     ),
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : undefined,
     superEventType:
-      isUmbrella && uniqEventTimes.length <= 1 ? SuperEventType.Umbrella : null,
+      isUmbrella && eventTimes.length <= 1 ? SuperEventType.Umbrella : null,
     typeId: capitalize(type) as EventTypeId,
     videos: videos.filter((video) => video.altText || video.name || video.url),
   };
 
-  if (uniqEventTimes.length > 1) {
-    const payload: CreateEventMutationInput[] = uniqEventTimes.map((time) => ({
+  if (eventTimes.length > 1) {
+    const payload: CreateEventMutationInput[] = eventTimes.map((time) => ({
       ...basePayload,
       ...(time.endTime
         ? { endTime: new Date(time.endTime).toISOString() }
@@ -1083,9 +1113,11 @@ export const getEventPayload = (
   } else {
     const payload: CreateEventMutationInput = {
       ...basePayload,
-      ...(endTime ? { endTime: new Date(endTime).toISOString() } : undefined),
-      ...(startTime
-        ? { startTime: new Date(startTime).toISOString() }
+      ...(eventTimes[0]?.endTime
+        ? { endTime: new Date(eventTimes[0].endTime).toISOString() }
+        : undefined),
+      ...(eventTimes[0]?.startTime
+        ? { startTime: new Date(eventTimes[0].startTime).toISOString() }
         : undefined),
     };
 
@@ -1099,6 +1131,7 @@ export const getRecurringEventPayload = (
 ) => {
   const superEventTime = calculateSuperEventTime(
     basePayload.map(({ startTime, endTime }) => ({
+      id: null,
       endTime: endTime ? new Date(endTime) : null,
       startTime: startTime ? new Date(startTime) : null,
     }))
@@ -1195,11 +1228,45 @@ export const getEventInitialValues = (
   //  - super event type of the event is 'umbrella'
   const isUmbrella = event.superEventType === SuperEventType.Umbrella;
   const hasPrice = event.offers?.[0]?.isFree === false;
+  const events: EventTime[] =
+    event.superEventType === SuperEventType.Recurring
+      ? event.subEvents
+          .map((subEvent) => ({
+            endTime: subEvent?.endTime ? new Date(subEvent?.endTime) : null,
+            id: subEvent?.id ?? null,
+            startTime: subEvent?.startTime
+              ? new Date(subEvent?.startTime)
+              : null,
+          }))
+          .sort(sortEventTimes)
+      : [
+          {
+            endTime: event.endTime ? new Date(event.endTime) : null,
+            id: event.id,
+            startTime: event.startTime ? new Date(event.startTime) : null,
+          },
+        ];
 
   return {
     ...EVENT_INITIAL_VALUES,
-    type: event.typeId?.toLowerCase() ?? EVENT_TYPE.General,
+    audience: event.audience.map((keyword) => keyword?.atId as string),
+    audienceMaxAge: event.audienceMaxAge ?? '',
+    audienceMinAge: event.audienceMinAge ?? '',
+    description: getSanitizedDescription(event),
+    events,
+    enrolmentStartTime: event.enrolmentStartTime
+      ? new Date(event.enrolmentStartTime)
+      : null,
+    enrolmentEndTime: event.enrolmentEndTime
+      ? new Date(event.enrolmentEndTime)
+      : null,
     eventInfoLanguages: getEventInfoLanguages(event),
+    facebookUrl:
+      event.externalLinks.find(
+        (link) => link?.name === EXTLINK.EXTLINK_FACEBOOK
+      )?.link || '',
+    hasPrice,
+    hasUmbrella: hasUmbrella,
     imageDetails: {
       altText:
         event.images[0]?.altText || EVENT_INITIAL_VALUES.imageDetails.altText,
@@ -1210,23 +1277,23 @@ export const getEventInitialValues = (
         event.images[0]?.photographerName ||
         EVENT_INITIAL_VALUES.imageDetails.photographerName,
     },
+    images: event.images.map((image) => image?.atId as string),
+    infoUrl: getLocalisedObject(event.infoUrl),
     inLanguage: event.inLanguage
       .map((language) => language?.atId as string)
       .filter((l) => l),
-    publisher: event.publisher ?? '',
-    provider: getLocalisedObject(event.provider),
-    hasUmbrella: hasUmbrella,
+    instagramUrl:
+      event.externalLinks.find(
+        (link) => link?.name === EXTLINK.EXTLINK_INSTAGRAM
+      )?.link || '',
     isUmbrella: isUmbrella,
-    superEvent: event.superEvent?.atId || '',
-    name: getLocalisedObject(event.name),
-    infoUrl: getLocalisedObject(event.infoUrl),
-    shortDescription: getLocalisedObject(event.shortDescription),
-    description: getSanitizedDescription(event),
-    startTime: event.startTime ? new Date(event.startTime) : null,
-    endTime: event.endTime ? new Date(event.endTime) : null,
+    isVerified: true,
+    keywords: event.keywords.map((keyword) => keyword?.atId as string),
     location: event.location?.atId || '',
     locationExtraInfo: getLocalisedObject(event.locationExtraInfo),
-    hasPrice,
+    maximumAttendeeCapacity: event.maximumAttendeeCapacity ?? '',
+    minimumAttendeeCapacity: event.minimumAttendeeCapacity ?? '',
+    name: getLocalisedObject(event.name),
     offers: hasPrice
       ? event.offers
           .filter((offer) => !offer?.isFree)
@@ -1236,18 +1303,26 @@ export const getEventInitialValues = (
             price: getLocalisedObject(offer?.price),
           }))
       : [],
-    facebookUrl:
-      event.externalLinks.find(
-        (link) => link?.name === EXTLINK.EXTLINK_FACEBOOK
-      )?.link || '',
+    publisher: event.publisher ?? '',
+    provider: getLocalisedObject(event.provider),
+    recurringEventEndTime:
+      event.superEventType === SuperEventType.Recurring
+        ? event.endTime
+          ? new Date(event.endTime)
+          : null
+        : null,
+    recurringEventStartTime:
+      event.superEventType === SuperEventType.Recurring
+        ? event.startTime
+          ? new Date(event.startTime)
+          : null
+        : null,
+    shortDescription: getLocalisedObject(event.shortDescription),
+    superEvent: event.superEvent?.atId || '',
     twitterUrl:
       event.externalLinks.find((link) => link?.name === EXTLINK.EXTLINK_TWITTER)
         ?.link || '',
-    instagramUrl:
-      event.externalLinks.find(
-        (link) => link?.name === EXTLINK.EXTLINK_INSTAGRAM
-      )?.link || '',
-    images: event.images.map((image) => image?.atId as string),
+    type: event.typeId?.toLowerCase() ?? EVENT_TYPE.General,
     videos: event.videos.length
       ? event.videos.map((video) => ({
           altText: video?.altText ?? '',
@@ -1255,19 +1330,6 @@ export const getEventInitialValues = (
           url: video?.url ?? '',
         }))
       : [getEmptyVideo()],
-    keywords: event.keywords.map((keyword) => keyword?.atId as string),
-    audience: event.audience.map((keyword) => keyword?.atId as string),
-    audienceMaxAge: event.audienceMaxAge || '',
-    audienceMinAge: event.audienceMinAge || '',
-    enrolmentStartTime: event.enrolmentStartTime
-      ? new Date(event.enrolmentStartTime)
-      : null,
-    enrolmentEndTime: event.enrolmentEndTime
-      ? new Date(event.enrolmentEndTime)
-      : null,
-    maximumAttendeeCapacity: event.maximumAttendeeCapacity ?? '',
-    minimumAttendeeCapacity: event.minimumAttendeeCapacity ?? '',
-    isVerified: true,
   };
 };
 
@@ -1275,7 +1337,7 @@ const getFocusableFieldId = (
   fieldName: string
 ): {
   fieldId: string;
-  type: 'default' | 'checkboxGroup' | 'select' | 'textEditor';
+  type: 'default' | 'checkboxGroup' | 'eventTimes' | 'select' | 'textEditor';
 } => {
   // For the select elements, focus the toggle button
   if (SELECT_FIELDS.find((item) => item === fieldName)) {
@@ -1284,6 +1346,8 @@ const getFocusableFieldId = (
     return { fieldId: `${fieldName}-text-editor`, type: 'textEditor' };
   } else if (fieldName === EVENT_FIELDS.MAIN_CATEGORIES) {
     return { fieldId: fieldName, type: 'checkboxGroup' };
+  } else if (fieldName === EVENT_FIELDS.EVENT_TIMES) {
+    return { fieldId: `${fieldName}-error`, type: 'default' };
   }
 
   return { fieldId: fieldName, type: 'default' };
@@ -1768,4 +1832,25 @@ export const copyEventToSessionStorage = async (event: EventFieldsFragment) => {
   };
 
   sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
+};
+
+export const getRecurringEvent = async (
+  id: string,
+  apolloClient: ApolloClient<object>
+): Promise<EventFieldsFragment | null> => {
+  try {
+    const { data: eventData } = await apolloClient.query<EventQuery>({
+      query: EventDocument,
+      fetchPolicy: 'no-cache',
+      variables: {
+        id,
+        include: EVENT_INCLUDES,
+        createPath: getPathBuilder(eventPathBuilder),
+      },
+    });
+
+    return eventData.event;
+  } catch (e) /* istanbul ignore next */ {
+    return null;
+  }
 };

@@ -1,4 +1,5 @@
 @import 'breakpoints';
+@import 'widths';
 
 .errorTemplate {
   --error-template-icon-color: var(--color-bus);
@@ -8,24 +9,11 @@
   grid-gap: var(--spacing-m);
   padding-top: var(--spacing-5-xl);
 
-  @include medium-only {
-    grid-template-columns: repeat(8, 1fr);
-
-    .content {
-      grid-column: 2 / 8;
-    }
-  }
-
-  @include large-up {
-    grid-template-columns: repeat(12, 1fr);
-
-    .content {
-      grid-column: 5 / 9;
-    }
-  }
-
   .content {
     text-align: center;
+
+    @include max-width-column(4);
+    margin: 0 auto;
 
     p {
       font-size: var(--fontsize-body-l);

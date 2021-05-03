@@ -2,7 +2,7 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
-import { render, screen } from '../../../../../utils/testUtils';
+import { configure, render, screen } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import {
   EVENT_FIELDS,
@@ -12,6 +12,8 @@ import {
 import ResponsibilitiesSection, {
   ResponsibilitiesSectionProps,
 } from '../ResponsibilitiesSection';
+
+configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
 

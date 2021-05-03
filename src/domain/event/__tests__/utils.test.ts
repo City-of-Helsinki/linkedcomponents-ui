@@ -1,6 +1,6 @@
 import { advanceTo, clear } from 'jest-date-mock';
 
-import { EXTLINK } from '../../../constants';
+import { EXTLINK, WEEK_DAY } from '../../../constants';
 import {
   EventStatus,
   EventTypeId,
@@ -41,6 +41,7 @@ import {
   getEventTimes,
   getRecurringEventPayload,
   sortLanguage,
+  sortWeekDays,
 } from '../utils';
 
 const defaultEventPayload = {
@@ -141,6 +142,30 @@ describe('sortLanguage function', () => {
   });
 });
 
+describe('sortWeekDays function', () => {
+  it('should sort week days correctly', () => {
+    expect(
+      [
+        WEEK_DAY.SUN,
+        WEEK_DAY.SUN,
+        WEEK_DAY.FRI,
+        WEEK_DAY.THU,
+        WEEK_DAY.WED,
+        WEEK_DAY.TUE,
+        WEEK_DAY.MON,
+      ].sort(sortWeekDays)
+    ).toEqual([
+      WEEK_DAY.MON,
+      WEEK_DAY.TUE,
+      WEEK_DAY.WED,
+      WEEK_DAY.THU,
+      WEEK_DAY.FRI,
+      WEEK_DAY.SUN,
+      WEEK_DAY.SUN,
+    ]);
+  });
+});
+
 describe('generateEventTimesFromRecurringEvent function', () => {
   it('should generate event times from recurring event settings', () => {
     const eventTimes = generateEventTimesFromRecurringEvent({
@@ -148,17 +173,20 @@ describe('generateEventTimesFromRecurringEvent function', () => {
       startTime: '12:15',
       endDate: new Date('2020-12-31'),
       endTime: '14:15',
+      eventTimes: [],
       repeatInterval: 2,
       repeatDays: ['mon', 'thu'],
     });
     expect(eventTimes).toHaveLength(53);
     expect(eventTimes[0]).toEqual({
-      endTime: new Date('2020-01-02T14:15:00.000Z'),
-      startTime: new Date('2020-01-02T12:15:00.000Z'),
+      endTime: new Date('2020-01-06T14:15:00.000Z'),
+      id: null,
+      startTime: new Date('2020-01-06T12:15:00.000Z'),
     });
     expect(eventTimes[52]).toEqual({
-      endTime: new Date('2020-12-20T14:15:00.000Z'),
-      startTime: new Date('2020-12-20T12:15:00.000Z'),
+      endTime: new Date('2020-12-31T14:15:00.000Z'),
+      id: null,
+      startTime: new Date('2020-12-31T12:15:00.000Z'),
     });
   });
 });
@@ -169,15 +197,18 @@ describe('calculateSuperEventTime function', () => {
       calculateSuperEventTime([
         {
           startTime: new Date('2020-01-02T14:15:00.000Z'),
+          id: null,
           endTime: new Date('2020-01-02T16:15:00.000Z'),
         },
         {
           startTime: new Date('2020-12-12T14:15:00.000Z'),
+          id: null,
           endTime: new Date('2020-12-12T16:15:00.000Z'),
         },
       ])
     ).toEqual({
       startTime: new Date('2020-01-02T14:15:00.000Z'),
+      id: null,
       endTime: new Date('2020-12-12T16:15:00.000Z'),
     });
   });
@@ -186,15 +217,18 @@ describe('calculateSuperEventTime function', () => {
     calculateSuperEventTime([
       {
         startTime: new Date('2020-01-02T14:15:00.000Z'),
+        id: null,
         endTime: null,
       },
       {
         startTime: new Date('2020-12-12T14:15:00.000Z'),
+        id: null,
         endTime: null,
       },
     ])
   ).toEqual({
     startTime: new Date('2020-01-02T14:15:00.000Z'),
+    id: null,
     endTime: new Date('2020-12-12T23:59:59.999Z'),
   });
 
@@ -202,15 +236,18 @@ describe('calculateSuperEventTime function', () => {
     calculateSuperEventTime([
       {
         startTime: null,
+        id: null,
         endTime: null,
       },
       {
         startTime: null,
+        id: null,
         endTime: null,
       },
     ])
   ).toEqual({
     startTime: null,
+    id: null,
     endTime: null,
   });
 });
@@ -219,15 +256,15 @@ describe('getEventTimes function', () => {
   it('should return all event times event time', () => {
     const values: EventFormFields = {
       ...EVENT_INITIAL_VALUES,
-      endTime: null,
-      startTime: new Date('2020-01-02T10:00:00.000Z'),
       eventTimes: [
         {
           startTime: new Date('2020-01-02T14:15:00.000Z'),
+          id: null,
           endTime: null,
         },
         {
           startTime: null,
+          id: null,
           endTime: new Date('2020-12-12T16:15:00.000Z'),
         },
       ],
@@ -237,6 +274,18 @@ describe('getEventTimes function', () => {
           startTime: '12:15',
           endDate: new Date('2020-12-31'),
           endTime: '14:15',
+          eventTimes: [
+            {
+              startTime: new Date('2020-01-15T14:15:00.000Z'),
+              id: null,
+              endTime: new Date('2020-01-15T16:15:00.000Z'),
+            },
+            {
+              startTime: new Date('2020-02-15T14:15:00.000Z'),
+              id: null,
+              endTime: new Date('2020-02-15T16:15:00.000Z'),
+            },
+          ],
           repeatInterval: 2,
           repeatDays: ['mon', 'thu'],
         },
@@ -244,13 +293,15 @@ describe('getEventTimes function', () => {
     };
     const eventTimes = getEventTimes(values);
 
-    expect(eventTimes).toHaveLength(56);
+    expect(eventTimes).toHaveLength(4);
     expect(eventTimes[0]).toEqual({
       endTime: null,
-      startTime: new Date('2020-01-02T10:00:00.000Z'),
+      id: null,
+      startTime: new Date('2020-01-02T14:15:00.000Z'),
     });
-    expect(eventTimes[55]).toEqual({
+    expect(eventTimes[3]).toEqual({
       endTime: new Date('2020-12-12T16:15:00.000Z'),
+      id: null,
       startTime: null,
     });
   });
@@ -306,13 +357,19 @@ describe('getEventPayload function', () => {
         enrolmentEndTime: new Date(enrolmentEndTime),
         enrolmentStartTime: new Date(enrolmentStartTime),
         eventInfoLanguages: ['fi', 'sv'],
+        eventTimes: [
+          {
+            endTime: new Date(endTime),
+            id: null,
+            startTime: new Date(startTime),
+          },
+        ],
         description: {
           ...EMPTY_MULTI_LANGUAGE_OBJECT,
           fi: 'Description fi',
           en: 'Description en',
           sv: '',
         },
-        endTime: new Date(endTime),
         facebookUrl: 'http://facebook.com',
         instagramUrl: 'http://instagram.com',
         twitterUrl: 'http://twitter.com',
@@ -377,7 +434,6 @@ describe('getEventPayload function', () => {
           en: 'Short description en',
           sv: '',
         },
-        startTime: new Date(startTime),
         videos,
       },
       publicationStatus
@@ -504,10 +560,12 @@ describe('getEventPayload function', () => {
     const eventTimes = [
       {
         startTime: new Date('2020-01-02T14:15:00.000Z'),
+        id: null,
         endTime: null,
       },
       {
         startTime: null,
+        id: null,
         endTime: new Date('2020-12-12T16:15:00.000Z'),
       },
     ];
@@ -696,6 +754,7 @@ describe('getEventInitialValues function', () => {
     const enrolmentEndTime = new Date('2021-06-15T05:51:05.761Z');
     const enrolmentStartTime = new Date('2021-05-05T05:51:05.761Z');
     const facebookUrl = 'http://facebook.com';
+    const id = 'event:1';
     const imageDetails = {
       altText: '',
       license: 'cc_by',
@@ -824,6 +883,7 @@ describe('getEventInitialValues function', () => {
               link: twitterUrl,
             }),
           ],
+          id,
           images: fakeImages(
             imageAtIds.length,
             imageAtIds.map((atId) => ({ atId, ...imageDetails }))
@@ -865,11 +925,17 @@ describe('getEventInitialValues function', () => {
       audienceMaxAge,
       audienceMinAge,
       description,
-      endTime,
       enrolmentEndTime,
       enrolmentStartTime,
       eventInfoLanguages: ['ar', 'en', 'fi', 'ru', 'sv', 'zhHans'],
       eventTimes: [],
+      events: [
+        {
+          endTime,
+          id,
+          startTime,
+        },
+      ],
       facebookUrl,
       hasPrice: true,
       hasUmbrella: true,
@@ -892,8 +958,9 @@ describe('getEventInitialValues function', () => {
       provider,
       publisher,
       recurringEvents: [],
+      recurringEventEndTime: null,
+      recurringEventStartTime: null,
       shortDescription,
-      startTime,
       superEvent: superEventAtId,
       twitterUrl,
       type,
@@ -913,7 +980,6 @@ describe('getEventInitialValues function', () => {
     const {
       audienceMaxAge,
       audienceMinAge,
-      endTime,
       enrolmentEndTime,
       enrolmentStartTime,
       facebookUrl,
@@ -921,7 +987,6 @@ describe('getEventInitialValues function', () => {
       location,
       name,
       offers,
-      startTime,
       superEvent,
       type,
       twitterUrl,
@@ -953,7 +1018,6 @@ describe('getEventInitialValues function', () => {
 
     expect(audienceMaxAge).toEqual('');
     expect(audienceMinAge).toEqual('');
-    expect(endTime).toEqual(null);
     expect(enrolmentEndTime).toEqual(null);
     expect(enrolmentStartTime).toEqual(null);
     expect(facebookUrl).toEqual('');
@@ -961,7 +1025,6 @@ describe('getEventInitialValues function', () => {
     expect(location).toEqual('');
     expect(name).toEqual(expectedName);
     expect(offers).toEqual([]);
-    expect(startTime).toEqual(null);
     expect(superEvent).toEqual(superEvent);
     expect(type).toEqual(EVENT_TYPE.General);
     expect(twitterUrl).toEqual('');

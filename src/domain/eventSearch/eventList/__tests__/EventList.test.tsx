@@ -1,15 +1,14 @@
 import range from 'lodash/range';
 import React from 'react';
 
-import { testId as loadingSpinnerTestId } from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import {
   configure,
+  loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
-  waitFor,
 } from '../../../../utils/testUtils';
 import {
   DEFAULT_EVENT_SORT,
@@ -111,23 +110,21 @@ const defaultProps: EventListProps = {
   sort: DEFAULT_EVENT_SORT,
 };
 
-const findElement = (
-  key: 'nameColumn' | 'page2' | 'pagination' | 'sortOptionName' | 'sortSelect'
+const getElement = (
+  key: 'page2' | 'pagination' | 'sortOptionName' | 'sortSelect'
 ) => {
   switch (key) {
-    case 'nameColumn':
-      return screen.findByRole('button', { name: 'Nimi' });
-    case 'pagination':
-      return screen.findByRole('navigation', { name: 'Sivunavigointi' });
     case 'page2':
-      return screen.findByRole('button', { name: 'Sivu 2' });
+      return screen.getByRole('button', { name: 'Sivu 2' });
+    case 'pagination':
+      return screen.getByRole('navigation', { name: 'Sivunavigointi' });
     case 'sortOptionName':
-      return screen.findByRole('option', {
+      return screen.getByRole('option', {
         name: /nimi, nouseva/i,
         hidden: true,
       });
     case 'sortSelect':
-      return screen.findByRole('button', { name: /Lajitteluperuste/i });
+      return screen.getByRole('button', { name: /Lajitteluperuste/i });
   }
 };
 
@@ -137,21 +134,23 @@ const renderComponent = (props?: Partial<EventListProps>) =>
 test('should render events of page 2', async () => {
   renderComponent();
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(loadingSpinnerTestId)).not.toBeInTheDocument();
-  });
-  await findElement('pagination');
+  await loadingSpinnerIsNotInDocument();
+  getElement('pagination');
 
-  for (const name of eventNames) {
-    expect(screen.queryByRole('heading', { name })).toBeInTheDocument();
-  }
+  // Page 1 event should be visible. Test only first 2 to improve performance
+  screen.getByRole('heading', { name: eventNames[0] });
+  screen.getByRole('heading', { name: eventNames[1] });
 
-  const page2Button = await findElement('page2');
+  const page2Button = getElement('page2');
   userEvent.click(page2Button);
 
-  for (const name of eventNamesPage2) {
-    await screen.findByRole('heading', { name });
-  }
+  // Page 2 event should be visible. Test only first 2 to improve performance
+  await screen.findByRole(
+    'heading',
+    { name: eventNamesPage2[0] },
+    { timeout: 5000 }
+  );
+  screen.getByRole('heading', { name: eventNamesPage2[1] });
 });
 
 test('should change sort order', async () => {
@@ -160,23 +159,22 @@ test('should change sort order', async () => {
     setSort,
   });
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(loadingSpinnerTestId)).not.toBeInTheDocument();
-  });
+  await loadingSpinnerIsNotInDocument();
+  getElement('pagination');
 
-  for (const name of eventNames) {
-    expect(screen.queryByRole('heading', { name })).toBeInTheDocument();
-  }
+  // Page 1 events should be visible. Test only first 2 to improve performance
+  screen.getByRole('heading', { name: eventNames[0] });
+  screen.getByRole('heading', { name: eventNames[1] });
 
-  const sortSelect = await findElement('sortSelect');
+  const sortSelect = getElement('sortSelect');
   userEvent.click(sortSelect);
 
-  const sortOptionName = await findElement('sortOptionName');
+  const sortOptionName = getElement('sortOptionName');
   userEvent.click(sortOptionName);
 
   expect(setSort).toBeCalledWith(EVENT_SORT_OPTIONS.NAME);
 
-  for (const name of eventNamesSorted) {
-    await screen.findByRole('heading', { name });
-  }
+  // Sorted events should be visible. Test only first 2 to improve performance
+  await screen.findByRole('heading', { name: eventNamesSorted[0] });
+  screen.getByRole('heading', { name: eventNamesSorted[1] });
 });

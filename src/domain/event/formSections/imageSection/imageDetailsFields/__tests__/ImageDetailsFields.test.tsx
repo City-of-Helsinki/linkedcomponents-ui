@@ -15,6 +15,7 @@ import {
 } from '../../../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
 import {
+  configure,
   getMockReduxStore,
   render,
   screen,
@@ -35,6 +36,8 @@ import { eventValidationSchema } from '../../../../utils';
 import ImageDetailsFields, {
   ImageDetailsFieldsProps,
 } from '../ImageDetailsFields';
+
+configure({ defaultHidden: true });
 
 const defaultProps: ImageDetailsFieldsProps = {
   field: EVENT_FIELDS.IMAGE_DETAILS,

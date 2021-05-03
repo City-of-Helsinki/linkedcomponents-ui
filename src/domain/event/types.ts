@@ -4,9 +4,12 @@ import {
   SuperEventType,
 } from '../../generated/graphql';
 import {
+  ADD_EVENT_TIME_FORM_NAME,
   ADD_IMAGE_FIELDS,
+  EDIT_EVENT_TIME_FORM_NAME,
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
+  EVENT_TIME_FIELDS,
   IMAGE_DETAILS_FIELDS,
   RECURRING_EVENT_FIELDS,
   VIDEO_DETAILS_FIELDS,
@@ -46,7 +49,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: number | '';
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: number | '';
   [EVENT_FIELDS.DESCRIPTION]: MultiLanguageObject;
-  [EVENT_FIELDS.END_TIME]: Date | null;
+  [EVENT_FIELDS.EVENTS]: EventTime[];
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: string[];
   [EVENT_FIELDS.EVENT_TIMES]: EventTime[];
   [EVENT_FIELDS.ENROLMENT_END_TIME]: Date | null;
@@ -74,12 +77,27 @@ export type EventFormFields = {
   [EVENT_FIELDS.PROVIDER]: MultiLanguageObject;
   [EVENT_FIELDS.PUBLISHER]: string;
   [EVENT_FIELDS.RECURRING_EVENTS]: RecurringEventSettings[];
+  [EVENT_FIELDS.RECURRING_EVENT_END_TIME]: Date | null;
+  [EVENT_FIELDS.RECURRING_EVENT_START_TIME]: Date | null;
   [EVENT_FIELDS.SHORT_DESCRIPTION]: MultiLanguageObject;
-  [EVENT_FIELDS.START_TIME]: Date | null;
   [EVENT_FIELDS.SUPER_EVENT]: string | null;
   [EVENT_FIELDS.TYPE]: string;
   [EVENT_FIELDS.TWITTER_URL]: string;
   [EVENT_FIELDS.VIDEOS]: VideoDetails[];
+};
+
+export type AddEventTimeFormFields = {
+  [ADD_EVENT_TIME_FORM_NAME]: {
+    [EVENT_TIME_FIELDS.END_TIME]: Date | null;
+    [EVENT_TIME_FIELDS.START_TIME]: Date | null;
+  };
+};
+
+export type EditEventTimeFormFields = {
+  [EDIT_EVENT_TIME_FORM_NAME]: {
+    [EVENT_TIME_FIELDS.END_TIME]: Date | null;
+    [EVENT_TIME_FIELDS.START_TIME]: Date | null;
+  };
 };
 
 export type MultiLanguageObject = {
@@ -92,8 +110,9 @@ export type MultiLanguageObject = {
 };
 
 export type EventTime = {
-  [EVENT_FIELDS.END_TIME]: Date | null;
-  [EVENT_FIELDS.START_TIME]: Date | null;
+  [EVENT_TIME_FIELDS.END_TIME]: Date | null;
+  [EVENT_TIME_FIELDS.ID]: string | null;
+  [EVENT_TIME_FIELDS.START_TIME]: Date | null;
 };
 
 export type ImageDetails = {
@@ -118,6 +137,7 @@ export type Offer = {
 export type RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.END_DATE]: Date | string | null;
   [RECURRING_EVENT_FIELDS.END_TIME]: string;
+  [RECURRING_EVENT_FIELDS.EVENT_TIMES]: EventTime[];
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: string[];
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: number;
   [RECURRING_EVENT_FIELDS.START_DATE]: Date | string | null;

@@ -67,6 +67,7 @@ const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
 
       <div className={styles.modalButtonWrapper}>
         <Button
+          disabled={isSaving}
           iconLeft={
             isSaving ? (
               <LoadingSpinner
@@ -83,7 +84,12 @@ const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
         >
           {t('event.postponeEventModal.buttonPostpone')}
         </Button>
-        <Button onClick={handleClose} variant="secondary" type="button">
+        <Button
+          disabled={isSaving}
+          onClick={handleClose}
+          variant="secondary"
+          type="button"
+        >
           {t('common.cancel')}
         </Button>
       </div>

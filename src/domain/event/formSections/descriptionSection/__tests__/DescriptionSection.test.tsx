@@ -1,7 +1,12 @@
 import { Formik } from 'formik';
 import React from 'react';
 
-import { render, screen, userEvent } from '../../../../../utils/testUtils';
+import {
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../../utils/testUtils';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_FIELDS,
@@ -12,6 +17,8 @@ import { MultiLanguageObject } from '../../../types';
 import DescriptionSection, {
   DescriptionSectionProps,
 } from '../DescriptionSection';
+
+configure({ defaultHidden: true });
 
 const languages: EVENT_INFO_LANGUAGES[] = [
   EVENT_INFO_LANGUAGES.FI,
@@ -73,69 +80,54 @@ const renderComponent = (
   };
 };
 
-const findComponent = (
+const getElement = (
   key:
     | 'descriptionFi'
-    | 'descriptionSv'
     | 'fiButton'
     | 'nameFi'
-    | 'nameSv'
     | 'shortDescriptionFi'
-    | 'shortDescriptionSv'
     | 'svButton'
 ) => {
   switch (key) {
     case 'descriptionFi':
-      return screen.findByRole('textbox', {
+      return screen.getByRole('textbox', {
         name: /tapahtuman kuvaus suomeksi/i,
       });
-    case 'descriptionSv':
-      return screen.findByRole('textbox', {
-        name: /tapahtuman kuvaus ruotsiksi/i,
-      });
     case 'fiButton':
-      return screen.findByRole('tab', { name: /suomi/i });
+      return screen.getByRole('tab', { name: /suomi/i });
     case 'nameFi':
-      return screen.findByRole('textbox', {
+      return screen.getByRole('textbox', {
         name: /tapahtuman otsikko suomeksi/i,
       });
-    case 'nameSv':
-      return screen.findByRole('textbox', {
-        name: /tapahtuman otsikko ruotsiksi/i,
-      });
     case 'shortDescriptionFi':
-      return screen.findByRole('textbox', {
+      return screen.getByRole('textbox', {
         name: /lyhyt kuvaus suomeksi/i,
       });
-    case 'shortDescriptionSv':
-      return screen.findByRole('textbox', {
-        name: /lyhyt kuvaus ruotsiksi/i,
-      });
     case 'svButton':
-      return screen.findByRole('tab', { name: /ruotsi/i });
+      return screen.getByRole('tab', { name: /ruotsi/i });
   }
 };
 
-test('should show description form section fields', async () => {
+test('should show description form section fields', () => {
   renderComponent();
 
-  await findComponent('nameFi');
-  await findComponent('shortDescriptionFi');
-  await findComponent('descriptionFi');
+  getElement('nameFi');
+  getElement('shortDescriptionFi');
+  getElement('descriptionFi');
 });
 
-test('should change form section language', async () => {
+test('should change form section language', () => {
   const setSelectedLanguage = jest.fn();
   renderComponent(undefined, { setSelectedLanguage });
 
-  const svButton = await findComponent('svButton');
+  const svButton = getElement('svButton');
   userEvent.click(svButton);
 
   expect(setSelectedLanguage).toBeCalledWith('sv');
 });
 
 // eslint-disable-next-line max-len
-test('should change selected language when current selected language is removed from event info languages', async () => {
+test('should change selected language when current selected language is removed from event info languages', () => {
   const setSelectedLanguage = jest.fn();
   const { rerender } = renderComponent(
     {
@@ -147,8 +139,8 @@ test('should change selected language when current selected language is removed 
     { setSelectedLanguage }
   );
 
-  const fiButton = await findComponent('fiButton');
-  const svButton = await findComponent('svButton');
+  const fiButton = getElement('fiButton');
+  const svButton = getElement('svButton');
 
   expect(fiButton).toBeInTheDocument();
   expect(svButton).toBeInTheDocument();

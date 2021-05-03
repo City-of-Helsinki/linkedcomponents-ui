@@ -2,9 +2,16 @@ import i18n from 'i18next';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
 import Footer from '../Footer';
+
+configure({ defaultHidden: true });
 
 beforeEach(() => {
   i18n.changeLanguage('fi');
@@ -17,7 +24,7 @@ test('matches snapshot', async () => {
   i18n.changeLanguage('sv');
   const { container } = renderComponent('/sv');
 
-  await screen.findByRole('link', { name: 'Evenemangen' });
+  screen.getByRole('link', { name: 'Evenemangen' });
   expect(container.firstChild).toMatchSnapshot();
 });
 

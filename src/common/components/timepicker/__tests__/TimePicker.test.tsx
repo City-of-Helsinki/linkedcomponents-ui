@@ -4,12 +4,15 @@ import React from 'react';
 import translations from '../../../../domain/app/i18n/fi.json';
 import {
   arrowDownKeyPressHelper,
+  configure,
   enterKeyPressHelper,
   render,
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
 import Timepicker, { Props } from '../Timepicker';
+
+configure({ defaultHidden: true });
 
 const id = 'time-picker';
 const defaultLabel = 'Timepicker';

@@ -3,8 +3,10 @@ import React from 'react';
 
 import { OrganizationDocument } from '../../../../generated/graphql';
 import { fakeOrganization } from '../../../../utils/mockDataUtils';
-import { render, screen } from '../../../../utils/testUtils';
+import { configure, render, screen } from '../../../../utils/testUtils';
 import PublisherName from '../PublisherName';
+
+configure({ defaultHidden: true });
 
 const organizationId = 'hel:123';
 const organizationName = 'Organization name';

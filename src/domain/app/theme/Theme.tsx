@@ -54,16 +54,17 @@ type CheckboxCSSProperties = {
 
 type CollapsibleCSSProperties = {
   '--heading-background-color'?: string;
-  '--heading-border-color'?: string;
-  '--heading-color'?: string;
-  '--heading-background-color-expanded'?: string;
-  '--heading-border-color-expanded'?: string;
-  '--heading-color-expanded'?: string;
-  '--heading-background-color-expanded-hover'?: string;
-  '--heading-border-color-expanded-hover'?: string;
-  '--heading-color-expanded-hover'?: string;
   '--heading-background-color-hover'?: string;
+  '--heading-background-color-expanded'?: string;
+  '--heading-background-color-expanded-hover'?: string;
+  '--heading-border-color'?: string;
+  '--heading-border-color-hover'?: string;
+  '--heading-border-color-expanded'?: string;
+  '--heading-border-color-expanded-hover'?: string;
+  '--heading-color'?: string;
   '--heading-color-hover'?: string;
+  '--heading-color-expanded'?: string;
+  '--heading-color-expanded-hover'?: string;
 };
 
 type DatepickerCSSProperties = {
@@ -102,6 +103,7 @@ type DatepickerCSSProperties = {
 
 type DeleteButtonCSSProperties = {
   '--delete-button-color'?: string;
+  '--delete-button-color-icon'?: string;
 };
 
 type ErrorTemplateCSSProperties = {

@@ -27,6 +27,7 @@ export enum EVENT_TYPE {
 export enum RECURRING_EVENT_FIELDS {
   END_DATE = 'endDate',
   END_TIME = 'endTime',
+  EVENT_TIMES = 'eventTimes',
   REPEAT_DAYS = 'repeatDays',
   REPEAT_INTERVAL = 'repeatInterval',
   START_DATE = 'startDate',
@@ -51,16 +52,22 @@ export enum VIDEO_DETAILS_FIELDS {
   URL = 'url',
 }
 
+export enum EVENT_TIME_FIELDS {
+  END_TIME = 'endTime',
+  ID = 'id',
+  START_TIME = 'startTime',
+}
+
 export enum EVENT_FIELDS {
   AUDIENCE = 'audience',
   AUDIENCE_MAX_AGE = 'audienceMaxAge',
   AUDIENCE_MIN_AGE = 'audienceMinAge',
   DESCRIPTION = 'description',
-  END_TIME = 'endTime',
   ENROLMENT_END_TIME = 'enrolmentEndTime',
   ENROLMENT_START_TIME = 'enrolmentStartTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
   EVENT_TIMES = 'eventTimes',
+  EVENTS = 'events',
   EXTENSION_COURSE = 'extensionCourse',
   FACEBOOK_URL = 'facebookUrl',
   HAS_PRICE = 'hasPrice',
@@ -88,8 +95,9 @@ export enum EVENT_FIELDS {
   PROVIDER = 'provider',
   PUBLISHER = 'publisher',
   RECURRING_EVENTS = 'recurringEvents',
+  RECURRING_EVENT_END_TIME = 'recurringEventEndTime',
+  RECURRING_EVENT_START_TIME = 'recurringEventStartTime',
   SHORT_DESCRIPTION = 'shortDescription',
-  START_TIME = 'startTime',
   SUPER_EVENT = 'superEvent',
   TYPE = 'type',
   TWITTER_URL = 'twitterUrl',
@@ -123,6 +131,7 @@ export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
 export const RECURRING_EVENT_INITIAL_VALUES: RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.END_DATE]: null,
   [RECURRING_EVENT_FIELDS.END_TIME]: '',
+  [RECURRING_EVENT_FIELDS.EVENT_TIMES]: [],
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: [],
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: 1,
   [RECURRING_EVENT_FIELDS.START_DATE]: null,
@@ -139,11 +148,11 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: '',
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: '',
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-  [EVENT_FIELDS.END_TIME]: null,
   [EVENT_FIELDS.ENROLMENT_END_TIME]: null,
   [EVENT_FIELDS.ENROLMENT_START_TIME]: null,
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
   [EVENT_FIELDS.EVENT_TIMES]: [],
+  [EVENT_FIELDS.EVENTS]: [],
   [EVENT_FIELDS.FACEBOOK_URL]: '',
   [EVENT_FIELDS.HAS_PRICE]: false,
   [EVENT_FIELDS.HAS_UMBRELLA]: false,
@@ -171,8 +180,10 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.PROVIDER]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.PUBLISHER]: '',
   [EVENT_FIELDS.RECURRING_EVENTS]: [],
+  [EVENT_FIELDS.RECURRING_EVENT_END_TIME]: null,
+  [EVENT_FIELDS.RECURRING_EVENT_START_TIME]: null,
   [EVENT_FIELDS.SHORT_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-  [EVENT_FIELDS.START_TIME]: null,
+
   [EVENT_FIELDS.SUPER_EVENT]: null,
   [EVENT_FIELDS.TYPE]: EVENT_TYPE.General,
   [EVENT_FIELDS.TWITTER_URL]: '',
@@ -298,3 +309,6 @@ export const EVENT_EDIT_LABEL_KEYS = {
   [EVENT_EDIT_ACTIONS.UPDATE_DRAFT]: 'event.form.buttonUpdateDraft',
   [EVENT_EDIT_ACTIONS.UPDATE_PUBLIC]: 'event.form.buttonUpdatePublic',
 };
+
+export const ADD_EVENT_TIME_FORM_NAME = 'add-event-time';
+export const EDIT_EVENT_TIME_FORM_NAME = 'edit-event-time';

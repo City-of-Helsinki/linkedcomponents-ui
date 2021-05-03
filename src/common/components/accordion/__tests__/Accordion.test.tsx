@@ -11,11 +11,11 @@ const renderComponent = () =>
     <Accordion toggleButtonLabel={toggleButtonLabel}>{content}</Accordion>
   );
 
-test('should show content only when accordion is open', async () => {
+test('should show content only when accordion is open', () => {
   renderComponent();
   expect(screen.queryByRole('region')).not.toBeInTheDocument();
 
   userEvent.click(screen.getByRole('button', { name: toggleButtonLabel }));
 
-  await screen.findByRole('region');
+  screen.getByRole('region');
 });

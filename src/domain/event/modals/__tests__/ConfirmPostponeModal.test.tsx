@@ -7,11 +7,18 @@ import {
   subEventName,
   subSubEventNames,
 } from '../__mocks__/constants';
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
 import ConfirmPostponeModal, {
   ConfirmPostponeModalProps,
 } from '../ConfirmPostponeModal';
+
+configure({ defaultHidden: true });
 
 const defaultProps: ConfirmPostponeModalProps = {
   event,
@@ -31,7 +38,7 @@ test('should render component', async () => {
   screen.getByText(translations.event.postponeEventModal.text1);
   screen.getByText(translations.event.postponeEventModal.text2);
 
-  await screen.findByText(eventName);
+  screen.getByText(eventName);
   await screen.findByText(subEventName);
   for (const subSubEventName of subSubEventNames) {
     await screen.findByText(subSubEventName);

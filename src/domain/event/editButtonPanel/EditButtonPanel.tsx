@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
@@ -24,7 +25,10 @@ import useEventOrganizationAncestors from '../hooks/useEventOrganizationAncestor
 import { copyEventToSessionStorage, getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
-type ActionButtonProps = { variant: ButtonVariant } & MenuItemOptionProps;
+type ActionButtonProps = {
+  isSaving: boolean;
+  variant: Exclude<ButtonVariant, 'supplementary'>;
+} & MenuItemOptionProps;
 
 export interface EditButtonPanelProps {
   event: EventFieldsFragment;
@@ -32,6 +36,7 @@ export interface EditButtonPanelProps {
   onDelete: () => void;
   onPostpone: () => void;
   onUpdate: (publicationStatus: PublicationStatus) => void;
+  saving: EVENT_EDIT_ACTIONS | null;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
@@ -40,6 +45,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   onDelete,
   onPostpone,
   onUpdate,
+  saving,
 }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
@@ -84,7 +90,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   }: {
     action: EVENT_EDIT_ACTIONS;
     onClick: () => void;
-    variant: ButtonVariant;
+    variant: Exclude<ButtonVariant, 'supplementary'>;
   }): ActionButtonProps | null => {
     const buttonProps = getEditButtonProps({
       action,
@@ -95,7 +101,9 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       t,
       user,
     });
-    return buttonProps ? { ...buttonProps, variant } : null;
+    return buttonProps
+      ? { ...buttonProps, isSaving: saving === action, variant }
+      : null;
   };
 
   const actionItems: MenuItemOptionProps[] = [
@@ -171,17 +179,33 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
               </div>
             </div>
             <div className={styles.buttonWrapper}>
-              {actionButtons.map(({ icon, label, variant, ...rest }, index) => (
-                <Button
-                  key={index}
-                  {...rest}
-                  iconLeft={variant === 'primary' && icon}
-                  className={styles.mediumButton}
-                  variant={variant as any}
-                >
-                  {label}
-                </Button>
-              ))}
+              {actionButtons.map(
+                (
+                  { icon, disabled, label, isSaving, variant, ...rest },
+                  index
+                ) => (
+                  <Button
+                    key={index}
+                    {...rest}
+                    disabled={disabled || Boolean(saving)}
+                    iconLeft={
+                      isSaving ? (
+                        <LoadingSpinner
+                          className={styles.loadingSpinner}
+                          isLoading={isSaving}
+                          small={true}
+                        />
+                      ) : (
+                        icon
+                      )
+                    }
+                    className={styles.mediumButton}
+                    variant={variant as Exclude<ButtonVariant, 'supplementary'>}
+                  >
+                    {label}
+                  </Button>
+                )
+              )}
             </div>
           </div>
         </FormContainer>

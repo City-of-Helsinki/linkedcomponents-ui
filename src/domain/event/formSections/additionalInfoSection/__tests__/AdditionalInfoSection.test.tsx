@@ -3,6 +3,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
+  configure,
   render,
   screen,
   userEvent,
@@ -12,6 +13,8 @@ import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { eventValidationSchema } from '../../../utils';
 import AdditionalInfoSection from '../AdditionalInfoSection';
+
+configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
 
@@ -52,7 +55,7 @@ test('should render additional info section', async () => {
 
   headings.forEach((heading) => {
     // Notification has same heading so test that length is 2
-    expect(screen.queryAllByRole('heading', { name: heading })).toHaveLength(2);
+    expect(screen.getAllByRole('heading', { name: heading })).toHaveLength(2);
   });
 
   const spinbuttons = [
@@ -64,9 +67,7 @@ test('should render additional info section', async () => {
 
   spinbuttons.forEach((label) => {
     // Notification has same heading so test that length is 2
-    expect(
-      screen.queryByRole('spinbutton', { name: label })
-    ).toBeInTheDocument();
+    screen.getByRole('spinbutton', { name: label });
   });
 
   const textboxs = [
@@ -75,8 +76,7 @@ test('should render additional info section', async () => {
   ];
 
   textboxs.forEach((label) => {
-    // Notification has same heading so test that length is 2
-    expect(screen.queryByRole('textbox', { name: label })).toBeInTheDocument();
+    screen.getByRole('textbox', { name: label });
   });
 });
 
@@ -91,20 +91,13 @@ test('should validate min and max audience ages', async () => {
   });
 
   userEvent.type(minAgeInput, '10');
-
-  await waitFor(() => {
-    expect(minAgeInput).toHaveValue(10);
-  });
   userEvent.type(maxAgeInput, '5');
 
-  await waitFor(() => {
-    expect(maxAgeInput).toHaveValue(5);
-  });
+  await waitFor(() => expect(minAgeInput).toHaveValue(10));
+  await waitFor(() => expect(maxAgeInput).toHaveValue(5));
   userEvent.tab();
 
-  expect(
-    screen.queryByText('Arvon tulee olla vähintään 10')
-  ).toBeInTheDocument();
+  screen.getByText('Arvon tulee olla vähintään 10');
 });
 
 test('should validate enrolment start and end dates', async () => {
@@ -122,25 +115,14 @@ test('should validate enrolment start and end dates', async () => {
 
   userEvent.click(startTimeInput);
   userEvent.type(startTimeInput, startTime);
-
-  await waitFor(() => {
-    expect(startTimeInput).toHaveValue(startTime);
-  });
-
   userEvent.click(endTimeInput);
   userEvent.type(endTimeInput, endTime);
-
-  await waitFor(() => {
-    expect(endTimeInput).toHaveValue(endTime);
-  });
-
   userEvent.tab();
 
-  await waitFor(() => {
-    expect(
-      screen.queryByText(`Tämän päivämäärän tulee olla vähintään ${startTime}`)
-    ).toBeInTheDocument();
-  });
+  await waitFor(() => expect(startTimeInput).toHaveValue(startTime));
+  await waitFor(() => expect(endTimeInput).toHaveValue(endTime));
+
+  screen.getByText(`Tämän päivämäärän tulee olla vähintään ${startTime}`);
 });
 
 test('should validate min and max attendee capacities', async () => {
@@ -154,18 +136,10 @@ test('should validate min and max attendee capacities', async () => {
   });
 
   userEvent.type(minCapacityInput, '10');
-
-  await waitFor(() => {
-    expect(minCapacityInput).toHaveValue(10);
-  });
   userEvent.type(maxCapacityInput, '5');
-
-  await waitFor(() => {
-    expect(maxCapacityInput).toHaveValue(5);
-  });
   userEvent.tab();
+  await waitFor(() => expect(minCapacityInput).toHaveValue(10));
+  await waitFor(() => expect(maxCapacityInput).toHaveValue(5));
 
-  expect(
-    screen.queryByText('Arvon tulee olla vähintään 10')
-  ).toBeInTheDocument();
+  screen.getByText('Arvon tulee olla vähintään 10');
 });

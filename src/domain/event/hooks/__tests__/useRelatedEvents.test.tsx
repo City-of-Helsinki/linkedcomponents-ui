@@ -3,8 +3,10 @@ import { renderHook } from '@testing-library/react-hooks';
 import map from 'lodash/map';
 import React from 'react';
 
+import { MAX_PAGE_SIZE } from '../../../../constants';
 import { EventsDocument, SuperEventType } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
+import { EVENT_INCLUDES } from '../../constants';
 import useRelatedEvents from '../useRelatedEvents';
 
 const eventId = 'umbrella:1';
@@ -84,8 +86,8 @@ const subSubSubEventsResponse = {
 };
 const baseVariables = {
   createPath: undefined,
-  include: ['audience', 'keywords', 'location', 'sub_events', 'super_event'],
-  pageSize: 100,
+  include: EVENT_INCLUDES,
+  pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',
 };

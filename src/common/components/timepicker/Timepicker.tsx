@@ -26,6 +26,7 @@ export type Props = {
 
 const Timepicker: React.FC<Props> = ({
   className,
+  disabled,
   id,
   minuteInterval = DEFAULT_TIME_INTERVAL,
   onBlur,
@@ -109,6 +110,7 @@ const Timepicker: React.FC<Props> = ({
 
   const { id: inputId, ...inputProps } = getInputProps({
     className: classNames(inputStyles.input, styles.timepickerInput),
+    disabled,
     onFocus: handleInputOnFocus,
     onBlur: handleInputOnBlur,
     ref: inputRef,
@@ -132,6 +134,7 @@ const Timepicker: React.FC<Props> = ({
           type="button"
           aria-label={t('common.timepicker.accessibility.buttonTimeList')}
           className={styles.calendarButton}
+          disabled={disabled}
           onClick={toggleCalendar}
         >
           <IconClock />

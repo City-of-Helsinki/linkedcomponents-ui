@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { css } from 'emotion';
-import { Button as BaseButton, ButtonProps } from 'hds-react';
+import { Button as BaseButton, ButtonProps, ButtonVariant } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
@@ -11,7 +11,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const { theme } = useTheme();
     return (
       <BaseButton
-        variant={variant as any}
+        variant={variant as Exclude<ButtonVariant, 'supplementary'>}
         className={classNames(
           className,
           styles.button,

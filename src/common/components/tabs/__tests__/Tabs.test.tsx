@@ -3,12 +3,15 @@ import React from 'react';
 import {
   arrowLeftKeyPressHelper,
   arrowRightKeyPressHelper,
+  configure,
   render,
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
 import TabPanel from '../TabPanel';
 import Tabs from '../Tabs';
+
+configure({ defaultHidden: true });
 
 const options = [
   {
@@ -28,22 +31,22 @@ const options = [
   },
 ];
 
-const findComponent = (
+const getElement = (
   key: 'panel1' | 'panel2' | 'panel3' | 'tab1' | 'tab2' | 'tab3'
 ) => {
   switch (key) {
     case 'panel1':
-      return screen.findByRole('tabpanel', { name: 'Tab 1' });
+      return screen.getByRole('tabpanel', { name: 'Tab 1' });
     case 'panel2':
-      return screen.findByRole('tabpanel', { name: 'Tab 2' });
+      return screen.getByRole('tabpanel', { name: 'Tab 2' });
     case 'panel3':
-      return screen.findByRole('tabpanel', { name: 'Tab 2' });
+      return screen.getByRole('tabpanel', { name: 'Tab 2' });
     case 'tab1':
-      return screen.findByRole('tab', { name: 'Tab 1' });
+      return screen.getByRole('tab', { name: 'Tab 1' });
     case 'tab2':
-      return screen.findByRole('tab', { name: 'Tab 2' });
+      return screen.getByRole('tab', { name: 'Tab 2' });
     case 'tab3':
-      return screen.findByRole('tab', { name: 'Tab 3' });
+      return screen.getByRole('tab', { name: 'Tab 3' });
   }
 };
 
@@ -56,13 +59,14 @@ const renderComponent = (onChange = jest.fn()) =>
     </Tabs>
   );
 
-test('renders the component', async () => {
+test('renders the component', () => {
   const { container } = renderComponent();
 
-  await findComponent('panel1');
-  await findComponent('tab1');
-  await findComponent('tab2');
-  await findComponent('tab3');
+  getElement('panel1');
+  getElement('tab1');
+  getElement('tab2');
+  getElement('tab3');
+
   expect(
     screen.queryByRole('tabpanel', { name: 'Tab 2' })
   ).not.toBeInTheDocument();
@@ -76,9 +80,9 @@ test('renders the component', async () => {
 test('should call onKeyDown and change focused tab', async () => {
   renderComponent();
 
-  const tab1 = await findComponent('tab1');
-  const tab2 = await findComponent('tab2');
-  const tab3 = await findComponent('tab3');
+  const tab1 = getElement('tab1');
+  const tab2 = getElement('tab2');
+  const tab3 = getElement('tab3');
   userEvent.click(tab1);
   expect(tab1).toHaveFocus();
 
@@ -94,8 +98,8 @@ test('should call onChange', async () => {
   const onChange = jest.fn();
   renderComponent(onChange);
 
-  const tab1 = await findComponent('tab1');
-  const tab2 = await findComponent('tab2');
+  const tab1 = getElement('tab1');
+  const tab2 = getElement('tab2');
   userEvent.click(tab1);
   expect(tab1).toHaveFocus();
 

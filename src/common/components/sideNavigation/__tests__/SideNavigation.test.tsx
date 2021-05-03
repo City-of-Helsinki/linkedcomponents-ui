@@ -1,12 +1,7 @@
 import { IconAngleDown } from 'hds-react';
 import React from 'react';
 
-import {
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../../utils/testUtils';
+import { render, screen, userEvent } from '../../../../utils/testUtils';
 import MainLevel from '../MainLevel';
 import SideNavigation from '../SideNavigation';
 import SubLevel from '../SubLevel';
@@ -19,7 +14,7 @@ const subLevelLabel1 = 'Sub level 1';
 const subLevelLabel2 = 'Sub level 2';
 const url = 'http://www.testurl.fi';
 
-test('should open main level if sub level is active', async () => {
+test('should open main level if sub level is active', () => {
   render(
     <SideNavigation toggleButtonLabel={toggleButtonLabel}>
       <MainLevel
@@ -41,16 +36,16 @@ test('should open main level if sub level is active', async () => {
     </SideNavigation>
   );
 
-  await screen.findByRole('link', { name: mainLevelLabel1 });
-  await screen.findByRole('link', { name: mainLevelLabel2 });
-  await screen.findByRole('link', { name: subLevelLabel2 });
+  screen.getByRole('link', { name: mainLevelLabel1 });
+  screen.getByRole('link', { name: mainLevelLabel2 });
+  screen.getByRole('link', { name: subLevelLabel2 });
 
   expect(
     screen.queryByRole('link', { name: subLevelLabel1 })
   ).not.toBeInTheDocument();
 });
 
-test('should open sub levels if main level is active', async () => {
+test('should open sub levels if main level is active', () => {
   render(
     <SideNavigation toggleButtonLabel={toggleButtonLabel}>
       <MainLevel
@@ -78,17 +73,17 @@ test('should open sub levels if main level is active', async () => {
     </SideNavigation>
   );
 
-  await screen.findByRole('link', { name: mainLevelLabel1 });
-  await screen.findByRole('link', { name: mainLevelLabel2 });
-  await screen.findByRole('link', { name: mainLevelLabel3 });
-  await screen.findByRole('link', { name: subLevelLabel2 });
+  screen.getByRole('link', { name: mainLevelLabel1 });
+  screen.getByRole('link', { name: mainLevelLabel2 });
+  screen.getByRole('link', { name: mainLevelLabel3 });
+  screen.getByRole('link', { name: subLevelLabel2 });
 
   expect(
     screen.queryByRole('link', { name: subLevelLabel1 })
   ).not.toBeInTheDocument();
 });
 
-test('should show/hide sub levels', async () => {
+test('should show/hide sub levels', () => {
   render(
     <SideNavigation toggleButtonLabel={toggleButtonLabel}>
       <MainLevel
@@ -110,10 +105,8 @@ test('should show/hide sub levels', async () => {
     </SideNavigation>
   );
 
-  const mainLevelLink1 = await screen.findByRole('link', {
-    name: mainLevelLabel1,
-  });
-  await screen.findByRole('link', { name: mainLevelLabel2 });
+  const mainLevelLink1 = screen.getByRole('link', { name: mainLevelLabel1 });
+  screen.getByRole('link', { name: mainLevelLabel2 });
 
   expect(
     screen.queryByRole('link', { name: subLevelLabel1 })
@@ -124,12 +117,10 @@ test('should show/hide sub levels', async () => {
 
   userEvent.click(mainLevelLink1);
 
-  await screen.findByRole('link', {
-    name: subLevelLabel1,
-  });
+  screen.getByRole('link', { name: subLevelLabel1 });
 });
 
-test('should open mobile menu', async () => {
+test('should open mobile menu', () => {
   global.innerWidth = 500;
 
   render(
@@ -159,41 +150,27 @@ test('should open mobile menu', async () => {
     </SideNavigation>
   );
 
-  const toggleButton = await screen.findByRole('button', {
-    name: toggleButtonLabel,
-  });
+  const toggleButton = screen.getByRole('button', { name: toggleButtonLabel });
   userEvent.click(toggleButton);
 
   // Mobile menu should be closed by clicking main level link
-  const mainLevelLink3 = await screen.findByRole('link', {
-    name: mainLevelLabel3,
-  });
+  const mainLevelLink3 = screen.getByRole('link', { name: mainLevelLabel3 });
   userEvent.click(mainLevelLink3);
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('link', {
-        name: mainLevelLabel3,
-      })
-    ).not.toBeInTheDocument();
-  });
+
+  expect(
+    screen.queryByRole('link', { name: mainLevelLabel3 })
+  ).not.toBeInTheDocument();
 
   userEvent.click(toggleButton);
 
-  const mainLevelLink2 = await screen.findByRole('link', {
-    name: mainLevelLabel2,
-  });
+  const mainLevelLink2 = screen.getByRole('link', { name: mainLevelLabel2 });
   userEvent.click(mainLevelLink2);
 
   // Mobile menu should be closed by clicking sub-level link
-  const subLevelLink2 = await screen.findByRole('link', {
-    name: subLevelLabel2,
-  });
+  const subLevelLink2 = screen.getByRole('link', { name: subLevelLabel2 });
   userEvent.click(subLevelLink2);
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('link', {
-        name: mainLevelLabel3,
-      })
-    ).not.toBeInTheDocument();
-  });
+
+  expect(
+    screen.queryByRole('link', { name: mainLevelLabel3 })
+  ).not.toBeInTheDocument();
 });

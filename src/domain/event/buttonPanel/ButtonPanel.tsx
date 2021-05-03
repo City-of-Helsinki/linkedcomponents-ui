@@ -1,9 +1,12 @@
 import { useField } from 'formik';
+import { IconCheck, IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import Button from '../../../common/components/button/Button';
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { PublicationStatus } from '../../../generated/graphql';
 import Container from '../../app/layout/Container';
 import FormContainer from '../../app/layout/FormContainer';
 import { authenticatedSelector } from '../../auth/selectors';
@@ -18,9 +21,10 @@ import styles from './buttonPanel.module.scss';
 interface Props {
   onSaveDraft: () => void;
   publisher: string;
+  saving: PublicationStatus | null;
 }
 
-const ButtonPanel: React.FC<Props> = ({ onSaveDraft, publisher }) => {
+const ButtonPanel: React.FC<Props> = ({ onSaveDraft, publisher, saving }) => {
   const { user } = useUser();
   const { t } = useTranslation();
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
@@ -58,6 +62,17 @@ const ButtonPanel: React.FC<Props> = ({ onSaveDraft, publisher }) => {
                 <Button
                   disabled={Boolean(createWarning)}
                   fullWidth={true}
+                  iconLeft={
+                    saving === PublicationStatus.Draft ? (
+                      <LoadingSpinner
+                        className={styles.loadingSpinner}
+                        isLoading={true}
+                        small={true}
+                      />
+                    ) : (
+                      <IconPen />
+                    )
+                  }
                   onClick={onSaveDraft}
                   title={createWarning}
                   type="button"
@@ -70,8 +85,19 @@ const ButtonPanel: React.FC<Props> = ({ onSaveDraft, publisher }) => {
             {isEventButtonVisible(EVENT_CREATE_ACTIONS.PUBLISH) && (
               <div className={styles.buttonColumn}>
                 <Button
-                  disabled={Boolean(publishWarning)}
+                  disabled={Boolean(publishWarning || saving)}
                   fullWidth={true}
+                  iconLeft={
+                    saving === PublicationStatus.Public ? (
+                      <LoadingSpinner
+                        className={styles.loadingSpinner}
+                        isLoading={true}
+                        small={true}
+                      />
+                    ) : (
+                      <IconCheck />
+                    )
+                  }
                   title={publishWarning}
                   type="submit"
                 >

@@ -3,6 +3,7 @@ import React from 'react';
 import {
   arrowDownKeyPressHelper,
   arrowUpKeyPressHelper,
+  configure,
   enterKeyPressHelper,
   escKeyPressHelper,
   render,
@@ -13,6 +14,8 @@ import {
 import MultiSelectDropdown, {
   MultiselectDropdownProps,
 } from '../MultiSelectDropdown';
+
+configure({ defaultHidden: true });
 
 const options = [
   {
@@ -46,37 +49,37 @@ const defaultProps: MultiselectDropdownProps = {
 const renderComponent = (props?: Partial<MultiselectDropdownProps>) =>
   render(<MultiSelectDropdown {...defaultProps} {...props} />);
 
-const findElement = (key: 'clearButton' | 'searchInput' | 'toggleButton') => {
+const getElement = (key: 'clearButton' | 'searchInput' | 'toggleButton') => {
   switch (key) {
     case 'clearButton':
-      return screen.findByRole('button', { name: clearButtonLabel });
+      return screen.getByRole('button', { name: clearButtonLabel });
     case 'searchInput':
-      return screen.findByPlaceholderText(searchPlaceholder);
+      return screen.getByPlaceholderText(searchPlaceholder);
     case 'toggleButton':
-      return screen.findByRole('button', { name: toggleButtonLabel });
+      return screen.getByRole('button', { name: toggleButtonLabel });
   }
 };
 
-const renderComponentWithOpenMenu = async (
+const renderComponentWithOpenMenu = (
   props?: Partial<MultiselectDropdownProps>
 ) => {
   renderComponent(props);
 
-  const toggleButton = await findElement('toggleButton');
+  const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
-  await findElement('clearButton');
+  getElement('clearButton');
 };
 
-const renderComponentWithClosedMenu = async (
+const renderComponentWithClosedMenu = (
   props?: Partial<MultiselectDropdownProps>
 ) => {
   renderComponent(props);
 
-  const toggleButton = await findElement('toggleButton');
+  const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
-  await findElement('searchInput');
+  getElement('searchInput');
 
   escKeyPressHelper();
   expect(
@@ -84,65 +87,67 @@ const renderComponentWithClosedMenu = async (
   ).not.toBeInTheDocument();
 };
 
-test('should not show search input field', async () => {
-  await renderComponentWithOpenMenu({ showSearch: false });
+test('should not show search input field', () => {
+  renderComponentWithOpenMenu({ showSearch: false });
 
   expect(
     screen.queryByPlaceholderText(searchPlaceholder)
   ).not.toBeInTheDocument();
-  await findElement('clearButton');
+  getElement('clearButton');
 });
 
-test('should open dropdown menu', async () => {
-  await renderComponentWithOpenMenu();
+test('should open dropdown menu', () => {
+  renderComponentWithOpenMenu();
 
   options.forEach(({ label }) => {
     screen.getByRole('checkbox', { name: label });
   });
 
-  await findElement('searchInput');
-  await findElement('clearButton');
+  getElement('searchInput');
+  getElement('clearButton');
 });
 
-test('should open menu with arrow down key', async () => {
-  await renderComponentWithClosedMenu();
+test('should open menu with arrow down key', () => {
+  renderComponentWithClosedMenu();
 
   arrowDownKeyPressHelper();
 
-  await findElement('searchInput');
+  getElement('searchInput');
 });
 
-test('should open menu with arrow up key', async () => {
-  await renderComponentWithClosedMenu();
+test('should open menu with arrow up key', () => {
+  renderComponentWithClosedMenu();
 
   arrowUpKeyPressHelper();
 
-  await findElement('searchInput');
+  getElement('searchInput');
 });
 
 test('should filter options', async () => {
-  await renderComponentWithOpenMenu();
+  renderComponentWithOpenMenu();
 
   options.forEach(({ label }) => {
     screen.getByRole('checkbox', { name: label });
   });
 
-  const searchInput = await findElement('searchInput');
+  const searchInput = getElement('searchInput');
   userEvent.type(searchInput, options[0].label);
 
   const optionsNotVisible = [options[1].label, options[2].label];
   for (const optionLabel in optionsNotVisible) {
     await waitFor(() => {
-      screen.queryByRole('checkbox', { name: optionLabel });
+      expect(
+        screen.queryByRole('checkbox', { name: optionLabel })
+      ).not.toBeInTheDocument();
     });
   }
 
   screen.getByRole('checkbox', { name: options[0].label });
 });
 
-test('should call onChange', async () => {
+test('should call onChange', () => {
   const onChange = jest.fn();
-  await renderComponentWithOpenMenu({ onChange });
+  renderComponentWithOpenMenu({ onChange });
 
   options.forEach((option) => {
     const checkbox = screen.getByRole('checkbox', { name: option.label });
@@ -152,9 +157,9 @@ test('should call onChange', async () => {
   });
 });
 
-test('should uncheck option', async () => {
+test('should uncheck option', () => {
   const onChange = jest.fn();
-  await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
+  renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 
   const checkbox = screen.getByRole('checkbox', { name: options[0].label });
   userEvent.click(checkbox);
@@ -162,9 +167,9 @@ test('should uncheck option', async () => {
   expect(onChange).toBeCalledWith([]);
 });
 
-test('should call onChange when pressing enter', async () => {
+test('should call onChange when pressing enter', () => {
   const onChange = jest.fn();
-  await renderComponentWithClosedMenu({ onChange });
+  renderComponentWithClosedMenu({ onChange });
 
   arrowDownKeyPressHelper();
   const checkbox = screen.getByRole('checkbox', { name: options[0].label });
@@ -173,18 +178,18 @@ test('should call onChange when pressing enter', async () => {
   expect(onChange).toBeCalledWith([options[0]]);
 });
 
-test('should clear value', async () => {
+test('should clear value', () => {
   const onChange = jest.fn();
-  await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
+  renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 
-  const clearButton = await findElement('clearButton');
+  const clearButton = getElement('clearButton');
   userEvent.click(clearButton);
 
   expect(onChange).toBeCalledWith([]);
 });
 
-test('should show value text correctly', async () => {
-  await renderComponent({ value: [options[0], options[1]] });
+test('should show value text correctly', () => {
+  renderComponent({ value: [options[0], options[1]] });
 
   screen.getByText('Option1 + 1');
 });

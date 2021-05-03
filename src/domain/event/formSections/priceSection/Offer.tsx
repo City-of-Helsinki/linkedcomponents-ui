@@ -53,7 +53,7 @@ const Offer: React.FC<Props> = ({
         <FieldWithButton
           button={
             <DeleteButton
-              label={t('event.form.buttonDeleteOffer')}
+              ariaLabel={t('event.form.buttonDeleteOffer')}
               onClick={onDelete}
             />
           }
