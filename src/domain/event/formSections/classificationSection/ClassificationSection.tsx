@@ -32,7 +32,11 @@ const ClassificationSection = () => {
   );
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
-  const [, , { setValue: setMainCategories }] = useField({
+  const [
+    { value: mainCategories },
+    ,
+    { setValue: setMainCategories },
+  ] = useField({
     name: EVENT_FIELDS.MAIN_CATEGORIES,
   });
 
@@ -41,6 +45,13 @@ const ClassificationSection = () => {
     setMainCategories(keywordOptions.map((option) => option.value));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keywordOptions]);
+
+  React.useEffect(() => {
+    if (!mainCategories.length && keywordOptions.length) {
+      setMainCategories(keywordOptions.map((option) => option.value));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mainCategories]);
 
   return (
     <>

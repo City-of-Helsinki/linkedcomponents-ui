@@ -7,7 +7,11 @@ import {
   searchText,
 } from '../__mocks__/eventSearchPage';
 import { ROUTES } from '../../../constants';
-import { render, screen } from '../../../utils/testUtils';
+import {
+  loadingSpinnerIsNotInDocument,
+  render,
+  screen,
+} from '../../../utils/testUtils';
 import EventSearchPage from '../EventSearchPage';
 
 const route = `${ROUTES.SEARCH}?text=${searchText}`;
@@ -18,8 +22,8 @@ const renderComponent = () =>
 
 test('should render events in the event list', async () => {
   renderComponent();
+  await loadingSpinnerIsNotInDocument();
 
-  for (const name of eventNames) {
-    await screen.findByRole('heading', { name });
-  }
+  await screen.getByRole('heading', { name: eventNames[0] });
+  await screen.getByRole('heading', { name: eventNames[1] });
 });

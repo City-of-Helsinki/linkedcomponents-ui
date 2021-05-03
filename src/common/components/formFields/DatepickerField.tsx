@@ -16,6 +16,7 @@ const DatepickerField: React.FC<Props> = ({
   field: { name, onChange, onBlur, value, ...field },
   form,
   helperText,
+  minBookingDate,
   ...rest
 }) => {
   const { t } = useTranslation();
@@ -51,7 +52,7 @@ const DatepickerField: React.FC<Props> = ({
       errorText={errorText}
       helperText={helperText}
       invalid={!!errorText}
-      minBookingDate={new Date()}
+      minBookingDate={minBookingDate ?? new Date()}
       value={typeof value === 'string' ? new Date(value) : value}
     />
   );

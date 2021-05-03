@@ -4,10 +4,12 @@ import {
   SuperEventType,
 } from '../../generated/graphql';
 import {
+  ADD_EVENT_TIME_FORM_NAME,
   ADD_IMAGE_FIELDS,
+  EDIT_EVENT_TIME_FORM_NAME,
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
-  EXTENSION_COURSE_FIELDS,
+  EVENT_TIME_FIELDS,
   IMAGE_DETAILS_FIELDS,
   RECURRING_EVENT_FIELDS,
   VIDEO_DETAILS_FIELDS,
@@ -47,10 +49,11 @@ export type EventFormFields = {
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: number | '';
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: number | '';
   [EVENT_FIELDS.DESCRIPTION]: MultiLanguageObject;
-  [EVENT_FIELDS.END_TIME]: Date | null;
+  [EVENT_FIELDS.EVENTS]: EventTime[];
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: string[];
   [EVENT_FIELDS.EVENT_TIMES]: EventTime[];
-  [EVENT_FIELDS.EXTENSION_COURSE]: ExtensionCourse;
+  [EVENT_FIELDS.ENROLMENT_END_TIME]: Date | null;
+  [EVENT_FIELDS.ENROLMENT_START_TIME]: Date | null;
   [EVENT_FIELDS.FACEBOOK_URL]: string;
   [EVENT_FIELDS.INSTAGRAM_URL]: string;
   [EVENT_FIELDS.HAS_PRICE]: boolean;
@@ -67,17 +70,34 @@ export type EventFormFields = {
   [EVENT_FIELDS.LOCATION]: string | null;
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: MultiLanguageObject;
   [EVENT_FIELDS.MAIN_CATEGORIES]: string[];
+  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
+  [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
   [EVENT_FIELDS.NAME]: MultiLanguageObject;
   [EVENT_FIELDS.OFFERS]: Offer[];
   [EVENT_FIELDS.PROVIDER]: MultiLanguageObject;
   [EVENT_FIELDS.PUBLISHER]: string;
   [EVENT_FIELDS.RECURRING_EVENTS]: RecurringEventSettings[];
+  [EVENT_FIELDS.RECURRING_EVENT_END_TIME]: Date | null;
+  [EVENT_FIELDS.RECURRING_EVENT_START_TIME]: Date | null;
   [EVENT_FIELDS.SHORT_DESCRIPTION]: MultiLanguageObject;
-  [EVENT_FIELDS.START_TIME]: Date | null;
   [EVENT_FIELDS.SUPER_EVENT]: string | null;
   [EVENT_FIELDS.TYPE]: string;
   [EVENT_FIELDS.TWITTER_URL]: string;
   [EVENT_FIELDS.VIDEOS]: VideoDetails[];
+};
+
+export type AddEventTimeFormFields = {
+  [ADD_EVENT_TIME_FORM_NAME]: {
+    [EVENT_TIME_FIELDS.END_TIME]: Date | null;
+    [EVENT_TIME_FIELDS.START_TIME]: Date | null;
+  };
+};
+
+export type EditEventTimeFormFields = {
+  [EDIT_EVENT_TIME_FORM_NAME]: {
+    [EVENT_TIME_FIELDS.END_TIME]: Date | null;
+    [EVENT_TIME_FIELDS.START_TIME]: Date | null;
+  };
 };
 
 export type MultiLanguageObject = {
@@ -89,16 +109,10 @@ export type MultiLanguageObject = {
   [EVENT_INFO_LANGUAGES.ZH_HANS]: string;
 };
 
-export type ExtensionCourse = {
-  [EXTENSION_COURSE_FIELDS.ENROLMENT_END_TIME]: Date | null;
-  [EXTENSION_COURSE_FIELDS.ENROLMENT_START_TIME]: Date | null;
-  [EXTENSION_COURSE_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
-  [EXTENSION_COURSE_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
-};
-
 export type EventTime = {
-  [EVENT_FIELDS.END_TIME]: Date | null;
-  [EVENT_FIELDS.START_TIME]: Date | null;
+  [EVENT_TIME_FIELDS.END_TIME]: Date | null;
+  [EVENT_TIME_FIELDS.ID]: string | null;
+  [EVENT_TIME_FIELDS.START_TIME]: Date | null;
 };
 
 export type ImageDetails = {
@@ -123,6 +137,7 @@ export type Offer = {
 export type RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.END_DATE]: Date | string | null;
   [RECURRING_EVENT_FIELDS.END_TIME]: string;
+  [RECURRING_EVENT_FIELDS.EVENT_TIMES]: EventTime[];
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: string[];
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: number;
   [RECURRING_EVENT_FIELDS.START_DATE]: Date | string | null;

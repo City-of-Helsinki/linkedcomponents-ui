@@ -58,6 +58,7 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
       <EventHierarchy event={event} />
       <div className={styles.modalButtonWrapper}>
         <Button
+          disabled={isSaving}
           iconLeft={
             isSaving ? (
               <LoadingSpinner
@@ -76,6 +77,7 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
           {t('event.deleteEventModal.buttonDelete')}
         </Button>
         <Button
+          disabled={isSaving}
           onClick={handleClose}
           theme="black"
           type="button"

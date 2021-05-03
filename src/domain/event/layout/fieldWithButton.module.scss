@@ -1,29 +1,29 @@
 @import 'breakpoints';
+@import 'widths';
 
 .fieldWithButton {
-  display: grid;
-  grid-template-columns: 1fr var(--input-height);
+  display: flex;
 
   .buttonColumn {
     min-width: var(--input-height);
   }
 
+  .inputColumn {
+    flex: 1 1 0%;
+  }
+
   &.widthMedium {
     @include medium-up {
-      grid-template-columns: minmax(0, var(--input-max-width-m)) auto;
-
       .inputColumn {
-        max-width: var(--input-max-width-m);
+        @include max-width-column(4);
       }
     }
   }
 
   &.widthLarge {
     @include medium-up {
-      grid-template-columns: minmax(0, var(--input-max-width-l)) auto;
-
       .inputColumn {
-        max-width: var(--input-max-width-l);
+        @include max-width-column(5);
       }
     }
   }

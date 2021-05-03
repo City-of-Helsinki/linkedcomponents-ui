@@ -212,6 +212,12 @@ export enum SuperEventType {
   Umbrella = 'umbrella'
 }
 
+export enum EventTypeId {
+  General = 'General',
+  Course = 'Course',
+  Volunteering = 'Volunteering'
+}
+
 export type ExternalLinkInput = {
   name?: Maybe<Scalars['String']>;
   link?: Maybe<Scalars['String']>;
@@ -245,12 +251,13 @@ export type VideoInput = {
 };
 
 export type CreateEventMutationInput = {
-  publicationStatus?: Maybe<PublicationStatus>;
   audience?: Maybe<Array<IdObjectInput>>;
   audienceMaxAge?: Maybe<Scalars['Int']>;
   audienceMinAge?: Maybe<Scalars['Int']>;
   description?: Maybe<LocalisedObjectInput>;
   endTime?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
   eventStatus?: Maybe<EventStatus>;
   externalLinks?: Maybe<Array<Maybe<ExternalLinkInput>>>;
   images?: Maybe<Array<IdObjectInput>>;
@@ -259,26 +266,31 @@ export type CreateEventMutationInput = {
   keywords?: Maybe<Array<IdObjectInput>>;
   location?: Maybe<IdObjectInput>;
   locationExtraInfo?: Maybe<LocalisedObjectInput>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   name?: Maybe<LocalisedObjectInput>;
   offers?: Maybe<Array<OfferInput>>;
   provider?: Maybe<LocalisedObjectInput>;
+  publicationStatus?: Maybe<PublicationStatus>;
   publisher?: Maybe<Scalars['String']>;
   shortDescription?: Maybe<LocalisedObjectInput>;
   startTime?: Maybe<Scalars['String']>;
   subEvents?: Maybe<Array<IdObjectInput>>;
   superEvent?: Maybe<IdObjectInput>;
   superEventType?: Maybe<SuperEventType>;
+  typeId?: Maybe<EventTypeId>;
   videos?: Maybe<Array<Maybe<VideoInput>>>;
 };
 
 export type UpdateEventMutationInput = {
   id: Scalars['ID'];
-  publicationStatus?: Maybe<PublicationStatus>;
   audience?: Maybe<Array<IdObjectInput>>;
   audienceMaxAge?: Maybe<Scalars['Int']>;
   audienceMinAge?: Maybe<Scalars['Int']>;
   description?: Maybe<LocalisedObjectInput>;
   endTime?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
   eventStatus?: Maybe<EventStatus>;
   externalLinks?: Maybe<Array<Maybe<ExternalLinkInput>>>;
   images?: Maybe<Array<IdObjectInput>>;
@@ -287,14 +299,18 @@ export type UpdateEventMutationInput = {
   keywords?: Maybe<Array<IdObjectInput>>;
   location?: Maybe<IdObjectInput>;
   locationExtraInfo?: Maybe<LocalisedObjectInput>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   name?: Maybe<LocalisedObjectInput>;
   offers?: Maybe<Array<OfferInput>>;
   provider?: Maybe<LocalisedObjectInput>;
+  publicationStatus?: Maybe<PublicationStatus>;
   shortDescription?: Maybe<LocalisedObjectInput>;
   startTime?: Maybe<Scalars['String']>;
   subEvents?: Maybe<Array<IdObjectInput>>;
   superEvent?: Maybe<IdObjectInput>;
   superEventType?: Maybe<SuperEventType>;
+  typeId?: Maybe<EventTypeId>;
   videos?: Maybe<Array<Maybe<VideoInput>>>;
 };
 
@@ -381,6 +397,8 @@ export type Event = {
   deleted?: Maybe<Scalars['String']>;
   description?: Maybe<LocalisedObject>;
   endTime?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
   extensionCourse?: Maybe<ExtensionCourse>;
   externalLinks: Array<Maybe<ExternalLink>>;
   eventStatus?: Maybe<EventStatus>;
@@ -391,6 +409,8 @@ export type Event = {
   lastModifiedTime?: Maybe<Scalars['String']>;
   location?: Maybe<Place>;
   locationExtraInfo?: Maybe<LocalisedObject>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   name?: Maybe<LocalisedObject>;
   offers: Array<Maybe<Offer>>;
   provider?: Maybe<LocalisedObject>;
@@ -402,6 +422,7 @@ export type Event = {
   subEvents: Array<Maybe<Event>>;
   superEvent?: Maybe<Event>;
   superEventType?: Maybe<SuperEventType>;
+  typeId?: Maybe<EventTypeId>;
   videos: Array<Maybe<Video>>;
   atId?: Maybe<Scalars['String']>;
   atContext?: Maybe<Scalars['String']>;
@@ -692,7 +713,7 @@ export type OfferFieldsFragment = (
 
 export type BaseEventFieldsFragment = (
   { __typename?: 'Event' }
-  & Pick<Event, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'createdBy' | 'deleted' | 'endTime' | 'eventStatus' | 'lastModifiedTime' | 'publicationStatus' | 'publisher' | 'startTime' | 'superEventType'>
+  & Pick<Event, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'createdBy' | 'deleted' | 'endTime' | 'enrolmentEndTime' | 'enrolmentStartTime' | 'eventStatus' | 'lastModifiedTime' | 'maximumAttendeeCapacity' | 'minimumAttendeeCapacity' | 'publicationStatus' | 'publisher' | 'startTime' | 'superEventType' | 'typeId'>
   & { audience: Array<Maybe<(
     { __typename?: 'Keyword' }
     & KeywordFieldsFragment
@@ -1290,6 +1311,8 @@ export const BaseEventFieldsFragmentDoc = gql`
     ...localisedFields
   }
   endTime
+  enrolmentEndTime
+  enrolmentStartTime
   externalLinks {
     ...externalLinkFields
   }
@@ -1313,6 +1336,8 @@ export const BaseEventFieldsFragmentDoc = gql`
   locationExtraInfo {
     ...localisedFields
   }
+  maximumAttendeeCapacity
+  minimumAttendeeCapacity
   name {
     ...localisedFields
   }
@@ -1329,6 +1354,7 @@ export const BaseEventFieldsFragmentDoc = gql`
   }
   startTime
   superEventType
+  typeId
   videos {
     ...videoFields
   }

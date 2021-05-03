@@ -2,15 +2,16 @@ import { MockedResponse } from '@apollo/react-testing';
 import React from 'react';
 
 import {
-  audienceName,
   eventId,
   expectedValues,
-  keywordName,
   mockedAudienceKeywordSetResponse,
   mockedCancelEventResponse,
   mockedCancelledEventResponse,
+  mockedCreateNewSubEventsResponse,
   mockedDeleteEventResponse,
+  mockedDeleteSubEvent1Response,
   mockedEventResponse,
+  mockedEventTimeResponse,
   mockedEventWithSubEventResponse,
   mockedFilteredPlacesResponse,
   mockedImageResponse,
@@ -25,21 +26,28 @@ import {
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
+  mockedSubEventTime1Response,
+  mockedSubEventTime2Response,
   mockedSubSubEventsResponse,
   mockedTopicsKeywordSetResponse,
   mockedUpdatedEventResponse,
-  mockedUpdatedEventWithSubEventResponse,
+  mockedUpdatedRecurringEventResponse,
   mockedUpdateEventResponse,
-  mockedUpdateEventWithSubEventResponse,
   mockedUpdateImageResponse,
+  mockedUpdateRecurringEventResponse,
+  mockedUpdateSubEventsResponse,
   mockedUserResponse,
+  newSubEventTimes,
+  subEventTimes,
 } from '../__mocks__/editEventPage';
-import { ROUTES } from '../../../constants';
+import { DATETIME_FORMAT, ROUTES } from '../../../constants';
 import { EventDocument } from '../../../generated/graphql';
+import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   configure,
   getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
   userEvent,
@@ -52,6 +60,7 @@ configure({ defaultHidden: true });
 
 const baseMocks = [
   mockedEventResponse,
+  mockedEventTimeResponse,
   mockedImageResponse,
   mockedKeywordResponse,
   mockedKeywordsResponse,
@@ -79,208 +88,61 @@ const renderComponent = (mocks: MockedResponse[] = baseMocks) =>
     store,
   });
 
-const findInput = (
-  key:
-    | 'actionsButton'
-    | 'audience'
-    | 'audienceMaxAge'
-    | 'audienceMinAge'
-    | 'descriptionFi'
-    | 'endTime'
-    | 'facebookUrl'
-    | 'hasPrice'
-    | 'imageAltText'
-    | 'imageName'
-    | 'imagePhotographerName'
-    | 'infoUrlFi'
-    | 'instagramUrl'
-    | 'keyword'
-    | 'location'
-    | 'locationExtraInfo'
-    | 'nameFi'
-    | 'providerFi'
-    | 'shortDescriptionFi'
-    | 'startTime'
-    | 'twitterUrl'
-    | 'videoAltText'
-    | 'videoName'
-    | 'videoUrl'
-) => {
-  switch (key) {
-    case 'audience':
-      return screen.findByRole('checkbox', {
-        name: audienceName,
-      });
-    case 'audienceMaxAge':
-      return screen.findByRole('spinbutton', { name: /yläikäraja/i });
-    case 'audienceMinAge':
-      return screen.findByRole('spinbutton', { name: /alaikäraja/i });
-    case 'descriptionFi':
-      return screen.findByRole('textbox', {
-        name: /tapahtuman kuvaus suomeksi/i,
-      });
-    case 'endTime':
-      return screen.findByRole('textbox', { name: /tapahtuma päättyy/i });
-    case 'facebookUrl':
-      return screen.findByRole('textbox', { name: /facebook/i });
-    case 'hasPrice':
-      return screen.findByRole('checkbox', {
-        name: /tapahtuma on maksullinen/i,
-      });
-    case 'imageAltText':
-      return screen.findByRole('textbox', { name: /kuvan alt-teksti/i });
-    case 'imageName':
-      return screen.findByRole('textbox', { name: /kuvateksti/i });
-    case 'imagePhotographerName':
-      return screen.findByRole('textbox', { name: /kuvaajan nimi/i });
-    case 'infoUrlFi':
-      return screen.findByRole('textbox', {
-        name: /tapahtuman kotisivun url suomeksi/i,
-      });
-    case 'instagramUrl':
-      return screen.findByRole('textbox', { name: /instagram/i });
-    case 'keyword':
-      return screen.findByRole('checkbox', {
-        name: keywordName,
-      });
-    case 'location':
-      return screen.findByRole('combobox', { name: /paikka/i });
-    case 'locationExtraInfo':
-      return screen.findByPlaceholderText(
-        /syötä lisätietoja tapahtumapaikasta suomeksi/i
-      );
-    case 'nameFi':
-      return screen.findByRole('textbox', {
-        name: /tapahtuman otsikko suomeksi/i,
-      });
-    case 'providerFi':
-      return screen.findByRole('textbox', {
-        name: /tapahtuman järjestäjä suomeksi \(jos eri kuin julkaisija\)/i,
-      });
-    case 'shortDescriptionFi':
-      return screen.findByRole('textbox', {
-        name: /lyhyt kuvaus suomeksi \(korkeintaan 160 merkkiä\)/i,
-      });
-    case 'startTime':
-      return screen.findByRole('textbox', { name: /tapahtuma alkaa/i });
-    case 'twitterUrl':
-      return screen.findByRole('textbox', { name: /twitter/i });
-    case 'videoAltText':
-      return screen.findByRole('textbox', { name: /videon alt-teksti/i });
-    case 'videoName':
-      return screen.findByRole('textbox', { name: /videon nimi/i });
-    case 'videoUrl':
-      return screen.findByRole('textbox', { name: /videon url-osoite/i });
-  }
-};
-
 const openMenu = async () => {
-  const toggleButton = await screen.findByRole('button', {
-    name: /valinnat/i,
-  });
+  const toggleButton = screen
+    .getAllByRole('button', {
+      name: /valinnat/i,
+    })
+    .pop();
+
   userEvent.click(toggleButton);
-  await screen.findByRole('region', { name: /valinnat/i });
+  screen.getByRole('region', { name: /valinnat/i });
 
   return toggleButton;
 };
 
-const findButton = (
+const getButton = (
   key: 'cancel' | 'delete' | 'postpone' | 'updateDraft' | 'updatePublic'
 ) => {
   switch (key) {
     case 'cancel':
-      return screen.findByRole('button', { name: 'Peruuta tapahtuma' });
+      return screen.getByRole('button', { name: 'Peruuta tapahtuma' });
     case 'delete':
-      return screen.findByRole('button', { name: 'Poista tapahtuma' });
+      return screen.getByRole('button', { name: 'Poista tapahtuma' });
     case 'postpone':
-      return screen.findByRole('button', { name: 'Lykkää tapahtumaa' });
+      return screen.getByRole('button', { name: 'Lykkää tapahtumaa' });
     case 'updateDraft':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: 'Tallenna luonnos',
       });
     case 'updatePublic':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: 'Tallenna muutokset',
       });
   }
 };
-/** This test is quite heavy from the performance perspective so skip it 
- /* and enable it manually if needed */
-test.skip('should initialize event form fields', async () => {
-  renderComponent();
 
-  const providerFiInput = await findInput('providerFi');
-  expect(providerFiInput).toHaveValue(expectedValues.provider);
+const getInput = (key: 'nameFi') => {
+  switch (key) {
+    case 'nameFi':
+      return screen.getByRole('textbox', {
+        name: /tapahtuman otsikko suomeksi/i,
+      });
+  }
+};
 
-  const nameFiInput = await findInput('nameFi');
-  expect(nameFiInput).toHaveValue(expectedValues.name);
-
-  const infoUrlFiInput = await findInput('infoUrlFi');
-  expect(infoUrlFiInput).toHaveValue(expectedValues.infoUrl);
-
-  const shortDescriptionFiInput = await findInput('shortDescriptionFi');
-  expect(shortDescriptionFiInput).toHaveValue(expectedValues.shortDescription);
-
-  await findInput('descriptionFi');
-
-  const startTimeInput = await findInput('startTime');
-  expect(startTimeInput).toHaveValue(expectedValues.startTime);
-
-  const endTimeInput = await findInput('endTime');
-  expect(endTimeInput).toHaveValue(expectedValues.endTime);
-
-  const locationInput = await findInput('location');
-  expect(locationInput).toHaveValue(expectedValues.location);
-
-  const locationExtraInfoInput = await findInput('locationExtraInfo');
-  expect(locationExtraInfoInput).toHaveValue(expectedValues.locationExtraInfo);
-
-  const hasPriceCheckbox = await findInput('hasPrice');
-  expect(hasPriceCheckbox).toBeChecked();
-
-  const facebookUrlInput = await findInput('facebookUrl');
-  expect(facebookUrlInput).toHaveValue(expectedValues.facebookUrl);
-
-  const instagramUrlInput = await findInput('instagramUrl');
-  expect(instagramUrlInput).toHaveValue(expectedValues.instagramUrl);
-
-  const twitterUrlInput = await findInput('twitterUrl');
-  expect(twitterUrlInput).toHaveValue(expectedValues.twitterUrl);
-
-  const imageAltTextInput = await findInput('imageAltText');
-  expect(imageAltTextInput).toHaveValue(expectedValues.imageAltText);
-
-  const imageNameInput = await findInput('imageName');
-  expect(imageNameInput).toHaveValue(expectedValues.imageName);
-
-  const imagePhotographerNameInput = await findInput('imagePhotographerName');
-  expect(imagePhotographerNameInput).toHaveValue(
-    expectedValues.imagePhotographerName
-  );
-
-  const videoAltTextInput = await findInput('videoAltText');
-  expect(videoAltTextInput).toHaveValue(expectedValues.videoAltText);
-
-  const videoNameInput = await findInput('videoName');
-  expect(videoNameInput).toHaveValue(expectedValues.videoName);
-
-  const videoUrlInput = await findInput('videoUrl');
-  expect(videoUrlInput).toHaveValue(expectedValues.videoUrl);
-
-  const keywordCheckbox = await findInput('keyword');
-  expect(keywordCheckbox).toBeChecked();
-
-  screen.getByRole('link', { name: `Avainsanahaku ${keywordName}` });
-
-  const audienceCheckbox = await findInput('audience');
-  expect(audienceCheckbox).toBeChecked();
-
-  const audienceMinAgeInput = await findInput('audienceMinAge');
-  expect(audienceMinAgeInput).toHaveValue(expectedValues.audienceMinAge);
-
-  const audienceMaxAgeInput = await findInput('audienceMaxAge');
-  expect(audienceMaxAgeInput).toHaveValue(expectedValues.audienceMaxAge);
-});
+const getAddEventTimeFormElement = (
+  key: 'addButton' | 'endTime' | 'startTime'
+) => {
+  switch (key) {
+    case 'addButton':
+      return screen.getByRole('button', { name: /lisää ajankohta/i });
+    case 'endTime':
+      return screen.getByRole('textbox', { name: /tapahtuma päättyy/i });
+    case 'startTime':
+      return screen.getByRole('textbox', { name: /tapahtuma alkaa/i });
+  }
+};
 
 test('should cancel event', async () => {
   const mocks: MockedResponse[] = [
@@ -293,13 +155,15 @@ test('should cancel event', async () => {
 
   renderComponent(mocks);
 
+  await loadingSpinnerIsNotInDocument();
   await openMenu();
-  const cancelButton = await findButton('cancel');
+
+  const cancelButton = getButton('cancel');
   userEvent.click(cancelButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   // Cancel event button inside modal
-  const cancelEventButton = await withinModal.findByRole('button', {
+  const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta tapahtuma',
   });
   userEvent.click(cancelEventButton);
@@ -318,26 +182,19 @@ test('should postpone event', async () => {
 
   renderComponent(mocks);
 
-  const startTimeInput = await findInput('startTime');
-  expect(startTimeInput).toHaveValue(expectedValues.startTime);
-
-  const endTimeInput = await findInput('endTime');
-  expect(endTimeInput).toHaveValue(expectedValues.endTime);
-
+  await loadingSpinnerIsNotInDocument();
   await openMenu();
-  const postponeButton = await findButton('postpone');
+
+  const postponeButton = getButton('postpone');
   userEvent.click(postponeButton);
 
   const withinModal = within(screen.getByRole('dialog'));
-  const postponeEventButton = await withinModal.findByRole('button', {
+  const postponeEventButton = withinModal.getByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
   userEvent.click(postponeEventButton);
 
   await screen.findByText('Lykätty', undefined, { timeout: 10000 });
-
-  expect(startTimeInput).toHaveValue('');
-  expect(endTimeInput).toHaveValue('');
 });
 
 test('should delete event', async () => {
@@ -349,23 +206,21 @@ test('should delete event', async () => {
 
   const { history } = renderComponent(mocks);
 
+  await loadingSpinnerIsNotInDocument();
   await openMenu();
-  const deleteButton = await findButton('delete');
+
+  const deleteButton = getButton('delete');
   userEvent.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   // Delete event button inside modal
-  const deleteEventButton = await withinModal.findByRole('button', {
+  const deleteEventButton = withinModal.getByRole('button', {
     name: 'Poista tapahtuma',
   });
   userEvent.click(deleteEventButton);
 
-  await waitFor(
-    () => {
-      expect(history.location.pathname).toBe('/fi/events');
-    },
-    { timeout: 10000 }
-  );
+  await loadingSpinnerIsNotInDocument(10000);
+  expect(history.location.pathname).toBe('/fi/events');
 });
 
 test('should update event', async () => {
@@ -381,9 +236,11 @@ test('should update event', async () => {
 
   renderComponent(mocks);
 
-  await screen.findByText(expectedValues.lastModifiedTime);
+  await loadingSpinnerIsNotInDocument();
 
-  const updateButton = await findButton('updatePublic');
+  screen.getByText(expectedValues.lastModifiedTime);
+
+  const updateButton = getButton('updatePublic');
   userEvent.click(updateButton);
 
   await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
@@ -396,11 +253,17 @@ test('should update recurring event', async () => {
     ...baseMocks.filter((item) => item.request.query !== EventDocument),
     mockedEventWithSubEventResponse,
     mockedSubEventsResponse,
+    mockedSubEventTime1Response,
+    mockedSubEventTime2Response,
     mockedSubSubEventsResponse,
     // Request to update event
-    mockedUpdateEventWithSubEventResponse,
+    mockedDeleteSubEvent1Response,
+    mockedUpdateSubEventsResponse,
+    mockedCreateNewSubEventsResponse,
+    mockedUpdateRecurringEventResponse,
     // Request to get mutated event
-    mockedUpdatedEventWithSubEventResponse,
+    mockedUpdatedRecurringEventResponse,
+    mockedUpdatedRecurringEventResponse,
     mockedSubEventsResponse,
     mockedSubSubEventsResponse,
     // Request to update image
@@ -409,36 +272,79 @@ test('should update recurring event', async () => {
 
   renderComponent(mocks);
 
-  await screen.findByText(expectedValues.lastModifiedTime);
+  await loadingSpinnerIsNotInDocument();
 
-  const updateButton = await findButton('updatePublic');
+  screen.getByText(expectedValues.lastModifiedTime);
+
+  // Delete first sub-event
+  const withinRow = within(
+    screen.getByRole('row', {
+      name: `1 ${formatDate(
+        subEventTimes[0].startTime,
+        DATETIME_FORMAT
+      )} – ${formatDate(subEventTimes[0].endTime, DATETIME_FORMAT)}`,
+    })
+  );
+  const toggleMenuButton = withinRow.getByRole('button', {
+    name: /valinnat/i,
+  });
+  userEvent.click(toggleMenuButton);
+  const deleteButton = withinRow.getByRole('button', { name: /poista/i });
+  userEvent.click(deleteButton);
+
+  const endTimeInput = getAddEventTimeFormElement('endTime');
+  const startTimeInput = getAddEventTimeFormElement('startTime');
+  const addButton = getAddEventTimeFormElement('addButton');
+
+  for (const newEventTime of newSubEventTimes) {
+    userEvent.click(startTimeInput);
+    userEvent.type(
+      startTimeInput,
+      formatDate(newEventTime.startTime, DATETIME_FORMAT)
+    );
+    userEvent.click(endTimeInput);
+    userEvent.type(
+      endTimeInput,
+      formatDate(newEventTime.endTime, DATETIME_FORMAT)
+    );
+
+    await waitFor(() => expect(addButton).toBeEnabled());
+    userEvent.click(addButton);
+  }
+
+  const updateButton = getButton('updatePublic');
   userEvent.click(updateButton);
 
   const modal = await screen.findByRole('dialog');
   const withinModal = within(modal);
-  // // Delete event button inside modal
-  const updateEventButton = await withinModal.findByRole('button', {
+  // Update event button inside modal
+  const updateEventButton = await withinModal.getByRole('button', {
     name: 'Tallenna',
   });
   userEvent.click(updateEventButton);
 
+  // This test is pretty heavy so give DOM some time to update
+  await loadingSpinnerIsNotInDocument(20000);
   await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
-    timeout: 10000,
+    timeout: 20000,
   });
 });
 
 test('should scroll to first error when validation error is thrown', async () => {
   const mocks: MockedResponse[] = [
     ...baseMocks.filter((item) => item.request.query !== EventDocument),
+    mockedEventTimeResponse,
     // Request to update event
     mockedInvalidEventResponse,
   ];
   renderComponent(mocks);
 
-  const updateButton = await findButton('updateDraft');
+  await loadingSpinnerIsNotInDocument();
+
+  const updateButton = getButton('updateDraft');
   userEvent.click(updateButton);
 
-  const nameFiInput = await findInput('nameFi');
+  const nameFiInput = getInput('nameFi');
 
   await waitFor(() => {
     expect(nameFiInput).toHaveFocus();

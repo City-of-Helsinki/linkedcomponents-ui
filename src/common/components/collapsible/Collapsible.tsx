@@ -10,17 +10,19 @@ import styles from './collapsible.module.scss';
 const generateUniqueId = (prefix: string) => `${prefix}-${uniqueId()}`;
 
 type Props = {
+  defaultOpen?: boolean;
   headingLevel?: number;
   title: string;
 };
 
 const Collabsible: React.FC<Props> = ({
   children,
+  defaultOpen = false,
   headingLevel = 3,
   title,
 }) => {
   const { theme } = useTheme();
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(defaultOpen);
 
   const collapsibleHeadingId = React.useMemo(
     () => generateUniqueId('collapsible-heading'),
@@ -48,9 +50,10 @@ const Collabsible: React.FC<Props> = ({
           aria-expanded={isOpen}
           aria-controls={collapsiblePanelId}
           onClick={togglePanel}
+          type="button"
         >
           {isOpen ? <IconAngleUp size="m" /> : <IconAngleDown size="m" />}
-          {title}
+          <span>{title}</span>
         </button>
       </div>
       <div

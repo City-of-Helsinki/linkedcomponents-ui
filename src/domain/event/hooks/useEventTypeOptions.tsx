@@ -9,7 +9,7 @@ const useEventTypeOptions = () => {
 
   const options: OptionType[] = React.useMemo(
     () =>
-      [EVENT_TYPE.EVENT, EVENT_TYPE.COURSE].map((type) => ({
+      Object.values(EVENT_TYPE).map((type) => ({
         label: t(`event.type.${type}`),
         value: type,
       })),

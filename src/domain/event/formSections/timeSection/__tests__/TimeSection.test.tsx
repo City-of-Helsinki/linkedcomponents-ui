@@ -2,7 +2,10 @@ import { Formik } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { WEEK_DAY } from '../../../../../constants';
+import {
+  EventFieldsFragment,
+  SuperEventType,
+} from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import {
   configure,
@@ -10,28 +13,68 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { EventFormFields } from '../../../types';
-import { eventValidationSchema } from '../../../utils';
-import TimeSection, { TimeSectionProps } from '../TimeSection';
+import { RecurringEventSettings } from '../../../types';
+import TimeSection from '../TimeSection';
 
 configure({ defaultHidden: true });
 
-const type = EVENT_TYPE.EVENT;
+beforeEach(() => {
+  clear();
+});
 
+const type = EVENT_TYPE.General;
 const defaultInitialValue = {
-  [EVENT_FIELDS.END_TIME]: null,
   [EVENT_FIELDS.EVENT_TIMES]: [],
+  [EVENT_FIELDS.EVENTS]: [],
   [EVENT_FIELDS.RECURRING_EVENTS]: [],
-  [EVENT_FIELDS.START_TIME]: null,
   [EVENT_FIELDS.TYPE]: type,
 };
 
-const renderTimeSection = (
-  initialValues?: Partial<EventFormFields>,
-  props?: TimeSectionProps
+const events = [
+  {
+    id: null,
+    endTime: new Date('2021-04-18T15:00:00.000Z'),
+    startTime: new Date('2021-04-18T12:00:00.000Z'),
+  },
+];
+
+const eventTimes = [
+  {
+    id: null,
+    endTime: new Date('2021-06-11T15:00:00.000Z'),
+    startTime: new Date('2021-06-11T12:00:00.000Z'),
+  },
+];
+
+const recurringEvents: RecurringEventSettings[] = [
+  {
+    endDate: '2021-05-15T00:00:00.000Z',
+    endTime: '15.00',
+    eventTimes: [
+      {
+        id: null,
+        endTime: new Date('2021-05-03T15:00:00.000Z'),
+        startTime: new Date('2021-05-03T12:00:00.000Z'),
+      },
+      {
+        id: null,
+        endTime: new Date('2021-05-10T15:00:00.000Z'),
+        startTime: new Date('2021-05-10T12:00:00.000Z'),
+      },
+    ],
+    repeatDays: ['mon'],
+    repeatInterval: 1,
+    startDate: '2021-05-01T00:00:00.000Z',
+    startTime: '12.00',
+  },
+];
+
+const renderComponent = (
+  initialValues?: Partial<typeof defaultInitialValue>,
+  savedEvent?: EventFieldsFragment
 ) =>
   render(
     <Formik
@@ -40,283 +83,273 @@ const renderTimeSection = (
         ...initialValues,
       }}
       onSubmit={jest.fn()}
-      validationSchema={eventValidationSchema}
     >
-      <TimeSection {...props} />
+      <TimeSection savedEvent={savedEvent} />
     </Formik>
   );
 
-afterAll(() => {
-  clear();
+const getSingleEventElement = (
+  key: 'addButton' | 'delete' | 'endTime' | 'startTime' | 'toggle'
+) => {
+  switch (key) {
+    case 'addButton':
+      return screen.getByRole('button', { name: /lisää ajankohta/i });
+    case 'delete':
+      return screen.getByRole('button', { name: /poista/i });
+    case 'endTime':
+      return screen.getByRole('textbox', { name: /tapahtuma päättyy/i });
+    case 'toggle':
+      return screen.getAllByRole('button', { name: /valinnat/i })[0];
+    case 'startTime':
+      return screen.getByRole('textbox', { name: /tapahtuma alkaa/i });
+  }
+};
+
+const getRecurringEventElement = (
+  key:
+    | 'addButton'
+    | 'endDate'
+    | 'endTime'
+    | 'monCheckbox'
+    | 'startDate'
+    | 'startTime'
+    | 'tueCheckbox'
+) => {
+  switch (key) {
+    case 'addButton':
+      return screen.getByRole('button', { name: /lisää toistuva tapahtuma/i });
+    case 'endDate':
+      return screen.getByRole('textbox', { name: /toisto päättyy/i });
+    case 'endTime':
+      return screen.getByRole('textbox', { name: /tapahtuma päättyy klo/i });
+    case 'monCheckbox':
+      return screen.getByRole('checkbox', { name: /ma/i });
+    case 'startDate':
+      return screen.getByRole('textbox', { name: /toisto alkaa/i });
+    case 'startTime':
+      return screen.getByRole('textbox', { name: /tapahtuma alkaa klo/i });
+    case 'tueCheckbox':
+      return screen.getByRole('checkbox', { name: /ti/i });
+  }
+};
+
+test('should render all event times', async () => {
+  advanceTo('2021-04-12');
+
+  const initialValues = {
+    [EVENT_FIELDS.EVENTS]: events,
+    [EVENT_FIELDS.EVENT_TIMES]: eventTimes,
+    [EVENT_FIELDS.RECURRING_EVENTS]: recurringEvents,
+  };
+  renderComponent(initialValues, fakeEvent());
+
+  // Event
+  screen.getByRole('row', {
+    name: '1 18.04.2021 12.00 – 18.04.2021 15.00',
+  });
+  // Recurring event
+  screen.getByRole('heading', {
+    name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
+  });
+  // Single event time
+  screen.getByRole('row', {
+    name: '4 11.06.2021 12.00 – 11.06.2021 15.00',
+  });
 });
 
-test('should render TimeSection', () => {
-  renderTimeSection();
+test('should add/delete event time', async () => {
+  advanceTo('2021-04-12');
+  const initialValues = {
+    [EVENT_FIELDS.EVENT_TIMES]: eventTimes,
+  };
+  renderComponent(initialValues);
+  const startTimeInput = getSingleEventElement('startTime');
+  const endTimeInput = getSingleEventElement('endTime');
 
-  //  Notification title is same as section title
-  expect(
-    screen.queryAllByRole('heading', {
-      name: translations.event.form.titleTime[type],
-    })
-  ).toHaveLength(2);
+  userEvent.click(startTimeInput);
+  userEvent.type(startTimeInput, '14.04.2021 12.00');
 
-  const texts = [
-    translations.event.form.infoTextEventTimes1[type],
-    translations.event.form.infoTextEventTimes2[type],
-    translations.event.form.infoTextEventTimes3[type],
-    translations.event.form.infoTextEventTimes4[type],
-    translations.event.form.infoTextEventTimes5,
-  ];
+  userEvent.click(endTimeInput);
+  userEvent.type(endTimeInput, '14.04.2021 14.00');
 
-  texts.forEach((text) => {
-    screen.getByText(text);
-  });
-
-  const fields = [
-    translations.event.form.labelStartTime[type],
-    translations.event.form.labelEndTime[type],
-  ];
-
-  fields.forEach((name) => {
-    screen.getByRole('textbox', { name });
-  });
-
-  const buttons = [
-    translations.event.form.buttonAddEventTime,
-    translations.event.form.buttonOpenRecurringEventSettings[type],
-  ];
-
-  buttons.forEach((name) => {
-    screen.getByRole('button', { name });
-  });
-});
-
-test('should show error message when end time is before start time', async () => {
-  advanceTo('2020-11-04');
-  renderTimeSection();
-
-  const startTime = '07.11.2020 15.00';
-  const endTime = '07.11.2020 12.00';
-  const startInput = screen.getByRole('textbox', {
-    name: translations.event.form.labelStartTime[type],
-  });
-  const endInput = screen.getByRole('textbox', {
-    name: translations.event.form.labelEndTime[type],
-  });
-
-  userEvent.click(startInput);
-  userEvent.type(startInput, startTime);
-  userEvent.click(endInput);
-
-  expect(startInput).toHaveValue(startTime);
-
-  userEvent.type(endInput, endTime);
-  userEvent.tab();
-
-  expect(endInput).toHaveValue(endTime);
-
-  await screen.findByText(
-    translations.form.validation.date.after.replace('{{after}}', startTime)
-  );
-});
-
-test('add button should be disabled when editing existing event', async () => {
-  renderTimeSection(undefined, { savedEvent: fakeEvent() });
-  const addButton = screen.getByRole('button', {
-    name: translations.event.form.buttonAddEventTime,
-  });
-  const addRecurringEventButton = screen.getByRole('button', {
-    name: translations.event.form.buttonOpenRecurringEventSettings[type],
-  });
-  expect((addButton as HTMLButtonElement).disabled).toBe(true);
-  expect((addRecurringEventButton as HTMLButtonElement).disabled).toBe(true);
-});
-
-test('should add and delete event time', async () => {
-  renderTimeSection();
-  const startTimeName = translations.event.form.labelStartTime[type];
-  const endTimeName = translations.event.form.labelEndTime[type];
-
-  expect(
-    screen.queryAllByRole('textbox', { name: startTimeName })
-  ).toHaveLength(1);
-  expect(screen.queryAllByRole('textbox', { name: endTimeName })).toHaveLength(
-    1
-  );
-
-  const addButton = screen.getByRole('button', {
-    name: translations.event.form.buttonAddEventTime,
+  const addButton = getSingleEventElement('addButton');
+  await waitFor(() => {
+    expect(addButton).toBeEnabled();
   });
   userEvent.click(addButton);
 
-  expect(
-    screen.queryAllByRole('textbox', { name: startTimeName })
-  ).toHaveLength(2);
-  expect(screen.queryAllByRole('textbox', { name: endTimeName })).toHaveLength(
-    2
-  );
-
-  const deleteButton = screen.getByRole('button', {
-    name: translations.event.form.buttonDeleteEventTime,
+  await screen.findByRole('row', {
+    name: '1 14.04.2021 12.00 – 14.04.2021 14.00',
   });
-  userEvent.click(deleteButton);
-
-  expect(
-    screen.queryAllByRole('textbox', { name: startTimeName })
-  ).toHaveLength(1);
-  expect(screen.queryAllByRole('textbox', { name: endTimeName })).toHaveLength(
-    1
-  );
-});
-
-test('should open recurring event settings modal and close it with close button', async () => {
-  renderTimeSection();
-
-  const modalTitleText = translations.event.form.modalTitleRecurringEvent[type];
-
-  expect(
-    screen.queryByRole('heading', { name: modalTitleText })
-  ).not.toBeInTheDocument();
-
-  userEvent.click(
-    screen.queryByRole('button', {
-      name: translations.event.form.buttonOpenRecurringEventSettings[type],
-    })
-  );
-
-  screen.getByRole('heading', { name: modalTitleText });
-
-  userEvent.click(
-    screen.queryByRole('button', {
-      name: translations.common.close,
-    })
-  );
-
-  expect(
-    screen.queryByRole('heading', { name: modalTitleText })
-  ).not.toBeInTheDocument();
-});
-
-test('should render recurring event settings info and delete it with delete button', async () => {
-  advanceTo('2020-11-04');
-  renderTimeSection({
-    [EVENT_FIELDS.RECURRING_EVENTS]: [
-      {
-        endDate: new Date('2021-12-12'),
-        endTime: '14.00',
-        repeatDays: [
-          WEEK_DAY.SUN,
-          WEEK_DAY.SAT,
-          WEEK_DAY.FRI,
-          WEEK_DAY.THU,
-          WEEK_DAY.WED,
-          WEEK_DAY.TUE,
-          WEEK_DAY.MON,
-        ],
-        repeatInterval: 1,
-        startDate: new Date('2020-12-10'),
-        startTime: '12.30',
-      },
-    ],
+  screen.getByRole('row', {
+    name: '2 11.06.2021 12.00 – 11.06.2021 15.00',
   });
-
-  const infoCells = [
-    'Viikon välein',
-    'Maanantai, Tiistai, Keskiviikko, Torstai, Perjantai, Lauantai ja Sunnuntai',
-    'klo 12.30',
-    'klo 14.00',
-    '10.12.2020',
-    '12.12.2021',
-  ];
-
-  const toggleButtonText =
-    'Viikon välein Ma, Ti, Ke, To, Pe, La ja Su, Ajalla 10.12.2020 – 12.12.2021, 12.30 – 14.00';
-
-  // Should not show recurring event details
-  expect(
-    screen.queryByRole('cell', { name: 'Viikon välein', hidden: false })
-  ).not.toBeInTheDocument();
-
-  const toggleButton = screen.getByRole('button', {
-    name: toggleButtonText,
-  });
-  const deleteButton = screen.getByRole('button', {
-    name: translations.event.form.buttonDeleteRecurringEvent,
-  });
-
+  const toggleButton = getSingleEventElement('toggle');
   userEvent.click(toggleButton);
 
-  // Should show recurring event details
-  infoCells.forEach((text) => {
+  const deleteButton = getSingleEventElement('delete');
+  userEvent.click(deleteButton);
+
+  await waitFor(() => {
     expect(
-      screen.queryByRole('cell', { name: text, hidden: false })
-    ).toBeInTheDocument();
+      screen.queryByRole('row', {
+        name: '1 14.04.2021 12.00 – 14.04.2021 14.00',
+      })
+    ).not.toBeInTheDocument();
   });
-
-  userEvent.click(toggleButton);
-
-  // Should not show recurring event details
-  expect(
-    screen.queryByRole('cell', { name: 'Viikon välein', hidden: false })
-  ).not.toBeInTheDocument();
-
-  userEvent.click(deleteButton);
-
-  // Recurring event should be removed
-  expect(toggleButton).not.toBeInTheDocument();
+  screen.getByRole('row', {
+    name: '1 11.06.2021 12.00 – 11.06.2021 15.00',
+  });
 });
 
-test('should add new recurring event', async () => {
-  advanceTo('2020-11-04');
-  renderTimeSection();
+test('should edit event time', async () => {
+  advanceTo('2021-04-12');
+  const initialValues = {
+    [EVENT_FIELDS.EVENT_TIMES]: eventTimes,
+  };
+  renderComponent(initialValues);
 
-  userEvent.click(
-    screen.getByRole('button', {
-      name: translations.event.form.buttonOpenRecurringEventSettings[type],
-    })
-  );
-
-  const modalTitleText = translations.event.form.modalTitleRecurringEvent[type];
-  await screen.findByRole('heading', { name: modalTitleText });
-
-  userEvent.click(screen.getByRole('checkbox', { name: /ma/i }));
-
-  const fields = [
-    {
-      name: translations.event.form.labelRecurringEventStartDate,
-      value: '18.11.2020',
-    },
-    {
-      name: translations.event.form.labelRecurringEventEndDate,
-      value: '25.09.2021',
-    },
-    {
-      name: translations.event.form.labelRecurringEventStartTime[type],
-      value: '12.30',
-    },
-    {
-      name: translations.event.form.labelRecurringEventEndTime[type],
-      value: '14.00',
-    },
-  ];
-
-  for (const { name, value } of fields) {
-    const input = screen.getByRole('textbox', { name });
-    userEvent.click(input);
-    userEvent.type(input, value);
-
-    await waitFor(() => {
-      expect(input).toHaveValue(value);
-    });
-  }
-
-  userEvent.click(
-    screen.getByRole('button', {
-      name: translations.event.form.buttonAddRecurringEvent[type],
-    })
-  );
-
-  await screen.findByRole('button', {
-    name: 'Viikon välein Ma, Ajalla 18.11.2020 – 25.09.2021, 12.30 – 14.00',
+  screen.getByRole('row', {
+    name: '1 11.06.2021 12.00 – 11.06.2021 15.00',
   });
+
+  const toggleMenuButton = screen.getByRole('button', {
+    name: /valinnat/i,
+  });
+  userEvent.click(toggleMenuButton);
+  const editButton = screen.getByRole('button', {
+    name: /muokkaa/i,
+  });
+  userEvent.click(editButton);
+
+  const withinEditModal = within(screen.getByRole('dialog'));
+  const startTimeInput = withinEditModal.getByRole('textbox', {
+    name: /tapahtuma alkaa/i,
+  });
+  userEvent.click(startTimeInput);
+  userEvent.clear(startTimeInput);
+  userEvent.type(startTimeInput, '02.05.2021 13.00');
+  await waitFor(() => expect(startTimeInput).toHaveValue('02.05.2021 13.00'));
+
+  const updateButton = screen.getByRole('button', {
+    name: /tallenna muutokset/i,
+  });
+  userEvent.click(updateButton);
+
+  await screen.findByRole('row', {
+    name: '1 02.05.2021 13.00 – 11.06.2021 15.00',
+  });
+});
+
+test('should add/delete recurring event', async () => {
+  advanceTo('2021-04-12');
+
+  const initialValues = {
+    [EVENT_FIELDS.RECURRING_EVENTS]: recurringEvents,
+  };
+  renderComponent(initialValues);
+
+  const recurringEventTab = screen.getByRole('tab', {
+    name: /toistuva tapahtuma/i,
+  });
+  userEvent.click(recurringEventTab);
+
+  const tueCheckbox = getRecurringEventElement('tueCheckbox');
+  const endDateInput = getRecurringEventElement('endDate');
+  const endTimeInput = getRecurringEventElement('endTime');
+  const startDateInput = getRecurringEventElement('startDate');
+  const startTimeInput = getRecurringEventElement('startTime');
+
+  userEvent.click(tueCheckbox);
+
+  userEvent.click(startDateInput);
+  userEvent.type(startDateInput, '23.04.2021');
+
+  userEvent.click(endDateInput);
+  userEvent.type(endDateInput, '11.05.2021');
+
+  userEvent.type(startTimeInput, '12.00');
+
+  userEvent.type(endTimeInput, '15.00');
+
+  const addButton = getRecurringEventElement('addButton');
+
+  await waitFor(() => {
+    expect(addButton).toBeEnabled();
+  });
+  userEvent.click(addButton);
+
+  screen.getByRole('heading', {
+    name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
+  });
+
+  await screen.findByRole('heading', {
+    name: 'Ti, Viikon välein, 23.04.2021 – 11.05.2021',
+  });
+
+  const deleteButton = screen.getAllByRole('button', { name: /poista/i })[0];
+  userEvent.click(deleteButton);
+
+  await waitFor(() => {
+    expect(
+      screen.queryByRole('heading', {
+        name: 'Ti, Viikon välein, 23.04.2021 – 11.05.2021',
+      })
+    ).not.toBeInTheDocument();
+    screen.getByRole('heading', {
+      name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
+    });
+  });
+});
+
+test('should not be able to add new event times when editing single event', async () => {
+  advanceTo('2021-04-12');
+
+  const initialValues = {
+    [EVENT_FIELDS.EVENTS]: events,
+  };
+  renderComponent(
+    initialValues,
+    fakeEvent({
+      endTime: events[0].endTime.toISOString(),
+      startTime: events[0].startTime.toISOString(),
+      superEventType: null,
+    })
+  );
+
+  const singleEventStartTimeInput = getSingleEventElement('startTime');
+  expect(singleEventStartTimeInput).toBeDisabled();
+
+  const recurringEventTab = screen.getByRole('tab', {
+    name: /toistuva tapahtuma/i,
+  });
+  userEvent.click(recurringEventTab);
+  const recurringEventStartTimeInput = getRecurringEventElement('startTime');
+  expect(recurringEventStartTimeInput).toBeDisabled();
+});
+
+test('should be able to add new event times when editing recurring event', async () => {
+  advanceTo('2021-04-12');
+
+  const initialValues = {
+    [EVENT_FIELDS.EVENTS]: events,
+  };
+  renderComponent(
+    initialValues,
+    fakeEvent({
+      endTime: events[0].endTime.toISOString(),
+      startTime: events[0].startTime.toISOString(),
+      superEventType: SuperEventType.Recurring,
+    })
+  );
+
+  const singleEventStartTimeInput = getSingleEventElement('startTime');
+  expect(singleEventStartTimeInput).toBeEnabled();
+
+  const recurringEventTab = screen.getByRole('tab', {
+    name: /toistuva tapahtuma/i,
+  });
+  userEvent.click(recurringEventTab);
+  const recurringEventStartTimeInput = getRecurringEventElement('startTime');
+  expect(recurringEventStartTimeInput).toBeEnabled();
 });

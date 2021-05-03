@@ -1,4 +1,4 @@
-@import "mixins";
+@import 'mixins';
 
 .datepickerWrapper {
   --focus-outline-width: 3px;
@@ -100,7 +100,10 @@
       color: var(--day-color-hovered);
     }
 
-    @include focus-outline(calc(0px - var(--focus-outline-width)), var(--day-border-color-focused));
+    @include focus-outline(
+      calc(0px - var(--focus-outline-width)),
+      var(--day-border-color-focused)
+    );
   }
 
   .daySelected {
@@ -150,6 +153,7 @@
     height: var(--calendar-button-height);
     right: 0;
     width: auto;
+    color: var(--color-black);
 
     svg {
       height: var(--icon-width);

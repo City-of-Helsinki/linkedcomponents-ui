@@ -62,6 +62,7 @@ const CreateEventPage: React.FC = () => {
   const [descriptionLanguage, setDescriptionLanguage] = React.useState(
     EVENT_INITIAL_VALUES.eventInfoLanguages[0] as EVENT_INFO_LANGUAGES
   );
+  const [saving, setSaving] = React.useState<PublicationStatus | null>(null);
 
   const goToEventSavedPage = (id: string) => {
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
@@ -71,6 +72,7 @@ const CreateEventPage: React.FC = () => {
     values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
+    setSaving(publicationStatus);
     try {
       await updateImageIfNeeded(values);
     } catch (error) /* istanbul ignore next */ {
@@ -107,6 +109,7 @@ const CreateEventPage: React.FC = () => {
           message: 'Failed to create sub-events event',
           user,
         });
+        setSaving(null);
         return;
       }
 
@@ -129,6 +132,7 @@ const CreateEventPage: React.FC = () => {
         // This action will change LE response so clear event list page
         resetEventListPage();
         goToEventSavedPage(recurringEventData.data?.createEvent.id as string);
+        setSaving(null);
       } catch (error) /* istanbul ignore next */ {
         // Report error to Sentry
         reportError({
@@ -141,6 +145,7 @@ const CreateEventPage: React.FC = () => {
           message: 'Failed to create recurring event',
           user,
         });
+        setSaving(null);
       }
     } else {
       try {
@@ -153,6 +158,7 @@ const CreateEventPage: React.FC = () => {
         // This action will change LE response so clear event list page
         resetEventListPage();
         goToEventSavedPage(data.data?.createEvent.id as string);
+        setSaving(null);
       } catch (error) /* istanbul ignore next */ {
         // Report error to Sentry
         reportError({
@@ -165,6 +171,7 @@ const CreateEventPage: React.FC = () => {
           message: 'Failed to create event',
           user,
         });
+        setSaving(null);
       }
     }
   };
@@ -297,6 +304,7 @@ const CreateEventPage: React.FC = () => {
                 <ButtonPanel
                   onSaveDraft={() => handleSubmit(PublicationStatus.Draft)}
                   publisher={publisher}
+                  saving={saving}
                 />
               </MainContent>
             </PageWrapper>

@@ -1,11 +1,17 @@
 import { MockedResponse } from '@apollo/react-testing';
+import addDays from 'date-fns/addDays';
+import addHours from 'date-fns/addHours';
+import startOfDay from 'date-fns/startOfDay';
+import omit from 'lodash/omit';
 
-import { EXTLINK, MAX_PAGE_SIZE } from '../../../constants';
+import { DATETIME_FORMAT, EXTLINK, MAX_PAGE_SIZE } from '../../../constants';
 import {
+  CreateEventsDocument,
   DeleteEventDocument,
   EventDocument,
   EventsDocument,
   EventStatus,
+  EventTypeId,
   ImageDocument,
   KeywordDocument,
   KeywordsDocument,
@@ -21,6 +27,7 @@ import {
   UpdateImageDocument,
   UserDocument,
 } from '../../../generated/graphql';
+import formatDate from '../../../utils/formatDate';
 import {
   fakeEvent,
   fakeEvents,
@@ -37,6 +44,9 @@ import {
   fakeUser,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
+import { EVENT_INCLUDES } from '../../event/constants';
+
+const now = new Date();
 
 const eventId = 'helsinki:1';
 const audienceName = 'Audience name';
@@ -61,7 +71,8 @@ const formattedDescription = {
   sv: '<p>Description sv</p>',
   zhHans: null,
 };
-const endTime = new Date('2021-07-13T05:51:05.761Z');
+const startTime = addDays(addHours(startOfDay(now), 12), 1);
+const endTime = addHours(startTime, 3);
 const facebookUrl = 'http://facebook.com';
 const imageDetails = {
   altText: 'Image alt text',
@@ -159,7 +170,7 @@ const shortDescription = {
   sv: 'Short description sv',
   zhHans: null,
 };
-const startTime = new Date('2021-07-11T05:51:05.761Z');
+
 const superEventType = null;
 const twitterUrl = 'http://twitter.com';
 const videoDetails = {
@@ -253,6 +264,8 @@ const basePayload = {
   audience: audienceAtIds.map((atId) => ({ atId })),
   audienceMaxAge,
   audienceMinAge,
+  enrolmentEndTime: null,
+  enrolmentStartTime: null,
   externalLinks: [
     { name: EXTLINK.EXTLINK_FACEBOOK, link: facebookUrl, language: 'fi' },
     { name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl, language: 'fi' },
@@ -266,6 +279,8 @@ const basePayload = {
   location: { atId: locationAtId },
   keywords: keywordAtIds.map((atId) => ({ atId })),
   locationExtraInfo,
+  maximumAttendeeCapacity: null,
+  minimumAttendeeCapacity: null,
   name,
   offers: offers.map((offer) => ({ ...offer, isFree: false })),
   provider,
@@ -275,6 +290,7 @@ const basePayload = {
   startTime: startTime.toISOString(),
   superEvent: undefined,
   superEventType: null,
+  typeId: EventTypeId.General,
   id: eventId,
 };
 
@@ -283,7 +299,7 @@ const locationText = `${locationName} (${streetAddress}, ${addressLocality})`;
 const expectedValues = {
   audienceMaxAge,
   audienceMinAge,
-  endTime: '13.07.2021 05.51',
+  endTime: formatDate(endTime, DATETIME_FORMAT),
   description: description.fi,
   facebookUrl,
   imageAltText: imageDetails.altText,
@@ -297,7 +313,7 @@ const expectedValues = {
   name: name.fi,
   provider: provider.fi,
   shortDescription: shortDescription.fi,
-  startTime: '11.07.2021 05.51',
+  startTime: formatDate(startTime, DATETIME_FORMAT),
   twitterUrl,
   updatedLastModifiedTime: '23.08.2021 12.00',
   videoAltText: videoDetails.altText,
@@ -311,13 +327,25 @@ const event = fakeEvent(eventOverrides);
 const eventVariables = {
   createPath: undefined,
   id: eventId,
-  include: ['audience', 'keywords', 'location', 'sub_events', 'super_event'],
+  include: EVENT_INCLUDES,
 };
 const eventResponse = { data: { event } };
 const mockedEventResponse: MockedResponse = {
   request: {
     query: EventDocument,
     variables: eventVariables,
+  },
+  result: eventResponse,
+};
+
+const eventTimeVariables = {
+  createPath: undefined,
+  id: eventId,
+};
+const mockedEventTimeResponse: MockedResponse = {
+  request: {
+    query: EventDocument,
+    variables: eventTimeVariables,
   },
   result: eventResponse,
 };
@@ -435,16 +463,80 @@ const mockedInvalidEventResponse: MockedResponse = {
   result: invalidEventResponse,
 };
 
-const subEventId = 'subevent:1';
-const subEvents = fakeEvents(1, [
-  { ...eventOverrides, id: subEventId, superEvent: event },
-]);
+formatDate(endTime, DATETIME_FORMAT);
+
+const subEventTimes = [
+  {
+    endTime,
+    id: 'subevent:1',
+    startTime,
+  },
+  {
+    endTime: addDays(endTime, 1),
+    id: 'subevent:2',
+    startTime: addDays(startTime, 1),
+  },
+];
+
+const newSubEventTimes = [
+  {
+    endTime: addDays(endTime, 2),
+    id: 'newsubevent:1',
+    startTime: addDays(startTime, 2),
+  },
+];
+const subEvents = fakeEvents(
+  subEventTimes.length,
+  subEventTimes.map(({ endTime, id, startTime }) => ({
+    ...eventOverrides,
+    endTime: endTime.toISOString(),
+    id,
+    startTime: startTime.toISOString(),
+    superEvent: event,
+  }))
+);
+const newSubEvents = fakeEvents(
+  newSubEventTimes.length,
+  newSubEventTimes.map(({ endTime, id, startTime }) => ({
+    ...eventOverrides,
+    endTime: endTime.toISOString(),
+    id,
+    startTime: startTime.toISOString(),
+    superEvent: event,
+  }))
+);
+
 const subEventsResponse = { data: { events: subEvents } };
+
+const subEventTime1Variables = {
+  createPath: undefined,
+  id: subEventTimes[0].id,
+};
+const subEventTime1Response = { data: { event: subEvents.data[0] } };
+const mockedSubEventTime1Response: MockedResponse = {
+  request: {
+    query: EventDocument,
+    variables: subEventTime1Variables,
+  },
+  result: subEventTime1Response,
+};
+const subEventTime2Variables = {
+  createPath: undefined,
+  id: subEventTimes[1].id,
+};
+const subEventTime2Response = { data: { event: subEvents.data[1] } };
+const mockedSubEventTime2Response: MockedResponse = {
+  request: {
+    query: EventDocument,
+    variables: subEventTime2Variables,
+  },
+  result: subEventTime2Response,
+};
 
 const baseEventsVariables = {
   createPath: undefined,
-  include: ['audience', 'keywords', 'location', 'sub_events', 'super_event'],
-  pageSize: 100,
+  include: EVENT_INCLUDES,
+  pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',
 };
@@ -461,7 +553,7 @@ const mockedSubSubEventsResponse: MockedResponse = {
     query: EventsDocument,
     variables: {
       ...baseEventsVariables,
-      superEvent: subEventId,
+      superEvent: subEventTimes[0].id,
     },
   },
   result: { data: { events: fakeEvents(0) } },
@@ -481,23 +573,21 @@ const mockedEventWithSubEventResponse: MockedResponse = {
   result: eventWithSubEventResponse,
 };
 
-const updateEventWithSubEventVariables = {
+const updateRecurringEventVariables = {
   input: [
     {
       ...basePayload,
+      endTime: newSubEventTimes[0].endTime.toISOString(),
+      startTime: subEventTimes[1].startTime.toISOString(),
       superEventType: SuperEventType.Recurring,
-    },
-    {
-      ...basePayload,
-      id: subEventId,
-      superEvent: {
-        atId: eventWithSubEvent.atId,
-      },
-      superEventType: null,
+      subEvents: [
+        { atId: subEvents.data[1].atId },
+        ...newSubEvents.data.map(({ atId }) => ({ atId })),
+      ],
     },
   ],
 };
-const updateEventWithSubEventResponse = {
+const updateRecurringEventResponse = {
   data: {
     event: {
       ...eventWithSubEvent,
@@ -505,16 +595,80 @@ const updateEventWithSubEventResponse = {
     },
   },
 };
-const mockedUpdateEventWithSubEventResponse: MockedResponse = {
+const mockedUpdateRecurringEventResponse: MockedResponse = {
   request: {
     query: UpdateEventsDocument,
-    variables: updateEventWithSubEventVariables,
+    variables: updateRecurringEventVariables,
   },
-  result: updateEventWithSubEventResponse,
+  result: updateRecurringEventResponse,
 };
-const mockedUpdatedEventWithSubEventResponse: MockedResponse = {
+
+const deleteSubEvent1Variables = {
+  id: subEventTimes[0].id,
+};
+const deleteSubEvent1Response = {
+  data: null,
+};
+const mockedDeleteSubEvent1Response: MockedResponse = {
+  request: {
+    query: DeleteEventDocument,
+    variables: deleteSubEvent1Variables,
+  },
+  result: deleteSubEvent1Response,
+};
+
+const updateSubEventsVariables = {
+  input: [subEventTimes[1]].map(({ endTime, id, startTime }) => ({
+    ...basePayload,
+    endTime: endTime.toISOString(),
+    id,
+    startTime: startTime.toISOString(),
+    superEvent: {
+      atId: eventWithSubEvent.atId,
+    },
+    superEventType: null,
+  })),
+};
+const updateSubEventsResponse = {
+  data: {
+    updateEvents: [subEvents.data[1]],
+  },
+};
+const mockedUpdateSubEventsResponse: MockedResponse = {
+  request: {
+    query: UpdateEventsDocument,
+    variables: updateSubEventsVariables,
+  },
+  result: updateSubEventsResponse,
+};
+
+const createNewSubEventsVariables = {
+  input: newSubEventTimes.map(({ endTime, id, startTime }) => ({
+    ...omit(basePayload, ['id']),
+    endTime: endTime.toISOString(),
+    startTime: startTime.toISOString(),
+    superEvent: {
+      atId: eventWithSubEvent.atId,
+    },
+    superEventType: null,
+  })),
+};
+const createNewSubEventsResponse = {
+  data: {
+    createEvents: newSubEvents.data,
+  },
+};
+const mockedCreateNewSubEventsResponse: MockedResponse = {
+  request: {
+    query: CreateEventsDocument,
+    variables: createNewSubEventsVariables,
+  },
+  result: createNewSubEventsResponse,
+};
+
+const mockedUpdatedRecurringEventResponse: MockedResponse = {
   request: { query: EventDocument, variables: eventVariables },
-  result: updateEventWithSubEventResponse,
+  result: updateRecurringEventResponse,
 };
 
 // Image mocks
@@ -718,8 +872,11 @@ export {
   mockedAudienceKeywordSetResponse,
   mockedCancelEventResponse,
   mockedCancelledEventResponse,
+  mockedCreateNewSubEventsResponse,
   mockedDeleteEventResponse,
+  mockedDeleteSubEvent1Response,
   mockedEventResponse,
+  mockedEventTimeResponse,
   mockedEventWithSubEventResponse,
   mockedFilteredPlacesResponse,
   mockedImageResponse,
@@ -734,12 +891,17 @@ export {
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
+  mockedSubEventTime1Response,
+  mockedSubEventTime2Response,
   mockedSubSubEventsResponse,
   mockedTopicsKeywordSetResponse,
   mockedUpdatedEventResponse,
-  mockedUpdatedEventWithSubEventResponse,
+  mockedUpdatedRecurringEventResponse,
   mockedUpdateEventResponse,
-  mockedUpdateEventWithSubEventResponse,
+  mockedUpdateRecurringEventResponse,
+  mockedUpdateSubEventsResponse,
   mockedUpdateImageResponse,
   mockedUserResponse,
+  newSubEventTimes,
+  subEventTimes,
 };

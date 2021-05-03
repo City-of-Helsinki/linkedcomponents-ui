@@ -25,7 +25,11 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { resetEventListPage } from '../events/utils';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
-import { EVENT_INCLUDES, EVENT_INFO_LANGUAGES } from './constants';
+import {
+  EVENT_EDIT_ACTIONS,
+  EVENT_INCLUDES,
+  EVENT_INFO_LANGUAGES,
+} from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import EventHierarchy from './eventHierarchy/EventHierarchy';
 import EventInfo from './EventInfo';
@@ -212,28 +216,32 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
             <ConfirmCancelModal
               event={event}
               isOpen={openModal === MODALS.CANCEL}
-              isSaving={saving === MODALS.CANCEL}
+              isSaving={saving === EVENT_EDIT_ACTIONS.CANCEL}
               onCancel={onCancel}
               onClose={closeModal}
             />
             <ConfirmDeleteModal
               event={event}
               isOpen={openModal === MODALS.DELETE}
-              isSaving={saving === MODALS.DELETE}
+              isSaving={saving === EVENT_EDIT_ACTIONS.DELETE}
               onClose={closeModal}
               onDelete={onDelete}
             />
             <ConfirmPostponeModal
               event={event}
               isOpen={openModal === MODALS.POSTPONE}
-              isSaving={saving === MODALS.POSTPONE}
+              isSaving={saving === EVENT_EDIT_ACTIONS.POSTPONE}
               onClose={closeModal}
               onPostpone={onPostpone}
             />
             <ConfirmUpdateModal
               event={event}
               isOpen={openModal === MODALS.UPDATE}
-              isSaving={saving === MODALS.UPDATE}
+              isSaving={
+                saving === EVENT_EDIT_ACTIONS.PUBLISH ||
+                saving === EVENT_EDIT_ACTIONS.UPDATE_DRAFT ||
+                saving === EVENT_EDIT_ACTIONS.UPDATE_PUBLIC
+              }
               onClose={closeModal}
               onSave={() => {
                 const values = { type, ...restValues };
@@ -327,6 +335,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                     onDelete={() => setOpenModal(MODALS.DELETE)}
                     onPostpone={() => setOpenModal(MODALS.POSTPONE)}
                     onUpdate={handleUpdate}
+                    saving={saving}
                   />
                 </MainContent>
               </PageWrapper>

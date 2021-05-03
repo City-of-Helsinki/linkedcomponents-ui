@@ -39,8 +39,6 @@
 }
 
 .errorText {
-  color: var(--color-error);
-  display: block;
-  font-size: var(--fontsize-body-m);
-  margin-top: var(--spacing-2-xs);
+  --icon-size: var(--spacing-m);
+  composes: hds-text-input__error-text from '~hds-core/lib/components/text-input/text-input.css';
 }

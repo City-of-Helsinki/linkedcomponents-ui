@@ -9,10 +9,10 @@ import {
   EVENT_INFO_LANGUAGES,
   EVENT_TYPE,
 } from '../../../constants';
-import { createEventValidationSchema } from '../../../utils';
+import { eventValidationSchema } from '../../../utils';
 import PriceSection from '../PriceSection';
 
-const type = EVENT_TYPE.EVENT;
+const type = EVENT_TYPE.General;
 
 const renderTimeSection = () =>
   render(
@@ -24,7 +24,7 @@ const renderTimeSection = () =>
         [EVENT_FIELDS.TYPE]: type,
       }}
       onSubmit={jest.fn()}
-      validationSchema={createEventValidationSchema}
+      validationSchema={eventValidationSchema}
     >
       <PriceSection />
     </Formik>

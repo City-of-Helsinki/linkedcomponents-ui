@@ -70,6 +70,7 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
 
       <div className={styles.modalButtonWrapper}>
         <Button
+          disabled={isSaving}
           iconLeft={
             isSaving ? (
               <LoadingSpinner
@@ -88,6 +89,7 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
           {t('event.cancelEventModal.buttonCancel')}
         </Button>
         <Button
+          disabled={isSaving}
           onClick={handleClose}
           theme="black"
           type="button"

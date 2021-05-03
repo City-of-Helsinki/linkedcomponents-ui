@@ -29,7 +29,7 @@ import ClassificationSection from '../ClassificationSection';
 
 configure({ defaultHidden: true });
 
-const type = EVENT_TYPE.EVENT;
+const type = EVENT_TYPE.General;
 
 const keywordNames = range(1, 16).map((index) => `Keyword ${index}`);
 const keywords = fakeKeywords(
@@ -97,11 +97,13 @@ const mocks = [
 
 type InitialValues = {
   [EVENT_FIELDS.KEYWORDS]: string[];
+  [EVENT_FIELDS.MAIN_CATEGORIES]: string[];
   [EVENT_FIELDS.TYPE]: string;
 };
 
 const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.KEYWORDS]: [],
+  [EVENT_FIELDS.MAIN_CATEGORIES]: [],
   [EVENT_FIELDS.TYPE]: type,
 };
 const renderComponent = (initialValues?: Partial<InitialValues>) =>

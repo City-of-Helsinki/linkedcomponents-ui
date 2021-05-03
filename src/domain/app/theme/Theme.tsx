@@ -54,16 +54,17 @@ type CheckboxCSSProperties = {
 
 type CollapsibleCSSProperties = {
   '--heading-background-color'?: string;
-  '--heading-border-color'?: string;
-  '--heading-color'?: string;
-  '--heading-background-color-expanded'?: string;
-  '--heading-border-color-expanded'?: string;
-  '--heading-color-expanded'?: string;
-  '--heading-background-color-expanded-hover'?: string;
-  '--heading-border-color-expanded-hover'?: string;
-  '--heading-color-expanded-hover'?: string;
   '--heading-background-color-hover'?: string;
+  '--heading-background-color-expanded'?: string;
+  '--heading-background-color-expanded-hover'?: string;
+  '--heading-border-color'?: string;
+  '--heading-border-color-hover'?: string;
+  '--heading-border-color-expanded'?: string;
+  '--heading-border-color-expanded-hover'?: string;
+  '--heading-color'?: string;
   '--heading-color-hover'?: string;
+  '--heading-color-expanded'?: string;
+  '--heading-color-expanded-hover'?: string;
 };
 
 type DatepickerCSSProperties = {
@@ -102,6 +103,7 @@ type DatepickerCSSProperties = {
 
 type DeleteButtonCSSProperties = {
   '--delete-button-color'?: string;
+  '--delete-button-color-icon'?: string;
 };
 
 type ErrorTemplateCSSProperties = {
@@ -306,6 +308,8 @@ type RadioButtonCSSProperties = {
 type RootCSSProperties = {
   '--focus-outline-color'?: string;
   '--focus-outline-width'?: string;
+  '--helper-color-invalid'?: string;
+  '--icon-color-invalid'?: string;
   '--input-height'?: string;
   '--input-max-width-m'?: string;
   '--input-max-width-l'?: string;
@@ -385,8 +389,6 @@ type TextInputCSSProperties = {
   '--textarea-height'?: string;
   '--icon-size'?: string;
   '--helper-color-default'?: string;
-  '--helper-color-invalid'?: string;
-  '--icon-color-invalid'?: string;
   '--input-background-default'?: string;
   '--input-background-disabled'?: string;
   '--input-border-color-default'?: string;

@@ -1,9 +1,21 @@
+@import 'mixins';
+
 .deleteButton {
-  --delete-button-color: var(--color-error);
+  --delete-button-color: var(--color-black-90);
+  --delete-button-color-icon: var(--color-error);
   --delete-button-height: var(--input-height);
   --delete-button-padding: var(--spacing-s);
 
-  color: var(--delete-button-color);
+  color: var(--delete-button-color-icon);
   height: var(--delete-button-height);
   padding: 0 var(--delete-button-padding);
+  display: flex;
+  align-items: center;
+
+  .label {
+    margin-left: var(--spacing-3-xs);
+    color: var(--delete-button-color);
+  }
+
+  @include focus-outline();
 }
