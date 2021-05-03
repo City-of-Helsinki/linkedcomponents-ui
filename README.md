@@ -24,6 +24,67 @@ Start the container
 
 The web application should run at http://localhost:3001
 
+## Setting up development environment locally with docker
+
+### Set tunnistamo hostname
+
+Add the following line to your hosts file (`/etc/hosts` on mac and linux):
+
+    127.0.0.1 tunnistamo-backend
+
+### Create a new OAuth app on GitHub
+
+Go to https://github.com/settings/developers/ and add a new app with the following settings:
+
+- Application name: can be anything, e.g. local tunnistamo
+- Homepage URL: http://tunnistamo-backend:8000
+- Authorization callback URL: http://tunnistamo-backend:8000/accounts/github/login/callback/
+
+Save. You'll need the created **Client ID** and **Client Secret** for configuring tunnistamo in the next step.
+
+### Install local tunnistamo
+
+Clone https://github.com/City-of-Helsinki/tunnistamo/.
+
+Follow the instructions for setting up tunnistamo locally. Before running `docker-compose up` set the following settings in tunnistamo roots `docker-compose.env.yaml`:
+
+- SOCIAL_AUTH_GITHUB_KEY: **Client ID** from the GitHub OAuth app
+- SOCIAL_AUTH_GITHUB_SECRET: **Client Secret** from the GitHub OAuth app
+
+To get silent renew to work locally you also need to set:
+
+- ALLOW_CROSS_SITE_SESSION_COOKIE=True
+
+After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
+
+`docker-compose exec django bash`
+
+and execute the following four commands inside your docker container:
+
+```bash
+./manage.py add_oidc_client -n linkedevents-ui -t "id_token token" -u "http://localhost:3000/callback" "http://localhost:3000/silent-renew.html" -i https://api.hel.fi/auth/linkedevents-ui -m github -s dev -234 we
+./manage.py add_oidc_client -n linkedevents -t "code" -u http://localhost:8081/return -i https://api.hel.fi/auth/linkedevents -m github -s dev -c
+./manage.py add_oidc_api -n linkedevents -d https://api.hel.fi/auth -s email,profile -c https://api.hel.fi/auth/linkedevents
+./manage.py add_oidc_api_scope -an linkedevents -c https://api.hel.fi/auth/linkedevents-ui -n "Linked Events UI" -d "Lorem ipsum"
+```
+
+Also add http:localhost:3000/ to Post Logout Redirect URIs of palvelutarjotin-admin client on Tunnistamo Django admin http://tunnistamo-backend:8000/admin/oidc_provider/client/
+
+### Install Linked Events REST API server locally
+
+TODO: Add instructions to set up local Linked Events REST API server when OIDC authentication is implemented there
+
+### linkedcomponents-ui
+
+Copy `cp .env.development.local.example .env.development.local`
+
+Run `docker-compose up`, now the app should be running at `http://localhost:3000/`!
+`docker-compose down` stops the container.
+
+OR
+
+Run `yarn && yarn start`
+
 ## Available Scripts
 
 In the project directory, you can run:
