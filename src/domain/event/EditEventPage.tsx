@@ -20,7 +20,6 @@ import useIsMounted from '../../hooks/useIsMounted';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
-import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { resetEventListPage } from '../events/utils';
@@ -250,81 +249,77 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                 title={name}
               >
                 <MainContent>
-                  <Container>
-                    <FormContainer className={styles.editPageContentContainer}>
-                      <EventInfo event={event} />
+                  <Container
+                    contentWrapperClassName={styles.editPageContentContainer}
+                    withOffset={true}
+                  >
+                    <EventInfo event={event} />
 
-                      <Section title={t('event.form.sections.type')}>
-                        <TypeSection savedEvent={event} />
-                      </Section>
-                      <Section title={t('event.form.sections.languages')}>
-                        <LanguagesSection />
-                      </Section>
-                      <Section
-                        title={t('event.form.sections.responsibilities')}
-                      >
-                        <ResponsibilitiesSection savedEvent={event} />
-                      </Section>
-                      <Section title={t('event.form.sections.description')}>
-                        <DescriptionSection
-                          selectedLanguage={descriptionLanguage}
-                          setSelectedLanguage={setDescriptionLanguage}
-                        />
-                      </Section>
-                      <Section title={t('event.form.sections.time')}>
-                        <TimeSection savedEvent={event} />
-                      </Section>
-                      <Section title={t('event.form.sections.place')}>
-                        <PlaceSection />
-                      </Section>
-                      <Section title={t('event.form.sections.price')}>
-                        <PriceSection />
-                      </Section>
-                      <Section
-                        title={t(`event.form.sections.channels.${type}`)}
-                      >
-                        <ChannelsSection />
-                      </Section>
-                      <Section title={t('event.form.sections.image')}>
-                        <ImageSection />
-                      </Section>
-                      <Section title={t('event.form.sections.video')}>
-                        <VideoSection />
-                      </Section>
-                      <Section title={t('event.form.sections.classification')}>
-                        <ClassificationSection />
-                      </Section>
-                      <Section title={t('event.form.sections.audience')}>
-                        <AudienceSection />
-                      </Section>
-                      <Section title={t('event.form.sections.additionalInfo')}>
-                        <AdditionalInfoSection />
-                      </Section>
-                      <Section title={t('event.form.sections.linksToEvents')}>
-                        <EventHierarchy
-                          event={event}
-                          eventNameRenderer={(item) => {
-                            const {
-                              eventUrl,
-                              id: itemId,
-                              name,
-                            } = getEventFields(item, locale);
-                            if (id === itemId) {
-                              return <>{name}</>;
-                            }
-                            return (
-                              <Link
-                                className={styles.hierarchyLink}
-                                to={eventUrl}
-                              >
-                                {name}
-                              </Link>
-                            );
-                          }}
-                          showSuperEvent={true}
-                        />
-                      </Section>
-                    </FormContainer>
+                    <Section title={t('event.form.sections.type')}>
+                      <TypeSection savedEvent={event} />
+                    </Section>
+                    <Section title={t('event.form.sections.languages')}>
+                      <LanguagesSection />
+                    </Section>
+                    <Section title={t('event.form.sections.responsibilities')}>
+                      <ResponsibilitiesSection savedEvent={event} />
+                    </Section>
+                    <Section title={t('event.form.sections.description')}>
+                      <DescriptionSection
+                        selectedLanguage={descriptionLanguage}
+                        setSelectedLanguage={setDescriptionLanguage}
+                      />
+                    </Section>
+                    <Section title={t('event.form.sections.time')}>
+                      <TimeSection savedEvent={event} />
+                    </Section>
+                    <Section title={t('event.form.sections.place')}>
+                      <PlaceSection />
+                    </Section>
+                    <Section title={t('event.form.sections.price')}>
+                      <PriceSection />
+                    </Section>
+                    <Section title={t(`event.form.sections.channels.${type}`)}>
+                      <ChannelsSection />
+                    </Section>
+                    <Section title={t('event.form.sections.image')}>
+                      <ImageSection />
+                    </Section>
+                    <Section title={t('event.form.sections.video')}>
+                      <VideoSection />
+                    </Section>
+                    <Section title={t('event.form.sections.classification')}>
+                      <ClassificationSection />
+                    </Section>
+                    <Section title={t('event.form.sections.audience')}>
+                      <AudienceSection />
+                    </Section>
+                    <Section title={t('event.form.sections.additionalInfo')}>
+                      <AdditionalInfoSection />
+                    </Section>
+                    <Section title={t('event.form.sections.linksToEvents')}>
+                      <EventHierarchy
+                        event={event}
+                        eventNameRenderer={(item) => {
+                          const { eventUrl, id: itemId, name } = getEventFields(
+                            item,
+                            locale
+                          );
+                          if (id === itemId) {
+                            return <>{name}</>;
+                          }
+                          return (
+                            <Link
+                              className={styles.hierarchyLink}
+                              to={eventUrl}
+                            >
+                              {name}
+                            </Link>
+                          );
+                        }}
+                        showSuperEvent={true}
+                      />
+                    </Section>
                   </Container>
                   <EditButtonPanel
                     event={event}

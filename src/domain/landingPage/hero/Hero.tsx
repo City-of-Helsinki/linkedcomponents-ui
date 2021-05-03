@@ -11,7 +11,6 @@ import SearchInput from '../../../common/components/searchInput/SearchInput';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import Container from '../../app/layout/Container';
-import FormContainer from '../../app/layout/FormContainer';
 import { useTheme } from '../../app/theme/Theme';
 import { clearEventFormData } from '../../event/utils';
 import { getEventSearchQuery } from '../../eventSearch/utils';
@@ -44,59 +43,58 @@ const Hero: React.FC = () => {
       >
         <div className={styles.content}>
           <div>
-            <Container>
-              <FormContainer className={styles.ctaContainer}>
-                <div className={styles.buttonWrapper}>
-                  <Button
-                    className={styles.ctaButton}
-                    fullWidth={true}
-                    iconLeft={<IconPlus aria-hidden={true} />}
-                    onClick={goToCreateEventPage}
-                    variant="primary"
-                  >
-                    {t('eventSearchPage.searchPanel.buttonCreateNew')}
-                  </Button>
-                </div>
-              </FormContainer>
+            <Container
+              contentWrapperClassName={styles.ctaContainer}
+              withOffset={true}
+            >
+              <div className={styles.buttonWrapper}>
+                <Button
+                  className={styles.ctaButton}
+                  fullWidth={true}
+                  iconLeft={<IconPlus aria-hidden={true} />}
+                  onClick={goToCreateEventPage}
+                  variant="primary"
+                >
+                  {t('eventSearchPage.searchPanel.buttonCreateNew')}
+                </Button>
+              </div>
             </Container>
           </div>
           <div>
-            <Container>
-              <FormContainer>
-                <h1>{t('landingPage.heroTitle')}</h1>
+            <Container withOffset={true}>
+              <h1>{t('landingPage.heroTitle')}</h1>
 
-                <div className={styles.searchRow}>
-                  <div className={styles.inputWrapper}>
-                    <SearchInput
-                      className={styles.searchInput}
-                      clearButtonAriaLabel={t(
-                        'eventSearchPage.searchPanel.buttonClear'
-                      )}
-                      hideLabel={true}
-                      label={t('eventSearchPage.searchPanel.labelSearch')}
-                      onSearch={handleSearch}
-                      placeholder={t(
-                        'eventSearchPage.searchPanel.placeholderSearch'
-                      )}
-                      searchButtonAriaLabel={t(
-                        'eventSearchPage.searchPanel.buttonSearch'
-                      )}
-                      setValue={setSearchValue}
-                      value={searchValue}
-                    />
-                  </div>
-                  <div className={styles.buttonWrapper}>
-                    <Button
-                      className={styles.searchButton}
-                      fullWidth={true}
-                      onClick={() => handleSearch(searchValue)}
-                      variant="secondary"
-                    >
-                      {t('eventSearchPage.searchPanel.buttonSearch')}
-                    </Button>
-                  </div>
+              <div className={styles.searchRow}>
+                <div className={styles.inputWrapper}>
+                  <SearchInput
+                    className={styles.searchInput}
+                    clearButtonAriaLabel={t(
+                      'eventSearchPage.searchPanel.buttonClear'
+                    )}
+                    hideLabel={true}
+                    label={t('eventSearchPage.searchPanel.labelSearch')}
+                    onSearch={handleSearch}
+                    placeholder={t(
+                      'eventSearchPage.searchPanel.placeholderSearch'
+                    )}
+                    searchButtonAriaLabel={t(
+                      'eventSearchPage.searchPanel.buttonSearch'
+                    )}
+                    setValue={setSearchValue}
+                    value={searchValue}
+                  />
                 </div>
-              </FormContainer>
+                <div className={styles.buttonWrapper}>
+                  <Button
+                    className={styles.searchButton}
+                    fullWidth={true}
+                    onClick={() => handleSearch(searchValue)}
+                    variant="secondary"
+                  >
+                    {t('eventSearchPage.searchPanel.buttonSearch')}
+                  </Button>
+                </div>
+              </div>
             </Container>
           </div>
         </div>

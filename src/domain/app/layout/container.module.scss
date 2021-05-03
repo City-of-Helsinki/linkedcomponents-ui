@@ -19,4 +19,16 @@
     margin: 0 auto;
     max-width: var(--breakpoint-xl);
   }
+
+  &.withOffset {
+    @include x-large-up {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-gap: var(--spacing-m);
+
+      .contentWrapper {
+        grid-column: 2 / 12;
+      }
+    }
+  }
 }

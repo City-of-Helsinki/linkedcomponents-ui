@@ -16,7 +16,6 @@ import {
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import Container from '../../app/layout/Container';
-import FormContainer from '../../app/layout/FormContainer';
 import { authenticatedSelector } from '../../auth/selectors';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
@@ -140,51 +139,49 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   return (
     <div className={styles.editButtonPanel}>
-      <Container>
-        <FormContainer>
-          <div className={styles.buttonsRow}>
-            <div className={styles.buttonWrapper}>
-              <Button
-                className={classNames(styles.backButton, styles.smallButton)}
-                iconLeft={<IconArrowLeft />}
-                fullWidth={true}
-                onClick={goToEventsPage}
-                type="button"
-                variant="secondary"
-              >
-                {t('event.form.buttonBack')}
-              </Button>
-              <div className={styles.actionsDropdown}>
-                <MenuDropdown
-                  button={
-                    isMobile ? (
-                      <button className={styles.toggleButton}>
-                        <IconMenuDots aria-hidden={true} />
-                      </button>
-                    ) : undefined
-                  }
-                  buttonLabel={t('event.form.buttonActions')}
-                  closeOnItemClick={true}
-                  items={actionItems}
-                  menuPosition="top"
-                />
-              </div>
-            </div>
-            <div className={styles.buttonWrapper}>
-              {actionButtons.map(({ icon, label, variant, ...rest }, index) => (
-                <Button
-                  key={index}
-                  {...rest}
-                  iconLeft={variant === 'primary' && icon}
-                  className={styles.mediumButton}
-                  variant={variant as any}
-                >
-                  {label}
-                </Button>
-              ))}
+      <Container withOffset={true}>
+        <div className={styles.buttonsRow}>
+          <div className={styles.buttonWrapper}>
+            <Button
+              className={classNames(styles.backButton, styles.smallButton)}
+              iconLeft={<IconArrowLeft />}
+              fullWidth={true}
+              onClick={goToEventsPage}
+              type="button"
+              variant="secondary"
+            >
+              {t('event.form.buttonBack')}
+            </Button>
+            <div className={styles.actionsDropdown}>
+              <MenuDropdown
+                button={
+                  isMobile ? (
+                    <button className={styles.toggleButton}>
+                      <IconMenuDots aria-hidden={true} />
+                    </button>
+                  ) : undefined
+                }
+                buttonLabel={t('event.form.buttonActions')}
+                closeOnItemClick={true}
+                items={actionItems}
+                menuPosition="top"
+              />
             </div>
           </div>
-        </FormContainer>
+          <div className={styles.buttonWrapper}>
+            {actionButtons.map(({ icon, label, variant, ...rest }, index) => (
+              <Button
+                key={index}
+                {...rest}
+                iconLeft={variant === 'primary' && icon}
+                className={styles.mediumButton}
+                variant={variant as any}
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
+        </div>
       </Container>
     </div>
   );
