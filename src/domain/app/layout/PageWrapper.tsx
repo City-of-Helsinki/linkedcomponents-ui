@@ -4,7 +4,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import { useCookieConsent } from '../cookieConsent/CookieConsentContext';
@@ -39,14 +38,15 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   };
 
   // Track page view
-  useDeepCompareEffect(() => {
+  React.useEffect(() => {
     if (consent.tracking) {
       trackPageView({
         documentTitle: translatedTitle,
         href: window.location.href,
       });
     }
-  }, [{ pathname: location.pathname, search: location.search }]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [consent.tracking, location.pathname, location.search]);
 
   return (
     <div
