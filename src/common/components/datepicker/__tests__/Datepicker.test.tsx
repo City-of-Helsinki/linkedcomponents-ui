@@ -28,7 +28,7 @@ const defaultProps: DatepickerProps = {
   id: 'datepicker',
   onChange: jest.fn(),
   onBlur: jest.fn(),
-  value: new Date(2020, 5, 5),
+  value: new Date('2020-06-05'),
   labelText: 'Datepicker',
 };
 
@@ -38,7 +38,6 @@ const renderDatepicker = (props?: Partial<DatepickerProps>) => {
   );
 
   return {
-    ...defaultProps,
     rerender: (newProps: Partial<DatepickerProps>) =>
       rerender(<Datepicker {...defaultProps} {...props} {...newProps} />),
     ...rest,
@@ -52,23 +51,22 @@ const pressKey = ({ key, keyCode }: { key: string; keyCode?: number }) => {
   });
 };
 
-advanceTo(new Date(2020, 6, 5));
+advanceTo('2020-07-05');
 
 describe('<Datepicker />', () => {
   it('Datepicker opens when user focuses with tab', () => {
-    renderDatepicker({ value: new Date(2020, 6, 5) });
+    renderDatepicker({ value: new Date('2020-07-05') });
 
     userEvent.tab();
-
-    expect(screen.queryByText(/heinäkuu 2020/)).toBeInTheDocument();
+    screen.getByText(/heinäkuu 2020/);
   });
 
   it('should toggle datepicker by clicking toggle button', () => {
-    renderDatepicker({ value: new Date(2020, 6, 5) });
+    renderDatepicker({ value: new Date('2020-07-05') });
 
     userEvent.tab();
+    screen.getByText(/heinäkuu 2020/);
 
-    expect(screen.queryByText(/heinäkuu 2020/)).toBeInTheDocument();
     const toggleButton = screen.getByRole('button', {
       name: translations.common.datepicker.accessibility.buttonCalendar,
     });
@@ -77,11 +75,11 @@ describe('<Datepicker />', () => {
     expect(screen.queryByText(/heinäkuu 2020/)).not.toBeInTheDocument();
 
     userEvent.click(toggleButton);
-    expect(screen.queryByText(/heinäkuu 2020/)).toBeInTheDocument();
+    screen.getByText(/heinäkuu 2020/);
   });
 
   it('show correct day as selected day', () => {
-    renderDatepicker({ value: new Date(2020, 6, 5) });
+    renderDatepicker({ value: new Date('2020-07-05') });
 
     userEvent.tab();
 
@@ -94,8 +92,7 @@ describe('<Datepicker />', () => {
 
   it('should change date by typing', async () => {
     const placeholder = 'Datepicker placeholder';
-    const onChange = jest.fn();
-    renderDatepicker({ value: new Date(2020, 6, 5), onChange, placeholder });
+    renderDatepicker({ value: new Date('2020-07-05'), placeholder });
 
     const input = screen.getByPlaceholderText(placeholder);
 
@@ -104,23 +101,23 @@ describe('<Datepicker />', () => {
     userEvent.click(input);
     userEvent.clear(input);
     pressKey({ key: 'Enter' });
-    expect(onChange).toBeCalledWith(null);
+    expect(defaultProps.onChange).toBeCalledWith(null);
 
     userEvent.type(input, '06.07.2020');
-    expect(onChange).toBeCalledWith(new Date(2020, 6, 6));
+    expect(defaultProps.onChange).toBeCalledWith(new Date('2020-07-06'));
 
     // Should return previous value if typing invalid date
     userEvent.type(input, 'qwerty');
     pressKey({ key: 'Enter' });
-    expect(onChange).toHaveBeenLastCalledWith(new Date(2020, 6, 6));
+    expect(defaultProps.onChange).toHaveBeenLastCalledWith(
+      new Date('2020-07-06')
+    );
   });
 
   it('should change date by typing when timeSelector is available', async () => {
     const placeholder = 'Datepicker placeholder';
-    const onChange = jest.fn();
     renderDatepicker({
       value: null,
-      onChange,
       placeholder,
       timeSelector: true,
     });
@@ -132,14 +129,14 @@ describe('<Datepicker />', () => {
     userEvent.click(input);
 
     userEvent.type(input, '06.07.2020 12.00');
-    expect(onChange).toBeCalledWith(new Date(2020, 6, 6, 12, 0));
+    expect(defaultProps.onChange).toBeCalledWith(new Date('2020-07-06T12:00'));
   });
 
   it('shows current date correctly when user navigates calendar with keyboard', async () => {
     renderDatepicker({
-      minBookingDate: new Date(2020, 6, 5),
-      maxBookingDate: new Date(2020, 6, 19),
-      value: new Date(2020, 6, 5),
+      minBookingDate: new Date('2020-07-05'),
+      maxBookingDate: new Date('2020-07-19'),
+      value: new Date('2020-07-05'),
     });
     userEvent.tab();
 
@@ -150,42 +147,55 @@ describe('<Datepicker />', () => {
     // selected date receives focus asynchronously, lets wait it to happen
     await waitFor(() => expect(currentDayButton).toHaveFocus());
 
+    const dayButtons = [
+      screen.getByRole('button', { name: /valitse 05\.07\.2020/i }),
+      screen.getByRole('button', { name: /valitse 12\.07\.2020/i }),
+      screen.getByRole('button', { name: /valitse 13\.07\.2020/i }),
+      screen.getByRole('button', { name: /valitse 19\.07\.2020/i }),
+    ];
     const userActions = [
       // minBookingDate should be focused
       {
         key: 'ArrowUp',
-        name: /valitse 05\.07\.2020/i,
+        // 05.07.2020
+        day: dayButtons[0],
       },
       {
         key: 'ArrowDown',
-        name: /valitse 12\.07\.2020/i,
+        // 12.07.2020
+        day: dayButtons[1],
       },
       {
         key: 'ArrowDown',
-        name: /valitse 19\.07\.2020/i,
+        // 19.07.2020
+        day: dayButtons[3],
       },
       // maxBookingDate should be focused
       {
         key: 'ArrowDown',
-        name: /valitse 19\.07\.2020/i,
+        // 19.07.2020
+        day: dayButtons[3],
       },
       {
         key: 'ArrowUp',
-        name: /valitse 12\.07\.2020/i,
+        // 12.07.2020
+        day: dayButtons[1],
       },
       {
         key: 'ArrowRight',
-        name: /valitse 13\.07\.2020/i,
+        // 13.07.2020
+        day: dayButtons[2],
       },
       {
         key: 'ArrowLeft',
-        name: /valitse 12\.07\.2020/i,
+        // 12.07.2020
+        day: dayButtons[1],
       },
     ];
-    userActions.forEach(async ({ key, name }) => {
+    for (const { key, day } of userActions) {
       pressKey({ key });
-      expect(screen.queryByRole('button', { name })).toHaveFocus();
-    });
+      expect(day).toHaveFocus();
+    }
   });
 
   it('calls onBlur when user hits escape button', async () => {
@@ -193,12 +203,8 @@ describe('<Datepicker />', () => {
     renderDatepicker({ onBlur });
 
     userEvent.tab();
-
+    screen.getByText(/kesäkuu 2020/i);
     expect(onBlur).not.toHaveBeenCalled();
-
-    await waitFor(() =>
-      expect(screen.queryByText(/kesäkuu 2020/i)).toBeInTheDocument()
-    );
 
     pressKey({ key: 'Escape' });
 
@@ -211,12 +217,8 @@ describe('<Datepicker />', () => {
     const { container } = renderDatepicker({ onBlur });
 
     userEvent.tab();
-
+    screen.getByText(/kesäkuu 2020/i);
     expect(onBlur).not.toHaveBeenCalled();
-
-    await waitFor(() =>
-      expect(screen.queryByText(/kesäkuu 2020/i)).toBeInTheDocument()
-    );
 
     userEvent.click(container);
 
@@ -226,7 +228,7 @@ describe('<Datepicker />', () => {
 
   it('calls onChange handler correctly when user selects a date', async () => {
     const date = getTestDate(10);
-    const { onChange } = renderDatepicker({ value: null });
+    renderDatepicker({ value: null });
 
     const monthRegex = new RegExp(
       formatDate(date, 'LLLL yyyy', { locale: fi }),
@@ -238,43 +240,33 @@ describe('<Datepicker />', () => {
     );
 
     userEvent.tab();
+    screen.getByText(monthRegex);
 
-    await waitFor(() =>
-      expect(screen.queryByText(monthRegex)).toBeInTheDocument()
-    );
+    userEvent.click(screen.getByRole('button', { name: dateSelectRegex }));
 
-    userEvent.click(
-      screen.getByRole('button', {
-        name: dateSelectRegex,
-      })
-    );
-
-    expect(onChange).toHaveBeenCalledWith(date);
+    expect(defaultProps.onChange).toHaveBeenCalledWith(date);
   });
 
-  it('changes month when next or previous month button is clicked', () => {
-    const { labelText } = renderDatepicker();
+  it('changes month when next or previous month button is clicked', async () => {
+    renderDatepicker();
 
-    userEvent.click(screen.getByLabelText(labelText || ''));
-    expect(screen.queryByText(/kesäkuu 2020/i)).toBeInTheDocument();
+    userEvent.click(screen.getByLabelText(defaultProps.labelText));
+    screen.getByText(/kesäkuu 2020/i);
 
+    const nextMonthButton = screen.getByRole('button', {
+      name: /seuraava kuukausi/i,
+    });
+    const previousMonthButton = screen.getByRole('button', {
+      name: /edellinen kuukausi/i,
+    });
     const userActions = [
-      {
-        name: /edellinen kuukausi/i,
-        text: /toukokuu 2020/i,
-      },
-      {
-        name: /seuraava kuukausi/i,
-        text: /kesäkuu 2020/i,
-      },
-      {
-        name: /seuraava kuukausi/i,
-        text: /heinäkuu 2020/i,
-      },
+      { button: previousMonthButton, text: /toukokuu 2020/i },
+      { button: nextMonthButton, text: /kesäkuu 2020/i },
+      { button: nextMonthButton, text: /heinäkuu 2020/i },
     ];
-    userActions.forEach(({ name, text }) => {
-      userEvent.click(screen.getByRole('button', { name }));
-      expect(screen.queryByText(text)).toBeInTheDocument();
+    userActions.forEach(({ button, text }) => {
+      userEvent.click(button);
+      screen.getByText(text);
     });
   });
 });
@@ -284,69 +276,64 @@ describe('<Datepicker timeSelector /> with time selector', () => {
     renderDatepicker({ timeSelector: true });
 
     userEvent.tab();
-    await waitFor(() =>
-      expect(screen.queryByText(/kesäkuu 2020/i)).toBeInTheDocument()
-    );
-
+    screen.getByText(/kesäkuu 2020/i);
     userEvent.tab();
+
     expect(
-      screen.queryByLabelText(/Valitse kellonaika nuolinäppäimillä/i)
+      screen.getByLabelText(/Valitse kellonaika nuolinäppäimillä/i)
     ).toHaveFocus();
   });
 
   it('focuses correct time from time list when user hits down or up arrows', async () => {
     const value = new Date(2020, 5, 20);
-    const { onChange } = renderDatepicker({
+    renderDatepicker({
       timeSelector: true,
       minuteInterval: 15,
       value,
     });
 
     userEvent.tab();
-    await waitFor(() =>
-      expect(screen.queryByText(/kesäkuu 2020/i)).toBeInTheDocument()
-    );
+    screen.getByText(/kesäkuu 2020/i);
     userEvent.tab();
+
+    const timeButtons = [
+      screen.getByRole('button', { name: /Valitse kellonajaksi 00.00/i }),
+      screen.getByRole('button', { name: /Valitse kellonajaksi 00.15/i }),
+      screen.getByRole('button', { name: /Valitse kellonajaksi 23.45/i }),
+    ];
 
     const userActions = [
       {
         key: 'ArrowDown',
-        name: /Valitse kellonajaksi 00.00/i,
+        // 00.00
+        button: timeButtons[0],
       },
       {
         key: 'ArrowDown',
-        name: /Valitse kellonajaksi 00.15/i,
+        // 00.15
+        button: timeButtons[1],
       },
       {
         key: 'ArrowUp',
-        name: /Valitse kellonajaksi 00.00/i,
+        // 00.00
+        button: timeButtons[0],
       },
       {
         key: 'ArrowUp',
-        name: /Valitse kellonajaksi 23.45/i,
+        // 23.45
+        button: timeButtons[2],
       },
     ];
 
-    userActions.forEach(({ key, name }) => {
+    userActions.forEach(({ key, button }) => {
       pressKey({ key });
-      expect(screen.getByRole('button', { name })).toHaveFocus();
+      expect(button).toHaveFocus();
     });
-    // couldn't get enter key working here
-    // maybe related: https://github.com/testing-library/react-testing-library/issues/269
-    fireEvent.click(
-      screen.getByRole('button', { name: /Valitse kellonajaksi 23.45/i })
-    );
-
-    const expectedDateValue = new Date(value);
-    expectedDateValue.setHours(23);
-    expectedDateValue.setMinutes(45);
-
-    expect(onChange).toHaveBeenCalledWith(expectedDateValue);
   });
 
   it('calls onChange correctly when selecting date with time', async () => {
     const value = getTestDate(1);
-    const { labelText, onChange, rerender } = renderDatepicker({
+    const { rerender } = renderDatepicker({
       timeSelector: true,
       minuteInterval: 15,
       value,
@@ -357,9 +344,9 @@ describe('<Datepicker timeSelector /> with time selector', () => {
       'i'
     );
 
-    userEvent.click(screen.getByLabelText(labelText || ''));
+    userEvent.click(screen.getByLabelText(defaultProps.labelText));
     userEvent.click(screen.getByRole('button', { name: dateSelectRegex }));
-    expect(onChange).toHaveBeenCalledWith(testDate);
+    expect(defaultProps.onChange).toHaveBeenCalledWith(testDate);
 
     rerender({ value: testDate });
 
@@ -371,16 +358,16 @@ describe('<Datepicker timeSelector /> with time selector', () => {
     expectedDateValue.setHours(12);
     expectedDateValue.setMinutes(15);
 
-    expect(onChange).toHaveBeenCalledWith(expectedDateValue);
+    expect(defaultProps.onChange).toHaveBeenCalledWith(expectedDateValue);
   });
 
-  it('calls onChange correctly when selecting time', async () => {
-    const { labelText, onChange } = renderDatepicker({
+  it('calls onChange correctly when selecting only time', async () => {
+    renderDatepicker({
       timeSelector: true,
       minuteInterval: 15,
       value: null,
     });
-    userEvent.click(screen.getByLabelText(labelText || ''));
+    userEvent.click(screen.getByLabelText(defaultProps.labelText));
     userEvent.click(
       screen.getByRole('button', { name: /Valitse kellonajaksi 12.15/i })
     );
@@ -389,6 +376,6 @@ describe('<Datepicker timeSelector /> with time selector', () => {
     expectedDateValue.setHours(12);
     expectedDateValue.setMinutes(15);
 
-    expect(onChange).toHaveBeenCalledWith(expectedDateValue);
+    expect(defaultProps.onChange).toHaveBeenCalledWith(expectedDateValue);
   });
 });
