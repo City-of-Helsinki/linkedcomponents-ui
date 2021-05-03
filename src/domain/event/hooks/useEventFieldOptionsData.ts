@@ -27,7 +27,6 @@ const useEventFieldOptionsData = () => {
   });
 
   const loading = loadingLanguages || loadingKeywords || loadingAudiences;
-
   return { audienceData, loading, topicsData };
 };
 

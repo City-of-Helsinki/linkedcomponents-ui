@@ -22,7 +22,7 @@ import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import AudienceSection from '../AudienceSection';
 
-const type = EVENT_TYPE.EVENT;
+const type = EVENT_TYPE.General;
 
 const keywordNames = range(1, 16).map((index) => `Keyword ${index}`);
 const keywords = fakeKeywords(

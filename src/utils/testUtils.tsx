@@ -6,6 +6,8 @@ import {
   fireEvent,
   render,
   RenderResult,
+  screen,
+  waitFor,
 } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
 import React from 'react';
@@ -15,6 +17,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import wait from 'waait';
 
+import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
 import { defaultStoreState } from '../constants';
 import { store as reduxStore } from '../domain/app/store/store';
 import { ThemeProvider } from '../domain/app/theme/Theme';
@@ -153,11 +156,21 @@ const pasteToTextEditor = (
   fireEvent(editor, pasteEvent);
 };
 
+const loadingSpinnerIsNotInDocument = async (timeout = 1000) => {
+  await waitFor(
+    () => {
+      expect(screen.queryAllByTestId(testId)).toHaveLength(0);
+    },
+    { timeout }
+  );
+};
+
 export {
   actWait,
   createPasteEvent,
   customRender as render,
   getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
   pasteToTextEditor,
   renderWithRoute,
 };

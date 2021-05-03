@@ -2,27 +2,82 @@
 @import 'widths';
 
 .hero {
-  --landing-page-hero-padding-top: 158px;
+  --landing-page-hero-padding-top: var(--spacing-3-xl);
   --landing-page-hero-heading-color: var(--color-white);
   --landing-page-hero-heading-font-size: 80px;
-  --landing-page-hero-heading-line-height: 72px;
-  --landing-page-hero-heading-max-width: 688px;
+  --landing-page-hero-heading-line-height: 80px;
+  --landing-page-hero-min-height: 580px;
   --landing-page-hero-koros-color: var(--color-white);
   --landing-page-hero-koros-height: 14px;
 
+  --landing-page-cta-button-background-color: var(--color-coat-of-arms);
+  --landing-page-cta-button-background-color-hover: var(
+    --color-coat-of-arms-dark
+  );
+  --landing-page-cta-button-background-color-focus: var(--color-coat-of-arms);
+  --landing-page-cta-button-background-color-hover-focus: var(
+    --color-coat-of-arms-dark
+  );
+  --landing-page-cta-button-border-color: var(--color-coat-of-arms);
+  --landing-page-cta-button-border-color-hover: var(--color-coat-of-arms-dark);
+  --landing-page-cta-button-border-color-focus: var(--color-coat-of-arms);
+  --landing-page-cta-button-border-color-hover-focus: var(
+    --color-coat-of-arms-dark
+  );
+  --landing-page-cta-button-color: var(--color-white);
+  --landing-page-cta-button-focus-outline-color: var(--color-coat-of-arms);
+
+  --landing-page-search-button-background-color: transparent;
+  --landing-page-search-button-background-color-hover: var(
+    --color-coat-of-arms-dark
+  );
+  --landing-page-search-button-background-color-focus: var(
+    --color-coat-of-arms
+  );
+  --landing-page-search-button-background-color-hover-focus: var(
+    --color-coat-of-arms-dark
+  );
+  --landing-page-search-button-border-color: var(--color-white);
+  --landing-page-search-button-color: var(--color-white);
+  --landing-page-search-button-focus-outline-color: var(--color-white);
+
   .heroWrapper {
     padding: var(--landing-page-hero-padding-top) 0
-      calc(var(--landing-page-hero-koros-height) + var(--spacing-xl));
+      calc(var(--landing-page-hero-koros-height) + var(--spacing-3-xl));
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    box-sizing: border-box;
+    min-height: 80vh;
+    display: grid;
+
+    @include large-up {
+      min-height: var(--landing-page-hero-min-height);
+    }
 
     h1 {
       color: var(--landing-page-hero-heading-color);
-      margin: 0 0 var(--spacing-2-xl);
-      max-width: var(--landing-page-hero-heading-max-width);
-      font-size: var(--landing-page-hero-heading-font-size);
-      line-height: var(--landing-page-hero-heading-line-height);
+      margin: 0 0 var(--spacing-m);
+
+      @include max-width-column(8);
+
+      @include medium-up {
+        font-size: var(--landing-page-hero-heading-font-size) !important;
+        line-height: var(--landing-page-hero-heading-line-height) !important;
+      }
+    }
+  }
+
+  .content {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-gap: var(--spacing-m);
+  }
+
+  .ctaContainer {
+    @include medium-up {
+      display: flex;
+      justify-self: flex-end;
     }
   }
 
@@ -36,11 +91,59 @@
       .inputWrapper {
         flex: 1 1 0%;
       }
-
-      .buttonWrapper {
-        @include min-width-column(2);
-      }
     }
+  }
+
+  .buttonWrapper {
+    @include min-width-column(2);
+  }
+
+  .ctaButton {
+    --background-color: var(--landing-page-cta-button-background-color);
+    --background-color-hover: var(
+      --landing-page-cta-button-background-color-hover
+    );
+    --background-color-focus: var(
+      --landing-page-cta-button-background-color-focus
+    );
+    --background-color-hover-focus: var(
+      --landing-page-cta-button-background-color-hover-focus
+    );
+    --border-color: var(--landing-page-cta-button-border-color);
+    --border-color-hover: var(--landing-page-cta-button-border-color-hover);
+    --border-color-focus: var(--landing-page-cta-button-border-color-focus);
+    --border-color-hover-focus: var(
+      --landing-page-cta-button-border-color-hover-focus
+    );
+    --color: var(--landing-page-cta-button-color);
+    --color-hover: var(--landing-page-cta-button-color);
+    --color-focus: var(--landing-page-cta-button-color);
+    --color-hover-focus: var(--landing-page-cta-button-color);
+    --focus-outline-color: var(--landing-page-cta-button-focus-outline-color);
+  }
+
+  .searchButton {
+    --background-color: var(--landing-page-search-button-background-color);
+    --background-color-hover: var(
+      --landing-page-search-button-background-color-hover
+    );
+    --background-color-focus: var(
+      --landing-page-search-button-background-color-focus
+    );
+    --background-color-hover-focus: var(
+      --landing-page-search-button-background-color-hover-focus
+    );
+    --border-color: var(--landing-page-search-button-border-color);
+    --border-color-hover: var(--landing-page-search-button-border-color);
+    --border-color-focus: var(--landing-page-search-button-border-color);
+    --border-color-hover-focus: var(--landing-page-search-button-border-color);
+    --color: var(--landing-page-search-button-color);
+    --color-hover: var(--landing-page-search-button-color);
+    --color-focus: var(--landing-page-search-button-color);
+    --color-hover-focus: var(--landing-page-search-button-color);
+    --focus-outline-color: var(
+      --landing-page-search-button-focus-outline-color
+    );
   }
 
   .koros {

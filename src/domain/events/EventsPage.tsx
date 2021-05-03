@@ -12,7 +12,6 @@ import { ROUTES } from '../../constants';
 import { useEventsQuery, UserFieldsFragment } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
-import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { clearEventFormData } from '../event/utils';
@@ -118,27 +117,25 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   return (
     <PageWrapper backgroundColor="gray" title="eventsPage.pageTitle">
       <MainContent>
-        <Container>
-          <FormContainer>
-            <h1>{t('eventsPage.title')}</h1>
-            <div className={styles.navigationRow}>
-              <Button
-                className={styles.addButton}
-                iconLeft={<IconPlus />}
-                onClick={goToCreateEvent}
-                variant="secondary"
-              >
-                {t('common.buttonAddEvent')}
-              </Button>
-              <Tabs
-                className={styles.tabSelector}
-                name="event-list"
-                onChange={handleChangeTab}
-                options={tabOptions}
-                activeTab={activeTab}
-              />
-            </div>
-          </FormContainer>
+        <Container withOffset={true}>
+          <h1>{t('eventsPage.title')}</h1>
+          <div className={styles.navigationRow}>
+            <Button
+              className={styles.addButton}
+              iconLeft={<IconPlus />}
+              onClick={goToCreateEvent}
+              variant="secondary"
+            >
+              {t('common.buttonAddEvent')}
+            </Button>
+            <Tabs
+              className={styles.tabSelector}
+              name="event-list"
+              onChange={handleChangeTab}
+              options={tabOptions}
+              activeTab={activeTab}
+            />
+          </div>
         </Container>
         {tabOptions.map(({ value }, index) => {
           const isActive = activeTab === value;

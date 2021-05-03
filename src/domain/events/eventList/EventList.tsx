@@ -15,7 +15,6 @@ import {
 import { OptionType } from '../../../types';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import Container from '../../app/layout/Container';
-import FormContainer from '../../app/layout/FormContainer';
 import { setEventListOptions } from '../actions';
 import {
   EVENT_LIST_TYPES,
@@ -99,67 +98,63 @@ const EventList: React.FC<EventListProps> = ({
 
   return (
     <div className={styles.eventList}>
-      <Container>
-        <FormContainer>
-          <div className={styles.listTypeRow}>
-            <div className={styles.listTypeSelectorColumn}>
-              <ListTypeSelector
-                caption={t('eventsPage.captionListTypes')}
-                name="list-type"
-                onChange={setListType}
-                options={listTypeOptions}
-                value={listType}
-              />
-              <span className={styles.count}>
-                {t('eventsPage.count', { count: eventsCount })}
-              </span>
-            </div>
-            <div className={styles.sortSelector}>
-              {listType === EVENT_LIST_TYPES.CARD_LIST && (
-                <SingleSelect
-                  className={styles.sortOrderSelector}
-                  label={t('eventsPage.labelSort')}
-                  onChange={handleSortSelectorChange}
-                  options={sortOptions}
-                  value={sortOptions.find((option) => option.value === sort)}
-                />
-              )}
-            </div>
+      <Container withOffset={true}>
+        <div className={styles.listTypeRow}>
+          <div className={styles.listTypeSelectorColumn}>
+            <ListTypeSelector
+              caption={t('eventsPage.captionListTypes')}
+              name="list-type"
+              onChange={setListType}
+              options={listTypeOptions}
+              value={listType}
+            />
+            <span className={styles.count}>
+              {t('eventsPage.count', { count: eventsCount })}
+            </span>
           </div>
-        </FormContainer>
+          <div className={styles.sortSelector}>
+            {listType === EVENT_LIST_TYPES.CARD_LIST && (
+              <SingleSelect
+                className={styles.sortOrderSelector}
+                label={t('eventsPage.labelSort')}
+                onChange={handleSortSelectorChange}
+                options={sortOptions}
+                value={sortOptions.find((option) => option.value === sort)}
+              />
+            )}
+          </div>
+        </div>
       </Container>
       <LoadingSpinner isLoading={loading}>
         <div
           className={styles[`contentWrapper${upperCaseFirstLetter(listType)}`]}
         >
-          <Container className={styles.contentContainer}>
-            <FormContainer>
-              {listType === EVENT_LIST_TYPES.TABLE && (
-                <div className={styles.table}>
-                  <EventsTable
-                    caption={getTableCaption()}
-                    events={events}
-                    setSort={handleSortChange}
-                    sort={sort}
-                  />
-                </div>
-              )}
-              {listType === EVENT_LIST_TYPES.CARD_LIST && (
-                <div className={styles.eventCards}>
-                  {events.map((event) => {
-                    return event && <EventCard key={event.id} event={event} />;
-                  })}
-                </div>
-              )}
-              {pageCount > 1 && (
-                <Pagination
-                  pageCount={pageCount}
-                  selectedPage={selectedPage}
-                  setSelectedPage={handleSelectedPageChange}
+          <Container className={styles.contentContainer} withOffset={true}>
+            {listType === EVENT_LIST_TYPES.TABLE && (
+              <div className={styles.table}>
+                <EventsTable
+                  caption={getTableCaption()}
+                  events={events}
+                  setSort={handleSortChange}
+                  sort={sort}
                 />
-              )}
-              <FeedbackButton theme="black" />
-            </FormContainer>
+              </div>
+            )}
+            {listType === EVENT_LIST_TYPES.CARD_LIST && (
+              <div className={styles.eventCards}>
+                {events.map((event) => {
+                  return event && <EventCard key={event.id} event={event} />;
+                })}
+              </div>
+            )}
+            {pageCount > 1 && (
+              <Pagination
+                pageCount={pageCount}
+                selectedPage={selectedPage}
+                setSelectedPage={handleSelectedPageChange}
+              />
+            )}
+            <FeedbackButton theme="black" />
           </Container>
         </div>
       </LoadingSpinner>

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.2.5",
+    "@datapunt/matomo-tracker-react": "^0.4.0",
     "@datepicker-react/hooks": "2.7.0",
     "@reduxjs/toolkit": "^1.4.0",
     "@sentry/browser": "^6.2.5",
@@ -105,6 +106,7 @@
       "src/domain/auth/userManager.ts",
       "src/domain/auth/oidcCallback/OidcCallback.tsx",
       "src/domain/auth/silentCallback/SilentCallback.tsx",
+      "src/domain/event/formSections/timeSection/TimeSectionContext.tsx",
       "src/generated/graphql.tsx",
       "src/icons/",
       "src/utils/mockDataUtils.ts",

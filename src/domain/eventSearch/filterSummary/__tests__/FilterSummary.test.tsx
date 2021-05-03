@@ -5,12 +5,13 @@ import { ROUTES } from '../../../../constants';
 import { PlaceDocument } from '../../../../generated/graphql';
 import { fakePlace } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
+import { EVENT_TYPE } from '../../../event/constants';
 import FilterSummary from '../FilterSummary';
 
 const text = 'Search word';
 const end = '2021-10-13';
 const start = '2021-10-05';
-const type = 'event';
+const type = EVENT_TYPE.General;
 
 const placeId = 'place:id';
 const placeName = 'Place name';

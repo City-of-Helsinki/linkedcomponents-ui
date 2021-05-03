@@ -39,6 +39,8 @@ export const QUERY_EVENT = gql`
       ...localisedFields
     }
     endTime
+    enrolmentEndTime
+    enrolmentStartTime
     externalLinks {
       ...externalLinkFields
     }
@@ -62,6 +64,8 @@ export const QUERY_EVENT = gql`
     locationExtraInfo {
       ...localisedFields
     }
+    maximumAttendeeCapacity
+    minimumAttendeeCapacity
     name {
       ...localisedFields
     }
@@ -78,6 +82,7 @@ export const QUERY_EVENT = gql`
     }
     startTime
     superEventType
+    typeId
     videos {
       ...videoFields
     }

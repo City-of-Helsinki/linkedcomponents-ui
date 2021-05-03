@@ -156,17 +156,18 @@ test('should show sub events', async () => {
 
   renderComponent(event, mocks);
 
-  const showMoreButton = await screen.findByRole('button', {
+  const showMoreButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat: ${eventValues.name}`,
   });
   userEvent.click(showMoreButton);
 
   // Should show sub-events
-  for (const { name } of subEventFields) {
-    await screen.findByRole('button', { name });
+  await screen.findByRole('button', { name: subEventFields[0].name });
+  for (const { name } of subEventFields.slice(1)) {
+    screen.getByRole('button', { name });
   }
 
-  const hideButton = await screen.findByRole('button', {
+  const hideButton = screen.getByRole('button', {
     name: `Piilota alatapahtumat: ${eventValues.name}`,
   });
   userEvent.click(hideButton);

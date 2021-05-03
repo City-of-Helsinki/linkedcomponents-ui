@@ -22,6 +22,7 @@ import {
   actWait,
   configure,
   getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
@@ -179,43 +180,43 @@ const mocks = [
   mockedOrganizationsResponse,
 ];
 
-const findElement = (
+const getElement = (
   key:
     | 'createEventButton'
     | 'draftsTab'
     | 'eventCardType'
-    | 'publishedTable'
     | 'publishedTab'
+    | 'publishedTable'
     | 'sortName'
     | 'waitingApprovalTab'
     | 'waitingApprovalTable'
 ) => {
   switch (key) {
     case 'createEventButton':
-      return screen.findByRole('button', { name: /lisää uusi tapahtuma/i });
+      return screen.getByRole('button', { name: /lisää uusi tapahtuma/i });
     case 'draftsTab':
-      return screen.findByRole('tab', {
+      return screen.getByRole('tab', {
         name: `Luonnokset (${draftEventsCount})`,
       });
     case 'eventCardType':
-      return screen.findByRole('radio', { name: /tapahtumakortit/i });
+      return screen.getByRole('radio', { name: /tapahtumakortit/i });
     case 'publishedTab':
-      return screen.findByRole('tab', {
+      return screen.getByRole('tab', {
         name: `Julkaistut (${publicEventsCount})`,
       });
     case 'publishedTable':
-      return screen.findByRole('table', {
+      return screen.getByRole('table', {
         name: /julkaistut tapahtumat, järjestys viimeksi muokattu, laskeva/i,
         hidden: true,
       });
     case 'sortName':
-      return screen.findByRole('button', { name: /nimi/i });
+      return screen.getByRole('button', { name: /nimi/i });
     case 'waitingApprovalTab':
-      return screen.findByRole('tab', {
+      return screen.getByRole('tab', {
         name: `Odottaa (${waitingApprovalEventsCount})`,
       });
     case 'waitingApprovalTable':
-      return screen.findByRole('table', {
+      return screen.getByRole('table', {
         name: /hyväksyntää odottavat tapahtumat, järjestys viimeksi muokattu, laskeva/i,
       });
   }
@@ -237,18 +238,21 @@ test('should render events page', async () => {
   const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
-  await findElement('waitingApprovalTab');
-  await findElement('publishedTab');
-  await findElement('draftsTab');
-  await findElement('waitingApprovalTable');
+  await loadingSpinnerIsNotInDocument();
+
+  getElement('waitingApprovalTab');
+  getElement('publishedTab');
+  getElement('draftsTab');
+  getElement('waitingApprovalTable');
 });
 
 test('should open create event page', async () => {
   const store = getMockReduxStore(storeState);
   const { history } = render(<EventsPage />, { mocks, store });
 
-  await findElement('waitingApprovalTab');
-  const createEventButton = await findElement('createEventButton');
+  await loadingSpinnerIsNotInDocument();
+
+  const createEventButton = getElement('createEventButton');
   userEvent.click(createEventButton);
 
   expect(history.location.pathname).toBe('/fi/events/create');
@@ -258,7 +262,9 @@ test('should store new listType to redux store', async () => {
   const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
-  const eventCardTypeRadio = await findElement('eventCardType');
+  await loadingSpinnerIsNotInDocument();
+
+  const eventCardTypeRadio = getElement('eventCardType');
   userEvent.click(eventCardTypeRadio);
 
   // Test if your store dispatched the expected actions
@@ -276,9 +282,9 @@ test('should store new active tab to redux store', async () => {
   const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
-  await findElement('waitingApprovalTable');
+  await loadingSpinnerIsNotInDocument();
 
-  const publishedTab = await findElement('publishedTab');
+  const publishedTab = getElement('publishedTab');
   userEvent.click(publishedTab);
 
   // Test if your store dispatched the expected actions
@@ -296,8 +302,9 @@ test('should store new sort to redux store', async () => {
   const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
-  await findElement('waitingApprovalTable');
-  const sortNameButton = await findElement('sortName');
+  await loadingSpinnerIsNotInDocument();
+
+  const sortNameButton = getElement('sortName');
   userEvent.click(sortNameButton);
 
   // Test if your store dispatched the expected actions
@@ -323,5 +330,6 @@ test('should render public events when published tab is selected', async () => {
 
   render(<EventsPage />, { mocks, store });
 
-  await findElement('publishedTable');
+  await loadingSpinnerIsNotInDocument();
+  getElement('publishedTable');
 });

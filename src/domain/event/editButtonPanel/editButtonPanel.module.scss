@@ -101,3 +101,11 @@
     transform: rotate(90deg);
   }
 }
+
+.loadingSpinner {
+  padding: 0;
+
+  & > div {
+    --spinner-color: var(--color);
+  }
+}

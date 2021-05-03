@@ -77,7 +77,7 @@ const Video: React.FC<Props> = ({
           button={
             canDelete && (
               <DeleteButton
-                label={t('event.form.buttonDeleteVideo')}
+                ariaLabel={t('event.form.buttonDeleteVideo')}
                 onClick={onDelete}
               />
             )

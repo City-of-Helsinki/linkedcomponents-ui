@@ -12,10 +12,10 @@ type EventOrganizationState = {
   organizationAncestors: OrganizationFieldsFragment[];
 };
 
-const useEventOrganization = (
-  event: EventFieldsFragment
+const useEventOrganizationAncestors = (
+  event?: EventFieldsFragment
 ): EventOrganizationState => {
-  const publisher = event.publisher;
+  const publisher = event?.publisher;
 
   const { data, loading } = useOrganizationsQuery({
     skip: !publisher,
@@ -33,4 +33,4 @@ const useEventOrganization = (
   };
 };
 
-export default useEventOrganization;
+export default useEventOrganizationAncestors;

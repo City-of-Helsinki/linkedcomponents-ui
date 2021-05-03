@@ -11,24 +11,24 @@ type Props = {
   button?: React.ReactNode;
   children: React.ReactNode;
   hasLabel?: boolean;
-  labelMaxWidth?: InputWidth;
+  inputMaxWidth?: InputWidth;
 };
 
 const FieldWithButton: React.FC<Props> = ({
   button,
   children,
   hasLabel = true,
-  labelMaxWidth = INPUT_MAX_WIDTHS.MEDIUM,
+  inputMaxWidth = INPUT_MAX_WIDTHS.MEDIUM,
 }) => {
   return (
     <div
       className={classNames(
         styles.fieldWithButton,
-        styles[`width${capitalize(labelMaxWidth)}`],
+        styles[`width${capitalize(inputMaxWidth)}`],
         { [styles.hasLabel]: hasLabel }
       )}
     >
-      <div className={styles.fieldColumn}>{children}</div>
+      <div className={styles.inputColumn}>{children}</div>
       <div className={styles.buttonColumn}>{button}</div>
     </div>
   );

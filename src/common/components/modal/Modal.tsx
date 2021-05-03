@@ -26,6 +26,7 @@ type Props = {
 
 const Modal: React.FC<Props> = ({
   children,
+  className,
   onClose,
   size = 'l',
   title,
@@ -43,6 +44,7 @@ const Modal: React.FC<Props> = ({
       portalClassName={styles.modalPortal}
       className={classNames(
         styles.modal,
+        className,
         styles[`size${capitalize(size)}`],
         styles[`type${capitalize(type)}`],
         css(theme.modal)

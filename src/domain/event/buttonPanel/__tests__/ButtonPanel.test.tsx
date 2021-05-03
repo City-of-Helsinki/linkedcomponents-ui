@@ -9,20 +9,31 @@ import {
 import { defaultStoreState } from '../../../../constants';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
-import { getMockReduxStore, render, screen } from '../../../../utils/testUtils';
+import {
+  configure,
+  getMockReduxStore,
+  render,
+  screen,
+} from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import ButtonPanel from '../ButtonPanel';
+
+configure({ defaultHidden: true });
 
 const mocks = [mockedUserResponse];
 
 const renderComponent = (store?: Store<StoreState, AnyAction>) =>
   render(
     <Formik
-      initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.EVENT }}
+      initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.General }}
       onSubmit={jest.fn()}
     >
-      <ButtonPanel onSaveDraft={jest.fn()} publisher={organizationId} />
+      <ButtonPanel
+        onSaveDraft={jest.fn()}
+        publisher={organizationId}
+        saving={null}
+      />
     </Formik>,
     { mocks, store }
   );
@@ -45,13 +56,15 @@ test('buttons should be enabled when user is authenticated', async () => {
 
   renderComponent(store);
 
-  const buttons = [
-    translations.event.form.buttonSaveDraft,
-    translations.event.form.buttonPublish.event,
-  ];
+  const buttonSaveDraft = await screen.findByRole('button', {
+    name: translations.event.form.buttonSaveDraft,
+  });
+  const buttonPublish = screen.getByRole('button', {
+    name: translations.event.form.buttonPublish.general,
+  });
+  const buttons = [buttonSaveDraft, buttonPublish];
 
-  for (const name of buttons) {
-    const button = await screen.findByRole('button', { name });
+  for (const button of buttons) {
     expect(button).toBeEnabled();
   }
 });

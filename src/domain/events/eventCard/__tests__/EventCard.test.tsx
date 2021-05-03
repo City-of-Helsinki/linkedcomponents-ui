@@ -138,7 +138,7 @@ const mocks = [
 test('should render event card fields', async () => {
   render(<EventCard event={event} />, { mocks });
 
-  await screen.findByRole('heading', { name: eventValues.name });
+  screen.getByRole('heading', { name: eventValues.name });
   const imageWrapper = screen.getByTestId(testIds.image);
   expect(imageWrapper.style.backgroundImage).toBe('url(http://imageurl.com)');
   screen.getByText('04.01.2021 – 23.01.2021');
@@ -149,17 +149,18 @@ test('should render event card fields', async () => {
   screen.getByText('12 – 18 v');
   screen.getByText('Julkaistu');
 
-  const showMoreButton = await screen.findByRole('button', {
+  const showMoreButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat (${subEvents.data.length})`,
   });
   userEvent.click(showMoreButton);
 
   // Should show sub-events
-  for (const { name } of subEventFields) {
+  await screen.findByRole('heading', { name: subEventFields[0].name });
+  for (const { name } of subEventFields.slice(1)) {
     await screen.findByRole('heading', { name });
   }
 
-  const hideButton = await screen.findByRole('button', {
+  const hideButton = screen.getByRole('button', {
     name: `Piilota alatapahtumat`,
   });
   userEvent.click(hideButton);

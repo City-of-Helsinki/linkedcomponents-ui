@@ -11,7 +11,7 @@ import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EVENT_EDIT_ACTIONS } from '../../event/constants';
-import useEventOrganization from '../../event/hooks/useEventOrganizationAncestors';
+import useEventOrganizationAncestors from '../../event/hooks/useEventOrganizationAncestors';
 import useEventUpdateActions, {
   MODALS,
 } from '../../event/hooks/useEventUpdateActions';
@@ -48,7 +48,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       postponeEvent,
       setOpenModal,
     } = useEventUpdateActions({ event });
-    const { organizationAncestors } = useEventOrganization(event);
+    const { organizationAncestors } = useEventOrganizationAncestors(event);
     const { user } = useUser();
 
     const onCancel = () => {
@@ -118,21 +118,21 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
         <ConfirmCancelModal
           event={event}
           isOpen={openModal === MODALS.CANCEL}
-          isSaving={saving === MODALS.CANCEL}
+          isSaving={saving === EVENT_EDIT_ACTIONS.CANCEL}
           onCancel={onCancel}
           onClose={closeModal}
         />
         <ConfirmDeleteModal
           event={event}
           isOpen={openModal === MODALS.DELETE}
-          isSaving={saving === MODALS.DELETE}
+          isSaving={saving === EVENT_EDIT_ACTIONS.DELETE}
           onClose={closeModal}
           onDelete={onDelete}
         />
         <ConfirmPostponeModal
           event={event}
           isOpen={openModal === MODALS.POSTPONE}
-          isSaving={saving === MODALS.POSTPONE}
+          isSaving={saving === EVENT_EDIT_ACTIONS.POSTPONE}
           onClose={closeModal}
           onPostpone={onPostpone}
         />

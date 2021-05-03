@@ -8,6 +8,7 @@ import {
 import { fakeOrganization, fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  configure,
   getMockReduxStore,
   render,
   screen,
@@ -16,6 +17,8 @@ import {
 import PublisherSelector, {
   PublisherSelectorProps,
 } from '../PublisherSelector';
+
+configure({ defaultHidden: true });
 
 const label = 'Select publisher';
 
@@ -118,13 +121,13 @@ test('should show users organizations as menu options', async () => {
 
   await screen.findByText(publisherName);
 
-  const toggleButton = await screen.getByRole('button', {
+  const toggleButton = screen.getByRole('button', {
     name: `${label} ${publisherName}`,
   });
   userEvent.click(toggleButton);
 
   await screen.findByRole('option', { name: organizationName, hidden: true });
-  await screen.findByRole('option', {
+  screen.getByRole('option', {
     name: adminOrganizationName,
     hidden: true,
   });
@@ -135,10 +138,10 @@ test('should show publisher as menu option', async () => {
 
   await screen.findByText(publisherName);
 
-  const toggleButton = await screen.getByRole('button', {
+  const toggleButton = screen.getByRole('button', {
     name: `${label} ${publisherName}`,
   });
   userEvent.click(toggleButton);
 
-  await screen.findByRole('option', { name: publisherName, hidden: true });
+  screen.getByRole('option', { name: publisherName, hidden: true });
 });

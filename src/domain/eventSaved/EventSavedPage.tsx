@@ -14,7 +14,6 @@ import {
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
-import FormContainer from '../app/layout/FormContainer';
 import PageWrapper from '../app/layout/PageWrapper';
 import {
   clearEventFormData,
@@ -52,27 +51,25 @@ const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
           : t(`eventSavedPage.pageTitlePublished`)
       }
     >
-      <Container>
-        <FormContainer>
-          <h1>
-            {publicationStatus === PublicationStatus.Draft
-              ? t('eventSavedPage.titleDraftSaved')
-              : t(`eventSavedPage.titlePublished`)}
-          </h1>
+      <Container withOffset={true}>
+        <h1>
+          {publicationStatus === PublicationStatus.Draft
+            ? t('eventSavedPage.titleDraftSaved')
+            : t(`eventSavedPage.titlePublished`)}
+        </h1>
 
-          <div className={styles.buttonPanel}>
-            <Button
-              onClick={goToEvents}
-              iconLeft={<IconArrowLeft />}
-              variant="secondary"
-            >
-              {t('eventSavedPage.buttonBackToEvents')}
-            </Button>
-            <Button onClick={goToCreateEvent} variant="primary">
-              {t('common.buttonAddEvent')}
-            </Button>
-          </div>
-        </FormContainer>
+        <div className={styles.buttonPanel}>
+          <Button
+            onClick={goToEvents}
+            iconLeft={<IconArrowLeft />}
+            variant="secondary"
+          >
+            {t('eventSavedPage.buttonBackToEvents')}
+          </Button>
+          <Button onClick={goToCreateEvent} variant="primary">
+            {t('common.buttonAddEvent')}
+          </Button>
+        </div>
       </Container>
     </PageWrapper>
   );

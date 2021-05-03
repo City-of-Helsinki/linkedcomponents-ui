@@ -12,7 +12,6 @@ import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import Container from '../../app/layout/Container';
-import FormContainer from '../../app/layout/FormContainer';
 import { useTheme } from '../../app/theme/Theme';
 import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
 import {
@@ -99,80 +98,76 @@ const SearchPanel: React.FC = () => {
       className={classNames(styles.searchPanel, css(theme.eventSearchPanel))}
     >
       <section className={styles.searchPanelWrapper}>
-        <Container>
-          <FormContainer>
-            <div className={styles.searchRow}>
-              <div className={styles.inputWrapper}>
-                <SearchInput
-                  className={styles.searchInput}
-                  clearButtonAriaLabel={t(
-                    'eventSearchPage.searchPanel.buttonClear'
-                  )}
-                  label={t('eventSearchPage.searchPanel.labelSearch')}
-                  onSearch={handleSearch}
-                  placeholder={t(
-                    'eventSearchPage.searchPanel.placeholderSearch'
-                  )}
-                  searchButtonAriaLabel={t(
-                    'eventSearchPage.searchPanel.buttonSearch'
-                  )}
-                  setValue={handleChangeText}
-                  value={searchState.text}
-                />
-                <div className={styles.advancedFilters}>
-                  <div>
-                    <DateSelectorDropdown
-                      onChangeDate={handleChangeDate}
-                      value={{
-                        endDate: searchState.end,
-                        startDate: searchState.start,
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <PlaceSelector
-                      icon={<IconLocation />}
-                      onChange={handleChangePlaces}
-                      toggleButtonLabel={t(
-                        'eventSearchPage.searchPanel.labelPlace'
-                      )}
-                      value={searchState.place}
-                    />
-                  </div>
-                  <div>
-                    <MultiSelectDropdown
-                      icon={<IconHeart />}
-                      onChange={handleChangeEventTypes}
-                      options={eventTypeOptions}
-                      showSearch={true}
-                      toggleButtonLabel={t(
-                        'eventSearchPage.searchPanel.labelEventType'
-                      )}
-                      value={searchState.type
-                        .map(
-                          (type) =>
-                            eventTypeOptions.find(
-                              (item) => item.value === type
-                            ) as OptionType
-                        )
-                        .filter((o) => o)}
-                    />
-                  </div>
+        <Container withOffset={true}>
+          <div className={styles.searchRow}>
+            <div className={styles.inputWrapper}>
+              <SearchInput
+                className={styles.searchInput}
+                clearButtonAriaLabel={t(
+                  'eventSearchPage.searchPanel.buttonClear'
+                )}
+                label={t('eventSearchPage.searchPanel.labelSearch')}
+                onSearch={handleSearch}
+                placeholder={t('eventSearchPage.searchPanel.placeholderSearch')}
+                searchButtonAriaLabel={t(
+                  'eventSearchPage.searchPanel.buttonSearch'
+                )}
+                setValue={handleChangeText}
+                value={searchState.text}
+              />
+              <div className={styles.advancedFilters}>
+                <div>
+                  <DateSelectorDropdown
+                    onChangeDate={handleChangeDate}
+                    value={{
+                      endDate: searchState.end,
+                      startDate: searchState.start,
+                    }}
+                  />
+                </div>
+                <div>
+                  <PlaceSelector
+                    icon={<IconLocation />}
+                    onChange={handleChangePlaces}
+                    toggleButtonLabel={t(
+                      'eventSearchPage.searchPanel.labelPlace'
+                    )}
+                    value={searchState.place}
+                  />
+                </div>
+                <div>
+                  <MultiSelectDropdown
+                    icon={<IconHeart />}
+                    onChange={handleChangeEventTypes}
+                    options={eventTypeOptions}
+                    showSearch={true}
+                    toggleButtonLabel={t(
+                      'eventSearchPage.searchPanel.labelEventType'
+                    )}
+                    value={searchState.type
+                      .map(
+                        (type) =>
+                          eventTypeOptions.find(
+                            (item) => item.value === type
+                          ) as OptionType
+                      )
+                      .filter((o) => o)}
+                  />
                 </div>
               </div>
-              <div className={styles.buttonWrapper}>
-                <Button
-                  className={styles.button}
-                  fullWidth={true}
-                  onClick={handleSearch}
-                  variant="success"
-                >
-                  {t('eventSearchPage.searchPanel.buttonSearch')}
-                </Button>
-              </div>
             </div>
-            <FilterSummary />
-          </FormContainer>
+            <div className={styles.buttonWrapper}>
+              <Button
+                className={styles.button}
+                fullWidth={true}
+                onClick={handleSearch}
+                variant="success"
+              >
+                {t('eventSearchPage.searchPanel.buttonSearch')}
+              </Button>
+            </div>
+          </div>
+          <FilterSummary />
         </Container>
       </section>
       <Koros flipHorizontal={true} className={styles.koros} type="basic" />

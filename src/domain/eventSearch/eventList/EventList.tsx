@@ -13,7 +13,6 @@ import {
 import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import Container from '../../app/layout/Container';
-import FormContainer from '../../app/layout/FormContainer';
 import { EVENT_SORT_OPTIONS, EVENTS_PAGE_SIZE } from '../../events/constants';
 import EventCard from '../../events/eventCard/EventCard';
 import useEventSortOptions from '../../events/hooks/useEventSortOptions';
@@ -77,44 +76,40 @@ const EventList: React.FC<EventListProps> = ({
 
   return (
     <div className={styles.eventList}>
-      <Container>
-        <FormContainer>
-          <div className={styles.sortRow}>
-            <div className={styles.countColumn}>
-              <span className={styles.count}>
-                {t('eventsPage.count', { count: eventsCount })}
-              </span>
-            </div>
-            <div className={styles.sortSelector}>
-              <SingleSelect
-                className={styles.sortOrderSelector}
-                label={t('eventsPage.labelSort')}
-                onChange={handleSortSelectorChange}
-                options={sortOptions}
-                value={sortOptions.find((option) => option.value === sort)}
-              />
-            </div>
+      <Container withOffset={true}>
+        <div className={styles.sortRow}>
+          <div className={styles.countColumn}>
+            <span className={styles.count}>
+              {t('eventsPage.count', { count: eventsCount })}
+            </span>
           </div>
-        </FormContainer>
+          <div className={styles.sortSelector}>
+            <SingleSelect
+              className={styles.sortOrderSelector}
+              label={t('eventsPage.labelSort')}
+              onChange={handleSortSelectorChange}
+              options={sortOptions}
+              value={sortOptions.find((option) => option.value === sort)}
+            />
+          </div>
+        </div>
       </Container>
       <LoadingSpinner isLoading={loading}>
-        <Container className={styles.contentContainer}>
-          <FormContainer>
-            <div className={styles.eventCards}>
-              {events.map((event) => {
-                return event && <EventCard key={event.id} event={event} />;
-              })}
-            </div>
+        <Container className={styles.contentContainer} withOffset={true}>
+          <div className={styles.eventCards}>
+            {events.map((event) => {
+              return event && <EventCard key={event.id} event={event} />;
+            })}
+          </div>
 
-            {pageCount > 1 && (
-              <Pagination
-                className={styles.pagination}
-                pageCount={pageCount}
-                selectedPage={selectedPage}
-                setSelectedPage={handleSelectedPageChange}
-              />
-            )}
-          </FormContainer>
+          {pageCount > 1 && (
+            <Pagination
+              className={styles.pagination}
+              pageCount={pageCount}
+              selectedPage={selectedPage}
+              setSelectedPage={handleSelectedPageChange}
+            />
+          )}
         </Container>
       </LoadingSpinner>
     </div>

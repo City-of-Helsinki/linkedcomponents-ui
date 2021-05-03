@@ -15,7 +15,6 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
-import FormContainer from '../app/layout/FormContainer';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { reportError } from '../app/sentry/utils';
@@ -63,6 +62,7 @@ const CreateEventPage: React.FC = () => {
   const [descriptionLanguage, setDescriptionLanguage] = React.useState(
     EVENT_INITIAL_VALUES.eventInfoLanguages[0] as EVENT_INFO_LANGUAGES
   );
+  const [saving, setSaving] = React.useState<PublicationStatus | null>(null);
 
   const goToEventSavedPage = (id: string) => {
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
@@ -72,6 +72,7 @@ const CreateEventPage: React.FC = () => {
     values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
+    setSaving(publicationStatus);
     try {
       await updateImageIfNeeded(values);
     } catch (error) /* istanbul ignore next */ {
@@ -108,6 +109,7 @@ const CreateEventPage: React.FC = () => {
           message: 'Failed to create sub-events event',
           user,
         });
+        setSaving(null);
         return;
       }
 
@@ -130,6 +132,7 @@ const CreateEventPage: React.FC = () => {
         // This action will change LE response so clear event list page
         resetEventListPage();
         goToEventSavedPage(recurringEventData.data?.createEvent.id as string);
+        setSaving(null);
       } catch (error) /* istanbul ignore next */ {
         // Report error to Sentry
         reportError({
@@ -142,6 +145,7 @@ const CreateEventPage: React.FC = () => {
           message: 'Failed to create recurring event',
           user,
         });
+        setSaving(null);
       }
     } else {
       try {
@@ -154,6 +158,7 @@ const CreateEventPage: React.FC = () => {
         // This action will change LE response so clear event list page
         resetEventListPage();
         goToEventSavedPage(data.data?.createEvent.id as string);
+        setSaving(null);
       } catch (error) /* istanbul ignore next */ {
         // Report error to Sentry
         reportError({
@@ -166,6 +171,7 @@ const CreateEventPage: React.FC = () => {
           message: 'Failed to create event',
           user,
         });
+        setSaving(null);
       }
     }
   };
@@ -249,57 +255,56 @@ const CreateEventPage: React.FC = () => {
               title={`createEventPage.pageTitle.${type}`}
             >
               <MainContent>
-                <Container>
-                  <FormContainer>
-                    <Section title={t('event.form.sections.type')}>
-                      <TypeSection />
-                    </Section>
-                    <Section title={t('event.form.sections.languages')}>
-                      <LanguagesSection />
-                    </Section>
-                    <Section title={t('event.form.sections.responsibilities')}>
-                      <ResponsibilitiesSection />
-                    </Section>
-                    <Section title={t('event.form.sections.description')}>
-                      <DescriptionSection
-                        selectedLanguage={descriptionLanguage}
-                        setSelectedLanguage={setDescriptionLanguage}
-                      />
-                    </Section>
-                    <Section title={t('event.form.sections.time')}>
-                      <TimeSection />
-                    </Section>
-                    <Section title={t('event.form.sections.place')}>
-                      <PlaceSection />
-                    </Section>
-                    <Section title={t('event.form.sections.price')}>
-                      <PriceSection />
-                    </Section>
-                    <Section title={t(`event.form.sections.channels.${type}`)}>
-                      <ChannelsSection />
-                    </Section>
-                    <Section title={t('event.form.sections.image')}>
-                      <ImageSection />
-                    </Section>
-                    <Section title={t('event.form.sections.video')}>
-                      <VideoSection />
-                    </Section>
-                    <Section title={t('event.form.sections.classification')}>
-                      <ClassificationSection />
-                    </Section>
-                    <Section title={t('event.form.sections.audience')}>
-                      <AudienceSection />
-                    </Section>
-                    <Section title={t('event.form.sections.additionalInfo')}>
-                      <AdditionalInfoSection />
-                    </Section>
+                <Container withOffset={true}>
+                  <Section title={t('event.form.sections.type')}>
+                    <TypeSection />
+                  </Section>
+                  <Section title={t('event.form.sections.languages')}>
+                    <LanguagesSection />
+                  </Section>
+                  <Section title={t('event.form.sections.responsibilities')}>
+                    <ResponsibilitiesSection />
+                  </Section>
+                  <Section title={t('event.form.sections.description')}>
+                    <DescriptionSection
+                      selectedLanguage={descriptionLanguage}
+                      setSelectedLanguage={setDescriptionLanguage}
+                    />
+                  </Section>
+                  <Section title={t('event.form.sections.time')}>
+                    <TimeSection />
+                  </Section>
+                  <Section title={t('event.form.sections.place')}>
+                    <PlaceSection />
+                  </Section>
+                  <Section title={t('event.form.sections.price')}>
+                    <PriceSection />
+                  </Section>
+                  <Section title={t(`event.form.sections.channels.${type}`)}>
+                    <ChannelsSection />
+                  </Section>
+                  <Section title={t('event.form.sections.image')}>
+                    <ImageSection />
+                  </Section>
+                  <Section title={t('event.form.sections.video')}>
+                    <VideoSection />
+                  </Section>
+                  <Section title={t('event.form.sections.classification')}>
+                    <ClassificationSection />
+                  </Section>
+                  <Section title={t('event.form.sections.audience')}>
+                    <AudienceSection />
+                  </Section>
+                  <Section title={t('event.form.sections.additionalInfo')}>
+                    <AdditionalInfoSection />
+                  </Section>
 
-                    <SummarySection />
-                  </FormContainer>
+                  <SummarySection />
                 </Container>
                 <ButtonPanel
                   onSaveDraft={() => handleSubmit(PublicationStatus.Draft)}
                   publisher={publisher}
+                  saving={saving}
                 />
               </MainContent>
             </PageWrapper>

@@ -1,0 +1,60 @@
+@import 'mixins';
+
+.divider {
+  margin: var(--spacing-m) var(--spacing-s);
+  border-top: 1px solid var(--color-black-20);
+}
+
+.eventTimesTable {
+  width: 100%;
+
+  .buttonColumn {
+    width: 1%;
+  }
+
+  .indexColumn {
+    width: var(--spacing-l);
+  }
+
+  .toggleButton {
+    padding: 0;
+    display: flex;
+    color: var(--color-black);
+
+    @include focus-outline(0px);
+
+    svg {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.editEventModal {
+  overflow: visible;
+
+  .buttonWrapper {
+    padding-top: var(--spacing-m);
+
+    button:not(:last-child) {
+      margin-right: var(--spacing-m);
+    }
+  }
+}
+
+.deleteButton {
+  height: var(--spacing-4-xl);
+}
+
+.errorText {
+  --helper-color-invalid: var(--color-error);
+  --icon-color-invalid: var(--color-error);
+  --icon-size: var(--spacing-m);
+
+  composes: hds-text-input__error-text from '~hds-core/lib/components/text-input/text-input.css';
+  margin-top: var(--spacing-m);
+
+  &:focus {
+    outline: var(--focus-outline-width) solid var(--helper-color-invalid);
+    outline-offset: var(--spacing-3-xs);
+  }
+}

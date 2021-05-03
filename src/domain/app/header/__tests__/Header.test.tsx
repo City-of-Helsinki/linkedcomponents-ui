@@ -22,34 +22,34 @@ configure({ defaultHidden: true });
 const renderComponent = (store?: Store<StoreState, AnyAction>, route = '/fi') =>
   render(<Header />, { routes: [route], store });
 
-const findComponent = (key: 'enOption' | 'menuButton') => {
+const getElement = (key: 'enOption' | 'menuButton') => {
   switch (key) {
     case 'enOption':
-      return screen.findByRole('link', {
+      return screen.getByRole('link', {
         hidden: false,
         name: translations.navigation.languages.en,
       });
     case 'menuButton':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: translations.navigation.menuToggleAriaLabel,
       });
   }
 };
 
-const findComponents = (
+const getElements = (
   key: 'languageSelector' | 'signInButton' | 'signOutLink'
 ) => {
   switch (key) {
     case 'languageSelector':
-      return screen.findAllByRole('button', {
+      return screen.getAllByRole('button', {
         name: translations.navigation.languageSelectorAriaLabel,
       });
     case 'signInButton':
-      return screen.findAllByRole('button', {
+      return screen.getAllByRole('button', {
         name: translations.common.signIn,
       });
     case 'signOutLink':
-      return screen.findAllByRole('link', {
+      return screen.getAllByRole('link', {
         name: translations.common.signOut,
       });
   }
@@ -61,14 +61,14 @@ beforeEach(() => {
 });
 
 // TODO: Skip this test because SV UI language is temporarily disabled
-test.skip('matches snapshot', async () => {
+test.skip('matches snapshot', () => {
   i18n.changeLanguage('sv');
   const { container } = renderComponent(undefined, '/sv');
 
   expect(container.firstChild).toMatchSnapshot();
 });
 
-test('should show navigation links and should route to correct page after clicking link', async () => {
+test('should show navigation links and should route to correct page after clicking link', () => {
   const { history } = renderComponent();
   const links = [
     {
@@ -84,47 +84,44 @@ test('should show navigation links and should route to correct page after clicki
   links.forEach(({ name, url }) => {
     const link = screen.getAllByRole('link', { name })[0];
 
-    expect(link).toBeInTheDocument();
-
     userEvent.click(link);
-
     expect(history.location.pathname).toBe(url);
   });
 });
 
-test('should show mobile menu', async () => {
+test('should show mobile menu', () => {
   global.innerWidth = 500;
   renderComponent();
 
   expect(screen.getAllByRole('navigation')).toHaveLength(1);
 
-  const menuButton = await findComponent('menuButton');
+  const menuButton = getElement('menuButton');
   userEvent.click(menuButton);
 
   expect(screen.getAllByRole('navigation')).toHaveLength(2);
 });
 
-test('should change language', async () => {
+test('should change language', () => {
   global.innerWidth = 1200;
   const { history } = renderComponent();
 
   expect(history.location.pathname).toBe('/fi');
 
-  const languageSelectors = await findComponents('languageSelector');
+  const languageSelectors = getElements('languageSelector');
   userEvent.click(languageSelectors[0]);
 
-  const enOption = await findComponent('enOption');
+  const enOption = getElement('enOption');
   userEvent.click(enOption);
 
   expect(history.location.pathname).toBe('/en');
 });
 
-test('should start log in process', async () => {
+test('should start log in process', () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
 
   renderComponent();
 
-  const signInButtons = await findComponents('signInButton');
+  const signInButtons = getElements('signInButton');
   userEvent.click(signInButtons[0]);
 
   expect(signinRedirect).toBeCalled();
@@ -139,10 +136,10 @@ test('should start logout process', async () => {
 
   renderComponent(store);
 
-  const userMenuButton = await screen.findByRole('button', { name: userName });
+  const userMenuButton = screen.getByRole('button', { name: userName });
   userEvent.click(userMenuButton);
 
-  const signOutLinks = await findComponents('signOutLink');
+  const signOutLinks = getElements('signOutLink');
   userEvent.click(signOutLinks[0]);
 
   await waitFor(() => {
@@ -150,11 +147,11 @@ test('should start logout process', async () => {
   });
 });
 
-test('should route to search page', async () => {
+test('should route to search page', () => {
   const searchValue = 'search';
   const { history } = renderComponent();
 
-  const openSearchButton = await screen.findByRole('button', {
+  const openSearchButton = screen.getByRole('button', {
     name: 'Etsi tapahtumia',
   });
   userEvent.click(openSearchButton);

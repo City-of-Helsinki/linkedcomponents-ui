@@ -4,7 +4,12 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { EventDocument, PublicationStatus } from '../../../generated/graphql';
 import { fakeEvent } from '../../../utils/mockDataUtils';
-import { renderWithRoute, screen, userEvent } from '../../../utils/testUtils';
+import {
+  loadingSpinnerIsNotInDocument,
+  renderWithRoute,
+  screen,
+  userEvent,
+} from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import EventSavedPage from '../EventSavedPage';
 
@@ -26,7 +31,7 @@ const getMocks = (publicationStatus: PublicationStatus): MockedResponse[] => {
   ];
 };
 
-const findComponent = (
+const getElement = (
   key:
     | 'addEventButton'
     | 'backToEventsButton'
@@ -35,19 +40,19 @@ const findComponent = (
 ) => {
   switch (key) {
     case 'addEventButton':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: translations.common.buttonAddEvent,
       });
     case 'backToEventsButton':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: translations.eventSavedPage.buttonBackToEvents,
       });
     case 'draftSavedHeading':
-      return screen.findByRole('heading', {
+      return screen.getByRole('heading', {
         name: translations.eventSavedPage.titleDraftSaved,
       });
     case 'publishedHeading':
-      return screen.findByRole('heading', {
+      return screen.getByRole('heading', {
         name: translations.eventSavedPage.titlePublished,
       });
   }
@@ -64,9 +69,10 @@ test('should render all components for draft event', async () => {
   const mocks = getMocks(PublicationStatus.Draft);
   renderComponent(mocks);
 
-  await findComponent('draftSavedHeading');
-  await findComponent('backToEventsButton');
-  await findComponent('addEventButton');
+  await loadingSpinnerIsNotInDocument();
+  getElement('draftSavedHeading');
+  getElement('backToEventsButton');
+  getElement('addEventButton');
 });
 
 test('should render all components for published event', async () => {
@@ -74,18 +80,20 @@ test('should render all components for published event', async () => {
 
   renderComponent(mocks);
 
-  await findComponent('publishedHeading');
-  await findComponent('backToEventsButton');
-  await findComponent('addEventButton');
+  await loadingSpinnerIsNotInDocument();
+  getElement('publishedHeading');
+  getElement('backToEventsButton');
+  getElement('addEventButton');
 });
 
 test('should route to event list page', async () => {
   const mocks = getMocks(PublicationStatus.Draft);
   const { history } = renderComponent(mocks);
 
-  await findComponent('draftSavedHeading');
+  await loadingSpinnerIsNotInDocument();
+  getElement('draftSavedHeading');
 
-  const backToEventsButton = await findComponent('backToEventsButton');
+  const backToEventsButton = getElement('backToEventsButton');
   userEvent.click(backToEventsButton);
 
   expect(history.location.pathname).toBe('/fi/events');
@@ -95,9 +103,10 @@ test('should route to create event page', async () => {
   const mocks = getMocks(PublicationStatus.Draft);
   const { history } = renderComponent(mocks);
 
-  await findComponent('draftSavedHeading');
+  await loadingSpinnerIsNotInDocument();
+  getElement('draftSavedHeading');
 
-  const addEventButton = await findComponent('addEventButton');
+  const addEventButton = getElement('addEventButton');
   userEvent.click(addEventButton);
 
   expect(history.location.pathname).toBe('/fi/events/create');

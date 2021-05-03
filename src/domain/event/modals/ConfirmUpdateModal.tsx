@@ -61,6 +61,7 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
       </p>
       <div className={styles.modalButtonWrapper}>
         <Button
+          disabled={isSaving}
           iconLeft={
             isSaving ? (
               <LoadingSpinner
@@ -77,7 +78,12 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
         >
           {t('common.save')}
         </Button>
-        <Button onClick={handleClose} variant="secondary" type="button">
+        <Button
+          disabled={isSaving}
+          onClick={handleClose}
+          variant="secondary"
+          type="button"
+        >
           {t('common.cancel')}
         </Button>
       </div>

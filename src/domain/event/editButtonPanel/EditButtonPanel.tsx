@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
@@ -16,7 +17,6 @@ import {
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import Container from '../../app/layout/Container';
-import FormContainer from '../../app/layout/FormContainer';
 import { authenticatedSelector } from '../../auth/selectors';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
@@ -24,7 +24,10 @@ import useEventOrganizationAncestors from '../hooks/useEventOrganizationAncestor
 import { copyEventToSessionStorage, getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
-type ActionButtonProps = { variant: ButtonVariant } & MenuItemOptionProps;
+type ActionButtonProps = {
+  isSaving: boolean;
+  variant: Exclude<ButtonVariant, 'supplementary'>;
+} & MenuItemOptionProps;
 
 export interface EditButtonPanelProps {
   event: EventFieldsFragment;
@@ -32,6 +35,7 @@ export interface EditButtonPanelProps {
   onDelete: () => void;
   onPostpone: () => void;
   onUpdate: (publicationStatus: PublicationStatus) => void;
+  saving: EVENT_EDIT_ACTIONS | null;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
@@ -40,6 +44,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   onDelete,
   onPostpone,
   onUpdate,
+  saving,
 }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
@@ -84,7 +89,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   }: {
     action: EVENT_EDIT_ACTIONS;
     onClick: () => void;
-    variant: ButtonVariant;
+    variant: Exclude<ButtonVariant, 'supplementary'>;
   }): ActionButtonProps | null => {
     const buttonProps = getEditButtonProps({
       action,
@@ -95,7 +100,9 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       t,
       user,
     });
-    return buttonProps ? { ...buttonProps, variant } : null;
+    return buttonProps
+      ? { ...buttonProps, isSaving: saving === action, variant }
+      : null;
   };
 
   const actionItems: MenuItemOptionProps[] = [
@@ -140,51 +147,65 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   return (
     <div className={styles.editButtonPanel}>
-      <Container>
-        <FormContainer>
-          <div className={styles.buttonsRow}>
-            <div className={styles.buttonWrapper}>
-              <Button
-                className={classNames(styles.backButton, styles.smallButton)}
-                iconLeft={<IconArrowLeft />}
-                fullWidth={true}
-                onClick={goToEventsPage}
-                type="button"
-                variant="secondary"
-              >
-                {t('event.form.buttonBack')}
-              </Button>
-              <div className={styles.actionsDropdown}>
-                <MenuDropdown
-                  button={
-                    isMobile ? (
-                      <button className={styles.toggleButton}>
-                        <IconMenuDots aria-hidden={true} />
-                      </button>
-                    ) : undefined
-                  }
-                  buttonLabel={t('event.form.buttonActions')}
-                  closeOnItemClick={true}
-                  items={actionItems}
-                  menuPosition="top"
-                />
-              </div>
+      <Container withOffset={true}>
+        <div className={styles.buttonsRow}>
+          <div className={styles.buttonWrapper}>
+            <Button
+              className={classNames(styles.backButton, styles.smallButton)}
+              iconLeft={<IconArrowLeft />}
+              fullWidth={true}
+              onClick={goToEventsPage}
+              type="button"
+              variant="secondary"
+            >
+              {t('event.form.buttonBack')}
+            </Button>
+            <div className={styles.actionsDropdown}>
+              <MenuDropdown
+                button={
+                  isMobile ? (
+                    <button className={styles.toggleButton}>
+                      <IconMenuDots aria-hidden={true} />
+                    </button>
+                  ) : undefined
+                }
+                buttonLabel={t('event.form.buttonActions')}
+                closeOnItemClick={true}
+                items={actionItems}
+                menuPosition="top"
+              />
             </div>
-            <div className={styles.buttonWrapper}>
-              {actionButtons.map(({ icon, label, variant, ...rest }, index) => (
+          </div>
+          <div className={styles.buttonWrapper}>
+            {actionButtons.map(
+              (
+                { icon, disabled, label, isSaving, variant, ...rest },
+                index
+              ) => (
                 <Button
                   key={index}
                   {...rest}
-                  iconLeft={variant === 'primary' && icon}
+                  disabled={disabled || Boolean(saving)}
+                  iconLeft={
+                    isSaving ? (
+                      <LoadingSpinner
+                        className={styles.loadingSpinner}
+                        isLoading={isSaving}
+                        small={true}
+                      />
+                    ) : (
+                      icon
+                    )
+                  }
                   className={styles.mediumButton}
-                  variant={variant as any}
+                  variant={variant as Exclude<ButtonVariant, 'supplementary'>}
                 >
                   {label}
                 </Button>
-              ))}
-            </div>
+              )
+            )}
           </div>
-        </FormContainer>
+        </div>
       </Container>
     </div>
   );

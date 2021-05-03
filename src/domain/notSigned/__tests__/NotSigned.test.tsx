@@ -10,30 +10,30 @@ import NotSigned from '../NotSigned';
 const renderComponent = (store?: Store<StoreState, AnyAction>) =>
   render(<NotSigned />, { routes: ['/fi/events'], store });
 
-const findComponent = (key: 'goToHomeButton' | 'signInButton' | 'text') => {
+const getElement = (key: 'goToHomeButton' | 'signInButton' | 'text') => {
   switch (key) {
     case 'goToHomeButton':
-      return screen.findByRole('button', {
+      return screen.getByRole('button', {
         name: translations.common.goToHome,
       });
     case 'signInButton':
-      return screen.findByRole('button', { name: translations.common.signIn });
+      return screen.getByRole('button', { name: translations.common.signIn });
     case 'text':
-      return screen.findByText(translations.notSigned.text);
+      return screen.getByText(translations.notSigned.text);
   }
 };
 
 test('should render not signed page', async () => {
   renderComponent();
 
-  await findComponent('text');
-  await findComponent('signInButton');
-  await findComponent('goToHomeButton');
+  getElement('text');
+  getElement('signInButton');
+  getElement('goToHomeButton');
 });
 
 test('should route to home page', async () => {
   const { history } = renderComponent();
-  const goToHomeButton = await findComponent('goToHomeButton');
+  const goToHomeButton = getElement('goToHomeButton');
 
   userEvent.click(goToHomeButton);
 
@@ -43,7 +43,7 @@ test('should route to home page', async () => {
 test('should start log in process', async () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
   renderComponent();
-  const signInButton = await findComponent('signInButton');
+  const signInButton = getElement('signInButton');
 
   userEvent.click(signInButton);
 

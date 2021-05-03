@@ -5,11 +5,28 @@ import styles from './container.module.scss';
 
 interface Props {
   className?: string;
+  contentWrapperClassName?: string;
+  withOffset?: boolean;
 }
 
-const Container: React.FC<Props> = ({ children, className }) => {
+const Container: React.FC<Props> = ({
+  children,
+  className,
+  contentWrapperClassName,
+  withOffset = false,
+}) => {
   return (
-    <div className={classNames(styles.container, className)}>{children}</div>
+    <div
+      className={classNames(styles.container, className, {
+        [styles.withOffset]: withOffset,
+      })}
+    >
+      <div
+        className={classNames(styles.contentWrapper, contentWrapperClassName)}
+      >
+        {children}
+      </div>
+    </div>
   );
 };
 

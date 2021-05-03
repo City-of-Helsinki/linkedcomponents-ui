@@ -22,6 +22,7 @@ type Props = {
 
 const CheckboxGroupField: React.FC<Props> = ({
   columns = 2,
+  disabled,
   field: { name, value, ...field },
   form,
   id,
@@ -53,7 +54,6 @@ const CheckboxGroupField: React.FC<Props> = ({
       >
         {visibleOptions.map((option, index) => {
           const checked = value.includes(option.value);
-          const disabled = checked && value.length <= min;
 
           return (
             <Checkbox
@@ -63,7 +63,7 @@ const CheckboxGroupField: React.FC<Props> = ({
               id={`${name}-${option.value}`}
               name={name}
               checked={value.includes(option.value)}
-              disabled={disabled}
+              disabled={disabled || (checked && value.length <= min)}
               value={option.value}
               label={option.label}
             />
