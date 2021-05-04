@@ -91,7 +91,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
               onClick={() => handleSubmit()}
               type="button"
             >
-              {t('event.form.buttonAddEventTime')}
+              {t(`event.form.buttonAddEventTime.${eventType}`)}
             </Button>
           </div>
         );

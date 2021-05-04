@@ -46,7 +46,7 @@ test('should render component', async () => {
   }
 
   screen.getByRole('button', { name: 'Poista tapahtuma' });
-  screen.getByRole('button', { name: 'Kumoa' });
+  screen.getByRole('button', { name: 'Peruuta' });
 });
 
 test('should call onDelete', async () => {
@@ -65,7 +65,7 @@ test('should call onClose', async () => {
   renderComponent({ onClose });
 
   const closeButton = screen.getByRole('button', {
-    name: 'Kumoa',
+    name: 'Peruuta',
   });
   userEvent.click(closeButton);
   expect(onClose).toBeCalled();

@@ -239,7 +239,7 @@ const FaqPage = () => {
               <p>
                 Evenemang listas alltid enligt olika sökkriterier. Om inga
                 sökkriterier anges, returnerar gränssnittet framtida evenemang
-                inom vald basorganisation med en evenemangtyp av "event". Som
+                inom vald basorganisation med ett evenemangstyp av "event". Som
                 ett resultat visas till exempel kurser inte i sökresultaten om
                 de inte specifikt definierats. Kontrollera också att evenemanget
                 du lade till har publicerats och att datumet är i framtiden.

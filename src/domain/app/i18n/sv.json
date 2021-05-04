@@ -67,7 +67,7 @@
       "text": "Ge feedback",
       "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
     },
-    "goToHome": "Till startsidan",
+    "goToHome": "Till hemsidan",
     "imageUploader": {
       "buttonDropImage": "Släpp en bild i området eller lägg till från din dator genom att klicka",
       "notAllowedFileFormat": "Filformat är inte tillåtet",
@@ -173,7 +173,7 @@
       "buttonCancel": "Avbryt evenemanget",
       "text1": "Denna åtgärd avbryter evenemanget. Du kan också skjuta upp evenemanget eller ta bort en händelse du angav av misstag.",
       "text2": "Följande evenemangen kommer att avbrytas:",
-      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien avbryts inte när paraplyevenemang avbryts.",
+      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien avbryts inte när huvudevenemang avbryts.",
       "title": "Avbryt evenemanget",
       "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att avbrytas",
       "warning": "Kom ihåg att istället för att avbryta kan du också vara värd för evenemanget på distans online. I så fall använder du redigeringsformuläret för att välja Internet som plats. Du kan också skjuta upp evenemanget till framtiden."
@@ -197,14 +197,18 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Acceptera och publicera",
-      "buttonActions": "Åtgärder",
-      "buttonAddEventTime": "Lägg till ett tid",
-      "buttonAddImage": {
-        "course": "Lägg till en bild av kursen",
-        "general": "Lägg till en bild av evenemanget",
-        "volunteering": "Lägg till en bild av volontärarbetet"
+      "buttonActions": "Funktioner",
+      "buttonAddEventTime": {
+        "course": "Lägg till en ny kursstid",
+        "general": "Lägg till en ny evenemangstid",
+        "volunteering": "Lägg till en ny volontärarbetestid"
       },
-      "buttonAddOffer": "Lägg till ny prisinformation",
+      "buttonAddImage": {
+        "course": "Lägg till kursens bild",
+        "general": "Lägg till evenemangets bild",
+        "volunteering": "Lägg till volontärarbetets bild"
+      },
+      "buttonAddOffer": "Lägg till prisinformation",
       "buttonAddRecurringEvent": {
         "course": "Lägg till återkommande kurs",
         "general": "Lägg till återkommande evenemang",
@@ -237,9 +241,9 @@
         "volunteering": "Lägg upp volontärarbetet"
       },
       "buttonRemoveImage": {
-        "course": "Ta bort bilden av kursen",
-        "general": "Ta bort bilden av evenemanget",
-        "volunteering": "Ta bort bilden av volontärarbetet"
+        "course": "Ta bort kursens bild",
+        "general": "Ta bort evenemangets bild",
+        "volunteering": "Ta bort volontärarbetets bild"
       },
       "buttonSaveDraft": "Spara utkast",
       "buttonUpdateDraft": "Spara utkast",
@@ -255,20 +259,18 @@
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta evenemang."
       },
       "extensionCourse": {
-        "labelEnrolmentEndTime": "Registreringen slutar",
+        "labelEnrolmentEndTime": "Registreringen avslutas",
         "labelEnrolmentStartTime": "Registreringen börjar",
-        "labelMaximumAttendeeCapacity": "Maximalt antal deltagare",
-        "labelMinimimAttendeeCapacity": "Minsta antal deltagare",
-        "placeholderMaximumAttendeeCapacity": "Ange maximalt antal deltagare",
-        "placeholderMinimimAttendeeCapacity": "Ange minsta antal deltagare"
+        "labelMaximumAttendeeCapacity": "Högsta antal deltagare",
+        "labelMinimimAttendeeCapacity": "Minsta antal deltagare"
       },
       "helperRecurringEventRepeatInterval": "I veckor",
-      "helperUmbrellaEvent": "Notera. Ett paraplyevenemang måste skapas innan du kan lägga till underevenemangen till det.",
+      "helperUmbrellaEvent": "Notera. Ett huvudevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "image": {
         "labelAltText": "Alternativ bildtext för skärmläsare (alt text)",
         "labelName": "Rubrik",
-        "labelPhotographerName": "Fotografens namn",
-        "labelUrl": "Bildens URL",
+        "labelPhotographerName": "Författarens namn",
+        "labelUrl": "Bildens URL-webbaddress",
         "license": {
           "ccBy": "Creative Commons BY 4.0",
           "eventOnly": {
@@ -277,12 +279,12 @@
             "volunteering": "Bilden får endast användas för detta volontärarbete"
           }
         },
-        "placeholderAltText": "Ange bildalternativtexten för skärmläsare",
-        "placeholderName": "Ange rubrik",
-        "placeholderPhotographerName": "Ange fotografens namn",
+        "placeholderAltText": "Ange bildens alt-text för skärmläsare",
+        "placeholderName": "Ange bildtext",
+        "placeholderPhotographerName": "Ange författarens namn",
         "placeholderUrl": "Ange bildens URL",
-        "titleImportFromHardDisk": "Importera en ny bild från hårddisken",
-        "titleImportFromInternet": "Importera en ny bild från internet",
+        "titleImportFromHardDisk": "Importera från din hårddisk",
+        "titleImportFromInternet": "Importera från internet",
         "titleLicense": "Licens",
         "titleUseImportedImage": "Använd en tidigare importerad bild"
       },
@@ -292,19 +294,19 @@
         "volunteering": "Om antalet deltagare i volontärarbetet är begränsat, ange lägsta och högsta antal deltagare här."
       },
       "infoTextAudience": {
-        "course": "Om kursen inte har en specifik publik, välj inget.",
-        "general": "Om evenemanget inte har en specifik publik, välj inget.",
-        "volunteering": "Om volontärarbetet inte har en specifik publik, välj inget."
+        "course": "Om kursen inte har en specifik målgrupp lämnar du valet tomt.",
+        "general": "Om evenemanget inte har en specifik målgrupp lämnar du valet tomt.",
+        "volunteering": "Om volontärarbetet inte har en specifik målgrupp lämnar du valet tomt."
       },
       "infoTextAudienceAge": {
-        "course": "Om bara personer i en viss ålder får delta i kursen, ställ in åldersgränserna här.",
-        "general": "Om bara personer i en viss ålder får delta i evenemanget, ställ in åldersgränserna här.",
-        "volunteering": "Om bara personer i en viss ålder får delta i volontärarbetet, ställ in åldersgränserna här."
+        "course": "Om åldersbegränsningar gäller för kursen, ställ in lägsta och högsta åldersgräns här.",
+        "general": "Om åldersbegränsningar gäller för evenemanget, ställ in lägsta och högsta åldersgräns här.",
+        "volunteering": "Om åldersbegränsningar gäller för volontärarbetet, ställ in lägsta och högsta åldersgräns här."
       },
       "infoTextDescription1": {
-        "course": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om kursen kortfattat.",
-        "general": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om evenemanget kortfattat.",
-        "volunteering": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om volontärarbetet kortfattat."
+        "course": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om kursen kortfattat.",
+        "general": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om evenemanget kortfattat.",
+        "volunteering": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om volontärarbetet kortfattat."
       },
       "infoTextDescription2": {
         "course": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i kursen.",
@@ -342,46 +344,46 @@
         "general": "Försök alltid hitta en bild för evenemanget. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras ganska fritt, eller \"Använd begränsad till evenemanget \". Några fritt användbara illustrationer finns på <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"evenemangsbilder-sidan {{openInNewTab}}\">evenemangsbilder-sidan.</a>",
         "volunteering": "Försök alltid hitta en bild för volontärarbetet. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras ganska fritt, eller \"Använd begränsad till volontärarbetet \". Några fritt användbara illustrationer finns på <a href=\"https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"evenemangsbilder-sidan {{openInNewTab}}\">evenemangsbilder-sidan.</a>"
       },
-      "infoTextImage2": "Innan du matar redigerar du bilden så att den passar nätverket och till ett horisontellt bildförhållande 3: 2, till exempel 1200 × 800 pixlar. Det är viktigt att filstorleken förblir rimlig även för mobil användning, helst mindre än 200 kilobyte (kb).",
+      "infoTextImage2": "Innan du laddar upp, redigerar du bilden så att den passar internet och i ett horisontellt bildförhållande 3: 2, till exempel 1200 × 800 pixlar. Det är viktigt att filstorleken förblir rimlig även för mobil användning, helst mindre än 200 kilobyte (kb).",
       "infoTextImage3": "Ge bilden ett namn och beskriv kort vad som händer i den.",
       "infoTextImage4": "Alt-text förbättrar tillgängligheten eftersom skärmläsare skickar alt-text till användaren. Så beskriv innehållet i bilden på ett förståeligt sätt.",
       "infoTextInfoLanguages": {
-        "course": "Välj de språk som du vill visa kursinformation för den här tjänsten på.",
-        "general": "Välj de språk som du vill visa evenemanginformation för den här tjänsten på.",
-        "volunteering": "Välj de språk som du vill visa volontärarbeteinformation för den här tjänsten på."
+        "course": "Välj de språk som kursinformationen matas in på.",
+        "general": "Välj de språk som evenemangsinformationen matas in på.",
+        "volunteering": "Välj de språk som volontärarbetesinformation matas in på."
       },
       "infoTextInLanguages": {
-        "course": "Välj de språk som ska användas för kommunikation under kursen.",
-        "general": "Välj de språk som ska användas för kommunikation under evenemanget.",
-        "volunteering": "Välj de språk som ska användas för kommunikation under volontärarbetet."
+        "course": "Välj de språk det kommuniceras på under kursen.",
+        "general": "Välj de språk det kommuniceras på under evenemanget.",
+        "volunteering": "Välj de språk det kommuniceras på under volontärarbetet."
       },
       "infoTextKeywords": {
-        "course": "Bifoga minst ett nyckelord till kursen som beskriver temat för kursen. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till i listan nedan.",
-        "general": "Bifoga minst ett nyckelord till evenemanget som beskriver temat för evenemanget. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till i listan nedan.",
-        "volunteering": "Bifoga minst ett nyckelord till volontärarbetet som beskriver temat för volontärarbetet. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till i listan nedan."
+        "course": "Lägg till minst ett nyckelord för kursen som bäst beskriver dess tema. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till från listan nedan.",
+        "general": "Lägg till minst ett nyckelord för evenemanget som bäst beskriver dess tema. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till från listan nedan.",
+        "volunteering": "Lägg till minst ett nyckelord för volontärarbetet som bäst beskriver dess tema. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till från listan nedan."
       },
-      "infoTextLocation1": "Ange platsens namn eller gatuadress i fältet och välj rätt plats i listan.",
+      "infoTextLocation1": "Ange platsens namn eller gatuadress i platsfältet och välj rätt plats i listan.",
       "infoTextLocation2": {
-        "course": "Om kursen bara hålls på distans på Internet, välj Internet som plats. Kursens URL anges i hemsidans fält och / eller kursen i sociala mediefält.",
-        "general": "Om evenemanget bara hålls på distans på Internet, välj Internet som plats. Evenemangets URL anges i hemsidans fält och / eller evenemanget i sociala mediefält.",
-        "volunteering": "Om volontärarbetet bara hålls på distans på Internet, välj Internet som plats. Volontärarbetets URL anges i hemsidans fält och / eller volontärarbetet i sociala mediefält."
+        "course": "Om kursen bara hålls på distans på Internet, välj “Internet” som plats. Webbadressen till kursen ska anges i fältet hemsida och/eller sociala medier.",
+        "general": "Om evenemanget bara hålls på distans på Internet, välj “Internet” som plats. Webbadressen till evenemanget ska anges i fältet hemsida och/eller sociala medier.",
+        "volunteering": "Om volontärarbetet bara hålls på distans på Internet, välj “Internet” som plats. Webbadressen till volontärarbetet ska anges i fältet hemsida och/eller sociala medier."
       },
-      "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel golvnummer eller klassrumsnamn.",
-      "infoTextLocation4": "Om den exakta platsen inte finns i listan väljer du närmaste gatuadress som plats och anger namnet på arenan eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
+      "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel våningsnummer eller klassrumsnamn.",
+      "infoTextLocation4": "Om den exakta platsen inte finns i listan, välj närmaste gatuadress som plats och ange platsens namn eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
       "infoTextMainCategories": {
-        "course": "Välj minst en huvudkategori. Att använda rätt huvudkategorier gör det lättare att hitta kursen.",
-        "general": "Välj minst en huvudkategori. Att använda rätt huvudkategorier gör det lättare att hitta evenemanget.",
-        "volunteering": "Välj minst en huvudkategori. Att använda rätt huvudkategorier gör det lättare att hitta volontärarbetet."
+        "course": "Välj minst en huvudkategori. Rätt huvudkategori gör det lättare att hitta kursen.",
+        "general": "Välj minst en huvudkategori. Rätt huvudkategori gör det lättare att hitta evenemanget.",
+        "volunteering": "Välj minst en huvudkategori. Rätt huvudkategori gör det lättare att hitta volontärarbetet."
       },
       "infoTextOffers1": {
-        "course": "Ange om kursen är gratis. Ange priset för den avgiftsbelagda kursen i formuläret “5€”.",
-        "general": "Ange om evenemanget är gratis. Ange priset för det avgiftsbelagda evenemanget i formuläret “5€”.",
-        "volunteering": "Ange om volontärarbetet är gratis. Ange priset för det avgiftsbelagda volontärarbetet i formuläret “5€”."
+        "course": "Ange om kursen är gratis. Ange pris i form “5€” för kurs som kostar.",
+        "general": "Ange om evenemanget är gratis. Ange pris i form “5€” för evenemang som kostar.",
+        "volunteering": "Ange om volontärarbetet är gratis. Ange pris i form “5€” för volontärarbet som kostar."
       },
       "infoTextOffers2": {
-        "course": "Om kursen har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation.",
-        "general": "Om evenemanget har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation.",
-        "volunteering": "Om volontärarbetet har flera priser, klicka på “Lägg till ny prisinformation” och ange namnet på varje prisgrupp (t.ex. barn) i fältet Beskrivning av prisinformation."
+        "course": "Om kursen har flera priser klickar du på “Lägg till prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”.",
+        "general": "Om evenemanget har flera priser klickar du på “Lägg till prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”.",
+        "volunteering": "Om volontärarbetet har flera priser klickar du på “Lägg till prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”."
       },
       "infoTextProvider": {
         "course": "Ange namnet på organisationen som är värd för kursen om arrangören inte är densamma som utgivaren.",
@@ -389,49 +391,49 @@
         "volunteering": "Ange namnet på organisationen som är värd för volontärarbetet om arrangören inte är densamma som utgivaren."
       },
       "infoTextPublisher": {
-        "course": "Välj den organisation som ska visas som kursförläggare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
+        "course": "Välj den organisation som ska visas som kurssutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
         "general": "Välj den organisation som ska visas som evenemangsutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
         "volunteering": "Välj den organisation som ska visas som volontärarbetesutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation."
       },
       "infoTextSocialMedia": {
-        "course": "Kopiera kursens sociala medier länkar (URL: er) här.",
-        "general": "Kopiera evenemangets sociala medier länkar (URL: er) här.",
-        "volunteering": "Kopiera volontärarbetets sociala medier länkar (URL: er) här."
+        "course": "Kopiera kursenss webbadresslänkar för sociala medier här.",
+        "general": "Kopiera evenemangets webbadresslänkar för sociala medier här.",
+        "volunteering": "Kopiera volontärarbetets webbadresslänkar för sociala medier här."
       },
-      "infoTextType1": "Är det ett evenemang eller en kurs? Evenemanget är ett engångsevenemang och börjar vid en viss tidpunkt, medan kursen i allmänhet kan ha flera evenemang och aktiviteterna är målinriktade. I vissa fall kallas kursen också en hobby.",
-      "infoTextType2": "Valet av evenemangtyp påverkar hur och i vilka tjänster evenemanget visas för användaren.",
-      "infoTextUmrellaEvent1": "Flera olika evenemang kan grupperas under paraplyevenemanget. Till exempel kan en festival vara ett paraplyevenemang med flera evenemang under.",
-      "infoTextUmrellaEvent2": "Paraplyevenemangalternativ kan lämnas omarkerade i de flesta fall",
-      "infoTextUmbrellaSubEvent": "Om du vill lägga till detta evenemang under ett paraplyevenemang kan du göra det från tillhörande",
+      "infoTextType1": "Är det ett evenemang eller en kurs? Evenemang är ett engångstillfälle och börjar vid en viss tidpunkt, medan en kurs kan ha flera evenemang och aktiviteterna är i allmänhet målinriktade. I vissa fall kallas kurser också för hobbyer.",
+      "infoTextType2": "Valet av evenemangstyp påverkar hur och i vilka tjänster evenemangen visas för användaren.",
+      "infoTextUmrellaEvent1": "Flera olika evenemang kan grupperas under huvudevenemangen. Till exempel kan en festival vara ett huvudevenemang med flera evenemang under sig.",
+      "infoTextUmrellaEvent2": "Huvudevenemangalternativ kan lämnas omarkerade i de flesta fall",
+      "infoTextUmbrellaSubEvent": "Om du vill lägga till detta evenemang under ett huvudevenemang kan du göra det från tillhörande",
       "infoTextUmbrellaSubEventLink": "toppnivåevenemanget",
       "infoTextVideo1": {
-        "course": "Om kursen involverar en video kan du lägga till dess adress här.",
-        "general": "Om evenemanget involverar en video kan du lägga till dess adress här.",
-        "volunteering": "Om volontärarbetet involverar en video kan du lägga till dess adress här."
+        "course": "Om kursen har en video kan du lägga till dess URL här.",
+        "general": "Om evenemanget har en video kan du lägga till dess URL här.",
+        "volunteering": "Om volotärarbetet har en video kan du lägga till dess URL här."
       },
-      "infoTextVideo2": "Ge videon ett namn och en kort beskrivning av vad som händer i den.",
+      "infoTextVideo2": "Namnge videon och ge en kort beskrivning av innehållet.",
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
       "labelDescription": {
-        "course": "Beskrivning av kursen {{langText}}",
-        "general": "Beskrivning av evenemanget {{langText}}",
-        "volunteering": "Beskrivning av volontärarbetet {{langText}}"
+        "course": "Kursensbeskrivning {{langText}}",
+        "general": "Evenemangsbeskrivning {{langText}}",
+        "volunteering": "Volontärarbetetsbeskrivning {{langText}}"
       },
       "labelEndTime": {
-        "course": "Kurs slutar",
-        "general": "Evenemang slutar",
-        "volunteering": "Volontärarbete slutar"
+        "course": "Kursen avslutas",
+        "general": "Evenemanget avslutas",
+        "volunteering": "Volontärarbetet avslutas"
       },
       "labelFacebookUrl": "Facebook",
       "labelHasPrice": {
-        "course": "Kursen är debiterbar",
-        "general": "Evenemanget är debiterbar",
-        "volunteering": "Volontärarbetet är debiterbar"
+        "course": "Kursen kräver betalning",
+        "general": "Evenemanget kräver betalning",
+        "volunteering": "Volontärarbetet kräver betalning"
       },
       "labelHasUmbrella": {
-        "course": "Detta kurs har ett paraplyevenemang.",
-        "general": "Detta evenemang har ett paraplyevenemang.",
-        "volunteering": "Detta volontärarbete har ett paraplyevenemang."
+        "course": "Detta kurs har ett huvudevenemang.",
+        "general": "Detta evenemang har ett huvudevenemang.",
+        "volunteering": "Detta volontärarbete har ett huvudevenemang."
       },
       "labelInfoUrl": {
         "course": "Webbadressen till kursens hemsida {{langText}}",
@@ -440,9 +442,9 @@
       },
       "labelInstagramUrl": "Instagram",
       "labelIsUmbrella": {
-        "course": "Detta kurs är ett paraplyevenemang.",
-        "general": "Detta evenemang är ett paraplyevenemang.",
-        "volunteering": "Detta volontärarbete är ett paraplyevenemang."
+        "course": "Detta kurs är ett huvudevenemang.",
+        "general": "Detta evenemang är ett huvudevenemang.",
+        "volunteering": "Detta volontärarbete är ett huvudevenemang."
       },
       "labelKeywords": "Nyckelordssökning",
       "labelLocation": "Plats",
@@ -450,16 +452,16 @@
       "labelLocationId": "Plats ID:",
       "labelName": {
         "course": "Kursens title {{langText}}",
-        "general": "Evenemangs title {{langText}}",
-        "volunteering": "Volontärarbetes title {{langText}}"
+        "general": "Evenemangets title {{langText}}",
+        "volunteering": "Volontärarbetets title {{langText}}"
       },
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
       "labelProvider": {
-        "course": "Kursarrangör {{langText}} (om det är annorlunda än utgivaren)",
-        "general": "Evenemangarrangör {{langText}} (om det är annorlunda än utgivaren)",
-        "volunteering": "Volontärarbetearrangör {{langText}} (om det är annorlunda än utgivaren)"
+        "course": "Arrangör av kurs {{langText}} (om det skiljer sig från utgivaren)",
+        "general": "Arrangör av evenemang {{langText}} (om det skiljer sig från utgivaren)",
+        "volunteering": "Arrangör av volontärarbete {{langText}} (om det skiljer sig från utgivaren)"
       },
       "labelPublisher": {
         "course": "Kursutgivare",
@@ -489,17 +491,21 @@
         "volunteering": "Kort beskrivning {{langText}} (upp till 160 tecken)"
       },
       "labelStartTime": {
-        "course": "Kurs startar",
-        "general": "Evenemang startar",
-        "volunteering": "Volontärarbete startar"
+        "course": "Kursen börjar",
+        "general": "Evenemanget börjar",
+        "volunteering": "Volontärarbetet börjar"
       },
       "labelTime": "Tid",
       "labelTwitterUrl": "Twitter",
-      "labelUmbrellaEvent": "Paraplyevenemang",
-      "labelVideoAltText": "Video alt text",
-      "labelVideoName": "Namnet på videon",
-      "labelVideoUrl": "Webbadressen till videon",
-      "modalTitleImage": "Lägg till en bild",
+      "labelUmbrellaEvent": "Huvudevenemang",
+      "labelVideoAltText": "Videons alt-text",
+      "labelVideoName": "Namn på videon",
+      "labelVideoUrl": "Videons URL-webaddress",
+      "modalTitleImage": {
+        "course": "Lägg till kursens bild",
+        "general": "Lägg till evenemangets bild",
+        "volunteering": "Lägg till volontärarbetets bild"
+      },
       "modalTitleRecurringEvent": {
         "course": "Ange återkommande kurs",
         "general": "Ange återkommande evenemang",
@@ -516,25 +522,33 @@
         "volunteering": "Volontärarbetetider"
       },
       "notificationTitleImage": {
-        "course": "Bild relaterad till kursen",
-        "general": "Bild relaterad till evenemanget",
-        "volunteering": "Bild relaterad till volontärarbetet"
+        "course": "Kursens bild",
+        "general": "Evenemangets bild",
+        "volunteering": "Volontärarbetets bild"
       },
-      "notificationTitleLocation": "Venue",
+      "notificationTitleLocation": "Evenemangsplats",
       "notificationTitleMainCategories": {
-        "course": "Kursklassificering",
-        "general": "Evenemangklassificering",
-        "volunteering": "Volontärarbeteklassificering"
+        "course": "Klassificering av kurs",
+        "general": "Klassificering av evenemang",
+        "volunteering": "Klassificering av volontärarbete"
       },
       "notificationTitleOffers": "Prisinformation",
-      "notificationTitleProvider": "Arrangör",
-      "notificationTitlePublisher": "Utgivare",
-      "notificationTitleUmrellaEvent": "Paraplyevenemang",
-      "notificationTitleType": "Evenemangtyp",
+      "notificationTitleProvider": {
+        "course": "Arrangör av kurs",
+        "general": "Arrangör av evenemang",
+        "volunteering": "Arrangör av volontärarbete"
+      },
+      "notificationTitlePublisher": {
+        "course": "Kursutgivare",
+        "general": "Evenemangsutgivare",
+        "volunteering": "Volontärarbetesutgivare"
+      },
+      "notificationTitleUmrellaEvent": "Huvudevenemang",
+      "notificationTitleType": "Evenemangstyp",
       "notificationTitleVideo": {
-        "course": "Video relaterat till kursen",
-        "general": "Video relaterat till evenemanget",
-        "volunteering": "Video relaterat till volontärarbetet"
+        "course": "Video för kursen",
+        "general": "Video för evenemanget",
+        "volunteering": "Video för volontärarbetet"
       },
       "placeholderAudienceMaxAge": {
         "course": "Ange högsta ålder för kursen",
@@ -547,9 +561,9 @@
         "volunteering": "Ange lägsta ålder för volontärarbetet"
       },
       "placeholderDescription": {
-        "course": "Ange en beskrivning av kursen",
-        "general": "Ange en beskrivning av evenemanget",
-        "volunteering": "Ange en beskrivning av volontärarbetet"
+        "course": "Ange kursensbeskrivning",
+        "general": "Ange evenemangetsbeskrivning",
+        "volunteering": "Ange volontärarbetetsbeskrivning"
       },
       "placeholderFacebookUrl": {
         "course": "Ange webbadressen till kursens Facebook-sida",
@@ -557,24 +571,24 @@
         "volunteering": "Ange webbadressen till volontärarbetets Facebook-sida"
       },
       "placeholderInfoUrl": {
-        "course": "Ange webbadressen till kursens startsida {{langText}}",
-        "general": "Ange webbadressen till evenemangets startsida {{langText}}",
-        "volunteering": "Ange webbadressen till volontärarbetets startsida {{langText}}"
+        "course": "Ange webbadressen till kursens hemsida {{langText}}",
+        "general": "Ange webbadressen till evenemangets hemsida {{langText}}",
+        "volunteering": "Ange webbadressen till volontärarbetets hemsida {{langText}}"
       },
       "placeholderInstagramUrl": {
-        "course": "Ange webbadressen till kursens Instagram-sida",
-        "general": "Ange webbadressen till evenemangets Instagram-sida",
-        "volunteering": "Ange webbadressen till volontärarbetets Instagram-sida"
+        "course": "Ange webbadressen till kursens Instagram-flöde",
+        "general": "Ange webbadressen till evenemangets Instagram-flöde",
+        "volunteering": "Ange webbadressen till volontärarbetets Instagram-flöde"
       },
       "placeholderKeywords": "Sök eller välj nyckelord",
       "placeholderLocation": "Välj eller sök efter en plats",
-      "placeholderLocationExtraInfo": "Ange mer information om arenan {{langText}}",
+      "placeholderLocationExtraInfo": "Ange mer information om mötesplats {{langText}}",
       "placeholderName": {
-        "course": "Ange webbadressen till kursens hemsida",
-        "general": "Ange webbadressen till evenemangets hemsida",
-        "volunteering": "Ange webbadressen till volontärarbetets hemsida"
+        "course": "Ange kursens titel",
+        "general": "Ange evenemangets titel",
+        "volunteering": "Ange volontärarbetets title"
       },
-      "placeholderOfferDescription": "Ange en beskrivning av prisinformationen {{langText}}",
+      "placeholderOfferDescription": "Ange ytterligare prisinformation {{langText}}",
       "placeholderOfferInfoUrl": "Ange webbadressen till biljettförsäljning eller registrering {{langText}}",
       "placeholderOfferPrice": {
         "course": "Ange priset för kursen {{langText}}",
@@ -582,9 +596,9 @@
         "volunteering": "Ange priset för volontärarbetet {{langText}}"
       },
       "placeholderProvider": {
-        "course": "Ange kursarrangörens namn",
-        "general": "Ange evenemangsarrangörens namn",
-        "volunteering": "Ange volontärarbetesarrangörens namn"
+        "course": "Ange namnet på arrangören",
+        "general": "Ange namnet på arrangören",
+        "volunteering": "Ange namnet på arrangören"
       },
       "placeholderShortDescription": {
         "course": "Ange en kort beskrivning av kursen",
@@ -592,19 +606,19 @@
         "volunteering": "Ange en kort beskrivning av volontärarbetet"
       },
       "placeholderTwitterUrl": {
-        "course": "Ange webbadressen till kursens Twitter-sida",
-        "general": "Ange webbadressen till evenemangets Twitter-sida",
-        "volunteering": "Ange webbadressen till volontärarbetets Twitter-sida"
+        "course": "Ange webbadressen till kursens Twitter-flöde",
+        "general": "Ange webbadressen till evenemangets Twitter-flöde",
+        "volunteering": "Ange webbadressen till volontärarbetets Twitter-flöde"
       },
-      "placeholderVideoAltText": "Ange alt-texten för videon för skärmläsare",
-      "placeholderVideoName": "Ange ett namn på videon",
-      "placeholderVideoUrl": "Ange webbadressen till videon",
+      "placeholderVideoAltText": "Ange videons alt-text för skärmläsare",
+      "placeholderVideoName": "Ange videon namn",
+      "placeholderVideoUrl": "Ange videons URL-webbaddress",
       "recurringEvent": {
-        "labelEndDate": "Upprepningen slutar:",
+        "labelEndDate": "Upprepningen avslutas:",
         "labelEndTime": {
-          "course": "Kursen slutar kl:",
-          "general": "Evenemanget slutar kl:",
-          "volunteering": "Volontärarbetet slutar kl:"
+          "course": "Kursen avslutas kl:",
+          "general": "Evenemanget avslutas kl:",
+          "volunteering": "Volontärarbetet avslutas kl:"
         },
         "labelRepeatInterval": {
           "course": "Kursen upprepas:",
@@ -625,9 +639,9 @@
         "additionalInfo": "Ytterligare information",
         "audience": "Målgrupper",
         "channels": {
-          "course": "Kurskanaler",
-          "general": "Evenemangskanaler",
-          "volunteering": "Volontärarbeteskanaler"
+          "course": "Kursens medier",
+          "general": "Evenemangets medier",
+          "volunteering": "Volontärarbetets medier"
         },
         "classification": "Klassificering",
         "description": "Beskrivning",
@@ -638,9 +652,11 @@
         "price": "Pris",
         "responsibilities": "Ansvar",
         "time": "Tid",
-        "type": "Evenemangtyp",
+        "type": "Evenemangstyp",
         "video": "Video"
       },
+      "tabEventTime": "Evenemangstid",
+      "tabRecurringEvent": "Återkommande evenemang",
       "titleAttendeeCapacity": "Deltagarkapacitet",
       "titleAudience": "Målgrupper",
       "titleAudienceAge": "Åldersbegränsningar",
@@ -650,16 +666,16 @@
         "general":"Ange tidpunkten för evenemanget",
         "volunteering":"Ange tidpunkten för volontärarbetet"
       },
-      "titleEventType": "Välj en evenemangtyp",
+      "titleEventType": "Välj evenemangstyp",
       "titleImage": {
-        "course": "Kursbild",
-        "general": "Evenemangbild",
-        "volunteering": "Volontärarbetebild"
+        "course": "Kursens bild",
+        "general": "Evenemangets bild",
+        "volunteering": "Volontärarbetets bild"
       },
       "titleInfoLanguages": {
-        "course": "Inmatningsspråk för kurs",
-        "general": "Inmatningsspråk för evenemang",
-        "volunteering": "Inmatningsspråk för volontärarbete"
+        "course": "Inmatningsspråk för kursen",
+        "general": "Inmatningsspråk för evenemangen",
+        "volunteering": "Inmatningsspråk för volontärarbetet"
       },
       "titleInfoUrl": {
         "course": "Kursens hemsida",
@@ -667,49 +683,49 @@
         "volunteering": "Volontärarbetets hemsida"
       },
       "titleInLanguages": {
-        "course": "Kursspråk (kontrollspråk)",
-        "general": "Evenemangsspråk (kontrollspråk)",
-        "volunteering": "Volontärarbetesspråk (kontrollspråk)"
+        "course": "Kursspråk (instruktionsspråk)",
+        "general": "Evenemangsspråk (instruktionsspråk)",
+        "volunteering": "Volontärarbetesspråk (instruktionsspråk)"
       },
       "titleKeywords": "Lägg till nyckelord",
       "titleLocation": "Venue",
-      "titleLocationExtraInfo": "Ytterligare platsinformation",
+      "titleLocationExtraInfo": "Platsinformation",
       "titleMainCategories": "Huvudkategorier",
-      "titleOfferDescription": "Beskrivning av prisinformation",
+      "titleOfferDescription": "Ytterligare prisinformation",
       "titleOfferInfoUrl": "Länk till biljettförsäljning eller registrering",
       "titleOfferPrice": "Pris",
       "titlePriceInfo": {
-        "course": "Prisinformation för kurs",
-        "general": "Prisinformation för evenemang",
-        "volunteering": "Prisinformation för volontärarbete"
+        "course": "Prisinformation för kursen",
+        "general": "Prisinformation för evenemanget",
+        "volunteering": "Prisinformation för volontärarbetet"
       },
       "titlePrice": "Pris",
       "titleRecurringEvent": "Återkommande evenemang",
       "titleRecurringEventRepeatDays": "Uppspelningsdagar",
       "titleSocialMedia": {
-        "course": "Kurs på sociala medier",
-        "general": "Evenemang pä sociala medier",
-        "volunteering": "Volontärarbete pä sociala medier"
+        "course": "Kursen på sociala medier",
+        "general": "Evenemanget på sociala medier",
+        "volunteering": "Volontärarbetet Evenemanget sociala medier"
       },
       "titleTime": {
         "course": "Kurstider",
         "general": "Evenemangtider",
         "volunteering": "Volontärarbetetider"
       },
-      "titleUmrellaEvent": "Paraplyevenemangen",
+      "titleUmrellaEvent": "Huvudevenemang",
       "titleVideo": {
-        "course": "Video av kursen",
-        "general": "Video av evenemanget",
-        "volunteering": "Video av volontärarbetet"
+        "course": "Video för kursen",
+        "general": "Video för evenemanget",
+        "volunteering": "Video för volontärarbetet"
       },
-      "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett paraplyevenemang."
+      "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang."
     },
     "freeEvent": "Fri",
     "postponeEventModal": {
       "buttonPostpone": "Skjut upp evenemanget",
       "text1": "Denna funktion skjuter upp evenemanget till framtiden. Efter att ha skjutit upp kan du senare ange en ny tid för evenemanget.",
       "text2": "Följande evenemang kommer att skjutas upp:",
-      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien skjuts inte upp när paraplyevenemang skjuts upp.",
+      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien skjuts inte upp när huvudevenemang skjuts upp.",
       "title": "Skjut upp evenemanget",
       "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att skjutas upp"
     },
@@ -730,7 +746,7 @@
     "updateEventModal": {
       "text1": "Data lagras för alla evenemang i denna serie. Ändringar av dessa evenemang kommer att gå förlorade. Är du säker på att du vill fortsätta?",
       "text2": "Uppgifterna lagras i följande evenemangen",
-      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien redigeras inte när du redigerar paraplyevenemang.",
+      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien redigeras inte när du redigerar huvudevenemang.",
       "title": "Spara evenemanget",
       "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att redigeras"
     }
@@ -917,7 +933,7 @@
       "textApi": "Med det offentliga API: et kan du hämta evenemang för din egen tjänst. Du kan också föreslå oss en befintlig databank som ska länkas till länkade evenemang.",
       "textEventManagement": "Kontrollpanelen för Linked Events används för att ange evenemang, kurser och volontäruppgifter och för att hantera relaterad information och material.",
       "textMainContent1": "Linked Events är ett öppet gränssnitt utvecklat av Helsingfors stad för evenemang, kurser och volontäruppdrag i Helsingfors stad. Denna webbplats innehåller verktyg och instruktioner för hantering av dem och dokumentation för att använda det offentliga gränssnittet.",
-      "textMainContent2": "Evenemang kan skrivas in med tillstånd av staden. De behöver inte organiseras av staden. Du kan ange flera datum för ett evenemang. I det här fallet skapas ett paraplyevenemang automatiskt för evenemangssekvensen.",
+      "textMainContent2": "Evenemang kan skrivas in med tillstånd av staden. De behöver inte organiseras av staden. Du kan ange flera datum för ett evenemang. I det här fallet skapas ett huvudevenemang automatiskt för evenemangssekvensen.",
       "textSupport": "Kontakta oss om du vill ha mer information eller har några förslag på hur vi kan förbättra tjänsten. I avsnittet Hjälp hittar du mer detaljerad information och ett kontaktformulär.",
       "titleApi": "Linked Events API",
       "titleEventManagement": "Evenemanghantering",
@@ -967,7 +983,7 @@
   },
   "logoutPage": {
     "pageTitle": "Du är utloggad",
-    "text": "Du har loggat ut från tjänsten. Logga in igen eller återvänd till startsidan."
+    "text": "Du har loggat ut från tjänsten. Logga in igen eller återvänd till hemsidan."
   },
   "navigation": {
     "languages": {
@@ -986,10 +1002,10 @@
   },
   "notFound": {
     "pageTitle": "Hittades inte",
-    "text": "Innehållet du letade efter kunde inte hittas. Logga in igen eller återvänd till startsidan."
+    "text": "Innehållet du letade efter kunde inte hittas. Logga in igen eller återvänd till hemsidan."
   },
   "notSigned": {
     "pageTitle": "Inloggning krävs",
-    "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
+    "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till hemsidan."
   }
 }

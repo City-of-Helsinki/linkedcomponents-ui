@@ -204,7 +204,7 @@ test('should select existing image', async () => {
   userEvent.click(addButton);
 
   screen.getByRole('heading', {
-    name: translations.event.form.modalTitleImage,
+    name: translations.event.form.modalTitleImage[eventType],
   });
 
   const imageCheckbox = await screen.findByRole('checkbox', {
@@ -250,7 +250,7 @@ test('should create and select new image by selecting image file', async () => {
   userEvent.click(addButton);
 
   screen.getByRole('heading', {
-    name: translations.event.form.modalTitleImage,
+    name: translations.event.form.modalTitleImage[eventType],
   });
 
   const fileInput = screen.getByTestId(imageUploaderTestIds.input);
@@ -272,7 +272,7 @@ test('should create and select new image by entering image url', async () => {
   userEvent.click(addButton);
 
   screen.getByRole('heading', {
-    name: translations.event.form.modalTitleImage,
+    name: translations.event.form.modalTitleImage[eventType],
   });
 
   const urlInput = screen.getByRole('textbox', {

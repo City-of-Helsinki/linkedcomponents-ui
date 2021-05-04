@@ -113,7 +113,7 @@ const ImageSection = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         shouldCloseOnEsc={false}
-        title={t(`event.form.modalTitleImage`)}
+        title={t(`event.form.modalTitleImage.${type}`)}
       >
         <AddImageForm
           onCancel={closeModal}

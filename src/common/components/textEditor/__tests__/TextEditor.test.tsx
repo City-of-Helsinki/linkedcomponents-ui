@@ -30,7 +30,7 @@ test('should call onChange', () => {
   pasteToTextEditor(editor, 'test');
   expect(onChange).toBeCalledWith('<p>test</p>\n');
 
-  const undoButton = screen.getByTitle(/kumoa/i);
+  const undoButton = screen.getByTitle(/peruuta/i);
   userEvent.click(undoButton);
   expect(onChange).toBeCalledWith('');
 });

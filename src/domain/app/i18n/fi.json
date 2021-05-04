@@ -14,7 +14,7 @@
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lisää uusi tapahtuma",
-    "cancel": "Kumoa",
+    "cancel": "Peruuta",
     "close": "Sulje",
     "combobox": {
       "toggleButtonAriaLabel": "Valikko"
@@ -101,7 +101,7 @@
     "signOut": "Kirjaudu ulos",
     "textEditor": {
       "add": "Lisää",
-      "cancel": "Kumoa",
+      "cancel": "Peruuta",
       "blocktype": {
         "blocktype": "Tekstityyppi",
         "blockquote": "Lohkolainaus",
@@ -116,7 +116,7 @@
       "history": {
         "history": "Historia",
         "redo": "Tee uudelleen",
-        "undo": "Kumoa"
+        "undo": "Peruuta"
       },
       "inline": {
         "bold": "Lihavoitu",
@@ -198,13 +198,17 @@
     "form": {
       "buttonAcceptAndPublish": "Hyväksy ja julkaise",
       "buttonActions": "Valinnat",
-      "buttonAddEventTime": "Lisää ajankohta",
+      "buttonAddEventTime": {
+        "course": "Lisää ajankohta",
+        "general": "Lisää ajankohta",
+        "volunteering": "Lisää ajankohta"
+      },
       "buttonAddImage": {
         "course": "Lisää kurssin kuva",
         "general": "Lisää tapahtuman kuva",
         "volunteering": "Lisää vapaaehtoistyön kuva"
       },
-      "buttonAddOffer": "Lisää uusi hintatieto",
+      "buttonAddOffer": "Lisää hintatieto",
       "buttonAddRecurringEvent": {
         "course": "Lisää toistuva kurssi",
         "general": "Lisää toistuva tapahtuma",
@@ -258,9 +262,7 @@
         "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
         "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
         "labelMaximumAttendeeCapacity": "Enimmäisosallistujamäärä",
-        "labelMinimimAttendeeCapacity": "Vähimmäisosallistujamäärä",
-        "placeholderMaximumAttendeeCapacity": "Syötä enimmäisosallistujamäärä",
-        "placeholderMinimimAttendeeCapacity": "Syötä vähimmäisosallistujamäärä"
+        "labelMinimimAttendeeCapacity": "Vähimmäisosallistujamäärä"
       },
       "helperRecurringEventRepeatInterval": "Viikon välein",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
@@ -281,8 +283,8 @@
         "placeholderName": "Syötä kuvateksti",
         "placeholderPhotographerName": "Syötä kuvaajan nimi",
         "placeholderUrl": "Syötä kuvan URL-osoite",
-        "titleImportFromHardDisk": "Tuo uusi kuva kiintolevyltä",
-        "titleImportFromInternet": "Tuo uusi kuva internetistä",
+        "titleImportFromHardDisk": "Tuo kiintolevyltä",
+        "titleImportFromInternet": "Tuo internetistä",
         "titleLicense": "Lisenssi",
         "titleUseImportedImage": "Käytä aiemmin tuotua kuvaa"
       },
@@ -346,9 +348,9 @@
       "infoTextImage3": "Anna kuvalle nimi ja kuvaile lyhyesti mitä siinä tapahtuu.",
       "infoTextImage4": "Alt-teksti parantaa saavutettavuutta, sillä ruudunlukuohjelmat välittävät alt-tekstin sisällön käyttäjälle. Kuvaa tähän kohtaan siis kuvan sisältö ymmärrettävästi.",
       "infoTextInfoLanguages": {
-        "course": "Valitse kielet, joilla haluat kuvata kurssin tiedot tässä palvelussa.",
-        "general": "Valitse kielet, joilla haluat kuvata tapahtuman tiedot tässä palvelussa.",
-        "volunteering": "Valitse kielet, joilla haluat kuvata vapaaehtoistyön tiedot tässä palvelussa."
+        "course": "Valitse kielet, joilla kuvaat kurssin tiedot Linked Events -palvelussa.",
+        "general": "Valitse kielet, joilla kuvaat tapahtuman tiedot Linked Events -palvelussa.",
+        "volunteering": "Valitse kielet, joilla kuvaat vapaaehtoistyön tiedot Linked Events -palvelussa."
       },
       "infoTextInLanguages": {
         "course": "Valitse kielet, joilla kurssilla kommunikoidaan kurssin aikana.",
@@ -499,7 +501,11 @@
       "labelVideoAltText": "Videon alt-teksti",
       "labelVideoName": "Videon nimi",
       "labelVideoUrl": "Videon URL-osoite",
-      "modalTitleImage": "Lisää kuva",
+      "modalTitleImage": {
+        "course": "Lisää kurssin kuva",
+        "general": "Lisää tapahtuman kuva",
+        "volunteering": "Lisää vapaaehtoistyön kuva"
+      },
       "modalTitleRecurringEvent": {
         "course": "Määritä toistuva kurssi",
         "general": "Määritä toistuva tapahtuma",
@@ -527,14 +533,22 @@
         "volunteering": "Vapaaehtoistyön luokittelu"
       },
       "notificationTitleOffers": "Hintatiedot",
-      "notificationTitleProvider": "Järjestäjä",
-      "notificationTitlePublisher": "Julkaisija",
+      "notificationTitleProvider": {
+        "course": "Kurssin järjestäjä",
+        "general": "Tapahtuman järjestäjä",
+        "volunteering": "Vapaaehtoistyön järjestäjä"
+      },
+      "notificationTitlePublisher": {
+        "course": "Kurssin julkaisija",
+        "general": "Tapahtuman julkaisija",
+        "volunteering": "Vapaaehtoistyön julkaisija"
+      },
       "notificationTitleType": "Tapahtumatyyppi",
       "notificationTitleUmrellaEvent": "Kattotapahtuma",
       "notificationTitleVideo": {
-        "course": "Kurssiin liittyvä video",
-        "general": "Tapahtumaan liittyvä video",
-        "volunteering": "Vapaaehtoistyöhön liittyvä video"
+        "course": "Kurssin video",
+        "general": "Tapahtuman video",
+        "volunteering": "Vapaaehtoistyön video"
       },
       "placeholderAudienceMaxAge": {
         "course": "Syötä kurssin yläikäraja",
@@ -562,9 +576,9 @@
         "volunteering": "Syötä vapaaehtoistyön kotisivun URL {{langText}}"
       },
       "placeholderInstagramUrl": {
-        "course": "Syötä kurssin Instagram-sivun URL",
-        "general": "Syötä tapahtuman Instagram-sivun URL",
-        "volunteering": "Syötä vapaaehtoistyön Instagram-sivun URL"
+        "course": "Syötä kurssin Instagram syötteen URL",
+        "general": "Syötä tapahtuman Instagram syötteen URL",
+        "volunteering": "Syötä vapaaehtoistyön Instagram syötteen URL"
       },
       "placeholderKeywords": "Hae tai valitse avainsanoja",
       "placeholderLocation": "Valitse tai hae tapahtumapaikka",
@@ -574,7 +588,7 @@
         "general": "Syötä tapahtuman otsikko",
         "volunteering": "Syötä vapaaehtoistyön otsikko"
       },
-      "placeholderOfferDescription": "Syötä hintatietojen kuvaus {{langText}}",
+      "placeholderOfferDescription": "Syötä lisätietoa hinnasta {{langText}}",
       "placeholderOfferInfoUrl": "Syötä lipunmyynnin tai ilmoittautumisen URL {{langText}}",
       "placeholderOfferPrice": {
         "course": "Syötä kurssin hinta {{langText}}",
@@ -592,9 +606,9 @@
         "volunteering": "Syötä vapaaehtoistyön lyhyt kuvaus"
       },
       "placeholderTwitterUrl": {
-        "course": "Syötä kurssin Twitter-sivun URL",
-        "general": "Syötä tapahtuman Twitter-sivun URL",
-        "volunteering": "Syötä vapaaehtoistyön Twitter-sivun URL"
+        "course": "Syötä kurssin Twitter syötteen URL",
+        "general": "Syötä tapahtuman Twitter syötteen URL",
+        "volunteering": "Syötä vapaaehtoistyön Twitter syötteen URL"
       },
       "placeholderVideoAltText": "Syötä videon alt-teksti ruudunlukijoita varten",
       "placeholderVideoName": "Syötä videon nimi",

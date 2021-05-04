@@ -44,7 +44,7 @@ test('should render component', async () => {
   }
 
   screen.getByRole('button', { name: 'Tallenna' });
-  screen.getByRole('button', { name: 'Kumoa' });
+  screen.getByRole('button', { name: 'Peruuta' });
 });
 
 test('should call onSave', async () => {
@@ -63,7 +63,7 @@ test('should call onClose', async () => {
   renderComponent({ onClose });
 
   const closeButton = screen.getByRole('button', {
-    name: 'Kumoa',
+    name: 'Peruuta',
   });
   userEvent.click(closeButton);
   expect(onClose).toBeCalled();

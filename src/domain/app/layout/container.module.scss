@@ -20,6 +20,10 @@
     max-width: var(--breakpoint-xl);
   }
 
+  .contentWrapper {
+    line-height: var(--lineheight-l);
+  }
+
   &.withOffset {
     @include x-large-up {
       grid-template-columns: repeat(12, 1fr);

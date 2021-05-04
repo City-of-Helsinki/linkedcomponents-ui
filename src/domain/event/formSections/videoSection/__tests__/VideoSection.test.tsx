@@ -44,13 +44,12 @@ const renderVideoSection = (initialValues?: Partial<EventFormFields>) =>
 test('should render VideoSection', () => {
   renderVideoSection();
 
-  const headings = [
-    translations.event.form.titleVideo[type],
-    translations.event.form.notificationTitleVideo[type],
-  ];
-  headings.forEach((name) => {
-    screen.getByRole('heading', { name });
-  });
+  // Section title and notification title are same
+  expect(
+    screen.getAllByRole('heading', {
+      name: translations.event.form.titleVideo[type],
+    })
+  ).toHaveLength(2);
 
   const texts = [
     translations.event.form.infoTextVideo1[type],
