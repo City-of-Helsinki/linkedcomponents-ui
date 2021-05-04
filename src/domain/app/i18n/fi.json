@@ -930,6 +930,7 @@
     "pageTitleTechnology": "Teknologia",
     "pageTitleTermsOfUse": "Käyttöehdot",
     "platformPage": {
+      "imageAlt": "Linked Eventsin käyttö tabletilla",
       "pageTitle": "Alusta",
       "textApi": "Julkisen rajapinnan avulla voit hakea tapahtumia omaan palveluusi. Voit myös ehdottaa meille olemassa olevaa tietopankkia, mikä tulisi kytkeä Linked Eventsiin.",
       "textEventManagement": "Linked Events hallintapaneelin avulla syötetään tapahtumia, kursseja ja vapaaehtoistehtäviä, sekä hallitataan niihin liittyviä tietoja ja materiaaleja.",

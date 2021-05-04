@@ -929,6 +929,7 @@
     "pageTitleTechnology": "Teknologi",
     "pageTitleTermsOfUse": "Villkor",
     "platformPage": {
+      "imageAlt": "Linked Events användning i surfplatta",
       "pageTitle": "Plattform",
       "textApi": "Med det offentliga API:et kan du hämta evenemang för din egen tjänst. Du kan också ge oss ett tips om en befintlig databank som ska införlivas i Linked Events.",
       "textEventManagement": "Kontrollpanelen för Linked Events används för att ange evenemang, kurser och volontäruppgifter och för att hantera relaterad information och material.",

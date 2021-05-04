@@ -928,6 +928,7 @@
     "pageTitleTechnology": "Technology",
     "pageTitleTermsOfUse": "Terms of use",
     "platformPage": {
+      "imageAlt": "Linked Events use in tablet",
       "pageTitle": "Platform",
       "textApi": "The public API allows you to retrieve events for your own service. You can also give us a tip about an existing databank  that should be incorporated into Linked Events.",
       "textEventManagement": "The Linked Events control panel is used to enter events, courses, and volunteering assignments, and to manage related information and materials.",
