@@ -10,6 +10,12 @@ export const BREAKPOINTS = {
   XLG: 1600,
 };
 
+export enum DEPRECATED_ROUTES {
+  CREATE_EVENT = '/event/create/new',
+  MODERATION = '/moderation',
+  UPDATE_EVENT = '/event/update/:id',
+}
+
 export enum ROUTES {
   CALLBACK = '/callback',
   CREATE_EVENT = '/events/create',

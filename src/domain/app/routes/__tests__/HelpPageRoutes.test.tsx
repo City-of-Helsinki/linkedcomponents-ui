@@ -23,7 +23,7 @@ it('should route to default instructions help page', async () => {
   expect(history.location.pathname).toBe('/fi/help/instructions/platform');
 });
 
-it('should route to default suppoer help page', async () => {
+it('should route to default support help page', async () => {
   const { history } = renderRoute(ROUTES.SUPPORT);
 
   expect(history.location.pathname).toBe('/fi/help/support/terms-of-use');

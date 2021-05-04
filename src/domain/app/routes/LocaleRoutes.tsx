@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Route, RouteComponentProps, Switch } from 'react-router';
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 
-import { ROUTES } from '../../../constants';
+import { DEPRECATED_ROUTES, ROUTES } from '../../../constants';
 import { Language } from '../../../types';
 import EventSavedPage from '../../eventSaved/EventSavedPage';
 import HelpPageLayout from '../../help/layout/HelpPageLayout';
@@ -44,6 +44,20 @@ const LocaleRoutes: React.FC<Props> = ({
     <PageLayout>
       <React.Suspense fallback={<div style={{ minHeight: '100vh' }} />}>
         <Switch>
+          {/* Redirect old UI routes */}
+          <Redirect
+            from={getLocalePath(DEPRECATED_ROUTES.CREATE_EVENT)}
+            to={getLocalePath(ROUTES.CREATE_EVENT)}
+          />
+          <Redirect
+            from={getLocalePath(DEPRECATED_ROUTES.MODERATION)}
+            to={getLocalePath(ROUTES.EVENTS)}
+          />
+          <Redirect
+            from={getLocalePath(DEPRECATED_ROUTES.UPDATE_EVENT)}
+            to={getLocalePath(ROUTES.EDIT_EVENT)}
+          />
+          {/* Locale routes */}
           <Route
             exact
             path={getLocalePath(ROUTES.HOME)}
