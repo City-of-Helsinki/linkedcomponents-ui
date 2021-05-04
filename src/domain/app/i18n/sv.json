@@ -227,7 +227,7 @@
       "buttonOpenRecurringEventSettings": {
         "course": "Öppna inställningarna för återkommande kurser",
         "general": "Öppna inställningarna för återkommande evenemang",
-        "volunteering": "Öppna inställningarna för återkommande volontärarbeten"
+        "volunteering": "Öppna inställningarna för återkommande volontärarbetet"
       },
       "buttonPanel": {
         "warningNoRightsCreate": "Du har inte rättigheter att skapa det här evenemanget.",
