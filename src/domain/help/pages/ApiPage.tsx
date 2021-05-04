@@ -17,33 +17,32 @@ const ApiPage = () => {
           <>
             <h1>API</h1>
             <p>
-              The Linked Events interface contains event information about the
-              City of Helsinki's events, courses and volunteer assignments. Some
-              of the interface records have been automatically imported from
-              other systems and services, and others have been added manually
-              using the tools on this website. The interface provides
-              categorized information about places and events. You can search
-              for information by time, keywords, place and region, as well as by
+              The Linked Events API contains event information about the City of
+              Helsinki's events, courses and volunteer assignments. Some of the
+              API’s databases have been automatically imported from other
+              systems and services, and others have been added manually using
+              the tools on this website. The API provides categorized
+              information about places and events. You can search for
+              information by time, keywords, place and region, as well as by
               free word search, which searches for an event, course or task in
               several different fields.
             </p>
             <p>
-              The interface has been developed by the Helsinki City
-              Chancellery's Linked Events team, which is also responsible for
-              updating the documentation and maintaining the service. The
-              location information is linked to the City of Helsinki's Office
-              Register, which contains e.g. information on accessibility.
+              The API has been developed by the Helsinki City Chancellery's
+              Linked Events team, which is also responsible for updating the
+              documentation and maintaining the service. The location
+              information is linked to the City of Helsinki's Office Register,
+              which contains e.g. information on accessibility.
             </p>
             <p>
-              The interface is constantly evolving. If you have ideas on how to
-              improve the interface or would like to comment on how it works,
-              please{' '}
+              The API is constantly evolving. If you have any ideas on how to
+              improve the API or would like to comment on how it works,{' '}
               <Link to={`/${locale}${ROUTES.SUPPORT_CONTACT}`}>contact us</Link>
               .
             </p>
-            <p>The interface provides results in JSON-LD format.</p>
+            <p>The API provides results in JSON-LD format.</p>
             <p>
-              The interface can be found at:{' '}
+              The API can be found at:{' '}
               <ExternalLink href="https://api.hel.fi/linkedevents/v1">
                 https://api.hel.fi/linkedevents/v1
               </ExternalLink>
@@ -95,35 +94,33 @@ const ApiPage = () => {
           <>
             <h1>API</h1>
             <p>
-              Gränssnittet "Linked Events" innehåller evenemanginformation om
-              Helsingfors stads evenemang, kurser och volontäruppdrag. En del av
-              gränssnittsposterna har importerats automatiskt från andra system
-              och tjänster, och andra har lagts till manuellt med hjälp av
-              verktygen på denna webbplats. Gränssnittet ger kategoriserad
-              information om platser och evenemang. Du kan söka efter
-              information efter tid, nyckelord, plats och region samt genom
-              gratis ordsökning som söker efter en händelse, kurs eller uppgift
-              inom flera olika fält.
+              Linked Events API innehåller evenemangsinformation om Helsingfors
+              stads evenemang, kurser och volontäruppdrag. En del av API's
+              databaser har automatiskt importerats från andra system och
+              tjänster, och andra har lagts till manuellt med hjälp av verktygen
+              på denna webbplats. API'et ger kategoriserad information om
+              platser och evenemang. Du kan söka efter information efter tid,
+              nyckelord, plats och region, samt med gratis ordsökning, som söker
+              efter en evenemang, kurs eller uppgift inom flera olika fält.
             </p>
             <p>
-              Gränssnittet har utvecklats av Helsingfors stads kanslerys Linked
-              Events -team, som också ansvarar för att uppdatera dokumentationen
+              API'et har utvecklats av Helsingfors stadskontor Linked
+              Events-team, som också ansvarar för att uppdatera dokumentationen
               och underhålla tjänsten. Platsinformationen är länkad till
               Helsingfors stads kontoregister, som innehåller t.ex. information
               om tillgänglighet.
             </p>
             <p>
-              Gränssnittet utvecklas ständigt. Om du har några idéer om hur du
-              kan förbättra gränssnittet eller vill kommentera hur det fungerar,
-              vänligen{' '}
+              API'et utvecklas ständigt.{' '}
               <Link to={`/${locale}${ROUTES.SUPPORT_CONTACT}`}>
-                kontakta oss
+                Kontakta oss
               </Link>{' '}
-              .
+              om du har några idéer om hur du kan förbättra API’et eller vill
+              kommentera hur det fungerar. .
             </p>
-            <p>Gränssnittet ger resultat i JSON-LD-format.</p>
+            <p>API'et ger resultat i JSON-LD-format.</p>
             <p>
-              Gränssnittet finns på:{' '}
+              API'n finns på:{' '}
               <ExternalLink href="https://api.hel.fi/linkedevents/v1">
                 https://api.hel.fi/linkedevents/v1
               </ExternalLink>

@@ -89,6 +89,15 @@ const getElement = (
   }
 };
 
+const getElements = (key: 'disabledButtons') => {
+  switch (key) {
+    case 'disabledButtons':
+      return screen.getAllByRole('button', {
+        name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
+      });
+  }
+};
+
 const openMenu = () => {
   const toggleButton = getElement('toggle');
   userEvent.click(toggleButton);
@@ -118,9 +127,9 @@ test('should render correct buttons for draft event', async () => {
 
   const hiddenButtons = ['Lykkää tapahtumaa', 'Peruuta tapahtuma'];
 
-  hiddenButtons.forEach((name) => {
-    expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
-  });
+  hiddenButtons.forEach((name) =>
+    expect(screen.queryByRole('button', { name })).not.toBeInTheDocument()
+  );
 });
 
 test('only edit and copy buttons should be enabled when user is not logged in (draft)', async () => {
@@ -128,13 +137,9 @@ test('only edit and copy buttons should be enabled when user is not logged in (d
 
   openMenu();
 
-  const buttons = screen.getAllByRole('button', {
-    name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
-  });
-  expect(buttons).toHaveLength(3);
-  buttons.forEach((button) => {
-    expect(button).toBeDisabled();
-  });
+  const disabledButtons = getElements('disabledButtons');
+  expect(disabledButtons).toHaveLength(3);
+  disabledButtons.forEach((button) => expect(button).toBeDisabled());
 
   getElement('copy');
   await findElement('edit');
@@ -163,12 +168,8 @@ test('only copy, edit and delete button should be enabled when event is cancelle
   const disabledButtons = screen.getAllByRole('button', {
     name: 'Peruttuja tapahtumia ei voi muokata.',
   });
-
   expect(disabledButtons).toHaveLength(2);
-
-  disabledButtons.forEach((button) => {
-    expect(button).toBeDisabled();
-  });
+  disabledButtons.forEach((button) => expect(button).toBeDisabled());
 
   getElement('copy');
   await findElement('delete');
@@ -180,15 +181,9 @@ test('only copy and edit button should be enabled when user is not logged in (pu
 
   openMenu();
 
-  const buttons = screen.getAllByRole('button', {
-    name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
-  });
-
-  expect(buttons).toHaveLength(3);
-
-  buttons.forEach((button) => {
-    expect(button).toBeDisabled();
-  });
+  const disabledButtons = getElements('disabledButtons');
+  expect(disabledButtons).toHaveLength(3);
+  disabledButtons.forEach((button) => expect(button).toBeDisabled());
 
   getElement('copy');
   await findElement('edit');
@@ -202,9 +197,9 @@ test('should route to create event page when clicking copy button', async () => 
   const copyButton = getElement('copy');
   userEvent.click(copyButton);
 
-  await waitFor(() => {
-    expect(history.location.pathname).toBe(`/fi/events/create`);
-  });
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/events/create`)
+  );
 });
 
 test('should route to edit page when clicking edit button', async () => {
@@ -215,9 +210,9 @@ test('should route to edit page when clicking edit button', async () => {
   const editButton = await findElement('edit');
   userEvent.click(editButton);
 
-  await waitFor(() => {
-    expect(history.location.pathname).toBe(`/fi/events/edit/${eventId}`);
-  });
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/events/edit/${eventId}`)
+  );
 });
 
 test('should cancel event', async () => {
@@ -236,9 +231,9 @@ test('should cancel event', async () => {
   });
   userEvent.click(cancelEventButton);
 
-  await waitFor(() => {
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  );
 });
 
 test('should delete event', async () => {
@@ -257,9 +252,9 @@ test('should delete event', async () => {
   });
   userEvent.click(deleteEventButton);
 
-  await waitFor(() => {
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  );
 });
 
 test('should postpone event', async () => {
@@ -281,7 +276,7 @@ test('should postpone event', async () => {
   });
   userEvent.click(cancelEventButton);
 
-  await waitFor(() => {
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-  });
+  await waitFor(() =>
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  );
 });

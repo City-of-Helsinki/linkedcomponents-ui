@@ -15,11 +15,11 @@ const GeneralTechnologyPage = () => {
           <>
             <h1>General</h1>
             <p>
-              Linked Events is developed for the Django platform in Python and
+              Linked Events is developed for a Django platform in Python and
               Javascript programming languages and utilizes a PostgreSQL
               database to capture data. Linked Events Admin is a React-based
               application for event management and its and the platform's source
-              codes can be found in the Github version control at:
+              code can be found in Github version control at:
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
@@ -59,12 +59,12 @@ const GeneralTechnologyPage = () => {
       case 'sv':
         return (
           <>
-            <h1>Allmän</h1>
+            <h1>Allmänt</h1>
             <p>
               Linked Events är utvecklat för Django-plattformen i
               programmeringsspråk Python och Javascript och använder en
               PostgreSQL-databas för att fånga data. Linked Events Admin är en
-              React-baserad applikation för händelsehantering och dess och
+              React-baserad applikation för evenemangshantering och dess och
               plattformens källkod finns i Github-versionskontrollen på:
             </p>
             <p>

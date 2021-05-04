@@ -17,21 +17,21 @@ const FeaturesPage = () => {
             <h1>Service features</h1>
             <h2>Event management</h2>
             <p>
-              Linked Events control panel allows you to enter new ones events,
-              courses and volunteer assignments, and manage them related
-              information and materials.
+              The Linked Events dashboard lets you enter new events, courses,
+              and volunteer assignments, and manage related information and
+              materials.
             </p>
             <h2>Linked Events API</h2>
             <p>
               The public interface allows you to freely search for events for
-              your own service. You can also suggest us if there is a database
-              that should be linked to Linked Events.
+              your own service. You can also suggest a database that should be
+              linked to Linked Events.
             </p>
             <h2>Support and further development</h2>
             <p>
               Contact us if you would like more information or have any
-              suggestions on how we could improve the service. In the Help
-              section, you will find more detailed information and a{' '}
+              suggestions on how we could improve the service. In the Support
+              section you will find more detailed information and a{' '}
               <Link to={`/${locale}${ROUTES.SUPPORT_CONTACT}`}>
                 contact form
               </Link>
@@ -58,7 +58,7 @@ const FeaturesPage = () => {
             <h2>Tuki ja jatkokehitys</h2>
             <p>
               Ota meihin yhteyttä jos haluat lisätietoa tai sinulla on
-              ehdotuksia miten voisimme parantaa palvelua. Ohjeet-osiosta löydät
+              ehdotuksia miten voisimme parantaa palvelua. Tuki-osiosta löydät
               tarkempaa tietoa ja{' '}
               <Link to={`/${locale}${ROUTES.SUPPORT_CONTACT}`}>
                 yhteydenottolomakkeen
@@ -70,11 +70,11 @@ const FeaturesPage = () => {
       case 'sv':
         return (
           <>
-            <h1>Servicefunktioner</h1>
+            <h1>Tjänstens egenskaper</h1>
             <h2>Evenemanghantering</h2>
             <p>
-              Linked Events-kontrollpanelen låter dig ange nya evenemang, kurser
-              och volontäruppgifter och hantera dem relaterad information och
+              Med instrumentpanelen för Linked Events kan du ange nya evenemang,
+              kurser och volontäruppgifter och hantera relaterad information och
               material.
             </p>
             <h2>Linked Events API</h2>

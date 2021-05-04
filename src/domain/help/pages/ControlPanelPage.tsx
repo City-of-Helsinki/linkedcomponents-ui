@@ -16,8 +16,8 @@ const ControlPanelPage = () => {
             <h1>Control panel</h1>
             <h2>General</h2>
             <p>
-              Linked Events is the event interface of the City of Helsinki. The
-              events entered in the interface are automatically transferred to
+              Linked Events is an event interface for the City of Helsinki. The
+              events entered in the interface are automatically submitted to
               e.g.{' '}
               <ExternalLink href="https://tapahtumat.hel.fi/en/home">
                 tapahtumat.hel.fi page
@@ -30,36 +30,36 @@ const ControlPanelPage = () => {
               <ExternalLink href="https://palvelukartta.hel.fi/en/">
                 Service map
               </ExternalLink>{' '}
-              and also for applications other than those maintained by the city.
-              The description of the event should therefore be made easy to
-              understand in the various places of use.
+              and also applications other than those maintained by the city. The
+              description of the event should therefore be made easy to
+              understand for various usecases.
             </p>
             <p>
               The input user interface of the API can be found at{' '}
               <ExternalLink href="https://linkedevents.hel.fi/">
                 linkedevents.hel.fi
               </ExternalLink>
-              . You can get access by first logging in to the service and then
+              . You can access it by first logging in to the service and then
               sending a confirmation request. The control panel can be used from
-              anywhere and also on mobile devices. You have the right to edit
-              events in your organization.
+              anywhere and now also with mobile devices. Edit rights are limited
+              to events in your organization.
             </p>
             <p>
               Events may be entered into the interface with the permission of
               the City of Helsinki. Events do not have to be open to everyone,
               but restrictions must be clearly stated in the event description.
             </p>
-            <p>The user interface can be used to</p>
+            <p>The interface can</p>
             <ol type="a">
-              <li>search all city events</li>
-              <li>search and edit events in your organization</li>
+              <li>search from all city events</li>
+              <li>browse and edit events in your organization</li>
               <li>add new events</li>
               <li>
-                moderate events, ie accept events added by third parties for
-                publication
+                moderate events, ie. accept events published by third parties
+                for publication
               </li>
             </ol>
-            <p>All days of a recurring event can be added at once</p>
+            <p>All days of a recurring event can be inputed at once.</p>
             <h2>Event input</h2>
             <h3>Add new event</h3>
             <p>
@@ -67,83 +67,86 @@ const ControlPanelPage = () => {
               information in Swedish and English should be filled in at large
               events suitable for language target groups. Fill in the
               information as extensively and accurately as possible. The help
-              texts on the form will help you to complete it.
+              texts on the form will aid you in filling the form.
             </p>
             <p>
-              Always try to find a picture for the event. The image can be
-              marked{' '}
+              Always try to find an image for the event. The image can be marked{' '}
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.en">
                 CC 4.0 BY
               </ExternalLink>{' '}
-              or "use only in connection with an event". Some freely usable
-              illustrations can be found at{' '}
+              or "use limited to only in connection with the event". Some freely
+              usable illustrations can be found at{' '}
               <ExternalLink href="https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat">
                 hel.fi/tapahtumakuvat
               </ExternalLink>
               .
             </p>
             <p>
-              Before feeding, edit the image to fit the network and to a 3: 2
-              horizontal aspect ratio, such as 1200x800px. It is essential that
-              the file size remains reasonable for mobile use as well,
-              preferably less than 200 kilobytes.
+              Before uploading an image, edit the image to fit for low bandwith
+              use and to a 3: 2 horizontal aspect ratio, such as 1200x800 px. It
+              is essential that the file size remains reasonable for mobile use
+              as well, preferably less than 200 kilobytes.
             </p>
             <p>
-              To add a multi-day recurring event, there is an Add New Time
-              button and a recurring event tool for a recurring event.
+              To add a recurring event spanning several days, there is an “Add
+              New Time” button and a “Recurring event” tool to easily add a
+              recurring event.
             </p>
             <p>
-              The venue of the event is selected from the places in the city's
-              office register. Thus, address and other information is retrieved
-              automatically when the correct location is found. If you want to
-              add a new office, contact{' '}
+              The location of the event is selected from the locations of the
+              city's office register. Address information among other
+              information is retrieved automatically when the correct location
+              is found. If you want to add a new location, contact{' '}
               <a href="mailto:linkedevents@hel.fi">linkedevents@hel.fi</a>.
             </p>
             <p>
-              Categorizing an event with keywords is important so that users of
-              different applications can find the event in a large mass of
-              events. Choose multiple keywords and favor those that have been
-              used in multiple events. Keywords (see YSO Glossary) are most
-              often found in plural form, e.g., books, families, plays, and
+              Categorizing an event with keywords is important so that users
+              using various applications can find the event from a large mass of
+              events. Choose multiple keywords and favor the ones that have been
+              previously used in events. Keywords (see YSO Glossary) are most
+              often found in plural form, e.g. books, families, plays, and
               paintings.
             </p>
             <p>
               The main categories and target groups are primarily for the hel.fi
-              website, but they are also visible to other users of the
+              website, but they are also visible to other services using the
               interface. If the event has multiple dates, it may take a while to
               save. If you do not receive an error message after pressing the
-              Publish Event button, wait for the form to move to the next view.
+              Publish Event button, wait for a while and the form should advance
+              to the next view.
             </p>
             <h3>Attaching images to events</h3>
             <p>
-              Alt text, or alternative text to an image, is a verbal description
-              of an image for people who, for one reason or another, cannot see
-              the image itself. Alt text is a required field. In the alt text,
-              briefly describe the content of the image, for example, "Children
-              playing in the yard." note that alt text is not caption. Thus,
-              things that do not appear directly in the image should not be told
-              in the alt text. The use of the Alt text is regulated by the
-              EU-wide Accessibility Directive. It follows from the Directive
-              that the entry of alt text is mandatory for each image.
+              Alt text, the alternative text for an image, is a verbal
+              description of an image for people who, for one reason or another,
+              cannot see the image themselves. The alt text is a required field.
+              In the alt text, briefly describe the content of the image, for
+              example, "Children playing in the yard." Note that alt text is not
+              a caption. Thus, things that do not appear directly in the image
+              should not be written down in the alt text. The use of the Alt
+              text is regulated by the EU-wide Accessibility Directive. Due to
+              the directive, the filling of the alt text field is mandatory for
+              each image.
             </p>
             <p>
-              Caption and graph are optional, but are good to fill out. However,
-              the image license (see below below) may require the name of the
-              graph to be mentioned. It is good practice to enter the name of
-              the graph whenever it is known. Always make sure that you or the
-              person you represent have the right to use the image to market the
-              event. It is always the responsibility of the image feeder to
-              ensure that the image is licensed.
+              The caption and and author information are optional, but it is
+              usually still a good idea to fill them out. However, the image
+              license (see below) may require the name of the author to be
+              mentioned. It is good practice to enter the name of the author
+              whenever it is known. Always make sure that you or who you
+              represent has the right to use the image to market the event. It
+              is always the responsibility of the image uploader to check the
+              rights to the image.
             </p>
             <p>
               It is also the user's responsibility to select the correct
               license.
             </p>
             <p>
-              Unless otherwise agreed with the photographer or the rights holder
-              of the image, select the license "Image may be used only for this
-              event" for the image. The name of the graph and / or other right
-              holder of the image must always be specified in Graph.{' '}
+              Unless otherwise agreed with the author or the rights holder of
+              the image, select the license "Use limited to the event" for most
+              images. The name of the author and / or the other owner of the
+              image must always be specified in the field titled “Author”.{' '}
               <ExternalLink href="https://api.hel.fi/linkedevents/v1/">
                 Event only license definition
               </ExternalLink>
@@ -154,20 +157,18 @@ const ControlPanelPage = () => {
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.en">
                 CC 4.0 BY license
               </ExternalLink>{' '}
-              or equivalent, you must still always specify a photographer name
-              in Photographer name.
+              or equivalent, you must still specify the author name.
             </p>
             <p>
-              Use horizontal images with an aspect ratio of 3: 2. The
-              recommended size for images is 1200px X 800px. Images larger than
-              2 megabytes cannot be input to the interface.
+              Use horizontal images with an aspect ratio of 3:2. The recommended
+              size for images is 1200 px X 800 px. Images larger than 2
+              megabytes cannot be uploaded to the interface.
             </p>
             <h2>Other considerations</h2>
             <p>
-              You can use the old one as the basis for the data for a new event,
-              by opening the event and selecting "Copy as template". My events
-              can be easily found in the Event Management and have the right to
-              edit them.
+              You can use the old event data for a new event by opening the
+              event and selecting "Copy as template". My events can be easily
+              found in Event Management and you have rights to edit them.
             </p>
           </>
         );
@@ -334,67 +335,69 @@ const ControlPanelPage = () => {
         return (
           <>
             <h1>Kontrollpanel</h1>
-            <h2>Allmän</h2>
+            <h2>Allmänt</h2>
             <p>
               Linked Events är evenemangsgränssnittet för Helsingfors stad. De
               evenemang som anges i gränssnittet överförs automatiskt till t.ex.{' '}
               <ExternalLink href="https://tapahtumat.hel.fi/sv/home">
-                tapahtumat.hel.fi-sida
+                tapahtumat.hel.fi
               </ExternalLink>
               ,{' '}
               <ExternalLink href="https://www.myhelsinki.fi/sv">
-                MyHelsinki.fi-sida
+                MyHelsinki.fi
               </ExternalLink>
               ,{' '}
               <ExternalLink href="https://palvelukartta.hel.fi/sv/">
-                Servicekarta
+                servicekartan
               </ExternalLink>{' '}
-              och även för andra applikationer än de som underhålls av staden.
+              och även för andra applikationer än de som upprätthålls av staden.
               Beskrivningen av evenemanget bör därför göras lätt att förstå på
               de olika användningsställena.
             </p>
             <p>
-              API: ns ingångsgränssnitt finns på{' '}
+              Gränssnittet för inmatning finns på{' '}
               <ExternalLink href="https://linkedevents.hel.fi/">
                 linkedevents.hel.fi
               </ExternalLink>
               . Du kan få åtkomst genom att först logga in på tjänsten och sedan
               skicka en bekräftelseförfrågan. Kontrollpanelen kan användas var
               som helst och även på mobila enheter. Du har rätt att redigera
-              händelser i din organisation.
+              evenemang i din egna organisation.
             </p>
             <p>
-              Evenemang kan komma in i gränssnittet med tillstånd av Helsingfors
-              stad. Evenemang behöver inte vara öppna för alla, men
-              begränsningar måste anges tydligt i evenemangskrivningen.
+              Evenemang kan läggas till i gränssnittet med tillstånd av
+              Helsingfors stad. Evenemang behöver inte vara öppna för alla, men
+              begränsningar måste anges tydligt i evenemangsbeskrivningen.
             </p>
-            <p>Användargränssnittet kan användas för att</p>
+            <p>Med gränssnittet kan man</p>
             <ol type="a">
-              <li>söka efter alla evenemang i staden</li>
-              <li>söka och redigera evenemanget i din organisation</li>
-              <li>lägga till nya evenemang</li>
+              <li>söka bland alla stadsevenemang</li>
+              <li>se och redigera evenemang i din egna organisation</li>
+              <li>lägg till nya evenemang</li>
               <li>
-                moderera evenemang, dvs. acceptera evenemang som lagts till av
-                tredje part för publicering
+                moderera evenemang, dvs. acceptera evenemang för publicering som
+                är inlagda av tredje part
               </li>
             </ol>
             <p>
-              Alla dagar av en återkommande evenemang kan läggas till på en gång
+              Alla dagar av en återkommande evenemang kan läggas till på en
+              gång.
             </p>
-            <h2>Ingång för evenemang</h2>
+            <h2>Evenemangsinmatning</h2>
             <h3>Lägg till ett nytt evenemang</h3>
             <p>
-              Evenemanginformation måste anges minst på finska. Informationen på
-              svenska och engelska bör fyllas i vid stora evenemang som passar
-              språkmålgrupper. Fyll i informationen så omfattande och exakt som
-              möjligt. Hjälptexterna på formuläret hjälper dig att fylla i det.
+              Evenemangsinformation måste alltid anges på minst finska.
+              Informationen på svenska och engelska bör fyllas i vid stora
+              evenemang som är lämpliga för språkgrupper. Fyll i informationen
+              så omfattande och exakt som möjligt. Hjälptexterna på formuläret
+              hjälper dig att fylla i det.
             </p>
             <p>
               Försök alltid hitta en bild för evenemanget. Bilden kan markeras{' '}
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.sv">
                 CC 4.0 BY
               </ExternalLink>{' '}
-              eller "använd endast i samband med en händelse". Några fritt
+              eller "använd endast i samband med evenemanget". Några fritt
               användbara illustrationer finns på{' '}
               <ExternalLink href="https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat">
                 hel.fi/tapahtumakuvat
@@ -402,61 +405,43 @@ const ControlPanelPage = () => {
               .
             </p>
             <p>
-              Innan du matar redigerar du bilden så att den passar nätverket och
-              till ett horisontellt bildförhållande 3: 2, till exempel
-              1200x800px. Det är viktigt att filstorleken förblir rimlig även
-              för mobil användning, helst mindre än 200 kilobyte.
+              Innan du laddar upp redigerar du bilden så att den passar internet
+              och till ett horisontellt bildförhållande 3: 2, t.ex. 1200x800 px.
+              Det är viktigt att filstorleken förblir rimlig även för mobil
+              användning, helst mindre än 200 kilobyte.
             </p>
             <p>
               För att lägga till en flerdagars återkommande evenemang finns
-              knappen Lägg till ny tid och ett vanligt återkommande
-              evenemangverktyg för ett återkommande evenemant.
+              knappen “Lägg till ny tid” och ett verktyg för “återkommande
+              evenemang”.
             </p>
             <p>
               Platsen för evenemanget väljs från platserna i stadens
               kontoregister. Således hämtas adress och annan information
               automatiskt när rätt plats hittas. Om du vill lägga till ett nytt
-              kontor, kontakta{' '}
+              plats, kontakta{' '}
               <a href="mailto:linkedevents@hel.fi">linkedevents@hel.fi</a>.
             </p>
             <p>
               Att kategorisera ett evenemang med nyckelord är viktigt så att
-              användare av olika applikationer kan hitta evenemanget i en stor
-              massa evenemang. Välj flera nyckelord och gynna de som har använts
-              i flera evenemang. Nyckelord (se YSO-ordlista) finns oftast i
-              pluralform, t.ex. böcker, familjer, pjäser och målningar.
+              användare av olika applikationer kan hitta evenemanget bland en
+              stor mängd evenemang. Välj flera nyckelord och gynna de som har
+              använts i flera evenemang. Nyckelord (se YSO-ordlista) finns
+              oftast i pluralform, t.ex. böcker, familjer, pjäser och målningar.
             </p>
             <p>
-              Huvudkategorierna och målgrupperna är främst för
-              hel.fi-webbplatsen, men de är också synliga för andra användare av
+              Huvudkategorierna och målgrupperna är främst för hel.fi
+              -webbplatsen, men de är också synliga för andra användare av
               gränssnittet. Om evenemanget har flera datum kan det ta en stund
               att spara. Om du inte får något felmeddelande efter att ha tryckt
-              på knappen Publicera evenemang väntar du på att formuläret flyttar
-              till nästa vy.
-            </p>
-            <p>
-              Bildtext och diagram är valfria, men är bra att fylla i.
-              Bildlicensen (se nedan) kan dock kräva att grafens namn nämns. Det
-              är bra praxis att ange grafens namn närhelst det är känt. Se
-              alltid till att du eller någon du representerar har rätt att
-              använda bilden för att marknadsföra evenemanget. Det är alltid
-              bildmatarens ansvar att säkerställa åtkomst till bilden.
-            </p>
-            <p>
-              Om inget annat överenskommits med fotografen eller bildens
-              rättighetsinnehavare, välj licensen "Bilden får endast användas
-              för detta evenemang" för bilden. Namnet på fotografen och / eller
-              den andra ägaren till bilden måste alltid anges i avsnittet Graf.
-              <ExternalLink href="https://api.hel.fi/linkedevents/v1/">
-                Definition av Event only -licens.
-              </ExternalLink>
-              .
+              på knappen “Publicera evenemang” väntar du på att formuläret
+              flyttar till nästa vy.
             </p>
             <h3>Bifoga bilder till evenemang</h3>
             <p>
               Alt-text, eller alternativ text till en bild, är en verbal
-              beskrivning av en bild för människor som av en eller annan
-              anledning inte kan se själva bilden. Alt-text är ett obligatoriskt
+              beskrivning av en bild för personer som av en eller annan
+              anledning inte kan se bilden själva. Alt-text är ett obligatoriskt
               fält. Beskriv kortfattat innehållet i bilden i alt-texten, till
               exempel "Barn som leker på gården." notera att alt text inte är
               textning. Således bör saker som inte visas direkt i bilden inte
@@ -464,32 +449,45 @@ const ControlPanelPage = () => {
               EU-omfattande tillgänglighetsdirektiv. Det följer av direktivet
               att inmatning av alt-text är obligatorisk för varje bild.
             </p>
+            <p>
+              Bildtext och författare krävs inte, men de är vanligtvis
+              fortfarande bra att fylla i. Bildlicensen (se nedan) kan dock
+              kräva att grafens namn nämns. Det är bra praxis att ange grafens
+              namn närhelst det är känt. Se alltid till att du eller någon du
+              representerar har rätt att använda bilden för att marknadsföra
+              evenemanget. Det är alltid bildladdarens ansvar att säkerställa
+              åtkomst till bilden.
+            </p>
             <p>Det är också användarens ansvar att välja rätt licens.</p>
             <p>
               Om inget annat överenskommits med fotografen eller bildens
               rättighetsinnehavare, välj licensen "Använd begränsad till
-              händelsen" för bilden. Namnet på fotografen och / eller den andra
-              ägaren till bilden måste alltid anges i avsnittet Graf. Definition
-              av endast licenshändelse.
+              evenemangn" för bilden. Namnet på grafen och / eller annan
+              rättighetsinnehavare av bilden måste alltid anges i “Författare”
+              <ExternalLink href="https://api.hel.fi/linkedevents/v1/">
+                Definition av endast evenemangslicens.
+              </ExternalLink>
+              .
             </p>
             <p>
               Om bilden du använder har en mer omfattande{' '}
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.sv">
                 CC BY 4.0-licens
               </ExternalLink>{' '}
-              eller motsvarande, måste du ändå alltid ange ett grafnamn i Graph.
+              eller motsvarande, måste du ändå alltid ange ett namn i
+              författarenamnet.
             </p>
             <p>
-              Använd horisontella bilder med bildförhållandet 3: 2.
-              Rekommenderad storlek för bilder är 1200px X 800px. Bilder som är
-              större än 2 megabyte kan inte matas in i gränssnittet.
+              Använd horisontella bilder med bildförhållandet 3:2. Rekommenderad
+              storlek för bilder är 1200 px X 800 px. Bilder som är större än 2
+              megabyte kan inte läggas in i gränssnittet.
             </p>
             <h2>Andra överväganden</h2>
             <p>
-              Du kan använda den gamla som bas för dett nya evenemanget genom
-              att öppna evenemanget och välja "Kopiera som mall". Mina evenemang
-              hittar du enkelt i Evenemangshantering och du har rätt att
-              redigera dem.
+              Du kan använda informationen från ett äldre evenemang när du ska
+              skapa ett nytt, genom att öppna evenemanget och välja "Kopiera som
+              mall". Mina evenemang hittar du enkelt i Evenemangshantering och
+              dom har du rättighet att redigera.
             </p>
           </>
         );

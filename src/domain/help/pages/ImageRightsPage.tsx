@@ -17,10 +17,10 @@ const ImageRightsPage = () => {
               The City of Helsinki has all the rights to the images. If the
               license of the image to be shared in the interface is marked
               event_only, the image may only be used for information and
-              communication about the event of the image. Using images for this
-              purpose is free for the user. Use or transfer of the image for
-              other purposes is prohibited. When using images, it is essential
-              to mention the source and photographer of the images.
+              communication about the event. Using images for this purpose is
+              free for the user. The use or transfer of the image for other
+              purposes is prohibited. When using images, it is essential to
+              mention the source and author of the images.
             </p>
           </>
         );
@@ -46,11 +46,11 @@ const ImageRightsPage = () => {
             <p>
               Helsingfors stad har alla rättigheter till bilderna. Om licensen
               för bilden som ska delas i gränssnittet är markerad endast
-              händelse får bilden endast användas för information och
-              kommunikation om bildens händelse. Att använda bilder för detta
+              evenemang, får bilden endast användas för information och
+              kommunikation om bildens evenemang. Att använda bilder för detta
               ändamål är gratis för användaren. Användning eller överföring av
               bilden för andra ändamål är förbjuden. När du använder bilder är
-              det viktigt att nämna bildens källa och graf.
+              det viktigt att nämna bildens källa och författare.
             </p>
           </>
         );

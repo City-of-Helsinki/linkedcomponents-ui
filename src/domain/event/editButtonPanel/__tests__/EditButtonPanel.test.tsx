@@ -90,6 +90,15 @@ const getElement = (
   }
 };
 
+const getElements = (key: 'disabledButtons') => {
+  switch (key) {
+    case 'disabledButtons':
+      return screen.getAllByRole('button', {
+        name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
+      });
+  }
+};
+
 const openMenu = () => {
   const toggleButton = getElement('toggle');
   userEvent.click(toggleButton);
@@ -150,9 +159,9 @@ test('should render correct buttons for draft event', async () => {
     'Tallenna muutokset',
   ];
 
-  hiddenButtons.forEach((name) => {
-    expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
-  });
+  hiddenButtons.forEach((name) =>
+    expect(screen.queryByRole('button', { name })).not.toBeInTheDocument()
+  );
 });
 
 test('only copy button should be enabled when user is not logged in (draft)', () => {
@@ -164,13 +173,9 @@ test('only copy button should be enabled when user is not logged in (draft)', ()
 
   getElement('copy');
 
-  const disabledButtons = screen.getAllByRole('button', {
-    name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
-  });
+  const disabledButtons = getElements('disabledButtons');
   expect(disabledButtons).toHaveLength(4);
-  disabledButtons.forEach((button) => {
-    expect(button).toBeDisabled();
-  });
+  disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
 test('should render correct buttons for public event', async () => {
@@ -218,9 +223,9 @@ test('should render correct buttons for public event', async () => {
 
   const hiddenButtons = ['Tallenna luonnos'];
 
-  hiddenButtons.forEach((name) => {
-    expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
-  });
+  hiddenButtons.forEach((name) =>
+    expect(screen.queryByRole('button', { name })).not.toBeInTheDocument()
+  );
 });
 
 test('only copy and delete button should be enabled when event is cancelled', async () => {
@@ -243,12 +248,8 @@ test('only copy and delete button should be enabled when event is cancelled', as
   const disabledButtons = screen.getAllByRole('button', {
     name: 'Peruttuja tapahtumia ei voi muokata.',
   });
-
   expect(disabledButtons).toHaveLength(3);
-
-  disabledButtons.forEach((button) => {
-    expect(button).toBeDisabled();
-  });
+  disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
 test('only copy button should be enabled when user is not logged in (public)', () => {
@@ -260,13 +261,9 @@ test('only copy button should be enabled when user is not logged in (public)', (
 
   getElement('copy');
 
-  const disabledButtons = screen.getAllByRole('button', {
-    name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
-  });
+  const disabledButtons = getElements('disabledButtons');
   expect(disabledButtons).toHaveLength(4);
-  disabledButtons.forEach((button) => {
-    expect(button).toBeDisabled();
-  });
+  disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
 test('should route to create event page when clicking copy button', async () => {
@@ -279,9 +276,9 @@ test('should route to create event page when clicking copy button', async () => 
   const copyButton = getElement('copy');
   userEvent.click(copyButton);
 
-  await waitFor(() => {
-    expect(history.location.pathname).toBe('/fi/events/create');
-  });
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/fi/events/create')
+  );
 });
 
 test('should route to events page when clicking back button', async () => {
@@ -292,7 +289,5 @@ test('should route to events page when clicking back button', async () => {
   const backButton = getElement('back');
   userEvent.click(backButton);
 
-  await waitFor(() => {
-    expect(history.location.pathname).toBe('/fi/events');
-  });
+  await waitFor(() => expect(history.location.pathname).toBe('/fi/events'));
 });

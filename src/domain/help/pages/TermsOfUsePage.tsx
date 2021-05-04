@@ -16,12 +16,11 @@ const TermsOfUsePage = () => {
             <h1>Terms of use</h1>
             <p>
               Event information, images and other material added to the Linked
-              Events interface (together with the Material) are published under
-              a{' '}
+              Events interface (further the Material) are published under a{' '}
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.en">
                 Creative Commons BY 4.0 license
               </ExternalLink>
-              , unless otherwise noted.
+              , unless otherwise stated.
             </p>
             <p>
               By using the interface, the user of the service who added the
@@ -41,19 +40,18 @@ const TermsOfUsePage = () => {
             </p>
             <p>
               If the “License” section of the information in the image to be
-              shared is marked “Image may be used only for this event”, the
-              image in the Linked Events interface may only be used for
-              information and communication about the event in the image. Use or
-              transfer of the image for other purposes is prohibited. When using
-              images, it is essential to mention the source and graph of the
-              images.
+              shared is marked “Use Restricted to the Event,” the image in the
+              Linked Events interface may only be used for information and
+              communication about the event. Use or transfer of the image for
+              other purposes is prohibited. When using images, it is essential
+              to mention the source and author of the images.
             </p>
             <p>
               The user of the service who adds material to the service
-              guarantees that he has the necessary rights to add material to the
-              service. The City of Helsinki is not responsible for the content
-              of the Material or the related intellectual property rights.
-              Material added service, the service user is responsible for the
+              guarantees that he or she has the necessary rights to add material
+              to the service. The City of Helsinki is not responsible for the
+              content of the Material or related intellectual property rights.
+              The person adding material to the service is responsible for the
               materials they add, and the fact that it does not infringe any
               third party intellectual property rights or other rights and that
               it is not content otherwise contrary to law or good practice.
@@ -130,11 +128,11 @@ const TermsOfUsePage = () => {
       case 'sv':
         return (
           <>
-            <h1>Användarvillkor</h1>
+            <h1>Villkor</h1>
             <p>
-              Evenemanginformation, bilder och annat material som läggs till
-              Linked Events-gränssnittet (tillsammans med materialet) publiceras
-              under en{' '}
+              Evenemangsinformation, bilder och annat material som läggs till i
+              gränssnittet för länkade evenemang (tillsammans med materialet)
+              publiceras under en{' '}
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.sv">
                 Creative Commons BY 4.0-licens
               </ExternalLink>
@@ -152,29 +150,28 @@ const TermsOfUsePage = () => {
             </p>
             <p>
               Det är möjligt att begränsa användningen av den bild som matats in
-              i gränssnittet per bild i samband med den enskilda händelsen i
-              fråga (endast händelselicens). Åtkomstbegränsningen binder
+              i gränssnittet per bild i samband med den enskilda evenemangen i
+              fråga (endast evenemangslicens). Åtkomstbegränsningen binder
               applikationer som använder gränssnittet och andra användare av
               gränssnittet.
             </p>
             <p>
-              Om "Licens" -sektionen i informationen i bilden som ska delas är
-              markerad "Bild får endast användas för det här evenemanget", kan
-              bilden i gränssnittet för länkade händelser endast användas för
-              information och kommunikation om händelsen i bilden. Användning
-              eller överföring av bilden för andra ändamål är förbjuden. När du
-              använder bilder är det viktigt att nämna bildens källa och graf.
+              Om avsnittet "Licens" för informationen i bilden som ska delas är
+              markerad med "Använd begränsad till en evenemang" får bilden i
+              gränssnittet för Linked Events endast användas för information och
+              kommunikation om bildens evenemang. Användning eller överföring av
+              bilden för andra ändamål är förbjuden. När du använder bilder är
+              det viktigt att nämna bildens källa och graf.
             </p>
             <p>
               Användaren av tjänsten som lägger till material i tjänsten
-              garanterar att han har nödvändiga rättigheter att lägga till
-              material i tjänsten. Helsingfors stad är inte ansvarig för
-              innehållet i materialet eller tillhörande immateriella
-              rättigheter. Tjänsten tillagd material, tjänstanvändaren ansvarar
-              för det material de lägger till, och det faktum att det inte
-              bryter mot tredje parts immateriella rättigheter eller andra
-              rättigheter och att det inte är innehåll som annars strider mot
-              lag eller god praxis.
+              garanterar att han eller hon har nödvändiga rättigheter att lägga
+              till material i tjänsten. Helsingfors stad är inte ansvarig för
+              innehållet i materialet eller relaterade immateriella rättigheter.
+              Den person som lagt till material till tjänsten ansvarar för
+              materialet, och att det inte bryter mot en tredje parts
+              immateriella rättigheter eller andra rättigheter och att det inte
+              är innehåll som annars strider mot lag eller god praxis.
             </p>
             <p>
               Helsingfors stad garanterar inte riktigheten för det material som

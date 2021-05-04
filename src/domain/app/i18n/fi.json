@@ -69,7 +69,7 @@
     },
     "goToHome": "Etusivulle",
     "imageUploader": {
-      "buttonDropImage": "Pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
+      "buttonDropImage": "Raahaa ja pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
@@ -983,7 +983,8 @@
     "titleServices": "Helsingin tapahtumasivustot"
   },
   "logoutPage": {
-    "pageTitle": "Olet kirjautunut ulos",
+    "buttonBackToHome": "Takaisin etusivulle",
+    "pageTitle": "Uloskirjaus",
     "text": "Olet kirjautunut ulos palvelusta. Kirjaudu takaisin sisään tai palaa etusivulle."
   },
   "navigation": {

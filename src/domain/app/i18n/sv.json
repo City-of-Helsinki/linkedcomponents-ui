@@ -23,11 +23,11 @@
       "buttonAcceptAll": "Alla",
       "buttonAcceptOnlyNecessary": "Endast nödvändigt",
       "buttonDecline": "Nedgång",
-      "checkboxAccept": "Jag har läst och godkänt <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"användarvillkoren {{openInNewTab}}\">användarvillkoren</a>",
-      "checkboxAcceptAriaLabel": "Jag har läst och godkänt användarvillkoren",
+      "checkboxAccept": "Jag har läst och godkänt <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"villkoren {{openInNewTab}}\">villkoren</a>",
+      "checkboxAcceptAriaLabel": "Jag har läst och godkänt villkoren",
       "linkDataProtection": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd",
       "linkPrivacyPolicy": "TODO: ADD LINK",
-      "text1": "Genom att välja ”acceptera” godkänner du användarvillkoren. Därefter måste du acceptera antingen väsentliga eller alla kakor.",
+      "text1": "Genom att välja ”acceptera” godkänner du villkoren. Därefter måste du acceptera antingen väsentliga eller alla kakor.",
       "text2": "Läs mer om vår <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"integritetspolicy {{openInNewTab}}\">integritetspolicy</a> och <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registerbeskrivning {{openInNewTab}}\">registerbeskrivning</a>.",
       "text3": "Vi använder cookies för att förbättra din användarupplevelse på webbplatsen.",
       "title": "Användningsvillkor för Linked Events och kakor"
@@ -922,19 +922,19 @@
     "pageTitleControlPanel": "Kontrollpanel",
     "pageTitleDocumentation": "Dokumentation",
     "pageTitleFaq": "Vanliga frågor",
-    "pageTitleFeatures": "Servicefunktioner",
+    "pageTitleFeatures": "Tjänstens egenskaper",
     "pageTitleImageRights": "Bildrättigheter",
     "pageTitleInstructions": "Instruktioner",
     "pageTitleSourceCode": "Källkod",
     "pageTitleTechnology": "Teknologi",
-    "pageTitleTermsOfUse": "Användarvillkor",
+    "pageTitleTermsOfUse": "Villkor",
     "platformPage": {
       "pageTitle": "Plattform",
-      "textApi": "Med det offentliga API: et kan du hämta evenemang för din egen tjänst. Du kan också föreslå oss en befintlig databank som ska länkas till länkade evenemang.",
+      "textApi": "Med det offentliga API:et kan du hämta evenemang för din egen tjänst. Du kan också ge oss ett tips om en befintlig databank som ska införlivas i Linked Events.",
       "textEventManagement": "Kontrollpanelen för Linked Events används för att ange evenemang, kurser och volontäruppgifter och för att hantera relaterad information och material.",
-      "textMainContent1": "Linked Events är ett öppet gränssnitt utvecklat av Helsingfors stad för evenemang, kurser och volontäruppdrag i Helsingfors stad. Denna webbplats innehåller verktyg och instruktioner för hantering av dem och dokumentation för att använda det offentliga gränssnittet.",
-      "textMainContent2": "Evenemang kan skrivas in med tillstånd av staden. De behöver inte organiseras av staden. Du kan ange flera datum för ett evenemang. I det här fallet skapas ett huvudevenemang automatiskt för evenemangssekvensen.",
-      "textSupport": "Kontakta oss om du vill ha mer information eller har några förslag på hur vi kan förbättra tjänsten. I avsnittet Hjälp hittar du mer detaljerad information och ett kontaktformulär.",
+      "textMainContent1": "Linked Events är ett öppet gränssnitt utvecklat av Helsingfors stad för evenemang, kurser och för volontärarbete i Helsingfors stad. Denna webbplats innehåller verktyg och instruktioner för att hantera evenemang och dokumentation om hur man använder det offentliga gränssnittet.",
+      "textMainContent2": "Evenemang kan skrivas in med tillstånd av staden. Evenemang behöver inte organiseras av staden. Du kan ange flera datum för ett evenemang. I det här fallet skapas automatiskt ett paraplyevenemang för evenamangssekvensen.",
+      "textSupport": "Kontakta oss om du behöver mer information eller funderingar eller förslag på hur vi kan förbättra tjänsten. I avsnittet Hjälp hittar du mer detaljerad information och ett kontaktformulär.",
       "titleApi": "Linked Events API",
       "titleEventManagement": "Evenemanghantering",
       "titlePlatform": "Plattform",
@@ -947,15 +947,15 @@
       "labelControlPanel": "Kontrollpanel",
       "labelDocumentation": "Dokumentation",
       "labelFaq": "FAQ",
-      "labelFeatures": "Servicefunktioner",
-      "labelGeneral": "Allmän",
+      "labelFeatures": "Tjänstens egenskaper",
+      "labelGeneral": "Allmänt",
       "labelImageRights": "Bildrättigheter",
       "labelInstructions": "Instruktioner",
       "labelPlatform": "Plattform",
       "labelSourceCode": "Källkod",
       "labelSupport": "Stöd",
       "labelTechnology": "Teknologi",
-      "labelTermsOfUse": "Användarvillkor",
+      "labelTermsOfUse": "Villkor",
       "toggleButtonLabel": "Navigera till hjälpsidan"
     }
   },
@@ -982,7 +982,8 @@
     "titleServices": "Helsingfors evenemangsplatser"
   },
   "logoutPage": {
-    "pageTitle": "Du är utloggad",
+    "buttonBackToHome": "Tillbaka till startsidan",
+    "pageTitle": "Logga ut",
     "text": "Du har loggat ut från tjänsten. Logga in igen eller återvänd till hemsidan."
   },
   "navigation": {
@@ -1006,6 +1007,6 @@
   },
   "notSigned": {
     "pageTitle": "Inloggning krävs",
-    "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till hemsidan."
+    "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
   }
 }

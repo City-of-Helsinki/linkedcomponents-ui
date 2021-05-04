@@ -929,11 +929,11 @@
     "pageTitleTermsOfUse": "Terms of use",
     "platformPage": {
       "pageTitle": "Platform",
-      "textApi": "The public API allows you to retrieve events for your own service. You can also suggest us an existing databank that should be linked to Linked Events.",
-      "textEventManagement": "The Linked Events control panel is used to enter events, courses, and volunteer assignments, and to manage related information and materials.",
-      "textMainContent1": "Linked Events is an open interface developed by the City of Helsinki for events, courses and volunteer assignments in the City of Helsinki. This site provides tools and instructions for managing them and documentation to use the public interface.",
-      "textMainContent2": "Events may be entered with the permission of the city. They don’t have to be organized by the city. You can enter multiple dates for an event. In this case, an umbrella event is automatically created for the event sequence.",
-      "textSupport": "Contact us if you would like more information or have any suggestions on how we could improve the service. In the Help section, you will find more detailed information and a contact form.",
+      "textApi": "The public API allows you to retrieve events for your own service. You can also give us a tip about an existing databank  that should be incorporated into Linked Events.",
+      "textEventManagement": "The Linked Events control panel is used to enter events, courses, and volunteering assignments, and to manage related information and materials.",
+      "textMainContent1": "Linked Events is an open interface developed by the City of Helsinki for events, courses and for volunteering in the City of Helsinki. This site provides tools and instructions for managing events and documentation on how to use the public interface.",
+      "textMainContent2": "Events may be entered with the permission of the city. Events do not have to be organised by the city. You can enter multiple dates for an event. In this case, an umbrella event is automatically created for the event sequence.",
+      "textSupport": "Contact us if you require more information or have concerns, or any suggestions on how we could improve the service. In the Support section, you will find more detailed information and a contact form.",
       "titleApi": "Linked Events API",
       "titleEventManagement": "Event management",
       "titlePlatform": "Platform",
@@ -981,7 +981,8 @@
     "titleServices": "Helsinki event sites"
   },
   "logoutPage": {
-    "pageTitle": "You are logged out",
+    "buttonBackToHome": "Back to front page",
+    "pageTitle": "Logout",
     "text": "You have been logged out of the service. Log back in or return to the home page."
   },
   "navigation": {

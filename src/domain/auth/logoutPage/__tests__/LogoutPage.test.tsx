@@ -27,7 +27,10 @@ test('should render logout page', () => {
 
   expect(screen.getByText(translations.logoutPage.text)).toBeInTheDocument();
 
-  const buttons = [translations.common.signIn, translations.common.goToHome];
+  const buttons = [
+    translations.common.signIn,
+    translations.logoutPage.buttonBackToHome,
+  ];
 
   buttons.forEach((name) => {
     expect(screen.getByRole('button', { name })).toBeInTheDocument();
@@ -38,7 +41,9 @@ test('should route to home page', () => {
   const { history } = renderComponent();
 
   userEvent.click(
-    screen.getByRole('button', { name: translations.common.goToHome })
+    screen.getByRole('button', {
+      name: translations.logoutPage.buttonBackToHome,
+    })
   );
 
   expect(history.location.pathname).toBe('/fi/');

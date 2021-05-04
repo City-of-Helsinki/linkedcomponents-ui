@@ -47,7 +47,7 @@ const FaqPage = () => {
                 and tell us which organization you need publishing rights for.
               </p>
             </Accordion>
-            <Accordion toggleButtonLabel={'Can I add any pictures to events?'}>
+            <Accordion toggleButtonLabel={'Can I add any image to events?'}>
               <p>
                 You must have rights to the image you uploaded. See section:{' '}
                 <Link to={getLocalePath(ROUTES.INSTRUCTIONS_CONTROL_PANEL)}>
@@ -58,7 +58,7 @@ const FaqPage = () => {
             </Accordion>
             <Accordion
               toggleButtonLabel={
-                "The event I added doesn't appear on the service, where's the fault?"
+                "The event I added doesn't appear in the service, where's the problem?"
               }
             >
               <p>
@@ -72,9 +72,7 @@ const FaqPage = () => {
               </p>
             </Accordion>
             <Accordion
-              toggleButtonLabel={
-                'Can the Linked Events interface be used for my own projects?'
-              }
+              toggleButtonLabel={'Can I use Linked Events in my own projects?'}
             >
               <p>
                 Yes. The Linked Events interface is public and open to everyone.
@@ -88,7 +86,7 @@ const FaqPage = () => {
             </Accordion>
             <Accordion
               toggleButtonLabel={
-                'Interface searches are slow, how do I make them faster?'
+                'API searches are slow, how do I make them faster?'
               }
             >
               <p>
@@ -220,7 +218,7 @@ const FaqPage = () => {
             </Accordion>
             <Accordion
               toggleButtonLabel={
-                'Kan jag lägga till några bilder på evenemang?'
+                'Kan jag lägga till vilka bilder som helst till evenemang?'
               }
             >
               <p>
@@ -233,7 +231,7 @@ const FaqPage = () => {
             </Accordion>
             <Accordion
               toggleButtonLabel={
-                'Evenemanget jag lade till visas inte på tjänsten, var är felet?'
+                'Evenemangen jag lade till visas inte på tjänsten, var är felet?'
               }
             >
               <p>
@@ -247,7 +245,7 @@ const FaqPage = () => {
             </Accordion>
             <Accordion
               toggleButtonLabel={
-                'Kan gränssnittet Linked Events användas för mina egna projekt?'
+                'Kan gränssnittet för Linked Events användas för mina egna projekt?'
               }
             >
               <p>
@@ -255,7 +253,7 @@ const FaqPage = () => {
                 alla. Dess användning är också tillåten i kommersiella tjänster
                 i{' '}
                 <Link to={getLocalePath(ROUTES.SUPPORT_TERMS_OF_USE)}>
-                  enlighet med användarvillkoren
+                  enlighet med villkoren
                 </Link>{' '}
                 .
               </p>

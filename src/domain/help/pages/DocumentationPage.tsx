@@ -15,8 +15,8 @@ const DocumentationPage = () => {
           <>
             <h1>Documentation</h1>
             <p>
-              The latest documentation for the interface in the Open API 3.0
-              markup language can be found at:
+              The latest documentation for the API in the Open API 3.0 markup
+              language can be found at:
             </p>
             <p>
               <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
@@ -24,7 +24,7 @@ const DocumentationPage = () => {
               </ExternalLink>
             </p>
             <p>
-              We will also update the documentation to Github in connection with
+              We will also update the documentation to Github in upcoming
               releases.
             </p>
           </>
@@ -62,7 +62,7 @@ const DocumentationPage = () => {
             </p>
             <p>
               Vi kommer också att uppdatera dokumentationen till Github i
-              samband med publikationer.
+              samband med utgåvor.
             </p>
           </>
         );

@@ -73,18 +73,18 @@ const GeneralInstructionsPage = () => {
       case 'sv':
         return (
           <>
-            <h1>Allmän</h1>
+            <h1>Allmänt</h1>
             <p>
-              Dessa "Linked Events" -instruktioner ger svar på de vanligaste
-              frågorna samt instruktioner för användning av kontrollpanelen och
-              gränssnittet. Mer detaljerad information om gränssnittet "Linked
-              Events", programvara och dokumentation finns på:
+              Dessa instruktioner för Linked Events ger svar på de vanligaste
+              frågorna samt instruktioner för hur du använder kontrollpanelen
+              och gränssnittet. Mer detaljerad information om Linked Events
+              gränssnitt, programvara och dokumentation finns på:
             </p>
             <p>
               <ExternalLink href="https://api.hel.fi/linkedevents/v1">
                 https://api.hel.fi/linkedevents/v1
               </ExternalLink>{' '}
-              (API)
+              (gränssnitt)
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">

@@ -61,7 +61,7 @@ it('should render general instructions help page in Swedish', async () => {
   i18n.changeLanguage('sv');
   const { history } = renderRoute(ROUTES.INSTRUCTIONS_GENERAL, 'sv');
 
-  screen.getByRole('heading', { name: 'Allmän' });
+  screen.getByRole('heading', { name: 'Allmänt' });
   expect(history.location.pathname).toBe('/sv/help/instructions/general');
 });
 
@@ -136,7 +136,7 @@ it('should render general technology help page in Swedish', async () => {
   i18n.changeLanguage('sv');
   const { history } = renderRoute(ROUTES.TECHNOLOGY_GENERAL, 'sv');
 
-  screen.getByRole('heading', { name: 'Allmän' });
+  screen.getByRole('heading', { name: 'Allmänt' });
   expect(history.location.pathname).toBe('/sv/help/technology/general');
 });
 
@@ -251,7 +251,7 @@ it('should render terms of use help page in Swedish', async () => {
   i18n.changeLanguage('sv');
   const { history } = renderRoute(ROUTES.SUPPORT_TERMS_OF_USE, 'sv');
 
-  screen.getByRole('heading', { name: 'Användarvillkor' });
+  screen.getByRole('heading', { name: 'Villkor' });
   expect(history.location.pathname).toBe('/sv/help/support/terms-of-use');
 });
 
@@ -281,6 +281,6 @@ it('should render features help page in Swedish', async () => {
   i18n.changeLanguage('sv');
   const { history } = renderRoute(ROUTES.FEATURES, 'sv');
 
-  screen.getByRole('heading', { name: 'Servicefunktioner' });
+  screen.getByRole('heading', { name: 'Tjänstens egenskaper' });
   expect(history.location.pathname).toBe('/sv/help/features');
 });
