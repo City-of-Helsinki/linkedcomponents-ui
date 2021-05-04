@@ -965,6 +965,15 @@
     "warningNoRightsToUpdate": "You have insufficient rights to edit this image.",
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
+  "keywords": {
+    "admin": "admin",
+    "api": "api",
+    "event": "event",
+    "events": "events",
+    "helsinki": "helsinki",
+    "linked": "linked",
+    "management": "management"
+  },
   "landingPage": {
     "heroTitle": "Events and hobbies in Helsinki",
     "highlight1Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",

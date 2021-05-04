@@ -4,7 +4,7 @@ import { SUPPORTED_LANGUAGES } from '../../../../constants';
 import { actWait, render } from '../../../../utils/testUtils';
 import PageLayout from '../PageLayout';
 
-const getWrapper = () => render(<PageLayout />);
+const renderComponent = () => render(<PageLayout />);
 
 // Rendering PageLayout creates a side effect--the document head will be
 // mutated. This mutation will persist between tests. This can be problematic:
@@ -27,25 +27,35 @@ afterEach(() => {
   document.head.innerHTML = initialHeadInnerHTML || '';
 });
 
-test('alternate language links should be added', async () => {
+test('common meta date should be added', async () => {
   // This function is usually used for the helpers it returns. However, the
   // scope f the helpers is limited to `body`. As we need to assert against
   // the content of the `head`, we have to make queries without helpers. We are
   // using testing library to render for consistency.
-  getWrapper();
+  renderComponent();
 
   await actWait(50);
   const head = document.querySelector('head');
 
+  // Keywords
+  const keywordsMeta = head?.querySelector(`[name="keywords"]`);
+  expect(
+    keywordsMeta.outerHTML.includes(
+      `content="admin, api, tapahtuma, events, helsinki, linked, hallinta"`
+    )
+  ).toBeTruthy();
+
+  // Canonical url
+  const canonicalLink = head?.querySelector(`[rel="canonical"]`);
+  expect(canonicalLink).not.toBeNull();
+
+  // Alternate language links
   const links = head?.querySelectorAll(`[rel="alternate"]`);
+  Object.values(SUPPORTED_LANGUAGES).forEach((lang) => {
+    const link = Array.from(links).find((item) =>
+      item.outerHTML.includes(`hreflang="${lang.toLowerCase()}"`)
+    );
 
-  if (links) {
-    Object.values(SUPPORTED_LANGUAGES).forEach((lang) => {
-      const link = Array.from(links).find((item) =>
-        item.outerHTML.includes(`hreflang="${lang.toLowerCase()}"`)
-      );
-
-      expect(link).toBeDefined();
-    });
-  }
+    expect(link).not.toBeNull();
+  });
 });

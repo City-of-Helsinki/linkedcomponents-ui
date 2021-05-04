@@ -967,6 +967,15 @@
     "warningNoRightsToUpdate": "Sinulla ei ole oikeuksia muokata tätä kuvaa",
     "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia"
   },
+  "keywords": {
+    "admin": "admin",
+    "api": "api",
+    "event": "tapahtuma",
+    "events": "events",
+    "helsinki": "helsinki",
+    "linked": "linked",
+    "management": "hallinta"
+  },
   "landingPage": {
     "heroTitle": "Helsingin tapahtumat ja harrastukset",
     "highlight1Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
