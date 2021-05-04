@@ -1,11 +1,11 @@
 {
   "appName": "Linked Events",
   "authentication": {
-    "errorMessage": "An error occured while logging in. Please try again",
+    "errorMessage": "An error has occurred. Please try again later.",
     "networkError": {
-      "message": "Login error: Check your network connection or try again later"
+      "message": "An error has occurred during login: Please check your internet connection and try again."
     },
-    "noRightsUpdateEvent": "You have insufficient rights to edit events."
+    "noRightsUpdateEvent": "You do not have permission to edit events."
   },
   "common": {
     "add": "Add",
@@ -22,29 +22,29 @@
     "cookieConsent": {
       "buttonAcceptAll": "All",
       "buttonAcceptOnlyNecessary": "Only necessary",
-      "buttonDecline": "Decline",
-      "checkboxAccept": "I have read and accept the <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"terms of service {{openInNewTab}}\">terms of service</a>",
-      "checkboxAcceptAriaLabel": "I have read and accept the terms of service</a>",
+      "buttonDecline": "I do not consent",
+      "checkboxAccept": "I have read and agree to the terms of this service <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"terms of this service {{openInNewTab}}\">terms of this service</a>",
+      "checkboxAcceptAriaLabel": "I have read and agree to the terms of this service",
       "linkDataProtection": "https://www.hel.fi/helsinki/en/administration/information/data-protection",
       "linkPrivacyPolicy": "TODO: ADD LINK",
-      "text1": "By selecting “accept” you agree to the terms of service. Next, you must accept either essential or all cookies.",
+      "text1": "By selecting I agree, I consent to the terms of this service. Next you must either consent to only the necessary, or all cookies. ",
       "text2": "Read more about our <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"privacy policy {{openInNewTab}}\">privacy policy</a> and <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registry description {{openInNewTab}}\">registry description</a>.",
-      "text3": "We use cookies to improve your user experience on the site.",
-      "title": "Linked Events Terms of Use and Cookies"
+      "text3": "We use cookies to improve your experience using the service.",
+      "title": "Linked Events terms and cookies"
     },
     "datepicker": {
       "accessibility": {
         "buttonCalendar": "Calendar",
         "buttonNextMonth": "Next month",
         "buttonPreviousMonth": "Previous month",
-        "selectDate": "Choose {{value}}",
-        "selectTime": "Choose {{value}}",
-        "timeInstructions": "Choose time with arrow keys"
+        "selectDate": "Select {{value}}",
+        "selectTime": "Select the time {{value}}",
+        "timeInstructions": "Select the time with arrow keys"
       },
       "buttonClose": "Close"
     },
     "dateSelector": {
-      "buttonToggle": "Select dates",
+      "buttonToggle": "Choose dates",
       "placeholderEndDate": "Ends dd.mm.yyyy",
       "placeholderStartDate": "Starts dd.mm.yyyy"
     },
@@ -54,10 +54,10 @@
     },
     "dropdownSelect": {
       "accessibility": {
-        "noResults": "No options are available",
+        "noResults": "No options",
         "selectionMessage": "{{value}} has been selected.",
-        "statusMessage": "{{count}} option is available, use up and down arrow keys to navigate. Press Enter key to select.",
-        "statusMessage_plural": "{{count}} options are available, use up and down arrow keys to navigate. Press Enter key to select."
+        "statusMessage": "{{count}} option available, move up or down with arrow keys. Press Enter to make a selection.",
+        "statusMessage_plural": "{{count}} options available, move up or down with arrow keys. Press Enter to make a selection."
       }
     },
     "edit": "Edit",
@@ -67,11 +67,11 @@
       "text": "Give feedback",
       "url": "https://www.hel.fi/helsinki/en/administration/participate/feedback/"
     },
-    "goToHome": "To home page",
+    "goToHome": "To front page",
     "imageUploader": {
-      "buttonDropImage": "Drop an image into the area or add from your computer by clicking",
-      "notAllowedFileFormat": "File format is not allowed",
-      "tooLargeFileSize": "File size is too large. Maximum file size is {{maxSize}} MB"
+      "buttonDropImage": "Drag and drop and image to this area or browse from your hard drive by clicking",
+      "notAllowedFileFormat": "File format is not supported",
+      "tooLargeFileSize": "File size is too large. The maximum file size is {{maxSize}} MB"
     },
     "loading": "Loading...",
     "loadingFinished": "Loading finished",
@@ -80,10 +80,10 @@
     },
     "noResults": "No results",
     "numberInput": {
-      "buttonDecrease": "Descrease",
-      "buttonIncrease": "Increase"
+      "buttonDecrease": "Subtract",
+      "buttonIncrease": "Add"
     },
-    "openInNewTab": "(opens in a new tab)",
+    "openInNewTab": "(will open in a new tab)",
     "pagination": {
       "navigation": "Page navigation",
       "next": "Next page",
@@ -103,7 +103,7 @@
       "add": "Add",
       "cancel": "Cancel",
       "blocktype": {
-        "blocktype": "Block type",
+        "blocktype": "Text type",
         "blockquote": "Blockquote",
         "h1": "H1",
         "h2": "H2",
@@ -125,10 +125,10 @@
       },
       "link": {
         "link": "Link",
-        "linkTarget": "Link Target",
-        "linkTargetOption": "Open link in new window",
-        "linkTitle": "Link Title",
-        "unlink": "Unlink"
+        "linkTarget": "Link target",
+        "linkTargetOption": "Open link in a new window",
+        "linkTitle": "Link title",
+        "unlink": "Remove link"
       },
       "list": {
         "list": "List",
@@ -156,12 +156,12 @@
     }
   },
   "errors": {
-    "authorizationRequired": "Sign in to perform this action",
-    "deleted": "Content is deleted",
-    "forbidden": "You do not have permission to perform this operation.",
-    "notFound": "Not found",
+    "authorizationRequired": "Sign in to use this feature",
+    "deleted": "Content removed",
+    "forbidden": "You do not have permission to use this feature.",
+    "notFound": "Content missing",
     "serverError": "Server error.",
-    "validationError": "There are errors on the form. Please check the form."
+    "validationError": "The form has errors. Please check the form."
   },
   "event": {
     "audienceAge": {
@@ -171,23 +171,23 @@
     },
     "cancelEventModal": {
       "buttonCancel": "Cancel event",
-      "text1": "This action cancels the event. You can also postpone the event, or delete an event that you entered accidentally.",
+      "text1": "This action will cancel the event. You can also postpone the event or delete an event you may have inputted accidentally.",
       "text2": "The following events will be cancelled:",
-      "textPastEventAreNotUpdated": "Please also note that the changes only apply to future events in the series. Past events in the series are not cancelled when cancelling the umbrella event.",
-      "title": "Cancel event",
-      "titlePastEventAreNotUpdated": "Past events in the series will not be cancelled",
-      "warning": "Remember that instead of canceling, you can also host the event remotely online. In this case, use the edit form to select Internet as the venue. You can also postpone the event to the future."
+      "textPastEventAreNotUpdated": "Please note the changes are only applied to future events in the series. Events in the past will not be cancelled when cancelling an umbrella event.",
+      "title": "Confirm event cancellation",
+      "titlePastEventAreNotUpdated": "Past events in series will not be cancelled",
+      "warning": "Instead of cancelling, do note, you can also host the event remotely. Select the option “internet” on the event form. You also have the option to postpone the event."
     },
     "deleteEventModal": {
       "buttonDelete": "Delete event",
-      "text1": "This function permanently deletes the event.",
-      "text2": "If necessary, you can also cancel or postpone the event.",
+      "text1": "This action will permanently remove the event.",
+      "text2": "If necessary, you can cancel or postpone the event.",
       "text3": "The following events will be deleted:",
-      "title": "Delete event"
+      "title": "Confirm event deletion"
     },
     "editEventTimeModal": {
       "buttonSave": "Save changes",
-      "title": "Edit time"
+      "title": "Adjust date"
     },
     "eventStatus": {
       "eventCancelled": "Cancelled",
@@ -196,7 +196,7 @@
       "eventScheduled": "Scheduled"
     },
     "form": {
-      "buttonAcceptAndPublish": "Accept and publish",
+      "buttonAcceptAndPublish": "Confirm and publish",
       "buttonActions": "Actions",
       "buttonAddEventTime": {
         "course": "Add course date",
@@ -218,11 +218,11 @@
       "buttonBack": "Back",
       "buttonCancel": "Cancel event",
       "buttonCopy": "Copy as template",
-      "buttonDelete": "Delete event",
-      "buttonDeleteEventTime": "Delete time",
-      "buttonDeleteOffer": "Delete pricing information",
-      "buttonDeleteRecurringEvent": "Delete recurring event",
-      "buttonDeleteVideo": "Delete video",
+      "buttonDelete": "Remove event",
+      "buttonDeleteEventTime": "Remove time",
+      "buttonDeleteOffer": "Remove pricing information",
+      "buttonDeleteRecurringEvent": "Remove recurring event",
+      "buttonDeleteVideo": "Remove video",
       "buttonEdit": "Edit event",
       "buttonOpenRecurringEventSettings": {
         "course": "Open recurring course settings",
@@ -230,9 +230,9 @@
         "volunteering": "Open recurring volunteering settings"
       },
       "buttonPanel": {
-        "warningNoRightsCreate": "You have insufficient rights to create this event.",
-        "warningNoRightsToPublish": "You have insufficient rights to publish this event.",
-        "warningNotAuthenticated": "You must be logged in to create events."
+        "warningNoRightsCreate": "You do not have permission to create this event.",
+        "warningNoRightsToPublish": "You do not have permission to publish this event.",
+        "warningNotAuthenticated": "If you want to publish this event, you must first log in."
       },
       "buttonPostpone": "Postpone event",
       "buttonPublish": {

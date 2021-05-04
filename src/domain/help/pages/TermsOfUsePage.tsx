@@ -24,7 +24,7 @@ const TermsOfUsePage = () => {
             </p>
             <p>
               By using the interface, the user of the service who added the
-              material agrees to the publication of the Material under a
+              material agrees to the publication of the Material under a{' '}
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.en">
                 Creative Commons BY 4.0 license
               </ExternalLink>

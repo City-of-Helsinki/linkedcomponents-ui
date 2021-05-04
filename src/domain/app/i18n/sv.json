@@ -1,11 +1,11 @@
 {
   "appName": "Linked Events",
   "authentication": {
-    "errorMessage": "Ett fel uppstod. Försök igen",
+    "errorMessage": "Ett fel har uppstått. Vänligen försök igen.",
     "networkError": {
-      "message": "Inloggningsfel: Kontrollera din nätverksanslutning eller försök igen senare"
+      "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
     },
-    "noRightsUpdateEvent": "Du har inte tillräckliga rättigheter för att redigera evenemanget."
+    "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang."
   },
   "common": {
     "add": "Lägg till",
@@ -21,25 +21,25 @@
     },
     "cookieConsent": {
       "buttonAcceptAll": "Alla",
-      "buttonAcceptOnlyNecessary": "Endast nödvändigt",
-      "buttonDecline": "Nedgång",
-      "checkboxAccept": "Jag har läst och godkänt <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"villkoren {{openInNewTab}}\">villkoren</a>",
-      "checkboxAcceptAriaLabel": "Jag har läst och godkänt villkoren",
+      "buttonAcceptOnlyNecessary": "Endast nödvändiga",
+      "buttonDecline": "Jag godkänner inte",
+      "checkboxAccept": "Jag har läst och godkänner tjänstens <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"användarvillkor {{openInNewTab}}\">användarvillkor</a>",
+      "checkboxAcceptAriaLabel": "Jag har läst och godkänner tjänstens användarvillkor",
       "linkDataProtection": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd",
       "linkPrivacyPolicy": "TODO: ADD LINK",
-      "text1": "Genom att välja ”acceptera” godkänner du villkoren. Därefter måste du acceptera antingen väsentliga eller alla kakor.",
-      "text2": "Läs mer om vår <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"integritetspolicy {{openInNewTab}}\">integritetspolicy</a> och <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registerbeskrivning {{openInNewTab}}\">registerbeskrivning</a>.",
-      "text3": "Vi använder cookies för att förbättra din användarupplevelse på webbplatsen.",
-      "title": "Användningsvillkor för Linked Events och kakor"
+      "text1": "Genom att välja “Jag godkänner” går du med på tjänsten användarvillkor. Till följande måste du godkänna antingen den nödvändiga eller alla cookies.",
+      "text2": "Läs mera om vår <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"integritetspolicy {{openInNewTab}}\">integritetspolicy</a> och <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registerbeskrivning {{openInNewTab}}\">registerbeskrivning</a>.",
+      "text3": "Vi använder cookies för att förbättra användarupplevelsen på vår tjänst.",
+      "title": "Linked Events användarvillkor och cookies"
     },
     "datepicker": {
       "accessibility": {
         "buttonCalendar": "Kalendar",
         "buttonNextMonth": "Nästa månad",
-        "buttonPreviousMonth": "Förra månaden",
+        "buttonPreviousMonth": "Föregående månad",
         "selectDate": "Välj {{value}}",
-        "selectTime": "Välj {{value}}",
-        "timeInstructions": "Välj tid med piltangenterna"
+        "selectTime": "Välj klockslag {{value}}",
+        "timeInstructions": "Välj klockslag med piltangenterna"
       },
       "buttonClose": "Stäng"
     },
@@ -54,10 +54,10 @@
     },
     "dropdownSelect": {
       "accessibility": {
-        "noResults": "Inga alternativ är tillgängliga",
-        "selectionMessage": "{{value}} har valts.",
-        "statusMessage": "{{count}} alternativet är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja.",
-        "statusMessage_plural": "{{count}} alternativ är tillgängliga, använd upp- och nedpiltangenterna för att navigera. Tryck på Enter för att välja."
+        "noResults": "Inga alternativ",
+        "selectionMessage": "{{value}} är valt.",
+        "statusMessage": "{{count}} alternativ är valbart, flytta upp eller ner med piltangenterna. Tryck Enter för att göra ett val.",
+        "statusMessage_plural": "{{count}} alternativ är valbart, flytta upp eller ner med piltangenterna. Tryck Enter för att göra ett val."
       }
     },
     "edit": "Redigera",
@@ -67,21 +67,21 @@
       "text": "Ge feedback",
       "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
     },
-    "goToHome": "Till hemsidan",
+    "goToHome": "Till startsidan",
     "imageUploader": {
-      "buttonDropImage": "Släpp en bild i området eller lägg till från din dator genom att klicka",
-      "notAllowedFileFormat": "Filformat är inte tillåtet",
-      "tooLargeFileSize": "Filstorleken är för stor. Maximala filstorleken är {{maxSize}} MB"
+      "buttonDropImage": "Dra bilden hit eller klicka för att lägga till den från hårddisken ",
+      "notAllowedFileFormat": "Filformatet stöds inte",
+      "tooLargeFileSize": "Filstorleken är för stor. Största tillåtna storlek är {{maxSize}} MB"
     },
-    "loading": "Läser in...",
+    "loading": "Laddar...",
     "loadingFinished": "Laddningen är klar",
     "multiSelectDropdown": {
       "searchPlaceholder": "Sök"
     },
     "noResults": "Inga resultat",
     "numberInput": {
-      "buttonDecrease": "Minska",
-      "buttonIncrease": "Öka" 
+      "buttonDecrease": "Ta bort",
+      "buttonIncrease": "Lägg till" 
     },
     "openInNewTab": "(öppnas i en ny flik)",
     "pagination": {
@@ -103,7 +103,7 @@
       "add": "Lägg till",
       "cancel": "Avbryt",
       "blocktype": {
-        "blocktype": "Blocktyp",
+        "blocktype": "Texttyp",
         "blockquote": "Block citat",
         "h1": "H1",
         "h2": "H2",
@@ -111,29 +111,29 @@
         "h4": "H4",
         "h5": "H5",
         "h6": "H6",
-        "normal": "Vanligt"
+        "normal": "Normal"
       },
       "history": {
         "history": "Historia",
-        "redo": "Göra om",
-        "undo": "Ångra"
+        "redo": "Gör om",
+        "undo": "Avbryt"
       },
       "inline": {
-        "bold": "Djärv",
-        "italic": "Kursiv",
-        "underline": "Understrykning"
+        "bold": "Fet stil",
+        "italic": "Kursivt",
+        "underline": "Understreckat"
       },
       "link": {
         "link": "Länk",
-        "linkTarget": "Länkmål",
-        "linkTargetOption": "Öppna länk i nytt fönster",
-        "linkTitle": "Länkens titel",
-        "unlink": "Ta bort länk"
+        "linkTarget": "Länkens mål",
+        "linkTargetOption": "Öppna länken i ett nytt fönster",
+        "linkTitle": "Länkens rubrik",
+        "unlink": "Ta bort länken"
       },
       "list": {
         "list": "Lista",
-        "ordered": "Beställde",
-        "unordered": "Obeställd"
+        "ordered": "Sorterad",
+        "unordered": "Osorterad"
       }
     },
     "timepicker": {
@@ -150,18 +150,18 @@
       "volunteering": "Nytt volontärarbete"
     },
     "title": {
-      "course": "Nytt kurs",
+      "course": "Ny kurs",
       "general": "Nytt evenemang",
       "volunteering": "Nytt volontärarbete"
     }
   },
   "errors": {
-    "authorizationRequired": "Logga in för att utföra den här åtgärden.",
-    "deleted": "Innehållet har tagits bort",
-    "forbidden": "Du har inte behörighet att utföra den här åtgärden.",
-    "notFound": "Hittades inte",
+    "authorizationRequired": "Logga in för att använda den här funktionen",
+    "deleted": "Innehållet raderat",
+    "forbidden": "Du har inte tillstånd att utföra den här funktionen. ",
+    "notFound": "Innehållet hittas inte",
     "serverError": "Serverfel.",
-    "validationError": "Det finns fel på formuläret. Kontrollera formuläret."
+    "validationError": "Formuläret har fel. Vänligen kontrollera. "
   },
   "event": {
     "audienceAge": {
@@ -170,33 +170,33 @@
       "under": "Under {{max}} år"
     },
     "cancelEventModal": {
-      "buttonCancel": "Avbryt evenemanget",
-      "text1": "Denna åtgärd avbryter evenemanget. Du kan också skjuta upp evenemanget eller ta bort en händelse du angav av misstag.",
-      "text2": "Följande evenemangen kommer att avbrytas:",
-      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien avbryts inte när huvudevenemang avbryts.",
-      "title": "Avbryt evenemanget",
-      "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att avbrytas",
-      "warning": "Kom ihåg att istället för att avbryta kan du också vara värd för evenemanget på distans online. I så fall använder du redigeringsformuläret för att välja Internet som plats. Du kan också skjuta upp evenemanget till framtiden."
+      "buttonCancel": "Ställ in evenemang",
+      "text1": "Den här funktionen ställer in  evenemanget. Du kan också skjuta upp det eller radera ett evenemang som du lagt till av misstag. ",
+      "text2": "Följande evenemang kommer att ställas in:",
+      "textPastEventAreNotUpdated": "Notera att ändringarna bara gäller för seriens kommande evenemang. Tidigare evenemang påverkas inte om huvudevenemanget ställs in.",
+      "title": "Bekräfta att evenemanget ställs in",
+      "titlePastEventAreNotUpdated": "Seriens tidigare evenemang ställs inte in",
+      "warning": "Notera att du också kan ordna evenemanget på distans istället för att ställa in. Välj “Internet” som evenamangsplats i redigeringsformuläret. Du kan också skjuta upp evenemanget."
     },
     "deleteEventModal": {
-      "buttonDelete": "Radera evenemang",
-      "text1": "Denna funktion raderar evenemanget permanent.",
-      "text2": "Om det behövs kan du också avbryta eller skjuta upp evenemanget.",
-      "text3": "Följande evenemangen kommer att radera:",
-      "title": "Radera evenemang"
+      "buttonDelete": "Radera evenemanget",
+      "text1": "Den här funktionen raderar bort evenemanget permanent.",
+      "text2": "Vid behov kan du också ställ in eller skjuta upp evenemanget.",
+      "text3": "Följande evenemang kommer att raderas:",
+      "title": "Bekräfta raderingen av evenemanget"
     },
     "editEventTimeModal": {
       "buttonSave": "Spara ändringarna",
-      "title": "Redigera tiden"
+      "title": "Redigera tidpunkten"
     },
     "eventStatus": {
       "eventCancelled": "Inställt",
       "eventPostponed": "Uppskjuten",
-      "eventRescheduled": "Omplanerad",
-      "eventScheduled": "Planerad"
+      "eventRescheduled": "Ombokat",
+      "eventScheduled": "Bokat"
     },
     "form": {
-      "buttonAcceptAndPublish": "Acceptera och publicera",
+      "buttonAcceptAndPublish": "Godkänn och publicera",
       "buttonActions": "Funktioner",
       "buttonAddEventTime": {
         "course": "Lägg till en ny kursstid",
@@ -216,29 +216,29 @@
       },
       "buttonAddVideo": "Lägg till video",
       "buttonBack": "Tillbaka",
-      "buttonCancel": "Avbryt evenemanget",
+      "buttonCancel": "Ställ in evenemang",
       "buttonCopy": "Kopiera som mall",
-      "buttonDelete":  "Ta bort evenemanget",
-      "buttonDeleteEventTime": "Radera tid",
-      "buttonDeleteOffer": "Radera prisinformation",
-      "buttonDeleteRecurringEvent": "Radera återkommande evenemang",
-      "buttonDeleteVideo": "Radera video",
+      "buttonDelete":  "Ta bort evenemang",
+      "buttonDeleteEventTime": "Ta bort tidpunkt",
+      "buttonDeleteOffer": "Ta bort prisuppgift",
+      "buttonDeleteRecurringEvent": "Ta bort återkommande evenemang",
+      "buttonDeleteVideo": "Ta bort video",
       "buttonEdit":  "Redigera evenemanget",
       "buttonOpenRecurringEventSettings": {
-        "course": "Öppna inställningarna för återkommande kurs",
+        "course": "Öppna inställningarna för återkommande kurser",
         "general": "Öppna inställningarna för återkommande evenemang",
-        "volunteering": "Öppna inställningarna för återkommande volontärarbete"
+        "volunteering": "Öppna inställningarna för återkommande volontärarbeten"
       },
       "buttonPanel": {
-        "warningNoRightsCreate": "Du har inte tillräckliga rättigheter för att skapa detta evenemang.",
-        "warningNoRightsToPublish": "Du har inte tillräckliga rättigheter att publicera detta evenemang.",
-        "warningNotAuthenticated": "Du måste vara inloggad för att skapa evenemang."
+        "warningNoRightsCreate": "Du har inte rättigheter att skapa det här evenemanget.",
+        "warningNoRightsToPublish": "Du har inte rättigheter att publicera det här evenemanget.",
+        "warningNotAuthenticated": "Om du vill publicera evenemanget måste du först logga in."
       },
-      "buttonPostpone": "Skjut upp evenemanget",
+      "buttonPostpone": "Skjut upp",
       "buttonPublish": {
-        "course": "Lägg upp kursen",
-        "general": "Lägg upp evenemanget",
-        "volunteering": "Lägg upp volontärarbetet"
+        "course": "Publicera kursen",
+        "general": "Publicera evenemanget",
+        "volunteering": "Publicera volontärarbetet"
       },
       "buttonRemoveImage": {
         "course": "Ta bort kursens bild",

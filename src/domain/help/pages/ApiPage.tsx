@@ -36,7 +36,7 @@ const ApiPage = () => {
             </p>
             <p>
               The API is constantly evolving. If you have any ideas on how to
-              improve the API or would like to comment on how it works,{' '}
+              improve the API or would like to comment on how it works, please{' '}
               <Link to={`/${locale}${ROUTES.SUPPORT_CONTACT}`}>contact us</Link>
               .
             </p>
