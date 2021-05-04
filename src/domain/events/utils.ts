@@ -8,8 +8,13 @@ import { PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import { store } from '../app/store/store';
+import { getEventSearchInitialValues } from '../eventSearch/utils';
 import { setEventListOptions } from './actions';
-import { EVENTS_PAGE_SIZE, EVENTS_PAGE_TABS } from './constants';
+import {
+  EVENT_LIST_INCLUDES,
+  EVENTS_PAGE_SIZE,
+  EVENTS_PAGE_TABS,
+} from './constants';
 
 export const eventsPathBuilder = ({
   args,
@@ -93,15 +98,24 @@ export const clearEventQuery = (
   apolloClient.cache.evict({ id: `Event:${eventId}` });
 };
 
-export const getEventsQueryVariables = (
-  tab: EVENTS_PAGE_TABS,
-  adminOrganizations: string[]
-) => {
+export const getEventsQueryVariables = ({
+  adminOrganizations,
+  search = '',
+  tab,
+}: {
+  adminOrganizations: string[];
+  search?: string;
+  tab: EVENTS_PAGE_TABS;
+}) => {
+  // TODO: Filter also by type when added to LE BE
+  const { text } = getEventSearchInitialValues(search);
+
   const baseVariables = {
-    include: ['in_language', 'location'],
+    createPath: getPathBuilder(eventsPathBuilder),
+    include: EVENT_LIST_INCLUDES,
     pageSize: EVENTS_PAGE_SIZE,
     superEvent: 'none',
-    createPath: getPathBuilder(eventsPathBuilder),
+    text,
   };
 
   switch (tab) {

@@ -2,7 +2,7 @@ import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -26,6 +26,7 @@ import {
 } from './constants';
 import EventList from './eventList/EventList';
 import styles from './events.module.scss';
+import SearchPanel from './searchPanel/SearchPanel';
 import {
   eventListSortSelector,
   eventListTabSelector,
@@ -39,6 +40,7 @@ interface Props {
 
 const EventsPage: React.FC<Props> = ({ user }) => {
   const dispatch = useDispatch();
+  const { search } = useLocation();
   const activeTab = useSelector(eventListTabSelector);
   const listType = useSelector(eventListTypeSelector);
   const sort = useSelector(eventListSortSelector);
@@ -64,24 +66,24 @@ const EventsPage: React.FC<Props> = ({ user }) => {
       EVENTS_PAGE_TABS.WAITING_APPROVAL,
       adminOrganizations
     ),
-    variables: getEventsQueryVariables(
-      EVENTS_PAGE_TABS.WAITING_APPROVAL,
-      adminOrganizations
-    ),
+    variables: getEventsQueryVariables({
+      adminOrganizations,
+      tab: EVENTS_PAGE_TABS.WAITING_APPROVAL,
+    }),
   });
   const { data: publishedEventsData } = useEventsQuery({
     skip: getEventsQuerySkip(EVENTS_PAGE_TABS.PUBLISHED, adminOrganizations),
-    variables: getEventsQueryVariables(
-      EVENTS_PAGE_TABS.PUBLISHED,
-      adminOrganizations
-    ),
+    variables: getEventsQueryVariables({
+      adminOrganizations,
+      tab: EVENTS_PAGE_TABS.PUBLISHED,
+    }),
   });
   const { data: draftEventsData } = useEventsQuery({
     skip: getEventsQuerySkip(EVENTS_PAGE_TABS.DRAFTS, adminOrganizations),
-    variables: getEventsQueryVariables(
-      EVENTS_PAGE_TABS.DRAFTS,
-      adminOrganizations
-    ),
+    variables: getEventsQueryVariables({
+      adminOrganizations,
+      tab: EVENTS_PAGE_TABS.DRAFTS,
+    }),
   });
 
   const tabOptions = [
@@ -118,27 +120,31 @@ const EventsPage: React.FC<Props> = ({ user }) => {
     <PageWrapper backgroundColor="gray" title="eventsPage.pageTitle">
       <MainContent>
         <Container withOffset={true}>
-          <h1>{t('eventsPage.title')}</h1>
-          <div className={styles.navigationRow}>
-            <Button
-              className={styles.addButton}
-              iconLeft={<IconPlus />}
-              onClick={goToCreateEvent}
-              variant="secondary"
-            >
-              {t('common.buttonAddEvent')}
-            </Button>
-            <Tabs
-              className={styles.tabSelector}
-              name="event-list"
-              onChange={handleChangeTab}
-              options={tabOptions}
-              activeTab={activeTab}
-            />
+          <div className={styles.titleRow}>
+            <h1 className={styles.title}>{t('eventsPage.title')}</h1>
+            <div className={styles.addButtonWrapper}>
+              <Button
+                className={styles.addButton}
+                fullWidth={true}
+                iconLeft={<IconPlus />}
+                onClick={goToCreateEvent}
+                variant="secondary"
+              >
+                {t('common.buttonAddEvent')}
+              </Button>
+            </div>
           </div>
+
+          <Tabs
+            className={styles.tabSelector}
+            name="event-list"
+            onChange={handleChangeTab}
+            options={tabOptions}
+            activeTab={activeTab}
+          />
         </Container>
-        {tabOptions.map(({ value }, index) => {
-          const isActive = activeTab === value;
+        {tabOptions.map(({ value: tab }, index) => {
+          const isActive = activeTab === tab;
           return (
             <TabPanel
               key={index}
@@ -146,16 +152,18 @@ const EventsPage: React.FC<Props> = ({ user }) => {
               index={index}
               name="event-list"
             >
+              <SearchPanel />
               <EventList
                 activeTab={activeTab}
-                baseVariables={getEventsQueryVariables(
-                  value,
-                  adminOrganizations
-                )}
+                baseVariables={getEventsQueryVariables({
+                  adminOrganizations,
+                  search,
+                  tab,
+                })}
                 listType={listType}
                 setListType={setListType}
                 setSort={setSort}
-                skip={getEventsQuerySkip(value, adminOrganizations)}
+                skip={getEventsQuerySkip(tab, adminOrganizations)}
                 sort={sort}
               />
             </TabPanel>

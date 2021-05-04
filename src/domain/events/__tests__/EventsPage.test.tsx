@@ -29,6 +29,7 @@ import {
 } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import {
+  EVENT_LIST_INCLUDES,
   EVENT_LIST_TYPES,
   EVENT_SORT_OPTIONS,
   EVENTS_ACTIONS,
@@ -86,9 +87,10 @@ const mockedOrganizationsResponse: MockedResponse = {
 
 const baseEventsVariables = {
   createPath: undefined,
-  include: ['in_language', 'location'],
+  include: EVENT_LIST_INCLUDES,
   pageSize: EVENTS_PAGE_SIZE,
   superEvent: 'none',
+  text: '',
 };
 
 const waitingApprovalEventsCount = 3;
