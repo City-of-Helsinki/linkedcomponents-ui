@@ -3,7 +3,7 @@ import { ButtonVariant, IconArrowLeft, IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -18,6 +18,7 @@ import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
+import { extractLatestReturnPath } from '../../eventSearch/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
 import useEventOrganizationAncestors from '../hooks/useEventOrganizationAncestors';
@@ -48,6 +49,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
+  const { search } = useLocation();
   const locale = useLocale();
   const history = useHistory();
   const isMobile = useIsMobile();
@@ -55,8 +57,15 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const { organizationAncestors } = useEventOrganizationAncestors(event);
   const { user } = useUser();
 
-  const goToEventsPage = () => {
-    history.push(`/${locale}${ROUTES.EVENTS}`);
+  const goBack = () => {
+    const { returnPath, remainingQueryString } = extractLatestReturnPath(
+      search
+    );
+    history.push({
+      pathname: `/${locale}${returnPath}`,
+      search: remainingQueryString,
+      state: { eventId: event.id },
+    });
   };
 
   const copyEvent = async () => {
@@ -154,7 +163,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
               className={classNames(styles.backButton, styles.smallButton)}
               iconLeft={<IconArrowLeft />}
               fullWidth={true}
-              onClick={goToEventsPage}
+              onClick={goBack}
               type="button"
               variant="secondary"
             >

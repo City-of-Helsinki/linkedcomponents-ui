@@ -1,4 +1,4 @@
-import { EVENT_SEARCH_PARAMS } from './constants';
+import { EVENT_RETURN_PATH_PARAM, EVENT_SEARCH_PARAMS } from './constants';
 
 export type EventFilters = {
   [EVENT_SEARCH_PARAMS.END]?: Date | null;
@@ -17,3 +17,14 @@ export type EventSearchInitialValues = {
 };
 
 export type EventFilterType = 'date' | 'place' | 'text' | 'type';
+
+export type EventQueryParams = {
+  [EVENT_RETURN_PATH_PARAM]?: string | string[];
+};
+
+export type EventQueryParam = keyof EventQueryParams;
+
+export type ReturnParams = {
+  [EVENT_RETURN_PATH_PARAM]: string;
+  remainingQueryString?: string;
+};

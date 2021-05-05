@@ -11,7 +11,7 @@ import {
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -20,6 +20,7 @@ import { useTheme } from '../../app/theme/Theme';
 import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
+import { addParamsToEventQueryString } from '../../eventSearch/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import { expandedEventsSelector } from '../selectors';
@@ -44,6 +45,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const locale = useLocale();
+  const { pathname, search } = useLocation();
   const dispatch = useDispatch();
   const expandedEvents = useSelector(expandedEventsSelector);
 
@@ -68,6 +70,12 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
     subEventAtIds,
     superEventType,
   } = getEventFields(event, locale);
+
+  const queryString = addParamsToEventQueryString(search, {
+    returnPath: pathname,
+  });
+  const eventUrlWithReturnPath = `${eventUrl}${queryString}`;
+
   const open = expandedEvents.includes(id);
 
   const inLanguageText = inLanguage.join(', ') || '-';
@@ -96,7 +104,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
       >
         <Link
           className={classNames(styles.eventCard, css(theme.eventCard))}
-          to={eventUrl}
+          to={eventUrlWithReturnPath}
         >
           <div
             data-testid={testIds.image}

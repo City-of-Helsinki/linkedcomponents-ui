@@ -9,6 +9,7 @@ import { EventFieldsFragment } from '../../../generated/graphql';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
 import { getEventFields } from '../../event/utils';
+import { addParamsToEventQueryString } from '../../eventSearch/utils';
 import { EVENT_SORT_OPTIONS } from '../constants';
 import styles from './eventsTable.module.scss';
 import EventTableRow from './EventsTableRow';
@@ -54,7 +55,11 @@ const EventsTable: React.FC<EventsTableProps> = ({
 
   const handleRowClick = (event: EventFieldsFragment) => {
     const { eventUrl } = getEventFields(event, locale);
-    history.push({ pathname: eventUrl, search: location.search });
+    const queryString = addParamsToEventQueryString(location.search, {
+      returnPath: location.pathname,
+    });
+
+    history.push({ pathname: eventUrl, search: queryString });
   };
 
   return (

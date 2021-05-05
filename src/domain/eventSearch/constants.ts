@@ -5,3 +5,5 @@ export enum EVENT_SEARCH_PARAMS {
   TEXT = 'text',
   TYPE = 'type',
 }
+
+export const EVENT_RETURN_PATH_PARAM = 'returnPath';
