@@ -15,6 +15,7 @@ import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { clearEventFormData } from '../event/utils';
+import FilterSummary from '../eventSearch/filterSummary/FilterSummary';
 import NotSigned from '../notSigned/NotSigned';
 import useUser from '../user/hooks/useUser';
 import { getUserFields } from '../user/utils';
@@ -117,7 +118,11 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   };
 
   return (
-    <PageWrapper backgroundColor="gray" title="eventsPage.pageTitle">
+    <PageWrapper
+      backgroundColor="gray"
+      className={styles.eventsPage}
+      title="eventsPage.pageTitle"
+    >
       <MainContent>
         <Container withOffset={true}>
           <div className={styles.titleRow}>
@@ -153,6 +158,10 @@ const EventsPage: React.FC<Props> = ({ user }) => {
               name="event-list"
             >
               <SearchPanel />
+              <Container withOffset={true}>
+                <FilterSummary className={styles.filterSummary} />
+              </Container>
+
               <EventList
                 activeTab={activeTab}
                 baseVariables={getEventsQueryVariables({

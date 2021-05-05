@@ -97,6 +97,7 @@ export type QueryEventsArgs = {
   end?: Maybe<Scalars['String']>;
   endsAfter?: Maybe<Scalars['String']>;
   endsBefore?: Maybe<Scalars['String']>;
+  eventType?: Maybe<Array<Maybe<EventTypeId>>>;
   inLanguage?: Maybe<Scalars['String']>;
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
   isFree?: Maybe<Scalars['Boolean']>;
@@ -798,6 +799,7 @@ export type EventsQueryVariables = Exact<{
   end?: Maybe<Scalars['String']>;
   endsAfter?: Maybe<Scalars['String']>;
   endsBefore?: Maybe<Scalars['String']>;
+  eventType?: Maybe<Array<Maybe<EventTypeId>>>;
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
   inLanguage?: Maybe<Scalars['String']>;
   isFree?: Maybe<Scalars['Boolean']>;
@@ -1633,8 +1635,8 @@ export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
-    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
-  events(adminUser: $adminUser, createdBy: $createdBy, combinedText: $combinedText, division: $division, end: $end, endsAfter: $endsAfter, endsBefore: $endsBefore, include: $include, inLanguage: $inLanguage, isFree: $isFree, keyword: $keyword, keywordAnd: $keywordAnd, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publicationStatus: $publicationStatus, publisher: $publisher, showAll: $showAll, sort: $sort, start: $start, startsAfter: $startsAfter, startsBefore: $startsBefore, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) @rest(type: "EventsResponse", pathBuilder: $createPath) {
+    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $eventType: [EventTypeId], $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
+  events(adminUser: $adminUser, createdBy: $createdBy, combinedText: $combinedText, division: $division, end: $end, endsAfter: $endsAfter, endsBefore: $endsBefore, eventType: $eventType, include: $include, inLanguage: $inLanguage, isFree: $isFree, keyword: $keyword, keywordAnd: $keywordAnd, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publicationStatus: $publicationStatus, publisher: $publisher, showAll: $showAll, sort: $sort, start: $start, startsAfter: $startsAfter, startsBefore: $startsBefore, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) @rest(type: "EventsResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -1665,6 +1667,7 @@ ${EventFieldsFragmentDoc}`;
  *      end: // value for 'end'
  *      endsAfter: // value for 'endsAfter'
  *      endsBefore: // value for 'endsBefore'
+ *      eventType: // value for 'eventType'
  *      include: // value for 'include'
  *      inLanguage: // value for 'inLanguage'
  *      isFree: // value for 'isFree'

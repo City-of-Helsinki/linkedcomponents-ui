@@ -12,7 +12,6 @@
   );
   --event-search-panel-button-border-color: var(--color-white);
   --event-search-panel-button-color: var(--color-white);
-  --event-search-panel-button-focus-outline-color: var(--color-white);
 
   .inputRow {
     display: grid;
@@ -51,6 +50,6 @@
     --color-hover: var(--event-search-panel-button-color);
     --color-focus: var(--event-search-panel-button-color);
     --color-hover-focus: var(--event-search-panel-button-color);
-    --focus-outline-color: var(--event-search-panel-button-focus-outline-color);
+    --focus-outline-color: var(--color-coat-of-arms);
   }
 }

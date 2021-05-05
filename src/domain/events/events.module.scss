@@ -1,6 +1,16 @@
 @import 'breakpoints';
 @import 'widths';
 
+.eventsPage {
+  .filterSummary {
+    --filter-summary-color: var(--color-black);
+
+    div {
+      --tag-background: var(--color-white);
+    }
+  }
+}
+
 .titleRow {
   display: grid;
   grid-gap: var(--spacing-m);

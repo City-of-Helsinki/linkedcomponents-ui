@@ -9,6 +9,7 @@ export const QUERY_EVENTS = gql`
     $end: String
     $endsAfter: String
     $endsBefore: String
+    $eventType: [EventTypeId]
     $include: [String]
     $inLanguage: String
     $isFree: Boolean
@@ -40,6 +41,7 @@ export const QUERY_EVENTS = gql`
       end: $end
       endsAfter: $endsAfter
       endsBefore: $endsBefore
+      eventType: $eventType
       include: $include
       inLanguage: $inLanguage
       isFree: $isFree

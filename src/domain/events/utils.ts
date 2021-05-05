@@ -1,13 +1,16 @@
 import { ApolloClient } from '@apollo/client';
+import capitalize from 'lodash/capitalize';
 
 import {
   EventsQueryVariables,
+  EventTypeId,
   PublicationStatus,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import { store } from '../app/store/store';
+import { EVENT_TYPE } from '../event/constants';
 import { getEventSearchInitialValues } from '../eventSearch/utils';
 import { setEventListOptions } from './actions';
 import {
@@ -27,6 +30,7 @@ export const eventsPathBuilder = ({
     end,
     endsAfter,
     endsBefore,
+    eventType,
     inLanguage,
     include,
     isFree,
@@ -58,6 +62,16 @@ export const eventsPathBuilder = ({
     { key: 'end', value: end },
     { key: 'ends_after', value: endsAfter },
     { key: 'ends_before', value: endsBefore },
+    {
+      key: 'event_type',
+      value: eventType
+        ?.filter((type) =>
+          (Object.values(EVENT_TYPE) as string[]).includes(
+            (type as string).toLowerCase()
+          )
+        )
+        .map((type) => capitalize(type as string)),
+    },
     { key: 'include', value: include },
     { key: 'in_language', value: inLanguage },
     { key: 'is_free', value: isFree },
@@ -107,11 +121,11 @@ export const getEventsQueryVariables = ({
   search?: string;
   tab: EVENTS_PAGE_TABS;
 }) => {
-  // TODO: Filter also by type when added to LE BE
-  const { text } = getEventSearchInitialValues(search);
+  const { text, types } = getEventSearchInitialValues(search);
 
   const baseVariables = {
     createPath: getPathBuilder(eventsPathBuilder),
+    eventType: types as EventTypeId[],
     include: EVENT_LIST_INCLUDES,
     pageSize: EVENTS_PAGE_SIZE,
     superEvent: 'none',

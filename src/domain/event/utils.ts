@@ -656,14 +656,6 @@ const languageWeight = (lang: string): number => {
 export const sortLanguage = (a: LELanguage, b: LELanguage) =>
   languageWeight(a.id as string) - languageWeight(b.id as string);
 
-export const getEmptyEventTime = (): EventTime => {
-  return {
-    [EVENT_TIME_FIELDS.ID]: null,
-    [EVENT_TIME_FIELDS.END_TIME]: null,
-    [EVENT_TIME_FIELDS.START_TIME]: null,
-  };
-};
-
 export const getEmptyOffer = (): Offer => {
   return {
     [EVENT_FIELDS.OFFER_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },

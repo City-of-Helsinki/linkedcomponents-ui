@@ -70,14 +70,14 @@ test('should render and remove date filter', async () => {
 });
 
 test('should render and remove type filter', async () => {
-  const { history } = renderComponent(`/fi${ROUTES.SEARCH}?type=${type}`);
+  const { history } = renderComponent(`/fi${ROUTES.EVENTS}?type=${type}`);
 
   const deleteFilterButton = screen.getByRole('button', {
     name: `Poista suodatusehto: Tapahtuma`,
   });
   userEvent.click(deleteFilterButton);
 
-  expect(history.location.pathname).toBe('/fi/search');
+  expect(history.location.pathname).toBe('/fi/events');
   expect(history.location.search).toBe('');
 });
 

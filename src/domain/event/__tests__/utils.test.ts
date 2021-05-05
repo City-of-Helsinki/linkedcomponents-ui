@@ -147,7 +147,7 @@ describe('sortWeekDays function', () => {
     expect(
       [
         WEEK_DAY.SUN,
-        WEEK_DAY.SUN,
+        WEEK_DAY.SAT,
         WEEK_DAY.FRI,
         WEEK_DAY.THU,
         WEEK_DAY.WED,
@@ -160,7 +160,7 @@ describe('sortWeekDays function', () => {
       WEEK_DAY.WED,
       WEEK_DAY.THU,
       WEEK_DAY.FRI,
-      WEEK_DAY.SUN,
+      WEEK_DAY.SAT,
       WEEK_DAY.SUN,
     ]);
   });
@@ -987,6 +987,7 @@ describe('getEventInitialValues function', () => {
       location,
       name,
       offers,
+      publisher,
       superEvent,
       type,
       twitterUrl,
@@ -1009,10 +1010,11 @@ describe('getEventInitialValues function', () => {
           zhHans: null,
         },
         offers: null,
+        publisher: null,
         startTime: null,
         superEvent: null,
         typeId: null,
-        videos: [{}],
+        videos: [],
       })
     );
 
@@ -1025,6 +1027,7 @@ describe('getEventInitialValues function', () => {
     expect(location).toEqual('');
     expect(name).toEqual(expectedName);
     expect(offers).toEqual([]);
+    expect(publisher).toEqual('');
     expect(superEvent).toEqual(superEvent);
     expect(type).toEqual(EVENT_TYPE.General);
     expect(twitterUrl).toEqual('');

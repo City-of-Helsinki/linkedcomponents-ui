@@ -14,6 +14,7 @@ const searchText = 'search';
 const eventsVariables = {
   createPath: undefined,
   end: null,
+  eventType: [],
   include: EVENT_LIST_INCLUDES,
   pageSize: EVENTS_PAGE_SIZE,
   location: [],

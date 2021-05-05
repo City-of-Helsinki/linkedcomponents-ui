@@ -87,6 +87,7 @@ const mockedOrganizationsResponse: MockedResponse = {
 
 const baseEventsVariables = {
   createPath: undefined,
+  eventType: [],
   include: EVENT_LIST_INCLUDES,
   pageSize: EVENTS_PAGE_SIZE,
   superEvent: 'none',

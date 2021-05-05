@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { css } from 'emotion';
 import { IconHeart, IconSearch } from 'hds-react';
 import React from 'react';
@@ -63,10 +62,8 @@ const SearchPanel: React.FC = () => {
   }, [location.search]);
 
   return (
-    <div
-      className={classNames(styles.searchPanel, css(theme.eventSearchPanel))}
-    >
-      <Container withOffset={true}>
+    <div className={styles.searchPanel}>
+      <Container className={css(theme.eventSearchPanel)} withOffset={true}>
         <div className={styles.inputRow}>
           <div className={styles.typeSelectorWrapper}>
             <MultiSelectDropdown
