@@ -12,6 +12,7 @@ import {
 } from '../../../../utils/testUtils';
 import {
   DEFAULT_EVENT_SORT,
+  EVENT_LIST_INCLUDES,
   EVENT_LIST_TYPES,
   EVENT_SORT_OPTIONS,
   EVENTS_PAGE_SIZE,
@@ -22,9 +23,17 @@ import EventList, { EventListProps } from '../EventList';
 configure({ defaultHidden: true });
 
 const variables = {
+  createPath: undefined,
   page: 1,
   pageSize: EVENTS_PAGE_SIZE,
   sort: DEFAULT_EVENT_SORT,
+  end: null,
+  eventType: [],
+  include: EVENT_LIST_INCLUDES,
+  location: [],
+  start: null,
+  suprtEvent: 'null',
+  text: '',
 };
 
 const eventNames = range(1, EVENTS_PAGE_SIZE + 1).map((n) => `Event name ${n}`);
@@ -35,76 +44,72 @@ const events = fakeEvents(
     publisher: null,
   }))
 );
-
-const eventNamesPage2 = range(1, EVENTS_PAGE_SIZE + 1).map(
-  (n) => `Page 2 event ${n}`
-);
-const eventsPage2 = fakeEvents(
-  EVENTS_PAGE_SIZE,
-  eventNamesPage2.map((name) => ({
-    name: { fi: name },
-    publisher: null,
-  }))
-);
-
-const eventNamesSorted = range(1, EVENTS_PAGE_SIZE + 1).map(
-  (n) => `Sorted event ${n}`
-);
-const eventsSorted = fakeEvents(
-  EVENTS_PAGE_SIZE,
-  eventNamesSorted.map((name) => ({
-    name: { fi: name },
-    publisher: null,
-  }))
-);
-
 const count = 30;
 const meta: Meta = {
   ...events.meta,
   count,
 };
 const eventsResponse = { data: { events: { ...events, meta } } };
-const eventsResponsePage2 = { data: { events: { ...eventsPage2, meta } } };
-const eventsResponseSorted = { data: { events: { ...eventsSorted, meta } } };
+const mockedEventsResponse = {
+  request: {
+    query: EventsDocument,
+    variables,
+  },
+  result: eventsResponse,
+};
+
+const page2EventNames = range(1, EVENTS_PAGE_SIZE + 1).map(
+  (n) => `Page 2 event ${n}`
+);
+const page2Events = fakeEvents(
+  EVENTS_PAGE_SIZE,
+  page2EventNames.map((name) => ({
+    name: { fi: name },
+    publisher: null,
+  }))
+);
+const page2EventsResponse = { data: { events: { ...page2Events, meta } } };
+const page2EventsVariables = { ...variables, page: 2 };
+const mockedPage2EventsResponse = {
+  request: {
+    query: EventsDocument,
+    variables: page2EventsVariables,
+  },
+  result: page2EventsResponse,
+};
+
+const sortedEventNames = range(1, EVENTS_PAGE_SIZE + 1).map(
+  (n) => `Sorted event ${n}`
+);
+const sortedEvents = fakeEvents(
+  EVENTS_PAGE_SIZE,
+  sortedEventNames.map((name) => ({
+    name: { fi: name },
+    publisher: null,
+  }))
+);
+const sortedEventsResponse = { data: { events: { ...sortedEvents, meta } } };
+const sortedEventsVariables = { ...variables, sort: EVENT_SORT_OPTIONS.NAME };
+const mockedSortedEventsResponse = {
+  request: {
+    query: EventsDocument,
+    variables: sortedEventsVariables,
+  },
+  result: sortedEventsResponse,
+};
 
 const mocks = [
-  {
-    request: {
-      query: EventsDocument,
-      variables,
-    },
-    result: eventsResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: {
-        ...variables,
-        page: 2,
-      },
-    },
-    result: eventsResponsePage2,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: {
-        ...variables,
-        sort: EVENT_SORT_OPTIONS.NAME,
-      },
-    },
-    result: eventsResponseSorted,
-  },
+  mockedEventsResponse,
+  mockedPage2EventsResponse,
+  mockedSortedEventsResponse,
 ];
 
 const defaultProps: EventListProps = {
   activeTab: EVENTS_PAGE_TABS.PUBLISHED,
   baseVariables: variables,
   listType: EVENT_LIST_TYPES.TABLE,
-  setSort: jest.fn(),
   setListType: jest.fn(),
   skip: false,
-  sort: DEFAULT_EVENT_SORT,
 };
 
 const getElement = (
@@ -143,26 +148,16 @@ test('should render events of page 2', async () => {
   const page2Button = getElement('page2');
   userEvent.click(page2Button);
 
+  await loadingSpinnerIsNotInDocument();
   // Page 2 event should be visible. Test only first 2 to improve performance
-  await screen.findByRole(
-    'button',
-    { name: eventNamesPage2[0] },
-    {
-      timeout: 5000,
-    }
-  );
-  screen.getByRole('button', { name: eventNamesPage2[1] });
+  screen.getByRole('button', { name: page2EventNames[0] });
+  screen.getByRole('button', { name: page2EventNames[1] });
 });
 
 test('should change sort order', async () => {
-  const setSort = jest.fn();
-  renderComponent({
-    listType: EVENT_LIST_TYPES.CARD_LIST,
-    setSort,
-  });
+  renderComponent({ listType: EVENT_LIST_TYPES.CARD_LIST });
 
   await loadingSpinnerIsNotInDocument();
-  getElement('pagination');
 
   // Page 1 events should be visible. Test only first 2 to improve performance
   screen.getByRole('heading', { name: eventNames[0] });
@@ -174,9 +169,8 @@ test('should change sort order', async () => {
   const sortOptionName = getElement('sortOptionName');
   userEvent.click(sortOptionName);
 
-  expect(setSort).toBeCalledWith(EVENT_SORT_OPTIONS.NAME);
-
+  await loadingSpinnerIsNotInDocument();
   // Sorted events should be visible. Test only first 2 to improve performance
-  await screen.findByRole('heading', { name: eventNamesSorted[0] });
-  screen.getByRole('heading', { name: eventNamesSorted[1] });
+  screen.getByRole('heading', { name: sortedEventNames[0] });
+  screen.getByRole('heading', { name: sortedEventNames[1] });
 });

@@ -129,6 +129,7 @@ const ApiPage = () => {
         );
     }
   };
+
   return (
     <PageWrapper title="helpPage.pageTitleApi">
       {getContent(locale)}

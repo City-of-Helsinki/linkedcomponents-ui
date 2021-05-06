@@ -44,9 +44,9 @@ const LoadingSpinner: React.FC<Props> = ({
               },
               css(theme.loadingSpinner)
             )}
-            loadingText={loadingText || t('common.loadingText')}
+            loadingText={loadingText || t('common.loading')}
             loadingFinishedText={
-              loadingFinishedText || t('common.loadingFinishedText')
+              loadingFinishedText || t('common.loadingFinished')
             }
           />
         </div>

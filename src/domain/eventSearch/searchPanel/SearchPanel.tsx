@@ -13,6 +13,7 @@ import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import Container from '../../app/layout/Container';
 import { useTheme } from '../../app/theme/Theme';
+import { EVENT_TYPE } from '../../event/constants';
 import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
 import {
   getEventSearchInitialValues,
@@ -30,7 +31,7 @@ type SearchState = {
   place: string[];
   start: Date | null;
   text: string;
-  type: string[];
+  type: EVENT_TYPE[];
 };
 
 const SearchPanel: React.FC = () => {
@@ -59,7 +60,7 @@ const SearchPanel: React.FC = () => {
   const handleSearch = () => {
     history.push({
       pathname: `/${locale}${ROUTES.SEARCH}`,
-      search: getEventSearchQuery(searchState),
+      search: getEventSearchQuery(searchState, location.search),
     });
   };
 
@@ -68,7 +69,9 @@ const SearchPanel: React.FC = () => {
   };
 
   const handleChangeEventTypes = (newTypes: OptionType[]) => {
-    setSearchState({ type: newTypes.map((type) => type.value) });
+    setSearchState({
+      type: newTypes.map((type) => type.value) as EVENT_TYPE[],
+    });
   };
 
   const handleChangeText = (text: string) => {

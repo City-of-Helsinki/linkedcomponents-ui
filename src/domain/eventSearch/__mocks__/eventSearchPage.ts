@@ -16,6 +16,7 @@ const eventsVariables = {
   end: null,
   eventType: [],
   include: EVENT_LIST_INCLUDES,
+  page: 1,
   pageSize: EVENTS_PAGE_SIZE,
   location: [],
   start: null,

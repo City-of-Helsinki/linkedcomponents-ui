@@ -1,7 +1,9 @@
 import camelCase from 'lodash/camelCase';
+import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
+import { scroller } from 'react-scroll';
 
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -15,8 +17,13 @@ import {
 import { OptionType } from '../../../types';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import Container from '../../app/layout/Container';
-import { setEventListOptions } from '../actions';
 import {
+  getEventSearchInitialValues,
+  getEventsQueryVariables,
+  replaceParamsToEventQueryString,
+} from '../../eventSearch/utils';
+import {
+  DEFAULT_EVENT_SORT,
   EVENT_LIST_TYPES,
   EVENT_SORT_OPTIONS,
   EVENTS_PAGE_SIZE,
@@ -26,7 +33,6 @@ import EventCard from '../eventCard/EventCard';
 import EventsTable from '../eventsTable/EventsTable';
 import useEventListTypeOptions from '../hooks/useEventListTypeOptions';
 import useEventSortOptions from '../hooks/useEventSortOptions';
-import { eventListPageSelector } from '../selectors';
 import styles from './eventList.module.scss';
 import ListTypeSelector from './ListTypeSelector';
 
@@ -35,9 +41,7 @@ export interface EventListProps {
   baseVariables: EventsQueryVariables;
   listType: EVENT_LIST_TYPES;
   setListType: (type: EVENT_LIST_TYPES) => void;
-  setSort: (sort: EVENT_SORT_OPTIONS) => void;
   skip?: boolean;
-  sort: EVENT_SORT_OPTIONS;
 }
 
 const getPageCount = (count: number, pageSize: number) => {
@@ -49,33 +53,34 @@ const EventList: React.FC<EventListProps> = ({
   baseVariables,
   listType,
   setListType,
-  setSort,
   skip,
-  sort,
 }) => {
+  const eventListId = uniqueId('event-list-');
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { pageSize = EVENTS_PAGE_SIZE } = baseVariables;
-  const selectedPage = useSelector(eventListPageSelector);
-
-  const setSelectedPage = (page: number) => {
-    dispatch(setEventListOptions({ page }));
-  };
+  const history = useHistory();
+  const { pathname, search } = useLocation();
+  const { page, sort } = getEventSearchInitialValues(search);
 
   const listTypeOptions = useEventListTypeOptions();
   const sortOptions = useEventSortOptions();
-  const variables = { ...baseVariables, pageSize };
+  const variables = { ...baseVariables, ...getEventsQueryVariables(search) };
 
-  const { data: eventsData, loading, refetch } = useEventsQuery({
+  const { data: eventsData, loading } = useEventsQuery({
     skip,
     variables,
   });
 
-  const events = (eventsData?.events.data as EventFieldsFragment[]) || [];
+  const events = (eventsData?.events?.data as EventFieldsFragment[]) || [];
 
   const handleSelectedPageChange = (page: number) => {
-    setSelectedPage(page);
-    refetch({ ...variables, ...{ page: page > 1 ? page : undefined }, sort });
+    history.push({
+      pathname,
+      search: replaceParamsToEventQueryString(search, {
+        page: page > 1 ? page : null,
+      }),
+    });
+    // Scroll to the beginning of event list
+    scroller.scrollTo(eventListId, { offset: -100 });
   };
 
   const handleSortSelectorChange = (sortOption: OptionType) => {
@@ -83,12 +88,16 @@ const EventList: React.FC<EventListProps> = ({
   };
 
   const handleSortChange = (val: EVENT_SORT_OPTIONS) => {
-    setSort(val);
-    refetch({ ...variables, sort: val });
+    history.push({
+      pathname,
+      search: replaceParamsToEventQueryString(search, {
+        sort: val !== DEFAULT_EVENT_SORT ? val : null,
+      }),
+    });
   };
 
-  const eventsCount = eventsData?.events.meta.count || 0;
-  const pageCount = getPageCount(eventsCount, pageSize || EVENTS_PAGE_SIZE);
+  const eventsCount = eventsData?.events?.meta.count || 0;
+  const pageCount = getPageCount(eventsCount, EVENTS_PAGE_SIZE);
 
   const getTableCaption = () => {
     return t(`eventsPage.eventsTableCaption.${camelCase(activeTab)}`, {
@@ -97,7 +106,7 @@ const EventList: React.FC<EventListProps> = ({
   };
 
   return (
-    <div className={styles.eventList}>
+    <div id={eventListId} className={styles.eventList}>
       <Container withOffset={true}>
         <div className={styles.listTypeRow}>
           <div className={styles.listTypeSelectorColumn}>
@@ -136,7 +145,7 @@ const EventList: React.FC<EventListProps> = ({
                   caption={getTableCaption()}
                   events={events}
                   setSort={handleSortChange}
-                  sort={sort}
+                  sort={sort as EVENT_SORT_OPTIONS}
                 />
               </div>
             )}
@@ -150,7 +159,7 @@ const EventList: React.FC<EventListProps> = ({
             {pageCount > 1 && (
               <Pagination
                 pageCount={pageCount}
-                selectedPage={selectedPage}
+                selectedPage={page}
                 setSelectedPage={handleSelectedPageChange}
               />
             )}

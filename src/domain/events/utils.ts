@@ -3,16 +3,12 @@ import capitalize from 'lodash/capitalize';
 
 import {
   EventsQueryVariables,
-  EventTypeId,
   PublicationStatus,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
-import { store } from '../app/store/store';
 import { EVENT_TYPE } from '../event/constants';
-import { getEventSearchInitialValues } from '../eventSearch/utils';
-import { setEventListOptions } from './actions';
 import {
   EVENT_LIST_INCLUDES,
   EVENTS_PAGE_SIZE,
@@ -112,24 +108,18 @@ export const clearEventQuery = (
   apolloClient.cache.evict({ id: `Event:${eventId}` });
 };
 
-export const getEventsQueryVariables = ({
+export const getEventsQueryBaseVariables = ({
   adminOrganizations,
-  search = '',
   tab,
 }: {
   adminOrganizations: string[];
-  search?: string;
   tab: EVENTS_PAGE_TABS;
-}) => {
-  const { text, types } = getEventSearchInitialValues(search);
-
+}): EventsQueryVariables => {
   const baseVariables = {
     createPath: getPathBuilder(eventsPathBuilder),
-    eventType: types as EventTypeId[],
     include: EVENT_LIST_INCLUDES,
     pageSize: EVENTS_PAGE_SIZE,
     superEvent: 'none',
-    text,
   };
 
   switch (tab) {
@@ -168,8 +158,4 @@ export const getEventsQuerySkip = (
     case EVENTS_PAGE_TABS.WAITING_APPROVAL:
       return !adminOrganizations.length;
   }
-};
-
-export const resetEventListPage = () => {
-  store.dispatch(setEventListOptions({ page: 1 }));
 };

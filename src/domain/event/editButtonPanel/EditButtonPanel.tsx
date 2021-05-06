@@ -61,6 +61,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
       search
     );
+
     history.push({
       pathname: `/${locale}${returnPath}`,
       search: remainingQueryString,

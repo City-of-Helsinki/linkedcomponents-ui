@@ -4,7 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
 
 import { EventFilterType } from '../types';
-import { getEventSearchInitialValues, getEventSearchQuery } from '../utils';
+import {
+  getEventSearchInitialValues,
+  replaceParamsToEventQueryString,
+} from '../utils';
 import DateFilterTag from './DateFilterTag';
 import EventTypeFilterTag from './EventTypeFilterTag';
 import styles from './filterSummary.module.scss';
@@ -24,7 +27,16 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
   );
 
   const clearFilters = () => {
-    history.push(pathname);
+    history.push({
+      pathname,
+      search: replaceParamsToEventQueryString(search, {
+        end: null,
+        place: [],
+        start: null,
+        text: '',
+        type: [],
+      }),
+    });
   };
 
   const removeFilter = ({
@@ -34,7 +46,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     value: string;
     type: EventFilterType;
   }) => {
-    const search = getEventSearchQuery({
+    const newSearch = replaceParamsToEventQueryString(search, {
       end: type === 'date' ? null : end,
       place:
         type === 'place' ? places.filter((item) => item !== value) : places,
@@ -43,7 +55,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
       type: type === 'type' ? types.filter((item) => item !== value) : types,
     });
 
-    history.push({ pathname, search });
+    history.push({ pathname, search: newSearch });
   };
 
   const hasFilters = Boolean(

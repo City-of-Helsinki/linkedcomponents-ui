@@ -4,7 +4,14 @@ import isNil from 'lodash/isNil';
 import isNumber from 'lodash/isNumber';
 
 export const getSearchQuery = (filters: {
-  [key: string]: undefined | boolean | number | number[] | string | string[];
+  [key: string]:
+    | null
+    | undefined
+    | boolean
+    | number
+    | number[]
+    | string
+    | string[];
 }) => {
   const urlParams = new URLSearchParams();
 

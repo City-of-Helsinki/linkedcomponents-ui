@@ -16,24 +16,16 @@ import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { clearEventFormData } from '../event/utils';
 import FilterSummary from '../eventSearch/filterSummary/FilterSummary';
+import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotSigned from '../notSigned/NotSigned';
 import useUser from '../user/hooks/useUser';
-import { getUserFields } from '../user/utils';
 import { setEventListOptions } from './actions';
-import {
-  EVENT_LIST_TYPES,
-  EVENT_SORT_OPTIONS,
-  EVENTS_PAGE_TABS,
-} from './constants';
+import { EVENT_LIST_TYPES, EVENTS_PAGE_TABS } from './constants';
 import EventList from './eventList/EventList';
 import styles from './events.module.scss';
+import useEventsQueryVariables from './hooks/useEventsQueryVariables';
 import SearchPanel from './searchPanel/SearchPanel';
-import {
-  eventListSortSelector,
-  eventListTabSelector,
-  eventListTypeSelector,
-} from './selectors';
-import { getEventsQuerySkip, getEventsQueryVariables } from './utils';
+import { eventListTabSelector, eventListTypeSelector } from './selectors';
 
 interface Props {
   user: UserFieldsFragment;
@@ -41,10 +33,8 @@ interface Props {
 
 const EventsPage: React.FC<Props> = ({ user }) => {
   const dispatch = useDispatch();
-  const { search } = useLocation();
   const activeTab = useSelector(eventListTabSelector);
   const listType = useSelector(eventListTypeSelector);
-  const sort = useSelector(eventListSortSelector);
 
   const setActiveTab = async (selectedTab: EVENTS_PAGE_TABS) => {
     dispatch(setEventListOptions({ tab: selectedTab }));
@@ -54,55 +44,54 @@ const EventsPage: React.FC<Props> = ({ user }) => {
     dispatch(setEventListOptions({ listType: selectedListType }));
   };
 
-  const setSort = (selectedSort: EVENT_SORT_OPTIONS) => {
-    dispatch(setEventListOptions({ sort: selectedSort }));
-  };
-
   const locale = useLocale();
   const history = useHistory();
+  const location = useLocation();
   const { t } = useTranslation();
-  const { adminOrganizations } = getUserFields(user);
+
+  const {
+    skip: waitingApprovalSkip,
+    variables: waitingApprovalVariables,
+  } = useEventsQueryVariables(EVENTS_PAGE_TABS.WAITING_APPROVAL, user);
   const { data: waitingApprovalEventsData } = useEventsQuery({
-    skip: getEventsQuerySkip(
-      EVENTS_PAGE_TABS.WAITING_APPROVAL,
-      adminOrganizations
-    ),
-    variables: getEventsQueryVariables({
-      adminOrganizations,
-      tab: EVENTS_PAGE_TABS.WAITING_APPROVAL,
-    }),
+    skip: waitingApprovalSkip,
+    variables: waitingApprovalVariables,
   });
+
+  const {
+    skip: publishedSkip,
+    variables: publishedVariables,
+  } = useEventsQueryVariables(EVENTS_PAGE_TABS.PUBLISHED, user);
   const { data: publishedEventsData } = useEventsQuery({
-    skip: getEventsQuerySkip(EVENTS_PAGE_TABS.PUBLISHED, adminOrganizations),
-    variables: getEventsQueryVariables({
-      adminOrganizations,
-      tab: EVENTS_PAGE_TABS.PUBLISHED,
-    }),
+    skip: publishedSkip,
+    variables: publishedVariables,
   });
+
+  const {
+    skip: draftsSkip,
+    variables: draftsVariables,
+  } = useEventsQueryVariables(EVENTS_PAGE_TABS.DRAFTS, user);
   const { data: draftEventsData } = useEventsQuery({
-    skip: getEventsQuerySkip(EVENTS_PAGE_TABS.DRAFTS, adminOrganizations),
-    variables: getEventsQueryVariables({
-      adminOrganizations,
-      tab: EVENTS_PAGE_TABS.DRAFTS,
-    }),
+    skip: draftsSkip,
+    variables: draftsVariables,
   });
 
   const tabOptions = [
     {
       label: t('eventsPage.tabs.waitingApproval', {
-        count: waitingApprovalEventsData?.events.meta.count || 0,
+        count: waitingApprovalEventsData?.events?.meta.count || 0,
       }),
       value: EVENTS_PAGE_TABS.WAITING_APPROVAL,
     },
     {
       label: t('eventsPage.tabs.published', {
-        count: publishedEventsData?.events.meta.count || 0,
+        count: publishedEventsData?.events?.meta.count || 0,
       }),
       value: EVENTS_PAGE_TABS.PUBLISHED,
     },
     {
       label: t('eventsPage.tabs.drafts', {
-        count: draftEventsData?.events.meta.count || 0,
+        count: draftEventsData?.events?.meta.count || 0,
       }),
       value: EVENTS_PAGE_TABS.DRAFTS,
     },
@@ -115,6 +104,10 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 
   const handleChangeTab = (newTab: string) => {
     setActiveTab(newTab as EVENTS_PAGE_TABS);
+    history.push({
+      pathname: location.pathname,
+      search: replaceParamsToEventQueryString(location.search, { page: null }),
+    });
   };
 
   return (
@@ -149,7 +142,19 @@ const EventsPage: React.FC<Props> = ({ user }) => {
           />
         </Container>
         {tabOptions.map(({ value: tab }, index) => {
+          const skip = {
+            [EVENTS_PAGE_TABS.DRAFTS]: draftsSkip,
+            [EVENTS_PAGE_TABS.PUBLISHED]: publishedSkip,
+            [EVENTS_PAGE_TABS.WAITING_APPROVAL]: waitingApprovalSkip,
+          };
+          const variables = {
+            [EVENTS_PAGE_TABS.DRAFTS]: draftsVariables,
+            [EVENTS_PAGE_TABS.PUBLISHED]: publishedVariables,
+            [EVENTS_PAGE_TABS.WAITING_APPROVAL]: waitingApprovalVariables,
+          };
+
           const isActive = activeTab === tab;
+
           return (
             <TabPanel
               key={index}
@@ -164,16 +169,10 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 
               <EventList
                 activeTab={activeTab}
-                baseVariables={getEventsQueryVariables({
-                  adminOrganizations,
-                  search,
-                  tab,
-                })}
+                baseVariables={variables[tab]}
                 listType={listType}
                 setListType={setListType}
-                setSort={setSort}
-                skip={getEventsQuerySkip(tab, adminOrganizations)}
-                sort={sort}
+                skip={skip[tab]}
               />
             </TabPanel>
           );

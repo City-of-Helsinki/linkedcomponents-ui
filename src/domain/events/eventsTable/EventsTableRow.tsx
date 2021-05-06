@@ -63,17 +63,17 @@ const EventTableRow: React.FC<Props> = ({
   };
 
   const handleRowClick = (ev: React.MouseEvent) => {
+    /* istanbul ignore else */
     if (
-      !(
-        ev.target instanceof Node &&
-        actionsDropdownRef.current?.contains(ev.target)
-      )
+      ev.target instanceof Node &&
+      !actionsDropdownRef.current?.contains(ev.target)
     ) {
       onRowClick(event);
     }
   };
 
   const handleKeyDown = (ev: React.KeyboardEvent) => {
+    /* istanbul ignore else */
     if (ev.key === 'Enter' && ev.target === rowRef.current) {
       onRowClick(event);
     }

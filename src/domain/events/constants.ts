@@ -43,8 +43,6 @@ export const DEFAULT_EVENT_TAB = EVENTS_PAGE_TABS.WAITING_APPROVAL;
 
 export const defaultListOptionsState: EventListOptionsState = {
   listType: DEFAULT_EVENT_LIST_TYPE,
-  page: 1,
-  sort: DEFAULT_EVENT_SORT,
   tab: DEFAULT_EVENT_TAB,
 };
 

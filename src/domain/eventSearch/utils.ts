@@ -1,4 +1,5 @@
 import isValid from 'date-fns/isValid';
+import capitalize from 'lodash/capitalize';
 
 import { ROUTES } from '../../constants';
 import { EventsQueryVariables, EventTypeId } from '../../generated/graphql';
@@ -7,14 +8,19 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import { getSearchQuery } from '../../utils/searchUtils';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
-import { EVENT_LIST_INCLUDES, EVENTS_PAGE_SIZE } from '../events/constants';
-import { eventsPathBuilder } from '../events/utils';
-import { EVENT_RETURN_PATH_PARAM, EVENT_SEARCH_PARAMS } from './constants';
+import { EVENT_TYPE } from '../event/constants';
 import {
-  EventFilters,
-  EventQueryParam,
-  EventQueryParams,
+  DEFAULT_EVENT_SORT,
+  EVENT_LIST_INCLUDES,
+  EVENT_SORT_OPTIONS,
+  EVENTS_PAGE_SIZE,
+} from '../events/constants';
+import { eventsPathBuilder } from '../events/utils';
+import { EVENT_SEARCH_PARAMS } from './constants';
+import {
   EventSearchInitialValues,
+  EventSearchParam,
+  EventSearchParams,
   ReturnParams,
 } from './types';
 
@@ -22,25 +28,25 @@ export const getEventsQueryVariables = (
   search: string
 ): EventsQueryVariables => {
   const searchParams = new URLSearchParams(search);
+
   const end = searchParams.get(EVENT_SEARCH_PARAMS.END);
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
   const start = searchParams.get(EVENT_SEARCH_PARAMS.START);
-  const text = searchParams.get(EVENT_SEARCH_PARAMS.TEXT);
-  const type = searchParams.getAll(EVENT_SEARCH_PARAMS.TYPE);
 
-  const variables: EventsQueryVariables = {
+  const { page, sort, text, types } = getEventSearchInitialValues(search);
+
+  return {
     createPath: getPathBuilder(eventsPathBuilder),
     end,
-    eventType: type as EventTypeId[],
+    eventType: types.map((type) => capitalize(type)) as EventTypeId[],
     include: EVENT_LIST_INCLUDES,
-    pageSize: EVENTS_PAGE_SIZE,
     location: places,
+    page,
+    pageSize: EVENTS_PAGE_SIZE,
+    sort,
     start,
-    // superEvent: 'none',
     text,
   };
-
-  return variables;
 };
 
 export const getEventSearchInitialValues = (
@@ -48,14 +54,20 @@ export const getEventSearchInitialValues = (
 ): EventSearchInitialValues => {
   const searchParams = new URLSearchParams(search);
   const end = searchParams.get(EVENT_SEARCH_PARAMS.END);
+  const page = searchParams.get(EVENT_SEARCH_PARAMS.PAGE);
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
+  const sort = searchParams.get(EVENT_SEARCH_PARAMS.SORT) as EVENT_SORT_OPTIONS;
   const start = searchParams.get(EVENT_SEARCH_PARAMS.START);
   const text = searchParams.get(EVENT_SEARCH_PARAMS.TEXT);
-  const types = searchParams.getAll(EVENT_SEARCH_PARAMS.TYPE);
+  const types = searchParams.getAll(EVENT_SEARCH_PARAMS.TYPE) as EVENT_TYPE[];
 
   return {
     end: end && isValid(new Date(end)) ? new Date(end) : null,
+    page: Number(page) || 1,
     places,
+    sort: Object.values(EVENT_SORT_OPTIONS).includes(sort)
+      ? sort
+      : DEFAULT_EVENT_SORT,
     start: start && isValid(new Date(start)) ? new Date(start) : null,
     text: text || '',
     types,
@@ -66,11 +78,20 @@ export const getEventParamValue = ({
   param,
   value,
 }: {
-  param: EventQueryParam;
+  param: EventSearchParam;
   value: string;
 }) => {
   switch (param) {
-    case EVENT_RETURN_PATH_PARAM:
+    case EVENT_SEARCH_PARAMS.END:
+    case EVENT_SEARCH_PARAMS.START:
+      return formatDate(new Date(value), 'yyyy-MM-dd');
+    case EVENT_SEARCH_PARAMS.PAGE:
+    case EVENT_SEARCH_PARAMS.PLACE:
+    case EVENT_SEARCH_PARAMS.SORT:
+    case EVENT_SEARCH_PARAMS.TEXT:
+    case EVENT_SEARCH_PARAMS.TYPE:
+      return value;
+    case EVENT_SEARCH_PARAMS.RETURN_PATH:
       return stripLanguageFromPath(value);
     default:
       return assertUnreachable(param, 'Unknown event query parameter');
@@ -79,20 +100,48 @@ export const getEventParamValue = ({
 
 export const addParamsToEventQueryString = (
   queryString: string,
-  queryParams: EventQueryParams
+  queryParams: Partial<EventSearchParams>
 ): string => {
   const searchParams = new URLSearchParams(queryString);
   Object.entries(queryParams).forEach(([key, values]) => {
-    const param = key as EventQueryParam;
+    const param = key as EventSearchParam;
+    if (Array.isArray(values)) {
+      values.forEach((value) =>
+        searchParams.append(param, getEventParamValue({ param, value }))
+      );
+    } /* istanbul ignore else */ else if (values) {
+      searchParams.append(
+        param,
+        getEventParamValue({ param, value: values.toString() })
+      );
+    }
+  });
+
+  return searchParams.toString() ? `?${searchParams.toString()}` : '';
+};
+
+export const replaceParamsToEventQueryString = (
+  queryString: string,
+  queryParams: Partial<EventSearchParams>
+): string => {
+  const searchParams = new URLSearchParams(queryString);
+  Object.entries(queryParams).forEach(([key, values]) => {
+    const param = key as EventSearchParam;
+    searchParams.delete(param);
+
     if (Array.isArray(values)) {
       values.forEach((value) =>
         searchParams.append(param, getEventParamValue({ param, value }))
       );
     } else if (values) {
-      searchParams.append(param, getEventParamValue({ param, value: values }));
+      searchParams.append(
+        param,
+        getEventParamValue({ param, value: values.toString() })
+      );
     }
   });
-  return '?' + searchParams.toString();
+
+  return searchParams.toString() ? `?${searchParams.toString()}` : '';
 };
 
 /**
@@ -102,15 +151,15 @@ export const addParamsToEventQueryString = (
  */
 export const extractLatestReturnPath = (queryString: string): ReturnParams => {
   const searchParams = new URLSearchParams(queryString);
-  const returnPaths = searchParams.getAll(EVENT_RETURN_PATH_PARAM);
+  const returnPaths = searchParams.getAll(EVENT_SEARCH_PARAMS.RETURN_PATH);
   // latest path is the last item, it can be popped. If empty, defaults to /events
   const extractedPath = returnPaths.pop() ?? ROUTES.SEARCH;
   // there is no support to delete all but extracted item from same parameter list. This is a workaround to it:
   // 1) delete all first
-  searchParams.delete(EVENT_RETURN_PATH_PARAM);
+  searchParams.delete(EVENT_SEARCH_PARAMS.RETURN_PATH);
   // 2) then append all except latest
   returnPaths.forEach((returnPath) =>
-    searchParams.append(EVENT_RETURN_PATH_PARAM, returnPath)
+    searchParams.append(EVENT_SEARCH_PARAMS.RETURN_PATH, returnPath)
   );
   return {
     returnPath: extractedPath,
@@ -118,14 +167,16 @@ export const extractLatestReturnPath = (queryString: string): ReturnParams => {
   };
 };
 
-export const getEventSearchQuery = ({
-  end,
-  start,
-  ...rest
-}: EventFilters): string => {
+export const getEventSearchQuery = (
+  { end, start, ...rest }: EventSearchParams,
+  search = ''
+): string => {
+  const { sort } = getEventSearchInitialValues(search);
+
   return getSearchQuery({
     ...rest,
     end: end ? formatDate(end, 'yyyy-MM-dd') : undefined,
+    sort: sort !== DEFAULT_EVENT_SORT ? sort : null,
     start: start ? formatDate(start, 'yyyy-MM-dd') : undefined,
   });
 };

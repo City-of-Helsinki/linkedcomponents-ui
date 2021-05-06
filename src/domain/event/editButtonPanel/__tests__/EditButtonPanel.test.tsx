@@ -18,7 +18,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { EVENT_RETURN_PATH_PARAM } from '../../../eventSearch/constants';
+import { EVENT_SEARCH_PARAMS } from '../../../eventSearch/constants';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
@@ -303,7 +303,7 @@ test('should route to search page when clicking back button', async () => {
 test('should route to page defined in returnPath when clicking back button', async () => {
   const { history } = renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
-    route: `/fi${ROUTES}?${EVENT_RETURN_PATH_PARAM}=${ROUTES.SEARCH}&${EVENT_RETURN_PATH_PARAM}=${ROUTES.EVENTS}`,
+    route: `/fi${ROUTES}?returnPath=${ROUTES.SEARCH}&returnPath=${ROUTES.EVENTS}`,
   });
 
   const backButton = getElement('back');
