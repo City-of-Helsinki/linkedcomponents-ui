@@ -9,6 +9,7 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../../utils/testUtils';
 import {
   DEFAULT_EVENT_SORT,
@@ -101,7 +102,7 @@ test('should change to event list page 2', async () => {
   const page2Button = getElement('page2');
   userEvent.click(page2Button);
 
-  expect(history.location.search).toBe('?page=2');
+  await waitFor(() => expect(history.location.search).toBe('?page=2'));
 });
 
 test('should change sort order', async () => {
@@ -115,6 +116,5 @@ test('should change sort order', async () => {
   const sortOptionName = getElement('sortOptionName');
   userEvent.click(sortOptionName);
 
-  // Sorted events should be visible. Test only first 2 to improve performance
-  expect(history.location.search).toBe('?sort=name');
+  await waitFor(() => expect(history.location.search).toBe('?sort=name'));
 });

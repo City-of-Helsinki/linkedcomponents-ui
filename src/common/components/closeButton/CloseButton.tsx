@@ -7,7 +7,7 @@ import styles from './closeButton.module.scss';
 type Props = {
   className?: string;
   label: string;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent) => void;
 } & React.ComponentPropsWithoutRef<'button'>;
 
 const CloseButton: React.FC<Props> = ({
