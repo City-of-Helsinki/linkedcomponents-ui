@@ -203,7 +203,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
     handleChange(dateValue);
 
     if (!isCalendarOpen) {
-      setTimeout(() => onBlur && onBlur());
+      onBlur && onBlur();
     }
   };
 

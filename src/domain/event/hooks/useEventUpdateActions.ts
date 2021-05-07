@@ -15,6 +15,7 @@ import {
   useDeleteEventMutation,
   useUpdateEventsMutation,
 } from '../../../generated/graphql';
+import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
@@ -68,6 +69,7 @@ type UseEventUpdateActionsState = {
 const useEventUpdateActions = ({
   event,
 }: Props): UseEventUpdateActionsState => {
+  const isMounted = useIsMounted();
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<
     Record<string, unknown>
@@ -86,7 +88,14 @@ const useEventUpdateActions = ({
   const { updateRecurringEventIfNeeded } = useUpdateRecurringEventIfNeeded();
 
   const closeModal = () => {
-    setOpenModal(null);
+    if (isMounted.current) {
+      setOpenModal(null);
+    }
+  };
+  const savingFinished = () => {
+    if (isMounted.current) {
+      setSaving(null);
+    }
   };
 
   const updateEvents = (payload: UpdateEventMutationInput[]) =>
@@ -153,10 +162,10 @@ const useEventUpdateActions = ({
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
+      savingFinished();
       closeModal();
-      setSaving(null);
     } catch (error) /* istanbul ignore next */ {
-      setSaving(null);
+      savingFinished();
       // Report error to Sentry
       reportError({
         data: {
@@ -191,7 +200,7 @@ const useEventUpdateActions = ({
         await deleteEventMutation({ variables: { id } });
       }
 
-      await updateRecurringEventIfNeeded(event);
+      // await updateRecurringEventIfNeeded(event);
       // Clear all events from apollo cache
       for (const id of deletableEventIds) {
         /* istanbul ignore next */
@@ -201,10 +210,10 @@ const useEventUpdateActions = ({
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
+      savingFinished();
       closeModal();
-      setSaving(null);
     } catch (error) /* istanbul ignore next */ {
-      setSaving(null);
+      savingFinished();
       // Report error to Sentry
       reportError({
         data: {
@@ -250,10 +259,10 @@ const useEventUpdateActions = ({
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
+      savingFinished();
       closeModal();
-      setSaving(null);
     } catch (error) /* istanbul ignore next */ {
-      setSaving(null);
+      savingFinished();
       // Report error to Sentry
       reportError({
         data: {
@@ -417,10 +426,10 @@ const useEventUpdateActions = ({
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
+      savingFinished();
       closeModal();
-      setSaving(null);
     } catch (error) /* istanbul ignore next */ {
-      setSaving(null);
+      savingFinished();
       // Report error to Sentry
       reportError({
         data: {

@@ -4,6 +4,7 @@ import React from 'react';
 import {
   arrowDownKeyPressHelper,
   arrowUpKeyPressHelper,
+  configure,
   enterKeyPressHelper,
   escKeyPressHelper,
   render,
@@ -13,6 +14,8 @@ import {
 } from '../../../../utils/testUtils';
 import MenuDropdown, { MenuDropdownProps } from '../MenuDropdown';
 import { MenuItemOptionProps } from '../MenuItem';
+
+configure({ defaultHidden: true });
 
 const renderMenuDropdown = (props: MenuDropdownProps) => {
   render(<MenuDropdown {...props} />);
