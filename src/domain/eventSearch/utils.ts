@@ -80,7 +80,7 @@ export const getEventParamValue = ({
 }: {
   param: EventSearchParam;
   value: string;
-}) => {
+}): string => {
   switch (param) {
     case EVENT_SEARCH_PARAMS.END:
     case EVENT_SEARCH_PARAMS.START:

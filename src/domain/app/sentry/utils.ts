@@ -9,11 +9,11 @@ const reportError = ({
   message,
   user,
 }: {
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
   location: H.Location;
   message: string;
   user?: UserFieldsFragment;
-}) => {
+}): string => {
   const reportObject = {
     extra: {
       data: {
@@ -28,7 +28,7 @@ const reportError = ({
       level: 'error',
     },
   };
-  Sentry.captureException(message, reportObject);
+  return Sentry.captureException(message, reportObject);
 };
 
 export { reportError };

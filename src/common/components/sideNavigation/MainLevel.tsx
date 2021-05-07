@@ -19,7 +19,7 @@ export type MainLevelProps = React.PropsWithChildren<{
   to: string;
 }>;
 
-const MainLevel = ({
+const MainLevel: FCWithName<MainLevelProps> = ({
   active,
   children,
   className,
@@ -29,7 +29,7 @@ const MainLevel = ({
   label,
   style,
   to,
-}: MainLevelProps) => {
+}) => {
   const id = _id ?? uniqueId('side-navigation-');
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;

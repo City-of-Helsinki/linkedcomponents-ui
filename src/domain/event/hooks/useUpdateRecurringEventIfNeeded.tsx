@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/client';
+import { ApolloClient, useApolloClient } from '@apollo/client';
 import isEqual from 'date-fns/isEqual';
 import isNull from 'lodash/isNull';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +31,9 @@ type UpdateRecurringEventIfNeededState = {
 };
 
 const useUpdateRecurringEventIfNeeded = (): UpdateRecurringEventIfNeededState => {
-  const apolloClient = useApolloClient();
+  const apolloClient = useApolloClient() as ApolloClient<
+    Record<string, unknown>
+  >;
   const location = useLocation();
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);

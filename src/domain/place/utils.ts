@@ -13,10 +13,16 @@ import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 
+type PlaceFields = {
+  addressLocality: string;
+  name: string;
+  streetAddress: string;
+};
+
 export const getPlaceFields = (
   place: PlaceFieldsFragment,
   locale: Language
-) => {
+): PlaceFields => {
   return {
     addressLocality: getLocalisedString(place.addressLocality, locale),
     name: getLocalisedString(place.name, locale),
@@ -26,7 +32,7 @@ export const getPlaceFields = (
 
 export const placePathBuilder = ({
   args,
-}: PathBuilderProps<PlaceQueryVariables>) => {
+}: PathBuilderProps<PlaceQueryVariables>): string => {
   const { id } = args;
 
   return `/place/${id}/`;
@@ -34,7 +40,7 @@ export const placePathBuilder = ({
 
 export const placesPathBuilder = ({
   args,
-}: PathBuilderProps<PlacesQueryVariables>) => {
+}: PathBuilderProps<PlacesQueryVariables>): string => {
   const {
     dataSource,
     division,
@@ -64,7 +70,7 @@ export const placesPathBuilder = ({
 
 export const getPlaceFromCache = (
   id: string,
-  apolloClient: ApolloClient<object>
+  apolloClient: ApolloClient<Record<string, unknown>>
 ): Place | null => {
   const data = apolloClient.readQuery<PlaceQuery>({
     query: PlaceDocument,
@@ -79,7 +85,7 @@ export const getPlaceFromCache = (
 
 export const getPlaceQueryResult = async (
   id: string,
-  apolloClient: ApolloClient<object>
+  apolloClient: ApolloClient<Record<string, unknown>>
 ): Promise<Place | null> => {
   try {
     const { data: placeData } = await apolloClient.query<PlaceQuery>({

@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/client';
+import { ApolloClient, useApolloClient } from '@apollo/client';
 import { MultiSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -57,7 +57,9 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
 }) => {
   let timer: number;
   const isMounted = useIsMounted();
-  const apolloClient = useApolloClient();
+  const apolloClient = useApolloClient() as ApolloClient<
+    Record<string, unknown>
+  >;
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = React.useState('');

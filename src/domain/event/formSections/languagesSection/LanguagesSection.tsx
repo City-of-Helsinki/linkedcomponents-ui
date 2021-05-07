@@ -15,7 +15,7 @@ import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 import { sortLanguage } from '../../utils';
 
-const LanguagesSection = () => {
+const LanguagesSection: React.FC = () => {
   const { t } = useTranslation();
   const [{ value: eventType }] = useField({ name: EVENT_FIELDS.TYPE });
   const locale = useLocale();

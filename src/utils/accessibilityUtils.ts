@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { A11yStatusMessageOptions } from 'downshift';
 import { TFunction } from 'i18next';
 

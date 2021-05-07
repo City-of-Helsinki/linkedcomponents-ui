@@ -29,7 +29,7 @@ type MenuProps = React.ComponentPropsWithoutRef<'div'> & {
   setFocusedIndex: (index: number) => void;
 };
 
-export const Menu = ({
+export const Menu: React.FC<MenuProps> = ({
   ariaLabelledBy,
   fixedPosition,
   focusedIndex,
@@ -41,7 +41,7 @@ export const Menu = ({
   onItemClick,
   setFocusedIndex,
   ...rest
-}: MenuProps) => {
+}) => {
   const menuStyles: MenuStyles = React.useMemo(() => {
     const { height, right, top, width } = menuContainerSize;
     // the menu width should be at least 190px

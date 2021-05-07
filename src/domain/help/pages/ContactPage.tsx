@@ -35,7 +35,7 @@ export const validationSchema = Yup.object().shape({
   ),
 });
 
-const ContactPage = () => {
+const ContactPage: React.FC = () => {
   const { t } = useTranslation();
   return (
     <PageWrapper title="helpPage.contactPage.pageTitle">

@@ -17,7 +17,7 @@ import {
 
 export const eventsPathBuilder = ({
   args,
-}: PathBuilderProps<EventsQueryVariables>) => {
+}: PathBuilderProps<EventsQueryVariables>): string => {
   const {
     adminUser,
     createdBy,
@@ -96,17 +96,16 @@ export const eventsPathBuilder = ({
   return `/event/${query}`;
 };
 
-export const clearEventsQueries = (apolloClient: ApolloClient<object>) => {
+export const clearEventsQueries = (
+  apolloClient: ApolloClient<Record<string, unknown>>
+): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
-};
 
 /* instanbul ignore next */
 export const clearEventQuery = (
-  apolloClient: ApolloClient<object>,
+  apolloClient: ApolloClient<Record<string, unknown>>,
   eventId: string
-) => {
-  apolloClient.cache.evict({ id: `Event:${eventId}` });
-};
+): boolean => apolloClient.cache.evict({ id: `Event:${eventId}` });
 
 export const getEventsQueryBaseVariables = ({
   adminOrganizations,
@@ -150,7 +149,7 @@ export const getEventsQueryBaseVariables = ({
 export const getEventsQuerySkip = (
   tab: EVENTS_PAGE_TABS,
   adminOrganizations: string[]
-) => {
+): boolean => {
   switch (tab) {
     case EVENTS_PAGE_TABS.DRAFTS:
       return false;

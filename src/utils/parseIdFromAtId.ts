@@ -1,4 +1,4 @@
-const parseIdFromAtId = (atId: string | null) =>
+const parseIdFromAtId = (atId: string | null): string | null =>
   atId
     ?.split('/')
     .filter((t) => t)

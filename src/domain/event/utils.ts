@@ -354,7 +354,7 @@ export const eventValidationSchema = Yup.object().shape({
     (
       hasPrice: boolean,
       eventInfoLanguage: string[],
-      schema: Yup.ArraySchema<any>
+      schema: Yup.ArraySchema<Yup.ObjectSchema>
     ) => {
       return hasPrice
         ? Yup.array().of(
@@ -380,11 +380,7 @@ export const eventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
     [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
-    (
-      images: string[],
-      isImageEditable: boolean,
-      schema: Yup.ObjectSchema<any>
-    ) => {
+    (images: string[], isImageEditable: boolean, schema: Yup.ObjectSchema) => {
       return isImageEditable && images && images.length
         ? imageDetailsValidation
         : schema;
@@ -460,11 +456,7 @@ export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(),
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
     [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
-    (
-      images: string[],
-      isImageEditable: boolean,
-      schema: Yup.ObjectSchema<any>
-    ) => {
+    (images: string[], isImageEditable: boolean, schema: Yup.ObjectSchema) => {
       return isImageEditable && images && images.length
         ? imageDetailsValidation
         : schema;
@@ -497,7 +489,7 @@ export const draftEventValidationSchema = Yup.object().shape({
   ),
 });
 
-export const isValidTime = (time: string) =>
+export const isValidTime = (time: string): boolean =>
   /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
 
 export const recurringEventValidationSchema = Yup.object().shape({
@@ -587,7 +579,7 @@ export const recurringEventValidationSchema = Yup.object().shape({
     ),
 });
 
-export const createAddImageValidationSchema = () => {
+export const createAddImageValidationSchema = (): Yup.ObjectSchema => {
   return Yup.object().shape(
     {
       [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: Yup.array().when(
@@ -609,7 +601,7 @@ export const createAddImageValidationSchema = () => {
 
 export const eventPathBuilder = ({
   args,
-}: PathBuilderProps<EventQueryVariables>) => {
+}: PathBuilderProps<EventQueryVariables>): string => {
   const { id, include } = args;
   const variableToKeyItems = [{ key: 'include', value: include }];
 
@@ -637,7 +629,7 @@ const weekDayWeight = (day: WEEK_DAY): number => {
   }
 };
 
-export const sortWeekDays = (a: string, b: string) =>
+export const sortWeekDays = (a: string, b: string): number =>
   weekDayWeight(a as WEEK_DAY) - weekDayWeight(b as WEEK_DAY);
 
 const languageWeight = (lang: string): number => {
@@ -653,7 +645,7 @@ const languageWeight = (lang: string): number => {
   }
 };
 
-export const sortLanguage = (a: LELanguage, b: LELanguage) =>
+export const sortLanguage = (a: LELanguage, b: LELanguage): number =>
   languageWeight(a.id as string) - languageWeight(b.id as string);
 
 export const getEmptyOffer = (): Offer => {
@@ -672,7 +664,7 @@ export const getEmptyVideo = (): VideoDetails => {
   };
 };
 
-export const clearEventFormData = () => {
+export const clearEventFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.EVENT_FORM);
 };
 
@@ -879,7 +871,7 @@ export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
 export const filterUnselectedLanguages = (
   obj: LocalisedObject,
   eventInfoLanguages: string[]
-) =>
+): LocalisedObject =>
   Object.entries(obj).reduce(
     (acc, [k, v]) => ({
       ...acc,
@@ -1120,7 +1112,7 @@ export const getEventPayload = (
 export const getRecurringEventPayload = (
   basePayload: CreateEventMutationInput[],
   subEventAtIds: string[]
-) => {
+): CreateEventMutationInput => {
   const superEventTime = calculateSuperEventTime(
     basePayload.map(({ startTime, endTime }) => ({
       id: null,
@@ -1152,11 +1144,12 @@ const SKIP_FIELDS = new Set([
 ]);
 
 // Enumerate all the property names of an object recursively.
-function* propertyNames(obj: object): any {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function* propertyNames(obj: Record<string, unknown>): any {
   for (const name of keys(obj)) {
     const val = (obj as Record<string, unknown>)[name];
     if (val instanceof Object && !SKIP_FIELDS.has(name)) {
-      yield* propertyNames(val);
+      yield* propertyNames(val as Record<string, unknown>);
     }
     if (val && val !== '') {
       yield name;
@@ -1353,7 +1346,7 @@ export const scrollToFirstError = ({
   descriptionLanguage: EVENT_INFO_LANGUAGES;
   error: Yup.ValidationError;
   setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
-}) => {
+}): void => {
   forEach(error.inner, (e) => {
     const descriptionField = DESCRIPTION_SECTION_FIELDS.find((field) =>
       e.path.startsWith(field)
@@ -1414,15 +1407,15 @@ export const showErrors = ({
     touched: FormikTouched<EventFormFields>,
     shouldValidate?: boolean
   ) => void;
-}) => {
+}): void => {
   /* istanbul ignore else */
   if (error.name === 'ValidationError') {
     const newErrors = error.inner.reduce(
-      (acc: object, e: Yup.ValidationError) => set(acc, e.path, e.errors[0]),
+      (acc, e: Yup.ValidationError) => set(acc, e.path, e.errors[0]),
       {}
     );
     const touchedFields = error.inner.reduce(
-      (acc: object, e: Yup.ValidationError) => set(acc, e.path, true),
+      (acc, e: Yup.ValidationError) => set(acc, e.path, true),
       {}
     );
 
@@ -1436,7 +1429,7 @@ const getSubEvents = async ({
   event,
   apolloClient,
 }: {
-  apolloClient: ApolloClient<object>;
+  apolloClient: ApolloClient<Record<string, unknown>>;
   event: EventFieldsFragment;
 }) => {
   if (!event.superEventType) return [];
@@ -1493,7 +1486,7 @@ export const getRelatedEvents = async ({
   event,
   apolloClient,
 }: {
-  apolloClient: ApolloClient<object>;
+  apolloClient: ApolloClient<Record<string, unknown>>;
   event: EventFieldsFragment;
 }): Promise<EventFieldsFragment[]> => {
   const allRelatedEvents: EventFieldsFragment[] = [event];
@@ -1511,7 +1504,7 @@ export const getOrganizationAncestors = async ({
   event,
   apolloClient,
 }: {
-  apolloClient: ApolloClient<object>;
+  apolloClient: ApolloClient<Record<string, unknown>>;
   event: EventFieldsFragment;
 }): Promise<OrganizationFieldsFragment[]> => {
   try {
@@ -1757,7 +1750,7 @@ export const isCreateEventButtonVisible = ({
   authenticated: boolean;
   publisher: string;
   user?: UserFieldsFragment;
-}) => {
+}): boolean => {
   const adminOrganizations = user?.adminOrganizations ?? [];
   const organizationMemberships = user?.organizationMemberships ?? [];
   const canCreateDraft = organizationMemberships.includes(publisher);
@@ -1783,7 +1776,7 @@ export const getCreateEventButtonWarning = ({
   publisher: string;
   t: TFunction;
   user?: UserFieldsFragment;
-}) => {
+}): string => {
   const adminOrganizations = user?.adminOrganizations ?? [];
   const organizationMemberships = user?.organizationMemberships ?? [];
   const canCreateDraft = organizationMemberships.includes(publisher);
@@ -1807,7 +1800,9 @@ export const getCreateEventButtonWarning = ({
   return '';
 };
 
-export const copyEventToSessionStorage = async (event: EventFieldsFragment) => {
+export const copyEventToSessionStorage = async (
+  event: EventFieldsFragment
+): Promise<void> => {
   const state: FormikState<EventFormFields> = {
     errors: {},
     isSubmitting: false,
@@ -1828,7 +1823,7 @@ export const copyEventToSessionStorage = async (event: EventFieldsFragment) => {
 
 export const getRecurringEvent = async (
   id: string,
-  apolloClient: ApolloClient<object>
+  apolloClient: ApolloClient<Record<string, unknown>>
 ): Promise<EventFieldsFragment | null> => {
   try {
     const { data: eventData } = await apolloClient.query<EventQuery>({

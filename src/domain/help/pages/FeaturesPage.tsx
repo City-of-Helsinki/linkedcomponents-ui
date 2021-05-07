@@ -6,7 +6,7 @@ import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import PageWrapper from '../../app/layout/PageWrapper';
 
-const FeaturesPage = () => {
+const FeaturesPage: React.FC = () => {
   const locale = useLocale();
 
   const getContent = (locale: Language) => {

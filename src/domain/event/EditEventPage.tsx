@@ -372,14 +372,23 @@ const EditEventPageWrapper: React.FC = () => {
     loadingUser
   );
 
-  const handleLoadingUserChange = React.useCallback(
-    debounce((loading: boolean) => {
-      /* istanbul ignore next */
-      if (!isMounted.current) return;
+  const debouncedSetLoading = React.useMemo(
+    () =>
+      debounce((loading: boolean) => {
+        /* istanbul ignore next */
+        if (!isMounted.current) return;
 
-      setDebouncedLoadingUser(loading);
-    }, LOADING_USER_DEBOUNCE_TIME),
-    []
+        setDebouncedLoadingUser(loading);
+      }, LOADING_USER_DEBOUNCE_TIME),
+    [isMounted]
+  );
+
+  const handleLoadingUserChange = React.useCallback(
+    (loading: boolean) => {
+      /* istanbul ignore next */
+      debouncedSetLoading(loading);
+    },
+    [debouncedSetLoading]
   );
 
   React.useEffect(() => {

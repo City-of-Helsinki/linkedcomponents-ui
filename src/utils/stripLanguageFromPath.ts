@@ -4,7 +4,7 @@ const langPathRegExp = new RegExp(
   `/(${Object.values(SUPPORTED_LANGUAGES).join('|')})`
 );
 
-const stripLanguageFromPath = (path: string) =>
+const stripLanguageFromPath = (path: string): string =>
   path.replace(langPathRegExp, '');
 
 export default stripLanguageFromPath;

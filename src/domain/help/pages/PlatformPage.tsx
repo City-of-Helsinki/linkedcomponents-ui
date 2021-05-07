@@ -8,7 +8,7 @@ import IconCloud from '../../../icons/IconCloud';
 import PageWrapper from '../../app/layout/PageWrapper';
 import styles from './platformPage.module.scss';
 
-const PlatformPage = () => {
+const PlatformPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { FCWithName } from '../../../types';
+
 export type TabPanelProps = React.PropsWithChildren<{
   className?: string;
   index?: number;
@@ -8,14 +10,14 @@ export type TabPanelProps = React.PropsWithChildren<{
   style?: React.CSSProperties;
 }>;
 
-const TabPanel = ({
+const TabPanel: FCWithName<TabPanelProps> = ({
   children,
   className,
   index,
   isActive,
   name,
   style,
-}: TabPanelProps) => {
+}) => {
   return isActive ? (
     <div
       id={`tab-${name}-${index}-panel`}

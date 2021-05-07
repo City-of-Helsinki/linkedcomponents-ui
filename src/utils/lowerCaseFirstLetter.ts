@@ -1,4 +1,4 @@
-const lowerCaseFirstLetter = (text: string) => {
+const lowerCaseFirstLetter = (text: string): string => {
   return text.charAt(0).toLowerCase() + text.slice(1);
 };
 

@@ -12,7 +12,7 @@ import Offer from './Offer';
 
 const getOfferPath = (index: number) => `${EVENT_FIELDS.OFFERS}[${index}]`;
 
-const Offers = () => {
+const Offers: React.FC = () => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({

@@ -2,11 +2,11 @@ import { ROUTES } from '../../../constants';
 import { EVENT_TYPE } from '../../event/constants';
 import { EVENT_SORT_OPTIONS } from '../../events/constants';
 import { EVENT_SEARCH_PARAMS } from '../constants';
-import { EventSearchParam } from '../types';
+import { EventSearchParam, EventSearchParams } from '../types';
 import { addParamsToEventQueryString, getEventParamValue } from '../utils';
 
 describe('addParamsToEventQueryString function', () => {
-  const cases: unknown[] = [
+  const cases: [Partial<EventSearchParams>, string][] = [
     [{ end: new Date('2021-12-12') }, '?end=2021-12-12'],
     [{ page: 3 }, '?page=3'],
     [{ place: ['place:1', 'place:2'] }, '?place=place%3A1&place=place%3A2'],

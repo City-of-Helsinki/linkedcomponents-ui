@@ -2,6 +2,7 @@ import React from 'react';
 
 import { MAX_PAGE_SIZE } from '../../../constants';
 import {
+  EventFieldsFragment,
   EventsQueryVariables,
   useEventsQuery,
 } from '../../../generated/graphql';
@@ -9,6 +10,11 @@ import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { EVENT_LIST_INCLUDES } from '../constants';
 import { eventsPathBuilder } from '../utils';
+
+type UseSubEventsState = {
+  loading: boolean;
+  subEvents: EventFieldsFragment[];
+};
 
 const useSubEvents = ({
   skip,
@@ -18,7 +24,7 @@ const useSubEvents = ({
   skip?: boolean;
   superEventId: string;
   variableOverrides?: Partial<EventsQueryVariables>;
-}) => {
+}): UseSubEventsState => {
   const variables = React.useMemo(() => {
     return {
       createPath: getPathBuilder(eventsPathBuilder),
@@ -59,7 +65,7 @@ const useSubEvents = ({
     }
   }, [fetchMore, nextPage, variables]);
 
-  const subEvents = data?.events.data || [];
+  const subEvents = (data?.events.data as EventFieldsFragment[]) || [];
 
   return { subEvents, loading };
 };

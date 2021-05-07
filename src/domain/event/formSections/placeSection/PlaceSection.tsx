@@ -14,7 +14,7 @@ import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 import styles from './placeSection.module.scss';
 
-const PlaceSection = () => {
+const PlaceSection: React.FC = () => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({

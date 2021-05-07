@@ -6,7 +6,7 @@ import EventList from './eventList/EventList';
 import SearchPanel from './searchPanel/SearchPanel';
 import { getEventsQueryVariables } from './utils';
 
-const EventSearchPage = () => {
+const EventSearchPage: React.FC = () => {
   const location = useLocation();
   const variables = getEventsQueryVariables(location.search);
 

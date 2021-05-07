@@ -8,10 +8,10 @@ type RequiredIndicatorProps = {
   style?: React.CSSProperties;
 };
 
-export const RequiredIndicator = ({
+export const RequiredIndicator: React.FC<RequiredIndicatorProps> = ({
   className,
   style,
-}: RequiredIndicatorProps) => (
+}) => (
   <span
     aria-hidden
     className={classNames(styles.indicator, className)}

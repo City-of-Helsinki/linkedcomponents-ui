@@ -15,11 +15,10 @@ import {
 import { TokenResponse } from './types';
 import userManager from './userManager';
 
-export const signIn = (path?: string) => {
+export const signIn = (path?: string): void => {
   userManager
     .signinRedirect({
       data: { path: path || '/' },
-      // eslint-disable-next-line @typescript-eslint/camelcase
       ui_locales: i18n.language,
     })
     .catch((error) => {
@@ -33,7 +32,7 @@ export const signIn = (path?: string) => {
 };
 
 export const getApiToken = (accessToken: string): StoreThunk => async (
-  dispatch: Function
+  dispatch
 ) => {
   try {
     dispatch(startFetchingToken());
@@ -55,7 +54,7 @@ export const getApiToken = (accessToken: string): StoreThunk => async (
 };
 
 export const renewApiToken = (accessToken: string): StoreThunk => async (
-  dispatch: Function
+  dispatch
 ) => {
   try {
     const res: AxiosResponse<TokenResponse> = await axios.get(
@@ -74,7 +73,7 @@ export const renewApiToken = (accessToken: string): StoreThunk => async (
   }
 };
 
-export const signOut = async () => {
+export const signOut = async (): Promise<void> => {
   try {
     await clearAllState();
     await userManager.signoutRedirect();
@@ -83,7 +82,7 @@ export const signOut = async () => {
   }
 };
 
-export const clearAllState = async () => {
+export const clearAllState = async (): Promise<void> => {
   await Promise.all([
     // Clear backend auth data
     store.dispatch(resetApiTokenData()),

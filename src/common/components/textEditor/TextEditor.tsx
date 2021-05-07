@@ -54,7 +54,7 @@ const covertHtmlToEditorState = (html: string) => {
 export type TextEditorProps = {
   disabled?: boolean;
   label: string;
-  onBlur: (event?: React.SyntheticEvent<{}>) => void;
+  onBlur: (event?: React.SyntheticEvent) => void;
   onChange: (value: string) => void;
   placeholder?: string;
   sanitizeAfterChange?: (html: string) => string;
@@ -158,7 +158,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           {...rest}
           ariaLabel={label}
           editorState={editorState}
-          onBlur={(ev: React.SyntheticEvent<{}>) => {
+          onBlur={(ev: React.SyntheticEvent) => {
             onBlur(ev);
             handleChange(value);
             setFocused(false);

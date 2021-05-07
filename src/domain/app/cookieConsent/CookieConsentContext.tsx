@@ -109,4 +109,5 @@ export const CookieConsentProvider: React.FC = ({ children }) => {
   );
 };
 
-export const useCookieConsent = () => React.useContext(CookieConsentContext);
+export const useCookieConsent = (): CookieConsentContextType =>
+  React.useContext(CookieConsentContext);

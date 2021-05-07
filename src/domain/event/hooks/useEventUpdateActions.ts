@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/client';
+import { ApolloClient, useApolloClient } from '@apollo/client';
 import map from 'lodash/map';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -51,9 +51,27 @@ interface Props {
   event: EventFieldsFragment;
 }
 
-const useEventUpdateActions = ({ event }: Props) => {
+type UseEventUpdateActionsState = {
+  cancelEvent: (callbacks?: Callbacks) => Promise<void>;
+  closeModal: () => void;
+  deleteEvent: (callbacks?: Callbacks) => Promise<void>;
+  openModal: MODALS | null;
+  postponeEvent: (callbacks?: Callbacks) => Promise<void>;
+  saving: EVENT_EDIT_ACTIONS | null;
+  setOpenModal: (modal: MODALS | null) => void;
+  updateEvent: (
+    values: EventFormFields,
+    publicationStatus: PublicationStatus,
+    callbacks?: Callbacks
+  ) => Promise<void>;
+};
+const useEventUpdateActions = ({
+  event,
+}: Props): UseEventUpdateActionsState => {
   const { t } = useTranslation();
-  const apolloClient = useApolloClient();
+  const apolloClient = useApolloClient() as ApolloClient<
+    Record<string, unknown>
+  >;
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const locale = useLocale();

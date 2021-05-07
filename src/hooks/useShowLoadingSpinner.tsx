@@ -8,20 +8,28 @@ export const LOADING_SPINNER_THROTTLE_TIME = 300;
 const useShowLoadingSpinner = (
   isLoading: boolean,
   throttleTime = LOADING_SPINNER_THROTTLE_TIME
-) => {
+): boolean => {
   const isMounted = useIsMounted();
   const [showLoadingSpinner, setShowLoadingSpinner] = React.useState<boolean>(
     false
   );
 
-  const handleIsLoadingChange = React.useCallback(
-    throttle((loading: boolean) => {
-      /* istanbul ignore next */
-      if (!isMounted.current) return;
+  const throttledSetShowLoadingSpinner = React.useMemo(
+    () =>
+      throttle((loading: boolean) => {
+        /* istanbul ignore next */
+        if (!isMounted.current) return;
 
-      setShowLoadingSpinner(loading);
-    }, throttleTime),
-    [throttleTime, isMounted]
+        setShowLoadingSpinner(loading);
+      }, throttleTime),
+    [isMounted, throttleTime]
+  );
+
+  const handleIsLoadingChange = React.useCallback(
+    (loading: boolean) => {
+      throttledSetShowLoadingSpinner(loading);
+    },
+    [throttledSetShowLoadingSpinner]
   );
 
   React.useEffect(() => {

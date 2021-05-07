@@ -12,7 +12,7 @@ export const getSearchQuery = (filters: {
     | number[]
     | string
     | string[];
-}) => {
+}): string => {
   const urlParams = new URLSearchParams();
 
   forEach(filters, (filter, key) => {

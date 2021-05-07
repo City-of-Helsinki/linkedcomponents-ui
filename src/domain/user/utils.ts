@@ -7,7 +7,7 @@ import { UserFields } from './types';
 
 export const userPathBuilder = ({
   args,
-}: PathBuilderProps<UserQueryVariables>) => {
+}: PathBuilderProps<UserQueryVariables>): string => {
   const { id } = args;
 
   return `/user/${id}/`;

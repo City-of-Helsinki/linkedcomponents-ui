@@ -3,7 +3,7 @@ import isEqual from 'date-fns/isEqual';
 
 import { EventTime, RecurringEventSettings } from '../../types';
 
-const sortEventTimes = (a: EventTime, b: EventTime) => {
+const sortEventTimes = (a: EventTime, b: EventTime): number => {
   const startTimeA = a.startTime
     ? new Date(a.startTime)
     : new Date('9999-12-31');
@@ -22,7 +22,7 @@ const sortEventTimes = (a: EventTime, b: EventTime) => {
 const sortRecurringEvents = (
   a: RecurringEventSettings,
   b: RecurringEventSettings
-) => {
+): number => {
   return sortEventTimes(
     { id: null, startTime: a.startDate as Date, endTime: a.endDate as Date },
     { id: null, startTime: b.startDate as Date, endTime: b.endDate as Date }

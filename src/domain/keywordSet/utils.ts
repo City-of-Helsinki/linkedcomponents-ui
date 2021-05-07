@@ -11,7 +11,7 @@ import queryBuilder from '../../utils/queryBuilder';
 
 export const keywordSetPathBuilder = ({
   args,
-}: PathBuilderProps<KeywordSetQueryVariables>) => {
+}: PathBuilderProps<KeywordSetQueryVariables>): string => {
   const { id, include } = args;
   const variableToKeyItems = [{ key: 'include', value: include }];
 
@@ -22,7 +22,7 @@ export const keywordSetPathBuilder = ({
 
 export const keywordSetsPathBuilder = ({
   args,
-}: PathBuilderProps<KeywordSetsQueryVariables>) => {
+}: PathBuilderProps<KeywordSetsQueryVariables>): string => {
   const { include } = args;
   const variableToKeyItems = [{ key: 'include', value: include }];
 

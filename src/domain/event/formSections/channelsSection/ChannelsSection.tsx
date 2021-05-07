@@ -11,7 +11,7 @@ import styles from '../../eventPage.module.scss';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 
-const ChannelsSection = () => {
+const ChannelsSection: React.FC = () => {
   const { t } = useTranslation();
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);
   const [{ value: eventInfoLanguages }] = useField({

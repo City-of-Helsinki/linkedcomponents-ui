@@ -5,7 +5,9 @@ import {
   ORDERED_EVENT_INFO_LANGUAGES,
 } from '../constants';
 
-const useSortedInfoLanguages = (eventInfoLanguages: EVENT_INFO_LANGUAGES[]) => {
+const useSortedInfoLanguages = (
+  eventInfoLanguages: EVENT_INFO_LANGUAGES[]
+): EVENT_INFO_LANGUAGES[] => {
   const sortedEventInfoLanguages = useMemo(
     () =>
       eventInfoLanguages.sort(

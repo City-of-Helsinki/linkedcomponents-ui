@@ -9,7 +9,7 @@ import { Language } from '../../../types';
 import PageWrapper from '../../app/layout/PageWrapper';
 import styles from './faqPage.module.scss';
 
-const FaqPage = () => {
+const FaqPage: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
 

@@ -15,7 +15,7 @@ import { signIn } from '../authenticate';
 import { authenticatedSelector, loadingSelector } from '../selectors';
 import styles from './logoutPage.module.scss';
 
-const LogoutPage = () => {
+const LogoutPage: React.FC = () => {
   const authenticated = useSelector(authenticatedSelector);
   const loading = useSelector(loadingSelector);
   const { t } = useTranslation();
