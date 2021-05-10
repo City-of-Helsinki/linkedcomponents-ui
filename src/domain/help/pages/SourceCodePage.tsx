@@ -85,7 +85,11 @@ const SourceCodePage = () => {
     }
   };
   return (
-    <PageWrapper title="helpPage.pageTitleSourceCode">
+    <PageWrapper
+      description="helpPage.pageDescriptionSourceCode"
+      keywords={['keywords.sourceCode', 'keywords.help']}
+      title="helpPage.pageTitleSourceCode"
+    >
       {getContent(locale)}
     </PageWrapper>
   );

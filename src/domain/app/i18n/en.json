@@ -1,4 +1,5 @@
 {
+  "appDescription": "Linked Events is a collection of software components and API endpoints that enables event management and distribution for different event providers in Finland.",
   "appName": "Linked Events",
   "authentication": {
     "errorMessage": "An error has occurred. Please try again later.",
@@ -788,6 +789,7 @@
       "cardList": "Card view",
       "table": "List view"
     },
+    "pageDescription": "Event listing. Manage events: browse and edit your events.",
     "pageTitle": "My events",
     "sortOptions": {
       "duration": "Duration, ascending",
@@ -810,6 +812,7 @@
   },
   "eventSearchPage": {
     "buttonClearFilters": "Clear filters",
+    "pageDescription": "Search events from Linked Events. You can filter results by date, place and type.",
     "pageTitle": "Search events",
     "searchPanel": {
       "buttonClear": "Clear",
@@ -910,12 +913,22 @@
       "labelEmail": "Email",
       "labelFeedback": "Feedback",
       "labelName": "Name",
+      "pageDescription": "Send a bug report or feature request. Or send us some feedback about the service.",
       "pageTitle": "Contact us",
       "placeholderEmail": "Enter email",
       "placeholderFeedback": "Enter feedback",
       "placeholderName": "Enter name",
       "text": "Contact us using the form below."
     },
+    "pageDescriptionApi": "More information about the API (application protocol interface) of Linked Events.",
+    "pageDescriptionControlPanel": "How to use control panel and Linked events admin features.",
+    "pageDescriptionDocumentation": "Read more about Linked Events documentation and API design.",
+    "pageDescriptionFaq": "Frequently asked questions about Linked Events.",
+    "pageDescriptionFeatures": "Read about Linked Events features. Get familiar with event management and Linked Events API.",
+    "pageDescriptionInstructions": "Help and instructions how to use the service and the API.",
+    "pageDescriptionSourceCode": "Get a deeper look for Linked Events source code in Github.",
+    "pageDescriptionTechnology": "More information about the technology behind Linked Events.",
+    "pageDescriptionTermsOfUse": "Linked Events service terms and restrictions.",
     "pageTitle": "Support",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Control panel",
@@ -923,12 +936,13 @@
     "pageTitleFaq": "Frequently asked questions",
     "pageTitleFeatures": "Service features",
     "pageTitleImageRights": "Image rights",
-    "pageTitleInstructions": "Instructions",
+    "pageTitleInstructions": "Support",
     "pageTitleSourceCode": "Source code",
     "pageTitleTechnology": "Technology",
     "pageTitleTermsOfUse": "Terms of use",
     "platformPage": {
       "imageAlt": "Linked Events use in tablet",
+      "pageDescription": "Introduction to Linked Events platform and control panel.",
       "pageTitle": "Platform",
       "textApi": "The public API allows you to retrieve events for your own service. You can also give us a tip about an existing databank  that should be incorporated into Linked Events.",
       "textEventManagement": "The Linked Events control panel is used to enter events, courses, and volunteering assignments, and to manage related information and materials.",
@@ -969,11 +983,36 @@
   "keywords": {
     "admin": "admin",
     "api": "api",
+    "asked": "asked",
+    "bug": "bug",
+    "contact": "contact",
+    "controlPanel": "control, panel",
+    "date": "date",
+    "documentation": "documentation",
+    "edit": "edit",
     "event": "event",
     "events": "events",
-    "helsinki": "helsinki",
+    "faq": "faq",
+    "features": "features",
+    "filter": "filter",
+    "finland": "Finland",
+    "form": "form",
+    "help": "help",
+    "helsinki": "Helsinki",
+    "instructions": "instructions",
     "linked": "linked",
-    "management": "management"
+    "management": "management",
+    "myListing": "my, listing",
+    "place": "place",
+    "platform": "platform",
+    "questions": "questions",
+    "report": "report",
+    "search": "search",
+    "sourceCode": "source, code",
+    "support": "support",
+    "technology": "technology",
+    "termsOfUse": "terms, of, use",
+    "update": "update"
   },
   "landingPage": {
     "heroTitle": "Events and hobbies in Helsinki",
@@ -1015,7 +1054,6 @@
     "text": "The content you were looking for could not be found. Log in or return to the home page."
   },
   "notSigned": {
-    "pageTitle": "Login required",
     "text": "You must be logged in to view this content. Log in or return to the home page."
   }
 }

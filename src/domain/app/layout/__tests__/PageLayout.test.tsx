@@ -27,7 +27,7 @@ afterEach(() => {
   document.head.innerHTML = initialHeadInnerHTML || '';
 });
 
-test('common meta date should be added', async () => {
+test('common meta data should be added', async () => {
   // This function is usually used for the helpers it returns. However, the
   // scope f the helpers is limited to `body`. As we need to assert against
   // the content of the `head`, we have to make queries without helpers. We are
@@ -36,14 +36,6 @@ test('common meta date should be added', async () => {
 
   await actWait(50);
   const head = document.querySelector('head');
-
-  // Keywords
-  const keywordsMeta = head?.querySelector(`[name="keywords"]`);
-  expect(
-    keywordsMeta.outerHTML.includes(
-      `content="admin, api, tapahtuma, events, helsinki, linked, hallinta"`
-    )
-  ).toBeTruthy();
 
   // Canonical url
   const canonicalLink = head?.querySelector(`[rel="canonical"]`);

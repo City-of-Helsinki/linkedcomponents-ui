@@ -69,7 +69,11 @@ const DocumentationPage = () => {
     }
   };
   return (
-    <PageWrapper title="helpPage.pageTitleDocumentation">
+    <PageWrapper
+      description="helpPage.pageDescriptionDocumentation"
+      keywords={['keywords.documentation', 'keywords.help']}
+      title="helpPage.pageTitleDocumentation"
+    >
       {getContent(locale)}
     </PageWrapper>
   );

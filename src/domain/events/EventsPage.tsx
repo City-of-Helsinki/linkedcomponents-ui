@@ -115,54 +115,49 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   };
 
   return (
-    <PageWrapper backgroundColor="gray" title="eventsPage.pageTitle">
-      <MainContent>
-        <Container withOffset={true}>
-          <h1>{t('eventsPage.title')}</h1>
-          <div className={styles.navigationRow}>
-            <Button
-              className={styles.addButton}
-              iconLeft={<IconPlus />}
-              onClick={goToCreateEvent}
-              variant="secondary"
-            >
-              {t('common.buttonAddEvent')}
-            </Button>
-            <Tabs
-              className={styles.tabSelector}
-              name="event-list"
-              onChange={handleChangeTab}
-              options={tabOptions}
+    <MainContent>
+      <Container withOffset={true}>
+        <h1>{t('eventsPage.title')}</h1>
+        <div className={styles.navigationRow}>
+          <Button
+            className={styles.addButton}
+            iconLeft={<IconPlus />}
+            onClick={goToCreateEvent}
+            variant="secondary"
+          >
+            {t('common.buttonAddEvent')}
+          </Button>
+          <Tabs
+            className={styles.tabSelector}
+            name="event-list"
+            onChange={handleChangeTab}
+            options={tabOptions}
+            activeTab={activeTab}
+          />
+        </div>
+      </Container>
+      {tabOptions.map(({ value }, index) => {
+        const isActive = activeTab === value;
+        return (
+          <TabPanel
+            key={index}
+            isActive={isActive}
+            index={index}
+            name="event-list"
+          >
+            <EventList
               activeTab={activeTab}
+              baseVariables={getEventsQueryVariables(value, adminOrganizations)}
+              listType={listType}
+              setListType={setListType}
+              setSort={setSort}
+              skip={getEventsQuerySkip(value, adminOrganizations)}
+              sort={sort}
             />
-          </div>
-        </Container>
-        {tabOptions.map(({ value }, index) => {
-          const isActive = activeTab === value;
-          return (
-            <TabPanel
-              key={index}
-              isActive={isActive}
-              index={index}
-              name="event-list"
-            >
-              <EventList
-                activeTab={activeTab}
-                baseVariables={getEventsQueryVariables(
-                  value,
-                  adminOrganizations
-                )}
-                listType={listType}
-                setListType={setListType}
-                setSort={setSort}
-                skip={getEventsQuerySkip(value, adminOrganizations)}
-                sort={sort}
-              />
-            </TabPanel>
-          );
-        })}
-      </MainContent>
-    </PageWrapper>
+          </TabPanel>
+        );
+      })}
+    </MainContent>
   );
 };
 
@@ -170,9 +165,16 @@ const EventsPageWrapper: React.FC = () => {
   const { loading: loadingUser, user } = useUser();
 
   return (
-    <LoadingSpinner isLoading={loadingUser}>
-      {user ? <EventsPage user={user} /> : <NotSigned />}
-    </LoadingSpinner>
+    <PageWrapper
+      backgroundColor={user ? 'gray' : 'white'}
+      description="eventsPage.pageDescription"
+      keywords={['keywords.myListing', 'keywords.edit', 'keywords.update']}
+      title="eventsPage.pageTitle"
+    >
+      <LoadingSpinner isLoading={loadingUser}>
+        {user ? <EventsPage user={user} /> : <NotSigned />}
+      </LoadingSpinner>
+    </PageWrapper>
   );
 };
 

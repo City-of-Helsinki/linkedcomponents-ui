@@ -276,7 +276,12 @@ const FaqPage = () => {
     }
   };
   return (
-    <PageWrapper backgroundColor="gray" title="helpPage.pageTitleFaq">
+    <PageWrapper
+      backgroundColor="gray"
+      description="helpPage.pageDescriptionFaq"
+      keywords={['keywords.faq', 'keywords.asked', 'keywords.questions']}
+      title="helpPage.pageTitleFaq"
+    >
       <h1>{t('helpPage.pageTitleFaq')}</h1>
       <div className={styles.accordions}>{getContent(locale)}</div>
     </PageWrapper>

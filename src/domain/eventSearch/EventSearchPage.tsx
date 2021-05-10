@@ -15,7 +15,16 @@ const EventSearchPage = () => {
   const variables = getEventsQueryVariables(location.search);
 
   return (
-    <PageWrapper title="eventSearchPage.pageTitle">
+    <PageWrapper
+      description="eventSearchPage.pageDescription"
+      keywords={[
+        'keywords.search',
+        'keywords.filter',
+        'keywords.date',
+        'keywords.place',
+      ]}
+      title="eventSearchPage.pageTitle"
+    >
       <SearchPanel />
       <EventList baseVariables={variables} sort={sort} setSort={setSort} />
     </PageWrapper>

@@ -12,6 +12,8 @@ import styles from './pageWrapper.module.scss';
 export interface PageWrapperProps {
   backgroundColor?: 'white' | 'gray' | 'coatOfArms';
   className?: string;
+  description?: string;
+  keywords?: string[];
   noFooter?: boolean;
   title?: string;
 }
@@ -20,6 +22,8 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   backgroundColor = 'white',
   children,
   className,
+  description = 'appDescription',
+  keywords = [],
   noFooter = false,
   title = 'appName',
 }) => {
@@ -28,12 +32,38 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   const location = useLocation();
   const { trackPageView } = useMatomo();
 
+  const getTranslatedKeywords = () => {
+    return [
+      ...keywords,
+      'keywords.linked',
+      'keywords.events',
+      'keywords.event',
+      'keywords.management',
+      'keywords.api',
+      'keywords.admin',
+      'keywords.helsinki',
+      'keywords.finland',
+    ]
+      .map((k) => t(k))
+      .join(', ');
+  };
+
   const translatedTitle =
     title !== 'appName' ? `${t(title)} - ${t('appName')}` : t('appName');
+  const translatedDescription = t(description);
+  const translatedKeywords = getTranslatedKeywords();
 
   const openGraphProperties: { [key: string]: string } = {
     // TODO: Add image to page meta data
     // image: image,
+    description: translatedDescription,
+    title: translatedTitle,
+  };
+
+  const twitterProperties: { [key: string]: string } = {
+    // TODO: Add image to page meta data
+    // image: image,
+    description: translatedDescription,
     title: translatedTitle,
   };
 
@@ -59,10 +89,23 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
     >
       <Helmet>
         <title>{translatedTitle}</title>
+        <meta name="description" content={translatedDescription} />
+        <meta name="keywords" content={translatedKeywords} />
 
-        <meta name="twitter:card" content="summary" />
+        {/* Open Graph data */}
+        <meta property={`og:type`} content="website" />
         {Object.entries(openGraphProperties).map(([property, value]) => (
           <meta key={property} property={`og:${property}`} content={value} />
+        ))}
+
+        {/* Twitter card */}
+        <meta name="twitter:card" content="summary" />
+        {Object.entries(twitterProperties).map(([property, value]) => (
+          <meta
+            key={property}
+            property={`twitter:${property}`}
+            content={value}
+          />
         ))}
       </Helmet>
       {children}

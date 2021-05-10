@@ -14,6 +14,8 @@ const PlatformPage = () => {
   return (
     <PageWrapper
       className={styles.platformPage}
+      description="helpPage.platformPage.pageDescription"
+      keywords={['keywords.platform', 'keywords.help', 'keywords.instructions']}
       title="helpPage.platformPage.pageTitle"
     >
       <h1>{t('helpPage.platformPage.titlePlatform')}</h1>

@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import { css } from 'emotion';
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
 import { matchPath, RouteProps, useLocation } from 'react-router';
 
 import { ROUTES, SUPPORTED_LANGUAGES } from '../../../constants';
@@ -30,7 +29,6 @@ const NO_KORO_PATHS = [
 
 const PageLayout: React.FC = ({ children }) => {
   const { theme } = useTheme();
-  const { t } = useTranslation();
   const { pathname } = useLocation();
   const locale = useLocale();
 
@@ -47,18 +45,7 @@ const PageLayout: React.FC = ({ children }) => {
     );
 
   const noKoro = isMatch(NO_KORO_PATHS);
-
-  const keywords = [
-    'keywords.admin',
-    'keywords.api',
-    'keywords.event',
-    'keywords.events',
-    'keywords.helsinki',
-    'keywords.linked',
-    'keywords.management',
-  ]
-    .map((k) => t(k))
-    .join(', ');
+  const canonicalUrl = host + pathname;
 
   return (
     <>
@@ -74,8 +61,10 @@ const PageLayout: React.FC = ({ children }) => {
         <Helmet>
           <html lang={locale} />
 
-          <link rel="canonical" href={host + pathname} />
-          <meta name="keywords" content={keywords} />
+          <link rel="canonical" href={canonicalUrl} />
+          <meta property="og:url" content={canonicalUrl} />
+          <meta property="twitter:url" content={canonicalUrl} />
+
           {Object.values(SUPPORTED_LANGUAGES).map((language) => {
             const langCode = language.toLowerCase();
             return (

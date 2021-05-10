@@ -495,7 +495,11 @@ const ControlPanelPage = () => {
   };
 
   return (
-    <PageWrapper title="helpPage.pageTitleControlPanel">
+    <PageWrapper
+      description="helpPage.pageDescriptionControlPanel"
+      keywords={['keywords.controlPanel', 'keywords.help']}
+      title="helpPage.pageTitleControlPanel"
+    >
       {getContent(locale)}
     </PageWrapper>
   );
