@@ -40,7 +40,17 @@ const LandingPage: React.FC = () => {
           <Highlight
             className={styles.highlight}
             icon={<IconPhoto aria-hidden={true} />}
-            text={t('landingPage.highlight3Text')}
+            text={
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: t('landingPage.highlight3Text', {
+                    githubUrl:
+                      'https://github.com/City-of-Helsinki/linkedevents',
+                    openInNewTab: t('common.openInNewTab'),
+                  }),
+                }}
+              />
+            }
             title={t('landingPage.highlight3Title')}
           />
         </div>

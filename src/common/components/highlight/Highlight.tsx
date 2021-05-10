@@ -6,7 +6,7 @@ import styles from './highlight.module.scss';
 interface HighlightProps {
   className?: string;
   icon: React.ReactNode;
-  text: string;
+  text: string | React.ReactNode;
   title: string;
 }
 
