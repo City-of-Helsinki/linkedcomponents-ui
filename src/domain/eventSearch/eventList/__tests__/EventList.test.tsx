@@ -16,7 +16,7 @@ import {
   EVENT_LIST_INCLUDES,
   EVENTS_PAGE_SIZE,
 } from '../../../events/constants';
-import EventList, { EventListProps } from '../EventList';
+import EventList, { EventListContainerProps } from '../EventList';
 
 configure({ defaultHidden: true });
 
@@ -58,7 +58,7 @@ const mockedEventsResponse = {
 
 const mocks = [mockedEventsResponse];
 
-const defaultProps: EventListProps = {
+const defaultProps: EventListContainerProps = {
   baseVariables: eventsVariables,
 };
 

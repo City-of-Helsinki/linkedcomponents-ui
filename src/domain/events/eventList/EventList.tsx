@@ -1,4 +1,5 @@
 import camelCase from 'lodash/camelCase';
+import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,10 +18,13 @@ import {
 import { OptionType } from '../../../types';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import Container from '../../app/layout/Container';
+import { EventsLocationState } from '../../eventSearch/types';
 import {
+  getEventItemId,
   getEventSearchInitialValues,
   getEventsQueryVariables,
   replaceParamsToEventQueryString,
+  scrollToEventCard,
 } from '../../eventSearch/utils';
 import {
   DEFAULT_EVENT_SORT,
@@ -36,7 +40,7 @@ import useEventSortOptions from '../hooks/useEventSortOptions';
 import styles from './eventList.module.scss';
 import ListTypeSelector from './ListTypeSelector';
 
-export interface EventListProps {
+export interface EventListContainerProps {
   activeTab: EVENTS_PAGE_TABS;
   baseVariables: EventsQueryVariables;
   listType: EVENT_LIST_TYPES;
@@ -48,22 +52,95 @@ const getPageCount = (count: number, pageSize: number) => {
   return Math.ceil(count / pageSize);
 };
 
+type EventListProps = {
+  events: EventFieldsFragment[];
+  onSelectedPageChange: (page: number) => void;
+  onSortChange: (sort: EVENT_SORT_OPTIONS) => void;
+  pageCount: number;
+  page: number;
+  sort: EVENT_SORT_OPTIONS;
+} & Pick<EventListContainerProps, 'activeTab' | 'listType'>;
+
 const EventList: React.FC<EventListProps> = ({
   activeTab,
-  baseVariables,
+  events,
   listType,
-  setListType,
-  skip,
+  onSelectedPageChange,
+  onSortChange,
+  page,
+  pageCount,
+  sort,
 }) => {
+  const { t } = useTranslation();
+  const history = useHistory();
+  const location = useLocation<EventsLocationState>();
+
+  const sortOptions = useEventSortOptions();
+
+  const getTableCaption = () => {
+    return t(`eventsPage.eventsTableCaption.${camelCase(activeTab)}`, {
+      sort: sortOptions.find((option) => option.value === sort)?.label,
+    });
+  };
+
+  React.useEffect(() => {
+    if (location.state?.eventId) {
+      scrollToEventCard(getEventItemId(location.state.eventId));
+      // Clear eventId value to keep scroll position correctly
+      const state = { ...omit(location.state, 'eventId') };
+      // location.search seems to reset if not added here (...location)
+      history.replace({ ...location, state });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div className={styles[`contentWrapper${upperCaseFirstLetter(listType)}`]}>
+      <Container className={styles.contentContainer} withOffset={true}>
+        {listType === EVENT_LIST_TYPES.TABLE && (
+          <div className={styles.table}>
+            <EventsTable
+              caption={getTableCaption()}
+              events={events}
+              setSort={onSortChange}
+              sort={sort as EVENT_SORT_OPTIONS}
+            />
+          </div>
+        )}
+        {listType === EVENT_LIST_TYPES.CARD_LIST && (
+          <div className={styles.eventCards}>
+            {events.map((event) => {
+              return event && <EventCard key={event.id} event={event} />;
+            })}
+          </div>
+        )}
+        {pageCount > 1 && (
+          <Pagination
+            pageCount={pageCount}
+            selectedPage={page}
+            setSelectedPage={onSelectedPageChange}
+          />
+        )}
+        <FeedbackButton theme="black" />
+      </Container>
+    </div>
+  );
+};
+
+const EventListContainer: React.FC<EventListContainerProps> = (props) => {
+  const { baseVariables, listType, setListType, skip } = props;
   const eventListId = uniqueId('event-list-');
   const { t } = useTranslation();
   const history = useHistory();
-  const { pathname, search } = useLocation();
-  const { page, sort } = getEventSearchInitialValues(search);
+  const location = useLocation<EventsLocationState>();
+  const { page, sort } = getEventSearchInitialValues(location.search);
 
   const listTypeOptions = useEventListTypeOptions();
   const sortOptions = useEventSortOptions();
-  const variables = { ...baseVariables, ...getEventsQueryVariables(search) };
+  const variables = {
+    ...baseVariables,
+    ...getEventsQueryVariables(location.search),
+  };
 
   const { data: eventsData, loading } = useEventsQuery({
     skip,
@@ -74,8 +151,8 @@ const EventList: React.FC<EventListProps> = ({
 
   const handleSelectedPageChange = (page: number) => {
     history.push({
-      pathname,
-      search: replaceParamsToEventQueryString(search, {
+      pathname: location.pathname,
+      search: replaceParamsToEventQueryString(location.search, {
         page: page > 1 ? page : null,
       }),
     });
@@ -89,8 +166,8 @@ const EventList: React.FC<EventListProps> = ({
 
   const handleSortChange = (val: EVENT_SORT_OPTIONS) => {
     history.push({
-      pathname,
-      search: replaceParamsToEventQueryString(search, {
+      pathname: location.pathname,
+      search: replaceParamsToEventQueryString(location.search, {
         sort: val !== DEFAULT_EVENT_SORT ? val : null,
       }),
     });
@@ -98,12 +175,6 @@ const EventList: React.FC<EventListProps> = ({
 
   const eventsCount = eventsData?.events?.meta.count || 0;
   const pageCount = getPageCount(eventsCount, EVENTS_PAGE_SIZE);
-
-  const getTableCaption = () => {
-    return t(`eventsPage.eventsTableCaption.${camelCase(activeTab)}`, {
-      sort: sortOptions.find((option) => option.value === sort)?.label,
-    });
-  };
 
   return (
     <div id={eventListId} className={styles.eventList}>
@@ -135,40 +206,18 @@ const EventList: React.FC<EventListProps> = ({
         </div>
       </Container>
       <LoadingSpinner isLoading={loading}>
-        <div
-          className={styles[`contentWrapper${upperCaseFirstLetter(listType)}`]}
-        >
-          <Container className={styles.contentContainer} withOffset={true}>
-            {listType === EVENT_LIST_TYPES.TABLE && (
-              <div className={styles.table}>
-                <EventsTable
-                  caption={getTableCaption()}
-                  events={events}
-                  setSort={handleSortChange}
-                  sort={sort as EVENT_SORT_OPTIONS}
-                />
-              </div>
-            )}
-            {listType === EVENT_LIST_TYPES.CARD_LIST && (
-              <div className={styles.eventCards}>
-                {events.map((event) => {
-                  return event && <EventCard key={event.id} event={event} />;
-                })}
-              </div>
-            )}
-            {pageCount > 1 && (
-              <Pagination
-                pageCount={pageCount}
-                selectedPage={page}
-                setSelectedPage={handleSelectedPageChange}
-              />
-            )}
-            <FeedbackButton theme="black" />
-          </Container>
-        </div>
+        <EventList
+          {...props}
+          events={events}
+          onSelectedPageChange={handleSelectedPageChange}
+          onSortChange={handleSortChange}
+          page={page}
+          pageCount={pageCount}
+          sort={sort}
+        />
       </LoadingSpinner>
     </div>
   );
 };
 
-export default EventList;
+export default EventListContainer;

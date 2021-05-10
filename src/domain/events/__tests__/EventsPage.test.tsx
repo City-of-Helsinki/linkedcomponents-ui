@@ -1,4 +1,5 @@
 import { MockedResponse } from '@apollo/react-testing';
+import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import {
@@ -26,6 +27,7 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import {
@@ -229,6 +231,8 @@ const mocks = [
   mockedOrganizationsResponse,
 ];
 
+beforeEach(() => jest.clearAllMocks());
+
 const getElement = (
   key:
     | 'createEventButton'
@@ -390,10 +394,53 @@ test('should show draft events when drafts tab is selected', async () => {
       }),
     }),
   });
+
   const store = getMockReduxStore(storeState);
 
   render(<EventsPage />, { mocks, store });
 
   await loadingSpinnerIsNotInDocument();
   getElement('draftsTable');
+});
+
+it('scrolls to event table row and calls history.replace correctly (deletes eventId from state)', async () => {
+  const storeState = fakeAuthenticatedStoreState({
+    events: fakeEventsState({
+      listOptions: fakeEventsListOptionsState({
+        tab: EVENTS_PAGE_TABS.WAITING_APPROVAL,
+      }),
+    }),
+  });
+  const store = getMockReduxStore(storeState);
+  const route = '/fi/events';
+  const history = createMemoryHistory();
+  const historyObject = {
+    search: '?dateTypes=tomorrow,this_week',
+    state: { eventId: waitingApprovalEvents.data[0].id },
+    pathname: route,
+  };
+  history.push(historyObject);
+
+  const replaceSpy = jest.spyOn(history, 'replace');
+
+  render(<EventsPage />, {
+    history,
+    mocks,
+    routes: [route],
+    store,
+  });
+
+  await loadingSpinnerIsNotInDocument();
+
+  expect(replaceSpy).toHaveBeenCalledWith(
+    expect.objectContaining({
+      search: historyObject.search,
+      pathname: historyObject.pathname,
+    })
+  );
+
+  const eventRowButton = screen.getByRole('button', {
+    name: waitingApprovalEvents.data[0].name.fi,
+  });
+  await waitFor(() => expect(eventRowButton).toHaveFocus());
 });

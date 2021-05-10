@@ -31,3 +31,7 @@ export type ReturnParams = {
   [EVENT_SEARCH_PARAMS.RETURN_PATH]: string;
   remainingQueryString: string;
 };
+
+export type EventsLocationState = {
+  eventId: string;
+};

@@ -1,9 +1,11 @@
 import isValid from 'date-fns/isValid';
 import capitalize from 'lodash/capitalize';
+import { scroller } from 'react-scroll';
 
 import { ROUTES } from '../../constants';
 import { EventsQueryVariables, EventTypeId } from '../../generated/graphql';
 import formatDate from '../../utils/formatDate';
+import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import getPathBuilder from '../../utils/getPathBuilder';
 import { getSearchQuery } from '../../utils/searchUtils';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
@@ -179,4 +181,36 @@ export const getEventSearchQuery = (
     sort: sort !== DEFAULT_EVENT_SORT ? sort : null,
     start: start ? formatDate(start, 'yyyy-MM-dd') : undefined,
   });
+};
+
+export const getEventItemId = (id: string): string => `event-item${id}`;
+
+const setFocusToFirstFocusable = (id: string) => {
+  const element = document.getElementById(id);
+  if (!element) return;
+  if (element?.tabIndex >= 0) {
+    element?.focus();
+  } else {
+    const focusable = element?.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+    (focusable?.[0] as HTMLElement)?.focus();
+  }
+};
+
+export const scrollToEventCard = (id: string): void => {
+  const offset = 24;
+  const duration = 300;
+
+  scroller.scrollTo(id, {
+    delay: 50,
+    duration: 300,
+    offset: 0 - (getPageHeaderHeight() + offset),
+    smooth: true,
+  });
+
+  setTimeout(() => {
+    setFocusToFirstFocusable(id);
+  }, duration);
 };

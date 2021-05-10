@@ -22,6 +22,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { EventsLocationState } from '../eventSearch/types';
 import {
   extractLatestReturnPath,
   replaceParamsToEventQueryString,
@@ -78,7 +79,7 @@ interface EditEventPageProps {
 
 const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const history = useHistory<EventsLocationState>();
   const location = useLocation();
   const locale = useLocale();
   const { id, name, publicationStatus, superEventType } = getEventFields(

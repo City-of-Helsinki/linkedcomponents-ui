@@ -1,7 +1,9 @@
+import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import {
   eventNames,
+  events,
   mockedEventsResponse,
   mockedPlacesResponse,
   searchText,
@@ -11,6 +13,7 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  waitFor,
 } from '../../../utils/testUtils';
 import EventSearchPage from '../EventSearchPage';
 
@@ -26,4 +29,35 @@ test('should render events in the event list', async () => {
 
   await screen.getByRole('heading', { name: eventNames[0] });
   await screen.getByRole('heading', { name: eventNames[1] });
+});
+
+it('scrolls to event card and calls history.replace correctly (deletes eventId from state)', async () => {
+  const route = ROUTES.SEARCH;
+  const history = createMemoryHistory();
+  const historyObject = {
+    search: `?text=${searchText}`,
+    state: { eventId: events.data[0].id },
+    pathname: route,
+  };
+  history.push(historyObject);
+
+  const replaceSpy = jest.spyOn(history, 'replace');
+
+  render(<EventSearchPage />, {
+    history,
+    mocks,
+    routes: [route],
+  });
+
+  await loadingSpinnerIsNotInDocument();
+
+  expect(replaceSpy).toHaveBeenCalledWith(
+    expect.objectContaining({
+      search: historyObject.search,
+      pathname: historyObject.pathname,
+    })
+  );
+
+  const eventCard = screen.getByRole('link', { name: eventNames[0] });
+  await waitFor(() => expect(eventCard).toHaveFocus());
 });

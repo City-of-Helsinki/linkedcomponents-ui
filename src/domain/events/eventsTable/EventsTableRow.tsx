@@ -10,6 +10,7 @@ import formatDate from '../../../utils/formatDate';
 import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
+import { getEventItemId } from '../../eventSearch/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import PublisherName from '../eventCard/PublisherName';
@@ -86,6 +87,7 @@ const EventTableRow: React.FC<Props> = ({
         role="button"
         aria-label={name}
         className={open || hideBorder ? styles.noBorder : undefined}
+        id={getEventItemId(id)}
         onClick={handleRowClick}
         onKeyDown={handleKeyDown}
         tabIndex={0}

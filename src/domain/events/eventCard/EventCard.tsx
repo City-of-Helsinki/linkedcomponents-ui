@@ -20,7 +20,10 @@ import { useTheme } from '../../app/theme/Theme';
 import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
-import { addParamsToEventQueryString } from '../../eventSearch/utils';
+import {
+  addParamsToEventQueryString,
+  getEventItemId,
+} from '../../eventSearch/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import { expandedEventsSelector } from '../selectors';
@@ -97,12 +100,14 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
     <>
       <div
         className={styles.eventCardWrapper}
+        id={getEventItemId(id)}
         style={{
           marginLeft: `calc(${level} * var(--spacing-l))`,
           marginRight: `calc(0px - ${level} * var(--spacing-l))`,
         }}
       >
         <Link
+          aria-label={name}
           className={classNames(styles.eventCard, css(theme.eventCard))}
           to={eventUrlWithReturnPath}
         >

@@ -18,7 +18,7 @@ import {
   EVENTS_PAGE_SIZE,
   EVENTS_PAGE_TABS,
 } from '../../constants';
-import EventList, { EventListProps } from '../EventList';
+import EventList, { EventListContainerProps } from '../EventList';
 
 configure({ defaultHidden: true });
 
@@ -104,7 +104,7 @@ const mocks = [
   mockedSortedEventsResponse,
 ];
 
-const defaultProps: EventListProps = {
+const defaultProps: EventListContainerProps = {
   activeTab: EVENTS_PAGE_TABS.PUBLISHED,
   baseVariables: variables,
   listType: EVENT_LIST_TYPES.TABLE,
@@ -130,7 +130,7 @@ const getElement = (
   }
 };
 
-const renderComponent = (props?: Partial<EventListProps>) =>
+const renderComponent = (props?: Partial<EventListContainerProps>) =>
   render(<EventList {...defaultProps} {...props} />, { mocks });
 
 test('should render events of page 2', async () => {

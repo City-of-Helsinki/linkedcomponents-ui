@@ -1,3 +1,4 @@
+import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,26 +24,78 @@ import {
 import EventCard from '../../events/eventCard/EventCard';
 import useEventSortOptions from '../../events/hooks/useEventSortOptions';
 import { eventsPathBuilder } from '../../events/utils';
+import { EventsLocationState } from '../types';
 import {
+  getEventItemId,
   getEventSearchInitialValues,
   replaceParamsToEventQueryString,
+  scrollToEventCard,
 } from '../utils';
 import styles from './eventList.module.scss';
 
-export interface EventListProps {
+export interface EventListContainerProps {
   baseVariables: EventsQueryVariables;
 }
+
+type EventListProps = {
+  events: EventFieldsFragment[];
+  onSelectedPageChange: (page: number) => void;
+  page: number;
+  pageCount: number;
+};
 
 const getPageCount = (count: number, pageSize: number) => {
   return Math.ceil(count / pageSize);
 };
 
-const EventList: React.FC<EventListProps> = ({ baseVariables }) => {
+const EventList: React.FC<EventListProps> = ({
+  events,
+  onSelectedPageChange,
+  page,
+  pageCount,
+}) => {
+  const location = useLocation<EventsLocationState>();
+  const history = useHistory();
+
+  React.useEffect(() => {
+    if (location.state?.eventId) {
+      scrollToEventCard(getEventItemId(location.state.eventId));
+      // Clear eventId value to keep scroll position correctly
+      const state = { ...omit(location.state, 'eventId') };
+      // location.search seems to reset if not added here (...location)
+      history.replace({ ...location, state });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <Container className={styles.contentContainer} withOffset={true}>
+      <div className={styles.eventCards}>
+        {events.map((event) => {
+          return event && <EventCard key={event.id} event={event} />;
+        })}
+      </div>
+
+      {pageCount > 1 && (
+        <Pagination
+          className={styles.pagination}
+          pageCount={pageCount}
+          selectedPage={page}
+          setSelectedPage={onSelectedPageChange}
+        />
+      )}
+    </Container>
+  );
+};
+
+const EventListContainer: React.FC<EventListContainerProps> = ({
+  baseVariables,
+}) => {
   const eventListId = uniqueId('event-list-');
   const { t } = useTranslation();
-  const { pathname, search } = useLocation();
+  const location = useLocation<EventsLocationState>();
   const history = useHistory();
-  const { page, sort } = getEventSearchInitialValues(search);
+  const { page, sort } = getEventSearchInitialValues(location.search);
 
   const sortOptions = useEventSortOptions();
   const variables = {
@@ -58,8 +111,8 @@ const EventList: React.FC<EventListProps> = ({ baseVariables }) => {
 
   const handleSelectedPageChange = (page: number) => {
     history.push({
-      pathname,
-      search: replaceParamsToEventQueryString(search, {
+      pathname: location.pathname,
+      search: replaceParamsToEventQueryString(location.search, {
         page: page > 1 ? page : null,
       }),
     });
@@ -74,8 +127,8 @@ const EventList: React.FC<EventListProps> = ({ baseVariables }) => {
 
   const handleSortChange = (val: EVENT_SORT_OPTIONS) => {
     history.push({
-      pathname,
-      search: replaceParamsToEventQueryString(search, {
+      pathname: location.pathname,
+      search: replaceParamsToEventQueryString(location.search, {
         page: null,
         sort: val !== DEFAULT_EVENT_SORT ? val : null,
       }),
@@ -106,25 +159,15 @@ const EventList: React.FC<EventListProps> = ({ baseVariables }) => {
         </div>
       </Container>
       <LoadingSpinner isLoading={loading}>
-        <Container className={styles.contentContainer} withOffset={true}>
-          <div className={styles.eventCards}>
-            {events.map((event) => {
-              return event && <EventCard key={event.id} event={event} />;
-            })}
-          </div>
-
-          {pageCount > 1 && (
-            <Pagination
-              className={styles.pagination}
-              pageCount={pageCount}
-              selectedPage={page}
-              setSelectedPage={handleSelectedPageChange}
-            />
-          )}
-        </Container>
+        <EventList
+          events={events}
+          onSelectedPageChange={handleSelectedPageChange}
+          page={page}
+          pageCount={pageCount}
+        />
       </LoadingSpinner>
     </div>
   );
 };
 
-export default EventList;
+export default EventListContainer;

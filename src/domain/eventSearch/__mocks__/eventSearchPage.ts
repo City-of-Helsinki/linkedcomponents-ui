@@ -53,4 +53,10 @@ const mockedPlacesResponse: MockedResponse = {
   result: placesResponse,
 };
 
-export { eventNames, mockedEventsResponse, mockedPlacesResponse, searchText };
+export {
+  eventNames,
+  events,
+  mockedEventsResponse,
+  mockedPlacesResponse,
+  searchText,
+};

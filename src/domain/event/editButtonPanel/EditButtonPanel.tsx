@@ -18,6 +18,7 @@ import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
+import { EventsLocationState } from '../../eventSearch/types';
 import { extractLatestReturnPath } from '../../eventSearch/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
@@ -51,7 +52,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const authenticated = useSelector(authenticatedSelector);
   const { search } = useLocation();
   const locale = useLocale();
-  const history = useHistory();
+  const history = useHistory<EventsLocationState>();
   const isMobile = useIsMobile();
 
   const { organizationAncestors } = useEventOrganizationAncestors(event);
