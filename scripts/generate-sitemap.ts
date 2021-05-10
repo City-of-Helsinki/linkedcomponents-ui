@@ -1,12 +1,10 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import { promisify } from 'util';
 import * as convert from 'xml-js';
 
 import { ROUTES, SUPPORTED_LANGUAGES } from '../src/constants';
+import { HOST, PATH_TO_BUILD_FOLDER, SITEMAP_FILENAME } from './constants';
 
-const PATH_TO_BUILD_FOLDER = path.resolve('./build');
-const HOST = process.env.PUBLIC_URL;
 const LANGUAGES = Object.values(SUPPORTED_LANGUAGES);
 const STATIC_URLS_BLACK_LIST = [
   ROUTES.CALLBACK,
@@ -121,7 +119,7 @@ const saveSitemapFile = (elements: Element[]) => {
     ],
   };
 
-  return writeXMLFile(`${PATH_TO_BUILD_FOLDER}/sitemap.xml`, data);
+  return writeXMLFile(`${PATH_TO_BUILD_FOLDER}/${SITEMAP_FILENAME}`, data);
 };
 
 const generateSitemap = async () => {

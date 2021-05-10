@@ -148,7 +148,11 @@ Gzip compress build folder. Run this after building app to be able serve files i
 
 ### `yarn generate-sitemap`
 
-Generate sitemap for the app. Sitemap is generated only if PUBLIC_URL is set and GENERATE_SITEMAP === true in .env file
+Generates sitemap for the app. Sitemap is generated only if PUBLIC_URL is set and GENERATE_SITEMAP === true.
+
+### `yarn generate-robots`
+
+Generates production robots.txt for the app. File is generated only if PUBLIC_URL is set and GENERATE_ROBOTS === true. Link to sitemap is added if GENERATE_SITEMAP === true
 
 ### `yarn lint`
 

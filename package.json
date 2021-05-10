@@ -72,6 +72,7 @@
     "build": "react-scripts build",
     "codegen": "graphql-codegen --config codegen.yml",
     "compress": "gzipper compress ./build",
+    "generate-robots": "ts-node  -P ./scripts/tsconfig.json -r dotenv/config scripts/generate-robots.ts",
     "generate-sitemap": "ts-node  -P ./scripts/tsconfig.json -r dotenv/config scripts/generate-sitemap.ts",
     "test": "TZ=UTC react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:coverage": "TZ=UTC react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=false",
