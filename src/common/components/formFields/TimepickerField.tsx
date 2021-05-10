@@ -50,7 +50,8 @@ const InputField: React.FC<Props> = (props) => {
       onChange={handleChange}
       onBlur={handleBlur}
       id={name}
-      helperText={errorText || helperText}
+      errorText={errorText}
+      helperText={helperText}
       invalid={!!errorText}
       className={className}
     />

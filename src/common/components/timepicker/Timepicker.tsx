@@ -70,6 +70,7 @@ const Timepicker: React.FC<Props> = ({
     getInputProps,
     getComboboxProps,
     highlightedIndex,
+    selectItem,
     getItemProps,
   } = useCombobox({
     id,
@@ -118,6 +119,14 @@ const Timepicker: React.FC<Props> = ({
   });
   const { htmlFor, ...labelProps } = getLabelProps();
   const showDropdown = isOpen && inputItems.length > 0;
+
+  React.useEffect(() => {
+    // Reset selected value in case that value is reseted from outside
+    if (selectedItem && !value) {
+      selectItem('');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   return (
     <InputWrapper
