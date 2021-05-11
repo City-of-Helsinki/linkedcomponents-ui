@@ -116,7 +116,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
       className={styles.eventsPage}
       title="eventsPage.pageTitle"
     >
-      <MainContent>
+      <MainContent className={styles.mainContent}>
         <Container withOffset={true}>
           <div className={styles.titleRow}>
             <h1 className={styles.title}>{t('eventsPage.title')}</h1>
@@ -158,6 +158,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
           return (
             <TabPanel
               key={index}
+              className={styles.tabPanel}
               isActive={isActive}
               index={index}
               name="event-list"
@@ -170,6 +171,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
               <EventList
                 activeTab={activeTab}
                 baseVariables={variables[tab]}
+                className={styles.eventList}
                 listType={listType}
                 setListType={setListType}
                 skip={skip[tab]}

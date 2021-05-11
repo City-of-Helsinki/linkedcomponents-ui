@@ -43,6 +43,7 @@ import ListTypeSelector from './ListTypeSelector';
 export interface EventListContainerProps {
   activeTab: EVENTS_PAGE_TABS;
   baseVariables: EventsQueryVariables;
+  className?: string;
   listType: EVENT_LIST_TYPES;
   setListType: (type: EVENT_LIST_TYPES) => void;
   skip?: boolean;
@@ -128,7 +129,7 @@ const EventList: React.FC<EventListProps> = ({
 };
 
 const EventListContainer: React.FC<EventListContainerProps> = (props) => {
-  const { baseVariables, listType, setListType, skip } = props;
+  const { baseVariables, className, listType, setListType, skip } = props;
   const eventListId = uniqueId('event-list-');
   const { t } = useTranslation();
   const history = useHistory();
@@ -177,7 +178,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   const pageCount = getPageCount(eventsCount, EVENTS_PAGE_SIZE);
 
   return (
-    <div id={eventListId} className={styles.eventList}>
+    <div id={eventListId} className={(styles.eventList, className)}>
       <Container withOffset={true}>
         <div className={styles.listTypeRow}>
           <div className={styles.listTypeSelectorColumn}>

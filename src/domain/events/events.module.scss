@@ -11,6 +11,23 @@
   }
 }
 
+.mainContent {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.tabPanel {
+  flex: 1 1 0%;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+}
+
+.eventList {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
 .titleRow {
   display: grid;
   grid-gap: var(--spacing-m);
