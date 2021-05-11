@@ -15,14 +15,10 @@ import {
   usePostGuestFeedbackMutation,
 } from '../../../generated/graphql';
 import PageWrapper from '../../app/layout/PageWrapper';
-import { authenticatedSelector } from '../../auth/selectors';
-import {
-  CONTACT_FORM_FIELD,
-  initialValues,
-  validationSchema,
-} from '../constants';
+import { authenticatedSelector, userSelector } from '../../auth/selectors';
+import { CONTACT_FORM_FIELD, validationSchema } from '../constants';
 import { ContactFormFields } from '../types';
-import { scrollToFirstError, showErrors } from '../utils';
+import { getInitialValues, scrollToFirstError, showErrors } from '../utils';
 import styles from './contactPage.module.scss';
 
 const ContactPage: React.FC = () => {
@@ -30,6 +26,8 @@ const ContactPage: React.FC = () => {
     .current;
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
+  const user = useSelector(userSelector);
+  const initialValues = React.useMemo(() => getInitialValues(user), [user]);
 
   const [success, setSuccess] = React.useState(false);
 
@@ -62,8 +60,12 @@ const ContactPage: React.FC = () => {
       });
       setSuccess(true);
 
-      document.getElementById(CONTACT_FORM_FIELD.NAME)?.focus();
-    } catch (e) {
+      document
+        .getElementById(
+          authenticated ? CONTACT_FORM_FIELD.SUBJECT : CONTACT_FORM_FIELD.NAME
+        )
+        ?.focus();
+    } catch (e) /* instanbul ignore next */ {
       setSuccess(false);
     }
   };
@@ -132,6 +134,7 @@ const ContactPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={TextInputField}
+                  disabled={authenticated && values.name}
                   label={t('helpPage.contactPage.labelName')}
                   name={CONTACT_FORM_FIELD.NAME}
                   placeholder={t('helpPage.contactPage.placeholderName')}
@@ -141,6 +144,7 @@ const ContactPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={TextInputField}
+                  disabled={authenticated && values.email}
                   label={t('helpPage.contactPage.labelEmail')}
                   name={CONTACT_FORM_FIELD.EMAIL}
                   placeholder={t('helpPage.contactPage.placeholderEmail')}

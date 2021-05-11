@@ -9,6 +9,7 @@ import {
   EventStatus,
   EventTypeId,
   ExternalLink,
+  Feedback,
   Image,
   ImagesResponse,
   Keyword,
@@ -93,6 +94,19 @@ export const fakeExternalLink = (
       link: faker.internet.url(),
       name: EXTLINK.EXTLINK_FACEBOOK,
       __typename: 'ExternalLink',
+    },
+    overrides
+  );
+
+export const fakeFeedback = (overrides?: Partial<Feedback>): Feedback =>
+  merge<Feedback, typeof overrides>(
+    {
+      id: faker.random.uuid(),
+      name: faker.name.firstName(),
+      email: faker.internet.email(),
+      subject: faker.name.title(),
+      body: faker.internet.exampleEmail(),
+      __typename: 'Feedback',
     },
     overrides
   );

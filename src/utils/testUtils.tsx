@@ -23,17 +23,16 @@ import { store as reduxStore } from '../domain/app/store/store';
 import { ThemeProvider } from '../domain/app/theme/Theme';
 import { StoreState } from '../types';
 
+export type CustomRenderOptions = {
+  history?: History;
+  mocks?: MockedResponse[];
+  path?: string;
+  routes?: string[];
+  store?: Store<StoreState, AnyAction>;
+};
+
 type CustomRender = {
-  (
-    ui: React.ReactElement,
-    options?: {
-      history?: History;
-      mocks?: MockedResponse[];
-      path?: string;
-      routes?: string[];
-      store?: Store<StoreState, AnyAction>;
-    }
-  ): CustomRenderResult;
+  (ui: React.ReactElement, options?: CustomRenderOptions): CustomRenderResult;
 };
 
 type CustomRenderResult = RenderResult & { history: History };

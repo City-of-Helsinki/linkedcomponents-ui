@@ -1,9 +1,11 @@
 import { FormikErrors, FormikTouched } from 'formik';
 import forEach from 'lodash/forEach';
 import set from 'lodash/set';
+import { User } from 'oidc-client';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
+import { initialValues } from './constants';
 import { ContactFormFields } from './types';
 
 export const showErrors = ({
@@ -57,3 +59,12 @@ export const scrollToFirstError = ({
     }
   });
 };
+
+export const getInitialValues = (user?: User): ContactFormFields =>
+  user
+    ? {
+        ...initialValues,
+        name: user.profile.name ?? /* instanbul ignore next */ '',
+        email: user.profile.email ?? /* instanbul ignore next */ '',
+      }
+    : initialValues;
