@@ -1,9 +1,15 @@
-@import "breakpoints";
+@import 'breakpoints';
 
 .contactForm {
-    display: grid;
-    
-    @include medium-up {
-        max-width: var(--input-max-width-m);
-    }
+  display: grid;
+
+  color: var(--color-black-90);
+
+  @include medium-up {
+    max-width: var(--input-max-width-m);
+  }
+
+  h2 {
+    font-weight: normal !important;
+  }
 }

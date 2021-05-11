@@ -9,6 +9,8 @@ module.exports = buildSchema(/* GraphQL */ `
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     deleteEvent(id: ID!): NoContent
+    postFeedback(input: FeedbackInput!): Feedback
+    postGuestFeedback(input: FeedbackInput!): Feedback
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
@@ -116,6 +118,13 @@ module.exports = buildSchema(/* GraphQL */ `
     name: String
     link: String
     language: String
+  }
+
+  input FeedbackInput {
+    name: String
+    email: String
+    subject: String
+    body: String
   }
 
   input IdObjectInput {
@@ -229,6 +238,14 @@ module.exports = buildSchema(/* GraphQL */ `
   type EventsResponse {
     meta: Meta!
     data: [Event]!
+  }
+
+  type Feedback {
+    id: ID
+    name: String
+    email: String
+    subject: String
+    body: String
   }
 
   type ImagesResponse {

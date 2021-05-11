@@ -911,15 +911,20 @@
   "helpPage": {
     "contactPage": {
       "buttonSend": "Skicka",
+      "labelBody": "Meddelande",
       "labelEmail": "E-postadress",
-      "labelFeedback": "Respons",
-      "labelName": "Name",
+      "labelName": "Namn",
+      "labelSubject": "Ämne",
       "pageDescription": "Skicka en felrapport eller funktionsförfrågan. Eller skicka oss lite feedback om tjänsten.",
       "pageTitle": "Ta kontakt",
+      "placeholderBody": "Ange ditt meddelande",
       "placeholderEmail": "Skriv in din e-postadress",
-      "placeholderFeedback": "Ange respons",
-      "placeholderName": "Enter name",
-      "text": "Kontakta oss med hjälp av formuläret nedan."
+      "placeholderName": "Ange ditt för- och efternamn eller smeknamn",
+      "placeholderSubject": "Ange ämne",
+      "textSuccess": "Ditt meddelande har skickats. Vi kontaktar dig snart!",
+      "titleContactInfo": "Kontaktinformation",
+      "titleMessage": "Meddelande",
+      "titleSuccess": "Tack för att du kontaktar oss."
     },
     "pageDescriptionApi": "Mer information om API (application protocol interface) för Linked Events.",
     "pageDescriptionControlPanel": "Hur man använder kontrollpanelen och administrationsfunktioner på Linked Events.",

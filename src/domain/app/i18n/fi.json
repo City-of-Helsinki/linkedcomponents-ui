@@ -912,15 +912,20 @@
   "helpPage": {
     "contactPage": {
       "buttonSend": "Lähetä",
-      "labelEmail": "Sähköposti",
-      "labelFeedback": "Palaute/asia",
+      "labelBody": "Viesti",
+      "labelEmail": "Sähköpostiosoite",
       "labelName": "Nimi",
+      "labelSubject": "Otsikko",
       "pageDescription": "Lähetä virheraportti tai ominaisuuspyyntö. Tai lähetä meille palautetta palvelusta.",
       "pageTitle": "Ota yhteyttä",
+      "placeholderBody": "Syötä viestisi",
       "placeholderEmail": "Syötä sähköposti",
-      "placeholderFeedback": "Syötä palaute/asia",
-      "placeholderName": "Syötä nimi",
-      "text": "Ota yhteyttä meihin alla olevalla lomakkeella."
+      "placeholderName": "Syötä etu- ja sukunimi tai nimimerkki",
+      "placeholderSubject": "Syötä yhteydenottoa kuvaileva otsikko",
+      "textSuccess": "Viestisi on lähetetty. Otamme sinuun yhteyttä pian!",
+      "titleContactInfo": "Yhteystiedot",
+      "titleMessage": "Viesti",
+      "titleSuccess": "Kiitos yhteydenotostasi."
     },
     "pageDescriptionApi": "Lisätietoja Linked Eventsin API: sta (application protocol interface).",
     "pageDescriptionControlPanel": "Ohjauspaneelin ja Linked Eventsin järjestelmänvalvojan ominaisuuksien käyttäminen.",

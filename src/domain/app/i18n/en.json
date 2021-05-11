@@ -910,15 +910,20 @@
   "helpPage": {
     "contactPage": {
       "buttonSend": "Send",
+      "labelBody": "Message",
       "labelEmail": "Email",
-      "labelFeedback": "Feedback",
       "labelName": "Name",
+      "labelSubject": "Subject",
       "pageDescription": "Send a bug report or feature request. Or send us some feedback about the service.",
       "pageTitle": "Contact us",
+      "placeholderBody": "Enter your message",
       "placeholderEmail": "Enter email",
-      "placeholderFeedback": "Enter feedback",
-      "placeholderName": "Enter name",
-      "text": "Contact us using the form below."
+      "placeholderName": "Enter your first and last name or nickname",
+      "placeholderSubject": "Enter subject",
+      "textSuccess": "Your message has been successfully sent. We will contact you very soon!",
+      "titleContactInfo": "Contact information",
+      "titleMessage": "Message",
+      "titleSuccess": "Thank you for contacting us."
     },
     "pageDescriptionApi": "More information about the API (application protocol interface) of Linked Events.",
     "pageDescriptionControlPanel": "How to use control panel and Linked events admin features.",
