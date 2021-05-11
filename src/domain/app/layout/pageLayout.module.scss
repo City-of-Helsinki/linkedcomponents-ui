@@ -11,8 +11,7 @@
 }
 
 .pageBody {
-  display: flex;
-  align-content: flex-start;
+  display: grid;
   background-color: var(--page-background-color);
   margin-bottom: calc(0px - var(--footer-koro-height));
   padding-bottom: var(--footer-koro-height);
