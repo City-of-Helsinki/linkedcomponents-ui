@@ -45,7 +45,8 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   value,
 }) => {
   const { t } = useTranslation();
-  const id = _id || uniqueId('multi-select-dropdown');
+  const id = React.useRef<string>(_id || uniqueId('multi-select-dropdown-'))
+    .current;
   const toggleButtonId = `${id}-toggle-button`;
   const loadingSpinnerText = t('common.loading') || _loadingSpinnerText;
   const menuId = `${id}-menu`;

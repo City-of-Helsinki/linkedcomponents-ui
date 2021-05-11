@@ -91,7 +91,7 @@ const EventList: React.FC<EventListProps> = ({
 const EventListContainer: React.FC<EventListContainerProps> = ({
   baseVariables,
 }) => {
-  const eventListId = uniqueId('event-list-');
+  const eventListId = React.useRef<string>(uniqueId('event-list-')).current;
   const { t } = useTranslation();
   const location = useLocation<EventsLocationState>();
   const history = useHistory();
