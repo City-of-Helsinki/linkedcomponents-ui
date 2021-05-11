@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 
 import { MAX_PAGE_SIZE } from '../../../../constants';
 import {

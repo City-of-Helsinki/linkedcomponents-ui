@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
 import { PAGE_SIZE } from '../../../common/components/imageSelector/constants';

@@ -1,4 +1,4 @@
-import { MockedProvider, MockedResponse } from '@apollo/react-testing';
+import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import {
   act,

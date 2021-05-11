@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import addDays from 'date-fns/addDays';
 import addHours from 'date-fns/addHours';
 import startOfDay from 'date-fns/startOfDay';
