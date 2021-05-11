@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.2.5",
+    "@apollo/client": "^3.3.16",
     "@datapunt/matomo-tracker-react": "^0.4.0",
     "@datepicker-react/hooks": "2.7.0",
     "@reduxjs/toolkit": "^1.4.0",
@@ -74,7 +74,7 @@
     "compress": "gzipper compress ./build",
     "generate-sitemap": "ts-node  -P ./scripts/tsconfig.json -r dotenv/config scripts/generate-sitemap.ts",
     "test": "TZ=UTC react-scripts test",
-    "test:coverage": "TZ=UTC react-scripts test --coverage --watchAll=false",
+    "test:coverage": "TZ=UTC react-scripts test --coverage --watchAll=false --runInBand",
     "browser-test": "testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
     "browser-test:local": "BROWSER_TEST_ENV=local testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
     "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" browser-tests/",
