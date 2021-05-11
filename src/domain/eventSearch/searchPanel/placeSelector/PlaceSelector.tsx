@@ -1,4 +1,4 @@
-import { ApolloClient, useApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
 import sortBy from 'lodash/sortBy';
 import React from 'react';
 
@@ -51,9 +51,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
 }) => {
   const isMounted = useIsMounted();
 
-  const apolloClient = useApolloClient() as ApolloClient<
-    Record<string, unknown>
-  >;
+  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
   const locale = useLocale();
   const [searchValue, setSearchValue] = React.useState('');
   const [options, setOptions] = React.useState<OptionType[]>([]);

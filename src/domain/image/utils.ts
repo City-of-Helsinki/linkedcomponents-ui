@@ -1,4 +1,4 @@
-import { ApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { TFunction } from 'i18next';
 
 import {
@@ -173,7 +173,7 @@ export const checkIsImageActionAllowed = ({
 
 export const getImageQueryResult = async (
   id: string,
-  apolloClient: ApolloClient<Record<string, unknown>>
+  apolloClient: ApolloClient<InMemoryCache>
 ): Promise<Image | null> => {
   try {
     const { data: imageData } = await apolloClient.query<ImageQuery>({

@@ -1,4 +1,4 @@
-import { ApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 import { MAX_PAGE_SIZE } from '../../constants';
 import {
@@ -44,7 +44,7 @@ export const getOrganizationFields = (
 
 export const getOrganizationQueryResult = async (
   id: string,
-  apolloClient: ApolloClient<Record<string, unknown>>
+  apolloClient: ApolloClient<InMemoryCache>
 ): Promise<Organization | null> => {
   try {
     const { data: organizationData } = await apolloClient.query<
@@ -65,7 +65,7 @@ export const getOrganizationQueryResult = async (
 
 export const getOrganizationAncestorsQueryResult = async (
   publisher: string,
-  apolloClient: ApolloClient<Record<string, unknown>>
+  apolloClient: ApolloClient<InMemoryCache>
 ): Promise<Organization[]> => {
   try {
     if (!publisher) {

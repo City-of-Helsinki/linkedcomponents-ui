@@ -1,4 +1,4 @@
-import { ApolloClient, useApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
 import map from 'lodash/map';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -71,9 +71,7 @@ const useEventUpdateActions = ({
 }: Props): UseEventUpdateActionsState => {
   const isMounted = useIsMounted();
   const { t } = useTranslation();
-  const apolloClient = useApolloClient() as ApolloClient<
-    Record<string, unknown>
-  >;
+  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const locale = useLocale();

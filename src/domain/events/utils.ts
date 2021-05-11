@@ -1,4 +1,4 @@
-import { ApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 import capitalize from 'lodash/capitalize';
 
 import {
@@ -97,13 +97,13 @@ export const eventsPathBuilder = ({
 };
 
 export const clearEventsQueries = (
-  apolloClient: ApolloClient<Record<string, unknown>>
+  apolloClient: ApolloClient<InMemoryCache>
 ): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
 
 /* instanbul ignore next */
 export const clearEventQuery = (
-  apolloClient: ApolloClient<Record<string, unknown>>,
+  apolloClient: ApolloClient<InMemoryCache>,
   eventId: string
 ): boolean => apolloClient.cache.evict({ id: `Event:${eventId}` });
 

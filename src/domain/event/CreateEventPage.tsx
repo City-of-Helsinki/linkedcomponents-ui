@@ -1,4 +1,9 @@
-import { ApolloClient, FetchResult, useApolloClient } from '@apollo/client';
+import {
+  ApolloClient,
+  FetchResult,
+  InMemoryCache,
+  useApolloClient,
+} from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -50,9 +55,7 @@ import {
 } from './utils';
 
 const CreateEventPage: React.FC = () => {
-  const apolloClient = useApolloClient() as ApolloClient<
-    Record<string, unknown>
-  >;
+  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
   const history = useHistory();
   const location = useLocation();
   const locale = useLocale();

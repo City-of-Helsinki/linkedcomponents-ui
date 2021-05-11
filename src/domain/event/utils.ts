@@ -1,4 +1,4 @@
-import { ApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 import addDays from 'date-fns/addDays';
 import addWeeks from 'date-fns/addWeeks';
 import endOfDay from 'date-fns/endOfDay';
@@ -1429,7 +1429,7 @@ const getSubEvents = async ({
   event,
   apolloClient,
 }: {
-  apolloClient: ApolloClient<Record<string, unknown>>;
+  apolloClient: ApolloClient<InMemoryCache>;
   event: EventFieldsFragment;
 }) => {
   if (!event.superEventType) return [];
@@ -1486,7 +1486,7 @@ export const getRelatedEvents = async ({
   event,
   apolloClient,
 }: {
-  apolloClient: ApolloClient<Record<string, unknown>>;
+  apolloClient: ApolloClient<InMemoryCache>;
   event: EventFieldsFragment;
 }): Promise<EventFieldsFragment[]> => {
   const allRelatedEvents: EventFieldsFragment[] = [event];
@@ -1504,7 +1504,7 @@ export const getOrganizationAncestors = async ({
   event,
   apolloClient,
 }: {
-  apolloClient: ApolloClient<Record<string, unknown>>;
+  apolloClient: ApolloClient<InMemoryCache>;
   event: EventFieldsFragment;
 }): Promise<OrganizationFieldsFragment[]> => {
   try {
@@ -1823,7 +1823,7 @@ export const copyEventToSessionStorage = async (
 
 export const getRecurringEvent = async (
   id: string,
-  apolloClient: ApolloClient<Record<string, unknown>>
+  apolloClient: ApolloClient<InMemoryCache>
 ): Promise<EventFieldsFragment | null> => {
   try {
     const { data: eventData } = await apolloClient.query<EventQuery>({
