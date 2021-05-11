@@ -103,7 +103,11 @@ const GeneralInstructionsPage: React.FC = () => {
     }
   };
   return (
-    <PageWrapper title="helpPage.pageTitleInstructions">
+    <PageWrapper
+      description="helpPage.pageDescriptionInstructions"
+      keywords={['keywords.support', 'keywords.help', 'keywords.instructions']}
+      title="helpPage.pageTitleInstructions"
+    >
       {getContent(locale)}
     </PageWrapper>
   );

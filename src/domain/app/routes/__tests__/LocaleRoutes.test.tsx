@@ -58,6 +58,6 @@ it('should route to default help page', async () => {
   const { history } = renderRoute(ROUTES.HELP);
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/help/instructions/platform')
+    expect(history.location.pathname).toBe('/fi/help/instructions/general')
   );
 });

@@ -82,7 +82,11 @@ const GeneralTechnologyPage: React.FC = () => {
     }
   };
   return (
-    <PageWrapper title="helpPage.pageTitleTechnology">
+    <PageWrapper
+      description="helpPage.pageDescriptionTechnology"
+      keywords={['keywords.technology', 'keywords.help', 'keywords.support']}
+      title="helpPage.pageTitleTechnology"
+    >
       {getContent(locale)}
     </PageWrapper>
   );

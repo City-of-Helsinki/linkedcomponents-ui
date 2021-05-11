@@ -99,7 +99,11 @@ const FeaturesPage: React.FC = () => {
   };
 
   return (
-    <PageWrapper title="helpPage.pageTitleFeatures">
+    <PageWrapper
+      description="helpPage.pageDescriptionFeatures"
+      keywords={['keywords.features']}
+      title="helpPage.pageTitleFeatures"
+    >
       {getContent(locale)}
     </PageWrapper>
   );

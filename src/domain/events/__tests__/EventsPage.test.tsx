@@ -20,7 +20,6 @@ import {
   fakeEventsState,
 } from '../../../utils/mockStoreUtils';
 import {
-  actWait,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -29,7 +28,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import translations from '../../app/i18n/fi.json';
 import {
   EVENT_LIST_INCLUDES,
   EVENT_LIST_TYPES,
@@ -281,16 +279,27 @@ const getElement = (
   }
 };
 
-test('should show correct title if user is not logged in', async () => {
+test('should show correct title, description and keywords', async () => {
+  const pageTitle = 'Omat tapahtumat - Linked Events';
+  const pageDescription =
+    'Tapahtumalistaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.';
+  const pageKeywords =
+    'minun, luetteloni, muokkaa, päivitä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
   render(<EventsPage />);
 
-  await actWait(300);
+  await waitFor(() => expect(document.title).toEqual(pageTitle));
 
-  const title = document.title;
+  const head = document.querySelector('head');
+  const description = head?.querySelector('[name="description"]');
+  const keywords = head?.querySelector('[name="keywords"]');
+  const ogTitle = head?.querySelector('[property="og:title"]');
+  const ogDescription = head?.querySelector('[property="og:description"]');
 
-  expect(title).toBe(
-    `${translations.notSigned.pageTitle} - ${translations.appName}`
-  );
+  expect(ogTitle).toHaveAttribute('content', pageTitle);
+  expect(description).toHaveAttribute('content', pageDescription);
+  expect(keywords).toHaveAttribute('content', pageKeywords);
+  expect(ogDescription).toHaveAttribute('content', pageDescription);
 });
 
 test('should render events page', async () => {

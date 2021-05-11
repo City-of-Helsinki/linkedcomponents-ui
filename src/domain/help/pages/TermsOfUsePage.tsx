@@ -188,7 +188,11 @@ const TermsOfUsePage: React.FC = () => {
     }
   };
   return (
-    <PageWrapper title="helpPage.pageTitleTermsOfUse">
+    <PageWrapper
+      description="helpPage.pageDescriptionTermsOfUse"
+      keywords={['keywords.termsOfUse']}
+      title="helpPage.pageTitleTermsOfUse"
+    >
       {getContent(locale)}
     </PageWrapper>
   );

@@ -1,4 +1,5 @@
 {
+  "appDescription": "Linked Events is a collection of software components and API endpoints that enables event management and distribution for different event providers in Finland.",
   "appName": "Linked Events",
   "authentication": {
     "errorMessage": "An error has occurred. Please try again later.",
@@ -788,6 +789,7 @@
       "cardList": "Card view",
       "table": "List view"
     },
+    "pageDescription": "Event listing. Manage events: browse and edit your events.",
     "pageTitle": "My events",
     "sortOptions": {
       "duration": "Duration, ascending",
@@ -810,6 +812,7 @@
   },
   "eventSearchPage": {
     "buttonClearFilters": "Clear filters",
+    "pageDescription": "Search events from Linked Events. You can filter results by date, place and type.",
     "pageTitle": "Search events",
     "searchPanel": {
       "buttonClear": "Clear",
@@ -910,12 +913,22 @@
       "labelEmail": "Email",
       "labelFeedback": "Feedback",
       "labelName": "Name",
+      "pageDescription": "Send a bug report or feature request. Or send us some feedback about the service.",
       "pageTitle": "Contact us",
       "placeholderEmail": "Enter email",
       "placeholderFeedback": "Enter feedback",
       "placeholderName": "Enter name",
       "text": "Contact us using the form below."
     },
+    "pageDescriptionApi": "More information about the API (application protocol interface) of Linked Events.",
+    "pageDescriptionControlPanel": "How to use control panel and Linked events admin features.",
+    "pageDescriptionDocumentation": "Read more about Linked Events documentation and API design.",
+    "pageDescriptionFaq": "Frequently asked questions about Linked Events.",
+    "pageDescriptionFeatures": "Read about Linked Events features. Get familiar with event management and Linked Events API.",
+    "pageDescriptionInstructions": "Help and instructions how to use the service and the API.",
+    "pageDescriptionSourceCode": "Get a deeper look for Linked Events source code in Github.",
+    "pageDescriptionTechnology": "More information about the technology behind Linked Events.",
+    "pageDescriptionTermsOfUse": "Linked Events service terms and restrictions.",
     "pageTitle": "Support",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Control panel",
@@ -923,12 +936,13 @@
     "pageTitleFaq": "Frequently asked questions",
     "pageTitleFeatures": "Service features",
     "pageTitleImageRights": "Image rights",
-    "pageTitleInstructions": "Instructions",
+    "pageTitleInstructions": "Support",
     "pageTitleSourceCode": "Source code",
     "pageTitleTechnology": "Technology",
     "pageTitleTermsOfUse": "Terms of use",
     "platformPage": {
       "imageAlt": "Linked Events use in tablet",
+      "pageDescription": "Introduction to Linked Events platform and control panel.",
       "pageTitle": "Platform",
       "textApi": "The public API allows you to retrieve events for your own service. You can also give us a tip about an existing databank  that should be incorporated into Linked Events.",
       "textEventManagement": "The Linked Events control panel is used to enter events, courses, and volunteering assignments, and to manage related information and materials.",
@@ -969,20 +983,45 @@
   "keywords": {
     "admin": "admin",
     "api": "api",
+    "asked": "asked",
+    "bug": "bug",
+    "contact": "contact",
+    "controlPanel": "control, panel",
+    "date": "date",
+    "documentation": "documentation",
+    "edit": "edit",
     "event": "event",
     "events": "events",
-    "helsinki": "helsinki",
+    "faq": "faq",
+    "features": "features",
+    "filter": "filter",
+    "finland": "Finland",
+    "form": "form",
+    "help": "help",
+    "helsinki": "Helsinki",
+    "instructions": "instructions",
     "linked": "linked",
-    "management": "management"
+    "management": "management",
+    "myListing": "my, listing",
+    "place": "place",
+    "platform": "platform",
+    "questions": "questions",
+    "report": "report",
+    "search": "search",
+    "sourceCode": "source, code",
+    "support": "support",
+    "technology": "technology",
+    "termsOfUse": "terms, of, use",
+    "update": "update"
   },
   "landingPage": {
     "heroTitle": "Events and hobbies in Helsinki",
-    "highlight1Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
-    "highlight1Title": "+35M\nevents per year",
-    "highlight2Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
-    "highlight2Title": "25,000 × Y / Z\ndigital service as a customer",
-    "highlight3Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
-    "highlight3Title": "+2 500\nevent producers",
+    "highlight1Text": "Events in Helsinki from the guided play park activities to world-class festivals.",
+    "highlight1Title": "35,000\nevents per year",
+    "highlight2Text": "Event information is spread through an open API to several sites for city residents to discover.",
+    "highlight2Title": "25\nevent sites",
+    "highlight3Text": "Linked Events is <a href={{githubUrl}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"open source {{openInNewTab}}\">open source</a>. Many cities have opted to use it for free.",
+    "highlight3Title": "60,000\nlines of code",
     "myHelsinkiDescription": "MyHelsinki.fi is a service that brings together content about Helsinki’s offerings for visitors and businesses. The website helps to find information about the trends, attractions, restaurants and events in the city, as well as reveals tips from residents. The Think Sustainably -service offers recommendations for Helsinki's sustainable offerings.",
     "myHelsinkiTitle": "MyHelsinki.fi",
     "tapahtumatHelDescription": "A new website that brings together the City of Helsinki's event offerings. Tapahtumat.hel.fi offers an easy-to-use event search, from which the user can search for events of interest to them, for example, by time, place or event category. The next version of the site also brings together the hobbies of children and young people offered by the city in one place.",
@@ -1015,7 +1054,6 @@
     "text": "The content you were looking for could not be found. Log in or return to the home page."
   },
   "notSigned": {
-    "pageTitle": "Login required",
     "text": "You must be logged in to view this content. Log in or return to the home page."
   }
 }

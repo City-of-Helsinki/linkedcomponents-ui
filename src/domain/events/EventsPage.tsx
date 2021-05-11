@@ -114,76 +114,70 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   };
 
   return (
-    <PageWrapper
-      backgroundColor="gray"
-      className={styles.eventsPage}
-      title="eventsPage.pageTitle"
-    >
-      <MainContent className={styles.mainContent}>
-        <Container withOffset={true}>
-          <div className={styles.titleRow}>
-            <h1 className={styles.title}>{t('eventsPage.title')}</h1>
-            <div className={styles.addButtonWrapper}>
-              <Button
-                className={styles.addButton}
-                fullWidth={true}
-                iconLeft={<IconPlus />}
-                onClick={goToCreateEvent}
-                variant="secondary"
-              >
-                {t('common.buttonAddEvent')}
-              </Button>
-            </div>
-          </div>
-
-          <Tabs
-            className={styles.tabSelector}
-            name="event-list"
-            onChange={handleChangeTab}
-            options={tabOptions}
-            activeTab={activeTab}
-          />
-        </Container>
-        {tabOptions.map(({ value: tab }, index) => {
-          const skip = {
-            [EVENTS_PAGE_TABS.DRAFTS]: draftsSkip,
-            [EVENTS_PAGE_TABS.PUBLISHED]: publishedSkip,
-            [EVENTS_PAGE_TABS.WAITING_APPROVAL]: waitingApprovalSkip,
-          };
-          const variables = {
-            [EVENTS_PAGE_TABS.DRAFTS]: draftsVariables,
-            [EVENTS_PAGE_TABS.PUBLISHED]: publishedVariables,
-            [EVENTS_PAGE_TABS.WAITING_APPROVAL]: waitingApprovalVariables,
-          };
-
-          const isActive = activeTab === tab;
-
-          return (
-            <TabPanel
-              key={index}
-              className={styles.tabPanel}
-              isActive={isActive}
-              index={index}
-              name="event-list"
+    <MainContent className={styles.mainContent}>
+      <Container withOffset={true}>
+        <div className={styles.titleRow}>
+          <h1 className={styles.title}>{t('eventsPage.title')}</h1>
+          <div className={styles.addButtonWrapper}>
+            <Button
+              className={styles.addButton}
+              fullWidth={true}
+              iconLeft={<IconPlus />}
+              onClick={goToCreateEvent}
+              variant="secondary"
             >
-              <SearchPanel />
-              <Container withOffset={true}>
-                <FilterSummary className={styles.filterSummary} />
-              </Container>
+              {t('common.buttonAddEvent')}
+            </Button>
+          </div>
+        </div>
+        <Tabs
+          className={styles.tabSelector}
+          name="event-list"
+          onChange={handleChangeTab}
+          options={tabOptions}
+          activeTab={activeTab}
+        />
+      </Container>
 
-              <EventList
-                activeTab={activeTab}
-                baseVariables={variables[tab]}
-                className={styles.eventList}
-                listType={listType}
-                setListType={setListType}
-                skip={skip[tab]}
-              />
-            </TabPanel>
-          );
-        })}
-      </MainContent>
-    </PageWrapper>
+      {tabOptions.map(({ value: tab }, index) => {
+        const skip = {
+          [EVENTS_PAGE_TABS.DRAFTS]: draftsSkip,
+          [EVENTS_PAGE_TABS.PUBLISHED]: publishedSkip,
+          [EVENTS_PAGE_TABS.WAITING_APPROVAL]: waitingApprovalSkip,
+        };
+        const variables = {
+          [EVENTS_PAGE_TABS.DRAFTS]: draftsVariables,
+          [EVENTS_PAGE_TABS.PUBLISHED]: publishedVariables,
+          [EVENTS_PAGE_TABS.WAITING_APPROVAL]: waitingApprovalVariables,
+        };
+
+        const isActive = activeTab === tab;
+
+        return (
+          <TabPanel
+            key={index}
+            className={styles.tabPanel}
+            isActive={isActive}
+            index={index}
+            name="event-list"
+          >
+            <SearchPanel />
+            <Container withOffset={true}>
+              <FilterSummary className={styles.filterSummary} />
+            </Container>
+
+            <EventList
+              activeTab={activeTab}
+              baseVariables={variables[tab]}
+              className={styles.eventList}
+              listType={listType}
+              setListType={setListType}
+              skip={skip[tab]}
+            />
+          </TabPanel>
+        );
+      })}
+    </MainContent>
   );
 };
 
@@ -191,9 +185,16 @@ const EventsPageWrapper: React.FC = () => {
   const { loading: loadingUser, user } = useUser();
 
   return (
-    <LoadingSpinner isLoading={loadingUser}>
-      {user ? <EventsPage user={user} /> : <NotSigned />}
-    </LoadingSpinner>
+    <PageWrapper
+      backgroundColor={user ? 'gray' : 'white'}
+      description="eventsPage.pageDescription"
+      keywords={['keywords.myListing', 'keywords.edit', 'keywords.update']}
+      title="eventsPage.pageTitle"
+    >
+      <LoadingSpinner isLoading={loadingUser}>
+        {user ? <EventsPage user={user} /> : <NotSigned />}
+      </LoadingSpinner>
+    </PageWrapper>
   );
 };
 

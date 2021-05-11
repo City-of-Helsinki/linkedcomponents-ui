@@ -1,4 +1,5 @@
 {
+  "appDescription": "Linked Events är en samling mjukvarukomponenter och API-slutpunkter som möjliggör evenemnaghantering och distribution för olika evenemangsleverantörer i Finland.",
   "appName": "Linked Events",
   "authentication": {
     "errorMessage": "Ett fel har uppstått. Vänligen försök igen.",
@@ -789,6 +790,7 @@
       "cardList": "Kortvy",
       "table": "Listvy"
     },
+    "pageDescription": "Evenemanglista. Hantera evenemang: bläddra och redigera dina evenemang.",
     "pageTitle": "Mina evenemangen",
     "sortOptions": {
       "duration": "Varaktighet, stigande",
@@ -888,6 +890,7 @@
   },
   "eventSearchPage": {
     "buttonClearFilters": "Töm sökfilter",
+    "pageDescription": "Sök efter evenemang från Linked Events. Du kan filtrera resultat efter datum, plats och typ.",
     "pageTitle": "Sök efter evenemang",
     "searchPanel": {
       "buttonClear": "Klar",
@@ -911,12 +914,22 @@
       "labelEmail": "E-postadress",
       "labelFeedback": "Respons",
       "labelName": "Name",
+      "pageDescription": "Skicka en felrapport eller funktionsförfrågan. Eller skicka oss lite feedback om tjänsten.",
       "pageTitle": "Ta kontakt",
       "placeholderEmail": "Skriv in din e-postadress",
       "placeholderFeedback": "Ange respons",
       "placeholderName": "Enter name",
       "text": "Kontakta oss med hjälp av formuläret nedan."
     },
+    "pageDescriptionApi": "Mer information om API (application protocol interface) för Linked Events.",
+    "pageDescriptionControlPanel": "Hur man använder kontrollpanelen och administrationsfunktioner på Linked Events.",
+    "pageDescriptionDocumentation": "Läs mer om Linked Events dokumentation och API-design.",
+    "pageDescriptionFaq": "Vanliga frågor om Linked Events.",
+    "pageDescriptionFeatures": "Läs om Linked Eventsfunktioner. Bli bekant med event management och Linked Events API.",
+    "pageDescriptionInstructions": "Hjälp och instruktioner om hur du använder tjänsten och API: et.",
+    "pageDescriptionSourceCode": "Få en djupare titt på källkoden för Linked Events i Github.",
+    "pageDescriptionTechnology": "Mer information om tekniken bakom Linked Events.",
+    "pageDescriptionTermsOfUse": "Servicevillkor och begränsningar för Linked Events.",
     "pageTitle": "Hjälp",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Kontrollpanel",
@@ -924,12 +937,13 @@
     "pageTitleFaq": "Vanliga frågor",
     "pageTitleFeatures": "Tjänstens egenskaper",
     "pageTitleImageRights": "Bildrättigheter",
-    "pageTitleInstructions": "Instruktioner",
+    "pageTitleInstructions": "Stöd",
     "pageTitleSourceCode": "Källkod",
     "pageTitleTechnology": "Teknologi",
     "pageTitleTermsOfUse": "Villkor",
     "platformPage": {
       "imageAlt": "Linked Events användning i surfplatta",
+      "pageDescription": "Introduktion till Linked Events-plattformen och kontrollpanelen.",
       "pageTitle": "Plattform",
       "textApi": "Med det offentliga API:et kan du hämta evenemang för din egen tjänst. Du kan också ge oss ett tips om en befintlig databank som ska införlivas i Linked Events.",
       "textEventManagement": "Kontrollpanelen för Linked Events används för att ange evenemang, kurser och volontäruppgifter och för att hantera relaterad information och material.",
@@ -970,20 +984,45 @@
   "keywords": {
     "admin": "admin",
     "api": "api",
+    "asked": "frågade",
+    "bug": "bugg",
+    "contact": "kontakt",
+    "controlPanel": "kontrollpanel",
+    "date": "datum",
+    "documentation": "dokumentation",
+    "edit": "redigera",
     "event": "evenemang",
     "events": "events",
-    "helsinki": "helsinki",
+    "faq": "ukk",
+    "features": "funktioner",
+    "filter": "filtrera",
+    "finland": "Finland",
+    "form": "formulär",
+    "help": "hjälp",
+    "helsinki": "Helsingfors",
+    "instructions": "instruktioner",
     "linked": "linked",
-    "management": "ledning,"
+    "management": "ledning",
+    "myListing": "min, lista",
+    "place": "plats",
+    "platform": "plattform",
+    "questions": "frågor",
+    "report": "rapport",
+    "search": "sök",
+    "sourceCode": "källkod",
+    "support": "stöd",
+    "technology": "teknologi",
+    "termsOfUse": "villkor",
+    "update": "uppdatering"
   },
   "landingPage": {
     "heroTitle": "Evenemang och hobbyer i Helsingfors",
-    "highlight1Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
-    "highlight1Title": "+35\nmiljoner evenemang per år",
-    "highlight2Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
-    "highlight2Title": "25 000 × Y / Z\ndigital tjänst som kund",
-    "highlight3Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
-    "highlight3Title": "+2 500\nproducenter av evenemang",
+    "highlight1Text": "Evenemang i Helsingfors från guidade lekparkaktiviteter till festivaler i världsklass.",
+    "highlight1Title": "35 000\nmiljoner evenemang per år",
+    "highlight2Text": "Information om evenemang sprids genom ett öppet gränssnitt till flera platser för stadsbor att hitta.",
+    "highlight2Title": "25\nevenemangssidor",
+    "highlight3Text": "Linked Events är <a href={{githubUrl}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"öppen källkod {{openInNewTab}}\">öppen källkod</a>. Många städer har valt att använda det gratis. ",
+    "highlight3Title": "60 000\nrader kod",
     "myHelsinkiDescription": "MyHelsinki.fi är en tjänst som sammanför innehåll om Helsingfors erbjudanden för besökare och företag. Webbplatsen hjälper till att hitta information om trender, attraktioner, restauranger och evenemang i staden samt avslöjar tips från invånarna. Think Sustainably -service erbjuder rekommendationer för Helsingfors hållbara erbjudanden.",
     "myHelsinkiTitle": "MyHelsinki.fi",
     "tapahtumatHelDescription": "En ny webbplats som sammanför Helsingfors stads evenemangsutbud. Tapahtumat.hel.fi erbjuder en lättanvänd händelsesökning, från vilken användaren kan söka efter händelser av intresse för honom, till exempel efter tid, plats eller händelsekategori. Nästa version av webbplatsen kommer också att samla hobbyer för barn och ungdomar som erbjuds av staden på ett ställe.",
@@ -1016,7 +1055,6 @@
     "text": "Innehållet du letade efter kunde inte hittas. Logga in igen eller återvänd till hemsidan."
   },
   "notSigned": {
-    "pageTitle": "Inloggning krävs",
     "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
   }
 }

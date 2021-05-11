@@ -1,4 +1,5 @@
 {
+  "appDescription": "Linked Events on ohjelmistokomponenttien ja API-päätepisteiden kokoelma, joka mahdollistaa tapahtumien hallinnan ja jakelun eri tapahtumapalvelujen tarjoajille Suomessa.",
   "appName": "Linked Events",
   "authentication": {
     "errorMessage": "Tapahtui virhe. Yritä uudestaan",
@@ -789,6 +790,7 @@
       "cardList": "Korttinäkymä",
       "table": "Listanäkymä"
     },
+    "pageDescription": "Tapahtumalistaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.",
     "pageTitle": "Omat tapahtumat",
     "sortOptions": {
       "duration": "Kesto, nouseva",
@@ -889,6 +891,7 @@
   },
   "eventSearchPage": {
     "buttonClearFilters": "Tyhjennä hakuehdot",
+    "pageDescription": "Hae tapahtumia Linked Eventsistä. Voit suodattaa tuloksia päivämäärän, paikan ja tyypin mukaan.",
     "pageTitle": "Etsi tapahtumia",
     "searchPanel": {
       "buttonClear": "Tyhjennä",
@@ -912,12 +915,22 @@
       "labelEmail": "Sähköposti",
       "labelFeedback": "Palaute/asia",
       "labelName": "Nimi",
+      "pageDescription": "Lähetä virheraportti tai ominaisuuspyyntö. Tai lähetä meille palautetta palvelusta.",
       "pageTitle": "Ota yhteyttä",
       "placeholderEmail": "Syötä sähköposti",
       "placeholderFeedback": "Syötä palaute/asia",
       "placeholderName": "Syötä nimi",
       "text": "Ota yhteyttä meihin alla olevalla lomakkeella."
     },
+    "pageDescriptionApi": "Lisätietoja Linked Eventsin API: sta (application protocol interface).",
+    "pageDescriptionControlPanel": "Ohjauspaneelin ja Linked Eventsin järjestelmänvalvojan ominaisuuksien käyttäminen.",
+    "pageDescriptionDocumentation": "Lue lisää Linked Eventsin dokumentaatiosta ja API-suunnittelusta.",
+    "pageDescriptionFaq": "Linked Eventsin usen kysytyt kysymykset.",
+    "pageDescriptionFeatures": "Lue Linked Eventsin ominaisuuksista. Tutustu tapahtumien hallintaan ja Linked Events -rajapintaan.",
+    "pageDescriptionInstructions": "Ohjeet sovelluksen ja Linked Events -rajapinnan käyttöön",
+    "pageDescriptionSourceCode": "Tutustu Linked Eventsin lähdekoodiin Githubissa.",
+    "pageDescriptionTechnology": "Lisätietoja Linked Eventsin taustalla olevasta tekniikasta.",
+    "pageDescriptionTermsOfUse": "Linked Eventsin palvelusehdot ja rajoitukset.",
     "pageTitle": "Tuki",
     "pageTitleApi": "Rajapinta",
     "pageTitleControlPanel": "Hallintapaneeli",
@@ -925,12 +938,13 @@
     "pageTitleFaq": "Usein kysytyt kysymykset",
     "pageTitleFeatures": "Palvelun ominaisuudet",
     "pageTitleImageRights": "Kuvaoikeudet",
-    "pageTitleInstructions": "Ohjeet",
+    "pageTitleInstructions": "Tuki",
     "pageTitleSourceCode": "Lähdekoodi",
     "pageTitleTechnology": "Teknologia",
     "pageTitleTermsOfUse": "Käyttöehdot",
     "platformPage": {
       "imageAlt": "Linked Eventsin käyttö tabletilla",
+      "pageDescription": "Johdatus Linked Events -alustaan ja ohjauspaneeliin.",
       "pageTitle": "Alusta",
       "textApi": "Julkisen rajapinnan avulla voit hakea tapahtumia omaan palveluusi. Voit myös ehdottaa meille olemassa olevaa tietopankkia, mikä tulisi kytkeä Linked Eventsiin.",
       "textEventManagement": "Linked Events hallintapaneelin avulla syötetään tapahtumia, kursseja ja vapaaehtoistehtäviä, sekä hallitataan niihin liittyviä tietoja ja materiaaleja.",
@@ -971,20 +985,45 @@
   "keywords": {
     "admin": "admin",
     "api": "api",
+    "asked": "kysytyt",
+    "bug": "vika",
+    "contact": "ota yhteyttä",
+    "controlPanel": "ohjauspaneeli",
+    "date": "päivämäärä",
+    "documentation": "dokumentaatio",
+    "edit": "muokkaa",
     "event": "tapahtuma",
     "events": "events",
-    "helsinki": "helsinki",
+    "faq": "ukk",
+    "features": "ominaisuudet",
+    "filter": "suodatus",
+    "finland": "Suomi",
+    "form": "lomake",
+    "help": "apu",
+    "helsinki": "Helsinki",
+    "instructions": "ohjeet",
     "linked": "linked",
-    "management": "hallinta"
+    "management": "hallinta",
+    "myListing": "minun, luetteloni",
+    "place": "paikka",
+    "platform": "alusta",
+    "questions": "kysymykset",
+    "report": "ilmoita",
+    "search": "haku",
+    "sourceCode": "lähdekoodi",
+    "support": "tuki",
+    "technology": "teknologia",
+    "termsOfUse": "käyttöehdot",
+    "update": "päivitä"
   },
   "landingPage": {
     "heroTitle": "Helsingin tapahtumat ja harrastukset",
-    "highlight1Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
-    "highlight1Title": "+35M\ntapahtumaa vuodessa",
-    "highlight2Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
-    "highlight2Title": "25 000 × Y/Z\ndigipalvelua asiakkaana",
-    "highlight3Text": "Amet elit esse nisi con- sectetur amet nisi et quis aliqua eu elit. Est consequat quis aliquip mollit labore anim.",
-    "highlight3Title": "+2 500\ntapahtumatuottajaa",
+    "highlight1Text": "Helsingin tapahtumia lähileikkipuiston ohjatusta toiminnasta maailmanluokan festivaaleihin.",
+    "highlight1Title": "35 000\ntapahtumaa vuodessa",
+    "highlight2Text": "Tiedot tapahtumista leviävät avoimen rajapinnan kautta usealle sivustolle kaupunkilaisten löydettäväksi.",
+    "highlight2Title": "25\ntapahtumasivustoa",
+    "highlight3Text": "Linked Events on <a href={{githubUrl}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"avointa lähdekoodia {{openInNewTab}}\">avointa lähdekoodia</a>. Moni kaupunki on ottanut sen käyttöön ilmaiseksi.",
+    "highlight3Title": "60 000\nriviä koodia",
     "myHelsinkiDescription": "MyHelsinki.fi on palvelu, joka kokoaa yhteen Helsingin elämyksellistä ja elinkeinopuolesta kertovaa sisältöä. Palvelun avulla on helppo löytää Helsingin ilmiöt, käyntikohteet, ravintolat, tapahtumat ja paikallisten asukkaiden vinkit. Valitse vastuullisemmin -palvelu tarjoaa suosituksia kaupungin vastuulliseen tarjontaan ja elämyksiin.",
     "myHelsinkiTitle": "MyHelsinki.fi",
     "tapahtumatHelDescription": "Uusi sivusto, joka kokoaa yhteen Helsingin kaupungin tapahtumatarjonnan. Tapahtumat.hel.fi tarjoaa helposti käytettävän tapahtumien haun, josta käyttäjä voi hakea itseä kiinnostavia tapahtumia esimerkiksi ajan, paikan tai tapahtumakategorian mukaan. Sivuston seuraava versio kokoaa samaan paikkaan myös kaupungin tarjoamat lasten ja nuorten harrastukset.",
@@ -1017,7 +1056,6 @@
     "text": "Etsimääsi sisältöä ei löydy. Kirjaudu sisään tai palaa kotisivulle."
   },
   "notSigned": {
-    "pageTitle": "Kirjautuminen vaaditaan",
     "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
   }
 }

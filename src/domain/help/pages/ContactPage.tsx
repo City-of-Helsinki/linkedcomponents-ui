@@ -38,7 +38,16 @@ export const validationSchema = Yup.object().shape({
 const ContactPage: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <PageWrapper title="helpPage.contactPage.pageTitle">
+    <PageWrapper
+      description="helpPage.contactPage.pageDescription"
+      keywords={[
+        'keywords.contact',
+        'keywords.form',
+        'keywords.bug',
+        'keywords.report',
+      ]}
+      title="helpPage.contactPage.pageTitle"
+    >
       <h1>{t('helpPage.contactPage.pageTitle')}</h1>
       <p>{t('helpPage.contactPage.text')}</p>
       <Formik

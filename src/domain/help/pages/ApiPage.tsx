@@ -131,7 +131,11 @@ const ApiPage: React.FC = () => {
   };
 
   return (
-    <PageWrapper title="helpPage.pageTitleApi">
+    <PageWrapper
+      description="helpPage.pageDescriptionApi"
+      keywords={['keywords.help', 'keywords.documentation']}
+      title="helpPage.pageTitleApi"
+    >
       {getContent(locale)}
     </PageWrapper>
   );

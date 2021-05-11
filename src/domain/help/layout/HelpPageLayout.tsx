@@ -68,12 +68,12 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
 
   const instructionsSubLevels = [
     {
-      label: t('helpPage.sideNavigation.labelPlatform'),
-      to: getLocalePath(ROUTES.INSTRUCTIONS_PLATFORM),
-    },
-    {
       label: t('helpPage.sideNavigation.labelGeneral'),
       to: getLocalePath(ROUTES.INSTRUCTIONS_GENERAL),
+    },
+    {
+      label: t('helpPage.sideNavigation.labelPlatform'),
+      to: getLocalePath(ROUTES.INSTRUCTIONS_PLATFORM),
     },
     {
       label: t('helpPage.sideNavigation.labelControlPanel'),

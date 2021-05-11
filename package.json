@@ -1,6 +1,6 @@
 {
   "name": "linkedcomponents-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.16",
@@ -72,6 +72,7 @@
     "build": "react-scripts build",
     "codegen": "graphql-codegen --config codegen.yml",
     "compress": "gzipper compress ./build",
+    "generate-robots": "ts-node  -P ./scripts/tsconfig.json -r dotenv/config scripts/generate-robots.ts",
     "generate-sitemap": "ts-node  -P ./scripts/tsconfig.json -r dotenv/config scripts/generate-sitemap.ts",
     "test": "TZ=UTC react-scripts test",
     "test:coverage": "TZ=UTC react-scripts test --coverage --watchAll=false --runInBand",
