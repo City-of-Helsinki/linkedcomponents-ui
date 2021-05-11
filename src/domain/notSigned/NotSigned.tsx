@@ -11,7 +11,7 @@ import MainContent from '../app/layout/MainContent';
 import { signIn } from '../auth/authenticate';
 import styles from './notSigned.module.scss';
 
-const NotSignedPage = () => {
+const NotSignedPage: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory();

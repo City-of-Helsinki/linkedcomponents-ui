@@ -52,7 +52,7 @@ export const getErrorText = (
   error: string | Error<StringLocale> | undefined,
   touched: boolean,
   t: TFunction
-) => {
+): string => {
   return !!error && touched
     ? typeof error === 'string'
       ? t(error)

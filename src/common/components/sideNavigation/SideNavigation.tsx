@@ -19,13 +19,13 @@ export type SideNavigationProps = React.PropsWithChildren<{
   toggleButtonLabel: string;
 }>;
 
-const SideNavigation = ({
+const SideNavigation: React.FC<SideNavigationProps> = ({
   children,
   className,
   id: _id,
   style = {},
   toggleButtonLabel,
-}: SideNavigationProps) => {
+}) => {
   const { isMobileMenuOpen, setIsMobileMenuOpen } = useContext(
     SideNavigationContext
   );
@@ -103,7 +103,9 @@ const SideNavigation = ({
   );
 };
 
-const SideNavigationWrapper = (props: SideNavigationProps) => {
+const SideNavigationWrapper: React.FunctionComponent<SideNavigationProps> = (
+  props
+) => {
   const [openMainLevels, setOpenMainLevels] = React.useState<number[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   return (

@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import {
@@ -168,7 +168,11 @@ test('should cancel event', async () => {
   });
   userEvent.click(cancelEventButton);
 
-  await screen.findByText('Peruutettu', undefined, { timeout: 10000 });
+  await waitFor(
+    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
+    { timeout: 10000 }
+  );
+  screen.getByText('Peruutettu');
 });
 
 test('should postpone event', async () => {
@@ -194,7 +198,11 @@ test('should postpone event', async () => {
   });
   userEvent.click(postponeEventButton);
 
-  await screen.findByText('Lykätty', undefined, { timeout: 10000 });
+  await waitFor(
+    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
+    { timeout: 10000 }
+  );
+  screen.getByText('Lykätty');
 });
 
 test('should delete event', async () => {
@@ -219,7 +227,10 @@ test('should delete event', async () => {
   });
   userEvent.click(deleteEventButton);
 
-  await loadingSpinnerIsNotInDocument(10000);
+  await waitFor(
+    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
+    { timeout: 10000 }
+  );
   expect(history.location.pathname).toBe('/fi/events');
 });
 
@@ -243,9 +254,8 @@ test('should update event', async () => {
   const updateButton = getButton('updatePublic');
   userEvent.click(updateButton);
 
-  await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
-    timeout: 10000,
-  });
+  await loadingSpinnerIsNotInDocument(10000);
+  await screen.findByText(expectedValues.updatedLastModifiedTime);
 });
 
 test('should update recurring event', async () => {

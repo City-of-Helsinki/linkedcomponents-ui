@@ -11,7 +11,7 @@ import styles from '../../eventPage.module.scss';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 
-const AdditionalInfoSection = () => {
+const AdditionalInfoSection: React.FC = () => {
   const { t } = useTranslation();
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
 

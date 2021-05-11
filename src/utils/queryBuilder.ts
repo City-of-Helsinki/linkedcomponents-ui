@@ -2,10 +2,10 @@ import composeQuery from './composeQuery';
 
 interface VariableToKeyItem {
   key: string;
-  value: any;
+  value: unknown;
 }
 
-const queryBuilder = (items: VariableToKeyItem[]) => {
+const queryBuilder = (items: VariableToKeyItem[]): string => {
   let query = '';
   items.forEach((item) => {
     if (Array.isArray(item.value) && item.value?.length) {

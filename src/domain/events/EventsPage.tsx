@@ -2,7 +2,7 @@ import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -15,23 +15,17 @@ import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { clearEventFormData } from '../event/utils';
+import FilterSummary from '../eventSearch/filterSummary/FilterSummary';
+import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotSigned from '../notSigned/NotSigned';
 import useUser from '../user/hooks/useUser';
-import { getUserFields } from '../user/utils';
 import { setEventListOptions } from './actions';
-import {
-  EVENT_LIST_TYPES,
-  EVENT_SORT_OPTIONS,
-  EVENTS_PAGE_TABS,
-} from './constants';
+import { EVENT_LIST_TYPES, EVENTS_PAGE_TABS } from './constants';
 import EventList from './eventList/EventList';
 import styles from './events.module.scss';
-import {
-  eventListSortSelector,
-  eventListTabSelector,
-  eventListTypeSelector,
-} from './selectors';
-import { getEventsQuerySkip, getEventsQueryVariables } from './utils';
+import useEventsQueryVariables from './hooks/useEventsQueryVariables';
+import SearchPanel from './searchPanel/SearchPanel';
+import { eventListTabSelector, eventListTypeSelector } from './selectors';
 
 interface Props {
   user: UserFieldsFragment;
@@ -41,7 +35,6 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   const dispatch = useDispatch();
   const activeTab = useSelector(eventListTabSelector);
   const listType = useSelector(eventListTypeSelector);
-  const sort = useSelector(eventListSortSelector);
 
   const setActiveTab = async (selectedTab: EVENTS_PAGE_TABS) => {
     dispatch(setEventListOptions({ tab: selectedTab }));
@@ -51,55 +44,57 @@ const EventsPage: React.FC<Props> = ({ user }) => {
     dispatch(setEventListOptions({ listType: selectedListType }));
   };
 
-  const setSort = (selectedSort: EVENT_SORT_OPTIONS) => {
-    dispatch(setEventListOptions({ sort: selectedSort }));
-  };
-
   const locale = useLocale();
   const history = useHistory();
+  const location = useLocation();
   const { t } = useTranslation();
-  const { adminOrganizations } = getUserFields(user);
+
+  const {
+    skip: waitingApprovalSkip,
+    variables: waitingApprovalVariables,
+  } = useEventsQueryVariables(EVENTS_PAGE_TABS.WAITING_APPROVAL, user);
+
   const { data: waitingApprovalEventsData } = useEventsQuery({
-    skip: getEventsQuerySkip(
-      EVENTS_PAGE_TABS.WAITING_APPROVAL,
-      adminOrganizations
-    ),
-    variables: getEventsQueryVariables(
-      EVENTS_PAGE_TABS.WAITING_APPROVAL,
-      adminOrganizations
-    ),
+    skip: waitingApprovalSkip,
+    variables: waitingApprovalVariables,
   });
+
+  const {
+    skip: publishedSkip,
+    variables: publishedVariables,
+  } = useEventsQueryVariables(EVENTS_PAGE_TABS.PUBLISHED, user);
+
   const { data: publishedEventsData } = useEventsQuery({
-    skip: getEventsQuerySkip(EVENTS_PAGE_TABS.PUBLISHED, adminOrganizations),
-    variables: getEventsQueryVariables(
-      EVENTS_PAGE_TABS.PUBLISHED,
-      adminOrganizations
-    ),
+    skip: publishedSkip,
+    variables: publishedVariables,
   });
+
+  const {
+    skip: draftsSkip,
+    variables: draftsVariables,
+  } = useEventsQueryVariables(EVENTS_PAGE_TABS.DRAFTS, user);
+
   const { data: draftEventsData } = useEventsQuery({
-    skip: getEventsQuerySkip(EVENTS_PAGE_TABS.DRAFTS, adminOrganizations),
-    variables: getEventsQueryVariables(
-      EVENTS_PAGE_TABS.DRAFTS,
-      adminOrganizations
-    ),
+    skip: draftsSkip,
+    variables: draftsVariables,
   });
 
   const tabOptions = [
     {
       label: t('eventsPage.tabs.waitingApproval', {
-        count: waitingApprovalEventsData?.events.meta.count || 0,
+        count: waitingApprovalEventsData?.events?.meta.count || 0,
       }),
       value: EVENTS_PAGE_TABS.WAITING_APPROVAL,
     },
     {
       label: t('eventsPage.tabs.published', {
-        count: publishedEventsData?.events.meta.count || 0,
+        count: publishedEventsData?.events?.meta.count || 0,
       }),
       value: EVENTS_PAGE_TABS.PUBLISHED,
     },
     {
       label: t('eventsPage.tabs.drafts', {
-        count: draftEventsData?.events.meta.count || 0,
+        count: draftEventsData?.events?.meta.count || 0,
       }),
       value: EVENTS_PAGE_TABS.DRAFTS,
     },
@@ -112,47 +107,72 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 
   const handleChangeTab = (newTab: string) => {
     setActiveTab(newTab as EVENTS_PAGE_TABS);
+    history.push({
+      pathname: location.pathname,
+      search: replaceParamsToEventQueryString(location.search, { page: null }),
+    });
   };
 
   return (
-    <MainContent>
+    <MainContent className={styles.mainContent}>
       <Container withOffset={true}>
-        <h1>{t('eventsPage.title')}</h1>
-        <div className={styles.navigationRow}>
-          <Button
-            className={styles.addButton}
-            iconLeft={<IconPlus />}
-            onClick={goToCreateEvent}
-            variant="secondary"
-          >
-            {t('common.buttonAddEvent')}
-          </Button>
-          <Tabs
-            className={styles.tabSelector}
-            name="event-list"
-            onChange={handleChangeTab}
-            options={tabOptions}
-            activeTab={activeTab}
-          />
+        <div className={styles.titleRow}>
+          <h1 className={styles.title}>{t('eventsPage.title')}</h1>
+          <div className={styles.addButtonWrapper}>
+            <Button
+              className={styles.addButton}
+              fullWidth={true}
+              iconLeft={<IconPlus />}
+              onClick={goToCreateEvent}
+              variant="secondary"
+            >
+              {t('common.buttonAddEvent')}
+            </Button>
+          </div>
         </div>
+        <Tabs
+          className={styles.tabSelector}
+          name="event-list"
+          onChange={handleChangeTab}
+          options={tabOptions}
+          activeTab={activeTab}
+        />
       </Container>
-      {tabOptions.map(({ value }, index) => {
-        const isActive = activeTab === value;
+
+      {tabOptions.map(({ value: tab }, index) => {
+        const skip = {
+          [EVENTS_PAGE_TABS.DRAFTS]: draftsSkip,
+          [EVENTS_PAGE_TABS.PUBLISHED]: publishedSkip,
+          [EVENTS_PAGE_TABS.WAITING_APPROVAL]: waitingApprovalSkip,
+        };
+        const variables = {
+          [EVENTS_PAGE_TABS.DRAFTS]: draftsVariables,
+          [EVENTS_PAGE_TABS.PUBLISHED]: publishedVariables,
+          [EVENTS_PAGE_TABS.WAITING_APPROVAL]: waitingApprovalVariables,
+        };
+
+        const isActive = activeTab === tab;
+
         return (
           <TabPanel
             key={index}
+            className={styles.tabPanel}
             isActive={isActive}
             index={index}
             name="event-list"
           >
+            <SearchPanel />
+            <Container withOffset={true}>
+              <FilterSummary className={styles.filterSummary} />
+            </Container>
+
             <EventList
               activeTab={activeTab}
-              baseVariables={getEventsQueryVariables(value, adminOrganizations)}
+              baseVariables={variables[tab]}
+              className={styles.eventList}
               listType={listType}
               setListType={setListType}
-              setSort={setSort}
-              skip={getEventsQuerySkip(value, adminOrganizations)}
-              sort={sort}
+              skip={skip[tab]}
             />
           </TabPanel>
         );

@@ -4,12 +4,12 @@ import React from 'react';
 
 import styles from './icon.module.scss';
 
-const IconFlag = ({
+const IconFlag: React.FC<IconProps> = ({
   size = 's',
   className = '',
   style = {},
   ...rest
-}: IconProps) => (
+}) => (
   <svg
     className={classNames(styles.icon, styles[size], className)}
     style={style}

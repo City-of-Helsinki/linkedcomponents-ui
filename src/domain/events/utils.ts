@@ -1,4 +1,5 @@
-import { ApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import capitalize from 'lodash/capitalize';
 
 import {
   EventsQueryVariables,
@@ -7,13 +8,16 @@ import {
 import { PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
-import { store } from '../app/store/store';
-import { setEventListOptions } from './actions';
-import { EVENTS_PAGE_SIZE, EVENTS_PAGE_TABS } from './constants';
+import { EVENT_TYPE } from '../event/constants';
+import {
+  EVENT_LIST_INCLUDES,
+  EVENTS_PAGE_SIZE,
+  EVENTS_PAGE_TABS,
+} from './constants';
 
 export const eventsPathBuilder = ({
   args,
-}: PathBuilderProps<EventsQueryVariables>) => {
+}: PathBuilderProps<EventsQueryVariables>): string => {
   const {
     adminUser,
     createdBy,
@@ -22,6 +26,7 @@ export const eventsPathBuilder = ({
     end,
     endsAfter,
     endsBefore,
+    eventType,
     inLanguage,
     include,
     isFree,
@@ -53,6 +58,16 @@ export const eventsPathBuilder = ({
     { key: 'end', value: end },
     { key: 'ends_after', value: endsAfter },
     { key: 'ends_before', value: endsBefore },
+    {
+      key: 'event_type',
+      value: eventType
+        ?.filter((type) =>
+          (Object.values(EVENT_TYPE) as string[]).includes(
+            (type as string).toLowerCase()
+          )
+        )
+        .map((type) => capitalize(type as string)),
+    },
     { key: 'include', value: include },
     { key: 'in_language', value: inLanguage },
     { key: 'is_free', value: isFree },
@@ -81,27 +96,29 @@ export const eventsPathBuilder = ({
   return `/event/${query}`;
 };
 
-export const clearEventsQueries = (apolloClient: ApolloClient<object>) => {
+export const clearEventsQueries = (
+  apolloClient: ApolloClient<InMemoryCache>
+): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
-};
 
 /* instanbul ignore next */
 export const clearEventQuery = (
-  apolloClient: ApolloClient<object>,
+  apolloClient: ApolloClient<InMemoryCache>,
   eventId: string
-) => {
-  apolloClient.cache.evict({ id: `Event:${eventId}` });
-};
+): boolean => apolloClient.cache.evict({ id: `Event:${eventId}` });
 
-export const getEventsQueryVariables = (
-  tab: EVENTS_PAGE_TABS,
-  adminOrganizations: string[]
-) => {
+export const getEventsQueryBaseVariables = ({
+  adminOrganizations,
+  tab,
+}: {
+  adminOrganizations: string[];
+  tab: EVENTS_PAGE_TABS;
+}): EventsQueryVariables => {
   const baseVariables = {
-    include: ['in_language', 'location'],
+    createPath: getPathBuilder(eventsPathBuilder),
+    include: EVENT_LIST_INCLUDES,
     pageSize: EVENTS_PAGE_SIZE,
     superEvent: 'none',
-    createPath: getPathBuilder(eventsPathBuilder),
   };
 
   switch (tab) {
@@ -132,7 +149,7 @@ export const getEventsQueryVariables = (
 export const getEventsQuerySkip = (
   tab: EVENTS_PAGE_TABS,
   adminOrganizations: string[]
-) => {
+): boolean => {
   switch (tab) {
     case EVENTS_PAGE_TABS.DRAFTS:
       return false;
@@ -140,8 +157,4 @@ export const getEventsQuerySkip = (
     case EVENTS_PAGE_TABS.WAITING_APPROVAL:
       return !adminOrganizations.length;
   }
-};
-
-export const resetEventListPage = () => {
-  store.dispatch(setEventListOptions({ page: 1 }));
 };

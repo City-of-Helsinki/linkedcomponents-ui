@@ -21,7 +21,9 @@ export interface PathBuilderProps<T> {
   args: T;
 }
 
-export type FCWithName = React.FC & { componentName: string };
+export type FCWithName<P = Record<string, unknown>> = React.FC<P> & {
+  componentName: string;
+};
 
 export type StoreState = ReturnType<typeof rootReducer>;
 

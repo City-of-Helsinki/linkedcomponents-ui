@@ -10,7 +10,8 @@ const API_TOKEN_EXPIRATION_TIME = 60000;
 const API_TOKEN_NOTIFICATION_TIME = 5000;
 const API_TOKEN_CHECK_INTERVAL = 5000;
 
-const useApiToken = () => {
+const useApiToken = (): void => {
+  // eslint-disable-next-line no-undef
   const timer = React.useRef<NodeJS.Timeout>();
   const apiTokenExpiring = React.useRef<number | null>(null);
   const dispatch = useDispatch();

@@ -10,6 +10,7 @@ import formatDate from '../../../utils/formatDate';
 import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
+import { getEventItemId } from '../../eventSearch/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import PublisherName from '../eventCard/PublisherName';
@@ -63,17 +64,17 @@ const EventTableRow: React.FC<Props> = ({
   };
 
   const handleRowClick = (ev: React.MouseEvent) => {
+    /* istanbul ignore else */
     if (
-      !(
-        ev.target instanceof Node &&
-        actionsDropdownRef.current?.contains(ev.target)
-      )
+      ev.target instanceof Node &&
+      !actionsDropdownRef.current?.contains(ev.target)
     ) {
       onRowClick(event);
     }
   };
 
   const handleKeyDown = (ev: React.KeyboardEvent) => {
+    /* istanbul ignore else */
     if (ev.key === 'Enter' && ev.target === rowRef.current) {
       onRowClick(event);
     }
@@ -86,6 +87,7 @@ const EventTableRow: React.FC<Props> = ({
         role="button"
         aria-label={name}
         className={open || hideBorder ? styles.noBorder : undefined}
+        id={getEventItemId(id)}
         onClick={handleRowClick}
         onKeyDown={handleKeyDown}
         tabIndex={0}

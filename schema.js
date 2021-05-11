@@ -29,6 +29,7 @@ module.exports = buildSchema(/* GraphQL */ `
       end: String
       endsAfter: String
       endsBefore: String
+      eventType: [EventTypeId]
       inLanguage: String
       include: [String]
       isFree: Boolean

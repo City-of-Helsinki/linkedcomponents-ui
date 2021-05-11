@@ -18,7 +18,7 @@ if (!isTestEnv) {
 }
 
 type Props = {
-  onClose: (event?: React.MouseEvent | React.KeyboardEvent) => void;
+  onClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
   size?: 'm' | 'l';
   title: string;
   type?: 'alert' | 'form' | 'info';

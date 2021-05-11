@@ -14,7 +14,7 @@ type FieldLabelProps = {
   tooltipText?: string;
 };
 
-const FieldLabel = ({
+const FieldLabel: React.FC<FieldLabelProps> = ({
   hidden,
   inputId,
   label,
@@ -23,7 +23,7 @@ const FieldLabel = ({
   tooltipButtonLabel,
   tooltipText,
   ...rest
-}: FieldLabelProps) => (
+}) => (
   <>
     <label
       htmlFor={inputId}

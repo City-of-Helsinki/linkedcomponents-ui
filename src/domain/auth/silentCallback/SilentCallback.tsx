@@ -1,7 +1,9 @@
 import { processSilentRenew } from 'redux-oidc';
 
-export default () => {
+const SilentCallback = (): null => {
   processSilentRenew();
 
   return null;
 };
+
+export default SilentCallback;

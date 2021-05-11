@@ -6,6 +6,7 @@ import {
   mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 } from '../../__mocks__/editEventPage';
+import { ROUTES } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
@@ -17,6 +18,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { EVENT_SEARCH_PARAMS } from '../../../eventSearch/constants';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
@@ -36,12 +38,18 @@ const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const renderComponent = ({
   props,
+  route = `/fi/${ROUTES.EDIT_EVENT}`,
   store,
 }: {
   props?: Partial<EditButtonPanelProps>;
+  route?: string;
   store?: Store<StoreState, AnyAction>;
 }) =>
-  render(<EditButtonPanel {...defaultProps} {...props} />, { mocks, store });
+  render(<EditButtonPanel {...defaultProps} {...props} />, {
+    mocks,
+    routes: [route],
+    store,
+  });
 
 const findElement = (key: 'delete' | 'postpone') => {
   switch (key) {
@@ -281,7 +289,7 @@ test('should route to create event page when clicking copy button', async () => 
   );
 });
 
-test('should route to events page when clicking back button', async () => {
+test('should route to search page when clicking back button', async () => {
   const { history } = renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });
@@ -289,5 +297,18 @@ test('should route to events page when clicking back button', async () => {
   const backButton = getElement('back');
   userEvent.click(backButton);
 
+  await waitFor(() => expect(history.location.pathname).toBe('/fi/search'));
+});
+
+test('should route to page defined in returnPath when clicking back button', async () => {
+  const { history } = renderComponent({
+    props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
+    route: `/fi${ROUTES}?returnPath=${ROUTES.SEARCH}&returnPath=${ROUTES.EVENTS}`,
+  });
+
+  const backButton = getElement('back');
+  userEvent.click(backButton);
+
   await waitFor(() => expect(history.location.pathname).toBe('/fi/events'));
+  expect(history.location.search).toBe(`?returnPath=%2Fsearch`);
 });

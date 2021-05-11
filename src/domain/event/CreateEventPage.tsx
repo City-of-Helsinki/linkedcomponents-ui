@@ -1,4 +1,9 @@
-import { FetchResult, useApolloClient } from '@apollo/client';
+import {
+  ApolloClient,
+  FetchResult,
+  InMemoryCache,
+  useApolloClient,
+} from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +23,7 @@ import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { reportError } from '../app/sentry/utils';
-import { clearEventsQueries, resetEventListPage } from '../events/utils';
+import { clearEventsQueries } from '../events/utils';
 import useUser from '../user/hooks/useUser';
 import ButtonPanel from './buttonPanel/ButtonPanel';
 import { EVENT_INFO_LANGUAGES, EVENT_INITIAL_VALUES } from './constants';
@@ -50,7 +55,7 @@ import {
 } from './utils';
 
 const CreateEventPage: React.FC = () => {
-  const apolloClient = useApolloClient();
+  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
   const history = useHistory();
   const location = useLocation();
   const locale = useLocale();
@@ -130,7 +135,6 @@ const CreateEventPage: React.FC = () => {
         // Clear all events queries from apollo cache to show added events in event list
         clearEventsQueries(apolloClient);
         // This action will change LE response so clear event list page
-        resetEventListPage();
         goToEventSavedPage(recurringEventData.data?.createEvent.id as string);
         setSaving(null);
       } catch (error) /* istanbul ignore next */ {
@@ -156,7 +160,6 @@ const CreateEventPage: React.FC = () => {
         // Clear all events queries from apollo cache to show added events in event list
         clearEventsQueries(apolloClient);
         // This action will change LE response so clear event list page
-        resetEventListPage();
         goToEventSavedPage(data.data?.createEvent.id as string);
         setSaving(null);
       } catch (error) /* istanbul ignore next */ {

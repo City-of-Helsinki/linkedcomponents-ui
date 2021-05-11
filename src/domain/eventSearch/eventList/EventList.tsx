@@ -1,60 +1,124 @@
+import omit from 'lodash/omit';
+import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import useDeepCompareEffect from 'use-deep-compare-effect';
+import { useHistory, useLocation } from 'react-router';
+import { scroller } from 'react-scroll';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
 import SingleSelect from '../../../common/components/singleSelect/SingleSelect';
 import {
-  EventFieldsFragment,
+  EventsQuery,
   EventsQueryVariables,
   useEventsQuery,
 } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import Container from '../../app/layout/Container';
-import { EVENT_SORT_OPTIONS, EVENTS_PAGE_SIZE } from '../../events/constants';
+import {
+  DEFAULT_EVENT_SORT,
+  EVENT_SORT_OPTIONS,
+  EVENTS_PAGE_SIZE,
+} from '../../events/constants';
 import EventCard from '../../events/eventCard/EventCard';
 import useEventSortOptions from '../../events/hooks/useEventSortOptions';
 import { eventsPathBuilder } from '../../events/utils';
+import { EventsLocationState } from '../types';
+import {
+  getEventItemId,
+  getEventSearchInitialValues,
+  replaceParamsToEventQueryString,
+  scrollToEventCard,
+} from '../utils';
 import styles from './eventList.module.scss';
 
-export interface EventListProps {
+export interface EventListContainerProps {
   baseVariables: EventsQueryVariables;
-  setSort: (sort: EVENT_SORT_OPTIONS) => void;
-  sort: EVENT_SORT_OPTIONS;
 }
+
+type EventListProps = {
+  events: EventsQuery['events']['data'];
+  onSelectedPageChange: (page: number) => void;
+  page: number;
+  pageCount: number;
+};
 
 const getPageCount = (count: number, pageSize: number) => {
   return Math.ceil(count / pageSize);
 };
 
 const EventList: React.FC<EventListProps> = ({
-  baseVariables,
-  setSort,
-  sort,
+  events,
+  onSelectedPageChange,
+  page,
+  pageCount,
 }) => {
+  const location = useLocation<EventsLocationState>();
+  const history = useHistory();
+
+  React.useEffect(() => {
+    if (location.state?.eventId) {
+      scrollToEventCard(getEventItemId(location.state.eventId));
+      // Clear eventId value to keep scroll position correctly
+      const state = omit(location.state, 'eventId');
+      // location.search seems to reset if not added here (...location)
+      history.replace({ ...location, state });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <Container className={styles.contentContainer} withOffset={true}>
+      <div className={styles.eventCards}>
+        {events.map((event) => {
+          return event && <EventCard key={event.id} event={event} />;
+        })}
+      </div>
+
+      {pageCount > 1 && (
+        <Pagination
+          className={styles.pagination}
+          pageCount={pageCount}
+          selectedPage={page}
+          setSelectedPage={onSelectedPageChange}
+        />
+      )}
+    </Container>
+  );
+};
+
+const EventListContainer: React.FC<EventListContainerProps> = ({
+  baseVariables,
+}) => {
+  const eventListId = uniqueId('event-list-');
   const { t } = useTranslation();
-  const { pageSize = EVENTS_PAGE_SIZE } = baseVariables;
-  const [selectedPage, setSelectedPage] = React.useState(1);
+  const location = useLocation<EventsLocationState>();
+  const history = useHistory();
+  const { page, sort } = getEventSearchInitialValues(location.search);
 
   const sortOptions = useEventSortOptions();
   const variables = {
     ...baseVariables,
     createPath: getPathBuilder(eventsPathBuilder),
-    pageSize,
-    sort,
   };
 
-  const { data: eventsData, loading, refetch } = useEventsQuery({
+  const { data: eventsData, loading } = useEventsQuery({
     variables,
   });
 
-  const events = (eventsData?.events.data as EventFieldsFragment[]) || [];
+  const events = eventsData?.events?.data || [];
 
   const handleSelectedPageChange = (page: number) => {
-    setSelectedPage(page);
-    refetch({ ...variables, page, sort });
+    history.push({
+      pathname: location.pathname,
+      search: replaceParamsToEventQueryString(location.search, {
+        page: page > 1 ? page : null,
+      }),
+    });
+
+    // Scroll to the beginning of event list
+    scroller.scrollTo(eventListId, { offset: -100 });
   };
 
   const handleSortSelectorChange = (sortOption: OptionType) => {
@@ -62,20 +126,20 @@ const EventList: React.FC<EventListProps> = ({
   };
 
   const handleSortChange = (val: EVENT_SORT_OPTIONS) => {
-    setSort(val);
-    setSelectedPage(1);
-    refetch({ ...variables, page: 1, sort: val });
+    history.push({
+      pathname: location.pathname,
+      search: replaceParamsToEventQueryString(location.search, {
+        page: null,
+        sort: val !== DEFAULT_EVENT_SORT ? val : null,
+      }),
+    });
   };
 
-  const eventsCount = eventsData?.events.meta.count || 0;
-  const pageCount = getPageCount(eventsCount, pageSize || EVENTS_PAGE_SIZE);
-
-  useDeepCompareEffect(() => {
-    setSelectedPage(1);
-  }, [baseVariables]);
+  const eventsCount = eventsData?.events?.meta.count || 0;
+  const pageCount = getPageCount(eventsCount, EVENTS_PAGE_SIZE);
 
   return (
-    <div className={styles.eventList}>
+    <div id={eventListId} className={styles.eventList}>
       <Container withOffset={true}>
         <div className={styles.sortRow}>
           <div className={styles.countColumn}>
@@ -95,25 +159,15 @@ const EventList: React.FC<EventListProps> = ({
         </div>
       </Container>
       <LoadingSpinner isLoading={loading}>
-        <Container className={styles.contentContainer} withOffset={true}>
-          <div className={styles.eventCards}>
-            {events.map((event) => {
-              return event && <EventCard key={event.id} event={event} />;
-            })}
-          </div>
-
-          {pageCount > 1 && (
-            <Pagination
-              className={styles.pagination}
-              pageCount={pageCount}
-              selectedPage={selectedPage}
-              setSelectedPage={handleSelectedPageChange}
-            />
-          )}
-        </Container>
+        <EventList
+          events={events}
+          onSelectedPageChange={handleSelectedPageChange}
+          page={page}
+          pageCount={pageCount}
+        />
       </LoadingSpinner>
     </div>
   );
 };
 
-export default EventList;
+export default EventListContainer;

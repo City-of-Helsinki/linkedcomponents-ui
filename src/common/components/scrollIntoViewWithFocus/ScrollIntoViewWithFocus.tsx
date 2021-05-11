@@ -6,6 +6,7 @@ interface Props {
   className?: string;
   children: React.ReactNode;
   isFocused: boolean;
+  // eslint-disable-next-line no-undef
   scrollIntoViewOptions?: ScrollIntoViewOptions;
 }
 
@@ -17,6 +18,7 @@ const ScrollIntoViewWithFocus: React.FC<Props> = ({
   scrollIntoViewOptions = { block: 'nearest', inline: 'nearest' },
   ...rest
 }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selfRef = React.useRef<any>(null);
 
   useDeepCompareEffect(() => {

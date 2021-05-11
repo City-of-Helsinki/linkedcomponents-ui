@@ -22,7 +22,11 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
-import { resetEventListPage } from '../events/utils';
+import { EventsLocationState } from '../eventSearch/types';
+import {
+  extractLatestReturnPath,
+  replaceParamsToEventQueryString,
+} from '../eventSearch/utils';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
 import {
@@ -75,7 +79,8 @@ interface EditEventPageProps {
 
 const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const history = useHistory<EventsLocationState>();
+  const location = useLocation();
   const locale = useLocale();
   const { id, name, publicationStatus, superEventType } = getEventFields(
     event,
@@ -109,6 +114,16 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   useRelatedEvents(event);
 
   const goToEventsPage = () => {
+    const { returnPath, remainingQueryString } = extractLatestReturnPath(
+      location.search
+    );
+    history.push({
+      pathname: `/${locale}${returnPath}`,
+      search: replaceParamsToEventQueryString(remainingQueryString, {
+        page: null,
+      }),
+      state: { eventId: event.id },
+    });
     history.push(`/${locale}${ROUTES.EVENTS}`);
   };
 
@@ -125,7 +140,6 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     deleteEvent({
       onSuccess: () => {
         // This action will change LE response so clear event list page
-        resetEventListPage();
         goToEventsPage();
       },
     });
@@ -359,14 +373,23 @@ const EditEventPageWrapper: React.FC = () => {
     loadingUser
   );
 
-  const handleLoadingUserChange = React.useCallback(
-    debounce((loading: boolean) => {
-      /* istanbul ignore next */
-      if (!isMounted.current) return;
+  const debouncedSetLoading = React.useMemo(
+    () =>
+      debounce((loading: boolean) => {
+        /* istanbul ignore next */
+        if (!isMounted.current) return;
 
-      setDebouncedLoadingUser(loading);
-    }, LOADING_USER_DEBOUNCE_TIME),
-    []
+        setDebouncedLoadingUser(loading);
+      }, LOADING_USER_DEBOUNCE_TIME),
+    [isMounted]
+  );
+
+  const handleLoadingUserChange = React.useCallback(
+    (loading: boolean) => {
+      /* istanbul ignore next */
+      debouncedSetLoading(loading);
+    },
+    [debouncedSetLoading]
   );
 
   React.useEffect(() => {

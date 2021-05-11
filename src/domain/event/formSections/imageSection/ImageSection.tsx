@@ -26,7 +26,7 @@ import AddImageForm from './addImageForm/AddImageForm';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';
 import styles from './imageSection.module.scss';
 
-const ImageSection = () => {
+const ImageSection: React.FC = () => {
   const { t } = useTranslation();
 
   const [isModalOpen, setIsmodalOpen] = React.useState(false);

@@ -1,4 +1,4 @@
-import { MockedResponse } from '@apollo/react-testing';
+import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
 import { EventsDocument, PlacesDocument } from '../../../generated/graphql';
@@ -14,7 +14,9 @@ const searchText = 'search';
 const eventsVariables = {
   createPath: undefined,
   end: null,
+  eventType: [],
   include: EVENT_LIST_INCLUDES,
+  page: 1,
   pageSize: EVENTS_PAGE_SIZE,
   location: [],
   start: null,
@@ -51,4 +53,10 @@ const mockedPlacesResponse: MockedResponse = {
   result: placesResponse,
 };
 
-export { eventNames, mockedEventsResponse, mockedPlacesResponse, searchText };
+export {
+  eventNames,
+  events,
+  mockedEventsResponse,
+  mockedPlacesResponse,
+  searchText,
+};

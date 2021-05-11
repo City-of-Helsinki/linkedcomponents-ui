@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
 import map from 'lodash/map';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +15,7 @@ import {
   useDeleteEventMutation,
   useUpdateEventsMutation,
 } from '../../../generated/graphql';
+import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
@@ -51,15 +52,32 @@ interface Props {
   event: EventFieldsFragment;
 }
 
-const useEventUpdateActions = ({ event }: Props) => {
+type UseEventUpdateActionsState = {
+  cancelEvent: (callbacks?: Callbacks) => Promise<void>;
+  closeModal: () => void;
+  deleteEvent: (callbacks?: Callbacks) => Promise<void>;
+  openModal: MODALS | null;
+  postponeEvent: (callbacks?: Callbacks) => Promise<void>;
+  saving: EVENT_EDIT_ACTIONS | false;
+  setOpenModal: (modal: MODALS | null) => void;
+  updateEvent: (
+    values: EventFormFields,
+    publicationStatus: PublicationStatus,
+    callbacks?: Callbacks
+  ) => Promise<void>;
+};
+const useEventUpdateActions = ({
+  event,
+}: Props): UseEventUpdateActionsState => {
+  const isMounted = useIsMounted();
   const { t } = useTranslation();
-  const apolloClient = useApolloClient();
+  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const locale = useLocale();
   const location = useLocation();
   const [openModal, setOpenModal] = React.useState<MODALS | null>(null);
-  const [saving, setSaving] = React.useState<EVENT_EDIT_ACTIONS | null>(null);
+  const [saving, setSaving] = React.useState<EVENT_EDIT_ACTIONS | false>(false);
 
   const [createEventsMutation] = useCreateEventsMutation();
   const [deleteEventMutation] = useDeleteEventMutation();
@@ -68,7 +86,14 @@ const useEventUpdateActions = ({ event }: Props) => {
   const { updateRecurringEventIfNeeded } = useUpdateRecurringEventIfNeeded();
 
   const closeModal = () => {
-    setOpenModal(null);
+    if (isMounted.current) {
+      setOpenModal(null);
+    }
+  };
+  const savingFinished = () => {
+    if (isMounted.current) {
+      setSaving(false);
+    }
   };
 
   const updateEvents = (payload: UpdateEventMutationInput[]) =>
@@ -135,10 +160,10 @@ const useEventUpdateActions = ({ event }: Props) => {
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
+      savingFinished();
       closeModal();
-      setSaving(null);
     } catch (error) /* istanbul ignore next */ {
-      setSaving(null);
+      savingFinished();
       // Report error to Sentry
       reportError({
         data: {
@@ -173,7 +198,7 @@ const useEventUpdateActions = ({ event }: Props) => {
         await deleteEventMutation({ variables: { id } });
       }
 
-      await updateRecurringEventIfNeeded(event);
+      // await updateRecurringEventIfNeeded(event);
       // Clear all events from apollo cache
       for (const id of deletableEventIds) {
         /* istanbul ignore next */
@@ -183,10 +208,10 @@ const useEventUpdateActions = ({ event }: Props) => {
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
+      savingFinished();
       closeModal();
-      setSaving(null);
     } catch (error) /* istanbul ignore next */ {
-      setSaving(null);
+      savingFinished();
       // Report error to Sentry
       reportError({
         data: {
@@ -232,10 +257,10 @@ const useEventUpdateActions = ({ event }: Props) => {
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
+      savingFinished();
       closeModal();
-      setSaving(null);
     } catch (error) /* istanbul ignore next */ {
-      setSaving(null);
+      savingFinished();
       // Report error to Sentry
       reportError({
         data: {
@@ -399,10 +424,10 @@ const useEventUpdateActions = ({ event }: Props) => {
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
+      savingFinished();
       closeModal();
-      setSaving(null);
     } catch (error) /* istanbul ignore next */ {
-      setSaving(null);
+      savingFinished();
       // Report error to Sentry
       reportError({
         data: {

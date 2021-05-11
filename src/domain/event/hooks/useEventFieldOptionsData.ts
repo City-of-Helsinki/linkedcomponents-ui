@@ -1,13 +1,20 @@
 import { INCLUDE, KEYWORD_SETS } from '../../../constants';
 import {
+  KeywordSetQuery,
   useKeywordSetQuery,
   useLanguagesQuery,
 } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { keywordSetPathBuilder } from '../../keywordSet/utils';
 
+type EventFieldOptionsDataState = {
+  audienceData?: KeywordSetQuery;
+  loading: boolean;
+  topicsData?: KeywordSetQuery;
+};
+
 // Hook to get data for the languages, audience and keywords checkboxes
-const useEventFieldOptionsData = () => {
+const useEventFieldOptionsData = (): EventFieldOptionsDataState => {
   const { loading: loadingLanguages } = useLanguagesQuery();
 
   const { data: topicsData, loading: loadingKeywords } = useKeywordSetQuery({

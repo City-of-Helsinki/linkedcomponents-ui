@@ -12,7 +12,7 @@ interface Error {
   stack?: string;
 }
 
-const OidcCallback = (props: RouteChildrenProps) => {
+const OidcCallback: React.FC<RouteChildrenProps> = (props) => {
   const { t } = useTranslation();
   const location = useLocation();
 

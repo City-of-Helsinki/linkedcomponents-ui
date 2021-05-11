@@ -14,7 +14,7 @@ import useEventFieldOptionsData from '../../hooks/useEventFieldOptionsData';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 
-const ClassificationSection = () => {
+const ClassificationSection: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
 

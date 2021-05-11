@@ -1,4 +1,4 @@
-import { ApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 import {
   Keyword,
@@ -13,7 +13,7 @@ import queryBuilder from '../../utils/queryBuilder';
 
 export const keywordPathBuilder = ({
   args,
-}: PathBuilderProps<KeywordQueryVariables>) => {
+}: PathBuilderProps<KeywordQueryVariables>): string => {
   const { id } = args;
 
   return `/keyword/${id}/`;
@@ -21,7 +21,7 @@ export const keywordPathBuilder = ({
 
 export const keywordsPathBuilder = ({
   args,
-}: PathBuilderProps<KeywordsQueryVariables>) => {
+}: PathBuilderProps<KeywordsQueryVariables>): string => {
   const {
     dataSource,
     freeText,
@@ -50,7 +50,7 @@ export const keywordsPathBuilder = ({
 
 export const getKeywordQueryResult = async (
   id: string,
-  apolloClient: ApolloClient<object>
+  apolloClient: ApolloClient<InMemoryCache>
 ): Promise<Keyword | null> => {
   try {
     const { data: keywordData } = await apolloClient.query<KeywordQuery>({

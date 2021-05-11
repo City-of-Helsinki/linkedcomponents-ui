@@ -14,7 +14,6 @@ if (process.env.NODE_ENV === 'development') {
   enableOidcLogging();
 }
 
-/* eslint-disable @typescript-eslint/camelcase */
 const settings: UserManagerSettings = {
   authority: process.env.REACT_APP_OIDC_AUTHORITY,
   automaticSilentRenew: true,

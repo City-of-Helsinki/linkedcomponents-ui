@@ -1,28 +1,58 @@
 @import 'breakpoints';
+@import 'widths';
 
-.navigationRow {
+.eventsPage {
+  .filterSummary {
+    --filter-summary-color: var(--color-black);
+
+    div {
+      --tag-background: var(--color-white);
+    }
+  }
+}
+
+.mainContent {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.tabPanel {
+  flex: 1 1 0%;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+}
+
+.eventList {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.titleRow {
   display: grid;
   grid-gap: var(--spacing-m);
 
+  .addButtonWrapper {
+    margin-bottom: var(--spacing-m);
+  }
+
   @include medium-up {
-    grid-template-columns: repeat(10, 1fr);
-  }
+    display: flex;
 
-  .tabSelector {
-    @include medium-up {
-      grid-column: 1 / 7;
-    }
-  }
-
-  .addButton {
-    @include medium-up {
-      order: 2;
-      grid-column: 7 / 11;
+    .title {
+      flex: 1 1 0%;
     }
 
-    @include large-up {
-      order: 2;
-      grid-column: 8 / 11;
+    .addButtonWrapper {
+      align-self: center;
+      margin-bottom: unset;
+    }
+
+    .addButton {
+      @include min-width-column(2);
+      @include max-width-column(2);
+
+      white-space: nowrap;
     }
   }
 }

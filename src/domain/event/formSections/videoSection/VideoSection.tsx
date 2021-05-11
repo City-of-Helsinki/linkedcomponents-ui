@@ -6,18 +6,19 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../../../common/components/button/Button';
 import { EVENT_FIELDS } from '../../constants';
 import FieldWithButton from '../../layout/FieldWithButton';
+import { VideoDetails } from '../../types';
 import { getEmptyOffer } from '../../utils';
 import Video from './Video';
 
 const getVideoPath = (index: number) => `${EVENT_FIELDS.VIDEOS}[${index}]`;
 
-const VideoSection = () => {
+const VideoSection: React.FC = () => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({
     name: EVENT_FIELDS.TYPE,
   });
-  const [{ value: videos }] = useField({
+  const [{ value: videos }] = useField<VideoDetails[]>({
     name: EVENT_FIELDS.VIDEOS,
   });
 
@@ -26,7 +27,7 @@ const VideoSection = () => {
       name={EVENT_FIELDS.VIDEOS}
       render={(arrayHelpers) => (
         <div>
-          {videos.map((video: object, index: number) => {
+          {videos.map((video, index: number) => {
             return (
               <Video
                 key={index}

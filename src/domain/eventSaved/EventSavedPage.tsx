@@ -75,7 +75,7 @@ const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
   );
 };
 
-const EventSavedPageWrapper = () => {
+const EventSavedPageWrapper: React.FC = () => {
   const { id: eventId } = useParams<{ id: string }>();
 
   const { data: eventData, loading } = useEventQuery({

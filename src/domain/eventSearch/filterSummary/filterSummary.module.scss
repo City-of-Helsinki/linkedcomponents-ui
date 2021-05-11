@@ -1,3 +1,5 @@
+@import 'mixins';
+
 .filterSummary {
   --filter-summary-color: var(--color-white);
 
@@ -20,9 +22,6 @@
     text-decoration: underline;
     text-align: left;
 
-    &:focus {
-      outline: 2px solid var(--filter-summary-color);
-      outline-offset: var(--spacing-3-xs);
-    }
+    @include focus-outline(0px);
   }
 }

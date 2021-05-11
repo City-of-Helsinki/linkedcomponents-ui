@@ -7,7 +7,7 @@ interface ClearButtonProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const ClearButton = ({ children, onClick }: ClearButtonProps) => {
+const ClearButton: React.FC<ClearButtonProps> = ({ children, onClick }) => {
   return (
     <button className={styles.clearButton} onClick={onClick} type="button">
       {children}

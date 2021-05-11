@@ -1,4 +1,4 @@
-import { ApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 import { MAX_PAGE_SIZE } from '../../constants';
 import {
@@ -18,7 +18,7 @@ import { OrganizationFields } from './types';
 
 export const organizationPathBuilder = ({
   args,
-}: PathBuilderProps<OrganizationQueryVariables>) => {
+}: PathBuilderProps<OrganizationQueryVariables>): string => {
   const { id } = args;
 
   return `/organization/${id}/`;
@@ -26,7 +26,7 @@ export const organizationPathBuilder = ({
 
 export const organizationsPathBuilder = ({
   args,
-}: PathBuilderProps<OrganizationsQueryVariables>) => {
+}: PathBuilderProps<OrganizationsQueryVariables>): string => {
   const { child } = args;
 
   const variableToKeyItems = [{ key: 'child', value: child }];
@@ -44,7 +44,7 @@ export const getOrganizationFields = (
 
 export const getOrganizationQueryResult = async (
   id: string,
-  apolloClient: ApolloClient<object>
+  apolloClient: ApolloClient<InMemoryCache>
 ): Promise<Organization | null> => {
   try {
     const { data: organizationData } = await apolloClient.query<
@@ -65,7 +65,7 @@ export const getOrganizationQueryResult = async (
 
 export const getOrganizationAncestorsQueryResult = async (
   publisher: string,
-  apolloClient: ApolloClient<object>
+  apolloClient: ApolloClient<InMemoryCache>
 ): Promise<Organization[]> => {
   try {
     if (!publisher) {

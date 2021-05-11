@@ -1,4 +1,4 @@
-import { MockedProvider, MockedResponse } from '@apollo/react-testing';
+import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import {
   act,
@@ -94,7 +94,7 @@ export const mockFile = ({
   name = 'testfile.png',
   size = 0,
   type = 'image/png',
-}: MockFileArgs) => {
+}: MockFileArgs): File => {
   const content = [...Array(size)]
     .map(() => Math.random().toString(36)[2])
     .join('');
@@ -137,7 +137,14 @@ const getMockReduxStore = (initialState: StoreState = defaultStoreState) => {
   return configureMockStore(middlewares)(initialState);
 };
 
-const createPasteEvent = (html: string) => {
+type PasteEvent = {
+  clipboardData: {
+    types: string[];
+    getData: (type: string) => string;
+  };
+};
+
+const createPasteEvent = (html: string): PasteEvent => {
   const text = html.replace('<[^>]*>', '');
   return {
     clipboardData: {
@@ -150,20 +157,19 @@ const createPasteEvent = (html: string) => {
 const pasteToTextEditor = (
   editor: Element | Node | Document | Window,
   text: string
-) => {
+): void => {
   const eventProperties = createPasteEvent(text);
   const pasteEvent = createEvent.paste(editor, eventProperties);
   fireEvent(editor, pasteEvent);
 };
 
-const loadingSpinnerIsNotInDocument = async (timeout = 1000) => {
-  await waitFor(
+const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
+  waitFor(
     () => {
       expect(screen.queryAllByTestId(testId)).toHaveLength(0);
     },
     { timeout }
   );
-};
 
 export {
   actWait,

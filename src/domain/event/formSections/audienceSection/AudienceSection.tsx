@@ -31,7 +31,7 @@ const AUDIENCE_ORDER = [
   'yso:p2433', // Ikääntyneet
 ];
 
-const AudienceSection = () => {
+const AudienceSection: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
 

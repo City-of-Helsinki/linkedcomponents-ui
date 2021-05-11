@@ -1,4 +1,5 @@
-import { PublicationStatus } from '../../../generated/graphql';
+import { EventTypeId, PublicationStatus } from '../../../generated/graphql';
+import { EVENT_TYPE } from '../../event/constants';
 import { eventsPathBuilder } from '../utils';
 
 describe('eventsPathBuilder function', () => {
@@ -31,6 +32,17 @@ describe('eventsPathBuilder function', () => {
       {
         args: { endsBefore: '14' },
         expectedPath: '/event/?ends_before=14',
+      },
+      {
+        args: {
+          eventType: ([
+            EVENT_TYPE.Course,
+            EVENT_TYPE.General,
+            EVENT_TYPE.Volunteering,
+            'notsupported',
+          ] as unknown) as EventTypeId[],
+        },
+        expectedPath: '/event/?event_type=Course,General,Volunteering',
       },
       {
         args: { include: ['include1', 'include2'] },

@@ -3,7 +3,6 @@ import expect from 'expect';
 import {
   defaultReducerState,
   EVENT_LIST_TYPES,
-  EVENT_SORT_OPTIONS,
   EVENTS_ACTIONS,
   EVENTS_PAGE_TABS,
 } from '../constants';
@@ -24,17 +23,6 @@ it('should set list type', () => {
   expect(state.listOptions.listType).toEqual(EVENT_LIST_TYPES.CARD_LIST);
 });
 
-it('should set sort', () => {
-  const state = reducer(undefined, {
-    payload: {
-      sort: EVENT_SORT_OPTIONS.END_TIME,
-    },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
-  });
-
-  expect(state.listOptions.sort).toEqual(EVENT_SORT_OPTIONS.END_TIME);
-});
-
 it('should set tab', () => {
   const state = reducer(undefined, {
     payload: {
@@ -46,73 +34,32 @@ it('should set tab', () => {
   expect(state.listOptions.tab).toEqual(EVENTS_PAGE_TABS.PUBLISHED);
 });
 
-it('should set page', () => {
-  const state = reducer(undefined, {
-    payload: {
-      page: 5,
-    },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
-  });
-
-  expect(state.listOptions.page).toEqual(5);
-});
-
-it('should reset page after changing sort', () => {
+it('should add/remove expanded events', () => {
   let state = reducer(undefined, {
-    payload: {
-      page: 5,
-    },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
+    payload: 'event:1',
+    type: EVENTS_ACTIONS.ADD_EXPANDED_EVENT,
   });
 
-  expect(state.listOptions.page).toEqual(5);
+  expect(state.expandedEvents).toEqual(['event:1']);
 
   state = reducer(state, {
-    payload: {
-      sort: EVENT_SORT_OPTIONS.END_TIME,
-    },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
+    payload: 'event:2',
+    type: EVENTS_ACTIONS.ADD_EXPANDED_EVENT,
   });
 
-  expect(state.listOptions.page).toEqual(1);
-});
-
-it('should reset page after changing tab', () => {
-  let state = reducer(undefined, {
-    payload: {
-      page: 5,
-    },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
-  });
-
-  expect(state.listOptions.page).toEqual(5);
+  expect(state.expandedEvents).toEqual(['event:1', 'event:2']);
 
   state = reducer(state, {
-    payload: {
-      tab: EVENTS_PAGE_TABS.PUBLISHED,
-    },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
+    payload: 'event:1',
+    type: EVENTS_ACTIONS.ADD_EXPANDED_EVENT,
   });
 
-  expect(state.listOptions.page).toEqual(1);
-});
-
-it('should not reset page after changing list type', () => {
-  let state = reducer(undefined, {
-    payload: {
-      page: 5,
-    },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
-  });
-
-  expect(state.listOptions.page).toEqual(5);
+  expect(state.expandedEvents).toEqual(['event:1', 'event:2']);
 
   state = reducer(state, {
-    payload: {
-      listType: EVENT_LIST_TYPES.CARD_LIST,
-    },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
+    payload: 'event:1',
+    type: EVENTS_ACTIONS.REMOVE_EXPANDED_EVENT,
   });
 
-  expect(state.listOptions.page).toEqual(5);
+  expect(state.expandedEvents).toEqual(['event:2']);
 });

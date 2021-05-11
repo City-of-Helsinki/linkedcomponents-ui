@@ -117,7 +117,7 @@ test('should validate enrolment start and end dates', async () => {
   userEvent.type(startTimeInput, startTime);
   userEvent.click(endTimeInput);
   userEvent.type(endTimeInput, endTime);
-  userEvent.tab();
+  userEvent.click(startTimeInput);
 
   await waitFor(() => expect(startTimeInput).toHaveValue(startTime));
   await waitFor(() => expect(endTimeInput).toHaveValue(endTime));

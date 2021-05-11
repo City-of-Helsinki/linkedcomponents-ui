@@ -503,10 +503,10 @@ const defaultTheme: Theme = {
   timepicker: {},
 };
 
-type ThemeContext = { setTheme: (theme: Theme) => void; theme: Theme };
+type ThemeContextType = { setTheme: (theme: Theme) => void; theme: Theme };
 
-export const ThemeContext = React.createContext<ThemeContext>(
-  {} as ThemeContext
+export const ThemeContext = React.createContext<ThemeContextType>(
+  {} as ThemeContextType
 );
 
 type ThemeProvideProps = {
@@ -526,4 +526,4 @@ export const ThemeProvider: React.FC<ThemeProvideProps> = ({
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = (): ThemeContextType => useContext(ThemeContext);

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { useLocation } from 'react-router';
 import { scroller } from 'react-scroll';
@@ -6,6 +7,7 @@ import { MAIN_CONTENT_ID } from '../../../constants';
 import styles from './mainContent.module.scss';
 
 interface Props {
+  className?: string;
   duration?: number;
   // This is mainly for testing purposes to test that the scroll function is called properly
   onScrollFn?: () => void;
@@ -14,6 +16,7 @@ interface Props {
 
 const MainContent: React.FC<Props> = ({
   children,
+  className,
   duration = 100,
   offset = -130,
   onScrollFn,
@@ -55,7 +58,11 @@ const MainContent: React.FC<Props> = ({
   }, [duration, hash, offset, onScrollFn]);
 
   return (
-    <main className={styles.mainContent} id={MAIN_CONTENT_ID} ref={mainContent}>
+    <main
+      className={classNames(styles.mainContent, className)}
+      id={MAIN_CONTENT_ID}
+      ref={mainContent}
+    >
       {children}
     </main>
   );

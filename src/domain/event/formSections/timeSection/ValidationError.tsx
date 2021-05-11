@@ -6,7 +6,7 @@ import useLocale from '../../../../hooks/useLocale';
 import { EVENT_FIELDS } from '../../constants';
 import styles from './timeSection.module.scss';
 
-const ValidationError = () => {
+const ValidationError: React.FC = () => {
   const locale = useLocale();
   const { t } = useTranslation();
 

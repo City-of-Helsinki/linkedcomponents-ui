@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import { MockedResponse } from '@apollo/react-testing';
+
+import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
@@ -97,7 +98,14 @@ const setFormValues = (values: EventFormFields) => {
     values,
   };
 
-  sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
+  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
+    switch (key) {
+      case FORM_NAMES.EVENT_FORM:
+        return JSON.stringify(state);
+      default:
+        return '';
+    }
+  });
 };
 
 const getElement = (

@@ -28,7 +28,7 @@ export type MenuDropdownProps = React.PropsWithChildren<{
   menuPosition?: MenuPosition;
 }>;
 
-const MenuDropdown = ({
+const MenuDropdown: React.FC<MenuDropdownProps> = ({
   button,
   buttonAriaLabel,
   buttonLabel,
@@ -38,7 +38,7 @@ const MenuDropdown = ({
   id: _id,
   items,
   menuPosition,
-}: MenuDropdownProps) => {
+}) => {
   const { theme } = useTheme();
   const disabledIndices = items.reduce(
     (acc: number[], item, i) => (item.disabled ? [...acc, i] : acc),

@@ -12,9 +12,10 @@ import { useLocation } from 'react-router';
 import MainLevel from '../../../common/components/sideNavigation/MainLevel';
 import SideNavigation from '../../../common/components/sideNavigation/SideNavigation';
 import SubLevel from '../../../common/components/sideNavigation/SubLevel';
-import { PAGE_HEADER_ID, ROUTES } from '../../../constants';
+import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useWindowSize from '../../../hooks/useWindowSize';
+import getPageHeaderHeight from '../../../utils/getPageHeaderHeight';
 import Container from '../../app/layout/Container';
 import styles from './helpPageLayout.module.scss';
 
@@ -24,11 +25,6 @@ const PAGES_WITH_FULL_WIDTH_CONTENT: string[] = [
   ROUTES.INSTRUCTIONS_PLATFORM,
 ];
 
-const getSideNavigationTop = (): number => {
-  const pageHeader = document.getElementById(PAGE_HEADER_ID);
-  return pageHeader?.clientHeight ? pageHeader.clientHeight : 0;
-};
-
 interface Props {
   children: React.ReactNode;
 }
@@ -36,7 +32,7 @@ interface Props {
 const HelpPageLayout: React.FC<Props> = ({ children }) => {
   const { t } = useTranslation();
   const [sideNavigationTop, setSideNavigationTop] = React.useState(
-    getSideNavigationTop()
+    getPageHeaderHeight()
   );
   const windowSize = useWindowSize();
   const locale = useLocale();
@@ -45,7 +41,7 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
   const getLocalePath = (path: string) => `/${locale}${path}`;
 
   React.useEffect(() => {
-    setSideNavigationTop(getSideNavigationTop());
+    setSideNavigationTop(getPageHeaderHeight());
   }, [windowSize]);
 
   const getIsActive = (localePath: string) => {

@@ -5,7 +5,7 @@ interface Props {
   setIsMenuOpen: (isOpen: boolean) => void;
 }
 
-const useDropdownCloseEvents = ({ container, setIsMenuOpen }: Props) => {
+const useDropdownCloseEvents = ({ container, setIsMenuOpen }: Props): void => {
   const handleDocumentClickOrFocusin = React.useCallback(
     (event: MouseEvent | FocusEvent) => {
       const target = event.target;

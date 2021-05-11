@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
 import sortBy from 'lodash/sortBy';
 import uniq from 'lodash/uniq';
 import React from 'react';
@@ -19,7 +19,7 @@ const useUserOrganizations = (
   user?: UserFieldsFragment
 ): userOrganizationsState => {
   const isMounted = useIsMounted();
-  const apolloClient = useApolloClient();
+  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
   const [loading, setLoading] = React.useState(false);
   const [organizations, setOrganizations] = React.useState<
     OrganizationFieldsFragment[]

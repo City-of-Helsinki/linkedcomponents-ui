@@ -9,7 +9,7 @@ import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 import Offers from './Offers';
 
-const PriceSection = () => {
+const PriceSection: React.FC = () => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({

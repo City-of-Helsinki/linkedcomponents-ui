@@ -1,0 +1,55 @@
+@import 'breakpoints';
+@import 'widths';
+
+.searchPanel {
+  --event-search-panel-button-background-color: var(--color-coat-of-arms);
+  --event-search-panel-button-background-color-hover: var(
+    --color-coat-of-arms-dark
+  );
+  --event-search-panel-button-background-color-focus: var(--color-coat-of-arms);
+  --event-search-panel-button-background-color-hover-focus: var(
+    --color-coat-of-arms-dark
+  );
+  --event-search-panel-button-border-color: var(--color-white);
+  --event-search-panel-button-color: var(--color-white);
+
+  .inputRow {
+    display: grid;
+    grid-gap: var(--spacing-m);
+    margin-top: var(--spacing-m);
+
+    @include medium-up {
+      display: flex;
+
+      .typeSelectorWrapper,
+      .buttonWrapper {
+        @include min-width-column(2);
+      }
+      .searchInputWrapper {
+        flex: 1 1 0%;
+      }
+    }
+  }
+
+  .button {
+    --background-color: var(--event-search-panel-button-background-color);
+    --background-color-hover: var(
+      --event-search-panel-button-background-color-hover
+    );
+    --background-color-focus: var(
+      --event-search-panel-button-background-color-focus
+    );
+    --background-color-hover-focus: var(
+      --event-search-panel-button-background-color-hover-focus
+    );
+    --border-color: var(--event-search-panel-button-border-color);
+    --border-color-hover: var(--event-search-panel-button-border-color);
+    --border-color-focus: var(--event-search-panel-button-border-color);
+    --border-color-hover-focus: var(--event-search-panel-button-border-color);
+    --color: var(--event-search-panel-button-color);
+    --color-hover: var(--event-search-panel-button-color);
+    --color-focus: var(--event-search-panel-button-color);
+    --color-hover-focus: var(--event-search-panel-button-color);
+    --focus-outline-color: var(--color-coat-of-arms);
+  }
+}

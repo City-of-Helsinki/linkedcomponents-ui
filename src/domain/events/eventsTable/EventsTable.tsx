@@ -5,17 +5,18 @@ import { useHistory, useLocation } from 'react-router';
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import SortableColumn from '../../../common/components/table/SortableColumn';
 import Table from '../../../common/components/table/Table';
-import { EventFieldsFragment } from '../../../generated/graphql';
+import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
 import { getEventFields } from '../../event/utils';
+import { addParamsToEventQueryString } from '../../eventSearch/utils';
 import { EVENT_SORT_OPTIONS } from '../constants';
 import styles from './eventsTable.module.scss';
 import EventTableRow from './EventsTableRow';
 
 export interface EventsTableProps {
   caption: string;
-  events: EventFieldsFragment[];
+  events: EventsQuery['events']['data'];
   setSort: (sort: EVENT_SORT_OPTIONS) => void;
   sort: EVENT_SORT_OPTIONS;
 }
@@ -54,7 +55,11 @@ const EventsTable: React.FC<EventsTableProps> = ({
 
   const handleRowClick = (event: EventFieldsFragment) => {
     const { eventUrl } = getEventFields(event, locale);
-    history.push({ pathname: eventUrl, search: location.search });
+    const queryString = addParamsToEventQueryString(location.search, {
+      returnPath: location.pathname,
+    });
+
+    history.push({ pathname: eventUrl, search: queryString });
   };
 
   return (
@@ -94,11 +99,13 @@ const EventsTable: React.FC<EventsTableProps> = ({
       <tbody>
         {events.map((event) => {
           return (
-            <EventTableRow
-              key={event.id}
-              event={event}
-              onRowClick={handleRowClick}
-            />
+            event && (
+              <EventTableRow
+                key={event?.id}
+                event={event}
+                onRowClick={handleRowClick}
+              />
+            )
           );
         })}
         {!events.length && <NoDataRow colSpan={6} />}

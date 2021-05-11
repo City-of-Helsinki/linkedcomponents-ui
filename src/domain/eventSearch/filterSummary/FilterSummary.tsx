@@ -1,29 +1,42 @@
+import classNames from 'classnames';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
 
-import { ROUTES } from '../../../constants';
-import useLocale from '../../../hooks/useLocale';
 import { EventFilterType } from '../types';
-import { getEventSearchInitialValues, getEventSearchQuery } from '../utils';
+import {
+  getEventSearchInitialValues,
+  replaceParamsToEventQueryString,
+} from '../utils';
 import DateFilterTag from './DateFilterTag';
 import EventTypeFilterTag from './EventTypeFilterTag';
 import styles from './filterSummary.module.scss';
 import FilterTag from './FilterTag';
 import PlaceFilterTag from './PlaceFilterTag';
 
-const FilterSummary: React.FC = () => {
-  const { t } = useTranslation();
+interface Props {
+  className?: string;
+}
 
-  const locale = useLocale();
+const FilterSummary: React.FC<Props> = ({ className }) => {
+  const { t } = useTranslation();
   const history = useHistory();
-  const { search } = useLocation();
+  const { pathname, search } = useLocation();
   const { end, places, start, text, types } = getEventSearchInitialValues(
     search
   );
 
   const clearFilters = () => {
-    history.push(`/${locale}${ROUTES.SEARCH}`);
+    history.push({
+      pathname,
+      search: replaceParamsToEventQueryString(search, {
+        end: null,
+        place: [],
+        start: null,
+        text: '',
+        type: [],
+      }),
+    });
   };
 
   const removeFilter = ({
@@ -33,7 +46,7 @@ const FilterSummary: React.FC = () => {
     value: string;
     type: EventFilterType;
   }) => {
-    const search = getEventSearchQuery({
+    const newSearch = replaceParamsToEventQueryString(search, {
       end: type === 'date' ? null : end,
       place:
         type === 'place' ? places.filter((item) => item !== value) : places,
@@ -42,7 +55,7 @@ const FilterSummary: React.FC = () => {
       type: type === 'type' ? types.filter((item) => item !== value) : types,
     });
 
-    history.push({ pathname: `/${locale}${ROUTES.SEARCH}`, search });
+    history.push({ pathname, search: newSearch });
   };
 
   const hasFilters = Boolean(
@@ -52,7 +65,7 @@ const FilterSummary: React.FC = () => {
   if (!hasFilters) return null;
 
   return (
-    <div className={styles.filterSummary}>
+    <div className={classNames(styles.filterSummary, className)}>
       {text && (
         <FilterTag
           text={text}

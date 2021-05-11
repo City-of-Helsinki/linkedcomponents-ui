@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { OptionType } from '../../../types';
 import { EVENT_TYPE } from '../constants';
 
-const useEventTypeOptions = () => {
+const useEventTypeOptions = (): OptionType[] => {
   const { t } = useTranslation();
 
   const options: OptionType[] = React.useMemo(

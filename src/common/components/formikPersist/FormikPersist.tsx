@@ -14,23 +14,31 @@ const FormikPersist = ({
   debounceTime = 300,
   isSessionStorage = false,
   name,
-}: PersistProps) => {
+}: PersistProps): null => {
   const isMounted = useIsMounted();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formik = useFormikContext<any>();
 
-  const saveForm = React.useCallback(
-    debounce((data: FormikProps<{}>) => {
-      /* istanbul ignore next */
-      if (!isMounted.current) return;
+  const debouncedSaveForm = React.useMemo(
+    () =>
+      debounce((data: FormikProps<Record<string, unknown>>) => {
+        /* istanbul ignore next */
+        if (!isMounted.current) return;
 
-      if (isSessionStorage) {
-        window.sessionStorage.setItem(name, JSON.stringify(data));
-      } else {
-        window.localStorage.setItem(name, JSON.stringify(data));
-      }
-    }, debounceTime),
+        if (isSessionStorage) {
+          window.sessionStorage.setItem(name, JSON.stringify(data));
+        } else {
+          window.localStorage.setItem(name, JSON.stringify(data));
+        }
+      }, debounceTime),
     [debounceTime, isMounted, isSessionStorage, name]
+  );
+
+  const saveForm = React.useCallback(
+    (data: FormikProps<Record<string, unknown>>) => {
+      debouncedSaveForm(data);
+    },
+    [debouncedSaveForm]
   );
 
   React.useEffect(() => {

@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/client';
+import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -19,7 +19,7 @@ type UpdateImageIfNeededState = {
 };
 
 const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
-  const apolloClient = useApolloClient();
+  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();

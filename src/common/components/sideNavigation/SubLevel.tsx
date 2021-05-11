@@ -3,6 +3,7 @@ import uniqueId from 'lodash/uniqueId';
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { FCWithName } from '../../../types';
 import styles from './sideNavigation.module.scss';
 import SideNavigationContext from './SideNavigationContext';
 
@@ -16,7 +17,7 @@ export type SubLevelProps = {
   to: string;
 };
 
-const SubLevel = ({
+const SubLevel: FCWithName<SubLevelProps> = ({
   active,
   className,
   id: _id,
@@ -24,7 +25,7 @@ const SubLevel = ({
   mainLevelIndex,
   style,
   to,
-}: SubLevelProps) => {
+}) => {
   const id = _id ?? uniqueId('side-navigation-');
   const { openMainLevels, setIsMobileMenuOpen, setOpenMainLevels } = useContext(
     SideNavigationContext
@@ -60,6 +61,7 @@ const SubLevel = ({
     </li>
   );
 };
+
 SubLevel.componentName = 'SubLevel';
 
 export default SubLevel;
