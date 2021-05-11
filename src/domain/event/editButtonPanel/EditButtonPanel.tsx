@@ -37,7 +37,7 @@ export interface EditButtonPanelProps {
   onDelete: () => void;
   onPostpone: () => void;
   onUpdate: (publicationStatus: PublicationStatus) => void;
-  saving: EVENT_EDIT_ACTIONS | null;
+  saving: EVENT_EDIT_ACTIONS | false;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({

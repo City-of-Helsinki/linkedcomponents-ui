@@ -58,7 +58,7 @@ type UseEventUpdateActionsState = {
   deleteEvent: (callbacks?: Callbacks) => Promise<void>;
   openModal: MODALS | null;
   postponeEvent: (callbacks?: Callbacks) => Promise<void>;
-  saving: EVENT_EDIT_ACTIONS | null;
+  saving: EVENT_EDIT_ACTIONS | false;
   setOpenModal: (modal: MODALS | null) => void;
   updateEvent: (
     values: EventFormFields,
@@ -79,7 +79,7 @@ const useEventUpdateActions = ({
   const locale = useLocale();
   const location = useLocation();
   const [openModal, setOpenModal] = React.useState<MODALS | null>(null);
-  const [saving, setSaving] = React.useState<EVENT_EDIT_ACTIONS | null>(null);
+  const [saving, setSaving] = React.useState<EVENT_EDIT_ACTIONS | false>(false);
 
   const [createEventsMutation] = useCreateEventsMutation();
   const [deleteEventMutation] = useDeleteEventMutation();
@@ -94,7 +94,7 @@ const useEventUpdateActions = ({
   };
   const savingFinished = () => {
     if (isMounted.current) {
-      setSaving(null);
+      setSaving(false);
     }
   };
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MAX_PAGE_SIZE } from '../../../constants';
 import {
-  EventFieldsFragment,
+  EventsQuery,
   EventsQueryVariables,
   useEventsQuery,
 } from '../../../generated/graphql';
@@ -13,7 +13,7 @@ import { eventsPathBuilder } from '../utils';
 
 type UseSubEventsState = {
   loading: boolean;
-  subEvents: EventFieldsFragment[];
+  subEvents: EventsQuery['events']['data'];
 };
 
 const useSubEvents = ({
@@ -65,7 +65,7 @@ const useSubEvents = ({
     }
   }, [fetchMore, nextPage, variables]);
 
-  const subEvents = (data?.events.data as EventFieldsFragment[]) || [];
+  const subEvents = data?.events.data || [];
 
   return { subEvents, loading };
 };

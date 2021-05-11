@@ -53,6 +53,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
     skip: waitingApprovalSkip,
     variables: waitingApprovalVariables,
   } = useEventsQueryVariables(EVENTS_PAGE_TABS.WAITING_APPROVAL, user);
+
   const { data: waitingApprovalEventsData } = useEventsQuery({
     skip: waitingApprovalSkip,
     variables: waitingApprovalVariables,
@@ -62,6 +63,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
     skip: publishedSkip,
     variables: publishedVariables,
   } = useEventsQueryVariables(EVENTS_PAGE_TABS.PUBLISHED, user);
+
   const { data: publishedEventsData } = useEventsQuery({
     skip: publishedSkip,
     variables: publishedVariables,
@@ -71,6 +73,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
     skip: draftsSkip,
     variables: draftsVariables,
   } = useEventsQueryVariables(EVENTS_PAGE_TABS.DRAFTS, user);
+
   const { data: draftEventsData } = useEventsQuery({
     skip: draftsSkip,
     variables: draftsVariables,

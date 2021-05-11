@@ -8,9 +8,9 @@ import getPathBuilder from '../../../utils/getPathBuilder';
 import { keywordSetPathBuilder } from '../../keywordSet/utils';
 
 type EventFieldOptionsDataState = {
-  audienceData: KeywordSetQuery | undefined;
+  audienceData?: KeywordSetQuery;
   loading: boolean;
-  topicsData: KeywordSetQuery | undefined;
+  topicsData?: KeywordSetQuery;
 };
 
 // Hook to get data for the languages, audience and keywords checkboxes

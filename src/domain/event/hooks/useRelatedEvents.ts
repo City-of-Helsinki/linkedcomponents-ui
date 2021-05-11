@@ -1,11 +1,11 @@
 import { ApolloClient, useApolloClient } from '@apollo/client';
 import React from 'react';
 
-import { EventFieldsFragment } from '../../../generated/graphql';
+import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
 import { getRelatedEvents } from '../utils';
 
 type UseRelatedEventsState = {
-  events: EventFieldsFragment[];
+  events: EventsQuery['events']['data'];
   loading: boolean;
 };
 // This hook returns all events that should be updated when user saves changes to super event

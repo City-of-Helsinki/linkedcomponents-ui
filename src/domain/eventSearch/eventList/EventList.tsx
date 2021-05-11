@@ -9,7 +9,7 @@ import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpi
 import Pagination from '../../../common/components/pagination/Pagination';
 import SingleSelect from '../../../common/components/singleSelect/SingleSelect';
 import {
-  EventFieldsFragment,
+  EventsQuery,
   EventsQueryVariables,
   useEventsQuery,
 } from '../../../generated/graphql';
@@ -38,7 +38,7 @@ export interface EventListContainerProps {
 }
 
 type EventListProps = {
-  events: EventFieldsFragment[];
+  events: EventsQuery['events']['data'];
   onSelectedPageChange: (page: number) => void;
   page: number;
   pageCount: number;
@@ -61,7 +61,7 @@ const EventList: React.FC<EventListProps> = ({
     if (location.state?.eventId) {
       scrollToEventCard(getEventItemId(location.state.eventId));
       // Clear eventId value to keep scroll position correctly
-      const state = { ...omit(location.state, 'eventId') };
+      const state = omit(location.state, 'eventId');
       // location.search seems to reset if not added here (...location)
       history.replace({ ...location, state });
     }
@@ -107,7 +107,7 @@ const EventListContainer: React.FC<EventListContainerProps> = ({
     variables,
   });
 
-  const events = (eventsData?.events?.data as EventFieldsFragment[]) || [];
+  const events = eventsData?.events?.data || [];
 
   const handleSelectedPageChange = (page: number) => {
     history.push({

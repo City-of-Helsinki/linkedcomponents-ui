@@ -12,6 +12,7 @@ import Pagination from '../../../common/components/pagination/Pagination';
 import SingleSelect from '../../../common/components/singleSelect/SingleSelect';
 import {
   EventFieldsFragment,
+  EventsQuery,
   EventsQueryVariables,
   useEventsQuery,
 } from '../../../generated/graphql';
@@ -54,7 +55,7 @@ const getPageCount = (count: number, pageSize: number) => {
 };
 
 type EventListProps = {
-  events: EventFieldsFragment[];
+  events: EventsQuery['events']['data'];
   onSelectedPageChange: (page: number) => void;
   onSortChange: (sort: EVENT_SORT_OPTIONS) => void;
   pageCount: number;
@@ -88,7 +89,7 @@ const EventList: React.FC<EventListProps> = ({
     if (location.state?.eventId) {
       scrollToEventCard(getEventItemId(location.state.eventId));
       // Clear eventId value to keep scroll position correctly
-      const state = { ...omit(location.state, 'eventId') };
+      const state = omit(location.state, 'eventId');
       // location.search seems to reset if not added here (...location)
       history.replace({ ...location, state });
     }
