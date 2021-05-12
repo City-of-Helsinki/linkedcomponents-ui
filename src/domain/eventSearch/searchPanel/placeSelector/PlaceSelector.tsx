@@ -89,7 +89,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
         })
       );
 
-      /* instanbul ignore else */
+      /* istanbul ignore else */
       if (isMounted.current) {
         setSelectedPlaces(places.filter((p) => p) as OptionType[]);
       }

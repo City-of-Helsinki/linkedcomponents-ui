@@ -65,7 +65,7 @@ const ContactPage: React.FC = () => {
           authenticated ? CONTACT_FORM_FIELD.SUBJECT : CONTACT_FORM_FIELD.NAME
         )
         ?.focus();
-    } catch (e) /* instanbul ignore next */ {
+    } catch (e) /* istanbul ignore next */ {
       setSuccess(false);
     }
   };

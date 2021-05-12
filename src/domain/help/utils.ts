@@ -64,7 +64,7 @@ export const getInitialValues = (user?: User): ContactFormFields =>
   user
     ? {
         ...initialValues,
-        name: user.profile.name ?? /* instanbul ignore next */ '',
-        email: user.profile.email ?? /* instanbul ignore next */ '',
+        name: user.profile.name ?? /* istanbul ignore next */ '',
+        email: user.profile.email ?? /* istanbul ignore next */ '',
       }
     : initialValues;
