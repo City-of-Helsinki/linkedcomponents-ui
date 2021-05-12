@@ -2,10 +2,6 @@ import { Formik } from 'formik';
 import range from 'lodash/range';
 import React from 'react';
 
-import {
-  mockedLanguagesResponse,
-  mockedTopicsKeywordSetResponse,
-} from '../../../__mocks__/editEventPage';
 import { INCLUDE, KEYWORD_SETS } from '../../../../../constants';
 import { KeywordSetDocument } from '../../../../../generated/graphql';
 import {
@@ -19,6 +15,10 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
+import {
+  mockedLanguagesResponse,
+  mockedTopicsKeywordSetResponse,
+} from '../../../__mocks__/editEventPage';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import AudienceSection from '../AudienceSection';
 

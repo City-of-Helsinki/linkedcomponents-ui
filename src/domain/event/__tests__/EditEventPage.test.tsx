@@ -1,6 +1,20 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import { DATETIME_FORMAT, ROUTES } from '../../../constants';
+import { EventDocument } from '../../../generated/graphql';
+import formatDate from '../../../utils/formatDate';
+import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import {
+  configure,
+  getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
+  renderWithRoute,
+  screen,
+  userEvent,
+  waitFor,
+  within,
+} from '../../../utils/testUtils';
 import {
   eventId,
   expectedValues,
@@ -40,20 +54,6 @@ import {
   newSubEventTimes,
   subEventTimes,
 } from '../__mocks__/editEventPage';
-import { DATETIME_FORMAT, ROUTES } from '../../../constants';
-import { EventDocument } from '../../../generated/graphql';
-import formatDate from '../../../utils/formatDate';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
-import {
-  configure,
-  getMockReduxStore,
-  loadingSpinnerIsNotInDocument,
-  renderWithRoute,
-  screen,
-  userEvent,
-  waitFor,
-  within,
-} from '../../../utils/testUtils';
 import EditEventPage from '../EditEventPage';
 
 configure({ defaultHidden: true });

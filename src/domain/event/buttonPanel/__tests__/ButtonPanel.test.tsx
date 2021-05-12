@@ -2,10 +2,6 @@ import { AnyAction, Store } from '@reduxjs/toolkit';
 import { Formik } from 'formik';
 import React from 'react';
 
-import {
-  mockedUserResponse,
-  organizationId,
-} from '../../__mocks__/createEventPage';
 import { defaultStoreState } from '../../../../constants';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
@@ -16,6 +12,10 @@ import {
   screen,
 } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
+import {
+  mockedUserResponse,
+  organizationId,
+} from '../../__mocks__/createEventPage';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import ButtonPanel from '../ButtonPanel';
 

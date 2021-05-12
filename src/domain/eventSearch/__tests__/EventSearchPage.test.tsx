@@ -1,13 +1,6 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
-import {
-  eventNames,
-  events,
-  mockedEventsResponse,
-  mockedPlacesResponse,
-  searchText,
-} from '../__mocks__/eventSearchPage';
 import { ROUTES } from '../../../constants';
 import {
   loadingSpinnerIsNotInDocument,
@@ -15,6 +8,13 @@ import {
   screen,
   waitFor,
 } from '../../../utils/testUtils';
+import {
+  eventNames,
+  events,
+  mockedEventsResponse,
+  mockedPlacesResponse,
+  searchText,
+} from '../__mocks__/eventSearchPage';
 import EventSearchPage from '../EventSearchPage';
 
 const route = `${ROUTES.SEARCH}?text=${searchText}`;

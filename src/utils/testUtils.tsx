@@ -175,10 +175,10 @@ const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
 export {
   actWait,
   createPasteEvent,
-  customRender as render,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   pasteToTextEditor,
+  customRender as render,
   renderWithRoute,
 };
 
