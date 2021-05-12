@@ -27,7 +27,7 @@
       "checkboxAccept": "Jag har läst och godkänner tjänstens <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"användarvillkor {{openInNewTab}}\">användarvillkor</a>",
       "checkboxAcceptAriaLabel": "Jag har läst och godkänner tjänstens användarvillkor",
       "linkDataProtection": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd",
-      "linkPrivacyPolicy": "TODO: ADD LINK",
+      "linkPrivacyPolicy": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf",
       "text1": "Genom att välja “Jag godkänner” går du med på tjänsten användarvillkor. Till följande måste du godkänna antingen den nödvändiga eller alla cookies.",
       "text2": "Läs mera om vår <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"integritetspolicy {{openInNewTab}}\">integritetspolicy</a> och <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registerbeskrivning {{openInNewTab}}\">registerbeskrivning</a>.",
       "text3": "Vi använder cookies för att förbättra användarupplevelsen på vår tjänst.",
