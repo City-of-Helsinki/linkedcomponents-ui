@@ -1,4 +1,4 @@
-import { IconPhoto } from 'hds-react';
+import { IconCalendarClock, IconSpeechbubbleText, IconTicket } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -27,19 +27,19 @@ const LandingPage: React.FC = () => {
           {/* TODO: Change to real content when material is ready */}
           <Highlight
             className={styles.highlight}
-            icon={<IconPhoto aria-hidden={true} />}
+            icon={<IconCalendarClock aria-hidden={true} />}
             text={t('landingPage.highlight1Text')}
             title={t('landingPage.highlight1Title')}
           />
           <Highlight
             className={styles.highlight}
-            icon={<IconPhoto aria-hidden={true} />}
+            icon={<IconTicket aria-hidden={true} />}
             text={t('landingPage.highlight2Text')}
             title={t('landingPage.highlight2Title')}
           />
           <Highlight
             className={styles.highlight}
-            icon={<IconPhoto aria-hidden={true} />}
+            icon={<IconSpeechbubbleText aria-hidden={true} />}
             text={
               <span
                 dangerouslySetInnerHTML={{
