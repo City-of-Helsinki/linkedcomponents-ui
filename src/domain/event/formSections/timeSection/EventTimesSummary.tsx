@@ -8,12 +8,8 @@ import styles from './timeSection.module.scss';
 import TimeSectionContext from './TimeSectionContext';
 
 const EventTimesSummary: React.FC = () => {
-  const {
-    events,
-    eventTimes,
-    recurringEvents,
-    setEventTimes,
-  } = React.useContext(TimeSectionContext);
+  const { events, eventTimes, recurringEvents, setEventTimes } =
+    React.useContext(TimeSectionContext);
   const isVisible =
     events?.length || eventTimes?.length || recurringEvents?.length;
 

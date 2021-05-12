@@ -21,16 +21,15 @@ const LanguagesSection: React.FC = () => {
   const locale = useLocale();
   const { data, loading } = useLanguagesQuery();
 
-  const eventInfoLanguageOptions: OptionType[] = ORDERED_EVENT_INFO_LANGUAGES.map(
-    (type) => ({
+  const eventInfoLanguageOptions: OptionType[] =
+    ORDERED_EVENT_INFO_LANGUAGES.map((type) => ({
       label: t(`form.language.${type}`),
       value: type,
-    })
-  );
+    }));
 
-  const inLanguageOptions: OptionType[] = ([
-    ...(data?.languages.data || []),
-  ] as Language[])
+  const inLanguageOptions: OptionType[] = (
+    [...(data?.languages.data || [])] as Language[]
+  )
     .sort(sortLanguage)
     .map((language) => ({
       label: capitalize(getLocalisedString(language?.name, locale)),

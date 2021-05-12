@@ -132,6 +132,7 @@ const renderWithRoute: CustomRender = (
   return { ...renderResult, history };
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const getMockReduxStore = (initialState: StoreState = defaultStoreState) => {
   const middlewares = [thunk];
   return configureMockStore(middlewares)(initialState);

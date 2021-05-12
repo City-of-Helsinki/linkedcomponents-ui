@@ -37,10 +37,8 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
   const { user } = useUser();
   const { organizations } = useUserOrganizations(user);
 
-  const [
-    selectedOrganization,
-    setSelectedOrganization,
-  ] = React.useState<OptionType | null>(null);
+  const [selectedOrganization, setSelectedOrganization] =
+    React.useState<OptionType | null>(null);
 
   const { data: organizationData } = useOrganizationQuery({
     skip: !value,

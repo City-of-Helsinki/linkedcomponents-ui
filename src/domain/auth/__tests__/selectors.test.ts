@@ -89,7 +89,6 @@ test('loading selector returns loading status', () => {
 
 test('userAccessTokenSelector returns access token', () => {
   const accessToken = 'access-token';
-  // eslint-disable-next-line @typescript-eslint/camelcase
   const user = { access_token: accessToken };
 
   expect(

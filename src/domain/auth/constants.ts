@@ -20,7 +20,7 @@ export const defaultTokenState: TokenState = {
 
 export const defaultOidcState: UserState = {
   isLoadingUser: false,
-  user: (null as unknown) as undefined,
+  user: null as unknown as undefined,
 };
 
 export const defaultReducerState: ReducerState = {

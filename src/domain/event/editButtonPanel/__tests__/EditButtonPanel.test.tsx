@@ -18,7 +18,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { EVENT_SEARCH_PARAMS } from '../../../eventSearch/constants';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });

@@ -23,12 +23,11 @@ const Footer: React.FC = () => {
     url: `/${locale}${url}`,
   }));
 
-  const goToPage = (pathname: string) => (
-    event?: React.MouseEvent<HTMLAnchorElement>
-  ) => {
-    event?.preventDefault();
-    history.push({ pathname });
-  };
+  const goToPage =
+    (pathname: string) => (event?: React.MouseEvent<HTMLAnchorElement>) => {
+      event?.preventDefault();
+      history.push({ pathname });
+    };
 
   const getFooterThemeClassName = () => {
     if (pathname.startsWith(`/${locale}${ROUTES.HELP}`)) {

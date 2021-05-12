@@ -11,9 +11,8 @@ import TimeSectionContext from './TimeSectionContext';
 
 const SavedEvents: React.FC = () => {
   const { t } = useTranslation();
-  const { events, setEvents, savedEvent } = React.useContext(
-    TimeSectionContext
-  );
+  const { events, setEvents, savedEvent } =
+    React.useContext(TimeSectionContext);
   const isRecurringEvent =
     savedEvent?.superEventType === SuperEventType.Recurring;
 

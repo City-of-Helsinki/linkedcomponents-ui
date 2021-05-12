@@ -13,9 +13,8 @@ import ValidationError from './ValidationError';
 
 const RecurringEventTab: React.FC = () => {
   const { t } = useTranslation();
-  const { recurringEvents, setRecurringEvents } = React.useContext(
-    TimeSectionContext
-  );
+  const { recurringEvents, setRecurringEvents } =
+    React.useContext(TimeSectionContext);
 
   const addRecurringEvent = (recurringEvent: RecurringEventSettings) => {
     const sortedRecurringEvents = [...recurringEvents];

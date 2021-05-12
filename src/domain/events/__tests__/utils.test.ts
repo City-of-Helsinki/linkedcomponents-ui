@@ -35,12 +35,12 @@ describe('eventsPathBuilder function', () => {
       },
       {
         args: {
-          eventType: ([
+          eventType: [
             EVENT_TYPE.Course,
             EVENT_TYPE.General,
             EVENT_TYPE.Volunteering,
             'notsupported',
-          ] as unknown) as EventTypeId[],
+          ] as unknown as EventTypeId[],
         },
         expectedPath: '/event/?event_type=Course,General,Volunteering',
       },

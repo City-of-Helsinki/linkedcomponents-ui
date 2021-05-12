@@ -23,7 +23,6 @@ it('should show toast error message when login fails', async () => {
   expect(signinRedirect).toHaveBeenCalledTimes(1);
   expect(signinRedirect).toHaveBeenCalledWith({
     data: { path: '/' },
-    // eslint-disable-next-line @typescript-eslint/camelcase
     ui_locales: 'fi',
   });
   expect(toastError).toBeCalledWith('Tapahtui virhe. Yritä uudestaan');
@@ -42,7 +41,6 @@ it('should show toast error message when login fails with NetworkError', async (
   expect(signinRedirect).toHaveBeenCalledTimes(1);
   expect(signinRedirect).toHaveBeenCalledWith({
     data: { path },
-    // eslint-disable-next-line @typescript-eslint/camelcase
     ui_locales: 'fi',
   });
   expect(toastError).toBeCalledWith(

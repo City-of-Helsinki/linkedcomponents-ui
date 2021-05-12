@@ -3,7 +3,7 @@ import reducers from './reducers';
 
 export type TokenState = {
   apiToken: TokenResponse | null;
-  errors: object;
+  errors: Record<string, unknown>;
   loading: boolean;
 };
 

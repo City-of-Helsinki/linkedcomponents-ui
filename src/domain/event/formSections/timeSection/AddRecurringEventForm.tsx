@@ -48,9 +48,8 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
 
     onSubmit({
       ...values,
-      eventTimes: generateEventTimesFromRecurringEvent(values).sort(
-        sortEventTimes
-      ),
+      eventTimes:
+        generateEventTimesFromRecurringEvent(values).sort(sortEventTimes),
     });
     resetForm();
     validateForm();

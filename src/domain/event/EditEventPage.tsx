@@ -87,9 +87,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     locale
   );
 
-  const [nextPublicationStatus, setNextPublicationStatus] = React.useState(
-    publicationStatus
-  );
+  const [nextPublicationStatus, setNextPublicationStatus] =
+    React.useState(publicationStatus);
 
   const {
     cancelEvent,
@@ -323,10 +322,11 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                       <EventHierarchy
                         event={event}
                         eventNameRenderer={(item) => {
-                          const { eventUrl, id: itemId, name } = getEventFields(
-                            item,
-                            locale
-                          );
+                          const {
+                            eventUrl,
+                            id: itemId,
+                            name,
+                          } = getEventFields(item, locale);
                           if (id === itemId) {
                             return <>{name}</>;
                           }
@@ -369,9 +369,8 @@ const EditEventPageWrapper: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { loading: loadingUser } = useUser();
 
-  const [debouncedLoadingUser, setDebouncedLoadingUser] = React.useState(
-    loadingUser
-  );
+  const [debouncedLoadingUser, setDebouncedLoadingUser] =
+    React.useState(loadingUser);
 
   const debouncedSetLoading = React.useMemo(
     () =>
@@ -396,7 +395,11 @@ const EditEventPageWrapper: React.FC = () => {
     handleLoadingUserChange(loadingUser);
   }, [handleLoadingUserChange, loadingUser]);
 
-  const { data: eventData, loading: loadingEvent, refetch } = useEventQuery({
+  const {
+    data: eventData,
+    loading: loadingEvent,
+    refetch,
+  } = useEventQuery({
     fetchPolicy: 'no-cache',
     skip: debouncedLoadingUser,
     variables: {
