@@ -334,9 +334,9 @@ test('should update recurring event', async () => {
   userEvent.click(updateEventButton);
 
   // This test is pretty heavy so give DOM some time to update
-  await loadingSpinnerIsNotInDocument(20000);
+  await loadingSpinnerIsNotInDocument(30000);
   await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
-    timeout: 20000,
+    timeout: 30000,
   });
 });
 

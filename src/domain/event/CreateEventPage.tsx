@@ -47,10 +47,10 @@ import useUpdateImageIfNeeded from './hooks/useUpdateImageIfNeeded';
 import Section from './layout/Section';
 import { EventFormFields } from './types';
 import {
-  draftEventValidationSchema,
-  eventValidationSchema,
+  draftEventSchema,
   getEventPayload,
   getRecurringEventPayload,
+  publicEventSchema,
   showErrors,
 } from './utils';
 
@@ -194,7 +194,7 @@ const CreateEventPage: React.FC = () => {
       // to silent TypeScript error. The reason for custom onSubmit is that
       // we want to scroll to first invalid field if error occurs
       onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={eventValidationSchema}
+      validationSchema={publicEventSchema}
       validateOnMount
       validateOnBlur={false}
       validateOnChange={true}
@@ -221,12 +221,12 @@ const CreateEventPage: React.FC = () => {
 
             switch (publicationStatus) {
               case PublicationStatus.Draft:
-                await draftEventValidationSchema.validate(values, {
+                await draftEventSchema.validate(values, {
                   abortEarly: false,
                 });
                 break;
               case PublicationStatus.Public:
-                await eventValidationSchema.validate(values, {
+                await publicEventSchema.validate(values, {
                   abortEarly: false,
                 });
                 break;

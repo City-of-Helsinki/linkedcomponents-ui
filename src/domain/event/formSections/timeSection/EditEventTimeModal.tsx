@@ -9,7 +9,7 @@ import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Modal from '../../../../common/components/modal/Modal';
 import { EDIT_EVENT_TIME_FORM_NAME, EVENT_TIME_FIELDS } from '../../constants';
 import { EditEventTimeFormFields, EventTime } from '../../types';
-import { editEventTimeValidationSchema } from '../../utils';
+import { editEventTimeSchema } from '../../utils';
 import styles from './timeSection.module.scss';
 import TimeSectionContext from './TimeSectionContext';
 
@@ -58,7 +58,7 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
         validateOnBlur
         validateOnChange
         validateOnMount
-        validationSchema={editEventTimeValidationSchema}
+        validationSchema={editEventTimeSchema}
       >
         {({
           handleSubmit,

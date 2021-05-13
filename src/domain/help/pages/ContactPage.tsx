@@ -23,7 +23,7 @@ const initialValues = {
   [CONTACT_FORM_FIELD.NAME]: '',
 };
 
-export const validationSchema = Yup.object().shape({
+const contactFormSchema = Yup.object().shape({
   [CONTACT_FORM_FIELD.EMAIL]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .email(VALIDATION_MESSAGE_KEYS.EMAIL),
@@ -53,7 +53,7 @@ const ContactPage: React.FC = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={() => alert('TODO: Send feedback form')}
-        validationSchema={validationSchema}
+        validationSchema={contactFormSchema}
         validateOnMount
         validateOnBlur
         validateOnChange

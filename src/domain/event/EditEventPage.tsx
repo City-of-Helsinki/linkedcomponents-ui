@@ -62,11 +62,11 @@ import ConfirmPostponeModal from './modals/ConfirmPostponeModal';
 import ConfirmUpdateModal from './modals/ConfirmUpdateModal';
 import { EventFormFields } from './types';
 import {
-  draftEventValidationSchema,
+  draftEventSchema,
   eventPathBuilder,
-  eventValidationSchema,
   getEventFields,
   getEventInitialValues,
+  publicEventSchema,
   showErrors,
 } from './utils';
 
@@ -181,7 +181,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       // we want to scroll to first invalid field if error occurs
       enableReinitialize={true}
       onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={eventValidationSchema}
+      validationSchema={publicEventSchema}
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
@@ -196,11 +196,11 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
           try {
             clearErrors();
             if (publicationStatus === PublicationStatus.Draft) {
-              await draftEventValidationSchema.validate(values, {
+              await draftEventSchema.validate(values, {
                 abortEarly: false,
               });
             } else {
-              await eventValidationSchema.validate(values, {
+              await publicEventSchema.validate(values, {
                 abortEarly: false,
               });
             }

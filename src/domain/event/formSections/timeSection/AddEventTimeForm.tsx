@@ -9,7 +9,7 @@ import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import { SuperEventType } from '../../../../generated/graphql';
 import { ADD_EVENT_TIME_FORM_NAME, EVENT_TIME_FIELDS } from '../../constants';
 import { AddEventTimeFormFields, EventTime } from '../../types';
-import { addEventTimeValidationSchema } from '../../utils';
+import { addEventTimeSchema } from '../../utils';
 import TimeSectionContext from './TimeSectionContext';
 
 interface Props {
@@ -49,7 +49,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
       validateOnBlur
       validateOnChange
       validateOnMount
-      validationSchema={addEventTimeValidationSchema}
+      validationSchema={addEventTimeSchema}
     >
       {({
         handleSubmit,

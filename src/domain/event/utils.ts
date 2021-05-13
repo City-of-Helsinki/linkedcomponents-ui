@@ -5,11 +5,9 @@ import endOfDay from 'date-fns/endOfDay';
 import isBefore from 'date-fns/isBefore';
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
-import isValid from 'date-fns/isValid';
 import isWithinInterval from 'date-fns/isWithinInterval';
 import maxDate from 'date-fns/max';
 import minDate from 'date-fns/min';
-import parseDate from 'date-fns/parse';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import startOfDay from 'date-fns/startOfDay';
@@ -30,8 +28,6 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { getTimeObject } from '../../common/components/timepicker/utils';
 import {
   CHARACTER_LIMITS,
-  DATE_FORMAT,
-  DATETIME_FORMAT,
   EXTLINK,
   FORM_NAMES,
   MAX_PAGE_SIZE,
@@ -61,16 +57,19 @@ import {
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
-import formatDate from '../../utils/formatDate';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import {
-  createArrayError,
-  createNumberError,
-  createStringError,
+  createMaxErrorMessage,
+  createMinErrorMessage,
+  isAfterStartDate,
+  isAfterStartTime,
+  isMinStartDate,
+  isValidTime,
+  transformNumber,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { EVENT_SORT_OPTIONS } from '../events/constants';
@@ -110,18 +109,16 @@ import {
   EventFields,
   EventFormFields,
   EventTime,
+  ImageDetails,
   MultiLanguageObject,
   Offer,
   RecurringEventSettings,
   VideoDetails,
 } from './types';
 
-const transformNumber = (value: number, originalValue: string) =>
-  String(originalValue).trim() === '' ? null : value;
-
 const createMultiLanguageValidation = (
   languages: string[],
-  rule: Yup.Schema<string | null | undefined>
+  rule: Yup.StringSchema<string | null | undefined>
 ) => {
   return Yup.object().shape(
     reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {})
@@ -129,7 +126,7 @@ const createMultiLanguageValidation = (
 };
 
 const createMultiLanguageValidationByInfoLanguages = (
-  rule: Yup.Schema<string | null | undefined>
+  rule: Yup.StringSchema<string | null | undefined>
 ) => {
   return Yup.object().when(
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES],
@@ -137,60 +134,7 @@ const createMultiLanguageValidationByInfoLanguages = (
   );
 };
 
-const enrolmentFieldsValidation = {
-  [EVENT_FIELDS.ENROLMENT_START_TIME]: Yup.date()
-    .nullable()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-      startTime ? isFuture(startTime) : true
-    ),
-  [EVENT_FIELDS.ENROLMENT_END_TIME]: Yup.date()
-    .nullable()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
-      endTime ? isFuture(endTime) : true
-    )
-    // test that startsTime is before endsTime
-    .when(
-      [EVENT_FIELDS.ENROLMENT_START_TIME],
-      (startTime: Date | null, schema: Yup.DateSchema) => {
-        if (startTime && isValid(startTime)) {
-          return schema.test(
-            'isBeforeStartTime',
-            () => ({
-              key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-              min: formatDate(startTime, DATETIME_FORMAT),
-            }),
-            (endTime) => {
-              return endTime ? isBefore(startTime, endTime) : true;
-            }
-          );
-        }
-        return schema;
-      }
-    ),
-  [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, (param) =>
-      createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-    )
-    .nullable()
-    .transform(transformNumber),
-  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
-    [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-    (minimumAttendeeCapacity: number) => {
-      return Yup.number()
-        .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-        .min(minimumAttendeeCapacity || 0, (param) =>
-          createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-        )
-        .nullable()
-        .transform(transformNumber);
-    }
-  ),
-};
-
-export const eventTimeValidation = Yup.object().shape({
+export const eventTimeSchema = Yup.object().shape({
   [EVENT_TIME_FIELDS.START_TIME]: Yup.date()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
@@ -206,85 +150,108 @@ export const eventTimeValidation = Yup.object().shape({
       endTime ? isFuture(endTime) : true
     )
     // test that startsTime is before endsTime
-    .when(
-      [EVENT_TIME_FIELDS.START_TIME],
-      (startTime: Date | null, schema: Yup.DateSchema) => {
-        if (startTime && isValid(startTime)) {
-          return schema.test(
-            'isBeforeStartTime',
-            () => ({
-              key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
-              after: formatDate(startTime, DATETIME_FORMAT),
-            }),
-            (endTime) => {
-              return endTime ? isBefore(startTime, endTime) : true;
-            }
-          );
-        }
-        return schema;
-      }
+    .when([EVENT_TIME_FIELDS.START_TIME], isAfterStartDate),
+});
+
+export const addEventTimeSchema = Yup.object().shape({
+  [ADD_EVENT_TIME_FORM_NAME]: eventTimeSchema,
+});
+
+export const editEventTimeSchema = Yup.object().shape({
+  [EDIT_EVENT_TIME_FORM_NAME]: eventTimeSchema,
+});
+
+const validateEventTimes = (
+  recurringEvents: RecurringEventSettings[] | null,
+  events: EventTime[] | null,
+  schema: Yup.SchemaOf<EventTime[]>
+) =>
+  schema.test(
+    'hasAtLeaseOneEventTime',
+    VALIDATION_MESSAGE_KEYS.EVENT_TIMES_REQUIRED,
+    (eventTimes) => {
+      const allEventTimes = [...(eventTimes ?? []), ...(events ?? [])];
+      recurringEvents?.forEach((recurringEvent) => {
+        allEventTimes.push(...recurringEvent.eventTimes);
+      });
+      return Boolean(
+        allEventTimes.filter(({ endTime, startTime }) => endTime && startTime)
+          .length
+      );
+    }
+  );
+
+const eventTimesSchema = Yup.array().when(
+  [EVENT_FIELDS.RECURRING_EVENTS, EVENT_FIELDS.EVENTS],
+  validateEventTimes as () => Yup.SchemaOf<EventTime[]>
+);
+
+const validateOffers = (
+  hasPrice: boolean,
+  eventInfoLanguage: string[],
+  schema: Yup.SchemaOf<Offer[]>
+) =>
+  hasPrice
+    ? Yup.array().of(
+        Yup.object().shape({
+          [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
+            eventInfoLanguage,
+            Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+          ),
+          [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
+            eventInfoLanguage,
+            Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+          ),
+        })
+      )
+    : schema;
+
+const imageDetailsSchema = Yup.object().shape({
+  [IMAGE_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .min(IMAGE_ALT_TEXT_MIN_LENGTH, (param) =>
+      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MIN)
+    )
+    .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
+      createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+    ),
+  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(CHARACTER_LIMITS.MEDIUM_STRING, (param) =>
+      createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
     ),
 });
 
-export const addEventTimeValidationSchema = Yup.object().shape({
-  [ADD_EVENT_TIME_FORM_NAME]: eventTimeValidation,
-});
+const validateImageDetails = (
+  images: string[],
+  isImageEditable: boolean,
+  schema: Yup.SchemaOf<ImageDetails>
+) => (isImageEditable && images && images.length ? imageDetailsSchema : schema);
 
-export const editEventTimeValidationSchema = Yup.object().shape({
-  [EDIT_EVENT_TIME_FORM_NAME]: eventTimeValidation,
-});
+const validateVideoFields = (
+  field1: string,
+  field2: string,
+  schema: Yup.StringSchema
+) =>
+  field1 || field2
+    ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    : schema;
 
-export const eventTimesValidation = Yup.array<EventTime>().when(
-  [EVENT_FIELDS.RECURRING_EVENTS, EVENT_FIELDS.EVENTS],
-  (
-    recurringEvents: RecurringEventSettings[] | null,
-    events: EventTime[] | null,
-    schema: Yup.ArraySchema<EventTime>
-  ) => {
-    return schema.test(
-      'hasAtLeaseOneEventTime',
-      VALIDATION_MESSAGE_KEYS.EVENT_TIMES_REQUIRED,
-      (eventTimes) => {
-        const allEventTimes = [...(eventTimes ?? []), ...(events ?? [])];
-        recurringEvents?.forEach((recurringEvent) => {
-          allEventTimes.push(...recurringEvent.eventTimes);
-        });
-        return Boolean(
-          allEventTimes.filter(({ endTime, startTime }) => endTime && startTime)
-            .length
-        );
-      }
-    );
-  }
-);
-
-const videoValidation = Yup.object().shape(
+const videoSchema = Yup.object().shape(
   {
     [VIDEO_DETAILS_FIELDS.ALT_TEXT]: Yup.string().when(
       [VIDEO_DETAILS_FIELDS.NAME, VIDEO_DETAILS_FIELDS.URL],
-      (name: string, url: string, schema: Yup.StringSchema) => {
-        return name || url
-          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          : schema;
-      }
+      validateVideoFields as () => Yup.StringSchema
     ),
     [VIDEO_DETAILS_FIELDS.NAME]: Yup.string().when(
       [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.URL],
-      (altText: string, url: string, schema: Yup.StringSchema) => {
-        return altText || url
-          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          : schema;
-      }
+      validateVideoFields as () => Yup.StringSchema
     ),
     [VIDEO_DETAILS_FIELDS.URL]: Yup.string()
       .url(VALIDATION_MESSAGE_KEYS.URL)
       .when(
         [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.NAME],
-        (altText: string, name: string, schema: Yup.StringSchema) => {
-          return altText || name
-            ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-            : schema;
-        }
+        validateVideoFields as () => Yup.StringSchema
       ),
   },
   [
@@ -294,30 +261,81 @@ const videoValidation = Yup.object().shape(
   ]
 );
 
-const imageDetailsValidation = Yup.object().shape({
-  [IMAGE_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .min(IMAGE_ALT_TEXT_MIN_LENGTH, (param) =>
-      createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MIN)
-    )
-    .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
-      createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-    ),
-  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .max(CHARACTER_LIMITS.MEDIUM_STRING, (param) =>
-      createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-    ),
-});
+const validateMainCategories = (
+  keywords: string[],
+  schema: Yup.SchemaOf<string[]>
+) =>
+  schema.test(
+    'atLeastOneMainCategoryIsSelected',
+    VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED,
+    (mainCategories) =>
+      mainCategories?.some(
+        (category) => category && keywords.includes(category)
+      ) ?? false
+  );
 
-export const eventValidationSchema = Yup.object().shape({
+const enrolmentSchemaFields = {
+  [EVENT_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
+    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+    .min(0, (param) =>
+      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+    )
+    .nullable()
+    .transform(transformNumber),
+  [EVENT_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
+    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+    .when(
+      [EVENT_FIELDS.AUDIENCE_MIN_AGE],
+      (audienceMinAge: number, schema: Yup.NumberSchema) =>
+        schema.min(audienceMinAge || 0, (param) =>
+          createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+        )
+    )
+    .nullable()
+    .transform(transformNumber),
+  [EVENT_FIELDS.ENROLMENT_START_TIME]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
+      startTime ? isFuture(startTime) : true
+    ),
+  [EVENT_FIELDS.ENROLMENT_END_TIME]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
+      endTime ? isFuture(endTime) : true
+    )
+    // test that startsTime is before endsTime
+    .when([EVENT_FIELDS.ENROLMENT_START_TIME], isMinStartDate),
+  [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
+    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+    .min(0, (param) =>
+      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+    )
+    .nullable()
+    .transform(transformNumber),
+  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
+    [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
+    (minimumAttendeeCapacity: number) => {
+      return Yup.number()
+        .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+        .min(minimumAttendeeCapacity || 0, (param) =>
+          createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+        )
+        .nullable()
+        .transform(transformNumber);
+    }
+  ),
+};
+
+export const publicEventSchema = Yup.object().shape({
   [EVENT_FIELDS.TYPE]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
   [EVENT_FIELDS.SUPER_EVENT]: Yup.string()
     .nullable()
     .when([EVENT_FIELDS.HAS_UMBRELLA], {
-      is: (value) => value,
+      is: (value: string) => value,
       then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     }),
   [EVENT_FIELDS.PUBLISHER]: Yup.string().required(
@@ -331,48 +349,29 @@ export const eventValidationSchema = Yup.object().shape({
       Yup.string()
         .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
         .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
-          createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+          createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
         )
     ),
   [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
     Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       .max(CHARACTER_LIMITS.LONG_STRING, (param) =>
-        createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+        createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
       )
   ),
-  [EVENT_FIELDS.EVENT_TIMES]: eventTimesValidation,
+  [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
   [EVENT_FIELDS.LOCATION]: Yup.string()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]:
     createMultiLanguageValidationByInfoLanguages(
       Yup.string().max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
-        createStringError(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+        createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
       )
     ),
   [EVENT_FIELDS.OFFERS]: Yup.array().when(
     [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-    (
-      hasPrice: boolean,
-      eventInfoLanguage: string[],
-      schema: Yup.ArraySchema<Yup.ObjectSchema>
-    ) => {
-      return hasPrice
-        ? Yup.array().of(
-            Yup.object().shape({
-              [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
-                eventInfoLanguage,
-                Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-              ),
-              [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
-                eventInfoLanguage,
-                Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-              ),
-            })
-          )
-        : schema;
-    }
+    validateOffers as () => Yup.SchemaOf<Offer[]>
   ),
   [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
@@ -382,58 +381,27 @@ export const eventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
     [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
-    (images: string[], isImageEditable: boolean, schema: Yup.ObjectSchema) => {
-      return isImageEditable && images && images.length
-        ? imageDetailsValidation
-        : schema;
-    }
+    validateImageDetails as () => Yup.SchemaOf<ImageDetails>
   ),
-  [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoValidation),
+  [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoSchema),
   [EVENT_FIELDS.MAIN_CATEGORIES]: Yup.array().when(
     [EVENT_FIELDS.KEYWORDS],
-    (keywords: string[], schema: Yup.ArraySchema<string>) => {
-      return schema.test(
-        'atLeastOneMainCategoryIsSelected',
-        VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED,
-        (mainCategories) =>
-          mainCategories
-            ? mainCategories.some((category) => keywords.includes(category))
-            : false
-      );
-    }
+    validateMainCategories
   ),
   [EVENT_FIELDS.KEYWORDS]: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
     .min(1, (param) =>
-      createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
+      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
     ),
-  [EVENT_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, (param) =>
-      createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-    )
-    .nullable()
-    .transform(transformNumber),
-  [EVENT_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .when(
-      [EVENT_FIELDS.AUDIENCE_MIN_AGE],
-      (audienceMinAge: number, schema: Yup.NumberSchema) =>
-        schema.min(audienceMinAge || 0, (param) =>
-          createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-        )
-    )
-    .nullable()
-    .transform(transformNumber),
   // Validate enrolment related fields
-  ...enrolmentFieldsValidation,
+  ...enrolmentSchemaFields,
   [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
     [true],
     VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
   ),
 });
 
-export const draftEventValidationSchema = Yup.object().shape({
+export const draftEventSchema = Yup.object().shape({
   [EVENT_FIELDS.PUBLISHER]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
@@ -451,7 +419,7 @@ export const draftEventValidationSchema = Yup.object().shape({
     createMultiLanguageValidationByInfoLanguages(
       Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
     ),
-  [EVENT_FIELDS.EVENT_TIMES]: eventTimesValidation,
+  [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
   [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
   ),
@@ -460,56 +428,31 @@ export const draftEventValidationSchema = Yup.object().shape({
   [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(),
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
     [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
-    (images: string[], isImageEditable: boolean, schema: Yup.ObjectSchema) => {
-      return isImageEditable && images && images.length
-        ? imageDetailsValidation
-        : schema;
-    }
+    validateImageDetails as () => Yup.SchemaOf<ImageDetails>
   ),
-  [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoValidation),
-  [EVENT_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, (param) =>
-      createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-    )
-    .nullable()
-    .transform(transformNumber),
-  [EVENT_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .when(
-      [EVENT_FIELDS.AUDIENCE_MIN_AGE],
-      (audienceMinAge: number, schema: Yup.NumberSchema) =>
-        schema.min(audienceMinAge || 0, (param) =>
-          createNumberError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-        )
-    )
-    .nullable()
-    .transform(transformNumber),
+  [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoSchema),
   // Validate enrolment related fields
-  ...enrolmentFieldsValidation,
+  ...enrolmentSchemaFields,
   [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
     [true],
     VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
   ),
 });
 
-export const isValidTime = (time: string): boolean =>
-  /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
-
-export const recurringEventValidationSchema = Yup.object().shape({
+export const recurringEventSchema = Yup.object().shape({
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
     .nullable()
     .min(1, (param) =>
-      createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
+      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
     )
     .max(4, (param) =>
-      createArrayError(param, VALIDATION_MESSAGE_KEYS.NUMBER_MAX)
+      createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MAX)
     )
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
     .min(1, (param) =>
-      createArrayError(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
+      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
     ),
   [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
@@ -521,24 +464,7 @@ export const recurringEventValidationSchema = Yup.object().shape({
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     // test that startsTime is before endsTime
-    .when(
-      [RECURRING_EVENT_FIELDS.START_DATE],
-      (startDate: Date | null, schema: Yup.DateSchema) => {
-        if (startDate && isValid(startDate)) {
-          return schema.test(
-            'isBeforeStartDate',
-            () => ({
-              key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
-              after: formatDate(startDate, DATE_FORMAT),
-            }),
-            (endDate) => {
-              return endDate ? isBefore(startDate, endDate) : true;
-            }
-          );
-        }
-        return schema;
-      }
-    ),
+    .when([RECURRING_EVENT_FIELDS.START_DATE], isAfterStartDate),
   [RECURRING_EVENT_FIELDS.START_TIME]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
     .test(
@@ -553,55 +479,25 @@ export const recurringEventValidationSchema = Yup.object().shape({
       VALIDATION_MESSAGE_KEYS.TIME,
       (value) => !!value && isValidTime(value)
     )
-    // test that startsAt is before endsAt time
-    .when(
-      [RECURRING_EVENT_FIELDS.START_TIME],
-      (startsAt: string, schema: Yup.StringSchema) => {
-        if (isValidTime(startsAt)) {
-          return schema.test(
-            'isBeforeStartTime',
-            () => ({
-              key: VALIDATION_MESSAGE_KEYS.TIME_AFTER,
-              after: startsAt,
-            }),
-            (endsAt) => {
-              if (endsAt && isValidTime(endsAt)) {
-                const modifiedStartsAt = startsAt.replace(':', '.');
-                const modifiedEndsAt = endsAt.replace(':', '.');
-
-                return isBefore(
-                  parseDate(modifiedStartsAt, 'HH.mm', new Date()),
-                  parseDate(modifiedEndsAt, 'HH.mm', new Date())
-                );
-              }
-              return true;
-            }
-          );
-        }
-        return schema;
-      }
-    ),
+    // test that endsAt is after startsAt time
+    .when([RECURRING_EVENT_FIELDS.START_TIME], isAfterStartTime),
 });
 
-export const createAddImageValidationSchema = (): Yup.ObjectSchema => {
-  return Yup.object().shape(
-    {
-      [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: Yup.array().when(
-        [ADD_IMAGE_FIELDS.URL],
-        (url: string, schema: Yup.ArraySchema<string>) => {
-          return url ? schema.min(0) : schema.min(1);
-        }
-      ),
-      [ADD_IMAGE_FIELDS.URL]: Yup.string().when(
-        [ADD_IMAGE_FIELDS.SELECTED_IMAGE],
-        (ids: string[], schema: Yup.StringSchema) => {
-          return ids.length ? schema : schema.url(VALIDATION_MESSAGE_KEYS.URL);
-        }
-      ),
-    },
-    [[ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL]]
-  );
-};
+export const addImageSchema = Yup.object().shape(
+  {
+    [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: Yup.array().when(
+      [ADD_IMAGE_FIELDS.URL],
+      (url: string, schema: Yup.SchemaOf<string[]>) =>
+        url ? schema.min(0) : schema.min(1)
+    ),
+    [ADD_IMAGE_FIELDS.URL]: Yup.string().when(
+      [ADD_IMAGE_FIELDS.SELECTED_IMAGE],
+      (ids: string[], schema: Yup.StringSchema) =>
+        ids.length ? schema : schema.url(VALIDATION_MESSAGE_KEYS.URL)
+    ),
+  },
+  [[ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL]]
+);
 
 export const eventPathBuilder = ({
   args,
@@ -1345,11 +1241,12 @@ export const scrollToFirstError = ({
   setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
 }): void => {
   forEach(error.inner, (e) => {
+    const path = e.path ?? '';
     const descriptionField = DESCRIPTION_SECTION_FIELDS.find((field) =>
-      e.path.startsWith(field)
+      path.startsWith(field)
     );
     if (descriptionField) {
-      const fieldLanguage = e.path.split('.')[1];
+      const fieldLanguage = path.split('.')[1];
 
       // Change description section language if selected language
       // is different than field language
@@ -1358,7 +1255,7 @@ export const scrollToFirstError = ({
       }
     }
 
-    const { fieldId, type: fieldType } = getFocusableFieldId(e.path);
+    const { fieldId, type: fieldType } = getFocusableFieldId(path);
     const field = document.getElementById(fieldId);
 
     /* istanbul ignore else */
@@ -1407,12 +1304,13 @@ export const showErrors = ({
 }): void => {
   /* istanbul ignore else */
   if (error.name === 'ValidationError') {
+    const path = error.path ?? '';
     const newErrors = error.inner.reduce(
-      (acc, e: Yup.ValidationError) => set(acc, e.path, e.errors[0]),
+      (acc, e: Yup.ValidationError) => set(acc, path, e.errors[0]),
       {}
     );
     const touchedFields = error.inner.reduce(
-      (acc, e: Yup.ValidationError) => set(acc, e.path, true),
+      (acc, e: Yup.ValidationError) => set(acc, path, true),
       {}
     );
 
