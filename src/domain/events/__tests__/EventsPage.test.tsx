@@ -17,7 +17,6 @@ import {
 import {
   fakeAuthenticatedStoreState,
   fakeEventsListOptionsState,
-  fakeEventsState,
 } from '../../../utils/mockStoreUtils';
 import {
   configure,
@@ -380,12 +379,9 @@ test('should add sort parameter to search query', async () => {
 });
 
 test('should show public events when published tab is selected', async () => {
-  const storeState = fakeAuthenticatedStoreState({
-    events: fakeEventsState({
-      listOptions: fakeEventsListOptionsState({
-        tab: EVENTS_PAGE_TABS.PUBLISHED,
-      }),
-    }),
+  const storeState = fakeAuthenticatedStoreState();
+  storeState.events.listOptions = fakeEventsListOptionsState({
+    tab: EVENTS_PAGE_TABS.PUBLISHED,
   });
   const store = getMockReduxStore(storeState);
 
@@ -396,14 +392,10 @@ test('should show public events when published tab is selected', async () => {
 });
 
 test('should show draft events when drafts tab is selected', async () => {
-  const storeState = fakeAuthenticatedStoreState({
-    events: fakeEventsState({
-      listOptions: fakeEventsListOptionsState({
-        tab: EVENTS_PAGE_TABS.DRAFTS,
-      }),
-    }),
+  const storeState = fakeAuthenticatedStoreState();
+  storeState.events.listOptions = fakeEventsListOptionsState({
+    tab: EVENTS_PAGE_TABS.DRAFTS,
   });
-
   const store = getMockReduxStore(storeState);
 
   render(<EventsPage />, { mocks, store });
@@ -413,12 +405,9 @@ test('should show draft events when drafts tab is selected', async () => {
 });
 
 it('scrolls to event table row and calls history.replace correctly (deletes eventId from state)', async () => {
-  const storeState = fakeAuthenticatedStoreState({
-    events: fakeEventsState({
-      listOptions: fakeEventsListOptionsState({
-        tab: EVENTS_PAGE_TABS.WAITING_APPROVAL,
-      }),
-    }),
+  const storeState = fakeAuthenticatedStoreState();
+  storeState.events.listOptions = fakeEventsListOptionsState({
+    tab: EVENTS_PAGE_TABS.WAITING_APPROVAL,
   });
   const store = getMockReduxStore(storeState);
   const route = '/fi/events';
