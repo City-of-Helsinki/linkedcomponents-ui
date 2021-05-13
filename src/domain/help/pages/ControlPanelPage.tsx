@@ -3,6 +3,7 @@ import React from 'react';
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
 const ControlPanelPage: React.FC = () => {
@@ -500,7 +501,7 @@ const ControlPanelPage: React.FC = () => {
       keywords={['keywords.controlPanel', 'keywords.help']}
       title="helpPage.pageTitleControlPanel"
     >
-      {getContent(locale)}
+      <MainContent>{getContent(locale)}</MainContent>
     </PageWrapper>
   );
 };

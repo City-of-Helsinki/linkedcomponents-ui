@@ -185,9 +185,11 @@ const EventsPageWrapper: React.FC = () => {
       keywords={['keywords.myListing', 'keywords.edit', 'keywords.update']}
       title="eventsPage.pageTitle"
     >
-      <LoadingSpinner isLoading={loadingUser}>
-        {user ? <EventsPage user={user} /> : <NotSigned />}
-      </LoadingSpinner>
+      <MainContent>
+        <LoadingSpinner isLoading={loadingUser}>
+          {user ? <EventsPage user={user} /> : <NotSigned />}
+        </LoadingSpinner>
+      </MainContent>
     </PageWrapper>
   );
 };

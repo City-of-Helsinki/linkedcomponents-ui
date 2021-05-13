@@ -8,6 +8,7 @@ import TextAreaField from '../../../common/components/formFields/TextAreaField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../common/components/formGroup/FormGroup';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
+import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 import styles from './contactPage.module.scss';
 
@@ -48,54 +49,56 @@ const ContactPage: React.FC = () => {
       ]}
       title="helpPage.contactPage.pageTitle"
     >
-      <h1>{t('helpPage.contactPage.pageTitle')}</h1>
-      <p>{t('helpPage.contactPage.text')}</p>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={() => alert('TODO: Send feedback form')}
-        validationSchema={contactFormSchema}
-        validateOnMount
-        validateOnBlur
-        validateOnChange
-      >
-        {() => {
-          return (
-            <Form className={styles.contactForm} noValidate>
-              <FormGroup>
-                <Field
-                  component={TextInputField}
-                  label={t('helpPage.contactPage.labelName')}
-                  name={CONTACT_FORM_FIELD.NAME}
-                  placeholder={t('helpPage.contactPage.placeholderName')}
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Field
-                  component={TextInputField}
-                  label={t('helpPage.contactPage.labelEmail')}
-                  name={CONTACT_FORM_FIELD.EMAIL}
-                  placeholder={t('helpPage.contactPage.placeholderEmail')}
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Field
-                  component={TextAreaField}
-                  label={t('helpPage.contactPage.labelFeedback')}
-                  name={CONTACT_FORM_FIELD.FEEDBACK}
-                  placeholder={t('helpPage.contactPage.placeholderFeedback')}
-                  required
-                />
-              </FormGroup>
+      <MainContent>
+        <h1>{t('helpPage.contactPage.pageTitle')}</h1>
+        <p>{t('helpPage.contactPage.text')}</p>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={() => alert('TODO: Send feedback form')}
+          validationSchema={contactFormSchema}
+          validateOnMount
+          validateOnBlur
+          validateOnChange
+        >
+          {() => {
+            return (
+              <Form className={styles.contactForm} noValidate>
+                <FormGroup>
+                  <Field
+                    component={TextInputField}
+                    label={t('helpPage.contactPage.labelName')}
+                    name={CONTACT_FORM_FIELD.NAME}
+                    placeholder={t('helpPage.contactPage.placeholderName')}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Field
+                    component={TextInputField}
+                    label={t('helpPage.contactPage.labelEmail')}
+                    name={CONTACT_FORM_FIELD.EMAIL}
+                    placeholder={t('helpPage.contactPage.placeholderEmail')}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Field
+                    component={TextAreaField}
+                    label={t('helpPage.contactPage.labelFeedback')}
+                    name={CONTACT_FORM_FIELD.FEEDBACK}
+                    placeholder={t('helpPage.contactPage.placeholderFeedback')}
+                    required
+                  />
+                </FormGroup>
 
-              <Button type="submit" fullWidth>
-                {t('helpPage.contactPage.buttonSend')}
-              </Button>
-            </Form>
-          );
-        }}
-      </Formik>
+                <Button type="submit" fullWidth>
+                  {t('helpPage.contactPage.buttonSend')}
+                </Button>
+              </Form>
+            );
+          }}
+        </Formik>
+      </MainContent>
     </PageWrapper>
   );
 };

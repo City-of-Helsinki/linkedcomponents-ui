@@ -6,6 +6,7 @@ import Accordion from '../../../common/components/accordion/Accordion';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 import styles from './faqPage.module.scss';
 
@@ -282,8 +283,10 @@ const FaqPage: React.FC = () => {
       keywords={['keywords.faq', 'keywords.asked', 'keywords.questions']}
       title="helpPage.pageTitleFaq"
     >
-      <h1>{t('helpPage.pageTitleFaq')}</h1>
-      <div className={styles.accordions}>{getContent(locale)}</div>
+      <MainContent>
+        <h1>{t('helpPage.pageTitleFaq')}</h1>
+        <div className={styles.accordions}>{getContent(locale)}</div>
+      </MainContent>
     </PageWrapper>
   );
 };

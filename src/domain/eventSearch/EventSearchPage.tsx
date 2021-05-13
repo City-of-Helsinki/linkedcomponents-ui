@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 
+import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import EventList from './eventList/EventList';
 import SearchPanel from './searchPanel/SearchPanel';
@@ -21,8 +22,10 @@ const EventSearchPage: React.FC = () => {
       ]}
       title="eventSearchPage.pageTitle"
     >
-      <SearchPanel />
-      <EventList baseVariables={variables} />
+      <MainContent>
+        <SearchPanel />
+        <EventList baseVariables={variables} />
+      </MainContent>
     </PageWrapper>
   );
 };

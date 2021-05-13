@@ -3,6 +3,7 @@ import React from 'react';
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
 const DocumentationPage: React.FC = () => {
@@ -74,7 +75,7 @@ const DocumentationPage: React.FC = () => {
       keywords={['keywords.documentation', 'keywords.help']}
       title="helpPage.pageTitleDocumentation"
     >
-      {getContent(locale)}
+      <MainContent>{getContent(locale)}</MainContent>
     </PageWrapper>
   );
 };

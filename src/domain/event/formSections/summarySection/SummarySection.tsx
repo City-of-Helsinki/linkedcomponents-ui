@@ -15,7 +15,7 @@ const SummarySection: React.FC = () => {
   return (
     <div className={styles.panel}>
       <Field
-        labelText={
+        label={
           <span
             dangerouslySetInnerHTML={{
               __html: t('event.form.checkboxIsVerified', {

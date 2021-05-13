@@ -14,6 +14,7 @@ import {
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
+import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import {
   clearEventFormData,
@@ -87,9 +88,11 @@ const EventSavedPageWrapper: React.FC = () => {
   });
 
   return (
-    <LoadingSpinner isLoading={loading}>
-      {eventData ? <EventSavedPage event={eventData.event} /> : <NotFound />}
-    </LoadingSpinner>
+    <MainContent>
+      <LoadingSpinner isLoading={loading}>
+        {eventData ? <EventSavedPage event={eventData.event} /> : <NotFound />}
+      </LoadingSpinner>
+    </MainContent>
   );
 };
 
