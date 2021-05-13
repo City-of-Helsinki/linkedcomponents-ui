@@ -1,5 +1,5 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import { TextInput as BaseTextInput, TextInputProps } from 'hds-react';
 import React from 'react';
 

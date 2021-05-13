@@ -1,5 +1,5 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import { IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

@@ -1,6 +1,6 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
 import { useCombobox, UseComboboxState } from 'downshift';
-import { css } from 'emotion';
 import { IconCheck, IconClock, TextInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

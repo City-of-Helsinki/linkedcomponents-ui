@@ -1,5 +1,5 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import { IconAngleDown, IconAngleUp } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import React, { useContext } from 'react';

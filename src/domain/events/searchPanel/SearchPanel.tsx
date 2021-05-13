@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 import { IconHeart, IconSearch } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

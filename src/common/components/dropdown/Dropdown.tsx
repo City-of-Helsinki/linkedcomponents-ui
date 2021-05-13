@@ -1,5 +1,5 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';

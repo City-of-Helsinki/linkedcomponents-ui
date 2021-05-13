@@ -1,9 +1,9 @@
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
+import { css } from '@emotion/css';
 import classNames from 'classnames';
 import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import { css } from 'emotion';
 import htmlToDraft from 'html-to-draftjs';
 import React from 'react';
 import { Editor, EditorState as EditorStateWysiwyg } from 'react-draft-wysiwyg';

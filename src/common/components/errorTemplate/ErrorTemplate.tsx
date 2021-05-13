@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 import { IconAlertCircle } from 'hds-react';
 import React from 'react';
 

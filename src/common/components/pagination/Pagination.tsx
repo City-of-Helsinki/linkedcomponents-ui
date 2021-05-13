@@ -1,5 +1,5 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import { IconAngleLeft, IconAngleRight } from 'hds-react';
 import range from 'lodash/range';
 import React from 'react';

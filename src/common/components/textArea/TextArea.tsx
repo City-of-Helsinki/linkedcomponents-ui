@@ -1,5 +1,5 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import { TextArea as BaseTextArea, TextAreaProps } from 'hds-react';
 import React from 'react';
 
