@@ -3029,10 +3029,18 @@
   dependencies:
     "@types/trusted-types" "*"
 
-"@types/draft-js@*", "@types/draft-js@^0.10.44":
+"@types/draft-js@*":
   version "0.10.44"
   resolved "https://registry.yarnpkg.com/@types/draft-js/-/draft-js-0.10.44.tgz#7cd59d1cc335df31a92e86d09429ea22ce2f6a4f"
   integrity sha512-6p3FZED91yPf+KQinlzFz1HuqSQ5zRXqU3RUsaP2oQYZTtrm5HDf2kwYnF5IihsleHR3jlQAwdSZt0zlJw3VGQ==
+  dependencies:
+    "@types/react" "*"
+    immutable "~3.7.4"
+
+"@types/draft-js@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/@types/draft-js/-/draft-js-0.11.2.tgz#0b3b78a61f186a4cb48c0ad8b059275200a53c63"
+  integrity sha512-oETFZPBenedmGD1wzuRWv0sMBvM1Whj2kX/oyJbPdzOaDPQ1FHOS4NoDONLlHIDiak6n2z9Pbfq04yY46Tni7Q==
   dependencies:
     "@types/react" "*"
     immutable "~3.7.4"
@@ -3263,10 +3271,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-draft-wysiwyg@^1.13.1":
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/@types/react-draft-wysiwyg/-/react-draft-wysiwyg-1.13.1.tgz#75ec086d348f4dbcfa329aa40b7b7dcbda8d1cca"
-  integrity sha512-y5zGYwBa7iHcuqWwGQEh1+KD6Ppho9YG/1Bs3LmUtSROKYesVCaZ6nWuiKSbTn8ipCkuTiBhjMJulNX5L0klHQ==
+"@types/react-draft-wysiwyg@^1.13.2":
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/@types/react-draft-wysiwyg/-/react-draft-wysiwyg-1.13.2.tgz#95bd31553591df414fbd1e37545fccd58d46f731"
+  integrity sha512-Fz+DzXi5emVwEnrs9awgcivQ8kVcPkvTEr4prNogEeAFWZq7UJLe3u4Ws1UWU/kSxga0+3wWomb9ZzzrPKlkZw==
   dependencies:
     "@types/draft-js" "*"
     "@types/react" "*"
@@ -14104,10 +14112,10 @@ react-dom@^17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-draft-wysiwyg@^1.14.6:
-  version "1.14.6"
-  resolved "https://registry.yarnpkg.com/react-draft-wysiwyg/-/react-draft-wysiwyg-1.14.6.tgz#3ea1f9a0a6c767f2be2901034100b9c5a0e3ea9a"
-  integrity sha512-EMIteBVnlMAP3T97OfjlKchsHZ15mYWQwRw8QIInOtAvlZnnTydRjuHMCN0PuQ2dsXwMkJ7+MWc2aTL5RiXmFg==
+react-draft-wysiwyg@^1.14.7:
+  version "1.14.7"
+  resolved "https://registry.yarnpkg.com/react-draft-wysiwyg/-/react-draft-wysiwyg-1.14.7.tgz#5d27fe8ad87de7c692dad739b8787f3ac1f3c24e"
+  integrity sha512-D4X8F/ourvQZuqHzCQ6Vs6Tnt6TbGH58kvHQxC+aZGq+45ko2EyatL6G5C/paMaNKDZq2JRe7yAzykneMLpNOg==
   dependencies:
     classnames "^2.2.6"
     draftjs-utils "^0.10.2"
