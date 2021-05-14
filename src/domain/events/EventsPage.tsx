@@ -49,30 +49,24 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   const location = useLocation();
   const { t } = useTranslation();
 
-  const {
-    skip: waitingApprovalSkip,
-    variables: waitingApprovalVariables,
-  } = useEventsQueryVariables(EVENTS_PAGE_TABS.WAITING_APPROVAL, user);
+  const { skip: waitingApprovalSkip, variables: waitingApprovalVariables } =
+    useEventsQueryVariables(EVENTS_PAGE_TABS.WAITING_APPROVAL, user);
 
   const { data: waitingApprovalEventsData } = useEventsQuery({
     skip: waitingApprovalSkip,
     variables: waitingApprovalVariables,
   });
 
-  const {
-    skip: publishedSkip,
-    variables: publishedVariables,
-  } = useEventsQueryVariables(EVENTS_PAGE_TABS.PUBLISHED, user);
+  const { skip: publishedSkip, variables: publishedVariables } =
+    useEventsQueryVariables(EVENTS_PAGE_TABS.PUBLISHED, user);
 
   const { data: publishedEventsData } = useEventsQuery({
     skip: publishedSkip,
     variables: publishedVariables,
   });
 
-  const {
-    skip: draftsSkip,
-    variables: draftsVariables,
-  } = useEventsQueryVariables(EVENTS_PAGE_TABS.DRAFTS, user);
+  const { skip: draftsSkip, variables: draftsVariables } =
+    useEventsQueryVariables(EVENTS_PAGE_TABS.DRAFTS, user);
 
   const { data: draftEventsData } = useEventsQuery({
     skip: draftsSkip,
@@ -191,9 +185,11 @@ const EventsPageWrapper: React.FC = () => {
       keywords={['keywords.myListing', 'keywords.edit', 'keywords.update']}
       title="eventsPage.pageTitle"
     >
-      <LoadingSpinner isLoading={loadingUser}>
-        {user ? <EventsPage user={user} /> : <NotSigned />}
-      </LoadingSpinner>
+      <MainContent>
+        <LoadingSpinner isLoading={loadingUser}>
+          {user ? <EventsPage user={user} /> : <NotSigned />}
+        </LoadingSpinner>
+      </MainContent>
     </PageWrapper>
   );
 };

@@ -1,12 +1,12 @@
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
+import { css } from '@emotion/css';
 import classNames from 'classnames';
 import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import { css } from 'emotion';
 import htmlToDraft from 'html-to-draftjs';
 import React from 'react';
-import { Editor } from 'react-draft-wysiwyg';
+import { Editor, EditorState as EditorStateWysiwyg } from 'react-draft-wysiwyg';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
@@ -70,7 +70,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
   id,
   invalid,
   label,
-  labelText,
   onBlur,
   onChange,
   required,
@@ -129,7 +128,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
     id,
     invalid,
     label,
-    labelText,
     required,
     style,
     tooltipLabel,
@@ -157,7 +155,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           ref={editorRef}
           {...rest}
           ariaLabel={label}
-          editorState={editorState}
+          editorState={editorState as EditorStateWysiwyg}
           onBlur={(ev: React.SyntheticEvent) => {
             onBlur(ev);
             handleChange(value);

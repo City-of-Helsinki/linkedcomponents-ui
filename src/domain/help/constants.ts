@@ -17,7 +17,7 @@ export const initialValues: ContactFormFields = {
   [CONTACT_FORM_FIELD.SUBJECT]: '',
 };
 
-export const validationSchema = Yup.object().shape({
+export const contactFormSchema = Yup.object().shape({
   [CONTACT_FORM_FIELD.NAME]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),

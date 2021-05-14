@@ -20,7 +20,7 @@ const defaultLabel = 'Timepicker';
 const defaultProps = {
   id,
   invalid: false,
-  labelText: defaultLabel,
+  label: defaultLabel,
   onBlur: jest.fn(),
   onChange: jest.fn(),
   value: '',

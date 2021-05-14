@@ -8,7 +8,7 @@ import Timepicker from '../timepicker/Timepicker';
 interface Props extends FieldProps {
   className?: string;
   helperText: string;
-  labelText: string;
+  label: string;
   placeholder?: string;
 }
 

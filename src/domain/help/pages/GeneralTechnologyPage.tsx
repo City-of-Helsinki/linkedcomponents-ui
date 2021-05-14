@@ -3,6 +3,7 @@ import React from 'react';
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
 const GeneralTechnologyPage: React.FC = () => {
@@ -87,7 +88,7 @@ const GeneralTechnologyPage: React.FC = () => {
       keywords={['keywords.technology', 'keywords.help', 'keywords.support']}
       title="helpPage.pageTitleTechnology"
     >
-      {getContent(locale)}
+      <MainContent>{getContent(locale)}</MainContent>
     </PageWrapper>
   );
 };

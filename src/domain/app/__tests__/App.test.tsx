@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 

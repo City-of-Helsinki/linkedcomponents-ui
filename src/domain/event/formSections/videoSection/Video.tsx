@@ -50,11 +50,10 @@ const Video: React.FC<Props> = ({
     name: fieldNames.url,
   });
 
-  const isRequired = React.useMemo(() => Boolean(name || url || altText), [
-    altText,
-    name,
-    url,
-  ]);
+  const isRequired = React.useMemo(
+    () => Boolean(name || url || altText),
+    [altText, name, url]
+  );
 
   return (
     <>

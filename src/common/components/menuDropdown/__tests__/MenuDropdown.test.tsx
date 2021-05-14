@@ -115,9 +115,8 @@ test('menu should be closed with esc key', () => {
 });
 
 test('menu should be open with arrow up/down key', () => {
-  const { getMenu, menuShouldBeClosed, openMenu } = renderMenuDropdown(
-    defaultProps
-  );
+  const { getMenu, menuShouldBeClosed, openMenu } =
+    renderMenuDropdown(defaultProps);
 
   openMenu();
 

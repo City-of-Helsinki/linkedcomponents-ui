@@ -1,5 +1,4 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import capitalize from 'lodash/capitalize';
 
 import {
   EventsQueryVariables,
@@ -8,7 +7,6 @@ import {
 import { PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
-import { EVENT_TYPE } from '../event/constants';
 import {
   EVENT_LIST_INCLUDES,
   EVENTS_PAGE_SIZE,
@@ -60,13 +58,7 @@ export const eventsPathBuilder = ({
     { key: 'ends_before', value: endsBefore },
     {
       key: 'event_type',
-      value: eventType
-        ?.filter((type) =>
-          (Object.values(EVENT_TYPE) as string[]).includes(
-            (type as string).toLowerCase()
-          )
-        )
-        .map((type) => capitalize(type as string)),
+      value: eventType,
     },
     { key: 'include', value: include },
     { key: 'in_language', value: inLanguage },

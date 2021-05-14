@@ -19,7 +19,7 @@ import styles from '../../eventPage.module.scss';
 import { RecurringEventSettings } from '../../types';
 import {
   generateEventTimesFromRecurringEvent,
-  recurringEventValidationSchema,
+  recurringEventSchema,
 } from '../../utils';
 import TimeSectionContext from './TimeSectionContext';
 import { sortEventTimes } from './utils';
@@ -48,9 +48,8 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
 
     onSubmit({
       ...values,
-      eventTimes: generateEventTimesFromRecurringEvent(values).sort(
-        sortEventTimes
-      ),
+      eventTimes:
+        generateEventTimesFromRecurringEvent(values).sort(sortEventTimes),
     });
     resetForm();
     validateForm();
@@ -63,7 +62,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
       validateOnBlur
       validateOnChange
       validateOnMount
-      validationSchema={recurringEventValidationSchema}
+      validationSchema={recurringEventSchema}
     >
       {({ handleSubmit, isValid, values: { startDate } }) => {
         return (

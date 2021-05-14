@@ -1,19 +1,19 @@
 import React from 'react';
 
 import {
-  event,
-  eventName,
-  mocks,
-  subEventName,
-  subSubEventNames,
-} from '../__mocks__/constants';
-import {
   configure,
   render,
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
+import {
+  event,
+  eventName,
+  mocks,
+  subEventName,
+  subSubEventNames,
+} from '../__mocks__/constants';
 import ConfirmDeleteModal, {
   ConfirmDeleteModalProps,
 } from '../ConfirmDeleteModal';

@@ -110,92 +110,85 @@ const renderComponent = ({
   props?: Partial<AddImageFormProps>;
 }) => render(<AddImageForm {...defaultProps} {...props} />, { mocks, store });
 
+const findElement = (key: 'imageCheckbox') => {
+  switch (key) {
+    case 'imageCheckbox':
+      return screen.findByRole('checkbox', { name: images.data[0].name });
+  }
+};
+
+const getElement = (key: 'addButton' | 'cancelButton' | 'urlInput') => {
+  switch (key) {
+    case 'addButton':
+      return screen.getByRole('button', { name: 'Lisää' });
+    case 'cancelButton':
+      return screen.getByRole('button', { name: /peruuta/i });
+    case 'urlInput':
+      return screen.getByRole('textbox', { name: /kuvan url-osoite/i });
+  }
+};
+
 test('should call onCancel', async () => {
   const onCancel = jest.fn();
   renderComponent({ props: { onCancel } });
 
-  userEvent.click(
-    screen.getByRole('button', { name: translations.common.cancel })
-  );
+  await findElement('imageCheckbox');
+  const cancelButton = getElement('cancelButton');
 
-  expect(onCancel).toBeCalled();
+  userEvent.click(cancelButton);
+  await waitFor(() => expect(onCancel).toBeCalled());
 });
 
 test('should call onSubmit with existing image', async () => {
   const onSubmit = jest.fn();
   renderComponent({ props: { onSubmit } });
 
-  const urlInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelUrl,
-  });
-  const imageCheckbox = await screen.findByRole('checkbox', {
-    name: images.data[0].name,
-  });
-  const addButton = screen.queryByRole('button', {
-    name: translations.common.add,
-  });
+  const imageCheckbox = await findElement('imageCheckbox');
+  const urlInput = getElement('urlInput');
+  const addButton = getElement('addButton');
 
-  await waitFor(() => {
-    expect(urlInput).toBeEnabled();
-  });
+  await waitFor(() => expect(urlInput).toBeEnabled());
 
   userEvent.click(imageCheckbox);
-
   expect(urlInput).toBeDisabled();
-
-  await waitFor(() => {
-    expect(addButton).toBeEnabled();
-  });
+  await waitFor(() => expect(addButton).toBeEnabled());
 
   userEvent.click(addButton);
-
-  await waitFor(() => {
+  await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       selectedImage: [images.data[0].atId],
       url: '',
-    });
-  });
+    })
+  );
 });
 
 test('should call onSubmit by double clicking image', async () => {
   const onSubmit = jest.fn();
   renderComponent({ props: { onSubmit } });
 
-  const urlInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelUrl,
-  });
-  const imageCheckbox = await screen.findByRole('checkbox', {
-    name: images.data[0].name,
-  });
+  const imageCheckbox = await findElement('imageCheckbox');
+  const urlInput = getElement('urlInput');
 
-  await waitFor(() => {
-    expect(urlInput).toBeEnabled();
-  });
+  await waitFor(() => expect(urlInput).toBeEnabled());
 
   userEvent.dblClick(imageCheckbox);
-
-  await waitFor(() => {
+  await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       selectedImage: [images.data[0].atId],
       url: '',
-    });
-  });
+    })
+  );
 });
 
 test('should validate url', async () => {
   renderComponent({});
 
   const invalidUrlText = 'invalid url';
-  const urlInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelUrl,
-  });
-  const addButton = screen.queryByRole('button', {
-    name: translations.common.add,
-  });
+  await findElement('imageCheckbox');
+  const urlInput = getElement('urlInput');
+  const addButton = getElement('addButton');
 
-  await waitFor(() => {
-    expect(urlInput).toBeEnabled();
-  });
+  await waitFor(() => expect(urlInput).toBeEnabled());
   userEvent.type(urlInput, invalidUrlText);
 
   userEvent.tab();
@@ -227,17 +220,13 @@ test("inputs to add new images should be disabled if user doesn't have permissio
   const onSubmit = jest.fn();
   renderComponent({ mocks, props: { onSubmit } });
 
+  await findElement('imageCheckbox');
   const uploadImageButton = screen.getByRole('button', {
     name: 'Sinulla ei ole oikeuksia lisätä kuvia',
   });
-  const urlInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelUrl,
-  });
-  await screen.findByRole('checkbox', { name: images.data[0].name });
+  const urlInput = getElement('urlInput');
 
-  await waitFor(() => {
-    expect(urlInput).toBeDisabled();
-  });
+  await waitFor(() => expect(urlInput).toBeDisabled());
   expect(uploadImageButton).toBeDisabled();
 });
 
@@ -246,34 +235,22 @@ test('should call onSubmit with image url', async () => {
   renderComponent({ props: { onSubmit } });
 
   const url = 'http://test.com';
-  const urlInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelUrl,
-  });
-  const imageCheckbox = await screen.findByRole('checkbox', {
-    name: images.data[0].name,
-  });
-  const addButton = screen.getByRole('button', {
-    name: translations.common.add,
-  });
+  const imageCheckbox = await findElement('imageCheckbox');
+  const urlInput = getElement('urlInput');
+  const addButton = getElement('addButton');
 
   expect(addButton).toBeDisabled();
-  await waitFor(() => {
-    expect(urlInput).toBeEnabled();
-  });
+  await waitFor(() => expect(urlInput).toBeEnabled());
 
   userEvent.type(urlInput, url);
-
   expect(imageCheckbox).toBeDisabled();
+  await waitFor(() => expect(addButton).toBeEnabled());
 
-  await waitFor(() => {
-    expect(addButton).toBeEnabled();
-  });
   userEvent.click(addButton);
-
-  await waitFor(() => {
+  await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       selectedImage: [],
       url,
-    });
-  });
+    })
+  );
 });

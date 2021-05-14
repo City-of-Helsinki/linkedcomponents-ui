@@ -11,7 +11,7 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { eventValidationSchema } from '../../../utils';
+import { publicEventSchema } from '../../../utils';
 import AdditionalInfoSection from '../AdditionalInfoSection';
 
 configure({ defaultHidden: true });
@@ -34,7 +34,7 @@ const renderComponent = () =>
       initialValues={{ ...initialValues }}
       onSubmit={jest.fn()}
       enableReinitialize={true}
-      validationSchema={eventValidationSchema}
+      validationSchema={publicEventSchema}
     >
       <AdditionalInfoSection />
     </Formik>
@@ -92,10 +92,10 @@ test('should validate min and max audience ages', async () => {
 
   userEvent.type(minAgeInput, '10');
   userEvent.type(maxAgeInput, '5');
+  userEvent.tab();
 
   await waitFor(() => expect(minAgeInput).toHaveValue(10));
   await waitFor(() => expect(maxAgeInput).toHaveValue(5));
-  userEvent.tab();
 
   screen.getByText('Arvon tulee olla vähintään 10');
 });

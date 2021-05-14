@@ -3,6 +3,7 @@ import React from 'react';
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
 const GeneralInstructionsPage: React.FC = () => {
@@ -108,7 +109,7 @@ const GeneralInstructionsPage: React.FC = () => {
       keywords={['keywords.support', 'keywords.help', 'keywords.instructions']}
       title="helpPage.pageTitleInstructions"
     >
-      {getContent(locale)}
+      <MainContent>{getContent(locale)}</MainContent>
     </PageWrapper>
   );
 };

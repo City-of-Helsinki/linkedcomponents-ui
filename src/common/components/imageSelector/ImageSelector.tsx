@@ -1,5 +1,5 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import { IconEye } from 'hds-react';
 import xor from 'lodash/xor';
 import React from 'react';

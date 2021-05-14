@@ -29,7 +29,7 @@ const defaultProps: DatepickerProps = {
   onChange: jest.fn(),
   onBlur: jest.fn(),
   value: new Date('2020-06-05'),
-  labelText: 'Datepicker',
+  label: 'Datepicker',
 };
 
 const renderDatepicker = (props?: Partial<DatepickerProps>) => {
@@ -250,7 +250,7 @@ describe('<Datepicker />', () => {
   it('changes month when next or previous month button is clicked', async () => {
     renderDatepicker();
 
-    userEvent.click(screen.getByLabelText(defaultProps.labelText));
+    userEvent.click(screen.getByLabelText(defaultProps.label as string));
     screen.getByText(/kesäkuu 2020/i);
 
     const nextMonthButton = screen.getByRole('button', {
@@ -344,7 +344,7 @@ describe('<Datepicker timeSelector /> with time selector', () => {
       'i'
     );
 
-    userEvent.click(screen.getByLabelText(defaultProps.labelText));
+    userEvent.click(screen.getByLabelText(defaultProps.label as string));
     userEvent.click(screen.getByRole('button', { name: dateSelectRegex }));
     expect(defaultProps.onChange).toHaveBeenCalledWith(testDate);
 
@@ -367,7 +367,7 @@ describe('<Datepicker timeSelector /> with time selector', () => {
       minuteInterval: 15,
       value: null,
     });
-    userEvent.click(screen.getByLabelText(defaultProps.labelText));
+    userEvent.click(screen.getByLabelText(defaultProps.label as string));
     userEvent.click(
       screen.getByRole('button', { name: /Valitse kellonajaksi 12.15/i })
     );

@@ -1,6 +1,20 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import { DATETIME_FORMAT, ROUTES } from '../../../constants';
+import { EventDocument } from '../../../generated/graphql';
+import formatDate from '../../../utils/formatDate';
+import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import {
+  configure,
+  getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
+  renderWithRoute,
+  screen,
+  userEvent,
+  waitFor,
+  within,
+} from '../../../utils/testUtils';
 import {
   eventId,
   expectedValues,
@@ -40,20 +54,6 @@ import {
   newSubEventTimes,
   subEventTimes,
 } from '../__mocks__/editEventPage';
-import { DATETIME_FORMAT, ROUTES } from '../../../constants';
-import { EventDocument } from '../../../generated/graphql';
-import formatDate from '../../../utils/formatDate';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
-import {
-  configure,
-  getMockReduxStore,
-  loadingSpinnerIsNotInDocument,
-  renderWithRoute,
-  screen,
-  userEvent,
-  waitFor,
-  within,
-} from '../../../utils/testUtils';
 import EditEventPage from '../EditEventPage';
 
 configure({ defaultHidden: true });
@@ -334,9 +334,9 @@ test('should update recurring event', async () => {
   userEvent.click(updateEventButton);
 
   // This test is pretty heavy so give DOM some time to update
-  await loadingSpinnerIsNotInDocument(20000);
+  await loadingSpinnerIsNotInDocument(30000);
   await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
-    timeout: 20000,
+    timeout: 30000,
   });
 });
 

@@ -48,9 +48,8 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   const locale = useLocale();
   const [search, setSearch] = React.useState('');
   const [options, setOptions] = React.useState<OptionType[]>([]);
-  const [selectedEvent, setSelectedEvent] = React.useState<OptionType | null>(
-    null
-  );
+  const [selectedEvent, setSelectedEvent] =
+    React.useState<OptionType | null>(null);
 
   const { data: eventsData } = useEventsQuery({
     variables: {

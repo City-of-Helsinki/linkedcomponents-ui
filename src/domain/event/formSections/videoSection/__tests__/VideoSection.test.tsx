@@ -15,7 +15,7 @@ import {
   EVENT_TYPE,
 } from '../../../constants';
 import { EventFormFields } from '../../../types';
-import { eventValidationSchema } from '../../../utils';
+import { publicEventSchema } from '../../../utils';
 import VideoSection from '../VideoSection';
 
 configure({ defaultHidden: true });
@@ -35,7 +35,7 @@ const renderVideoSection = (initialValues?: Partial<EventFormFields>) =>
         ...initialValues,
       }}
       onSubmit={jest.fn()}
-      validationSchema={eventValidationSchema}
+      validationSchema={publicEventSchema}
     >
       <VideoSection />
     </Formik>
@@ -56,9 +56,7 @@ test('should render VideoSection', () => {
     translations.event.form.infoTextVideo2,
   ];
 
-  texts.forEach((text) => {
-    screen.getByText(text);
-  });
+  texts.forEach((text) => screen.getByText(text));
 
   const fields = [
     translations.event.form.labelVideoAltText,
@@ -66,9 +64,7 @@ test('should render VideoSection', () => {
     translations.event.form.labelVideoUrl,
   ];
 
-  fields.forEach((name) => {
-    screen.getByRole('textbox', { name });
-  });
+  fields.forEach((name) => screen.getByRole('textbox', { name }));
 
   screen.getByRole('button', { name: translations.event.form.buttonAddVideo });
 });
@@ -91,17 +87,17 @@ test('fields should be set required if any field is not empty', async () => {
     userEvent.type(input, 'text');
 
     for (const field of inputs) {
-      await waitFor(() => {
-        expect((field as HTMLInputElement).required).toBe(true);
-      });
+      await waitFor(() =>
+        expect((field as HTMLInputElement).required).toBe(true)
+      );
     }
 
     userEvent.clear(input);
 
     for (const field of inputs) {
-      await waitFor(() => {
-        expect((field as HTMLInputElement).required).toBeFalsy();
-      });
+      await waitFor(() =>
+        expect((field as HTMLInputElement).required).toBeFalsy()
+      );
     }
   }
 });
@@ -124,16 +120,16 @@ test('should add and remove video', async () => {
   });
   userEvent.click(addButton);
 
-  fields.forEach((name) => {
-    expect(screen.getAllByRole('textbox', { name })).toHaveLength(2);
-  });
+  await waitFor(() =>
+    expect(screen.getAllByRole('textbox', { name: fields[0] })).toHaveLength(2)
+  );
 
   const deleteButton = screen.getAllByRole('button', {
     name: translations.event.form.buttonDeleteVideo,
   })[1];
   userEvent.click(deleteButton);
 
-  fields.forEach((name) => {
-    expect(screen.getAllByRole('textbox', { name })).toHaveLength(1);
-  });
+  await waitFor(() =>
+    expect(screen.getAllByRole('textbox', { name: fields[0] })).toHaveLength(1)
+  );
 });

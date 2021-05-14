@@ -10,9 +10,8 @@ const useShowLoadingSpinner = (
   throttleTime = LOADING_SPINNER_THROTTLE_TIME
 ): boolean => {
   const isMounted = useIsMounted();
-  const [showLoadingSpinner, setShowLoadingSpinner] = React.useState<boolean>(
-    false
-  );
+  const [showLoadingSpinner, setShowLoadingSpinner] =
+    React.useState<boolean>(false);
 
   const throttledSetShowLoadingSpinner = React.useMemo(
     () =>

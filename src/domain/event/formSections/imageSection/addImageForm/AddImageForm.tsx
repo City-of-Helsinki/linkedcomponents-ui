@@ -10,7 +10,7 @@ import { Image } from '../../../../../generated/graphql';
 import useIsImageUploadAllowed from '../../../../image/hooks/useIsImageUploadAllowed';
 import { ADD_IMAGE_FIELDS, ADD_IMAGE_INITIAL_VALUES } from '../../../constants';
 import { AddImageSettings } from '../../../types';
-import { createAddImageValidationSchema } from '../../../utils';
+import { addImageSchema } from '../../../utils';
 import styles from './addImageForm.module.scss';
 
 export interface AddImageFormProps {
@@ -36,7 +36,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
         onSubmit(values);
       }}
       validateOnMount={true}
-      validationSchema={createAddImageValidationSchema}
+      validationSchema={addImageSchema}
     >
       {({ values: { selectedImage, url }, isValid, errors }) => {
         return (
@@ -82,6 +82,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
                   <Button
                     fullWidth={true}
                     onClick={onCancel}
+                    type="button"
                     variant="secondary"
                   >
                     {t('common.cancel')}

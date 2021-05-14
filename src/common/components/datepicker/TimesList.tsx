@@ -23,9 +23,10 @@ const TimesList = React.forwardRef<HTMLDivElement, TimesListProps>(
   ) => {
     const { t } = useTranslation();
 
-    const times = React.useMemo(() => getTimeObjects(minuteInterval), [
-      minuteInterval,
-    ]);
+    const times = React.useMemo(
+      () => getTimeObjects(minuteInterval),
+      [minuteInterval]
+    );
 
     const findSelectedIndex = React.useCallback(() => {
       if (datetime) {

@@ -1,5 +1,5 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import {
   LoadingSpinner as HdsLoadingSpinner,
   LoadingSpinnerProps,

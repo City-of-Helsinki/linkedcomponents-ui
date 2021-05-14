@@ -32,13 +32,10 @@ const ClassificationSection: React.FC = () => {
   );
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
-  const [
-    { value: mainCategories },
-    ,
-    { setValue: setMainCategories },
-  ] = useField({
-    name: EVENT_FIELDS.MAIN_CATEGORIES,
-  });
+  const [{ value: mainCategories }, , { setValue: setMainCategories }] =
+    useField({
+      name: EVENT_FIELDS.MAIN_CATEGORIES,
+    });
 
   React.useEffect(() => {
     // Set main categories to validate that at least one main category is selected

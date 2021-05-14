@@ -59,9 +59,8 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const { user } = useUser();
 
   const goBack = () => {
-    const { returnPath, remainingQueryString } = extractLatestReturnPath(
-      search
-    );
+    const { returnPath, remainingQueryString } =
+      extractLatestReturnPath(search);
 
     history.push({
       pathname: `/${locale}${returnPath}`,

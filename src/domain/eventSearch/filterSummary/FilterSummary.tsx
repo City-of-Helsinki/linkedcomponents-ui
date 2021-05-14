@@ -22,9 +22,8 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const { pathname, search } = useLocation();
-  const { end, places, start, text, types } = getEventSearchInitialValues(
-    search
-  );
+  const { end, places, start, text, types } =
+    getEventSearchInitialValues(search);
 
   const clearFilters = () => {
     history.push({

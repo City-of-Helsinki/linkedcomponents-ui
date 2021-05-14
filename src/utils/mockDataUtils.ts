@@ -40,7 +40,7 @@ export const fakeEvents = (
 });
 
 export const fakeEvent = (overrides?: Partial<Event>): Event => {
-  const id = overrides?.id || faker.random.uuid();
+  const id = overrides?.id || faker.datatype.uuid();
 
   return merge<Event, typeof overrides>(
     {
@@ -121,7 +121,7 @@ export const fakeImages = (
 });
 
 export const fakeImage = (overrides?: Partial<Image>): Image => {
-  const id = overrides?.id || faker.random.uuid();
+  const id = overrides?.id || faker.datatype.uuid();
 
   return merge<Image, typeof overrides>(
     {
@@ -133,7 +133,7 @@ export const fakeImage = (overrides?: Partial<Image>): Image => {
       url: faker.internet.url(),
       cropping: '59,0,503,444',
       photographerName: faker.name.firstName(),
-      publisher: faker.random.uuid(),
+      publisher: faker.datatype.uuid(),
       __typename: 'Image',
     },
     overrides
@@ -150,7 +150,7 @@ export const fakeKeywords = (
 });
 
 export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword => {
-  const id = overrides?.id || faker.random.uuid();
+  const id = overrides?.id || faker.datatype.uuid();
 
   return merge<Keyword, typeof overrides>(
     {
@@ -176,7 +176,7 @@ export const fakeKeywordSets = (
 });
 
 export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet => {
-  const id = overrides?.id || faker.random.uuid();
+  const id = overrides?.id || faker.datatype.uuid();
 
   return merge<KeywordSet, typeof overrides>(
     {
@@ -201,7 +201,7 @@ export const fakeLanguages = (
 });
 
 export const fakeLanguage = (overrides?: Partial<Language>): Language => {
-  const id = overrides?.id || faker.random.uuid();
+  const id = overrides?.id || faker.datatype.uuid();
 
   return merge<Language, typeof overrides>(
     {
@@ -233,7 +233,7 @@ export const fakeOffers = (count = 1, offers?: Partial<Offer>[]): Offer[] =>
 export const fakeOrganization = (
   overrides?: Partial<Organization>
 ): Organization => {
-  const id = overrides?.id || faker.random.uuid();
+  const id = overrides?.id || faker.datatype.uuid();
   return merge<Organization, typeof overrides>(
     {
       affiliatedOrganizations: [],
@@ -241,7 +241,7 @@ export const fakeOrganization = (
       atId: `https://api.hel.fi/linkedevents-test/v1/organization/${id}/`,
       classification: faker.random.words(),
       createdTime: null,
-      dataSource: faker.random.uuid(),
+      dataSource: faker.datatype.uuid(),
       dissolutionDate: null,
       foundingDate: null,
       hasRegularUsers: false,
@@ -276,7 +276,7 @@ export const fakePlaces = (
 });
 
 export const fakePlace = (overrides?: Partial<Place>): Place => {
-  const id = overrides?.id || faker.random.uuid();
+  const id = overrides?.id || faker.datatype.uuid();
 
   return merge<Place, typeof overrides>(
     {
@@ -314,7 +314,7 @@ export const fakeUser = (overrides?: Partial<User>): User => {
       organization: faker.random.words(),
       organizationMemberships: [],
       username: faker.name.lastName(),
-      uuid: faker.random.uuid(),
+      uuid: faker.datatype.uuid(),
       __typename: 'User',
     },
     overrides

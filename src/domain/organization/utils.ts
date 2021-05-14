@@ -47,15 +47,14 @@ export const getOrganizationQueryResult = async (
   apolloClient: ApolloClient<InMemoryCache>
 ): Promise<Organization | null> => {
   try {
-    const { data: organizationData } = await apolloClient.query<
-      OrganizationQuery
-    >({
-      query: OrganizationDocument,
-      variables: {
-        id,
-        createPath: getPathBuilder(organizationPathBuilder),
-      },
-    });
+    const { data: organizationData } =
+      await apolloClient.query<OrganizationQuery>({
+        query: OrganizationDocument,
+        variables: {
+          id,
+          createPath: getPathBuilder(organizationPathBuilder),
+        },
+      });
 
     return organizationData.organization;
   } catch (e) /* istanbul ignore next */ {
@@ -72,16 +71,15 @@ export const getOrganizationAncestorsQueryResult = async (
       return [];
     }
 
-    const { data: organizationsData } = await apolloClient.query<
-      OrganizationsQuery
-    >({
-      query: OrganizationsDocument,
-      variables: {
-        child: publisher as string,
-        createPath: getPathBuilder(organizationsPathBuilder),
-        pageSize: MAX_PAGE_SIZE,
-      },
-    });
+    const { data: organizationsData } =
+      await apolloClient.query<OrganizationsQuery>({
+        query: OrganizationsDocument,
+        variables: {
+          child: publisher as string,
+          createPath: getPathBuilder(organizationsPathBuilder),
+          pageSize: MAX_PAGE_SIZE,
+        },
+      });
 
     return organizationsData.organizations.data as OrganizationFieldsFragment[];
   } catch (e) {

@@ -23,11 +23,11 @@ export const showErrors = ({
   /* istanbul ignore else */
   if (error.name === 'ValidationError') {
     const newErrors = error.inner.reduce(
-      (acc, e: Yup.ValidationError) => set(acc, e.path, e.errors[0]),
+      (acc, e: Yup.ValidationError) => set(acc, e.path ?? '', e.errors[0]),
       {}
     );
     const touchedFields = error.inner.reduce(
-      (acc, e: Yup.ValidationError) => set(acc, e.path, true),
+      (acc, e: Yup.ValidationError) => set(acc, e.path ?? '', true),
       {}
     );
 
@@ -42,7 +42,8 @@ export const scrollToFirstError = ({
   error: Yup.ValidationError;
 }): void => {
   forEach(error.inner, (e) => {
-    const fieldId = e.path;
+    const path = e.path ?? '';
+    const fieldId = path;
     const field = document.getElementById(fieldId);
 
     /* istanbul ignore else */

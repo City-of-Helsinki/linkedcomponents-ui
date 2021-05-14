@@ -32,11 +32,8 @@ const TimeSection: React.FC<Props> = ({ savedEvent }) => {
     EVENT_FIELDS.EVENTS
   );
 
-  const [
-    { value: recurringEvents },
-    ,
-    { setValue: setRecurringEvents },
-  ] = useField<RecurringEventSettings[]>(EVENT_FIELDS.RECURRING_EVENTS);
+  const [{ value: recurringEvents }, , { setValue: setRecurringEvents }] =
+    useField<RecurringEventSettings[]>(EVENT_FIELDS.RECURRING_EVENTS);
 
   const [activeTab, setActiveTab] = React.useState<EVENT_TIME_TAB>(
     EVENT_TIME_TAB.EVENT_TIME

@@ -1,5 +1,5 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import { IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -39,27 +39,30 @@ const Header: React.FC = () => {
     }));
   }, [t]);
 
-  const changeLanguage = (newLanguage: OptionType) => (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    history.push({
-      pathname: updateLocaleParam(location.pathname, locale, newLanguage.value),
-      search: location.search,
-    });
-  };
+  const changeLanguage =
+    (newLanguage: OptionType) =>
+    (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+      event.preventDefault();
+      history.push({
+        pathname: updateLocaleParam(
+          location.pathname,
+          locale,
+          newLanguage.value
+        ),
+        search: location.search,
+      });
+    };
 
   const isTabActive = (pathname: string): boolean => {
     return location.pathname.startsWith(pathname);
   };
 
-  const goToPage = (pathname: string) => (
-    event?: React.MouseEvent<HTMLAnchorElement>
-  ) => {
-    event?.preventDefault();
-    history.push({ pathname });
-    toggleMenu();
-  };
+  const goToPage =
+    (pathname: string) => (event?: React.MouseEvent<HTMLAnchorElement>) => {
+      event?.preventDefault();
+      history.push({ pathname });
+      toggleMenu();
+    };
 
   const navigationItems = NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
     label: t(labelKey),

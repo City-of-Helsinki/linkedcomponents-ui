@@ -21,7 +21,6 @@ const MultiLanguageField: React.FC<Props> = ({
   helperText,
   helperKey,
   label,
-  labelText,
   labelKey,
   languages,
   name,
@@ -47,7 +46,6 @@ const MultiLanguageField: React.FC<Props> = ({
                 helper={helperText || (helperKey && t(helperKey, { langText }))}
                 label={
                   label ||
-                  labelText ||
                   (labelKey && upperCaseFirstLetter(t(labelKey, { langText })))
                 }
                 placeholder={

@@ -5,6 +5,18 @@ import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
+import { FORM_NAMES } from '../../../constants';
+import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import {
+  configure,
+  getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '../../../utils/testUtils';
+import translations from '../../app/i18n/fi.json';
 import {
   eventValues,
   imageAtId,
@@ -32,18 +44,6 @@ import {
   organizationId,
   placeAtId,
 } from '../__mocks__/createEventPage';
-import { FORM_NAMES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
-import {
-  configure,
-  getMockReduxStore,
-  loadingSpinnerIsNotInDocument,
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../utils/testUtils';
-import translations from '../../app/i18n/fi.json';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_INITIAL_VALUES,

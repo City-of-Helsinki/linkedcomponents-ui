@@ -6,9 +6,8 @@ import RecurringEvent from './RecurringEvent';
 import TimeSectionContext from './TimeSectionContext';
 
 const RecurringEvents: React.FC = () => {
-  const { events, recurringEvents, setRecurringEvents } = React.useContext(
-    TimeSectionContext
-  );
+  const { events, recurringEvents, setRecurringEvents } =
+    React.useContext(TimeSectionContext);
 
   const handleDelete = (index: number) => {
     setRecurringEvents(

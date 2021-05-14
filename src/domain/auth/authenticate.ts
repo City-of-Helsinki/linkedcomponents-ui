@@ -31,47 +31,47 @@ export const signIn = (path?: string): void => {
     });
 };
 
-export const getApiToken = (accessToken: string): StoreThunk => async (
-  dispatch
-) => {
-  try {
-    dispatch(startFetchingToken());
+export const getApiToken =
+  (accessToken: string): StoreThunk =>
+  async (dispatch) => {
+    try {
+      dispatch(startFetchingToken());
 
-    const res: AxiosResponse<TokenResponse> = await axios.get(
-      OIDC_API_TOKEN_ENDPOINT,
-      {
-        headers: {
-          Authorization: `bearer ${accessToken}`,
-        },
-      }
-    );
+      const res: AxiosResponse<TokenResponse> = await axios.get(
+        OIDC_API_TOKEN_ENDPOINT,
+        {
+          headers: {
+            Authorization: `bearer ${accessToken}`,
+          },
+        }
+      );
 
-    dispatch(fetchTokenSuccess(res.data));
-  } catch (e) {
-    dispatch(fetchTokenError(e));
-    toast.error(i18n.t('authentication.errorMessage'));
-  }
-};
+      dispatch(fetchTokenSuccess(res.data));
+    } catch (e) {
+      dispatch(fetchTokenError(e));
+      toast.error(i18n.t('authentication.errorMessage'));
+    }
+  };
 
-export const renewApiToken = (accessToken: string): StoreThunk => async (
-  dispatch
-) => {
-  try {
-    const res: AxiosResponse<TokenResponse> = await axios.get(
-      OIDC_API_TOKEN_ENDPOINT,
-      {
-        headers: {
-          Authorization: `bearer ${accessToken}`,
-        },
-      }
-    );
+export const renewApiToken =
+  (accessToken: string): StoreThunk =>
+  async (dispatch) => {
+    try {
+      const res: AxiosResponse<TokenResponse> = await axios.get(
+        OIDC_API_TOKEN_ENDPOINT,
+        {
+          headers: {
+            Authorization: `bearer ${accessToken}`,
+          },
+        }
+      );
 
-    dispatch(fetchTokenSuccess(res.data));
-  } catch (e) {
-    dispatch(fetchTokenError(e));
-    toast.error(i18n.t('authentication.errorMessage'));
-  }
-};
+      dispatch(fetchTokenSuccess(res.data));
+    } catch (e) {
+      dispatch(fetchTokenError(e));
+      toast.error(i18n.t('authentication.errorMessage'));
+    }
+  };
 
 export const signOut = async (): Promise<void> => {
   try {

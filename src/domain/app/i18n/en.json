@@ -27,7 +27,7 @@
       "checkboxAccept": "I have read and agree to the terms of this service <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"terms of this service {{openInNewTab}}\">terms of this service</a>",
       "checkboxAcceptAriaLabel": "I have read and agree to the terms of this service",
       "linkDataProtection": "https://www.hel.fi/helsinki/en/administration/information/data-protection",
-      "linkPrivacyPolicy": "TODO: ADD LINK",
+      "linkPrivacyPolicy": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf",
       "text1": "By selecting I agree, I consent to the terms of this service. Next you must either consent to only the necessary, or all cookies. ",
       "text2": "Read more about our <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"privacy policy {{openInNewTab}}\">privacy policy</a> and <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registry description {{openInNewTab}}\">registry description</a>.",
       "text3": "We use cookies to improve your experience using the service.",

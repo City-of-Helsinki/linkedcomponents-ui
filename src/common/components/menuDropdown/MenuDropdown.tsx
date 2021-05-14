@@ -1,6 +1,6 @@
+import { css } from '@emotion/css';
 import { ResizeObserver } from '@juggle/resize-observer';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import { ButtonProps, IconAngleDown, IconAngleUp } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import React, { useRef, useState } from 'react';

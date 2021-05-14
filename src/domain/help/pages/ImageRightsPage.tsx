@@ -2,6 +2,7 @@ import React from 'react';
 
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
 const ImageRightsPage: React.FC = () => {
@@ -58,7 +59,7 @@ const ImageRightsPage: React.FC = () => {
   };
   return (
     <PageWrapper title="helpPage.pageTitleImageRights">
-      {getContent(locale)}
+      <MainContent>{getContent(locale)}</MainContent>
     </PageWrapper>
   );
 };

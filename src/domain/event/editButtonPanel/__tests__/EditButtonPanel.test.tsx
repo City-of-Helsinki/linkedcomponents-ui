@@ -1,11 +1,6 @@
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
 
-import {
-  event,
-  mockedOrganizationAncestorsResponse,
-  mockedUserResponse,
-} from '../../__mocks__/editEventPage';
 import { ROUTES } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
@@ -18,7 +13,11 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { EVENT_SEARCH_PARAMS } from '../../../eventSearch/constants';
+import {
+  event,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+} from '../../__mocks__/editEventPage';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });

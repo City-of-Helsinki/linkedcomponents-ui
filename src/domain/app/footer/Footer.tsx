@@ -1,5 +1,5 @@
+import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { css } from 'emotion';
 import { Footer as HdsFooter } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,12 +23,11 @@ const Footer: React.FC = () => {
     url: `/${locale}${url}`,
   }));
 
-  const goToPage = (pathname: string) => (
-    event?: React.MouseEvent<HTMLAnchorElement>
-  ) => {
-    event?.preventDefault();
-    history.push({ pathname });
-  };
+  const goToPage =
+    (pathname: string) => (event?: React.MouseEvent<HTMLAnchorElement>) => {
+      event?.preventDefault();
+      history.push({ pathname });
+    };
 
   const getFooterThemeClassName = () => {
     if (pathname.startsWith(`/${locale}${ROUTES.HELP}`)) {

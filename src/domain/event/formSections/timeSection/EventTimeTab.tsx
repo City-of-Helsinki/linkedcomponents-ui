@@ -13,9 +13,8 @@ import ValidationError from './ValidationError';
 
 const EventTimeTab: React.FC = () => {
   const { t } = useTranslation();
-  const { eventTimes, eventType, setEventTimes } = React.useContext(
-    TimeSectionContext
-  );
+  const { eventTimes, eventType, setEventTimes } =
+    React.useContext(TimeSectionContext);
 
   const addEventTime = (eventTime: EventTime) => {
     const sortedEventTimes = [...eventTimes];

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-type Props = { children: string; className?: string } & React.HTMLProps<
-  HTMLAnchorElement
->;
+type Props = {
+  children: string;
+  className?: string;
+} & React.HTMLProps<HTMLAnchorElement>;
 
 const ExternalLink: React.FC<Props> = ({ children, className, ...rest }) => {
   const { t } = useTranslation();

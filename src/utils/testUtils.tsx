@@ -131,6 +131,7 @@ const renderWithRoute: CustomRender = (
   return { ...renderResult, history };
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const getMockReduxStore = (initialState: StoreState = defaultStoreState) => {
   const middlewares = [thunk];
   return configureMockStore(middlewares)(initialState);
@@ -173,10 +174,10 @@ const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
 export {
   actWait,
   createPasteEvent,
-  customRender as render,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   pasteToTextEditor,
+  customRender as render,
   renderWithRoute,
 };
 
