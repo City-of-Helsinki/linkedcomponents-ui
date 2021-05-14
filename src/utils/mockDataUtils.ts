@@ -101,7 +101,7 @@ export const fakeExternalLink = (
 export const fakeFeedback = (overrides?: Partial<Feedback>): Feedback =>
   merge<Feedback, typeof overrides>(
     {
-      id: faker.random.uuid(),
+      id: faker.datatype.uuid(),
       name: faker.name.firstName(),
       email: faker.internet.email(),
       subject: faker.name.title(),

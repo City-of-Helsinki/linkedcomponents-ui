@@ -5,7 +5,7 @@ import { User } from 'oidc-client';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
-import { initialValues } from './constants';
+import { CONTACT_FORM_SELECT_FIELDS, initialValues } from './constants';
 import { ContactFormFields } from './types';
 
 export const showErrors = ({
@@ -23,11 +23,13 @@ export const showErrors = ({
   /* istanbul ignore else */
   if (error.name === 'ValidationError') {
     const newErrors = error.inner.reduce(
-      (acc, e: Yup.ValidationError) => set(acc, e.path ?? '', e.errors[0]),
+      (acc, e: Yup.ValidationError) =>
+        set(acc, e.path ?? /* istanbul ignore next */ '', e.errors[0]),
       {}
     );
     const touchedFields = error.inner.reduce(
-      (acc, e: Yup.ValidationError) => set(acc, e.path ?? '', true),
+      (acc, e: Yup.ValidationError) =>
+        set(acc, e.path ?? /* istanbul ignore next */ '', true),
       {}
     );
 
@@ -36,14 +38,23 @@ export const showErrors = ({
   }
 };
 
+const getFocusableFieldId = (fieldName: string): string => {
+  // For the select elements, focus the toggle button
+  if (CONTACT_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
+    return `${fieldName}-toggle-button`;
+  }
+
+  return fieldName;
+};
+
 export const scrollToFirstError = ({
   error,
 }: {
   error: Yup.ValidationError;
 }): void => {
   forEach(error.inner, (e) => {
-    const path = e.path ?? '';
-    const fieldId = path;
+    const path = e.path ?? /* istanbul ignore next */ '';
+    const fieldId = getFocusableFieldId(path);
     const field = document.getElementById(fieldId);
 
     /* istanbul ignore else */

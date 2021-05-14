@@ -8,7 +8,6 @@ import {
   IconPen,
 } from 'hds-react';
 import reduce from 'lodash/reduce';
-import React from 'react';
 
 import { DEFAULT_LICENSE_TYPE } from '../image/constants';
 import {
@@ -208,7 +207,7 @@ export const DESCRIPTION_SECTION_FIELDS = [
   EVENT_FIELDS.SHORT_DESCRIPTION,
 ];
 
-export const SELECT_FIELDS = [
+export const EVENT_SELECT_FIELDS = [
   EVENT_FIELDS.KEYWORDS,
   EVENT_FIELDS.LOCATION,
   EVENT_FIELDS.SUPER_EVENT,

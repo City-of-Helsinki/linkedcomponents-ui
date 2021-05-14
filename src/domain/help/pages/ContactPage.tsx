@@ -1,4 +1,6 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
+import camelCase from 'lodash/camelCase';
+import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { scroller } from 'react-scroll';
 
 import Button from '../../../common/components/button/Button';
+import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
 import TextAreaField from '../../../common/components/formFields/TextAreaField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../common/components/formGroup/FormGroup';
@@ -17,7 +20,17 @@ import {
 import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
-import { CONTACT_FORM_FIELD, contactFormSchema } from '../constants';
+import {
+  CONTACT_FORM_FIELD,
+  CONTACT_TOPICS,
+  contactFormSchema,
+} from '../constants';
+import AddingEventsFaq from '../faq/AddingEventsFaq';
+import AddingToOwnProjectsFaq from '../faq/AddingToOwnProjectsFaq';
+import EventFormNotWorkingFaq from '../faq/EventFormNotWorkingFaq';
+import EventNotShownFaq from '../faq/EventNotShownFaq';
+import ImageRightsFaq from '../faq/ImageRightsFaq';
+import PublishingPermissionsFaq from '../faq/PublishingPermissionsFaq';
 import { ContactFormFields } from '../types';
 import { getInitialValues, scrollToFirstError, showErrors } from '../utils';
 import styles from './contactPage.module.scss';
@@ -27,6 +40,10 @@ const ContactPage: React.FC = () => {
     uniqueId('contact-form-success-')
   ).current;
   const { t } = useTranslation();
+  const topicOptions = Object.values(CONTACT_TOPICS).map((topic) => ({
+    label: t(`helpPage.contactPage.topics.${camelCase(topic)}`),
+    value: topic,
+  }));
   const authenticated = useSelector(authenticatedSelector);
   const user = useSelector(userSelector);
   const initialValues = React.useMemo(() => getInitialValues(user), [user]);
@@ -45,11 +62,18 @@ const ContactPage: React.FC = () => {
   ) => {
     const { resetForm, validateForm } = formikHelpers;
 
+    const payload = {
+      ...omit(values, ['body', 'topic']),
+      body: `${
+        topicOptions.find((topic) => topic.value === values.topic)?.label
+      }:\n\n${values.body}`,
+    };
+
     try {
       if (authenticated) {
-        await postFeedback({ variables: { input: values } });
+        await postFeedback({ variables: { input: payload } });
       } else {
-        await postGuestFeedback({ variables: { input: values } });
+        await postGuestFeedback({ variables: { input: payload } });
       }
 
       resetForm();
@@ -69,6 +93,28 @@ const ContactPage: React.FC = () => {
         ?.focus();
     } catch (e) /* istanbul ignore next */ {
       setSuccess(false);
+    }
+  };
+
+  const getFaqItems = (topic: CONTACT_TOPICS) => {
+    switch (topic) {
+      case CONTACT_TOPICS.EVENT_FORM:
+        return [
+          <AddingEventsFaq />,
+          <EventFormNotWorkingFaq />,
+          <EventNotShownFaq />,
+        ];
+      case CONTACT_TOPICS.PERMISSIONS:
+        return [
+          <AddingToOwnProjectsFaq />,
+          <PublishingPermissionsFaq />,
+          <ImageRightsFaq />,
+        ];
+      case CONTACT_TOPICS.FEATURE_REQUEST:
+      case CONTACT_TOPICS.GENERAL:
+      case CONTACT_TOPICS.OTHER:
+      default:
+        return [];
     }
   };
 
@@ -94,12 +140,19 @@ const ContactPage: React.FC = () => {
           validateOnBlur
           validateOnChange
         >
-          {({ resetForm, setErrors, setTouched, validateForm, values }) => {
+          {({
+            resetForm,
+            setErrors,
+            setTouched,
+            validateForm,
+            values: { email, name, topic, ...restValues },
+          }) => {
             const clearErrors = () => {
               setErrors({});
             };
 
             const handleSubmit = async () => {
+              const values = { email, name, topic, ...restValues };
               try {
                 setSuccess(false);
                 clearErrors();
@@ -120,6 +173,8 @@ const ContactPage: React.FC = () => {
               }
             };
 
+            const faqItems = getFaqItems(topic as CONTACT_TOPICS);
+
             return (
               <Form className={styles.contactForm} noValidate>
                 <div id={successId}>
@@ -137,7 +192,7 @@ const ContactPage: React.FC = () => {
                 <FormGroup>
                   <Field
                     component={TextInputField}
-                    disabled={authenticated && values.name}
+                    disabled={authenticated && name}
                     label={t('helpPage.contactPage.labelName')}
                     name={CONTACT_FORM_FIELD.NAME}
                     placeholder={t('helpPage.contactPage.placeholderName')}
@@ -147,7 +202,7 @@ const ContactPage: React.FC = () => {
                 <FormGroup>
                   <Field
                     component={TextInputField}
-                    disabled={authenticated && values.email}
+                    disabled={authenticated && email}
                     label={t('helpPage.contactPage.labelEmail')}
                     name={CONTACT_FORM_FIELD.EMAIL}
                     placeholder={t('helpPage.contactPage.placeholderEmail')}
@@ -155,6 +210,22 @@ const ContactPage: React.FC = () => {
                   />
                 </FormGroup>
                 <h2>{t('helpPage.contactPage.titleMessage')}</h2>
+                <FormGroup>
+                  <Field
+                    component={SingleSelectField}
+                    label={t('helpPage.contactPage.labelTopic')}
+                    name={CONTACT_FORM_FIELD.TOPIC}
+                    options={topicOptions}
+                    placeholder={t('helpPage.contactPage.placeholderTopic')}
+                    required
+                  />
+                </FormGroup>
+                {!!faqItems.length && (
+                  <h3>{t('helpPage.contactPage.titleSuggestedTopics')}</h3>
+                )}
+                {faqItems.map((item, index) =>
+                  React.cloneElement(item, { key: index })
+                )}
                 <FormGroup>
                   <Field
                     component={TextInputField}
