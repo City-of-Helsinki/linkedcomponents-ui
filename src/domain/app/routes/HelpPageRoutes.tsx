@@ -6,7 +6,6 @@ import { Language } from '../../../types';
 import ApiPage from '../../help/pages/ApiPage';
 import ContactPage from '../../help/pages/ContactPage';
 import ControlPanelPage from '../../help/pages/ControlPanelPage';
-import DocumentationPage from '../../help/pages/DocumentationPage';
 import FaqPage from '../../help/pages/FaqPage';
 import FeaturesPage from '../../help/pages/FeaturesPage';
 import GeneralInstructionsPage from '../../help/pages/GeneralInstructionsPage';
@@ -16,6 +15,9 @@ import PlatformPage from '../../help/pages/PlatformPage';
 import SourceCodePage from '../../help/pages/SourceCodePage';
 import TermsOfUsePage from '../../help/pages/TermsOfUsePage';
 import NotFound from '.././../notFound/NotFound';
+const DocumentationPage = React.lazy(
+  () => import('../../help/pages/DocumentationPage')
+);
 
 interface Props {
   locale: Language;
@@ -56,31 +58,36 @@ const TechnologyRoutes: React.FC<Props> = ({ locale }) => {
   const getLocalePath = (path: string) => `/${locale}${path}`;
 
   return (
-    <Switch>
-      <Redirect
-        exact
-        path={getLocalePath(ROUTES.TECHNOLOGY)}
-        to={getLocalePath(ROUTES.TECHNOLOGY_GENERAL)}
-      />
-      <Route path={getLocalePath(ROUTES.TECHNOLOGY_API)} component={ApiPage} />
-      <Route
-        path={getLocalePath(ROUTES.TECHNOLOGY_DOCUMENTATION)}
-        component={DocumentationPage}
-      />
-      <Route
-        path={getLocalePath(ROUTES.TECHNOLOGY_GENERAL)}
-        component={GeneralTechnologyPage}
-      />
-      <Route
-        path={getLocalePath(ROUTES.TECHNOLOGY_IMAGE_RIGHTS)}
-        component={ImageRightsPage}
-      />
-      <Route
-        path={getLocalePath(ROUTES.TECHNOLOGY_SOURCE_CODE)}
-        component={SourceCodePage}
-      />
-      <Route component={NotFound} />
-    </Switch>
+    <React.Suspense fallback={<div />}>
+      <Switch>
+        <Redirect
+          exact
+          path={getLocalePath(ROUTES.TECHNOLOGY)}
+          to={getLocalePath(ROUTES.TECHNOLOGY_GENERAL)}
+        />
+        <Route
+          path={getLocalePath(ROUTES.TECHNOLOGY_API)}
+          component={ApiPage}
+        />
+        <Route
+          path={getLocalePath(ROUTES.TECHNOLOGY_DOCUMENTATION)}
+          component={DocumentationPage}
+        />
+        <Route
+          path={getLocalePath(ROUTES.TECHNOLOGY_GENERAL)}
+          component={GeneralTechnologyPage}
+        />
+        <Route
+          path={getLocalePath(ROUTES.TECHNOLOGY_IMAGE_RIGHTS)}
+          component={ImageRightsPage}
+        />
+        <Route
+          path={getLocalePath(ROUTES.TECHNOLOGY_SOURCE_CODE)}
+          component={SourceCodePage}
+        />
+        <Route component={NotFound} />
+      </Switch>
+    </React.Suspense>
   );
 };
 

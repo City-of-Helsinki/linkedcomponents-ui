@@ -1,4 +1,7 @@
+import 'swagger-ui-react/swagger-ui.css';
+
 import React from 'react';
+import SwaggerUI from 'swagger-ui-react';
 
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import useLocale from '../../../hooks/useLocale';
@@ -76,6 +79,7 @@ const DocumentationPage: React.FC = () => {
       title="helpPage.pageTitleDocumentation"
     >
       <MainContent>{getContent(locale)}</MainContent>
+      <SwaggerUI url={process.env.REACT_APP_SWAGGER_SCHEMA_URL} />
     </PageWrapper>
   );
 };
