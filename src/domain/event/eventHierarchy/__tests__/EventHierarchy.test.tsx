@@ -13,7 +13,12 @@ import {
   fakeEvents,
   fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  render,
+  screen,
+  TEST_NOCACHE_TIME,
+  userEvent,
+} from '../../../../utils/testUtils';
 import { EVENT_INCLUDES } from '../../constants';
 import EventHierarchy from '../EventHierarchy';
 
@@ -40,6 +45,7 @@ const mockedOrganizationsResponse: MockedResponse = {
 const baseEventsVariables = {
   createPath: undefined,
   include: EVENT_INCLUDES,
+  nocache: TEST_NOCACHE_TIME,
   pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',

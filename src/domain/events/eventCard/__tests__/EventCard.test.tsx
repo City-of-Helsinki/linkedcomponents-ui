@@ -23,6 +23,7 @@ import {
   configure,
   render,
   screen,
+  TEST_NOCACHE_TIME,
   userEvent,
 } from '../../../../utils/testUtils';
 import { EVENT_LIST_INCLUDES } from '../../constants';
@@ -106,6 +107,7 @@ const subEvents = fakeEvents(
 const subEventsVariables = {
   createPath: undefined,
   include: EVENT_LIST_INCLUDES,
+  nocache: TEST_NOCACHE_TIME,
   pageSize: MAX_PAGE_SIZE,
   showAll: true,
   superEvent: eventValues.id,

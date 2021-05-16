@@ -11,6 +11,7 @@ import {
   fakeEvents,
   fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
+import { TEST_NOCACHE_TIME } from '../../../../utils/testUtils';
 import { EVENT_INCLUDES } from '../../constants';
 
 const publisherId = 'publisher:1';
@@ -67,6 +68,7 @@ const event = fakeEvent({
 const baseVariables = {
   createPath: undefined,
   include: EVENT_INCLUDES,
+  nocache: TEST_NOCACHE_TIME,
   pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',

@@ -17,7 +17,7 @@ describe('addParamsToEventQueryString function', () => {
     [{ type: [EVENT_TYPE.Volunteering] }, '?type=volunteering'],
   ];
 
-  test.each(cases)(
+  it.each(cases)(
     'should add %p params to search, returns %p',
     (params, expectedResult) => {
       expect(addParamsToEventQueryString('', params)).toBe(expectedResult);

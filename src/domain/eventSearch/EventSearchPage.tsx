@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 
+import { NocacheContextProvider } from '../../common/components/nocache/NocacheContext';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import EventList from './eventList/EventList';
@@ -12,21 +13,23 @@ const EventSearchPage: React.FC = () => {
   const variables = getEventsQueryVariables(location.search);
 
   return (
-    <PageWrapper
-      description="eventSearchPage.pageDescription"
-      keywords={[
-        'keywords.search',
-        'keywords.filter',
-        'keywords.date',
-        'keywords.place',
-      ]}
-      title="eventSearchPage.pageTitle"
-    >
-      <MainContent>
-        <SearchPanel />
-        <EventList baseVariables={variables} />
-      </MainContent>
-    </PageWrapper>
+    <NocacheContextProvider>
+      <PageWrapper
+        description="eventSearchPage.pageDescription"
+        keywords={[
+          'keywords.search',
+          'keywords.filter',
+          'keywords.date',
+          'keywords.place',
+        ]}
+        title="eventSearchPage.pageTitle"
+      >
+        <MainContent>
+          <SearchPanel />
+          <EventList baseVariables={variables} />
+        </MainContent>
+      </PageWrapper>
+    </NocacheContextProvider>
   );
 };
 

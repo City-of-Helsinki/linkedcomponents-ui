@@ -8,6 +8,7 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  TEST_NOCACHE_TIME,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
@@ -44,6 +45,7 @@ const eventsVariables = {
   eventType: [],
   include: EVENT_LIST_INCLUDES,
   location: [],
+  nocache: TEST_NOCACHE_TIME,
   start: null,
   text: '',
 };

@@ -3,6 +3,7 @@ import range from 'lodash/range';
 
 import { EventsDocument, PlacesDocument } from '../../../generated/graphql';
 import { fakeEvents, fakePlaces } from '../../../utils/mockDataUtils';
+import { TEST_NOCACHE_TIME } from '../../../utils/testUtils';
 import {
   DEFAULT_EVENT_SORT,
   EVENT_LIST_INCLUDES,
@@ -16,9 +17,10 @@ const eventsVariables = {
   end: null,
   eventType: [],
   include: EVENT_LIST_INCLUDES,
+  location: [],
+  nocache: TEST_NOCACHE_TIME,
   page: 1,
   pageSize: EVENTS_PAGE_SIZE,
-  location: [],
   start: null,
   text: searchText,
   sort: DEFAULT_EVENT_SORT,

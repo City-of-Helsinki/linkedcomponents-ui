@@ -7,6 +7,7 @@ import {
   actWait,
   render,
   screen,
+  TEST_NOCACHE_TIME,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
@@ -54,7 +55,11 @@ const mocks = [
   {
     request: {
       query: EventDocument,
-      variables: { id: eventId, createPath: undefined },
+      variables: {
+        id: eventId,
+        createPath: undefined,
+        nocache: TEST_NOCACHE_TIME,
+      },
     },
     result: eventResponse,
   },

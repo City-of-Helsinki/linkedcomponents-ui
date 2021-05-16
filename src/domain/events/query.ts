@@ -19,6 +19,7 @@ export const QUERY_EVENTS = gql`
     $keywordNot: [String]
     $language: String
     $location: [String]
+    $nocache: Int
     $page: Int
     $pageSize: Int
     $publicationStatus: PublicationStatus
@@ -51,6 +52,7 @@ export const QUERY_EVENTS = gql`
       keywordNot: $keywordNot
       language: $language
       location: $location
+      nocache: $nocache
       page: $page
       pageSize: $pageSize
       publicationStatus: $publicationStatus

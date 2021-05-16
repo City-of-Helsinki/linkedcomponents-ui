@@ -24,6 +24,7 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  TEST_NOCACHE_TIME,
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
@@ -86,6 +87,7 @@ const mockedOrganizationsResponse: MockedResponse = {
 const baseEventsVariables = {
   createPath: undefined,
   include: EVENT_LIST_INCLUDES,
+  nocache: TEST_NOCACHE_TIME,
   pageSize: EVENTS_PAGE_SIZE,
   superEvent: 'none',
 };

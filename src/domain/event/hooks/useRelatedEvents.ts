@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
 import React from 'react';
 
+import { useNocacheContext } from '../../../common/components/nocache/NocacheContext';
 import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
 import { getRelatedEvents } from '../utils';
 
@@ -12,6 +13,7 @@ type UseRelatedEventsState = {
 const useRelatedEvents = (
   event: EventFieldsFragment
 ): UseRelatedEventsState => {
+  const { nocache } = useNocacheContext();
   const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
   const [events, setEvents] = React.useState<EventFieldsFragment[]>([]);
   const [loading, setLoading] = React.useState(false);
@@ -23,6 +25,7 @@ const useRelatedEvents = (
         const allRelatedEvents = await getRelatedEvents({
           apolloClient,
           event,
+          nocache,
         });
 
         setEvents(allRelatedEvents);
@@ -35,7 +38,7 @@ const useRelatedEvents = (
     };
 
     setRelatedEvents();
-  }, [apolloClient, event, setEvents]);
+  }, [apolloClient, event, nocache, setEvents]);
 
   return { events, loading };
 };
