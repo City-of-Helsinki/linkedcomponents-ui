@@ -29,6 +29,7 @@ const Accordion: React.FC<AccordionProps> = ({
         {...buttonProps}
         aria-label={toggleButtonLabel}
         className={styles.toggleButton}
+        type="button"
       >
         <span aria-hidden={true}>{icon}</span>
         <span>{toggleButtonLabel}</span>
