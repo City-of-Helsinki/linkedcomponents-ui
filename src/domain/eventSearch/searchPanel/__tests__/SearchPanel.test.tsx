@@ -6,6 +6,7 @@ import { ROUTES } from '../../../../constants';
 import { PlaceDocument, PlacesDocument } from '../../../../generated/graphql';
 import { fakePlaces } from '../../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   render,
   screen,
@@ -133,15 +134,16 @@ test('should search events with correct search params', async () => {
 
   // Place filtering
   const placeSelectorButton = getElement('placeSelectorButton');
-  userEvent.click(placeSelectorButton);
+  act(() => userEvent.click(placeSelectorButton));
   const placeCheckbox = screen.getByRole('checkbox', {
     name: placeOverrides[0].name,
+    hidden: false,
   });
   userEvent.click(placeCheckbox);
 
   // Event type filtering
   const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
-  userEvent.click(eventTypeSelectorButton);
+  act(() => userEvent.click(eventTypeSelectorButton));
   const eventTypeCheckbox = screen.getByRole('checkbox', {
     name: 'Tapahtuma',
   });
@@ -150,7 +152,7 @@ test('should search events with correct search params', async () => {
   const searchButton = screen.getAllByRole('button', {
     name: translations.eventSearchPage.searchPanel.buttonSearch,
   })[1];
-  userEvent.click(searchButton);
+  act(() => userEvent.click(searchButton));
 
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe(

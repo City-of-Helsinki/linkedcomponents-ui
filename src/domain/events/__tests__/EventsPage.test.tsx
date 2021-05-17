@@ -19,6 +19,7 @@ import {
   fakeEventsListOptionsState,
 } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -374,7 +375,7 @@ test('should add sort parameter to search query', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const sortNameButton = getElement('sortName');
-  userEvent.click(sortNameButton);
+  act(() => userEvent.click(sortNameButton));
 
   // Test if your store dispatched the expected actions
   expect(history.location.search).toBe('?sort=name');

@@ -3,6 +3,7 @@ import React from 'react';
 
 import translations from '../../../../domain/app/i18n/fi.json';
 import {
+  act,
   arrowDownKeyPressHelper,
   configure,
   enterKeyPressHelper,
@@ -122,7 +123,7 @@ it('should call onBlur', async () => {
   userEvent.click(input);
   expect(onBlur).not.toBeCalled();
 
-  userEvent.click(container);
+  act(() => userEvent.click(container));
   expect(onBlur).toBeCalledWith('12.15');
 });
 

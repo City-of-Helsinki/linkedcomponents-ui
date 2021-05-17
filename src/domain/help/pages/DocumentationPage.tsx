@@ -6,6 +6,7 @@ import SwaggerUI from 'swagger-ui-react';
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import isTestEnv from '../../../utils/isTestEnv';
 import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
@@ -79,7 +80,9 @@ const DocumentationPage: React.FC = () => {
       title="helpPage.pageTitleDocumentation"
     >
       <MainContent>{getContent(locale)}</MainContent>
-      <SwaggerUI url={process.env.REACT_APP_SWAGGER_SCHEMA_URL} />
+      {!isTestEnv && (
+        <SwaggerUI url={process.env.REACT_APP_SWAGGER_SCHEMA_URL} />
+      )}
     </PageWrapper>
   );
 };

@@ -4,7 +4,6 @@ import React from 'react';
 import { EventDocument, EventsDocument } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
-  actWait,
   render,
   screen,
   TEST_NOCACHE_TIME,
@@ -39,6 +38,7 @@ const eventsResponse = { data: { events } };
 
 const defaultEventsVariables = {
   createPath: undefined,
+  nocache: TEST_NOCACHE_TIME,
   superEventType: ['umbrella'],
   text: '',
 };
@@ -92,21 +92,15 @@ const renderComponent = (props?: Partial<UmbrellaEventSelectorProps>) =>
 test('should combobox input value to be selected event', async () => {
   renderComponent();
 
-  await actWait();
-
   const inputField = screen.queryByRole('combobox', {
     name: new RegExp(helper),
   });
 
-  await waitFor(() => {
-    expect(inputField).toHaveValue(eventName);
-  });
+  await waitFor(() => expect(inputField).toHaveValue(eventName));
 });
 
 test('should open menu by clickin toggle button and list of options should be visible', async () => {
   renderComponent();
-
-  await actWait();
 
   const inputField = screen.queryByRole('combobox', {
     name: new RegExp(helper),
@@ -119,11 +113,7 @@ test('should open menu by clickin toggle button and list of options should be vi
 
   expect(inputField.getAttribute('aria-expanded')).toBe('true');
 
-  filteredEvents.data.forEach(async (option) => {
-    await waitFor(() => {
-      expect(
-        screen.queryByRole('option', { hidden: true, name: option.name.fi })
-      ).toBeInTheDocument();
-    });
-  });
+  for (const option of filteredEvents.data) {
+    await screen.findByRole('option', { hidden: true, name: option.name.fi });
+  }
 });

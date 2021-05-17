@@ -7,6 +7,7 @@ import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   render,
@@ -200,7 +201,7 @@ test('should route to create event page when clicking copy button', async () => 
   openMenu();
 
   const copyButton = getElement('copy');
-  userEvent.click(copyButton);
+  act(() => userEvent.click(copyButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/events/create`)
@@ -213,7 +214,7 @@ test('should route to edit page when clicking edit button', async () => {
   openMenu();
 
   const editButton = await findElement('edit');
-  userEvent.click(editButton);
+  act(() => userEvent.click(editButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/events/edit/${eventId}`)

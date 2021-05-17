@@ -3,6 +3,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -113,11 +114,11 @@ test('should validate enrolment start and end dates', async () => {
     name: translations.event.form.extensionCourse.labelEnrolmentEndTime,
   });
 
-  userEvent.click(startTimeInput);
+  act(() => userEvent.click(startTimeInput));
   userEvent.type(startTimeInput, startTime);
-  userEvent.click(endTimeInput);
+  act(() => userEvent.click(endTimeInput));
   userEvent.type(endTimeInput, endTime);
-  userEvent.click(startTimeInput);
+  act(() => userEvent.click(startTimeInput));
 
   await waitFor(() => expect(startTimeInput).toHaveValue(startTime));
   await waitFor(() => expect(endTimeInput).toHaveValue(endTime));

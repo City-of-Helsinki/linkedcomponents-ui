@@ -11,6 +11,7 @@ import {
   useEventQuery,
   useEventsQuery,
 } from '../../../generated/graphql';
+import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
@@ -45,7 +46,9 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   value,
   ...rest
 }) => {
+  let timer: number;
   const { nocache } = useNocacheContext();
+  const isMounted = useIsMounted();
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = React.useState('');
@@ -72,8 +75,10 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   });
 
   const handleFilter = (items: OptionType[], inputValue: string) => {
-    setTimeout(() => {
-      setSearch(inputValue);
+    timer = setTimeout(() => {
+      if (isMounted.current) {
+        setSearch(inputValue);
+      }
     });
 
     return items;
@@ -97,6 +102,11 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   useDeepCompareEffect(() => {
     setSelectedEvent(option);
   }, [{ option }]);
+
+  React.useEffect(() => {
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Combobox

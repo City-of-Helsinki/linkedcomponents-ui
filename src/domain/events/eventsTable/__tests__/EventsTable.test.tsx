@@ -3,6 +3,7 @@ import React from 'react';
 
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   render,
   screen,
@@ -61,7 +62,7 @@ test('should open event page by clicking event', () => {
     events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
   });
 
-  userEvent.click(screen.getByRole('button', { name: eventName }));
+  act(() => userEvent.click(screen.getByRole('button', { name: eventName })));
 
   expect(history.location.pathname).toBe('/fi/events/edit/event:1');
 });
@@ -73,7 +74,9 @@ test('should open event page by pressing enter on row', () => {
     events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
   });
 
-  userEvent.type(screen.getByRole('button', { name: eventName }), '{enter}');
+  act(() =>
+    userEvent.type(screen.getByRole('button', { name: eventName }), '{enter}')
+  );
 
   expect(history.location.pathname).toBe('/fi/events/edit/event:1');
 });
@@ -83,7 +86,7 @@ test('should call setSort when clicking sortable column header', () => {
   renderComponent({ setSort });
 
   const nameButton = screen.getByRole('button', { name: 'Nimi' });
-  userEvent.click(nameButton);
+  act(() => userEvent.click(nameButton));
   expect(setSort).toBeCalledWith('-name');
 
   const startTimeButton = screen.getByRole('button', { name: 'Alkuaika' });

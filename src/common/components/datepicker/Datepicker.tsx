@@ -76,7 +76,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
   const locale = useLocale();
   const { t } = useTranslation();
   const { theme } = useTheme();
-  const [isFocused, setIsFocused] = React.useState(false);
+  const isFocused = React.useRef(false);
   const dateFormat = React.useMemo(
     () => (timeSelector ? DATETIME_FORMAT : DATE_FORMAT),
     [timeSelector]
@@ -273,8 +273,8 @@ const Datepicker: React.FC<DatepickerProps> = ({
   const onDocumentFocusin = () => {
     if (!isComponentFocused()) {
       ensureCalendarIsClosed();
-      if (isFocused) {
-        setIsFocused(false);
+      if (isFocused.current) {
+        isFocused.current = false;
         onBlur && onBlur();
       }
     }
@@ -345,7 +345,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
     >
       <div
         ref={container}
-        onFocus={() => setIsFocused(true)}
+        onFocus={() => (isFocused.current = true)}
         className={styles.datepickerWrapper}
         onKeyDown={preventArrowKeyScroll}
       >
