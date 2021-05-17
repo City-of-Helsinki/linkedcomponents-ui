@@ -1290,6 +1290,9 @@ export const scrollToFirstError = ({
   });
 };
 
+// This functions sets formik errors and touched values correctly after validation.
+// The reason for this is to show all errors after validating the form.
+// Errors are shown only for touched fields so set all fields with error touched
 export const showErrors = ({
   descriptionLanguage,
   error,
