@@ -72,8 +72,7 @@
     "eventAmount": "{{count}} tapahtuma",
     "eventAmount_plural": "{{count}} tapahtumaa",
     "feedback": {
-      "text": "Anna palautetta",
-      "url": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta"
+      "text": "Anna palautetta"
     },
     "goToHome": "Etusivulle",
     "imageUploader": {

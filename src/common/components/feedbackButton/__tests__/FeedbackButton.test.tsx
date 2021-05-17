@@ -9,13 +9,12 @@ const renderComponent = () =>
     routes: ['/fi/events'],
   });
 
-test('should call window open when clicking feedback link', () => {
-  window.open = jest.fn();
-  renderComponent();
+test('should route to contact page when clicking feedback link', () => {
+  const { history } = renderComponent();
 
   userEvent.click(
     screen.getByRole('button', { name: translations.common.feedback.text })
   );
 
-  expect(window.open).toBeCalledWith(translations.common.feedback.url, '_self');
+  expect(history.location.pathname).toBe('/fi/help/support/contact');
 });

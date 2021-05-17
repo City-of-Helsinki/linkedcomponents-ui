@@ -55,12 +55,12 @@ test('should show navigation links and should route to correct page after clicki
 });
 
 test('should show feedback link and link should have correct href', async () => {
-  renderComponent();
+  const { history } = renderComponent();
+
   const feedbackLink = screen.getByRole('link', {
     name: translations.common.feedback.text,
   });
+  userEvent.click(feedbackLink);
 
-  expect((feedbackLink as HTMLAnchorElement).href).toBe(
-    'https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/osallistu-ja-vaikuta/palaute/anna-palautetta'
-  );
+  expect(history.location.pathname).toBe('/fi/help/support/contact');
 });

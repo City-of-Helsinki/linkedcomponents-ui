@@ -72,8 +72,7 @@
     "eventAmount": "{{count}} evenemang",
     "eventAmount_plural": "{{count}} evenemang",
     "feedback": {
-      "text": "Ge feedback",
-      "url": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
+      "text": "Ge feedback"
     },
     "goToHome": "Till startsidan",
     "imageUploader": {

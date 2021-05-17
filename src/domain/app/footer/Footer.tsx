@@ -68,7 +68,8 @@ const Footer: React.FC = () => {
 
       <HdsFooter.Utilities backToTopLabel={t('footer.backToTopLabel')}>
         <HdsFooter.Item
-          href={t('common.feedback.url')}
+          href={`/${locale}${ROUTES.SUPPORT_CONTACT}`}
+          onClick={goToPage(`/${locale}${ROUTES.SUPPORT_CONTACT}`)}
           label={t('common.feedback.text')}
         />
       </HdsFooter.Utilities>

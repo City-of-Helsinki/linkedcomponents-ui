@@ -72,8 +72,7 @@
     "eventAmount": "{{count}} event",
     "eventAmount_plural": "{{count}} events",
     "feedback": {
-      "text": "Give feedback",
-      "url": "https://www.hel.fi/helsinki/en/administration/participate/feedback/"
+      "text": "Give feedback"
     },
     "goToHome": "To front page",
     "imageUploader": {

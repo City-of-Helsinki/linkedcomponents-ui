@@ -104,7 +104,7 @@ exports[`matches snapshot 1`] = `
       >
         <a
           class="FooterItem-module_item__1i8Z8"
-          href="https://www.hel.fi/helsinki/sv/stad-och-forvaltning/delta/feedback/"
+          href="/sv/help/support/contact"
         >
           <span>
             Ge feedback
