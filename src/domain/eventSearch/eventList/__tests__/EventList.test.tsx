@@ -1,6 +1,7 @@
 import range from 'lodash/range';
 import React from 'react';
 
+import { TEST_NOCACHE_TIME } from '../../../../constants';
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import {
@@ -44,6 +45,7 @@ const eventsVariables = {
   eventType: [],
   include: EVENT_LIST_INCLUDES,
   location: [],
+  nocache: TEST_NOCACHE_TIME,
   start: null,
   text: '',
 };

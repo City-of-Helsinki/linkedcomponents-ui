@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
+import { useNocacheContext } from '../../../common/components/nocache/NocacheContext';
 import {
   EventFieldsFragment,
   EventStatus,
@@ -69,6 +70,7 @@ type UseEventUpdateActionsState = {
 const useEventUpdateActions = ({
   event,
 }: Props): UseEventUpdateActionsState => {
+  const { nocache } = useNocacheContext();
   const isMounted = useIsMounted();
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
@@ -136,7 +138,11 @@ const useEventUpdateActions = ({
     try {
       setSaving(EVENT_EDIT_ACTIONS.CANCEL);
       // Check that user has permission to cancel events
-      const allEvents = await getRelatedEvents({ apolloClient, event });
+      const allEvents = await getRelatedEvents({
+        apolloClient,
+        event,
+        nocache,
+      });
       const editableEvents = await getEditableEvents(
         allEvents,
         EVENT_EDIT_ACTIONS.CANCEL
@@ -187,7 +193,11 @@ const useEventUpdateActions = ({
     try {
       setSaving(EVENT_EDIT_ACTIONS.DELETE);
       // Check that user has permission to delete events
-      const allEvents = await getRelatedEvents({ apolloClient, event });
+      const allEvents = await getRelatedEvents({
+        apolloClient,
+        event,
+        nocache,
+      });
       const deletableEvents = await getEditableEvents(
         allEvents,
         EVENT_EDIT_ACTIONS.DELETE
@@ -234,7 +244,11 @@ const useEventUpdateActions = ({
     try {
       setSaving(EVENT_EDIT_ACTIONS.POSTPONE);
       // Check that user has permission to postpone events
-      const allEvents = await getRelatedEvents({ apolloClient, event });
+      const allEvents = await getRelatedEvents({
+        apolloClient,
+        event,
+        nocache,
+      });
       const editableEvents = await getEditableEvents(
         allEvents,
         EVENT_EDIT_ACTIONS.POSTPONE

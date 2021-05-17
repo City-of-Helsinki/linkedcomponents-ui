@@ -1,6 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 
-import { MAX_PAGE_SIZE } from '../../../../constants';
+import { MAX_PAGE_SIZE, TEST_NOCACHE_TIME } from '../../../../constants';
 import {
   EventsDocument,
   OrganizationsDocument,
@@ -67,6 +67,7 @@ const event = fakeEvent({
 const baseVariables = {
   createPath: undefined,
   include: EVENT_INCLUDES,
+  nocache: TEST_NOCACHE_TIME,
   pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',

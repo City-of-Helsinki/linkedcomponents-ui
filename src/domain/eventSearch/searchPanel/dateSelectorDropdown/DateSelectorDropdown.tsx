@@ -47,7 +47,7 @@ const DateSelectorDropdown: React.FC<DateSelectorProps> = ({
     _toggleButtonLabel || t('common.dateSelector.buttonToggle');
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  useDropdownCloseEvents({ container: dropdownRef, setIsMenuOpen });
+  useDropdownCloseEvents({ container: dropdownRef, isMenuOpen, setIsMenuOpen });
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

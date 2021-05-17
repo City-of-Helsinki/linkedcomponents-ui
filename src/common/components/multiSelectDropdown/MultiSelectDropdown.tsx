@@ -66,7 +66,11 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   }, [options, searchValue]);
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  useDropdownCloseEvents({ container: dropdown, setIsMenuOpen });
+  useDropdownCloseEvents({
+    container: dropdown,
+    isMenuOpen,
+    setIsMenuOpen,
+  });
 
   const {
     focusedIndex,

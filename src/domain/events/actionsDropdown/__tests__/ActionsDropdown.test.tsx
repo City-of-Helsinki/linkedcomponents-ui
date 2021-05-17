@@ -2,10 +2,12 @@ import { MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
 
+import { ROUTES } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   render,
@@ -53,7 +55,11 @@ const renderComponent = ({
   props?: Partial<ActionsDropdownProps>;
   store?: Store<StoreState, AnyAction>;
 }) =>
-  render(<ActionsDropdown {...defaultProps} {...props} />, { mocks, store });
+  render(<ActionsDropdown {...defaultProps} {...props} />, {
+    mocks,
+    routes: [`/fi${ROUTES.SEARCH}`],
+    store,
+  });
 
 const findElement = (key: 'cancel' | 'delete' | 'edit' | 'postpone') => {
   switch (key) {
@@ -195,7 +201,7 @@ test('should route to create event page when clicking copy button', async () => 
   openMenu();
 
   const copyButton = getElement('copy');
-  userEvent.click(copyButton);
+  act(() => userEvent.click(copyButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/events/create`)
@@ -208,11 +214,12 @@ test('should route to edit page when clicking edit button', async () => {
   openMenu();
 
   const editButton = await findElement('edit');
-  userEvent.click(editButton);
+  act(() => userEvent.click(editButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/events/edit/${eventId}`)
   );
+  expect(history.location.search).toBe(`?returnPath=%2Fsearch`);
 });
 
 test('should cancel event', async () => {

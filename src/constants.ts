@@ -138,3 +138,5 @@ export const FOOTER_NAVIGATION_ITEMS = [
 
 export const PAGE_HEADER_ID = 'page-header';
 export const MAIN_CONTENT_ID = 'maincontent';
+
+export const TEST_NOCACHE_TIME = 1618185600;

@@ -11,6 +11,7 @@ import {
   screen,
   tabKeyPressHelper,
   userEvent,
+  waitFor,
 } from '../../../../utils/testUtils';
 import MenuDropdown, { MenuDropdownProps } from '../MenuDropdown';
 import { MenuItemOptionProps } from '../MenuItem';
@@ -20,31 +21,42 @@ configure({ defaultHidden: true });
 const renderMenuDropdown = (props: MenuDropdownProps) => {
   render(<MenuDropdown {...props} />);
 
-  const toggleButton = screen.getByLabelText(props.buttonLabel, {
-    selector: 'button',
-  });
-
-  const getMenu = () => screen.getByRole('region', { name: props.buttonLabel });
-  const openMenu = () => {
-    userEvent.click(toggleButton);
-    getMenu();
-  };
-
-  const menuShouldBeClosed = () =>
-    expect(
-      screen.queryByRole('region', { name: props.buttonLabel })
-    ).not.toBeInTheDocument();
   const getItemAtIndex = (index: number) =>
     screen.getByRole('button', { name: items[index].label });
 
   return {
     getItemAtIndex,
-    getMenu,
-    menuShouldBeClosed,
-    openMenu,
-    toggleButton,
+    getElement,
   };
 };
+
+const getElement = (key: 'menu' | 'toggleButton') => {
+  switch (key) {
+    case 'toggleButton':
+      return screen.getByRole('button', { name: defaultProps.buttonLabel });
+  }
+};
+
+const findElement = (key: 'menu' | 'toggleButton') => {
+  switch (key) {
+    case 'menu':
+      return screen.findByRole('region', { name: defaultProps.buttonLabel });
+  }
+};
+
+const openMenu = async () => {
+  const toggleButton = getElement('toggleButton');
+  userEvent.click(toggleButton);
+
+  await findElement('menu');
+};
+
+const menuShouldBeClosed = async () =>
+  await waitFor(() =>
+    expect(
+      screen.queryByRole('region', { name: defaultProps.buttonLabel })
+    ).not.toBeInTheDocument()
+  );
 
 const items: MenuItemOptionProps[] = [1, 2, 3, 4].map((item) => ({
   icon: <IconPen />,
@@ -61,9 +73,9 @@ const defaultProps: MenuDropdownProps = {
 };
 
 test('changes focused item correctly', async () => {
-  const { getItemAtIndex, openMenu } = renderMenuDropdown(defaultProps);
+  const { getItemAtIndex } = renderMenuDropdown(defaultProps);
 
-  openMenu();
+  await openMenu();
 
   arrowDownKeyPressHelper();
   expect(getItemAtIndex(0)).toHaveClass('highlighted');
@@ -83,9 +95,9 @@ test('changes focused item correctly', async () => {
 });
 
 test('should call onClick when pressing enter key', async () => {
-  const { openMenu } = renderMenuDropdown(defaultProps);
+  renderMenuDropdown(defaultProps);
 
-  openMenu();
+  await openMenu();
 
   arrowDownKeyPressHelper();
 
@@ -94,10 +106,10 @@ test('should call onClick when pressing enter key', async () => {
   expect(items[0].onClick).toBeCalled();
 });
 
-test('calls onClick callback correctly', () => {
-  const { getItemAtIndex, openMenu } = renderMenuDropdown(defaultProps);
+test('calls onClick callback correctly', async () => {
+  const { getItemAtIndex } = renderMenuDropdown(defaultProps);
 
-  openMenu();
+  await openMenu();
 
   items.forEach((item, index) => {
     userEvent.click(getItemAtIndex(index));
@@ -105,39 +117,37 @@ test('calls onClick callback correctly', () => {
   });
 });
 
-test('menu should be closed with esc key', () => {
-  const { menuShouldBeClosed, openMenu } = renderMenuDropdown(defaultProps);
+test('menu should be closed with esc key', async () => {
+  renderMenuDropdown(defaultProps);
 
-  openMenu();
-
+  await openMenu();
   escKeyPressHelper();
-  menuShouldBeClosed();
+  await menuShouldBeClosed();
 });
 
-test('menu should be open with arrow up/down key', () => {
-  const { getMenu, menuShouldBeClosed, openMenu } =
-    renderMenuDropdown(defaultProps);
+test('menu should be open with arrow up/down key', async () => {
+  renderMenuDropdown(defaultProps);
 
-  openMenu();
+  await openMenu();
 
   escKeyPressHelper();
-  menuShouldBeClosed();
+  await menuShouldBeClosed();
 
   arrowDownKeyPressHelper();
-  getMenu();
+  await findElement('menu');
 
   escKeyPressHelper();
-  menuShouldBeClosed();
+  await menuShouldBeClosed();
 
   arrowUpKeyPressHelper();
-  getMenu();
+  await findElement('menu');
 });
 
-test('menu should be closed with teb key', () => {
-  const { menuShouldBeClosed, openMenu } = renderMenuDropdown(defaultProps);
+test('menu should be closed with teb key', async () => {
+  renderMenuDropdown(defaultProps);
 
-  openMenu();
+  await openMenu();
 
   tabKeyPressHelper();
-  menuShouldBeClosed();
+  await menuShouldBeClosed();
 });

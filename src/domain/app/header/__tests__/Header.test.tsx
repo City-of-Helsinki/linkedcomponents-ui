@@ -6,6 +6,7 @@ import { ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   render,
@@ -89,7 +90,7 @@ test('should show navigation links and should route to correct page after clicki
   });
 });
 
-test('should show mobile menu', () => {
+test('should show mobile menu', async () => {
   global.innerWidth = 500;
   renderComponent();
 
@@ -98,7 +99,9 @@ test('should show mobile menu', () => {
   const menuButton = getElement('menuButton');
   userEvent.click(menuButton);
 
-  expect(screen.getAllByRole('navigation')).toHaveLength(2);
+  await waitFor(() =>
+    expect(screen.getAllByRole('navigation')).toHaveLength(2)
+  );
 });
 
 test('should change language', () => {
@@ -140,11 +143,9 @@ test('should start logout process', async () => {
   userEvent.click(userMenuButton);
 
   const signOutLinks = getElements('signOutLink');
-  userEvent.click(signOutLinks[0]);
+  act(() => userEvent.click(signOutLinks[0]));
 
-  await waitFor(() => {
-    expect(signoutRedirect).toBeCalled();
-  });
+  await waitFor(() => expect(signoutRedirect).toBeCalled());
 });
 
 test('should route to search page', () => {

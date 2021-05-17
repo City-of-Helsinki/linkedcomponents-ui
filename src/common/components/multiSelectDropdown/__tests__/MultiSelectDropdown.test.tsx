@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  actWait,
   arrowDownKeyPressHelper,
   arrowUpKeyPressHelper,
   configure,
@@ -49,6 +50,15 @@ const defaultProps: MultiselectDropdownProps = {
 const renderComponent = (props?: Partial<MultiselectDropdownProps>) =>
   render(<MultiSelectDropdown {...defaultProps} {...props} />);
 
+const findElement = (key: 'clearButton' | 'searchInput') => {
+  switch (key) {
+    case 'clearButton':
+      return screen.getByRole('button', { name: clearButtonLabel });
+    case 'searchInput':
+      return screen.findByPlaceholderText(searchPlaceholder);
+  }
+};
+
 const getElement = (key: 'clearButton' | 'searchInput' | 'toggleButton') => {
   switch (key) {
     case 'clearButton':
@@ -60,7 +70,7 @@ const getElement = (key: 'clearButton' | 'searchInput' | 'toggleButton') => {
   }
 };
 
-const renderComponentWithOpenMenu = (
+const renderComponentWithOpenMenu = async (
   props?: Partial<MultiselectDropdownProps>
 ) => {
   renderComponent(props);
@@ -68,27 +78,21 @@ const renderComponentWithOpenMenu = (
   const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
-  getElement('clearButton');
+  await findElement('clearButton');
 };
 
-const renderComponentWithClosedMenu = (
+const renderComponentWithClosedMenu = async (
   props?: Partial<MultiselectDropdownProps>
 ) => {
   renderComponent(props);
 
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
-
-  getElement('searchInput');
-
-  escKeyPressHelper();
-  expect(
-    screen.queryByPlaceholderText(searchPlaceholder)
-  ).not.toBeInTheDocument();
+  toggleButton.focus();
+  await waitFor(() => expect(toggleButton).toHaveFocus());
 };
 
-test('should not show search input field', () => {
-  renderComponentWithOpenMenu({ showSearch: false });
+test('should not show search input field', async () => {
+  await renderComponentWithOpenMenu({ showSearch: false });
 
   expect(
     screen.queryByPlaceholderText(searchPlaceholder)
@@ -96,8 +100,8 @@ test('should not show search input field', () => {
   getElement('clearButton');
 });
 
-test('should open dropdown menu', () => {
-  renderComponentWithOpenMenu();
+test('should open dropdown menu', async () => {
+  await renderComponentWithOpenMenu();
 
   options.forEach(({ label }) => {
     screen.getByRole('checkbox', { name: label });
@@ -107,47 +111,44 @@ test('should open dropdown menu', () => {
   getElement('clearButton');
 });
 
-test('should open menu with arrow down key', () => {
-  renderComponentWithClosedMenu();
+test('should open menu with arrow down key', async () => {
+  await renderComponentWithClosedMenu();
 
   arrowDownKeyPressHelper();
 
-  getElement('searchInput');
+  await findElement('searchInput');
 });
 
-test('should open menu with arrow up key', () => {
-  renderComponentWithClosedMenu();
+test('should open menu with arrow up key', async () => {
+  await renderComponentWithClosedMenu();
 
   arrowUpKeyPressHelper();
-
-  getElement('searchInput');
+  await findElement('searchInput');
 });
 
 test('should filter options', async () => {
-  renderComponentWithOpenMenu();
+  await renderComponentWithOpenMenu();
 
-  options.forEach(({ label }) => {
-    screen.getByRole('checkbox', { name: label });
-  });
+  options.forEach(({ label }) => screen.getByRole('checkbox', { name: label }));
 
   const searchInput = getElement('searchInput');
   userEvent.type(searchInput, options[0].label);
 
   const optionsNotVisible = [options[1].label, options[2].label];
   for (const optionLabel in optionsNotVisible) {
-    await waitFor(() => {
+    await waitFor(() =>
       expect(
         screen.queryByRole('checkbox', { name: optionLabel })
-      ).not.toBeInTheDocument();
-    });
+      ).not.toBeInTheDocument()
+    );
   }
 
   screen.getByRole('checkbox', { name: options[0].label });
 });
 
-test('should call onChange', () => {
+test('should call onChange', async () => {
   const onChange = jest.fn();
-  renderComponentWithOpenMenu({ onChange });
+  await renderComponentWithOpenMenu({ onChange });
 
   options.forEach((option) => {
     const checkbox = screen.getByRole('checkbox', { name: option.label });
@@ -157,9 +158,9 @@ test('should call onChange', () => {
   });
 });
 
-test('should uncheck option', () => {
+test('should uncheck option', async () => {
   const onChange = jest.fn();
-  renderComponentWithOpenMenu({ onChange, value: [options[0]] });
+  await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 
   const checkbox = screen.getByRole('checkbox', { name: options[0].label });
   userEvent.click(checkbox);
@@ -167,20 +168,22 @@ test('should uncheck option', () => {
   expect(onChange).toBeCalledWith([]);
 });
 
-test('should call onChange when pressing enter', () => {
+test('should call onChange when pressing enter', async () => {
   const onChange = jest.fn();
-  renderComponentWithClosedMenu({ onChange });
+  await renderComponentWithClosedMenu({ onChange });
 
   arrowDownKeyPressHelper();
-  const checkbox = screen.getByRole('checkbox', { name: options[0].label });
+  const checkbox = await screen.findByRole('checkbox', {
+    name: options[0].label,
+  });
   enterKeyPressHelper(checkbox);
 
   expect(onChange).toBeCalledWith([options[0]]);
 });
 
-test('should clear value', () => {
+test('should clear value', async () => {
   const onChange = jest.fn();
-  renderComponentWithOpenMenu({ onChange, value: [options[0]] });
+  await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 
   const clearButton = getElement('clearButton');
   userEvent.click(clearButton);

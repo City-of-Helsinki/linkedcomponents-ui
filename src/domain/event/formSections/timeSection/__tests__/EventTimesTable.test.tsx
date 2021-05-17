@@ -2,6 +2,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -65,7 +66,7 @@ test('should call setEventTimes when deleting an event time', async () => {
   })[0];
   userEvent.click(toggleMenuButton);
   const deleteButton = screen.getByRole('button', { name: /poista/i });
-  userEvent.click(deleteButton);
+  act(() => userEvent.click(deleteButton));
 
   expect(setEventTimes).toBeCalledWith([eventTime2]);
 });
@@ -98,7 +99,7 @@ test('should call setEventTimes when updating an event time', async () => {
   const updateButton = screen.getByRole('button', {
     name: /tallenna muutokset/i,
   });
-  userEvent.click(updateButton);
+  act(() => userEvent.click(updateButton));
 
   await waitFor(() => {
     expect(setEventTimes).toBeCalledWith([

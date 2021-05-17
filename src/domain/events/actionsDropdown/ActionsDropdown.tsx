@@ -2,7 +2,7 @@ import { IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
@@ -23,6 +23,7 @@ import {
   getEditButtonProps,
   getEventFields,
 } from '../../event/utils';
+import { addParamsToEventQueryString } from '../../eventSearch/utils';
 import useUser from '../../user/hooks/useUser';
 import styles from './actionsDropdown.module.scss';
 
@@ -37,7 +38,8 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
     const authenticated = useSelector(authenticatedSelector);
     const locale = useLocale();
     const history = useHistory();
-    const { id } = getEventFields(event, locale);
+    const { pathname, search } = useLocation();
+    const { eventUrl } = getEventFields(event, locale);
 
     const {
       cancelEvent,
@@ -64,7 +66,11 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
     };
 
     const goToEditEventPage = () => {
-      history.push(`/${locale}${ROUTES.EDIT_EVENT.replace(':id', id)}`);
+      const queryString = addParamsToEventQueryString(search, {
+        returnPath: pathname,
+      });
+      const eventUrlWithReturnPath = `${eventUrl}${queryString}`;
+      history.push(eventUrlWithReturnPath);
     };
 
     const copyEvent = async () => {

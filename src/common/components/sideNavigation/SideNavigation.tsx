@@ -31,7 +31,11 @@ const SideNavigation: React.FC<SideNavigationProps> = ({
   );
 
   const container = React.useRef<HTMLDivElement>(null);
-  useDropdownCloseEvents({ container, setIsMenuOpen: setIsMobileMenuOpen });
+  useDropdownCloseEvents({
+    container,
+    isMenuOpen: isMobileMenuOpen,
+    setIsMenuOpen: setIsMobileMenuOpen,
+  });
 
   const isMobile = useIsMobile();
 

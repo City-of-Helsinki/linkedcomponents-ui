@@ -8,6 +8,7 @@ import { scroller } from 'react-scroll';
 
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { useNocacheContext } from '../../../common/components/nocache/NocacheContext';
 import Pagination from '../../../common/components/pagination/Pagination';
 import SingleSelect from '../../../common/components/singleSelect/SingleSelect';
 import {
@@ -132,6 +133,7 @@ const EventList: React.FC<EventListProps> = ({
 const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   const { baseVariables, className, listType, setListType, skip } = props;
   const eventListId = React.useRef<string>(uniqueId('event-list-')).current;
+  const { nocache } = useNocacheContext();
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation<EventsLocationState>();
@@ -146,7 +148,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
 
   const { data: eventsData, loading } = useEventsQuery({
     skip,
-    variables,
+    variables: { ...variables, nocache },
   });
 
   const events = (eventsData?.events?.data as EventFieldsFragment[]) || [];

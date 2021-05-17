@@ -8,6 +8,7 @@ import {
 } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   render,
   screen,
@@ -166,17 +167,21 @@ test('should add/delete event time', async () => {
   const startTimeInput = getSingleEventElement('startTime');
   const endTimeInput = getSingleEventElement('endTime');
 
+  const startTimeValue = '14.04.2021 12.00';
   userEvent.click(startTimeInput);
-  userEvent.type(startTimeInput, '14.04.2021 12.00');
+  userEvent.type(startTimeInput, startTimeValue);
+  await waitFor(() => expect(startTimeInput).toHaveValue(startTimeValue));
 
-  userEvent.click(endTimeInput);
-  userEvent.type(endTimeInput, '14.04.2021 14.00');
+  const endTimeValue = '14.04.2021 14.00';
+  act(() => userEvent.click(endTimeInput));
+  userEvent.type(endTimeInput, endTimeValue);
+  await waitFor(() => expect(endTimeInput).toHaveValue(endTimeValue));
 
   const addButton = getSingleEventElement('addButton');
   await waitFor(() => {
     expect(addButton).toBeEnabled();
   });
-  userEvent.click(addButton);
+  act(() => userEvent.click(addButton));
 
   await screen.findByRole('row', {
     name: '1 14.04.2021 12.00 – 14.04.2021 14.00',
@@ -188,7 +193,7 @@ test('should add/delete event time', async () => {
   userEvent.click(toggleButton);
 
   const deleteButton = getSingleEventElement('delete');
-  userEvent.click(deleteButton);
+  act(() => userEvent.click(deleteButton));
 
   await waitFor(() => {
     expect(
@@ -234,7 +239,7 @@ test('should edit event time', async () => {
   const updateButton = screen.getByRole('button', {
     name: /tallenna muutokset/i,
   });
-  userEvent.click(updateButton);
+  act(() => userEvent.click(updateButton));
 
   await screen.findByRole('row', {
     name: '1 02.05.2021 13.00 – 11.06.2021 15.00',
@@ -262,22 +267,23 @@ test('should add/delete recurring event', async () => {
 
   userEvent.click(tueCheckbox);
 
-  userEvent.click(startDateInput);
-  userEvent.type(startDateInput, '23.04.2021');
+  const timeFields = [
+    { component: startDateInput, value: '23.04.2021' },
+    { component: endDateInput, value: '11.05.2021' },
+    { component: startTimeInput, value: '12.00' },
+    { component: endTimeInput, value: '14.00' },
+  ];
 
-  userEvent.click(endDateInput);
-  userEvent.type(endDateInput, '11.05.2021');
-
-  userEvent.type(startTimeInput, '12.00');
-
-  userEvent.type(endTimeInput, '15.00');
+  for (const { component, value } of timeFields) {
+    act(() => userEvent.click(component));
+    userEvent.type(component, value);
+    await waitFor(() => expect(component).toHaveValue(value));
+  }
 
   const addButton = getRecurringEventElement('addButton');
 
-  await waitFor(() => {
-    expect(addButton).toBeEnabled();
-  });
-  userEvent.click(addButton);
+  await waitFor(() => expect(addButton).toBeEnabled());
+  act(() => userEvent.click(addButton));
 
   screen.getByRole('heading', {
     name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
@@ -296,9 +302,9 @@ test('should add/delete recurring event', async () => {
         name: 'Ti, Viikon välein, 23.04.2021 – 11.05.2021',
       })
     ).not.toBeInTheDocument();
-    screen.getByRole('heading', {
-      name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
-    });
+  });
+  screen.getByRole('heading', {
+    name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
   });
 });
 

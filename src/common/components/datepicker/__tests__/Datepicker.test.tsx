@@ -6,6 +6,7 @@ import React from 'react';
 
 import translations from '../../../../domain/app/i18n/fi.json';
 import {
+  act,
   configure,
   fireEvent,
   render,
@@ -220,7 +221,7 @@ describe('<Datepicker />', () => {
     screen.getByText(/kesäkuu 2020/i);
     expect(onBlur).not.toHaveBeenCalled();
 
-    userEvent.click(container);
+    act(() => userEvent.click(container));
 
     expect(onBlur).toHaveBeenCalled();
     expect(screen.queryByText(/kesäkuu 2020/i)).not.toBeInTheDocument();
@@ -242,7 +243,9 @@ describe('<Datepicker />', () => {
     userEvent.tab();
     screen.getByText(monthRegex);
 
-    userEvent.click(screen.getByRole('button', { name: dateSelectRegex }));
+    act(() =>
+      userEvent.click(screen.getByRole('button', { name: dateSelectRegex }))
+    );
 
     expect(defaultProps.onChange).toHaveBeenCalledWith(date);
   });
@@ -350,8 +353,10 @@ describe('<Datepicker timeSelector /> with time selector', () => {
 
     rerender({ value: testDate });
 
-    userEvent.click(
-      screen.getByRole('button', { name: /Valitse kellonajaksi 12.15/i })
+    act(() =>
+      userEvent.click(
+        screen.getByRole('button', { name: /Valitse kellonajaksi 12.15/i })
+      )
     );
 
     const expectedDateValue = testDate;
@@ -368,8 +373,10 @@ describe('<Datepicker timeSelector /> with time selector', () => {
       value: null,
     });
     userEvent.click(screen.getByLabelText(defaultProps.label as string));
-    userEvent.click(
-      screen.getByRole('button', { name: /Valitse kellonajaksi 12.15/i })
+    act(() =>
+      userEvent.click(
+        screen.getByRole('button', { name: /Valitse kellonajaksi 12.15/i })
+      )
     );
 
     const expectedDateValue = new Date();
