@@ -1,6 +1,7 @@
 import range from 'lodash/range';
 import React from 'react';
 
+import { TEST_NOCACHE_TIME } from '../../../../constants';
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import {
@@ -8,7 +9,6 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
-  TEST_NOCACHE_TIME,
   userEvent,
 } from '../../../../utils/testUtils';
 import {

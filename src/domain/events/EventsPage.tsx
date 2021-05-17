@@ -6,10 +6,7 @@ import { useHistory, useLocation } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import {
-  NocacheContextProvider,
-  useNocacheContext,
-} from '../../common/components/nocache/NocacheContext';
+import { useNocacheContext } from '../../common/components/nocache/NocacheContext';
 import TabPanel from '../../common/components/tabs/TabPanel';
 import Tabs from '../../common/components/tabs/Tabs';
 import { ROUTES } from '../../constants';

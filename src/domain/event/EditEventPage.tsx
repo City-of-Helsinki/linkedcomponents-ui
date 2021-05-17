@@ -7,10 +7,7 @@ import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import {
-  NocacheContextProvider,
-  useNocacheContext,
-} from '../../common/components/nocache/NocacheContext';
+import { useNocacheContext } from '../../common/components/nocache/NocacheContext';
 import { ROUTES } from '../../constants';
 import {
   EventFieldsFragment,

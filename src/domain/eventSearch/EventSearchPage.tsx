@@ -1,7 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 
-import { NocacheContextProvider } from '../../common/components/nocache/NocacheContext';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import EventList from './eventList/EventList';

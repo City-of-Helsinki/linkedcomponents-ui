@@ -4,7 +4,12 @@ import addHours from 'date-fns/addHours';
 import startOfDay from 'date-fns/startOfDay';
 import omit from 'lodash/omit';
 
-import { DATETIME_FORMAT, EXTLINK, MAX_PAGE_SIZE } from '../../../constants';
+import {
+  DATETIME_FORMAT,
+  EXTLINK,
+  MAX_PAGE_SIZE,
+  TEST_NOCACHE_TIME,
+} from '../../../constants';
 import {
   CreateEventsDocument,
   DeleteEventDocument,
@@ -44,7 +49,6 @@ import {
   fakeUser,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
-import { TEST_NOCACHE_TIME } from '../../../utils/testUtils';
 import { EVENT_INCLUDES } from '../../event/constants';
 
 const now = new Date();

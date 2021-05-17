@@ -3,10 +3,9 @@ import { renderHook } from '@testing-library/react-hooks';
 import map from 'lodash/map';
 import React from 'react';
 
-import { MAX_PAGE_SIZE } from '../../../../constants';
+import { MAX_PAGE_SIZE, TEST_NOCACHE_TIME } from '../../../../constants';
 import { EventsDocument, SuperEventType } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
-import { TEST_NOCACHE_TIME } from '../../../../utils/testUtils';
 import { EVENT_INCLUDES } from '../../constants';
 import useRelatedEvents from '../useRelatedEvents';
 

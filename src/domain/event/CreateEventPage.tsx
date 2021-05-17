@@ -11,7 +11,6 @@ import { useHistory, useLocation } from 'react-router';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { NocacheContextProvider } from '../../common/components/nocache/NocacheContext';
 import { FORM_NAMES, ROUTES } from '../../constants';
 import {
   CreateEventsMutation,

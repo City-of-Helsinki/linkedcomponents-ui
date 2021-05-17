@@ -1,12 +1,12 @@
 import range from 'lodash/range';
 import React from 'react';
 
+import { TEST_NOCACHE_TIME } from '../../../../constants';
 import { EventDocument, EventsDocument } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
   render,
   screen,
-  TEST_NOCACHE_TIME,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';

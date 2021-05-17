@@ -172,8 +172,6 @@ const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
     { timeout }
   );
 
-const TEST_NOCACHE_TIME = 1618185600;
-
 export {
   actWait,
   arrowDownKeyPressHelper,
@@ -190,7 +188,6 @@ export {
   customRender as render,
   renderWithRoute,
   tabKeyPressHelper,
-  TEST_NOCACHE_TIME,
 };
 
 // re-export everything

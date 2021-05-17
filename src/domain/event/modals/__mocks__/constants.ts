@@ -1,6 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 
-import { MAX_PAGE_SIZE } from '../../../../constants';
+import { MAX_PAGE_SIZE, TEST_NOCACHE_TIME } from '../../../../constants';
 import {
   EventsDocument,
   OrganizationsDocument,
@@ -11,7 +11,6 @@ import {
   fakeEvents,
   fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
-import { TEST_NOCACHE_TIME } from '../../../../utils/testUtils';
 import { EVENT_INCLUDES } from '../../constants';
 
 const publisherId = 'publisher:1';

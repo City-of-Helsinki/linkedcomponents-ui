@@ -1,7 +1,7 @@
 import range from 'lodash/range';
 import React from 'react';
 
-import { MAX_PAGE_SIZE } from '../../../../constants';
+import { MAX_PAGE_SIZE, TEST_NOCACHE_TIME } from '../../../../constants';
 import {
   EventsDocument,
   OrganizationDocument,
@@ -23,7 +23,6 @@ import {
   configure,
   render,
   screen,
-  TEST_NOCACHE_TIME,
   userEvent,
 } from '../../../../utils/testUtils';
 import { EVENT_LIST_INCLUDES } from '../../constants';

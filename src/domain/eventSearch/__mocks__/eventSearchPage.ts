@@ -1,9 +1,9 @@
 import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
+import { TEST_NOCACHE_TIME } from '../../../constants';
 import { EventsDocument, PlacesDocument } from '../../../generated/graphql';
 import { fakeEvents, fakePlaces } from '../../../utils/mockDataUtils';
-import { TEST_NOCACHE_TIME } from '../../../utils/testUtils';
 import {
   DEFAULT_EVENT_SORT,
   EVENT_LIST_INCLUDES,

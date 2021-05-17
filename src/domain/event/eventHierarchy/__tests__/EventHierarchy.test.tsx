@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import map from 'lodash/map';
 import React from 'react';
 
-import { MAX_PAGE_SIZE } from '../../../../constants';
+import { MAX_PAGE_SIZE, TEST_NOCACHE_TIME } from '../../../../constants';
 import {
   EventsDocument,
   OrganizationsDocument,
@@ -13,12 +13,7 @@ import {
   fakeEvents,
   fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
-import {
-  render,
-  screen,
-  TEST_NOCACHE_TIME,
-  userEvent,
-} from '../../../../utils/testUtils';
+import { render, screen, userEvent } from '../../../../utils/testUtils';
 import { EVENT_INCLUDES } from '../../constants';
 import EventHierarchy from '../EventHierarchy';
 

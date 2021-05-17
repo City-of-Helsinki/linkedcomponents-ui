@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
+import { TEST_NOCACHE_TIME } from '../../../constants';
 import {
   EventsDocument,
   OrganizationDocument,
@@ -25,7 +26,6 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
-  TEST_NOCACHE_TIME,
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
