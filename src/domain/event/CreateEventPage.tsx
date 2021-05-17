@@ -328,11 +328,9 @@ const CreateEventPageWrapper: React.FC = () => {
   const loading = loadingEventFieldOptions || loadingUser;
 
   return (
-    <NocacheContextProvider>
-      <LoadingSpinner isLoading={loading}>
-        <CreateEventPage />
-      </LoadingSpinner>
-    </NocacheContextProvider>
+    <LoadingSpinner isLoading={loading}>
+      <CreateEventPage />
+    </LoadingSpinner>
   );
 };
 

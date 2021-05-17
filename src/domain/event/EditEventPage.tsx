@@ -427,17 +427,13 @@ const EditEventPageWrapper: React.FC = () => {
     loadingEvent || loadingEventFieldOptions || debouncedLoadingUser;
 
   return (
-    <NocacheContextProvider>
-      <LoadingSpinner isLoading={loading}>
-        {eventData?.event ? (
-          <EditEventPage event={eventData.event} refetch={refetch} />
-        ) : (
-          <NotFound
-            pathAfterSignIn={`${location.pathname}${location.search}`}
-          />
-        )}
-      </LoadingSpinner>
-    </NocacheContextProvider>
+    <LoadingSpinner isLoading={loading}>
+      {eventData?.event ? (
+        <EditEventPage event={eventData.event} refetch={refetch} />
+      ) : (
+        <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
+      )}
+    </LoadingSpinner>
   );
 };
 

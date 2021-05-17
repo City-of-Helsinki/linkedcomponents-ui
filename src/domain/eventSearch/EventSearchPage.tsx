@@ -13,23 +13,21 @@ const EventSearchPage: React.FC = () => {
   const variables = getEventsQueryVariables(location.search);
 
   return (
-    <NocacheContextProvider>
-      <PageWrapper
-        description="eventSearchPage.pageDescription"
-        keywords={[
-          'keywords.search',
-          'keywords.filter',
-          'keywords.date',
-          'keywords.place',
-        ]}
-        title="eventSearchPage.pageTitle"
-      >
-        <MainContent>
-          <SearchPanel />
-          <EventList baseVariables={variables} />
-        </MainContent>
-      </PageWrapper>
-    </NocacheContextProvider>
+    <PageWrapper
+      description="eventSearchPage.pageDescription"
+      keywords={[
+        'keywords.search',
+        'keywords.filter',
+        'keywords.date',
+        'keywords.place',
+      ]}
+      title="eventSearchPage.pageTitle"
+    >
+      <MainContent>
+        <SearchPanel />
+        <EventList baseVariables={variables} />
+      </MainContent>
+    </PageWrapper>
   );
 };
 

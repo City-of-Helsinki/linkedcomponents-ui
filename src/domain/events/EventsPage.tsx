@@ -184,20 +184,18 @@ const EventsPageWrapper: React.FC = () => {
   const { loading: loadingUser, user } = useUser();
 
   return (
-    <NocacheContextProvider>
-      <PageWrapper
-        backgroundColor={user ? 'gray' : 'white'}
-        description="eventsPage.pageDescription"
-        keywords={['keywords.myListing', 'keywords.edit', 'keywords.update']}
-        title="eventsPage.pageTitle"
-      >
-        <MainContent>
-          <LoadingSpinner isLoading={loadingUser}>
-            {user ? <EventsPage user={user} /> : <NotSigned />}
-          </LoadingSpinner>
-        </MainContent>
-      </PageWrapper>
-    </NocacheContextProvider>
+    <PageWrapper
+      backgroundColor={user ? 'gray' : 'white'}
+      description="eventsPage.pageDescription"
+      keywords={['keywords.myListing', 'keywords.edit', 'keywords.update']}
+      title="eventsPage.pageTitle"
+    >
+      <MainContent>
+        <LoadingSpinner isLoading={loadingUser}>
+          {user ? <EventsPage user={user} /> : <NotSigned />}
+        </LoadingSpinner>
+      </MainContent>
+    </PageWrapper>
   );
 };
 
