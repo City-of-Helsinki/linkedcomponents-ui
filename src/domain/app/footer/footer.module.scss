@@ -1,24 +1,25 @@
 .footer {
-  max-width: 100vw;
+  display: grid;
   line-height: var(--lineheight-l);
 
-   & > div:first-child {
-     height: 15px;
-   }
+  & > div:first-child {
+    height: 15px;
+  }
 
-   a, button {
-     &:focus:not(:global(.focus-visible))::after {
+  a,
+  button {
+    &:focus:not(:global(.focus-visible))::after {
       --footer-focus-outline-color: transparent;
-     }
-   }
+    }
+  }
 
-   &.themeSupport {
+  &.themeSupport {
     --footer-background: var(--footer-background-support);
     --footer-color: var(--footer-color-support);
     --footer-divider-color: var(--footer-divider-color-support);
     --footer-focus-outline-color: var(--footer-focus-outline-color-support);
 
-     & > div:first-child {
+    & > div:first-child {
       height: 0;
     }
   }

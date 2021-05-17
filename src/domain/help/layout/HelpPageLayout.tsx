@@ -160,12 +160,7 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
       <Container>
         <div className={styles.helpPageLayout}>
           <div className={styles.sideNavigation}>
-            <div
-              style={{
-                maxHeight: `calc(100vh - ${sideNavigationTop}px)`,
-                top: sideNavigationTop,
-              }}
-            >
+            <div style={{ top: sideNavigationTop }}>
               <SideNavigation
                 toggleButtonLabel={t(
                   'helpPage.sideNavigation.toggleButtonLabel'
