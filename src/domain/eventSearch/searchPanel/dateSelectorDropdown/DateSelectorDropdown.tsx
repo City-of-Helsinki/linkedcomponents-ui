@@ -33,7 +33,7 @@ const DateSelectorDropdown: React.FC<DateSelectorProps> = ({
   value,
 }) => {
   const { endDate, startDate } = value;
-  const id = _id || uniqueId('date-selector-');
+  const id = React.useRef<string>(_id || uniqueId('date-selector-')).current;
   const menuId = `${id}-menu`;
   const toggleButtonId = `${id}-toggle-button`;
   const { t } = useTranslation();

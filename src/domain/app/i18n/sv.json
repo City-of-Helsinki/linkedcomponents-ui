@@ -8,6 +8,13 @@
     },
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang."
   },
+  "authenticationMethod": {
+    "espooEmployee": "Stad Esbo anställd ID",
+    "helsinki": "Helsinki-ID",
+    "helsinkiEmployee": "Stad Helsinki anställd ID",
+    "some": "Facebook, Google eller Twitter ID",
+    "yle": "YLE ID"
+  },
   "common": {
     "add": "Lägg till",
     "and": "och",
@@ -911,15 +918,47 @@
   "helpPage": {
     "contactPage": {
       "buttonSend": "Skicka",
+      "labelBody": "Meddelande",
       "labelEmail": "E-postadress",
-      "labelFeedback": "Respons",
-      "labelName": "Name",
+      "labelName": "Namn",
+      "labelSubject": "Rubrik",
+      "labelTopic": "Kontaktämne",
       "pageDescription": "Skicka en felrapport eller funktionsförfrågan. Eller skicka oss lite feedback om tjänsten.",
       "pageTitle": "Ta kontakt",
+      "placeholderBody": "Ange ditt meddelande",
       "placeholderEmail": "Skriv in din e-postadress",
-      "placeholderFeedback": "Ange respons",
-      "placeholderName": "Enter name",
-      "text": "Kontakta oss med hjälp av formuläret nedan."
+      "placeholderName": "Ange ditt för- och efternamn eller smeknamn",
+      "placeholderSubject": "Ange rubrik",
+      "placeholderTopic": "Välj ett kontaktämne",
+      "textSuccess": "Ditt meddelande har skickats. Vi kontaktar dig snart!",
+      "titleContactInfo": "Kontaktinformation",
+      "titleMessage": "Meddelande",
+      "titleSuccess": "Tack för att du kontaktar oss.",
+      "titleSuggestedTopics": "Föreslagna ämnen",
+      "topics": {
+        "eventForm": "Problem med evenemangformuläret",
+        "featureRequest": "Funktionsbegäran",
+        "general": "Allmän feedback",
+        "other": "Annat ämne",
+        "permissions": "Tillståndsproblem"
+      }
+    },
+    "faq": {
+      "textAddingEvents1": "Du måste logga in på tjänsten först. För att göra detta behöver jag något av följande:",
+      "textAddingEvents2": "När du är inloggad kan du <a href={{controlPanelUrl}}>lägga till evenemang</a>, men du kan inte publicera dem ännu. Kontakta oss med hjälp av <a href={{contactUrl}}>kontaktformuläret</a> och berätta vilken organisation du behöver publiceringsrättigheter för.",
+      "textAddingToOwnProjects": "Ja. Gränssnittet för Linked Events är offentligt och öppet för alla. Dess användning är också tillåten i kommersiella tjänster i <a href={{termsOfServiceUrl}}>enlighet med villkoren</a>.",
+      "textEventFormNotWorking": "Se till att du använder en av dessa moderna webbläsare (Chrome, Firefox, Opera eller Safari). Andra alternativ för att åtgärda oväntade fel är att rensa webbläsarens cache eller starta om webbläsaren.",
+      "textEventNotShown": "Evenemang listas alltid enligt olika sökkriterier. Om inga sökkriterier anges, returnerar gränssnittet framtida evenemang inom vald basorganisation med ett evenemangstyp av \"event\". Som ett resultat visas till exempel kurser inte i sökresultaten om de inte specifikt definierats. Kontrollera också att evenemanget du lade till har publicerats och att datumet är i framtiden.",
+      "textImageRights": "Du måste ha rättigheter till bilden du laddade upp. Se avsnitt: <a href={{controlPanelUrl}}>bifoga en bild till evenemang</a>.",
+      "textPublishingPermission": "Du kan begära behörighetsrättigheter för att lägga till händelser i din organisation från oss. Kom ihåg att lägga till detaljerad information om din roll i organisationen.",
+      "textSlowRequests": "Kontrollera först sökkriterierna för att bara hitta den information du behöver för din tjänst. Vi rekommenderar också att du förvarar informationen i din egen tjänst, i vilket fall du bara behöver hämta den ändrade eller tillagda informationen från gränssnittet för Linked Events.",
+      "titleAddingEvents": "Hur anger jag evenemang i Linked Events?",
+      "titleAddingToOwnProjects": "Kan gränssnittet för Linked Events användas för mina egna projekt?",
+      "titleEventFormNotWorking": "Evenemangsformuläret fungerar inte som förväntat, vad kan jag göra?",
+      "titleEventNotShown": "Evenemangen jag lade till visas inte på tjänsten, var är felet?",
+      "titleImageRights": "Kan jag lägga till vilka bilder som helst till evenemang?",
+      "titlePublishingPermission": "Vem har rätt att lägga till nya offentliga evenemang?",
+      "titleSlowRequests": "Gränssnittssökningar är långsamma, hur gör jag dem snabbare?"
     },
     "pageDescriptionApi": "Mer information om API (application protocol interface) för Linked Events.",
     "pageDescriptionControlPanel": "Hur man använder kontrollpanelen och administrationsfunktioner på Linked Events.",

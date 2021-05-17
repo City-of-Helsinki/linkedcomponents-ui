@@ -90,6 +90,7 @@ import {
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
   EVENT_INITIAL_VALUES,
+  EVENT_SELECT_FIELDS,
   EVENT_TIME_FIELDS,
   EVENT_TYPE,
   IMAGE_ALT_TEXT_MIN_LENGTH,
@@ -99,7 +100,6 @@ import {
   NOT_ALLOWED_WHEN_IN_PAST,
   ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
-  SELECT_FIELDS,
   TEXT_EDITOR_ALLOWED_TAGS,
   TEXT_EDITOR_FIELDS,
   VIDEO_DETAILS_FIELDS,
@@ -1222,7 +1222,7 @@ const getFocusableFieldId = (
   type: 'default' | 'checkboxGroup' | 'eventTimes' | 'select' | 'textEditor';
 } => {
   // For the select elements, focus the toggle button
-  if (SELECT_FIELDS.find((item) => item === fieldName)) {
+  if (EVENT_SELECT_FIELDS.find((item) => item === fieldName)) {
     return { fieldId: `${fieldName}-input`, type: 'select' };
   } else if (TEXT_EDITOR_FIELDS.find((item) => fieldName.startsWith(item))) {
     return { fieldId: `${fieldName}-text-editor`, type: 'textEditor' };
@@ -1245,7 +1245,7 @@ export const scrollToFirstError = ({
   setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
 }): void => {
   forEach(error.inner, (e) => {
-    const path = e.path ?? '';
+    const path = e.path ?? /* istanbul ignore next */ '';
     const descriptionField = DESCRIPTION_SECTION_FIELDS.find((field) =>
       path.startsWith(field)
     );
@@ -1290,6 +1290,9 @@ export const scrollToFirstError = ({
   });
 };
 
+// This functions sets formik errors and touched values correctly after validation.
+// The reason for this is to show all errors after validating the form.
+// Errors are shown only for touched fields so set all fields with error touched
 export const showErrors = ({
   descriptionLanguage,
   error,
@@ -1308,13 +1311,14 @@ export const showErrors = ({
 }): void => {
   /* istanbul ignore else */
   if (error.name === 'ValidationError') {
-    const path = error.path ?? '';
     const newErrors = error.inner.reduce(
-      (acc, e: Yup.ValidationError) => set(acc, path, e.errors[0]),
+      (acc, e: Yup.ValidationError) =>
+        set(acc, e.path ?? /* istanbul ignore next */ '', e.errors[0]),
       {}
     );
     const touchedFields = error.inner.reduce(
-      (acc, e: Yup.ValidationError) => set(acc, path, true),
+      (acc, e: Yup.ValidationError) =>
+        set(acc, e.path ?? /* istanbul ignore next */ '', true),
       {}
     );
 
@@ -1424,7 +1428,7 @@ export const getOrganizationAncestors = async ({
     });
 
     return data.organizations.data as OrganizationFieldsFragment[];
-  } catch (e) {
+  } catch (e) /* istanbul ignore next */ {
     return [];
   }
 };

@@ -195,7 +195,8 @@ it('should render FAQ help page in Finnish', async () => {
   expect(history.location.pathname).toBe('/fi/help/instructions/faq');
 });
 
-it('should render FAQ help page in Swedish', async () => {
+// Add this when Swedish is supported
+it.skip('should render FAQ help page in Swedish', async () => {
   i18n.changeLanguage('sv');
   const { history } = renderRoute(ROUTES.INSTRUCTIONS_FAQ, 'sv');
 

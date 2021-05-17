@@ -8,6 +8,13 @@
     },
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia."
   },
+  "authenticationMethod": {
+    "espooEmployee": "Espoon kaupungin työntekijä -tunnus",
+    "helsinki": "Helsinki-tunnus",
+    "helsinkiEmployee": "Helsingin kaupungin työntekijä -tunnus",
+    "some": "Facebook, Google tai Twitter tunnus",
+    "yle": "YLE-tunnus"
+  },
   "common": {
     "add": "Lisää",
     "and": "ja",
@@ -912,15 +919,47 @@
   "helpPage": {
     "contactPage": {
       "buttonSend": "Lähetä",
-      "labelEmail": "Sähköposti",
-      "labelFeedback": "Palaute/asia",
+      "labelBody": "Viesti",
+      "labelEmail": "Sähköpostiosoite",
       "labelName": "Nimi",
+      "labelSubject": "Otsikko",
+      "labelTopic": "Yhteydenoton aihe",
       "pageDescription": "Lähetä virheraportti tai ominaisuuspyyntö. Tai lähetä meille palautetta palvelusta.",
       "pageTitle": "Ota yhteyttä",
+      "placeholderBody": "Syötä viestisi",
       "placeholderEmail": "Syötä sähköposti",
-      "placeholderFeedback": "Syötä palaute/asia",
-      "placeholderName": "Syötä nimi",
-      "text": "Ota yhteyttä meihin alla olevalla lomakkeella."
+      "placeholderName": "Syötä etu- ja sukunimi tai nimimerkki",
+      "placeholderSubject": "Syötä yhteydenottoa kuvaileva otsikko",
+      "placeholderTopic": "Valitse yhteydenoton aihe",
+      "textSuccess": "Viestisi on lähetetty. Otamme sinuun yhteyttä pian!",
+      "titleContactInfo": "Yhteystiedot",
+      "titleMessage": "Viesti",
+      "titleSuccess": "Kiitos yhteydenotostasi.",
+      "titleSuggestedTopics": "Ehdotetut aiheet",
+      "topics": {
+        "eventForm": "Ongelma syöttölomakkeessa",
+        "featureRequest": "Ominaisuustoive",
+        "general": "Yleinen palaute",
+        "other": "Muu asia ",
+        "permissions": "Käyttöoikeudet"
+      }
+    },
+    "faq": {
+      "textAddingEvents1": "Sinun tulee kirjautua palveluun ensin. Tähän tarvitsen jonkun seuraavista:",
+      "textAddingEvents2": "Kun olet kirjautunut, voit <a href={{controlPanelUrl}}>lisätä tapahtumia</a>, mutta et voi vielä julkaista niitä. Ota yhteyttä meihin <a href={{contactUrl}}>yhteydenottolomakkeella</a> ja kerro mihin organisaatioon tarvitset julkaisuoikeudet.",
+      "textAddingToOwnProjects": "Kyllä. Linked Events rajapinta on julkinen ja avoin kaikille. Sen käyttö on sallittu <a href={{termsOfServiceUrl}}>käyttöehtojen mukaisesti</a> myös kaupallisissa palveluissa.",
+      "textEventFormNotWorking": "Tarkista, että käytössäsi on jokin seuraavista verkkoselaimista (Chrome, Firefox, Opera tai Safari). Myös välimuistin tyhjentäminen tai selaimen uudelleenkäynnistys voi auttaa.",
+      "textEventNotShown": "Tapahtumat listataan aina eri hakuehtojen mukaan. Jos hakuehtoja ei ole määritelty, niin rajapinta palauttaa valitun pohja-organisaation sisällä olevat tulevat tapahtumat, joiden tapahtumatyyppi on “event”. Tästä johtuen esimerkiksi kurssit, eivät tule hakutuloksiin jos sitä ei ole erikseen määritelty. Tarkista myös, että lisäämäsi tapahtuma on julkaistu, ja että sen ajankohta on tulevaisuudessa.",
+      "textImageRights": "Sinulla tulee olla oikeudet lataamaasi kuvaan. Katso kohta: <a href={{controlPanelUrl}}>kuvan liittäminen tapahtumiin</a>.",
+      "textPublishingPermission": "Voit pyytää oikeudet edustamaasi organisaatioon meiltä. Lisää viestiin mahdollisimman tarkka kuvaus roolistasi organisaatiossa.",
+      "textSlowRequests": "Tarkista ensin hakuehdot, että haet vain ne tiedot mitä palveluusi tarvitset. Suosittelemme myös tiedon säilyttämistä omassa palvelussa, jolloin Linked Events rajapinnasta tarvitsee hakea vain muuttuneet tai lisätyt tiedot.",
+      "titleAddingEvents": "Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?",
+      "titleAddingToOwnProjects": "Saako Linked Events-rajapintaa käyttää omiin projekteihin?",
+      "titleEventFormNotWorking": "Syöttölomake ei toimi odotetulla tavalla, mitä voin tehdä?",
+      "titleEventNotShown": "Lisäämäni tapahtuma ei näy palvelussa, missä vika?",
+      "titleImageRights": "Voinko lisätä mitä tahansa kuvia tapahtumiin?",
+      "titlePublishingPermission": "Kenellä on oikeus lisätä julkisia tapahtumia?",
+      "titleSlowRequests": "Rajapinnan haut on hitaita, miten saan ne nopeammaksi?"
     },
     "pageDescriptionApi": "Lisätietoja Linked Eventsin API: sta (application protocol interface).",
     "pageDescriptionControlPanel": "Ohjauspaneelin ja Linked Eventsin järjestelmänvalvojan ominaisuuksien käyttäminen.",

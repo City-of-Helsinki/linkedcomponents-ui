@@ -132,8 +132,8 @@ const EventList: React.FC<EventListProps> = ({
 
 const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   const { baseVariables, className, listType, setListType, skip } = props;
+  const eventListId = React.useRef<string>(uniqueId('event-list-')).current;
   const { nocache } = useNocacheContext();
-  const eventListId = uniqueId('event-list-');
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation<EventsLocationState>();

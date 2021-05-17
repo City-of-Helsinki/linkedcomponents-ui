@@ -30,7 +30,7 @@ const MainLevel: FCWithName<MainLevelProps> = ({
   style,
   to,
 }) => {
-  const id = _id ?? uniqueId('side-navigation-');
+  const id = React.useRef<string>(_id || uniqueId('main-level-')).current;
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
   const { openMainLevels, setIsMobileMenuOpen, setOpenMainLevels } = useContext(

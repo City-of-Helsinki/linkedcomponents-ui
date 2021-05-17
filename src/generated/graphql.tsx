@@ -21,6 +21,8 @@ export type Mutation = {
   createEvent: Event;
   createEvents: Array<Event>;
   deleteEvent?: Maybe<NoContent>;
+  postFeedback?: Maybe<Feedback>;
+  postGuestFeedback?: Maybe<Feedback>;
   updateEvent: Event;
   updateEvents: Array<Event>;
   updateImage: Image;
@@ -40,6 +42,16 @@ export type MutationCreateEventsArgs = {
 
 export type MutationDeleteEventArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationPostFeedbackArgs = {
+  input: FeedbackInput;
+};
+
+
+export type MutationPostGuestFeedbackArgs = {
+  input: FeedbackInput;
 };
 
 
@@ -230,6 +242,13 @@ export type ExternalLinkInput = {
   language?: Maybe<Scalars['String']>;
 };
 
+export type FeedbackInput = {
+  name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['String']>;
+};
+
 export type IdObjectInput = {
   atId: Scalars['String'];
 };
@@ -342,6 +361,15 @@ export type EventsResponse = {
   __typename?: 'EventsResponse';
   meta: Meta;
   data: Array<Maybe<Event>>;
+};
+
+export type Feedback = {
+  __typename?: 'Feedback';
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['String']>;
 };
 
 export type ImagesResponse = {
@@ -844,6 +872,37 @@ export type EventsQuery = (
       & EventFieldsFragment
     )>> }
   ) }
+);
+
+export type PostFeedbackMutationVariables = Exact<{
+  input: FeedbackInput;
+}>;
+
+
+export type PostFeedbackMutation = (
+  { __typename?: 'Mutation' }
+  & { postFeedback?: Maybe<(
+    { __typename?: 'Feedback' }
+    & FeedbackFieldsFragment
+  )> }
+);
+
+export type PostGuestFeedbackMutationVariables = Exact<{
+  input: FeedbackInput;
+}>;
+
+
+export type PostGuestFeedbackMutation = (
+  { __typename?: 'Mutation' }
+  & { postGuestFeedback?: Maybe<(
+    { __typename?: 'Feedback' }
+    & FeedbackFieldsFragment
+  )> }
+);
+
+export type FeedbackFieldsFragment = (
+  { __typename?: 'Feedback' }
+  & Pick<Feedback, 'id' | 'name' | 'email' | 'subject' | 'body'>
 );
 
 export type LocalisedFieldsFragment = (
@@ -1390,6 +1449,15 @@ export const EventFieldsFragmentDoc = gql`
   }
 }
     ${BaseEventFieldsFragmentDoc}`;
+export const FeedbackFieldsFragmentDoc = gql`
+    fragment feedbackFields on Feedback {
+  id
+  name
+  email
+  subject
+  body
+}
+    `;
 export const MetaFieldsFragmentDoc = gql`
     fragment metaFields on Meta {
   count
@@ -1720,6 +1788,70 @@ export function useEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Eve
 export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
 export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
 export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
+export const PostFeedbackDocument = gql`
+    mutation PostFeedback($input: FeedbackInput!) {
+  postFeedback(input: $input) @rest(type: "Feedback", path: "/feedback/", method: "POST", bodyKey: "input") {
+    ...feedbackFields
+  }
+}
+    ${FeedbackFieldsFragmentDoc}`;
+export type PostFeedbackMutationFn = Apollo.MutationFunction<PostFeedbackMutation, PostFeedbackMutationVariables>;
+
+/**
+ * __usePostFeedbackMutation__
+ *
+ * To run a mutation, you first call `usePostFeedbackMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePostFeedbackMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [postFeedbackMutation, { data, loading, error }] = usePostFeedbackMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function usePostFeedbackMutation(baseOptions?: Apollo.MutationHookOptions<PostFeedbackMutation, PostFeedbackMutationVariables>) {
+        return Apollo.useMutation<PostFeedbackMutation, PostFeedbackMutationVariables>(PostFeedbackDocument, baseOptions);
+      }
+export type PostFeedbackMutationHookResult = ReturnType<typeof usePostFeedbackMutation>;
+export type PostFeedbackMutationResult = Apollo.MutationResult<PostFeedbackMutation>;
+export type PostFeedbackMutationOptions = Apollo.BaseMutationOptions<PostFeedbackMutation, PostFeedbackMutationVariables>;
+export const PostGuestFeedbackDocument = gql`
+    mutation PostGuestFeedback($input: FeedbackInput!) {
+  postGuestFeedback(input: $input) @rest(type: "Feedback", path: "/guest-feedback/", method: "POST", bodyKey: "input") {
+    ...feedbackFields
+  }
+}
+    ${FeedbackFieldsFragmentDoc}`;
+export type PostGuestFeedbackMutationFn = Apollo.MutationFunction<PostGuestFeedbackMutation, PostGuestFeedbackMutationVariables>;
+
+/**
+ * __usePostGuestFeedbackMutation__
+ *
+ * To run a mutation, you first call `usePostGuestFeedbackMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePostGuestFeedbackMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [postGuestFeedbackMutation, { data, loading, error }] = usePostGuestFeedbackMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function usePostGuestFeedbackMutation(baseOptions?: Apollo.MutationHookOptions<PostGuestFeedbackMutation, PostGuestFeedbackMutationVariables>) {
+        return Apollo.useMutation<PostGuestFeedbackMutation, PostGuestFeedbackMutationVariables>(PostGuestFeedbackDocument, baseOptions);
+      }
+export type PostGuestFeedbackMutationHookResult = ReturnType<typeof usePostGuestFeedbackMutation>;
+export type PostGuestFeedbackMutationResult = Apollo.MutationResult<PostGuestFeedbackMutation>;
+export type PostGuestFeedbackMutationOptions = Apollo.BaseMutationOptions<PostGuestFeedbackMutation, PostGuestFeedbackMutationVariables>;
 export const UpdateImageDocument = gql`
     mutation UpdateImage($input: UpdateImageMutationInput!) {
   updateImage(input: $input) @rest(type: "Image", path: "/image/{args.input.id}/", method: "PUT", bodyKey: "input") {

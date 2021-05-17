@@ -92,7 +92,7 @@ export const clearEventsQueries = (
 ): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
 
-/* instanbul ignore next */
+/* istanbul ignore next */
 export const clearEventQuery = (
   apolloClient: ApolloClient<InMemoryCache>,
   eventId: string
