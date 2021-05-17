@@ -2,6 +2,7 @@ import { clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -118,7 +119,7 @@ test('should call setRecurringEvents when deleting a single event time', async (
   const deleteButton = screen.getByRole('button', {
     name: 'Poista',
   });
-  userEvent.click(deleteButton);
+  act(() => userEvent.click(deleteButton));
 
   expect(setRecurringEvents).toBeCalledWith([
     {

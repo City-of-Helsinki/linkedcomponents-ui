@@ -1,6 +1,7 @@
 import React from 'react';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { useNocacheContext } from '../../../common/components/nocache/NocacheContext';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
@@ -26,11 +27,13 @@ const SubEvents: React.FC<SubEventsProps> = ({
   level,
   toggle,
 }) => {
+  const { nocache } = useNocacheContext();
   const locale = useLocale();
   const { id, subEventAtIds } = getEventFields(event, locale);
   const open = !closedIds.includes(id);
 
   const { subEvents, loading } = useSubEvents({
+    nocache,
     skip: !subEventAtIds.length,
     superEventId: id,
     variableOverrides: {

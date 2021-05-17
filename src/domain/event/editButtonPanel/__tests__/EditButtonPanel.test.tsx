@@ -6,6 +6,7 @@ import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   render,
@@ -147,7 +148,7 @@ test('should render correct buttons for draft event', async () => {
   getElement('copy');
 
   const deleteButton = await findElement('delete');
-  userEvent.click(deleteButton);
+  act(() => userEvent.click(deleteButton));
   expect(onDelete).toBeCalled();
 
   const updateButton = getElement('updateDraft');
@@ -207,19 +208,19 @@ test('should render correct buttons for public event', async () => {
   getElement('copy');
 
   const postponeButton = await findElement('postpone');
-  userEvent.click(postponeButton);
+  act(() => userEvent.click(postponeButton));
   expect(onPostpone).toBeCalled();
 
   openMenu();
 
   const cancelButton = getElement('cancel');
-  userEvent.click(cancelButton);
+  act(() => userEvent.click(cancelButton));
   expect(onCancel).toBeCalled();
 
   openMenu();
 
   const deleteButton = getElement('delete');
-  userEvent.click(deleteButton);
+  act(() => userEvent.click(deleteButton));
   expect(onDelete).toBeCalled();
 
   const updateButton = getElement('updatePublic');
@@ -281,7 +282,7 @@ test('should route to create event page when clicking copy button', async () => 
   openMenu();
 
   const copyButton = getElement('copy');
-  userEvent.click(copyButton);
+  act(() => userEvent.click(copyButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/events/create')

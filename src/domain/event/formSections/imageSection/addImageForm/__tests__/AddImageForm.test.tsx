@@ -15,6 +15,7 @@ import {
 } from '../../../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   render,
@@ -133,9 +134,9 @@ test('should call onCancel', async () => {
   renderComponent({ props: { onCancel } });
 
   await findElement('imageCheckbox');
-  const cancelButton = getElement('cancelButton');
 
-  userEvent.click(cancelButton);
+  const cancelButton = getElement('cancelButton');
+  act(() => userEvent.click(cancelButton));
   await waitFor(() => expect(onCancel).toBeCalled());
 });
 
@@ -149,11 +150,11 @@ test('should call onSubmit with existing image', async () => {
 
   await waitFor(() => expect(urlInput).toBeEnabled());
 
-  userEvent.click(imageCheckbox);
+  act(() => userEvent.click(imageCheckbox));
   expect(urlInput).toBeDisabled();
   await waitFor(() => expect(addButton).toBeEnabled());
 
-  userEvent.click(addButton);
+  act(() => userEvent.click(addButton));
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       selectedImage: [images.data[0].atId],
@@ -189,12 +190,12 @@ test('should validate url', async () => {
   const addButton = getElement('addButton');
 
   await waitFor(() => expect(urlInput).toBeEnabled());
+  act(() => userEvent.click(urlInput));
   userEvent.type(urlInput, invalidUrlText);
 
-  userEvent.tab();
+  act(() => userEvent.tab());
 
   await screen.findByText(translations.form.validation.string.url);
-
   expect(addButton).toBeDisabled();
 });
 
@@ -242,11 +243,12 @@ test('should call onSubmit with image url', async () => {
   expect(addButton).toBeDisabled();
   await waitFor(() => expect(urlInput).toBeEnabled());
 
+  act(() => userEvent.click(urlInput));
   userEvent.type(urlInput, url);
   expect(imageCheckbox).toBeDisabled();
-  await waitFor(() => expect(addButton).toBeEnabled());
 
-  userEvent.click(addButton);
+  await waitFor(() => expect(addButton).toBeEnabled());
+  act(() => userEvent.click(addButton));
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       selectedImage: [],

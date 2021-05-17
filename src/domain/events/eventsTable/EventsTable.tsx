@@ -42,7 +42,10 @@ const EventsTable: React.FC<EventsTableProps> = ({
   const isComponentFocused = useIsComponentFocused(table);
 
   const onDocumentFocusin = () => {
-    setFocused(isComponentFocused());
+    const isFocused = isComponentFocused();
+    if (isFocused !== focused) {
+      setFocused(isFocused);
+    }
   };
 
   React.useEffect(() => {

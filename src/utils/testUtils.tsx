@@ -38,25 +38,25 @@ type CustomRender = {
 
 type CustomRenderResult = RenderResult & { history: History };
 
-export const arrowUpKeyPressHelper = (el?: HTMLElement): boolean =>
+const arrowUpKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 38, key: 'ArrowUp' });
 
-export const arrowDownKeyPressHelper = (el?: HTMLElement): boolean =>
+const arrowDownKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 40, key: 'ArrowDown' });
 
-export const arrowLeftKeyPressHelper = (el?: HTMLElement): boolean =>
+const arrowLeftKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 38, key: 'ArrowLeft' });
 
-export const arrowRightKeyPressHelper = (el?: HTMLElement): boolean =>
+const arrowRightKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 38, key: 'ArrowRight' });
 
-export const enterKeyPressHelper = (el?: HTMLElement): boolean =>
+const enterKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 13, key: 'Enter' });
 
-export const escKeyPressHelper = (el?: HTMLElement): boolean =>
+const escKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 27, key: 'Escape' });
 
-export const tabKeyPressHelper = (el?: HTMLElement): boolean =>
+const tabKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 9, key: 'Tab' });
 
 const customRender: CustomRender = (
@@ -90,7 +90,7 @@ type MockFileArgs = {
   type?: string;
 };
 
-export const mockFile = ({
+const mockFile = ({
   name = 'testfile.png',
   size = 0,
   type = 'image/png',
@@ -135,7 +135,7 @@ const renderWithRoute: CustomRender = (
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const getMockReduxStore = (initialState: StoreState = defaultStoreState) => {
   const middlewares = [thunk];
-  return configureMockStore(middlewares)(initialState);
+  return configureMockStore<StoreState>(middlewares)(initialState);
 };
 
 type PasteEvent = {
@@ -174,12 +174,20 @@ const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
 
 export {
   actWait,
+  arrowDownKeyPressHelper,
+  arrowLeftKeyPressHelper,
+  arrowRightKeyPressHelper,
+  arrowUpKeyPressHelper,
   createPasteEvent,
+  enterKeyPressHelper,
+  escKeyPressHelper,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
+  mockFile,
   pasteToTextEditor,
   customRender as render,
   renderWithRoute,
+  tabKeyPressHelper,
 };
 
 // re-export everything

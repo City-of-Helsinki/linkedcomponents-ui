@@ -89,6 +89,7 @@ export type Query = {
 export type QueryEventArgs = {
   id?: Maybe<Scalars['ID']>;
   include?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nocache?: Maybe<Scalars['Int']>;
 };
 
 
@@ -109,6 +110,7 @@ export type QueryEventsArgs = {
   keywordNot?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
   location?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nocache?: Maybe<Scalars['Int']>;
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   publicationStatus?: Maybe<PublicationStatus>;
@@ -782,6 +784,7 @@ export type EventFieldsFragment = (
 export type EventQueryVariables = Exact<{
   id: Scalars['ID'];
   include?: Maybe<Array<Maybe<Scalars['String']>> | Maybe<Scalars['String']>>;
+  nocache?: Maybe<Scalars['Int']>;
   createPath?: Maybe<Scalars['Any']>;
 }>;
 
@@ -811,6 +814,7 @@ export type EventsQueryVariables = Exact<{
   keywordNot?: Maybe<Array<Maybe<Scalars['String']>> | Maybe<Scalars['String']>>;
   language?: Maybe<Scalars['String']>;
   location?: Maybe<Array<Maybe<Scalars['String']>> | Maybe<Scalars['String']>>;
+  nocache?: Maybe<Scalars['Int']>;
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
   publicationStatus?: Maybe<PublicationStatus>;
@@ -1608,8 +1612,8 @@ export type UpdateEventsMutationHookResult = ReturnType<typeof useUpdateEventsMu
 export type UpdateEventsMutationResult = Apollo.MutationResult<UpdateEventsMutation>;
 export type UpdateEventsMutationOptions = Apollo.BaseMutationOptions<UpdateEventsMutation, UpdateEventsMutationVariables>;
 export const EventDocument = gql`
-    query Event($id: ID!, $include: [String], $createPath: Any) {
-  event(id: $id, include: $include) @rest(type: "Event", pathBuilder: $createPath) {
+    query Event($id: ID!, $include: [String], $nocache: Int, $createPath: Any) {
+  event(id: $id, include: $include, nocache: $nocache) @rest(type: "Event", pathBuilder: $createPath) {
     ...eventFields
   }
 }
@@ -1629,6 +1633,7 @@ export const EventDocument = gql`
  *   variables: {
  *      id: // value for 'id'
  *      include: // value for 'include'
+ *      nocache: // value for 'nocache'
  *      createPath: // value for 'createPath'
  *   },
  * });
@@ -1645,8 +1650,8 @@ export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
-    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $eventType: [EventTypeId], $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
-  events(adminUser: $adminUser, createdBy: $createdBy, combinedText: $combinedText, division: $division, end: $end, endsAfter: $endsAfter, endsBefore: $endsBefore, eventType: $eventType, include: $include, inLanguage: $inLanguage, isFree: $isFree, keyword: $keyword, keywordAnd: $keywordAnd, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publicationStatus: $publicationStatus, publisher: $publisher, showAll: $showAll, sort: $sort, start: $start, startsAfter: $startsAfter, startsBefore: $startsBefore, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) @rest(type: "EventsResponse", pathBuilder: $createPath) {
+    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $eventType: [EventTypeId], $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $nocache: Int, $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
+  events(adminUser: $adminUser, createdBy: $createdBy, combinedText: $combinedText, division: $division, end: $end, endsAfter: $endsAfter, endsBefore: $endsBefore, eventType: $eventType, include: $include, inLanguage: $inLanguage, isFree: $isFree, keyword: $keyword, keywordAnd: $keywordAnd, keywordNot: $keywordNot, language: $language, location: $location, nocache: $nocache, page: $page, pageSize: $pageSize, publicationStatus: $publicationStatus, publisher: $publisher, showAll: $showAll, sort: $sort, start: $start, startsAfter: $startsAfter, startsBefore: $startsBefore, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) @rest(type: "EventsResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -1686,6 +1691,7 @@ ${EventFieldsFragmentDoc}`;
  *      keywordNot: // value for 'keywordNot'
  *      language: // value for 'language'
  *      location: // value for 'location'
+ *      nocache: // value for 'nocache'
  *      page: // value for 'page'
  *      pageSize: // value for 'pageSize'
  *      publicationStatus: // value for 'publicationStatus'

@@ -6,6 +6,7 @@ import { useHistory, useLocation } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { useNocacheContext } from '../../common/components/nocache/NocacheContext';
 import TabPanel from '../../common/components/tabs/TabPanel';
 import Tabs from '../../common/components/tabs/Tabs';
 import { ROUTES } from '../../constants';
@@ -32,6 +33,7 @@ interface Props {
 }
 
 const EventsPage: React.FC<Props> = ({ user }) => {
+  const { nocache } = useNocacheContext();
   const dispatch = useDispatch();
   const activeTab = useSelector(eventListTabSelector);
   const listType = useSelector(eventListTypeSelector);
@@ -54,7 +56,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 
   const { data: waitingApprovalEventsData } = useEventsQuery({
     skip: waitingApprovalSkip,
-    variables: waitingApprovalVariables,
+    variables: { ...waitingApprovalVariables, nocache },
   });
 
   const { skip: publishedSkip, variables: publishedVariables } =
@@ -62,7 +64,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 
   const { data: publishedEventsData } = useEventsQuery({
     skip: publishedSkip,
-    variables: publishedVariables,
+    variables: { ...publishedVariables, nocache },
   });
 
   const { skip: draftsSkip, variables: draftsVariables } =
@@ -70,7 +72,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 
   const { data: draftEventsData } = useEventsQuery({
     skip: draftsSkip,
-    variables: draftsVariables,
+    variables: { ...draftsVariables, nocache },
   });
 
   const tabOptions = [

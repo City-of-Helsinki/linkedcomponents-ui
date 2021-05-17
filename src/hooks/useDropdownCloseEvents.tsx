@@ -2,10 +2,15 @@ import React from 'react';
 
 interface Props {
   container: React.MutableRefObject<HTMLDivElement | null>;
+  isMenuOpen: boolean;
   setIsMenuOpen: (isOpen: boolean) => void;
 }
 
-const useDropdownCloseEvents = ({ container, setIsMenuOpen }: Props): void => {
+const useDropdownCloseEvents = ({
+  container,
+  isMenuOpen,
+  setIsMenuOpen,
+}: Props): void => {
   const handleDocumentClickOrFocusin = React.useCallback(
     (event: MouseEvent | FocusEvent) => {
       const target = event.target;
@@ -16,11 +21,11 @@ const useDropdownCloseEvents = ({ container, setIsMenuOpen }: Props): void => {
       const isTargetInContainer =
         target instanceof Node && current?.contains(target);
 
-      if (isTargetInDocument && !isTargetInContainer) {
+      if (isMenuOpen && isTargetInDocument && !isTargetInContainer) {
         setIsMenuOpen(false);
       }
     },
-    [container, setIsMenuOpen]
+    [container, isMenuOpen, setIsMenuOpen]
   );
 
   React.useEffect(() => {

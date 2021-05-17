@@ -6,6 +6,7 @@ import { EventDocument } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -307,19 +308,20 @@ test('should update recurring event', async () => {
   const addButton = getAddEventTimeFormElement('addButton');
 
   for (const newEventTime of newSubEventTimes) {
-    userEvent.click(startTimeInput);
-    userEvent.type(
-      startTimeInput,
-      formatDate(newEventTime.startTime, DATETIME_FORMAT)
-    );
-    userEvent.click(endTimeInput);
-    userEvent.type(
-      endTimeInput,
-      formatDate(newEventTime.endTime, DATETIME_FORMAT)
-    );
+    const startTimeValue = formatDate(newEventTime.startTime, DATETIME_FORMAT);
+    act(() => userEvent.click(startTimeInput));
+    userEvent.type(startTimeInput, startTimeValue);
+    await waitFor(() => expect(startTimeInput).toHaveValue(startTimeValue));
+
+    const endTimeValue = formatDate(newEventTime.endTime, DATETIME_FORMAT);
+    act(() => userEvent.click(endTimeInput));
+    userEvent.type(endTimeInput, endTimeValue);
+    await waitFor(() => expect(endTimeInput).toHaveValue(endTimeValue));
 
     await waitFor(() => expect(addButton).toBeEnabled());
-    userEvent.click(addButton);
+    act(() => userEvent.click(addButton));
+    await waitFor(() => expect(startTimeInput).toHaveValue(''));
+    await waitFor(() => expect(endTimeInput).toHaveValue(''));
   }
 
   const updateButton = getButton('updatePublic');

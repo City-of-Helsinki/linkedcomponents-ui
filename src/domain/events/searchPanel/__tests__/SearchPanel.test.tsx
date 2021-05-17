@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import {
+  act,
   configure,
   render,
   screen,
@@ -59,7 +60,7 @@ test('should search events with correct search params', async () => {
   const searchButton = screen.getAllByRole('button', {
     name: /etsi tapahtumia/i,
   })[1];
-  userEvent.click(searchButton);
+  act(() => userEvent.click(searchButton));
 
   expect(history.location.pathname).toBe('/fi/events');
   expect(history.location.search).toBe('?text=search&type=general');

@@ -20,6 +20,7 @@ import {
 } from '../../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   fireEvent,
   getMockReduxStore,
@@ -215,10 +216,8 @@ test('should select existing image', async () => {
   const submitButton = screen.getByRole('button', {
     name: translations.common.add,
   });
-  await waitFor(() => {
-    expect(submitButton).toBeEnabled();
-  });
-  userEvent.click(submitButton);
+  await waitFor(() => expect(submitButton).toBeEnabled());
+  act(() => userEvent.click(submitButton));
 
   await screen.findByTestId(imagePreviewTestIds.image);
 });
@@ -233,11 +232,11 @@ test('should remove image', async () => {
   })[0];
   userEvent.click(removeButton);
 
-  await waitFor(() => {
+  await waitFor(() =>
     expect(
       screen.queryByTestId(imagePreviewTestIds.image)
-    ).not.toBeInTheDocument();
-  });
+    ).not.toBeInTheDocument()
+  );
 });
 
 test('should create and select new image by selecting image file', async () => {
@@ -254,9 +253,7 @@ test('should create and select new image by selecting image file', async () => {
   });
 
   const fileInput = screen.getByTestId(imageUploaderTestIds.input);
-  Object.defineProperty(fileInput, 'files', {
-    value: [file],
-  });
+  Object.defineProperty(fileInput, 'files', { value: [file] });
   fireEvent.change(fileInput);
 
   await screen.findByTestId(imagePreviewTestIds.image);
@@ -278,20 +275,16 @@ test('should create and select new image by entering image url', async () => {
   const urlInput = screen.getByRole('textbox', {
     name: translations.event.form.image.labelUrl,
   });
-  await waitFor(() => {
-    expect(urlInput).toBeEnabled();
-  });
+  await waitFor(() => expect(urlInput).toBeEnabled());
+  act(() => userEvent.click(urlInput));
   userEvent.type(urlInput, imageUrl);
+  await waitFor(() => expect(urlInput).toHaveValue(imageUrl));
 
   const submitButton = screen.queryByRole('button', {
     name: translations.common.add,
   });
-  await waitFor(() => {
-    expect(submitButton).toBeEnabled();
-  });
-  userEvent.click(submitButton);
+  await waitFor(() => expect(submitButton).toBeEnabled());
+  act(() => userEvent.click(submitButton));
 
-  await waitFor(() => {
-    expect(screen.queryByTestId(imagePreviewTestIds.image)).toBeInTheDocument();
-  });
+  await screen.findByTestId(imagePreviewTestIds.image);
 });

@@ -336,7 +336,8 @@ export const publicEventSchema = Yup.object().shape({
     .nullable()
     .when([EVENT_FIELDS.HAS_UMBRELLA], {
       is: (value: string) => value,
-      then: Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+      then: (schema) =>
+        schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     }),
   [EVENT_FIELDS.PUBLISHER]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
@@ -502,8 +503,11 @@ export const addImageSchema = Yup.object().shape(
 export const eventPathBuilder = ({
   args,
 }: PathBuilderProps<EventQueryVariables>): string => {
-  const { id, include } = args;
-  const variableToKeyItems = [{ key: 'include', value: include }];
+  const { id, include, nocache } = args;
+  const variableToKeyItems = [
+    { key: 'include', value: include },
+    { key: 'nocache', value: nocache },
+  ];
 
   const query = queryBuilder(variableToKeyItems);
 
@@ -1321,11 +1325,13 @@ export const showErrors = ({
 };
 
 const getSubEvents = async ({
-  event,
   apolloClient,
+  event,
+  nocache,
 }: {
   apolloClient: ApolloClient<InMemoryCache>;
   event: EventFieldsFragment;
+  nocache: number;
 }) => {
   if (!event.superEventType) return [];
 
@@ -1336,6 +1342,7 @@ const getSubEvents = async ({
   const variables = {
     createPath: getPathBuilder(eventsPathBuilder),
     include: EVENT_INCLUDES,
+    nocache,
     pageSize: MAX_PAGE_SIZE,
     showAll: true,
     sort: EVENT_SORT_OPTIONS.START_TIME,
@@ -1368,6 +1375,7 @@ const getSubEvents = async ({
       const items = await getSubEvents({
         apolloClient,
         event: subEvent,
+        nocache,
       });
 
       subSubEvents.push(...items);
@@ -1378,17 +1386,20 @@ const getSubEvents = async ({
 };
 
 export const getRelatedEvents = async ({
-  event,
   apolloClient,
+  event,
+  nocache,
 }: {
   apolloClient: ApolloClient<InMemoryCache>;
   event: EventFieldsFragment;
+  nocache: number;
 }): Promise<EventFieldsFragment[]> => {
   const allRelatedEvents: EventFieldsFragment[] = [event];
 
   const subEvents = await getSubEvents({
     apolloClient,
     event,
+    nocache,
   });
   allRelatedEvents.push(...subEvents);
 

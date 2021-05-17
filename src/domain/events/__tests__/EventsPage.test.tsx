@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
+import { TEST_NOCACHE_TIME } from '../../../constants';
 import {
   EventsDocument,
   OrganizationDocument,
@@ -19,6 +20,7 @@ import {
   fakeEventsListOptionsState,
 } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -86,6 +88,7 @@ const mockedOrganizationsResponse: MockedResponse = {
 const baseEventsVariables = {
   createPath: undefined,
   include: EVENT_LIST_INCLUDES,
+  nocache: TEST_NOCACHE_TIME,
   pageSize: EVENTS_PAGE_SIZE,
   superEvent: 'none',
 };
@@ -372,7 +375,7 @@ test('should add sort parameter to search query', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const sortNameButton = getElement('sortName');
-  userEvent.click(sortNameButton);
+  act(() => userEvent.click(sortNameButton));
 
   // Test if your store dispatched the expected actions
   expect(history.location.search).toBe('?sort=name');
