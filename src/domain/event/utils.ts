@@ -334,16 +334,11 @@ export const publicEventSchema = Yup.object().shape({
   ),
   [EVENT_FIELDS.SUPER_EVENT]: Yup.string()
     .nullable()
-    .when(
-      [EVENT_FIELDS.HAS_UMBRELLA],
-      (
-        hasUmbrella: string,
-        schema: Yup.StringSchema<string | null | undefined>
-      ) =>
-        hasUmbrella
-          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          : schema
-    ),
+    .when([EVENT_FIELDS.HAS_UMBRELLA], {
+      is: (value: string) => value,
+      then: (schema) =>
+        schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    }),
   [EVENT_FIELDS.PUBLISHER]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
