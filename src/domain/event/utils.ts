@@ -1721,6 +1721,9 @@ export const copyEventToSessionStorage = async (
     touched: {},
     values: {
       ...getEventInitialValues(event),
+      events: [],
+      eventTimes: [],
+      recurringEvents: [],
       hasUmbrella: false,
       isUmbrella: false,
       isVerified: false,
