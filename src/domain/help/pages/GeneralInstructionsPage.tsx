@@ -23,19 +23,19 @@ const GeneralInstructionsPage: React.FC = () => {
             </p>
             <p>
               <ExternalLink href="https://api.hel.fi/linkedevents/v1">
-                https://api.hel.fi/linkedevents/v1
+                api.hel.fi/linkedevents/v1
               </ExternalLink>{' '}
               (API)
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                https://github.com/City-of-Helsinki/linkedevents
+                github.com/City-of-Helsinki/linkedevents
               </ExternalLink>{' '}
               (software)
             </p>
             <p>
               <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
               </ExternalLink>{' '}
               (documentation)
             </p>
@@ -48,24 +48,24 @@ const GeneralInstructionsPage: React.FC = () => {
             <p>
               Näistä Linked Events ohjeista löydät vastaukset yleisimpiin
               kysymyksiin sekä ohjeet hallintapaneelin ja rajapinnan käyttöön.
-              Tarkemmat tiedot Linked Events rajapinnasta, ohjelmistosta ja
-              dokumentaatiosta löytyy osoitteista:
+              Tarkemmat tiedot Linked Events-rajapinnasta, -ohjelmistosta ja
+              -dokumentaatiosta löytyy osoitteista:
             </p>
             <p>
               <ExternalLink href="https://api.hel.fi/linkedevents/v1">
-                https://api.hel.fi/linkedevents/v1
+                api.hel.fi/linkedevents/v1
               </ExternalLink>{' '}
               (rajapinta)
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                https://github.com/City-of-Helsinki/linkedevents
+                github.com/City-of-Helsinki/linkedevents
               </ExternalLink>{' '}
               (ohjelmisto)
             </p>
             <p>
               <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
               </ExternalLink>{' '}
               (dokumentaatio)
             </p>
@@ -83,19 +83,19 @@ const GeneralInstructionsPage: React.FC = () => {
             </p>
             <p>
               <ExternalLink href="https://api.hel.fi/linkedevents/v1">
-                https://api.hel.fi/linkedevents/v1
+                api.hel.fi/linkedevents/v1
               </ExternalLink>{' '}
               (gränssnitt)
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                https://github.com/City-of-Helsinki/linkedevents
+                github.com/City-of-Helsinki/linkedevents
               </ExternalLink>{' '}
               (programvara)
             </p>
             <p>
               <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
               </ExternalLink>{' '}
               (dokumentation)
             </p>

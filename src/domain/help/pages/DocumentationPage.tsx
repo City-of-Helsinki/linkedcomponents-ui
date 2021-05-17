@@ -25,7 +25,7 @@ const DocumentationPage: React.FC = () => {
             </p>
             <p>
               <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
               </ExternalLink>
             </p>
             <p>
@@ -44,7 +44,7 @@ const DocumentationPage: React.FC = () => {
             </p>
             <p>
               <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
               </ExternalLink>
             </p>
             <p>
@@ -62,7 +62,7 @@ const DocumentationPage: React.FC = () => {
             </p>
             <p>
               <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
               </ExternalLink>
             </p>
             <p>

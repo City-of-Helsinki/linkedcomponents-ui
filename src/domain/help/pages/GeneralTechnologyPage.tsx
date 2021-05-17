@@ -24,12 +24,12 @@ const GeneralTechnologyPage: React.FC = () => {
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                https://github.com/City-of-Helsinki/linkedevents
+                github.com/City-of-Helsinki/linkedevents
               </ExternalLink>
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedcomponents-ui">
-                https://github.com/City-of-Helsinki/linkedcomponents-ui
+                github.com/City-of-Helsinki/linkedcomponents-ui
               </ExternalLink>
             </p>
           </>
@@ -47,12 +47,12 @@ const GeneralTechnologyPage: React.FC = () => {
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                https://github.com/City-of-Helsinki/linkedevents
+                github.com/City-of-Helsinki/linkedevents
               </ExternalLink>
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedcomponents-ui">
-                https://github.com/City-of-Helsinki/linkedcomponents-ui
+                github.com/City-of-Helsinki/linkedcomponents-ui
               </ExternalLink>
             </p>
           </>
@@ -70,12 +70,12 @@ const GeneralTechnologyPage: React.FC = () => {
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                https://github.com/City-of-Helsinki/linkedevents
+                github.com/City-of-Helsinki/linkedevents
               </ExternalLink>
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedcomponents-ui">
-                https://github.com/City-of-Helsinki/linkedcomponents-ui
+                github.com/City-of-Helsinki/linkedcomponents-ui
               </ExternalLink>
             </p>
           </>

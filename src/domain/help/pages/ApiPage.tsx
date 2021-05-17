@@ -45,7 +45,7 @@ const ApiPage: React.FC = () => {
             <p>
               The API can be found at:{' '}
               <ExternalLink href="https://api.hel.fi/linkedevents/v1">
-                https://api.hel.fi/linkedevents/v1
+                api.hel.fi/linkedevents/v1
               </ExternalLink>
             </p>
           </>
@@ -85,7 +85,7 @@ const ApiPage: React.FC = () => {
             <p>
               Rajapinta löytyy osoitteesta:{' '}
               <ExternalLink href="https://api.hel.fi/linkedevents/v1">
-                https://api.hel.fi/linkedevents/v1
+                api.hel.fi/linkedevents/v1
               </ExternalLink>
             </p>
           </>
@@ -123,7 +123,7 @@ const ApiPage: React.FC = () => {
             <p>
               API'n finns på:{' '}
               <ExternalLink href="https://api.hel.fi/linkedevents/v1">
-                https://api.hel.fi/linkedevents/v1
+                api.hel.fi/linkedevents/v1
               </ExternalLink>
             </p>
           </>
