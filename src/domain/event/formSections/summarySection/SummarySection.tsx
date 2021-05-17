@@ -20,7 +20,7 @@ const SummarySection: React.FC = () => {
             dangerouslySetInnerHTML={{
               __html: t('event.form.checkboxIsVerified', {
                 openInNewTab: t('common.openInNewTab'),
-                url: `/${locale}${ROUTES.HELP}`,
+                url: `/${locale}${ROUTES.SUPPORT_TERMS_OF_USE}`,
               }),
             }}
           />
