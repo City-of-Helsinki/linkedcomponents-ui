@@ -30,9 +30,9 @@ jobs:
         uses: andersinno/kolga-build-action@v2
         env:
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-production
-          DOCKER_BUILD_ARG_PUBLIC_URL: 'https://linkedcomponents-ui.prod.kuva.hel.ninja'
+          DOCKER_BUILD_ARG_PUBLIC_URL: 'https://linkedevents.hel.fi'
           DOCKER_BUILD_ARG_GENERATE_SITEMAP: 'true'
-          DOCKER_BUILD_ARG_GENERATE_ROBOTS: 'false'
+          DOCKER_BUILD_ARG_GENERATE_ROBOTS: 'true'
           DOCKER_BUILD_ARG_SASS_PATH: './src/assets/styles'
           DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://api.hel.fi/sso'
