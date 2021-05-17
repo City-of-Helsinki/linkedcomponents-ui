@@ -957,7 +957,7 @@
       "titleEventNotShown": "Evenemangen jag lade till visas inte på tjänsten, var är felet?",
       "titleImageRights": "Kan jag lägga till vilka bilder som helst till evenemang?",
       "titlePublishingPermission": "Vem har rätt att lägga till nya offentliga evenemang?",
-      "titleSlowRequests": "Gränssnittssökningar är långsamma, hur gör jag dem snabbare?"
+      "titleSlowRequests": "Gränssnittssökningar är långsamma - hur gör jag dem snabbare?"
     },
     "pageDescriptionApi": "Mer information om API (application protocol interface) för Linked Events.",
     "pageDescriptionControlPanel": "Hur man använder kontrollpanelen och administrationsfunktioner på Linked Events.",

@@ -39,11 +39,12 @@ const GeneralTechnologyPage: React.FC = () => {
           <>
             <h1>Yleistä</h1>
             <p>
-              Linked Events on kehitetty Django alustalle Python ja Javascript
-              ohjelmointikielillä ja se hyödyntää PostgreSQL tietokantaa
-              tietojen taltioimiseen. Linked Events Admin on React-pohjainen
-              sovellus tapahtumien hallintaan ja sen sekä alustan lähdekoodit
-              löytyvät Github-versionhallinnasta osoitteista:
+              Linked Events on kehitetty Django-alustalle Python- ja
+              Javascript-ohjelmointikielillä ja se hyödyntää
+              PostgreSQL-tietokantaa tietojen taltioimiseen. Linked Events Admin
+              on React-pohjainen sovellus tapahtumien hallintaan ja sen sekä
+              alustan lähdekoodit löytyvät Github-versionhallinnasta
+              osoitteista:
             </p>
             <p>
               <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">

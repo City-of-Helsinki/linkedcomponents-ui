@@ -956,7 +956,7 @@
       "titleEventNotShown": "The event I added doesn't appear in the service, where's the problem?",
       "titleImageRights": "Can I add any image to events?",
       "titlePublishingPermission": "Who has rights for adding new public events?",
-      "titleSlowRequests": "API searches are slow, how do I make them faster?"
+      "titleSlowRequests": "API searches are slow - how do I make them faster?"
     },
     "pageDescriptionApi": "More information about the API (application protocol interface) of Linked Events.",
     "pageDescriptionControlPanel": "How to use control panel and Linked events admin features.",
