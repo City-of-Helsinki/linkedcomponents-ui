@@ -70,9 +70,9 @@ ARG REACT_APP_MATOMO_TRACKER_URL
 ARG REACT_APP_MATOMO_ENABLED
 
 RUN yarn build
-RUN yarn compress
 RUN yarn generate-sitemap
 RUN yarn generate-robots
+RUN yarn compress
 
 # =============================
 FROM nginx:1.17 as production
