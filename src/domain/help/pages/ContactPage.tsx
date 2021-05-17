@@ -145,14 +145,14 @@ const ContactPage: React.FC = () => {
             setErrors,
             setTouched,
             validateForm,
-            values: { email, name, topic, ...restValues },
+            values: { topic, ...restValues },
           }) => {
             const clearErrors = () => {
               setErrors({});
             };
 
             const handleSubmit = async () => {
-              const values = { email, name, topic, ...restValues };
+              const values = { topic, ...restValues };
               try {
                 setSuccess(false);
                 clearErrors();
@@ -192,7 +192,7 @@ const ContactPage: React.FC = () => {
                 <FormGroup>
                   <Field
                     component={TextInputField}
-                    disabled={authenticated && name}
+                    disabled={authenticated && user?.profile.name}
                     label={t('helpPage.contactPage.labelName')}
                     name={CONTACT_FORM_FIELD.NAME}
                     placeholder={t('helpPage.contactPage.placeholderName')}
@@ -202,7 +202,7 @@ const ContactPage: React.FC = () => {
                 <FormGroup>
                   <Field
                     component={TextInputField}
-                    disabled={authenticated && email}
+                    disabled={authenticated && user?.profile.email}
                     label={t('helpPage.contactPage.labelEmail')}
                     name={CONTACT_FORM_FIELD.EMAIL}
                     placeholder={t('helpPage.contactPage.placeholderEmail')}
