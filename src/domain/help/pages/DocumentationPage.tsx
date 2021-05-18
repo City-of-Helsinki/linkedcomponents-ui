@@ -4,9 +4,11 @@ import React from 'react';
 import SwaggerUI from 'swagger-ui-react';
 
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
+import { SWAGGER_SCHEMA_URL, SWAGGER_URL } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
+import removeProtocolFromUrl from '../../../utils/removeProtocolFromUrl';
 import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
@@ -20,12 +22,12 @@ const DocumentationPage: React.FC = () => {
           <>
             <h1>Documentation</h1>
             <p>
-              The latest documentation for the API in the Open API 3.0 markup
+              The latest documentation for the API in the Open API 2.0 markup
               language can be found at:
             </p>
             <p>
-              <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+              <ExternalLink href={SWAGGER_URL}>
+                {removeProtocolFromUrl(SWAGGER_URL)}
               </ExternalLink>
             </p>
             <p>
@@ -39,12 +41,12 @@ const DocumentationPage: React.FC = () => {
           <>
             <h1>Dokumentaatio</h1>
             <p>
-              Rajapinnan tuorein dokumentaatio Open API 3.0-kuvauskielellä
+              Rajapinnan tuorein dokumentaatio Open API 2.0-kuvauskielellä
               löytyy osoitteesta:
             </p>
             <p>
-              <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+              <ExternalLink href={SWAGGER_URL}>
+                {removeProtocolFromUrl(SWAGGER_URL)}
               </ExternalLink>
             </p>
             <p>
@@ -58,11 +60,11 @@ const DocumentationPage: React.FC = () => {
             <h1>Dokumentation</h1>
             <p>
               Den senaste dokumentationen för gränssnittet i Open API
-              3.0-märkningsspråket finns på:
+              2.0-märkningsspråket finns på:
             </p>
             <p>
-              <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+              <ExternalLink href={SWAGGER_URL}>
+                {removeProtocolFromUrl(SWAGGER_URL)}
               </ExternalLink>
             </p>
             <p>
@@ -80,9 +82,7 @@ const DocumentationPage: React.FC = () => {
       title="helpPage.pageTitleDocumentation"
     >
       <MainContent>{getContent(locale)}</MainContent>
-      {!isTestEnv && (
-        <SwaggerUI url={process.env.REACT_APP_SWAGGER_SCHEMA_URL} />
-      )}
+      {!isTestEnv && <SwaggerUI url={SWAGGER_SCHEMA_URL} />}
     </PageWrapper>
   );
 };

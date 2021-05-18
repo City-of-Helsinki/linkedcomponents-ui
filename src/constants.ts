@@ -142,3 +142,10 @@ export const PAGE_HEADER_ID = 'page-header';
 export const MAIN_CONTENT_ID = 'maincontent';
 
 export const TEST_NOCACHE_TIME = 1618185600;
+
+export const SWAGGER_URL =
+  process.env.REACT_APP_SWAGGER_URL ?? 'https://dev.hel.fi/apis/linkedevents';
+
+export const SWAGGER_SCHEMA_URL =
+  process.env.REACT_APP_SWAGGER_SCHEMA_URL ||
+  'https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml';
