@@ -57,6 +57,10 @@ const LocaleRoutes: React.FC<Props> = ({
             from={getLocalePath(DEPRECATED_ROUTES.UPDATE_EVENT)}
             to={getLocalePath(ROUTES.EDIT_EVENT)}
           />
+          <Redirect
+            from={getLocalePath(DEPRECATED_ROUTES.VIEW_EVENT)}
+            to={getLocalePath(ROUTES.EDIT_EVENT)}
+          />
           {/* Locale routes */}
           <Route
             exact

@@ -45,6 +45,14 @@ it('should redirect to edit event page from deprecated edit event page', () => {
   expect(history.location.pathname).toBe('/fi/events/edit/hel:123');
 });
 
+it('should redirect to edit event page from deprecated event page', () => {
+  const { history } = renderRoute(
+    DEPRECATED_ROUTES.VIEW_EVENT.replace(':id', 'hel:123')
+  );
+
+  expect(history.location.pathname).toBe('/fi/events/edit/hel:123');
+});
+
 it('should render event search page', async () => {
   const { history } = renderRoute(`${ROUTES.SEARCH}?text=${searchText}`);
 

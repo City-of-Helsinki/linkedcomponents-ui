@@ -14,6 +14,7 @@ export enum DEPRECATED_ROUTES {
   CREATE_EVENT = '/event/create/new',
   MODERATION = '/moderation',
   UPDATE_EVENT = '/event/update/:id',
+  VIEW_EVENT = '/event/:id',
 }
 
 export enum ROUTES {
