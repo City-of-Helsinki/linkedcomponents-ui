@@ -1,14 +1,22 @@
+@import 'breakpoints';
+
 .checkbox {
-    margin-top: var(--spacing-m);
+  margin-top: var(--spacing-m);
 }
 
 .buttonWrapper {
+  display: grid;
+  grid-gap: var(--spacing-s);
+  margin-top: var(--spacing-m);
+
+  @include medium-up {
     display: flex;
     flex-wrap: nowrap;
-    margin-top: var(--spacing-m);
+    grid-gap: unset;
 
     button {
-        margin-right: var(--spacing-s);
-        white-space: nowrap;
+      margin-right: var(--spacing-s);
+      white-space: nowrap;
     }
+  }
 }
