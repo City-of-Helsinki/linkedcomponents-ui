@@ -53,6 +53,12 @@ it('should redirect to edit event page from deprecated event page', () => {
   expect(history.location.pathname).toBe('/fi/events/edit/hel:123');
 });
 
+it('should redirect to terms of use page from deprecated terms page', () => {
+  const { history } = renderRoute(DEPRECATED_ROUTES.TERMS);
+
+  expect(history.location.pathname).toBe('/fi/help/support/terms-of-use');
+});
+
 it('should render event search page', async () => {
   const { history } = renderRoute(`${ROUTES.SEARCH}?text=${searchText}`);
 

@@ -13,6 +13,7 @@ export const BREAKPOINTS = {
 export enum DEPRECATED_ROUTES {
   CREATE_EVENT = '/event/create/new',
   MODERATION = '/moderation',
+  TERMS = '/terms',
   UPDATE_EVENT = '/event/update/:id',
   VIEW_EVENT = '/event/:id',
 }
