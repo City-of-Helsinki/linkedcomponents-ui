@@ -1,8 +1,10 @@
 import React from 'react';
 
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
+import { SWAGGER_URL } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
+import removeProtocolFromUrl from '../../../utils/removeProtocolFromUrl';
 import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
@@ -34,8 +36,8 @@ const GeneralInstructionsPage: React.FC = () => {
               (software)
             </p>
             <p>
-              <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+              <ExternalLink href={SWAGGER_URL}>
+                {removeProtocolFromUrl(SWAGGER_URL)}
               </ExternalLink>{' '}
               (documentation)
             </p>
@@ -64,8 +66,8 @@ const GeneralInstructionsPage: React.FC = () => {
               (ohjelmisto)
             </p>
             <p>
-              <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+              <ExternalLink href={SWAGGER_URL}>
+                {removeProtocolFromUrl(SWAGGER_URL)}
               </ExternalLink>{' '}
               (dokumentaatio)
             </p>
@@ -94,8 +96,8 @@ const GeneralInstructionsPage: React.FC = () => {
               (programvara)
             </p>
             <p>
-              <ExternalLink href="https://app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2">
-                app.swaggerhub.com/apis-docs/lakoutan/LinkedEvents/2.0.2
+              <ExternalLink href={SWAGGER_URL}>
+                {removeProtocolFromUrl(SWAGGER_URL)}
               </ExternalLink>{' '}
               (dokumentation)
             </p>
