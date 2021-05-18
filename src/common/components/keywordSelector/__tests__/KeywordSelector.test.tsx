@@ -7,7 +7,6 @@ import {
 } from '../../../../generated/graphql';
 import { fakeKeyword, fakeKeywords } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
-import FormGroup from '../../formGroup/FormGroup';
 import KeywordSelector, { KeywordSelectorProps } from '../KeywordSelector';
 
 const keywordId = 'hel:123';
