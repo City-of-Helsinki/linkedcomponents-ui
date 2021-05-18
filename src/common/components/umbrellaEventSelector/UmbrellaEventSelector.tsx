@@ -46,7 +46,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   value,
   ...rest
 }) => {
-  let timer: number;
+  const timer = React.useRef<number>();
   const { nocache } = useNocacheContext();
   const isMounted = useIsMounted();
   const { t } = useTranslation();
@@ -75,7 +75,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   });
 
   const handleFilter = (items: OptionType[], inputValue: string) => {
-    timer = setTimeout(() => {
+    timer.current = setTimeout(() => {
       if (isMounted.current) {
         setSearch(inputValue);
       }
@@ -104,7 +104,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   }, [{ option }]);
 
   React.useEffect(() => {
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

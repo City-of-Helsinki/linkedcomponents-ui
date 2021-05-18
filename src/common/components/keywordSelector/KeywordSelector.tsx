@@ -55,7 +55,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   value,
   ...rest
 }) => {
-  let timer: number;
+  const timer = React.useRef<number>();
   const isMounted = useIsMounted();
   const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
   const { t } = useTranslation();
@@ -76,7 +76,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   });
 
   const handleFilter = (items: OptionType[], inputValue: string) => {
-    timer = setTimeout(() => {
+    timer.current = setTimeout(() => {
       if (isMounted.current) {
         setSearch(inputValue);
       }
@@ -122,7 +122,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   }, [apolloClient, locale, value]);
 
   React.useEffect(() => {
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
