@@ -1,4 +1,4 @@
 const removeProtocolFromUrl = (url: string): string =>
-  url.replace(/^(https?:\/\/\.?)/, '');
+  url.replace(/^(https?:\/\/)?(?:www\.)?/, '');
 
 export default removeProtocolFromUrl;
