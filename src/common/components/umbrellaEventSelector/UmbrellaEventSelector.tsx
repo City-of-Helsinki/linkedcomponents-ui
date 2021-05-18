@@ -75,6 +75,7 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   });
 
   const handleFilter = (items: OptionType[], inputValue: string) => {
+    clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       if (isMounted.current) {
         setSearch(inputValue);
