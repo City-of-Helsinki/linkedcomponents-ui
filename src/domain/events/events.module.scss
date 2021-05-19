@@ -2,6 +2,10 @@
 @import 'widths';
 
 .eventsPage {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+
   .filterSummary {
     --filter-summary-color: var(--color-black);
 
@@ -9,12 +13,6 @@
       --tag-background: var(--color-white);
     }
   }
-}
-
-.mainContent {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
 }
 
 .tabPanel {

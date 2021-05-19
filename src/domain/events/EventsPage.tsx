@@ -110,7 +110,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   };
 
   return (
-    <MainContent className={styles.mainContent}>
+    <div className={styles.eventsPage}>
       <Container withOffset={true}>
         <div className={styles.titleRow}>
           <h1 className={styles.title}>{t('eventsPage.title')}</h1>
@@ -173,7 +173,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
           </TabPanel>
         );
       })}
-    </MainContent>
+    </div>
   );
 };
 
