@@ -46,7 +46,7 @@ const FeaturesPage: React.FC = () => {
             <h1>Palvelun ominaisuudet</h1>
             <h2>Tapahtumien hallinta</h2>
             <p>
-              Linked Events hallintapaneelin avulla voit syöttää uusia
+              Linked Eventsin hallintapaneelin avulla voit syöttää uusia
               tapahtumia, kursseja ja vapaaehtoistehtäviä, sekä hallita niihin
               liittyviä tietoja ja materiaaleja.
             </p>
