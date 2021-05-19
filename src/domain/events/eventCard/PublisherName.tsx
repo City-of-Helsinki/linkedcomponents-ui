@@ -17,7 +17,7 @@ interface PublisherNameProps {
 const PublisherName: React.FC<PublisherNameProps> = ({ organization }) => {
   const { name } = getOrganizationFields(organization);
 
-  return <>{name}</>;
+  return <span title={name}>{name}</span>;
 };
 
 interface PublisherNameContainerProps {

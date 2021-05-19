@@ -12,6 +12,7 @@
 
     td,
     th {
+      box-sizing: border-box;
       text-align: left;
       padding: var(--spacing-xs) var(--spacing-s);
     }
