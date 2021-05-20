@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import * as H from 'history';
 
 import { UserFieldsFragment } from '../../../generated/graphql';

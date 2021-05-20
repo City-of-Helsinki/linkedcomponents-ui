@@ -6,7 +6,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import { RestLink } from 'apollo-link-rest';
 import { SentryLink } from 'apollo-link-sentry';
 import snakeCase from 'lodash/snakeCase';
@@ -275,7 +275,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         toast.error(i18n.t('errors.notFound'));
         break;
       case 410:
-        toast.error(i18n.t('errors.delete'));
+        toast.error(i18n.t('errors.deleted'));
         break;
       default:
         toast.error(i18n.t('errors.serverError'));
@@ -287,7 +287,16 @@ const sentryLink = new SentryLink({
   attachBreadcrumbs: {
     includeQuery: true,
     includeFetchResult: true,
+    includeVariables: true,
+    includeError: true,
   },
+  // Send only mutation details to Sentry
+  shouldHandleOperation: (operation) =>
+    operation.query.definitions.some(
+      (definition) =>
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'mutation'
+    ),
 });
 
 const apolloClient = new ApolloClient({

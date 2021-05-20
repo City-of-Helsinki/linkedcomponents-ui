@@ -3,7 +3,7 @@ import 'focus-visible';
 import 'hds-core/lib/base.min.css';
 import './assets/styles/main.scss';
 
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
