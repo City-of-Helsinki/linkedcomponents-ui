@@ -22,7 +22,7 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type Query {
-    event(id: ID, include: [String], nocache: Int): Event!
+    event(id: ID, include: [String]): Event!
     events(
       adminUser: Boolean
       createdBy: String
@@ -40,7 +40,6 @@ module.exports = buildSchema(/* GraphQL */ `
       keywordNot: [String]
       language: String
       location: [String]
-      nocache: Int
       page: Int
       pageSize: Int
       publicationStatus: PublicationStatus

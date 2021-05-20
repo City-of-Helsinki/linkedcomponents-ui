@@ -92,7 +92,7 @@ const EventTableRow: React.FC<Props> = ({
         onKeyDown={handleKeyDown}
         tabIndex={0}
       >
-        <td>
+        <td className={styles.nameColumn}>
           <div
             className={styles.nameWrapper}
             style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}
@@ -117,10 +117,12 @@ const EventTableRow: React.FC<Props> = ({
               className={styles.superEventTypeTag}
               superEventType={superEventType}
             />
-            <span>{name}</span>
+            <span className={styles.eventName} title={name}>
+              {name}
+            </span>
           </div>
         </td>
-        <td>
+        <td className={styles.publisherColumn}>
           {publisher ? (
             <PublisherName id={publisher} />
           ) : (

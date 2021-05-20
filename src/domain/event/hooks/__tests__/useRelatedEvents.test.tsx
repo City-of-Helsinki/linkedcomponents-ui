@@ -3,7 +3,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import map from 'lodash/map';
 import React from 'react';
 
-import { MAX_PAGE_SIZE, TEST_NOCACHE_TIME } from '../../../../constants';
+import { MAX_PAGE_SIZE } from '../../../../constants';
 import { EventsDocument, SuperEventType } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import { EVENT_INCLUDES } from '../../constants';
@@ -87,7 +87,6 @@ const subSubSubEventsResponse = {
 const baseVariables = {
   createPath: undefined,
   include: EVENT_INCLUDES,
-  nocache: TEST_NOCACHE_TIME,
   pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',

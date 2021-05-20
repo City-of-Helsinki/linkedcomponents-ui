@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import map from 'lodash/map';
 import React from 'react';
 
-import { MAX_PAGE_SIZE, TEST_NOCACHE_TIME } from '../../../../constants';
+import { MAX_PAGE_SIZE } from '../../../../constants';
 import {
   EventsDocument,
   OrganizationsDocument,
@@ -40,7 +40,6 @@ const mockedOrganizationsResponse: MockedResponse = {
 const baseEventsVariables = {
   createPath: undefined,
   include: EVENT_INCLUDES,
-  nocache: TEST_NOCACHE_TIME,
   pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',

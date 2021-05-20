@@ -41,6 +41,16 @@
   width: 50%;
 }
 
+.nameColumn {
+  max-width: 360px;
+}
+
+.publisherColumn {
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .nameWrapper {
   display: flex;
   align-items: center;
@@ -49,6 +59,11 @@
     display: flex;
     padding: 0;
     margin-right: var(--spacing-2-xs);
+  }
+
+  .eventName {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

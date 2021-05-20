@@ -17,12 +17,10 @@ type UseSubEventsState = {
 };
 
 const useSubEvents = ({
-  nocache,
   skip,
   superEventId,
   variableOverrides,
 }: {
-  nocache: number;
   skip?: boolean;
   superEventId: string;
   variableOverrides?: Partial<EventsQueryVariables>;
@@ -31,13 +29,12 @@ const useSubEvents = ({
     return {
       createPath: getPathBuilder(eventsPathBuilder),
       include: EVENT_LIST_INCLUDES,
-      nocache,
       pageSize: MAX_PAGE_SIZE,
       showAll: true,
       superEvent: superEventId,
       ...variableOverrides,
     };
-  }, [nocache, superEventId, variableOverrides]);
+  }, [superEventId, variableOverrides]);
 
   const { data, fetchMore, loading } = useEventsQuery({
     skip,

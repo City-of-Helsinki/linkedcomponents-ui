@@ -128,7 +128,6 @@ const useUpdateRecurringEventIfNeeded =
             data: {
               error,
               event,
-              eventAsString: JSON.stringify(event),
             },
             location,
             message: 'Failed to update recurring event',

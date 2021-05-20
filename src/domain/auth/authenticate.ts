@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 

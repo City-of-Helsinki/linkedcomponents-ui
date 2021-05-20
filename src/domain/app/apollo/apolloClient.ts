@@ -6,8 +6,9 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import { RestLink } from 'apollo-link-rest';
+import { SentryLink } from 'apollo-link-sentry';
 import snakeCase from 'lodash/snakeCase';
 import { toast } from 'react-toastify';
 
@@ -127,19 +128,34 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      // TODO: Apikey authentication is used only for local testing. Reason for this
-      // is that OpenId authentication is not yet implemented on BE side
-      // Remove apikey header when authentication is ready
-      // apikey: '50381be7-fef2-4783-b181-3181f6492f3f',
       authorization: token ? `Bearer ${token}` : null,
       'Accept-language': i18n.language,
     },
   };
 });
 
+const addNocacheToUrl = (urlStr: string): string => {
+  const url = new URL(urlStr);
+  const searchParams = new URLSearchParams(url.search);
+
+  if (!searchParams.get('nocache')) {
+    searchParams.append('nocache', 'true');
+  }
+
+  url.search = searchParams.toString();
+
+  return url.toString();
+};
+
 const linkedEventsLink = new RestLink({
   bodySerializers: {
     uploadImageSerializer,
+  },
+  customFetch: (request: Request | string, config) => {
+    if (typeof request === 'string' && config.method === 'GET') {
+      return fetch(addNocacheToUrl(request), config);
+    }
+    return fetch(request, config);
   },
   fieldNameDenormalizer: (key) => {
     if (key === 'atId') {
@@ -259,7 +275,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         toast.error(i18n.t('errors.notFound'));
         break;
       case 410:
-        toast.error(i18n.t('errors.delete'));
+        toast.error(i18n.t('errors.deleted'));
         break;
       default:
         toast.error(i18n.t('errors.serverError'));
@@ -267,9 +283,25 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   }
 });
 
+const sentryLink = new SentryLink({
+  attachBreadcrumbs: {
+    includeQuery: true,
+    includeFetchResult: true,
+    includeVariables: true,
+    includeError: true,
+  },
+  // Send only mutation details to Sentry
+  shouldHandleOperation: (operation) =>
+    operation.query.definitions.some(
+      (definition) =>
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'mutation'
+    ),
+});
+
 const apolloClient = new ApolloClient({
   cache,
-  link: ApolloLink.from([errorLink, authLink, linkedEventsLink]),
+  link: ApolloLink.from([errorLink, sentryLink, authLink, linkedEventsLink]),
 });
 
 export default apolloClient;

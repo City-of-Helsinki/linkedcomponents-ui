@@ -4,12 +4,7 @@ import addHours from 'date-fns/addHours';
 import startOfDay from 'date-fns/startOfDay';
 import omit from 'lodash/omit';
 
-import {
-  DATETIME_FORMAT,
-  EXTLINK,
-  MAX_PAGE_SIZE,
-  TEST_NOCACHE_TIME,
-} from '../../../constants';
+import { DATETIME_FORMAT, EXTLINK, MAX_PAGE_SIZE } from '../../../constants';
 import {
   CreateEventsDocument,
   DeleteEventDocument,
@@ -333,7 +328,6 @@ const eventVariables = {
   createPath: undefined,
   id: eventId,
   include: EVENT_INCLUDES,
-  nocache: TEST_NOCACHE_TIME,
 };
 const eventResponse = { data: { event } };
 const mockedEventResponse: MockedResponse = {
@@ -347,7 +341,6 @@ const mockedEventResponse: MockedResponse = {
 const eventTimeVariables = {
   createPath: undefined,
   id: eventId,
-  nocache: TEST_NOCACHE_TIME,
 };
 const mockedEventTimeResponse: MockedResponse = {
   request: {
@@ -518,7 +511,6 @@ const subEventsResponse = { data: { events: subEvents } };
 const subEventTime1Variables = {
   createPath: undefined,
   id: subEventTimes[0].id,
-  nocache: TEST_NOCACHE_TIME,
 };
 const subEventTime1Response = { data: { event: subEvents.data[0] } };
 const mockedSubEventTime1Response: MockedResponse = {
@@ -531,7 +523,6 @@ const mockedSubEventTime1Response: MockedResponse = {
 const subEventTime2Variables = {
   createPath: undefined,
   id: subEventTimes[1].id,
-  nocache: TEST_NOCACHE_TIME,
 };
 const subEventTime2Response = { data: { event: subEvents.data[1] } };
 const mockedSubEventTime2Response: MockedResponse = {
@@ -545,7 +536,6 @@ const mockedSubEventTime2Response: MockedResponse = {
 const baseEventsVariables = {
   createPath: undefined,
   include: EVENT_INCLUDES,
-  nocache: TEST_NOCACHE_TIME,
   pageSize: MAX_PAGE_SIZE,
   showAll: true,
   sort: 'start_time',

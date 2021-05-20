@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import { User } from 'oidc-client';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

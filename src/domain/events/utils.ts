@@ -33,7 +33,6 @@ export const eventsPathBuilder = ({
     keyword,
     language,
     location,
-    nocache,
     page,
     pageSize,
     publicationStatus,
@@ -66,7 +65,6 @@ export const eventsPathBuilder = ({
     { key: 'keyword!', value: keywordNot },
     { key: 'language', value: language },
     { key: 'location', value: location },
-    { key: 'nocache', value: nocache },
     { key: 'page', value: page },
     { key: 'page_size', value: pageSize },
     { key: 'publication_status', value: publicationStatus },
@@ -91,12 +89,6 @@ export const clearEventsQueries = (
   apolloClient: ApolloClient<InMemoryCache>
 ): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
-
-/* istanbul ignore next */
-export const clearEventQuery = (
-  apolloClient: ApolloClient<InMemoryCache>,
-  eventId: string
-): boolean => apolloClient.cache.evict({ id: `Event:${eventId}` });
 
 export const getEventsQueryBaseVariables = ({
   adminOrganizations,

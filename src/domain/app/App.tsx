@@ -9,7 +9,6 @@ import { ToastContainer } from 'react-toastify';
 import { OidcProvider } from 'redux-oidc';
 
 import theme from '../../assets/theme/theme';
-import { NocacheContextProvider } from '../../common/components/nocache/NocacheContext';
 import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
 import { CookieConsentProvider } from './cookieConsent/CookieConsentContext';
@@ -40,13 +39,11 @@ const App: React.FC = () => {
           <ToastContainer hideProgressBar={true} />
           <BrowserRouter>
             <CookieConsentProvider>
-              <NocacheContextProvider>
-                <MatomoProvider value={instance}>
-                  <ApolloProvider client={apolloClient}>
-                    <AppRoutes />
-                  </ApolloProvider>
-                </MatomoProvider>
-              </NocacheContextProvider>
+              <MatomoProvider value={instance}>
+                <ApolloProvider client={apolloClient}>
+                  <AppRoutes />
+                </ApolloProvider>
+              </MatomoProvider>
             </CookieConsentProvider>
           </BrowserRouter>
         </ThemeProvider>

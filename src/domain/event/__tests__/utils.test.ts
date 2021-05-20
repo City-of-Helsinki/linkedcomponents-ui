@@ -129,7 +129,7 @@ describe('eventPathBuilder function', () => {
       { id: 'hel:123', include: ['include1', 'include2'] },
       '/event/hel:123/?include=include1,include2',
     ],
-    [{ id: 'hel:123', nocache: 123 }, '/event/hel:123/?nocache=123'],
+    [{ id: 'hel:123' }, '/event/hel:123/'],
   ];
   it.each(cases)('should build correct path', (variables, expectedPath) =>
     expect(eventPathBuilder({ args: variables })).toBe(expectedPath)

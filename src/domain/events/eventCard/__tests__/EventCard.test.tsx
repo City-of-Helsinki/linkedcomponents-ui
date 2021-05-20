@@ -1,7 +1,7 @@
 import range from 'lodash/range';
 import React from 'react';
 
-import { MAX_PAGE_SIZE, TEST_NOCACHE_TIME } from '../../../../constants';
+import { MAX_PAGE_SIZE } from '../../../../constants';
 import {
   EventsDocument,
   OrganizationDocument,
@@ -106,7 +106,6 @@ const subEvents = fakeEvents(
 const subEventsVariables = {
   createPath: undefined,
   include: EVENT_LIST_INCLUDES,
-  nocache: TEST_NOCACHE_TIME,
   pageSize: MAX_PAGE_SIZE,
   showAll: true,
   superEvent: eventValues.id,

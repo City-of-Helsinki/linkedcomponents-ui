@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-import { ROUTES } from '../src/constants';
+import { DEPRECATED_ROUTES, ROUTES } from '../src/constants';
 import {
   HOST,
   PATH_TO_BUILD_FOLDER,
@@ -11,6 +11,9 @@ import {
 const DISALLOWED_URLS = [
   `/*${ROUTES.CREATE_EVENT}`,
   `/*${ROUTES.EDIT_EVENT.replace(':id', '*')}`,
+  DEPRECATED_ROUTES.CREATE_EVENT,
+  `${DEPRECATED_ROUTES.UPDATE_EVENT.replace(':id', '*')}`,
+  `${DEPRECATED_ROUTES.VIEW_EVENT.replace(':id', '*')}`,
 ];
 
 const generateRobotsTxt = async () => {

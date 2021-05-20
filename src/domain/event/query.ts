@@ -102,8 +102,8 @@ export const QUERY_EVENT = gql`
     }
   }
 
-  query Event($id: ID!, $include: [String], $nocache: Int, $createPath: Any) {
-    event(id: $id, include: $include, nocache: $nocache)
+  query Event($id: ID!, $include: [String], $createPath: Any) {
+    event(id: $id, include: $include)
       @rest(type: "Event", pathBuilder: $createPath) {
       ...eventFields
     }

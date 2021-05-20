@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import * as H from 'history';
 
 import { UserFieldsFragment } from '../../../generated/graphql';
@@ -23,9 +23,7 @@ const reportError = ({
         location,
         timestamp: new Date(),
         user,
-        userAsString: user ? JSON.stringify(user) : '',
         userAgent: navigator.userAgent,
-        error,
         errorAsString: JSON.stringify(error),
       },
       level: 'error',

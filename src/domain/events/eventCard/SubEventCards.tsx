@@ -1,7 +1,6 @@
 import React from 'react';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
-import { useNocacheContext } from '../../../common/components/nocache/NocacheContext';
 import useSubEvents from '../hooks/useSubEvents';
 import EventCard from './EventCard';
 import styles from './eventCard.module.scss';
@@ -12,9 +11,7 @@ interface Props {
 }
 
 const SubEventRows: React.FC<Props> = ({ eventId, level }) => {
-  const { nocache } = useNocacheContext();
   const { subEvents, loading } = useSubEvents({
-    nocache,
     superEventId: eventId,
   });
 
