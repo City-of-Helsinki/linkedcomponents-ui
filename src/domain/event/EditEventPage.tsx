@@ -137,10 +137,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 
   const onDelete = () => {
     deleteEvent({
-      onSuccess: () => {
-        // This action will change LE response so clear event list page
-        goToEventsPage();
-      },
+      onSuccess: () => goToEventsPage(),
     });
   };
 
@@ -401,6 +398,7 @@ const EditEventPageWrapper: React.FC = () => {
     refetch,
   } = useEventQuery({
     fetchPolicy: 'no-cache',
+    notifyOnNetworkStatusChange: true,
     skip: debouncedLoadingUser,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),

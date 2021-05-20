@@ -20,7 +20,7 @@ import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector } from '../../auth/selectors';
-import { clearEventQuery, clearEventsQueries } from '../../events/utils';
+import { clearEventsQueries } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
 import { EventFormFields, EventTime } from '../types';
@@ -160,6 +160,9 @@ const useEventUpdateActions = ({
       await updateEvents(payload);
       await updateRecurringEventIfNeeded(event);
 
+      /* istanbul ignore next */
+      !isTestEnv && clearEventsQueries(apolloClient);
+
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
@@ -204,12 +207,10 @@ const useEventUpdateActions = ({
         await deleteEventMutation({ variables: { id } });
       }
 
-      // await updateRecurringEventIfNeeded(event);
-      // Clear all events from apollo cache
-      for (const id of deletableEventIds) {
-        /* istanbul ignore next */
-        !isTestEnv && clearEventQuery(apolloClient, id);
-      }
+      await updateRecurringEventIfNeeded(event);
+
+      /* istanbul ignore next */
+      !isTestEnv && clearEventsQueries(apolloClient);
 
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
@@ -263,6 +264,8 @@ const useEventUpdateActions = ({
       await updateEvents(payload);
       await updateRecurringEventIfNeeded(event);
 
+      /* istanbul ignore next */
+      !isTestEnv && clearEventsQueries(apolloClient);
       // Call callback function if defined
       await (callbacks?.onSuccess && callbacks.onSuccess());
 
@@ -428,6 +431,8 @@ const useEventUpdateActions = ({
         payload = [{ ...basePayload, id }];
         await updateEvents(payload);
         await updateRecurringEventIfNeeded(event);
+        /* istanbul ignore next */
+        !isTestEnv && clearEventsQueries(apolloClient);
       }
 
       // Call callback function if defined
