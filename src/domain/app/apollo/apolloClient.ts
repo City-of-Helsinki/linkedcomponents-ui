@@ -28,7 +28,6 @@ import {
   UploadImageMutationInput,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
-import getNocacheTime from '../../../utils/getNocacheTime';
 import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
 import { store } from '../store/store';
@@ -139,7 +138,7 @@ const addNocacheToUrl = (urlStr: string): string => {
   const searchParams = new URLSearchParams(url.search);
 
   if (!searchParams.get('nocache')) {
-    searchParams.append('nocache', getNocacheTime().toString());
+    searchParams.append('nocache', 'true');
   }
 
   url.search = searchParams.toString();
