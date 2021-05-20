@@ -286,7 +286,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 const sentryLink = new SentryLink({
   attachBreadcrumbs: {
     includeQuery: true,
-    includeVariables: true,
+    includeFetchResult: true,
   },
 });
 

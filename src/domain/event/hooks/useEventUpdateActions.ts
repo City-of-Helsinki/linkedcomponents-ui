@@ -174,8 +174,6 @@ const useEventUpdateActions = ({
         data: {
           error,
           event,
-          eventAsString: JSON.stringify(event),
-          payload,
           payloadAsString: JSON.stringify(payload),
         },
         location,
@@ -222,7 +220,6 @@ const useEventUpdateActions = ({
         data: {
           error,
           event,
-          eventAsString: JSON.stringify(event),
           eventIds: deletableEventIds,
         },
         location,
@@ -276,8 +273,6 @@ const useEventUpdateActions = ({
         data: {
           error,
           event,
-          eventAsString: JSON.stringify(event),
-          payload,
           payloadAsString: JSON.stringify(payload),
         },
         location,
@@ -444,8 +439,6 @@ const useEventUpdateActions = ({
         data: {
           error,
           event,
-          eventAsString: JSON.stringify(event),
-          payload,
           payloadAsString: JSON.stringify(payload),
         },
         location,
