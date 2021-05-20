@@ -51,7 +51,6 @@ describe('eventsPathBuilder function', () => {
       { location: ['location1', 'location2'] },
       '/event/?location=location1,location2',
     ],
-    [{ nocache: 123 }, '/event/?nocache=123'],
     [{ page: 2 }, '/event/?page=2'],
     [{ pageSize: 10 }, '/event/?page_size=10'],
     [

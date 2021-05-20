@@ -1,7 +1,6 @@
 import React from 'react';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
-import { useNocacheContext } from '../../../common/components/nocache/NocacheContext';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useSubEvents from '../hooks/useSubEvents';
 import styles from './eventsTable.module.scss';
@@ -14,9 +13,7 @@ interface Props {
 }
 
 const SubEventRows: React.FC<Props> = ({ eventId, level, onRowClick }) => {
-  const { nocache } = useNocacheContext();
   const { subEvents, loading } = useSubEvents({
-    nocache,
     superEventId: eventId,
   });
 

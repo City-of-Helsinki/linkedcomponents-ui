@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 
 import MenuDropdown from '../../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../../common/components/menuDropdown/MenuItem';
-import { useNocacheContext } from '../../../../common/components/nocache/NocacheContext';
 import Table from '../../../../common/components/table/Table';
 import { DATETIME_FORMAT } from '../../../../constants';
 import {
@@ -42,7 +41,6 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   onUpdate,
   startIndex,
 }) => {
-  const { nocache } = useNocacheContext();
   const { t } = useTranslation();
   const { savedEvent } = useContext(TimeSectionContext);
   const authenticated = useSelector(authenticatedSelector);
@@ -53,7 +51,6 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
       id: eventTime.id as string,
-      nocache,
     },
   });
   const { organizationAncestors } = useEventOrganizationAncestors(

@@ -6,7 +6,6 @@ import { useHistory, useLocation } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
-import { useNocacheContext } from '../../../common/components/nocache/NocacheContext';
 import Pagination from '../../../common/components/pagination/Pagination';
 import SingleSelect from '../../../common/components/singleSelect/SingleSelect';
 import {
@@ -93,7 +92,6 @@ const EventListContainer: React.FC<EventListContainerProps> = ({
   baseVariables,
 }) => {
   const eventListId = React.useRef<string>(uniqueId('event-list-')).current;
-  const { nocache } = useNocacheContext();
   const { t } = useTranslation();
   const location = useLocation<EventsLocationState>();
   const history = useHistory();
@@ -103,7 +101,6 @@ const EventListContainer: React.FC<EventListContainerProps> = ({
   const variables = {
     ...baseVariables,
     createPath: getPathBuilder(eventsPathBuilder),
-    nocache,
   };
 
   const { data: eventsData, loading } = useEventsQuery({

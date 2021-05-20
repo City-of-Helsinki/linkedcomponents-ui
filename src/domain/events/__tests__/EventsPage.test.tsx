@@ -2,7 +2,6 @@ import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
-import { TEST_NOCACHE_TIME } from '../../../constants';
 import {
   EventsDocument,
   OrganizationDocument,
@@ -88,7 +87,6 @@ const mockedOrganizationsResponse: MockedResponse = {
 const baseEventsVariables = {
   createPath: undefined,
   include: EVENT_LIST_INCLUDES,
-  nocache: TEST_NOCACHE_TIME,
   pageSize: EVENTS_PAGE_SIZE,
   superEvent: 'none',
 };

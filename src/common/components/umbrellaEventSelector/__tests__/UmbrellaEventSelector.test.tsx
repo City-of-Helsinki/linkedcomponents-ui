@@ -1,7 +1,6 @@
 import range from 'lodash/range';
 import React from 'react';
 
-import { TEST_NOCACHE_TIME } from '../../../../constants';
 import { EventDocument, EventsDocument } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
@@ -38,7 +37,6 @@ const eventsResponse = { data: { events } };
 
 const defaultEventsVariables = {
   createPath: undefined,
-  nocache: TEST_NOCACHE_TIME,
   superEventType: ['umbrella'],
   text: '',
 };
@@ -58,7 +56,6 @@ const mocks = [
       variables: {
         id: eventId,
         createPath: undefined,
-        nocache: TEST_NOCACHE_TIME,
       },
     },
     result: eventResponse,

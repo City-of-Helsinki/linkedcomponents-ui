@@ -7,7 +7,6 @@ import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { useNocacheContext } from '../../common/components/nocache/NocacheContext';
 import { ROUTES } from '../../constants';
 import {
   EventFieldsFragment,
@@ -19,7 +18,6 @@ import {
 } from '../../generated/graphql';
 import useIsMounted from '../../hooks/useIsMounted';
 import useLocale from '../../hooks/useLocale';
-import getNocacheTime from '../../utils/getNocacheTime';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
@@ -80,7 +78,6 @@ interface EditEventPageProps {
 }
 
 const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
-  const { updateNocache } = useNocacheContext();
   const { t } = useTranslation();
   const history = useHistory<EventsLocationState>();
   const location = useLocation();
@@ -132,8 +129,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const onCancel = () => {
     cancelEvent({
       onSuccess: async () => {
-        await refetch({ nocache: getNocacheTime() });
-        updateNocache();
+        await refetch();
         window.scrollTo(0, 0);
       },
     });
@@ -151,8 +147,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const onPostpone = () => {
     postponeEvent({
       onSuccess: async () => {
-        await refetch({ nocache: getNocacheTime() });
-        updateNocache();
+        await refetch();
         window.scrollTo(0, 0);
       },
     });
@@ -164,8 +159,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   ) => {
     updateEvent(values, publicationStatus, {
       onSuccess: async () => {
-        await refetch({ nocache: getNocacheTime() });
-        updateNocache();
+        await refetch();
         window.scrollTo(0, 0);
       },
     });
@@ -370,7 +364,6 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 const LOADING_USER_DEBOUNCE_TIME = 50;
 
 const EditEventPageWrapper: React.FC = () => {
-  const nocache = React.useRef(getNocacheTime()).current;
   const isMounted = useIsMounted();
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
@@ -413,7 +406,6 @@ const EditEventPageWrapper: React.FC = () => {
       createPath: getPathBuilder(eventPathBuilder),
       id,
       include: EVENT_INCLUDES,
-      nocache,
     },
   });
 

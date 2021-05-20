@@ -18,7 +18,6 @@ import getLocalisedString from '../../../utils/getLocalisedString';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
-import { useNocacheContext } from '../nocache/NocacheContext';
 
 const getEventFields = (event: EventFieldsFragment, locale: Language) => ({
   name: getLocalisedString(event.name, locale),
@@ -47,7 +46,6 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   ...rest
 }) => {
   let timer: number;
-  const { nocache } = useNocacheContext();
   const isMounted = useIsMounted();
   const { t } = useTranslation();
   const locale = useLocale();
@@ -61,7 +59,6 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
       superEventType: ['umbrella'],
       text: search,
       createPath: getPathBuilder(eventsPathBuilder),
-      nocache,
     },
   });
 
@@ -70,7 +67,6 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
     variables: {
       id: parseIdFromAtId(value) as string,
       createPath: getPathBuilder(eventPathBuilder),
-      nocache,
     },
   });
 
