@@ -28,6 +28,7 @@ import {
   UploadImageMutationInput,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
+import getNocacheTime from '../../../utils/getNocacheTime';
 import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
 import { store } from '../store/store';
@@ -127,19 +128,34 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      // TODO: Apikey authentication is used only for local testing. Reason for this
-      // is that OpenId authentication is not yet implemented on BE side
-      // Remove apikey header when authentication is ready
-      // apikey: '50381be7-fef2-4783-b181-3181f6492f3f',
       authorization: token ? `Bearer ${token}` : null,
       'Accept-language': i18n.language,
     },
   };
 });
 
+const addNocacheToUrl = (urlStr: string): string => {
+  const url = new URL(urlStr);
+  const searchParams = new URLSearchParams(url.search);
+
+  if (!searchParams.get('nocache')) {
+    searchParams.append('nocache', getNocacheTime().toString());
+  }
+
+  url.search = searchParams.toString();
+
+  return url.toString();
+};
+
 const linkedEventsLink = new RestLink({
   bodySerializers: {
     uploadImageSerializer,
+  },
+  customFetch: (request: Request | string, config) => {
+    if (typeof request === 'string' && config.method === 'GET') {
+      return fetch(addNocacheToUrl(request), config);
+    }
+    return fetch(request, config);
   },
   fieldNameDenormalizer: (key) => {
     if (key === 'atId') {
