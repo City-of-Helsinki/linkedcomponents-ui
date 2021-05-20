@@ -330,7 +330,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                           return (
                             <Link
                               className={styles.hierarchyLink}
-                              to={eventUrl}
+                              to={{
+                                pathname: eventUrl,
+                                search: location.search,
+                              }}
                             >
                               {name}
                             </Link>

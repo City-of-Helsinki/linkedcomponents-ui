@@ -173,6 +173,7 @@ test('should cancel event', async () => {
     () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
     { timeout: 10000 }
   );
+  await loadingSpinnerIsNotInDocument(10000);
   screen.getByText('Peruutettu');
 });
 
@@ -203,6 +204,7 @@ test('should postpone event', async () => {
     () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
     { timeout: 10000 }
   );
+  await loadingSpinnerIsNotInDocument(10000);
   screen.getByText('Lykätty');
 });
 
@@ -336,6 +338,10 @@ test('should update recurring event', async () => {
   userEvent.click(updateEventButton);
 
   // This test is pretty heavy so give DOM some time to update
+  await waitFor(
+    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
+    { timeout: 30000 }
+  );
   await loadingSpinnerIsNotInDocument(30000);
   await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
     timeout: 30000,
