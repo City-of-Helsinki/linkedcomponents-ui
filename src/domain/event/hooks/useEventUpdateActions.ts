@@ -163,11 +163,10 @@ const useEventUpdateActions = ({
       /* istanbul ignore next */
       !isTestEnv && clearEventsQueries(apolloClient);
 
-      // Call callback function if defined
-      await (callbacks?.onSuccess && callbacks.onSuccess());
-
       savingFinished();
       closeModal();
+      // Call callback function if defined
+      await (callbacks?.onSuccess && callbacks.onSuccess());
     } catch (error) /* istanbul ignore next */ {
       savingFinished();
       // Report error to Sentry
@@ -212,11 +211,10 @@ const useEventUpdateActions = ({
       /* istanbul ignore next */
       !isTestEnv && clearEventsQueries(apolloClient);
 
-      // Call callback function if defined
-      await (callbacks?.onSuccess && callbacks.onSuccess());
-
       savingFinished();
       closeModal();
+      // Call callback function if defined
+      await (callbacks?.onSuccess && callbacks.onSuccess());
     } catch (error) /* istanbul ignore next */ {
       savingFinished();
       // Report error to Sentry
@@ -266,11 +264,11 @@ const useEventUpdateActions = ({
 
       /* istanbul ignore next */
       !isTestEnv && clearEventsQueries(apolloClient);
-      // Call callback function if defined
-      await (callbacks?.onSuccess && callbacks.onSuccess());
 
       savingFinished();
       closeModal();
+      // Call callback function if defined
+      await (callbacks?.onSuccess && callbacks.onSuccess());
     } catch (error) /* istanbul ignore next */ {
       savingFinished();
       // Report error to Sentry
@@ -435,11 +433,10 @@ const useEventUpdateActions = ({
         !isTestEnv && clearEventsQueries(apolloClient);
       }
 
-      // Call callback function if defined
-      await (callbacks?.onSuccess && callbacks.onSuccess());
-
       savingFinished();
       closeModal();
+      // Call callback function if defined
+      await (callbacks?.onSuccess && callbacks.onSuccess());
     } catch (error) /* istanbul ignore next */ {
       savingFinished();
       // Report error to Sentry
