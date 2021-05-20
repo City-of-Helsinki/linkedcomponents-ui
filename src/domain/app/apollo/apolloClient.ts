@@ -8,6 +8,7 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import * as Sentry from '@sentry/browser';
 import { RestLink } from 'apollo-link-rest';
+import { SentryLink } from 'apollo-link-sentry';
 import snakeCase from 'lodash/snakeCase';
 import { toast } from 'react-toastify';
 
@@ -282,9 +283,16 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   }
 });
 
+const sentryLink = new SentryLink({
+  attachBreadcrumbs: {
+    includeQuery: true,
+    includeVariables: true,
+  },
+});
+
 const apolloClient = new ApolloClient({
   cache,
-  link: ApolloLink.from([errorLink, authLink, linkedEventsLink]),
+  link: ApolloLink.from([errorLink, sentryLink, authLink, linkedEventsLink]),
 });
 
 export default apolloClient;
