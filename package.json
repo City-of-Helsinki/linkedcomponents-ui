@@ -115,6 +115,7 @@
       "src/generated/graphql.tsx",
       "src/icons/",
       "src/utils/mockDataUtils.ts",
+      "src/utils/mockStoreUtils.ts",
       "src/utils/getNocacheTime.ts",
       "src/utils/testUtils.ts",
       "src/utils/typescript.ts"

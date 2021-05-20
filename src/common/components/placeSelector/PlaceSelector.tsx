@@ -77,7 +77,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   value,
   ...rest
 }) => {
-  let timer: number;
+  const timer = React.useRef<number>();
   const isMounted = useIsMounted();
   const { t } = useTranslation();
   const locale = useLocale();
@@ -101,7 +101,8 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   });
 
   const handleFilter = (items: OptionType[], inputValue: string) => {
-    timer = setTimeout(() => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
       if (isMounted.current) {
         setSearch(inputValue);
       }
@@ -121,7 +122,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   }, [locale, placesData, t]);
 
   React.useEffect(() => {
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
