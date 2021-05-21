@@ -25,10 +25,12 @@ import {
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
+import { cache } from '../../../app/apollo/apolloClient';
 import { EVENT_LIST_INCLUDES } from '../../constants';
 import EventCard, { testIds } from '../EventCard';
 
 configure({ defaultHidden: true });
+afterEach(() => cache.reset());
 
 const imageUrl = 'http://imageurl.com';
 const organizationId = 'hel:123';
@@ -49,7 +51,10 @@ const eventValues = {
 };
 
 const organizationName = 'Organization name';
-const organization = fakeOrganization({ name: organizationName });
+const organization = fakeOrganization({
+  id: organizationId,
+  name: organizationName,
+});
 const organizationVariables = { id: organizationId, createPath: undefined };
 const organizationResponse = { data: { organization } };
 const mockedOrganizationResponse = {

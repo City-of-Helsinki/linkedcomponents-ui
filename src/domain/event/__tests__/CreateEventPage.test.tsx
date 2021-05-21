@@ -16,6 +16,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import { cache } from '../../app/apollo/apolloClient';
 import translations from '../../app/i18n/fi.json';
 import {
   eventValues,
@@ -52,6 +53,7 @@ import CreateEventPage from '../CreateEventPage';
 import { EventFormFields } from '../types';
 
 configure({ defaultHidden: true });
+afterEach(() => cache.reset());
 
 const defaultMocks = [
   mockedImagesResponse,

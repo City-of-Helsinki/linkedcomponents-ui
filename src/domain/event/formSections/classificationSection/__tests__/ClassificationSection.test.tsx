@@ -17,8 +17,8 @@ import {
   render,
   screen,
   userEvent,
-  waitFor,
 } from '../../../../../utils/testUtils';
+import { cache } from '../../../../app/apollo/apolloClient';
 import translations from '../../../../app/i18n/fi.json';
 import {
   mockedAudienceKeywordSetResponse,
@@ -28,6 +28,7 @@ import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import ClassificationSection from '../ClassificationSection';
 
 configure({ defaultHidden: true });
+afterEach(() => cache.reset());
 
 const type = EVENT_TYPE.General;
 
@@ -40,57 +41,59 @@ const keywords = fakeKeywords(
     name: { fi: name },
   }))
 );
-
-const keywordsResponse = { data: { keywords } };
-
 const keywordsVariables = {
   createPath: undefined,
   dataSource: 'yso',
   showAllKeywords: true,
   text: '',
 };
+const keywordsResponse = { data: { keywords } };
+const mockedKeywordsResponse = {
+  request: {
+    query: KeywordsDocument,
+    variables: keywordsVariables,
+  },
+  result: keywordsResponse,
+};
 
 const keyword = keywords.data[0];
 const keywordName = keyword.name.fi;
 const keywordId = keyword.id;
 const keywordAtId = keyword.atId;
-
+const keywordVariables = { id: keywordId, createPath: undefined };
 const keywordResponse = { data: { keyword } };
+const mockedKeywordResponse = {
+  request: {
+    query: KeywordDocument,
+    variables: keywordVariables,
+  },
+  result: keywordResponse,
+};
 
 const topicsKeywordSet = fakeKeywordSet({
+  id: KEYWORD_SETS.TOPICS,
   keywords: keywords.data,
 });
-
+const topicsKeywordSetVariables = {
+  createPath: undefined,
+  id: KEYWORD_SETS.TOPICS,
+  include: [INCLUDE.KEYWORDS],
+};
 const topicsKeywordSetResponse = {
   data: { keywordSet: topicsKeywordSet },
 };
+const mockedTopicsKeywordSetResponse = {
+  request: {
+    query: KeywordSetDocument,
+    variables: topicsKeywordSetVariables,
+  },
+  result: topicsKeywordSetResponse,
+};
 
 const mocks = [
-  {
-    request: {
-      query: KeywordDocument,
-      variables: { id: keywordId, createPath: undefined },
-    },
-    result: keywordResponse,
-  },
-  {
-    request: {
-      query: KeywordsDocument,
-      variables: keywordsVariables,
-    },
-    result: keywordsResponse,
-  },
-  {
-    request: {
-      query: KeywordSetDocument,
-      variables: {
-        createPath: undefined,
-        id: KEYWORD_SETS.TOPICS,
-        include: [INCLUDE.KEYWORDS],
-      },
-    },
-    result: topicsKeywordSetResponse,
-  },
+  mockedKeywordResponse,
+  mockedKeywordsResponse,
+  mockedTopicsKeywordSetResponse,
   mockedAudienceKeywordSetResponse,
   mockedLanguagesResponse,
 ];
@@ -121,22 +124,16 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
 test('should render classification section', async () => {
   renderComponent({ [EVENT_FIELDS.KEYWORDS]: [keywordAtId] });
 
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('heading', {
-        name: translations.event.form.titleMainCategories,
-      })
-    );
+  await screen.findByRole('heading', {
+    name: translations.event.form.titleMainCategories,
+  });
+
+  screen.getByRole('heading', {
+    name: translations.event.form.notificationTitleMainCategories[type],
   });
 
   expect(
-    screen.queryByRole('heading', {
-      name: translations.event.form.notificationTitleMainCategories[type],
-    })
-  );
-
-  expect(
-    screen.queryAllByRole('heading', {
+    screen.getAllByRole('heading', {
       name: translations.event.form.titleKeywords,
     })
   ).toHaveLength(2);
@@ -146,56 +143,41 @@ test('should render classification section', async () => {
     translations.event.form.infoTextKeywords[type],
   ];
 
-  infoTexts.forEach((infoText) => {
-    expect(screen.queryByText(infoText));
-  });
+  infoTexts.forEach((infoText) => screen.getByText(infoText));
 
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('link', {
-        name: new RegExp(keywordName, 'i'),
-        hidden: true,
-      })
-    ).toBeInTheDocument();
+  await screen.findByRole('link', {
+    name: new RegExp(keywordName, 'i'),
+    hidden: true,
   });
 });
 
 test('should show 10 first topics by default and rest by clicking show more', async () => {
   renderComponent();
 
-  await waitFor(() => {
-    expect(screen.queryByLabelText(keywordNames[0])).toBeInTheDocument();
-  });
+  await screen.findByLabelText(keywordNames[0]);
+
   const defaultKeywords = [...keywordNames].sort().slice(0, 10);
   const restKeywords = [...keywordNames].sort().slice(10);
 
-  defaultKeywords.forEach((keyword) => {
-    expect(screen.queryByLabelText(keyword)).toBeInTheDocument();
-  });
+  defaultKeywords.forEach((keyword) => screen.getByLabelText(keyword));
 
-  restKeywords.forEach((keyword) => {
-    expect(screen.queryByLabelText(keyword)).not.toBeInTheDocument();
-  });
+  restKeywords.forEach((keyword) =>
+    expect(screen.queryByLabelText(keyword)).not.toBeInTheDocument()
+  );
 
   userEvent.click(
     screen.getByRole('button', { name: translations.common.showMore })
   );
 
-  await waitFor(() => {
-    expect(screen.queryByLabelText(restKeywords[0])).toBeInTheDocument();
-  });
+  await screen.findByLabelText(restKeywords[0]);
 
-  restKeywords.forEach((keyword) => {
-    expect(screen.queryByLabelText(keyword)).toBeInTheDocument();
-  });
+  restKeywords.forEach((keyword) => screen.getByLabelText(keyword));
 });
 
 test('should change keyword', async () => {
   renderComponent();
 
-  await waitFor(() => {
-    expect(screen.queryByLabelText(keywordNames[0])).toBeInTheDocument();
-  });
+  await screen.findByLabelText(keywordNames[0]);
 
   const toggleButton = screen.queryByRole('button', {
     name: `${translations.event.form.labelKeywords}: ${translations.common.combobox.toggleButtonAriaLabel}`,
@@ -203,20 +185,12 @@ test('should change keyword', async () => {
 
   userEvent.click(toggleButton);
 
-  await waitFor(() => {
-    expect(
-      screen.getByRole('option', { name: keywordName })
-    ).toBeInTheDocument();
-  });
+  await screen.findByRole('option', { name: keywordName });
 
   userEvent.click(screen.getByRole('option', { name: keywordName }));
 
-  await waitFor(() => {
-    expect(
-      screen.queryByRole('link', {
-        name: new RegExp(keywordName, 'i'),
-        hidden: true,
-      })
-    ).toBeInTheDocument();
+  await screen.findByRole('link', {
+    name: new RegExp(keywordName, 'i'),
+    hidden: true,
   });
 });

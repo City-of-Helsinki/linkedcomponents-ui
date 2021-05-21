@@ -1,9 +1,10 @@
-import range from 'lodash/range';
 import React from 'react';
 
+import { cache } from '../../../../domain/app/apollo/apolloClient';
 import { EventDocument, EventsDocument } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
+  configure,
   render,
   screen,
   userEvent,
@@ -12,6 +13,9 @@ import {
 import UmbrellaEventSelector, {
   UmbrellaEventSelectorProps,
 } from '../UmbrellaEventSelector';
+
+configure({ defaultHidden: true });
+afterEach(() => cache.reset());
 
 const eventId = 'hel:123';
 const eventAtId = `https://api.hel.fi/linkedevents/v1/event/${eventId}/`;
@@ -25,56 +29,35 @@ const event = fakeEvent({
   atId: eventAtId,
   name: { fi: eventName },
 });
-
+const eventVariables = {
+  id: eventId,
+  createPath: undefined,
+};
 const eventResponse = { data: { event: event } };
+const mockedEventResponse = {
+  request: {
+    query: EventDocument,
+    variables: eventVariables,
+  },
+  result: eventResponse,
+};
 
-const eventNames = range(1, 6).map((val) => `Event name ${val}`);
-const events = fakeEvents(
-  eventNames.length,
-  eventNames.map((name) => ({ name: { fi: name } }))
-);
-const eventsResponse = { data: { events } };
-
-const defaultEventsVariables = {
+const filteredEventsVariables = {
   createPath: undefined,
   superEventType: ['umbrella'],
   text: '',
 };
-
-const filteredEventsVariables = {
-  ...defaultEventsVariables,
-  text: eventName,
-};
-
 const filteredEvents = fakeEvents(1, [event]);
 const filteredEventsResponse = { data: { events: filteredEvents } };
+const mockedFilteredEventsResponse = {
+  request: {
+    query: EventsDocument,
+    variables: filteredEventsVariables,
+  },
+  result: filteredEventsResponse,
+};
 
-const mocks = [
-  {
-    request: {
-      query: EventDocument,
-      variables: {
-        id: eventId,
-        createPath: undefined,
-      },
-    },
-    result: eventResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: defaultEventsVariables,
-    },
-    result: eventsResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: filteredEventsVariables,
-    },
-    result: filteredEventsResponse,
-  },
-];
+const mocks = [mockedEventResponse, mockedFilteredEventsResponse];
 
 const defaultProps: UmbrellaEventSelectorProps = {
   helper,
@@ -105,7 +88,7 @@ test('should open menu by clickin toggle button and list of options should be vi
 
   expect(inputField.getAttribute('aria-expanded')).toBe('false');
 
-  const toggleButton = screen.queryByRole('button');
+  const toggleButton = screen.getByRole('button');
   userEvent.click(toggleButton);
 
   expect(inputField.getAttribute('aria-expanded')).toBe('true');

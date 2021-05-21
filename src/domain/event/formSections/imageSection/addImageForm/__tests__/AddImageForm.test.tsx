@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { PAGE_SIZE } from '../../../../../../common/components/imageSelector/constants';
-import { MAX_PAGE_SIZE } from '../../../../../../constants';
+import { MAX_PAGE_SIZE, TEST_USER_ID } from '../../../../../../constants';
 import {
   ImagesDocument,
   OrganizationsDocument,
@@ -23,10 +23,12 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../../utils/testUtils';
+import { cache } from '../../../../../app/apollo/apolloClient';
 import translations from '../../../../../app/i18n/fi.json';
 import AddImageForm, { AddImageFormProps } from '../AddImageForm';
 
 configure({ defaultHidden: true });
+afterEach(() => cache.reset());
 
 const publisher = 'publisher:1';
 const images = fakeImages(PAGE_SIZE, [{ publisher }]);
@@ -76,7 +78,7 @@ const user = fakeUser({
 });
 const userVariables = {
   createPath: undefined,
-  id: 'user:1',
+  id: TEST_USER_ID,
 };
 const userResponse = { data: { user } };
 const mockedUserResponse = {

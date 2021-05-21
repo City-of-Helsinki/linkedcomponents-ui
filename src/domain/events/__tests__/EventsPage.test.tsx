@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
+import { TEST_USER_ID } from '../../../constants';
 import {
   EventsDocument,
   OrganizationDocument,
@@ -47,7 +48,7 @@ const userResponse = { data: { user: userData } };
 const mockedUserResponse: MockedResponse = {
   request: {
     query: UserDocument,
-    variables: { id: 'user:1', createPath: undefined },
+    variables: { id: TEST_USER_ID, createPath: undefined },
   },
   result: userResponse,
 };

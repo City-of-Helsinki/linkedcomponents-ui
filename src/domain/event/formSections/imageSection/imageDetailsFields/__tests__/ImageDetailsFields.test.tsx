@@ -2,17 +2,11 @@ import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
 
-import { MAX_PAGE_SIZE } from '../../../../../../constants';
 import {
   ImageDocument,
-  OrganizationsDocument,
   UserDocument,
 } from '../../../../../../generated/graphql';
-import {
-  fakeImage,
-  fakeOrganizations,
-  fakeUser,
-} from '../../../../../../utils/mockDataUtils';
+import { fakeImage } from '../../../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
 import {
   configure,
@@ -22,6 +16,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../../utils/testUtils';
+import { cache } from '../../../../../app/apollo/apolloClient';
 import translations from '../../../../../app/i18n/fi.json';
 import {
   DEFAULT_LICENSE_TYPE,
@@ -33,6 +28,11 @@ import {
   IMAGE_DETAILS_FIELDS,
 } from '../../../../constants';
 import { publicEventSchema } from '../../../../utils';
+import {
+  mockedOrganizationsResponse,
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../__mocks__/imageSection';
 import ImageDetailsFields, {
   ImageDetailsFieldsProps,
 } from '../ImageDetailsFields';
@@ -76,43 +76,11 @@ const mockedNotFoundResponse = {
   error: new Error('not found'),
 };
 
-const organizationsVariables = {
-  child: publisher,
-  createPath: undefined,
-  pageSize: MAX_PAGE_SIZE,
-};
-const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
-const mockedOrganizationsResponse = {
-  request: {
-    query: OrganizationsDocument,
-    variables: organizationsVariables,
-  },
-  result: organizationsResponse,
-};
-
-const user = fakeUser({
-  organization: publisher,
-  adminOrganizations: [publisher],
-  organizationMemberships: [],
-});
-const userVariables = {
-  createPath: undefined,
-  id: 'user:1',
-};
-const userResponse = { data: { user } };
-const mockedUserResponse = {
-  request: {
-    query: UserDocument,
-    variables: userVariables,
-  },
-  result: userResponse,
-};
-
 const defaultMocks = [
   mockedImageResponse,
-  mockedNotFoundResponse,
   mockedOrganizationsResponse,
   mockedUserResponse,
+  mockedNotFoundResponse,
 ];
 
 const state = fakeAuthenticatedStoreState();
@@ -142,6 +110,8 @@ const defaultInitialValus: InitialValues = {
   [EVENT_FIELDS.TYPE]: eventType,
 };
 
+afterEach(() => cache.reset());
+
 const renderComponent = ({
   initialValues,
   mocks = defaultMocks,
@@ -162,24 +132,45 @@ const renderComponent = ({
     { mocks, store }
   );
 
+const getElement = (
+  key: 'altText' | 'ccByRadio' | 'eventOnlyRadio' | 'name' | 'photographerName'
+) => {
+  switch (key) {
+    case 'altText':
+      return screen.getByRole('textbox', {
+        name: translations.event.form.image.labelAltText,
+      });
+    case 'ccByRadio':
+      return screen.getByRole('radio', {
+        name: translations.event.form.image.license.ccBy,
+      });
+    case 'eventOnlyRadio':
+      return screen.getByRole('radio', {
+        name: translations.event.form.image.license.eventOnly[eventType],
+      });
+    case 'name':
+      return screen.getByRole('textbox', {
+        name: translations.event.form.image.labelName,
+      });
+    case 'photographerName':
+      return screen.getByRole('textbox', {
+        name: translations.event.form.image.labelPhotographerName,
+      });
+  }
+};
+
 test('all fields should be disabled when imageAtId is null', () => {
   renderComponent({ props: { imageAtId: null } });
 
-  const fields = [
-    translations.event.form.image.labelAltText,
-    translations.event.form.image.labelName,
-    translations.event.form.image.labelPhotographerName,
+  const textInputs = [
+    getElement('altText'),
+    getElement('name'),
+    getElement('photographerName'),
   ];
 
-  fields.forEach((name) => {
-    expect(screen.getByRole('textbox', { name })).toBeDisabled();
-  });
+  textInputs.forEach((textInput) => expect(textInput).toBeDisabled());
 
-  expect(
-    screen.getByRole('radio', {
-      name: translations.event.form.image.license.ccBy,
-    })
-  ).toBeDisabled();
+  expect(getElement('ccByRadio')).toBeDisabled();
 });
 
 test('should clear field values when imageAtId is null', () => {
@@ -197,21 +188,14 @@ test('should clear field values when imageAtId is null', () => {
     props: { imageAtId: null },
   });
 
-  const fields = [
-    translations.event.form.image.labelAltText,
-    translations.event.form.image.labelName,
-    translations.event.form.image.labelPhotographerName,
+  const textInputs = [
+    getElement('altText'),
+    getElement('name'),
+    getElement('photographerName'),
   ];
+  textInputs.forEach((textInput) => expect(textInput).toHaveValue(''));
 
-  fields.forEach((name) => {
-    expect(screen.getByRole('textbox', { name })).toHaveValue('');
-  });
-
-  expect(
-    screen.getByRole('radio', {
-      name: translations.event.form.image.license.ccBy,
-    })
-  ).toBeChecked();
+  expect(getElement('ccByRadio')).toBeChecked();
 });
 
 test('should clear field values when image with imageAtId does not exist', async () => {
@@ -229,111 +213,57 @@ test('should clear field values when image with imageAtId does not exist', async
     props: { imageAtId: notFoundAtId },
   });
 
-  await waitFor(() => {
-    expect(
-      screen.getByRole('radio', {
-        name: translations.event.form.image.license.ccBy,
-      })
-    ).toBeChecked();
-  });
+  const ccByRadio = getElement('ccByRadio');
+  await waitFor(() => expect(ccByRadio).toBeChecked());
 
-  const fields = [
-    translations.event.form.image.labelAltText,
-    translations.event.form.image.labelName,
-    translations.event.form.image.labelPhotographerName,
+  const textInputs = [
+    getElement('altText'),
+    getElement('name'),
+    getElement('photographerName'),
   ];
 
-  fields.forEach((name) => {
-    expect(screen.getByRole('textbox', { name })).toHaveValue('');
-  });
+  textInputs.forEach((textInput) => expect(textInput).toHaveValue(''));
 });
 
 test('should set field values', async () => {
   renderComponent({ props: { imageAtId: imageFields.atId } });
 
-  const altTextInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelAltText,
-  });
-  const nameInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelName,
-  });
-  const photographerNameInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelPhotographerName,
-  });
-
-  const fields = [
-    { input: altTextInput, expectedValue: imageFields.altText },
-    { input: nameInput, expectedValue: imageFields.name },
+  const textInputCases = [
+    { input: getElement('altText'), expectedValue: imageFields.altText },
+    { input: getElement('name'), expectedValue: imageFields.name },
     {
-      input: photographerNameInput,
+      input: getElement('photographerName'),
       expectedValue: imageFields.photographerName,
     },
   ];
 
-  for (const { input, expectedValue } of fields) {
-    await waitFor(() => {
-      expect(input).toHaveValue(expectedValue);
-      expect(input).toBeEnabled();
-    });
+  for (const { input, expectedValue } of textInputCases) {
+    await waitFor(() => expect(input).toHaveValue(expectedValue));
   }
 
-  const eventOnlyRadio = screen.getByRole('radio', {
-    name: translations.event.form.image.license.eventOnly[eventType],
-  });
+  const eventOnlyRadio = getElement('eventOnlyRadio');
   expect(eventOnlyRadio).toBeChecked();
   expect(eventOnlyRadio).toBeEnabled();
 });
 
 test("all fields should be disabled when user doesn't have permission to edit image", async () => {
-  const user = fakeUser({
-    organization: '',
-    adminOrganizations: [],
-    organizationMemberships: [],
-  });
-  const userResponse = { data: { user } };
-  const mockedUserResponse = {
-    request: {
-      query: UserDocument,
-      variables: userVariables,
-    },
-    result: userResponse,
-  };
-
   const mocks = [
     ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),
-    mockedUserResponse,
+    mockedUserWithoutOrganizationsResponse,
   ];
   renderComponent({ mocks, props: { imageAtId: imageFields.atId } });
 
-  const altTextInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelAltText,
-  });
-  const nameInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelName,
-  });
-  const photographerNameInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelPhotographerName,
-  });
-
-  const fields = [
-    { input: altTextInput, expectedValue: imageFields.altText },
-    { input: nameInput, expectedValue: imageFields.name },
-    {
-      input: photographerNameInput,
-      expectedValue: imageFields.photographerName,
-    },
+  const textInputs = [
+    getElement('altText'),
+    getElement('name'),
+    getElement('photographerName'),
   ];
 
-  for (const { input, expectedValue } of fields) {
-    await waitFor(() => {
-      expect(input).toHaveValue(expectedValue);
-      expect(input).toBeDisabled();
-    });
+  for (const input of textInputs) {
+    await waitFor(() => expect(input).toBeDisabled());
   }
 
-  const eventOnlyRadio = screen.getByRole('radio', {
-    name: translations.event.form.image.license.eventOnly[eventType],
-  });
+  const eventOnlyRadio = getElement('eventOnlyRadio');
   expect(eventOnlyRadio).toBeChecked();
   expect(eventOnlyRadio).toBeDisabled();
 });
@@ -353,13 +283,9 @@ test('should show validation error when entering too short altText', async () =>
     props: { imageAtId: imageFields.atId },
   });
 
-  const altTextInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelAltText,
-  });
+  const altTextInput = getElement('altText');
 
-  await waitFor(() => {
-    expect(altTextInput).toHaveValue(imageFields.altText);
-  });
+  await waitFor(() => expect(altTextInput).toHaveValue(imageFields.altText));
 
   userEvent.click(altTextInput);
   userEvent.clear(altTextInput);

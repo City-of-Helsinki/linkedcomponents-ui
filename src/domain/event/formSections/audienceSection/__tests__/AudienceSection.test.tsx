@@ -14,6 +14,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
+import { cache } from '../../../../app/apollo/apolloClient';
 import translations from '../../../../app/i18n/fi.json';
 import {
   mockedLanguagesResponse,
@@ -31,6 +32,7 @@ const keywords = fakeKeywords(
 ).data;
 
 const audiencesKeywordSet = fakeKeywordSet({
+  id: KEYWORD_SETS.AUDIENCES,
   keywords,
 });
 
@@ -53,6 +55,10 @@ const mocks = [
   mockedLanguagesResponse,
   mockedTopicsKeywordSetResponse,
 ];
+
+afterEach(() => {
+  cache.reset();
+});
 
 const renderComponent = () =>
   render(

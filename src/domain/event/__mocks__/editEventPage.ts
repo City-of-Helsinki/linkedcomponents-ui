@@ -4,7 +4,13 @@ import addHours from 'date-fns/addHours';
 import startOfDay from 'date-fns/startOfDay';
 import omit from 'lodash/omit';
 
-import { DATETIME_FORMAT, EXTLINK, MAX_PAGE_SIZE } from '../../../constants';
+import {
+  DATETIME_FORMAT,
+  EXTLINK,
+  KEYWORD_SETS,
+  MAX_PAGE_SIZE,
+  TEST_USER_ID,
+} from '../../../constants';
 import {
   CreateEventsDocument,
   DeleteEventDocument,
@@ -13,13 +19,11 @@ import {
   EventStatus,
   EventTypeId,
   ImageDocument,
-  KeywordDocument,
   KeywordsDocument,
   KeywordSetDocument,
   LanguagesDocument,
   OrganizationDocument,
   OrganizationsDocument,
-  PlaceDocument,
   PlacesDocument,
   PublicationStatus,
   SuperEventType,
@@ -198,8 +202,14 @@ const keywords = fakeKeywords(
   }))
 );
 
-const audienceKeywordSet = fakeKeywordSet({ keywords: audience.data });
-const topicsKeywordSet = fakeKeywordSet({ keywords: keywords.data });
+const audienceKeywordSet = fakeKeywordSet({
+  id: KEYWORD_SETS.AUDIENCES,
+  keywords: audience.data,
+});
+const topicsKeywordSet = fakeKeywordSet({
+  id: KEYWORD_SETS.TOPICS,
+  keywords: keywords.data,
+});
 
 const languages = fakeLanguages(
   inLanguageAtIds.length,
@@ -508,31 +518,6 @@ const newSubEvents = fakeEvents(
 
 const subEventsResponse = { data: { events: subEvents } };
 
-const subEventTime1Variables = {
-  createPath: undefined,
-  id: subEventTimes[0].id,
-};
-const subEventTime1Response = { data: { event: subEvents.data[0] } };
-const mockedSubEventTime1Response: MockedResponse = {
-  request: {
-    query: EventDocument,
-    variables: subEventTime1Variables,
-  },
-  result: subEventTime1Response,
-};
-const subEventTime2Variables = {
-  createPath: undefined,
-  id: subEventTimes[1].id,
-};
-const subEventTime2Response = { data: { event: subEvents.data[1] } };
-const mockedSubEventTime2Response: MockedResponse = {
-  request: {
-    query: EventDocument,
-    variables: subEventTime2Variables,
-  },
-  result: subEventTime2Response,
-};
-
 const baseEventsVariables = {
   createPath: undefined,
   include: EVENT_INCLUDES,
@@ -700,19 +685,6 @@ const mockedUpdateImageResponse: MockedResponse = {
   result: updateImageResponse,
 };
 
-// Keyword mocks
-const keywordVariables = {
-  createPath: undefined,
-  id: keywordId,
-};
-const keywordResponse = { data: { keyword: keywords.data[0] } };
-const mockedKeywordResponse: MockedResponse = {
-  request: {
-    query: KeywordDocument,
-    variables: keywordVariables,
-  },
-  result: keywordResponse,
-};
 const keywordsVariables = {
   createPath: undefined,
   dataSource: 'yso',
@@ -804,19 +776,6 @@ const mockedOrganizationAncestorsResponse: MockedResponse = {
 };
 
 // Place mocks
-const placeVariables = {
-  createPath: undefined,
-  id: locationId,
-};
-const placeResponse = { data: { place: places.data[0] } };
-const mockedPlaceResponse: MockedResponse = {
-  request: {
-    query: PlaceDocument,
-    variables: placeVariables,
-  },
-  result: placeResponse,
-};
-
 const placesVariables = {
   createPath: undefined,
   showAllPlaces: true,
@@ -851,7 +810,7 @@ const user = fakeUser({
 });
 const userVariables = {
   createPath: undefined,
-  id: 'user:1',
+  id: TEST_USER_ID,
 };
 const userResponse = { data: { user } };
 const mockedUserResponse = {
@@ -881,18 +840,14 @@ export {
   mockedFilteredPlacesResponse,
   mockedImageResponse,
   mockedInvalidEventResponse,
-  mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
   mockedOrganizationAncestorsResponse,
   mockedOrganizationResponse,
-  mockedPlaceResponse,
   mockedPlacesResponse,
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
-  mockedSubEventTime1Response,
-  mockedSubEventTime2Response,
   mockedSubSubEventsResponse,
   mockedTopicsKeywordSetResponse,
   mockedUpdatedEventResponse,

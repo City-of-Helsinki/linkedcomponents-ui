@@ -16,6 +16,7 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import { cache } from '../../app/apollo/apolloClient';
 import {
   eventId,
   expectedValues,
@@ -31,18 +32,14 @@ import {
   mockedFilteredPlacesResponse,
   mockedImageResponse,
   mockedInvalidEventResponse,
-  mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
   mockedOrganizationAncestorsResponse,
   mockedOrganizationResponse,
-  mockedPlaceResponse,
   mockedPlacesResponse,
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
-  mockedSubEventTime1Response,
-  mockedSubEventTime2Response,
   mockedSubSubEventsResponse,
   mockedTopicsKeywordSetResponse,
   mockedUpdatedEventResponse,
@@ -59,16 +56,16 @@ import EditEventPage from '../EditEventPage';
 
 configure({ defaultHidden: true });
 
+afterEach(() => cache.reset());
+
 const baseMocks = [
   mockedEventResponse,
   mockedEventTimeResponse,
   mockedImageResponse,
-  mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedAudienceKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
   mockedLanguagesResponse,
-  mockedPlaceResponse,
   mockedPlacesResponse,
   mockedFilteredPlacesResponse,
   mockedUserResponse,
@@ -266,8 +263,6 @@ test('should update recurring event', async () => {
     ...baseMocks.filter((item) => item.request.query !== EventDocument),
     mockedEventWithSubEventResponse,
     mockedSubEventsResponse,
-    mockedSubEventTime1Response,
-    mockedSubEventTime2Response,
     mockedSubSubEventsResponse,
     // Request to update event
     mockedDeleteSubEvent1Response,

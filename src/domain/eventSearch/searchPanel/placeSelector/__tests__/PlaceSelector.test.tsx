@@ -7,8 +7,17 @@ import {
   PlacesDocument,
 } from '../../../../../generated/graphql';
 import { fakePlaces } from '../../../../../utils/mockDataUtils';
-import { render, screen, userEvent } from '../../../../../utils/testUtils';
+import {
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../../utils/testUtils';
+import { cache } from '../../../../app/apollo/apolloClient';
 import PlaceSelector, { PlaceSelectorProps } from '../PlaceSelector';
+
+configure({ defaultHidden: true });
+afterEach(() => cache.reset());
 
 const placeOverrides = range(1, 5).map((i) => ({
   id: `place:${i}`,

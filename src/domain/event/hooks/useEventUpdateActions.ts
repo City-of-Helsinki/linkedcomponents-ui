@@ -423,6 +423,7 @@ const useEventUpdateActions = ({
       } else {
         payload = [{ ...basePayload, id }];
         await updateEvents(payload);
+
         await updateRecurringEventIfNeeded(event);
         /* istanbul ignore next */
         !isTestEnv && clearEventsQueries(apolloClient);

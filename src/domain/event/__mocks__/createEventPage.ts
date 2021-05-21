@@ -2,7 +2,12 @@ import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
 import { PAGE_SIZE } from '../../../common/components/imageSelector/constants';
-import { INCLUDE, KEYWORD_SETS, MAX_PAGE_SIZE } from '../../../constants';
+import {
+  INCLUDE,
+  KEYWORD_SETS,
+  MAX_PAGE_SIZE,
+  TEST_USER_ID,
+} from '../../../constants';
 import {
   CreateEventDocument,
   CreateEventsDocument,
@@ -350,7 +355,7 @@ const mockedKeywordsResponse: MockedResponse = {
 };
 
 // Mock keyword sets
-const audienceKeywordSet = fakeKeywordSet();
+const audienceKeywordSet = fakeKeywordSet({ id: KEYWORD_SETS.AUDIENCES });
 const audienceKeywordSetVariables = {
   createPath: undefined,
   id: KEYWORD_SETS.AUDIENCES,
@@ -368,6 +373,7 @@ const mockedAudienceKeywordSetResponse: MockedResponse = {
 };
 
 const topicsKeywordSet = fakeKeywordSet({
+  id: KEYWORD_SETS.TOPICS,
   keywords: keywords.data,
 });
 const topicsKeywordSetVariables = {
@@ -472,7 +478,7 @@ const user = fakeUser({
 });
 const userVariables = {
   createPath: undefined,
-  id: 'user:1',
+  id: TEST_USER_ID,
 };
 const userResponse = { data: { user } };
 const mockedUserResponse = {
