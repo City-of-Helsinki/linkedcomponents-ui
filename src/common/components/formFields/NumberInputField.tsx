@@ -30,7 +30,7 @@ const NumberInputField: React.FC<Props> = ({
         // TODO: Remove this when HDS NumberInput calls onChange
         // after clicking minus/plus button
         if (ref.current?.value !== value) {
-          onChange({ target: { id: name, value: ref.current?.value } });
+          onChange({ target: { id: name, value: Number(ref.current?.value) } });
         }
       }}
     >
