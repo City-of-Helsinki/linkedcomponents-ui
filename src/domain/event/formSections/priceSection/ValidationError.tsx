@@ -9,9 +9,9 @@ const ValidationError: React.FC = () => {
   const locale = useLocale();
 
   return (
-    <ErrorMessage key={locale} name={EVENT_FIELDS.EVENT_TIMES}>
+    <ErrorMessage key={locale} name={EVENT_FIELDS.OFFERS}>
       {(error) => (
-        <ErrorText error={error} id={`${EVENT_FIELDS.EVENT_TIMES}-error`} />
+        <ErrorText id={`${EVENT_FIELDS.OFFERS}-error`} error={error} />
       )}
     </ErrorMessage>
   );

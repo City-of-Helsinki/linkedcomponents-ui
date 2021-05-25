@@ -856,6 +856,7 @@
         "min": "Arvon tulee olla vähintään {{min}}",
         "required": "Tämä kenttä on pakollinen"
       },
+      "offersRequired": "Vähintään 1 hintatieto vaaditaan",
       "string": {
         "charsLeft": "{{count}} merkki jäljellä",
         "charsLeft_plural": "{{count}} merkkiä jäljellä",

@@ -875,6 +875,7 @@
         "min": "Value must be at least {{min}}",
         "required": "This field is required"
       },
+      "offersRequired": "At least 1 price information must be added",
       "string": {
         "charsLeft": "{{count}} character left",
         "charsLeft_plural": "{{count}} characters left",

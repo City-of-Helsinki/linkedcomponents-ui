@@ -86,6 +86,7 @@ import {
   EVENT_EDIT_ACTIONS,
   EVENT_EDIT_ICONS,
   EVENT_EDIT_LABEL_KEYS,
+  EVENT_FIELD_ARRAYS,
   EVENT_FIELDS,
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
@@ -192,18 +193,20 @@ const validateOffers = (
   schema: Yup.SchemaOf<Offer[]>
 ) =>
   hasPrice
-    ? Yup.array().of(
-        Yup.object().shape({
-          [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
-            eventInfoLanguage,
-            Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          ),
-          [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
-            eventInfoLanguage,
-            Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-          ),
-        })
-      )
+    ? Yup.array()
+        .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
+        .of(
+          Yup.object().shape({
+            [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
+              eventInfoLanguage,
+              Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+            ),
+            [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
+              eventInfoLanguage,
+              Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+            ),
+          })
+        )
     : schema;
 
 const imageDetailsSchema = Yup.object().shape({
@@ -1225,7 +1228,7 @@ const getFocusableFieldId = (
     return { fieldId: `${fieldName}-text-editor`, type: 'textEditor' };
   } else if (fieldName === EVENT_FIELDS.MAIN_CATEGORIES) {
     return { fieldId: fieldName, type: 'checkboxGroup' };
-  } else if (fieldName === EVENT_FIELDS.EVENT_TIMES) {
+  } else if (EVENT_FIELD_ARRAYS.includes(fieldName)) {
     return { fieldId: `${fieldName}-error`, type: 'default' };
   }
 

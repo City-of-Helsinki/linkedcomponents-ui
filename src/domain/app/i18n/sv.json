@@ -856,6 +856,7 @@
         "min": "Värdet måste vara minst {{min}}",
         "required": "Detta fält krävs"
       },
+      "offersRequired": "Minst 1 prisinformation måste läggas till",
       "string": {
         "charsLeft": "{{count}} tecken kvar",
         "charsLeft_plural": "{{count}} tecken kvar",

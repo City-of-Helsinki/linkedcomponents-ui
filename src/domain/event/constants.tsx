@@ -233,6 +233,11 @@ export const TEXT_EDITOR_ALLOWED_TAGS: string[] = [
 
 export const TEXT_EDITOR_FIELDS = [EVENT_FIELDS.DESCRIPTION];
 
+export const EVENT_FIELD_ARRAYS: string[] = [
+  EVENT_FIELDS.EVENT_TIMES,
+  EVENT_FIELDS.OFFERS,
+];
+
 export const EVENT_INCLUDES = [
   'audience',
   'keywords',
