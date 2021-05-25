@@ -869,6 +869,8 @@
       },
       "eventInfoVerified": "The information must be verified",
       "eventTimesRequired": "At least 1 time must be added",
+      "keywordRequired": "At least 1 keyword must be selected",
+      "mainCategoryRequired": "At least 1 main category must be selected",
       "number": {
         "integer": "Value must be an integer",
         "max": "Maximum value is {{max}}",

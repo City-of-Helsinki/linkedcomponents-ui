@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
-import KeywordSelectorFields from '../../../../common/components/formFields/KeywordSelectorFields';
+import KeywordSelectorField from '../../../../common/components/formFields/KeywordSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
 import useLocale from '../../../../hooks/useLocale';
 import { getKeywordOption } from '../../../keywordSet/utils';
@@ -68,7 +68,7 @@ const ClassificationSection: React.FC = () => {
             name={EVENT_FIELDS.KEYWORDS}
             component={CheckboxGroupField}
             columns={2}
-            id={EVENT_FIELDS.MAIN_CATEGORIES}
+            errorName={EVENT_FIELDS.MAIN_CATEGORIES}
             options={keywordOptions}
             visibleOptionAmount={10}
           />
@@ -90,7 +90,7 @@ const ClassificationSection: React.FC = () => {
         <FieldColumn>
           <Field
             name={EVENT_FIELDS.KEYWORDS}
-            component={KeywordSelectorFields}
+            component={KeywordSelectorField}
             label={t(`event.form.labelKeywords`)}
             placeholder={t(`event.form.placeholderKeywords`)}
           />

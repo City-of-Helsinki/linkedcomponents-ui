@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  actWait,
   arrowDownKeyPressHelper,
   arrowUpKeyPressHelper,
   configure,
@@ -124,6 +123,16 @@ test('should open menu with arrow up key', async () => {
 
   arrowUpKeyPressHelper();
   await findElement('searchInput');
+});
+
+test('should close menu with esc key', async () => {
+  await renderComponentWithOpenMenu();
+
+  const searchInput = getElement('searchInput');
+
+  escKeyPressHelper();
+
+  expect(searchInput).not.toBeInTheDocument();
 });
 
 test('should filter options', async () => {

@@ -267,7 +267,7 @@ const validateMainCategories = (
 ) =>
   schema.test(
     'atLeastOneMainCategoryIsSelected',
-    VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED,
+    VALIDATION_MESSAGE_KEYS.MAIN_CATEGORY_REQUIRED,
     (mainCategories) =>
       mainCategories?.some(
         (category) => category && keywords.includes(category)
@@ -391,9 +391,7 @@ export const publicEventSchema = Yup.object().shape({
   ),
   [EVENT_FIELDS.KEYWORDS]: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-    .min(1, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
-    ),
+    .min(1, VALIDATION_MESSAGE_KEYS.KEYWORD_REQUIRED),
   // Validate enrolment related fields
   ...enrolmentSchemaFields,
   [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(

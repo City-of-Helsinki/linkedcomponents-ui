@@ -1,8 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { configure, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import SortableColumn, { SortableColumnProps } from '../SortableColumn';
+
+configure({ defaultHidden: true });
 
 const defaultProps: SortableColumnProps = {
   label: 'Column label',
@@ -22,19 +24,24 @@ const renderComponent = (props?: Partial<SortableColumnProps>) =>
     </table>
   );
 
-test('sort order should be ascending', () => {
-  renderComponent();
+const testCases: [Partial<SortableColumnProps>, string][] = [
+  [{ sort: 'key', type: 'default' }, 'ascending'],
+  [{ sort: '-key', type: 'default' }, 'descending'],
+  [{ sort: 'key', type: 'text' }, 'ascending'],
+  [{ sort: '-key', type: 'text' }, 'descending'],
+];
 
-  const column = screen.getByRole('columnheader', { name: defaultProps.label });
-  expect(column.getAttribute('aria-sort')).toBe('ascending');
-});
+test.each(testCases)(
+  'should set correct aria-sort with props %p, result %p',
+  (props, expectedResult) => {
+    renderComponent(props);
 
-test('sort order should be descending', () => {
-  renderComponent({ sort: '-key' });
-
-  const column = screen.getByRole('columnheader', { name: defaultProps.label });
-  expect(column.getAttribute('aria-sort')).toBe('descending');
-});
+    const column = screen.getByRole('columnheader', {
+      name: defaultProps.label,
+    });
+    expect(column.getAttribute('aria-sort')).toBe(expectedResult);
+  }
+);
 
 test('should call onClick function when clicking column', () => {
   const onClick = jest.fn();

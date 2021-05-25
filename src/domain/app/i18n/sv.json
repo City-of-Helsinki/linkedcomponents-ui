@@ -850,6 +850,8 @@
       },
       "eventInfoVerified": "Informationen måste verifieras",
       "eventTimesRequired": "Minst 1 tid måste läggas till",
+      "keywordRequired": "Minst 1 nyckelord måste väljas",
+      "mainCategoryRequired": "Minst 1 huvudkategori måste väljas",
       "number": {
         "integer": "Värdet måste vara ett heltal",
         "max": "Maxvärdet är {{max}}",

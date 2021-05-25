@@ -95,6 +95,7 @@ const Day: React.FC<{ date: Date; dayLabel: string }> = ({
     }
   };
 
+  /* istanbul ignore next */
   if (!dayLabel) {
     return <div />;
   }

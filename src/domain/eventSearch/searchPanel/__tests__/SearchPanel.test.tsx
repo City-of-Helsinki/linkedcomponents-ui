@@ -17,10 +17,12 @@ import translations from '../../../app/i18n/fi.json';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
+
 const placeOverrides = range(1, 5).map((i) => ({
   id: `place:${i}`,
   name: `Place name ${i}`,
 }));
+
 const places = fakePlaces(
   placeOverrides.length,
   placeOverrides.map(({ id, name }) => ({ id, name: { fi: name } }))
@@ -144,6 +146,7 @@ test('should search events with correct search params', async () => {
   // Event type filtering
   const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
   act(() => userEvent.click(eventTypeSelectorButton));
+  await waitFor(() => expect(placeCheckbox).not.toBeInTheDocument());
   const eventTypeCheckbox = screen.getByRole('checkbox', {
     name: 'Tapahtuma',
   });
@@ -153,7 +156,7 @@ test('should search events with correct search params', async () => {
     name: translations.eventSearchPage.searchPanel.buttonSearch,
   })[1];
   act(() => userEvent.click(searchButton));
-
+  await waitFor(() => expect(eventTypeCheckbox).not.toBeInTheDocument());
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe(
     '?place=place%3A1&text=search&type=general&end=2021-03-12&start=2021-03-05'

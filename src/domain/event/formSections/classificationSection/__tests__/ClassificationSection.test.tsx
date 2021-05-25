@@ -25,6 +25,7 @@ import {
   mockedLanguagesResponse,
 } from '../../../__mocks__/editEventPage';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
+import { publicEventSchema } from '../../../utils';
 import ClassificationSection from '../ClassificationSection';
 
 configure({ defaultHidden: true });
@@ -115,6 +116,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
       initialValues={{ ...defaultInitialValues, ...initialValues }}
       onSubmit={jest.fn()}
       enableReinitialize={true}
+      validationSchema={publicEventSchema}
     >
       <ClassificationSection />
     </Formik>,
@@ -193,4 +195,36 @@ test('should change keyword', async () => {
     name: new RegExp(keywordName, 'i'),
     hidden: true,
   });
+});
+
+test('should show correct validation error if none main category is selected', async () => {
+  renderComponent();
+
+  const mainCategoryCheckbox = await screen.findByRole('checkbox', {
+    name: keywordNames[0],
+  });
+  userEvent.click(mainCategoryCheckbox);
+  userEvent.click(mainCategoryCheckbox);
+
+  const toggleButton = screen.queryByRole('button', {
+    name: `${translations.event.form.labelKeywords}: ${translations.common.combobox.toggleButtonAriaLabel}`,
+  });
+  userEvent.click(toggleButton);
+  userEvent.tab();
+
+  await screen.findByText('Vähintään 1 pääluokka tulee olla valittuna');
+});
+
+test('should show correct validation error if none keyword is selected', async () => {
+  renderComponent();
+
+  await screen.findByLabelText(keywordNames[0]);
+
+  const toggleButton = screen.queryByRole('button', {
+    name: `${translations.event.form.labelKeywords}: ${translations.common.combobox.toggleButtonAriaLabel}`,
+  });
+  userEvent.click(toggleButton);
+  userEvent.tab();
+
+  await screen.findByText('Vähintään 1 avainsana tulee olla valittuna');
 });

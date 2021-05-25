@@ -63,12 +63,14 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   const handlePreviousClick = () => {
+    /* istanbul ignore else */
     if (!isPreviousDisabled) {
       setSelectedPage(selectedPage - 1);
     }
   };
 
   const handleNextClick = () => {
+    /* istanbul ignore else */
     if (!isNextDisabled) {
       setSelectedPage(selectedPage + 1);
     }
@@ -108,6 +110,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 })}
                 disabled={!page}
                 onClick={() => {
+                  /* istanbul ignore else */
                   if (page) {
                     setSelectedPage(page);
                   }

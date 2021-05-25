@@ -57,7 +57,7 @@ const Timepicker: React.FC<Props> = ({
       setInputItems(timesList);
     }
 
-    onChange(inputValue || '');
+    onChange(inputValue ?? /* istanbul ignore next */ '');
   };
 
   const {
@@ -77,7 +77,8 @@ const Timepicker: React.FC<Props> = ({
     items: inputItems,
     onInputValueChange: handleInputValueChange,
     getA11yStatusMessage: (options) => getA11yStatusMessage(options, t),
-    getA11ySelectionMessage: (options) => getA11ySelectionMessage(options, t),
+    getA11ySelectionMessage: /* istanbul ignore next */ (options) =>
+      getA11ySelectionMessage(options, t),
   });
 
   const handleInputOnFocus = () => {
@@ -95,7 +96,7 @@ const Timepicker: React.FC<Props> = ({
         onChange(modifiedInputValue);
       }
 
-      onBlur(selectedItem || modifiedInputValue);
+      onBlur(modifiedInputValue);
     }
     menuItemMouseDown.current = false;
   };
@@ -121,9 +122,14 @@ const Timepicker: React.FC<Props> = ({
   const showDropdown = isOpen && inputItems.length > 0;
 
   React.useEffect(() => {
-    // Reset selected value in case that value is reseted from outside
     if (selectedItem && !value) {
+      // Reset selected value in case that value is reseted
       selectItem('');
+    } else if (!selectedItem && value) {
+      // Initialize selected value
+      if (inputItems.find((item) => item === value)) {
+        selectItem(value);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);

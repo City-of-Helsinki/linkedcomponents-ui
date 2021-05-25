@@ -40,7 +40,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   searchValue: _searchValue,
   setSearchValue,
   showLoadingSpinner,
-  showSearch = false,
+  showSearch,
   toggleButtonLabel,
   value,
 }) => {
@@ -49,7 +49,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
     _id || uniqueId('multi-select-dropdown-')
   ).current;
   const toggleButtonId = `${id}-toggle-button`;
-  const loadingSpinnerText = t('common.loading') || _loadingSpinnerText;
+  const loadingSpinnerText = _loadingSpinnerText || t('common.loading');
   const menuId = `${id}-menu`;
   const [internalSearchValue, setInternalSearchValue] = React.useState('');
   const searchValue = _searchValue ?? internalSearchValue;

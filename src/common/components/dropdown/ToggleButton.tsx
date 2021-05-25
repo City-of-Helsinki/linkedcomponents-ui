@@ -4,7 +4,7 @@ import React from 'react';
 
 import styles from './dropdown.module.scss';
 
-export interface ToggleButtonProps {
+export type ToggleButtonProps = {
   icon?: React.ReactElement;
   id: string;
   isOpen: boolean;
@@ -12,15 +12,25 @@ export interface ToggleButtonProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   selectedText?: string;
   toggleButtonLabel: string;
-}
+} & React.ComponentPropsWithoutRef<'button'>;
 
 const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
   (
-    { icon, id, isOpen, menuId, onClick, selectedText, toggleButtonLabel },
+    {
+      icon,
+      id,
+      isOpen,
+      menuId,
+      onClick,
+      selectedText,
+      toggleButtonLabel,
+      ...rest
+    },
     ref
   ) => {
     return (
       <button
+        {...rest}
         ref={ref}
         id={id}
         aria-controls={menuId}

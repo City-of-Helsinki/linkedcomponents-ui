@@ -3,7 +3,7 @@
 exports[`matched snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="root"
+    class="root success"
   >
     <label
       class="label "
@@ -17,6 +17,12 @@ exports[`matched snapshot 1`] = `
       <input
         id="test"
       />
+    </div>
+    <div
+      class="successText"
+      id="test-success"
+    >
+      Success
     </div>
     <div
       class="helperText"

@@ -203,6 +203,7 @@ const CreateEventPage: React.FC = () => {
         values: { publisher, type, ...restValues },
         setErrors,
         setTouched,
+        errors,
       }) => {
         const clearErrors = () => {
           setErrors({});
