@@ -1065,6 +1065,7 @@
     "myHelsinkiDescription": "MyHelsinki.fi är en tjänst som sammanför innehåll om Helsingfors erbjudanden för besökare och företag. Webbplatsen hjälper till att hitta information om trender, attraktioner, restauranger och evenemang i staden samt avslöjar tips från invånarna. Think Sustainably -service erbjuder rekommendationer för Helsingfors hållbara erbjudanden.",
     "myHelsinkiTitle": "MyHelsinki.fi",
     "tapahtumatHelDescription": "En ny webbplats som sammanför Helsingfors stads evenemangsutbud. Tapahtumat.hel.fi erbjuder en lättanvänd händelsesökning, från vilken användaren kan söka efter händelser av intresse för honom, till exempel efter tid, plats eller händelsekategori. Nästa version av webbplatsen kommer också att samla hobbyer för barn och ungdomar som erbjuds av staden på ett ställe.",
+    "tapahtumatHelImageAuthor": "Helsingfors stad / Aki Rask",
     "tapahtumatHelTitle": "tapahtumat.hel.fi",
     "titlePartners": "Tjänster som redan är beroende av Linked Events",
     "titleServices": "Helsingfors evenemangsplatser"

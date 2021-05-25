@@ -48,10 +48,23 @@
   }
 
   .bgImage {
+    position: relative;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     min-height: var(--service-card-min-height);
+
+    .author {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: var(--spacing-2-xs) var(--spacing-m);
+      background-color: rgba($color: #000000, $alpha: 0.6);
+      color: var(--color-white);
+      font-weight: 400;
+      font-size: var(--fontsize-body-s);
+    }
   }
 }
 

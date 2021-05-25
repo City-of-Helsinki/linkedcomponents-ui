@@ -11,6 +11,7 @@ type ServiceCardProps = {
   backgroundColor: 'metro' | 'suomenlinna';
   description?: string;
   href: string;
+  imageAuthor?: string;
   title: string;
 } & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
@@ -20,6 +21,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   backgroundImageUrl,
   description,
   href,
+  imageAuthor,
   title,
   ...rest
 }) => {
@@ -47,7 +49,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       <div
         className={styles.bgImage}
         style={{ backgroundImage: `url(${backgroundImageUrl})` }}
-      />
+      >
+        {imageAuthor && <div className={styles.author}>© {imageAuthor}</div>}
+      </div>
     </a>
   );
 };
