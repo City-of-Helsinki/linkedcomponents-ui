@@ -16,6 +16,7 @@ const Footer: React.FC = () => {
   const history = useHistory();
   const { pathname } = useLocation();
   const locale = useLocale();
+  /* istanbul ignore next */
   const logoLanguage = locale === 'sv' ? 'sv' : 'fi';
 
   const navigationItems = FOOTER_NAVIGATION_ITEMS.map(({ labelKey, url }) => ({

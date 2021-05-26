@@ -10,12 +10,10 @@ import styles from './cookieConsentModal.module.scss';
 import { Consent } from './types';
 
 interface Props {
-  closeModal: () => void;
   isOpen: boolean;
   saveConsentToCookie: (options: Omit<Consent, 'acceptedAt'>) => void;
 }
 const CookieConsentModal: React.FC<Props> = ({
-  closeModal,
   isOpen,
   saveConsentToCookie,
 }) => {
@@ -36,7 +34,6 @@ const CookieConsentModal: React.FC<Props> = ({
   return (
     <Modal
       isOpen={isOpen}
-      onClose={closeModal}
       shouldCloseOnEsc={false}
       shouldCloseOnOverlayClick={false}
       size="m"

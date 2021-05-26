@@ -107,7 +107,7 @@ const Header: React.FC = () => {
       onTitleClick={goToPage(`/${locale}${ROUTES.HOME}`)}
       title={t('appName')}
       titleUrl={`/${locale}${ROUTES.HOME}`}
-      logoLanguage={locale === 'sv' ? 'sv' : 'fi'}
+      logoLanguage={locale === 'sv' ? /* istanbul ignore next */ 'sv' : 'fi'}
     >
       <Navigation.Row>
         {navigationItems.map((item, index) => (

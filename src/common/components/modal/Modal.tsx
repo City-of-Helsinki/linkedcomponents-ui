@@ -18,7 +18,7 @@ if (!isTestEnv) {
 }
 
 type Props = {
-  onClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
+  onClose?: (event: React.MouseEvent | React.KeyboardEvent) => void;
   size?: 'm' | 'l';
   title: string;
   type?: 'alert' | 'form' | 'info';
@@ -61,7 +61,7 @@ const Modal: React.FC<Props> = ({
             </>
           )}
           <h2>{title}</h2>
-          {size === 'l' && (
+          {size === 'l' && onClose && (
             <CloseButton
               className={styles.closeButton}
               onClick={onClose}

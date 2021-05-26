@@ -86,11 +86,13 @@ const useEventUpdateActions = ({
   const { updateRecurringEventIfNeeded } = useUpdateRecurringEventIfNeeded();
 
   const closeModal = () => {
+    /* istanbul ignore else */
     if (isMounted.current) {
       setOpenModal(null);
     }
   };
   const savingFinished = () => {
+    /* istanbul ignore else */
     if (isMounted.current) {
       setSaving(false);
     }

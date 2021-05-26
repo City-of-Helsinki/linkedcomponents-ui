@@ -46,6 +46,7 @@ const defaultConsent: Consent = {
 const getInitialConsent = (): Consent => {
   try {
     const consent = JSON.parse(getCookie(COOKIE_NAME));
+    /* istanbul ignore next */
     return {
       acceptedAt: consent.acceptedAt ?? defaultConsent.acceptedAt,
       required: consent.required ?? defaultConsent.required,
@@ -59,8 +60,8 @@ const getInitialConsent = (): Consent => {
 const CookieConsentContext = React.createContext<CookieConsentContextType>({
   consent: { acceptedAt: '', required: false, tracking: false },
   isConsentModalOpen: false,
-  setConsent: () => undefined,
-  setIsConsentModalOpen: () => undefined,
+  setConsent: /* istanbul ignore next */ () => undefined,
+  setIsConsentModalOpen: /* istanbul ignore next */ () => undefined,
 });
 
 export const CookieConsentProvider: React.FC = ({ children }) => {
@@ -86,10 +87,6 @@ export const CookieConsentProvider: React.FC = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const closeModal = () => {
-    setIsConsentModalOpen(false);
-  };
-
   return (
     <CookieConsentContext.Provider
       value={{
@@ -100,7 +97,6 @@ export const CookieConsentProvider: React.FC = ({ children }) => {
       }}
     >
       <CookienConsentModal
-        closeModal={closeModal}
         isOpen={isConsentModalOpen}
         saveConsentToCookie={saveConsentToCookie}
       />

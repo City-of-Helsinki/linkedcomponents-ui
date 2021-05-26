@@ -82,7 +82,11 @@ const DocumentationPage: React.FC = () => {
       title="helpPage.pageTitleDocumentation"
     >
       <MainContent>{getContent(locale)}</MainContent>
-      {!isTestEnv && <SwaggerUI url={SWAGGER_SCHEMA_URL} />}
+
+      {!isTestEnv && (
+        /* istanbul ignore next */
+        <SwaggerUI url={SWAGGER_SCHEMA_URL} />
+      )}
     </PageWrapper>
   );
 };

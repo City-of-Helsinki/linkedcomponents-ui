@@ -46,16 +46,12 @@ export const imagesPathBuilder = ({
 
 type ImageFields = {
   altText: string;
-  atId: string | null;
-  id: string | null;
   license: LICENSE_TYPES;
   name: string;
   photographerName: string;
 };
 
 export const getImageFields = (image: ImageFieldsFragment): ImageFields => ({
-  id: image.id ?? null,
-  atId: image.atId ?? null,
   altText: image.altText || '',
   license: (image.license as LICENSE_TYPES) || DEFAULT_LICENSE_TYPE,
   name: image.name || '',
