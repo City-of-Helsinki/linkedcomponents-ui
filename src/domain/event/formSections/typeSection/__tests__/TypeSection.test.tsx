@@ -15,7 +15,7 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { RecurringEventSettings } from '../../../types';
+import { EventTime, RecurringEventSettings } from '../../../types';
 import TypeSection, { TypeSectionProps } from '../TypeSection';
 
 configure({ defaultHidden: true });
@@ -45,7 +45,7 @@ const mockedEventsResponse = {
 const mocks = [mockedEventsResponse];
 
 type InitialValues = {
-  [EVENT_FIELDS.EVENT_TIMES]: string[];
+  [EVENT_FIELDS.EVENT_TIMES]: EventTime[];
   [EVENT_FIELDS.HAS_UMBRELLA]: boolean;
   [EVENT_FIELDS.IS_UMBRELLA]: boolean;
   [EVENT_FIELDS.RECURRING_EVENTS]: RecurringEventSettings[];
@@ -114,30 +114,36 @@ test('should render umbrella event selector if hasUmbrella is checked', async ()
   getElement('umbrellaSelector');
 });
 
-test('should uncheck isUmbrella checkbox if eventTimes is not empty', async () => {
+test('should uncheck isUmbrella checkbox if there is more than 1 event time', async () => {
   renderComponent({
     ...defaultInitialValues,
     isUmbrella: true,
-    eventTimes: ['123'],
+    eventTimes: [
+      { id: null, endTime: new Date(), startTime: new Date() },
+      { id: null, endTime: new Date(), startTime: new Date() },
+    ],
   });
 
   const isUmbrellaCheckbox = await findElement('isUmbrellaCheckbox');
   expect(isUmbrellaCheckbox).not.toBeChecked();
 });
 
-test('should uncheck isUmbrella checkbox if recurringsEvents is not empty', async () => {
+test('should uncheck isUmbrella checkbox if there is more than 1 event time in recurring events', async () => {
   renderComponent({
     ...defaultInitialValues,
     isUmbrella: true,
     recurringEvents: [
       {
         endDate: new Date(),
-        endTime: '14:15',
-        eventTimes: [],
+        endTime: '12.00',
+        eventTimes: [
+          { id: null, endTime: new Date(), startTime: new Date() },
+          { id: null, endTime: new Date(), startTime: new Date() },
+        ],
         repeatDays: [],
         repeatInterval: 1,
         startDate: new Date(),
-        startTime: '12:15',
+        startTime: '11.00',
       },
     ],
   });
