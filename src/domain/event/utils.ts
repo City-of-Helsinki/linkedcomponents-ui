@@ -1717,6 +1717,8 @@ export const copyEventToSessionStorage = async (
       events: [],
       eventTimes: [],
       recurringEvents: [],
+      recurringEventEndTime: null,
+      recurringEventStartTime: null,
       hasUmbrella: false,
       isUmbrella: false,
       isVerified: false,
