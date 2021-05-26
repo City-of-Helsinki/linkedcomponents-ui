@@ -276,7 +276,7 @@ const useEventUpdateActions = ({
           payloadAsString: JSON.stringify(payload),
         },
         location,
-        message: 'Failed to cancel event',
+        message: 'Failed to postpone event',
         user,
       });
       // Call callback function if defined
