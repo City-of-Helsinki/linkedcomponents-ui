@@ -124,7 +124,8 @@ const useEventUpdateActions = ({
 
       /* istanbul ignore else */
       if (editable) {
-        editableEvents.push(event);
+        // ignore sub-events to prevent getEventPayload to return array as result
+        editableEvents.push({ ...event, subEvents: [] });
       }
     }
 
