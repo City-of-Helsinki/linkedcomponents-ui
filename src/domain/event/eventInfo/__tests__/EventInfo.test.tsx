@@ -1,11 +1,18 @@
 import React from 'react';
 
-import { PublicationStatus, SuperEventType } from '../../../generated/graphql';
-import { fakeEvent } from '../../../utils/mockDataUtils';
-import { render, screen } from '../../../utils/testUtils';
+import {
+  EventFieldsFragment,
+  PublicationStatus,
+  SuperEventType,
+} from '../../../../generated/graphql';
+import { fakeEvent } from '../../../../utils/mockDataUtils';
+import { render, screen } from '../../../../utils/testUtils';
 import EventInfo from '../EventInfo';
 
-test('should render event info', () => {
+const renderComponent = (event: EventFieldsFragment) =>
+  render(<EventInfo event={event} />);
+
+test('should render event info with creator info', () => {
   const event = fakeEvent({
     name: { fi: 'Event name' },
     createdBy: "Creator's name - organization",
@@ -14,7 +21,7 @@ test('should render event info', () => {
     superEventType: SuperEventType.Umbrella,
   });
 
-  render(<EventInfo event={event} />);
+  renderComponent(event);
 
   screen.getByText('Julkaistu');
   screen.getByRole('heading', { name: 'Event name' });

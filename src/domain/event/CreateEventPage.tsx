@@ -182,7 +182,7 @@ const CreateEventPage: React.FC = () => {
   const initialValues = React.useMemo(
     () => ({
       ...EVENT_INITIAL_VALUES,
-      publisher: user?.organization ?? '',
+      publisher: user?.organization ?? /* istanbul ignore next */ '',
     }),
     [user]
   );

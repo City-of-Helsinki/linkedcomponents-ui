@@ -3,6 +3,8 @@ import React from 'react';
 
 import {
   configure,
+  mockString,
+  pasteToTextEditor,
   render,
   screen,
   userEvent,
@@ -111,14 +113,6 @@ const getElement = (
   }
 };
 
-test('should show description form section fields', () => {
-  renderComponent();
-
-  getElement('nameFi');
-  getElement('shortDescriptionFi');
-  getElement('descriptionFi');
-});
-
 test('should change form section language', () => {
   const setSelectedLanguage = jest.fn();
   renderComponent(undefined, { setSelectedLanguage });
@@ -194,12 +188,35 @@ test('should show validation error if short description is missing', async () =>
   });
 
   const shortDescriptionInput = getElement('shortDescriptionFi');
-  const descriptionInput = getElement('descriptionFi');
+  const nameInput = getElement('nameFi');
 
   userEvent.click(shortDescriptionInput);
-  userEvent.click(descriptionInput);
+  userEvent.click(nameInput);
 
   await screen.findByText('Tämä kenttä on pakollinen');
+});
+
+test('should show validation error if short description is too long', async () => {
+  renderComponent({
+    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+    [EVENT_FIELDS.DESCRIPTION]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: 'Description',
+    },
+    [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Name' },
+    [EVENT_FIELDS.SHORT_DESCRIPTION]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: mockString(5001),
+    },
+  });
+
+  const shortDescriptionInput = getElement('shortDescriptionFi');
+  const nameInput = getElement('nameFi');
+
+  userEvent.click(shortDescriptionInput);
+  userEvent.click(nameInput);
+
+  await screen.findByText('Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä');
 });
 
 test('should show validation error if description is missing', async () => {
@@ -226,4 +243,33 @@ test('should show validation error if description is missing', async () => {
   userEvent.click(shortDescriptionInput);
 
   await screen.findByText('Tämä kenttä on pakollinen');
+});
+
+test('should show validation error if description is too long', async () => {
+  const setSelectedLanguage = jest.fn();
+  renderComponent(
+    {
+      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+      [EVENT_FIELDS.DESCRIPTION]: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: mockString(5001),
+      },
+      [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Name' },
+      [EVENT_FIELDS.SHORT_DESCRIPTION]: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: 'Short description',
+      },
+    },
+    { setSelectedLanguage }
+  );
+
+  const descriptionInput = getElement('descriptionFi');
+  const shortDescriptionInput = getElement('shortDescriptionFi');
+
+  userEvent.click(descriptionInput);
+  userEvent.click(shortDescriptionInput);
+
+  await screen.findByText(
+    'Tämä kenttä voi olla korkeintaan 5000 merkkiä pitkä'
+  );
 });

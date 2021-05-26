@@ -84,6 +84,9 @@ const customRender: CustomRender = (
 
 const actWait = (amount?: number): Promise<void> => act(() => wait(amount));
 
+const mockString = (size: number) =>
+  [...Array(size)].map(() => Math.random().toString(36)[2]).join('');
+
 type MockFileArgs = {
   name?: string;
   size?: number;
@@ -95,9 +98,7 @@ const mockFile = ({
   size = 0,
   type = 'image/png',
 }: MockFileArgs): File => {
-  const content = [...Array(size)]
-    .map(() => Math.random().toString(36)[2])
-    .join('');
+  const content = mockString(size);
 
   return new File([content], name, {
     type,
@@ -184,6 +185,7 @@ export {
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   mockFile,
+  mockString,
   pasteToTextEditor,
   customRender as render,
   renderWithRoute,

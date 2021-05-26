@@ -36,7 +36,7 @@ import {
 } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import EventHierarchy from './eventHierarchy/EventHierarchy';
-import EventInfo from './EventInfo';
+import EventInfo from './eventInfo/EventInfo';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';

@@ -22,9 +22,7 @@ import TimeSection from '../TimeSection';
 
 configure({ defaultHidden: true });
 
-beforeEach(() => {
-  clear();
-});
+beforeEach(() => clear());
 
 const type = EVENT_TYPE.General;
 const defaultInitialValue = {
@@ -89,6 +87,13 @@ const renderComponent = (
     </Formik>
   );
 
+const getElement = (key: 'recurringEventTab') => {
+  switch (key) {
+    case 'recurringEventTab':
+      return screen.getByRole('tab', { name: /toistuva tapahtuma/i });
+  }
+};
+
 const getSingleEventElement = (
   key: 'addButton' | 'delete' | 'endTime' | 'startTime' | 'toggle'
 ) => {
@@ -112,6 +117,7 @@ const getRecurringEventElement = (
     | 'endDate'
     | 'endTime'
     | 'monCheckbox'
+    | 'repeatInterval'
     | 'startDate'
     | 'startTime'
     | 'tueCheckbox'
@@ -125,6 +131,8 @@ const getRecurringEventElement = (
       return screen.getByRole('textbox', { name: /tapahtuma päättyy klo/i });
     case 'monCheckbox':
       return screen.getByRole('checkbox', { name: /ma/i });
+    case 'repeatInterval':
+      return screen.getByRole('spinbutton', { name: /tapahtuma toistuu \*/i });
     case 'startDate':
       return screen.getByRole('textbox', { name: /toisto alkaa/i });
     case 'startTime':
@@ -160,27 +168,27 @@ test('should render all event times', async () => {
 
 test('should add/delete event time', async () => {
   advanceTo('2021-04-12');
-  const initialValues = {
-    [EVENT_FIELDS.EVENT_TIMES]: eventTimes,
-  };
+
+  const initialValues = { [EVENT_FIELDS.EVENT_TIMES]: eventTimes };
+
   renderComponent(initialValues);
+
   const startTimeInput = getSingleEventElement('startTime');
   const endTimeInput = getSingleEventElement('endTime');
 
-  const startTimeValue = '14.04.2021 12.00';
-  userEvent.click(startTimeInput);
-  userEvent.type(startTimeInput, startTimeValue);
-  await waitFor(() => expect(startTimeInput).toHaveValue(startTimeValue));
+  const timeFields = [
+    { component: startTimeInput, value: '14.04.2021 12.00' },
+    { component: endTimeInput, value: '14.04.2021 14.00' },
+  ];
 
-  const endTimeValue = '14.04.2021 14.00';
-  act(() => userEvent.click(endTimeInput));
-  userEvent.type(endTimeInput, endTimeValue);
-  await waitFor(() => expect(endTimeInput).toHaveValue(endTimeValue));
+  for (const { component, value } of timeFields) {
+    act(() => userEvent.click(component));
+    userEvent.type(component, value);
+    await waitFor(() => expect(component).toHaveValue(value));
+  }
 
   const addButton = getSingleEventElement('addButton');
-  await waitFor(() => {
-    expect(addButton).toBeEnabled();
-  });
+  await waitFor(() => expect(addButton).toBeEnabled());
   act(() => userEvent.click(addButton));
 
   await screen.findByRole('row', {
@@ -189,42 +197,65 @@ test('should add/delete event time', async () => {
   screen.getByRole('row', {
     name: '2 11.06.2021 12.00 – 11.06.2021 15.00',
   });
+
   const toggleButton = getSingleEventElement('toggle');
   userEvent.click(toggleButton);
 
   const deleteButton = getSingleEventElement('delete');
   act(() => userEvent.click(deleteButton));
 
-  await waitFor(() => {
+  await waitFor(() =>
     expect(
       screen.queryByRole('row', {
         name: '1 14.04.2021 12.00 – 14.04.2021 14.00',
       })
-    ).not.toBeInTheDocument();
-  });
+    ).not.toBeInTheDocument()
+  );
   screen.getByRole('row', {
     name: '1 11.06.2021 12.00 – 11.06.2021 15.00',
   });
 });
 
+test('should show validation error when end time is before start time in new event time', async () => {
+  advanceTo('2021-04-12');
+
+  renderComponent();
+
+  const startTimeInput = getSingleEventElement('startTime');
+  const endTimeInput = getSingleEventElement('endTime');
+
+  const timeFields = [
+    { component: startTimeInput, value: '14.04.2021 14.00' },
+    { component: endTimeInput, value: '14.04.2021 12.00' },
+  ];
+
+  for (const { component, value } of timeFields) {
+    act(() => userEvent.click(component));
+    userEvent.type(component, value);
+    await waitFor(() => expect(component).toHaveValue(value));
+  }
+
+  act(() => userEvent.click(startTimeInput));
+  await screen.findByText(
+    'Tämän päivämäärän tulee olla vähintään 14.04.2021 14.00'
+  );
+});
+
 test('should edit event time', async () => {
   advanceTo('2021-04-12');
-  const initialValues = {
-    [EVENT_FIELDS.EVENT_TIMES]: eventTimes,
-  };
+
+  const initialValues = { [EVENT_FIELDS.EVENT_TIMES]: eventTimes };
+
   renderComponent(initialValues);
 
   screen.getByRole('row', {
     name: '1 11.06.2021 12.00 – 11.06.2021 15.00',
   });
 
-  const toggleMenuButton = screen.getByRole('button', {
-    name: /valinnat/i,
-  });
+  const toggleMenuButton = screen.getByRole('button', { name: /valinnat/i });
   userEvent.click(toggleMenuButton);
-  const editButton = screen.getByRole('button', {
-    name: /muokkaa/i,
-  });
+
+  const editButton = screen.getByRole('button', { name: /muokkaa/i });
   userEvent.click(editButton);
 
   const withinEditModal = within(screen.getByRole('dialog'));
@@ -249,14 +280,11 @@ test('should edit event time', async () => {
 test('should add/delete recurring event', async () => {
   advanceTo('2021-04-12');
 
-  const initialValues = {
-    [EVENT_FIELDS.RECURRING_EVENTS]: recurringEvents,
-  };
+  const initialValues = { [EVENT_FIELDS.RECURRING_EVENTS]: recurringEvents };
+
   renderComponent(initialValues);
 
-  const recurringEventTab = screen.getByRole('tab', {
-    name: /toistuva tapahtuma/i,
-  });
+  const recurringEventTab = getElement('recurringEventTab');
   userEvent.click(recurringEventTab);
 
   const tueCheckbox = getRecurringEventElement('tueCheckbox');
@@ -296,24 +324,98 @@ test('should add/delete recurring event', async () => {
   const deleteButton = screen.getAllByRole('button', { name: /poista/i })[0];
   userEvent.click(deleteButton);
 
-  await waitFor(() => {
+  await waitFor(() =>
     expect(
       screen.queryByRole('heading', {
         name: 'Ti, Viikon välein, 23.04.2021 – 11.05.2021',
       })
-    ).not.toBeInTheDocument();
-  });
+    ).not.toBeInTheDocument()
+  );
   screen.getByRole('heading', {
     name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
   });
 });
 
+test('should show validation error when repeat interval in invalid in recurring event form', async () => {
+  advanceTo('2021-04-12');
+
+  renderComponent();
+
+  const recurringEventTab = getElement('recurringEventTab');
+  userEvent.click(recurringEventTab);
+
+  const repeatIntervalInput = getRecurringEventElement('repeatInterval');
+  const startDateInput = getRecurringEventElement('startDate');
+
+  userEvent.clear(repeatIntervalInput);
+  userEvent.type(repeatIntervalInput, '0');
+
+  act(() => userEvent.click(startDateInput));
+  await screen.findByText('Arvon tulee olla vähintään 1');
+
+  act(() => userEvent.clear(repeatIntervalInput));
+  userEvent.type(repeatIntervalInput, '5');
+
+  await screen.findByText('Arvon tulee olla enintään 4');
+});
+
+test('should show validation error when end date is before start date in recurring event form', async () => {
+  advanceTo('2021-04-12');
+
+  renderComponent();
+
+  const recurringEventTab = getElement('recurringEventTab');
+  userEvent.click(recurringEventTab);
+
+  const endDateInput = getRecurringEventElement('endDate');
+  const startDateInput = getRecurringEventElement('startDate');
+
+  const timeFields = [
+    { component: startDateInput, value: '11.05.2021' },
+    { component: endDateInput, value: '23.04.2021' },
+  ];
+
+  for (const { component, value } of timeFields) {
+    act(() => userEvent.click(component));
+    userEvent.type(component, value);
+    await waitFor(() => expect(component).toHaveValue(value));
+  }
+
+  act(() => userEvent.click(startDateInput));
+  await screen.findByText('Tämän päivämäärän tulee olla 11.05.2021 jälkeen');
+});
+
+test('should show validation error when end time is before start time in recurring event form', async () => {
+  advanceTo('2021-04-12');
+
+  renderComponent();
+
+  const recurringEventTab = getElement('recurringEventTab');
+  userEvent.click(recurringEventTab);
+
+  const endTimeInput = getRecurringEventElement('endTime');
+  const startTimeInput = getRecurringEventElement('startTime');
+
+  const timeFields = [
+    { component: startTimeInput, value: '14.00' },
+    { component: endTimeInput, value: '12.00' },
+  ];
+
+  for (const { component, value } of timeFields) {
+    act(() => userEvent.click(component));
+    userEvent.type(component, value);
+    await waitFor(() => expect(component).toHaveValue(value));
+  }
+
+  act(() => userEvent.click(startTimeInput));
+  await screen.findByText('Tämän kellonajan tulee olla 14.00 jälkeen');
+});
+
 test('should not be able to add new event times when editing single event', async () => {
   advanceTo('2021-04-12');
 
-  const initialValues = {
-    [EVENT_FIELDS.EVENTS]: events,
-  };
+  const initialValues = { [EVENT_FIELDS.EVENTS]: events };
+
   renderComponent(
     initialValues,
     fakeEvent({
@@ -326,10 +428,9 @@ test('should not be able to add new event times when editing single event', asyn
   const singleEventStartTimeInput = getSingleEventElement('startTime');
   expect(singleEventStartTimeInput).toBeDisabled();
 
-  const recurringEventTab = screen.getByRole('tab', {
-    name: /toistuva tapahtuma/i,
-  });
+  const recurringEventTab = getElement('recurringEventTab');
   userEvent.click(recurringEventTab);
+
   const recurringEventStartTimeInput = getRecurringEventElement('startTime');
   expect(recurringEventStartTimeInput).toBeDisabled();
 });
@@ -337,9 +438,8 @@ test('should not be able to add new event times when editing single event', asyn
 test('should be able to add new event times when editing recurring event', async () => {
   advanceTo('2021-04-12');
 
-  const initialValues = {
-    [EVENT_FIELDS.EVENTS]: events,
-  };
+  const initialValues = { [EVENT_FIELDS.EVENTS]: events };
+
   renderComponent(
     initialValues,
     fakeEvent({
@@ -352,10 +452,9 @@ test('should be able to add new event times when editing recurring event', async
   const singleEventStartTimeInput = getSingleEventElement('startTime');
   expect(singleEventStartTimeInput).toBeEnabled();
 
-  const recurringEventTab = screen.getByRole('tab', {
-    name: /toistuva tapahtuma/i,
-  });
+  const recurringEventTab = getElement('recurringEventTab');
   userEvent.click(recurringEventTab);
+
   const recurringEventStartTimeInput = getRecurringEventElement('startTime');
   expect(recurringEventStartTimeInput).toBeEnabled();
 });

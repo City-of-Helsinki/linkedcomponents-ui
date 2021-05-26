@@ -139,18 +139,22 @@ export const eventTimeSchema = Yup.object().shape({
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-      startTime ? isFuture(startTime) : true
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (startTime) => !startTime || isFuture(startTime)
     ),
   [EVENT_TIME_FIELDS.END_TIME]: Yup.date()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
-      endTime ? isFuture(endTime) : true
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (endTime) => !endTime || isFuture(endTime)
     )
     // test that startsTime is before endsTime
-    .when([EVENT_TIME_FIELDS.START_TIME], isAfterStartDate),
+    .when([EVENT_TIME_FIELDS.START_TIME], isMinStartDate),
 });
 
 export const addEventTimeSchema = Yup.object().shape({
@@ -296,14 +300,18 @@ const enrolmentSchemaFields = {
   [EVENT_FIELDS.ENROLMENT_START_TIME]: Yup.date()
     .nullable()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-      startTime ? isFuture(startTime) : true
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (startTime) => !startTime || isFuture(startTime)
     ),
   [EVENT_FIELDS.ENROLMENT_END_TIME]: Yup.date()
     .nullable()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
-      endTime ? isFuture(endTime) : true
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (endTime) => !endTime || isFuture(endTime)
     )
     // test that startsTime is before endsTime
     .when([EVENT_FIELDS.ENROLMENT_START_TIME], isMinStartDate),
@@ -456,8 +464,10 @@ export const recurringEventSchema = Yup.object().shape({
   [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-      startTime ? isFuture(startTime) : true
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (startTime) => !startTime || isFuture(startTime)
     ),
   [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
