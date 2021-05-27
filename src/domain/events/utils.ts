@@ -2,6 +2,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 import {
   EventsQueryVariables,
+  EventTypeId,
   PublicationStatus,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
@@ -56,7 +57,10 @@ export const eventsPathBuilder = ({
     { key: 'end', value: end },
     { key: 'ends_after', value: endsAfter },
     { key: 'ends_before', value: endsBefore },
-    { key: 'event_type', value: eventType },
+    {
+      key: 'event_type',
+      value: eventType?.length ? eventType : Object.values(EventTypeId),
+    },
     { key: 'include', value: include },
     { key: 'in_language', value: inLanguage },
     { key: 'is_free', value: isFree },

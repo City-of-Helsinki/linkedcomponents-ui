@@ -18,11 +18,28 @@ import { EVENT_FIELDS } from '../../constants';
 import useEventTypeOptions from '../../hooks/useEventTypeOptions';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
+import { EventTime, RecurringEventSettings } from '../../types';
 import { getEventFields } from '../../utils';
 
 export interface TypeSectionProps {
   savedEvent?: EventFieldsFragment;
 }
+
+const getAllEventTimes = (
+  eventTimes: EventTime[],
+  recurringEvents: RecurringEventSettings[]
+): EventTime[] => [
+  ...eventTimes,
+  ...recurringEvents.reduce(
+    (previous: EventTime[], current) => [...previous, ...current.eventTimes],
+    []
+  ),
+];
+
+const isRecurringEvent = (
+  eventTimes: EventTime[],
+  recurringEvents: RecurringEventSettings[]
+): boolean => getAllEventTimes(eventTimes, recurringEvents).length > 1;
 
 const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
   const { t } = useTranslation();
@@ -38,10 +55,10 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
   const [{ value: isUmbrella }, , { setValue: setIsUmbrella }] = useField({
     name: EVENT_FIELDS.IS_UMBRELLA,
   });
-  const [{ value: eventTimes }] = useField<string[]>({
+  const [{ value: eventTimes }] = useField<EventTime[]>({
     name: EVENT_FIELDS.EVENT_TIMES,
   });
-  const [{ value: recurringEvents }] = useField<string[]>({
+  const [{ value: recurringEvents }] = useField<RecurringEventSettings[]>({
     name: EVENT_FIELDS.RECURRING_EVENTS,
   });
 
@@ -62,9 +79,6 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
     const savedEventIsRecurringEvent =
       savedSuperEventType === SuperEventType.Umbrella;
     const savedEventHasSubEvents = Boolean(savedEvent?.subEvents.length);
-    const hasEventTimes = Boolean(
-      eventTimes?.length || recurringEvents?.length
-    );
 
     switch (name) {
       /**
@@ -78,7 +92,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
       case EVENT_FIELDS.IS_UMBRELLA:
         return (
           hasUmbrella ||
-          (!savedEvent && hasEventTimes) ||
+          (!savedEvent && isRecurringEvent(eventTimes, recurringEvents)) ||
           (savedEventIsUmbrellaEvent && savedEventHasSubEvents) ||
           savedEventIsRecurringEvent ||
           !!savedSuperEvent
@@ -99,20 +113,14 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
   };
 
   const disabledIsUmbrella: boolean =
-    hasUmbrella || eventTimes?.length || recurringEvents?.length;
+    hasUmbrella || isRecurringEvent(eventTimes, recurringEvents);
 
   React.useEffect(() => {
     // Set is umbrella to false if event has more than one event time
-    if ((eventTimes?.length || recurringEvents?.length) && isUmbrella) {
+    if (isRecurringEvent(eventTimes, recurringEvents) && isUmbrella) {
       setIsUmbrella(false);
     }
-  }, [
-    eventTimes,
-    isUmbrella,
-    recurringEvents,
-    recurringEvents.length,
-    setIsUmbrella,
-  ]);
+  }, [eventTimes, isUmbrella, recurringEvents, setIsUmbrella]);
 
   return (
     <>

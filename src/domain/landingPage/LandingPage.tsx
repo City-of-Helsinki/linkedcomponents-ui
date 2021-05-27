@@ -74,6 +74,7 @@ const LandingPage: React.FC = () => {
                 backgroundImageUrl={tapahtumatImage}
                 description={t('landingPage.tapahtumatHelDescription')}
                 href={tapahtumatHelRoute}
+                imageAuthor={t('landingPage.tapahtumatHelImageAuthor')}
                 title={t('landingPage.tapahtumatHelTitle')}
               />
             </div>

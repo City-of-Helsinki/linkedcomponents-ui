@@ -8,6 +8,7 @@ import { EVENT_FIELDS } from '../../constants';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
 import Offers from './Offers';
+import ValidationError from './ValidationError';
 
 const PriceSection: React.FC = () => {
   const { t } = useTranslation();
@@ -30,6 +31,7 @@ const PriceSection: React.FC = () => {
               name={EVENT_FIELDS.HAS_PRICE}
               component={CheckboxField}
             />
+            <ValidationError />
           </FormGroup>
         </FieldColumn>
       </FieldRow>

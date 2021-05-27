@@ -877,6 +877,7 @@
         "min": "Value must be at least {{min}}",
         "required": "This field is required"
       },
+      "offersRequired": "At least 1 price information must be added",
       "string": {
         "charsLeft": "{{count}} character left",
         "charsLeft_plural": "{{count}} characters left",
@@ -1065,6 +1066,7 @@
     "myHelsinkiDescription": "MyHelsinki.fi is a service that brings together content about Helsinki’s offerings for visitors and businesses. The website helps to find information about the trends, attractions, restaurants and events in the city, as well as reveals tips from residents. The Think Sustainably -service offers recommendations for Helsinki's sustainable offerings.",
     "myHelsinkiTitle": "MyHelsinki.fi",
     "tapahtumatHelDescription": "A new website that brings together the City of Helsinki's event offerings. Tapahtumat.hel.fi offers an easy-to-use event search, from which the user can search for events of interest to them, for example, by time, place or event category. The next version of the site also brings together the hobbies of children and young people offered by the city in one place.",
+    "tapahtumatHelImageAuthor": "City of Helsinki / Aki Rask",
     "tapahtumatHelTitle": "tapahtumat.hel.fi",
     "titlePartners": "Services that already rely on Linked Events",
     "titleServices": "Helsinki event sites"

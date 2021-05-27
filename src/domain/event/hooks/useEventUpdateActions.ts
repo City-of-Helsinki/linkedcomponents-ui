@@ -128,7 +128,8 @@ const useEventUpdateActions = ({
 
       /* istanbul ignore else */
       if (editable) {
-        editableEvents.push(event);
+        // ignore sub-events to prevent getEventPayload to return array as result
+        editableEvents.push({ ...event, subEvents: [] });
       }
     }
 
@@ -280,7 +281,7 @@ const useEventUpdateActions = ({
           payloadAsString: JSON.stringify(payload),
         },
         location,
-        message: 'Failed to cancel event',
+        message: 'Failed to postpone event',
         user,
       });
       // Call callback function if defined
