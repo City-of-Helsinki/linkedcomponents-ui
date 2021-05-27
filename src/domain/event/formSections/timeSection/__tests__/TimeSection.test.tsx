@@ -18,6 +18,7 @@ import {
 } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { RecurringEventSettings } from '../../../types';
+import { publicEventSchema } from '../../../utils';
 import TimeSection from '../TimeSection';
 
 configure({ defaultHidden: true });
@@ -82,6 +83,7 @@ const renderComponent = (
         ...initialValues,
       }}
       onSubmit={jest.fn()}
+      validationSchema={publicEventSchema}
     >
       <TimeSection savedEvent={savedEvent} />
     </Formik>

@@ -24,7 +24,7 @@ const ResetFocus: React.FC<Props> = ({ ignoredPaths }) => {
       paths.some((path) =>
         matchPath(pathname, {
           path: `/${locale}${path.pathname}`,
-          exact: path.props?.exact ?? true,
+          exact: path.props?.exact ?? /* istanbul ignore next */ true,
           strict: path.props?.strict ?? true,
         })
       ),

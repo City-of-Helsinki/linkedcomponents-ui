@@ -48,24 +48,6 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
     return pathname === localePath;
   };
 
-  const getBackgroundColorClassName = () => {
-    if (
-      PAGES_WITH_GRAY_BACKGROUND.includes(pathname.replace(`/${locale}`, ''))
-    ) {
-      return styles.backgroundGray;
-    }
-    return styles.backgroundWhite;
-  };
-
-  const getContentWidthClassName = () => {
-    if (
-      PAGES_WITH_FULL_WIDTH_CONTENT.includes(pathname.replace(`/${locale}`, ''))
-    ) {
-      return styles.contentFullWidth;
-    }
-    return styles.contentDefault;
-  };
-
   const instructionsSubLevels = [
     {
       label: t('helpPage.sideNavigation.labelGeneral'),
@@ -150,12 +132,21 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
     },
   ];
 
+  const backgroundColorClassName = PAGES_WITH_GRAY_BACKGROUND.includes(
+    pathname.replace(`/${locale}`, '')
+  )
+    ? styles.backgroundGray
+    : styles.backgroundWhite;
+
+  const contentWidthClassName = PAGES_WITH_FULL_WIDTH_CONTENT.includes(
+    pathname.replace(`/${locale}`, '')
+  )
+    ? styles.contentFullWidth
+    : styles.contentDefault;
+
   return (
     <div
-      className={classNames(
-        styles.helpPageWrapper,
-        getBackgroundColorClassName()
-      )}
+      className={classNames(styles.helpPageWrapper, backgroundColorClassName)}
     >
       <Container>
         <div className={styles.helpPageLayout}>
@@ -192,9 +183,7 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
               </SideNavigation>
             </div>
           </div>
-          <div
-            className={classNames(styles.content, getContentWidthClassName())}
-          >
+          <div className={classNames(styles.content, contentWidthClassName)}>
             {children}
           </div>
         </div>

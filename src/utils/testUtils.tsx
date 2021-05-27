@@ -84,7 +84,7 @@ const customRender: CustomRender = (
 
 const actWait = (amount?: number): Promise<void> => act(() => wait(amount));
 
-const mockString = (size: number) =>
+const mockString = (size: number): string =>
   [...Array(size)].map(() => Math.random().toString(36)[2]).join('');
 
 type MockFileArgs = {

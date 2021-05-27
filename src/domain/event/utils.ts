@@ -771,6 +771,17 @@ export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
   return sortBy(allEventTimes, 'startTime');
 };
 
+export const getNewEventTimes = (
+  eventTimes: EventTime[],
+  recurringEvents: RecurringEventSettings[]
+): EventTime[] => [
+  ...eventTimes,
+  ...recurringEvents.reduce(
+    (previous: EventTime[], current) => [...previous, ...current.eventTimes],
+    []
+  ),
+];
+
 export const filterUnselectedLanguages = (
   obj: LocalisedObject,
   eventInfoLanguages: string[]
@@ -1120,7 +1131,7 @@ export const getEventInitialValues = (
       ? event.subEvents
           .map((subEvent) => ({
             endTime: subEvent?.endTime ? new Date(subEvent?.endTime) : null,
-            id: subEvent?.id ?? null,
+            id: subEvent?.id || null,
             startTime: subEvent?.startTime
               ? new Date(subEvent?.startTime)
               : null,

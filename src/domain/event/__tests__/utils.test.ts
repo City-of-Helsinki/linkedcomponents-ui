@@ -41,6 +41,7 @@ import {
   getEventInitialValues,
   getEventPayload,
   getEventTimes,
+  getNewEventTimes,
   getRecurringEventPayload,
   sortLanguage,
   sortWeekDays,
@@ -627,6 +628,45 @@ describe('getEventPayload function', () => {
   });
 });
 
+describe('getNewEventTimes function', () => {
+  it('should get new event times', () => {
+    const eventTime1 = {
+      id: '1',
+      startTime: new Date('2020-01-02T14:15:00.000Z'),
+      endTime: new Date('2020-01-02T16:15:00.000Z'),
+    };
+    const eventTime2 = {
+      id: '2',
+      startTime: new Date('2020-01-03T14:15:00.000Z'),
+      endTime: new Date('2020-01-03T16:15:00.000Z'),
+    };
+    const eventTime3 = {
+      id: '3',
+      startTime: new Date('2020-01-04T14:15:00.000Z'),
+      endTime: new Date('2020-01-04T16:15:00.000Z'),
+    };
+    const eventTime4 = {
+      id: '4',
+      startTime: new Date('2020-01-05T14:15:00.000Z'),
+      endTime: new Date('2020-01-05T16:15:00.000Z'),
+    };
+    expect(
+      getNewEventTimes(
+        [eventTime1, eventTime2],
+        [eventTime3, eventTime4].map((eventTime) => ({
+          endDate: eventTime.endTime,
+          endTime: '16.15',
+          eventTimes: [eventTime],
+          repeatDays: ['mon'],
+          repeatInterval: 1,
+          startDate: eventTime.startTime,
+          startTime: '16.15',
+        }))
+      )
+    ).toEqual([eventTime1, eventTime2, eventTime3, eventTime4]);
+  });
+});
+
 describe('getRecurringEventPayload function', () => {
   it('should return recurring event payload', () => {
     expect(
@@ -1033,6 +1073,25 @@ describe('getEventInitialValues function', () => {
     expect(superEvent).toEqual(superEvent);
     expect(type).toEqual(EVENT_TYPE.General);
     expect(twitterUrl).toEqual('');
+    expect(videos).toEqual([{ altText: '', name: '', url: '' }]);
+  });
+
+  it('should return event edit form default initial values for recurring event', () => {
+    const { events, recurringEventEndTime, recurringEventStartTime, videos } =
+      getEventInitialValues(
+        fakeEvent({
+          endTime: null,
+          subEvents: [fakeEvent({ id: '', startTime: '', endTime: '' })],
+          startTime: null,
+
+          superEventType: SuperEventType.Recurring,
+          videos: [{ altText: null, name: null, url: null }],
+        })
+      );
+
+    expect(events).toEqual([{ id: null, startTime: null, endTime: null }]);
+    expect(recurringEventEndTime).toBe(null);
+    expect(recurringEventStartTime).toBe(null);
     expect(videos).toEqual([{ altText: '', name: '', url: '' }]);
   });
 });

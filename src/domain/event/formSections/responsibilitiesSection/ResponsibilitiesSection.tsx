@@ -50,7 +50,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
   React.useEffect(() => {
     if (!savedEvent && user && publisher) {
       // Set default publisher after user logs in if publisher is not set
-      setPublisher(user.organization ?? '');
+      setPublisher(user.organization ?? /* istanbul ignore next */ '');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);

@@ -1,4 +1,36 @@
-import { sortEventTimes } from '../utils';
+import { PublicationStatus } from '../../../../../generated/graphql';
+import { fakeEvent } from '../../../../../utils/mockDataUtils';
+import { EVENT_EDIT_ACTIONS } from '../../../constants';
+import {
+  getEventEditAction,
+  GetEventEditActionParams,
+  sortEventTimes,
+} from '../utils';
+
+describe('getEventEditAction function', () => {
+  const testCases: [EVENT_EDIT_ACTIONS, GetEventEditActionParams][] = [
+    [EVENT_EDIT_ACTIONS.DELETE, { action: 'delete', event: fakeEvent() }],
+    [
+      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      {
+        action: 'update',
+        event: fakeEvent({ publicationStatus: PublicationStatus.Draft }),
+      },
+    ],
+    [
+      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      {
+        action: 'update',
+        event: fakeEvent({ publicationStatus: PublicationStatus.Public }),
+      },
+    ],
+  ];
+  it.each(testCases)(
+    'should get correct action, returns %p',
+    (expectedAction, params) =>
+      expect(getEventEditAction(params)).toBe(expectedAction)
+  );
+});
 
 describe('sortEventTimes function', () => {
   it('should sort event times', () => {

@@ -170,7 +170,7 @@ export const extractLatestReturnPath = (queryString: string): ReturnParams => {
 };
 
 export const getEventSearchQuery = (
-  { end, start, ...rest }: EventSearchParams,
+  { end, start, ...rest }: Omit<EventSearchParams, 'sort'>,
   search = ''
 ): string => {
   const { sort } = getEventSearchInitialValues(search);
@@ -187,7 +187,10 @@ export const getEventItemId = (id: string): string => `event-item${id}`;
 
 const setFocusToFirstFocusable = (id: string) => {
   const element = document.getElementById(id);
+
+  /* istanbul ignore next */
   if (!element) return;
+
   if (element?.tabIndex >= 0) {
     element?.focus();
   } else {
@@ -210,7 +213,5 @@ export const scrollToEventCard = (id: string): void => {
     smooth: true,
   });
 
-  setTimeout(() => {
-    setFocusToFirstFocusable(id);
-  }, duration);
+  setTimeout(() => setFocusToFirstFocusable(id), duration);
 };

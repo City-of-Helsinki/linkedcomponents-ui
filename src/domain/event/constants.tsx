@@ -311,3 +311,22 @@ export const EVENT_EDIT_LABEL_KEYS = {
 
 export const ADD_EVENT_TIME_FORM_NAME = 'add-event-time';
 export const EDIT_EVENT_TIME_FORM_NAME = 'edit-event-time';
+
+export const AUDIENCE_ORDER = [
+  'yso:p7179', // Vammaiset
+  'yso:p4354', // Lapset
+  'yso:p13050', // Lapsiperheet
+  'yso:p6165', // Maahanmuuttajat
+  'yso:p11617', // Nuoret
+  'yso:p3128', // Yritykset
+  'yso:p1393', // Järjestöt
+  'yso:p12297', // Mielenterveyskuntoutujat
+  'yso:p23886', // Päihdekuntoutujat
+  'helsinki:aflfbatkwe', // Omaishoitoperheet
+  'helsinki:aflfbat76e', // Palvelukeskuskortti
+  'yso:p16485', // Koululaiset
+  'yso:p20513', // Vauvaperheet
+  'yso:p5590', // Aikuiset
+  'yso:p16486', // Opiskelijat
+  'yso:p2433', // Ikääntyneet
+];

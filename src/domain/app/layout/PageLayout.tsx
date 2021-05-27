@@ -24,7 +24,7 @@ const RESET_IGNORED_PATHS = [
 
 const NO_KORO_PATHS = [
   { pathname: ROUTES.HELP, props: { exact: false } },
-  { pathname: ROUTES.EDIT_EVENT, props: { exact: true } },
+  { pathname: ROUTES.EDIT_EVENT },
 ];
 
 const PageLayout: React.FC = ({ children }) => {

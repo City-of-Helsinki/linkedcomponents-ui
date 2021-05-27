@@ -48,20 +48,21 @@ const mockedPostGuestFeedbackResponse: MockedResponse = {
   result: postFeedbackResponse,
 };
 
-const getElement = (
-  key:
-    | 'body'
-    | 'email'
-    | 'eventFormTopicOption'
-    | 'generalTopicOption'
-    | 'name'
-    | 'otherTopicOption'
-    | 'permissionsTopicOption'
-    | 'sendButton'
-    | 'subject'
-    | 'success'
-    | 'topicToggleButton'
-) => {
+type ElementKey =
+  | 'body'
+  | 'email'
+  | 'eventFormTopicOption'
+  | 'featureRequestTopicOption'
+  | 'generalTopicOption'
+  | 'name'
+  | 'otherTopicOption'
+  | 'permissionsTopicOption'
+  | 'sendButton'
+  | 'subject'
+  | 'success'
+  | 'topicToggleButton';
+
+const getElement = (key: ElementKey) => {
   switch (key) {
     case 'body':
       return screen.getByRole('textbox', { name: /viesti/i });
@@ -69,6 +70,8 @@ const getElement = (
       return screen.getByRole('textbox', { name: /sähköpostiosoite/i });
     case 'eventFormTopicOption':
       return screen.getByRole('option', { name: /ongelma syöttölomakkeessa/i });
+    case 'featureRequestTopicOption':
+      return screen.getByRole('option', { name: /ominaisuustoive/i });
     case 'generalTopicOption':
       return screen.getByRole('option', { name: /yleinen palaute/i });
     case 'name':
@@ -161,41 +164,48 @@ test('should show correct faq items when "permissions" topic is selected', async
   faqHeadings.slice(1).forEach((name) => screen.getByRole('button', { name }));
 });
 
-test('should not show any faq item when "other" topic is selected', async () => {
-  renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
-  const topicToggleButton = getElement('topicToggleButton');
+test.each([
+  ['feature_request', 'featureRequestTopicOption'],
+  ['general', 'generalTopicOption'],
+  ['other', 'otherTopicOption'],
+] as [string, ElementKey][])(
+  'should not show any faq item when %p topic is selected',
+  async (topic, topicOption) => {
+    renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
+    const topicToggleButton = getElement('topicToggleButton');
 
-  userEvent.click(topicToggleButton);
+    userEvent.click(topicToggleButton);
 
-  const eventFormTopic = getElement('eventFormTopicOption');
-  userEvent.click(eventFormTopic);
+    const eventFormTopic = getElement('eventFormTopicOption');
+    userEvent.click(eventFormTopic);
 
-  const faqHeadings = [
-    'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
-    'Syöttölomake ei toimi odotetulla tavalla, mitä voin tehdä?',
-    'Lisäämäni tapahtuma ei näy palvelussa, missä vika?',
-    'Saako Linked Events-rajapintaa käyttää omiin projekteihin?',
-    'Kenellä on oikeus lisätä julkisia tapahtumia?',
-    'Voinko lisätä mitä tahansa kuvia tapahtumiin?',
-  ];
+    const faqHeadings = [
+      'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
+      'Syöttölomake ei toimi odotetulla tavalla, mitä voin tehdä?',
+      'Lisäämäni tapahtuma ei näy palvelussa, missä vika?',
+      'Saako Linked Events-rajapintaa käyttää omiin projekteihin?',
+      'Kenellä on oikeus lisätä julkisia tapahtumia?',
+      'Voinko lisätä mitä tahansa kuvia tapahtumiin?',
+    ];
 
-  await screen.findByRole('button', { name: faqHeadings[0] });
+    await screen.findByRole('button', { name: faqHeadings[0] });
 
-  userEvent.click(topicToggleButton);
-  const otherTopicOption = getElement('otherTopicOption');
-  userEvent.click(otherTopicOption);
+    userEvent.click(topicToggleButton);
+    const option = getElement(topicOption);
+    userEvent.click(option);
 
-  await waitFor(() =>
-    expect(
-      screen.queryByRole('button', { name: faqHeadings[0] })
-    ).not.toBeInTheDocument()
-  );
-  faqHeadings
-    .slice(1)
-    .forEach((name) =>
-      expect(screen.queryByRole('button', { name })).not.toBeInTheDocument()
+    await waitFor(() =>
+      expect(
+        screen.queryByRole('button', { name: faqHeadings[0] })
+      ).not.toBeInTheDocument()
     );
-});
+    faqHeadings
+      .slice(1)
+      .forEach((name) =>
+        expect(screen.queryByRole('button', { name })).not.toBeInTheDocument()
+      );
+  }
+);
 
 test('should succesfully send feedback when user is not signed in', async () => {
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
