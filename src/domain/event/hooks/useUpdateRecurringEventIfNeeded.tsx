@@ -106,7 +106,6 @@ const useUpdateRecurringEventIfNeeded =
           calculateSuperEventTime(eventTimes);
 
         if (
-          !editable ||
           !(
             shouldUpdateTime(startTime, newStartTime) ||
             shouldUpdateTime(endTime, newEndTime)
