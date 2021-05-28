@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
 import isEqual from 'date-fns/isEqual';
+import isFuture from 'date-fns/isFuture';
 import isNull from 'lodash/isNull';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -102,8 +103,15 @@ const useUpdateRecurringEventIfNeeded =
               : null,
           })
         );
-        const { endTime: newEndTime, startTime: newStartTime } =
+        const { endTime: calculatedEndTime, startTime: newStartTime } =
           calculateSuperEventTime(eventTimes);
+
+        // Changing end time to a past date would cause 400 error on LE BE,
+        // so update end time only if it's in the future or null
+        const newEndTime =
+          !calculatedEndTime || isFuture(calculatedEndTime)
+            ? calculatedEndTime
+            : endTime;
 
         if (
           !(
