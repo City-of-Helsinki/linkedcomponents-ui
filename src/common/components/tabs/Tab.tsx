@@ -7,6 +7,7 @@ import { OptionType } from '../../../types';
 import styles from './tabs.module.scss';
 
 interface TabProps {
+  autoFocusChange: boolean;
   index: number;
   isActive: boolean;
   isCompleted?: boolean;
@@ -18,6 +19,7 @@ interface TabProps {
 }
 
 const Tab: React.FC<TabProps> = ({
+  autoFocusChange,
   index,
   isActive,
   isCompleted,
@@ -33,7 +35,7 @@ const Tab: React.FC<TabProps> = ({
   };
 
   React.useEffect(() => {
-    if (isMounted.current && isFocused) {
+    if (isMounted.current && autoFocusChange && isFocused) {
       ref.current?.focus();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
