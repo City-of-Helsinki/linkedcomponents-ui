@@ -121,27 +121,34 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
 
     return (
       <div ref={ref}>
-        <ConfirmCancelModal
-          event={event}
-          isOpen={openModal === MODALS.CANCEL}
-          isSaving={saving === EVENT_EDIT_ACTIONS.CANCEL}
-          onCancel={onCancel}
-          onClose={closeModal}
-        />
-        <ConfirmDeleteModal
-          event={event}
-          isOpen={openModal === MODALS.DELETE}
-          isSaving={saving === EVENT_EDIT_ACTIONS.DELETE}
-          onClose={closeModal}
-          onDelete={onDelete}
-        />
-        <ConfirmPostponeModal
-          event={event}
-          isOpen={openModal === MODALS.POSTPONE}
-          isSaving={saving === EVENT_EDIT_ACTIONS.POSTPONE}
-          onClose={closeModal}
-          onPostpone={onPostpone}
-        />
+        {openModal === MODALS.CANCEL && (
+          <ConfirmCancelModal
+            event={event}
+            isOpen={openModal === MODALS.CANCEL}
+            isSaving={saving === EVENT_EDIT_ACTIONS.CANCEL}
+            onCancel={onCancel}
+            onClose={closeModal}
+          />
+        )}
+        {openModal === MODALS.DELETE && (
+          <ConfirmDeleteModal
+            event={event}
+            isOpen={openModal === MODALS.DELETE}
+            isSaving={saving === EVENT_EDIT_ACTIONS.DELETE}
+            onClose={closeModal}
+            onDelete={onDelete}
+          />
+        )}
+        {openModal === MODALS.POSTPONE && (
+          <ConfirmPostponeModal
+            event={event}
+            isOpen={openModal === MODALS.POSTPONE}
+            isSaving={saving === EVENT_EDIT_ACTIONS.POSTPONE}
+            onClose={closeModal}
+            onPostpone={onPostpone}
+          />
+        )}
+
         <MenuDropdown
           button={
             <button className={styles.toggleButton}>

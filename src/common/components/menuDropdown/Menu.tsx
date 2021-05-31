@@ -56,9 +56,7 @@ export const Menu: React.FC<MenuProps> = ({
     };
   }, [fixedPosition, menuContainerSize]);
 
-  if (!menuOpen) {
-    return null;
-  }
+  if (!menuOpen) return null;
 
   return (
     <div
