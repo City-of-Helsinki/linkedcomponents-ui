@@ -3,14 +3,7 @@
 
 .helpPageWrapper {
   width: 100%;
-}
-
-.backgroundWhite {
   background-color: var(--color-white);
-}
-
-.backgroundGray {
-  background-color: var(--color-black-5);
 }
 
 .helpPageLayout {
@@ -69,18 +62,6 @@
 
     @include large-up {
       grid-column: 5 / 12;
-    }
-
-    &.contentDefault {
-      @include large-up {
-        grid-column: 5 / 12;
-      }
-    }
-
-    &.contentFullWidth {
-      @include large-up {
-        grid-column: 4 / 13;
-      }
     }
 
     a {

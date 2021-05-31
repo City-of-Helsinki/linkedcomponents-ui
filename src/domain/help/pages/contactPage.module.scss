@@ -14,3 +14,9 @@
     font-weight: normal !important;
   }
 }
+
+.accordions {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  margin-bottom: var(--spacing-m);
+}

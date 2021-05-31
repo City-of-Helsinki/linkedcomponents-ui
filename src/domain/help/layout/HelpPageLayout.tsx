@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import {
   IconCogwheel,
   IconHome,
@@ -18,12 +17,6 @@ import useWindowSize from '../../../hooks/useWindowSize';
 import getPageHeaderHeight from '../../../utils/getPageHeaderHeight';
 import Container from '../../app/layout/Container';
 import styles from './helpPageLayout.module.scss';
-
-const PAGES_WITH_GRAY_BACKGROUND: string[] = [ROUTES.INSTRUCTIONS_FAQ];
-const PAGES_WITH_FULL_WIDTH_CONTENT: string[] = [
-  ROUTES.INSTRUCTIONS_FAQ,
-  ROUTES.INSTRUCTIONS_PLATFORM,
-];
 
 interface Props {
   children: React.ReactNode;
@@ -46,24 +39,6 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
 
   const getIsActive = (localePath: string) => {
     return pathname === localePath;
-  };
-
-  const getBackgroundColorClassName = () => {
-    if (
-      PAGES_WITH_GRAY_BACKGROUND.includes(pathname.replace(`/${locale}`, ''))
-    ) {
-      return styles.backgroundGray;
-    }
-    return styles.backgroundWhite;
-  };
-
-  const getContentWidthClassName = () => {
-    if (
-      PAGES_WITH_FULL_WIDTH_CONTENT.includes(pathname.replace(`/${locale}`, ''))
-    ) {
-      return styles.contentFullWidth;
-    }
-    return styles.contentDefault;
   };
 
   const instructionsSubLevels = [
@@ -151,12 +126,7 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
   ];
 
   return (
-    <div
-      className={classNames(
-        styles.helpPageWrapper,
-        getBackgroundColorClassName()
-      )}
-    >
+    <div className={styles.helpPageWrapper}>
       <Container>
         <div className={styles.helpPageLayout}>
           <div className={styles.sideNavigation}>
@@ -192,11 +162,7 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
               </SideNavigation>
             </div>
           </div>
-          <div
-            className={classNames(styles.content, getContentWidthClassName())}
-          >
-            {children}
-          </div>
+          <div className={styles.content}>{children}</div>
         </div>
       </Container>
     </div>

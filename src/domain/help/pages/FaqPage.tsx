@@ -17,7 +17,6 @@ const FaqPage: React.FC = () => {
 
   return (
     <PageWrapper
-      backgroundColor="gray"
       description="helpPage.pageDescriptionFaq"
       keywords={['keywords.faq', 'keywords.asked', 'keywords.questions']}
       title="helpPage.pageTitleFaq"

@@ -1,38 +1,39 @@
-@import "mixins";
+@import 'mixins';
 
 .accordion {
-    --accordion-background-color: var(--color-white);
+  --accordion-background-color: var(--color-white);
 
-    background-color: var(--accordion-background-color);
+  background-color: var(--accordion-background-color);
+  box-shadow: var(--shadow-m);
 
-    .toggleButton {
-        min-height: var(--spacing-5-xl);
-        padding: var(--spacing-m) var(--spacing-s);
-        width: 100%;
-        text-align: left;
-        display: flex;
-        align-items: center;
-        color: var(--color-black);
-        cursor: pointer;
-        font-weight: 500;
-        font-size: var(--fontsize-body-m);
+  .toggleButton {
+    min-height: var(--spacing-5-xl);
+    padding: var(--spacing-m) var(--spacing-s);
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    color: var(--color-black);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: var(--fontsize-body-m);
 
-        @include focus-outline(0px);
+    @include focus-outline(0px);
 
-        span:not(:last-child) {
-            margin-right: var(--spacing-xs);
-        }
+    span:not(:last-child) {
+      margin-right: var(--spacing-xs);
     }
+  }
 
-    .content {
-        padding: var(--spacing-s) var(--spacing-m);
+  .content {
+    padding: var(--spacing-s) var(--spacing-m);
 
-        color: var(--color-black);
-        font-weight: normal;
-        font-size: var(--fontsize-body-l);
+    color: var(--color-black);
+    font-weight: normal;
+    font-size: var(--fontsize-body-l);
 
-        & > *:first-child {
-            margin-top: 0;
-        }
+    & > *:first-child {
+      margin-top: 0;
     }
+  }
 }

@@ -22,11 +22,11 @@ const PlatformPage: React.FC = () => {
       <MainContent>
         <h1>{t('helpPage.platformPage.titlePlatform')}</h1>
         <div className={styles.mainContent}>
+          <img src={imageUrl} alt={t('helpPage.platformPage.imageAlt')} />
           <div>
             <p>{t('helpPage.platformPage.textMainContent1')}</p>
             <p>{t('helpPage.platformPage.textMainContent2')}</p>
           </div>
-          <img src={imageUrl} alt={t('helpPage.platformPage.imageAlt')} />
         </div>
         <h2>{t('helpPage.platformPage.titleServiceHighlights')}</h2>
         <div className={styles.highlights}>
