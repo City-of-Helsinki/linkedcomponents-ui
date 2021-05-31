@@ -28,6 +28,7 @@ const Tabs: React.FC<Props> = ({
   options,
 }) => {
   const { theme } = useTheme();
+  const isFocused = React.useRef(false);
   const activeIndex = React.useMemo(
     () => options.findIndex((option) => option.value === activeTab),
     [activeTab, options]
@@ -63,7 +64,11 @@ const Tabs: React.FC<Props> = ({
     });
 
   return (
-    <div className={className}>
+    <div
+      className={className}
+      onBlur={() => (isFocused.current = false)}
+      onFocus={() => (isFocused.current = true)}
+    >
       <div
         className={classNames(styles.tabList, css(theme.tabs))}
         role="tablist"
@@ -73,6 +78,7 @@ const Tabs: React.FC<Props> = ({
           return (
             <Tab
               key={option.value}
+              autoFocusChange={isFocused.current}
               index={index}
               isCompleted={option.isCompleted}
               isFocused={index === focusedTab}

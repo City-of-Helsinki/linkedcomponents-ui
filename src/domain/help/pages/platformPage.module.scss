@@ -14,10 +14,6 @@
   margin-bottom: var(--spacing-5-xl);
   min-height: var(--platform-page-image-min-height);
 
-  @include large-up {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   img {
     width: 100%;
   }
@@ -28,6 +24,6 @@
   grid-gap: var(--spacing-2-xl);
 
   @include medium-up {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }

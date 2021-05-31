@@ -221,11 +221,16 @@ const ContactPage: React.FC = () => {
                   />
                 </FormGroup>
                 {!!faqItems.length && (
-                  <h3>{t('helpPage.contactPage.titleSuggestedTopics')}</h3>
+                  <>
+                    <h3>{t('helpPage.contactPage.titleSuggestedTopics')}</h3>
+                    <div className={styles.accordions}>
+                      {faqItems.map((item, index) =>
+                        React.cloneElement(item, { key: index })
+                      )}
+                    </div>
+                  </>
                 )}
-                {faqItems.map((item, index) =>
-                  React.cloneElement(item, { key: index })
-                )}
+
                 <FormGroup>
                   <Field
                     component={TextInputField}

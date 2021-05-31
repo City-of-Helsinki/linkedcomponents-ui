@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import {
   IconCogwheel,
   IconHome,
@@ -18,12 +17,6 @@ import useWindowSize from '../../../hooks/useWindowSize';
 import getPageHeaderHeight from '../../../utils/getPageHeaderHeight';
 import Container from '../../app/layout/Container';
 import styles from './helpPageLayout.module.scss';
-
-const PAGES_WITH_GRAY_BACKGROUND: string[] = [ROUTES.INSTRUCTIONS_FAQ];
-const PAGES_WITH_FULL_WIDTH_CONTENT: string[] = [
-  ROUTES.INSTRUCTIONS_FAQ,
-  ROUTES.INSTRUCTIONS_PLATFORM,
-];
 
 interface Props {
   children: React.ReactNode;
@@ -132,22 +125,8 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
     },
   ];
 
-  const backgroundColorClassName = PAGES_WITH_GRAY_BACKGROUND.includes(
-    pathname.replace(`/${locale}`, '')
-  )
-    ? styles.backgroundGray
-    : styles.backgroundWhite;
-
-  const contentWidthClassName = PAGES_WITH_FULL_WIDTH_CONTENT.includes(
-    pathname.replace(`/${locale}`, '')
-  )
-    ? styles.contentFullWidth
-    : styles.contentDefault;
-
   return (
-    <div
-      className={classNames(styles.helpPageWrapper, backgroundColorClassName)}
-    >
+    <div className={styles.helpPageWrapper}>
       <Container>
         <div className={styles.helpPageLayout}>
           <div className={styles.sideNavigation}>
@@ -183,9 +162,7 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
               </SideNavigation>
             </div>
           </div>
-          <div className={classNames(styles.content, contentWidthClassName)}>
-            {children}
-          </div>
+          <div className={styles.content}>{children}</div>
         </div>
       </Container>
     </div>
