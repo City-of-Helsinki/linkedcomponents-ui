@@ -20,6 +20,7 @@ beforeEach(() => {
 const renderComponent = (route = '/fi') =>
   render(<Footer />, { routes: [route] });
 
+// TODO: Swedish language is disabled at the moment, so skip this test
 test.skip('matches snapshot', async () => {
   i18n.changeLanguage('sv');
   const { container } = renderComponent('/sv');

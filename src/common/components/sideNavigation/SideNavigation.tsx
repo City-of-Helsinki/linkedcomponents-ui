@@ -39,7 +39,7 @@ const SideNavigation: React.FC<SideNavigationProps> = ({
 
   const isMobile = useIsMobile();
 
-  const id = React.useRef<string>(_id || uniqueId('side-navigation-')).current;
+  const [id] = React.useState(() => _id || uniqueId('side-navigation-'));
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
 

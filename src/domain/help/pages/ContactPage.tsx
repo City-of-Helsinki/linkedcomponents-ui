@@ -36,9 +36,7 @@ import { getInitialValues, scrollToFirstError, showErrors } from '../utils';
 import styles from './contactPage.module.scss';
 
 const ContactPage: React.FC = () => {
-  const successId = React.useRef<string>(
-    uniqueId('contact-form-success-')
-  ).current;
+  const [successId] = React.useState(() => uniqueId('contact-form-success-'));
   const { t } = useTranslation();
   const topicOptions = Object.values(CONTACT_TOPICS).map((topic) => ({
     label: t(`helpPage.contactPage.topics.${camelCase(topic)}`),

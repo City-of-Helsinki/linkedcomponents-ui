@@ -9,12 +9,14 @@ import { AUDIENCE_ORDER, EVENT_EDIT_ACTIONS } from '../constants';
 export const getEventUpdateAction = (
   event: EventFieldsFragment,
   publicationStatus: PublicationStatus
-): EVENT_EDIT_ACTIONS =>
-  event.publicationStatus === PublicationStatus.Draft
-    ? publicationStatus === PublicationStatus.Draft
+): EVENT_EDIT_ACTIONS => {
+  if (event.publicationStatus === PublicationStatus.Draft) {
+    return publicationStatus === PublicationStatus.Draft
       ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
-      : EVENT_EDIT_ACTIONS.PUBLISH
-    : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
+      : EVENT_EDIT_ACTIONS.PUBLISH;
+  }
+  return EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
+};
 
 const getAudienceIndex = (atId: string) => {
   const index = AUDIENCE_ORDER.indexOf(parseIdFromAtId(atId) as string);

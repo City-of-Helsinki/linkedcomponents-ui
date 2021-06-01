@@ -26,9 +26,8 @@ const SubLevel: FCWithName<SubLevelProps> = ({
   style,
   to,
 }) => {
-  const id = React.useRef<string>(
-    _id || /* istanbul ignore next */ uniqueId('sub-level-')
-  ).current;
+  const [id] = React.useState(() => _id || uniqueId('sub-level-'));
+
   const { openMainLevels, setIsMobileMenuOpen, setOpenMainLevels } = useContext(
     SideNavigationContext
   );
