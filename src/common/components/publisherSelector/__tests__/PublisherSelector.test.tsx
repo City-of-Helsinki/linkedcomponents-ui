@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import { TEST_USER_ID } from '../../../../constants';
 import {
   OrganizationDocument,
   UserDocument,
@@ -25,7 +26,7 @@ const label = 'Select publisher';
 const publisherId = 'publisher:1';
 const publisherName = 'Publisher name';
 const publisher = fakeOrganization({
-  id: publisherName,
+  id: publisherId,
   name: publisherName,
 });
 const publisherVariables = {
@@ -44,7 +45,7 @@ const mockedPublisherResponse: MockedResponse = {
 const organizationId = 'organization:1';
 const organizationName = 'Organization name';
 const organization = fakeOrganization({
-  id: organizationName,
+  id: organizationId,
   name: organizationName,
 });
 const organizationVariables = {
@@ -63,7 +64,7 @@ const mockedOrganizationResponse: MockedResponse = {
 const adminOrganizationId = 'admin:1';
 const adminOrganizationName = 'Admin organization';
 const adminOrganization = fakeOrganization({
-  id: adminOrganizationName,
+  id: adminOrganizationId,
   name: adminOrganizationName,
 });
 const adminOrganizationVariables = {
@@ -86,7 +87,7 @@ const user = fakeUser({
 });
 const userVariables = {
   createPath: undefined,
-  id: 'user:1',
+  id: TEST_USER_ID,
 };
 const userResponse = { data: { user } };
 const mockedUserResponse: MockedResponse = {
@@ -116,14 +117,21 @@ const defaultProps: PublisherSelectorProps = {
 const renderComponent = (props?: Partial<PublisherSelectorProps>) =>
   render(<PublisherSelector {...defaultProps} {...props} />, { mocks, store });
 
+const getElement = (key: 'toggleButton') => {
+  switch (key) {
+    case 'toggleButton':
+      return screen.getByRole('button', {
+        name: `${label} ${publisherName}`,
+      });
+  }
+};
+
 test('should show users organizations as menu options', async () => {
   renderComponent();
 
   await screen.findByText(publisherName);
 
-  const toggleButton = screen.getByRole('button', {
-    name: `${label} ${publisherName}`,
-  });
+  const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
   await screen.findByRole('option', { name: organizationName, hidden: true });
@@ -138,9 +146,7 @@ test('should show publisher as menu option', async () => {
 
   await screen.findByText(publisherName);
 
-  const toggleButton = screen.getByRole('button', {
-    name: `${label} ${publisherName}`,
-  });
+  const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
   screen.getByRole('option', { name: publisherName, hidden: true });

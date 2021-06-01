@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { PAGE_SIZE } from '../../../../../../common/components/imageSelector/constants';
-import { MAX_PAGE_SIZE } from '../../../../../../constants';
+import { MAX_PAGE_SIZE, TEST_USER_ID } from '../../../../../../constants';
 import {
   ImagesDocument,
   OrganizationsDocument,
@@ -76,7 +76,7 @@ const user = fakeUser({
 });
 const userVariables = {
   createPath: undefined,
-  id: 'user:1',
+  id: TEST_USER_ID,
 };
 const userResponse = { data: { user } };
 const mockedUserResponse = {

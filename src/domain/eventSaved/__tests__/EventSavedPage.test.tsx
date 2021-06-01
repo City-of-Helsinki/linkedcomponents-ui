@@ -5,6 +5,7 @@ import { ROUTES } from '../../../constants';
 import { EventDocument, PublicationStatus } from '../../../generated/graphql';
 import { fakeEvent } from '../../../utils/mockDataUtils';
 import {
+  configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
@@ -13,22 +14,23 @@ import {
 import translations from '../../app/i18n/fi.json';
 import EventSavedPage from '../EventSavedPage';
 
+configure({ defaultHidden: true });
+
 const eventId = 'hel:123';
 const route = ROUTES.EVENT_SAVED.replace(':id', eventId);
 
 const getMocks = (publicationStatus: PublicationStatus): MockedResponse[] => {
-  const event = fakeEvent({ publicationStatus });
+  const event = fakeEvent({ id: eventId, publicationStatus });
   const eventResponse = { data: { event: event } };
-
-  return [
-    {
-      request: {
-        query: EventDocument,
-        variables: { id: eventId, createPath: undefined },
-      },
-      result: eventResponse,
+  const mockedEventReponse = {
+    request: {
+      query: EventDocument,
+      variables: { id: eventId, createPath: undefined },
     },
-  ];
+    result: eventResponse,
+  };
+
+  return [mockedEventReponse];
 };
 
 const getElement = (

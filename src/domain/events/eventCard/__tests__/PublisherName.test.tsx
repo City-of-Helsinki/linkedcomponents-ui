@@ -10,7 +10,10 @@ configure({ defaultHidden: true });
 
 const organizationId = 'hel:123';
 const organizationName = 'Organization name';
-const organization = fakeOrganization({ name: organizationName });
+const organization = fakeOrganization({
+  id: organizationId,
+  name: organizationName,
+});
 const organizationResponse = { data: { organization } };
 const variables = { id: organizationId, createPath: undefined };
 

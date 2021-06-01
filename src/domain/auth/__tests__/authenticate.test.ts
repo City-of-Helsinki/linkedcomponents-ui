@@ -90,7 +90,7 @@ it('should renew api token', async () => {
     .spyOn(mockAxios, 'get')
     .mockResolvedValue({ data: { [API_CLIENT_ID]: apiToken } });
 
-  await mockStore.dispatch(getApiToken(accessToken));
+  await mockStore.dispatch(renewApiToken(accessToken));
 
   expect(axiosGet).toHaveBeenCalledTimes(1);
   expect(axiosGet).toHaveBeenCalledWith(

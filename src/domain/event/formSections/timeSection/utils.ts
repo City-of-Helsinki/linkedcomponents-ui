@@ -1,7 +1,31 @@
 import isBefore from 'date-fns/isBefore';
 import isEqual from 'date-fns/isEqual';
 
+import {
+  EventFieldsFragment,
+  PublicationStatus,
+} from '../../../../generated/graphql';
+import { EVENT_EDIT_ACTIONS } from '../../constants';
 import { EventTime, RecurringEventSettings } from '../../types';
+
+export type GetEventEditActionParams = {
+  action: 'delete' | 'update';
+  event: EventFieldsFragment;
+};
+
+export const getEventEditAction = ({
+  action,
+  event,
+}: GetEventEditActionParams): EVENT_EDIT_ACTIONS => {
+  switch (action) {
+    case 'delete':
+      return EVENT_EDIT_ACTIONS.DELETE;
+    case 'update':
+      return event.publicationStatus === PublicationStatus.Draft
+        ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
+        : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
+  }
+};
 
 const sortEventTimes = (a: EventTime, b: EventTime): number => {
   const startTimeA = a.startTime

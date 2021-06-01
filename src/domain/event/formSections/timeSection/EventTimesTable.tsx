@@ -7,12 +7,7 @@ import MenuDropdown from '../../../../common/components/menuDropdown/MenuDropdow
 import { MenuItemOptionProps } from '../../../../common/components/menuDropdown/MenuItem';
 import Table from '../../../../common/components/table/Table';
 import { DATETIME_FORMAT } from '../../../../constants';
-import {
-  EventFieldsFragment,
-  PublicationStatus,
-  SuperEventType,
-  useEventQuery,
-} from '../../../../generated/graphql';
+import { SuperEventType, useEventQuery } from '../../../../generated/graphql';
 import formatDate from '../../../../utils/formatDate';
 import getPathBuilder from '../../../../utils/getPathBuilder';
 import { authenticatedSelector } from '../../../auth/selectors';
@@ -24,7 +19,7 @@ import { eventPathBuilder, getEditButtonProps } from '../../utils';
 import EditEventTimeModal from './EditEventTimeModal';
 import styles from './timeSection.module.scss';
 import TimeSectionContext from './TimeSectionContext';
-import { sortEventTimes } from './utils';
+import { getEventEditAction, sortEventTimes } from './utils';
 
 interface EventTimeRowProps {
   eventTime: EventTime;
@@ -95,26 +90,16 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
       update: t('common.edit'),
     };
 
-    const getEventEditAction = (event: EventFieldsFragment) => {
-      switch (action) {
-        case 'delete':
-          return EVENT_EDIT_ACTIONS.DELETE;
-        case 'update':
-          return event.publicationStatus === PublicationStatus.Draft
-            ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
-            : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
-      }
-    };
-
     const baseOptions: MenuItemOptionProps = {
       disabled: Boolean(eventTime.id),
       icon: icons[action],
       label: labels[action],
       onClick,
     };
+
     if (eventData) {
       const options = getEditButtonProps({
-        action: getEventEditAction(eventData.event),
+        action: getEventEditAction({ action, event: eventData.event }),
         authenticated,
         event: eventData?.event,
         onClick,
@@ -192,9 +177,7 @@ const EventTimesTable: React.FC<EventTimesTableProps> = ({
   const { t } = useTranslation();
 
   const handleDelete = (index: number) => {
-    setEventTimes(
-      eventTimes.filter((eventTime, eventIndex) => eventIndex !== index)
-    );
+    setEventTimes(eventTimes.filter((_, eventIndex) => eventIndex !== index));
   };
 
   const handleUpdate = (index: number, values: EventTime) => {

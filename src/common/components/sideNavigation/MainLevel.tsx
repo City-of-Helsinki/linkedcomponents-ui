@@ -30,7 +30,8 @@ const MainLevel: FCWithName<MainLevelProps> = ({
   style,
   to,
 }) => {
-  const id = React.useRef<string>(_id || uniqueId('main-level-')).current;
+  /* istanbul ignore next */
+  const [id] = React.useState(() => _id || uniqueId('main-level-'));
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
   const { openMainLevels, setIsMobileMenuOpen, setOpenMainLevels } = useContext(

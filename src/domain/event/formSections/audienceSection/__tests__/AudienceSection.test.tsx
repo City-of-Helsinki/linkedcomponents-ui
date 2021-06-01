@@ -31,6 +31,7 @@ const keywords = fakeKeywords(
 ).data;
 
 const audiencesKeywordSet = fakeKeywordSet({
+  id: KEYWORD_SETS.AUDIENCES,
   keywords,
 });
 

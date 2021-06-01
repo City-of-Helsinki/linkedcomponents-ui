@@ -49,7 +49,7 @@ export const isAfterStartDate = (
         after: formatDate(startDate, DATE_FORMAT),
       }),
       (endDate) => {
-        return endDate ? isBefore(startDate, endDate) : true;
+        return !endDate || isBefore(startDate, endDate);
       }
     );
   }
@@ -68,7 +68,7 @@ export const isMinStartDate = (
         min: formatDate(startDate, DATETIME_FORMAT),
       }),
       (endTime) => {
-        return endTime ? isBefore(startDate, endTime) : true;
+        return !endTime || isBefore(startDate, endTime);
       }
     );
   }

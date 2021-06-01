@@ -140,18 +140,22 @@ export const eventTimeSchema = Yup.object().shape({
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-      startTime ? isFuture(startTime) : true
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (startTime) => !startTime || isFuture(startTime)
     ),
   [EVENT_TIME_FIELDS.END_TIME]: Yup.date()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
-      endTime ? isFuture(endTime) : true
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (endTime) => !endTime || isFuture(endTime)
     )
     // test that startsTime is before endsTime
-    .when([EVENT_TIME_FIELDS.START_TIME], isAfterStartDate),
+    .when([EVENT_TIME_FIELDS.START_TIME], isMinStartDate),
 });
 
 export const addEventTimeSchema = Yup.object().shape({
@@ -270,7 +274,7 @@ const validateMainCategories = (
 ) =>
   schema.test(
     'atLeastOneMainCategoryIsSelected',
-    VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED,
+    VALIDATION_MESSAGE_KEYS.MAIN_CATEGORY_REQUIRED,
     (mainCategories) =>
       mainCategories?.some(
         (category) => category && keywords.includes(category)
@@ -299,14 +303,18 @@ const enrolmentSchemaFields = {
   [EVENT_FIELDS.ENROLMENT_START_TIME]: Yup.date()
     .nullable()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-      startTime ? isFuture(startTime) : true
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (startTime) => !startTime || isFuture(startTime)
     ),
   [EVENT_FIELDS.ENROLMENT_END_TIME]: Yup.date()
     .nullable()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (endTime) =>
-      endTime ? isFuture(endTime) : true
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (endTime) => !endTime || isFuture(endTime)
     )
     // test that startsTime is before endsTime
     .when([EVENT_FIELDS.ENROLMENT_START_TIME], isMinStartDate),
@@ -394,9 +402,7 @@ export const publicEventSchema = Yup.object().shape({
   ),
   [EVENT_FIELDS.KEYWORDS]: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-    .min(1, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
-    ),
+    .min(1, VALIDATION_MESSAGE_KEYS.KEYWORD_REQUIRED),
   // Validate enrolment related fields
   ...enrolmentSchemaFields,
   [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
@@ -461,8 +467,10 @@ export const recurringEventSchema = Yup.object().shape({
   [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startTime) =>
-      startTime ? isFuture(startTime) : true
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (startTime) => !startTime || isFuture(startTime)
     ),
   [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
@@ -765,6 +773,17 @@ export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
 
   return sortBy(allEventTimes, 'startTime');
 };
+
+export const getNewEventTimes = (
+  eventTimes: EventTime[],
+  recurringEvents: RecurringEventSettings[]
+): EventTime[] => [
+  ...eventTimes,
+  ...recurringEvents.reduce(
+    (previous: EventTime[], current) => [...previous, ...current.eventTimes],
+    []
+  ),
+];
 
 export const filterUnselectedLanguages = (
   obj: LocalisedObject,
@@ -1115,7 +1134,7 @@ export const getEventInitialValues = (
       ? event.subEvents
           .map((subEvent) => ({
             endTime: subEvent?.endTime ? new Date(subEvent?.endTime) : null,
-            id: subEvent?.id ?? null,
+            id: subEvent?.id || null,
             startTime: subEvent?.startTime
               ? new Date(subEvent?.startTime)
               : null,

@@ -28,7 +28,7 @@ const LanguagesSection: React.FC = () => {
     }));
 
   const inLanguageOptions: OptionType[] = (
-    [...(data?.languages.data || [])] as Language[]
+    [...(data?.languages.data ?? /* istanbul ignore next */ [])] as Language[]
   )
     .sort(sortLanguage)
     .map((language) => ({

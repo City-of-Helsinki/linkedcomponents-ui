@@ -312,3 +312,12 @@ test('should route to page defined in returnPath when clicking back button', asy
   await waitFor(() => expect(history.location.pathname).toBe('/fi/events'));
   expect(history.location.search).toBe(`?returnPath=%2Fsearch`);
 });
+
+test('menu toggle button should be visible and accessible for mobile devices', async () => {
+  global.innerWidth = 500;
+  renderComponent({
+    props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
+  });
+
+  getElement('toggle');
+});

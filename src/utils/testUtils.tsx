@@ -19,6 +19,7 @@ import wait from 'waait';
 
 import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
 import { defaultStoreState } from '../constants';
+import { createCache } from '../domain/app/apollo/apolloClient';
 import { store as reduxStore } from '../domain/app/store/store';
 import { ThemeProvider } from '../domain/app/theme/Theme';
 import { StoreState } from '../types';
@@ -70,7 +71,7 @@ const customRender: CustomRender = (
   const Wrapper: React.FC = ({ children }) => (
     <Provider store={store}>
       <ThemeProvider>
-        <MockedProvider mocks={mocks}>
+        <MockedProvider cache={createCache()} mocks={mocks}>
           <Router history={history}>{children}</Router>
         </MockedProvider>
       </ThemeProvider>
@@ -83,6 +84,9 @@ const customRender: CustomRender = (
 
 const actWait = (amount?: number): Promise<void> => act(() => wait(amount));
 
+const mockString = (size: number): string =>
+  [...Array(size)].map(() => Math.random().toString(36)[2]).join('');
+
 type MockFileArgs = {
   name?: string;
   size?: number;
@@ -94,9 +98,7 @@ const mockFile = ({
   size = 0,
   type = 'image/png',
 }: MockFileArgs): File => {
-  const content = [...Array(size)]
-    .map(() => Math.random().toString(36)[2])
-    .join('');
+  const content = mockString(size);
 
   return new File([content], name, {
     type,
@@ -116,7 +118,7 @@ const renderWithRoute: CustomRender = (
   const Wrapper: React.FC = ({ children }) => (
     <Provider store={store}>
       <ThemeProvider>
-        <MockedProvider mocks={mocks}>
+        <MockedProvider cache={createCache()} mocks={mocks}>
           <Router history={history}>
             <Route exact path={path}>
               {children}
@@ -183,6 +185,7 @@ export {
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   mockFile,
+  mockString,
   pasteToTextEditor,
   customRender as render,
   renderWithRoute,

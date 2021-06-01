@@ -3,28 +3,16 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import { testIds as imagePreviewTestIds } from '../../../../../common/components/imagePreview/ImagePreview';
-import { PAGE_SIZE } from '../../../../../common/components/imageSelector/constants';
 import { testIds as imageUploaderTestIds } from '../../../../../common/components/imageUploader/ImageUploader';
-import { MAX_PAGE_SIZE } from '../../../../../constants';
-import {
-  ImageDocument,
-  ImagesDocument,
-  OrganizationsDocument,
-  UploadImageDocument,
-  UserDocument,
-} from '../../../../../generated/graphql';
-import {
-  fakeImages,
-  fakeOrganizations,
-  fakeUser,
-} from '../../../../../utils/mockDataUtils';
+import { ImageDocument } from '../../../../../generated/graphql';
+import { fakeImage } from '../../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
   fireEvent,
   getMockReduxStore,
-  mockFile,
+  mockString,
   render,
   screen,
   userEvent,
@@ -32,137 +20,28 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { DEFAULT_LICENSE_TYPE } from '../../../../image/constants';
+import { EVENT_FIELDS, IMAGE_DETAILS_FIELDS } from '../../../constants';
+import { ImageDetails } from '../../../types';
+import { publicEventSchema } from '../../../utils';
 import {
-  EVENT_FIELDS,
-  EVENT_TYPE,
-  IMAGE_DETAILS_FIELDS,
-} from '../../../constants';
+  eventType,
+  file,
+  imageAtId,
+  images,
+  imageUrl,
+  mockedImageResponse,
+  mockedImagesResponse,
+  mockedOrganizationsResponse,
+  mockedUploadImage1Response,
+  mockedUploadImage2Response,
+  mockedUserResponse,
+  publisher,
+} from '../__mocks__/imageSection';
 import ImageSection from '../ImageSection';
 
 configure({ defaultHidden: true });
 
-const publisher = 'publisher:1';
-
-const eventType = EVENT_TYPE.General;
-
-const images = fakeImages(PAGE_SIZE, [{ publisher }]);
-const imagesVariables = {
-  createPath: undefined,
-  pageSize: PAGE_SIZE,
-  publisher,
-};
-const imagesResponse = {
-  data: {
-    images: {
-      ...images,
-      meta: {
-        ...images.meta,
-        count: 15,
-        next: 'https://api.hel.fi/linkedevents/v1/image/?page=2',
-      },
-    },
-  },
-};
-const mockedImagesResponse = {
-  request: {
-    query: ImagesDocument,
-    variables: imagesVariables,
-  },
-  result: imagesResponse,
-  newData: () => imagesResponse,
-};
-
-const image = images.data[0];
-const imageVariables = { createPath: undefined, id: image.id };
-const imageResponse = {
-  data: {
-    image,
-  },
-};
-const mockedImageResponse = {
-  request: {
-    query: ImageDocument,
-    variables: imageVariables,
-  },
-  result: imageResponse,
-};
-
-const imageAtId = image.atId;
-const imageUrl = image.url;
-const file = mockFile({});
-
-const uploadImage1Variables = {
-  image: undefined,
-  name: '',
-  publisher,
-  url: imageUrl,
-};
-const uploadImageResponse = {
-  data: {
-    uploadImage: image,
-  },
-};
-const mockedUploadImage1Response = {
-  request: {
-    query: UploadImageDocument,
-    variables: {
-      input: uploadImage1Variables,
-    },
-  },
-  result: uploadImageResponse,
-};
-
-const uploadImage2Variables = {
-  image: file,
-  name: '',
-  publisher,
-  url: undefined,
-};
-const mockedUploadImage2Response = {
-  request: {
-    query: UploadImageDocument,
-    variables: {
-      input: uploadImage2Variables,
-    },
-  },
-  result: uploadImageResponse,
-};
-
-const organizationsVariables = {
-  child: publisher,
-  createPath: undefined,
-  pageSize: MAX_PAGE_SIZE,
-};
-const organizationsResponse = {
-  data: { organizations: fakeOrganizations(0) },
-};
-const mockedOrganizationsResponse = {
-  request: {
-    query: OrganizationsDocument,
-    variables: organizationsVariables,
-  },
-  result: organizationsResponse,
-};
-
-const user = fakeUser({
-  organization: publisher,
-  adminOrganizations: [publisher],
-  organizationMemberships: [],
-});
-const userVariables = {
-  createPath: undefined,
-  id: 'user:1',
-};
-const userResponse = { data: { user } };
-const mockedUserResponse: MockedResponse = {
-  request: {
-    query: UserDocument,
-    variables: userVariables,
-  },
-  result: userResponse,
-};
-
-const mocks = [
+const defaultMocks = [
   mockedImagesResponse,
   mockedImageResponse,
   mockedUploadImage1Response,
@@ -174,39 +53,94 @@ const mocks = [
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
-const renderComponent = (images = []) =>
+type InitialValues = {
+  [EVENT_FIELDS.TYPE]: string;
+  [EVENT_FIELDS.IMAGES]: string[];
+  [EVENT_FIELDS.IMAGE_DETAILS]: ImageDetails;
+  [EVENT_FIELDS.IS_IMAGE_EDITABLE]: boolean;
+  [EVENT_FIELDS.PUBLISHER]: string;
+};
+
+const defaultInitialValues: InitialValues = {
+  [EVENT_FIELDS.TYPE]: eventType,
+  [EVENT_FIELDS.IMAGES]: [],
+  [EVENT_FIELDS.IMAGE_DETAILS]: {
+    [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
+    [IMAGE_DETAILS_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
+    [IMAGE_DETAILS_FIELDS.NAME]: '',
+    [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+  },
+  [EVENT_FIELDS.IS_IMAGE_EDITABLE]: true,
+  [EVENT_FIELDS.PUBLISHER]: publisher,
+};
+
+const renderComponent = (
+  initialValues?: Partial<InitialValues>,
+  mocks: MockedResponse[] = defaultMocks
+) =>
   render(
     <Formik
       initialValues={{
-        [EVENT_FIELDS.TYPE]: eventType,
-        [EVENT_FIELDS.IMAGES]: images,
-        [EVENT_FIELDS.IMAGE_DETAILS]: {
-          [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
-          [IMAGE_DETAILS_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
-          [IMAGE_DETAILS_FIELDS.NAME]: '',
-          [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
-        },
-        [EVENT_FIELDS.PUBLISHER]: publisher,
+        ...defaultInitialValues,
+        ...initialValues,
       }}
       onSubmit={jest.fn()}
+      validationSchema={publicEventSchema}
     >
       <ImageSection />
     </Formik>,
     { mocks, store }
   );
 
+const getElement = (
+  key:
+    | 'addButton'
+    | 'altTextInput'
+    | 'modalHeading'
+    | 'nameInput'
+    | 'removeButton'
+    | 'submitButton'
+    | 'urlInput'
+) => {
+  switch (key) {
+    // Both add button and preview image component have same label
+    case 'addButton':
+      return screen.getAllByRole('button', {
+        name: translations.event.form.buttonAddImage[eventType],
+      })[0];
+    case 'altTextInput':
+      return screen.getByRole('textbox', {
+        name: /kuvan vaihtoehtoinen teksti ruudunlukijoille/i,
+      });
+    case 'modalHeading':
+      return screen.getByRole('heading', {
+        name: translations.event.form.modalTitleImage[eventType],
+      });
+    case 'nameInput':
+      return screen.getByRole('textbox', { name: /kuvateksti/i });
+    // Both remove button and preview image component have same label
+    case 'removeButton':
+      return screen.getAllByRole('button', {
+        name: translations.event.form.buttonRemoveImage[eventType],
+      })[0];
+    case 'submitButton':
+      return screen.getByRole('button', {
+        name: translations.common.add,
+      });
+    case 'urlInput':
+      return screen.getByRole('textbox', {
+        name: translations.event.form.image.labelUrl,
+      });
+  }
+};
+
 test('should select existing image', async () => {
   renderComponent();
 
-  // Both add button and preview image component have same label
-  const addButton = screen.getAllByRole('button', {
-    name: translations.event.form.buttonAddImage[eventType],
-  })[0];
+  const addButton = getElement('addButton');
   userEvent.click(addButton);
 
-  screen.getByRole('heading', {
-    name: translations.event.form.modalTitleImage[eventType],
-  });
+  getElement('modalHeading');
 
   const imageCheckbox = await screen.findByRole('checkbox', {
     name: images.data[0].name,
@@ -223,13 +157,11 @@ test('should select existing image', async () => {
 });
 
 test('should remove image', async () => {
-  renderComponent([imageAtId]);
+  renderComponent({ [EVENT_FIELDS.IMAGES]: [imageAtId] });
 
   await screen.findByTestId(imagePreviewTestIds.image);
   // Both add button and preview image component have same label
-  const removeButton = screen.getAllByRole('button', {
-    name: translations.event.form.buttonRemoveImage[eventType],
-  })[0];
+  const removeButton = getElement('removeButton');
   userEvent.click(removeButton);
 
   await waitFor(() =>
@@ -242,15 +174,10 @@ test('should remove image', async () => {
 test('should create and select new image by selecting image file', async () => {
   renderComponent();
 
-  // Both add button and preview image component have same label
-  const addButton = screen.getAllByRole('button', {
-    name: translations.event.form.buttonAddImage[eventType],
-  })[0];
+  const addButton = getElement('addButton');
   userEvent.click(addButton);
 
-  screen.getByRole('heading', {
-    name: translations.event.form.modalTitleImage[eventType],
-  });
+  getElement('modalHeading');
 
   const fileInput = screen.getByTestId(imageUploaderTestIds.input);
   Object.defineProperty(fileInput, 'files', { value: [file] });
@@ -262,29 +189,78 @@ test('should create and select new image by selecting image file', async () => {
 test('should create and select new image by entering image url', async () => {
   renderComponent();
 
-  // Both add button and preview image component have same label
-  const addButton = screen.getAllByRole('button', {
-    name: translations.event.form.buttonAddImage[eventType],
-  })[0];
+  const addButton = getElement('addButton');
   userEvent.click(addButton);
 
-  screen.getByRole('heading', {
-    name: translations.event.form.modalTitleImage[eventType],
-  });
+  getElement('modalHeading');
 
-  const urlInput = screen.getByRole('textbox', {
-    name: translations.event.form.image.labelUrl,
-  });
+  const urlInput = getElement('urlInput');
   await waitFor(() => expect(urlInput).toBeEnabled());
   act(() => userEvent.click(urlInput));
   userEvent.type(urlInput, imageUrl);
   await waitFor(() => expect(urlInput).toHaveValue(imageUrl));
 
-  const submitButton = screen.queryByRole('button', {
-    name: translations.common.add,
-  });
+  const submitButton = getElement('submitButton');
   await waitFor(() => expect(submitButton).toBeEnabled());
   act(() => userEvent.click(submitButton));
 
   await screen.findByTestId(imagePreviewTestIds.image);
+});
+
+test('should show validation error if image alt text is too long', async () => {
+  const altText = mockString(161);
+  const image = fakeImage({ altText, publisher });
+  const imageVariables = { createPath: undefined, id: image.id };
+  const imageResponse = { data: { image } };
+  const mockedImageResponse: MockedResponse = {
+    request: {
+      query: ImageDocument,
+      variables: imageVariables,
+    },
+    result: imageResponse,
+  };
+  renderComponent(
+    {
+      [EVENT_FIELDS.IMAGES]: [image.atId],
+    },
+    [mockedImageResponse, mockedUserResponse]
+  );
+
+  const altTextInput = getElement('altTextInput');
+  const nameInput = getElement('nameInput');
+
+  await waitFor(() => expect(altTextInput).toBeEnabled());
+  act(() => userEvent.click(altTextInput));
+  act(() => userEvent.click(nameInput));
+
+  await screen.findByText('Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä');
+});
+
+test('should show validation error if image name is too long', async () => {
+  const name = mockString(321);
+  const image = fakeImage({ name, publisher });
+  const imageVariables = { createPath: undefined, id: image.id };
+  const imageResponse = { data: { image } };
+  const mockedImageResponse: MockedResponse = {
+    request: {
+      query: ImageDocument,
+      variables: imageVariables,
+    },
+    result: imageResponse,
+  };
+  renderComponent(
+    {
+      [EVENT_FIELDS.IMAGES]: [image.atId],
+    },
+    [mockedImageResponse, mockedUserResponse]
+  );
+
+  const altTextInput = getElement('altTextInput');
+  const nameInput = getElement('nameInput');
+
+  await waitFor(() => expect(nameInput).toBeEnabled());
+  act(() => userEvent.click(nameInput));
+  act(() => userEvent.click(altTextInput));
+
+  await screen.findByText('Tämä kenttä voi olla korkeintaan 320 merkkiä pitkä');
 });

@@ -6,6 +6,7 @@ import { matchPath, RouteProps, useLocation } from 'react-router';
 
 import { ROUTES, SUPPORTED_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
+import { useCookieConsent } from '../cookieConsent/CookieConsentContext';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import { useTheme } from '../theme/Theme';
@@ -24,10 +25,11 @@ const RESET_IGNORED_PATHS = [
 
 const NO_KORO_PATHS = [
   { pathname: ROUTES.HELP, props: { exact: false } },
-  { pathname: ROUTES.EDIT_EVENT, props: { exact: true } },
+  { pathname: ROUTES.EDIT_EVENT },
 ];
 
 const PageLayout: React.FC = ({ children }) => {
+  const { isConsentModalOpen } = useCookieConsent();
   const { theme } = useTheme();
   const { pathname } = useLocation();
   const locale = useLocale();
@@ -49,7 +51,10 @@ const PageLayout: React.FC = ({ children }) => {
 
   return (
     <>
-      <ResetFocus ignoredPaths={RESET_IGNORED_PATHS} />
+      <ResetFocus
+        disabled={isConsentModalOpen}
+        ignoredPaths={RESET_IGNORED_PATHS}
+      />
       <ScrollToTop />
       <div
         className={classNames(

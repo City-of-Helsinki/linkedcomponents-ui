@@ -77,50 +77,51 @@ const uploadImageSerializer = (
   };
 };
 
-const cache = new InMemoryCache({
-  typePolicies: {
-    Query: {
-      fields: {
-        event(_, { args, toReference }) {
-          return toReference({
-            __typename: 'Event',
-            id: args?.id,
-          });
-        },
-        image(_, { args, toReference }) {
-          return toReference({
-            __typename: 'Image',
-            id: args?.id,
-          });
-        },
-        keyword(_, { args, toReference }) {
-          return toReference({
-            __typename: 'Keyword',
-            id: args?.id,
-          });
-        },
-        keywordSet(_, { args, toReference }) {
-          return toReference({
-            __typename: 'KeywordSet',
-            id: args?.id,
-          });
-        },
-        organization(_, { args, toReference }) {
-          return toReference({
-            __typename: 'Organization',
-            id: args?.id,
-          });
-        },
-        place(_, { args, toReference }) {
-          return toReference({
-            __typename: 'Place',
-            id: args?.id,
-          });
+export const createCache = (): InMemoryCache =>
+  new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          event(_, { args, toReference }) {
+            return toReference({
+              __typename: 'Event',
+              id: args?.id,
+            });
+          },
+          image(_, { args, toReference }) {
+            return toReference({
+              __typename: 'Image',
+              id: args?.id,
+            });
+          },
+          keyword(_, { args, toReference }) {
+            return toReference({
+              __typename: 'Keyword',
+              id: args?.id,
+            });
+          },
+          keywordSet(_, { args, toReference }) {
+            return toReference({
+              __typename: 'KeywordSet',
+              id: args?.id,
+            });
+          },
+          organization(_, { args, toReference }) {
+            return toReference({
+              __typename: 'Organization',
+              id: args?.id,
+            });
+          },
+          place(_, { args, toReference }) {
+            return toReference({
+              __typename: 'Place',
+              id: args?.id,
+            });
+          },
         },
       },
     },
-  },
-});
+  });
 
 const authLink = setContext((_, { headers }) => {
   const token = apiTokenSelector(store.getState());
@@ -300,7 +301,7 @@ const sentryLink = new SentryLink({
 });
 
 const apolloClient = new ApolloClient({
-  cache,
+  cache: createCache(),
   link: ApolloLink.from([errorLink, sentryLink, authLink, linkedEventsLink]),
 });
 

@@ -1,8 +1,8 @@
 import { Formik } from 'formik';
 import React from 'react';
 
-import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
 import {
+  act,
   configure,
   render,
   screen,
@@ -38,43 +38,128 @@ const renderTimeSection = () =>
     </Formik>
   );
 
+const findElement = (key: 'addButton') => {
+  switch (key) {
+    case 'addButton':
+      return screen.findByRole('button', {
+        name: /lisää hintatieto/i,
+      });
+  }
+};
+
+const getElement = (
+  key: 'addButton' | 'deleteButton' | 'hasPriceCheckbox' | 'heading'
+) => {
+  switch (key) {
+    case 'addButton':
+      return screen.getByRole('button', {
+        name: /lisää hintatieto/i,
+      });
+    case 'deleteButton':
+      return screen.getByRole('button', {
+        name: translations.event.form.buttonDeleteOffer,
+      });
+    case 'hasPriceCheckbox':
+      return screen.getByRole('checkbox', {
+        name: /tapahtuma on maksullinen/i,
+      });
+    case 'heading':
+      return screen.getByRole('heading', {
+        name: /tapahtuman hintatiedot/i,
+      });
+  }
+};
+
 test('should add and delete an offer', async () => {
   renderTimeSection();
 
-  screen.getByRole('heading', {
-    name: translations.event.form.titlePriceInfo[type],
-  });
+  getElement('heading');
 
-  userEvent.click(
-    screen.getByRole('checkbox', {
-      name: translations.event.form.labelHasPrice[type],
-    })
-  );
+  userEvent.click(getElement('hasPriceCheckbox'));
+  const addButton = await findElement('addButton');
+  act(() => userEvent.click(addButton));
 
-  const addButton = screen.getByRole('button', {
-    name: translations.event.form.buttonAddOffer,
-  });
-  userEvent.click(addButton);
-
-  const langText = lowerCaseFirstLetter(translations.form.inLanguage.fi);
   const placeholders = [
-    translations.event.form.placeholderOfferPrice[type],
-    translations.event.form.placeholderOfferInfoUrl,
-    translations.event.form.placeholderOfferDescription,
-  ].map((text) => text.replace('{{langText}}', langText));
+    /syötä tapahtuman hinta/i,
+    /syötä lipunmyynnin tai ilmoittautumisen url/i,
+    /syötä lisätietoa hinnasta/i,
+  ];
 
-  placeholders.forEach((placeholder) =>
-    screen.getByPlaceholderText(placeholder)
-  );
+  await screen.findByPlaceholderText(placeholders[0]);
+  for (const placeholder of placeholders.slice(1)) {
+    screen.getByPlaceholderText(placeholder);
+  }
 
-  const deleteButton = screen.getByRole('button', {
-    name: translations.event.form.buttonDeleteOffer,
-  });
-  userEvent.click(deleteButton);
+  userEvent.click(getElement('deleteButton'));
 
   await waitFor(() =>
     expect(
       screen.queryByPlaceholderText(placeholders[0])
     ).not.toBeInTheDocument()
   );
+});
+
+test('should validate an offer', async () => {
+  renderTimeSection();
+
+  getElement('heading');
+
+  userEvent.click(getElement('hasPriceCheckbox'));
+  const addButton = await findElement('addButton');
+  act(() => userEvent.click(addButton));
+
+  const priceInput = await screen.findByPlaceholderText(
+    /syötä tapahtuman hinta/i
+  );
+  const urlInput = screen.getByPlaceholderText(
+    /syötä lipunmyynnin tai ilmoittautumisen url/i
+  );
+  const descriptionInput = screen.getByPlaceholderText(
+    /syötä lisätietoa hinnasta/i
+  );
+  userEvent.click(priceInput);
+  userEvent.click(urlInput);
+  await screen.findByText(/tämä kenttä on pakollinen/i);
+
+  userEvent.type(urlInput, 'invalidurl.com');
+  userEvent.click(descriptionInput);
+  await screen.findByText(
+    /kirjoita url osoite kokonaisena ja oikeassa muodossa/i
+  );
+});
+
+test('should show instructions only once', async () => {
+  renderTimeSection();
+
+  getElement('heading');
+
+  expect(
+    screen.queryAllByText(/merkitse onko tapahtuma maksuton/i)
+  ).toHaveLength(0);
+
+  userEvent.click(getElement('hasPriceCheckbox'));
+  const addButton = await findElement('addButton');
+  act(() => userEvent.click(addButton));
+
+  await waitFor(() =>
+    expect(
+      screen.queryAllByPlaceholderText(/syötä tapahtuman hinta/i)
+    ).toHaveLength(1)
+  );
+
+  expect(
+    screen.queryAllByText(/merkitse onko tapahtuma maksuton/i)
+  ).toHaveLength(1);
+
+  act(() => userEvent.click(addButton));
+
+  await waitFor(() =>
+    expect(
+      screen.queryAllByPlaceholderText(/syötä tapahtuman hinta/i)
+    ).toHaveLength(2)
+  );
+
+  expect(
+    screen.queryAllByText(/merkitse onko tapahtuma maksuton/i)
+  ).toHaveLength(1);
 });

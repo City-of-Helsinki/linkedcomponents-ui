@@ -7,8 +7,15 @@ import {
   PlacesDocument,
 } from '../../../../../generated/graphql';
 import { fakePlaces } from '../../../../../utils/mockDataUtils';
-import { render, screen, userEvent } from '../../../../../utils/testUtils';
+import {
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../../utils/testUtils';
 import PlaceSelector, { PlaceSelectorProps } from '../PlaceSelector';
+
+configure({ defaultHidden: true });
 
 const placeOverrides = range(1, 5).map((i) => ({
   id: `place:${i}`,

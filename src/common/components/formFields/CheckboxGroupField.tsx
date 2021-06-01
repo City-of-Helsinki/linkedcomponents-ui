@@ -1,10 +1,11 @@
 import classNames from 'classnames';
-import { ErrorMessage, FieldProps } from 'formik';
+import { FieldProps, useField } from 'formik';
 import { CheckboxProps, IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../types';
+import { getErrorText } from '../../../utils/validationUtils';
 import Button from '../button/Button';
 import Checkbox from '../checkbox/Checkbox';
 import styles from './checkboxGroupField.module.scss';
@@ -13,7 +14,7 @@ type Columns = 1 | 2 | 3 | 4;
 
 type Props = {
   columns: Columns;
-  id?: string;
+  errorName?: string;
   min: number;
   options: OptionType[];
   visibleOptionAmount?: number;
@@ -23,15 +24,19 @@ type Props = {
 const CheckboxGroupField: React.FC<Props> = ({
   columns = 2,
   disabled,
-  field: { name, value, ...field },
+  field: { name, onBlur, value, ...field },
   form,
-  id,
+  errorName,
   min = 0,
   options,
   visibleOptionAmount,
   ...rest
 }) => {
   const { t } = useTranslation();
+  const [, { error, touched: touchedError }] = useField(errorName || name);
+  const [, { touched }] = useField(name);
+
+  const errorText = getErrorText(error, touched || touchedError, t);
   const [showAll, setShowAll] = React.useState(false);
 
   const visibleOptions = [...options].slice(
@@ -43,10 +48,14 @@ const CheckboxGroupField: React.FC<Props> = ({
     setShowAll(!showAll);
   };
 
+  const handleBlur = () => {
+    onBlur({ target: { id: name, value } });
+  };
+
   return (
     <>
       <div
-        id={id}
+        id={errorName}
         className={classNames(
           styles.checkboxsWrapper,
           styles[`columns${columns}`]
@@ -64,15 +73,14 @@ const CheckboxGroupField: React.FC<Props> = ({
               name={name}
               checked={value.includes(option.value)}
               disabled={disabled || (checked && value.length <= min)}
+              onBlur={handleBlur}
               value={option.value}
               label={option.label}
             />
           );
         })}
       </div>
-      <ErrorMessage name={id || name}>
-        {(error) => <div className={styles.errorText}>{t(error)}</div>}
-      </ErrorMessage>
+      {errorText && <div className={styles.errorText}>{errorText}</div>}
       {visibleOptionAmount && (
         <div className={styles.buttonWrapper}>
           <Button

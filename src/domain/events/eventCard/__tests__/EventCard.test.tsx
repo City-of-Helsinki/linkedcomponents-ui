@@ -49,7 +49,10 @@ const eventValues = {
 };
 
 const organizationName = 'Organization name';
-const organization = fakeOrganization({ name: organizationName });
+const organization = fakeOrganization({
+  id: organizationId,
+  name: organizationName,
+});
 const organizationVariables = { id: organizationId, createPath: undefined };
 const organizationResponse = { data: { organization } };
 const mockedOrganizationResponse = {

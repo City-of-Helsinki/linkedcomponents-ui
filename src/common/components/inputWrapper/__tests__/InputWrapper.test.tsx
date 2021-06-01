@@ -1,12 +1,13 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import InputWrapper from '../InputWrapper';
+import InputWrapper, { InputWrapperProps } from '../InputWrapper';
 
-const wrapperProps = {
+const wrapperProps: InputWrapperProps = {
   helperText: 'helper text',
   label: 'label text',
   id: 'test',
+  successText: 'Success',
 };
 
 it('matched snapshot', () => {

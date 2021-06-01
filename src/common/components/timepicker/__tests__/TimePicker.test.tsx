@@ -39,6 +39,17 @@ const renderTimepicker = (props?: Partial<Props>) => {
   };
 };
 
+const getElement = (key: 'input' | 'toggleButton') => {
+  switch (key) {
+    case 'input':
+      return screen.getByRole('textbox', { name: defaultLabel });
+    case 'toggleButton':
+      return screen.getByRole('button', {
+        name: translations.common.timepicker.accessibility.buttonTimeList,
+      });
+  }
+};
+
 it('autocompletes and selects time when user clicks an option', async () => {
   const onChange = jest.fn();
   const { rerender } = renderTimepicker({
@@ -46,9 +57,7 @@ it('autocompletes and selects time when user clicks an option', async () => {
     onChange,
   });
 
-  const input = screen.getByRole('textbox', {
-    name: defaultLabel,
-  });
+  const input = getElement('input');
 
   userEvent.type(input, '1');
   rerender({ value: '1' });
@@ -75,9 +84,7 @@ it('autocompletes and selects time when user navigates with keyboard', async () 
   const onChange = jest.fn();
   const { rerender } = renderTimepicker({ minuteInterval: 15, onChange });
 
-  const input = screen.getByRole('textbox', {
-    name: defaultLabel,
-  });
+  const input = getElement('input');
 
   expect(screen.getByRole('listbox').children).toHaveLength(0);
 
@@ -116,9 +123,24 @@ it('should call onBlur', async () => {
     value,
   });
 
-  const input = screen.getByRole('textbox', {
-    name: defaultLabel,
+  const input = getElement('input');
+
+  userEvent.click(input);
+  expect(onBlur).not.toBeCalled();
+
+  act(() => userEvent.click(container));
+  expect(onBlur).toBeCalledWith('12.15');
+});
+
+it('should call onBlur with modified value', async () => {
+  const onBlur = jest.fn();
+  const value = '12:15';
+  const { container } = renderTimepicker({
+    onBlur,
+    value,
   });
+
+  const input = getElement('input');
 
   userEvent.click(input);
   expect(onBlur).not.toBeCalled();
@@ -134,9 +156,7 @@ it('should toggle menu by clicking toggle button', () => {
     screen.queryByRole('option', { name: '00.00' })
   ).not.toBeInTheDocument();
 
-  const toggleButton = screen.getByRole('button', {
-    name: translations.common.timepicker.accessibility.buttonTimeList,
-  });
+  const toggleButton = getElement('toggleButton');
 
   userEvent.click(toggleButton);
   expect(screen.queryByRole('option', { name: '00.00' })).toBeInTheDocument();
@@ -145,4 +165,27 @@ it('should toggle menu by clicking toggle button', () => {
   expect(
     screen.queryByRole('option', { name: '00.00' })
   ).not.toBeInTheDocument();
+});
+
+it('should set selected value to correct value', async () => {
+  const onChange = jest.fn();
+  const { rerender } = renderTimepicker({
+    minuteInterval: 15,
+    onChange,
+    value: '12.15',
+  });
+
+  const toggleButton = getElement('toggleButton');
+  userEvent.click(toggleButton);
+
+  expect(screen.getByRole('option', { name: '12.15' })).toHaveAttribute(
+    'aria-selected',
+    'true'
+  );
+
+  rerender({ value: '' });
+  expect(screen.getByRole('option', { name: '12.15' })).toHaveAttribute(
+    'aria-selected',
+    'false'
+  );
 });

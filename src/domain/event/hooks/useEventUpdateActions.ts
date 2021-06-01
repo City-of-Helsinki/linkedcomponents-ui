@@ -23,18 +23,20 @@ import { authenticatedSelector } from '../../auth/selectors';
 import { clearEventsQueries } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
-import { EventFormFields, EventTime } from '../types';
+import { EventFormFields } from '../types';
 import {
   calculateSuperEventTime,
   checkIsEditActionAllowed,
   getEventFields,
   getEventInitialValues,
   getEventPayload,
+  getNewEventTimes,
   getOrganizationAncestors,
   getRelatedEvents,
 } from '../utils';
 import useUpdateImageIfNeeded from './useUpdateImageIfNeeded';
 import useUpdateRecurringEventIfNeeded from './useUpdateRecurringEventIfNeeded';
+import { getEventUpdateAction } from './utils';
 
 export enum MODALS {
   CANCEL = 'cancel',
@@ -86,11 +88,13 @@ const useEventUpdateActions = ({
   const { updateRecurringEventIfNeeded } = useUpdateRecurringEventIfNeeded();
 
   const closeModal = () => {
+    /* istanbul ignore else */
     if (isMounted.current) {
       setOpenModal(null);
     }
   };
   const savingFinished = () => {
+    /* istanbul ignore else */
     if (isMounted.current) {
       setSaving(false);
     }
@@ -293,18 +297,14 @@ const useEventUpdateActions = ({
     let payload: UpdateEventMutationInput[] = [];
 
     try {
-      const action =
-        event.publicationStatus === PublicationStatus.Draft
-          ? publicationStatus === PublicationStatus.Draft
-            ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
-            : EVENT_EDIT_ACTIONS.PUBLISH
-          : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
+      const action = getEventUpdateAction(event, publicationStatus);
 
       setSaving(action);
       const { atId, id, superEventType } = getEventFields(event, locale);
       // Check that user has permission to update sub-events
       const subEvents = await getEditableEvents(
-        (event.subEvents || []) as EventFieldsFragment[],
+        (event.subEvents ||
+          /* istanbul ignore next */ []) as EventFieldsFragment[],
         action
       );
 
@@ -348,8 +348,12 @@ const useEventUpdateActions = ({
             return {
               ...basePayload,
               id: subEvent?.id as string,
-              startTime: eventTime?.startTime?.toISOString() ?? null,
-              endTime: eventTime?.endTime?.toISOString() ?? null,
+              startTime:
+                eventTime?.startTime?.toISOString() ??
+                /* istanbul ignore next */ null,
+              endTime:
+                eventTime?.endTime?.toISOString() ??
+                /* istanbul ignore next */ null,
               superEvent: { atId },
               superEventType: subEvent?.superEventType,
             };
@@ -370,18 +374,22 @@ const useEventUpdateActions = ({
         }
 
         // Create new sub-events
-        const newEventTimes: EventTime[] = [...values.eventTimes];
-        values.recurringEvents.forEach((recurringEvent) => {
-          newEventTimes.push(...recurringEvent.eventTimes);
-        });
+        const newEventTimes = getNewEventTimes(
+          values.eventTimes,
+          values.recurringEvents
+        );
 
         /* istanbul ignore else */
         if (newEventTimes.length) {
           const newSubEventsPayload = newEventTimes.map((eventTime) => {
             return {
               ...basePayload,
-              startTime: eventTime?.startTime?.toISOString() ?? null,
-              endTime: eventTime?.endTime?.toISOString() ?? null,
+              startTime:
+                eventTime?.startTime?.toISOString() ??
+                /* istanbul ignore next */ null,
+              endTime:
+                eventTime?.endTime?.toISOString() ??
+                /* istanbul ignore next */ null,
               superEvent: { atId },
               superEventType: null,
             };
@@ -424,6 +432,7 @@ const useEventUpdateActions = ({
       } else {
         payload = [{ ...basePayload, id }];
         await updateEvents(payload);
+
         await updateRecurringEventIfNeeded(event);
         /* istanbul ignore next */
         !isTestEnv && clearEventsQueries(apolloClient);

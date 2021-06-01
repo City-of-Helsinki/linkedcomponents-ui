@@ -63,13 +63,26 @@ const defaultProps: EventListContainerProps = {
 };
 
 const getElement = (
-  key: 'page2' | 'pagination' | 'sortOptionName' | 'sortSelect'
+  key:
+    | 'page1'
+    | 'page2'
+    | 'pagination'
+    | 'sortOptionLastModified'
+    | 'sortOptionName'
+    | 'sortSelect'
 ) => {
   switch (key) {
+    case 'page1':
+      return screen.getByRole('button', { name: 'Sivu 1' });
     case 'page2':
       return screen.getByRole('button', { name: 'Sivu 2' });
     case 'pagination':
       return screen.getByRole('navigation', { name: 'Sivunavigointi' });
+    case 'sortOptionLastModified':
+      return screen.getByRole('option', {
+        name: /viimeksi muokattu, laskeva/i,
+        hidden: true,
+      });
     case 'sortOptionName':
       return screen.getByRole('option', {
         name: /nimi, nouseva/i,
@@ -87,22 +100,31 @@ const renderComponent = () =>
 
 test('should show events', async () => {
   renderComponent();
+
   await loadingSpinnerIsNotInDocument();
 
-  // Page 1 event should be visible. Test only first 2 to improve performance
+  // Page 1 event should be visible.
   screen.getByRole('heading', { name: eventNames[0] });
   screen.getByRole('heading', { name: eventNames[1] });
 });
 
-test('should change to event list page 2', async () => {
+test('should navigate between pages', async () => {
   const { history } = renderComponent();
+
   await loadingSpinnerIsNotInDocument();
 
   getElement('pagination');
+
   const page2Button = getElement('page2');
   userEvent.click(page2Button);
 
   await waitFor(() => expect(history.location.search).toBe('?page=2'));
+
+  // Should clear page from url search if selecting the first page
+  const page1Button = getElement('page1');
+  userEvent.click(page1Button);
+
+  await waitFor(() => expect(history.location.search).toBe(''));
 });
 
 test('should change sort order', async () => {
@@ -117,4 +139,11 @@ test('should change sort order', async () => {
   userEvent.click(sortOptionName);
 
   await waitFor(() => expect(history.location.search).toBe('?sort=name'));
+
+  // Should clear sort from url search if selecting default sort value
+  userEvent.click(sortSelect);
+  const sortOptionLastModified = getElement('sortOptionLastModified');
+  userEvent.click(sortOptionLastModified);
+
+  await waitFor(() => expect(history.location.search).toBe(''));
 });

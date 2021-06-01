@@ -3,7 +3,7 @@ import merge from 'lodash/merge';
 import { Profile, User } from 'oidc-client';
 import { UserState } from 'redux-oidc';
 
-import { defaultStoreState } from '../constants';
+import { defaultStoreState, TEST_USER_ID } from '../constants';
 import { API_CLIENT_ID } from '../domain/auth/constants';
 import { ReducerState as AuthState, TokenState } from '../domain/auth/types';
 import {
@@ -117,7 +117,7 @@ export const fakeOidcUserProfileState = (
       iat: 0,
       iss: '',
       name: 'Test user',
-      sub: 'user:1',
+      sub: TEST_USER_ID,
     },
     overrides
   );

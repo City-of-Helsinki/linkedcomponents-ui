@@ -32,7 +32,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   icon,
   id: _id,
   loadingSpinnerFinishedText,
-  loadingSpinnerText: _loadingSpinnerText,
+  loadingSpinnerText,
   onChange,
   options,
   renderOptionText,
@@ -40,16 +40,13 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   searchValue: _searchValue,
   setSearchValue,
   showLoadingSpinner,
-  showSearch = false,
+  showSearch,
   toggleButtonLabel,
   value,
 }) => {
   const { t } = useTranslation();
-  const id = React.useRef<string>(
-    _id || uniqueId('multi-select-dropdown-')
-  ).current;
+  const id = React.useState(() => _id || uniqueId('multi-select-dropdown-'));
   const toggleButtonId = `${id}-toggle-button`;
-  const loadingSpinnerText = t('common.loading') || _loadingSpinnerText;
   const menuId = `${id}-menu`;
   const [internalSearchValue, setInternalSearchValue] = React.useState('');
   const searchValue = _searchValue ?? internalSearchValue;
@@ -192,7 +189,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
         id={menuId}
         isOpen={isMenuOpen}
         loadingSpinnerFinishedText={loadingSpinnerFinishedText}
-        loadingSpinnerText={loadingSpinnerText}
+        loadingSpinnerText={loadingSpinnerText || t('common.loading')}
         onClear={handleClear}
         onItemChange={handleItemChange}
         onSearchChange={showSearch ? handleSearchInputChange : undefined}

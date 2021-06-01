@@ -12,9 +12,10 @@ interface IgnorePathProps {
   props?: RouteProps;
 }
 interface Props {
+  disabled?: boolean;
   ignoredPaths: IgnorePathProps[];
 }
-const ResetFocus: React.FC<Props> = ({ ignoredPaths }) => {
+const ResetFocus: React.FC<Props> = ({ disabled, ignoredPaths }) => {
   const locale = useLocale();
   const { pathname } = useLocation();
   const node = React.useRef<HTMLDivElement>(null);
@@ -24,7 +25,7 @@ const ResetFocus: React.FC<Props> = ({ ignoredPaths }) => {
       paths.some((path) =>
         matchPath(pathname, {
           path: `/${locale}${path.pathname}`,
-          exact: path.props?.exact ?? true,
+          exact: path.props?.exact ?? /* istanbul ignore next */ true,
           strict: path.props?.strict ?? true,
         })
       ),
@@ -32,10 +33,10 @@ const ResetFocus: React.FC<Props> = ({ ignoredPaths }) => {
   );
 
   React.useEffect(() => {
-    if (!isMatch(ignoredPaths)) {
+    if (!disabled && !isMatch(ignoredPaths)) {
       node.current?.focus();
     }
-  }, [ignoredPaths, isMatch]);
+  }, [disabled, ignoredPaths, isMatch]);
 
   return <div ref={node} tabIndex={-1}></div>;
 };

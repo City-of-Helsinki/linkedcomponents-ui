@@ -850,6 +850,8 @@
       },
       "eventInfoVerified": "Tietojen tulee olla vahvistettu",
       "eventTimesRequired": "Vähintään 1 ajankohta vaaditaan",
+      "keywordRequired": "Vähintään 1 avainsana tulee olla valittuna",
+      "mainCategoryRequired": "Vähintään 1 pääluokka tulee olla valittuna",
       "number": {
         "integer": "Arvon tulee olla kokonaisluku",
         "max": "Arvon tulee olla enintään {{max}}",
@@ -868,7 +870,6 @@
         "time": "Ajan tulee olla muotoa hh.mm",
         "url": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)"
       },
-
       "time": {
         "after": "Tämän kellonajan tulee olla {{after}} jälkeen",
         "before": "Tämän kellonajan tulee olla ennen {{before}}",

@@ -3,6 +3,8 @@ import React from 'react';
 
 import {
   configure,
+  mockString,
+  pasteToTextEditor,
   render,
   screen,
   userEvent,
@@ -14,6 +16,7 @@ import {
   EVENT_TYPE,
 } from '../../../constants';
 import { MultiLanguageObject } from '../../../types';
+import { publicEventSchema } from '../../../utils';
 import DescriptionSection, {
   DescriptionSectionProps,
 } from '../DescriptionSection';
@@ -56,6 +59,7 @@ const renderComponent = (
       initialValues={{ ...defaultInitialValues, ...initialValues }}
       onSubmit={jest.fn()}
       enableReinitialize={true}
+      validationSchema={publicEventSchema}
     >
       <DescriptionSection {...defaultProps} {...props} />
     </Formik>
@@ -72,6 +76,7 @@ const renderComponent = (
           }}
           onSubmit={jest.fn()}
           enableReinitialize={true}
+          validationSchema={publicEventSchema}
         >
           <DescriptionSection {...defaultProps} {...props} />
         </Formik>
@@ -107,14 +112,6 @@ const getElement = (
       return screen.getByRole('tab', { name: /ruotsi/i });
   }
 };
-
-test('should show description form section fields', () => {
-  renderComponent();
-
-  getElement('nameFi');
-  getElement('shortDescriptionFi');
-  getElement('descriptionFi');
-});
 
 test('should change form section language', () => {
   const setSelectedLanguage = jest.fn();
@@ -152,4 +149,127 @@ test('should change selected language when current selected language is removed 
   });
 
   expect(setSelectedLanguage).toBeCalledWith('sv');
+});
+
+test('should show validation error if name is missing', async () => {
+  renderComponent({
+    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+    [EVENT_FIELDS.DESCRIPTION]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: 'Description',
+    },
+    [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [EVENT_FIELDS.SHORT_DESCRIPTION]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: 'Short description',
+    },
+  });
+
+  const nameInput = getElement('nameFi');
+  const shortDescriptionInput = getElement('shortDescriptionFi');
+
+  userEvent.click(nameInput);
+  userEvent.click(shortDescriptionInput);
+
+  await screen.findByText('Tämä kenttä on pakollinen');
+});
+
+test('should show validation error if short description is missing', async () => {
+  renderComponent({
+    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+    [EVENT_FIELDS.DESCRIPTION]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: 'Description',
+    },
+    [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Name' },
+    [EVENT_FIELDS.SHORT_DESCRIPTION]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+    },
+  });
+
+  const shortDescriptionInput = getElement('shortDescriptionFi');
+  const nameInput = getElement('nameFi');
+
+  userEvent.click(shortDescriptionInput);
+  userEvent.click(nameInput);
+
+  await screen.findByText('Tämä kenttä on pakollinen');
+});
+
+test('should show validation error if short description is too long', async () => {
+  renderComponent({
+    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+    [EVENT_FIELDS.DESCRIPTION]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: 'Description',
+    },
+    [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Name' },
+    [EVENT_FIELDS.SHORT_DESCRIPTION]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: mockString(5001),
+    },
+  });
+
+  const shortDescriptionInput = getElement('shortDescriptionFi');
+  const nameInput = getElement('nameFi');
+
+  userEvent.click(shortDescriptionInput);
+  userEvent.click(nameInput);
+
+  await screen.findByText('Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä');
+});
+
+test('should show validation error if description is missing', async () => {
+  const setSelectedLanguage = jest.fn();
+  renderComponent(
+    {
+      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+      [EVENT_FIELDS.DESCRIPTION]: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      },
+      [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Name' },
+      [EVENT_FIELDS.SHORT_DESCRIPTION]: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: 'Short description',
+      },
+    },
+    { setSelectedLanguage }
+  );
+
+  const descriptionInput = getElement('descriptionFi');
+  const shortDescriptionInput = getElement('shortDescriptionFi');
+
+  userEvent.click(descriptionInput);
+  userEvent.click(shortDescriptionInput);
+
+  await screen.findByText('Tämä kenttä on pakollinen');
+});
+
+test('should show validation error if description is too long', async () => {
+  const setSelectedLanguage = jest.fn();
+  renderComponent(
+    {
+      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+      [EVENT_FIELDS.DESCRIPTION]: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: mockString(5001),
+      },
+      [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Name' },
+      [EVENT_FIELDS.SHORT_DESCRIPTION]: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: 'Short description',
+      },
+    },
+    { setSelectedLanguage }
+  );
+
+  const descriptionInput = getElement('descriptionFi');
+  const shortDescriptionInput = getElement('shortDescriptionFi');
+
+  userEvent.click(descriptionInput);
+  userEvent.click(shortDescriptionInput);
+
+  await screen.findByText(
+    'Tämä kenttä voi olla korkeintaan 5000 merkkiä pitkä'
+  );
 });

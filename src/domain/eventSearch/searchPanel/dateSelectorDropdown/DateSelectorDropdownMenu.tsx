@@ -31,7 +31,6 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
 
   return (
     <DropdownMenu
-      clearButtonLabel={t('common.dropdown.buttonClear')}
       onClear={onClear}
       id={id}
       isOpen={isOpen}

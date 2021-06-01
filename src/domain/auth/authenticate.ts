@@ -77,7 +77,7 @@ export const signOut = async (): Promise<void> => {
   try {
     await clearAllState();
     await userManager.signoutRedirect();
-  } catch (e) {
+  } catch (e) /* istanbul ignore next */ {
     Sentry.captureException(e);
   }
 };

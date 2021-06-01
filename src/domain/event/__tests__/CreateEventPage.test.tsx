@@ -46,6 +46,8 @@ import {
 } from '../__mocks__/createEventPage';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
+  EVENT_FIELDS,
+  EVENT_INFO_LANGUAGES,
   EVENT_INITIAL_VALUES,
 } from '../constants';
 import CreateEventPage from '../CreateEventPage';
@@ -143,6 +145,15 @@ const getElement = (
   }
 };
 
+const findElement = (key: 'nameSv') => {
+  switch (key) {
+    case 'nameSv':
+      return screen.findByRole('textbox', {
+        name: /tapahtuman otsikko ruotsiksi/i,
+      });
+  }
+};
+
 test('should focus to first validation error when trying to save draft event', async () => {
   renderComponent();
 
@@ -153,9 +164,27 @@ test('should focus to first validation error when trying to save draft event', a
 
   userEvent.click(saveDraftButton);
 
-  await waitFor(() => {
-    expect(nameTextbox).toHaveFocus();
+  await waitFor(() => expect(nameTextbox).toHaveFocus());
+});
+
+test('should focus to validation error of swedish name when trying to save draft event', async () => {
+  setFormValues({
+    ...EVENT_INITIAL_VALUES,
+    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
+      EVENT_INFO_LANGUAGES.FI,
+      EVENT_INFO_LANGUAGES.SV,
+    ],
+    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
   });
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const saveDraftButton = getElement('saveDraft');
+  userEvent.click(saveDraftButton);
+
+  const nameSvTextbox = await findElement('nameSv');
+  await waitFor(() => expect(nameSvTextbox).toHaveFocus());
 });
 
 test('should focus to select component in case of validation error', async () => {
@@ -173,18 +202,13 @@ test('should focus to select component in case of validation error', async () =>
 
   userEvent.click(publishButton);
 
-  await waitFor(() => {
-    expect(superEventSelect).toHaveFocus();
-  });
+  await waitFor(() => expect(superEventSelect).toHaveFocus());
 });
 
 test('should focus to text editor component in case of validation error', async () => {
   setFormValues({
     ...EVENT_INITIAL_VALUES,
-    name: {
-      ...EMPTY_MULTI_LANGUAGE_OBJECT,
-      fi: eventValues.name,
-    },
+    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
     shortDescription: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.shortDescription,
@@ -200,9 +224,34 @@ test('should focus to text editor component in case of validation error', async 
 
   userEvent.click(publishButton);
 
-  await waitFor(() => {
-    expect(descriptionTextbox).toHaveFocus();
+  await waitFor(() => expect(descriptionTextbox).toHaveFocus());
+});
+
+test('should focus to event times error if none event time exists', async () => {
+  setFormValues({
+    ...EVENT_INITIAL_VALUES,
+    publisher: organizationId,
+    description: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.description,
+    },
+    eventTimes: [],
+    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
+    shortDescription: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.shortDescription,
+    },
   });
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const publishButton = getElement('publish');
+
+  userEvent.click(publishButton);
+
+  const error = await screen.findByText(/vähintään 1 ajankohta vaaditaan/i);
+  expect(error).toHaveFocus();
 });
 
 test('should focus to first main category checkbox if none main category is selected', async () => {
@@ -221,10 +270,7 @@ test('should focus to first main category checkbox if none main category is sele
     isVerified: true,
     keywords: [],
     location: placeAtId,
-    name: {
-      ...EMPTY_MULTI_LANGUAGE_OBJECT,
-      fi: eventValues.name,
-    },
+    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
     shortDescription: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.shortDescription,
@@ -246,9 +292,7 @@ test('should focus to first main category checkbox if none main category is sele
 
   const keywordCheckbox = getElement('keyword');
 
-  await waitFor(() => {
-    expect(keywordCheckbox).toHaveFocus();
-  });
+  await waitFor(() => expect(keywordCheckbox).toHaveFocus());
 });
 
 test('should route to event completed page after saving draft event', async () => {
@@ -256,10 +300,7 @@ test('should route to event completed page after saving draft event', async () =
     ...EVENT_INITIAL_VALUES,
     eventTimes: [eventValues.eventTimes[0]],
     isVerified: true,
-    name: {
-      ...EMPTY_MULTI_LANGUAGE_OBJECT,
-      fi: eventValues.name,
-    },
+    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
   });
 
   const mocks = [...defaultMocks, mockedCreateDraftEventResponse];
@@ -271,11 +312,11 @@ test('should route to event completed page after saving draft event', async () =
 
   userEvent.click(saveDraftButton);
 
-  await waitFor(() => {
+  await waitFor(() =>
     expect(history.location.pathname).toBe(
       `/fi/events/completed/${eventValues.id}`
-    );
-  });
+    )
+  );
 });
 
 test('should route to event completed page after publishing event', async () => {
@@ -294,10 +335,7 @@ test('should route to event completed page after publishing event', async () => 
     isVerified: true,
     keywords: [keywordAtId],
     location: placeAtId,
-    name: {
-      ...EMPTY_MULTI_LANGUAGE_OBJECT,
-      fi: eventValues.name,
-    },
+    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
     shortDescription: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.shortDescription,
@@ -318,11 +356,10 @@ test('should route to event completed page after publishing event', async () => 
   userEvent.click(publishButton);
 
   await waitFor(
-    () => {
+    () =>
       expect(history.location.pathname).toBe(
         `/fi/events/completed/${eventValues.id}`
-      );
-    },
+      ),
     { timeout: 10000 }
   );
 });

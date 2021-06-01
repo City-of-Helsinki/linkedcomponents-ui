@@ -116,7 +116,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
     if (value && data.startDate) {
       setNewDateWithTime(value, data.startDate);
     } else {
-      onChange(data.startDate || null);
+      onChange(data.startDate);
     }
   };
 
@@ -181,7 +181,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
       onChange(parsedDate);
     } else if (!dateStr) {
       onChange(null);
-    } else if (value) {
+    } /* istanbul ignore else */ else if (value) {
       const formattedDate = formatDate(value, dateFormat);
       setDateValue(formattedDate);
     }
@@ -296,7 +296,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
   React.useEffect(() => {
     if (!value) {
       setDateValue('');
-    } else if (value && isValidDate(value)) {
+    } /* istanbul ignore else */ else if (value && isValidDate(value)) {
       const formattedDate = formatDate(value, dateFormat);
       setDateValue(formattedDate);
     }

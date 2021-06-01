@@ -1,9 +1,9 @@
-import range from 'lodash/range';
 import React from 'react';
 
 import { PlaceDocument, PlacesDocument } from '../../../../generated/graphql';
 import { fakePlace, fakePlaces } from '../../../../utils/mockDataUtils';
 import {
+  configure,
   render,
   screen,
   userEvent,
@@ -11,10 +11,11 @@ import {
 } from '../../../../utils/testUtils';
 import PlaceSelector, { PlaceSelectorProps } from '../PlaceSelector';
 
+configure({ defaultHidden: true });
+
 const streetAddress = 'Testikatu 123';
 const addressLocality = 'Helsinki';
 const placeId = 'hel:123';
-const placeAtId = `https://api.hel.fi/linkedevents/v1/place/${placeId}/`;
 const placeName = 'Event name';
 const helper = 'Helper text';
 const label = 'Select place';
@@ -23,7 +24,6 @@ const selectedPlaceText = `${placeName} (${streetAddress}, ${addressLocality})`;
 
 const place = fakePlace({
   id: placeId,
-  atId: placeAtId,
   addressLocality: { fi: addressLocality },
   streetAddress: { fi: streetAddress },
   name: { fi: placeName },
@@ -39,28 +39,10 @@ const mockedPlaceResponse = {
   result: placeResponse,
 };
 
-const placeNames = range(1, 6).map((val) => `Place name ${val}`);
-const places = fakePlaces(
-  placeNames.length,
-  placeNames.map((name) => ({ name: { fi: name } }))
-);
-const placesVariables = {
-  createPath: undefined,
-  showAllPlaces: true,
-  text: '',
-};
-const placesResponse = { data: { places } };
-const mockedPlacesResponse = {
-  request: {
-    query: PlacesDocument,
-    variables: placesVariables,
-  },
-  result: placesResponse,
-};
-
 const filteredPlaces = fakePlaces(1, [place]);
 const filteredPlacesVariables = {
-  ...placesVariables,
+  createPath: undefined,
+  showAllPlaces: true,
   text: selectedPlaceText,
 };
 const filteredPlacesResponse = { data: { places: filteredPlaces } };
@@ -72,17 +54,13 @@ const mockedFilterdPlacesRespomse = {
   result: filteredPlacesResponse,
 };
 
-const mocks = [
-  mockedPlaceResponse,
-  mockedPlacesResponse,
-  mockedFilterdPlacesRespomse,
-];
+const mocks = [mockedPlaceResponse, mockedFilterdPlacesRespomse];
 
 const defaultProps: PlaceSelectorProps = {
   helper,
   label,
   name,
-  value: placeAtId,
+  value: place.atId,
 };
 
 const renderComponent = (props?: Partial<PlaceSelectorProps>) =>

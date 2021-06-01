@@ -11,11 +11,9 @@ import {
   NAVIGATION_ITEMS,
   PAGE_HEADER_ID,
   ROUTES,
-  SUPPORTED_LANGUAGES,
 } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
-import { OptionType } from '../../../types';
-import updateLocaleParam from '../../../utils/updateLocaleParam';
+import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { signIn, signOut } from '../../auth/authenticate';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
 import { getEventSearchQuery } from '../../eventSearch/utils';
@@ -27,31 +25,12 @@ const Header: React.FC = () => {
   const locale = useLocale();
   const history = useHistory();
   const location = useLocation();
+  const { changeLanguage, languageOptions } = useSelectLanguage();
+
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
   const user = useSelector(userSelector);
   const [menuOpen, setMenuOpen] = React.useState(false);
-
-  const languageOptions: OptionType[] = React.useMemo(() => {
-    return Object.values(SUPPORTED_LANGUAGES).map((language) => ({
-      label: t(`navigation.languages.${language}`),
-      value: language,
-    }));
-  }, [t]);
-
-  const changeLanguage =
-    (newLanguage: OptionType) =>
-    (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-      event.preventDefault();
-      history.push({
-        pathname: updateLocaleParam(
-          location.pathname,
-          locale,
-          newLanguage.value
-        ),
-        search: location.search,
-      });
-    };
 
   const isTabActive = (pathname: string): boolean => {
     return location.pathname.startsWith(pathname);
@@ -107,7 +86,7 @@ const Header: React.FC = () => {
       onTitleClick={goToPage(`/${locale}${ROUTES.HOME}`)}
       title={t('appName')}
       titleUrl={`/${locale}${ROUTES.HOME}`}
-      logoLanguage={locale === 'sv' ? 'sv' : 'fi'}
+      logoLanguage={locale === 'sv' ? /* istanbul ignore next */ 'sv' : 'fi'}
     >
       <Navigation.Row>
         {navigationItems.map((item, index) => (

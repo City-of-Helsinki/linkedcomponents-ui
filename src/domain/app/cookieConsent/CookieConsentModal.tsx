@@ -9,18 +9,17 @@ import useLocale from '../../../hooks/useLocale';
 import styles from './cookieConsentModal.module.scss';
 import { Consent } from './types';
 
-interface Props {
-  closeModal: () => void;
+export interface CookieContentModalProps {
   isOpen: boolean;
   saveConsentToCookie: (options: Omit<Consent, 'acceptedAt'>) => void;
 }
-const CookieConsentModal: React.FC<Props> = ({
-  closeModal,
+const CookieConsentModal: React.FC<CookieContentModalProps> = ({
   isOpen,
   saveConsentToCookie,
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
+
   const [confirmed, setConfirmed] = React.useState(false);
 
   React.useEffect(() => {
@@ -36,9 +35,9 @@ const CookieConsentModal: React.FC<Props> = ({
   return (
     <Modal
       isOpen={isOpen}
-      onClose={closeModal}
       shouldCloseOnEsc={false}
       shouldCloseOnOverlayClick={false}
+      showLanguageSelector={true}
       size="m"
       title={t('common.cookieConsent.title')}
       type="info"

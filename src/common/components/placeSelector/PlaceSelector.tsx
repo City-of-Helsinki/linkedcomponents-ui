@@ -103,6 +103,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const handleFilter = (items: OptionType[], inputValue: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
+      /* istanbul ignore else */
       if (isMounted.current) {
         setSearch(inputValue);
       }

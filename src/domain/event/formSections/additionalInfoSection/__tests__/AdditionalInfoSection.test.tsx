@@ -19,7 +19,17 @@ configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
 
-const initialValues = {
+type InitialValues = {
+  [EVENT_FIELDS.AUDIENCE_MAX_AGE]: number | '';
+  [EVENT_FIELDS.AUDIENCE_MIN_AGE]: number | '';
+  [EVENT_FIELDS.ENROLMENT_END_TIME]: Date | null;
+  [EVENT_FIELDS.ENROLMENT_START_TIME]: Date | null;
+  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
+  [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
+  [EVENT_FIELDS.TYPE]: string;
+};
+
+const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: '',
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: '',
   [EVENT_FIELDS.ENROLMENT_END_TIME]: null,
@@ -29,10 +39,10 @@ const initialValues = {
   [EVENT_FIELDS.TYPE]: type,
 };
 
-const renderComponent = () =>
+const renderComponent = (initialValues?: Partial<InitialValues>) =>
   render(
     <Formik
-      initialValues={{ ...initialValues }}
+      initialValues={{ ...defaultInitialValues, ...initialValues }}
       onSubmit={jest.fn()}
       enableReinitialize={true}
       validationSchema={publicEventSchema}
@@ -44,6 +54,46 @@ const renderComponent = () =>
 afterAll(() => {
   clear();
 });
+
+const getElement = (
+  key:
+    | 'endTime'
+    | 'maxAge'
+    | 'minAge'
+    | 'maxCapacity'
+    | 'minCapacity'
+    | 'startTime'
+) => {
+  switch (key) {
+    case 'endTime':
+      return screen.getByRole('textbox', {
+        name: translations.event.form.extensionCourse.labelEnrolmentEndTime,
+      });
+    case 'maxAge':
+      return screen.getByRole('spinbutton', {
+        name: translations.event.form.labelAudienceMaxAge,
+      });
+    case 'minAge':
+      return screen.getByRole('spinbutton', {
+        name: translations.event.form.labelAudienceMinAge,
+      });
+    case 'maxCapacity':
+      return screen.getByRole('spinbutton', {
+        name: translations.event.form.extensionCourse
+          .labelMinimimAttendeeCapacity,
+      });
+
+    case 'minCapacity':
+      return screen.getByRole('spinbutton', {
+        name: translations.event.form.extensionCourse
+          .labelMaximumAttendeeCapacity,
+      });
+    case 'startTime':
+      return screen.getByRole('textbox', {
+        name: translations.event.form.extensionCourse.labelEnrolmentStartTime,
+      });
+  }
+};
 
 test('should render additional info section', async () => {
   renderComponent();
@@ -81,24 +131,34 @@ test('should render additional info section', async () => {
   });
 });
 
-test('should validate min and max audience ages', async () => {
-  renderComponent();
-
-  const minAgeInput = screen.getByRole('spinbutton', {
-    name: translations.event.form.labelAudienceMinAge,
-  });
-  const maxAgeInput = screen.getByRole('spinbutton', {
-    name: translations.event.form.labelAudienceMaxAge,
+test('should show validation error if max age is less than min age', async () => {
+  renderComponent({
+    [EVENT_FIELDS.AUDIENCE_MAX_AGE]: 5,
+    [EVENT_FIELDS.AUDIENCE_MIN_AGE]: 10,
   });
 
-  userEvent.type(minAgeInput, '10');
-  userEvent.type(maxAgeInput, '5');
+  const minAgeInput = getElement('minAge');
+  const maxAgeInput = getElement('maxAge');
+
+  userEvent.click(maxAgeInput);
+  userEvent.click(minAgeInput);
   userEvent.tab();
 
-  await waitFor(() => expect(minAgeInput).toHaveValue(10));
-  await waitFor(() => expect(maxAgeInput).toHaveValue(5));
+  await screen.findByText('Arvon tulee olla vähintään 10');
+});
 
-  screen.getByText('Arvon tulee olla vähintään 10');
+test('should show validation error if min age is less than 0', async () => {
+  renderComponent({
+    [EVENT_FIELDS.AUDIENCE_MIN_AGE]: -1,
+  });
+
+  const minAgeInput = getElement('minAge');
+  const maxAgeInput = getElement('maxAge');
+
+  userEvent.click(minAgeInput);
+  userEvent.click(maxAgeInput);
+
+  await screen.findByText('Arvon tulee olla vähintään 0');
 });
 
 test('should validate enrolment start and end dates', async () => {
@@ -107,12 +167,8 @@ test('should validate enrolment start and end dates', async () => {
 
   const startTime = '19.12.2021 12.15';
   const endTime = '18.12.2021 12.15';
-  const startTimeInput = screen.getByRole('textbox', {
-    name: translations.event.form.extensionCourse.labelEnrolmentStartTime,
-  });
-  const endTimeInput = screen.getByRole('textbox', {
-    name: translations.event.form.extensionCourse.labelEnrolmentEndTime,
-  });
+  const startTimeInput = getElement('startTime');
+  const endTimeInput = getElement('endTime');
 
   act(() => userEvent.click(startTimeInput));
   userEvent.type(startTimeInput, startTime);
@@ -126,21 +182,32 @@ test('should validate enrolment start and end dates', async () => {
   screen.getByText(`Tämän päivämäärän tulee olla vähintään ${startTime}`);
 });
 
-test('should validate min and max attendee capacities', async () => {
-  renderComponent();
-
-  const minCapacityInput = screen.getByRole('spinbutton', {
-    name: translations.event.form.extensionCourse.labelMinimimAttendeeCapacity,
-  });
-  const maxCapacityInput = screen.getByRole('spinbutton', {
-    name: translations.event.form.extensionCourse.labelMaximumAttendeeCapacity,
+test('should show validation error if max capacity is less than min capacity', async () => {
+  renderComponent({
+    [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: 5,
+    [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: 10,
   });
 
-  userEvent.type(minCapacityInput, '10');
-  userEvent.type(maxCapacityInput, '5');
+  const minCapacityInput = getElement('minCapacity');
+  const maxCapacityInput = getElement('maxCapacity');
+
+  userEvent.click(maxCapacityInput);
+  userEvent.click(minCapacityInput);
   userEvent.tab();
-  await waitFor(() => expect(minCapacityInput).toHaveValue(10));
-  await waitFor(() => expect(maxCapacityInput).toHaveValue(5));
 
-  screen.getByText('Arvon tulee olla vähintään 10');
+  await screen.findByText('Arvon tulee olla vähintään 10');
+});
+
+test('should show validation error if min age is less than 0', async () => {
+  renderComponent({
+    [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: -1,
+  });
+
+  const minCapacityInput = getElement('minCapacity');
+  const maxCapacityInput = getElement('maxCapacity');
+
+  userEvent.click(maxCapacityInput);
+  userEvent.click(minCapacityInput);
+
+  await screen.findByText('Arvon tulee olla vähintään 0');
 });

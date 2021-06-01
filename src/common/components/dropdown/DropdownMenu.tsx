@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import ClearButton from './ClearButton';
 import styles from './dropdown.module.scss';
@@ -19,7 +20,7 @@ interface DropdownMenuProps {
 
 const DropdownMenu: React.FC<DropdownMenuProps> = ({
   children,
-  clearButtonLabel = 'Clear',
+  clearButtonLabel,
   id,
   isOpen,
   onClear,
@@ -29,6 +30,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   searchValue = '',
   wrapperClassName,
 }) => {
+  const { t } = useTranslation();
   const searchInputId = `${id}-search`;
 
   if (!isOpen) return null;
@@ -48,7 +50,9 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
         {children}
       </div>
       {onClear && (
-        <ClearButton onClick={onClear}>{clearButtonLabel}</ClearButton>
+        <ClearButton onClick={onClear}>
+          {clearButtonLabel || t('common.dropdown.buttonClear')}
+        </ClearButton>
       )}
     </div>
   );
