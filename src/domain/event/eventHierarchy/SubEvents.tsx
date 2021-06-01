@@ -4,9 +4,7 @@ import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpi
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
-import { EVENT_SORT_OPTIONS } from '../../events/constants';
 import useSubEvents from '../../events/hooks/useSubEvents';
-import { EVENT_INCLUDES } from '../constants';
 import { getEventFields } from '../utils';
 import styles from './eventHierarchy.module.scss';
 import EventHierarchyRow from './EventHierarchyRow';
@@ -33,10 +31,6 @@ const SubEvents: React.FC<SubEventsProps> = ({
   const { subEvents, loading } = useSubEvents({
     skip: !subEventAtIds.length,
     superEventId: id,
-    variableOverrides: {
-      include: EVENT_INCLUDES,
-      sort: EVENT_SORT_OPTIONS.START_TIME,
-    },
   });
 
   return (

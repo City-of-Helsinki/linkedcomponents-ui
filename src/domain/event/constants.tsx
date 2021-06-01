@@ -9,6 +9,11 @@ import {
 } from 'hds-react';
 import reduce from 'lodash/reduce';
 
+import { MAX_PAGE_SIZE } from '../../constants';
+import { EventsQueryVariables } from '../../generated/graphql';
+import getPathBuilder from '../../utils/getPathBuilder';
+import { EVENT_LIST_INCLUDES, EVENT_SORT_OPTIONS } from '../events/constants';
+import { eventsPathBuilder } from '../events/utils';
 import { DEFAULT_LICENSE_TYPE } from '../image/constants';
 import {
   AddImageSettings,
@@ -261,6 +266,13 @@ export enum EVENT_EDIT_ACTIONS {
   UPDATE_DRAFT = 'updateDraft',
   UPDATE_PUBLIC = 'updatePublic',
 }
+export const SUB_EVENTS_VARIABLES: EventsQueryVariables = {
+  createPath: getPathBuilder(eventsPathBuilder),
+  include: EVENT_LIST_INCLUDES,
+  pageSize: MAX_PAGE_SIZE,
+  showAll: true,
+  sort: EVENT_SORT_OPTIONS.START_TIME,
+};
 
 export const AUHENTICATION_NOT_NEEDED = [
   EVENT_EDIT_ACTIONS.COPY,

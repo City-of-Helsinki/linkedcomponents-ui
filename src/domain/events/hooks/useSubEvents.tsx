@@ -1,15 +1,12 @@
 import React from 'react';
 
-import { MAX_PAGE_SIZE } from '../../../constants';
 import {
   EventsQuery,
   EventsQueryVariables,
   useEventsQuery,
 } from '../../../generated/graphql';
 import getNextPage from '../../../utils/getNextPage';
-import getPathBuilder from '../../../utils/getPathBuilder';
-import { EVENT_LIST_INCLUDES } from '../constants';
-import { eventsPathBuilder } from '../utils';
+import { SUB_EVENTS_VARIABLES } from '../../event/constants';
 
 type UseSubEventsState = {
   loading: boolean;
@@ -27,10 +24,7 @@ const useSubEvents = ({
 }): UseSubEventsState => {
   const variables = React.useMemo(() => {
     return {
-      createPath: getPathBuilder(eventsPathBuilder),
-      include: EVENT_LIST_INCLUDES,
-      pageSize: MAX_PAGE_SIZE,
-      showAll: true,
+      ...SUB_EVENTS_VARIABLES,
       superEvent: superEventId,
       ...variableOverrides,
     };

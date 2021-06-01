@@ -14,7 +14,7 @@ import {
   fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
-import { EVENT_INCLUDES } from '../../constants';
+import { SUB_EVENTS_VARIABLES } from '../../constants';
 import EventHierarchy from '../EventHierarchy';
 
 const publisherId = 'publisher:1';
@@ -35,14 +35,6 @@ const mockedOrganizationsResponse: MockedResponse = {
     variables: organizationsVariables,
   },
   result: organizationsResponse,
-};
-
-const baseEventsVariables = {
-  createPath: undefined,
-  include: EVENT_INCLUDES,
-  pageSize: MAX_PAGE_SIZE,
-  showAll: true,
-  sort: 'start_time',
 };
 
 const subSubSubEventFields = [{ id: 'subevent:1', name: 'Sub event 1' }];
@@ -113,7 +105,7 @@ const event = fakeEvent({
 });
 
 const subSubSubEventsVariables = {
-  ...baseEventsVariables,
+  ...SUB_EVENTS_VARIABLES,
   superEvent: subSubEventFields[0].id,
 };
 const subSubSubEventsResponse = {
@@ -132,7 +124,7 @@ const mockedSubSubSubEventsResponse: MockedResponse = {
 const count = subSubEventFields.length + subSubEventPage2Fields.length;
 
 const subSubEventsVariables = {
-  ...baseEventsVariables,
+  ...SUB_EVENTS_VARIABLES,
   superEvent: subEventFields[0].id,
 };
 const subSubEventsResponse = {
@@ -177,7 +169,7 @@ const mockedSubSubEventsPage2Response: MockedResponse = {
 };
 
 const subEventsVariables = {
-  ...baseEventsVariables,
+  ...SUB_EVENTS_VARIABLES,
   superEvent: eventId,
 };
 const subEventsResponse = {

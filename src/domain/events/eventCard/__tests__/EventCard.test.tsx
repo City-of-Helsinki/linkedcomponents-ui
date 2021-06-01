@@ -25,7 +25,7 @@ import {
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
-import { EVENT_LIST_INCLUDES } from '../../constants';
+import { SUB_EVENTS_VARIABLES } from '../../../event/constants';
 import EventCard, { testIds } from '../EventCard';
 
 configure({ defaultHidden: true });
@@ -107,10 +107,7 @@ const subEvents = fakeEvents(
   }))
 );
 const subEventsVariables = {
-  createPath: undefined,
-  include: EVENT_LIST_INCLUDES,
-  pageSize: MAX_PAGE_SIZE,
-  showAll: true,
+  ...SUB_EVENTS_VARIABLES,
   superEvent: eventValues.id,
 };
 const subEventsResponse = { data: { events: subEvents } };

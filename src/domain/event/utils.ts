@@ -72,8 +72,6 @@ import {
   transformNumber,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { EVENT_SORT_OPTIONS } from '../events/constants';
-import { eventsPathBuilder } from '../events/utils';
 import { organizationPathBuilder } from '../organization/utils';
 import {
   ADD_EVENT_TIME_FORM_NAME,
@@ -101,6 +99,7 @@ import {
   NOT_ALLOWED_WHEN_IN_PAST,
   ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
+  SUB_EVENTS_VARIABLES,
   TEXT_EDITOR_ALLOWED_TAGS,
   TEXT_EDITOR_FIELDS,
   VIDEO_DETAILS_FIELDS,
@@ -1361,11 +1360,7 @@ const getSubEvents = async ({
 
   const id = event.id;
   const variables = {
-    createPath: getPathBuilder(eventsPathBuilder),
-    include: EVENT_INCLUDES,
-    pageSize: MAX_PAGE_SIZE,
-    showAll: true,
-    sort: EVENT_SORT_OPTIONS.START_TIME,
+    ...SUB_EVENTS_VARIABLES,
     superEvent: id,
   };
 

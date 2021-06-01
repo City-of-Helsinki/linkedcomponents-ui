@@ -11,7 +11,7 @@ import {
   fakeEvents,
   fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
-import { EVENT_INCLUDES } from '../../constants';
+import { SUB_EVENTS_VARIABLES } from '../../constants';
 
 const publisherId = 'publisher:1';
 
@@ -64,20 +64,12 @@ const event = fakeEvent({
   superEventType: SuperEventType.Umbrella,
 });
 
-const baseVariables = {
-  createPath: undefined,
-  include: EVENT_INCLUDES,
-  pageSize: MAX_PAGE_SIZE,
-  showAll: true,
-  sort: 'start_time',
-  superEvent: subEventId,
-};
 const subEventsVariables = {
-  ...baseVariables,
+  ...SUB_EVENTS_VARIABLES,
   superEvent: eventId,
 };
 const subSubEventsVariables = {
-  ...baseVariables,
+  ...SUB_EVENTS_VARIABLES,
   superEvent: subEventId,
 };
 

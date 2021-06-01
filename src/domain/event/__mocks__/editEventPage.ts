@@ -48,7 +48,7 @@ import {
   fakeUser,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
-import { EVENT_INCLUDES } from '../../event/constants';
+import { EVENT_INCLUDES, SUB_EVENTS_VARIABLES } from '../../event/constants';
 
 const now = new Date();
 
@@ -518,14 +518,7 @@ const newSubEvents = fakeEvents(
 
 const subEventsResponse = { data: { events: subEvents } };
 
-const baseEventsVariables = {
-  createPath: undefined,
-  include: EVENT_INCLUDES,
-  pageSize: MAX_PAGE_SIZE,
-  showAll: true,
-  sort: 'start_time',
-};
-const subEventsVariables = { ...baseEventsVariables, superEvent: eventId };
+const subEventsVariables = { ...SUB_EVENTS_VARIABLES, superEvent: eventId };
 const mockedSubEventsResponse: MockedResponse = {
   request: {
     query: EventsDocument,
@@ -537,7 +530,7 @@ const mockedSubSubEventsResponse: MockedResponse = {
   request: {
     query: EventsDocument,
     variables: {
-      ...baseEventsVariables,
+      ...SUB_EVENTS_VARIABLES,
       superEvent: subEventTimes[0].id,
     },
   },

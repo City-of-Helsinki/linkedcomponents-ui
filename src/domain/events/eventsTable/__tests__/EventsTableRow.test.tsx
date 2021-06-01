@@ -23,7 +23,7 @@ import {
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
-import { EVENT_LIST_INCLUDES } from '../../constants';
+import { SUB_EVENTS_VARIABLES } from '../../../event/constants';
 import EventsTableRow from '../EventsTableRow';
 
 configure({ defaultHidden: true });
@@ -126,10 +126,7 @@ test('should show sub events', async () => {
     }))
   );
   const subEventsVariables = {
-    createPath: undefined,
-    include: EVENT_LIST_INCLUDES,
-    pageSize: MAX_PAGE_SIZE,
-    showAll: true,
+    ...SUB_EVENTS_VARIABLES,
     superEvent: eventValues.id,
   };
   const subEventsResponse = { data: { events: subEvents } };
