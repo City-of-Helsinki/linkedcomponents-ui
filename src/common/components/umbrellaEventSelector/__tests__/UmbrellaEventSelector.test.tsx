@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { cache } from '../../../../domain/app/apollo/apolloClient';
 import { EventDocument, EventsDocument } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
@@ -15,7 +14,6 @@ import UmbrellaEventSelector, {
 } from '../UmbrellaEventSelector';
 
 configure({ defaultHidden: true });
-afterEach(() => cache.reset());
 
 const eventId = 'hel:123';
 const eventAtId = `https://api.hel.fi/linkedevents/v1/event/${eventId}/`;

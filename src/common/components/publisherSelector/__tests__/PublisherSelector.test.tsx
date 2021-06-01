@@ -2,7 +2,6 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { TEST_USER_ID } from '../../../../constants';
-import { cache } from '../../../../domain/app/apollo/apolloClient';
 import {
   OrganizationDocument,
   UserDocument,
@@ -21,7 +20,6 @@ import PublisherSelector, {
 } from '../PublisherSelector';
 
 configure({ defaultHidden: true });
-afterEach(() => cache.reset());
 
 const label = 'Select publisher';
 

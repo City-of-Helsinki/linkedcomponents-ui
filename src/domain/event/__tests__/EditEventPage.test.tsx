@@ -16,7 +16,6 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
-import { cache } from '../../app/apollo/apolloClient';
 import {
   eventId,
   expectedValues,
@@ -55,8 +54,6 @@ import {
 import EditEventPage from '../EditEventPage';
 
 configure({ defaultHidden: true });
-
-afterEach(() => cache.reset());
 
 const baseMocks = [
   mockedEventResponse,

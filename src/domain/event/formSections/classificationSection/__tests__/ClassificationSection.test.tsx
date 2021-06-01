@@ -18,7 +18,6 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import { cache } from '../../../../app/apollo/apolloClient';
 import translations from '../../../../app/i18n/fi.json';
 import {
   mockedAudienceKeywordSetResponse,
@@ -29,7 +28,6 @@ import { publicEventSchema } from '../../../utils';
 import ClassificationSection from '../ClassificationSection';
 
 configure({ defaultHidden: true });
-afterEach(() => cache.reset());
 
 const type = EVENT_TYPE.General;
 

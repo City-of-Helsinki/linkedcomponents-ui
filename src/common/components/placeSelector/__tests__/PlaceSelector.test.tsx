@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { cache } from '../../../../domain/app/apollo/apolloClient';
 import { PlaceDocument, PlacesDocument } from '../../../../generated/graphql';
 import { fakePlace, fakePlaces } from '../../../../utils/mockDataUtils';
 import {
@@ -13,7 +12,6 @@ import {
 import PlaceSelector, { PlaceSelectorProps } from '../PlaceSelector';
 
 configure({ defaultHidden: true });
-afterEach(() => cache.reset());
 
 const streetAddress = 'Testikatu 123';
 const addressLocality = 'Helsinki';

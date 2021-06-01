@@ -23,12 +23,10 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../../utils/testUtils';
-import { cache } from '../../../../../app/apollo/apolloClient';
 import translations from '../../../../../app/i18n/fi.json';
 import AddImageForm, { AddImageFormProps } from '../AddImageForm';
 
 configure({ defaultHidden: true });
-afterEach(() => cache.reset());
 
 const publisher = 'publisher:1';
 const images = fakeImages(PAGE_SIZE, [{ publisher }]);

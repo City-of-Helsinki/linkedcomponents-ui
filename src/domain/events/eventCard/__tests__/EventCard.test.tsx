@@ -25,12 +25,10 @@ import {
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
-import { cache } from '../../../app/apollo/apolloClient';
 import { EVENT_LIST_INCLUDES } from '../../constants';
 import EventCard, { testIds } from '../EventCard';
 
 configure({ defaultHidden: true });
-afterEach(() => cache.reset());
 
 const imageUrl = 'http://imageurl.com';
 const organizationId = 'hel:123';

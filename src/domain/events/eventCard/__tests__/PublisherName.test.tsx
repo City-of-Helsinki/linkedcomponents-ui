@@ -4,7 +4,6 @@ import React from 'react';
 import { OrganizationDocument } from '../../../../generated/graphql';
 import { fakeOrganization } from '../../../../utils/mockDataUtils';
 import { configure, render, screen } from '../../../../utils/testUtils';
-import { cache } from '../../../app/apollo/apolloClient';
 import PublisherName from '../PublisherName';
 
 configure({ defaultHidden: true });
@@ -17,8 +16,6 @@ const organization = fakeOrganization({
 });
 const organizationResponse = { data: { organization } };
 const variables = { id: organizationId, createPath: undefined };
-
-afterEach(() => cache.reset());
 
 const renderComponent = (mocks: MockedResponse[]) =>
   render(<PublisherName id={organizationId} />, { mocks });

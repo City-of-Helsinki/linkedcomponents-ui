@@ -18,7 +18,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
-import { cache } from '../../../../app/apollo/apolloClient';
 import translations from '../../../../app/i18n/fi.json';
 import { DEFAULT_LICENSE_TYPE } from '../../../../image/constants';
 import { EVENT_FIELDS, IMAGE_DETAILS_FIELDS } from '../../../constants';
@@ -53,8 +52,6 @@ const defaultMocks = [
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
-
-afterEach(() => cache.reset());
 
 type InitialValues = {
   [EVENT_FIELDS.TYPE]: string;

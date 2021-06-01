@@ -16,7 +16,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../../utils/testUtils';
-import { cache } from '../../../../../app/apollo/apolloClient';
 import translations from '../../../../../app/i18n/fi.json';
 import {
   DEFAULT_LICENSE_TYPE,
@@ -109,8 +108,6 @@ const defaultInitialValus: InitialValues = {
   },
   [EVENT_FIELDS.TYPE]: eventType,
 };
-
-afterEach(() => cache.reset());
 
 const renderComponent = ({
   initialValues,

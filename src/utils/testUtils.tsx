@@ -19,7 +19,7 @@ import wait from 'waait';
 
 import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
 import { defaultStoreState } from '../constants';
-import { cache } from '../domain/app/apollo/apolloClient';
+import { createCache } from '../domain/app/apollo/apolloClient';
 import { store as reduxStore } from '../domain/app/store/store';
 import { ThemeProvider } from '../domain/app/theme/Theme';
 import { StoreState } from '../types';
@@ -71,7 +71,7 @@ const customRender: CustomRender = (
   const Wrapper: React.FC = ({ children }) => (
     <Provider store={store}>
       <ThemeProvider>
-        <MockedProvider cache={cache} mocks={mocks}>
+        <MockedProvider cache={createCache()} mocks={mocks}>
           <Router history={history}>{children}</Router>
         </MockedProvider>
       </ThemeProvider>
@@ -118,7 +118,7 @@ const renderWithRoute: CustomRender = (
   const Wrapper: React.FC = ({ children }) => (
     <Provider store={store}>
       <ThemeProvider>
-        <MockedProvider cache={cache} mocks={mocks}>
+        <MockedProvider cache={createCache()} mocks={mocks}>
           <Router history={history}>
             <Route exact path={path}>
               {children}

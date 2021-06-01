@@ -30,6 +30,7 @@ const MainLevel: FCWithName<MainLevelProps> = ({
   style,
   to,
 }) => {
+  /* istanbul ignore next */
   const [id] = React.useState(() => _id || uniqueId('main-level-'));
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;

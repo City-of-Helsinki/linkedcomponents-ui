@@ -11,12 +11,10 @@ import {
   screen,
   userEvent,
 } from '../../../utils/testUtils';
-import { cache } from '../../app/apollo/apolloClient';
 import translations from '../../app/i18n/fi.json';
 import EventSavedPage from '../EventSavedPage';
 
 configure({ defaultHidden: true });
-afterEach(() => cache.reset());
 
 const eventId = 'hel:123';
 const route = ROUTES.EVENT_SAVED.replace(':id', eventId);

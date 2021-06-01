@@ -23,12 +23,10 @@ import {
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
-import { cache } from '../../../app/apollo/apolloClient';
 import { EVENT_LIST_INCLUDES } from '../../constants';
 import EventsTableRow from '../EventsTableRow';
 
 configure({ defaultHidden: true });
-afterEach(() => cache.reset());
 
 const organizationId = 'hel:123';
 const organizationName = 'Organization name';
