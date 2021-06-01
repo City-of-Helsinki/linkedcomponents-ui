@@ -1,7 +1,11 @@
 import { ROUTES } from '../../../constants';
 import { EventsQueryVariables } from '../../../generated/graphql';
 import { EVENT_TYPE } from '../../event/constants';
-import { EVENT_SORT_OPTIONS } from '../../events/constants';
+import {
+  DEFAULT_EVENT_SORT,
+  EVENT_LIST_INCLUDES,
+  EVENT_SORT_OPTIONS,
+} from '../../events/constants';
 import { EVENT_SEARCH_PARAMS } from '../constants';
 import { EventSearchParam, EventSearchParams } from '../types';
 import {
@@ -102,11 +106,11 @@ describe('getEventsQueryVariables', () => {
     createPath: undefined,
     end: null,
     eventType: [],
-    include: ['in_language', 'location'],
+    include: EVENT_LIST_INCLUDES,
     location: [],
     page: 1,
     pageSize: 10,
-    sort: '-last_modified_time',
+    sort: DEFAULT_EVENT_SORT,
     start: null,
     text: '',
   };

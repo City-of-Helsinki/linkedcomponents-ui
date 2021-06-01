@@ -6,6 +6,7 @@ import {
   EventsDocument,
   OrganizationDocument,
   OrganizationsDocument,
+  PlaceDocument,
   PublicationStatus,
   SuperEventType,
 } from '../../../../generated/graphql';
@@ -40,6 +41,7 @@ const eventValues = {
   audienceMinAge: 12,
   endTime: '2021-01-23T12:00:00+00:00',
   inLanguage: 'Suomi',
+  locationId: 'place:1',
   locationName: 'Location name',
   publicationStatus: PublicationStatus.Public,
   publisher: organizationId,
@@ -77,17 +79,32 @@ const mockedOrganizationsResponse = {
   result: organizationsResponse,
 };
 
+const place = fakePlace({
+  addressLocality: { fi: eventValues.addressLocality },
+  id: eventValues.locationId,
+  name: { fi: eventValues.locationName },
+  streetAddress: { fi: eventValues.streetAddress },
+});
+const placeVariables = {
+  createPath: undefined,
+  id: eventValues.locationId,
+};
+const placeResponse = { data: { place } };
+const mockedPlaceResponse = {
+  request: {
+    query: PlaceDocument,
+    variables: placeVariables,
+  },
+  result: placeResponse,
+};
+
 const commonEventInfo = {
   id: eventValues.id,
   audienceMaxAge: eventValues.audienceMaxAge,
   audienceMinAge: eventValues.audienceMinAge,
   images: fakeImages(1, [{ url: imageUrl }]).data,
   inLanguage: fakeLanguages(1, [{ name: { fi: eventValues.inLanguage } }]).data,
-  location: fakePlace({
-    addressLocality: { fi: eventValues.addressLocality },
-    name: { fi: eventValues.locationName },
-    streetAddress: { fi: eventValues.streetAddress },
-  }),
+  location: place,
   offers: fakeOffers(1, [{ isFree: true }]),
   publicationStatus: eventValues.publicationStatus,
   publisher: eventValues.publisher,
@@ -133,6 +150,7 @@ const mocks = [
   mockedSubEventsResponse,
   mockedOrganizationResponse,
   mockedOrganizationsResponse,
+  mockedPlaceResponse,
 ];
 
 test('should render event card fields', async () => {
@@ -143,7 +161,7 @@ test('should render event card fields', async () => {
   expect(imageWrapper.style.backgroundImage).toBe('url(http://imageurl.com)');
   screen.getByText('04.01.2021 – 23.01.2021');
   screen.getByText(eventValues.inLanguage);
-  screen.getByText('Location name, Street address, Helsinki');
+  await screen.findByText('Location name, Street address, Helsinki');
   await screen.findByText(organizationName);
   screen.getByText('Maksuton');
   screen.getByText('12 – 18 v');

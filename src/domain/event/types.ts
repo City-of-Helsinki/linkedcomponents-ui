@@ -18,7 +18,6 @@ import {
 export type EventFields = {
   id: string;
   atId: string;
-  addressLocality: string;
   audienceMaxAge: number | null;
   audienceMinAge: number | null;
   createdBy: string;
@@ -32,16 +31,14 @@ export type EventFields = {
   isDraft: boolean;
   isPublic: boolean;
   lastModifiedTime: Date | null;
-  locationName: string;
   name: string;
   offers: Offer[];
   publicationStatus: PublicationStatus;
   publisher: string | null;
+  startTime: Date | null;
   subEventAtIds: string[];
   superEventAtId: string | null;
   superEventType: SuperEventType | null;
-  startTime: Date | null;
-  streetAddress: string;
 };
 
 export type EventFormFields = {

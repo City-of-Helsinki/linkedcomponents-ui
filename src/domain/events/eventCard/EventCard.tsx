@@ -17,6 +17,7 @@ import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import IconFlag from '../../../icons/IconFlag';
 import { useTheme } from '../../app/theme/Theme';
+import useEventLocation from '../../event/hooks/useEventLocation';
 import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
@@ -24,6 +25,7 @@ import {
   addParamsToEventQueryString,
   getEventItemId,
 } from '../../eventSearch/utils';
+import { getPlaceFields } from '../../place/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import { expandedEventsSelector } from '../selectors';
@@ -52,8 +54,9 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
   const dispatch = useDispatch();
   const expandedEvents = useSelector(expandedEventsSelector);
 
+  const { location } = useEventLocation(event);
+
   const {
-    addressLocality,
     audienceMaxAge,
     audienceMinAge,
     endTime,
@@ -63,16 +66,21 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
     id,
     imageUrl,
     inLanguage,
-    locationName,
     name,
     offers,
     publisher,
     publicationStatus,
     startTime,
-    streetAddress,
     subEventAtIds,
     superEventType,
   } = getEventFields(event, locale);
+  const {
+    addressLocality,
+    name: locationName,
+    streetAddress,
+  } = location
+    ? getPlaceFields(location, locale)
+    : { addressLocality: '', name: '', streetAddress: '' };
 
   const queryString = addParamsToEventQueryString(search, {
     returnPath: pathname,

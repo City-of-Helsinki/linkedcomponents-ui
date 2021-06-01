@@ -579,18 +579,6 @@ export const clearEventFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.EVENT_FORM);
 };
 
-const getEventLocationFields = (
-  event: EventFieldsFragment,
-  language: Language
-) => {
-  const location = event.location;
-  return {
-    addressLocality: getLocalisedString(location?.addressLocality, language),
-    locationName: getLocalisedString(location?.name, language),
-    streetAddress: getLocalisedString(location?.streetAddress, language),
-  };
-};
-
 export const getEventFields = (
   event: EventFieldsFragment,
   language: Language
@@ -629,7 +617,6 @@ export const getEventFields = (
     superEventAtId: event.superEvent?.atId || null,
     superEventType: event.superEventType || null,
     startTime: event.startTime ? new Date(event.startTime) : null,
-    ...getEventLocationFields(event, language),
   };
 };
 

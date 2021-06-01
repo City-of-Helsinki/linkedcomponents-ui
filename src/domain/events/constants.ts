@@ -6,7 +6,7 @@ import {
 
 export const EVENTS_PAGE_SIZE = 10;
 
-export const EVENT_LIST_INCLUDES = ['in_language', 'location'];
+export const EVENT_LIST_INCLUDES = ['in_language'];
 
 export const EVENTS_ACTIONS = {
   ADD_EXPANDED_EVENT: 'ADD_EXPANDED_EVENT',
