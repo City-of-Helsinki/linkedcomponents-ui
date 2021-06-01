@@ -12,6 +12,7 @@ import { SentryLink } from 'apollo-link-sentry';
 import snakeCase from 'lodash/snakeCase';
 import { toast } from 'react-toastify';
 
+import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../../constants';
 import {
   Event,
   EventsResponse,
@@ -87,6 +88,39 @@ export const createCache = (): InMemoryCache =>
               __typename: 'Event',
               id: args?.id,
             });
+          },
+          events: {
+            keyArgs: (args) => {
+              if (args?.superEvent && args?.superEvent !== 'none') {
+                return Object.keys(args).filter((arg) => arg !== 'page');
+              }
+              return args ? Object.keys(args) : [];
+            },
+            merge(
+              existing: EventsResponse | undefined,
+              incoming: EventsResponse,
+              { args }
+            ) {
+              if (args?.superEvent && args?.superEvent !== 'none') {
+                if (!existing) return incoming;
+                if (!incoming) return existing;
+
+                const page = args?.page ?? 1;
+                const pageSize = Math.max(
+                  args?.pageSize ?? DEFAULT_PAGE_SIZE,
+                  MAX_PAGE_SIZE
+                );
+                const offset = (page - 1) * pageSize;
+
+                const mergedEvents = existing ? [...existing.data] : [];
+                for (let i = 0; i < incoming.data.length; i = i + 1) {
+                  mergedEvents[offset + i] = incoming.data[i];
+                }
+
+                return { ...incoming, data: mergedEvents };
+              }
+              return incoming;
+            },
           },
           image(_, { args, toReference }) {
             return toReference({

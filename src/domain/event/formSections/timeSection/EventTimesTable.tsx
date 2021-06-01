@@ -134,12 +134,14 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
 
   return (
     <>
-      <EditEventTimeModal
-        eventTime={eventTime}
-        isOpen={isEditModalOpen}
-        onCancel={closeEditModal}
-        onSave={handleUpdate}
-      />
+      {isEditModalOpen && (
+        <EditEventTimeModal
+          eventTime={eventTime}
+          isOpen={isEditModalOpen}
+          onCancel={closeEditModal}
+          onSave={handleUpdate}
+        />
+      )}
 
       <tr>
         <td>{startIndex + index}</td>

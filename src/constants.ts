@@ -110,6 +110,7 @@ export const COMPRESSABLE_IMAGE_TYPES = ['image/jpeg', 'image/png'];
 export const MAX_IMAGE_SIZE_MB = 2;
 export const MAX_IMAGE_WIDTH = 1200;
 
+export const DEFAULT_PAGE_SIZE = 20;
 export const MAX_PAGE_SIZE = 100;
 
 export const NAVIGATION_ITEMS = [

@@ -1380,12 +1380,12 @@ const getSubEvents = async ({
 
   while (nextPage) {
     const { data } = await apolloClient.query<EventsQuery>({
+      fetchPolicy: 'no-cache',
       query: EventsDocument,
       variables: { ...variables, page: nextPage },
     });
 
     subEvents.push(...(data.events.data as EventFieldsFragment[]));
-
     nextPage = getNextPage(data.events.meta);
   }
 

@@ -49,14 +49,6 @@ const useSubEvents = ({
   React.useEffect(() => {
     if (nextPage) {
       fetchMore({
-        updateQuery: (prev, { fetchMoreResult }) => {
-          /* istanbul ignore next */
-          if (!fetchMoreResult) return prev;
-
-          const events = [...prev.events.data, ...fetchMoreResult.events.data];
-          fetchMoreResult.events.data = events;
-          return fetchMoreResult;
-        },
         variables: {
           ...variables,
           page: nextPage,
