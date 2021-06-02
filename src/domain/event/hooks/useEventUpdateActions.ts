@@ -302,11 +302,9 @@ const useEventUpdateActions = ({
       setSaving(action);
       const { atId, id, superEventType } = getEventFields(event, locale);
       // Check that user has permission to update sub-events
-      const subEvents = await getEditableEvents(
-        (event.subEvents ||
-          /* istanbul ignore next */ []) as EventFieldsFragment[],
-        action
-      );
+      const subEvents = (event.subEvents ||
+        /* istanbul ignore next */ []) as EventFieldsFragment[];
+      const editableSubEvents = await getEditableEvents(subEvents, action);
 
       await updateImageIfNeeded(values);
 
@@ -327,7 +325,7 @@ const useEventUpdateActions = ({
         const subEventIds: string[] = [];
 
         // Delete sub-events
-        const eventsToDelete = subEvents
+        const eventsToDelete = editableSubEvents
           .filter(
             (subEvent) =>
               !values.events.map((event) => event.id).includes(subEvent.id)
@@ -338,8 +336,15 @@ const useEventUpdateActions = ({
           await deleteEventMutation({ variables: { id } });
         }
 
+        // Add all not deleted sub-event ids to subEventIds
+        subEventIds.push(
+          ...subEvents
+            .filter((subEvent) => !eventsToDelete.includes(subEvent.id))
+            .map((item) => item.atId as string)
+        );
+
         // Update existing sub-events
-        const subEventsPayload: UpdateEventMutationInput[] = subEvents
+        const subEventsPayload: UpdateEventMutationInput[] = editableSubEvents
           .filter((subEvent) => !eventsToDelete.includes(subEvent.id))
           .map((subEvent) => {
             const eventTime = values.events.find(
@@ -361,16 +366,7 @@ const useEventUpdateActions = ({
 
         /* istanbul ignore else */
         if (subEventsPayload.length) {
-          const subEventsData = await updateEvents(subEventsPayload);
-
-          /* istanbul ignore else */
-          if (subEventsData.data?.updateEvents.length) {
-            subEventIds.push(
-              ...subEventsData.data?.updateEvents.map(
-                (item) => item.atId as string
-              )
-            );
-          }
+          await updateEvents(subEventsPayload);
         }
 
         // Create new sub-events
