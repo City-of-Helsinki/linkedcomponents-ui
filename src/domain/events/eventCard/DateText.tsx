@@ -8,7 +8,7 @@ export interface DateTextProps {
   startTime: Date | null;
 }
 
-const PriceText: React.FC<DateTextProps> = ({ endTime, startTime }) => {
+const DateText: React.FC<DateTextProps> = ({ endTime, startTime }) => {
   const getText = () => {
     if (startTime && endTime) {
       return isSameDay(new Date(startTime), new Date(endTime))
@@ -26,4 +26,4 @@ const PriceText: React.FC<DateTextProps> = ({ endTime, startTime }) => {
   return <>{getText()}</>;
 };
 
-export default PriceText;
+export default DateText;

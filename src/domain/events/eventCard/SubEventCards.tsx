@@ -10,7 +10,7 @@ interface Props {
   level: number;
 }
 
-const SubEventRows: React.FC<Props> = ({ eventId, level }) => {
+const SubEventCards: React.FC<Props> = ({ eventId, level }) => {
   const { subEvents, loading } = useSubEvents({
     superEventId: eventId,
   });
@@ -34,4 +34,4 @@ const SubEventRows: React.FC<Props> = ({ eventId, level }) => {
   );
 };
 
-export default SubEventRows;
+export default SubEventCards;

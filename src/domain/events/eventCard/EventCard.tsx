@@ -134,66 +134,47 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
               <h2>{name}</h2>
             </div>
             <div className={styles.dateRow}>
-              <div>
-                <TextWithIcon
-                  icon={
-                    <IconClock aria-hidden={true} className={styles.icon} />
-                  }
-                  text={<DateText endTime={endTime} startTime={startTime} />}
-                />
-              </div>
-              <div>
-                <TextWithIcon
-                  icon={<IconFlag aria-hidden={true} className={styles.icon} />}
-                  text={inLanguageText}
-                />
-              </div>
+              <TextWithIcon
+                icon={<IconClock aria-hidden={true} className={styles.icon} />}
+                text={<DateText endTime={endTime} startTime={startTime} />}
+              />
+              <TextWithIcon
+                icon={<IconFlag aria-hidden={true} className={styles.icon} />}
+                text={inLanguageText}
+              />
             </div>
 
             <div className={styles.publisherRow}>
               <div className={styles.publisherColumn}>
                 <div>{publisher ? <PublisherName id={publisher} /> : '-'}</div>
-                <div>
-                  <TextWithIcon
-                    icon={
-                      <IconLocation
-                        aria-hidden={true}
-                        className={styles.icon}
-                      />
-                    }
-                    text={locationText}
-                  />
-                </div>
+                <TextWithIcon
+                  icon={
+                    <IconLocation aria-hidden={true} className={styles.icon} />
+                  }
+                  text={locationText}
+                />
               </div>
               <div className={styles.ticketColumn}>
-                <div>
-                  <TextWithIcon
-                    icon={
-                      <IconTicket aria-hidden={true} className={styles.icon} />
-                    }
-                    text={<PriceText freeEvent={freeEvent} offers={offers} />}
-                  />
-                </div>
-                <div>
-                  <TextWithIcon
-                    icon={
-                      <IconUser aria-hidden={true} className={styles.icon} />
-                    }
-                    text={
-                      <AudienceAgeText
-                        maxAge={audienceMaxAge}
-                        minAge={audienceMinAge}
-                      />
-                    }
-                  />
-                </div>
-                <div>
-                  <div className={styles.eventStatusTagWrapper}>
-                    <StatusTag
-                      eventStatus={eventStatus}
-                      publicationStatus={publicationStatus}
+                <TextWithIcon
+                  icon={
+                    <IconTicket aria-hidden={true} className={styles.icon} />
+                  }
+                  text={<PriceText freeEvent={freeEvent} offers={offers} />}
+                />
+                <TextWithIcon
+                  icon={<IconUser aria-hidden={true} className={styles.icon} />}
+                  text={
+                    <AudienceAgeText
+                      maxAge={audienceMaxAge}
+                      minAge={audienceMinAge}
                     />
-                  </div>
+                  }
+                />
+                <div className={styles.eventStatusTagWrapper}>
+                  <StatusTag
+                    eventStatus={eventStatus}
+                    publicationStatus={publicationStatus}
+                  />
                 </div>
               </div>
             </div>
