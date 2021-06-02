@@ -7,15 +7,17 @@ import MenuDropdown from '../../../../common/components/menuDropdown/MenuDropdow
 import { MenuItemOptionProps } from '../../../../common/components/menuDropdown/MenuItem';
 import Table from '../../../../common/components/table/Table';
 import { DATETIME_FORMAT } from '../../../../constants';
-import { SuperEventType, useEventQuery } from '../../../../generated/graphql';
+import {
+  EventFieldsFragment,
+  SuperEventType,
+} from '../../../../generated/graphql';
 import formatDate from '../../../../utils/formatDate';
-import getPathBuilder from '../../../../utils/getPathBuilder';
 import { authenticatedSelector } from '../../../auth/selectors';
 import useUser from '../../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../../constants';
 import useEventOrganizationAncestors from '../../hooks/useEventOrganizationAncestors';
 import { EventTime } from '../../types';
-import { eventPathBuilder, getEditButtonProps } from '../../utils';
+import { getEditButtonProps } from '../../utils';
 import EditEventTimeModal from './EditEventTimeModal';
 import styles from './timeSection.module.scss';
 import TimeSectionContext from './TimeSectionContext';
@@ -41,16 +43,12 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
-  const { data: eventData } = useEventQuery({
-    skip: !eventTime.id,
-    variables: {
-      createPath: getPathBuilder(eventPathBuilder),
-      id: eventTime.id as string,
-    },
-  });
-  const { organizationAncestors } = useEventOrganizationAncestors(
-    eventData?.event
-  );
+  const savedSubEvent = savedEvent?.subEvents.find(
+    (subEvent) => subEvent?.id === eventTime.id
+  ) as EventFieldsFragment;
+
+  const { organizationAncestors } =
+    useEventOrganizationAncestors(savedSubEvent);
 
   const { endTime, startTime } = eventTime;
 
@@ -97,11 +95,11 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
       onClick,
     };
 
-    if (eventData) {
+    if (savedSubEvent) {
       const options = getEditButtonProps({
-        action: getEventEditAction({ action, event: eventData.event }),
+        action: getEventEditAction({ action, event: savedSubEvent }),
         authenticated,
-        event: eventData?.event,
+        event: savedSubEvent,
         onClick,
         organizationAncestors,
         t,

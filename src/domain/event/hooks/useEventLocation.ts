@@ -15,6 +15,7 @@ type UseEventLocationState = {
 const useEventLocation = (
   event: EventFieldsFragment
 ): UseEventLocationState => {
+  /* istanbul ignore next */
   const id: string = event.location?.atId
     ? (parseIdFromAtId(event.location?.atId) as string)
     : '';
