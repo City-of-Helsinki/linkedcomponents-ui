@@ -185,3 +185,9 @@ export const getImageQueryResult = async (
     return null;
   }
 };
+
+export const clearImagesQueries = (
+  apolloClient: ApolloClient<InMemoryCache>,
+  args?: Record<string, unknown>
+): boolean =>
+  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'images', args });

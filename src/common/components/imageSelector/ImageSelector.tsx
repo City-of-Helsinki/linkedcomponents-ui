@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import { imagesPathBuilder } from '../../../domain/image/utils';
-import { Image, ImagesQuery, useImagesQuery } from '../../../generated/graphql';
+import { Image, useImagesQuery } from '../../../generated/graphql';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
@@ -66,22 +66,11 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
         setLoadingMore(true);
 
         await fetchMoreImages({
-          updateQuery: (prev: ImagesQuery, { fetchMoreResult }) => {
-            /* istanbul ignore next */
-            if (!fetchMoreResult?.images) {
-              return prev;
-            }
-
-            const prevImages = prev.images?.data;
-            const newImages = fetchMoreResult.images.data;
-            fetchMoreResult.images.data = [...prevImages, ...newImages];
-
-            return fetchMoreResult;
-          },
           variables: {
             page: nextPage,
           },
         });
+
         setLoadingMore(false);
       } catch (e) /* istanbul ignore next */ {
         setLoadingMore(false);
@@ -112,6 +101,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
       onBlur && onBlur(value);
     }
   };
+
   React.useEffect(() => {
     document.addEventListener('focusin', handleDocumentFocusin);
 

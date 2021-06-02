@@ -1,6 +1,7 @@
 import {
   ApolloClient,
   ApolloLink,
+  FieldMergeFunction,
   InMemoryCache,
   ServerError,
 } from '@apollo/client';
@@ -78,6 +79,23 @@ const uploadImageSerializer = (
   };
 };
 
+const mergeCache: FieldMergeFunction = (existing, incoming, { args }) => {
+  if (!existing) return incoming;
+  if (!incoming) return existing;
+
+  const page = args?.page ?? 1;
+  const pageSize = Math.min(args?.pageSize ?? DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE);
+  const offset = (page - 1) * pageSize;
+
+  const mergedImages = existing ? [...existing.data] : [];
+
+  for (let i = 0; i < incoming.data.length; i = i + 1) {
+    mergedImages[offset + i] = incoming.data[i];
+  }
+
+  return { ...incoming, data: mergedImages };
+};
+
 export const createCache = (): InMemoryCache =>
   new InMemoryCache({
     typePolicies: {
@@ -96,30 +114,20 @@ export const createCache = (): InMemoryCache =>
               }
               return args ? Object.keys(args) : [];
             },
-            merge(
-              existing: EventsResponse | undefined,
-              incoming: EventsResponse,
-              { args }
-            ) {
+            merge(existing, incoming, options) {
+              const { args } = options;
+
               if (args?.superEvent && args?.superEvent !== 'none') {
-                if (!existing) return incoming;
-                if (!incoming) return existing;
-
-                const page = args?.page ?? 1;
-                const pageSize = Math.max(
-                  args?.pageSize ?? DEFAULT_PAGE_SIZE,
-                  MAX_PAGE_SIZE
-                );
-                const offset = (page - 1) * pageSize;
-
-                const mergedEvents = existing ? [...existing.data] : [];
-                for (let i = 0; i < incoming.data.length; i = i + 1) {
-                  mergedEvents[offset + i] = incoming.data[i];
-                }
-
-                return { ...incoming, data: mergedEvents };
+                return mergeCache(existing, incoming, options);
               }
               return incoming;
+            },
+          },
+          images: {
+            keyArgs: (args) =>
+              args ? Object.keys(args).filter((arg) => arg !== 'page') : [],
+            merge(existing, incoming, options) {
+              return mergeCache(existing, incoming, options);
             },
           },
           image(_, { args, toReference }) {
