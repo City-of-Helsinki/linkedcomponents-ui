@@ -77,7 +77,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
     const savedEventIsUmbrellaEvent =
       savedSuperEventType === SuperEventType.Umbrella;
     const savedEventIsRecurringEvent =
-      savedSuperEventType === SuperEventType.Umbrella;
+      savedSuperEventType === SuperEventType.Recurring;
     const savedEventHasSubEvents = Boolean(savedEvent?.subEvents.length);
 
     switch (name) {
