@@ -43,12 +43,14 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
-  const savedSubEvent = savedEvent?.subEvents.find(
-    (subEvent) => subEvent?.id === eventTime.id
-  ) as EventFieldsFragment;
+  // Get the event by event time id. This variable is used to check
+  // update/delete permissions
+  const event = [
+    ...((savedEvent?.subEvents ?? []) as EventFieldsFragment[]),
+    savedEvent,
+  ].find((subEvent) => subEvent?.id === eventTime.id);
 
-  const { organizationAncestors } =
-    useEventOrganizationAncestors(savedSubEvent);
+  const { organizationAncestors } = useEventOrganizationAncestors(event);
 
   const { endTime, startTime } = eventTime;
 
@@ -95,11 +97,11 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
       onClick,
     };
 
-    if (savedSubEvent) {
+    if (event) {
       const options = getEditButtonProps({
-        action: getEventEditAction({ action, event: savedSubEvent }),
+        action: getEventEditAction({ action, event }),
         authenticated,
-        event: savedSubEvent,
+        event,
         onClick,
         organizationAncestors,
         t,
