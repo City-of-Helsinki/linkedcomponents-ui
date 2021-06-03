@@ -121,7 +121,7 @@ test('should disable isUmbrella checkbox if hasUmbrella checkbox is checked', as
   expect(isUmbrellaCheckbox).toBeDisabled();
 });
 
-test('should disable isUmbrella checkbox if saved umbrella event has at least one sub-event', async () => {
+test('should disable isUmbrella checkbox when editing an umbrella event with at least one sub-event', async () => {
   renderComponent(
     { ...defaultInitialValues, isUmbrella: true },
     {
@@ -134,6 +134,18 @@ test('should disable isUmbrella checkbox if saved umbrella event has at least on
 
   const isUmbrellaCheckbox = await findElement('isUmbrellaCheckbox');
   expect(isUmbrellaCheckbox).toBeChecked();
+  expect(isUmbrellaCheckbox).toBeDisabled();
+});
+
+test('should disable isUmbrella checkbox when exiting event which has super event', async () => {
+  renderComponent(undefined, {
+    savedEvent: fakeEvent({
+      superEventType: SuperEventType.Umbrella,
+      superEvent: fakeEvent(),
+    }),
+  });
+
+  const isUmbrellaCheckbox = await findElement('isUmbrellaCheckbox');
   expect(isUmbrellaCheckbox).toBeDisabled();
 });
 
