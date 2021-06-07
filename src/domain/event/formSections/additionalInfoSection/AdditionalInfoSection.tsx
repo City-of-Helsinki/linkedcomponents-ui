@@ -72,7 +72,7 @@ const AdditionalInfoSection: React.FC = () => {
             <Field
               name={EVENT_FIELDS.ENROLMENT_START_TIME}
               component={DatepickerField}
-              label={t(`event.form.extensionCourse.labelEnrolmentStartTime`)}
+              label={t(`event.form.labelEnrolmentStartTime`)}
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />
@@ -81,7 +81,7 @@ const AdditionalInfoSection: React.FC = () => {
             <Field
               name={EVENT_FIELDS.ENROLMENT_END_TIME}
               component={DatepickerField}
-              label={t(`event.form.extensionCourse.labelEnrolmentEndTime`)}
+              label={t(`event.form.labelEnrolmentEndTime`)}
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />
@@ -109,9 +109,7 @@ const AdditionalInfoSection: React.FC = () => {
               <Field
                 name={EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY}
                 component={NumberInputField}
-                label={t(
-                  `event.form.extensionCourse.labelMinimimAttendeeCapacity`
-                )}
+                label={t(`event.form.labelMinimumAttendeeCapacity`)}
                 min={0}
                 placeholder={0}
               />
@@ -120,9 +118,7 @@ const AdditionalInfoSection: React.FC = () => {
               <Field
                 name={EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
                 component={NumberInputField}
-                label={t(
-                  `event.form.extensionCourse.labelMaximumAttendeeCapacity`
-                )}
+                label={t(`event.form.labelMaximumAttendeeCapacity`)}
                 min={0}
                 placeholder={0}
               />

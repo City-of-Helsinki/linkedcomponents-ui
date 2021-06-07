@@ -1,7 +1,9 @@
 import {
   ApolloClient,
+  ApolloError,
   FetchResult,
   InMemoryCache,
+  ServerError,
   useApolloClient,
 } from '@apollo/client';
 import { Form, Formik } from 'formik';
@@ -13,12 +15,14 @@ import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { FORM_NAMES, ROUTES } from '../../constants';
 import {
+  CreateEventMutationInput,
   CreateEventsMutation,
   PublicationStatus,
   useCreateEventMutation,
   useCreateEventsMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { ServerErrorItem } from '../../types';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -45,10 +49,12 @@ import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import useUpdateImageIfNeeded from './hooks/useUpdateImageIfNeeded';
 import Section from './layout/Section';
+import ServerErrorSummary from './serverErrorSummary/ServerErrorSummary';
 import { EventFormFields } from './types';
 import {
   draftEventSchema,
   getEventPayload,
+  getEventServerErrors,
   getRecurringEventPayload,
   publicEventSchema,
   showErrors,
@@ -56,6 +62,9 @@ import {
 
 const CreateEventPage: React.FC = () => {
   const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
+  const [serverErrorItems, setServerErrorItems] = React.useState<
+    ServerErrorItem[]
+  >([]);
   const history = useHistory();
   const location = useLocation();
   const locale = useLocale();
@@ -73,7 +82,107 @@ const CreateEventPage: React.FC = () => {
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
   };
 
-  const saveEvent = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const showServerErrors = (error: any, values: EventFormFields) => {
+    /* istanbul ignore else */
+    if (error instanceof ApolloError) {
+      const { networkError } = error;
+      const { result } = networkError as ServerError;
+
+      /* istanbul ignore else */
+      if (result) {
+        setServerErrorItems(
+          getEventServerErrors({ eventType: values.type, result, t })
+        );
+      }
+    }
+  };
+
+  const createRecurringEvent = async (
+    payload: CreateEventMutationInput[],
+    values: EventFormFields
+  ) => {
+    let eventsData: FetchResult<CreateEventsMutation> | null = null;
+
+    // Save sub-events
+    try {
+      eventsData = await createEventsMutation({
+        variables: { input: payload },
+      });
+    } catch (error) /* istanbul ignore next */ {
+      showServerErrors(error, values);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to create sub-events in recurring event creation',
+        user,
+      });
+      // Don't save recurring event if sub-event creation fails
+      return;
+    }
+
+    /* istanbul ignore next */
+    const subEventIds =
+      eventsData?.data?.createEvents.map((item) => item.atId as string) || [];
+    const recurringEventPayload = getRecurringEventPayload(
+      payload,
+      subEventIds
+    );
+
+    try {
+      const recurringEventData = await createEventMutation({
+        variables: { input: recurringEventPayload },
+      });
+
+      return recurringEventData.data?.createEvent.id as string;
+    } catch (error) /* istanbul ignore next */ {
+      showServerErrors(error, values);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          payload: recurringEventPayload,
+          payloadAsString: JSON.stringify(recurringEventPayload),
+        },
+        location,
+        message: 'Failed to create recurring event',
+        user,
+      });
+    }
+  };
+
+  const createSingleEvent = async (
+    payload: CreateEventMutationInput,
+    values: EventFormFields
+  ) => {
+    try {
+      const data = await createEventMutation({
+        variables: { input: payload },
+      });
+
+      return data.data?.createEvent.id as string;
+    } catch (error) /* istanbul ignore next */ {
+      showServerErrors(error, values);
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to create event',
+        user,
+      });
+    }
+  };
+
+  const createEvent = async (
     values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
@@ -93,96 +202,31 @@ const CreateEventPage: React.FC = () => {
         user,
       });
     }
+
     const payload = getEventPayload(values, publicationStatus);
+    let createdEventId: string | undefined;
 
     if (Array.isArray(payload)) {
-      let eventsData: FetchResult<CreateEventsMutation> | null = null;
-
-      try {
-        eventsData = await createEventsMutation({
-          variables: { input: payload },
-        });
-      } catch (error) /* istanbul ignore next */ {
-        // Report error to Sentry
-        reportError({
-          data: {
-            error,
-            payload,
-            payloadAsString: JSON.stringify(payload),
-          },
-          location,
-          message: 'Failed to create sub-events event',
-          user,
-        });
-        setSaving(null);
-        return;
-      }
-
-      const subEventIds =
-        eventsData?.data?.createEvents.map((item) => item.atId as string) ||
-        /* istanbul ignore next */
-        [];
-      const recurringEventPayload = getRecurringEventPayload(
-        payload,
-        subEventIds
-      );
-
-      try {
-        const recurringEventData = await createEventMutation({
-          variables: { input: recurringEventPayload },
-        });
-
-        // Clear all events queries from apollo cache to show added events in event list
-        clearEventsQueries(apolloClient);
-        // This action will change LE response so clear event list page
-        goToEventSavedPage(recurringEventData.data?.createEvent.id as string);
-        setSaving(null);
-      } catch (error) /* istanbul ignore next */ {
-        // Report error to Sentry
-        reportError({
-          data: {
-            error,
-            payload: recurringEventPayload,
-            payloadAsString: JSON.stringify(recurringEventPayload),
-          },
-          location,
-          message: 'Failed to create recurring event',
-          user,
-        });
-        setSaving(null);
-      }
+      createdEventId = await createRecurringEvent(payload, values);
     } else {
-      try {
-        const data = await createEventMutation({
-          variables: { input: payload },
-        });
-
-        // Clear all events queries from apollo cache to show added events in event list
-        clearEventsQueries(apolloClient);
-        // This action will change LE response so clear event list page
-        goToEventSavedPage(data.data?.createEvent.id as string);
-        setSaving(null);
-      } catch (error) /* istanbul ignore next */ {
-        // Report error to Sentry
-        reportError({
-          data: {
-            error,
-            payload,
-            payloadAsString: JSON.stringify(payload),
-          },
-          location,
-          message: 'Failed to create event',
-          user,
-        });
-        setSaving(null);
-      }
+      createdEventId = await createSingleEvent(payload, values);
     }
+
+    if (createdEventId) {
+      // Clear all events queries from apollo cache to show added events in event list
+      clearEventsQueries(apolloClient);
+      // This action will change LE response so clear event list page
+      goToEventSavedPage(createdEventId);
+    }
+
+    setSaving(null);
   };
 
+  /* istanbul ignore next */
   const initialValues = React.useMemo(
     () => ({
       ...EVENT_INITIAL_VALUES,
-      publisher: user?.organization ?? /* istanbul ignore next */ '',
+      publisher: user?.organization ?? '',
     }),
     [user]
   );
@@ -204,9 +248,7 @@ const CreateEventPage: React.FC = () => {
         setErrors,
         setTouched,
       }) => {
-        const clearErrors = () => {
-          setErrors({});
-        };
+        const clearErrors = () => setErrors({});
 
         const handleSubmit = async (
           publicationStatus: PublicationStatus,
@@ -217,22 +259,19 @@ const CreateEventPage: React.FC = () => {
           try {
             const values = { publisher, type, ...restValues };
 
+            setServerErrorItems([]);
             clearErrors();
 
             switch (publicationStatus) {
               case PublicationStatus.Draft:
-                await draftEventSchema.validate(values, {
-                  abortEarly: false,
-                });
+                await draftEventSchema.validate(values, { abortEarly: false });
                 break;
               case PublicationStatus.Public:
-                await publicEventSchema.validate(values, {
-                  abortEarly: false,
-                });
+                await publicEventSchema.validate(values, { abortEarly: false });
                 break;
             }
 
-            saveEvent(values, publicationStatus);
+            await createEvent(values, publicationStatus);
           } catch (error) {
             showErrors({
               descriptionLanguage,
@@ -259,6 +298,7 @@ const CreateEventPage: React.FC = () => {
             >
               <MainContent>
                 <Container withOffset={true}>
+                  <ServerErrorSummary errors={serverErrorItems} />
                   <Section title={t('event.form.sections.type')}>
                     <TypeSection />
                   </Section>

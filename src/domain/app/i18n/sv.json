@@ -265,12 +265,6 @@
         "warningEventInPast": "Tidigare evenemnag kan inte redigeras.",
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta evenemang."
       },
-      "extensionCourse": {
-        "labelEnrolmentEndTime": "Registreringen avslutas",
-        "labelEnrolmentStartTime": "Registreringen börjar",
-        "labelMaximumAttendeeCapacity": "Högsta antal deltagare",
-        "labelMinimimAttendeeCapacity": "Minsta antal deltagare"
-      },
       "helperRecurringEventRepeatInterval": "I veckor",
       "helperUmbrellaEvent": "Notera. Ett huvudevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "image": {
@@ -431,6 +425,8 @@
         "general": "Evenemanget avslutas",
         "volunteering": "Volontärarbetet avslutas"
       },
+      "labelEnrolmentEndTime": "Registreringen avslutas",
+      "labelEnrolmentStartTime": "Registreringen börjar",  
       "labelFacebookUrl": "Facebook",
       "labelHasPrice": {
         "course": "Kursen kräver betalning",
@@ -457,6 +453,8 @@
       "labelLocation": "Plats",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Plats ID:",
+      "labelMaximumAttendeeCapacity": "Högsta antal deltagare",
+      "labelMinimumAttendeeCapacity": "Minsta antal deltagare",
       "labelName": {
         "course": "Kursens title {{langText}}",
         "general": "Evenemangets title {{langText}}",
@@ -709,6 +707,7 @@
       "titlePrice": "Pris",
       "titleRecurringEvent": "Återkommande evenemang",
       "titleRecurringEventRepeatDays": "Uppspelningsdagar",
+      "titleServerErrorSummary": "Formuläret innehåller följande fel",
       "titleSocialMedia": {
         "course": "Kursen på sociala medier",
         "general": "Evenemanget på sociala medier",
@@ -739,6 +738,16 @@
     "publicationStatus": {
       "draft": "Förslag",
       "public": "Offentlig"
+    },
+    "serverError": {
+      "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
+      "invalidUrl": "Ange rätt URL.",
+      "min0": "Detta nummer måste vara minst 0.",
+      "nameIsRequired": "Namnet krävs.",
+      "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
+      "required": "Det här fältet kan inte lämnas tomt.",
+      "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
+      "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre"
     },
     "subEvents": "Underevenemangen",
     "superEventType": {

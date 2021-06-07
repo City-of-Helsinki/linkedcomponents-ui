@@ -265,12 +265,6 @@
         "warningEventInPast": "Past events can't be edited.",
         "warningNoRightsToEdit": "You have insufficient rights to edit this event."
       },
-      "extensionCourse": {
-        "labelEnrolmentEndTime": "Registration ends",
-        "labelEnrolmentStartTime": "Registration begins",
-        "labelMaximumAttendeeCapacity": "Maximum number of participants",
-        "labelMinimimAttendeeCapacity": "Minimum number of participants"
-      },
       "helperRecurringEventRepeatInterval": "In weeks",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "image": {
@@ -431,6 +425,8 @@
         "general": "Event ends",
         "volunteering": "Volunteering ends"
       },
+      "labelEnrolmentEndTime": "Registration ends",
+      "labelEnrolmentStartTime": "Registration begins",
       "labelFacebookUrl": "Facebook",
       "labelHasPrice": {
         "course": "Course requires payment",
@@ -457,6 +453,8 @@
       "labelLocation": "Location",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Location ID:",
+      "labelMaximumAttendeeCapacity": "Maximum number of participants",
+      "labelMinimumAttendeeCapacity": "Minimum number of participants",
       "labelName": {
         "course": "Course title {{langText}}",
         "general": "Event title {{langText}}",
@@ -709,6 +707,7 @@
       "titlePrice": "Price",
       "titleRecurringEvent": "Recurring event",
       "titleRecurringEventRepeatDays": "Repeat days",
+      "titleServerErrorSummary": "Form contains following errors",
       "titleSocialMedia": {
         "course": "Course on social media",
         "general": "Event on social media",
@@ -740,6 +739,17 @@
       "draft": "Draft",
       "public": "Public"
     },
+    "serverError": {
+      "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
+      "invalidUrl": "Enter a valid URL.",
+      "min0": "This number must be at least 0.",
+      "nameIsRequired": "The name must be specified.",
+      "offersIsRequired": "Price info must be specified before an event is published.",
+      "required": "This field cannot be left blank.",
+      "requiredWhenPublishing": "This field must be specified before an event is published.",
+      "shortDescriptionTooLong": "Short description length must be 160 characters or less"
+    },
+    "subEvents": "Sub-events",
     "superEventType": {
       "recurring": "Series",
       "umbrella": "Umbrella"

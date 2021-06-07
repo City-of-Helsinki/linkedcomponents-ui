@@ -27,7 +27,7 @@ const VideoSection: React.FC = () => {
       name={EVENT_FIELDS.VIDEOS}
       render={(arrayHelpers) => (
         <div>
-          {videos.map((video, index: number) => {
+          {videos.map((_, index: number) => {
             return (
               <Video
                 key={index}
