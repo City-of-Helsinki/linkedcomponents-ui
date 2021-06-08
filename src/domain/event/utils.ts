@@ -682,21 +682,33 @@ export const getEventServerErrors = ({
 }: {
   eventType: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  result: Record<string, any>;
+  result: Record<string, any> | Record<string, any>[];
   t: TFunction;
 }): ServerErrorItem[] =>
-  Object.entries(result).reduce(
-    (previous: ServerErrorItem[], [key, error]) => [
-      ...previous,
-      ...getEventServerError({
-        error,
-        eventType,
-        key,
-        t,
-      }),
-    ],
-    []
-  );
+  Array.isArray(result)
+    ? result.reduce(
+        (previous: ServerErrorItem[], r) => [
+          ...previous,
+          ...getEventServerErrors({
+            eventType,
+            result: r,
+            t,
+          }),
+        ],
+        []
+      )
+    : Object.entries(result).reduce(
+        (previous: ServerErrorItem[], [key, error]) => [
+          ...previous,
+          ...getEventServerError({
+            error,
+            eventType,
+            key,
+            t,
+          }),
+        ],
+        []
+      );
 
 export const eventPathBuilder = ({
   args,

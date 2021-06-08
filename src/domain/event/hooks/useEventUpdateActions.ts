@@ -46,7 +46,8 @@ export enum MODALS {
 }
 
 interface Callbacks {
-  onError?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onError?: (error: any) => void;
   onSuccess?: () => void;
 }
 
@@ -186,7 +187,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError());
+      await (callbacks?.onError && callbacks.onError(error));
     }
   };
 
@@ -232,7 +233,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError());
+      await (callbacks?.onError && callbacks.onError(error));
     }
   };
 
@@ -285,7 +286,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError());
+      await (callbacks?.onError && callbacks.onError(error));
     }
   };
 
@@ -452,7 +453,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError());
+      await (callbacks?.onError && callbacks.onError(error));
     }
   };
 

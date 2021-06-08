@@ -291,6 +291,37 @@ describe('getEventServerErrors', () => {
       },
     ]);
   });
+  it('should return server error items when result is array', () => {
+    expect(
+      getEventServerErrors({
+        eventType: EVENT_TYPE.General,
+        result: [
+          { name: ['The name must be specified.'] },
+          { name: ['The name must be specified.'] },
+          { name: ['The name must be specified.'] },
+          { name: ['The name must be specified.'] },
+        ],
+        t: i18n.t.bind(i18n),
+      })
+    ).toEqual([
+      {
+        label: 'Tapahtuman otsikko ',
+        message: 'Nimi on pakollinen.',
+      },
+      {
+        label: 'Tapahtuman otsikko ',
+        message: 'Nimi on pakollinen.',
+      },
+      {
+        label: 'Tapahtuman otsikko ',
+        message: 'Nimi on pakollinen.',
+      },
+      {
+        label: 'Tapahtuman otsikko ',
+        message: 'Nimi on pakollinen.',
+      },
+    ]);
+  });
 });
 
 describe('generateEventTimesFromRecurringEvent function', () => {
