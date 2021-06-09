@@ -17,8 +17,13 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
+import {
+  REMOTE_PARTICIPATION_KEYWORD,
+  REMOTE_PARTICIPATION_KEYWORD_ID,
+} from '../../../../keyword/constants';
+import { INTERNET_PLACE_ID } from '../../../../place/constants';
 import {
   mockedAudienceKeywordSetResponse,
   mockedLanguagesResponse,
@@ -30,16 +35,20 @@ import ClassificationSection from '../ClassificationSection';
 configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
+const removeParticipationName = 'Etäosallistuminen';
 
 const keywordNames = range(1, 16).map((index) => `Keyword ${index}`);
-const keywords = fakeKeywords(
-  keywordNames.length,
-  keywordNames.map((name, index) => ({
+const keywords = fakeKeywords(keywordNames.length + 1, [
+  {
+    id: REMOTE_PARTICIPATION_KEYWORD_ID,
+    atId: REMOTE_PARTICIPATION_KEYWORD,
+    name: { fi: removeParticipationName },
+  },
+  ...keywordNames.map((name, index) => ({
     id: `${index + 1}`,
-    atId: `https://api.hel.fi/linkedevents-test/v1/keyword/${index + 1}/`,
     name: { fi: name },
-  }))
-);
+  })),
+]);
 const keywordsVariables = {
   createPath: undefined,
   dataSource: 'yso',
@@ -56,10 +65,7 @@ const mockedKeywordsResponse = {
 };
 
 const keyword = keywords.data[0];
-const keywordName = keyword.name.fi;
-const keywordId = keyword.id;
-const keywordAtId = keyword.atId;
-const keywordVariables = { id: keywordId, createPath: undefined };
+const keywordVariables = { id: keyword.id, createPath: undefined };
 const keywordResponse = { data: { keyword } };
 const mockedKeywordResponse = {
   request: {
@@ -99,12 +105,14 @@ const mocks = [
 
 type InitialValues = {
   [EVENT_FIELDS.KEYWORDS]: string[];
+  [EVENT_FIELDS.LOCATION]: string;
   [EVENT_FIELDS.MAIN_CATEGORIES]: string[];
   [EVENT_FIELDS.TYPE]: string;
 };
 
 const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.KEYWORDS]: [],
+  [EVENT_FIELDS.LOCATION]: '',
   [EVENT_FIELDS.MAIN_CATEGORIES]: [],
   [EVENT_FIELDS.TYPE]: type,
 };
@@ -121,78 +129,90 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
     { mocks }
   );
 
+const findElement = (key: 'keywordLink' | 'keywordOption') => {
+  switch (key) {
+    case 'keywordLink':
+      return screen.findByRole('link', {
+        name: new RegExp(keyword.name.fi, 'i'),
+        hidden: true,
+      });
+    case 'keywordOption':
+      return screen.findByRole('option', {
+        name: keyword.name.fi,
+      });
+  }
+};
+
+const getElement = (
+  key:
+    | 'infoTextKeywords'
+    | 'infoTextMainCategories'
+    | 'showMoreButton'
+    | 'titleMainCategories'
+    | 'titleNotification'
+    | 'toggleButton'
+) => {
+  switch (key) {
+    case 'infoTextKeywords':
+      return screen.getByText(
+        /liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa./i
+      );
+    case 'infoTextMainCategories':
+      return screen.getByText(/valitse vähintään yksi pääluokka/i);
+    case 'showMoreButton':
+      return screen.getByRole('button', { name: /näytä lisää/i });
+    case 'titleMainCategories':
+      return screen.getByRole('heading', { name: /pääluokat \(kategoriat\)/i });
+    case 'titleNotification':
+      return screen.getByRole('heading', { name: /tapahtuman luokittelu/i });
+    case 'toggleButton':
+      return screen.getByRole('button', { name: /avainsanahaku/i });
+  }
+};
+
 test('should render classification section', async () => {
-  renderComponent({ [EVENT_FIELDS.KEYWORDS]: [keywordAtId] });
+  renderComponent({ [EVENT_FIELDS.KEYWORDS]: [keyword.atId] });
 
-  await screen.findByRole('heading', {
-    name: translations.event.form.titleMainCategories,
-  });
-
-  screen.getByRole('heading', {
-    name: translations.event.form.notificationTitleMainCategories[type],
-  });
-
+  getElement('titleMainCategories');
+  getElement('titleNotification');
   expect(
-    screen.getAllByRole('heading', {
-      name: translations.event.form.titleKeywords,
-    })
+    screen.getAllByRole('heading', { name: /lisää avainsanoja/i })
   ).toHaveLength(2);
+  getElement('infoTextMainCategories');
+  getElement('infoTextKeywords');
 
-  const infoTexts = [
-    translations.event.form.infoTextMainCategories[type],
-    translations.event.form.infoTextKeywords[type],
-  ];
-
-  infoTexts.forEach((infoText) => screen.getByText(infoText));
-
-  await screen.findByRole('link', {
-    name: new RegExp(keywordName, 'i'),
-    hidden: true,
-  });
+  await findElement('keywordLink');
 });
 
 test('should show 10 first topics by default and rest by clicking show more', async () => {
+  const sortedKeywords = [...keywordNames, removeParticipationName].sort();
+  const defaultKeywords = sortedKeywords.slice(0, 10);
+  const restKeywords = [...keywordNames].sort().slice(10);
+
   renderComponent();
 
   await screen.findByLabelText(keywordNames[0]);
-
-  const defaultKeywords = [...keywordNames].sort().slice(0, 10);
-  const restKeywords = [...keywordNames].sort().slice(10);
-
-  defaultKeywords.forEach((keyword) => screen.getByLabelText(keyword));
-
+  defaultKeywords.slice(1).forEach((keyword) => screen.getByLabelText(keyword));
   restKeywords.forEach((keyword) =>
     expect(screen.queryByLabelText(keyword)).not.toBeInTheDocument()
   );
 
-  userEvent.click(
-    screen.getByRole('button', { name: translations.common.showMore })
-  );
+  userEvent.click(getElement('showMoreButton'));
 
   await screen.findByLabelText(restKeywords[0]);
-
-  restKeywords.forEach((keyword) => screen.getByLabelText(keyword));
+  restKeywords.slice(1).forEach((keyword) => screen.getByLabelText(keyword));
 });
 
 test('should change keyword', async () => {
   renderComponent();
 
-  await screen.findByLabelText(keywordNames[0]);
-
-  const toggleButton = screen.queryByRole('button', {
-    name: `${translations.event.form.labelKeywords}: ${translations.common.combobox.toggleButtonAriaLabel}`,
-  });
-
+  const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
-  await screen.findByRole('option', { name: keywordName });
+  const keywordOption = await findElement('keywordOption');
+  userEvent.click(keywordOption);
 
-  userEvent.click(screen.getByRole('option', { name: keywordName }));
-
-  await screen.findByRole('link', {
-    name: new RegExp(keywordName, 'i'),
-    hidden: true,
-  });
+  await findElement('keywordLink');
 });
 
 test('should show correct validation error if none main category is selected', async () => {
@@ -204,23 +224,26 @@ test('should show correct validation error if none main category is selected', a
   userEvent.click(mainCategoryCheckbox);
   userEvent.click(mainCategoryCheckbox);
 
-  const toggleButton = screen.queryByRole('button', {
-    name: `${translations.event.form.labelKeywords}: ${translations.common.combobox.toggleButtonAriaLabel}`,
-  });
+  const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
   userEvent.tab();
 
   await screen.findByText('Vähintään 1 pääluokka tulee olla valittuna');
 });
 
+test('should select remote participation if internet is selected as a location', async () => {
+  renderComponent({ [EVENT_FIELDS.LOCATION]: INTERNET_PLACE_ID });
+
+  const remoteParticipationCheckbox = await screen.findByRole('checkbox', {
+    name: removeParticipationName,
+  });
+  await waitFor(() => expect(remoteParticipationCheckbox).toBeChecked());
+});
+
 test('should show correct validation error if none keyword is selected', async () => {
   renderComponent();
 
-  await screen.findByLabelText(keywordNames[0]);
-
-  const toggleButton = screen.queryByRole('button', {
-    name: `${translations.event.form.labelKeywords}: ${translations.common.combobox.toggleButtonAriaLabel}`,
-  });
+  const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
   userEvent.tab();
 
