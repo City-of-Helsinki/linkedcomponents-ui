@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { EVENT_SORT_OPTIONS } from '../../../../domain/events/constants';
 import { EventDocument, EventsDocument } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
@@ -16,21 +17,13 @@ import UmbrellaEventSelector, {
 configure({ defaultHidden: true });
 
 const eventId = 'hel:123';
-const eventAtId = `https://api.hel.fi/linkedevents/v1/event/${eventId}/`;
 const eventName = 'Event name';
 const helper = 'Helper text';
 const label = 'Select umbrella event';
 const name = 'umbrellaEvent';
 
-const event = fakeEvent({
-  id: eventId,
-  atId: eventAtId,
-  name: { fi: eventName },
-});
-const eventVariables = {
-  id: eventId,
-  createPath: undefined,
-};
+const event = fakeEvent({ id: eventId, name: { fi: eventName } });
+const eventVariables = { createPath: undefined, id: eventId };
 const eventResponse = { data: { event: event } };
 const mockedEventResponse = {
   request: {
@@ -42,6 +35,7 @@ const mockedEventResponse = {
 
 const filteredEventsVariables = {
   createPath: undefined,
+  sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['umbrella'],
   text: '',
 };
@@ -61,36 +55,38 @@ const defaultProps: UmbrellaEventSelectorProps = {
   helper,
   label,
   name,
-  value: eventAtId,
+  value: event.atId,
 };
 
 const renderComponent = (props?: Partial<UmbrellaEventSelectorProps>) =>
   render(<UmbrellaEventSelector {...defaultProps} {...props} />, { mocks });
 
+const getElement = (key: 'inputField' | 'toggleButton') => {
+  switch (key) {
+    case 'inputField':
+      return screen.getByRole('combobox', { name: new RegExp(helper) });
+    case 'toggleButton':
+      return screen.getByRole('button', { name: new RegExp(label) });
+  }
+};
+
 test('should combobox input value to be selected event', async () => {
   renderComponent();
 
-  const inputField = screen.queryByRole('combobox', {
-    name: new RegExp(helper),
-  });
-
+  const inputField = getElement('inputField');
   await waitFor(() => expect(inputField).toHaveValue(eventName));
 });
 
 test('should open menu by clickin toggle button and list of options should be visible', async () => {
   renderComponent();
 
-  const inputField = screen.queryByRole('combobox', {
-    name: new RegExp(helper),
-  });
-
+  const inputField = getElement('inputField');
   expect(inputField.getAttribute('aria-expanded')).toBe('false');
 
-  const toggleButton = screen.getByRole('button');
+  const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
   expect(inputField.getAttribute('aria-expanded')).toBe('true');
-
   for (const option of filteredEvents.data) {
     await screen.findByRole('option', { hidden: true, name: option.name.fi });
   }

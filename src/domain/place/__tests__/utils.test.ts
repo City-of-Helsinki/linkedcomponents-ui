@@ -1,4 +1,18 @@
-import { placePathBuilder, placesPathBuilder } from '../utils';
+import { fakePlace } from '../../../utils/mockDataUtils';
+import { getPlaceFields, placePathBuilder, placesPathBuilder } from '../utils';
+
+describe('getPlaceFields function', () => {
+  it('should return default values if value is not set', () => {
+    const { atId, dataSource, id, nEvents } = getPlaceFields(
+      fakePlace({ atId: null, dataSource: null, id: null, nEvents: null }),
+      'fi'
+    );
+    expect(atId).toBe('');
+    expect(dataSource).toBe('');
+    expect(id).toBe('');
+    expect(nEvents).toBe(0);
+  });
+});
 
 describe('placePathBuilder function', () => {
   it('should create correct path for place request', () => {

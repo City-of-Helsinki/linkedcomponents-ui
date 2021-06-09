@@ -13,6 +13,7 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
+import { PLACES_SORT_ORDER } from '../../../../place/constants';
 import PlaceSelector, { PlaceSelectorProps } from '../PlaceSelector';
 
 configure({ defaultHidden: true });
@@ -27,6 +28,7 @@ const places = fakePlaces(
 );
 const placesVariables = {
   createPath: undefined,
+  sort: PLACES_SORT_ORDER.NAME,
   text: '',
 };
 const placesResponse = { data: { places } };
