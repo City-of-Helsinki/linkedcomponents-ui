@@ -297,20 +297,10 @@ const enrolmentSchemaFields = {
     .transform(transformNumber),
   [EVENT_FIELDS.ENROLMENT_START_TIME]: Yup.date()
     .nullable()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (startTime) => !startTime || isFuture(startTime)
-    ),
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
   [EVENT_FIELDS.ENROLMENT_END_TIME]: Yup.date()
     .nullable()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (endTime) => !endTime || isFuture(endTime)
-    )
     // test that startsTime is before endsTime
     .when([EVENT_FIELDS.ENROLMENT_START_TIME], isMinStartDate),
   [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
