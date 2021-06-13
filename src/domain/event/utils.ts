@@ -139,12 +139,7 @@ export const eventTimeSchema = Yup.object().shape({
   [EVENT_TIME_FIELDS.START_TIME]: Yup.date()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (startTime) => !startTime || isFuture(startTime)
-    ),
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
   [EVENT_TIME_FIELDS.END_TIME]: Yup.date()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
@@ -154,7 +149,7 @@ export const eventTimeSchema = Yup.object().shape({
       VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
       (endTime) => !endTime || isFuture(endTime)
     )
-    // test that startsTime is before endsTime
+    // test that end time is after start time
     .when([EVENT_TIME_FIELDS.START_TIME], isMinStartDate),
 });
 

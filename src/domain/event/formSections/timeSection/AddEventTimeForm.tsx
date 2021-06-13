@@ -11,6 +11,7 @@ import { ADD_EVENT_TIME_FORM_NAME, EVENT_TIME_FIELDS } from '../../constants';
 import { AddEventTimeFormFields, EventTime } from '../../types';
 import { addEventTimeSchema } from '../../utils';
 import TimeSectionContext from './TimeSectionContext';
+import { getMinBookingDate } from './utils';
 
 interface Props {
   addEventTime: (eventTime: EventTime) => void;
@@ -64,8 +65,8 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
               <Field
                 component={DatepickerField}
                 disabled={disabled}
-                name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
                 label={t(`event.form.labelStartTime.${eventType}`)}
+                name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
                 placeholder={t('common.placeholderDateTime')}
                 required={true}
                 timeSelector={true}
@@ -75,8 +76,8 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
               <Field
                 component={DatepickerField}
                 disabled={disabled}
-                focusedDate={startTime}
-                minBookingDate={startTime}
+                focusedDate={getMinBookingDate(startTime)}
+                minBookingDate={getMinBookingDate(startTime)}
                 name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
                 label={t(`event.form.labelEndTime.${eventType}`)}
                 placeholder={t('common.placeholderDateTime')}
