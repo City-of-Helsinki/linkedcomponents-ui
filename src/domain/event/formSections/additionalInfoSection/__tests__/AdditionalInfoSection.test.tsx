@@ -67,7 +67,7 @@ const getElement = (
   switch (key) {
     case 'endTime':
       return screen.getByRole('textbox', {
-        name: translations.event.form.extensionCourse.labelEnrolmentEndTime,
+        name: translations.event.form.labelEnrolmentEndTime,
       });
     case 'maxAge':
       return screen.getByRole('spinbutton', {
@@ -79,18 +79,16 @@ const getElement = (
       });
     case 'maxCapacity':
       return screen.getByRole('spinbutton', {
-        name: translations.event.form.extensionCourse
-          .labelMinimimAttendeeCapacity,
+        name: translations.event.form.labelMinimumAttendeeCapacity,
       });
 
     case 'minCapacity':
       return screen.getByRole('spinbutton', {
-        name: translations.event.form.extensionCourse
-          .labelMaximumAttendeeCapacity,
+        name: translations.event.form.labelMaximumAttendeeCapacity,
       });
     case 'startTime':
       return screen.getByRole('textbox', {
-        name: translations.event.form.extensionCourse.labelEnrolmentStartTime,
+        name: translations.event.form.labelEnrolmentStartTime,
       });
   }
 };
@@ -112,8 +110,8 @@ test('should render additional info section', async () => {
   const spinbuttons = [
     translations.event.form.labelAudienceMinAge,
     translations.event.form.labelAudienceMaxAge,
-    translations.event.form.extensionCourse.labelMinimimAttendeeCapacity,
-    translations.event.form.extensionCourse.labelMaximumAttendeeCapacity,
+    translations.event.form.labelMinimumAttendeeCapacity,
+    translations.event.form.labelMaximumAttendeeCapacity,
   ];
 
   spinbuttons.forEach((label) => {
@@ -122,8 +120,8 @@ test('should render additional info section', async () => {
   });
 
   const textboxs = [
-    translations.event.form.extensionCourse.labelEnrolmentStartTime,
-    translations.event.form.extensionCourse.labelEnrolmentEndTime,
+    translations.event.form.labelEnrolmentStartTime,
+    translations.event.form.labelEnrolmentEndTime,
   ];
 
   textboxs.forEach((label) => {

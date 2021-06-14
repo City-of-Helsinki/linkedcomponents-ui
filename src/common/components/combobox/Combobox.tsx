@@ -24,8 +24,9 @@ const Combobox: React.FC<ComboboxProps<OptionType>> = ({
       {...rest}
       className={classNames(className, styles.combobox, css(theme.select))}
       getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
-      getA11ySelectionMessage={(options) =>
-        /* istanbul ignore next */ getA11ySelectionMessage(options, t)
+      getA11ySelectionMessage={
+        /* istanbul ignore next */
+        (options) => getA11ySelectionMessage(options, t)
       }
       virtualized={true}
     />

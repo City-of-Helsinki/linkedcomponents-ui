@@ -33,7 +33,7 @@ const LanguagesSection: React.FC = () => {
     .sort(sortLanguage)
     .map((language) => ({
       label: capitalize(getLocalisedString(language?.name, locale)),
-      value: language?.atId as string,
+      value: language?.atId,
     }));
 
   return (

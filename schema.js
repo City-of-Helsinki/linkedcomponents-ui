@@ -327,7 +327,7 @@ module.exports = buildSchema(/* GraphQL */ `
     typeId: EventTypeId
     videos: [Video]!
     # @id is renamed as atId so it's usable on GraphQl
-    atId: String
+    atId: String!
     # @context is renamed as atContext so it's usable on GraphQl
     atContext: String
     # @type is renamed as atType so it's usable on GraphQl
@@ -361,16 +361,11 @@ module.exports = buildSchema(/* GraphQL */ `
     publisher: String
     url: String
     # @id is renamed as atId so it's usable on GraphQl
-    atId: String
+    atId: String!
     # @context is renamed as atContext so it's usable on GraphQl
     atContext: String
     # @type is renamed as atType so it's usable on GraphQl
     atType: String
-  }
-
-  type AtIdObject {
-    # @id is renamed as atId so it's usable on GraphQl
-    atId: String
   }
 
   type Keyword {
@@ -387,7 +382,7 @@ module.exports = buildSchema(/* GraphQL */ `
     nEvents: Int
     publisher: ID
     # @id is renamed as atId so it's usable on GraphQl
-    atId: String
+    atId: String!
     # @context is renamed as atContext so it's usable on GraphQl
     atContext: String
     # @type is renamed as atType so it's usable on GraphQl
@@ -405,7 +400,7 @@ module.exports = buildSchema(/* GraphQL */ `
     organization: String
     name: LocalisedObject
     # @id is renamed as atId so it's usable on GraphQl
-    atId: String
+    atId: String!
     # @context is renamed as atContext so it's usable on GraphQl
     atContext: String
     # @type is renamed as atType so it's usable on GraphQl
@@ -417,7 +412,7 @@ module.exports = buildSchema(/* GraphQL */ `
     translationAvailable: Boolean
     name: LocalisedObject
     # @id is renamed as atId so it's usable on GraphQl
-    atId: String
+    atId: String!
     # @context is renamed as atContext so it's usable on GraphQl
     atContext: String
     # @type is renamed as atType so it's usable on GraphQl
@@ -456,7 +451,7 @@ module.exports = buildSchema(/* GraphQL */ `
     replacedBy: String
     subOrganizations: [String]
     atContext: String
-    atId: String
+    atId: String!
     atType: String
   }
 
@@ -493,7 +488,7 @@ module.exports = buildSchema(/* GraphQL */ `
     streetAddress: LocalisedObject
     telephone: LocalisedObject
     # @id is renamed as atId so it's usable on GraphQl
-    atId: String
+    atId: String!
     # @context is renamed as atContext so it's usable on GraphQl
     atContext: String
     # @type is renamed as atType so it's usable on GraphQl

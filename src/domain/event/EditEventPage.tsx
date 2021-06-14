@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import debounce from 'lodash/debounce';
@@ -7,7 +8,6 @@ import { useHistory, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { ROUTES } from '../../constants';
 import {
   EventFieldsFragment,
   EventQuery,
@@ -52,6 +52,7 @@ import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
+import useEventServerErrors from './hooks/useEventServerErrors';
 import useEventUpdateActions, { MODALS } from './hooks/useEventUpdateActions';
 import useRelatedEvents from './hooks/useRelatedEvents';
 import useSortedInfoLanguages from './hooks/useSortedInfoLanguages';
@@ -60,6 +61,7 @@ import ConfirmCancelModal from './modals/ConfirmCancelModal';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import ConfirmPostponeModal from './modals/ConfirmPostponeModal';
 import ConfirmUpdateModal from './modals/ConfirmUpdateModal';
+import ServerErrorSummary from './serverErrorSummary/ServerErrorSummary';
 import { EventFormFields } from './types';
 import {
   draftEventSchema,
@@ -82,6 +84,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const history = useHistory<EventsLocationState>();
   const location = useLocation();
   const locale = useLocale();
+  const { serverErrorItems, setServerErrorItems, showServerErrors } =
+    useEventServerErrors();
   const { id, name, publicationStatus, superEventType } = getEventFields(
     event,
     locale
@@ -101,9 +105,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     updateEvent,
   } = useEventUpdateActions({ event });
 
-  const initialValues = React.useMemo(() => {
-    return getEventInitialValues(event);
-  }, [event]);
+  const initialValues = React.useMemo(
+    () => getEventInitialValues(event),
+    [event]
+  );
 
   const [descriptionLanguage, setDescriptionLanguage] = React.useState(
     initialValues.eventInfoLanguages[0] as EVENT_INFO_LANGUAGES
@@ -123,11 +128,16 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       }),
       state: { eventId: event.id },
     });
-    history.push(`/${locale}${ROUTES.EVENTS}`);
   };
 
-  const onCancel = () => {
+  const onCancel = (eventType: string) => {
     cancelEvent({
+      onError: /* istanbul ignore next */ (error: any) =>
+        showServerErrors({
+          error,
+          eventType,
+          callbackFn: () => setOpenModal(null),
+        }),
       onSuccess: async () => {
         await refetch();
         window.scrollTo(0, 0);
@@ -141,8 +151,14 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     });
   };
 
-  const onPostpone = () => {
+  const onPostpone = (eventType: string) => {
     postponeEvent({
+      onError: /* istanbul ignore next */ (error: any) =>
+        showServerErrors({
+          error,
+          eventType,
+          callbackFn: () => setOpenModal(null),
+        }),
       onSuccess: async () => {
         await refetch();
         window.scrollTo(0, 0);
@@ -155,6 +171,12 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     publicationStatus: PublicationStatus
   ) => {
     updateEvent(values, publicationStatus, {
+      onError: (error: any) =>
+        showServerErrors({
+          error,
+          eventType: values.type,
+          callbackFn: () => setOpenModal(null),
+        }),
       onSuccess: async () => {
         await refetch();
         window.scrollTo(0, 0);
@@ -183,26 +205,19 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       validateOnBlur={true}
       validateOnChange={true}
     >
-      {({ values: { type, ...restValues }, setErrors, setTouched }) => {
-        const clearErrors = () => {
-          setErrors({});
-        };
+      {({ values, setErrors, setTouched }) => {
+        const clearErrors = () => setErrors({});
 
         const handleUpdate = async (publicationStatus: PublicationStatus) => {
-          const values = { type, ...restValues };
           try {
+            setServerErrorItems([]);
             clearErrors();
-            if (publicationStatus === PublicationStatus.Draft) {
-              await draftEventSchema.validate(values, {
-                abortEarly: false,
-              });
-            } else {
-              await publicEventSchema.validate(values, {
-                abortEarly: false,
-              });
-            }
 
-            clearErrors();
+            if (publicationStatus === PublicationStatus.Draft) {
+              await draftEventSchema.validate(values, { abortEarly: false });
+            } else {
+              await publicEventSchema.validate(values, { abortEarly: false });
+            }
 
             if (superEventType === SuperEventType.Recurring) {
               setNextPublicationStatus(publicationStatus);
@@ -227,7 +242,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
               event={event}
               isOpen={openModal === MODALS.CANCEL}
               isSaving={saving === EVENT_EDIT_ACTIONS.CANCEL}
-              onCancel={onCancel}
+              onCancel={() => onCancel(values.type)}
               onClose={closeModal}
             />
             <ConfirmDeleteModal
@@ -242,7 +257,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
               isOpen={openModal === MODALS.POSTPONE}
               isSaving={saving === EVENT_EDIT_ACTIONS.POSTPONE}
               onClose={closeModal}
-              onPostpone={onPostpone}
+              onPostpone={() => onPostpone(values.type)}
             />
             <ConfirmUpdateModal
               event={event}
@@ -253,11 +268,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                 saving === EVENT_EDIT_ACTIONS.UPDATE_PUBLIC
               }
               onClose={closeModal}
-              onSave={() => {
-                const values = { type, ...restValues };
-
-                onUpdate(values, nextPublicationStatus);
-              }}
+              onSave={() => onUpdate(values, nextPublicationStatus)}
             />
             <Form noValidate={true}>
               <PageWrapper
@@ -272,6 +283,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                     withOffset={true}
                   >
                     <EventInfo event={event} />
+                    <ServerErrorSummary errors={serverErrorItems} />
 
                     <Section title={t('event.form.sections.type')}>
                       <TypeSection savedEvent={event} />
@@ -297,7 +309,9 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                     <Section title={t('event.form.sections.price')}>
                       <PriceSection />
                     </Section>
-                    <Section title={t(`event.form.sections.channels.${type}`)}>
+                    <Section
+                      title={t(`event.form.sections.channels.${values.type}`)}
+                    >
                       <ChannelsSection />
                     </Section>
                     <Section title={t('event.form.sections.image')}>

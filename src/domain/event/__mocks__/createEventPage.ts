@@ -208,6 +208,21 @@ const mockedCreateDraftEventResponse: MockedResponse = {
   result: createDraftEventResponse,
 };
 
+const mockedInvalidCreateDraftEventResponse: MockedResponse = {
+  request: {
+    query: CreateEventDocument,
+    variables: createDraftEventVariables,
+  },
+  error: {
+    ...new Error(),
+    result: {
+      end_time: [
+        'End time cannot be in the past. Please set a future end time.',
+      ],
+    },
+  } as Error,
+};
+
 const createSubEventsVariables = {
   input: [
     {
@@ -502,6 +517,7 @@ export {
   mockedFilteredPlacesResponse,
   mockedImageResponse,
   mockedImagesResponse,
+  mockedInvalidCreateDraftEventResponse,
   mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
@@ -515,5 +531,4 @@ export {
   mockedUserResponse,
   organizationId,
   placeAtId,
-  selectedPlaceText,
 };

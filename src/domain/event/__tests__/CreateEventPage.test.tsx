@@ -30,6 +30,7 @@ import {
   mockedFilteredPlacesResponse,
   mockedImageResponse,
   mockedImagesResponse,
+  mockedInvalidCreateDraftEventResponse,
   mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
@@ -293,6 +294,26 @@ test('should focus to first main category checkbox if none main category is sele
   const keywordCheckbox = getElement('keyword');
 
   await waitFor(() => expect(keywordCheckbox).toHaveFocus());
+});
+
+test('should show server errors', async () => {
+  setFormValues({
+    ...EVENT_INITIAL_VALUES,
+    eventTimes: [eventValues.eventTimes[0]],
+    isVerified: true,
+    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
+  });
+
+  const mocks = [...defaultMocks, mockedInvalidCreateDraftEventResponse];
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const saveDraftButton = getElement('saveDraft');
+  userEvent.click(saveDraftButton);
+
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/lopetusaika ei voi olla menneisyydessä./i);
 });
 
 test('should route to event completed page after saving draft event', async () => {

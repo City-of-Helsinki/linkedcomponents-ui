@@ -23,7 +23,7 @@ const getKeywordFields = (
   keyword: KeywordFieldsFragment,
   locale: Language
 ) => ({
-  id: keyword.atId as string,
+  id: keyword.atId,
   name: getLocalisedString(keyword.name, locale),
 });
 
@@ -61,19 +61,19 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = React.useState('');
-  const [options, setOptions] = React.useState<OptionType[]>([]);
   const [selectedKeywords, setSelectedKeywords] = React.useState<OptionType[]>(
     []
   );
 
-  const { data: keywordsData } = useKeywordsQuery({
-    variables: {
-      dataSource: 'yso',
-      showAllKeywords: true,
-      text: search,
-      createPath: getPathBuilder(keywordsPathBuilder),
-    },
-  });
+  const { data: keywordsData, previousData: previousKeywordsData } =
+    useKeywordsQuery({
+      variables: {
+        createPath: getPathBuilder(keywordsPathBuilder),
+        dataSource: 'yso',
+        showAllKeywords: true,
+        text: search,
+      },
+    });
 
   const handleFilter = (items: OptionType[], inputValue: string) => {
     clearTimeout(timer.current);
@@ -87,34 +87,26 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     return items;
   };
 
-  React.useEffect(() => {
-    if (keywordsData?.keywords.data) {
-      setOptions(
-        keywordsData.keywords.data.map((keyword) =>
-          getOption({
-            keyword: keyword as KeywordFieldsFragment,
-            locale,
-          })
-        )
-      );
-    }
-  }, [keywordsData, locale]);
+  const options: OptionType[] = React.useMemo(
+    () =>
+      (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
+        getOption({ keyword: keyword as KeywordFieldsFragment, locale })
+      ) ?? [],
+    [keywordsData, locale, previousKeywordsData]
+  );
 
   React.useEffect(() => {
     const getSelectedKeywordsFromCache = async () => {
       const keywords = await Promise.all(
-        value.map(async (id) => {
+        value.map(async (atId) => {
           const keyword = await getKeywordQueryResult(
-            parseIdFromAtId(id) as string,
+            parseIdFromAtId(atId) as string,
             apolloClient
           );
-
+          /* istanbul ignore next */
           return keyword
-            ? getOption({
-                keyword: keyword as KeywordFieldsFragment,
-                locale,
-              })
-            : /* istanbul ignore next */ { label: '', value: '' };
+            ? getOption({ keyword: keyword as KeywordFieldsFragment, locale })
+            : { label: '', value: '' };
         })
       );
       setSelectedKeywords(keywords);
@@ -129,18 +121,16 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   }, []);
 
   return (
-    <>
-      <Combobox
-        {...rest}
-        multiselect={true}
-        filter={handleFilter}
-        id={name}
-        label={label}
-        options={options}
-        toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
-        value={selectedKeywords}
-      />
-    </>
+    <Combobox
+      {...rest}
+      multiselect={true}
+      filter={handleFilter}
+      id={name}
+      label={label}
+      options={options}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      value={selectedKeywords}
+    />
   );
 };
 

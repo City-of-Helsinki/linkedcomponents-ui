@@ -282,6 +282,7 @@ export const fakePlace = (overrides?: Partial<Place>): Place => {
     {
       id,
       atId: `https://api.hel.fi/linkedevents-test/v1/place/${id}/`,
+      dataSource: 'tprek',
       name: fakeLocalisedObject(),
       streetAddress: fakeLocalisedObject(),
       addressLocality: fakeLocalisedObject(),

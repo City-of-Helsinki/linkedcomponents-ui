@@ -12,7 +12,7 @@ import { checkIsImageActionAllowed, imagePathBuilder } from '../utils';
 import useImageOrganizationAncestors from './useImageOrganizationAncestors';
 
 interface Props {
-  imageAtId?: string;
+  imageAtId: string;
 }
 
 type IsImageEditableState = {
@@ -28,7 +28,7 @@ const useIsImageEditable = ({ imageAtId }: Props): IsImageEditableState => {
     skip: !imageAtId,
     variables: {
       createPath: getPathBuilder(imagePathBuilder),
-      id: parseIdFromAtId(imageAtId as string) as string,
+      id: parseIdFromAtId(imageAtId) as string,
     },
   });
   const { organizationAncestors } = useImageOrganizationAncestors(

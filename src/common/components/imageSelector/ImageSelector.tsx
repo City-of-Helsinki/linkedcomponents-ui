@@ -80,11 +80,9 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
 
   const handleChange = (image: Image) => () => {
     if (multiple) {
-      onChange(xor(value, [image.atId as string]));
+      onChange(xor(value, [image.atId]));
     } else {
-      onChange(
-        value.includes(image.atId as string) ? [] : [image.atId as string]
-      );
+      onChange(value.includes(image.atId) ? [] : [image.atId]);
     }
   };
 
@@ -120,7 +118,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
       <div className={styles.imagesGrid}>
         {imagesData?.images.data.length ? (
           imagesData?.images.data.map((image) => {
-            const checked = value.includes(image?.atId as string);
+            const checked = !!image && value.includes(image?.atId);
 
             return (
               image?.url && (

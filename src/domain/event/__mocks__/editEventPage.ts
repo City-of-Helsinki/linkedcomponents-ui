@@ -449,6 +449,20 @@ const mockedUpdateEventResponse: MockedResponse = {
   },
   result: updateEventResponse,
 };
+const mockedInvalidUpdateEventResponse: MockedResponse = {
+  request: {
+    query: UpdateEventsDocument,
+    variables: updateEventVariables,
+  },
+  error: {
+    ...new Error(),
+    result: {
+      end_time: [
+        'End time cannot be in the past. Please set a future end time.',
+      ],
+    },
+  } as Error,
+};
 
 const mockedUpdatedEventResponse: MockedResponse = {
   request: {
@@ -833,6 +847,7 @@ export {
   mockedFilteredPlacesResponse,
   mockedImageResponse,
   mockedInvalidEventResponse,
+  mockedInvalidUpdateEventResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
   mockedOrganizationAncestorsResponse,

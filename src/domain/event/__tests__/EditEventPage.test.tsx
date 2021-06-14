@@ -31,6 +31,7 @@ import {
   mockedFilteredPlacesResponse,
   mockedImageResponse,
   mockedInvalidEventResponse,
+  mockedInvalidUpdateEventResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
   mockedOrganizationAncestorsResponse,
@@ -228,7 +229,7 @@ test('should delete event', async () => {
     () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
     { timeout: 10000 }
   );
-  expect(history.location.pathname).toBe('/fi/events');
+  expect(history.location.pathname).toBe('/fi/search');
 });
 
 test('should update event', async () => {
@@ -359,4 +360,21 @@ test('should scroll to first error when validation error is thrown', async () =>
   await waitFor(() => {
     expect(nameFiInput).toHaveFocus();
   });
+});
+
+test('should show server errors', async () => {
+  const mocks = [...baseMocks, mockedInvalidUpdateEventResponse];
+
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  screen.getByText(expectedValues.lastModifiedTime);
+
+  const updateButton = getButton('updatePublic');
+  userEvent.click(updateButton);
+
+  await loadingSpinnerIsNotInDocument(10000);
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/lopetusaika ei voi olla menneisyydessä./i);
 });

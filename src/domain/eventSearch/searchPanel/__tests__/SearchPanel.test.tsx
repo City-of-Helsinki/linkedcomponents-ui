@@ -14,6 +14,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
+import { PLACES_SORT_ORDER } from '../../../place/constants';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
@@ -29,6 +30,7 @@ const places = fakePlaces(
 );
 const placesVariables = {
   createPath: undefined,
+  sort: PLACES_SORT_ORDER.NAME,
   text: '',
 };
 const placesResponse = { data: { places } };

@@ -22,7 +22,7 @@ import styles from './imageDetailsFields.module.scss';
 
 export interface ImageDetailsFieldsProps {
   field: string;
-  imageAtId?: string;
+  imageAtId: string;
 }
 
 const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({

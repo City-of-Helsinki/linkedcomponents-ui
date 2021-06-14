@@ -1,5 +1,6 @@
 import isBefore from 'date-fns/isBefore';
 import isEqual from 'date-fns/isEqual';
+import max from 'date-fns/max';
 
 import {
   EventFieldsFragment,
@@ -27,7 +28,12 @@ export const getEventEditAction = ({
   }
 };
 
-const sortEventTimes = (a: EventTime, b: EventTime): number => {
+export const getMinBookingDate = (date: string | Date | null): Date => {
+  const formattedDate = typeof date === 'string' ? new Date(date) : date;
+  return formattedDate ? max([formattedDate, new Date()]) : new Date();
+};
+
+export const sortEventTimes = (a: EventTime, b: EventTime): number => {
   const startTimeA = a.startTime
     ? new Date(a.startTime)
     : new Date('9999-12-31');
@@ -43,7 +49,7 @@ const sortEventTimes = (a: EventTime, b: EventTime): number => {
   return isBefore(new Date(endTimeA), new Date(endTimeB)) ? -1 : 1;
 };
 
-const sortRecurringEvents = (
+export const sortRecurringEvents = (
   a: RecurringEventSettings,
   b: RecurringEventSettings
 ): number => {
@@ -52,5 +58,3 @@ const sortRecurringEvents = (
     { id: null, startTime: b.startDate as Date, endTime: b.endDate as Date }
   );
 };
-
-export { sortEventTimes, sortRecurringEvents };

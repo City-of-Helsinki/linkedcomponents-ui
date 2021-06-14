@@ -1,6 +1,8 @@
+import i18n from 'i18next';
 import React from 'react';
 
 import { PlaceDocument, PlacesDocument } from '../../../../generated/graphql';
+import { OptionType } from '../../../../types';
 import { fakePlace, fakePlaces } from '../../../../utils/mockDataUtils';
 import {
   configure,
@@ -9,14 +11,18 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import PlaceSelector, { PlaceSelectorProps } from '../PlaceSelector';
+import PlaceSelector, {
+  getOption,
+  GetOptionArgs,
+  PlaceSelectorProps,
+} from '../PlaceSelector';
 
 configure({ defaultHidden: true });
 
 const streetAddress = 'Testikatu 123';
 const addressLocality = 'Helsinki';
 const placeId = 'hel:123';
-const placeName = 'Event name';
+const placeName = 'Place name';
 const helper = 'Helper text';
 const label = 'Select place';
 const name = 'place';
@@ -66,12 +72,10 @@ const defaultProps: PlaceSelectorProps = {
 const renderComponent = (props?: Partial<PlaceSelectorProps>) =>
   render(<PlaceSelector {...defaultProps} {...props} />, { mocks });
 
-const getElement = (key: 'combobox' | 'toggleButton') => {
+const getElement = (key: 'inputField' | 'toggleButton') => {
   switch (key) {
-    case 'combobox':
-      return screen.getByRole('combobox', {
-        name: new RegExp(helper),
-      });
+    case 'inputField':
+      return screen.getByRole('combobox', { name: new RegExp(helper) });
     case 'toggleButton':
       return screen.getByRole('button', { name: new RegExp(label) });
   }
@@ -80,27 +84,96 @@ const getElement = (key: 'combobox' | 'toggleButton') => {
 test('should combobox input value to be selected place option label', async () => {
   renderComponent();
 
-  const combobox = getElement('combobox');
+  const inputField = getElement('inputField');
 
-  await waitFor(() => expect(combobox).toHaveValue(selectedPlaceText));
+  await waitFor(() => expect(inputField).toHaveValue(selectedPlaceText));
 });
 
 test('should open menu by clickin toggle button and list of options should be visible', async () => {
   renderComponent();
 
-  const combobox = getElement('combobox');
-
-  expect(combobox.getAttribute('aria-expanded')).toBe('false');
+  const inputField = getElement('inputField');
+  expect(inputField.getAttribute('aria-expanded')).toBe('false');
 
   const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
-  expect(combobox.getAttribute('aria-expanded')).toBe('true');
-
+  expect(inputField.getAttribute('aria-expanded')).toBe('true');
   for (const option of filteredPlaces.data) {
     await screen.findByRole('option', {
       hidden: true,
       name: new RegExp(option.name.fi),
     });
   }
+});
+
+describe('getOption function', () => {
+  const commonProps: Pick<GetOptionArgs, 'locale' | 't'> = {
+    locale: 'fi',
+    t: i18n.t.bind(i18n),
+  };
+
+  const commonPlaceOverrides = {
+    addressLocality: { fi: 'Address locality' },
+    id: 'place:1',
+    name: { fi: 'Place name' },
+    nEvents: 100,
+    streetAddress: { fi: 'Street address' },
+  };
+
+  const testCases: [
+    Pick<GetOptionArgs, 'place' | 'showEventAmount'>,
+    OptionType
+  ][] = [
+    [
+      {
+        place: fakePlace(commonPlaceOverrides),
+        showEventAmount: false,
+      },
+      {
+        label: 'Place name (Street address, Address locality)',
+        value: 'https://api.hel.fi/linkedevents-test/v1/place/place:1/',
+      },
+    ],
+    [
+      {
+        place: fakePlace(commonPlaceOverrides),
+        showEventAmount: true,
+      },
+      {
+        label: 'Place name (Street address, Address locality)\n100 tapahtumaa',
+        value: 'https://api.hel.fi/linkedevents-test/v1/place/place:1/',
+      },
+    ],
+    [
+      {
+        place: fakePlace({
+          ...commonPlaceOverrides,
+          dataSource: 'osoite',
+        }),
+        showEventAmount: false,
+      },
+      {
+        label: 'Place name',
+        value: 'https://api.hel.fi/linkedevents-test/v1/place/place:1/',
+      },
+    ],
+    [
+      {
+        place: fakePlace({
+          ...commonPlaceOverrides,
+          dataSource: 'osoite',
+        }),
+        showEventAmount: true,
+      },
+      {
+        label: 'Place name\n100 tapahtumaa',
+        value: 'https://api.hel.fi/linkedevents-test/v1/place/place:1/',
+      },
+    ],
+  ];
+
+  it.each(testCases)('with args %p returns %p', (args, expectedOption) => {
+    expect(getOption({ ...commonProps, ...args })).toEqual(expectedOption);
+  });
 });

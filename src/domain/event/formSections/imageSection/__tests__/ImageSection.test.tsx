@@ -237,7 +237,7 @@ test('should show validation error if image alt text is too long', async () => {
 });
 
 test('should show validation error if image name is too long', async () => {
-  const name = mockString(321);
+  const name = mockString(256);
   const image = fakeImage({ name, publisher });
   const imageVariables = { createPath: undefined, id: image.id };
   const imageResponse = { data: { image } };
@@ -262,5 +262,5 @@ test('should show validation error if image name is too long', async () => {
   act(() => userEvent.click(nameInput));
   act(() => userEvent.click(altTextInput));
 
-  await screen.findByText('Tämä kenttä voi olla korkeintaan 320 merkkiä pitkä');
+  await screen.findByText('Tämä kenttä voi olla korkeintaan 255 merkkiä pitkä');
 });

@@ -7,7 +7,10 @@ import CheckboxGroupField from '../../../../common/components/formFields/Checkbo
 import KeywordSelectorField from '../../../../common/components/formFields/KeywordSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
 import useLocale from '../../../../hooks/useLocale';
+import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
+import { REMOTE_PARTICIPATION_KEYWORD } from '../../../keyword/constants';
 import { getKeywordOption } from '../../../keywordSet/utils';
+import { INTERNET_PLACE_ID } from '../../../place/constants';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useEventFieldOptionsData from '../../hooks/useEventFieldOptionsData';
@@ -32,8 +35,14 @@ const ClassificationSection: React.FC = () => {
   );
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: eventLocation }] = useField({ name: EVENT_FIELDS.LOCATION });
+  const [{ value: keywords }, , { setValue: setKeywords }] = useField<string[]>(
+    {
+      name: EVENT_FIELDS.KEYWORDS,
+    }
+  );
   const [{ value: mainCategories }, , { setValue: setMainCategories }] =
-    useField({
+    useField<string[]>({
       name: EVENT_FIELDS.MAIN_CATEGORIES,
     });
 
@@ -49,6 +58,16 @@ const ClassificationSection: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainCategories]);
+
+  // Internet location automatically implies "remote participation"
+  React.useEffect(() => {
+    if (
+      parseIdFromAtId(eventLocation) === INTERNET_PLACE_ID &&
+      !keywords.includes(REMOTE_PARTICIPATION_KEYWORD)
+    ) {
+      setKeywords([...keywords, REMOTE_PARTICIPATION_KEYWORD]);
+    }
+  }, [eventLocation, keywords, setKeywords]);
 
   return (
     <>
