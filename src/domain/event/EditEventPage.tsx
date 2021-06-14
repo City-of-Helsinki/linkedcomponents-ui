@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ApolloError, ApolloQueryResult, ServerError } from '@apollo/client';
+import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import debounce from 'lodash/debounce';
 import React from 'react';
@@ -18,7 +18,6 @@ import {
 } from '../../generated/graphql';
 import useIsMounted from '../../hooks/useIsMounted';
 import useLocale from '../../hooks/useLocale';
-import { ServerErrorItem } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
@@ -53,6 +52,7 @@ import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
+import useEventServerErrors from './hooks/useEventServerErrors';
 import useEventUpdateActions, { MODALS } from './hooks/useEventUpdateActions';
 import useRelatedEvents from './hooks/useRelatedEvents';
 import useSortedInfoLanguages from './hooks/useSortedInfoLanguages';
@@ -68,7 +68,6 @@ import {
   eventPathBuilder,
   getEventFields,
   getEventInitialValues,
-  getEventServerErrors,
   publicEventSchema,
   showErrors,
 } from './utils';
@@ -85,9 +84,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const history = useHistory<EventsLocationState>();
   const location = useLocation();
   const locale = useLocale();
-  const [serverErrorItems, setServerErrorItems] = React.useState<
-    ServerErrorItem[]
-  >([]);
+  const { serverErrorItems, setServerErrorItems, showServerErrors } =
+    useEventServerErrors();
   const { id, name, publicationStatus, superEventType } = getEventFields(
     event,
     locale
@@ -132,24 +130,14 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     });
   };
 
-  const showServerErrors = (error: any, eventType: string) => {
-    /* istanbul ignore else */
-    if (error instanceof ApolloError) {
-      const { networkError } = error;
-      const { result } = networkError as ServerError;
-
-      /* istanbul ignore else */
-      if (result) {
-        setOpenModal(null);
-        setServerErrorItems(getEventServerErrors({ eventType, result, t }));
-      }
-    }
-  };
-
   const onCancel = (eventType: string) => {
     cancelEvent({
       onError: /* istanbul ignore next */ (error: any) =>
-        showServerErrors(error, eventType),
+        showServerErrors({
+          error,
+          eventType,
+          callbackFn: () => setOpenModal(null),
+        }),
       onSuccess: async () => {
         await refetch();
         window.scrollTo(0, 0);
@@ -166,7 +154,11 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const onPostpone = (eventType: string) => {
     postponeEvent({
       onError: /* istanbul ignore next */ (error: any) =>
-        showServerErrors(error, eventType),
+        showServerErrors({
+          error,
+          eventType,
+          callbackFn: () => setOpenModal(null),
+        }),
       onSuccess: async () => {
         await refetch();
         window.scrollTo(0, 0);
@@ -179,7 +171,12 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     publicationStatus: PublicationStatus
   ) => {
     updateEvent(values, publicationStatus, {
-      onError: (error: any) => showServerErrors(error, values.type),
+      onError: (error: any) =>
+        showServerErrors({
+          error,
+          eventType: values.type,
+          callbackFn: () => setOpenModal(null),
+        }),
       onSuccess: async () => {
         await refetch();
         window.scrollTo(0, 0);

@@ -1,9 +1,7 @@
 import {
   ApolloClient,
-  ApolloError,
   FetchResult,
   InMemoryCache,
-  ServerError,
   useApolloClient,
 } from '@apollo/client';
 import { Form, Formik } from 'formik';
@@ -22,7 +20,6 @@ import {
   useCreateEventsMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import { ServerErrorItem } from '../../types';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -47,6 +44,7 @@ import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
 import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
+import useEventServerErrors from './hooks/useEventServerErrors';
 import useUpdateImageIfNeeded from './hooks/useUpdateImageIfNeeded';
 import Section from './layout/Section';
 import ServerErrorSummary from './serverErrorSummary/ServerErrorSummary';
@@ -54,7 +52,6 @@ import { EventFormFields } from './types';
 import {
   draftEventSchema,
   getEventPayload,
-  getEventServerErrors,
   getRecurringEventPayload,
   publicEventSchema,
   showErrors,
@@ -62,9 +59,8 @@ import {
 
 const CreateEventPage: React.FC = () => {
   const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
-  const [serverErrorItems, setServerErrorItems] = React.useState<
-    ServerErrorItem[]
-  >([]);
+  const { serverErrorItems, setServerErrorItems, showServerErrors } =
+    useEventServerErrors();
   const history = useHistory();
   const location = useLocation();
   const locale = useLocale();
@@ -82,22 +78,6 @@ const CreateEventPage: React.FC = () => {
     history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const showServerErrors = (error: any, values: EventFormFields) => {
-    /* istanbul ignore else */
-    if (error instanceof ApolloError) {
-      const { networkError } = error;
-      const { result } = networkError as ServerError;
-
-      /* istanbul ignore else */
-      if (result) {
-        setServerErrorItems(
-          getEventServerErrors({ eventType: values.type, result, t })
-        );
-      }
-    }
-  };
-
   const createRecurringEvent = async (
     payload: CreateEventMutationInput[],
     values: EventFormFields
@@ -110,7 +90,7 @@ const CreateEventPage: React.FC = () => {
         variables: { input: payload },
       });
     } catch (error) /* istanbul ignore next */ {
-      showServerErrors(error, values);
+      showServerErrors({ error, eventType: values.type });
       // Report error to Sentry
       reportError({
         data: {
@@ -141,7 +121,7 @@ const CreateEventPage: React.FC = () => {
 
       return recurringEventData.data?.createEvent.id as string;
     } catch (error) /* istanbul ignore next */ {
-      showServerErrors(error, values);
+      showServerErrors({ error, eventType: values.type });
       // Report error to Sentry
       reportError({
         data: {
@@ -167,7 +147,7 @@ const CreateEventPage: React.FC = () => {
 
       return data.data?.createEvent.id as string;
     } catch (error) /* istanbul ignore next */ {
-      showServerErrors(error, values);
+      showServerErrors({ error, eventType: values.type });
       // Report error to Sentry
       reportError({
         data: {
@@ -262,13 +242,10 @@ const CreateEventPage: React.FC = () => {
             setServerErrorItems([]);
             clearErrors();
 
-            switch (publicationStatus) {
-              case PublicationStatus.Draft:
-                await draftEventSchema.validate(values, { abortEarly: false });
-                break;
-              case PublicationStatus.Public:
-                await publicEventSchema.validate(values, { abortEarly: false });
-                break;
+            if (publicationStatus === PublicationStatus.Draft) {
+              await draftEventSchema.validate(values, { abortEarly: false });
+            } else {
+              await publicEventSchema.validate(values, { abortEarly: false });
             }
 
             await createEvent(values, publicationStatus);

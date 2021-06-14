@@ -187,7 +187,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError(error));
+      await callbacks?.onError?.(error);
     }
   };
 
@@ -233,7 +233,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError(error));
+      await callbacks?.onError?.(error);
     }
   };
 
@@ -286,7 +286,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError(error));
+      await callbacks?.onError?.(error);
     }
   };
 
@@ -451,7 +451,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError(error));
+      await callbacks?.onError?.(error);
     }
   };
 
