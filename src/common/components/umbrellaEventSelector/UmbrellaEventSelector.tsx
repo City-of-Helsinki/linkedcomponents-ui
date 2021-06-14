@@ -1,10 +1,9 @@
 import { SingleSelectProps } from 'hds-react';
-import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import useDeepCompareEffect from 'use-deep-compare-effect';
 
-import { eventPathBuilder } from '../../../domain/event/utils';
+import { eventPathBuilder, getEventFields } from '../../../domain/event/utils';
+import { EVENT_SORT_OPTIONS } from '../../../domain/events/constants';
 import { eventsPathBuilder } from '../../../domain/events/utils';
 import {
   EventFieldsFragment,
@@ -14,22 +13,16 @@ import {
 import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
-import getLocalisedString from '../../../utils/getLocalisedString';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
-
-const getEventFields = (event: EventFieldsFragment, locale: Language) => ({
-  name: getLocalisedString(event.name, locale),
-  id: event.atId,
-});
 
 const getOption = (
   event: EventFieldsFragment,
   locale: Language
 ): OptionType => {
-  const { name: label, id: value } = getEventFields(event, locale);
-  return { label, value };
+  const { atId, name } = getEventFields(event, locale);
+  return { label: name, value: atId };
 };
 
 type ValueType = string | null;
@@ -50,23 +43,23 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = React.useState('');
-  const [options, setOptions] = React.useState<OptionType[]>([]);
-  const [selectedEvent, setSelectedEvent] =
-    React.useState<OptionType | null>(null);
 
-  const { data: eventsData } = useEventsQuery({
-    variables: {
-      superEventType: ['umbrella'],
-      text: search,
-      createPath: getPathBuilder(eventsPathBuilder),
-    },
-  });
+  const { data: eventsData, previousData: previousEventsData } = useEventsQuery(
+    {
+      variables: {
+        createPath: getPathBuilder(eventsPathBuilder),
+        sort: EVENT_SORT_OPTIONS.NAME,
+        superEventType: ['umbrella'],
+        text: search,
+      },
+    }
+  );
 
   const { data: eventData } = useEventQuery({
     skip: !value,
     variables: {
-      id: parseIdFromAtId(value) as string,
       createPath: getPathBuilder(eventPathBuilder),
+      id: parseIdFromAtId(value) as string,
     },
   });
 
@@ -82,24 +75,18 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
     return items;
   };
 
-  React.useEffect(() => {
-    if (eventsData?.events.data) {
-      setOptions(
-        sortBy(
-          eventsData.events.data.map((event) =>
-            getOption(event as EventFieldsFragment, locale)
-          ),
-          ['label']
-        )
-      );
-    }
-  }, [eventsData, locale]);
+  const options: OptionType[] = React.useMemo(
+    () =>
+      (eventsData || previousEventsData)?.events.data.map((event) =>
+        getOption(event as EventFieldsFragment, locale)
+      ) ?? [],
+    [eventsData, locale, previousEventsData]
+  );
 
-  const option = eventData?.event ? getOption(eventData.event, locale) : null;
-
-  useDeepCompareEffect(() => {
-    setSelectedEvent(option);
-  }, [{ option }]);
+  const selectedEvent = React.useMemo(
+    () => (eventData?.event ? getOption(eventData.event, locale) : null),
+    [eventData, locale]
+  );
 
   React.useEffect(() => {
     return () => clearTimeout(timer.current);

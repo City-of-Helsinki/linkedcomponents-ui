@@ -12,6 +12,7 @@ import { EditEventTimeFormFields, EventTime } from '../../types';
 import { editEventTimeSchema } from '../../utils';
 import styles from './timeSection.module.scss';
 import TimeSectionContext from './TimeSectionContext';
+import { getMinBookingDate } from './utils';
 
 export interface EditEventTimeModalProps {
   eventTime: EventTime;
@@ -72,8 +73,8 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
                 <FormGroup>
                   <Field
                     component={DatepickerField}
-                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
                     label={t(`event.form.labelStartTime.${eventType}`)}
+                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
                     placeholder={t('common.placeholderDateTime')}
                     required={true}
                     timeSelector={true}
@@ -81,10 +82,10 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
                 </FormGroup>
                 <Field
                   component={DatepickerField}
-                  name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
-                  focusedDate={startTime}
-                  minBookingDate={startTime}
+                  focusedDate={getMinBookingDate(startTime)}
                   label={t(`event.form.labelEndTime.${eventType}`)}
+                  minBookingDate={getMinBookingDate(startTime)}
+                  name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
                   placeholder={t('common.placeholderDateTime')}
                   required={true}
                   timeSelector={true}

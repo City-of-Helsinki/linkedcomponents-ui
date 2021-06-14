@@ -22,7 +22,7 @@ import {
   recurringEventSchema,
 } from '../../utils';
 import TimeSectionContext from './TimeSectionContext';
-import { sortEventTimes } from './utils';
+import { getMinBookingDate, sortEventTimes } from './utils';
 
 interface Props {
   onSubmit: (values: RecurringEventSettings) => void;
@@ -102,8 +102,9 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
               <Field
                 component={DatepickerField}
                 disabled={disabled}
-                name={RECURRING_EVENT_FIELDS.START_DATE}
                 label={t('event.form.labelRecurringEventStartDate')}
+                minBookingDate={new Date()}
+                name={RECURRING_EVENT_FIELDS.START_DATE}
                 placeholder={t('common.placeholderDate')}
                 required={true}
                 timeSelector={false}
@@ -113,8 +114,8 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
               <Field
                 component={DatepickerField}
                 disabled={disabled}
-                focusedDate={startDate}
-                minBookingDate={startDate}
+                focusedDate={getMinBookingDate(startDate)}
+                minBookingDate={getMinBookingDate(startDate)}
                 name={RECURRING_EVENT_FIELDS.END_DATE}
                 label={t('event.form.labelRecurringEventEndDate')}
                 placeholder={t('common.placeholderDate')}

@@ -1,5 +1,4 @@
 import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
-import sortBy from 'lodash/sortBy';
 import React from 'react';
 
 import MultiSelectDropdown, {
@@ -15,6 +14,7 @@ import useShowLoadingSpinner from '../../../../hooks/useShowLoadingSpinner';
 import { Language, OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import getPathBuilder from '../../../../utils/getPathBuilder';
+import { PLACES_SORT_ORDER } from '../../../place/constants';
 import {
   getPlaceFromCache,
   getPlaceQueryResult,
@@ -54,38 +54,36 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
   const locale = useLocale();
   const [searchValue, setSearchValue] = React.useState('');
-  const [options, setOptions] = React.useState<OptionType[]>([]);
   const [selectedPlaces, setSelectedPlaces] = React.useState<OptionType[]>([]);
 
-  const { data: placesData, loading } = usePlacesQuery({
+  const {
+    data: placesData,
+    loading,
+    previousData: previousPlacesData,
+  } = usePlacesQuery({
     variables: {
       createPath: getPathBuilder(placesPathBuilder),
+      sort: PLACES_SORT_ORDER.NAME,
       text: searchValue,
     },
   });
   const showLoadingSpinner = useShowLoadingSpinner(loading);
 
-  React.useEffect(() => {
-    if (placesData?.places.data) {
-      setOptions(
-        sortBy(
-          placesData.places.data.map((plave) =>
-            getOption(plave as PlaceFieldsFragment, locale)
-          ),
-          ['label']
-        )
-      );
-    }
-  }, [locale, placesData]);
+  const options = React.useMemo(
+    () =>
+      (placesData || previousPlacesData)?.places.data.map((place) =>
+        getOption(place as PlaceFieldsFragment, locale)
+      ) ?? [],
+    [locale, placesData, previousPlacesData]
+  );
 
   React.useEffect(() => {
     const getSelectedPlacesFromCache = async () => {
       const places = await Promise.all(
         value.map(async (id) => {
           const place = await getPlaceQueryResult(id, apolloClient);
-          return place
-            ? getOption(place as PlaceFieldsFragment, locale)
-            : /* istanbul ignore next */ null;
+          /* istanbul ignore next */
+          return place ? getOption(place, locale) : null;
         })
       );
 
@@ -105,11 +103,8 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
       options={options}
       renderOptionText={(option) => {
         const place = getPlaceFromCache(option.value, apolloClient);
-
-        return place
-          ? getOption(place as PlaceFieldsFragment, locale).label
-          : /* istanbul ignore next */
-            '';
+        /* istanbul ignore next */
+        return place ? getOption(place, locale).label : '';
       }}
       searchValue={searchValue}
       setSearchValue={setSearchValue}

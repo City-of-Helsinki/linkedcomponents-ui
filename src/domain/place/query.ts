@@ -19,6 +19,7 @@ export const QUERY_PLACE = gql`
     addressLocality {
       ...localisedFields
     }
+    dataSource
     divisions {
       ...divisionFields
     }

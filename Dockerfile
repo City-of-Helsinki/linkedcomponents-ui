@@ -69,6 +69,11 @@ ARG REACT_APP_MATOMO_SRC_URL
 ARG REACT_APP_MATOMO_TRACKER_URL
 ARG REACT_APP_MATOMO_ENABLED
 
+# Internet place id
+ARG REACT_APP_INTERNET_PLACE_ID
+# Remote participation keyword id
+ARG REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID
+
 RUN yarn build
 RUN yarn generate-sitemap
 RUN yarn generate-robots

@@ -12,12 +12,7 @@ import { Language, PathBuilderProps } from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
-
-type PlaceFields = {
-  addressLocality: string;
-  name: string;
-  streetAddress: string;
-};
+import { PlaceFields } from './types';
 
 export const getPlaceFields = (
   place: PlaceFieldsFragment,
@@ -25,7 +20,11 @@ export const getPlaceFields = (
 ): PlaceFields => {
   return {
     addressLocality: getLocalisedString(place.addressLocality, locale),
+    atId: place.atId ?? '',
+    dataSource: place.dataSource ?? '',
+    id: place.id ?? '',
     name: getLocalisedString(place.name, locale),
+    nEvents: place.nEvents ?? 0,
     streetAddress: getLocalisedString(place.streetAddress, locale),
   };
 };

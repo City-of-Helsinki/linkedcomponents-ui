@@ -1,9 +1,12 @@
+import { MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import i18n from 'i18next';
 import React from 'react';
 
-import { ROUTES } from '../../../../constants';
+import { ROUTES, TEST_USER_ID } from '../../../../constants';
+import { UserDocument } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
+import { fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   act,
@@ -20,8 +23,27 @@ import Header from '../Header';
 
 configure({ defaultHidden: true });
 
+const userName = 'Test user';
+const user = fakeUser({
+  displayName: 'Test user',
+});
+const userVariables = {
+  createPath: undefined,
+  id: TEST_USER_ID,
+};
+const userResponse = { data: { user } };
+const mockedUserResponse: MockedResponse = {
+  request: {
+    query: UserDocument,
+    variables: userVariables,
+  },
+  result: userResponse,
+};
+
+const mocks = [mockedUserResponse];
+
 const renderComponent = (store?: Store<StoreState, AnyAction>, route = '/fi') =>
-  render(<Header />, { routes: [route], store });
+  render(<Header />, { mocks, routes: [route], store });
 
 const getElement = (key: 'enOption' | 'menuButton') => {
   switch (key) {
@@ -134,12 +156,11 @@ test('should start logout process', async () => {
   const signoutRedirect = jest.spyOn(userManager, 'signoutRedirect');
 
   const storeState = fakeAuthenticatedStoreState();
-  const userName = storeState.authentication.oidc.user.profile.name;
   const store = getMockReduxStore(storeState);
 
   renderComponent(store);
 
-  const userMenuButton = screen.getByRole('button', { name: userName });
+  const userMenuButton = await screen.findByRole('button', { name: userName });
   userEvent.click(userMenuButton);
 
   const signOutLinks = getElements('signOutLink');

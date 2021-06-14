@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
+  getPlaceFields,
   placePathBuilder,
   placesPathBuilder,
 } from '../../../domain/place/utils';
@@ -15,52 +16,41 @@ import {
 import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
-import getLocalisedString from '../../../utils/getLocalisedString';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
 import styles from './placeSelector.module.scss';
 
-const getPlaceFields = (place: PlaceFieldsFragment, locale: Language) => ({
-  id: place.atId,
-  name: getLocalisedString(place.name, locale),
-  nEvents: place.nEvents as number,
-  streetAddress: getLocalisedString(place.streetAddress, locale),
-  addressLocality: getLocalisedString(place.addressLocality, locale),
-});
-
-const getOption = ({
-  locale,
-  place,
-  showEventAmount = true,
-  t,
-}: {
+export type GetOptionArgs = {
   place: PlaceFieldsFragment;
   locale: Language;
   showEventAmount?: boolean;
   t: TFunction;
-}): OptionType => {
-  const {
-    addressLocality,
-    name,
-    nEvents,
-    streetAddress,
-    id: value,
-  } = getPlaceFields(place, locale);
+};
+
+export const getOption = ({
+  locale,
+  place,
+  showEventAmount = true,
+  t,
+}: GetOptionArgs): OptionType => {
+  const { addressLocality, atId, dataSource, name, nEvents, streetAddress } =
+    getPlaceFields(place, locale);
 
   const addressText = [streetAddress, addressLocality]
     .filter((t) => t)
     .join(', ');
 
-  const label = `${name}${addressText && ` (${addressText})`}`;
+  const label =
+    dataSource !== 'osoite' && addressText ? `${name} (${addressText})` : name;
 
   return {
     label: showEventAmount
       ? // TODO: Use SelectLabel component when HDS support React elements as label
         // ((<SelectLabel nEvents={nEvents} text={label} />) as any)
-        `${label} \n${t('common.eventAmount', { count: nEvents })}`
+        `${label}\n${t('common.eventAmount', { count: nEvents })}`
       : label,
-    value,
+    value: atId,
   };
 };
 
@@ -82,15 +72,16 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = React.useState('');
-  const [options, setOptions] = React.useState<OptionType[]>([]);
 
-  const { data: placesData } = usePlacesQuery({
-    variables: {
-      showAllPlaces: true,
-      text: search,
-      createPath: getPathBuilder(placesPathBuilder),
-    },
-  });
+  const { data: placesData, previousData: previousPlacesData } = usePlacesQuery(
+    {
+      variables: {
+        createPath: getPathBuilder(placesPathBuilder),
+        showAllPlaces: true,
+        text: search,
+      },
+    }
+  );
 
   const { data: placeData } = usePlaceQuery({
     skip: !value,
@@ -112,26 +103,31 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     return items;
   };
 
-  React.useEffect(() => {
-    if (placesData?.places.data) {
-      setOptions(
-        placesData.places.data.map((place) =>
-          getOption({ place: place as PlaceFieldsFragment, locale, t })
-        )
-      );
-    }
-  }, [locale, placesData, t]);
+  const options = React.useMemo(
+    () =>
+      (placesData || previousPlacesData)?.places.data.map((place) =>
+        getOption({ place: place as PlaceFieldsFragment, locale, t })
+      ) ?? [],
+    [locale, placesData, previousPlacesData, t]
+  );
 
   React.useEffect(() => {
     return () => clearTimeout(timer.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const selectedPlace = React.useMemo(() => {
-    return placeData?.place
-      ? getOption({ locale, place: placeData.place, showEventAmount: false, t })
-      : null;
-  }, [locale, placeData, t]);
+  const selectedPlace = React.useMemo(
+    () =>
+      placeData?.place
+        ? getOption({
+            locale,
+            place: placeData.place,
+            showEventAmount: false,
+            t,
+          })
+        : null,
+    [locale, placeData, t]
+  );
 
   return (
     <Combobox

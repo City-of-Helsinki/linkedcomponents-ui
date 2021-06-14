@@ -15,8 +15,9 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { signIn, signOut } from '../../auth/authenticate';
-import { authenticatedSelector, userSelector } from '../../auth/selectors';
+import { authenticatedSelector } from '../../auth/selectors';
 import { getEventSearchQuery } from '../../eventSearch/utils';
+import useUser from '../../user/hooks/useUser';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
 
@@ -29,7 +30,7 @@ const Header: React.FC = () => {
 
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
-  const user = useSelector(userSelector);
+  const user = useUser();
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const isTabActive = (pathname: string): boolean => {
@@ -107,14 +108,14 @@ const Header: React.FC = () => {
         />
         {/* USER */}
         <Navigation.User
-          authenticated={authenticated}
+          authenticated={Boolean(authenticated && user.user)}
           className={classNames(
             styles.userDropdown,
             css(theme.navigationDropdown)
           )}
           label={t('common.signIn')}
           onSignIn={handleSignIn}
-          userName={user?.profile.name || user?.profile.email}
+          userName={user?.user?.displayName || user?.user?.email}
         >
           <Navigation.Item
             label={t('common.signOut')}

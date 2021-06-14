@@ -44,6 +44,7 @@ jobs:
           DOCKER_BUILD_ARG_REACT_APP_MATOMO_SRC_URL: 'piwik.min.js'
           DOCKER_BUILD_ARG_REACT_APP_MATOMO_TRACKER_URL: 'tracker.php'
           DOCKER_BUILD_ARG_REACT_APP_MATOMO_ENABLED: 'true'
+          DOCKER_BUILD_ARG_REACT_APP_INTERNET_PLACE_ID: 'helsinki:internet'
 
   production:
     runs-on: ubuntu-latest

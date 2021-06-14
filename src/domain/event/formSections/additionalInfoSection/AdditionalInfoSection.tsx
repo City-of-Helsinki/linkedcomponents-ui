@@ -14,6 +14,9 @@ import FieldRow from '../../layout/FieldRow';
 const AdditionalInfoSection: React.FC = () => {
   const { t } = useTranslation();
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: enrolmentStartTime }] = useField({
+    name: EVENT_FIELDS.ENROLMENT_START_TIME,
+  });
 
   return (
     <>
@@ -82,6 +85,7 @@ const AdditionalInfoSection: React.FC = () => {
               name={EVENT_FIELDS.ENROLMENT_END_TIME}
               component={DatepickerField}
               label={t(`event.form.labelEnrolmentEndTime`)}
+              minBookingDate={enrolmentStartTime}
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />

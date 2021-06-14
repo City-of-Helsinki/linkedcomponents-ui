@@ -41,6 +41,12 @@ const DatepickerField: React.FC<Props> = ({
     });
   };
 
+  const formattedMinBookingDate = React.useMemo(() => {
+    return typeof minBookingDate === 'string'
+      ? new Date(minBookingDate)
+      : minBookingDate;
+  }, [minBookingDate]);
+
   return (
     <Datepicker
       {...field}
@@ -52,7 +58,7 @@ const DatepickerField: React.FC<Props> = ({
       errorText={errorText}
       helperText={helperText}
       invalid={!!errorText}
-      minBookingDate={minBookingDate ?? new Date()}
+      minBookingDate={formattedMinBookingDate}
       value={typeof value === 'string' ? new Date(value) : value}
     />
   );

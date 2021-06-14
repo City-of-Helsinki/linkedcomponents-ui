@@ -1154,7 +1154,7 @@ export type PositionFieldsFragment = (
 
 export type PlaceFieldsFragment = (
   { __typename?: 'Place' }
-  & Pick<Place, 'id' | 'atId' | 'email' | 'hasUpcomingEvents' | 'nEvents' | 'postalCode'>
+  & Pick<Place, 'id' | 'atId' | 'dataSource' | 'email' | 'hasUpcomingEvents' | 'nEvents' | 'postalCode'>
   & { addressLocality?: Maybe<(
     { __typename?: 'LocalisedObject' }
     & LocalisedFieldsFragment
@@ -1308,6 +1308,7 @@ export const PlaceFieldsFragmentDoc = gql`
   addressLocality {
     ...localisedFields
   }
+  dataSource
   divisions {
     ...divisionFields
   }
