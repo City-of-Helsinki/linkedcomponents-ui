@@ -128,7 +128,7 @@ const CreateEventPage: React.FC = () => {
 
     /* istanbul ignore next */
     const subEventIds =
-      eventsData?.data?.createEvents.map((item) => item.atId as string) || [];
+      eventsData?.data?.createEvents.map((item) => item.atId) || [];
     const recurringEventPayload = getRecurringEventPayload(
       payload,
       subEventIds

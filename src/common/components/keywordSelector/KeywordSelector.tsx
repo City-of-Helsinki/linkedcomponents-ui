@@ -23,7 +23,7 @@ const getKeywordFields = (
   keyword: KeywordFieldsFragment,
   locale: Language
 ) => ({
-  id: keyword.atId as string,
+  id: keyword.atId,
   name: getLocalisedString(keyword.name, locale),
 });
 

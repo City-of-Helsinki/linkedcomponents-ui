@@ -341,7 +341,7 @@ const useEventUpdateActions = ({
         subEventIds.push(
           ...subEvents
             .filter((subEvent) => !eventsToDelete.includes(subEvent.id))
-            .map((item) => item.atId as string)
+            .map((item) => item.atId)
         );
 
         // Update existing sub-events
@@ -399,9 +399,7 @@ const useEventUpdateActions = ({
           /* istanbul ignore else */
           if (newSubEventsData.data?.createEvents.length) {
             subEventIds.push(
-              ...newSubEventsData.data.createEvents.map(
-                (item) => item.atId as string
-              )
+              ...newSubEventsData.data.createEvents.map((item) => item.atId)
             );
           }
         }

@@ -22,7 +22,7 @@ import Combobox from '../combobox/Combobox';
 import styles from './placeSelector.module.scss';
 
 const getPlaceFields = (place: PlaceFieldsFragment, locale: Language) => ({
-  id: place.atId as string,
+  id: place.atId,
   name: getLocalisedString(place.name, locale),
   nEvents: place.nEvents as number,
   streetAddress: getLocalisedString(place.streetAddress, locale),

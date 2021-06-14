@@ -21,7 +21,7 @@ import Combobox from '../combobox/Combobox';
 
 const getEventFields = (event: EventFieldsFragment, locale: Language) => ({
   name: getLocalisedString(event.name, locale),
-  id: event.atId as string,
+  id: event.atId,
 });
 
 const getOption = (
