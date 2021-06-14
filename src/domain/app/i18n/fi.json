@@ -265,12 +265,6 @@
         "warningEventInPast": "Menneisyydessä olevia tapahtumia ei voi muokata.",
         "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa."
       },
-      "extensionCourse": {
-        "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
-        "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
-        "labelMaximumAttendeeCapacity": "Enimmäisosallistujamäärä",
-        "labelMinimimAttendeeCapacity": "Vähimmäisosallistujamäärä"
-      },
       "helperRecurringEventRepeatInterval": "Viikon välein",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "image": {
@@ -431,6 +425,8 @@
         "general": "Tapahtuma päättyy",
         "volunteering": "Vapaaehtoistehtävä päättyy"
       },
+      "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
+      "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",  
       "labelFacebookUrl": "Facebook",
       "labelHasPrice": {
         "course": "Kurssi on maksullinen",
@@ -457,6 +453,8 @@
       "labelLocation": "Paikka",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Paikan ID:",
+      "labelMaximumAttendeeCapacity": "Enimmäisosallistujamäärä",
+      "labelMinimumAttendeeCapacity": "Vähimmäisosallistujamäärä",
       "labelName": {
         "course": "Kurssin otsikko {{langText}}",
         "general": "Tapahtuman otsikko {{langText}}",
@@ -709,6 +707,7 @@
       "titlePrice": "Hinta",
       "titleRecurringEvent": "Toistuva tapahtuma",
       "titleRecurringEventRepeatDays": "Toistopäivät",
+      "titleServerErrorSummary": "Lomakkeella on seuraavat virheet",
       "titleSocialMedia": {
         "course": "Kurssi sosiaalisessa mediassa",
         "general": "Tapahtuma sosiaalisessa mediassa",
@@ -739,6 +738,16 @@
     "publicationStatus": {
       "draft": "Luonnos",
       "public": "Julkaistu"
+    },
+    "serverError": {
+      "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
+      "invalidUrl": "Syötä oikea URL-osoite.",
+      "min0": "Tämän luvun on oltava vähintään 0.",
+      "nameIsRequired": "Nimi on pakollinen.",
+      "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",
+      "required": "Tämä kenttä ei voi olla tyhjä.",
+      "requiredWhenPublishing": "Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.",
+      "shortDescriptionTooLong": "Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä"
     },
     "subEvents": "Alatapahtumat",
     "superEventType": {

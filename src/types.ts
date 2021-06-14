@@ -28,3 +28,12 @@ export type FCWithName<P = Record<string, unknown>> = React.FC<P> & {
 export type StoreState = ReturnType<typeof rootReducer>;
 
 export type StoreThunk = ThunkAction<void, StoreState, null, Action<string>>;
+
+export type LEServerError =
+  | Record<string, unknown>
+  | Array<Record<string, unknown> | string>;
+
+export type ServerErrorItem = {
+  label: string;
+  message: string;
+};

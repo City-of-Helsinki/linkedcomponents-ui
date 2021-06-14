@@ -456,7 +456,7 @@ export type Event = {
   superEventType?: Maybe<SuperEventType>;
   typeId?: Maybe<EventTypeId>;
   videos: Array<Maybe<Video>>;
-  atId?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
 };
@@ -490,14 +490,9 @@ export type Image = {
   photographerName?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
-  atId?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
-};
-
-export type AtIdObject = {
-  __typename?: 'AtIdObject';
-  atId?: Maybe<Scalars['String']>;
 };
 
 export type Keyword = {
@@ -514,7 +509,7 @@ export type Keyword = {
   name?: Maybe<LocalisedObject>;
   nEvents?: Maybe<Scalars['Int']>;
   publisher?: Maybe<Scalars['ID']>;
-  atId?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
 };
@@ -530,7 +525,7 @@ export type KeywordSet = {
   dataSource?: Maybe<Scalars['String']>;
   organization?: Maybe<Scalars['String']>;
   name?: Maybe<LocalisedObject>;
-  atId?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
 };
@@ -540,7 +535,7 @@ export type Language = {
   id?: Maybe<Scalars['ID']>;
   translationAvailable?: Maybe<Scalars['Boolean']>;
   name?: Maybe<LocalisedObject>;
-  atId?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
 };
@@ -580,7 +575,7 @@ export type Organization = {
   replacedBy?: Maybe<Scalars['String']>;
   subOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
   atContext?: Maybe<Scalars['String']>;
-  atId?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
   atType?: Maybe<Scalars['String']>;
 };
 
@@ -618,7 +613,7 @@ export type Place = {
   replacedBy?: Maybe<Scalars['String']>;
   streetAddress?: Maybe<LocalisedObject>;
   telephone?: Maybe<LocalisedObject>;
-  atId?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
 };
@@ -1104,7 +1099,7 @@ export type LanguagesQuery = (
 
 export type OrganizationFieldsFragment = (
   { __typename?: 'Organization' }
-  & Pick<Organization, 'affiliatedOrganizations' | 'classification' | 'createdTime' | 'dataSource' | 'dissolutionDate' | 'foundingDate' | 'hasRegularUsers' | 'id' | 'isAffiliated' | 'lastModifiedTime' | 'name' | 'parentOrganization' | 'replacedBy' | 'subOrganizations'>
+  & Pick<Organization, 'affiliatedOrganizations' | 'atId' | 'classification' | 'createdTime' | 'dataSource' | 'dissolutionDate' | 'foundingDate' | 'hasRegularUsers' | 'id' | 'isAffiliated' | 'lastModifiedTime' | 'name' | 'parentOrganization' | 'replacedBy' | 'subOrganizations'>
 );
 
 export type OrganizationQueryVariables = Exact<{
@@ -1479,6 +1474,7 @@ ${LocalisedFieldsFragmentDoc}`;
 export const OrganizationFieldsFragmentDoc = gql`
     fragment organizationFields on Organization {
   affiliatedOrganizations
+  atId
   classification
   createdTime
   dataSource

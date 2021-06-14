@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 export const QUERY_ORGANIZATION = gql`
   fragment organizationFields on Organization {
     affiliatedOrganizations
+    atId
     classification
     createdTime
     dataSource

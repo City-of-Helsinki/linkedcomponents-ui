@@ -1,5 +1,4 @@
 import {
-  AtIdObject,
   Division,
   Event,
   ExternalLink,
@@ -73,16 +72,6 @@ export const addTypenameImage = (image?: Image | null): Image | null =>
     ? {
         ...image,
         __typename: 'Image',
-      }
-    : null;
-
-export const addTypenameAtIdObject = (
-  item?: AtIdObject | null
-): AtIdObject | null =>
-  item
-    ? {
-        ...item,
-        __typename: 'AtIdObject',
       }
     : null;
 

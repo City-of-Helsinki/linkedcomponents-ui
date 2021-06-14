@@ -241,6 +241,7 @@ const linkedEventsLink = new RestLink({
 });
 
 const QUERIES_TO_SHOW_ERROR = ['User'];
+const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = ['CreateEvent', 'CreateEvents'];
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   const isMutation = Boolean(
@@ -264,7 +265,13 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   ) {
     switch ((networkError as ServerError).statusCode) {
       case 400:
-        toast.error(i18n.t('errors.validationError'));
+        if (
+          !MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR.includes(
+            operation.operationName
+          )
+        ) {
+          toast.error(i18n.t('errors.validationError'));
+        }
         break;
       case 401:
         toast.error(i18n.t('errors.authorizationRequired'));

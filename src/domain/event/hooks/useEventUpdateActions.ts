@@ -46,7 +46,8 @@ export enum MODALS {
 }
 
 interface Callbacks {
-  onError?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onError?: (error: any) => void;
   onSuccess?: () => void;
 }
 
@@ -186,7 +187,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError());
+      await callbacks?.onError?.(error);
     }
   };
 
@@ -232,7 +233,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError());
+      await callbacks?.onError?.(error);
     }
   };
 
@@ -285,7 +286,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError());
+      await callbacks?.onError?.(error);
     }
   };
 
@@ -340,7 +341,7 @@ const useEventUpdateActions = ({
         subEventIds.push(
           ...subEvents
             .filter((subEvent) => !eventsToDelete.includes(subEvent.id))
-            .map((item) => item.atId as string)
+            .map((item) => item.atId)
         );
 
         // Update existing sub-events
@@ -398,9 +399,7 @@ const useEventUpdateActions = ({
           /* istanbul ignore else */
           if (newSubEventsData.data?.createEvents.length) {
             subEventIds.push(
-              ...newSubEventsData.data.createEvents.map(
-                (item) => item.atId as string
-              )
+              ...newSubEventsData.data.createEvents.map((item) => item.atId)
             );
           }
         }
@@ -452,7 +451,7 @@ const useEventUpdateActions = ({
         user,
       });
       // Call callback function if defined
-      await (callbacks?.onError && callbacks.onError());
+      await callbacks?.onError?.(error);
     }
   };
 
