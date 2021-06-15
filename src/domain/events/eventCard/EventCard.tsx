@@ -5,6 +5,7 @@ import {
   IconAngleUp,
   IconClock,
   IconLocation,
+  IconPhoto,
   IconTicket,
   IconUser,
 } from 'hds-react';
@@ -14,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
 import { EventFieldsFragment } from '../../../generated/graphql';
+import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import IconFlag from '../../../icons/IconFlag';
 import { useTheme } from '../../app/theme/Theme';
@@ -49,6 +51,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
   const { theme } = useTheme();
   const locale = useLocale();
   const { pathname, search } = useLocation();
+  const isMobile = useIsMobile();
   const dispatch = useDispatch();
   const expandedEvents = useSelector(expandedEventsSelector);
 
@@ -111,14 +114,24 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
           className={classNames(styles.eventCard, css(theme.eventCard))}
           to={eventUrlWithReturnPath}
         >
-          <div
-            data-testid={testIds.image}
-            className={styles.imageWrapper}
-            style={{
-              backgroundImage: imageUrl ? `url(${imageUrl})` : undefined,
-            }}
-          >
-            <SuperEventTypeTag superEventType={superEventType} />
+          <div className={styles.imageWrapper}>
+            {/* Placeholder image */}
+            <div className={styles.placeholderImage}>
+              <IconPhoto size={isMobile ? 'xl' : 'l'} />
+            </div>
+            {/* Event image is hiding placeholder image when it's loaded */}
+            <div
+              data-testid={testIds.image}
+              className={styles.image}
+              style={{
+                backgroundImage: imageUrl ? `url(${imageUrl})` : undefined,
+              }}
+            />
+            {/* Super event type tag is the topmost element at image wrapper */}
+            <SuperEventTypeTag
+              className={styles.tag}
+              superEventType={superEventType}
+            />
           </div>
           <div className={styles.eventInfoWrapper}>
             <ActionsDropdown className={styles.actionButtons} event={event} />
