@@ -27,9 +27,9 @@ import { EventFormFields } from '../types';
 import {
   calculateSuperEventTime,
   checkIsEditActionAllowed,
+  getEventBasePayload,
   getEventFields,
   getEventInitialValues,
-  getEventPayload,
   getNewEventTimes,
   getOrganizationAncestors,
   getRelatedEvents,
@@ -102,18 +102,14 @@ const useEventUpdateActions = ({
   };
 
   const updateEvents = (payload: UpdateEventMutationInput[]) =>
-    updateEventsMutation({
-      variables: {
-        input: payload,
-      },
-    });
+    updateEventsMutation({ variables: { input: payload } });
 
   const getEditableEvents = async (
     events: EventFieldsFragment[],
     action: EVENT_EDIT_ACTIONS
   ) => {
     const editableEvents: EventFieldsFragment[] = [];
-    for (event of events) {
+    for (const item of events) {
       const organizationAncestors = await getOrganizationAncestors({
         event,
         apolloClient,
@@ -121,7 +117,7 @@ const useEventUpdateActions = ({
       const { editable } = checkIsEditActionAllowed({
         action,
         authenticated,
-        event,
+        event: item,
         organizationAncestors,
         t,
         user,
@@ -129,12 +125,54 @@ const useEventUpdateActions = ({
 
       /* istanbul ignore else */
       if (editable) {
-        // ignore sub-events to prevent getEventPayload to return array as result
-        editableEvents.push({ ...event, subEvents: [] });
+        editableEvents.push(item);
       }
     }
 
     return editableEvents;
+  };
+
+  const cleanAfterUpdate = async (callbacks?: Callbacks) => {
+    /* istanbul ignore next */
+    !isTestEnv && clearEventsQueries(apolloClient);
+
+    savingFinished();
+    closeModal();
+    // Call callback function if defined
+    await (callbacks?.onSuccess && callbacks.onSuccess());
+  };
+
+  const handleError = ({
+    callbacks,
+    error,
+    eventIds,
+    message,
+    payload,
+  }: {
+    callbacks?: Callbacks;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    error: any;
+    eventIds?: string[];
+    message: string;
+    payload?: UpdateEventMutationInput[];
+  }) => {
+    savingFinished();
+
+    // Report error to Sentry
+    reportError({
+      data: {
+        error,
+        event,
+        eventIds,
+        payloadAsString: payload && JSON.stringify(payload),
+      },
+      location,
+      message,
+      user,
+    });
+
+    // Call callback function if defined
+    callbacks?.onError?.(error);
   };
 
   const cancelEvent = async (callbacks?: Callbacks) => {
@@ -142,52 +180,41 @@ const useEventUpdateActions = ({
     try {
       setSaving(EVENT_EDIT_ACTIONS.CANCEL);
       // Check that user has permission to cancel events
-      const allEvents = await getRelatedEvents({
-        apolloClient,
-        event,
-      });
+      const allEvents = await getRelatedEvents({ apolloClient, event });
       const editableEvents = await getEditableEvents(
         allEvents,
         EVENT_EDIT_ACTIONS.CANCEL
       );
 
       payload = editableEvents.map((item) => {
+        const basePayload = getEventBasePayload(
+          getEventInitialValues(item),
+          item.publicationStatus as PublicationStatus
+        );
+
+        /* istanbul ignore next */
         return {
-          ...getEventPayload(
-            getEventInitialValues(item),
-            item.publicationStatus as PublicationStatus
-          ),
-          eventStatus: EventStatus.EventCancelled,
-          superEventType: item.superEventType,
+          ...basePayload,
           id: item.id,
+          endTime: item.endTime,
+          eventStatus: EventStatus.EventCancelled,
+          startTime: item.startTime,
+          superEvent: item.superEvent ? { atId: item.superEvent.atId } : null,
+          superEventType: item.superEventType,
         };
       });
 
       await updateEvents(payload);
       await updateRecurringEventIfNeeded(event);
 
-      /* istanbul ignore next */
-      !isTestEnv && clearEventsQueries(apolloClient);
-
-      savingFinished();
-      closeModal();
-      // Call callback function if defined
-      await (callbacks?.onSuccess && callbacks.onSuccess());
+      await cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {
-      savingFinished();
-      // Report error to Sentry
-      reportError({
-        data: {
-          error,
-          event,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
+      handleError({
+        callbacks,
+        error,
+        payload,
         message: 'Failed to cancel event',
-        user,
       });
-      // Call callback function if defined
-      await callbacks?.onError?.(error);
     }
   };
 
@@ -196,10 +223,7 @@ const useEventUpdateActions = ({
     try {
       setSaving(EVENT_EDIT_ACTIONS.DELETE);
       // Check that user has permission to delete events
-      const allEvents = await getRelatedEvents({
-        apolloClient,
-        event,
-      });
+      const allEvents = await getRelatedEvents({ apolloClient, event });
       const deletableEvents = await getEditableEvents(
         allEvents,
         EVENT_EDIT_ACTIONS.DELETE
@@ -212,28 +236,14 @@ const useEventUpdateActions = ({
 
       await updateRecurringEventIfNeeded(event);
 
-      /* istanbul ignore next */
-      !isTestEnv && clearEventsQueries(apolloClient);
-
-      savingFinished();
-      closeModal();
-      // Call callback function if defined
-      await (callbacks?.onSuccess && callbacks.onSuccess());
+      await cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {
-      savingFinished();
-      // Report error to Sentry
-      reportError({
-        data: {
-          error,
-          event,
-          eventIds: deletableEventIds,
-        },
-        location,
+      handleError({
+        callbacks,
+        error,
+        eventIds: deletableEventIds,
         message: 'Failed to delete event',
-        user,
       });
-      // Call callback function if defined
-      await callbacks?.onError?.(error);
     }
   };
 
@@ -241,52 +251,171 @@ const useEventUpdateActions = ({
     let payload: UpdateEventMutationInput[] = [];
     try {
       setSaving(EVENT_EDIT_ACTIONS.POSTPONE);
+
       // Check that user has permission to postpone events
       const allEvents = await getRelatedEvents({
         apolloClient,
         event,
       });
+
       const editableEvents = await getEditableEvents(
         allEvents,
         EVENT_EDIT_ACTIONS.POSTPONE
       );
 
-      payload = editableEvents.map((item) => ({
-        ...getEventPayload(
+      payload = editableEvents.map((item) => {
+        const basePayload = getEventBasePayload(
           getEventInitialValues(item),
           item.publicationStatus as PublicationStatus
-        ),
-        superEventType: item.superEventType,
-        id: item.id,
-        startTime: null,
-        endTime: null,
-      }));
+        );
+
+        /* istanbul ignore next */
+        return {
+          ...basePayload,
+          id: item.id,
+          endTime: null,
+          startTime: null,
+          superEvent: item.superEvent ? { atId: item.superEvent.atId } : null,
+          superEventType: item.superEventType,
+        };
+      });
 
       await updateEvents(payload);
       await updateRecurringEventIfNeeded(event);
 
-      /* istanbul ignore next */
-      !isTestEnv && clearEventsQueries(apolloClient);
-
-      savingFinished();
-      closeModal();
-      // Call callback function if defined
-      await (callbacks?.onSuccess && callbacks.onSuccess());
+      await cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {
-      savingFinished();
-      // Report error to Sentry
-      reportError({
-        data: {
-          error,
-          event,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
+      handleError({
+        callbacks,
+        error,
         message: 'Failed to postpone event',
-        user,
+        payload,
       });
-      // Call callback function if defined
-      await callbacks?.onError?.(error);
+    }
+  };
+
+  const updateRecurringEvent = async (
+    values: EventFormFields,
+    publicationStatus: PublicationStatus,
+    callbacks?: Callbacks
+  ) => {
+    let payload: UpdateEventMutationInput[] = [];
+
+    try {
+      const { atId, id } = getEventFields(event, locale);
+
+      const action = getEventUpdateAction(event, publicationStatus);
+      const basePayload = getEventBasePayload(values, publicationStatus);
+
+      /* istanbul ignore next */
+      const subEvents = (event.subEvents || []) as EventFieldsFragment[];
+      const editableSubEvents = await getEditableEvents(subEvents, action);
+
+      const subEventIds: string[] = [];
+
+      // Delete sub-events
+      const eventsToDelete = editableSubEvents
+        .filter(
+          (subEvent) =>
+            !values.events.map((event) => event.id).includes(subEvent.id)
+        )
+        .map((event) => event.id);
+
+      for (const id of eventsToDelete) {
+        await deleteEventMutation({ variables: { id } });
+      }
+
+      // Add all not deleted sub-event ids to subEventIds
+      subEventIds.push(
+        ...subEvents
+          .filter((subEvent) => !eventsToDelete.includes(subEvent.id))
+          .map((item) => item.atId)
+      );
+
+      // Update existing sub-events
+      const subEventsPayload: UpdateEventMutationInput[] = editableSubEvents
+        .filter((subEvent) => !eventsToDelete.includes(subEvent.id))
+        .map((subEvent) => {
+          const eventTime = values.events.find(
+            (eventTime) => eventTime.id === subEvent.id
+          );
+
+          /* istanbul ignore next */
+          return {
+            ...basePayload,
+            endTime: eventTime?.endTime?.toISOString() ?? null,
+            id: subEvent?.id as string,
+            startTime: eventTime?.startTime?.toISOString() ?? null,
+            superEvent: { atId },
+            superEventType: subEvent?.superEventType,
+          };
+        });
+
+      /* istanbul ignore else */
+      if (subEventsPayload.length) {
+        await updateEvents(subEventsPayload);
+      }
+
+      // Create new sub-events
+      const newEventTimes = getNewEventTimes(
+        values.eventTimes,
+        values.recurringEvents
+      );
+
+      /* istanbul ignore else */
+      if (newEventTimes.length) {
+        const newSubEventsPayload = newEventTimes.map(
+          /* istanbul ignore next */ (eventTime) => ({
+            ...basePayload,
+            endTime: eventTime?.endTime?.toISOString() ?? null,
+            startTime: eventTime?.startTime?.toISOString() ?? null,
+            superEvent: { atId },
+            superEventType: null,
+          })
+        );
+
+        const newSubEventsData = await createEventsMutation({
+          variables: { input: newSubEventsPayload },
+        });
+
+        /* istanbul ignore else */
+        if (newSubEventsData.data?.createEvents.length) {
+          subEventIds.push(
+            ...newSubEventsData.data.createEvents.map((item) => item.atId)
+          );
+        }
+      }
+
+      // Get payload to update recurring event
+      const superEventTime = calculateSuperEventTime([
+        ...values.events,
+        ...newEventTimes,
+      ]);
+
+      /* istanbul ignore next */
+      payload = [
+        {
+          ...basePayload,
+          endTime: superEventTime.endTime?.toISOString() ?? null,
+          id,
+          superEvent:
+            values.hasUmbrella && values.superEvent
+              ? { atId: values.superEvent }
+              : null,
+          startTime: superEventTime.startTime?.toISOString() ?? null,
+          subEvents: subEventIds.map((atId) => ({ atId: atId })),
+          superEventType: SuperEventType.Recurring,
+        },
+      ];
+
+      await updateEvents(payload);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to update recurring event',
+        payload,
+      });
     }
   };
 
@@ -298,160 +427,40 @@ const useEventUpdateActions = ({
     let payload: UpdateEventMutationInput[] = [];
 
     try {
-      const action = getEventUpdateAction(event, publicationStatus);
-
-      setSaving(action);
-      const { atId, id, superEventType } = getEventFields(event, locale);
-      // Check that user has permission to update sub-events
-      const subEvents = (event.subEvents ||
-        /* istanbul ignore next */ []) as EventFieldsFragment[];
-      const editableSubEvents = await getEditableEvents(subEvents, action);
-
       await updateImageIfNeeded(values);
 
-      const basePayload = getEventPayload(
-        {
-          ...values,
-          events: [],
-          eventTimes:
-            superEventType === SuperEventType.Recurring
-              ? []
-              : [values.events[0]].filter((e) => e),
-          recurringEvents: [],
-        },
-        publicationStatus
-      );
+      const action = getEventUpdateAction(event, publicationStatus);
+      setSaving(action);
+
+      const { id, superEventType } = getEventFields(event, locale);
 
       if (superEventType === SuperEventType.Recurring) {
-        const subEventIds: string[] = [];
-
-        // Delete sub-events
-        const eventsToDelete = editableSubEvents
-          .filter(
-            (subEvent) =>
-              !values.events.map((event) => event.id).includes(subEvent.id)
-          )
-          .map((event) => event.id);
-
-        for (const id of eventsToDelete) {
-          await deleteEventMutation({ variables: { id } });
-        }
-
-        // Add all not deleted sub-event ids to subEventIds
-        subEventIds.push(
-          ...subEvents
-            .filter((subEvent) => !eventsToDelete.includes(subEvent.id))
-            .map((item) => item.atId)
-        );
-
-        // Update existing sub-events
-        const subEventsPayload: UpdateEventMutationInput[] = editableSubEvents
-          .filter((subEvent) => !eventsToDelete.includes(subEvent.id))
-          .map((subEvent) => {
-            const eventTime = values.events.find(
-              (eventTime) => eventTime.id === subEvent.id
-            );
-            return {
-              ...basePayload,
-              id: subEvent?.id as string,
-              startTime:
-                eventTime?.startTime?.toISOString() ??
-                /* istanbul ignore next */ null,
-              endTime:
-                eventTime?.endTime?.toISOString() ??
-                /* istanbul ignore next */ null,
-              superEvent: { atId },
-              superEventType: subEvent?.superEventType,
-            };
-          });
-
-        /* istanbul ignore else */
-        if (subEventsPayload.length) {
-          await updateEvents(subEventsPayload);
-        }
-
-        // Create new sub-events
-        const newEventTimes = getNewEventTimes(
-          values.eventTimes,
-          values.recurringEvents
-        );
-
-        /* istanbul ignore else */
-        if (newEventTimes.length) {
-          const newSubEventsPayload = newEventTimes.map((eventTime) => {
-            return {
-              ...basePayload,
-              startTime:
-                eventTime?.startTime?.toISOString() ??
-                /* istanbul ignore next */ null,
-              endTime:
-                eventTime?.endTime?.toISOString() ??
-                /* istanbul ignore next */ null,
-              superEvent: { atId },
-              superEventType: null,
-            };
-          });
-
-          const newSubEventsData = await createEventsMutation({
-            variables: { input: newSubEventsPayload },
-          });
-
-          /* istanbul ignore else */
-          if (newSubEventsData.data?.createEvents.length) {
-            subEventIds.push(
-              ...newSubEventsData.data.createEvents.map((item) => item.atId)
-            );
-          }
-        }
-
-        // Get payload to update recurring event
-        const superEventTime = calculateSuperEventTime([
-          ...values.events,
-          ...newEventTimes,
-        ]);
-
+        await updateRecurringEvent(values, publicationStatus, callbacks);
+      } else {
+        // Update single event
+        const basePayload = getEventBasePayload(values, publicationStatus);
+        /* istanbul ignore next */
         payload = [
           {
             ...basePayload,
-            endTime: superEventTime.endTime?.toISOString(),
+            endTime: values.events[0]?.endTime?.toISOString() ?? null,
             id,
-            startTime: superEventTime.startTime?.toISOString(),
-            subEvents: subEventIds.map((atId) => ({ atId: atId })),
-            superEventType: SuperEventType.Recurring,
+            startTime: values.events[0]?.startTime?.toISOString() ?? null,
           },
         ];
 
         await updateEvents(payload);
-        /* istanbul ignore next */
-        !isTestEnv && clearEventsQueries(apolloClient);
-      } else {
-        payload = [{ ...basePayload, id }];
-        await updateEvents(payload);
-
         await updateRecurringEventIfNeeded(event);
-        /* istanbul ignore next */
-        !isTestEnv && clearEventsQueries(apolloClient);
       }
 
-      savingFinished();
-      closeModal();
-      // Call callback function if defined
-      await (callbacks?.onSuccess && callbacks.onSuccess());
+      await cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {
-      savingFinished();
-      // Report error to Sentry
-      reportError({
-        data: {
-          error,
-          event,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
+      handleError({
+        callbacks,
+        error,
         message: 'Failed to update event',
-        user,
+        payload,
       });
-      // Call callback function if defined
-      await callbacks?.onError?.(error);
     }
   };
 

@@ -122,6 +122,7 @@ const baseEventPayload = {
   infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
   inLanguage: [],
   keywords: [],
+  location: null,
   locationExtraInfo: {
     ar: null,
     en: null,
@@ -151,7 +152,7 @@ const baseEventPayload = {
     sv: null,
     zhHans: null,
   },
-  superEvent: undefined,
+  superEvent: null,
   superEventType: null,
   typeId: 'General',
   videos: [],

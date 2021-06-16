@@ -75,7 +75,7 @@ const basePayload = {
   minimumAttendeeCapacity: null,
   offers: [{ isFree: true }],
   publisher,
-  superEvent: undefined,
+  superEvent: null,
   superEventType: 'recurring',
   typeId: 'General',
   videos: [],

@@ -59,6 +59,7 @@ const defaultEventPayload = {
     sv: null,
     zhHans: null,
   },
+  endTime: null,
   enrolmentEndTime: null,
   enrolmentStartTime: null,
   externalLinks: [],
@@ -73,6 +74,7 @@ const defaultEventPayload = {
     zhHans: null,
   },
   keywords: [],
+  location: null,
   locationExtraInfo: {
     ar: null,
     en: null,
@@ -114,7 +116,8 @@ const defaultEventPayload = {
     sv: null,
     zhHans: null,
   },
-  superEvent: undefined,
+  startTime: null,
+  superEvent: null,
   superEventType: null,
   typeId: EventTypeId.General,
   videos: [],
@@ -556,7 +559,7 @@ describe('getEventPayload function', () => {
         zhHans: null,
       },
       startTime,
-      superEvent: undefined,
+      superEvent: null,
       superEventType: SuperEventType.Umbrella,
       videos,
     });
@@ -589,12 +592,12 @@ describe('getEventPayload function', () => {
       {
         ...defaultEventPayload,
         startTime: '2020-01-02T14:15:00.000Z',
-        superEvent: { atId: 'hel:123' },
+        superEvent: null,
       },
       {
         ...defaultEventPayload,
         endTime: '2020-12-12T16:15:00.000Z',
-        superEvent: { atId: 'hel:123' },
+        superEvent: null,
       },
     ]);
   });
@@ -693,7 +696,8 @@ describe('getRecurringEventPayload function', () => {
             endTime: '2020-12-12T16:15:00.000Z',
           },
         ],
-        ['event:1', 'event:2']
+        ['event:1', 'event:2'],
+        EVENT_INITIAL_VALUES
       )
     ).toEqual({
       ...defaultEventPayload,

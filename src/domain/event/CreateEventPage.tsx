@@ -111,7 +111,8 @@ const CreateEventPage: React.FC = () => {
       eventsData?.data?.createEvents.map((item) => item.atId) || [];
     const recurringEventPayload = getRecurringEventPayload(
       payload,
-      subEventIds
+      subEventIds,
+      values
     );
 
     try {

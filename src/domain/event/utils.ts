@@ -857,10 +857,10 @@ const formatDescription = (formValues: EventFormFields) => {
   return formattedDescriptions;
 };
 
-export const getEventPayload = (
+export const getEventBasePayload = (
   formValues: EventFormFields,
   publicationStatus: PublicationStatus
-): CreateEventMutationInput | CreateEventMutationInput[] => {
+): Omit<CreateEventMutationInput, 'endTime' | 'startTime'> => {
   const {
     audience,
     audienceMaxAge,
@@ -898,13 +898,15 @@ export const getEventPayload = (
     { field: EXTLINK.EXTLINK_TWITTER, value: twitterUrl },
   ];
 
-  const eventTimes = getEventTimes(formValues);
-
-  const basePayload: CreateEventMutationInput = {
+  return {
     publicationStatus,
     audience: audience.map((atId) => ({ atId })),
     audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
     audienceMinAge: isNumber(audienceMinAge) ? audienceMinAge : null,
+    description: filterUnselectedLanguages(
+      formatDescription(formValues),
+      eventInfoLanguages
+    ),
     enrolmentEndTime: enrolmentEndTime
       ? new Date(enrolmentEndTime).toISOString()
       : null,
@@ -918,22 +920,18 @@ export const getEventPayload = (
           return {
             name: field.field,
             link: field.value,
-            language: EVENT_INFO_LANGUAGES.FI, // TODO: Which languages here?
+            language: EVENT_INFO_LANGUAGES.FI,
           };
         } else {
           return null;
         }
       })
       .filter((item) => item) as ExternalLinkInput[],
-    description: filterUnselectedLanguages(
-      formatDescription(formValues),
-      eventInfoLanguages
-    ),
     images: images.map((atId) => ({ atId })),
     infoUrl: filterUnselectedLanguages(infoUrl, eventInfoLanguages),
     inLanguage: inLanguage.map((atId) => ({ atId })),
-    ...(location ? { location: { atId: location } } : undefined),
     keywords: keywords.map((atId) => ({ atId })),
+    location: location ? { atId: location } : null,
     locationExtraInfo: filterUnselectedLanguages(
       locationExtraInfo,
       eventInfoLanguages
@@ -962,44 +960,48 @@ export const getEventPayload = (
       shortDescription,
       eventInfoLanguages
     ),
-    superEvent: hasUmbrella && superEvent ? { atId: superEvent } : undefined,
-    superEventType:
-      isUmbrella && eventTimes.length <= 1 ? SuperEventType.Umbrella : null,
+    superEvent: hasUmbrella && superEvent ? { atId: superEvent } : null,
+    superEventType: isUmbrella ? SuperEventType.Umbrella : null,
     typeId: capitalize(type) as EventTypeId,
     videos: videos.filter((video) => video.altText || video.name || video.url),
   };
+};
+
+export const getEventPayload = (
+  formValues: EventFormFields,
+  publicationStatus: PublicationStatus
+): CreateEventMutationInput | CreateEventMutationInput[] => {
+  const eventTimes = getEventTimes(formValues);
+  const basePayload = getEventBasePayload(formValues, publicationStatus);
 
   if (eventTimes.length > 1) {
-    const payload: CreateEventMutationInput[] = eventTimes.map((time) => ({
+    return eventTimes.map((time) => ({
       ...basePayload,
-      ...(time.endTime
-        ? { endTime: new Date(time.endTime).toISOString() }
-        : undefined),
-      ...(time.startTime
-        ? { startTime: new Date(time.startTime).toISOString() }
-        : undefined),
+      // Make sure that super event and super event type is set to null
+      superEvent: null,
+      superEventType: null,
+      endTime: time.endTime ? new Date(time.endTime).toISOString() : null,
+      startTime: time.startTime ? new Date(time.startTime).toISOString() : null,
     }));
-
-    return payload;
   } else {
-    const payload: CreateEventMutationInput = {
+    return {
       ...basePayload,
-      ...(eventTimes[0]?.endTime
-        ? { endTime: new Date(eventTimes[0].endTime).toISOString() }
-        : undefined),
-      ...(eventTimes[0]?.startTime
-        ? { startTime: new Date(eventTimes[0].startTime).toISOString() }
-        : undefined),
+      endTime: eventTimes[0]?.endTime
+        ? new Date(eventTimes[0]?.endTime).toISOString()
+        : null,
+      startTime: eventTimes[0]?.startTime
+        ? new Date(eventTimes[0]?.startTime).toISOString()
+        : null,
     };
-
-    return payload;
   }
 };
 
 export const getRecurringEventPayload = (
   basePayload: CreateEventMutationInput[],
-  subEventAtIds: string[]
+  subEventAtIds: string[],
+  values: EventFormFields
 ): CreateEventMutationInput => {
+  const { hasUmbrella, superEvent } = values;
   const superEventTime = calculateSuperEventTime(
     basePayload.map(({ startTime, endTime }) => ({
       id: null,
@@ -1011,10 +1013,12 @@ export const getRecurringEventPayload = (
     atId: atId,
   }));
 
+  /* istanbul ignore next */
   return {
     ...basePayload[0],
-    startTime: superEventTime.startTime?.toISOString(),
-    endTime: superEventTime.endTime?.toISOString(),
+    endTime: superEventTime.endTime?.toISOString() ?? null,
+    startTime: superEventTime.startTime?.toISOString() ?? null,
+    superEvent: hasUmbrella && superEvent ? { atId: superEvent } : null,
     superEventType: SuperEventType.Recurring,
     subEvents,
   };
