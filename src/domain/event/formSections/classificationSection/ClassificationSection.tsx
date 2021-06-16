@@ -69,6 +69,14 @@ const ClassificationSection: React.FC = () => {
     }
   }, [eventLocation, keywords, setKeywords]);
 
+  const disabledMainCategoryOptions = React.useMemo(
+    () =>
+      parseIdFromAtId(eventLocation) === INTERNET_PLACE_ID
+        ? [REMOTE_PARTICIPATION_KEYWORD]
+        : [],
+    [eventLocation]
+  );
+
   return (
     <>
       <h3>{t(`event.form.titleMainCategories`)}</h3>
@@ -87,11 +95,7 @@ const ClassificationSection: React.FC = () => {
             name={EVENT_FIELDS.KEYWORDS}
             component={CheckboxGroupField}
             columns={2}
-            disabledOptions={
-              parseIdFromAtId(eventLocation) === INTERNET_PLACE_ID
-                ? [REMOTE_PARTICIPATION_KEYWORD]
-                : []
-            }
+            disabledOptions={disabledMainCategoryOptions}
             errorName={EVENT_FIELDS.MAIN_CATEGORIES}
             options={keywordOptions}
             visibleOptionAmount={10}
