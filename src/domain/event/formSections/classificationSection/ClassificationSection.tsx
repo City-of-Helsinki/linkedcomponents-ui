@@ -87,6 +87,11 @@ const ClassificationSection: React.FC = () => {
             name={EVENT_FIELDS.KEYWORDS}
             component={CheckboxGroupField}
             columns={2}
+            disabledOptions={
+              parseIdFromAtId(eventLocation) === INTERNET_PLACE_ID
+                ? [REMOTE_PARTICIPATION_KEYWORD]
+                : []
+            }
             errorName={EVENT_FIELDS.MAIN_CATEGORIES}
             options={keywordOptions}
             visibleOptionAmount={10}

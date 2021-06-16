@@ -14,6 +14,7 @@ type Columns = 1 | 2 | 3 | 4;
 
 type Props = {
   columns: Columns;
+  disabledOptions: string[];
   errorName?: string;
   min: number;
   options: OptionType[];
@@ -24,6 +25,7 @@ type Props = {
 const CheckboxGroupField: React.FC<Props> = ({
   columns = 2,
   disabled,
+  disabledOptions,
   field: { name, onBlur, value, ...field },
   form,
   errorName,
@@ -72,7 +74,11 @@ const CheckboxGroupField: React.FC<Props> = ({
               id={`${name}-${option.value}`}
               name={name}
               checked={value.includes(option.value)}
-              disabled={disabled || (checked && value.length <= min)}
+              disabled={
+                disabled ||
+                (checked && value.length <= min) ||
+                disabledOptions?.includes(option.value)
+              }
               onBlur={handleBlur}
               value={option.value}
               label={option.label}

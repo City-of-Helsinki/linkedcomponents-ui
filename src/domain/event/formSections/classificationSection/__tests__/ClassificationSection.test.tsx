@@ -237,7 +237,9 @@ test('should select remote participation if internet is selected as a location',
   const remoteParticipationCheckbox = await screen.findByRole('checkbox', {
     name: removeParticipationName,
   });
+
   await waitFor(() => expect(remoteParticipationCheckbox).toBeChecked());
+  expect(remoteParticipationCheckbox).toBeDisabled();
 });
 
 test('should show correct validation error if none keyword is selected', async () => {
