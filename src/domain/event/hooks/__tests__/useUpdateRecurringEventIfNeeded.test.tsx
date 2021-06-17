@@ -14,6 +14,7 @@ import {
   UpdateEventDocument,
   UserDocument,
 } from '../../../../generated/graphql';
+import generateAtId from '../../../../utils/generateAtId';
 import { fakeEvent, fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import { getMockReduxStore } from '../../../../utils/testUtils';
@@ -33,6 +34,10 @@ const description = {
 };
 
 const superEventId = 'super-event:1';
+const subEventId1 = 'sub-event:1';
+const subEventId2 = 'sub-event:2';
+const subEventAtId1 = generateAtId(subEventId1, 'event');
+const subEventAtId2 = generateAtId(subEventId2, 'event');
 const superEventVariables = {
   id: 'super-event:1',
   include: EVENT_INCLUDES,
@@ -235,12 +240,12 @@ test('should update only start time if new end time would be in past but start t
     startTime: '2021-12-31T18:00:00.000Z',
     subEvents: [
       fakeEvent({
-        id: 'subevent:1',
+        id: subEventId1,
         endTime: '2020-12-30T21:00:00.000Z',
         startTime: '2020-12-30T18:00:00.000Z',
       }),
       fakeEvent({
-        id: 'subevent:2',
+        id: subEventId2,
         endTime: '2021-01-15T21:00:00.000Z',
         startTime: '2021-01-15T18:00:00.000Z',
       }),
@@ -267,10 +272,7 @@ test('should update only start time if new end time would be in past but start t
       shortDescription: omit(superEvent.shortDescription, '__typename'),
       endTime: '2021-12-31T21:00:00.000Z',
       startTime: '2020-12-30T18:00:00.000Z',
-      subEvents: [
-        { atId: 'https://api.hel.fi/linkedevents-test/v1/event/subevent:1/' },
-        { atId: 'https://api.hel.fi/linkedevents-test/v1/event/subevent:2/' },
-      ],
+      subEvents: [{ atId: subEventAtId1 }, { atId: subEventAtId2 }],
     },
   };
 
@@ -317,12 +319,12 @@ test('should return new super event if recurring event is updated', async () => 
     startTime: '2021-12-31T18:00:00.000Z',
     subEvents: [
       fakeEvent({
-        id: 'subevent:1',
+        id: subEventId1,
         endTime: '2021-12-30T21:00:00.000Z',
         startTime: '2021-12-30T18:00:00.000Z',
       }),
       fakeEvent({
-        id: 'subevent:2',
+        id: subEventId2,
         endTime: '2021-12-31T22:00:00.000Z',
         startTime: '2021-12-31T18:00:00.000Z',
       }),
@@ -349,10 +351,7 @@ test('should return new super event if recurring event is updated', async () => 
       shortDescription: omit(superEvent.shortDescription, '__typename'),
       endTime: '2021-12-31T22:00:00.000Z',
       startTime: '2021-12-30T18:00:00.000Z',
-      subEvents: [
-        { atId: 'https://api.hel.fi/linkedevents-test/v1/event/subevent:1/' },
-        { atId: 'https://api.hel.fi/linkedevents-test/v1/event/subevent:2/' },
-      ],
+      subEvents: [{ atId: subEventAtId1 }, { atId: subEventAtId2 }],
     },
   };
   const updatedSuperEvent = {

@@ -29,6 +29,7 @@ import {
   User,
   Video,
 } from '../generated/graphql';
+import generateAtId from './generateAtId';
 
 export const fakeEvents = (
   count = 1,
@@ -45,7 +46,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
   return merge<Event, typeof overrides>(
     {
       id,
-      atId: `https://api.hel.fi/linkedevents-test/v1/event/${id}/`,
+      atId: generateAtId(id, 'event'),
       audience: [],
       audienceMaxAge: null,
       audienceMinAge: null,
@@ -126,7 +127,7 @@ export const fakeImage = (overrides?: Partial<Image>): Image => {
   return merge<Image, typeof overrides>(
     {
       id,
-      atId: `https://api.hel.fi/linkedevents-test/v1/image/${id}/`,
+      atId: generateAtId(id, 'image'),
       altText: faker.image.cats(),
       license: 'cc_by',
       name: faker.random.words(),
@@ -155,7 +156,7 @@ export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword => {
   return merge<Keyword, typeof overrides>(
     {
       id,
-      atId: `https://api.hel.fi/linkedevents-test/v1/keyword/${id}/`,
+      atId: generateAtId(id, 'keyword'),
       dataSource: 'yso',
       hasUpcomingEvents: true,
       name: fakeLocalisedObject(),
@@ -181,7 +182,7 @@ export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet => {
   return merge<KeywordSet, typeof overrides>(
     {
       id,
-      atId: `https://api.hel.fi/linkedevents-test/v1/keyword_set/${id}/`,
+      atId: generateAtId(id, 'keyword_set'),
       dataSource: 'helsinki',
       keywords: [],
       name: fakeLocalisedObject(),
@@ -206,7 +207,7 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language => {
   return merge<Language, typeof overrides>(
     {
       id,
-      atId: `https://api.hel.fi/linkedevents-test/v1/language/${id}/`,
+      atId: generateAtId(id, 'language'),
       translationAvailable: false,
       name: fakeLocalisedObject(),
       __typename: 'Language',
@@ -238,7 +239,7 @@ export const fakeOrganization = (
     {
       affiliatedOrganizations: [],
       id,
-      atId: `https://api.hel.fi/linkedevents-test/v1/organization/${id}/`,
+      atId: generateAtId(id, 'organization'),
       classification: faker.random.words(),
       createdTime: null,
       dataSource: faker.datatype.uuid(),
@@ -281,7 +282,7 @@ export const fakePlace = (overrides?: Partial<Place>): Place => {
   return merge<Place, typeof overrides>(
     {
       id,
-      atId: `https://api.hel.fi/linkedevents-test/v1/place/${id}/`,
+      atId: generateAtId(id, 'place'),
       dataSource: 'tprek',
       name: fakeLocalisedObject(),
       streetAddress: fakeLocalisedObject(),

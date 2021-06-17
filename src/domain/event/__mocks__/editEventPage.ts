@@ -32,6 +32,7 @@ import {
   UserDocument,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
+import generateAtId from '../../../utils/generateAtId';
 import {
   fakeEvent,
   fakeEvents,
@@ -54,9 +55,7 @@ const now = new Date();
 
 const eventId = 'helsinki:1';
 const audienceName = 'Audience name';
-const audienceAtIds = [
-  `https://api.hel.fi/linkedevents-test/v1/keyword/audience:1/`,
-];
+const audienceAtIds = [generateAtId('audience:1', 'keyword')];
 const audienceMaxAge = 18;
 const audienceMinAge = 12;
 const description = {
@@ -85,9 +84,7 @@ const imageDetails = {
   photographerName: 'Photographer name',
 };
 const imageId = 'image:1';
-const imageAtIds = [
-  `https://api.hel.fi/linkedevents-test/v1/image/${imageId}/`,
-];
+const imageAtIds = [generateAtId(imageId, 'image')];
 
 const infoUrl = {
   ar: null,
@@ -98,21 +95,19 @@ const infoUrl = {
   zhHans: null,
 };
 const inLanguageAtIds = [
-  `https://api.hel.fi/linkedevents-test/v1/language/language:1/`,
-  `https://api.hel.fi/linkedevents-test/v1/language/language:2/`,
+  generateAtId('language:1', 'language'),
+  generateAtId('language:2', 'language'),
 ];
 const instagramUrl = 'http://instagram.com';
 const keywordName = 'Keyword name';
 const keywordId = 'keyword:1';
-const keywordAtIds = [
-  `https://api.hel.fi/linkedevents-test/v1/keyword/${keywordId}/`,
-];
+const keywordAtIds = [generateAtId(keywordId, 'keyword')];
 const lastModifiedTime = '2021-07-01T12:00:00.000Z';
 const locationName = 'Location name';
 const streetAddress = 'Venue address';
 const addressLocality = 'Helsinki';
 const locationId = 'location:1';
-const locationAtId = `https://api.hel.fi/linkedevents-test/v1/place/${locationId}/`;
+const locationAtId = generateAtId(locationId, 'place');
 const locationExtraInfo = {
   ar: null,
   en: null,
@@ -233,18 +228,9 @@ const eventOverrides = {
   description,
   endTime: endTime.toISOString(),
   externalLinks: [
-    fakeExternalLink({
-      name: EXTLINK.EXTLINK_FACEBOOK,
-      link: facebookUrl,
-    }),
-    fakeExternalLink({
-      name: EXTLINK.EXTLINK_INSTAGRAM,
-      link: instagramUrl,
-    }),
-    fakeExternalLink({
-      name: EXTLINK.EXTLINK_TWITTER,
-      link: twitterUrl,
-    }),
+    fakeExternalLink({ name: EXTLINK.EXTLINK_FACEBOOK, link: facebookUrl }),
+    fakeExternalLink({ name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl }),
+    fakeExternalLink({ name: EXTLINK.EXTLINK_TWITTER, link: twitterUrl }),
   ],
   images: images.data,
   infoUrl,
@@ -256,10 +242,7 @@ const eventOverrides = {
   name,
   offers: fakeOffers(
     offers.length,
-    offers.map((offer) => ({
-      ...offer,
-      isFree: false,
-    }))
+    offers.map((offer) => ({ ...offer, isFree: false }))
   ),
   provider,
   publisher,
@@ -341,32 +324,19 @@ const eventVariables = {
 };
 const eventResponse = { data: { event } };
 const mockedEventResponse: MockedResponse = {
-  request: {
-    query: EventDocument,
-    variables: eventVariables,
-  },
+  request: { query: EventDocument, variables: eventVariables },
   result: eventResponse,
 };
 
-const eventTimeVariables = {
-  createPath: undefined,
-  id: eventId,
-};
+const eventTimeVariables = { createPath: undefined, id: eventId };
 const mockedEventTimeResponse: MockedResponse = {
-  request: {
-    query: EventDocument,
-    variables: eventTimeVariables,
-  },
+  request: { query: EventDocument, variables: eventTimeVariables },
   result: eventResponse,
 };
 
 const cancelEventVariables = {
   input: [
-    {
-      ...basePayload,
-      eventStatus: EventStatus.EventCancelled,
-      superEventType,
-    },
+    { ...basePayload, eventStatus: EventStatus.EventCancelled, superEventType },
   ],
 };
 
@@ -374,17 +344,11 @@ const cancelEventResponse = {
   data: { event: { ...event, eventStatus: EventStatus.EventCancelled } },
 };
 const mockedCancelEventResponse: MockedResponse = {
-  request: {
-    query: UpdateEventsDocument,
-    variables: cancelEventVariables,
-  },
+  request: { query: UpdateEventsDocument, variables: cancelEventVariables },
   result: cancelEventResponse,
 };
 const mockedCancelledEventResponse: MockedResponse = {
-  request: {
-    query: EventDocument,
-    variables: eventVariables,
-  },
+  request: { query: EventDocument, variables: eventVariables },
   result: cancelEventResponse,
 };
 
@@ -402,58 +366,32 @@ const postponeEventResponse = {
   },
 };
 const mockedPostponeEventResponse: MockedResponse = {
-  request: {
-    query: UpdateEventsDocument,
-    variables: postponeEventVariables,
-  },
+  request: { query: UpdateEventsDocument, variables: postponeEventVariables },
   result: postponeEventResponse,
 };
 const mockedPostponedEventResponse: MockedResponse = {
-  request: {
-    query: EventDocument,
-    variables: eventVariables,
-  },
+  request: { query: EventDocument, variables: eventVariables },
   result: postponeEventResponse,
 };
 
-const deleteEventVariables = {
-  id: eventId,
-};
-const deleteEventResponse = {
-  data: null,
-};
+const deleteEventVariables = { id: eventId };
+const deleteEventResponse = { data: null };
 const mockedDeleteEventResponse: MockedResponse = {
-  request: {
-    query: DeleteEventDocument,
-    variables: deleteEventVariables,
-  },
+  request: { query: DeleteEventDocument, variables: deleteEventVariables },
   result: deleteEventResponse,
 };
 
 const updatedLastModifiedTime = '2021-08-23T12:00:00.000Z';
-const updateEventVariables = {
-  input: [basePayload],
-};
+const updateEventVariables = { input: [basePayload] };
 const updateEventResponse = {
-  data: {
-    event: {
-      ...event,
-      lastModifiedTime: updatedLastModifiedTime,
-    },
-  },
+  data: { event: { ...event, lastModifiedTime: updatedLastModifiedTime } },
 };
 const mockedUpdateEventResponse: MockedResponse = {
-  request: {
-    query: UpdateEventsDocument,
-    variables: updateEventVariables,
-  },
+  request: { query: UpdateEventsDocument, variables: updateEventVariables },
   result: updateEventResponse,
 };
 const mockedInvalidUpdateEventResponse: MockedResponse = {
-  request: {
-    query: UpdateEventsDocument,
-    variables: updateEventVariables,
-  },
+  request: { query: UpdateEventsDocument, variables: updateEventVariables },
   error: {
     ...new Error(),
     result: {
@@ -465,10 +403,7 @@ const mockedInvalidUpdateEventResponse: MockedResponse = {
 };
 
 const mockedUpdatedEventResponse: MockedResponse = {
-  request: {
-    query: EventDocument,
-    variables: eventVariables,
-  },
+  request: { query: EventDocument, variables: eventVariables },
   result: updateEventResponse,
 };
 
@@ -480,21 +415,14 @@ const invalidEvent = fakeEvent({
 const invalidEventResponse = { data: { event: invalidEvent } };
 
 const mockedInvalidEventResponse: MockedResponse = {
-  request: {
-    query: EventDocument,
-    variables: eventVariables,
-  },
+  request: { query: EventDocument, variables: eventVariables },
   result: invalidEventResponse,
 };
 
 formatDate(endTime, DATETIME_FORMAT);
 
 const subEventTimes = [
-  {
-    endTime,
-    id: 'subevent:1',
-    startTime,
-  },
+  { endTime, id: 'subevent:1', startTime },
   {
     endTime: addDays(endTime, 1),
     id: 'subevent:2',
@@ -534,10 +462,7 @@ const subEventsResponse = { data: { events: subEvents } };
 
 const subEventsVariables = { ...SUB_EVENTS_VARIABLES, superEvent: eventId };
 const mockedSubEventsResponse: MockedResponse = {
-  request: {
-    query: EventsDocument,
-    variables: subEventsVariables,
-  },
+  request: { query: EventsDocument, variables: subEventsVariables },
   result: subEventsResponse,
 };
 const mockedSubSubEventsResponse: MockedResponse = {
@@ -558,10 +483,7 @@ const eventWithSubEvent = {
 };
 const eventWithSubEventResponse = { data: { event: eventWithSubEvent } };
 const mockedEventWithSubEventResponse: MockedResponse = {
-  request: {
-    query: EventDocument,
-    variables: eventVariables,
-  },
+  request: { query: EventDocument, variables: eventVariables },
   result: eventWithSubEventResponse,
 };
 
@@ -581,10 +503,7 @@ const updateRecurringEventVariables = {
 };
 const updateRecurringEventResponse = {
   data: {
-    event: {
-      ...eventWithSubEvent,
-      lastModifiedTime: updatedLastModifiedTime,
-    },
+    event: { ...eventWithSubEvent, lastModifiedTime: updatedLastModifiedTime },
   },
 };
 const mockedUpdateRecurringEventResponse: MockedResponse = {
@@ -595,17 +514,10 @@ const mockedUpdateRecurringEventResponse: MockedResponse = {
   result: updateRecurringEventResponse,
 };
 
-const deleteSubEvent1Variables = {
-  id: subEventTimes[0].id,
-};
-const deleteSubEvent1Response = {
-  data: null,
-};
+const deleteSubEvent1Variables = { id: subEventTimes[0].id };
+const deleteSubEvent1Response = { data: null };
 const mockedDeleteSubEvent1Response: MockedResponse = {
-  request: {
-    query: DeleteEventDocument,
-    variables: deleteSubEvent1Variables,
-  },
+  request: { query: DeleteEventDocument, variables: deleteSubEvent1Variables },
   result: deleteSubEvent1Response,
 };
 
@@ -615,22 +527,13 @@ const updateSubEventsVariables = {
     endTime: endTime.toISOString(),
     id,
     startTime: startTime.toISOString(),
-    superEvent: {
-      atId: eventWithSubEvent.atId,
-    },
+    superEvent: { atId: eventWithSubEvent.atId },
     superEventType: null,
   })),
 };
-const updateSubEventsResponse = {
-  data: {
-    updateEvents: [subEvents.data[1]],
-  },
-};
+const updateSubEventsResponse = { data: { updateEvents: [subEvents.data[1]] } };
 const mockedUpdateSubEventsResponse: MockedResponse = {
-  request: {
-    query: UpdateEventsDocument,
-    variables: updateSubEventsVariables,
-  },
+  request: { query: UpdateEventsDocument, variables: updateSubEventsVariables },
   result: updateSubEventsResponse,
 };
 
@@ -639,16 +542,12 @@ const createNewSubEventsVariables = {
     ...omit(basePayload, ['id']),
     endTime: endTime.toISOString(),
     startTime: startTime.toISOString(),
-    superEvent: {
-      atId: eventWithSubEvent.atId,
-    },
+    superEvent: { atId: eventWithSubEvent.atId },
     superEventType: null,
   })),
 };
 const createNewSubEventsResponse = {
-  data: {
-    createEvents: newSubEvents.data,
-  },
+  data: { createEvents: newSubEvents.data },
 };
 const mockedCreateNewSubEventsResponse: MockedResponse = {
   request: {
@@ -664,31 +563,17 @@ const mockedUpdatedRecurringEventResponse: MockedResponse = {
 };
 
 // Image mocks
-const imageVariables = {
-  createPath: undefined,
-  id: imageId,
-};
+const imageVariables = { createPath: undefined, id: imageId };
 const imageResponse = { data: { image: images.data[0] } };
 const mockedImageResponse: MockedResponse = {
-  request: {
-    query: ImageDocument,
-    variables: imageVariables,
-  },
+  request: { query: ImageDocument, variables: imageVariables },
   result: imageResponse,
 };
 
-const updateImageVariables = {
-  input: {
-    id: imageId,
-    ...imageDetails,
-  },
-};
+const updateImageVariables = { input: { id: imageId, ...imageDetails } };
 const updateImageResponse = { data: { updateImage: images.data[0] } };
 const mockedUpdateImageResponse: MockedResponse = {
-  request: {
-    query: UpdateImageDocument,
-    variables: updateImageVariables,
-  },
+  request: { query: UpdateImageDocument, variables: updateImageVariables },
   result: updateImageResponse,
 };
 
@@ -700,10 +585,7 @@ const keywordsVariables = {
 };
 const keywordsResponse = { data: { keywords } };
 const mockedKeywordsResponse: MockedResponse = {
-  request: {
-    query: KeywordsDocument,
-    variables: keywordsVariables,
-  },
+  request: { query: KeywordsDocument, variables: keywordsVariables },
   result: keywordsResponse,
 };
 
@@ -713,9 +595,7 @@ const audienceKeywordSetVariables = {
   id: 'helsinki:audiences',
   include: ['keywords'],
 };
-const audienceKeywordSetResponse = {
-  data: { keywordSet: audienceKeywordSet },
-};
+const audienceKeywordSetResponse = { data: { keywordSet: audienceKeywordSet } };
 const mockedAudienceKeywordSetResponse: MockedResponse = {
   request: {
     query: KeywordSetDocument,
@@ -729,9 +609,7 @@ const topicsKeywordSetVariables = {
   id: 'helsinki:topics',
   include: ['keywords'],
 };
-const topicsKeywordSetResponse = {
-  data: { keywordSet: topicsKeywordSet },
-};
+const topicsKeywordSetResponse = { data: { keywordSet: topicsKeywordSet } };
 const mockedTopicsKeywordSetResponse: MockedResponse = {
   request: {
     query: KeywordSetDocument,
@@ -743,26 +621,16 @@ const mockedTopicsKeywordSetResponse: MockedResponse = {
 // Language mocks
 const languagesResponse = { data: { languages } };
 const mockedLanguagesResponse: MockedResponse = {
-  request: {
-    query: LanguagesDocument,
-  },
+  request: { query: LanguagesDocument },
   result: languagesResponse,
 };
 
 // Organization mocked
-const organization = fakeOrganization({
-  id: publisher,
-});
-const organizationVariables = {
-  createPath: undefined,
-  id: publisher,
-};
+const organization = fakeOrganization({ id: publisher });
+const organizationVariables = { createPath: undefined, id: publisher };
 const organizationResponse = { data: { organization } };
 const mockedOrganizationResponse = {
-  request: {
-    query: OrganizationDocument,
-    variables: organizationVariables,
-  },
+  request: { query: OrganizationDocument, variables: organizationVariables },
   result: organizationResponse,
 };
 
@@ -790,10 +658,7 @@ const placesVariables = {
 };
 const placesResponse = { data: { places } };
 const mockedPlacesResponse: MockedResponse = {
-  request: {
-    query: PlacesDocument,
-    variables: placesVariables,
-  },
+  request: { query: PlacesDocument, variables: placesVariables },
   result: placesResponse,
 };
 
@@ -803,10 +668,7 @@ const filteredPlacesVariables = {
   text: locationText,
 };
 const mockedFilteredPlacesResponse: MockedResponse = {
-  request: {
-    query: PlacesDocument,
-    variables: filteredPlacesVariables,
-  },
+  request: { query: PlacesDocument, variables: filteredPlacesVariables },
   result: placesResponse,
 };
 
@@ -815,16 +677,10 @@ const user = fakeUser({
   organization: publisher,
   adminOrganizations: [publisher],
 });
-const userVariables = {
-  createPath: undefined,
-  id: TEST_USER_ID,
-};
+const userVariables = { createPath: undefined, id: TEST_USER_ID };
 const userResponse = { data: { user } };
 const mockedUserResponse = {
-  request: {
-    query: UserDocument,
-    variables: userVariables,
-  },
+  request: { query: UserDocument, variables: userVariables },
   result: userResponse,
 };
 

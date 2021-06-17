@@ -6,6 +6,7 @@ import {
   ImageDocument,
   UserDocument,
 } from '../../../../../../generated/graphql';
+import generateAtId from '../../../../../../utils/generateAtId';
 import { fakeImage } from '../../../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
 import {
@@ -40,13 +41,15 @@ configure({ defaultHidden: true });
 
 const defaultProps: ImageDetailsFieldsProps = {
   field: EVENT_FIELDS.IMAGE_DETAILS,
+  imageAtId: '',
 };
 
 const id = 'hel:123';
+const atId = generateAtId(id, 'image');
 const publisher = 'publisher:1';
 const imageFields = {
   id,
-  atId: `https://api.hel.fi/linkedevents-test/v1/image/${id}/`,
+  atId,
   altText: 'Alt',
   license: LICENSE_TYPES.EVENT_ONLY,
   name: 'Image name',
@@ -65,7 +68,7 @@ const mockedImageResponse = {
 };
 
 const notFoundId = 'not-found';
-const notFoundAtId = `https://api.hel.fi/linkedevents-test/v1/image/${notFoundId}/`;
+const notFoundAtId = generateAtId(notFoundId, 'image');
 const notFoundVariables = { createPath: undefined, id: notFoundId };
 const mockedNotFoundResponse = {
   request: {
@@ -156,7 +159,7 @@ const getElement = (
   }
 };
 
-test('all fields should be disabled when imageAtId is null', () => {
+test('all fields should be disabled when imageAtId is null', async () => {
   renderComponent({ props: { imageAtId: null } });
 
   const textInputs = [
@@ -170,7 +173,7 @@ test('all fields should be disabled when imageAtId is null', () => {
   expect(getElement('ccByRadio')).toBeDisabled();
 });
 
-test('should clear field values when imageAtId is null', () => {
+test('should clear field values when imageAtId is null', async () => {
   renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [],

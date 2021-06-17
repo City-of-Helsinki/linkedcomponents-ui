@@ -41,7 +41,7 @@ const ImageSection: React.FC = () => {
 
   const imageAtId = images[0];
 
-  const { data: imagesData } = useImageQuery({
+  const { data: imageData } = useImageQuery({
     skip: !imageAtId,
     variables: {
       createPath: getPathBuilder(imagePathBuilder),
@@ -49,7 +49,7 @@ const ImageSection: React.FC = () => {
     },
   });
 
-  const imageUrl = imagesData?.image.url;
+  const imageUrl = imageData?.image.url;
 
   const openModal = () => {
     setIsmodalOpen(true);

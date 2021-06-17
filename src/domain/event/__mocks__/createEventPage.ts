@@ -26,6 +26,7 @@ import {
   UpdateImageDocument,
   UserDocument,
 } from '../../../generated/graphql';
+import generateAtId from '../../../utils/generateAtId';
 import {
   fakeEvent,
   fakeEvents,
@@ -41,11 +42,12 @@ import {
   fakeUser,
 } from '../../../utils/mockDataUtils';
 
+const id = 'hel:123';
 const eventValues = {
   description: 'Description',
-  id: 'hel:123',
+  id,
   subEventIds: ['event:1', 'event:2'],
-  atId: 'https://api.hel.fi/linkedevents-test/v1/event/hel:123/',
+  atId: generateAtId(id, 'event'),
   name: 'Event name',
   shortDescription: 'Short description',
   eventTimes: [
@@ -72,11 +74,10 @@ const imageDetails = {
   photographerName: 'Imahe photographer',
 };
 const imageId = 'image:1';
-const imageAtId = `https://api.hel.fi/linkedevents-test/v1/image/${imageId}/`;
+const imageAtId = generateAtId(imageId, 'image');
 const image = fakeImage({
   ...imageDetails,
   id: imageId,
-  atId: imageAtId,
   publisher: organizationId,
 });
 
@@ -85,7 +86,6 @@ const keywords = fakeKeywords(
   keywordNames.length,
   keywordNames.map((name, index) => ({
     id: `${index + 1}`,
-    atId: `https://api.hel.fi/linkedevents-test/v1/keyword/${index + 1}/`,
     name: { fi: name },
   }))
 );
@@ -95,10 +95,9 @@ const streetAddress = 'Street address';
 const addressLocality = 'Address locality';
 const selectedPlaceText = `${placeName} (${streetAddress}, ${addressLocality})`;
 const placeId = 'location:1';
-const placeAtId = `https://api.hel.fi/linkedevents-test/v1/location/${placeId}/`;
+const placeAtId = generateAtId(imageId, 'place');
 const place = fakePlace({
   id: placeId,
-  atId: placeAtId,
   addressLocality: { fi: addressLocality },
   name: { fi: placeName },
   streetAddress: { fi: streetAddress },
@@ -170,9 +169,7 @@ const basePublicEventPayload = {
     zhHans: null,
   },
   images: [{ atId: imageAtId }],
-  location: {
-    atId: placeAtId,
-  },
+  location: { atId: placeAtId },
   keywords: [{ atId: keywordAtId }],
   shortDescription: {
     ar: null,
@@ -196,7 +193,6 @@ const createDraftEventResponse = {
   data: {
     createEvent: fakeEvent({
       id: eventValues.id,
-      atId: eventValues.id,
       name: { fi: eventValues.name },
     }),
   },
@@ -240,16 +236,11 @@ const createSubEventsVariables = {
 };
 const subEvents = fakeEvents(
   eventValues.subEventIds.length,
-  eventValues.subEventIds.map((id) => ({
-    id,
-  }))
+  eventValues.subEventIds.map((id) => ({ id }))
 );
 const createSubEventsResponse = { data: { createEvents: subEvents.data } };
 const mockedCreateSubEventsResponse: MockedResponse = {
-  request: {
-    query: CreateEventsDocument,
-    variables: createSubEventsVariables,
-  },
+  request: { query: CreateEventsDocument, variables: createSubEventsVariables },
   result: createSubEventsResponse,
 };
 
@@ -260,16 +251,12 @@ const createPublicEventVariables = {
     startTime: '2020-12-31T18:00:00.000Z',
     superEventType: 'recurring',
     subEvents: eventValues.subEventIds.map((id) => ({
-      atId: `https://api.hel.fi/linkedevents-test/v1/event/${id}/`,
+      atId: generateAtId(id, 'event'),
     })),
   },
 };
 const createPublicEventResponse = {
-  data: {
-    createEvent: fakeEvent({
-      id: eventValues.id,
-    }),
-  },
+  data: { createEvent: fakeEvent({ id: eventValues.id }) },
 };
 const mockedCreatePublicEventResponse: MockedResponse = {
   request: {
@@ -286,19 +273,12 @@ const umbrellaEventsVariables = {
 };
 const umbrellaEventsResponse = { data: { events: fakeEvents(1) } };
 const mockedUmbrellaEventsResponse: MockedResponse = {
-  request: {
-    query: EventsDocument,
-    variables: umbrellaEventsVariables,
-  },
+  request: { query: EventsDocument, variables: umbrellaEventsVariables },
   result: umbrellaEventsResponse,
 };
 
 // Mock images
-const imageResponse = {
-  data: {
-    image,
-  },
-};
+const imageResponse = { data: { image } };
 const mockedImageResponse: MockedResponse = {
   request: {
     query: ImageDocument,
@@ -307,18 +287,10 @@ const mockedImageResponse: MockedResponse = {
   result: imageResponse,
 };
 
-const updateImageVariables = {
-  input: {
-    id: imageId,
-    ...imageDetails,
-  },
-};
+const updateImageVariables = { input: { id: imageId, ...imageDetails } };
 const updateImageResponse = { data: { updateImage: image } };
 const mockedUpdateImageResponse: MockedResponse = {
-  request: {
-    query: UpdateImageDocument,
-    variables: updateImageVariables,
-  },
+  request: { query: UpdateImageDocument, variables: updateImageVariables },
   result: updateImageResponse,
 };
 
@@ -328,16 +300,9 @@ const imagesVariables = {
   pageSize: PAGE_SIZE,
   publisher: organizationId,
 };
-const imagesResponse = {
-  data: {
-    images,
-  },
-};
+const imagesResponse = { data: { images } };
 const mockedImagesResponse: MockedResponse = {
-  request: {
-    query: ImagesDocument,
-    variables: imagesVariables,
-  },
+  request: { query: ImagesDocument, variables: imagesVariables },
   result: imagesResponse,
   newData: () => imagesResponse,
 };
@@ -346,10 +311,7 @@ const mockedImagesResponse: MockedResponse = {
 const keywordVariables = { id: keywordId, createPath: undefined };
 const keywordResponse = { data: { keyword } };
 const mockedKeywordResponse: MockedResponse = {
-  request: {
-    query: KeywordDocument,
-    variables: keywordVariables,
-  },
+  request: { query: KeywordDocument, variables: keywordVariables },
   result: keywordResponse,
 };
 
@@ -359,14 +321,9 @@ const keywordsVariables = {
   showAllKeywords: true,
   text: '',
 };
-const keywordsResponse = {
-  data: { keywords },
-};
+const keywordsResponse = { data: { keywords } };
 const mockedKeywordsResponse: MockedResponse = {
-  request: {
-    query: KeywordsDocument,
-    variables: keywordsVariables,
-  },
+  request: { query: KeywordsDocument, variables: keywordsVariables },
   result: keywordsResponse,
 };
 
@@ -399,10 +356,7 @@ const topicsKeywordSetVariables = {
 };
 const topicsKeywordSetResponse = { data: { keywordSet: topicsKeywordSet } };
 const mockedTopicsKeywordSetResponse: MockedResponse = {
-  request: {
-    query: KeywordSetDocument,
-    variables: topicsKeywordSetVariables,
-  },
+  request: { query: KeywordSetDocument, variables: topicsKeywordSetVariables },
   result: topicsKeywordSetResponse,
 };
 
@@ -410,9 +364,7 @@ const mockedTopicsKeywordSetResponse: MockedResponse = {
 const languages = fakeLanguages(10);
 const languagesResponse = { data: { languages } };
 const mockedLanguagesResponse: MockedResponse = {
-  request: {
-    query: LanguagesDocument,
-  },
+  request: { query: LanguagesDocument },
   result: languagesResponse,
 };
 
@@ -420,10 +372,7 @@ const mockedLanguagesResponse: MockedResponse = {
 const placeVariables = { id: placeId, createPath: undefined };
 const placeResponse = { data: { place } };
 const mockedPlaceResponse: MockedResponse = {
-  request: {
-    query: PlaceDocument,
-    variables: placeVariables,
-  },
+  request: { query: PlaceDocument, variables: placeVariables },
   result: placeResponse,
 };
 
@@ -435,10 +384,7 @@ const placesVariables = {
 };
 const placesResponse = { data: { places } };
 const mockedPlacesResponse: MockedResponse = {
-  request: {
-    query: PlacesDocument,
-    variables: placesVariables,
-  },
+  request: { query: PlacesDocument, variables: placesVariables },
   result: placesResponse,
 };
 
@@ -450,10 +396,7 @@ const filteredPlacesVariables = {
 };
 const filteredPlacesResponse = { data: { places: filteredPlaces } };
 const mockedFilteredPlacesResponse = {
-  request: {
-    query: PlacesDocument,
-    variables: filteredPlacesVariables,
-  },
+  request: { query: PlacesDocument, variables: filteredPlacesVariables },
   result: filteredPlacesResponse,
 };
 
@@ -461,16 +404,10 @@ const organization = fakeOrganization({
   id: organizationId,
   name: organizationName,
 });
-const organizationVariables = {
-  createPath: undefined,
-  id: organizationId,
-};
+const organizationVariables = { createPath: undefined, id: organizationId };
 const organizationResponse = { data: { organization } };
 const mockedOrganizationResponse = {
-  request: {
-    query: OrganizationDocument,
-    variables: organizationVariables,
-  },
+  request: { query: OrganizationDocument, variables: organizationVariables },
   result: organizationResponse,
 };
 
@@ -481,10 +418,7 @@ const organizationsVariables = {
 };
 const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
 const mockedOrganizationsResponse = {
-  request: {
-    query: OrganizationsDocument,
-    variables: organizationsVariables,
-  },
+  request: { query: OrganizationsDocument, variables: organizationsVariables },
   result: organizationsResponse,
 };
 
@@ -492,16 +426,10 @@ const user = fakeUser({
   organization: organizationId,
   adminOrganizations: [organizationId],
 });
-const userVariables = {
-  createPath: undefined,
-  id: TEST_USER_ID,
-};
+const userVariables = { createPath: undefined, id: TEST_USER_ID };
 const userResponse = { data: { user } };
 const mockedUserResponse = {
-  request: {
-    query: UserDocument,
-    variables: userVariables,
-  },
+  request: { query: UserDocument, variables: userVariables },
   result: userResponse,
 };
 

@@ -80,6 +80,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
               id: parseIdFromAtId(imageAtId),
             },
           });
+
           const imageFields = getImageFields(data.image);
           setFieldValue(
             field,

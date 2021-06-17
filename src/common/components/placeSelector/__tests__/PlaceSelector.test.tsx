@@ -3,6 +3,7 @@ import React from 'react';
 
 import { PlaceDocument, PlacesDocument } from '../../../../generated/graphql';
 import { OptionType } from '../../../../types';
+import generateAtId from '../../../../utils/generateAtId';
 import { fakePlace, fakePlaces } from '../../../../utils/mockDataUtils';
 import {
   configure,
@@ -112,10 +113,13 @@ describe('getOption function', () => {
     locale: 'fi',
     t: i18n.t.bind(i18n),
   };
+  const id = 'place:1';
+  const atId = generateAtId(id, 'place');
 
   const commonPlaceOverrides = {
     addressLocality: { fi: 'Address locality' },
-    id: 'place:1',
+    id,
+    atId,
     name: { fi: 'Place name' },
     nEvents: 100,
     streetAddress: { fi: 'Street address' },
@@ -132,7 +136,7 @@ describe('getOption function', () => {
       },
       {
         label: 'Place name (Street address, Address locality)',
-        value: 'https://api.hel.fi/linkedevents-test/v1/place/place:1/',
+        value: atId,
       },
     ],
     [
@@ -142,7 +146,7 @@ describe('getOption function', () => {
       },
       {
         label: 'Place name (Street address, Address locality)\n100 tapahtumaa',
-        value: 'https://api.hel.fi/linkedevents-test/v1/place/place:1/',
+        value: atId,
       },
     ],
     [
@@ -155,7 +159,7 @@ describe('getOption function', () => {
       },
       {
         label: 'Place name',
-        value: 'https://api.hel.fi/linkedevents-test/v1/place/place:1/',
+        value: atId,
       },
     ],
     [
@@ -168,7 +172,7 @@ describe('getOption function', () => {
       },
       {
         label: 'Place name\n100 tapahtumaa',
-        value: 'https://api.hel.fi/linkedevents-test/v1/place/place:1/',
+        value: atId,
       },
     ],
   ];

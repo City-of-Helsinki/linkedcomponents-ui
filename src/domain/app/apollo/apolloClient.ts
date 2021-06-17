@@ -2,6 +2,7 @@ import {
   ApolloClient,
   ApolloLink,
   FieldMergeFunction,
+  FieldReadFunction,
   InMemoryCache,
   ServerError,
 } from '@apollo/client';
@@ -31,6 +32,7 @@ import {
   UploadImageMutationInput,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
+import generateAtId from '../../../utils/generateAtId';
 import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
 import { store } from '../store/store';
@@ -96,17 +98,30 @@ const mergeCache: FieldMergeFunction = (existing, incoming, { args }) => {
   return { ...incoming, data: mergedImages };
 };
 
+const keyFields = ['atId', 'id'];
+
+const fieldFunction =
+  (typename: string, endpoint: string): FieldReadFunction =>
+  (_, { args, toReference }) => {
+    const id = args?.id;
+    return toReference({
+      __typename: typename,
+      atId: generateAtId(id, endpoint),
+      id,
+    });
+  };
+
 export const createCache = (): InMemoryCache =>
   new InMemoryCache({
     typePolicies: {
+      Event: { keyFields },
+      Keyword: { keyFields },
+      KeywordSet: { keyFields },
+      Organization: { keyFields },
+      Place: { keyFields },
       Query: {
         fields: {
-          event(_, { args, toReference }) {
-            return toReference({
-              __typename: 'Event',
-              id: args?.id,
-            });
-          },
+          event: fieldFunction('Event', 'event'),
           events: {
             keyArgs: (args) => {
               if (args?.superEvent && args?.superEvent !== 'none') {
@@ -136,30 +151,10 @@ export const createCache = (): InMemoryCache =>
               id: args?.id,
             });
           },
-          keyword(_, { args, toReference }) {
-            return toReference({
-              __typename: 'Keyword',
-              id: args?.id,
-            });
-          },
-          keywordSet(_, { args, toReference }) {
-            return toReference({
-              __typename: 'KeywordSet',
-              id: args?.id,
-            });
-          },
-          organization(_, { args, toReference }) {
-            return toReference({
-              __typename: 'Organization',
-              id: args?.id,
-            });
-          },
-          place(_, { args, toReference }) {
-            return toReference({
-              __typename: 'Place',
-              id: args?.id,
-            });
-          },
+          keyword: fieldFunction('Keyword', 'keyword'),
+          keywordSet: fieldFunction('KeywordSet', 'keyword_set'),
+          organization: fieldFunction('Organization', 'organization'),
+          place: fieldFunction('Place', 'place'),
         },
       },
     },
@@ -212,36 +207,29 @@ const linkedEventsLink = new RestLink({
     'Content-Type': 'application/json',
   },
   typePatcher: {
-    Event: (event: Event): Event | null => {
-      return addTypenameEvent(event);
-    },
+    Event: (event: Event): Event | null => addTypenameEvent(event),
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((event) => addTypenameEvent(event));
 
       return data;
     },
-    Image: (image: Image): Image | null => {
-      return addTypenameImage(image);
-    },
+    Image: (image: Image): Image | null => addTypenameImage(image),
     ImagesResponse: (data: ImagesResponse): ImagesResponse => {
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((image) => addTypenameImage(image));
 
       return data;
     },
-    Keyword: (keyword: Keyword): Keyword | null => {
-      return addTypenameKeyword(keyword);
-    },
+    Keyword: (keyword: Keyword): Keyword | null => addTypenameKeyword(keyword),
     KeywordsResponse: (data: KeywordsResponse): KeywordsResponse => {
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((keyword) => addTypenameKeyword(keyword));
 
       return data;
     },
-    KeywordSet: (keywordSet: KeywordSet): KeywordSet | null => {
-      return addTypenameKeywordSet(keywordSet);
-    },
+    KeywordSet: (keywordSet: KeywordSet): KeywordSet | null =>
+      addTypenameKeywordSet(keywordSet),
     KeywordSetsResponse: (data: KeywordSetsResponse): KeywordSetsResponse => {
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((keywordSet) =>
@@ -256,9 +244,8 @@ const linkedEventsLink = new RestLink({
 
       return data;
     },
-    Organization: (organization: Organization): Organization | null => {
-      return addTypenameOrganization(organization);
-    },
+    Organization: (organization: Organization): Organization | null =>
+      addTypenameOrganization(organization),
     OrganizationsResponse: (
       data: OrganizationsResponse
     ): OrganizationsResponse => {
@@ -269,9 +256,7 @@ const linkedEventsLink = new RestLink({
 
       return data;
     },
-    Place: (place: Place): Place | null => {
-      return addTypenamePlace(place);
-    },
+    Place: (place: Place): Place | null => addTypenamePlace(place),
     PlacesResponse: (data: PlacesResponse): PlacesResponse => {
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((place) => addTypenamePlace(place));

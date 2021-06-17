@@ -7,14 +7,18 @@ import {
 
 describe('getKeywordOption function', () => {
   it('should return correct option', () => {
+    const keyword = fakeKeyword({
+      id: 'keyword:1',
+      name: { fi: 'Keyword name' },
+    });
     expect(
       getKeywordOption({
-        keyword: fakeKeyword({ id: 'keyword:1', name: { fi: 'Keyword name' } }),
+        keyword,
         locale: 'fi',
       })
     ).toEqual({
       label: 'Keyword name',
-      value: 'https://api.hel.fi/linkedevents-test/v1/keyword/keyword:1/',
+      value: keyword.atId,
     });
   });
 

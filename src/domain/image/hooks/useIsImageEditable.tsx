@@ -31,6 +31,7 @@ const useIsImageEditable = ({ imageAtId }: Props): IsImageEditableState => {
       id: parseIdFromAtId(imageAtId) as string,
     },
   });
+
   const { organizationAncestors } = useImageOrganizationAncestors(
     imageData?.image.publisher ?? ''
   );
