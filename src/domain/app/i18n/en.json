@@ -662,6 +662,7 @@
       },
       "tabEventTime": "Event time",
       "tabRecurringEvent": "Recurring event",
+      "textNoLinksToEvents": "No links.",
       "titleAttendeeCapacity": "Attendee capacity",
       "titleAudience": "Target groups",
       "titleAudienceAge": "Age restrictions",

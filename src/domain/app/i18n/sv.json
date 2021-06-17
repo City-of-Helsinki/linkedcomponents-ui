@@ -662,6 +662,7 @@
       },
       "tabEventTime": "Evenemangstid",
       "tabRecurringEvent": "Återkommande evenemang",
+      "textNoLinksToEvents": "Inga länkar.",
       "titleAttendeeCapacity": "Deltagarkapacitet",
       "titleAudience": "Målgrupper",
       "titleAudienceAge": "Åldersbegränsningar",

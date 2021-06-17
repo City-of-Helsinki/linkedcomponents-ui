@@ -5,7 +5,6 @@ import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
@@ -35,7 +34,6 @@ import {
   EVENT_INFO_LANGUAGES,
 } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
-import EventHierarchy from './eventHierarchy/EventHierarchy';
 import EventInfo from './eventInfo/EventInfo';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
@@ -45,6 +43,7 @@ import ClassificationSection from './formSections/classificationSection/Classifi
 import DescriptionSection from './formSections/descriptionSection/DescriptionSection';
 import ImageSection from './formSections/imageSection/ImageSection';
 import LanguagesSection from './formSections/languagesSection/LanguagesSection';
+import LinksToEventsSection from './formSections/linksToEventsSection/LinksToEventsSection';
 import PlaceSection from './formSections/placeSection/PlaceSection';
 import PriceSection from './formSections/priceSection/PriceSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
@@ -86,7 +85,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const locale = useLocale();
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEventServerErrors();
-  const { id, name, publicationStatus, superEventType } = getEventFields(
+  const { name, publicationStatus, superEventType } = getEventFields(
     event,
     locale
   );
@@ -330,31 +329,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                       <AdditionalInfoSection />
                     </Section>
                     <Section title={t('event.form.sections.linksToEvents')}>
-                      <EventHierarchy
-                        event={event}
-                        eventNameRenderer={(item) => {
-                          const {
-                            eventUrl,
-                            id: itemId,
-                            name,
-                          } = getEventFields(item, locale);
-                          if (id === itemId) {
-                            return <>{name}</>;
-                          }
-                          return (
-                            <Link
-                              className={styles.hierarchyLink}
-                              to={{
-                                pathname: eventUrl,
-                                search: location.search,
-                              }}
-                            >
-                              {name}
-                            </Link>
-                          );
-                        }}
-                        showSuperEvent={true}
-                      />
+                      <LinksToEventsSection event={event} />
                     </Section>
                   </Container>
                   <EditButtonPanel

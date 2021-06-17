@@ -662,6 +662,7 @@
       },
       "tabEventTime": "Tapahtuman ajankohta",
       "tabRecurringEvent": "Toistuva tapahtuma",
+      "textNoLinksToEvents": "Ei kytköksiä",
       "titleAttendeeCapacity": "Osallistujamäärä",
       "titleAudience": "Kohderyhmät",
       "titleAudienceAge": "Ikärajoitukset",
