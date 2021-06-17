@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
 import {
   Keyword,
@@ -50,7 +50,7 @@ export const keywordsPathBuilder = ({
 
 export const getKeywordQueryResult = async (
   id: string,
-  apolloClient: ApolloClient<InMemoryCache>
+  apolloClient: ApolloClient<NormalizedCacheObject>
 ): Promise<Keyword | null> => {
   try {
     const { data: keywordData } = await apolloClient.query<KeywordQuery>({

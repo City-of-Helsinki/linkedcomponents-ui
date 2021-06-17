@@ -1,4 +1,8 @@
-import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  useApolloClient,
+} from '@apollo/client';
 import map from 'lodash/map';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +25,7 @@ import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector } from '../../auth/selectors';
 import { clearEventsQueries } from '../../events/utils';
+import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
 import { EventFormFields } from '../types';
@@ -31,7 +36,6 @@ import {
   getEventFields,
   getEventInitialValues,
   getNewEventTimes,
-  getOrganizationAncestors,
   getRelatedEvents,
 } from '../utils';
 import useUpdateImageIfNeeded from './useUpdateImageIfNeeded';
@@ -74,7 +78,7 @@ const useEventUpdateActions = ({
 }: Props): UseEventUpdateActionsState => {
   const isMounted = useIsMounted();
   const { t } = useTranslation();
-  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
+  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const locale = useLocale();
@@ -110,10 +114,10 @@ const useEventUpdateActions = ({
   ) => {
     const editableEvents: EventFieldsFragment[] = [];
     for (const item of events) {
-      const organizationAncestors = await getOrganizationAncestors({
-        event,
-        apolloClient,
-      });
+      const organizationAncestors = await getOrganizationAncestorsQueryResult(
+        event.id,
+        apolloClient
+      );
       const { editable } = checkIsEditActionAllowed({
         action,
         authenticated,

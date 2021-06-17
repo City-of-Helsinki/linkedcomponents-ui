@@ -1,4 +1,8 @@
-import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  useApolloClient,
+} from '@apollo/client';
 import { useField } from 'formik';
 import { IconMinusCircle, IconPlusCircle } from 'hds-react';
 import React from 'react';
@@ -28,7 +32,7 @@ import styles from './imageSection.module.scss';
 
 const ImageSection: React.FC = () => {
   const { t } = useTranslation();
-  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
+  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
   const [isModalOpen, setIsmodalOpen] = React.useState(false);
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });

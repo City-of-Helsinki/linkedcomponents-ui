@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
 import {
   EventsQueryVariables,
@@ -90,7 +90,7 @@ export const eventsPathBuilder = ({
 };
 
 export const clearEventsQueries = (
-  apolloClient: ApolloClient<InMemoryCache>
+  apolloClient: ApolloClient<NormalizedCacheObject>
 ): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
 

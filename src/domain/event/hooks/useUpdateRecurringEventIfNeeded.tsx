@@ -1,4 +1,8 @@
-import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  useApolloClient,
+} from '@apollo/client';
 import isEqual from 'date-fns/isEqual';
 import isFuture from 'date-fns/isFuture';
 import isNull from 'lodash/isNull';
@@ -15,6 +19,7 @@ import {
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector } from '../../auth/selectors';
+import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
 import { EventTime } from '../types';
@@ -23,7 +28,6 @@ import {
   checkIsEditActionAllowed,
   getEventInitialValues,
   getEventPayload,
-  getOrganizationAncestors,
   getRecurringEvent,
 } from '../utils';
 
@@ -35,7 +39,8 @@ type UpdateRecurringEventIfNeededState = {
 
 const useUpdateRecurringEventIfNeeded =
   (): UpdateRecurringEventIfNeededState => {
-    const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
+    const apolloClient =
+      useApolloClient() as ApolloClient<NormalizedCacheObject>;
     const location = useLocation();
     const { t } = useTranslation();
     const authenticated = useSelector(authenticatedSelector);
@@ -66,10 +71,10 @@ const useUpdateRecurringEventIfNeeded =
           return null;
         }
 
-        const organizationAncestors = await getOrganizationAncestors({
-          event: superEvent,
-          apolloClient,
-        });
+        const organizationAncestors = await getOrganizationAncestorsQueryResult(
+          superEvent.id,
+          apolloClient
+        );
 
         const publicationStatus = superEvent.publicationStatus;
 

@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import addDays from 'date-fns/addDays';
 import addWeeks from 'date-fns/addWeeks';
 import endOfDay from 'date-fns/endOfDay';
@@ -30,7 +30,6 @@ import {
   CHARACTER_LIMITS,
   EXTLINK,
   FORM_NAMES,
-  MAX_PAGE_SIZE,
   ROUTES,
   WEEK_DAY,
 } from '../../constants';
@@ -50,8 +49,6 @@ import {
   LocalisedObject,
   Maybe,
   OrganizationFieldsFragment,
-  OrganizationsDocument,
-  OrganizationsQuery,
   PublicationStatus,
   SuperEventType,
   UserFieldsFragment,
@@ -72,7 +69,10 @@ import {
   transformNumber,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { organizationPathBuilder } from '../organization/utils';
+import {
+  isAdminUserInOrganization,
+  isReqularUserInOrganization,
+} from '../organization/utils';
 import {
   ADD_EVENT_TIME_FORM_NAME,
   ADD_IMAGE_FIELDS,
@@ -1326,7 +1326,7 @@ const getSubEvents = async ({
   apolloClient,
   event,
 }: {
-  apolloClient: ApolloClient<InMemoryCache>;
+  apolloClient: ApolloClient<NormalizedCacheObject>;
   event: EventFieldsFragment;
 }) => {
   if (!event.superEventType) return [];
@@ -1379,7 +1379,7 @@ export const getRelatedEvents = async ({
   apolloClient,
   event,
 }: {
-  apolloClient: ApolloClient<InMemoryCache>;
+  apolloClient: ApolloClient<NormalizedCacheObject>;
   event: EventFieldsFragment;
 }): Promise<EventFieldsFragment[]> => {
   const allRelatedEvents: EventFieldsFragment[] = [event];
@@ -1393,29 +1393,6 @@ export const getRelatedEvents = async ({
   return allRelatedEvents;
 };
 
-export const getOrganizationAncestors = async ({
-  event,
-  apolloClient,
-}: {
-  apolloClient: ApolloClient<InMemoryCache>;
-  event: EventFieldsFragment;
-}): Promise<OrganizationFieldsFragment[]> => {
-  try {
-    const { data } = await apolloClient.query<OrganizationsQuery>({
-      query: OrganizationsDocument,
-      variables: {
-        child: event.publisher as string,
-        createPath: getPathBuilder(organizationPathBuilder),
-        pageSize: MAX_PAGE_SIZE,
-      },
-    });
-
-    return data.organizations.data as OrganizationFieldsFragment[];
-  } catch (e) /* istanbul ignore next */ {
-    return [];
-  }
-};
-
 export const checkCanUserDoAction = ({
   action,
   event,
@@ -1427,21 +1404,18 @@ export const checkCanUserDoAction = ({
   organizationAncestors: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
 }): boolean => {
-  const { isDraft } = getEventFields(event, 'fi');
-  const adminOrganizations = user?.adminOrganizations ?? [];
-  const organizationMemberships = user?.organizationMemberships ?? [];
-  const eventPublisher = event.publisher;
+  const { isDraft, publisher } = getEventFields(event, 'fi');
 
-  const isRegularUser = Boolean(
-    eventPublisher && organizationMemberships.includes(eventPublisher)
-  );
-  const isAdminUser = Boolean(
-    eventPublisher &&
-      (adminOrganizations.includes(eventPublisher) ||
-        adminOrganizations.some((id) =>
-          organizationAncestors.map((org) => org.id).includes(id)
-        ))
-  );
+  const isRegularUser = isReqularUserInOrganization({
+    id: publisher,
+    user,
+  });
+
+  const isAdminUser = isAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
 
   switch (action) {
     case EVENT_EDIT_ACTIONS.CANCEL:
@@ -1712,6 +1686,7 @@ export const copyEventToSessionStorage = async (
       hasUmbrella: false,
       isUmbrella: false,
       isVerified: false,
+      publisher: '',
       superEvent: null,
     },
   };
@@ -1721,7 +1696,7 @@ export const copyEventToSessionStorage = async (
 
 export const getRecurringEvent = async (
   id: string,
-  apolloClient: ApolloClient<InMemoryCache>
+  apolloClient: ApolloClient<NormalizedCacheObject>
 ): Promise<EventFieldsFragment | null> => {
   try {
     const { data: eventData } = await apolloClient.query<EventQuery>({

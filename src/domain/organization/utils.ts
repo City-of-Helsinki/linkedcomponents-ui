@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
 import { MAX_PAGE_SIZE } from '../../constants';
 import {
@@ -10,6 +10,7 @@ import {
   OrganizationsDocument,
   OrganizationsQuery,
   OrganizationsQueryVariables,
+  UserFieldsFragment,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
@@ -44,7 +45,7 @@ export const getOrganizationFields = (
 
 export const getOrganizationQueryResult = async (
   id: string,
-  apolloClient: ApolloClient<InMemoryCache>
+  apolloClient: ApolloClient<NormalizedCacheObject>
 ): Promise<Organization | null> => {
   try {
     const { data: organizationData } =
@@ -62,12 +63,44 @@ export const getOrganizationQueryResult = async (
   }
 };
 
+export const isAdminUserInOrganization = ({
+  id,
+  organizationAncestors,
+  user,
+}: {
+  id: string | null;
+  organizationAncestors: OrganizationFieldsFragment[];
+  user?: UserFieldsFragment;
+}): boolean => {
+  const adminOrganizations = user?.adminOrganizations ?? [];
+
+  return Boolean(
+    id &&
+      (adminOrganizations.includes(id) ||
+        adminOrganizations.some((adminOrgId) =>
+          organizationAncestors.map((org) => org.id).includes(adminOrgId)
+        ))
+  );
+};
+
+export const isReqularUserInOrganization = ({
+  id,
+  user,
+}: {
+  id: string | null;
+  user?: UserFieldsFragment;
+}): boolean => {
+  const organizationMemberships = user?.organizationMemberships ?? [];
+
+  return Boolean(id && organizationMemberships.includes(id));
+};
+
 export const getOrganizationAncestorsQueryResult = async (
-  publisher: string,
-  apolloClient: ApolloClient<InMemoryCache>
+  id: string,
+  apolloClient: ApolloClient<NormalizedCacheObject>
 ): Promise<Organization[]> => {
   try {
-    if (!publisher) {
+    if (!id) {
       return [];
     }
 
@@ -75,7 +108,7 @@ export const getOrganizationAncestorsQueryResult = async (
       await apolloClient.query<OrganizationsQuery>({
         query: OrganizationsDocument,
         variables: {
-          child: publisher as string,
+          child: id as string,
           createPath: getPathBuilder(organizationsPathBuilder),
           pageSize: MAX_PAGE_SIZE,
         },

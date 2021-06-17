@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 
 import {
@@ -14,6 +14,10 @@ import {
 import { PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
+import {
+  isAdminUserInOrganization,
+  isReqularUserInOrganization,
+} from '../organization/utils';
 import {
   DEFAULT_LICENSE_TYPE,
   IMAGE_ACTIONS,
@@ -69,19 +73,12 @@ export const checkCanUserDoAction = ({
   publisher: string;
   user?: UserFieldsFragment;
 }): boolean => {
-  const adminOrganizations = user?.adminOrganizations ?? [];
-  const organizationMemberships = user?.organizationMemberships ?? [];
-
-  const isRegularUser = Boolean(
-    publisher && organizationMemberships.includes(publisher)
-  );
-  const isAdminUser = Boolean(
-    publisher &&
-      (adminOrganizations.includes(publisher) ||
-        adminOrganizations.some((id) =>
-          organizationAncestors.map((org) => org.id).includes(id)
-        ))
-  );
+  const isRegularUser = isReqularUserInOrganization({ id: publisher, user });
+  const isAdminUser = isAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
 
   switch (action) {
     case IMAGE_ACTIONS.UPDATE:
@@ -169,7 +166,7 @@ export const checkIsImageActionAllowed = ({
 
 export const getImageQueryResult = async (
   id: string,
-  apolloClient: ApolloClient<InMemoryCache>
+  apolloClient: ApolloClient<NormalizedCacheObject>
 ): Promise<Image | null> => {
   try {
     const { data: imageData } = await apolloClient.query<ImageQuery>({
@@ -187,7 +184,7 @@ export const getImageQueryResult = async (
 };
 
 export const clearImagesQueries = (
-  apolloClient: ApolloClient<InMemoryCache>,
+  apolloClient: ApolloClient<NormalizedCacheObject>,
   args?: Record<string, unknown>
 ): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'images', args });

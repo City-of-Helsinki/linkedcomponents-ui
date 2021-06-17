@@ -1,7 +1,7 @@
 import {
   ApolloClient,
   FetchResult,
-  InMemoryCache,
+  NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
 import { Form, Formik } from 'formik';
@@ -58,7 +58,7 @@ import {
 } from './utils';
 
 const CreateEventPage: React.FC = () => {
-  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
+  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEventServerErrors();
   const history = useHistory();

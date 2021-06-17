@@ -1,4 +1,8 @@
-import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  useApolloClient,
+} from '@apollo/client';
 import React from 'react';
 
 import MultiSelectDropdown, {
@@ -51,7 +55,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
 }) => {
   const isMounted = useIsMounted();
 
-  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
+  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const locale = useLocale();
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedPlaces, setSelectedPlaces] = React.useState<OptionType[]>([]);

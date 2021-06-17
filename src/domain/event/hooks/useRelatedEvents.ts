@@ -1,4 +1,8 @@
-import { ApolloClient, InMemoryCache, useApolloClient } from '@apollo/client';
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  useApolloClient,
+} from '@apollo/client';
 import React from 'react';
 
 import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
@@ -12,7 +16,7 @@ type UseRelatedEventsState = {
 const useRelatedEvents = (
   event: EventFieldsFragment
 ): UseRelatedEventsState => {
-  const apolloClient = useApolloClient() as ApolloClient<InMemoryCache>;
+  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const [events, setEvents] = React.useState<EventFieldsFragment[]>([]);
   const [loading, setLoading] = React.useState(false);
 
