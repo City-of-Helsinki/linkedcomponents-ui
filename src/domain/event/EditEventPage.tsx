@@ -206,7 +206,6 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     >
       {({ values, setErrors, setTouched }) => {
         const clearErrors = () => setErrors({});
-
         const handleUpdate = async (publicationStatus: PublicationStatus) => {
           try {
             setServerErrorItems([]);

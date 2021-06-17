@@ -443,6 +443,11 @@ const useEventUpdateActions = ({
       } else {
         // Update single event
         const basePayload = getEventBasePayload(values, publicationStatus);
+
+        if (event.superEvent?.superEventType === SuperEventType.Recurring) {
+          basePayload.superEvent = { atId: event.superEvent.atId };
+        }
+
         /* istanbul ignore next */
         payload = [
           {
