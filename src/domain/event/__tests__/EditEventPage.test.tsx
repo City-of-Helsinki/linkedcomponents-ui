@@ -86,9 +86,7 @@ const renderComponent = (mocks: MockedResponse[] = baseMocks) =>
 
 const openMenu = async () => {
   const toggleButton = screen
-    .getAllByRole('button', {
-      name: /valinnat/i,
-    })
+    .getAllByRole('button', { name: /valinnat/i })
     .pop();
 
   userEvent.click(toggleButton);
@@ -108,13 +106,9 @@ const getButton = (
     case 'postpone':
       return screen.getByRole('button', { name: 'Lykkää tapahtumaa' });
     case 'updateDraft':
-      return screen.getByRole('button', {
-        name: 'Tallenna luonnos',
-      });
+      return screen.getByRole('button', { name: 'Tallenna luonnos' });
     case 'updatePublic':
-      return screen.getByRole('button', {
-        name: 'Tallenna muutokset',
-      });
+      return screen.getByRole('button', { name: 'Tallenna muutokset' });
   }
 };
 
@@ -357,9 +351,7 @@ test('should scroll to first error when validation error is thrown', async () =>
 
   const nameFiInput = getInput('nameFi');
 
-  await waitFor(() => {
-    expect(nameFiInput).toHaveFocus();
-  });
+  await waitFor(() => expect(nameFiInput).toHaveFocus());
 });
 
 test('should show server errors', async () => {

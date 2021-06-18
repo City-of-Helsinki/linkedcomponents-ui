@@ -115,7 +115,7 @@ const useEventUpdateActions = ({
     const editableEvents: EventFieldsFragment[] = [];
     for (const item of events) {
       const organizationAncestors = await getOrganizationAncestorsQueryResult(
-        event.id,
+        item.publisher ?? '',
         apolloClient
       );
       const { editable } = checkIsEditActionAllowed({

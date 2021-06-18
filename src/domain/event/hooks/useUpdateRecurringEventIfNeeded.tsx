@@ -72,7 +72,7 @@ const useUpdateRecurringEventIfNeeded =
         }
 
         const organizationAncestors = await getOrganizationAncestorsQueryResult(
-          superEvent.id,
+          superEvent.publisher ?? '',
           apolloClient
         );
 
