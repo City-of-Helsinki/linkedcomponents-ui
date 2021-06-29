@@ -745,6 +745,7 @@
       "invalidUrl": "Syötä oikea URL-osoite.",
       "min0": "Tämän luvun on oltava vähintään 0.",
       "nameIsRequired": "Nimi on pakollinen.",
+      "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
       "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",
       "required": "Tämä kenttä ei voi olla tyhjä.",
       "requiredWhenPublishing": "Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.",

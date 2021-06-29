@@ -745,6 +745,7 @@
       "invalidUrl": "Ange rätt URL.",
       "min0": "Detta nummer måste vara minst 0.",
       "nameIsRequired": "Namnet krävs.",
+      "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
       "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
       "required": "Det här fältet kan inte lämnas tomt.",
       "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",

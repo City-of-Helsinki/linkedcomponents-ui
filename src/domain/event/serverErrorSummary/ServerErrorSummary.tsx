@@ -39,7 +39,13 @@ const ServerErrorSummary: React.FC<Props> = ({ errors, id: _id }) => {
         <ul>
           {errors.map(({ label, message }, index) => (
             <li key={index}>
-              <strong>{label}:</strong> {message}
+              {label ? (
+                <span>
+                  <strong>{label}:</strong> {message}
+                </span>
+              ) : (
+                message
+              )}
             </li>
           ))}
         </ul>

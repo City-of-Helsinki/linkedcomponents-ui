@@ -745,6 +745,7 @@
       "invalidUrl": "Enter a valid URL.",
       "min0": "This number must be at least 0.",
       "nameIsRequired": "The name must be specified.",
+      "notFoundAllObjects": "Could not find all objects to update.",
       "offersIsRequired": "Price info must be specified before an event is published.",
       "required": "This field cannot be left blank.",
       "requiredWhenPublishing": "This field must be specified before an event is published.",

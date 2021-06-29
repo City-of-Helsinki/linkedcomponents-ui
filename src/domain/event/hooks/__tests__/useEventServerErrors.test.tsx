@@ -49,12 +49,8 @@ it('should set server error items', async () => {
             url: ['Syötä oikea URL-osoite.'],
           },
         ],
-        dummy1: {
-          error: ['Not translated error message.'],
-        },
-        dummy2: {
-          error: 'Not translated error message.',
-        },
+        dummy1: { error: ['Not translated error message.'] },
+        dummy2: { error: 'Not translated error message.' },
       },
     } as any,
   });
@@ -68,10 +64,7 @@ it('should set server error items', async () => {
 
   expect(result.current.serverErrorItems).toEqual([
     { label: 'Alaikäraja', message: 'Tämän luvun on oltava vähintään 0.' },
-    {
-      label: 'Yläikäraja',
-      message: 'Tämän luvun on oltava vähintään 0.',
-    },
+    { label: 'Yläikäraja', message: 'Tämän luvun on oltava vähintään 0.' },
     {
       label: 'Tapahtuman kuvaus suomeksi',
       message: 'Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.',
@@ -101,10 +94,7 @@ it('should set server error items', async () => {
       label: 'Vähimmäisosallistujamäärä',
       message: 'Tämän luvun on oltava vähintään 0.',
     },
-    {
-      label: 'Tapahtuman otsikko ',
-      message: 'Nimi on pakollinen.',
-    },
+    { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
     {
       label: 'Tapahtuman hintatiedot',
       message: 'Hintatiedot on määritettävä ennen tapahtuman julkaisemista.',
@@ -117,14 +107,8 @@ it('should set server error items', async () => {
       label: 'Tapahtuma alkaa',
       message: 'Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.',
     },
-    {
-      label: 'Videon nimi',
-      message: 'Tämä kenttä ei voi olla tyhjä.',
-    },
-    {
-      label: 'Videon URL-osoite',
-      message: 'Syötä oikea URL-osoite.',
-    },
+    { label: 'Videon nimi', message: 'Tämä kenttä ei voi olla tyhjä.' },
+    { label: 'Videon URL-osoite', message: 'Syötä oikea URL-osoite.' },
     {
       label: 'event.form.labelDummy1',
       message: 'Not translated error message.',
@@ -159,22 +143,31 @@ it('should return server error items when result is array', () => {
   );
 
   expect(result.current.serverErrorItems).toEqual([
-    {
-      label: 'Tapahtuman otsikko ',
-      message: 'Nimi on pakollinen.',
-    },
-    {
-      label: 'Tapahtuman otsikko ',
-      message: 'Nimi on pakollinen.',
-    },
-    {
-      label: 'Tapahtuman otsikko ',
-      message: 'Nimi on pakollinen.',
-    },
-    {
-      label: 'Tapahtuman otsikko ',
-      message: 'Nimi on pakollinen.',
-    },
+    { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
+    { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
+    { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
+    { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
+  ]);
+  expect(callbackFn).toBeCalled();
+});
+
+it('should return server error items when result is array of string', () => {
+  const { result } = getHookWrapper();
+  const callbackFn = jest.fn();
+  const error = new ApolloError({
+    networkError: { result: ['Could not find all objects to update.'] } as any,
+  });
+
+  act(() =>
+    result.current.showServerErrors({
+      callbackFn,
+      eventType: EVENT_TYPE.General,
+      error,
+    })
+  );
+
+  expect(result.current.serverErrorItems).toEqual([
+    { label: '', message: 'Kaikkia päivitettäviä objekteja ei löytynyt.' },
   ]);
   expect(callbackFn).toBeCalled();
 });

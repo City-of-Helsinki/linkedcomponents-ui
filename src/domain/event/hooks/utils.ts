@@ -37,19 +37,23 @@ export const parseEventServerErrors = ({
 }: {
   eventType: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  result: Record<string, any> | Record<string, any>[];
+  result: Record<string, any> | Record<string, any>[] | string;
   t: TFunction;
 }): ServerErrorItem[] => {
   // LE returns errors as array when trying to create/edit multiple events in same request.
   // In that case call parseEventServerErrors recursively to get all single errors
-  return Array.isArray(result)
-    ? result.reduce(
-        (previous: ServerErrorItem[], r) => [
-          ...previous,
-          ...parseEventServerErrors({ eventType, result: r, t }),
-        ],
-        []
-      )
+  if (Array.isArray(result)) {
+    return result.reduce(
+      (previous: ServerErrorItem[], r) => [
+        ...previous,
+        ...parseEventServerErrors({ eventType, result: r, t }),
+      ],
+      []
+    );
+  }
+
+  return typeof result === 'string'
+    ? [{ label: '', message: parseEventServerErrorMessage([result]) }]
     : Object.entries(result).reduce(
         (previous: ServerErrorItem[], [key, error]) => [
           ...previous,
@@ -174,6 +178,8 @@ export const parseEventServerErrors = ({
     }
 
     switch (errorStr) {
+      case 'Could not find all objects to update.':
+        return t(`event.serverError.notFoundAllObjects`);
       case 'End time cannot be in the past. Please set a future end time.':
         return t(`event.serverError.endTimeInPast`);
       case 'Price info must be specified before an event is published.':
