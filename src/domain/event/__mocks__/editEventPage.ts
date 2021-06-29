@@ -49,7 +49,12 @@ import {
   fakeUser,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
-import { EVENT_INCLUDES, SUB_EVENTS_VARIABLES } from '../../event/constants';
+import {
+  EVENT_INCLUDES,
+  EVENT_TYPE,
+  SUB_EVENTS_VARIABLES,
+} from '../../event/constants';
+import { EventFormFields } from '../types';
 
 const now = new Date();
 
@@ -74,6 +79,7 @@ const formattedDescription = {
   sv: '<p>Description sv</p>',
   zhHans: null,
 };
+
 const startTime = addDays(addHours(startOfDay(now), 12), 1);
 const endTime = addHours(startTime, 3);
 const facebookUrl = 'http://facebook.com';
@@ -285,6 +291,47 @@ const basePayload = {
   typeId: EventTypeId.General,
   videos: [videoDetails],
   id: eventId,
+};
+
+const baseFormValues: EventFormFields = {
+  audience: [...audienceAtIds],
+  audienceMaxAge,
+  audienceMinAge,
+  description,
+  enrolmentEndTime: null,
+  enrolmentStartTime: null,
+  eventInfoLanguages: ['fi', 'sv'],
+  eventTimes: [],
+  events: [],
+  facebookUrl,
+  hasPrice: true,
+  hasUmbrella: false,
+  images: [...imageAtIds],
+  imageDetails,
+  inLanguage: [...inLanguageAtIds],
+  isVerified: true,
+  infoUrl,
+  instagramUrl,
+  isImageEditable: true,
+  isUmbrella: false,
+  keywords: [...keywordAtIds],
+  location: locationAtId,
+  locationExtraInfo,
+  mainCategories: [...keywordAtIds],
+  maximumAttendeeCapacity: '',
+  minimumAttendeeCapacity: '',
+  name,
+  offers: offers.map((offer) => ({ ...offer, isFree: false })),
+  provider,
+  publisher,
+  recurringEvents: [],
+  recurringEventEndTime: null,
+  recurringEventStartTime: null,
+  shortDescription,
+  superEvent: '',
+  type: EVENT_TYPE.General,
+  twitterUrl,
+  videos: [videoDetails],
 };
 
 const locationText = `${locationName} (${streetAddress}, ${addressLocality})`;
@@ -686,9 +733,14 @@ const mockedUserResponse = {
 
 export {
   audienceName,
+  baseFormValues,
+  basePayload,
   cancelEventVariables,
+  endTime,
   event,
   eventId,
+  eventOverrides,
+  eventWithSubEvent,
   expectedValues,
   keywordName,
   mockedAudienceKeywordSetResponse,
@@ -722,5 +774,7 @@ export {
   mockedUpdateSubEventsResponse,
   mockedUserResponse,
   newSubEventTimes,
+  startTime,
+  subEvents,
   subEventTimes,
 };

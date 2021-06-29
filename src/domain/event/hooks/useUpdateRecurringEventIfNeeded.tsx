@@ -26,8 +26,8 @@ import { EventTime } from '../types';
 import {
   calculateSuperEventTime,
   checkIsEditActionAllowed,
+  getEventBasePayload,
   getEventInitialValues,
-  getEventPayload,
   getRecurringEvent,
 } from '../utils';
 
@@ -71,6 +71,7 @@ const useUpdateRecurringEventIfNeeded =
           return null;
         }
 
+        /* istanbul ignore next */
         const organizationAncestors = await getOrganizationAncestorsQueryResult(
           superEvent.publisher ?? '',
           apolloClient
@@ -127,24 +128,24 @@ const useUpdateRecurringEventIfNeeded =
           return null;
         }
 
-        const data = await updateEvent({
-          variables: {
-            input: {
-              ...getEventPayload(
-                { ...getEventInitialValues(superEvent), events: [] },
-                publicationStatus as PublicationStatus
-              ),
-              id: superEvent.id as string,
-              endTime: newEndTime?.toISOString() ?? null,
-              startTime: newStartTime?.toISOString() ?? null,
-              subEvents:
-                superEvent?.subEvents.map((subEvent) => ({
-                  atId: subEvent?.atId as string,
-                })) || [],
-              superEventType: SuperEventType.Recurring,
-            },
-          },
-        });
+        const payload = {
+          ...getEventBasePayload(
+            getEventInitialValues(superEvent),
+            publicationStatus as PublicationStatus
+          ),
+          id: superEvent.id as string,
+          endTime: newEndTime?.toISOString() ?? null,
+          startTime: newStartTime?.toISOString() ?? null,
+          subEvents:
+            superEvent?.subEvents.map((subEvent) => ({
+              atId: subEvent?.atId as string,
+            })) || [],
+          superEvent: superEvent.superEvent
+            ? { atId: superEvent.superEvent.atId }
+            : null,
+          superEventType: SuperEventType.Recurring,
+        };
+        const data = await updateEvent({ variables: { input: payload } });
 
         return data.data?.updateEvent ?? null;
       } catch (error) {

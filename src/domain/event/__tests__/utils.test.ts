@@ -28,7 +28,7 @@ import {
   EVENT_INITIAL_VALUES,
   EVENT_TYPE,
 } from '../constants';
-import { EventFormFields } from '../types';
+import { EventFormFields, RecurringEventSettings } from '../types';
 import {
   calculateSuperEventTime,
   checkCanUserDoAction,
@@ -578,10 +578,33 @@ describe('getEventPayload function', () => {
         endTime: new Date('2020-12-12T16:15:00.000Z'),
       },
     ];
+    const recurringEvents: RecurringEventSettings[] = [
+      {
+        endDate: new Date('2020-05-15T00:00:00.000Z'),
+        endTime: '12.00',
+        eventTimes: [
+          {
+            startTime: new Date('2020-05-14T12:00:00.000Z'),
+            id: null,
+            endTime: new Date('2020-05-14T14:00:00.000Z'),
+          },
+          {
+            startTime: new Date('2020-05-15T12:00:00.000Z'),
+            id: null,
+            endTime: new Date('2020-05-15T14:00:00.000Z'),
+          },
+        ],
+        repeatDays: [],
+        repeatInterval: 1,
+        startDate: new Date('2020-05-14T00:00:00.000Z'),
+        startTime: '14.00',
+      },
+    ];
     const payload = getEventPayload(
       {
         ...EVENT_INITIAL_VALUES,
         eventTimes,
+        recurringEvents,
         hasUmbrella: true,
         superEvent: 'hel:123',
       },
@@ -592,6 +615,18 @@ describe('getEventPayload function', () => {
       {
         ...defaultEventPayload,
         startTime: '2020-01-02T14:15:00.000Z',
+        superEvent: null,
+      },
+      {
+        ...defaultEventPayload,
+        startTime: '2020-05-14T12:00:00.000Z',
+        endTime: '2020-05-14T14:00:00.000Z',
+        superEvent: null,
+      },
+      {
+        ...defaultEventPayload,
+        startTime: '2020-05-15T12:00:00.000Z',
+        endTime: '2020-05-15T14:00:00.000Z',
         superEvent: null,
       },
       {

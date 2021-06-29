@@ -720,23 +720,9 @@ export const calculateSuperEventTime = (eventTimes: EventTime[]): EventTime => {
 };
 
 export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
-  const {
-    events,
-    eventTimes,
-    recurringEvents,
-    recurringEventEndTime,
-    recurringEventStartTime,
-  } = formValues;
+  const { events, eventTimes, recurringEvents } = formValues;
 
   const allEventTimes: EventTime[] = [...events, ...eventTimes];
-
-  if (recurringEventEndTime && recurringEventStartTime) {
-    allEventTimes.push({
-      endTime: recurringEventEndTime,
-      id: null,
-      startTime: recurringEventStartTime,
-    });
-  }
 
   recurringEvents.forEach((settings) =>
     allEventTimes.push(...settings.eventTimes)

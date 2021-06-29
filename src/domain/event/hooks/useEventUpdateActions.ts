@@ -114,6 +114,7 @@ const useEventUpdateActions = ({
   ) => {
     const editableEvents: EventFieldsFragment[] = [];
     for (const item of events) {
+      /* istanbul ignore next */
       const organizationAncestors = await getOrganizationAncestorsQueryResult(
         item.publisher ?? '',
         apolloClient
@@ -189,7 +190,6 @@ const useEventUpdateActions = ({
         allEvents,
         EVENT_EDIT_ACTIONS.CANCEL
       );
-
       payload = editableEvents.map((item) => {
         const basePayload = getEventBasePayload(
           getEventInitialValues(item),
@@ -359,7 +359,6 @@ const useEventUpdateActions = ({
       if (subEventsPayload.length) {
         await updateEvents(subEventsPayload);
       }
-
       // Create new sub-events
       const newEventTimes = getNewEventTimes(
         values.eventTimes,
@@ -377,11 +376,9 @@ const useEventUpdateActions = ({
             superEventType: null,
           })
         );
-
         const newSubEventsData = await createEventsMutation({
           variables: { input: newSubEventsPayload },
         });
-
         /* istanbul ignore else */
         if (newSubEventsData.data?.createEvents.length) {
           subEventIds.push(
@@ -389,7 +386,6 @@ const useEventUpdateActions = ({
           );
         }
       }
-
       // Get payload to update recurring event
       const superEventTime = calculateSuperEventTime([
         ...values.events,
