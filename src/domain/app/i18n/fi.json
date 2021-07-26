@@ -15,6 +15,11 @@
     "some": "Facebook, Google tai Twitter tunnus",
     "yle": "YLE-tunnus"
   },
+  "authRequiredNotification": { 
+    "button": "kirjautua sisään",
+    "part1": "Voit jatkaa palveluun tutustumista, mutta sinun täytyy",
+    "part2": ", jos haluat tallentaa muutoksia."
+  },
   "common": {
     "add": "Lisää",
     "and": "ja",
