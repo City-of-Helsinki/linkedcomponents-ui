@@ -1,10 +1,13 @@
-import { AnyAction, Store } from '@reduxjs/toolkit';
+import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { StoreState } from '../../../../types';
+import { TEST_USER_ID } from '../../../../constants';
+import { UserDocument } from '../../../../generated/graphql';
+import { fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   configure,
+  CustomRenderOptions,
   getMockReduxStore,
   render,
   screen,
@@ -18,23 +21,65 @@ import AuthRequiredNotification, {
 
 configure({ defaultHidden: true });
 
-const renderComponent = (store?: Store<StoreState, AnyAction>) =>
-  render(<AuthRequiredNotification />, { store });
+const renderComponent = (renderOptions?: CustomRenderOptions) =>
+  render(<AuthRequiredNotification />, renderOptions);
 
-test('should not show sign in notification is user is signed in', () => {
+const userVariables = {
+  createPath: undefined,
+  id: TEST_USER_ID,
+};
+
+test('should not show sign in notification is user is signed in and has organizations', async () => {
+  const user = fakeUser({
+    adminOrganizations: ['helsinki:123'],
+    organizationMemberships: [],
+  });
+  const userResponse = { data: { user } };
+  const mockedUserResponse: MockedResponse = {
+    request: {
+      query: UserDocument,
+      variables: userVariables,
+    },
+    result: userResponse,
+  };
+  const mocks = [mockedUserResponse];
+
   const storeState = fakeAuthenticatedStoreState();
   const store = getMockReduxStore(storeState);
 
-  renderComponent(store);
+  renderComponent({ mocks, store });
 
-  expect(screen.queryByRole('region')).not.toBeInTheDocument();
+  await waitFor(() =>
+    expect(screen.queryByRole('region')).not.toBeInTheDocument()
+  );
+});
+
+test("should show notification is user is signed in but doesn't have organizations", () => {
+  const user = fakeUser({
+    adminOrganizations: [],
+    organizationMemberships: [],
+  });
+  const userResponse = { data: { user } };
+  const mockedUserResponse: MockedResponse = {
+    request: {
+      query: UserDocument,
+      variables: userVariables,
+    },
+    result: userResponse,
+  };
+  const mocks = [mockedUserResponse];
+
+  const storeState = fakeAuthenticatedStoreState();
+  const store = getMockReduxStore(storeState);
+
+  renderComponent({ mocks, store });
+
+  screen.getByRole('region');
+  screen.getByRole('heading', { name: 'Ei oikeuksia muokata tapahtumia.' });
 });
 
 test('should show sign in notification is user is not signed in', () => {
   renderComponent();
-
-  screen.getByRole('region');
-  screen.getByRole('heading', { name: 'Kirjaudu sisään' });
 });
 
 test('should start sign in process', () => {
