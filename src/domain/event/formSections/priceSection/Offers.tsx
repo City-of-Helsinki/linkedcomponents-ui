@@ -15,10 +15,8 @@ const getOfferPath = (index: number) => `${EVENT_FIELDS.OFFERS}[${index}]`;
 const Offers: React.FC = () => {
   const { t } = useTranslation();
 
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
-  const [{ value: offers }] = useField({
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: offers }] = useField<OfferType[]>({
     name: EVENT_FIELDS.OFFERS,
   });
 
@@ -27,7 +25,7 @@ const Offers: React.FC = () => {
       name={EVENT_FIELDS.OFFERS}
       render={(arrayHelpers) => (
         <div>
-          {offers.map((offer: OfferType, index: number) => {
+          {offers.map((offer, index: number) => {
             return (
               <Offer
                 key={index}

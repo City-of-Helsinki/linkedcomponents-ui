@@ -17,12 +17,8 @@ import styles from './placeSection.module.scss';
 const PlaceSection: React.FC = () => {
   const { t } = useTranslation();
 
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
-  const [{ value: location }] = useField({
-    name: EVENT_FIELDS.LOCATION,
-  });
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: location }] = useField({ name: EVENT_FIELDS.LOCATION });
   const [{ value: eventInfoLanguages }] = useField({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });

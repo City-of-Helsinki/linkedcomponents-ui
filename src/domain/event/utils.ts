@@ -28,7 +28,6 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { getTimeObject } from '../../common/components/timepicker/utils';
 import {
   CHARACTER_LIMITS,
-  EXTLINK,
   FORM_NAMES,
   ROUTES,
   WEEK_DAY,
@@ -43,7 +42,6 @@ import {
   EventsQuery,
   EventStatus,
   EventTypeId,
-  ExternalLinkInput,
   Language as LELanguage,
   LocalisedFieldsFragment,
   LocalisedObject,
@@ -92,6 +90,7 @@ import {
   EVENT_SELECT_FIELDS,
   EVENT_TIME_FIELDS,
   EVENT_TYPE,
+  EXTERNAL_LINK_FIELDS,
   IMAGE_ALT_TEXT_MIN_LENGTH,
   IMAGE_DETAILS_FIELDS,
   NOT_ALLOWED_WHEN_CANCELLED,
@@ -206,6 +205,15 @@ const validateOffers = (
           })
         )
     : schema;
+
+const externalLinksSchema = Yup.object().shape({
+  [EXTERNAL_LINK_FIELDS.LINK]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .url(VALIDATION_MESSAGE_KEYS.URL),
+  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
+});
 
 const imageDetailsSchema = Yup.object().shape({
   [IMAGE_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
@@ -372,9 +380,7 @@ export const publicEventSchema = Yup.object().shape({
   [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
   ),
-  [EVENT_FIELDS.FACEBOOK_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
-  [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
-  [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(VALIDATION_MESSAGE_KEYS.URL),
+  [EVENT_FIELDS.EXTERNAL_LINKS]: Yup.array().of(externalLinksSchema),
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
     [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
     validateImageDetails as () => Yup.SchemaOf<ImageDetails>
@@ -417,9 +423,7 @@ export const draftEventSchema = Yup.object().shape({
   [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
   ),
-  [EVENT_FIELDS.FACEBOOK_URL]: Yup.string().url(),
-  [EVENT_FIELDS.TWITTER_URL]: Yup.string().url(),
-  [EVENT_FIELDS.INSTAGRAM_URL]: Yup.string().url(),
+  [EVENT_FIELDS.EXTERNAL_LINKS]: Yup.array().of(externalLinksSchema),
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
     [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
     validateImageDetails as () => Yup.SchemaOf<ImageDetails>
@@ -854,13 +858,12 @@ export const getEventBasePayload = (
     enrolmentEndTime,
     enrolmentStartTime,
     eventInfoLanguages,
-    facebookUrl,
+    externalLinks,
     hasPrice,
     hasUmbrella,
     images,
     infoUrl,
     inLanguage,
-    instagramUrl,
     isUmbrella,
     keywords,
     location,
@@ -874,15 +877,8 @@ export const getEventBasePayload = (
     shortDescription,
     superEvent,
     type,
-    twitterUrl,
     videos,
   } = formValues;
-
-  const externalLinkFields = [
-    { field: EXTLINK.EXTLINK_FACEBOOK, value: facebookUrl },
-    { field: EXTLINK.EXTLINK_INSTAGRAM, value: instagramUrl },
-    { field: EXTLINK.EXTLINK_TWITTER, value: twitterUrl },
-  ];
 
   return {
     publicationStatus,
@@ -899,20 +895,10 @@ export const getEventBasePayload = (
     enrolmentStartTime: enrolmentStartTime
       ? new Date(enrolmentStartTime).toISOString()
       : null,
-    externalLinks: externalLinkFields
-      .map((field) => {
-        /* istanbul ignore else  */
-        if (field.value) {
-          return {
-            name: field.field,
-            link: field.value,
-            language: EVENT_INFO_LANGUAGES.FI,
-          };
-        } else {
-          return null;
-        }
-      })
-      .filter((item) => item) as ExternalLinkInput[],
+    externalLinks: externalLinks.map((item) => ({
+      ...item,
+      language: EVENT_INFO_LANGUAGES.FI,
+    })),
     images: images.map((atId) => ({ atId })),
     infoUrl: filterUnselectedLanguages(infoUrl, eventInfoLanguages),
     inLanguage: inLanguage.map((atId) => ({ atId })),
@@ -1123,10 +1109,12 @@ export const getEventInitialValues = (
       ? new Date(event.enrolmentEndTime)
       : null,
     eventInfoLanguages: getEventInfoLanguages(event),
-    facebookUrl:
-      event.externalLinks.find(
-        (link) => link?.name === EXTLINK.EXTLINK_FACEBOOK
-      )?.link || '',
+    externalLinks: sortBy(event.externalLinks, ['name']).map(
+      (externalLink) => ({
+        link: externalLink?.link ?? '',
+        name: externalLink?.name ?? '',
+      })
+    ),
     hasPrice,
     hasUmbrella: hasUmbrella,
     imageDetails: {
@@ -1144,10 +1132,6 @@ export const getEventInitialValues = (
     inLanguage: event.inLanguage
       .map((language) => language?.atId as string)
       .filter((l) => l),
-    instagramUrl:
-      event.externalLinks.find(
-        (link) => link?.name === EXTLINK.EXTLINK_INSTAGRAM
-      )?.link || '',
     isUmbrella: isUmbrella,
     isVerified: true,
     keywords: event.keywords.map((keyword) => keyword?.atId as string),
@@ -1181,9 +1165,6 @@ export const getEventInitialValues = (
         : null,
     shortDescription: getLocalisedObject(event.shortDescription),
     superEvent: event.superEvent?.atId || '',
-    twitterUrl:
-      event.externalLinks.find((link) => link?.name === EXTLINK.EXTLINK_TWITTER)
-        ?.link || '',
     type: event.typeId?.toLowerCase() ?? EVENT_TYPE.General,
     videos: event.videos.length
       ? event.videos.map((video) => ({

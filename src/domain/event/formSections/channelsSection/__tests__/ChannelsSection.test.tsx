@@ -24,10 +24,8 @@ const renderComponent = () =>
           EVENT_INFO_LANGUAGES.EN,
         ],
         [EVENT_FIELDS.INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-        [EVENT_FIELDS.FACEBOOK_URL]: '',
-        [EVENT_FIELDS.INSTAGRAM_URL]: '',
+        [EVENT_FIELDS.EXTERNAL_LINKS]: [],
         [EVENT_FIELDS.TYPE]: type,
-        [EVENT_FIELDS.TWITTER_URL]: '',
       }}
       onSubmit={jest.fn()}
     >
@@ -50,19 +48,13 @@ test('should render social media section', () => {
 
   const texts = [translations.event.form.infoTextSocialMedia[type]];
 
-  texts.forEach((text) => {
-    expect(screen.queryByText(text)).toBeInTheDocument();
-  });
+  texts.forEach((text) => screen.getByText(text));
 
   const fields = [
-    'Kurssin kotisivun URL suomeksi',
-    'Kurssin kotisivun URL englanniksi',
-    translations.event.form.placeholderFacebookUrl[type],
-    translations.event.form.placeholderInstagramUrl[type],
-    translations.event.form.placeholderTwitterUrl[type],
+    'Tapahtuman kotisivun URL suomeksi',
+    'Tapahtuman kotisivun URL englanniksi',
   ];
+  fields.forEach((name) => screen.getByRole('textbox', { name }));
 
-  fields.forEach((name) => {
-    screen.queryByRole('textbox', { name });
-  });
+  screen.getByRole('button', { name: /SoMe-linkin tyyppi/i });
 });

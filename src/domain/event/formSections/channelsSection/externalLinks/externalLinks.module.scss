@@ -1,0 +1,17 @@
+@import 'mixins';
+
+.externalLink {
+  --external-link-select-width: 150px;
+
+  display: grid;
+  grid-template-columns: var(--external-link-select-width) 1fr;
+}
+
+.nameSelector > label {
+  @include hidden-from-screen;
+}
+
+.nameSelector {
+  z-index: 1;
+  margin-right: calc(0px - var(--border-width));
+}

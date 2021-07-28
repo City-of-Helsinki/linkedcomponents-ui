@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+import isEmpty from 'lodash/isEmpty';
 
 import {
   EventFieldsFragment,
@@ -75,6 +76,8 @@ export const parseEventServerErrors = ({
       case 'description':
       case 'short_description':
         return parseLocalizedServerError({ error, key });
+      case 'external_links':
+        return parseExternalLinkServerError({ error, key });
       case 'videos':
         return parseVideoServerError(error);
       default:
@@ -111,6 +114,27 @@ export const parseEventServerErrors = ({
         ],
         []
       );
+    } else {
+      return [];
+    }
+  }
+
+  // Get error items for video fields
+  function parseExternalLinkServerError({
+    error,
+    key,
+  }: {
+    error: LEServerError;
+    key: string;
+  }): ServerErrorItem[] {
+    /* istanbul ignore else */
+    if (Array.isArray(error)) {
+      return error
+        .filter((e) => !isEmpty(e))
+        .map((e) => ({
+          label: parseEventServerErrorLabel({ key }),
+          message: parseEventServerErrorMessage({ error: e.link as string[] }),
+        }));
     } else {
       return [];
     }

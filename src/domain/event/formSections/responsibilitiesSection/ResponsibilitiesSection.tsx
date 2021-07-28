@@ -24,9 +24,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
   const { organizations: userOrganizations } = useUserOrganizations(user);
   const { t } = useTranslation();
 
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: eventInfoLanguages }] = useField({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
