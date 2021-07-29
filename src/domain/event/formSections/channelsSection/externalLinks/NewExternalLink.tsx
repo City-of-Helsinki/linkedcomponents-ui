@@ -27,7 +27,7 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({ onChange, type }) => {
       <div className={styles.externalLink}>
         <SingleSelect
           className={styles.nameSelector}
-          label={t(`event.form.labelExternalLinkName`)}
+          label={t(`event.form.labelNewExternalLinkName`)}
           onChange={handleChange}
           options={options}
           placeholder={t(`common.select`)}

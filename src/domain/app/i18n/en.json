@@ -239,6 +239,7 @@
       "buttonCopy": "Copy as template",
       "buttonDelete": "Remove event",
       "buttonDeleteEventTime": "Remove time",
+      "buttonDeleteExternalLink": "Delete the SoMe link",
       "buttonDeleteOffer": "Remove pricing information",
       "buttonDeleteRecurringEvent": "Remove recurring event",
       "buttonDeleteVideo": "Remove video",
@@ -481,6 +482,7 @@
         "general": "The event's SoMe link URL",
         "volunteering": "The volunteering's SoMe link URL"
       },
+      "labelNewExternalLinkName": "Type of new SoMe link",
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",

@@ -239,6 +239,7 @@
       "buttonCopy": "Kopioi pohjaksi",
       "buttonDelete":  "Poista tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
+      "buttonDeleteExternalLink": "Poista SoMe-linkki",
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
       "buttonDeleteVideo": "Poista video",
@@ -481,6 +482,7 @@
         "general": "Tapahtuman SoMe-linkin URL",
         "volunteering": "Vapaaehtoistehtävän SoMe-linkin URL"
       },
+      "labelNewExternalLinkName": "Uuden SoMe-linkin tyyppi",
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",

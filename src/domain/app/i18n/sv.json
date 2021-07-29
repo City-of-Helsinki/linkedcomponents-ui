@@ -239,6 +239,7 @@
       "buttonCopy": "Kopiera som mall",
       "buttonDelete":  "Ta bort evenemang",
       "buttonDeleteEventTime": "Ta bort tidpunkt",
+      "buttonDeleteExternalLink": "Ta bort SoMe-länken",
       "buttonDeleteOffer": "Ta bort prisuppgift",
       "buttonDeleteRecurringEvent": "Ta bort återkommande evenemang",
       "buttonDeleteVideo": "Ta bort video",
@@ -481,6 +482,7 @@
         "general": "Evenemangets SoMe-länk-URL",
         "volunteering": "Volontärarbetets SoMe-länk-URL"
       },
+      "labelNewExternalLinkName": "Typ av ny SoMe-länk",
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",

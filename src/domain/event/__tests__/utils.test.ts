@@ -1067,6 +1067,7 @@ describe('getEventInitialValues function', () => {
       audienceMinAge,
       enrolmentEndTime,
       enrolmentStartTime,
+      externalLinks,
       location,
       name,
       offers,
@@ -1081,7 +1082,7 @@ describe('getEventInitialValues function', () => {
         endTime: null,
         enrolmentEndTime: null,
         enrolmentStartTime: null,
-        externalLinks: [],
+        externalLinks: [{}],
         location: null,
         name: {
           ar: null,
@@ -1104,6 +1105,7 @@ describe('getEventInitialValues function', () => {
     expect(audienceMinAge).toEqual('');
     expect(enrolmentEndTime).toEqual(null);
     expect(enrolmentStartTime).toEqual(null);
+    expect(externalLinks).toEqual([{ link: '', name: '' }]);
     expect(location).toEqual('');
     expect(name).toEqual(expectedName);
     expect(offers).toEqual([]);

@@ -190,6 +190,7 @@ export const parseEventServerErrors = ({
   // error message to used UI language
   function parseEventServerErrorMessage(error: LEServerError): string {
     let errorStr = '';
+
     if (Array.isArray(error)) {
       const e =
         typeof error[0] === 'object'

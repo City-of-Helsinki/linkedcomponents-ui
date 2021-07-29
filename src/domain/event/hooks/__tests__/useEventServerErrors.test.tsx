@@ -51,6 +51,8 @@ it('should set server error items', async () => {
         ],
         dummy1: { error: ['Not translated error message.'] },
         dummy2: { error: 'Not translated error message.' },
+        dummy3: [{ error: 'Not translated error message.' }],
+        dummy4: [{ error: ['Not translated error message.'] }],
       },
     } as any,
   });
@@ -115,6 +117,14 @@ it('should set server error items', async () => {
     },
     {
       label: 'event.form.labelDummy2',
+      message: 'Not translated error message.',
+    },
+    {
+      label: 'event.form.labelDummy3',
+      message: 'Not translated error message.',
+    },
+    {
+      label: 'event.form.labelDummy4',
       message: 'Not translated error message.',
     },
   ]);
