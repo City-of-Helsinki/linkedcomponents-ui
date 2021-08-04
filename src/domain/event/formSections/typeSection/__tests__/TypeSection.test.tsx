@@ -76,11 +76,15 @@ const renderComponent = (
     { mocks }
   );
 
-const findElement = (key: 'isUmbrellaCheckbox') => {
+const findElement = (key: 'isUmbrellaCheckbox' | 'umbrellaSelector') => {
   switch (key) {
     case 'isUmbrellaCheckbox':
       return screen.findByRole('checkbox', {
         name: translations.event.form.labelIsUmbrella[type],
+      });
+    case 'umbrellaSelector':
+      return screen.findByRole('combobox', {
+        name: new RegExp(translations.event.form.labelUmbrellaEvent),
       });
   }
 };
@@ -111,7 +115,7 @@ test('should render umbrella event selector if hasUmbrella is checked', async ()
   const hasUmbrellaCheckbox = getElement('hasUmbrellaCheckbox');
   userEvent.click(hasUmbrellaCheckbox);
 
-  getElement('umbrellaSelector');
+  await findElement('umbrellaSelector');
 });
 
 test('should disable isUmbrella checkbox if hasUmbrella checkbox is checked', async () => {
