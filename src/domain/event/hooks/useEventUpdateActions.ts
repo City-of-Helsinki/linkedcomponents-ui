@@ -190,6 +190,7 @@ const useEventUpdateActions = ({
         allEvents,
         EVENT_EDIT_ACTIONS.CANCEL
       );
+
       payload = editableEvents.map((item) => {
         const basePayload = getEventBasePayload(
           getEventInitialValues(item),

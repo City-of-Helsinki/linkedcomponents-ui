@@ -121,7 +121,7 @@ const getElement = (key: 'toggleButton') => {
   switch (key) {
     case 'toggleButton':
       return screen.getByRole('button', {
-        name: `${label} ${publisherName}`,
+        name: label,
       });
   }
 };

@@ -132,6 +132,15 @@ const renderComponent = ({
     { mocks, store }
   );
 
+const findElement = (key: 'altText') => {
+  switch (key) {
+    case 'altText':
+      return screen.findByRole('textbox', {
+        name: translations.event.form.image.labelAltText,
+      });
+  }
+};
+
 const getElement = (
   key: 'altText' | 'ccByRadio' | 'eventOnlyRadio' | 'name' | 'photographerName'
 ) => {
@@ -162,6 +171,7 @@ const getElement = (
 test('all fields should be disabled when imageAtId is null', async () => {
   renderComponent({ props: { imageAtId: null } });
 
+  await findElement('altText');
   const textInputs = [
     getElement('altText'),
     getElement('name'),
@@ -188,6 +198,7 @@ test('should clear field values when imageAtId is null', async () => {
     props: { imageAtId: null },
   });
 
+  await findElement('altText');
   const textInputs = [
     getElement('altText'),
     getElement('name'),

@@ -386,43 +386,40 @@ const cancelEventVariables = {
     { ...basePayload, eventStatus: EventStatus.EventCancelled, superEventType },
   ],
 };
-
-const cancelEventResponse = {
-  data: { event: { ...event, eventStatus: EventStatus.EventCancelled } },
-};
+const cancelledEvent = { ...event, eventStatus: EventStatus.EventCancelled };
+const cancelEventResponse = { data: { updateEvents: [cancelledEvent] } };
+const cancelledEventResponse = { data: { event: cancelledEvent } };
 const mockedCancelEventResponse: MockedResponse = {
   request: { query: UpdateEventsDocument, variables: cancelEventVariables },
   result: cancelEventResponse,
 };
 const mockedCancelledEventResponse: MockedResponse = {
   request: { query: EventDocument, variables: eventVariables },
-  result: cancelEventResponse,
+  result: cancelledEventResponse,
 };
 
 const postponeEventVariables = {
   input: [{ ...basePayload, startTime: null, endTime: null, superEventType }],
 };
-const postponeEventResponse = {
-  data: {
-    event: {
-      ...event,
-      startTime: '',
-      endTime: '',
-      eventStatus: EventStatus.EventPostponed,
-    },
-  },
+const postponedEvent = {
+  ...event,
+  startTime: '',
+  endTime: '',
+  eventStatus: EventStatus.EventPostponed,
 };
+const postponeEventResponse = { data: { updateEvents: [postponedEvent] } };
+const postponedEventResponse = { data: { event: postponedEvent } };
 const mockedPostponeEventResponse: MockedResponse = {
   request: { query: UpdateEventsDocument, variables: postponeEventVariables },
   result: postponeEventResponse,
 };
 const mockedPostponedEventResponse: MockedResponse = {
   request: { query: EventDocument, variables: eventVariables },
-  result: postponeEventResponse,
+  result: postponedEventResponse,
 };
 
 const deleteEventVariables = { id: eventId };
-const deleteEventResponse = { data: null };
+const deleteEventResponse = { data: { deleteEvent: null } };
 const mockedDeleteEventResponse: MockedResponse = {
   request: { query: DeleteEventDocument, variables: deleteEventVariables },
   result: deleteEventResponse,
@@ -430,9 +427,9 @@ const mockedDeleteEventResponse: MockedResponse = {
 
 const updatedLastModifiedTime = '2021-08-23T12:00:00.000Z';
 const updateEventVariables = { input: [basePayload] };
-const updateEventResponse = {
-  data: { event: { ...event, lastModifiedTime: updatedLastModifiedTime } },
-};
+const updatedEvent = { ...event, lastModifiedTime: updatedLastModifiedTime };
+const updateEventResponse = { data: { updateEvents: [updatedEvent] } };
+const updatedEventResponse = { data: { event: updatedEvent } };
 const mockedUpdateEventResponse: MockedResponse = {
   request: { query: UpdateEventsDocument, variables: updateEventVariables },
   result: updateEventResponse,
@@ -451,7 +448,7 @@ const mockedInvalidUpdateEventResponse: MockedResponse = {
 
 const mockedUpdatedEventResponse: MockedResponse = {
   request: { query: EventDocument, variables: eventVariables },
-  result: updateEventResponse,
+  result: updatedEventResponse,
 };
 
 const invalidEvent = fakeEvent({
@@ -548,10 +545,15 @@ const updateRecurringEventVariables = {
     },
   ],
 };
+const updatedRecurringEvent = {
+  ...eventWithSubEvent,
+  lastModifiedTime: updatedLastModifiedTime,
+};
 const updateRecurringEventResponse = {
-  data: {
-    event: { ...eventWithSubEvent, lastModifiedTime: updatedLastModifiedTime },
-  },
+  data: { updateEvents: [updatedRecurringEvent] },
+};
+const updatedRecurringEventResponse = {
+  data: { event: updatedRecurringEvent },
 };
 const mockedUpdateRecurringEventResponse: MockedResponse = {
   request: {
@@ -562,7 +564,7 @@ const mockedUpdateRecurringEventResponse: MockedResponse = {
 };
 
 const deleteSubEvent1Variables = { id: subEventTimes[0].id };
-const deleteSubEvent1Response = { data: null };
+const deleteSubEvent1Response = { data: { deleteEvent: null } };
 const mockedDeleteSubEvent1Response: MockedResponse = {
   request: { query: DeleteEventDocument, variables: deleteSubEvent1Variables },
   result: deleteSubEvent1Response,
@@ -606,7 +608,7 @@ const mockedCreateNewSubEventsResponse: MockedResponse = {
 
 const mockedUpdatedRecurringEventResponse: MockedResponse = {
   request: { query: EventDocument, variables: eventVariables },
-  result: updateRecurringEventResponse,
+  result: updatedRecurringEventResponse,
 };
 
 // Image mocks
