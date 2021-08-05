@@ -5,6 +5,7 @@ import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import Button from '../../../common/components/button/Button';
@@ -20,6 +21,7 @@ import {
 } from '../../../generated/graphql';
 import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
+import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
 import useFeedbackServerErrors from '../../feedback/hooks/useFeedbackServerErrors';
 import {
@@ -41,6 +43,7 @@ import styles from './contactPage.module.scss';
 const ContactPage: React.FC = () => {
   const [successId] = React.useState(() => uniqueId('contact-form-success-'));
   const { t } = useTranslation();
+  const location = useLocation();
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useFeedbackServerErrors();
   const topicOptions = Object.values(CONTACT_TOPICS).map((topic) => ({
@@ -97,6 +100,16 @@ const ContactPage: React.FC = () => {
     } catch (error) /* istanbul ignore next */ {
       setSuccess(false);
       showServerErrors({ error });
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to send feedback',
+      });
     }
   };
 
