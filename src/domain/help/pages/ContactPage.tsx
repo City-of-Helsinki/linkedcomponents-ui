@@ -23,6 +23,7 @@ import PageWrapper from '../../app/layout/PageWrapper';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
 import useFeedbackServerErrors from '../../feedback/hooks/useFeedbackServerErrors';
 import {
+  CONTACT_FORM_BODY_MAX_LENGTH,
   CONTACT_FORM_FIELD,
   CONTACT_TOPICS,
   contactFormSchema,
@@ -248,6 +249,7 @@ const ContactPage: React.FC = () => {
                   <Field
                     component={TextAreaField}
                     label={t('helpPage.contactPage.labelBody')}
+                    maxLength={CONTACT_FORM_BODY_MAX_LENGTH}
                     name={CONTACT_FORM_FIELD.BODY}
                     placeholder={t('helpPage.contactPage.placeholderBody')}
                     required
