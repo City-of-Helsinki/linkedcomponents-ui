@@ -1711,7 +1711,37 @@ export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
     query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $eventType: [EventTypeId], $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
-  events(adminUser: $adminUser, createdBy: $createdBy, combinedText: $combinedText, division: $division, end: $end, endsAfter: $endsAfter, endsBefore: $endsBefore, eventType: $eventType, include: $include, inLanguage: $inLanguage, isFree: $isFree, keyword: $keyword, keywordAnd: $keywordAnd, keywordNot: $keywordNot, language: $language, location: $location, page: $page, pageSize: $pageSize, publicationStatus: $publicationStatus, publisher: $publisher, showAll: $showAll, sort: $sort, start: $start, startsAfter: $startsAfter, startsBefore: $startsBefore, superEvent: $superEvent, superEventType: $superEventType, text: $text, translation: $translation) @rest(type: "EventsResponse", pathBuilder: $createPath) {
+  events(
+    adminUser: $adminUser
+    createdBy: $createdBy
+    combinedText: $combinedText
+    division: $division
+    end: $end
+    endsAfter: $endsAfter
+    endsBefore: $endsBefore
+    eventType: $eventType
+    include: $include
+    inLanguage: $inLanguage
+    isFree: $isFree
+    keyword: $keyword
+    keywordAnd: $keywordAnd
+    keywordNot: $keywordNot
+    language: $language
+    location: $location
+    page: $page
+    pageSize: $pageSize
+    publicationStatus: $publicationStatus
+    publisher: $publisher
+    showAll: $showAll
+    sort: $sort
+    start: $start
+    startsAfter: $startsAfter
+    startsBefore: $startsBefore
+    superEvent: $superEvent
+    superEventType: $superEventType
+    text: $text
+    translation: $translation
+  ) @rest(type: "EventsResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -1949,7 +1979,12 @@ export type ImageLazyQueryHookResult = ReturnType<typeof useImageLazyQuery>;
 export type ImageQueryResult = Apollo.QueryResult<ImageQuery, ImageQueryVariables>;
 export const ImagesDocument = gql`
     query Images($dataSource: String, $page: Int, $pageSize: Int, $publisher: ID, $createPath: Any) {
-  images(dataSource: $dataSource, page: $page, pageSize: $pageSize, publisher: $publisher) @rest(type: "ImagesResponse", pathBuilder: $createPath) {
+  images(
+    dataSource: $dataSource
+    page: $page
+    pageSize: $pageSize
+    publisher: $publisher
+  ) @rest(type: "ImagesResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -2030,7 +2065,16 @@ export type KeywordLazyQueryHookResult = ReturnType<typeof useKeywordLazyQuery>;
 export type KeywordQueryResult = Apollo.QueryResult<KeywordQuery, KeywordQueryVariables>;
 export const KeywordsDocument = gql`
     query Keywords($dataSource: String, $freeText: String, $hasUpcomingEvents: Boolean, $page: Int, $pageSize: Int, $showAllKeywords: Boolean, $sort: String, $text: String, $createPath: Any) {
-  keywords(dataSource: $dataSource, freeText: $freeText, hasUpcomingEvents: $hasUpcomingEvents, page: $page, pageSize: $pageSize, showAllKeywords: $showAllKeywords, sort: $sort, text: $text) @rest(type: "KeywordsResponse", pathBuilder: $createPath) {
+  keywords(
+    dataSource: $dataSource
+    freeText: $freeText
+    hasUpcomingEvents: $hasUpcomingEvents
+    page: $page
+    pageSize: $pageSize
+    showAllKeywords: $showAllKeywords
+    sort: $sort
+    text: $text
+  ) @rest(type: "KeywordsResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -2314,7 +2358,16 @@ export type PlaceLazyQueryHookResult = ReturnType<typeof usePlaceLazyQuery>;
 export type PlaceQueryResult = Apollo.QueryResult<PlaceQuery, PlaceQueryVariables>;
 export const PlacesDocument = gql`
     query Places($dataSource: String, $division: [String], $hasUpcomingEvents: Boolean, $page: Int, $pageSize: Int, $showAllPlaces: Boolean, $sort: String, $text: String, $createPath: Any) {
-  places(dataSource: $dataSource, division: $division, hasUpcomingEvents: $hasUpcomingEvents, page: $page, pageSize: $pageSize, showAllPlaces: $showAllPlaces, sort: $sort, text: $text) @rest(type: "PlacesResponse", pathBuilder: $createPath) {
+  places(
+    dataSource: $dataSource
+    division: $division
+    hasUpcomingEvents: $hasUpcomingEvents
+    page: $page
+    pageSize: $pageSize
+    showAllPlaces: $showAllPlaces
+    sort: $sort
+    text: $text
+  ) @rest(type: "PlacesResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }

@@ -3,7 +3,7 @@
   "version": "0.4.2",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.4.1",
+    "@apollo/client": "^3.4.4",
     "@datapunt/matomo-tracker-react": "^0.4.0",
     "@datepicker-react/hooks": "2.8.0",
     "@emotion/css": "^11.1.3",

@@ -32,7 +32,7 @@ const payload = {
 };
 
 const postFeedbackVariables = { input: payload };
-const postFeedbackResponse = { data: fakeFeedback(payload) };
+const postFeedbackResponse = { data: { postFeedback: fakeFeedback(payload) } };
 const mockedPostFeedbackResponse: MockedResponse = {
   request: {
     query: PostFeedbackDocument,
@@ -40,12 +40,15 @@ const mockedPostFeedbackResponse: MockedResponse = {
   },
   result: postFeedbackResponse,
 };
+const postGuestFeedbackResponse = {
+  data: { postGuestFeedback: fakeFeedback(payload) },
+};
 const mockedPostGuestFeedbackResponse: MockedResponse = {
   request: {
     query: PostGuestFeedbackDocument,
     variables: postFeedbackVariables,
   },
-  result: postFeedbackResponse,
+  result: postGuestFeedbackResponse,
 };
 
 type ElementKey =

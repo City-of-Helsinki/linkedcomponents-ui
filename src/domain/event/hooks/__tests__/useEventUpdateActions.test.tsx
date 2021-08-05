@@ -11,6 +11,7 @@ import {
 } from '../../../../generated/graphql';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import { getMockReduxStore } from '../../../../utils/testUtils';
+import { createCache } from '../../../app/apollo/apolloClient';
 import {
   baseFormValues,
   event,
@@ -47,7 +48,7 @@ const commonMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 const getHookWrapper = (event: EventFieldsFragment, mocks = []) => {
   const wrapper = ({ children }) => (
     <Provider store={store}>
-      <MockedProvider mocks={[...commonMocks, ...mocks]} addTypename={false}>
+      <MockedProvider cache={createCache()} mocks={[...commonMocks, ...mocks]}>
         <Router history={history}>{children}</Router>
       </MockedProvider>
     </Provider>

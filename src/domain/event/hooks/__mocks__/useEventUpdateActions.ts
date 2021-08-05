@@ -34,7 +34,7 @@ const postponeEventWithRecurringSuperEventVariables = {
 };
 const postponeEventWithRecurringSuperEventResponse = {
   data: {
-    event: {
+    updateEvents: {
       ...eventWithRecurringSuperEvent1,
       startTime: '',
       endTime: '',
@@ -53,7 +53,9 @@ const mockedPostponeEventWithRecurringSuperEventResponse: MockedResponse = {
 const deleteEventWithRecurringSuperEventVariables = {
   id: subEvents.data[0].id,
 };
-const deleteEventWithRecurringSuperEventResponse = { data: null };
+const deleteEventWithRecurringSuperEventResponse = {
+  data: { deleteEvent: null },
+};
 const mockedDeleteEventWithRecurringSuperEventResponse: MockedResponse = {
   request: {
     query: DeleteEventDocument,
@@ -84,6 +86,9 @@ const mockedRecurringEventWithDeletedSubEventResponse: MockedResponse = {
   result: recurringEventWithDeletedSubEventResponse,
 };
 
+const updateRecurringEventWithDeletedSubEventResponse = {
+  data: { updateEvent: recurringEventWithDeletedSubEvent },
+};
 const updateRecurringEventWithDeletedSubEventVariables = {
   input: {
     ...basePayload,
@@ -98,7 +103,7 @@ const mockedUpdateRecurringEventWithDeletedSubEventResponse: MockedResponse = {
     query: UpdateEventDocument,
     variables: updateRecurringEventWithDeletedSubEventVariables,
   },
-  result: recurringEventWithDeletedSubEventResponse,
+  result: updateRecurringEventWithDeletedSubEventResponse,
 };
 
 const updateEventWithRecurringSuperEventVariables = {
@@ -114,7 +119,7 @@ const updateEventWithRecurringSuperEventVariables = {
 };
 const updateEventWithRecurringSuperEventResponse = {
   data: {
-    event: {
+    updateEvents: {
       ...eventWithRecurringSuperEvent1,
       startTime: subEvents.data[1].startTime,
       endTime: subEvents.data[1].endTime,
@@ -136,7 +141,7 @@ const recurringSuperEvent = {
   superEventType: SuperEventType.Recurring,
 };
 const deleteSubEvent1Variables = { id: subEvents.data[0].id };
-const deleteSubEvent1Response = { data: null };
+const deleteSubEvent1Response = { data: { deleteEvent: null } };
 const mockedDeleteSubEvent1Response: MockedResponse = {
   request: { query: DeleteEventDocument, variables: deleteSubEvent1Variables },
   result: deleteSubEvent1Response,
