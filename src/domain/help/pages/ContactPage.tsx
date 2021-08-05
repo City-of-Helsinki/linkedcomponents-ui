@@ -13,6 +13,7 @@ import TextAreaField from '../../../common/components/formFields/TextAreaField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../common/components/formGroup/FormGroup';
 import Notification from '../../../common/components/notification/Notification';
+import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
   usePostFeedbackMutation,
   usePostGuestFeedbackMutation,
@@ -20,6 +21,7 @@ import {
 import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
+import useFeedbackServerErrors from '../../feedback/hooks/useFeedbackServerErrors';
 import {
   CONTACT_FORM_FIELD,
   CONTACT_TOPICS,
@@ -38,6 +40,8 @@ import styles from './contactPage.module.scss';
 const ContactPage: React.FC = () => {
   const [successId] = React.useState(() => uniqueId('contact-form-success-'));
   const { t } = useTranslation();
+  const { serverErrorItems, setServerErrorItems, showServerErrors } =
+    useFeedbackServerErrors();
   const topicOptions = Object.values(CONTACT_TOPICS).map((topic) => ({
     label: t(`helpPage.contactPage.topics.${camelCase(topic)}`),
     value: topic,
@@ -89,8 +93,9 @@ const ContactPage: React.FC = () => {
           authenticated ? CONTACT_FORM_FIELD.SUBJECT : CONTACT_FORM_FIELD.NAME
         )
         ?.focus();
-    } catch (e) /* istanbul ignore next */ {
+    } catch (error) /* istanbul ignore next */ {
       setSuccess(false);
+      showServerErrors({ error });
     }
   };
 
@@ -153,6 +158,7 @@ const ContactPage: React.FC = () => {
               const values = { topic, ...restValues };
               try {
                 setSuccess(false);
+                setServerErrorItems([]);
                 clearErrors();
 
                 await contactFormSchema.validate(values, {
@@ -185,7 +191,7 @@ const ContactPage: React.FC = () => {
                     </Notification>
                   )}
                 </div>
-
+                <ServerErrorSummary errors={serverErrorItems} />
                 <h2>{t('helpPage.contactPage.titleContactInfo')}</h2>
                 <FormGroup>
                   <Field

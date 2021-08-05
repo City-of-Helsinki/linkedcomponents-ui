@@ -740,17 +740,6 @@
       "draft": "Draft",
       "public": "Public"
     },
-    "serverError": {
-      "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
-      "invalidUrl": "Enter a valid URL.",
-      "min0": "This number must be at least 0.",
-      "nameIsRequired": "The name must be specified.",
-      "notFoundAllObjects": "Could not find all objects to update.",
-      "offersIsRequired": "Price info must be specified before an event is published.",
-      "required": "This field cannot be left blank.",
-      "requiredWhenPublishing": "This field must be specified before an event is published.",
-      "shortDescriptionTooLong": "Short description length must be 160 characters or less"
-    },
     "subEvents": "Sub-events",
     "superEventType": {
       "recurring": "Series",
@@ -1109,5 +1098,17 @@
   },
   "notSigned": {
     "text": "You must be logged in to view this content. Log in or return to the home page."
+  },
+  "serverError": {
+    "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
+    "invalidUrl": "Enter a valid URL.",
+    "maxLength255": "The value can be up to 255 characters long.",
+    "min0": "This number must be at least 0.",
+    "nameIsRequired": "The name must be specified.",
+    "notFoundAllObjects": "Could not find all objects to update.",
+    "offersIsRequired": "Price info must be specified before an event is published.",
+    "required": "This field cannot be left blank.",
+    "requiredWhenPublishing": "This field must be specified before an event is published.",
+    "shortDescriptionTooLong": "Short description length must be 160 characters or less"
   }
 }

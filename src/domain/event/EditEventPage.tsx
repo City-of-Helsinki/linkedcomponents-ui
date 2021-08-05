@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
   EventFieldsFragment,
   EventQuery,
@@ -60,7 +61,6 @@ import ConfirmCancelModal from './modals/ConfirmCancelModal';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import ConfirmPostponeModal from './modals/ConfirmPostponeModal';
 import ConfirmUpdateModal from './modals/ConfirmUpdateModal';
-import ServerErrorSummary from './serverErrorSummary/ServerErrorSummary';
 import { EventFormFields } from './types';
 import {
   draftEventSchema,

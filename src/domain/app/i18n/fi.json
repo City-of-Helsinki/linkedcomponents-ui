@@ -740,17 +740,6 @@
       "draft": "Luonnos",
       "public": "Julkaistu"
     },
-    "serverError": {
-      "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
-      "invalidUrl": "Syötä oikea URL-osoite.",
-      "min0": "Tämän luvun on oltava vähintään 0.",
-      "nameIsRequired": "Nimi on pakollinen.",
-      "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
-      "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",
-      "required": "Tämä kenttä ei voi olla tyhjä.",
-      "requiredWhenPublishing": "Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.",
-      "shortDescriptionTooLong": "Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä"
-    },
     "subEvents": "Alatapahtumat",
     "superEventType": {
       "recurring": "Sarja",
@@ -1109,5 +1098,17 @@
   },
   "notSigned": {
     "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
+  },
+  "serverError": {
+    "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
+    "invalidUrl": "Syötä oikea URL-osoite.",
+    "maxLength255": "Arvo saa olla enintään 255 merkkiä pitkä.",
+    "min0": "Tämän luvun on oltava vähintään 0.",
+    "nameIsRequired": "Nimi on pakollinen.",
+    "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
+    "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",
+    "required": "Tämä kenttä ei voi olla tyhjä.",
+    "requiredWhenPublishing": "Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.",
+    "shortDescriptionTooLong": "Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä"
   }
 }
