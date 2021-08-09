@@ -522,6 +522,7 @@
         "general": "Specify recurring event",
         "volunteering": "Specify recurring volunteering"
       },
+      "notificationTitleCannotEdit": "The event cannot be edited",
       "notificationTitleDescription": {
         "course": "Course description",
         "general": "Event description",

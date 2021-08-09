@@ -281,7 +281,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
-                    <AuthRequiredNotification />
+                    <AuthRequiredNotification event={event} />
                     <EventInfo event={event} />
                     <ServerErrorSummary errors={serverErrorItems} />
 

@@ -1,9 +1,10 @@
 import { MockedResponse } from '@apollo/client/testing';
+import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import { TEST_USER_ID } from '../../../../constants';
 import { UserDocument } from '../../../../generated/graphql';
-import { fakeUser } from '../../../../utils/mockDataUtils';
+import { fakeEvent, fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   configure,
@@ -16,20 +17,24 @@ import {
 } from '../../../../utils/testUtils';
 import userManager from '../../../auth/userManager';
 import AuthRequiredNotification, {
+  AuthRequiredNotificationProps,
   hiddenStyles,
 } from '../AuthRequiredNotification';
 
 configure({ defaultHidden: true });
+beforeEach(() => clear());
 
-const renderComponent = (renderOptions?: CustomRenderOptions) =>
-  render(<AuthRequiredNotification />, renderOptions);
+const renderComponent = (
+  renderOptions?: CustomRenderOptions,
+  props?: AuthRequiredNotificationProps
+) => render(<AuthRequiredNotification {...props} />, renderOptions);
 
 const userVariables = {
   createPath: undefined,
   id: TEST_USER_ID,
 };
 
-test('should not show sign in notification is user is signed in and has organizations', async () => {
+test('should not show sign in notification if user is signed in and has organizations', async () => {
   const user = fakeUser({
     adminOrganizations: ['helsinki:123'],
     organizationMemberships: [],
@@ -54,7 +59,7 @@ test('should not show sign in notification is user is signed in and has organiza
   );
 });
 
-test("should show notification is user is signed in but doesn't have organizations", () => {
+test("should show notification if user is signed in but doesn't have organizations", () => {
   const user = fakeUser({
     adminOrganizations: [],
     organizationMemberships: [],
@@ -76,6 +81,39 @@ test("should show notification is user is signed in but doesn't have organizatio
 
   screen.getByRole('region');
   screen.getByRole('heading', { name: 'Ei oikeuksia muokata tapahtumia.' });
+});
+
+test('should show notification if event is in the past', async () => {
+  advanceTo('2021-07-09');
+  const publisher = 'helsinki:123';
+  const user = fakeUser({
+    adminOrganizations: [publisher],
+    organization: publisher,
+    organizationMemberships: [],
+  });
+  const event = fakeEvent({
+    publisher,
+    startTime: '2019-11-08T12:27:34+00:00',
+  });
+
+  const userResponse = { data: { user } };
+  const mockedUserResponse: MockedResponse = {
+    request: {
+      query: UserDocument,
+      variables: userVariables,
+    },
+    result: userResponse,
+  };
+  const mocks = [mockedUserResponse];
+
+  const storeState = fakeAuthenticatedStoreState();
+  const store = getMockReduxStore(storeState);
+
+  renderComponent({ mocks, store }, { event });
+
+  screen.getByRole('region');
+  await screen.findByRole('heading', { name: 'Tapahtumaa ei voi muokata' });
+  screen.getByText('Menneisyydessä olevia tapahtumia ei voi muokata.');
 });
 
 test('should show sign in notification is user is not signed in', () => {

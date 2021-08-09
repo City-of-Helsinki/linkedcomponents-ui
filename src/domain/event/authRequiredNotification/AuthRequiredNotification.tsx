@@ -5,9 +5,16 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import Notification from '../../../common/components/notification/Notification';
+import {
+  EventFieldsFragment,
+  PublicationStatus,
+} from '../../../generated/graphql';
 import { signIn } from '../../auth/authenticate';
 import { authenticatedSelector } from '../../auth/selectors';
 import useUser from '../../user/hooks/useUser';
+import { EVENT_EDIT_ACTIONS } from '../constants';
+import useEventOrganizationAncestors from '../hooks/useEventOrganizationAncestors';
+import { checkIsEditActionAllowed } from '../utils';
 import styles from './authRequiredNotification.module.scss';
 
 export const hiddenStyles = {
@@ -17,15 +24,23 @@ export const hiddenStyles = {
   padding: 0,
 };
 
-const AuthRequiredNotification: React.FC = () => {
+export type AuthRequiredNotificationProps = {
+  event?: EventFieldsFragment;
+};
+
+const AuthRequiredNotification: React.FC<AuthRequiredNotificationProps> = ({
+  event,
+}) => {
   const location = useLocation();
   const [hidden, setHidden] = useState(false);
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
+
   const userOrganizations = user
     ? [...user?.adminOrganizations, ...user.organizationMemberships]
     : [];
   const { t } = useTranslation();
+  const { organizationAncestors } = useEventOrganizationAncestors(event);
 
   const handleSignIn = () => {
     signIn(`${location.pathname}${location.search}`);
@@ -51,6 +66,32 @@ const AuthRequiredNotification: React.FC = () => {
           <p>{t('authentication.noRightsUpdateEvent')}</p>
         </Notification>
       );
+    }
+
+    if (event) {
+      const action =
+        event.publicationStatus === PublicationStatus.Draft
+          ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
+          : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
+      const { warning } = checkIsEditActionAllowed({
+        action,
+        authenticated,
+        event,
+        organizationAncestors,
+        t,
+        user,
+      });
+
+      if (warning) {
+        return (
+          <Notification
+            {...notificationProps}
+            label={t('event.form.notificationTitleCannotEdit')}
+          >
+            <p>{warning}</p>
+          </Notification>
+        );
+      }
     }
 
     return null;

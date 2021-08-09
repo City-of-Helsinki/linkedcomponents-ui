@@ -522,6 +522,7 @@
         "general": "Määritä toistuva tapahtuma",
         "volunteering": "Määritä toistuva vapaaehtoistehtävä"
       },
+      "notificationTitleCannotEdit": "Tapahtumaa ei voi muokata",
       "notificationTitleDescription": {
         "course": "Kurssin kuvaus",
         "general": "Tapahtuman kuvaus",
