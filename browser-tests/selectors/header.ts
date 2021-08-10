@@ -6,13 +6,7 @@ export const header = {
   languageSelector: screen.getByRole('button', {
     name: `${translations.navigation.languageSelectorAriaLabel} FI`,
   }),
-  languageSelectorItemEn: screen.getByRole('option', {
-    name: translations.navigation.languages.en,
-  }),
-  languageSelectorItemFi: screen.getByRole('option', {
-    name: translations.navigation.languages.fi,
-  }),
-  languageSelectorItemSv: screen.getByRole('option', {
-    name: translations.navigation.languages.sv,
-  }),
+  languageSelectorItemEn: screen.getByRole('option', { name: 'In English' }),
+  languageSelectorItemFi: screen.getByRole('option', { name: 'Suomeksi' }),
+  languageSelectorItemSv: screen.getByRole('option', { name: 'På svenska' }),
 };
