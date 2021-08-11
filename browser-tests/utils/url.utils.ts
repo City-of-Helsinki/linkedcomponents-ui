@@ -20,8 +20,16 @@ export const getUrlUtils = (t: TestController) => {
   };
 
   const expectations = {
+    async urlChangedToContactPage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/help/support/contact`, await getErrorMessage(t));
+    },
     async urlChangedToEventsPage() {
       await t.expect(getPathname()).eql(`/fi/events`, await getErrorMessage(t));
+    },
+    async urlChangedToEventSearchPage() {
+      await t.expect(getPathname()).eql(`/fi/search`, await getErrorMessage(t));
     },
     async urlChangedToLandingPage() {
       await t.expect(getPathname()).eql(`/fi`, await getErrorMessage(t));

@@ -45,6 +45,18 @@ test('Events page is navigable from landing page header', async (t) => {
   await urlUtils.expectations.urlChangedToEventsPage();
 });
 
+test('Event search page is navigable from landing page header', async (t) => {
+  const cookieConsentModal = await findCookieConsentModal(t);
+  await cookieConsentModal.actions.acceptAllCookies();
+
+  const header = await findHeader(t);
+  const headerSearch = header.headerSearch();
+  await headerSearch.actions.clickSearchButton();
+  await headerSearch.actions.clickSearchInput();
+  await t.pressKey('enter');
+  await urlUtils.expectations.urlChangedToEventSearchPage();
+});
+
 test('Support page is navigable from landing page header', async (t) => {
   const cookieConsentModal = await findCookieConsentModal(t);
   await cookieConsentModal.actions.acceptAllCookies();

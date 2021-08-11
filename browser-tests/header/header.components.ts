@@ -113,8 +113,40 @@ export const findHeader = async (
     };
   };
 
+  const headerSearch = () => {
+    const selectors = {
+      searchButton() {
+        return withinHeader().findByRole('button', {
+          name: getTranslations(currentLang).navigation.searchEvents,
+        });
+      },
+      searchInput() {
+        return withinHeader().findAllByPlaceholderText(
+          getTranslations(currentLang).navigation.searchEvents
+        );
+      },
+    };
+
+    const actions = {
+      async clickSearchButton() {
+        await t.click(selectors.searchButton());
+      },
+      async clickSearchInput() {
+        await t.click(selectors.searchInput());
+      },
+      async pressEnterInSearchInput() {
+        await t.pressKey('enter');
+      },
+    };
+
+    return {
+      actions,
+    };
+  };
+
   return {
     languageSelector,
+    headerSearch,
     headerTabs,
   };
 };
