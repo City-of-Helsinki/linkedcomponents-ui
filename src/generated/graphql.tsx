@@ -143,7 +143,7 @@ export type QueryKeywordArgs = {
 
 
 export type QueryKeywordsArgs = {
-  dataSource?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Array<Maybe<Scalars['String']>>>;
   freeText?: Maybe<Scalars['String']>;
   hasUpcomingEvents?: Maybe<Scalars['Boolean']>;
   page?: Maybe<Scalars['Int']>;
@@ -998,7 +998,7 @@ export type KeywordQuery = (
 );
 
 export type KeywordsQueryVariables = Exact<{
-  dataSource?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Array<Maybe<Scalars['String']>> | Maybe<Scalars['String']>>;
   freeText?: Maybe<Scalars['String']>;
   hasUpcomingEvents?: Maybe<Scalars['Boolean']>;
   page?: Maybe<Scalars['Int']>;
@@ -2064,7 +2064,7 @@ export type KeywordQueryHookResult = ReturnType<typeof useKeywordQuery>;
 export type KeywordLazyQueryHookResult = ReturnType<typeof useKeywordLazyQuery>;
 export type KeywordQueryResult = Apollo.QueryResult<KeywordQuery, KeywordQueryVariables>;
 export const KeywordsDocument = gql`
-    query Keywords($dataSource: String, $freeText: String, $hasUpcomingEvents: Boolean, $page: Int, $pageSize: Int, $showAllKeywords: Boolean, $sort: String, $text: String, $createPath: Any) {
+    query Keywords($dataSource: [String], $freeText: String, $hasUpcomingEvents: Boolean, $page: Int, $pageSize: Int, $showAllKeywords: Boolean, $sort: String, $text: String, $createPath: Any) {
   keywords(
     dataSource: $dataSource
     freeText: $freeText

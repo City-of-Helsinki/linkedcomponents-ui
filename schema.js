@@ -56,7 +56,7 @@ module.exports = buildSchema(/* GraphQL */ `
     ): EventsResponse!
     keyword(id: ID!): Keyword!
     keywords(
-      dataSource: String
+      dataSource: [String]
       freeText: String
       hasUpcomingEvents: Boolean
       page: Int
