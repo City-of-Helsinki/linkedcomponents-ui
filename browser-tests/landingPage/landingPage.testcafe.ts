@@ -3,37 +3,30 @@ import { requestLogger } from '../utils/requestLogger';
 import { getEnvUrl } from '../utils/settings';
 import { clearDataToPrintOnFailure } from '../utils/testcafe.utils';
 import { getUrlUtils } from '../utils/url.utils';
-import { findFooter } from './footer.components';
+import { findLandingPage } from './landingPage.components';
 
 let urlUtils: ReturnType<typeof getUrlUtils>;
 
-fixture('Landing page footer')
+fixture('Landing page')
   .page(getEnvUrl('/fi'))
   .beforeEach(async (t) => {
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);
   })
-  .requestHooks(requestLogger)
   .afterEach(async () => {
     requestLogger.clear();
-  });
+  })
+  .requestHooks(requestLogger);
 
-test('Footer links work', async (t) => {
+test('Landing page buttons work', async (t) => {
   const cookieConsentModal = await findCookieConsentModal(t);
   await cookieConsentModal.actions.acceptAllCookies();
 
-  const footer = await findFooter(t);
-  const footerLinks = footer.footerLinks();
-  // Events page
-  await footerLinks.actions.clickEventsPageLink();
-  await urlUtils.expectations.urlChangedToEventsPage();
-  // Event search page
-  await footerLinks.actions.clickEventSearchPageLink();
+  const landingPage = await findLandingPage(t);
+  await landingPage.actions.clickCreateEventButton();
+  await urlUtils.expectations.urlChangedToCreateEventPage();
+
+  await urlUtils.actions.navigateToLandingPage();
+  await landingPage.actions.clickSearchEventsButton();
   await urlUtils.expectations.urlChangedToEventSearchPage();
-  // Support page
-  await footerLinks.actions.clickSupportPageLink();
-  await urlUtils.expectations.urlChangedToSupportPage();
-  // Contact page
-  await footerLinks.actions.clickContactPageLink();
-  await urlUtils.expectations.urlChangedToContactPage();
 });

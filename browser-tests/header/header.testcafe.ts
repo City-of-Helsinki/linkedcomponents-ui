@@ -35,14 +35,18 @@ test('Changing language on landing page', async (t) => {
   await headerTabs.expectations.supportPageTabIsVisible();
 });
 
-test('Events page is navigable from landing page header', async (t) => {
+test('Header tabs work', async (t) => {
   const cookieConsentModal = await findCookieConsentModal(t);
   await cookieConsentModal.actions.acceptAllCookies();
 
   const header = await findHeader(t);
   const headerTabs = header.headerTabs();
+  // Events page
   await headerTabs.actions.clickEventsPageTab();
   await urlUtils.expectations.urlChangedToEventsPage();
+  // Support page
+  await headerTabs.actions.clickSupportPageTab();
+  await urlUtils.expectations.urlChangedToSupportPage();
 });
 
 test('Event search page is navigable from landing page header', async (t) => {
@@ -55,14 +59,4 @@ test('Event search page is navigable from landing page header', async (t) => {
   await headerSearch.actions.clickSearchInput();
   await t.pressKey('enter');
   await urlUtils.expectations.urlChangedToEventSearchPage();
-});
-
-test('Support page is navigable from landing page header', async (t) => {
-  const cookieConsentModal = await findCookieConsentModal(t);
-  await cookieConsentModal.actions.acceptAllCookies();
-
-  const header = await findHeader(t);
-  const headerTabs = header.headerTabs();
-  await headerTabs.actions.clickSupportPageTab();
-  await urlUtils.expectations.urlChangedToSupportPage();
 });

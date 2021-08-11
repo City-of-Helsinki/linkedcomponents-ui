@@ -25,6 +25,11 @@ export const getUrlUtils = (t: TestController) => {
         .expect(getPathname())
         .eql(`/fi/help/support/contact`, await getErrorMessage(t));
     },
+    async urlChangedToCreateEventPage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/events/create`, await getErrorMessage(t));
+    },
     async urlChangedToEventsPage() {
       await t.expect(getPathname()).eql(`/fi/events`, await getErrorMessage(t));
     },
