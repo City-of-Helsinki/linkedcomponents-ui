@@ -35,7 +35,7 @@ test('Changing language on landing page', async (t) => {
   await headerTabs.expectations.supportPageTabIsVisible();
 });
 
-test('Header tabs work', async (t) => {
+test('Header tabs and search input field work', async (t) => {
   const cookieConsentModal = await findCookieConsentModal(t);
   await cookieConsentModal.actions.acceptAllCookies();
 
@@ -47,13 +47,7 @@ test('Header tabs work', async (t) => {
   // Support page
   await headerTabs.actions.clickSupportPageTab();
   await urlUtils.expectations.urlChangedToSupportPage();
-});
-
-test('Event search page is navigable from landing page header', async (t) => {
-  const cookieConsentModal = await findCookieConsentModal(t);
-  await cookieConsentModal.actions.acceptAllCookies();
-
-  const header = await findHeader(t);
+  // Search input field
   const headerSearch = header.headerSearch();
   await headerSearch.actions.clickSearchButton();
   await headerSearch.actions.clickSearchInput();
