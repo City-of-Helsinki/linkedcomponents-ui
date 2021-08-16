@@ -1,5 +1,5 @@
 export const ENV_URL =
-  process.env.BROWSER_TESTS_LOCAL_ENV_URL ?? 'http://localhost:3000';
+  process.env.BROWSER_TESTS_ENV_URL ?? 'http://localhost:3000';
 export const LINKED_EVENTS_URL =
   process.env.REACT_APP_LINKED_EVENTS_URL ??
   'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1';
