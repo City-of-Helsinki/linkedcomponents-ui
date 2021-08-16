@@ -56,6 +56,8 @@ export enum SUPPORTED_LANGUAGES {
   EN = 'en',
 }
 
+export const supportedLanguages = Object.values(SUPPORTED_LANGUAGES);
+
 export const DEFAULT_LANGUAGE = SUPPORTED_LANGUAGES.FI;
 
 export enum CHARACTER_LIMITS {

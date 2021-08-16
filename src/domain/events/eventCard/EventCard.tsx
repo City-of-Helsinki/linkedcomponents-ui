@@ -112,6 +112,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
       <div
         className={styles.eventCardWrapper}
         id={getEventItemId(id)}
+        data-testid={event.id}
         style={{
           marginLeft: `calc(${level} * var(--spacing-l))`,
           marginRight: `calc(0px - ${level} * var(--spacing-l))`,

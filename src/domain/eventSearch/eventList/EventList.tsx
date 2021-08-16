@@ -37,6 +37,10 @@ export interface EventListContainerProps {
   baseVariables: EventsQueryVariables;
 }
 
+export const testIds = {
+  resultList: 'event-result-list',
+};
+
 type EventListProps = {
   events: EventsQuery['events']['data'];
   onSelectedPageChange: (page: number) => void;
@@ -139,7 +143,11 @@ const EventListContainer: React.FC<EventListContainerProps> = ({
   const pageCount = getPageCount(eventsCount, EVENTS_PAGE_SIZE);
 
   return (
-    <div id={eventListId} className={styles.eventList}>
+    <div
+      id={eventListId}
+      className={styles.eventList}
+      data-testid={testIds.resultList}
+    >
       <Container withOffset={true}>
         <div className={styles.sortRow}>
           <div className={styles.countColumn}>

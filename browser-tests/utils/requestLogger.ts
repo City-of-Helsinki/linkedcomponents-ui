@@ -1,8 +1,7 @@
 import { RequestLogger } from 'testcafe';
 
-export const requestLogger = RequestLogger(
-  'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1',
-  {
-    logResponseHeaders: true,
-  }
-);
+import { LINKED_EVENTS_URL } from './settings';
+
+export const requestLogger = RequestLogger(new RegExp(LINKED_EVENTS_URL), {
+  logResponseHeaders: true,
+});

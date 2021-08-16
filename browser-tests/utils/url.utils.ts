@@ -1,18 +1,32 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import TestController, { ClientFunction } from 'testcafe';
 
+import { EventFieldsFragment } from '../../src/generated/graphql';
+import { getCommonComponents } from '../common.components';
 import { getEnvUrl } from './settings';
-import { getErrorMessage } from './testcafe.utils';
+import { getErrorMessage, setDataToPrintOnFailure } from './testcafe.utils';
 
 const getPathname = ClientFunction(() => document.location.pathname);
+const getPageTitle = ClientFunction(() => document.title);
 
 export const getUrlUtils = (t: TestController) => {
+  const pageIsLoaded = async () => {
+    await getCommonComponents(t).loadingSpinner().expectations.isNotPresent();
+  };
+
   const actions = {
     async navigateToEventsPage() {
       await t.navigateTo(getEnvUrl(`/fi/events`));
     },
     async navigateToLandingPage() {
       await t.navigateTo(getEnvUrl(`/fi`));
+    },
+    async navigateToSearchUrl(searchString: string) {
+      const url = getEnvUrl(
+        `/fi/search?text=${encodeURIComponent(searchString)}`
+      );
+      setDataToPrintOnFailure(t, 'url', url);
+      await t.navigateTo(url);
     },
     async navigateToSupportPage() {
       await t.navigateTo(getEnvUrl(`/fi/help`));
@@ -44,6 +58,16 @@ export const getUrlUtils = (t: TestController) => {
       await t
         .expect(getPathname())
         .eql(`/fi/help/technology/documentation`, await getErrorMessage(t));
+    },
+    async urlChangedToEventPage(event: EventFieldsFragment) {
+      setDataToPrintOnFailure(t, 'expectedEvent', event);
+      await t
+        .expect(getPathname())
+        .eql(`/fi/events/edit/${event.id}`, await getErrorMessage(t));
+      await pageIsLoaded();
+      await t
+        .expect(getPageTitle())
+        .eql(`${event.name.fi} - Linked Events`, await getErrorMessage(t));
     },
     async urlChangedToEventsPage() {
       await t.expect(getPathname()).eql(`/fi/events`, await getErrorMessage(t));
