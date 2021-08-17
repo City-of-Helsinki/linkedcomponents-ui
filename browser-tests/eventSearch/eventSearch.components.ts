@@ -39,7 +39,7 @@ export const getEventSearchPage = (t: TestController) => {
         });
       },
       placeCheckbox(place: PlaceFieldsFragment) {
-        return withinSearchBanner().findByRole('checkbox', {
+        return withinSearchBanner().findAllByRole('checkbox', {
           name: place.name.fi,
         });
       },
