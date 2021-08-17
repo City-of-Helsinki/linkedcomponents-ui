@@ -6,5 +6,7 @@
   "screenshots": {
     "takeOnFails": true
   },
-  "tsConfigPath": "./tsconfig.testcafe.json"
+  "compilerOptions": {
+    "typescript": { "configPath": "./tsconfig.testcafe.json"}
+  }
 }

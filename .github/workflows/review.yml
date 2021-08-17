@@ -78,6 +78,8 @@ jobs:
         run: yarn browser-test:ci
         env:
           REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
+          GITHUB_WORKFLOW_NAME: ${{  github.workflow }}
+          GITHUB_WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Upload screenshots of failed tests
         uses: actions/upload-artifact@v2
         if: failure()
