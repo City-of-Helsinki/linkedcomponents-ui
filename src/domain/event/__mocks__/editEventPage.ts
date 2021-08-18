@@ -208,7 +208,7 @@ const audienceKeywordSet = fakeKeywordSet({
   keywords: audience.data,
 });
 const topicsKeywordSet = fakeKeywordSet({
-  id: KEYWORD_SETS.TOPICS,
+  id: KEYWORD_SETS.EVENT_TOPICS,
   keywords: keywords.data,
 });
 

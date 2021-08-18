@@ -6,6 +6,7 @@ import {
 } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { keywordSetPathBuilder } from '../../keywordSet/utils';
+import { EVENT_TYPE } from '../constants';
 
 type EventFieldOptionsDataState = {
   audienceData?: KeywordSetQuery;
@@ -14,13 +15,18 @@ type EventFieldOptionsDataState = {
 };
 
 // Hook to get data for the languages, audience and keywords checkboxes
-const useEventFieldOptionsData = (): EventFieldOptionsDataState => {
+const useEventFieldOptionsData = (
+  eventType?: EVENT_TYPE
+): EventFieldOptionsDataState => {
   const { loading: loadingLanguages } = useLanguagesQuery();
 
   const { data: topicsData, loading: loadingKeywords } = useKeywordSetQuery({
     variables: {
       createPath: getPathBuilder(keywordSetPathBuilder),
-      id: KEYWORD_SETS.TOPICS,
+      id:
+        eventType === EVENT_TYPE.Course
+          ? KEYWORD_SETS.COURSE_TOPICS
+          : KEYWORD_SETS.EVENT_TOPICS,
       include: [INCLUDE.KEYWORDS],
     },
   });
