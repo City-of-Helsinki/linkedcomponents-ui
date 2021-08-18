@@ -363,7 +363,7 @@
         "general": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
         "volunteering": "Liitä vapaaehtoistehtävään vähintään yksi asiasana, joka kuvaa vapaaehtoistehtävän teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta."
       },
-      "infoTextLocation1": "Kirjoita kenttään tapahtumapaikan nimi tai katuosoite ja valitse oikea paikka listasta.",
+      "infoTextLocation1": "Kirjoita kenttään tapahtumapaikan nimi tai katuosoite ja valitse oikea paikka listasta. Hakutulokset järjestyvät tapahtumien lukumäärän mukaan.",
       "infoTextLocation2": {
         "course": "Jos kurssi järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Kurssin URL-osoite laitetaan kotisivu-kenttään ja/tai kurssi sosiaalisessa mediassa -kenttiin.",
         "general": "Jos tapahtuma järjestetään vain etänä internetissä, valitse tapahtumapaikaksi Internet. Tapahtuman URL-osoite laitetaan kotisivu-kenttään ja/tai tapahtuma sosiaalisessa mediassa -kenttiin.",
