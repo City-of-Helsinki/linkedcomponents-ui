@@ -77,7 +77,7 @@ jobs:
       - name: Run Acceptance Tests (TestCafe Browser Tests)
         run: yarn browser-test:ci
         env:
-          REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
+          BROWSER_TESTS_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
           GITHUB_WORKFLOW_NAME: ${{  github.workflow }}
           GITHUB_WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           TESTCAFE_SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

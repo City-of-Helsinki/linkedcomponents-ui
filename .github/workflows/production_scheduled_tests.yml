@@ -33,7 +33,8 @@ jobs:
         id: testcafe
         run: yarn browser-test:ci
         env:
-          BROWSER_TESTS_LOCAL_ENV_URL: https://${{ secrets.ENVIRONMENT_URL_STABLE }}
+          BROWSER_TESTS_ENV_URL: https://${{ secrets.ENVIRONMENT_URL_STABLE }}
+          BROWSER_TESTS_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
           GITHUB_WORKFLOW_NAME: ${{ github.workflow }}
           GITHUB_WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           TESTCAFE_SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
