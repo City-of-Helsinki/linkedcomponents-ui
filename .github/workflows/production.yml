@@ -70,7 +70,7 @@ jobs:
           SLACK_USERNAME: Deployer
           SLACK_ICON: https://a.slack-edge.com/80588/img/services/outgoing-webhook_48.png
           SLACK_TITLE: ${{ env.PUBLIC_URL }} has been updated!
-          SLACK_MESSAGE: 'A new version of Tapahtumat has been deployed to production! ${{ env.PUBLIC_URL }} :tada: :tada: '
+          SLACK_MESSAGE: 'A new version of Linked Events UI has been deployed to production! ${{ env.PUBLIC_URL }} :tada: :tada: '
           SLACK_CHANNEL: linkedevents-commits
         if: success()
       - name: production deploy failure notification
