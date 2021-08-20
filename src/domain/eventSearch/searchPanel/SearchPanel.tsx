@@ -26,6 +26,10 @@ import DateSelectorDropdown, {
 import PlaceSelector from './placeSelector/PlaceSelector';
 import styles from './searchPanel.module.scss';
 
+export const testIds = {
+  searchPanel: 'event-search-panel',
+};
+
 type SearchState = {
   end: Date | null;
   place: string[];
@@ -98,6 +102,7 @@ const SearchPanel: React.FC = () => {
 
   return (
     <div
+      data-testid={testIds.searchPanel}
       className={classNames(styles.searchPanel, css(theme.eventSearchPanel))}
     >
       <section className={styles.searchPanelWrapper}>

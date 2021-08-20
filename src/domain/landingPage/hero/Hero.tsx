@@ -14,6 +14,7 @@ import Container from '../../app/layout/Container';
 import { useTheme } from '../../app/theme/Theme';
 import { clearEventFormData } from '../../event/utils';
 import { getEventSearchQuery } from '../../eventSearch/utils';
+import { testIds } from '../LandingPage';
 import styles from './hero.module.scss';
 
 const Hero: React.FC = () => {
@@ -87,6 +88,7 @@ const Hero: React.FC = () => {
                 <div className={styles.buttonWrapper}>
                   <Button
                     className={styles.searchButton}
+                    data-testid={testIds.searchButton}
                     fullWidth={true}
                     onClick={() => handleSearch(searchValue)}
                     variant="secondary"
