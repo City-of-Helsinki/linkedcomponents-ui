@@ -91,7 +91,6 @@ jobs:
           path: screenshots/
   smoke-tests:
     runs-on: windows-latest
-    needs: production
     name: Smoke tests for production
     steps:
       - uses: actions/checkout@v2
