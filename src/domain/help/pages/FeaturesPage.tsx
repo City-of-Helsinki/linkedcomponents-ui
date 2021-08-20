@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
-import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
 const FeaturesPage: React.FC = () => {
@@ -105,7 +104,7 @@ const FeaturesPage: React.FC = () => {
       keywords={['keywords.features']}
       title="helpPage.pageTitleFeatures"
     >
-      <MainContent>{getContent(locale)}</MainContent>
+      {getContent(locale)}
     </PageWrapper>
   );
 };

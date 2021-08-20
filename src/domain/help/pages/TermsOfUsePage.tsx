@@ -3,7 +3,6 @@ import React from 'react';
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
-import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
 const TermsOfUsePage: React.FC = () => {
@@ -194,7 +193,7 @@ const TermsOfUsePage: React.FC = () => {
       keywords={['keywords.termsOfUse']}
       title="helpPage.pageTitleTermsOfUse"
     >
-      <MainContent>{getContent(locale)}</MainContent>
+      {getContent(locale)}
     </PageWrapper>
   );
 };

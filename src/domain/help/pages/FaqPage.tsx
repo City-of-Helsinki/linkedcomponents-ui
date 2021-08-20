@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 import AddingEventsFaq from '../faq/AddingEventsFaq';
 import AddingToOwnProjectsFaq from '../faq/AddingToOwnProjectsFaq';
@@ -21,18 +20,16 @@ const FaqPage: React.FC = () => {
       keywords={['keywords.faq', 'keywords.asked', 'keywords.questions']}
       title="helpPage.pageTitleFaq"
     >
-      <MainContent>
-        <h1>{t('helpPage.pageTitleFaq')}</h1>
-        <div className={styles.accordions}>
-          <AddingEventsFaq />
-          <ImageRightsFaq />
-          <EventFormNotWorkingFaq />
-          <EventNotShownFaq />
-          <AddingToOwnProjectsFaq />
-          <PublishingPermissionsFaq />
-          <SlowRequestsFaq />
-        </div>
-      </MainContent>
+      <h1>{t('helpPage.pageTitleFaq')}</h1>
+      <div className={styles.accordions}>
+        <AddingEventsFaq />
+        <ImageRightsFaq />
+        <EventFormNotWorkingFaq />
+        <EventNotShownFaq />
+        <AddingToOwnProjectsFaq />
+        <PublishingPermissionsFaq />
+        <SlowRequestsFaq />
+      </div>
     </PageWrapper>
   );
 };

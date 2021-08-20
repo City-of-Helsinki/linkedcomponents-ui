@@ -19,7 +19,6 @@ import {
   usePostFeedbackMutation,
   usePostGuestFeedbackMutation,
 } from '../../../generated/graphql';
-import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
@@ -146,137 +145,135 @@ const ContactPage: React.FC = () => {
       ]}
       title="helpPage.contactPage.pageTitle"
     >
-      <MainContent>
-        <h1>{t('helpPage.contactPage.pageTitle')}</h1>
+      <h1>{t('helpPage.contactPage.pageTitle')}</h1>
 
-        <Formik
-          initialValues={initialValues}
-          onSubmit={submitContactForm}
-          validationSchema={contactFormSchema}
-          validateOnMount
-          validateOnBlur
-          validateOnChange
-        >
-          {({
-            resetForm,
-            setErrors,
-            setTouched,
-            validateForm,
-            values: { topic, ...restValues },
-          }) => {
-            const clearErrors = () => {
-              setErrors({});
-            };
+      <Formik
+        initialValues={initialValues}
+        onSubmit={submitContactForm}
+        validationSchema={contactFormSchema}
+        validateOnMount
+        validateOnBlur
+        validateOnChange
+      >
+        {({
+          resetForm,
+          setErrors,
+          setTouched,
+          validateForm,
+          values: { topic, ...restValues },
+        }) => {
+          const clearErrors = () => {
+            setErrors({});
+          };
 
-            const handleSubmit = async () => {
-              const values = { topic, ...restValues };
-              try {
-                setSuccess(false);
-                setServerErrorItems([]);
-                clearErrors();
+          const handleSubmit = async () => {
+            const values = { topic, ...restValues };
+            try {
+              setSuccess(false);
+              setServerErrorItems([]);
+              clearErrors();
 
-                await contactFormSchema.validate(values, {
-                  abortEarly: false,
-                });
+              await contactFormSchema.validate(values, {
+                abortEarly: false,
+              });
 
-                submitContactForm(values, { resetForm, validateForm });
-              } catch (error) {
-                showErrors({
-                  error,
-                  setErrors,
-                  setTouched,
-                });
+              submitContactForm(values, { resetForm, validateForm });
+            } catch (error) {
+              showErrors({
+                error,
+                setErrors,
+                setTouched,
+              });
 
-                scrollToFirstError({ error });
-              }
-            };
+              scrollToFirstError({ error });
+            }
+          };
 
-            const faqItems = getFaqItems(topic as CONTACT_TOPICS);
+          const faqItems = getFaqItems(topic as CONTACT_TOPICS);
 
-            return (
-              <Form className={styles.contactForm} noValidate>
-                <div id={successId}>
-                  {success && (
-                    <Notification
-                      label={t('helpPage.contactPage.titleSuccess')}
-                      type="success"
-                    >
-                      {t('helpPage.contactPage.textSuccess')}
-                    </Notification>
-                  )}
-                </div>
-                <ServerErrorSummary errors={serverErrorItems} />
-                <h2>{t('helpPage.contactPage.titleContactInfo')}</h2>
-                <FormGroup>
-                  <Field
-                    component={TextInputField}
-                    disabled={authenticated && user?.profile.name}
-                    label={t('helpPage.contactPage.labelName')}
-                    name={CONTACT_FORM_FIELD.NAME}
-                    placeholder={t('helpPage.contactPage.placeholderName')}
-                    required
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Field
-                    component={TextInputField}
-                    disabled={authenticated && user?.profile.email}
-                    label={t('helpPage.contactPage.labelEmail')}
-                    name={CONTACT_FORM_FIELD.EMAIL}
-                    placeholder={t('helpPage.contactPage.placeholderEmail')}
-                    required
-                  />
-                </FormGroup>
-                <h2>{t('helpPage.contactPage.titleMessage')}</h2>
-                <FormGroup>
-                  <Field
-                    component={SingleSelectField}
-                    label={t('helpPage.contactPage.labelTopic')}
-                    name={CONTACT_FORM_FIELD.TOPIC}
-                    options={topicOptions}
-                    placeholder={t('helpPage.contactPage.placeholderTopic')}
-                    required
-                  />
-                </FormGroup>
-                {!!faqItems.length && (
-                  <>
-                    <h3>{t('helpPage.contactPage.titleSuggestedTopics')}</h3>
-                    <div className={styles.accordions}>
-                      {faqItems.map((item, index) =>
-                        React.cloneElement(item, { key: index })
-                      )}
-                    </div>
-                  </>
+          return (
+            <Form className={styles.contactForm} noValidate>
+              <div id={successId}>
+                {success && (
+                  <Notification
+                    label={t('helpPage.contactPage.titleSuccess')}
+                    type="success"
+                  >
+                    {t('helpPage.contactPage.textSuccess')}
+                  </Notification>
                 )}
+              </div>
+              <ServerErrorSummary errors={serverErrorItems} />
+              <h2>{t('helpPage.contactPage.titleContactInfo')}</h2>
+              <FormGroup>
+                <Field
+                  component={TextInputField}
+                  disabled={authenticated && user?.profile.name}
+                  label={t('helpPage.contactPage.labelName')}
+                  name={CONTACT_FORM_FIELD.NAME}
+                  placeholder={t('helpPage.contactPage.placeholderName')}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Field
+                  component={TextInputField}
+                  disabled={authenticated && user?.profile.email}
+                  label={t('helpPage.contactPage.labelEmail')}
+                  name={CONTACT_FORM_FIELD.EMAIL}
+                  placeholder={t('helpPage.contactPage.placeholderEmail')}
+                  required
+                />
+              </FormGroup>
+              <h2>{t('helpPage.contactPage.titleMessage')}</h2>
+              <FormGroup>
+                <Field
+                  component={SingleSelectField}
+                  label={t('helpPage.contactPage.labelTopic')}
+                  name={CONTACT_FORM_FIELD.TOPIC}
+                  options={topicOptions}
+                  placeholder={t('helpPage.contactPage.placeholderTopic')}
+                  required
+                />
+              </FormGroup>
+              {!!faqItems.length && (
+                <>
+                  <h3>{t('helpPage.contactPage.titleSuggestedTopics')}</h3>
+                  <div className={styles.accordions}>
+                    {faqItems.map((item, index) =>
+                      React.cloneElement(item, { key: index })
+                    )}
+                  </div>
+                </>
+              )}
 
-                <FormGroup>
-                  <Field
-                    component={TextInputField}
-                    label={t('helpPage.contactPage.labelSubject')}
-                    name={CONTACT_FORM_FIELD.SUBJECT}
-                    placeholder={t('helpPage.contactPage.placeholderSubject')}
-                    required
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Field
-                    component={TextAreaField}
-                    label={t('helpPage.contactPage.labelBody')}
-                    maxLength={CONTACT_FORM_BODY_MAX_LENGTH}
-                    name={CONTACT_FORM_FIELD.BODY}
-                    placeholder={t('helpPage.contactPage.placeholderBody')}
-                    required
-                  />
-                </FormGroup>
+              <FormGroup>
+                <Field
+                  component={TextInputField}
+                  label={t('helpPage.contactPage.labelSubject')}
+                  name={CONTACT_FORM_FIELD.SUBJECT}
+                  placeholder={t('helpPage.contactPage.placeholderSubject')}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Field
+                  component={TextAreaField}
+                  label={t('helpPage.contactPage.labelBody')}
+                  maxLength={CONTACT_FORM_BODY_MAX_LENGTH}
+                  name={CONTACT_FORM_FIELD.BODY}
+                  placeholder={t('helpPage.contactPage.placeholderBody')}
+                  required
+                />
+              </FormGroup>
 
-                <Button onClick={() => handleSubmit()} fullWidth>
-                  {t('helpPage.contactPage.buttonSend')}
-                </Button>
-              </Form>
-            );
-          }}
-        </Formik>
-      </MainContent>
+              <Button onClick={() => handleSubmit()} fullWidth>
+                {t('helpPage.contactPage.buttonSend')}
+              </Button>
+            </Form>
+          );
+        }}
+      </Formik>
     </PageWrapper>
   );
 };

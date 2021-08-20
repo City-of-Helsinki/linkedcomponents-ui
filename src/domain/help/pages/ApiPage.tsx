@@ -5,7 +5,6 @@ import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
-import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
 const ApiPage: React.FC = () => {
@@ -137,7 +136,7 @@ const ApiPage: React.FC = () => {
       keywords={['keywords.help', 'keywords.documentation']}
       title="helpPage.pageTitleApi"
     >
-      <MainContent>{getContent(locale)}</MainContent>
+      {getContent(locale)}
     </PageWrapper>
   );
 };
