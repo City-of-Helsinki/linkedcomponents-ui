@@ -9,7 +9,7 @@ on:
 #      - TH-1047-scheduled-browser-tests
 jobs:
   production-tests:
-    name: Scheduled Acceptance tests against Produdction environment
+    name: Scheduled Acceptance tests against Production environment
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
