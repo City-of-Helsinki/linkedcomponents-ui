@@ -268,7 +268,12 @@ const linkedEventsLink = new RestLink({
 });
 
 const QUERIES_TO_SHOW_ERROR = ['User'];
-const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = ['CreateEvent', 'CreateEvents'];
+const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = [
+  'CreateEvent',
+  'CreateEvents',
+  'PostFeedback',
+  'PostGuestFeedback',
+];
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   const isMutation = Boolean(

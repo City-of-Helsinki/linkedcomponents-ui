@@ -11,6 +11,7 @@ import { useHistory, useLocation } from 'react-router';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FORM_NAMES, ROUTES } from '../../constants';
 import {
   CreateEventMutationInput,
@@ -47,7 +48,6 @@ import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import useEventServerErrors from './hooks/useEventServerErrors';
 import useUpdateImageIfNeeded from './hooks/useUpdateImageIfNeeded';
 import Section from './layout/Section';
-import ServerErrorSummary from './serverErrorSummary/ServerErrorSummary';
 import { EventFormFields } from './types';
 import {
   draftEventSchema,

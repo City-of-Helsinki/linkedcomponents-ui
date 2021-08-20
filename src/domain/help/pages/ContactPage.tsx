@@ -5,6 +5,7 @@ import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import Button from '../../../common/components/button/Button';
@@ -13,14 +14,18 @@ import TextAreaField from '../../../common/components/formFields/TextAreaField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../common/components/formGroup/FormGroup';
 import Notification from '../../../common/components/notification/Notification';
+import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
   usePostFeedbackMutation,
   usePostGuestFeedbackMutation,
 } from '../../../generated/graphql';
 import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
+import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
+import useFeedbackServerErrors from '../../feedback/hooks/useFeedbackServerErrors';
 import {
+  CONTACT_FORM_BODY_MAX_LENGTH,
   CONTACT_FORM_FIELD,
   CONTACT_TOPICS,
   contactFormSchema,
@@ -38,6 +43,9 @@ import styles from './contactPage.module.scss';
 const ContactPage: React.FC = () => {
   const [successId] = React.useState(() => uniqueId('contact-form-success-'));
   const { t } = useTranslation();
+  const location = useLocation();
+  const { serverErrorItems, setServerErrorItems, showServerErrors } =
+    useFeedbackServerErrors();
   const topicOptions = Object.values(CONTACT_TOPICS).map((topic) => ({
     label: t(`helpPage.contactPage.topics.${camelCase(topic)}`),
     value: topic,
@@ -89,8 +97,19 @@ const ContactPage: React.FC = () => {
           authenticated ? CONTACT_FORM_FIELD.SUBJECT : CONTACT_FORM_FIELD.NAME
         )
         ?.focus();
-    } catch (e) /* istanbul ignore next */ {
+    } catch (error) /* istanbul ignore next */ {
       setSuccess(false);
+      showServerErrors({ error });
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to send feedback',
+      });
     }
   };
 
@@ -153,6 +172,7 @@ const ContactPage: React.FC = () => {
               const values = { topic, ...restValues };
               try {
                 setSuccess(false);
+                setServerErrorItems([]);
                 clearErrors();
 
                 await contactFormSchema.validate(values, {
@@ -185,7 +205,7 @@ const ContactPage: React.FC = () => {
                     </Notification>
                   )}
                 </div>
-
+                <ServerErrorSummary errors={serverErrorItems} />
                 <h2>{t('helpPage.contactPage.titleContactInfo')}</h2>
                 <FormGroup>
                   <Field
@@ -242,6 +262,7 @@ const ContactPage: React.FC = () => {
                   <Field
                     component={TextAreaField}
                     label={t('helpPage.contactPage.labelBody')}
+                    maxLength={CONTACT_FORM_BODY_MAX_LENGTH}
                     name={CONTACT_FORM_FIELD.BODY}
                     placeholder={t('helpPage.contactPage.placeholderBody')}
                     required

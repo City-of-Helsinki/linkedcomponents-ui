@@ -740,17 +740,6 @@
       "draft": "Förslag",
       "public": "Offentlig"
     },
-    "serverError": {
-      "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
-      "invalidUrl": "Ange rätt URL.",
-      "min0": "Detta nummer måste vara minst 0.",
-      "nameIsRequired": "Namnet krävs.",
-      "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
-      "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
-      "required": "Det här fältet kan inte lämnas tomt.",
-      "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
-      "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre"
-    },
     "subEvents": "Underevenemangen",
     "superEventType": {
       "recurring": "Serier",
@@ -1109,5 +1098,17 @@
   },
   "notSigned": {
     "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
+  },
+  "serverError": {
+    "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
+    "invalidUrl": "Ange rätt URL.",
+    "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
+    "min0": "Detta nummer måste vara minst 0.",
+    "nameIsRequired": "Namnet krävs.",
+    "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
+    "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
+    "required": "Det här fältet kan inte lämnas tomt.",
+    "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
+    "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre"
   }
 }
