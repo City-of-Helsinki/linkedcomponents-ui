@@ -12,7 +12,7 @@ export enum CONTACT_FORM_FIELD {
   TOPIC = 'topic',
 }
 
-export const CONTACT_FORM_BODY_MAX_LENGTH = 220;
+export const CONTACT_FORM_BODY_MAX_LENGTH = 5000;
 
 export const initialValues: ContactFormFields = {
   [CONTACT_FORM_FIELD.BODY]: '',
