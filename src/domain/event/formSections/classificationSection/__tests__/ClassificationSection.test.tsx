@@ -51,7 +51,7 @@ const keywords = fakeKeywords(keywordNames.length + 1, [
 ]);
 const keywordsVariables = {
   createPath: undefined,
-  dataSource: 'yso',
+  dataSource: ['yso', 'helsinki'],
   showAllKeywords: true,
   text: '',
 };

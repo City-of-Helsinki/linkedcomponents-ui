@@ -628,7 +628,7 @@ const mockedUpdateImageResponse: MockedResponse = {
 
 const keywordsVariables = {
   createPath: undefined,
-  dataSource: 'yso',
+  dataSource: ['yso', 'helsinki'],
   showAllKeywords: true,
   text: '',
 };

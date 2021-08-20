@@ -363,7 +363,7 @@
         "general": "Lägg till minst ett nyckelord för evenemanget som bäst beskriver dess tema. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till från listan nedan.",
         "volunteering": "Lägg till minst ett nyckelord för volontärarbetet som bäst beskriver dess tema. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till från listan nedan."
       },
-      "infoTextLocation1": "Ange platsens namn eller gatuadress i platsfältet och välj rätt plats i listan.",
+      "infoTextLocation1": "Ange platsens namn eller gatuadress i platsfältet och välj rätt plats i listan. Sökresultaten sorteras efter antalet evenemang.",
       "infoTextLocation2": {
         "course": "Om kursen bara hålls på distans på Internet, välj “Internet” som plats. Webbadressen till kursen ska anges i fältet hemsida och/eller sociala medier.",
         "general": "Om evenemanget bara hålls på distans på Internet, välj “Internet” som plats. Webbadressen till evenemanget ska anges i fältet hemsida och/eller sociala medier.",
