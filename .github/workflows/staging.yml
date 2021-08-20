@@ -87,7 +87,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install dependencies
         run: yarn --prefer-offline --frozen-lockfile --check-files --production=false
-      - name: Run TestCafe tests for ${{secrets.ENVIRONMENT_URL_STAGING}}
+      - name: Run TestCafe tests for https://linkedcomponents-ui.test.kuva.hel.ninja
         id: testcafe
         run: yarn browser-test:ci
         env:
