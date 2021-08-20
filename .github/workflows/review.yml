@@ -47,3 +47,45 @@ jobs:
         env:
           ENVIRONMENT_URL: https://${{ env.K8S_NAMESPACE }}.${{ env.BASE_DOMAIN }}
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-review
+      - name: Setup kubectl
+        run: |
+          echo "${{ env.KUBECONFIG_RAW }}" > $(pwd)/kubeconfig
+          echo "KUBECONFIG=$(pwd)/kubeconfig" >> $GITHUB_ENV
+        shell: bash
+      - name: Get Review Deploy URL
+        id: deploy-url
+        run: |
+          DEPLOY_URL=$(kubectl get ingress -n "${{ env.K8S_NAMESPACE }}" -o jsonpath='{.items[0].spec.rules[0].host}')
+          echo "BROWSER_TESTS_ENV_URL=https://$DEPLOY_URL" >> $GITHUB_ENV
+        shell: bash
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: '12'
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install dependencies
+        run: yarn --prefer-offline --frozen-lockfile --check-files
+      - name: Run Acceptance Tests (TestCafe Browser Tests)
+        run: yarn browser-test:ci
+        env:
+          REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
+          GITHUB_WORKFLOW_NAME: ${{  github.workflow }}
+          GITHUB_WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          TESTCAFE_SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          TESTCAFE_SLACK_CHANNEL: '#linked-alerts'
+          TESTCAFE_SLACK_USERNAME: TestCafé
+      - name: Upload screenshots of failed tests
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: screenshots
+          path: screenshots/

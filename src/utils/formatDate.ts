@@ -12,7 +12,7 @@ const locales = { en, fi, sv };
  * @returns {string}
  */
 const formatDate = (
-  date: Date | null,
+  date: Date | number | null,
   dateFormat = 'dd.MM.yyyy',
   locale: Language = 'fi'
 ): string =>
