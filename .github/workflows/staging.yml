@@ -87,7 +87,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install dependencies
         run: yarn --prefer-offline --frozen-lockfile --check-files --production=false
-      - name: Run TestCafe tests For ${{matrix.DOCKER_BUILD_ARG_PUBLIC_URL}}
+      - name: Run TestCafe tests for ${{env.PUBLIC_URL}}
         id: testcafe
         run: yarn browser-test:ci
         env:
