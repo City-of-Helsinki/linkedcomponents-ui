@@ -80,6 +80,9 @@ jobs:
           REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
           GITHUB_WORKFLOW_NAME: ${{  github.workflow }}
           GITHUB_WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          TESTCAFE_SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          TESTCAFE_SLACK_CHANNEL: '#linked-alerts'
+          TESTCAFE_SLACK_USERNAME: TestCafé
       - name: Upload screenshots of failed tests
         uses: actions/upload-artifact@v2
         if: failure()
