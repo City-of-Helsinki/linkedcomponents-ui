@@ -10,6 +10,7 @@ env:
   CONTAINER_REGISTRY_PASSWORD: ${{ secrets.GHCR_TOKEN }}
   CONTAINER_REGISTRY_REPO: ghcr.io/city-of-helsinki/${{ github.event.repository.name }}
   REPO_NAME: ${{ github.event.repository.name }}
+  PUBLIC_URL: https://linkedevents.hel.fi
   KUBECONFIG_RAW: ${{ secrets.KUBECONFIG_RAW_STABLE }}
   BUILD_ARTIFACT_FOLDER: 'build_artifacts'
   SERVICE_ARTIFACT_FOLDER: 'service_artifacts'
@@ -70,7 +71,7 @@ jobs:
           SLACK_USERNAME: Deployer
           SLACK_ICON: https://a.slack-edge.com/80588/img/services/outgoing-webhook_48.png
           SLACK_TITLE: ${{ env.PUBLIC_URL }} has been updated!
-          SLACK_MESSAGE: 'A new version of Linked Events UI has been deployed to production! ${{ env.PUBLIC_URL }} :tada: :tada: '
+          SLACK_MESSAGE: 'A new version of Linked Events UI has been deployed to production! :tada: :tada: '
           SLACK_CHANNEL: linkedevents-commits
         if: success()
       - name: production deploy failure notification

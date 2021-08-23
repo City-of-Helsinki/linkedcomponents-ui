@@ -10,6 +10,7 @@ env:
   CONTAINER_REGISTRY_PASSWORD: ${{ secrets.GHCR_TOKEN }}
   CONTAINER_REGISTRY_REPO: ghcr.io/city-of-helsinki/${{ github.event.repository.name }}
   REPO_NAME: ${{ github.event.repository.name }}
+  PUBLIC_URL: https://${{ secrets.ENVIRONMENT_URL_STAGING }}
   KUBECONFIG_RAW: ${{ secrets.KUBECONFIG_RAW_STAGING }}
   BUILD_ARTIFACT_FOLDER: 'build_artifacts'
   SERVICE_ARTIFACT_FOLDER: 'service_artifacts'
@@ -61,11 +62,21 @@ jobs:
           K8S_NAMESPACE: ${{ secrets.K8S_NAMESPACE_STAGING }}
           ENVIRONMENT_URL: https://${{ secrets.ENVIRONMENT_URL_STAGING }}
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-staging
+      - name: Staging deploy notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: Deployer
+          SLACK_ICON: https://a.slack-edge.com/80588/img/services/outgoing-webhook_48.png
+          SLACK_TITLE: ${{ env.PUBLIC_URL }} has been updated!
+          SLACK_MESSAGE: 'A new version of Linked Events UI has been deployed to staging! :tada: :tada: '
+          SLACK_CHANNEL: linked-alerts
+        if: success()
       - name: Staging deploy failure notification
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_USERNAME: DeployManager
+          SLACK_USERNAME: Deployer
           SLACK_ICON: https://a.slack-edge.com/80588/img/services/outgoing-webhook_48.png
           SLACK_TITLE: Deploying to ${{ env.PUBLIC_URL }} has *FAILED!*
           SLACK_MESSAGE: Deploying to ${{ env.PUBLIC_URL }} has *FAILED!*
