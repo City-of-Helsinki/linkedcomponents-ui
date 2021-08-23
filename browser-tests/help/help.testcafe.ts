@@ -50,7 +50,9 @@ test('Side navigation tabs work', async (t) => {
   // Documentation tab
   await sideNavigation.actions.clickDocumentationTab();
   await urlUtils.expectations.urlChangedToDocumentationPage();
-  await helpPageTitles.expectations.documenationTitleIsVisible();
+  await helpPageTitles.expectations.documenationTitleIsVisible({
+    timeout: 20000,
+  });
   // Source code tab
   await sideNavigation.actions.clickSourceCodeTab();
   await urlUtils.expectations.urlChangedToSourceCodePage();

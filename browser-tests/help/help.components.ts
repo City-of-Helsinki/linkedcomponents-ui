@@ -219,10 +219,10 @@ export const findHelpPages = async (t: TestController) => {
           .expect(selectors.controlPanelTitle().exists)
           .ok(await getErrorMessage(t));
       },
-      async documenationTitleIsVisible() {
+      async documenationTitleIsVisible({ timeout } = { timeout: 10000 }) {
         await t
           .expect(selectors.documentationTitle().exists)
-          .ok(await getErrorMessage(t));
+          .ok(await getErrorMessage(t), { timeout });
       },
       async faqTitleIsVisible() {
         await t
