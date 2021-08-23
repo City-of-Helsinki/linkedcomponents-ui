@@ -273,7 +273,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                 backgroundColor="coatOfArms"
                 className={styles.eventPage}
                 noFooter
-                title={name}
+                titleText={name}
               >
                 <MainContent>
                   <Container

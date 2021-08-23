@@ -15,7 +15,14 @@ export interface PageWrapperProps {
   description?: string;
   keywords?: string[];
   noFooter?: boolean;
+  /**
+   * Translation path of the page title. Translation will be overriden by titleText if defined
+   */
   title?: string;
+  /**
+   * Title text will override translation defined in title prop
+   */
+  titleText?: string;
 }
 
 const PageWrapper: React.FC<PageWrapperProps> = ({
@@ -26,6 +33,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   keywords = [],
   noFooter = false,
   title = 'appName',
+  titleText,
 }) => {
   const { consent } = useCookieConsent();
   const { t } = useTranslation();
@@ -48,8 +56,11 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
       .join(', ');
   };
 
-  const translatedTitle =
-    title !== 'appName' ? `${t(title)} - ${t('appName')}` : t('appName');
+  const translatedTitle = titleText
+    ? `${titleText} - ${t('appName')}`
+    : title !== 'appName'
+    ? `${t(title)} - ${t('appName')}`
+    : t('appName');
   const translatedDescription = t(description);
   const translatedKeywords = getTranslatedKeywords();
 
