@@ -429,7 +429,21 @@ const useEventUpdateActions = ({
 
     try {
       await updateImageIfNeeded(values);
+    } catch (error) /* istanbul ignore next */ {
+      // Report error to Sentry
+      reportError({
+        data: {
+          error,
+          images: values.images,
+          imageDetails: values.imageDetails,
+        },
+        location,
+        message: 'Failed to update image',
+        user,
+      });
+    }
 
+    try {
       const action = getEventUpdateAction(event, publicationStatus);
       setSaving(action);
 
