@@ -160,7 +160,9 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
 
             <div className={styles.publisherRow}>
               <div className={styles.publisherColumn}>
-                <div>{publisher ? <PublisherName id={publisher} /> : '-'}</div>
+                <div className={styles.publisherName}>
+                  {publisher ? <PublisherName id={publisher} /> : '-'}
+                </div>
                 <TextWithIcon
                   icon={
                     <IconLocation aria-hidden={true} className={styles.icon} />

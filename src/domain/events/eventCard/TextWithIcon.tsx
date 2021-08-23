@@ -11,7 +11,7 @@ const TextWithIcon: React.FC<Props> = ({ icon, text }) => {
   return (
     <div className={styles.textWithIcon}>
       {icon}
-      {text}
+      <span className={styles.text}>{text}</span>
     </div>
   );
 };
