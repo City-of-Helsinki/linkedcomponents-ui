@@ -28,12 +28,15 @@ test('Footer links work', async (t) => {
   await footerLinks.actions.clickEventsPageLink();
   await urlUtils.expectations.urlChangedToEventsPage();
   // Event search page
+  await urlUtils.actions.navigateToLandingPage();
   await footerLinks.actions.clickEventSearchPageLink();
   await urlUtils.expectations.urlChangedToEventSearchPage();
   // Support page
+  await urlUtils.actions.navigateToLandingPage();
   await footerLinks.actions.clickSupportPageLink();
   await urlUtils.expectations.urlChangedToSupportPage();
   // Contact page
+  await urlUtils.actions.navigateToLandingPage();
   await footerLinks.actions.clickContactPageLink();
   await urlUtils.expectations.urlChangedToContactPage();
 });
