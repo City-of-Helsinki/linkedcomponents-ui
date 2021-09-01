@@ -89,14 +89,19 @@
     grid-gap: var(--spacing-xs);
 
     @include medium-up {
-      padding: var(--spacing-s) 0;
+      padding: var(--spacing-s) var(--spacing-s) var(--spacing-s) 0;
       grid-column: 3 / 11;
     }
 
     .actionButtons {
       position: absolute;
-      right: var(--spacing-s);
-      top: var(--spacing-s);
+      right: var(--spacing-m);
+      top: var(--spacing-m);
+
+      @include medium-up {
+        right: var(--spacing-s);
+        top: var(--spacing-s);
+      }
     }
 
     .nameRow {
@@ -108,6 +113,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-gap: var(--spacing-s);
+      margin-top: calc(0px - var(--spacing-xs));
 
       @include medium-up {
         grid-gap: var(--spacing-m);
@@ -133,6 +139,10 @@
         @include medium-up {
           grid-gap: var(--spacing-m);
         }
+
+        .publisherName {
+          padding-top: var(--spacing-3-xs);
+        }
       }
 
       .ticketColumn {
@@ -155,6 +165,7 @@
       }
     }
   }
+
   .eventStatusTagWrapper {
     color: unset;
     display: flex;

@@ -8,7 +8,7 @@ To build the project, you will need [Docker](https://www.docker.com/community-ed
 
 Start the container
 
-    docker-compose up
+    docker compose up
 
 The web application should run at http://localhost:3000
 
@@ -16,11 +16,11 @@ The web application should run at http://localhost:3000
 
 Build the docker image
 
-    DOCKER_TARGET=production docker-compose build
+    DOCKER_TARGET=production docker compose build
 
 Start the container
 
-    docker-compose up
+    docker compose up
 
 The web application should run at http://localhost:3001
 
@@ -57,7 +57,7 @@ To get silent renew to work locally you also need to set:
 
 After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
 
-`docker-compose exec django bash`
+`docker compose exec django bash`
 
 and execute the following four commands inside your docker container:
 
@@ -78,8 +78,8 @@ TODO: Add instructions to set up local Linked Events REST API server when OIDC a
 
 Copy `cp .env.development.local.example .env.development.local`
 
-Run `docker-compose up`, now the app should be running at `http://localhost:3000/`!
-`docker-compose down` stops the container.
+Run `docker compose up`, now the app should be running at `http://localhost:3000/`!
+`docker compose down` stops the container.
 
 OR
 

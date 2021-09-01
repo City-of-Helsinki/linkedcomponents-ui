@@ -5,6 +5,7 @@ import React from 'react';
 
 import { EventsDocument, SuperEventType } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
+import { createCache } from '../../../app/apollo/apolloClient';
 import { SUB_EVENTS_VARIABLES } from '../../constants';
 import useRelatedEvents from '../useRelatedEvents';
 
@@ -129,7 +130,7 @@ const mocks = [
 
 const getHookWrapper = (mocks = []) => {
   const wrapper = ({ children }) => (
-    <MockedProvider mocks={mocks} addTypename={false}>
+    <MockedProvider cache={createCache()} mocks={mocks}>
       {children}
     </MockedProvider>
   );

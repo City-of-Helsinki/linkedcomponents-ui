@@ -6,7 +6,13 @@
     "networkError": {
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
+    "noRightsUpdateEventLabel": "No permissions to edit events",
     "noRightsUpdateEvent": "You do not have permission to edit events."
+  },
+  "authRequiredNotification": {
+    "button": "sign in",
+    "part1": "You can continue to explore the service, but you will need to",
+    "part2": " to save your changes."
   },
   "authenticationMethod": {
     "espooEmployee": "Stad Esbo anställd ID",
@@ -376,7 +382,7 @@
         "general": "Add at least one keyword to the event that best describes the theme of the event. Start typing a keyword and select the keyword you want to add from the list below.",
         "volunteering": "Add at least one keyword to the volunteering that best describes the theme of the volunteering. Start typing a keyword and select the keyword you want to add from the list below."
       },
-      "infoTextLocation1": "Enter the name or street address of the venue in the field and select the correct venue from the list.",
+      "infoTextLocation1": "Enter the name or street address of the venue in the field and select the correct venue from the list. The search results are sorted by the number of events.",
       "infoTextLocation2": {
         "course": "If the course is only held remotely on the Internet, select Internet as the venue. The course URL is entered in the home page field and / or the course on social media fields.",
         "general": "If the event is only held remotely on the Internet, select Internet as the venue. The event URL is entered in the home page field and / or the event on social media fields.",
@@ -538,6 +544,7 @@
         "general": "Specify recurring event",
         "volunteering": "Specify recurring volunteering"
       },
+      "notificationTitleCannotEdit": "The event cannot be edited",
       "notificationTitleDescription": {
         "course": "Course description",
         "general": "Event description",
@@ -757,17 +764,6 @@
     "publicationStatus": {
       "draft": "Draft",
       "public": "Public"
-    },
-    "serverError": {
-      "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
-      "invalidUrl": "Enter a valid URL.",
-      "min0": "This number must be at least 0.",
-      "nameIsRequired": "The name must be specified.",
-      "notFoundAllObjects": "Could not find all objects to update.",
-      "offersIsRequired": "Price info must be specified before an event is published.",
-      "required": "This field cannot be left blank.",
-      "requiredWhenPublishing": "This field must be specified before an event is published.",
-      "shortDescriptionTooLong": "Short description length must be 160 characters or less"
     },
     "subEvents": "Sub-events",
     "superEventType": {
@@ -1127,5 +1123,17 @@
   },
   "notSigned": {
     "text": "You must be logged in to view this content. Log in or return to the home page."
+  },
+  "serverError": {
+    "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
+    "invalidUrl": "Enter a valid URL.",
+    "maxLength255": "The value can be up to 255 characters long.",
+    "min0": "This number must be at least 0.",
+    "nameIsRequired": "The name must be specified.",
+    "notFoundAllObjects": "Could not find all objects to update.",
+    "offersIsRequired": "Price info must be specified before an event is published.",
+    "required": "This field cannot be left blank.",
+    "requiredWhenPublishing": "This field must be specified before an event is published.",
+    "shortDescriptionTooLong": "Short description length must be 160 characters or less"
   }
 }

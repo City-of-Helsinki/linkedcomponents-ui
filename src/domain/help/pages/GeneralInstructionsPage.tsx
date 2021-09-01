@@ -5,7 +5,6 @@ import { SWAGGER_URL } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import removeProtocolFromUrl from '../../../utils/removeProtocolFromUrl';
-import MainContent from '../../app/layout/MainContent';
 import PageWrapper from '../../app/layout/PageWrapper';
 
 const GeneralInstructionsPage: React.FC = () => {
@@ -111,7 +110,7 @@ const GeneralInstructionsPage: React.FC = () => {
       keywords={['keywords.support', 'keywords.help', 'keywords.instructions']}
       title="helpPage.pageTitleInstructions"
     >
-      <MainContent>{getContent(locale)}</MainContent>
+      {getContent(locale)}
     </PageWrapper>
   );
 };

@@ -112,6 +112,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
       <div
         className={styles.eventCardWrapper}
         id={getEventItemId(id)}
+        data-testid={event.id}
         style={{
           marginLeft: `calc(${level} * var(--spacing-l))`,
           marginRight: `calc(0px - ${level} * var(--spacing-l))`,
@@ -159,7 +160,9 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
 
             <div className={styles.publisherRow}>
               <div className={styles.publisherColumn}>
-                <div>{publisher ? <PublisherName id={publisher} /> : '-'}</div>
+                <div className={styles.publisherName}>
+                  {publisher ? <PublisherName id={publisher} /> : '-'}
+                </div>
                 <TextWithIcon
                   icon={
                     <IconLocation aria-hidden={true} className={styles.icon} />

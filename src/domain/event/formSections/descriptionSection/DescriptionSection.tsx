@@ -130,23 +130,21 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                       required={true}
                     />
                   </FormGroup>
-                  <FormGroup>
-                    <Field
-                      component={TextEditorField}
-                      label={t(`event.form.labelDescription.${type}`, {
-                        langText,
-                      })}
-                      name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
-                      placeholder={t(
-                        `event.form.placeholderDescription.${type}`
-                      )}
-                      sanitizeAfterChange={sanitizeDescriptionAfterChange}
-                      maxLength={CHARACTER_LIMITS.LONG_STRING}
-                      required={true}
-                    />
-                  </FormGroup>
                 </FieldColumn>
               </FieldRow>
+              <FormGroup>
+                <Field
+                  component={TextEditorField}
+                  label={t(`event.form.labelDescription.${type}`, {
+                    langText,
+                  })}
+                  name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
+                  placeholder={t(`event.form.placeholderDescription.${type}`)}
+                  sanitizeAfterChange={sanitizeDescriptionAfterChange}
+                  maxLength={CHARACTER_LIMITS.LONG_STRING}
+                  required={true}
+                />
+              </FormGroup>
             </TabPanel>
           );
         })}

@@ -8,7 +8,7 @@
     "plugin:import/typescript",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["simple-import-sort"],
+  "plugins": ["simple-import-sort", "testcafe"],
   "rules": {
     "@typescript-eslint/brace-style": [
       "error",

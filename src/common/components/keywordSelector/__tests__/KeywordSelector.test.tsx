@@ -38,7 +38,7 @@ const keywords = fakeKeywords(
 );
 const keywordsVariables = {
   createPath: undefined,
-  dataSource: 'yso',
+  dataSource: ['yso', 'helsinki'],
   showAllKeywords: true,
   text: '',
 };

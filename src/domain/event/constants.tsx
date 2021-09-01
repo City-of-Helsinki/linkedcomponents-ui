@@ -111,13 +111,14 @@ export enum EVENT_FIELDS {
   VIDEOS = 'videos',
 }
 
+// Don't change languege order. The defines order of backup languages in localised strings
 export enum EVENT_INFO_LANGUAGES {
-  AR = 'ar',
-  EN = 'en',
   FI = 'fi',
-  RU = 'ru',
   SV = 'sv',
+  EN = 'en',
+  RU = 'ru',
   ZH_HANS = 'zhHans',
+  AR = 'ar',
 }
 
 export const ORDERED_EVENT_INFO_LANGUAGES = [

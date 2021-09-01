@@ -9,6 +9,7 @@ import {
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import {
   act,
+  actWait,
   configure,
   render,
   screen,
@@ -155,7 +156,7 @@ test('should render all event times', async () => {
   renderComponent(initialValues, fakeEvent());
 
   // Event
-  screen.getByRole('row', {
+  await screen.findByRole('row', {
     name: '1 18.04.2021 12.00 – 18.04.2021 15.00',
   });
   // Recurring event
@@ -427,6 +428,7 @@ test('should not be able to add new event times when editing single event', asyn
     })
   );
 
+  await actWait();
   const singleEventStartTimeInput = getSingleEventElement('startTime');
   expect(singleEventStartTimeInput).toBeDisabled();
 
@@ -451,6 +453,7 @@ test('should be able to add new event times when editing recurring event', async
     })
   );
 
+  await actWait();
   const singleEventStartTimeInput = getSingleEventElement('startTime');
   expect(singleEventStartTimeInput).toBeEnabled();
 

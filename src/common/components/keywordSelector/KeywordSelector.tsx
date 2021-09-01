@@ -73,7 +73,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     useKeywordsQuery({
       variables: {
         createPath: getPathBuilder(keywordsPathBuilder),
-        dataSource: 'yso',
+        dataSource: ['yso', 'helsinki'],
         showAllKeywords: true,
         text: search,
       },

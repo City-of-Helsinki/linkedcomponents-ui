@@ -8,6 +8,7 @@ import {
 import { LEServerError, OptionType, ServerErrorItem } from '../../../types';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
+import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import pascalCase from '../../../utils/pascalCase';
 import { AUDIENCE_ORDER, EVENT_EDIT_ACTIONS } from '../constants';
 
@@ -54,7 +55,7 @@ export const parseEventServerErrors = ({
   }
 
   return typeof result === 'string'
-    ? [{ label: '', message: parseEventServerErrorMessage([result]) }]
+    ? [{ label: '', message: parseServerErrorMessage({ error: [result], t }) }]
     : Object.entries(result).reduce(
         (previous: ServerErrorItem[], [key, error]) => [
           ...previous,
@@ -84,7 +85,7 @@ export const parseEventServerErrors = ({
         return [
           {
             label: parseEventServerErrorLabel({ key }),
-            message: parseEventServerErrorMessage(error),
+            message: parseServerErrorMessage({ error, t }),
           },
         ];
     }
@@ -109,7 +110,7 @@ export const parseEventServerErrors = ({
               key,
               langText: lowerCaseFirstLetter(t(`form.inLanguage.${lang}`)),
             }),
-            message: parseEventServerErrorMessage([e as string]),
+            message: parseServerErrorMessage({ error: [e as string], t }),
           },
         ],
         []
@@ -133,7 +134,7 @@ export const parseEventServerErrors = ({
         .filter((e) => !isEmpty(e))
         .map((e) => ({
           label: parseEventServerErrorLabel({ key }),
-          message: parseEventServerErrorMessage({ error: e.link as string[] }),
+          message: parseServerErrorMessage({ error: e.link as string[], t }),
         }));
     } else {
       return [];
@@ -149,7 +150,7 @@ export const parseEventServerErrors = ({
           ...previous,
           {
             label: t(`event.form.labelVideo${pascalCase(key)}`),
-            message: parseEventServerErrorMessage({ error: e as string[] }),
+            message: parseServerErrorMessage({ error: e as string[], t }),
           },
         ],
         []
@@ -183,46 +184,6 @@ export const parseEventServerErrors = ({
         return t(`event.form.titlePriceInfo.${eventType}`);
       default:
         return t(`event.form.label${pascalCase(key)}`);
-    }
-  }
-
-  // LE returns always error message in a single language, so use i18n to translate
-  // error message to used UI language
-  function parseEventServerErrorMessage(error: LEServerError): string {
-    let errorStr = '';
-
-    if (Array.isArray(error)) {
-      const e =
-        typeof error[0] === 'object'
-          ? Object.values(error[0]).find((item) => item)
-          : error[0];
-      errorStr = Array.isArray(e) ? e[0] : e;
-    } else {
-      const e = Object.values(error).find((item) => item);
-      errorStr = Array.isArray(e) ? e[0] : e;
-    }
-
-    switch (errorStr) {
-      case 'Could not find all objects to update.':
-        return t(`event.serverError.notFoundAllObjects`);
-      case 'End time cannot be in the past. Please set a future end time.':
-        return t(`event.serverError.endTimeInPast`);
-      case 'Price info must be specified before an event is published.':
-        return t(`event.serverError.offersIsRequired`);
-      case 'Short description length must be 160 characters or less':
-        return t(`event.serverError.shortDescriptionTooLong`);
-      case 'Syötä oikea URL-osoite.':
-        return t(`event.serverError.invalidUrl`);
-      case 'The name must be specified.':
-        return t(`event.serverError.nameIsRequired`);
-      case 'This field must be specified before an event is published.':
-        return t(`event.serverError.requiredWhenPublishing`);
-      case 'Tämä kenttä ei voi olla tyhjä.':
-        return t(`event.serverError.required`);
-      case 'Tämän luvun on oltava vähintään 0.':
-        return t(`event.serverError.min0`);
-      default:
-        return errorStr;
     }
   }
 };

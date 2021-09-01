@@ -31,6 +31,10 @@ interface EventTimeRowProps {
   startIndex: number;
 }
 
+/* istanbul ignore next */
+const formatDateStr = (date?: Date | null) =>
+  (date && formatDate(new Date(date), DATETIME_FORMAT)) ?? '';
+
 const EventTimeRow: React.FC<EventTimeRowProps> = ({
   eventTime,
   index,
@@ -56,9 +60,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
 
   const dateText =
     startTime || endTime
-      ? `${startTime && formatDate(new Date(startTime), DATETIME_FORMAT)} – ${
-          endTime && formatDate(new Date(endTime), DATETIME_FORMAT)
-        }`
+      ? `${formatDateStr(startTime)} – ${formatDateStr(endTime)}`
       : '';
 
   const closeEditModal = () => {

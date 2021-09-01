@@ -16,6 +16,7 @@ import useLocale from '../../../hooks/useLocale';
 import useWindowSize from '../../../hooks/useWindowSize';
 import getPageHeaderHeight from '../../../utils/getPageHeaderHeight';
 import Container from '../../app/layout/Container';
+import MainContent from '../../app/layout/MainContent';
 import styles from './helpPageLayout.module.scss';
 
 interface Props {
@@ -162,7 +163,9 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
               </SideNavigation>
             </div>
           </div>
-          <div className={styles.content}>{children}</div>
+          <div className={styles.content}>
+            <MainContent>{children}</MainContent>
+          </div>
         </div>
       </Container>
     </div>

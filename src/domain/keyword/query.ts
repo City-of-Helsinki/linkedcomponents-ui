@@ -20,7 +20,7 @@ export const QUERY_KEYWORD = gql`
   }
 
   query Keywords(
-    $dataSource: String
+    $dataSource: [String]
     $freeText: String
     $hasUpcomingEvents: Boolean
     $page: Int

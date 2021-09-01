@@ -6,6 +6,7 @@
     "networkError": {
       "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
     },
+    "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang."
   },
   "authenticationMethod": {
@@ -14,6 +15,11 @@
     "helsinkiEmployee": "Stad Helsinki anställd ID",
     "some": "Facebook, Google eller Twitter ID",
     "yle": "YLE ID"
+  },
+  "authRequiredNotification": { 
+    "button": "logga in",
+    "part1": "Du kan fortsätta att utforska tjänsten, men du måste",
+    "part2": " för att spara dina ändringar."
   },
   "common": {
     "add": "Lägg till",
@@ -376,7 +382,7 @@
         "general": "Lägg till minst ett nyckelord för evenemanget som bäst beskriver dess tema. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till från listan nedan.",
         "volunteering": "Lägg till minst ett nyckelord för volontärarbetet som bäst beskriver dess tema. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till från listan nedan."
       },
-      "infoTextLocation1": "Ange platsens namn eller gatuadress i platsfältet och välj rätt plats i listan.",
+      "infoTextLocation1": "Ange platsens namn eller gatuadress i platsfältet och välj rätt plats i listan. Sökresultaten sorteras efter antalet evenemang.",
       "infoTextLocation2": {
         "course": "Om kursen bara hålls på distans på Internet, välj “Internet” som plats. Webbadressen till kursen ska anges i fältet hemsida och/eller sociala medier.",
         "general": "Om evenemanget bara hålls på distans på Internet, välj “Internet” som plats. Webbadressen till evenemanget ska anges i fältet hemsida och/eller sociala medier.",
@@ -538,6 +544,7 @@
         "general": "Ange återkommande evenemang",
         "volunteering": "Ange återkommande volontärarbete"
       },
+      "notificationTitleCannotEdit": "Evenemanget kan inte redigeras",
       "notificationTitleDescription": {
         "course": "Kursbeskrivning",
         "general": "Evenemangbeskrivning",
@@ -757,17 +764,6 @@
     "publicationStatus": {
       "draft": "Förslag",
       "public": "Offentlig"
-    },
-    "serverError": {
-      "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
-      "invalidUrl": "Ange rätt URL.",
-      "min0": "Detta nummer måste vara minst 0.",
-      "nameIsRequired": "Namnet krävs.",
-      "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
-      "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
-      "required": "Det här fältet kan inte lämnas tomt.",
-      "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
-      "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre"
     },
     "subEvents": "Underevenemangen",
     "superEventType": {
@@ -1127,5 +1123,17 @@
   },
   "notSigned": {
     "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
+  },
+  "serverError": {
+    "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
+    "invalidUrl": "Ange rätt URL.",
+    "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
+    "min0": "Detta nummer måste vara minst 0.",
+    "nameIsRequired": "Namnet krävs.",
+    "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
+    "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
+    "required": "Det här fältet kan inte lämnas tomt.",
+    "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
+    "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre"
   }
 }
