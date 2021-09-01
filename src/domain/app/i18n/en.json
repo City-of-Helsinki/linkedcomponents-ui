@@ -6,7 +6,13 @@
     "networkError": {
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
+    "noRightsUpdateEventLabel": "No permissions to edit events",
     "noRightsUpdateEvent": "You do not have permission to edit events."
+  },
+  "authRequiredNotification": {
+    "button": "sign in",
+    "part1": "You can continue to explore the service, but you will need to",
+    "part2": " to save your changes."
   },
   "authenticationMethod": {
     "espooEmployee": "Stad Esbo anställd ID",
@@ -516,6 +522,7 @@
         "general": "Specify recurring event",
         "volunteering": "Specify recurring volunteering"
       },
+      "notificationTitleCannotEdit": "The event cannot be edited",
       "notificationTitleDescription": {
         "course": "Course description",
         "general": "Event description",

@@ -16,6 +16,10 @@
   }
 }
 
+.createContainer {
+  margin-top: var(--spacing-m);
+}
+
 .notification {
   @include medium-up {
     margin-top: var(--label-height);

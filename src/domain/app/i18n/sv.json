@@ -6,6 +6,7 @@
     "networkError": {
       "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
     },
+    "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang."
   },
   "authenticationMethod": {
@@ -14,6 +15,11 @@
     "helsinkiEmployee": "Stad Helsinki anställd ID",
     "some": "Facebook, Google eller Twitter ID",
     "yle": "YLE ID"
+  },
+  "authRequiredNotification": { 
+    "button": "logga in",
+    "part1": "Du kan fortsätta att utforska tjänsten, men du måste",
+    "part2": " för att spara dina ändringar."
   },
   "common": {
     "add": "Lägg till",
@@ -516,6 +522,7 @@
         "general": "Ange återkommande evenemang",
         "volunteering": "Ange återkommande volontärarbete"
       },
+      "notificationTitleCannotEdit": "Evenemanget kan inte redigeras",
       "notificationTitleDescription": {
         "course": "Kursbeskrivning",
         "general": "Evenemangbeskrivning",

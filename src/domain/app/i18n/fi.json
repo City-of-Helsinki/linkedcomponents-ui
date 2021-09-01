@@ -6,6 +6,7 @@
     "networkError": {
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
+    "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia."
   },
   "authenticationMethod": {
@@ -14,6 +15,11 @@
     "helsinkiEmployee": "Helsingin kaupungin työntekijä -tunnus",
     "some": "Facebook, Google tai Twitter tunnus",
     "yle": "YLE-tunnus"
+  },
+  "authRequiredNotification": { 
+    "button": "kirjautua sisään",
+    "part1": "Voit jatkaa palveluun tutustumista, mutta sinun täytyy",
+    "part2": ", jos haluat tallentaa muutoksia."
   },
   "common": {
     "add": "Lisää",
@@ -516,6 +522,7 @@
         "general": "Määritä toistuva tapahtuma",
         "volunteering": "Määritä toistuva vapaaehtoistehtävä"
       },
+      "notificationTitleCannotEdit": "Tapahtumaa ei voi muokata",
       "notificationTitleDescription": {
         "course": "Kurssin kuvaus",
         "general": "Tapahtuman kuvaus",

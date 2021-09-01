@@ -27,6 +27,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { reportError } from '../app/sentry/utils';
 import { clearEventsQueries } from '../events/utils';
 import useUser from '../user/hooks/useUser';
+import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import ButtonPanel from './buttonPanel/ButtonPanel';
 import { EVENT_INFO_LANGUAGES, EVENT_INITIAL_VALUES } from './constants';
 import styles from './eventPage.module.scss';
@@ -275,7 +276,8 @@ const CreateEventPage: React.FC = () => {
               title={`createEventPage.pageTitle.${type}`}
             >
               <MainContent>
-                <Container withOffset={true}>
+                <Container className={styles.createContainer} withOffset={true}>
+                  <AuthRequiredNotification />
                   <ServerErrorSummary errors={serverErrorItems} />
                   <Section title={t('event.form.sections.type')}>
                     <TypeSection />

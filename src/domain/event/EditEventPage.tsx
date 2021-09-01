@@ -29,6 +29,7 @@ import {
 } from '../eventSearch/utils';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
+import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import {
   EVENT_EDIT_ACTIONS,
   EVENT_INCLUDES,
@@ -280,6 +281,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
+                    <AuthRequiredNotification event={event} />
                     <EventInfo event={event} />
                     <ServerErrorSummary errors={serverErrorItems} />
 
