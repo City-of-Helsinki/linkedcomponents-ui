@@ -44,6 +44,10 @@ test('Header tabs and search input field work', async (t) => {
   // Events page
   await headerTabs.actions.clickEventsPageTab();
   await urlUtils.expectations.urlChangedToEventsPage();
+  // Registrations page
+  await urlUtils.actions.navigateToLandingPage();
+  await headerTabs.actions.clickRegistrationsPageTab();
+  await urlUtils.expectations.urlChangedToRegistrationsPage();
   // Support page
   await urlUtils.actions.navigateToLandingPage();
   await headerTabs.actions.clickSupportPageTab();

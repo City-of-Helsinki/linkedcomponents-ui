@@ -88,6 +88,7 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): PlacesResponse!
+    registrations: RegistrationsResponse!
     user(id: ID!): User!
   }
 
@@ -520,5 +521,32 @@ module.exports = buildSchema(/* GraphQL */ `
     altText: String
     name: String
     url: String
+  }
+
+  type RegistrationsResponse {
+    meta: Meta!
+    data: [Registration!]!
+  }
+
+  type Registration {
+    id: ID
+    createdAt: String
+    currentAttendeeCount: Int
+    currentWaitingListCount: Int
+    enrolmentEndTime: String
+    enrolmentStartTime: String
+    eventId: ID
+    maximumAttendeeCount: Int
+    maximumWaitingListCount: Int
+    minimumAttendeeCount: Int
+    name: LocalisedObject
+    publisher: String
+    updatedAt: String
+    # @id is renamed as atId so it's usable on GraphQl
+    atId: String!
+    # @context is renamed as atContext so it's usable on GraphQl
+    atContext: String
+    # @type is renamed as atType so it's usable on GraphQl
+    atType: String
   }
 `);

@@ -75,7 +75,11 @@ export const findHeader = async (
           name: getTranslations(currentLang).navigation.tabs.events,
         });
       },
-
+      registrationsTab() {
+        return withinHeader().findByRole('link', {
+          name: getTranslations(currentLang).navigation.tabs.registrations,
+        });
+      },
       supportTab() {
         return withinHeader().findByRole('link', {
           name: getTranslations(currentLang).navigation.tabs.help,
@@ -89,7 +93,11 @@ export const findHeader = async (
           .expect(selectors.eventsTab().exists)
           .ok(await getErrorMessage(t));
       },
-
+      async registrationsPageTabIsVisible() {
+        await t
+          .expect(selectors.registrationsTab().exists)
+          .ok(await getErrorMessage(t));
+      },
       async supportPageTabIsVisible() {
         await t
           .expect(selectors.supportTab().exists)
@@ -101,7 +109,9 @@ export const findHeader = async (
       async clickEventsPageTab() {
         await t.click(selectors.eventsTab());
       },
-
+      async clickRegistrationsPageTab() {
+        await t.click(selectors.registrationsTab());
+      },
       async clickSupportPageTab() {
         await t.click(selectors.supportTab());
       },

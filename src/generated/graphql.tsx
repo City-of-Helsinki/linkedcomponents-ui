@@ -94,6 +94,7 @@ export type Query = {
   organizations: OrganizationsResponse;
   place: Place;
   places: PlacesResponse;
+  registrations: RegistrationsResponse;
   user: User;
 };
 
@@ -646,6 +647,32 @@ export type Video = {
   altText?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+};
+
+export type RegistrationsResponse = {
+  __typename?: 'RegistrationsResponse';
+  meta: Meta;
+  data: Array<Registration>;
+};
+
+export type Registration = {
+  __typename?: 'Registration';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['String']>;
+  currentAttendeeCount?: Maybe<Scalars['Int']>;
+  currentWaitingListCount?: Maybe<Scalars['Int']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
+  eventId?: Maybe<Scalars['ID']>;
+  maximumAttendeeCount?: Maybe<Scalars['Int']>;
+  maximumWaitingListCount?: Maybe<Scalars['Int']>;
+  minimumAttendeeCount?: Maybe<Scalars['Int']>;
+  name?: Maybe<LocalisedObject>;
+  publisher?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atContext?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
 };
 
 export type CreateEventMutationVariables = Exact<{

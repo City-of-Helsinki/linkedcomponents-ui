@@ -24,7 +24,11 @@ exports[`should match snapshot 1`] = `
         />
       </g>
     </svg>
-    Text
+    <span
+      class="text"
+    >
+      Text
+    </span>
   </div>
 </div>
 `;

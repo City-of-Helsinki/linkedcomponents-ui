@@ -22,6 +22,7 @@
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Add new event",
+    "buttonAddRegistration": "Add new",
     "cancel": "Undo",
     "close": "Close",
     "combobox": {
@@ -1089,7 +1090,8 @@
     "skipToContentLabel": "Skip to content",
     "tabs": {
       "events": "Events",
-      "help": "Support"
+      "help": "Support",
+      "registrations": "Registration"
     }
   },
   "notFound": {
@@ -1098,6 +1100,41 @@
   },
   "notSigned": {
     "text": "You must be logged in to view this content. Log in or return to the home page."
+  },
+  "registrationsPage": {
+    "actionButtons": {
+      "copy": "Copy as a template",
+      "delete": "Delete registration",
+      "edit": "Edit",
+      "showParticipants": "Show participants"
+    },
+    "buttonClearFilters": "Clear filters",
+    "count": "{{count}} registration",
+    "count_plural": "{{count}} registrations",
+    "pageTitle": "Registration",
+    "registrationTableCaption": "Registrations, sorted by {{sort}}",
+    "registrationsTableColumns": {
+      "enrolmentEndTime": "Ends",
+      "enrolmentStartTime": "Starts",
+      "name": "Name",
+      "participants": "Participants",
+      "publisher": "Publisher",
+      "waitingList": "Waiting list"
+    },
+    "searchPanel": {
+      "buttonClear": "Clear",
+      "buttonRemoveFilter": "Remove filter: {{name}}",
+      "buttonSearch": "Search registrations",
+      "labelEventType": "Type",
+      "labelPlace": "Search venue",
+      "labelSearch": "Search registrations",
+      "placeholderSearch": "Search registrations"
+    },
+    "sortOptions": {
+      "lastModifiedTime": "Last modified, ascending",
+      "lastModifiedTimeDesc": "Last modified, descending"
+    },
+    "title": "Registration"
   },
   "serverError": {
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",

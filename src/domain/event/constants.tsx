@@ -261,6 +261,7 @@ export enum EVENT_EDIT_ACTIONS {
   UPDATE_DRAFT = 'updateDraft',
   UPDATE_PUBLIC = 'updatePublic',
 }
+
 export const SUB_EVENTS_VARIABLES: EventsQueryVariables = {
   createPath: getPathBuilder(eventsPathBuilder),
   include: EVENT_LIST_INCLUDES,

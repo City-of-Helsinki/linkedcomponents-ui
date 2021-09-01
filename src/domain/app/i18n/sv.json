@@ -22,6 +22,7 @@
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lägg till evenemang",
+    "buttonAddRegistration": "Lägg till",
     "cancel": "Ångra",
     "close": "Stäng",
     "combobox": {
@@ -1089,7 +1090,8 @@
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
       "events": "Evenemang",
-      "help": "Stöd"
+      "help": "Stöd",
+      "registrations": "Registrering"
     }
   },
   "notFound": {
@@ -1098,6 +1100,41 @@
   },
   "notSigned": {
     "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
+  },
+  "registrationsPage": {
+    "actionButtons": {
+      "copy": "Kopiera som mall",
+      "delete": "Radera registrering",
+      "edit": "Redigera",
+      "showParticipants": "Visa deltagare"
+    },
+    "buttonClearFilters": "Töm sökfilter",
+    "count": "{{count}} registrering",
+    "count_plural": "{{count}} registreringar",
+    "pageTitle": "Registrering",
+    "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
+    "registrationsTableColumns": {
+      "enrolmentEndTime": "Slutar",
+      "enrolmentStartTime": "Börjar",
+      "name": "Namn",
+      "participants": "Deltagarna",
+      "publisher": "Utgivare",
+      "waitingList": "Väntelista"
+    },
+    "searchPanel": {
+      "buttonClear": "Klar",
+      "buttonRemoveFilter": "Ta bort filtret: {{name}}",
+      "buttonSearch": "Sök efter registreringar",
+      "labelEventType": "Typ",
+      "labelPlace": "Sök plats",
+      "labelSearch": "Sök efter registreringar",
+      "placeholderSearch": "Sök efter registreringar"
+    },
+    "sortOptions": {
+      "lastModifiedTime": "Senast ändrad, stigande",
+      "lastModifiedTimeDesc": "Senast ändrad, fallande"
+    },
+    "title": "Registrering"
   },
   "serverError": {
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",

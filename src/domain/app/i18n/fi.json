@@ -22,6 +22,7 @@
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lisää uusi tapahtuma",
+    "buttonAddRegistration": "Lisää uusi",
     "cancel": "Peruuta",
     "close": "Sulje",
     "combobox": {
@@ -1089,7 +1090,8 @@
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
       "events": "Tapahtumat",
-      "help": "Tuki"
+      "help": "Tuki",
+      "registrations": "Ilmoittautuminen"
     }
   },
   "notFound": {
@@ -1098,6 +1100,41 @@
   },
   "notSigned": {
     "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
+  },
+  "registrationsPage": {
+    "actionButtons": {
+      "copy": "Kopioi pohjaksi",
+      "delete": "Poista ilmoittautuminen",
+      "edit": "Muokkaa",
+      "showParticipants": "Näytä ilmoittautuneet"
+    },
+    "buttonClearFilters": "Tyhjennä hakuehdot",
+    "count": "{{count}} ilmoittautuminen",
+    "count_plural": "{{count}} ilmoittautumista",
+    "pageTitle": "Ilmoittautuminen",
+    "registrationsTableCaption": "Ilmoittautumiset, järjestys {{sort}}",
+    "registrationsTableColumns": {
+      "enrolmentEndTime": "Loppuu",
+      "enrolmentStartTime": "Alkaa",
+      "name": "Nimi",
+      "participants": "Osallistujia",
+      "publisher": "Julkaisija",
+      "waitingList": "Jono"
+    },
+    "searchPanel": {
+      "buttonClear": "Tyhjennä",
+      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
+      "buttonSearch": "Etsi ilmoittautumisia",
+      "labelEventType": "Tyyppi",
+      "labelPlace": "Etsi tapahtumapaikkaa",
+      "labelSearch": "Hae ilmoittautumisia",
+      "placeholderSearch": "Hae ilmoittautumisia"
+    },
+    "sortOptions": {
+      "lastModifiedTime": "Viimeksi muokattu, nouseva",
+      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva"
+    },
+    "title": "Ilmoittautuminen"
   },
   "serverError": {
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",

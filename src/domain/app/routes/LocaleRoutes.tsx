@@ -20,6 +20,9 @@ const EventSearchPage = React.lazy(
   () => import('../../eventSearch/EventSearchPage')
 );
 const HelpPageRoutes = React.lazy(() => import('./HelpPageRoutes'));
+const RegistrationsPage = React.lazy(
+  () => import('.././../registrations/RegistrationsPage')
+);
 
 interface Params {
   locale: Language;
@@ -90,6 +93,11 @@ const LocaleRoutes: React.FC<Props> = ({
             exact
             path={getLocalePath(ROUTES.EVENTS)}
             component={EventsPage}
+          />
+          <Route
+            exact
+            path={getLocalePath(ROUTES.REGISTRATIONS)}
+            component={RegistrationsPage}
           />
           <Route
             exact

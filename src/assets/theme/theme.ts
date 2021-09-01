@@ -216,7 +216,7 @@ const theme: Theme = {
       'var(--color-coat-of-arms)',
     '--event-search-panel-button-background-color-hover-focus':
       'var(--color-coat-of-arms-dark)',
-    '--event-search-panel-button-border-color': 'var(--color-white)',
+    '--event-search-panel-button-border-color': 'var(--color-coat-of-arms)',
     '--event-search-panel-button-color': 'var(--color-white)',
     '--event-search-panel-button-focus-outline-color': 'var(--color-white)',
   },
@@ -400,6 +400,23 @@ const theme: Theme = {
     '--focus-outline-color': 'var(--color-coat-of-arms)',
     '--label-color': 'var(--color-black-90)',
     '--label-color-disabled': 'var(--color-black-40)',
+  },
+  registrationSearchPanel: {
+    '--registration-search-panel-background-color': 'var(--color-coat-of-arms)',
+    '--registration-search-panel-label-color': 'var(--color-white)',
+    '--registration-search-panel-button-background-color':
+      'var(--color-coat-of-arms)',
+    '--registration-search-panel-button-background-color-hover':
+      'var(--color-coat-of-arms-dark)',
+    '--registration-search-panel-button-background-color-focus':
+      'var(--color-coat-of-arms)',
+    '--registration-search-panel-button-background-color-hover-focus':
+      'var(--color-coat-of-arms-dark)',
+    '--registration-search-panel-button-border-color':
+      'var(--color-coat-of-arms)',
+    '--registration-search-panel-button-color': 'var(--color-coat-of-arms)',
+    '--registration-search-panel-button-focus-outline-color':
+      'var(--color-white)',
   },
   root: {
     '--focus-outline-color': 'var(--color-coat-of-arms)',
