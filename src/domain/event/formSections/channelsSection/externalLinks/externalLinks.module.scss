@@ -12,6 +12,12 @@
 }
 
 .nameSelector {
-  z-index: 1;
   margin-right: calc(0px - var(--border-width));
+}
+
+.newLinkField {
+  input {
+    border-left: none;
+    margin-left: var(--border-width);
+  }
 }

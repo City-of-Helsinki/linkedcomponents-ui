@@ -36,6 +36,7 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({ onChange, type }) => {
         />
         <TextInput
           id="new-some-link-input"
+          className={styles.newLinkField}
           disabled
           hideLabel={true}
           label={t(`event.form.labelNewExternalLinkLink.${type}`)}

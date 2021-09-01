@@ -206,14 +206,16 @@ const validateOffers = (
         )
     : schema;
 
-const externalLinksSchema = Yup.object().shape({
-  [EXTERNAL_LINK_FIELDS.LINK]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .url(VALIDATION_MESSAGE_KEYS.URL),
-  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-});
+const externalLinksSchema = Yup.array().of(
+  Yup.object().shape({
+    [EXTERNAL_LINK_FIELDS.LINK]: Yup.string()
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      .url(VALIDATION_MESSAGE_KEYS.URL),
+    [IMAGE_DETAILS_FIELDS.NAME]: Yup.string().required(
+      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+  })
+);
 
 const imageDetailsSchema = Yup.object().shape({
   [IMAGE_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
@@ -380,7 +382,7 @@ export const publicEventSchema = Yup.object().shape({
   [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
   ),
-  [EVENT_FIELDS.EXTERNAL_LINKS]: Yup.array().of(externalLinksSchema),
+  [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
     [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
     validateImageDetails as () => Yup.SchemaOf<ImageDetails>
@@ -423,7 +425,7 @@ export const draftEventSchema = Yup.object().shape({
   [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
   ),
-  [EVENT_FIELDS.EXTERNAL_LINKS]: Yup.array().of(externalLinksSchema),
+  [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
   [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
     [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
     validateImageDetails as () => Yup.SchemaOf<ImageDetails>
