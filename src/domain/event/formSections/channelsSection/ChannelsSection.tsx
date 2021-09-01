@@ -1,15 +1,14 @@
-import { Field, useField } from 'formik';
+import { useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
-import TextInputField from '../../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import { EVENT_FIELDS } from '../../constants';
-import styles from '../../eventPage.module.scss';
 import FieldColumn from '../../layout/FieldColumn';
 import FieldRow from '../../layout/FieldRow';
+import ExternalLinks from './externalLinks/ExternalLinks';
 
 const ChannelsSection: React.FC = () => {
   const { t } = useTranslation();
@@ -37,7 +36,6 @@ const ChannelsSection: React.FC = () => {
       <FieldRow
         notification={
           <Notification
-            className={styles.notification}
             label={t(`event.form.titleSocialMedia.${type}`)}
             type="info"
           >
@@ -45,32 +43,7 @@ const ChannelsSection: React.FC = () => {
           </Notification>
         }
       >
-        <FieldColumn>
-          <FormGroup>
-            <Field
-              component={TextInputField}
-              label={t(`event.form.labelFacebookUrl`)}
-              name={EVENT_FIELDS.FACEBOOK_URL}
-              placeholder={t(`event.form.placeholderFacebookUrl.${type}`)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Field
-              component={TextInputField}
-              label={t(`event.form.labelTwitterUrl`)}
-              name={EVENT_FIELDS.TWITTER_URL}
-              placeholder={t(`event.form.placeholderTwitterUrl.${type}`)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Field
-              component={TextInputField}
-              label={t(`event.form.labelInstagramUrl`)}
-              name={EVENT_FIELDS.INSTAGRAM_URL}
-              placeholder={t(`event.form.placeholderInstagramUrl.${type}`)}
-            />
-          </FormGroup>
-        </FieldColumn>
+        <ExternalLinks />
       </FieldRow>
     </>
   );

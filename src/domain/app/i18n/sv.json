@@ -107,6 +107,7 @@
     "placeholderDateTime": "dd.mm.åååå hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Spara",
+    "select": "Välj",
     "showLess": "Visa mindre",
     "showMore": "Visa mer",
     "showMoreWithCount": "Visa mer ({{count}})",
@@ -208,6 +209,17 @@
       "eventRescheduled": "Ombokat",
       "eventScheduled": "Bokat"
     },
+    "extlink": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "reddit": "Reddit",
+      "snapchat": "Snapchat",
+      "tiktok": "TikTok",
+      "tumblr": "Tumblr",
+      "twitter": "Twitter",
+      "youtube": "YouTube",
+      "whatsapp": "WhatsApp"
+    },
     "form": {
       "buttonAcceptAndPublish": "Godkänn och publicera",
       "buttonActions": "Funktioner",
@@ -233,6 +245,7 @@
       "buttonCopy": "Kopiera som mall",
       "buttonDelete":  "Ta bort evenemang",
       "buttonDeleteEventTime": "Ta bort tidpunkt",
+      "buttonDeleteExternalLink": "Ta bort SoMe-länken",
       "buttonDeleteOffer": "Ta bort prisuppgift",
       "buttonDeleteRecurringEvent": "Ta bort återkommande evenemang",
       "buttonDeleteVideo": "Ta bort video",
@@ -403,9 +416,9 @@
         "volunteering": "Välj den organisation som ska visas som volontärarbetesutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation."
       },
       "infoTextSocialMedia": {
-        "course": "Kopiera kursenss webbadresslänkar för sociala medier här.",
-        "general": "Kopiera evenemangets webbadresslänkar för sociala medier här.",
-        "volunteering": "Kopiera volontärarbetets webbadresslänkar för sociala medier här."
+        "course": "Frivillig. I URL-fältet anger du SoMe-länkarna för kursen.",
+        "general": "Frivillig. I URL-fältet anger du SoMe-länkarna för evenemangen.",
+        "volunteering": "Frivillig. I URL-fältet anger du SoMe-länkarna för volortararbetet."
       },
       "infoTextType1": "Är det ett evenemang eller en kurs? Evenemang är ett engångstillfälle och börjar vid en viss tidpunkt, medan en kurs kan ha flera evenemang och aktiviteterna är i allmänhet målinriktade. I vissa fall kallas kurser också för hobbyer.",
       "infoTextType2": "Valet av evenemangstyp påverkar hur och i vilka tjänster evenemangen visas för användaren.",
@@ -433,7 +446,12 @@
       },
       "labelEnrolmentEndTime": "Registreringen avslutas",
       "labelEnrolmentStartTime": "Registreringen börjar",  
-      "labelFacebookUrl": "Facebook",
+      "labelExternalLinkLink": {
+        "course": "Kursens Facebook-URL",
+        "general": "Evenemangets Facebook-URL",
+        "volunteering": "Volontärarbetets Facebook-URL"
+      },
+      "labelExternalLinkName": "SoMe-länkstyp",
       "labelHasPrice": {
         "course": "Kursen kräver betalning",
         "general": "Evenemanget kräver betalning",
@@ -449,7 +467,6 @@
         "general": "Webbadressen till evenemangets hemsida {{langText}}",
         "volunteering": "Webbadressen till volontärarbetets hemsida {{langText}}"
       },
-      "labelInstagramUrl": "Instagram",
       "labelIsUmbrella": {
         "course": "Detta kurs är ett huvudevenemang.",
         "general": "Detta evenemang är ett huvudevenemang.",
@@ -466,6 +483,12 @@
         "general": "Evenemangets title {{langText}}",
         "volunteering": "Volontärarbetets title {{langText}}"
       },
+      "labelNewExternalLinkLink": {
+        "course": "Kursens SoMe-länk-URL",
+        "general": "Evenemangets SoMe-länk-URL",
+        "volunteering": "Volontärarbetets SoMe-länk-URL"
+      },
+      "labelNewExternalLinkName": "Typ av ny SoMe-länk",
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
@@ -507,7 +530,6 @@
         "volunteering": "Volontärarbetet börjar"
       },
       "labelTime": "Tid",
-      "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Huvudevenemang",
       "labelVideoAltText": "Videons alt-text",
       "labelVideoName": "Namn på videon",
@@ -577,10 +599,10 @@
         "general": "Ange evenemangetsbeskrivning",
         "volunteering": "Ange volontärarbetetsbeskrivning"
       },
-      "placeholderFacebookUrl": {
-        "course": "Ange webbadressen till kursens Facebook-sida",
-        "general": "Ange webbadressen till evenemangets Facebook-sida",
-        "volunteering": "Ange webbadressen till volontärarbetets Facebook-sida"
+      "placeholderExternalLinkLink": {
+        "course": "Ange kursens Facebook-URL",
+        "general": "Ange evenemangets Facebook-URL",
+        "volunteering": "Ange volontärarbetets Facebook-URL"
       },
       "placeholderInfoUrl": {
         "course": "Ange webbadressen till kursens hemsida {{langText}}",
@@ -600,6 +622,7 @@
         "general": "Ange evenemangets titel",
         "volunteering": "Ange volontärarbetets title"
       },
+      "placeholderNewExternalLinkLink": "Välj först plattformen",
       "placeholderOfferDescription": "Ange ytterligare prisinformation {{langText}}",
       "placeholderOfferInfoUrl": "Ange webbadressen till biljettförsäljning eller registrering {{langText}}",
       "placeholderOfferPrice": {
@@ -616,11 +639,6 @@
         "course": "Ange en kort beskrivning av kursen",
         "general": "Ange en kort beskrivning av evenemanget",
         "volunteering": "Ange en kort beskrivning av volontärarbetet"
-      },
-      "placeholderTwitterUrl": {
-        "course": "Ange webbadressen till kursens Twitter-flöde",
-        "general": "Ange webbadressen till evenemangets Twitter-flöde",
-        "volunteering": "Ange webbadressen till volontärarbetets Twitter-flöde"
       },
       "placeholderVideoAltText": "Ange videons alt-text för skärmläsare",
       "placeholderVideoName": "Ange videon namn",

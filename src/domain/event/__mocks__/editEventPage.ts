@@ -303,7 +303,12 @@ const baseFormValues: EventFormFields = {
   eventInfoLanguages: ['fi', 'sv'],
   eventTimes: [],
   events: [],
-  facebookUrl,
+  externalLinks: [
+    { name: EXTLINK.EXTLINK_FACEBOOK, link: facebookUrl },
+    { name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl },
+    { name: EXTLINK.EXTLINK_TWITTER, link: twitterUrl },
+  ],
+
   hasPrice: true,
   hasUmbrella: false,
   images: [...imageAtIds],
@@ -311,7 +316,6 @@ const baseFormValues: EventFormFields = {
   inLanguage: [...inLanguageAtIds],
   isVerified: true,
   infoUrl,
-  instagramUrl,
   isImageEditable: true,
   isUmbrella: false,
   keywords: [...keywordAtIds],
@@ -330,7 +334,6 @@ const baseFormValues: EventFormFields = {
   shortDescription,
   superEvent: '',
   type: EVENT_TYPE.General,
-  twitterUrl,
   videos: [videoDetails],
 };
 

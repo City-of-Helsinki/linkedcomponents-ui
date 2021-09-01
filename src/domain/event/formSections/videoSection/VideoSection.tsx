@@ -15,9 +15,7 @@ const getVideoPath = (index: number) => `${EVENT_FIELDS.VIDEOS}[${index}]`;
 const VideoSection: React.FC = () => {
   const { t } = useTranslation();
 
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: videos }] = useField<VideoDetails[]>({
     name: EVENT_FIELDS.VIDEOS,
   });

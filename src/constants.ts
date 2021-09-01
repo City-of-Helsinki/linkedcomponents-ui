@@ -93,12 +93,17 @@ export enum WEEK_DAY {
 export const DATE_FORMAT = 'dd.MM.yyyy';
 export const DATETIME_FORMAT = `${DATE_FORMAT} HH.mm`;
 
-export const EXTLINK = {
-  EXTLINK_FACEBOOK: 'extlink_facebook',
-  EXTLINK_INSTAGRAM: 'extlink_instagram',
-  EXTLINK_TWITTER: 'extlink_twitter',
-  EXTLINK_YOUTUBE: 'extlink_youtube',
-};
+export enum EXTLINK {
+  EXTLINK_FACEBOOK = 'extlink_facebook',
+  EXTLINK_INSTAGRAM = 'extlink_instagram',
+  EXTLINK_REDDIT = 'extlink_reddit',
+  EXTLINK_SNAPCHAT = 'extlink_snapchat',
+  EXTLINK_TIKTOK = 'extlink_tiktok',
+  EXTLINK_TUMBLR = 'extlink_tumblr',
+  EXTLINK_TWITTER = 'extlink_twitter',
+  EXTLINK_YOUTUBE = 'extlink_youtube',
+  EXTLINK_WHATSAPP = 'extlink_whatsapp',
+}
 
 export enum FORM_NAMES {
   EVENT_FORM = 'event-form',

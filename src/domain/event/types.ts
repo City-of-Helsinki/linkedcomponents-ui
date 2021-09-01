@@ -10,6 +10,7 @@ import {
   EVENT_FIELDS,
   EVENT_INFO_LANGUAGES,
   EVENT_TIME_FIELDS,
+  EXTERNAL_LINK_FIELDS,
   IMAGE_DETAILS_FIELDS,
   RECURRING_EVENT_FIELDS,
   VIDEO_DETAILS_FIELDS,
@@ -51,15 +52,13 @@ export type EventFormFields = {
   [EVENT_FIELDS.EVENT_TIMES]: EventTime[];
   [EVENT_FIELDS.ENROLMENT_END_TIME]: Date | null;
   [EVENT_FIELDS.ENROLMENT_START_TIME]: Date | null;
-  [EVENT_FIELDS.FACEBOOK_URL]: string;
-  [EVENT_FIELDS.INSTAGRAM_URL]: string;
+  [EVENT_FIELDS.EXTERNAL_LINKS]: ExternalLink[];
   [EVENT_FIELDS.HAS_PRICE]: boolean;
   [EVENT_FIELDS.HAS_UMBRELLA]: boolean;
   [EVENT_FIELDS.IMAGES]: string[];
   [EVENT_FIELDS.IMAGE_DETAILS]: ImageDetails;
   [EVENT_FIELDS.IN_LANGUAGE]: string[];
   [EVENT_FIELDS.INFO_URL]: MultiLanguageObject;
-  [EVENT_FIELDS.INSTAGRAM_URL]: string;
   [EVENT_FIELDS.IS_IMAGE_EDITABLE]: boolean;
   [EVENT_FIELDS.IS_VERIFIED]: boolean;
   [EVENT_FIELDS.IS_UMBRELLA]: boolean;
@@ -79,7 +78,6 @@ export type EventFormFields = {
   [EVENT_FIELDS.SHORT_DESCRIPTION]: MultiLanguageObject;
   [EVENT_FIELDS.SUPER_EVENT]: string | null;
   [EVENT_FIELDS.TYPE]: string;
-  [EVENT_FIELDS.TWITTER_URL]: string;
   [EVENT_FIELDS.VIDEOS]: VideoDetails[];
 };
 
@@ -110,6 +108,11 @@ export type EventTime = {
   [EVENT_TIME_FIELDS.END_TIME]: Date | null;
   [EVENT_TIME_FIELDS.ID]: string | null;
   [EVENT_TIME_FIELDS.START_TIME]: Date | null;
+};
+
+export type ExternalLink = {
+  [EXTERNAL_LINK_FIELDS.LINK]: string;
+  [EXTERNAL_LINK_FIELDS.NAME]: string;
 };
 
 export type ImageDetails = {

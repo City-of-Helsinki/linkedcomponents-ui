@@ -37,12 +37,8 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   const [{ value: eventInfoLanguages }] = useField<EVENT_INFO_LANGUAGES[]>({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
-  const [{ value: audience }] = useField({
-    name: EVENT_FIELDS.AUDIENCE,
-  });
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
+  const [{ value: audience }] = useField({ name: EVENT_FIELDS.AUDIENCE });
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const sortedEventInfoLanguages = useSortedInfoLanguages(eventInfoLanguages);
 
   const languageOptions = React.useMemo(
