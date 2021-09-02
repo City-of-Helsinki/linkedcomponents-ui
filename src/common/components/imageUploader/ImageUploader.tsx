@@ -82,7 +82,9 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault();
-    setHovered(true);
+    if (!disabled) {
+      setHovered(true);
+    }
   };
 
   const handleDragLeave = () => {
