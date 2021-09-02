@@ -6,10 +6,10 @@ import DatepickerField from '../../../../common/components/formFields/Datepicker
 import NumberInputField from '../../../../common/components/formFields/NumberInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 
 const AdditionalInfoSection: React.FC = () => {
   const { t } = useTranslation();

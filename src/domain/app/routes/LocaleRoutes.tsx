@@ -14,6 +14,9 @@ import PageLayout from '../layout/PageLayout';
 const CreateEventPage = React.lazy(
   () => import('.././../event/CreateEventPage')
 );
+const CreateRegistrationPage = React.lazy(
+  () => import('.././../registration/CreateRegistrationPage')
+);
 const EditEventPage = React.lazy(() => import('../../event/EditEventPage'));
 const EventsPage = React.lazy(() => import('.././../events/EventsPage'));
 const EventSearchPage = React.lazy(
@@ -93,6 +96,11 @@ const LocaleRoutes: React.FC<Props> = ({
             exact
             path={getLocalePath(ROUTES.EVENTS)}
             component={EventsPage}
+          />
+          <Route
+            exact
+            path={getLocalePath(ROUTES.CREATE_REGISTRATION)}
+            component={CreateRegistrationPage}
           />
           <Route
             exact

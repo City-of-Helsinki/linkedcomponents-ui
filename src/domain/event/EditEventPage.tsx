@@ -22,6 +22,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import Section from '../app/layout/Section';
 import { EventsLocationState } from '../eventSearch/types';
 import {
   extractLatestReturnPath,
@@ -56,7 +57,6 @@ import useEventServerErrors from './hooks/useEventServerErrors';
 import useEventUpdateActions, { MODALS } from './hooks/useEventUpdateActions';
 import useRelatedEvents from './hooks/useRelatedEvents';
 import useSortedInfoLanguages from './hooks/useSortedInfoLanguages';
-import Section from './layout/Section';
 import ConfirmCancelModal from './modals/ConfirmCancelModal';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import ConfirmPostponeModal from './modals/ConfirmPostponeModal';

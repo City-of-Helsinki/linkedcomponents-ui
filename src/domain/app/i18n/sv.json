@@ -163,6 +163,10 @@
       "volunteering": "Nytt volontärarbete"
     }
   },
+  "createRegistrationPage": {
+    "pageTitle": "Ny registrering",
+    "title": "Ny registrering"
+  },
   "errors": {
     "authorizationRequired": "Logga in för att använda den här funktionen",
     "deleted": "Innehållet raderat",
@@ -1100,6 +1104,29 @@
   },
   "notSigned": {
     "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
+  },
+  "registration": {
+    "form": {
+      "labelAudienceMaxAge": "Högsta ålder",
+      "labelAudienceMinAge": "Lägsta ålder",
+      "labelConfirmationMessage": "Bekräftelsemeddelande att skicka (valfritt)",
+      "labelEnrolmentEndTime": "Registreringen avslutas",
+      "labelEnrolmentStartTime": "Registreringen börjar",
+      "labelMaximumAttendeeCount": "Max antal platser",
+      "labelMaximumWaitingListCount": "Antal reservplatser",
+      "labelMinimumAttendeeCount": "Minsta antal platser",
+      "labelRegistrationInstructions": "Anvisningar för registrering (valfritt)",
+      "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
+      "placeholderRegistrationInstructions": "Ange registreringsinstruktioner",
+      "sections": {
+        "additionalRegistrationInformation": "Ytterligare registreringsinformation",
+        "attendeeCount": "Sittplatser",
+        "audienceAge": "Åldersgräns",
+        "confirmationMessageDetails": "Bekräftelsemeddelande",
+        "enrolmentTime": "Registreringstid",
+        "waitingList": "Väntelista"
+      }
+    }
   },
   "registrationsPage": {
     "actionButtons": {

@@ -163,6 +163,10 @@
       "volunteering": "New volunteering"
     }
   },
+  "createRegistrationPage": {
+    "page": "New registration",
+    "title": "New registration"
+  },
   "errors": {
     "authorizationRequired": "Sign in to use this feature",
     "deleted": "Content removed",
@@ -1100,6 +1104,29 @@
   },
   "notSigned": {
     "text": "You must be logged in to view this content. Log in or return to the home page."
+  },
+  "registration": {
+    "form": {
+      "labelAudienceMaxAge": "Maximum age",
+      "labelAudienceMinAge": "Minimum age",
+      "labelConfirmationMessage": "Confirmation message to send (optional)",
+      "labelEnrolmentEndTime": "Registration ends",
+      "labelEnrolmentStartTime": "Registration begins",
+      "labelMaximumAttendeeCount": "Maximum number of seats",
+      "labelMaximumWaitingListCount": "Number of spare seats",
+      "labelMinimumAttendeeCount": "Minimum number of seats",
+      "labelRegistrationInstructions": "Registration instructions (optional)",
+      "placeholderConfirmationMessage": "Enter confirmation message for registrants",
+      "placeholderRegistrationInstructions": "Enter registration instructions",
+      "sections": {
+        "additionalRegistrationInformation": "Additional registration information",
+        "attendeeCount": "Seating",
+        "audienceAge": "Age limit",
+        "confirmationMessageDetails": "Confirmation message details",
+        "enrolmentTime": "Registration time",
+        "waitingList": "Waiting list"
+      }
+    }
   },
   "registrationsPage": {
     "actionButtons": {

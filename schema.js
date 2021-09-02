@@ -530,6 +530,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Registration {
     id: ID
+    confirmationMessage: String
     createdAt: String
     currentAttendeeCount: Int
     currentWaitingListCount: Int
@@ -539,6 +540,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCount: Int
     maximumWaitingListCount: Int
     minimumAttendeeCount: Int
+    registrationInstructions: String
     name: LocalisedObject
     publisher: String
     updatedAt: String

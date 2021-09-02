@@ -658,6 +658,7 @@ export type RegistrationsResponse = {
 export type Registration = {
   __typename?: 'Registration';
   id?: Maybe<Scalars['ID']>;
+  confirmationMessage?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   currentAttendeeCount?: Maybe<Scalars['Int']>;
   currentWaitingListCount?: Maybe<Scalars['Int']>;
@@ -667,6 +668,7 @@ export type Registration = {
   maximumAttendeeCount?: Maybe<Scalars['Int']>;
   maximumWaitingListCount?: Maybe<Scalars['Int']>;
   minimumAttendeeCount?: Maybe<Scalars['Int']>;
+  registrationInstructions?: Maybe<Scalars['String']>;
   name?: Maybe<LocalisedObject>;
   publisher?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;

@@ -106,6 +106,7 @@ export const EXTLINK = {
 
 export enum FORM_NAMES {
   EVENT_FORM = 'event-form',
+  REGISTRATION_FORM = 'registration-form',
 }
 
 export const defaultStoreState: StoreState = {

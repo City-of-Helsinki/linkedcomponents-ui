@@ -6,10 +6,10 @@ import MultiLanguageField from '../../../../common/components/formFields/MultiLa
 import TextInputField from '../../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 
 const ChannelsSection: React.FC = () => {
   const { t } = useTranslation();

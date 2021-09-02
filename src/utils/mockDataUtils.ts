@@ -321,6 +321,7 @@ export const fakeRegistration = (
     {
       id,
       atId: generateAtId(id, 'registration'),
+      confirmationMessage: '',
       createdAt: null,
       currentAttendeeCount: 0,
       currentWaitingListCount: 0,
@@ -332,6 +333,7 @@ export const fakeRegistration = (
       minimumAttendeeCount: 0,
       name: fakeLocalisedObject(faker.name.title()),
       publisher: 'ahjo:u4804001050',
+      registrationInstructions: '',
       updatedAt: null,
       __typename: 'Registration',
     },

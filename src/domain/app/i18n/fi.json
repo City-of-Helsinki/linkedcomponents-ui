@@ -163,6 +163,10 @@
       "volunteering": "Uusi vapaaehtoistehtävä"
     }
   },
+  "createRegistrationPage": {
+    "pageTitle": "Uusi ilmoittautuminen",
+    "title": "Uusi ilmoittautuminen"
+  },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",
     "deleted": "Sisältö on poistettu",
@@ -1100,6 +1104,29 @@
   },
   "notSigned": {
     "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
+  },
+  "registration": {
+    "form": {
+      "labelAudienceMaxAge": "Yläikäraja",
+      "labelAudienceMinAge": "Alaikäraja",
+      "labelConfirmationMessage": "Lähetettävä vahvistusviesti (valinnainen)",
+      "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
+      "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
+      "labelMaximumAttendeeCount": "Paikkojen enimmäismäärä",
+      "labelMaximumWaitingListCount": "Varasijapaikkojen lukumäärä",
+      "labelMinimumAttendeeCount": "Paikkojen vähimmäismäärä",
+      "labelRegistrationInstructions": "Ilmoittautumisohjeet (valinnainen)",
+      "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
+      "placeholderRegistrationInstructions": "Syötä ilmoittautumisohjeet",
+      "sections": {
+        "additionalRegistrationInformation": "Ilmoittautumisen lisätiedot",
+        "attendeeCount": "Paikat",
+        "audienceAge": "Ikäraja",
+        "confirmationMessageDetails": "Vahvistusviestin lisätiedot",
+        "enrolmentTime": "Ilmoittautumisaika",
+        "waitingList": "Jonopaikat"
+      }
+    }
   },
   "registrationsPage": {
     "actionButtons": {

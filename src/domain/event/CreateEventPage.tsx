@@ -24,6 +24,7 @@ import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import Section from '../app/layout/Section';
 import { reportError } from '../app/sentry/utils';
 import { clearEventsQueries } from '../events/utils';
 import useUser from '../user/hooks/useUser';
@@ -47,7 +48,6 @@ import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import useEventServerErrors from './hooks/useEventServerErrors';
 import useUpdateImageIfNeeded from './hooks/useUpdateImageIfNeeded';
-import Section from './layout/Section';
 import { EventFormFields } from './types';
 import {
   draftEventSchema,
