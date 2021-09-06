@@ -1112,18 +1112,18 @@
       "labelConfirmationMessage": "Lähetettävä vahvistusviesti (valinnainen)",
       "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
       "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
+      "labelInstructions": "Ilmoittautumisohjeet (valinnainen)",
       "labelMaximumAttendeeCount": "Paikkojen enimmäismäärä",
-      "labelMaximumWaitingListCount": "Varasijapaikkojen lukumäärä",
       "labelMinimumAttendeeCount": "Paikkojen vähimmäismäärä",
-      "labelRegistrationInstructions": "Ilmoittautumisohjeet (valinnainen)",
+      "labelWaitingAttendeeCapacity": "Varasijapaikkojen lukumäärä",
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
-      "placeholderRegistrationInstructions": "Syötä ilmoittautumisohjeet",
+      "placeholderInstructions": "Syötä ilmoittautumisohjeet",
       "sections": {
-        "additionalRegistrationInformation": "Ilmoittautumisen lisätiedot",
         "attendeeCount": "Paikat",
         "audienceAge": "Ikäraja",
-        "confirmationMessageDetails": "Vahvistusviestin lisätiedot",
+        "confirmationMessage": "Vahvistusviestin lisätiedot",
         "enrolmentTime": "Ilmoittautumisaika",
+        "instructions": "Ilmoittautumisen lisätiedot",
         "waitingList": "Jonopaikat"
       }
     }

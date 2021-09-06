@@ -530,20 +530,22 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Registration {
     id: ID
+    audienceMaxAge: Int
+    audienceMinAge: Int
     confirmationMessage: String
     createdAt: String
     currentAttendeeCount: Int
-    currentWaitingListCount: Int
+    currentWaitingAttendeeCapacity: Int
     enrolmentEndTime: String
     enrolmentStartTime: String
     eventId: ID
+    instructions: String
     maximumAttendeeCount: Int
-    maximumWaitingListCount: Int
     minimumAttendeeCount: Int
-    registrationInstructions: String
     name: LocalisedObject
     publisher: String
     updatedAt: String
+    waitingAttendeeCapacity: Int
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!
     # @context is renamed as atContext so it's usable on GraphQl

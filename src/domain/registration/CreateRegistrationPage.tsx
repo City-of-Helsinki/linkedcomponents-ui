@@ -12,11 +12,11 @@ import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_INITIAL_VALUES } from './constants';
-import AdditionalRegistrationInstructionsSection from './formSections/additionalRegistrationInstructionsSection/AdditionalRegistrationInstructionsSection';
 import AttendeeCountSection from './formSections/attendeeCountSection/AttendeeCountSection';
 import AudienceAgeSection from './formSections/audienceAgeSection/AudienceAgeSection';
-import ConfirmationMessageDetailsSection from './formSections/confirmationMessageDetailsSection/ConfirmationMessageDetailsSection';
+import ConfirmationMessageSection from './formSections/confirmationMessageSection/ConfirmationMessageSection';
 import EnrolmentTimeSection from './formSections/enrolmentTimeSection/EnrolmentTimeSection';
+import InstructionsSection from './formSections/instructionsSection/InstructionsSection';
 import WaitingListSection from './formSections/waitingListSection/WaitingListSection';
 import styles from './registrationPage.module.scss';
 import { RegistrationFormFields } from './types';
@@ -74,19 +74,15 @@ const CreateRegistrationPage: React.FC = () => {
                   <Section title={t('registration.form.sections.waitingList')}>
                     <WaitingListSection />
                   </Section>
-                  <Section
-                    title={t(
-                      'registration.form.sections.additionalRegistrationInformation'
-                    )}
-                  >
-                    <AdditionalRegistrationInstructionsSection />
+                  <Section title={t('registration.form.sections.instructions')}>
+                    <InstructionsSection />
                   </Section>
                   <Section
                     title={t(
                       'registration.form.sections.confirmationMessageDetails'
                     )}
                   >
-                    <ConfirmationMessageDetailsSection />
+                    <ConfirmationMessageSection />
                   </Section>
                   <Section title={t('registration.form.sections.audienceAge')}>
                     <AudienceAgeSection />

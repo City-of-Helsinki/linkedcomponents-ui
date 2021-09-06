@@ -1112,18 +1112,18 @@
       "labelConfirmationMessage": "Confirmation message to send (optional)",
       "labelEnrolmentEndTime": "Registration ends",
       "labelEnrolmentStartTime": "Registration begins",
+      "labelInstructions": "Registration instructions (optional)",
       "labelMaximumAttendeeCount": "Maximum number of seats",
-      "labelMaximumWaitingListCount": "Number of spare seats",
       "labelMinimumAttendeeCount": "Minimum number of seats",
-      "labelRegistrationInstructions": "Registration instructions (optional)",
+      "labelWaitingAttendeeCapacity": "Number of spare seats",
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
-      "placeholderRegistrationInstructions": "Enter registration instructions",
+      "placeholderInstructions": "Enter registration instructions",
       "sections": {
-        "additionalRegistrationInformation": "Additional registration information",
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
-        "confirmationMessageDetails": "Confirmation message details",
+        "confirmationMessage": "Confirmation message details",
         "enrolmentTime": "Registration time",
+        "instructions": "Additional registration information",
         "waitingList": "Waiting list"
       }
     }

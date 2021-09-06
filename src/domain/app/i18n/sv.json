@@ -1112,18 +1112,18 @@
       "labelConfirmationMessage": "Bekräftelsemeddelande att skicka (valfritt)",
       "labelEnrolmentEndTime": "Registreringen avslutas",
       "labelEnrolmentStartTime": "Registreringen börjar",
+      "labelInstructions": "Anvisningar för registrering (valfritt)",
       "labelMaximumAttendeeCount": "Max antal platser",
-      "labelMaximumWaitingListCount": "Antal reservplatser",
       "labelMinimumAttendeeCount": "Minsta antal platser",
-      "labelRegistrationInstructions": "Anvisningar för registrering (valfritt)",
+      "labelWaitingAttendeeCapacity": "Antal reservplatser",
       "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
-      "placeholderRegistrationInstructions": "Ange registreringsinstruktioner",
+      "placeholderInstructions": "Ange registreringsinstruktioner",
       "sections": {
-        "additionalRegistrationInformation": "Ytterligare registreringsinformation",
         "attendeeCount": "Sittplatser",
         "audienceAge": "Åldersgräns",
-        "confirmationMessageDetails": "Bekräftelsemeddelande",
+        "confirmationMessage": "Bekräftelsemeddelande",
         "enrolmentTime": "Registreringstid",
+        "instructions": "Ytterligare registreringsinformation",
         "waitingList": "Väntelista"
       }
     }

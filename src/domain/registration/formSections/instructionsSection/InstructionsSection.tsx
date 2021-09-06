@@ -7,17 +7,17 @@ import FieldColumn from '../../../app/layout/FieldColumn';
 import FieldRow from '../../../app/layout/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 
-const ConfirmationMessageDetailsSection: React.FC = () => {
+const InstructionsSection: React.FC = () => {
   const { t } = useTranslation();
 
   return (
     <FieldRow>
       <FieldColumn>
         <Field
-          name={REGISTRATION_FIELDS.CONFIRMATION_MESSAGE}
+          name={REGISTRATION_FIELDS.INSTRUCTIONS}
           component={TextAreaField}
-          label={t(`registration.form.labelConfirmationMessage`)}
-          placeholder={t(`registration.form.placeholderConfirmationMessage`)}
+          label={t(`registration.form.labelInstructions`)}
+          placeholder={t(`registration.form.placeholderInstructions`)}
           timeSelector={true}
         />
       </FieldColumn>
@@ -25,4 +25,4 @@ const ConfirmationMessageDetailsSection: React.FC = () => {
   );
 };
 
-export default ConfirmationMessageDetailsSection;
+export default InstructionsSection;

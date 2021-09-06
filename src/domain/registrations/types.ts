@@ -30,12 +30,12 @@ export type RegistrationFields = {
   id: string;
   atId: string;
   currentAttendeeCount: number;
-  currentWaitingListCount: number;
+  currentWaitingAttendeeCapacity: number;
   enrolmentEndTime: Date | null;
   enrolmentStartTime: Date | null;
   maximumAttendeeCount: number;
-  maximumWaitingListCount: number;
   name: string;
   publisher: string | null;
   registrationUrl: string;
+  waitingAttendeeCapacity: number;
 };
