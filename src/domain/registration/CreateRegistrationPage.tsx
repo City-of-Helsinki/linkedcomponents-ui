@@ -12,6 +12,7 @@ import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
 import useUser from '../user/hooks/useUser';
+import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INITIAL_VALUES } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
 import AttendeeCountSection from './formSections/attendeeCountSection/AttendeeCountSection';
@@ -61,8 +62,8 @@ const CreateRegistrationPage: React.FC = () => {
               title={`createRegistrationPage.pageTitle`}
             >
               <MainContent>
-                <Container withOffset={true}>
-                  <h1>{t(`createRegistrationPage.title`)}</h1>
+                <Container className={styles.createContainer} withOffset={true}>
+                  <AuthRequiredNotification />
                   <Section
                     title={t('registration.form.sections.enrolmentTime')}
                   >

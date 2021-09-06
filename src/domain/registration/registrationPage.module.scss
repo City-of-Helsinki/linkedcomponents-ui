@@ -16,6 +16,10 @@
   }
 }
 
+.createContainer {
+  margin-top: var(--spacing-m);
+}
+
 .splittedRow {
   display: grid;
   grid-gap: var(--spacing-s);
