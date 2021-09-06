@@ -2,6 +2,7 @@
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -12,6 +13,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_INITIAL_VALUES } from './constants';
+import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
 import AttendeeCountSection from './formSections/attendeeCountSection/AttendeeCountSection';
 import AudienceAgeSection from './formSections/audienceAgeSection/AudienceAgeSection';
 import ConfirmationMessageSection from './formSections/confirmationMessageSection/ConfirmationMessageSection';
@@ -25,7 +27,7 @@ const CreateRegistrationPage: React.FC = () => {
   const { t } = useTranslation();
 
   const createRegistration = (values: RegistrationFormFields) => {
-    console.log(values);
+    toast.error('TODO: Save registration when API is available');
   };
 
   return (
@@ -78,9 +80,7 @@ const CreateRegistrationPage: React.FC = () => {
                     <InstructionsSection />
                   </Section>
                   <Section
-                    title={t(
-                      'registration.form.sections.confirmationMessageDetails'
-                    )}
+                    title={t('registration.form.sections.confirmationMessage')}
                   >
                     <ConfirmationMessageSection />
                   </Section>
@@ -88,6 +88,8 @@ const CreateRegistrationPage: React.FC = () => {
                     <AudienceAgeSection />
                   </Section>
                 </Container>
+                {/* TODO: Set correct saving state when integrating with API */}
+                <CreateButtonPanel saving={false} />
               </MainContent>
             </PageWrapper>
           </Form>

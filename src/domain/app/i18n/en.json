@@ -244,7 +244,7 @@
       "buttonPanel": {
         "warningNoRightsCreate": "You do not have permission to create this event.",
         "warningNoRightsToPublish": "You do not have permission to publish this event.",
-        "warningNotAuthenticated": "If you want to publish this event, you must first log in."
+        "warningNotAuthenticated": "If you want to publish this event, you must first login."
       },
       "buttonPostpone": "Postpone event",
       "buttonPublish": {
@@ -951,7 +951,7 @@
       }
     },
     "faq": {
-      "textAddingEvents1": "You must log in to the service first. To do this, I need one of the following:",
+      "textAddingEvents1": "You must login to the service first. To do this, I need one of the following:",
       "textAddingEvents2": "Once you are logged in, you can <a href={{controlPanelUrl}}>add events</a>, but you will not be able to publish them yet. Contact us using the <a href={{contactUrl}}>contact form</a> and tell us which organization you need publishing rights for.",
       "textAddingToOwnProjects": "Yes. The Linked Events interface is public and open to everyone. Its use is also permitted in commercial services in accordance with the <a href={{termsOfServiceUrl}}>terms of use</a>.",
       "textEventFormNotWorking": "Make sure that you are using one of these modern web browsers (Chrome, Firefox, Opera or Safari). Other options to fix unexpected errors is to clear your browser cache or restart the browser.",
@@ -1107,6 +1107,10 @@
   },
   "registration": {
     "form": {
+      "buttonCreate": "Save",
+      "buttonPanel": {
+        "warningNotAuthenticated": "Om du vill skapa denna registrering måste du först logga in."
+      },
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
       "labelConfirmationMessage": "Confirmation message to send (optional)",

@@ -1107,6 +1107,10 @@
   },
   "registration": {
     "form": {
+      "buttonCreate": "Tallenna ilmoittautuminen",
+      "buttonPanel": {
+        "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
+      },
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
       "labelConfirmationMessage": "Lähetettävä vahvistusviesti (valinnainen)",

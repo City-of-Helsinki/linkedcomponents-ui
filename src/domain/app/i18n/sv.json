@@ -1107,6 +1107,10 @@
   },
   "registration": {
     "form": {
+      "buttonCreate": "Spara registrering",
+      "buttonPanel": {
+        "warningNotAuthenticated": "Om du vill publicera evenemanget måste du först logga in."
+      },
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
       "labelConfirmationMessage": "Bekräftelsemeddelande att skicka (valfritt)",

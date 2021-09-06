@@ -145,7 +145,7 @@ test('should change language', () => {
   expect(history.location.pathname).toBe('/en');
 });
 
-test('should start log in process', () => {
+test('should start login process', () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
 
   renderComponent();
