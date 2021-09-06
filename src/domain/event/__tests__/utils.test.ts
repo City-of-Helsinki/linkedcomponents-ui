@@ -363,6 +363,12 @@ describe('getEventPayload function', () => {
         audience: ['audience:1'],
         audienceMaxAge,
         audienceMinAge,
+        description: {
+          ...EMPTY_MULTI_LANGUAGE_OBJECT,
+          fi: 'Description fi',
+          en: 'Description en',
+          sv: '',
+        },
         enrolmentEndTime: new Date(enrolmentEndTime),
         enrolmentStartTime: new Date(enrolmentStartTime),
         eventInfoLanguages: ['fi', 'sv'],
@@ -373,15 +379,12 @@ describe('getEventPayload function', () => {
             startTime: new Date(startTime),
           },
         ],
-        description: {
-          ...EMPTY_MULTI_LANGUAGE_OBJECT,
-          fi: 'Description fi',
-          en: 'Description en',
-          sv: '',
-        },
-        facebookUrl: 'http://facebook.com',
-        instagramUrl: 'http://instagram.com',
-        twitterUrl: 'http://twitter.com',
+        externalLinks: [
+          {
+            name: 'extlink_facebook',
+            link: 'http://facebook.com',
+          },
+        ],
         images: ['image:1'],
         infoUrl: {
           ...EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -468,16 +471,6 @@ describe('getEventPayload function', () => {
         {
           name: 'extlink_facebook',
           link: 'http://facebook.com',
-          language: 'fi',
-        },
-        {
-          name: 'extlink_instagram',
-          link: 'http://instagram.com',
-          language: 'fi',
-        },
-        {
-          name: 'extlink_twitter',
-          link: 'http://twitter.com',
           language: 'fi',
         },
       ],
@@ -1017,14 +1010,26 @@ describe('getEventInitialValues function', () => {
           startTime,
         },
       ],
-      facebookUrl,
+      externalLinks: [
+        {
+          name: EXTLINK.EXTLINK_FACEBOOK,
+          link: facebookUrl,
+        },
+        {
+          name: EXTLINK.EXTLINK_INSTAGRAM,
+          link: instagramUrl,
+        },
+        {
+          name: EXTLINK.EXTLINK_TWITTER,
+          link: twitterUrl,
+        },
+      ],
       hasPrice: true,
       hasUmbrella: true,
       imageDetails,
       images: imageAtIds,
       infoUrl,
       inLanguage: inLanguageAtIds,
-      instagramUrl,
       isImageEditable: false,
       isUmbrella: false,
       isVerified: true,
@@ -1043,7 +1048,6 @@ describe('getEventInitialValues function', () => {
       recurringEventStartTime: null,
       shortDescription,
       superEvent: superEventAtId,
-      twitterUrl,
       type,
       videos,
     });
@@ -1063,15 +1067,13 @@ describe('getEventInitialValues function', () => {
       audienceMinAge,
       enrolmentEndTime,
       enrolmentStartTime,
-      facebookUrl,
-      instagramUrl,
+      externalLinks,
       location,
       name,
       offers,
       publisher,
       superEvent,
       type,
-      twitterUrl,
       videos,
     } = getEventInitialValues(
       fakeEvent({
@@ -1080,7 +1082,7 @@ describe('getEventInitialValues function', () => {
         endTime: null,
         enrolmentEndTime: null,
         enrolmentStartTime: null,
-        externalLinks: [],
+        externalLinks: [{}],
         location: null,
         name: {
           ar: null,
@@ -1103,15 +1105,13 @@ describe('getEventInitialValues function', () => {
     expect(audienceMinAge).toEqual('');
     expect(enrolmentEndTime).toEqual(null);
     expect(enrolmentStartTime).toEqual(null);
-    expect(facebookUrl).toEqual('');
-    expect(instagramUrl).toEqual('');
+    expect(externalLinks).toEqual([{ link: '', name: '' }]);
     expect(location).toEqual('');
     expect(name).toEqual(expectedName);
     expect(offers).toEqual([]);
     expect(publisher).toEqual('');
     expect(superEvent).toEqual(superEvent);
     expect(type).toEqual(EVENT_TYPE.General);
-    expect(twitterUrl).toEqual('');
     expect(videos).toEqual([{ altText: '', name: '', url: '' }]);
   });
 

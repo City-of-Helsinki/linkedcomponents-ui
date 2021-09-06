@@ -13,12 +13,8 @@ import ValidationError from './ValidationError';
 const PriceSection: React.FC = () => {
   const { t } = useTranslation();
 
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
-  const [{ value: hasPrice }] = useField({
-    name: EVENT_FIELDS.HAS_PRICE,
-  });
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: hasPrice }] = useField({ name: EVENT_FIELDS.HAS_PRICE });
 
   return (
     <>

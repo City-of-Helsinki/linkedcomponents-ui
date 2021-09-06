@@ -37,12 +37,8 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   const [{ value: eventInfoLanguages }] = useField<EVENT_INFO_LANGUAGES[]>({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
-  const [{ value: audience }] = useField({
-    name: EVENT_FIELDS.AUDIENCE,
-  });
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
+  const [{ value: audience }] = useField({ name: EVENT_FIELDS.AUDIENCE });
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const sortedEventInfoLanguages = useSortedInfoLanguages(eventInfoLanguages);
 
   const languageOptions = React.useMemo(
@@ -134,23 +130,21 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                       required={true}
                     />
                   </FormGroup>
-                  <FormGroup>
-                    <Field
-                      component={TextEditorField}
-                      label={t(`event.form.labelDescription.${type}`, {
-                        langText,
-                      })}
-                      name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
-                      placeholder={t(
-                        `event.form.placeholderDescription.${type}`
-                      )}
-                      sanitizeAfterChange={sanitizeDescriptionAfterChange}
-                      maxLength={CHARACTER_LIMITS.LONG_STRING}
-                      required={true}
-                    />
-                  </FormGroup>
                 </FieldColumn>
               </FieldRow>
+              <FormGroup>
+                <Field
+                  component={TextEditorField}
+                  label={t(`event.form.labelDescription.${type}`, {
+                    langText,
+                  })}
+                  name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
+                  placeholder={t(`event.form.placeholderDescription.${type}`)}
+                  sanitizeAfterChange={sanitizeDescriptionAfterChange}
+                  maxLength={CHARACTER_LIMITS.LONG_STRING}
+                  required={true}
+                />
+              </FormGroup>
             </TabPanel>
           );
         })}

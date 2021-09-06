@@ -46,9 +46,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
   const locale = useLocale();
   const typeOptions = useEventTypeOptions();
 
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: hasUmbrella }] = useField({
     name: EVENT_FIELDS.HAS_UMBRELLA,
   });

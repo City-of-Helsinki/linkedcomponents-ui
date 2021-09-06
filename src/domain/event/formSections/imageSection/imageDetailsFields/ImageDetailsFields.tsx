@@ -32,9 +32,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
   const { editable, warning } = useIsImageEditable({ imageAtId });
   const { t } = useTranslation();
 
-  const [{ value: type }] = useField({
-    name: EVENT_FIELDS.TYPE,
-  });
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const licenseOptions = [
     {
       label: t(`event.form.image.license.${camelCase(LICENSE_TYPES.CC_BY)}`),

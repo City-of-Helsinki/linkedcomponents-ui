@@ -62,6 +62,11 @@ export enum EVENT_TIME_FIELDS {
   START_TIME = 'startTime',
 }
 
+export enum EXTERNAL_LINK_FIELDS {
+  LINK = 'link',
+  NAME = 'name',
+}
+
 export enum EVENT_FIELDS {
   AUDIENCE = 'audience',
   AUDIENCE_MAX_AGE = 'audienceMaxAge',
@@ -73,14 +78,13 @@ export enum EVENT_FIELDS {
   EVENT_TIMES = 'eventTimes',
   EVENTS = 'events',
   EXTENSION_COURSE = 'extensionCourse',
-  FACEBOOK_URL = 'facebookUrl',
+  EXTERNAL_LINKS = 'externalLinks',
   HAS_PRICE = 'hasPrice',
   HAS_UMBRELLA = 'hasUmbrella',
   IMAGES = 'images',
   IMAGE_DETAILS = 'imageDetails',
   IN_LANGUAGE = 'inLanguage',
   INFO_URL = 'infoUrl',
-  INSTAGRAM_URL = 'instagramUrl',
   IS_IMAGE_EDITABLE = 'isImageEditable',
   IS_VERIFIED = 'isVerified',
   IS_UMBRELLA = 'isUmbrella',
@@ -104,7 +108,6 @@ export enum EVENT_FIELDS {
   SHORT_DESCRIPTION = 'shortDescription',
   SUPER_EVENT = 'superEvent',
   TYPE = 'type',
-  TWITTER_URL = 'twitterUrl',
   VIDEOS = 'videos',
 }
 
@@ -158,7 +161,7 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
   [EVENT_FIELDS.EVENT_TIMES]: [],
   [EVENT_FIELDS.EVENTS]: [],
-  [EVENT_FIELDS.FACEBOOK_URL]: '',
+  [EVENT_FIELDS.EXTERNAL_LINKS]: [],
   [EVENT_FIELDS.HAS_PRICE]: false,
   [EVENT_FIELDS.HAS_UMBRELLA]: false,
   [EVENT_FIELDS.IMAGES]: [],
@@ -171,7 +174,6 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.IN_LANGUAGE]: [],
   [EVENT_FIELDS.IS_VERIFIED]: false,
   [EVENT_FIELDS.INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-  [EVENT_FIELDS.INSTAGRAM_URL]: '',
   [EVENT_FIELDS.IS_IMAGE_EDITABLE]: false,
   [EVENT_FIELDS.IS_UMBRELLA]: false,
   [EVENT_FIELDS.KEYWORDS]: [],
@@ -191,7 +193,6 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
 
   [EVENT_FIELDS.SUPER_EVENT]: null,
   [EVENT_FIELDS.TYPE]: EVENT_TYPE.General,
-  [EVENT_FIELDS.TWITTER_URL]: '',
   [EVENT_FIELDS.VIDEOS]: [
     {
       [VIDEO_DETAILS_FIELDS.ALT_TEXT]: '',

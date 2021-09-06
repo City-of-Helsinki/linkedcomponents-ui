@@ -6,7 +6,13 @@
     "networkError": {
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
+    "noRightsUpdateEventLabel": "No permissions to edit events",
     "noRightsUpdateEvent": "You do not have permission to edit events."
+  },
+  "authRequiredNotification": {
+    "button": "sign in",
+    "part1": "You can continue to explore the service, but you will need to",
+    "part2": " to save your changes."
   },
   "authenticationMethod": {
     "espooEmployee": "Stad Esbo anställd ID",
@@ -102,6 +108,7 @@
     "placeholderDateTime": "dd.mm.yyyy hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Save",
+    "select": "Select",
     "showLess": "Show less",
     "showMore": "Show more",
     "showMoreWithCount": "Show more ({{count}})",
@@ -207,6 +214,17 @@
       "eventRescheduled": "Rescheduled",
       "eventScheduled": "Scheduled"
     },
+    "extlink": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "reddit": "Reddit",
+      "snapchat": "Snapchat",
+      "tiktok": "TikTok",
+      "tumblr": "Tumblr",
+      "twitter": "Twitter",
+      "youtube": "YouTube",
+      "whatsapp": "WhatsApp"
+    },
     "form": {
       "buttonAcceptAndPublish": "Confirm and publish",
       "buttonActions": "Actions",
@@ -232,6 +250,7 @@
       "buttonCopy": "Copy as template",
       "buttonDelete": "Remove event",
       "buttonDeleteEventTime": "Remove time",
+      "buttonDeleteExternalLink": "Delete the SoMe link",
       "buttonDeleteOffer": "Remove pricing information",
       "buttonDeleteRecurringEvent": "Remove recurring event",
       "buttonDeleteVideo": "Remove video",
@@ -402,9 +421,9 @@
         "volunteering": "Select the organization to be displayed as the volunteering publisher. You do not need to make a selection if you only have rights to publish under one organization."
       },
       "infoTextSocialMedia": {
-        "course": "Copy course social media URL links here.",
-        "general": "Copy event social media URL links here.",
-        "volunteering": "Copy volunteering social media URL links here."
+        "course": "Optional. Enter the SoMe links for the course in the URL field.",
+        "general": "Optional. Enter the SoMe links for the event in the URL field.",
+        "volunteering": "Optional. Enter the SoMe links for the volunteering in the URL field."
       },
       "infoTextType1": "Are you inputing an event or a course? The event is a one-off occasion and starts at a certain time, while a course may have several events and the activities are generally goal-oriented. In some cases, courses are also referred to as hobbies.",
       "infoTextType2": "The choice of event type affects how and in which services the event is displayed to the user.",
@@ -432,7 +451,12 @@
       },
       "labelEnrolmentEndTime": "Registration ends",
       "labelEnrolmentStartTime": "Registration begins",
-      "labelFacebookUrl": "Facebook",
+      "labelExternalLinkLink": {
+        "course": "The course's {{name}} URL",
+        "general": "The event's {{name}} URL",
+        "volunteering": "The volunteering's {{name}} URL"
+      },
+      "labelExternalLinkName": "SoMe link type",
       "labelHasPrice": {
         "course": "Course requires payment",
         "general": "Event requires payment",
@@ -448,7 +472,6 @@
         "general": "Website URL of the event homepage {{langText}}",
         "volunteering": "Website URL of the volunteering homepage {{langText}}"
       },
-      "labelInstagramUrl": "Instagram",
       "labelIsUmbrella": {
         "course": "This course is an umbrella event.",
         "general": "This event is an umbrella event.",
@@ -465,6 +488,12 @@
         "general": "Event title {{langText}}",
         "volunteering": "Volunteering title {{langText}}"
       },
+      "labelNewExternalLinkLink": {
+        "course": "The course's SoMe link URL",
+        "general": "The event's SoMe link URL",
+        "volunteering": "The volunteering's SoMe link URL"
+      },
+      "labelNewExternalLinkName": "Type of new SoMe link",
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
@@ -506,7 +535,6 @@
         "volunteering": "Volunteering starts"
       },
       "labelTime": "Time",
-      "labelTwitterUrl": "Twitter",
       "labelUmbrellaEvent": "Umbrella event",
       "labelVideoAltText": "Video alt text",
       "labelVideoName": "Name for video",
@@ -521,6 +549,7 @@
         "general": "Specify recurring event",
         "volunteering": "Specify recurring volunteering"
       },
+      "notificationTitleCannotEdit": "The event cannot be edited",
       "notificationTitleDescription": {
         "course": "Course description",
         "general": "Event description",
@@ -575,10 +604,10 @@
         "general": "Enter a description of the event",
         "volunteering": "Enter a description of the volunteering"
       },
-      "placeholderFacebookUrl": {
-        "course": "Enter the URL of the course's Facebook page",
-        "general": "Enter the URL of the event's Facebook page",
-        "volunteering": "Enter the URL of the volunteering's Facebook page"
+      "placeholderExternalLinkLink": {
+        "course": "Enter the course's {{name}} URL",
+        "general": "Enter the event's {{name}} URL",
+        "volunteering": "Enter the volunteering's {{name}} URL"
       },
       "placeholderInfoUrl": {
         "course": "Enter the URL of the course home page {{langText}}",
@@ -598,6 +627,7 @@
         "general": "Enter the event title",
         "volunteering": "Enter the volunteering title"
       },
+      "placeholderNewExternalLinkLink": "First select the platform",
       "placeholderOfferDescription": "Enter additional price information {{langText}}",
       "placeholderOfferInfoUrl": "Enter the website URL for ticket sale or registration {{langText}}",
       "placeholderOfferPrice": {
@@ -614,11 +644,6 @@
         "course": "Enter a short description of the course",
         "general": "Enter a short description of the event",
         "volunteering": "Enter a short description of the volunteering"
-      },
-      "placeholderTwitterUrl": {
-        "course": "Enter the URL of the course Twitter feed",
-        "general": "Enter the URL of the event Twitter feed",
-        "volunteering": "Enter the URL of the volunteering Twitter feed"
       },
       "placeholderVideoAltText": "Enter video alt text for screen readers",
       "placeholderVideoName": "Enter video name",
