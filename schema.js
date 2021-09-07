@@ -535,13 +535,13 @@ module.exports = buildSchema(/* GraphQL */ `
     confirmationMessage: String
     createdAt: String
     currentAttendeeCount: Int
-    currentWaitingAttendeeCapacity: Int
+    currentWaitingAttendeeCount: Int
     enrolmentEndTime: String
     enrolmentStartTime: String
     eventId: ID
     instructions: String
-    maximumAttendeeCount: Int
-    minimumAttendeeCount: Int
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
     name: LocalisedObject
     publisher: String
     updatedAt: String

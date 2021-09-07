@@ -135,15 +135,14 @@ export const getRegistrationFields = (
     id,
     atId: registration.atId || '',
     currentAttendeeCount: registration.currentAttendeeCount ?? 0,
-    currentWaitingAttendeeCapacity:
-      registration.currentWaitingAttendeeCapacity ?? 0,
+    currentWaitingAttendeeCount: registration.currentWaitingAttendeeCount ?? 0,
     enrolmentEndTime: registration.enrolmentEndTime
       ? new Date(registration.enrolmentEndTime)
       : null,
     enrolmentStartTime: registration.enrolmentStartTime
       ? new Date(registration.enrolmentStartTime)
       : null,
-    maximumAttendeeCount: registration.maximumAttendeeCount ?? 0,
+    maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
     name: getLocalisedString(registration.name, language),
     publisher: registration.publisher || null,
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(

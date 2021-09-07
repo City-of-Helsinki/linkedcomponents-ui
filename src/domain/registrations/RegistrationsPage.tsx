@@ -11,6 +11,7 @@ import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import NotSigned from '../notSigned/NotSigned';
+import { clearRegistrationFormData } from '../registration/utils';
 import useUser from '../user/hooks/useUser';
 import FilterSummary from './filterSummary/FilterSummary';
 import RegistrationList from './registrationList/RegistrationList';
@@ -27,7 +28,7 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
   const locale = useLocale();
 
   const goToCreateRegistrationPage = () => {
-    // clearRegistrationFormData();
+    clearRegistrationFormData();
     history.push(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 

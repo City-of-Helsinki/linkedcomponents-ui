@@ -8,7 +8,7 @@ import FieldRow from '../../../app/layout/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 import styles from '../../registrationPage.module.scss';
 
-const AttendeeCountSection: React.FC = () => {
+const AttendeeCapacitySection: React.FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -17,16 +17,16 @@ const AttendeeCountSection: React.FC = () => {
         <FieldColumn>
           <div className={styles.splittedRow}>
             <Field
-              name={REGISTRATION_FIELDS.MINIMUM_ATTENDEE_COUNT}
+              name={REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY}
               component={NumberInputField}
-              label={t(`registration.form.labelMinimumAttendeeCount`)}
+              label={t(`registration.form.labelMinimumAttendeeCapacity`)}
               min={0}
               placeholder={0}
             />
             <Field
-              name={REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_COUNT}
+              name={REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
               component={NumberInputField}
-              label={t(`registration.form.labelMaximumAttendeeCount`)}
+              label={t(`registration.form.labelMaximumAttendeeCapacity`)}
               min={0}
               placeholder={0}
             />
@@ -37,4 +37,4 @@ const AttendeeCountSection: React.FC = () => {
   );
 };
 
-export default AttendeeCountSection;
+export default AttendeeCapacitySection;

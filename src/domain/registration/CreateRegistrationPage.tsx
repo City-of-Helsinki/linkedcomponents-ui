@@ -3,6 +3,7 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -15,7 +16,7 @@ import useUser from '../user/hooks/useUser';
 import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INITIAL_VALUES } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
-import AttendeeCountSection from './formSections/attendeeCountSection/AttendeeCountSection';
+import AttendeeCountSection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
 import AudienceAgeSection from './formSections/audienceAgeSection/AudienceAgeSection';
 import ConfirmationMessageSection from './formSections/confirmationMessageSection/ConfirmationMessageSection';
 import EnrolmentTimeSection from './formSections/enrolmentTimeSection/EnrolmentTimeSection';
@@ -23,6 +24,7 @@ import InstructionsSection from './formSections/instructionsSection/Instructions
 import WaitingListSection from './formSections/waitingListSection/WaitingListSection';
 import styles from './registrationPage.module.scss';
 import { RegistrationFormFields } from './types';
+import { registrationSchema, showErrors } from './validation';
 
 const CreateRegistrationPage: React.FC = () => {
   const { t } = useTranslation();
@@ -41,11 +43,27 @@ const CreateRegistrationPage: React.FC = () => {
       validateOnMount
       validateOnBlur={false}
       validateOnChange={true}
+      validationSchema={registrationSchema}
     >
-      {({ values }) => {
+      {({ setErrors, setTouched, values }) => {
+        const clearErrors = () => setErrors({});
+
         const handleSubmit = async (
           event?: React.FormEvent<HTMLFormElement>
         ) => {
+          try {
+            clearErrors();
+
+            await registrationSchema.validate(values, { abortEarly: false });
+
+            await createRegistration(values);
+          } catch (error) {
+            showErrors({
+              error: error as Yup.ValidationError,
+              setErrors,
+              setTouched,
+            });
+          }
           event?.preventDefault();
 
           await createRegistration(values);

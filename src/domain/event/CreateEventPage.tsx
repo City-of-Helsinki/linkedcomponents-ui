@@ -8,6 +8,7 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
+import { ValidationError } from 'yup';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -95,7 +96,7 @@ const CreateEventPage: React.FC = () => {
       // Report error to Sentry
       reportError({
         data: {
-          error,
+          error: error as Record<string, unknown>,
           payload,
           payloadAsString: JSON.stringify(payload),
         },
@@ -127,7 +128,7 @@ const CreateEventPage: React.FC = () => {
       // Report error to Sentry
       reportError({
         data: {
-          error,
+          error: error as Record<string, unknown>,
           payload: recurringEventPayload,
           payloadAsString: JSON.stringify(recurringEventPayload),
         },
@@ -153,7 +154,7 @@ const CreateEventPage: React.FC = () => {
       // Report error to Sentry
       reportError({
         data: {
-          error,
+          error: error as Record<string, unknown>,
           payload,
           payloadAsString: JSON.stringify(payload),
         },
@@ -175,7 +176,7 @@ const CreateEventPage: React.FC = () => {
       // Report error to Sentry
       reportError({
         data: {
-          error,
+          error: error as Record<string, unknown>,
           images: values.images,
           imageDetails: values.imageDetails,
         },
@@ -254,7 +255,7 @@ const CreateEventPage: React.FC = () => {
           } catch (error) {
             showErrors({
               descriptionLanguage,
-              error,
+              error: error as ValidationError,
               setErrors,
               setDescriptionLanguage,
               setTouched,

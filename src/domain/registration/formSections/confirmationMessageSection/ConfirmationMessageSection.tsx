@@ -18,7 +18,6 @@ const ConfirmationMessageSection: React.FC = () => {
           component={TextAreaField}
           label={t(`registration.form.labelConfirmationMessage`)}
           placeholder={t(`registration.form.placeholderConfirmationMessage`)}
-          timeSelector={true}
         />
       </FieldColumn>
     </FieldRow>

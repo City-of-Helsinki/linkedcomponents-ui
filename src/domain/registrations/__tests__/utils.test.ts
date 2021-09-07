@@ -128,23 +128,23 @@ describe('getRegistrationFields function', () => {
   it('should return default values if value is not set', () => {
     const {
       currentAttendeeCount,
-      currentWaitingAttendeeCapacity,
+      currentWaitingAttendeeCount,
       enrolmentEndTime,
       enrolmentStartTime,
       id,
       atId,
-      maximumAttendeeCount,
+      maximumAttendeeCapacity,
       publisher,
       waitingAttendeeCapacity,
     } = getRegistrationFields(
       fakeRegistration({
         currentAttendeeCount: null,
-        currentWaitingAttendeeCapacity: null,
+        currentWaitingAttendeeCount: null,
         enrolmentEndTime: '',
         enrolmentStartTime: '',
         id: null,
         atId: null,
-        maximumAttendeeCount: null,
+        maximumAttendeeCapacity: null,
         publisher: '',
         waitingAttendeeCapacity: null,
       }),
@@ -152,12 +152,12 @@ describe('getRegistrationFields function', () => {
     );
 
     expect(currentAttendeeCount).toBe(0);
-    expect(currentWaitingAttendeeCapacity).toBe(0);
+    expect(currentWaitingAttendeeCount).toBe(0);
     expect(enrolmentEndTime).toBe(null);
     expect(enrolmentStartTime).toBe(null);
     expect(id).toBe('');
     expect(atId).toBe('');
-    expect(maximumAttendeeCount).toBe(0);
+    expect(maximumAttendeeCapacity).toBe(0);
     expect(publisher).toBe(null);
     expect(waitingAttendeeCapacity).toBe(0);
   });

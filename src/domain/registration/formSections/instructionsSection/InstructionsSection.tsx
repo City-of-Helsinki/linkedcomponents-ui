@@ -18,7 +18,6 @@ const InstructionsSection: React.FC = () => {
           component={TextAreaField}
           label={t(`registration.form.labelInstructions`)}
           placeholder={t(`registration.form.placeholderInstructions`)}
-          timeSelector={true}
         />
       </FieldColumn>
     </FieldRow>

@@ -663,13 +663,13 @@ export type Registration = {
   confirmationMessage?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   currentAttendeeCount?: Maybe<Scalars['Int']>;
-  currentWaitingAttendeeCapacity?: Maybe<Scalars['Int']>;
+  currentWaitingAttendeeCount?: Maybe<Scalars['Int']>;
   enrolmentEndTime?: Maybe<Scalars['String']>;
   enrolmentStartTime?: Maybe<Scalars['String']>;
   eventId?: Maybe<Scalars['ID']>;
   instructions?: Maybe<Scalars['String']>;
-  maximumAttendeeCount?: Maybe<Scalars['Int']>;
-  minimumAttendeeCount?: Maybe<Scalars['Int']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   name?: Maybe<LocalisedObject>;
   publisher?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;

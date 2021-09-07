@@ -28,11 +28,11 @@ const RegistrationsTableRow: React.FC<Props> = ({
 
   const {
     currentAttendeeCount,
-    currentWaitingAttendeeCapacity,
+    currentWaitingAttendeeCount,
     enrolmentStartTime,
     enrolmentEndTime,
     id,
-    maximumAttendeeCount,
+    maximumAttendeeCapacity,
     name,
     publisher,
     waitingAttendeeCapacity,
@@ -81,10 +81,10 @@ const RegistrationsTableRow: React.FC<Props> = ({
           )}
         </td>
         <td className={styles.participantsColumn}>
-          {currentAttendeeCount} / {maximumAttendeeCount}
+          {currentAttendeeCount} / {maximumAttendeeCapacity}
         </td>
         <td className={styles.waitingListColumn}>
-          {currentWaitingAttendeeCapacity} / {waitingAttendeeCapacity}
+          {currentWaitingAttendeeCount} / {waitingAttendeeCapacity}
         </td>
         <td className={styles.enrolmentStartTimeColumn}>
           {enrolmentStartTime
