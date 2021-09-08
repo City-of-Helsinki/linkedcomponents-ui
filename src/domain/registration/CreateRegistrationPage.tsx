@@ -70,7 +70,7 @@ const CreateRegistrationPage: React.FC = () => {
         };
 
         return (
-          <Form onSubmit={(event) => handleSubmit(event)} noValidate={true}>
+          <Form noValidate={true}>
             <FormikPersist
               name={FORM_NAMES.REGISTRATION_FORM}
               isSessionStorage={true}
@@ -108,7 +108,7 @@ const CreateRegistrationPage: React.FC = () => {
                   </Section>
                 </Container>
                 {/* TODO: Set correct saving state when integrating with API */}
-                <CreateButtonPanel saving={false} />
+                <CreateButtonPanel onSave={handleSubmit} saving={false} />
               </MainContent>
             </PageWrapper>
           </Form>

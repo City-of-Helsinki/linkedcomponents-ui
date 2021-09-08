@@ -15,7 +15,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { mockedUserResponse } from '../../__mocks__/registrationsPage.mock';
+import { mockedUserResponse } from '../../__mocks__/registrationsPage';
 import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
 
 configure({ defaultHidden: true });

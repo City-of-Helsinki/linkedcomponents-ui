@@ -10,6 +10,7 @@ import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   configure,
   getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
   render,
   screen,
   waitFor,
@@ -92,10 +93,17 @@ it('should render event search page', async () => {
 it('should render registrations page', async () => {
   const { history } = renderRoute(`${ROUTES.REGISTRATIONS}?text=${searchText}`);
 
-  await screen.findByRole('heading', {
-    name: /ilmoittautuminen/i,
-  });
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /ilmoittautuminen/i });
   expect(history.location.pathname).toBe('/fi/registrations');
+});
+
+it('should render create registration page', async () => {
+  const { history } = renderRoute(`${ROUTES.CREATE_REGISTRATION}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  expect(history.location.pathname).toBe('/fi/registrations/create');
 });
 
 it('should route to default help page', async () => {

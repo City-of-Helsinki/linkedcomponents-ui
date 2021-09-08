@@ -14,10 +14,11 @@ import {
 import styles from './createButtonPanel.module.scss';
 
 interface Props {
+  onSave: () => void;
   saving: boolean;
 }
 
-const CreateButtonPanel: React.FC<Props> = ({ saving }) => {
+const CreateButtonPanel: React.FC<Props> = ({ onSave, saving }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
 
@@ -51,8 +52,9 @@ const CreateButtonPanel: React.FC<Props> = ({ saving }) => {
                   <IconPen />
                 )
               }
+              onClick={onSave}
               title={isCreateButtonWarning()}
-              type="submit"
+              type="button"
             >
               {t('registration.form.buttonCreate')}
             </Button>

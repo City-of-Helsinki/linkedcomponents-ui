@@ -10,7 +10,7 @@ import {
 import {
   registrationNames,
   registrations,
-} from '../../__mocks__/registrationsPage.mock';
+} from '../../__mocks__/registrationsPage';
 import RegistrationsTable, {
   RegistrationsTableProps,
 } from '../RegistrationsTable';

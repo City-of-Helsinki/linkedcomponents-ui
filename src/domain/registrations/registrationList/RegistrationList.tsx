@@ -6,7 +6,7 @@ import FeedbackButton from '../../../common/components/feedbackButton/FeedbackBu
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { EventsQueryVariables, Registration } from '../../../generated/graphql';
 import Container from '../../app/layout/Container';
-import { registrationsResponse } from '../__mocks__/registrationsPage.mock';
+import { registrationsResponse } from '../__mocks__/registrationsPage';
 import {
   DEFAULT_REGISTRATION_SORT,
   REGISTRATION_SORT_OPTIONS,
