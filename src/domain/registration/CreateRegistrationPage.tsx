@@ -16,7 +16,7 @@ import useUser from '../user/hooks/useUser';
 import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INITIAL_VALUES } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
-import AttendeeCountSection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
+import AttendeeCapacitySection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
 import AudienceAgeSection from './formSections/audienceAgeSection/AudienceAgeSection';
 import ConfirmationMessageSection from './formSections/confirmationMessageSection/ConfirmationMessageSection';
 import EnrolmentTimeSection from './formSections/enrolmentTimeSection/EnrolmentTimeSection';
@@ -90,7 +90,7 @@ const CreateRegistrationPage: React.FC = () => {
                   <Section
                     title={t('registration.form.sections.attendeeCount')}
                   >
-                    <AttendeeCountSection />
+                    <AttendeeCapacitySection />
                   </Section>
                   <Section title={t('registration.form.sections.waitingList')}>
                     <WaitingListSection />

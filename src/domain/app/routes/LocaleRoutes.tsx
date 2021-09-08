@@ -18,6 +18,9 @@ const CreateRegistrationPage = React.lazy(
   () => import('.././../registration/CreateRegistrationPage')
 );
 const EditEventPage = React.lazy(() => import('../../event/EditEventPage'));
+const EditRegistrationPage = React.lazy(
+  () => import('../../registration/EditRegistrationPage')
+);
 const EventsPage = React.lazy(() => import('.././../events/EventsPage'));
 const EventSearchPage = React.lazy(
   () => import('../../eventSearch/EventSearchPage')
@@ -101,6 +104,11 @@ const LocaleRoutes: React.FC<Props> = ({
             exact
             path={getLocalePath(ROUTES.CREATE_REGISTRATION)}
             component={CreateRegistrationPage}
+          />
+          <Route
+            exact
+            path={getLocalePath(ROUTES.EDIT_REGISTRATION)}
+            component={EditRegistrationPage}
           />
           <Route
             exact

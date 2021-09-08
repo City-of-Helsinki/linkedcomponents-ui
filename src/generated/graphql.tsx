@@ -94,6 +94,7 @@ export type Query = {
   organizations: OrganizationsResponse;
   place: Place;
   places: PlacesResponse;
+  registration: Registration;
   registrations: RegistrationsResponse;
   user: User;
 };
@@ -205,6 +206,11 @@ export type QueryPlacesArgs = {
   showAllPlaces?: Maybe<Scalars['Boolean']>;
   sort?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryRegistrationArgs = {
+  id?: Maybe<Scalars['ID']>;
 };
 
 
@@ -662,12 +668,14 @@ export type Registration = {
   audienceMinAge?: Maybe<Scalars['Int']>;
   confirmationMessage?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
+  createdBy?: Maybe<Scalars['String']>;
   currentAttendeeCount?: Maybe<Scalars['Int']>;
   currentWaitingAttendeeCount?: Maybe<Scalars['Int']>;
   enrolmentEndTime?: Maybe<Scalars['String']>;
   enrolmentStartTime?: Maybe<Scalars['String']>;
   eventId?: Maybe<Scalars['ID']>;
   instructions?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
   maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
   minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   name?: Maybe<LocalisedObject>;

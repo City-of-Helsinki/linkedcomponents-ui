@@ -88,6 +88,7 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): PlacesResponse!
+    registration(id: ID): Registration!
     registrations: RegistrationsResponse!
     user(id: ID!): User!
   }
@@ -534,12 +535,14 @@ module.exports = buildSchema(/* GraphQL */ `
     audienceMinAge: Int
     confirmationMessage: String
     createdAt: String
+    createdBy: String
     currentAttendeeCount: Int
     currentWaitingAttendeeCount: Int
     enrolmentEndTime: String
     enrolmentStartTime: String
     eventId: ID
     instructions: String
+    lastModifiedTime: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     name: LocalisedObject

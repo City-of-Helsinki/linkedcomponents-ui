@@ -38,9 +38,11 @@ const Footer: React.FC = () => {
     }
   };
 
-  const hideFooter = pathname.startsWith(
-    `/${locale}${ROUTES.EDIT_EVENT.replace(':id', '')}`
-  );
+  const hideFooter =
+    pathname.startsWith(`/${locale}${ROUTES.EDIT_EVENT.replace(':id', '')}`) ||
+    pathname.startsWith(
+      `/${locale}${ROUTES.EDIT_REGISTRATION.replace(':id', '')}`
+    );
 
   if (hideFooter) {
     return null;

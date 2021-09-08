@@ -1132,6 +1132,7 @@
   },
   "registration": {
     "form": {
+      "buttonActions": "Valinnat",
       "buttonCreate": "Tallenna ilmoittautuminen",
       "buttonPanel": {
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
@@ -1162,7 +1163,8 @@
       "copy": "Kopioi pohjaksi",
       "delete": "Poista ilmoittautuminen",
       "edit": "Muokkaa",
-      "showParticipants": "Näytä ilmoittautuneet"
+      "showParticipants": "Näytä ilmoittautuneet",
+      "update": "Tallenna muutokset"
     },
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "count": "{{count}} ilmoittautuminen",

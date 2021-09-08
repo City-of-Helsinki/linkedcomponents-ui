@@ -29,10 +29,12 @@ export type RegistrationsLocationState = {
 export type RegistrationFields = {
   id: string;
   atId: string;
+  createdBy: string;
   currentAttendeeCount: number;
   currentWaitingAttendeeCount: number;
   enrolmentEndTime: Date | null;
   enrolmentStartTime: Date | null;
+  lastModifiedTime: Date | null;
   maximumAttendeeCapacity: number;
   name: string;
   publisher: string | null;

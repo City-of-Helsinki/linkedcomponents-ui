@@ -74,7 +74,7 @@ import {
 import {
   ADD_EVENT_TIME_FORM_NAME,
   ADD_IMAGE_FIELDS,
-  AUHENTICATION_NOT_NEEDED,
+  AUTHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
   EDIT_EVENT_TIME_FORM_NAME,
   EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -1457,7 +1457,7 @@ export const getEditEventWarning = ({
     (endTime && isPast(endTime)) ||
     (!endTime && startTime && isBefore(startTime, startOfDay(new Date())));
 
-  if (AUHENTICATION_NOT_NEEDED.includes(action)) {
+  if (AUTHENTICATION_NOT_NEEDED.includes(action)) {
     return '';
   }
 

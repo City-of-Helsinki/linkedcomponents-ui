@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
+import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
@@ -227,7 +228,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
           } catch (error) {
             showErrors({
               descriptionLanguage,
-              error,
+              error: error as ValidationError,
               setErrors,
               setDescriptionLanguage,
               setTouched,

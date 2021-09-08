@@ -1132,6 +1132,7 @@
   },
   "registration": {
     "form": {
+      "buttonActions": "Actions",
       "buttonCreate": "Save",
       "buttonPanel": {
         "warningNotAuthenticated": "Om du vill skapa denna registrering måste du först logga in."
@@ -1162,7 +1163,8 @@
       "copy": "Copy as a template",
       "delete": "Delete registration",
       "edit": "Edit",
-      "showParticipants": "Show participants"
+      "showParticipants": "Show participants",
+      "update": "Save changes"
     },
     "buttonClearFilters": "Clear filters",
     "count": "{{count}} registration",

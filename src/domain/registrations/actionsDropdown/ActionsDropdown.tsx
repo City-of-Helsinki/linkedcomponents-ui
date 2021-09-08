@@ -8,6 +8,7 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/Men
 import { ROUTES } from '../../../constants';
 import { Registration } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import { copyRegistrationToSessionStorage } from '../../registration/utils';
 import { REGISTRATION_EDIT_ACTIONS } from '../constants';
 import {
   addParamsToRegistrationQueryString,
@@ -51,6 +52,11 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       });
     };
 
+    const copyRegistration = async () => {
+      await copyRegistrationToSessionStorage(registration);
+      history.push(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
+    };
+
     const getActionItemProps = ({
       action,
       onClick,
@@ -76,7 +82,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       }),
       getActionItemProps({
         action: REGISTRATION_EDIT_ACTIONS.COPY,
-        onClick: () => alert('TODO: Copy registration'),
+        onClick: copyRegistration,
       }),
       getActionItemProps({
         action: REGISTRATION_EDIT_ACTIONS.DELETE,
@@ -92,7 +98,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
               <IconMenuDots aria-hidden={true} />
             </button>
           }
-          buttonLabel={t('event.form.buttonActions')}
+          buttonLabel={t('registration.form.buttonActions')}
           className={className}
           closeOnItemClick={true}
           fixedPosition={true}

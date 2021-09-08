@@ -134,6 +134,7 @@ export const getRegistrationFields = (
   return {
     id,
     atId: registration.atId || '',
+    createdBy: registration.createdBy ?? '',
     currentAttendeeCount: registration.currentAttendeeCount ?? 0,
     currentWaitingAttendeeCount: registration.currentWaitingAttendeeCount ?? 0,
     enrolmentEndTime: registration.enrolmentEndTime
@@ -141,6 +142,9 @@ export const getRegistrationFields = (
       : null,
     enrolmentStartTime: registration.enrolmentStartTime
       ? new Date(registration.enrolmentStartTime)
+      : null,
+    lastModifiedTime: registration.lastModifiedTime
+      ? new Date(registration.lastModifiedTime)
       : null,
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
     name: getLocalisedString(registration.name, language),

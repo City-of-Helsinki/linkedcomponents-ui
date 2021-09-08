@@ -12,7 +12,8 @@ const registrationNames = range(1, REGISTRATIONS_PAGE_SIZE + 1).map(
 
 const registrations = fakeRegistrations(
   REGISTRATIONS_PAGE_SIZE,
-  registrationNames.map((name) => ({
+  registrationNames.map((name, index) => ({
+    id: `registration:${index}`,
     name: { fi: name },
   }))
 );

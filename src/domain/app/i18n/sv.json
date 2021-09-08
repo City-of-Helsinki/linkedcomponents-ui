@@ -1132,6 +1132,7 @@
   },
   "registration": {
     "form": {
+      "buttonActions": "Funktioner",
       "buttonCreate": "Spara registrering",
       "buttonPanel": {
         "warningNotAuthenticated": "Om du vill publicera evenemanget måste du först logga in."
@@ -1162,7 +1163,8 @@
       "copy": "Kopiera som mall",
       "delete": "Radera registrering",
       "edit": "Redigera",
-      "showParticipants": "Visa deltagare"
+      "showParticipants": "Visa deltagare",
+      "update": "Spara ändringar"
     },
     "buttonClearFilters": "Töm sökfilter",
     "count": "{{count}} registrering",
