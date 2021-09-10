@@ -46,19 +46,19 @@ const renderComponent = ({
     store,
   });
 
-const findElement = (key: 'delete' | 'edit' | 'showParticipants') => {
+const findElement = (key: 'delete' | 'edit' | 'showEnrolments') => {
   switch (key) {
     case 'delete':
       return screen.findByRole('button', { name: 'Poista ilmoittautuminen' });
     case 'edit':
       return screen.findByRole('button', { name: 'Muokkaa' });
-    case 'showParticipants':
+    case 'showEnrolments':
       return screen.findByRole('button', { name: /näytä ilmoittautuneet/i });
   }
 };
 
 const getElement = (
-  key: 'copy' | 'delete' | 'edit' | 'menu' | 'showParticipants' | 'toggle'
+  key: 'copy' | 'delete' | 'edit' | 'menu' | 'showEnrolments' | 'toggle'
 ) => {
   switch (key) {
     case 'copy':
@@ -69,7 +69,7 @@ const getElement = (
       return screen.getByRole('button', { name: 'Muokkaa' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
-    case 'showParticipants':
+    case 'showEnrolments':
       return screen.getByRole('button', { name: /näytä ilmoittautuneet/i });
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
@@ -102,7 +102,7 @@ test('should render correct buttons', async () => {
   getElement('copy');
   await findElement('delete');
   getElement('edit');
-  getElement('showParticipants');
+  getElement('showEnrolments');
 });
 
 test('should route to edit registration page when clicking edit button', async () => {
@@ -121,17 +121,17 @@ test('should route to edit registration page when clicking edit button', async (
   expect(history.location.search).toBe('?returnPath=%2Fregistrations');
 });
 
-test('should route to participants page when clicking show participants button', async () => {
+test('should route to enrolments page when clicking show enrolments button', async () => {
   const { history } = renderComponent();
 
   openMenu();
 
-  const editButton = await findElement('showParticipants');
+  const editButton = await findElement('showEnrolments');
   act(() => userEvent.click(editButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registration.id}/participants`
+      `/fi/registrations/${registration.id}/enrolments`
     )
   );
   expect(history.location.search).toBe('?returnPath=%2Fregistrations');

@@ -71,13 +71,13 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     history.push(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 
-  const goToRegistrationParticipantsPage = () => {
+  const goToRegistrationEnrolmentsPage = () => {
     const queryString = addParamsToRegistrationQueryString(search, {
       returnPath: pathname,
     });
 
     history.push({
-      pathname: `/${locale}${ROUTES.REGISTRATION_PARTICIPANTS.replace(
+      pathname: `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
         ':registrationId',
         id
       )}`,
@@ -122,8 +122,8 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: REGISTRATION_EDIT_ACTIONS.SHOW_PARTICIPANTS,
-      onClick: goToRegistrationParticipantsPage,
+      action: REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS,
+      onClick: goToRegistrationEnrolmentsPage,
     }),
     getActionItemProps({
       action: REGISTRATION_EDIT_ACTIONS.COPY,

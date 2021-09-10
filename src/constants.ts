@@ -36,7 +36,7 @@ export enum ROUTES {
   INSTRUCTIONS_PLATFORM = '/help/instructions/platform',
   LOGOUT = '/logout',
   REGISTRATIONS = '/registrations',
-  REGISTRATION_PARTICIPANTS = '/registrations/:registrationId/participants',
+  REGISTRATION_ENROLMENTS = '/registrations/:registrationId/enrolments',
   SEARCH = '/search',
   SILENT_CALLBACK = '/silent-callback',
   SUPPORT = '/help/support',

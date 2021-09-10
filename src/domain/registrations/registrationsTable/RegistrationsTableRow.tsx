@@ -80,7 +80,7 @@ const RegistrationsTableRow: React.FC<Props> = ({
             /* istanbul ignore next */ '-'
           )}
         </td>
-        <td className={styles.participantsColumn}>
+        <td className={styles.enrolmentsColumn}>
           {currentAttendeeCount} / {maximumAttendeeCapacity}
         </td>
         <td className={styles.waitingListColumn}>

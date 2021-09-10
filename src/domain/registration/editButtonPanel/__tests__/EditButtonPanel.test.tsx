@@ -64,7 +64,7 @@ const getElements = (key: 'disabledButtons') => {
 };
 
 const getElement = (
-  key: 'back' | 'copy' | 'menu' | 'showParticipants' | 'toggle' | 'update'
+  key: 'back' | 'copy' | 'menu' | 'showEnrolments' | 'toggle' | 'update'
 ) => {
   switch (key) {
     case 'back':
@@ -73,7 +73,7 @@ const getElement = (
       return screen.getByRole('button', { name: /kopioi pohjaksi/i });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
-    case 'showParticipants':
+    case 'showEnrolments':
       return screen.getByRole('button', { name: /näytä ilmoittautuneet/i });
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
@@ -112,7 +112,7 @@ test('should render all buttons when user is authenticated', async () => {
 
   openMenu();
 
-  getElement('showParticipants');
+  getElement('showEnrolments');
   getElement('copy');
 
   const deleteButton = await findElement('delete');
@@ -124,12 +124,12 @@ test('should render all buttons when user is authenticated', async () => {
   expect(onUpdate).toBeCalled();
 });
 
-test('only copy and show participants button should be enabled when user is not logged in', () => {
+test('only copy and show enrolments button should be enabled when user is not logged in', () => {
   renderComponent();
 
   openMenu();
 
-  getElement('showParticipants');
+  getElement('showEnrolments');
   getElement('copy');
 
   const disabledButtons = getElements('disabledButtons');
@@ -137,17 +137,17 @@ test('only copy and show participants button should be enabled when user is not 
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
-test('should route to participants page when clicking show participants button', async () => {
+test('should route to enrolments page when clicking show enrolmentss button', async () => {
   const { history } = renderComponent();
 
   openMenu();
 
-  const showParticipantsButton = getElement('showParticipants');
-  act(() => userEvent.click(showParticipantsButton));
+  const showEnrolmentsButton = getElement('showEnrolments');
+  act(() => userEvent.click(showEnrolmentsButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registration.id}/participants`
+      `/fi/registrations/${registration.id}/enrolments`
     )
   );
 });

@@ -1168,7 +1168,7 @@
       "copy": "Kopiera som mall",
       "delete": "Radera registrering",
       "edit": "Redigera",
-      "showParticipants": "Visa deltagare",
+      "showEnrolments": "Visa deltagare",
       "update": "Spara ändringar"
     },
     "buttonClearFilters": "Töm sökfilter",
@@ -1177,10 +1177,10 @@
     "pageTitle": "Registrering",
     "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
     "registrationsTableColumns": {
+      "enrolmentss": "Deltagarna",
       "enrolmentEndTime": "Slutar",
       "enrolmentStartTime": "Börjar",
       "name": "Namn",
-      "participants": "Deltagarna",
       "publisher": "Utgivare",
       "waitingList": "Väntelista"
     },

@@ -1168,7 +1168,7 @@
       "copy": "Kopioi pohjaksi",
       "delete": "Poista ilmoittautuminen",
       "edit": "Muokkaa",
-      "showParticipants": "Näytä ilmoittautuneet",
+      "showEnrolments": "Näytä ilmoittautuneet",
       "update": "Tallenna muutokset"
     },
     "buttonClearFilters": "Tyhjennä hakuehdot",
@@ -1177,10 +1177,10 @@
     "pageTitle": "Ilmoittautuminen",
     "registrationsTableCaption": "Ilmoittautumiset, järjestys {{sort}}",
     "registrationsTableColumns": {
+      "enrolments": "Osallistujia",
       "enrolmentEndTime": "Loppuu",
       "enrolmentStartTime": "Alkaa",
       "name": "Nimi",
-      "participants": "Osallistujia",
       "publisher": "Julkaisija",
       "waitingList": "Jono"
     },

@@ -68,8 +68,8 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
           <th className={styles.nameColumn}>
             {t('registrationsPage.registrationsTableColumns.publisher')}
           </th>
-          <th className={styles.participantsColumn}>
-            {t('registrationsPage.registrationsTableColumns.participants')}
+          <th className={styles.enrolmentsColumn}>
+            {t('registrationsPage.registrationsTableColumns.enrolments')}
           </th>
           <th className={styles.waitingListColumn}>
             {t('registrationsPage.registrationsTableColumns.waitingList')}

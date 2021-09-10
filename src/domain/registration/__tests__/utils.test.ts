@@ -11,7 +11,7 @@ describe('getEditRegistrationWarning function', () => {
   it('should return correct warning if user is not authenticated', () => {
     const allowedActions = [
       REGISTRATION_EDIT_ACTIONS.COPY,
-      REGISTRATION_EDIT_ACTIONS.SHOW_PARTICIPANTS,
+      REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS,
     ];
 
     const commonProps = {

@@ -1168,7 +1168,7 @@
       "copy": "Copy as a template",
       "delete": "Delete registration",
       "edit": "Edit",
-      "showParticipants": "Show participants",
+      "showEnrolments": "Show participants",
       "update": "Save changes"
     },
     "buttonClearFilters": "Clear filters",
@@ -1177,10 +1177,10 @@
     "pageTitle": "Registration",
     "registrationTableCaption": "Registrations, sorted by {{sort}}",
     "registrationsTableColumns": {
+      "enrolments": "Participants",
       "enrolmentEndTime": "Ends",
       "enrolmentStartTime": "Starts",
       "name": "Name",
-      "participants": "Participants",
       "publisher": "Publisher",
       "waitingList": "Waiting list"
     },
