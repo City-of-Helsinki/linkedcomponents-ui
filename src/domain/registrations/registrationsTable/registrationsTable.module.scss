@@ -1,6 +1,6 @@
 @import 'mixins';
 
-.eventsTable {
+.registrationsTable {
   tbody tr {
     cursor: pointer;
 
@@ -46,7 +46,7 @@
   display: flex;
   align-items: center;
 
-  .eventName {
+  .registrationName {
     overflow: hidden;
     text-overflow: ellipsis;
   }

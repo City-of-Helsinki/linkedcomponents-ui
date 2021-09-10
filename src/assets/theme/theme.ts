@@ -428,6 +428,19 @@ const theme: Theme = {
     '--input-max-width-l': '566px',
     '--label-height': '28px',
   },
+  searchPanel: {
+    '--search-panel-background-color': 'var(--color-coat-of-arms)',
+    '--search-panel-label-color': 'var(--color-white)',
+    '--search-panel-button-background-color': 'var(--color-coat-of-arms)',
+    '--search-panel-button-background-color-hover':
+      'var(--color-coat-of-arms-dark)',
+    '--search-panel-button-background-color-focus': 'var(--color-coat-of-arms)',
+    '--search-panel-button-background-color-hover-focus':
+      'var(--color-coat-of-arms-dark)',
+    '--search-panel-button-border-color': 'var(--color-white)',
+    '--search-panel-button-color': 'var(--color-white)',
+    '--search-panel-button-focus-outline-color': 'var(--color-white)',
+  },
   select: {
     '--border-radius': '2px',
     '--border-width': '2px',

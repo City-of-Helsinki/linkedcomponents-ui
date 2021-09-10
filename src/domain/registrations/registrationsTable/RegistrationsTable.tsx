@@ -58,7 +58,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   };
 
   return (
-    <Table ref={table} className={classNames(styles.eventsTable)}>
+    <Table ref={table} className={classNames(styles.registrationsTable)}>
       <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
       <thead>
         <tr>

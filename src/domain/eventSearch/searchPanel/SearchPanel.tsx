@@ -103,7 +103,7 @@ const SearchPanel: React.FC = () => {
   return (
     <div
       data-testid={testIds.searchPanel}
-      className={classNames(styles.searchPanel, css(theme.eventSearchPanel))}
+      className={classNames(styles.searchPanel, css(theme.searchPanel))}
     >
       <section className={styles.searchPanelWrapper}>
         <Container withOffset={true}>

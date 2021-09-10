@@ -68,7 +68,7 @@ const RegistrationsTableRow: React.FC<Props> = ({
       >
         <td className={styles.nameColumn}>
           <div className={styles.nameWrapper}>
-            <span className={styles.eventName} title={name}>
+            <span className={styles.registrationName} title={name}>
               {name}
             </span>
           </div>
