@@ -127,23 +127,27 @@ describe('replaceParamsToRegistrationQueryString', () => {
 describe('getRegistrationFields function', () => {
   it('should return default values if value is not set', () => {
     const {
+      atId,
+      createdBy,
       currentAttendeeCount,
       currentWaitingAttendeeCount,
       enrolmentEndTime,
       enrolmentStartTime,
       id,
-      atId,
+      lastModifiedTime,
       maximumAttendeeCapacity,
       publisher,
       waitingAttendeeCapacity,
     } = getRegistrationFields(
       fakeRegistration({
+        atId: null,
+        createdBy: null,
         currentAttendeeCount: null,
         currentWaitingAttendeeCount: null,
         enrolmentEndTime: '',
         enrolmentStartTime: '',
         id: null,
-        atId: null,
+        lastModifiedTime: '',
         maximumAttendeeCapacity: null,
         publisher: '',
         waitingAttendeeCapacity: null,
@@ -151,12 +155,14 @@ describe('getRegistrationFields function', () => {
       'fi'
     );
 
+    expect(atId).toBe('');
+    expect(createdBy).toBe('');
     expect(currentAttendeeCount).toBe(0);
     expect(currentWaitingAttendeeCount).toBe(0);
     expect(enrolmentEndTime).toBe(null);
     expect(enrolmentStartTime).toBe(null);
     expect(id).toBe('');
-    expect(atId).toBe('');
+    expect(lastModifiedTime).toBe(null);
     expect(maximumAttendeeCapacity).toBe(0);
     expect(publisher).toBe(null);
     expect(waitingAttendeeCapacity).toBe(0);

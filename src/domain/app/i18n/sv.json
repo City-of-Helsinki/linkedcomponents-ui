@@ -7,7 +7,8 @@
       "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
     },
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
-    "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang."
+    "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
+    "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar."
   },
   "authenticationMethod": {
     "espooEmployee": "Stad Esbo anställd ID",
@@ -1133,9 +1134,13 @@
   "registration": {
     "form": {
       "buttonActions": "Funktioner",
+      "buttonBack": "Tillbaka",
       "buttonCreate": "Spara registrering",
       "buttonPanel": {
         "warningNotAuthenticated": "Om du vill publicera evenemanget måste du först logga in."
+      },
+      "editButtonPanel": {
+        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
       },
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",

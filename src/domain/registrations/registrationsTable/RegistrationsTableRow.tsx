@@ -6,7 +6,7 @@ import useLocale from '../../../hooks/useLocale';
 import useTimeFormat from '../../../hooks/useTimeFormat';
 import formatDate from '../../../utils/formatDate';
 import PublisherName from '../../events/eventCard/PublisherName';
-import { getEventItemId } from '../../eventSearch/utils';
+import { getRegistrationItemId } from '../../registration/utils';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import { getRegistrationFields } from '../utils';
 import styles from './registrationsTable.module.scss';
@@ -61,7 +61,7 @@ const RegistrationsTableRow: React.FC<Props> = ({
         ref={rowRef}
         role="button"
         aria-label={name}
-        id={getEventItemId(id)}
+        id={getRegistrationItemId(id)}
         onClick={handleRowClick}
         onKeyDown={handleKeyDown}
         tabIndex={0}

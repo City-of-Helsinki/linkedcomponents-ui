@@ -106,6 +106,18 @@ it('should render create registration page', async () => {
   expect(history.location.pathname).toBe('/fi/registrations/create');
 });
 
+it('should render edit registration page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.EDIT_REGISTRATION.replace(':id', 'registration:1')}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  expect(history.location.pathname).toBe(
+    '/fi/registrations/edit/registration:1'
+  );
+});
+
 it('should route to default help page', async () => {
   const { history } = renderRoute(ROUTES.HELP);
 

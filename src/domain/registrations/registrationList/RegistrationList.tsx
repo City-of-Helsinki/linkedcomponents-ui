@@ -1,11 +1,17 @@
+import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory, useLocation } from 'react-router';
 
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { EventsQueryVariables, Registration } from '../../../generated/graphql';
 import Container from '../../app/layout/Container';
+import {
+  getRegistrationItemId,
+  scrollToRegistrationItem,
+} from '../../registration/utils';
 import { registrationsResponse } from '../__mocks__/registrationsPage';
 import {
   DEFAULT_REGISTRATION_SORT,
@@ -13,6 +19,7 @@ import {
 } from '../constants';
 import useRegistrationSortOptions from '../hooks/useRegistrationSortOptions';
 import RegistrationsTable from '../registrationsTable/RegistrationsTable';
+import { RegistrationsLocationState } from '../types';
 import styles from './registrationList.module.scss';
 
 export interface EventListContainerProps {
@@ -33,6 +40,8 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
   sort,
 }) => {
   const { t } = useTranslation();
+  const history = useHistory();
+  const location = useLocation<RegistrationsLocationState>();
   const sortOptions = useRegistrationSortOptions();
 
   const getTableCaption = () => {
@@ -40,6 +49,19 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
       sort: sortOptions.find((option) => option.value === sort)?.label,
     });
   };
+
+  React.useEffect(() => {
+    if (location.state?.registrationId) {
+      scrollToRegistrationItem(
+        getRegistrationItemId(location.state.registrationId)
+      );
+      // Clear registrationId value to keep scroll position correctly
+      const state = omit(location.state, 'registrationId');
+      // location.search seems to reset if not added here (...location)
+      history.replace({ ...location, state });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={styles.contentWrapperTable}>

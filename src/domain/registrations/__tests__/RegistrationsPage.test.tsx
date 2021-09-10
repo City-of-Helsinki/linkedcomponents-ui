@@ -1,4 +1,6 @@
+/* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
+import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import { TEST_USER_ID } from '../../../constants';
@@ -14,6 +16,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import { registrations } from '../__mocks__/registrationsPage';
 import RegistrationsPage from '../RegistrationsPage';
 
 configure({ defaultHidden: true });
@@ -82,41 +85,34 @@ test('should open create event page', async () => {
   expect(history.location.pathname).toBe('/fi/registrations/create');
 });
 
-// it('scrolls to event table row and calls history.replace correctly (deletes eventId from state)', async () => {
-//   const storeState = fakeAuthenticatedStoreState();
-//   storeState.events.listOptions = fakeEventsListOptionsState({
-//     tab: EVENTS_PAGE_TABS.WAITING_APPROVAL,
-//   });
-//   const store = getMockReduxStore(storeState);
-//   const route = '/fi/events';
-//   const history = createMemoryHistory();
-//   const historyObject = {
-//     search: '?dateTypes=tomorrow,this_week',
-//     state: { eventId: waitingApprovalEvents.data[0].id },
-//     pathname: route,
-//   };
-//   history.push(historyObject);
+it('scrolls to registration table row and calls history.replace correctly (deletes registrationId from state)', async () => {
+  const storeState = fakeAuthenticatedStoreState();
+  const store = getMockReduxStore(storeState);
+  const route = '/fi/registrations';
+  const history = createMemoryHistory();
+  const historyObject = {
+    state: { registrationId: registrations.data[0].id },
+    pathname: route,
+  };
+  history.push(historyObject);
 
-//   const replaceSpy = jest.spyOn(history, 'replace');
+  const replaceSpy = jest.spyOn(history, 'replace');
 
-//   render(<EventsPage />, {
-//     history,
-//     mocks,
-//     routes: [route],
-//     store,
-//   });
+  render(<RegistrationsPage />, {
+    history,
+    mocks,
+    routes: [route],
+    store,
+  });
 
-//   await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument();
 
-//   expect(replaceSpy).toHaveBeenCalledWith(
-//     expect.objectContaining({
-//       search: historyObject.search,
-//       pathname: historyObject.pathname,
-//     })
-//   );
+  expect(replaceSpy).toHaveBeenCalledWith(
+    expect.objectContaining({ pathname: historyObject.pathname })
+  );
 
-//   const eventRowButton = screen.getByRole('button', {
-//     name: waitingApprovalEvents.data[0].name.fi,
-//   });
-//   await waitFor(() => expect(eventRowButton).toHaveFocus());
-// });
+  const eventRowButton = screen.getByRole('button', {
+    name: registrations.data[0].name.fi,
+  });
+  await waitFor(() => expect(eventRowButton).toHaveFocus());
+});

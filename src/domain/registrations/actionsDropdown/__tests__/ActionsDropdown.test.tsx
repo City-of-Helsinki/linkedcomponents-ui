@@ -137,9 +137,8 @@ test('should route to participants page when clicking show participants button',
   expect(history.location.search).toBe('?returnPath=%2Fregistrations');
 });
 
-test('should open alert dialog when clicking copy button', async () => {
-  global.alert = jest.fn();
-  renderComponent();
+test('should route to create registration page when clicking copy button', async () => {
+  const { history } = renderComponent();
 
   openMenu();
 
@@ -147,7 +146,7 @@ test('should open alert dialog when clicking copy button', async () => {
   act(() => userEvent.click(copyButton));
 
   await waitFor(() =>
-    expect(global.alert).toBeCalledWith('TODO: Copy registration')
+    expect(history.location.pathname).toBe(`/fi/registrations/create`)
   );
 });
 

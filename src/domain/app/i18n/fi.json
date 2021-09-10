@@ -7,7 +7,8 @@
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
-    "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia."
+    "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
+    "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia."
   },
   "authenticationMethod": {
     "espooEmployee": "Espoon kaupungin työntekijä -tunnus",
@@ -1133,9 +1134,13 @@
   "registration": {
     "form": {
       "buttonActions": "Valinnat",
+      "buttonBack": "Takaisin",
       "buttonCreate": "Tallenna ilmoittautuminen",
       "buttonPanel": {
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
+      },
+      "editButtonPanel": {
+        "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä ilmoittautumista."
       },
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",

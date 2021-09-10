@@ -15,14 +15,17 @@ import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
-import { extractLatestReturnPath } from '../../eventSearch/utils';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
 import { RegistrationsLocationState } from '../../registrations/types';
 import {
   addParamsToRegistrationQueryString,
   getRegistrationFields,
 } from '../../registrations/utils';
-import { copyRegistrationToSessionStorage, getEditButtonProps } from '../utils';
+import {
+  copyRegistrationToSessionStorage,
+  extractLatestReturnPath,
+  getEditButtonProps,
+} from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 type ActionButtonProps = {
@@ -59,7 +62,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     history.push({
       pathname: `/${locale}${returnPath}`,
       search: remainingQueryString,
-      state: { registrationId: registration.id ?? '' },
+      state: { registrationId: registration.id as string },
     });
   };
 
@@ -154,7 +157,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
               type="button"
               variant="secondary"
             >
-              {t('event.form.buttonBack')}
+              {t('registration.form.buttonBack')}
             </Button>
             <div className={styles.actionsDropdown}>
               <MenuDropdown

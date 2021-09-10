@@ -7,7 +7,8 @@
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
     "noRightsUpdateEventLabel": "No permissions to edit events",
-    "noRightsUpdateEvent": "You do not have permission to edit events."
+    "noRightsUpdateEvent": "You do not have permission to edit events.",
+    "noRightsUpdateRegistration": "You do not have permission to edit registrations."
   },
   "authRequiredNotification": {
     "button": "sign in",
@@ -1133,9 +1134,13 @@
   "registration": {
     "form": {
       "buttonActions": "Actions",
+      "buttonBack": "Back",
       "buttonCreate": "Save",
       "buttonPanel": {
         "warningNotAuthenticated": "Om du vill skapa denna registrering måste du först logga in."
+      },
+      "editButtonPanel": {
+        "warningNoRightsToEdit": "You have insufficient rights to edit this registration."
       },
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",

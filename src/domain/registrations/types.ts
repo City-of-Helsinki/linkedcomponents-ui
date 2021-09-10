@@ -22,6 +22,11 @@ export type RegistrationSearchInitialValues = {
 export type RegistrationFilterType = 'eventType' | 'text';
 export type RegistrationSearchParam = keyof RegistrationSearchParams;
 
+export type ReturnParams = {
+  [REGISTRATION_SEARCH_PARAMS.RETURN_PATH]: string;
+  remainingQueryString: string;
+};
+
 export type RegistrationsLocationState = {
   registrationId: string;
 };
