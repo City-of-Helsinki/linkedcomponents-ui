@@ -4,6 +4,8 @@ import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
 import {
+  Enrolment,
+  EnrolmentsResponse,
   Event,
   EventsResponse,
   EventStatus,
@@ -33,6 +35,39 @@ import {
 } from '../generated/graphql';
 import generateAtId from './generateAtId';
 
+export const fakeEnrolments = (
+  count = 1,
+  enrolments: Partial<Enrolment>[]
+): EnrolmentsResponse => ({
+  data: generateNodeArray((i) => fakeEnrolment(enrolments?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'EnrolmentsResponse',
+});
+
+export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
+  const id = overrides?.id || faker.datatype.uuid();
+  return merge<Enrolment, typeof overrides>(
+    {
+      id,
+      city: faker.address.city(),
+      email: faker.internet.email(),
+      extraInfo: faker.lorem.paragraph(),
+      marketingAllowed: false,
+      membershipNumber: '',
+      name: faker.name.firstName(),
+      nativeLanguage: 'fi',
+      notifications: faker.lorem.paragraph(),
+      organizationName: '',
+      phoneNumber: faker.phone.phoneNumberFormat(),
+      serviceLanguage: 'fi',
+      streetAddress: faker.address.streetAddress(),
+      yearOfBirth: faker.random.number({ max: 2021, min: 1920 }).toString(),
+      zip: faker.address.zipCode(),
+      __typename: 'Enrolment',
+    },
+    overrides
+  );
+};
 export const fakeEvents = (
   count = 1,
   events?: Partial<Event>[]

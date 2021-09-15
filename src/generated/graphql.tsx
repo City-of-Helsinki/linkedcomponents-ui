@@ -81,6 +81,8 @@ export type NoContent = {
 
 export type Query = {
   __typename?: 'Query';
+  enrolment: Enrolment;
+  enrolments: EnrolmentsResponse;
   event: Event;
   events: EventsResponse;
   keyword: Keyword;
@@ -97,6 +99,11 @@ export type Query = {
   registration: Registration;
   registrations: RegistrationsResponse;
   user: User;
+};
+
+
+export type QueryEnrolmentArgs = {
+  id?: Maybe<Scalars['ID']>;
 };
 
 
@@ -685,6 +692,31 @@ export type Registration = {
   atId: Scalars['String'];
   atContext?: Maybe<Scalars['String']>;
   atType?: Maybe<Scalars['String']>;
+};
+
+export type EnrolmentsResponse = {
+  __typename?: 'EnrolmentsResponse';
+  meta: Meta;
+  data: Array<Enrolment>;
+};
+
+export type Enrolment = {
+  __typename?: 'Enrolment';
+  id: Scalars['ID'];
+  city?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  extraInfo?: Maybe<Scalars['String']>;
+  marketingAllowed?: Maybe<Scalars['Boolean']>;
+  membershipNumber?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  nativeLanguage?: Maybe<Scalars['String']>;
+  notifications?: Maybe<Scalars['String']>;
+  organizationName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  serviceLanguage?: Maybe<Scalars['String']>;
+  streetAddress?: Maybe<Scalars['String']>;
+  yearOfBirth?: Maybe<Scalars['String']>;
+  zip?: Maybe<Scalars['String']>;
 };
 
 export type CreateEventMutationVariables = Exact<{

@@ -24,6 +24,7 @@ export enum ROUTES {
   CREATE_REGISTRATION = '/registrations/create',
   EDIT_EVENT = '/events/edit/:id',
   EDIT_REGISTRATION = '/registrations/edit/:id',
+  EDIT_REGISTRATION_ENROLMENT = '/registrations/:registrationId/enrolments/edit/:enrolmentId',
   EVENT_SAVED = '/events/completed/:id',
   EVENTS = '/events',
   FEATURES = '/help/features',

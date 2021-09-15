@@ -6,6 +6,7 @@
     "networkError": {
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
+    "noRightsUpdateEnrolment": "Sinulla ei ole oikeuksia muokata osallistujia.",
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia."
@@ -174,6 +175,34 @@
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"
+  },
+  "enrolmentsPage": {
+    "actionButtons": {
+      "cancel": "Peruuta osallistuminen",
+      "edit": "Muokkaa tietoja",
+      "sendMessage": "Lähetä viesti"
+    },
+    "attendeeTableCaption": "Osallistujat",
+    "attendeeTableHeading": "Osallistujat",
+    "buttonClearFilters": "Tyhjennä hakuehdot",
+    "enrolmentsTableColumns": {
+      "email": "Sähköposti",
+      "gender": "Sukupuoli",
+      "name": "Nimi",
+      "phone": "Puhelinnumero",
+      "status": "Status"
+    },
+    "pageTitle": "Ilmoittautuneet: {{name}}",
+    "searchPanel": {
+      "buttonClear": "Tyhjennä",
+      "buttonCreate": "Lisää osallistuja",
+      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
+      "buttonSearch": "Etsi osallistujia",
+      "labelSearch": "Hae osallistujia",
+      "placeholderSearch": "Hae osallistujia"
+    },
+    "waitingListTableCaption": "Jonopaikat",
+    "waitingListTableHeading": "Jonopaikat"
   },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",

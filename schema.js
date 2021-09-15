@@ -22,6 +22,8 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type Query {
+    enrolment(id: ID): Enrolment!
+    enrolments: EnrolmentsResponse!
     event(id: ID, include: [String]): Event!
     events(
       adminUser: Boolean
@@ -555,5 +557,28 @@ module.exports = buildSchema(/* GraphQL */ `
     atContext: String
     # @type is renamed as atType so it's usable on GraphQl
     atType: String
+  }
+
+  type EnrolmentsResponse {
+    meta: Meta!
+    data: [Enrolment!]!
+  }
+
+  type Enrolment {
+    id: ID!
+    city: String
+    email: String
+    extraInfo: String
+    marketingAllowed: Boolean
+    membershipNumber: String
+    name: String
+    nativeLanguage: String
+    notifications: String
+    organizationName: String
+    phoneNumber: String
+    serviceLanguage: String
+    streetAddress: String
+    yearOfBirth: String
+    zip: String
   }
 `);

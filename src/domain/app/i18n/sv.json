@@ -6,6 +6,7 @@
     "networkError": {
       "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
     },
+    "noRightsUpdateEnrolment": "Du har inte rättigheter att redigera evenemang.",
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar."
@@ -174,6 +175,34 @@
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"
+  },
+  "enrolmentsPage": {
+    "actionButtons": {
+      "cancel": "Avbryt deltagande",
+      "edit": "Redigera information",
+      "sendMessage": "Skicka ett meddelande"
+    },
+    "attendeeTableCaption": "Deltagarna",
+    "attendeeTableHeading": "Deltagarna",
+    "buttonClearFilters": "Töm sökfilter",
+    "enrolmentsTableColumns": {
+      "email": "E-post",
+      "gender": "Kön",
+      "name": "Name",
+      "phone": "Telefonnummer",
+      "status": "Status"
+    },
+    "pageTitle": "Anmälningar: {{name}}",
+    "searchPanel": {
+      "buttonClear": "Klar",
+      "buttonCreate": "Lägg till deltagare",
+      "buttonRemoveFilter": "Ta bort filtret: {{name}}",
+      "buttonSearch": "Filtrera",
+      "labelSearch": "Sök i Linked Events gränssnittet",
+      "placeholderSearch": "Sök i Linked Events gränssnittet"
+    },
+    "waitingListTableCaption": "Väntelista",
+    "waitingListTableHeading": "Väntelista"
   },
   "errors": {
     "authorizationRequired": "Logga in för att använda den här funktionen",

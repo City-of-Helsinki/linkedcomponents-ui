@@ -6,6 +6,7 @@
     "networkError": {
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
+    "noRightsUpdateEnrolment": "Du har inte behörighet att redigera registreringar.",
     "noRightsUpdateEventLabel": "No permissions to edit events",
     "noRightsUpdateEvent": "You do not have permission to edit events.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations."
@@ -174,6 +175,34 @@
   "createRegistrationPage": {
     "page": "New registration",
     "title": "New registration"
+  },
+  "enrolmentsPage": {    
+    "actionButtons": {
+      "cancel": "Cancel participation",
+      "edit": "Edit information",
+      "sendMessage": "End message"
+    },
+    "attendeeTableCaption": "Participants",
+    "attendeeTableHeading": "Participants",
+    "buttonClearFilters": "Clear filters",
+    "enrolmentsTableColumns": {
+      "email": "Email",
+      "gender": "Gender",
+      "name": "Name",
+      "phone": "Phone number",
+      "status": "Status"
+    },
+    "pageTitle": "Enrolments: {{name}}",
+    "searchPanel": {
+      "buttonClear": "Clear",
+      "buttonCreate": "Add participant",
+      "buttonRemoveFilter": "Remove filter: {{name}}",
+      "buttonSearch": "Filter",
+      "labelSearch": "Filtrera registreringar",
+      "placeholderSearch": "Filtrera registreringar"
+    },
+    "waitingListTableCaption": "Waiting list",
+    "waitingListTableHeading": "Waiting list"
   },
   "errors": {
     "authorizationRequired": "Sign in to use this feature",
