@@ -18,7 +18,6 @@ const WaitingList: React.FC<Props> = ({ registration }) => {
     <div className={styles.waitingList}>
       <EnrolmentsTable
         caption={t('enrolmentsPage.waitingListTableCaption')}
-        className={styles.table}
         enrolments={attendees}
         heading={t('enrolmentsPage.waitingListTableHeading')}
         registration={registration}

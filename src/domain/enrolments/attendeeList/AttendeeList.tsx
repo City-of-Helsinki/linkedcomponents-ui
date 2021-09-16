@@ -18,7 +18,6 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     <div className={styles.attendeeList}>
       <EnrolmentsTable
         caption={t('enrolmentsPage.attendeeTableCaption')}
-        className={styles.table}
         enrolments={attendees}
         heading={t('enrolmentsPage.attendeeTableHeading')}
         registration={registration}

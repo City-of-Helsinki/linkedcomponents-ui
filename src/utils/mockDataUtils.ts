@@ -61,7 +61,7 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
       phoneNumber: faker.phone.phoneNumberFormat(),
       serviceLanguage: 'fi',
       streetAddress: faker.address.streetAddress(),
-      yearOfBirth: faker.random.number({ max: 2021, min: 1920 }).toString(),
+      yearOfBirth: faker.datatype.number({ max: 2021, min: 1920 }).toString(),
       zip: faker.address.zipCode(),
       __typename: 'Enrolment',
     },

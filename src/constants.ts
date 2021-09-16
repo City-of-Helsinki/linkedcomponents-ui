@@ -173,3 +173,7 @@ export const SWAGGER_SCHEMA_URL =
   'https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml';
 
 export const TEST_USER_ID = 'user:1';
+
+export enum SEARCH_PARAMS {
+  RETURN_PATH = 'returnPath',
+}

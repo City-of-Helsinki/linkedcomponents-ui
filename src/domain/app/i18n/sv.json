@@ -184,6 +184,7 @@
     },
     "attendeeTableCaption": "Deltagarna",
     "attendeeTableHeading": "Deltagarna",
+    "buttonBack": "Tillbaka",
     "buttonClearFilters": "Töm sökfilter",
     "enrolmentsTableColumns": {
       "email": "E-post",

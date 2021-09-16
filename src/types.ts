@@ -2,6 +2,7 @@ import { Action } from '@reduxjs/toolkit';
 import React from 'react';
 import { ThunkAction } from 'redux-thunk';
 
+import { SEARCH_PARAMS } from './constants';
 import rootReducer from './domain/app/store/reducers';
 
 export type Language = 'en' | 'fi' | 'sv';
@@ -36,4 +37,9 @@ export type LEServerError =
 export type ServerErrorItem = {
   label: string;
   message: string;
+};
+
+export type ReturnParams = {
+  [SEARCH_PARAMS.RETURN_PATH]: string;
+  remainingQueryString: string;
 };

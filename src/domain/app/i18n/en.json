@@ -184,6 +184,7 @@
     },
     "attendeeTableCaption": "Participants",
     "attendeeTableHeading": "Participants",
+    "buttonBack": "Back",
     "buttonClearFilters": "Clear filters",
     "enrolmentsTableColumns": {
       "email": "Email",

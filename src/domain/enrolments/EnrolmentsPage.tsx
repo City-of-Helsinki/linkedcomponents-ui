@@ -18,6 +18,7 @@ import { registrationsResponse } from '../registrations/__mocks__/registrationsP
 import { getRegistrationFields } from '../registrations/utils';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
+import ButtonPanel from './buttonPanel/ButtonPanel';
 import styles from './enrolmentsPage.module.scss';
 import FilterSummary from './filterSummary/FilterSummary';
 import SearchPanel from './searchPanel/SearchPanel';
@@ -54,6 +55,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
           <AttendeeList registration={registration} />
           <WaitingList registration={registration} />
         </Container>
+        <ButtonPanel registration={registration} />
       </MainContent>
     </PageWrapper>
   );

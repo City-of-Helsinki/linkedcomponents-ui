@@ -13,6 +13,7 @@ import { ROUTES } from '../../../constants';
 import { Registration } from '../../../generated/graphql';
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
+import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
@@ -21,11 +22,7 @@ import {
   addParamsToRegistrationQueryString,
   getRegistrationFields,
 } from '../../registrations/utils';
-import {
-  copyRegistrationToSessionStorage,
-  extractLatestReturnPath,
-  getEditButtonProps,
-} from '../utils';
+import { copyRegistrationToSessionStorage, getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 type ActionButtonProps = {
@@ -56,8 +53,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const isMobile = useIsMobile();
 
   const goBack = () => {
-    const { returnPath, remainingQueryString } =
-      extractLatestReturnPath(search);
+    const { returnPath, remainingQueryString } = extractLatestReturnPath(
+      search,
+      ROUTES.REGISTRATIONS
+    );
 
     history.push({
       pathname: `/${locale}${returnPath}`,

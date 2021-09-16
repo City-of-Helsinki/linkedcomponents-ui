@@ -16,10 +16,10 @@ import {
 } from '../../../generated/graphql';
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
+import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EventsLocationState } from '../../eventSearch/types';
-import { extractLatestReturnPath } from '../../eventSearch/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
 import useEventOrganizationAncestors from '../hooks/useEventOrganizationAncestors';
@@ -59,8 +59,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const { user } = useUser();
 
   const goBack = () => {
-    const { returnPath, remainingQueryString } =
-      extractLatestReturnPath(search);
+    const { returnPath, remainingQueryString } = extractLatestReturnPath(
+      search,
+      ROUTES.SEARCH
+    );
 
     history.push({
       pathname: `/${locale}${returnPath}`,

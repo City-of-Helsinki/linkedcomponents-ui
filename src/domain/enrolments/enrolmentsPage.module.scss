@@ -30,13 +30,3 @@
 .waitingList {
   margin-top: var(--spacing-l);
 }
-
-.table {
-  display: grid;
-  grid-gap: var(--spacing-m);
-}
-
-.table {
-  max-width: calc(100vw - 2 * var(--spacing-m));
-  overflow: auto;
-}

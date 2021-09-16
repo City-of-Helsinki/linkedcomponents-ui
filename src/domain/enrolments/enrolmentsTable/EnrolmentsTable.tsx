@@ -14,7 +14,6 @@ import EnrolmentTableRow from './EnrolmentTableRow';
 
 export interface EnrolmentsTableProps {
   caption: string;
-  className?: string;
   enrolments: Enrolment[];
   heading: string;
   registration: Registration;
@@ -22,7 +21,6 @@ export interface EnrolmentsTableProps {
 
 const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   caption,
-  className,
   enrolments,
   heading,
   registration,
@@ -67,7 +65,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   return (
     <>
       <h2 className={styles.heading}>{heading}</h2>
-      <div className={className}>
+      <div className={styles.tableWrapper}>
         <Table ref={table} className={classNames(styles.enrolmentsTable)}>
           <caption aria-live={focused ? 'polite' : undefined}>
             {caption}

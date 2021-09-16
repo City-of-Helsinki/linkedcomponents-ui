@@ -184,6 +184,7 @@
     },
     "attendeeTableCaption": "Osallistujat",
     "attendeeTableHeading": "Osallistujat",
+    "buttonBack": "Takaisin",
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "enrolmentsTableColumns": {
       "email": "Sähköposti",

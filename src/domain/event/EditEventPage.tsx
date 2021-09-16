@@ -9,6 +9,7 @@ import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
+import { ROUTES } from '../../constants';
 import {
   EventFieldsFragment,
   EventQuery,
@@ -19,16 +20,14 @@ import {
 } from '../../generated/graphql';
 import useIsMounted from '../../hooks/useIsMounted';
 import useLocale from '../../hooks/useLocale';
+import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
 import { EventsLocationState } from '../eventSearch/types';
-import {
-  extractLatestReturnPath,
-  replaceParamsToEventQueryString,
-} from '../eventSearch/utils';
+import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
 import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
@@ -120,8 +119,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 
   const goToEventsPage = () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
-      location.search
+      location.search,
+      ROUTES.SEARCH
     );
+
     history.push({
       pathname: `/${locale}${returnPath}`,
       search: replaceParamsToEventQueryString(remainingQueryString, {

@@ -2,10 +2,16 @@ import range from 'lodash/range';
 
 import { TEST_USER_ID } from '../../../constants';
 import { UserDocument } from '../../../generated/graphql';
-import { fakeEnrolments, fakeUser } from '../../../utils/mockDataUtils';
+import {
+  fakeEnrolments,
+  fakeRegistration,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 
 const publisher = 'publisher:1';
+
+const registration = fakeRegistration();
 
 const attendeeNames = range(1, ENROLMENTS_PAGE_SIZE + 1).map(
   (n) => `Attendee name ${n}`
@@ -52,6 +58,7 @@ export {
   attendees,
   attendeesResponse,
   mockedUserResponse,
+  registration,
   waitingAttendeeNames,
   waitingAttendees,
   waitingAttendeesResponse,
