@@ -118,6 +118,21 @@ it('should render edit registration page', async () => {
   );
 });
 
+it('should render registration enrolments page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.REGISTRATION_ENROLMENTS.replace(
+      ':registrationId',
+      'registration:1'
+    )}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /Registration name 2/i });
+  expect(history.location.pathname).toBe(
+    '/fi/registrations/registration:1/enrolments'
+  );
+});
+
 it('should route to default help page', async () => {
   const { history } = renderRoute(ROUTES.HELP);
 

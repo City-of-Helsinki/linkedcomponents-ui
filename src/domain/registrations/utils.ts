@@ -4,7 +4,9 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { ROUTES } from '../../constants';
 import { Registration } from '../../generated/graphql';
 import { Language } from '../../types';
+import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getLocalisedString from '../../utils/getLocalisedString';
+import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
@@ -83,46 +85,22 @@ export const addParamsToRegistrationQueryString = (
   queryString: string,
   queryParams: Partial<RegistrationSearchParams>
 ): string => {
-  const searchParams = new URLSearchParams(queryString);
-  Object.entries(queryParams).forEach(([key, values]) => {
-    const param = key as RegistrationSearchParam;
-    if (Array.isArray(values)) {
-      values.forEach((value) =>
-        searchParams.append(param, getRegistrationParamValue({ param, value }))
-      );
-    } /* istanbul ignore else */ else if (values) {
-      searchParams.append(
-        param,
-        getRegistrationParamValue({ param, value: values.toString() })
-      );
-    }
-  });
-
-  return searchParams.toString() ? `?${searchParams.toString()}` : '';
+  return addParamsToQueryString<RegistrationSearchParams>(
+    queryString,
+    queryParams,
+    getRegistrationParamValue
+  );
 };
 
 export const replaceParamsToRegistrationQueryString = (
   queryString: string,
   queryParams: Partial<RegistrationSearchParams>
 ): string => {
-  const searchParams = new URLSearchParams(queryString);
-  Object.entries(queryParams).forEach(([key, values]) => {
-    const param = key as RegistrationSearchParam;
-    searchParams.delete(param);
-
-    if (Array.isArray(values)) {
-      values.forEach((value) =>
-        searchParams.append(param, getRegistrationParamValue({ param, value }))
-      );
-    } else if (values) {
-      searchParams.append(
-        param,
-        getRegistrationParamValue({ param, value: values.toString() })
-      );
-    }
-  });
-
-  return searchParams.toString() ? `?${searchParams.toString()}` : '';
+  return replaceParamsToQueryString<RegistrationSearchParams>(
+    queryString,
+    queryParams,
+    getRegistrationParamValue
+  );
 };
 
 export const getRegistrationFields = (

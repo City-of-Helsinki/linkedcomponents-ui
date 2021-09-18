@@ -48,7 +48,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
         pathname: `/${locale}${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
           ':registrationId',
           registrationId
-        ).replace('enrolmentId', id)}`,
+        ).replace(':enrolmentId', id)}`,
         search: queryString,
       });
     };
@@ -92,7 +92,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
               <IconMenuDots aria-hidden={true} />
             </button>
           }
-          buttonLabel={t('enrolments.buttonActions')}
+          buttonLabel={t('enrolmentsPage.buttonActions')}
           className={className}
           closeOnItemClick={true}
           fixedPosition={true}

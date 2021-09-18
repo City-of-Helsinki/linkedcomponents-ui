@@ -3,7 +3,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
 
-import { EnrolmentFilterType } from '../types';
 import {
   getEnrolmentSearchInitialValues,
   replaceParamsToEnrolmentQueryString,
@@ -30,16 +29,8 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     });
   };
 
-  const removeFilter = ({
-    value,
-    type,
-  }: {
-    value: string;
-    type: EnrolmentFilterType;
-  }) => {
-    const newSearch = replaceParamsToEnrolmentQueryString(search, {
-      text: type === 'text' ? '' : text,
-    });
+  const removeTextFilter = () => {
+    const newSearch = replaceParamsToEnrolmentQueryString(search, { text: '' });
 
     history.push({ pathname, search: newSearch });
   };
@@ -53,7 +44,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
       {text && (
         <FilterTag
           text={text}
-          onDelete={removeFilter}
+          onDelete={removeTextFilter}
           type="text"
           value={text}
         />

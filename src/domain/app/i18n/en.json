@@ -176,7 +176,7 @@
     "page": "New registration",
     "title": "New registration"
   },
-  "enrolmentsPage": {    
+  "enrolmentsPage": {  
     "actionButtons": {
       "cancel": "Cancel participation",
       "edit": "Edit information",
@@ -184,6 +184,7 @@
     },
     "attendeeTableCaption": "Participants",
     "attendeeTableHeading": "Participants",
+    "buttonActions": "Actions",
     "buttonBack": "Back",
     "buttonClearFilters": "Clear filters",
     "enrolmentsTableColumns": {
@@ -199,11 +200,12 @@
       "buttonCreate": "Add participant",
       "buttonRemoveFilter": "Remove filter: {{name}}",
       "buttonSearch": "Filter",
-      "labelSearch": "Filtrera registreringar",
-      "placeholderSearch": "Filtrera registreringar"
+      "labelSearch": "Filter participants",
+      "placeholderSearch": "Filter participants"
     },
     "waitingListTableCaption": "Waiting list",
-    "waitingListTableHeading": "Waiting list"
+    "waitingListTableHeading": "Waiting list",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this enrolment."
   },
   "errors": {
     "authorizationRequired": "Sign in to use this feature",

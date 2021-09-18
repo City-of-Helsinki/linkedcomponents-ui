@@ -3,9 +3,11 @@ import capitalize from 'lodash/capitalize';
 import { scroller } from 'react-scroll';
 
 import { EventsQueryVariables, EventTypeId } from '../../generated/graphql';
+import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import formatDate from '../../utils/formatDate';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import getPathBuilder from '../../utils/getPathBuilder';
+import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
@@ -103,46 +105,22 @@ export const addParamsToEventQueryString = (
   queryString: string,
   queryParams: Partial<EventSearchParams>
 ): string => {
-  const searchParams = new URLSearchParams(queryString);
-  Object.entries(queryParams).forEach(([key, values]) => {
-    const param = key as EventSearchParam;
-    if (Array.isArray(values)) {
-      values.forEach((value) =>
-        searchParams.append(param, getEventParamValue({ param, value }))
-      );
-    } /* istanbul ignore else */ else if (values) {
-      searchParams.append(
-        param,
-        getEventParamValue({ param, value: values.toString() })
-      );
-    }
-  });
-
-  return searchParams.toString() ? `?${searchParams.toString()}` : '';
+  return addParamsToQueryString<EventSearchParams>(
+    queryString,
+    queryParams,
+    getEventParamValue
+  );
 };
 
 export const replaceParamsToEventQueryString = (
   queryString: string,
   queryParams: Partial<EventSearchParams>
 ): string => {
-  const searchParams = new URLSearchParams(queryString);
-  Object.entries(queryParams).forEach(([key, values]) => {
-    const param = key as EventSearchParam;
-    searchParams.delete(param);
-
-    if (Array.isArray(values)) {
-      values.forEach((value) =>
-        searchParams.append(param, getEventParamValue({ param, value }))
-      );
-    } else if (values) {
-      searchParams.append(
-        param,
-        getEventParamValue({ param, value: values.toString() })
-      );
-    }
-  });
-
-  return searchParams.toString() ? `?${searchParams.toString()}` : '';
+  return replaceParamsToQueryString<EventSearchParams>(
+    queryString,
+    queryParams,
+    getEventParamValue
+  );
 };
 
 export const getEventSearchQuery = (

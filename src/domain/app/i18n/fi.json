@@ -184,6 +184,7 @@
     },
     "attendeeTableCaption": "Osallistujat",
     "attendeeTableHeading": "Osallistujat",
+    "buttonActions": "Valinnat",
     "buttonBack": "Takaisin",
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "enrolmentsTableColumns": {
@@ -203,7 +204,8 @@
       "placeholderSearch": "Hae osallistujia"
     },
     "waitingListTableCaption": "Jonopaikat",
-    "waitingListTableHeading": "Jonopaikat"
+    "waitingListTableHeading": "Jonopaikat",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa."
   },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",

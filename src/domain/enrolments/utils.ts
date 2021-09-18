@@ -1,10 +1,15 @@
 import { TFunction } from 'i18next';
+import { scroller } from 'react-scroll';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../constants';
 import { Enrolment, Registration } from '../../generated/graphql';
 import { Language } from '../../types';
+import addParamsToQueryString from '../../utils/addParamsToQueryString';
+import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
+import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
+import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import {
@@ -58,28 +63,26 @@ export const getEnrolmentParamValue = ({
   }
 };
 
+export const addParamsToEnrolmentQueryString = (
+  queryString: string,
+  queryParams: Partial<EnrolmentSearchParams>
+): string => {
+  return addParamsToQueryString<EnrolmentSearchParams>(
+    queryString,
+    queryParams,
+    getEnrolmentParamValue
+  );
+};
+
 export const replaceParamsToEnrolmentQueryString = (
   queryString: string,
   queryParams: Partial<EnrolmentSearchParams>
 ): string => {
-  const searchParams = new URLSearchParams(queryString);
-  Object.entries(queryParams).forEach(([key, values]) => {
-    const param = key as EnrolmentSearchParam;
-    searchParams.delete(param);
-
-    if (Array.isArray(values)) {
-      values.forEach((value) =>
-        searchParams.append(param, getEnrolmentParamValue({ param, value }))
-      );
-    } else if (values) {
-      searchParams.append(
-        param,
-        getEnrolmentParamValue({ param, value: values.toString() })
-      );
-    }
-  });
-
-  return searchParams.toString() ? `?${searchParams.toString()}` : '';
+  return replaceParamsToQueryString<EnrolmentSearchParams>(
+    queryString,
+    queryParams,
+    getEnrolmentParamValue
+  );
 };
 
 export const getEnrolmentFields = ({
@@ -92,39 +95,19 @@ export const getEnrolmentFields = ({
   registration: Registration;
 }): EnrolmentFields => {
   const id = enrolment.id || '';
+  /* istanbul ignore next */
+  const registrationId = registration.id || '';
 
   return {
     id,
     email: enrolment.email ?? '',
     enrolmentUrl: `/${language}${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
       ':registrationId',
-      registration.id ?? ''
+      registrationId
     ).replace(':enrolmentId', id)}`,
     name: enrolment.name ?? '',
     phoneNumber: enrolment.phoneNumber ?? '',
   };
-};
-
-export const addParamsToEnrolmentQueryString = (
-  queryString: string,
-  queryParams: Partial<EnrolmentSearchParams>
-): string => {
-  const searchParams = new URLSearchParams(queryString);
-  Object.entries(queryParams).forEach(([key, values]) => {
-    const param = key as EnrolmentSearchParam;
-    if (Array.isArray(values)) {
-      values.forEach((value) =>
-        searchParams.append(param, getEnrolmentParamValue({ param, value }))
-      );
-    } /* istanbul ignore else */ else if (values) {
-      searchParams.append(
-        param,
-        getEnrolmentParamValue({ param, value: values.toString() })
-      );
-    }
-  });
-
-  return searchParams.toString() ? `?${searchParams.toString()}` : '';
 };
 
 type EnrolmentEditability = {
@@ -146,7 +129,7 @@ export const checkCanUserDoAction = ({
   }
 };
 
-export const getEditRegistrationWarning = ({
+export const getEditEnrolmentWarning = ({
   action,
   authenticated,
   t,
@@ -166,7 +149,7 @@ export const getEditRegistrationWarning = ({
   }
 
   if (!userCanDoAction) {
-    return t('enrolments.warningNoRightsToEdit');
+    return t('enrolmentsPage.warningNoRightsToEdit');
   }
 
   return '';
@@ -185,7 +168,7 @@ export const checkIsEditActionAllowed = ({
 }): EnrolmentEditability => {
   const userCanDoAction = checkCanUserDoAction({ action });
 
-  const warning = getEditRegistrationWarning({
+  const warning = getEditEnrolmentWarning({
     action,
     authenticated,
     t,
@@ -222,4 +205,21 @@ export const getEditButtonProps = ({
     onClick,
     title: warning,
   };
+};
+
+export const getEnrolmentItemId = (id: string): string =>
+  `enrolment-item-${id}`;
+
+export const scrollToEnrolmentItem = (id: string): void => {
+  const offset = 24;
+  const duration = 300;
+
+  scroller.scrollTo(id, {
+    delay: 50,
+    duration: 300,
+    offset: 0 - (getPageHeaderHeight() + offset),
+    smooth: true,
+  });
+
+  setTimeout(() => setFocusToFirstFocusable(id), duration);
 };

@@ -184,6 +184,7 @@
     },
     "attendeeTableCaption": "Deltagarna",
     "attendeeTableHeading": "Deltagarna",
+    "buttonActions": "Funktioner",
     "buttonBack": "Tillbaka",
     "buttonClearFilters": "Töm sökfilter",
     "enrolmentsTableColumns": {
@@ -199,11 +200,12 @@
       "buttonCreate": "Lägg till deltagare",
       "buttonRemoveFilter": "Ta bort filtret: {{name}}",
       "buttonSearch": "Filtrera",
-      "labelSearch": "Sök i Linked Events gränssnittet",
-      "placeholderSearch": "Sök i Linked Events gränssnittet"
+      "labelSearch": "Filtrera registreringar",
+      "placeholderSearch": "Filtrera registreringar"
     },
     "waitingListTableCaption": "Väntelista",
-    "waitingListTableHeading": "Väntelista"
+    "waitingListTableHeading": "Väntelista",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta deltagare."
   },
   "errors": {
     "authorizationRequired": "Logga in för att använda den här funktionen",

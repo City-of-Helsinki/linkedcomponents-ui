@@ -21,3 +21,7 @@ export type EnrolmentFields = {
   name: string;
   phoneNumber: string;
 };
+
+export type EnrolmentsLocationState = {
+  enrolmentId: string;
+};

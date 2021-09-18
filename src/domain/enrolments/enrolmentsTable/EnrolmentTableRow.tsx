@@ -3,9 +3,8 @@ import React from 'react';
 
 import { Enrolment, Registration } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import { getRegistrationItemId } from '../../registration/utils';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
-import { getEnrolmentFields } from '../utils';
+import { getEnrolmentFields, getEnrolmentItemId } from '../utils';
 import styles from './enrolmentsTable.module.scss';
 
 interface Props {
@@ -52,7 +51,7 @@ const EnrolmentTableRow: React.FC<Props> = ({
         ref={rowRef}
         role="button"
         aria-label={name}
-        id={getRegistrationItemId(id)}
+        id={getEnrolmentItemId(id)}
         onClick={handleRowClick}
         onKeyDown={handleKeyDown}
         tabIndex={0}

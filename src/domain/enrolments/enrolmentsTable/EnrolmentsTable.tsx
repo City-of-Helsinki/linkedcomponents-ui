@@ -37,6 +37,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
 
   const onDocumentFocusin = () => {
     const isFocused = isComponentFocused();
+    /* istanbul ignore next */
     if (isFocused !== focused) {
       setFocused(isFocused);
     }
@@ -95,6 +96,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
               (enrolment) =>
                 enrolment && (
                   <EnrolmentTableRow
+                    key={enrolment.id}
                     enrolment={enrolment}
                     onRowClick={handleRowClick}
                     registration={registration}
