@@ -7,7 +7,8 @@
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
-    "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia."
+    "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
+    "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia."
   },
   "authenticationMethod": {
     "espooEmployee": "Espoon kaupungin työntekijä -tunnus",
@@ -28,6 +29,7 @@
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lisää uusi tapahtuma",
+    "buttonAddRegistration": "Lisää uusi",
     "cancel": "Peruuta",
     "close": "Sulje",
     "combobox": {
@@ -168,6 +170,10 @@
       "general": "Uusi tapahtuma",
       "volunteering": "Uusi vapaaehtoistehtävä"
     }
+  },
+  "createRegistrationPage": {
+    "pageTitle": "Uusi ilmoittautuminen",
+    "title": "Uusi ilmoittautuminen"
   },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",
@@ -1114,7 +1120,8 @@
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
       "events": "Tapahtumat",
-      "help": "Tuki"
+      "help": "Tuki",
+      "registrations": "Ilmoittautuminen"
     }
   },
   "notFound": {
@@ -1123,6 +1130,74 @@
   },
   "notSigned": {
     "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
+  },
+  "registration": {
+    "form": {
+      "buttonActions": "Valinnat",
+      "buttonBack": "Takaisin",
+      "buttonCreate": "Tallenna ilmoittautuminen",
+      "buttonPanel": {
+        "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
+      },
+      "editButtonPanel": {
+        "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä ilmoittautumista."
+      },
+      "labelAudienceMaxAge": "Yläikäraja",
+      "labelAudienceMinAge": "Alaikäraja",
+      "labelConfirmationMessage": "Lähetettävä vahvistusviesti (valinnainen)",
+      "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
+      "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
+      "labelInstructions": "Ilmoittautumisohjeet (valinnainen)",
+      "labelMaximumAttendeeCapacity": "Paikkojen enimmäismäärä",
+      "labelMinimumAttendeeCapacity": "Paikkojen vähimmäismäärä",
+      "labelWaitingAttendeeCapacity": "Varasijapaikkojen lukumäärä",
+      "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
+      "placeholderInstructions": "Syötä ilmoittautumisohjeet",
+      "sections": {
+        "attendeeCount": "Paikat",
+        "audienceAge": "Ikäraja",
+        "confirmationMessage": "Vahvistusviestin lisätiedot",
+        "enrolmentTime": "Ilmoittautumisaika",
+        "instructions": "Ilmoittautumisen lisätiedot",
+        "waitingList": "Jonopaikat"
+      }
+    }
+  },
+  "registrationsPage": {
+    "actionButtons": {
+      "copy": "Kopioi pohjaksi",
+      "delete": "Poista ilmoittautuminen",
+      "edit": "Muokkaa",
+      "showEnrolments": "Näytä ilmoittautuneet",
+      "update": "Tallenna muutokset"
+    },
+    "buttonClearFilters": "Tyhjennä hakuehdot",
+    "count": "{{count}} ilmoittautuminen",
+    "count_plural": "{{count}} ilmoittautumista",
+    "pageTitle": "Ilmoittautuminen",
+    "registrationsTableCaption": "Ilmoittautumiset, järjestys {{sort}}",
+    "registrationsTableColumns": {
+      "enrolments": "Osallistujia",
+      "enrolmentEndTime": "Loppuu",
+      "enrolmentStartTime": "Alkaa",
+      "name": "Nimi",
+      "publisher": "Julkaisija",
+      "waitingList": "Jono"
+    },
+    "searchPanel": {
+      "buttonClear": "Tyhjennä",
+      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
+      "buttonSearch": "Etsi ilmoittautumisia",
+      "labelEventType": "Tyyppi",
+      "labelPlace": "Etsi tapahtumapaikkaa",
+      "labelSearch": "Hae ilmoittautumisia",
+      "placeholderSearch": "Hae ilmoittautumisia"
+    },
+    "sortOptions": {
+      "lastModifiedTime": "Viimeksi muokattu, nouseva",
+      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva"
+    },
+    "title": "Ilmoittautuminen"
   },
   "serverError": {
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",

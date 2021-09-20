@@ -8,6 +8,7 @@ import formatDate from '../../utils/formatDate';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import getPathBuilder from '../../utils/getPathBuilder';
 import { getSearchQuery } from '../../utils/searchUtils';
+import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import { EVENT_TYPE } from '../event/constants';
@@ -184,23 +185,6 @@ export const getEventSearchQuery = (
 };
 
 export const getEventItemId = (id: string): string => `event-item${id}`;
-
-const setFocusToFirstFocusable = (id: string) => {
-  const element = document.getElementById(id);
-
-  /* istanbul ignore next */
-  if (!element) return;
-
-  if (element?.tabIndex >= 0) {
-    element?.focus();
-  } else {
-    const focusable = element?.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-
-    (focusable?.[0] as HTMLElement)?.focus();
-  }
-};
 
 export const scrollToEventCard = (id: string): void => {
   const offset = 24;

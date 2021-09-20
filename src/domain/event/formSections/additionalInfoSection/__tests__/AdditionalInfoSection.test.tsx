@@ -196,7 +196,7 @@ test('should show validation error if max capacity is less than min capacity', a
   await screen.findByText('Arvon tulee olla vähintään 10');
 });
 
-test('should show validation error if min age is less than 0', async () => {
+test('should show validation error if min attendee capacity is less than 0', async () => {
   renderComponent({
     [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: -1,
   });

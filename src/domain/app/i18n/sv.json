@@ -7,7 +7,8 @@
       "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
     },
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
-    "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang."
+    "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
+    "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar."
   },
   "authenticationMethod": {
     "espooEmployee": "Stad Esbo anställd ID",
@@ -28,6 +29,7 @@
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lägg till evenemang",
+    "buttonAddRegistration": "Lägg till",
     "cancel": "Ångra",
     "close": "Stäng",
     "combobox": {
@@ -168,6 +170,10 @@
       "general": "Nytt evenemang",
       "volunteering": "Nytt volontärarbete"
     }
+  },
+  "createRegistrationPage": {
+    "pageTitle": "Ny registrering",
+    "title": "Ny registrering"
   },
   "errors": {
     "authorizationRequired": "Logga in för att använda den här funktionen",
@@ -1114,7 +1120,8 @@
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
       "events": "Evenemang",
-      "help": "Stöd"
+      "help": "Stöd",
+      "registrations": "Registrering"
     }
   },
   "notFound": {
@@ -1123,6 +1130,74 @@
   },
   "notSigned": {
     "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
+  },
+  "registration": {
+    "form": {
+      "buttonActions": "Funktioner",
+      "buttonBack": "Tillbaka",
+      "buttonCreate": "Spara registrering",
+      "buttonPanel": {
+        "warningNotAuthenticated": "För att skapa en registrering, logga in först."
+      },
+      "editButtonPanel": {
+        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
+      },
+      "labelAudienceMaxAge": "Högsta ålder",
+      "labelAudienceMinAge": "Lägsta ålder",
+      "labelConfirmationMessage": "Bekräftelsemeddelande att skicka (valfritt)",
+      "labelEnrolmentEndTime": "Registreringen avslutas",
+      "labelEnrolmentStartTime": "Registreringen börjar",
+      "labelInstructions": "Anvisningar för registrering (valfritt)",
+      "labelMaximumAttendeeCapacity": "Max antal platser",
+      "labelMinimumAttendeeCapacity": "Minsta antal platser",
+      "labelWaitingAttendeeCapacity": "Antal reservplatser",
+      "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
+      "placeholderInstructions": "Ange registreringsinstruktioner",
+      "sections": {
+        "attendeeCount": "Sittplatser",
+        "audienceAge": "Åldersgräns",
+        "confirmationMessage": "Bekräftelsemeddelande",
+        "enrolmentTime": "Registreringstid",
+        "instructions": "Ytterligare registreringsinformation",
+        "waitingList": "Väntelista"
+      }
+    }
+  },
+  "registrationsPage": {
+    "actionButtons": {
+      "copy": "Kopiera som mall",
+      "delete": "Radera registrering",
+      "edit": "Redigera",
+      "showEnrolments": "Visa deltagare",
+      "update": "Spara ändringar"
+    },
+    "buttonClearFilters": "Töm sökfilter",
+    "count": "{{count}} registrering",
+    "count_plural": "{{count}} registreringar",
+    "pageTitle": "Registrering",
+    "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
+    "registrationsTableColumns": {
+      "enrolmentss": "Deltagarna",
+      "enrolmentEndTime": "Slutar",
+      "enrolmentStartTime": "Börjar",
+      "name": "Namn",
+      "publisher": "Utgivare",
+      "waitingList": "Väntelista"
+    },
+    "searchPanel": {
+      "buttonClear": "Klar",
+      "buttonRemoveFilter": "Ta bort filtret: {{name}}",
+      "buttonSearch": "Sök efter registreringar",
+      "labelEventType": "Typ",
+      "labelPlace": "Sök plats",
+      "labelSearch": "Sök efter registreringar",
+      "placeholderSearch": "Sök efter registreringar"
+    },
+    "sortOptions": {
+      "lastModifiedTime": "Senast ändrad, stigande",
+      "lastModifiedTimeDesc": "Senast ändrad, fallande"
+    },
+    "title": "Registrering"
   },
   "serverError": {
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",

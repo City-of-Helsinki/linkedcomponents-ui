@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 
 import CheckboxField from '../../../../common/components/formFields/CheckboxField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 import Offers from './Offers';
 import ValidationError from './ValidationError';
 

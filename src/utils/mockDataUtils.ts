@@ -26,6 +26,8 @@ import {
   Place,
   PlacesResponse,
   PublicationStatus,
+  Registration,
+  RegistrationsResponse,
   User,
   Video,
 } from '../generated/graphql';
@@ -296,6 +298,48 @@ export const fakePlace = (overrides?: Partial<Place>): Place => {
       position: null,
       divisions: [],
       __typename: 'Place',
+    },
+    overrides
+  );
+};
+
+export const fakeRegistrations = (
+  count = 1,
+  registrations?: Partial<Registration>[]
+): RegistrationsResponse => ({
+  data: generateNodeArray((i) => fakeRegistration(registrations?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'RegistrationsResponse',
+});
+
+export const fakeRegistration = (
+  overrides?: Partial<Registration>
+): Registration => {
+  const id = overrides?.id || faker.datatype.uuid();
+
+  return merge<Registration, typeof overrides>(
+    {
+      id,
+      atId: generateAtId(id, 'registration'),
+      audienceMaxAge: null,
+      audienceMinAge: null,
+      confirmationMessage: faker.lorem.paragraph(),
+      createdAt: null,
+      createdBy: faker.name.firstName(),
+      currentAttendeeCount: 0,
+      currentWaitingAttendeeCount: 0,
+      enrolmentEndTime: '2020-09-30T16:00:00.000000Z',
+      enrolmentStartTime: '2020-09-27T15:00:00.000000Z',
+      eventId: null,
+      instructions: faker.lorem.paragraph(),
+      lastModifiedTime: '2020-09-12T15:00:00.000000Z',
+      maximumAttendeeCapacity: 0,
+      minimumAttendeeCapacity: 0,
+      name: fakeLocalisedObject(faker.name.title()),
+      publisher: 'ahjo:u4804001050',
+      updatedAt: null,
+      waitingAttendeeCapacity: 0,
+      __typename: 'Registration',
     },
     overrides
   );

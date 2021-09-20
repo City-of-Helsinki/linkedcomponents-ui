@@ -21,7 +21,9 @@ export enum DEPRECATED_ROUTES {
 export enum ROUTES {
   CALLBACK = '/callback',
   CREATE_EVENT = '/events/create',
+  CREATE_REGISTRATION = '/registrations/create',
   EDIT_EVENT = '/events/edit/:id',
+  EDIT_REGISTRATION = '/registrations/edit/:id',
   EVENT_SAVED = '/events/completed/:id',
   EVENTS = '/events',
   FEATURES = '/help/features',
@@ -33,6 +35,8 @@ export enum ROUTES {
   INSTRUCTIONS_GENERAL = '/help/instructions/general',
   INSTRUCTIONS_PLATFORM = '/help/instructions/platform',
   LOGOUT = '/logout',
+  REGISTRATIONS = '/registrations',
+  REGISTRATION_ENROLMENTS = '/registrations/:registrationId/enrolments',
   SEARCH = '/search',
   SILENT_CALLBACK = '/silent-callback',
   SUPPORT = '/help/support',
@@ -107,6 +111,7 @@ export enum EXTLINK {
 
 export enum FORM_NAMES {
   EVENT_FORM = 'event-form',
+  REGISTRATION_FORM = 'registration-form',
 }
 
 export const defaultStoreState: StoreState = {
@@ -128,6 +133,10 @@ export const NAVIGATION_ITEMS = [
     url: ROUTES.EVENTS,
   },
   {
+    labelKey: 'navigation.tabs.registrations',
+    url: ROUTES.REGISTRATIONS,
+  },
+  {
     labelKey: 'navigation.tabs.help',
     url: ROUTES.HELP,
   },
@@ -141,6 +150,10 @@ export const FOOTER_NAVIGATION_ITEMS = [
   {
     labelKey: 'navigation.searchEvents',
     url: ROUTES.SEARCH,
+  },
+  {
+    labelKey: 'navigation.tabs.registrations',
+    url: ROUTES.REGISTRATIONS,
   },
   {
     labelKey: 'navigation.tabs.help',

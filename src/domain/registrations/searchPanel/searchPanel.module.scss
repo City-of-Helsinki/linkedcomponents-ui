@@ -1,0 +1,64 @@
+@import 'breakpoints';
+@import 'widths';
+
+.searchPanel {
+  --registration-search-panel-button-background-color: var(
+    --color-coat-of-arms
+  );
+  --registration-search-panel-button-background-color-hover: var(
+    --color-coat-of-arms-dark
+  );
+  --registration-search-panel-button-background-color-focus: var(
+    --color-coat-of-arms
+  );
+  --registration-search-panel-button-background-color-hover-focus: var(
+    --color-coat-of-arms-dark
+  );
+  --registration-search-panel-button-border-color: var(--color-coat-of-arms);
+  --registration-search-panel-button-color: var(--color-white);
+
+  .inputRow {
+    display: grid;
+    grid-gap: var(--spacing-m);
+    margin-top: var(--spacing-m);
+    margin-bottom: var(--spacing-m);
+
+    @include medium-up {
+      display: flex;
+
+      .typeSelectorWrapper,
+      .buttonWrapper {
+        @include min-width-column(2);
+      }
+      .searchInputWrapper {
+        flex: 1 1 0%;
+      }
+    }
+  }
+
+  .button {
+    --background-color: var(
+      --registration-search-panel-button-background-color
+    );
+    --background-color-hover: var(
+      --registration-search-panel-button-background-color-hover
+    );
+    --background-color-focus: var(
+      --registration-search-panel-button-background-color-focus
+    );
+    --background-color-hover-focus: var(
+      --registration-search-panel-button-background-color-hover-focus
+    );
+    --border-color: var(--registration-search-panel-button-border-color);
+    --border-color-hover: var(--registration-search-panel-button-border-color);
+    --border-color-focus: var(--registration-search-panel-button-border-color);
+    --border-color-hover-focus: var(
+      --registration-search-panel-button-border-color
+    );
+    --color: var(--registration-search-panel-button-color);
+    --color-hover: var(--registration-search-panel-button-color);
+    --color-focus: var(--registration-search-panel-button-color);
+    --color-hover-focus: var(--registration-search-panel-button-color);
+    --focus-outline-color: var(--color-coat-of-arms);
+  }
+}

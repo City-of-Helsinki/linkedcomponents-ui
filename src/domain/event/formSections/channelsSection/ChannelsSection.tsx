@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next';
 import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 import ExternalLinks from './externalLinks/ExternalLinks';
 
 const ChannelsSection: React.FC = () => {

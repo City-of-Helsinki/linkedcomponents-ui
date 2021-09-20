@@ -9,6 +9,7 @@ import MultiSelectDropdown from '../../../common/components/multiSelectDropdown/
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
+import useSearchState from '../../../hooks/useSearchState';
 import { OptionType } from '../../../types';
 import Container from '../../app/layout/Container';
 import { useTheme } from '../../app/theme/Theme';
@@ -34,13 +35,10 @@ const SearchPanel: React.FC = () => {
 
   const eventTypeOptions = useEventTypeOptions();
 
-  const [searchState, setSearchState] = React.useReducer(
-    (prevState: SearchState, updatedProperty: Partial<SearchState>) => ({
-      ...prevState,
-      ...updatedProperty,
-    }),
-    { text: '', type: [] }
-  );
+  const [searchState, setSearchState] = useSearchState<SearchState>({
+    text: '',
+    type: [],
+  });
 
   const handleChangeEventTypes = (newTypes: OptionType[]) => {
     setSearchState({
@@ -62,7 +60,7 @@ const SearchPanel: React.FC = () => {
   React.useEffect(() => {
     const { text, types } = getEventSearchInitialValues(location.search);
     setSearchState({ text, type: types });
-  }, [location.search]);
+  }, [location.search, setSearchState]);
 
   return (
     <div className={styles.searchPanel}>

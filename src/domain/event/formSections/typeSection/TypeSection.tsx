@@ -14,10 +14,10 @@ import {
   SuperEventType,
 } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import useEventTypeOptions from '../../hooks/useEventTypeOptions';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 import { EventTime, RecurringEventSettings } from '../../types';
 import { getEventFields } from '../../utils';
 

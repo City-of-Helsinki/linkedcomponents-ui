@@ -2,49 +2,43 @@
 @import 'widths';
 
 .searchPanel {
-  --event-search-panel-background-color: var(--color-coat-of-arms);
-  --event-search-panel-label-color: var(--color-white);
-  --event-search-panel-koros-height: 70px;
+  --search-panel-background-color: var(--color-coat-of-arms);
+  --search-panel-label-color: var(--color-white);
+  --search-panel-koros-height: 70px;
 
-  --event-search-panel-button-background-color: var(--color-coat-of-arms);
-  --event-search-panel-button-background-color-hover: var(
+  --search-panel-button-background-color: var(--color-coat-of-arms);
+  --search-panel-button-background-color-hover: var(--color-coat-of-arms-dark);
+  --search-panel-button-background-color-focus: var(--color-coat-of-arms);
+  --search-panel-button-background-color-hover-focus: var(
     --color-coat-of-arms-dark
   );
-  --event-search-panel-button-background-color-focus: var(--color-coat-of-arms);
-  --event-search-panel-button-background-color-hover-focus: var(
-    --color-coat-of-arms-dark
-  );
-  --event-search-panel-button-border-color: var(--color-white);
-  --event-search-panel-button-color: var(--color-white);
-  --event-search-panel-button-focus-outline-color: var(--color-white);
+  --search-panel-button-border-color: var(--color-white);
+  --search-panel-button-color: var(--color-white);
+  --search-panel-button-focus-outline-color: var(--color-white);
 
   .searchPanelWrapper {
     position: relative;
     z-index: 2;
-    background-color: var(--event-search-panel-background-color);
+    background-color: var(--search-panel-background-color);
     padding: var(--spacing-4-xl) 0;
   }
 
   .button {
-    --background-color: var(--event-search-panel-button-background-color);
-    --background-color-hover: var(
-      --event-search-panel-button-background-color-hover
-    );
-    --background-color-focus: var(
-      --event-search-panel-button-background-color-focus
-    );
+    --background-color: var(--search-panel-button-background-color);
+    --background-color-hover: var(--search-panel-button-background-color-hover);
+    --background-color-focus: var(--search-panel-button-background-color-focus);
     --background-color-hover-focus: var(
-      --event-search-panel-button-background-color-hover-focus
+      --search-panel-button-background-color-hover-focus
     );
-    --border-color: var(--event-search-panel-button-border-color);
-    --border-color-hover: var(--event-search-panel-button-border-color);
-    --border-color-focus: var(--event-search-panel-button-border-color);
-    --border-color-hover-focus: var(--event-search-panel-button-border-color);
-    --color: var(--event-search-panel-button-color);
-    --color-hover: var(--event-search-panel-button-color);
-    --color-focus: var(--event-search-panel-button-color);
-    --color-hover-focus: var(--event-search-panel-button-color);
-    --focus-outline-color: var(--event-search-panel-button-focus-outline-color);
+    --border-color: var(--search-panel-button-border-color);
+    --border-color-hover: var(--search-panel-button-border-color);
+    --border-color-focus: var(--search-panel-button-border-color);
+    --border-color-hover-focus: var(--search-panel-button-border-color);
+    --color: var(--search-panel-button-color);
+    --color-hover: var(--search-panel-button-color);
+    --color-focus: var(--search-panel-button-color);
+    --color-hover-focus: var(--search-panel-button-color);
+    --focus-outline-color: var(--search-panel-button-focus-outline-color);
   }
 
   .searchRow {
@@ -85,12 +79,12 @@
   .searchInput {
     label {
       font-size: var(--fontsize-heading-s);
-      color: var(--event-search-panel-label-color);
+      color: var(--search-panel-label-color);
     }
   }
 
   .koros {
-    margin-top: calc(0px - var(--event-search-panel-koros-height));
-    fill: var(--event-search-panel-background-color);
+    margin-top: calc(0px - var(--search-panel-koros-height));
+    fill: var(--search-panel-background-color);
   }
 }

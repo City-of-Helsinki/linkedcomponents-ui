@@ -94,6 +94,8 @@ export type Query = {
   organizations: OrganizationsResponse;
   place: Place;
   places: PlacesResponse;
+  registration: Registration;
+  registrations: RegistrationsResponse;
   user: User;
 };
 
@@ -204,6 +206,11 @@ export type QueryPlacesArgs = {
   showAllPlaces?: Maybe<Scalars['Boolean']>;
   sort?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryRegistrationArgs = {
+  id?: Maybe<Scalars['ID']>;
 };
 
 
@@ -646,6 +653,38 @@ export type Video = {
   altText?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+};
+
+export type RegistrationsResponse = {
+  __typename?: 'RegistrationsResponse';
+  meta: Meta;
+  data: Array<Registration>;
+};
+
+export type Registration = {
+  __typename?: 'Registration';
+  id?: Maybe<Scalars['ID']>;
+  audienceMaxAge?: Maybe<Scalars['Int']>;
+  audienceMinAge?: Maybe<Scalars['Int']>;
+  confirmationMessage?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  createdBy?: Maybe<Scalars['String']>;
+  currentAttendeeCount?: Maybe<Scalars['Int']>;
+  currentWaitingAttendeeCount?: Maybe<Scalars['Int']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
+  eventId?: Maybe<Scalars['ID']>;
+  instructions?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  name?: Maybe<LocalisedObject>;
+  publisher?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['String']>;
+  waitingAttendeeCapacity?: Maybe<Scalars['Int']>;
+  atId: Scalars['String'];
+  atContext?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
 };
 
 export type CreateEventMutationVariables = Exact<{

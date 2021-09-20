@@ -262,6 +262,7 @@ export enum EVENT_EDIT_ACTIONS {
   UPDATE_DRAFT = 'updateDraft',
   UPDATE_PUBLIC = 'updatePublic',
 }
+
 export const SUB_EVENTS_VARIABLES: EventsQueryVariables = {
   createPath: getPathBuilder(eventsPathBuilder),
   include: EVENT_LIST_INCLUDES,
@@ -270,7 +271,7 @@ export const SUB_EVENTS_VARIABLES: EventsQueryVariables = {
   sort: EVENT_SORT_OPTIONS.START_TIME,
 };
 
-export const AUHENTICATION_NOT_NEEDED = [
+export const AUTHENTICATION_NOT_NEEDED = [
   EVENT_EDIT_ACTIONS.COPY,
   EVENT_EDIT_ACTIONS.EDIT,
 ];

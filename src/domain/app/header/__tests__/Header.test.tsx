@@ -91,7 +91,7 @@ test.skip('matches snapshot', () => {
   expect(container.firstChild).toMatchSnapshot();
 });
 
-test('should show navigation links and should route to correct page after clicking link', () => {
+test('should show navigation links and should route to correct page after clicking link', async () => {
   const { history } = renderComponent();
   const links = [
     {
@@ -99,17 +99,21 @@ test('should show navigation links and should route to correct page after clicki
       url: `/fi${ROUTES.EVENTS}`,
     },
     {
+      name: translations.navigation.tabs.registrations,
+      url: `/fi${ROUTES.REGISTRATIONS}`,
+    },
+    {
       name: translations.navigation.tabs.help,
       url: `/fi${ROUTES.HELP}`,
     },
   ];
 
-  links.forEach(({ name, url }) => {
+  for (const { name, url } of links) {
     const link = screen.getAllByRole('link', { name })[0];
 
     userEvent.click(link);
-    expect(history.location.pathname).toBe(url);
-  });
+    await waitFor(() => expect(history.location.pathname).toBe(url));
+  }
 });
 
 test('should show mobile menu', async () => {
@@ -141,7 +145,7 @@ test('should change language', () => {
   expect(history.location.pathname).toBe('/en');
 });
 
-test('should start log in process', () => {
+test('should start login process', () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
 
   renderComponent();

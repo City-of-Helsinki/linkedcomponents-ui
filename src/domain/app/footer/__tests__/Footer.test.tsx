@@ -7,6 +7,7 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
 import Footer from '../Footer';
@@ -41,18 +42,21 @@ test('should show navigation links and should route to correct page after clicki
       url: `/fi${ROUTES.SEARCH}`,
     },
     {
+      name: translations.navigation.tabs.registrations,
+      url: `/fi${ROUTES.REGISTRATIONS}`,
+    },
+    {
       name: translations.navigation.tabs.help,
       url: `/fi${ROUTES.HELP}`,
     },
   ];
-
-  links.forEach(({ name, url }) => {
+  for (const { name, url } of links) {
     const link = screen.getByRole('link', { name });
 
     userEvent.click(link);
 
-    expect(history.location.pathname).toBe(url);
-  });
+    await waitFor(() => expect(history.location.pathname).toBe(url));
+  }
 });
 
 test('should show feedback link and link should have correct href', async () => {

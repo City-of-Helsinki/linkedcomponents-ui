@@ -14,12 +14,21 @@ import PageLayout from '../layout/PageLayout';
 const CreateEventPage = React.lazy(
   () => import('.././../event/CreateEventPage')
 );
+const CreateRegistrationPage = React.lazy(
+  () => import('.././../registration/CreateRegistrationPage')
+);
 const EditEventPage = React.lazy(() => import('../../event/EditEventPage'));
+const EditRegistrationPage = React.lazy(
+  () => import('../../registration/EditRegistrationPage')
+);
 const EventsPage = React.lazy(() => import('.././../events/EventsPage'));
 const EventSearchPage = React.lazy(
   () => import('../../eventSearch/EventSearchPage')
 );
 const HelpPageRoutes = React.lazy(() => import('./HelpPageRoutes'));
+const RegistrationsPage = React.lazy(
+  () => import('.././../registrations/RegistrationsPage')
+);
 
 interface Params {
   locale: Language;
@@ -90,6 +99,21 @@ const LocaleRoutes: React.FC<Props> = ({
             exact
             path={getLocalePath(ROUTES.EVENTS)}
             component={EventsPage}
+          />
+          <Route
+            exact
+            path={getLocalePath(ROUTES.CREATE_REGISTRATION)}
+            component={CreateRegistrationPage}
+          />
+          <Route
+            exact
+            path={getLocalePath(ROUTES.EDIT_REGISTRATION)}
+            component={EditRegistrationPage}
+          />
+          <Route
+            exact
+            path={getLocalePath(ROUTES.REGISTRATIONS)}
+            component={RegistrationsPage}
           />
           <Route
             exact

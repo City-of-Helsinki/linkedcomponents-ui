@@ -1,10 +1,16 @@
+import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 import { Route } from 'react-router';
 
-import { DEPRECATED_ROUTES, ROUTES } from '../../../../constants';
+import { DEPRECATED_ROUTES, ROUTES, TEST_USER_ID } from '../../../../constants';
+import { UserDocument } from '../../../../generated/graphql';
 import { Language } from '../../../../types';
+import { fakeUser } from '../../../../utils/mockDataUtils';
+import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   configure,
+  getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
   render,
   screen,
   waitFor,
@@ -17,12 +23,28 @@ import {
 import LocaleRoutes from '../LocaleRoutes';
 
 configure({ defaultHidden: true });
-const mocks = [mockedEventsResponse, mockedPlacesResponse];
+
+const storeState = fakeAuthenticatedStoreState();
+const store = getMockReduxStore(storeState);
+
+const adminOrganization = 'helsinki';
+const userData = fakeUser({ adminOrganizations: [adminOrganization] });
+const userResponse = { data: { user: userData } };
+const mockedUserResponse: MockedResponse = {
+  request: {
+    query: UserDocument,
+    variables: { id: TEST_USER_ID, createPath: undefined },
+  },
+  result: userResponse,
+};
+
+const mocks = [mockedEventsResponse, mockedPlacesResponse, mockedUserResponse];
 
 const renderRoute = (route: string, locale: Language = 'fi') =>
   render(<Route path={`/:locale/`} component={LocaleRoutes} />, {
     mocks,
     routes: [`/${locale}${route}`],
+    store,
   });
 
 it('should redirect to events page from deprecated modaration page', () => {
@@ -66,6 +88,34 @@ it('should render event search page', async () => {
     name: /hae linked events -rajapinnasta/i,
   });
   expect(history.location.pathname).toBe('/fi/search');
+});
+
+it('should render registrations page', async () => {
+  const { history } = renderRoute(`${ROUTES.REGISTRATIONS}?text=${searchText}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /ilmoittautuminen/i });
+  expect(history.location.pathname).toBe('/fi/registrations');
+});
+
+it('should render create registration page', async () => {
+  const { history } = renderRoute(`${ROUTES.CREATE_REGISTRATION}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  expect(history.location.pathname).toBe('/fi/registrations/create');
+});
+
+it('should render edit registration page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.EDIT_REGISTRATION.replace(':id', 'registration:1')}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  expect(history.location.pathname).toBe(
+    '/fi/registrations/edit/registration:1'
+  );
 });
 
 it('should route to default help page', async () => {

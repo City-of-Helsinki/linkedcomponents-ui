@@ -1,0 +1,57 @@
+@import 'mixins';
+
+.registrationsTable {
+  tbody tr {
+    cursor: pointer;
+
+    &:focus {
+      outline: var(--focus-outline-width) solid var(--focus-outline-color);
+      outline-offset: calc(0px - var(--focus-outline-width));
+
+      &:not(:global(.focus-visible)) {
+        outline: none;
+      }
+    }
+
+    td {
+      white-space: nowrap;
+    }
+  }
+
+  button {
+    @include focus-outline(0px);
+  }
+
+  caption {
+    @include hidden-from-screen;
+  }
+}
+
+.nameColumn,
+.publisherColumn {
+  width: 50%;
+}
+
+.nameColumn {
+  max-width: 360px;
+}
+
+.publisherColumn {
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.nameWrapper {
+  display: flex;
+  align-items: center;
+
+  .registrationName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.actionButtonsColumn {
+  padding: var(--focus-outline-width) !important;
+}

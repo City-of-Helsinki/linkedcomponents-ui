@@ -7,7 +7,8 @@
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
     "noRightsUpdateEventLabel": "No permissions to edit events",
-    "noRightsUpdateEvent": "You do not have permission to edit events."
+    "noRightsUpdateEvent": "You do not have permission to edit events.",
+    "noRightsUpdateRegistration": "You do not have permission to edit registrations."
   },
   "authRequiredNotification": {
     "button": "sign in",
@@ -28,6 +29,7 @@
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Add new event",
+    "buttonAddRegistration": "Add new",
     "cancel": "Undo",
     "close": "Close",
     "combobox": {
@@ -169,6 +171,10 @@
       "volunteering": "New volunteering"
     }
   },
+  "createRegistrationPage": {
+    "page": "New registration",
+    "title": "New registration"
+  },
   "errors": {
     "authorizationRequired": "Sign in to use this feature",
     "deleted": "Content removed",
@@ -258,7 +264,7 @@
       "buttonPanel": {
         "warningNoRightsCreate": "You do not have permission to create this event.",
         "warningNoRightsToPublish": "You do not have permission to publish this event.",
-        "warningNotAuthenticated": "If you want to publish this event, you must first log in."
+        "warningNotAuthenticated": "If you want to publish this event, you must first login."
       },
       "buttonPostpone": "Postpone event",
       "buttonPublish": {
@@ -971,7 +977,7 @@
       }
     },
     "faq": {
-      "textAddingEvents1": "You must log in to the service first. To do this, I need one of the following:",
+      "textAddingEvents1": "You must login to the service first. To do this, I need one of the following:",
       "textAddingEvents2": "Once you are logged in, you can <a href={{controlPanelUrl}}>add events</a>, but you will not be able to publish them yet. Contact us using the <a href={{contactUrl}}>contact form</a> and tell us which organization you need publishing rights for.",
       "textAddingToOwnProjects": "Yes. The Linked Events interface is public and open to everyone. Its use is also permitted in commercial services in accordance with the <a href={{termsOfServiceUrl}}>terms of use</a>.",
       "textEventFormNotWorking": "Make sure that you are using one of these modern web browsers (Chrome, Firefox, Opera or Safari). Other options to fix unexpected errors is to clear your browser cache or restart the browser.",
@@ -1114,7 +1120,8 @@
     "skipToContentLabel": "Skip to content",
     "tabs": {
       "events": "Events",
-      "help": "Support"
+      "help": "Support",
+      "registrations": "Registration"
     }
   },
   "notFound": {
@@ -1123,6 +1130,74 @@
   },
   "notSigned": {
     "text": "You must be logged in to view this content. Log in or return to the home page."
+  },
+  "registration": {
+    "form": {
+      "buttonActions": "Actions",
+      "buttonBack": "Back",
+      "buttonCreate": "Save",
+      "buttonPanel": {
+        "warningNotAuthenticated": "To create a registration, log in first."
+      },
+      "editButtonPanel": {
+        "warningNoRightsToEdit": "You have insufficient rights to edit this registration."
+      },
+      "labelAudienceMaxAge": "Maximum age",
+      "labelAudienceMinAge": "Minimum age",
+      "labelConfirmationMessage": "Confirmation message to send (optional)",
+      "labelEnrolmentEndTime": "Registration ends",
+      "labelEnrolmentStartTime": "Registration begins",
+      "labelInstructions": "Registration instructions (optional)",
+      "labelMaximumAttendeeCapacity": "Maximum number of seats",
+      "labelMinimumAttendeeCapacity": "Minimum number of seats",
+      "labelWaitingAttendeeCapacity": "Number of spare seats",
+      "placeholderConfirmationMessage": "Enter confirmation message for registrants",
+      "placeholderInstructions": "Enter registration instructions",
+      "sections": {
+        "attendeeCount": "Seating",
+        "audienceAge": "Age limit",
+        "confirmationMessage": "Confirmation message details",
+        "enrolmentTime": "Registration time",
+        "instructions": "Additional registration information",
+        "waitingList": "Waiting list"
+      }
+    }
+  },
+  "registrationsPage": {
+    "actionButtons": {
+      "copy": "Copy as a template",
+      "delete": "Delete registration",
+      "edit": "Edit",
+      "showEnrolments": "Show participants",
+      "update": "Save changes"
+    },
+    "buttonClearFilters": "Clear filters",
+    "count": "{{count}} registration",
+    "count_plural": "{{count}} registrations",
+    "pageTitle": "Registration",
+    "registrationTableCaption": "Registrations, sorted by {{sort}}",
+    "registrationsTableColumns": {
+      "enrolments": "Participants",
+      "enrolmentEndTime": "Ends",
+      "enrolmentStartTime": "Starts",
+      "name": "Name",
+      "publisher": "Publisher",
+      "waitingList": "Waiting list"
+    },
+    "searchPanel": {
+      "buttonClear": "Clear",
+      "buttonRemoveFilter": "Remove filter: {{name}}",
+      "buttonSearch": "Search registrations",
+      "labelEventType": "Type",
+      "labelPlace": "Search venue",
+      "labelSearch": "Search registrations",
+      "placeholderSearch": "Search registrations"
+    },
+    "sortOptions": {
+      "lastModifiedTime": "Last modified, ascending",
+      "lastModifiedTimeDesc": "Last modified, descending"
+    },
+    "title": "Registration"
   },
   "serverError": {
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",

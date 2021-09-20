@@ -10,9 +10,9 @@ import { Language, useLanguagesQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS, ORDERED_EVENT_INFO_LANGUAGES } from '../../constants';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 import { sortLanguage } from '../../utils';
 
 const LanguagesSection: React.FC = () => {

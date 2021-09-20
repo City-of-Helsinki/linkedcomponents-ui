@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
+import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
@@ -22,6 +23,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import Section from '../app/layout/Section';
 import { EventsLocationState } from '../eventSearch/types';
 import {
   extractLatestReturnPath,
@@ -57,7 +59,6 @@ import useEventServerErrors from './hooks/useEventServerErrors';
 import useEventUpdateActions, { MODALS } from './hooks/useEventUpdateActions';
 import useRelatedEvents from './hooks/useRelatedEvents';
 import useSortedInfoLanguages from './hooks/useSortedInfoLanguages';
-import Section from './layout/Section';
 import ConfirmCancelModal from './modals/ConfirmCancelModal';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import ConfirmPostponeModal from './modals/ConfirmPostponeModal';
@@ -227,7 +228,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
           } catch (error) {
             showErrors({
               descriptionLanguage,
-              error,
+              error: error as ValidationError,
               setErrors,
               setDescriptionLanguage,
               setTouched,

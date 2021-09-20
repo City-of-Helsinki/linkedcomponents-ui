@@ -1,0 +1,31 @@
+@import 'breakpoints';
+
+.contentWrapperTable {
+  background-color: var(--color-white);
+  margin-top: var(--spacing-4-xl);
+}
+
+.table {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  margin: var(--spacing-m) 0;
+}
+
+.table {
+  margin-top: calc(0px - var(--spacing-4-xl));
+  max-width: calc(100vw - 2 * var(--spacing-s));
+  overflow: auto;
+
+  @include medium-up {
+    max-width: calc(100vw - 2 * var(--spacing-m));
+  }
+}
+
+.count {
+  display: grid;
+  align-content: center;
+  min-height: var(--input-height);
+  font-size: var(--fontsize-heading-xs);
+  font-weight: 600;
+  margin-left: var(--spacing-s);
+}

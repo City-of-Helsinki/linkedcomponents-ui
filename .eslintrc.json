@@ -3,6 +3,7 @@
     "react-app",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
+    "plugin:testcafe/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
