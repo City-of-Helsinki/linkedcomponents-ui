@@ -3,12 +3,22 @@ import classNames from 'classnames';
 import { Footer as HdsFooter } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { matchPath, RouteProps, useHistory, useLocation } from 'react-router';
 
 import { FOOTER_NAVIGATION_ITEMS, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
+
+interface NoFooterPathProps {
+  pathname: string;
+  props?: RouteProps;
+}
+
+const NO_FOOTER_PATHS = [
+  { pathname: ROUTES.EDIT_EVENT },
+  { pathname: ROUTES.EDIT_REGISTRATION },
+];
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -38,13 +48,18 @@ const Footer: React.FC = () => {
     }
   };
 
-  const hideFooter =
-    pathname.startsWith(`/${locale}${ROUTES.EDIT_EVENT.replace(':id', '')}`) ||
-    pathname.startsWith(
-      `/${locale}${ROUTES.EDIT_REGISTRATION.replace(':id', '')}`
+  const isMatch = (paths: NoFooterPathProps[]) =>
+    paths.some((path) =>
+      matchPath(pathname, {
+        path: `/${locale}${path.pathname}`,
+        exact: path.props?.exact ?? true,
+        strict: path.props?.strict ?? true,
+      })
     );
 
-  if (hideFooter) {
+  const noFooter = isMatch(NO_FOOTER_PATHS);
+
+  if (noFooter) {
     return null;
   }
 

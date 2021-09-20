@@ -1137,7 +1137,7 @@
       "buttonBack": "Back",
       "buttonCreate": "Save",
       "buttonPanel": {
-        "warningNotAuthenticated": "Om du vill skapa denna registrering måste du först logga in."
+        "warningNotAuthenticated": "To create a registration, log in first."
       },
       "editButtonPanel": {
         "warningNoRightsToEdit": "You have insufficient rights to edit this registration."
