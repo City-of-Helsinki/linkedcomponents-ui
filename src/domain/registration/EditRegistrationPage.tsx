@@ -166,16 +166,12 @@ const EditRegistrationPageWrapper: React.FC = () => {
   const [debouncedLoadingUser, setDebouncedLoadingUser] =
     React.useState(loadingUser);
 
-  const debouncedSetLoading = React.useMemo(
-    () =>
-      debounce((loading: boolean) => {
-        /* istanbul ignore next */
-        if (!isMounted.current) return;
+  const debouncedSetLoading = debounce((loading: boolean) => {
+    /* istanbul ignore next */
+    if (!isMounted.current) return;
 
-        setDebouncedLoadingUser(loading);
-      }, LOADING_USER_DEBOUNCE_TIME),
-    [isMounted]
-  );
+    setDebouncedLoadingUser(loading);
+  }, LOADING_USER_DEBOUNCE_TIME);
 
   const handleLoadingUserChange = React.useCallback(
     (loading: boolean) => {

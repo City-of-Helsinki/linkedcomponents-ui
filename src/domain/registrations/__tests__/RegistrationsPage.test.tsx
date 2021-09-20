@@ -63,7 +63,7 @@ test('should show correct title, description and keywords', async () => {
   expect(ogTitle).toHaveAttribute('content', pageTitle);
 });
 
-test('should render events page', async () => {
+test('should render registrations page', async () => {
   const store = getMockReduxStore(storeState);
   render(<RegistrationsPage />, { mocks, store });
 
@@ -73,7 +73,7 @@ test('should render events page', async () => {
   getElement('table');
 });
 
-test('should open create event page', async () => {
+test('should open create registration page', async () => {
   const store = getMockReduxStore(storeState);
   const { history } = render(<RegistrationsPage />, { mocks, store });
 

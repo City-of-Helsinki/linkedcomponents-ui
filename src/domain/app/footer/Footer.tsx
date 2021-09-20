@@ -10,7 +10,7 @@ import useLocale from '../../../hooks/useLocale';
 import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
 
-interface IgnorePathProps {
+interface NoFooterPathProps {
   pathname: string;
   props?: RouteProps;
 }
@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
     }
   };
 
-  const isMatch = (paths: IgnorePathProps[]) =>
+  const isMatch = (paths: NoFooterPathProps[]) =>
     paths.some((path) =>
       matchPath(pathname, {
         path: `/${locale}${path.pathname}`,
@@ -58,9 +58,9 @@ const Footer: React.FC = () => {
       })
     );
 
-  const hideFooter = isMatch(NO_FOOTER_PATHS);
+  const noFooter = isMatch(NO_FOOTER_PATHS);
 
-  if (hideFooter) {
+  if (noFooter) {
     return null;
   }
 

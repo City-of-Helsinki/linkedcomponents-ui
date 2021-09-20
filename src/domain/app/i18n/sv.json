@@ -1169,7 +1169,7 @@
       "buttonBack": "Tillbaka",
       "buttonCreate": "Spara registrering",
       "buttonPanel": {
-        "warningNotAuthenticated": "Om du vill publicera evenemanget måste du först logga in."
+        "warningNotAuthenticated": "För att skapa en registrering, logga in först."
       },
       "editButtonPanel": {
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
