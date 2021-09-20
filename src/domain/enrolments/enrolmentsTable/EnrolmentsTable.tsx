@@ -1,14 +1,15 @@
 import classNames from 'classnames';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import Table from '../../../common/components/table/Table';
 import { Enrolment, Registration } from '../../../generated/graphql';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
-import { addParamsToEnrolmentQueryString, getEnrolmentFields } from '../utils';
+import useEnrolmentsQueryStringWithReturnPath from '../hooks/useEnrolmentsQueryStringWithReturnPath';
+import { getEnrolmentFields } from '../utils';
 import styles from './enrolmentsTable.module.scss';
 import EnrolmentTableRow from './EnrolmentTableRow';
 
@@ -26,9 +27,9 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   registration,
 }) => {
   const { t } = useTranslation();
-  const location = useLocation();
   const history = useHistory();
   const locale = useLocale();
+  const queryStringWithReturnPath = useEnrolmentsQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const [focused, setFocused] = React.useState(false);
@@ -57,10 +58,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
       language: locale,
       registration,
     });
-    const queryString = addParamsToEnrolmentQueryString(location.search, {
-      returnPath: location.pathname,
-    });
-    history.push({ pathname: enrolmentUrl, search: queryString });
+    history.push({ pathname: enrolmentUrl, search: queryStringWithReturnPath });
   };
 
   return (

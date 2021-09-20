@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import SortableColumn from '../../../common/components/table/SortableColumn';
@@ -9,7 +9,7 @@ import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
 import { getEventFields } from '../../event/utils';
-import { addParamsToEventQueryString } from '../../eventSearch/utils';
+import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
 import { EVENT_SORT_OPTIONS } from '../constants';
 import styles from './eventsTable.module.scss';
 import EventTableRow from './EventsTableRow';
@@ -29,8 +29,8 @@ const EventsTable: React.FC<EventsTableProps> = ({
 }) => {
   const locale = useLocale();
   const history = useHistory();
-  const location = useLocation();
   const { t } = useTranslation();
+  const queryStringWithReturnPath = useEventsQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const [focused, setFocused] = React.useState(false);
@@ -58,9 +58,7 @@ const EventsTable: React.FC<EventsTableProps> = ({
 
   const handleRowClick = (event: EventFieldsFragment) => {
     const { eventUrl } = getEventFields(event, locale);
-    const queryString = addParamsToEventQueryString(location.search, {
-      returnPath: location.pathname,
-    });
+    const queryString = queryStringWithReturnPath;
 
     history.push({ pathname: eventUrl, search: queryString });
   };

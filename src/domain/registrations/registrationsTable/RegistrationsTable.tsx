@@ -1,14 +1,14 @@
 import classNames from 'classnames';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import Table from '../../../common/components/table/Table';
 import { Registration } from '../../../generated/graphql';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
-import { addParamsToEventQueryString } from '../../eventSearch/utils';
+import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
 import { getRegistrationFields } from '../utils';
 import styles from './registrationsTable.module.scss';
 import RegistrationsTableRow from './RegistrationsTableRow';
@@ -25,9 +25,9 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   registrations,
 }) => {
   const { t } = useTranslation();
-  const location = useLocation();
   const history = useHistory();
   const locale = useLocale();
+  const queryStringWithReturnPath = useEventsQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const [focused, setFocused] = React.useState(false);
@@ -51,10 +51,11 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
 
   const handleRowClick = (registration: Registration) => {
     const { registrationUrl } = getRegistrationFields(registration, locale);
-    const queryString = addParamsToEventQueryString(location.search, {
-      returnPath: location.pathname,
+
+    history.push({
+      pathname: registrationUrl,
+      search: queryStringWithReturnPath,
     });
-    history.push({ pathname: registrationUrl, search: queryString });
   };
 
   return (

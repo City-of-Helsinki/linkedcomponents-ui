@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 import Button from '../../../common/components/button/Button';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
+import useSearchState from '../../../hooks/useSearchState';
 import {
   getEnrolmentSearchInitialValues,
   getEnrolmentSearchQuery,
@@ -22,13 +23,9 @@ const SearchPanel: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const [searchState, setSearchState] = React.useReducer(
-    (prevState: SearchState, updatedProperty: Partial<SearchState>) => ({
-      ...prevState,
-      ...updatedProperty,
-    }),
-    { text: '' }
-  );
+  const [searchState, setSearchState] = useSearchState<SearchState>({
+    text: '',
+  });
 
   const handleChangeText = (text: string) => {
     setSearchState({ text });
@@ -48,7 +45,7 @@ const SearchPanel: React.FC = () => {
   React.useEffect(() => {
     const { text } = getEnrolmentSearchInitialValues(location.search);
     setSearchState({ text });
-  }, [location.search]);
+  }, [location.search, setSearchState]);
 
   return (
     <div className={classNames(styles.searchPanel)}>
