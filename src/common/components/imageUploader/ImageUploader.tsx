@@ -82,6 +82,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault();
+    /* istanbul ignore else */
     if (!disabled) {
       setHovered(true);
     }
