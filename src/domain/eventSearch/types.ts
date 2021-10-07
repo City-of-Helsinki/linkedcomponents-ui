@@ -23,14 +23,7 @@ export type EventSearchInitialValues = {
   types: EVENT_TYPE[];
 };
 
-export type EventFilterType = 'date' | 'place' | 'text' | 'type';
-
 export type EventSearchParam = keyof EventSearchParams;
-
-export type ReturnParams = {
-  [EVENT_SEARCH_PARAMS.RETURN_PATH]: string;
-  remainingQueryString: string;
-};
 
 export type EventsLocationState = {
   eventId: string;

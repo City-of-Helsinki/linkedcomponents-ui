@@ -18,6 +18,7 @@ interface NoFooterPathProps {
 const NO_FOOTER_PATHS = [
   { pathname: ROUTES.EDIT_EVENT },
   { pathname: ROUTES.EDIT_REGISTRATION },
+  { pathname: ROUTES.REGISTRATION_ENROLMENTS },
 ];
 
 const Footer: React.FC = () => {

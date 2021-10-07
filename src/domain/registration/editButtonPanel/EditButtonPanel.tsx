@@ -13,19 +13,14 @@ import { ROUTES } from '../../../constants';
 import { Registration } from '../../../generated/graphql';
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
+import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
+import useQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import { RegistrationsLocationState } from '../../registrations/types';
-import {
-  addParamsToRegistrationQueryString,
-  getRegistrationFields,
-} from '../../registrations/utils';
-import {
-  copyRegistrationToSessionStorage,
-  extractLatestReturnPath,
-  getEditButtonProps,
-} from '../utils';
+import { getRegistrationFields } from '../../registrations/utils';
+import { copyRegistrationToSessionStorage, getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 type ActionButtonProps = {
@@ -50,14 +45,16 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const authenticated = useSelector(authenticatedSelector);
   const { search } = useLocation();
   const locale = useLocale();
-  const { pathname } = useLocation();
   const history = useHistory<RegistrationsLocationState>();
   const { id } = getRegistrationFields(registration, locale);
   const isMobile = useIsMobile();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const goBack = () => {
-    const { returnPath, remainingQueryString } =
-      extractLatestReturnPath(search);
+    const { returnPath, remainingQueryString } = extractLatestReturnPath(
+      search,
+      ROUTES.REGISTRATIONS
+    );
 
     history.push({
       pathname: `/${locale}${returnPath}`,
@@ -72,16 +69,12 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   };
 
   const goToRegistrationEnrolmentsPage = () => {
-    const queryString = addParamsToRegistrationQueryString(search, {
-      returnPath: pathname,
-    });
-
     history.push({
       pathname: `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
         ':registrationId',
         id
       )}`,
-      search: queryString,
+      search: queryStringWithReturnPath,
     });
   };
 

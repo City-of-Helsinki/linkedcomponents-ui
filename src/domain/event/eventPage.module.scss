@@ -62,8 +62,12 @@
 
 .editPageContentContainer {
   background-color: var(--color-white);
-  margin: var(--spacing-m) calc(0px - var(--spacing-m));
+  margin: var(--spacing-m) calc(0px - var(--spacing-s));
   padding: var(--spacing-m);
+
+  @include medium-up {
+    margin: var(--spacing-m) calc(0px - var(--spacing-m));
+  }
 }
 
 .hierarchyLink {

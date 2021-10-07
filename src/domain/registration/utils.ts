@@ -3,7 +3,7 @@ import { TFunction } from 'i18next';
 import { scroller } from 'react-scroll';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { FORM_NAMES, ROUTES } from '../../constants';
+import { FORM_NAMES } from '../../constants';
 import { Registration } from '../../generated/graphql';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
@@ -12,9 +12,7 @@ import {
   REGISTRATION_EDIT_ACTIONS,
   REGISTRATION_EDIT_ICONS,
   REGISTRATION_EDIT_LABEL_KEYS,
-  REGISTRATION_SEARCH_PARAMS,
 } from '../registrations/constants';
-import { ReturnParams } from '../registrations/types';
 import { REGISTRATION_FIELDS, REGISTRATION_INITIAL_VALUES } from './constants';
 import { RegistrationFormFields } from './types';
 
@@ -202,29 +200,4 @@ export const scrollToRegistrationItem = (id: string): void => {
   });
 
   setTimeout(() => setFocusToFirstFocusable(id), duration);
-};
-
-/**
- * Extracts latest return path from queryString. For example on:
- * http://localhost:3000/fi/event/kulke:53397?returnPath=%2Fevents&returnPath=%2Fevent%2Fhelsinki%3Aaf3pnza3zi
- * latest return path is in the last returnPath param on queryString : %2Fevent%2Fhelsinki%3Aaf3pnza3zi
- */
-export const extractLatestReturnPath = (queryString: string): ReturnParams => {
-  const searchParams = new URLSearchParams(queryString);
-  const returnPaths = searchParams.getAll(
-    REGISTRATION_SEARCH_PARAMS.RETURN_PATH
-  );
-  // latest path is the last item, it can be popped. If empty, defaults to /events
-  const extractedPath = returnPaths.pop() ?? ROUTES.REGISTRATIONS;
-  // there is no support to delete all but extracted item from same parameter list. This is a workaround to it:
-  // 1) delete all first
-  searchParams.delete(REGISTRATION_SEARCH_PARAMS.RETURN_PATH);
-  // 2) then append all except latest
-  returnPaths.forEach((returnPath) =>
-    searchParams.append(REGISTRATION_SEARCH_PARAMS.RETURN_PATH, returnPath)
-  );
-  return {
-    returnPath: extractedPath,
-    remainingQueryString: searchParams.toString(),
-  };
 };

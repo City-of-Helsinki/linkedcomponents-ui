@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { getPlaceFields, placePathBuilder } from '../../../domain/place/utils';
 import { usePlaceQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getPathBuilder from '../../../utils/getPathBuilder';
-import { getPlaceFields, placePathBuilder } from '../../place/utils';
 import FilterTag, { FilterTagProps } from './FilterTag';
 
 type Props = Omit<FilterTagProps, 'text' | 'type'>;

@@ -2,12 +2,12 @@ import { Tag } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { RegistrationFilterType } from '../types';
+import { FilterType } from '../../../types';
 
 export interface FilterTagProps {
-  onDelete: (options: { type: RegistrationFilterType; value: string }) => void;
+  onDelete: (options: { type: FilterType; value: string }) => void;
   text: string;
-  type: RegistrationFilterType;
+  type: FilterType;
   value: string;
 }
 
@@ -24,10 +24,7 @@ const FilterTag: React.FC<FilterTagProps> = ({
 
   return (
     <Tag
-      deleteButtonAriaLabel={t(
-        'registrationsPage.searchPanel.buttonRemoveFilter',
-        { name: text }
-      )}
+      deleteButtonAriaLabel={t('common.buttonRemoveFilter', { name: text })}
       onDelete={deleteFilter}
     >
       {text}

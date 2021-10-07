@@ -6,6 +6,7 @@
     "networkError": {
       "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
     },
+    "noRightsUpdateEnrolment": "Du har inte rättigheter att redigera evenemang.",
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar."
@@ -30,6 +31,7 @@
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lägg till evenemang",
     "buttonAddRegistration": "Lägg till",
+    "buttonRemoveFilter": "Ta bort filtret: {{name}}",
     "cancel": "Ångra",
     "close": "Stäng",
     "combobox": {
@@ -174,6 +176,36 @@
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"
+  },
+  "enrolmentsPage": {
+    "actionButtons": {
+      "cancel": "Avbryt deltagande",
+      "edit": "Redigera information",
+      "sendMessage": "Skicka ett meddelande"
+    },
+    "attendeeTableCaption": "Deltagarna",
+    "attendeeTableHeading": "Deltagarna",
+    "buttonActions": "Funktioner",
+    "buttonBack": "Tillbaka",
+    "buttonClearFilters": "Töm sökfilter",
+    "enrolmentsTableColumns": {
+      "email": "E-post",
+      "gender": "Kön",
+      "name": "Name",
+      "phone": "Telefonnummer",
+      "status": "Status"
+    },
+    "pageTitle": "Anmälningar: {{name}}",
+    "searchPanel": {
+      "buttonClear": "Klar",
+      "buttonCreate": "Lägg till deltagare",
+      "buttonSearch": "Filtrera",
+      "labelSearch": "Filtrera registreringar",
+      "placeholderSearch": "Filtrera registreringar"
+    },
+    "waitingListTableCaption": "Väntelista",
+    "waitingListTableHeading": "Väntelista",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta deltagare."
   },
   "errors": {
     "authorizationRequired": "Logga in för att använda den här funktionen",
@@ -935,7 +967,6 @@
     "searchPanel": {
       "buttonClear": "Klar",
       "buttonCreateNew": "Lägg till nytt evenemang",
-      "buttonRemoveFilter": "Ta bort filtret: {{name}}",
       "buttonSearch": "Sök efter evenemang",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",
@@ -1186,7 +1217,6 @@
     },
     "searchPanel": {
       "buttonClear": "Klar",
-      "buttonRemoveFilter": "Ta bort filtret: {{name}}",
       "buttonSearch": "Sök efter registreringar",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",

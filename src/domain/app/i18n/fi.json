@@ -6,6 +6,7 @@
     "networkError": {
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
+    "noRightsUpdateEnrolment": "Sinulla ei ole oikeuksia muokata osallistujia.",
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia."
@@ -30,6 +31,7 @@
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lisää uusi tapahtuma",
     "buttonAddRegistration": "Lisää uusi",
+    "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
     "cancel": "Peruuta",
     "close": "Sulje",
     "combobox": {
@@ -174,6 +176,36 @@
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"
+  },
+  "enrolmentsPage": {
+    "actionButtons": {
+      "cancel": "Peruuta osallistuminen",
+      "edit": "Muokkaa tietoja",
+      "sendMessage": "Lähetä viesti"
+    },
+    "attendeeTableCaption": "Osallistujat",
+    "attendeeTableHeading": "Osallistujat",
+    "buttonActions": "Valinnat",
+    "buttonBack": "Takaisin",
+    "buttonClearFilters": "Tyhjennä hakuehdot",
+    "enrolmentsTableColumns": {
+      "email": "Sähköposti",
+      "gender": "Sukupuoli",
+      "name": "Nimi",
+      "phone": "Puhelinnumero",
+      "status": "Status"
+    },
+    "pageTitle": "Ilmoittautuneet: {{name}}",
+    "searchPanel": {
+      "buttonClear": "Tyhjennä",
+      "buttonCreate": "Lisää osallistuja",
+      "buttonSearch": "Etsi osallistujia",
+      "labelSearch": "Hae osallistujia",
+      "placeholderSearch": "Hae osallistujia"
+    },
+    "waitingListTableCaption": "Jonopaikat",
+    "waitingListTableHeading": "Jonopaikat",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa."
   },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",
@@ -935,7 +967,6 @@
     "searchPanel": {
       "buttonClear": "Tyhjennä",
       "buttonCreateNew": "Lisää tekemistä",
-      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
       "buttonSearch": "Etsi tapahtumia",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",
@@ -1186,7 +1217,6 @@
     },
     "searchPanel": {
       "buttonClear": "Tyhjennä",
-      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
       "buttonSearch": "Etsi ilmoittautumisia",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",

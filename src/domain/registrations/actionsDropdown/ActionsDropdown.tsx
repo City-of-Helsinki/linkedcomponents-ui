@@ -1,7 +1,7 @@
 import { IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
@@ -10,11 +10,8 @@ import { Registration } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { copyRegistrationToSessionStorage } from '../../registration/utils';
 import { REGISTRATION_EDIT_ACTIONS } from '../constants';
-import {
-  addParamsToRegistrationQueryString,
-  getEditButtonProps,
-  getRegistrationFields,
-} from '../utils';
+import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
+import { getEditButtonProps, getRegistrationFields } from '../utils';
 import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {
@@ -27,28 +24,21 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
     const { t } = useTranslation();
     const locale = useLocale();
     const history = useHistory();
-    const { pathname, search } = useLocation();
     const { id, registrationUrl } = getRegistrationFields(registration, locale);
+    const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
     const goToEditRegistrationPage = () => {
-      const queryString = addParamsToRegistrationQueryString(search, {
-        returnPath: pathname,
-      });
-      const registrationUrlWithReturnPath = `${registrationUrl}${queryString}`;
+      const registrationUrlWithReturnPath = `${registrationUrl}${queryStringWithReturnPath}`;
       history.push(registrationUrlWithReturnPath);
     };
 
     const goToRegistrationEnrolmentsPage = () => {
-      const queryString = addParamsToRegistrationQueryString(search, {
-        returnPath: pathname,
-      });
-
       history.push({
         pathname: `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
           ':registrationId',
           id
         )}`,
-        search: queryString,
+        search: queryStringWithReturnPath,
       });
     };
 

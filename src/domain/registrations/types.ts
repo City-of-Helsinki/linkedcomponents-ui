@@ -19,7 +19,6 @@ export type RegistrationSearchInitialValues = {
   [REGISTRATION_SEARCH_PARAMS.TEXT]: string;
 };
 
-export type RegistrationFilterType = 'eventType' | 'text';
 export type RegistrationSearchParam = keyof RegistrationSearchParams;
 
 export type ReturnParams = {
