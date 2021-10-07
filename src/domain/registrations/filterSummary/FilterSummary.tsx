@@ -3,14 +3,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
 
-import { RegistrationFilterType } from '../types';
+import EventTypeFilterTag from '../../../common/components/filterTag/EventTypeFilterTag';
+import FilterTag from '../../../common/components/filterTag/FilterTag';
+import { FilterType } from '../../../types';
 import {
   getRegistrationSearchInitialValues,
   replaceParamsToRegistrationQueryString,
 } from '../utils';
-import EventTypeFilterTag from './EventTypeFilterTag';
 import styles from './filterSummary.module.scss';
-import FilterTag from './FilterTag';
 
 interface Props {
   className?: string;
@@ -37,7 +37,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     type,
   }: {
     value: string;
-    type: RegistrationFilterType;
+    type: FilterType;
   }) => {
     const newSearch = replaceParamsToRegistrationQueryString(search, {
       eventType:

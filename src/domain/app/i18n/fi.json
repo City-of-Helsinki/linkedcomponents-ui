@@ -31,6 +31,7 @@
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lisää uusi tapahtuma",
     "buttonAddRegistration": "Lisää uusi",
+    "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
     "cancel": "Peruuta",
     "close": "Sulje",
     "combobox": {
@@ -198,7 +199,6 @@
     "searchPanel": {
       "buttonClear": "Tyhjennä",
       "buttonCreate": "Lisää osallistuja",
-      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
       "buttonSearch": "Etsi osallistujia",
       "labelSearch": "Hae osallistujia",
       "placeholderSearch": "Hae osallistujia"
@@ -967,7 +967,6 @@
     "searchPanel": {
       "buttonClear": "Tyhjennä",
       "buttonCreateNew": "Lisää tekemistä",
-      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
       "buttonSearch": "Etsi tapahtumia",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",
@@ -1218,7 +1217,6 @@
     },
     "searchPanel": {
       "buttonClear": "Tyhjennä",
-      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
       "buttonSearch": "Etsi ilmoittautumisia",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",

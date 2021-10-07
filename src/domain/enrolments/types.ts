@@ -11,7 +11,6 @@ export type EnrolmentSearchInitialValues = {
   [ENROLMENT_SEARCH_PARAMS.TEXT]: string;
 };
 
-export type EnrolmentFilterType = 'text';
 export type EnrolmentSearchParam = keyof EnrolmentSearchParams;
 
 export type EnrolmentFields = {

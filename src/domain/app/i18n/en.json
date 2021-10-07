@@ -887,7 +887,6 @@
     "searchPanel": {
       "buttonClear": "Clear",
       "buttonCreateNew": "Add new event",
-      "buttonRemoveFilter": "Remove filter: {{name}}",
       "buttonSearch": "Search events",
       "labelEventType": "Type",
       "labelPlace": "Search venue",
@@ -1218,7 +1217,6 @@
     },
     "searchPanel": {
       "buttonClear": "Clear",
-      "buttonRemoveFilter": "Remove filter: {{name}}",
       "buttonSearch": "Search registrations",
       "labelEventType": "Type",
       "labelPlace": "Search venue",

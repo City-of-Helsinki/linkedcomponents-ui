@@ -23,8 +23,6 @@ export type EventSearchInitialValues = {
   types: EVENT_TYPE[];
 };
 
-export type EventFilterType = 'date' | 'place' | 'text' | 'type';
-
 export type EventSearchParam = keyof EventSearchParams;
 
 export type EventsLocationState = {

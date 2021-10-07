@@ -31,6 +31,7 @@
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lägg till evenemang",
     "buttonAddRegistration": "Lägg till",
+    "buttonRemoveFilter": "Ta bort filtret: {{name}}",
     "cancel": "Ångra",
     "close": "Stäng",
     "combobox": {
@@ -198,7 +199,6 @@
     "searchPanel": {
       "buttonClear": "Klar",
       "buttonCreate": "Lägg till deltagare",
-      "buttonRemoveFilter": "Ta bort filtret: {{name}}",
       "buttonSearch": "Filtrera",
       "labelSearch": "Filtrera registreringar",
       "placeholderSearch": "Filtrera registreringar"
@@ -967,7 +967,6 @@
     "searchPanel": {
       "buttonClear": "Klar",
       "buttonCreateNew": "Lägg till nytt evenemang",
-      "buttonRemoveFilter": "Ta bort filtret: {{name}}",
       "buttonSearch": "Sök efter evenemang",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",
@@ -1218,7 +1217,6 @@
     },
     "searchPanel": {
       "buttonClear": "Klar",
-      "buttonRemoveFilter": "Ta bort filtret: {{name}}",
       "buttonSearch": "Sök efter registreringar",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",

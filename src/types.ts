@@ -43,3 +43,5 @@ export type ReturnParams = {
   [SEARCH_PARAMS.RETURN_PATH]: string;
   remainingQueryString: string;
 };
+
+export type FilterType = 'date' | 'eventType' | 'place' | 'text';

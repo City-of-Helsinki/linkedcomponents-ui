@@ -6,7 +6,6 @@ import NoDataRow from '../../../common/components/table/NoDataRow';
 import SortableColumn from '../../../common/components/table/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
-import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
 import { getEventFields } from '../../event/utils';

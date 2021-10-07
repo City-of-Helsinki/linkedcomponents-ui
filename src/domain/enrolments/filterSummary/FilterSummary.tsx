@@ -3,12 +3,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
 
+import FilterTag from '../../../common/components/filterTag/FilterTag';
 import {
   getEnrolmentSearchInitialValues,
   replaceParamsToEnrolmentQueryString,
 } from '../utils';
 import styles from './filterSummary.module.scss';
-import FilterTag from './FilterTag';
 
 interface Props {
   className?: string;
