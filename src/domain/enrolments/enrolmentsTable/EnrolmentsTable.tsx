@@ -6,8 +6,8 @@ import { useHistory } from 'react-router';
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import Table from '../../../common/components/table/Table';
 import { Enrolment, Registration } from '../../../generated/graphql';
-import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
+import useSetFocused from '../../../hooks/useSetFocused';
 import useEnrolmentsQueryStringWithReturnPath from '../hooks/useEnrolmentsQueryStringWithReturnPath';
 import { getEnrolmentFields } from '../utils';
 import styles from './enrolmentsTable.module.scss';
@@ -32,25 +32,8 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   const queryStringWithReturnPath = useEnrolmentsQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
-  const [focused, setFocused] = React.useState(false);
 
-  const isComponentFocused = useIsComponentFocused(table);
-
-  const onDocumentFocusin = () => {
-    const isFocused = isComponentFocused();
-    /* istanbul ignore next */
-    if (isFocused !== focused) {
-      setFocused(isFocused);
-    }
-  };
-
-  React.useEffect(() => {
-    document.addEventListener('focusin', onDocumentFocusin);
-
-    return () => {
-      document.removeEventListener('focusin', onDocumentFocusin);
-    };
-  });
+  const { focused } = useSetFocused(table);
 
   const handleRowClick = (enrolment: Enrolment) => {
     const { enrolmentUrl } = getEnrolmentFields({

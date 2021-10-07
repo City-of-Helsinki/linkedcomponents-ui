@@ -8,6 +8,7 @@ import Table from '../../../common/components/table/Table';
 import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
+import useSetFocused from '../../../hooks/useSetFocused';
 import { getEventFields } from '../../event/utils';
 import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
 import { EVENT_SORT_OPTIONS } from '../constants';
@@ -33,28 +34,12 @@ const EventsTable: React.FC<EventsTableProps> = ({
   const queryStringWithReturnPath = useEventsQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
-  const [focused, setFocused] = React.useState(false);
 
   const handleSort = (key: string) => {
     setSort(key as EVENT_SORT_OPTIONS);
   };
 
-  const isComponentFocused = useIsComponentFocused(table);
-
-  const onDocumentFocusin = () => {
-    const isFocused = isComponentFocused();
-    if (isFocused !== focused) {
-      setFocused(isFocused);
-    }
-  };
-
-  React.useEffect(() => {
-    document.addEventListener('focusin', onDocumentFocusin);
-
-    return () => {
-      document.removeEventListener('focusin', onDocumentFocusin);
-    };
-  });
+  const { focused } = useSetFocused(table);
 
   const handleRowClick = (event: EventFieldsFragment) => {
     const { eventUrl } = getEventFields(event, locale);
