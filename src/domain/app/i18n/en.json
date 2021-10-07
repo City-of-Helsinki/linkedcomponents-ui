@@ -6,7 +6,7 @@
     "networkError": {
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
-    "noRightsUpdateEnrolment": "Du har inte behörighet att redigera registreringar.",
+    "noRightsUpdateEnrolment": "You do not have permission to edit participants.",
     "noRightsUpdateEventLabel": "No permissions to edit events",
     "noRightsUpdateEvent": "You do not have permission to edit events.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations."
