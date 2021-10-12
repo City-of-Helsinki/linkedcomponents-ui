@@ -110,6 +110,11 @@ test('should show navigation links and should route to correct page after clicki
     userEvent.click(link);
     expect(history.location.pathname).toBe(url);
   });
+
+  const homeLink = screen.getAllByRole('link', { name: /linked events/i })[0];
+
+  userEvent.click(homeLink);
+  expect(history.location.pathname).toBe(`/fi${ROUTES.HOME}`);
 });
 
 test('should show mobile menu', async () => {

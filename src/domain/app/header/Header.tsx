@@ -37,9 +37,14 @@ const Header: React.FC = () => {
     return location.pathname.startsWith(pathname);
   };
 
+  const goToHomePage = (e?: Event) => {
+    e?.preventDefault();
+    goToPage(`/${locale}${ROUTES.HOME}`)();
+  };
+
   const goToPage =
-    (pathname: string) => (event?: React.MouseEvent<HTMLAnchorElement>) => {
-      event?.preventDefault();
+    (pathname: string) => (e?: React.MouseEvent<HTMLAnchorElement>) => {
+      e?.preventDefault();
       history.push({ pathname });
       toggleMenu();
     };
@@ -84,7 +89,7 @@ const Header: React.FC = () => {
       className={classNames(css(theme.navigation), styles.navigation, {
         [styles.hideNavRow]: hideNavRow,
       })}
-      onTitleClick={goToPage(`/${locale}${ROUTES.HOME}`)}
+      onTitleClick={goToHomePage}
       title={t('appName')}
       titleUrl={`/${locale}${ROUTES.HOME}`}
       logoLanguage={locale === 'sv' ? /* istanbul ignore next */ 'sv' : 'fi'}
