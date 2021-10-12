@@ -42,6 +42,7 @@ import {
   EventsQuery,
   EventStatus,
   EventTypeId,
+  KeywordFieldsFragment,
   Language as LELanguage,
   LocalisedFieldsFragment,
   LocalisedObject,
@@ -584,6 +585,7 @@ export const getEventFields = (
     audienceMinAge: event.audienceMinAge || null,
     createdBy: event.createdBy || '',
     deleted: event.deleted ?? null,
+    description: getLocalisedString(event.description, language),
     endTime: event.endTime ? new Date(event.endTime) : null,
     eventStatus: event.eventStatus || EventStatus.EventScheduled,
     eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
@@ -594,6 +596,7 @@ export const getEventFields = (
       .filter((e) => e),
     isDraft: publicationStatus === PublicationStatus.Draft,
     isPublic: publicationStatus === PublicationStatus.Public,
+    keywords: event.keywords as KeywordFieldsFragment[],
     lastModifiedTime: event.lastModifiedTime
       ? new Date(event.lastModifiedTime)
       : null,

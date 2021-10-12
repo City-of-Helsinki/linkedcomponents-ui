@@ -245,7 +245,12 @@ export const EVENT_FIELD_ARRAYS: string[] = [
   EVENT_FIELDS.OFFERS,
 ];
 
-export const EVENT_INCLUDES = ['in_language', 'sub_events', 'super_event'];
+export const EVENT_INCLUDES = [
+  'in_language',
+  'keywords',
+  'sub_events',
+  'super_event',
+];
 
 export enum EVENT_CREATE_ACTIONS {
   CREATE_DRAFT = 'createDraft',

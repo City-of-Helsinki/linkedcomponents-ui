@@ -18,6 +18,7 @@ export enum VALIDATION_MESSAGE_KEYS {
   NUMBER_MIN = 'form.validation.number.min',
   NUMBER_REQUIRED = 'form.validation.number.required',
   OFFERS_REQUIRED = 'form.validation.offersRequired',
+  PHONE = 'form.validation.string.phone',
   STRING_MAX = 'form.validation.string.max',
   STRING_MIN = 'form.validation.string.min',
   STRING_REQUIRED = 'form.validation.string.required',
@@ -28,4 +29,5 @@ export enum VALIDATION_MESSAGE_KEYS {
   TIME_MIN = 'form.validation.time.min',
   TIME_REQUIRED = 'form.validation.time.required',
   URL = 'form.validation.string.url',
+  ZIP = 'form.validation.string.zip',
 }

@@ -170,7 +170,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
               type="button"
               variant="secondary"
             >
-              {t('event.form.buttonBack')}
+              {t('common.buttonBack')}
             </Button>
             <div className={styles.actionsDropdown}>
               <MenuDropdown

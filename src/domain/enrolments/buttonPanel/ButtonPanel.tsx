@@ -51,7 +51,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({ registration }) => {
               type="button"
               variant="secondary"
             >
-              {t('enrolmentsPage.buttonBack')}
+              {t('common.buttonBack')}
             </Button>
           </div>
         </div>

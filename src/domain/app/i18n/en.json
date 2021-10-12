@@ -31,6 +31,7 @@
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Add new event",
     "buttonAddRegistration": "Add new",
+    "buttonBack": "Back",
     "cancel": "Undo",
     "close": "Close",
     "combobox": {
@@ -176,6 +177,43 @@
     "page": "New registration",
     "title": "New registration"
   },
+  "enrolment": {
+    "form": {
+      "buttonSave": "Save participant",
+      "labelCity": "City",
+      "labelEmail": "Email address",
+      "labelExtraInfo": "Additional registration information (optional)",
+      "labelMembershipNumber": "Membership card number (optional)",
+      "labelName": "Name",
+      "labelNativeLanguage": "Native language",
+      "labelNotificationLanguage": "Language of notifications",
+      "labelPhoneNumber": "Telephone number",
+      "labelServiceLanguage": "Language of communication",
+      "labelStreetAddress": "Street address",
+      "labelYearOfBirth": "Year of birth",
+      "labelZip": "Postcode",
+      "placeholderCity": "Enter city",
+      "placeholderEmail": "Enter your email address",
+      "placeholderExtraInfo": "Enter any additional information or request",
+      "placeholderMembershipNumber": "Enter membership card number",
+      "placeholderName": "Enter the registrant's first and last name",
+      "placeholderNativeLanguage": "Select language",
+      "placeholderNotificationLanguage": "Select language",
+      "placeholderPhoneNumber": "+358 44 1234 567",
+      "placeholderServiceLanguage": "Select language",
+      "placeholderStreetAddress": "Enter a street address",
+      "placeholderYearOfBirth": "Select year of birth",
+      "placeholderZip": "Enter postcode",
+      "titleAdditionalInfo": "Additional information",
+      "titleBasicInfo": "Basic information of the registrant",
+      "titleContactInfo": "Contact information",
+      "titleNotifications": "Event notifications"
+    },
+    "notifications": {
+      "email": "By email",
+      "phone": "By text message"
+    }
+  },
   "enrolmentsPage": {  
     "actionButtons": {
       "cancel": "Cancel participation",
@@ -185,7 +223,6 @@
     "attendeeTableCaption": "Participants",
     "attendeeTableHeading": "Participants",
     "buttonActions": "Actions",
-    "buttonBack": "Back",
     "buttonClearFilters": "Clear filters",
     "enrolmentsTableColumns": {
       "email": "Email",
@@ -278,7 +315,6 @@
         "volunteering": "Add recurring volunteering"
       },
       "buttonAddVideo": "Add video",
-      "buttonBack": "Back",
       "buttonCancel": "Cancel event",
       "buttonCopy": "Copy as template",
       "buttonDelete": "Remove event",
@@ -948,9 +984,11 @@
         "email": "This field must be a valid email",
         "max": "This field can be up to {{max}} characters long",
         "min": "This field must be at least {{min}} characters long",
+        "phone": "This field must be a valid phone number",
         "required": "This field is required",
         "time": "Time must be given in the following format hh.mm",
-        "url": "Enter the URL in correct format (http://...)"
+        "url": "Enter the URL in correct format (http://...)",
+        "zip": "This field must be a valid postcode"
       },
       "time": {
         "after": "This time must be after {{after}}",
@@ -1165,7 +1203,6 @@
   "registration": {
     "form": {
       "buttonActions": "Actions",
-      "buttonBack": "Back",
       "buttonCreate": "Save",
       "buttonPanel": {
         "warningNotAuthenticated": "To create a registration, log in first."

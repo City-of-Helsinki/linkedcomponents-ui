@@ -11,6 +11,9 @@ import LandingPage from '.././../landingPage/LandingPage';
 import NotFound from '.././../notFound/NotFound';
 import PageLayout from '../layout/PageLayout';
 
+const CreateEnrolmentPage = React.lazy(
+  () => import('.././../enrolment/CreateEnrolmentPage')
+);
 const CreateEventPage = React.lazy(
   () => import('.././../event/CreateEventPage')
 );
@@ -122,6 +125,11 @@ const LocaleRoutes: React.FC<Props> = ({
             exact
             path={getLocalePath(ROUTES.REGISTRATION_ENROLMENTS)}
             component={EnrolmentsPage}
+          />
+          <Route
+            exact
+            path={getLocalePath(ROUTES.CREATE_ENROLMENT)}
+            component={CreateEnrolmentPage}
           />
           <Route
             exact

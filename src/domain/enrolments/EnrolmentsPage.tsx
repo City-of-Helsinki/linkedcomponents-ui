@@ -65,7 +65,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
           <AuthRequiredNotification />
           <RegistrationInfo registration={registration} />
 
-          <SearchPanel />
+          <SearchPanel registration={registration} />
           <FilterSummary />
 
           <AttendeeList registration={registration} />

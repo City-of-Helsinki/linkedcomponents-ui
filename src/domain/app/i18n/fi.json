@@ -31,6 +31,7 @@
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lisää uusi tapahtuma",
     "buttonAddRegistration": "Lisää uusi",
+    "buttonBack": "Takaisin",
     "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
     "cancel": "Peruuta",
     "close": "Sulje",
@@ -177,6 +178,43 @@
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"
   },
+  "enrolment": {
+    "form": {
+      "buttonSave": "Tallenna osallistuja",
+      "labelCity": "Kaupunki",
+      "labelEmail": "Sähköpostiosoite",
+      "labelExtraInfo": "Lisätietoa ilmoittautumisesta (valinnainen)",
+      "labelMembershipNumber": "Jäsenkortin numero (valinnainen)",
+      "labelName": "Nimi",
+      "labelNativeLanguage": "Äidinkieli",
+      "labelNotificationLanguage": "Ilmoitusten kieli",
+      "labelPhoneNumber": "Puhelinnumero",
+      "labelServiceLanguage": "Asiointikieli",
+      "labelStreetAddress": "Katuosoite",
+      "labelYearOfBirth": "Syntymävuosi",
+      "labelZip": "Postinumero",
+      "placeholderCity": "Syötä kaupunki",
+      "placeholderEmail": "Syötä sähköpostiosoite",
+      "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
+      "placeholderMembershipNumber": "Syötä jäsenkortin numero",
+      "placeholderName": "Syötä ilmoittautujan etu- ja sukunimi",
+      "placeholderNativeLanguage": "Valitse äidinkieli",
+      "placeholderNotificationLanguage": "Ilmoitusten kielivalinta",
+      "placeholderPhoneNumber": "+358 44 1234 567",
+      "placeholderServiceLanguage": "Valitse asiointikieli",
+      "placeholderStreetAddress": "Syötä katuosoite",
+      "placeholderYearOfBirth": "Valitse syntymävuosi",
+      "placeholderZip": "Syötä postinumero",
+      "titleAdditionalInfo": "Lisätiedot",
+      "titleBasicInfo": "Ilmoittautujan perustiedot",
+      "titleContactInfo": "Yhteystiedot",
+      "titleNotifications": "Tapahtumaa koskevat ilmoitukset"
+    },
+    "notifications": {
+      "email": "Sähköpostilla",
+      "phone": "Tekstiviestillä"
+    }
+  },
   "enrolmentsPage": {
     "actionButtons": {
       "cancel": "Peruuta osallistuminen",
@@ -186,7 +224,6 @@
     "attendeeTableCaption": "Osallistujat",
     "attendeeTableHeading": "Osallistujat",
     "buttonActions": "Valinnat",
-    "buttonBack": "Takaisin",
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "enrolmentsTableColumns": {
       "email": "Sähköposti",
@@ -278,7 +315,6 @@
         "volunteering": "Lisää toistuva vapaaehtoistehtävä"
       },
       "buttonAddVideo": "Lisää video",
-      "buttonBack": "Takaisin",
       "buttonCancel":  "Peruuta tapahtuma",
       "buttonCopy": "Kopioi pohjaksi",
       "buttonDelete":  "Poista tapahtuma",
@@ -929,9 +965,11 @@
         "email": "Tämän kentän on oltava kelvollinen sähköpostiosoite",
         "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
         "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
+        "phone": "Tämän kentän on oltava kelvollinen puhelinnumero",
         "required": "Tämä kenttä on pakollinen",
         "time": "Ajan tulee olla muotoa hh.mm",
-        "url": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)"
+        "url": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
+        "zip": "Tämän kentän on oltava kelvollinen postinumero"
       },
       "time": {
         "after": "Tämän kellonajan tulee olla {{after}} jälkeen",
@@ -1165,7 +1203,6 @@
   "registration": {
     "form": {
       "buttonActions": "Valinnat",
-      "buttonBack": "Takaisin",
       "buttonCreate": "Tallenna ilmoittautuminen",
       "buttonPanel": {
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."

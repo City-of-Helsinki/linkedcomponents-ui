@@ -3,22 +3,29 @@ import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
-import { toast } from 'react-toastify';
 
 import Button from '../../../common/components/button/Button';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
+import { ROUTES } from '../../../constants';
+import { Registration } from '../../../generated/graphql';
 import useSearchState from '../../../hooks/useSearchState';
+// eslint-disable-next-line max-len
+import useRegistrationsQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import {
   getEnrolmentSearchInitialValues,
   getEnrolmentSearchQuery,
 } from '../utils';
 import styles from './searchPanel.module.scss';
 
+type Props = {
+  registration: Registration;
+};
+
 type SearchState = {
   text: string;
 };
 
-const SearchPanel: React.FC = () => {
+const SearchPanel: React.FC<Props> = ({ registration }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
@@ -26,6 +33,8 @@ const SearchPanel: React.FC = () => {
   const [searchState, setSearchState] = useSearchState<SearchState>({
     text: '',
   });
+
+  const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
 
   const handleChangeText = (text: string) => {
     setSearchState({ text });
@@ -39,7 +48,13 @@ const SearchPanel: React.FC = () => {
   };
 
   const handleCreate = () => {
-    toast.error('TODO: Move to create enrolment page');
+    history.push({
+      pathname: ROUTES.CREATE_ENROLMENT.replace(
+        ':registrationId',
+        registration.id as string
+      ),
+      search: queryStringWithReturnPath,
+    });
   };
 
   React.useEffect(() => {

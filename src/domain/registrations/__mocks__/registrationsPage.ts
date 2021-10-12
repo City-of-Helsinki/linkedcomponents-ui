@@ -3,7 +3,7 @@ import range from 'lodash/range';
 import { TEST_USER_ID } from '../../../constants';
 import { UserDocument } from '../../../generated/graphql';
 import { fakeRegistrations, fakeUser } from '../../../utils/mockDataUtils';
-import { REGISTRATIONS_PAGE_SIZE } from '../constants';
+import { REGISTRATIONS_PAGE_SIZE, TEST_EVENT_ID } from '../constants';
 
 const publisher = 'publisher:1';
 const registrationNames = range(1, REGISTRATIONS_PAGE_SIZE + 1).map(
@@ -14,6 +14,7 @@ const registrations = fakeRegistrations(
   REGISTRATIONS_PAGE_SIZE,
   registrationNames.map((name, index) => ({
     id: `registration:${index}`,
+    eventId: TEST_EVENT_ID,
     name: { fi: name },
   }))
 );

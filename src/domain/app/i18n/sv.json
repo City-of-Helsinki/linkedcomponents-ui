@@ -31,6 +31,7 @@
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "buttonAddEvent": "Lägg till evenemang",
     "buttonAddRegistration": "Lägg till",
+    "buttonBack": "Tillbaka",
     "buttonRemoveFilter": "Ta bort filtret: {{name}}",
     "cancel": "Ångra",
     "close": "Stäng",
@@ -177,6 +178,43 @@
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"
   },
+  "enrolment": {
+    "form": {
+      "buttonSave": "Spara deltagare",
+      "labelCity": "Staden",
+      "labelEmail": "E-postadress",
+      "labelExtraInfo": "Ytterligare registreringsinformation (valfritt)",
+      "labelMembershipNumber": "Medlemskortnummer (valfritt)",
+      "labelName": "Namn",
+      "labelNativeLanguage": "Modersmål",
+      "labelNotificationLanguage": "Meddelandes språk",
+      "labelPhoneNumber": "Telefonnummer",
+      "labelServiceLanguage": "Transaktionsspråk",
+      "labelStreetAddress": "Gatuadress",
+      "labelYearOfBirth": "Födelseår",
+      "labelZip": "Postnummer",
+      "placeholderCity": "Ange staden",
+      "placeholderEmail": "Skriv in din mailadress",
+      "placeholderExtraInfo": "Ange ytterligare information eller begäran",
+      "placeholderMembershipNumber": "Ange medlemskortets nummer",
+      "placeholderName": "Ange registrantens för- och efternamn",
+      "placeholderNativeLanguage": "Välj modersmål",
+      "placeholderNotificationLanguage": "Språkval för meddelande",
+      "placeholderPhoneNumber": "+358 44 1234 567",
+      "placeholderServiceLanguage": "Välj transaktionsspråk",
+      "placeholderStreetAddress": "Ange en gatuadress",
+      "placeholderYearOfBirth": "Välj födelseår",
+      "placeholderZip": "Ange postnummer",
+      "titleAdditionalInfo": "Ytterligare information",
+      "titleBasicInfo": "Grundläggande information om registranten",
+      "titleContactInfo": "Kontaktinformation",
+      "titleNotifications": "Evenemangmeddelanden"
+    },
+    "notifications": {
+      "email": "Via e-post",
+      "phone": "Med sms"
+    }
+  },
   "enrolmentsPage": {
     "actionButtons": {
       "cancel": "Avbryt deltagande",
@@ -186,7 +224,6 @@
     "attendeeTableCaption": "Deltagarna",
     "attendeeTableHeading": "Deltagarna",
     "buttonActions": "Funktioner",
-    "buttonBack": "Tillbaka",
     "buttonClearFilters": "Töm sökfilter",
     "enrolmentsTableColumns": {
       "email": "E-post",
@@ -278,7 +315,6 @@
         "volunteering": "Lägg till återkommande volontärarbete"
       },
       "buttonAddVideo": "Lägg till video",
-      "buttonBack": "Tillbaka",
       "buttonCancel": "Ställ in evenemang",
       "buttonCopy": "Kopiera som mall",
       "buttonDelete":  "Ta bort evenemang",
@@ -929,9 +965,11 @@
         "email": "Detta fält måste vara en giltig e-postmeddelande",
         "max": "Detta fält kan vara upp till {{max}} tecken långt",
         "min": "Detta fält måste vara minst {{min}} tecken långt",
+        "phone": "Detta fält måste vara en giltig telefonnummer",
         "required": "Detta fält krävs",
         "time": "Tid måste ges i följande format hh.mm",
-        "url": "Ange URL i rätt format (http: // ...)"
+        "url": "Ange URL i rätt format (http: // ...)",
+        "zip": "Detta fält måste vara en giltig postnummer"
       },
       "time": {
         "after": "Den här tiden måste vara efter {{after}}",
@@ -1165,7 +1203,6 @@
   "registration": {
     "form": {
       "buttonActions": "Funktioner",
-      "buttonBack": "Tillbaka",
       "buttonCreate": "Spara registrering",
       "buttonPanel": {
         "warningNotAuthenticated": "För att skapa en registrering, logga in först."
