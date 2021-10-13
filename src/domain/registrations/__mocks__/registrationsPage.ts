@@ -3,7 +3,8 @@ import range from 'lodash/range';
 import { TEST_USER_ID } from '../../../constants';
 import { UserDocument } from '../../../generated/graphql';
 import { fakeRegistrations, fakeUser } from '../../../utils/mockDataUtils';
-import { REGISTRATIONS_PAGE_SIZE, TEST_EVENT_ID } from '../constants';
+import { TEST_EVENT_ID } from '../../event/constants';
+import { REGISTRATIONS_PAGE_SIZE } from '../constants';
 
 const publisher = 'publisher:1';
 const registrationNames = range(1, REGISTRATIONS_PAGE_SIZE + 1).map(

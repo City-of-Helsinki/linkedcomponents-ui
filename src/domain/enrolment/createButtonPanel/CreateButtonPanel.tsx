@@ -14,12 +14,15 @@ import { EnrolmentsLocationState } from '../../enrolments/types';
 import FormContainer from '../formContainer/FormContainer';
 import styles from './createButtonPanel.module.scss';
 
-interface Props {
+export interface CreateButtonPanelProps {
   onSave: () => void;
   registration: Registration;
 }
 
-const CreateButtonPanel: React.FC<Props> = ({ onSave, registration }) => {
+const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
+  onSave,
+  registration,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const history = useHistory<EnrolmentsLocationState>();
@@ -28,7 +31,7 @@ const CreateButtonPanel: React.FC<Props> = ({ onSave, registration }) => {
   const goBack = () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
       search,
-      ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+      ROUTES.REGISTRATION_ENROLMENTS.replace(
         ':registrationId',
         registration.id as string
       )

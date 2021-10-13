@@ -15,6 +15,7 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedEventResponse } from '../../../event/__mocks__/event';
 import {
   mockedEventsResponse,
   mockedPlacesResponse,
@@ -38,7 +39,12 @@ const mockedUserResponse: MockedResponse = {
   result: userResponse,
 };
 
-const mocks = [mockedEventsResponse, mockedPlacesResponse, mockedUserResponse];
+const mocks = [
+  mockedEventResponse,
+  mockedEventsResponse,
+  mockedPlacesResponse,
+  mockedUserResponse,
+];
 
 const renderRoute = (route: string, locale: Language = 'fi') =>
   render(<Route path={`/:locale/`} component={LocaleRoutes} />, {
@@ -130,6 +136,18 @@ it('should render registration enrolments page', async () => {
   await screen.findByRole('heading', { name: /Registration name 2/i });
   expect(history.location.pathname).toBe(
     '/fi/registrations/registration:1/enrolments'
+  );
+});
+
+it('should render create enrolment page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', 'registration:0')}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByText(/ilmoittautujan perustiedot/i);
+  expect(history.location.pathname).toBe(
+    '/fi/registrations/registration:0/enrolments/create'
   );
 });
 

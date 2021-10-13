@@ -349,3 +349,5 @@ export const AUDIENCE_ORDER = [
   'yso:p16486', // Opiskelijat
   'yso:p2433', // Ikääntyneet
 ];
+
+export const TEST_EVENT_ID = 'helmet:222453';
