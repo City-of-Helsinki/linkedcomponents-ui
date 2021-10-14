@@ -22,6 +22,7 @@ import { attendeesResponse } from '../enrolments/__mocks__/enrolmentsPage';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
+import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import { registrationsResponse } from '../registrations/__mocks__/registrationsPage';
 import useUser from '../user/hooks/useUser';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
@@ -88,6 +89,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
                   withOffset
                 >
                   <FormContainer>
+                    <AuthRequiredNotification />
                     <EventInfo event={event} />
                     <div className={styles.divider} />
                     <EnrolmentFormFields />

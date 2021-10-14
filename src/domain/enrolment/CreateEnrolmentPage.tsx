@@ -20,6 +20,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
+import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import { registrationsResponse } from '../registrations/__mocks__/registrationsPage';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_INITIAL_VALUES } from './constants';
@@ -72,6 +73,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
               <Form noValidate>
                 <Container withOffset>
                   <FormContainer>
+                    <AuthRequiredNotification />
                     <EventInfo event={event} />
                     <div className={styles.divider} />
                     <EnrolmentFormFields />
