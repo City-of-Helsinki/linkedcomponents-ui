@@ -151,6 +151,21 @@ it('should render create enrolment page', async () => {
   );
 });
 
+it('should render edit enrolment page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+      ':registrationId',
+      'registration:0'
+    ).replace(':enrolmentId', 'attendee:0')}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByText(/ilmoittautujan perustiedot/i);
+  expect(history.location.pathname).toBe(
+    '/fi/registrations/registration:0/enrolments/edit/attendee:0'
+  );
+});
+
 it('should route to default help page', async () => {
   const { history } = renderRoute(ROUTES.HELP);
 
