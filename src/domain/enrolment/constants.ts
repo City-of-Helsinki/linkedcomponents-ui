@@ -10,7 +10,7 @@ export enum ENROLMENT_FIELDS {
   NOTIFICATION_LANGUAGE = 'notificationLanguage',
   NOTIFICATIONS = 'notifications',
   PHONE_NUMBER = 'phoneNumber',
-  SERVICE_LANGUAGE = 'servideLanguage',
+  SERVICE_LANGUAGE = 'serviceLanguage',
   STREET_ADDRESS = 'streetAddress',
   YEAR_OF_BIRTH = 'yearOfBirth',
   ZIP = 'zip',

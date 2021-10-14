@@ -136,7 +136,7 @@ const EditEventPage: React.FC<EditRegistrationPageProps> = ({
                     </Section>
                   </Container>
                   <EditButtonPanel
-                    onDelete={() => alert('TODO: Delete registration')}
+                    onDelete={() => toast.error('TODO: Delete registration')}
                     onUpdate={handleUpdate}
                     registration={registration}
                     saving={false}

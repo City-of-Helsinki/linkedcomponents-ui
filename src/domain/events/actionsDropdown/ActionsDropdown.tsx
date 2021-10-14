@@ -152,7 +152,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
               <IconMenuDots aria-hidden={true} />
             </button>
           }
-          buttonLabel={t('event.form.buttonActions')}
+          buttonLabel={t('common.buttonActions')}
           className={className}
           closeOnItemClick={true}
           fixedPosition={true}

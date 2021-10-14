@@ -232,6 +232,11 @@ export enum EventStatus {
   EventScheduled = 'EventScheduled'
 }
 
+export enum Notification {
+  Email = 'email',
+  Phone = 'phone'
+}
+
 export enum PublicationStatus {
   Draft = 'draft',
   Public = 'public'
@@ -710,7 +715,8 @@ export type Enrolment = {
   membershipNumber?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nativeLanguage?: Maybe<Scalars['String']>;
-  notifications?: Maybe<Scalars['String']>;
+  notificationLanguage?: Maybe<Scalars['String']>;
+  notifications?: Maybe<Array<Notification>>;
   organizationName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   serviceLanguage?: Maybe<Scalars['String']>;

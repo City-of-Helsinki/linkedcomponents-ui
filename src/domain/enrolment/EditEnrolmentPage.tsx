@@ -8,6 +8,7 @@ import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
+  Enrolment,
   EventFieldsFragment,
   Registration,
   useEventQuery,
@@ -17,89 +18,110 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { attendeesResponse } from '../enrolments/__mocks__/enrolmentsPage';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import { registrationsResponse } from '../registrations/__mocks__/registrationsPage';
 import useUser from '../user/hooks/useUser';
-import { ENROLMENT_INITIAL_VALUES } from './constants';
-import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
+import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import EnrolmentFormFields from './enrolmentFormFields/EnrolmentFormFields';
 import styles from './enrolmentPage.module.scss';
 import EventInfo from './eventInfo/EventInfo';
 import FormContainer from './formContainer/FormContainer';
+import { getEnrolmentInitialValues } from './utils';
 import { enrolmentSchema, scrollToFirstError, showErrors } from './validation';
 
 type Props = {
+  enrolment: Enrolment;
   event: EventFieldsFragment;
   registration: Registration;
 };
 
-const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
+const EditEnrolmentPage: React.FC<Props> = ({
+  enrolment,
+  event,
+  registration,
+}) => {
+  const initialValues = React.useMemo(
+    () => getEnrolmentInitialValues(enrolment),
+    [enrolment]
+  );
+
   return (
-    <PageWrapper
-      className={styles.registrationPage}
-      title={`createEnrolmentPage.pageTitle`}
+    <Formik
+      initialValues={initialValues}
+      onSubmit={/* istanbul ignore next */ () => undefined}
+      validationSchema={enrolmentSchema}
     >
-      <MainContent>
-        <Formik
-          initialValues={ENROLMENT_INITIAL_VALUES}
-          onSubmit={/* istanbul ignore next */ () => undefined}
-          validationSchema={enrolmentSchema}
-        >
-          {({ setErrors, setTouched, values }) => {
-            const clearErrors = () => setErrors({});
+      {({ setErrors, setTouched, values }) => {
+        const clearErrors = () => setErrors({});
 
-            const handleSubmit = async () => {
-              try {
-                clearErrors();
+        const handleSubmit = async () => {
+          try {
+            clearErrors();
 
-                await enrolmentSchema.validate(values, { abortEarly: false });
+            await enrolmentSchema.validate(values, { abortEarly: false });
 
-                toast.error('TODO: Save enrolment');
-              } catch (error) {
-                showErrors({
-                  error: error as ValidationError,
-                  setErrors,
-                  setTouched,
-                });
+            toast.error('TODO: Save enrolment');
+          } catch (error) {
+            showErrors({
+              error: error as ValidationError,
+              setErrors,
+              setTouched,
+            });
 
-                scrollToFirstError({ error: error as ValidationError });
-              }
-            };
+            scrollToFirstError({ error: error as ValidationError });
+          }
+        };
 
-            return (
-              <Form noValidate>
-                <Container withOffset>
+        return (
+          <Form noValidate>
+            <PageWrapper
+              backgroundColor="coatOfArms"
+              noFooter
+              title={`editEnrolmentPage.pageTitle`}
+            >
+              <MainContent>
+                <Container
+                  contentWrapperClassName={styles.editPageContentContainer}
+                  withOffset
+                >
                   <FormContainer>
                     <EventInfo event={event} />
                     <div className={styles.divider} />
                     <EnrolmentFormFields />
                   </FormContainer>
                 </Container>
-                <CreateButtonPanel
-                  onSave={handleSubmit}
+                <EditButtonPanel
+                  enrolment={enrolment}
                   registration={registration}
+                  onSave={handleSubmit}
                 />
-              </Form>
-            );
-          }}
-        </Formik>
-      </MainContent>
-    </PageWrapper>
+              </MainContent>
+            </PageWrapper>
+          </Form>
+        );
+      }}
+    </Formik>
   );
 };
 
 const LOADING_USER_DEBOUNCE_TIME = 50;
 
-const CreateEnrolmentPageWrapper: React.FC = () => {
+const EditEnrolmentPageWrapper: React.FC = () => {
   const isMounted = useIsMounted();
   const location = useLocation();
   const { loading: loadingUser } = useUser();
-  const { registrationId } = useParams<{ registrationId: string }>();
+  const { enrolmentId, registrationId } =
+    useParams<{ enrolmentId: string; registrationId: string }>();
   // TODO: Use real registration data when API is available
   const registration = registrationsResponse.registrations.data.find(
     (item) => item.id === registrationId
+  );
+  // TODO: Use real enrolment data when API is available
+  const enrolment = attendeesResponse.enrolments.data.find(
+    (item) => item.id === enrolmentId
   );
 
   const [debouncedLoadingUser, setDebouncedLoadingUser] =
@@ -142,8 +164,9 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
 
   return (
     <LoadingSpinner isLoading={loading}>
-      {eventData?.event && registration ? (
-        <CreateEnrolmentPage
+      {eventData?.event && registration && enrolment ? (
+        <EditEnrolmentPage
+          enrolment={enrolment}
           event={eventData?.event}
           registration={registration}
         />
@@ -154,4 +177,4 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
   );
 };
 
-export default CreateEnrolmentPageWrapper;
+export default EditEnrolmentPageWrapper;

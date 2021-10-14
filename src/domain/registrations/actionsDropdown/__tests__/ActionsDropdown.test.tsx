@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
@@ -150,8 +151,8 @@ test('should route to create registration page when clicking copy button', async
   );
 });
 
-test('should open alert dialog when clicking delete button', async () => {
-  global.alert = jest.fn();
+test('should show toast message when clicking delete button', async () => {
+  toast.error = jest.fn();
   renderComponent();
 
   openMenu();
@@ -160,6 +161,6 @@ test('should open alert dialog when clicking delete button', async () => {
   act(() => userEvent.click(deleteButton));
 
   await waitFor(() =>
-    expect(global.alert).toBeCalledWith('TODO: Delete registration')
+    expect(toast.error).toBeCalledWith('TODO: Delete registration')
   );
 });

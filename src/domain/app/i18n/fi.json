@@ -29,6 +29,7 @@
     "at": "klo {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonActions": "Valinnat",
     "buttonAddEvent": "Lisää uusi tapahtuma",
     "buttonAddRegistration": "Lisää uusi",
     "buttonBack": "Takaisin",
@@ -162,6 +163,9 @@
     },
     "warning": "Varoitus!"
   },
+  "createEnrolmentPage": {
+    "pageTitle": "Lisää osallistuja"
+  },
   "createEventPage": {
     "pageTitle": {
       "course": "Uusi kurssi",
@@ -215,6 +219,9 @@
       "phone": "Tekstiviestillä"
     }
   },
+  "editEnrolmentPage": {
+    "pageTitle": "Muokkaa osallistujaa"
+  },
   "enrolmentsPage": {
     "actionButtons": {
       "cancel": "Peruuta osallistuminen",
@@ -223,7 +230,6 @@
     },
     "attendeeTableCaption": "Osallistujat",
     "attendeeTableHeading": "Osallistujat",
-    "buttonActions": "Valinnat",
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "enrolmentsTableColumns": {
       "email": "Sähköposti",
@@ -297,7 +303,6 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Hyväksy ja julkaise",
-      "buttonActions": "Valinnat",
       "buttonAddEventTime": {
         "course": "Lisää ajankohta",
         "general": "Lisää ajankohta",
@@ -1202,7 +1207,6 @@
   },
   "registration": {
     "form": {
-      "buttonActions": "Valinnat",
       "buttonCreate": "Tallenna ilmoittautuminen",
       "buttonPanel": {
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."

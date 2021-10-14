@@ -29,6 +29,7 @@
     "at": "kl {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonActions": "Funktioner",
     "buttonAddEvent": "Lägg till evenemang",
     "buttonAddRegistration": "Lägg till",
     "buttonBack": "Tillbaka",
@@ -162,6 +163,9 @@
     },
     "warning": "Varning!"
   },
+  "createEnrolmentPage": {
+    "pageTitle": "Lägg till en deltagare"
+  },
   "createEventPage": {
     "pageTitle": {
       "course": "Nytt kurs",
@@ -177,6 +181,9 @@
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"
+  },
+  "editEnrolmentPage": {
+    "pageTitle": "Redigera deltagare"
   },
   "enrolment": {
     "form": {
@@ -223,7 +230,6 @@
     },
     "attendeeTableCaption": "Deltagarna",
     "attendeeTableHeading": "Deltagarna",
-    "buttonActions": "Funktioner",
     "buttonClearFilters": "Töm sökfilter",
     "enrolmentsTableColumns": {
       "email": "E-post",
@@ -297,7 +303,6 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Godkänn och publicera",
-      "buttonActions": "Funktioner",
       "buttonAddEventTime": {
         "course": "Lägg till en ny kursstid",
         "general": "Lägg till en ny evenemangstid",
@@ -1202,7 +1207,6 @@
   },
   "registration": {
     "form": {
-      "buttonActions": "Funktioner",
       "buttonCreate": "Spara registrering",
       "buttonPanel": {
         "warningNotAuthenticated": "För att skapa en registrering, logga in först."

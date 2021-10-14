@@ -181,7 +181,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
                     </button>
                   ) : undefined
                 }
-                buttonLabel={t('event.form.buttonActions')}
+                buttonLabel={t('common.buttonActions')}
                 closeOnItemClick={true}
                 items={actionItems}
                 menuPosition="top"

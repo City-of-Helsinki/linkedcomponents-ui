@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
+import { toast } from 'react-toastify';
 
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
@@ -76,11 +77,11 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       }),
       getActionItemProps({
         action: ENROLMENT_EDIT_ACTIONS.SEND_MESSAGE,
-        onClick: () => alert('TODO: Send message to attendee'),
+        onClick: () => toast.error('TODO: Send message to attendee'),
       }),
       getActionItemProps({
         action: ENROLMENT_EDIT_ACTIONS.CANCEL,
-        onClick: () => alert('TODO: Cancel enrolment'),
+        onClick: () => toast.error('TODO: Cancel enrolment'),
       }),
     ].filter((i) => i) as MenuItemOptionProps[];
 
@@ -92,7 +93,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
               <IconMenuDots aria-hidden={true} />
             </button>
           }
-          buttonLabel={t('enrolmentsPage.buttonActions')}
+          buttonLabel={t('common.buttonActions')}
           className={className}
           closeOnItemClick={true}
           fixedPosition={true}

@@ -29,6 +29,7 @@
     "at": "at {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonActions": "Actions",
     "buttonAddEvent": "Add new event",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
@@ -161,6 +162,9 @@
     },
     "warning": "Warning!"
   },
+  "createEnrolmentPage": {
+    "pageTitle": "Add a participant"
+  },
   "createEventPage": {
     "page": {
       "course": "New course",
@@ -176,6 +180,9 @@
   "createRegistrationPage": {
     "page": "New registration",
     "title": "New registration"
+  },
+  "editEnrolmentPage": {
+    "pageTitle": "Edit participant"
   },
   "enrolment": {
     "form": {
@@ -222,7 +229,6 @@
     },
     "attendeeTableCaption": "Participants",
     "attendeeTableHeading": "Participants",
-    "buttonActions": "Actions",
     "buttonClearFilters": "Clear filters",
     "enrolmentsTableColumns": {
       "email": "Email",
@@ -297,7 +303,6 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Confirm and publish",
-      "buttonActions": "Actions",
       "buttonAddEventTime": {
         "course": "Add course date",
         "general": "Add event date",
@@ -1202,7 +1207,6 @@
   },
   "registration": {
     "form": {
-      "buttonActions": "Actions",
       "buttonCreate": "Save",
       "buttonPanel": {
         "warningNotAuthenticated": "To create a registration, log in first."

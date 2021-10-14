@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
@@ -131,8 +132,8 @@ test('should route to edit enrolment page when clicking edit button', async () =
   );
 });
 
-test('should open alert dialog when clicking send message button', async () => {
-  global.alert = jest.fn();
+test('should show toast message when clicking send message button', async () => {
+  toast.error = jest.fn();
   renderComponent({ store });
 
   openMenu();
@@ -141,12 +142,12 @@ test('should open alert dialog when clicking send message button', async () => {
   act(() => userEvent.click(sendMessageButton));
 
   await waitFor(() =>
-    expect(global.alert).toBeCalledWith('TODO: Send message to attendee')
+    expect(toast.error).toBeCalledWith('TODO: Send message to attendee')
   );
 });
 
-test('should open alert dialog when clicking cancel button', async () => {
-  global.alert = jest.fn();
+test('should show toast message when clicking cancel button', async () => {
+  toast.error = jest.fn();
   renderComponent({ store });
 
   openMenu();
@@ -155,6 +156,6 @@ test('should open alert dialog when clicking cancel button', async () => {
   act(() => userEvent.click(cancelButton));
 
   await waitFor(() =>
-    expect(global.alert).toBeCalledWith('TODO: Cancel enrolment')
+    expect(toast.error).toBeCalledWith('TODO: Cancel enrolment')
   );
 });

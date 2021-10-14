@@ -155,7 +155,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
                 <IconMenuDots aria-hidden={true} />
               </button>
             }
-            buttonLabel={t('event.form.buttonActions')}
+            buttonLabel={t('common.buttonActions')}
             className={styles.toggleButton}
             closeOnItemClick={true}
             fixedPosition={true}

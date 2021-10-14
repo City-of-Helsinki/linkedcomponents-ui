@@ -4,7 +4,7 @@ import { IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { matchPath, RouteProps, useHistory, useLocation } from 'react-router';
 
 import {
   MAIN_CONTENT_ID,
@@ -20,6 +20,18 @@ import { getEventSearchQuery } from '../../eventSearch/utils';
 import useUser from '../../user/hooks/useUser';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
+
+interface NoNavRowProps {
+  pathname: string;
+  props?: RouteProps;
+}
+
+const NO_NAV_ROW_PATHS = [
+  { pathname: ROUTES.EDIT_EVENT },
+  { pathname: ROUTES.EDIT_REGISTRATION },
+  { pathname: ROUTES.EDIT_REGISTRATION_ENROLMENT },
+  { pathname: ROUTES.REGISTRATION_ENROLMENTS },
+];
 
 const Header: React.FC = () => {
   const { theme } = useTheme();
@@ -63,9 +75,16 @@ const Header: React.FC = () => {
     signOut();
   };
 
-  const hideNavRow = location.pathname.includes(
-    `${ROUTES.EDIT_EVENT.replace(':id', '')}`
-  );
+  const isMatch = (paths: NoNavRowProps[]) =>
+    paths.some((path) =>
+      matchPath(location.pathname, {
+        path: `/${locale}${path.pathname}`,
+        exact: path.props?.exact ?? true,
+        strict: path.props?.strict ?? true,
+      })
+    );
+
+  const noNavRow = isMatch(NO_NAV_ROW_PATHS);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -87,7 +106,7 @@ const Header: React.FC = () => {
       skipTo={`#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('navigation.skipToContentLabel')}
       className={classNames(css(theme.navigation), styles.navigation, {
-        [styles.hideNavRow]: hideNavRow,
+        [styles.hideNavRow]: noNavRow,
       })}
       onTitleClick={goToHomePage}
       title={t('appName')}
