@@ -30,7 +30,7 @@
   grid-template-columns: repeat(2, 1fr);
 
   @include medium-up {
-    grid-template-columns: 3fr 3fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
