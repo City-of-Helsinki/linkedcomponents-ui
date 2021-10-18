@@ -5,6 +5,7 @@ import React from 'react';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getLocalisedString from '../../../utils/getLocalisedString';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import useEventLocation from '../../event/hooks/useEventLocation';
 import { getEventFields } from '../../event/utils';
 import AudienceAgeText from '../../events/eventCard/AudienceAgeText';
@@ -43,7 +44,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
     : { addressLocality: '', name: '', streetAddress: '' };
   const locationText =
     [locationName, streetAddress, addressLocality]
-      .filter((e) => e)
+      .filter(skipFalsyType)
       .join(', ') || '-';
 
   return (

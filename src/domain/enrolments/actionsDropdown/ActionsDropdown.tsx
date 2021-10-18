@@ -10,6 +10,7 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/Men
 import { ROUTES } from '../../../constants';
 import { Enrolment, Registration } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import { getRegistrationFields } from '../../registrations/utils';
 import { ENROLMENT_EDIT_ACTIONS } from '../constants';
@@ -83,7 +84,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
         action: ENROLMENT_EDIT_ACTIONS.CANCEL,
         onClick: () => toast.error('TODO: Cancel enrolment'),
       }),
-    ].filter((i) => i) as MenuItemOptionProps[];
+    ].filter(skipFalsyType);
 
     return (
       <div ref={ref}>

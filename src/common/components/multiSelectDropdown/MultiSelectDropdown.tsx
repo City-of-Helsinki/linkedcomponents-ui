@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import useDropdownCloseEvents from '../../../hooks/useDropdownCloseEvents';
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
 import { OptionType } from '../../../types';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import Dropdown from '../dropdown/Dropdown';
 import ToggleButton from '../dropdown/ToggleButton';
 import MultiSelectDropdownMenu from './MultiSelectDropdownMenu';
@@ -59,7 +60,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
       ...options.filter((option) =>
         option.label.toLowerCase().includes(searchValue.toLowerCase())
       ),
-    ].filter((e) => e) as OptionType[];
+    ].filter(skipFalsyType);
   }, [options, searchValue]);
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);

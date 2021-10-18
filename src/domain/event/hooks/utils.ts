@@ -1,5 +1,4 @@
 import { TFunction } from 'i18next';
-import isEmpty from 'lodash/isEmpty';
 
 import {
   EventFieldsFragment,
@@ -10,6 +9,7 @@ import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import pascalCase from '../../../utils/pascalCase';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { AUDIENCE_ORDER, EVENT_EDIT_ACTIONS } from '../constants';
 
 export const getEventUpdateAction = (
@@ -130,12 +130,10 @@ export const parseEventServerErrors = ({
   }): ServerErrorItem[] {
     /* istanbul ignore else */
     if (Array.isArray(error)) {
-      return error
-        .filter((e) => !isEmpty(e))
-        .map((e) => ({
-          label: parseEventServerErrorLabel({ key }),
-          message: parseServerErrorMessage({ error: e.link as string[], t }),
-        }));
+      return error.filter(skipFalsyType).map((e) => ({
+        label: parseEventServerErrorLabel({ key }),
+        message: parseServerErrorMessage({ error: e.link as string[], t }),
+      }));
     } else {
       return [];
     }

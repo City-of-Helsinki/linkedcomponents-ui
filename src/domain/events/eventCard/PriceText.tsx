@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Offer } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getLocalisedString from '../../../utils/getLocalisedString';
+import skipFalsyType from '../../../utils/skipFalsyType';
 
 export interface PriceTextProps {
   freeEvent: boolean;
@@ -19,7 +20,7 @@ const PriceText: React.FC<PriceTextProps> = ({ freeEvent, offers }) => {
       ? t('event.freeEvent')
       : offers
           .map((offer) => getLocalisedString(offer.price, locale))
-          .filter((t) => t)
+          .filter(skipFalsyType)
           .join(', ') || '-';
   };
   return <>{getText()}</>;

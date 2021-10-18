@@ -58,6 +58,7 @@ import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
+import skipFalsyType from '../../utils/skipFalsyType';
 import {
   createMaxErrorMessage,
   createMinErrorMessage,
@@ -593,7 +594,7 @@ export const getEventFields = (
     imageUrl: event.images.find((image) => image?.url)?.url || null,
     inLanguage: event.inLanguage
       .map((item) => getLocalisedString(item?.name, language))
-      .filter((e) => e),
+      .filter(skipFalsyType),
     isDraft: publicationStatus === PublicationStatus.Draft,
     isPublic: publicationStatus === PublicationStatus.Public,
     keywords: event.keywords as KeywordFieldsFragment[],
@@ -1135,8 +1136,8 @@ export const getEventInitialValues = (
     images: event.images.map((image) => image?.atId as string),
     infoUrl: getLocalisedObject(event.infoUrl),
     inLanguage: event.inLanguage
-      .map((language) => language?.atId as string)
-      .filter((l) => l),
+      .filter(skipFalsyType)
+      .map((language) => language?.atId),
     isUmbrella: isUmbrella,
     isVerified: true,
     keywords: event.keywords.map((keyword) => keyword?.atId as string),

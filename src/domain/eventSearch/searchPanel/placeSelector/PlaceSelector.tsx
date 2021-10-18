@@ -18,6 +18,7 @@ import useShowLoadingSpinner from '../../../../hooks/useShowLoadingSpinner';
 import { Language, OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import getPathBuilder from '../../../../utils/getPathBuilder';
+import skipFalsyType from '../../../../utils/skipFalsyType';
 import { PLACES_SORT_ORDER } from '../../../place/constants';
 import {
   getPlaceFromCache,
@@ -93,7 +94,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
 
       /* istanbul ignore else */
       if (isMounted.current) {
-        setSelectedPlaces(places.filter((p) => p) as OptionType[]);
+        setSelectedPlaces(places.filter(skipFalsyType));
       }
     };
     getSelectedPlacesFromCache();

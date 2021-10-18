@@ -17,6 +17,7 @@ import {
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EventsLocationState } from '../../eventSearch/types';
@@ -135,7 +136,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       action: EVENT_EDIT_ACTIONS.DELETE,
       onClick: onDelete,
     }),
-  ].filter((i) => i) as MenuItemOptionProps[];
+  ].filter(skipFalsyType);
 
   const actionButtons: ActionButtonProps[] = [
     /* Actions for draft event */
@@ -155,7 +156,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       onClick: () => onUpdate(PublicationStatus.Public),
       variant: 'primary',
     }),
-  ].filter((i) => i) as ActionButtonProps[];
+  ].filter(skipFalsyType);
 
   return (
     <div className={styles.editButtonPanel}>

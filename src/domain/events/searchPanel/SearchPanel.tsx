@@ -11,6 +11,7 @@ import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
 import { OptionType } from '../../../types';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import Container from '../../app/layout/Container';
 import { useTheme } from '../../app/theme/Theme';
 import { EVENT_TYPE } from '../../event/constants';
@@ -75,14 +76,13 @@ const SearchPanel: React.FC = () => {
               toggleButtonLabel={t(
                 'eventSearchPage.searchPanel.labelEventType'
               )}
-              value={searchState.type
-                .map(
-                  (type) =>
-                    eventTypeOptions.find(
-                      (item) => item.value === type
-                    ) as OptionType
-                )
-                .filter((o) => o)}
+              value={
+                searchState.type
+                  .filter(skipFalsyType)
+                  .map((type) =>
+                    eventTypeOptions.find((item) => item.value === type)
+                  ) as OptionType[]
+              }
             />
           </div>
           <div className={styles.searchInputWrapper}>

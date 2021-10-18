@@ -9,6 +9,7 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/Men
 import { ROUTES } from '../../../constants';
 import { Registration } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { copyRegistrationToSessionStorage } from '../../registration/utils';
 import { REGISTRATION_EDIT_ACTIONS } from '../constants';
 import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
@@ -79,7 +80,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
         action: REGISTRATION_EDIT_ACTIONS.DELETE,
         onClick: () => toast.error('TODO: Delete registration'),
       }),
-    ].filter((i) => i) as MenuItemOptionProps[];
+    ].filter(skipFalsyType);
 
     return (
       <div ref={ref}>

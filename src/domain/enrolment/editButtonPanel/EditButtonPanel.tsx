@@ -14,6 +14,7 @@ import { Enrolment, Registration } from '../../../generated/graphql';
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
 import { ENROLMENT_EDIT_ACTIONS } from '../../enrolments/constants';
@@ -81,7 +82,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       action: ENROLMENT_EDIT_ACTIONS.CANCEL,
       onClick: () => toast.error('TODO: Cancel enrolment'),
     }),
-  ].filter((i) => i) as MenuItemOptionProps[];
+  ].filter(skipFalsyType);
 
   return (
     <div className={styles.editButtonPanel}>

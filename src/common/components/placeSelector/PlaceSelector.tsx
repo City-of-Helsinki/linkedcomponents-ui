@@ -18,6 +18,7 @@ import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import Combobox from '../combobox/Combobox';
 import styles from './placeSelector.module.scss';
 
@@ -38,7 +39,7 @@ export const getOption = ({
     getPlaceFields(place, locale);
 
   const addressText = [streetAddress, addressLocality]
-    .filter((t) => t)
+    .filter(skipFalsyType)
     .join(', ');
 
   const label =
