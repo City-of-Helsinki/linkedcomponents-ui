@@ -1,5 +1,4 @@
 import { Form, Formik } from 'formik';
-import debounce from 'lodash/debounce';
 import React from 'react';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -13,7 +12,6 @@ import {
   Registration,
   useEventQuery,
 } from '../../generated/graphql';
-import useIsMounted from '../../hooks/useIsMounted';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
@@ -24,7 +22,7 @@ import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import { registrationsResponse } from '../registrations/__mocks__/registrationsPage';
-import useUser from '../user/hooks/useUser';
+import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import EnrolmentFormFields from './enrolmentFormFields/EnrolmentFormFields';
 import styles from './enrolmentPage.module.scss';
@@ -109,12 +107,9 @@ const EditEnrolmentPage: React.FC<Props> = ({
   );
 };
 
-const LOADING_USER_DEBOUNCE_TIME = 50;
-
 const EditEnrolmentPageWrapper: React.FC = () => {
-  const isMounted = useIsMounted();
   const location = useLocation();
-  const { loading: loadingUser } = useUser();
+  const loadingUser = useDebouncedLoadingUser();
   const { enrolmentId, registrationId } =
     useParams<{ enrolmentId: string; registrationId: string }>();
   // TODO: Use real registration data when API is available
@@ -126,43 +121,17 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     (item) => item.id === enrolmentId
   );
 
-  const [debouncedLoadingUser, setDebouncedLoadingUser] =
-    React.useState(loadingUser);
-
-  const debouncedSetLoading = React.useMemo(
-    () =>
-      debounce((loading: boolean) => {
-        /* istanbul ignore next */
-        if (!isMounted.current) return;
-
-        setDebouncedLoadingUser(loading);
-      }, LOADING_USER_DEBOUNCE_TIME),
-    [isMounted]
-  );
-
-  const handleLoadingUserChange = React.useCallback(
-    (loading: boolean) => {
-      /* istanbul ignore next */
-      debouncedSetLoading(loading);
-    },
-    [debouncedSetLoading]
-  );
-
-  React.useEffect(() => {
-    handleLoadingUserChange(loadingUser);
-  }, [handleLoadingUserChange, loadingUser]);
-
   const { data: eventData, loading: loadingEvent } = useEventQuery({
     fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
-    skip: debouncedLoadingUser || !registration?.eventId,
+    skip: loadingUser || !registration?.eventId,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
       id: registration?.eventId as string,
       include: EVENT_INCLUDES,
     },
   });
-  const loading = debouncedLoadingUser || loadingEvent;
+  const loading = loadingUser || loadingEvent;
 
   return (
     <LoadingSpinner isLoading={loading}>

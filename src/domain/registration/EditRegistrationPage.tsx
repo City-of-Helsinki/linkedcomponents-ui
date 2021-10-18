@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form, Formik } from 'formik';
-import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router';
@@ -9,7 +8,6 @@ import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { Registration } from '../../generated/graphql';
-import useIsMounted from '../../hooks/useIsMounted';
 import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
@@ -18,7 +16,7 @@ import Section from '../app/layout/Section';
 import NotFound from '../notFound/NotFound';
 import { registrationsResponse } from '../registrations/__mocks__/registrationsPage';
 import { getRegistrationFields } from '../registrations/utils';
-import useUser from '../user/hooks/useUser';
+import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import AttendeeCapacitySection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
@@ -151,41 +149,16 @@ const EditEventPage: React.FC<EditRegistrationPageProps> = ({
   );
 };
 
-const LOADING_USER_DEBOUNCE_TIME = 50;
-
 const EditRegistrationPageWrapper: React.FC = () => {
-  const isMounted = useIsMounted();
   const location = useLocation();
-  const { loading: loadingUser } = useUser();
+  const loadingUser = useDebouncedLoadingUser();
   const { id } = useParams<{ id: string }>();
   // TODO: Use real registration data when API is available
   const registration = registrationsResponse.registrations.data.find(
     (item) => item.id === id
   );
 
-  const [debouncedLoadingUser, setDebouncedLoadingUser] =
-    React.useState(loadingUser);
-
-  const debouncedSetLoading = debounce((loading: boolean) => {
-    /* istanbul ignore next */
-    if (!isMounted.current) return;
-
-    setDebouncedLoadingUser(loading);
-  }, LOADING_USER_DEBOUNCE_TIME);
-
-  const handleLoadingUserChange = React.useCallback(
-    (loading: boolean) => {
-      /* istanbul ignore next */
-      debouncedSetLoading(loading);
-    },
-    [debouncedSetLoading]
-  );
-
-  React.useEffect(() => {
-    handleLoadingUserChange(loadingUser);
-  }, [handleLoadingUserChange, loadingUser]);
-
-  const loading = debouncedLoadingUser;
+  const loading = loadingUser;
 
   return (
     <LoadingSpinner isLoading={loading}>
