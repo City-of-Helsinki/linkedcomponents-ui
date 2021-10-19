@@ -9,6 +9,7 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/Men
 import { ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EVENT_EDIT_ACTIONS } from '../../event/constants';
 import useEventOrganizationAncestors from '../../event/hooks/useEventOrganizationAncestors';
@@ -114,7 +115,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
         action: EVENT_EDIT_ACTIONS.DELETE,
         onClick: () => setOpenModal(MODALS.DELETE),
       }),
-    ].filter((i) => i) as MenuItemOptionProps[];
+    ].filter(skipFalsyType);
 
     return (
       <div ref={ref}>
@@ -152,7 +153,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
               <IconMenuDots aria-hidden={true} />
             </button>
           }
-          buttonLabel={t('event.form.buttonActions')}
+          buttonLabel={t('common.buttonActions')}
           className={className}
           closeOnItemClick={true}
           fixedPosition={true}

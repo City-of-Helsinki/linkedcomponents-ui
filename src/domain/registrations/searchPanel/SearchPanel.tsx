@@ -12,6 +12,7 @@ import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
 import { OptionType } from '../../../types';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { useTheme } from '../../app/theme/Theme';
 import { EVENT_TYPE } from '../../event/constants';
 import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
@@ -88,7 +89,7 @@ const SearchPanel: React.FC = () => {
                     (item) => item.value === type
                   ) as OptionType
               )
-              .filter((o) => o)}
+              .filter(skipFalsyType)}
           />
         </div>
         <div className={styles.searchInputWrapper}>

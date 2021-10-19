@@ -4,7 +4,7 @@ import { IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { matchPath, RouteProps, useHistory, useLocation } from 'react-router';
 
 import {
   MAIN_CONTENT_ID,
@@ -20,6 +20,20 @@ import { getEventSearchQuery } from '../../eventSearch/utils';
 import useUser from '../../user/hooks/useUser';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
+
+interface NoNavRowProps {
+  pathname: string;
+  props?: RouteProps;
+}
+
+const NO_NAV_ROW_PATHS = [
+  { pathname: ROUTES.EDIT_EVENT },
+  { pathname: ROUTES.EDIT_REGISTRATION },
+  { pathname: ROUTES.EDIT_REGISTRATION_ENROLMENT },
+  { pathname: ROUTES.REGISTRATION_ENROLMENTS },
+];
+
+const SCROLL_OFFSET = 40;
 
 const Header: React.FC = () => {
   const { theme } = useTheme();
@@ -63,9 +77,16 @@ const Header: React.FC = () => {
     signOut();
   };
 
-  const hideNavRow = location.pathname.includes(
-    `${ROUTES.EDIT_EVENT.replace(':id', '')}`
-  );
+  const isMatch = (paths: NoNavRowProps[]) =>
+    paths.some((path) =>
+      matchPath(location.pathname, {
+        path: `/${locale}${path.pathname}`,
+        exact: path.props?.exact ?? true,
+        strict: path.props?.strict ?? true,
+      })
+    );
+
+  const noNavRow = isMatch(NO_NAV_ROW_PATHS);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -78,6 +99,36 @@ const Header: React.FC = () => {
     });
   };
 
+  /* istanbul ignore next */
+  const onDocumentFocusin = (event: FocusEvent) => {
+    const target = event.target;
+    const navigation = document.querySelector(`#${PAGE_HEADER_ID}`);
+
+    if (
+      target instanceof HTMLElement &&
+      navigation instanceof HTMLElement &&
+      !navigation.contains(target)
+    ) {
+      const navigationRect = navigation.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+
+      if (navigationRect && navigationRect.bottom > targetRect.top) {
+        window.scrollBy(
+          0,
+          targetRect.top - navigationRect.bottom - SCROLL_OFFSET
+        );
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener('focusin', onDocumentFocusin);
+
+    return () => {
+      document.removeEventListener('focusin', onDocumentFocusin);
+    };
+  });
+
   return (
     <Navigation
       id={PAGE_HEADER_ID}
@@ -87,7 +138,7 @@ const Header: React.FC = () => {
       skipTo={`#${MAIN_CONTENT_ID}`}
       skipToContentLabel={t('navigation.skipToContentLabel')}
       className={classNames(css(theme.navigation), styles.navigation, {
-        [styles.hideNavRow]: hideNavRow,
+        [styles.hideNavRow]: noNavRow,
       })}
       onTitleClick={goToHomePage}
       title={t('appName')}

@@ -32,7 +32,7 @@ const defaultRoute = `${ROUTES.REGISTRATION_ENROLMENTS.replace(
 )}`;
 
 const renderComponent = (route: string = defaultRoute) =>
-  render(<SearchPanel />, { routes: [route] });
+  render(<SearchPanel registration={registration} />, { routes: [route] });
 
 test('should initialize search panel input', async () => {
   const searchValue = 'search';
@@ -65,10 +65,12 @@ test('should search enrolments with correct search params', async () => {
 
 test('should show toast error message when trying to create new enrolment', async () => {
   toast.error = jest.fn();
-  renderComponent();
+  const { history } = renderComponent();
 
   const createButton = getElement('createButton');
   act(() => userEvent.click(createButton));
 
-  expect(toast.error).toBeCalledWith('TODO: Move to create enrolment page');
+  expect(history.location.pathname).toBe(
+    `/registrations/${registration.id}/enrolments/create`
+  );
 });

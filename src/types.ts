@@ -45,3 +45,5 @@ export type ReturnParams = {
 };
 
 export type FilterType = 'date' | 'eventType' | 'place' | 'text';
+
+export type FalsyType = false | null | undefined | '' | 0;

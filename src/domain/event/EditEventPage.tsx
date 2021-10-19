@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
-import debounce from 'lodash/debounce';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
@@ -18,7 +17,6 @@ import {
   SuperEventType,
   useEventQuery,
 } from '../../generated/graphql';
-import useIsMounted from '../../hooks/useIsMounted';
 import useLocale from '../../hooks/useLocale';
 import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
@@ -29,7 +27,7 @@ import Section from '../app/layout/Section';
 import { EventsLocationState } from '../eventSearch/types';
 import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotFound from '../notFound/NotFound';
-import useUser from '../user/hooks/useUser';
+import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import {
   EVENT_EDIT_ACTIONS,
@@ -353,39 +351,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   );
 };
 
-const LOADING_USER_DEBOUNCE_TIME = 50;
-
 const EditEventPageWrapper: React.FC = () => {
-  const isMounted = useIsMounted();
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
-  const { loading: loadingUser } = useUser();
-
-  const [debouncedLoadingUser, setDebouncedLoadingUser] =
-    React.useState(loadingUser);
-
-  const debouncedSetLoading = React.useMemo(
-    () =>
-      debounce((loading: boolean) => {
-        /* istanbul ignore next */
-        if (!isMounted.current) return;
-
-        setDebouncedLoadingUser(loading);
-      }, LOADING_USER_DEBOUNCE_TIME),
-    [isMounted]
-  );
-
-  const handleLoadingUserChange = React.useCallback(
-    (loading: boolean) => {
-      /* istanbul ignore next */
-      debouncedSetLoading(loading);
-    },
-    [debouncedSetLoading]
-  );
-
-  React.useEffect(() => {
-    handleLoadingUserChange(loadingUser);
-  }, [handleLoadingUserChange, loadingUser]);
+  const loadingUser = useDebouncedLoadingUser();
 
   const {
     data: eventData,
@@ -394,7 +363,7 @@ const EditEventPageWrapper: React.FC = () => {
   } = useEventQuery({
     fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
-    skip: debouncedLoadingUser,
+    skip: loadingUser,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
       id,
@@ -405,8 +374,7 @@ const EditEventPageWrapper: React.FC = () => {
   // Load options for inLanguage, audience and keywords checkboxes
   const { loading: loadingEventFieldOptions } = useEventFieldOptionsData();
 
-  const loading =
-    loadingEvent || loadingEventFieldOptions || debouncedLoadingUser;
+  const loading = loadingEvent || loadingEventFieldOptions || loadingUser;
 
   return (
     <LoadingSpinner isLoading={loading}>

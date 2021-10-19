@@ -42,6 +42,7 @@ import {
   EventsQuery,
   EventStatus,
   EventTypeId,
+  KeywordFieldsFragment,
   Language as LELanguage,
   LocalisedFieldsFragment,
   LocalisedObject,
@@ -57,6 +58,7 @@ import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
+import skipFalsyType from '../../utils/skipFalsyType';
 import {
   createMaxErrorMessage,
   createMinErrorMessage,
@@ -584,6 +586,7 @@ export const getEventFields = (
     audienceMinAge: event.audienceMinAge || null,
     createdBy: event.createdBy || '',
     deleted: event.deleted ?? null,
+    description: getLocalisedString(event.description, language),
     endTime: event.endTime ? new Date(event.endTime) : null,
     eventStatus: event.eventStatus || EventStatus.EventScheduled,
     eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
@@ -591,9 +594,10 @@ export const getEventFields = (
     imageUrl: event.images.find((image) => image?.url)?.url || null,
     inLanguage: event.inLanguage
       .map((item) => getLocalisedString(item?.name, language))
-      .filter((e) => e),
+      .filter(skipFalsyType),
     isDraft: publicationStatus === PublicationStatus.Draft,
     isPublic: publicationStatus === PublicationStatus.Public,
+    keywords: event.keywords as KeywordFieldsFragment[],
     lastModifiedTime: event.lastModifiedTime
       ? new Date(event.lastModifiedTime)
       : null,
@@ -1132,8 +1136,8 @@ export const getEventInitialValues = (
     images: event.images.map((image) => image?.atId as string),
     infoUrl: getLocalisedObject(event.infoUrl),
     inLanguage: event.inLanguage
-      .map((language) => language?.atId as string)
-      .filter((l) => l),
+      .filter(skipFalsyType)
+      .map((language) => language?.atId),
     isUmbrella: isUmbrella,
     isVerified: true,
     keywords: event.keywords.map((keyword) => keyword?.atId as string),

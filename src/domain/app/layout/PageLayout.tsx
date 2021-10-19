@@ -27,6 +27,7 @@ const NO_KORO_PATHS = [
   { pathname: ROUTES.HELP, props: { exact: false } },
   { pathname: ROUTES.EDIT_EVENT },
   { pathname: ROUTES.EDIT_REGISTRATION },
+  { pathname: ROUTES.EDIT_REGISTRATION_ENROLMENT },
   { pathname: ROUTES.REGISTRATION_ENROLMENTS },
 ];
 

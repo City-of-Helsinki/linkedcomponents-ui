@@ -2,20 +2,7 @@
 @import 'mixins';
 @import 'widths';
 
-.editButtonPanel {
-  --edit-button-panel-background-color: var(--color-coat-of-arms);
-  --edit-button-panel-button-background-color: var(--color-coat-of-arms);
-  --edit-button-panel-button-background-color-hover: var(
-    --color-coat-of-arms-dark
-  );
-  --edit-button-panel-button-background-color-focus: var(--color-coat-of-arms);
-  --edit-button-panel-button-background-color-hover-focus: var(
-    --color-coat-of-arms-dark
-  );
-  --edit-button-panel-button-border-color: var(--color-white);
-  --edit-button-panel-button-color: var(--color-white);
-  --edit-button-panel-button-focus-outline-color: var(--color-white);
-
+.buttonPanel {
   position: sticky;
   bottom: 0;
   left: 0;
@@ -35,12 +22,13 @@
     grid-gap: unset;
     justify-content: space-between;
 
-    > div:not(:last-child) {
+    > div:not(:first-child) {
       margin-right: var(--spacing-m);
     }
   }
 
-  .buttonWrapper {
+  .submitButtons,
+  .otherButtons {
     display: grid;
     grid-gap: var(--spacing-s);
     grid-template-columns: repeat(2, 1fr);
@@ -52,6 +40,31 @@
       > button:not(:last-child) {
         margin-right: var(--spacing-m);
       }
+    }
+  }
+
+  .submitButtons {
+    order: 2;
+
+    button {
+      white-space: nowrap;
+      @include min-width-column(2);
+    }
+
+    .fullWidthOnMobile {
+      @include small-down {
+        grid-column: 1 /3;
+      }
+    }
+  }
+
+  .otherButtons {
+    order: 1;
+  }
+
+  .hideOnMobile {
+    @include small-down {
+      display: none;
     }
   }
 

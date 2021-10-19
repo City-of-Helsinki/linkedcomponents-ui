@@ -22,6 +22,7 @@ import {
   LanguagesResponse,
   LocalisedObject,
   Meta,
+  Notification,
   Offer,
   Organization,
   OrganizationsResponse,
@@ -46,6 +47,7 @@ export const fakeEnrolments = (
 
 export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
   const id = overrides?.id || faker.datatype.uuid();
+
   return merge<Enrolment, typeof overrides>(
     {
       id,
@@ -53,16 +55,17 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
       email: faker.internet.email(),
       extraInfo: faker.lorem.paragraph(),
       marketingAllowed: false,
-      membershipNumber: '',
+      membershipNumber: faker.datatype.uuid(),
       name: faker.name.firstName(),
       nativeLanguage: 'fi',
-      notifications: faker.lorem.paragraph(),
+      notificationLanguage: 'fi',
+      notifications: [Notification.Email, Notification.Phone],
       organizationName: '',
       phoneNumber: faker.phone.phoneNumberFormat(),
       serviceLanguage: 'fi',
       streetAddress: faker.address.streetAddress(),
       yearOfBirth: faker.datatype.number({ max: 2021, min: 1920 }).toString(),
-      zip: faker.address.zipCode(),
+      zip: faker.address.zipCode('#####'),
       __typename: 'Enrolment',
     },
     overrides

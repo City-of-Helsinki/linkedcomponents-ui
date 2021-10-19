@@ -18,6 +18,7 @@ import { EventFieldsFragment } from '../../../generated/graphql';
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import IconFlag from '../../../icons/IconFlag';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { useTheme } from '../../app/theme/Theme';
 import useEventLocation from '../../event/hooks/useEventLocation';
 import StatusTag from '../../event/tags/StatusTag';
@@ -91,7 +92,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
 
   const locationText =
     [locationName, streetAddress, addressLocality]
-      .filter((e) => e)
+      .filter(skipFalsyType)
       .join(', ') || '-';
 
   const toggle = () => {

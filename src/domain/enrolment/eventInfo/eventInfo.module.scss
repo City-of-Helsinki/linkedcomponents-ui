@@ -1,0 +1,77 @@
+@import 'breakpoints';
+
+.eventInfo {
+  --event-info-image-height: 368px;
+  --event-info-image-height-mobile: 316px;
+
+  h1 {
+    margin: 0;
+    font-weight: 500;
+    line-height: var(--lineheight-s);
+  }
+}
+
+.image {
+  width: 100%;
+  background: var(--color-black-20);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: var(--event-info-image-height-mobile);
+  margin-bottom: var(--spacing-m);
+
+  @include small-up {
+    height: var(--event-info-image-height);
+    margin-bottom: var(--spacing-l);
+  }
+}
+
+.eventInfoWrapper {
+  position: relative;
+  display: grid;
+  grid-gap: var(--spacing-xs);
+
+  .nameRow {
+    order: 2;
+  }
+
+  .descriptionRow {
+    order: 4;
+  }
+
+  .keywordsRow {
+    order: 3;
+    margin-bottom: calc(0px - var(--spacing-xs));
+
+    > div {
+      --tag-background: var(--color-black-20);
+    }
+
+    > div:not(:last-child) {
+      margin-right: var(--spacing-xs);
+      margin-bottom: var(--spacing-xs);
+    }
+  }
+
+  .dateRow {
+    order: 1;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: var(--spacing-s);
+
+    @include medium-up {
+      grid-gap: var(--spacing-m);
+    }
+  }
+
+  .ticketRow {
+    order: 5;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: var(--spacing-s);
+
+    @include medium-up {
+      grid-gap: var(--spacing-m);
+    }
+  }
+}

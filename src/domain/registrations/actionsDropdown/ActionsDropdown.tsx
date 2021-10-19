@@ -2,12 +2,14 @@ import { IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
 import { Registration } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { copyRegistrationToSessionStorage } from '../../registration/utils';
 import { REGISTRATION_EDIT_ACTIONS } from '../constants';
 import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
@@ -76,9 +78,9 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       }),
       getActionItemProps({
         action: REGISTRATION_EDIT_ACTIONS.DELETE,
-        onClick: () => alert('TODO: Delete registration'),
+        onClick: () => toast.error('TODO: Delete registration'),
       }),
-    ].filter((i) => i) as MenuItemOptionProps[];
+    ].filter(skipFalsyType);
 
     return (
       <div ref={ref}>
@@ -88,7 +90,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
               <IconMenuDots aria-hidden={true} />
             </button>
           }
-          buttonLabel={t('registration.form.buttonActions')}
+          buttonLabel={t('common.buttonActions')}
           className={className}
           closeOnItemClick={true}
           fixedPosition={true}

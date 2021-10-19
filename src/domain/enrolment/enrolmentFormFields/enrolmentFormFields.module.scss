@@ -1,0 +1,39 @@
+@import 'breakpoints';
+@import 'widths';
+
+.streetAddressRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  grid-template-columns: repeat(2, 1fr);
+
+  @include medium-up {
+    grid-template-columns: 4fr 2fr;
+  }
+}
+
+.zipRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  grid-template-columns: repeat(2, 1fr);
+
+  @include medium-up {
+    grid-template-columns: 2fr 4fr;
+  }
+}
+
+.emailRow,
+.membershipNumberRow,
+.nativeLanguageRow,
+.notificationLanguageRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  grid-template-columns: repeat(2, 1fr);
+
+  @include medium-up {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.notifications {
+  margin-top: var(--spacing-m);
+}

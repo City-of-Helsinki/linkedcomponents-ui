@@ -34,8 +34,15 @@ export const transformNumber = (
   originalValue: string
 ): number | null => (String(originalValue).trim() === '' ? null : value);
 
+export const isValidPhoneNumber = (phone: string): boolean =>
+  /^\+?\(?[0-9]{1,3}\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?/.test(
+    phone
+  );
+
 export const isValidTime = (time: string): boolean =>
   /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
+
+export const isValidZip = (zip: string): boolean => /^[0-9]{5}$/.test(zip);
 
 export const isAfterStartDate = (
   startDate: Date | null,

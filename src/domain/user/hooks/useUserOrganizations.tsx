@@ -12,6 +12,7 @@ import {
   UserFieldsFragment,
 } from '../../../generated/graphql';
 import useIsMounted from '../../../hooks/useIsMounted';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { getOrganizationQueryResult } from '../../organization/utils';
 
 type userOrganizationsState = {
@@ -34,7 +35,7 @@ const useUserOrganizations = (
       user?.organization,
       ...(user?.adminOrganizations ?? []),
       ...(user?.organizationMemberships ?? []),
-    ]).filter((id) => id);
+    ]).filter(skipFalsyType);
 
     const getUserOrganizations = async () => {
       try {
@@ -49,12 +50,7 @@ const useUserOrganizations = (
         /* istanbul ignore else */
         if (isMounted.current) {
           setOrganizations(
-            sortBy(
-              userOrganizations.filter(
-                (org) => org
-              ) as OrganizationFieldsFragment[],
-              'name'
-            )
+            sortBy(userOrganizations.filter(skipFalsyType), 'name')
           );
           setLoading(false);
         }

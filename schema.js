@@ -102,6 +102,11 @@ module.exports = buildSchema(/* GraphQL */ `
     EventScheduled
   }
 
+  enum Notification {
+    email
+    phone
+  }
+
   enum PublicationStatus {
     draft
     public
@@ -573,7 +578,8 @@ module.exports = buildSchema(/* GraphQL */ `
     membershipNumber: String
     name: String
     nativeLanguage: String
-    notifications: String
+    notificationLanguage: String
+    notifications: [Notification!]
     organizationName: String
     phoneNumber: String
     serviceLanguage: String

@@ -69,8 +69,8 @@ const getInput = (key: 'enrolmentStartTime') => {
   }
 };
 
-test('should open alert dialog when trying to delete registration', async () => {
-  global.alert = jest.fn();
+test('should show toast message when trying to delete registration', async () => {
+  toast.error = jest.fn();
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -79,7 +79,7 @@ test('should open alert dialog when trying to delete registration', async () => 
   const deleteButton = getButton('delete');
   act(() => userEvent.click(deleteButton));
 
-  expect(global.alert).toBeCalledWith('TODO: Delete registration');
+  expect(toast.error).toBeCalledWith('TODO: Delete registration');
 });
 
 test('should show toast message when trying to update registration', async () => {
