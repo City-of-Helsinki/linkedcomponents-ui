@@ -2,7 +2,7 @@ import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
@@ -14,8 +14,8 @@ import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../generated/graphql';
+import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
-import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EventsLocationState } from '../../eventSearch/types';
@@ -48,25 +48,16 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
-  const { search } = useLocation();
   const locale = useLocale();
   const history = useHistory<EventsLocationState>();
 
   const { organizationAncestors } = useEventOrganizationAncestors(event);
   const { user } = useUser();
 
-  const goBack = () => {
-    const { returnPath, remainingQueryString } = extractLatestReturnPath(
-      search,
-      ROUTES.SEARCH
-    );
-
-    history.push({
-      pathname: `/${locale}${returnPath}`,
-      search: remainingQueryString,
-      state: { eventId: event.id },
-    });
-  };
+  const goBack = useGoBack<EventsLocationState>({
+    defaultReturnPath: ROUTES.SEARCH,
+    state: { eventId: event.id },
+  });
 
   const copyEvent = async () => {
     await copyEventToSessionStorage(event);

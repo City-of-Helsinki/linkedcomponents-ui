@@ -2,7 +2,7 @@ import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
@@ -11,8 +11,8 @@ import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpi
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
 import { Registration } from '../../../generated/graphql';
+import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
-import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
@@ -41,24 +41,15 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
-  const { search } = useLocation();
   const locale = useLocale();
   const history = useHistory<RegistrationsLocationState>();
   const { id } = getRegistrationFields(registration, locale);
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
-  const goBack = () => {
-    const { returnPath, remainingQueryString } = extractLatestReturnPath(
-      search,
-      ROUTES.REGISTRATIONS
-    );
-
-    history.push({
-      pathname: `/${locale}${returnPath}`,
-      search: remainingQueryString,
-      state: { registrationId: registration.id as string },
-    });
-  };
+  const goBack = useGoBack<RegistrationsLocationState>({
+    defaultReturnPath: ROUTES.REGISTRATIONS,
+    state: { registrationId: registration.id as string },
+  });
 
   const copyRegistration = async () => {
     await copyRegistrationToSessionStorage(registration);

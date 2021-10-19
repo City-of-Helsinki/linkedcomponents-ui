@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 
 import Button from '../../../common/components/button/Button';
@@ -10,8 +9,7 @@ import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPane
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
 import { Enrolment, Registration } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
-import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
+import useGoBack from '../../../hooks/useGoBack';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import { ENROLMENT_EDIT_ACTIONS } from '../../enrolments/constants';
@@ -32,25 +30,13 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
-  const locale = useLocale();
-  const history = useHistory<EnrolmentsLocationState>();
-  const { search } = useLocation();
-
-  const goBack = () => {
-    const { returnPath, remainingQueryString } = extractLatestReturnPath(
-      search,
-      ROUTES.REGISTRATION_ENROLMENTS.replace(
-        ':registrationId',
-        registration.id as string
-      )
-    );
-
-    history.push({
-      pathname: `/${locale}${returnPath}`,
-      search: remainingQueryString,
-      state: { enrolmentId: enrolment.id },
-    });
-  };
+  const goBack = useGoBack<EnrolmentsLocationState>({
+    defaultReturnPath: ROUTES.REGISTRATION_ENROLMENTS.replace(
+      ':registrationId',
+      registration.id as string
+    ),
+    state: { enrolmentId: enrolment.id },
+  });
 
   const getActionItemProps = ({
     action,

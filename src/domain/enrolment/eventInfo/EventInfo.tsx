@@ -64,13 +64,6 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
         <div className={styles.descriptionRow}>
           <div dangerouslySetInnerHTML={{ __html: description }}></div>
         </div>
-        <div className={styles.keywordsRow}>
-          {keywords.map((keyword, index) => (
-            <Tag key={index} id={keyword.id as string}>
-              {capitalize(getLocalisedString(keyword.name, locale))}
-            </Tag>
-          ))}
-        </div>
         <div className={styles.dateRow}>
           <TextWithIcon
             icon={<IconClock aria-hidden className={styles.icon} />}
@@ -95,6 +88,13 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
               />
             }
           />
+        </div>
+        <div className={styles.keywordsRow}>
+          {keywords.map((keyword, index) => (
+            <Tag key={index} id={keyword.id as string}>
+              {capitalize(getLocalisedString(keyword.name, locale))}
+            </Tag>
+          ))}
         </div>
       </div>
     </div>
