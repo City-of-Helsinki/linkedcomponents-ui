@@ -33,6 +33,8 @@ const NO_NAV_ROW_PATHS = [
   { pathname: ROUTES.REGISTRATION_ENROLMENTS },
 ];
 
+const SCROLL_OFFSET = 40;
+
 const Header: React.FC = () => {
   const { theme } = useTheme();
   const locale = useLocale();
@@ -96,6 +98,36 @@ const Header: React.FC = () => {
       search: getEventSearchQuery({ text }),
     });
   };
+
+  /* istanbul ignore next */
+  const onDocumentFocusin = (event: FocusEvent) => {
+    const target = event.target;
+    const navigation = document.querySelector(`#${PAGE_HEADER_ID}`);
+
+    if (
+      target instanceof HTMLElement &&
+      navigation instanceof HTMLElement &&
+      !navigation.contains(target)
+    ) {
+      const navigationRect = navigation.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+
+      if (navigationRect && navigationRect.bottom > targetRect.top) {
+        window.scrollBy(
+          0,
+          targetRect.top - navigationRect.bottom - SCROLL_OFFSET
+        );
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener('focusin', onDocumentFocusin);
+
+    return () => {
+      document.removeEventListener('focusin', onDocumentFocusin);
+    };
+  });
 
   return (
     <Navigation

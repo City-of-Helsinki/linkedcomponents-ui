@@ -17,17 +17,52 @@ export interface ButtonPanelProps {
   submitButtons?: React.ReactElement[];
 }
 
+const SCROLL_OFFSET = 40;
+
 const ButtonPanel: React.FC<ButtonPanelProps> = ({
   actionItems,
   contentWrapperClassName,
   onBack,
   submitButtons,
 }) => {
+  const buttonPanel = React.useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
   const isMobile = useIsMobile();
 
+  /* istanbul ignore next */
+  const onDocumentFocusin = (event: FocusEvent) => {
+    const target = event.target;
+
+    if (
+      target instanceof HTMLElement &&
+      !buttonPanel.current?.contains(target)
+    ) {
+      const buttonPanelRect = buttonPanel.current?.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+
+      if (
+        buttonPanelRect &&
+        buttonPanelRect.top < targetRect.bottom &&
+        window.innerHeight === buttonPanelRect.bottom
+      ) {
+        window.scrollBy(
+          0,
+          targetRect.bottom - buttonPanelRect.top + SCROLL_OFFSET
+        );
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener('focusin', onDocumentFocusin);
+
+    return () => {
+      document.removeEventListener('focusin', onDocumentFocusin);
+    };
+  });
+
   return (
-    <div className={styles.buttonPanel}>
+    <div ref={buttonPanel} className={styles.buttonPanel}>
       <Container withOffset={true}>
         <div className={contentWrapperClassName}>
           <div className={styles.buttonsRow}>
