@@ -1,28 +1,25 @@
-import classNames from 'classnames';
-import { ButtonVariant, IconArrowLeft, IconMenuDots } from 'hds-react';
+import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
+import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
+import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
-import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
 import { Registration } from '../../../generated/graphql';
-import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
 import useQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import { RegistrationsLocationState } from '../../registrations/types';
 import { getRegistrationFields } from '../../registrations/utils';
 import { copyRegistrationToSessionStorage, getEditButtonProps } from '../utils';
-import styles from './editButtonPanel.module.scss';
 
 type ActionButtonProps = {
   isSaving: boolean;
@@ -48,7 +45,6 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const locale = useLocale();
   const history = useHistory<RegistrationsLocationState>();
   const { id } = getRegistrationFields(registration, locale);
-  const isMobile = useIsMobile();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const goBack = () => {
@@ -139,68 +135,34 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   ].filter(skipFalsyType);
 
   return (
-    <div className={styles.editButtonPanel}>
-      <Container withOffset={true}>
-        <div className={styles.buttonsRow}>
-          <div className={styles.buttonWrapper}>
-            <Button
-              className={classNames(styles.backButton, styles.smallButton)}
-              iconLeft={<IconArrowLeft />}
-              fullWidth={true}
-              onClick={goBack}
-              type="button"
-              variant="secondary"
-            >
-              {t('common.buttonBack')}
-            </Button>
-            <div className={styles.actionsDropdown}>
-              <MenuDropdown
-                button={
-                  isMobile ? (
-                    <button className={styles.toggleButton}>
-                      <IconMenuDots aria-hidden={true} />
-                    </button>
-                  ) : undefined
-                }
-                buttonLabel={t('common.buttonActions')}
-                closeOnItemClick={true}
-                items={actionItems}
-                menuPosition="top"
-              />
-            </div>
-          </div>
-          <div className={styles.buttonWrapper}>
-            {actionButtons.map(
-              (
-                { icon, disabled, label, isSaving, variant, ...rest },
-                index
-              ) => (
-                <Button
-                  key={index}
-                  {...rest}
-                  disabled={disabled || Boolean(saving)}
-                  iconLeft={
-                    isSaving ? (
-                      <LoadingSpinner
-                        className={styles.loadingSpinner}
-                        isLoading={isSaving}
-                        small={true}
-                      />
-                    ) : (
-                      icon
-                    )
-                  }
-                  className={styles.mediumButton}
-                  variant={variant as Exclude<ButtonVariant, 'supplementary'>}
-                >
-                  {label}
-                </Button>
+    <ButtonPanel
+      actionItems={actionItems}
+      onBack={goBack}
+      submitButtons={actionButtons.map(
+        ({ icon, disabled, label, isSaving, variant, ...rest }, index) => (
+          <Button
+            key={index}
+            {...rest}
+            className={styles.fullWidthOnMobile}
+            disabled={disabled || Boolean(saving)}
+            iconLeft={
+              isSaving ? (
+                <LoadingSpinner
+                  className={styles.loadingSpinner}
+                  isLoading={isSaving}
+                  small={true}
+                />
+              ) : (
+                icon
               )
-            )}
-          </div>
-        </div>
-      </Container>
-    </div>
+            }
+            variant={variant as Exclude<ButtonVariant, 'supplementary'>}
+          >
+            {label}
+          </Button>
+        )
+      )}
+    />
   );
 };
 

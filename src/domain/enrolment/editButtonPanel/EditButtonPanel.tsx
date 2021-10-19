@@ -1,5 +1,3 @@
-import classNames from 'classnames';
-import { IconArrowLeft, IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -7,20 +5,18 @@ import { useHistory, useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 
 import Button from '../../../common/components/button/Button';
-import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
+import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
+import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
 import { Enrolment, Registration } from '../../../generated/graphql';
-import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
 import { ENROLMENT_EDIT_ACTIONS } from '../../enrolments/constants';
 import { EnrolmentsLocationState } from '../../enrolments/types';
 import { getEditButtonProps } from '../../enrolments/utils';
-import FormContainer from '../formContainer/FormContainer';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditButtonPanelProps {
@@ -37,7 +33,6 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
   const locale = useLocale();
-  const isMobile = useIsMobile();
   const history = useHistory<EnrolmentsLocationState>();
   const { search } = useLocation();
 
@@ -85,51 +80,22 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   ].filter(skipFalsyType);
 
   return (
-    <div className={styles.editButtonPanel}>
-      <Container withOffset={true}>
-        <FormContainer>
-          <div className={styles.buttonsRow}>
-            <div className={styles.buttonWrapper}>
-              <Button
-                className={classNames(styles.backButton, styles.smallButton)}
-                iconLeft={<IconArrowLeft aria-hidden />}
-                fullWidth={true}
-                onClick={goBack}
-                type="button"
-                variant="secondary"
-              >
-                {t('common.buttonBack')}
-              </Button>
-              <div className={styles.actionsDropdown}>
-                <MenuDropdown
-                  button={
-                    isMobile ? (
-                      <button className={styles.toggleButton}>
-                        <IconMenuDots aria-hidden={true} />
-                      </button>
-                    ) : undefined
-                  }
-                  buttonLabel={t('common.buttonActions')}
-                  closeOnItemClick={true}
-                  items={actionItems}
-                  menuPosition="top"
-                />
-              </div>
-            </div>
-            <div className={styles.buttonColumn}>
-              <Button
-                className={styles.button}
-                fullWidth={true}
-                onClick={onSave}
-                type="button"
-              >
-                {t('enrolment.form.buttonSave')}
-              </Button>
-            </div>
-          </div>
-        </FormContainer>
-      </Container>
-    </div>
+    <ButtonPanel
+      actionItems={actionItems}
+      contentWrapperClassName={styles.container}
+      onBack={goBack}
+      submitButtons={[
+        <Button
+          key="save"
+          className={buttonPanelStyles.fullWidthOnMobile}
+          fullWidth={true}
+          onClick={onSave}
+          type="button"
+        >
+          {t('enrolment.form.buttonSave')}
+        </Button>,
+      ]}
+    />
   );
 };
 

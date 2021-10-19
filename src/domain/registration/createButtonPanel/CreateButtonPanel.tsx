@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import Button from '../../../common/components/button/Button';
+import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
+import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
-import Container from '../../app/layout/Container';
 import { authenticatedSelector } from '../../auth/selectors';
 import {
   getCreateRegistrationButtonWarning,
   isCreateRegistrationButtonDisabled,
 } from '../utils';
-import styles from './createButtonPanel.module.scss';
 
 interface Props {
   onSave: () => void;
@@ -34,34 +34,32 @@ const CreateButtonPanel: React.FC<Props> = ({ onSave, saving }) => {
     });
 
   return (
-    <div className={styles.buttonPanel}>
-      <Container withOffset={true}>
-        <div className={styles.buttonsRow}>
-          <div className={styles.buttonColumn}>
-            <Button
-              disabled={saving || isCreateButtonDisabled()}
-              fullWidth={true}
-              iconLeft={
-                saving ? (
-                  <LoadingSpinner
-                    className={styles.loadingSpinner}
-                    isLoading={true}
-                    small={true}
-                  />
-                ) : (
-                  <IconPen />
-                )
-              }
-              onClick={onSave}
-              title={isCreateButtonWarning()}
-              type="button"
-            >
-              {t('registration.form.buttonCreate')}
-            </Button>
-          </div>
-        </div>
-      </Container>
-    </div>
+    <ButtonPanel
+      submitButtons={[
+        <Button
+          key="create"
+          className={styles.fullWidthOnMobile}
+          disabled={saving || isCreateButtonDisabled()}
+          fullWidth={true}
+          iconLeft={
+            saving ? (
+              <LoadingSpinner
+                className={styles.loadingSpinner}
+                isLoading={true}
+                small={true}
+              />
+            ) : (
+              <IconPen />
+            )
+          }
+          onClick={onSave}
+          title={isCreateButtonWarning()}
+          type="button"
+        >
+          {t('registration.form.buttonCreate')}
+        </Button>,
+      ]}
+    />
   );
 };
 

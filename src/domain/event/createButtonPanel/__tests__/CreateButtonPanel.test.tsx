@@ -17,7 +17,7 @@ import {
   organizationId,
 } from '../../__mocks__/createEventPage';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
-import ButtonPanel from '../ButtonPanel';
+import ButtonPanel from '../CreateButtonPanel';
 
 configure({ defaultHidden: true });
 

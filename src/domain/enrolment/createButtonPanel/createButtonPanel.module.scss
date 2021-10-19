@@ -1,66 +1,6 @@
-@import 'breakpoints';
-@import 'mixins';
 @import 'widths';
 
-.createButtonPanel {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: var(--color-white);
-  border-top: 1px solid var(--color-black-10);
-  z-index: 100;
-}
-
-.buttonsRow {
-  display: grid;
-  grid-gap: var(--spacing-s);
-
-  @include medium-up {
-    display: flex;
-    grid-gap: unset;
-    justify-content: space-between;
-
-    > div:not(:last-child) {
-      margin-right: var(--spacing-m);
-    }
-  }
-
-  .buttonWrapper {
-    display: grid;
-    grid-gap: var(--spacing-s);
-    grid-template-columns: repeat(2, 1fr);
-
-    @include medium-up {
-      display: flex;
-      grid-gap: unset;
-
-      > button:not(:last-child) {
-        margin-right: var(--spacing-m);
-      }
-    }
-  }
-
-  .smallButton {
-    @include min-width-column(1);
-  }
-
-  button {
-    & > div {
-      flex-shrink: 0;
-    }
-  }
-}
-
-.backButton {
-  height: var(--spacing-3-xl);
-  @include max-width-column(1);
-
-  div {
-    margin-left: 0 !important;
-  }
-
-  span {
-    @include hidden-from-screen;
-  }
+.container {
+  @include max-width-column(6);
+  margin-left: 0;
 }
