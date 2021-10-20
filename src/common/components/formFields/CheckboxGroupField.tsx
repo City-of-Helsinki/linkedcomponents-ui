@@ -90,6 +90,7 @@ const CheckboxGroupField: React.FC<Props> = ({
       {visibleOptionAmount && (
         <div className={styles.buttonWrapper}>
           <Button
+            fullWidth={true}
             iconLeft={showAll ? <IconAngleUp /> : <IconAngleDown />}
             onClick={toggleShowAll}
             variant="supplementary"
