@@ -73,7 +73,8 @@ export enum INPUT_MAX_WIDTHS {
 
 export enum KEYWORD_SETS {
   AUDIENCES = 'helsinki:audiences',
-  TOPICS = 'helsinki:topics',
+  COURSE_TOPICS = 'helsinki:courses',
+  EVENT_TOPICS = 'helsinki:topics',
 }
 
 export enum INCLUDE {

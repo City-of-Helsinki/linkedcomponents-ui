@@ -75,30 +75,61 @@ const mockedKeywordResponse = {
   result: keywordResponse,
 };
 
-const topicsKeywordSet = fakeKeywordSet({
-  id: KEYWORD_SETS.TOPICS,
+const eventTopicsKeywordSet = fakeKeywordSet({
+  id: KEYWORD_SETS.EVENT_TOPICS,
   keywords: keywords.data,
 });
-const topicsKeywordSetVariables = {
+const eventTopicsKeywordSetVariables = {
   createPath: undefined,
-  id: KEYWORD_SETS.TOPICS,
+  id: KEYWORD_SETS.EVENT_TOPICS,
   include: [INCLUDE.KEYWORDS],
 };
-const topicsKeywordSetResponse = {
-  data: { keywordSet: topicsKeywordSet },
+const eventTopicsKeywordSetResponse = {
+  data: { keywordSet: eventTopicsKeywordSet },
 };
-const mockedTopicsKeywordSetResponse = {
+const mockedEventTopicsKeywordSetResponse = {
   request: {
     query: KeywordSetDocument,
-    variables: topicsKeywordSetVariables,
+    variables: eventTopicsKeywordSetVariables,
   },
-  result: topicsKeywordSetResponse,
+  result: eventTopicsKeywordSetResponse,
+};
+
+const courseKeywordNames = range(1, 5).map(
+  (index) => `Course keyword ${index}`
+);
+const courseKeywords = fakeKeywords(
+  courseKeywordNames.length,
+  courseKeywordNames.map((name, index) => ({
+    id: `${index + 1}`,
+    name: { fi: name },
+  }))
+);
+const courseTopicsKeywordSet = fakeKeywordSet({
+  id: KEYWORD_SETS.COURSE_TOPICS,
+  keywords: courseKeywords.data,
+});
+const courseTopicsKeywordSetVariables = {
+  createPath: undefined,
+  id: KEYWORD_SETS.COURSE_TOPICS,
+  include: [INCLUDE.KEYWORDS],
+};
+const courseTopicsKeywordSetResponse = {
+  data: { keywordSet: courseTopicsKeywordSet },
+};
+const mockedCourseTopicsKeywordSetResponse = {
+  request: {
+    query: KeywordSetDocument,
+    variables: courseTopicsKeywordSetVariables,
+  },
+  result: courseTopicsKeywordSetResponse,
 };
 
 const mocks = [
   mockedKeywordResponse,
   mockedKeywordsResponse,
-  mockedTopicsKeywordSetResponse,
+  mockedEventTopicsKeywordSetResponse,
+  mockedCourseTopicsKeywordSetResponse,
   mockedAudienceKeywordSetResponse,
   mockedLanguagesResponse,
 ];
@@ -201,6 +232,15 @@ test('should show 10 first topics by default and rest by clicking show more', as
 
   await screen.findByLabelText(restKeywords[0]);
   restKeywords.slice(1).forEach((keyword) => screen.getByLabelText(keyword));
+});
+
+test('should show course topics', async () => {
+  renderComponent({ type: EVENT_TYPE.Course });
+
+  await screen.findByLabelText(courseKeywordNames[0]);
+  courseKeywordNames
+    .slice(1)
+    .forEach((keyword) => screen.getByLabelText(keyword));
 });
 
 test('should change keyword', async () => {

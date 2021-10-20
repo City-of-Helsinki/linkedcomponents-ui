@@ -21,7 +21,15 @@ const ClassificationSection: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
 
-  const { topicsData } = useEventFieldOptionsData();
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: eventLocation }] = useField({ name: EVENT_FIELDS.LOCATION });
+  const [{ value: keywords }, , { setValue: setKeywords }] = useField<string[]>(
+    {
+      name: EVENT_FIELDS.KEYWORDS,
+    }
+  );
+
+  const { topicsData } = useEventFieldOptionsData(type);
 
   const keywordOptions = React.useMemo(
     () =>
@@ -34,13 +42,6 @@ const ClassificationSection: React.FC = () => {
     [locale, topicsData]
   );
 
-  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
-  const [{ value: eventLocation }] = useField({ name: EVENT_FIELDS.LOCATION });
-  const [{ value: keywords }, , { setValue: setKeywords }] = useField<string[]>(
-    {
-      name: EVENT_FIELDS.KEYWORDS,
-    }
-  );
   const [{ value: mainCategories }, , { setValue: setMainCategories }] =
     useField<string[]>({
       name: EVENT_FIELDS.MAIN_CATEGORIES,
