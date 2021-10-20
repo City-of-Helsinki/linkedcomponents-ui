@@ -346,12 +346,12 @@ const mockedAudienceKeywordSetResponse: MockedResponse = {
 };
 
 const topicsKeywordSet = fakeKeywordSet({
-  id: KEYWORD_SETS.TOPICS,
+  id: KEYWORD_SETS.EVENT_TOPICS,
   keywords: keywords.data,
 });
 const topicsKeywordSetVariables = {
   createPath: undefined,
-  id: KEYWORD_SETS.TOPICS,
+  id: KEYWORD_SETS.EVENT_TOPICS,
   include: [INCLUDE.KEYWORDS],
 };
 const topicsKeywordSetResponse = { data: { keywordSet: topicsKeywordSet } };
