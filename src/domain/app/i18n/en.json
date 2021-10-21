@@ -96,6 +96,7 @@
       "buttonDecrease": "Subtract",
       "buttonIncrease": "Add"
     },
+    "openInExternalDomain": "Moves to another site.",
     "openInNewTab": "(will open in a new tab)",
     "pagination": {
       "navigation": "Page navigation",

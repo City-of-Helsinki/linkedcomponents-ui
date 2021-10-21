@@ -96,6 +96,7 @@
       "buttonDecrease": "Vähennä",
       "buttonIncrease": "Lisää" 
     },
+    "openInExternalDomain": "Siirtyy toiseen sivustoon.",
     "openInNewTab": "(avataan uudessa välilehdessä)",
     "pagination": {
       "navigation": "Sivunavigointi",
