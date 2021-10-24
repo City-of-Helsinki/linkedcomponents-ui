@@ -120,7 +120,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
     ].filter((i) => i) as MenuItemOptionProps[];
 
     return (
-      <div ref={ref}>
+      <div className={className} ref={ref}>
         {openModal === MODALS.CANCEL && (
           <ConfirmCancelModal
             event={event}
@@ -156,7 +156,6 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
             </button>
           }
           buttonLabel={t('event.form.buttonActions')}
-          className={className}
           closeOnItemClick={true}
           fixedPosition={true}
           items={actionItems}

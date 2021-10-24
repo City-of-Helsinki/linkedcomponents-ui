@@ -147,22 +147,30 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
             <div className={styles.nameRow}>
               <h2>{name}</h2>
             </div>
-            <div className={styles.dateRow}>
-              <TextWithIcon
-                icon={<IconClock aria-hidden={true} className={styles.icon} />}
-                text={<DateText endTime={endTime} startTime={startTime} />}
-              />
-              <TextWithIcon
-                icon={<IconFlag aria-hidden={true} className={styles.icon} />}
-                text={inLanguageText}
-              />
-            </div>
-
-            <div className={styles.publisherRow}>
+            <div className={classNames(styles.row, styles.publisherRow)}>
               <div className={styles.publisherColumn}>
-                <div className={styles.publisherName}>
-                  {publisher ? <PublisherName id={publisher} /> : '-'}
-                </div>
+                <TextWithIcon
+                  icon={
+                    <IconLocation aria-hidden={true} className={styles.icon} />
+                  }
+                  text={publisher ? <PublisherName id={publisher} /> : '-'}
+                />
+              </div>
+              <div className={styles.statusTagColumn}>
+                <StatusTag
+                  eventStatus={eventStatus}
+                  publicationStatus={publicationStatus}
+                />
+              </div>
+              <div className={styles.dateDesktopColumn}>
+                <TextWithIcon
+                  icon={
+                    <IconClock aria-hidden={true} className={styles.icon} />
+                  }
+                  text={<DateText endTime={endTime} startTime={startTime} />}
+                />
+              </div>
+              <div className={styles.locationDesktopColumn}>
                 <TextWithIcon
                   icon={
                     <IconLocation aria-hidden={true} className={styles.icon} />
@@ -170,13 +178,35 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                   text={locationText}
                 />
               </div>
-              <div className={styles.ticketColumn}>
+            </div>
+            <div className={classNames(styles.row, styles.dateRow)}>
+              <div className={styles.dateColumn}>
+                <TextWithIcon
+                  icon={
+                    <IconClock aria-hidden={true} className={styles.icon} />
+                  }
+                  text={<DateText endTime={endTime} startTime={startTime} />}
+                />
+              </div>
+              <div className={styles.locationColumn}>
+                <TextWithIcon
+                  icon={
+                    <IconLocation aria-hidden={true} className={styles.icon} />
+                  }
+                  text={locationText}
+                />
+              </div>
+            </div>
+            <div className={classNames(styles.row, styles.priceRow)}>
+              <div className={styles.priceColumn}>
                 <TextWithIcon
                   icon={
                     <IconTicket aria-hidden={true} className={styles.icon} />
                   }
                   text={<PriceText freeEvent={freeEvent} offers={offers} />}
                 />
+              </div>
+              <div className={styles.audienceColumn}>
                 <TextWithIcon
                   icon={<IconUser aria-hidden={true} className={styles.icon} />}
                   text={
@@ -186,12 +216,18 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                     />
                   }
                 />
-                <div className={styles.eventStatusTagWrapper}>
-                  <StatusTag
-                    eventStatus={eventStatus}
-                    publicationStatus={publicationStatus}
-                  />
-                </div>
+              </div>
+              <div className={styles.languageColumn}>
+                <TextWithIcon
+                  icon={<IconFlag aria-hidden={true} className={styles.icon} />}
+                  text={inLanguageText}
+                />
+              </div>
+              <div className={styles.statusTagDesktopColumn}>
+                <StatusTag
+                  eventStatus={eventStatus}
+                  publicationStatus={publicationStatus}
+                />
               </div>
             </div>
           </div>

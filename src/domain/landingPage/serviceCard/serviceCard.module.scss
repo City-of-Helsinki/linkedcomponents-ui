@@ -23,6 +23,9 @@
   @include focus-outline(0px);
 
   div[role='region'] {
+    @include small-down {
+      order: 2;
+    }
     background-color: var(--service-card-background-color);
 
     > div {
@@ -47,6 +50,10 @@
       color: var(--color-white);
       font-weight: 400;
       font-size: var(--fontsize-body-s);
+    }
+
+    @include small-down {
+      order: 1;
     }
   }
 }
