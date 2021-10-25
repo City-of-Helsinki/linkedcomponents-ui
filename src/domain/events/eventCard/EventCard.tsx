@@ -35,7 +35,7 @@ import AudienceAgeText from './AudienceAgeText';
 import DateText from './DateText';
 import styles from './eventCard.module.scss';
 import PriceText from './PriceText';
-import PublisherName from './PublisherName';
+import PublisherNameWithIcon from './PublisherNameWithIcon';
 import SubEventCards from './SubEventCards';
 import TextWithIcon from './TextWithIcon';
 
@@ -149,12 +149,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
             </div>
             <div className={classNames(styles.row, styles.publisherRow)}>
               <div className={styles.publisherColumn}>
-                <TextWithIcon
-                  icon={
-                    <IconLocation aria-hidden={true} className={styles.icon} />
-                  }
-                  text={publisher ? <PublisherName id={publisher} /> : '-'}
-                />
+                <PublisherNameWithIcon id={publisher} />
               </div>
               <div className={styles.statusTagColumn}>
                 <StatusTag
