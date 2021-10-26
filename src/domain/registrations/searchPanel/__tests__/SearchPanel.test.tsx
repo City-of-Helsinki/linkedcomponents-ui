@@ -60,7 +60,7 @@ test('should search events with correct search params', async () => {
   userEvent.click(eventTypeCheckbox);
 
   const searchButton = screen.getAllByRole('button', {
-    name: /etsi ilmoittautumisia/i,
+    name: /etsi/i,
   })[1];
   act(() => userEvent.click(searchButton));
 

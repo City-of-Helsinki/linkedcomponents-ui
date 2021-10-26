@@ -1258,7 +1258,7 @@
     },
     "searchPanel": {
       "buttonClear": "Clear",
-      "buttonSearch": "Search registrations",
+      "buttonSearch": "Search",
       "labelEventType": "Type",
       "labelPlace": "Search venue",
       "labelSearch": "Search registrations",

@@ -1258,7 +1258,7 @@
     },
     "searchPanel": {
       "buttonClear": "Klar",
-      "buttonSearch": "Sök efter registreringar",
+      "buttonSearch": "Sök",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",
       "labelSearch": "Sök efter registreringar",
