@@ -22,28 +22,14 @@
 
   @include focus-outline(0px);
 
-  .textWrapper {
-    background-color: var(--service-card-background-color);
-    padding: var(--spacing-l);
-    min-height: var(--service-card-min-height);
-    color: var(--service-card-color);
-    display: grid;
-    grid-gap: var(--spacing-m);
-    grid-template-rows: auto 1fr auto;
-
-    .title {
-      font-size: var(--service-card-title-font-size) !important;
-      line-height: var(--service-card-title-line-height) !important;
-      font-weight: 700;
-      margin: 0;
-      word-break: break-word;
-
-      @include max-width-column(6);
+  div[role='region'] {
+    @include small-down {
+      order: 2;
     }
+    background-color: var(--service-card-background-color);
 
-    .description {
-      font-size: var(--service-card-description-font-size);
-      line-height: var(--service-card-description-line-height);
+    > div {
+      background-color: var(--service-card-background-color);
     }
   }
 
@@ -64,6 +50,10 @@
       color: var(--color-white);
       font-weight: 400;
       font-size: var(--fontsize-body-s);
+    }
+
+    @include small-down {
+      order: 1;
     }
   }
 }

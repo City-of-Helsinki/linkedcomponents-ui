@@ -28,11 +28,13 @@
     margin-bottom: var(--spacing-2-xs);
     text-align: center;
     white-space: pre-line;
+    line-height: var(--lineheight-m);
   }
 
   .text {
     color: var(--highlight-text-color);
     font-size: var(--fontsize-body-m);
+    line-height: var(--lineheight-l);
     text-align: center;
   }
 }

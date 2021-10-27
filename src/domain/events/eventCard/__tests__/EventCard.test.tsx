@@ -159,13 +159,16 @@ test('should render event card fields', async () => {
   screen.getByRole('heading', { name: eventValues.name });
   const imageWrapper = screen.getByTestId(testIds.image);
   expect(imageWrapper.style.backgroundImage).toBe('url(http://imageurl.com)');
-  screen.getByText('04.01.2021 – 23.01.2021');
+  expect(screen.getAllByText('04.01.2021 – 23.01.2021')).toHaveLength(2);
   screen.getByText(eventValues.inLanguage);
-  await screen.findByText('Location name, Street address, Helsinki');
+  const locationTexts = await screen.findAllByText(
+    'Location name, Street address, Helsinki'
+  );
+  expect(locationTexts).toHaveLength(2);
   await screen.findByText(organizationName);
   screen.getByText('Maksuton');
   screen.getByText('12 – 18 v');
-  screen.getByText('Julkaistu');
+  expect(screen.getAllByText('Julkaistu')).toHaveLength(2);
 
   const showMoreButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat (${subEvents.data.length})`,

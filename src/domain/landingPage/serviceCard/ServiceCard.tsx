@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconLinkExternal } from 'hds-react';
+import { Linkbox } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,6 @@ type ServiceCardProps = {
 } & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
-  'aria-label': ariaLabel,
   backgroundColor,
   backgroundImageUrl,
   description,
@@ -28,31 +27,35 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   const { t } = useTranslation();
 
   return (
-    <a
-      {...rest}
-      aria-label={ariaLabel || `${title} ${t('common.openInNewTab')}`}
+    <div
       className={classNames(
         styles.serviceCard,
         styles[`color${capitalize(backgroundColor)}`]
       )}
-      href={href}
-      rel="noopener noreferrer"
-      target="_blank"
     >
-      <div className={styles.textWrapper}>
-        <h2 className={styles.title}>{title}</h2>
-        {!!description && (
-          <div className={styles.description}>{description}</div>
-        )}
-        <IconLinkExternal aria-hidden={true} />
-      </div>
+      <Linkbox
+        {...rest}
+        className={styles.linkbox}
+        external={true}
+        heading={title}
+        headingAriaLevel={1}
+        href={href}
+        openInNewTab={true}
+        linkAriaLabel={title}
+        linkboxAriaLabel={title}
+        openInExternalDomainAriaLabel={t('common.openInExternalDomain')}
+        openInNewTabAriaLabel={t('common.openInNewTab')}
+        size="large"
+      >
+        <p>{description}</p>
+      </Linkbox>
       <div
         className={styles.bgImage}
         style={{ backgroundImage: `url(${backgroundImageUrl})` }}
       >
         {imageAuthor && <div className={styles.author}>© {imageAuthor}</div>}
       </div>
-    </a>
+    </div>
   );
 };
 

@@ -3,6 +3,11 @@
 
 .fieldWithButton {
   display: flex;
+  flex-direction: column;
+
+  @include large-up {
+    flex-direction: row;
+  }
 
   .buttonColumn {
     min-width: var(--input-height);
@@ -14,6 +19,7 @@
 
   &.widthMedium {
     @include medium-up {
+      .buttonColumn,
       .inputColumn {
         @include max-width-column(4);
       }
@@ -22,6 +28,7 @@
 
   &.widthLarge {
     @include medium-up {
+      .buttonColumn,
       .inputColumn {
         @include max-width-column(5);
       }
@@ -30,7 +37,18 @@
 
   &.hasLabel {
     .buttonColumn {
-      padding-top: var(--label-height);
+      @include medium-down {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      @include large-up {
+        padding-top: var(--label-height);
+
+        button {
+          margin: 0;
+        }
+      }
     }
   }
 }

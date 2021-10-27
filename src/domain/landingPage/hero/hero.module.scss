@@ -5,7 +5,6 @@
   --landing-page-hero-padding-top: var(--spacing-3-xl);
   --landing-page-hero-heading-color: var(--color-white);
   --landing-page-hero-heading-font-size: 80px;
-  --landing-page-hero-heading-line-height: 80px;
   --landing-page-hero-min-height: 580px;
   --landing-page-hero-koros-color: var(--color-white);
   --landing-page-hero-koros-height: 14px;
@@ -58,12 +57,12 @@
     h1 {
       color: var(--landing-page-hero-heading-color);
       margin: 0 0 var(--spacing-m);
+      line-height: var(--lineheight-m);
 
       @include max-width-column(8);
 
       @include medium-up {
         font-size: var(--landing-page-hero-heading-font-size) !important;
-        line-height: var(--landing-page-hero-heading-line-height) !important;
       }
     }
   }

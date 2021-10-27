@@ -96,6 +96,7 @@
       "buttonDecrease": "Ta bort",
       "buttonIncrease": "Lägg till" 
     },
+    "openInExternalDomain": "Flyttar till en annan webbplats.",
     "openInNewTab": "(öppnas i en ny flik)",
     "pagination": {
       "navigation": "Sidnavigering",

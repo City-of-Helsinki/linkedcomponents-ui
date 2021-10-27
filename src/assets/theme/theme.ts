@@ -470,7 +470,6 @@ const theme: Theme = {
     '--side-navigation-level-color': 'var(--color-black)',
     '--side-navigation-mobile-menu-border-color': 'var(--color-black)',
     '--side-navigation-mobile-menu-border-width': '2px',
-    '--side-navigation-mobile-menu-z-index': 100,
   },
   statusTag: {
     '--status-tag-background-color-cancelled': 'var(--color-error)',

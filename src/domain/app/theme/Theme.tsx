@@ -341,7 +341,6 @@ type SideNavigationCSSProperties = {
   '--side-navigation-level-color'?: string;
   '--side-navigation-mobile-menu-border-color'?: string;
   '--side-navigation-mobile-menu-border-width'?: string;
-  '--side-navigation-mobile-menu-z-index'?: number;
 };
 
 type StatusTagCSSProperties = {
