@@ -13,11 +13,11 @@ const registrationId = 'registration:1';
 const payload = {
   audienceMaxAge: null,
   audienceMinAge: null,
-  confirmationMessage: '',
+  confirmationMessage: null,
   enrolmentEndTime: '2020-12-31T21:00:00.000Z',
   enrolmentStartTime: '2020-12-31T18:00:00.000Z',
   event: 'event:1',
-  instructions: '',
+  instructions: null,
   maximumAttendeeCapacity: null,
   minimumAttendeeCapacity: null,
   waitingListCapacity: null,

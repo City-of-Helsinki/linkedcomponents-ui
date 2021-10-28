@@ -101,7 +101,6 @@ describe('getEventPayload function', () => {
     expect(
       getRegistrationPayload({
         ...REGISTRATION_INITIAL_VALUES,
-        c,
       })
     ).toEqual({
       audienceMaxAge: null,

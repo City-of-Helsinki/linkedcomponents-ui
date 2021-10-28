@@ -66,7 +66,7 @@ it('should return server error items when result is array', () => {
     networkError: {
       result: [
         { event: ['Tämän kentän arvo ei voi olla "null".'] },
-        { event: ['Tämän kentän arvo ei voi olla "null".'] },
+        { event: ['Arvon tulee olla uniikki.'] },
       ],
     } as any,
   });
@@ -80,7 +80,7 @@ it('should return server error items when result is array', () => {
     },
     {
       label: 'Tapahtuma',
-      message: 'Tämän kentän arvo ei voi olla "null".',
+      message: 'Arvon tulee olla uniikki.',
     },
   ]);
   expect(callbackFn).toBeCalled();

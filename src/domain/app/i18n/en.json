@@ -101,6 +101,7 @@
       "buttonDecrease": "Subtract",
       "buttonIncrease": "Add"
     },
+    "openInExternalDomain": "Moves to another site.",
     "openInNewTab": "(will open in a new tab)",
     "pagination": {
       "navigation": "Page navigation",
@@ -1279,6 +1280,7 @@
     "invalidUrl": "Enter a valid URL.",
     "maxLength255": "The value can be up to 255 characters long.",
     "min0": "This number must be at least 0.",
+    "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",
     "notFoundAllObjects": "Could not find all objects to update.",
     "notNull": "The value of this field cannot be \"null\".",

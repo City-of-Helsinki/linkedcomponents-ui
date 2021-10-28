@@ -102,6 +102,7 @@
       "buttonDecrease": "Ta bort",
       "buttonIncrease": "Lägg till" 
     },
+    "openInExternalDomain": "Flyttar till en annan webbplats.",
     "openInNewTab": "(öppnas i en ny flik)",
     "pagination": {
       "navigation": "Sidnavigering",
@@ -1278,6 +1279,7 @@
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
+    "mustBeUnique": "Värdet måste vara unikt.",
     "min0": "Detta nummer måste vara minst 0.",
     "nameIsRequired": "Namnet krävs.",
     "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",

@@ -1,136 +1,137 @@
-@import "breakpoints";
+@import 'breakpoints';
 
 .sideNavigation {
-    --side-navigation-background-color: var(--color-white);
-    --side-navigation-active-indicator-background-color: var(--color-bus);
-    --side-navigation-icon-size: var(--spacing-m);
-    --side-navigation-level-border-color: var(--color-white);
-    --side-navigation-level-border-color-focus: var(--color-coat-of-arms);
-    --side-navigation-level-border-color-hover: var(--color-black-5);
-    --side-navigation-level-border-width: 2px;
-    --side-navigation-level-background-color: var(--color-white);
-    --side-navigation-level-background-color-active: var(--color-black-5);
-    --side-navigation-level-background-color-hover: var(--color-black-5);
-    --side-navigation-level-color: var(--color-black);
-    --side-navigation-mobile-menu-border-color: var(--color-black);
-    --side-navigation-mobile-menu-border-width: 2px;
-    --side-navigation-mobile-menu-z-index: 100;
+  --side-navigation-background-color: var(--color-white);
+  --side-navigation-active-indicator-background-color: var(--color-bus);
+  --side-navigation-icon-size: var(--spacing-m);
+  --side-navigation-level-border-color: var(--color-white);
+  --side-navigation-level-border-color-focus: var(--color-coat-of-arms);
+  --side-navigation-level-border-color-hover: var(--color-black-5);
+  --side-navigation-level-border-width: 2px;
+  --side-navigation-level-background-color: var(--color-white);
+  --side-navigation-level-background-color-active: var(--color-black-5);
+  --side-navigation-level-background-color-hover: var(--color-black-5);
+  --side-navigation-level-color: var(--color-black);
+  --side-navigation-mobile-menu-border-color: var(--color-black);
+  --side-navigation-mobile-menu-border-width: 2px;
 
-    background-color: var(--side-navigation-background-color);
-    position: relative;
-    box-sizing: border-box;
+  background-color: var(--side-navigation-background-color);
+  position: relative;
+  box-sizing: border-box;
 }
 
 .mainLevelList {
-    margin: 0;
-    padding: var(--spacing-m) 0;
-    list-style: none;
+  margin: 0;
+  padding: var(--spacing-m) 0;
+  list-style: none;
 }
 
 .mainLevelListMobile {
-    display: none;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  display: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
-    &.open {
-        border: var(--side-navigation-mobile-menu-border-width) solid var(--side-navigation-mobile-menu-border-color);
-        display: block;
-        position: absolute;
-        background-color: var(--side-navigation-background-color);
-        z-index: var(--side-navigation-mobile-menu-z-index);
-        left: 0;
-        right: 0;
-    }
+  &.open {
+    border: var(--side-navigation-mobile-menu-border-width) solid
+      var(--side-navigation-mobile-menu-border-color);
+    display: block;
+    background-color: var(--side-navigation-background-color);
+  }
 }
 
 .mainLevel,
 .subLevel {
-    & > a, & > button {
-        box-sizing: border-box;
-        display: grid;
-        margin: 0;
-        width: 100%;
-        padding: var(--spacing-2-xs) var(--spacing-s);
-        min-height: var(--spacing-2-xl);
-        grid-gap: var(--spacing-xs);
-        align-items: center;
-        text-align: left;
-        text-decoration: none;
-        border: var(--side-navigation-level-border-width) solid var(--side-navigation-level-border-color);
-        background-color: var(--side-navigation-level-background-color);
-        color: var(--side-navigation-level-color);
-        outline: none;
+  & > a,
+  & > button {
+    box-sizing: border-box;
+    display: grid;
+    margin: 0;
+    width: 100%;
+    padding: var(--spacing-2-xs) var(--spacing-s);
+    min-height: var(--spacing-2-xl);
+    grid-gap: var(--spacing-xs);
+    align-items: center;
+    text-align: left;
+    text-decoration: none;
+    border: var(--side-navigation-level-border-width) solid
+      var(--side-navigation-level-border-color);
+    background-color: var(--side-navigation-level-background-color);
+    color: var(--side-navigation-level-color);
+    outline: none;
 
-        &:hover {
-            background-color: var(--side-navigation-level-background-color-hover);
-            border-color: var(--side-navigation-level-border-color-hover);
-        }
-
-        &:focus {
-            border-color: var(--side-navigation-level-border-color-focus) !important;
-        }
-
-        &:focus:not(:global(.focus-visible)) {
-            border-color: transparent !important;
-        }
-
-        span {
-            display: flex;
-        }
+    &:hover {
+      background-color: var(--side-navigation-level-background-color-hover);
+      border-color: var(--side-navigation-level-border-color-hover);
     }
 
-    &.active {
-        position: relative;
-
-        &::before {
-            position: absolute;
-            display: block;
-            content: "";
-            width: var(--spacing-3-xs);
-            background: var(--side-navigation-active-indicator-background-color);
-            top: 0;
-            bottom: 0;
-        }
-
-        & > a {
-            font-weight: 600;
-            background-color: var(--side-navigation-level-background-color-active);
-            border-color: var(--side-navigation-level-background-color-active);
-        }
-        
+    &:focus {
+      border-color: var(--side-navigation-level-border-color-focus) !important;
     }
+
+    &:focus:not(:global(.focus-visible)) {
+      border-color: transparent !important;
+    }
+
+    span {
+      display: flex;
+    }
+  }
+
+  &.active {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      display: block;
+      content: '';
+      width: var(--spacing-3-xs);
+      background: var(--side-navigation-active-indicator-background-color);
+      top: 0;
+      bottom: 0;
+    }
+
+    & > a {
+      font-weight: 600;
+      background-color: var(--side-navigation-level-background-color-active);
+      border-color: var(--side-navigation-level-background-color-active);
+    }
+  }
 }
 
 .mainLevel {
-    font-size: var(--fontsize-body-m);
+  font-size: var(--fontsize-body-m);
 
-    & > a {
-        font-weight: 600;
-        grid-template-columns: var(--side-navigation-icon-size) 1fr var(--side-navigation-icon-size);
-    }
-    & > button {
-        font-weight: 600;
-        grid-template-columns: var(--side-navigation-icon-size) 1fr var(--side-navigation-icon-size);
-    }
-    
+  & > a {
+    font-weight: 600;
+    grid-template-columns: var(--side-navigation-icon-size) 1fr var(
+        --side-navigation-icon-size
+      );
+  }
+  & > button {
+    font-weight: 600;
+    grid-template-columns: var(--side-navigation-icon-size) 1fr var(
+        --side-navigation-icon-size
+      );
+  }
+
+  .mainLevelListMenu {
+    display: none;
+  }
+
+  &.open {
     .mainLevelListMenu {
-        display: none;
+      padding: var(--spacing-3-xs) 0;
+      display: block;
+      list-style: none;
     }
 
-    &.open {
-        .mainLevelListMenu {
-            padding: var(--spacing-3-xs) 0;
-            display: block;
-            list-style: none;
-        }
-        
-        .arrowIcon {
-            transform: rotate(180deg);
-        }
+    .arrowIcon {
+      transform: rotate(180deg);
     }
+  }
 }
 
 .subLevel {
-    font-size: var(--fontsize-body-s);
+  font-size: var(--fontsize-body-s);
 }
