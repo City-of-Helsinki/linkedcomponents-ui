@@ -112,7 +112,7 @@ it('scrolls to registration table row and calls history.replace correctly (delet
   );
 
   const eventRowButton = screen.getByRole('button', {
-    name: registrations.data[0].name.fi,
+    name: registrations.data[0].name,
   });
   await waitFor(() => expect(eventRowButton).toHaveFocus());
 });

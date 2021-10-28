@@ -43,6 +43,8 @@ const parseServerErrorMessage = ({
       return t(`serverError.requiredWhenPublishing`);
     case 'Tämä kenttä ei voi olla tyhjä.':
       return t(`serverError.required`);
+    case 'Tämän kentän arvo ei voi olla "null".':
+      return t(`serverError.notNull`);
     case 'Tämän luvun on oltava vähintään 0.':
       return t(`serverError.min0`);
     default:

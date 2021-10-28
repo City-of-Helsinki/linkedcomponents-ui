@@ -8,6 +8,7 @@ module.exports = buildSchema(/* GraphQL */ `
   type Mutation {
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
+    createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEvent(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
@@ -242,6 +243,19 @@ module.exports = buildSchema(/* GraphQL */ `
     photographerName: String
     publisher: String
     url: String
+  }
+
+  input CreateRegistrationMutationInput {
+    audienceMaxAge: Int
+    audienceMinAge: Int
+    confirmationMessage: String
+    enrolmentEndTime: String
+    enrolmentStartTime: String
+    event: ID!
+    instructions: String
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
+    waitingListCapacity: Int
   }
 
   type EventsResponse {
@@ -538,24 +552,23 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Registration {
     id: ID
+    attendeeRegistration: Boolean
     audienceMaxAge: Int
     audienceMinAge: Int
     confirmationMessage: String
     createdAt: String
     createdBy: String
-    currentAttendeeCount: Int
-    currentWaitingAttendeeCount: Int
     enrolmentEndTime: String
     enrolmentStartTime: String
-    eventId: ID
+    event: ID
     instructions: String
+    lastModifiedBy: String
     lastModifiedTime: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
-    name: LocalisedObject
+    name: String
     publisher: String
-    updatedAt: String
-    waitingAttendeeCapacity: Int
+    waitingListCapacity: Int
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!
     # @context is renamed as atContext so it's usable on GraphQl

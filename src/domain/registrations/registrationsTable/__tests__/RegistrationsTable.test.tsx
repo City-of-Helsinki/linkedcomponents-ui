@@ -54,7 +54,7 @@ test('should render all registrations', () => {
 });
 
 test('should open event page by clicking event', () => {
-  const registrationName = registrations.data[0].name.fi;
+  const registrationName = registrations.data[0].name;
   const registrationId = registrations.data[0].id;
   const { history } = renderComponent({
     registrations: registrations.data,
@@ -70,7 +70,7 @@ test('should open event page by clicking event', () => {
 });
 
 test('should open event page by pressing enter on row', () => {
-  const registrationName = registrations.data[0].name.fi;
+  const registrationName = registrations.data[0].name;
   const registrationId = registrations.data[0].id;
   const { history } = renderComponent({
     registrations: registrations.data,

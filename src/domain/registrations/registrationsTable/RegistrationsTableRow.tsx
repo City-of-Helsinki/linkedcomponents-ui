@@ -35,7 +35,7 @@ const RegistrationsTableRow: React.FC<Props> = ({
     maximumAttendeeCapacity,
     name,
     publisher,
-    waitingAttendeeCapacity,
+    waitingListCapacity,
   } = getRegistrationFields(registration, locale);
 
   const handleRowClick = (ev: React.MouseEvent) => {
@@ -84,7 +84,7 @@ const RegistrationsTableRow: React.FC<Props> = ({
           {currentAttendeeCount} / {maximumAttendeeCapacity}
         </td>
         <td className={styles.waitingListColumn}>
-          {currentWaitingAttendeeCount} / {waitingAttendeeCapacity}
+          {currentWaitingAttendeeCount} / {waitingListCapacity}
         </td>
         <td className={styles.enrolmentStartTimeColumn}>
           {enrolmentStartTime

@@ -10,10 +10,13 @@ import {
   transformNumber,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { REGISTRATION_FIELDS } from './constants';
+import { REGISTRATION_FIELDS, REGISTRATION_SELECT_FIELDS } from './constants';
 import { RegistrationFormFields } from './types';
 
 export const registrationSchema = Yup.object().shape({
+  [REGISTRATION_FIELDS.EVENT]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .nullable(),
   [REGISTRATION_FIELDS.ENROLMENT_START_TIME]: Yup.date()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .nullable()
@@ -45,7 +48,7 @@ export const registrationSchema = Yup.object().shape({
     }
   ),
 
-  [REGISTRATION_FIELDS.WAITING_ATTENDEE_CAPACITY]: Yup.number()
+  [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
     .min(0, (param) =>
       createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
@@ -77,8 +80,11 @@ const getFocusableFieldId = (
   fieldName: string
 ): {
   fieldId: string;
-  type: 'default';
+  type: 'default' | 'select';
 } => {
+  if (REGISTRATION_SELECT_FIELDS.find((item) => item === fieldName)) {
+    return { fieldId: `${fieldName}-input`, type: 'select' };
+  }
   return { fieldId: fieldName, type: 'default' };
 };
 

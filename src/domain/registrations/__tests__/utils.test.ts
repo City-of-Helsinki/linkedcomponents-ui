@@ -136,21 +136,21 @@ describe('getRegistrationFields function', () => {
       id,
       lastModifiedTime,
       maximumAttendeeCapacity,
+      name,
       publisher,
-      waitingAttendeeCapacity,
+      waitingListCapacity,
     } = getRegistrationFields(
       fakeRegistration({
         atId: null,
         createdBy: null,
-        currentAttendeeCount: null,
-        currentWaitingAttendeeCount: null,
         enrolmentEndTime: '',
         enrolmentStartTime: '',
         id: null,
         lastModifiedTime: '',
         maximumAttendeeCapacity: null,
+        name: null,
         publisher: '',
-        waitingAttendeeCapacity: null,
+        waitingListCapacity: null,
       }),
       'fi'
     );
@@ -164,7 +164,8 @@ describe('getRegistrationFields function', () => {
     expect(id).toBe('');
     expect(lastModifiedTime).toBe(null);
     expect(maximumAttendeeCapacity).toBe(0);
+    expect(name).toBe('');
     expect(publisher).toBe(null);
-    expect(waitingAttendeeCapacity).toBe(0);
+    expect(waitingListCapacity).toBe(0);
   });
 });

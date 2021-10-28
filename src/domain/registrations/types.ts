@@ -43,5 +43,5 @@ export type RegistrationFields = {
   name: string;
   publisher: string | null;
   registrationUrl: string;
-  waitingAttendeeCapacity: number;
+  waitingListCapacity: number;
 };

@@ -12,6 +12,7 @@ const user = fakeUser({
   organization: publisher,
   adminOrganizations: [publisher],
 });
+
 const userVariables = { createPath: undefined, id: TEST_USER_ID };
 const userResponse = { data: { user } };
 const mockedUserResponse = {

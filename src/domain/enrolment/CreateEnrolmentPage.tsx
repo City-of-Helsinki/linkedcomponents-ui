@@ -102,10 +102,10 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
   const { data: eventData, loading: loadingEvent } = useEventQuery({
     fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
-    skip: loadingUser || !registration?.eventId,
+    skip: loadingUser || !registration?.event,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
-      id: registration?.eventId as string,
+      id: registration?.event as string,
       include: EVENT_INCLUDES,
     },
   });

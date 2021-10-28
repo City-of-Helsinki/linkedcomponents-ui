@@ -17,9 +17,9 @@ const WaitingListSection: React.FC = () => {
         <FieldColumn>
           <div className={styles.splittedRow}>
             <Field
-              name={REGISTRATION_FIELDS.WAITING_ATTENDEE_CAPACITY}
+              name={REGISTRATION_FIELDS.WAITING_LIST_CAPACITY}
               component={NumberInputField}
-              label={t(`registration.form.labelWaitingAttendeeCapacity`)}
+              label={t(`registration.form.labelWaitingListCapacity`)}
               min={0}
               placeholder={0}
             />

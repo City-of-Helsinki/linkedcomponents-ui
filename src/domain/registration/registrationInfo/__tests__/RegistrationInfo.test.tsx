@@ -10,7 +10,7 @@ const renderComponent = (registration: Registration) =>
 
 test('should render event info with creator info', () => {
   const registration = fakeRegistration({
-    name: { fi: 'Registration name' },
+    name: 'Registration name',
     createdBy: "Creator's name - organization",
     lastModifiedTime: '2021-01-04T12:00:00+00:00',
   });

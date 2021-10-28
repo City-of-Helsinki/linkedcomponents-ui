@@ -1,3 +1,4 @@
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
@@ -5,7 +6,6 @@ import { ROUTES } from '../../constants';
 import { Registration } from '../../generated/graphql';
 import { Language } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
-import getLocalisedString from '../../utils/getLocalisedString';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
@@ -113,8 +113,8 @@ export const getRegistrationFields = (
     id,
     atId: registration.atId || '',
     createdBy: registration.createdBy ?? '',
-    currentAttendeeCount: registration.currentAttendeeCount ?? 0,
-    currentWaitingAttendeeCount: registration.currentWaitingAttendeeCount ?? 0,
+    currentAttendeeCount: 0,
+    currentWaitingAttendeeCount: 0,
     enrolmentEndTime: registration.enrolmentEndTime
       ? new Date(registration.enrolmentEndTime)
       : null,
@@ -125,13 +125,13 @@ export const getRegistrationFields = (
       ? new Date(registration.lastModifiedTime)
       : null,
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
-    name: getLocalisedString(registration.name, language),
+    name: registration.name ?? '',
     publisher: registration.publisher || null,
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
       id
     )}`,
-    waitingAttendeeCapacity: registration.waitingAttendeeCapacity ?? 0,
+    waitingListCapacity: registration.waitingListCapacity ?? 0,
   };
 };
 
@@ -152,3 +152,8 @@ export const getEditButtonProps = ({
     title: '',
   };
 };
+
+export const clearRegistrationsQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'registrations' });

@@ -15,8 +15,9 @@ const registrations = fakeRegistrations(
   REGISTRATIONS_PAGE_SIZE,
   registrationNames.map((name, index) => ({
     id: `registration:${index}`,
-    eventId: TEST_EVENT_ID,
-    name: { fi: name },
+    event: TEST_EVENT_ID,
+    name,
+    publisher,
   }))
 );
 
