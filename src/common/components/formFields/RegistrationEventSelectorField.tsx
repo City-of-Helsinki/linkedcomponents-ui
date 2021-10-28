@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 import { getEventFields } from '../../../domain/event/utils';
 import { EVENT_SORT_OPTIONS } from '../../../domain/events/constants';
-import { EventFieldsFragment } from '../../../generated/graphql';
+import { getEventDateText } from '../../../domain/events/utils';
+import {
+  EventFieldsFragment,
+  PublicationStatus,
+} from '../../../generated/graphql';
 import { Language, OptionType } from '../../../types';
 import { getErrorText } from '../../../utils/validationUtils';
 import EventSelector, {
@@ -17,11 +21,14 @@ const getEventOption = (
   event: EventFieldsFragment,
   locale: Language
 ): OptionType => {
-  const { atId, name } = getEventFields(event, locale);
-  return { label: name, value: atId };
+  const { endTime, id, name, startTime } = getEventFields(event, locale);
+  return {
+    label: `${name} ${getEventDateText(endTime, startTime)}`,
+    value: id,
+  };
 };
 
-const UmbrellaEventSelectorField: React.FC<Props> = ({
+const RegistrationEventSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
   helper,
@@ -46,8 +53,11 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
       {...field}
       name={name}
       variables={{
+        adminUser: true,
+        publicationStatus: PublicationStatus.Public,
+        start: 'now',
         sort: EVENT_SORT_OPTIONS.NAME,
-        superEventType: ['umbrella'],
+        superEventType: ['none'],
       }}
       onBlur={handleBlur}
       onChange={handleChange}
@@ -60,4 +70,4 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
   );
 };
 
-export default UmbrellaEventSelectorField;
+export default RegistrationEventSelectorField;

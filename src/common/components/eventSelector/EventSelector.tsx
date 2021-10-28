@@ -2,11 +2,11 @@ import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { eventPathBuilder, getEventFields } from '../../../domain/event/utils';
-import { EVENT_SORT_OPTIONS } from '../../../domain/events/constants';
+import { eventPathBuilder } from '../../../domain/event/utils';
 import { eventsPathBuilder } from '../../../domain/events/utils';
 import {
   EventFieldsFragment,
+  EventsQueryVariables,
   useEventQuery,
   useEventsQuery,
 } from '../../../generated/graphql';
@@ -17,25 +17,21 @@ import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
 
-const getOption = (
-  event: EventFieldsFragment,
-  locale: Language
-): OptionType => {
-  const { atId, name } = getEventFields(event, locale);
-  return { label: name, value: atId };
-};
-
 type ValueType = string | null;
 
-export type UmbrellaEventSelectorProps = {
+export type EventSelectorProps = {
+  getOption: (event: EventFieldsFragment, locale: Language) => OptionType;
   name: string;
   value: ValueType;
+  variables: EventsQueryVariables;
 } & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
 
-const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
+const EventSelector: React.FC<EventSelectorProps> = ({
+  getOption,
   label,
   name,
   value,
+  variables,
   ...rest
 }) => {
   const timer = React.useRef<number>();
@@ -47,9 +43,8 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   const { data: eventsData, previousData: previousEventsData } = useEventsQuery(
     {
       variables: {
+        ...variables,
         createPath: getPathBuilder(eventsPathBuilder),
-        sort: EVENT_SORT_OPTIONS.NAME,
-        superEventType: ['umbrella'],
         text: search,
       },
     }
@@ -80,12 +75,12 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
       (eventsData || previousEventsData)?.events.data.map((event) =>
         getOption(event as EventFieldsFragment, locale)
       ) ?? [],
-    [eventsData, locale, previousEventsData]
+    [eventsData, getOption, locale, previousEventsData]
   );
 
   const selectedEvent = React.useMemo(
     () => (eventData?.event ? getOption(eventData.event, locale) : null),
-    [eventData, locale]
+    [eventData?.event, getOption, locale]
   );
 
   React.useEffect(() => {
@@ -109,4 +104,4 @@ const UmbrellaEventSelector: React.FC<UmbrellaEventSelectorProps> = ({
   );
 };
 
-export default UmbrellaEventSelector;
+export default EventSelector;
