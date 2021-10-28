@@ -8,7 +8,9 @@ import { FORM_NAMES } from '../../constants';
 import {
   CreateRegistrationMutationInput,
   Registration,
+  RegistrationQueryVariables,
 } from '../../generated/graphql';
+import { PathBuilderProps } from '../../types';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import {
@@ -245,4 +247,12 @@ export const getRegistrationPayload = (
       ? waitingListCapacity
       : null,
   };
+};
+
+export const registrationPathBuilder = ({
+  args,
+}: PathBuilderProps<RegistrationQueryVariables>): string => {
+  const { id } = args;
+
+  return `/registration/${id}/`;
 };

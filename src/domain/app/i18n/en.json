@@ -1275,6 +1275,11 @@
     },
     "title": "Registration"
   },
+  "registrationSavedPage": {
+    "buttonBackToRegistrations": "Back to registrations",
+    "pageTitle": "Registration saved",
+    "title": "Registration successfully saved"
+  },
   "serverError": {
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",

@@ -1275,6 +1275,11 @@
     },
     "title": "Registrering"
   },
+  "registrationSavedPage": {
+    "buttonBackToRegistrations": "Tillbaka till registreringar",
+    "pageTitle": "Registreringen sparad",
+    "title": "Registreringen har sparats"
+  },
   "serverError": {
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",

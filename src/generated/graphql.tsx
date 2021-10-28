@@ -1333,6 +1333,20 @@ export type RegistrationFieldsFragment = (
   & Pick<Registration, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'confirmationMessage' | 'enrolmentEndTime' | 'enrolmentStartTime' | 'event' | 'instructions' | 'maximumAttendeeCapacity' | 'minimumAttendeeCapacity' | 'waitingListCapacity'>
 );
 
+export type RegistrationQueryVariables = Exact<{
+  id: Scalars['ID'];
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type RegistrationQuery = (
+  { __typename?: 'Query' }
+  & { registration: (
+    { __typename?: 'Registration' }
+    & RegistrationFieldsFragment
+  ) }
+);
+
 export type UserFieldsFragment = (
   { __typename?: 'User' }
   & Pick<User, 'adminOrganizations' | 'dateJoined' | 'departmentName' | 'displayName' | 'email' | 'firstName' | 'isStaff' | 'lastLogin' | 'lastName' | 'organization' | 'organizationMemberships' | 'username' | 'uuid'>
@@ -2576,6 +2590,42 @@ export function useCreateRegistrationMutation(baseOptions?: Apollo.MutationHookO
 export type CreateRegistrationMutationHookResult = ReturnType<typeof useCreateRegistrationMutation>;
 export type CreateRegistrationMutationResult = Apollo.MutationResult<CreateRegistrationMutation>;
 export type CreateRegistrationMutationOptions = Apollo.BaseMutationOptions<CreateRegistrationMutation, CreateRegistrationMutationVariables>;
+export const RegistrationDocument = gql`
+    query Registration($id: ID!, $createPath: Any) {
+  registration(id: $id) @rest(type: "Registration", pathBuilder: $createPath) {
+    ...registrationFields
+  }
+}
+    ${RegistrationFieldsFragmentDoc}`;
+
+/**
+ * __useRegistrationQuery__
+ *
+ * To run a query within a React component, call `useRegistrationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRegistrationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRegistrationQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useRegistrationQuery(baseOptions: Apollo.QueryHookOptions<RegistrationQuery, RegistrationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RegistrationQuery, RegistrationQueryVariables>(RegistrationDocument, options);
+      }
+export function useRegistrationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RegistrationQuery, RegistrationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RegistrationQuery, RegistrationQueryVariables>(RegistrationDocument, options);
+        }
+export type RegistrationQueryHookResult = ReturnType<typeof useRegistrationQuery>;
+export type RegistrationLazyQueryHookResult = ReturnType<typeof useRegistrationLazyQuery>;
+export type RegistrationQueryResult = Apollo.QueryResult<RegistrationQuery, RegistrationQueryVariables>;
 export const UserDocument = gql`
     query User($id: ID!, $createPath: Any) {
   user(id: $id) @rest(type: "User", pathBuilder: $createPath) {

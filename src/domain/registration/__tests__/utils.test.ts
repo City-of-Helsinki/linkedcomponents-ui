@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 
+import { RegistrationQueryVariables } from '../../../generated/graphql';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
 import { REGISTRATION_INITIAL_VALUES } from '../constants';
@@ -7,6 +8,7 @@ import {
   getEditRegistrationWarning,
   getRegistrationInitialValues,
   getRegistrationPayload,
+  registrationPathBuilder,
 } from '../utils';
 
 describe('getEditRegistrationWarning function', () => {
@@ -152,4 +154,14 @@ describe('getEventPayload function', () => {
       waitingListCapacity,
     });
   });
+});
+
+describe('registrationPathBuilder function', () => {
+  const cases: [RegistrationQueryVariables, string][] = [
+    [{ id: 'hel:123' }, '/registration/hel:123/'],
+  ];
+
+  it.each(cases)('should build correct path', (variables, expectedPath) =>
+    expect(registrationPathBuilder({ args: variables })).toBe(expectedPath)
+  );
 });

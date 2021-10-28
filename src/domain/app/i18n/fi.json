@@ -1275,6 +1275,11 @@
     },
     "title": "Ilmoittautuminen"
   },
+  "registrationSavedPage": {
+    "buttonBackToRegistrations": "Palaa ilmoittautumisiin",
+    "pageTitle": "Ilmoittautuminen tallennettu",
+    "title": "Ilmoittautuminen tallennettu onnistuneesti"
+  },
   "serverError": {
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
     "invalidUrl": "Syötä oikea URL-osoite.",

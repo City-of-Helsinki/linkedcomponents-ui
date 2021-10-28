@@ -16,4 +16,11 @@ export const QUERY_EVENT = gql`
     minimumAttendeeCapacity
     waitingListCapacity
   }
+
+  query Registration($id: ID!, $createPath: Any) {
+    registration(id: $id)
+      @rest(type: "Registration", pathBuilder: $createPath) {
+      ...registrationFields
+    }
+  }
 `;
