@@ -16,6 +16,7 @@ module.exports = buildSchema(/* GraphQL */ `
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
+    updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
   }
 
   type NoContent {
@@ -246,6 +247,20 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input CreateRegistrationMutationInput {
+    audienceMaxAge: Int
+    audienceMinAge: Int
+    confirmationMessage: String
+    enrolmentEndTime: String
+    enrolmentStartTime: String
+    event: ID!
+    instructions: String
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
+    waitingListCapacity: Int
+  }
+
+  input UpdateRegistrationMutationInput {
+    id: ID!
     audienceMaxAge: Int
     audienceMinAge: Int
     confirmationMessage: String

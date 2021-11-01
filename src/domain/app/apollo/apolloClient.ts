@@ -29,6 +29,7 @@ import {
   OrganizationsResponse,
   Place,
   PlacesResponse,
+  Registration,
   UploadImageMutationInput,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
@@ -45,6 +46,7 @@ import {
   addTypenameMeta,
   addTypenameOrganization,
   addTypenamePlace,
+  addTypenameRegistration,
 } from './utils';
 
 // This serializer is needed to send image upload data to API as multipart/form-data content.
@@ -263,6 +265,8 @@ const linkedEventsLink = new RestLink({
 
       return data;
     },
+    Registration: (registration: Registration): Registration | null =>
+      addTypenameRegistration(registration),
   },
   uri: process.env.REACT_APP_LINKED_EVENTS_URL,
 });

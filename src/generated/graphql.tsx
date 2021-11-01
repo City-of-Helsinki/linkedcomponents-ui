@@ -28,6 +28,7 @@ export type Mutation = {
   updateEvents: Array<Event>;
   updateImage: Image;
   uploadImage: Image;
+  updateRegistration: Registration;
 };
 
 
@@ -78,6 +79,11 @@ export type MutationUpdateImageArgs = {
 
 export type MutationUploadImageArgs = {
   input: UploadImageMutationInput;
+};
+
+
+export type MutationUpdateRegistrationArgs = {
+  input: UpdateRegistrationMutationInput;
 };
 
 export type NoContent = {
@@ -381,6 +387,20 @@ export type UploadImageMutationInput = {
 };
 
 export type CreateRegistrationMutationInput = {
+  audienceMaxAge?: Maybe<Scalars['Int']>;
+  audienceMinAge?: Maybe<Scalars['Int']>;
+  confirmationMessage?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
+  event: Scalars['ID'];
+  instructions?: Maybe<Scalars['String']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  waitingListCapacity?: Maybe<Scalars['Int']>;
+};
+
+export type UpdateRegistrationMutationInput = {
+  id: Scalars['ID'];
   audienceMaxAge?: Maybe<Scalars['Int']>;
   audienceMinAge?: Maybe<Scalars['Int']>;
   confirmationMessage?: Maybe<Scalars['String']>;
@@ -1323,6 +1343,19 @@ export type CreateRegistrationMutationVariables = Exact<{
 export type CreateRegistrationMutation = (
   { __typename?: 'Mutation' }
   & { createRegistration: (
+    { __typename?: 'Registration' }
+    & RegistrationFieldsFragment
+  ) }
+);
+
+export type UpdateRegistrationMutationVariables = Exact<{
+  input: UpdateRegistrationMutationInput;
+}>;
+
+
+export type UpdateRegistrationMutation = (
+  { __typename?: 'Mutation' }
+  & { updateRegistration: (
     { __typename?: 'Registration' }
     & RegistrationFieldsFragment
   ) }
@@ -2590,6 +2623,39 @@ export function useCreateRegistrationMutation(baseOptions?: Apollo.MutationHookO
 export type CreateRegistrationMutationHookResult = ReturnType<typeof useCreateRegistrationMutation>;
 export type CreateRegistrationMutationResult = Apollo.MutationResult<CreateRegistrationMutation>;
 export type CreateRegistrationMutationOptions = Apollo.BaseMutationOptions<CreateRegistrationMutation, CreateRegistrationMutationVariables>;
+export const UpdateRegistrationDocument = gql`
+    mutation UpdateRegistration($input: UpdateRegistrationMutationInput!) {
+  updateRegistration(input: $input) @rest(type: "Registration", path: "/registration/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    ...registrationFields
+  }
+}
+    ${RegistrationFieldsFragmentDoc}`;
+export type UpdateRegistrationMutationFn = Apollo.MutationFunction<UpdateRegistrationMutation, UpdateRegistrationMutationVariables>;
+
+/**
+ * __useUpdateRegistrationMutation__
+ *
+ * To run a mutation, you first call `useUpdateRegistrationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRegistrationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRegistrationMutation, { data, loading, error }] = useUpdateRegistrationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateRegistrationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRegistrationMutation, UpdateRegistrationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRegistrationMutation, UpdateRegistrationMutationVariables>(UpdateRegistrationDocument, options);
+      }
+export type UpdateRegistrationMutationHookResult = ReturnType<typeof useUpdateRegistrationMutation>;
+export type UpdateRegistrationMutationResult = Apollo.MutationResult<UpdateRegistrationMutation>;
+export type UpdateRegistrationMutationOptions = Apollo.BaseMutationOptions<UpdateRegistrationMutation, UpdateRegistrationMutationVariables>;
 export const RegistrationDocument = gql`
     query Registration($id: ID!, $createPath: Any) {
   registration(id: $id) @rest(type: "Registration", pathBuilder: $createPath) {
