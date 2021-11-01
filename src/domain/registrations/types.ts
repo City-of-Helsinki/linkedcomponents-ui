@@ -38,7 +38,8 @@ export type RegistrationFields = {
   currentWaitingAttendeeCount: number;
   enrolmentEndTime: Date | null;
   enrolmentStartTime: Date | null;
-  lastModifiedTime: Date | null;
+  event: string;
+  lastModifiedAt: Date | null;
   maximumAttendeeCapacity: number;
   name: string;
   publisher: string | null;

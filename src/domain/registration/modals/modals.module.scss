@@ -1,0 +1,26 @@
+.modalButtonWrapper {
+  display: flex;
+  background-color: var(--color-white);
+  position: sticky;
+  bottom: 0;
+  padding: var(--spacing-xl);
+  margin: 0 calc(0px - var(--spacing-l));
+  margin-bottom: calc(0px - var(--spacing-l));
+
+  button:not(:last-child) {
+    margin-right: var(--spacing-m);
+  }
+}
+
+.warning {
+  margin-bottom: calc(0px - var(--spacing-m)) !important;
+  text-transform: uppercase;
+}
+
+.loadingSpinner {
+  padding: 0;
+
+  & > div {
+    --spinner-color: var(--color);
+  }
+}

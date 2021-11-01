@@ -121,8 +121,9 @@ export const getRegistrationFields = (
     enrolmentStartTime: registration.enrolmentStartTime
       ? new Date(registration.enrolmentStartTime)
       : null,
-    lastModifiedTime: registration.lastModifiedTime
-      ? new Date(registration.lastModifiedTime)
+    event: registration.event ?? '',
+    lastModifiedAt: registration.lastModifiedAt
+      ? new Date(registration.lastModifiedAt)
       : null,
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
     name: registration.name ?? '',

@@ -1207,6 +1207,11 @@
     "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
   },
   "registration": {
+    "deleteRegistrationModal": {
+      "buttonDelete": "Radera registreringen",
+      "text": "Denna åtgärd tar bort registreringen permanent.",
+      "title": "Bekräfta raderingen av registeringen"
+    },
     "form": {
       "buttonCreate": "Spara registrering",
       "buttonPanel": {

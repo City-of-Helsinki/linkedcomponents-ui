@@ -22,6 +22,7 @@ export type Mutation = {
   createEvents: Array<Event>;
   createRegistration: Registration;
   deleteEvent?: Maybe<NoContent>;
+  deleteRegistration?: Maybe<NoContent>;
   postFeedback?: Maybe<Feedback>;
   postGuestFeedback?: Maybe<Feedback>;
   updateEvent: Event;
@@ -48,6 +49,11 @@ export type MutationCreateRegistrationArgs = {
 
 
 export type MutationDeleteEventArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteRegistrationArgs = {
   id: Scalars['ID'];
 };
 
@@ -726,7 +732,7 @@ export type Registration = {
   event?: Maybe<Scalars['ID']>;
   instructions?: Maybe<Scalars['String']>;
   lastModifiedBy?: Maybe<Scalars['String']>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
+  lastModifiedAt?: Maybe<Scalars['String']>;
   maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
   minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -1348,6 +1354,19 @@ export type CreateRegistrationMutation = (
   ) }
 );
 
+export type DeleteRegistrationMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteRegistrationMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteRegistration?: Maybe<(
+    { __typename?: 'NoContent' }
+    & Pick<NoContent, 'noContent'>
+  )> }
+);
+
 export type UpdateRegistrationMutationVariables = Exact<{
   input: UpdateRegistrationMutationInput;
 }>;
@@ -1363,7 +1382,7 @@ export type UpdateRegistrationMutation = (
 
 export type RegistrationFieldsFragment = (
   { __typename?: 'Registration' }
-  & Pick<Registration, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'confirmationMessage' | 'enrolmentEndTime' | 'enrolmentStartTime' | 'event' | 'instructions' | 'maximumAttendeeCapacity' | 'minimumAttendeeCapacity' | 'waitingListCapacity'>
+  & Pick<Registration, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'confirmationMessage' | 'createdBy' | 'enrolmentEndTime' | 'enrolmentStartTime' | 'event' | 'instructions' | 'lastModifiedAt' | 'maximumAttendeeCapacity' | 'minimumAttendeeCapacity' | 'waitingListCapacity'>
 );
 
 export type RegistrationQueryVariables = Exact<{
@@ -1657,10 +1676,12 @@ export const RegistrationFieldsFragmentDoc = gql`
   audienceMaxAge
   audienceMinAge
   confirmationMessage
+  createdBy
   enrolmentEndTime
   enrolmentStartTime
   event
   instructions
+  lastModifiedAt
   maximumAttendeeCapacity
   minimumAttendeeCapacity
   waitingListCapacity
@@ -2623,6 +2644,39 @@ export function useCreateRegistrationMutation(baseOptions?: Apollo.MutationHookO
 export type CreateRegistrationMutationHookResult = ReturnType<typeof useCreateRegistrationMutation>;
 export type CreateRegistrationMutationResult = Apollo.MutationResult<CreateRegistrationMutation>;
 export type CreateRegistrationMutationOptions = Apollo.BaseMutationOptions<CreateRegistrationMutation, CreateRegistrationMutationVariables>;
+export const DeleteRegistrationDocument = gql`
+    mutation DeleteRegistration($id: ID!) {
+  deleteRegistration(id: $id) @rest(type: "NoContent", path: "/registration/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteRegistrationMutationFn = Apollo.MutationFunction<DeleteRegistrationMutation, DeleteRegistrationMutationVariables>;
+
+/**
+ * __useDeleteRegistrationMutation__
+ *
+ * To run a mutation, you first call `useDeleteRegistrationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRegistrationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRegistrationMutation, { data, loading, error }] = useDeleteRegistrationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRegistrationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRegistrationMutation, DeleteRegistrationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRegistrationMutation, DeleteRegistrationMutationVariables>(DeleteRegistrationDocument, options);
+      }
+export type DeleteRegistrationMutationHookResult = ReturnType<typeof useDeleteRegistrationMutation>;
+export type DeleteRegistrationMutationResult = Apollo.MutationResult<DeleteRegistrationMutation>;
+export type DeleteRegistrationMutationOptions = Apollo.BaseMutationOptions<DeleteRegistrationMutation, DeleteRegistrationMutationVariables>;
 export const UpdateRegistrationDocument = gql`
     mutation UpdateRegistration($input: UpdateRegistrationMutationInput!) {
   updateRegistration(input: $input) @rest(type: "Registration", path: "/registration/{args.input.id}/", method: "PUT", bodyKey: "input") {

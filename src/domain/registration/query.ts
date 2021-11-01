@@ -8,10 +8,12 @@ export const QUERY_EVENT = gql`
     audienceMaxAge
     audienceMinAge
     confirmationMessage
+    createdBy
     enrolmentEndTime
     enrolmentStartTime
     event
     instructions
+    lastModifiedAt
     maximumAttendeeCapacity
     minimumAttendeeCapacity
     waitingListCapacity

@@ -7,7 +7,7 @@ interface CreatorBadgeProps {
 }
 
 const CreatorBadge: React.FC<CreatorBadgeProps> = ({ createdBy }) => {
-  return <span className={styles.creatorBadge}>{createdBy[0]}</span>;
+  return <span className={styles.creatorBadge}>{createdBy.toString()[0]}</span>;
 };
 
 export default CreatorBadge;

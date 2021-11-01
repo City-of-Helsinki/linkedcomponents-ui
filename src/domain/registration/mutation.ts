@@ -14,6 +14,17 @@ export const MUTATION_REGISTRATION = gql`
     }
   }
 
+  mutation DeleteRegistration($id: ID!) {
+    deleteRegistration(id: $id)
+      @rest(
+        type: "NoContent"
+        path: "/registration/{args.id}/"
+        method: "DELETE"
+      ) {
+      noContent
+    }
+  }
+
   mutation UpdateRegistration($input: UpdateRegistrationMutationInput!) {
     updateRegistration(input: $input)
       @rest(

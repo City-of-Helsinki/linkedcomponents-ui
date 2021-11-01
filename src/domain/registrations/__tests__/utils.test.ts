@@ -134,7 +134,7 @@ describe('getRegistrationFields function', () => {
       enrolmentEndTime,
       enrolmentStartTime,
       id,
-      lastModifiedTime,
+      lastModifiedAt,
       maximumAttendeeCapacity,
       name,
       publisher,
@@ -146,7 +146,7 @@ describe('getRegistrationFields function', () => {
         enrolmentEndTime: '',
         enrolmentStartTime: '',
         id: null,
-        lastModifiedTime: '',
+        lastModifiedAt: '',
         maximumAttendeeCapacity: null,
         name: null,
         publisher: '',
@@ -162,7 +162,7 @@ describe('getRegistrationFields function', () => {
     expect(enrolmentEndTime).toBe(null);
     expect(enrolmentStartTime).toBe(null);
     expect(id).toBe('');
-    expect(lastModifiedTime).toBe(null);
+    expect(lastModifiedAt).toBe(null);
     expect(maximumAttendeeCapacity).toBe(0);
     expect(name).toBe('');
     expect(publisher).toBe(null);

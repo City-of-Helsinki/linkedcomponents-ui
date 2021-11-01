@@ -10,6 +10,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEvent(id: ID!): NoContent
+    deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
     updateEvent(input: UpdateEventMutationInput!): Event!
@@ -577,8 +578,8 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentStartTime: String
     event: ID
     instructions: String
+    lastModifiedAt: String
     lastModifiedBy: String
-    lastModifiedTime: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     name: String

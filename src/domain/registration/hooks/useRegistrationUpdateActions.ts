@@ -8,18 +8,26 @@ import { useLocation } from 'react-router';
 
 import {
   RegistrationFieldsFragment,
-  UpdateEventMutationInput,
   UpdateRegistrationMutationInput,
+  useDeleteRegistrationMutation,
   useUpdateRegistrationMutation,
 } from '../../../generated/graphql';
 import useIsMounted from '../../../hooks/useIsMounted';
+import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
-import { clearRegistrationsQueries } from '../../registrations/utils';
+import {
+  clearRegistrationsQueries,
+  getRegistrationFields,
+} from '../../registrations/utils';
 import useUser from '../../user/hooks/useUser';
 import { RegistrationFormFields } from '../types';
 import { getRegistrationPayload } from '../utils';
+
+export enum MODALS {
+  DELETE = 'delete',
+}
 
 interface Callbacks {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,7 +40,11 @@ interface Props {
 }
 
 type UseEventUpdateActionsState = {
+  closeModal: () => void;
+  deleteRegistration: (callbacks?: Callbacks) => Promise<void>;
+  openModal: MODALS | null;
   saving: REGISTRATION_EDIT_ACTIONS | false;
+  setOpenModal: (modal: MODALS | null) => void;
   updateRegistration: (
     values: RegistrationFormFields,
     callbacks?: Callbacks
@@ -42,13 +54,17 @@ const useRegistrationUpdateActions = ({
   registration,
 }: Props): UseEventUpdateActionsState => {
   const isMounted = useIsMounted();
+  const locale = useLocale();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
   const location = useLocation();
   const [saving, setSaving] = React.useState<REGISTRATION_EDIT_ACTIONS | false>(
     false
   );
+  const [openModal, setOpenModal] = React.useState<MODALS | null>(null);
+  const { id } = getRegistrationFields(registration, locale);
   const [updateRegistrationMutation] = useUpdateRegistrationMutation();
+  const [deleteRegistrationMutation] = useDeleteRegistrationMutation();
 
   const savingFinished = () => {
     /* istanbul ignore else */
@@ -57,11 +73,19 @@ const useRegistrationUpdateActions = ({
     }
   };
 
+  const closeModal = () => {
+    /* istanbul ignore else */
+    if (isMounted.current) {
+      setOpenModal(null);
+    }
+  };
+
   const cleanAfterUpdate = async (callbacks?: Callbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearRegistrationsQueries(apolloClient);
 
     savingFinished();
+    closeModal();
     // Call callback function if defined
     await (callbacks?.onSuccess && callbacks.onSuccess());
   };
@@ -76,7 +100,7 @@ const useRegistrationUpdateActions = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: UpdateEventMutationInput[];
+    payload?: UpdateRegistrationMutationInput;
   }) => {
     savingFinished();
 
@@ -96,19 +120,38 @@ const useRegistrationUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
+  const deleteRegistration = async (callbacks?: Callbacks) => {
+    try {
+      setSaving(REGISTRATION_EDIT_ACTIONS.DELETE);
+      await deleteRegistrationMutation({ variables: { id } });
+
+      await cleanAfterUpdate(callbacks);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to delete event',
+      });
+    }
+  };
+
   const updateRegistration = async (
     values: RegistrationFormFields,
     callbacks?: Callbacks
   ) => {
-    const payload: UpdateEventMutationInput[] = [];
+    let payload: UpdateRegistrationMutationInput = {
+      event: values.event,
+      id: registration.id as string,
+    };
 
     try {
       setSaving(REGISTRATION_EDIT_ACTIONS.UPDATE);
 
-      const payload: UpdateRegistrationMutationInput = {
+      payload = {
         ...getRegistrationPayload(values),
         id: registration.id as string,
       };
+
       await updateRegistrationMutation({ variables: { input: payload } });
 
       await cleanAfterUpdate(callbacks);
@@ -123,7 +166,11 @@ const useRegistrationUpdateActions = ({
   };
 
   return {
+    closeModal,
+    deleteRegistration,
+    openModal,
     saving,
+    setOpenModal,
     updateRegistration,
   };
 };

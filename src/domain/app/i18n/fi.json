@@ -1207,6 +1207,11 @@
     "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
   },
   "registration": {
+    "deleteRegistrationModal": {
+      "buttonDelete": "Poista ilmoittautuminen",
+      "text": "Tämä toiminto poistaa ilmoittautumisen lopullisesti.",
+      "title": "Varmista ilmoittautumisen poistaminen"
+    },
     "form": {
       "buttonCreate": "Tallenna ilmoittautuminen",
       "buttonPanel": {

@@ -1207,6 +1207,11 @@
     "text": "You must be logged in to view this content. Log in or return to the home page."
   },
   "registration": {
+    "deleteRegistrationModal": {
+      "buttonDelete": "Delete event",
+      "text": "This action will permanently remove the registration.",
+      "title": "Confirm registration deletion"
+    },
     "form": {
       "buttonCreate": "Save",
       "buttonPanel": {
