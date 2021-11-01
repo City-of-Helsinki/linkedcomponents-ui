@@ -9,7 +9,8 @@ import { keywordsResponse } from '../../keyword/__mocks__/keyword';
 import { place } from '../../place/__mocks__/place';
 import { EVENT_INCLUDES, TEST_EVENT_ID } from '../constants';
 
-export const eventOverrides = {
+const eventName = 'Event name';
+const eventOverrides = {
   id: TEST_EVENT_ID,
   audienceMaxAge: 15,
   audienceMinAge: 8,
@@ -17,7 +18,7 @@ export const eventOverrides = {
   endTime: '2020-07-13T12:00:00.000000Z',
   keywords: keywordsResponse.data,
   images: imagesResponse.data,
-  name: fakeLocalisedObject('Event name'),
+  name: fakeLocalisedObject(eventName),
   location: place,
   offers: fakeOffers(1, [
     { isFree: false, price: fakeLocalisedObject('Event price') },
@@ -44,4 +45,4 @@ const mockedEventResponse = {
   result: eventResponse,
 };
 
-export { event, locationText, mockedEventResponse };
+export { event, eventName, eventOverrides, locationText, mockedEventResponse };
