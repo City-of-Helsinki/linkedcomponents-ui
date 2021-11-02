@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
+import capitalize from 'lodash/capitalize';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../constants';
@@ -10,6 +11,7 @@ import {
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
+import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
@@ -23,6 +25,7 @@ import {
   REGISTRATION_EDIT_LABEL_KEYS,
   REGISTRATION_SEARCH_PARAMS,
   REGISTRATION_SORT_OPTIONS,
+  REGISTRATIONS_PAGE_SIZE,
 } from './constants';
 import {
   RegistrationFields,
@@ -64,6 +67,20 @@ export const getRegistrationSearchQuery = (
     ...params,
     sort: sort !== DEFAULT_REGISTRATION_SORT ? sort : null,
   });
+};
+
+export const getRegistrationsQueryVariables = (
+  search: string
+): RegistrationsQueryVariables => {
+  const { eventType, page, text } = getRegistrationSearchInitialValues(search);
+
+  return {
+    createPath: getPathBuilder(registrationsPathBuilder),
+    eventType: eventType.map((type) => capitalize(type)) as EventTypeId[],
+    page,
+    pageSize: REGISTRATIONS_PAGE_SIZE,
+    text,
+  };
 };
 
 export const getRegistrationParamValue = ({
