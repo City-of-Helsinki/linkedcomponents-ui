@@ -8,7 +8,10 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { registration } from '../../../enrolments/__mocks__/enrolmentsPage';
+import {
+  registration,
+  registrationId,
+} from '../../../registration/__mocks__/registration';
 import CreateButtonPanel, {
   CreateButtonPanelProps,
 } from '../CreateButtonPanel';
@@ -24,7 +27,7 @@ const renderComponent = ({
   props,
   route = `/fi/${ROUTES.CREATE_REGISTRATION.replace(
     ':registrationId',
-    registration.id
+    registrationId
   )}`,
 }: {
   props?: Partial<CreateButtonPanelProps>;
@@ -51,7 +54,7 @@ test('should route to enrolments page when clicking back button', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registration.id}/enrolments`
+      `/fi/registrations/${registrationId}/enrolments`
     )
   );
 });
@@ -60,8 +63,8 @@ test('should route to page defined in returnPath when clicking back button', asy
   const { history } = renderComponent({
     route: `/fi${ROUTES.CREATE_REGISTRATION.replace(
       ':registrationId',
-      registration.id
-    )}?returnPath=${ROUTES.EDIT_REGISTRATION.replace(':id', registration.id)}`,
+      registrationId
+    )}?returnPath=${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`,
   });
 
   const backButton = getElement('back');
@@ -69,7 +72,7 @@ test('should route to page defined in returnPath when clicking back button', asy
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/edit/${registration.id}`
+      `/fi/registrations/edit/${registrationId}`
     )
   );
 });

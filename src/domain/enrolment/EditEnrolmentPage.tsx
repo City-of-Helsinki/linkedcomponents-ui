@@ -9,8 +9,9 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import {
   Enrolment,
   EventFieldsFragment,
-  Registration,
+  RegistrationFieldsFragment,
   useEventQuery,
+  useRegistrationQuery,
 } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
@@ -21,8 +22,9 @@ import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
-import { registrationsResponse } from '../registrations/__mocks__/registrationsPage';
+import { registrationPathBuilder } from '../registration/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
+import useUser from '../user/hooks/useUser';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import EnrolmentFormFields from './enrolmentFormFields/EnrolmentFormFields';
 import styles from './enrolmentPage.module.scss';
@@ -34,7 +36,7 @@ import { enrolmentSchema, scrollToFirstError, showErrors } from './validation';
 type Props = {
   enrolment: Enrolment;
   event: EventFieldsFragment;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 };
 
 const EditEnrolmentPage: React.FC<Props> = ({
@@ -109,18 +111,22 @@ const EditEnrolmentPage: React.FC<Props> = ({
 
 const EditEnrolmentPageWrapper: React.FC = () => {
   const location = useLocation();
+  const { user } = useUser();
   const loadingUser = useDebouncedLoadingUser();
   const { enrolmentId, registrationId } =
     useParams<{ enrolmentId: string; registrationId: string }>();
-  // TODO: Use real registration data when API is available
-  const registration = registrationsResponse.registrations.data.find(
-    (item) => item?.id === registrationId
-  );
 
-  // TODO: Use real enrolment data when API is available
-  const enrolment = attendeesResponse.enrolments.data.find(
-    (item) => item.id === enrolmentId
-  );
+  const { data: registrationData, loading: loadingRegistration } =
+    useRegistrationQuery({
+      skip: !registrationId || !user,
+      variables: {
+        id: registrationId,
+        createPath: getPathBuilder(registrationPathBuilder),
+      },
+    });
+
+  const registration = registrationData?.registration;
+
   const { data: eventData, loading: loadingEvent } = useEventQuery({
     fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
@@ -131,7 +137,13 @@ const EditEnrolmentPageWrapper: React.FC = () => {
       include: EVENT_INCLUDES,
     },
   });
-  const loading = loadingUser || loadingEvent;
+
+  const loading = loadingUser || loadingRegistration || loadingEvent;
+
+  // TODO: Use real enrolment data when API is available
+  const enrolment = attendeesResponse.enrolments.data.find(
+    (item) => item.id === enrolmentId
+  );
 
   return (
     <LoadingSpinner isLoading={loading}>

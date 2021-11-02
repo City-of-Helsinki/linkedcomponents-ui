@@ -8,8 +8,9 @@ import { ValidationError } from 'yup';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
   EventFieldsFragment,
-  Registration,
+  RegistrationFieldsFragment,
   useEventQuery,
+  useRegistrationQuery,
 } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
@@ -19,8 +20,9 @@ import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
-import { registrationsResponse } from '../registrations/__mocks__/registrationsPage';
+import { registrationPathBuilder } from '../registration/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
+import useUser from '../user/hooks/useUser';
 import { ENROLMENT_INITIAL_VALUES } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
 import EnrolmentFormFields from './enrolmentFormFields/EnrolmentFormFields';
@@ -31,7 +33,7 @@ import { enrolmentSchema, scrollToFirstError, showErrors } from './validation';
 
 type Props = {
   event: EventFieldsFragment;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 };
 
 const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
@@ -92,12 +94,20 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
 
 const CreateEnrolmentPageWrapper: React.FC = () => {
   const location = useLocation();
-  const loadingUser = useDebouncedLoadingUser();
   const { registrationId } = useParams<{ registrationId: string }>();
-  // TODO: Use real registration data when API is available
-  const registration = registrationsResponse.registrations.data.find(
-    (item) => item?.id === registrationId
-  );
+  const { user } = useUser();
+  const loadingUser = useDebouncedLoadingUser();
+
+  const { data: registrationData, loading: loadingRegistration } =
+    useRegistrationQuery({
+      skip: !registrationId || !user,
+      variables: {
+        id: registrationId,
+        createPath: getPathBuilder(registrationPathBuilder),
+      },
+    });
+
+  const registration = registrationData?.registration;
 
   const { data: eventData, loading: loadingEvent } = useEventQuery({
     fetchPolicy: 'no-cache',
@@ -109,7 +119,8 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
       include: EVENT_INCLUDES,
     },
   });
-  const loading = loadingUser || loadingEvent;
+
+  const loading = loadingUser || loadingRegistration || loadingEvent;
 
   return (
     <LoadingSpinner isLoading={loading}>

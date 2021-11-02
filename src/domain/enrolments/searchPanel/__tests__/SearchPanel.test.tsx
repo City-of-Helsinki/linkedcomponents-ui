@@ -10,7 +10,10 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { registration } from '../../__mocks__/enrolmentsPage';
+import {
+  registration,
+  registrationId,
+} from '../../../registration/__mocks__/registration';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
@@ -28,7 +31,7 @@ const getElement = (key: 'createButton' | 'searchInput') => {
 
 const defaultRoute = `${ROUTES.REGISTRATION_ENROLMENTS.replace(
   ':registrationId',
-  registration.id
+  registrationId
 )}`;
 
 const renderComponent = (route: string = defaultRoute) =>
@@ -58,7 +61,7 @@ test('should search enrolments with correct search params', async () => {
   act(() => userEvent.click(searchButton));
 
   expect(history.location.pathname).toBe(
-    `/registrations/${registration.id}/enrolments`
+    `/registrations/${registrationId}/enrolments`
   );
   expect(history.location.search).toBe('?text=search');
 });
@@ -71,6 +74,6 @@ test('should show toast error message when trying to create new enrolment', asyn
   act(() => userEvent.click(createButton));
 
   expect(history.location.pathname).toBe(
-    `/registrations/${registration.id}/enrolments/create`
+    `/registrations/${registrationId}/enrolments/create`
   );
 });

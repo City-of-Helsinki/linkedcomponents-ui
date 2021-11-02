@@ -246,8 +246,10 @@ test('should update event', async () => {
   const updateButton = getButton('updatePublic');
   userEvent.click(updateButton);
 
-  await loadingSpinnerIsNotInDocument(10000);
-  await screen.findByText(expectedValues.updatedLastModifiedTime);
+  await loadingSpinnerIsNotInDocument(30000);
+  await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
+    timeout: 30000,
+  });
 });
 
 test('should update recurring event', async () => {

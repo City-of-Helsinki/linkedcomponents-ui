@@ -8,7 +8,8 @@ import {
   userEvent,
 } from '../../../../utils/testUtils';
 import {
-  registrationNames,
+  eventNames,
+  mockedEventResponses,
   registrations,
 } from '../../__mocks__/registrationsPage';
 import RegistrationsTable, {
@@ -17,13 +18,15 @@ import RegistrationsTable, {
 
 configure({ defaultHidden: true });
 
+const mocks = [...mockedEventResponses];
+
 const defaultProps: RegistrationsTableProps = {
   caption: 'Registrations table',
   registrations: [],
 };
 
 const renderComponent = (props?: Partial<RegistrationsTableProps>) =>
-  render(<RegistrationsTable {...defaultProps} {...props} />);
+  render(<RegistrationsTable {...defaultProps} {...props} />, { mocks });
 
 test('should render registrations table', () => {
   renderComponent();
@@ -43,45 +46,40 @@ test('should render registrations table', () => {
   screen.getByText('Ei tuloksia');
 });
 
-test('should render all registrations', () => {
+test('should render all registrations', async () => {
   renderComponent({
     registrations: registrations.data,
   });
 
-  for (const name of registrationNames) {
-    screen.getByRole('button', { name });
+  for (const name of eventNames) {
+    await screen.findByRole('button', { name });
   }
 });
 
-test('should open event page by clicking event', () => {
-  const registrationName = registrations.data[0].name;
+test('should open event page by clicking event', async () => {
+  const eventName = eventNames[0];
   const registrationId = registrations.data[0].id;
   const { history } = renderComponent({
     registrations: registrations.data,
   });
 
-  act(() =>
-    userEvent.click(screen.getByRole('button', { name: registrationName }))
-  );
+  const button = await screen.findByRole('button', { name: eventName });
+  act(() => userEvent.click(button));
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/edit/${registrationId}`
   );
 });
 
-test('should open event page by pressing enter on row', () => {
-  const registrationName = registrations.data[0].name;
+test('should open event page by pressing enter on row', async () => {
+  const eventName = eventNames[0];
   const registrationId = registrations.data[0].id;
   const { history } = renderComponent({
     registrations: registrations.data,
   });
 
-  act(() =>
-    userEvent.type(
-      screen.getByRole('button', { name: registrationName }),
-      '{enter}'
-    )
-  );
+  const button = await screen.findByRole('button', { name: eventName });
+  act(() => userEvent.type(button, '{enter}'));
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/edit/${registrationId}`

@@ -1,11 +1,9 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
-import { fakeRegistration } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   act,
@@ -15,16 +13,19 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../../utils/testUtils';
+import {
+  mockedDeleteRegistrationResponse,
+  registration,
+} from '../../../registration/__mocks__/editRegistrationPage';
 import { mockedUserResponse } from '../../__mocks__/registrationsPage';
 import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
 
 configure({ defaultHidden: true });
 
-const registration = fakeRegistration();
-
 const defaultProps: ActionsDropdownProps = {
-  registration,
+  registration: registration,
 };
 
 const defaultMocks = [mockedUserResponse];
@@ -151,16 +152,23 @@ test('should route to create registration page when clicking copy button', async
   );
 });
 
-test('should show toast message when clicking delete button', async () => {
-  toast.error = jest.fn();
-  renderComponent();
+test('should delete registration', async () => {
+  const mocks = [...defaultMocks, mockedDeleteRegistrationResponse];
+  const { history } = renderComponent({ mocks });
 
   openMenu();
 
   const deleteButton = getElement('delete');
   act(() => userEvent.click(deleteButton));
 
-  await waitFor(() =>
-    expect(toast.error).toBeCalledWith('TODO: Delete registration')
+  const withinModal = within(screen.getByRole('dialog'));
+  const deleteRegistrationButton = withinModal.getByRole('button', {
+    name: 'Poista ilmoittautuminen',
+  });
+  userEvent.click(deleteRegistrationButton);
+
+  await waitFor(
+    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
+    { timeout: 10000 }
   );
 });

@@ -133,26 +133,26 @@ it('should render registration enrolments page', async () => {
   const { history } = renderRoute(
     `${ROUTES.REGISTRATION_ENROLMENTS.replace(
       ':registrationId',
-      'registration:1'
+      registrationId
     )}`
   );
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: eventName }, { timeout: 30000 });
   expect(history.location.pathname).toBe(
-    '/fi/registrations/registration:1/enrolments'
+    `/fi/registrations/${registrationId}/enrolments`
   );
 });
 
 it('should render create enrolment page', async () => {
   const { history } = renderRoute(
-    `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', 'registration:0')}`
+    `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', registrationId)}`
   );
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByText(/ilmoittautujan perustiedot/i);
   expect(history.location.pathname).toBe(
-    '/fi/registrations/registration:0/enrolments/create'
+    `/fi/registrations/${registrationId}/enrolments/create`
   );
 });
 
@@ -160,14 +160,14 @@ it('should render edit enrolment page', async () => {
   const { history } = renderRoute(
     `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
       ':registrationId',
-      'registration:0'
+      registrationId
     ).replace(':enrolmentId', 'attendee:0')}`
   );
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByText(/ilmoittautujan perustiedot/i);
   expect(history.location.pathname).toBe(
-    '/fi/registrations/registration:0/enrolments/edit/attendee:0'
+    `/fi/registrations/${registrationId}/enrolments/edit/attendee:0`
   );
 });
 
