@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import Table from '../../../common/components/table/Table';
-import { Registration } from '../../../generated/graphql';
+import { Registration, RegistrationsQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
 import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
@@ -16,7 +16,7 @@ import RegistrationsTableRow from './RegistrationsTableRow';
 export interface RegistrationsTableProps {
   caption: string;
   className?: string;
-  registrations: Registration[];
+  registrations: RegistrationsQuery['registrations']['data'];
 }
 
 const RegistrationsTable: React.FC<RegistrationsTableProps> = ({

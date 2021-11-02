@@ -114,7 +114,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     useParams<{ enrolmentId: string; registrationId: string }>();
   // TODO: Use real registration data when API is available
   const registration = registrationsResponse.registrations.data.find(
-    (item) => item.id === registrationId
+    (item) => item?.id === registrationId
   );
 
   // TODO: Use real enrolment data when API is available

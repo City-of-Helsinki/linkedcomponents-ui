@@ -3,9 +3,14 @@ import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../constants';
-import { Registration } from '../../generated/graphql';
-import { Language } from '../../types';
+import {
+  EventTypeId,
+  Registration,
+  RegistrationsQueryVariables,
+} from '../../generated/graphql';
+import { Language, PathBuilderProps } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
+import queryBuilder from '../../utils/queryBuilder';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
@@ -158,3 +163,23 @@ export const clearRegistrationsQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>
 ): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'registrations' });
+
+export const registrationsPathBuilder = ({
+  args,
+}: PathBuilderProps<RegistrationsQueryVariables>): string => {
+  const { eventType, page, pageSize, text } = args;
+
+  const variableToKeyItems = [
+    {
+      key: 'event_type',
+      value: eventType?.length ? eventType : Object.values(EventTypeId),
+    },
+    { key: 'page', value: page },
+    { key: 'page_size', value: pageSize },
+    { key: 'text', value: text },
+  ];
+
+  const query = queryBuilder(variableToKeyItems);
+
+  return `/registration/${query}`;
+};

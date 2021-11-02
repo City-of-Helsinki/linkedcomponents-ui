@@ -30,6 +30,7 @@ import {
   Place,
   PlacesResponse,
   Registration,
+  RegistrationsResponse,
   UploadImageMutationInput,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
@@ -267,6 +268,16 @@ const linkedEventsLink = new RestLink({
     },
     Registration: (registration: Registration): Registration | null =>
       addTypenameRegistration(registration),
+    RegistrationsResponse: (
+      data: RegistrationsResponse
+    ): RegistrationsResponse => {
+      data.meta = addTypenameMeta(data.meta);
+      data.data = data.data.map((registration) =>
+        addTypenameRegistration(registration)
+      );
+
+      return data;
+    },
   },
   uri: process.env.REACT_APP_LINKED_EVENTS_URL,
 });

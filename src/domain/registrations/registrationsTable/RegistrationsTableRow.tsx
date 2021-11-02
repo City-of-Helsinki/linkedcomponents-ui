@@ -1,10 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Registration } from '../../../generated/graphql';
+import { Registration, useEventQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useTimeFormat from '../../../hooks/useTimeFormat';
 import formatDate from '../../../utils/formatDate';
+import getPathBuilder from '../../../utils/getPathBuilder';
+import { EVENT_INCLUDES } from '../../event/constants';
+import { eventPathBuilder, getEventFields } from '../../event/utils';
 import PublisherName from '../../events/eventCard/PublisherName';
 import { getRegistrationItemId } from '../../registration/utils';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
@@ -31,12 +34,24 @@ const RegistrationsTableRow: React.FC<Props> = ({
     currentWaitingAttendeeCount,
     enrolmentStartTime,
     enrolmentEndTime,
+    event: eventId,
     id,
     maximumAttendeeCapacity,
-    name,
-    publisher,
     waitingListCapacity,
   } = getRegistrationFields(registration, locale);
+
+  const { data: eventData } = useEventQuery({
+    skip: !eventId,
+    variables: {
+      createPath: getPathBuilder(eventPathBuilder),
+      id: eventId,
+      include: EVENT_INCLUDES,
+    },
+  });
+
+  const { name, publisher } = eventData?.event
+    ? getEventFields(eventData?.event, locale)
+    : { name: '', publisher: '' };
 
   const handleRowClick = (ev: React.MouseEvent) => {
     /* istanbul ignore else */

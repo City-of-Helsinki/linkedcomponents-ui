@@ -6,13 +6,17 @@ import { useHistory, useLocation } from 'react-router';
 
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
-import { EventsQueryVariables, Registration } from '../../../generated/graphql';
+import {
+  EventsQueryVariables,
+  RegistrationsQuery,
+  useRegistrationsQuery,
+} from '../../../generated/graphql';
+import getPathBuilder from '../../../utils/getPathBuilder';
 import Container from '../../app/layout/Container';
 import {
   getRegistrationItemId,
   scrollToRegistrationItem,
 } from '../../registration/utils';
-import { registrationsResponse } from '../__mocks__/registrationsPage';
 import {
   DEFAULT_REGISTRATION_SORT,
   REGISTRATION_SORT_OPTIONS,
@@ -20,6 +24,7 @@ import {
 import useRegistrationSortOptions from '../hooks/useRegistrationSortOptions';
 import RegistrationsTable from '../registrationsTable/RegistrationsTable';
 import { RegistrationsLocationState } from '../types';
+import { registrationsPathBuilder } from '../utils';
 import styles from './registrationList.module.scss';
 
 export interface EventListContainerProps {
@@ -31,7 +36,7 @@ export const testIds = {
 };
 
 type RegistrationListProps = {
-  registrations: Registration[];
+  registrations: RegistrationsQuery['registrations']['data'];
   sort: REGISTRATION_SORT_OPTIONS;
 };
 
@@ -84,11 +89,16 @@ const RegistrationListContainer: React.FC = () => {
   );
   const { t } = useTranslation();
 
+  const { data: registrationsData, loading } = useRegistrationsQuery({
+    variables: {
+      createPath: getPathBuilder(registrationsPathBuilder),
+    },
+  });
+
   /* istanbul ignore next */
-  const registrations = registrationsResponse?.registrations?.data || [];
+  const registrations = registrationsData?.registrations?.data || [];
   /* istanbul ignore next */
-  const registrationsCount =
-    registrationsResponse?.registrations?.meta.count || 0;
+  const registrationsCount = registrationsData?.registrations?.meta.count || 0;
 
   return (
     <div
@@ -101,7 +111,7 @@ const RegistrationListContainer: React.FC = () => {
           {t('registrationsPage.count', { count: registrationsCount })}
         </span>
       </Container>
-      <LoadingSpinner isLoading={false}>
+      <LoadingSpinner isLoading={loading}>
         <RegistrationList
           registrations={registrations}
           sort={DEFAULT_REGISTRATION_SORT}

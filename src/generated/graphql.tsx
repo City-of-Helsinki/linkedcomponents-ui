@@ -239,6 +239,14 @@ export type QueryRegistrationArgs = {
 };
 
 
+export type QueryRegistrationsArgs = {
+  eventType?: Maybe<Array<Maybe<EventTypeId>>>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  text?: Maybe<Scalars['String']>;
+};
+
+
 export type QueryUserArgs = {
   id: Scalars['ID'];
 };
@@ -715,7 +723,7 @@ export type Video = {
 export type RegistrationsResponse = {
   __typename?: 'RegistrationsResponse';
   meta: Meta;
-  data: Array<Registration>;
+  data: Array<Maybe<Registration>>;
 };
 
 export type Registration = {
@@ -731,8 +739,8 @@ export type Registration = {
   enrolmentStartTime?: Maybe<Scalars['String']>;
   event?: Maybe<Scalars['ID']>;
   instructions?: Maybe<Scalars['String']>;
-  lastModifiedBy?: Maybe<Scalars['String']>;
   lastModifiedAt?: Maybe<Scalars['String']>;
+  lastModifiedBy?: Maybe<Scalars['String']>;
   maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
   minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -1396,6 +1404,29 @@ export type RegistrationQuery = (
   & { registration: (
     { __typename?: 'Registration' }
     & RegistrationFieldsFragment
+  ) }
+);
+
+export type RegistrationsQueryVariables = Exact<{
+  eventType?: Maybe<Array<Maybe<EventTypeId>> | Maybe<EventTypeId>>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  text?: Maybe<Scalars['String']>;
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type RegistrationsQuery = (
+  { __typename?: 'Query' }
+  & { registrations: (
+    { __typename?: 'RegistrationsResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & MetaFieldsFragment
+    ), data: Array<Maybe<(
+      { __typename?: 'Registration' }
+      & RegistrationFieldsFragment
+    )>> }
   ) }
 );
 
@@ -2746,6 +2777,56 @@ export function useRegistrationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type RegistrationQueryHookResult = ReturnType<typeof useRegistrationQuery>;
 export type RegistrationLazyQueryHookResult = ReturnType<typeof useRegistrationLazyQuery>;
 export type RegistrationQueryResult = Apollo.QueryResult<RegistrationQuery, RegistrationQueryVariables>;
+export const RegistrationsDocument = gql`
+    query Registrations($eventType: [EventTypeId], $page: Int, $pageSize: Int, $text: String, $createPath: Any) {
+  registrations(
+    eventType: $eventType
+    page: $page
+    pageSize: $pageSize
+    text: $text
+  ) @rest(type: "RegistrationsResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...registrationFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${RegistrationFieldsFragmentDoc}`;
+
+/**
+ * __useRegistrationsQuery__
+ *
+ * To run a query within a React component, call `useRegistrationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRegistrationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRegistrationsQuery({
+ *   variables: {
+ *      eventType: // value for 'eventType'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      text: // value for 'text'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useRegistrationsQuery(baseOptions?: Apollo.QueryHookOptions<RegistrationsQuery, RegistrationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RegistrationsQuery, RegistrationsQueryVariables>(RegistrationsDocument, options);
+      }
+export function useRegistrationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RegistrationsQuery, RegistrationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RegistrationsQuery, RegistrationsQueryVariables>(RegistrationsDocument, options);
+        }
+export type RegistrationsQueryHookResult = ReturnType<typeof useRegistrationsQuery>;
+export type RegistrationsLazyQueryHookResult = ReturnType<typeof useRegistrationsLazyQuery>;
+export type RegistrationsQueryResult = Apollo.QueryResult<RegistrationsQuery, RegistrationsQueryVariables>;
 export const UserDocument = gql`
     query User($id: ID!, $createPath: Any) {
   user(id: $id) @rest(type: "User", pathBuilder: $createPath) {

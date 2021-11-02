@@ -94,7 +94,12 @@ module.exports = buildSchema(/* GraphQL */ `
       text: String
     ): PlacesResponse!
     registration(id: ID): Registration!
-    registrations: RegistrationsResponse!
+    registrations(
+      eventType: [EventTypeId]
+      page: Int
+      pageSize: Int
+      text: String
+    ): RegistrationsResponse!
     user(id: ID!): User!
   }
 
@@ -563,7 +568,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type RegistrationsResponse {
     meta: Meta!
-    data: [Registration!]!
+    data: [Registration]!
   }
 
   type Registration {
