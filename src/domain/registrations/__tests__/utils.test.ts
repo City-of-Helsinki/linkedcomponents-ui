@@ -1,4 +1,8 @@
 import { ROUTES } from '../../../constants';
+import {
+  EventTypeId,
+  RegistrationsQueryVariables,
+} from '../../../generated/graphql';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { EVENT_TYPE } from '../../event/constants';
 import {
@@ -11,6 +15,8 @@ import {
   getRegistrationFields,
   getRegistrationParamValue,
   getRegistrationSearchQuery,
+  getRegistrationsQueryVariables,
+  registrationsPathBuilder,
   replaceParamsToRegistrationQueryString,
 } from '../utils';
 
@@ -168,4 +174,58 @@ describe('getRegistrationFields function', () => {
     expect(publisher).toBe(null);
     expect(waitingListCapacity).toBe(0);
   });
+});
+
+describe('getRegistrationsQueryVariables', () => {
+  const defaultVariables: RegistrationsQueryVariables = {
+    createPath: undefined,
+    eventType: [],
+    page: 1,
+    pageSize: 10,
+    text: '',
+  };
+  const testCases: [string, RegistrationsQueryVariables][] = [
+    ['', defaultVariables],
+    [
+      '?eventType=general&eventType=course',
+      {
+        ...defaultVariables,
+        eventType: [EventTypeId.General, EventTypeId.Course],
+      },
+    ],
+    ['?page=2', { ...defaultVariables, page: 2 }],
+    ['?text=search', { ...defaultVariables, text: 'search' }],
+  ];
+  it.each(testCases)(
+    'should get registrations query variables, search %p',
+    (search, expectedVariables) =>
+      expect(getRegistrationsQueryVariables(search)).toEqual(expectedVariables)
+  );
+});
+
+describe('eventsPathBuilder function', () => {
+  const cases: [RegistrationsQueryVariables, string][] = [
+    [
+      { eventType: [EventTypeId.Course, EventTypeId.General] },
+      '/registration/?event_type=Course,General',
+    ],
+    [
+      { page: 2 },
+      '/registration/?event_type=General,Course,Volunteering&page=2',
+    ],
+    [
+      { pageSize: 10 },
+      '/registration/?event_type=General,Course,Volunteering&page_size=10',
+    ],
+    [
+      { text: 'text' },
+      '/registration/?event_type=General,Course,Volunteering&text=text',
+    ],
+  ];
+
+  it.each(cases)(
+    'should create registrations request path with args %p, result %p',
+    (variables, expectedPath) =>
+      expect(registrationsPathBuilder({ args: variables })).toBe(expectedPath)
+  );
 });
