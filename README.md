@@ -85,6 +85,19 @@ OR
 
 Run `yarn && yarn start`
 
+## Feature flags
+
+There are a feature flags which can be enabled in `.env`:
+
+`REACT_APP_SHOW_REGISTRATIOn`:
+
+Features enabled:
+
+- Link to the registrations in the header.
+- Link to the registrations in the footer.
+- Registration search, creation and update pages routes.
+- Enrolment search, creation and update pages routes.
+
 ## Available Scripts
 
 In the project directory, you can run:

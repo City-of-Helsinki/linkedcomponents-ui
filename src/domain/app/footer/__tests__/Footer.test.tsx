@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
+import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import {
   configure,
   render,
@@ -31,6 +32,7 @@ test.skip('matches snapshot', async () => {
 });
 
 test('should show navigation links and should route to correct page after clicking link', async () => {
+  setFeatureFlags({ SHOW_REGISTRATION: true });
   const { history } = renderComponent();
   const links = [
     {
@@ -57,6 +59,40 @@ test('should show navigation links and should route to correct page after clicki
 
     await waitFor(() => expect(history.location.pathname).toBe(url));
   }
+});
+
+test('should not show registrations link when registration feature is not enabled', async () => {
+  setFeatureFlags({ SHOW_REGISTRATION: false });
+
+  const { history } = renderComponent();
+  const links = [
+    {
+      name: translations.navigation.tabs.events,
+      url: `/fi${ROUTES.EVENTS}`,
+    },
+    {
+      name: translations.navigation.searchEvents,
+      url: `/fi${ROUTES.SEARCH}`,
+    },
+    {
+      name: translations.navigation.tabs.help,
+      url: `/fi${ROUTES.HELP}`,
+    },
+  ];
+
+  for (const { name, url } of links) {
+    const link = screen.getAllByRole('link', { name })[0];
+
+    userEvent.click(link);
+
+    await waitFor(() => expect(history.location.pathname).toBe(url));
+  }
+
+  expect(
+    screen.queryByRole('link', {
+      name: translations.navigation.tabs.registrations,
+    })
+  ).not.toBeInTheDocument();
 });
 
 test('should show feedback link and link should have correct href', async () => {

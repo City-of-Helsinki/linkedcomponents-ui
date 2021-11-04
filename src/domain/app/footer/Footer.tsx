@@ -5,8 +5,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, RouteProps, useHistory, useLocation } from 'react-router';
 
-import { FOOTER_NAVIGATION_ITEMS, ROUTES } from '../../../constants';
+import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
+import { isFeatureEnabled } from '../../../utils/featureFlags';
 import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
 
@@ -30,6 +31,22 @@ const Footer: React.FC = () => {
   const locale = useLocale();
   /* istanbul ignore next */
   const logoLanguage = locale === 'sv' ? 'sv' : 'fi';
+
+  const FOOTER_NAVIGATION_ITEMS = isFeatureEnabled('SHOW_REGISTRATION')
+    ? [
+        { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
+        { labelKey: 'navigation.searchEvents', url: ROUTES.SEARCH },
+        {
+          labelKey: 'navigation.tabs.registrations',
+          url: ROUTES.REGISTRATIONS,
+        },
+        { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
+      ]
+    : [
+        { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
+        { labelKey: 'navigation.searchEvents', url: ROUTES.SEARCH },
+        { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
+      ];
 
   const navigationItems = FOOTER_NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
     label: t(labelKey),

@@ -1,6 +1,7 @@
 import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
 import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
 import { StoreState } from './types';
+import { getFeatureFlags, isFeatureEnabled } from './utils/featureFlags';
 
 export const BREAKPOINTS = {
   XS: 576,
@@ -130,40 +131,6 @@ export const MAX_IMAGE_WIDTH = 1200;
 
 export const DEFAULT_PAGE_SIZE = 20;
 export const MAX_PAGE_SIZE = 100;
-
-export const NAVIGATION_ITEMS = [
-  {
-    labelKey: 'navigation.tabs.events',
-    url: ROUTES.EVENTS,
-  },
-  {
-    labelKey: 'navigation.tabs.registrations',
-    url: ROUTES.REGISTRATIONS,
-  },
-  {
-    labelKey: 'navigation.tabs.help',
-    url: ROUTES.HELP,
-  },
-];
-
-export const FOOTER_NAVIGATION_ITEMS = [
-  {
-    labelKey: 'navigation.tabs.events',
-    url: ROUTES.EVENTS,
-  },
-  {
-    labelKey: 'navigation.searchEvents',
-    url: ROUTES.SEARCH,
-  },
-  {
-    labelKey: 'navigation.tabs.registrations',
-    url: ROUTES.REGISTRATIONS,
-  },
-  {
-    labelKey: 'navigation.tabs.help',
-    url: ROUTES.HELP,
-  },
-];
 
 export const PAGE_HEADER_ID = 'page-header';
 export const MAIN_CONTENT_ID = 'maincontent';

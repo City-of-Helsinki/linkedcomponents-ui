@@ -4,6 +4,7 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 
 import { DEPRECATED_ROUTES, ROUTES } from '../../../constants';
 import { Language } from '../../../types';
+import { isFeatureEnabled } from '../../../utils/featureFlags';
 import EventSavedPage from '../../eventSaved/EventSavedPage';
 import HelpPageLayout from '../../help/layout/HelpPageLayout';
 import RegistrationSavedPage from '../../registrationSaved/RegistrationSavedPage';
@@ -110,41 +111,55 @@ const LocaleRoutes: React.FC<Props> = ({
             path={getLocalePath(ROUTES.EVENTS)}
             component={EventsPage}
           />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.CREATE_REGISTRATION)}
-            component={CreateRegistrationPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.REGISTRATION_SAVED)}
-            component={RegistrationSavedPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.EDIT_REGISTRATION)}
-            component={EditRegistrationPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.REGISTRATIONS)}
-            component={RegistrationsPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.REGISTRATION_ENROLMENTS)}
-            component={EnrolmentsPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.CREATE_ENROLMENT)}
-            component={CreateEnrolmentPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.EDIT_REGISTRATION_ENROLMENT)}
-            component={EditEnrolmentPage}
-          />
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.CREATE_REGISTRATION)}
+              component={CreateRegistrationPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.REGISTRATION_SAVED)}
+              component={RegistrationSavedPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.EDIT_REGISTRATION)}
+              component={EditRegistrationPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.REGISTRATIONS)}
+              component={RegistrationsPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.REGISTRATION_ENROLMENTS)}
+              component={EnrolmentsPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.CREATE_ENROLMENT)}
+              component={CreateEnrolmentPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.EDIT_REGISTRATION_ENROLMENT)}
+              component={EditEnrolmentPage}
+            />
+          )}
           <Route
             exact
             path={getLocalePath(ROUTES.LOGOUT)}

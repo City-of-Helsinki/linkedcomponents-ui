@@ -6,14 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { matchPath, RouteProps, useHistory, useLocation } from 'react-router';
 
-import {
-  MAIN_CONTENT_ID,
-  NAVIGATION_ITEMS,
-  PAGE_HEADER_ID,
-  ROUTES,
-} from '../../../constants';
+import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
+import { isFeatureEnabled } from '../../../utils/featureFlags';
 import { signIn, signOut } from '../../auth/authenticate';
 import { authenticatedSelector } from '../../auth/selectors';
 import { getEventSearchQuery } from '../../eventSearch/utils';
@@ -62,6 +58,20 @@ const Header: React.FC = () => {
       history.push({ pathname });
       toggleMenu();
     };
+
+  const NAVIGATION_ITEMS = isFeatureEnabled('SHOW_REGISTRATION')
+    ? [
+        { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
+        {
+          labelKey: 'navigation.tabs.registrations',
+          url: ROUTES.REGISTRATIONS,
+        },
+        { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
+      ]
+    : [
+        { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
+        { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
+      ];
 
   const navigationItems = NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
     label: t(labelKey),

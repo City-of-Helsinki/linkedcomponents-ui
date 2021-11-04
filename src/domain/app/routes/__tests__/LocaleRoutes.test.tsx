@@ -4,6 +4,7 @@ import { Route } from 'react-router';
 
 import { DEPRECATED_ROUTES, ROUTES, TEST_USER_ID } from '../../../../constants';
 import { UserDocument } from '../../../../generated/graphql';
+import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../types';
 import { fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
@@ -57,6 +58,10 @@ const renderRoute = (route: string, locale: Language = 'fi') =>
     routes: [`/${locale}${route}`],
     store,
   });
+
+beforeEach(() => {
+  setFeatureFlags({ SHOW_REGISTRATION: true });
+});
 
 it('should redirect to events page from deprecated modaration page', () => {
   const { history } = renderRoute(DEPRECATED_ROUTES.MODERATION);
