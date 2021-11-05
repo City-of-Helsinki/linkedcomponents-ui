@@ -2,6 +2,7 @@
   display: grid;
   align-items: center;
   grid-template-columns: auto 1fr;
+  line-height: var(--lineheight-l);
 
   svg {
     align-self: flex-start;
@@ -10,6 +11,6 @@
 
   .text {
     align-self: flex-start;
-    padding-top: var(--spacing-3-xs);
+    padding-top: 2px;
   }
 }
