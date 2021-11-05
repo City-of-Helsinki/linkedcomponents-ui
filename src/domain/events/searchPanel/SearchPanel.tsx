@@ -110,7 +110,7 @@ const SearchPanel: React.FC = () => {
               fullWidth={true}
               iconLeft={<IconSearch aria-hidden />}
               onClick={handleSearch}
-              variant="success"
+              variant="secondary"
             >
               {t('eventSearchPage.searchPanel.buttonSearch')}
             </Button>
