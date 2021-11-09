@@ -1,6 +1,7 @@
 import { Notification } from '../../../generated/graphql';
 import { fakeEnrolment } from '../../../utils/mockDataUtils';
-import { getEnrolmentInitialValues } from '../utils';
+import { ENROLMENT_INITIAL_VALUES } from '../constants';
+import { getEnrolmentInitialValues, getEnrolmentPayload } from '../utils';
 
 describe('getEnrolmentInitialValues function', () => {
   it('should return default values if value is not set', () => {
@@ -114,5 +115,75 @@ describe('getEnrolmentInitialValues function', () => {
     expect(streetAddress).toBe(expectedStreetAddress);
     expect(yearOfBirth).toBe(expectedYearOfBirth);
     expect(zip).toBe(expectedZip);
+  });
+});
+
+describe('getEnrolmentPayload function', () => {
+  it('should return single event as payload', () => {
+    expect(
+      getEnrolmentPayload({
+        ...ENROLMENT_INITIAL_VALUES,
+      })
+    ).toEqual({
+      city: null,
+      email: null,
+      extraInfo: null,
+      membershipNumber: null,
+      name: null,
+      nativeLanguage: null,
+      notificationLanguage: null,
+      notifications: [],
+      phoneNumber: null,
+      serviceLanguage: null,
+      streetAddress: null,
+      yearOfBirth: null,
+      zip: null,
+    });
+
+    const city = 'City',
+      email = 'Email',
+      extraInfo = 'Extra info',
+      membershipNumber = 'XXX-123',
+      name = 'Name',
+      nativeLanguage = 'fi',
+      notificationLanguage = 'sv',
+      notifications = ['email'],
+      phoneNumber = '0441234567',
+      serviceLanguage = 'en',
+      streetAddress = 'Street address',
+      yearOfBirth = '1999',
+      zip = '00100';
+    const payload = getEnrolmentPayload({
+      ...ENROLMENT_INITIAL_VALUES,
+      city,
+      email,
+      extraInfo,
+      membershipNumber,
+      name,
+      nativeLanguage,
+      notificationLanguage,
+      notifications,
+      phoneNumber,
+      serviceLanguage,
+      streetAddress,
+      yearOfBirth,
+      zip,
+    });
+
+    expect(payload).toEqual({
+      city,
+      email,
+      extraInfo,
+      membershipNumber,
+      name,
+      nativeLanguage,
+      notificationLanguage,
+      notifications,
+      phoneNumber,
+      serviceLanguage,
+      streetAddress,
+      yearOfBirth,
+      zip,
+    });
   });
 });

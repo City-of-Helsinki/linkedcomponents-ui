@@ -16,6 +16,23 @@ export type Scalars = {
   Any: any;
 };
 
+export type CreateEnrolmentMutationInput = {
+  city?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  extraInfo?: InputMaybe<Scalars['String']>;
+  membershipNumber?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nativeLanguage?: InputMaybe<Scalars['String']>;
+  notificationLanguage?: InputMaybe<Scalars['String']>;
+  notifications?: InputMaybe<Array<Notification>>;
+  organizationName?: InputMaybe<Scalars['String']>;
+  phoneNumber?: InputMaybe<Scalars['String']>;
+  serviceLanguage?: InputMaybe<Scalars['String']>;
+  streetAddress?: InputMaybe<Scalars['String']>;
+  yearOfBirth?: InputMaybe<Scalars['String']>;
+  zip?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateEventMutationInput = {
   audience?: InputMaybe<Array<IdObjectInput>>;
   audienceMaxAge?: InputMaybe<Scalars['Int']>;
@@ -75,7 +92,6 @@ export type Enrolment = {
   city?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   extraInfo?: Maybe<Scalars['String']>;
-  marketingAllowed?: Maybe<Scalars['Boolean']>;
   membershipNumber?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nativeLanguage?: Maybe<Scalars['String']>;
@@ -87,6 +103,9 @@ export type Enrolment = {
   streetAddress?: Maybe<Scalars['String']>;
   yearOfBirth?: Maybe<Scalars['String']>;
   zip?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atContext?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
 };
 
 export type EnrolmentsResponse = {
@@ -317,6 +336,7 @@ export type Meta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createEnrolment: Enrolment;
   createEvent: Event;
   createEvents: Array<Event>;
   createRegistration: Registration;
@@ -329,6 +349,11 @@ export type Mutation = {
   updateImage: Image;
   uploadImage: Image;
   updateRegistration: Registration;
+};
+
+
+export type MutationCreateEnrolmentArgs = {
+  input: CreateEnrolmentMutationInput;
 };
 
 
@@ -777,6 +802,15 @@ export type VideoInput = {
   url?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateEnrolmentMutationVariables = Exact<{
+  input: CreateEnrolmentMutationInput;
+}>;
+
+
+export type CreateEnrolmentMutation = { __typename?: 'Mutation', createEnrolment: { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: Array<Notification> | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined } };
+
+export type EnrolmentFieldsFragment = { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: Array<Notification> | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined };
+
 export type CreateEventMutationVariables = Exact<{
   input: CreateEventMutationInput;
 }>;
@@ -1074,6 +1108,26 @@ export type UserQueryVariables = Exact<{
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null | undefined, departmentName?: string | null | undefined, displayName?: string | null | undefined, email?: string | null | undefined, firstName?: string | null | undefined, isStaff?: boolean | null | undefined, lastLogin?: string | null | undefined, lastName?: string | null | undefined, organization?: string | null | undefined, organizationMemberships: Array<string>, username?: string | null | undefined, uuid?: string | null | undefined } };
 
+export const EnrolmentFieldsFragmentDoc = gql`
+    fragment enrolmentFields on Enrolment {
+  id
+  atId
+  city
+  email
+  extraInfo
+  membershipNumber
+  name
+  nativeLanguage
+  notificationLanguage
+  notifications
+  organizationName
+  phoneNumber
+  serviceLanguage
+  streetAddress
+  yearOfBirth
+  zip
+}
+    `;
 export const LocalisedFieldsFragmentDoc = gql`
     fragment localisedFields on LocalisedObject {
   ar
@@ -1360,6 +1414,39 @@ export const UserFieldsFragmentDoc = gql`
   uuid
 }
     `;
+export const CreateEnrolmentDocument = gql`
+    mutation CreateEnrolment($input: CreateEnrolmentMutationInput!) {
+  createEnrolment(input: $input) @rest(type: "Enrolment", path: "/enrolment/", method: "POST", bodyKey: "input") {
+    ...enrolmentFields
+  }
+}
+    ${EnrolmentFieldsFragmentDoc}`;
+export type CreateEnrolmentMutationFn = Apollo.MutationFunction<CreateEnrolmentMutation, CreateEnrolmentMutationVariables>;
+
+/**
+ * __useCreateEnrolmentMutation__
+ *
+ * To run a mutation, you first call `useCreateEnrolmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEnrolmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEnrolmentMutation, { data, loading, error }] = useCreateEnrolmentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateEnrolmentMutation(baseOptions?: Apollo.MutationHookOptions<CreateEnrolmentMutation, CreateEnrolmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateEnrolmentMutation, CreateEnrolmentMutationVariables>(CreateEnrolmentDocument, options);
+      }
+export type CreateEnrolmentMutationHookResult = ReturnType<typeof useCreateEnrolmentMutation>;
+export type CreateEnrolmentMutationResult = Apollo.MutationResult<CreateEnrolmentMutation>;
+export type CreateEnrolmentMutationOptions = Apollo.BaseMutationOptions<CreateEnrolmentMutation, CreateEnrolmentMutationVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($input: CreateEventMutationInput!) {
   createEvent(input: $input) @rest(type: "Event", path: "/event/", method: "POST", bodyKey: "input") {

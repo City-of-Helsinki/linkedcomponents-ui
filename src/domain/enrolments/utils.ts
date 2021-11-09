@@ -1,9 +1,13 @@
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 import { scroller } from 'react-scroll';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../constants';
-import { Enrolment, Registration } from '../../generated/graphql';
+import {
+  EnrolmentFieldsFragment,
+  RegistrationFieldsFragment,
+} from '../../generated/graphql';
 import { Language } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
@@ -90,9 +94,9 @@ export const getEnrolmentFields = ({
   language,
   registration,
 }: {
-  enrolment: Enrolment;
+  enrolment: EnrolmentFieldsFragment;
   language: Language;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 }): EnrolmentFields => {
   const id = enrolment.id || '';
   /* istanbul ignore next */
@@ -163,7 +167,7 @@ export const checkIsEditActionAllowed = ({
 }: {
   action: ENROLMENT_EDIT_ACTIONS;
   authenticated: boolean;
-  enrolment: Enrolment;
+  enrolment: EnrolmentFieldsFragment;
   t: TFunction;
 }): EnrolmentEditability => {
   const userCanDoAction = checkCanUserDoAction({ action });
@@ -187,7 +191,7 @@ export const getEditButtonProps = ({
 }: {
   action: ENROLMENT_EDIT_ACTIONS;
   authenticated: boolean;
-  enrolment: Enrolment;
+  enrolment: EnrolmentFieldsFragment;
   onClick: () => void;
   t: TFunction;
 }): MenuItemOptionProps => {
@@ -223,3 +227,8 @@ export const scrollToEnrolmentItem = (id: string): void => {
 
   setTimeout(() => setFocusToFirstFocusable(id), duration);
 };
+
+export const clearEnrolmentsQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'enrolments' });

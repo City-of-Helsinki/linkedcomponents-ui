@@ -6,6 +6,7 @@ module.exports = buildSchema(/* GraphQL */ `
   scalar Any
 
   type Mutation {
+    createEnrolment(input: CreateEnrolmentMutationInput!): Enrolment!
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
@@ -168,6 +169,23 @@ module.exports = buildSchema(/* GraphQL */ `
     altText: String
     name: String
     url: String
+  }
+
+  input CreateEnrolmentMutationInput {
+    city: String
+    email: String
+    extraInfo: String
+    membershipNumber: String
+    name: String
+    nativeLanguage: String
+    notificationLanguage: String
+    notifications: [Notification!]
+    organizationName: String
+    phoneNumber: String
+    serviceLanguage: String
+    streetAddress: String
+    yearOfBirth: String
+    zip: String
   }
 
   input CreateEventMutationInput {
@@ -608,7 +626,6 @@ module.exports = buildSchema(/* GraphQL */ `
     city: String
     email: String
     extraInfo: String
-    marketingAllowed: Boolean
     membershipNumber: String
     name: String
     nativeLanguage: String
@@ -620,5 +637,11 @@ module.exports = buildSchema(/* GraphQL */ `
     streetAddress: String
     yearOfBirth: String
     zip: String
+    # @id is renamed as atId so it's usable on GraphQl
+    atId: String!
+    # @context is renamed as atContext so it's usable on GraphQl
+    atContext: String
+    # @type is renamed as atType so it's usable on GraphQl
+    atType: String
   }
 `);

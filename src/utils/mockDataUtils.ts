@@ -51,10 +51,10 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
   return merge<Enrolment, typeof overrides>(
     {
       id,
+      atId: generateAtId(id, 'enrolment'),
       city: faker.address.city(),
       email: faker.internet.email(),
       extraInfo: faker.lorem.paragraph(),
-      marketingAllowed: false,
       membershipNumber: faker.datatype.uuid(),
       name: faker.name.firstName(),
       nativeLanguage: 'fi',

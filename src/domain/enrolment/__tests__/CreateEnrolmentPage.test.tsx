@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
@@ -17,21 +16,18 @@ import { mockedEventResponse } from '../../event/__mocks__/event';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
 import {
   mockedRegistrationResponse,
+  registration,
   registrationId,
 } from '../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../user/__mocks__/user';
+import {
+  enrolmentValues,
+  mockedCreateEnrolmentResponse,
+  mockedInvalidCreateEnrolmentResponse,
+} from '../__mocks__/createEnrolmentPage';
 import CreateEnrolmentPage from '../CreateEnrolmentPage';
 
 configure({ defaultHidden: true });
-
-const enrolmentValues = {
-  city: 'City',
-  email: 'participant@email.com',
-  name: 'Participant name',
-  phone: '+358 44 123 4567',
-  streetAddress: 'Street address',
-  zip: '00100',
-};
 
 const findElement = (key: 'nameInput') => {
   switch (key) {
@@ -108,10 +104,11 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     store,
   });
 
-test('should validate enrolment form and focus invalid field', async () => {
-  toast.error = jest.fn();
-
-  renderComponent();
+test('should validate enrolment form and focus invalid field and finally create enrolment', async () => {
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedCreateEnrolmentResponse,
+  ]);
 
   const nameInput = await findElement('nameInput');
   const streetAddressInput = getElement('streetAddressInput');
@@ -195,6 +192,58 @@ test('should validate enrolment form and focus invalid field', async () => {
   userEvent.click(submitButton);
 
   await waitFor(() =>
-    expect(toast.error).toBeCalledWith('TODO: Save enrolment')
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/${registration.id}/enrolments`
+    )
   );
+});
+
+test('should show server errors', async () => {
+  renderComponent([...defaultMocks, mockedInvalidCreateEnrolmentResponse]);
+
+  const nameInput = await findElement('nameInput');
+  const streetAddressInput = getElement('streetAddressInput');
+  const yearOfBirthButton = getElement('yearOfBirthButton');
+  const zipInput = getElement('zipInput');
+  const cityInput = getElement('cityInput');
+  const emailInput = getElement('emailInput');
+  const phoneInput = getElement('phoneInput');
+  const emailCheckbox = getElement('emailCheckbox');
+  const phoneCheckbox = getElement('phoneCheckbox');
+  const notificationLanguageButton = getElement('notificationLanguageButton');
+  const nativeLanguageButton = getElement('nativeLanguageButton');
+  const serviceLanguageButton = getElement('serviceLanguageButton');
+  const submitButton = getElement('submitButton');
+
+  userEvent.type(nameInput, enrolmentValues.name);
+  userEvent.type(streetAddressInput, enrolmentValues.streetAddress);
+  userEvent.click(yearOfBirthButton);
+  const yearOption = await screen.findByRole('option', { name: /1990/i });
+  userEvent.click(yearOption);
+  userEvent.type(zipInput, enrolmentValues.zip);
+  userEvent.type(cityInput, enrolmentValues.city);
+  userEvent.click(emailCheckbox);
+  userEvent.type(emailInput, enrolmentValues.email);
+  userEvent.click(phoneCheckbox);
+  userEvent.type(phoneInput, enrolmentValues.phone);
+  userEvent.click(notificationLanguageButton);
+  const notificationLanguageOption = await screen.findByRole('option', {
+    name: /suomi/i,
+  });
+  userEvent.click(notificationLanguageOption);
+  userEvent.click(nativeLanguageButton);
+  const nativeLanguageOption = await screen.findByRole('option', {
+    name: /suomi/i,
+  });
+  userEvent.click(nativeLanguageOption);
+  userEvent.click(serviceLanguageButton);
+  const serviceLanguageOption = await screen.findByRole('option', {
+    name: /suomi/i,
+  });
+  userEvent.click(serviceLanguageOption);
+
+  userEvent.click(submitButton);
+
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
 });

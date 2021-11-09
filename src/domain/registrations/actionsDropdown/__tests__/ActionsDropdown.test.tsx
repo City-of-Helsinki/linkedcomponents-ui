@@ -154,7 +154,7 @@ test('should route to create registration page when clicking copy button', async
 
 test('should delete registration', async () => {
   const mocks = [...defaultMocks, mockedDeleteRegistrationResponse];
-  const { history } = renderComponent({ mocks });
+  renderComponent({ mocks });
 
   openMenu();
 
