@@ -1,3 +1,4 @@
+import { IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -6,6 +7,7 @@ import { toast } from 'react-toastify';
 import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
 import { Enrolment, Registration } from '../../../generated/graphql';
@@ -21,12 +23,14 @@ export interface EditButtonPanelProps {
   enrolment: Enrolment;
   onSave: () => void;
   registration: Registration;
+  saving: ENROLMENT_EDIT_ACTIONS | false;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   enrolment,
   onSave,
   registration,
+  saving,
 }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
@@ -75,6 +79,17 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           key="save"
           className={buttonPanelStyles.fullWidthOnMobile}
           fullWidth={true}
+          iconLeft={
+            saving === ENROLMENT_EDIT_ACTIONS.UPDATE ? (
+              <LoadingSpinner
+                className={styles.loadingSpinner}
+                isLoading={true}
+                small={true}
+              />
+            ) : (
+              <IconPen aria-hidden={true} />
+            )
+          }
           onClick={onSave}
           type="button"
         >

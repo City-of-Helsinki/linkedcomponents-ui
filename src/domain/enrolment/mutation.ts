@@ -13,4 +13,16 @@ export const MUTATION_ENROLMENT = gql`
       ...enrolmentFields
     }
   }
+
+  mutation UpdateEnrolment($input: UpdateEnrolmentMutationInput!) {
+    updateEnrolment(input: $input)
+      @rest(
+        type: "Enrolment"
+        path: "/enrolment/{args.input.id}/"
+        method: "PUT"
+        bodyKey: "input"
+      ) {
+      ...enrolmentFields
+    }
+  }
 `;

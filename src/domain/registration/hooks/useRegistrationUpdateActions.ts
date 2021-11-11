@@ -38,7 +38,7 @@ interface Props {
   registration: RegistrationFieldsFragment;
 }
 
-type UseEventUpdateActionsState = {
+type UseRegistrationUpdateActionsState = {
   closeModal: () => void;
   deleteRegistration: (callbacks?: Callbacks) => Promise<void>;
   openModal: MODALS | null;
@@ -51,7 +51,7 @@ type UseEventUpdateActionsState = {
 };
 const useRegistrationUpdateActions = ({
   registration,
-}: Props): UseEventUpdateActionsState => {
+}: Props): UseRegistrationUpdateActionsState => {
   const locale = useLocale();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();

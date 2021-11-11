@@ -1,8 +1,10 @@
 import {
   CreateEnrolmentMutationInput,
   Enrolment,
+  EnrolmentQueryVariables,
   Notification,
 } from '../../generated/graphql';
+import { PathBuilderProps } from '../../types';
 import { ENROLMENT_INITIAL_VALUES } from './constants';
 import { EnrolmentFormFields } from './types';
 
@@ -64,4 +66,12 @@ export const getEnrolmentPayload = (
     yearOfBirth: yearOfBirth || null,
     zip: zip || null,
   };
+};
+
+export const enrolmentPathBuilder = ({
+  args,
+}: PathBuilderProps<EnrolmentQueryVariables>): string => {
+  const { id } = args;
+
+  return `/enrolment/${id}/`;
 };

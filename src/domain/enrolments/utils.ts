@@ -129,6 +129,7 @@ export const checkCanUserDoAction = ({
     case ENROLMENT_EDIT_ACTIONS.CANCEL:
     case ENROLMENT_EDIT_ACTIONS.EDIT:
     case ENROLMENT_EDIT_ACTIONS.SEND_MESSAGE:
+    case ENROLMENT_EDIT_ACTIONS.UPDATE:
       return true;
   }
 };

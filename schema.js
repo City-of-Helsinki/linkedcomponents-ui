@@ -14,6 +14,7 @@ module.exports = buildSchema(/* GraphQL */ `
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
+    updateEnrolment(input: UpdateEnrolmentMutationInput!): Enrolment!
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
@@ -172,6 +173,24 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input CreateEnrolmentMutationInput {
+    city: String
+    email: String
+    extraInfo: String
+    membershipNumber: String
+    name: String
+    nativeLanguage: String
+    notificationLanguage: String
+    notifications: [Notification!]
+    organizationName: String
+    phoneNumber: String
+    serviceLanguage: String
+    streetAddress: String
+    yearOfBirth: String
+    zip: String
+  }
+
+  input UpdateEnrolmentMutationInput {
+    id: ID!
     city: String
     email: String
     extraInfo: String

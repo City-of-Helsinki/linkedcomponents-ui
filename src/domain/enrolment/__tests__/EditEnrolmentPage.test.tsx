@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
@@ -20,7 +19,13 @@ import {
   registrationId,
 } from '../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../user/__mocks__/user';
-import { enrolment } from '../__mocks__/enrolment';
+import {
+  enrolment,
+  enrolmentId,
+  mockedEnrolmentResponse,
+  mockedInvalidUpdateEnrolmentResponse,
+  mockedUpdateEnrolmentResponse,
+} from '../__mocks__/editEnrolmentPage';
 import EditEnrolmentPage from '../EditEnrolmentPage';
 
 configure({ defaultHidden: true });
@@ -81,6 +86,8 @@ const getElement = (
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 const defaultMocks = [
+  mockedEnrolmentResponse,
+  mockedEventResponse,
   mockedEventResponse,
   mockedLanguagesResponse,
   mockedRegistrationResponse,
@@ -90,7 +97,7 @@ const defaultMocks = [
 const route = ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
   ':registrationId',
   registrationId
-).replace(':enrolmentId', enrolment.id);
+).replace(':enrolmentId', enrolmentId);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditEnrolmentPage />, {
@@ -101,8 +108,6 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   });
 
 test('should scroll to first validation error input field', async () => {
-  toast.error = jest.fn();
-
   renderComponent();
 
   const nameInput = await findElement('nameInput');
@@ -114,8 +119,6 @@ test('should scroll to first validation error input field', async () => {
 });
 
 test('should initialize input fields', async () => {
-  toast.error = jest.fn();
-
   renderComponent();
 
   const nameInput = await findElement('nameInput');
@@ -137,16 +140,30 @@ test('should initialize input fields', async () => {
   expect(phoneCheckbox).toBeChecked();
 });
 
-test('should show toast message when trying to update enrolment', async () => {
-  toast.error = jest.fn();
+test('should update enrolment', async () => {
+  global.scrollTo = jest.fn();
 
-  renderComponent();
+  renderComponent([
+    ...defaultMocks,
+    mockedUpdateEnrolmentResponse,
+    mockedEnrolmentResponse,
+  ]);
 
   await findElement('nameInput');
   const submitButton = getElement('submitButton');
   userEvent.click(submitButton);
 
-  await waitFor(() =>
-    expect(toast.error).toBeCalledWith('TODO: Save enrolment')
-  );
+  await waitFor(() => expect(global.scrollTo).toBeCalled());
+});
+
+test('should show server errors', async () => {
+  const mocks = [...defaultMocks, mockedInvalidUpdateEnrolmentResponse];
+  renderComponent(mocks);
+
+  await findElement('nameInput');
+  const submitButton = getElement('submitButton');
+  userEvent.click(submitButton);
+
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/Nimi on pakollinen./i);
 });

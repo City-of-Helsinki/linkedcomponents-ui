@@ -1,7 +1,14 @@
-import { Notification } from '../../../generated/graphql';
+import {
+  EnrolmentQueryVariables,
+  Notification,
+} from '../../../generated/graphql';
 import { fakeEnrolment } from '../../../utils/mockDataUtils';
 import { ENROLMENT_INITIAL_VALUES } from '../constants';
-import { getEnrolmentInitialValues, getEnrolmentPayload } from '../utils';
+import {
+  enrolmentPathBuilder,
+  getEnrolmentInitialValues,
+  getEnrolmentPayload,
+} from '../utils';
 
 describe('getEnrolmentInitialValues function', () => {
   it('should return default values if value is not set', () => {
@@ -186,4 +193,14 @@ describe('getEnrolmentPayload function', () => {
       zip,
     });
   });
+});
+
+describe('enrolmentPathBuilder function', () => {
+  const cases: [EnrolmentQueryVariables, string][] = [
+    [{ id: 'hel:123' }, '/enrolment/hel:123/'],
+  ];
+
+  it.each(cases)('should build correct path', (variables, expectedPath) =>
+    expect(enrolmentPathBuilder({ args: variables })).toBe(expectedPath)
+  );
 });
