@@ -118,7 +118,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
               fullWidth={true}
               iconLeft={<IconPlus />}
               onClick={goToCreateEvent}
-              variant="secondary"
+              variant="primary"
             >
               {t('common.buttonAddEvent')}
             </Button>
