@@ -57,7 +57,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
 
   const isComponentFocused = useIsComponentFocused(containerRef);
 
-  const id = useRef<string>(_id || uniqueId('menu-dropdown-')).current;
+  const [id] = React.useState(() => _id || uniqueId('menu-dropdown-'));
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
 
