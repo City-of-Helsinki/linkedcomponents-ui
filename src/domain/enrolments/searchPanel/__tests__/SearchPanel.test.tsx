@@ -39,7 +39,7 @@ const renderComponent = (route: string = defaultRoute) =>
 
 test('should initialize search panel input', async () => {
   const searchValue = 'search';
-  renderComponent(`${defaultRoute}?text=${searchValue}`);
+  renderComponent(`${defaultRoute}?enrolmentText=${searchValue}`);
 
   const searchInput = getElement('searchInput');
   await waitFor(() => expect(searchInput).toHaveValue(searchValue));
@@ -63,7 +63,7 @@ test('should search enrolments with correct search params', async () => {
   expect(history.location.pathname).toBe(
     `/registrations/${registrationId}/enrolments`
   );
-  expect(history.location.search).toBe('?text=search');
+  expect(history.location.search).toBe('?enrolmentText=search');
 });
 
 test('should show toast error message when trying to create new enrolment', async () => {

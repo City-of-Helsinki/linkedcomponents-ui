@@ -1,17 +1,9 @@
-import { ENROLMENT_SEARCH_PARAMS } from './constants';
-
-export type EnrolmentSearchParams = {
-  [ENROLMENT_SEARCH_PARAMS.PAGE]?: number | null;
-  [ENROLMENT_SEARCH_PARAMS.RETURN_PATH]?: string | null;
-  [ENROLMENT_SEARCH_PARAMS.TEXT]: string;
-};
+import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
 
 export type EnrolmentSearchInitialValues = {
-  [ENROLMENT_SEARCH_PARAMS.PAGE]: number;
-  [ENROLMENT_SEARCH_PARAMS.TEXT]: string;
+  [REGISTRATION_SEARCH_PARAMS.ENROLMENT_PAGE]: number;
+  [REGISTRATION_SEARCH_PARAMS.ENROLMENT_TEXT]: string;
 };
-
-export type EnrolmentSearchParam = keyof EnrolmentSearchParams;
 
 export type EnrolmentFields = {
   email: string;

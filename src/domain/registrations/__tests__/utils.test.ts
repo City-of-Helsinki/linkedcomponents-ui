@@ -72,6 +72,12 @@ describe('getRegistrationSearchQuery function', () => {
   };
   const cases: [string, RegistrationSearchParams, string][] = [
     ['', defaultParams, 'text=text'],
+    ['', { ...defaultParams, enrolmentPage: 2 }, 'text=text&enrolmentPage=2'],
+    [
+      '',
+      { ...defaultParams, enrolmentText: 'text' },
+      'text=text&enrolmentText=text',
+    ],
     [
       '',
       { ...defaultParams, eventType: [EVENT_TYPE.Volunteering] },
@@ -101,6 +107,12 @@ describe('getRegistrationSearchQuery function', () => {
 
 describe('replaceParamsToRegistrationQueryString', () => {
   const cases: [Partial<RegistrationSearchParams>, string, string][] = [
+    [{ enrolmentPage: 1 }, '?enrolmentPage=2', '?enrolmentPage=1'],
+    [
+      { enrolmentText: 'newText' },
+      '?enrolmentText=text',
+      '?enrolmentText=newText',
+    ],
     [
       { eventType: [EVENT_TYPE.Volunteering, EVENT_TYPE.Course] },
       '?eventType=volunteering',
@@ -203,7 +215,7 @@ describe('getRegistrationsQueryVariables', () => {
   );
 });
 
-describe('eventsPathBuilder function', () => {
+describe('registrationsPathBuilder function', () => {
   const cases: [RegistrationsQueryVariables, string][] = [
     [
       { eventType: [EventTypeId.Course, EventTypeId.General] },

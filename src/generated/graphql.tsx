@@ -552,6 +552,14 @@ export type QueryEnrolmentArgs = {
 };
 
 
+export type QueryEnrolmentsArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+  registration?: InputMaybe<Scalars['ID']>;
+  text?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryEventArgs = {
   id?: InputMaybe<Scalars['ID']>;
   include?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -849,6 +857,17 @@ export type EnrolmentQueryVariables = Exact<{
 
 
 export type EnrolmentQuery = { __typename?: 'Query', enrolment: { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: Array<Notification> | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined } };
+
+export type EnrolmentsQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+  registration?: InputMaybe<Scalars['ID']>;
+  text?: InputMaybe<Scalars['String']>;
+  createPath?: InputMaybe<Scalars['Any']>;
+}>;
+
+
+export type EnrolmentsQuery = { __typename?: 'Query', enrolments: { __typename?: 'EnrolmentsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: Array<Notification> | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined }> } };
 
 export type CreateEventMutationVariables = Exact<{
   input: CreateEventMutationInput;
@@ -1555,6 +1574,56 @@ export function useEnrolmentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type EnrolmentQueryHookResult = ReturnType<typeof useEnrolmentQuery>;
 export type EnrolmentLazyQueryHookResult = ReturnType<typeof useEnrolmentLazyQuery>;
 export type EnrolmentQueryResult = Apollo.QueryResult<EnrolmentQuery, EnrolmentQueryVariables>;
+export const EnrolmentsDocument = gql`
+    query Enrolments($page: Int, $pageSize: Int, $registration: ID, $text: String, $createPath: Any) {
+  enrolments(
+    page: $page
+    pageSize: $pageSize
+    registration: $registration
+    text: $text
+  ) @rest(type: "EnrolmentsResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...enrolmentFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${EnrolmentFieldsFragmentDoc}`;
+
+/**
+ * __useEnrolmentsQuery__
+ *
+ * To run a query within a React component, call `useEnrolmentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEnrolmentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEnrolmentsQuery({
+ *   variables: {
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      registration: // value for 'registration'
+ *      text: // value for 'text'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useEnrolmentsQuery(baseOptions?: Apollo.QueryHookOptions<EnrolmentsQuery, EnrolmentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EnrolmentsQuery, EnrolmentsQueryVariables>(EnrolmentsDocument, options);
+      }
+export function useEnrolmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EnrolmentsQuery, EnrolmentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EnrolmentsQuery, EnrolmentsQueryVariables>(EnrolmentsDocument, options);
+        }
+export type EnrolmentsQueryHookResult = ReturnType<typeof useEnrolmentsQuery>;
+export type EnrolmentsLazyQueryHookResult = ReturnType<typeof useEnrolmentsLazyQuery>;
+export type EnrolmentsQueryResult = Apollo.QueryResult<EnrolmentsQuery, EnrolmentsQueryVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($input: CreateEventMutationInput!) {
   createEvent(input: $input) @rest(type: "Event", path: "/event/", method: "POST", bodyKey: "input") {

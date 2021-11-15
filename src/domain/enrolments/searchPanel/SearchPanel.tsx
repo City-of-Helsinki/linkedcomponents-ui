@@ -11,10 +11,8 @@ import { Registration } from '../../../generated/graphql';
 import useSearchState from '../../../hooks/useSearchState';
 // eslint-disable-next-line max-len
 import useRegistrationsQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
-import {
-  getEnrolmentSearchInitialValues,
-  getEnrolmentSearchQuery,
-} from '../utils';
+import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
+import { getEnrolmentSearchInitialValues } from '../utils';
 import styles from './searchPanel.module.scss';
 
 type Props = {
@@ -22,7 +20,7 @@ type Props = {
 };
 
 type SearchState = {
-  text: string;
+  enrolmentText: string;
 };
 
 const SearchPanel: React.FC<Props> = ({ registration }) => {
@@ -31,19 +29,22 @@ const SearchPanel: React.FC<Props> = ({ registration }) => {
   const location = useLocation();
 
   const [searchState, setSearchState] = useSearchState<SearchState>({
-    text: '',
+    enrolmentText: '',
   });
 
   const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
 
   const handleChangeText = (text: string) => {
-    setSearchState({ text });
+    setSearchState({ enrolmentText: text });
   };
 
   const handleSearch = () => {
     history.push({
       pathname: location.pathname,
-      search: getEnrolmentSearchQuery(searchState),
+      search: replaceParamsToRegistrationQueryString(
+        location.search,
+        searchState
+      ),
     });
   };
 
@@ -58,8 +59,8 @@ const SearchPanel: React.FC<Props> = ({ registration }) => {
   };
 
   React.useEffect(() => {
-    const { text } = getEnrolmentSearchInitialValues(location.search);
-    setSearchState({ text });
+    const { enrolmentText } = getEnrolmentSearchInitialValues(location.search);
+    setSearchState({ enrolmentText });
   }, [location.search, setSearchState]);
 
   return (
@@ -75,7 +76,7 @@ const SearchPanel: React.FC<Props> = ({ registration }) => {
             placeholder={t('enrolmentsPage.searchPanel.placeholderSearch')}
             searchButtonAriaLabel={t('enrolmentsPage.searchPanel.buttonSearch')}
             setValue={handleChangeText}
-            value={searchState.text}
+            value={searchState.enrolmentText}
           />
         </div>
         <div className={styles.buttonWrapper}>

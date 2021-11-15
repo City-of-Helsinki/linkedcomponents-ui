@@ -12,13 +12,12 @@ import { Enrolment, Registration } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
-import { getRegistrationFields } from '../../registrations/utils';
-import { ENROLMENT_EDIT_ACTIONS } from '../constants';
 import {
-  addParamsToEnrolmentQueryString,
-  getEditButtonProps,
-  getEnrolmentFields,
-} from '../utils';
+  addParamsToRegistrationQueryString,
+  getRegistrationFields,
+} from '../../registrations/utils';
+import { ENROLMENT_EDIT_ACTIONS } from '../constants';
+import { getEditButtonProps, getEnrolmentFields } from '../utils';
 import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {
@@ -42,7 +41,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
     });
 
     const goToEditEnrolmentPage = () => {
-      const queryString = addParamsToEnrolmentQueryString(search, {
+      const queryString = addParamsToRegistrationQueryString(search, {
         returnPath: pathname,
       });
 

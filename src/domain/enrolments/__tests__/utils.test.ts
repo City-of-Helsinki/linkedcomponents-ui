@@ -1,30 +1,13 @@
 import i18n from 'i18next';
 
-import { ROUTES } from '../../../constants';
+import { EnrolmentsQueryVariables } from '../../../generated/graphql';
 import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
-import { ENROLMENT_EDIT_ACTIONS, ENROLMENT_SEARCH_PARAMS } from '../constants';
-import { EnrolmentSearchParam, EnrolmentSearchParams } from '../types';
+import { ENROLMENT_EDIT_ACTIONS } from '../constants';
 import {
-  addParamsToEnrolmentQueryString,
+  enrolmentsPathBuilder,
   getEditEnrolmentWarning,
   getEnrolmentFields,
-  getEnrolmentParamValue,
 } from '../utils';
-
-describe('addParamsToEnrolmentQueryString function', () => {
-  const cases: [Partial<EnrolmentSearchParams>, string][] = [
-    [{ page: 3 }, '?page=3'],
-    [{ returnPath: `/fi${ROUTES.SEARCH}` }, '?returnPath=%2Fsearch'],
-    [{ text: 'search' }, '?text=search'],
-  ];
-
-  it.each(cases)(
-    'should add %p params to search, returns %p',
-    (params, expectedResult) => {
-      expect(addParamsToEnrolmentQueryString('', params)).toBe(expectedResult);
-    }
-  );
-});
 
 describe('getEnrolmentFields function', () => {
   it('should return default values if value is not set', () => {
@@ -43,26 +26,6 @@ describe('getEnrolmentFields function', () => {
     expect(id).toBe('');
     expect(name).toBe('');
     expect(phoneNumber).toBe('');
-  });
-});
-
-describe('getEnrolmentParamValue function', () => {
-  it('should get returnPath without locale', () => {
-    expect(
-      getEnrolmentParamValue({
-        param: ENROLMENT_SEARCH_PARAMS.RETURN_PATH,
-        value: `/fi${ROUTES.REGISTRATION_ENROLMENTS}`,
-      })
-    ).toBe(ROUTES.REGISTRATION_ENROLMENTS);
-  });
-
-  it('should throw an error when trying to add unsupported param', () => {
-    expect(() =>
-      getEnrolmentParamValue({
-        param: 'unsupported' as EnrolmentSearchParam,
-        value: 'value',
-      })
-    ).toThrowError();
   });
 });
 
@@ -102,4 +65,22 @@ describe('getEditRegistrationWarning function', () => {
       })
     ).toBe('Sinulla ei ole oikeuksia muokata tätä osallistujaa.');
   });
+});
+
+describe('enrolmentsPathBuilder function', () => {
+  const cases: [EnrolmentsQueryVariables, string][] = [
+    [{ page: 2 }, '/enrolment/?page=2'],
+    [{ pageSize: 10 }, '/enrolment/?page_size=10'],
+    [
+      { registration: 'registration:1' },
+      '/enrolment/?registration=registration:1',
+    ],
+    [{ text: 'text' }, '/enrolment/?text=text'],
+  ];
+
+  it.each(cases)(
+    'should create enrolments request path with args %p, result %p',
+    (variables, expectedPath) =>
+      expect(enrolmentsPathBuilder({ args: variables })).toBe(expectedPath)
+  );
 });

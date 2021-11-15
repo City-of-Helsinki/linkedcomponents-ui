@@ -1,11 +1,5 @@
 import { IconCrossCircle, IconEnvelope, IconPen } from 'hds-react';
 
-export enum ENROLMENT_SEARCH_PARAMS {
-  PAGE = 'page',
-  RETURN_PATH = 'returnPath',
-  TEXT = 'text',
-}
-
 export enum ENROLMENT_EDIT_ACTIONS {
   CANCEL = 'cancel',
   EDIT = 'edit',

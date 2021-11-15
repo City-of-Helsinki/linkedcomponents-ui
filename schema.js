@@ -28,7 +28,12 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Query {
     enrolment(id: ID): Enrolment!
-    enrolments: EnrolmentsResponse!
+    enrolments(
+      page: Int
+      pageSize: Int
+      registration: ID
+      text: String
+    ): EnrolmentsResponse!
     event(id: ID, include: [String]): Event!
     events(
       adminUser: Boolean

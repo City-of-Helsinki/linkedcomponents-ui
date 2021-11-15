@@ -8,7 +8,8 @@ import Table from '../../../common/components/table/Table';
 import { Enrolment, Registration } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
-import useEnrolmentsQueryStringWithReturnPath from '../hooks/useEnrolmentsQueryStringWithReturnPath';
+// eslint-disable-next-line max-len
+import useRegistrationsQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import { getEnrolmentFields } from '../utils';
 import styles from './enrolmentsTable.module.scss';
 import EnrolmentTableRow from './EnrolmentTableRow';
@@ -29,7 +30,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const queryStringWithReturnPath = useEnrolmentsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
 

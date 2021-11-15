@@ -91,6 +91,8 @@ export const getRegistrationParamValue = ({
   value: string;
 }): string => {
   switch (param) {
+    case REGISTRATION_SEARCH_PARAMS.ENROLMENT_PAGE:
+    case REGISTRATION_SEARCH_PARAMS.ENROLMENT_TEXT:
     case REGISTRATION_SEARCH_PARAMS.EVENT_TYPE:
     case REGISTRATION_SEARCH_PARAMS.PAGE:
     case REGISTRATION_SEARCH_PARAMS.SORT:

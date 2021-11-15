@@ -6,87 +6,33 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { ROUTES } from '../../constants';
 import {
   EnrolmentFieldsFragment,
+  EnrolmentsQueryVariables,
   RegistrationFieldsFragment,
 } from '../../generated/graphql';
-import { Language } from '../../types';
-import addParamsToQueryString from '../../utils/addParamsToQueryString';
+import { Language, PathBuilderProps } from '../../types';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
-import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
-import { getSearchQuery } from '../../utils/searchUtils';
+import queryBuilder from '../../utils/queryBuilder';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
-import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
-import { assertUnreachable } from '../../utils/typescript';
+import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
 import {
   AUTHENTICATION_NOT_NEEDED,
   ENROLMENT_EDIT_ACTIONS,
   ENROLMENT_EDIT_ICONS,
   ENROLMENT_EDIT_LABEL_KEYS,
-  ENROLMENT_SEARCH_PARAMS,
 } from './constants';
-import {
-  EnrolmentFields,
-  EnrolmentSearchInitialValues,
-  EnrolmentSearchParam,
-  EnrolmentSearchParams,
-} from './types';
-
-export const getEnrolmentSearchQuery = (
-  params: Omit<EnrolmentSearchParams, 'sort'>
-): string => {
-  return getSearchQuery(params);
-};
+import { EnrolmentFields, EnrolmentSearchInitialValues } from './types';
 
 export const getEnrolmentSearchInitialValues = (
   search: string
 ): EnrolmentSearchInitialValues => {
   const searchParams = new URLSearchParams(search);
-  const page = searchParams.get(ENROLMENT_SEARCH_PARAMS.PAGE);
-  const text = searchParams.get(ENROLMENT_SEARCH_PARAMS.TEXT);
+  const page = searchParams.get(REGISTRATION_SEARCH_PARAMS.ENROLMENT_PAGE);
+  const text = searchParams.get(REGISTRATION_SEARCH_PARAMS.ENROLMENT_TEXT);
 
   return {
-    page: Number(page) || 1,
-    text: text || '',
+    enrolmentPage: Number(page) || 1,
+    enrolmentText: text || '',
   };
-};
-
-export const getEnrolmentParamValue = ({
-  param,
-  value,
-}: {
-  param: EnrolmentSearchParam;
-  value: string;
-}): string => {
-  switch (param) {
-    case ENROLMENT_SEARCH_PARAMS.PAGE:
-    case ENROLMENT_SEARCH_PARAMS.TEXT:
-      return value;
-    case ENROLMENT_SEARCH_PARAMS.RETURN_PATH:
-      return stripLanguageFromPath(value);
-    default:
-      return assertUnreachable(param, 'Unknown enrolment query parameter');
-  }
-};
-
-export const addParamsToEnrolmentQueryString = (
-  queryString: string,
-  queryParams: Partial<EnrolmentSearchParams>
-): string => {
-  return addParamsToQueryString<EnrolmentSearchParams>(
-    queryString,
-    queryParams,
-    getEnrolmentParamValue
-  );
-};
-
-export const replaceParamsToEnrolmentQueryString = (
-  queryString: string,
-  queryParams: Partial<EnrolmentSearchParams>
-): string => {
-  return replaceParamsToQueryString<EnrolmentSearchParams>(
-    queryString,
-    queryParams,
-    getEnrolmentParamValue
-  );
 };
 
 export const getEnrolmentFields = ({
@@ -233,3 +179,20 @@ export const clearEnrolmentsQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>
 ): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'enrolments' });
+
+export const enrolmentsPathBuilder = ({
+  args,
+}: PathBuilderProps<EnrolmentsQueryVariables>): string => {
+  const { page, pageSize, registration, text } = args;
+
+  const variableToKeyItems = [
+    { key: 'page', value: page },
+    { key: 'page_size', value: pageSize },
+    { key: 'registration', value: registration },
+    { key: 'text', value: text },
+  ];
+
+  const query = queryBuilder(variableToKeyItems);
+
+  return `/enrolment/${query}`;
+};
