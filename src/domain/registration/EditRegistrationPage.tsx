@@ -56,7 +56,8 @@ interface EditRegistrationPageProps {
   registration: Registration;
 }
 
-const EditEventPage: React.FC<EditRegistrationPageProps> = ({
+const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
+  refetch,
   registration,
 }) => {
   const { t } = useTranslation();
@@ -109,7 +110,7 @@ const EditEventPage: React.FC<EditRegistrationPageProps> = ({
     updateRegistration(values, {
       onError: (error: any) => showServerErrors({ error }),
       onSuccess: async () => {
-        // await refetch();
+        await refetch();
         window.scrollTo(0, 0);
       },
     });
@@ -244,7 +245,7 @@ const EditRegistrationPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {registrationData?.registration ? (
-        <EditEventPage
+        <EditRegistrationPage
           refetch={refetch}
           registration={registrationData.registration}
         />
