@@ -16,7 +16,12 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import { registrations } from '../__mocks__/registrationsPage';
+import {
+  eventNames,
+  mockedEventResponses,
+  mockedRegistrationsResponse,
+  registrations,
+} from '../__mocks__/registrationsPage';
 import RegistrationsPage from '../RegistrationsPage';
 
 configure({ defaultHidden: true });
@@ -34,7 +39,11 @@ const mockedUserResponse: MockedResponse = {
   result: userResponse,
 };
 
-const mocks = [mockedUserResponse];
+const mocks = [
+  ...mockedEventResponses,
+  mockedRegistrationsResponse,
+  mockedUserResponse,
+];
 
 beforeEach(() => jest.clearAllMocks());
 
@@ -111,8 +120,8 @@ it('scrolls to registration table row and calls history.replace correctly (delet
     expect.objectContaining({ pathname: historyObject.pathname })
   );
 
-  const eventRowButton = screen.getByRole('button', {
-    name: registrations.data[0].name.fi,
+  const eventRowButton = await screen.findByRole('button', {
+    name: eventNames[0],
   });
   await waitFor(() => expect(eventRowButton).toHaveFocus());
 });

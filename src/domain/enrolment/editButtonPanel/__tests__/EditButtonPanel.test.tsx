@@ -14,7 +14,10 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { registration } from '../../../enrolments/__mocks__/enrolmentsPage';
+import {
+  registration,
+  registrationId,
+} from '../../../registration/__mocks__/registration';
 import { enrolment } from '../../__mocks__/enrolment';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
@@ -31,7 +34,7 @@ const defaultStore = getMockReduxStore(state);
 
 const defaultRoute = `/fi/${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
   ':registrationId',
-  registration.id
+  registrationId
 ).replace(':enrolmentId', enrolment.id)}`;
 
 const renderComponent = ({

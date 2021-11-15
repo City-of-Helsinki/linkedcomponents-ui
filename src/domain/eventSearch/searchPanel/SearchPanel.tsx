@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { IconHeart, IconLocation, Koros } from 'hds-react';
+import { IconCalendar, IconHeart, IconLocation, Koros } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
@@ -122,6 +122,7 @@ const SearchPanel: React.FC = () => {
               <div className={styles.advancedFilters}>
                 <div>
                   <DateSelectorDropdown
+                    icon={<IconCalendar aria-hidden={true} />}
                     onChangeDate={handleChangeDate}
                     value={{
                       endDate: searchState.end,

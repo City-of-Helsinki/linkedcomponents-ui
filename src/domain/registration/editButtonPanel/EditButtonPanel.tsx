@@ -30,7 +30,7 @@ export interface EditButtonPanelProps {
   onDelete: () => void;
   onUpdate: () => void;
   registration: Registration;
-  saving: boolean;
+  saving: REGISTRATION_EDIT_ACTIONS | false;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
@@ -98,7 +98,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       registration,
       t,
     });
-    return { ...buttonProps, isSaving: saving, variant };
+    return { ...buttonProps, isSaving: saving === action, variant };
   };
 
   const actionItems: MenuItemOptionProps[] = [

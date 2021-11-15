@@ -1,7 +1,13 @@
 import React from 'react';
 
+import { getEventFields } from '../../../../domain/event/utils';
 import { EVENT_SORT_OPTIONS } from '../../../../domain/events/constants';
-import { EventDocument, EventsDocument } from '../../../../generated/graphql';
+import {
+  EventDocument,
+  EventFieldsFragment,
+  EventsDocument,
+} from '../../../../generated/graphql';
+import { Language, OptionType } from '../../../../types';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
   configure,
@@ -10,9 +16,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import UmbrellaEventSelector, {
-  UmbrellaEventSelectorProps,
-} from '../UmbrellaEventSelector';
+import EventSelector, { EventSelectorProps } from '../EventSelector';
 
 configure({ defaultHidden: true });
 
@@ -49,17 +53,30 @@ const mockedFilteredEventsResponse = {
   result: filteredEventsResponse,
 };
 
+const getOption = (
+  event: EventFieldsFragment,
+  locale: Language
+): OptionType => {
+  const { atId, name } = getEventFields(event, locale);
+  return { label: name, value: atId };
+};
+
 const mocks = [mockedEventResponse, mockedFilteredEventsResponse];
 
-const defaultProps: UmbrellaEventSelectorProps = {
+const defaultProps: EventSelectorProps = {
+  getOption,
   helper,
   label,
   name,
   value: event.atId,
+  variables: {
+    sort: EVENT_SORT_OPTIONS.NAME,
+    superEventType: ['umbrella'],
+  },
 };
 
-const renderComponent = (props?: Partial<UmbrellaEventSelectorProps>) =>
-  render(<UmbrellaEventSelector {...defaultProps} {...props} />, { mocks });
+const renderComponent = (props?: Partial<EventSelectorProps>) =>
+  render(<EventSelector {...defaultProps} {...props} />, { mocks });
 
 const getElement = (key: 'inputField' | 'toggleButton') => {
   switch (key) {

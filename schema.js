@@ -8,13 +8,16 @@ module.exports = buildSchema(/* GraphQL */ `
   type Mutation {
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
+    createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEvent(id: ID!): NoContent
+    deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
+    updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
   }
 
   type NoContent {
@@ -91,7 +94,12 @@ module.exports = buildSchema(/* GraphQL */ `
       text: String
     ): PlacesResponse!
     registration(id: ID): Registration!
-    registrations: RegistrationsResponse!
+    registrations(
+      eventType: [EventTypeId]
+      page: Int
+      pageSize: Int
+      text: String
+    ): RegistrationsResponse!
     user(id: ID!): User!
   }
 
@@ -242,6 +250,33 @@ module.exports = buildSchema(/* GraphQL */ `
     photographerName: String
     publisher: String
     url: String
+  }
+
+  input CreateRegistrationMutationInput {
+    audienceMaxAge: Int
+    audienceMinAge: Int
+    confirmationMessage: String
+    enrolmentEndTime: String
+    enrolmentStartTime: String
+    event: ID!
+    instructions: String
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
+    waitingListCapacity: Int
+  }
+
+  input UpdateRegistrationMutationInput {
+    id: ID!
+    audienceMaxAge: Int
+    audienceMinAge: Int
+    confirmationMessage: String
+    enrolmentEndTime: String
+    enrolmentStartTime: String
+    event: ID!
+    instructions: String
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
+    waitingListCapacity: Int
   }
 
   type EventsResponse {
@@ -533,29 +568,28 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type RegistrationsResponse {
     meta: Meta!
-    data: [Registration!]!
+    data: [Registration]!
   }
 
   type Registration {
     id: ID
+    attendeeRegistration: Boolean
     audienceMaxAge: Int
     audienceMinAge: Int
     confirmationMessage: String
     createdAt: String
     createdBy: String
-    currentAttendeeCount: Int
-    currentWaitingAttendeeCount: Int
     enrolmentEndTime: String
     enrolmentStartTime: String
-    eventId: ID
+    event: ID
     instructions: String
-    lastModifiedTime: String
+    lastModifiedAt: String
+    lastModifiedBy: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
-    name: LocalisedObject
+    name: String
     publisher: String
-    updatedAt: String
-    waitingAttendeeCapacity: Int
+    waitingListCapacity: Int
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!
     # @context is renamed as atContext so it's usable on GraphQl

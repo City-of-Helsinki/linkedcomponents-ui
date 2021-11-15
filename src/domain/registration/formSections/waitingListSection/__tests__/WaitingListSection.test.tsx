@@ -15,11 +15,11 @@ import WaitingListSection from '../WaitingListSection';
 configure({ defaultHidden: true });
 
 type InitialValues = {
-  [REGISTRATION_FIELDS.WAITING_ATTENDEE_CAPACITY]: number | '';
+  [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: number | '';
 };
 
 const defaultInitialValues: InitialValues = {
-  [REGISTRATION_FIELDS.WAITING_ATTENDEE_CAPACITY]: '',
+  [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: '',
 };
 
 const renderComponent = (initialValues?: Partial<InitialValues>) =>
@@ -38,14 +38,14 @@ const getElement = (key: 'waitingCapacity') => {
   switch (key) {
     case 'waitingCapacity':
       return screen.getByRole('spinbutton', {
-        name: translations.registration.form.labelWaitingAttendeeCapacity,
+        name: translations.registration.form.labelWaitingListCapacity,
       });
   }
 };
 
 test('should show validation error if waiting attendee capacity is less than 0', async () => {
   renderComponent({
-    [REGISTRATION_FIELDS.WAITING_ATTENDEE_CAPACITY]: -1,
+    [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: -1,
   });
 
   const waitingCapacityInput = getElement('waitingCapacity');

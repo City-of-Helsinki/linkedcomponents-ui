@@ -41,7 +41,7 @@ test('should initialize search panel input', async () => {
   screen.getByText(/tapahtuma/i);
 });
 
-test('should search events with correct search params', async () => {
+test('should search registrations with correct search params', async () => {
   const values = { text: 'search' };
 
   const { history } = renderComponent();
@@ -59,9 +59,7 @@ test('should search events with correct search params', async () => {
   });
   userEvent.click(eventTypeCheckbox);
 
-  const searchButton = screen.getAllByRole('button', {
-    name: /etsi ilmoittautumisia/i,
-  })[1];
+  const searchButton = screen.getAllByRole('button', { name: /etsi/i })[1];
   act(() => userEvent.click(searchButton));
 
   expect(history.location.pathname).toBe('/fi/registrations');

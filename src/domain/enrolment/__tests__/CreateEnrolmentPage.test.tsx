@@ -13,9 +13,12 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import { registration } from '../../enrolments/__mocks__/enrolmentsPage';
 import { mockedEventResponse } from '../../event/__mocks__/event';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
+import {
+  mockedRegistrationResponse,
+  registrationId,
+} from '../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import CreateEnrolmentPage from '../CreateEnrolmentPage';
 
@@ -88,12 +91,13 @@ const store = getMockReduxStore(state);
 const defaultMocks = [
   mockedEventResponse,
   mockedLanguagesResponse,
+  mockedRegistrationResponse,
   mockedUserResponse,
 ];
 
 const route = ROUTES.CREATE_ENROLMENT.replace(
   ':registrationId',
-  registration.id
+  registrationId
 );
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>

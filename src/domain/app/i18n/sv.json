@@ -102,6 +102,7 @@
       "buttonDecrease": "Ta bort",
       "buttonIncrease": "Lägg till" 
     },
+    "openInExternalDomain": "Flyttar till en annan webbplats.",
     "openInNewTab": "(öppnas i en ny flik)",
     "pagination": {
       "navigation": "Sidnavigering",
@@ -1206,6 +1207,11 @@
     "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
   },
   "registration": {
+    "deleteRegistrationModal": {
+      "buttonDelete": "Radera registreringen",
+      "text": "Denna åtgärd tar bort registreringen permanent.",
+      "title": "Bekräfta raderingen av registeringen"
+    },
     "form": {
       "buttonCreate": "Spara registrering",
       "buttonPanel": {
@@ -1219,17 +1225,21 @@
       "labelConfirmationMessage": "Bekräftelsemeddelande att skicka (valfritt)",
       "labelEnrolmentEndTime": "Registreringen avslutas",
       "labelEnrolmentStartTime": "Registreringen börjar",
+      "labelEvent": "Evenemang",
       "labelInstructions": "Anvisningar för registrering (valfritt)",
       "labelMaximumAttendeeCapacity": "Max antal platser",
       "labelMinimumAttendeeCapacity": "Minsta antal platser",
-      "labelWaitingAttendeeCapacity": "Antal reservplatser",
+      "labelName": "Namn",
+      "labelWaitingListCapacity": "Antal reservplatser",
       "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
+      "placeholderEvent": "Välj eller sök efter evenemanget",
       "placeholderInstructions": "Ange registreringsinstruktioner",
       "sections": {
         "attendeeCount": "Sittplatser",
         "audienceAge": "Åldersgräns",
         "confirmationMessage": "Bekräftelsemeddelande",
         "enrolmentTime": "Registreringstid",
+        "event": "Evenemang",
         "instructions": "Ytterligare registreringsinformation",
         "waitingList": "Väntelista"
       }
@@ -1258,7 +1268,7 @@
     },
     "searchPanel": {
       "buttonClear": "Klar",
-      "buttonSearch": "Sök efter registreringar",
+      "buttonSearch": "Sök",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",
       "labelSearch": "Sök efter registreringar",
@@ -1270,13 +1280,20 @@
     },
     "title": "Registrering"
   },
+  "registrationSavedPage": {
+    "buttonBackToRegistrations": "Tillbaka till registreringar",
+    "pageTitle": "Registreringen sparad",
+    "title": "Registreringen har sparats"
+  },
   "serverError": {
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
+    "mustBeUnique": "Värdet måste vara unikt.",
     "min0": "Detta nummer måste vara minst 0.",
     "nameIsRequired": "Namnet krävs.",
     "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
+    "notNull": "Värdet på detta fält kan inte vara \"null\".",
     "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
     "required": "Det här fältet kan inte lämnas tomt.",
     "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",

@@ -101,6 +101,7 @@
       "buttonDecrease": "Subtract",
       "buttonIncrease": "Add"
     },
+    "openInExternalDomain": "Moves to another site.",
     "openInNewTab": "(will open in a new tab)",
     "pagination": {
       "navigation": "Page navigation",
@@ -1206,6 +1207,11 @@
     "text": "You must be logged in to view this content. Log in or return to the home page."
   },
   "registration": {
+    "deleteRegistrationModal": {
+      "buttonDelete": "Delete event",
+      "text": "This action will permanently remove the registration.",
+      "title": "Confirm registration deletion"
+    },
     "form": {
       "buttonCreate": "Save",
       "buttonPanel": {
@@ -1219,17 +1225,21 @@
       "labelConfirmationMessage": "Confirmation message to send (optional)",
       "labelEnrolmentEndTime": "Registration ends",
       "labelEnrolmentStartTime": "Registration begins",
+      "labelEvent": "Event",
       "labelInstructions": "Registration instructions (optional)",
       "labelMaximumAttendeeCapacity": "Maximum number of seats",
       "labelMinimumAttendeeCapacity": "Minimum number of seats",
-      "labelWaitingAttendeeCapacity": "Number of spare seats",
+      "labelName": "Name",
+      "labelWaitingListCapacity": "Number of spare seats",
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
+      "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
         "confirmationMessage": "Confirmation message details",
         "enrolmentTime": "Registration time",
+        "event": "Event",
         "instructions": "Additional registration information",
         "waitingList": "Waiting list"
       }
@@ -1258,7 +1268,7 @@
     },
     "searchPanel": {
       "buttonClear": "Clear",
-      "buttonSearch": "Search registrations",
+      "buttonSearch": "Search",
       "labelEventType": "Type",
       "labelPlace": "Search venue",
       "labelSearch": "Search registrations",
@@ -1270,13 +1280,20 @@
     },
     "title": "Registration"
   },
+  "registrationSavedPage": {
+    "buttonBackToRegistrations": "Back to registrations",
+    "pageTitle": "Registration saved",
+    "title": "Registration successfully saved"
+  },
   "serverError": {
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",
     "maxLength255": "The value can be up to 255 characters long.",
     "min0": "This number must be at least 0.",
+    "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",
     "notFoundAllObjects": "Could not find all objects to update.",
+    "notNull": "The value of this field cannot be \"null\".",
     "offersIsRequired": "Price info must be specified before an event is published.",
     "required": "This field cannot be left blank.",
     "requiredWhenPublishing": "This field must be specified before an event is published.",

@@ -1,11 +1,18 @@
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
+import capitalize from 'lodash/capitalize';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../constants';
-import { Registration } from '../../generated/graphql';
-import { Language } from '../../types';
+import {
+  EventTypeId,
+  Registration,
+  RegistrationsQueryVariables,
+} from '../../generated/graphql';
+import { Language, PathBuilderProps } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
-import getLocalisedString from '../../utils/getLocalisedString';
+import getPathBuilder from '../../utils/getPathBuilder';
+import queryBuilder from '../../utils/queryBuilder';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
@@ -18,6 +25,7 @@ import {
   REGISTRATION_EDIT_LABEL_KEYS,
   REGISTRATION_SEARCH_PARAMS,
   REGISTRATION_SORT_OPTIONS,
+  REGISTRATIONS_PAGE_SIZE,
 } from './constants';
 import {
   RegistrationFields,
@@ -59,6 +67,20 @@ export const getRegistrationSearchQuery = (
     ...params,
     sort: sort !== DEFAULT_REGISTRATION_SORT ? sort : null,
   });
+};
+
+export const getRegistrationsQueryVariables = (
+  search: string
+): RegistrationsQueryVariables => {
+  const { eventType, page, text } = getRegistrationSearchInitialValues(search);
+
+  return {
+    createPath: getPathBuilder(registrationsPathBuilder),
+    eventType: eventType.map((type) => capitalize(type)) as EventTypeId[],
+    page,
+    pageSize: REGISTRATIONS_PAGE_SIZE,
+    text,
+  };
 };
 
 export const getRegistrationParamValue = ({
@@ -113,25 +135,26 @@ export const getRegistrationFields = (
     id,
     atId: registration.atId || '',
     createdBy: registration.createdBy ?? '',
-    currentAttendeeCount: registration.currentAttendeeCount ?? 0,
-    currentWaitingAttendeeCount: registration.currentWaitingAttendeeCount ?? 0,
+    currentAttendeeCount: 0,
+    currentWaitingAttendeeCount: 0,
     enrolmentEndTime: registration.enrolmentEndTime
       ? new Date(registration.enrolmentEndTime)
       : null,
     enrolmentStartTime: registration.enrolmentStartTime
       ? new Date(registration.enrolmentStartTime)
       : null,
-    lastModifiedTime: registration.lastModifiedTime
-      ? new Date(registration.lastModifiedTime)
+    event: registration.event ?? '',
+    lastModifiedAt: registration.lastModifiedAt
+      ? new Date(registration.lastModifiedAt)
       : null,
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
-    name: getLocalisedString(registration.name, language),
+    name: registration.name ?? '',
     publisher: registration.publisher || null,
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
       id
     )}`,
-    waitingAttendeeCapacity: registration.waitingAttendeeCapacity ?? 0,
+    waitingListCapacity: registration.waitingListCapacity ?? 0,
   };
 };
 
@@ -151,4 +174,29 @@ export const getEditButtonProps = ({
     onClick,
     title: '',
   };
+};
+
+export const clearRegistrationsQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'registrations' });
+
+export const registrationsPathBuilder = ({
+  args,
+}: PathBuilderProps<RegistrationsQueryVariables>): string => {
+  const { eventType, page, pageSize, text } = args;
+
+  const variableToKeyItems = [
+    {
+      key: 'event_type',
+      value: eventType?.length ? eventType : Object.values(EventTypeId),
+    },
+    { key: 'page', value: page },
+    { key: 'page_size', value: pageSize },
+    { key: 'text', value: text },
+  ];
+
+  const query = queryBuilder(variableToKeyItems);
+
+  return `/registration/${query}`;
 };

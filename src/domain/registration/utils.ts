@@ -1,10 +1,16 @@
 import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
+import isNumber from 'lodash/isNumber';
 import { scroller } from 'react-scroll';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { FORM_NAMES } from '../../constants';
-import { Registration } from '../../generated/graphql';
+import {
+  CreateRegistrationMutationInput,
+  Registration,
+  RegistrationQueryVariables,
+} from '../../generated/graphql';
+import { PathBuilderProps } from '../../types';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import {
@@ -158,13 +164,14 @@ export const getRegistrationInitialValues = (
     [REGISTRATION_FIELDS.ENROLMENT_START_TIME]: registration.enrolmentStartTime
       ? new Date(registration.enrolmentStartTime)
       : null,
+    [REGISTRATION_FIELDS.EVENT]: registration.event ?? '',
     [REGISTRATION_FIELDS.INSTRUCTIONS]: registration.instructions ?? '',
     [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]:
       registration.maximumAttendeeCapacity ?? '',
     [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]:
       registration.minimumAttendeeCapacity ?? '',
-    [REGISTRATION_FIELDS.WAITING_ATTENDEE_CAPACITY]:
-      registration.waitingAttendeeCapacity ?? '',
+    [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]:
+      registration.waitingListCapacity ?? '',
   };
 };
 
@@ -200,4 +207,52 @@ export const scrollToRegistrationItem = (id: string): void => {
   });
 
   setTimeout(() => setFocusToFirstFocusable(id), duration);
+};
+
+export const getRegistrationPayload = (
+  formValues: RegistrationFormFields
+): CreateRegistrationMutationInput => {
+  const {
+    audienceMaxAge,
+    audienceMinAge,
+    confirmationMessage,
+    enrolmentEndTime,
+    enrolmentStartTime,
+    event,
+    instructions,
+    maximumAttendeeCapacity,
+    minimumAttendeeCapacity,
+    waitingListCapacity,
+  } = formValues;
+
+  return {
+    audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
+    audienceMinAge: isNumber(audienceMinAge) ? audienceMinAge : null,
+    confirmationMessage: confirmationMessage ? confirmationMessage : null,
+    enrolmentEndTime: enrolmentEndTime
+      ? new Date(enrolmentEndTime).toISOString()
+      : null,
+    enrolmentStartTime: enrolmentStartTime
+      ? new Date(enrolmentStartTime).toISOString()
+      : null,
+    event,
+    instructions: instructions ? instructions : null,
+    maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
+      ? maximumAttendeeCapacity
+      : null,
+    minimumAttendeeCapacity: isNumber(minimumAttendeeCapacity)
+      ? minimumAttendeeCapacity
+      : null,
+    waitingListCapacity: isNumber(waitingListCapacity)
+      ? waitingListCapacity
+      : null,
+  };
+};
+
+export const registrationPathBuilder = ({
+  args,
+}: PathBuilderProps<RegistrationQueryVariables>): string => {
+  const { id } = args;
+
+  return `/registration/${id}/`;
 };

@@ -5,17 +5,22 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { Registration } from '../../generated/graphql';
+import {
+  RegistrationFieldsFragment,
+  useRegistrationQuery,
+} from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import NotFound from '../notFound/NotFound';
 import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import RegistrationInfo from '../registration/registrationInfo/RegistrationInfo';
-import { registrationsResponse } from '../registrations/__mocks__/registrationsPage';
+import { registrationPathBuilder } from '../registration/utils';
 import { getRegistrationFields } from '../registrations/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
+import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
 import ButtonPanel from './buttonPanel/ButtonPanel';
 import styles from './enrolmentsPage.module.scss';
@@ -26,7 +31,7 @@ import { getEnrolmentItemId, scrollToEnrolmentItem } from './utils';
 import WaitingList from './waitingList/WaitingList';
 
 interface EnrolmentsPageProps {
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 }
 
 const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
@@ -77,14 +82,21 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
 
 const EnrolmentsPageWrapper: React.FC = () => {
   const location = useLocation();
-  const loadingUser = useDebouncedLoadingUser();
   const { registrationId } = useParams<{ registrationId: string }>();
-  // TODO: Use real registration data when API is available
-  const registration = registrationsResponse.registrations.data.find(
-    (item) => item.id === registrationId
-  );
+  const { user } = useUser();
+  const loadingUser = useDebouncedLoadingUser();
 
-  const loading = loadingUser;
+  const { data: registrationData, loading: loadingRegistration } =
+    useRegistrationQuery({
+      skip: !registrationId || !user,
+      variables: {
+        id: registrationId,
+        createPath: getPathBuilder(registrationPathBuilder),
+      },
+    });
+
+  const registration = registrationData?.registration;
+  const loading = loadingRegistration || loadingUser;
 
   return (
     <LoadingSpinner isLoading={loading}>

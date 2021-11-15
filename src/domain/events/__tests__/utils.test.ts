@@ -36,9 +36,7 @@ describe('eventsPathBuilder function', () => {
       '/event/?ends_before=14&event_type=General,Course,Volunteering',
     ],
     [
-      {
-        eventType: [EventTypeId.Course, EventTypeId.General],
-      },
+      { eventType: [EventTypeId.Course, EventTypeId.General] },
       '/event/?event_type=Course,General',
     ],
     [
@@ -133,15 +131,4 @@ describe('eventsPathBuilder function', () => {
     (variables, expectedPath) =>
       expect(eventsPathBuilder({ args: variables })).toBe(expectedPath)
   );
-
-  it('should create correct path for events request', () => {
-    const items = [];
-
-    items.forEach(({ args, expectedPath }) => {
-      const path = eventsPathBuilder({
-        args,
-      });
-      expect(path).toBe(expectedPath);
-    });
-  });
 });

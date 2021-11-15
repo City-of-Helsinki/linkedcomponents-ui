@@ -6,6 +6,7 @@ import { DEPRECATED_ROUTES, ROUTES } from '../../../constants';
 import { Language } from '../../../types';
 import EventSavedPage from '../../eventSaved/EventSavedPage';
 import HelpPageLayout from '../../help/layout/HelpPageLayout';
+import RegistrationSavedPage from '../../registrationSaved/RegistrationSavedPage';
 import LogoutPage from '.././../auth/logoutPage/LogoutPage';
 import LandingPage from '.././../landingPage/LandingPage';
 import NotFound from '.././../notFound/NotFound';
@@ -113,6 +114,11 @@ const LocaleRoutes: React.FC<Props> = ({
             exact
             path={getLocalePath(ROUTES.CREATE_REGISTRATION)}
             component={CreateRegistrationPage}
+          />
+          <Route
+            exact
+            path={getLocalePath(ROUTES.REGISTRATION_SAVED)}
+            component={RegistrationSavedPage}
           />
           <Route
             exact

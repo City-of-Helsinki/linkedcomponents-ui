@@ -27,6 +27,8 @@ const parseServerErrorMessage = ({
   switch (errorStr) {
     case 'Arvo saa olla enintään 255 merkkiä pitkä.':
       return t(`serverError.maxLength255`);
+    case 'Arvon tulee olla uniikki.':
+      return t(`serverError.mustBeUnique`);
     case 'Could not find all objects to update.':
       return t(`serverError.notFoundAllObjects`);
     case 'End time cannot be in the past. Please set a future end time.':
@@ -43,6 +45,8 @@ const parseServerErrorMessage = ({
       return t(`serverError.requiredWhenPublishing`);
     case 'Tämä kenttä ei voi olla tyhjä.':
       return t(`serverError.required`);
+    case 'Tämän kentän arvo ei voi olla "null".':
+      return t(`serverError.notNull`);
     case 'Tämän luvun on oltava vähintään 0.':
       return t(`serverError.min0`);
     default:

@@ -14,11 +14,12 @@ import {
   screen,
   waitFor,
 } from '../../../utils/testUtils';
+import { mockedEventResponse } from '../../event/__mocks__/event';
 import {
-  attendees,
-  mockedUserResponse,
-  registration,
-} from '../__mocks__/enrolmentsPage';
+  mockedRegistrationResponse,
+  registrationId,
+} from '../../registration/__mocks__/registration';
+import { attendees, mockedUserResponse } from '../__mocks__/enrolmentsPage';
 import EnrolmentsPage from '../EnrolmentsPage';
 
 configure({ defaultHidden: true });
@@ -27,10 +28,14 @@ const storeState = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(storeState);
 const route = ROUTES.REGISTRATION_ENROLMENTS.replace(
   ':registrationId',
-  registration.id
+  registrationId
 );
 
-const defaultMocks = [mockedUserResponse];
+const defaultMocks = [
+  mockedEventResponse,
+  mockedRegistrationResponse,
+  mockedUserResponse,
+];
 
 beforeEach(() => jest.clearAllMocks());
 

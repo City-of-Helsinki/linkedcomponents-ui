@@ -24,6 +24,7 @@ const EnrolmentTimeSection: React.FC = () => {
               component={DatepickerField}
               label={t(`registration.form.labelEnrolmentStartTime`)}
               placeholder={t(`common.placeholderDateTime`)}
+              required={true}
               timeSelector={true}
             />
             <Field
@@ -32,6 +33,7 @@ const EnrolmentTimeSection: React.FC = () => {
               label={t(`registration.form.labelEnrolmentEndTime`)}
               minBookingDate={enrolmentStartTime}
               placeholder={t(`common.placeholderDateTime`)}
+              required={true}
               timeSelector={true}
             />
           </div>

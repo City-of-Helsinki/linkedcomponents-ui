@@ -2,14 +2,14 @@ import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
-import { registration } from '../../__mocks__/enrolmentsPage';
+import { registrationId } from '../../../registration/__mocks__/registration';
 import FilterSummary from '../FilterSummary';
 
 const text = 'Search word';
 
 const defaultRoute = `/fi${ROUTES.REGISTRATION_ENROLMENTS.replace(
   ':registrationId',
-  registration.id
+  registrationId
 )}`;
 
 const renderComponent = (route = defaultRoute) =>

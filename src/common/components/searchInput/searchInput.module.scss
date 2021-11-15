@@ -3,13 +3,13 @@
 .input {
   composes: hds-text-input__input from '~hds-core/lib/components/text-input/text-input.css';
   --input-border-color-default: var(--input-background-default);
+  padding: 0 calc(var(--spacing-l) + var(--icon-size)) 0 var(--spacing-s) !important;
 }
 
 .buttons {
   position: absolute;
   right: var(--spacing-s);
-  top: var(--spacing-xs);
-  transform: translateY(2px);
+  top: var(--spacing-s);
   display: flex;
 }
 

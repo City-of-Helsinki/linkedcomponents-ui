@@ -46,7 +46,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   value,
 }) => {
   const { t } = useTranslation();
-  const id = React.useState(() => _id || uniqueId('multi-select-dropdown-'));
+  const [id] = React.useState(() => _id || uniqueId('multi-select-dropdown-'));
   const toggleButtonId = `${id}-toggle-button`;
   const menuId = `${id}-menu`;
   const [internalSearchValue, setInternalSearchValue] = React.useState('');

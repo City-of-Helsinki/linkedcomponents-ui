@@ -15,12 +15,16 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
-import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { eventName, mockedEventResponse } from '../../../event/__mocks__/event';
 import {
   mockedEventsResponse,
   mockedPlacesResponse,
   searchText,
 } from '../../../eventSearch/__mocks__/eventSearchPage';
+import {
+  mockedRegistrationResponse,
+  registrationId,
+} from '../../../registration/__mocks__/editRegistrationPage';
 import LocaleRoutes from '../LocaleRoutes';
 
 configure({ defaultHidden: true });
@@ -43,6 +47,7 @@ const mocks = [
   mockedEventResponse,
   mockedEventsResponse,
   mockedPlacesResponse,
+  mockedRegistrationResponse,
   mockedUserResponse,
 ];
 
@@ -114,13 +119,13 @@ it('should render create registration page', async () => {
 
 it('should render edit registration page', async () => {
   const { history } = renderRoute(
-    `${ROUTES.EDIT_REGISTRATION.replace(':id', 'registration:1')}`
+    `${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`
   );
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
   expect(history.location.pathname).toBe(
-    '/fi/registrations/edit/registration:1'
+    `/fi/registrations/edit/${registrationId}`
   );
 });
 
@@ -128,26 +133,26 @@ it('should render registration enrolments page', async () => {
   const { history } = renderRoute(
     `${ROUTES.REGISTRATION_ENROLMENTS.replace(
       ':registrationId',
-      'registration:1'
+      registrationId
     )}`
   );
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /Registration name 2/i });
+  await screen.findByRole('heading', { name: eventName }, { timeout: 30000 });
   expect(history.location.pathname).toBe(
-    '/fi/registrations/registration:1/enrolments'
+    `/fi/registrations/${registrationId}/enrolments`
   );
 });
 
 it('should render create enrolment page', async () => {
   const { history } = renderRoute(
-    `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', 'registration:0')}`
+    `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', registrationId)}`
   );
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByText(/ilmoittautujan perustiedot/i);
   expect(history.location.pathname).toBe(
-    '/fi/registrations/registration:0/enrolments/create'
+    `/fi/registrations/${registrationId}/enrolments/create`
   );
 });
 
@@ -155,14 +160,14 @@ it('should render edit enrolment page', async () => {
   const { history } = renderRoute(
     `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
       ':registrationId',
-      'registration:0'
+      registrationId
     ).replace(':enrolmentId', 'attendee:0')}`
   );
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByText(/ilmoittautujan perustiedot/i);
   expect(history.location.pathname).toBe(
-    '/fi/registrations/registration:0/enrolments/edit/attendee:0'
+    `/fi/registrations/${registrationId}/enrolments/edit/attendee:0`
   );
 });
 

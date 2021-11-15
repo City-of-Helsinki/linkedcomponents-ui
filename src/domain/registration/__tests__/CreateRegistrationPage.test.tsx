@@ -1,14 +1,11 @@
-/* eslint-disable no-console */
-
+import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { FORM_NAMES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
-  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -17,6 +14,12 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import {
+  mockedCreateRegistrationResponse,
+  mockedInvalidCreateRegistrationResponse,
+  registrationValues,
+} from '../__mocks__/createRegistrationPage';
+import { registrationId } from '../__mocks__/editRegistrationPage';
 import { REGISTRATION_INITIAL_VALUES } from '../constants';
 import CreateRegistrationPage from '../CreateRegistrationPage';
 import { RegistrationFormFields } from '../types';
@@ -28,7 +31,8 @@ const store = getMockReduxStore(state);
 
 beforeEach(() => clear());
 
-const renderComponent = () => render(<CreateRegistrationPage />, { store });
+const renderComponent = (mocks: MockedResponse[] = []) =>
+  render(<CreateRegistrationPage />, { mocks, store });
 
 beforeEach(() => {
   // values stored with FormikPersist will also be available in other tests unless you run
@@ -55,8 +59,14 @@ const setFormValues = (values: RegistrationFormFields) => {
   });
 };
 
-const getElement = (key: 'enrolmentStartTime' | 'saveButton') => {
+const getElement = (
+  key: 'eventCombobox' | 'enrolmentStartTime' | 'saveButton'
+) => {
   switch (key) {
+    case 'eventCombobox':
+      return screen.getByRole('combobox', {
+        name: /tapahtuma/i,
+      });
     case 'enrolmentStartTime':
       return screen.getByRole('textbox', {
         name: /Ilmoittautuminen alkaa/i,
@@ -74,34 +84,49 @@ test('should focus to first validation error when trying to save new registratio
 
   await loadingSpinnerIsNotInDocument();
 
-  const enrolmentStartTimeTextbox = getElement('enrolmentStartTime');
+  const eventCombobox = getElement('eventCombobox');
   const saveButton = getElement('saveButton');
+  userEvent.click(saveButton);
 
-  act(() => userEvent.click(saveButton));
-
-  await waitFor(() => expect(enrolmentStartTimeTextbox).toHaveFocus());
+  await waitFor(() => expect(eventCombobox).toHaveFocus());
 });
 
-test('should show alert toast message when trying to save registration', async () => {
+test('should move to registration page after creating new registration', async () => {
   advanceTo('2020-07-05');
-  toast.error = jest.fn();
   setFormValues({
     ...REGISTRATION_INITIAL_VALUES,
-    enrolmentEndTime: new Date('2020-12-31T21:00:00.000Z'),
-    enrolmentStartTime: new Date('2020-12-31T18:00:00.000Z'),
+    ...registrationValues,
   });
 
-  renderComponent();
+  const { history } = renderComponent([mockedCreateRegistrationResponse]);
 
   await loadingSpinnerIsNotInDocument();
 
   const saveButton = getElement('saveButton');
-
   userEvent.click(saveButton);
 
   await waitFor(() =>
-    expect(toast.error).toBeCalledWith(
-      'TODO: Save registration when API is available'
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/completed/${registrationId}`
     )
   );
+});
+
+test('should show server errors', async () => {
+  advanceTo('2020-07-05');
+  setFormValues({
+    ...REGISTRATION_INITIAL_VALUES,
+    ...registrationValues,
+  });
+
+  const mocks = [mockedInvalidCreateRegistrationResponse];
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const saveButton = getElement('saveButton');
+  userEvent.click(saveButton);
+
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
 });

@@ -5,6 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import Button from '../button/Button';
 import styles from './deleteButton.module.scss';
 
 type Props = {
@@ -26,7 +27,7 @@ const DeleteButton: React.FC<Props> = ({
   const { theme } = useTheme();
 
   return (
-    <button
+    <Button
       {...rest}
       aria-label={ariaLabel}
       className={classNames(
@@ -34,12 +35,13 @@ const DeleteButton: React.FC<Props> = ({
         className,
         css(theme.deleteButton)
       )}
+      iconLeft={<IconMinusCircle aria-hidden={true} />}
       onClick={onClick}
       type={type}
+      variant="supplementary"
     >
-      <IconMinusCircle size="s" />
       <span className={styles.label}>{t('common.delete')}</span>
-    </button>
+    </Button>
   );
 };
 

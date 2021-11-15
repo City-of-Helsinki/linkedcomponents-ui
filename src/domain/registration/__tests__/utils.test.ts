@@ -1,10 +1,14 @@
 import i18n from 'i18next';
 
+import { RegistrationQueryVariables } from '../../../generated/graphql';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
+import { REGISTRATION_INITIAL_VALUES } from '../constants';
 import {
   getEditRegistrationWarning,
   getRegistrationInitialValues,
+  getRegistrationPayload,
+  registrationPathBuilder,
 } from '../utils';
 
 describe('getEditRegistrationWarning function', () => {
@@ -67,7 +71,7 @@ describe('getRegistrationInitialValues function', () => {
       instructions,
       maximumAttendeeCapacity,
       minimumAttendeeCapacity,
-      waitingAttendeeCapacity,
+      waitingListCapacity,
     } = getRegistrationInitialValues(
       fakeRegistration({
         audienceMaxAge: null,
@@ -78,7 +82,7 @@ describe('getRegistrationInitialValues function', () => {
         instructions: null,
         maximumAttendeeCapacity: null,
         minimumAttendeeCapacity: null,
-        waitingAttendeeCapacity: null,
+        waitingListCapacity: null,
       })
     );
 
@@ -90,6 +94,74 @@ describe('getRegistrationInitialValues function', () => {
     expect(instructions).toBe('');
     expect(maximumAttendeeCapacity).toBe('');
     expect(minimumAttendeeCapacity).toBe('');
-    expect(waitingAttendeeCapacity).toBe('');
+    expect(waitingListCapacity).toBe('');
   });
+});
+
+describe('getEventPayload function', () => {
+  it('should return single event as payload', () => {
+    expect(
+      getRegistrationPayload({
+        ...REGISTRATION_INITIAL_VALUES,
+      })
+    ).toEqual({
+      audienceMaxAge: null,
+      audienceMinAge: null,
+      confirmationMessage: null,
+      enrolmentEndTime: null,
+      enrolmentStartTime: null,
+      event: '',
+      instructions: null,
+      maximumAttendeeCapacity: null,
+      minimumAttendeeCapacity: null,
+      waitingListCapacity: null,
+    });
+
+    const audienceMaxAge = 18,
+      audienceMinAge = 12,
+      confirmationMessage = 'Confirmation message',
+      enrolmentEndTime = '2020-01-01T15:15:00.000Z',
+      enrolmentStartTime = '2020-01-01T09:15:00.000Z',
+      event = 'event:1',
+      instructions = 'Instructions',
+      maximumAttendeeCapacity = 10,
+      minimumAttendeeCapacity = 5,
+      waitingListCapacity = 3;
+    const payload = getRegistrationPayload({
+      ...REGISTRATION_INITIAL_VALUES,
+      audienceMaxAge,
+      audienceMinAge,
+      confirmationMessage,
+      enrolmentEndTime: new Date(enrolmentEndTime),
+      enrolmentStartTime: new Date(enrolmentStartTime),
+      event,
+      instructions,
+      maximumAttendeeCapacity,
+      minimumAttendeeCapacity,
+      waitingListCapacity,
+    });
+
+    expect(payload).toEqual({
+      audienceMaxAge,
+      audienceMinAge,
+      confirmationMessage,
+      enrolmentEndTime,
+      enrolmentStartTime,
+      event,
+      instructions,
+      maximumAttendeeCapacity,
+      minimumAttendeeCapacity,
+      waitingListCapacity,
+    });
+  });
+});
+
+describe('registrationPathBuilder function', () => {
+  const cases: [RegistrationQueryVariables, string][] = [
+    [{ id: 'hel:123' }, '/registration/hel:123/'],
+  ];
+
+  it.each(cases)('should build correct path', (variables, expectedPath) =>
+    expect(registrationPathBuilder({ args: variables })).toBe(expectedPath)
+  );
 });

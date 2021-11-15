@@ -8,10 +8,10 @@ import {
   userEvent,
 } from '../../../../utils/testUtils';
 import {
-  attendeeNames,
-  attendees,
   registration,
-} from '../../__mocks__/enrolmentsPage';
+  registrationId,
+} from '../../../registration/__mocks__/registration';
+import { attendeeNames, attendees } from '../../__mocks__/enrolmentsPage';
 import EnrolmentsTable, { EnrolmentsTableProps } from '../EnrolmentsTable';
 
 configure({ defaultHidden: true });
@@ -67,7 +67,7 @@ test('should open event page by clicking event', () => {
   );
 
   expect(history.location.pathname).toBe(
-    `/fi/registrations/${registration.id}/enrolments/edit/${enrolmentId}`
+    `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
   );
 });
 
@@ -86,6 +86,6 @@ test('should open event page by pressing enter on row', () => {
   );
 
   expect(history.location.pathname).toBe(
-    `/fi/registrations/${registration.id}/enrolments/edit/${enrolmentId}`
+    `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
   );
 });

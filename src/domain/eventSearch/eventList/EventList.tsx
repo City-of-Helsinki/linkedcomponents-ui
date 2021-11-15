@@ -14,6 +14,7 @@ import {
   useEventsQuery,
 } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
+import getPageCount from '../../../utils/getPageCount';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import Container from '../../app/layout/Container';
 import {
@@ -46,10 +47,6 @@ type EventListProps = {
   onSelectedPageChange: (page: number) => void;
   page: number;
   pageCount: number;
-};
-
-const getPageCount = (count: number, pageSize: number) => {
-  return Math.ceil(count / pageSize);
 };
 
 const EventList: React.FC<EventListProps> = ({

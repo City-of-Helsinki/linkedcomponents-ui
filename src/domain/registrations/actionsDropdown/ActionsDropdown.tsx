@@ -2,14 +2,17 @@ import { IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
 
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
-import { Registration } from '../../../generated/graphql';
+import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import useRegistrationUpdateActions, {
+  MODALS,
+} from '../../registration/hooks/useRegistrationUpdateActions';
+import ConfirmDeleteModal from '../../registration/modals/ConfirmDeleteModal';
 import { copyRegistrationToSessionStorage } from '../../registration/utils';
 import { REGISTRATION_EDIT_ACTIONS } from '../constants';
 import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
@@ -18,7 +21,7 @@ import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {
   className?: string;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 }
 
 const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
@@ -28,6 +31,10 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
     const history = useHistory();
     const { id, registrationUrl } = getRegistrationFields(registration, locale);
     const queryStringWithReturnPath = useQueryStringWithReturnPath();
+    const { closeModal, deleteRegistration, openModal, saving, setOpenModal } =
+      useRegistrationUpdateActions({
+        registration,
+      });
 
     const goToEditRegistrationPage = () => {
       const registrationUrlWithReturnPath = `${registrationUrl}${queryStringWithReturnPath}`;
@@ -47,6 +54,10 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
     const copyRegistration = async () => {
       await copyRegistrationToSessionStorage(registration);
       history.push(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
+    };
+
+    const onDelete = () => {
+      deleteRegistration();
     };
 
     const getActionItemProps = ({
@@ -78,12 +89,20 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       }),
       getActionItemProps({
         action: REGISTRATION_EDIT_ACTIONS.DELETE,
-        onClick: () => toast.error('TODO: Delete registration'),
+        onClick: () => setOpenModal(MODALS.DELETE),
       }),
     ].filter(skipFalsyType);
 
     return (
       <div ref={ref}>
+        {openModal === MODALS.DELETE && (
+          <ConfirmDeleteModal
+            isOpen={openModal === MODALS.DELETE}
+            isSaving={saving === REGISTRATION_EDIT_ACTIONS.DELETE}
+            onClose={closeModal}
+            onDelete={onDelete}
+          />
+        )}
         <MenuDropdown
           button={
             <button className={styles.toggleButton}>
