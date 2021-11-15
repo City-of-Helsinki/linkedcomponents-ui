@@ -12,6 +12,7 @@ import {
 } from '../../../generated/graphql';
 import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
+import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
@@ -38,7 +39,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
   const isMounted = useIsMounted();
   const { t } = useTranslation();
   const locale = useLocale();
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = useMountedState('');
 
   const { data: eventsData, previousData: previousEventsData } = useEventsQuery(
     {
@@ -61,10 +62,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
   const handleFilter = (items: OptionType[], inputValue: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      /* istanbul ignore else */
-      if (isMounted.current) {
-        setSearch(inputValue);
-      }
+      setSearch(inputValue);
     });
 
     return items;

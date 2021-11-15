@@ -17,6 +17,7 @@ import {
 } from '../../../generated/graphql';
 import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
+import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
 import getPathBuilder from '../../../utils/getPathBuilder';
@@ -64,7 +65,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
   const locale = useLocale();
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = useMountedState('');
   const [selectedKeywords, setSelectedKeywords] = React.useState<OptionType[]>(
     []
   );
@@ -82,10 +83,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   const handleFilter = (items: OptionType[], inputValue: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      /* istanbul ignore else */
-      if (isMounted.current) {
-        setSearch(inputValue);
-      }
+      setSearch(inputValue);
     });
 
     return items;
