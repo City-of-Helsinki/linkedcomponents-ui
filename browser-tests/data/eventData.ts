@@ -47,9 +47,16 @@ export const getPlace = async (
   requestLogger: RequestLogger,
   event: EventFieldsFragment
 ): Promise<PlaceFieldsFragment> => {
+  // First try to find place from the places request response
+  const places = await getPlaces(t, requestLogger);
+  const place = places.find((p) => p.atId === event.location.atId);
+  if (place) {
+    return place;
+  }
+
   await t
     .expect(requestLogger.requests.find(findPlaceRequest(event.location.atId)))
-    .notEql(undefined);
+    .ok();
   const placeResponse = requestLogger.requests.find(
     findPlaceRequest(event.location.atId)
   );
@@ -68,13 +75,11 @@ export const getPlaces = async (
   t: TestController,
   requestLogger: RequestLogger
 ): Promise<PlaceFieldsFragment[]> => {
-  await t
-    .expect(requestLogger.requests.find(findPlacesRequest))
-    .notEql(undefined);
+  await t.expect(requestLogger.requests.find(findPlacesRequest)).ok();
   const placesResponse = requestLogger.requests.find(findPlacesRequest);
 
-  return JSON.parse(placesResponse.response.body as string).data.map((event) =>
-    normalizeKeys(event, normalizeKey)
+  return JSON.parse(placesResponse.response.body as string).data.map((place) =>
+    normalizeKeys(place, normalizeKey)
   );
 };
 

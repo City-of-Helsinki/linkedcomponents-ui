@@ -3,7 +3,6 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import React from 'react';
 import { useLocation } from 'react-router';
 
 import {
@@ -12,8 +11,8 @@ import {
   useDeleteRegistrationMutation,
   useUpdateRegistrationMutation,
 } from '../../../generated/graphql';
-import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
+import useMountedState from '../../../hooks/useMountedState';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
@@ -53,31 +52,24 @@ type UseEventUpdateActionsState = {
 const useRegistrationUpdateActions = ({
   registration,
 }: Props): UseEventUpdateActionsState => {
-  const isMounted = useIsMounted();
   const locale = useLocale();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
   const location = useLocation();
-  const [saving, setSaving] = React.useState<REGISTRATION_EDIT_ACTIONS | false>(
-    false
-  );
-  const [openModal, setOpenModal] = React.useState<MODALS | null>(null);
+  const [saving, setSaving] = useMountedState<
+    REGISTRATION_EDIT_ACTIONS | false
+  >(false);
+  const [openModal, setOpenModal] = useMountedState<MODALS | null>(null);
   const { id } = getRegistrationFields(registration, locale);
   const [updateRegistrationMutation] = useUpdateRegistrationMutation();
   const [deleteRegistrationMutation] = useDeleteRegistrationMutation();
 
   const savingFinished = () => {
-    /* istanbul ignore else */
-    if (isMounted.current) {
-      setSaving(false);
-    }
+    setSaving(false);
   };
 
   const closeModal = () => {
-    /* istanbul ignore else */
-    if (isMounted.current) {
-      setOpenModal(null);
-    }
+    setOpenModal(null);
   };
 
   const cleanAfterUpdate = async (callbacks?: Callbacks) => {

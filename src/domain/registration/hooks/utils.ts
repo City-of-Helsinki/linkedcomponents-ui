@@ -55,9 +55,6 @@ export const parseRegistrationServerErrors = ({
 
   // Get correct field name for an error item
   function parseRegistrationServerErrorLabel({ key }: { key: string }): string {
-    switch (key) {
-      default:
-        return t(`registration.form.label${pascalCase(key)}`);
-    }
+    return t(`registration.form.label${pascalCase(key)}`);
   }
 };

@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ApolloClient,
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
 import map from 'lodash/map';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
@@ -19,8 +19,8 @@ import {
   useDeleteEventMutation,
   useUpdateEventsMutation,
 } from '../../../generated/graphql';
-import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
+import useMountedState from '../../../hooks/useMountedState';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector } from '../../auth/selectors';
@@ -76,15 +76,16 @@ type UseEventUpdateActionsState = {
 const useEventUpdateActions = ({
   event,
 }: Props): UseEventUpdateActionsState => {
-  const isMounted = useIsMounted();
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const locale = useLocale();
   const location = useLocation();
-  const [openModal, setOpenModal] = React.useState<MODALS | null>(null);
-  const [saving, setSaving] = React.useState<EVENT_EDIT_ACTIONS | false>(false);
+  const [openModal, setOpenModal] = useMountedState<MODALS | null>(null);
+  const [saving, setSaving] = useMountedState<EVENT_EDIT_ACTIONS | false>(
+    false
+  );
 
   const [createEventsMutation] = useCreateEventsMutation();
   const [deleteEventMutation] = useDeleteEventMutation();
@@ -93,16 +94,11 @@ const useEventUpdateActions = ({
   const { updateRecurringEventIfNeeded } = useUpdateRecurringEventIfNeeded();
 
   const closeModal = () => {
-    /* istanbul ignore else */
-    if (isMounted.current) {
-      setOpenModal(null);
-    }
+    setOpenModal(null);
   };
+
   const savingFinished = () => {
-    /* istanbul ignore else */
-    if (isMounted.current) {
-      setSaving(false);
-    }
+    setSaving(false);
   };
 
   const updateEvents = (payload: UpdateEventMutationInput[]) =>
@@ -429,7 +425,7 @@ const useEventUpdateActions = ({
 
     try {
       await updateImageIfNeeded(values);
-    } catch (error) /* istanbul ignore next */ {
+    } catch (error: any) /* istanbul ignore next */ {
       // Report error to Sentry
       reportError({
         data: {

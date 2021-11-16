@@ -54,7 +54,9 @@ const updatedRegistration = {
 const updateRegistrationResponse = {
   data: { updateRegistration: updatedRegistration },
 };
-const updatedRegistrationResponse = { data: { event: updatedRegistration } };
+const updatedRegistrationResponse = {
+  data: { registration: updatedRegistration },
+};
 const mockedUpdateRegistrationResponse: MockedResponse = {
   request: {
     query: UpdateRegistrationDocument,
