@@ -17,6 +17,7 @@ import {
   useEventsQuery,
 } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
+import getPageCount from '../../../utils/getPageCount';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import Container from '../../app/layout/Container';
 import { EventsLocationState } from '../../eventSearch/types';
@@ -49,10 +50,6 @@ export interface EventListContainerProps {
   setListType: (type: EVENT_LIST_TYPES) => void;
   skip?: boolean;
 }
-
-const getPageCount = (count: number, pageSize: number) => {
-  return Math.ceil(count / pageSize);
-};
 
 type EventListProps = {
   events: EventsQuery['events']['data'];

@@ -1,0 +1,6 @@
+@import 'widths';
+
+.container {
+  @include max-width-column(6);
+  margin-left: 0;
+}

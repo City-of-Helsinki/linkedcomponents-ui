@@ -1,29 +1,67 @@
+import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 import { Route } from 'react-router';
 
-import { DEPRECATED_ROUTES, ROUTES } from '../../../../constants';
+import { DEPRECATED_ROUTES, ROUTES, TEST_USER_ID } from '../../../../constants';
+import { UserDocument } from '../../../../generated/graphql';
+import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../types';
+import { fakeUser } from '../../../../utils/mockDataUtils';
+import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   configure,
+  getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
   render,
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
+import { eventName, mockedEventResponse } from '../../../event/__mocks__/event';
 import {
   mockedEventsResponse,
   mockedPlacesResponse,
   searchText,
 } from '../../../eventSearch/__mocks__/eventSearchPage';
+import {
+  mockedRegistrationResponse,
+  registrationId,
+} from '../../../registration/__mocks__/editRegistrationPage';
 import LocaleRoutes from '../LocaleRoutes';
 
 configure({ defaultHidden: true });
-const mocks = [mockedEventsResponse, mockedPlacesResponse];
+
+const storeState = fakeAuthenticatedStoreState();
+const store = getMockReduxStore(storeState);
+
+const adminOrganization = 'helsinki';
+const userData = fakeUser({ adminOrganizations: [adminOrganization] });
+const userResponse = { data: { user: userData } };
+const mockedUserResponse: MockedResponse = {
+  request: {
+    query: UserDocument,
+    variables: { id: TEST_USER_ID, createPath: undefined },
+  },
+  result: userResponse,
+};
+
+const mocks = [
+  mockedEventResponse,
+  mockedEventsResponse,
+  mockedPlacesResponse,
+  mockedRegistrationResponse,
+  mockedUserResponse,
+];
 
 const renderRoute = (route: string, locale: Language = 'fi') =>
   render(<Route path={`/:locale/`} component={LocaleRoutes} />, {
     mocks,
     routes: [`/${locale}${route}`],
+    store,
   });
+
+beforeEach(() => {
+  setFeatureFlags({ SHOW_REGISTRATION: true });
+});
 
 it('should redirect to events page from deprecated modaration page', () => {
   const { history } = renderRoute(DEPRECATED_ROUTES.MODERATION);
@@ -66,6 +104,76 @@ it('should render event search page', async () => {
     name: /hae linked events -rajapinnasta/i,
   });
   expect(history.location.pathname).toBe('/fi/search');
+});
+
+it('should render registrations page', async () => {
+  const { history } = renderRoute(`${ROUTES.REGISTRATIONS}?text=${searchText}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /ilmoittautuminen/i });
+  expect(history.location.pathname).toBe('/fi/registrations');
+});
+
+it('should render create registration page', async () => {
+  const { history } = renderRoute(`${ROUTES.CREATE_REGISTRATION}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  expect(history.location.pathname).toBe('/fi/registrations/create');
+});
+
+it('should render edit registration page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  expect(history.location.pathname).toBe(
+    `/fi/registrations/edit/${registrationId}`
+  );
+});
+
+it('should render registration enrolments page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.REGISTRATION_ENROLMENTS.replace(
+      ':registrationId',
+      registrationId
+    )}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: eventName }, { timeout: 30000 });
+  expect(history.location.pathname).toBe(
+    `/fi/registrations/${registrationId}/enrolments`
+  );
+});
+
+it('should render create enrolment page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', registrationId)}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByText(/ilmoittautujan perustiedot/i);
+  expect(history.location.pathname).toBe(
+    `/fi/registrations/${registrationId}/enrolments/create`
+  );
+});
+
+it('should render edit enrolment page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+      ':registrationId',
+      registrationId
+    ).replace(':enrolmentId', 'attendee:0')}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByText(/ilmoittautujan perustiedot/i);
+  expect(history.location.pathname).toBe(
+    `/fi/registrations/${registrationId}/enrolments/edit/attendee:0`
+  );
 });
 
 it('should route to default help page', async () => {

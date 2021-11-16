@@ -46,6 +46,7 @@ jobs:
           DOCKER_BUILD_ARG_REACT_APP_MATOMO_TRACKER_URL: 'tracker.php'
           DOCKER_BUILD_ARG_REACT_APP_MATOMO_ENABLED: 'true'
           DOCKER_BUILD_ARG_REACT_APP_INTERNET_PLACE_ID: 'helsinki:internet'
+          DOCKER_BUILD_ARG_REACT_APP_SHOW_REGISTRATION: 'false'
 
   production:
     runs-on: ubuntu-latest

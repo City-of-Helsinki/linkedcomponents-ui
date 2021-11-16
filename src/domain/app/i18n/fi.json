@@ -6,8 +6,10 @@
     "networkError": {
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
+    "noRightsUpdateEnrolment": "Sinulla ei ole oikeuksia muokata osallistujia.",
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
-    "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia."
+    "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
+    "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia."
   },
   "authenticationMethod": {
     "espooEmployee": "Espoon kaupungin työntekijä -tunnus",
@@ -27,7 +29,11 @@
     "at": "klo {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonActions": "Valinnat",
     "buttonAddEvent": "Lisää uusi tapahtuma",
+    "buttonAddRegistration": "Lisää uusi",
+    "buttonBack": "Takaisin",
+    "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
     "cancel": "Peruuta",
     "close": "Sulje",
     "combobox": {
@@ -158,6 +164,9 @@
     },
     "warning": "Varoitus!"
   },
+  "createEnrolmentPage": {
+    "pageTitle": "Lisää osallistuja"
+  },
   "createEventPage": {
     "pageTitle": {
       "course": "Uusi kurssi",
@@ -169,6 +178,78 @@
       "general": "Uusi tapahtuma",
       "volunteering": "Uusi vapaaehtoistehtävä"
     }
+  },
+  "createRegistrationPage": {
+    "pageTitle": "Uusi ilmoittautuminen",
+    "title": "Uusi ilmoittautuminen"
+  },
+  "enrolment": {
+    "form": {
+      "buttonSave": "Tallenna osallistuja",
+      "labelCity": "Kaupunki",
+      "labelEmail": "Sähköpostiosoite",
+      "labelExtraInfo": "Lisätietoa ilmoittautumisesta (valinnainen)",
+      "labelMembershipNumber": "Jäsenkortin numero (valinnainen)",
+      "labelName": "Nimi",
+      "labelNativeLanguage": "Äidinkieli",
+      "labelNotificationLanguage": "Ilmoitusten kieli",
+      "labelPhoneNumber": "Puhelinnumero",
+      "labelServiceLanguage": "Asiointikieli",
+      "labelStreetAddress": "Katuosoite",
+      "labelYearOfBirth": "Syntymävuosi",
+      "labelZip": "Postinumero",
+      "placeholderCity": "Syötä kaupunki",
+      "placeholderEmail": "Syötä sähköpostiosoite",
+      "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
+      "placeholderMembershipNumber": "Syötä jäsenkortin numero",
+      "placeholderName": "Syötä ilmoittautujan etu- ja sukunimi",
+      "placeholderNativeLanguage": "Valitse äidinkieli",
+      "placeholderNotificationLanguage": "Ilmoitusten kielivalinta",
+      "placeholderPhoneNumber": "+358 44 1234 567",
+      "placeholderServiceLanguage": "Valitse asiointikieli",
+      "placeholderStreetAddress": "Syötä katuosoite",
+      "placeholderYearOfBirth": "Syntymävuosi",
+      "placeholderZip": "Syötä postinumero",
+      "titleAdditionalInfo": "Lisätiedot",
+      "titleBasicInfo": "Ilmoittautujan perustiedot",
+      "titleContactInfo": "Yhteystiedot",
+      "titleNotifications": "Tapahtumaa koskevat ilmoitukset"
+    },
+    "notifications": {
+      "email": "Sähköpostilla",
+      "phone": "Tekstiviestillä"
+    }
+  },
+  "editEnrolmentPage": {
+    "pageTitle": "Muokkaa osallistujaa"
+  },
+  "enrolmentsPage": {
+    "actionButtons": {
+      "cancel": "Peruuta osallistuminen",
+      "edit": "Muokkaa tietoja",
+      "sendMessage": "Lähetä viesti"
+    },
+    "attendeeTableCaption": "Osallistujat",
+    "attendeeTableHeading": "Osallistujat",
+    "buttonClearFilters": "Tyhjennä hakuehdot",
+    "enrolmentsTableColumns": {
+      "email": "Sähköposti",
+      "gender": "Sukupuoli",
+      "name": "Nimi",
+      "phone": "Puhelinnumero",
+      "status": "Status"
+    },
+    "pageTitle": "Ilmoittautuneet: {{name}}",
+    "searchPanel": {
+      "buttonClear": "Tyhjennä",
+      "buttonCreate": "Lisää osallistuja",
+      "buttonSearch": "Etsi osallistujia",
+      "labelSearch": "Hae osallistujia",
+      "placeholderSearch": "Hae osallistujia"
+    },
+    "waitingListTableCaption": "Jonopaikat",
+    "waitingListTableHeading": "Jonopaikat",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa."
   },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",
@@ -223,7 +304,6 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Hyväksy ja julkaise",
-      "buttonActions": "Valinnat",
       "buttonAddEventTime": {
         "course": "Lisää ajankohta",
         "general": "Lisää ajankohta",
@@ -241,7 +321,6 @@
         "volunteering": "Lisää toistuva vapaaehtoistehtävä"
       },
       "buttonAddVideo": "Lisää video",
-      "buttonBack": "Takaisin",
       "buttonCancel":  "Peruuta tapahtuma",
       "buttonCopy": "Kopioi pohjaksi",
       "buttonDelete":  "Poista tapahtuma",
@@ -892,9 +971,11 @@
         "email": "Tämän kentän on oltava kelvollinen sähköpostiosoite",
         "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
         "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
+        "phone": "Tämän kentän on oltava kelvollinen puhelinnumero",
         "required": "Tämä kenttä on pakollinen",
         "time": "Ajan tulee olla muotoa hh.mm",
-        "url": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)"
+        "url": "Kirjoita URL osoite kokonaisena ja oikeassa muodossa (http://...)",
+        "zip": "Tämän kentän on oltava kelvollinen postinumero"
       },
       "time": {
         "after": "Tämän kellonajan tulee olla {{after}} jälkeen",
@@ -930,7 +1011,6 @@
     "searchPanel": {
       "buttonClear": "Tyhjennä",
       "buttonCreateNew": "Lisää tekemistä",
-      "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
       "buttonSearch": "Etsi tapahtumia",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",
@@ -1115,7 +1195,8 @@
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
       "events": "Tapahtumat",
-      "help": "Tuki"
+      "help": "Tuki",
+      "registrations": "Ilmoittautuminen"
     }
   },
   "notFound": {
@@ -1125,13 +1206,94 @@
   "notSigned": {
     "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
   },
+  "registration": {
+    "deleteRegistrationModal": {
+      "buttonDelete": "Poista ilmoittautuminen",
+      "text": "Tämä toiminto poistaa ilmoittautumisen lopullisesti.",
+      "title": "Varmista ilmoittautumisen poistaminen"
+    },
+    "form": {
+      "buttonCreate": "Tallenna ilmoittautuminen",
+      "buttonPanel": {
+        "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
+      },
+      "editButtonPanel": {
+        "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä ilmoittautumista."
+      },
+      "labelAudienceMaxAge": "Yläikäraja",
+      "labelAudienceMinAge": "Alaikäraja",
+      "labelConfirmationMessage": "Lähetettävä vahvistusviesti (valinnainen)",
+      "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
+      "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
+      "labelEvent": "Tapahtuma",
+      "labelInstructions": "Ilmoittautumisohjeet (valinnainen)",
+      "labelMaximumAttendeeCapacity": "Paikkojen enimmäismäärä",
+      "labelMinimumAttendeeCapacity": "Paikkojen vähimmäismäärä",
+      "labelName": "Nimi",
+      "labelWaitingListCapacity": "Varasijapaikkojen lukumäärä",
+      "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
+      "placeholderEvent": "Valitse tai hae tapahtuma",
+      "placeholderInstructions": "Syötä ilmoittautumisohjeet",
+      "sections": {
+        "attendeeCount": "Paikat",
+        "audienceAge": "Ikäraja",
+        "confirmationMessage": "Vahvistusviestin lisätiedot",
+        "enrolmentTime": "Ilmoittautumisaika",
+        "event": "Tapahtuma",
+        "instructions": "Ilmoittautumisen lisätiedot",
+        "waitingList": "Jonopaikat"
+      }
+    }
+  },
+  "registrationsPage": {
+    "actionButtons": {
+      "copy": "Kopioi pohjaksi",
+      "delete": "Poista ilmoittautuminen",
+      "edit": "Muokkaa",
+      "showEnrolments": "Näytä ilmoittautuneet",
+      "update": "Tallenna muutokset"
+    },
+    "buttonClearFilters": "Tyhjennä hakuehdot",
+    "count": "{{count}} ilmoittautuminen",
+    "count_plural": "{{count}} ilmoittautumista",
+    "pageTitle": "Ilmoittautuminen",
+    "registrationsTableCaption": "Ilmoittautumiset, järjestys {{sort}}",
+    "registrationsTableColumns": {
+      "enrolments": "Osallistujia",
+      "enrolmentEndTime": "Loppuu",
+      "enrolmentStartTime": "Alkaa",
+      "name": "Nimi",
+      "publisher": "Julkaisija",
+      "waitingList": "Jono"
+    },
+    "searchPanel": {
+      "buttonClear": "Tyhjennä",
+      "buttonSearch": "Etsi",
+      "labelEventType": "Tyyppi",
+      "labelPlace": "Etsi tapahtumapaikkaa",
+      "labelSearch": "Hae ilmoittautumisia",
+      "placeholderSearch": "Hae ilmoittautumisia"
+    },
+    "sortOptions": {
+      "lastModifiedTime": "Viimeksi muokattu, nouseva",
+      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva"
+    },
+    "title": "Ilmoittautuminen"
+  },
+  "registrationSavedPage": {
+    "buttonBackToRegistrations": "Palaa ilmoittautumisiin",
+    "pageTitle": "Ilmoittautuminen tallennettu",
+    "title": "Ilmoittautuminen tallennettu onnistuneesti"
+  },
   "serverError": {
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
     "invalidUrl": "Syötä oikea URL-osoite.",
     "maxLength255": "Arvo saa olla enintään 255 merkkiä pitkä.",
     "min0": "Tämän luvun on oltava vähintään 0.",
+    "mustBeUnique": "Arvon tulee olla uniikki.",
     "nameIsRequired": "Nimi on pakollinen.",
     "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
+    "notNull": "Tämän kentän arvo ei voi olla \"null\".",
     "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",
     "required": "Tämä kenttä ei voi olla tyhjä.",
     "requiredWhenPublishing": "Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.",

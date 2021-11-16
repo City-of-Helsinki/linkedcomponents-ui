@@ -10,11 +10,12 @@ import TabPanel from '../../../../common/components/tabs/TabPanel';
 import Tabs from '../../../../common/components/tabs/Tabs';
 import { CHARACTER_LIMITS } from '../../../../constants';
 import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';
+import skipFalsyType from '../../../../utils/skipFalsyType';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS, EVENT_INFO_LANGUAGES } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useSortedInfoLanguages from '../../hooks/useSortedInfoLanguages';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 import { formatSingleDescription } from '../../utils';
 
 const FIELDS = [
@@ -46,7 +47,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
       sortedEventInfoLanguages.map((language) => {
         const errors = FIELDS.map(
           (field) => getFieldMeta(`${field}.${language}`).error
-        ).filter((e) => e);
+        ).filter(skipFalsyType);
 
         return {
           isCompleted: !errors.length,

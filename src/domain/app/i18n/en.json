@@ -6,8 +6,10 @@
     "networkError": {
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
+    "noRightsUpdateEnrolment": "You do not have permission to edit participants.",
     "noRightsUpdateEventLabel": "No permissions to edit events",
-    "noRightsUpdateEvent": "You do not have permission to edit events."
+    "noRightsUpdateEvent": "You do not have permission to edit events.",
+    "noRightsUpdateRegistration": "You do not have permission to edit registrations."
   },
   "authRequiredNotification": {
     "button": "sign in",
@@ -27,7 +29,10 @@
     "at": "at {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "buttonActions": "Actions",
     "buttonAddEvent": "Add new event",
+    "buttonAddRegistration": "Add new",
+    "buttonBack": "Back",
     "cancel": "Undo",
     "close": "Close",
     "combobox": {
@@ -158,6 +163,9 @@
     },
     "warning": "Warning!"
   },
+  "createEnrolmentPage": {
+    "pageTitle": "Add a participant"
+  },
   "createEventPage": {
     "page": {
       "course": "New course",
@@ -169,6 +177,79 @@
       "general": "New event",
       "volunteering": "New volunteering"
     }
+  },
+  "createRegistrationPage": {
+    "page": "New registration",
+    "title": "New registration"
+  },
+  "editEnrolmentPage": {
+    "pageTitle": "Edit participant"
+  },
+  "enrolment": {
+    "form": {
+      "buttonSave": "Save participant",
+      "labelCity": "City",
+      "labelEmail": "Email address",
+      "labelExtraInfo": "Additional registration information (optional)",
+      "labelMembershipNumber": "Membership card number (optional)",
+      "labelName": "Name",
+      "labelNativeLanguage": "Native language",
+      "labelNotificationLanguage": "Language of notifications",
+      "labelPhoneNumber": "Telephone number",
+      "labelServiceLanguage": "Language of communication",
+      "labelStreetAddress": "Street address",
+      "labelYearOfBirth": "Year of birth",
+      "labelZip": "Postcode",
+      "placeholderCity": "Enter city",
+      "placeholderEmail": "Enter your email address",
+      "placeholderExtraInfo": "Enter any additional information or request",
+      "placeholderMembershipNumber": "Enter membership card number",
+      "placeholderName": "Enter the registrant's first and last name",
+      "placeholderNativeLanguage": "Select language",
+      "placeholderNotificationLanguage": "Select language",
+      "placeholderPhoneNumber": "+358 44 1234 567",
+      "placeholderServiceLanguage": "Select language",
+      "placeholderStreetAddress": "Enter a street address",
+      "placeholderYearOfBirth": "Year of birth",
+      "placeholderZip": "Enter postcode",
+      "titleAdditionalInfo": "Additional information",
+      "titleBasicInfo": "Basic information of the registrant",
+      "titleContactInfo": "Contact information",
+      "titleNotifications": "Event notifications"
+    },
+    "notifications": {
+      "email": "By email",
+      "phone": "By text message"
+    }
+  },
+  "enrolmentsPage": {  
+    "actionButtons": {
+      "cancel": "Cancel participation",
+      "edit": "Edit information",
+      "sendMessage": "End message"
+    },
+    "attendeeTableCaption": "Participants",
+    "attendeeTableHeading": "Participants",
+    "buttonClearFilters": "Clear filters",
+    "enrolmentsTableColumns": {
+      "email": "Email",
+      "gender": "Gender",
+      "name": "Name",
+      "phone": "Phone number",
+      "status": "Status"
+    },
+    "pageTitle": "Enrolments: {{name}}",
+    "searchPanel": {
+      "buttonClear": "Clear",
+      "buttonCreate": "Add participant",
+      "buttonRemoveFilter": "Remove filter: {{name}}",
+      "buttonSearch": "Filter",
+      "labelSearch": "Filter participants",
+      "placeholderSearch": "Filter participants"
+    },
+    "waitingListTableCaption": "Waiting list",
+    "waitingListTableHeading": "Waiting list",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this enrolment."
   },
   "errors": {
     "authorizationRequired": "Sign in to use this feature",
@@ -223,7 +304,6 @@
     },
     "form": {
       "buttonAcceptAndPublish": "Confirm and publish",
-      "buttonActions": "Actions",
       "buttonAddEventTime": {
         "course": "Add course date",
         "general": "Add event date",
@@ -241,7 +321,6 @@
         "volunteering": "Add recurring volunteering"
       },
       "buttonAddVideo": "Add video",
-      "buttonBack": "Back",
       "buttonCancel": "Cancel event",
       "buttonCopy": "Copy as template",
       "buttonDelete": "Remove event",
@@ -259,7 +338,7 @@
       "buttonPanel": {
         "warningNoRightsCreate": "You do not have permission to create this event.",
         "warningNoRightsToPublish": "You do not have permission to publish this event.",
-        "warningNotAuthenticated": "If you want to publish this event, you must first log in."
+        "warningNotAuthenticated": "If you want to publish this event, you must first login."
       },
       "buttonPostpone": "Postpone event",
       "buttonPublish": {
@@ -850,7 +929,6 @@
     "searchPanel": {
       "buttonClear": "Clear",
       "buttonCreateNew": "Add new event",
-      "buttonRemoveFilter": "Remove filter: {{name}}",
       "buttonSearch": "Search events",
       "labelEventType": "Type",
       "labelPlace": "Search venue",
@@ -912,9 +990,11 @@
         "email": "This field must be a valid email",
         "max": "This field can be up to {{max}} characters long",
         "min": "This field must be at least {{min}} characters long",
+        "phone": "This field must be a valid phone number",
         "required": "This field is required",
         "time": "Time must be given in the following format hh.mm",
-        "url": "Enter the URL in correct format (http://...)"
+        "url": "Enter the URL in correct format (http://...)",
+        "zip": "This field must be a valid postcode"
       },
       "time": {
         "after": "This time must be after {{after}}",
@@ -972,7 +1052,7 @@
       }
     },
     "faq": {
-      "textAddingEvents1": "You must log in to the service first. To do this, I need one of the following:",
+      "textAddingEvents1": "You must login to the service first. To do this, I need one of the following:",
       "textAddingEvents2": "Once you are logged in, you can <a href={{controlPanelUrl}}>add events</a>, but you will not be able to publish them yet. Contact us using the <a href={{contactUrl}}>contact form</a> and tell us which organization you need publishing rights for.",
       "textAddingToOwnProjects": "Yes. The Linked Events interface is public and open to everyone. Its use is also permitted in commercial services in accordance with the <a href={{termsOfServiceUrl}}>terms of use</a>.",
       "textEventFormNotWorking": "Make sure that you are using one of these modern web browsers (Chrome, Firefox, Opera or Safari). Other options to fix unexpected errors is to clear your browser cache or restart the browser.",
@@ -1115,7 +1195,8 @@
     "skipToContentLabel": "Skip to content",
     "tabs": {
       "events": "Events",
-      "help": "Support"
+      "help": "Support",
+      "registrations": "Registration"
     }
   },
   "notFound": {
@@ -1125,13 +1206,94 @@
   "notSigned": {
     "text": "You must be logged in to view this content. Log in or return to the home page."
   },
+  "registration": {
+    "deleteRegistrationModal": {
+      "buttonDelete": "Delete event",
+      "text": "This action will permanently remove the registration.",
+      "title": "Confirm registration deletion"
+    },
+    "form": {
+      "buttonCreate": "Save",
+      "buttonPanel": {
+        "warningNotAuthenticated": "To create a registration, log in first."
+      },
+      "editButtonPanel": {
+        "warningNoRightsToEdit": "You have insufficient rights to edit this registration."
+      },
+      "labelAudienceMaxAge": "Maximum age",
+      "labelAudienceMinAge": "Minimum age",
+      "labelConfirmationMessage": "Confirmation message to send (optional)",
+      "labelEnrolmentEndTime": "Registration ends",
+      "labelEnrolmentStartTime": "Registration begins",
+      "labelEvent": "Event",
+      "labelInstructions": "Registration instructions (optional)",
+      "labelMaximumAttendeeCapacity": "Maximum number of seats",
+      "labelMinimumAttendeeCapacity": "Minimum number of seats",
+      "labelName": "Name",
+      "labelWaitingListCapacity": "Number of spare seats",
+      "placeholderConfirmationMessage": "Enter confirmation message for registrants",
+      "placeholderEvent": "Select or search for an event",
+      "placeholderInstructions": "Enter registration instructions",
+      "sections": {
+        "attendeeCount": "Seating",
+        "audienceAge": "Age limit",
+        "confirmationMessage": "Confirmation message details",
+        "enrolmentTime": "Registration time",
+        "event": "Event",
+        "instructions": "Additional registration information",
+        "waitingList": "Waiting list"
+      }
+    }
+  },
+  "registrationsPage": {
+    "actionButtons": {
+      "copy": "Copy as a template",
+      "delete": "Delete registration",
+      "edit": "Edit",
+      "showEnrolments": "Show participants",
+      "update": "Save changes"
+    },
+    "buttonClearFilters": "Clear filters",
+    "count": "{{count}} registration",
+    "count_plural": "{{count}} registrations",
+    "pageTitle": "Registration",
+    "registrationTableCaption": "Registrations, sorted by {{sort}}",
+    "registrationsTableColumns": {
+      "enrolments": "Participants",
+      "enrolmentEndTime": "Ends",
+      "enrolmentStartTime": "Starts",
+      "name": "Name",
+      "publisher": "Publisher",
+      "waitingList": "Waiting list"
+    },
+    "searchPanel": {
+      "buttonClear": "Clear",
+      "buttonSearch": "Search",
+      "labelEventType": "Type",
+      "labelPlace": "Search venue",
+      "labelSearch": "Search registrations",
+      "placeholderSearch": "Search registrations"
+    },
+    "sortOptions": {
+      "lastModifiedTime": "Last modified, ascending",
+      "lastModifiedTimeDesc": "Last modified, descending"
+    },
+    "title": "Registration"
+  },
+  "registrationSavedPage": {
+    "buttonBackToRegistrations": "Back to registrations",
+    "pageTitle": "Registration saved",
+    "title": "Registration successfully saved"
+  },
   "serverError": {
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",
     "maxLength255": "The value can be up to 255 characters long.",
     "min0": "This number must be at least 0.",
+    "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",
     "notFoundAllObjects": "Could not find all objects to update.",
+    "notNull": "The value of this field cannot be \"null\".",
     "offersIsRequired": "Price info must be specified before an event is published.",
     "required": "This field cannot be left blank.",
     "requiredWhenPublishing": "This field must be specified before an event is published.",

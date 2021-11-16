@@ -57,7 +57,7 @@ const CheckboxGroupField: React.FC<Props> = ({
   return (
     <>
       <div
-        id={errorName}
+        id={errorName || name}
         className={classNames(
           styles.checkboxsWrapper,
           styles[`columns${columns}`]

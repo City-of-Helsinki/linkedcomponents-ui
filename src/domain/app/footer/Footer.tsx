@@ -3,12 +3,25 @@ import classNames from 'classnames';
 import { Footer as HdsFooter } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { matchPath, RouteProps, useHistory, useLocation } from 'react-router';
 
-import { FOOTER_NAVIGATION_ITEMS, ROUTES } from '../../../constants';
+import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
+import { isFeatureEnabled } from '../../../utils/featureFlags';
 import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
+
+interface NoFooterPathProps {
+  pathname: string;
+  props?: RouteProps;
+}
+
+const NO_FOOTER_PATHS = [
+  { pathname: ROUTES.EDIT_EVENT },
+  { pathname: ROUTES.EDIT_REGISTRATION },
+  { pathname: ROUTES.EDIT_REGISTRATION_ENROLMENT },
+  { pathname: ROUTES.REGISTRATION_ENROLMENTS },
+];
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -18,6 +31,22 @@ const Footer: React.FC = () => {
   const locale = useLocale();
   /* istanbul ignore next */
   const logoLanguage = locale === 'sv' ? 'sv' : 'fi';
+
+  const FOOTER_NAVIGATION_ITEMS = isFeatureEnabled('SHOW_REGISTRATION')
+    ? [
+        { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
+        { labelKey: 'navigation.searchEvents', url: ROUTES.SEARCH },
+        {
+          labelKey: 'navigation.tabs.registrations',
+          url: ROUTES.REGISTRATIONS,
+        },
+        { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
+      ]
+    : [
+        { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
+        { labelKey: 'navigation.searchEvents', url: ROUTES.SEARCH },
+        { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
+      ];
 
   const navigationItems = FOOTER_NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
     label: t(labelKey),
@@ -38,11 +67,18 @@ const Footer: React.FC = () => {
     }
   };
 
-  const hideFooter = pathname.startsWith(
-    `/${locale}${ROUTES.EDIT_EVENT.replace(':id', '')}`
-  );
+  const isMatch = (paths: NoFooterPathProps[]) =>
+    paths.some((path) =>
+      matchPath(pathname, {
+        path: `/${locale}${path.pathname}`,
+        exact: path.props?.exact ?? true,
+        strict: path.props?.strict ?? true,
+      })
+    );
 
-  if (hideFooter) {
+  const noFooter = isMatch(NO_FOOTER_PATHS);
+
+  if (noFooter) {
     return null;
   }
 

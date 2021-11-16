@@ -6,12 +6,12 @@ import MultiLanguageField from '../../../../common/components/formFields/MultiLa
 import PublisherSelectorField from '../../../../common/components/formFields/PublisherSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
 import { EventFieldsFragment } from '../../../../generated/graphql';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import useUser from '../../../user/hooks/useUser';
 import useUserOrganizations from '../../../user/hooks/useUserOrganizations';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 
 export interface ResponsibilitiesSectionProps {
   savedEvent?: EventFieldsFragment;

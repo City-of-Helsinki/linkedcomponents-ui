@@ -1,0 +1,37 @@
+.registrationInfo {
+  margin-bottom: var(--spacing-3-xl);
+
+  p {
+    margin: var(--spacing-2-xs) 0 !important;
+  }
+
+  .editingInfo {
+    color: var(--color-black-60);
+    display: flex;
+
+    span:not(:last-child) {
+      margin-right: var(--spacing-2-xs);
+    }
+
+    .creatorBadge {
+      background: var(--color-coat-of-arms-medium-light);
+      color: var(--color-black-90);
+      display: inline-flex;
+      height: var(--spacing-m);
+      width: var(--spacing-m);
+      border-radius: 50%;
+      font-weight: 500;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .heading {
+    display: flex;
+    align-items: center;
+
+    *:not(:last-child) {
+      margin-right: var(--spacing-xs);
+    }
+  }
+}

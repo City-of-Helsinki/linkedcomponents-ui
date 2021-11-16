@@ -305,6 +305,18 @@ type RadioButtonCSSProperties = {
   '--label-color-disabled'?: string;
 };
 
+type RegistrationSearchPanelCSSProperties = {
+  '--registration-search-panel-background-color'?: string;
+  '--registration-search-panel-label-color'?: string;
+  '--registration-search-panel-button-background-color'?: string;
+  '--registration-search-panel-button-background-color-hover'?: string;
+  '--registration-search-panel-button-background-color-focus'?: string;
+  '--registration-search-panel-button-background-color-hover-focus'?: string;
+  '--registration-search-panel-button-border-color'?: string;
+  '--registration-search-panel-button-color'?: string;
+  '--registration-search-panel-button-focus-outline-color'?: string;
+};
+
 type RootCSSProperties = {
   '--focus-outline-color'?: string;
   '--focus-outline-width'?: string;
@@ -314,6 +326,18 @@ type RootCSSProperties = {
   '--input-max-width-m'?: string;
   '--input-max-width-l'?: string;
   '--label-height'?: string;
+};
+
+type SearchPanelCSSProperties = {
+  '--search-panel-background-color'?: string;
+  '--search-panel-label-color'?: string;
+  '--search-panel-button-background-color'?: string;
+  '--search-panel-button-background-color-hover'?: string;
+  '--search-panel-button-background-color-focus'?: string;
+  '--search-panel-button-background-color-hover-focus'?: string;
+  '--search-panel-button-border-color'?: string;
+  '--search-panel-button-color'?: string;
+  '--search-panel-button-focus-outline-color'?: string;
 };
 
 type SelectCSSProperties = {
@@ -455,7 +479,9 @@ export type Theme = {
   pagination: PaginationCSSProperties;
   publicationStatus: PublicationStatusCSSProperties;
   radioButton: RadioButtonCSSProperties;
+  registrationSearchPanel: RegistrationSearchPanelCSSProperties;
   root: RootCSSProperties;
+  searchPanel: SearchPanelCSSProperties;
   select: SelectCSSProperties;
   sideNavigation: SideNavigationCSSProperties;
   statusTag: StatusTagCSSProperties;
@@ -490,7 +516,9 @@ const defaultTheme: Theme = {
   pagination: {},
   publicationStatus: {},
   radioButton: {},
+  registrationSearchPanel: {},
   root: {},
+  searchPanel: {},
   select: {},
   sideNavigation: {},
   statusTag: {},

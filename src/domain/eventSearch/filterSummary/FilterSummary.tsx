@@ -3,16 +3,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
 
-import { EventFilterType } from '../types';
+import DateFilterTag from '../../../common/components/filterTag/DateFilterTag';
+import EventTypeFilterTag from '../../../common/components/filterTag/EventTypeFilterTag';
+import FilterTag from '../../../common/components/filterTag/FilterTag';
+import PlaceFilterTag from '../../../common/components/filterTag/PlaceFilterTag';
+import { FilterType } from '../../../types';
 import {
   getEventSearchInitialValues,
   replaceParamsToEventQueryString,
 } from '../utils';
-import DateFilterTag from './DateFilterTag';
-import EventTypeFilterTag from './EventTypeFilterTag';
 import styles from './filterSummary.module.scss';
-import FilterTag from './FilterTag';
-import PlaceFilterTag from './PlaceFilterTag';
 
 interface Props {
   className?: string;
@@ -43,15 +43,16 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     type,
   }: {
     value: string;
-    type: EventFilterType;
+    type: FilterType;
   }) => {
     const newSearch = replaceParamsToEventQueryString(search, {
       end: type === 'date' ? null : end,
+      type:
+        type === 'eventType' ? types.filter((item) => item !== value) : types,
       place:
         type === 'place' ? places.filter((item) => item !== value) : places,
       start: type === 'date' ? null : start,
       text: type === 'text' ? '' : text,
-      type: type === 'type' ? types.filter((item) => item !== value) : types,
     });
 
     history.push({ pathname, search: newSearch });

@@ -8,13 +8,16 @@ module.exports = buildSchema(/* GraphQL */ `
   type Mutation {
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
+    createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEvent(id: ID!): NoContent
+    deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
+    updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
   }
 
   type NoContent {
@@ -22,6 +25,8 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type Query {
+    enrolment(id: ID): Enrolment!
+    enrolments: EnrolmentsResponse!
     event(id: ID, include: [String]): Event!
     events(
       adminUser: Boolean
@@ -88,6 +93,13 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): PlacesResponse!
+    registration(id: ID): Registration!
+    registrations(
+      eventType: [EventTypeId]
+      page: Int
+      pageSize: Int
+      text: String
+    ): RegistrationsResponse!
     user(id: ID!): User!
   }
 
@@ -96,6 +108,11 @@ module.exports = buildSchema(/* GraphQL */ `
     EventPostponed
     EventRescheduled
     EventScheduled
+  }
+
+  enum Notification {
+    email
+    phone
   }
 
   enum PublicationStatus {
@@ -233,6 +250,33 @@ module.exports = buildSchema(/* GraphQL */ `
     photographerName: String
     publisher: String
     url: String
+  }
+
+  input CreateRegistrationMutationInput {
+    audienceMaxAge: Int
+    audienceMinAge: Int
+    confirmationMessage: String
+    enrolmentEndTime: String
+    enrolmentStartTime: String
+    event: ID!
+    instructions: String
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
+    waitingListCapacity: Int
+  }
+
+  input UpdateRegistrationMutationInput {
+    id: ID!
+    audienceMaxAge: Int
+    audienceMinAge: Int
+    confirmationMessage: String
+    enrolmentEndTime: String
+    enrolmentStartTime: String
+    event: ID!
+    instructions: String
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
+    waitingListCapacity: Int
   }
 
   type EventsResponse {
@@ -520,5 +564,61 @@ module.exports = buildSchema(/* GraphQL */ `
     altText: String
     name: String
     url: String
+  }
+
+  type RegistrationsResponse {
+    meta: Meta!
+    data: [Registration]!
+  }
+
+  type Registration {
+    id: ID
+    attendeeRegistration: Boolean
+    audienceMaxAge: Int
+    audienceMinAge: Int
+    confirmationMessage: String
+    createdAt: String
+    createdBy: String
+    enrolmentEndTime: String
+    enrolmentStartTime: String
+    event: ID
+    instructions: String
+    lastModifiedAt: String
+    lastModifiedBy: String
+    maximumAttendeeCapacity: Int
+    minimumAttendeeCapacity: Int
+    name: String
+    publisher: String
+    waitingListCapacity: Int
+    # @id is renamed as atId so it's usable on GraphQl
+    atId: String!
+    # @context is renamed as atContext so it's usable on GraphQl
+    atContext: String
+    # @type is renamed as atType so it's usable on GraphQl
+    atType: String
+  }
+
+  type EnrolmentsResponse {
+    meta: Meta!
+    data: [Enrolment!]!
+  }
+
+  type Enrolment {
+    id: ID!
+    city: String
+    email: String
+    extraInfo: String
+    marketingAllowed: Boolean
+    membershipNumber: String
+    name: String
+    nativeLanguage: String
+    notificationLanguage: String
+    notifications: [Notification!]
+    organizationName: String
+    phoneNumber: String
+    serviceLanguage: String
+    streetAddress: String
+    yearOfBirth: String
+    zip: String
   }
 `);

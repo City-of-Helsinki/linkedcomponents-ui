@@ -40,7 +40,7 @@ test('should route to home page', async () => {
   expect(history.location.pathname).toBe('/fi/');
 });
 
-test('should start log in process', async () => {
+test('should start login process', async () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
   renderComponent();
   const signInButton = getElement('signInButton');

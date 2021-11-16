@@ -4,7 +4,6 @@ import React from 'react';
 import {
   configure,
   mockString,
-  pasteToTextEditor,
   render,
   screen,
   userEvent,

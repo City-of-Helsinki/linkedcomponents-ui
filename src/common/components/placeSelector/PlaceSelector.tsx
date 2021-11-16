@@ -15,9 +15,11 @@ import {
 } from '../../../generated/graphql';
 import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
+import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import Combobox from '../combobox/Combobox';
 import styles from './placeSelector.module.scss';
 
@@ -38,7 +40,7 @@ export const getOption = ({
     getPlaceFields(place, locale);
 
   const addressText = [streetAddress, addressLocality]
-    .filter((t) => t)
+    .filter(skipFalsyType)
     .join(', ');
 
   const label =
@@ -71,7 +73,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const isMounted = useIsMounted();
   const { t } = useTranslation();
   const locale = useLocale();
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = useMountedState('');
 
   const { data: placesData, previousData: previousPlacesData } = usePlacesQuery(
     {
@@ -94,10 +96,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const handleFilter = (items: OptionType[], inputValue: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      /* istanbul ignore else */
-      if (isMounted.current) {
-        setSearch(inputValue);
-      }
+      setSearch(inputValue);
     });
 
     return items;

@@ -245,7 +245,12 @@ export const EVENT_FIELD_ARRAYS: string[] = [
   EVENT_FIELDS.OFFERS,
 ];
 
-export const EVENT_INCLUDES = ['in_language', 'sub_events', 'super_event'];
+export const EVENT_INCLUDES = [
+  'in_language',
+  'keywords',
+  'sub_events',
+  'super_event',
+];
 
 export enum EVENT_CREATE_ACTIONS {
   CREATE_DRAFT = 'createDraft',
@@ -262,6 +267,7 @@ export enum EVENT_EDIT_ACTIONS {
   UPDATE_DRAFT = 'updateDraft',
   UPDATE_PUBLIC = 'updatePublic',
 }
+
 export const SUB_EVENTS_VARIABLES: EventsQueryVariables = {
   createPath: getPathBuilder(eventsPathBuilder),
   include: EVENT_LIST_INCLUDES,
@@ -270,7 +276,7 @@ export const SUB_EVENTS_VARIABLES: EventsQueryVariables = {
   sort: EVENT_SORT_OPTIONS.START_TIME,
 };
 
-export const AUHENTICATION_NOT_NEEDED = [
+export const AUTHENTICATION_NOT_NEEDED = [
   EVENT_EDIT_ACTIONS.COPY,
   EVENT_EDIT_ACTIONS.EDIT,
 ];
@@ -343,3 +349,5 @@ export const AUDIENCE_ORDER = [
   'yso:p16486', // Opiskelijat
   'yso:p2433', // Ikääntyneet
 ];
+
+export const TEST_EVENT_ID = 'helmet:222453';

@@ -45,7 +45,7 @@ const getElement = (
     case 'englishOption':
       return screen.getByRole('link', { name: /in english/i });
     case 'languageMenuButton':
-      return screen.getByRole('button', { name: /suomi \- kielivalikko/i });
+      return screen.getByRole('button', { name: /suomi - kielivalikko/i });
     case 'onlyRequiredButton':
       return screen.getByRole('button', { name: /vain välttämättömät/i });
   }

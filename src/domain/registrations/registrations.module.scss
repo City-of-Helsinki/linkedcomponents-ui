@@ -1,0 +1,45 @@
+@import 'breakpoints';
+@import 'widths';
+
+.registrationsPage {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+
+  .filterSummary {
+    --filter-summary-color: var(--color-black);
+
+    div {
+      --tag-background: var(--color-white);
+    }
+  }
+}
+
+.titleRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  .addButtonWrapper {
+    margin-bottom: var(--spacing-m);
+  }
+
+  @include medium-up {
+    display: flex;
+
+    .title {
+      flex: 1 1 0%;
+    }
+
+    .addButtonWrapper {
+      align-self: center;
+      margin-bottom: unset;
+    }
+
+    .addButton {
+      @include min-width-column(2);
+      @include max-width-column(2);
+
+      white-space: nowrap;
+    }
+  }
+}

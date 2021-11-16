@@ -12,21 +12,20 @@ import {
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import IconFlag from '../../../icons/IconFlag';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { useTheme } from '../../app/theme/Theme';
 import useEventLocation from '../../event/hooks/useEventLocation';
 import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
-import {
-  addParamsToEventQueryString,
-  getEventItemId,
-} from '../../eventSearch/utils';
+import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
+import { getEventItemId } from '../../eventSearch/utils';
 import { getPlaceFields } from '../../place/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
@@ -52,10 +51,10 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const locale = useLocale();
-  const { pathname, search } = useLocation();
   const isMobile = useIsMobile();
   const dispatch = useDispatch();
   const expandedEvents = useSelector(expandedEventsSelector);
+  const queryStringWithReturnPath = useEventsQueryStringWithReturnPath();
 
   const { location } = useEventLocation(event);
 
@@ -85,10 +84,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
     ? getPlaceFields(location, locale)
     : { addressLocality: '', name: '', streetAddress: '' };
 
-  const queryString = addParamsToEventQueryString(search, {
-    returnPath: pathname,
-  });
-  const eventUrlWithReturnPath = `${eventUrl}${queryString}`;
+  const eventUrlWithReturnPath = `${eventUrl}${queryStringWithReturnPath}`;
 
   const open = expandedEvents.includes(id);
 
@@ -96,7 +92,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
 
   const locationText =
     [locationName, streetAddress, addressLocality]
-      .filter((e) => e)
+      .filter(skipFalsyType)
       .join(', ') || '-';
 
   const toggle = () => {

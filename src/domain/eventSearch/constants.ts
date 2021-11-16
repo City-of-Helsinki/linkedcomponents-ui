@@ -1,3 +1,5 @@
+export const EVENTS_PAGE_SIZE = 10;
+
 export enum EVENT_SEARCH_PARAMS {
   END = 'end',
   PAGE = 'page',

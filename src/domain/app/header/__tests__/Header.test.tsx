@@ -5,6 +5,7 @@ import React from 'react';
 
 import { ROUTES, TEST_USER_ID } from '../../../../constants';
 import { UserDocument } from '../../../../generated/graphql';
+import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import { StoreState } from '../../../../types';
 import { fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
@@ -91,7 +92,41 @@ test.skip('matches snapshot', () => {
   expect(container.firstChild).toMatchSnapshot();
 });
 
-test('should show navigation links and should route to correct page after clicking link', () => {
+test('should show navigation links and should route to correct page after clicking link', async () => {
+  setFeatureFlags({ SHOW_REGISTRATION: true });
+  const { history } = renderComponent();
+  const links = [
+    {
+      name: translations.navigation.tabs.events,
+      url: `/fi${ROUTES.EVENTS}`,
+    },
+    {
+      name: translations.navigation.tabs.registrations,
+      url: `/fi${ROUTES.REGISTRATIONS}`,
+    },
+    {
+      name: translations.navigation.tabs.help,
+      url: `/fi${ROUTES.HELP}`,
+    },
+  ];
+
+  for (const { name, url } of links) {
+    const link = screen.getAllByRole('link', { name })[0];
+
+    userEvent.click(link);
+
+    await waitFor(() => expect(history.location.pathname).toBe(url));
+  }
+
+  const homeLink = screen.getAllByRole('link', { name: /linked events/i })[0];
+
+  userEvent.click(homeLink);
+  expect(history.location.pathname).toBe(`/fi${ROUTES.HOME}`);
+});
+
+test('should not show registrations link when registration feature is not enabled', async () => {
+  setFeatureFlags({ SHOW_REGISTRATION: false });
+
   const { history } = renderComponent();
   const links = [
     {
@@ -104,17 +139,19 @@ test('should show navigation links and should route to correct page after clicki
     },
   ];
 
-  links.forEach(({ name, url }) => {
+  for (const { name, url } of links) {
     const link = screen.getAllByRole('link', { name })[0];
 
     userEvent.click(link);
-    expect(history.location.pathname).toBe(url);
-  });
 
-  const homeLink = screen.getAllByRole('link', { name: /linked events/i })[0];
+    await waitFor(() => expect(history.location.pathname).toBe(url));
+  }
 
-  userEvent.click(homeLink);
-  expect(history.location.pathname).toBe(`/fi${ROUTES.HOME}`);
+  expect(
+    screen.queryByRole('link', {
+      name: translations.navigation.tabs.registrations,
+    })
+  ).not.toBeInTheDocument();
 });
 
 test('should show mobile menu', async () => {
@@ -146,7 +183,7 @@ test('should change language', () => {
   expect(history.location.pathname).toBe('/en');
 });
 
-test('should start log in process', () => {
+test('should start login process', () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
 
   renderComponent();

@@ -1,0 +1,12 @@
+.authRequiredNotification {
+  margin: 0 0 var(--spacing-m) 0;
+  border-top-width: var(--notification-border-width);
+  border-left-width: 0;
+}
+
+.button {
+  padding: 0;
+  color: var(--color-bus);
+  text-decoration: underline;
+  font-size: 500;
+}

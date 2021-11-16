@@ -4,6 +4,8 @@ import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
 import {
+  Enrolment,
+  EnrolmentsResponse,
   Event,
   EventsResponse,
   EventStatus,
@@ -20,17 +22,55 @@ import {
   LanguagesResponse,
   LocalisedObject,
   Meta,
+  Notification,
   Offer,
   Organization,
   OrganizationsResponse,
   Place,
   PlacesResponse,
   PublicationStatus,
+  Registration,
+  RegistrationsResponse,
   User,
   Video,
 } from '../generated/graphql';
 import generateAtId from './generateAtId';
 
+export const fakeEnrolments = (
+  count = 1,
+  enrolments: Partial<Enrolment>[]
+): EnrolmentsResponse => ({
+  data: generateNodeArray((i) => fakeEnrolment(enrolments?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'EnrolmentsResponse',
+});
+
+export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
+  const id = overrides?.id || faker.datatype.uuid();
+
+  return merge<Enrolment, typeof overrides>(
+    {
+      id,
+      city: faker.address.city(),
+      email: faker.internet.email(),
+      extraInfo: faker.lorem.paragraph(),
+      marketingAllowed: false,
+      membershipNumber: faker.datatype.uuid(),
+      name: faker.name.firstName(),
+      nativeLanguage: 'fi',
+      notificationLanguage: 'fi',
+      notifications: [Notification.Email, Notification.Phone],
+      organizationName: '',
+      phoneNumber: faker.phone.phoneNumberFormat(),
+      serviceLanguage: 'fi',
+      streetAddress: faker.address.streetAddress(),
+      yearOfBirth: faker.datatype.number({ max: 2021, min: 1920 }).toString(),
+      zip: faker.address.zipCode('#####'),
+      __typename: 'Enrolment',
+    },
+    overrides
+  );
+};
 export const fakeEvents = (
   count = 1,
   events?: Partial<Event>[]
@@ -296,6 +336,46 @@ export const fakePlace = (overrides?: Partial<Place>): Place => {
       position: null,
       divisions: [],
       __typename: 'Place',
+    },
+    overrides
+  );
+};
+
+export const fakeRegistrations = (
+  count = 1,
+  registrations?: Partial<Registration>[]
+): RegistrationsResponse => ({
+  data: generateNodeArray((i) => fakeRegistration(registrations?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'RegistrationsResponse',
+});
+
+export const fakeRegistration = (
+  overrides?: Partial<Registration>
+): Registration => {
+  const id = overrides?.id || faker.datatype.uuid();
+
+  return merge<Registration, typeof overrides>(
+    {
+      id,
+      atId: generateAtId(id, 'registration'),
+      audienceMaxAge: null,
+      audienceMinAge: null,
+      confirmationMessage: faker.lorem.paragraph(),
+      createdAt: null,
+      createdBy: faker.name.firstName(),
+      enrolmentEndTime: '2020-09-30T16:00:00.000000Z',
+      enrolmentStartTime: '2020-09-27T15:00:00.000000Z',
+      event: null,
+      instructions: faker.lorem.paragraph(),
+      lastModifiedAt: '2020-09-12T15:00:00.000000Z',
+      lastModifiedBy: faker.name.firstName(),
+      maximumAttendeeCapacity: 0,
+      minimumAttendeeCapacity: 0,
+      name: faker.name.title(),
+      publisher: 'ahjo:u4804001050',
+      waitingListCapacity: 0,
+      __typename: 'Registration',
     },
     overrides
   );

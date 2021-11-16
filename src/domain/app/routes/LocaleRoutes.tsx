@@ -4,22 +4,42 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 
 import { DEPRECATED_ROUTES, ROUTES } from '../../../constants';
 import { Language } from '../../../types';
+import { isFeatureEnabled } from '../../../utils/featureFlags';
 import EventSavedPage from '../../eventSaved/EventSavedPage';
 import HelpPageLayout from '../../help/layout/HelpPageLayout';
+import RegistrationSavedPage from '../../registrationSaved/RegistrationSavedPage';
 import LogoutPage from '.././../auth/logoutPage/LogoutPage';
 import LandingPage from '.././../landingPage/LandingPage';
 import NotFound from '.././../notFound/NotFound';
 import PageLayout from '../layout/PageLayout';
 
+const CreateEnrolmentPage = React.lazy(
+  () => import('.././../enrolment/CreateEnrolmentPage')
+);
 const CreateEventPage = React.lazy(
   () => import('.././../event/CreateEventPage')
 );
+const CreateRegistrationPage = React.lazy(
+  () => import('.././../registration/CreateRegistrationPage')
+);
+const EditEnrolmentPage = React.lazy(
+  () => import('../../enrolment/EditEnrolmentPage')
+);
 const EditEventPage = React.lazy(() => import('../../event/EditEventPage'));
+const EditRegistrationPage = React.lazy(
+  () => import('../../registration/EditRegistrationPage')
+);
+const EnrolmentsPage = React.lazy(
+  () => import('../../enrolments/EnrolmentsPage')
+);
 const EventsPage = React.lazy(() => import('.././../events/EventsPage'));
 const EventSearchPage = React.lazy(
   () => import('../../eventSearch/EventSearchPage')
 );
 const HelpPageRoutes = React.lazy(() => import('./HelpPageRoutes'));
+const RegistrationsPage = React.lazy(
+  () => import('.././../registrations/RegistrationsPage')
+);
 
 interface Params {
   locale: Language;
@@ -91,6 +111,55 @@ const LocaleRoutes: React.FC<Props> = ({
             path={getLocalePath(ROUTES.EVENTS)}
             component={EventsPage}
           />
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.CREATE_REGISTRATION)}
+              component={CreateRegistrationPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.REGISTRATION_SAVED)}
+              component={RegistrationSavedPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.EDIT_REGISTRATION)}
+              component={EditRegistrationPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.REGISTRATIONS)}
+              component={RegistrationsPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.REGISTRATION_ENROLMENTS)}
+              component={EnrolmentsPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.CREATE_ENROLMENT)}
+              component={CreateEnrolmentPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_REGISTRATION') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.EDIT_REGISTRATION_ENROLMENT)}
+              component={EditEnrolmentPage}
+            />
+          )}
           <Route
             exact
             path={getLocalePath(ROUTES.LOGOUT)}

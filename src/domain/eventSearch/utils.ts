@@ -2,12 +2,14 @@ import isValid from 'date-fns/isValid';
 import capitalize from 'lodash/capitalize';
 import { scroller } from 'react-scroll';
 
-import { ROUTES } from '../../constants';
 import { EventsQueryVariables, EventTypeId } from '../../generated/graphql';
+import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import formatDate from '../../utils/formatDate';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import getPathBuilder from '../../utils/getPathBuilder';
+import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
+import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import { EVENT_TYPE } from '../event/constants';
@@ -23,7 +25,6 @@ import {
   EventSearchInitialValues,
   EventSearchParam,
   EventSearchParams,
-  ReturnParams,
 } from './types';
 
 export const getEventsQueryVariables = (
@@ -104,69 +105,22 @@ export const addParamsToEventQueryString = (
   queryString: string,
   queryParams: Partial<EventSearchParams>
 ): string => {
-  const searchParams = new URLSearchParams(queryString);
-  Object.entries(queryParams).forEach(([key, values]) => {
-    const param = key as EventSearchParam;
-    if (Array.isArray(values)) {
-      values.forEach((value) =>
-        searchParams.append(param, getEventParamValue({ param, value }))
-      );
-    } /* istanbul ignore else */ else if (values) {
-      searchParams.append(
-        param,
-        getEventParamValue({ param, value: values.toString() })
-      );
-    }
-  });
-
-  return searchParams.toString() ? `?${searchParams.toString()}` : '';
+  return addParamsToQueryString<EventSearchParams>(
+    queryString,
+    queryParams,
+    getEventParamValue
+  );
 };
 
 export const replaceParamsToEventQueryString = (
   queryString: string,
   queryParams: Partial<EventSearchParams>
 ): string => {
-  const searchParams = new URLSearchParams(queryString);
-  Object.entries(queryParams).forEach(([key, values]) => {
-    const param = key as EventSearchParam;
-    searchParams.delete(param);
-
-    if (Array.isArray(values)) {
-      values.forEach((value) =>
-        searchParams.append(param, getEventParamValue({ param, value }))
-      );
-    } else if (values) {
-      searchParams.append(
-        param,
-        getEventParamValue({ param, value: values.toString() })
-      );
-    }
-  });
-
-  return searchParams.toString() ? `?${searchParams.toString()}` : '';
-};
-
-/**
- * Extracts latest return path from queryString. For example on:
- * http://localhost:3000/fi/event/kulke:53397?returnPath=%2Fevents&returnPath=%2Fevent%2Fhelsinki%3Aaf3pnza3zi
- * latest return path is in the last returnPath param on queryString : %2Fevent%2Fhelsinki%3Aaf3pnza3zi
- */
-export const extractLatestReturnPath = (queryString: string): ReturnParams => {
-  const searchParams = new URLSearchParams(queryString);
-  const returnPaths = searchParams.getAll(EVENT_SEARCH_PARAMS.RETURN_PATH);
-  // latest path is the last item, it can be popped. If empty, defaults to /events
-  const extractedPath = returnPaths.pop() ?? ROUTES.SEARCH;
-  // there is no support to delete all but extracted item from same parameter list. This is a workaround to it:
-  // 1) delete all first
-  searchParams.delete(EVENT_SEARCH_PARAMS.RETURN_PATH);
-  // 2) then append all except latest
-  returnPaths.forEach((returnPath) =>
-    searchParams.append(EVENT_SEARCH_PARAMS.RETURN_PATH, returnPath)
+  return replaceParamsToQueryString<EventSearchParams>(
+    queryString,
+    queryParams,
+    getEventParamValue
   );
-  return {
-    returnPath: extractedPath,
-    remainingQueryString: searchParams.toString(),
-  };
 };
 
 export const getEventSearchQuery = (
@@ -184,23 +138,6 @@ export const getEventSearchQuery = (
 };
 
 export const getEventItemId = (id: string): string => `event-item${id}`;
-
-const setFocusToFirstFocusable = (id: string) => {
-  const element = document.getElementById(id);
-
-  /* istanbul ignore next */
-  if (!element) return;
-
-  if (element?.tabIndex >= 0) {
-    element?.focus();
-  } else {
-    const focusable = element?.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-
-    (focusable?.[0] as HTMLElement)?.focus();
-  }
-};
 
 export const scrollToEventCard = (id: string): void => {
   const offset = 24;

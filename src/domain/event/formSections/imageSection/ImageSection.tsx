@@ -21,10 +21,10 @@ import {
 } from '../../../../generated/graphql';
 import getPathBuilder from '../../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { clearImagesQueries, imagePathBuilder } from '../../../image/utils';
 import { EVENT_FIELDS } from '../../constants';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 import { AddImageSettings } from '../../types';
 import AddImageForm from './addImageForm/AddImageForm';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';

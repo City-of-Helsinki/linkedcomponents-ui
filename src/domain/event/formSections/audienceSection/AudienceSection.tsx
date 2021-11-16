@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 
 import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
 import Notification from '../../../../common/components/notification/Notification';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import useAudienceOptions from '../../hooks/useAudienceOptions';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 
 const AudienceSection: React.FC = () => {
   const { t } = useTranslation();

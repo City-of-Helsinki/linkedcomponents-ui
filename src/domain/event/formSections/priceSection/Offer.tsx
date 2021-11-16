@@ -6,9 +6,9 @@ import DeleteButton from '../../../../common/components/deleteButton/DeleteButto
 import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
+import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
-import FieldRow from '../../layout/FieldRow';
 import FieldWithButton from '../../layout/FieldWithButton';
 
 type Props = {

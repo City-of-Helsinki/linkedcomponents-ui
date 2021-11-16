@@ -1,5 +1,6 @@
 import {
   EventStatus,
+  KeywordFieldsFragment,
   PublicationStatus,
   SuperEventType,
 } from '../../generated/graphql';
@@ -23,6 +24,7 @@ export type EventFields = {
   audienceMinAge: number | null;
   createdBy: string;
   deleted: string | null;
+  description: string;
   endTime: Date | null;
   eventStatus: EventStatus;
   eventUrl: string;
@@ -31,6 +33,7 @@ export type EventFields = {
   inLanguage: string[];
   isDraft: boolean;
   isPublic: boolean;
+  keywords: KeywordFieldsFragment[];
   lastModifiedTime: Date | null;
   name: string;
   offers: Offer[];

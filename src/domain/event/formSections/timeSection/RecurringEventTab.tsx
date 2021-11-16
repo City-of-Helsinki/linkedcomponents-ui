@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { RecurringEventSettings } from '../../types';
 import AddRecurringEventForm from './AddRecurringEventForm';
 import EventTimesSummary from './EventTimesSummary';

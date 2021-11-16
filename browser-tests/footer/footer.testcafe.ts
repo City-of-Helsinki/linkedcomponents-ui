@@ -31,6 +31,10 @@ test('Footer links work', async (t) => {
   await urlUtils.actions.navigateToLandingPage();
   await footerLinks.actions.clickEventSearchPageLink();
   await urlUtils.expectations.urlChangedToEventSearchPage();
+  // Registrations page
+  await urlUtils.actions.navigateToLandingPage();
+  await footerLinks.actions.clickRegistrationsPageLink();
+  await urlUtils.expectations.urlChangedToRegistrationsPage();
   // Support page
   await urlUtils.actions.navigateToLandingPage();
   await footerLinks.actions.clickSupportPageLink();

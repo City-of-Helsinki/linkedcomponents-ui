@@ -30,6 +30,9 @@ export const findFooter = async (t: TestController) => {
       eventSearchLink() {
         return withinFooter().findByRole('link', { name: /etsi tapahtumia/i });
       },
+      registrationsLink() {
+        return withinFooter().findByRole('link', { name: /ilmoittautuminen/i });
+      },
       supportLink() {
         return withinFooter().findByRole('link', { name: /tuki/i });
       },
@@ -51,6 +54,11 @@ export const findFooter = async (t: TestController) => {
           .expect(selectors.eventSearchLink().exists)
           .ok(await getErrorMessage(t));
       },
+      async registrationsPageLinkIsVisible() {
+        await t
+          .expect(selectors.registrationsLink().exists)
+          .ok(await getErrorMessage(t));
+      },
       async supportPageLinkIsVisible() {
         await t
           .expect(selectors.supportLink().exists)
@@ -67,6 +75,9 @@ export const findFooter = async (t: TestController) => {
       },
       async clickEventSearchPageLink() {
         await t.click(selectors.eventSearchLink());
+      },
+      async clickRegistrationsPageLink() {
+        await t.click(selectors.registrationsLink());
       },
       async clickSupportPageLink() {
         await t.click(selectors.supportLink());

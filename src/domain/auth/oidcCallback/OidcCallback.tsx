@@ -24,7 +24,7 @@ const OidcCallback: React.FC<RouteChildrenProps> = (props) => {
   const onError = (error: Error) => {
     // In case used denies the access
     if (new URLSearchParams(location.hash.replace('#', '?')).get('error')) {
-      // TODO: Store url where user clicked log in to session storage and navigate to that url
+      // TODO: Store url where user clicked login to session storage and navigate to that url
       props.history.replace('/');
     } else {
       toast(t('authentication.errorMessage'), {

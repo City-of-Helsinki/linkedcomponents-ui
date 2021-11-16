@@ -5,6 +5,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { FCWithName } from '../../../types';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import styles from './sideNavigation.module.scss';
 import SideNavigationContext from './SideNavigationContext';
 
@@ -53,7 +54,7 @@ const MainLevel: FCWithName<MainLevelProps> = ({
     } else {
       return null;
     }
-  })?.filter((el) => el);
+  })?.filter(skipFalsyType);
 
   React.useEffect(() => {
     if (active && !openMainLevels.includes(index as number)) {

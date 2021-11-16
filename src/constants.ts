@@ -1,6 +1,7 @@
 import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
 import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
 import { StoreState } from './types';
+import { getFeatureFlags, isFeatureEnabled } from './utils/featureFlags';
 
 export const BREAKPOINTS = {
   XS: 576,
@@ -20,8 +21,12 @@ export enum DEPRECATED_ROUTES {
 
 export enum ROUTES {
   CALLBACK = '/callback',
+  CREATE_ENROLMENT = '/registrations/:registrationId/enrolments/create',
   CREATE_EVENT = '/events/create',
+  CREATE_REGISTRATION = '/registrations/create',
   EDIT_EVENT = '/events/edit/:id',
+  EDIT_REGISTRATION = '/registrations/edit/:id',
+  EDIT_REGISTRATION_ENROLMENT = '/registrations/:registrationId/enrolments/edit/:enrolmentId',
   EVENT_SAVED = '/events/completed/:id',
   EVENTS = '/events',
   FEATURES = '/help/features',
@@ -33,6 +38,9 @@ export enum ROUTES {
   INSTRUCTIONS_GENERAL = '/help/instructions/general',
   INSTRUCTIONS_PLATFORM = '/help/instructions/platform',
   LOGOUT = '/logout',
+  REGISTRATIONS = '/registrations',
+  REGISTRATION_ENROLMENTS = '/registrations/:registrationId/enrolments',
+  REGISTRATION_SAVED = '/registrations/completed/:id',
   SEARCH = '/search',
   SILENT_CALLBACK = '/silent-callback',
   SUPPORT = '/help/support',
@@ -108,6 +116,7 @@ export enum EXTLINK {
 
 export enum FORM_NAMES {
   EVENT_FORM = 'event-form',
+  REGISTRATION_FORM = 'registration-form',
 }
 
 export const defaultStoreState: StoreState = {
@@ -123,32 +132,6 @@ export const MAX_IMAGE_WIDTH = 1200;
 export const DEFAULT_PAGE_SIZE = 20;
 export const MAX_PAGE_SIZE = 100;
 
-export const NAVIGATION_ITEMS = [
-  {
-    labelKey: 'navigation.tabs.events',
-    url: ROUTES.EVENTS,
-  },
-  {
-    labelKey: 'navigation.tabs.help',
-    url: ROUTES.HELP,
-  },
-];
-
-export const FOOTER_NAVIGATION_ITEMS = [
-  {
-    labelKey: 'navigation.tabs.events',
-    url: ROUTES.EVENTS,
-  },
-  {
-    labelKey: 'navigation.searchEvents',
-    url: ROUTES.SEARCH,
-  },
-  {
-    labelKey: 'navigation.tabs.help',
-    url: ROUTES.HELP,
-  },
-];
-
 export const PAGE_HEADER_ID = 'page-header';
 export const MAIN_CONTENT_ID = 'maincontent';
 
@@ -160,3 +143,7 @@ export const SWAGGER_SCHEMA_URL =
   'https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml';
 
 export const TEST_USER_ID = 'user:1';
+
+export enum SEARCH_PARAMS {
+  RETURN_PATH = 'returnPath',
+}

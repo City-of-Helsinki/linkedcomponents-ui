@@ -1,4 +1,5 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import isSameDay from 'date-fns/isSameDay';
 
 import {
   EventsQueryVariables,
@@ -6,6 +7,7 @@ import {
   PublicationStatus,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
+import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import {
@@ -144,4 +146,20 @@ export const getEventsQuerySkip = (
     case EVENTS_PAGE_TABS.WAITING_APPROVAL:
       return !adminOrganizations.length;
   }
+};
+
+export const getEventDateText = (
+  endTime: Date | null,
+  startTime: Date | null
+): string => {
+  if (startTime && endTime) {
+    return isSameDay(new Date(startTime), new Date(endTime))
+      ? formatDate(new Date(startTime))
+      : `${formatDate(new Date(startTime))} – ${formatDate(new Date(endTime))}`;
+  } else if (startTime) {
+    return `${formatDate(new Date(startTime))} –`;
+  } else if (endTime) {
+    return `– ${formatDate(new Date(endTime))}`;
+  }
+  return '-';
 };

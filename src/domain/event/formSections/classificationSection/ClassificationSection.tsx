@@ -8,14 +8,14 @@ import KeywordSelectorField from '../../../../common/components/formFields/Keywo
 import Notification from '../../../../common/components/notification/Notification';
 import useLocale from '../../../../hooks/useLocale';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
+import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldRow from '../../../app/layout/FieldRow';
 import { REMOTE_PARTICIPATION_KEYWORD } from '../../../keyword/constants';
 import { getKeywordOption } from '../../../keywordSet/utils';
 import { INTERNET_PLACE_ID } from '../../../place/constants';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useEventFieldOptionsData from '../../hooks/useEventFieldOptionsData';
-import FieldColumn from '../../layout/FieldColumn';
-import FieldRow from '../../layout/FieldRow';
 
 const ClassificationSection: React.FC = () => {
   const { t } = useTranslation();

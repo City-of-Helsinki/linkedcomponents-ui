@@ -20,13 +20,16 @@ export type Mutation = {
   __typename?: 'Mutation';
   createEvent: Event;
   createEvents: Array<Event>;
+  createRegistration: Registration;
   deleteEvent?: Maybe<NoContent>;
+  deleteRegistration?: Maybe<NoContent>;
   postFeedback?: Maybe<Feedback>;
   postGuestFeedback?: Maybe<Feedback>;
   updateEvent: Event;
   updateEvents: Array<Event>;
   updateImage: Image;
   uploadImage: Image;
+  updateRegistration: Registration;
 };
 
 
@@ -40,7 +43,17 @@ export type MutationCreateEventsArgs = {
 };
 
 
+export type MutationCreateRegistrationArgs = {
+  input: CreateRegistrationMutationInput;
+};
+
+
 export type MutationDeleteEventArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteRegistrationArgs = {
   id: Scalars['ID'];
 };
 
@@ -74,6 +87,11 @@ export type MutationUploadImageArgs = {
   input: UploadImageMutationInput;
 };
 
+
+export type MutationUpdateRegistrationArgs = {
+  input: UpdateRegistrationMutationInput;
+};
+
 export type NoContent = {
   __typename?: 'NoContent';
   noContent?: Maybe<Scalars['Boolean']>;
@@ -81,6 +99,8 @@ export type NoContent = {
 
 export type Query = {
   __typename?: 'Query';
+  enrolment: Enrolment;
+  enrolments: EnrolmentsResponse;
   event: Event;
   events: EventsResponse;
   keyword: Keyword;
@@ -94,7 +114,14 @@ export type Query = {
   organizations: OrganizationsResponse;
   place: Place;
   places: PlacesResponse;
+  registration: Registration;
+  registrations: RegistrationsResponse;
   user: User;
+};
+
+
+export type QueryEnrolmentArgs = {
+  id?: Maybe<Scalars['ID']>;
 };
 
 
@@ -207,6 +234,19 @@ export type QueryPlacesArgs = {
 };
 
 
+export type QueryRegistrationArgs = {
+  id?: Maybe<Scalars['ID']>;
+};
+
+
+export type QueryRegistrationsArgs = {
+  eventType?: Maybe<Array<Maybe<EventTypeId>>>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  text?: Maybe<Scalars['String']>;
+};
+
+
 export type QueryUserArgs = {
   id: Scalars['ID'];
 };
@@ -216,6 +256,11 @@ export enum EventStatus {
   EventPostponed = 'EventPostponed',
   EventRescheduled = 'EventRescheduled',
   EventScheduled = 'EventScheduled'
+}
+
+export enum Notification {
+  Email = 'email',
+  Phone = 'phone'
 }
 
 export enum PublicationStatus {
@@ -353,6 +398,33 @@ export type UploadImageMutationInput = {
   photographerName?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+};
+
+export type CreateRegistrationMutationInput = {
+  audienceMaxAge?: Maybe<Scalars['Int']>;
+  audienceMinAge?: Maybe<Scalars['Int']>;
+  confirmationMessage?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
+  event: Scalars['ID'];
+  instructions?: Maybe<Scalars['String']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  waitingListCapacity?: Maybe<Scalars['Int']>;
+};
+
+export type UpdateRegistrationMutationInput = {
+  id: Scalars['ID'];
+  audienceMaxAge?: Maybe<Scalars['Int']>;
+  audienceMinAge?: Maybe<Scalars['Int']>;
+  confirmationMessage?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
+  event: Scalars['ID'];
+  instructions?: Maybe<Scalars['String']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  waitingListCapacity?: Maybe<Scalars['Int']>;
 };
 
 export type EventsResponse = {
@@ -646,6 +718,63 @@ export type Video = {
   altText?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+};
+
+export type RegistrationsResponse = {
+  __typename?: 'RegistrationsResponse';
+  meta: Meta;
+  data: Array<Maybe<Registration>>;
+};
+
+export type Registration = {
+  __typename?: 'Registration';
+  id?: Maybe<Scalars['ID']>;
+  attendeeRegistration?: Maybe<Scalars['Boolean']>;
+  audienceMaxAge?: Maybe<Scalars['Int']>;
+  audienceMinAge?: Maybe<Scalars['Int']>;
+  confirmationMessage?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']>;
+  createdBy?: Maybe<Scalars['String']>;
+  enrolmentEndTime?: Maybe<Scalars['String']>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
+  event?: Maybe<Scalars['ID']>;
+  instructions?: Maybe<Scalars['String']>;
+  lastModifiedAt?: Maybe<Scalars['String']>;
+  lastModifiedBy?: Maybe<Scalars['String']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['String']>;
+  waitingListCapacity?: Maybe<Scalars['Int']>;
+  atId: Scalars['String'];
+  atContext?: Maybe<Scalars['String']>;
+  atType?: Maybe<Scalars['String']>;
+};
+
+export type EnrolmentsResponse = {
+  __typename?: 'EnrolmentsResponse';
+  meta: Meta;
+  data: Array<Enrolment>;
+};
+
+export type Enrolment = {
+  __typename?: 'Enrolment';
+  id: Scalars['ID'];
+  city?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  extraInfo?: Maybe<Scalars['String']>;
+  marketingAllowed?: Maybe<Scalars['Boolean']>;
+  membershipNumber?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  nativeLanguage?: Maybe<Scalars['String']>;
+  notificationLanguage?: Maybe<Scalars['String']>;
+  notifications?: Maybe<Array<Notification>>;
+  organizationName?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+  serviceLanguage?: Maybe<Scalars['String']>;
+  streetAddress?: Maybe<Scalars['String']>;
+  yearOfBirth?: Maybe<Scalars['String']>;
+  zip?: Maybe<Scalars['String']>;
 };
 
 export type CreateEventMutationVariables = Exact<{
@@ -1220,6 +1349,87 @@ export type PlacesQuery = (
   ) }
 );
 
+export type CreateRegistrationMutationVariables = Exact<{
+  input: CreateRegistrationMutationInput;
+}>;
+
+
+export type CreateRegistrationMutation = (
+  { __typename?: 'Mutation' }
+  & { createRegistration: (
+    { __typename?: 'Registration' }
+    & RegistrationFieldsFragment
+  ) }
+);
+
+export type DeleteRegistrationMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteRegistrationMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteRegistration?: Maybe<(
+    { __typename?: 'NoContent' }
+    & Pick<NoContent, 'noContent'>
+  )> }
+);
+
+export type UpdateRegistrationMutationVariables = Exact<{
+  input: UpdateRegistrationMutationInput;
+}>;
+
+
+export type UpdateRegistrationMutation = (
+  { __typename?: 'Mutation' }
+  & { updateRegistration: (
+    { __typename?: 'Registration' }
+    & RegistrationFieldsFragment
+  ) }
+);
+
+export type RegistrationFieldsFragment = (
+  { __typename?: 'Registration' }
+  & Pick<Registration, 'id' | 'atId' | 'audienceMaxAge' | 'audienceMinAge' | 'confirmationMessage' | 'createdBy' | 'enrolmentEndTime' | 'enrolmentStartTime' | 'event' | 'instructions' | 'lastModifiedAt' | 'maximumAttendeeCapacity' | 'minimumAttendeeCapacity' | 'waitingListCapacity'>
+);
+
+export type RegistrationQueryVariables = Exact<{
+  id: Scalars['ID'];
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type RegistrationQuery = (
+  { __typename?: 'Query' }
+  & { registration: (
+    { __typename?: 'Registration' }
+    & RegistrationFieldsFragment
+  ) }
+);
+
+export type RegistrationsQueryVariables = Exact<{
+  eventType?: Maybe<Array<Maybe<EventTypeId>> | Maybe<EventTypeId>>;
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  text?: Maybe<Scalars['String']>;
+  createPath?: Maybe<Scalars['Any']>;
+}>;
+
+
+export type RegistrationsQuery = (
+  { __typename?: 'Query' }
+  & { registrations: (
+    { __typename?: 'RegistrationsResponse' }
+    & { meta: (
+      { __typename?: 'Meta' }
+      & MetaFieldsFragment
+    ), data: Array<Maybe<(
+      { __typename?: 'Registration' }
+      & RegistrationFieldsFragment
+    )>> }
+  ) }
+);
+
 export type UserFieldsFragment = (
   { __typename?: 'User' }
   & Pick<User, 'adminOrganizations' | 'dateJoined' | 'departmentName' | 'displayName' | 'email' | 'firstName' | 'isStaff' | 'lastLogin' | 'lastName' | 'organization' | 'organizationMemberships' | 'username' | 'uuid'>
@@ -1488,6 +1698,24 @@ export const OrganizationFieldsFragmentDoc = gql`
   parentOrganization
   replacedBy
   subOrganizations
+}
+    `;
+export const RegistrationFieldsFragmentDoc = gql`
+    fragment registrationFields on Registration {
+  id
+  atId
+  audienceMaxAge
+  audienceMinAge
+  confirmationMessage
+  createdBy
+  enrolmentEndTime
+  enrolmentStartTime
+  event
+  instructions
+  lastModifiedAt
+  maximumAttendeeCapacity
+  minimumAttendeeCapacity
+  waitingListCapacity
 }
     `;
 export const UserFieldsFragmentDoc = gql`
@@ -2414,6 +2642,191 @@ export function usePlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pla
 export type PlacesQueryHookResult = ReturnType<typeof usePlacesQuery>;
 export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
 export type PlacesQueryResult = Apollo.QueryResult<PlacesQuery, PlacesQueryVariables>;
+export const CreateRegistrationDocument = gql`
+    mutation CreateRegistration($input: CreateRegistrationMutationInput!) {
+  createRegistration(input: $input) @rest(type: "Registration", path: "/registration/", method: "POST", bodyKey: "input") {
+    ...registrationFields
+  }
+}
+    ${RegistrationFieldsFragmentDoc}`;
+export type CreateRegistrationMutationFn = Apollo.MutationFunction<CreateRegistrationMutation, CreateRegistrationMutationVariables>;
+
+/**
+ * __useCreateRegistrationMutation__
+ *
+ * To run a mutation, you first call `useCreateRegistrationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRegistrationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRegistrationMutation, { data, loading, error }] = useCreateRegistrationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateRegistrationMutation(baseOptions?: Apollo.MutationHookOptions<CreateRegistrationMutation, CreateRegistrationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRegistrationMutation, CreateRegistrationMutationVariables>(CreateRegistrationDocument, options);
+      }
+export type CreateRegistrationMutationHookResult = ReturnType<typeof useCreateRegistrationMutation>;
+export type CreateRegistrationMutationResult = Apollo.MutationResult<CreateRegistrationMutation>;
+export type CreateRegistrationMutationOptions = Apollo.BaseMutationOptions<CreateRegistrationMutation, CreateRegistrationMutationVariables>;
+export const DeleteRegistrationDocument = gql`
+    mutation DeleteRegistration($id: ID!) {
+  deleteRegistration(id: $id) @rest(type: "NoContent", path: "/registration/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteRegistrationMutationFn = Apollo.MutationFunction<DeleteRegistrationMutation, DeleteRegistrationMutationVariables>;
+
+/**
+ * __useDeleteRegistrationMutation__
+ *
+ * To run a mutation, you first call `useDeleteRegistrationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRegistrationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRegistrationMutation, { data, loading, error }] = useDeleteRegistrationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRegistrationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRegistrationMutation, DeleteRegistrationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRegistrationMutation, DeleteRegistrationMutationVariables>(DeleteRegistrationDocument, options);
+      }
+export type DeleteRegistrationMutationHookResult = ReturnType<typeof useDeleteRegistrationMutation>;
+export type DeleteRegistrationMutationResult = Apollo.MutationResult<DeleteRegistrationMutation>;
+export type DeleteRegistrationMutationOptions = Apollo.BaseMutationOptions<DeleteRegistrationMutation, DeleteRegistrationMutationVariables>;
+export const UpdateRegistrationDocument = gql`
+    mutation UpdateRegistration($input: UpdateRegistrationMutationInput!) {
+  updateRegistration(input: $input) @rest(type: "Registration", path: "/registration/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    ...registrationFields
+  }
+}
+    ${RegistrationFieldsFragmentDoc}`;
+export type UpdateRegistrationMutationFn = Apollo.MutationFunction<UpdateRegistrationMutation, UpdateRegistrationMutationVariables>;
+
+/**
+ * __useUpdateRegistrationMutation__
+ *
+ * To run a mutation, you first call `useUpdateRegistrationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRegistrationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRegistrationMutation, { data, loading, error }] = useUpdateRegistrationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateRegistrationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRegistrationMutation, UpdateRegistrationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRegistrationMutation, UpdateRegistrationMutationVariables>(UpdateRegistrationDocument, options);
+      }
+export type UpdateRegistrationMutationHookResult = ReturnType<typeof useUpdateRegistrationMutation>;
+export type UpdateRegistrationMutationResult = Apollo.MutationResult<UpdateRegistrationMutation>;
+export type UpdateRegistrationMutationOptions = Apollo.BaseMutationOptions<UpdateRegistrationMutation, UpdateRegistrationMutationVariables>;
+export const RegistrationDocument = gql`
+    query Registration($id: ID!, $createPath: Any) {
+  registration(id: $id) @rest(type: "Registration", pathBuilder: $createPath) {
+    ...registrationFields
+  }
+}
+    ${RegistrationFieldsFragmentDoc}`;
+
+/**
+ * __useRegistrationQuery__
+ *
+ * To run a query within a React component, call `useRegistrationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRegistrationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRegistrationQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useRegistrationQuery(baseOptions: Apollo.QueryHookOptions<RegistrationQuery, RegistrationQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RegistrationQuery, RegistrationQueryVariables>(RegistrationDocument, options);
+      }
+export function useRegistrationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RegistrationQuery, RegistrationQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RegistrationQuery, RegistrationQueryVariables>(RegistrationDocument, options);
+        }
+export type RegistrationQueryHookResult = ReturnType<typeof useRegistrationQuery>;
+export type RegistrationLazyQueryHookResult = ReturnType<typeof useRegistrationLazyQuery>;
+export type RegistrationQueryResult = Apollo.QueryResult<RegistrationQuery, RegistrationQueryVariables>;
+export const RegistrationsDocument = gql`
+    query Registrations($eventType: [EventTypeId], $page: Int, $pageSize: Int, $text: String, $createPath: Any) {
+  registrations(
+    eventType: $eventType
+    page: $page
+    pageSize: $pageSize
+    text: $text
+  ) @rest(type: "RegistrationsResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...registrationFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${RegistrationFieldsFragmentDoc}`;
+
+/**
+ * __useRegistrationsQuery__
+ *
+ * To run a query within a React component, call `useRegistrationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRegistrationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRegistrationsQuery({
+ *   variables: {
+ *      eventType: // value for 'eventType'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      text: // value for 'text'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useRegistrationsQuery(baseOptions?: Apollo.QueryHookOptions<RegistrationsQuery, RegistrationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RegistrationsQuery, RegistrationsQueryVariables>(RegistrationsDocument, options);
+      }
+export function useRegistrationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RegistrationsQuery, RegistrationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RegistrationsQuery, RegistrationsQueryVariables>(RegistrationsDocument, options);
+        }
+export type RegistrationsQueryHookResult = ReturnType<typeof useRegistrationsQuery>;
+export type RegistrationsLazyQueryHookResult = ReturnType<typeof useRegistrationsLazyQuery>;
+export type RegistrationsQueryResult = Apollo.QueryResult<RegistrationsQuery, RegistrationsQueryVariables>;
 export const UserDocument = gql`
     query User($id: ID!, $createPath: Any) {
   user(id: $id) @rest(type: "User", pathBuilder: $createPath) {

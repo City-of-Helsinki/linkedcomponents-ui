@@ -8,6 +8,7 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
+import { ValidationError } from 'yup';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -24,12 +25,13 @@ import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import Section from '../app/layout/Section';
 import { reportError } from '../app/sentry/utils';
 import { clearEventsQueries } from '../events/utils';
 import useUser from '../user/hooks/useUser';
 import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
-import ButtonPanel from './buttonPanel/ButtonPanel';
 import { EVENT_INFO_LANGUAGES, EVENT_INITIAL_VALUES } from './constants';
+import ButtonPanel from './createButtonPanel/CreateButtonPanel';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';
@@ -48,7 +50,6 @@ import VideoSection from './formSections/videoSection/VideoSection';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import useEventServerErrors from './hooks/useEventServerErrors';
 import useUpdateImageIfNeeded from './hooks/useUpdateImageIfNeeded';
-import Section from './layout/Section';
 import { EventFormFields } from './types';
 import {
   draftEventSchema,
@@ -95,7 +96,7 @@ const CreateEventPage: React.FC = () => {
       // Report error to Sentry
       reportError({
         data: {
-          error,
+          error: error as Record<string, unknown>,
           payload,
           payloadAsString: JSON.stringify(payload),
         },
@@ -127,7 +128,7 @@ const CreateEventPage: React.FC = () => {
       // Report error to Sentry
       reportError({
         data: {
-          error,
+          error: error as Record<string, unknown>,
           payload: recurringEventPayload,
           payloadAsString: JSON.stringify(recurringEventPayload),
         },
@@ -153,7 +154,7 @@ const CreateEventPage: React.FC = () => {
       // Report error to Sentry
       reportError({
         data: {
-          error,
+          error: error as Record<string, unknown>,
           payload,
           payloadAsString: JSON.stringify(payload),
         },
@@ -175,7 +176,7 @@ const CreateEventPage: React.FC = () => {
       // Report error to Sentry
       reportError({
         data: {
-          error,
+          error: error as Record<string, unknown>,
           images: values.images,
           imageDetails: values.imageDetails,
         },
@@ -254,7 +255,7 @@ const CreateEventPage: React.FC = () => {
           } catch (error) {
             showErrors({
               descriptionLanguage,
-              error,
+              error: error as ValidationError,
               setErrors,
               setDescriptionLanguage,
               setTouched,

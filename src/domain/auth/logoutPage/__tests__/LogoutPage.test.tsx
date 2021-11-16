@@ -49,7 +49,7 @@ test('should route to home page', () => {
   expect(history.location.pathname).toBe('/fi/');
 });
 
-test('should start log in process', () => {
+test('should start login process', () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
   renderComponent();
 
