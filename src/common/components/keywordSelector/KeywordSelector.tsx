@@ -15,7 +15,6 @@ import {
   KeywordFieldsFragment,
   useKeywordsQuery,
 } from '../../../generated/graphql';
-import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
@@ -61,7 +60,6 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   ...rest
 }) => {
   const timer = React.useRef<number>();
-  const isMounted = useIsMounted();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
   const locale = useLocale();

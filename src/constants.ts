@@ -1,7 +1,6 @@
 import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
 import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
 import { StoreState } from './types';
-import { getFeatureFlags, isFeatureEnabled } from './utils/featureFlags';
 
 export const BREAKPOINTS = {
   XS: 576,

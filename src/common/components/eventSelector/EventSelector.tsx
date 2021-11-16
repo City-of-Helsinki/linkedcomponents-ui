@@ -10,7 +10,6 @@ import {
   useEventQuery,
   useEventsQuery,
 } from '../../../generated/graphql';
-import useIsMounted from '../../../hooks/useIsMounted';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
@@ -36,7 +35,6 @@ const EventSelector: React.FC<EventSelectorProps> = ({
   ...rest
 }) => {
   const timer = React.useRef<number>();
-  const isMounted = useIsMounted();
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');

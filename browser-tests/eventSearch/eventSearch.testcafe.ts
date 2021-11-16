@@ -11,7 +11,7 @@ import {
   getPublisher,
 } from '../data/eventData';
 import { getExpectedEventContext, isLocalized } from '../utils/event.utils';
-import { isInternetLocation } from '../utils/place.utils';
+import { hasStreetAddress, isInternetLocation } from '../utils/place.utils';
 import {
   getRandomSentence,
   selectRandomValuesFromArray,
@@ -136,7 +136,7 @@ test('Free text search finds event by free text search', async (t) => {
       'location'
     );
 
-    if (!isInternetLocation(eventLocation)) {
+    if (!isInternetLocation(eventLocation) && hasStreetAddress(eventLocation)) {
       await testSearchEventByText(
         t,
         eventWithLocation,
