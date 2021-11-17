@@ -49,7 +49,8 @@ const Header: React.FC = () => {
 
   const goToHomePage = (e?: Event) => {
     e?.preventDefault();
-    goToPage(`/${locale}${ROUTES.HOME}`)();
+    history.push({ pathname: `/${locale}${ROUTES.HOME}` });
+    setMenuOpen(false);
   };
 
   const goToPage =
@@ -107,6 +108,7 @@ const Header: React.FC = () => {
       pathname: `/${locale}${ROUTES.SEARCH}`,
       search: getEventSearchQuery({ text }),
     });
+    toggleMenu();
   };
 
   /* istanbul ignore next */
