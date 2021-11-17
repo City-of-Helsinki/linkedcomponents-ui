@@ -1,4 +1,5 @@
 import { findCookieConsentModal } from '../cookieConsentModal/cookieConsentModal.components';
+import { isFeatureEnabled } from '../utils/featureFlag.utils';
 import { requestLogger } from '../utils/requestLogger';
 import { getEnvUrl } from '../utils/settings';
 import { clearDataToPrintOnFailure } from '../utils/testcafe.utils';
@@ -32,10 +33,11 @@ test('Footer links work', async (t) => {
   await footerLinks.actions.clickEventSearchPageLink();
   await urlUtils.expectations.urlChangedToEventSearchPage();
   // Registrations page
-  await urlUtils.actions.navigateToLandingPage();
-  // TODO: Check that registration tab works
-  // await footerLinks.actions.clickRegistrationsPageLink();
-  await urlUtils.expectations.urlChangedToRegistrationsPage();
+  if (isFeatureEnabled('SHOW_REGISTRATION')) {
+    await urlUtils.actions.navigateToLandingPage();
+    await footerLinks.actions.clickRegistrationsPageLink();
+    await urlUtils.expectations.urlChangedToRegistrationsPage();
+  }
   // Support page
   await urlUtils.actions.navigateToLandingPage();
   await footerLinks.actions.clickSupportPageLink();

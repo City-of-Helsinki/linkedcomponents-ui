@@ -1,5 +1,6 @@
 import { SUPPORTED_LANGUAGES } from '../../src/constants';
 import { findCookieConsentModal } from '../cookieConsentModal/cookieConsentModal.components';
+import { isFeatureEnabled } from '../utils/featureFlag.utils';
 import { requestLogger } from '../utils/requestLogger';
 import { getEnvUrl } from '../utils/settings';
 import { clearDataToPrintOnFailure } from '../utils/testcafe.utils';
@@ -45,10 +46,11 @@ test('Header tabs and search input field work', async (t) => {
   await headerTabs.actions.clickEventsPageTab();
   await urlUtils.expectations.urlChangedToEventsPage();
   // Registrations page
-  await urlUtils.actions.navigateToLandingPage();
-  // TODO: Check that registration tab works
-  // await headerTabs.actions.clickRegistrationsPageTab();
-  await urlUtils.expectations.urlChangedToRegistrationsPage();
+  if (isFeatureEnabled('SHOW_REGISTRATION')) {
+    await urlUtils.actions.navigateToLandingPage();
+    await headerTabs.actions.clickRegistrationsPageTab();
+    await urlUtils.expectations.urlChangedToRegistrationsPage();
+  }
   // Support page
   await urlUtils.actions.navigateToLandingPage();
   await headerTabs.actions.clickSupportPageTab();
