@@ -220,7 +220,7 @@
     },
     "notifications": {
       "email": "Via e-post",
-      "phone": "Med sms"
+      "sms": "Med sms"
     }
   },
   "enrolmentsPage": {

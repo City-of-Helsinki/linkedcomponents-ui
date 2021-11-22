@@ -1,15 +1,31 @@
 import {
   CreateEnrolmentMutationInput,
-  Enrolment,
+  EnrolmentFieldsFragment,
   EnrolmentQueryVariables,
-  Notification,
+  RegistrationFieldsFragment,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
-import { ENROLMENT_INITIAL_VALUES } from './constants';
+import { ENROLMENT_INITIAL_VALUES, NOTIFICATIONS } from './constants';
 import { EnrolmentFormFields } from './types';
 
+export const getEnrolmentNotificationTypes = (
+  notifications: number
+): NOTIFICATIONS[] => {
+  switch (notifications) {
+    case 1:
+      return [NOTIFICATIONS.SMS];
+    case 2:
+      return [NOTIFICATIONS.EMAIL];
+    case 3:
+      return [NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS];
+    case 0:
+    default:
+      return [];
+  }
+};
+
 export const getEnrolmentInitialValues = (
-  enrolment: Enrolment
+  enrolment: EnrolmentFieldsFragment
 ): EnrolmentFormFields => {
   return {
     ...ENROLMENT_INITIAL_VALUES,
@@ -20,10 +36,9 @@ export const getEnrolmentInitialValues = (
     city: enrolment.city ?? '',
     email: enrolment.email ?? '',
     phoneNumber: enrolment.phoneNumber ?? '',
-    notifications:
-      enrolment.notifications?.filter((item) =>
-        Object.values(Notification).includes(item)
-      ) ?? [],
+    notifications: getEnrolmentNotificationTypes(
+      enrolment.notifications as number
+    ),
     notificationLanguage: enrolment.notificationLanguage ?? '',
     membershipNumber: enrolment.membershipNumber ?? '',
     nativeLanguage: enrolment.nativeLanguage ?? '',
@@ -32,8 +47,26 @@ export const getEnrolmentInitialValues = (
   };
 };
 
+export const getEnrolmentNotificationsCode = (
+  notifications: string[]
+): number => {
+  if (
+    notifications.includes(NOTIFICATIONS.EMAIL) &&
+    notifications.includes(NOTIFICATIONS.SMS)
+  ) {
+    return 3;
+  } else if (notifications.includes(NOTIFICATIONS.EMAIL)) {
+    return 2;
+  } else if (notifications.includes(NOTIFICATIONS.SMS)) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
+
 export const getEnrolmentPayload = (
-  formValues: EnrolmentFormFields
+  formValues: EnrolmentFormFields,
+  registration: RegistrationFieldsFragment
 ): CreateEnrolmentMutationInput => {
   const {
     city,
@@ -41,14 +74,8 @@ export const getEnrolmentPayload = (
     extraInfo,
     membershipNumber,
     name,
-    nativeLanguage,
-    notificationLanguage,
     notifications,
     phoneNumber,
-    serviceLanguage,
-    streetAddress,
-    yearOfBirth,
-    zip,
   } = formValues;
 
   return {
@@ -57,14 +84,9 @@ export const getEnrolmentPayload = (
     extraInfo: extraInfo || null,
     membershipNumber: membershipNumber || null,
     name: name || null,
-    nativeLanguage: nativeLanguage || null,
-    notificationLanguage: notificationLanguage || null,
-    notifications: notifications as Notification[],
+    notifications: getEnrolmentNotificationsCode(notifications),
     phoneNumber: phoneNumber || null,
-    serviceLanguage: serviceLanguage || null,
-    streetAddress: streetAddress || null,
-    yearOfBirth: yearOfBirth || null,
-    zip: zip || null,
+    registration: registration.id as string,
   };
 };
 

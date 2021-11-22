@@ -6,7 +6,7 @@ export const MUTATION_ENROLMENT = gql`
     createEnrolment(input: $input)
       @rest(
         type: "Enrolment"
-        path: "/enrolment/"
+        path: "/signup/"
         method: "POST"
         bodyKey: "input"
       ) {

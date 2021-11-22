@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { CreateEnrolmentDocument } from '../../../generated/graphql';
 import { fakeEnrolment } from '../../../utils/mockDataUtils';
+import { registrationId } from '../../registration/__mocks__/registration';
 
 const enrolmentValues = {
   city: 'City',
@@ -18,14 +19,9 @@ const payload = {
   extraInfo: null,
   membershipNumber: null,
   name: enrolmentValues.name,
-  nativeLanguage: 'fi',
-  notificationLanguage: 'fi',
-  notifications: ['email', 'phone'],
+  notifications: 3,
   phoneNumber: enrolmentValues.phone,
-  serviceLanguage: 'fi',
-  streetAddress: enrolmentValues.streetAddress,
-  yearOfBirth: '1990',
-  zip: enrolmentValues.zip,
+  registration: registrationId,
 };
 
 const createEnrolmentVariables = {

@@ -22,15 +22,9 @@ export type CreateEnrolmentMutationInput = {
   extraInfo?: InputMaybe<Scalars['String']>;
   membershipNumber?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
-  nativeLanguage?: InputMaybe<Scalars['String']>;
-  notificationLanguage?: InputMaybe<Scalars['String']>;
-  notifications?: InputMaybe<Array<Notification>>;
-  organizationName?: InputMaybe<Scalars['String']>;
+  notifications?: InputMaybe<Scalars['Int']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
-  serviceLanguage?: InputMaybe<Scalars['String']>;
-  streetAddress?: InputMaybe<Scalars['String']>;
-  yearOfBirth?: InputMaybe<Scalars['String']>;
-  zip?: InputMaybe<Scalars['String']>;
+  registration: Scalars['ID'];
 };
 
 export type CreateEventMutationInput = {
@@ -96,7 +90,7 @@ export type Enrolment = {
   name?: Maybe<Scalars['String']>;
   nativeLanguage?: Maybe<Scalars['String']>;
   notificationLanguage?: Maybe<Scalars['String']>;
-  notifications?: Maybe<Array<Notification>>;
+  notifications?: Maybe<Scalars['Int']>;
   organizationName?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   serviceLanguage?: Maybe<Scalars['String']>;
@@ -427,11 +421,6 @@ export type NoContent = {
   noContent?: Maybe<Scalars['Boolean']>;
 };
 
-export enum Notification {
-  Email = 'email',
-  Phone = 'phone'
-}
-
 export type Offer = {
   __typename?: 'Offer';
   description?: Maybe<LocalisedObject>;
@@ -729,15 +718,9 @@ export type UpdateEnrolmentMutationInput = {
   extraInfo?: InputMaybe<Scalars['String']>;
   membershipNumber?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
-  nativeLanguage?: InputMaybe<Scalars['String']>;
-  notificationLanguage?: InputMaybe<Scalars['String']>;
-  notifications?: InputMaybe<Array<Notification>>;
-  organizationName?: InputMaybe<Scalars['String']>;
+  notifications?: InputMaybe<Scalars['Int']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
-  serviceLanguage?: InputMaybe<Scalars['String']>;
-  streetAddress?: InputMaybe<Scalars['String']>;
-  yearOfBirth?: InputMaybe<Scalars['String']>;
-  zip?: InputMaybe<Scalars['String']>;
+  registration: Scalars['ID'];
 };
 
 export type UpdateEventMutationInput = {
@@ -839,16 +822,16 @@ export type CreateEnrolmentMutationVariables = Exact<{
 }>;
 
 
-export type CreateEnrolmentMutation = { __typename?: 'Mutation', createEnrolment: { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: Array<Notification> | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined } };
+export type CreateEnrolmentMutation = { __typename?: 'Mutation', createEnrolment: { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: number | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined } };
 
 export type UpdateEnrolmentMutationVariables = Exact<{
   input: UpdateEnrolmentMutationInput;
 }>;
 
 
-export type UpdateEnrolmentMutation = { __typename?: 'Mutation', updateEnrolment: { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: Array<Notification> | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined } };
+export type UpdateEnrolmentMutation = { __typename?: 'Mutation', updateEnrolment: { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: number | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined } };
 
-export type EnrolmentFieldsFragment = { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: Array<Notification> | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined };
+export type EnrolmentFieldsFragment = { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: number | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined };
 
 export type EnrolmentQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -856,7 +839,7 @@ export type EnrolmentQueryVariables = Exact<{
 }>;
 
 
-export type EnrolmentQuery = { __typename?: 'Query', enrolment: { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: Array<Notification> | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined } };
+export type EnrolmentQuery = { __typename?: 'Query', enrolment: { __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: number | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined } };
 
 export type EnrolmentsQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']>;
@@ -867,7 +850,7 @@ export type EnrolmentsQueryVariables = Exact<{
 }>;
 
 
-export type EnrolmentsQuery = { __typename?: 'Query', enrolments: { __typename?: 'EnrolmentsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: Array<Notification> | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined }> } };
+export type EnrolmentsQuery = { __typename?: 'Query', enrolments: { __typename?: 'EnrolmentsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'Enrolment', id: string, atId: string, city?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notificationLanguage?: string | null | undefined, notifications?: number | null | undefined, organizationName?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, yearOfBirth?: string | null | undefined, zip?: string | null | undefined }> } };
 
 export type CreateEventMutationVariables = Exact<{
   input: CreateEventMutationInput;
@@ -1474,7 +1457,7 @@ export const UserFieldsFragmentDoc = gql`
     `;
 export const CreateEnrolmentDocument = gql`
     mutation CreateEnrolment($input: CreateEnrolmentMutationInput!) {
-  createEnrolment(input: $input) @rest(type: "Enrolment", path: "/enrolment/", method: "POST", bodyKey: "input") {
+  createEnrolment(input: $input) @rest(type: "Enrolment", path: "/signup/", method: "POST", bodyKey: "input") {
     ...enrolmentFields
   }
 }

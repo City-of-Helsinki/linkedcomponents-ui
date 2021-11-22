@@ -94,7 +94,7 @@ const EnrolmentForm: React.FC = () => {
               label={t(`enrolment.form.labelPhoneNumber`)}
               placeholder={t(`enrolment.form.placeholderPhoneNumber`)}
               type="tel"
-              required={notifications.includes(NOTIFICATIONS.PHONE)}
+              required={notifications.includes(NOTIFICATIONS.SMS)}
             />
           </div>
         </FormGroup>

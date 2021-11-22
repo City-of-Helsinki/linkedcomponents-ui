@@ -57,7 +57,10 @@ const EditEnrolmentPage: React.FC<Props> = ({
 }) => {
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrors();
-  const { saving, updateEnrolment } = useEnrolmentUpdateActions({ enrolment });
+  const { saving, updateEnrolment } = useEnrolmentUpdateActions({
+    enrolment,
+    registration,
+  });
 
   const initialValues = React.useMemo(
     () => getEnrolmentInitialValues(enrolment),

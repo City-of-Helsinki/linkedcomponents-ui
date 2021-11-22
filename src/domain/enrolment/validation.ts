@@ -56,7 +56,7 @@ export const enrolmentSchema = Yup.object().shape({
     .when(
       [ENROLMENT_FIELDS.NOTIFICATIONS],
       (notifications: string[], schema) => {
-        return notifications.includes(NOTIFICATIONS.PHONE)
+        return notifications.includes(NOTIFICATIONS.SMS)
           ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
           : schema;
       }

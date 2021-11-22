@@ -34,7 +34,7 @@ export const ENROLMENT_INITIAL_VALUES: EnrolmentFormFields = {
 
 export enum NOTIFICATIONS {
   EMAIL = 'email',
-  PHONE = 'phone',
+  SMS = 'sms',
 }
 
 export const ENROLMENT_FORM_SELECT_FIELDS = [

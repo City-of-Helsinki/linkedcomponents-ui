@@ -8,6 +8,7 @@ import { useLocation } from 'react-router';
 
 import {
   EnrolmentFieldsFragment,
+  RegistrationFieldsFragment,
   UpdateEnrolmentMutationInput,
   useUpdateEnrolmentMutation,
 } from '../../../generated/graphql';
@@ -28,6 +29,7 @@ interface Callbacks {
 
 interface Props {
   enrolment: EnrolmentFieldsFragment;
+  registration: RegistrationFieldsFragment;
 }
 
 type UseEnrolmentUpdateActionsState = {
@@ -39,6 +41,7 @@ type UseEnrolmentUpdateActionsState = {
 };
 const useEnrolmentUpdateActions = ({
   enrolment,
+  registration,
 }: Props): UseEnrolmentUpdateActionsState => {
   const isMounted = useIsMounted();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
@@ -100,13 +103,16 @@ const useEnrolmentUpdateActions = ({
     values: EnrolmentFormFields,
     callbacks?: Callbacks
   ) => {
-    let payload: UpdateEnrolmentMutationInput = { id: enrolment.id as string };
+    let payload: UpdateEnrolmentMutationInput = {
+      id: enrolment.id as string,
+      registration: registration.id as string,
+    };
 
     try {
       setSaving(ENROLMENT_EDIT_ACTIONS.UPDATE);
 
       payload = {
-        ...getEnrolmentPayload(values),
+        ...getEnrolmentPayload(values, registration),
         id: enrolment.id as string,
       };
 

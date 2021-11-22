@@ -117,11 +117,6 @@ module.exports = buildSchema(/* GraphQL */ `
     EventScheduled
   }
 
-  enum Notification {
-    email
-    phone
-  }
-
   enum PublicationStatus {
     draft
     public
@@ -183,15 +178,9 @@ module.exports = buildSchema(/* GraphQL */ `
     extraInfo: String
     membershipNumber: String
     name: String
-    nativeLanguage: String
-    notificationLanguage: String
-    notifications: [Notification!]
-    organizationName: String
+    notifications: Int
     phoneNumber: String
-    serviceLanguage: String
-    streetAddress: String
-    yearOfBirth: String
-    zip: String
+    registration: ID!
   }
 
   input UpdateEnrolmentMutationInput {
@@ -201,15 +190,9 @@ module.exports = buildSchema(/* GraphQL */ `
     extraInfo: String
     membershipNumber: String
     name: String
-    nativeLanguage: String
-    notificationLanguage: String
-    notifications: [Notification!]
-    organizationName: String
+    notifications: Int
     phoneNumber: String
-    serviceLanguage: String
-    streetAddress: String
-    yearOfBirth: String
-    zip: String
+    registration: ID!
   }
 
   input CreateEventMutationInput {
@@ -654,7 +637,7 @@ module.exports = buildSchema(/* GraphQL */ `
     name: String
     nativeLanguage: String
     notificationLanguage: String
-    notifications: [Notification!]
+    notifications: Int
     organizationName: String
     phoneNumber: String
     serviceLanguage: String

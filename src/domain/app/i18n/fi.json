@@ -217,7 +217,7 @@
     },
     "notifications": {
       "email": "Sähköpostilla",
-      "phone": "Tekstiviestillä"
+      "sms": "Tekstiviestillä"
     }
   },
   "editEnrolmentPage": {

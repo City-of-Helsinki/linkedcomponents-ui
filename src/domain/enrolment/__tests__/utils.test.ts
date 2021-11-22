@@ -1,12 +1,12 @@
-import {
-  EnrolmentQueryVariables,
-  Notification,
-} from '../../../generated/graphql';
+import { EnrolmentQueryVariables } from '../../../generated/graphql';
 import { fakeEnrolment } from '../../../utils/mockDataUtils';
-import { ENROLMENT_INITIAL_VALUES } from '../constants';
+import { registration } from '../../registration/__mocks__/registration';
+import { ENROLMENT_INITIAL_VALUES, NOTIFICATIONS } from '../constants';
 import {
   enrolmentPathBuilder,
   getEnrolmentInitialValues,
+  getEnrolmentNotificationsCode,
+  getEnrolmentNotificationTypes,
   getEnrolmentPayload,
 } from '../utils';
 
@@ -66,7 +66,7 @@ describe('getEnrolmentInitialValues function', () => {
     const expectedMembershipNumber = 'XXX-XXX-XXX';
     const expectedName = 'Name';
     const expectedNativeLanguage = 'fi';
-    const expectedNotifications = [Notification.Email];
+    const expectedNotifications = [NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS];
     const expectedNotificationLanguage = 'sv';
     const expectedPhoneNumber = '+358 44 123 4567';
     const expectedServiceLanguage = 'en';
@@ -96,10 +96,7 @@ describe('getEnrolmentInitialValues function', () => {
         membershipNumber: expectedMembershipNumber,
         name: expectedName,
         nativeLanguage: expectedNativeLanguage,
-        notifications: [
-          ...expectedNotifications,
-          'not-exist',
-        ] as Notification[],
+        notifications: 3,
         notificationLanguage: expectedNotificationLanguage,
         phoneNumber: expectedPhoneNumber,
         serviceLanguage: expectedServiceLanguage,
@@ -125,57 +122,65 @@ describe('getEnrolmentInitialValues function', () => {
   });
 });
 
+describe('getEnrolmentNotificationTypes function', () => {
+  it('should return correct notification types', () => {
+    expect(getEnrolmentNotificationTypes(0)).toEqual([]);
+    expect(getEnrolmentNotificationTypes(1)).toEqual([NOTIFICATIONS.SMS]);
+    expect(getEnrolmentNotificationTypes(2)).toEqual([NOTIFICATIONS.EMAIL]);
+    expect(getEnrolmentNotificationTypes(3)).toEqual([
+      NOTIFICATIONS.EMAIL,
+      NOTIFICATIONS.SMS,
+    ]);
+    expect(getEnrolmentNotificationTypes(4)).toEqual([]);
+  });
+});
+
+describe('getEnrolmentNotificationsCode function', () => {
+  it('should return correct notification core', () => {
+    expect(getEnrolmentNotificationsCode([])).toBe(0);
+    expect(getEnrolmentNotificationsCode([NOTIFICATIONS.SMS])).toBe(1);
+    expect(getEnrolmentNotificationsCode([NOTIFICATIONS.EMAIL])).toBe(2);
+    expect(
+      getEnrolmentNotificationsCode([NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS])
+    ).toBe(3);
+  });
+});
+
 describe('getEnrolmentPayload function', () => {
   it('should return single event as payload', () => {
-    expect(
-      getEnrolmentPayload({
-        ...ENROLMENT_INITIAL_VALUES,
-      })
-    ).toEqual({
-      city: null,
-      email: null,
-      extraInfo: null,
-      membershipNumber: null,
-      name: null,
-      nativeLanguage: null,
-      notificationLanguage: null,
-      notifications: [],
-      phoneNumber: null,
-      serviceLanguage: null,
-      streetAddress: null,
-      yearOfBirth: null,
-      zip: null,
-    });
+    expect(getEnrolmentPayload(ENROLMENT_INITIAL_VALUES, registration)).toEqual(
+      {
+        city: null,
+        email: null,
+        extraInfo: null,
+        membershipNumber: null,
+        name: null,
+        notifications: 0,
+        phoneNumber: null,
+        registration: registration.id,
+      }
+    );
 
     const city = 'City',
       email = 'Email',
       extraInfo = 'Extra info',
       membershipNumber = 'XXX-123',
       name = 'Name',
-      nativeLanguage = 'fi',
-      notificationLanguage = 'sv',
-      notifications = ['email'],
-      phoneNumber = '0441234567',
-      serviceLanguage = 'en',
-      streetAddress = 'Street address',
-      yearOfBirth = '1999',
-      zip = '00100';
-    const payload = getEnrolmentPayload({
-      ...ENROLMENT_INITIAL_VALUES,
-      city,
-      email,
-      extraInfo,
-      membershipNumber,
-      name,
-      nativeLanguage,
-      notificationLanguage,
-      notifications,
-      phoneNumber,
-      serviceLanguage,
-      streetAddress,
-      yearOfBirth,
-      zip,
-    });
+      notifications = [NOTIFICATIONS.EMAIL],
+      phoneNumber = '0441234567';
+    const payload = getEnrolmentPayload(
+      {
+        ...ENROLMENT_INITIAL_VALUES,
+        city,
+        email,
+        extraInfo,
+        membershipNumber,
+        name,
+        notifications,
+        phoneNumber,
+      },
+      registration
+    );
 
     expect(payload).toEqual({
       city,
@@ -183,14 +188,9 @@ describe('getEnrolmentPayload function', () => {
       extraInfo,
       membershipNumber,
       name,
-      nativeLanguage,
-      notificationLanguage,
-      notifications,
+      notifications: 2,
       phoneNumber,
-      serviceLanguage,
-      streetAddress,
-      yearOfBirth,
-      zip,
+      registration: registration.id,
     });
   });
 });

@@ -95,10 +95,10 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
     }
   };
 
-  const createRegistration = async (values: EnrolmentFormFieldsType) => {
+  const createEnrolment = async (values: EnrolmentFormFieldsType) => {
     setSaving(true);
 
-    const payload = getEnrolmentPayload(values);
+    const payload = getEnrolmentPayload(values, registration);
 
     const createdEventId = await createSingleEnrolment(payload);
 
@@ -133,7 +133,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
 
                 await enrolmentSchema.validate(values, { abortEarly: false });
 
-                createRegistration(values);
+                createEnrolment(values);
               } catch (error) {
                 showErrors({
                   error: error as ValidationError,

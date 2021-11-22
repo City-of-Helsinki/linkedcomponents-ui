@@ -2,10 +2,10 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import {
   EnrolmentDocument,
-  Notification,
   UpdateEnrolmentDocument,
 } from '../../../generated/graphql';
 import { fakeEnrolment } from '../../../utils/mockDataUtils';
+import { registrationId } from '../../registration/__mocks__/registration';
 
 const enrolmentId = 'enrolment:1';
 const enrolmentValues = {
@@ -16,7 +16,7 @@ const enrolmentValues = {
   name: 'Participant name',
   nativeLanguage: 'fi',
   notificationLanguage: 'fi',
-  notifications: ['email', 'phone'] as Notification[],
+  notifications: 3,
   phoneNumber: '+358 44 123 4567',
   serviceLanguage: 'fi',
   streetAddress: 'Street address',
@@ -40,14 +40,9 @@ const payload = {
   extraInfo: null,
   membershipNumber: null,
   name: enrolmentValues.name,
-  nativeLanguage: enrolmentValues.nativeLanguage,
-  notificationLanguage: enrolmentValues.notificationLanguage,
   notifications: enrolmentValues.notifications,
   phoneNumber: enrolmentValues.phoneNumber,
-  serviceLanguage: enrolmentValues.serviceLanguage,
-  streetAddress: enrolmentValues.streetAddress,
-  yearOfBirth: enrolmentValues.yearOfBirth,
-  zip: enrolmentValues.zip,
+  registration: registrationId,
 };
 
 const updateEnrolmentVariables = {

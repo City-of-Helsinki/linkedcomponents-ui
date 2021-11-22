@@ -219,7 +219,7 @@
     },
     "notifications": {
       "email": "By email",
-      "phone": "By text message"
+      "sms": "By text message"
     }
   },
   "enrolmentsPage": {  
