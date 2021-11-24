@@ -1,7 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
 import {
-  Place,
   PlaceDocument,
   PlaceFieldsFragment,
   PlaceQuery,
@@ -70,7 +69,7 @@ export const placesPathBuilder = ({
 export const getPlaceFromCache = (
   id: string,
   apolloClient: ApolloClient<NormalizedCacheObject>
-): Place | null => {
+): PlaceFieldsFragment | null => {
   const data = apolloClient.readQuery<PlaceQuery>({
     query: PlaceDocument,
     variables: {
@@ -85,7 +84,7 @@ export const getPlaceFromCache = (
 export const getPlaceQueryResult = async (
   id: string,
   apolloClient: ApolloClient<NormalizedCacheObject>
-): Promise<Place | null> => {
+): Promise<PlaceFieldsFragment | null> => {
   try {
     const { data: placeData } = await apolloClient.query<PlaceQuery>({
       query: PlaceDocument,

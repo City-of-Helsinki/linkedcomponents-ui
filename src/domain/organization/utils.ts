@@ -2,7 +2,6 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
 import { MAX_PAGE_SIZE } from '../../constants';
 import {
-  Organization,
   OrganizationDocument,
   OrganizationFieldsFragment,
   OrganizationQuery,
@@ -46,7 +45,7 @@ export const getOrganizationFields = (
 export const getOrganizationQueryResult = async (
   id: string,
   apolloClient: ApolloClient<NormalizedCacheObject>
-): Promise<Organization | null> => {
+): Promise<OrganizationFieldsFragment | null> => {
   try {
     const { data: organizationData } =
       await apolloClient.query<OrganizationQuery>({
@@ -98,7 +97,7 @@ export const isReqularUserInOrganization = ({
 export const getOrganizationAncestorsQueryResult = async (
   id: string,
   apolloClient: ApolloClient<NormalizedCacheObject>
-): Promise<Organization[]> => {
+): Promise<OrganizationFieldsFragment[]> => {
   try {
     if (!id) {
       return [];
