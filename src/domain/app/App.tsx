@@ -36,7 +36,7 @@ const App: React.FC = () => {
     <Provider store={store}>
       <OidcProvider store={store} userManager={userManager}>
         <ThemeProvider initTheme={theme}>
-          <ToastContainer hideProgressBar={true} />
+          <ToastContainer hideProgressBar={true} theme="colored" />
           <BrowserRouter>
             <CookieConsentProvider>
               <MatomoProvider value={instance}>
