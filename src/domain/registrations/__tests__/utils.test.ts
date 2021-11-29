@@ -154,8 +154,6 @@ describe('getRegistrationFields function', () => {
       id,
       lastModifiedAt,
       maximumAttendeeCapacity,
-      name,
-      publisher,
       waitingListCapacity,
     } = getRegistrationFields(
       fakeRegistration({
@@ -166,8 +164,6 @@ describe('getRegistrationFields function', () => {
         id: null,
         lastModifiedAt: '',
         maximumAttendeeCapacity: null,
-        name: null,
-        publisher: '',
         waitingListCapacity: null,
       }),
       'fi'
@@ -182,8 +178,6 @@ describe('getRegistrationFields function', () => {
     expect(id).toBe('');
     expect(lastModifiedAt).toBe(null);
     expect(maximumAttendeeCapacity).toBe(0);
-    expect(name).toBe('');
-    expect(publisher).toBe(null);
     expect(waitingListCapacity).toBe(0);
   });
 });

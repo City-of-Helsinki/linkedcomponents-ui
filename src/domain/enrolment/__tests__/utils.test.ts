@@ -1,7 +1,11 @@
 import { EnrolmentQueryVariables } from '../../../generated/graphql';
 import { fakeEnrolment } from '../../../utils/mockDataUtils';
 import { registration } from '../../registration/__mocks__/registration';
-import { ENROLMENT_INITIAL_VALUES, NOTIFICATIONS } from '../constants';
+import {
+  ENROLMENT_INITIAL_VALUES,
+  NOTIFICATION_TYPE,
+  NOTIFICATIONS,
+} from '../constants';
 import {
   enrolmentPathBuilder,
   getEnrolmentInitialValues,
@@ -18,14 +22,8 @@ describe('getEnrolmentInitialValues function', () => {
       extraInfo,
       membershipNumber,
       name,
-      nativeLanguage,
       notifications,
-      notificationLanguage,
       phoneNumber,
-      serviceLanguage,
-      streetAddress,
-      yearOfBirth,
-      zip,
     } = getEnrolmentInitialValues(
       fakeEnrolment({
         city: null,
@@ -33,14 +31,8 @@ describe('getEnrolmentInitialValues function', () => {
         extraInfo: null,
         membershipNumber: null,
         name: null,
-        nativeLanguage: null,
         notifications: null,
-        notificationLanguage: null,
         phoneNumber: null,
-        serviceLanguage: null,
-        streetAddress: null,
-        yearOfBirth: null,
-        zip: null,
       })
     );
 
@@ -49,14 +41,8 @@ describe('getEnrolmentInitialValues function', () => {
     expect(extraInfo).toBe('');
     expect(membershipNumber).toBe('');
     expect(name).toBe('');
-    expect(nativeLanguage).toBe('');
     expect(notifications).toEqual([]);
-    expect(notificationLanguage).toBe('');
     expect(phoneNumber).toBe('');
-    expect(serviceLanguage).toBe('');
-    expect(streetAddress).toBe('');
-    expect(yearOfBirth).toBe('');
-    expect(zip).toBe('');
   });
 
   it('should return enrolment initial values', () => {
@@ -65,14 +51,8 @@ describe('getEnrolmentInitialValues function', () => {
     const expectedExtraInfo = 'Extra info';
     const expectedMembershipNumber = 'XXX-XXX-XXX';
     const expectedName = 'Name';
-    const expectedNativeLanguage = 'fi';
     const expectedNotifications = [NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS];
-    const expectedNotificationLanguage = 'sv';
     const expectedPhoneNumber = '+358 44 123 4567';
-    const expectedServiceLanguage = 'en';
-    const expectedStreetAddress = 'Street address';
-    const expectedYearOfBirth = '2021';
-    const expectedZip = '00100';
 
     const {
       city,
@@ -80,14 +60,8 @@ describe('getEnrolmentInitialValues function', () => {
       extraInfo,
       membershipNumber,
       name,
-      nativeLanguage,
       notifications,
-      notificationLanguage,
       phoneNumber,
-      serviceLanguage,
-      streetAddress,
-      yearOfBirth,
-      zip,
     } = getEnrolmentInitialValues(
       fakeEnrolment({
         city: expectedCity,
@@ -95,14 +69,8 @@ describe('getEnrolmentInitialValues function', () => {
         extraInfo: expectedExtraInfo,
         membershipNumber: expectedMembershipNumber,
         name: expectedName,
-        nativeLanguage: expectedNativeLanguage,
-        notifications: 3,
-        notificationLanguage: expectedNotificationLanguage,
+        notifications: NOTIFICATION_TYPE.SMS_EMAIL,
         phoneNumber: expectedPhoneNumber,
-        serviceLanguage: expectedServiceLanguage,
-        streetAddress: expectedStreetAddress,
-        yearOfBirth: expectedYearOfBirth,
-        zip: expectedZip,
       })
     );
 
@@ -111,51 +79,57 @@ describe('getEnrolmentInitialValues function', () => {
     expect(extraInfo).toBe(expectedExtraInfo);
     expect(membershipNumber).toBe(expectedMembershipNumber);
     expect(name).toBe(expectedName);
-    expect(nativeLanguage).toBe(expectedNativeLanguage);
     expect(notifications).toEqual(expectedNotifications);
-    expect(notificationLanguage).toBe(expectedNotificationLanguage);
     expect(phoneNumber).toBe(expectedPhoneNumber);
-    expect(serviceLanguage).toBe(expectedServiceLanguage);
-    expect(streetAddress).toBe(expectedStreetAddress);
-    expect(yearOfBirth).toBe(expectedYearOfBirth);
-    expect(zip).toBe(expectedZip);
   });
 });
 
 describe('getEnrolmentNotificationTypes function', () => {
   it('should return correct notification types', () => {
-    expect(getEnrolmentNotificationTypes(0)).toEqual([]);
-    expect(getEnrolmentNotificationTypes(1)).toEqual([NOTIFICATIONS.SMS]);
-    expect(getEnrolmentNotificationTypes(2)).toEqual([NOTIFICATIONS.EMAIL]);
-    expect(getEnrolmentNotificationTypes(3)).toEqual([
+    expect(
+      getEnrolmentNotificationTypes(NOTIFICATION_TYPE.NO_NOTIFICATION)
+    ).toEqual([]);
+    expect(getEnrolmentNotificationTypes(NOTIFICATION_TYPE.SMS)).toEqual([
+      NOTIFICATIONS.SMS,
+    ]);
+    expect(getEnrolmentNotificationTypes(NOTIFICATION_TYPE.EMAIL)).toEqual([
+      NOTIFICATIONS.EMAIL,
+    ]);
+    expect(getEnrolmentNotificationTypes(NOTIFICATION_TYPE.SMS_EMAIL)).toEqual([
       NOTIFICATIONS.EMAIL,
       NOTIFICATIONS.SMS,
     ]);
-    expect(getEnrolmentNotificationTypes(4)).toEqual([]);
+    expect(getEnrolmentNotificationTypes('lorem ipsum')).toEqual([]);
   });
 });
 
 describe('getEnrolmentNotificationsCode function', () => {
   it('should return correct notification core', () => {
-    expect(getEnrolmentNotificationsCode([])).toBe(0);
-    expect(getEnrolmentNotificationsCode([NOTIFICATIONS.SMS])).toBe(1);
-    expect(getEnrolmentNotificationsCode([NOTIFICATIONS.EMAIL])).toBe(2);
+    expect(getEnrolmentNotificationsCode([])).toBe(
+      NOTIFICATION_TYPE.NO_NOTIFICATION
+    );
+    expect(getEnrolmentNotificationsCode([NOTIFICATIONS.SMS])).toBe(
+      NOTIFICATION_TYPE.SMS
+    );
+    expect(getEnrolmentNotificationsCode([NOTIFICATIONS.EMAIL])).toBe(
+      NOTIFICATION_TYPE.EMAIL
+    );
     expect(
       getEnrolmentNotificationsCode([NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS])
-    ).toBe(3);
+    ).toBe(NOTIFICATION_TYPE.SMS_EMAIL);
   });
 });
 
 describe('getEnrolmentPayload function', () => {
-  it('should return single event as payload', () => {
+  it('should return single enrolment as payload', () => {
     expect(getEnrolmentPayload(ENROLMENT_INITIAL_VALUES, registration)).toEqual(
       {
         city: null,
         email: null,
-        extraInfo: null,
-        membershipNumber: null,
+        extraInfo: '',
+        membershipNumber: '',
         name: null,
-        notifications: 0,
+        notifications: NOTIFICATION_TYPE.NO_NOTIFICATION,
         phoneNumber: null,
         registration: registration.id,
       }
@@ -188,7 +162,7 @@ describe('getEnrolmentPayload function', () => {
       extraInfo,
       membershipNumber,
       name,
-      notifications: 2,
+      notifications: NOTIFICATION_TYPE.EMAIL,
       phoneNumber,
       registration: registration.id,
     });

@@ -10,7 +10,10 @@ import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPane
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
-import { Enrolment, Registration } from '../../../generated/graphql';
+import {
+  Enrolment,
+  RegistrationFieldsFragment,
+} from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
@@ -22,7 +25,7 @@ import styles from './editButtonPanel.module.scss';
 export interface EditButtonPanelProps {
   enrolment: Enrolment;
   onSave: () => void;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
   saving: ENROLMENT_EDIT_ACTIONS | false;
 }
 

@@ -22,6 +22,7 @@ import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   enrolment,
   enrolmentId,
+  enrolmentValues,
   mockedEnrolmentResponse,
   mockedInvalidUpdateEnrolmentResponse,
   mockedUpdateEnrolmentResponse,
@@ -107,6 +108,36 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     store,
   });
 
+const enterRequiredInfo = async () => {
+  const streetAddressInput = getElement('streetAddressInput');
+  const zipInput = getElement('zipInput');
+  const yearOfBirthButton = getElement('yearOfBirthButton');
+  const notificationLanguageButton = getElement('notificationLanguageButton');
+  const nativeLanguageButton = getElement('nativeLanguageButton');
+  const serviceLanguageButton = getElement('serviceLanguageButton');
+
+  userEvent.type(streetAddressInput, enrolmentValues.streetAddress);
+  userEvent.click(yearOfBirthButton);
+  const yearOption = await screen.findByRole('option', { name: /1990/i });
+  userEvent.click(yearOption);
+  userEvent.type(zipInput, enrolmentValues.zip);
+  userEvent.click(notificationLanguageButton);
+  const notificationLanguageOption = await screen.findByRole('option', {
+    name: /suomi/i,
+  });
+  userEvent.click(notificationLanguageOption);
+  userEvent.click(nativeLanguageButton);
+  const nativeLanguageOption = await screen.findByRole('option', {
+    name: /suomi/i,
+  });
+  userEvent.click(nativeLanguageOption);
+  userEvent.click(serviceLanguageButton);
+  const serviceLanguageOption = await screen.findByRole('option', {
+    name: /suomi/i,
+  });
+  userEvent.click(serviceLanguageOption);
+};
+
 test('should scroll to first validation error input field', async () => {
   renderComponent();
 
@@ -122,8 +153,6 @@ test('should initialize input fields', async () => {
   renderComponent();
 
   const nameInput = await findElement('nameInput');
-  const streetAddressInput = getElement('streetAddressInput');
-  const zipInput = getElement('zipInput');
   const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
@@ -131,8 +160,6 @@ test('should initialize input fields', async () => {
   const phoneCheckbox = getElement('phoneCheckbox');
 
   await waitFor(() => expect(nameInput).toHaveValue(enrolment.name));
-  expect(streetAddressInput).toHaveValue(enrolment.streetAddress);
-  expect(zipInput).toHaveValue(enrolment.zip);
   expect(cityInput).toHaveValue(enrolment.city);
   expect(emailInput).toHaveValue(enrolment.email);
   expect(phoneInput).toHaveValue(enrolment.phoneNumber);
@@ -150,10 +177,12 @@ test('should update enrolment', async () => {
   ]);
 
   await findElement('nameInput');
+  await enterRequiredInfo();
+
   const submitButton = getElement('submitButton');
   userEvent.click(submitButton);
 
-  await waitFor(() => expect(global.scrollTo).toBeCalled());
+  await waitFor(() => expect(global.scrollTo).toHaveBeenCalled());
 });
 
 test('should show server errors', async () => {
@@ -161,6 +190,8 @@ test('should show server errors', async () => {
   renderComponent(mocks);
 
   await findElement('nameInput');
+  await enterRequiredInfo();
+
   const submitButton = getElement('submitButton');
   userEvent.click(submitButton);
 

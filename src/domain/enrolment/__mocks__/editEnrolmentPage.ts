@@ -6,6 +6,7 @@ import {
 } from '../../../generated/graphql';
 import { fakeEnrolment } from '../../../utils/mockDataUtils';
 import { registrationId } from '../../registration/__mocks__/registration';
+import { NOTIFICATION_TYPE } from '../constants';
 
 const enrolmentId = 'enrolment:1';
 const enrolmentValues = {
@@ -16,7 +17,7 @@ const enrolmentValues = {
   name: 'Participant name',
   nativeLanguage: 'fi',
   notificationLanguage: 'fi',
-  notifications: 3,
+  notifications: NOTIFICATION_TYPE.SMS_EMAIL,
   phoneNumber: '+358 44 123 4567',
   serviceLanguage: 'fi',
   streetAddress: 'Street address',
@@ -37,8 +38,8 @@ const payload = {
   id: enrolmentId,
   city: enrolmentValues.city,
   email: enrolmentValues.email,
-  extraInfo: null,
-  membershipNumber: null,
+  extraInfo: '',
+  membershipNumber: '',
   name: enrolmentValues.name,
   notifications: enrolmentValues.notifications,
   phoneNumber: enrolmentValues.phoneNumber,
@@ -77,6 +78,7 @@ const mockedInvalidUpdateEnrolmentResponse: MockedResponse = {
 export {
   enrolment,
   enrolmentId,
+  enrolmentValues,
   mockedEnrolmentResponse,
   mockedInvalidUpdateEnrolmentResponse,
   mockedUpdateEnrolmentResponse,

@@ -234,7 +234,6 @@
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "enrolmentsTableColumns": {
       "email": "Sähköposti",
-      "gender": "Sukupuoli",
       "name": "Nimi",
       "phone": "Puhelinnumero",
       "status": "Status"

@@ -21,20 +21,6 @@ const attendees = fakeEnrolments(
 
 const attendeesResponse = { enrolments: attendees };
 
-const waitingAttendeeNames = range(1, 2).map(
-  (n) => `Waiting attendee name ${n}`
-);
-
-const waitingAttendees = fakeEnrolments(
-  waitingAttendeeNames.length,
-  attendeeNames.map((name, index) => ({
-    id: `attendee:${index}`,
-    name,
-  }))
-);
-
-const waitingAttendeesResponse = { enrolments: waitingAttendees };
-
 // User mocks
 const user = fakeUser({
   organization: publisher,
@@ -47,12 +33,4 @@ const mockedUserResponse = {
   result: userResponse,
 };
 
-export {
-  attendeeNames,
-  attendees,
-  attendeesResponse,
-  mockedUserResponse,
-  waitingAttendeeNames,
-  waitingAttendees,
-  waitingAttendeesResponse,
-};
+export { attendeeNames, attendees, attendeesResponse, mockedUserResponse };

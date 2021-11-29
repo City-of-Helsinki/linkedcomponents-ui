@@ -99,7 +99,7 @@ describe('getRegistrationInitialValues function', () => {
 });
 
 describe('getRegistrationPayload function', () => {
-  it('should return single event as payload', () => {
+  it('should return single registration as payload', () => {
     expect(
       getRegistrationPayload({
         ...REGISTRATION_INITIAL_VALUES,

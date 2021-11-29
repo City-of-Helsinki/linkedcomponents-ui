@@ -31,13 +31,7 @@ test('should render enrolments table', () => {
 
   screen.getByRole('heading', { name: 'Enrolments table' });
 
-  const columnHeaders = [
-    'Nimi',
-    'Sukupuoli',
-    'Sähköposti',
-    'Puhelinnumero',
-    'Status',
-  ];
+  const columnHeaders = ['Nimi', 'Sähköposti', 'Puhelinnumero', 'Status'];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });

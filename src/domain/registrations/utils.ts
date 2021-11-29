@@ -6,7 +6,7 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { ROUTES } from '../../constants';
 import {
   EventTypeId,
-  Registration,
+  RegistrationFieldsFragment,
   RegistrationsQueryVariables,
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
@@ -128,7 +128,7 @@ export const replaceParamsToRegistrationQueryString = (
 };
 
 export const getRegistrationFields = (
-  registration: Registration,
+  registration: RegistrationFieldsFragment,
   language: Language
 ): RegistrationFields => {
   const id = registration.id || '';
@@ -150,8 +150,6 @@ export const getRegistrationFields = (
       ? new Date(registration.lastModifiedAt)
       : null,
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
-    name: registration.name ?? '',
-    publisher: registration.publisher || null,
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
       id

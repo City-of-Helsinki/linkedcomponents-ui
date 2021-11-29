@@ -234,7 +234,6 @@
     "buttonClearFilters": "Töm sökfilter",
     "enrolmentsTableColumns": {
       "email": "E-post",
-      "gender": "Kön",
       "name": "Name",
       "phone": "Telefonnummer",
       "status": "Status"

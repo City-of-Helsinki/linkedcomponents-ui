@@ -5,7 +5,10 @@ import { useHistory } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import Table from '../../../common/components/table/Table';
-import { Enrolment, Registration } from '../../../generated/graphql';
+import {
+  Enrolment,
+  RegistrationFieldsFragment,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
 // eslint-disable-next-line max-len
@@ -18,7 +21,7 @@ export interface EnrolmentsTableProps {
   caption: string;
   enrolments: Enrolment[];
   heading: string;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 }
 
 const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
@@ -57,9 +60,6 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
             <tr>
               <th className={styles.nameColumn}>
                 {t('enrolmentsPage.enrolmentsTableColumns.name')}
-              </th>
-              <th className={styles.genderColumn}>
-                {t('enrolmentsPage.enrolmentsTableColumns.gender')}
               </th>
               <th className={styles.emailColumn}>
                 {t('enrolmentsPage.enrolmentsTableColumns.email')}

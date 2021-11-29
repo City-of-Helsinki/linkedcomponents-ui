@@ -7,7 +7,7 @@ import { useHistory, useLocation } from 'react-router';
 import Button from '../../../common/components/button/Button';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import { ROUTES } from '../../../constants';
-import { Registration } from '../../../generated/graphql';
+import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useSearchState from '../../../hooks/useSearchState';
 // eslint-disable-next-line max-len
 import useRegistrationsQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
@@ -16,7 +16,7 @@ import { getEnrolmentSearchInitialValues } from '../utils';
 import styles from './searchPanel.module.scss';
 
 type Props = {
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 };
 
 type SearchState = {

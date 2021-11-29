@@ -5,20 +5,23 @@ import {
   RegistrationFieldsFragment,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
-import { ENROLMENT_INITIAL_VALUES, NOTIFICATIONS } from './constants';
+import {
+  ENROLMENT_INITIAL_VALUES,
+  NOTIFICATION_TYPE,
+  NOTIFICATIONS,
+} from './constants';
 import { EnrolmentFormFields } from './types';
 
 export const getEnrolmentNotificationTypes = (
-  notifications: number
+  notifications: string
 ): NOTIFICATIONS[] => {
   switch (notifications) {
-    case 1:
+    case NOTIFICATION_TYPE.SMS:
       return [NOTIFICATIONS.SMS];
-    case 2:
+    case NOTIFICATION_TYPE.EMAIL:
       return [NOTIFICATIONS.EMAIL];
-    case 3:
+    case NOTIFICATION_TYPE.SMS_EMAIL:
       return [NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS];
-    case 0:
     default:
       return [];
   }
@@ -30,37 +33,31 @@ export const getEnrolmentInitialValues = (
   return {
     ...ENROLMENT_INITIAL_VALUES,
     name: enrolment.name ?? '',
-    streetAddress: enrolment.streetAddress ?? '',
-    yearOfBirth: enrolment.yearOfBirth ?? '',
-    zip: enrolment.zip ?? '',
     city: enrolment.city ?? '',
     email: enrolment.email ?? '',
     phoneNumber: enrolment.phoneNumber ?? '',
     notifications: getEnrolmentNotificationTypes(
-      enrolment.notifications as number
+      enrolment.notifications as string
     ),
-    notificationLanguage: enrolment.notificationLanguage ?? '',
     membershipNumber: enrolment.membershipNumber ?? '',
-    nativeLanguage: enrolment.nativeLanguage ?? '',
-    serviceLanguage: enrolment.serviceLanguage ?? '',
     extraInfo: enrolment.extraInfo ?? '',
   };
 };
 
 export const getEnrolmentNotificationsCode = (
   notifications: string[]
-): number => {
+): string => {
   if (
     notifications.includes(NOTIFICATIONS.EMAIL) &&
     notifications.includes(NOTIFICATIONS.SMS)
   ) {
-    return 3;
+    return NOTIFICATION_TYPE.SMS_EMAIL;
   } else if (notifications.includes(NOTIFICATIONS.EMAIL)) {
-    return 2;
+    return NOTIFICATION_TYPE.EMAIL;
   } else if (notifications.includes(NOTIFICATIONS.SMS)) {
-    return 1;
+    return NOTIFICATION_TYPE.SMS;
   } else {
-    return 0;
+    return NOTIFICATION_TYPE.NO_NOTIFICATION;
   }
 };
 
@@ -81,8 +78,8 @@ export const getEnrolmentPayload = (
   return {
     city: city || null,
     email: email || null,
-    extraInfo: extraInfo || null,
-    membershipNumber: membershipNumber || null,
+    extraInfo: extraInfo,
+    membershipNumber: membershipNumber,
     name: name || null,
     notifications: getEnrolmentNotificationsCode(notifications),
     phoneNumber: phoneNumber || null,

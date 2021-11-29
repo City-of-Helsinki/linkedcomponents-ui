@@ -233,7 +233,6 @@
     "buttonClearFilters": "Clear filters",
     "enrolmentsTableColumns": {
       "email": "Email",
-      "gender": "Gender",
       "name": "Name",
       "phone": "Phone number",
       "status": "Status"

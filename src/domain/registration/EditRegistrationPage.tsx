@@ -10,7 +10,7 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../constants';
 import {
-  Registration,
+  RegistrationFieldsFragment,
   RegistrationQuery,
   RegistrationQueryVariables,
   useRegistrationQuery,
@@ -24,13 +24,11 @@ import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
 import NotFound from '../notFound/NotFound';
 import { REGISTRATION_EDIT_ACTIONS } from '../registrations/constants';
-import {
-  getRegistrationFields,
-  replaceParamsToRegistrationQueryString,
-} from '../registrations/utils';
+import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
 import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
+import { REGISTRATION_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import AttendeeCapacitySection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
 import AudienceAgeSection from './formSections/audienceAgeSection/AudienceAgeSection';
@@ -38,6 +36,7 @@ import ConfirmationMessageSection from './formSections/confirmationMessageSectio
 import EnrolmentTimeSection from './formSections/enrolmentTimeSection/EnrolmentTimeSection';
 import InstructionsSection from './formSections/instructionsSection/InstructionsSection';
 import WaitingListSection from './formSections/waitingListSection/WaitingListSection';
+import useRegistrationName from './hooks/useRegistrationName';
 import useRegistrationServerErrors from './hooks/useRegistrationServerErrors';
 import useRegistrationUpdateActions, {
   MODALS,
@@ -53,7 +52,7 @@ interface EditRegistrationPageProps {
   refetch: (
     variables?: Partial<RegistrationQueryVariables>
   ) => Promise<ApolloQueryResult<RegistrationQuery>>;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 }
 
 const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
@@ -83,7 +82,7 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
     [registration]
   );
 
-  const { name } = getRegistrationFields(registration, locale);
+  const name = useRegistrationName({ registration });
 
   const goToRegistrationsPage = () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
@@ -236,6 +235,7 @@ const EditRegistrationPageWrapper: React.FC = () => {
     skip: !id || !user,
     variables: {
       id,
+      include: REGISTRATION_INCLUDES,
       createPath: getPathBuilder(registrationPathBuilder),
     },
   });

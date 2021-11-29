@@ -4,21 +4,14 @@ import gql from 'graphql-tag';
 export const QUERY_ENROLMENT = gql`
   fragment enrolmentFields on Enrolment {
     id
-    atId
+    cancellationCode
     city
     email
     extraInfo
     membershipNumber
     name
-    nativeLanguage
-    notificationLanguage
     notifications
-    organizationName
     phoneNumber
-    serviceLanguage
-    streetAddress
-    yearOfBirth
-    zip
   }
 
   query Enrolment($id: ID!, $createPath: Any) {

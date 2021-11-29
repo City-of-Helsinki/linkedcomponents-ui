@@ -7,11 +7,12 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { FORM_NAMES } from '../../constants';
 import {
   CreateRegistrationMutationInput,
-  Registration,
+  RegistrationFieldsFragment,
   RegistrationQueryVariables,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
+import queryBuilder from '../../utils/queryBuilder';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -105,7 +106,7 @@ export const checkIsEditActionAllowed = ({
 }: {
   action: REGISTRATION_EDIT_ACTIONS;
   authenticated: boolean;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
   t: TFunction;
 }): RegistrationEditability => {
   const userCanDoAction = checkCanUserDoAction({ action });
@@ -130,7 +131,7 @@ export const getEditButtonProps = ({
   action: REGISTRATION_EDIT_ACTIONS;
   authenticated: boolean;
   onClick: () => void;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
   t: TFunction;
 }): MenuItemOptionProps => {
   const { editable, warning } = checkIsEditActionAllowed({
@@ -150,7 +151,7 @@ export const getEditButtonProps = ({
 };
 
 export const getRegistrationInitialValues = (
-  registration: Registration
+  registration: RegistrationFieldsFragment
 ): RegistrationFormFields => {
   return {
     ...REGISTRATION_INITIAL_VALUES,
@@ -176,7 +177,7 @@ export const getRegistrationInitialValues = (
 };
 
 export const copyRegistrationToSessionStorage = async (
-  registration: Registration
+  registration: RegistrationFieldsFragment
 ): Promise<void> => {
   const state: FormikState<RegistrationFormFields> = {
     errors: {},
@@ -252,7 +253,11 @@ export const getRegistrationPayload = (
 export const registrationPathBuilder = ({
   args,
 }: PathBuilderProps<RegistrationQueryVariables>): string => {
-  const { id } = args;
+  const { id, include } = args;
 
-  return `/registration/${id}/`;
+  const variableToKeyItems = [{ key: 'include', value: include }];
+
+  const query = queryBuilder(variableToKeyItems);
+
+  return `/registration/${id}/${query}`;
 };

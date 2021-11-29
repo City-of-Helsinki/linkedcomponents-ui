@@ -100,7 +100,7 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): PlacesResponse!
-    registration(id: ID): Registration!
+    registration(id: ID, include: [String]): Registration!
     registrations(
       eventType: [EventTypeId]
       page: Int
@@ -178,7 +178,7 @@ module.exports = buildSchema(/* GraphQL */ `
     extraInfo: String
     membershipNumber: String
     name: String
-    notifications: Int
+    notifications: String
     phoneNumber: String
     registration: ID!
   }
@@ -190,7 +190,7 @@ module.exports = buildSchema(/* GraphQL */ `
     extraInfo: String
     membershipNumber: String
     name: String
-    notifications: Int
+    notifications: String
     phoneNumber: String
     registration: ID!
   }
@@ -612,8 +612,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedBy: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
-    name: String
-    publisher: String
+    signups: [Enrolment]
     waitingListCapacity: Int
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!
@@ -630,25 +629,14 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Enrolment {
     id: ID!
+    cancellationCode: String
     city: String
     email: String
     extraInfo: String
     membershipNumber: String
     name: String
-    nativeLanguage: String
-    notificationLanguage: String
-    notifications: Int
-    organizationName: String
+    notifications: String
     phoneNumber: String
-    serviceLanguage: String
-    streetAddress: String
-    yearOfBirth: String
-    zip: String
-    # @id is renamed as atId so it's usable on GraphQl
-    atId: String!
-    # @context is renamed as atContext so it's usable on GraphQl
-    atContext: String
-    # @type is renamed as atType so it's usable on GraphQl
-    atType: String
+    registration: ID
   }
 `);

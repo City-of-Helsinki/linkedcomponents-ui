@@ -37,6 +37,13 @@ export enum NOTIFICATIONS {
   SMS = 'sms',
 }
 
+export enum NOTIFICATION_TYPE {
+  NO_NOTIFICATION = 'none',
+  SMS = 'sms',
+  EMAIL = 'email',
+  SMS_EMAIL = 'sms and email',
+}
+
 export const ENROLMENT_FORM_SELECT_FIELDS = [
   ENROLMENT_FIELDS.NATIVE_LANGUAGE,
   ENROLMENT_FIELDS.NOTIFICATION_LANGUAGE,

@@ -7,13 +7,13 @@ import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../../constants';
-import { Registration } from '../../../generated/graphql';
+import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import styles from './createButtonPanel.module.scss';
 
 export interface CreateButtonPanelProps {
   onSave: () => void;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
   saving: boolean;
 }
 

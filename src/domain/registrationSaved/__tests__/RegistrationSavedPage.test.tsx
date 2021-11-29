@@ -12,6 +12,7 @@ import {
   screen,
   userEvent,
 } from '../../../utils/testUtils';
+import { REGISTRATION_INCLUDES } from '../../registration/constants';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import RegistrationSavedPage from '../RegistrationSavedPage';
 
@@ -25,7 +26,11 @@ const registrationResponse = { data: { registration } };
 const mockedRegistrationResponse = {
   request: {
     query: RegistrationDocument,
-    variables: { id: registrationId, createPath: undefined },
+    variables: {
+      id: registrationId,
+      include: REGISTRATION_INCLUDES,
+      createPath: undefined,
+    },
   },
   result: registrationResponse,
 };

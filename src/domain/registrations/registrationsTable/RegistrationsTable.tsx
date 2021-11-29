@@ -5,7 +5,10 @@ import { useHistory } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import Table from '../../../common/components/table/Table';
-import { Registration, RegistrationsQuery } from '../../../generated/graphql';
+import {
+  RegistrationFieldsFragment,
+  RegistrationsQuery,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
 import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
@@ -32,7 +35,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);
 
-  const handleRowClick = (registration: Registration) => {
+  const handleRowClick = (registration: RegistrationFieldsFragment) => {
     const { registrationUrl } = getRegistrationFields(registration, locale);
 
     history.push({

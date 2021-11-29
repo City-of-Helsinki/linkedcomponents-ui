@@ -43,8 +43,6 @@ export type RegistrationFields = {
   event: string;
   lastModifiedAt: Date | null;
   maximumAttendeeCapacity: number;
-  name: string;
-  publisher: string | null;
   registrationUrl: string;
   waitingListCapacity: number;
 };

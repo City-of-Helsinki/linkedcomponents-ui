@@ -31,6 +31,7 @@ import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
+import { REGISTRATION_INCLUDES } from '../registration/constants';
 import { registrationPathBuilder } from '../registration/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
@@ -181,6 +182,7 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
       skip: !registrationId || !user,
       variables: {
         id: registrationId,
+        include: REGISTRATION_INCLUDES,
         createPath: getPathBuilder(registrationPathBuilder),
       },
     });

@@ -3,6 +3,7 @@ import faker from 'faker';
 import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
+import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import {
   Enrolment,
   EnrolmentsResponse,
@@ -50,21 +51,14 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
   return merge<Enrolment, typeof overrides>(
     {
       id,
-      atId: generateAtId(id, 'enrolment'),
+      cancellationCode: '',
       city: faker.address.city(),
       email: faker.internet.email(),
       extraInfo: faker.lorem.paragraph(),
       membershipNumber: faker.datatype.uuid(),
       name: faker.name.firstName(),
-      nativeLanguage: 'fi',
-      notificationLanguage: 'fi',
-      notifications: 3,
-      organizationName: '',
+      notifications: NOTIFICATION_TYPE.SMS_EMAIL,
       phoneNumber: faker.phone.phoneNumberFormat(),
-      serviceLanguage: 'fi',
-      streetAddress: faker.address.streetAddress(),
-      yearOfBirth: faker.datatype.number({ max: 2021, min: 1920 }).toString(),
-      zip: faker.address.zipCode('#####'),
       __typename: 'Enrolment',
     },
     overrides
@@ -371,8 +365,7 @@ export const fakeRegistration = (
       lastModifiedBy: faker.name.firstName(),
       maximumAttendeeCapacity: 0,
       minimumAttendeeCapacity: 0,
-      name: faker.name.title(),
-      publisher: 'ahjo:u4804001050',
+      signups: [],
       waitingListCapacity: 0,
       __typename: 'Registration',
     },

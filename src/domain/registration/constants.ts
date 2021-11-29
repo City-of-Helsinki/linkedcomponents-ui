@@ -27,3 +27,5 @@ export const REGISTRATION_INITIAL_VALUES: RegistrationFormFields = {
 };
 
 export const REGISTRATION_SELECT_FIELDS = [REGISTRATION_FIELDS.EVENT];
+
+export const REGISTRATION_INCLUDES = ['signups'];

@@ -10,7 +10,7 @@ import styles from '../../../common/components/buttonPanel/buttonPanel.module.sc
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
-import { Registration } from '../../../generated/graphql';
+import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
@@ -29,7 +29,7 @@ type ActionButtonProps = {
 export interface EditButtonPanelProps {
   onDelete: () => void;
   onUpdate: () => void;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
   saving: REGISTRATION_EDIT_ACTIONS | false;
 }
 

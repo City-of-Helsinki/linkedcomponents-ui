@@ -8,7 +8,10 @@ import { toast } from 'react-toastify';
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
-import { Enrolment, Registration } from '../../../generated/graphql';
+import {
+  Enrolment,
+  RegistrationFieldsFragment,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
@@ -23,7 +26,7 @@ import styles from './actionsDropdown.module.scss';
 export interface ActionsDropdownProps {
   className?: string;
   enrolment: Enrolment;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 }
 
 const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
