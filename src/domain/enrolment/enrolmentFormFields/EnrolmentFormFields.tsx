@@ -17,7 +17,11 @@ import useNotificationOptions from '../hooks/useNotificationOptions';
 import useYearOptions from '../hooks/useYearOptions';
 import styles from './enrolmentFormFields.module.scss';
 
-const EnrolmentForm: React.FC = () => {
+interface Props {
+  disabled?: boolean;
+}
+
+const EnrolmentForm: React.FC<Props> = ({ disabled }) => {
   const { t } = useTranslation();
   const notificationOptions = useNotificationOptions();
   const yearOptions = useYearOptions();
@@ -34,6 +38,7 @@ const EnrolmentForm: React.FC = () => {
           <Field
             name={ENROLMENT_FIELDS.NAME}
             component={TextInputField}
+            disabled={disabled}
             label={t(`enrolment.form.labelName`)}
             placeholder={t(`enrolment.form.placeholderName`)}
             required
@@ -44,6 +49,7 @@ const EnrolmentForm: React.FC = () => {
             <Field
               name={ENROLMENT_FIELDS.STREET_ADDRESS}
               component={TextInputField}
+              disabled={disabled}
               label={t(`enrolment.form.labelStreetAddress`)}
               placeholder={t(`enrolment.form.placeholderStreetAddress`)}
               required
@@ -51,6 +57,7 @@ const EnrolmentForm: React.FC = () => {
             <Field
               name={ENROLMENT_FIELDS.YEAR_OF_BIRTH}
               component={SingleSelectField}
+              disabled={disabled}
               label={t(`enrolment.form.labelYearOfBirth`)}
               options={yearOptions}
               placeholder={t(`enrolment.form.placeholderYearOfBirth`)}
@@ -63,6 +70,7 @@ const EnrolmentForm: React.FC = () => {
             <Field
               name={ENROLMENT_FIELDS.ZIP}
               component={TextInputField}
+              disabled={disabled}
               label={t(`enrolment.form.labelZip`)}
               placeholder={t(`enrolment.form.placeholderZip`)}
               required
@@ -70,6 +78,7 @@ const EnrolmentForm: React.FC = () => {
             <Field
               name={ENROLMENT_FIELDS.CITY}
               component={TextInputField}
+              disabled={disabled}
               label={t(`enrolment.form.labelCity`)}
               placeholder={t(`enrolment.form.placeholderCity`)}
               required
@@ -84,6 +93,7 @@ const EnrolmentForm: React.FC = () => {
             <Field
               name={ENROLMENT_FIELDS.EMAIL}
               component={TextInputField}
+              disabled={disabled}
               label={t(`enrolment.form.labelEmail`)}
               placeholder={t(`enrolment.form.placeholderEmail`)}
               required={notifications.includes(NOTIFICATIONS.EMAIL)}
@@ -91,6 +101,7 @@ const EnrolmentForm: React.FC = () => {
             <Field
               name={ENROLMENT_FIELDS.PHONE_NUMBER}
               component={PhoneInputField}
+              disabled={disabled}
               label={t(`enrolment.form.labelPhoneNumber`)}
               placeholder={t(`enrolment.form.placeholderPhoneNumber`)}
               type="tel"
@@ -106,6 +117,7 @@ const EnrolmentForm: React.FC = () => {
             name={ENROLMENT_FIELDS.NOTIFICATIONS}
             className={styles.notifications}
             component={CheckboxGroupField}
+            disabled={disabled}
             options={notificationOptions}
           />
         </FormGroup>
@@ -114,6 +126,7 @@ const EnrolmentForm: React.FC = () => {
             <Field
               name={ENROLMENT_FIELDS.NOTIFICATION_LANGUAGE}
               component={SingleSelectField}
+              disabled={disabled}
               label={t(`enrolment.form.labelNotificationLanguage`)}
               options={languageOptions}
               placeholder={t(`enrolment.form.placeholderNotificationLanguage`)}
@@ -129,6 +142,7 @@ const EnrolmentForm: React.FC = () => {
             <Field
               name={ENROLMENT_FIELDS.MEMBERSHIP_NUMBER}
               component={TextInputField}
+              disabled={disabled}
               label={t(`enrolment.form.labelMembershipNumber`)}
               placeholder={t(`enrolment.form.placeholderMembershipNumber`)}
             />
@@ -139,6 +153,7 @@ const EnrolmentForm: React.FC = () => {
             <Field
               name={ENROLMENT_FIELDS.NATIVE_LANGUAGE}
               component={SingleSelectField}
+              disabled={disabled}
               label={t(`enrolment.form.labelNativeLanguage`)}
               options={languageOptions}
               placeholder={t(`enrolment.form.placeholderNativeLanguage`)}
@@ -147,6 +162,7 @@ const EnrolmentForm: React.FC = () => {
             <Field
               name={ENROLMENT_FIELDS.SERVICE_LANGUAGE}
               component={SingleSelectField}
+              disabled={disabled}
               label={t(`enrolment.form.labelServiceLanguage`)}
               options={languageOptions}
               placeholder={t(`enrolment.form.placeholderServiceLanguage`)}
@@ -158,6 +174,7 @@ const EnrolmentForm: React.FC = () => {
           <Field
             name={ENROLMENT_FIELDS.EXTRA_INFO}
             component={TextAreaField}
+            disabled={disabled}
             label={t(`enrolment.form.labelExtraInfo`)}
             placeholder={t(`enrolment.form.placeholderExtraInfo`)}
           />

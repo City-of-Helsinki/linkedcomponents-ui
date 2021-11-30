@@ -1,3 +1,5 @@
+import isFuture from 'date-fns/isFuture';
+import isPast from 'date-fns/isPast';
 import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import isNumber from 'lodash/isNumber';
@@ -260,4 +262,83 @@ export const registrationPathBuilder = ({
   const query = queryBuilder(variableToKeyItems);
 
   return `/registration/${id}/${query}`;
+};
+
+export const isRegistrationOpen = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  return (
+    (!registration.enrolmentStartTime ||
+      isPast(new Date(registration.enrolmentStartTime))) &&
+    (!registration.enrolmentEndTime ||
+      isFuture(new Date(registration.enrolmentEndTime)))
+  );
+};
+
+export const isAttendeeCapacityUsed = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  // If there are seats in the event
+  if (!registration.maximumAttendeeCapacity) {
+    return false;
+  } else if (
+    (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0) <
+    registration.maximumAttendeeCapacity
+  ) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export const isWaitingCapacityUsed = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  // If there are seats in the event
+  if (
+    ((registration.waitingListCapacity &&
+      registration.currentWaitingListCount) ??
+      0) < (registration.waitingListCapacity ?? 0)
+  ) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export const getFreeWaitingAttendeeCapacity = (
+  registration: RegistrationFieldsFragment
+): number => {
+  /* istanbul ignore next */
+  return (
+    (registration.waitingListCapacity ?? 0) -
+    (registration.currentWaitingListCount ?? 0)
+  );
+};
+
+export const isRegistrationPossible = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  return (
+    isRegistrationOpen(registration) &&
+    (!isAttendeeCapacityUsed(registration) ||
+      !isWaitingCapacityUsed(registration))
+  );
+};
+
+export const getRegistrationWarning = (
+  registration: RegistrationFieldsFragment,
+  t: TFunction
+): string => {
+  if (!isRegistrationPossible(registration)) {
+    return t('enrolment.warnings.closed');
+  } else if (
+    isAttendeeCapacityUsed(registration) &&
+    !isWaitingCapacityUsed(registration)
+  ) {
+    return t('enrolment.warnings.capacityInWaitingList', {
+      count: getFreeWaitingAttendeeCapacity(registration),
+    });
+  }
+  return '';
 };

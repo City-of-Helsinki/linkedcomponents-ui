@@ -12,12 +12,14 @@ import useGoBack from '../../../hooks/useGoBack';
 import styles from './createButtonPanel.module.scss';
 
 export interface CreateButtonPanelProps {
+  disabled: boolean;
   onSave: () => void;
   registration: RegistrationFieldsFragment;
   saving: boolean;
 }
 
 const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
+  disabled,
   onSave,
   registration,
   saving,
@@ -39,6 +41,7 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
         <Button
           key="save"
           className={buttonPanelStyles.fullWidthOnMobile}
+          disabled={disabled}
           fullWidth={true}
           iconLeft={
             saving ? (

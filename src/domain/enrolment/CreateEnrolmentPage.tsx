@@ -5,11 +5,13 @@ import {
 } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import Notification from '../../common/components/notification/Notification';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../constants';
 import {
@@ -32,7 +34,11 @@ import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
-import { registrationPathBuilder } from '../registration/utils';
+import {
+  getRegistrationWarning,
+  isRegistrationPossible,
+  registrationPathBuilder,
+} from '../registration/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_INITIAL_VALUES } from './constants';
@@ -57,6 +63,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
   const [createEnrolmentMutation] = useCreateEnrolmentMutation();
   const history = useHistory();
   const location = useLocation();
+  const { t } = useTranslation();
   const locale = useLocale();
   const { user } = useUser();
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
@@ -113,6 +120,10 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
 
     setSaving(false);
   };
+
+  const formDisabled = !isRegistrationPossible(registration);
+  const registrationWarning = getRegistrationWarning(registration, t);
+
   return (
     <PageWrapper
       className={styles.registrationPage}
@@ -154,10 +165,16 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
                     <ServerErrorSummary errors={serverErrorItems} />
                     <EventInfo event={event} />
                     <div className={styles.divider} />
-                    <EnrolmentFormFields />
+                    {registrationWarning && (
+                      <Notification type="info" className={styles.warning}>
+                        {registrationWarning}
+                      </Notification>
+                    )}
+                    <EnrolmentFormFields disabled={formDisabled} />
                   </FormContainer>
                 </Container>
                 <CreateButtonPanel
+                  disabled={formDisabled}
                   onSave={handleSubmit}
                   registration={registration}
                   saving={saving}
