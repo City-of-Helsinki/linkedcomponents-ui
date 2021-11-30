@@ -604,6 +604,8 @@ module.exports = buildSchema(/* GraphQL */ `
     confirmationMessage: String
     createdAt: String
     createdBy: String
+    currentAttendeeCount: Int
+    currentWaitingListCount: Int
     enrolmentEndTime: String
     enrolmentStartTime: String
     event: ID

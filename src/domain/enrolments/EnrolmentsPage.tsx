@@ -9,7 +9,6 @@ import {
   RegistrationFieldsFragment,
   useRegistrationQuery,
 } from '../../generated/graphql';
-import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
@@ -38,7 +37,6 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   const { t } = useTranslation();
   const location = useLocation<EnrolmentsLocationState>();
   const history = useHistory();
-  const locale = useLocale();
 
   const name = useRegistrationName({ registration });
 

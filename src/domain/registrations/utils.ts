@@ -137,8 +137,8 @@ export const getRegistrationFields = (
     id,
     atId: registration.atId || '',
     createdBy: registration.createdBy ?? '',
-    currentAttendeeCount: 0,
-    currentWaitingAttendeeCount: 0,
+    currentAttendeeCount: registration.currentAttendeeCount ?? 0,
+    currentWaitingListCount: registration.currentWaitingListCount ?? 0,
     enrolmentEndTime: registration.enrolmentEndTime
       ? new Date(registration.enrolmentEndTime)
       : null,

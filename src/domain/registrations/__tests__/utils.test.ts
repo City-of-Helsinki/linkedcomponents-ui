@@ -148,7 +148,7 @@ describe('getRegistrationFields function', () => {
       atId,
       createdBy,
       currentAttendeeCount,
-      currentWaitingAttendeeCount,
+      currentWaitingListCount,
       enrolmentEndTime,
       enrolmentStartTime,
       id,
@@ -159,6 +159,8 @@ describe('getRegistrationFields function', () => {
       fakeRegistration({
         atId: null,
         createdBy: null,
+        currentAttendeeCount: null,
+        currentWaitingListCount: null,
         enrolmentEndTime: '',
         enrolmentStartTime: '',
         id: null,
@@ -172,7 +174,7 @@ describe('getRegistrationFields function', () => {
     expect(atId).toBe('');
     expect(createdBy).toBe('');
     expect(currentAttendeeCount).toBe(0);
-    expect(currentWaitingAttendeeCount).toBe(0);
+    expect(currentWaitingListCount).toBe(0);
     expect(enrolmentEndTime).toBe(null);
     expect(enrolmentStartTime).toBe(null);
     expect(id).toBe('');

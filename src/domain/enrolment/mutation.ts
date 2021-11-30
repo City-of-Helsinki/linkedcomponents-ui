@@ -18,7 +18,7 @@ export const MUTATION_ENROLMENT = gql`
     updateEnrolment(input: $input)
       @rest(
         type: "Enrolment"
-        path: "/enrolment/{args.input.id}/"
+        path: "/signup_edit/{args.input.id}/"
         method: "PUT"
         bodyKey: "input"
       ) {

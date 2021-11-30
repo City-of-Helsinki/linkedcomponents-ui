@@ -357,6 +357,8 @@ export const fakeRegistration = (
       confirmationMessage: faker.lorem.paragraph(),
       createdAt: null,
       createdBy: faker.name.firstName(),
+      currentAttendeeCount: 0,
+      currentWaitingListCount: 0,
       enrolmentEndTime: '2020-09-30T16:00:00.000000Z',
       enrolmentStartTime: '2020-09-27T15:00:00.000000Z',
       event: null,

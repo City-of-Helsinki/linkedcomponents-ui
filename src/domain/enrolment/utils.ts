@@ -92,5 +92,5 @@ export const enrolmentPathBuilder = ({
 }: PathBuilderProps<EnrolmentQueryVariables>): string => {
   const { id } = args;
 
-  return `/enrolment/${id}/`;
+  return `/signup_edit/${id}/`;
 };

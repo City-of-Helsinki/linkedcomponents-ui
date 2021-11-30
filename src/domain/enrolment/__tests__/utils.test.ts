@@ -171,7 +171,7 @@ describe('getEnrolmentPayload function', () => {
 
 describe('enrolmentPathBuilder function', () => {
   const cases: [EnrolmentQueryVariables, string][] = [
-    [{ id: 'hel:123' }, '/enrolment/hel:123/'],
+    [{ id: 'hel:123' }, '/signup_edit/hel:123/'],
   ];
 
   it.each(cases)('should build correct path', (variables, expectedPath) =>

@@ -37,7 +37,7 @@ export type RegistrationFields = {
   atId: string;
   createdBy: string;
   currentAttendeeCount: number;
-  currentWaitingAttendeeCount: number;
+  currentWaitingListCount: number;
   enrolmentEndTime: Date | null;
   enrolmentStartTime: Date | null;
   event: string;
