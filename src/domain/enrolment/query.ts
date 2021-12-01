@@ -6,12 +6,17 @@ export const QUERY_ENROLMENT = gql`
     id
     cancellationCode
     city
+    dateOfBirth
     email
     extraInfo
     membershipNumber
     name
+    nativeLanguage
     notifications
     phoneNumber
+    serviceLanguage
+    streetAddress
+    zipcode
   }
 
   query Enrolment($id: ID!, $createPath: Any) {

@@ -6,6 +6,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CheckboxGroupField from '../../../common/components/formFields/CheckboxGroupField';
+import DatepickerField from '../../../common/components/formFields/DatepickerField';
 import PhoneInputField from '../../../common/components/formFields/PhoneInputField';
 import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
 import TextAreaField from '../../../common/components/formFields/TextAreaField';
@@ -55,12 +56,12 @@ const EnrolmentForm: React.FC<Props> = ({ disabled }) => {
               required
             />
             <Field
-              name={ENROLMENT_FIELDS.YEAR_OF_BIRTH}
-              component={SingleSelectField}
+              name={ENROLMENT_FIELDS.DATE_OF_BIRTH}
+              component={DatepickerField}
               disabled={disabled}
-              label={t(`enrolment.form.labelYearOfBirth`)}
+              label={t(`enrolment.form.labelDateOfBirth`)}
               options={yearOptions}
-              placeholder={t(`enrolment.form.placeholderYearOfBirth`)}
+              placeholder={t('common.placeholderDate')}
               required
             />
           </div>
@@ -120,19 +121,6 @@ const EnrolmentForm: React.FC<Props> = ({ disabled }) => {
             disabled={disabled}
             options={notificationOptions}
           />
-        </FormGroup>
-        <FormGroup>
-          <div className={styles.notificationLanguageRow}>
-            <Field
-              name={ENROLMENT_FIELDS.NOTIFICATION_LANGUAGE}
-              component={SingleSelectField}
-              disabled={disabled}
-              label={t(`enrolment.form.labelNotificationLanguage`)}
-              options={languageOptions}
-              placeholder={t(`enrolment.form.placeholderNotificationLanguage`)}
-              required
-            />
-          </div>
         </FormGroup>
       </Fieldset>
 

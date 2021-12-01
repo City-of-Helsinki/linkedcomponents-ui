@@ -174,25 +174,35 @@ module.exports = buildSchema(/* GraphQL */ `
 
   input CreateEnrolmentMutationInput {
     city: String
+    dateOfBirth: String
     email: String
     extraInfo: String
     membershipNumber: String
     name: String
+    nativeLanguage: String
     notifications: String
     phoneNumber: String
-    registration: ID!
+    registration: ID
+    serviceLanguage: String
+    streetAddress: String
+    zipcode: String
   }
 
   input UpdateEnrolmentMutationInput {
     id: ID!
     city: String
+    dateOfBirth: String
     email: String
     extraInfo: String
     membershipNumber: String
     name: String
+    nativeLanguage: String
     notifications: String
     phoneNumber: String
-    registration: ID!
+    registration: ID
+    serviceLanguage: String
+    streetAddress: String
+    zipcode: String
   }
 
   input CreateEventMutationInput {
@@ -633,12 +643,17 @@ module.exports = buildSchema(/* GraphQL */ `
     id: ID!
     cancellationCode: String
     city: String
+    dateOfBirth: String
     email: String
     extraInfo: String
     membershipNumber: String
     name: String
     notifications: String
+    nativeLanguage: String
     phoneNumber: String
     registration: ID
+    serviceLanguage: String
+    streetAddress: String
+    zipcode: String
   }
 `);

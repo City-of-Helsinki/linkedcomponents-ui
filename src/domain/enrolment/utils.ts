@@ -5,6 +5,7 @@ import {
   RegistrationFieldsFragment,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
+import formatDate from '../../utils/formatDate';
 import {
   ENROLMENT_INITIAL_VALUES,
   NOTIFICATION_TYPE,
@@ -32,15 +33,20 @@ export const getEnrolmentInitialValues = (
 ): EnrolmentFormFields => {
   return {
     ...ENROLMENT_INITIAL_VALUES,
-    name: enrolment.name ?? '',
     city: enrolment.city ?? '',
+    dateOfBirth: enrolment.dateOfBirth ? new Date(enrolment.dateOfBirth) : null,
     email: enrolment.email ?? '',
-    phoneNumber: enrolment.phoneNumber ?? '',
+    extraInfo: enrolment.extraInfo ?? '',
+    membershipNumber: enrolment.membershipNumber ?? '',
+    name: enrolment.name ?? '',
+    nativeLanguage: enrolment.nativeLanguage ?? '',
     notifications: getEnrolmentNotificationTypes(
       enrolment.notifications as string
     ),
-    membershipNumber: enrolment.membershipNumber ?? '',
-    extraInfo: enrolment.extraInfo ?? '',
+    phoneNumber: enrolment.phoneNumber ?? '',
+    serviceLanguage: enrolment.serviceLanguage ?? '',
+    streetAddress: enrolment.streetAddress ?? '',
+    zip: enrolment.zipcode ?? '',
   };
 };
 
@@ -67,23 +73,33 @@ export const getEnrolmentPayload = (
 ): CreateEnrolmentMutationInput => {
   const {
     city,
+    dateOfBirth,
     email,
     extraInfo,
     membershipNumber,
     name,
+    nativeLanguage,
     notifications,
     phoneNumber,
+    serviceLanguage,
+    streetAddress,
+    zip,
   } = formValues;
 
   return {
     city: city || null,
+    dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, 'yyyy-MM-dd') : null,
     email: email || null,
     extraInfo: extraInfo,
     membershipNumber: membershipNumber,
     name: name || null,
+    nativeLanguage: nativeLanguage || null,
     notifications: getEnrolmentNotificationsCode(notifications),
     phoneNumber: phoneNumber || null,
     registration: registration.id as string,
+    serviceLanguage: serviceLanguage || null,
+    streetAddress: streetAddress || null,
+    zipcode: zip || null,
   };
 };
 

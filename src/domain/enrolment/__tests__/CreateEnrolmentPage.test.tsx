@@ -5,6 +5,7 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   renderWithRoute,
@@ -39,22 +40,23 @@ const findElement = (key: 'nameInput') => {
 const getElement = (
   key:
     | 'cityInput'
+    | 'dateOfBirthInput'
     | 'emailCheckbox'
     | 'emailInput'
     | 'nameInput'
     | 'nativeLanguageButton'
-    | 'notificationLanguageButton'
     | 'phoneCheckbox'
     | 'phoneInput'
     | 'serviceLanguageButton'
     | 'streetAddressInput'
     | 'submitButton'
-    | 'yearOfBirthButton'
     | 'zipInput'
 ) => {
   switch (key) {
     case 'cityInput':
       return screen.getByRole('textbox', { name: /kaupunki/i });
+    case 'dateOfBirthInput':
+      return screen.getByRole('textbox', { name: /syntymäaika/i });
     case 'emailCheckbox':
       return screen.getByRole('checkbox', { name: /sähköpostilla/i });
     case 'emailInput':
@@ -63,8 +65,6 @@ const getElement = (
       return screen.getByRole('textbox', { name: /nimi/i });
     case 'nativeLanguageButton':
       return screen.getByRole('button', { name: /äidinkieli/i });
-    case 'notificationLanguageButton':
-      return screen.getByRole('button', { name: /ilmoitusten kieli/i });
     case 'phoneCheckbox':
       return screen.getByRole('checkbox', { name: /tekstiviestillä/i });
     case 'phoneInput':
@@ -75,8 +75,6 @@ const getElement = (
       return screen.getByRole('textbox', { name: /katuosoite/i });
     case 'submitButton':
       return screen.getByRole('button', { name: /tallenna osallistuja/i });
-    case 'yearOfBirthButton':
-      return screen.getByRole('button', { name: /syntymävuosi/i });
     case 'zipInput':
       return screen.getByRole('textbox', { name: /postinumero/i });
   }
@@ -112,14 +110,13 @@ test('should validate enrolment form and focus invalid field and finally create 
 
   const nameInput = await findElement('nameInput');
   const streetAddressInput = getElement('streetAddressInput');
-  const yearOfBirthButton = getElement('yearOfBirthButton');
+  const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
   const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
   const emailCheckbox = getElement('emailCheckbox');
   const phoneCheckbox = getElement('phoneCheckbox');
-  const notificationLanguageButton = getElement('notificationLanguageButton');
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
   const submitButton = getElement('submitButton');
@@ -135,12 +132,11 @@ test('should validate enrolment form and focus invalid field and finally create 
 
   userEvent.type(streetAddressInput, enrolmentValues.streetAddress);
   userEvent.click(submitButton);
-  await waitFor(() => expect(yearOfBirthButton).toHaveFocus());
+  await waitFor(() => expect(dateOfBirthInput).toHaveFocus());
 
-  userEvent.click(yearOfBirthButton);
-  const yearOption = await screen.findByRole('option', { name: /1990/i });
-  userEvent.click(yearOption);
-  userEvent.click(submitButton);
+  act(() => userEvent.click(dateOfBirthInput));
+  userEvent.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
+  act(() => userEvent.click(submitButton));
   await waitFor(() => expect(zipInput).toHaveFocus());
 
   userEvent.type(zipInput, enrolmentValues.zip);
@@ -165,14 +161,6 @@ test('should validate enrolment form and focus invalid field and finally create 
   expect(phoneInput).toBeRequired();
 
   userEvent.type(phoneInput, enrolmentValues.phone);
-  userEvent.click(submitButton);
-  await waitFor(() => expect(notificationLanguageButton).toHaveFocus());
-
-  userEvent.click(notificationLanguageButton);
-  const notificationLanguageOption = await screen.findByRole('option', {
-    name: /suomi/i,
-  });
-  userEvent.click(notificationLanguageOption);
   userEvent.click(submitButton);
   await waitFor(() => expect(nativeLanguageButton).toHaveFocus());
 
@@ -203,34 +191,28 @@ test('should show server errors', async () => {
 
   const nameInput = await findElement('nameInput');
   const streetAddressInput = getElement('streetAddressInput');
-  const yearOfBirthButton = getElement('yearOfBirthButton');
+  const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
   const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
   const emailCheckbox = getElement('emailCheckbox');
   const phoneCheckbox = getElement('phoneCheckbox');
-  const notificationLanguageButton = getElement('notificationLanguageButton');
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
   const submitButton = getElement('submitButton');
 
   userEvent.type(nameInput, enrolmentValues.name);
   userEvent.type(streetAddressInput, enrolmentValues.streetAddress);
-  userEvent.click(yearOfBirthButton);
-  const yearOption = await screen.findByRole('option', { name: /1990/i });
-  userEvent.click(yearOption);
+  act(() => userEvent.click(dateOfBirthInput));
+  userEvent.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
+  act(() => userEvent.click(zipInput));
   userEvent.type(zipInput, enrolmentValues.zip);
   userEvent.type(cityInput, enrolmentValues.city);
   userEvent.click(emailCheckbox);
   userEvent.type(emailInput, enrolmentValues.email);
   userEvent.click(phoneCheckbox);
   userEvent.type(phoneInput, enrolmentValues.phone);
-  userEvent.click(notificationLanguageButton);
-  const notificationLanguageOption = await screen.findByRole('option', {
-    name: /suomi/i,
-  });
-  userEvent.click(notificationLanguageOption);
   userEvent.click(nativeLanguageButton);
   const nativeLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,

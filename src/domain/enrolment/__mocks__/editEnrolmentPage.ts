@@ -11,6 +11,7 @@ import { NOTIFICATION_TYPE } from '../constants';
 const enrolmentId = 'enrolment:1';
 const enrolmentValues = {
   city: 'City',
+  dateOfBirth: '10.10.1990',
   email: 'participant@email.com',
   extraInfo: null,
   membershipNumber: null,
@@ -22,10 +23,14 @@ const enrolmentValues = {
   serviceLanguage: 'fi',
   streetAddress: 'Street address',
   yearOfBirth: '1990',
-  zip: '00100',
+  zipcode: '00100',
 };
 
-const enrolment = fakeEnrolment({ ...enrolmentValues, id: enrolmentId });
+const enrolment = fakeEnrolment({
+  ...enrolmentValues,
+  dateOfBirth: '1990-10-10',
+  id: enrolmentId,
+});
 
 const enrolmentVariables = { createPath: undefined, id: enrolmentId };
 const enrolmentResponse = { data: { enrolment } };
@@ -37,13 +42,18 @@ const mockedEnrolmentResponse: MockedResponse = {
 const payload = {
   id: enrolmentId,
   city: enrolmentValues.city,
+  dateOfBirth: '1990-10-10',
   email: enrolmentValues.email,
   extraInfo: '',
   membershipNumber: '',
   name: enrolmentValues.name,
+  nativeLanguage: enrolmentValues.nativeLanguage,
   notifications: enrolmentValues.notifications,
   phoneNumber: enrolmentValues.phoneNumber,
   registration: registrationId,
+  serviceLanguage: enrolmentValues.serviceLanguage,
+  streetAddress: enrolmentValues.streetAddress,
+  zipcode: enrolmentValues.zipcode,
 };
 
 const updateEnrolmentVariables = {

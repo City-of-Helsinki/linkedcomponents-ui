@@ -24,9 +24,9 @@ export const enrolmentSchema = Yup.object().shape({
   [ENROLMENT_FIELDS.STREET_ADDRESS]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
-  [ENROLMENT_FIELDS.YEAR_OF_BIRTH]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
+  [ENROLMENT_FIELDS.DATE_OF_BIRTH]: Yup.string()
+    .nullable()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   [ENROLMENT_FIELDS.ZIP]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .test(
@@ -66,9 +66,6 @@ export const enrolmentSchema = Yup.object().shape({
     .min(1, (param) =>
       createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
     ),
-  [ENROLMENT_FIELDS.NOTIFICATION_LANGUAGE]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
   [ENROLMENT_FIELDS.NATIVE_LANGUAGE]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),

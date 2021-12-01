@@ -125,46 +125,66 @@ describe('getEnrolmentPayload function', () => {
     expect(getEnrolmentPayload(ENROLMENT_INITIAL_VALUES, registration)).toEqual(
       {
         city: null,
+        dateOfBirth: null,
         email: null,
         extraInfo: '',
         membershipNumber: '',
         name: null,
+        nativeLanguage: null,
         notifications: NOTIFICATION_TYPE.NO_NOTIFICATION,
         phoneNumber: null,
         registration: registration.id,
+        serviceLanguage: null,
+        streetAddress: null,
+        zipcode: null,
       }
     );
 
     const city = 'City',
+      dateOfBirth = new Date('1999-10-10'),
       email = 'Email',
       extraInfo = 'Extra info',
       membershipNumber = 'XXX-123',
       name = 'Name',
+      nativeLanguage = 'fi',
       notifications = [NOTIFICATIONS.EMAIL],
-      phoneNumber = '0441234567';
+      phoneNumber = '0441234567',
+      serviceLanguage = 'sv',
+      streetAddress = 'Street address',
+      zipcode = '00100';
     const payload = getEnrolmentPayload(
       {
         ...ENROLMENT_INITIAL_VALUES,
         city,
+        dateOfBirth,
         email,
         extraInfo,
         membershipNumber,
         name,
+        nativeLanguage,
         notifications,
         phoneNumber,
+        serviceLanguage,
+        streetAddress,
+        zip: zipcode,
       },
       registration
     );
 
     expect(payload).toEqual({
       city,
+      dateOfBirth: '1999-10-10',
       email,
       extraInfo,
       membershipNumber,
       name,
+      nativeLanguage,
       notifications: NOTIFICATION_TYPE.EMAIL,
       phoneNumber,
       registration: registration.id,
+      serviceLanguage,
+      streetAddress,
+      zipcode,
     });
   });
 });

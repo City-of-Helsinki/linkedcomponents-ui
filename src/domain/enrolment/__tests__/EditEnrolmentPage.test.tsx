@@ -5,6 +5,7 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   renderWithRoute,
@@ -22,7 +23,6 @@ import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   enrolment,
   enrolmentId,
-  enrolmentValues,
   mockedEnrolmentResponse,
   mockedInvalidUpdateEnrolmentResponse,
   mockedUpdateEnrolmentResponse,
@@ -41,22 +41,23 @@ const findElement = (key: 'nameInput') => {
 const getElement = (
   key:
     | 'cityInput'
+    | 'dateOfBirthInput'
     | 'emailCheckbox'
     | 'emailInput'
     | 'nameInput'
     | 'nativeLanguageButton'
-    | 'notificationLanguageButton'
     | 'phoneCheckbox'
     | 'phoneInput'
     | 'serviceLanguageButton'
     | 'streetAddressInput'
     | 'submitButton'
-    | 'yearOfBirthButton'
     | 'zipInput'
 ) => {
   switch (key) {
     case 'cityInput':
       return screen.getByRole('textbox', { name: /kaupunki/i });
+    case 'dateOfBirthInput':
+      return screen.getByRole('textbox', { name: /syntymäaika/i });
     case 'emailCheckbox':
       return screen.getByRole('checkbox', { name: /sähköpostilla/i });
     case 'emailInput':
@@ -65,8 +66,6 @@ const getElement = (
       return screen.getByRole('textbox', { name: /nimi/i });
     case 'nativeLanguageButton':
       return screen.getByRole('button', { name: /äidinkieli/i });
-    case 'notificationLanguageButton':
-      return screen.getByRole('button', { name: /ilmoitusten kieli/i });
     case 'phoneCheckbox':
       return screen.getByRole('checkbox', { name: /tekstiviestillä/i });
     case 'phoneInput':
@@ -77,8 +76,6 @@ const getElement = (
       return screen.getByRole('textbox', { name: /katuosoite/i });
     case 'submitButton':
       return screen.getByRole('button', { name: /tallenna osallistuja/i });
-    case 'yearOfBirthButton':
-      return screen.getByRole('button', { name: /syntymävuosi/i });
     case 'zipInput':
       return screen.getByRole('textbox', { name: /postinumero/i });
   }
@@ -107,36 +104,6 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     path: ROUTES.EDIT_REGISTRATION_ENROLMENT,
     store,
   });
-
-const enterRequiredInfo = async () => {
-  const streetAddressInput = getElement('streetAddressInput');
-  const zipInput = getElement('zipInput');
-  const yearOfBirthButton = getElement('yearOfBirthButton');
-  const notificationLanguageButton = getElement('notificationLanguageButton');
-  const nativeLanguageButton = getElement('nativeLanguageButton');
-  const serviceLanguageButton = getElement('serviceLanguageButton');
-
-  userEvent.type(streetAddressInput, enrolmentValues.streetAddress);
-  userEvent.click(yearOfBirthButton);
-  const yearOption = await screen.findByRole('option', { name: /1990/i });
-  userEvent.click(yearOption);
-  userEvent.type(zipInput, enrolmentValues.zip);
-  userEvent.click(notificationLanguageButton);
-  const notificationLanguageOption = await screen.findByRole('option', {
-    name: /suomi/i,
-  });
-  userEvent.click(notificationLanguageOption);
-  userEvent.click(nativeLanguageButton);
-  const nativeLanguageOption = await screen.findByRole('option', {
-    name: /suomi/i,
-  });
-  userEvent.click(nativeLanguageOption);
-  userEvent.click(serviceLanguageButton);
-  const serviceLanguageOption = await screen.findByRole('option', {
-    name: /suomi/i,
-  });
-  userEvent.click(serviceLanguageOption);
-};
 
 test('should scroll to first validation error input field', async () => {
   renderComponent();
@@ -177,7 +144,6 @@ test('should update enrolment', async () => {
   ]);
 
   await findElement('nameInput');
-  await enterRequiredInfo();
 
   const submitButton = getElement('submitButton');
   userEvent.click(submitButton);
@@ -190,7 +156,6 @@ test('should show server errors', async () => {
   renderComponent(mocks);
 
   await findElement('nameInput');
-  await enterRequiredInfo();
 
   const submitButton = getElement('submitButton');
   userEvent.click(submitButton);

@@ -7,6 +7,7 @@ import { NOTIFICATION_TYPE } from '../constants';
 
 const enrolmentValues = {
   city: 'City',
+  dateOfBirth: '10.10.1990',
   email: 'participant@email.com',
   name: 'Participant name',
   phone: '+358 44 123 4567',
@@ -16,13 +17,18 @@ const enrolmentValues = {
 
 const payload = {
   city: enrolmentValues.city,
+  dateOfBirth: '1990-10-10',
   email: enrolmentValues.email,
   extraInfo: '',
   membershipNumber: '',
   name: enrolmentValues.name,
+  nativeLanguage: 'fi',
   notifications: NOTIFICATION_TYPE.SMS_EMAIL,
   phoneNumber: enrolmentValues.phone,
   registration: registrationId,
+  serviceLanguage: 'fi',
+  streetAddress: enrolmentValues.streetAddress,
+  zipcode: enrolmentValues.zip,
 };
 
 const createEnrolmentVariables = {
