@@ -18,69 +18,104 @@ describe('getEnrolmentInitialValues function', () => {
   it('should return default values if value is not set', () => {
     const {
       city,
+      dateOfBirth,
       email,
       extraInfo,
       membershipNumber,
       name,
+      nativeLanguage,
       notifications,
       phoneNumber,
+      serviceLanguage,
+      streetAddress,
+      zip,
     } = getEnrolmentInitialValues(
       fakeEnrolment({
         city: null,
+        dateOfBirth: null,
         email: null,
         extraInfo: null,
         membershipNumber: null,
         name: null,
+        nativeLanguage: null,
         notifications: null,
         phoneNumber: null,
+        serviceLanguage: null,
+        streetAddress: null,
+        zipcode: null,
       })
     );
 
     expect(city).toBe('');
+    expect(dateOfBirth).toBe(null);
     expect(email).toBe('');
     expect(extraInfo).toBe('');
     expect(membershipNumber).toBe('');
     expect(name).toBe('');
+    expect(nativeLanguage).toBe('');
     expect(notifications).toEqual([]);
     expect(phoneNumber).toBe('');
+    expect(serviceLanguage).toBe('');
+    expect(streetAddress).toBe('');
+    expect(zip).toBe('');
   });
 
   it('should return enrolment initial values', () => {
     const expectedCity = 'City';
+    const expectedDateOfBirth = new Date('2021-10-10');
     const expectedEmail = 'user@email.com';
     const expectedExtraInfo = 'Extra info';
     const expectedMembershipNumber = 'XXX-XXX-XXX';
     const expectedName = 'Name';
+    const expectedNativeLanguage = 'fi';
     const expectedNotifications = [NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS];
     const expectedPhoneNumber = '+358 44 123 4567';
+    const expectedServiceLanguage = 'sv';
+    const expectedStreetAddress = 'Test address';
+    const expectedZip = '12345';
 
     const {
       city,
+      dateOfBirth,
       email,
       extraInfo,
       membershipNumber,
       name,
+      nativeLanguage,
       notifications,
       phoneNumber,
+      serviceLanguage,
+      streetAddress,
+      zip,
     } = getEnrolmentInitialValues(
       fakeEnrolment({
         city: expectedCity,
+        dateOfBirth: '2021-10-10',
         email: expectedEmail,
         extraInfo: expectedExtraInfo,
         membershipNumber: expectedMembershipNumber,
         name: expectedName,
+        nativeLanguage: expectedNativeLanguage,
         notifications: NOTIFICATION_TYPE.SMS_EMAIL,
         phoneNumber: expectedPhoneNumber,
+        serviceLanguage: expectedServiceLanguage,
+        streetAddress: expectedStreetAddress,
+        zipcode: expectedZip,
       })
     );
 
     expect(city).toBe(expectedCity);
+    expect(dateOfBirth).toEqual(expectedDateOfBirth);
     expect(email).toBe(expectedEmail);
     expect(extraInfo).toBe(expectedExtraInfo);
     expect(membershipNumber).toBe(expectedMembershipNumber);
     expect(name).toBe(expectedName);
+    expect(nativeLanguage).toBe(expectedNativeLanguage);
     expect(notifications).toEqual(expectedNotifications);
     expect(phoneNumber).toBe(expectedPhoneNumber);
+    expect(serviceLanguage).toBe(expectedServiceLanguage);
+    expect(streetAddress).toBe(expectedStreetAddress);
+    expect(zip).toBe(expectedZip);
   });
 });
 

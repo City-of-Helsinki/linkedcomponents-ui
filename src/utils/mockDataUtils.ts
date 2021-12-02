@@ -5,6 +5,7 @@ import merge from 'lodash/merge';
 import { EXTLINK } from '../constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import {
+  AttendeeStatus,
   Enrolment,
   EnrolmentsResponse,
   Event,
@@ -51,6 +52,7 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
   return merge<Enrolment, typeof overrides>(
     {
       id,
+      attendeeStatus: AttendeeStatus.Attending,
       cancellationCode: '',
       city: faker.address.city(),
       dateOfBirth: '1990-10-10',

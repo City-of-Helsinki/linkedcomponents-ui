@@ -1,7 +1,7 @@
 import range from 'lodash/range';
 
 import { TEST_USER_ID } from '../../../constants';
-import { UserDocument } from '../../../generated/graphql';
+import { AttendeeStatus, UserDocument } from '../../../generated/graphql';
 import { fakeEnrolments, fakeUser } from '../../../utils/mockDataUtils';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 
@@ -14,12 +14,28 @@ const attendeeNames = range(1, ENROLMENTS_PAGE_SIZE + 1).map(
 const attendees = fakeEnrolments(
   ENROLMENTS_PAGE_SIZE,
   attendeeNames.map((name, index) => ({
-    id: `attendee:${index}`,
+    attendeeStatus: AttendeeStatus.Attending,
+    id: `attending:${index}`,
     name,
   }))
 );
 
 const attendeesResponse = { enrolments: attendees };
+
+const waitingAttendeeNames = range(1, 2).map(
+  (n) => `Waiting attendee name ${n}`
+);
+
+const waitingAttendees = fakeEnrolments(
+  waitingAttendeeNames.length,
+  attendeeNames.map((name, index) => ({
+    attendeeStatus: AttendeeStatus.Waitlisted,
+    id: `waitlisted:${index}`,
+    name,
+  }))
+);
+
+const waitingAttendeesResponse = { enrolments: waitingAttendees };
 
 // User mocks
 const user = fakeUser({
@@ -33,4 +49,12 @@ const mockedUserResponse = {
   result: userResponse,
 };
 
-export { attendeeNames, attendees, attendeesResponse, mockedUserResponse };
+export {
+  attendeeNames,
+  attendees,
+  attendeesResponse,
+  mockedUserResponse,
+  waitingAttendeeNames,
+  waitingAttendees,
+  waitingAttendeesResponse,
+};

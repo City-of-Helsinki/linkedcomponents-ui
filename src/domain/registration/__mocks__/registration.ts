@@ -10,7 +10,10 @@ import {
   fakeRegistration,
   fakeRegistrations,
 } from '../../../utils/mockDataUtils';
-import { attendees } from '../../enrolments/__mocks__/enrolmentsPage';
+import {
+  attendees,
+  waitingAttendees,
+} from '../../enrolments/__mocks__/enrolmentsPage';
 import { TEST_EVENT_ID } from '../../event/constants';
 import { REGISTRATION_INCLUDES } from '../constants';
 
@@ -31,7 +34,7 @@ const registrationOverrides = {
   instructions: 'Instructions',
   maximumAttendeeCapacity: 100,
   minimumAttendeeCapacity: 10,
-  signups: attendees.data,
+  signups: [...attendees.data, ...waitingAttendees.data],
   waitingListCapacity: 5,
 };
 

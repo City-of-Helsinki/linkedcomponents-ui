@@ -67,8 +67,12 @@ const EnrolmentTableRow: React.FC<Props> = ({
             </span>
           </div>
         </td>
-        <td className={styles.emailColumn}>{email || '-'}</td>
-        <td className={styles.phoneColumn}>{phoneNumber || '-'}</td>
+        <td className={styles.emailColumn}>
+          {email || /* istanbul ignore next */ '-'}
+        </td>
+        <td className={styles.phoneColumn}>
+          {phoneNumber || /* istanbul ignore next */ '-'}
+        </td>
         <td className={styles.statusColumn}>
           {t(`enrolment.attendeeStatus.${attendeeStatus}`)}
         </td>

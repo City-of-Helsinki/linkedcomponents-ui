@@ -45,15 +45,16 @@ const findElement = (key: 'createEnrolmentButton') => {
       return screen.findByRole('button', { name: /lisää osallistuja/i });
   }
 };
-const getElement = (key: 'attendeeTable' | 'createEnrolmentButton') => {
+const getElement = (
+  key: 'attendeeTable' | 'createEnrolmentButton' | 'waitingListTable'
+) => {
   switch (key) {
     case 'attendeeTable':
-      return screen.getByRole('table', {
-        name: /osallistujat/i,
-        hidden: true,
-      });
+      return screen.getByRole('table', { name: /osallistujat/i });
     case 'createEnrolmentButton':
       return screen.getByRole('button', { name: /lisää osallistuja/i });
+    case 'waitingListTable':
+      return screen.getByRole('table', { name: /jonopaikat/i });
   }
 };
 
@@ -76,6 +77,7 @@ test('should render enrolments page', async () => {
 
   await findElement('createEnrolmentButton');
   getElement('attendeeTable');
+  getElement('waitingListTable');
 });
 
 it('scrolls to enrolment table row and calls history.replace correctly (deletes enrolmentId from state)', async () => {
