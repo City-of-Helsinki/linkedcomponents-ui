@@ -186,6 +186,10 @@
     "pageTitle": "Edit participant"
   },
   "enrolment": {
+    "attendeeStatus": {
+      "attending": "Attendeing",
+      "waitlisted": "In wait list"
+    },
     "form": {
       "buttonSave": "Save participant",
       "labelCity": "City",

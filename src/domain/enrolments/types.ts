@@ -1,3 +1,4 @@
+import { AttendeeStatus } from '../../generated/graphql';
 import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
 
 export type EnrolmentSearchInitialValues = {
@@ -6,6 +7,7 @@ export type EnrolmentSearchInitialValues = {
 };
 
 export type EnrolmentFields = {
+  attendeeStatus: AttendeeStatus;
   email: string;
   enrolmentUrl: string;
   id: string;

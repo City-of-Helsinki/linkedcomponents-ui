@@ -187,6 +187,10 @@
     "pageTitle": "Redigera deltagare"
   },
   "enrolment": {
+    "attendeeStatus": {
+      "attending": "Deltar",
+      "waitlisted": "På väntelista"
+    },
     "form": {
       "buttonSave": "Spara deltagare",
       "labelCity": "Staden",

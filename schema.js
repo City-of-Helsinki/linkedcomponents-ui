@@ -110,6 +110,11 @@ module.exports = buildSchema(/* GraphQL */ `
     user(id: ID!): User!
   }
 
+  enum AttendeeStatus {
+    attending
+    waitlisted
+  }
+
   enum EventStatus {
     EventCancelled
     EventPostponed
@@ -641,6 +646,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Enrolment {
     id: ID!
+    attendeeStatus: AttendeeStatus
     cancellationCode: String
     city: String
     dateOfBirth: String

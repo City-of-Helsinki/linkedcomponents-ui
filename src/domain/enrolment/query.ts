@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 export const QUERY_ENROLMENT = gql`
   fragment enrolmentFields on Enrolment {
     id
+    attendeeStatus
     cancellationCode
     city
     dateOfBirth

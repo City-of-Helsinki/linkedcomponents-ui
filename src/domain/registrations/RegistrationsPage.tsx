@@ -43,7 +43,7 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
               fullWidth={true}
               iconLeft={<IconPlus />}
               onClick={goToCreateRegistrationPage}
-              variant="secondary"
+              variant="primary"
             >
               {t('common.buttonAddRegistration')}
             </Button>

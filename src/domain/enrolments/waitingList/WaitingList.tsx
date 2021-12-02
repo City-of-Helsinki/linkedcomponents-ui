@@ -15,7 +15,7 @@ interface Props {
   registration: RegistrationFieldsFragment;
 }
 
-const AttendeeList: React.FC<Props> = ({ registration }) => {
+const WaitingList: React.FC<Props> = ({ registration }) => {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -27,19 +27,19 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
   const filteredAttendees = attendees.filter(
     (enrolment) =>
       enrolment.name?.toLowerCase().includes(enrolmentText.toLowerCase()) &&
-      enrolment.attendeeStatus === AttendeeStatus.Attending
+      enrolment.attendeeStatus === AttendeeStatus.Waitlisted
   );
 
   return (
-    <div className={styles.attendeeList}>
+    <div className={styles.waitingList}>
       <EnrolmentsTable
-        caption={t('enrolmentsPage.attendeeTableCaption')}
+        caption={t('enrolmentsPage.waitingListTableCaption')}
         enrolments={filteredAttendees}
-        heading={t('enrolmentsPage.attendeeTableHeading')}
+        heading={t('enrolmentsPage.waitingListTableHeading')}
         registration={registration}
       />
     </div>
   );
 };
 
-export default AttendeeList;
+export default WaitingList;

@@ -5,6 +5,7 @@ import { scroller } from 'react-scroll';
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../constants';
 import {
+  AttendeeStatus,
   EnrolmentFieldsFragment,
   EnrolmentsQueryVariables,
   RegistrationFieldsFragment,
@@ -50,6 +51,7 @@ export const getEnrolmentFields = ({
 
   return {
     id,
+    attendeeStatus: enrolment.attendeeStatus as AttendeeStatus,
     email: enrolment.email ?? '',
     enrolmentUrl: `/${language}${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
       ':registrationId',

@@ -5,7 +5,6 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
-  act,
   configure,
   getMockReduxStore,
   renderWithRoute,

@@ -184,6 +184,10 @@
     "title": "Uusi ilmoittautuminen"
   },
   "enrolment": {
+    "attendeeStatus": {
+      "attending": "Osallistuu",
+      "waitlisted": "Jonossa"
+    },
     "form": {
       "buttonSave": "Tallenna osallistuja",
       "labelCity": "Kaupunki",

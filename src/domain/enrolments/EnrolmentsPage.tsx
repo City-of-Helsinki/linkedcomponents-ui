@@ -28,6 +28,7 @@ import FilterSummary from './filterSummary/FilterSummary';
 import SearchPanel from './searchPanel/SearchPanel';
 import { EnrolmentsLocationState } from './types';
 import { getEnrolmentItemId, scrollToEnrolmentItem } from './utils';
+import WaitingList from './waitingList/WaitingList';
 
 interface EnrolmentsPageProps {
   registration: RegistrationFieldsFragment;
@@ -70,6 +71,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
           <FilterSummary />
 
           <AttendeeList registration={registration} />
+          <WaitingList registration={registration} />
         </Container>
         <ButtonPanel registration={registration} />
       </MainContent>
