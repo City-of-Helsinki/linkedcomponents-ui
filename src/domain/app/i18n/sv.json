@@ -18,7 +18,7 @@
     "some": "Facebook, Google eller Twitter ID",
     "yle": "YLE ID"
   },
-  "authRequiredNotification": { 
+  "authRequiredNotification": {
     "button": "logga in",
     "part1": "Du kan fortsätta att utforska tjänsten, men du måste",
     "part2": " för att spara dina ändringar."
@@ -100,7 +100,7 @@
     "noResults": "Inga resultat",
     "numberInput": {
       "buttonDecrease": "Ta bort",
-      "buttonIncrease": "Lägg till" 
+      "buttonIncrease": "Lägg till"
     },
     "openInExternalDomain": "Flyttar till en annan webbplats.",
     "openInNewTab": "(öppnas i en ny flik)",
@@ -530,7 +530,7 @@
         "volunteering": "Volontärarbetet avslutas"
       },
       "labelEnrolmentEndTime": "Registreringen avslutas",
-      "labelEnrolmentStartTime": "Registreringen börjar",  
+      "labelEnrolmentStartTime": "Registreringen börjar",
       "labelExternalLinkLink": {
         "course": "Kursens Facebook-URL",
         "general": "Evenemangets Facebook-URL",
@@ -945,6 +945,10 @@
       "zhHans": "Kinesiska"
     },
     "validation": {
+      "age": {
+        "max": "Maxåldern är {{max}} år.",
+        "min": "Minimiåldern är {{min}} år."
+      },
       "array": {
         "min": "Minst {{min}} objekt måste väljas",
         "min_plural": "Minst {{min}} objekt måste väljas",

@@ -945,6 +945,10 @@
       "zhHans": "Kiina"
     },
     "validation": {
+      "age": {
+        "max": "Yläikäraja on {{max}}v.",
+        "min": "Alaikäraja on {{min}}v."
+      },
       "array": {
         "min": "Vähintään {{min}} vaihtoehto tulee olla valittuna",
         "min_plural": "Vähintään {{min}} vaihtoehtoa tulee olla valittuna",

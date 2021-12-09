@@ -1,13 +1,17 @@
 import { MockedResponse } from '@apollo/client/testing';
+import subYears from 'date-fns/subYears';
 
 import { CreateEnrolmentDocument } from '../../../generated/graphql';
+import formatDate from '../../../utils/formatDate';
 import { fakeEnrolment } from '../../../utils/mockDataUtils';
 import { registrationId } from '../../registration/__mocks__/registration';
 import { NOTIFICATION_TYPE } from '../constants';
 
+const dateOfBirth = subYears(new Date(), 13);
+
 const enrolmentValues = {
   city: 'City',
-  dateOfBirth: '10.10.1990',
+  dateOfBirth: formatDate(dateOfBirth),
   email: 'participant@email.com',
   name: 'Participant name',
   phone: '+358 44 123 4567',
@@ -17,7 +21,7 @@ const enrolmentValues = {
 
 const payload = {
   city: enrolmentValues.city,
-  dateOfBirth: '1990-10-10',
+  dateOfBirth: formatDate(dateOfBirth, 'yyyy-MM-dd'),
   email: enrolmentValues.email,
   extraInfo: '',
   membershipNumber: '',

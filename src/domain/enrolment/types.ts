@@ -1,6 +1,8 @@
 import { ENROLMENT_FIELDS } from './constants';
 
 export type EnrolmentFormFields = {
+  [ENROLMENT_FIELDS.AUDIENCE_MAX_AGE]: number | null;
+  [ENROLMENT_FIELDS.AUDIENCE_MIN_AGE]: number | null;
   [ENROLMENT_FIELDS.CITY]: string;
   [ENROLMENT_FIELDS.DATE_OF_BIRTH]: Date | null;
   [ENROLMENT_FIELDS.EMAIL]: string;

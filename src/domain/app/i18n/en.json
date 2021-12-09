@@ -964,6 +964,10 @@
       "zhHans": "Chinese"
     },
     "validation": {
+      "age": {
+        "max": "The maximum age is {{max}} y.",
+        "min": "The minimum age is {{min}} y."
+      },
       "array": {
         "min": "At least {{min}} item must be selected",
         "min_plural": "At least {{min}} item must be selected",

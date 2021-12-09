@@ -64,8 +64,8 @@ const EditEnrolmentPage: React.FC<Props> = ({
   });
 
   const initialValues = React.useMemo(
-    () => getEnrolmentInitialValues(enrolment),
-    [enrolment]
+    () => getEnrolmentInitialValues(enrolment, registration),
+    [enrolment, registration]
   );
 
   const onUpdate = (values: EnrolmentFormFieldsType) => {

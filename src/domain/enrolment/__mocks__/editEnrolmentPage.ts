@@ -1,17 +1,20 @@
 import { MockedResponse } from '@apollo/client/testing';
+import subYears from 'date-fns/subYears';
 
 import {
   EnrolmentDocument,
   UpdateEnrolmentDocument,
 } from '../../../generated/graphql';
+import formatDate from '../../../utils/formatDate';
 import { fakeEnrolment } from '../../../utils/mockDataUtils';
 import { registrationId } from '../../registration/__mocks__/registration';
 import { NOTIFICATION_TYPE } from '../constants';
 
 const enrolmentId = 'enrolment:1';
+const dateOfBirth = subYears(new Date(), 13);
 const enrolmentValues = {
   city: 'City',
-  dateOfBirth: '10.10.1990',
+  dateOfBirth: formatDate(dateOfBirth),
   email: 'participant@email.com',
   extraInfo: null,
   membershipNumber: null,
@@ -28,7 +31,7 @@ const enrolmentValues = {
 
 const enrolment = fakeEnrolment({
   ...enrolmentValues,
-  dateOfBirth: '1990-10-10',
+  dateOfBirth: formatDate(dateOfBirth, 'yyyy-MM-dd'),
   id: enrolmentId,
 });
 
@@ -42,7 +45,7 @@ const mockedEnrolmentResponse: MockedResponse = {
 const payload = {
   id: enrolmentId,
   city: enrolmentValues.city,
-  dateOfBirth: '1990-10-10',
+  dateOfBirth: formatDate(dateOfBirth, 'yyyy-MM-dd'),
   email: enrolmentValues.email,
   extraInfo: '',
   membershipNumber: '',
@@ -88,7 +91,6 @@ const mockedInvalidUpdateEnrolmentResponse: MockedResponse = {
 export {
   enrolment,
   enrolmentId,
-  enrolmentValues,
   mockedEnrolmentResponse,
   mockedInvalidUpdateEnrolmentResponse,
   mockedUpdateEnrolmentResponse,

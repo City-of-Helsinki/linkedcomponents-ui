@@ -1,5 +1,5 @@
 import { EnrolmentQueryVariables } from '../../../generated/graphql';
-import { fakeEnrolment } from '../../../utils/mockDataUtils';
+import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
 import { registration } from '../../registration/__mocks__/registration';
 import {
   ENROLMENT_INITIAL_VALUES,
@@ -17,6 +17,8 @@ import {
 describe('getEnrolmentInitialValues function', () => {
   it('should return default values if value is not set', () => {
     const {
+      audienceMaxAge,
+      audienceMinAge,
       city,
       dateOfBirth,
       email,
@@ -43,9 +45,12 @@ describe('getEnrolmentInitialValues function', () => {
         serviceLanguage: null,
         streetAddress: null,
         zipcode: null,
-      })
+      }),
+      fakeRegistration({ audienceMinAge: null, audienceMaxAge: null })
     );
 
+    expect(audienceMaxAge).toBe(null);
+    expect(audienceMinAge).toBe(null);
     expect(city).toBe('');
     expect(dateOfBirth).toBe(null);
     expect(email).toBe('');
@@ -75,6 +80,8 @@ describe('getEnrolmentInitialValues function', () => {
     const expectedZip = '12345';
 
     const {
+      audienceMaxAge,
+      audienceMinAge,
       city,
       dateOfBirth,
       email,
@@ -101,9 +108,12 @@ describe('getEnrolmentInitialValues function', () => {
         serviceLanguage: expectedServiceLanguage,
         streetAddress: expectedStreetAddress,
         zipcode: expectedZip,
-      })
+      }),
+      registration
     );
 
+    expect(audienceMaxAge).toBe(18);
+    expect(audienceMinAge).toBe(12);
     expect(city).toBe(expectedCity);
     expect(dateOfBirth).toEqual(expectedDateOfBirth);
     expect(email).toBe(expectedEmail);

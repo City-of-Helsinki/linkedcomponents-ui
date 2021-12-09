@@ -1,6 +1,8 @@
 import { EnrolmentFormFields } from './types';
 
 export enum ENROLMENT_FIELDS {
+  AUDIENCE_MAX_AGE = 'audienceMaxAge',
+  AUDIENCE_MIN_AGE = 'audienceMinAge',
   CITY = 'city',
   DATE_OF_BIRTH = 'dateOfBirth',
   EMAIL = 'email',
@@ -16,6 +18,8 @@ export enum ENROLMENT_FIELDS {
 }
 
 export const ENROLMENT_INITIAL_VALUES: EnrolmentFormFields = {
+  [ENROLMENT_FIELDS.AUDIENCE_MAX_AGE]: null,
+  [ENROLMENT_FIELDS.AUDIENCE_MIN_AGE]: null,
   [ENROLMENT_FIELDS.CITY]: '',
   [ENROLMENT_FIELDS.DATE_OF_BIRTH]: null,
   [ENROLMENT_FIELDS.EMAIL]: '',

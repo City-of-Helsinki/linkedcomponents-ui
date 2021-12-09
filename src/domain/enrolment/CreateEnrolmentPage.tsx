@@ -41,7 +41,6 @@ import {
 } from '../registration/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
-import { ENROLMENT_INITIAL_VALUES } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
 import EnrolmentFormFields from './enrolmentFormFields/EnrolmentFormFields';
 import styles from './enrolmentPage.module.scss';
@@ -49,7 +48,7 @@ import EventInfo from './eventInfo/EventInfo';
 import FormContainer from './formContainer/FormContainer';
 import useEnrolmentServerErrors from './hooks/useEnrolmentServerErrors';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
-import { getEnrolmentPayload } from './utils';
+import { getEnrolmentDefaultInitialValues, getEnrolmentPayload } from './utils';
 import { enrolmentSchema, scrollToFirstError, showErrors } from './validation';
 
 type Props = {
@@ -121,6 +120,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
     setSaving(false);
   };
 
+  const initialValues = getEnrolmentDefaultInitialValues(registration);
   const formDisabled = !isRegistrationPossible(registration);
   const registrationWarning = getRegistrationWarning(registration, t);
 
@@ -131,13 +131,12 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
     >
       <MainContent>
         <Formik
-          initialValues={ENROLMENT_INITIAL_VALUES}
+          initialValues={initialValues}
           onSubmit={/* istanbul ignore next */ () => undefined}
           validationSchema={enrolmentSchema}
         >
           {({ setErrors, setTouched, values }) => {
             const clearErrors = () => setErrors({});
-
             const handleSubmit = async () => {
               try {
                 setServerErrorItems([]);

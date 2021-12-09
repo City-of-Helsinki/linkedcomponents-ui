@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
+import subYears from 'date-fns/subYears';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
@@ -134,8 +136,27 @@ test('should validate enrolment form and focus invalid field and finally create 
   userEvent.click(submitButton);
   await waitFor(() => expect(dateOfBirthInput).toHaveFocus());
 
-  act(() => userEvent.click(dateOfBirthInput));
+  const oldAgeValue = formatDate(subYears(new Date(), 20));
+  userEvent.click(dateOfBirthInput);
+  userEvent.type(dateOfBirthInput, oldAgeValue);
+  await waitFor(() => expect(dateOfBirthInput).toHaveValue(oldAgeValue));
+  act(() => userEvent.click(submitButton));
+  await screen.findByText('Yläikäraja on 18v.');
+
+  const youngAgeValue = formatDate(subYears(new Date(), 7));
+  userEvent.click(dateOfBirthInput);
+  userEvent.clear(dateOfBirthInput);
+  userEvent.type(dateOfBirthInput, youngAgeValue);
+  await waitFor(() => expect(dateOfBirthInput).toHaveValue(youngAgeValue));
+  act(() => userEvent.click(submitButton));
+  await screen.findByText('Alaikäraja on 12v.');
+
+  userEvent.click(dateOfBirthInput);
+  userEvent.clear(dateOfBirthInput);
   userEvent.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
+  await waitFor(() =>
+    expect(dateOfBirthInput).toHaveValue(enrolmentValues.dateOfBirth)
+  );
   act(() => userEvent.click(submitButton));
   await waitFor(() => expect(zipInput).toHaveFocus());
 

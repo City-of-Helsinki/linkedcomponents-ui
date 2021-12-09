@@ -28,11 +28,22 @@ export const getEnrolmentNotificationTypes = (
   }
 };
 
-export const getEnrolmentInitialValues = (
-  enrolment: EnrolmentFieldsFragment
+export const getEnrolmentDefaultInitialValues = (
+  registration: RegistrationFieldsFragment
 ): EnrolmentFormFields => {
   return {
     ...ENROLMENT_INITIAL_VALUES,
+    audienceMaxAge: registration.audienceMaxAge ?? null,
+    audienceMinAge: registration.audienceMinAge ?? null,
+  };
+};
+
+export const getEnrolmentInitialValues = (
+  enrolment: EnrolmentFieldsFragment,
+  registration: RegistrationFieldsFragment
+): EnrolmentFormFields => {
+  return {
+    ...getEnrolmentDefaultInitialValues(registration),
     city: enrolment.city ?? '',
     dateOfBirth: enrolment.dateOfBirth ? new Date(enrolment.dateOfBirth) : null,
     email: enrolment.email ?? '',
