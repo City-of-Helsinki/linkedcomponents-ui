@@ -188,6 +188,12 @@
       "attending": "Osallistuu",
       "waitlisted": "Jonossa"
     },
+    "cancelEnrolmentModal": {
+      "buttonCancel": "Peruuta ilmoittautuminen",
+      "text1": "Tätä toimintoa ei voi perua.",
+      "text2": "Seuraavat ilmoittautumiset poistetaan:",
+      "title": "Haluatko varmasti poistaa ilmoittautumisen?"
+    },
     "form": {
       "buttonSave": "Tallenna osallistuja",
       "labelCity": "Kaupunki",

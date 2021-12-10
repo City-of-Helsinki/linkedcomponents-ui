@@ -97,7 +97,7 @@ const EnrolmentsPageWrapper: React.FC = () => {
     });
 
   const registration = registrationData?.registration;
-  const loading = loadingRegistration || loadingUser;
+  const loading = loadingUser || loadingRegistration;
 
   return (
     <LoadingSpinner isLoading={loading}>

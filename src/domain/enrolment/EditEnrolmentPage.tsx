@@ -2,12 +2,13 @@
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
+import { ROUTES } from '../../constants';
 import {
   Enrolment,
   EnrolmentQuery,
@@ -18,16 +19,20 @@ import {
   useEventQuery,
   useRegistrationQuery,
 } from '../../generated/graphql';
+import useLocale from '../../hooks/useLocale';
+import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { ENROLMENT_EDIT_ACTIONS } from '../enrolments/constants';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import { registrationPathBuilder } from '../registration/utils';
+import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
@@ -36,7 +41,10 @@ import styles from './enrolmentPage.module.scss';
 import EventInfo from './eventInfo/EventInfo';
 import FormContainer from './formContainer/FormContainer';
 import useEnrolmentServerErrors from './hooks/useEnrolmentServerErrors';
-import useEnrolmentUpdateActions from './hooks/useEnrolmentUpdateActions';
+import useEnrolmentUpdateActions, {
+  ENROLMENT_MODALS,
+} from './hooks/useEnrolmentUpdateActions';
+import ConfirmCancelModal from './modals/ConfirmCancelModal';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
 import { enrolmentPathBuilder, getEnrolmentInitialValues } from './utils';
 import { enrolmentSchema, scrollToFirstError, showErrors } from './validation';
@@ -56,17 +64,51 @@ const EditEnrolmentPage: React.FC<Props> = ({
   refetch,
   registration,
 }) => {
+  const locale = useLocale();
+  const history = useHistory();
+  const location = useLocation();
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrors();
-  const { saving, updateEnrolment } = useEnrolmentUpdateActions({
+  const {
+    cancelEnrolment,
+    closeModal,
+    openModal,
+    saving,
+    setOpenModal,
+    updateEnrolment,
+  } = useEnrolmentUpdateActions({
     enrolment,
     registration,
   });
+
+  const goToEnrolmentsPage = () => {
+    const { returnPath, remainingQueryString } = extractLatestReturnPath(
+      location.search,
+      ROUTES.REGISTRATION_ENROLMENTS.replace(
+        ':registrationId',
+        registration.id as string
+      )
+    );
+
+    history.push({
+      pathname: `/${locale}${returnPath}`,
+      search: replaceParamsToRegistrationQueryString(remainingQueryString, {
+        enrolmentPage: null,
+      }),
+      state: { enrolmentId: enrolment.id },
+    });
+  };
 
   const initialValues = React.useMemo(
     () => getEnrolmentInitialValues(enrolment, registration),
     [enrolment, registration]
   );
+
+  const onCancel = () => {
+    cancelEnrolment({
+      onSuccess: () => goToEnrolmentsPage(),
+    });
+  };
 
   const onUpdate = (values: EnrolmentFormFieldsType) => {
     updateEnrolment(values, {
@@ -107,34 +149,46 @@ const EditEnrolmentPage: React.FC<Props> = ({
         };
 
         return (
-          <Form noValidate>
-            <PageWrapper
-              backgroundColor="coatOfArms"
-              noFooter
-              title={`editEnrolmentPage.pageTitle`}
-            >
-              <MainContent>
-                <Container
-                  contentWrapperClassName={styles.editPageContentContainer}
-                  withOffset
-                >
-                  <FormContainer>
-                    <AuthRequiredNotification />
-                    <ServerErrorSummary errors={serverErrorItems} />
-                    <EventInfo event={event} />
-                    <div className={styles.divider} />
-                    <EnrolmentFormFields />
-                  </FormContainer>
-                </Container>
-                <EditButtonPanel
-                  enrolment={enrolment}
-                  registration={registration}
-                  onSave={handleSubmit}
-                  saving={saving}
-                />
-              </MainContent>
-            </PageWrapper>
-          </Form>
+          <>
+            <ConfirmCancelModal
+              enrolment={enrolment}
+              isOpen={openModal === ENROLMENT_MODALS.CANCEL}
+              isSaving={saving === ENROLMENT_EDIT_ACTIONS.CANCEL}
+              onClose={closeModal}
+              onCancel={onCancel}
+              registration={registration}
+            />
+
+            <Form noValidate>
+              <PageWrapper
+                backgroundColor="coatOfArms"
+                noFooter
+                title={`editEnrolmentPage.pageTitle`}
+              >
+                <MainContent>
+                  <Container
+                    contentWrapperClassName={styles.editPageContentContainer}
+                    withOffset
+                  >
+                    <FormContainer>
+                      <AuthRequiredNotification />
+                      <ServerErrorSummary errors={serverErrorItems} />
+                      <EventInfo event={event} />
+                      <div className={styles.divider} />
+                      <EnrolmentFormFields />
+                    </FormContainer>
+                  </Container>
+                  <EditButtonPanel
+                    enrolment={enrolment}
+                    registration={registration}
+                    onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
+                    onSave={handleSubmit}
+                    saving={saving}
+                  />
+                </MainContent>
+              </PageWrapper>
+            </Form>
+          </>
         );
       }}
     </Formik>

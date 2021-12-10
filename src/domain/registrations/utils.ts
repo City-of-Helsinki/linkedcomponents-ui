@@ -7,6 +7,7 @@ import { ROUTES } from '../../constants';
 import {
   EventTypeId,
   RegistrationFieldsFragment,
+  RegistrationQueryVariables,
   RegistrationsQueryVariables,
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
@@ -176,10 +177,23 @@ export const getEditButtonProps = ({
   };
 };
 
+export const clearRegistrationQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>,
+  args?: RegistrationQueryVariables
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'registration',
+    args,
+  });
+
 export const clearRegistrationsQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>
 ): boolean =>
-  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'registrations' });
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'registrations',
+  });
 
 export const registrationsPathBuilder = ({
   args,

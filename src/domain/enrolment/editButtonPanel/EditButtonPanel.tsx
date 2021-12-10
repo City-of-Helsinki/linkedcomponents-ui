@@ -23,6 +23,7 @@ import styles from './editButtonPanel.module.scss';
 
 export interface EditButtonPanelProps {
   enrolment: Enrolment;
+  onCancel: () => void;
   onSave: () => void;
   registration: RegistrationFieldsFragment;
   saving: ENROLMENT_EDIT_ACTIONS | false;
@@ -30,6 +31,7 @@ export interface EditButtonPanelProps {
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   enrolment,
+  onCancel,
   onSave,
   registration,
   saving,
@@ -67,7 +69,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     }),
     getActionItemProps({
       action: ENROLMENT_EDIT_ACTIONS.CANCEL,
-      onClick: () => toast.error('TODO: Cancel enrolment'),
+      onClick: onCancel,
     }),
   ].filter(skipFalsyType);
 

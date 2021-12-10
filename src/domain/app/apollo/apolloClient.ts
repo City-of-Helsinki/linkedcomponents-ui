@@ -193,9 +193,24 @@ const linkedEventsLink = new RestLink({
     uploadImageSerializer,
   },
   customFetch: (request: Request | string, config) => {
-    if (typeof request === 'string' && config.method === 'GET') {
-      return fetch(addNocacheToUrl(request), config);
+    if (typeof request === 'string') {
+      const requestParts = request
+        .replace(process.env.REACT_APP_LINKED_EVENTS_URL || '', '')
+        .split('/')
+        .filter((t) => t);
+
+      if (config.method === 'GET') {
+        return fetch(addNocacheToUrl(request), config);
+      } else if (config.method === 'DELETE' && requestParts[0] === 'signup') {
+        // Apollo cleans body from delete request so parse cancellation code
+        // from the request to make this to work with LE API
+        return fetch(request.replace(requestParts[1], ''), {
+          ...config,
+          body: JSON.stringify({ cancellation_code: requestParts[1] }),
+        });
+      }
     }
+
     return fetch(request, config);
   },
   fieldNameDenormalizer: (key) => {

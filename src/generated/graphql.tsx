@@ -342,6 +342,7 @@ export type Mutation = {
   createEvent: Event;
   createEvents: Array<Event>;
   createRegistration: Registration;
+  deleteEnrolment?: Maybe<NoContent>;
   deleteEvent?: Maybe<NoContent>;
   deleteRegistration?: Maybe<NoContent>;
   postFeedback?: Maybe<Feedback>;
@@ -372,6 +373,11 @@ export type MutationCreateEventsArgs = {
 
 export type MutationCreateRegistrationArgs = {
   input: CreateRegistrationMutationInput;
+};
+
+
+export type MutationDeleteEnrolmentArgs = {
+  cancellationCode: Scalars['String'];
 };
 
 
@@ -838,6 +844,13 @@ export type CreateEnrolmentMutationVariables = Exact<{
 
 
 export type CreateEnrolmentMutation = { __typename?: 'Mutation', createEnrolment: { __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null | undefined, cancellationCode?: string | null | undefined, city?: string | null | undefined, dateOfBirth?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notifications?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, zipcode?: string | null | undefined } };
+
+export type DeleteEnrolmentMutationVariables = Exact<{
+  cancellationCode: Scalars['String'];
+}>;
+
+
+export type DeleteEnrolmentMutation = { __typename?: 'Mutation', deleteEnrolment?: { __typename?: 'NoContent', noContent?: boolean | null | undefined } | null | undefined };
 
 export type UpdateEnrolmentMutationVariables = Exact<{
   input: UpdateEnrolmentMutationInput;
@@ -1508,6 +1521,39 @@ export function useCreateEnrolmentMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateEnrolmentMutationHookResult = ReturnType<typeof useCreateEnrolmentMutation>;
 export type CreateEnrolmentMutationResult = Apollo.MutationResult<CreateEnrolmentMutation>;
 export type CreateEnrolmentMutationOptions = Apollo.BaseMutationOptions<CreateEnrolmentMutation, CreateEnrolmentMutationVariables>;
+export const DeleteEnrolmentDocument = gql`
+    mutation DeleteEnrolment($cancellationCode: String!) {
+  deleteEnrolment(cancellationCode: $cancellationCode) @rest(type: "NoContent", path: "/signup/{args.cancellationCode}", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteEnrolmentMutationFn = Apollo.MutationFunction<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>;
+
+/**
+ * __useDeleteEnrolmentMutation__
+ *
+ * To run a mutation, you first call `useDeleteEnrolmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEnrolmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEnrolmentMutation, { data, loading, error }] = useDeleteEnrolmentMutation({
+ *   variables: {
+ *      cancellationCode: // value for 'cancellationCode'
+ *   },
+ * });
+ */
+export function useDeleteEnrolmentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>(DeleteEnrolmentDocument, options);
+      }
+export type DeleteEnrolmentMutationHookResult = ReturnType<typeof useDeleteEnrolmentMutation>;
+export type DeleteEnrolmentMutationResult = Apollo.MutationResult<DeleteEnrolmentMutation>;
+export type DeleteEnrolmentMutationOptions = Apollo.BaseMutationOptions<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>;
 export const UpdateEnrolmentDocument = gql`
     mutation UpdateEnrolment($input: UpdateEnrolmentMutationInput!) {
   updateEnrolment(input: $input) @rest(type: "Enrolment", path: "/signup_edit/{args.input.id}/", method: "PUT", bodyKey: "input") {

@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
-  Enrolment,
+  EnrolmentFieldsFragment,
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -11,9 +11,9 @@ import { getEnrolmentFields, getEnrolmentItemId } from '../utils';
 import styles from './enrolmentsTable.module.scss';
 
 interface Props {
-  enrolment: Enrolment;
+  enrolment: EnrolmentFieldsFragment;
   registration: RegistrationFieldsFragment;
-  onRowClick: (enrolment: Enrolment) => void;
+  onRowClick: (enrolment: EnrolmentFieldsFragment) => void;
 }
 
 const EnrolmentTableRow: React.FC<Props> = ({
