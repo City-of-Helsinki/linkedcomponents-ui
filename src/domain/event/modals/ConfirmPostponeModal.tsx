@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
@@ -66,24 +66,16 @@ const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
       )}
 
       <div className={styles.modalButtonWrapper}>
-        <Button
+        <LoadingButton
           disabled={isSaving}
-          iconLeft={
-            isSaving ? (
-              <LoadingSpinner
-                className={styles.loadingSpinner}
-                isLoading={isSaving}
-                small={true}
-              />
-            ) : (
-              <IconCalendarClock />
-            )
-          }
+          icon={<IconCalendarClock aria-hidden={true} />}
+          loading={isSaving}
           onClick={handlePostpone}
           type="button"
         >
           {t('event.postponeEventModal.buttonPostpone')}
-        </Button>
+        </LoadingButton>
+
         <Button
           disabled={isSaving}
           onClick={handleClose}

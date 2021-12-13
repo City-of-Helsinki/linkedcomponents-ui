@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
@@ -57,25 +57,16 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
       <p>{t('event.deleteEventModal.text3')}</p>
       <EventHierarchy event={event} />
       <div className={styles.modalButtonWrapper}>
-        <Button
+        <LoadingButton
           disabled={isSaving}
-          iconLeft={
-            isSaving ? (
-              <LoadingSpinner
-                className={styles.loadingSpinner}
-                isLoading={isSaving}
-                small={true}
-              />
-            ) : (
-              <IconCross />
-            )
-          }
+          icon={<IconCross aria-hidden={true} />}
+          loading={isSaving}
           onClick={handleDelete}
           type="button"
           variant="danger"
         >
           {t('event.deleteEventModal.buttonDelete')}
-        </Button>
+        </LoadingButton>
         <Button
           disabled={isSaving}
           onClick={handleClose}

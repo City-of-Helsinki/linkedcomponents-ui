@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
@@ -60,24 +60,16 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
         {t('event.updateEventModal.textPastEventAreNotUpdated')}
       </p>
       <div className={styles.modalButtonWrapper}>
-        <Button
+        <LoadingButton
           disabled={isSaving}
-          iconLeft={
-            isSaving ? (
-              <LoadingSpinner
-                className={styles.loadingSpinner}
-                isLoading={isSaving}
-                small={true}
-              />
-            ) : (
-              <IconPen />
-            )
-          }
+          icon={<IconPen aria-hidden={true} />}
+          loading={isSaving}
           onClick={handleSave}
           type="button"
         >
           {t('common.save')}
-        </Button>
+        </LoadingButton>
+
         <Button
           disabled={isSaving}
           onClick={handleClose}

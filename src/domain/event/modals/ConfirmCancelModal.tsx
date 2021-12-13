@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
@@ -69,25 +69,17 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
       )}
 
       <div className={styles.modalButtonWrapper}>
-        <Button
+        <LoadingButton
           disabled={isSaving}
-          iconLeft={
-            isSaving ? (
-              <LoadingSpinner
-                isLoading={isSaving}
-                className={styles.loadingSpinner}
-                small={true}
-              />
-            ) : (
-              <IconCalendarCross />
-            )
-          }
+          icon={<IconCalendarCross aria-hidden={true} />}
+          loading={isSaving}
           onClick={handleCancel}
           type="button"
           variant="danger"
         >
           {t('event.cancelEventModal.buttonCancel')}
-        </Button>
+        </LoadingButton>
+
         <Button
           disabled={isSaving}
           onClick={handleClose}

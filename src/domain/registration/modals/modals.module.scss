@@ -16,11 +16,3 @@
   margin-bottom: calc(0px - var(--spacing-m)) !important;
   text-transform: uppercase;
 }
-
-.loadingSpinner {
-  padding: 0;
-
-  & > div {
-    --spinner-color: var(--color);
-  }
-}

@@ -3,10 +3,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { authenticatedSelector } from '../../auth/selectors';
 import {
   getCreateRegistrationButtonWarning,
@@ -36,28 +35,18 @@ const CreateButtonPanel: React.FC<Props> = ({ onSave, saving }) => {
   return (
     <ButtonPanel
       submitButtons={[
-        <Button
+        <LoadingButton
           key="create"
           className={styles.fullWidthOnMobile}
           disabled={saving || isCreateButtonDisabled()}
-          fullWidth={true}
-          iconLeft={
-            saving ? (
-              <LoadingSpinner
-                className={styles.loadingSpinner}
-                isLoading={true}
-                small={true}
-              />
-            ) : (
-              <IconPen />
-            )
-          }
+          icon={<IconPen aria-hidden={true} />}
+          loading={saving}
           onClick={onSave}
           title={isCreateButtonWarning()}
           type="submit"
         >
           {t('registration.form.buttonCreate')}
-        </Button>,
+        </LoadingButton>,
       ]}
     />
   );

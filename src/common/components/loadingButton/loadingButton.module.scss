@@ -1,0 +1,7 @@
+.loadingSpinner {
+  padding: 0;
+
+  & > div {
+    --spinner-color: var(--color);
+  }
+}

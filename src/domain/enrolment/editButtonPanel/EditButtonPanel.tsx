@@ -4,10 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
 import {
@@ -78,26 +77,17 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       contentWrapperClassName={styles.container}
       onBack={goBack}
       submitButtons={[
-        <Button
+        <LoadingButton
           key="save"
           className={buttonPanelStyles.fullWidthOnMobile}
           fullWidth={true}
-          iconLeft={
-            saving === ENROLMENT_EDIT_ACTIONS.UPDATE ? (
-              <LoadingSpinner
-                className={styles.loadingSpinner}
-                isLoading={true}
-                small={true}
-              />
-            ) : (
-              <IconPen aria-hidden={true} />
-            )
-          }
+          icon={<IconPen aria-hidden={true} />}
+          loading={saving === ENROLMENT_EDIT_ACTIONS.UPDATE}
           onClick={onSave}
           type="submit"
         >
           {t('enrolment.form.buttonSave')}
-        </Button>,
+        </LoadingButton>,
       ]}
     />
   );

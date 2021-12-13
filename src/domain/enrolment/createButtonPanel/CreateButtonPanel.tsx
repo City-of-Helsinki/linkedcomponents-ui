@@ -2,10 +2,9 @@ import { IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
@@ -38,27 +37,18 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
       contentWrapperClassName={styles.container}
       onBack={goBack}
       submitButtons={[
-        <Button
+        <LoadingButton
           key="save"
           className={buttonPanelStyles.fullWidthOnMobile}
           disabled={disabled}
           fullWidth={true}
-          iconLeft={
-            saving ? (
-              <LoadingSpinner
-                className={styles.loadingSpinner}
-                isLoading={true}
-                small={true}
-              />
-            ) : (
-              <IconPen aria-hidden={true} />
-            )
-          }
+          icon={<IconPen aria-hidden={true} />}
+          loading={saving}
           onClick={onSave}
           type="submit"
         >
           {t('enrolment.form.buttonSave')}
-        </Button>,
+        </LoadingButton>,
       ]}
     />
   );

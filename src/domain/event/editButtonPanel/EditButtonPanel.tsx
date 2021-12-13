@@ -4,10 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
 import {
@@ -151,26 +150,17 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       onBack={goBack}
       submitButtons={actionButtons.map(
         ({ icon, disabled, label, isSaving, variant, ...rest }, index) => (
-          <Button
+          <LoadingButton
             key={index}
             {...rest}
-            disabled={disabled || Boolean(saving)}
-            iconLeft={
-              isSaving ? (
-                <LoadingSpinner
-                  className={styles.loadingSpinner}
-                  isLoading={isSaving}
-                  small={true}
-                />
-              ) : (
-                icon
-              )
-            }
             className={styles.mediumButton}
+            disabled={disabled || Boolean(saving)}
+            icon={icon}
+            loading={isSaving}
             variant={variant as Exclude<ButtonVariant, 'supplementary'>}
           >
             {label}
-          </Button>
+          </LoadingButton>
         )
       )}
     />
