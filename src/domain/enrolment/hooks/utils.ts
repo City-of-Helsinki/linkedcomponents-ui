@@ -9,7 +9,7 @@ export const parseEnrolmentServerErrors = ({
   t,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  result: Record<string, any> | Record<string, any>[] | string;
+  result: LEServerError;
   t: TFunction;
 }): ServerErrorItem[] => {
   // LE returns errors as array when trying to create/edit multiple enrolments in same request.
@@ -29,7 +29,7 @@ export const parseEnrolmentServerErrors = ({
     : Object.entries(result).reduce(
         (previous: ServerErrorItem[], [key, error]) => [
           ...previous,
-          ...parseEnrolmentServerError({ error, key }),
+          ...parseEnrolmentServerError({ error: error as LEServerError, key }),
         ],
         []
       );
@@ -43,6 +43,9 @@ export const parseEnrolmentServerErrors = ({
     key: string;
   }) {
     switch (key) {
+      case 'detail':
+      case 'non_field_errors':
+        return [{ label: '', message: parseServerErrorMessage({ error, t }) }];
       default:
         return [
           {
@@ -55,9 +58,6 @@ export const parseEnrolmentServerErrors = ({
 
   // Get correct field name for an error item
   function parseEnrolmentServerErrorLabel({ key }: { key: string }): string {
-    switch (key) {
-      default:
-        return t(`enrolment.form.label${pascalCase(key)}`);
-    }
+    return t(`enrolment.form.label${pascalCase(key)}`);
   }
 };

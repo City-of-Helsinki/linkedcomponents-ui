@@ -103,7 +103,7 @@ it('should set server error items', async () => {
     },
     {
       label: 'Lyhyt kuvaus suomeksi (korkeintaan 160 merkkiä)',
-      message: 'Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä',
+      message: 'Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä.',
     },
     {
       label: 'Tapahtuma alkaa',

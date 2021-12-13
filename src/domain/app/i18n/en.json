@@ -1295,6 +1295,7 @@
     "title": "Registration successfully saved"
   },
   "serverError": {
+    "emailMustBeUnique": "Email already has registration.",
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",
     "maxLength255": "The value can be up to 255 characters long.",
@@ -1304,8 +1305,11 @@
     "notFoundAllObjects": "Could not find all objects to update.",
     "notNull": "The value of this field cannot be \"null\".",
     "offersIsRequired": "Price info must be specified before an event is published.",
+    "participantTooOld": "The participant is too old.",
+    "participantTooYoung": "The participant is too young.",
+    "phoneNumberMustBeUnique": "Phone number already has registration.",
     "required": "This field cannot be left blank.",
     "requiredWhenPublishing": "This field must be specified before an event is published.",
-    "shortDescriptionTooLong": "Short description length must be 160 characters or less"
+    "shortDescriptionTooLong": "Short description length must be 160 characters or less."
   }
 }

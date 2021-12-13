@@ -8,8 +8,7 @@ export const parseRegistrationServerErrors = ({
   result,
   t,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  result: Record<string, any> | Record<string, any>[] | string;
+  result: LEServerError;
   t: TFunction;
 }): ServerErrorItem[] => {
   // LE returns errors as array when trying to create/edit multiple registrations in same request.
@@ -29,7 +28,10 @@ export const parseRegistrationServerErrors = ({
     : Object.entries(result).reduce(
         (previous: ServerErrorItem[], [key, error]) => [
           ...previous,
-          ...parseRegistrationServerError({ error, key }),
+          ...parseRegistrationServerError({
+            error: error as LEServerError,
+            key,
+          }),
         ],
         []
       );

@@ -1295,6 +1295,7 @@
     "title": "Registreringen har sparats"
   },
   "serverError": {
+    "emailMustBeUnique": "E-post har redan registrering.",
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
@@ -1304,8 +1305,11 @@
     "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
     "notNull": "Värdet på detta fält kan inte vara \"null\".",
     "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
+    "participantTooOld": "Deltagaren är för gammal.",
+    "participantTooYoung": "Deltagaren är för ung.",
+    "phoneNumberMustBeUnique": "Telefonnumret har redan registrering.",
     "required": "Det här fältet kan inte lämnas tomt.",
     "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
-    "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre"
+    "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre."
   }
 }

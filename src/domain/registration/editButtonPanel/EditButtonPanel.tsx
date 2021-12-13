@@ -88,7 +88,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const getActionButtonProps = ({
     action,
     onClick,
-    type = 'button',
+    type,
     variant,
   }: {
     action: REGISTRATION_EDIT_ACTIONS;

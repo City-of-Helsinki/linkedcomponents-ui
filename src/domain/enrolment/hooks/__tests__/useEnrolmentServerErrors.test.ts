@@ -35,8 +35,15 @@ it('should return server error items when result is array', () => {
   const error = new ApolloError({
     networkError: {
       result: [
-        { name: ['The name must be specified.'] },
-        { name: ['The name must be specified.'] },
+        { city: ['Tämän kentän arvo ei voi olla "null".'] },
+        { detail: 'The participant is too old.' },
+        { name: ['Tämän kentän arvo ei voi olla "null".'] },
+        {
+          non_field_errors: [
+            'Kenttien email, registration tulee muodostaa uniikki joukko.',
+            'Kenttien phone_number, registration tulee muodostaa uniikki joukko.',
+          ],
+        },
       ],
     } as any,
   });
@@ -44,8 +51,10 @@ it('should return server error items when result is array', () => {
   act(() => result.current.showServerErrors({ callbackFn, error }));
 
   expect(result.current.serverErrorItems).toEqual([
-    { label: 'Nimi', message: 'Nimi on pakollinen.' },
-    { label: 'Nimi', message: 'Nimi on pakollinen.' },
+    { label: 'Kaupunki', message: 'Tämän kentän arvo ei voi olla "null".' },
+    { label: '', message: 'Osallistuja on liian vanha.' },
+    { label: 'Nimi', message: 'Tämän kentän arvo ei voi olla "null".' },
+    { label: '', message: 'Sähköpostiosoitteella on jo ilmoittautuminen.' },
   ]);
   expect(callbackFn).toBeCalled();
 });
