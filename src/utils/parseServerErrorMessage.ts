@@ -13,7 +13,9 @@ const parseServerErrorMessage = ({
   t: TFunction;
 }): string => {
   let errorStr = '';
-  if (Array.isArray(error)) {
+  if (typeof error === 'string') {
+    errorStr = error;
+  } else if (Array.isArray(error)) {
     const e =
       typeof error[0] === 'object'
         ? Object.values(error[0]).find((item) => item)
@@ -33,6 +35,10 @@ const parseServerErrorMessage = ({
       return t(`serverError.notFoundAllObjects`);
     case 'End time cannot be in the past. Please set a future end time.':
       return t(`serverError.endTimeInPast`);
+    case 'Kenttien email, registration tulee muodostaa uniikki joukko.':
+      return t(`serverError.emailMustBeUnique`);
+    case 'Kenttien phone_number, registration tulee muodostaa uniikki joukko.':
+      return t(`serverError.phoneNumberMustBeUnique`);
     case 'Price info must be specified before an event is published.':
       return t(`serverError.offersIsRequired`);
     case 'Short description length must be 160 characters or less':
@@ -41,6 +47,10 @@ const parseServerErrorMessage = ({
       return t(`serverError.invalidUrl`);
     case 'The name must be specified.':
       return t(`serverError.nameIsRequired`);
+    case 'The participant is too old.':
+      return t(`serverError.participantTooOld`);
+    case 'The participant is too young.':
+      return t(`serverError.participantTooYoung`);
     case 'This field must be specified before an event is published.':
       return t(`serverError.requiredWhenPublishing`);
     case 'Tämä kenttä ei voi olla tyhjä.':

@@ -184,19 +184,22 @@
     "title": "Uusi ilmoittautuminen"
   },
   "enrolment": {
+    "attendeeStatus": {
+      "attending": "Osallistuu",
+      "waitlisted": "Jonossa"
+    },
     "form": {
       "buttonSave": "Tallenna osallistuja",
       "labelCity": "Kaupunki",
+      "labelDateOfBirth": "Syntymäaika",
       "labelEmail": "Sähköpostiosoite",
       "labelExtraInfo": "Lisätietoa ilmoittautumisesta (valinnainen)",
       "labelMembershipNumber": "Jäsenkortin numero (valinnainen)",
       "labelName": "Nimi",
       "labelNativeLanguage": "Äidinkieli",
-      "labelNotificationLanguage": "Ilmoitusten kieli",
       "labelPhoneNumber": "Puhelinnumero",
       "labelServiceLanguage": "Asiointikieli",
       "labelStreetAddress": "Katuosoite",
-      "labelYearOfBirth": "Syntymävuosi",
       "labelZip": "Postinumero",
       "placeholderCity": "Syötä kaupunki",
       "placeholderEmail": "Syötä sähköpostiosoite",
@@ -204,11 +207,9 @@
       "placeholderMembershipNumber": "Syötä jäsenkortin numero",
       "placeholderName": "Syötä ilmoittautujan etu- ja sukunimi",
       "placeholderNativeLanguage": "Valitse äidinkieli",
-      "placeholderNotificationLanguage": "Ilmoitusten kielivalinta",
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Valitse asiointikieli",
       "placeholderStreetAddress": "Syötä katuosoite",
-      "placeholderYearOfBirth": "Syntymävuosi",
       "placeholderZip": "Syötä postinumero",
       "titleAdditionalInfo": "Lisätiedot",
       "titleBasicInfo": "Ilmoittautujan perustiedot",
@@ -217,7 +218,12 @@
     },
     "notifications": {
       "email": "Sähköpostilla",
-      "phone": "Tekstiviestillä"
+      "sms": "Tekstiviestillä"
+    },
+    "warnings": {
+      "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
+      "capacityInWaitingList_plural": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
+      "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen."
     }
   },
   "editEnrolmentPage": {
@@ -234,7 +240,6 @@
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "enrolmentsTableColumns": {
       "email": "Sähköposti",
-      "gender": "Sukupuoli",
       "name": "Nimi",
       "phone": "Puhelinnumero",
       "status": "Status"
@@ -940,6 +945,10 @@
       "zhHans": "Kiina"
     },
     "validation": {
+      "age": {
+        "max": "Yläikäraja on {{max}}v.",
+        "min": "Alaikäraja on {{min}}v."
+      },
       "array": {
         "min": "Vähintään {{min}} vaihtoehto tulee olla valittuna",
         "min_plural": "Vähintään {{min}} vaihtoehtoa tulee olla valittuna",
@@ -1286,6 +1295,7 @@
     "title": "Ilmoittautuminen tallennettu onnistuneesti"
   },
   "serverError": {
+    "emailMustBeUnique": "Sähköpostiosoitteella on jo ilmoittautuminen.",
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
     "invalidUrl": "Syötä oikea URL-osoite.",
     "maxLength255": "Arvo saa olla enintään 255 merkkiä pitkä.",
@@ -1295,8 +1305,11 @@
     "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
     "notNull": "Tämän kentän arvo ei voi olla \"null\".",
     "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",
+    "participantTooOld": "Osallistuja on liian vanha.",
+    "participantTooYoung": "Osallistuja on liian nuori.",
+    "phoneNumberMustBeUnique": "Puhelinnumerolla on jo ilmoittautuminen.",
     "required": "Tämä kenttä ei voi olla tyhjä.",
     "requiredWhenPublishing": "Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.",
-    "shortDescriptionTooLong": "Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä"
+    "shortDescriptionTooLong": "Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä."
   }
 }

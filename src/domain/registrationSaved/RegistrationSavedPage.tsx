@@ -13,6 +13,7 @@ import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import NotFound from '../notFound/NotFound';
+import { REGISTRATION_INCLUDES } from '../registration/constants';
 import {
   clearRegistrationFormData,
   registrationPathBuilder,
@@ -66,6 +67,7 @@ const RegistrationSavedPageWrapper: React.FC = () => {
     skip: !registrationId || !user,
     variables: {
       id: registrationId,
+      include: REGISTRATION_INCLUDES,
       createPath: getPathBuilder(registrationPathBuilder),
     },
   });

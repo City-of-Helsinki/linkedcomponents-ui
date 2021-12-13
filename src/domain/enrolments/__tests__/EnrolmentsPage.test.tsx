@@ -50,18 +50,11 @@ const getElement = (
 ) => {
   switch (key) {
     case 'attendeeTable':
-      return screen.getByRole('table', {
-        name: /osallistujat/i,
-        hidden: true,
-      });
+      return screen.getByRole('table', { name: /osallistujat/i });
     case 'createEnrolmentButton':
       return screen.getByRole('button', { name: /lisää osallistuja/i });
-
     case 'waitingListTable':
-      return screen.getByRole('table', {
-        name: /jonopaikat/i,
-        hidden: true,
-      });
+      return screen.getByRole('table', { name: /jonopaikat/i });
   }
 };
 

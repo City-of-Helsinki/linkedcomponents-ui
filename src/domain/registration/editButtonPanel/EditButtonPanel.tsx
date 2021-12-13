@@ -4,13 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
-import { Registration } from '../../../generated/graphql';
+import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
@@ -21,15 +20,18 @@ import { RegistrationsLocationState } from '../../registrations/types';
 import { getRegistrationFields } from '../../registrations/utils';
 import { copyRegistrationToSessionStorage, getEditButtonProps } from '../utils';
 
+type ButtonType = 'button' | 'reset' | 'submit' | undefined;
+
 type ActionButtonProps = {
   isSaving: boolean;
+  type: ButtonType;
   variant: Exclude<ButtonVariant, 'supplementary'>;
 } & MenuItemOptionProps;
 
 export interface EditButtonPanelProps {
   onDelete: () => void;
   onUpdate: () => void;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
   saving: REGISTRATION_EDIT_ACTIONS | false;
 }
 
@@ -85,10 +87,12 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const getActionButtonProps = ({
     action,
     onClick,
+    type,
     variant,
   }: {
     action: REGISTRATION_EDIT_ACTIONS;
     onClick: () => void;
+    type: ButtonType;
     variant: Exclude<ButtonVariant, 'supplementary'>;
   }): ActionButtonProps => {
     const buttonProps = getEditButtonProps({
@@ -98,7 +102,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       registration,
       t,
     });
-    return { ...buttonProps, isSaving: saving === action, variant };
+    return { ...buttonProps, isSaving: saving === action, type, variant };
   };
 
   const actionItems: MenuItemOptionProps[] = [
@@ -121,6 +125,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionButtonProps({
       action: REGISTRATION_EDIT_ACTIONS.UPDATE,
       onClick: () => onUpdate(),
+      type: 'submit',
       variant: 'primary',
     }),
   ].filter(skipFalsyType);
@@ -130,27 +135,22 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       actionItems={actionItems}
       onBack={goBack}
       submitButtons={actionButtons.map(
-        ({ icon, disabled, label, isSaving, variant, ...rest }, index) => (
-          <Button
+        (
+          { icon, disabled, label, isSaving, type, variant, ...rest },
+          index
+        ) => (
+          <LoadingButton
             key={index}
             {...rest}
             className={styles.fullWidthOnMobile}
             disabled={disabled || Boolean(saving)}
-            iconLeft={
-              isSaving ? (
-                <LoadingSpinner
-                  className={styles.loadingSpinner}
-                  isLoading={isSaving}
-                  small={true}
-                />
-              ) : (
-                icon
-              )
-            }
+            icon={icon}
+            loading={isSaving}
+            type={type}
             variant={variant as Exclude<ButtonVariant, 'supplementary'>}
           >
             {label}
-          </Button>
+          </LoadingButton>
         )
       )}
     />

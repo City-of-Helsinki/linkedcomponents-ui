@@ -9,16 +9,16 @@ import {
   RegistrationFieldsFragment,
   useRegistrationQuery,
 } from '../../generated/graphql';
-import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import NotFound from '../notFound/NotFound';
 import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
+import { REGISTRATION_INCLUDES } from '../registration/constants';
+import useRegistrationName from '../registration/hooks/useRegistrationName';
 import RegistrationInfo from '../registration/registrationInfo/RegistrationInfo';
 import { registrationPathBuilder } from '../registration/utils';
-import { getRegistrationFields } from '../registrations/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
@@ -36,11 +36,10 @@ interface EnrolmentsPageProps {
 
 const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   const { t } = useTranslation();
-  const locale = useLocale();
   const location = useLocation<EnrolmentsLocationState>();
   const history = useHistory();
 
-  const { name } = getRegistrationFields(registration, locale);
+  const name = useRegistrationName({ registration });
 
   React.useEffect(() => {
     if (location.state?.enrolmentId) {
@@ -89,9 +88,11 @@ const EnrolmentsPageWrapper: React.FC = () => {
   const { data: registrationData, loading: loadingRegistration } =
     useRegistrationQuery({
       skip: !registrationId || !user,
+      fetchPolicy: 'network-only',
       variables: {
         id: registrationId,
         createPath: getPathBuilder(registrationPathBuilder),
+        include: REGISTRATION_INCLUDES,
       },
     });
 

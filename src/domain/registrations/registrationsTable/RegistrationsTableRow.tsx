@@ -1,22 +1,21 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Registration, useEventQuery } from '../../../generated/graphql';
+import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useTimeFormat from '../../../hooks/useTimeFormat';
 import formatDate from '../../../utils/formatDate';
-import getPathBuilder from '../../../utils/getPathBuilder';
-import { EVENT_INCLUDES } from '../../event/constants';
-import { eventPathBuilder, getEventFields } from '../../event/utils';
 import PublisherName from '../../events/eventCard/PublisherName';
+import useRegistrationName from '../../registration/hooks/useRegistrationName';
+import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import { getRegistrationItemId } from '../../registration/utils';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import { getRegistrationFields } from '../utils';
 import styles from './registrationsTable.module.scss';
 
 interface Props {
-  registration: Registration;
-  onRowClick: (registration: Registration) => void;
+  registration: RegistrationFieldsFragment;
+  onRowClick: (registration: RegistrationFieldsFragment) => void;
 }
 
 const RegistrationsTableRow: React.FC<Props> = ({
@@ -31,27 +30,16 @@ const RegistrationsTableRow: React.FC<Props> = ({
 
   const {
     currentAttendeeCount,
-    currentWaitingAttendeeCount,
+    currentWaitingListCount,
     enrolmentStartTime,
     enrolmentEndTime,
-    event: eventId,
     id,
     maximumAttendeeCapacity,
     waitingListCapacity,
   } = getRegistrationFields(registration, locale);
 
-  const { data: eventData } = useEventQuery({
-    skip: !eventId,
-    variables: {
-      createPath: getPathBuilder(eventPathBuilder),
-      id: eventId,
-      include: EVENT_INCLUDES,
-    },
-  });
-
-  const { name, publisher } = eventData?.event
-    ? getEventFields(eventData?.event, locale)
-    : { name: '', publisher: '' };
+  const name = useRegistrationName({ registration });
+  const publisher = useRegistrationPublisher({ registration });
 
   const handleRowClick = (ev: React.MouseEvent) => {
     /* istanbul ignore else */
@@ -99,7 +87,7 @@ const RegistrationsTableRow: React.FC<Props> = ({
           {currentAttendeeCount} / {maximumAttendeeCapacity}
         </td>
         <td className={styles.waitingListColumn}>
-          {currentWaitingAttendeeCount} / {waitingListCapacity}
+          {currentWaitingListCount} / {waitingListCapacity}
         </td>
         <td className={styles.enrolmentStartTimeColumn}>
           {enrolmentStartTime

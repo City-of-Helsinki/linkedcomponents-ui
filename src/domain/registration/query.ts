@@ -9,6 +9,8 @@ export const QUERY_EVENT = gql`
     audienceMinAge
     confirmationMessage
     createdBy
+    currentAttendeeCount
+    currentWaitingListCount
     enrolmentEndTime
     enrolmentStartTime
     event
@@ -16,11 +18,14 @@ export const QUERY_EVENT = gql`
     lastModifiedAt
     maximumAttendeeCapacity
     minimumAttendeeCapacity
+    signups {
+      ...enrolmentFields
+    }
     waitingListCapacity
   }
 
-  query Registration($id: ID!, $createPath: Any) {
-    registration(id: $id)
+  query Registration($id: ID!, $include: [String], $createPath: Any) {
+    registration(id: $id, include: $include)
       @rest(type: "Registration", pathBuilder: $createPath) {
       ...registrationFields
     }

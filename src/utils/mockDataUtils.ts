@@ -3,7 +3,9 @@ import faker from 'faker';
 import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
+import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import {
+  AttendeeStatus,
   Enrolment,
   EnrolmentsResponse,
   Event,
@@ -22,7 +24,6 @@ import {
   LanguagesResponse,
   LocalisedObject,
   Meta,
-  Notification,
   Offer,
   Organization,
   OrganizationsResponse,
@@ -51,21 +52,20 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
   return merge<Enrolment, typeof overrides>(
     {
       id,
+      attendeeStatus: AttendeeStatus.Attending,
+      cancellationCode: '',
       city: faker.address.city(),
+      dateOfBirth: '1990-10-10',
       email: faker.internet.email(),
       extraInfo: faker.lorem.paragraph(),
-      marketingAllowed: false,
       membershipNumber: faker.datatype.uuid(),
       name: faker.name.firstName(),
       nativeLanguage: 'fi',
-      notificationLanguage: 'fi',
-      notifications: [Notification.Email, Notification.Phone],
-      organizationName: '',
+      notifications: NOTIFICATION_TYPE.SMS_EMAIL,
       phoneNumber: faker.phone.phoneNumberFormat(),
       serviceLanguage: 'fi',
       streetAddress: faker.address.streetAddress(),
-      yearOfBirth: faker.datatype.number({ max: 2021, min: 1920 }).toString(),
-      zip: faker.address.zipCode('#####'),
+      zipcode: faker.address.zipCode('#####'),
       __typename: 'Enrolment',
     },
     overrides
@@ -364,6 +364,8 @@ export const fakeRegistration = (
       confirmationMessage: faker.lorem.paragraph(),
       createdAt: null,
       createdBy: faker.name.firstName(),
+      currentAttendeeCount: 0,
+      currentWaitingListCount: 0,
       enrolmentEndTime: '2020-09-30T16:00:00.000000Z',
       enrolmentStartTime: '2020-09-27T15:00:00.000000Z',
       event: null,
@@ -372,8 +374,7 @@ export const fakeRegistration = (
       lastModifiedBy: faker.name.firstName(),
       maximumAttendeeCapacity: 0,
       minimumAttendeeCapacity: 0,
-      name: faker.name.title(),
-      publisher: 'ahjo:u4804001050',
+      signups: [],
       waitingListCapacity: 0,
       __typename: 'Registration',
     },

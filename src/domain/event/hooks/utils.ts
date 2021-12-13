@@ -39,7 +39,7 @@ export const parseEventServerErrors = ({
 }: {
   eventType: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  result: Record<string, any> | Record<string, any>[] | string;
+  result: LEServerError;
   t: TFunction;
 }): ServerErrorItem[] => {
   // LE returns errors as array when trying to create/edit multiple events in same request.
@@ -59,7 +59,7 @@ export const parseEventServerErrors = ({
     : Object.entries(result).reduce(
         (previous: ServerErrorItem[], [key, error]) => [
           ...previous,
-          ...parseEventServerError({ error, key }),
+          ...parseEventServerError({ error: error as LEServerError, key }),
         ],
         []
       );

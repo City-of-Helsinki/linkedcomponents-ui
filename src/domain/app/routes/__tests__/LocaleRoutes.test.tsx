@@ -16,6 +16,10 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
+import {
+  enrolmentId,
+  mockedEnrolmentResponse,
+} from '../../../enrolment/__mocks__/editEnrolmentPage';
 import { eventName, mockedEventResponse } from '../../../event/__mocks__/event';
 import {
   mockedEventsResponse,
@@ -45,6 +49,7 @@ const mockedUserResponse: MockedResponse = {
 };
 
 const mocks = [
+  mockedEnrolmentResponse,
   mockedEventResponse,
   mockedEventsResponse,
   mockedPlacesResponse,
@@ -166,13 +171,13 @@ it('should render edit enrolment page', async () => {
     `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
       ':registrationId',
       registrationId
-    ).replace(':enrolmentId', 'attendee:0')}`
+    ).replace(':enrolmentId', enrolmentId)}`
   );
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByText(/ilmoittautujan perustiedot/i);
   expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/enrolments/edit/attendee:0`
+    `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
   );
 });
 

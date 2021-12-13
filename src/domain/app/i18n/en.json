@@ -186,19 +186,22 @@
     "pageTitle": "Edit participant"
   },
   "enrolment": {
+    "attendeeStatus": {
+      "attending": "Attending",
+      "waitlisted": "In wait list"
+    },
     "form": {
       "buttonSave": "Save participant",
       "labelCity": "City",
+      "labelDateOfBirth": "Date of birth",
       "labelEmail": "Email address",
       "labelExtraInfo": "Additional registration information (optional)",
       "labelMembershipNumber": "Membership card number (optional)",
       "labelName": "Name",
       "labelNativeLanguage": "Native language",
-      "labelNotificationLanguage": "Language of notifications",
       "labelPhoneNumber": "Telephone number",
       "labelServiceLanguage": "Language of communication",
       "labelStreetAddress": "Street address",
-      "labelYearOfBirth": "Year of birth",
       "labelZip": "Postcode",
       "placeholderCity": "Enter city",
       "placeholderEmail": "Enter your email address",
@@ -206,11 +209,9 @@
       "placeholderMembershipNumber": "Enter membership card number",
       "placeholderName": "Enter the registrant's first and last name",
       "placeholderNativeLanguage": "Select language",
-      "placeholderNotificationLanguage": "Select language",
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Select language",
       "placeholderStreetAddress": "Enter a street address",
-      "placeholderYearOfBirth": "Year of birth",
       "placeholderZip": "Enter postcode",
       "titleAdditionalInfo": "Additional information",
       "titleBasicInfo": "Basic information of the registrant",
@@ -219,7 +220,12 @@
     },
     "notifications": {
       "email": "By email",
-      "phone": "By text message"
+      "sms": "By text message"
+    },
+    "warnings": {
+      "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
+      "capacityInWaitingList_plural": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
+      "closed": "Registration for this event is currently closed. Please try again later."
     }
   },
   "enrolmentsPage": {  
@@ -233,7 +239,6 @@
     "buttonClearFilters": "Clear filters",
     "enrolmentsTableColumns": {
       "email": "Email",
-      "gender": "Gender",
       "name": "Name",
       "phone": "Phone number",
       "status": "Status"
@@ -959,6 +964,10 @@
       "zhHans": "Chinese"
     },
     "validation": {
+      "age": {
+        "max": "The maximum age is {{max}} y.",
+        "min": "The minimum age is {{min}} y."
+      },
       "array": {
         "min": "At least {{min}} item must be selected",
         "min_plural": "At least {{min}} item must be selected",
@@ -1286,6 +1295,7 @@
     "title": "Registration successfully saved"
   },
   "serverError": {
+    "emailMustBeUnique": "Email already has registration.",
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",
     "maxLength255": "The value can be up to 255 characters long.",
@@ -1295,8 +1305,11 @@
     "notFoundAllObjects": "Could not find all objects to update.",
     "notNull": "The value of this field cannot be \"null\".",
     "offersIsRequired": "Price info must be specified before an event is published.",
+    "participantTooOld": "The participant is too old.",
+    "participantTooYoung": "The participant is too young.",
+    "phoneNumberMustBeUnique": "Phone number already has registration.",
     "required": "This field cannot be left blank.",
     "requiredWhenPublishing": "This field must be specified before an event is published.",
-    "shortDescriptionTooLong": "Short description length must be 160 characters or less"
+    "shortDescriptionTooLong": "Short description length must be 160 characters or less."
   }
 }

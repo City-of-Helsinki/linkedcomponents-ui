@@ -18,7 +18,7 @@
     "some": "Facebook, Google eller Twitter ID",
     "yle": "YLE ID"
   },
-  "authRequiredNotification": { 
+  "authRequiredNotification": {
     "button": "logga in",
     "part1": "Du kan fortsätta att utforska tjänsten, men du måste",
     "part2": " för att spara dina ändringar."
@@ -100,7 +100,7 @@
     "noResults": "Inga resultat",
     "numberInput": {
       "buttonDecrease": "Ta bort",
-      "buttonIncrease": "Lägg till" 
+      "buttonIncrease": "Lägg till"
     },
     "openInExternalDomain": "Flyttar till en annan webbplats.",
     "openInNewTab": "(öppnas i en ny flik)",
@@ -187,19 +187,22 @@
     "pageTitle": "Redigera deltagare"
   },
   "enrolment": {
+    "attendeeStatus": {
+      "attending": "Deltar",
+      "waitlisted": "På väntelista"
+    },
     "form": {
       "buttonSave": "Spara deltagare",
       "labelCity": "Staden",
+      "labelDateOfBirth": "Födelsedatum",
       "labelEmail": "E-postadress",
       "labelExtraInfo": "Ytterligare registreringsinformation (valfritt)",
       "labelMembershipNumber": "Medlemskortnummer (valfritt)",
       "labelName": "Namn",
       "labelNativeLanguage": "Modersmål",
-      "labelNotificationLanguage": "Meddelandes språk",
       "labelPhoneNumber": "Telefonnummer",
       "labelServiceLanguage": "Transaktionsspråk",
       "labelStreetAddress": "Gatuadress",
-      "labelYearOfBirth": "Födelseår",
       "labelZip": "Postnummer",
       "placeholderCity": "Ange staden",
       "placeholderEmail": "Skriv in din mailadress",
@@ -207,11 +210,9 @@
       "placeholderMembershipNumber": "Ange medlemskortets nummer",
       "placeholderName": "Ange registrantens för- och efternamn",
       "placeholderNativeLanguage": "Välj modersmål",
-      "placeholderNotificationLanguage": "Språkval för meddelande",
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Välj transaktionsspråk",
       "placeholderStreetAddress": "Ange en gatuadress",
-      "placeholderYearOfBirth": "Födelseår",
       "placeholderZip": "Ange postnummer",
       "titleAdditionalInfo": "Ytterligare information",
       "titleBasicInfo": "Grundläggande information om registranten",
@@ -220,7 +221,12 @@
     },
     "notifications": {
       "email": "Via e-post",
-      "phone": "Med sms"
+      "sms": "Med sms"
+    },
+    "warnings": {
+      "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
+      "capacityInWaitingList_plural": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
+      "closed": "Registreringen för detta evenemang är för närvarande stängd. Vänligen försök igen senare."
     }
   },
   "enrolmentsPage": {
@@ -234,7 +240,6 @@
     "buttonClearFilters": "Töm sökfilter",
     "enrolmentsTableColumns": {
       "email": "E-post",
-      "gender": "Kön",
       "name": "Name",
       "phone": "Telefonnummer",
       "status": "Status"
@@ -525,7 +530,7 @@
         "volunteering": "Volontärarbetet avslutas"
       },
       "labelEnrolmentEndTime": "Registreringen avslutas",
-      "labelEnrolmentStartTime": "Registreringen börjar",  
+      "labelEnrolmentStartTime": "Registreringen börjar",
       "labelExternalLinkLink": {
         "course": "Kursens Facebook-URL",
         "general": "Evenemangets Facebook-URL",
@@ -940,6 +945,10 @@
       "zhHans": "Kinesiska"
     },
     "validation": {
+      "age": {
+        "max": "Maxåldern är {{max}} år.",
+        "min": "Minimiåldern är {{min}} år."
+      },
       "array": {
         "min": "Minst {{min}} objekt måste väljas",
         "min_plural": "Minst {{min}} objekt måste väljas",
@@ -1286,6 +1295,7 @@
     "title": "Registreringen har sparats"
   },
   "serverError": {
+    "emailMustBeUnique": "E-post har redan registrering.",
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
@@ -1295,8 +1305,11 @@
     "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
     "notNull": "Värdet på detta fält kan inte vara \"null\".",
     "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
+    "participantTooOld": "Deltagaren är för gammal.",
+    "participantTooYoung": "Deltagaren är för ung.",
+    "phoneNumberMustBeUnique": "Telefonnumret har redan registrering.",
     "required": "Det här fältet kan inte lämnas tomt.",
     "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
-    "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre"
+    "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre."
   }
 }

@@ -6,7 +6,7 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { ROUTES } from '../../constants';
 import {
   EventTypeId,
-  Registration,
+  RegistrationFieldsFragment,
   RegistrationsQueryVariables,
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
@@ -91,6 +91,8 @@ export const getRegistrationParamValue = ({
   value: string;
 }): string => {
   switch (param) {
+    case REGISTRATION_SEARCH_PARAMS.ENROLMENT_PAGE:
+    case REGISTRATION_SEARCH_PARAMS.ENROLMENT_TEXT:
     case REGISTRATION_SEARCH_PARAMS.EVENT_TYPE:
     case REGISTRATION_SEARCH_PARAMS.PAGE:
     case REGISTRATION_SEARCH_PARAMS.SORT:
@@ -126,7 +128,7 @@ export const replaceParamsToRegistrationQueryString = (
 };
 
 export const getRegistrationFields = (
-  registration: Registration,
+  registration: RegistrationFieldsFragment,
   language: Language
 ): RegistrationFields => {
   const id = registration.id || '';
@@ -135,8 +137,8 @@ export const getRegistrationFields = (
     id,
     atId: registration.atId || '',
     createdBy: registration.createdBy ?? '',
-    currentAttendeeCount: 0,
-    currentWaitingAttendeeCount: 0,
+    currentAttendeeCount: registration.currentAttendeeCount ?? 0,
+    currentWaitingListCount: registration.currentWaitingListCount ?? 0,
     enrolmentEndTime: registration.enrolmentEndTime
       ? new Date(registration.enrolmentEndTime)
       : null,
@@ -148,8 +150,6 @@ export const getRegistrationFields = (
       ? new Date(registration.lastModifiedAt)
       : null,
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
-    name: registration.name ?? '',
-    publisher: registration.publisher || null,
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
       id

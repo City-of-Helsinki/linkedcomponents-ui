@@ -6,6 +6,7 @@ module.exports = buildSchema(/* GraphQL */ `
   scalar Any
 
   type Mutation {
+    createEnrolment(input: CreateEnrolmentMutationInput!): Enrolment!
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
@@ -13,6 +14,7 @@ module.exports = buildSchema(/* GraphQL */ `
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
+    updateEnrolment(input: UpdateEnrolmentMutationInput!): Enrolment!
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
@@ -26,7 +28,12 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Query {
     enrolment(id: ID): Enrolment!
-    enrolments: EnrolmentsResponse!
+    enrolments(
+      page: Int
+      pageSize: Int
+      registration: ID
+      text: String
+    ): EnrolmentsResponse!
     event(id: ID, include: [String]): Event!
     events(
       adminUser: Boolean
@@ -93,7 +100,7 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): PlacesResponse!
-    registration(id: ID): Registration!
+    registration(id: ID, include: [String]): Registration!
     registrations(
       eventType: [EventTypeId]
       page: Int
@@ -103,16 +110,16 @@ module.exports = buildSchema(/* GraphQL */ `
     user(id: ID!): User!
   }
 
+  enum AttendeeStatus {
+    attending
+    waitlisted
+  }
+
   enum EventStatus {
     EventCancelled
     EventPostponed
     EventRescheduled
     EventScheduled
-  }
-
-  enum Notification {
-    email
-    phone
   }
 
   enum PublicationStatus {
@@ -168,6 +175,39 @@ module.exports = buildSchema(/* GraphQL */ `
     altText: String
     name: String
     url: String
+  }
+
+  input CreateEnrolmentMutationInput {
+    city: String
+    dateOfBirth: String
+    email: String
+    extraInfo: String
+    membershipNumber: String
+    name: String
+    nativeLanguage: String
+    notifications: String
+    phoneNumber: String
+    registration: ID
+    serviceLanguage: String
+    streetAddress: String
+    zipcode: String
+  }
+
+  input UpdateEnrolmentMutationInput {
+    id: ID!
+    city: String
+    dateOfBirth: String
+    email: String
+    extraInfo: String
+    membershipNumber: String
+    name: String
+    nativeLanguage: String
+    notifications: String
+    phoneNumber: String
+    registration: ID
+    serviceLanguage: String
+    streetAddress: String
+    zipcode: String
   }
 
   input CreateEventMutationInput {
@@ -579,6 +619,8 @@ module.exports = buildSchema(/* GraphQL */ `
     confirmationMessage: String
     createdAt: String
     createdBy: String
+    currentAttendeeCount: Int
+    currentWaitingListCount: Int
     enrolmentEndTime: String
     enrolmentStartTime: String
     event: ID
@@ -587,8 +629,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedBy: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
-    name: String
-    publisher: String
+    signups: [Enrolment]
     waitingListCapacity: Int
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!
@@ -605,20 +646,20 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Enrolment {
     id: ID!
+    attendeeStatus: AttendeeStatus
+    cancellationCode: String
     city: String
+    dateOfBirth: String
     email: String
     extraInfo: String
-    marketingAllowed: Boolean
     membershipNumber: String
     name: String
+    notifications: String
     nativeLanguage: String
-    notificationLanguage: String
-    notifications: [Notification!]
-    organizationName: String
     phoneNumber: String
+    registration: ID
     serviceLanguage: String
     streetAddress: String
-    yearOfBirth: String
-    zip: String
+    zipcode: String
   }
 `);

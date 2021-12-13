@@ -1,14 +1,18 @@
+import { IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
-import { Enrolment, Registration } from '../../../generated/graphql';
+import {
+  Enrolment,
+  RegistrationFieldsFragment,
+} from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
@@ -20,13 +24,15 @@ import styles from './editButtonPanel.module.scss';
 export interface EditButtonPanelProps {
   enrolment: Enrolment;
   onSave: () => void;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
+  saving: ENROLMENT_EDIT_ACTIONS | false;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   enrolment,
   onSave,
   registration,
+  saving,
 }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
@@ -71,15 +77,17 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       contentWrapperClassName={styles.container}
       onBack={goBack}
       submitButtons={[
-        <Button
+        <LoadingButton
           key="save"
           className={buttonPanelStyles.fullWidthOnMobile}
           fullWidth={true}
+          icon={<IconPen aria-hidden={true} />}
+          loading={saving === ENROLMENT_EDIT_ACTIONS.UPDATE}
           onClick={onSave}
-          type="button"
+          type="submit"
         >
           {t('enrolment.form.buttonSave')}
-        </Button>,
+        </LoadingButton>,
       ]}
     />
   );

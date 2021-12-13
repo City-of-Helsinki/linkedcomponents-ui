@@ -72,6 +72,12 @@ describe('getRegistrationSearchQuery function', () => {
   };
   const cases: [string, RegistrationSearchParams, string][] = [
     ['', defaultParams, 'text=text'],
+    ['', { ...defaultParams, enrolmentPage: 2 }, 'text=text&enrolmentPage=2'],
+    [
+      '',
+      { ...defaultParams, enrolmentText: 'text' },
+      'text=text&enrolmentText=text',
+    ],
     [
       '',
       { ...defaultParams, eventType: [EVENT_TYPE.Volunteering] },
@@ -101,6 +107,12 @@ describe('getRegistrationSearchQuery function', () => {
 
 describe('replaceParamsToRegistrationQueryString', () => {
   const cases: [Partial<RegistrationSearchParams>, string, string][] = [
+    [{ enrolmentPage: 1 }, '?enrolmentPage=2', '?enrolmentPage=1'],
+    [
+      { enrolmentText: 'newText' },
+      '?enrolmentText=text',
+      '?enrolmentText=newText',
+    ],
     [
       { eventType: [EVENT_TYPE.Volunteering, EVENT_TYPE.Course] },
       '?eventType=volunteering',
@@ -136,26 +148,24 @@ describe('getRegistrationFields function', () => {
       atId,
       createdBy,
       currentAttendeeCount,
-      currentWaitingAttendeeCount,
+      currentWaitingListCount,
       enrolmentEndTime,
       enrolmentStartTime,
       id,
       lastModifiedAt,
       maximumAttendeeCapacity,
-      name,
-      publisher,
       waitingListCapacity,
     } = getRegistrationFields(
       fakeRegistration({
         atId: null,
         createdBy: null,
+        currentAttendeeCount: null,
+        currentWaitingListCount: null,
         enrolmentEndTime: '',
         enrolmentStartTime: '',
         id: null,
         lastModifiedAt: '',
         maximumAttendeeCapacity: null,
-        name: null,
-        publisher: '',
         waitingListCapacity: null,
       }),
       'fi'
@@ -164,14 +174,12 @@ describe('getRegistrationFields function', () => {
     expect(atId).toBe('');
     expect(createdBy).toBe('');
     expect(currentAttendeeCount).toBe(0);
-    expect(currentWaitingAttendeeCount).toBe(0);
+    expect(currentWaitingListCount).toBe(0);
     expect(enrolmentEndTime).toBe(null);
     expect(enrolmentStartTime).toBe(null);
     expect(id).toBe('');
     expect(lastModifiedAt).toBe(null);
     expect(maximumAttendeeCapacity).toBe(0);
-    expect(name).toBe('');
-    expect(publisher).toBe(null);
     expect(waitingListCapacity).toBe(0);
   });
 });
@@ -203,7 +211,7 @@ describe('getRegistrationsQueryVariables', () => {
   );
 });
 
-describe('eventsPathBuilder function', () => {
+describe('registrationsPathBuilder function', () => {
   const cases: [RegistrationsQueryVariables, string][] = [
     [
       { eventType: [EventTypeId.Course, EventTypeId.General] },

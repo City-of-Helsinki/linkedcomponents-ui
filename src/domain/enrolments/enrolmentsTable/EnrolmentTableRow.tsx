@@ -1,7 +1,10 @@
-import { IconCheck } from 'hds-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { Enrolment, Registration } from '../../../generated/graphql';
+import {
+  Enrolment,
+  RegistrationFieldsFragment,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import { getEnrolmentFields, getEnrolmentItemId } from '../utils';
@@ -9,7 +12,7 @@ import styles from './enrolmentsTable.module.scss';
 
 interface Props {
   enrolment: Enrolment;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
   onRowClick: (enrolment: Enrolment) => void;
 }
 
@@ -18,11 +21,12 @@ const EnrolmentTableRow: React.FC<Props> = ({
   onRowClick,
   registration,
 }) => {
+  const { t } = useTranslation();
   const locale = useLocale();
   const actionsDropdownRef = React.useRef<HTMLDivElement>(null);
   const rowRef = React.useRef<HTMLTableRowElement>(null);
 
-  const { email, id, name, phoneNumber } = getEnrolmentFields({
+  const { attendeeStatus, email, id, name, phoneNumber } = getEnrolmentFields({
     enrolment,
     language: locale,
     registration,
@@ -63,11 +67,14 @@ const EnrolmentTableRow: React.FC<Props> = ({
             </span>
           </div>
         </td>
-        <td className={styles.genderColumn}>-</td>
-        <td className={styles.emailColumn}>{email}</td>
-        <td className={styles.phoneColumn}>{phoneNumber}</td>
+        <td className={styles.emailColumn}>
+          {email || /* istanbul ignore next */ '-'}
+        </td>
+        <td className={styles.phoneColumn}>
+          {phoneNumber || /* istanbul ignore next */ '-'}
+        </td>
         <td className={styles.statusColumn}>
-          <IconCheck className={styles.statusOk} />
+          {t(`enrolment.attendeeStatus.${attendeeStatus}`)}
         </td>
         <td className={styles.actionButtonsColumn}>
           <ActionsDropdown

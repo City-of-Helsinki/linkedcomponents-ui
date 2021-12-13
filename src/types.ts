@@ -31,6 +31,7 @@ export type StoreState = ReturnType<typeof rootReducer>;
 export type StoreThunk = ThunkAction<void, StoreState, null, Action<string>>;
 
 export type LEServerError =
+  | string
   | Record<string, unknown>
   | Array<Record<string, unknown> | string>;
 

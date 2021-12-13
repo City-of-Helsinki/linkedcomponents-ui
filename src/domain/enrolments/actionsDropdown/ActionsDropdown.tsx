@@ -8,23 +8,25 @@ import { toast } from 'react-toastify';
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
-import { Enrolment, Registration } from '../../../generated/graphql';
+import {
+  Enrolment,
+  RegistrationFieldsFragment,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
-import { getRegistrationFields } from '../../registrations/utils';
-import { ENROLMENT_EDIT_ACTIONS } from '../constants';
 import {
-  addParamsToEnrolmentQueryString,
-  getEditButtonProps,
-  getEnrolmentFields,
-} from '../utils';
+  addParamsToRegistrationQueryString,
+  getRegistrationFields,
+} from '../../registrations/utils';
+import { ENROLMENT_EDIT_ACTIONS } from '../constants';
+import { getEditButtonProps, getEnrolmentFields } from '../utils';
 import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {
   className?: string;
   enrolment: Enrolment;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 }
 
 const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
@@ -42,7 +44,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
     });
 
     const goToEditEnrolmentPage = () => {
-      const queryString = addParamsToEnrolmentQueryString(search, {
+      const queryString = addParamsToRegistrationQueryString(search, {
         returnPath: pathname,
       });
 

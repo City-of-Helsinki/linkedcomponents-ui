@@ -1,5 +1,6 @@
 import {
   Division,
+  Enrolment,
   Event,
   ExternalLink,
   Image,
@@ -23,6 +24,16 @@ export const addTypenameDivision = (
         ...division,
         name: addTypenameLocalisedObject(division.name),
         __typename: 'Division',
+      }
+    : null;
+
+export const addTypenameEnrolment = (
+  enrolment?: Enrolment | null
+): Enrolment | null =>
+  enrolment
+    ? {
+        ...enrolment,
+        __typename: 'Enrolment',
       }
     : null;
 
@@ -179,6 +190,11 @@ export const addTypenameRegistration = (
   registration
     ? {
         ...registration,
+        signups: Array.isArray(registration.signups)
+          ? registration.signups.map((enrolment) =>
+              addTypenameEnrolment(enrolment)
+            )
+          : [],
         __typename: 'Registration',
       }
     : null;

@@ -1,7 +1,7 @@
 import range from 'lodash/range';
 
 import { TEST_USER_ID } from '../../../constants';
-import { UserDocument } from '../../../generated/graphql';
+import { AttendeeStatus, UserDocument } from '../../../generated/graphql';
 import { fakeEnrolments, fakeUser } from '../../../utils/mockDataUtils';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 
@@ -14,7 +14,8 @@ const attendeeNames = range(1, ENROLMENTS_PAGE_SIZE + 1).map(
 const attendees = fakeEnrolments(
   ENROLMENTS_PAGE_SIZE,
   attendeeNames.map((name, index) => ({
-    id: `attendee:${index}`,
+    attendeeStatus: AttendeeStatus.Attending,
+    id: `attending:${index}`,
     name,
   }))
 );
@@ -28,7 +29,8 @@ const waitingAttendeeNames = range(1, 2).map(
 const waitingAttendees = fakeEnrolments(
   waitingAttendeeNames.length,
   attendeeNames.map((name, index) => ({
-    id: `attendee:${index}`,
+    attendeeStatus: AttendeeStatus.Waitlisted,
+    id: `waitlisted:${index}`,
     name,
   }))
 );

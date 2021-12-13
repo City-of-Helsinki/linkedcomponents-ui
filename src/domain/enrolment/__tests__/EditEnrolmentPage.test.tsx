@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
@@ -20,7 +19,13 @@ import {
   registrationId,
 } from '../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../user/__mocks__/user';
-import { enrolment } from '../__mocks__/enrolment';
+import {
+  enrolment,
+  enrolmentId,
+  mockedEnrolmentResponse,
+  mockedInvalidUpdateEnrolmentResponse,
+  mockedUpdateEnrolmentResponse,
+} from '../__mocks__/editEnrolmentPage';
 import EditEnrolmentPage from '../EditEnrolmentPage';
 
 configure({ defaultHidden: true });
@@ -35,22 +40,23 @@ const findElement = (key: 'nameInput') => {
 const getElement = (
   key:
     | 'cityInput'
+    | 'dateOfBirthInput'
     | 'emailCheckbox'
     | 'emailInput'
     | 'nameInput'
     | 'nativeLanguageButton'
-    | 'notificationLanguageButton'
     | 'phoneCheckbox'
     | 'phoneInput'
     | 'serviceLanguageButton'
     | 'streetAddressInput'
     | 'submitButton'
-    | 'yearOfBirthButton'
     | 'zipInput'
 ) => {
   switch (key) {
     case 'cityInput':
       return screen.getByRole('textbox', { name: /kaupunki/i });
+    case 'dateOfBirthInput':
+      return screen.getByRole('textbox', { name: /syntymäaika/i });
     case 'emailCheckbox':
       return screen.getByRole('checkbox', { name: /sähköpostilla/i });
     case 'emailInput':
@@ -59,8 +65,6 @@ const getElement = (
       return screen.getByRole('textbox', { name: /nimi/i });
     case 'nativeLanguageButton':
       return screen.getByRole('button', { name: /äidinkieli/i });
-    case 'notificationLanguageButton':
-      return screen.getByRole('button', { name: /ilmoitusten kieli/i });
     case 'phoneCheckbox':
       return screen.getByRole('checkbox', { name: /tekstiviestillä/i });
     case 'phoneInput':
@@ -71,8 +75,6 @@ const getElement = (
       return screen.getByRole('textbox', { name: /katuosoite/i });
     case 'submitButton':
       return screen.getByRole('button', { name: /tallenna osallistuja/i });
-    case 'yearOfBirthButton':
-      return screen.getByRole('button', { name: /syntymävuosi/i });
     case 'zipInput':
       return screen.getByRole('textbox', { name: /postinumero/i });
   }
@@ -81,6 +83,8 @@ const getElement = (
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 const defaultMocks = [
+  mockedEnrolmentResponse,
+  mockedEventResponse,
   mockedEventResponse,
   mockedLanguagesResponse,
   mockedRegistrationResponse,
@@ -90,7 +94,7 @@ const defaultMocks = [
 const route = ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
   ':registrationId',
   registrationId
-).replace(':enrolmentId', enrolment.id);
+).replace(':enrolmentId', enrolmentId);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditEnrolmentPage />, {
@@ -101,8 +105,6 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   });
 
 test('should scroll to first validation error input field', async () => {
-  toast.error = jest.fn();
-
   renderComponent();
 
   const nameInput = await findElement('nameInput');
@@ -114,13 +116,9 @@ test('should scroll to first validation error input field', async () => {
 });
 
 test('should initialize input fields', async () => {
-  toast.error = jest.fn();
-
   renderComponent();
 
   const nameInput = await findElement('nameInput');
-  const streetAddressInput = getElement('streetAddressInput');
-  const zipInput = getElement('zipInput');
   const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
@@ -128,8 +126,6 @@ test('should initialize input fields', async () => {
   const phoneCheckbox = getElement('phoneCheckbox');
 
   await waitFor(() => expect(nameInput).toHaveValue(enrolment.name));
-  expect(streetAddressInput).toHaveValue(enrolment.streetAddress);
-  expect(zipInput).toHaveValue(enrolment.zip);
   expect(cityInput).toHaveValue(enrolment.city);
   expect(emailInput).toHaveValue(enrolment.email);
   expect(phoneInput).toHaveValue(enrolment.phoneNumber);
@@ -137,16 +133,32 @@ test('should initialize input fields', async () => {
   expect(phoneCheckbox).toBeChecked();
 });
 
-test('should show toast message when trying to update enrolment', async () => {
-  toast.error = jest.fn();
+test('should update enrolment', async () => {
+  global.scrollTo = jest.fn();
 
-  renderComponent();
+  renderComponent([
+    ...defaultMocks,
+    mockedUpdateEnrolmentResponse,
+    mockedEnrolmentResponse,
+  ]);
 
   await findElement('nameInput');
+
   const submitButton = getElement('submitButton');
   userEvent.click(submitButton);
 
-  await waitFor(() =>
-    expect(toast.error).toBeCalledWith('TODO: Save enrolment')
-  );
+  await waitFor(() => expect(global.scrollTo).toHaveBeenCalled());
+});
+
+test('should show server errors', async () => {
+  const mocks = [...defaultMocks, mockedInvalidUpdateEnrolmentResponse];
+  renderComponent(mocks);
+
+  await findElement('nameInput');
+
+  const submitButton = getElement('submitButton');
+  userEvent.click(submitButton);
+
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/Nimi on pakollinen./i);
 });

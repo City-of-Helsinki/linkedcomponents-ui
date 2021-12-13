@@ -5,11 +5,13 @@ import {
 } from './constants';
 
 export type RegistrationSearchParams = {
+  [REGISTRATION_SEARCH_PARAMS.ENROLMENT_PAGE]?: number | null;
+  [REGISTRATION_SEARCH_PARAMS.ENROLMENT_TEXT]?: string;
   [REGISTRATION_SEARCH_PARAMS.EVENT_TYPE]?: EVENT_TYPE[];
   [REGISTRATION_SEARCH_PARAMS.PAGE]?: number | null;
   [REGISTRATION_SEARCH_PARAMS.RETURN_PATH]?: string | null;
   [REGISTRATION_SEARCH_PARAMS.SORT]?: REGISTRATION_SORT_OPTIONS | null;
-  [REGISTRATION_SEARCH_PARAMS.TEXT]: string;
+  [REGISTRATION_SEARCH_PARAMS.TEXT]?: string;
 };
 
 export type RegistrationSearchInitialValues = {
@@ -35,14 +37,12 @@ export type RegistrationFields = {
   atId: string;
   createdBy: string;
   currentAttendeeCount: number;
-  currentWaitingAttendeeCount: number;
+  currentWaitingListCount: number;
   enrolmentEndTime: Date | null;
   enrolmentStartTime: Date | null;
   event: string;
   lastModifiedAt: Date | null;
   maximumAttendeeCapacity: number;
-  name: string;
-  publisher: string | null;
   registrationUrl: string;
   waitingListCapacity: number;
 };

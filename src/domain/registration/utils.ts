@@ -1,3 +1,5 @@
+import isFuture from 'date-fns/isFuture';
+import isPast from 'date-fns/isPast';
 import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import isNumber from 'lodash/isNumber';
@@ -7,11 +9,12 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { FORM_NAMES } from '../../constants';
 import {
   CreateRegistrationMutationInput,
-  Registration,
+  RegistrationFieldsFragment,
   RegistrationQueryVariables,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
+import queryBuilder from '../../utils/queryBuilder';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -105,7 +108,7 @@ export const checkIsEditActionAllowed = ({
 }: {
   action: REGISTRATION_EDIT_ACTIONS;
   authenticated: boolean;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
   t: TFunction;
 }): RegistrationEditability => {
   const userCanDoAction = checkCanUserDoAction({ action });
@@ -130,7 +133,7 @@ export const getEditButtonProps = ({
   action: REGISTRATION_EDIT_ACTIONS;
   authenticated: boolean;
   onClick: () => void;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
   t: TFunction;
 }): MenuItemOptionProps => {
   const { editable, warning } = checkIsEditActionAllowed({
@@ -150,7 +153,7 @@ export const getEditButtonProps = ({
 };
 
 export const getRegistrationInitialValues = (
-  registration: Registration
+  registration: RegistrationFieldsFragment
 ): RegistrationFormFields => {
   return {
     ...REGISTRATION_INITIAL_VALUES,
@@ -176,7 +179,7 @@ export const getRegistrationInitialValues = (
 };
 
 export const copyRegistrationToSessionStorage = async (
-  registration: Registration
+  registration: RegistrationFieldsFragment
 ): Promise<void> => {
   const state: FormikState<RegistrationFormFields> = {
     errors: {},
@@ -252,7 +255,90 @@ export const getRegistrationPayload = (
 export const registrationPathBuilder = ({
   args,
 }: PathBuilderProps<RegistrationQueryVariables>): string => {
-  const { id } = args;
+  const { id, include } = args;
 
-  return `/registration/${id}/`;
+  const variableToKeyItems = [{ key: 'include', value: include }];
+
+  const query = queryBuilder(variableToKeyItems);
+
+  return `/registration/${id}/${query}`;
+};
+
+export const isRegistrationOpen = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  return (
+    (!registration.enrolmentStartTime ||
+      isPast(new Date(registration.enrolmentStartTime))) &&
+    (!registration.enrolmentEndTime ||
+      isFuture(new Date(registration.enrolmentEndTime)))
+  );
+};
+
+export const isAttendeeCapacityUsed = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  // If there are seats in the event
+  if (!registration.maximumAttendeeCapacity) {
+    return false;
+  } else if (
+    (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0) <
+    registration.maximumAttendeeCapacity
+  ) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export const isWaitingCapacityUsed = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  // If there are seats in the event
+  if (
+    ((registration.waitingListCapacity &&
+      registration.currentWaitingListCount) ??
+      0) < (registration.waitingListCapacity ?? 0)
+  ) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export const getFreeWaitingAttendeeCapacity = (
+  registration: RegistrationFieldsFragment
+): number => {
+  /* istanbul ignore next */
+  return (
+    (registration.waitingListCapacity ?? 0) -
+    (registration.currentWaitingListCount ?? 0)
+  );
+};
+
+export const isRegistrationPossible = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  return (
+    isRegistrationOpen(registration) &&
+    (!isAttendeeCapacityUsed(registration) ||
+      !isWaitingCapacityUsed(registration))
+  );
+};
+
+export const getRegistrationWarning = (
+  registration: RegistrationFieldsFragment,
+  t: TFunction
+): string => {
+  if (!isRegistrationPossible(registration)) {
+    return t('enrolment.warnings.closed');
+  } else if (
+    isAttendeeCapacityUsed(registration) &&
+    !isWaitingCapacityUsed(registration)
+  ) {
+    return t('enrolment.warnings.capacityInWaitingList', {
+      count: getFreeWaitingAttendeeCapacity(registration),
+    });
+  }
+  return '';
 };

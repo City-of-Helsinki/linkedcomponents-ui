@@ -94,7 +94,7 @@ const CreateRegistrationPage: React.FC = () => {
       // Clear all registrations queries from apollo cache to show added registrations
       // in registration list
       clearRegistrationsQueries(apolloClient);
-      // This action will change LE response so clear event list page
+
       goToRegistrationSavedPage(createdEventId);
     }
 

@@ -16,7 +16,7 @@ const renderComponent = (route = defaultRoute) =>
   render(<FilterSummary />, { routes: [route] });
 
 test('should render and remove text filter', async () => {
-  const { history } = renderComponent(`${defaultRoute}?text=${text}`);
+  const { history } = renderComponent(`${defaultRoute}?enrolmentText=${text}`);
 
   const deleteFilterButton = screen.getByRole('button', {
     name: `Poista suodatusehto: ${text}`,
@@ -28,7 +28,7 @@ test('should render and remove text filter', async () => {
 });
 
 test('should remove all filters with clear button', async () => {
-  const { history } = renderComponent(`${defaultRoute}?text=${text}`);
+  const { history } = renderComponent(`${defaultRoute}?enrolmentText=${text}`);
 
   screen.getByRole('button', { name: `Poista suodatusehto: ${text}` });
 

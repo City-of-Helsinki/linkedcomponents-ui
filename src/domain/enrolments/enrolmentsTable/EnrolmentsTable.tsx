@@ -5,10 +5,14 @@ import { useHistory } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import Table from '../../../common/components/table/Table';
-import { Enrolment, Registration } from '../../../generated/graphql';
+import {
+  Enrolment,
+  RegistrationFieldsFragment,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
-import useEnrolmentsQueryStringWithReturnPath from '../hooks/useEnrolmentsQueryStringWithReturnPath';
+// eslint-disable-next-line max-len
+import useRegistrationsQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import { getEnrolmentFields } from '../utils';
 import styles from './enrolmentsTable.module.scss';
 import EnrolmentTableRow from './EnrolmentTableRow';
@@ -17,7 +21,7 @@ export interface EnrolmentsTableProps {
   caption: string;
   enrolments: Enrolment[];
   heading: string;
-  registration: Registration;
+  registration: RegistrationFieldsFragment;
 }
 
 const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
@@ -29,7 +33,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const queryStringWithReturnPath = useEnrolmentsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
 
@@ -56,9 +60,6 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
             <tr>
               <th className={styles.nameColumn}>
                 {t('enrolmentsPage.enrolmentsTableColumns.name')}
-              </th>
-              <th className={styles.genderColumn}>
-                {t('enrolmentsPage.enrolmentsTableColumns.gender')}
               </th>
               <th className={styles.emailColumn}>
                 {t('enrolmentsPage.enrolmentsTableColumns.email')}

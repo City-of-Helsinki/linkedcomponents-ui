@@ -4,10 +4,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import Button from '../../../common/components/button/Button';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
-import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { PublicationStatus } from '../../../generated/graphql';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
@@ -60,50 +58,32 @@ const CreateButtonPanel: React.FC<Props> = ({
     <ButtonPanel
       submitButtons={[
         isEventButtonVisible(EVENT_CREATE_ACTIONS.CREATE_DRAFT) && (
-          <Button
+          <LoadingButton
             key="create-draft"
             disabled={Boolean(createWarning)}
             fullWidth={true}
-            iconLeft={
-              saving === PublicationStatus.Draft ? (
-                <LoadingSpinner
-                  className={styles.loadingSpinner}
-                  isLoading={true}
-                  small={true}
-                />
-              ) : (
-                <IconPen />
-              )
-            }
+            icon={<IconPen aria-hidden={true} />}
+            loading={saving === PublicationStatus.Draft}
             onClick={onSaveDraft}
             title={createWarning}
             type="button"
             variant="secondary"
           >
             {t('event.form.buttonSaveDraft')}
-          </Button>
+          </LoadingButton>
         ),
         isEventButtonVisible(EVENT_CREATE_ACTIONS.PUBLISH) && (
-          <Button
+          <LoadingButton
             key="publish"
             disabled={Boolean(publishWarning || saving)}
             fullWidth={true}
-            iconLeft={
-              saving === PublicationStatus.Public ? (
-                <LoadingSpinner
-                  className={styles.loadingSpinner}
-                  isLoading={true}
-                  small={true}
-                />
-              ) : (
-                <IconCheck />
-              )
-            }
+            icon={<IconCheck aria-hidden={true} />}
+            loading={saving === PublicationStatus.Public}
             title={publishWarning}
             type="submit"
           >
             {t(`event.form.buttonPublish.${type}`)}
-          </Button>
+          </LoadingButton>
         ),
       ].filter(skipFalsyType)}
     />

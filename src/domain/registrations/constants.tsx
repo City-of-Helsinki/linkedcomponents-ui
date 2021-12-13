@@ -21,6 +21,8 @@ export const AUTHENTICATION_NOT_NEEDED = [
 ];
 
 export enum REGISTRATION_SEARCH_PARAMS {
+  ENROLMENT_PAGE = 'enrolmentPage',
+  ENROLMENT_TEXT = 'enrolmentText',
   EVENT_TYPE = 'eventType',
   PAGE = 'page',
   RETURN_PATH = 'returnPath',
