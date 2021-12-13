@@ -21,8 +21,11 @@ import { RegistrationsLocationState } from '../../registrations/types';
 import { getRegistrationFields } from '../../registrations/utils';
 import { copyRegistrationToSessionStorage, getEditButtonProps } from '../utils';
 
+type ButtonType = 'button' | 'reset' | 'submit' | undefined;
+
 type ActionButtonProps = {
   isSaving: boolean;
+  type: ButtonType;
   variant: Exclude<ButtonVariant, 'supplementary'>;
 } & MenuItemOptionProps;
 
@@ -85,10 +88,12 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const getActionButtonProps = ({
     action,
     onClick,
+    type = 'button',
     variant,
   }: {
     action: REGISTRATION_EDIT_ACTIONS;
     onClick: () => void;
+    type: ButtonType;
     variant: Exclude<ButtonVariant, 'supplementary'>;
   }): ActionButtonProps => {
     const buttonProps = getEditButtonProps({
@@ -98,7 +103,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       registration,
       t,
     });
-    return { ...buttonProps, isSaving: saving === action, variant };
+    return { ...buttonProps, isSaving: saving === action, type, variant };
   };
 
   const actionItems: MenuItemOptionProps[] = [
@@ -121,6 +126,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionButtonProps({
       action: REGISTRATION_EDIT_ACTIONS.UPDATE,
       onClick: () => onUpdate(),
+      type: 'submit',
       variant: 'primary',
     }),
   ].filter(skipFalsyType);
@@ -130,7 +136,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       actionItems={actionItems}
       onBack={goBack}
       submitButtons={actionButtons.map(
-        ({ icon, disabled, label, isSaving, variant, ...rest }, index) => (
+        (
+          { icon, disabled, label, isSaving, type, variant, ...rest },
+          index
+        ) => (
           <Button
             key={index}
             {...rest}
@@ -147,6 +156,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
                 icon
               )
             }
+            type={type}
             variant={variant as Exclude<ButtonVariant, 'supplementary'>}
           >
             {label}

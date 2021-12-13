@@ -54,7 +54,7 @@ const CreateButtonPanel: React.FC<Props> = ({ onSave, saving }) => {
           }
           onClick={onSave}
           title={isCreateButtonWarning()}
-          type="button"
+          type="submit"
         >
           {t('registration.form.buttonCreate')}
         </Button>,

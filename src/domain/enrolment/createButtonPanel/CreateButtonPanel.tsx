@@ -55,7 +55,7 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
             )
           }
           onClick={onSave}
-          type="button"
+          type="submit"
         >
           {t('enrolment.form.buttonSave')}
         </Button>,

@@ -187,7 +187,7 @@
   },
   "enrolment": {
     "attendeeStatus": {
-      "attending": "Attendeing",
+      "attending": "Attending",
       "waitlisted": "In wait list"
     },
     "form": {

@@ -94,7 +94,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
             )
           }
           onClick={onSave}
-          type="button"
+          type="submit"
         >
           {t('enrolment.form.buttonSave')}
         </Button>,
