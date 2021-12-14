@@ -4,6 +4,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
+import { DeleteEnrolmentDocument } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
 import {
   fakeEnrolment,
@@ -19,6 +20,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../../utils/testUtils';
 import { mockedUserResponse } from '../../__mocks__/enrolmentsPage';
 import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
@@ -26,14 +28,26 @@ import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
 configure({ defaultHidden: true });
 
 const registration = fakeRegistration();
-const enrolment = fakeEnrolment();
+const enrolment = fakeEnrolment({ cancellationCode: 'xxx' });
 
 const defaultProps: ActionsDropdownProps = {
   enrolment,
   registration,
 };
 
-const defaultMocks = [mockedUserResponse];
+const cancelEnrolmentVariables = {
+  cancellationCode: enrolment.cancellationCode,
+};
+const cancelEnrolmentResponse = { data: { deleteEnrolment: null } };
+const mockedCancelEnrolmentResponse: MockedResponse = {
+  request: {
+    query: DeleteEnrolmentDocument,
+    variables: cancelEnrolmentVariables,
+  },
+  result: cancelEnrolmentResponse,
+};
+
+const defaultMocks = [mockedCancelEnrolmentResponse, mockedUserResponse];
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
@@ -146,8 +160,7 @@ test('should show toast message when clicking send message button', async () => 
   );
 });
 
-test('should show toast message when clicking cancel button', async () => {
-  toast.error = jest.fn();
+test('should try to cancel enrolment when clicking cancel button', async () => {
   renderComponent({ store });
 
   openMenu();
@@ -155,7 +168,13 @@ test('should show toast message when clicking cancel button', async () => {
   const cancelButton = await findElement('cancel');
   act(() => userEvent.click(cancelButton));
 
+  const withinModal = within(screen.getByRole('dialog'));
+  const cancelEventButton = withinModal.getByRole('button', {
+    name: 'Peruuta ilmoittautuminen',
+  });
+  userEvent.click(cancelEventButton);
+
   await waitFor(() =>
-    expect(toast.error).toBeCalledWith('TODO: Cancel enrolment')
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   );
 });

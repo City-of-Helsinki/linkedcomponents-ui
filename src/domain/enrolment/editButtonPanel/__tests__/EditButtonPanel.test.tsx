@@ -25,8 +25,10 @@ configure({ defaultHidden: true });
 
 const defaultProps: EditButtonPanelProps = {
   enrolment,
+  onCancel: jest.fn(),
   onSave: jest.fn(),
   registration: registration,
+  saving: false,
 };
 
 const state = fakeAuthenticatedStoreState();
@@ -95,17 +97,14 @@ test('should toggle menu by clicking actions button', () => {
   ).not.toBeInTheDocument();
 });
 
-test('should show toast message when clicking cancel button', async () => {
-  toast.error = jest.fn();
-  renderComponent();
+test('should call onCancel clicking cancel button', async () => {
+  const onCancel = jest.fn();
+  renderComponent({ props: { onCancel } });
 
   openMenu();
   const cancelButton = getElement('cancelButton');
   act(() => userEvent.click(cancelButton));
-
-  await waitFor(() =>
-    expect(toast.error).toBeCalledWith('TODO: Cancel enrolment')
-  );
+  expect(onCancel).toBeCalled();
 });
 
 test('should show toast message when clicking send message button', async () => {

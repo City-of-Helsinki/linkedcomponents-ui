@@ -177,6 +177,7 @@ export const getEditButtonProps = ({
   };
 };
 
+/* istanbul ignore next */
 export const clearRegistrationQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>,
   args?: RegistrationQueryVariables
