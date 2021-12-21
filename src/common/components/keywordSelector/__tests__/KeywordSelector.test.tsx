@@ -72,7 +72,7 @@ const renderComponent = (props?: Partial<KeywordSelectorProps>) =>
 test('should combobox input value to be selected place option label', async () => {
   renderComponent();
 
-  await screen.findByRole('link', {
+  await screen.findByRole('button', {
     name: new RegExp(keywordName, 'i'),
     hidden: true,
   });
