@@ -10,6 +10,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
+    deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback

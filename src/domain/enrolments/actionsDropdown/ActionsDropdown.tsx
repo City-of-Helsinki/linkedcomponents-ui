@@ -15,6 +15,10 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
+import useEnrolmentUpdateActions, {
+  ENROLMENT_MODALS,
+} from '../../enrolment/hooks/useEnrolmentUpdateActions';
+import ConfirmCancelModal from '../../enrolment/modals/ConfirmCancelModal';
 import {
   addParamsToRegistrationQueryString,
   getRegistrationFields,
@@ -43,6 +47,12 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       registration,
     });
 
+    const { cancelEnrolment, closeModal, openModal, saving, setOpenModal } =
+      useEnrolmentUpdateActions({
+        enrolment,
+        registration,
+      });
+
     const goToEditEnrolmentPage = () => {
       const queryString = addParamsToRegistrationQueryString(search, {
         returnPath: pathname,
@@ -55,6 +65,10 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
         ).replace(':enrolmentId', id)}`,
         search: queryString,
       });
+    };
+
+    const onCancel = () => {
+      cancelEnrolment();
     };
 
     const getActionItemProps = ({
@@ -84,12 +98,22 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       }),
       getActionItemProps({
         action: ENROLMENT_EDIT_ACTIONS.CANCEL,
-        onClick: () => toast.error('TODO: Cancel enrolment'),
+        onClick: () => setOpenModal(ENROLMENT_MODALS.CANCEL),
       }),
     ].filter(skipFalsyType);
 
     return (
       <div ref={ref}>
+        {openModal === ENROLMENT_MODALS.CANCEL && (
+          <ConfirmCancelModal
+            enrolment={enrolment}
+            isOpen={openModal === ENROLMENT_MODALS.CANCEL}
+            isSaving={saving === ENROLMENT_EDIT_ACTIONS.CANCEL}
+            onCancel={onCancel}
+            onClose={closeModal}
+            registration={registration}
+          />
+        )}
         <MenuDropdown
           button={
             <button className={styles.toggleButton}>

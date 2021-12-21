@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import Table from '../../../common/components/table/Table';
 import {
-  Enrolment,
+  EnrolmentFieldsFragment,
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -19,7 +19,7 @@ import EnrolmentTableRow from './EnrolmentTableRow';
 
 export interface EnrolmentsTableProps {
   caption: string;
-  enrolments: Enrolment[];
+  enrolments: EnrolmentFieldsFragment[];
   heading: string;
   registration: RegistrationFieldsFragment;
 }
@@ -39,7 +39,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
 
   const { focused } = useSetFocused(table);
 
-  const handleRowClick = (enrolment: Enrolment) => {
+  const handleRowClick = (enrolment: EnrolmentFieldsFragment) => {
     const { enrolmentUrl } = getEnrolmentFields({
       enrolment,
       language: locale,

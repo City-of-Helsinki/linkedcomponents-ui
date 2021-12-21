@@ -14,6 +14,17 @@ export const MUTATION_ENROLMENT = gql`
     }
   }
 
+  mutation DeleteEnrolment($cancellationCode: String!) {
+    deleteEnrolment(cancellationCode: $cancellationCode)
+      @rest(
+        type: "NoContent"
+        path: "/signup/{args.cancellationCode}"
+        method: "DELETE"
+      ) {
+      noContent
+    }
+  }
+
   mutation UpdateEnrolment($input: UpdateEnrolmentMutationInput!) {
     updateEnrolment(input: $input)
       @rest(

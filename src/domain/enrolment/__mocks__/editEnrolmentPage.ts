@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import subYears from 'date-fns/subYears';
 
 import {
+  DeleteEnrolmentDocument,
   EnrolmentDocument,
   UpdateEnrolmentDocument,
 } from '../../../generated/graphql';
@@ -40,6 +41,18 @@ const enrolmentResponse = { data: { enrolment } };
 const mockedEnrolmentResponse: MockedResponse = {
   request: { query: EnrolmentDocument, variables: enrolmentVariables },
   result: enrolmentResponse,
+};
+
+const cancelEnrolmentVariables = {
+  cancellationCode: enrolment.cancellationCode,
+};
+const cancelEnrolmentResponse = { data: { deleteEnrolment: null } };
+const mockedCancelEnrolmentResponse: MockedResponse = {
+  request: {
+    query: DeleteEnrolmentDocument,
+    variables: cancelEnrolmentVariables,
+  },
+  result: cancelEnrolmentResponse,
 };
 
 const payload = {
@@ -91,6 +104,7 @@ const mockedInvalidUpdateEnrolmentResponse: MockedResponse = {
 export {
   enrolment,
   enrolmentId,
+  mockedCancelEnrolmentResponse,
   mockedEnrolmentResponse,
   mockedInvalidUpdateEnrolmentResponse,
   mockedUpdateEnrolmentResponse,

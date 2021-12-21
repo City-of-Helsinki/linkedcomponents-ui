@@ -5,12 +5,14 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import { mockedEventResponse } from '../../event/__mocks__/event';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
@@ -22,6 +24,7 @@ import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   enrolment,
   enrolmentId,
+  mockedCancelEnrolmentResponse,
   mockedEnrolmentResponse,
   mockedInvalidUpdateEnrolmentResponse,
   mockedUpdateEnrolmentResponse,
@@ -30,8 +33,10 @@ import EditEnrolmentPage from '../EditEnrolmentPage';
 
 configure({ defaultHidden: true });
 
-const findElement = (key: 'nameInput') => {
+const findElement = (key: 'cancelButton' | 'nameInput') => {
   switch (key) {
+    case 'cancelButton':
+      return screen.findByRole('button', { name: 'Peruuta osallistuminen' });
     case 'nameInput':
       return screen.findByRole('textbox', { name: /nimi/i });
   }
@@ -39,10 +44,12 @@ const findElement = (key: 'nameInput') => {
 
 const getElement = (
   key:
+    | 'cancelButton'
     | 'cityInput'
     | 'dateOfBirthInput'
     | 'emailCheckbox'
     | 'emailInput'
+    | 'menu'
     | 'nameInput'
     | 'nativeLanguageButton'
     | 'phoneCheckbox'
@@ -50,9 +57,12 @@ const getElement = (
     | 'serviceLanguageButton'
     | 'streetAddressInput'
     | 'submitButton'
+    | 'toggle'
     | 'zipInput'
 ) => {
   switch (key) {
+    case 'cancelButton':
+      return screen.getByRole('button', { name: 'Peruuta osallistuminen' });
     case 'cityInput':
       return screen.getByRole('textbox', { name: /kaupunki/i });
     case 'dateOfBirthInput':
@@ -61,6 +71,8 @@ const getElement = (
       return screen.getByRole('checkbox', { name: /sähköpostilla/i });
     case 'emailInput':
       return screen.getByRole('textbox', { name: /sähköpostiosoite/i });
+    case 'menu':
+      return screen.getByRole('region', { name: /valinnat/i });
     case 'nameInput':
       return screen.getByRole('textbox', { name: /nimi/i });
     case 'nativeLanguageButton':
@@ -75,9 +87,19 @@ const getElement = (
       return screen.getByRole('textbox', { name: /katuosoite/i });
     case 'submitButton':
       return screen.getByRole('button', { name: /tallenna osallistuja/i });
+    case 'toggle':
+      return screen.getByRole('button', { name: /valinnat/i });
     case 'zipInput':
       return screen.getByRole('textbox', { name: /postinumero/i });
   }
+};
+
+const openMenu = () => {
+  const toggleButton = getElement('toggle');
+  userEvent.click(toggleButton);
+  getElement('menu');
+
+  return toggleButton;
 };
 
 const state = fakeAuthenticatedStoreState();
@@ -131,6 +153,31 @@ test('should initialize input fields', async () => {
   expect(phoneInput).toHaveValue(enrolment.phoneNumber);
   expect(emailCheckbox).toBeChecked();
   expect(phoneCheckbox).toBeChecked();
+});
+
+test('should cancel enrolment', async () => {
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedCancelEnrolmentResponse,
+  ]);
+
+  await findElement('nameInput');
+  await openMenu();
+
+  const cancelButton = await findElement('cancelButton');
+  act(() => userEvent.click(cancelButton));
+
+  const withinModal = within(screen.getByRole('dialog'));
+  const cancelEventButton = withinModal.getByRole('button', {
+    name: 'Peruuta ilmoittautuminen',
+  });
+  userEvent.click(cancelEventButton);
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/${registrationId}/enrolments`
+    )
+  );
 });
 
 test('should update enrolment', async () => {

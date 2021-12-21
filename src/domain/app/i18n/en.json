@@ -190,6 +190,12 @@
       "attending": "Attending",
       "waitlisted": "In wait list"
     },
+    "cancelEnrolmentModal": {
+      "buttonCancel": "Cancel registration",
+      "text1": "This operation cannot be undone.",
+      "text2": "Following registrations will be deleted:",
+      "title": "Are you sure you want to cancel the registration?"
+    },
     "form": {
       "buttonSave": "Save participant",
       "labelCity": "City",

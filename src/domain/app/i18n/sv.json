@@ -191,6 +191,12 @@
       "attending": "Deltar",
       "waitlisted": "På väntelista"
     },
+    "cancelEnrolmentModal": {
+      "buttonCancel": "Avbryt registreringen",
+      "text1": "Denna operation kan inte ångras.",
+      "text2": "Följande registreringar kommer att raderas",
+      "title": "Är du säker på att du vill avbryta registreringen?"
+    },
     "form": {
       "buttonSave": "Spara deltagare",
       "labelCity": "Staden",

@@ -160,10 +160,10 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
     { mocks }
   );
 
-const findElement = (key: 'keywordLink' | 'keywordOption') => {
+const findElement = (key: 'keywordButton' | 'keywordOption') => {
   switch (key) {
-    case 'keywordLink':
-      return screen.findByRole('link', {
+    case 'keywordButton':
+      return screen.findByRole('button', {
         name: new RegExp(keyword.name.fi, 'i'),
         hidden: true,
       });
@@ -212,7 +212,7 @@ test('should render classification section', async () => {
   getElement('infoTextMainCategories');
   getElement('infoTextKeywords');
 
-  await findElement('keywordLink');
+  await findElement('keywordButton');
 });
 
 test('should show 10 first topics by default and rest by clicking show more', async () => {
@@ -252,7 +252,7 @@ test('should change keyword', async () => {
   const keywordOption = await findElement('keywordOption');
   userEvent.click(keywordOption);
 
-  await findElement('keywordLink');
+  await findElement('keywordButton');
 });
 
 test('should show correct validation error if none main category is selected', async () => {
