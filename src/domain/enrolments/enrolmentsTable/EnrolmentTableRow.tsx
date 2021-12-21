@@ -36,6 +36,7 @@ const EnrolmentTableRow: React.FC<Props> = ({
     /* istanbul ignore else */
     if (
       ev.target instanceof Node &&
+      rowRef.current?.contains(ev.target) &&
       !actionsDropdownRef.current?.contains(ev.target)
     ) {
       onRowClick(enrolment);
