@@ -160,6 +160,14 @@ export const createCache = (): InMemoryCache =>
           place: fieldFunction('Place', 'place'),
         },
       },
+      Registration: {
+        fields: {
+          signups: {
+            // Short for always preferring incoming over existing data.
+            merge: false,
+          },
+        },
+      },
     },
   });
 
