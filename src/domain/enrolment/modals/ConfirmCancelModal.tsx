@@ -1,10 +1,9 @@
-import { IconCross } from 'hds-react';
+import { Dialog, IconAlertCircle, IconCross } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
-import Modal from '../../../common/components/modal/Modal';
+import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import {
   EnrolmentFieldsFragment,
   RegistrationFieldsFragment,
@@ -52,45 +51,49 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
     onCancel();
   };
 
+  const id = 'confirm-enrolment-cancel-modal';
+  const titleId = `${id}-title`;
+  const descriptionId = `${id}-description`;
+
   return (
-    <Modal
+    <Dialog
+      id={id}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      className={styles.modal}
       isOpen={isOpen}
-      onClose={handleClose}
-      shouldCloseOnEsc={true}
-      size="m"
-      title={t('enrolment.cancelEnrolmentModal.title')}
-      type="alert"
+      variant="danger"
     >
-      <p className={styles.warning}>
-        <strong>{t('common.warning')}</strong>
-      </p>
-      <p>{t('enrolment.cancelEnrolmentModal.text1')} </p>
-      <p>{t('enrolment.cancelEnrolmentModal.text2')}</p>
-      <ul className={styles.list}>
-        <li>
-          <strong>{name}</strong>
-        </li>
-      </ul>
-      <div className={styles.modalButtonWrapper}>
-        <Button
+      <Dialog.Header
+        id={titleId}
+        iconLeft={<IconAlertCircle aria-hidden={true} />}
+        title={t('enrolment.cancelEnrolmentModal.title')}
+      />
+      <Dialog.Content>
+        <p className={styles.warning}>
+          <strong>{t('common.warning')}</strong>
+        </p>
+        <p id={descriptionId} className="text-body">
+          {t('enrolment.cancelEnrolmentModal.text1')}
+        </p>
+        <p>{t('enrolment.cancelEnrolmentModal.text2')}</p>
+        <ul className={styles.list}>
+          <li>
+            <strong>{name}</strong>
+          </li>
+        </ul>
+      </Dialog.Content>
+      <Dialog.ActionButtons>
+        <LoadingButton
           disabled={isSaving}
-          iconLeft={
-            isSaving ? (
-              <LoadingSpinner
-                className={styles.loadingSpinner}
-                isLoading={isSaving}
-                small={true}
-              />
-            ) : (
-              <IconCross />
-            )
-          }
+          icon={<IconCross aria-hidden={true} />}
+          loading={isSaving}
           onClick={handleCancel}
           type="button"
           variant="danger"
         >
           {t('enrolment.cancelEnrolmentModal.buttonCancel')}
-        </Button>
+        </LoadingButton>
         <Button
           disabled={isSaving}
           onClick={handleClose}
@@ -100,8 +103,8 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
         >
           {t('common.cancel')}
         </Button>
-      </div>
-    </Modal>
+      </Dialog.ActionButtons>
+    </Dialog>
   );
 };
 
