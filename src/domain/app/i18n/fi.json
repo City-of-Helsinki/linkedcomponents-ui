@@ -1030,7 +1030,7 @@
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",
       "labelSearch": "Hae Linked Events -rajapinnasta",
-      "placeholderSearch": "Hae tapahtumia Linked Events -rajapinnasta"
+      "placeholderSearch": "Hae tapahtumia"
     }
   },
   "footer": {

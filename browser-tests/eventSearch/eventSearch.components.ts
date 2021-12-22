@@ -52,9 +52,7 @@ export const getEventSearchPage = (t: TestController) => {
         return withinSearchBanner().findByRole('textbox', { name: /hae/i });
       },
       searchInput() {
-        return withinSearchBanner().findByPlaceholderText(
-          'Hae tapahtumia Linked Events -rajapinnasta'
-        );
+        return withinSearchBanner().findByPlaceholderText('Hae tapahtumia');
       },
     };
 
