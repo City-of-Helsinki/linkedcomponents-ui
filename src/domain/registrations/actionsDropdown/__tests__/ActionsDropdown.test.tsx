@@ -1,6 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
+import copyToClipboard from 'copy-to-clipboard';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
@@ -23,6 +25,7 @@ import { mockedUserResponse } from '../../__mocks__/registrationsPage';
 import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
 
 configure({ defaultHidden: true });
+jest.mock('copy-to-clipboard');
 
 const defaultProps: ActionsDropdownProps = {
   registration: registration,
@@ -60,11 +63,20 @@ const findElement = (key: 'delete' | 'edit' | 'showEnrolments') => {
 };
 
 const getElement = (
-  key: 'copy' | 'delete' | 'edit' | 'menu' | 'showEnrolments' | 'toggle'
+  key:
+    | 'copy'
+    | 'copyLink'
+    | 'delete'
+    | 'edit'
+    | 'menu'
+    | 'showEnrolments'
+    | 'toggle'
 ) => {
   switch (key) {
     case 'copy':
       return screen.getByRole('button', { name: 'Kopioi pohjaksi' });
+    case 'copyLink':
+      return screen.getByRole('button', { name: 'Kopioi linkki' });
     case 'delete':
       return screen.getByRole('button', { name: 'Poista ilmoittautuminen' });
     case 'edit':
@@ -150,6 +162,21 @@ test('should route to create registration page when clicking copy button', async
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/registrations/create`)
   );
+});
+
+test('should copy registration link to clipboard', async () => {
+  toast.success = jest.fn();
+  renderComponent();
+
+  openMenu();
+
+  const copyLinkButton = getElement('copyLink');
+  act(() => userEvent.click(copyLinkButton));
+
+  expect(copyToClipboard).toBeCalledWith(
+    `https://linkedregistrations-ui.test.kuva.hel.ninja/fi/registration/${registration.id}/enrolment/create`
+  );
+  expect(toast.success).toBeCalledWith('Ilmoittautumislinkki kopioitu');
 });
 
 test('should delete registration', async () => {

@@ -13,7 +13,10 @@ import useRegistrationUpdateActions, {
   MODALS,
 } from '../../registration/hooks/useRegistrationUpdateActions';
 import ConfirmDeleteModal from '../../registration/modals/ConfirmDeleteModal';
-import { copyRegistrationToSessionStorage } from '../../registration/utils';
+import {
+  copyEnrolmentLinkToClipboard,
+  copyRegistrationToSessionStorage,
+} from '../../registration/utils';
 import { REGISTRATION_EDIT_ACTIONS } from '../constants';
 import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
 import { getEditButtonProps, getRegistrationFields } from '../utils';
@@ -86,6 +89,12 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       getActionItemProps({
         action: REGISTRATION_EDIT_ACTIONS.COPY,
         onClick: copyRegistration,
+      }),
+      getActionItemProps({
+        action: REGISTRATION_EDIT_ACTIONS.COPY_LINK,
+        onClick: () => {
+          copyEnrolmentLinkToClipboard({ locale, registration, t });
+        },
       }),
       getActionItemProps({
         action: REGISTRATION_EDIT_ACTIONS.DELETE,

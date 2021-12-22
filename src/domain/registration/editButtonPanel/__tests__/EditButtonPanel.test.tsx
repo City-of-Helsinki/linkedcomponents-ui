@@ -1,5 +1,7 @@
 import { AnyAction, Store } from '@reduxjs/toolkit';
+import copyToClipboard from 'copy-to-clipboard';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
@@ -16,10 +18,12 @@ import {
 import {
   mockedUserResponse,
   registration,
+  registrationId,
 } from '../../__mocks__/editRegistrationPage';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
+jest.mock('copy-to-clipboard');
 
 const defaultProps: EditButtonPanelProps = {
   registration,
@@ -64,13 +68,22 @@ const getElements = (key: 'disabledButtons') => {
 };
 
 const getElement = (
-  key: 'back' | 'copy' | 'menu' | 'showEnrolments' | 'toggle' | 'update'
+  key:
+    | 'back'
+    | 'copy'
+    | 'copyLink'
+    | 'menu'
+    | 'showEnrolments'
+    | 'toggle'
+    | 'update'
 ) => {
   switch (key) {
     case 'back':
       return screen.getByRole('button', { name: /takaisin/i });
     case 'copy':
       return screen.getByRole('button', { name: /kopioi pohjaksi/i });
+    case 'copyLink':
+      return screen.getByRole('button', { name: /kopioi linkk/i });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
     case 'showEnrolments':
@@ -114,6 +127,7 @@ test('should render all buttons when user is authenticated', async () => {
 
   getElement('showEnrolments');
   getElement('copy');
+  getElement('copyLink');
 
   const deleteButton = await findElement('delete');
   act(() => userEvent.click(deleteButton));
@@ -124,13 +138,14 @@ test('should render all buttons when user is authenticated', async () => {
   expect(onUpdate).toBeCalled();
 });
 
-test('only copy and show enrolments button should be enabled when user is not logged in', () => {
+test('only copy, copy link and show enrolments button should be enabled when user is not logged in', () => {
   renderComponent();
 
   openMenu();
 
   getElement('showEnrolments');
   getElement('copy');
+  getElement('copyLink');
 
   const disabledButtons = getElements('disabledButtons');
   expect(disabledButtons).toHaveLength(2);
@@ -163,6 +178,21 @@ test('should route to create registration page when clicking copy button', async
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations/create')
   );
+});
+
+test('should copy registration link to clipboard', async () => {
+  toast.success = jest.fn();
+  renderComponent();
+
+  openMenu();
+
+  const copyLinkButton = getElement('copyLink');
+  act(() => userEvent.click(copyLinkButton));
+
+  expect(copyToClipboard).toBeCalledWith(
+    `https://linkedregistrations-ui.test.kuva.hel.ninja/fi/registration/${registrationId}/enrolment/create`
+  );
+  expect(toast.success).toBeCalledWith('Ilmoittautumislinkki kopioitu');
 });
 
 test('should route to search page when clicking back button', async () => {

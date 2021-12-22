@@ -22,9 +22,10 @@ body {
   --focus-outline-width: 3px;
   --input-max-width-m: 448px;
   --input-max-width-l: 566px;
-  --shadow-s: 0 2px 10px rgba(0,0,0, .07);
-  --shadow-m: 0 2px 10px rgba(0,0,0, .10);
-  --shadow-l: 0 2px 20px rgba(0,0,0, .20);
+  --shadow-s: 0 2px 10px rgba(0, 0, 0, 0.07);
+  --shadow-m: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --shadow-l: 0 2px 20px rgba(0, 0, 0, 0.2);
+  --toastify-color-success: var(--color-success);
 
   h1 {
     font-size: var(--fontsize-heading-l);
@@ -42,7 +43,8 @@ body {
     font-size: var(--fontsize-heading-xs);
   }
 
-  h5, h6 {
+  h5,
+  h6 {
     font-size: var(--fontsize-heading-xxs);
   }
 }

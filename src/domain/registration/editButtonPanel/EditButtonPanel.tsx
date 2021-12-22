@@ -18,7 +18,11 @@ import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
 import useQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import { RegistrationsLocationState } from '../../registrations/types';
 import { getRegistrationFields } from '../../registrations/utils';
-import { copyRegistrationToSessionStorage, getEditButtonProps } from '../utils';
+import {
+  copyEnrolmentLinkToClipboard,
+  copyRegistrationToSessionStorage,
+  getEditButtonProps,
+} from '../utils';
 
 type ButtonType = 'button' | 'reset' | 'submit' | undefined;
 
@@ -113,6 +117,12 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionItemProps({
       action: REGISTRATION_EDIT_ACTIONS.COPY,
       onClick: copyRegistration,
+    }),
+    getActionItemProps({
+      action: REGISTRATION_EDIT_ACTIONS.COPY_LINK,
+      onClick: () => {
+        copyEnrolmentLinkToClipboard({ locale, registration, t });
+      },
     }),
     getActionItemProps({
       action: REGISTRATION_EDIT_ACTIONS.DELETE,

@@ -1258,11 +1258,13 @@
         "instructions": "Additional registration information",
         "waitingList": "Waiting list"
       }
-    }
+    },
+    "registrationLinkCopied": "Registration link copied"
   },
   "registrationsPage": {
     "actionButtons": {
       "copy": "Copy as a template",
+      "copyLink": "Copy link",
       "delete": "Delete registration",
       "edit": "Edit",
       "showEnrolments": "Show participants",

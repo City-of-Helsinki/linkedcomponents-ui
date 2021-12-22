@@ -29,6 +29,7 @@ jobs:
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-review
           DOCKER_BUILD_ARG_SASS_PATH: './src/assets/styles'
           DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
+          DOCKER_BUILD_ARG_REACT_APP_LINKED_REGISTRATIONS_UI_URL: 'https://linkedregistrations-ui.test.kuva.hel.ninja'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'https://api.hel.fi/auth/linkedevents-ui'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_SCOPE: 'openid profile https://api.hel.fi/auth/linkedevents'

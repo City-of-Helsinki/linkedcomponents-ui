@@ -1258,11 +1258,13 @@
         "instructions": "Ilmoittautumisen lisätiedot",
         "waitingList": "Jonopaikat"
       }
-    }
+    },
+    "registrationLinkCopied": "Ilmoittautumislinkki kopioitu"
   },
   "registrationsPage": {
     "actionButtons": {
       "copy": "Kopioi pohjaksi",
+      "copyLink": "Kopioi linkki",
       "delete": "Poista ilmoittautuminen",
       "edit": "Muokkaa",
       "showEnrolments": "Näytä ilmoittautuneet",

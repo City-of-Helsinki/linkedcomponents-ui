@@ -1,9 +1,11 @@
+import copyToClipboard from 'copy-to-clipboard';
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
 import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import isNumber from 'lodash/isNumber';
 import { scroller } from 'react-scroll';
+import { toast } from 'react-toastify';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { FORM_NAMES } from '../../constants';
@@ -12,7 +14,7 @@ import {
   RegistrationFieldsFragment,
   RegistrationQueryVariables,
 } from '../../generated/graphql';
-import { PathBuilderProps } from '../../types';
+import { Language, PathBuilderProps } from '../../types';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import queryBuilder from '../../utils/queryBuilder';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
@@ -66,6 +68,7 @@ export const checkCanUserDoAction = ({
 }): boolean => {
   switch (action) {
     case REGISTRATION_EDIT_ACTIONS.COPY:
+    case REGISTRATION_EDIT_ACTIONS.COPY_LINK:
     case REGISTRATION_EDIT_ACTIONS.DELETE:
     case REGISTRATION_EDIT_ACTIONS.EDIT:
     case REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS:
@@ -341,4 +344,23 @@ export const getRegistrationWarning = (
     });
   }
   return '';
+};
+
+export const getEnrolmentLink = (
+  registration: RegistrationFieldsFragment,
+  locale: Language
+): string =>
+  `${process.env.REACT_APP_LINKED_REGISTRATIONS_UI_URL}/${locale}/registration/${registration.id}/enrolment/create`;
+
+export const copyEnrolmentLinkToClipboard = ({
+  locale,
+  registration,
+  t,
+}: {
+  locale: Language;
+  registration: RegistrationFieldsFragment;
+  t: TFunction;
+}): void => {
+  copyToClipboard(getEnrolmentLink(registration, locale));
+  toast.success(t('registration.registrationLinkCopied'));
 };

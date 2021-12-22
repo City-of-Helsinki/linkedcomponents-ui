@@ -1258,11 +1258,13 @@
         "instructions": "Ytterligare registreringsinformation",
         "waitingList": "Väntelista"
       }
-    }
+    },
+    "registrationLinkCopied": "Registreringslänk kopierad"
   },
   "registrationsPage": {
     "actionButtons": {
       "copy": "Kopiera som mall",
+      "copyLink": "Kopiera länken",
       "delete": "Radera registrering",
       "edit": "Redigera",
       "showEnrolments": "Visa deltagare",
