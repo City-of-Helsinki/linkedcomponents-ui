@@ -64,37 +64,6 @@
   color: var(--modal-heading-color);
   z-index: 1;
 
-  .languageSelector {
-    --focus-outline-color: var(--color-coat-of-arms);
-    --focus-outline-width: 2px;
-
-    display: flex;
-    width: auto;
-    margin-bottom: calc(0px - var(--spacing-m));
-    padding: var(--spacing-l);
-    padding-bottom: 0;
-
-    @include small-down {
-      > div {
-        position: relative;
-        right: unset;
-      }
-    }
-
-    button {
-      position: unset;
-      flex-direction: row-reverse;
-      font-size: var(--fontsize-body-m);
-
-      @include focus-outline(0px);
-    }
-
-    button + div {
-      left: 0;
-      right: unset;
-    }
-  }
-
   .heading {
     display: grid;
     grid-template-columns: 1fr auto;

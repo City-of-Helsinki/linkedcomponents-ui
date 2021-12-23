@@ -1,7 +1,50 @@
 @import 'breakpoints';
+@import 'mixins';
+
+.modal {
+  line-height: var(--lineheight-l);
+}
 
 .checkbox {
   margin-top: var(--spacing-m);
+}
+
+.languageSelector {
+  --focus-outline-color: var(--color-coat-of-arms);
+  --focus-outline-width: 2px;
+
+  display: flex;
+  width: auto;
+  margin-bottom: calc(0px - var(--spacing-m));
+
+  padding: var(--spacing-m) var(--spacing-m) var(--spacing-3-xs);
+
+  @include medium-up {
+    padding-left: var(--spacing-l);
+    padding-right: var(--spacing-l);
+    padding-bottom: var(--spacing-2-xs);
+  }
+
+  button {
+    position: unset;
+    flex-direction: row-reverse;
+    font-size: var(--fontsize-body-m);
+
+    @include focus-outline(0px);
+  }
+
+  div[role='region'] {
+    left: 0;
+    right: unset;
+    z-index: 1;
+  }
+
+  @include small-down {
+    > div {
+      position: relative;
+      right: unset;
+    }
+  }
 }
 
 .buttonWrapper {

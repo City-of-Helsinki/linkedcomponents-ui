@@ -1,14 +1,12 @@
 import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { IconAlertCircle, IconInfoCircle, Navigation } from 'hds-react';
+import { IconAlertCircle, IconInfoCircle } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
-import useLocale from '../../../hooks/useLocale';
-import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import isTestEnv from '../../../utils/isTestEnv';
 import CloseButton from '../closeButton/CloseButton';
 import styles from './modal.module.scss';
@@ -31,14 +29,11 @@ const Modal: React.FC<Props> = ({
   children,
   className,
   onClose,
-  showLanguageSelector,
   size = 'l',
   title,
   type = 'form',
   ...rest
 }) => {
-  const { changeLanguage, languageOptions } = useSelectLanguage();
-  const locale = useLocale();
   const { theme } = useTheme();
   const { t } = useTranslation();
 
@@ -59,24 +54,6 @@ const Modal: React.FC<Props> = ({
       onRequestClose={onClose}
     >
       <div className={styles.headingWrapper}>
-        {showLanguageSelector && (
-          <div className={styles.languageSelector}>
-            <Navigation.LanguageSelector
-              buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
-              label={t(`navigation.languages.${locale}`)}
-            >
-              {languageOptions.map((option) => (
-                <Navigation.Item
-                  key={option.value}
-                  href="#"
-                  lang={option.value}
-                  label={option.label}
-                  onClick={changeLanguage(option)}
-                />
-              ))}
-            </Navigation.LanguageSelector>
-          </div>
-        )}
         <div className={styles.heading}>
           {size === 'm' && (
             <>

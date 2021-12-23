@@ -1,11 +1,11 @@
-import { Button } from 'hds-react';
+import { Button, Dialog, IconInfoCircle, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Checkbox from '../../../common/components/checkbox/Checkbox';
-import Modal from '../../../common/components/modal/Modal';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
+import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import styles from './cookieConsentModal.module.scss';
 import { Consent } from './types';
 
@@ -19,6 +19,7 @@ const CookieConsentModal: React.FC<CookieContentModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
+  const { changeLanguage, languageOptions } = useSelectLanguage();
 
   const [confirmed, setConfirmed] = React.useState(false);
 
@@ -32,93 +33,120 @@ const CookieConsentModal: React.FC<CookieContentModalProps> = ({
     setConfirmed(e.target.checked);
   };
 
-  return (
-    <Modal
-      isOpen={isOpen}
-      shouldCloseOnEsc={false}
-      shouldCloseOnOverlayClick={false}
-      showLanguageSelector={true}
-      size="m"
-      title={t('common.cookieConsent.title')}
-      type="info"
-    >
-      <p>
-        <strong>{t('common.cookieConsent.text1')}</strong>
-      </p>
-      <p>
-        <span
-          dangerouslySetInnerHTML={{
-            __html: t('common.cookieConsent.text2', {
-              openInNewTab: t('common.openInNewTab'),
-              urlDataProtection: t('common.cookieConsent.linkDataProtection'),
-              urlPrivacyPolicy: t('common.cookieConsent.linkPrivacyPolicy'),
-            }),
-          }}
-        />
-        <br />
-        {t('common.cookieConsent.text3')}
-      </p>
+  const id = 'cookie-consent-modal';
+  const titleId = `${id}-title`;
+  const descriptionId = `${id}-description`;
 
-      <Checkbox
-        className={styles.checkbox}
-        id="confirm-checkbox"
-        checked={confirmed}
-        aria-label={t('common.cookieConsent.checkboxAcceptAriaLabel')}
-        label={
+  return (
+    <Dialog
+      id={id}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      className={styles.modal}
+      isOpen={isOpen}
+      variant="primary"
+    >
+      <div className={styles.languageSelector}>
+        <Navigation.LanguageSelector
+          buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
+          label={t(`navigation.languages.${locale}`)}
+        >
+          {languageOptions.map((option) => (
+            <Navigation.Item
+              key={option.value}
+              href="#"
+              lang={option.value}
+              label={option.label}
+              onClick={changeLanguage(option)}
+            />
+          ))}
+        </Navigation.LanguageSelector>
+      </div>
+      <Dialog.Header
+        id={titleId}
+        iconLeft={<IconInfoCircle aria-hidden={true} />}
+        title={t('common.cookieConsent.title')}
+      />
+      <Dialog.Content>
+        <p id={descriptionId}>
+          <strong>{t('common.cookieConsent.text1')}</strong>
+        </p>
+        <p>
           <span
             dangerouslySetInnerHTML={{
-              __html: t('common.cookieConsent.checkboxAccept', {
+              __html: t('common.cookieConsent.text2', {
                 openInNewTab: t('common.openInNewTab'),
-                url: `/${locale}${ROUTES.SUPPORT_TERMS_OF_USE}`,
+                urlDataProtection: t('common.cookieConsent.linkDataProtection'),
+                urlPrivacyPolicy: t('common.cookieConsent.linkPrivacyPolicy'),
               }),
             }}
           />
-        }
-        onChange={onChangeConfirm}
-      />
+          <br />
+          {t('common.cookieConsent.text3')}
+        </p>
 
-      <div className={styles.buttonWrapper}>
-        <Button
-          disabled={!confirmed}
-          onClick={() => {
-            saveConsentToCookie({
-              required: true,
-              tracking: true,
-            });
-          }}
-          type="button"
-          variant="primary"
-        >
-          {t('common.cookieConsent.buttonAcceptAll')}
-        </Button>
-        <Button
-          disabled={!confirmed}
-          onClick={() => {
-            saveConsentToCookie({
-              required: true,
-              tracking: false,
-            });
-          }}
-          type="button"
-          variant="primary"
-        >
-          {t('common.cookieConsent.buttonAcceptOnlyNecessary')}
-        </Button>
-        <Button
-          disabled={!confirmed}
-          onClick={() => {
-            saveConsentToCookie({
-              required: false,
-              tracking: false,
-            });
-          }}
-          type="button"
-          variant="secondary"
-        >
-          {t('common.cookieConsent.buttonDecline')}
-        </Button>
-      </div>
-    </Modal>
+        <Checkbox
+          className={styles.checkbox}
+          id="confirm-checkbox"
+          checked={confirmed}
+          aria-label={t('common.cookieConsent.checkboxAcceptAriaLabel')}
+          label={
+            <span
+              dangerouslySetInnerHTML={{
+                __html: t('common.cookieConsent.checkboxAccept', {
+                  openInNewTab: t('common.openInNewTab'),
+                  url: `/${locale}${ROUTES.SUPPORT_TERMS_OF_USE}`,
+                }),
+              }}
+            />
+          }
+          onChange={onChangeConfirm}
+        />
+      </Dialog.Content>
+      <Dialog.ActionButtons>
+        <div className={styles.buttonWrapper}>
+          <Button
+            disabled={!confirmed}
+            onClick={() => {
+              saveConsentToCookie({
+                required: true,
+                tracking: true,
+              });
+            }}
+            type="button"
+            variant="primary"
+          >
+            {t('common.cookieConsent.buttonAcceptAll')}
+          </Button>
+          <Button
+            disabled={!confirmed}
+            onClick={() => {
+              saveConsentToCookie({
+                required: true,
+                tracking: false,
+              });
+            }}
+            type="button"
+            variant="primary"
+          >
+            {t('common.cookieConsent.buttonAcceptOnlyNecessary')}
+          </Button>
+          <Button
+            disabled={!confirmed}
+            onClick={() => {
+              saveConsentToCookie({
+                required: false,
+                tracking: false,
+              });
+            }}
+            type="button"
+            variant="secondary"
+          >
+            {t('common.cookieConsent.buttonDecline')}
+          </Button>
+        </div>
+      </Dialog.ActionButtons>
+    </Dialog>
   );
 };
 

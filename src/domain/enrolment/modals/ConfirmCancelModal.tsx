@@ -73,9 +73,7 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
         <p className={styles.warning}>
           <strong>{t('common.warning')}</strong>
         </p>
-        <p id={descriptionId} className="text-body">
-          {t('enrolment.cancelEnrolmentModal.text1')}
-        </p>
+        <p id={descriptionId}>{t('enrolment.cancelEnrolmentModal.text1')}</p>
         <p>{t('enrolment.cancelEnrolmentModal.text2')}</p>
         <ul className={styles.list}>
           <li>
