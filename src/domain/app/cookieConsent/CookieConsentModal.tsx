@@ -9,21 +9,15 @@ import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import styles from './cookieConsentModal.module.scss';
 import { Consent } from './types';
 
-export interface CookieContentModalProps {
-  isOpen: boolean;
-  saveConsentToCookie: (options: Omit<Consent, 'acceptedAt'>) => void;
-}
-const CookieConsentModal: React.FC<CookieContentModalProps> = ({
-  isOpen,
-  saveConsentToCookie,
-}) => {
+const ModalContent: React.FC<
+  CookieContentModalProps & { descriptionId: string }
+> = ({ descriptionId, isOpen, saveConsentToCookie }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const { changeLanguage, languageOptions } = useSelectLanguage();
-
   const [confirmed, setConfirmed] = React.useState(false);
 
   React.useEffect(() => {
+    /* istanbul ignore else */
     if (isOpen) {
       setConfirmed(false);
     }
@@ -33,40 +27,8 @@ const CookieConsentModal: React.FC<CookieContentModalProps> = ({
     setConfirmed(e.target.checked);
   };
 
-  const id = 'cookie-consent-modal';
-  const titleId = `${id}-title`;
-  const descriptionId = `${id}-description`;
-
   return (
-    <Dialog
-      id={id}
-      aria-labelledby={titleId}
-      aria-describedby={descriptionId}
-      className={styles.modal}
-      isOpen={isOpen}
-      variant="primary"
-    >
-      <div className={styles.languageSelector}>
-        <Navigation.LanguageSelector
-          buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
-          label={t(`navigation.languages.${locale}`)}
-        >
-          {languageOptions.map((option) => (
-            <Navigation.Item
-              key={option.value}
-              href="#"
-              lang={option.value}
-              label={option.label}
-              onClick={changeLanguage(option)}
-            />
-          ))}
-        </Navigation.LanguageSelector>
-      </div>
-      <Dialog.Header
-        id={titleId}
-        iconLeft={<IconInfoCircle aria-hidden={true} />}
-        title={t('common.cookieConsent.title')}
-      />
+    <>
       <Dialog.Content>
         <p id={descriptionId}>
           <strong>{t('common.cookieConsent.text1')}</strong>
@@ -146,6 +108,62 @@ const CookieConsentModal: React.FC<CookieContentModalProps> = ({
           </Button>
         </div>
       </Dialog.ActionButtons>
+    </>
+  );
+};
+
+export interface CookieContentModalProps {
+  isOpen: boolean;
+  saveConsentToCookie: (options: Omit<Consent, 'acceptedAt'>) => void;
+}
+
+const CookieConsentModal: React.FC<CookieContentModalProps> = ({
+  isOpen,
+  saveConsentToCookie,
+}) => {
+  const { t } = useTranslation();
+  const locale = useLocale();
+  const { changeLanguage, languageOptions } = useSelectLanguage();
+
+  const id = 'cookie-consent-modal';
+  const titleId = `${id}-title`;
+  const descriptionId = `${id}-description`;
+
+  return (
+    <Dialog
+      id={id}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      className={styles.modal}
+      isOpen={isOpen}
+      variant="primary"
+    >
+      <div className={styles.languageSelector}>
+        <Navigation.LanguageSelector
+          buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
+          label={t(`navigation.languages.${locale}`)}
+        >
+          {languageOptions.map((option) => (
+            <Navigation.Item
+              key={option.value}
+              href="#"
+              lang={option.value}
+              label={option.label}
+              onClick={changeLanguage(option)}
+            />
+          ))}
+        </Navigation.LanguageSelector>
+      </div>
+      <Dialog.Header
+        id={titleId}
+        iconLeft={<IconInfoCircle aria-hidden={true} />}
+        title={t('common.cookieConsent.title')}
+      />
+      <ModalContent
+        descriptionId={descriptionId}
+        isOpen={isOpen}
+        saveConsentToCookie={saveConsentToCookie}
+      />
     </Dialog>
   );
 };
