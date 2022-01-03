@@ -1,10 +1,9 @@
-import { IconCalendarCross } from 'hds-react';
+import { Dialog, IconAlertCircle, IconCalendarCross } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
 import styles from './modals.module.scss';
@@ -40,35 +39,45 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
     onClose();
   };
 
-  return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
-      shouldCloseOnEsc={true}
-      size="m"
-      title={t('event.cancelEventModal.title')}
-      type="alert"
-    >
-      <p>
-        <strong>{t('event.cancelEventModal.warning')}</strong>
-      </p>
-      <p className={styles.warning}>
-        <strong>{t('common.warning')}</strong>
-      </p>
-      <p>{t('event.cancelEventModal.text1')}</p>
-      <p>{t('event.cancelEventModal.text2')}</p>
-      <EventHierarchy event={event} />
-      {Boolean(event.superEventType) && (
-        <p>
-          <strong>
-            {t('event.cancelEventModal.titlePastEventAreNotUpdated')}
-          </strong>
-          <br />
-          {t('event.cancelEventModal.textPastEventAreNotUpdated')}
-        </p>
-      )}
+  const id = 'confirm-event-cancel-modal';
+  const titleId = `${id}-title`;
+  const descriptionId = `${id}-description`;
 
-      <div className={styles.modalButtonWrapper}>
+  return (
+    <Dialog
+      id={id}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      className={styles.modal}
+      isOpen={isOpen}
+      variant="danger"
+    >
+      <Dialog.Header
+        id={titleId}
+        iconLeft={<IconAlertCircle aria-hidden={true} />}
+        title={t('event.cancelEventModal.title')}
+      />
+      <Dialog.Content>
+        <p>
+          <strong>{t('event.cancelEventModal.warning')}</strong>
+        </p>
+        <p className={styles.warning}>
+          <strong>{t('common.warning')}</strong>
+        </p>
+        <p id={descriptionId}>{t('event.cancelEventModal.text1')}</p>
+        <p>{t('event.cancelEventModal.text2')}</p>
+        <EventHierarchy event={event} />
+        {Boolean(event.superEventType) && (
+          <p>
+            <strong>
+              {t('event.cancelEventModal.titlePastEventAreNotUpdated')}
+            </strong>
+            <br />
+            {t('event.cancelEventModal.textPastEventAreNotUpdated')}
+          </p>
+        )}
+      </Dialog.Content>
+      <Dialog.ActionButtons>
         <LoadingButton
           disabled={isSaving}
           icon={<IconCalendarCross aria-hidden={true} />}
@@ -89,8 +98,8 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
         >
           {t('common.cancel')}
         </Button>
-      </div>
-    </Modal>
+      </Dialog.ActionButtons>
+    </Dialog>
   );
 };
 

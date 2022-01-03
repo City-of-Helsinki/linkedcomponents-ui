@@ -1,10 +1,9 @@
-import { IconPen } from 'hds-react';
+import { Dialog, IconInfoCircle, IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
 import styles from './modals.module.scss';
@@ -40,26 +39,37 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
     onSave();
   };
 
+  const id = 'confirm-event-postpone-modal';
+  const titleId = `${id}-title`;
+  const descriptionId = `${id}-description`;
+
   return (
-    <Modal
+    <Dialog
+      id={id}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      className={styles.modal}
       isOpen={isOpen}
-      onClose={handleClose}
-      shouldCloseOnEsc={true}
-      size="m"
-      title={t('event.updateEventModal.title')}
-      type="info"
+      variant="primary"
     >
-      <p>{t('event.updateEventModal.text1')}</p>
-      <p>{t('event.updateEventModal.text2')}</p>
-      <EventHierarchy event={event} />
-      <p>
-        <strong>
-          {t('event.updateEventModal.titlePastEventAreNotUpdated')}
-        </strong>
-        <br />
-        {t('event.updateEventModal.textPastEventAreNotUpdated')}
-      </p>
-      <div className={styles.modalButtonWrapper}>
+      <Dialog.Header
+        id={titleId}
+        iconLeft={<IconInfoCircle aria-hidden={true} />}
+        title={t('event.updateEventModal.title')}
+      />
+      <Dialog.Content>
+        <p id={descriptionId}>{t('event.updateEventModal.text1')}</p>
+        <p>{t('event.updateEventModal.text2')}</p>
+        <EventHierarchy event={event} />
+        <p>
+          <strong>
+            {t('event.updateEventModal.titlePastEventAreNotUpdated')}
+          </strong>
+          <br />
+          {t('event.updateEventModal.textPastEventAreNotUpdated')}
+        </p>
+      </Dialog.Content>
+      <Dialog.ActionButtons>
         <LoadingButton
           disabled={isSaving}
           icon={<IconPen aria-hidden={true} />}
@@ -78,8 +88,8 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
         >
           {t('common.cancel')}
         </Button>
-      </div>
-    </Modal>
+      </Dialog.ActionButtons>
+    </Dialog>
   );
 };
 

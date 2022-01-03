@@ -67,10 +67,14 @@ const getButton = (key: 'delete' | 'update') => {
   }
 };
 
-const getInput = (key: 'enrolmentStartTime') => {
+const getInput = (key: 'enrolmentStartTime' | 'minimumAttendeeCapacity') => {
   switch (key) {
     case 'enrolmentStartTime':
       return screen.getByRole('textbox', { name: /ilmoittautuminen alkaa/i });
+    case 'minimumAttendeeCapacity':
+      return screen.getByRole('spinbutton', {
+        name: /paikkojen vähimmäismäärä/i,
+      });
   }
 };
 
@@ -119,13 +123,14 @@ test('should scroll to first error when validation error is thrown', async () =>
 
   await loadingSpinnerIsNotInDocument();
 
-  const enrolmentStartTimeInput = getInput('enrolmentStartTime');
-  act(() => userEvent.clear(enrolmentStartTimeInput));
+  const minimumAttendeeCapacityInput = getInput('minimumAttendeeCapacity');
+  act(() => userEvent.clear(minimumAttendeeCapacityInput));
+  userEvent.type(minimumAttendeeCapacityInput, '-1');
 
   const updateButton = getButton('update');
   act(() => userEvent.click(updateButton));
 
-  await waitFor(() => expect(enrolmentStartTimeInput).toHaveFocus());
+  await waitFor(() => expect(minimumAttendeeCapacityInput).toHaveFocus());
 });
 
 test("should show not found page if registration doesn't exist", async () => {

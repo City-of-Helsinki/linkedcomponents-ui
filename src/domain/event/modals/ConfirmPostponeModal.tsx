@@ -1,10 +1,9 @@
-import { IconCalendarClock } from 'hds-react';
+import { Dialog, IconCalendarClock, IconInfoCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import Modal from '../../../common/components/modal/Modal';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
 import styles from './modals.module.scss';
@@ -40,32 +39,42 @@ const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
     onPostpone();
   };
 
-  return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
-      shouldCloseOnEsc={true}
-      size="m"
-      title={t('event.postponeEventModal.title')}
-      type="info"
-    >
-      <p className={styles.warning}>
-        <strong>{t('common.warning')}</strong>
-      </p>
-      <p>{t('event.postponeEventModal.text1')}</p>
-      <p>{t('event.postponeEventModal.text2')}</p>
-      <EventHierarchy event={event} />
-      {Boolean(event.superEventType) && (
-        <p>
-          <strong>
-            {t('event.postponeEventModal.titlePastEventAreNotUpdated')}
-          </strong>
-          <br />
-          {t('event.postponeEventModal.textPastEventAreNotUpdated')}
-        </p>
-      )}
+  const id = 'confirm-event-postpone-modal';
+  const titleId = `${id}-title`;
+  const descriptionId = `${id}-description`;
 
-      <div className={styles.modalButtonWrapper}>
+  return (
+    <Dialog
+      id={id}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      className={styles.modal}
+      isOpen={isOpen}
+      variant="primary"
+    >
+      <Dialog.Header
+        id={titleId}
+        iconLeft={<IconInfoCircle aria-hidden={true} />}
+        title={t('event.postponeEventModal.title')}
+      />
+      <Dialog.Content>
+        <p className={styles.warning}>
+          <strong>{t('common.warning')}</strong>
+        </p>
+        <p id={descriptionId}>{t('event.postponeEventModal.text1')}</p>
+        <p>{t('event.postponeEventModal.text2')}</p>
+        <EventHierarchy event={event} />
+        {Boolean(event.superEventType) && (
+          <p>
+            <strong>
+              {t('event.postponeEventModal.titlePastEventAreNotUpdated')}
+            </strong>
+            <br />
+            {t('event.postponeEventModal.textPastEventAreNotUpdated')}
+          </p>
+        )}
+      </Dialog.Content>
+      <Dialog.ActionButtons>
         <LoadingButton
           disabled={isSaving}
           icon={<IconCalendarClock aria-hidden={true} />}
@@ -84,8 +93,8 @@ const ConfirmPostponeModal: React.FC<ConfirmPostponeModalProps> = ({
         >
           {t('common.cancel')}
         </Button>
-      </div>
-    </Modal>
+      </Dialog.ActionButtons>
+    </Dialog>
   );
 };
 
