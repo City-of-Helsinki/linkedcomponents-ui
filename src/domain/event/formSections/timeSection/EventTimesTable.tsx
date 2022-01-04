@@ -1,4 +1,5 @@
 import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
+import uniqueId from 'lodash/uniqueId';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -134,11 +135,18 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
     }),
   ];
 
+  const [menuDropdownId] = React.useState(() => uniqueId('menu-dropdown-'));
+  const buttonId = `${menuDropdownId}-button`;
+
   return (
     <>
       {isEditModalOpen && (
         <EditEventTimeModal
           eventTime={eventTime}
+          focusAfterCloseElement={
+            document.getElementById(buttonId) ||
+            /* istanbul ignore next */ undefined
+          }
           isOpen={isEditModalOpen}
           onCancel={closeEditModal}
           onSave={handleUpdate}
@@ -159,6 +167,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
             className={styles.toggleButton}
             closeOnItemClick={true}
             fixedPosition={true}
+            id={menuDropdownId}
             items={actionItems}
           />
         </td>

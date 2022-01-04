@@ -1,7 +1,5 @@
 import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { IconAlertCircle, IconInfoCircle } from 'hds-react';
-import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
@@ -20,18 +18,14 @@ if (!isTestEnv) {
 type Props = {
   onClose?: (event: React.MouseEvent | React.KeyboardEvent) => void;
   showLanguageSelector?: boolean;
-  size?: 'm' | 'l';
   title: string;
-  type?: 'alert' | 'form' | 'info';
 } & Omit<ReactModal.Props, 'onRequestClose'>;
 
 const Modal: React.FC<Props> = ({
   children,
   className,
   onClose,
-  size = 'l',
   title,
-  type = 'form',
   ...rest
 }) => {
   const { theme } = useTheme();
@@ -43,26 +37,14 @@ const Modal: React.FC<Props> = ({
       ariaHideApp={!isTestEnv}
       bodyOpenClassName={styles.bodyOpen}
       portalClassName={styles.modalPortal}
-      className={classNames(
-        styles.modal,
-        className,
-        styles[`size${capitalize(size)}`],
-        styles[`type${capitalize(type)}`],
-        css(theme.modal)
-      )}
+      className={classNames(styles.modal, className, css(theme.modal))}
       overlayClassName={styles.overlay}
       onRequestClose={onClose}
     >
       <div className={styles.headingWrapper}>
         <div className={styles.heading}>
-          {size === 'm' && (
-            <>
-              {type === 'alert' && <IconAlertCircle />}
-              {type === 'info' && <IconInfoCircle />}
-            </>
-          )}
           <h2>{title}</h2>
-          {size === 'l' && onClose && (
+          {onClose && (
             <CloseButton
               className={styles.closeButton}
               onClick={onClose}
