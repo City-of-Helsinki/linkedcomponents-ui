@@ -449,7 +449,7 @@ const theme: Theme = {
     '--search-panel-button-focus-outline-color': 'var(--color-white)',
   },
   select: {
-    '--border-radius': '2px',
+    '--border-radius': '0px',
     '--border-width': '2px',
     '--divider-width': '1px',
     '--focus-outline-width': '3px',
@@ -541,7 +541,7 @@ const theme: Theme = {
     '--text-editor-toolbar-border-color': 'var(--color-black-20)',
   },
   textInput: {
-    '--border-radius': '2px',
+    '--border-radius': '0px',
     '--border-width': '2px',
     '--outline-width': '3px',
     '--textarea-height': '149px',
