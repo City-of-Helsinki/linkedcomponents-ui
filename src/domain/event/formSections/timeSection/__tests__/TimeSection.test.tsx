@@ -97,6 +97,13 @@ const getElement = (key: 'recurringEventTab') => {
   }
 };
 
+const findSingleEventElement = (key: 'startTime') => {
+  switch (key) {
+    case 'startTime':
+      return screen.findByRole('textbox', { name: /tapahtuma alkaa/i });
+  }
+};
+
 const getSingleEventElement = (
   key: 'addButton' | 'delete' | 'endTime' | 'startTime' | 'toggle'
 ) => {
@@ -111,6 +118,13 @@ const getSingleEventElement = (
       return screen.getAllByRole('button', { name: /valinnat/i })[0];
     case 'startTime':
       return screen.getByRole('textbox', { name: /tapahtuma alkaa/i });
+  }
+};
+
+const findRecurringEventElement = (key: 'startTime') => {
+  switch (key) {
+    case 'startTime':
+      return screen.findByRole('textbox', { name: /tapahtuma alkaa klo/i });
   }
 };
 
@@ -428,14 +442,15 @@ test('should not be able to add new event times when editing single event', asyn
     })
   );
 
-  await actWait();
-  const singleEventStartTimeInput = getSingleEventElement('startTime');
+  const singleEventStartTimeInput = await findSingleEventElement('startTime');
   expect(singleEventStartTimeInput).toBeDisabled();
 
   const recurringEventTab = getElement('recurringEventTab');
   userEvent.click(recurringEventTab);
 
-  const recurringEventStartTimeInput = getRecurringEventElement('startTime');
+  const recurringEventStartTimeInput = await findRecurringEventElement(
+    'startTime'
+  );
   expect(recurringEventStartTimeInput).toBeDisabled();
 });
 
@@ -453,13 +468,14 @@ test('should be able to add new event times when editing recurring event', async
     })
   );
 
-  await actWait();
-  const singleEventStartTimeInput = getSingleEventElement('startTime');
+  const singleEventStartTimeInput = await findSingleEventElement('startTime');
   expect(singleEventStartTimeInput).toBeEnabled();
 
   const recurringEventTab = getElement('recurringEventTab');
   userEvent.click(recurringEventTab);
 
-  const recurringEventStartTimeInput = getRecurringEventElement('startTime');
+  const recurringEventStartTimeInput = await findRecurringEventElement(
+    'startTime'
+  );
   expect(recurringEventStartTimeInput).toBeEnabled();
 });
