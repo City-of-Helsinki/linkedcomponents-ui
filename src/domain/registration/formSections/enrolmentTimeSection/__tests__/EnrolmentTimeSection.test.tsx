@@ -10,7 +10,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import { REGISTRATION_FIELDS } from '../../../constants';
 import { registrationSchema } from '../../../validation';
 import EnrolmentTimeSection from '../EnrolmentTimeSection';
@@ -47,11 +46,11 @@ const getElement = (key: 'endTime' | 'startTime') => {
   switch (key) {
     case 'endTime':
       return screen.getByRole('textbox', {
-        name: translations.registration.form.labelEnrolmentEndTime,
+        name: /Ilmoittautuminen päättyy/i,
       });
     case 'startTime':
       return screen.getByRole('textbox', {
-        name: translations.registration.form.labelEnrolmentStartTime,
+        name: /Ilmoittautuminen alkaa/i,
       });
   }
 };

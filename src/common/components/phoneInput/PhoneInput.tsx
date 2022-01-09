@@ -5,7 +5,7 @@ import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 
-const TextInput: React.FC<PhoneInputProps> = ({ className, ...rest }) => {
+const PhoneInput: React.FC<PhoneInputProps> = ({ className, ...rest }) => {
   const { theme } = useTheme();
 
   return (
@@ -16,4 +16,4 @@ const TextInput: React.FC<PhoneInputProps> = ({ className, ...rest }) => {
   );
 };
 
-export default TextInput;
+export default PhoneInput;

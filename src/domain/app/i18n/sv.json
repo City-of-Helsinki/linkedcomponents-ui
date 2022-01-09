@@ -54,8 +54,8 @@
     },
     "datepicker": {
       "accessibility": {
-        "buttonCalendar": "Kalendar",
         "buttonNextMonth": "Nästa månad",
+        "buttonOpen": "Välj datum",
         "buttonPreviousMonth": "Föregående månad",
         "selectDate": "Välj {{value}}",
         "selectTime": "Välj klockslag {{value}}",

@@ -9,7 +9,6 @@ import {
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import {
   act,
-  actWait,
   configure,
   render,
   screen,

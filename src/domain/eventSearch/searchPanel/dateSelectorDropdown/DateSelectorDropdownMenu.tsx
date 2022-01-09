@@ -40,9 +40,7 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
         id={startDateInputId}
         icon={<IconCalendarPlus aria-hidden />}
         maxBookingDate={endDate || undefined}
-        onChange={(value) =>
-          onChangeDate(DATE_FIELDS.START_DATE, value || null)
-        }
+        onChange={(value) => onChangeDate(DATE_FIELDS.START_DATE, value)}
         placeholder={t('common.dateSelector.placeholderStartDate')}
         value={startDate}
       />
@@ -51,7 +49,7 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
         focusedDate={startDate}
         icon={<IconCalendarPlus aria-hidden />}
         minBookingDate={startDate || undefined}
-        onChange={(value) => onChangeDate(DATE_FIELDS.END_DATE, value || null)}
+        onChange={(value) => onChangeDate(DATE_FIELDS.END_DATE, value)}
         placeholder={t('common.dateSelector.placeholderEndDate')}
         value={endDate}
       />

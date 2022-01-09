@@ -137,37 +137,6 @@
     @include focus-outline(calc(0px - var(--focus-outline-width)));
   }
 
-  .datepickerInput {
-    padding-right: calc(2 * var(--icon-width));
-
-    &.invalid {
-      padding-right: calc(
-        2 * var(--icon-width) + var(--input-spacing)
-      ) !important;
-    }
-  }
-
-  .calendarButton {
-    position: absolute;
-    right: 0;
-    padding: 0 var(--spacing-s);
-    height: var(--calendar-button-height);
-    right: 0;
-    width: auto;
-    color: var(--color-black);
-
-    svg {
-      height: var(--icon-width);
-      width: var(--icon-width);
-    }
-
-    @include focus-outline(calc(0px - var(--focus-outline-width)));
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-  }
-
   .timesDivider {
     border-left: 1px solid var(--times-divider-border-color);
     margin-left: var(--datepicker-container-padding);

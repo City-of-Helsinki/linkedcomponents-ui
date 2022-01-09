@@ -15,26 +15,21 @@ import {
   TextInputProps,
 } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
-import React, { useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { DATE_FORMAT, DATETIME_FORMAT } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
-import InputWrapper from '../inputWrapper/InputWrapper';
-import inputStyles from '../inputWrapper/inputWrapper.module.scss';
+import TextInput from '../textInput/TextInput';
 import { TimeObject } from '../timepicker/types';
 import { dateLocales, dateRegex, datetimeRegex } from './constants';
 import styles from './datepicker.module.scss';
-import DatepickerContext from './datepickerContext';
+import DatePickerContext from './datepickerContext';
 import Month from './Month';
 import MonthNavButton from './MonthNavButton';
 import TimesList from './TimesList';
-
-const generateUniqueId = (prefix: string) => {
-  return `${prefix}-${uniqueId()}`;
-};
 
 export type DatepickerProps = {
   focusedDate?: Date | null;
@@ -43,59 +38,44 @@ export type DatepickerProps = {
   minBookingDate?: Date;
   minuteInterval?: number;
   onBlur?: () => void;
-  onChange: (value?: Date | null) => void;
+  onChange: (value: Date | null) => void;
   timeSelector?: boolean;
   value: Date | null;
 } & Omit<TextInputProps, 'onBlur' | 'onChange' | 'value'>;
 
-const Datepicker: React.FC<DatepickerProps> = ({
-  className,
-  disabled,
-  errorText,
+const DatePicker: React.FC<DatepickerProps> = ({
   focusedDate: _focusedDate,
-  helperText,
-  hideLabel,
   icon,
-  id,
-  invalid,
-  label,
   maxBookingDate,
   minBookingDate,
   minuteInterval,
   onBlur,
   onChange,
-  required,
-  style,
   timeSelector,
-  tooltipButtonLabel,
-  tooltipLabel,
-  tooltipText,
   value,
-  ...rest
+  ...textInputProps
 }) => {
   const locale = useLocale();
   const { t } = useTranslation();
   const { theme } = useTheme();
   const isFocused = React.useRef(false);
+
   const dateFormat = React.useMemo(
     () => (timeSelector ? DATETIME_FORMAT : DATE_FORMAT),
     [timeSelector]
   );
-  const [dateValue, setDateValue] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-  const container = React.useRef<HTMLDivElement>(null);
-  const closeButton = React.useRef<HTMLButtonElement>(null);
-  const datepickerContainer = React.useRef<HTMLDivElement>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const timesContainer = React.useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLDivElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const datepickerContainer = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const timesContainer = useRef<HTMLDivElement>(null);
 
   const isComponentFocused = useIsComponentFocused(container);
 
-  const dialogLabelId = React.useMemo(
-    () => generateUniqueId('dialog-label'),
-    []
-  );
+  const [dialogLabelId] = React.useState(() => uniqueId('dialog-label-'));
 
   const setNewDateWithTime = (previousDate: Date, newDate: Date) => {
     const hours = previousDate.getHours();
@@ -131,7 +111,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
     }
   };
 
-  const ensureCalendarIsClosed = React.useCallback(() => {
+  const ensureCalendarIsClosed = useCallback(() => {
     if (isCalendarOpen) {
       setIsCalendarOpen(false);
       onBlur && onBlur();
@@ -144,26 +124,15 @@ const Datepicker: React.FC<DatepickerProps> = ({
     }
   }, [isCalendarOpen]);
 
-  const toggleCalendar = () => {
-    if (isCalendarOpen) {
-      ensureCalendarIsClosed();
-    } else {
-      ensureCalendarIsOpen();
-    }
+  const toggleCalendar = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setIsCalendarOpen(!isCalendarOpen);
   };
 
-  const closeCalendar = React.useCallback(() => {
+  const closeCalendar = useCallback(() => {
     inputRef.current?.focus();
     ensureCalendarIsClosed();
   }, [ensureCalendarIsClosed]);
-
-  const handleInputFocus = () => {
-    if (!isCalendarOpen) {
-      setIsCalendarOpen(true);
-    } else {
-      setIsCalendarOpen(false);
-    }
-  };
 
   const dateIsInValidFormat = (parsedDate: Date, inputValue: string) => {
     const isParsedDateValid =
@@ -183,29 +152,30 @@ const Datepicker: React.FC<DatepickerProps> = ({
       onChange(null);
     } /* istanbul ignore else */ else if (value) {
       const formattedDate = formatDate(value, dateFormat);
-      setDateValue(formattedDate);
+      setInputValue(formattedDate);
     }
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const eventValue = event.target.value;
-    const parsedDate = parseDate(event.target.value, dateFormat, new Date());
+  const handleInputChange = (value: string) => {
+    const disallowedCharacters = /[^0-9.\s]+/g;
+    const newValue = value.replace(disallowedCharacters, '');
 
-    setDateValue(eventValue);
+    setInputValue(newValue);
+    const parsedDate = parseDate(value, dateFormat, new Date());
 
-    if (dateIsInValidFormat(parsedDate, eventValue)) {
+    if (dateIsInValidFormat(parsedDate, value)) {
       onChange(parsedDate);
     }
   };
 
-  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    handleChange(dateValue);
+  const handleInputBlur = () => {
+    handleChange(inputValue);
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     /* istanbul ignore else  */
     if (e.key === 'Enter') {
-      handleChange(dateValue);
+      handleChange(inputValue);
     }
   };
 
@@ -273,6 +243,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
   const onDocumentFocusin = () => {
     if (!isComponentFocused()) {
       ensureCalendarIsClosed();
+
       if (isFocused.current) {
         isFocused.current = false;
         onBlur && onBlur();
@@ -295,39 +266,26 @@ const Datepicker: React.FC<DatepickerProps> = ({
   // Update formatted input string when date value changes
   React.useEffect(() => {
     if (!value) {
-      setDateValue('');
+      setInputValue('');
     } /* istanbul ignore else */ else if (value && isValidDate(value)) {
       const formattedDate = formatDate(value, dateFormat);
-      setDateValue(formattedDate);
+      setInputValue(formattedDate);
     }
   }, [dateFormat, timeSelector, value]);
 
-  const wrapperProps = {
-    className: classNames(className, css(theme.datepicker)),
-    disabled,
-    errorText,
-    hasIcon: true,
-    helperText,
-    hideLabel,
-    id,
-    invalid,
-    label,
-    required,
-    style,
-    tooltipLabel,
-    tooltipText,
-    tooltipButtonLabel,
-  };
-
   React.useEffect(() => {
-    if (isCalendarOpen && _focusedDate && !value) {
-      onDateFocus(_focusedDate);
+    if (isCalendarOpen) {
+      if (_focusedDate && !value) {
+        onDateFocus(_focusedDate);
+      } else if (value) {
+        onDateFocus(value);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCalendarOpen]);
 
   return (
-    <DatepickerContext.Provider
+    <DatePickerContext.Provider
       value={{
         focusedDate,
         isDateBlocked,
@@ -346,34 +304,23 @@ const Datepicker: React.FC<DatepickerProps> = ({
       <div
         ref={container}
         onFocus={() => (isFocused.current = true)}
-        className={styles.datepickerWrapper}
+        className={classNames(styles.datepickerWrapper, css(theme.datepicker))}
         onKeyDown={preventArrowKeyScroll}
       >
-        <InputWrapper {...wrapperProps}>
-          <input
-            {...rest}
-            id={id}
-            name={id}
-            ref={inputRef}
-            className={classNames(inputStyles.input, styles.datepickerInput, {
-              [styles.invalid]: invalid,
-            })}
-            disabled={disabled}
-            onBlur={handleInputBlur}
-            onChange={handleInputChange}
-            onFocus={handleInputFocus}
-            onKeyDown={handleInputKeyDown}
-            value={dateValue}
-          />
-          <button
-            type="button"
-            aria-label={t('common.datepicker.accessibility.buttonCalendar')}
-            className={styles.calendarButton}
-            disabled={disabled}
-            onClick={toggleCalendar}
-          >
-            {icon || <IconCalendar aria-hidden />}
-          </button>
+        <TextInput
+          {...textInputProps}
+          buttonIcon={<IconCalendar aria-hidden />}
+          buttonAriaLabel={t('common.datepicker.accessibility.buttonOpen')}
+          onButtonClick={toggleCalendar}
+          onChange={(event) => {
+            handleInputChange(event.target.value);
+          }}
+          onBlur={handleInputBlur}
+          onKeyDown={handleInputKeyDown}
+          value={inputValue}
+          ref={inputRef}
+          inputMode="numeric"
+        >
           {isCalendarOpen && (
             <div
               className={styles.datepickerContainer}
@@ -440,10 +387,10 @@ const Datepicker: React.FC<DatepickerProps> = ({
               </div>
             </div>
           )}
-        </InputWrapper>
+        </TextInput>
       </div>
-    </DatepickerContext.Provider>
+    </DatePickerContext.Provider>
   );
 };
 
-export default Datepicker;
+export default DatePicker;

@@ -54,8 +54,8 @@
     },
     "datepicker": {
       "accessibility": {
-        "buttonCalendar": "Kalenteri",
         "buttonNextMonth": "Seuraava kuukausi",
+        "buttonOpen": "Valitse päivämäärä",
         "buttonPreviousMonth": "Edellinen kuukausi",
         "selectDate": "Valitse {{value}}",
         "selectTime": "Valitse kellonajaksi {{value}}",
