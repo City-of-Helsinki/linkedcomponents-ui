@@ -61,14 +61,6 @@ const getElement = (key: 'toggleButton') => {
 };
 
 describe('<Datepicker />', () => {
-  it('Datepicker opens when user focuses with tab', () => {
-    renderDatepicker({ value: new Date('2020-07-05') });
-
-    const toggleButton = getElement('toggleButton');
-    userEvent.click(toggleButton);
-    screen.getByText(/heinäkuu 2020/);
-  });
-
   it('should toggle datepicker by clicking toggle button', () => {
     renderDatepicker({ value: new Date('2020-07-05') });
 
