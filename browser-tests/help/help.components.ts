@@ -27,69 +27,69 @@ export const findHelpPages = async (t: TestController) => {
 
   const sideNavigation = () => {
     const selectors = {
-      apiTab() {
+      apiLink() {
         return withinSideNavigation().findByRole('link', {
           name: /rajapinta/i,
         });
       },
-      contactTab() {
+      contactLink() {
         return withinSideNavigation().findByRole('link', {
           name: /ota yhteyttä/i,
         });
       },
-      controlPanelTab() {
+      controlPanelLink() {
         return withinSideNavigation().findByRole('link', {
           name: /hallintapaneeli/i,
         });
       },
-      documentationTab() {
+      documentationLink() {
         return withinSideNavigation().findByRole('link', {
           name: /dokumentaatio/i,
         });
       },
-      faqTab() {
+      faqLink() {
         return withinSideNavigation().findByRole('link', {
           name: /ukk/i,
         });
       },
-      featuresTab() {
+      featuresLink() {
         return withinSideNavigation().findByRole('link', {
           name: /palvelun ominaisuudet/i,
         });
       },
-      imageRightsTab() {
+      imageRightsLink() {
         return withinSideNavigation().findByRole('link', {
           name: /kuvaoikeudet/i,
         });
       },
-      instructionsGeneralTab() {
+      instructionsButton() {
+        return withinSideNavigation().findByRole('button', { name: /ohjeet/i });
+      },
+      instructionsGeneralLink() {
         return withinSideNavigation().findByRole('link', { name: /yleistä/i });
       },
-      instructionsTab() {
-        return withinSideNavigation().findByRole('link', { name: /ohjeet/i });
-      },
-      platformTab() {
+      platformLink() {
         return withinSideNavigation().findByRole('link', { name: /alusta/i });
       },
-      sourceCodeTab() {
+      sourceCodeLink() {
         return withinSideNavigation().findByRole('link', {
           name: /lähdekoodi/i,
         });
       },
-      supportTab() {
-        return withinSideNavigation().findByRole('link', { name: /tuki/i });
+      supportButton() {
+        return withinSideNavigation().findByRole('button', { name: /tuki/i });
       },
-      technologyGeneralTab() {
+      technologyGeneralLink() {
         return withinSideNavigation().findByRole('link', {
           name: /yleistä/i,
         });
       },
-      technologyTab() {
-        return withinSideNavigation().findByRole('link', {
+      technologyButton() {
+        return withinSideNavigation().findByRole('button', {
           name: /teknologia/i,
         });
       },
-      termsOfUseTab() {
+      termsOfUseLink() {
         return withinSideNavigation().findByRole('link', {
           name: /käyttöehdot/i,
         });
@@ -97,50 +97,50 @@ export const findHelpPages = async (t: TestController) => {
     };
 
     const actions = {
-      async clickApiTab() {
-        return await t.click(selectors.apiTab());
+      async clickApiLink() {
+        return await t.click(selectors.apiLink());
       },
-      async clickContactTab() {
-        return await t.click(selectors.contactTab());
+      async clickContactLink() {
+        return await t.click(selectors.contactLink());
       },
-      async clickControlPanelTab() {
-        return await t.click(selectors.controlPanelTab());
+      async clickControlPanelLink() {
+        return await t.click(selectors.controlPanelLink());
       },
-      async clickDocumentationTab() {
-        return await t.click(selectors.documentationTab());
+      async clickDocumentationLink() {
+        return await t.click(selectors.documentationLink());
       },
-      async clickFaqTab() {
-        return await t.click(selectors.faqTab());
+      async clickFaqLink() {
+        return await t.click(selectors.faqLink());
       },
-      async clickFeaturesTab() {
-        return await t.click(selectors.featuresTab());
+      async clickFeaturesLink() {
+        return await t.click(selectors.featuresLink());
       },
-      async clickImageRightsTab() {
-        return await t.click(selectors.imageRightsTab());
+      async clickImageRightsLink() {
+        return await t.click(selectors.imageRightsLink());
       },
-      async clickInstructionsGeneralTab() {
-        return await t.click(selectors.instructionsGeneralTab());
+      async clickInstructionsButton() {
+        return await t.click(selectors.instructionsButton());
       },
-      async clickInstructionsTab() {
-        return await t.click(selectors.instructionsTab());
+      async clickInstructionsGeneralLink() {
+        return await t.click(selectors.instructionsGeneralLink());
       },
-      async clickPlatformTab() {
-        return await t.click(selectors.platformTab());
+      async clickPlatformLink() {
+        return await t.click(selectors.platformLink());
       },
-      async clickSourceCodeTab() {
-        return await t.click(selectors.sourceCodeTab());
+      async clickSourceCodeLink() {
+        return await t.click(selectors.sourceCodeLink());
       },
-      async clickSupportTab() {
-        return await t.click(selectors.supportTab());
+      async clickSupportButton() {
+        return await t.click(selectors.supportButton());
       },
-      async clickTechnologyTab() {
-        return await t.click(selectors.technologyTab());
+      async clickTechnologyButton() {
+        return await t.click(selectors.technologyButton());
       },
-      async clickTechnologyGeneralTab() {
-        return await t.click(selectors.technologyGeneralTab());
+      async clickTechnologyGeneralLink() {
+        return await t.click(selectors.technologyGeneralLink());
       },
-      async clickTermsOfUseTab() {
-        return await t.click(selectors.termsOfUseTab());
+      async clickTermsOfUseLink() {
+        return await t.click(selectors.termsOfUseLink());
       },
     };
 

@@ -27,66 +27,66 @@ test('Side navigation tabs work', async (t) => {
   const helpPageTitles = helpPage.helpPageTitles();
 
   await urlUtils.expectations.urlChangedToSupportPage();
-  // Fearures tab
-  await sideNavigation.actions.clickFeaturesTab();
+  // Close instructions main level
+  await sideNavigation.actions.clickInstructionsButton();
+  // Fearures link
+  await sideNavigation.actions.clickFeaturesLink();
   await urlUtils.expectations.urlChangedToFeaturesPage();
   await helpPageTitles.expectations.featuresTitleIsVisible();
-  // Support tab
-  await sideNavigation.actions.clickSupportTab();
-  await urlUtils.expectations.urlChangedToTermsOfUsePage();
-  await helpPageTitles.expectations.termsOfUseTitleIsVisible();
-  // Contact tab
-  await sideNavigation.actions.clickContactTab();
+  // Open support main level
+  await sideNavigation.actions.clickSupportButton();
+  // Contact link
+  await sideNavigation.actions.clickContactLink();
   await urlUtils.expectations.urlChangedToContactPage();
   await helpPageTitles.expectations.contactTitleIsVisible();
-  // Terms of use tab
-  await sideNavigation.actions.clickTermsOfUseTab();
+  // Terms of use link
+  await sideNavigation.actions.clickTermsOfUseLink();
   await urlUtils.expectations.urlChangedToTermsOfUsePage();
   await helpPageTitles.expectations.termsOfUseTitleIsVisible();
-  // Techonology tab
-  await sideNavigation.actions.clickTechnologyTab();
-  await urlUtils.expectations.urlChangedToTechnologyGeneralPage();
-  await helpPageTitles.expectations.technologyGeneralTitleIsVisible();
-  // Documentation tab
-  await sideNavigation.actions.clickDocumentationTab();
+  // Close support main level
+  await sideNavigation.actions.clickSupportButton();
+  // Open techonology main level
+  await sideNavigation.actions.clickTechnologyButton();
+  // Documentation link
+  await sideNavigation.actions.clickDocumentationLink();
   await urlUtils.expectations.urlChangedToDocumentationPage();
   await helpPageTitles.expectations.documenationTitleIsVisible({
     timeout: 20000,
   });
-  // Source code tab
-  await sideNavigation.actions.clickSourceCodeTab();
+  // Source code link
+  await sideNavigation.actions.clickSourceCodeLink();
   await urlUtils.expectations.urlChangedToSourceCodePage();
   await helpPageTitles.expectations.sourceCodeTitleIsVisible();
-  // Image rights tab
-  await sideNavigation.actions.clickImageRightsTab();
+  // Image rights link
+  await sideNavigation.actions.clickImageRightsLink();
   await urlUtils.expectations.urlChangedToImageRightsPage();
   await helpPageTitles.expectations.imageRightsTitleIsVisible();
-  // API tab
-  await sideNavigation.actions.clickApiTab();
+  // API link
+  await sideNavigation.actions.clickApiLink();
   await urlUtils.expectations.urlChangedToApiPage();
   await helpPageTitles.expectations.apiTitleIsVisible();
-  // Technology general tab
-  await sideNavigation.actions.clickTechnologyGeneralTab();
+  // Technology link
+  await sideNavigation.actions.clickTechnologyGeneralLink();
   await urlUtils.expectations.urlChangedToTechnologyGeneralPage();
   await helpPageTitles.expectations.technologyGeneralTitleIsVisible();
-  // Instructions tab
-  await sideNavigation.actions.clickInstructionsTab();
-  await urlUtils.expectations.urlChangedToSupportPage();
-  await helpPageTitles.expectations.instructionsGeneralTitleIsVisible();
-  // FAQ tab
-  await sideNavigation.actions.clickFaqTab();
+  // Close techonology main level
+  await sideNavigation.actions.clickTechnologyButton();
+  // Open instructions main level
+  await sideNavigation.actions.clickInstructionsButton();
+  // FAQ link
+  await sideNavigation.actions.clickFaqLink();
   await urlUtils.expectations.urlChangedToFaqPage();
   await helpPageTitles.expectations.faqTitleIsVisible();
-  // Control panel tab
-  await sideNavigation.actions.clickControlPanelTab();
+  // Control panel link
+  await sideNavigation.actions.clickControlPanelLink();
   await urlUtils.expectations.urlChangedToControlPanelPage();
   await helpPageTitles.expectations.controlPanelTitleIsVisible();
-  // Platform tab
-  await sideNavigation.actions.clickPlatformTab();
+  // Platform link
+  await sideNavigation.actions.clickPlatformLink();
   await urlUtils.expectations.urlChangedToPlatformPage();
   await helpPageTitles.expectations.platformTitleIsVisible();
-  // Instructions general tab
-  await sideNavigation.actions.clickInstructionsGeneralTab();
+  // Instructions general link
+  await sideNavigation.actions.clickInstructionsGeneralLink();
   await urlUtils.expectations.urlChangedToSupportPage();
   await helpPageTitles.expectations.instructionsGeneralTitleIsVisible();
 });
