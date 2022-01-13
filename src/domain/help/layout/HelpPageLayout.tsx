@@ -122,14 +122,7 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
   ];
 
   const handleLinkClick =
-    (href: string) =>
-    (
-      e:
-        | React.MouseEvent<HTMLAnchorElement, MouseEvent>
-        | React.MouseEvent<HTMLButtonElement, MouseEvent>
-        | React.KeyboardEvent<HTMLAnchorElement>
-        | React.KeyboardEvent<HTMLButtonElement>
-    ) => {
+    (href: string) => (e: React.MouseEvent | React.KeyboardEvent) => {
       e.preventDefault();
       history.push(href);
     };
