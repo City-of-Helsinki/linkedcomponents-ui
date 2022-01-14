@@ -12,7 +12,6 @@ import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EVENT_EDIT_ACTIONS } from '../../event/constants';
-import useEventOrganizationAncestors from '../../event/hooks/useEventOrganizationAncestors';
 import useEventUpdateActions, {
   MODALS,
 } from '../../event/hooks/useEventUpdateActions';
@@ -25,6 +24,7 @@ import {
   getEventFields,
 } from '../../event/utils';
 import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import styles from './actionsDropdown.module.scss';
 
@@ -51,7 +51,9 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       postponeEvent,
       setOpenModal,
     } = useEventUpdateActions({ event });
-    const { organizationAncestors } = useEventOrganizationAncestors(event);
+    const { organizationAncestors } = useOrganizationAncestors(
+      event.publisher as string
+    );
     const { user } = useUser();
 
     const onCancel = () => {

@@ -14,10 +14,12 @@ import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
 import useQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import { RegistrationsLocationState } from '../../registrations/types';
 import { getRegistrationFields } from '../../registrations/utils';
+import useUser from '../../user/hooks/useUser';
 import {
   copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
@@ -35,6 +37,7 @@ type ActionButtonProps = {
 export interface EditButtonPanelProps {
   onDelete: () => void;
   onUpdate: () => void;
+  publisher: string;
   registration: RegistrationFieldsFragment;
   saving: REGISTRATION_EDIT_ACTIONS | false;
 }
@@ -42,6 +45,7 @@ export interface EditButtonPanelProps {
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   onDelete,
   onUpdate,
+  publisher,
   registration,
   saving,
 }) => {
@@ -51,6 +55,9 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const history = useHistory<RegistrationsLocationState>();
   const { id } = getRegistrationFields(registration, locale);
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
+  const { user } = useUser();
+
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const goBack = useGoBack<RegistrationsLocationState>({
     defaultReturnPath: ROUTES.REGISTRATIONS,
@@ -83,8 +90,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       action,
       authenticated,
       onClick,
-      registration,
+      organizationAncestors,
+      publisher,
       t,
+      user,
     });
   };
 
@@ -99,12 +108,9 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     type: ButtonType;
     variant: Exclude<ButtonVariant, 'supplementary'>;
   }): ActionButtonProps => {
-    const buttonProps = getEditButtonProps({
+    const buttonProps = getActionItemProps({
       action,
-      authenticated,
       onClick,
-      registration,
-      t,
     });
     return { ...buttonProps, isSaving: saving === action, type, variant };
   };

@@ -14,9 +14,9 @@ import {
 } from '../../../../generated/graphql';
 import formatDate from '../../../../utils/formatDate';
 import { authenticatedSelector } from '../../../auth/selectors';
+import useOrganizationAncestors from '../../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../../constants';
-import useEventOrganizationAncestors from '../../hooks/useEventOrganizationAncestors';
 import { EventTime } from '../../types';
 import { getEditButtonProps } from '../../utils';
 import EditEventTimeModal from './EditEventTimeModal';
@@ -55,7 +55,9 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
     savedEvent,
   ].find((subEvent) => subEvent?.id === eventTime.id);
 
-  const { organizationAncestors } = useEventOrganizationAncestors(event);
+  const { organizationAncestors } = useOrganizationAncestors(
+    event?.publisher as string
+  );
 
   const { endTime, startTime } = eventTime;
 

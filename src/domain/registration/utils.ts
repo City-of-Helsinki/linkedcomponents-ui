@@ -11,13 +11,16 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { FORM_NAMES } from '../../constants';
 import {
   CreateRegistrationMutationInput,
+  OrganizationFieldsFragment,
   RegistrationFieldsFragment,
   RegistrationQueryVariables,
+  UserFieldsFragment,
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import queryBuilder from '../../utils/queryBuilder';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
+import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
   REGISTRATION_EDIT_ACTIONS,
@@ -60,20 +63,31 @@ type RegistrationEditability = {
   warning: string;
 };
 
-// TODO: Check also user organizations when API is available e.g. similar funtion in events
 export const checkCanUserDoAction = ({
   action,
+  organizationAncestors,
+  publisher,
+  user,
 }: {
   action: REGISTRATION_EDIT_ACTIONS;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
+  user?: UserFieldsFragment;
 }): boolean => {
+  const isAdminUser = isAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
   switch (action) {
     case REGISTRATION_EDIT_ACTIONS.COPY:
     case REGISTRATION_EDIT_ACTIONS.COPY_LINK:
-    case REGISTRATION_EDIT_ACTIONS.DELETE:
     case REGISTRATION_EDIT_ACTIONS.EDIT:
+      return true;
+    case REGISTRATION_EDIT_ACTIONS.DELETE:
     case REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS:
     case REGISTRATION_EDIT_ACTIONS.UPDATE:
-      return true;
+      return isAdminUser;
   }
 };
 
@@ -106,15 +120,24 @@ export const getEditRegistrationWarning = ({
 export const checkIsEditActionAllowed = ({
   action,
   authenticated,
-  registration,
+  organizationAncestors,
+  publisher,
   t,
+  user,
 }: {
   action: REGISTRATION_EDIT_ACTIONS;
   authenticated: boolean;
-  registration: RegistrationFieldsFragment;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
   t: TFunction;
+  user?: UserFieldsFragment;
 }): RegistrationEditability => {
-  const userCanDoAction = checkCanUserDoAction({ action });
+  const userCanDoAction = checkCanUserDoAction({
+    action,
+    organizationAncestors,
+    publisher,
+    user,
+  });
 
   const warning = getEditRegistrationWarning({
     action,
@@ -130,20 +153,26 @@ export const getEditButtonProps = ({
   action,
   authenticated,
   onClick,
-  registration,
+  organizationAncestors,
+  publisher,
   t,
+  user,
 }: {
   action: REGISTRATION_EDIT_ACTIONS;
   authenticated: boolean;
   onClick: () => void;
-  registration: RegistrationFieldsFragment;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
   t: TFunction;
+  user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
   const { editable, warning } = checkIsEditActionAllowed({
     action,
     authenticated,
-    registration,
+    organizationAncestors,
+    publisher,
     t,
+    user,
   });
 
   return {

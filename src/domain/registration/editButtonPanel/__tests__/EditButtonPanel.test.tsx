@@ -17,6 +17,7 @@ import {
 } from '../../../../utils/testUtils';
 import {
   mockedUserResponse,
+  publisher,
   registration,
   registrationId,
 } from '../../__mocks__/editRegistrationPage';
@@ -26,9 +27,10 @@ configure({ defaultHidden: true });
 jest.mock('copy-to-clipboard');
 
 const defaultProps: EditButtonPanelProps = {
-  registration,
   onDelete: jest.fn(),
   onUpdate: jest.fn(),
+  publisher,
+  registration,
   saving: false,
 };
 

@@ -6,10 +6,10 @@ import { useImageQuery } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import { authenticatedSelector } from '../../auth/selectors';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { IMAGE_ACTIONS } from '../constants';
 import { checkIsImageActionAllowed, imagePathBuilder } from '../utils';
-import useImageOrganizationAncestors from './useImageOrganizationAncestors';
 
 interface Props {
   imageAtId: string;
@@ -32,8 +32,8 @@ const useIsImageEditable = ({ imageAtId }: Props): IsImageEditableState => {
     },
   });
 
-  const { organizationAncestors } = useImageOrganizationAncestors(
-    imageData?.image.publisher ?? ''
+  const { organizationAncestors } = useOrganizationAncestors(
+    imageData?.image.publisher as string
   );
 
   const { editable, warning } = useMemo(() => {

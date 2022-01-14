@@ -18,9 +18,9 @@ import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EventsLocationState } from '../../eventSearch/types';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
-import useEventOrganizationAncestors from '../hooks/useEventOrganizationAncestors';
 import { copyEventToSessionStorage, getEditButtonProps } from '../utils';
 
 type ActionButtonProps = {
@@ -50,7 +50,9 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const locale = useLocale();
   const history = useHistory<EventsLocationState>();
 
-  const { organizationAncestors } = useEventOrganizationAncestors(event);
+  const { organizationAncestors } = useOrganizationAncestors(
+    event.publisher as string
+  );
   const { user } = useUser();
 
   const goBack = useGoBack<EventsLocationState>({

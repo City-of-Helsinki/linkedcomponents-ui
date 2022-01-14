@@ -11,9 +11,9 @@ import {
 } from '../../../generated/graphql';
 import { signIn } from '../../auth/authenticate';
 import { authenticatedSelector } from '../../auth/selectors';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
-import useEventOrganizationAncestors from '../hooks/useEventOrganizationAncestors';
 import { checkIsEditActionAllowed } from '../utils';
 import styles from './authRequiredNotification.module.scss';
 
@@ -40,7 +40,9 @@ const AuthRequiredNotification: React.FC<AuthRequiredNotificationProps> = ({
     ? [...user?.adminOrganizations, ...user.organizationMemberships]
     : [];
   const { t } = useTranslation();
-  const { organizationAncestors } = useEventOrganizationAncestors(event);
+  const { organizationAncestors } = useOrganizationAncestors(
+    event?.publisher as string
+  );
 
   const handleSignIn = () => {
     signIn(`${location.pathname}${location.search}`);
