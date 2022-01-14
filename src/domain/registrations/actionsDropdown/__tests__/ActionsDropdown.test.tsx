@@ -19,6 +19,7 @@ import {
 } from '../../../../utils/testUtils';
 import {
   mockedDeleteRegistrationResponse,
+  mockedEventResponse,
   registration,
 } from '../../../registration/__mocks__/editRegistrationPage';
 import { mockedUserResponse } from '../../__mocks__/registrationsPage';
@@ -31,7 +32,7 @@ const defaultProps: ActionsDropdownProps = {
   registration: registration,
 };
 
-const defaultMocks = [mockedUserResponse];
+const defaultMocks = [mockedEventResponse, mockedUserResponse];
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
@@ -90,6 +91,15 @@ const getElement = (
   }
 };
 
+const getElements = (key: 'disabledButtons') => {
+  switch (key) {
+    case 'disabledButtons':
+      return screen.getAllByRole('button', {
+        name: 'Sinulla ei ole oikeuksia muokata ilmoittautumisia.',
+      });
+  }
+};
+
 const openMenu = () => {
   const toggleButton = getElement('toggle');
   userEvent.click(toggleButton);
@@ -114,9 +124,24 @@ test('should render correct buttons', async () => {
   openMenu();
 
   getElement('copy');
+  getElement('copyLink');
   await findElement('delete');
   getElement('edit');
   getElement('showEnrolments');
+});
+
+test('only copy, copy link and edit buttons should be enabled when user is not logged in', () => {
+  renderComponent();
+
+  openMenu();
+
+  getElement('copy');
+  getElement('copyLink');
+  getElement('edit');
+
+  const disabledButtons = getElements('disabledButtons');
+  expect(disabledButtons).toHaveLength(2);
+  disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
 test('should route to edit registration page when clicking edit button', async () => {
@@ -136,7 +161,7 @@ test('should route to edit registration page when clicking edit button', async (
 });
 
 test('should route to enrolments page when clicking show enrolments button', async () => {
-  const { history } = renderComponent();
+  const { history } = renderComponent({ store });
 
   openMenu();
 
@@ -181,11 +206,11 @@ test('should copy registration link to clipboard', async () => {
 
 test('should delete registration', async () => {
   const mocks = [...defaultMocks, mockedDeleteRegistrationResponse];
-  renderComponent({ mocks });
+  renderComponent({ mocks, store });
 
   openMenu();
 
-  const deleteButton = getElement('delete');
+  const deleteButton = await findElement('delete');
   act(() => userEvent.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));

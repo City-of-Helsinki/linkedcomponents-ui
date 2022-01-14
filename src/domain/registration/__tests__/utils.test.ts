@@ -17,7 +17,8 @@ describe('getEditRegistrationWarning function', () => {
   it('should return correct warning if user is not authenticated', () => {
     const allowedActions = [
       REGISTRATION_EDIT_ACTIONS.COPY,
-      REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS,
+      REGISTRATION_EDIT_ACTIONS.COPY_LINK,
+      REGISTRATION_EDIT_ACTIONS.EDIT,
     ];
 
     const commonProps = {
@@ -37,6 +38,7 @@ describe('getEditRegistrationWarning function', () => {
 
     const deniedActions = [
       REGISTRATION_EDIT_ACTIONS.DELETE,
+      REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS,
       REGISTRATION_EDIT_ACTIONS.UPDATE,
     ];
 

@@ -1276,7 +1276,7 @@
     "pageTitle": "Registrering",
     "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
     "registrationsTableColumns": {
-      "enrolmentss": "Deltagarna",
+      "enrolments": "Deltagarna",
       "enrolmentEndTime": "Slutar",
       "enrolmentStartTime": "Börjar",
       "name": "Namn",

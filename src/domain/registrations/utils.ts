@@ -1,8 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../constants';
 import {
   EventTypeId,
@@ -21,9 +19,6 @@ import { assertUnreachable } from '../../utils/typescript';
 import { EVENT_TYPE } from '../event/constants';
 import {
   DEFAULT_REGISTRATION_SORT,
-  REGISTRATION_EDIT_ACTIONS,
-  REGISTRATION_EDIT_ICONS,
-  REGISTRATION_EDIT_LABEL_KEYS,
   REGISTRATION_SEARCH_PARAMS,
   REGISTRATION_SORT_OPTIONS,
   REGISTRATIONS_PAGE_SIZE,
@@ -156,24 +151,6 @@ export const getRegistrationFields = (
       id
     )}`,
     waitingListCapacity: registration.waitingListCapacity ?? 0,
-  };
-};
-
-export const getEditButtonProps = ({
-  action,
-  onClick,
-  t,
-}: {
-  action: REGISTRATION_EDIT_ACTIONS;
-  onClick: () => void;
-  t: TFunction;
-}): MenuItemOptionProps | null => {
-  return {
-    disabled: false,
-    icon: REGISTRATION_EDIT_ICONS[action],
-    label: t(REGISTRATION_EDIT_LABEL_KEYS[action]),
-    onClick,
-    title: '',
   };
 };
 

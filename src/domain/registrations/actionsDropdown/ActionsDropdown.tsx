@@ -1,6 +1,7 @@
 import { IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
@@ -9,6 +10,9 @@ import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { authenticatedSelector } from '../../auth/selectors';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import useRegistrationUpdateActions, {
   MODALS,
 } from '../../registration/hooks/useRegistrationUpdateActions';
@@ -16,10 +20,12 @@ import ConfirmDeleteModal from '../../registration/modals/ConfirmDeleteModal';
 import {
   copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
+  getEditButtonProps,
 } from '../../registration/utils';
+import useUser from '../../user/hooks/useUser';
 import { REGISTRATION_EDIT_ACTIONS } from '../constants';
 import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
-import { getEditButtonProps, getRegistrationFields } from '../utils';
+import { getRegistrationFields } from '../utils';
 import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {
@@ -30,10 +36,16 @@ export interface ActionsDropdownProps {
 const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
   ({ className, registration }, ref) => {
     const { t } = useTranslation();
+    const authenticated = useSelector(authenticatedSelector);
     const locale = useLocale();
     const history = useHistory();
     const { id, registrationUrl } = getRegistrationFields(registration, locale);
     const queryStringWithReturnPath = useQueryStringWithReturnPath();
+    const { user } = useUser();
+
+    const publisher = useRegistrationPublisher({ registration }) as string;
+    const { organizationAncestors } = useOrganizationAncestors(publisher);
+
     const { closeModal, deleteRegistration, openModal, saving, setOpenModal } =
       useRegistrationUpdateActions({
         registration,
@@ -72,8 +84,12 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
     }): MenuItemOptionProps | null => {
       return getEditButtonProps({
         action,
+        authenticated,
         onClick,
+        organizationAncestors,
+        publisher,
         t,
+        user,
       });
     };
 
