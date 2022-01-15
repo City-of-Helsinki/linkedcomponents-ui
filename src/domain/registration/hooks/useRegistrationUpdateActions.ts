@@ -16,13 +16,10 @@ import useMountedState from '../../../hooks/useMountedState';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
-import {
-  clearRegistrationsQueries,
-  getRegistrationFields,
-} from '../../registrations/utils';
+import { clearRegistrationsQueries } from '../../registrations/utils';
 import useUser from '../../user/hooks/useUser';
 import { RegistrationFormFields } from '../types';
-import { getRegistrationPayload } from '../utils';
+import { getRegistrationFields, getRegistrationPayload } from '../utils';
 
 export enum MODALS {
   DELETE = 'delete',

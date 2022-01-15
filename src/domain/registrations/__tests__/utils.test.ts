@@ -3,7 +3,6 @@ import {
   EventTypeId,
   RegistrationsQueryVariables,
 } from '../../../generated/graphql';
-import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { EVENT_TYPE } from '../../event/constants';
 import {
   REGISTRATION_SEARCH_PARAMS,
@@ -12,7 +11,6 @@ import {
 import { RegistrationSearchParam, RegistrationSearchParams } from '../types';
 import {
   addParamsToRegistrationQueryString,
-  getRegistrationFields,
   getRegistrationParamValue,
   getRegistrationSearchQuery,
   getRegistrationsQueryVariables,
@@ -140,48 +138,6 @@ describe('replaceParamsToRegistrationQueryString', () => {
       );
     }
   );
-});
-
-describe('getRegistrationFields function', () => {
-  it('should return default values if value is not set', () => {
-    const {
-      atId,
-      createdBy,
-      currentAttendeeCount,
-      currentWaitingListCount,
-      enrolmentEndTime,
-      enrolmentStartTime,
-      id,
-      lastModifiedAt,
-      maximumAttendeeCapacity,
-      waitingListCapacity,
-    } = getRegistrationFields(
-      fakeRegistration({
-        atId: null,
-        createdBy: null,
-        currentAttendeeCount: null,
-        currentWaitingListCount: null,
-        enrolmentEndTime: '',
-        enrolmentStartTime: '',
-        id: null,
-        lastModifiedAt: '',
-        maximumAttendeeCapacity: null,
-        waitingListCapacity: null,
-      }),
-      'fi'
-    );
-
-    expect(atId).toBe('');
-    expect(createdBy).toBe('');
-    expect(currentAttendeeCount).toBe(0);
-    expect(currentWaitingListCount).toBe(0);
-    expect(enrolmentEndTime).toBe(null);
-    expect(enrolmentStartTime).toBe(null);
-    expect(id).toBe('');
-    expect(lastModifiedAt).toBe(null);
-    expect(maximumAttendeeCapacity).toBe(0);
-    expect(waitingListCapacity).toBe(0);
-  });
 });
 
 describe('getRegistrationsQueryVariables', () => {

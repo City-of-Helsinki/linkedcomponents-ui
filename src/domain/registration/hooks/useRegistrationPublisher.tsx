@@ -6,7 +6,7 @@ import useLocale from '../../../hooks/useLocale';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { EVENT_INCLUDES } from '../../event/constants';
 import { eventPathBuilder, getEventFields } from '../../event/utils';
-import { getRegistrationFields } from '../../registrations/utils';
+import { getRegistrationFields } from '../utils';
 
 interface Props {
   registration: RegistrationFieldsFragment;

@@ -21,11 +21,11 @@ import {
   copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
   getEditButtonProps,
+  getRegistrationFields,
 } from '../../registration/utils';
 import useUser from '../../user/hooks/useUser';
 import { REGISTRATION_EDIT_ACTIONS } from '../constants';
 import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
-import { getRegistrationFields } from '../utils';
 import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {

@@ -12,7 +12,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
 import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
-import { getRegistrationFields } from '../utils';
+import { getRegistrationFields } from '../../registration/utils';
 import styles from './registrationsTable.module.scss';
 import RegistrationsTableRow from './RegistrationsTableRow';
 

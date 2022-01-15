@@ -8,9 +8,11 @@ import formatDate from '../../../utils/formatDate';
 import PublisherName from '../../events/eventCard/PublisherName';
 import useRegistrationName from '../../registration/hooks/useRegistrationName';
 import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
-import { getRegistrationItemId } from '../../registration/utils';
+import {
+  getRegistrationFields,
+  getRegistrationItemId,
+} from '../../registration/utils';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
-import { getRegistrationFields } from '../utils';
 import styles from './registrationsTable.module.scss';
 
 interface Props {

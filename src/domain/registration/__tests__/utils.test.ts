@@ -7,6 +7,7 @@ import { registrationsResponse } from '../__mocks__/registration';
 import { REGISTRATION_INITIAL_VALUES } from '../constants';
 import {
   getEditRegistrationWarning,
+  getRegistrationFields,
   getRegistrationInitialValues,
   getRegistrationPayload,
   getRegistrationWarning,
@@ -61,6 +62,48 @@ describe('getEditRegistrationWarning function', () => {
         action: REGISTRATION_EDIT_ACTIONS.UPDATE,
       })
     ).toBe('Sinulla ei ole oikeuksia muokata tätä ilmoittautumista.');
+  });
+});
+
+describe('getRegistrationFields function', () => {
+  it('should return default values if value is not set', () => {
+    const {
+      atId,
+      createdBy,
+      currentAttendeeCount,
+      currentWaitingListCount,
+      enrolmentEndTime,
+      enrolmentStartTime,
+      id,
+      lastModifiedAt,
+      maximumAttendeeCapacity,
+      waitingListCapacity,
+    } = getRegistrationFields(
+      fakeRegistration({
+        atId: null,
+        createdBy: null,
+        currentAttendeeCount: null,
+        currentWaitingListCount: null,
+        enrolmentEndTime: '',
+        enrolmentStartTime: '',
+        id: null,
+        lastModifiedAt: '',
+        maximumAttendeeCapacity: null,
+        waitingListCapacity: null,
+      }),
+      'fi'
+    );
+
+    expect(atId).toBe('');
+    expect(createdBy).toBe('');
+    expect(currentAttendeeCount).toBe(0);
+    expect(currentWaitingListCount).toBe(0);
+    expect(enrolmentEndTime).toBe(null);
+    expect(enrolmentStartTime).toBe(null);
+    expect(id).toBe('');
+    expect(lastModifiedAt).toBe(null);
+    expect(maximumAttendeeCapacity).toBe(0);
+    expect(waitingListCapacity).toBe(0);
   });
 });
 

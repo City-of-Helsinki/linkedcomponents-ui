@@ -8,7 +8,7 @@ import { scroller } from 'react-scroll';
 import { toast } from 'react-toastify';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { FORM_NAMES } from '../../constants';
+import { FORM_NAMES, ROUTES } from '../../constants';
 import {
   CreateRegistrationMutationInput,
   OrganizationFieldsFragment,
@@ -28,7 +28,7 @@ import {
   REGISTRATION_EDIT_LABEL_KEYS,
 } from '../registrations/constants';
 import { REGISTRATION_FIELDS, REGISTRATION_INITIAL_VALUES } from './constants';
-import { RegistrationFormFields } from './types';
+import { RegistrationFields, RegistrationFormFields } from './types';
 
 export const clearRegistrationFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.REGISTRATION_FORM);
@@ -181,6 +181,37 @@ export const getEditButtonProps = ({
     label: t(REGISTRATION_EDIT_LABEL_KEYS[action]),
     onClick,
     title: warning,
+  };
+};
+
+export const getRegistrationFields = (
+  registration: RegistrationFieldsFragment,
+  language: Language
+): RegistrationFields => {
+  const id = registration.id || '';
+
+  return {
+    id,
+    atId: registration.atId || '',
+    createdBy: registration.createdBy ?? '',
+    currentAttendeeCount: registration.currentAttendeeCount ?? 0,
+    currentWaitingListCount: registration.currentWaitingListCount ?? 0,
+    enrolmentEndTime: registration.enrolmentEndTime
+      ? new Date(registration.enrolmentEndTime)
+      : null,
+    enrolmentStartTime: registration.enrolmentStartTime
+      ? new Date(registration.enrolmentStartTime)
+      : null,
+    event: registration.event ?? '',
+    lastModifiedAt: registration.lastModifiedAt
+      ? new Date(registration.lastModifiedAt)
+      : null,
+    maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
+    registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
+      ':id',
+      id
+    )}`,
+    waitingListCapacity: registration.waitingListCapacity ?? 0,
   };
 };
 

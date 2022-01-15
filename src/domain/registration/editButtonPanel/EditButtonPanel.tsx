@@ -18,12 +18,12 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
 import useQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import { RegistrationsLocationState } from '../../registrations/types';
-import { getRegistrationFields } from '../../registrations/utils';
 import useUser from '../../user/hooks/useUser';
 import {
   copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
   getEditButtonProps,
+  getRegistrationFields,
 } from '../utils';
 
 type ButtonType = 'button' | 'reset' | 'submit' | undefined;

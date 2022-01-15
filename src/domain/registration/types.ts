@@ -12,3 +12,18 @@ export type RegistrationFormFields = {
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: number | '';
 };
+
+export type RegistrationFields = {
+  id: string;
+  atId: string;
+  createdBy: string;
+  currentAttendeeCount: number;
+  currentWaitingListCount: number;
+  enrolmentEndTime: Date | null;
+  enrolmentStartTime: Date | null;
+  event: string;
+  lastModifiedAt: Date | null;
+  maximumAttendeeCapacity: number;
+  registrationUrl: string;
+  waitingListCapacity: number;
+};

@@ -19,10 +19,8 @@ import useEnrolmentUpdateActions, {
   ENROLMENT_MODALS,
 } from '../../enrolment/hooks/useEnrolmentUpdateActions';
 import ConfirmCancelModal from '../../enrolment/modals/ConfirmCancelModal';
-import {
-  addParamsToRegistrationQueryString,
-  getRegistrationFields,
-} from '../../registrations/utils';
+import { getRegistrationFields } from '../../registration/utils';
+import { addParamsToRegistrationQueryString } from '../../registrations/utils';
 import { ENROLMENT_EDIT_ACTIONS } from '../constants';
 import { getEditButtonProps, getEnrolmentFields } from '../utils';
 import styles from './actionsDropdown.module.scss';
