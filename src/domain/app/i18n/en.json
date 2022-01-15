@@ -9,7 +9,8 @@
     "noRightsUpdateEnrolment": "You do not have permission to edit participants.",
     "noRightsUpdateEventLabel": "No permissions to edit events",
     "noRightsUpdateEvent": "You do not have permission to edit events.",
-    "noRightsUpdateRegistration": "You do not have permission to edit registrations."
+    "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
+    "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
   },
   "authRequiredNotification": {
     "button": "sign in",
@@ -1246,6 +1247,7 @@
       "labelMinimumAttendeeCapacity": "Minimum number of seats",
       "labelName": "Name",
       "labelWaitingListCapacity": "Number of spare seats",
+      "notificationTitleCannotEdit": "The registration cannot be edited",
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",

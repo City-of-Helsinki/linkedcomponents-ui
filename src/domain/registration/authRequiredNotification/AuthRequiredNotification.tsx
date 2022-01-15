@@ -5,8 +5,14 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import Notification from '../../../common/components/notification/Notification';
+import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import { signIn } from '../../auth/authenticate';
 import { authenticatedSelector } from '../../auth/selectors';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
+import useUser from '../../user/hooks/useUser';
+import useRegistrationPublisher from '../hooks/useRegistrationPublisher';
+import { checkIsEditActionAllowed } from '../utils';
 import styles from './authRequiredNotification.module.scss';
 
 export const hiddenStyles = {
@@ -16,10 +22,20 @@ export const hiddenStyles = {
   padding: 0,
 };
 
-const AuthRequiredNotification: React.FC = () => {
+export type AuthRequiredNotificationProps = {
+  registration?: RegistrationFieldsFragment;
+};
+
+const AuthRequiredNotification: React.FC<AuthRequiredNotificationProps> = ({
+  registration,
+}) => {
   const location = useLocation();
   const [hidden, setHidden] = useState(false);
   const authenticated = useSelector(authenticatedSelector);
+  const { user } = useUser();
+  const adminOrganizations = user?.adminOrganizations || [];
+  const publisher = useRegistrationPublisher({ registration }) as string;
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { t } = useTranslation();
 
@@ -38,10 +54,43 @@ const AuthRequiredNotification: React.FC = () => {
   };
 
   if (authenticated) {
+    if (!adminOrganizations.length) {
+      return (
+        <Notification
+          {...notificationProps}
+          label={t('authentication.noRightsUpdateRegistrationLabel')}
+        >
+          <p>{t('authentication.noRightsUpdateRegistration')}</p>
+        </Notification>
+      );
+    }
+
+    if (registration) {
+      const action = REGISTRATION_EDIT_ACTIONS.UPDATE;
+      const { warning } = checkIsEditActionAllowed({
+        action,
+        authenticated,
+        organizationAncestors,
+        publisher,
+        t,
+        user,
+      });
+
+      if (warning) {
+        return (
+          <Notification
+            {...notificationProps}
+            label={t('registration.form.notificationTitleCannotEdit')}
+          >
+            <p>{warning}</p>
+          </Notification>
+        );
+      }
+    }
+
     return null;
   }
 
-  // TODO: Show warning also if user doesn't have any organizations
   return (
     <Notification {...notificationProps} label={t('common.signIn')}>
       <p>

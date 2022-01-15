@@ -34,17 +34,14 @@ const userVariables = {
   id: TEST_USER_ID,
 };
 
-test('should not show sign in notification if user is signed in and has organizations', async () => {
+test('should not show notification if user is signed in and has organizations', async () => {
   const user = fakeUser({
     adminOrganizations: ['helsinki:123'],
     organizationMemberships: [],
   });
   const userResponse = { data: { user } };
   const mockedUserResponse: MockedResponse = {
-    request: {
-      query: UserDocument,
-      variables: userVariables,
-    },
+    request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
   const mocks = [mockedUserResponse];
@@ -59,17 +56,14 @@ test('should not show sign in notification if user is signed in and has organiza
   );
 });
 
-test("should show notification if user is signed in but doesn't have organizations", () => {
+test("should show notification if user is signed in but doesn't have any organizations", () => {
   const user = fakeUser({
     adminOrganizations: [],
     organizationMemberships: [],
   });
   const userResponse = { data: { user } };
   const mockedUserResponse: MockedResponse = {
-    request: {
-      query: UserDocument,
-      variables: userVariables,
-    },
+    request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
   const mocks = [mockedUserResponse];
@@ -98,10 +92,7 @@ test('should show notification if event is in the past', async () => {
 
   const userResponse = { data: { user } };
   const mockedUserResponse: MockedResponse = {
-    request: {
-      query: UserDocument,
-      variables: userVariables,
-    },
+    request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
   const mocks = [mockedUserResponse];

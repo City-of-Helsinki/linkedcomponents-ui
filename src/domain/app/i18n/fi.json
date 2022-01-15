@@ -9,7 +9,8 @@
     "noRightsUpdateEnrolment": "Sinulla ei ole oikeuksia muokata osallistujia.",
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
-    "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia."
+    "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
+    "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
   },
   "authenticationMethod": {
     "espooEmployee": "Espoon kaupungin työntekijä -tunnus",
@@ -1246,6 +1247,7 @@
       "labelMinimumAttendeeCapacity": "Paikkojen vähimmäismäärä",
       "labelName": "Nimi",
       "labelWaitingListCapacity": "Varasijapaikkojen lukumäärä",
+      "notificationTitleCannotEdit": "Ilmoittautumista ei voi muokata",
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
       "placeholderInstructions": "Syötä ilmoittautumisohjeet",

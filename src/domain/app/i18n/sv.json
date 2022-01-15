@@ -9,7 +9,8 @@
     "noRightsUpdateEnrolment": "Du har inte rättigheter att redigera evenemang.",
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
-    "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar."
+    "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
+    "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
   },
   "authenticationMethod": {
     "espooEmployee": "Stad Esbo anställd ID",
@@ -1246,6 +1247,7 @@
       "labelMinimumAttendeeCapacity": "Minsta antal platser",
       "labelName": "Namn",
       "labelWaitingListCapacity": "Antal reservplatser",
+      "notificationTitleCannotEdit": "Registreringet kan inte redigeras",
       "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
       "placeholderEvent": "Välj eller sök efter evenemanget",
       "placeholderInstructions": "Ange registreringsinstruktioner",

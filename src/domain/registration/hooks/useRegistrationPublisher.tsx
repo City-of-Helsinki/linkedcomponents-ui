@@ -9,11 +9,13 @@ import { eventPathBuilder, getEventFields } from '../../event/utils';
 import { getRegistrationFields } from '../utils';
 
 interface Props {
-  registration: RegistrationFieldsFragment;
+  registration?: RegistrationFieldsFragment;
 }
 const useRegistrationPublisher = ({ registration }: Props): string | null => {
   const locale = useLocale();
-  const { event: eventId } = getRegistrationFields(registration, locale);
+  const { event: eventId } = registration
+    ? getRegistrationFields(registration, locale)
+    : { event: '' };
 
   const { data: eventData } = useEventQuery({
     skip: !eventId,

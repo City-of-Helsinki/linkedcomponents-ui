@@ -175,7 +175,7 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
-                    <AuthRequiredNotification />
+                    <AuthRequiredNotification registration={registration} />
                     <ServerErrorSummary errors={serverErrorItems} />
                     <RegistrationInfo registration={registration} />
                     <Section
