@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
@@ -31,7 +32,6 @@ import { REGISTRATION_EDIT_ACTIONS } from '../registrations/constants';
 import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
-import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import AttendeeCapacitySection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
@@ -46,6 +46,7 @@ import useRegistrationUpdateActions, {
   MODALS,
 } from './hooks/useRegistrationUpdateActions';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import AuthenticationNotification from './registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import RegistrationInfo from './registrationInfo/RegistrationInfo';
 import styles from './registrationPage.module.scss';
 import { RegistrationFormFields } from './types';
@@ -175,7 +176,7 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
-                    <AuthRequiredNotification registration={registration} />
+                    <AuthenticationNotification registration={registration} />
                     <ServerErrorSummary errors={serverErrorItems} />
                     <RegistrationInfo registration={registration} />
                     <Section

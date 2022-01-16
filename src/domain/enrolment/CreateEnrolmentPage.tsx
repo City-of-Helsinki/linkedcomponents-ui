@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   ApolloClient,
   NormalizedCacheObject,
@@ -32,8 +33,8 @@ import { clearEnrolmentsQueries } from '../enrolments/utils';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
-import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
+import AuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import {
   getRegistrationWarning,
   isRegistrationPossible,
@@ -160,7 +161,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
               <Form noValidate>
                 <Container withOffset>
                   <FormContainer>
-                    <AuthRequiredNotification />
+                    <AuthenticationNotification />
                     <ServerErrorSummary errors={serverErrorItems} />
                     <EventInfo event={event} />
                     <div className={styles.divider} />

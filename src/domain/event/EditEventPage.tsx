@@ -28,13 +28,13 @@ import { EventsLocationState } from '../eventSearch/types';
 import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotFound from '../notFound/NotFound';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
-import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import {
   EVENT_EDIT_ACTIONS,
   EVENT_INCLUDES,
   EVENT_INFO_LANGUAGES,
 } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
+import AuthenticationNotification from './eventAuthenticationNotification/EventAuthenticationNotification';
 import EventInfo from './eventInfo/EventInfo';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
@@ -281,7 +281,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
-                    <AuthRequiredNotification event={event} />
+                    <AuthenticationNotification event={event} />
                     <EventInfo event={event} />
                     <ServerErrorSummary errors={serverErrorItems} />
 

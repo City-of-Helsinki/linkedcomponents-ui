@@ -19,7 +19,7 @@
     "some": "Facebook, Google eller Twitter ID",
     "yle": "YLE ID"
   },
-  "authRequiredNotification": {
+  "authenticationNotification": {
     "button": "logga in",
     "part1": "Du kan fortsätta att utforska tjänsten, men du måste",
     "part2": " för att spara dina ändringar."

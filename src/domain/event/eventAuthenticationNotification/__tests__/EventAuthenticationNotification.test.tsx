@@ -15,19 +15,19 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
 import userManager from '../../../auth/userManager';
-import AuthRequiredNotification, {
-  AuthRequiredNotificationProps,
-  hiddenStyles,
-} from '../AuthRequiredNotification';
+import EventAuthenticationNotification, {
+  EventAuthenticationNotificationProps,
+} from '../EventAuthenticationNotification';
 
 configure({ defaultHidden: true });
 beforeEach(() => clear());
 
 const renderComponent = (
   renderOptions?: CustomRenderOptions,
-  props?: AuthRequiredNotificationProps
-) => render(<AuthRequiredNotification {...props} />, renderOptions);
+  props?: EventAuthenticationNotificationProps
+) => render(<EventAuthenticationNotification {...props} />, renderOptions);
 
 const userVariables = {
   createPath: undefined,

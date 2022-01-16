@@ -15,10 +15,9 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
 import userManager from '../../../auth/userManager';
-import AuthRequiredNotification, {
-  hiddenStyles,
-} from '../AuthRequiredNotification';
+import RegistrationAuthenticationNotification from '../RegistrationAuthenticationNotification';
 
 configure({ defaultHidden: true });
 beforeEach(() => clear());
@@ -29,7 +28,7 @@ const userVariables = {
 };
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
-  render(<AuthRequiredNotification />, renderOptions);
+  render(<RegistrationAuthenticationNotification />, renderOptions);
 
 test('should show sign in notification is user is not signed in', () => {
   renderComponent();

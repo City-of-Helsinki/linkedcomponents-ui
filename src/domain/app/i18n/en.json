@@ -12,7 +12,7 @@
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
   },
-  "authRequiredNotification": {
+  "authenticationNotification": {
     "button": "sign in",
     "part1": "You can continue to explore the service, but you will need to",
     "part2": " to save your changes."

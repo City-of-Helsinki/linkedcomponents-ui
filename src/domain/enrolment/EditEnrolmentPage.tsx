@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
@@ -29,8 +30,8 @@ import { ENROLMENT_EDIT_ACTIONS } from '../enrolments/constants';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
-import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
+import AuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import { registrationPathBuilder } from '../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
@@ -171,7 +172,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
                     withOffset
                   >
                     <FormContainer>
-                      <AuthRequiredNotification />
+                      <AuthenticationNotification />
                       <ServerErrorSummary errors={serverErrorItems} />
                       <EventInfo event={event} />
                       <div className={styles.divider} />

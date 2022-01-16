@@ -26,7 +26,6 @@ import Section from '../app/layout/Section';
 import { reportError } from '../app/sentry/utils';
 import { clearRegistrationsQueries } from '../registrations/utils';
 import useUser from '../user/hooks/useUser';
-import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INITIAL_VALUES } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
 import AttendeeCapacitySection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
@@ -37,6 +36,7 @@ import EventSection from './formSections/eventSection/EventSection';
 import InstructionsSection from './formSections/instructionsSection/InstructionsSection';
 import WaitingListSection from './formSections/waitingListSection/WaitingListSection';
 import useRegistrationServerErrors from './hooks/useRegistrationServerErrors';
+import AuthenticationNotification from './registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import styles from './registrationPage.module.scss';
 import { RegistrationFormFields } from './types';
 import { getRegistrationPayload } from './utils';
@@ -149,7 +149,7 @@ const CreateRegistrationPage: React.FC = () => {
             >
               <MainContent>
                 <Container className={styles.createContainer} withOffset={true}>
-                  <AuthRequiredNotification />
+                  <AuthenticationNotification />
                   <ServerErrorSummary errors={serverErrorItems} />
                   <Section title={t('registration.form.sections.event')}>
                     <EventSection />

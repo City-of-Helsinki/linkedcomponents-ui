@@ -29,9 +29,9 @@ import Section from '../app/layout/Section';
 import { reportError } from '../app/sentry/utils';
 import { clearEventsQueries } from '../events/utils';
 import useUser from '../user/hooks/useUser';
-import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import { EVENT_INFO_LANGUAGES, EVENT_INITIAL_VALUES } from './constants';
 import ButtonPanel from './createButtonPanel/CreateButtonPanel';
+import AuthenticationNotification from './eventAuthenticationNotification/EventAuthenticationNotification';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
 import AudienceSection from './formSections/audienceSection/AudienceSection';
@@ -278,7 +278,7 @@ const CreateEventPage: React.FC = () => {
             >
               <MainContent>
                 <Container className={styles.createContainer} withOffset={true}>
-                  <AuthRequiredNotification />
+                  <AuthenticationNotification />
                   <ServerErrorSummary errors={serverErrorItems} />
                   <Section title={t('event.form.sections.type')}>
                     <TypeSection />
