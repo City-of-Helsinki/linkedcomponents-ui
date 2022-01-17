@@ -14,10 +14,11 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { ENROLMENT_ACTIONS } from '../enrolment/constants';
+import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import NotFound from '../notFound/NotFound';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import useRegistrationName from '../registration/hooks/useRegistrationName';
-import AuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import RegistrationInfo from '../registration/registrationInfo/RegistrationInfo';
 import { registrationPathBuilder } from '../registration/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
@@ -65,7 +66,10 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
           contentWrapperClassName={styles.pageContentContainer}
           withOffset={true}
         >
-          <AuthenticationNotification />
+          <EnrolmentAuthenticationNotification
+            action={ENROLMENT_ACTIONS.VIEW}
+            registration={registration}
+          />
           <RegistrationInfo registration={registration} />
 
           <SearchPanel registration={registration} />

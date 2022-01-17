@@ -1,13 +1,17 @@
+import i18n from 'i18next';
+
 import { EnrolmentQueryVariables } from '../../../generated/graphql';
 import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
 import { registration } from '../../registration/__mocks__/registration';
 import {
+  ENROLMENT_ACTIONS,
   ENROLMENT_INITIAL_VALUES,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
 } from '../constants';
 import {
   enrolmentPathBuilder,
+  getEditEnrolmentWarning,
   getEnrolmentInitialValues,
   getEnrolmentNotificationsCode,
   getEnrolmentNotificationTypes,
@@ -242,4 +246,42 @@ describe('enrolmentPathBuilder function', () => {
   it.each(cases)('should build correct path', (variables, expectedPath) =>
     expect(enrolmentPathBuilder({ args: variables })).toBe(expectedPath)
   );
+});
+
+describe('getEditRegistrationWarning function', () => {
+  it('should return correct warning if user is not authenticated', () => {
+    const allowedActions = [ENROLMENT_ACTIONS.EDIT];
+
+    const commonProps = {
+      authenticated: false,
+      t: i18n.t.bind(i18n),
+      userCanDoAction: false,
+    };
+
+    allowedActions.forEach((action) => {
+      expect(getEditEnrolmentWarning({ action, ...commonProps })).toBe('');
+    });
+
+    const deniedActions = [
+      ENROLMENT_ACTIONS.CANCEL,
+      ENROLMENT_ACTIONS.SEND_MESSAGE,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(getEditEnrolmentWarning({ action, ...commonProps })).toBe(
+        'Sinulla ei ole oikeuksia muokata osallistujia.'
+      );
+    });
+  });
+
+  it('should return correct warning if user cannot do action', () => {
+    expect(
+      getEditEnrolmentWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: ENROLMENT_ACTIONS.CANCEL,
+      })
+    ).toBe('Sinulla ei ole oikeuksia muokata tätä osallistujaa.');
+  });
 });

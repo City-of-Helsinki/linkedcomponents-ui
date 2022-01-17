@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { TEST_USER_ID } from '../../../../constants';
+import { TEST_PUBLISHER_ID } from '../../../../domain/organization/constants';
 import {
   OrganizationDocument,
   UserDocument,
@@ -23,7 +24,7 @@ configure({ defaultHidden: true });
 
 const label = 'Select publisher';
 
-const publisherId = 'publisher:1';
+const publisherId = TEST_PUBLISHER_ID;
 const publisherName = 'Publisher name';
 const publisher = fakeOrganization({
   id: publisherId,

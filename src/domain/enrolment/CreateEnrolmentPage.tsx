@@ -34,7 +34,6 @@ import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
-import AuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import {
   getRegistrationWarning,
   isRegistrationPossible,
@@ -42,7 +41,9 @@ import {
 } from '../registration/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
+import { ENROLMENT_ACTIONS } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
+import EnrolmentAuthenticationNotification from './enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import EnrolmentFormFields from './enrolmentFormFields/EnrolmentFormFields';
 import styles from './enrolmentPage.module.scss';
 import EventInfo from './eventInfo/EventInfo';
@@ -161,7 +162,10 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
               <Form noValidate>
                 <Container withOffset>
                   <FormContainer>
-                    <AuthenticationNotification />
+                    <EnrolmentAuthenticationNotification
+                      action={ENROLMENT_ACTIONS.CREATE}
+                      registration={registration}
+                    />
                     <ServerErrorSummary errors={serverErrorItems} />
                     <EventInfo event={event} />
                     <div className={styles.divider} />

@@ -22,6 +22,7 @@ import {
   fakeUser,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_EDIT_ACTIONS,
@@ -347,7 +348,7 @@ describe('getEventPayload function', () => {
       maximumAttendeeCapacity = 10,
       minimumAttendeeCapacity = 5,
       publicationStatus = PublicationStatus.Draft,
-      publisher = 'publisher:1',
+      publisher = TEST_PUBLISHER_ID,
       startTime = '2020-01-02T12:15:00.000Z',
       videos = [
         {
@@ -1136,8 +1137,9 @@ describe('getEventInitialValues function', () => {
 });
 
 describe('checkCanUserDoAction function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
   it('should allow/deny correct actions if adminArganizations contains event publisher', () => {
-    const publisher = 'publisher:1';
     const event = fakeEvent({ publisher });
     const user = fakeUser({ adminOrganizations: [publisher] });
 
@@ -1165,7 +1167,6 @@ describe('checkCanUserDoAction function', () => {
   });
 
   it('should allow/deny correct actions if organizationAncestores contains any of the adminArganizations', () => {
-    const publisher = 'publisher:1';
     const adminOrganization = 'admin:1';
     const event = fakeEvent({ publisher });
     const user = fakeUser({ adminOrganizations: [adminOrganization] });
@@ -1194,7 +1195,6 @@ describe('checkCanUserDoAction function', () => {
   });
 
   it('should allow/deny correct actions if organizationMembers contains event publisher and event is draft', () => {
-    const publisher = 'publisher:1';
     const event = fakeEvent({
       publisher,
       publicationStatus: PublicationStatus.Draft,
@@ -1240,7 +1240,6 @@ describe('checkCanUserDoAction function', () => {
   });
 
   it('should allow/deny correct actions if organizationMembers contains event publisher and event is public', () => {
-    const publisher = 'publisher:1';
     const event = fakeEvent({
       publisher,
       publicationStatus: PublicationStatus.Public,
@@ -1285,7 +1284,6 @@ describe('checkCanUserDoAction function', () => {
   });
 
   it('should allow/deny correct actions if user is not member of any organization', () => {
-    const publisher = 'publisher:1';
     const event = fakeEvent({ publisher });
     const user = fakeUser({
       adminOrganizations: [],

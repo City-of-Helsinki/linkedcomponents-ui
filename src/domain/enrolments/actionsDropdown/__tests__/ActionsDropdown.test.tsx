@@ -22,12 +22,13 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { registration } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../__mocks__/enrolmentsPage';
 import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
 
 configure({ defaultHidden: true });
 
-const registration = fakeRegistration();
 const enrolment = fakeEnrolment({ cancellationCode: 'xxx' });
 
 const defaultProps: ActionsDropdownProps = {
@@ -47,7 +48,11 @@ const mockedCancelEnrolmentResponse: MockedResponse = {
   result: cancelEnrolmentResponse,
 };
 
-const defaultMocks = [mockedCancelEnrolmentResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedCancelEnrolmentResponse,
+  mockedEventResponse,
+  mockedUserResponse,
+];
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);

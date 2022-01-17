@@ -14,9 +14,10 @@ import {
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import { EVENT_INCLUDES, TEST_EVENT_ID } from '../../event/constants';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { REGISTRATION_INCLUDES } from '../constants';
 
-const publisher = 'publisher:1';
+const publisher = TEST_PUBLISHER_ID;
 const registrationId = 'registration:1';
 
 const registrationOverrides = {

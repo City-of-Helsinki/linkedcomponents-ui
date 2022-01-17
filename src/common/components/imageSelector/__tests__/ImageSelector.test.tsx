@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { TEST_PUBLISHER_ID } from '../../../../domain/organization/constants';
 import { ImagesDocument } from '../../../../generated/graphql';
 import { fakeImages } from '../../../../utils/mockDataUtils';
 import {
@@ -11,7 +12,7 @@ import {
 import { PAGE_SIZE } from '../constants';
 import ImageSelector, { ImageSelectorProps } from '../ImageSelector';
 
-const publisher = 'publisher:1';
+const publisher = TEST_PUBLISHER_ID;
 
 const defaultProps: ImageSelectorProps = {
   onChange: jest.fn(),

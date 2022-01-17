@@ -13,9 +13,10 @@ import {
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import { EVENT_INCLUDES } from '../../event/constants';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { REGISTRATIONS_PAGE_SIZE } from '../constants';
 
-const publisher = 'publisher:1';
+const publisher = TEST_PUBLISHER_ID;
 const registrationNames = range(1, REGISTRATIONS_PAGE_SIZE + 1).map(
   (n) => `Registration name ${n}`
 );

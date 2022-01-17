@@ -7,8 +7,9 @@
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
     "noRightsUpdateEnrolment": "Sinulla ei ole oikeuksia muokata osallistujia.",
-    "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
+    "noRightsUpdateEnrolmentLabel": "Ei oikeuksia muokata osallistujia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
+    "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
   },
@@ -208,6 +209,7 @@
       "labelServiceLanguage": "Asiointikieli",
       "labelStreetAddress": "Katuosoite",
       "labelZip": "Postinumero",
+      "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
       "placeholderCity": "Syötä kaupunki",
       "placeholderEmail": "Syötä sähköpostiosoite",
       "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
@@ -261,7 +263,9 @@
     },
     "waitingListTableCaption": "Jonopaikat",
     "waitingListTableHeading": "Jonopaikat",
-    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa."
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda osallistujia tähän ilmoittautumiseen.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa.",
+    "warningNoRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."
   },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",

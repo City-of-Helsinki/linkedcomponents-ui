@@ -1,8 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { TFunction } from 'i18next';
 import { scroller } from 'react-scroll';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../constants';
 import {
   AttendeeStatus,
@@ -15,12 +13,6 @@ import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import queryBuilder from '../../utils/queryBuilder';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
-import {
-  AUTHENTICATION_NOT_NEEDED,
-  ENROLMENT_EDIT_ACTIONS,
-  ENROLMENT_EDIT_ICONS,
-  ENROLMENT_EDIT_LABEL_KEYS,
-} from './constants';
 import { EnrolmentFields, EnrolmentSearchInitialValues } from './types';
 
 export const getEnrolmentSearchInitialValues = (
@@ -59,104 +51,6 @@ export const getEnrolmentFields = ({
     ).replace(':enrolmentId', id)}`,
     name: enrolment.name ?? '',
     phoneNumber: enrolment.phoneNumber ?? '',
-  };
-};
-
-type EnrolmentEditability = {
-  editable: boolean;
-  warning: string;
-};
-
-// TODO: Check also user organizations when API is available e.g. similar funtion in events
-export const checkCanUserDoAction = ({
-  action,
-}: {
-  action: ENROLMENT_EDIT_ACTIONS;
-}): boolean => {
-  switch (action) {
-    case ENROLMENT_EDIT_ACTIONS.CANCEL:
-    case ENROLMENT_EDIT_ACTIONS.EDIT:
-    case ENROLMENT_EDIT_ACTIONS.SEND_MESSAGE:
-    case ENROLMENT_EDIT_ACTIONS.UPDATE:
-      return true;
-  }
-};
-
-export const getEditEnrolmentWarning = ({
-  action,
-  authenticated,
-  t,
-  userCanDoAction,
-}: {
-  action: ENROLMENT_EDIT_ACTIONS;
-  authenticated: boolean;
-  t: TFunction;
-  userCanDoAction: boolean;
-}): string => {
-  if (AUTHENTICATION_NOT_NEEDED.includes(action)) {
-    return '';
-  }
-
-  if (!authenticated) {
-    return t('authentication.noRightsUpdateEnrolment');
-  }
-
-  if (!userCanDoAction) {
-    return t('enrolmentsPage.warningNoRightsToEdit');
-  }
-
-  return '';
-};
-
-export const checkIsEditActionAllowed = ({
-  action,
-  authenticated,
-  enrolment,
-  t,
-}: {
-  action: ENROLMENT_EDIT_ACTIONS;
-  authenticated: boolean;
-  enrolment: EnrolmentFieldsFragment;
-  t: TFunction;
-}): EnrolmentEditability => {
-  const userCanDoAction = checkCanUserDoAction({ action });
-
-  const warning = getEditEnrolmentWarning({
-    action,
-    authenticated,
-    t,
-    userCanDoAction,
-  });
-
-  return { editable: !warning, warning };
-};
-
-export const getEditButtonProps = ({
-  action,
-  authenticated,
-  enrolment,
-  onClick,
-  t,
-}: {
-  action: ENROLMENT_EDIT_ACTIONS;
-  authenticated: boolean;
-  enrolment: EnrolmentFieldsFragment;
-  onClick: () => void;
-  t: TFunction;
-}): MenuItemOptionProps => {
-  const { editable, warning } = checkIsEditActionAllowed({
-    action,
-    authenticated,
-    enrolment,
-    t,
-  });
-
-  return {
-    disabled: !editable,
-    icon: ENROLMENT_EDIT_ICONS[action],
-    label: t(ENROLMENT_EDIT_LABEL_KEYS[action]),
-    onClick,
-    title: warning,
   };
 };
 

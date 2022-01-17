@@ -7,8 +7,9 @@
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
     "noRightsUpdateEnrolment": "You do not have permission to edit participants.",
-    "noRightsUpdateEventLabel": "No permissions to edit events",
+    "noRightsUpdateEnrolmentLabel": "No permissions to edit participants.",
     "noRightsUpdateEvent": "You do not have permission to edit events.",
+    "noRightsUpdateEventLabel": "No permissions to edit events",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
   },
@@ -210,6 +211,7 @@
       "labelServiceLanguage": "Language of communication",
       "labelStreetAddress": "Street address",
       "labelZip": "Postcode",
+      "notificationTitleCannotEdit": "Participants cannot be edited",
       "placeholderCity": "Enter city",
       "placeholderEmail": "Enter your email address",
       "placeholderExtraInfo": "Enter any additional information or request",
@@ -261,7 +263,9 @@
     },
     "waitingListTableCaption": "Waiting list",
     "waitingListTableHeading": "Waiting list",
-    "warningNoRightsToEdit": "You have insufficient rights to edit this enrolment."
+    "warningNoRightsToCreate": "You have insufficient rights to create participants to this registration.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this enrolment.",
+    "warningNoRightsToView": "You have insufficient rights to view participants of this registration."
   },
   "errors": {
     "authorizationRequired": "Sign in to use this feature",

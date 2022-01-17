@@ -24,11 +24,12 @@ import {
   waitFor,
 } from '../../../../../../utils/testUtils';
 import translations from '../../../../../app/i18n/fi.json';
+import { TEST_PUBLISHER_ID } from '../../../../../organization/constants';
 import AddImageForm, { AddImageFormProps } from '../AddImageForm';
 
 configure({ defaultHidden: true });
 
-const publisher = 'publisher:1';
+const publisher = TEST_PUBLISHER_ID;
 const images = fakeImages(PAGE_SIZE, [{ publisher }]);
 const imagesVariables = {
   createPath: undefined,

@@ -3,8 +3,9 @@ import { MockedResponse } from '@apollo/client/testing';
 import { TEST_USER_ID } from '../../../constants';
 import { UserDocument } from '../../../generated/graphql';
 import { fakeUser } from '../../../utils/mockDataUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 
-const user = fakeUser();
+const user = fakeUser({ adminOrganizations: [TEST_PUBLISHER_ID] });
 const userVariables = {
   createPath: undefined,
   id: TEST_USER_ID,

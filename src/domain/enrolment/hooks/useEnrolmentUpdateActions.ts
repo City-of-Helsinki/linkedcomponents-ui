@@ -15,12 +15,12 @@ import {
 import useMountedState from '../../../hooks/useMountedState';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
-import { ENROLMENT_EDIT_ACTIONS } from '../../enrolments/constants';
 import {
   clearRegistrationQueries,
   clearRegistrationsQueries,
 } from '../../registrations/utils';
 import useUser from '../../user/hooks/useUser';
+import { ENROLMENT_ACTIONS } from '../constants';
 import { EnrolmentFormFields } from '../types';
 import { getEnrolmentPayload } from '../utils';
 
@@ -43,7 +43,7 @@ type UseEnrolmentUpdateActionsState = {
   closeModal: () => void;
   cancelEnrolment: (callbacks?: Callbacks) => Promise<void>;
   openModal: ENROLMENT_MODALS | null;
-  saving: ENROLMENT_EDIT_ACTIONS | false;
+  saving: ENROLMENT_ACTIONS | false;
   setOpenModal: (modal: ENROLMENT_MODALS | null) => void;
   updateEnrolment: (
     values: EnrolmentFormFields,
@@ -60,9 +60,7 @@ const useEnrolmentUpdateActions = ({
   const [openModal, setOpenModal] = useMountedState<ENROLMENT_MODALS | null>(
     null
   );
-  const [saving, setSaving] = useMountedState<ENROLMENT_EDIT_ACTIONS | false>(
-    false
-  );
+  const [saving, setSaving] = useMountedState<ENROLMENT_ACTIONS | false>(false);
 
   const [deleteEnrolmentMutation] = useDeleteEnrolmentMutation();
   const [updateEnrolmentMutation] = useUpdateEnrolmentMutation();
@@ -119,7 +117,7 @@ const useEnrolmentUpdateActions = ({
 
   const cancelEnrolment = async (callbacks?: Callbacks) => {
     try {
-      setSaving(ENROLMENT_EDIT_ACTIONS.CANCEL);
+      setSaving(ENROLMENT_ACTIONS.CANCEL);
 
       await deleteEnrolmentMutation({
         variables: {
@@ -147,7 +145,7 @@ const useEnrolmentUpdateActions = ({
     };
 
     try {
-      setSaving(ENROLMENT_EDIT_ACTIONS.UPDATE);
+      setSaving(ENROLMENT_ACTIONS.UPDATE);
 
       payload = {
         ...getEnrolmentPayload(values, registration),

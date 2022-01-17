@@ -5,6 +5,7 @@ import {
   fakeOrganizations,
 } from '../../../utils/mockDataUtils';
 import apolloClient from '../../app/apollo/apolloClient';
+import { TEST_PUBLISHER_ID } from '../constants';
 import {
   getOrganizationAncestorsQueryResult,
   getOrganizationFields,
@@ -53,7 +54,7 @@ describe('getOrganizationAncestorsQueryResult function', () => {
       networkStatus: NetworkStatus.ready,
     });
     const organizations = await getOrganizationAncestorsQueryResult(
-      'publisher:1',
+      TEST_PUBLISHER_ID,
       apolloClient
     );
     expect(organizations).toEqual(organizationsData.data);
@@ -62,7 +63,7 @@ describe('getOrganizationAncestorsQueryResult function', () => {
   it('should return empty array if fetching organizations fails', async () => {
     jest.spyOn(apolloClient, 'query').mockRejectedValue(new Error());
     const organizations = await getOrganizationAncestorsQueryResult(
-      'publisher:1',
+      TEST_PUBLISHER_ID,
       apolloClient
     );
     expect(organizations).toEqual([]);

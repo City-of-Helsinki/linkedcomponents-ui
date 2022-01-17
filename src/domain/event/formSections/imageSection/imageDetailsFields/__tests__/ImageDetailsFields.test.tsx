@@ -22,6 +22,7 @@ import {
   DEFAULT_LICENSE_TYPE,
   LICENSE_TYPES,
 } from '../../../../../image/constants';
+import { TEST_PUBLISHER_ID } from '../../../../../organization/constants';
 import {
   EVENT_FIELDS,
   EVENT_TYPE,
@@ -46,7 +47,7 @@ const defaultProps: ImageDetailsFieldsProps = {
 
 const id = 'hel:123';
 const atId = generateAtId(id, 'image');
-const publisher = 'publisher:1';
+const publisher = TEST_PUBLISHER_ID;
 const imageFields = {
   id,
   atId,
