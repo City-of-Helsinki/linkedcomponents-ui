@@ -17,6 +17,10 @@ import {
 } from '../../../../utils/testUtils';
 import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
 import userManager from '../../../auth/userManager';
+import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { registration } from '../../../registration/__mocks__/registration';
+import { REGISTRATION_ACTIONS } from '../../../registrations/constants';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import RegistrationAuthenticationNotification from '../RegistrationAuthenticationNotification';
 
 configure({ defaultHidden: true });
@@ -28,7 +32,13 @@ const userVariables = {
 };
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
-  render(<RegistrationAuthenticationNotification />, renderOptions);
+  render(
+    <RegistrationAuthenticationNotification
+      action={REGISTRATION_ACTIONS.UPDATE}
+      registration={registration}
+    />,
+    renderOptions
+  );
 
 test('should show sign in notification is user is not signed in', () => {
   renderComponent();
@@ -58,16 +68,7 @@ test("should show notification if user is signed in but doesn't have any organiz
 });
 
 test('should not show notification if user is signed in and has an admin organization', async () => {
-  const user = fakeUser({
-    adminOrganizations: ['helsinki:123'],
-    organizationMemberships: [],
-  });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
-  const mocks = [mockedUserResponse];
+  const mocks = [mockedEventResponse, mockedUserResponse];
 
   const storeState = fakeAuthenticatedStoreState();
   const store = getMockReduxStore(storeState);

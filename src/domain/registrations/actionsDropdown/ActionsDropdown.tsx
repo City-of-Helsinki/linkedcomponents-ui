@@ -24,7 +24,7 @@ import {
   getRegistrationFields,
 } from '../../registration/utils';
 import useUser from '../../user/hooks/useUser';
-import { REGISTRATION_EDIT_ACTIONS } from '../constants';
+import { REGISTRATION_ACTIONS } from '../constants';
 import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
 import styles from './actionsDropdown.module.scss';
 
@@ -79,7 +79,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
       action,
       onClick,
     }: {
-      action: REGISTRATION_EDIT_ACTIONS;
+      action: REGISTRATION_ACTIONS;
       onClick: () => void;
     }): MenuItemOptionProps | null => {
       return getEditButtonProps({
@@ -95,25 +95,25 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
 
     const actionItems: MenuItemOptionProps[] = [
       getActionItemProps({
-        action: REGISTRATION_EDIT_ACTIONS.EDIT,
+        action: REGISTRATION_ACTIONS.EDIT,
         onClick: goToEditRegistrationPage,
       }),
       getActionItemProps({
-        action: REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS,
+        action: REGISTRATION_ACTIONS.SHOW_ENROLMENTS,
         onClick: goToRegistrationEnrolmentsPage,
       }),
       getActionItemProps({
-        action: REGISTRATION_EDIT_ACTIONS.COPY,
+        action: REGISTRATION_ACTIONS.COPY,
         onClick: copyRegistration,
       }),
       getActionItemProps({
-        action: REGISTRATION_EDIT_ACTIONS.COPY_LINK,
+        action: REGISTRATION_ACTIONS.COPY_LINK,
         onClick: () => {
           copyEnrolmentLinkToClipboard({ locale, registration, t });
         },
       }),
       getActionItemProps({
-        action: REGISTRATION_EDIT_ACTIONS.DELETE,
+        action: REGISTRATION_ACTIONS.DELETE,
         onClick: () => setOpenModal(MODALS.DELETE),
       }),
     ].filter(skipFalsyType);
@@ -123,7 +123,7 @@ const ActionsDropdown = React.forwardRef<HTMLDivElement, ActionsDropdownProps>(
         {openModal === MODALS.DELETE && (
           <ConfirmDeleteModal
             isOpen={openModal === MODALS.DELETE}
-            isSaving={saving === REGISTRATION_EDIT_ACTIONS.DELETE}
+            isSaving={saving === REGISTRATION_ACTIONS.DELETE}
             onClose={closeModal}
             onDelete={onDelete}
           />

@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -114,7 +115,7 @@ const SearchPanel: React.FC<Props> = ({ registration }) => {
             {...buttonProps}
             className={styles.button}
             fullWidth={true}
-            iconLeft={buttonProps.icon}
+            iconLeft={<IconPlus aria-hidden={true} />}
             variant="secondary"
           >
             {t('enrolmentsPage.searchPanel.buttonCreate')}

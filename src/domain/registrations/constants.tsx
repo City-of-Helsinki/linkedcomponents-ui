@@ -7,9 +7,10 @@ import {
   IconPen,
 } from 'hds-react';
 
-export enum REGISTRATION_EDIT_ACTIONS {
+export enum REGISTRATION_ACTIONS {
   COPY = 'copy',
   COPY_LINK = 'copyLink',
+  CREATE = 'create',
   DELETE = 'delete',
   EDIT = 'edit',
   SHOW_ENROLMENTS = 'showEnrolments',
@@ -17,9 +18,9 @@ export enum REGISTRATION_EDIT_ACTIONS {
 }
 
 export const AUTHENTICATION_NOT_NEEDED = [
-  REGISTRATION_EDIT_ACTIONS.COPY,
-  REGISTRATION_EDIT_ACTIONS.COPY_LINK,
-  REGISTRATION_EDIT_ACTIONS.EDIT,
+  REGISTRATION_ACTIONS.COPY,
+  REGISTRATION_ACTIONS.COPY_LINK,
+  REGISTRATION_ACTIONS.EDIT,
 ];
 
 export enum REGISTRATION_SEARCH_PARAMS {
@@ -37,24 +38,25 @@ export enum REGISTRATION_SORT_OPTIONS {
   LAST_MODIFIED_TIME_DESC = '-last_modified_time',
 }
 
-export const REGISTRATION_EDIT_ICONS = {
-  [REGISTRATION_EDIT_ACTIONS.COPY]: <IconCopy aria-hidden={true} />,
-  [REGISTRATION_EDIT_ACTIONS.COPY_LINK]: <IconLink aria-hidden={true} />,
-  [REGISTRATION_EDIT_ACTIONS.DELETE]: <IconCross aria-hidden={true} />,
-  [REGISTRATION_EDIT_ACTIONS.EDIT]: <IconCogwheel aria-hidden={true} />,
-  [REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS]: <IconEye aria-hidden={true} />,
-  [REGISTRATION_EDIT_ACTIONS.UPDATE]: <IconPen aria-hidden={true} />,
+export const REGISTRATION_ICONS = {
+  [REGISTRATION_ACTIONS.COPY]: <IconCopy aria-hidden={true} />,
+  [REGISTRATION_ACTIONS.COPY_LINK]: <IconLink aria-hidden={true} />,
+  [REGISTRATION_ACTIONS.CREATE]: <IconPen aria-hidden={true} />,
+  [REGISTRATION_ACTIONS.DELETE]: <IconCross aria-hidden={true} />,
+  [REGISTRATION_ACTIONS.EDIT]: <IconCogwheel aria-hidden={true} />,
+  [REGISTRATION_ACTIONS.SHOW_ENROLMENTS]: <IconEye aria-hidden={true} />,
+  [REGISTRATION_ACTIONS.UPDATE]: <IconPen aria-hidden={true} />,
 };
 
-export const REGISTRATION_EDIT_LABEL_KEYS = {
-  [REGISTRATION_EDIT_ACTIONS.COPY]: 'registrationsPage.actionButtons.copy',
-  [REGISTRATION_EDIT_ACTIONS.COPY_LINK]:
-    'registrationsPage.actionButtons.copyLink',
-  [REGISTRATION_EDIT_ACTIONS.DELETE]: 'registrationsPage.actionButtons.delete',
-  [REGISTRATION_EDIT_ACTIONS.EDIT]: 'registrationsPage.actionButtons.edit',
-  [REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS]:
+export const REGISTRATION_LABEL_KEYS = {
+  [REGISTRATION_ACTIONS.COPY]: 'registrationsPage.actionButtons.copy',
+  [REGISTRATION_ACTIONS.COPY_LINK]: 'registrationsPage.actionButtons.copyLink',
+  [REGISTRATION_ACTIONS.CREATE]: 'registration.form.buttonCreate',
+  [REGISTRATION_ACTIONS.DELETE]: 'registrationsPage.actionButtons.delete',
+  [REGISTRATION_ACTIONS.EDIT]: 'registrationsPage.actionButtons.edit',
+  [REGISTRATION_ACTIONS.SHOW_ENROLMENTS]:
     'registrationsPage.actionButtons.showEnrolments',
-  [REGISTRATION_EDIT_ACTIONS.UPDATE]: 'registrationsPage.actionButtons.update',
+  [REGISTRATION_ACTIONS.UPDATE]: 'registrationsPage.actionButtons.update',
 };
 
 export const DEFAULT_REGISTRATION_SORT =

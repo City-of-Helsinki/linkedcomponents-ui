@@ -1238,6 +1238,7 @@
         "warningNotAuthenticated": "För att skapa en registrering, logga in först."
       },
       "editButtonPanel": {
+        "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
       },
       "labelAudienceMaxAge": "Högsta ålder",

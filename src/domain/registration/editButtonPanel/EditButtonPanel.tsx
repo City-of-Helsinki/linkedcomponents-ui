@@ -15,7 +15,7 @@ import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
-import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
+import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import { RegistrationsLocationState } from '../../registrations/types';
 import useUser from '../../user/hooks/useUser';
@@ -39,7 +39,7 @@ export interface EditButtonPanelProps {
   onUpdate: () => void;
   publisher: string;
   registration: RegistrationFieldsFragment;
-  saving: REGISTRATION_EDIT_ACTIONS | false;
+  saving: REGISTRATION_ACTIONS | false;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
@@ -83,7 +83,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     action,
     onClick,
   }: {
-    action: REGISTRATION_EDIT_ACTIONS;
+    action: REGISTRATION_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps => {
     return getEditButtonProps({
@@ -103,7 +103,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     type,
     variant,
   }: {
-    action: REGISTRATION_EDIT_ACTIONS;
+    action: REGISTRATION_ACTIONS;
     onClick: () => void;
     type: ButtonType;
     variant: Exclude<ButtonVariant, 'supplementary'>;
@@ -117,21 +117,21 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS,
+      action: REGISTRATION_ACTIONS.SHOW_ENROLMENTS,
       onClick: goToRegistrationEnrolmentsPage,
     }),
     getActionItemProps({
-      action: REGISTRATION_EDIT_ACTIONS.COPY,
+      action: REGISTRATION_ACTIONS.COPY,
       onClick: copyRegistration,
     }),
     getActionItemProps({
-      action: REGISTRATION_EDIT_ACTIONS.COPY_LINK,
+      action: REGISTRATION_ACTIONS.COPY_LINK,
       onClick: () => {
         copyEnrolmentLinkToClipboard({ locale, registration, t });
       },
     }),
     getActionItemProps({
-      action: REGISTRATION_EDIT_ACTIONS.DELETE,
+      action: REGISTRATION_ACTIONS.DELETE,
       onClick: onDelete,
     }),
   ];
@@ -139,7 +139,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const actionButtons: ActionButtonProps[] = [
     /* Actions for draft event */
     getActionButtonProps({
-      action: REGISTRATION_EDIT_ACTIONS.UPDATE,
+      action: REGISTRATION_ACTIONS.UPDATE,
       onClick: () => onUpdate(),
       type: 'submit',
       variant: 'primary',

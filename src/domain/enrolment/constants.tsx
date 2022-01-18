@@ -1,10 +1,4 @@
-import {
-  IconCrossCircle,
-  IconEnvelope,
-  IconEye,
-  IconPen,
-  IconPlus,
-} from 'hds-react';
+import { IconCrossCircle, IconEnvelope, IconEye, IconPen } from 'hds-react';
 
 import { EnrolmentFormFields } from './types';
 
@@ -70,7 +64,7 @@ export enum ENROLMENT_ACTIONS {
 
 export const ENROLMENT_ICONS = {
   [ENROLMENT_ACTIONS.CANCEL]: <IconCrossCircle aria-hidden={true} />,
-  [ENROLMENT_ACTIONS.CREATE]: <IconPlus aria-hidden={true} />,
+  [ENROLMENT_ACTIONS.CREATE]: <IconPen aria-hidden={true} />,
   [ENROLMENT_ACTIONS.EDIT]: <IconPen aria-hidden={true} />,
   [ENROLMENT_ACTIONS.SEND_MESSAGE]: <IconEnvelope aria-hidden={true} />,
   [ENROLMENT_ACTIONS.UPDATE]: <IconPen aria-hidden={true} />,

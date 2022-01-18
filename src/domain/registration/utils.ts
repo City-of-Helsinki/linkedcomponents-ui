@@ -23,39 +23,15 @@ import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
-  REGISTRATION_EDIT_ACTIONS,
-  REGISTRATION_EDIT_ICONS,
-  REGISTRATION_EDIT_LABEL_KEYS,
+  REGISTRATION_ACTIONS,
+  REGISTRATION_ICONS,
+  REGISTRATION_LABEL_KEYS,
 } from '../registrations/constants';
 import { REGISTRATION_FIELDS, REGISTRATION_INITIAL_VALUES } from './constants';
 import { RegistrationFields, RegistrationFormFields } from './types';
 
 export const clearRegistrationFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.REGISTRATION_FORM);
-};
-
-// TODO: Check also user organizations when API is available
-export const isCreateRegistrationButtonDisabled = ({
-  authenticated,
-}: {
-  authenticated: boolean;
-}): boolean => {
-  return !authenticated;
-};
-
-// TODO: Check also user organizations when API is available
-export const getCreateRegistrationButtonWarning = ({
-  authenticated,
-  t,
-}: {
-  authenticated: boolean;
-  t: TFunction;
-}): string => {
-  if (!authenticated) {
-    return t('registration.form.buttonPanel.warningNotAuthenticated');
-  }
-
-  return '';
 };
 
 type RegistrationEditability = {
@@ -69,7 +45,7 @@ export const checkCanUserDoAction = ({
   publisher,
   user,
 }: {
-  action: REGISTRATION_EDIT_ACTIONS;
+  action: REGISTRATION_ACTIONS;
   organizationAncestors: OrganizationFieldsFragment[];
   publisher: string;
   user?: UserFieldsFragment;
@@ -79,14 +55,18 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
+  const adminOrganizations = user ? [...user?.adminOrganizations] : [];
+
   switch (action) {
-    case REGISTRATION_EDIT_ACTIONS.COPY:
-    case REGISTRATION_EDIT_ACTIONS.COPY_LINK:
-    case REGISTRATION_EDIT_ACTIONS.EDIT:
+    case REGISTRATION_ACTIONS.COPY:
+    case REGISTRATION_ACTIONS.COPY_LINK:
+    case REGISTRATION_ACTIONS.EDIT:
       return true;
-    case REGISTRATION_EDIT_ACTIONS.DELETE:
-    case REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS:
-    case REGISTRATION_EDIT_ACTIONS.UPDATE:
+    case REGISTRATION_ACTIONS.CREATE:
+      return !!adminOrganizations.length;
+    case REGISTRATION_ACTIONS.DELETE:
+    case REGISTRATION_ACTIONS.SHOW_ENROLMENTS:
+    case REGISTRATION_ACTIONS.UPDATE:
       return isAdminUser;
   }
 };
@@ -97,7 +77,7 @@ export const getEditRegistrationWarning = ({
   t,
   userCanDoAction,
 }: {
-  action: REGISTRATION_EDIT_ACTIONS;
+  action: REGISTRATION_ACTIONS;
   authenticated: boolean;
   t: TFunction;
   userCanDoAction: boolean;
@@ -111,7 +91,12 @@ export const getEditRegistrationWarning = ({
   }
 
   if (!userCanDoAction) {
-    return t('registration.form.editButtonPanel.warningNoRightsToEdit');
+    switch (action) {
+      case REGISTRATION_ACTIONS.CREATE:
+        return t('registration.form.editButtonPanel.warningNoRightsToCreate');
+      default:
+        return t('registration.form.editButtonPanel.warningNoRightsToEdit');
+    }
   }
 
   return '';
@@ -125,7 +110,7 @@ export const checkIsEditActionAllowed = ({
   t,
   user,
 }: {
-  action: REGISTRATION_EDIT_ACTIONS;
+  action: REGISTRATION_ACTIONS;
   authenticated: boolean;
   organizationAncestors: OrganizationFieldsFragment[];
   publisher: string;
@@ -158,7 +143,7 @@ export const getEditButtonProps = ({
   t,
   user,
 }: {
-  action: REGISTRATION_EDIT_ACTIONS;
+  action: REGISTRATION_ACTIONS;
   authenticated: boolean;
   onClick: () => void;
   organizationAncestors: OrganizationFieldsFragment[];
@@ -177,8 +162,8 @@ export const getEditButtonProps = ({
 
   return {
     disabled: !editable,
-    icon: REGISTRATION_EDIT_ICONS[action],
-    label: t(REGISTRATION_EDIT_LABEL_KEYS[action]),
+    icon: REGISTRATION_ICONS[action],
+    label: t(REGISTRATION_LABEL_KEYS[action]),
     onClick,
     title: warning,
   };

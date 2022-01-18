@@ -15,7 +15,7 @@ import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
-import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
+import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { clearRegistrationsQueries } from '../../registrations/utils';
 import useUser from '../../user/hooks/useUser';
 import { RegistrationFormFields } from '../types';
@@ -39,7 +39,7 @@ type UseRegistrationUpdateActionsState = {
   closeModal: () => void;
   deleteRegistration: (callbacks?: Callbacks) => Promise<void>;
   openModal: MODALS | null;
-  saving: REGISTRATION_EDIT_ACTIONS | false;
+  saving: REGISTRATION_ACTIONS | false;
   setOpenModal: (modal: MODALS | null) => void;
   updateRegistration: (
     values: RegistrationFormFields,
@@ -53,9 +53,9 @@ const useRegistrationUpdateActions = ({
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
   const location = useLocation();
-  const [saving, setSaving] = useMountedState<
-    REGISTRATION_EDIT_ACTIONS | false
-  >(false);
+  const [saving, setSaving] = useMountedState<REGISTRATION_ACTIONS | false>(
+    false
+  );
   const [openModal, setOpenModal] = useMountedState<MODALS | null>(null);
   const { id } = getRegistrationFields(registration, locale);
   const [updateRegistrationMutation] = useUpdateRegistrationMutation();
@@ -111,7 +111,7 @@ const useRegistrationUpdateActions = ({
 
   const deleteRegistration = async (callbacks?: Callbacks) => {
     try {
-      setSaving(REGISTRATION_EDIT_ACTIONS.DELETE);
+      setSaving(REGISTRATION_ACTIONS.DELETE);
       await deleteRegistrationMutation({ variables: { id } });
 
       await cleanAfterUpdate(callbacks);
@@ -134,7 +134,7 @@ const useRegistrationUpdateActions = ({
     };
 
     try {
-      setSaving(REGISTRATION_EDIT_ACTIONS.UPDATE);
+      setSaving(REGISTRATION_ACTIONS.UPDATE);
 
       payload = {
         ...getRegistrationPayload(values),

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { NotificationType } from 'hds-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,11 +18,13 @@ export const hiddenStyles = {
 };
 
 export type AuthenticationNotificationProps = {
+  className?: string;
   label: string | null;
 };
 
 const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   children,
+  className,
   label,
 }) => {
   const location = useLocation();
@@ -30,7 +33,7 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   const [hidden, setHidden] = useState(false);
 
   const notificationProps = {
-    className: styles.authenticationNotification,
+    className: classNames(styles.authenticationNotification, className),
     closeAnimationDuration: 300,
     closeButtonLabelText: t('common.close') as string,
     dismissible: true,

@@ -28,7 +28,7 @@ import Section from '../app/layout/Section';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
-import { REGISTRATION_EDIT_ACTIONS } from '../registrations/constants';
+import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
@@ -160,7 +160,7 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
           <>
             <ConfirmDeleteModal
               isOpen={openModal === MODALS.DELETE}
-              isSaving={saving === REGISTRATION_EDIT_ACTIONS.DELETE}
+              isSaving={saving === REGISTRATION_ACTIONS.DELETE}
               onClose={closeModal}
               onDelete={onDelete}
             />
@@ -176,7 +176,10 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
-                    <AuthenticationNotification registration={registration} />
+                    <AuthenticationNotification
+                      action={REGISTRATION_ACTIONS.UPDATE}
+                      registration={registration}
+                    />
                     <ServerErrorSummary errors={serverErrorItems} />
                     <RegistrationInfo registration={registration} />
                     <Section

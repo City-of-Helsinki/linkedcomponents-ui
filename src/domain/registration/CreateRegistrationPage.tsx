@@ -24,6 +24,7 @@ import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
 import { reportError } from '../app/sentry/utils';
+import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { clearRegistrationsQueries } from '../registrations/utils';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_INITIAL_VALUES } from './constants';
@@ -149,7 +150,9 @@ const CreateRegistrationPage: React.FC = () => {
             >
               <MainContent>
                 <Container className={styles.createContainer} withOffset={true}>
-                  <AuthenticationNotification />
+                  <AuthenticationNotification
+                    action={REGISTRATION_ACTIONS.CREATE}
+                  />
                   <ServerErrorSummary errors={serverErrorItems} />
                   <Section title={t('registration.form.sections.event')}>
                     <EventSection />

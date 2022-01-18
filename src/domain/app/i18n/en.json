@@ -1238,6 +1238,7 @@
         "warningNotAuthenticated": "To create a registration, log in first."
       },
       "editButtonPanel": {
+        "warningNoRightsToCreate": "You have insufficient rights to create registrations.",
         "warningNoRightsToEdit": "You have insufficient rights to edit this registration."
       },
       "labelAudienceMaxAge": "Maximum age",

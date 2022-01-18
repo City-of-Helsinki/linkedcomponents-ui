@@ -1238,6 +1238,7 @@
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
       },
       "editButtonPanel": {
+        "warningNoRightsToCreate": "Sinulla ei ole oikeuksia lisätä ilmoittautumisia.",
         "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä ilmoittautumista."
       },
       "labelAudienceMaxAge": "Yläikäraja",
