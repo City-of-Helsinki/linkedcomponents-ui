@@ -221,15 +221,13 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
     },
   });
 
+  const event = eventData?.event;
   const loading = loadingUser || loadingRegistration || loadingEvent;
 
   return (
     <LoadingSpinner isLoading={loading}>
-      {eventData?.event && registration ? (
-        <CreateEnrolmentPage
-          event={eventData?.event}
-          registration={registration}
-        />
+      {event && registration ? (
+        <CreateEnrolmentPage event={event} registration={registration} />
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

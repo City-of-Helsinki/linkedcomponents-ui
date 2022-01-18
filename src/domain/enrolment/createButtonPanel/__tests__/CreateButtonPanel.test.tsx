@@ -1,17 +1,21 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
+import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   configure,
+  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedEventResponse } from '../../../event/__mocks__/event';
 import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import CreateButtonPanel, {
   CreateButtonPanelProps,
 } from '../CreateButtonPanel';
@@ -19,9 +23,16 @@ import CreateButtonPanel, {
 configure({ defaultHidden: true });
 
 const defaultProps: CreateButtonPanelProps = {
+  disabled: false,
   registration,
   onSave: jest.fn(),
+  saving: false,
 };
+
+const mocks = [mockedEventResponse, mockedUserResponse];
+
+const state = fakeAuthenticatedStoreState();
+const store = getMockReduxStore(state);
 
 const renderComponent = ({
   props,
@@ -34,8 +45,17 @@ const renderComponent = ({
   route?: string;
 } = {}) =>
   render(<CreateButtonPanel {...defaultProps} {...props} />, {
+    mocks,
     routes: [route],
+    store,
   });
+
+const findElement = (key: 'saveButton') => {
+  switch (key) {
+    case 'saveButton':
+      return screen.findByRole('button', { name: 'Tallenna osallistuja' });
+  }
+};
 
 const getElement = (key: 'back' | 'saveButton') => {
   switch (key) {
@@ -81,7 +101,7 @@ test('should call onSave', async () => {
   const onSave = jest.fn();
   renderComponent({ props: { onSave } });
 
-  const saveButton = getElement('saveButton');
+  const saveButton = await findElement('saveButton');
   userEvent.click(saveButton);
 
   expect(onSave).toBeCalled();
