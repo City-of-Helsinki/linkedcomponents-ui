@@ -5,15 +5,17 @@ import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 
-const TextInput: React.FC<TextInputProps> = ({ className, ...rest }) => {
-  const { theme } = useTheme();
-
-  return (
-    <BaseTextInput
-      {...rest}
-      className={classNames(className, css(theme.textInput))}
-    />
-  );
-};
+const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
+  ({ className, ...rest }, ref) => {
+    const { theme } = useTheme();
+    return (
+      <BaseTextInput
+        {...rest}
+        ref={ref}
+        className={classNames(className, css(theme.textInput))}
+      />
+    );
+  }
+);
 
 export default TextInput;

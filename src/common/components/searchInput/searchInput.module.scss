@@ -4,6 +4,7 @@
   composes: hds-text-input__input from '~hds-core/lib/components/text-input/text-input.css';
   --input-border-color-default: var(--input-background-default);
   padding: 0 calc(var(--spacing-l) + var(--icon-size)) 0 var(--spacing-s) !important;
+  border-radius: 0px;
 }
 
 .buttons {

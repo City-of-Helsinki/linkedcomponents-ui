@@ -1,18 +1,8 @@
-.modalButtonWrapper {
-  display: flex;
-  background-color: var(--color-white);
-  position: sticky;
-  bottom: 0;
-  padding: var(--spacing-xl);
-  margin: 0 calc(0px - var(--spacing-l));
-  margin-bottom: calc(0px - var(--spacing-l));
-
-  button:not(:last-child) {
-    margin-right: var(--spacing-m);
-  }
+.modal {
+  line-height: var(--lineheight-l);
 }
 
 .warning {
-  margin-bottom: calc(0px - var(--spacing-m)) !important;
+  margin-bottom: calc(0px - var(--spacing-s)) !important;
   text-transform: uppercase;
 }

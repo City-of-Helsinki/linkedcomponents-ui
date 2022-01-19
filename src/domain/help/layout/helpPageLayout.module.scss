@@ -18,7 +18,7 @@
     grid-template-columns: repeat(12, 1fr);
   }
 
-  .sideNavigation {
+  .sideNavigationWrapper {
     margin-top: var(--spacing-m);
 
     @include medium-only {
@@ -27,19 +27,8 @@
 
     @include medium-up {
       height: 100%;
-      background-color: var(--color-white);
       position: relative;
       margin-top: 0;
-
-      &:before {
-        content: '';
-        position: absolute;
-        background-color: var(--color-white);
-        top: 0;
-        bottom: 0;
-        width: 100vw;
-        left: -100vw;
-      }
 
       & > div {
         position: sticky;
@@ -49,6 +38,12 @@
 
     @include large-up {
       grid-column: 1 / 4;
+    }
+  }
+
+  .sideNavigation {
+    @include medium-up {
+      padding: var(--spacing-m) 0;
     }
   }
 

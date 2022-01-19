@@ -6,11 +6,9 @@ import {
 } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
-import MainLevel from '../../../common/components/sideNavigation/MainLevel';
 import SideNavigation from '../../../common/components/sideNavigation/SideNavigation';
-import SubLevel from '../../../common/components/sideNavigation/SubLevel';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useWindowSize from '../../../hooks/useWindowSize';
@@ -30,6 +28,7 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
   );
   const windowSize = useWindowSize();
   const locale = useLocale();
+  const history = useHistory();
   const { pathname } = useLocation();
 
   const getLocalePath = (path: string) => `/${locale}${path}`;
@@ -101,62 +100,73 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
       label: t('helpPage.sideNavigation.labelInstructions'),
       subLevels: instructionsSubLevels,
       to: getLocalePath(ROUTES.INSTRUCTIONS),
-      type: 'toggle',
     },
     {
       icon: <IconCogwheel />,
       label: t('helpPage.sideNavigation.labelTechnology'),
       subLevels: technologySubLevels,
       to: getLocalePath(ROUTES.TECHNOLOGY),
-      type: 'toggle',
     },
     {
       icon: <IconQuestionCircle />,
       label: t('helpPage.sideNavigation.labelSupport'),
       subLevels: supportSubLevels,
       to: getLocalePath(ROUTES.SUPPORT),
-      type: 'toggle',
     },
     {
       icon: <IconLayers />,
       label: t('helpPage.sideNavigation.labelFeatures'),
       subLevels: [],
       to: getLocalePath(ROUTES.FEATURES),
-      type: 'link',
     },
   ];
+
+  const handleLinkClick =
+    (href: string) => (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.preventDefault();
+      history.push(href);
+    };
 
   return (
     <div className={styles.helpPageWrapper}>
       <Container>
         <div className={styles.helpPageLayout}>
-          <div className={styles.sideNavigation}>
+          <div className={styles.sideNavigationWrapper}>
             <div style={{ top: sideNavigationTop }}>
               <SideNavigation
+                className={styles.sideNavigation}
+                id="side-navigation"
                 toggleButtonLabel={t(
                   'helpPage.sideNavigation.toggleButtonLabel'
                 )}
               >
                 {levels.map(
-                  ({ icon, label, subLevels, to, type }, mainLevelIndex) => {
+                  ({ icon, label, subLevels, to }, mainLevelIndex) => {
                     return (
-                      <MainLevel
+                      <SideNavigation.MainLevel
                         key={mainLevelIndex}
+                        id={to}
                         active={getIsActive(to)}
+                        href={to}
                         icon={icon}
                         label={label}
-                        to={to}
+                        onClick={
+                          subLevels.length ? undefined : handleLinkClick(to)
+                        }
                       >
-                        {subLevels?.map((props, subLevelIndex) => {
+                        {subLevels?.map(({ label, to }, subLevelIndex) => {
                           return (
-                            <SubLevel
+                            <SideNavigation.SubLevel
                               key={subLevelIndex}
-                              {...props}
-                              active={getIsActive(props.to)}
+                              id={to}
+                              active={getIsActive(to)}
+                              href={to}
+                              label={label}
+                              onClick={handleLinkClick(to)}
                             />
                           );
                         })}
-                      </MainLevel>
+                      </SideNavigation.MainLevel>
                     );
                   }
                 )}

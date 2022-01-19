@@ -53,8 +53,8 @@
     },
     "datepicker": {
       "accessibility": {
-        "buttonCalendar": "Calendar",
         "buttonNextMonth": "Next month",
+        "buttonOpen": "Choose date",
         "buttonPreviousMonth": "Previous month",
         "selectDate": "Select {{value}}",
         "selectTime": "Select the time {{value}}",

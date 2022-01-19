@@ -9762,15 +9762,15 @@ hastscript@^6.0.0:
     property-information "^5.0.0"
     space-separated-tokens "^1.0.0"
 
-hds-core@1.8.0, hds-core@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-1.8.0.tgz#f25ba1569f8483eab9b6434c39c1e2dfd3c68a2d"
-  integrity sha512-fzTswnnJ65uVnd7QXDemq/ukdRWvkC7Vc8aM6jt+9NDvwIuMjOG5+nPWR0EtfXLJjgOfo5SWPQn58C8WEp+j/A==
+hds-core@1.9.0, hds-core@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-1.9.0.tgz#1fb81dfb36d42ca92e7338078911e1b48e6099f0"
+  integrity sha512-YHI7Oa3J8u91r/T6/LlIf+cJ+QR8uRo9+H05tiWw9zHZw8P7hYuaGAA3C8hpjhxPgmZj9XG3To+19xTg4yA/xg==
 
-hds-react@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-1.8.0.tgz#4b3b72288947d15198a5957150aaa138c31b3b6b"
-  integrity sha512-bdYL046Ae6y/jKwlCeUS4nTkPMCoZwsj8XGEgCSupb1f4qrhC3pEJuJiOuBXn2r0c3wRd1FQ+LLkfakiazJmbg==
+hds-react@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-1.9.0.tgz#36e72b65311dbfa521aa69f548bc5783c3c68ede"
+  integrity sha512-Nun3wfKB8el+nHOjqqOiPjo/BjzAK2XlLvVi/TxHVsqHxRsqxbPBzZK66eVg8szCKnIz86Y/IIbOvAaUdkGEdA==
   dependencies:
     "@babel/runtime" "7.11.2"
     "@juggle/resize-observer" "3.2.0"
@@ -9778,7 +9778,7 @@ hds-react@^1.8.0:
     "@react-aria/visually-hidden" "3.2.0"
     date-fns "2.16.1"
     downshift "6.0.6"
-    hds-core "1.8.0"
+    hds-core "1.9.0"
     lodash.isequal "4.5.0"
     lodash.isfunction "3.0.9"
     lodash.uniqueid "4.0.1"

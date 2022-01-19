@@ -64,37 +64,6 @@
   color: var(--modal-heading-color);
   z-index: 1;
 
-  .languageSelector {
-    --focus-outline-color: var(--color-coat-of-arms);
-    --focus-outline-width: 2px;
-
-    display: flex;
-    width: auto;
-    margin-bottom: calc(0px - var(--spacing-m));
-    padding: var(--spacing-l);
-    padding-bottom: 0;
-
-    @include small-down {
-      > div {
-        position: relative;
-        right: unset;
-      }
-    }
-
-    button {
-      position: unset;
-      flex-direction: row-reverse;
-      font-size: var(--fontsize-body-m);
-
-      @include focus-outline(0px);
-    }
-
-    button + div {
-      left: 0;
-      right: unset;
-    }
-  }
-
   .heading {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -124,77 +93,6 @@
 
     .content {
       grid-column: 2 / 12;
-    }
-  }
-}
-
-.sizeM {
-  top: 50%;
-  bottom: unset;
-  transform: translate(-50%, -50%);
-  max-width: var(--modal-max-width-m);
-
-  .headingWrapper {
-    background-color: var(--modal-background-color) !important;
-    color: var(--color-black) !important;
-
-    .heading {
-      display: flex;
-      align-items: center;
-      grid-gap: var(--spacing-xs);
-      padding: var(--spacing-l);
-
-      h2 {
-        margin: 0;
-        font-size: var(--fontsize-heading-xs);
-        font-weight: 600;
-      }
-    }
-
-    &::before {
-      content: '';
-      height: var(--spacing-xs);
-      background-color: var(--modal-heading-background-color);
-    }
-  }
-
-  .contentWrapper {
-    grid-template-columns: unset;
-    padding: var(--spacing-l);
-    padding-top: 0;
-
-    .content {
-      grid-column: 1;
-    }
-
-    p {
-      margin: var(--spacing-l) 0 var(--spacing-xs);
-
-      &:first-child {
-        margin-top: 0;
-      }
-    }
-  }
-}
-
-.typeAlert {
-  .headingWrapper {
-    color: var(--modal-heading-color-alert);
-    background-color: var(--modal-heading-background-color-alert);
-
-    &::before {
-      background-color: var(--modal-heading-background-color-alert);
-    }
-  }
-}
-
-.typeInfo {
-  .headingWrapper {
-    color: var(--modal-heading-color-info);
-    background-color: var(--modal-heading-background-color-info);
-
-    &::before {
-      background-color: var(--modal-heading-background-color-info);
     }
   }
 }

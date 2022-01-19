@@ -1,10 +1,9 @@
-import { IconCross } from 'hds-react';
+import { Dialog, IconAlertCircle, IconCross } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import Modal from '../../../common/components/modal/Modal';
 import styles from './modals.module.scss';
 
 export interface ConfirmDeleteModalProps {
@@ -36,20 +35,33 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
     onDelete();
   };
 
+  const id = 'confirm-registration-delete-modal';
+  const titleId = `${id}-title`;
+  const descriptionId = `${id}-description`;
+
   return (
-    <Modal
+    <Dialog
+      id={id}
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      className={styles.modal}
       isOpen={isOpen}
-      onClose={handleClose}
-      shouldCloseOnEsc={true}
-      size="m"
-      title={t('registration.deleteRegistrationModal.title')}
-      type="alert"
+      variant="danger"
     >
-      <p className={styles.warning}>
-        <strong>{t('common.warning')}</strong>
-      </p>
-      <p>{t('registration.deleteRegistrationModal.text')} </p>
-      <div className={styles.modalButtonWrapper}>
+      <Dialog.Header
+        id={titleId}
+        iconLeft={<IconAlertCircle aria-hidden={true} />}
+        title={t('registration.deleteRegistrationModal.title')}
+      />
+      <Dialog.Content>
+        <p className={styles.warning}>
+          <strong>{t('common.warning')}</strong>
+        </p>
+        <p id={descriptionId}>
+          {t('registration.deleteRegistrationModal.text')}{' '}
+        </p>
+      </Dialog.Content>
+      <Dialog.ActionButtons>
         <LoadingButton
           disabled={isSaving}
           icon={<IconCross aria-hidden={true} />}
@@ -70,8 +82,8 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
         >
           {t('common.cancel')}
         </Button>
-      </div>
-    </Modal>
+      </Dialog.ActionButtons>
+    </Dialog>
   );
 };
 

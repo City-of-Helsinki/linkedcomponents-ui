@@ -29,15 +29,11 @@
   }
 }
 
-.editEventModal {
+.editEventTimeModal {
   overflow: visible;
 
-  .buttonWrapper {
-    padding-top: var(--spacing-m);
-
-    button:not(:last-child) {
-      margin-right: var(--spacing-m);
-    }
+  > div:nth-child(2) {
+    overflow: visible;
   }
 }
 
