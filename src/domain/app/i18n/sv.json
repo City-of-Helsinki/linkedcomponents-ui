@@ -31,6 +31,7 @@
     "at": "kl {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "breadcrumb": "Brödsmula",
     "buttonActions": "Funktioner",
     "buttonAddEvent": "Lägg till evenemang",
     "buttonAddRegistration": "Lägg till",

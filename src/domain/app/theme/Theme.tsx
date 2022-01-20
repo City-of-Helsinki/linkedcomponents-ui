@@ -6,6 +6,12 @@ import {
 } from 'hds-react';
 import React, { useContext, useState } from 'react';
 
+type BreadcrumbCSSProperties = {
+  '--breadcrumb-color'?: string;
+  '--breadcrumb-color-link'?: string;
+  '--breadcrumb-color-separator'?: string;
+};
+
 type ButtonCSSProperties = {
   '--background-color'?: string;
   '--background-color-hover'?: string;
@@ -424,6 +430,7 @@ type TimepickerCSSProperties = {
 };
 
 export type Theme = {
+  breadcrumb: BreadcrumbCSSProperties;
   button: {
     primary?: ButtonCSSProperties;
     secondary?: ButtonCSSProperties;
@@ -479,6 +486,7 @@ export type Theme = {
 };
 
 const defaultTheme: Theme = {
+  breadcrumb: {},
   button: {},
   checkbox: {},
   collapsible: {},

@@ -31,6 +31,7 @@
     "at": "at {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "breadcrumb": "Breadcrumb",
     "buttonActions": "Actions",
     "buttonAddEvent": "Add new event",
     "buttonAddRegistration": "Add new",

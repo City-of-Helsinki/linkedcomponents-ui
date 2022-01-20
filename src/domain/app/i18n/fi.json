@@ -31,6 +31,7 @@
     "at": "klo {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "breadcrumb": "Murupolku",
     "buttonActions": "Valinnat",
     "buttonAddEvent": "Lisää uusi tapahtuma",
     "buttonAddRegistration": "Lisää uusi",

@@ -37,6 +37,11 @@ const commonNotificationVariables = {
 };
 
 const theme: Theme = {
+  breadcrumb: {
+    '--breadcrumb-color': 'var(--color-black-90)',
+    '--breadcrumb-color-link': 'var(--color-bus)',
+    '--breadcrumb-color-separator': 'var(--color-black)',
+  },
   button: {
     primary: {
       ...commonButtonVariables,
