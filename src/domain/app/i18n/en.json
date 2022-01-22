@@ -34,9 +34,11 @@
     "breadcrumb": "Breadcrumb",
     "buttonActions": "Actions",
     "buttonAddEvent": "Add new event",
+    "buttonAddKeyword": "Add keyword",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
     "cancel": "Undo",
+    "clear": "Clear",
     "close": "Close",
     "combobox": {
       "toggleButtonAriaLabel": "Menu"
@@ -89,6 +91,7 @@
       "text": "Give feedback"
     },
     "goToHome": "To front page",
+    "home": "Front page",
     "imageUploader": {
       "buttonDropImage": "Drag and drop and image to this area or browse from your hard drive by clicking",
       "notAllowedFileFormat": "File format is not supported",
@@ -116,6 +119,7 @@
     "placeholderDateTime": "dd.mm.yyyy hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Save",
+    "search": "Search",
     "select": "Select",
     "showLess": "Show less",
     "showMore": "Show more",
@@ -255,7 +259,6 @@
     },
     "pageTitle": "Enrolments: {{name}}",
     "searchPanel": {
-      "buttonClear": "Clear",
       "buttonCreate": "Add participant",
       "buttonRemoveFilter": "Remove filter: {{name}}",
       "buttonSearch": "Filter",
@@ -944,7 +947,6 @@
     "pageDescription": "Search events from Linked Events. You can filter results by date, place and type.",
     "pageTitle": "Search events",
     "searchPanel": {
-      "buttonClear": "Clear",
       "buttonCreateNew": "Add new event",
       "buttonSearch": "Search events",
       "labelEventType": "Type",
@@ -1183,6 +1185,28 @@
     "termsOfUse": "terms, of, use",
     "update": "update"
   },
+  "keywordsPage": {
+    "count": "{{count}} keyword",
+    "count_plural": "{{count}} keywords",
+    "keywordsTableCaption": "Keywords, sorted by {{sort}}",
+    "keywordsTableColumns": {
+      "id": "ID",
+      "name": "Name",
+      "nEvents": "Number of events"
+    },
+    "labelSearch": "Search keywords",
+    "pageDescription": "",
+    "pageTitle": "Keywords",
+    "sortOptions": {
+      "id": "Id, ascending",
+      "idDesc": "Id, descending",
+      "name": "Name, ascending",
+      "nameDesc": "Name, descending",
+      "nEvents": "Number of events, ascending",
+      "nEventsDesc": "Number of events, descending"
+    },
+    "title": "Keywords"
+  },
   "landingPage": {
     "heroTitle": "Events and hobbies in Helsinki",
     "highlight1Text": "Events in Helsinki from the guided play park activities to world-class festivals.",
@@ -1217,6 +1241,7 @@
     "tabs": {
       "events": "Events",
       "help": "Support",
+      "keywords": "Keywords",
       "registrations": "Registration"
     }
   },
@@ -1282,7 +1307,7 @@
     "count": "{{count}} registration",
     "count_plural": "{{count}} registrations",
     "pageTitle": "Registration",
-    "registrationTableCaption": "Registrations, sorted by {{sort}}",
+    "registrationsTableCaption": "Registrations, sorted by {{sort}}",
     "registrationsTableColumns": {
       "enrolments": "Participants",
       "enrolmentEndTime": "Ends",
@@ -1292,7 +1317,6 @@
       "waitingList": "Waiting list"
     },
     "searchPanel": {
-      "buttonClear": "Clear",
       "buttonSearch": "Search",
       "labelEventType": "Type",
       "labelPlace": "Search venue",

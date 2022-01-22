@@ -11,6 +11,7 @@ import {
   useRegistrationQuery,
 } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
+import { scrollToItem } from '../../utils/scrollToItem';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -29,7 +30,7 @@ import styles from './enrolmentsPage.module.scss';
 import FilterSummary from './filterSummary/FilterSummary';
 import SearchPanel from './searchPanel/SearchPanel';
 import { EnrolmentsLocationState } from './types';
-import { getEnrolmentItemId, scrollToEnrolmentItem } from './utils';
+import { getEnrolmentItemId } from './utils';
 import WaitingList from './waitingList/WaitingList';
 
 interface EnrolmentsPageProps {
@@ -45,7 +46,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
 
   React.useEffect(() => {
     if (location.state?.enrolmentId) {
-      scrollToEnrolmentItem(getEnrolmentItemId(location.state.enrolmentId));
+      scrollToItem(getEnrolmentItemId(location.state.enrolmentId));
       // Clear registrationId value to keep scroll position correctly
       const state = omit(location.state, 'enrolmentId');
       // location.search seems to reset if not added here (...location)

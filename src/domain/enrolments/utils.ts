@@ -1,5 +1,4 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { scroller } from 'react-scroll';
 
 import { ROUTES } from '../../constants';
 import {
@@ -9,9 +8,7 @@ import {
   RegistrationFieldsFragment,
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
-import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import queryBuilder from '../../utils/queryBuilder';
-import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
 import { EnrolmentFields, EnrolmentSearchInitialValues } from './types';
 
@@ -56,20 +53,6 @@ export const getEnrolmentFields = ({
 
 export const getEnrolmentItemId = (id: string): string =>
   `enrolment-item-${id}`;
-
-export const scrollToEnrolmentItem = (id: string): void => {
-  const offset = 24;
-  const duration = 300;
-
-  scroller.scrollTo(id, {
-    delay: 50,
-    duration: 300,
-    offset: 0 - (getPageHeaderHeight() + offset),
-    smooth: true,
-  });
-
-  setTimeout(() => setFocusToFirstFocusable(id), duration);
-};
 
 export const clearEnrolmentsQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>

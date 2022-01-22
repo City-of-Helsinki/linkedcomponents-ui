@@ -16,6 +16,11 @@ interface NoFooterPathProps {
   props?: RouteProps;
 }
 
+interface NavigationItem {
+  labelKey: string;
+  url: ROUTES;
+}
+
 const NO_FOOTER_PATHS = [
   { pathname: ROUTES.EDIT_EVENT },
   { pathname: ROUTES.EDIT_REGISTRATION },
@@ -32,21 +37,19 @@ const Footer: React.FC = () => {
   /* istanbul ignore next */
   const logoLanguage = locale === 'sv' ? 'sv' : 'fi';
 
-  const FOOTER_NAVIGATION_ITEMS = isFeatureEnabled('SHOW_REGISTRATION')
-    ? [
-        { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
-        { labelKey: 'navigation.searchEvents', url: ROUTES.SEARCH },
-        {
-          labelKey: 'navigation.tabs.registrations',
-          url: ROUTES.REGISTRATIONS,
-        },
-        { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
-      ]
-    : [
-        { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
-        { labelKey: 'navigation.searchEvents', url: ROUTES.SEARCH },
-        { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
-      ];
+  const FOOTER_NAVIGATION_ITEMS = [
+    { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
+    { labelKey: 'navigation.searchEvents', url: ROUTES.SEARCH },
+    isFeatureEnabled('SHOW_REGISTRATION') && {
+      labelKey: 'navigation.tabs.registrations',
+      url: ROUTES.REGISTRATIONS,
+    },
+    isFeatureEnabled('SHOW_KEYWORD') && {
+      labelKey: 'navigation.tabs.keywords',
+      url: ROUTES.KEYWORDS,
+    },
+    { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
+  ].filter((i) => i) as NavigationItem[];
 
   const navigationItems = FOOTER_NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
     label: t(labelKey),

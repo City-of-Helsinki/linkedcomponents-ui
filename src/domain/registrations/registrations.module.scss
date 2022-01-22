@@ -18,32 +18,3 @@
 .notification {
   margin: var(--spacing-m) 0;
 }
-
-.titleRow {
-  display: grid;
-  grid-gap: var(--spacing-m);
-
-  .addButtonWrapper {
-    margin-bottom: var(--spacing-m);
-  }
-
-  @include medium-up {
-    display: flex;
-
-    .title {
-      flex: 1 1 0%;
-    }
-
-    .addButtonWrapper {
-      align-self: center;
-      margin-bottom: unset;
-    }
-
-    .addButton {
-      @include min-width-column(2);
-      @include max-width-column(2);
-
-      white-space: nowrap;
-    }
-  }
-}

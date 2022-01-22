@@ -1,15 +1,19 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
+import { ROUTES } from '../../constants';
 import {
   Keyword,
   KeywordDocument,
+  KeywordFieldsFragment,
   KeywordQuery,
   KeywordQueryVariables,
   KeywordsQueryVariables,
 } from '../../generated/graphql';
-import { PathBuilderProps } from '../../types';
+import { Language, PathBuilderProps } from '../../types';
+import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
+import { KeywordFields } from './types';
 
 export const keywordPathBuilder = ({
   args,
@@ -65,4 +69,20 @@ export const getKeywordQueryResult = async (
   } catch (e) /* istanbul ignore next */ {
     return null;
   }
+};
+
+export const getKeywordItemId = (id: string): string => `keyword-item-${id}`;
+
+export const getKeywordFields = (
+  keyword: KeywordFieldsFragment,
+  language: Language
+): KeywordFields => {
+  const id = keyword.id as string;
+  return {
+    atId: keyword.atId,
+    id,
+    keywordUrl: `/${language}${ROUTES.EDIT_KEYWORD.replace(':id', id)}`,
+    name: getLocalisedString(keyword.name, language),
+    nEvents: keyword.nEvents ?? 0,
+  };
 };

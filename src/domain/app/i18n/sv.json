@@ -34,10 +34,12 @@
     "breadcrumb": "Brödsmula",
     "buttonActions": "Funktioner",
     "buttonAddEvent": "Lägg till evenemang",
+    "buttonAddKeyword": "Lägg till nyckelord",
     "buttonAddRegistration": "Lägg till",
     "buttonBack": "Tillbaka",
     "buttonRemoveFilter": "Ta bort filtret: {{name}}",
     "cancel": "Ångra",
+    "clear": "Klar",
     "close": "Stäng",
     "combobox": {
       "toggleButtonAriaLabel": "Menyn"
@@ -90,6 +92,7 @@
       "text": "Ge feedback"
     },
     "goToHome": "Till startsidan",
+    "home": "Startsidan",
     "imageUploader": {
       "buttonDropImage": "Dra bilden hit eller klicka för att lägga till den från hårddisken ",
       "notAllowedFileFormat": "Filformatet stöds inte",
@@ -117,6 +120,7 @@
     "placeholderDateTime": "dd.mm.åååå hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Spara",
+    "search": "Sök",
     "select": "Välj",
     "showLess": "Visa mindre",
     "showMore": "Visa mer",
@@ -256,7 +260,6 @@
     },
     "pageTitle": "Anmälningar: {{name}}",
     "searchPanel": {
-      "buttonClear": "Klar",
       "buttonCreate": "Lägg till deltagare",
       "buttonSearch": "Filtrera",
       "labelSearch": "Filtrera registreringar",
@@ -1030,7 +1033,6 @@
     "pageDescription": "Sök efter evenemang från Linked Events. Du kan filtrera resultat efter datum, plats och typ.",
     "pageTitle": "Sök efter evenemang",
     "searchPanel": {
-      "buttonClear": "Klar",
       "buttonCreateNew": "Lägg till nytt evenemang",
       "buttonSearch": "Sök efter evenemang",
       "labelEventType": "Typ",
@@ -1183,6 +1185,28 @@
     "termsOfUse": "villkor",
     "update": "uppdatering"
   },
+  "keywordsPage": {
+    "count": "{{count}} nyckelord",
+    "count_plural": "{{count}} nyckelord",
+    "keywordsTableCaption": "Nyckelord, sorterade efter {{sort}}",
+    "keywordsTableColumns": {
+      "id": "ID",
+      "name": "Namn",
+      "nEvents": "Antal evenemang"
+    },
+    "labelSearch": "Sök nyckelord",
+    "pageDescription": "",
+    "pageTitle": "Nyckelord",
+    "sortOptions": {
+      "id": "Id, stigande",
+      "idDesc": "Id, fallande",
+      "name": "Name, stigande",
+      "nameDesc": "Name, fallande",
+      "nEvents": "Antal evenemang, stigande",
+      "nEventsDesc": "Antal evenemang, fallande"
+    },
+    "title": "Nyckelord"
+  },
   "landingPage": {
     "heroTitle": "Evenemang och hobbyer i Helsingfors",
     "highlight1Text": "Evenemang i Helsingfors från guidade lekparkaktiviteter till festivaler i världsklass.",
@@ -1217,6 +1241,7 @@
     "tabs": {
       "events": "Evenemang",
       "help": "Stöd",
+      "keywords": "Nyckelord",
       "registrations": "Registrering"
     }
   },
@@ -1292,7 +1317,6 @@
       "waitingList": "Väntelista"
     },
     "searchPanel": {
-      "buttonClear": "Klar",
       "buttonSearch": "Sök",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",

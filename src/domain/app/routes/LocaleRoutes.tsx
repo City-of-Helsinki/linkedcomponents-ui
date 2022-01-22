@@ -37,6 +37,7 @@ const EventSearchPage = React.lazy(
   () => import('../../eventSearch/EventSearchPage')
 );
 const HelpPageRoutes = React.lazy(() => import('./HelpPageRoutes'));
+const KeywordsPage = React.lazy(() => import('.././../keywords/KeywordsPage'));
 const RegistrationsPage = React.lazy(
   () => import('.././../registrations/RegistrationsPage')
 );
@@ -158,6 +159,13 @@ const LocaleRoutes: React.FC<Props> = ({
               exact
               path={getLocalePath(ROUTES.EDIT_REGISTRATION_ENROLMENT)}
               component={EditEnrolmentPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_KEYWORD') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.KEYWORDS)}
+              component={KeywordsPage}
             />
           )}
           <Route

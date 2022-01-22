@@ -6,10 +6,7 @@ import { addParamsToRegistrationQueryString } from '../utils';
 const useRegistrationsQueryStringWithReturnPath = (): string => {
   const { pathname, search } = useLocation();
   return React.useMemo(
-    () =>
-      addParamsToRegistrationQueryString(search, {
-        returnPath: pathname,
-      }),
+    () => addParamsToRegistrationQueryString(search, { returnPath: pathname }),
     [pathname, search]
   );
 };

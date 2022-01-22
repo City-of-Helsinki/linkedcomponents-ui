@@ -25,11 +25,11 @@ const renderComponent = (props?: Partial<SearchInputProps>) =>
 const getElement = (key: 'clearButton' | 'input' | 'searchButton') => {
   switch (key) {
     case 'clearButton':
-      return screen.getByRole('button', { name: 'Clear' });
+      return screen.getByRole('button', { name: 'Tyhjennä' });
     case 'input':
       return screen.getByRole('searchbox', { name: label });
     case 'searchButton':
-      return screen.getByRole('button', { name: 'Search' });
+      return screen.getByRole('button', { name: 'Etsi' });
   }
 };
 
@@ -37,9 +37,9 @@ test('should render component with default texts', async () => {
   renderComponent({ value: '' });
 
   getElement('input');
-  screen.getByRole('button', { name: 'Search' });
+  getElement('searchButton');
   expect(
-    screen.queryByRole('button', { name: 'Clear' })
+    screen.queryByRole('button', { name: 'Tyhjennä' })
   ).not.toBeInTheDocument();
 });
 

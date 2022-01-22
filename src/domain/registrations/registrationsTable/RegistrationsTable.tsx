@@ -11,8 +11,8 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
-import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
 import { getRegistrationFields } from '../../registration/utils';
+import useRegistrationsQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
 import styles from './registrationsTable.module.scss';
 import RegistrationsTableRow from './RegistrationsTableRow';
 
@@ -30,7 +30,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const queryStringWithReturnPath = useEventsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);

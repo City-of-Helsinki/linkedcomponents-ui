@@ -1,0 +1,52 @@
+@import 'mixins';
+
+.keywordsTable {
+  min-width: 100%;
+  tbody tr {
+    cursor: pointer;
+
+    &:focus {
+      outline: var(--focus-outline-width) solid var(--focus-outline-color);
+      outline-offset: calc(0px - var(--focus-outline-width));
+
+      &:not(:global(.focus-visible)) {
+        outline: none;
+      }
+    }
+
+    td {
+      white-space: nowrap;
+    }
+  }
+
+  button {
+    @include focus-outline(0px);
+  }
+
+  a {
+    color: var(--color-coat-of-arms);
+
+    @include focus-outline(2px);
+  }
+
+  caption {
+    @include hidden-from-screen;
+  }
+}
+
+.idColumn {
+  width: 30%;
+}
+
+.nameColumn {
+  width: 50%;
+}
+
+.nEventsColumn {
+  width: 20%;
+}
+
+.actionButtonsColumn {
+  width: 1px;
+  padding: var(--focus-outline-width) !important;
+}
