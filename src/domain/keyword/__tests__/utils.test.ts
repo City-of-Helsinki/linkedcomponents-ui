@@ -1,4 +1,9 @@
-import { keywordPathBuilder, keywordsPathBuilder } from '../utils';
+import { fakeKeyword } from '../../../utils/mockDataUtils';
+import {
+  getKeywordFields,
+  keywordPathBuilder,
+  keywordsPathBuilder,
+} from '../utils';
 
 describe('keywordSetPathBuilder function', () => {
   it('should build correct path', () => {
@@ -53,5 +58,24 @@ describe('keywordSetsPathBuilder function', () => {
       });
       expect(path).toBe(expectedPath);
     });
+  });
+});
+
+describe('getKeywordFields function', () => {
+  it('should return default values if value is not set', () => {
+    const { atId, id, name, nEvents } = getKeywordFields(
+      fakeKeyword({
+        atId: null,
+        id: null,
+        name: null,
+        nEvents: null,
+      }),
+      'fi'
+    );
+
+    expect(atId).toBe('');
+    expect(id).toBe('');
+    expect(name).toBe('');
+    expect(nEvents).toBe(0);
   });
 });

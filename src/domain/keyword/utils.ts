@@ -77,9 +77,9 @@ export const getKeywordFields = (
   keyword: KeywordFieldsFragment,
   language: Language
 ): KeywordFields => {
-  const id = keyword.id as string;
+  const id = keyword.id ?? '';
   return {
-    atId: keyword.atId,
+    atId: keyword.atId ?? '',
     id,
     keywordUrl: `/${language}${ROUTES.EDIT_KEYWORD.replace(':id', id)}`,
     name: getLocalisedString(keyword.name, language),

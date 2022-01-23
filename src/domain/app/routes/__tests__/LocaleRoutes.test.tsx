@@ -65,7 +65,7 @@ const renderRoute = (route: string, locale: Language = 'fi') =>
   });
 
 beforeEach(() => {
-  setFeatureFlags({ SHOW_REGISTRATION: true });
+  setFeatureFlags({ SHOW_KEYWORD: true, SHOW_REGISTRATION: true });
 });
 
 it('should redirect to events page from deprecated modaration page', () => {
@@ -179,6 +179,14 @@ it('should render edit enrolment page', async () => {
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
   );
+});
+
+it('should render keywords page', async () => {
+  const { history } = renderRoute(`${ROUTES.KEYWORDS}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /avainsanat/i });
+  expect(history.location.pathname).toBe('/fi/keywords');
 });
 
 it('should route to default help page', async () => {

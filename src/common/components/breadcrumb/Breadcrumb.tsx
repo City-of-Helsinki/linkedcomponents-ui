@@ -23,13 +23,13 @@ const Breadcrumb = ({
   const { theme } = useTheme();
 
   const items = React.Children.map(children, (child) => {
+    /* istanbul ignore else */
     if (
       isValidElement(child) &&
       (child.type as FCWithName).componentName === 'BreadcrumbItem'
     ) {
       return cloneElement(child);
     }
-    return null;
   });
 
   return (

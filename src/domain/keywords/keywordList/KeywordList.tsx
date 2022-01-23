@@ -8,11 +8,7 @@ import { scroller } from 'react-scroll';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
-import {
-  EventsQueryVariables,
-  KeywordsQuery,
-  useKeywordsQuery,
-} from '../../../generated/graphql';
+import { KeywordsQuery, useKeywordsQuery } from '../../../generated/graphql';
 import getPageCount from '../../../utils/getPageCount';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import { getKeywordItemId } from '../../keyword/utils';
@@ -30,10 +26,6 @@ import {
   replaceParamsToKeywordQueryString,
 } from '../utils';
 import styles from './keywordList.module.scss';
-
-export interface EventListContainerProps {
-  baseVariables: EventsQueryVariables;
-}
 
 export const testIds = {
   resultList: 'keyword-result-list',
@@ -132,7 +124,8 @@ const KeywordListContainer: React.FC = () => {
     history.push({
       pathname: location.pathname,
       search: replaceParamsToKeywordQueryString(location.search, {
-        sort: val !== DEFAULT_KEYWORD_SORT ? val : null,
+        sort:
+          val !== DEFAULT_KEYWORD_SORT ? val : /* istanbul ignore next */ null,
       }),
     });
   };
