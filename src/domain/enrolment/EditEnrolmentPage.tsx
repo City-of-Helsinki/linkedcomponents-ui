@@ -23,6 +23,7 @@ import {
 import useLocale from '../../hooks/useLocale';
 import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
+import { showFormErrors } from '../../utils/validationUtils';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -48,7 +49,7 @@ import useEnrolmentUpdateActions, {
 import ConfirmCancelModal from './modals/ConfirmCancelModal';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
 import { enrolmentPathBuilder, getEnrolmentInitialValues } from './utils';
-import { enrolmentSchema, scrollToFirstError, showErrors } from './validation';
+import { enrolmentSchema, scrollToFirstError } from './validation';
 
 type Props = {
   enrolment: Enrolment;
@@ -139,7 +140,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
 
             onUpdate(values);
           } catch (error) {
-            showErrors({
+            showFormErrors({
               error: error as ValidationError,
               setErrors,
               setTouched,

@@ -25,6 +25,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
+import { showFormErrors } from '../../utils/validationUtils';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -51,7 +52,7 @@ import FormContainer from './formContainer/FormContainer';
 import useEnrolmentServerErrors from './hooks/useEnrolmentServerErrors';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
 import { getEnrolmentDefaultInitialValues, getEnrolmentPayload } from './utils';
-import { enrolmentSchema, scrollToFirstError, showErrors } from './validation';
+import { enrolmentSchema, scrollToFirstError } from './validation';
 
 type Props = {
   event: EventFieldsFragment;
@@ -148,7 +149,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
 
                 createEnrolment(values);
               } catch (error) {
-                showErrors({
+                showFormErrors({
                   error: error as ValidationError,
                   setErrors,
                   setTouched,

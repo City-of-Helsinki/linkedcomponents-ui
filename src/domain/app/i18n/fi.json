@@ -1166,7 +1166,8 @@
       "labelName": "Nimi",
       "labelOriginId": "Lähdetunniste",
       "labelPublisher": "Julkaisija",
-      "labelReplacedBy": "Korvaus"
+      "labelReplacedBy": "Korvaus",
+      "notificationTitleCannotEdit": "Avainsanaa ei voi muokata"
     }
   },
   "keywords": {

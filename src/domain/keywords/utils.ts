@@ -1,3 +1,5 @@
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+
 import { KeywordsQueryVariables } from '../../generated/graphql';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
@@ -91,3 +93,11 @@ export const replaceParamsToKeywordQueryString = (
     getKeywordParamValue
   );
 };
+
+export const clearKeywordsQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'keywords',
+  });

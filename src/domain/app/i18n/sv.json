@@ -1166,7 +1166,8 @@
       "labelName": "Namn",
       "labelOriginId": "Ursprungs-ID",
       "labelPublisher": "Utgivare",
-      "labelReplacedBy": "Ersatt av"
+      "labelReplacedBy": "Ersatt av",
+      "notificationTitleCannotEdit": "Nyckelord kan inte redigeras"
     }
   },
   "keywords": {

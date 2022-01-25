@@ -1166,7 +1166,8 @@
       "labelName": "Name",
       "labelOriginId": "Origin ID",
       "labelPublisher": "Publisher",
-      "labelReplacedBy": "Replaced by"
+      "labelReplacedBy": "Replaced by",
+      "notificationTitleCannotEdit": "The keyword cannot be edited"
     }
   },
   "keywords": {

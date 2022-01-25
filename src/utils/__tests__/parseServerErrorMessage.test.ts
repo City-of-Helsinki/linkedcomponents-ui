@@ -4,6 +4,7 @@ import { LEServerError } from '../../types';
 import parseServerErrorMessage from '../parseServerErrorMessage';
 
 const testCases: [LEServerError, string][] = [
+  ['An object with given id already exists.', 'Arvon tulee olla uniikki.'],
   [
     'Arvo saa olla enintään 255 merkkiä pitkä.',
     'Arvo saa olla enintään 255 merkkiä pitkä.',

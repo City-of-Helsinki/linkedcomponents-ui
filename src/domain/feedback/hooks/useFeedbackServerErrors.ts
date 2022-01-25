@@ -3,21 +3,14 @@ import { ApolloError, ServerError } from '@apollo/client';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ServerErrorItem } from '../../../types';
+import {
+  ServerErrorItem,
+  ShowServerErrorsFnParams,
+  UseServerErrorsState,
+} from '../../../types';
 import { parseFeedbackServerErrors } from './utils';
 
-type ShowServerErrorsFnParams = {
-  callbackFn?: () => void;
-  error: any;
-};
-
-type UseEventServerErrorsState = {
-  serverErrorItems: ServerErrorItem[];
-  setServerErrorItems: (items: ServerErrorItem[]) => void;
-  showServerErrors: (params: ShowServerErrorsFnParams) => void;
-};
-
-const useFeedbackServerErrors = (): UseEventServerErrorsState => {
+const useFeedbackServerErrors = (): UseServerErrorsState => {
   const { t } = useTranslation();
   const [serverErrorItems, setServerErrorItems] = React.useState<
     ServerErrorItem[]

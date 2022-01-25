@@ -19,26 +19,26 @@ import { hiddenStyles } from '../../../app/authenticationNotification/Authentica
 import userManager from '../../../auth/userManager';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
-import { registration } from '../../../registration/__mocks__/registration';
-import { ENROLMENT_ACTIONS } from '../../constants';
-import EnrolmentAuthenticationNotification from '../EnrolmentAuthenticationNotification';
+import { KEYWORD_ACTIONS } from '../../constants';
+import KeywordAuthenticationNotification, {
+  KeywordAuthenticationNotificationProps,
+} from '../KeywordAuthenticationNotification';
 
 configure({ defaultHidden: true });
 beforeEach(() => clear());
 
-const userVariables = {
-  createPath: undefined,
-  id: TEST_USER_ID,
+const userVariables = { createPath: undefined, id: TEST_USER_ID };
+
+const props: KeywordAuthenticationNotificationProps = {
+  action: KEYWORD_ACTIONS.UPDATE,
+  publisher: TEST_PUBLISHER_ID,
 };
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
-  render(
-    <EnrolmentAuthenticationNotification
-      action={ENROLMENT_ACTIONS.UPDATE}
-      registration={registration}
-    />,
-    renderOptions
-  );
+  render(<KeywordAuthenticationNotification {...props} />, renderOptions);
+
+const storeState = fakeAuthenticatedStoreState();
+const store = getMockReduxStore(storeState);
 
 test("should show notification if user is signed in but doesn't have any organizations", () => {
   const user = fakeUser({
@@ -52,15 +52,9 @@ test("should show notification if user is signed in but doesn't have any organiz
   };
   const mocks = [mockedEventResponse, mockedUserResponse];
 
-  const storeState = fakeAuthenticatedStoreState();
-  const store = getMockReduxStore(storeState);
-
   renderComponent({ mocks, store });
 
-  screen.getByRole('region');
-  screen.getByRole('heading', {
-    name: 'Ei oikeuksia muokata osallistujia.',
-  });
+  screen.getByRole('heading', { name: 'Ei oikeuksia muokata avainsanoja.' });
 });
 
 test('should not show notification if user is signed in and has an admin organization', async () => {
@@ -75,14 +69,29 @@ test('should not show notification if user is signed in and has an admin organiz
   };
   const mocks = [mockedEventResponse, mockedUserResponse];
 
-  const storeState = fakeAuthenticatedStoreState();
-  const store = getMockReduxStore(storeState);
-
   renderComponent({ mocks, store });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
   );
+});
+
+test('should show notification if user has an admin organization but it is different than publisher', async () => {
+  const user = fakeUser({
+    adminOrganizations: ['not-publisher'],
+    organizationMemberships: [],
+  });
+  const userResponse = { data: { user } };
+  const mockedUserResponse: MockedResponse = {
+    request: { query: UserDocument, variables: userVariables },
+    result: userResponse,
+  };
+  const mocks = [mockedEventResponse, mockedUserResponse];
+
+  renderComponent({ mocks, store });
+
+  await screen.findByRole('heading', { name: 'Avainsanaa ei voi muokata' });
+  screen.getByText('Sinulla ei ole oikeuksia muokata tätä avainsanaa.');
 });
 
 test('should start sign in process', () => {

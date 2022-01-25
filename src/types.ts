@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action } from '@reduxjs/toolkit';
 import React from 'react';
 import { ThunkAction } from 'redux-thunk';
@@ -61,4 +62,15 @@ export type MultiLanguageObject = {
 export type Editability = {
   editable: boolean;
   warning: string;
+};
+
+export type ShowServerErrorsFnParams = {
+  callbackFn?: () => void;
+  error: any;
+};
+
+export type UseServerErrorsState = {
+  serverErrorItems: ServerErrorItem[];
+  setServerErrorItems: (items: ServerErrorItem[]) => void;
+  showServerErrors: (params: ShowServerErrorsFnParams) => void;
 };

@@ -27,6 +27,8 @@ const parseServerErrorMessage = ({
   }
 
   switch (errorStr) {
+    case 'An object with given id already exists.':
+      return t(`serverError.mustBeUnique`);
     case 'Arvo saa olla enintään 255 merkkiä pitkä.':
       return t(`serverError.maxLength255`);
     case 'Arvon tulee olla uniikki.':

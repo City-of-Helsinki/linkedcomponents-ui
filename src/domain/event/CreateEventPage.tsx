@@ -22,6 +22,7 @@ import {
   useCreateEventsMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import { showFormErrors } from '../../utils/validationUtils';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -56,7 +57,7 @@ import {
   getEventPayload,
   getRecurringEventPayload,
   publicEventSchema,
-  showErrors,
+  scrollToFirstError,
 } from './utils';
 
 const CreateEventPage: React.FC = () => {
@@ -253,12 +254,16 @@ const CreateEventPage: React.FC = () => {
 
             await createEvent(values, publicationStatus);
           } catch (error) {
-            showErrors({
-              descriptionLanguage,
+            showFormErrors({
               error: error as ValidationError,
               setErrors,
-              setDescriptionLanguage,
               setTouched,
+            });
+
+            scrollToFirstError({
+              descriptionLanguage,
+              error: error as ValidationError,
+              setDescriptionLanguage,
             });
           }
         };

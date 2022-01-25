@@ -69,6 +69,15 @@ export type CreateEventMutationInput = {
   videos?: InputMaybe<Array<InputMaybe<VideoInput>>>;
 };
 
+export type CreateKeywordMutationInput = {
+  dataSource?: InputMaybe<Scalars['String']>;
+  deprecated?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<LocalisedObjectInput>;
+  publisher?: InputMaybe<Scalars['String']>;
+  replacedBy?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateRegistrationMutationInput = {
   audienceMaxAge?: InputMaybe<Scalars['Int']>;
   audienceMinAge?: InputMaybe<Scalars['Int']>;
@@ -341,6 +350,7 @@ export type Mutation = {
   createEnrolment: Enrolment;
   createEvent: Event;
   createEvents: Array<Event>;
+  createKeyword: Keyword;
   createRegistration: Registration;
   deleteEnrolment?: Maybe<NoContent>;
   deleteEvent?: Maybe<NoContent>;
@@ -368,6 +378,11 @@ export type MutationCreateEventArgs = {
 
 export type MutationCreateEventsArgs = {
   input: Array<CreateEventMutationInput>;
+};
+
+
+export type MutationCreateKeywordArgs = {
+  input: CreateKeywordMutationInput;
 };
 
 
@@ -1025,6 +1040,13 @@ export type ImagesQueryVariables = Exact<{
 
 
 export type ImagesQuery = { __typename?: 'Query', images: { __typename?: 'ImagesResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'Image', id?: string | null | undefined, atId: string, altText?: string | null | undefined, license?: string | null | undefined, name?: string | null | undefined, photographerName?: string | null | undefined, publisher?: string | null | undefined, url?: string | null | undefined } | null | undefined> } };
+
+export type CreateKeywordMutationVariables = Exact<{
+  input: CreateKeywordMutationInput;
+}>;
+
+
+export type CreateKeywordMutation = { __typename?: 'Mutation', createKeyword: { __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } };
 
 export type KeywordFieldsFragment = { __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined };
 
@@ -2195,6 +2217,39 @@ export function useImagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ima
 export type ImagesQueryHookResult = ReturnType<typeof useImagesQuery>;
 export type ImagesLazyQueryHookResult = ReturnType<typeof useImagesLazyQuery>;
 export type ImagesQueryResult = Apollo.QueryResult<ImagesQuery, ImagesQueryVariables>;
+export const CreateKeywordDocument = gql`
+    mutation CreateKeyword($input: CreateKeywordMutationInput!) {
+  createKeyword(input: $input) @rest(type: "Event", path: "/keyword/", method: "POST", bodyKey: "input") {
+    ...keywordFields
+  }
+}
+    ${KeywordFieldsFragmentDoc}`;
+export type CreateKeywordMutationFn = Apollo.MutationFunction<CreateKeywordMutation, CreateKeywordMutationVariables>;
+
+/**
+ * __useCreateKeywordMutation__
+ *
+ * To run a mutation, you first call `useCreateKeywordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateKeywordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createKeywordMutation, { data, loading, error }] = useCreateKeywordMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateKeywordMutation(baseOptions?: Apollo.MutationHookOptions<CreateKeywordMutation, CreateKeywordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateKeywordMutation, CreateKeywordMutationVariables>(CreateKeywordDocument, options);
+      }
+export type CreateKeywordMutationHookResult = ReturnType<typeof useCreateKeywordMutation>;
+export type CreateKeywordMutationResult = Apollo.MutationResult<CreateKeywordMutation>;
+export type CreateKeywordMutationOptions = Apollo.BaseMutationOptions<CreateKeywordMutation, CreateKeywordMutationVariables>;
 export const KeywordDocument = gql`
     query Keyword($id: ID!, $createPath: Any) {
   keyword(id: $id) @rest(type: "Keyword", pathBuilder: $createPath) {

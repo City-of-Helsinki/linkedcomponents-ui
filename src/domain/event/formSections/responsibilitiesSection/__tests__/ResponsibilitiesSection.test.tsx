@@ -1,14 +1,11 @@
 import { Formik } from 'formik';
 import React from 'react';
 
+import { LE_DATA_LANGUAGES } from '../../../../../constants';
 import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
 import { configure, render, screen } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import {
-  EVENT_FIELDS,
-  EVENT_INFO_LANGUAGES,
-  EVENT_TYPE,
-} from '../../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import ResponsibilitiesSection, {
   ResponsibilitiesSectionProps,
 } from '../ResponsibilitiesSection';
@@ -17,9 +14,9 @@ configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
 
-const languages: EVENT_INFO_LANGUAGES[] = [
-  EVENT_INFO_LANGUAGES.FI,
-  EVENT_INFO_LANGUAGES.SV,
+const languages: LE_DATA_LANGUAGES[] = [
+  LE_DATA_LANGUAGES.FI,
+  LE_DATA_LANGUAGES.SV,
 ];
 
 type InitialValues = {

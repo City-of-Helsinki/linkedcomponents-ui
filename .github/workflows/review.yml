@@ -34,6 +34,7 @@ jobs:
           DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'https://api.hel.fi/auth/linkedevents-ui'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_SCOPE: 'openid profile https://api.hel.fi/auth/linkedevents'
           DOCKER_BUILD_ARG_REACT_APP_INTERNET_PLACE_ID: 'helsinki:internet'
+          DOCKER_BUILD_ARG_REACT_APP_KEYWORD_DATA_SOURCE: 'helsinki'
           DOCKER_BUILD_ARG_REACT_APP_SHOW_KEYWORD: 'true'
           DOCKER_BUILD_ARG_REACT_APP_SHOW_REGISTRATION: 'true'
 

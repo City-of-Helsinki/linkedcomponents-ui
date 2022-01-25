@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { scroller } from 'react-scroll';
+import { ValidationError } from 'yup';
 
 import Button from '../../../common/components/button/Button';
 import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
@@ -19,6 +20,7 @@ import {
   usePostFeedbackMutation,
   usePostGuestFeedbackMutation,
 } from '../../../generated/graphql';
+import { showFormErrors } from '../../../utils/validationUtils';
 import PageWrapper from '../../app/layout/PageWrapper';
 import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
@@ -36,7 +38,7 @@ import EventNotShownFaq from '../faq/EventNotShownFaq';
 import ImageRightsFaq from '../faq/ImageRightsFaq';
 import PublishingPermissionsFaq from '../faq/PublishingPermissionsFaq';
 import { ContactFormFields } from '../types';
-import { getInitialValues, scrollToFirstError, showErrors } from '../utils';
+import { getInitialValues, scrollToFirstError } from '../utils';
 import styles from './contactPage.module.scss';
 
 const ContactPage: React.FC = () => {
@@ -102,7 +104,7 @@ const ContactPage: React.FC = () => {
       // Report error to Sentry
       reportError({
         data: {
-          error,
+          error: error as Record<string, unknown>,
           payload,
           payloadAsString: JSON.stringify(payload),
         },
@@ -179,13 +181,13 @@ const ContactPage: React.FC = () => {
 
               submitContactForm(values, { resetForm, validateForm });
             } catch (error) {
-              showErrors({
-                error,
+              showFormErrors({
+                error: error as ValidationError,
                 setErrors,
                 setTouched,
               });
 
-              scrollToFirstError({ error });
+              scrollToFirstError({ error: error as ValidationError });
             }
           };
 

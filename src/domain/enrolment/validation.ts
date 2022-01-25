@@ -3,12 +3,11 @@ import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import startOfDay from 'date-fns/startOfDay';
 import subYears from 'date-fns/subYears';
-import { FormikErrors, FormikTouched } from 'formik';
 import forEach from 'lodash/forEach';
-import set from 'lodash/set';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
+import { VALIDATION_ERROR_SCROLLER_OPTIONS } from '../../constants';
 import {
   createMinErrorMessage,
   isValidPhoneNumber,
@@ -20,7 +19,6 @@ import {
   ENROLMENT_FORM_SELECT_FIELDS,
   NOTIFICATIONS,
 } from './constants';
-import { EnrolmentFormFields } from './types';
 
 export const isAboveMinAge = (
   minAge: string,
@@ -136,39 +134,6 @@ export const enrolmentSchema = Yup.object().shape({
   ),
 });
 
-// This functions sets formik errors and touched values correctly after validation.
-// The reason for this is to show all errors after validating the form.
-// Errors are shown only for touched fields so set all fields with error touched
-export const showErrors = ({
-  error,
-  setErrors,
-  setTouched,
-}: {
-  error: Yup.ValidationError;
-  setErrors: (errors: FormikErrors<EnrolmentFormFields>) => void;
-  setTouched: (
-    touched: FormikTouched<EnrolmentFormFields>,
-    shouldValidate?: boolean
-  ) => void;
-}): void => {
-  /* istanbul ignore else */
-  if (error.name === 'ValidationError') {
-    const newErrors = error.inner.reduce(
-      (acc, e: Yup.ValidationError) =>
-        set(acc, e.path ?? /* istanbul ignore next */ '', e.errors[0]),
-      {}
-    );
-    const touchedFields = error.inner.reduce(
-      (acc, e: Yup.ValidationError) =>
-        set(acc, e.path ?? /* istanbul ignore next */ '', true),
-      {}
-    );
-
-    setErrors(newErrors);
-    setTouched(touchedFields);
-  }
-};
-
 const getFocusableFieldId = (
   fieldName: string
 ): {
@@ -196,12 +161,7 @@ export const scrollToFirstError = ({
 
     /* istanbul ignore else */
     if (field) {
-      scroller.scrollTo(fieldId, {
-        delay: 0,
-        duration: 500,
-        offset: -200,
-        smooth: true,
-      });
+      scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
 
       if (fieldType === 'checkboxGroup') {
         const focusable = field.querySelectorAll('input');

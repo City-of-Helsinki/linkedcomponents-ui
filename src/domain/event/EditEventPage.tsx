@@ -20,6 +20,7 @@ import {
 import useLocale from '../../hooks/useLocale';
 import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
+import { showFormErrors } from '../../utils/validationUtils';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -63,7 +64,7 @@ import {
   getEventFields,
   getEventInitialValues,
   publicEventSchema,
-  showErrors,
+  scrollToFirstError,
 } from './utils';
 
 interface EditEventPageProps {
@@ -221,12 +222,16 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
               onUpdate(values, publicationStatus);
             }
           } catch (error) {
-            showErrors({
-              descriptionLanguage,
+            showFormErrors({
               error: error as ValidationError,
               setErrors,
-              setDescriptionLanguage,
               setTouched,
+            });
+
+            scrollToFirstError({
+              descriptionLanguage,
+              error: error as ValidationError,
+              setDescriptionLanguage,
             });
           }
         };

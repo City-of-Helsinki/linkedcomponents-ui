@@ -1,6 +1,17 @@
-import { fakeKeyword } from '../../../utils/mockDataUtils';
+import i18n from 'i18next';
+
 import {
+  fakeKeyword,
+  fakeOrganization,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import { KEYWORD_ACTIONS, KEYWORD_INITIAL_VALUES } from '../constants';
+import {
+  checkCanUserDoAction,
+  getEditKeywordWarning,
   getKeywordFields,
+  getKeywordPayload,
   keywordPathBuilder,
   keywordsPathBuilder,
 } from '../utils';
@@ -77,5 +88,173 @@ describe('getKeywordFields function', () => {
     expect(id).toBe('');
     expect(name).toBe('');
     expect(nEvents).toBe(0);
+  });
+});
+
+describe('getKeywordPayload function', () => {
+  it('should return keyword payload', () => {
+    expect(getKeywordPayload(KEYWORD_INITIAL_VALUES)).toEqual({
+      dataSource: 'helsinki',
+      deprecated: false,
+      id: undefined,
+      name: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      publisher: '',
+      replacedBy: '',
+    });
+
+    expect(
+      getKeywordPayload({
+        dataSource: 'helsinki',
+        deprecated: true,
+        id: '',
+        name: {
+          ar: 'ar',
+          en: 'en',
+          fi: 'fi',
+          ru: 'ru',
+          sv: 'sv',
+          zhHans: 'zhHans',
+        },
+        originId: '123',
+        publisher: TEST_PUBLISHER_ID,
+        replacedBy: 'keyword:1',
+      })
+    ).toEqual({
+      dataSource: 'helsinki',
+      deprecated: true,
+      id: 'helsinki:123',
+      name: {
+        ar: 'ar',
+        en: 'en',
+        fi: 'fi',
+        ru: 'ru',
+        sv: 'sv',
+        zhHans: 'zhHans',
+      },
+      publisher: TEST_PUBLISHER_ID,
+      replacedBy: 'keyword:1',
+    });
+  });
+});
+
+describe('checkCanUserDoAction function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
+  it('should allow correct actions if adminArganizations contains publisher', () => {
+    const user = fakeUser({ adminOrganizations: [publisher] });
+
+    const allowedActions = [
+      KEYWORD_ACTIONS.CREATE,
+      KEYWORD_ACTIONS.DELETE,
+      KEYWORD_ACTIONS.EDIT,
+      KEYWORD_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if organizationAncestores contains any of the adminArganizations', () => {
+    const adminOrganization = 'admin:1';
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    const allowedActions = [
+      KEYWORD_ACTIONS.CREATE,
+      KEYWORD_ACTIONS.DELETE,
+      KEYWORD_ACTIONS.EDIT,
+      KEYWORD_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [fakeOrganization({ id: adminOrganization })],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if publisher is not defined and user has at least one admin organization', () => {
+    const adminOrganization = 'admin:1';
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    const allowedActions = [KEYWORD_ACTIONS.CREATE, KEYWORD_ACTIONS.EDIT];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher: '',
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+});
+
+describe('getEditKeywordWarning function', () => {
+  it('should return correct warning if user is not authenticated', () => {
+    const allowedActions = [KEYWORD_ACTIONS.EDIT];
+
+    const commonProps = {
+      authenticated: false,
+      t: i18n.t.bind(i18n),
+      userCanDoAction: false,
+    };
+
+    allowedActions.forEach((action) => {
+      expect(getEditKeywordWarning({ action, ...commonProps })).toBe('');
+    });
+
+    const deniedActions = [
+      KEYWORD_ACTIONS.CREATE,
+      KEYWORD_ACTIONS.DELETE,
+      KEYWORD_ACTIONS.UPDATE,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(getEditKeywordWarning({ action, ...commonProps })).toBe(
+        'Sinulla ei ole oikeuksia muokata avainsanoja.'
+      );
+    });
+  });
+
+  it('should return correct warning if user cannot do action', () => {
+    expect(
+      getEditKeywordWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: KEYWORD_ACTIONS.CREATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia luoda avainsanoja.');
+
+    expect(
+      getEditKeywordWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: KEYWORD_ACTIONS.UPDATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia muokata tätä avainsanaa.');
   });
 });

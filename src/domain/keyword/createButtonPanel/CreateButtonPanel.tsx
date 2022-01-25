@@ -6,20 +6,22 @@ import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { ROUTES } from '../../../constants';
-import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import { authenticatedSelector } from '../../auth/selectors';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { KEYWORD_ACTIONS } from '../constants';
 import { getEditButtonProps } from '../utils';
 
 export interface CreateButtonPanelProps {
   onSave: () => void;
+  publisher: string;
   saving: boolean;
 }
 
 const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
   onSave,
+  publisher,
   saving,
 }) => {
   const { t } = useTranslation();
@@ -27,12 +29,16 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
 
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
+
   const goBack = useGoBack({ defaultReturnPath: ROUTES.KEYWORDS });
 
   const buttonProps = getEditButtonProps({
     action: KEYWORD_ACTIONS.CREATE,
     authenticated,
     onClick: onSave,
+    organizationAncestors,
+    publisher,
     t,
     user,
   });

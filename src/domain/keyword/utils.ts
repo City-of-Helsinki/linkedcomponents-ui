@@ -4,25 +4,29 @@ import { TFunction } from 'i18next';
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../constants';
 import {
+  CreateKeywordMutationInput,
   Keyword,
   KeywordDocument,
   KeywordFieldsFragment,
   KeywordQuery,
   KeywordQueryVariables,
   KeywordsQueryVariables,
+  OrganizationFieldsFragment,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
+import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
   KEYWORD_ACTION_ICONS,
   KEYWORD_ACTION_LABEL_KEYS,
   KEYWORD_ACTIONS,
+  KEYWORD_DATA_SOURCE,
 } from './constants';
-import { KeywordFields } from './types';
+import { KeywordFields, KeywordFormFields } from './types';
 
 export const keywordPathBuilder = ({
   args,
@@ -99,21 +103,34 @@ export const getKeywordFields = (
 // TODO: Check user permissions
 export const checkCanUserDoAction = ({
   action,
+  organizationAncestors,
+  publisher,
   user,
 }: {
   action: KEYWORD_ACTIONS;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
   user?: UserFieldsFragment;
 }): boolean => {
+  /* istanbul ignore next */
+  const adminOrganizations = user?.adminOrganizations ?? [];
+  const isAdminUser = isAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
+
   switch (action) {
+    case KEYWORD_ACTIONS.EDIT:
+      return true;
     case KEYWORD_ACTIONS.CREATE:
     case KEYWORD_ACTIONS.DELETE:
-    case KEYWORD_ACTIONS.EDIT:
     case KEYWORD_ACTIONS.UPDATE:
-      return true;
+      return publisher ? isAdminUser : !!adminOrganizations.length;
   }
 };
 
-export const getEditEnrolmentWarning = ({
+export const getEditKeywordWarning = ({
   action,
   authenticated,
   t,
@@ -147,17 +164,26 @@ export const getEditEnrolmentWarning = ({
 export const checkIsEditActionAllowed = ({
   action,
   authenticated,
+  organizationAncestors,
+  publisher,
   t,
   user,
 }: {
   action: KEYWORD_ACTIONS;
   authenticated: boolean;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
-  const userCanDoAction = checkCanUserDoAction({ action, user });
+  const userCanDoAction = checkCanUserDoAction({
+    action,
+    organizationAncestors,
+    publisher,
+    user,
+  });
 
-  const warning = getEditEnrolmentWarning({
+  const warning = getEditKeywordWarning({
     action,
     authenticated,
     t,
@@ -171,18 +197,24 @@ export const getEditButtonProps = ({
   action,
   authenticated,
   onClick,
+  organizationAncestors,
+  publisher,
   t,
   user,
 }: {
   action: KEYWORD_ACTIONS;
   authenticated: boolean;
   onClick: () => void;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
   const { editable, warning } = checkIsEditActionAllowed({
     action,
     authenticated,
+    organizationAncestors,
+    publisher,
     t,
     user,
   });
@@ -193,5 +225,18 @@ export const getEditButtonProps = ({
     label: t(KEYWORD_ACTION_LABEL_KEYS[action]),
     onClick,
     title: warning,
+  };
+};
+
+export const getKeywordPayload = (
+  formValues: KeywordFormFields
+): CreateKeywordMutationInput => {
+  const { originId, ...restFormValues } = formValues;
+  const dataSource = formValues.dataSource || KEYWORD_DATA_SOURCE;
+
+  return {
+    ...restFormValues,
+    dataSource,
+    id: originId ? `${dataSource}:${originId}` : undefined,
   };
 };

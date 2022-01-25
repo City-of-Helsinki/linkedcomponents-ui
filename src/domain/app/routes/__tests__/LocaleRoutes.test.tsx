@@ -189,6 +189,14 @@ it('should render keywords page', async () => {
   expect(history.location.pathname).toBe('/fi/keywords');
 });
 
+it('should render create keyword page', async () => {
+  const { history } = renderRoute(`${ROUTES.CREATE_KEYWORD}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /lisää avainsana/i });
+  expect(history.location.pathname).toBe('/fi/keywords/create');
+});
+
 it('should route to default help page', async () => {
   const { history } = renderRoute(ROUTES.HELP);
 

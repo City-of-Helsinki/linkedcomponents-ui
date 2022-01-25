@@ -5,7 +5,11 @@ import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { FORM_NAMES } from '../../../constants';
+import {
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  FORM_NAMES,
+  LE_DATA_LANGUAGES,
+} from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   configure,
@@ -45,12 +49,7 @@ import {
   organizationId,
   placeAtId,
 } from '../__mocks__/createEventPage';
-import {
-  EMPTY_MULTI_LANGUAGE_OBJECT,
-  EVENT_FIELDS,
-  EVENT_INFO_LANGUAGES,
-  EVENT_INITIAL_VALUES,
-} from '../constants';
+import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from '../constants';
 import CreateEventPage from '../CreateEventPage';
 import { EventFormFields } from '../types';
 
@@ -172,8 +171,8 @@ test('should focus to validation error of swedish name when trying to save draft
   setFormValues({
     ...EVENT_INITIAL_VALUES,
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
-      EVENT_INFO_LANGUAGES.FI,
-      EVENT_INFO_LANGUAGES.SV,
+      LE_DATA_LANGUAGES.FI,
+      LE_DATA_LANGUAGES.SV,
     ],
     name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
   });

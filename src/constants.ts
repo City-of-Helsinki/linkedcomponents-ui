@@ -176,3 +176,10 @@ export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
   (acc, lang) => ({ ...acc, [lang]: '' }),
   {}
 ) as MultiLanguageObject;
+
+export const VALIDATION_ERROR_SCROLLER_OPTIONS = {
+  delay: 0,
+  duration: 500,
+  offset: -200,
+  smooth: true,
+};

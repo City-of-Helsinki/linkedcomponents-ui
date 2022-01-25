@@ -9,6 +9,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createEnrolment(input: CreateEnrolmentMutationInput!): Enrolment!
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
+    createKeyword(input: CreateKeywordMutationInput!): Keyword!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
@@ -296,6 +297,15 @@ module.exports = buildSchema(/* GraphQL */ `
     photographerName: String
     publisher: String
     url: String
+  }
+
+  input CreateKeywordMutationInput {
+    dataSource: String
+    deprecated: Boolean
+    id: String
+    name: LocalisedObjectInput
+    publisher: String
+    replacedBy: String
   }
 
   input CreateRegistrationMutationInput {

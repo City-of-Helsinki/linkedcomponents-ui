@@ -8,9 +8,9 @@ import {
   ShowServerErrorsFnParams,
   UseServerErrorsState,
 } from '../../../types';
-import { parseEnrolmentServerErrors } from './utils';
+import { parseKeywordServerErrors } from './utils';
 
-const useEnrolmentServerErrors = (): UseServerErrorsState => {
+const useKeywordServerErrors = (): UseServerErrorsState => {
   const { t } = useTranslation();
   const [serverErrorItems, setServerErrorItems] = React.useState<
     ServerErrorItem[]
@@ -27,7 +27,7 @@ const useEnrolmentServerErrors = (): UseServerErrorsState => {
 
       /* istanbul ignore else */
       if (result) {
-        setServerErrorItems(parseEnrolmentServerErrors({ result, t }));
+        setServerErrorItems(parseKeywordServerErrors({ result, t }));
         callbackFn && callbackFn();
       }
     }
@@ -36,4 +36,4 @@ const useEnrolmentServerErrors = (): UseServerErrorsState => {
   return { serverErrorItems, setServerErrorItems, showServerErrors };
 };
 
-export default useEnrolmentServerErrors;
+export default useKeywordServerErrors;

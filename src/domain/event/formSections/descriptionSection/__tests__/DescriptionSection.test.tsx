@@ -2,19 +2,18 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  LE_DATA_LANGUAGES,
+} from '../../../../../constants';
+import { MultiLanguageObject } from '../../../../../types';
+import {
   configure,
   mockString,
   render,
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import {
-  EMPTY_MULTI_LANGUAGE_OBJECT,
-  EVENT_FIELDS,
-  EVENT_INFO_LANGUAGES,
-  EVENT_TYPE,
-} from '../../../constants';
-import { MultiLanguageObject } from '../../../types';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { publicEventSchema } from '../../../utils';
 import DescriptionSection, {
   DescriptionSectionProps,
@@ -22,25 +21,25 @@ import DescriptionSection, {
 
 configure({ defaultHidden: true });
 
-const languages: EVENT_INFO_LANGUAGES[] = [
-  EVENT_INFO_LANGUAGES.FI,
-  EVENT_INFO_LANGUAGES.SV,
+const languages: LE_DATA_LANGUAGES[] = [
+  LE_DATA_LANGUAGES.FI,
+  LE_DATA_LANGUAGES.SV,
 ];
 const type = EVENT_TYPE.General;
 
 type InitialValues = {
   [EVENT_FIELDS.DESCRIPTION]: MultiLanguageObject;
-  [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: EVENT_INFO_LANGUAGES[];
+  [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: LE_DATA_LANGUAGES[];
   [EVENT_FIELDS.NAME]: MultiLanguageObject;
   [EVENT_FIELDS.SHORT_DESCRIPTION]: MultiLanguageObject;
   [EVENT_FIELDS.TYPE]: string;
 };
 
 const defaultInitialValues: InitialValues = {
-  [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+  [EVENT_FIELDS.DESCRIPTION]: EMPTY_MULTI_LANGUAGE_OBJECT,
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: languages,
-  [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-  [EVENT_FIELDS.SHORT_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+  [EVENT_FIELDS.NAME]: EMPTY_MULTI_LANGUAGE_OBJECT,
+  [EVENT_FIELDS.SHORT_DESCRIPTION]: EMPTY_MULTI_LANGUAGE_OBJECT,
   [EVENT_FIELDS.TYPE]: type,
 };
 
@@ -128,8 +127,8 @@ test('should change selected language when current selected language is removed 
   const { rerender } = renderComponent(
     {
       [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
-        EVENT_INFO_LANGUAGES.FI,
-        EVENT_INFO_LANGUAGES.SV,
+        LE_DATA_LANGUAGES.FI,
+        LE_DATA_LANGUAGES.SV,
       ],
     },
     { setSelectedLanguage }
@@ -144,7 +143,7 @@ test('should change selected language when current selected language is removed 
   expect(svButton.getAttribute('aria-selected')).toBe('false');
 
   rerender({
-    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.SV],
+    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.SV],
   });
 
   expect(setSelectedLanguage).toBeCalledWith('sv');
@@ -152,7 +151,7 @@ test('should change selected language when current selected language is removed 
 
 test('should show validation error if name is missing', async () => {
   renderComponent({
-    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.FI],
     [EVENT_FIELDS.DESCRIPTION]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: 'Description',
@@ -175,7 +174,7 @@ test('should show validation error if name is missing', async () => {
 
 test('should show validation error if short description is missing', async () => {
   renderComponent({
-    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.FI],
     [EVENT_FIELDS.DESCRIPTION]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: 'Description',
@@ -197,7 +196,7 @@ test('should show validation error if short description is missing', async () =>
 
 test('should show validation error if short description is too long', async () => {
   renderComponent({
-    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+    [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.FI],
     [EVENT_FIELDS.DESCRIPTION]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: 'Description',
@@ -222,7 +221,7 @@ test('should show validation error if description is missing', async () => {
   const setSelectedLanguage = jest.fn();
   renderComponent(
     {
-      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.FI],
       [EVENT_FIELDS.DESCRIPTION]: {
         ...EMPTY_MULTI_LANGUAGE_OBJECT,
       },
@@ -248,7 +247,7 @@ test('should show validation error if description is too long', async () => {
   const setSelectedLanguage = jest.fn();
   renderComponent(
     {
-      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.FI],
       [EVENT_FIELDS.DESCRIPTION]: {
         ...EMPTY_MULTI_LANGUAGE_OBJECT,
         fi: mockString(5001),

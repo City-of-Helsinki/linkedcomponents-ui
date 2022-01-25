@@ -107,10 +107,6 @@ test('should show notification if event is in the past', async () => {
   screen.getByText('Menneisyydessä olevia tapahtumia ei voi muokata.');
 });
 
-test('should show sign in notification is user is not signed in', () => {
-  renderComponent();
-});
-
 test('should start sign in process', () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
 

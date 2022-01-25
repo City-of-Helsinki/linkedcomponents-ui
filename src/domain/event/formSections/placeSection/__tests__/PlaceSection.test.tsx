@@ -2,29 +2,28 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  LE_DATA_LANGUAGES,
+} from '../../../../../constants';
+import { MultiLanguageObject } from '../../../../../types';
+import {
   configure,
   mockString,
   render,
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import {
-  EMPTY_MULTI_LANGUAGE_OBJECT,
-  EVENT_FIELDS,
-  EVENT_INFO_LANGUAGES,
-  EVENT_TYPE,
-} from '../../../constants';
-import { MultiLanguageObject } from '../../../types';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { publicEventSchema } from '../../../utils';
 import PlaceSection from '../PlaceSection';
 
 configure({ defaultHidden: true });
 
-const languages: EVENT_INFO_LANGUAGES[] = [EVENT_INFO_LANGUAGES.FI];
+const languages: LE_DATA_LANGUAGES[] = [LE_DATA_LANGUAGES.FI];
 const type = EVENT_TYPE.General;
 
 type InitialValues = {
-  [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: EVENT_INFO_LANGUAGES[];
+  [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: LE_DATA_LANGUAGES[];
   [EVENT_FIELDS.LOCATION]: string | null;
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]: MultiLanguageObject;
   [EVENT_FIELDS.TYPE]: string;
@@ -33,7 +32,7 @@ type InitialValues = {
 const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: languages,
   [EVENT_FIELDS.LOCATION]: null,
-  [EVENT_FIELDS.LOCATION_EXTRA_INFO]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+  [EVENT_FIELDS.LOCATION_EXTRA_INFO]: EMPTY_MULTI_LANGUAGE_OBJECT,
   [EVENT_FIELDS.TYPE]: type,
 };
 

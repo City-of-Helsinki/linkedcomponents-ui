@@ -12,14 +12,13 @@ import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
-import { FormikErrors, FormikState, FormikTouched } from 'formik';
+import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import forEach from 'lodash/forEach';
 import isNumber from 'lodash/isNumber';
 import keys from 'lodash/keys';
 import reduce from 'lodash/reduce';
-import set from 'lodash/set';
 import sortBy from 'lodash/sortBy';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
@@ -33,6 +32,7 @@ import {
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
+  VALIDATION_ERROR_SCROLLER_OPTIONS,
   WEEK_DAY,
 } from '../../constants';
 import {
@@ -1235,12 +1235,7 @@ export const scrollToFirstError = ({
 
     /* istanbul ignore else */
     if (field) {
-      scroller.scrollTo(fieldId, {
-        delay: 0,
-        duration: 500,
-        offset: -200,
-        smooth: true,
-      });
+      scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
 
       if (fieldType === 'checkboxGroup') {
         const focusable = field.querySelectorAll('input');
@@ -1259,44 +1254,6 @@ export const scrollToFirstError = ({
       return false;
     }
   });
-};
-
-// This functions sets formik errors and touched values correctly after validation.
-// The reason for this is to show all errors after validating the form.
-// Errors are shown only for touched fields so set all fields with error touched
-export const showErrors = ({
-  descriptionLanguage,
-  error,
-  setErrors,
-  setDescriptionLanguage,
-  setTouched,
-}: {
-  descriptionLanguage: LE_DATA_LANGUAGES;
-  error: Yup.ValidationError;
-  setErrors: (errors: FormikErrors<EventFormFields>) => void;
-  setDescriptionLanguage: (value: LE_DATA_LANGUAGES) => void;
-  setTouched: (
-    touched: FormikTouched<EventFormFields>,
-    shouldValidate?: boolean
-  ) => void;
-}): void => {
-  /* istanbul ignore else */
-  if (error.name === 'ValidationError') {
-    const newErrors = error.inner.reduce(
-      (acc, e: Yup.ValidationError) =>
-        set(acc, e.path ?? /* istanbul ignore next */ '', e.errors[0]),
-      {}
-    );
-    const touchedFields = error.inner.reduce(
-      (acc, e: Yup.ValidationError) =>
-        set(acc, e.path ?? /* istanbul ignore next */ '', true),
-      {}
-    );
-
-    setErrors(newErrors);
-    setTouched(touchedFields);
-    scrollToFirstError({ descriptionLanguage, error, setDescriptionLanguage });
-  }
 };
 
 const getSubEvents = async ({

@@ -1,5 +1,7 @@
 import { IconCogwheel, IconCross, IconPen } from 'hds-react';
 
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../constants';
+
 export const REMOTE_PARTICIPATION_KEYWORD_ID =
   process.env.REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID || 'yso:p26626';
 
@@ -40,3 +42,16 @@ export const KEYWORD_ACTION_LABEL_KEYS = {
 };
 
 export const AUTHENTICATION_NOT_NEEDED = [KEYWORD_ACTIONS.EDIT];
+
+export const KEYWORD_INITIAL_VALUES = {
+  [KEYWORD_FIELDS.DATA_SOURCE]: '',
+  [KEYWORD_FIELDS.DEPRECATED]: false,
+  [KEYWORD_FIELDS.ID]: '',
+  [KEYWORD_FIELDS.NAME]: EMPTY_MULTI_LANGUAGE_OBJECT,
+  [KEYWORD_FIELDS.ORIGIN_ID]: '',
+  [KEYWORD_FIELDS.PUBLISHER]: '',
+  [KEYWORD_FIELDS.REPLACED_BY]: '',
+};
+
+export const KEYWORD_DATA_SOURCE =
+  process.env.REACT_APP_KEYWORD_DATA_SOURCE || 'helsinki';
