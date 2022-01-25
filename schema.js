@@ -89,7 +89,12 @@ module.exports = buildSchema(/* GraphQL */ `
       publisher: ID
     ): ImagesResponse!
     organization(id: ID!): Organization!
-    organizations(child: ID, page: Int, pageSize: Int): OrganizationsResponse!
+    organizations(
+      child: ID
+      page: Int
+      pageSize: Int
+      text: String
+    ): OrganizationsResponse!
     place(id: ID!): Place!
     places(
       dataSource: String

@@ -1,0 +1,55 @@
+@import 'breakpoints';
+@import 'widths';
+
+.alignedInput,
+.alignedSelect,
+.alignedInputWithFullBorder {
+  --border-width: 1px;
+  --border-color: var(--color-black-20);
+
+  label {
+    @include medium-up {
+      float: left;
+      min-height: var(--input-height);
+      align-items: center;
+      display: flex;
+      border-bottom: var(--border-width) solid var(--border-color);
+      margin-right: var(--spacing-xs);
+
+      @include min-width-column(2);
+    }
+  }
+}
+
+.alignedSelect {
+  > div:first-of-type {
+    display: flex;
+    width: unset;
+  }
+}
+
+.alignedInputWithFullBorder {
+  @include medium-up {
+    label {
+      border-bottom: none;
+    }
+
+    border-bottom: var(--border-width) solid var(--border-color);
+  }
+}
+
+.borderInMobile {
+  border-bottom: var(--border-width) solid var(--border-color);
+
+  @include medium-up {
+    border-bottom: none;
+  }
+}
+
+.form {
+  margin: var(--spacing-m) 0;
+}
+
+.formContainer {
+  padding-bottom: var(--spacing-m);
+}

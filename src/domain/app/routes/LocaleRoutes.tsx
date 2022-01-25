@@ -19,6 +19,9 @@ const CreateEnrolmentPage = React.lazy(
 const CreateEventPage = React.lazy(
   () => import('.././../event/CreateEventPage')
 );
+const CreateKeywordPage = React.lazy(
+  () => import('.././../keyword/CreateKeywordPage')
+);
 const CreateRegistrationPage = React.lazy(
   () => import('.././../registration/CreateRegistrationPage')
 );
@@ -159,6 +162,13 @@ const LocaleRoutes: React.FC<Props> = ({
               exact
               path={getLocalePath(ROUTES.EDIT_REGISTRATION_ENROLMENT)}
               component={EditEnrolmentPage}
+            />
+          )}
+          {isFeatureEnabled('SHOW_KEYWORD') && (
+            <Route
+              exact
+              path={getLocalePath(ROUTES.CREATE_KEYWORD)}
+              component={CreateKeywordPage}
             />
           )}
           {isFeatureEnabled('SHOW_KEYWORD') && (

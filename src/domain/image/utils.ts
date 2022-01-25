@@ -11,7 +11,7 @@ import {
   OrganizationFieldsFragment,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { PathBuilderProps } from '../../types';
+import { Editability, PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import {
@@ -126,11 +126,6 @@ export const getImageActionWarning = ({
   return '';
 };
 
-type EventEditability = {
-  editable: boolean;
-  warning: string;
-};
-
 export const checkIsImageActionAllowed = ({
   action,
   authenticated,
@@ -145,7 +140,7 @@ export const checkIsImageActionAllowed = ({
   publisher: string;
   t: TFunction;
   user?: UserFieldsFragment;
-}): EventEditability => {
+}): Editability => {
   const userCanDoAction = checkCanUserDoAction({
     action,
     organizationAncestors,

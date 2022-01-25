@@ -652,6 +652,7 @@ export type QueryOrganizationsArgs = {
   child?: InputMaybe<Scalars['ID']>;
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
+  text?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -1091,6 +1092,7 @@ export type OrganizationsQueryVariables = Exact<{
   createPath?: InputMaybe<Scalars['Any']>;
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
+  text?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -2443,8 +2445,8 @@ export type OrganizationQueryHookResult = ReturnType<typeof useOrganizationQuery
 export type OrganizationLazyQueryHookResult = ReturnType<typeof useOrganizationLazyQuery>;
 export type OrganizationQueryResult = Apollo.QueryResult<OrganizationQuery, OrganizationQueryVariables>;
 export const OrganizationsDocument = gql`
-    query Organizations($child: ID, $createPath: Any, $page: Int, $pageSize: Int) {
-  organizations(child: $child, page: $page, pageSize: $pageSize) @rest(type: "OrganizationsResponse", pathBuilder: $createPath) {
+    query Organizations($child: ID, $createPath: Any, $page: Int, $pageSize: Int, $text: String) {
+  organizations(child: $child, page: $page, pageSize: $pageSize, text: $text) @rest(type: "OrganizationsResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -2472,6 +2474,7 @@ ${OrganizationFieldsFragmentDoc}`;
  *      createPath: // value for 'createPath'
  *      page: // value for 'page'
  *      pageSize: // value for 'pageSize'
+ *      text: // value for 'text'
  *   },
  * });
  */

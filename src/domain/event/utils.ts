@@ -28,7 +28,10 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { getTimeObject } from '../../common/components/timepicker/utils';
 import {
   CHARACTER_LIMITS,
+  EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
+  LE_DATA_LANGUAGES,
+  ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
   WEEK_DAY,
 } from '../../constants';
@@ -52,7 +55,12 @@ import {
   SuperEventType,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { Language, PathBuilderProps } from '../../types';
+import {
+  Editability,
+  Language,
+  MultiLanguageObject,
+  PathBuilderProps,
+} from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
@@ -79,7 +87,6 @@ import {
   AUTHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
   EDIT_EVENT_TIME_FORM_NAME,
-  EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_CREATE_ACTIONS,
   EVENT_EDIT_ACTIONS,
   EVENT_EDIT_ICONS,
@@ -87,7 +94,6 @@ import {
   EVENT_FIELD_ARRAYS,
   EVENT_FIELDS,
   EVENT_INCLUDES,
-  EVENT_INFO_LANGUAGES,
   EVENT_INITIAL_VALUES,
   EVENT_SELECT_FIELDS,
   EVENT_TIME_FIELDS,
@@ -98,7 +104,6 @@ import {
   NOT_ALLOWED_WHEN_CANCELLED,
   NOT_ALLOWED_WHEN_DELETED,
   NOT_ALLOWED_WHEN_IN_PAST,
-  ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
   SUB_EVENTS_VARIABLES,
   TEXT_EDITOR_ALLOWED_TAGS,
@@ -111,7 +116,6 @@ import {
   EventFormFields,
   EventTime,
   ImageDetails,
-  MultiLanguageObject,
   Offer,
   RecurringEventSettings,
   VideoDetails,
@@ -903,7 +907,7 @@ export const getEventBasePayload = (
       : null,
     externalLinks: externalLinks.map((item) => ({
       ...item,
-      language: EVENT_INFO_LANGUAGES.FI,
+      language: LE_DATA_LANGUAGES.FI,
     })),
     images: images.map((atId) => ({ atId })),
     infoUrl: filterUnselectedLanguages(infoUrl, eventInfoLanguages),
@@ -1027,7 +1031,7 @@ function* propertyNames(obj: Record<string, unknown>): any {
 }
 
 export const getEventInfoLanguages = (event: EventFieldsFragment): string[] => {
-  const languages = new Set(ORDERED_EVENT_INFO_LANGUAGES);
+  const languages = new Set(ORDERED_LE_DATA_LANGUAGES);
   const foundLanguages = new Set<string>();
 
   for (const name of propertyNames(event)) {
@@ -1046,7 +1050,7 @@ export const getLocalisedObject = (
   defaultValue = ''
 ): MultiLanguageObject => {
   return reduce(
-    ORDERED_EVENT_INFO_LANGUAGES,
+    ORDERED_LE_DATA_LANGUAGES,
     (acc, lang) => ({
       ...acc,
       [lang]: (obj && obj[lang]) || defaultValue,
@@ -1207,9 +1211,9 @@ export const scrollToFirstError = ({
   error,
   setDescriptionLanguage,
 }: {
-  descriptionLanguage: EVENT_INFO_LANGUAGES;
+  descriptionLanguage: LE_DATA_LANGUAGES;
   error: Yup.ValidationError;
-  setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
+  setDescriptionLanguage: (value: LE_DATA_LANGUAGES) => void;
 }): void => {
   forEach(error.inner, (e) => {
     const path = e.path ?? /* istanbul ignore next */ '';
@@ -1222,7 +1226,7 @@ export const scrollToFirstError = ({
       // Change description section language if selected language
       // is different than field language
       if (fieldLanguage !== descriptionLanguage) {
-        setDescriptionLanguage(fieldLanguage as EVENT_INFO_LANGUAGES);
+        setDescriptionLanguage(fieldLanguage as LE_DATA_LANGUAGES);
       }
     }
 
@@ -1267,10 +1271,10 @@ export const showErrors = ({
   setDescriptionLanguage,
   setTouched,
 }: {
-  descriptionLanguage: EVENT_INFO_LANGUAGES;
+  descriptionLanguage: LE_DATA_LANGUAGES;
   error: Yup.ValidationError;
   setErrors: (errors: FormikErrors<EventFormFields>) => void;
-  setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
+  setDescriptionLanguage: (value: LE_DATA_LANGUAGES) => void;
   setTouched: (
     touched: FormikTouched<EventFormFields>,
     shouldValidate?: boolean
@@ -1500,11 +1504,6 @@ export const getEditEventWarning = ({
   return '';
 };
 
-type EventEditability = {
-  editable: boolean;
-  warning: string;
-};
-
 export const checkIsEditActionAllowed = ({
   action,
   authenticated,
@@ -1519,7 +1518,7 @@ export const checkIsEditActionAllowed = ({
   organizationAncestors: OrganizationFieldsFragment[];
   t: TFunction;
   user?: UserFieldsFragment;
-}): EventEditability => {
+}): Editability => {
   const userCanDoAction = checkCanUserDoAction({
     action,
     event,

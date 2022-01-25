@@ -1,6 +1,8 @@
+import reduce from 'lodash/reduce';
+
 import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
 import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
-import { StoreState } from './types';
+import { MultiLanguageObject, StoreState } from './types';
 
 export const BREAKPOINTS = {
   XS: 576,
@@ -149,3 +151,28 @@ export const TEST_USER_ID = 'user:1';
 export enum SEARCH_PARAMS {
   RETURN_PATH = 'returnPath',
 }
+
+// Don't change languege order. The defines order of backup languages in localised strings
+export enum LE_DATA_LANGUAGES {
+  FI = 'fi',
+  SV = 'sv',
+  EN = 'en',
+  RU = 'ru',
+  ZH_HANS = 'zhHans',
+  AR = 'ar',
+}
+
+export const ORDERED_LE_DATA_LANGUAGES = [
+  LE_DATA_LANGUAGES.FI,
+  LE_DATA_LANGUAGES.SV,
+  LE_DATA_LANGUAGES.EN,
+  LE_DATA_LANGUAGES.RU,
+  LE_DATA_LANGUAGES.ZH_HANS,
+  LE_DATA_LANGUAGES.AR,
+];
+
+export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
+  LE_DATA_LANGUAGES,
+  (acc, lang) => ({ ...acc, [lang]: '' }),
+  {}
+) as MultiLanguageObject;

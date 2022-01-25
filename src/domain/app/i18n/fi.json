@@ -10,6 +10,8 @@
     "noRightsUpdateEnrolmentLabel": "Ei oikeuksia muokata osallistujia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
+    "noRightsUpdateKeyword": "Sinulla ei ole oikeuksia muokata avainsanoja.",
+    "noRightsUpdateKeywordLabel": "Ei oikeuksia muokata avainsanoja.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
   },
@@ -173,6 +175,10 @@
   },
   "createEnrolmentPage": {
     "pageTitle": "Lisää osallistuja"
+  },
+  "createKeywordPage": {
+    "pageTitle": "Lisää avainsana",
+    "title": "Lisää avainsana"
   },
   "createEventPage": {
     "pageTitle": {
@@ -1151,6 +1157,18 @@
     "warningNoRightsToUpdate": "Sinulla ei ole oikeuksia muokata tätä kuvaa",
     "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia"
   },
+  "keyword": {
+    "form": {
+      "buttonDelete": "Poista avainsana",
+      "labelDataSource": "Datan lähde",
+      "labelDeprecated": "Vanhentunut",
+      "labelId": "ID",
+      "labelName": "Nimi",
+      "labelOriginId": "Lähdetunniste",
+      "labelPublisher": "Julkaisija",
+      "labelReplacedBy": "Korvaus"
+    }
+  },
   "keywords": {
     "admin": "admin",
     "api": "api",
@@ -1186,6 +1204,9 @@
     "update": "päivitä"
   },
   "keywordsPage": {
+    "actionButtons": {
+      "edit": "Muokkaa avainsanaa"
+    },
     "count": "{{count}} avainsana",
     "count_plural": "{{count}} avainsanaa",
     "keywordsTableCaption": "Avainsanat, järjestys {{sort}}",
@@ -1205,7 +1226,9 @@
       "nEvents": "Tapahtumien lukumäärä, nouseva",
       "nEventsDesc": "Tapahtumien lukumäärä, laskeva"
     },
-    "title": "Avainsanat"
+    "title": "Avainsanat",
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda avainsanoja.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä avainsanaa."
   },
   "landingPage": {
     "heroTitle": "Helsingin tapahtumat ja harrastukset",

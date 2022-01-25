@@ -7,7 +7,6 @@ import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
-import { UserFieldsFragment } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
@@ -18,11 +17,7 @@ import useUser from '../user/hooks/useUser';
 import KeywordList from './keywordList/KeywordList';
 import styles from './keywordsPage.module.scss';
 
-interface Props {
-  user: UserFieldsFragment;
-}
-
-const KeywordsPage: React.FC<Props> = ({ user }) => {
+const KeywordsPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
@@ -70,7 +65,7 @@ const KeywordsPageWrapper: React.FC = () => {
     >
       <MainContent>
         <LoadingSpinner isLoading={loadingUser}>
-          {user ? <KeywordsPage user={user} /> : <NotSigned />}
+          {user ? <KeywordsPage /> : <NotSigned />}
         </LoadingSpinner>
       </MainContent>
     </PageWrapper>

@@ -4,12 +4,12 @@ import {
   PublicationStatus,
   SuperEventType,
 } from '../../generated/graphql';
+import { MultiLanguageObject } from '../../types';
 import {
   ADD_EVENT_TIME_FORM_NAME,
   ADD_IMAGE_FIELDS,
   EDIT_EVENT_TIME_FORM_NAME,
   EVENT_FIELDS,
-  EVENT_INFO_LANGUAGES,
   EVENT_TIME_FIELDS,
   EXTERNAL_LINK_FIELDS,
   IMAGE_DETAILS_FIELDS,
@@ -96,15 +96,6 @@ export type EditEventTimeFormFields = {
     [EVENT_TIME_FIELDS.END_TIME]: Date | null;
     [EVENT_TIME_FIELDS.START_TIME]: Date | null;
   };
-};
-
-export type MultiLanguageObject = {
-  [EVENT_INFO_LANGUAGES.AR]: string;
-  [EVENT_INFO_LANGUAGES.EN]: string;
-  [EVENT_INFO_LANGUAGES.FI]: string;
-  [EVENT_INFO_LANGUAGES.RU]: string;
-  [EVENT_INFO_LANGUAGES.SV]: string;
-  [EVENT_INFO_LANGUAGES.ZH_HANS]: string;
 };
 
 export type EventTime = {

@@ -10,6 +10,8 @@
     "noRightsUpdateEnrolmentLabel": "Inga rättigheter att redigera deltagare",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
+    "noRightsUpdateKeyword": "Du har inte behörighet att redigera nyckelord.",
+    "noRightsUpdateKeywordLabel": "Inga rättigheter att redigera nyckelord",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
     "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
   },
@@ -172,7 +174,11 @@
     "warning": "Varning!"
   },
   "createEnrolmentPage": {
-    "pageTitle": "Lägg till en deltagare"
+    "pageTitle": "Lägg till deltagare"
+  },
+  "createKeywordPage": {
+    "pageTitle": "Lägg till nyckelord",
+    "title": "Lägg till nyckelord"
   },
   "createEventPage": {
     "pageTitle": {
@@ -1151,6 +1157,18 @@
     "warningNoRightsToUpdate": "Du har inte tillräckliga rättigheter för att redigera den här bilden.",
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
+  "keyword": {
+    "form": {
+      "buttonDelete": "Ta bort nyckelord",
+      "labelDataSource": "Datakälla",
+      "labelDeprecated": "Utfasad",
+      "labelId": "ID",
+      "labelName": "Namn",
+      "labelOriginId": "Ursprungs-ID",
+      "labelPublisher": "Utgivare",
+      "labelReplacedBy": "Ersatt av"
+    }
+  },
   "keywords": {
     "admin": "admin",
     "api": "api",
@@ -1186,6 +1204,9 @@
     "update": "uppdatering"
   },
   "keywordsPage": {
+    "actionButtons": {
+      "edit": "Redigera nyckelord"
+    },
     "count": "{{count}} nyckelord",
     "count_plural": "{{count}} nyckelord",
     "keywordsTableCaption": "Nyckelord, sorterade efter {{sort}}",
@@ -1205,7 +1226,9 @@
       "nEvents": "Antal evenemang, stigande",
       "nEventsDesc": "Antal evenemang, fallande"
     },
-    "title": "Nyckelord"
+    "title": "Nyckelord",
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
+        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
   },
   "landingPage": {
     "heroTitle": "Evenemang och hobbyer i Helsingfors",

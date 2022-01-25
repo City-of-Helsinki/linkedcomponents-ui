@@ -1,7 +1,7 @@
 import isNil from 'lodash/isNil';
 import uniq from 'lodash/uniq';
 
-import { EVENT_INFO_LANGUAGES } from '../domain/event/constants';
+import { LE_DATA_LANGUAGES } from '../constants';
 import { LocalisedObject } from '../generated/graphql';
 import { Language } from '../types';
 
@@ -14,7 +14,7 @@ const getLocalisedString = (
 ): string => {
   if (isNil(obj)) return '';
 
-  const languages = uniq([language, ...Object.values(EVENT_INFO_LANGUAGES)]);
+  const languages = uniq([language, ...Object.values(LE_DATA_LANGUAGES)]);
 
   const lang = languages.find((lng) => obj[lng]);
   return (lang && obj[lang]) || '';

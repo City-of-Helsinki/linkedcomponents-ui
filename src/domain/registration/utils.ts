@@ -15,7 +15,7 @@ import {
   RegistrationQueryVariables,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { Language, PathBuilderProps } from '../../types';
+import { Editability, Language, PathBuilderProps } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -29,11 +29,6 @@ import { RegistrationFields, RegistrationFormFields } from './types';
 
 export const clearRegistrationFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.REGISTRATION_FORM);
-};
-
-type RegistrationEditability = {
-  editable: boolean;
-  warning: string;
 };
 
 export const checkCanUserDoAction = ({
@@ -113,7 +108,7 @@ export const checkIsEditActionAllowed = ({
   publisher: string;
   t: TFunction;
   user?: UserFieldsFragment;
-}): RegistrationEditability => {
+}): Editability => {
   const userCanDoAction = checkCanUserDoAction({
     action,
     organizationAncestors,

@@ -3,7 +3,7 @@ import { TextInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ORDERED_EVENT_INFO_LANGUAGES } from '../../../domain/event/constants';
+import { ORDERED_LE_DATA_LANGUAGES } from '../../../constants';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import styles from './multiLanguageField.module.scss';
@@ -33,7 +33,7 @@ const MultiLanguageField: React.FC<Props> = ({
 
   return (
     <div className={styles.multiLanguageField}>
-      {ORDERED_EVENT_INFO_LANGUAGES.map((language) => {
+      {ORDERED_LE_DATA_LANGUAGES.map((language) => {
         const langText = lowerCaseFirstLetter(t(`form.inLanguage.${language}`));
 
         return (

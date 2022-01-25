@@ -8,7 +8,7 @@ import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
-import { ROUTES } from '../../constants';
+import { LE_DATA_LANGUAGES, ROUTES } from '../../constants';
 import {
   EventFieldsFragment,
   EventQuery,
@@ -28,11 +28,7 @@ import { EventsLocationState } from '../eventSearch/types';
 import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotFound from '../notFound/NotFound';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
-import {
-  EVENT_EDIT_ACTIONS,
-  EVENT_INCLUDES,
-  EVENT_INFO_LANGUAGES,
-} from './constants';
+import { EVENT_EDIT_ACTIONS, EVENT_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import AuthenticationNotification from './eventAuthenticationNotification/EventAuthenticationNotification';
 import EventInfo from './eventInfo/EventInfo';
@@ -109,7 +105,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   );
 
   const [descriptionLanguage, setDescriptionLanguage] = React.useState(
-    initialValues.eventInfoLanguages[0] as EVENT_INFO_LANGUAGES
+    initialValues.eventInfoLanguages[0] as LE_DATA_LANGUAGES
   );
 
   // Prefetch all related events which are used when postpone/delete/cancel events
@@ -185,7 +181,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   };
 
   const sortedEventInfoLanguages = useSortedInfoLanguages(
-    initialValues.eventInfoLanguages as EVENT_INFO_LANGUAGES[]
+    initialValues.eventInfoLanguages as LE_DATA_LANGUAGES[]
   );
 
   React.useEffect(() => {

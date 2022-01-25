@@ -10,6 +10,8 @@
     "noRightsUpdateEnrolmentLabel": "No permissions to edit participants.",
     "noRightsUpdateEvent": "You do not have permission to edit events.",
     "noRightsUpdateEventLabel": "No permissions to edit events",
+    "noRightsUpdateKeyword": "You do not have permission to edit keywords.",
+    "noRightsUpdateKeywordLabel": "No permissions to edit keywords.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
   },
@@ -171,7 +173,11 @@
     "warning": "Warning!"
   },
   "createEnrolmentPage": {
-    "pageTitle": "Add a participant"
+    "pageTitle": "Add participant"
+  },
+  "createKeywordPage": {
+    "pageTitle": "Add keyword",
+    "title": "Add keyword"
   },
   "createEventPage": {
     "page": {
@@ -1151,6 +1157,18 @@
     "warningNoRightsToUpdate": "You have insufficient rights to edit this image.",
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
+  "keyword": {
+    "form": {
+      "buttonDelete": "Delete keyword",
+      "labelDataSource": "Data source",
+      "labelDeprecated": "Deprecated",
+      "labelId": "ID",
+      "labelName": "Name",
+      "labelOriginId": "Origin ID",
+      "labelPublisher": "Publisher",
+      "labelReplacedBy": "Replaced by"
+    }
+  },
   "keywords": {
     "admin": "admin",
     "api": "api",
@@ -1186,6 +1204,9 @@
     "update": "update"
   },
   "keywordsPage": {
+    "actionButtons": {
+      "edit": "Edit keyword"
+    },
     "count": "{{count}} keyword",
     "count_plural": "{{count}} keywords",
     "keywordsTableCaption": "Keywords, sorted by {{sort}}",
@@ -1205,7 +1226,9 @@
       "nEvents": "Number of events, ascending",
       "nEventsDesc": "Number of events, descending"
     },
-    "title": "Keywords"
+    "title": "Keywords",
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa sökord.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här sökordet."
   },
   "landingPage": {
     "heroTitle": "Events and hobbies in Helsinki",

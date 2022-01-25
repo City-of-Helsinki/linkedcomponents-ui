@@ -13,7 +13,7 @@ import { ValidationError } from 'yup';
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
-import { FORM_NAMES, ROUTES } from '../../constants';
+import { FORM_NAMES, LE_DATA_LANGUAGES, ROUTES } from '../../constants';
 import {
   CreateEventMutationInput,
   CreateEventsMutation,
@@ -29,7 +29,7 @@ import Section from '../app/layout/Section';
 import { reportError } from '../app/sentry/utils';
 import { clearEventsQueries } from '../events/utils';
 import useUser from '../user/hooks/useUser';
-import { EVENT_INFO_LANGUAGES, EVENT_INITIAL_VALUES } from './constants';
+import { EVENT_INITIAL_VALUES } from './constants';
 import ButtonPanel from './createButtonPanel/CreateButtonPanel';
 import AuthenticationNotification from './eventAuthenticationNotification/EventAuthenticationNotification';
 import styles from './eventPage.module.scss';
@@ -72,7 +72,7 @@ const CreateEventPage: React.FC = () => {
   const [createEventsMutation] = useCreateEventsMutation();
   const { updateImageIfNeeded } = useUpdateImageIfNeeded();
   const [descriptionLanguage, setDescriptionLanguage] = React.useState(
-    EVENT_INITIAL_VALUES.eventInfoLanguages[0] as EVENT_INFO_LANGUAGES
+    EVENT_INITIAL_VALUES.eventInfoLanguages[0] as LE_DATA_LANGUAGES
   );
   const [saving, setSaving] = React.useState<PublicationStatus | null>(null);
 
