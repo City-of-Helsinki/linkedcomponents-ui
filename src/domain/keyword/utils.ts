@@ -98,6 +98,7 @@ export const getKeywordFields = (
     keywordUrl: `/${language}${ROUTES.EDIT_KEYWORD.replace(':id', id)}`,
     name: getLocalisedString(keyword.name, language),
     nEvents: keyword.nEvents ?? 0,
+    publisher: keyword.publisher ?? '',
   };
 };
 

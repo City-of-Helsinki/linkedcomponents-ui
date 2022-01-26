@@ -1162,6 +1162,11 @@
     "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia"
   },
   "keyword": {
+    "deleteKeywordModal": {
+      "buttonDelete": "Poista avainsana",
+      "text": "Tämä toiminto poistaa avainsanan lopullisesti.",
+      "title": "Varmista avansanan poistaminen"
+    },
     "form": {
       "buttonDelete": "Poista avainsana",
       "labelDataSource": "Datan lähde",

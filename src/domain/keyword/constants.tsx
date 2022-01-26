@@ -1,4 +1,4 @@
-import { IconCogwheel, IconCross, IconPen } from 'hds-react';
+import { IconCogwheel, IconCrossCircle, IconPen } from 'hds-react';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../constants';
 
@@ -29,7 +29,7 @@ export enum KEYWORD_ACTIONS {
 
 export const KEYWORD_ACTION_ICONS = {
   [KEYWORD_ACTIONS.CREATE]: <IconPen aria-hidden={true} />,
-  [KEYWORD_ACTIONS.DELETE]: <IconCross aria-hidden={true} />,
+  [KEYWORD_ACTIONS.DELETE]: <IconCrossCircle aria-hidden={true} />,
   [KEYWORD_ACTIONS.EDIT]: <IconCogwheel aria-hidden={true} />,
   [KEYWORD_ACTIONS.UPDATE]: <IconPen aria-hidden={true} />,
 };

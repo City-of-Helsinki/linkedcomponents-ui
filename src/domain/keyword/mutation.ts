@@ -14,6 +14,13 @@ export const MUTATION_EVENT = gql`
     }
   }
 
+  mutation DeleteKeyword($id: ID!) {
+    deleteKeyword(id: $id)
+      @rest(type: "NoContent", path: "/keyword/{args.id}/", method: "DELETE") {
+      noContent
+    }
+  }
+
   mutation UpdateKeyword($input: UpdateKeywordMutationInput!) {
     updateKeyword(input: $input)
       @rest(

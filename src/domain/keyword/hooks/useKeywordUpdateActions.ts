@@ -8,6 +8,7 @@ import { useLocation } from 'react-router';
 import {
   KeywordFieldsFragment,
   UpdateKeywordMutationInput,
+  useDeleteKeywordMutation,
   useUpdateKeywordMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
@@ -38,6 +39,7 @@ interface Props {
 
 type UseKeywordUpdateActionsState = {
   closeModal: () => void;
+  deleteKeyword: (callbacks?: Callbacks) => Promise<void>;
   openModal: KEYWORD_MODALS | null;
   saving: KEYWORD_ACTIONS | null;
   setOpenModal: (modal: KEYWORD_MODALS | null) => void;
@@ -58,6 +60,7 @@ const useKeywordUpdateActions = ({
   );
   const [saving, setSaving] = useMountedState<KEYWORD_ACTIONS | null>(null);
 
+  const [deleteKeywordMutation] = useDeleteKeywordMutation();
   const [updateKeywordMutation] = useUpdateKeywordMutation();
 
   const closeModal = () => {
@@ -110,25 +113,23 @@ const useKeywordUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  //   const cancelEnrolment = async (callbacks?: Callbacks) => {
-  //     try {
-  //       setSaving(ENROLMENT_ACTIONS.CANCEL);
+  const deleteKeyword = async (callbacks?: Callbacks) => {
+    try {
+      setSaving(KEYWORD_ACTIONS.DELETE);
 
-  //       await deleteEnrolmentMutation({
-  //         variables: {
-  //           cancellationCode: enrolment.cancellationCode as string,
-  //         },
-  //       });
+      await deleteKeywordMutation({
+        variables: { id: keyword.id as string },
+      });
 
-  //       await cleanAfterUpdate(callbacks);
-  //     } catch (error) /* istanbul ignore next */ {
-  //       handleError({
-  //         callbacks,
-  //         error,
-  //         message: 'Failed to cancel enrolment',
-  //       });
-  //     }
-  //   };
+      await cleanAfterUpdate(callbacks);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to delete enrolment',
+      });
+    }
+  };
 
   const updateKeyword = async (
     values: KeywordFormFields,
@@ -154,6 +155,7 @@ const useKeywordUpdateActions = ({
 
   return {
     closeModal,
+    deleteKeyword,
     openModal,
     saving,
     setOpenModal,

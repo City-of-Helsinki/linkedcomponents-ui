@@ -7,6 +7,7 @@ export type KeywordFields = {
   keywordUrl: string;
   name: string;
   nEvents: number;
+  publisher: string;
 };
 
 export type KeywordFormFields = {

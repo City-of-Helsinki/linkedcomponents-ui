@@ -1162,6 +1162,11 @@
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
   "keyword": {
+    "deleteKeywordModal": {
+      "buttonDelete": "Radera nyckelord",
+      "text": "Denna åtgärd tar bort nyckelordet permanent.",
+      "title": "Bekräfta raderingen av nyckelordet"
+    },
     "form": {
       "buttonDelete": "Ta bort nyckelord",
       "labelDataSource": "Datakälla",

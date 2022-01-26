@@ -1162,6 +1162,11 @@
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
   "keyword": {
+    "deleteKeywordModal": {
+      "buttonDelete": "Delete keyword",
+      "text": "This action will permanently remove the keyword.",
+      "title": "Confirm keyword deletion"
+    },
     "form": {
       "buttonDelete": "Delete keyword",
       "labelDataSource": "Data source",
@@ -1282,7 +1287,7 @@
   },
   "registration": {
     "deleteRegistrationModal": {
-      "buttonDelete": "Delete event",
+      "buttonDelete": "Delete registration",
       "text": "This action will permanently remove the registration.",
       "title": "Confirm registration deletion"
     },

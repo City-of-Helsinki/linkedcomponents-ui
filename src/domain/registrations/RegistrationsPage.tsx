@@ -64,7 +64,6 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
           button={
             <Button
               {...buttonProps}
-              className={styles.addButton}
               fullWidth={true}
               iconLeft={<IconPlus aria-hidden={true} />}
               variant="primary"

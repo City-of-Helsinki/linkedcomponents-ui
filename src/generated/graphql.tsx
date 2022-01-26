@@ -355,6 +355,7 @@ export type Mutation = {
   createRegistration: Registration;
   deleteEnrolment?: Maybe<NoContent>;
   deleteEvent?: Maybe<NoContent>;
+  deleteKeyword?: Maybe<NoContent>;
   deleteRegistration?: Maybe<NoContent>;
   postFeedback?: Maybe<Feedback>;
   postGuestFeedback?: Maybe<Feedback>;
@@ -399,6 +400,11 @@ export type MutationDeleteEnrolmentArgs = {
 
 
 export type MutationDeleteEventArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteKeywordArgs = {
   id: Scalars['ID'];
 };
 
@@ -1062,6 +1068,13 @@ export type CreateKeywordMutationVariables = Exact<{
 
 
 export type CreateKeywordMutation = { __typename?: 'Mutation', createKeyword: { __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } };
+
+export type DeleteKeywordMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteKeywordMutation = { __typename?: 'Mutation', deleteKeyword?: { __typename?: 'NoContent', noContent?: boolean | null | undefined } | null | undefined };
 
 export type UpdateKeywordMutationVariables = Exact<{
   input: UpdateKeywordMutationInput;
@@ -2275,6 +2288,39 @@ export function useCreateKeywordMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateKeywordMutationHookResult = ReturnType<typeof useCreateKeywordMutation>;
 export type CreateKeywordMutationResult = Apollo.MutationResult<CreateKeywordMutation>;
 export type CreateKeywordMutationOptions = Apollo.BaseMutationOptions<CreateKeywordMutation, CreateKeywordMutationVariables>;
+export const DeleteKeywordDocument = gql`
+    mutation DeleteKeyword($id: ID!) {
+  deleteKeyword(id: $id) @rest(type: "NoContent", path: "/keyword/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteKeywordMutationFn = Apollo.MutationFunction<DeleteKeywordMutation, DeleteKeywordMutationVariables>;
+
+/**
+ * __useDeleteKeywordMutation__
+ *
+ * To run a mutation, you first call `useDeleteKeywordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteKeywordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteKeywordMutation, { data, loading, error }] = useDeleteKeywordMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteKeywordMutation(baseOptions?: Apollo.MutationHookOptions<DeleteKeywordMutation, DeleteKeywordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteKeywordMutation, DeleteKeywordMutationVariables>(DeleteKeywordDocument, options);
+      }
+export type DeleteKeywordMutationHookResult = ReturnType<typeof useDeleteKeywordMutation>;
+export type DeleteKeywordMutationResult = Apollo.MutationResult<DeleteKeywordMutation>;
+export type DeleteKeywordMutationOptions = Apollo.BaseMutationOptions<DeleteKeywordMutation, DeleteKeywordMutationVariables>;
 export const UpdateKeywordDocument = gql`
     mutation UpdateKeyword($input: UpdateKeywordMutationInput!) {
   updateKeyword(input: $input) @rest(type: "Keyword", path: "/keyword/{args.input.id}/", method: "PUT", bodyKey: "input") {
