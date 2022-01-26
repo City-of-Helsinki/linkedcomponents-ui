@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { KeywordFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { getKeywordFields, getKeywordItemId } from '../../keyword/utils';
+import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import styles from './keywordsTable.module.scss';
 
 interface Props {
@@ -22,6 +23,7 @@ const KeywordsTableRow: React.FC<Props> = ({ keyword, onRowClick }) => {
     /* istanbul ignore else */
     if (
       ev.target instanceof Node &&
+      rowRef.current?.contains(ev.target) &&
       !actionsDropdownRef.current?.contains(ev.target)
     ) {
       onRowClick(keyword);
@@ -49,7 +51,9 @@ const KeywordsTableRow: React.FC<Props> = ({ keyword, onRowClick }) => {
         <td className={styles.idColumn}>{<Link to={keywordUrl}>{id}</Link>}</td>
         <td className={styles.nameColumn}>{name}</td>
         <td className={styles.nEventsColumn}>{nEvents}</td>
-        <td className={styles.actionButtonsColumn}></td>
+        <td className={styles.actionButtonsColumn}>
+          <ActionsDropdown ref={actionsDropdownRef} keyword={keyword} />
+        </td>
       </tr>
     </>
   );
