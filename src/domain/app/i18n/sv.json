@@ -176,10 +176,6 @@
   "createEnrolmentPage": {
     "pageTitle": "Lägg till deltagare"
   },
-  "createKeywordPage": {
-    "pageTitle": "Lägg till nyckelord",
-    "title": "Lägg till nyckelord"
-  },
   "createEventPage": {
     "pageTitle": {
       "course": "Nytt kurs",
@@ -192,12 +188,20 @@
       "volunteering": "Nytt volontärarbete"
     }
   },
+  "createKeywordPage": {
+    "pageTitle": "Lägg till nyckelord",
+    "title": "Lägg till nyckelord"
+  },
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"
   },
   "editEnrolmentPage": {
     "pageTitle": "Redigera deltagare"
+  },
+  "editKeywordPage": {
+    "pageTitle": "Redigera nyckelord",
+    "title": "Redigera nyckelord"
   },
   "enrolment": {
     "attendeeStatus": {

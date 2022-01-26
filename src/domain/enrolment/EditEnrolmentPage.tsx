@@ -11,7 +11,7 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../constants';
 import {
-  Enrolment,
+  EnrolmentFieldsFragment,
   EnrolmentQuery,
   EnrolmentQueryVariables,
   EventFieldsFragment,
@@ -52,7 +52,7 @@ import { enrolmentPathBuilder, getEnrolmentInitialValues } from './utils';
 import { enrolmentSchema, scrollToFirstError } from './validation';
 
 type Props = {
-  enrolment: Enrolment;
+  enrolment: EnrolmentFieldsFragment;
   event: EventFieldsFragment;
   refetch: (
     variables?: Partial<EnrolmentQueryVariables>

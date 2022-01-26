@@ -21,6 +21,7 @@ module.exports = buildSchema(/* GraphQL */ `
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
+    updateKeyword(input: UpdateKeywordMutationInput!): Keyword!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
   }
 
@@ -308,6 +309,14 @@ module.exports = buildSchema(/* GraphQL */ `
     replacedBy: String
   }
 
+  input UpdateKeywordMutationInput {
+    dataSource: String
+    deprecated: Boolean
+    name: LocalisedObjectInput
+    publisher: String
+    replacedBy: String
+  }
+
   input CreateRegistrationMutationInput {
     audienceMaxAge: Int
     audienceMinAge: Int
@@ -481,6 +490,7 @@ module.exports = buildSchema(/* GraphQL */ `
     name: LocalisedObject
     nEvents: Int
     publisher: ID
+    replacedBy: String
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!
     # @context is renamed as atContext so it's usable on GraphQl

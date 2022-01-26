@@ -47,9 +47,7 @@ import {
   EventTypeId,
   KeywordFieldsFragment,
   Language as LELanguage,
-  LocalisedFieldsFragment,
   LocalisedObject,
-  Maybe,
   OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
@@ -61,6 +59,7 @@ import {
   MultiLanguageObject,
   PathBuilderProps,
 } from '../../types';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
@@ -1044,21 +1043,6 @@ export const getEventInfoLanguages = (event: EventFieldsFragment): string[] => {
   }
   return Array.from(foundLanguages);
 };
-
-export const getLocalisedObject = (
-  obj?: Maybe<LocalisedFieldsFragment>,
-  defaultValue = ''
-): MultiLanguageObject => {
-  return reduce(
-    ORDERED_LE_DATA_LANGUAGES,
-    (acc, lang) => ({
-      ...acc,
-      [lang]: (obj && obj[lang]) || defaultValue,
-    }),
-    {}
-  ) as MultiLanguageObject;
-};
-
 const getSanitizedDescription = (event: EventFieldsFragment) => {
   const description = getLocalisedObject(event.description);
 

@@ -1,5 +1,6 @@
 import { SingleSelectProps } from 'hds-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { organizationPathBuilder } from '../../../domain/organization/utils';
 import useUser from '../../../domain/user/hooks/useUser';
@@ -10,7 +11,7 @@ import {
 } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
-import SingleSelect from '../singleSelect/SingleSelect';
+import Combobox from '../combobox/Combobox';
 
 const getOption = (organization: OrganizationFieldsFragment): OptionType => {
   return {
@@ -28,12 +29,14 @@ export type PublisherSelectorProps = {
 } & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
 
 const PublisherSelector: React.FC<PublisherSelectorProps> = ({
+  clearable = false,
   label,
   name,
   publisher,
   value,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const { user } = useUser();
   const { organizations } = useUserOrganizations(user);
 
@@ -61,12 +64,14 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
     : organizations.map((org) => getOption(org));
 
   return (
-    <SingleSelect
+    <Combobox
       {...rest}
-      clearable={false}
+      multiselect={false}
+      clearable={clearable}
       id={name}
       label={label}
       options={options}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
       value={selectedOrganization as OptionType | undefined}

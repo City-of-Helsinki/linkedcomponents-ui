@@ -1,6 +1,7 @@
 import {
   ApolloClient,
   NormalizedCacheObject,
+  ServerError,
   useApolloClient,
 } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
@@ -37,10 +38,12 @@ import {
   KEYWORD_INITIAL_VALUES,
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
+import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import useKeywordServerErrors from '../hooks/useKeywordServerErrors';
+import useKeywordUpdateActions from '../hooks/useKeywordUpdateActions';
 import KeywordAuthenticationNotification from '../keywordAuthenticationNotification/KeywordAuthenticationNotification';
 import { KeywordFormFields } from '../types';
-import { getKeywordPayload } from '../utils';
+import { getKeywordInitialValues, getKeywordPayload } from '../utils';
 import { keywordSchema, scrollToFirstError } from '../validation';
 import FormRow from './FormRow';
 import styles from './keywordForm.module.scss';
@@ -56,15 +59,27 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const location = useLocation();
   const { user } = useUser();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const [saving, setSaving] = React.useState(false);
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useKeywordServerErrors();
+
+  const { saving, setSaving, updateKeyword } = useKeywordUpdateActions({
+    keyword: keyword as KeywordFieldsFragment,
+  });
 
   const [createKeywordMutation] = useCreateKeywordMutation();
 
   const goToKeywordsPage = () => {
     history.push(`/${locale}${ROUTES.KEYWORDS}`);
+  };
+
+  const onUpdate = async (values: KeywordFormFields) => {
+    await updateKeyword(values, {
+      onError: (error: ServerError) => showServerErrors({ error }),
+      onSuccess: async () => {
+        goToKeywordsPage();
+      },
+    });
   };
 
   const createSingleKeyword = async (payload: CreateKeywordMutationInput) => {
@@ -91,7 +106,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   };
 
   const createKeyword = async (values: KeywordFormFields) => {
-    setSaving(true);
+    setSaving(KEYWORD_ACTIONS.CREATE);
     const payload = getKeywordPayload(values);
 
     const createdKeywordId = await createSingleKeyword(payload);
@@ -103,13 +118,15 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
       goToKeywordsPage();
     }
 
-    setSaving(false);
+    setSaving(null);
   };
 
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={KEYWORD_INITIAL_VALUES}
+      initialValues={
+        keyword ? getKeywordInitialValues(keyword) : KEYWORD_INITIAL_VALUES
+      }
       // We have custom way to handle onSubmit so here is empty function
       // to silent TypeScript error. The reason for custom onSubmit is that
       // we want to scroll to first invalid field if error occurs
@@ -123,7 +140,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
       {({ setErrors, setTouched, values }) => {
         const clearErrors = () => setErrors({});
 
-        const handleCreate = async (
+        const handleSubmit = async (
           event?: React.FormEvent<HTMLFormElement>
         ) => {
           event?.preventDefault();
@@ -134,7 +151,11 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
 
             await keywordSchema.validate(values, { abortEarly: false });
 
-            await createKeyword(values);
+            if (keyword) {
+              await onUpdate(values);
+            } else {
+              await createKeyword(values);
+            }
           } catch (error) {
             showFormErrors({
               error: error as ValidationError,
@@ -153,7 +174,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                 action={
                   keyword ? KEYWORD_ACTIONS.UPDATE : KEYWORD_ACTIONS.CREATE
                 }
-                publisher={values.publisher}
+                publisher={keyword ? keyword.publisher ?? '' : values.publisher}
               />
               <ServerErrorSummary errors={serverErrorItems} />
 
@@ -169,7 +190,11 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
 
               <FormRow className={styles.borderInMobile}>
                 <Field
-                  className={styles.alignedInput}
+                  className={
+                    keyword
+                      ? styles.alignedInputWithFullBorder
+                      : styles.alignedInput
+                  }
                   component={TextInputField}
                   label={t(`keyword.form.labelDataSource`)}
                   name={KEYWORD_FIELDS.DATA_SOURCE}
@@ -177,12 +202,13 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                 />
               </FormRow>
 
-              <FormRow>
+              <FormRow className={keyword && styles.borderInMobile}>
                 <Field
                   className={styles.alignedInput}
                   component={TextInputField}
                   label={t(`keyword.form.labelOriginId`)}
                   name={KEYWORD_FIELDS.ORIGIN_ID}
+                  readOnly={!!keyword}
                 />
               </FormRow>
 
@@ -193,6 +219,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                   component={PublisherSelectorField}
                   label={t(`keyword.form.labelPublisher`)}
                   name={KEYWORD_FIELDS.PUBLISHER}
+                  disabled={!!keyword}
                 />
               </FormRow>
 
@@ -232,9 +259,16 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                 />
               </FormRow>
             </Container>
-            {!keyword && (
+            {keyword ? (
+              <EditButtonPanel
+                id={values.id}
+                onSave={handleSubmit}
+                publisher={keyword.publisher ?? ''}
+                saving={saving}
+              />
+            ) : (
               <CreateButtonPanel
-                onSave={handleCreate}
+                onSave={handleSubmit}
                 publisher={values.publisher}
                 saving={saving}
               />

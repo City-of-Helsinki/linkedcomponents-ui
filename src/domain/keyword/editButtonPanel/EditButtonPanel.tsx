@@ -8,18 +8,21 @@ import LoadingButton from '../../../common/components/loadingButton/LoadingButto
 import { ROUTES } from '../../../constants';
 import useGoBack from '../../../hooks/useGoBack';
 import { authenticatedSelector } from '../../auth/selectors';
+import { KeywordsLocationState } from '../../keywords/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { KEYWORD_ACTIONS } from '../constants';
 import { getEditButtonProps } from '../utils';
 
-export interface CreateButtonPanelProps {
+export interface EditButtonPanelProps {
+  id: string;
   onSave: () => void;
   publisher: string;
   saving: KEYWORD_ACTIONS | null;
 }
 
-const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
+const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
+  id,
   onSave,
   publisher,
   saving,
@@ -31,10 +34,13 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
 
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const goBack = useGoBack({ defaultReturnPath: ROUTES.KEYWORDS });
+  const goBack = useGoBack<KeywordsLocationState>({
+    defaultReturnPath: ROUTES.KEYWORDS,
+    state: { keywordId: id },
+  });
 
   const buttonProps = getEditButtonProps({
-    action: KEYWORD_ACTIONS.CREATE,
+    action: KEYWORD_ACTIONS.UPDATE,
     authenticated,
     onClick: onSave,
     organizationAncestors,
@@ -53,7 +59,7 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
           className={buttonPanelStyles.fullWidthOnMobile}
           disabled={buttonProps.disabled}
           fullWidth={true}
-          loading={saving === KEYWORD_ACTIONS.CREATE}
+          loading={saving === KEYWORD_ACTIONS.UPDATE}
           type="submit"
         >
           {buttonProps.label}
@@ -63,4 +69,4 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
   );
 };
 
-export default CreateButtonPanel;
+export default EditButtonPanel;

@@ -175,10 +175,6 @@
   "createEnrolmentPage": {
     "pageTitle": "Add participant"
   },
-  "createKeywordPage": {
-    "pageTitle": "Add keyword",
-    "title": "Add keyword"
-  },
   "createEventPage": {
     "page": {
       "course": "New course",
@@ -191,12 +187,20 @@
       "volunteering": "New volunteering"
     }
   },
+  "createKeywordPage": {
+    "pageTitle": "Add keyword",
+    "title": "Add keyword"
+  },
   "createRegistrationPage": {
     "page": "New registration",
     "title": "New registration"
   },
   "editEnrolmentPage": {
     "pageTitle": "Edit participant"
+  },
+  "editKeywordPage": {
+    "pageTitle": "Edit keyword",
+    "title": "Edit keyword"
   },
   "enrolment": {
     "attendeeStatus": {

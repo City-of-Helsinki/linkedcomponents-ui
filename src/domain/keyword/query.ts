@@ -6,11 +6,14 @@ export const QUERY_KEYWORD = gql`
     id
     atId
     dataSource
+    deprecated
     hasUpcomingEvents
     name {
       ...localisedFields
     }
     nEvents
+    publisher
+    replacedBy
   }
 
   query Keyword($id: ID!, $createPath: Any) {

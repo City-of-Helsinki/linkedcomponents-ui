@@ -176,10 +176,6 @@
   "createEnrolmentPage": {
     "pageTitle": "Lisää osallistuja"
   },
-  "createKeywordPage": {
-    "pageTitle": "Lisää avainsana",
-    "title": "Lisää avainsana"
-  },
   "createEventPage": {
     "pageTitle": {
       "course": "Uusi kurssi",
@@ -192,9 +188,20 @@
       "volunteering": "Uusi vapaaehtoistehtävä"
     }
   },
+  "createKeywordPage": {
+    "pageTitle": "Lisää avainsana",
+    "title": "Lisää avainsana"
+  },
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"
+  },
+  "editEnrolmentPage": {
+    "pageTitle": "Muokkaa osallistujaa"
+  },
+  "editKeywordPage": {
+    "pageTitle": "Muokkaa avainsanaa",
+    "title": "Muokkaa avainsanaa"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -245,9 +252,6 @@
       "capacityInWaitingList_plural": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
       "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen."
     }
-  },
-  "editEnrolmentPage": {
-    "pageTitle": "Muokkaa osallistujaa"
   },
   "enrolmentsPage": {
     "actionButtons": {

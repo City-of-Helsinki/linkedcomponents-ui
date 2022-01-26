@@ -15,6 +15,7 @@ import {
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
@@ -124,9 +125,10 @@ export const checkCanUserDoAction = ({
     case KEYWORD_ACTIONS.EDIT:
       return true;
     case KEYWORD_ACTIONS.CREATE:
+      return publisher ? isAdminUser : !!adminOrganizations.length;
     case KEYWORD_ACTIONS.DELETE:
     case KEYWORD_ACTIONS.UPDATE:
-      return publisher ? isAdminUser : !!adminOrganizations.length;
+      return isAdminUser;
   }
 };
 
@@ -225,6 +227,21 @@ export const getEditButtonProps = ({
     label: t(KEYWORD_ACTION_LABEL_KEYS[action]),
     onClick,
     title: warning,
+  };
+};
+
+export const getKeywordInitialValues = (
+  keyword: KeywordFieldsFragment
+): KeywordFormFields => {
+  const id = keyword.id ?? '';
+  return {
+    dataSource: keyword.dataSource ?? '',
+    deprecated: !!keyword.deprecated,
+    id,
+    name: getLocalisedObject(keyword.name),
+    originId: id.split(':')[1],
+    publisher: keyword.publisher ?? '',
+    replacedBy: keyword.replacedBy ?? '',
   };
 };
 
