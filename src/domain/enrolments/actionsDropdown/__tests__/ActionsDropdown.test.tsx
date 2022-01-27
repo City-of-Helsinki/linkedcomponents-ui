@@ -6,10 +6,7 @@ import { toast } from 'react-toastify';
 import { ROUTES } from '../../../../constants';
 import { DeleteEnrolmentDocument } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
-import {
-  fakeEnrolment,
-  fakeRegistration,
-} from '../../../../utils/mockDataUtils';
+import { fakeEnrolment } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {

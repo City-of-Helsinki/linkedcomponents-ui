@@ -6,11 +6,16 @@ import {
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
-import { KEYWORD_ACTIONS, KEYWORD_INITIAL_VALUES } from '../constants';
+import {
+  KEYWORD_ACTIONS,
+  KEYWORD_INITIAL_VALUES,
+  TEST_KEYWORD_ID,
+} from '../constants';
 import {
   checkCanUserDoAction,
   getEditKeywordWarning,
   getKeywordFields,
+  getKeywordInitialValues,
   getKeywordPayload,
   keywordPathBuilder,
   keywordsPathBuilder,
@@ -74,12 +79,13 @@ describe('keywordSetsPathBuilder function', () => {
 
 describe('getKeywordFields function', () => {
   it('should return default values if value is not set', () => {
-    const { atId, id, name, nEvents } = getKeywordFields(
+    const { atId, id, name, nEvents, publisher } = getKeywordFields(
       fakeKeyword({
         atId: null,
         id: null,
         name: null,
         nEvents: null,
+        publisher: null,
       }),
       'fi'
     );
@@ -88,6 +94,76 @@ describe('getKeywordFields function', () => {
     expect(id).toBe('');
     expect(name).toBe('');
     expect(nEvents).toBe(0);
+    expect(publisher).toBe('');
+  });
+});
+
+describe('getKeywordInitialValues function', () => {
+  it('should return default values if value is not set', () => {
+    expect(
+      getKeywordInitialValues(
+        fakeKeyword({
+          dataSource: null,
+          deprecated: false,
+          id: null,
+          name: null,
+          publisher: null,
+          replacedBy: null,
+        })
+      )
+    ).toEqual({
+      dataSource: '',
+      deprecated: false,
+      id: '',
+      name: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      originId: '',
+      publisher: '',
+      replacedBy: '',
+    });
+  });
+
+  it('should return correct initial values', () => {
+    expect(
+      getKeywordInitialValues(
+        fakeKeyword({
+          dataSource: 'helsinki',
+          deprecated: true,
+          id: TEST_KEYWORD_ID,
+          name: {
+            ar: 'Keyword (ar)',
+            en: 'Keyword (en)',
+            fi: 'Keyword (fi)',
+            ru: 'Keyword (ru)',
+            sv: 'Keyword (sv)',
+            zhHans: 'Keyword (zhHans)',
+          },
+          publisher: TEST_PUBLISHER_ID,
+          replacedBy: 'keyword:2',
+        })
+      )
+    ).toEqual({
+      dataSource: 'helsinki',
+      deprecated: true,
+      id: 'keyword:1',
+      name: {
+        ar: 'Keyword (ar)',
+        en: 'Keyword (en)',
+        fi: 'Keyword (fi)',
+        ru: 'Keyword (ru)',
+        sv: 'Keyword (sv)',
+        zhHans: 'Keyword (zhHans)',
+      },
+      originId: '1',
+      publisher: 'publisher:1',
+      replacedBy: 'keyword:2',
+    });
   });
 });
 

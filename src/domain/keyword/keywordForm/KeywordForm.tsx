@@ -174,7 +174,9 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                 action={
                   keyword ? KEYWORD_ACTIONS.UPDATE : KEYWORD_ACTIONS.CREATE
                 }
-                publisher={keyword ? keyword.publisher ?? '' : values.publisher}
+                publisher={
+                  keyword ? (keyword.publisher as string) : values.publisher
+                }
               />
               <ServerErrorSummary errors={serverErrorItems} />
 
@@ -263,7 +265,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               <EditButtonPanel
                 id={values.id}
                 onSave={handleSubmit}
-                publisher={keyword.publisher ?? ''}
+                publisher={keyword.publisher as string}
                 saving={saving}
               />
             ) : (

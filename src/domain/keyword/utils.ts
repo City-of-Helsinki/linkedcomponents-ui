@@ -240,7 +240,7 @@ export const getKeywordInitialValues = (
     deprecated: !!keyword.deprecated,
     id,
     name: getLocalisedObject(keyword.name),
-    originId: id.split(':')[1],
+    originId: id.split(':')[1] ?? '',
     publisher: keyword.publisher ?? '',
     replacedBy: keyword.replacedBy ?? '',
   };
@@ -249,12 +249,12 @@ export const getKeywordInitialValues = (
 export const getKeywordPayload = (
   formValues: KeywordFormFields
 ): CreateKeywordMutationInput => {
-  const { originId, ...restFormValues } = formValues;
+  const { originId, id, ...restFormValues } = formValues;
   const dataSource = formValues.dataSource || KEYWORD_DATA_SOURCE;
 
   return {
     ...restFormValues,
     dataSource,
-    id: originId ? `${dataSource}:${originId}` : undefined,
+    id: id || (originId ? `${dataSource}:${originId}` : undefined),
   };
 };

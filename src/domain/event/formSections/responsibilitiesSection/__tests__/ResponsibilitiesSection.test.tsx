@@ -48,7 +48,7 @@ const findElement = (key: 'publisherSelector') => {
   switch (key) {
     case 'publisherSelector':
       return screen.findByRole('button', {
-        name: translations.event.form.labelPublisher[type],
+        name: /tapahtuman julkaisija: valikko/i,
       });
   }
 };

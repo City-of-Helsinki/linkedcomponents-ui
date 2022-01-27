@@ -40,9 +40,6 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
   const { user } = useUser();
   const { organizations } = useUserOrganizations(user);
 
-  const [selectedOrganization, setSelectedOrganization] =
-    React.useState<OptionType | null>(null);
-
   const { data: organizationData } = useOrganizationQuery({
     skip: !value,
     variables: {
@@ -51,16 +48,18 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
     },
   });
 
-  React.useEffect(() => {
-    const selectedValue = organizationData?.organization
-      ? getOption(organizationData.organization)
-      : null;
-
-    setSelectedOrganization(selectedValue);
-  }, [organizationData]);
+  const selectedOrganization = React.useMemo(
+    () =>
+      organizationData?.organization
+        ? getOption(organizationData.organization)
+        : null,
+    [organizationData]
+  );
 
   const options = publisher
-    ? [selectedOrganization as OptionType]
+    ? selectedOrganization
+      ? [selectedOrganization]
+      : []
     : organizations.map((org) => getOption(org));
 
   return (

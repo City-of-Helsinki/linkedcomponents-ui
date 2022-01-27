@@ -10,11 +10,13 @@ import {
 import { fakeOrganization, fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  actWait,
   configure,
   getMockReduxStore,
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../../utils/testUtils';
 import PublisherSelector, {
   PublisherSelectorProps,
@@ -26,20 +28,11 @@ const label = 'Select publisher';
 
 const publisherId = TEST_PUBLISHER_ID;
 const publisherName = 'Publisher name';
-const publisher = fakeOrganization({
-  id: publisherId,
-  name: publisherName,
-});
-const publisherVariables = {
-  createPath: undefined,
-  id: publisherId,
-};
+const publisher = fakeOrganization({ id: publisherId, name: publisherName });
+const publisherVariables = { createPath: undefined, id: publisherId };
 const publisherResponse = { data: { organization: publisher } };
 const mockedPublisherResponse: MockedResponse = {
-  request: {
-    query: OrganizationDocument,
-    variables: publisherVariables,
-  },
+  request: { query: OrganizationDocument, variables: publisherVariables },
   result: publisherResponse,
 };
 
@@ -49,16 +42,10 @@ const organization = fakeOrganization({
   id: organizationId,
   name: organizationName,
 });
-const organizationVariables = {
-  createPath: undefined,
-  id: organizationId,
-};
+const organizationVariables = { createPath: undefined, id: organizationId };
 const organizationResponse = { data: { organization } };
 const mockedOrganizationResponse: MockedResponse = {
-  request: {
-    query: OrganizationDocument,
-    variables: organizationVariables,
-  },
+  request: { query: OrganizationDocument, variables: organizationVariables },
   result: organizationResponse,
 };
 
@@ -86,16 +73,10 @@ const user = fakeUser({
   adminOrganizations: [adminOrganizationId],
   organizationMemberships: [organizationId],
 });
-const userVariables = {
-  createPath: undefined,
-  id: TEST_USER_ID,
-};
+const userVariables = { createPath: undefined, id: TEST_USER_ID };
 const userResponse = { data: { user } };
 const mockedUserResponse: MockedResponse = {
-  request: {
-    query: UserDocument,
-    variables: userVariables,
-  },
+  request: { query: UserDocument, variables: userVariables },
   result: userResponse,
 };
 
@@ -118,37 +99,36 @@ const defaultProps: PublisherSelectorProps = {
 const renderComponent = (props?: Partial<PublisherSelectorProps>) =>
   render(<PublisherSelector {...defaultProps} {...props} />, { mocks, store });
 
-const getElement = (key: 'toggleButton') => {
+const getElement = (key: 'searchInput' | 'toggleButton') => {
   switch (key) {
+    case 'searchInput':
+      return screen.getByRole('combobox', { name: label });
     case 'toggleButton':
-      return screen.getByRole('button', {
-        name: label,
-      });
+      return screen.getByRole('button', { name: `${label}: Valikko` });
   }
 };
 
 test('should show users organizations as menu options', async () => {
-  renderComponent();
+  renderComponent({ publisher: null, value: null });
 
-  await screen.findByText(publisherName);
+  getElement('searchInput');
 
+  await actWait(1000);
   const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
-  await screen.findByRole('option', { name: organizationName, hidden: true });
-  screen.getByRole('option', {
-    name: adminOrganizationName,
-    hidden: true,
-  });
+  await screen.findByRole('option', { name: organizationName });
+  screen.getByRole('option', { name: adminOrganizationName });
 });
 
 test('should show publisher as menu option', async () => {
   renderComponent({ publisher: publisherId });
 
-  await screen.findByText(publisherName);
+  const searchinput = getElement('searchInput');
+  await waitFor(() => expect(searchinput).toHaveValue(publisherName));
 
   const toggleButton = getElement('toggleButton');
   userEvent.click(toggleButton);
 
-  screen.getByRole('option', { name: publisherName, hidden: true });
+  await screen.findByRole('option', { name: publisherName });
 });

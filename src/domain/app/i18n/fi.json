@@ -1165,7 +1165,7 @@
     "deleteKeywordModal": {
       "buttonDelete": "Poista avainsana",
       "text": "Tämä toiminto poistaa avainsanan lopullisesti.",
-      "title": "Varmista avansanan poistaminen"
+      "title": "Varmista avainsanan poistaminen"
     },
     "form": {
       "buttonDelete": "Poista avainsana",

@@ -27,6 +27,10 @@ import {
   searchText,
 } from '../../../eventSearch/__mocks__/eventSearchPage';
 import {
+  keyword,
+  mockedKeywordResponse,
+} from '../../../keyword/__mocks__/editKeywordPage';
+import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../../registration/__mocks__/editRegistrationPage';
@@ -52,6 +56,7 @@ const mocks = [
   mockedEnrolmentResponse,
   mockedEventResponse,
   mockedEventsResponse,
+  mockedKeywordResponse,
   mockedPlacesResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
@@ -195,6 +200,16 @@ it('should render create keyword page', async () => {
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /lisää avainsana/i });
   expect(history.location.pathname).toBe('/fi/keywords/create');
+});
+
+it('should render edit keyword page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.EDIT_KEYWORD.replace(':id', keyword.id)}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /muokkaa avainsanaa/i });
+  expect(history.location.pathname).toBe(`/fi/keywords/edit/${keyword.id}`);
 });
 
 it('should route to default help page', async () => {
