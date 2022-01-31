@@ -1,4 +1,11 @@
 {
+  "adminPage": {
+    "sideNavigation": {
+      "labelAdmin": "Hallinta",
+      "toggleButtonLabel": "Siirry hallintasivulle"
+    },
+    "title": "Hallinta"
+  },
   "appDescription": "Linked Events on ohjelmistokomponenttien ja API-päätepisteiden kokoelma, joka mahdollistaa tapahtumien hallinnan ja jakelun eri tapahtumapalvelujen tarjoajille Suomessa.",
   "appName": "Linked Events",
   "authentication": {
@@ -1272,9 +1279,9 @@
     "searchEvents": "Etsi tapahtumia",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
+      "admin": "Hallinta",
       "events": "Tapahtumat",
       "help": "Tuki",
-      "keywords": "Avainsanat",
       "registrations": "Ilmoittautuminen"
     }
   },

@@ -1,4 +1,11 @@
 {
+  "adminPage": {
+    "sideNavigation": {
+      "labelAdmin": "Admin",
+      "toggleButtonLabel": "Navigera till adminsidan"
+    },
+    "title": "Admin"
+  },
   "appDescription": "Linked Events är en samling mjukvarukomponenter och API-slutpunkter som möjliggör evenemnaghantering och distribution för olika evenemangsleverantörer i Finland.",
   "appName": "Linked Events",
   "authentication": {
@@ -1272,9 +1279,9 @@
     "searchEvents": "Sök efter evenemang",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
+      "admin": "Admin",
       "events": "Evenemang",
       "help": "Stöd",
-      "keywords": "Nyckelord",
       "registrations": "Registrering"
     }
   },

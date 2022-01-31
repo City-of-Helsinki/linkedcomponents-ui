@@ -89,7 +89,7 @@ test('should open create keywords page', async () => {
   const createKeywordButton = getElement('createKeywordButton');
   userEvent.click(createKeywordButton);
 
-  expect(history.location.pathname).toBe('/fi/keywords/create');
+  expect(history.location.pathname).toBe('/fi/admin/keywords/create');
 });
 
 test('should add sort parameter to search query', async () => {

@@ -15,6 +15,7 @@ export interface ButtonPanelProps {
   contentWrapperClassName?: string;
   onBack?: () => void;
   submitButtons?: React.ReactElement[];
+  withOffset?: boolean;
 }
 
 const SCROLL_OFFSET = 40;
@@ -24,6 +25,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
   contentWrapperClassName,
   onBack,
   submitButtons,
+  withOffset = true,
 }) => {
   const buttonPanel = React.useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
@@ -63,7 +65,10 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
 
   return (
     <div ref={buttonPanel} className={styles.buttonPanel}>
-      <Container withOffset={true}>
+      <Container
+        className={classNames({ [styles.noOffset]: !withOffset })}
+        withOffset={withOffset}
+      >
         <div className={contentWrapperClassName}>
           <div className={styles.buttonsRow}>
             <div

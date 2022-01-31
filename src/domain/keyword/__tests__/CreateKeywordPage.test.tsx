@@ -80,7 +80,9 @@ test('should move to keywords page after creating new keyword', async () => {
   const saveButton = getElement('saveButton');
   userEvent.click(saveButton);
 
-  await waitFor(() => expect(history.location.pathname).toBe(`/fi/keywords`));
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+  );
 });
 
 test('should show server errors', async () => {

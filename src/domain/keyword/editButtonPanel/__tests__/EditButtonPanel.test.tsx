@@ -59,7 +59,9 @@ test('should route to enrolments page when clicking back button', async () => {
 
   userEvent.click(getElement('backButton'));
 
-  await waitFor(() => expect(history.location.pathname).toBe(`/fi/keywords`));
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+  );
 });
 
 test('should call onSave', async () => {

@@ -70,7 +70,7 @@ const renderRoute = (route: string, locale: Language = 'fi') =>
   });
 
 beforeEach(() => {
-  setFeatureFlags({ SHOW_KEYWORD: true, SHOW_REGISTRATION: true });
+  setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
 });
 
 it('should redirect to events page from deprecated modaration page', () => {
@@ -191,7 +191,7 @@ it('should render keywords page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /avainsanat/i });
-  expect(history.location.pathname).toBe('/fi/keywords');
+  expect(history.location.pathname).toBe('/fi/admin/keywords');
 });
 
 it('should render create keyword page', async () => {
@@ -199,7 +199,7 @@ it('should render create keyword page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /lisää avainsana/i });
-  expect(history.location.pathname).toBe('/fi/keywords/create');
+  expect(history.location.pathname).toBe('/fi/admin/keywords/create');
 });
 
 it('should render edit keyword page', async () => {
@@ -209,7 +209,9 @@ it('should render edit keyword page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /muokkaa avainsanaa/i });
-  expect(history.location.pathname).toBe(`/fi/keywords/edit/${keyword.id}`);
+  expect(history.location.pathname).toBe(
+    `/fi/admin/keywords/edit/${keyword.id}`
+  );
 });
 
 it('should route to default help page', async () => {

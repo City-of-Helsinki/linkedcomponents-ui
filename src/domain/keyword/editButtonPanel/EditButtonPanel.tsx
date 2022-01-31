@@ -65,6 +65,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           {buttonProps.label}
         </LoadingButton>,
       ]}
+      withOffset={false}
     />
   );
 };

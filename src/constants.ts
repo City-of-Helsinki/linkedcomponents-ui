@@ -21,13 +21,14 @@ export enum DEPRECATED_ROUTES {
 }
 
 export enum ROUTES {
+  ADMIN = '/admin',
   CALLBACK = '/callback',
   CREATE_ENROLMENT = '/registrations/:registrationId/enrolments/create',
   CREATE_EVENT = '/events/create',
-  CREATE_KEYWORD = '/keywords/create',
+  CREATE_KEYWORD = '/admin/keywords/create',
   CREATE_REGISTRATION = '/registrations/create',
   EDIT_EVENT = '/events/edit/:id',
-  EDIT_KEYWORD = '/keywords/edit/:id',
+  EDIT_KEYWORD = '/admin/keywords/edit/:id',
   EDIT_REGISTRATION = '/registrations/edit/:id',
   EDIT_REGISTRATION_ENROLMENT = '/registrations/:registrationId/enrolments/edit/:enrolmentId',
   EVENT_SAVED = '/events/completed/:id',
@@ -40,7 +41,7 @@ export enum ROUTES {
   INSTRUCTIONS_FAQ = '/help/instructions/faq',
   INSTRUCTIONS_GENERAL = '/help/instructions/general',
   INSTRUCTIONS_PLATFORM = '/help/instructions/platform',
-  KEYWORDS = '/keywords',
+  KEYWORDS = '/admin/keywords',
   LOGOUT = '/logout',
   REGISTRATIONS = '/registrations',
   REGISTRATION_ENROLMENTS = '/registrations/:registrationId/enrolments',

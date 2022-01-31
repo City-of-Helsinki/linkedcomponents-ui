@@ -45,7 +45,9 @@ test('should open edit keyword page by clicking keyword', () => {
 
   act(() => userEvent.click(screen.getByRole('button', { name: keywordName })));
 
-  expect(history.location.pathname).toBe(`/fi/keywords/edit/${keywordId}`);
+  expect(history.location.pathname).toBe(
+    `/fi/admin/keywords/edit/${keywordId}`
+  );
 });
 
 test('should open edit keyword page by pressing enter on row', () => {
@@ -60,7 +62,9 @@ test('should open edit keyword page by pressing enter on row', () => {
     userEvent.type(screen.getByRole('button', { name: keywordName }), '{enter}')
   );
 
-  expect(history.location.pathname).toBe(`/fi/keywords/edit/${keywordId}`);
+  expect(history.location.pathname).toBe(
+    `/fi/admin/keywords/edit/${keywordId}`
+  );
 });
 
 test('should call setSort when clicking sortable column header', () => {

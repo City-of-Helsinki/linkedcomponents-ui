@@ -59,6 +59,7 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
           {buttonProps.label}
         </LoadingButton>,
       ]}
+      withOffset={false}
     />
   );
 };

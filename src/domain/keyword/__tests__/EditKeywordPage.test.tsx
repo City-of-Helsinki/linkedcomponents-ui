@@ -78,7 +78,9 @@ test('should delete keyword', async () => {
   });
   userEvent.click(deleteKeywordButton);
 
-  await waitFor(() => expect(history.location.pathname).toBe(`/fi/keywords`));
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+  );
 });
 
 test('should update keyword', async () => {
@@ -93,7 +95,9 @@ test('should update keyword', async () => {
   const submitButton = getElement('saveButton');
   userEvent.click(submitButton);
 
-  await waitFor(() => expect(history.location.pathname).toBe(`/fi/keywords`));
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+  );
 });
 
 test('should show server errors', async () => {
