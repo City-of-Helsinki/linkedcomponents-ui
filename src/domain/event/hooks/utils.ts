@@ -8,6 +8,7 @@ import { LEServerError, OptionType, ServerErrorItem } from '../../../types';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
+import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { AUDIENCE_ORDER, EVENT_EDIT_ACTIONS } from '../constants';
@@ -42,27 +43,11 @@ export const parseEventServerErrors = ({
   result: LEServerError;
   t: TFunction;
 }): ServerErrorItem[] => {
-  // LE returns errors as array when trying to create/edit multiple events in same request.
-  // In that case call parseEventServerErrors recursively to get all single errors
-  if (Array.isArray(result)) {
-    return result.reduce(
-      (previous: ServerErrorItem[], r) => [
-        ...previous,
-        ...parseEventServerErrors({ eventType, result: r, t }),
-      ],
-      []
-    );
-  }
-
-  return typeof result === 'string'
-    ? [{ label: '', message: parseServerErrorMessage({ error: [result], t }) }]
-    : Object.entries(result).reduce(
-        (previous: ServerErrorItem[], [key, error]) => [
-          ...previous,
-          ...parseEventServerError({ error: error as LEServerError, key }),
-        ],
-        []
-      );
+  return parseServerErrors({
+    parseServerError: parseEventServerError,
+    result,
+    t,
+  });
 
   // Get error item for an single error. Also get all errors for nested fields (description,
   // short_description, videos)

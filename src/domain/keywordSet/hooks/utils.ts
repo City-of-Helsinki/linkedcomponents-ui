@@ -2,6 +2,7 @@ import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
+import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
 
 export const parseKeywordSetServerErrors = ({
@@ -12,27 +13,11 @@ export const parseKeywordSetServerErrors = ({
   result: LEServerError;
   t: TFunction;
 }): ServerErrorItem[] => {
-  // LE returns errors as array when trying to create/edit multiple keyword sets in same request.
-  // In that case call parseKeywordSetServerErrors recursively to get all single errors
-  if (Array.isArray(result)) {
-    return result.reduce(
-      (previous: ServerErrorItem[], r) => [
-        ...previous,
-        ...parseKeywordSetServerErrors({ result: r, t }),
-      ],
-      []
-    );
-  }
-
-  return typeof result === 'string'
-    ? [{ label: '', message: parseServerErrorMessage({ error: [result], t }) }]
-    : Object.entries(result).reduce(
-        (previous: ServerErrorItem[], [key, error]) => [
-          ...previous,
-          ...parseKeywordSetServerError({ error: error as LEServerError, key }),
-        ],
-        []
-      );
+  return parseServerErrors({
+    parseServerError: parseKeywordSetServerError,
+    result,
+    t,
+  });
 
   // Get error item for an single error.
   function parseKeywordSetServerError({
