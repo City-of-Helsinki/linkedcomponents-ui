@@ -19,7 +19,10 @@ import {
   useCreateRegistrationMutation,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import { showFormErrors } from '../../utils/validationUtils';
+import {
+  scrollToFirstError,
+  showFormErrors,
+} from '../../utils/validationUtils';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -42,7 +45,7 @@ import AuthenticationNotification from './registrationAuthenticationNotification
 import styles from './registrationPage.module.scss';
 import { RegistrationFormFields } from './types';
 import { getRegistrationPayload } from './utils';
-import { registrationSchema, scrollToFirstError } from './validation';
+import { getFocusableFieldId, registrationSchema } from './validation';
 
 const CreateRegistrationPage: React.FC = () => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
@@ -137,7 +140,10 @@ const CreateRegistrationPage: React.FC = () => {
               setTouched,
             });
 
-            scrollToFirstError({ error: error as Yup.ValidationError });
+            scrollToFirstError({
+              error: error as Yup.ValidationError,
+              getFocusableFieldId,
+            });
           }
         };
 

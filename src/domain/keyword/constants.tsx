@@ -1,6 +1,7 @@
 import { IconCogwheel, IconCrossCircle, IconPen } from 'hds-react';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../constants';
+import { KeywordFormFields } from './types';
 
 export const REMOTE_PARTICIPATION_KEYWORD_ID =
   process.env.REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID || 'yso:p26626';
@@ -43,7 +44,7 @@ export const KEYWORD_ACTION_LABEL_KEYS = {
 
 export const AUTHENTICATION_NOT_NEEDED = [KEYWORD_ACTIONS.EDIT];
 
-export const KEYWORD_INITIAL_VALUES = {
+export const KEYWORD_INITIAL_VALUES: KeywordFormFields = {
   [KEYWORD_FIELDS.DATA_SOURCE]: '',
   [KEYWORD_FIELDS.DEPRECATED]: false,
   [KEYWORD_FIELDS.ID]: '',

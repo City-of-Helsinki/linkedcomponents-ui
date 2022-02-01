@@ -230,6 +230,7 @@ export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet => {
       dataSource: 'helsinki',
       keywords: [],
       name: fakeLocalisedObject(),
+      organization: TEST_PUBLISHER_ID,
       usage: 'any',
       __typename: 'KeywordSet',
     },

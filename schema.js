@@ -10,6 +10,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createKeyword(input: CreateKeywordMutationInput!): Keyword!
+    createKeywordSet(input: CreateKeywordSetMutationInput!): KeywordSet!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
@@ -322,6 +323,15 @@ module.exports = buildSchema(/* GraphQL */ `
     name: LocalisedObjectInput
     publisher: String
     replacedBy: String
+  }
+
+  input CreateKeywordSetMutationInput {
+    dataSource: String
+    id: String
+    keywords: [IdObjectInput!]
+    name: LocalisedObjectInput
+    organization: String
+    usage: String
   }
 
   input CreateRegistrationMutationInput {

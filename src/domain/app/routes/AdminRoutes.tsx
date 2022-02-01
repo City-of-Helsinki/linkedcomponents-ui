@@ -7,6 +7,9 @@ import { Language } from '../../../types';
 const CreateKeywordPage = React.lazy(
   () => import('.././../keyword/CreateKeywordPage')
 );
+const CreateKeywordSetPage = React.lazy(
+  () => import('.././../keywordSet/CreateKeywordSetPage')
+);
 const EditKeywordPage = React.lazy(
   () => import('../../keyword/EditKeywordPage')
 );
@@ -43,6 +46,12 @@ const AdminPageRoutes: React.FC<Props> = ({ locale }) => {
         exact
         path={getLocalePath(ROUTES.KEYWORDS)}
         component={KeywordsPage}
+      />
+
+      <Route
+        exact
+        path={getLocalePath(ROUTES.CREATE_KEYWORD_SET)}
+        component={CreateKeywordSetPage}
       />
       <Route
         exact

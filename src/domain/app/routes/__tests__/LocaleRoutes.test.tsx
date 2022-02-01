@@ -222,6 +222,14 @@ it('should render keyword sets page', async () => {
   expect(history.location.pathname).toBe('/fi/admin/keyword-sets');
 });
 
+it('should render create keyword set page', async () => {
+  const { history } = renderRoute(`${ROUTES.CREATE_KEYWORD_SET}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /lisää avainsanaryhmä/i });
+  expect(history.location.pathname).toBe('/fi/admin/keyword-sets/create');
+});
+
 it('should route to default help page', async () => {
   const { history } = renderRoute(ROUTES.HELP);
 

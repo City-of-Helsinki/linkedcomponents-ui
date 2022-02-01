@@ -20,7 +20,10 @@ import {
   usePostFeedbackMutation,
   usePostGuestFeedbackMutation,
 } from '../../../generated/graphql';
-import { showFormErrors } from '../../../utils/validationUtils';
+import {
+  scrollToFirstError,
+  showFormErrors,
+} from '../../../utils/validationUtils';
 import PageWrapper from '../../app/layout/PageWrapper';
 import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
@@ -38,7 +41,7 @@ import EventNotShownFaq from '../faq/EventNotShownFaq';
 import ImageRightsFaq from '../faq/ImageRightsFaq';
 import PublishingPermissionsFaq from '../faq/PublishingPermissionsFaq';
 import { ContactFormFields } from '../types';
-import { getInitialValues, scrollToFirstError } from '../utils';
+import { getFocusableFieldId, getInitialValues } from '../utils';
 import styles from './contactPage.module.scss';
 
 const ContactPage: React.FC = () => {
@@ -187,7 +190,10 @@ const ContactPage: React.FC = () => {
                 setTouched,
               });
 
-              scrollToFirstError({ error: error as ValidationError });
+              scrollToFirstError({
+                error: error as ValidationError,
+                getFocusableFieldId,
+              });
             }
           };
 

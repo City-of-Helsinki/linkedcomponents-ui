@@ -1,4 +1,9 @@
-import { KeywordSetsQueryVariables } from '../../generated/graphql';
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+
+import {
+  KeywordSetQueryVariables,
+  KeywordSetsQueryVariables,
+} from '../../generated/graphql';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
@@ -90,3 +95,22 @@ export const replaceParamsToKeywordSetQueryString = (
     getKeywordSetParamValue
   );
 };
+
+/* istanbul ignore next */
+export const clearKeywordSetQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>,
+  args?: KeywordSetQueryVariables
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'keywordSet',
+    args,
+  });
+
+export const clearKeywordSetsQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'keywordSets',
+  });

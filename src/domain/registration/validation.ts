@@ -1,8 +1,5 @@
-import forEach from 'lodash/forEach';
-import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
-import { VALIDATION_ERROR_SCROLLER_OPTIONS } from '../../constants';
 import {
   createMinErrorMessage,
   isMinStartDate,
@@ -74,36 +71,9 @@ export const registrationSchema = Yup.object().shape({
     .transform(transformNumber),
 });
 
-const getFocusableFieldId = (
-  fieldName: string
-): {
-  fieldId: string;
-  type: 'default' | 'select';
-} => {
+export const getFocusableFieldId = (fieldName: string): string => {
   if (REGISTRATION_SELECT_FIELDS.find((item) => item === fieldName)) {
-    return { fieldId: `${fieldName}-input`, type: 'select' };
+    return `${fieldName}-input`;
   }
-  return { fieldId: fieldName, type: 'default' };
-};
-
-export const scrollToFirstError = ({
-  error,
-}: {
-  error: Yup.ValidationError;
-}): void => {
-  forEach(error.inner, (e) => {
-    const path = e.path ?? /* istanbul ignore next */ '';
-
-    const { fieldId } = getFocusableFieldId(path);
-    const field = document.getElementById(fieldId);
-
-    /* istanbul ignore else */
-    if (field) {
-      scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
-
-      field.focus();
-
-      return false;
-    }
-  });
+  return fieldName;
 };

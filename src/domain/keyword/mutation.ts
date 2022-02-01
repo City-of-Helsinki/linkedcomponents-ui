@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-named-as-default
 import gql from 'graphql-tag';
 
-export const MUTATION_EVENT = gql`
+export const MUTATION_KEYWORD = gql`
   mutation CreateKeyword($input: CreateKeywordMutationInput!) {
     createKeyword(input: $input)
       @rest(

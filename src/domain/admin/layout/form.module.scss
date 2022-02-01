@@ -19,6 +19,10 @@
       @include min-width-column(2);
     }
   }
+
+  > div:last-of-type {
+    display: flex;
+  }
 }
 
 .alignedSelect {

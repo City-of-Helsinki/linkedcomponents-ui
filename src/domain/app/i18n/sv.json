@@ -19,6 +19,8 @@
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
     "noRightsUpdateKeyword": "Du har inte behörighet att redigera nyckelord.",
     "noRightsUpdateKeywordLabel": "Inga rättigheter att redigera nyckelord",
+    "noRightsUpdateKeywordSet": "Du har inte behörighet att redigera nyckelordsuppsättningar.",
+    "noRightsUpdateKeywordSetLabel": "Inga rättigheter att redigera nyckelordsuppsättningar",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
     "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
   },
@@ -199,6 +201,10 @@
   "createKeywordPage": {
     "pageTitle": "Lägg till nyckelord",
     "title": "Lägg till nyckelord"
+  },
+  "createKeywordSetPage": {
+    "pageTitle": "Lägg till nyckelordsuppsättning",
+    "title": "Lägg till nyckelordsuppsättning"
   },
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
@@ -1244,10 +1250,25 @@
       "nEventsDesc": "Antal evenemang, fallande"
     },
     "title": "Nyckelord",
-    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
-        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa nyckelord.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här nyckelordet."
+  },
+  "keywordSet": {
+    "form": {
+      "labelDataSource": "Datakälla",
+      "labelId": "ID",
+      "labelKeywords": "Nyckelord",
+      "labelName": "Namn",
+      "labelOrganization": "Utgivare",
+      "labelOriginId": "Ursprungs-ID",
+      "labelUsage": "Användande",
+      "notificationTitleCannotEdit": "Nyckelordsuppsättning kan inte redigeras"
+    }
   },
   "keywordSetsPage": {
+    "actionButtons": {
+      "edit": "Redigera nyckelordsuppsättning"
+    },
     "count": "{{count}} nyckelordsuppsättning",
     "count_plural": "{{count}} nyckelordsuppsättningar",
     "keywordSetsTableCaption": "Nyckelordsuppsättningar, sorterade efter {{sort}}",
@@ -1256,7 +1277,7 @@
       "name": "Namn",
       "usage": "Användande"
     },
-    "labelSearch": "Sök nyckelorddsuppsättningar",
+    "labelSearch": "Sök nyckelordsuppsättningar",
     "pageTitle": "Nyckelordsuppsättningar",
     "sortOptions": {
       "id": "Id, stigande",
@@ -1271,7 +1292,9 @@
       "any": "Allmän",
       "audience": "Målgrupp",
       "keyword": "Nyckelord"
-    }
+    },
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa nyckelordsuppsättningar.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här nyckelordsuppsättningen."
   },
   "landingPage": {
     "heroTitle": "Evenemang och hobbyer i Helsingfors",
@@ -1405,6 +1428,7 @@
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
+    "methodPostNotAllowed": "\"POST\"-metoden är inte tillåten.",
     "mustBeUnique": "Värdet måste vara unikt.",
     "min0": "Detta nummer måste vara minst 0.",
     "nameIsRequired": "Namnet krävs.",

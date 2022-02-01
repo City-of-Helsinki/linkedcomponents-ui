@@ -1,7 +1,7 @@
+/* eslint-disable max-len */
 import {
   ApolloClient,
   NormalizedCacheObject,
-  ServerError,
   useApolloClient,
 } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
@@ -10,9 +10,9 @@ import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
 import { ValidationError } from 'yup';
 
-import CheckboxField from '../../../common/components/formFields/CheckboxField';
+import KeywordSelectorField from '../../../common/components/formFields/KeywordSelectorField';
 import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
-import SingleKeywordSelectorField from '../../../common/components/formFields/SingleKeywordSelectorField';
+import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
@@ -21,9 +21,9 @@ import {
   ROUTES,
 } from '../../../constants';
 import {
-  CreateKeywordMutationInput,
-  KeywordFieldsFragment,
-  useCreateKeywordMutation,
+  CreateKeywordSetMutationInput,
+  KeywordSetFieldsFragment,
+  useCreateKeywordSetMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
@@ -34,63 +34,55 @@ import {
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
 import { reportError } from '../../app/sentry/utils';
-import { clearKeywordsQueries } from '../../keywords/utils';
+import useKeywordSetUsageOptions from '../../keywordSets/hooks/useKeywordSetUsageOptions';
+import { clearKeywordSetsQueries } from '../../keywordSets/utils';
 import useUser from '../../user/hooks/useUser';
 import {
-  KEYWORD_ACTIONS,
-  KEYWORD_FIELDS,
-  KEYWORD_INITIAL_VALUES,
+  KEYWORD_SET_ACTIONS,
+  KEYWORD_SET_FIELDS,
+  KEYWORD_SET_INITIAL_VALUES,
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
-import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
-import useKeywordServerErrors from '../hooks/useKeywordServerErrors';
-import useKeywordUpdateActions from '../hooks/useKeywordUpdateActions';
-import KeywordAuthenticationNotification from '../keywordAuthenticationNotification/KeywordAuthenticationNotification';
-import { KeywordFormFields } from '../types';
-import { getKeywordInitialValues, getKeywordPayload } from '../utils';
-import { keywordSchema } from '../validation';
+import useKeywordSetServerErrors from '../hooks/useKeywordSetServerErrors';
+import useKeywordSetUpdateActions from '../hooks/useKeywordSetUpdateActions';
+import KeywordSetAuthenticationNotification from '../keywordSetAuthenticationNotification/KeywordSetAuthenticationNotification';
+import { KeywordSetFormFields } from '../types';
+import { getKeywordSetPayload } from '../utils';
+import { getFocusableFieldId, keywordSetSchema } from '../validation';
 
-type KeywordFormProps = {
-  keyword?: KeywordFieldsFragment;
+type KeywordSetFormProps = {
+  keywordSet?: KeywordSetFieldsFragment;
 };
 
-const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
+const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const { t } = useTranslation();
-  const locale = useLocale();
   const history = useHistory();
   const location = useLocation();
+  const locale = useLocale();
   const { user } = useUser();
+  const usageOptions = useKeywordSetUsageOptions();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
+  const { saving, setSaving } = useKeywordSetUpdateActions();
+
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
-    useKeywordServerErrors();
+    useKeywordSetServerErrors();
 
-  const { saving, setSaving, updateKeyword } = useKeywordUpdateActions({
-    keyword: keyword as KeywordFieldsFragment,
-  });
+  const [createKeywordSetMutation] = useCreateKeywordSetMutation();
 
-  const [createKeywordMutation] = useCreateKeywordMutation();
-
-  const goToKeywordsPage = () => {
-    history.push(`/${locale}${ROUTES.KEYWORDS}`);
+  const goToKeywordSetsPage = () => {
+    history.push(`/${locale}${ROUTES.KEYWORD_SETS}`);
   };
 
-  const onUpdate = async (values: KeywordFormFields) => {
-    await updateKeyword(values, {
-      onError: (error: ServerError) => showServerErrors({ error }),
-      onSuccess: async () => {
-        goToKeywordsPage();
-      },
-    });
-  };
-
-  const createSingleKeyword = async (payload: CreateKeywordMutationInput) => {
+  const createSingleKeywordSet = async (
+    payload: CreateKeywordSetMutationInput
+  ) => {
     try {
-      const data = await createKeywordMutation({
+      const data = await createKeywordSetMutation({
         variables: { input: payload },
       });
 
-      return data.data?.createKeyword.id as string;
+      return data.data?.createKeywordSet.id as string;
     } catch (error) /* istanbul ignore next */ {
       showServerErrors({ error });
       // // Report error to Sentry
@@ -107,17 +99,17 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
     }
   };
 
-  const createKeyword = async (values: KeywordFormFields) => {
-    setSaving(KEYWORD_ACTIONS.CREATE);
-    const payload = getKeywordPayload(values);
+  const createKeyword = async (values: KeywordSetFormFields) => {
+    setSaving(KEYWORD_SET_ACTIONS.CREATE);
+    const payload = getKeywordSetPayload(values);
 
-    const createdKeywordId = await createSingleKeyword(payload);
+    const createdKeywordId = await createSingleKeywordSet(payload);
 
     if (createdKeywordId) {
       // Clear all keywords queries from apollo cache to show added registrations
       // in registration list
-      clearKeywordsQueries(apolloClient);
-      goToKeywordsPage();
+      clearKeywordSetsQueries(apolloClient);
+      goToKeywordSetsPage();
     }
 
     setSaving(null);
@@ -126,9 +118,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={
-        keyword ? getKeywordInitialValues(keyword) : KEYWORD_INITIAL_VALUES
-      }
+      initialValues={KEYWORD_SET_INITIAL_VALUES}
       // We have custom way to handle onSubmit so here is empty function
       // to silent TypeScript error. The reason for custom onSubmit is that
       // we want to scroll to first invalid field if error occurs
@@ -137,7 +127,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
-      validationSchema={keywordSchema}
+      validationSchema={keywordSetSchema}
     >
       {({ setErrors, setTouched, values }) => {
         const clearErrors = () => setErrors({});
@@ -151,10 +141,9 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
             setServerErrorItems([]);
             clearErrors();
 
-            await keywordSchema.validate(values, { abortEarly: false });
+            await keywordSetSchema.validate(values, { abortEarly: false });
 
-            if (keyword) {
-              await onUpdate(values);
+            if (keywordSet) {
             } else {
               await createKeyword(values);
             }
@@ -165,16 +154,25 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               setTouched,
             });
 
-            scrollToFirstError({ error: error as ValidationError });
+            scrollToFirstError({
+              error: error as ValidationError,
+              getFocusableFieldId,
+            });
           }
         };
 
         return (
           <Form className={styles.form} noValidate={true}>
-            <KeywordAuthenticationNotification
-              action={keyword ? KEYWORD_ACTIONS.UPDATE : KEYWORD_ACTIONS.CREATE}
+            <KeywordSetAuthenticationNotification
+              action={
+                keywordSet
+                  ? KEYWORD_SET_ACTIONS.UPDATE
+                  : KEYWORD_SET_ACTIONS.CREATE
+              }
               publisher={
-                keyword ? (keyword.publisher as string) : values.publisher
+                keywordSet
+                  ? (keywordSet.organization as string)
+                  : values.organization
               }
             />
             <ServerErrorSummary errors={serverErrorItems} />
@@ -183,8 +181,8 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               <Field
                 className={styles.alignedInputWithFullBorder}
                 component={TextInputField}
-                label={t(`keyword.form.labelId`)}
-                name={KEYWORD_FIELDS.ID}
+                label={t(`keywordSet.form.labelId`)}
+                name={KEYWORD_SET_FIELDS.ID}
                 readOnly
               />
             </FormRow>
@@ -192,24 +190,24 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
             <FormRow className={styles.borderInMobile}>
               <Field
                 className={
-                  keyword
+                  keywordSet
                     ? styles.alignedInputWithFullBorder
                     : styles.alignedInput
                 }
                 component={TextInputField}
-                label={t(`keyword.form.labelDataSource`)}
-                name={KEYWORD_FIELDS.DATA_SOURCE}
+                label={t(`keywordSet.form.labelDataSource`)}
+                name={KEYWORD_SET_FIELDS.DATA_SOURCE}
                 readOnly
               />
             </FormRow>
 
-            <FormRow className={keyword && styles.borderInMobile}>
+            <FormRow className={keywordSet && styles.borderInMobile}>
               <Field
                 className={styles.alignedInput}
                 component={TextInputField}
-                label={t(`keyword.form.labelOriginId`)}
-                name={KEYWORD_FIELDS.ORIGIN_ID}
-                readOnly={!!keyword}
+                label={t(`keywordSet.form.labelOriginId`)}
+                name={KEYWORD_SET_FIELDS.ORIGIN_ID}
+                readOnly={!!keywordSet}
               />
             </FormRow>
 
@@ -218,9 +216,9 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                 className={styles.alignedSelect}
                 clearable
                 component={PublisherSelectorField}
-                label={t(`keyword.form.labelPublisher`)}
-                name={KEYWORD_FIELDS.PUBLISHER}
-                disabled={!!keyword}
+                label={t(`keywordSet.form.labelOrganization`)}
+                name={KEYWORD_SET_FIELDS.ORGANIZATION}
+                disabled={!!keywordSet}
               />
             </FormRow>
 
@@ -234,42 +232,38 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                   <Field
                     className={styles.alignedInput}
                     component={TextInputField}
-                    label={`${t('keyword.form.labelName')} (${langText})`}
-                    name={`${KEYWORD_FIELDS.NAME}.${language}`}
+                    label={`${t('keywordSet.form.labelName')} (${langText})`}
+                    name={`${KEYWORD_SET_FIELDS.NAME}.${language}`}
                     required={language === LE_DATA_LANGUAGES.FI}
                   />
                 </FormRow>
               );
             })}
+            <FormRow>
+              <Field
+                className={styles.alignedSelect}
+                component={KeywordSelectorField}
+                label={t(`keywordSet.form.labelKeywords`)}
+                name={KEYWORD_SET_FIELDS.KEYWORDS}
+                required
+              />
+            </FormRow>
 
             <FormRow>
               <Field
                 className={styles.alignedSelect}
-                clearable
-                component={SingleKeywordSelectorField}
-                label={t(`keyword.form.labelReplacedBy`)}
-                name={KEYWORD_FIELDS.REPLACED_BY}
+                component={SingleSelectField}
+                label={t(`keywordSet.form.labelUsage`)}
+                name={KEYWORD_SET_FIELDS.USAGE}
+                options={usageOptions}
+                required
               />
             </FormRow>
 
-            <FormRow>
-              <Field
-                label={t(`keyword.form.labelDeprecated`)}
-                name={KEYWORD_FIELDS.DEPRECATED}
-                component={CheckboxField}
-              />
-            </FormRow>
-            {keyword ? (
-              <EditButtonPanel
-                id={values.id}
-                onSave={handleSubmit}
-                publisher={keyword.publisher as string}
-                saving={saving}
-              />
-            ) : (
+            {keywordSet ? null : (
               <CreateButtonPanel
                 onSave={handleSubmit}
-                publisher={values.publisher}
+                publisher={values.organization}
                 saving={saving}
               />
             )}
@@ -280,4 +274,4 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   );
 };
 
-export default KeywordForm;
+export default KeywordSetForm;

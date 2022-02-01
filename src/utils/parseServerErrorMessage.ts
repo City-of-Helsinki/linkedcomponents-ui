@@ -41,6 +41,8 @@ const parseServerErrorMessage = ({
       return t(`serverError.emailMustBeUnique`);
     case 'Kenttien phone_number, registration tulee muodostaa uniikki joukko.':
       return t(`serverError.phoneNumberMustBeUnique`);
+    case 'Metodi "POST" ei ole sallittu.':
+      return t(`serverError.methodPostNotAllowed`);
     case 'Price info must be specified before an event is published.':
       return t(`serverError.offersIsRequired`);
     case 'Short description length must be 160 characters or less':

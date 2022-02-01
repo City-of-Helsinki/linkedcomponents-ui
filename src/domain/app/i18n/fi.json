@@ -19,6 +19,8 @@
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
     "noRightsUpdateKeyword": "Sinulla ei ole oikeuksia muokata avainsanoja.",
     "noRightsUpdateKeywordLabel": "Ei oikeuksia muokata avainsanoja.",
+    "noRightsUpdateKeywordSet": "Sinulla ei ole oikeuksia muokata avainsanaryhmiä.",
+    "noRightsUpdateKeywordSetLabel": "Ei oikeuksia muokata avainsanaryhmiä.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
   },
@@ -199,6 +201,10 @@
   "createKeywordPage": {
     "pageTitle": "Lisää avainsana",
     "title": "Lisää avainsana"
+  },
+  "createKeywordSetPage": {
+    "pageTitle": "Lisää avainsanaryhmä",
+    "title": "Lisää avainsanaryhmä"
   },
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
@@ -1247,7 +1253,22 @@
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda avainsanoja.",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä avainsanaa."
   },
+  "keywordSet": {
+    "form": {
+      "labelDataSource": "Datan lähde",
+      "labelId": "ID",
+      "labelKeywords": "Avainsanat",
+      "labelName": "Nimi",
+      "labelOrganization": "Julkaisija",
+      "labelOriginId": "Lähdetunniste",
+      "labelUsage": "Käyttötarkoitus",
+      "notificationTitleCannotEdit": "Avainsanaryhmää ei voi muokata"
+    }
+  },
   "keywordSetsPage": {
+    "actionButtons": {
+      "edit": "Muokkaa avainsanaryhmää"
+    },
     "count": "{{count}} avainsanaryhmä",
     "count_plural": "{{count}} avainsanaryhmää",
     "keywordSetsTableCaption": "Avainsanaryhmät, järjestys {{sort}}",
@@ -1271,7 +1292,9 @@
       "any": "Yleinen",
       "audience": "Kohderyhmä",
       "keyword": "Avainsana"
-    }
+    },
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda avainsanaryhmiä.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää."
   },
   "landingPage": {
     "heroTitle": "Helsingin tapahtumat ja harrastukset",
@@ -1405,6 +1428,7 @@
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
     "invalidUrl": "Syötä oikea URL-osoite.",
     "maxLength255": "Arvo saa olla enintään 255 merkkiä pitkä.",
+    "methodPostNotAllowed": "Metodi \"POST\" ei ole sallittu.",
     "min0": "Tämän luvun on oltava vähintään 0.",
     "mustBeUnique": "Arvon tulee olla uniikki.",
     "nameIsRequired": "Nimi on pakollinen.",

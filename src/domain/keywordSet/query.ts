@@ -12,6 +12,7 @@ export const QUERY_KEYWORD_SET = gql`
     name {
       ...localisedFields
     }
+    organization
     usage
   }
 

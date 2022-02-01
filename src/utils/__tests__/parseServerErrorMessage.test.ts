@@ -49,6 +49,7 @@ const testCases: [LEServerError, string][] = [
     ],
     'Sähköpostiosoitteella on jo ilmoittautuminen.',
   ],
+  [['Metodi "POST" ei ole sallittu.'], 'Metodi "POST" ei ole sallittu.'],
   [
     'Price info must be specified before an event is published.',
     'Hintatiedot on määritettävä ennen tapahtuman julkaisemista.',

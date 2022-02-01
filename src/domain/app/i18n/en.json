@@ -19,6 +19,8 @@
     "noRightsUpdateEventLabel": "No permissions to edit events",
     "noRightsUpdateKeyword": "You do not have permission to edit keywords.",
     "noRightsUpdateKeywordLabel": "No permissions to edit keywords.",
+    "noRightsUpdateKeywordSet": "You do not have permission to edit keyword sets.",
+    "noRightsUpdateKeywordSetLabel": "No permissions to edit keyword sets.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
   },
@@ -198,6 +200,10 @@
   "createKeywordPage": {
     "pageTitle": "Add keyword",
     "title": "Add keyword"
+  },
+  "createKeywordSetPage": {
+    "pageTitle": "Add keyword set",
+    "title": "Add keyword set"
   },
   "createRegistrationPage": {
     "page": "New registration",
@@ -1244,10 +1250,25 @@
       "nEventsDesc": "Number of events, descending"
     },
     "title": "Keywords",
-    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa sökord.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här sökordet."
+    "warningNoRightsToCreate": "You have insufficient rights to create keywords.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this keyword."
+  },
+  "keywordSet": {
+    "form": {
+      "labelDataSource": "Data source",
+      "labelId": "ID",
+      "labelKeywords": "Keywords",
+      "labelName": "Name",
+      "labelOrganization": "Publisher",
+      "labelOriginId": "Origin ID",
+      "labelUsage": "Usage",
+      "notificationTitleCannotEdit": "The keyword set cannot be edited"
+    }
   },
   "keywordSetsPage": {
+    "actionButtons": {
+      "edit": "Edit keyword set"
+    },
     "count": "{{count}} keyword set",
     "count_plural": "{{count}} keyword sets",
     "keywordSetsTableCaption": "Keyword sets, sorted by {{sort}}",
@@ -1271,8 +1292,9 @@
       "any": "General",
       "audience": "Audience",
       "keyword": "Keyword"
-    }
-
+    },
+    "warningNoRightsToCreate": "You have insufficient rights to create keyword sets.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this keyword set."
   },
   "landingPage": {
     "heroTitle": "Events and hobbies in Helsinki",
@@ -1406,6 +1428,7 @@
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",
     "maxLength255": "The value can be up to 255 characters long.",
+    "methodPostNotAllowed": "\"POST\" method is not allowed.",
     "min0": "This number must be at least 0.",
     "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",

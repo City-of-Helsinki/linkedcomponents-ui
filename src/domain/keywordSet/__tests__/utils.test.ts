@@ -1,7 +1,20 @@
-import { fakeKeyword, fakeKeywordSet } from '../../../utils/mockDataUtils';
+import i18n from 'i18next';
+
 import {
+  fakeKeyword,
+  fakeKeywordSet,
+  fakeOrganization,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
+import { TEST_KEYWORD_ID } from '../../keyword/constants';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import { KEYWORD_SET_ACTIONS, KEYWORD_SET_INITIAL_VALUES } from '../constants';
+import {
+  checkCanUserDoAction,
+  getEditKeywordSetWarning,
   getKeywordOption,
   getKeywordSetFields,
+  getKeywordSetPayload,
   keywordSetPathBuilder,
   keywordSetsPathBuilder,
 } from '../utils';
@@ -63,5 +76,176 @@ describe('getKeywordSetFields function', () => {
 
     expect(id).toBe('');
     expect(usage).toBe('');
+  });
+});
+
+describe('checkCanUserDoAction function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
+  it('should allow correct actions if adminArganizations contains publisher', () => {
+    const user = fakeUser({ adminOrganizations: [publisher] });
+
+    const allowedActions = [
+      KEYWORD_SET_ACTIONS.CREATE,
+      KEYWORD_SET_ACTIONS.DELETE,
+      KEYWORD_SET_ACTIONS.EDIT,
+      KEYWORD_SET_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if organizationAncestores contains any of the adminArganizations', () => {
+    const adminOrganization = 'admin:1';
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    const allowedActions = [
+      KEYWORD_SET_ACTIONS.CREATE,
+      KEYWORD_SET_ACTIONS.DELETE,
+      KEYWORD_SET_ACTIONS.EDIT,
+      KEYWORD_SET_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [fakeOrganization({ id: adminOrganization })],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if publisher is not defined and user has at least one admin organization', () => {
+    const adminOrganization = 'admin:1';
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    const allowedActions = [
+      KEYWORD_SET_ACTIONS.CREATE,
+      KEYWORD_SET_ACTIONS.EDIT,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher: '',
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+});
+
+describe('getEditKeywordSetWarning function', () => {
+  it('should return correct warning if user is not authenticated', () => {
+    const allowedActions = [KEYWORD_SET_ACTIONS.EDIT];
+
+    const commonProps = {
+      authenticated: false,
+      t: i18n.t.bind(i18n),
+      userCanDoAction: false,
+    };
+
+    allowedActions.forEach((action) => {
+      expect(getEditKeywordSetWarning({ action, ...commonProps })).toBe('');
+    });
+
+    const deniedActions = [
+      KEYWORD_SET_ACTIONS.CREATE,
+      KEYWORD_SET_ACTIONS.DELETE,
+      KEYWORD_SET_ACTIONS.UPDATE,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(getEditKeywordSetWarning({ action, ...commonProps })).toBe(
+        'Sinulla ei ole oikeuksia muokata avainsanaryhmiä.'
+      );
+    });
+  });
+
+  it('should return correct warning if user cannot do action', () => {
+    expect(
+      getEditKeywordSetWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: KEYWORD_SET_ACTIONS.CREATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia luoda avainsanaryhmiä.');
+
+    expect(
+      getEditKeywordSetWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: KEYWORD_SET_ACTIONS.UPDATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää.');
+  });
+});
+
+describe('getKeywordSetPayload function', () => {
+  it('should return keyword set payload', () => {
+    expect(getKeywordSetPayload(KEYWORD_SET_INITIAL_VALUES)).toEqual({
+      dataSource: 'helsinki',
+      id: undefined,
+      keywords: [],
+      name: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      organization: '',
+      usage: '',
+    });
+
+    expect(
+      getKeywordSetPayload({
+        dataSource: 'helsinki',
+        id: '',
+        keywords: [TEST_KEYWORD_ID],
+        name: {
+          ar: 'ar',
+          en: 'en',
+          fi: 'fi',
+          ru: 'ru',
+          sv: 'sv',
+          zhHans: 'zhHans',
+        },
+        originId: '123',
+        organization: TEST_PUBLISHER_ID,
+        usage: 'any',
+      })
+    ).toEqual({
+      dataSource: 'helsinki',
+      id: 'helsinki:123',
+      keywords: [{ atId: 'keyword:1' }],
+      name: {
+        ar: 'ar',
+        en: 'en',
+        fi: 'fi',
+        ru: 'ru',
+        sv: 'sv',
+        zhHans: 'zhHans',
+      },
+      organization: 'publisher:1',
+      usage: 'any',
+    });
   });
 });

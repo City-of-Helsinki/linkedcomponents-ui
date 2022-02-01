@@ -3,10 +3,16 @@ import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import { FormikErrors, FormikTouched } from 'formik';
 import { TFunction } from 'i18next';
+import forEach from 'lodash/forEach';
 import set from 'lodash/set';
+import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
-import { DATE_FORMAT, DATETIME_FORMAT } from '../constants';
+import {
+  DATE_FORMAT,
+  DATETIME_FORMAT,
+  VALIDATION_ERROR_SCROLLER_OPTIONS,
+} from '../constants';
 import { VALIDATION_MESSAGE_KEYS } from '../domain/app/i18n/constants';
 import { Error } from '../types';
 import formatDate from './formatDate';
@@ -161,4 +167,26 @@ export const showFormErrors = ({
     setErrors(newErrors);
     setTouched(touchedFields);
   }
+};
+
+export const scrollToFirstError = ({
+  error,
+  getFocusableFieldId,
+}: {
+  error: Yup.ValidationError;
+  getFocusableFieldId?: (path: string) => string;
+}): void => {
+  forEach(error.inner, (e) => {
+    const path = e.path as string;
+    const fieldId = getFocusableFieldId ? getFocusableFieldId(path) : path;
+    const field = document.getElementById(fieldId);
+
+    /* istanbul ignore else */
+    if (field) {
+      scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
+      field.focus();
+
+      return false;
+    }
+  });
 };
