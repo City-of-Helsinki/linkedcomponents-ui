@@ -44,6 +44,7 @@
     "buttonActions": "Actions",
     "buttonAddEvent": "Add new event",
     "buttonAddKeyword": "Add keyword",
+    "buttonAddKeywordSet": "Add keyword set",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
     "cancel": "Undo",
@@ -1233,7 +1234,6 @@
       "nEvents": "Number of events"
     },
     "labelSearch": "Search keywords",
-    "pageDescription": "",
     "pageTitle": "Keywords",
     "sortOptions": {
       "id": "Id, ascending",
@@ -1246,6 +1246,33 @@
     "title": "Keywords",
     "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa sökord.",
     "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här sökordet."
+  },
+  "keywordSetsPage": {
+    "count": "{{count}} keyword set",
+    "count_plural": "{{count}} keyword sets",
+    "keywordSetsTableCaption": "Keyword sets, sorted by {{sort}}",
+    "keywordSetsTableColumns": {
+      "id": "ID",
+      "name": "Name",
+      "usage": "Usage"
+    },
+    "labelSearch": "Search keyword sets",
+    "pageTitle": "Keyword sets",
+    "sortOptions": {
+      "id": "Id, ascending",
+      "idDesc": "Id, descending",
+      "name": "Name, ascending",
+      "nameDesc": "Name, descending",
+      "usage": "Usage, ascending",
+      "usageDesc": "Usage, descending"
+    },
+    "title": "Keyword sets",
+    "usageOptions": {
+      "any": "General",
+      "audience": "Audience",
+      "keyword": "Keyword"
+    }
+
   },
   "landingPage": {
     "heroTitle": "Events and hobbies in Helsinki",

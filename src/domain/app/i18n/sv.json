@@ -44,6 +44,7 @@
     "buttonActions": "Funktioner",
     "buttonAddEvent": "Lägg till evenemang",
     "buttonAddKeyword": "Lägg till nyckelord",
+    "buttonAddKeywordSet": "Lägg till nyckelorduppsättningar",
     "buttonAddRegistration": "Lägg till",
     "buttonBack": "Tillbaka",
     "buttonRemoveFilter": "Ta bort filtret: {{name}}",
@@ -1233,7 +1234,6 @@
       "nEvents": "Antal evenemang"
     },
     "labelSearch": "Sök nyckelord",
-    "pageDescription": "",
     "pageTitle": "Nyckelord",
     "sortOptions": {
       "id": "Id, stigande",
@@ -1246,6 +1246,32 @@
     "title": "Nyckelord",
     "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
+  },
+  "keywordSetsPage": {
+    "count": "{{count}} nyckelordsuppsättning",
+    "count_plural": "{{count}} nyckelordsuppsättningar",
+    "keywordSetsTableCaption": "Nyckelordsuppsättningar, sorterade efter {{sort}}",
+    "keywordSetsTableColumns": {
+      "id": "ID",
+      "name": "Namn",
+      "usage": "Användande"
+    },
+    "labelSearch": "Sök nyckelorddsuppsättningar",
+    "pageTitle": "Nyckelordsuppsättningar",
+    "sortOptions": {
+      "id": "Id, stigande",
+      "idDesc": "Id, fallande",
+      "name": "Name, stigande",
+      "nameDesc": "Name, fallande",
+      "usage": "Användande, stigande",
+      "usageDesc": "Användande, fallande"
+    },
+    "title": "Nyckelordsuppsättningar",
+    "usageOptions": {
+      "any": "Allmän",
+      "audience": "Målgrupp",
+      "keyword": "Nyckelord"
+    }
   },
   "landingPage": {
     "heroTitle": "Evenemang och hobbyer i Helsingfors",

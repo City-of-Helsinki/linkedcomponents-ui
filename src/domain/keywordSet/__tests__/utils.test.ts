@@ -1,6 +1,7 @@
-import { fakeKeyword } from '../../../utils/mockDataUtils';
+import { fakeKeyword, fakeKeywordSet } from '../../../utils/mockDataUtils';
 import {
   getKeywordOption,
+  getKeywordSetFields,
   keywordSetPathBuilder,
   keywordSetsPathBuilder,
 } from '../utils';
@@ -47,5 +48,20 @@ describe('keywordSetsPathBuilder function', () => {
         args: { include: ['include1', 'include2'] },
       })
     ).toBe('/keyword_set/?include=include1,include2');
+  });
+});
+
+describe('getKeywordSetFields function', () => {
+  it('should return default values if value is not set', () => {
+    const { id, usage } = getKeywordSetFields(
+      fakeKeywordSet({
+        id: null,
+        usage: null,
+      }),
+      'fi'
+    );
+
+    expect(id).toBe('');
+    expect(usage).toBe('');
   });
 });

@@ -6,51 +6,51 @@ import NoDataRow from '../../../common/components/table/NoDataRow';
 import SortableColumn from '../../../common/components/table/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import {
-  KeywordFieldsFragment,
-  KeywordsQuery,
+  KeywordSetFieldsFragment,
+  KeywordSetsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
-import { getKeywordFields } from '../../keyword/utils';
-import { KEYWORD_SORT_OPTIONS } from '../constants';
-import useKeywordsQueryStringWithReturnPath from '../hooks/useKeywordsQueryStringWithReturnPath';
-import styles from './keywordsTable.module.scss';
-import KeywordsTableRow from './KeywordsTableRow';
+import { getKeywordSetFields } from '../../keywordSet/utils';
+import { KEYWORD_SET_SORT_OPTIONS } from '../constants';
+import useKeywordSetsQueryStringWithReturnPath from '../hooks/useKeywordSetsQueryStringWithReturnPath';
+import styles from './keywordSetsTable.module.scss';
+import KeywordSetsTableRow from './KeywordSetsTableRow';
 
-export interface KeywordsTableProps {
+export interface KeywordSetsTableProps {
   caption: string;
   className?: string;
-  keywords: KeywordsQuery['keywords']['data'];
-  setSort: (sort: KEYWORD_SORT_OPTIONS) => void;
-  sort: KEYWORD_SORT_OPTIONS;
+  keywordSets: KeywordSetsQuery['keywordSets']['data'];
+  setSort: (sort: KEYWORD_SET_SORT_OPTIONS) => void;
+  sort: KEYWORD_SET_SORT_OPTIONS;
 }
 
-const KeywordsTable: React.FC<KeywordsTableProps> = ({
+const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
   caption,
   className,
-  keywords,
+  keywordSets,
   setSort,
   sort,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
-  const queryStringWithReturnPath = useKeywordsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useKeywordSetsQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);
 
-  const handleRowClick = (keyword: KeywordFieldsFragment) => {
-    const { keywordUrl } = getKeywordFields(keyword, locale);
+  const handleRowClick = (keywordSet: KeywordSetFieldsFragment) => {
+    const { keywordSetUrl } = getKeywordSetFields(keywordSet, locale);
 
     history.push({
-      pathname: keywordUrl,
+      pathname: keywordSetUrl,
       search: queryStringWithReturnPath,
     });
   };
 
   const handleSort = (key: string) => {
-    setSort(key as KEYWORD_SORT_OPTIONS);
+    setSort(key as KEYWORD_SET_SORT_OPTIONS);
   };
 
   return (
@@ -60,47 +60,47 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
         <tr>
           <SortableColumn
             className={styles.idColumn}
-            label={t('keywordsPage.keywordsTableColumns.id')}
+            label={t('keywordSetsPage.keywordSetsTableColumns.id')}
             onClick={handleSort}
             sort={sort}
-            sortKey={KEYWORD_SORT_OPTIONS.ID}
+            sortKey={KEYWORD_SET_SORT_OPTIONS.ID}
             type="text"
           />
           <SortableColumn
             className={styles.nameColumn}
-            label={t('keywordsPage.keywordsTableColumns.name')}
+            label={t('keywordSetsPage.keywordSetsTableColumns.name')}
             onClick={handleSort}
             sort={sort}
-            sortKey={KEYWORD_SORT_OPTIONS.NAME}
+            sortKey={KEYWORD_SET_SORT_OPTIONS.NAME}
             type="text"
           />
           <SortableColumn
-            className={styles.nEventsColumn}
-            label={t('keywordsPage.keywordsTableColumns.nEvents')}
+            className={styles.usageColumn}
+            label={t('keywordSetsPage.keywordSetsTableColumns.usage')}
             onClick={handleSort}
             sort={sort}
-            sortKey={KEYWORD_SORT_OPTIONS.N_EVENTS}
-            type="default"
+            sortKey={KEYWORD_SET_SORT_OPTIONS.USAGE}
+            type="text"
           />
 
           <th className={styles.actionButtonsColumn}></th>
         </tr>
       </thead>
       <tbody>
-        {keywords.map(
-          (keyword) =>
-            keyword && (
-              <KeywordsTableRow
-                key={keyword.id}
-                keyword={keyword}
+        {keywordSets.map(
+          (keywordSet) =>
+            keywordSet && (
+              <KeywordSetsTableRow
+                key={keywordSet.id}
+                keywordSet={keywordSet}
                 onRowClick={handleRowClick}
               />
             )
         )}
-        {!keywords.length && <NoDataRow colSpan={6} />}
+        {!keywordSets.length && <NoDataRow colSpan={6} />}
       </tbody>
     </Table>
   );
 };
 
-export default KeywordsTable;
+export default KeywordSetsTable;

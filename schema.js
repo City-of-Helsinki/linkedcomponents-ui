@@ -82,7 +82,13 @@ module.exports = buildSchema(/* GraphQL */ `
       text: String
     ): KeywordsResponse!
     keywordSet(id: ID!, include: [String]): KeywordSet
-    keywordSets(include: [String]): KeywordSetsResponse!
+    keywordSets(
+      include: [String]
+      page: Int
+      pageSize: Int
+      sort: String
+      text: String
+    ): KeywordSetsResponse!
     languages: LanguagesResponse!
     image(id: ID): Image!
     images(

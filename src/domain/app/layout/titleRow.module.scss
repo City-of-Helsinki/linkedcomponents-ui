@@ -23,7 +23,6 @@
 
     button {
       @include min-width-column(2);
-      @include max-width-column(2);
 
       white-space: nowrap;
     }

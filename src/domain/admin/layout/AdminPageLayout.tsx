@@ -23,6 +23,10 @@ const AdminPageLayout: React.FC<Props> = ({ children }) => {
       label: t('keywordsPage.title'),
       to: ROUTES.KEYWORDS,
     },
+    {
+      label: t('keywordSetsPage.title'),
+      to: ROUTES.KEYWORD_SETS,
+    },
   ];
 
   const levels = [

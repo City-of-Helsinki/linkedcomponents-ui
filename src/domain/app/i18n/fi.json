@@ -44,6 +44,7 @@
     "buttonActions": "Valinnat",
     "buttonAddEvent": "Lisää uusi tapahtuma",
     "buttonAddKeyword": "Lisää avainsana",
+    "buttonAddKeywordSet": "Lisää avainsanaryhmä",
     "buttonAddRegistration": "Lisää uusi",
     "buttonBack": "Takaisin",
     "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
@@ -1233,7 +1234,6 @@
       "nEvents": "Tapahtumien lkm"
     },
     "labelSearch": "Hae avainsanoja",
-    "pageDescription": "",
     "pageTitle": "Avainsanat",
     "sortOptions": {
       "id": "Id, nouseva",
@@ -1246,6 +1246,32 @@
     "title": "Avainsanat",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda avainsanoja.",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä avainsanaa."
+  },
+  "keywordSetsPage": {
+    "count": "{{count}} avainsanaryhmä",
+    "count_plural": "{{count}} avainsanaryhmää",
+    "keywordSetsTableCaption": "Avainsanaryhmät, järjestys {{sort}}",
+    "keywordSetsTableColumns": {
+      "id": "ID",
+      "name": "Nimi",
+      "usage": "Käyttötarkoitus"
+    },
+    "labelSearch": "Hae avainsanaryhmiä",
+    "pageTitle": "Avainsanaryhmät",
+    "sortOptions": {
+      "id": "Id, nouseva",
+      "idDesc": "Id, laskeva",
+      "name": "Nimi, nouseva",
+      "nameDesc": "Nimi, laskeva",
+      "usage": "Käyttötarkoitus, nouseva",
+      "usageDesc": "Käyttötarkoitus, laskeva"
+    },
+    "title": "Avainsanaryhmät",
+    "usageOptions": {
+      "any": "Yleinen",
+      "audience": "Kohderyhmä",
+      "keyword": "Avainsana"
+    }
   },
   "landingPage": {
     "heroTitle": "Helsingin tapahtumat ja harrastukset",

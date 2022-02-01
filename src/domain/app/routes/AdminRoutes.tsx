@@ -11,6 +11,9 @@ const EditKeywordPage = React.lazy(
   () => import('../../keyword/EditKeywordPage')
 );
 const KeywordsPage = React.lazy(() => import('.././../keywords/KeywordsPage'));
+const KeywordSetsPage = React.lazy(
+  () => import('.././../keywordSets/KeywordSetsPage')
+);
 
 interface Props {
   locale: Language;
@@ -40,6 +43,11 @@ const AdminPageRoutes: React.FC<Props> = ({ locale }) => {
         exact
         path={getLocalePath(ROUTES.KEYWORDS)}
         component={KeywordsPage}
+      />
+      <Route
+        exact
+        path={getLocalePath(ROUTES.KEYWORD_SETS)}
+        component={KeywordSetsPage}
       />
     </Switch>
   );

@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -45,10 +44,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   };
 
   return (
-    <Table
-      ref={table}
-      className={classNames(styles.registrationsTable, className)}
-    >
+    <Table ref={table} className={className}>
       <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
       <thead>
         <tr>

@@ -1,13 +1,16 @@
 import capitalize from 'lodash/capitalize';
 
+import { ROUTES } from '../../constants';
 import {
   KeywordFieldsFragment,
+  KeywordSetFieldsFragment,
   KeywordSetQueryVariables,
   KeywordSetsQueryVariables,
 } from '../../generated/graphql';
 import { Language, OptionType, PathBuilderProps } from '../../types';
 import getLocalisedString from '../../utils/getLocalisedString';
 import queryBuilder from '../../utils/queryBuilder';
+import { KeywordSetFields } from './types';
 
 export const keywordSetPathBuilder = ({
   args,
@@ -43,3 +46,20 @@ export const getKeywordOption = ({
     value: keyword?.atId ?? '',
   };
 };
+
+export const getKeywordSetFields = (
+  keyword: KeywordSetFieldsFragment,
+  language: Language
+): KeywordSetFields => {
+  const id = keyword.id ?? '';
+
+  return {
+    id,
+    keywordSetUrl: `/${language}${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`,
+    name: getLocalisedString(keyword.name, language),
+    usage: keyword.usage ?? '',
+  };
+};
+
+export const getKeywordSetItemId = (id: string): string =>
+  `keyword-set-item-${id}`;

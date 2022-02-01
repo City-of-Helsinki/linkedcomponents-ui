@@ -11,33 +11,33 @@ import useLocale from '../../hooks/useLocale';
 import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
 import useUser from '../user/hooks/useUser';
-import KeywordList from './keywordList/KeywordList';
-import styles from './keywordsPage.module.scss';
+import KeywordSetList from './keywordSetList/KeywordSetList';
+import styles from './keywordSetsPage.module.scss';
 
 const KeywordsPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const locale = useLocale();
 
-  const goToCreateKeywordPage = () => {
-    history.push(`/${locale}${ROUTES.CREATE_KEYWORD}`);
+  const goToCreateKeywordSetPage = () => {
+    history.push(`/${locale}${ROUTES.CREATE_KEYWORD_SET}`);
   };
 
   return (
-    <div className={styles.keywordsPage}>
+    <div className={styles.keywordSetsPage}>
       <TitleRow
         button={
           <Button
             className={styles.addButton}
             fullWidth={true}
             iconLeft={<IconPlus aria-hidden={true} />}
-            onClick={goToCreateKeywordPage}
+            onClick={goToCreateKeywordSetPage}
             variant="primary"
           >
-            {t('common.buttonAddKeyword')}
+            {t('common.buttonAddKeywordSet')}
           </Button>
         }
-        title={t('keywordsPage.title')}
+        title={t('keywordSetsPage.title')}
       />
       <Breadcrumb>
         <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
@@ -45,19 +45,19 @@ const KeywordsPage: React.FC = () => {
           {t('adminPage.title')}
         </Breadcrumb.Item>
         <Breadcrumb.Item active={true}>
-          {t('keywordsPage.title')}
+          {t('keywordSetsPage.title')}
         </Breadcrumb.Item>
       </Breadcrumb>
-      <KeywordList />
+      <KeywordSetList />
     </div>
   );
 };
 
-const KeywordsPageWrapper: React.FC = () => {
+const KeywordSetsPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="keywordsPage.pageTitle">
+    <PageWrapper title="keywordSetsPage.pageTitle">
       <LoadingSpinner isLoading={loadingUser}>
         <KeywordsPage />
       </LoadingSpinner>
@@ -65,4 +65,4 @@ const KeywordsPageWrapper: React.FC = () => {
   );
 };
 
-export default KeywordsPageWrapper;
+export default KeywordSetsPageWrapper;

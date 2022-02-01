@@ -15,7 +15,6 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
-import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
 import { authenticatedSelector } from '../auth/selectors';
@@ -130,17 +129,15 @@ const EditKeywordPageWrapper: React.FC = () => {
 
   return (
     <PageWrapper title="editKeywordPage.pageTitle">
-      <MainContent>
-        <LoadingSpinner isLoading={loading}>
-          {keyword ? (
-            <EditKeywordPage keyword={keyword} />
-          ) : (
-            <NotFound
-              pathAfterSignIn={`${location.pathname}${location.search}`}
-            />
-          )}
-        </LoadingSpinner>
-      </MainContent>
+      <LoadingSpinner isLoading={loading}>
+        {keyword ? (
+          <EditKeywordPage keyword={keyword} />
+        ) : (
+          <NotFound
+            pathAfterSignIn={`${location.pathname}${location.search}`}
+          />
+        )}
+      </LoadingSpinner>
     </PageWrapper>
   );
 };

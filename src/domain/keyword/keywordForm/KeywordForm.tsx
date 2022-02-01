@@ -28,6 +28,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import { showFormErrors } from '../../../utils/validationUtils';
+import FormRow from '../../admin/layout/formRow/FormRow';
 import { reportError } from '../../app/sentry/utils';
 import { clearKeywordsQueries } from '../../keywords/utils';
 import useUser from '../../user/hooks/useUser';
@@ -44,7 +45,6 @@ import KeywordAuthenticationNotification from '../keywordAuthenticationNotificat
 import { KeywordFormFields } from '../types';
 import { getKeywordInitialValues, getKeywordPayload } from '../utils';
 import { keywordSchema, scrollToFirstError } from '../validation';
-import FormRow from './FormRow';
 import styles from './keywordForm.module.scss';
 
 type KeywordFormProps = {

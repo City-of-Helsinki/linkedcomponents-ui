@@ -655,6 +655,10 @@ export type QueryKeywordSetArgs = {
 
 export type QueryKeywordSetsArgs = {
   include?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Scalars['String']>;
+  text?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -1108,7 +1112,7 @@ export type KeywordsQueryVariables = Exact<{
 
 export type KeywordsQuery = { __typename?: 'Query', keywords: { __typename?: 'KeywordsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> } };
 
-export type KeywordSetFieldsFragment = { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined };
+export type KeywordSetFieldsFragment = { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined };
 
 export type KeywordSetQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1117,15 +1121,19 @@ export type KeywordSetQueryVariables = Exact<{
 }>;
 
 
-export type KeywordSetQuery = { __typename?: 'Query', keywordSet?: { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined };
+export type KeywordSetQuery = { __typename?: 'Query', keywordSet?: { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined };
 
 export type KeywordSetsQueryVariables = Exact<{
   include?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Scalars['String']>;
+  text?: InputMaybe<Scalars['String']>;
   createPath?: InputMaybe<Scalars['Any']>;
 }>;
 
 
-export type KeywordSetsQuery = { __typename?: 'Query', keywordSets: { __typename?: 'KeywordSetsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> } };
+export type KeywordSetsQuery = { __typename?: 'Query', keywordSets: { __typename?: 'KeywordSetsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> } };
 
 export type LanguageFieldsFragment = { __typename?: 'Language', id?: string | null | undefined, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined };
 
@@ -1469,6 +1477,7 @@ export const KeywordSetFieldsFragmentDoc = gql`
   name {
     ...localisedFields
   }
+  usage
 }
     ${KeywordFieldsFragmentDoc}
 ${LocalisedFieldsFragmentDoc}`;
@@ -2486,8 +2495,14 @@ export type KeywordSetQueryHookResult = ReturnType<typeof useKeywordSetQuery>;
 export type KeywordSetLazyQueryHookResult = ReturnType<typeof useKeywordSetLazyQuery>;
 export type KeywordSetQueryResult = Apollo.QueryResult<KeywordSetQuery, KeywordSetQueryVariables>;
 export const KeywordSetsDocument = gql`
-    query KeywordSets($include: [String], $createPath: Any) {
-  keywordSets(include: $include) @rest(type: "KeywordSetsResponse", pathBuilder: $createPath) {
+    query KeywordSets($include: [String], $page: Int, $pageSize: Int, $sort: String, $text: String, $createPath: Any) {
+  keywordSets(
+    include: $include
+    page: $page
+    pageSize: $pageSize
+    sort: $sort
+    text: $text
+  ) @rest(type: "KeywordSetsResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -2512,6 +2527,10 @@ ${KeywordSetFieldsFragmentDoc}`;
  * const { data, loading, error } = useKeywordSetsQuery({
  *   variables: {
  *      include: // value for 'include'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      sort: // value for 'sort'
+ *      text: // value for 'text'
  *      createPath: // value for 'createPath'
  *   },
  * });

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
-import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
 import useUser from '../user/hooks/useUser';
@@ -38,11 +37,9 @@ const CreateKeywordPageWrapper: React.FC = () => {
 
   return (
     <PageWrapper title="createKeywordPage.pageTitle">
-      <MainContent>
-        <LoadingSpinner isLoading={loadingUser}>
-          <CreateKeywordPage />
-        </LoadingSpinner>
-      </MainContent>
+      <LoadingSpinner isLoading={loadingUser}>
+        <CreateKeywordPage />
+      </LoadingSpinner>
     </PageWrapper>
   );
 };

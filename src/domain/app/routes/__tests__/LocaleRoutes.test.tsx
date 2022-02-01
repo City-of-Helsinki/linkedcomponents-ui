@@ -214,6 +214,14 @@ it('should render edit keyword page', async () => {
   );
 });
 
+it('should render keyword sets page', async () => {
+  const { history } = renderRoute(`${ROUTES.KEYWORD_SETS}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /avainsanaryhmät/i });
+  expect(history.location.pathname).toBe('/fi/admin/keyword-sets');
+});
+
 it('should route to default help page', async () => {
   const { history } = renderRoute(ROUTES.HELP);
 

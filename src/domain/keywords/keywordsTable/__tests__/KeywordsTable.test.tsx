@@ -26,7 +26,7 @@ test('should render keywords table', () => {
   screen.getByText('Ei tuloksia');
 });
 
-test('should render all events', () => {
+test('should render all keywords', () => {
   renderComponent({ keywords: keywords.data });
 
   // Test only first 2 to keep this test performant
