@@ -366,6 +366,7 @@ export type Mutation = {
   deleteEnrolment?: Maybe<NoContent>;
   deleteEvent?: Maybe<NoContent>;
   deleteKeyword?: Maybe<NoContent>;
+  deleteKeywordSet?: Maybe<NoContent>;
   deleteRegistration?: Maybe<NoContent>;
   postFeedback?: Maybe<Feedback>;
   postGuestFeedback?: Maybe<Feedback>;
@@ -421,6 +422,11 @@ export type MutationDeleteEventArgs = {
 
 
 export type MutationDeleteKeywordArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteKeywordSetArgs = {
   id: Scalars['ID'];
 };
 
@@ -1149,6 +1155,13 @@ export type CreateKeywordSetMutationVariables = Exact<{
 
 
 export type CreateKeywordSetMutation = { __typename?: 'Mutation', createKeywordSet: { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, organization?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } };
+
+export type DeleteKeywordSetMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteKeywordSetMutation = { __typename?: 'Mutation', deleteKeywordSet?: { __typename?: 'NoContent', noContent?: boolean | null | undefined } | null | undefined };
 
 export type UpdateKeywordSetMutationVariables = Exact<{
   input: UpdateKeywordSetMutationInput;
@@ -2536,6 +2549,39 @@ export function useCreateKeywordSetMutation(baseOptions?: Apollo.MutationHookOpt
 export type CreateKeywordSetMutationHookResult = ReturnType<typeof useCreateKeywordSetMutation>;
 export type CreateKeywordSetMutationResult = Apollo.MutationResult<CreateKeywordSetMutation>;
 export type CreateKeywordSetMutationOptions = Apollo.BaseMutationOptions<CreateKeywordSetMutation, CreateKeywordSetMutationVariables>;
+export const DeleteKeywordSetDocument = gql`
+    mutation DeleteKeywordSet($id: ID!) {
+  deleteKeywordSet(id: $id) @rest(type: "NoContent", path: "/keyword_set/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteKeywordSetMutationFn = Apollo.MutationFunction<DeleteKeywordSetMutation, DeleteKeywordSetMutationVariables>;
+
+/**
+ * __useDeleteKeywordSetMutation__
+ *
+ * To run a mutation, you first call `useDeleteKeywordSetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteKeywordSetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteKeywordSetMutation, { data, loading, error }] = useDeleteKeywordSetMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteKeywordSetMutation(baseOptions?: Apollo.MutationHookOptions<DeleteKeywordSetMutation, DeleteKeywordSetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteKeywordSetMutation, DeleteKeywordSetMutationVariables>(DeleteKeywordSetDocument, options);
+      }
+export type DeleteKeywordSetMutationHookResult = ReturnType<typeof useDeleteKeywordSetMutation>;
+export type DeleteKeywordSetMutationResult = Apollo.MutationResult<DeleteKeywordSetMutation>;
+export type DeleteKeywordSetMutationOptions = Apollo.BaseMutationOptions<DeleteKeywordSetMutation, DeleteKeywordSetMutationVariables>;
 export const UpdateKeywordSetDocument = gql`
     mutation UpdateKeywordSet($input: UpdateKeywordSetMutationInput!) {
   updateKeywordSet(input: $input) @rest(type: "KeywordSet", path: "/keyword_set/{args.input.id}/", method: "PUT", bodyKey: "input") {

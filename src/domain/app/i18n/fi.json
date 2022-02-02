@@ -1258,7 +1258,13 @@
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä avainsanaa."
   },
   "keywordSet": {
+    "deleteKeywordSetModal": {
+      "buttonDelete": "Poista avainsanaryhmä",
+      "text": "Tämä toiminto poistaa avainsanaryhmän lopullisesti.",
+      "title": "Varmista avainsanaryhmän poistaminen"
+    },
     "form": {
+      "buttonDelete": "Poista avainsanaryhmä",
       "labelDataSource": "Datan lähde",
       "labelId": "ID",
       "labelKeywords": "Avainsanat",

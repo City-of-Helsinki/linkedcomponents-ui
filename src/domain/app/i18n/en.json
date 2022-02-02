@@ -1258,7 +1258,13 @@
     "warningNoRightsToEdit": "You have insufficient rights to edit this keyword."
   },
   "keywordSet": {
+    "deleteKeywordSetModal": {
+      "buttonDelete": "Delete keyword set",
+      "text": "This action will permanently remove the keyword set.",
+      "title": "Confirm keyword set deletion"
+    },
     "form": {
+      "buttonDelete": "Delete keyword set",
       "labelDataSource": "Data source",
       "labelId": "ID",
       "labelKeywords": "Keywords",

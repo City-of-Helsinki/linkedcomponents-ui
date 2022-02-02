@@ -1,36 +1,26 @@
-import { Dialog, IconAlertCircle, IconCalendarCross } from 'hds-react';
+import { Dialog, IconAlertCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
 import styles from '../../../common/components/dialog/dialog.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import { EventFieldsFragment } from '../../../generated/graphql';
-import EventHierarchy from '../eventHierarchy/EventHierarchy';
+import { KEYWORD_SET_ACTION_ICONS, KEYWORD_SET_ACTIONS } from '../constants';
 
-export interface ConfirmCancelModalProps {
-  event: EventFieldsFragment;
+export interface ConfirmDeleteModalProps {
   isOpen: boolean;
   isSaving: boolean;
-  onCancel: () => void;
   onClose: () => void;
+  onDelete: () => void;
 }
 
-const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
-  event,
+const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   isOpen,
   isSaving,
-  onCancel,
   onClose,
+  onDelete,
 }) => {
   const { t } = useTranslation();
-
-  const handleCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    onCancel();
-  };
 
   const handleClose = (event?: React.MouseEvent | React.KeyboardEvent) => {
     event?.preventDefault();
@@ -39,7 +29,14 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
     onClose();
   };
 
-  const id = 'confirm-event-cancel-modal';
+  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    onDelete();
+  };
+
+  const id = 'confirm-keyword-set-delete-modal';
   const titleId = `${id}-title`;
   const descriptionId = `${id}-description`;
 
@@ -55,38 +52,24 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
       <Dialog.Header
         id={titleId}
         iconLeft={<IconAlertCircle aria-hidden={true} />}
-        title={t('event.cancelEventModal.title')}
+        title={t('keywordSet.deleteKeywordSetModal.title')}
       />
       <Dialog.Content>
-        <p>
-          <strong>{t('event.cancelEventModal.warning')}</strong>
-        </p>
         <p className={styles.warning}>
           <strong>{t('common.warning')}</strong>
         </p>
-        <p id={descriptionId}>{t('event.cancelEventModal.text1')}</p>
-        <p>{t('event.cancelEventModal.text2')}</p>
-        <EventHierarchy event={event} />
-        {Boolean(event.superEventType) && (
-          <p>
-            <strong>
-              {t('event.cancelEventModal.titlePastEventAreNotUpdated')}
-            </strong>
-            <br />
-            {t('event.cancelEventModal.textPastEventAreNotUpdated')}
-          </p>
-        )}
+        <p id={descriptionId}>{t('keywordSet.deleteKeywordSetModal.text')} </p>
       </Dialog.Content>
       <Dialog.ActionButtons>
         <LoadingButton
           disabled={isSaving}
-          icon={<IconCalendarCross aria-hidden={true} />}
+          icon={KEYWORD_SET_ACTION_ICONS[KEYWORD_SET_ACTIONS.DELETE]}
           loading={isSaving}
-          onClick={handleCancel}
+          onClick={handleDelete}
           type="button"
           variant="danger"
         >
-          {t('event.cancelEventModal.buttonCancel')}
+          {t('keywordSet.deleteKeywordSetModal.buttonDelete')}
         </LoadingButton>
 
         <Button
@@ -103,4 +86,4 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
   );
 };
 
-export default ConfirmCancelModal;
+export default ConfirmDeleteModal;

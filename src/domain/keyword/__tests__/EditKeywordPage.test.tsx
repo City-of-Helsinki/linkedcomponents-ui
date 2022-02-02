@@ -69,8 +69,8 @@ test('should delete keyword', async () => {
     mockedDeleteKeywordResponse,
   ]);
 
-  const cancelButton = await findElement('deleteButton');
-  act(() => userEvent.click(cancelButton));
+  const deleteButton = await findElement('deleteButton');
+  act(() => userEvent.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteKeywordButton = withinModal.getByRole('button', {

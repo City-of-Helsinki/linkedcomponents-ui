@@ -3,15 +3,18 @@ import { MockedResponse } from '@apollo/client/testing';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   getMockReduxStore,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keywordSet,
+  mockedDeleteKeywordSetResponse,
   mockedInvalidUpdateKeywordSetResponse,
   mockedKeywordSetResponse,
   mockedUpdateKeywordSetResponse,
@@ -33,8 +36,10 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     store,
   });
 
-const findElement = (key: 'nameInput') => {
+const findElement = (key: 'deleteButton' | 'nameInput') => {
   switch (key) {
+    case 'deleteButton':
+      return screen.findByRole('button', { name: /poista avainsanaryhmä/i });
     case 'nameInput':
       return screen.findByRole('textbox', { name: /nimi \(suomeksi\)/i });
   }
@@ -56,6 +61,26 @@ test('should scroll to first validation error input field', async () => {
   userEvent.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
+});
+
+test('should delete keyword', async () => {
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedDeleteKeywordSetResponse,
+  ]);
+
+  const deleteButton = await findElement('deleteButton');
+  act(() => userEvent.click(deleteButton));
+
+  const withinModal = within(screen.getByRole('dialog'));
+  const deleteKeywordSetButton = withinModal.getByRole('button', {
+    name: 'Poista avainsanaryhmä',
+  });
+  userEvent.click(deleteKeywordSetButton);
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
+  );
 });
 
 test('should update keyword set', async () => {

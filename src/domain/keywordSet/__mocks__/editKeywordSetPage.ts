@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 
 import {
+  DeleteKeywordSetDocument,
   KeywordSetDocument,
   KeywordSetFieldsFragment,
   UpdateKeywordSetDocument,
@@ -58,8 +59,19 @@ const mockedInvalidUpdateKeywordSetResponse: MockedResponse = {
   } as Error,
 };
 
+const deleteKeywordSetVariables = { id: keywordSet.id };
+const deleteKeywordSetResponse = { data: { deleteKeywordSet: null } };
+const mockedDeleteKeywordSetResponse: MockedResponse = {
+  request: {
+    query: DeleteKeywordSetDocument,
+    variables: deleteKeywordSetVariables,
+  },
+  result: deleteKeywordSetResponse,
+};
+
 export {
   keywordSet,
+  mockedDeleteKeywordSetResponse,
   mockedInvalidUpdateKeywordSetResponse,
   mockedKeywordSetResponse,
   mockedUpdateKeywordSetResponse,

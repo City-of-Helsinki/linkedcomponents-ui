@@ -8,6 +8,7 @@ import { useLocation } from 'react-router';
 import {
   KeywordSetFieldsFragment,
   UpdateKeywordSetMutationInput,
+  useDeleteKeywordSetMutation,
   useUpdateKeywordSetMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
@@ -38,6 +39,7 @@ interface Props {
 
 type UseKeywordUpdateActionsState = {
   closeModal: () => void;
+  deleteKeywordSet: (callbacks?: Callbacks) => Promise<void>;
   openModal: KEYWORD_SET_MODALS | null;
   saving: KEYWORD_SET_ACTIONS | null;
   setOpenModal: (modal: KEYWORD_SET_MODALS | null) => void;
@@ -59,6 +61,7 @@ const useKeywordSetUpdateActions = ({
   );
   const [saving, setSaving] = useMountedState<KEYWORD_SET_ACTIONS | null>(null);
 
+  const [deleteKeywordSetMutation] = useDeleteKeywordSetMutation();
   const [updateKeywordSetMutation] = useUpdateKeywordSetMutation();
 
   const closeModal = () => {
@@ -111,6 +114,24 @@ const useKeywordSetUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
+  const deleteKeywordSet = async (callbacks?: Callbacks) => {
+    try {
+      setSaving(KEYWORD_SET_ACTIONS.DELETE);
+
+      await deleteKeywordSetMutation({
+        variables: { id: keywordSet?.id as string },
+      });
+
+      await cleanAfterUpdate(callbacks);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to delete keyword set',
+      });
+    }
+  };
+
   const updateKeywordSet = async (
     values: KeywordSetFormFields,
     callbacks?: Callbacks
@@ -135,6 +156,7 @@ const useKeywordSetUpdateActions = ({
 
   return {
     closeModal,
+    deleteKeywordSet,
     openModal,
     saving,
     setOpenModal,

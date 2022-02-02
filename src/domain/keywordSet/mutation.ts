@@ -14,6 +14,17 @@ export const MUTATION_KEYWORD = gql`
     }
   }
 
+  mutation DeleteKeywordSet($id: ID!) {
+    deleteKeywordSet(id: $id)
+      @rest(
+        type: "NoContent"
+        path: "/keyword_set/{args.id}/"
+        method: "DELETE"
+      ) {
+      noContent
+    }
+  }
+
   mutation UpdateKeywordSet($input: UpdateKeywordSetMutationInput!) {
     updateKeywordSet(input: $input)
       @rest(

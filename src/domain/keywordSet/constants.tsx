@@ -45,7 +45,7 @@ export const KEYWORD_SET_ACTION_ICONS = {
 
 export const KEYWORD_SET_ACTION_LABEL_KEYS = {
   [KEYWORD_SET_ACTIONS.CREATE]: 'common.save',
-  [KEYWORD_SET_ACTIONS.DELETE]: 'keyword.form.buttonDelete',
+  [KEYWORD_SET_ACTIONS.DELETE]: 'keywordSet.form.buttonDelete',
   [KEYWORD_SET_ACTIONS.EDIT]: 'keywordSetsPage.actionButtons.edit',
   [KEYWORD_SET_ACTIONS.UPDATE]: 'common.save',
 };

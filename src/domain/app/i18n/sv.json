@@ -1258,7 +1258,13 @@
     "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här nyckelordet."
   },
   "keywordSet": {
+    "deleteKeywordModal": {
+      "buttonDelete": "Radera nyckelordsuppsättning",
+      "text": "Denna åtgärd tar bort nyckelorsuppsättningen permanent.",
+      "title": "Bekräfta raderingen av nyckelorsuppsättningen"
+    },
     "form": {
+      "buttonDelete": "Radera nyckelordsuppsättning",
       "labelDataSource": "Datakälla",
       "labelId": "ID",
       "labelKeywords": "Nyckelord",
