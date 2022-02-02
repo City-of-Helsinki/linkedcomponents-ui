@@ -5,6 +5,7 @@ export type KeywordSetFields = {
   id: string;
   keywordSetUrl: string;
   name: string;
+  organization: string;
   usage: string;
 };
 

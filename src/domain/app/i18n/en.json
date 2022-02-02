@@ -216,6 +216,10 @@
     "pageTitle": "Edit keyword",
     "title": "Edit keyword"
   },
+  "editKeywordSetPage": {
+    "pageTitle": "Edit keyword set",
+    "title": "Edit keyword set"
+  },
   "enrolment": {
     "attendeeStatus": {
       "attending": "Attending",
@@ -1428,7 +1432,9 @@
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",
     "maxLength255": "The value can be up to 255 characters long.",
+    "methodDeleteNotAllowed": "\"DELETE\" method is not allowed.",
     "methodPostNotAllowed": "\"POST\" method is not allowed.",
+    "methodPutNotAllowed": "\"PUT\" method is not allowed.",
     "min0": "This number must be at least 0.",
     "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",

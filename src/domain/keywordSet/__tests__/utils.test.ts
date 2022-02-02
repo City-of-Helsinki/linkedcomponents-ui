@@ -14,6 +14,7 @@ import {
   getEditKeywordSetWarning,
   getKeywordOption,
   getKeywordSetFields,
+  getKeywordSetInitialValues,
   getKeywordSetPayload,
   keywordSetPathBuilder,
   keywordSetsPathBuilder,
@@ -66,15 +67,17 @@ describe('keywordSetsPathBuilder function', () => {
 
 describe('getKeywordSetFields function', () => {
   it('should return default values if value is not set', () => {
-    const { id, usage } = getKeywordSetFields(
+    const { id, organization, usage } = getKeywordSetFields(
       fakeKeywordSet({
         id: null,
+        organization: null,
         usage: null,
       }),
       'fi'
     );
 
     expect(id).toBe('');
+    expect(organization).toBe('');
     expect(usage).toBe('');
   });
 });
@@ -194,6 +197,75 @@ describe('getEditKeywordSetWarning function', () => {
         action: KEYWORD_SET_ACTIONS.UPDATE,
       })
     ).toBe('Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää.');
+  });
+});
+
+describe('getKeywordInitialValues function', () => {
+  it('should return default values if value is not set', () => {
+    expect(
+      getKeywordSetInitialValues(
+        fakeKeywordSet({
+          dataSource: null,
+          id: null,
+          keywords: null,
+          name: null,
+          organization: null,
+          usage: null,
+        })
+      )
+    ).toEqual({
+      dataSource: '',
+      id: '',
+      keywords: [],
+      name: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      originId: '',
+      organization: '',
+      usage: '',
+    });
+  });
+
+  it('should return correct initial values', () => {
+    expect(
+      getKeywordSetInitialValues(
+        fakeKeywordSet({
+          dataSource: 'helsinki',
+          id: TEST_KEYWORD_ID,
+          keywords: [{ atId: TEST_KEYWORD_ID }],
+          name: {
+            ar: 'Keyword (ar)',
+            en: 'Keyword (en)',
+            fi: 'Keyword (fi)',
+            ru: 'Keyword (ru)',
+            sv: 'Keyword (sv)',
+            zhHans: 'Keyword (zhHans)',
+          },
+          organization: TEST_PUBLISHER_ID,
+          usage: 'any',
+        })
+      )
+    ).toEqual({
+      dataSource: 'helsinki',
+      id: 'keyword:1',
+      keywords: [TEST_KEYWORD_ID],
+      name: {
+        ar: 'Keyword (ar)',
+        en: 'Keyword (en)',
+        fi: 'Keyword (fi)',
+        ru: 'Keyword (ru)',
+        sv: 'Keyword (sv)',
+        zhHans: 'Keyword (zhHans)',
+      },
+      originId: '1',
+      organization: 'publisher:1',
+      usage: 'any',
+    });
   });
 });
 

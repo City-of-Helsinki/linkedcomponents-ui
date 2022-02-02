@@ -13,4 +13,16 @@ export const MUTATION_KEYWORD = gql`
       ...keywordSetFields
     }
   }
+
+  mutation UpdateKeywordSet($input: UpdateKeywordSetMutationInput!) {
+    updateKeywordSet(input: $input)
+      @rest(
+        type: "KeywordSet"
+        path: "/keyword_set/{args.input.id}/"
+        method: "PUT"
+        bodyKey: "input"
+      ) {
+      ...keywordSetFields
+    }
+  }
 `;

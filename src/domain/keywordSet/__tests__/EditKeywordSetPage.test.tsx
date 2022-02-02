@@ -3,43 +3,38 @@ import { MockedResponse } from '@apollo/client/testing';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
-  act,
   getMockReduxStore,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
-  within,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
-  keyword,
-  mockedDeleteKeywordResponse,
-  mockedInvalidUpdateKeywordResponse,
-  mockedKeywordResponse,
-  mockedUpdateKeywordResponse,
-} from '../__mocks__/editKeywordPage';
-import EditKeywordPage from '../EditKeywordPage';
+  keywordSet,
+  mockedInvalidUpdateKeywordSetResponse,
+  mockedKeywordSetResponse,
+  mockedUpdateKeywordSetResponse,
+} from '../__mocks__/editKeywordSetPage';
+import EditKeywordSetPage from '../EditKeywordSetPage';
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
-const defaultMocks = [mockedKeywordResponse, mockedUserResponse];
+const defaultMocks = [mockedKeywordSetResponse, mockedUserResponse];
 
-const route = ROUTES.EDIT_KEYWORD.replace(':id', keyword.id);
+const route = ROUTES.EDIT_KEYWORD_SET.replace(':id', keywordSet.id);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
-  renderWithRoute(<EditKeywordPage />, {
+  renderWithRoute(<EditKeywordSetPage />, {
     mocks,
     routes: [route],
-    path: ROUTES.EDIT_KEYWORD,
+    path: ROUTES.EDIT_KEYWORD_SET,
     store,
   });
 
-const findElement = (key: 'deleteButton' | 'nameInput') => {
+const findElement = (key: 'nameInput') => {
   switch (key) {
-    case 'deleteButton':
-      return screen.findByRole('button', { name: /poista avainsana/i });
     case 'nameInput':
       return screen.findByRole('textbox', { name: /nimi \(suomeksi\)/i });
   }
@@ -63,30 +58,10 @@ test('should scroll to first validation error input field', async () => {
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
 
-test('should delete keyword', async () => {
+test('should update keyword set', async () => {
   const { history } = renderComponent([
     ...defaultMocks,
-    mockedDeleteKeywordResponse,
-  ]);
-
-  const cancelButton = await findElement('deleteButton');
-  act(() => userEvent.click(cancelButton));
-
-  const withinModal = within(screen.getByRole('dialog'));
-  const deleteKeywordButton = withinModal.getByRole('button', {
-    name: 'Poista avainsana',
-  });
-  userEvent.click(deleteKeywordButton);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
-  );
-});
-
-test('should update keyword', async () => {
-  const { history } = renderComponent([
-    ...defaultMocks,
-    mockedUpdateKeywordResponse,
+    mockedUpdateKeywordSetResponse,
   ]);
 
   await findElement('nameInput');
@@ -95,12 +70,12 @@ test('should update keyword', async () => {
   userEvent.click(submitButton);
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+    expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
   );
 });
 
 test('should show server errors', async () => {
-  renderComponent([...defaultMocks, mockedInvalidUpdateKeywordResponse]);
+  renderComponent([...defaultMocks, mockedInvalidUpdateKeywordSetResponse]);
 
   await findElement('nameInput');
 

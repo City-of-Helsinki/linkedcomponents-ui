@@ -217,6 +217,10 @@
     "pageTitle": "Muokkaa avainsanaa",
     "title": "Muokkaa avainsanaa"
   },
+  "editKeywordSetPage": {
+    "pageTitle": "Muokkaa avainsanaryhmää",
+    "title": "Muokkaa avainsanaryhmää"
+  },
   "enrolment": {
     "attendeeStatus": {
       "attending": "Osallistuu",
@@ -1428,7 +1432,9 @@
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
     "invalidUrl": "Syötä oikea URL-osoite.",
     "maxLength255": "Arvo saa olla enintään 255 merkkiä pitkä.",
+    "methodDeleteNotAllowed": "Metodi \"DELETE\" ei ole sallittu.",
     "methodPostNotAllowed": "Metodi \"POST\" ei ole sallittu.",
+    "methodPutNotAllowed": "Metodi \"PUT\" ei ole sallittu.",
     "min0": "Tämän luvun on oltava vähintään 0.",
     "mustBeUnique": "Arvon tulee olla uniikki.",
     "nameIsRequired": "Nimi on pakollinen.",

@@ -2,6 +2,7 @@
 import {
   ApolloClient,
   NormalizedCacheObject,
+  ServerError,
   useApolloClient,
 } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
@@ -43,11 +44,12 @@ import {
   KEYWORD_SET_INITIAL_VALUES,
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
+import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import useKeywordSetServerErrors from '../hooks/useKeywordSetServerErrors';
 import useKeywordSetUpdateActions from '../hooks/useKeywordSetUpdateActions';
 import KeywordSetAuthenticationNotification from '../keywordSetAuthenticationNotification/KeywordSetAuthenticationNotification';
 import { KeywordSetFormFields } from '../types';
-import { getKeywordSetPayload } from '../utils';
+import { getKeywordSetInitialValues, getKeywordSetPayload } from '../utils';
 import { getFocusableFieldId, keywordSetSchema } from '../validation';
 
 type KeywordSetFormProps = {
@@ -63,7 +65,9 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const usageOptions = useKeywordSetUsageOptions();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
-  const { saving, setSaving } = useKeywordSetUpdateActions();
+  const { saving, setSaving, updateKeywordSet } = useKeywordSetUpdateActions({
+    keywordSet,
+  });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useKeywordSetServerErrors();
@@ -72,6 +76,15 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
 
   const goToKeywordSetsPage = () => {
     history.push(`/${locale}${ROUTES.KEYWORD_SETS}`);
+  };
+
+  const onUpdate = async (values: KeywordSetFormFields) => {
+    await updateKeywordSet(values, {
+      onError: (error: ServerError) => showServerErrors({ error }),
+      onSuccess: async () => {
+        goToKeywordSetsPage();
+      },
+    });
   };
 
   const createSingleKeywordSet = async (
@@ -118,7 +131,11 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={KEYWORD_SET_INITIAL_VALUES}
+      initialValues={
+        keywordSet
+          ? getKeywordSetInitialValues(keywordSet)
+          : KEYWORD_SET_INITIAL_VALUES
+      }
       // We have custom way to handle onSubmit so here is empty function
       // to silent TypeScript error. The reason for custom onSubmit is that
       // we want to scroll to first invalid field if error occurs
@@ -144,6 +161,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
             await keywordSetSchema.validate(values, { abortEarly: false });
 
             if (keywordSet) {
+              await onUpdate(values);
             } else {
               await createKeyword(values);
             }
@@ -260,7 +278,14 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
               />
             </FormRow>
 
-            {keywordSet ? null : (
+            {keywordSet ? (
+              <EditButtonPanel
+                id={values.id}
+                onSave={handleSubmit}
+                publisher={keywordSet.organization as string}
+                saving={saving}
+              />
+            ) : (
               <CreateButtonPanel
                 onSave={handleSubmit}
                 publisher={values.organization}

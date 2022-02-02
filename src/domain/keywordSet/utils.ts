@@ -18,6 +18,7 @@ import {
   OptionType,
   PathBuilderProps,
 } from '../../types';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import queryBuilder from '../../utils/queryBuilder';
 import { isAdminUserInOrganization } from '../organization/utils';
@@ -66,16 +67,17 @@ export const getKeywordOption = ({
 };
 
 export const getKeywordSetFields = (
-  keyword: KeywordSetFieldsFragment,
+  keywordSet: KeywordSetFieldsFragment,
   language: Language
 ): KeywordSetFields => {
-  const id = keyword.id ?? '';
+  const id = keywordSet.id ?? '';
 
   return {
     id,
     keywordSetUrl: `/${language}${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`,
-    name: getLocalisedString(keyword.name, language),
-    usage: keyword.usage ?? '',
+    name: getLocalisedString(keywordSet.name, language),
+    organization: keywordSet.organization ?? '',
+    usage: keywordSet.usage ?? '',
   };
 };
 
@@ -204,6 +206,22 @@ export const getEditButtonProps = ({
     label: t(KEYWORD_SET_ACTION_LABEL_KEYS[action]),
     onClick,
     title: warning,
+  };
+};
+
+export const getKeywordSetInitialValues = (
+  keywordSet: KeywordSetFieldsFragment
+): KeywordSetFormFields => {
+  const id = keywordSet.id ?? '';
+  return {
+    dataSource: keywordSet.dataSource ?? '',
+    id,
+    keywords:
+      keywordSet.keywords?.map((keyword) => keyword?.atId as string) || [],
+    name: getLocalisedObject(keywordSet.name),
+    originId: id.split(':')[1] ?? '',
+    organization: keywordSet.organization ?? '',
+    usage: keywordSet.usage ?? '',
   };
 };
 

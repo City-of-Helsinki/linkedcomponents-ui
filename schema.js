@@ -24,6 +24,7 @@ module.exports = buildSchema(/* GraphQL */ `
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
     updateKeyword(input: UpdateKeywordMutationInput!): Keyword!
+    updateKeywordSet(input: UpdateKeywordSetMutationInput!): KeywordSet!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
   }
 
@@ -320,12 +321,22 @@ module.exports = buildSchema(/* GraphQL */ `
   input UpdateKeywordMutationInput {
     dataSource: String
     deprecated: Boolean
+    id: String
     name: LocalisedObjectInput
     publisher: String
     replacedBy: String
   }
 
   input CreateKeywordSetMutationInput {
+    dataSource: String
+    id: String
+    keywords: [IdObjectInput!]
+    name: LocalisedObjectInput
+    organization: String
+    usage: String
+  }
+
+  input UpdateKeywordSetMutationInput {
     dataSource: String
     id: String
     keywords: [IdObjectInput!]

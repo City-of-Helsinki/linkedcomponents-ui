@@ -375,6 +375,7 @@ export type Mutation = {
   updateImage: Image;
   uploadImage: Image;
   updateKeyword: Keyword;
+  updateKeywordSet: KeywordSet;
   updateRegistration: Registration;
 };
 
@@ -466,6 +467,11 @@ export type MutationUploadImageArgs = {
 
 export type MutationUpdateKeywordArgs = {
   input: UpdateKeywordMutationInput;
+};
+
+
+export type MutationUpdateKeywordSetArgs = {
+  input: UpdateKeywordSetMutationInput;
 };
 
 
@@ -835,9 +841,19 @@ export type UpdateImageMutationInput = {
 export type UpdateKeywordMutationInput = {
   dataSource?: InputMaybe<Scalars['String']>;
   deprecated?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<LocalisedObjectInput>;
   publisher?: InputMaybe<Scalars['String']>;
   replacedBy?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateKeywordSetMutationInput = {
+  dataSource?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  keywords?: InputMaybe<Array<IdObjectInput>>;
+  name?: InputMaybe<LocalisedObjectInput>;
+  organization?: InputMaybe<Scalars['String']>;
+  usage?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateRegistrationMutationInput = {
@@ -1133,6 +1149,13 @@ export type CreateKeywordSetMutationVariables = Exact<{
 
 
 export type CreateKeywordSetMutation = { __typename?: 'Mutation', createKeywordSet: { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, organization?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } };
+
+export type UpdateKeywordSetMutationVariables = Exact<{
+  input: UpdateKeywordSetMutationInput;
+}>;
+
+
+export type UpdateKeywordSetMutation = { __typename?: 'Mutation', updateKeywordSet: { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, organization?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } };
 
 export type KeywordSetFieldsFragment = { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, organization?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined };
 
@@ -2513,6 +2536,39 @@ export function useCreateKeywordSetMutation(baseOptions?: Apollo.MutationHookOpt
 export type CreateKeywordSetMutationHookResult = ReturnType<typeof useCreateKeywordSetMutation>;
 export type CreateKeywordSetMutationResult = Apollo.MutationResult<CreateKeywordSetMutation>;
 export type CreateKeywordSetMutationOptions = Apollo.BaseMutationOptions<CreateKeywordSetMutation, CreateKeywordSetMutationVariables>;
+export const UpdateKeywordSetDocument = gql`
+    mutation UpdateKeywordSet($input: UpdateKeywordSetMutationInput!) {
+  updateKeywordSet(input: $input) @rest(type: "KeywordSet", path: "/keyword_set/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    ...keywordSetFields
+  }
+}
+    ${KeywordSetFieldsFragmentDoc}`;
+export type UpdateKeywordSetMutationFn = Apollo.MutationFunction<UpdateKeywordSetMutation, UpdateKeywordSetMutationVariables>;
+
+/**
+ * __useUpdateKeywordSetMutation__
+ *
+ * To run a mutation, you first call `useUpdateKeywordSetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateKeywordSetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateKeywordSetMutation, { data, loading, error }] = useUpdateKeywordSetMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateKeywordSetMutation(baseOptions?: Apollo.MutationHookOptions<UpdateKeywordSetMutation, UpdateKeywordSetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateKeywordSetMutation, UpdateKeywordSetMutationVariables>(UpdateKeywordSetDocument, options);
+      }
+export type UpdateKeywordSetMutationHookResult = ReturnType<typeof useUpdateKeywordSetMutation>;
+export type UpdateKeywordSetMutationResult = Apollo.MutationResult<UpdateKeywordSetMutation>;
+export type UpdateKeywordSetMutationOptions = Apollo.BaseMutationOptions<UpdateKeywordSetMutation, UpdateKeywordSetMutationVariables>;
 export const KeywordSetDocument = gql`
     query KeywordSet($id: ID!, $include: [String], $createPath: Any) {
   keywordSet(id: $id, include: $include) @rest(type: "KeywordSet", pathBuilder: $createPath) {

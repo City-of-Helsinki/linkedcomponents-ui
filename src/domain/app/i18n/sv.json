@@ -217,6 +217,10 @@
     "pageTitle": "Redigera nyckelord",
     "title": "Redigera nyckelord"
   },
+  "editKeywordSetPage": {
+    "pageTitle": "Redigera nyckelordsuppsättningen",
+    "title": "Redigera nyckelordsuppsättningen"
+  },
   "enrolment": {
     "attendeeStatus": {
       "attending": "Deltar",
@@ -1428,7 +1432,9 @@
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
+    "methodDeleteNotAllowed": "\"DELETE\"-metoden är inte tillåten.",
     "methodPostNotAllowed": "\"POST\"-metoden är inte tillåten.",
+    "methodPutNotAllowed": "\"PUT\"-metoden är inte tillåten.",
     "mustBeUnique": "Värdet måste vara unikt.",
     "min0": "Detta nummer måste vara minst 0.",
     "nameIsRequired": "Namnet krävs.",
