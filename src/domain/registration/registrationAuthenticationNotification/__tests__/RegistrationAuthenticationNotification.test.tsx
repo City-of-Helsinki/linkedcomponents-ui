@@ -40,10 +40,6 @@ const renderComponent = (renderOptions?: CustomRenderOptions) =>
     renderOptions
   );
 
-test('should show sign in notification is user is not signed in', () => {
-  renderComponent();
-});
-
 test("should show notification if user is signed in but doesn't have any organizations", () => {
   const user = fakeUser({
     adminOrganizations: [],
