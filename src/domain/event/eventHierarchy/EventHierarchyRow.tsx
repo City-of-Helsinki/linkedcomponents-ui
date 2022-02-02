@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
-import useEventOrganizationAncestors from '../hooks/useEventOrganizationAncestors';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import SuperEventTypeTag from '../tags/SuperEventTypeTag';
 import { getEventFields } from '../utils';
 import styles from './eventHierarchy.module.scss';
@@ -36,7 +36,7 @@ const EventHierarchyRow: React.FC<Props> = ({
 
   // Organization ancestors per sub-event are checked when saving recurring events,
   // so fetch organization ancestors for each sub-event to make saving more performant
-  useEventOrganizationAncestors(event);
+  useOrganizationAncestors(event.publisher as string);
 
   const handleToggle = () => {
     toggle(id);

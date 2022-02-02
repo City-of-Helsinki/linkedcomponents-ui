@@ -14,14 +14,16 @@ import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
-import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import { RegistrationsLocationState } from '../../registrations/types';
-import { getRegistrationFields } from '../../registrations/utils';
+import useUser from '../../user/hooks/useUser';
 import {
   copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
   getEditButtonProps,
+  getRegistrationFields,
 } from '../utils';
 
 type ButtonType = 'button' | 'reset' | 'submit' | undefined;
@@ -35,13 +37,15 @@ type ActionButtonProps = {
 export interface EditButtonPanelProps {
   onDelete: () => void;
   onUpdate: () => void;
+  publisher: string;
   registration: RegistrationFieldsFragment;
-  saving: REGISTRATION_EDIT_ACTIONS | false;
+  saving: REGISTRATION_ACTIONS | false;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   onDelete,
   onUpdate,
+  publisher,
   registration,
   saving,
 }) => {
@@ -51,6 +55,9 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const history = useHistory<RegistrationsLocationState>();
   const { id } = getRegistrationFields(registration, locale);
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
+  const { user } = useUser();
+
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const goBack = useGoBack<RegistrationsLocationState>({
     defaultReturnPath: ROUTES.REGISTRATIONS,
@@ -76,15 +83,17 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     action,
     onClick,
   }: {
-    action: REGISTRATION_EDIT_ACTIONS;
+    action: REGISTRATION_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps => {
     return getEditButtonProps({
       action,
       authenticated,
       onClick,
-      registration,
+      organizationAncestors,
+      publisher,
       t,
+      user,
     });
   };
 
@@ -94,38 +103,35 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     type,
     variant,
   }: {
-    action: REGISTRATION_EDIT_ACTIONS;
+    action: REGISTRATION_ACTIONS;
     onClick: () => void;
     type: ButtonType;
     variant: Exclude<ButtonVariant, 'supplementary'>;
   }): ActionButtonProps => {
-    const buttonProps = getEditButtonProps({
+    const buttonProps = getActionItemProps({
       action,
-      authenticated,
       onClick,
-      registration,
-      t,
     });
     return { ...buttonProps, isSaving: saving === action, type, variant };
   };
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS,
+      action: REGISTRATION_ACTIONS.SHOW_ENROLMENTS,
       onClick: goToRegistrationEnrolmentsPage,
     }),
     getActionItemProps({
-      action: REGISTRATION_EDIT_ACTIONS.COPY,
+      action: REGISTRATION_ACTIONS.COPY,
       onClick: copyRegistration,
     }),
     getActionItemProps({
-      action: REGISTRATION_EDIT_ACTIONS.COPY_LINK,
+      action: REGISTRATION_ACTIONS.COPY_LINK,
       onClick: () => {
         copyEnrolmentLinkToClipboard({ locale, registration, t });
       },
     }),
     getActionItemProps({
-      action: REGISTRATION_EDIT_ACTIONS.DELETE,
+      action: REGISTRATION_ACTIONS.DELETE,
       onClick: onDelete,
     }),
   ];
@@ -133,7 +139,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const actionButtons: ActionButtonProps[] = [
     /* Actions for draft event */
     getActionButtonProps({
-      action: REGISTRATION_EDIT_ACTIONS.UPDATE,
+      action: REGISTRATION_ACTIONS.UPDATE,
       onClick: () => onUpdate(),
       type: 'submit',
       variant: 'primary',

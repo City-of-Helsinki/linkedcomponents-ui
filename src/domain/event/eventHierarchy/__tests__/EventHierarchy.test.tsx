@@ -14,10 +14,11 @@ import {
   fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
 import { render, screen, userEvent } from '../../../../utils/testUtils';
+import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { SUB_EVENTS_VARIABLES } from '../../constants';
 import EventHierarchy from '../EventHierarchy';
 
-const publisherId = 'publisher:1';
+const publisherId = TEST_PUBLISHER_ID;
 
 const organizationsVariables = {
   child: publisherId,

@@ -5,6 +5,7 @@ import {
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import i18 from '../../app/i18n/i18nInit';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { DEFAULT_LICENSE_TYPE, IMAGE_ACTIONS } from '../constants';
 import {
   checkCanUserDoAction,
@@ -70,8 +71,9 @@ describe('getCollectionFields function', () => {
 });
 
 describe('checkCanUserDoAction function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
   it('should allow correct actions if adminArganizations contains publisher', () => {
-    const publisher = 'publisher:1';
     const user = fakeUser({ adminOrganizations: [publisher] });
 
     const allowedActions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
@@ -89,7 +91,6 @@ describe('checkCanUserDoAction function', () => {
   });
 
   it('should allow correct actions if organizationAncestores contains any of the adminArganizations', () => {
-    const publisher = 'publisher:1';
     const adminOrganization = 'admin:1';
     const user = fakeUser({ adminOrganizations: [adminOrganization] });
 
@@ -108,7 +109,6 @@ describe('checkCanUserDoAction function', () => {
   });
 
   it('should allow correct actions if organizationMembers contains publisher', () => {
-    const publisher = 'publisher:1';
     const user = fakeUser({ organizationMemberships: [publisher] });
 
     const allowedActions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
@@ -127,6 +127,8 @@ describe('checkCanUserDoAction function', () => {
 });
 
 describe('getImageActionWarning function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
   it('should return correct warning if publisher is empty', () => {
     const actions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
     actions.forEach((action) => {
@@ -158,7 +160,7 @@ describe('getImageActionWarning function', () => {
         getImageActionWarning({
           action,
           authenticated: false,
-          publisher: 'publisher:1',
+          publisher,
           t: (s) => i18.t(s),
           userCanDoAction: false,
         })
@@ -182,7 +184,7 @@ describe('getImageActionWarning function', () => {
         getImageActionWarning({
           action,
           authenticated: true,
-          publisher: 'publisher:1',
+          publisher,
           t: (s) => i18.t(s),
           userCanDoAction: false,
         })

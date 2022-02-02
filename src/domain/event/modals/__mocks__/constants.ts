@@ -11,9 +11,10 @@ import {
   fakeEvents,
   fakeOrganizations,
 } from '../../../../utils/mockDataUtils';
+import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { SUB_EVENTS_VARIABLES } from '../../constants';
 
-const publisherId = 'publisher:1';
+const publisherId = TEST_PUBLISHER_ID;
 
 const organizationsVariables = {
   child: publisherId,

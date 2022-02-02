@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
@@ -10,9 +11,11 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../constants';
 import {
+  EventFieldsFragment,
   RegistrationFieldsFragment,
   RegistrationQuery,
   RegistrationQueryVariables,
+  useEventQuery,
   useRegistrationQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
@@ -22,12 +25,13 @@ import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
+import { EVENT_INCLUDES } from '../event/constants';
+import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
-import { REGISTRATION_EDIT_ACTIONS } from '../registrations/constants';
+import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
-import AuthRequiredNotification from './authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import AttendeeCapacitySection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
@@ -42,6 +46,7 @@ import useRegistrationUpdateActions, {
   MODALS,
 } from './hooks/useRegistrationUpdateActions';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import AuthenticationNotification from './registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import RegistrationInfo from './registrationInfo/RegistrationInfo';
 import styles from './registrationPage.module.scss';
 import { RegistrationFormFields } from './types';
@@ -49,6 +54,7 @@ import { getRegistrationInitialValues, registrationPathBuilder } from './utils';
 import { registrationSchema, showErrors } from './validation';
 
 interface EditRegistrationPageProps {
+  event: EventFieldsFragment;
   refetch: (
     variables?: Partial<RegistrationQueryVariables>
   ) => Promise<ApolloQueryResult<RegistrationQuery>>;
@@ -56,6 +62,7 @@ interface EditRegistrationPageProps {
 }
 
 const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
+  event,
   refetch,
   registration,
 }) => {
@@ -153,7 +160,7 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
           <>
             <ConfirmDeleteModal
               isOpen={openModal === MODALS.DELETE}
-              isSaving={saving === REGISTRATION_EDIT_ACTIONS.DELETE}
+              isSaving={saving === REGISTRATION_ACTIONS.DELETE}
               onClose={closeModal}
               onDelete={onDelete}
             />
@@ -169,7 +176,10 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
-                    <AuthRequiredNotification />
+                    <AuthenticationNotification
+                      action={REGISTRATION_ACTIONS.UPDATE}
+                      registration={registration}
+                    />
                     <ServerErrorSummary errors={serverErrorItems} />
                     <RegistrationInfo registration={registration} />
                     <Section
@@ -208,6 +218,7 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
                   <EditButtonPanel
                     onDelete={() => setOpenModal(MODALS.DELETE)}
                     onUpdate={handleUpdate}
+                    publisher={event.publisher as string}
                     registration={registration}
                     saving={saving}
                   />
@@ -239,15 +250,27 @@ const EditRegistrationPageWrapper: React.FC = () => {
       createPath: getPathBuilder(registrationPathBuilder),
     },
   });
+  const registration = registrationData?.registration;
 
-  const loading = loadingRegistration || loadingUser;
+  const { data: eventData, loading: loadingEvent } = useEventQuery({
+    skip: !registration?.event,
+    variables: {
+      createPath: getPathBuilder(eventPathBuilder),
+      id: registration?.event as string,
+      include: EVENT_INCLUDES,
+    },
+  });
+
+  const event = eventData?.event;
+  const loading = loadingEvent || loadingRegistration || loadingUser;
 
   return (
     <LoadingSpinner isLoading={loading}>
-      {registrationData?.registration ? (
+      {event && registration ? (
         <EditRegistrationPage
+          event={event}
           refetch={refetch}
-          registration={registrationData.registration}
+          registration={registration}
         />
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />

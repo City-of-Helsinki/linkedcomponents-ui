@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import { Button, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -10,9 +12,15 @@ import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { authenticatedSelector } from '../auth/selectors';
 import NotSigned from '../notSigned/NotSigned';
-import { clearRegistrationFormData } from '../registration/utils';
+import RegistrationAuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
+import {
+  clearRegistrationFormData,
+  getEditButtonProps,
+} from '../registration/utils';
 import useUser from '../user/hooks/useUser';
+import { REGISTRATION_ACTIONS } from './constants';
 import FilterSummary from './filterSummary/FilterSummary';
 import RegistrationList from './registrationList/RegistrationList';
 import styles from './registrations.module.scss';
@@ -27,22 +35,38 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
   const history = useHistory();
   const locale = useLocale();
 
+  const authenticated = useSelector(authenticatedSelector);
+
   const goToCreateRegistrationPage = () => {
     clearRegistrationFormData();
     history.push(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 
+  const buttonProps = getEditButtonProps({
+    action: REGISTRATION_ACTIONS.CREATE,
+    authenticated,
+    onClick: goToCreateRegistrationPage,
+    organizationAncestors: [],
+    publisher: '',
+    t,
+    user,
+  });
+
   return (
     <div className={styles.registrationsPage}>
       <Container withOffset={true}>
+        <RegistrationAuthenticationNotification
+          action={REGISTRATION_ACTIONS.CREATE}
+          className={styles.notification}
+        />
         <div className={styles.titleRow}>
           <h1 className={styles.title}>{t('registrationsPage.title')}</h1>
           <div className={styles.addButtonWrapper}>
             <Button
+              {...buttonProps}
               className={styles.addButton}
               fullWidth={true}
-              iconLeft={<IconPlus />}
-              onClick={goToCreateRegistrationPage}
+              iconLeft={<IconPlus aria-hidden={true} />}
               variant="primary"
             >
               {t('common.buttonAddRegistration')}

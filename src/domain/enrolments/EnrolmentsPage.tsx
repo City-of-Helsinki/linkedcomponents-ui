@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import omit from 'lodash/omit';
 import React from 'react';
@@ -13,8 +14,9 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import { ENROLMENT_ACTIONS } from '../enrolment/constants';
+import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import NotFound from '../notFound/NotFound';
-import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import useRegistrationName from '../registration/hooks/useRegistrationName';
 import RegistrationInfo from '../registration/registrationInfo/RegistrationInfo';
@@ -64,7 +66,10 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
           contentWrapperClassName={styles.pageContentContainer}
           withOffset={true}
         >
-          <AuthRequiredNotification />
+          <EnrolmentAuthenticationNotification
+            action={ENROLMENT_ACTIONS.VIEW}
+            registration={registration}
+          />
           <RegistrationInfo registration={registration} />
 
           <SearchPanel registration={registration} />

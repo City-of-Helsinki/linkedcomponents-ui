@@ -32,10 +32,12 @@ import CreateEnrolmentPage from '../CreateEnrolmentPage';
 
 configure({ defaultHidden: true });
 
-const findElement = (key: 'nameInput') => {
+const findElement = (key: 'nameInput' | 'submitButton') => {
   switch (key) {
     case 'nameInput':
       return screen.findByRole('textbox', { name: /nimi/i });
+    case 'submitButton':
+      return screen.findByRole('button', { name: /tallenna osallistuja/i });
   }
 };
 
@@ -86,6 +88,7 @@ const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 const defaultMocks = [
   mockedEventResponse,
+  mockedEventResponse,
   mockedLanguagesResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
@@ -121,7 +124,7 @@ test('should validate enrolment form and focus invalid field and finally create 
   const phoneCheckbox = getElement('phoneCheckbox');
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
-  const submitButton = getElement('submitButton');
+  const submitButton = await findElement('submitButton');
 
   expect(nameInput).not.toHaveFocus();
 
@@ -221,7 +224,7 @@ test('should show server errors', async () => {
   const phoneCheckbox = getElement('phoneCheckbox');
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
-  const submitButton = getElement('submitButton');
+  const submitButton = await findElement('submitButton');
 
   userEvent.type(nameInput, enrolmentValues.name);
   userEvent.type(streetAddressInput, enrolmentValues.streetAddress);

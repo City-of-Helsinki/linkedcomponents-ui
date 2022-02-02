@@ -1,3 +1,5 @@
+import { IconCrossCircle, IconEnvelope, IconEye, IconPen } from 'hds-react';
+
 import { EnrolmentFormFields } from './types';
 
 export enum ENROLMENT_FIELDS {
@@ -50,5 +52,34 @@ export const ENROLMENT_FORM_SELECT_FIELDS = [
   ENROLMENT_FIELDS.NATIVE_LANGUAGE,
   ENROLMENT_FIELDS.SERVICE_LANGUAGE,
 ];
+
+export enum ENROLMENT_ACTIONS {
+  CANCEL = 'cancel',
+  CREATE = 'create',
+  EDIT = 'edit',
+  SEND_MESSAGE = 'sendMessage',
+  UPDATE = 'update',
+  VIEW = 'view',
+}
+
+export const ENROLMENT_ICONS = {
+  [ENROLMENT_ACTIONS.CANCEL]: <IconCrossCircle aria-hidden={true} />,
+  [ENROLMENT_ACTIONS.CREATE]: <IconPen aria-hidden={true} />,
+  [ENROLMENT_ACTIONS.EDIT]: <IconPen aria-hidden={true} />,
+  [ENROLMENT_ACTIONS.SEND_MESSAGE]: <IconEnvelope aria-hidden={true} />,
+  [ENROLMENT_ACTIONS.UPDATE]: <IconPen aria-hidden={true} />,
+  [ENROLMENT_ACTIONS.VIEW]: <IconEye aria-hidden={true} />,
+};
+
+export const ENROLMENT_LABEL_KEYS = {
+  [ENROLMENT_ACTIONS.CANCEL]: 'enrolmentsPage.actionButtons.cancel',
+  [ENROLMENT_ACTIONS.CREATE]: 'enrolment.form.buttonSave',
+  [ENROLMENT_ACTIONS.EDIT]: 'enrolmentsPage.actionButtons.edit',
+  [ENROLMENT_ACTIONS.SEND_MESSAGE]: 'enrolmentsPage.actionButtons.sendMessage',
+  [ENROLMENT_ACTIONS.UPDATE]: 'enrolment.form.buttonSave',
+  [ENROLMENT_ACTIONS.VIEW]: '',
+};
+
+export const AUTHENTICATION_NOT_NEEDED = [ENROLMENT_ACTIONS.EDIT];
 
 export const TEST_ENROLMENT_ID = 'enrolment:0';

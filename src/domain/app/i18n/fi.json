@@ -7,9 +7,11 @@
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
     "noRightsUpdateEnrolment": "Sinulla ei ole oikeuksia muokata osallistujia.",
-    "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
+    "noRightsUpdateEnrolmentLabel": "Ei oikeuksia muokata osallistujia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
-    "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia."
+    "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
+    "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
+    "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
   },
   "authenticationMethod": {
     "espooEmployee": "Espoon kaupungin työntekijä -tunnus",
@@ -18,7 +20,7 @@
     "some": "Facebook, Google tai Twitter tunnus",
     "yle": "YLE-tunnus"
   },
-  "authRequiredNotification": { 
+  "authenticationNotification": { 
     "button": "kirjautua sisään",
     "part1": "Voit jatkaa palveluun tutustumista, mutta sinun täytyy",
     "part2": ", jos haluat tallentaa muutoksia."
@@ -207,6 +209,7 @@
       "labelServiceLanguage": "Asiointikieli",
       "labelStreetAddress": "Katuosoite",
       "labelZip": "Postinumero",
+      "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
       "placeholderCity": "Syötä kaupunki",
       "placeholderEmail": "Syötä sähköpostiosoite",
       "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
@@ -260,7 +263,9 @@
     },
     "waitingListTableCaption": "Jonopaikat",
     "waitingListTableHeading": "Jonopaikat",
-    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa."
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda osallistujia tähän ilmoittautumiseen.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa.",
+    "warningNoRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."
   },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",
@@ -1233,6 +1238,7 @@
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
       },
       "editButtonPanel": {
+        "warningNoRightsToCreate": "Sinulla ei ole oikeuksia lisätä ilmoittautumisia.",
         "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä ilmoittautumista."
       },
       "labelAudienceMaxAge": "Yläikäraja",
@@ -1246,6 +1252,7 @@
       "labelMinimumAttendeeCapacity": "Paikkojen vähimmäismäärä",
       "labelName": "Nimi",
       "labelWaitingListCapacity": "Varasijapaikkojen lukumäärä",
+      "notificationTitleCannotEdit": "Ilmoittautumista ei voi muokata",
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
       "placeholderInstructions": "Syötä ilmoittautumisohjeet",

@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { authenticatedSelector } from '../../auth/selectors';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { IMAGE_ACTIONS } from '../constants';
 import { checkIsImageActionAllowed } from '../utils';
-import useImageOrganizationAncestors from './useImageOrganizationAncestors';
 
 interface Props {
   publisher: string;
@@ -23,7 +23,7 @@ const useIsImageUploadAllowed = ({
   const authenticated = useSelector(authenticatedSelector);
   const { t } = useTranslation();
   const { user } = useUser();
-  const { organizationAncestors } = useImageOrganizationAncestors(publisher);
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { allowed, warning } = useMemo(() => {
     const { editable: allowed, warning } = checkIsImageActionAllowed({

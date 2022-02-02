@@ -4,8 +4,8 @@ import { DATETIME_FORMAT } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
-import { getRegistrationFields } from '../../registrations/utils';
 import useRegistrationName from '../hooks/useRegistrationName';
+import { getRegistrationFields } from '../utils';
 import CreatorBadge from './CreatorBadge';
 import styles from './registrationInfo.module.scss';
 

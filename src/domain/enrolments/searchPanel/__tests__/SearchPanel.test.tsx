@@ -1,22 +1,32 @@
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
+import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
+  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedEventResponse } from '../../../event/__mocks__/event';
 import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
+
+const findElement = (key: 'createButton') => {
+  switch (key) {
+    case 'createButton':
+      return screen.findByRole('button', { name: /lisää osallistuja/i });
+  }
+};
 
 const getElement = (key: 'createButton' | 'searchInput') => {
   switch (key) {
@@ -34,8 +44,17 @@ const defaultRoute = `${ROUTES.REGISTRATION_ENROLMENTS.replace(
   registrationId
 )}`;
 
+const mocks = [mockedEventResponse, mockedUserResponse];
+
+const state = fakeAuthenticatedStoreState();
+const store = getMockReduxStore(state);
+
 const renderComponent = (route: string = defaultRoute) =>
-  render(<SearchPanel registration={registration} />, { routes: [route] });
+  render(<SearchPanel registration={registration} />, {
+    mocks,
+    routes: [route],
+    store,
+  });
 
 test('should initialize search panel input', async () => {
   const searchValue = 'search';
@@ -66,11 +85,10 @@ test('should search enrolments with correct search params', async () => {
   expect(history.location.search).toBe('?enrolmentText=search');
 });
 
-test('should show toast error message when trying to create new enrolment', async () => {
-  toast.error = jest.fn();
+test('should move to create enrolment page', async () => {
   const { history } = renderComponent();
 
-  const createButton = getElement('createButton');
+  const createButton = await findElement('createButton');
   act(() => userEvent.click(createButton));
 
   expect(history.location.pathname).toBe(

@@ -17,6 +17,7 @@ import {
 } from '../../../utils/testUtils';
 import {
   mockedDeleteRegistrationResponse,
+  mockedEventResponse,
   mockedInvalidUpdateRegistrationResponse,
   mockedRegistrationResponse,
   mockedUpdatedRegistationResponse,
@@ -28,7 +29,11 @@ import EditRegistrationPage from '../EditRegistrationPage';
 
 configure({ defaultHidden: true });
 
-const baseMocks = [mockedRegistrationResponse, mockedUserResponse];
+const baseMocks = [
+  mockedEventResponse,
+  mockedRegistrationResponse,
+  mockedUserResponse,
+];
 
 const storeState = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(storeState);

@@ -8,51 +8,30 @@ import { scroller } from 'react-scroll';
 import { toast } from 'react-toastify';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { FORM_NAMES } from '../../constants';
+import { FORM_NAMES, ROUTES } from '../../constants';
 import {
   CreateRegistrationMutationInput,
+  OrganizationFieldsFragment,
   RegistrationFieldsFragment,
   RegistrationQueryVariables,
+  UserFieldsFragment,
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
 import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import queryBuilder from '../../utils/queryBuilder';
 import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
+import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
-  REGISTRATION_EDIT_ACTIONS,
-  REGISTRATION_EDIT_ICONS,
-  REGISTRATION_EDIT_LABEL_KEYS,
+  REGISTRATION_ACTIONS,
+  REGISTRATION_ICONS,
+  REGISTRATION_LABEL_KEYS,
 } from '../registrations/constants';
 import { REGISTRATION_FIELDS, REGISTRATION_INITIAL_VALUES } from './constants';
-import { RegistrationFormFields } from './types';
+import { RegistrationFields, RegistrationFormFields } from './types';
 
 export const clearRegistrationFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.REGISTRATION_FORM);
-};
-
-// TODO: Check also user organizations when API is available
-export const isCreateRegistrationButtonDisabled = ({
-  authenticated,
-}: {
-  authenticated: boolean;
-}): boolean => {
-  return !authenticated;
-};
-
-// TODO: Check also user organizations when API is available
-export const getCreateRegistrationButtonWarning = ({
-  authenticated,
-  t,
-}: {
-  authenticated: boolean;
-  t: TFunction;
-}): string => {
-  if (!authenticated) {
-    return t('registration.form.buttonPanel.warningNotAuthenticated');
-  }
-
-  return '';
 };
 
 type RegistrationEditability = {
@@ -60,20 +39,35 @@ type RegistrationEditability = {
   warning: string;
 };
 
-// TODO: Check also user organizations when API is available e.g. similar funtion in events
 export const checkCanUserDoAction = ({
   action,
+  organizationAncestors,
+  publisher,
+  user,
 }: {
-  action: REGISTRATION_EDIT_ACTIONS;
+  action: REGISTRATION_ACTIONS;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
+  user?: UserFieldsFragment;
 }): boolean => {
+  const isAdminUser = isAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
+  const adminOrganizations = user ? [...user?.adminOrganizations] : [];
+
   switch (action) {
-    case REGISTRATION_EDIT_ACTIONS.COPY:
-    case REGISTRATION_EDIT_ACTIONS.COPY_LINK:
-    case REGISTRATION_EDIT_ACTIONS.DELETE:
-    case REGISTRATION_EDIT_ACTIONS.EDIT:
-    case REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS:
-    case REGISTRATION_EDIT_ACTIONS.UPDATE:
+    case REGISTRATION_ACTIONS.COPY:
+    case REGISTRATION_ACTIONS.COPY_LINK:
+    case REGISTRATION_ACTIONS.EDIT:
       return true;
+    case REGISTRATION_ACTIONS.CREATE:
+      return !!adminOrganizations.length;
+    case REGISTRATION_ACTIONS.DELETE:
+    case REGISTRATION_ACTIONS.SHOW_ENROLMENTS:
+    case REGISTRATION_ACTIONS.UPDATE:
+      return isAdminUser;
   }
 };
 
@@ -83,7 +77,7 @@ export const getEditRegistrationWarning = ({
   t,
   userCanDoAction,
 }: {
-  action: REGISTRATION_EDIT_ACTIONS;
+  action: REGISTRATION_ACTIONS;
   authenticated: boolean;
   t: TFunction;
   userCanDoAction: boolean;
@@ -97,6 +91,9 @@ export const getEditRegistrationWarning = ({
   }
 
   if (!userCanDoAction) {
+    if (action === REGISTRATION_ACTIONS.CREATE) {
+      return t('registration.form.editButtonPanel.warningNoRightsToCreate');
+    }
     return t('registration.form.editButtonPanel.warningNoRightsToEdit');
   }
 
@@ -106,15 +103,24 @@ export const getEditRegistrationWarning = ({
 export const checkIsEditActionAllowed = ({
   action,
   authenticated,
-  registration,
+  organizationAncestors,
+  publisher,
   t,
+  user,
 }: {
-  action: REGISTRATION_EDIT_ACTIONS;
+  action: REGISTRATION_ACTIONS;
   authenticated: boolean;
-  registration: RegistrationFieldsFragment;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
   t: TFunction;
+  user?: UserFieldsFragment;
 }): RegistrationEditability => {
-  const userCanDoAction = checkCanUserDoAction({ action });
+  const userCanDoAction = checkCanUserDoAction({
+    action,
+    organizationAncestors,
+    publisher,
+    user,
+  });
 
   const warning = getEditRegistrationWarning({
     action,
@@ -130,28 +136,65 @@ export const getEditButtonProps = ({
   action,
   authenticated,
   onClick,
-  registration,
+  organizationAncestors,
+  publisher,
   t,
+  user,
 }: {
-  action: REGISTRATION_EDIT_ACTIONS;
+  action: REGISTRATION_ACTIONS;
   authenticated: boolean;
   onClick: () => void;
-  registration: RegistrationFieldsFragment;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
   t: TFunction;
+  user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
   const { editable, warning } = checkIsEditActionAllowed({
     action,
     authenticated,
-    registration,
+    organizationAncestors,
+    publisher,
     t,
+    user,
   });
 
   return {
     disabled: !editable,
-    icon: REGISTRATION_EDIT_ICONS[action],
-    label: t(REGISTRATION_EDIT_LABEL_KEYS[action]),
+    icon: REGISTRATION_ICONS[action],
+    label: t(REGISTRATION_LABEL_KEYS[action]),
     onClick,
     title: warning,
+  };
+};
+
+export const getRegistrationFields = (
+  registration: RegistrationFieldsFragment,
+  language: Language
+): RegistrationFields => {
+  const id = registration.id || '';
+
+  return {
+    id,
+    atId: registration.atId || '',
+    createdBy: registration.createdBy ?? '',
+    currentAttendeeCount: registration.currentAttendeeCount ?? 0,
+    currentWaitingListCount: registration.currentWaitingListCount ?? 0,
+    enrolmentEndTime: registration.enrolmentEndTime
+      ? new Date(registration.enrolmentEndTime)
+      : null,
+    enrolmentStartTime: registration.enrolmentStartTime
+      ? new Date(registration.enrolmentStartTime)
+      : null,
+    event: registration.event ?? '',
+    lastModifiedAt: registration.lastModifiedAt
+      ? new Date(registration.lastModifiedAt)
+      : null,
+    maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
+    registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
+      ':id',
+      id
+    )}`,
+    waitingListCapacity: registration.waitingListCapacity ?? 0,
   };
 };
 

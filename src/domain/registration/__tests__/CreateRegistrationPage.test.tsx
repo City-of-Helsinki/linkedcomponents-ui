@@ -14,6 +14,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedCreateRegistrationResponse,
   mockedInvalidCreateRegistrationResponse,
@@ -80,7 +81,7 @@ const getElement = (
 
 test('should focus to first validation error when trying to save new registration', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
-  renderComponent();
+  renderComponent([mockedUserResponse]);
 
   await loadingSpinnerIsNotInDocument();
 
@@ -98,7 +99,10 @@ test('should move to registration page after creating new registration', async (
     ...registrationValues,
   });
 
-  const { history } = renderComponent([mockedCreateRegistrationResponse]);
+  const { history } = renderComponent([
+    mockedCreateRegistrationResponse,
+    mockedUserResponse,
+  ]);
 
   await loadingSpinnerIsNotInDocument();
 
@@ -119,7 +123,7 @@ test('should show server errors', async () => {
     ...registrationValues,
   });
 
-  const mocks = [mockedInvalidCreateRegistrationResponse];
+  const mocks = [mockedInvalidCreateRegistrationResponse, mockedUserResponse];
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();

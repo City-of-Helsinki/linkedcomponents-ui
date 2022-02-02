@@ -1,26 +1,21 @@
 import { MAX_PAGE_SIZE } from '../../../constants';
 import {
-  EventFieldsFragment,
   OrganizationFieldsFragment,
   useOrganizationsQuery,
 } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { organizationsPathBuilder } from '../../organization/utils';
 
-type EventOrganizationState = {
+type OrganizationState = {
   loading: boolean;
   organizationAncestors: OrganizationFieldsFragment[];
 };
 
-const useEventOrganizationAncestors = (
-  event?: EventFieldsFragment
-): EventOrganizationState => {
-  const publisher = event?.publisher;
-
+const useOrganizationAncestors = (publisher: string): OrganizationState => {
   const { data, loading } = useOrganizationsQuery({
     skip: !publisher,
     variables: {
-      child: publisher as string,
+      child: publisher,
       createPath: getPathBuilder(organizationsPathBuilder),
       pageSize: MAX_PAGE_SIZE,
     },
@@ -33,4 +28,4 @@ const useEventOrganizationAncestors = (
   };
 };
 
-export default useEventOrganizationAncestors;
+export default useOrganizationAncestors;

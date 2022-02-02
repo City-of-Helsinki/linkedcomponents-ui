@@ -1,16 +1,12 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { ROUTES } from '../../constants';
 import {
   EventTypeId,
-  RegistrationFieldsFragment,
   RegistrationQueryVariables,
   RegistrationsQueryVariables,
 } from '../../generated/graphql';
-import { Language, PathBuilderProps } from '../../types';
+import { PathBuilderProps } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
@@ -21,15 +17,11 @@ import { assertUnreachable } from '../../utils/typescript';
 import { EVENT_TYPE } from '../event/constants';
 import {
   DEFAULT_REGISTRATION_SORT,
-  REGISTRATION_EDIT_ACTIONS,
-  REGISTRATION_EDIT_ICONS,
-  REGISTRATION_EDIT_LABEL_KEYS,
   REGISTRATION_SEARCH_PARAMS,
   REGISTRATION_SORT_OPTIONS,
   REGISTRATIONS_PAGE_SIZE,
 } from './constants';
 import {
-  RegistrationFields,
   RegistrationSearchInitialValues,
   RegistrationSearchParam,
   RegistrationSearchParams,
@@ -126,55 +118,6 @@ export const replaceParamsToRegistrationQueryString = (
     queryParams,
     getRegistrationParamValue
   );
-};
-
-export const getRegistrationFields = (
-  registration: RegistrationFieldsFragment,
-  language: Language
-): RegistrationFields => {
-  const id = registration.id || '';
-
-  return {
-    id,
-    atId: registration.atId || '',
-    createdBy: registration.createdBy ?? '',
-    currentAttendeeCount: registration.currentAttendeeCount ?? 0,
-    currentWaitingListCount: registration.currentWaitingListCount ?? 0,
-    enrolmentEndTime: registration.enrolmentEndTime
-      ? new Date(registration.enrolmentEndTime)
-      : null,
-    enrolmentStartTime: registration.enrolmentStartTime
-      ? new Date(registration.enrolmentStartTime)
-      : null,
-    event: registration.event ?? '',
-    lastModifiedAt: registration.lastModifiedAt
-      ? new Date(registration.lastModifiedAt)
-      : null,
-    maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
-    registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
-      ':id',
-      id
-    )}`,
-    waitingListCapacity: registration.waitingListCapacity ?? 0,
-  };
-};
-
-export const getEditButtonProps = ({
-  action,
-  onClick,
-  t,
-}: {
-  action: REGISTRATION_EDIT_ACTIONS;
-  onClick: () => void;
-  t: TFunction;
-}): MenuItemOptionProps | null => {
-  return {
-    disabled: false,
-    icon: REGISTRATION_EDIT_ICONS[action],
-    label: t(REGISTRATION_EDIT_LABEL_KEYS[action]),
-    onClick,
-    title: '',
-  };
 };
 
 /* istanbul ignore next */

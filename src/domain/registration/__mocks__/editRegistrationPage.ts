@@ -3,15 +3,21 @@ import { MockedResponse } from '@apollo/client/testing';
 import { TEST_USER_ID } from '../../../constants';
 import {
   DeleteRegistrationDocument,
+  EventDocument,
   RegistrationDocument,
   UpdateRegistrationDocument,
   UserDocument,
 } from '../../../generated/graphql';
-import { fakeRegistration, fakeUser } from '../../../utils/mockDataUtils';
-import { TEST_EVENT_ID } from '../../event/constants';
+import {
+  fakeEvent,
+  fakeRegistration,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
+import { EVENT_INCLUDES, TEST_EVENT_ID } from '../../event/constants';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { REGISTRATION_INCLUDES } from '../constants';
 
-const publisher = 'publisher:1';
+const publisher = TEST_PUBLISHER_ID;
 const registrationId = 'registration:1';
 
 const registrationOverrides = {
@@ -38,6 +44,21 @@ const registrationResponse = { data: { registration } };
 const mockedRegistrationResponse: MockedResponse = {
   request: { query: RegistrationDocument, variables: registrationVariables },
   result: registrationResponse,
+};
+
+const event = fakeEvent({ id: TEST_EVENT_ID, publisher });
+const eventVariables = {
+  createPath: undefined,
+  id: TEST_EVENT_ID,
+  include: EVENT_INCLUDES,
+};
+const eventResponse = { data: { event: event } };
+const mockedEventResponse = {
+  request: {
+    query: EventDocument,
+    variables: eventVariables,
+  },
+  result: eventResponse,
 };
 
 const deleteRegistrationVariables = { id: registrationId };
@@ -101,12 +122,15 @@ const mockedUserResponse: MockedResponse = {
 };
 
 export {
+  event,
   mockedDeleteRegistrationResponse,
+  mockedEventResponse,
   mockedInvalidUpdateRegistrationResponse,
   mockedRegistrationResponse,
   mockedUpdatedRegistationResponse,
   mockedUpdateRegistrationResponse,
   mockedUserResponse,
+  publisher,
   registration,
   registrationId,
   updatedLastModifiedTime,

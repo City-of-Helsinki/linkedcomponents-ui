@@ -10,7 +10,6 @@ import {
   render,
   screen,
 } from '../../../../utils/testUtils';
-import translations from '../../../app/i18n/fi.json';
 import { mockedUserResponse } from '../../../registrations/__mocks__/registrationsPage';
 import CreateButtonPanel from '../CreateButtonPanel';
 
@@ -31,7 +30,7 @@ test('button should be disabled when user is not authenticated', () => {
 
   expect(
     screen.getByRole('button', {
-      name: translations.registration.form.buttonPanel.warningNotAuthenticated,
+      name: /Sinulla ei ole oikeuksia muokata ilmoittautumisia./i,
     })
   ).toBeDisabled();
 });

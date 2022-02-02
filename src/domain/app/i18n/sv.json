@@ -6,10 +6,12 @@
     "networkError": {
       "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
     },
-    "noRightsUpdateEnrolment": "Du har inte rättigheter att redigera evenemang.",
-    "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
+    "noRightsUpdateEnrolment": "Du har inte behörighet att redigera deltagare.",
+    "noRightsUpdateEnrolmentLabel": "Inga rättigheter att redigera deltagare",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
-    "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar."
+    "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
+    "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
+    "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
   },
   "authenticationMethod": {
     "espooEmployee": "Stad Esbo anställd ID",
@@ -18,7 +20,7 @@
     "some": "Facebook, Google eller Twitter ID",
     "yle": "YLE ID"
   },
-  "authRequiredNotification": {
+  "authenticationNotification": {
     "button": "logga in",
     "part1": "Du kan fortsätta att utforska tjänsten, men du måste",
     "part2": " för att spara dina ändringar."
@@ -210,6 +212,7 @@
       "labelServiceLanguage": "Transaktionsspråk",
       "labelStreetAddress": "Gatuadress",
       "labelZip": "Postnummer",
+      "notificationTitleCannotEdit": "Deltagaren kan inte redigeras",
       "placeholderCity": "Ange staden",
       "placeholderEmail": "Skriv in din mailadress",
       "placeholderExtraInfo": "Ange ytterligare information eller begäran",
@@ -260,7 +263,9 @@
     },
     "waitingListTableCaption": "Väntelista",
     "waitingListTableHeading": "Väntelista",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta deltagare."
+    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta deltagare.",
+    "warningNoRightsToView": "Du har inte tillräckliga rättigheter att se deltagare i denna registrering."
   },
   "errors": {
     "authorizationRequired": "Logga in för att använda den här funktionen",
@@ -1233,6 +1238,7 @@
         "warningNotAuthenticated": "För att skapa en registrering, logga in först."
       },
       "editButtonPanel": {
+        "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
       },
       "labelAudienceMaxAge": "Högsta ålder",
@@ -1246,6 +1252,7 @@
       "labelMinimumAttendeeCapacity": "Minsta antal platser",
       "labelName": "Namn",
       "labelWaitingListCapacity": "Antal reservplatser",
+      "notificationTitleCannotEdit": "Registreringet kan inte redigeras",
       "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
       "placeholderEvent": "Välj eller sök efter evenemanget",
       "placeholderInstructions": "Ange registreringsinstruktioner",
@@ -1276,7 +1283,7 @@
     "pageTitle": "Registrering",
     "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
     "registrationsTableColumns": {
-      "enrolmentss": "Deltagarna",
+      "enrolments": "Deltagarna",
       "enrolmentEndTime": "Slutar",
       "enrolmentStartTime": "Börjar",
       "name": "Namn",

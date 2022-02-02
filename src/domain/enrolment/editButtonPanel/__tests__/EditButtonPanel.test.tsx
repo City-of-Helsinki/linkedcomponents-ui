@@ -14,10 +14,12 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedEventResponse } from '../../../event/__mocks__/event';
 import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { enrolment } from '../../__mocks__/enrolment';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
@@ -30,6 +32,8 @@ const defaultProps: EditButtonPanelProps = {
   registration: registration,
   saving: false,
 };
+
+const mocks = [mockedEventResponse, mockedUserResponse];
 
 const state = fakeAuthenticatedStoreState();
 const defaultStore = getMockReduxStore(state);
@@ -49,9 +53,19 @@ const renderComponent = ({
   store?: Store<StoreState, AnyAction>;
 } = {}) =>
   render(<EditButtonPanel {...defaultProps} {...props} />, {
+    mocks,
     routes: [route],
     store,
   });
+
+const findElement = (key: 'cancelButton' | 'sendMessageButton') => {
+  switch (key) {
+    case 'cancelButton':
+      return screen.findByRole('button', { name: 'Peruuta osallistuminen' });
+    case 'sendMessageButton':
+      return screen.findByRole('button', { name: 'Lähetä viesti' });
+  }
+};
 
 const getElement = (
   key:
@@ -102,7 +116,7 @@ test('should call onCancel clicking cancel button', async () => {
   renderComponent({ props: { onCancel } });
 
   openMenu();
-  const cancelButton = getElement('cancelButton');
+  const cancelButton = await findElement('cancelButton');
   act(() => userEvent.click(cancelButton));
   expect(onCancel).toBeCalled();
 });
@@ -112,7 +126,7 @@ test('should show toast message when clicking send message button', async () => 
   renderComponent();
 
   openMenu();
-  const sendMessageButton = getElement('sendMessageButton');
+  const sendMessageButton = await findElement('sendMessageButton');
   act(() => userEvent.click(sendMessageButton));
 
   await waitFor(() =>

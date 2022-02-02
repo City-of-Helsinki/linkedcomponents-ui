@@ -16,9 +16,12 @@ import {
 import useGoBack from '../../../hooks/useGoBack';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
-import { ENROLMENT_EDIT_ACTIONS } from '../../enrolments/constants';
 import { EnrolmentsLocationState } from '../../enrolments/types';
-import { getEditButtonProps } from '../../enrolments/utils';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
+import useUser from '../../user/hooks/useUser';
+import { ENROLMENT_ACTIONS } from '../constants';
+import { getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditButtonPanelProps {
@@ -26,7 +29,7 @@ export interface EditButtonPanelProps {
   onCancel: () => void;
   onSave: () => void;
   registration: RegistrationFieldsFragment;
-  saving: ENROLMENT_EDIT_ACTIONS | false;
+  saving: ENROLMENT_ACTIONS | false;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
@@ -38,6 +41,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 }) => {
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
+  const { user } = useUser();
+  const publisher = useRegistrationPublisher({ registration }) as string;
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
+
   const goBack = useGoBack<EnrolmentsLocationState>({
     defaultReturnPath: ROUTES.REGISTRATION_ENROLMENTS.replace(
       ':registrationId',
@@ -50,25 +57,27 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     action,
     onClick,
   }: {
-    action: ENROLMENT_EDIT_ACTIONS;
+    action: ENROLMENT_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
     return getEditButtonProps({
       action,
       authenticated,
-      enrolment,
       onClick,
+      organizationAncestors,
+      publisher,
       t,
+      user,
     });
   };
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: ENROLMENT_EDIT_ACTIONS.SEND_MESSAGE,
+      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
       onClick: () => toast.error('TODO: Send message to attendee'),
     }),
     getActionItemProps({
-      action: ENROLMENT_EDIT_ACTIONS.CANCEL,
+      action: ENROLMENT_ACTIONS.CANCEL,
       onClick: onCancel,
     }),
   ].filter(skipFalsyType);
@@ -84,7 +93,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           className={buttonPanelStyles.fullWidthOnMobile}
           fullWidth={true}
           icon={<IconPen aria-hidden={true} />}
-          loading={saving === ENROLMENT_EDIT_ACTIONS.UPDATE}
+          loading={saving === ENROLMENT_ACTIONS.UPDATE}
           onClick={onSave}
           type="submit"
         >

@@ -17,6 +17,7 @@ import {
 } from '../../../../utils/testUtils';
 import {
   mockedUserResponse,
+  publisher,
   registration,
   registrationId,
 } from '../../__mocks__/editRegistrationPage';
@@ -26,9 +27,10 @@ configure({ defaultHidden: true });
 jest.mock('copy-to-clipboard');
 
 const defaultProps: EditButtonPanelProps = {
-  registration,
   onDelete: jest.fn(),
   onUpdate: jest.fn(),
+  publisher,
+  registration,
   saving: false,
 };
 
@@ -51,10 +53,12 @@ const renderComponent = ({
     store,
   });
 
-const findElement = (key: 'delete') => {
+const findElement = (key: 'delete' | 'showEnrolments') => {
   switch (key) {
     case 'delete':
       return screen.findByRole('button', { name: 'Poista ilmoittautuminen' });
+    case 'showEnrolments':
+      return screen.findByRole('button', { name: /näytä ilmoittautuneet/i });
   }
 };
 
@@ -125,7 +129,7 @@ test('should render all buttons when user is authenticated', async () => {
 
   openMenu();
 
-  getElement('showEnrolments');
+  await findElement('showEnrolments');
   getElement('copy');
   getElement('copyLink');
 
@@ -138,26 +142,27 @@ test('should render all buttons when user is authenticated', async () => {
   expect(onUpdate).toBeCalled();
 });
 
-test('only copy, copy link and show enrolments button should be enabled when user is not logged in', () => {
+test('only copy and copy link buttons should be enabled when user is not logged in', () => {
   renderComponent();
 
   openMenu();
 
-  getElement('showEnrolments');
   getElement('copy');
   getElement('copyLink');
 
   const disabledButtons = getElements('disabledButtons');
-  expect(disabledButtons).toHaveLength(2);
+  expect(disabledButtons).toHaveLength(3);
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
-test('should route to enrolments page when clicking show enrolmentss button', async () => {
-  const { history } = renderComponent();
+test('should route to enrolments page when clicking show enrolments button', async () => {
+  const { history } = renderComponent({
+    store,
+  });
 
   openMenu();
 
-  const showEnrolmentsButton = getElement('showEnrolments');
+  const showEnrolmentsButton = await findElement('showEnrolments');
   act(() => userEvent.click(showEnrolmentsButton));
 
   await waitFor(() =>

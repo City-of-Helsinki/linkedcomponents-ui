@@ -5,8 +5,8 @@ import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
+import { getRegistrationFields } from '../../registration/utils';
 import { RegistrationsLocationState } from '../../registrations/types';
-import { getRegistrationFields } from '../../registrations/utils';
 
 export interface ButtonPanelProps {
   registration: RegistrationFieldsFragment;

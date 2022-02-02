@@ -15,9 +15,10 @@ import {
   fakeUser,
 } from '../../../../../utils/mockDataUtils';
 import { mockFile } from '../../../../../utils/testUtils';
+import { TEST_PUBLISHER_ID } from '../../../../organization/constants';
 import { EVENT_TYPE } from '../../../constants';
 
-const publisher = 'publisher:1';
+const publisher = TEST_PUBLISHER_ID;
 
 const eventType = EVENT_TYPE.General;
 

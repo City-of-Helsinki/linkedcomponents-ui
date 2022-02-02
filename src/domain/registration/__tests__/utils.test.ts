@@ -2,11 +2,12 @@ import i18n from 'i18next';
 
 import { RegistrationQueryVariables } from '../../../generated/graphql';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
-import { REGISTRATION_EDIT_ACTIONS } from '../../registrations/constants';
+import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { registrationsResponse } from '../__mocks__/registration';
 import { REGISTRATION_INITIAL_VALUES } from '../constants';
 import {
   getEditRegistrationWarning,
+  getRegistrationFields,
   getRegistrationInitialValues,
   getRegistrationPayload,
   getRegistrationWarning,
@@ -16,8 +17,9 @@ import {
 describe('getEditRegistrationWarning function', () => {
   it('should return correct warning if user is not authenticated', () => {
     const allowedActions = [
-      REGISTRATION_EDIT_ACTIONS.COPY,
-      REGISTRATION_EDIT_ACTIONS.SHOW_ENROLMENTS,
+      REGISTRATION_ACTIONS.COPY,
+      REGISTRATION_ACTIONS.COPY_LINK,
+      REGISTRATION_ACTIONS.EDIT,
     ];
 
     const commonProps = {
@@ -36,8 +38,9 @@ describe('getEditRegistrationWarning function', () => {
     });
 
     const deniedActions = [
-      REGISTRATION_EDIT_ACTIONS.DELETE,
-      REGISTRATION_EDIT_ACTIONS.UPDATE,
+      REGISTRATION_ACTIONS.DELETE,
+      REGISTRATION_ACTIONS.SHOW_ENROLMENTS,
+      REGISTRATION_ACTIONS.UPDATE,
     ];
 
     deniedActions.forEach((action) => {
@@ -56,9 +59,51 @@ describe('getEditRegistrationWarning function', () => {
         authenticated: true,
         t: i18n.t.bind(i18n),
         userCanDoAction: false,
-        action: REGISTRATION_EDIT_ACTIONS.UPDATE,
+        action: REGISTRATION_ACTIONS.UPDATE,
       })
     ).toBe('Sinulla ei ole oikeuksia muokata tätä ilmoittautumista.');
+  });
+});
+
+describe('getRegistrationFields function', () => {
+  it('should return default values if value is not set', () => {
+    const {
+      atId,
+      createdBy,
+      currentAttendeeCount,
+      currentWaitingListCount,
+      enrolmentEndTime,
+      enrolmentStartTime,
+      id,
+      lastModifiedAt,
+      maximumAttendeeCapacity,
+      waitingListCapacity,
+    } = getRegistrationFields(
+      fakeRegistration({
+        atId: null,
+        createdBy: null,
+        currentAttendeeCount: null,
+        currentWaitingListCount: null,
+        enrolmentEndTime: '',
+        enrolmentStartTime: '',
+        id: null,
+        lastModifiedAt: '',
+        maximumAttendeeCapacity: null,
+        waitingListCapacity: null,
+      }),
+      'fi'
+    );
+
+    expect(atId).toBe('');
+    expect(createdBy).toBe('');
+    expect(currentAttendeeCount).toBe(0);
+    expect(currentWaitingListCount).toBe(0);
+    expect(enrolmentEndTime).toBe(null);
+    expect(enrolmentStartTime).toBe(null);
+    expect(id).toBe('');
+    expect(lastModifiedAt).toBe(null);
+    expect(maximumAttendeeCapacity).toBe(0);
+    expect(waitingListCapacity).toBe(0);
   });
 });
 

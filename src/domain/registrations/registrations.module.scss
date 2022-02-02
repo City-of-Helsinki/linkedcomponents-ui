@@ -15,6 +15,10 @@
   }
 }
 
+.notification {
+  margin: var(--spacing-m) 0;
+}
+
 .titleRow {
   display: grid;
   grid-gap: var(--spacing-m);

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   ApolloClient,
   NormalizedCacheObject,
@@ -32,7 +33,6 @@ import { clearEnrolmentsQueries } from '../enrolments/utils';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
-import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import {
   getRegistrationWarning,
@@ -41,7 +41,9 @@ import {
 } from '../registration/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
+import { ENROLMENT_ACTIONS } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
+import EnrolmentAuthenticationNotification from './enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import EnrolmentFormFields from './enrolmentFormFields/EnrolmentFormFields';
 import styles from './enrolmentPage.module.scss';
 import EventInfo from './eventInfo/EventInfo';
@@ -160,7 +162,10 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
               <Form noValidate>
                 <Container withOffset>
                   <FormContainer>
-                    <AuthRequiredNotification />
+                    <EnrolmentAuthenticationNotification
+                      action={ENROLMENT_ACTIONS.CREATE}
+                      registration={registration}
+                    />
                     <ServerErrorSummary errors={serverErrorItems} />
                     <EventInfo event={event} />
                     <div className={styles.divider} />
@@ -216,15 +221,13 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
     },
   });
 
+  const event = eventData?.event;
   const loading = loadingUser || loadingRegistration || loadingEvent;
 
   return (
     <LoadingSpinner isLoading={loading}>
-      {eventData?.event && registration ? (
-        <CreateEnrolmentPage
-          event={eventData?.event}
-          registration={registration}
-        />
+      {event && registration ? (
+        <CreateEnrolmentPage event={event} registration={registration} />
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
@@ -25,17 +26,17 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
-import { ENROLMENT_EDIT_ACTIONS } from '../enrolments/constants';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
-import AuthRequiredNotification from '../registration/authRequiredNotification/AuthRequiredNotification';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import { registrationPathBuilder } from '../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
+import { ENROLMENT_ACTIONS } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
+import EnrolmentAuthenticationNotification from './enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import EnrolmentFormFields from './enrolmentFormFields/EnrolmentFormFields';
 import styles from './enrolmentPage.module.scss';
 import EventInfo from './eventInfo/EventInfo';
@@ -153,7 +154,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
             <ConfirmCancelModal
               enrolment={enrolment}
               isOpen={openModal === ENROLMENT_MODALS.CANCEL}
-              isSaving={saving === ENROLMENT_EDIT_ACTIONS.CANCEL}
+              isSaving={saving === ENROLMENT_ACTIONS.CANCEL}
               onClose={closeModal}
               onCancel={onCancel}
               registration={registration}
@@ -171,7 +172,10 @@ const EditEnrolmentPage: React.FC<Props> = ({
                     withOffset
                   >
                     <FormContainer>
-                      <AuthRequiredNotification />
+                      <EnrolmentAuthenticationNotification
+                        action={ENROLMENT_ACTIONS.UPDATE}
+                        registration={registration}
+                      />
                       <ServerErrorSummary errors={serverErrorItems} />
                       <EventInfo event={event} />
                       <div className={styles.divider} />

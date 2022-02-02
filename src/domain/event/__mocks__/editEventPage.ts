@@ -54,6 +54,7 @@ import {
   EVENT_TYPE,
   SUB_EVENTS_VARIABLES,
 } from '../../event/constants';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { EventFormFields } from '../types';
 
 const now = new Date();
@@ -166,7 +167,7 @@ const provider = {
   sv: 'Provider sv',
   zhHans: null,
 };
-const publisher = 'publisher:1';
+const publisher = TEST_PUBLISHER_ID;
 const shortDescription = {
   ar: null,
   en: null,

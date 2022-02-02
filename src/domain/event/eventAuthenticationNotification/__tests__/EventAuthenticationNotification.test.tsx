@@ -15,36 +15,33 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
 import userManager from '../../../auth/userManager';
-import AuthRequiredNotification, {
-  AuthRequiredNotificationProps,
-  hiddenStyles,
-} from '../AuthRequiredNotification';
+import EventAuthenticationNotification, {
+  EventAuthenticationNotificationProps,
+} from '../EventAuthenticationNotification';
 
 configure({ defaultHidden: true });
 beforeEach(() => clear());
 
 const renderComponent = (
   renderOptions?: CustomRenderOptions,
-  props?: AuthRequiredNotificationProps
-) => render(<AuthRequiredNotification {...props} />, renderOptions);
+  props?: EventAuthenticationNotificationProps
+) => render(<EventAuthenticationNotification {...props} />, renderOptions);
 
 const userVariables = {
   createPath: undefined,
   id: TEST_USER_ID,
 };
 
-test('should not show sign in notification if user is signed in and has organizations', async () => {
+test('should not show notification if user is signed in and has organizations', async () => {
   const user = fakeUser({
     adminOrganizations: ['helsinki:123'],
     organizationMemberships: [],
   });
   const userResponse = { data: { user } };
   const mockedUserResponse: MockedResponse = {
-    request: {
-      query: UserDocument,
-      variables: userVariables,
-    },
+    request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
   const mocks = [mockedUserResponse];
@@ -59,17 +56,14 @@ test('should not show sign in notification if user is signed in and has organiza
   );
 });
 
-test("should show notification if user is signed in but doesn't have organizations", () => {
+test("should show notification if user is signed in but doesn't have any organizations", () => {
   const user = fakeUser({
     adminOrganizations: [],
     organizationMemberships: [],
   });
   const userResponse = { data: { user } };
   const mockedUserResponse: MockedResponse = {
-    request: {
-      query: UserDocument,
-      variables: userVariables,
-    },
+    request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
   const mocks = [mockedUserResponse];
@@ -98,10 +92,7 @@ test('should show notification if event is in the past', async () => {
 
   const userResponse = { data: { user } };
   const mockedUserResponse: MockedResponse = {
-    request: {
-      query: UserDocument,
-      variables: userVariables,
-    },
+    request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
   const mocks = [mockedUserResponse];
@@ -114,10 +105,6 @@ test('should show notification if event is in the past', async () => {
   screen.getByRole('region');
   await screen.findByRole('heading', { name: 'Tapahtumaa ei voi muokata' });
   screen.getByText('Menneisyydessä olevia tapahtumia ei voi muokata.');
-});
-
-test('should show sign in notification is user is not signed in', () => {
-  renderComponent();
 });
 
 test('should start sign in process', () => {

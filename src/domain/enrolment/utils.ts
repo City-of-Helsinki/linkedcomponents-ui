@@ -1,13 +1,23 @@
+import { TFunction } from 'i18next';
+
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import {
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
   EnrolmentQueryVariables,
+  OrganizationFieldsFragment,
   RegistrationFieldsFragment,
+  UserFieldsFragment,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
+import { isAdminUserInOrganization } from '../organization/utils';
 import {
+  AUTHENTICATION_NOT_NEEDED,
+  ENROLMENT_ACTIONS,
+  ENROLMENT_ICONS,
   ENROLMENT_INITIAL_VALUES,
+  ENROLMENT_LABEL_KEYS,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
 } from './constants';
@@ -120,4 +130,137 @@ export const enrolmentPathBuilder = ({
   const { id } = args;
 
   return `/signup_edit/${id}/`;
+};
+
+type EnrolmentEditability = {
+  editable: boolean;
+  warning: string;
+};
+
+export const checkCanUserDoAction = ({
+  action,
+  organizationAncestors,
+  publisher,
+  user,
+}: {
+  action: ENROLMENT_ACTIONS;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
+  user?: UserFieldsFragment;
+}): boolean => {
+  const isAdminUser = isAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
+  switch (action) {
+    case ENROLMENT_ACTIONS.EDIT:
+      return true;
+    case ENROLMENT_ACTIONS.CANCEL:
+    case ENROLMENT_ACTIONS.CREATE:
+    case ENROLMENT_ACTIONS.SEND_MESSAGE:
+    case ENROLMENT_ACTIONS.UPDATE:
+    case ENROLMENT_ACTIONS.VIEW:
+      return isAdminUser;
+  }
+};
+
+export const getEditEnrolmentWarning = ({
+  action,
+  authenticated,
+  t,
+  userCanDoAction,
+}: {
+  action: ENROLMENT_ACTIONS;
+  authenticated: boolean;
+  t: TFunction;
+  userCanDoAction: boolean;
+}): string => {
+  if (AUTHENTICATION_NOT_NEEDED.includes(action)) {
+    return '';
+  }
+
+  if (!authenticated) {
+    return t('authentication.noRightsUpdateEnrolment');
+  }
+
+  if (!userCanDoAction) {
+    switch (action) {
+      case ENROLMENT_ACTIONS.CREATE:
+        return t('enrolmentsPage.warningNoRightsToCreate');
+      case ENROLMENT_ACTIONS.VIEW:
+        return t('enrolmentsPage.warningNoRightsToView');
+      default:
+        return t('enrolmentsPage.warningNoRightsToEdit');
+    }
+  }
+
+  return '';
+};
+
+export const checkIsEditActionAllowed = ({
+  action,
+  authenticated,
+  organizationAncestors,
+  publisher,
+  t,
+  user,
+}: {
+  action: ENROLMENT_ACTIONS;
+  authenticated: boolean;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): EnrolmentEditability => {
+  const userCanDoAction = checkCanUserDoAction({
+    action,
+    organizationAncestors,
+    publisher,
+    user,
+  });
+
+  const warning = getEditEnrolmentWarning({
+    action,
+    authenticated,
+    t,
+    userCanDoAction,
+  });
+
+  return { editable: !warning, warning };
+};
+
+export const getEditButtonProps = ({
+  action,
+  authenticated,
+  onClick,
+  organizationAncestors,
+  publisher,
+  t,
+  user,
+}: {
+  action: ENROLMENT_ACTIONS;
+  authenticated: boolean;
+  onClick: () => void;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): MenuItemOptionProps => {
+  const { editable, warning } = checkIsEditActionAllowed({
+    action,
+    authenticated,
+    organizationAncestors,
+    publisher,
+    t,
+    user,
+  });
+
+  return {
+    disabled: !editable,
+    icon: ENROLMENT_ICONS[action],
+    label: t(ENROLMENT_LABEL_KEYS[action]),
+    onClick,
+    title: warning,
+  };
 };

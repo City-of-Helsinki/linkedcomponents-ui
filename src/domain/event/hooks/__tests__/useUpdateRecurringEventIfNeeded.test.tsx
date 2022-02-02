@@ -18,12 +18,13 @@ import generateAtId from '../../../../utils/generateAtId';
 import { fakeEvent, fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import { getMockReduxStore } from '../../../../utils/testUtils';
+import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { EVENT_INCLUDES } from '../../constants';
 import useUpdateRecurringEventIfNeeded from '../useUpdateRecurringEventIfNeeded';
 
 afterEach(() => clear());
 
-const publisher = 'publisher:1';
+const publisher = TEST_PUBLISHER_ID;
 const description = {
   ar: '<p>Description</p>',
   en: '<p>Description</p>',
