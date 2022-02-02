@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
+import styles from '../../../common/components/actionsDropdown/actionsDropdown.module.scss';
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
@@ -26,7 +27,6 @@ import {
 import useUser from '../../user/hooks/useUser';
 import { REGISTRATION_ACTIONS } from '../constants';
 import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
-import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {
   className?: string;

@@ -7,6 +7,7 @@ import {
   getKeywordSetFields,
   getKeywordSetItemId,
 } from '../../keywordSet/utils';
+import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import useKeywordSetUsageOptions from '../hooks/useKeywordSetUsageOptions';
 import styles from './keywordSetsTable.module.scss';
 
@@ -53,24 +54,24 @@ const KeywordSetsTableRow: React.FC<Props> = ({ keywordSet, onRowClick }) => {
   };
 
   return (
-    <>
-      <tr
-        ref={rowRef}
-        role="button"
-        aria-label={name}
-        id={getKeywordSetItemId(id)}
-        onClick={handleRowClick}
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-      >
-        <td className={styles.idColumn}>
-          {<Link to={keywordSetUrl}>{id}</Link>}
-        </td>
-        <td className={styles.nameColumn}>{name}</td>
-        <td className={styles.usageColumn}>{getUsageText(usage)}</td>
-        <td className={styles.actionButtonsColumn}></td>
-      </tr>
-    </>
+    <tr
+      ref={rowRef}
+      role="button"
+      aria-label={name}
+      id={getKeywordSetItemId(id)}
+      onClick={handleRowClick}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+    >
+      <td className={styles.idColumn}>
+        {<Link to={keywordSetUrl}>{id}</Link>}
+      </td>
+      <td className={styles.nameColumn}>{name}</td>
+      <td className={styles.usageColumn}>{getUsageText(usage)}</td>
+      <td className={styles.actionButtonsColumn}>
+        <ActionsDropdown ref={actionsDropdownRef} keywordSet={keywordSet} />
+      </td>
+    </tr>
   );
 };
 

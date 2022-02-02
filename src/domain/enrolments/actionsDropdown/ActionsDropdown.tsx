@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 
+import styles from '../../../common/components/actionsDropdown/actionsDropdown.module.scss';
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
@@ -27,7 +28,6 @@ import { getRegistrationFields } from '../../registration/utils';
 import { addParamsToRegistrationQueryString } from '../../registrations/utils';
 import useUser from '../../user/hooks/useUser';
 import { getEnrolmentFields } from '../utils';
-import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {
   className?: string;
