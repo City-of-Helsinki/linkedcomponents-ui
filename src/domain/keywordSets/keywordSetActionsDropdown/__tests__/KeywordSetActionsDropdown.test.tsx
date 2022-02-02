@@ -17,24 +17,26 @@ import {
   mockedDeleteKeywordSetResponse,
 } from '../../../keywordSet/__mocks__/editKeywordSetPage';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
+import KeywordSetActionsDropdown, {
+  KeywordSetActionsDropdownProps,
+} from '../KeywordSetActionsDropdown';
 
 configure({ defaultHidden: true });
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
-const defaultProps: ActionsDropdownProps = { keywordSet };
+const defaultProps: KeywordSetActionsDropdownProps = { keywordSet };
 
 const route = `/fi${ROUTES.KEYWORD_SETS}`;
 
 const defaultMocks = [mockedDeleteKeywordSetResponse, mockedUserResponse];
 
 const renderComponent = (
-  props?: Partial<ActionsDropdownProps>,
+  props?: Partial<KeywordSetActionsDropdownProps>,
   { mocks = defaultMocks, store }: CustomRenderOptions = {}
 ) =>
-  render(<ActionsDropdown {...defaultProps} {...props} />, {
+  render(<KeywordSetActionsDropdown {...defaultProps} {...props} />, {
     mocks,
     routes: [route],
     store,

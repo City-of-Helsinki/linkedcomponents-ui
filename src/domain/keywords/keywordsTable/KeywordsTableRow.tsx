@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { KeywordFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { getKeywordFields, getKeywordItemId } from '../../keyword/utils';
-import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
+import KeywordActionsDropdown from '../keywordActionsDropdown/KeywordActionsDropdown';
 import styles from './keywordsTable.module.scss';
 
 interface Props {
@@ -52,7 +52,7 @@ const KeywordsTableRow: React.FC<Props> = ({ keyword, onRowClick }) => {
         <td className={styles.nameColumn}>{name}</td>
         <td className={styles.nEventsColumn}>{nEvents}</td>
         <td className={styles.actionButtonsColumn}>
-          <ActionsDropdown ref={actionsDropdownRef} keyword={keyword} />
+          <KeywordActionsDropdown ref={actionsDropdownRef} keyword={keyword} />
         </td>
       </tr>
     </>

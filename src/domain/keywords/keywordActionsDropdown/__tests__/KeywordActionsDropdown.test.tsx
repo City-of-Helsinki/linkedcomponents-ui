@@ -16,12 +16,14 @@ import {
   mockedDeleteKeywordResponse,
 } from '../../../keyword/__mocks__/editKeywordPage';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
+import KeywordActionsDropdown, {
+  KeywordActionsDropdownProps,
+} from '../KeywordActionsDropdown';
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
-const defaultProps: ActionsDropdownProps = {
+const defaultProps: KeywordActionsDropdownProps = {
   keyword,
 };
 
@@ -30,10 +32,10 @@ const route = `/fi${ROUTES.KEYWORDS}`;
 const defaultMocks = [mockedDeleteKeywordResponse, mockedUserResponse];
 
 const renderComponent = (
-  props?: Partial<ActionsDropdownProps>,
+  props?: Partial<KeywordActionsDropdownProps>,
   { mocks = defaultMocks, store }: CustomRenderOptions = {}
 ) =>
-  render(<ActionsDropdown {...defaultProps} {...props} />, {
+  render(<KeywordActionsDropdown {...defaultProps} {...props} />, {
     mocks,
     routes: [route],
     store,

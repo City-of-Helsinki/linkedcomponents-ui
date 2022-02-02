@@ -25,11 +25,13 @@ import {
   mockedPostponeEventResponse,
   mockedUserResponse,
 } from '../../../event/__mocks__/editEventPage';
-import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
+import EventActionsDropdown, {
+  EventActionsDropdownProps,
+} from '../EventActionsDropdown';
 
 configure({ defaultHidden: true });
 
-const defaultProps: ActionsDropdownProps = {
+const defaultProps: EventActionsDropdownProps = {
   event,
 };
 
@@ -52,10 +54,10 @@ const renderComponent = ({
   store,
 }: {
   mocks?: MockedResponse[];
-  props?: Partial<ActionsDropdownProps>;
+  props?: Partial<EventActionsDropdownProps>;
   store?: Store<StoreState, AnyAction>;
 }) =>
-  render(<ActionsDropdown {...defaultProps} {...props} />, {
+  render(<EventActionsDropdown {...defaultProps} {...props} />, {
     mocks,
     routes: [`/fi${ROUTES.SEARCH}`],
     store,

@@ -7,8 +7,8 @@ import {
   getKeywordSetFields,
   getKeywordSetItemId,
 } from '../../keywordSet/utils';
-import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import useKeywordSetUsageOptions from '../hooks/useKeywordSetUsageOptions';
+import KeywordSetActionsDropdown from '../keywordSetActionsDropdown/KeywordSetActionsDropdown';
 import styles from './keywordSetsTable.module.scss';
 
 interface Props {
@@ -69,7 +69,10 @@ const KeywordSetsTableRow: React.FC<Props> = ({ keywordSet, onRowClick }) => {
       <td className={styles.nameColumn}>{name}</td>
       <td className={styles.usageColumn}>{getUsageText(usage)}</td>
       <td className={styles.actionButtonsColumn}>
-        <ActionsDropdown ref={actionsDropdownRef} keywordSet={keywordSet} />
+        <KeywordSetActionsDropdown
+          ref={actionsDropdownRef}
+          keywordSet={keywordSet}
+        />
       </td>
     </tr>
   );

@@ -6,7 +6,7 @@ import {
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
+import EnrolmentActionsDropdown from '../enrolmentActionsDropdown/EnrolmentActionsDropdown';
 import { getEnrolmentFields, getEnrolmentItemId } from '../utils';
 import styles from './enrolmentsTable.module.scss';
 
@@ -78,7 +78,7 @@ const EnrolmentTableRow: React.FC<Props> = ({
           {t(`enrolment.attendeeStatus.${attendeeStatus}`)}
         </td>
         <td className={styles.actionButtonsColumn}>
-          <ActionsDropdown
+          <EnrolmentActionsDropdown
             ref={actionsDropdownRef}
             enrolment={enrolment}
             registration={registration}

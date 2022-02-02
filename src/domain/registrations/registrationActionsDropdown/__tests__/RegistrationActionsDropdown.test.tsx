@@ -23,12 +23,14 @@ import {
   registration,
 } from '../../../registration/__mocks__/editRegistrationPage';
 import { mockedUserResponse } from '../../__mocks__/registrationsPage';
-import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
+import RegistrationActionsDropdown, {
+  RegistrationActionsDropdownProps,
+} from '../RegistrationActionsDropdown';
 
 configure({ defaultHidden: true });
 jest.mock('copy-to-clipboard');
 
-const defaultProps: ActionsDropdownProps = {
+const defaultProps: RegistrationActionsDropdownProps = {
   registration: registration,
 };
 
@@ -43,10 +45,10 @@ const renderComponent = ({
   store,
 }: {
   mocks?: MockedResponse[];
-  props?: Partial<ActionsDropdownProps>;
+  props?: Partial<RegistrationActionsDropdownProps>;
   store?: Store<StoreState, AnyAction>;
 } = {}) =>
-  render(<ActionsDropdown {...defaultProps} {...props} />, {
+  render(<RegistrationActionsDropdown {...defaultProps} {...props} />, {
     mocks,
     routes: [`/fi${ROUTES.REGISTRATIONS}`],
     store,

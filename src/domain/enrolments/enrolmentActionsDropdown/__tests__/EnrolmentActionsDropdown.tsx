@@ -22,13 +22,15 @@ import {
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { registration } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../__mocks__/enrolmentsPage';
-import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
+import EnrolmentActionsDropdown, {
+  EnrolmentActionsDropdownProps,
+} from '../EnrolmentActionsDropdown';
 
 configure({ defaultHidden: true });
 
 const enrolment = fakeEnrolment({ cancellationCode: 'xxx' });
 
-const defaultProps: ActionsDropdownProps = {
+const defaultProps: EnrolmentActionsDropdownProps = {
   enrolment,
   registration,
 };
@@ -64,10 +66,10 @@ const renderComponent = ({
   store,
 }: {
   mocks?: MockedResponse[];
-  props?: Partial<ActionsDropdownProps>;
+  props?: Partial<EnrolmentActionsDropdownProps>;
   store?: Store<StoreState, AnyAction>;
 } = {}) =>
-  render(<ActionsDropdown {...defaultProps} {...props} />, {
+  render(<EnrolmentActionsDropdown {...defaultProps} {...props} />, {
     mocks,
     routes: [route],
     store,
