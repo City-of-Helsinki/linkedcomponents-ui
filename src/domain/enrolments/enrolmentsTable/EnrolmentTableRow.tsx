@@ -1,5 +1,7 @@
+import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory, useLocation } from 'react-router';
 
 import {
   EnrolmentFieldsFragment,
@@ -7,7 +9,12 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
-import { getEnrolmentFields, getEnrolmentItemId } from '../utils';
+import { EnrolmentsLocationState } from '../types';
+import {
+  getEnrolmentFields,
+  getEnrolmentItemId,
+  scrollToEnrolmentItem,
+} from '../utils';
 import styles from './enrolmentsTable.module.scss';
 
 interface Props {
@@ -23,6 +30,9 @@ const EnrolmentTableRow: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
+  const location = useLocation<EnrolmentsLocationState>();
+  const history = useHistory();
+
   const actionsDropdownRef = React.useRef<HTMLDivElement>(null);
   const rowRef = React.useRef<HTMLTableRowElement>(null);
 
@@ -49,6 +59,17 @@ const EnrolmentTableRow: React.FC<Props> = ({
       onRowClick(enrolment);
     }
   };
+
+  React.useEffect(() => {
+    if (location.state?.enrolmentId) {
+      scrollToEnrolmentItem(getEnrolmentItemId(location.state.enrolmentId));
+      // Clear registrationId value to keep scroll position correctly
+      const state = omit(location.state, 'enrolmentId');
+      // location.search seems to reset if not added here (...location)
+      history.replace({ ...location, state });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

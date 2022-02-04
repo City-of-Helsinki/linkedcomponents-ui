@@ -1,4 +1,7 @@
-import { EnrolmentsQueryVariables } from '../../../generated/graphql';
+import {
+  AttendeeStatus,
+  EnrolmentsQueryVariables,
+} from '../../../generated/graphql';
 import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
 import { enrolmentsPathBuilder, getEnrolmentFields } from '../utils';
 
@@ -24,13 +27,16 @@ describe('getEnrolmentFields function', () => {
 
 describe('enrolmentsPathBuilder function', () => {
   const cases: [EnrolmentsQueryVariables, string][] = [
-    [{ page: 2 }, '/enrolment/?page=2'],
-    [{ pageSize: 10 }, '/enrolment/?page_size=10'],
     [
-      { registration: 'registration:1' },
-      '/enrolment/?registration=registration:1',
+      { attendeeStatus: AttendeeStatus.Attending },
+      '/signup/?attendee_status=attending',
     ],
-    [{ text: 'text' }, '/enrolment/?text=text'],
+    [{ events: ['event:1', 'event:2'] }, '/signup/?events=event:1,event:2'],
+    [
+      { registrations: ['registration:1', 'registration:2'] },
+      '/signup/?registrations=registration:1,registration:2',
+    ],
+    [{ text: 'text' }, '/signup/?text=text'],
   ];
 
   it.each(cases)(

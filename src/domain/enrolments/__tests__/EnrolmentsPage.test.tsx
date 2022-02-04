@@ -20,7 +20,11 @@ import {
   registrationId,
 } from '../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../user/__mocks__/user';
-import { attendees } from '../__mocks__/enrolmentsPage';
+import {
+  attendees,
+  mockedAttendeesResponse,
+  mockedWaitingAttendeesResponse,
+} from '../__mocks__/enrolmentsPage';
 import EnrolmentsPage from '../EnrolmentsPage';
 
 configure({ defaultHidden: true });
@@ -33,9 +37,11 @@ const route = ROUTES.REGISTRATION_ENROLMENTS.replace(
 );
 
 const defaultMocks = [
+  mockedAttendeesResponse,
   mockedEventResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
+  mockedWaitingAttendeesResponse,
 ];
 
 beforeEach(() => jest.clearAllMocks());
@@ -84,7 +90,7 @@ test('should render enrolments page', async () => {
 it('scrolls to enrolment table row and calls history.replace correctly (deletes enrolmentId from state)', async () => {
   const history = createMemoryHistory();
   const historyObject = {
-    state: { enrolmentId: attendees.data[0].id },
+    state: { enrolmentId: attendees[0].id },
     pathname: route,
   };
   history.push(historyObject);
@@ -100,7 +106,7 @@ it('scrolls to enrolment table row and calls history.replace correctly (deletes 
   );
 
   const enrolmentRowButton = screen.getAllByRole('button', {
-    name: attendees.data[0].name,
+    name: attendees[0].name,
   })[0];
   await waitFor(() => expect(enrolmentRowButton).toHaveFocus());
 });

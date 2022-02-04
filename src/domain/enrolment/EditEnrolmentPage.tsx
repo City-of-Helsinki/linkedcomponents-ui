@@ -94,7 +94,8 @@ const EditEnrolmentPage: React.FC<Props> = ({
     history.push({
       pathname: `/${locale}${returnPath}`,
       search: replaceParamsToRegistrationQueryString(remainingQueryString, {
-        enrolmentPage: null,
+        attendeePage: null,
+        waitingPage: null,
       }),
       state: { enrolmentId: enrolment.id },
     });

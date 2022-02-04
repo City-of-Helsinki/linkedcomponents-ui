@@ -24,13 +24,14 @@ export const AUTHENTICATION_NOT_NEEDED = [
 ];
 
 export enum REGISTRATION_SEARCH_PARAMS {
-  ENROLMENT_PAGE = 'enrolmentPage',
+  ATTENDEE_PAGE = 'attendeePage',
   ENROLMENT_TEXT = 'enrolmentText',
   EVENT_TYPE = 'eventType',
   PAGE = 'page',
   RETURN_PATH = 'returnPath',
   SORT = 'sort',
   TEXT = 'text',
+  WAITING_PAGE = 'waitingPage',
 }
 
 export enum REGISTRATION_SORT_OPTIONS {
