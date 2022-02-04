@@ -23,6 +23,7 @@ import {
   LICENSE_TYPES,
 } from '../../../../../image/constants';
 import { TEST_PUBLISHER_ID } from '../../../../../organization/constants';
+import { mockedUserResponse } from '../../../../../user/__mocks__/user';
 import {
   EVENT_FIELDS,
   EVENT_TYPE,
@@ -31,7 +32,6 @@ import {
 import { publicEventSchema } from '../../../../utils';
 import {
   mockedOrganizationsResponse,
-  mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
 } from '../../__mocks__/imageSection';
 import ImageDetailsFields, {

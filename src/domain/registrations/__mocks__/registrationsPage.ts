@@ -1,16 +1,13 @@
 import range from 'lodash/range';
 
-import { TEST_USER_ID } from '../../../constants';
 import {
   EventDocument,
   RegistrationsDocument,
-  UserDocument,
 } from '../../../generated/graphql';
 import {
   fakeEvents,
   fakeLocalisedObject,
   fakeRegistrations,
-  fakeUser,
 } from '../../../utils/mockDataUtils';
 import { EVENT_INCLUDES } from '../../event/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
@@ -69,23 +66,10 @@ const mockedRegistrationsResponse = {
   result: registrationsResponse,
 };
 
-// User mocks
-const user = fakeUser({
-  organization: publisher,
-  adminOrganizations: [publisher],
-});
-const userVariables = { createPath: undefined, id: TEST_USER_ID };
-const userResponse = { data: { user } };
-const mockedUserResponse = {
-  request: { query: UserDocument, variables: userVariables },
-  result: userResponse,
-};
-
 export {
   eventNames,
   mockedEventResponses,
   mockedRegistrationsResponse,
-  mockedUserResponse,
   registrationNames,
   registrations,
   registrationsResponse,

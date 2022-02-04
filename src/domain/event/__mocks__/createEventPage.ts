@@ -2,12 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
 import { PAGE_SIZE } from '../../../common/components/imageSelector/constants';
-import {
-  INCLUDE,
-  KEYWORD_SETS,
-  MAX_PAGE_SIZE,
-  TEST_USER_ID,
-} from '../../../constants';
+import { INCLUDE, KEYWORD_SETS, MAX_PAGE_SIZE } from '../../../constants';
 import {
   CreateEventDocument,
   CreateEventsDocument,
@@ -24,7 +19,6 @@ import {
   PlaceDocument,
   PlacesDocument,
   UpdateImageDocument,
-  UserDocument,
 } from '../../../generated/graphql';
 import generateAtId from '../../../utils/generateAtId';
 import {
@@ -39,8 +33,8 @@ import {
   fakeOrganizations,
   fakePlace,
   fakePlaces,
-  fakeUser,
 } from '../../../utils/mockDataUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 
 const id = 'hel:123';
 const eventValues = {
@@ -64,7 +58,7 @@ const eventValues = {
   ],
 };
 
-const organizationId = 'organization:1';
+const organizationId = TEST_PUBLISHER_ID;
 const organizationName = 'Organization name';
 
 const imageDetails = {
@@ -422,17 +416,6 @@ const mockedOrganizationsResponse = {
   result: organizationsResponse,
 };
 
-const user = fakeUser({
-  organization: organizationId,
-  adminOrganizations: [organizationId],
-});
-const userVariables = { createPath: undefined, id: TEST_USER_ID };
-const userResponse = { data: { user } };
-const mockedUserResponse = {
-  request: { query: UserDocument, variables: userVariables },
-  result: userResponse,
-};
-
 export {
   eventValues,
   imageAtId,
@@ -457,7 +440,6 @@ export {
   mockedTopicsKeywordSetResponse,
   mockedUmbrellaEventsResponse,
   mockedUpdateImageResponse,
-  mockedUserResponse,
   organizationId,
   placeAtId,
 };

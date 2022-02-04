@@ -19,7 +19,8 @@ import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../registration/__mocks__/registration';
-import { attendees, mockedUserResponse } from '../__mocks__/enrolmentsPage';
+import { mockedUserResponse } from '../../user/__mocks__/user';
+import { attendees } from '../__mocks__/enrolmentsPage';
 import EnrolmentsPage from '../EnrolmentsPage';
 
 configure({ defaultHidden: true });

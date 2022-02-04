@@ -10,7 +10,7 @@ import {
   render,
   screen,
 } from '../../../../utils/testUtils';
-import { mockedUserResponse } from '../../../registrations/__mocks__/registrationsPage';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import CreateButtonPanel from '../CreateButtonPanel';
 
 configure({ defaultHidden: true });

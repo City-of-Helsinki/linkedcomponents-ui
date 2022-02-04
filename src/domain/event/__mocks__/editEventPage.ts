@@ -9,7 +9,6 @@ import {
   EXTLINK,
   KEYWORD_SETS,
   MAX_PAGE_SIZE,
-  TEST_USER_ID,
 } from '../../../constants';
 import {
   CreateEventsDocument,
@@ -29,7 +28,6 @@ import {
   SuperEventType,
   UpdateEventsDocument,
   UpdateImageDocument,
-  UserDocument,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import generateAtId from '../../../utils/generateAtId';
@@ -46,7 +44,6 @@ import {
   fakeOrganizations,
   fakePlace,
   fakePlaces,
-  fakeUser,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
 import {
@@ -467,8 +464,6 @@ const mockedInvalidEventResponse: MockedResponse = {
   result: invalidEventResponse,
 };
 
-formatDate(endTime, DATETIME_FORMAT);
-
 const subEventTimes = [
   { endTime, id: 'subevent:1', startTime },
   {
@@ -725,18 +720,6 @@ const mockedFilteredPlacesResponse: MockedResponse = {
   result: placesResponse,
 };
 
-// User mocks
-const user = fakeUser({
-  organization: publisher,
-  adminOrganizations: [publisher],
-});
-const userVariables = { createPath: undefined, id: TEST_USER_ID };
-const userResponse = { data: { user } };
-const mockedUserResponse = {
-  request: { query: UserDocument, variables: userVariables },
-  result: userResponse,
-};
-
 export {
   audienceName,
   baseFormValues,
@@ -778,7 +761,6 @@ export {
   mockedUpdateImageResponse,
   mockedUpdateRecurringEventResponse,
   mockedUpdateSubEventsResponse,
-  mockedUserResponse,
   newSubEventTimes,
   startTime,
   subEvents,

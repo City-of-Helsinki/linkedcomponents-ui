@@ -1,12 +1,8 @@
 import range from 'lodash/range';
 
-import { TEST_USER_ID } from '../../../constants';
-import { AttendeeStatus, UserDocument } from '../../../generated/graphql';
-import { fakeEnrolments, fakeUser } from '../../../utils/mockDataUtils';
-import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import { AttendeeStatus } from '../../../generated/graphql';
+import { fakeEnrolments } from '../../../utils/mockDataUtils';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
-
-const publisher = TEST_PUBLISHER_ID;
 
 const attendeeNames = range(1, ENROLMENTS_PAGE_SIZE + 1).map(
   (n) => `Attendee name ${n}`
@@ -38,23 +34,10 @@ const waitingAttendees = fakeEnrolments(
 
 const waitingAttendeesResponse = { enrolments: waitingAttendees };
 
-// User mocks
-const user = fakeUser({
-  organization: publisher,
-  adminOrganizations: [publisher],
-});
-const userVariables = { createPath: undefined, id: TEST_USER_ID };
-const userResponse = { data: { user } };
-const mockedUserResponse = {
-  request: { query: UserDocument, variables: userVariables },
-  result: userResponse,
-};
-
 export {
   attendeeNames,
   attendees,
   attendeesResponse,
-  mockedUserResponse,
   waitingAttendeeNames,
   waitingAttendees,
   waitingAttendeesResponse,

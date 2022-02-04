@@ -22,7 +22,7 @@ import {
   mockedEventResponse,
   registration,
 } from '../../../registration/__mocks__/editRegistrationPage';
-import { mockedUserResponse } from '../../__mocks__/registrationsPage';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
 
 configure({ defaultHidden: true });

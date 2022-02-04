@@ -6,10 +6,7 @@ import { toast } from 'react-toastify';
 import { ROUTES } from '../../../../constants';
 import { DeleteEnrolmentDocument } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
-import {
-  fakeEnrolment,
-  fakeRegistration,
-} from '../../../../utils/mockDataUtils';
+import { fakeEnrolment } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
@@ -24,7 +21,7 @@ import {
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { registration } from '../../../registration/__mocks__/registration';
-import { mockedUserResponse } from '../../__mocks__/enrolmentsPage';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
 
 configure({ defaultHidden: true });
