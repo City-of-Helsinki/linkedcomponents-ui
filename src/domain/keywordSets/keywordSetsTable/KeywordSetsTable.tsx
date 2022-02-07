@@ -80,7 +80,7 @@ const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
             onClick={handleSort}
             sort={sort}
             sortKey={KEYWORD_SET_SORT_OPTIONS.USAGE}
-            type="text"
+            type="default"
           />
 
           <th className={styles.actionButtonsColumn}></th>

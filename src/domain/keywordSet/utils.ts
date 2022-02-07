@@ -45,8 +45,12 @@ export const keywordSetPathBuilder = ({
 export const keywordSetsPathBuilder = ({
   args,
 }: PathBuilderProps<KeywordSetsQueryVariables>): string => {
-  const { include } = args;
-  const variableToKeyItems = [{ key: 'include', value: include }];
+  const { include, sort, text } = args;
+  const variableToKeyItems = [
+    { key: 'include', value: include },
+    { key: 'sort', value: sort },
+    { key: 'text', value: text },
+  ];
 
   const query = queryBuilder(variableToKeyItems);
 
