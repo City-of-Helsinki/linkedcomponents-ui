@@ -103,6 +103,7 @@ module.exports = buildSchema(/* GraphQL */ `
     ): PlacesResponse!
     registration(id: ID, include: [String]): Registration!
     registrations(
+      adminUser: Boolean
       eventType: [EventTypeId]
       page: Int
       pageSize: Int

@@ -673,6 +673,7 @@ export type QueryRegistrationArgs = {
 
 
 export type QueryRegistrationsArgs = {
+  adminUser?: InputMaybe<Scalars['Boolean']>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>>>;
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
@@ -1152,6 +1153,7 @@ export type RegistrationQueryVariables = Exact<{
 export type RegistrationQuery = { __typename?: 'Query', registration: { __typename?: 'Registration', id?: string | null | undefined, atId: string, audienceMaxAge?: number | null | undefined, audienceMinAge?: number | null | undefined, confirmationMessage?: string | null | undefined, createdBy?: string | null | undefined, currentAttendeeCount?: number | null | undefined, currentWaitingListCount?: number | null | undefined, enrolmentEndTime?: string | null | undefined, enrolmentStartTime?: string | null | undefined, event?: string | null | undefined, instructions?: string | null | undefined, lastModifiedAt?: string | null | undefined, maximumAttendeeCapacity?: number | null | undefined, minimumAttendeeCapacity?: number | null | undefined, waitingListCapacity?: number | null | undefined, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null | undefined, cancellationCode?: string | null | undefined, city?: string | null | undefined, dateOfBirth?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notifications?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, zipcode?: string | null | undefined } | null | undefined> | null | undefined } };
 
 export type RegistrationsQueryVariables = Exact<{
+  adminUser?: InputMaybe<Scalars['Boolean']>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>> | InputMaybe<EventTypeId>>;
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
@@ -2705,8 +2707,9 @@ export type RegistrationQueryHookResult = ReturnType<typeof useRegistrationQuery
 export type RegistrationLazyQueryHookResult = ReturnType<typeof useRegistrationLazyQuery>;
 export type RegistrationQueryResult = Apollo.QueryResult<RegistrationQuery, RegistrationQueryVariables>;
 export const RegistrationsDocument = gql`
-    query Registrations($eventType: [EventTypeId], $page: Int, $pageSize: Int, $text: String, $createPath: Any) {
+    query Registrations($adminUser: Boolean, $eventType: [EventTypeId], $page: Int, $pageSize: Int, $text: String, $createPath: Any) {
   registrations(
+    adminUser: $adminUser
     eventType: $eventType
     page: $page
     pageSize: $pageSize
@@ -2735,6 +2738,7 @@ ${RegistrationFieldsFragmentDoc}`;
  * @example
  * const { data, loading, error } = useRegistrationsQuery({
  *   variables: {
+ *      adminUser: // value for 'adminUser'
  *      eventType: // value for 'eventType'
  *      page: // value for 'page'
  *      pageSize: // value for 'pageSize'

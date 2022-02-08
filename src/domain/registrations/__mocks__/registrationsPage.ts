@@ -54,6 +54,7 @@ const registrations = fakeRegistrations(
 
 const registrationsResponse = { data: { registrations } };
 const registrationsVariables = {
+  adminUser: true,
   createPath: undefined,
   eventType: [],
   page: 1,

@@ -144,6 +144,7 @@ describe('replaceParamsToRegistrationQueryString', () => {
 
 describe('getRegistrationsQueryVariables', () => {
   const defaultVariables: RegistrationsQueryVariables = {
+    adminUser: true,
     createPath: undefined,
     eventType: [],
     page: 1,
@@ -171,6 +172,10 @@ describe('getRegistrationsQueryVariables', () => {
 
 describe('registrationsPathBuilder function', () => {
   const cases: [RegistrationsQueryVariables, string][] = [
+    [
+      { adminUser: true },
+      '/registration/?admin_user=true&event_type=General,Course,Volunteering',
+    ],
     [
       { eventType: [EventTypeId.Course, EventTypeId.General] },
       '/registration/?event_type=Course,General',

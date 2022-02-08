@@ -68,6 +68,7 @@ export const getRegistrationsQueryVariables = (
   const { eventType, page, text } = getRegistrationSearchInitialValues(search);
 
   return {
+    adminUser: true,
     createPath: getPathBuilder(registrationsPathBuilder),
     eventType: eventType.map((type) => capitalize(type)) as EventTypeId[],
     page,
@@ -143,9 +144,10 @@ export const clearRegistrationsQueries = (
 export const registrationsPathBuilder = ({
   args,
 }: PathBuilderProps<RegistrationsQueryVariables>): string => {
-  const { eventType, page, pageSize, text } = args;
+  const { adminUser, eventType, page, pageSize, text } = args;
 
   const variableToKeyItems = [
+    { key: 'admin_user', value: adminUser },
     {
       key: 'event_type',
       value: eventType?.length ? eventType : Object.values(EventTypeId),
