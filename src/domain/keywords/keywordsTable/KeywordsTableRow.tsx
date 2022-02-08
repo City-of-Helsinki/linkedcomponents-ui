@@ -44,6 +44,7 @@ const KeywordsTableRow: React.FC<Props> = ({ keyword, onRowClick }) => {
         role="button"
         aria-label={name}
         id={getKeywordItemId(id)}
+        data-testid={id}
         onClick={handleRowClick}
         onKeyDown={handleKeyDown}
         tabIndex={0}

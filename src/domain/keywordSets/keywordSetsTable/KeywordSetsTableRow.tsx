@@ -59,6 +59,7 @@ const KeywordSetsTableRow: React.FC<Props> = ({ keywordSet, onRowClick }) => {
       role="button"
       aria-label={name}
       id={getKeywordSetItemId(id)}
+      data-testid={id}
       onClick={handleRowClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}

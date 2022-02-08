@@ -59,6 +59,12 @@ test('Header tabs and search input field work', async (t) => {
     await headerTabs.actions.clickRegistrationsPageTab();
     await urlUtils.expectations.urlChangedToRegistrationsPage();
   }
+  // Admin page
+  if (isFeatureEnabled('SHOW_ADMIN')) {
+    await urlUtils.actions.navigateToLandingPage();
+    await headerTabs.actions.clickAdminPageTab();
+    await urlUtils.expectations.urlChangedToKeywordsPage();
+  }
   // Support page
   await urlUtils.actions.navigateToLandingPage();
   await headerTabs.actions.clickSupportPageTab();

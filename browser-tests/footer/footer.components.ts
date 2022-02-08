@@ -21,6 +21,9 @@ export const findFooter = async (t: TestController) => {
 
   const footerLinks = () => {
     const selectors = {
+      adminLink() {
+        return withinFooter().findByRole('link', { name: /hallinta/i });
+      },
       contactLink() {
         return withinFooter().findByRole('link', { name: /anna palautetta/i });
       },
@@ -39,6 +42,11 @@ export const findFooter = async (t: TestController) => {
     };
 
     const expectations = {
+      async adminIsVisible() {
+        await t
+          .expect(selectors.contactLink().exists)
+          .ok(await getErrorMessage(t));
+      },
       async contactLinkIsVisible() {
         await t
           .expect(selectors.contactLink().exists)
@@ -67,6 +75,9 @@ export const findFooter = async (t: TestController) => {
     };
 
     const actions = {
+      async clickAdminPageLink() {
+        await t.click(selectors.adminLink());
+      },
       async clickContactPageLink() {
         await t.click(selectors.contactLink());
       },

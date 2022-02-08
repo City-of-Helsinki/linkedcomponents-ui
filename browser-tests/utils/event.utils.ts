@@ -1,17 +1,6 @@
-import {
-  EventFieldsFragment,
-  PlaceFieldsFragment,
-} from '../../src/generated/graphql';
+import { EventFieldsFragment } from '../../src/generated/graphql';
 import { Language } from '../../src/types';
-
-const removeEmpty = (obj) => {
-  Object.keys(obj).forEach(
-    (k) =>
-      (obj[k] && typeof obj[k] === 'object' && removeEmpty(obj[k])) ||
-      (!obj[k] && obj[k] !== undefined && delete obj[k])
-  );
-  return obj;
-};
+import { removeEmpty } from './utils';
 
 export const getExpectedEventContext = (
   event: Partial<EventFieldsFragment>,

@@ -38,6 +38,12 @@ test('Footer links work', async (t) => {
     await footerLinks.actions.clickRegistrationsPageLink();
     await urlUtils.expectations.urlChangedToRegistrationsPage();
   }
+  // Admin page
+  if (isFeatureEnabled('SHOW_ADMIN')) {
+    await urlUtils.actions.navigateToLandingPage();
+    await footerLinks.actions.clickAdminPageLink();
+    await urlUtils.expectations.urlChangedToKeywordsPage();
+  }
   // Support page
   await urlUtils.actions.navigateToLandingPage();
   await footerLinks.actions.clickSupportPageLink();

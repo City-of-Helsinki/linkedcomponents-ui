@@ -148,6 +148,10 @@ Running browser tests against local environment
 
 Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
 
+### `yarn browser-test:prod`
+
+Running browser tests against production environment
+
 ### `yarn build`
 
 Builds the app for production to the `build` folder.<br />

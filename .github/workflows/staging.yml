@@ -109,6 +109,7 @@ jobs:
         env:
           BROWSER_TESTS_ENV_URL: https://${{ secrets.ENVIRONMENT_URL_STAGING }}
           BROWSER_TESTS_LINKED_EVENTS_URL: 'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1'
+          BROWSER_TESTS_SHOW_ADMIN: 'true'
           BROWSER_TESTS_SHOW_REGISTRATION: 'true'
           GITHUB_WORKFLOW_NAME: ${{  github.workflow }}
           GITHUB_WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
