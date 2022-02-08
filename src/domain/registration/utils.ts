@@ -83,12 +83,10 @@ export const getEditRegistrationWarning = ({
   }
 
   if (!userCanDoAction) {
-    switch (action) {
-      case REGISTRATION_ACTIONS.CREATE:
-        return t('registration.form.editButtonPanel.warningNoRightsToCreate');
-      default:
-        return t('registration.form.editButtonPanel.warningNoRightsToEdit');
+    if (action === REGISTRATION_ACTIONS.CREATE) {
+      return t('registration.form.editButtonPanel.warningNoRightsToCreate');
     }
+    return t('registration.form.editButtonPanel.warningNoRightsToEdit');
   }
 
   return '';
