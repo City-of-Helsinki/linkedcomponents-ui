@@ -11,7 +11,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { registration } from '../../../registration/__mocks__/registration';
-import { mockedUserResponse } from '../../__mocks__/enrolmentsPage';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import ButtonPanel, { ButtonPanelProps } from '../ButtonPanel';
 
 configure({ defaultHidden: true });

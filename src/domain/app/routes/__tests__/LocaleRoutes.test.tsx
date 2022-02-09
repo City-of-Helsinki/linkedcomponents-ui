@@ -1,12 +1,9 @@
-import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 import { Route } from 'react-router';
 
-import { DEPRECATED_ROUTES, ROUTES, TEST_USER_ID } from '../../../../constants';
-import { UserDocument } from '../../../../generated/graphql';
+import { DEPRECATED_ROUTES, ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../types';
-import { fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   configure,
@@ -34,23 +31,13 @@ import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../../registration/__mocks__/editRegistrationPage';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import LocaleRoutes from '../LocaleRoutes';
 
 configure({ defaultHidden: true });
 
 const storeState = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(storeState);
-
-const adminOrganization = 'helsinki';
-const userData = fakeUser({ adminOrganizations: [adminOrganization] });
-const userResponse = { data: { user: userData } };
-const mockedUserResponse: MockedResponse = {
-  request: {
-    query: UserDocument,
-    variables: { id: TEST_USER_ID, createPath: undefined },
-  },
-  result: userResponse,
-};
 
 const mocks = [
   mockedEnrolmentResponse,

@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 
 export const QUERY_REGISTRATIONS = gql`
   query Registrations(
+    $adminUser: Boolean
     $eventType: [EventTypeId]
     $page: Int
     $pageSize: Int
@@ -10,6 +11,7 @@ export const QUERY_REGISTRATIONS = gql`
     $createPath: Any
   ) {
     registrations(
+      adminUser: $adminUser
       eventType: $eventType
       page: $page
       pageSize: $pageSize

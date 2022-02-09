@@ -68,6 +68,7 @@ export const getRegistrationsQueryVariables = (
   const { eventType, page, text } = getRegistrationSearchInitialValues(search);
 
   return {
+    adminUser: true,
     createPath: getPathBuilder(registrationsPathBuilder),
     eventType: eventType.map((type) => capitalize(type)) as EventTypeId[],
     page,
@@ -84,12 +85,13 @@ export const getRegistrationParamValue = ({
   value: string;
 }): string => {
   switch (param) {
-    case REGISTRATION_SEARCH_PARAMS.ENROLMENT_PAGE:
+    case REGISTRATION_SEARCH_PARAMS.ATTENDEE_PAGE:
     case REGISTRATION_SEARCH_PARAMS.ENROLMENT_TEXT:
     case REGISTRATION_SEARCH_PARAMS.EVENT_TYPE:
     case REGISTRATION_SEARCH_PARAMS.PAGE:
     case REGISTRATION_SEARCH_PARAMS.SORT:
     case REGISTRATION_SEARCH_PARAMS.TEXT:
+    case REGISTRATION_SEARCH_PARAMS.WAITING_PAGE:
       return value;
     case REGISTRATION_SEARCH_PARAMS.RETURN_PATH:
       return stripLanguageFromPath(value);
@@ -142,9 +144,10 @@ export const clearRegistrationsQueries = (
 export const registrationsPathBuilder = ({
   args,
 }: PathBuilderProps<RegistrationsQueryVariables>): string => {
-  const { eventType, page, pageSize, text } = args;
+  const { adminUser, eventType, page, pageSize, text } = args;
 
   const variableToKeyItems = [
+    { key: 'admin_user', value: adminUser },
     {
       key: 'event_type',
       value: eventType?.length ? eventType : Object.values(EventTypeId),

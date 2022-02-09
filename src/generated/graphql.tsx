@@ -110,19 +110,13 @@ export type Enrolment = {
   extraInfo?: Maybe<Scalars['String']>;
   membershipNumber?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  notifications?: Maybe<Scalars['String']>;
   nativeLanguage?: Maybe<Scalars['String']>;
+  notifications?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   registration?: Maybe<Scalars['ID']>;
   serviceLanguage?: Maybe<Scalars['String']>;
   streetAddress?: Maybe<Scalars['String']>;
   zipcode?: Maybe<Scalars['String']>;
-};
-
-export type EnrolmentsResponse = {
-  __typename?: 'EnrolmentsResponse';
-  meta: Meta;
-  data: Array<Enrolment>;
 };
 
 export type Event = {
@@ -558,7 +552,7 @@ export enum PublicationStatus {
 export type Query = {
   __typename?: 'Query';
   enrolment: Enrolment;
-  enrolments: EnrolmentsResponse;
+  enrolments: Array<Maybe<Enrolment>>;
   event: Event;
   events: EventsResponse;
   keyword: Keyword;
@@ -584,9 +578,9 @@ export type QueryEnrolmentArgs = {
 
 
 export type QueryEnrolmentsArgs = {
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  registration?: InputMaybe<Scalars['ID']>;
+  attendeeStatus?: InputMaybe<AttendeeStatus>;
+  events?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  registrations?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   text?: InputMaybe<Scalars['String']>;
 };
 
@@ -708,6 +702,7 @@ export type QueryRegistrationArgs = {
 
 
 export type QueryRegistrationsArgs = {
+  adminUser?: InputMaybe<Scalars['Boolean']>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>>>;
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
@@ -907,15 +902,15 @@ export type EnrolmentQueryVariables = Exact<{
 export type EnrolmentQuery = { __typename?: 'Query', enrolment: { __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null | undefined, cancellationCode?: string | null | undefined, city?: string | null | undefined, dateOfBirth?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notifications?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, zipcode?: string | null | undefined } };
 
 export type EnrolmentsQueryVariables = Exact<{
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  registration?: InputMaybe<Scalars['ID']>;
+  attendeeStatus?: InputMaybe<AttendeeStatus>;
+  events?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  registrations?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
   text?: InputMaybe<Scalars['String']>;
   createPath?: InputMaybe<Scalars['Any']>;
 }>;
 
 
-export type EnrolmentsQuery = { __typename?: 'Query', enrolments: { __typename?: 'EnrolmentsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null | undefined, cancellationCode?: string | null | undefined, city?: string | null | undefined, dateOfBirth?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notifications?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, zipcode?: string | null | undefined }> } };
+export type EnrolmentsQuery = { __typename?: 'Query', enrolments: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null | undefined, cancellationCode?: string | null | undefined, city?: string | null | undefined, dateOfBirth?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notifications?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, zipcode?: string | null | undefined } | null | undefined> };
 
 export type CreateEventMutationVariables = Exact<{
   input: CreateEventMutationInput;
@@ -1217,6 +1212,7 @@ export type RegistrationQueryVariables = Exact<{
 export type RegistrationQuery = { __typename?: 'Query', registration: { __typename?: 'Registration', id?: string | null | undefined, atId: string, audienceMaxAge?: number | null | undefined, audienceMinAge?: number | null | undefined, confirmationMessage?: string | null | undefined, createdBy?: string | null | undefined, currentAttendeeCount?: number | null | undefined, currentWaitingListCount?: number | null | undefined, enrolmentEndTime?: string | null | undefined, enrolmentStartTime?: string | null | undefined, event?: string | null | undefined, instructions?: string | null | undefined, lastModifiedAt?: string | null | undefined, maximumAttendeeCapacity?: number | null | undefined, minimumAttendeeCapacity?: number | null | undefined, waitingListCapacity?: number | null | undefined, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null | undefined, cancellationCode?: string | null | undefined, city?: string | null | undefined, dateOfBirth?: string | null | undefined, email?: string | null | undefined, extraInfo?: string | null | undefined, membershipNumber?: string | null | undefined, name?: string | null | undefined, nativeLanguage?: string | null | undefined, notifications?: string | null | undefined, phoneNumber?: string | null | undefined, serviceLanguage?: string | null | undefined, streetAddress?: string | null | undefined, zipcode?: string | null | undefined } | null | undefined> | null | undefined } };
 
 export type RegistrationsQueryVariables = Exact<{
+  adminUser?: InputMaybe<Scalars['Boolean']>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>> | InputMaybe<EventTypeId>>;
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
@@ -1686,23 +1682,17 @@ export type EnrolmentQueryHookResult = ReturnType<typeof useEnrolmentQuery>;
 export type EnrolmentLazyQueryHookResult = ReturnType<typeof useEnrolmentLazyQuery>;
 export type EnrolmentQueryResult = Apollo.QueryResult<EnrolmentQuery, EnrolmentQueryVariables>;
 export const EnrolmentsDocument = gql`
-    query Enrolments($page: Int, $pageSize: Int, $registration: ID, $text: String, $createPath: Any) {
+    query Enrolments($attendeeStatus: AttendeeStatus, $events: [ID], $registrations: [ID], $text: String, $createPath: Any) {
   enrolments(
-    page: $page
-    pageSize: $pageSize
-    registration: $registration
+    attendeeStatus: $attendeeStatus
+    events: $events
+    registrations: $registrations
     text: $text
-  ) @rest(type: "EnrolmentsResponse", pathBuilder: $createPath) {
-    meta {
-      ...metaFields
-    }
-    data {
-      ...enrolmentFields
-    }
+  ) @rest(type: "Enrolment", pathBuilder: $createPath) {
+    ...enrolmentFields
   }
 }
-    ${MetaFieldsFragmentDoc}
-${EnrolmentFieldsFragmentDoc}`;
+    ${EnrolmentFieldsFragmentDoc}`;
 
 /**
  * __useEnrolmentsQuery__
@@ -1716,9 +1706,9 @@ ${EnrolmentFieldsFragmentDoc}`;
  * @example
  * const { data, loading, error } = useEnrolmentsQuery({
  *   variables: {
- *      page: // value for 'page'
- *      pageSize: // value for 'pageSize'
- *      registration: // value for 'registration'
+ *      attendeeStatus: // value for 'attendeeStatus'
+ *      events: // value for 'events'
+ *      registrations: // value for 'registrations'
  *      text: // value for 'text'
  *      createPath: // value for 'createPath'
  *   },
@@ -2879,8 +2869,9 @@ export type RegistrationQueryHookResult = ReturnType<typeof useRegistrationQuery
 export type RegistrationLazyQueryHookResult = ReturnType<typeof useRegistrationLazyQuery>;
 export type RegistrationQueryResult = Apollo.QueryResult<RegistrationQuery, RegistrationQueryVariables>;
 export const RegistrationsDocument = gql`
-    query Registrations($eventType: [EventTypeId], $page: Int, $pageSize: Int, $text: String, $createPath: Any) {
+    query Registrations($adminUser: Boolean, $eventType: [EventTypeId], $page: Int, $pageSize: Int, $text: String, $createPath: Any) {
   registrations(
+    adminUser: $adminUser
     eventType: $eventType
     page: $page
     pageSize: $pageSize
@@ -2909,6 +2900,7 @@ ${RegistrationFieldsFragmentDoc}`;
  * @example
  * const { data, loading, error } = useRegistrationsQuery({
  *   variables: {
+ *      adminUser: // value for 'adminUser'
  *      eventType: // value for 'eventType'
  *      page: // value for 'page'
  *      pageSize: // value for 'pageSize'

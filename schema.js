@@ -33,11 +33,11 @@ module.exports = buildSchema(/* GraphQL */ `
   type Query {
     enrolment(id: ID): Enrolment!
     enrolments(
-      page: Int
-      pageSize: Int
-      registration: ID
+      attendeeStatus: AttendeeStatus
+      events: [ID]
+      registrations: [ID]
       text: String
-    ): EnrolmentsResponse!
+    ): [Enrolment]!
     event(id: ID, include: [String]): Event!
     events(
       adminUser: Boolean
@@ -111,6 +111,7 @@ module.exports = buildSchema(/* GraphQL */ `
     ): PlacesResponse!
     registration(id: ID, include: [String]): Registration!
     registrations(
+      adminUser: Boolean
       eventType: [EventTypeId]
       page: Int
       pageSize: Int
@@ -666,11 +667,6 @@ module.exports = buildSchema(/* GraphQL */ `
     atType: String
   }
 
-  type EnrolmentsResponse {
-    meta: Meta!
-    data: [Enrolment!]!
-  }
-
   type Enrolment {
     id: ID!
     attendeeStatus: AttendeeStatus
@@ -681,8 +677,8 @@ module.exports = buildSchema(/* GraphQL */ `
     extraInfo: String
     membershipNumber: String
     name: String
-    notifications: String
     nativeLanguage: String
+    notifications: String
     phoneNumber: String
     registration: ID
     serviceLanguage: String

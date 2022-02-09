@@ -7,18 +7,17 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 
-import { TEST_USER_ID } from '../../../../constants';
 import {
   EventDocument,
   SuperEventType,
   UpdateEventDocument,
-  UserDocument,
 } from '../../../../generated/graphql';
 import generateAtId from '../../../../utils/generateAtId';
-import { fakeEvent, fakeUser } from '../../../../utils/mockDataUtils';
+import { fakeEvent } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import { getMockReduxStore } from '../../../../utils/testUtils';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { EVENT_INCLUDES } from '../../constants';
 import useUpdateRecurringEventIfNeeded from '../useUpdateRecurringEventIfNeeded';
 
@@ -43,24 +42,6 @@ const superEventVariables = {
   id: 'super-event:1',
   include: EVENT_INCLUDES,
   createPath: undefined,
-};
-
-const user = fakeUser({
-  organization: publisher,
-  adminOrganizations: [publisher],
-  organizationMemberships: [publisher],
-});
-const userVariables = {
-  createPath: undefined,
-  id: TEST_USER_ID,
-};
-const userResponse = { data: { user } };
-const mockedUserResponse: MockedResponse = {
-  request: {
-    query: UserDocument,
-    variables: userVariables,
-  },
-  result: userResponse,
 };
 
 const state = fakeAuthenticatedStoreState();

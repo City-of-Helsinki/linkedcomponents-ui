@@ -34,7 +34,7 @@ const registrationOverrides = {
   instructions: 'Instructions',
   maximumAttendeeCapacity: 100,
   minimumAttendeeCapacity: 10,
-  signups: [...attendees.data, ...waitingAttendees.data],
+  signups: [...attendees, ...waitingAttendees],
   waitingListCapacity: 5,
 };
 

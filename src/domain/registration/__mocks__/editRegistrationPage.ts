@@ -1,18 +1,12 @@
 import { MockedResponse } from '@apollo/client/testing';
 
-import { TEST_USER_ID } from '../../../constants';
 import {
   DeleteRegistrationDocument,
   EventDocument,
   RegistrationDocument,
   UpdateRegistrationDocument,
-  UserDocument,
 } from '../../../generated/graphql';
-import {
-  fakeEvent,
-  fakeRegistration,
-  fakeUser,
-} from '../../../utils/mockDataUtils';
+import { fakeEvent, fakeRegistration } from '../../../utils/mockDataUtils';
 import { EVENT_INCLUDES, TEST_EVENT_ID } from '../../event/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { REGISTRATION_INCLUDES } from '../constants';
@@ -108,19 +102,6 @@ const mockedInvalidUpdateRegistrationResponse: MockedResponse = {
   } as Error,
 };
 
-// User mocks
-const user = fakeUser({
-  organization: publisher,
-  adminOrganizations: [publisher],
-});
-
-const userVariables = { createPath: undefined, id: TEST_USER_ID };
-const userResponse = { data: { user } };
-const mockedUserResponse: MockedResponse = {
-  request: { query: UserDocument, variables: userVariables },
-  result: userResponse,
-};
-
 export {
   event,
   mockedDeleteRegistrationResponse,
@@ -129,7 +110,6 @@ export {
   mockedRegistrationResponse,
   mockedUpdatedRegistationResponse,
   mockedUpdateRegistrationResponse,
-  mockedUserResponse,
   publisher,
   registration,
   registrationId,

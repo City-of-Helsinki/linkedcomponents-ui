@@ -5,7 +5,10 @@ import { UserDocument } from '../../../generated/graphql';
 import { fakeUser } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 
-const user = fakeUser({ adminOrganizations: [TEST_PUBLISHER_ID] });
+const user = fakeUser({
+  adminOrganizations: [TEST_PUBLISHER_ID],
+  organization: TEST_PUBLISHER_ID,
+});
 const userVariables = {
   createPath: undefined,
   id: TEST_USER_ID,
@@ -19,4 +22,4 @@ const mockedUserResponse: MockedResponse = {
   result: userResponse,
 };
 
-export { mockedUserResponse };
+export { mockedUserResponse, userVariables };

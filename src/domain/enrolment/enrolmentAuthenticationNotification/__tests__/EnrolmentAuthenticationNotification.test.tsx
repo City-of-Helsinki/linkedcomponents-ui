@@ -18,8 +18,8 @@ import {
 import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
 import userManager from '../../../auth/userManager';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
-import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { registration } from '../../../registration/__mocks__/registration';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { ENROLMENT_ACTIONS } from '../../constants';
 import EnrolmentAuthenticationNotification from '../EnrolmentAuthenticationNotification';
 
@@ -64,15 +64,6 @@ test("should show notification if user is signed in but doesn't have any organiz
 });
 
 test('should not show notification if user is signed in and has an admin organization', async () => {
-  const user = fakeUser({
-    adminOrganizations: [TEST_PUBLISHER_ID],
-    organizationMemberships: [],
-  });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
   const mocks = [mockedEventResponse, mockedUserResponse];
 
   const storeState = fakeAuthenticatedStoreState();

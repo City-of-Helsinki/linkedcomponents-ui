@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../../constants';
 import {
+  Enrolment,
   Event,
   EventsResponse,
   Image,
@@ -39,6 +40,7 @@ import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
 import { store } from '../store/store';
 import {
+  addTypenameEnrolment,
   addTypenameEvent,
   addTypenameImage,
   addTypenameKeyword,
@@ -233,6 +235,8 @@ const linkedEventsLink = new RestLink({
     'Content-Type': 'application/json',
   },
   typePatcher: {
+    Enrolment: (enrolment: Enrolment): Enrolment | null =>
+      addTypenameEnrolment(enrolment),
     Event: (event: Event): Event | null => addTypenameEvent(event),
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);

@@ -5,13 +5,14 @@ import {
 } from './constants';
 
 export type RegistrationSearchParams = {
-  [REGISTRATION_SEARCH_PARAMS.ENROLMENT_PAGE]?: number | null;
+  [REGISTRATION_SEARCH_PARAMS.ATTENDEE_PAGE]?: number | null;
   [REGISTRATION_SEARCH_PARAMS.ENROLMENT_TEXT]?: string;
   [REGISTRATION_SEARCH_PARAMS.EVENT_TYPE]?: EVENT_TYPE[];
   [REGISTRATION_SEARCH_PARAMS.PAGE]?: number | null;
   [REGISTRATION_SEARCH_PARAMS.RETURN_PATH]?: string | null;
   [REGISTRATION_SEARCH_PARAMS.SORT]?: REGISTRATION_SORT_OPTIONS | null;
   [REGISTRATION_SEARCH_PARAMS.TEXT]?: string;
+  [REGISTRATION_SEARCH_PARAMS.WAITING_PAGE]?: number | null;
 };
 
 export type RegistrationSearchInitialValues = {
