@@ -17,7 +17,7 @@ const registrationNames = range(1, REGISTRATIONS_PAGE_SIZE + 1).map(
   (n) => `Registration name ${n}`
 );
 const eventNames = range(1, REGISTRATIONS_PAGE_SIZE + 1).map(
-  (n) => `Registration name ${n}`
+  (n) => `Event name ${n}`
 );
 const events = fakeEvents(
   REGISTRATIONS_PAGE_SIZE,
@@ -59,7 +59,9 @@ const meta: Meta = {
 const registrationsResponse = {
   data: { registrations: { ...registrations, meta } },
 };
+
 const registrationsVariables = {
+  adminUser: true,
   createPath: undefined,
   eventType: [],
   page: 1,
@@ -76,15 +78,15 @@ const page2RegistrationNames = range(
   REGISTRATIONS_PAGE_SIZE + 1,
   2 * REGISTRATIONS_PAGE_SIZE + 1
 ).map((n) => `Registration name ${n}`);
+
 const page2EventNames = range(
   REGISTRATIONS_PAGE_SIZE + 1,
   2 * REGISTRATIONS_PAGE_SIZE + 1
-).map((n) => `Registration name ${n}`);
+).map((n) => `Event name ${n}`);
+
 const page2Events = fakeEvents(
   REGISTRATIONS_PAGE_SIZE,
-  page2EventNames.map((name, index) => ({
-    name: fakeLocalisedObject(name),
-  }))
+  page2EventNames.map((name, index) => ({ name: fakeLocalisedObject(name) }))
 );
 
 const mockedPage2EventResponses = [
@@ -112,13 +114,7 @@ const page2Registrations = fakeRegistrations(
 const page2RegistrationsResponse = {
   data: { registrations: { ...page2Registrations, meta } },
 };
-const page2RegistrationsVariables = {
-  createPath: undefined,
-  eventType: [],
-  page: 2,
-  pageSize: REGISTRATIONS_PAGE_SIZE,
-  text: '',
-};
+const page2RegistrationsVariables = { ...registrationsVariables, page: 2 };
 
 const mockedPage2RegistrationsResponse = {
   request: {

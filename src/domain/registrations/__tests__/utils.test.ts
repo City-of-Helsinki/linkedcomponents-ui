@@ -70,7 +70,7 @@ describe('getRegistrationSearchQuery function', () => {
   };
   const cases: [string, RegistrationSearchParams, string][] = [
     ['', defaultParams, 'text=text'],
-    ['', { ...defaultParams, enrolmentPage: 2 }, 'text=text&enrolmentPage=2'],
+    ['', { ...defaultParams, attendeePage: 2 }, 'text=text&attendeePage=2'],
     [
       '',
       { ...defaultParams, enrolmentText: 'text' },
@@ -92,6 +92,7 @@ describe('getRegistrationSearchQuery function', () => {
       { ...defaultParams },
       'text=text&sort=last_modified_time',
     ],
+    ['', { ...defaultParams, waitingPage: 2 }, 'text=text&waitingPage=2'],
     [undefined, { ...defaultParams, text: 'search' }, 'text=search'],
   ];
 
@@ -105,7 +106,7 @@ describe('getRegistrationSearchQuery function', () => {
 
 describe('replaceParamsToRegistrationQueryString', () => {
   const cases: [Partial<RegistrationSearchParams>, string, string][] = [
-    [{ enrolmentPage: 1 }, '?enrolmentPage=2', '?enrolmentPage=1'],
+    [{ attendeePage: 1 }, '?attendeePage=2', '?attendeePage=1'],
     [
       { enrolmentText: 'newText' },
       '?enrolmentText=text',
@@ -128,6 +129,7 @@ describe('replaceParamsToRegistrationQueryString', () => {
       '?sort=last_modified_time',
     ],
     [{ text: 'search' }, '?text=text1', '?text=search'],
+    [{ waitingPage: 1 }, '?waitingPage=2', '?waitingPage=1'],
   ];
 
   it.each(cases)(
@@ -142,6 +144,7 @@ describe('replaceParamsToRegistrationQueryString', () => {
 
 describe('getRegistrationsQueryVariables', () => {
   const defaultVariables: RegistrationsQueryVariables = {
+    adminUser: true,
     createPath: undefined,
     eventType: [],
     page: 1,
@@ -169,6 +172,10 @@ describe('getRegistrationsQueryVariables', () => {
 
 describe('registrationsPathBuilder function', () => {
   const cases: [RegistrationsQueryVariables, string][] = [
+    [
+      { adminUser: true },
+      '/registration/?admin_user=true&event_type=General,Course,Volunteering',
+    ],
     [
       { eventType: [EventTypeId.Course, EventTypeId.General] },
       '/registration/?event_type=Course,General',

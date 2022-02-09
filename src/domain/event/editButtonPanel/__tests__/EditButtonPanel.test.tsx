@@ -14,10 +14,10 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   event,
   mockedOrganizationAncestorsResponse,
-  mockedUserResponse,
 } from '../../__mocks__/editEventPage';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 

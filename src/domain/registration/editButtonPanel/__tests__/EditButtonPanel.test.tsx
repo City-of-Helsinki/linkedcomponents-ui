@@ -15,8 +15,8 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
-  mockedUserResponse,
   publisher,
   registration,
   registrationId,

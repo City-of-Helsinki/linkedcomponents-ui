@@ -15,6 +15,7 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedDeleteRegistrationResponse,
   mockedEventResponse,
@@ -22,7 +23,6 @@ import {
   mockedRegistrationResponse,
   mockedUpdatedRegistationResponse,
   mockedUpdateRegistrationResponse,
-  mockedUserResponse,
   registrationId,
 } from '../__mocks__/editRegistrationPage';
 import EditRegistrationPage from '../EditRegistrationPage';

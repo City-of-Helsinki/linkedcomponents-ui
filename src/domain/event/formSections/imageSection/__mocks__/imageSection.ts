@@ -111,22 +111,9 @@ const mockedOrganizationsResponse: MockedResponse = {
   result: organizationsResponse,
 };
 
-const user = fakeUser({
-  organization: publisher,
-  adminOrganizations: [publisher],
-  organizationMemberships: [],
-});
 const userVariables = {
   createPath: undefined,
   id: TEST_USER_ID,
-};
-const userResponse = { data: { user } };
-const mockedUserResponse: MockedResponse = {
-  request: {
-    query: UserDocument,
-    variables: userVariables,
-  },
-  result: userResponse,
 };
 
 const userWithoutOrganizations = fakeUser({
@@ -156,7 +143,6 @@ export {
   mockedOrganizationsResponse,
   mockedUploadImage1Response,
   mockedUploadImage2Response,
-  mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
   publisher,
 };

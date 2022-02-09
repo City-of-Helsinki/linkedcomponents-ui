@@ -12,10 +12,8 @@ import {
   screen,
 } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
-import {
-  mockedUserResponse,
-  organizationId,
-} from '../../__mocks__/createEventPage';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
+import { organizationId } from '../../__mocks__/createEventPage';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import ButtonPanel from '../CreateButtonPanel';
 

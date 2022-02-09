@@ -2,18 +2,15 @@ import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
-import { TEST_USER_ID } from '../../../constants';
 import {
   EventsDocument,
   OrganizationDocument,
   OrganizationsDocument,
-  UserDocument,
 } from '../../../generated/graphql';
 import {
   fakeEvents,
   fakeOrganization,
   fakeOrganizations,
-  fakeUser,
 } from '../../../utils/mockDataUtils';
 import {
   fakeAuthenticatedStoreState,
@@ -29,6 +26,8 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   EVENT_LIST_INCLUDES,
   EVENT_LIST_TYPES,
@@ -41,46 +40,28 @@ import EventsPage from '../EventsPage';
 configure({ defaultHidden: true });
 
 const storeState = fakeAuthenticatedStoreState();
+const store = getMockReduxStore(storeState);
 
-const adminOrganization = 'helsinki';
-const userData = fakeUser({ adminOrganizations: [adminOrganization] });
-const userResponse = { data: { user: userData } };
-const mockedUserResponse: MockedResponse = {
-  request: {
-    query: UserDocument,
-    variables: { id: TEST_USER_ID, createPath: undefined },
-  },
-  result: userResponse,
-};
-
-const organizationId = 'helsinki';
+const organizationId = TEST_PUBLISHER_ID;
 const organization = fakeOrganization();
 const organizationVariables = { createPath: undefined, id: organizationId };
-const organizationResponse = {
-  data: { organization },
-};
+const organizationResponse = { data: { organization } };
 const mockedOrganizationResponse: MockedResponse = {
-  request: {
-    query: OrganizationDocument,
-    variables: organizationVariables,
-  },
+  request: { query: OrganizationDocument, variables: organizationVariables },
   // To make sure organization is found also after changing tab to published events
   newData: () => organizationResponse,
 };
 
 const organizationsVariables = {
   createPath: undefined,
-  child: 'helsinki',
+  child: organizationId,
   pageSize: 100,
 };
 const organizationsResponse = {
   data: { organizations: fakeOrganizations(0) },
 };
 const mockedOrganizationsResponse: MockedResponse = {
-  request: {
-    query: OrganizationsDocument,
-    variables: organizationsVariables,
-  },
+  request: { query: OrganizationsDocument, variables: organizationsVariables },
   // To make sure organization is found also after changing tab to published events
   newData: () => organizationsResponse,
 };
@@ -104,14 +85,12 @@ const commonSearchVariables = {
 const waitingApprovalEventsCount = 3;
 const waitingApprovalEvents = fakeEvents(
   waitingApprovalEventsCount,
-  Array(waitingApprovalEventsCount).fill({
-    publisher: organizationId,
-  })
+  Array(waitingApprovalEventsCount).fill({ publisher: organizationId })
 );
 const baseWaitingApprovalEventsVariables = {
   ...baseEventsVariables,
   adminUser: true,
-  publisher: ['helsinki'],
+  publisher: [organizationId],
   publicationStatus: 'draft',
 };
 const waitingApprovalEventsResponse = {
@@ -131,10 +110,7 @@ const waitingApprovalEventsVariables = {
 };
 
 const mockedWaitingApprovalEventsResponse: MockedResponse = {
-  request: {
-    query: EventsDocument,
-    variables: waitingApprovalEventsVariables,
-  },
+  request: { query: EventsDocument, variables: waitingApprovalEventsVariables },
   result: waitingApprovalEventsResponse,
 };
 
@@ -149,24 +125,17 @@ const mockedSortedWaitingApprovalEventsResponse: MockedResponse = {
 const publicEventsCount = 2;
 const publicEvents = fakeEvents(
   publicEventsCount,
-  Array(publicEventsCount).fill({
-    publisher: organizationId,
-  })
+  Array(publicEventsCount).fill({ publisher: organizationId })
 );
 const basePublicEventsVariables = {
   ...baseEventsVariables,
   adminUser: true,
-  publisher: ['helsinki'],
+  publisher: [organizationId],
   publicationStatus: 'public',
 };
-const publicEventsResponse = {
-  data: { events: publicEvents },
-};
+const publicEventsResponse = { data: { events: publicEvents } };
 const mockedBasePublicEventsResponse: MockedResponse = {
-  request: {
-    query: EventsDocument,
-    variables: basePublicEventsVariables,
-  },
+  request: { query: EventsDocument, variables: basePublicEventsVariables },
   result: publicEventsResponse,
 };
 
@@ -175,19 +144,14 @@ const publicEventsVariables = {
   ...commonSearchVariables,
 };
 const mockedPublicEventsResponse: MockedResponse = {
-  request: {
-    query: EventsDocument,
-    variables: publicEventsVariables,
-  },
+  request: { query: EventsDocument, variables: publicEventsVariables },
   result: publicEventsResponse,
 };
 
 const draftEventsCount = 7;
 const draftEvents = fakeEvents(
   draftEventsCount,
-  Array(draftEventsCount).fill({
-    publisher: organizationId,
-  })
+  Array(draftEventsCount).fill({ publisher: organizationId })
 );
 const baseDraftEventsVariables = {
   ...baseEventsVariables,
@@ -199,10 +163,7 @@ const draftEventsResponse = {
   data: { events: draftEvents },
 };
 const mockedBaseDraftEventsResponse: MockedResponse = {
-  request: {
-    query: EventsDocument,
-    variables: baseDraftEventsVariables,
-  },
+  request: { query: EventsDocument, variables: baseDraftEventsVariables },
   result: draftEventsResponse,
 };
 const draftEventsVariables = {
@@ -210,15 +171,11 @@ const draftEventsVariables = {
   ...commonSearchVariables,
 };
 const mockedDraftEventsResponse: MockedResponse = {
-  request: {
-    query: EventsDocument,
-    variables: draftEventsVariables,
-  },
+  request: { query: EventsDocument, variables: draftEventsVariables },
   result: draftEventsResponse,
 };
 
 const mocks = [
-  mockedUserResponse,
   mockedBaseWaitingApprovalEventsResponse,
   mockedWaitingApprovalEventsResponse,
   mockedSortedWaitingApprovalEventsResponse,
@@ -228,6 +185,7 @@ const mocks = [
   mockedDraftEventsResponse,
   mockedOrganizationResponse,
   mockedOrganizationsResponse,
+  mockedUserResponse,
 ];
 
 beforeEach(() => jest.clearAllMocks());
@@ -304,7 +262,6 @@ test('should show correct title, description and keywords', async () => {
 });
 
 test('should render events page', async () => {
-  const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
   await loadingSpinnerIsNotInDocument();
@@ -316,7 +273,6 @@ test('should render events page', async () => {
 });
 
 test('should open create event page', async () => {
-  const store = getMockReduxStore(storeState);
   const { history } = render(<EventsPage />, { mocks, store });
 
   await loadingSpinnerIsNotInDocument();
@@ -328,7 +284,6 @@ test('should open create event page', async () => {
 });
 
 test('should store new listType to redux store', async () => {
-  const store = getMockReduxStore(storeState);
   render(<EventsPage />, { mocks, store });
 
   await loadingSpinnerIsNotInDocument();
@@ -339,9 +294,7 @@ test('should store new listType to redux store', async () => {
   // Test if your store dispatched the expected actions
   const actions = store.getActions();
   const expectedAction = {
-    payload: {
-      listType: EVENT_LIST_TYPES.CARD_LIST,
-    },
+    payload: { listType: EVENT_LIST_TYPES.CARD_LIST },
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   };
   expect(actions).toEqual([expectedAction]);
@@ -359,16 +312,13 @@ test('should store new active tab to redux store', async () => {
   // Test if your store dispatched the expected actions
   const actions = store.getActions();
   const expectedAction = {
-    payload: {
-      tab: EVENTS_PAGE_TABS.PUBLISHED,
-    },
+    payload: { tab: EVENTS_PAGE_TABS.PUBLISHED },
     type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
   };
   expect(actions).toEqual([expectedAction]);
 });
 
 test('should add sort parameter to search query', async () => {
-  const store = getMockReduxStore(storeState);
   const { history } = render(<EventsPage />, { mocks, store });
 
   await loadingSpinnerIsNotInDocument();

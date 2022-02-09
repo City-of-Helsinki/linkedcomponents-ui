@@ -7,7 +7,6 @@ import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import {
   AttendeeStatus,
   Enrolment,
-  EnrolmentsResponse,
   Event,
   EventsResponse,
   EventStatus,
@@ -40,11 +39,8 @@ import generateAtId from './generateAtId';
 export const fakeEnrolments = (
   count = 1,
   enrolments: Partial<Enrolment>[]
-): EnrolmentsResponse => ({
-  data: generateNodeArray((i) => fakeEnrolment(enrolments?.[i]), count),
-  meta: fakeMeta(count),
-  __typename: 'EnrolmentsResponse',
-});
+): Enrolment[] =>
+  generateNodeArray((i) => fakeEnrolment(enrolments?.[i]), count);
 
 export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
   const id = overrides?.id || faker.datatype.uuid();

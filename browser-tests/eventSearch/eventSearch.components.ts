@@ -132,7 +132,9 @@ export const getEventSearchPage = (t: TestController) => {
           const addressLocality = location.addressLocality?.fi ?? '';
 
           return withinEventCard().findAllByText(
-            `${locationName}, ${streetAddress}, ${addressLocality}`
+            [locationName, streetAddress, addressLocality]
+              .filter((i) => i)
+              .join(', ')
           );
         },
         publisherText(publisher: OrganizationFieldsFragment) {
