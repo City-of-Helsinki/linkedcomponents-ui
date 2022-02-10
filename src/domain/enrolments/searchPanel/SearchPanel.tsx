@@ -52,10 +52,11 @@ const SearchPanel: React.FC<Props> = ({ registration }) => {
   const handleSearch = () => {
     history.push({
       pathname: location.pathname,
-      search: replaceParamsToRegistrationQueryString(
-        location.search,
-        searchState
-      ),
+      search: replaceParamsToRegistrationQueryString(location.search, {
+        ...searchState,
+        attendeePage: null,
+        waitingPage: null,
+      }),
     });
   };
 

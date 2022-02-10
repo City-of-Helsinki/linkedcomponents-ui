@@ -23,17 +23,13 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
       pathname,
       search: replaceParamsToRegistrationQueryString(search, {
         enrolmentText: '',
+        attendeePage: null,
+        waitingPage: null,
       }),
     });
   };
 
-  const removeTextFilter = () => {
-    const newSearch = replaceParamsToRegistrationQueryString(search, {
-      enrolmentText: '',
-    });
-
-    history.push({ pathname, search: newSearch });
-  };
+  const removeTextFilter = () => clearFilters();
 
   const hasFilters = Boolean(text);
 

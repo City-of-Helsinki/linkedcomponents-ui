@@ -1,9 +1,8 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
@@ -11,7 +10,6 @@ import {
   useRegistrationQuery,
 } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
-import { scrollToItem } from '../../utils/scrollToItem';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -29,8 +27,6 @@ import ButtonPanel from './buttonPanel/ButtonPanel';
 import styles from './enrolmentsPage.module.scss';
 import FilterSummary from './filterSummary/FilterSummary';
 import SearchPanel from './searchPanel/SearchPanel';
-import { EnrolmentsLocationState } from './types';
-import { getEnrolmentItemId } from './utils';
 import WaitingList from './waitingList/WaitingList';
 
 interface EnrolmentsPageProps {
@@ -39,21 +35,8 @@ interface EnrolmentsPageProps {
 
 const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   const { t } = useTranslation();
-  const location = useLocation<EnrolmentsLocationState>();
-  const history = useHistory();
 
   const name = useRegistrationName({ registration });
-
-  React.useEffect(() => {
-    if (location.state?.enrolmentId) {
-      scrollToItem(getEnrolmentItemId(location.state.enrolmentId));
-      // Clear registrationId value to keep scroll position correctly
-      const state = omit(location.state, 'enrolmentId');
-      // location.search seems to reset if not added here (...location)
-      history.replace({ ...location, state });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <PageWrapper

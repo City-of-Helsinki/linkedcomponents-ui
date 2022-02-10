@@ -16,12 +16,16 @@ export const getEnrolmentSearchInitialValues = (
   search: string
 ): EnrolmentSearchInitialValues => {
   const searchParams = new URLSearchParams(search);
-  const page = searchParams.get(REGISTRATION_SEARCH_PARAMS.ENROLMENT_PAGE);
+  const attendeePage = searchParams.get(
+    REGISTRATION_SEARCH_PARAMS.ATTENDEE_PAGE
+  );
+  const waitingPage = searchParams.get(REGISTRATION_SEARCH_PARAMS.WAITING_PAGE);
   const text = searchParams.get(REGISTRATION_SEARCH_PARAMS.ENROLMENT_TEXT);
 
   return {
-    enrolmentPage: Number(page) || 1,
+    attendeePage: Number(attendeePage) || 1,
     enrolmentText: text || '',
+    waitingPage: Number(waitingPage) || 1,
   };
 };
 
@@ -62,16 +66,16 @@ export const clearEnrolmentsQueries = (
 export const enrolmentsPathBuilder = ({
   args,
 }: PathBuilderProps<EnrolmentsQueryVariables>): string => {
-  const { page, pageSize, registration, text } = args;
+  const { attendeeStatus, events, registrations, text } = args;
 
   const variableToKeyItems = [
-    { key: 'page', value: page },
-    { key: 'page_size', value: pageSize },
-    { key: 'registration', value: registration },
+    { key: 'attendee_status', value: attendeeStatus },
+    { key: 'events', value: events },
+    { key: 'registrations', value: registrations },
     { key: 'text', value: text },
   ];
 
   const query = queryBuilder(variableToKeyItems);
 
-  return `/enrolment/${query}`;
+  return `/signup/${query}`;
 };

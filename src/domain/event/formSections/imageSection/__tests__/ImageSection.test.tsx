@@ -20,6 +20,7 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { DEFAULT_LICENSE_TYPE } from '../../../../image/constants';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, IMAGE_DETAILS_FIELDS } from '../../../constants';
 import { ImageDetails } from '../../../types';
 import { publicEventSchema } from '../../../utils';
@@ -34,7 +35,6 @@ import {
   mockedOrganizationsResponse,
   mockedUploadImage1Response,
   mockedUploadImage2Response,
-  mockedUserResponse,
   publisher,
 } from '../__mocks__/imageSection';
 import ImageSection from '../ImageSection';

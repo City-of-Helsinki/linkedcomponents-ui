@@ -21,6 +21,7 @@ import {
   waitFor,
 } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
+import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   eventValues,
   imageAtId,
@@ -45,7 +46,6 @@ import {
   mockedTopicsKeywordSetResponse,
   mockedUmbrellaEventsResponse,
   mockedUpdateImageResponse,
-  mockedUserResponse,
   organizationId,
   placeAtId,
 } from '../__mocks__/createEventPage';

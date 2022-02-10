@@ -31,7 +31,7 @@ import { reportError } from '../app/sentry/utils';
 import { clearEventsQueries } from '../events/utils';
 import useUser from '../user/hooks/useUser';
 import { EVENT_INITIAL_VALUES } from './constants';
-import ButtonPanel from './createButtonPanel/CreateButtonPanel';
+import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
 import AuthenticationNotification from './eventAuthenticationNotification/EventAuthenticationNotification';
 import styles from './eventPage.module.scss';
 import AdditionalInfoSection from './formSections/additionalInfoSection/AdditionalInfoSection';
@@ -330,7 +330,7 @@ const CreateEventPage: React.FC = () => {
 
                   <SummarySection />
                 </Container>
-                <ButtonPanel
+                <CreateButtonPanel
                   onSaveDraft={() => handleSubmit(PublicationStatus.Draft)}
                   publisher={publisher}
                   saving={saving}

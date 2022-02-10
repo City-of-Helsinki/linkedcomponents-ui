@@ -21,7 +21,7 @@ import {
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { registration } from '../../../registration/__mocks__/registration';
-import { mockedUserResponse } from '../../__mocks__/enrolmentsPage';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import EnrolmentActionsDropdown, {
   EnrolmentActionsDropdownProps,
 } from '../EnrolmentActionsDropdown';

@@ -16,6 +16,7 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   eventId,
   expectedValues,
@@ -48,7 +49,6 @@ import {
   mockedUpdateImageResponse,
   mockedUpdateRecurringEventResponse,
   mockedUpdateSubEventsResponse,
-  mockedUserResponse,
   newSubEventTimes,
   subEventTimes,
 } from '../__mocks__/editEventPage';

@@ -3,24 +3,19 @@ import gql from 'graphql-tag';
 
 export const QUERY_ENROLMENTS = gql`
   query Enrolments(
-    $page: Int
-    $pageSize: Int
-    $registration: ID
+    $attendeeStatus: AttendeeStatus
+    $events: [ID]
+    $registrations: [ID]
     $text: String
     $createPath: Any
   ) {
     enrolments(
-      page: $page
-      pageSize: $pageSize
-      registration: $registration
+      attendeeStatus: $attendeeStatus
+      events: $events
+      registrations: $registrations
       text: $text
-    ) @rest(type: "EnrolmentsResponse", pathBuilder: $createPath) {
-      meta {
-        ...metaFields
-      }
-      data {
-        ...enrolmentFields
-      }
+    ) @rest(type: "Enrolment", pathBuilder: $createPath) {
+      ...enrolmentFields
     }
   }
 `;

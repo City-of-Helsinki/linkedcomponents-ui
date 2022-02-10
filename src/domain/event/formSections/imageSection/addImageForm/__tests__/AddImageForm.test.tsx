@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { PAGE_SIZE } from '../../../../../../common/components/imageSelector/constants';
-import { MAX_PAGE_SIZE, TEST_USER_ID } from '../../../../../../constants';
+import { MAX_PAGE_SIZE } from '../../../../../../constants';
 import {
   ImagesDocument,
   OrganizationsDocument,
@@ -25,6 +25,10 @@ import {
 } from '../../../../../../utils/testUtils';
 import translations from '../../../../../app/i18n/fi.json';
 import { TEST_PUBLISHER_ID } from '../../../../../organization/constants';
+import {
+  mockedUserResponse,
+  userVariables,
+} from '../../../../../user/__mocks__/user';
 import AddImageForm, { AddImageFormProps } from '../AddImageForm';
 
 configure({ defaultHidden: true });
@@ -68,24 +72,6 @@ const mockedOrganizationsResponse = {
     variables: organizationsVariables,
   },
   result: organizationsResponse,
-};
-
-const user = fakeUser({
-  organization: publisher,
-  adminOrganizations: [publisher],
-  organizationMemberships: [],
-});
-const userVariables = {
-  createPath: undefined,
-  id: TEST_USER_ID,
-};
-const userResponse = { data: { user } };
-const mockedUserResponse = {
-  request: {
-    query: UserDocument,
-    variables: userVariables,
-  },
-  result: userResponse,
 };
 
 const defaultMocks = [

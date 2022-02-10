@@ -1,11 +1,7 @@
 /* eslint-disable max-len */
-import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
-import { TEST_USER_ID } from '../../../constants';
-import { UserDocument } from '../../../generated/graphql';
-import { fakeUser } from '../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   configure,
@@ -16,6 +12,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   eventNames,
   mockedEventResponses,
@@ -27,17 +24,6 @@ import RegistrationsPage from '../RegistrationsPage';
 configure({ defaultHidden: true });
 
 const storeState = fakeAuthenticatedStoreState();
-
-const adminOrganization = 'helsinki';
-const userData = fakeUser({ adminOrganizations: [adminOrganization] });
-const userResponse = { data: { user: userData } };
-const mockedUserResponse: MockedResponse = {
-  request: {
-    query: UserDocument,
-    variables: { id: TEST_USER_ID, createPath: undefined },
-  },
-  result: userResponse,
-};
 
 const mocks = [
   ...mockedEventResponses,

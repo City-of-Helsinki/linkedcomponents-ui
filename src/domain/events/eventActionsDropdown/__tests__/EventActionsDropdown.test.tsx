@@ -23,8 +23,8 @@ import {
   mockedDeleteEventResponse,
   mockedOrganizationAncestorsResponse,
   mockedPostponeEventResponse,
-  mockedUserResponse,
 } from '../../../event/__mocks__/editEventPage';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import EventActionsDropdown, {
   EventActionsDropdownProps,
 } from '../EventActionsDropdown';
