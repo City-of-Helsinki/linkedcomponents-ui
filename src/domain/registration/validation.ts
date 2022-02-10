@@ -1,9 +1,8 @@
-import { FormikErrors, FormikTouched } from 'formik';
 import forEach from 'lodash/forEach';
-import set from 'lodash/set';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
+import { VALIDATION_ERROR_SCROLLER_OPTIONS } from '../../constants';
 import {
   createMinErrorMessage,
   isMinStartDate,
@@ -11,7 +10,6 @@ import {
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { REGISTRATION_FIELDS, REGISTRATION_SELECT_FIELDS } from './constants';
-import { RegistrationFormFields } from './types';
 
 export const registrationSchema = Yup.object().shape({
   [REGISTRATION_FIELDS.EVENT]: Yup.string()
@@ -101,50 +99,11 @@ export const scrollToFirstError = ({
 
     /* istanbul ignore else */
     if (field) {
-      scroller.scrollTo(fieldId, {
-        delay: 0,
-        duration: 500,
-        offset: -200,
-        smooth: true,
-      });
+      scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
 
       field.focus();
 
       return false;
     }
   });
-};
-
-// This functions sets formik errors and touched values correctly after validation.
-// The reason for this is to show all errors after validating the form.
-// Errors are shown only for touched fields so set all fields with error touched
-export const showErrors = ({
-  error,
-  setErrors,
-  setTouched,
-}: {
-  error: Yup.ValidationError;
-  setErrors: (errors: FormikErrors<RegistrationFormFields>) => void;
-  setTouched: (
-    touched: FormikTouched<RegistrationFormFields>,
-    shouldValidate?: boolean
-  ) => void;
-}): void => {
-  /* istanbul ignore else */
-  if (error.name === 'ValidationError') {
-    const newErrors = error.inner.reduce(
-      (acc, e: Yup.ValidationError) =>
-        set(acc, e.path ?? /* istanbul ignore next */ '', e.errors[0]),
-      {}
-    );
-    const touchedFields = error.inner.reduce(
-      (acc, e: Yup.ValidationError) =>
-        set(acc, e.path ?? /* istanbul ignore next */ '', true),
-      {}
-    );
-
-    setErrors(newErrors);
-    setTouched(touchedFields);
-    scrollToFirstError({ error });
-  }
 };

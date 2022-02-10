@@ -14,6 +14,7 @@ import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import TitleRow from '../app/layout/TitleRow';
 import { clearEventFormData } from '../event/utils';
 import FilterSummary from '../eventSearch/filterSummary/FilterSummary';
 import { replaceParamsToEventQueryString } from '../eventSearch/utils';
@@ -110,20 +111,20 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   return (
     <div className={styles.eventsPage}>
       <Container withOffset={true}>
-        <div className={styles.titleRow}>
-          <h1 className={styles.title}>{t('eventsPage.title')}</h1>
-          <div className={styles.addButtonWrapper}>
+        <TitleRow
+          button={
             <Button
               className={styles.addButton}
               fullWidth={true}
-              iconLeft={<IconPlus />}
+              iconLeft={<IconPlus aria-hidden={true} />}
               onClick={goToCreateEvent}
               variant="primary"
             >
               {t('common.buttonAddEvent')}
             </Button>
-          </div>
-        </div>
+          }
+          title={t('eventsPage.title')}
+        />
         <Tabs
           className={styles.tabSelector}
           name="event-list"

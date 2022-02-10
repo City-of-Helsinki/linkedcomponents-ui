@@ -9,7 +9,7 @@ import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../../constants';
 import {
-  Enrolment,
+  EnrolmentFieldsFragment,
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -31,7 +31,7 @@ import styles from './actionsDropdown.module.scss';
 
 export interface ActionsDropdownProps {
   className?: string;
-  enrolment: Enrolment;
+  enrolment: EnrolmentFieldsFragment;
   registration: RegistrationFieldsFragment;
 }
 

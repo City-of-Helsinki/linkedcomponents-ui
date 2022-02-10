@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 import React from 'react';
 
+import { LE_DATA_LANGUAGES } from '../../../../../constants';
 import {
   act,
   configure,
@@ -10,11 +11,7 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import {
-  EVENT_FIELDS,
-  EVENT_INFO_LANGUAGES,
-  EVENT_TYPE,
-} from '../../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { publicEventSchema } from '../../../utils';
 import PriceSection from '../PriceSection';
 
@@ -26,7 +23,7 @@ const renderTimeSection = () =>
   render(
     <Formik
       initialValues={{
-        [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [EVENT_INFO_LANGUAGES.FI],
+        [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.FI],
         [EVENT_FIELDS.HAS_PRICE]: false,
         [EVENT_FIELDS.OFFERS]: [],
         [EVENT_FIELDS.TYPE]: type,

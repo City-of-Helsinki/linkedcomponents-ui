@@ -18,6 +18,7 @@ import {
 } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
 import getPageCount from '../../../utils/getPageCount';
+import { scrollToItem } from '../../../utils/scrollToItem';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import Container from '../../app/layout/Container';
 import { EventsLocationState } from '../../eventSearch/types';
@@ -26,7 +27,6 @@ import {
   getEventSearchInitialValues,
   getEventsQueryVariables,
   replaceParamsToEventQueryString,
-  scrollToEventCard,
 } from '../../eventSearch/utils';
 import {
   DEFAULT_EVENT_SORT,
@@ -84,7 +84,7 @@ const EventList: React.FC<EventListProps> = ({
 
   React.useEffect(() => {
     if (location.state?.eventId) {
-      scrollToEventCard(getEventItemId(location.state.eventId));
+      scrollToItem(getEventItemId(location.state.eventId));
       // Clear eventId value to keep scroll position correctly
       const state = omit(location.state, 'eventId');
       // location.search seems to reset if not added here (...location)

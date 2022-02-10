@@ -1,0 +1,31 @@
+@import 'breakpoints';
+@import 'widths';
+
+.titleRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  .buttonWrapper {
+    margin-bottom: var(--spacing-m);
+  }
+
+  @include medium-up {
+    display: flex;
+
+    .title {
+      flex: 1 1 0%;
+    }
+
+    .buttonWrapper {
+      align-self: center;
+      margin-bottom: unset;
+    }
+
+    button {
+      @include min-width-column(2);
+      @include max-width-column(2);
+
+      white-space: nowrap;
+    }
+  }
+}

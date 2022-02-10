@@ -9,9 +9,11 @@ module.exports = buildSchema(/* GraphQL */ `
     createEnrolment(input: CreateEnrolmentMutationInput!): Enrolment!
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
+    createKeyword(input: CreateKeywordMutationInput!): Keyword!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
+    deleteKeyword(id: ID!): NoContent
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
@@ -20,6 +22,7 @@ module.exports = buildSchema(/* GraphQL */ `
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
+    updateKeyword(input: UpdateKeywordMutationInput!): Keyword!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
   }
 
@@ -89,7 +92,12 @@ module.exports = buildSchema(/* GraphQL */ `
       publisher: ID
     ): ImagesResponse!
     organization(id: ID!): Organization!
-    organizations(child: ID, page: Int, pageSize: Int): OrganizationsResponse!
+    organizations(
+      child: ID
+      page: Int
+      pageSize: Int
+      text: String
+    ): OrganizationsResponse!
     place(id: ID!): Place!
     places(
       dataSource: String
@@ -294,6 +302,23 @@ module.exports = buildSchema(/* GraphQL */ `
     url: String
   }
 
+  input CreateKeywordMutationInput {
+    dataSource: String
+    deprecated: Boolean
+    id: String
+    name: LocalisedObjectInput
+    publisher: String
+    replacedBy: String
+  }
+
+  input UpdateKeywordMutationInput {
+    dataSource: String
+    deprecated: Boolean
+    name: LocalisedObjectInput
+    publisher: String
+    replacedBy: String
+  }
+
   input CreateRegistrationMutationInput {
     audienceMaxAge: Int
     audienceMinAge: Int
@@ -467,6 +492,7 @@ module.exports = buildSchema(/* GraphQL */ `
     name: LocalisedObject
     nEvents: Int
     publisher: ID
+    replacedBy: String
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!
     # @context is renamed as atContext so it's usable on GraphQl

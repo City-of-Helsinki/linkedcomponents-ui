@@ -14,11 +14,9 @@ import {
   useRegistrationsQuery,
 } from '../../../generated/graphql';
 import getPageCount from '../../../utils/getPageCount';
+import { scrollToItem } from '../../../utils/scrollToItem';
 import Container from '../../app/layout/Container';
-import {
-  getRegistrationItemId,
-  scrollToRegistrationItem,
-} from '../../registration/utils';
+import { getRegistrationItemId } from '../../registration/utils';
 import {
   DEFAULT_REGISTRATION_SORT,
   REGISTRATION_SORT_OPTIONS,
@@ -70,9 +68,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
 
   React.useEffect(() => {
     if (location.state?.registrationId) {
-      scrollToRegistrationItem(
-        getRegistrationItemId(location.state.registrationId)
-      );
+      scrollToItem(getRegistrationItemId(location.state.registrationId));
       // Clear registrationId value to keep scroll position correctly
       const state = omit(location.state, 'registrationId');
       // location.search seems to reset if not added here (...location)

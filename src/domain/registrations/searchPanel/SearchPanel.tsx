@@ -95,9 +95,6 @@ const SearchPanel: React.FC = () => {
         <div className={styles.searchInputWrapper}>
           <SearchInput
             className={styles.searchInput}
-            clearButtonAriaLabel={t(
-              'registrationsPage.searchPanel.buttonClear'
-            )}
             hideLabel={true}
             label={t('registrationsPage.searchPanel.labelSearch')}
             onSearch={handleSearch}

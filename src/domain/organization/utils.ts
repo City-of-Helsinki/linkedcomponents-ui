@@ -39,6 +39,7 @@ export const organizationsPathBuilder = ({
 export const getOrganizationFields = (
   organization: OrganizationFieldsFragment
 ): OrganizationFields => ({
+  id: organization.id || '',
   name: organization.name || '',
 });
 

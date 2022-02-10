@@ -2,6 +2,10 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  LE_DATA_LANGUAGES,
+} from '../../../../../constants';
+import {
   configure,
   render,
   screen,
@@ -9,12 +13,7 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import {
-  EMPTY_MULTI_LANGUAGE_OBJECT,
-  EVENT_FIELDS,
-  EVENT_INFO_LANGUAGES,
-  EVENT_TYPE,
-} from '../../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { publicEventSchema } from '../../../utils';
 import ChannelsSection from '../ChannelsSection';
 
@@ -27,10 +26,10 @@ const renderComponent = () =>
     <Formik
       initialValues={{
         [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
-          EVENT_INFO_LANGUAGES.FI,
-          EVENT_INFO_LANGUAGES.EN,
+          LE_DATA_LANGUAGES.FI,
+          LE_DATA_LANGUAGES.EN,
         ],
-        [EVENT_FIELDS.INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+        [EVENT_FIELDS.INFO_URL]: EMPTY_MULTI_LANGUAGE_OBJECT,
         [EVENT_FIELDS.EXTERNAL_LINKS]: [],
         [EVENT_FIELDS.TYPE]: type,
       }}

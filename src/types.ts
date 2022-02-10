@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action } from '@reduxjs/toolkit';
 import React from 'react';
 import { ThunkAction } from 'redux-thunk';
 
-import { SEARCH_PARAMS } from './constants';
+import { LE_DATA_LANGUAGES, SEARCH_PARAMS } from './constants';
 import rootReducer from './domain/app/store/reducers';
 
 export type Language = 'en' | 'fi' | 'sv';
@@ -48,3 +49,28 @@ export type ReturnParams = {
 export type FilterType = 'date' | 'eventType' | 'place' | 'text';
 
 export type FalsyType = false | null | undefined | '' | 0;
+
+export type MultiLanguageObject = {
+  [LE_DATA_LANGUAGES.AR]: string;
+  [LE_DATA_LANGUAGES.EN]: string;
+  [LE_DATA_LANGUAGES.FI]: string;
+  [LE_DATA_LANGUAGES.RU]: string;
+  [LE_DATA_LANGUAGES.SV]: string;
+  [LE_DATA_LANGUAGES.ZH_HANS]: string;
+};
+
+export type Editability = {
+  editable: boolean;
+  warning: string;
+};
+
+export type ShowServerErrorsFnParams = {
+  callbackFn?: () => void;
+  error: any;
+};
+
+export type UseServerErrorsState = {
+  serverErrorItems: ServerErrorItem[];
+  setServerErrorItems: (items: ServerErrorItem[]) => void;
+  showServerErrors: (params: ShowServerErrorsFnParams) => void;
+};

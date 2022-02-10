@@ -248,7 +248,7 @@ describe('enrolmentPathBuilder function', () => {
   );
 });
 
-describe('getEditRegistrationWarning function', () => {
+describe('getEditEnrolmentWarning function', () => {
   it('should return correct warning if user is not authenticated', () => {
     const allowedActions = [ENROLMENT_ACTIONS.EDIT];
 

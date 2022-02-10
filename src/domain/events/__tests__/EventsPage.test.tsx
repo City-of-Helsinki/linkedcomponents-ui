@@ -326,7 +326,6 @@ test('should add sort parameter to search query', async () => {
   const sortNameButton = getElement('sortName');
   act(() => userEvent.click(sortNameButton));
 
-  // Test if your store dispatched the expected actions
   expect(history.location.search).toBe('?sort=name');
 });
 

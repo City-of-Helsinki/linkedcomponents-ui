@@ -24,6 +24,10 @@ import {
   searchText,
 } from '../../../eventSearch/__mocks__/eventSearchPage';
 import {
+  keyword,
+  mockedKeywordResponse,
+} from '../../../keyword/__mocks__/editKeywordPage';
+import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../../registration/__mocks__/editRegistrationPage';
@@ -39,6 +43,7 @@ const mocks = [
   mockedEnrolmentResponse,
   mockedEventResponse,
   mockedEventsResponse,
+  mockedKeywordResponse,
   mockedPlacesResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
@@ -52,7 +57,7 @@ const renderRoute = (route: string, locale: Language = 'fi') =>
   });
 
 beforeEach(() => {
-  setFeatureFlags({ SHOW_REGISTRATION: true });
+  setFeatureFlags({ SHOW_KEYWORD: true, SHOW_REGISTRATION: true });
 });
 
 it('should redirect to events page from deprecated modaration page', () => {
@@ -166,6 +171,32 @@ it('should render edit enrolment page', async () => {
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
   );
+});
+
+it('should render keywords page', async () => {
+  const { history } = renderRoute(`${ROUTES.KEYWORDS}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /avainsanat/i });
+  expect(history.location.pathname).toBe('/fi/keywords');
+});
+
+it('should render create keyword page', async () => {
+  const { history } = renderRoute(`${ROUTES.CREATE_KEYWORD}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /lisää avainsana/i });
+  expect(history.location.pathname).toBe('/fi/keywords/create');
+});
+
+it('should render edit keyword page', async () => {
+  const { history } = renderRoute(
+    `${ROUTES.EDIT_KEYWORD.replace(':id', keyword.id)}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /muokkaa avainsanaa/i });
+  expect(history.location.pathname).toBe(`/fi/keywords/edit/${keyword.id}`);
 });
 
 it('should route to default help page', async () => {

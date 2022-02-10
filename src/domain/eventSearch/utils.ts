@@ -1,15 +1,12 @@
 import isValid from 'date-fns/isValid';
 import capitalize from 'lodash/capitalize';
-import { scroller } from 'react-scroll';
 
 import { EventsQueryVariables, EventTypeId } from '../../generated/graphql';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import formatDate from '../../utils/formatDate';
-import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
 import getPathBuilder from '../../utils/getPathBuilder';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
-import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import { EVENT_TYPE } from '../event/constants';
@@ -138,17 +135,3 @@ export const getEventSearchQuery = (
 };
 
 export const getEventItemId = (id: string): string => `event-item${id}`;
-
-export const scrollToEventCard = (id: string): void => {
-  const offset = 24;
-  const duration = 300;
-
-  scroller.scrollTo(id, {
-    delay: 50,
-    duration: 300,
-    offset: 0 - (getPageHeaderHeight() + offset),
-    smooth: true,
-  });
-
-  setTimeout(() => setFocusToFirstFocusable(id), duration);
-};

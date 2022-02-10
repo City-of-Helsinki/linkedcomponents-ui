@@ -21,6 +21,7 @@ import {
 import useLocale from '../../hooks/useLocale';
 import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
+import { showFormErrors } from '../../utils/validationUtils';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -51,7 +52,7 @@ import RegistrationInfo from './registrationInfo/RegistrationInfo';
 import styles from './registrationPage.module.scss';
 import { RegistrationFormFields } from './types';
 import { getRegistrationInitialValues, registrationPathBuilder } from './utils';
-import { registrationSchema, showErrors } from './validation';
+import { registrationSchema, scrollToFirstError } from './validation';
 
 interface EditRegistrationPageProps {
   event: EventFieldsFragment;
@@ -148,11 +149,13 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
 
             onUpdate(values);
           } catch (error) {
-            showErrors({
+            showFormErrors({
               error: error as ValidationError,
               setErrors,
               setTouched,
             });
+
+            scrollToFirstError({ error: error as ValidationError });
           }
         };
 

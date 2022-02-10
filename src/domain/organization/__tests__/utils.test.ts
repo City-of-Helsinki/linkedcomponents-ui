@@ -31,8 +31,11 @@ describe('organizationsPathBuilder function', () => {
 
 describe('fakeOrganization function', () => {
   it('should return default values if value is not set', () => {
-    const { name } = getOrganizationFields(fakeOrganization({ name: null }));
+    const { id, name } = getOrganizationFields(
+      fakeOrganization({ id: null, name: null })
+    );
 
+    expect(id).toBe('');
     expect(name).toBe('');
   });
 });

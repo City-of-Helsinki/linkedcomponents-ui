@@ -1,0 +1,25 @@
+@import 'breakpoints';
+
+.formRow {
+  --border-width: 1px;
+  --border-color: var(--color-black-20);
+
+  display: grid;
+  grid-gap: var(--spacing-s);
+  min-height: var(--input-height);
+  align-content: center;
+  margin-bottom: var(--spacing-s);
+
+  @include medium-up {
+    margin-bottom: 0;
+  }
+
+  @include large-up {
+    grid-template-columns: 7fr 3fr;
+    grid-gap: var(--spacing-m);
+  }
+}
+
+.withBorder {
+  border-bottom: var(--border-width) solid var(--border-color);
+}

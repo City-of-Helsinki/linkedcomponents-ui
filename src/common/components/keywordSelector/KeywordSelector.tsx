@@ -8,6 +8,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
+  getKeywordFields,
   getKeywordQueryResult,
   keywordsPathBuilder,
 } from '../../../domain/keyword/utils';
@@ -18,18 +19,9 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
-import getLocalisedString from '../../../utils/getLocalisedString';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox from '../combobox/Combobox';
-
-const getKeywordFields = (
-  keyword: KeywordFieldsFragment,
-  locale: Language
-) => ({
-  id: keyword.atId,
-  name: getLocalisedString(keyword.name, locale),
-});
 
 const getOption = ({
   keyword,
@@ -38,7 +30,7 @@ const getOption = ({
   keyword: KeywordFieldsFragment;
   locale: Language;
 }): OptionType => {
-  const { id: value, name } = getKeywordFields(keyword, locale);
+  const { atId: value, name } = getKeywordFields(keyword, locale);
 
   return {
     label: name,

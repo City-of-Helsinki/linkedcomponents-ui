@@ -95,9 +95,7 @@ const mockedInvalidUpdateEnrolmentResponse: MockedResponse = {
   },
   error: {
     ...new Error(),
-    result: {
-      name: ['The name must be specified.'],
-    },
+    result: { name: ['The name must be specified.'] },
   } as Error,
 };
 

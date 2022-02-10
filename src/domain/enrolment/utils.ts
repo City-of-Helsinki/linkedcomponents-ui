@@ -9,7 +9,7 @@ import {
   RegistrationFieldsFragment,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { PathBuilderProps } from '../../types';
+import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -132,11 +132,6 @@ export const enrolmentPathBuilder = ({
   return `/signup_edit/${id}/`;
 };
 
-type EnrolmentEditability = {
-  editable: boolean;
-  warning: string;
-};
-
 export const checkCanUserDoAction = ({
   action,
   organizationAncestors,
@@ -212,7 +207,7 @@ export const checkIsEditActionAllowed = ({
   publisher: string;
   t: TFunction;
   user?: UserFieldsFragment;
-}): EnrolmentEditability => {
+}): Editability => {
   const userCanDoAction = checkCanUserDoAction({
     action,
     organizationAncestors,

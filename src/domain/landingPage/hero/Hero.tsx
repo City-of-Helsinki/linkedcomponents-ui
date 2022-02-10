@@ -69,9 +69,6 @@ const Hero: React.FC = () => {
                 <div className={styles.inputWrapper}>
                   <SearchInput
                     className={styles.searchInput}
-                    clearButtonAriaLabel={t(
-                      'eventSearchPage.searchPanel.buttonClear'
-                    )}
                     hideLabel={true}
                     label={t('eventSearchPage.searchPanel.labelSearch')}
                     onSearch={handleSearch}

@@ -10,6 +10,8 @@
     "noRightsUpdateEnrolmentLabel": "No permissions to edit participants.",
     "noRightsUpdateEvent": "You do not have permission to edit events.",
     "noRightsUpdateEventLabel": "No permissions to edit events",
+    "noRightsUpdateKeyword": "You do not have permission to edit keywords.",
+    "noRightsUpdateKeywordLabel": "No permissions to edit keywords.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
   },
@@ -31,11 +33,14 @@
     "at": "at {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "breadcrumb": "Breadcrumb",
     "buttonActions": "Actions",
     "buttonAddEvent": "Add new event",
+    "buttonAddKeyword": "Add keyword",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
     "cancel": "Undo",
+    "clear": "Clear",
     "close": "Close",
     "combobox": {
       "toggleButtonAriaLabel": "Menu"
@@ -88,6 +93,7 @@
       "text": "Give feedback"
     },
     "goToHome": "To front page",
+    "home": "Front page",
     "imageUploader": {
       "buttonDropImage": "Drag and drop and image to this area or browse from your hard drive by clicking",
       "notAllowedFileFormat": "File format is not supported",
@@ -115,6 +121,7 @@
     "placeholderDateTime": "dd.mm.yyyy hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Save",
+    "search": "Search",
     "select": "Select",
     "showLess": "Show less",
     "showMore": "Show more",
@@ -166,7 +173,7 @@
     "warning": "Warning!"
   },
   "createEnrolmentPage": {
-    "pageTitle": "Add a participant"
+    "pageTitle": "Add participant"
   },
   "createEventPage": {
     "page": {
@@ -180,12 +187,20 @@
       "volunteering": "New volunteering"
     }
   },
+  "createKeywordPage": {
+    "pageTitle": "Add keyword",
+    "title": "Add keyword"
+  },
   "createRegistrationPage": {
     "page": "New registration",
     "title": "New registration"
   },
   "editEnrolmentPage": {
     "pageTitle": "Edit participant"
+  },
+  "editKeywordPage": {
+    "pageTitle": "Edit keyword",
+    "title": "Edit keyword"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -254,7 +269,6 @@
     },
     "pageTitle": "Enrolments: {{name}}",
     "searchPanel": {
-      "buttonClear": "Clear",
       "buttonCreate": "Add participant",
       "buttonRemoveFilter": "Remove filter: {{name}}",
       "buttonSearch": "Filter",
@@ -943,7 +957,6 @@
     "pageDescription": "Search events from Linked Events. You can filter results by date, place and type.",
     "pageTitle": "Search events",
     "searchPanel": {
-      "buttonClear": "Clear",
       "buttonCreateNew": "Add new event",
       "buttonSearch": "Search events",
       "labelEventType": "Type",
@@ -1148,6 +1161,24 @@
     "warningNoRightsToUpdate": "You have insufficient rights to edit this image.",
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
+  "keyword": {
+    "deleteKeywordModal": {
+      "buttonDelete": "Delete keyword",
+      "text": "This action will permanently remove the keyword.",
+      "title": "Confirm keyword deletion"
+    },
+    "form": {
+      "buttonDelete": "Delete keyword",
+      "labelDataSource": "Data source",
+      "labelDeprecated": "Deprecated",
+      "labelId": "ID",
+      "labelName": "Name",
+      "labelOriginId": "Origin ID",
+      "labelPublisher": "Publisher",
+      "labelReplacedBy": "Replaced by",
+      "notificationTitleCannotEdit": "The keyword cannot be edited"
+    }
+  },
   "keywords": {
     "admin": "admin",
     "api": "api",
@@ -1181,6 +1212,33 @@
     "technology": "technology",
     "termsOfUse": "terms, of, use",
     "update": "update"
+  },
+  "keywordsPage": {
+    "actionButtons": {
+      "edit": "Edit keyword"
+    },
+    "count": "{{count}} keyword",
+    "count_plural": "{{count}} keywords",
+    "keywordsTableCaption": "Keywords, sorted by {{sort}}",
+    "keywordsTableColumns": {
+      "id": "ID",
+      "name": "Name",
+      "nEvents": "Number of events"
+    },
+    "labelSearch": "Search keywords",
+    "pageDescription": "",
+    "pageTitle": "Keywords",
+    "sortOptions": {
+      "id": "Id, ascending",
+      "idDesc": "Id, descending",
+      "name": "Name, ascending",
+      "nameDesc": "Name, descending",
+      "nEvents": "Number of events, ascending",
+      "nEventsDesc": "Number of events, descending"
+    },
+    "title": "Keywords",
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa sökord.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här sökordet."
   },
   "landingPage": {
     "heroTitle": "Events and hobbies in Helsinki",
@@ -1216,6 +1274,7 @@
     "tabs": {
       "events": "Events",
       "help": "Support",
+      "keywords": "Keywords",
       "registrations": "Registration"
     }
   },
@@ -1228,7 +1287,7 @@
   },
   "registration": {
     "deleteRegistrationModal": {
-      "buttonDelete": "Delete event",
+      "buttonDelete": "Delete registration",
       "text": "This action will permanently remove the registration.",
       "title": "Confirm registration deletion"
     },
@@ -1281,7 +1340,7 @@
     "count": "{{count}} registration",
     "count_plural": "{{count}} registrations",
     "pageTitle": "Registration",
-    "registrationTableCaption": "Registrations, sorted by {{sort}}",
+    "registrationsTableCaption": "Registrations, sorted by {{sort}}",
     "registrationsTableColumns": {
       "enrolments": "Participants",
       "enrolmentEndTime": "Ends",
@@ -1291,7 +1350,6 @@
       "waitingList": "Waiting list"
     },
     "searchPanel": {
-      "buttonClear": "Clear",
       "buttonSearch": "Search",
       "labelEventType": "Type",
       "labelPlace": "Search venue",

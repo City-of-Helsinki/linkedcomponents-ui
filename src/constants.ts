@@ -1,6 +1,8 @@
+import reduce from 'lodash/reduce';
+
 import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
 import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
-import { StoreState } from './types';
+import { MultiLanguageObject, StoreState } from './types';
 
 export const BREAKPOINTS = {
   XS: 576,
@@ -22,8 +24,10 @@ export enum ROUTES {
   CALLBACK = '/callback',
   CREATE_ENROLMENT = '/registrations/:registrationId/enrolments/create',
   CREATE_EVENT = '/events/create',
+  CREATE_KEYWORD = '/keywords/create',
   CREATE_REGISTRATION = '/registrations/create',
   EDIT_EVENT = '/events/edit/:id',
+  EDIT_KEYWORD = '/keywords/edit/:id',
   EDIT_REGISTRATION = '/registrations/edit/:id',
   EDIT_REGISTRATION_ENROLMENT = '/registrations/:registrationId/enrolments/edit/:enrolmentId',
   EVENT_SAVED = '/events/completed/:id',
@@ -36,6 +40,7 @@ export enum ROUTES {
   INSTRUCTIONS_FAQ = '/help/instructions/faq',
   INSTRUCTIONS_GENERAL = '/help/instructions/general',
   INSTRUCTIONS_PLATFORM = '/help/instructions/platform',
+  KEYWORDS = '/keywords',
   LOGOUT = '/logout',
   REGISTRATIONS = '/registrations',
   REGISTRATION_ENROLMENTS = '/registrations/:registrationId/enrolments',
@@ -146,3 +151,35 @@ export const TEST_USER_ID = 'user:1';
 export enum SEARCH_PARAMS {
   RETURN_PATH = 'returnPath',
 }
+
+// Don't change languege order. The defines order of backup languages in localised strings
+export enum LE_DATA_LANGUAGES {
+  FI = 'fi',
+  SV = 'sv',
+  EN = 'en',
+  RU = 'ru',
+  ZH_HANS = 'zhHans',
+  AR = 'ar',
+}
+
+export const ORDERED_LE_DATA_LANGUAGES = [
+  LE_DATA_LANGUAGES.FI,
+  LE_DATA_LANGUAGES.SV,
+  LE_DATA_LANGUAGES.EN,
+  LE_DATA_LANGUAGES.RU,
+  LE_DATA_LANGUAGES.ZH_HANS,
+  LE_DATA_LANGUAGES.AR,
+];
+
+export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
+  LE_DATA_LANGUAGES,
+  (acc, lang) => ({ ...acc, [lang]: '' }),
+  {}
+) as MultiLanguageObject;
+
+export const VALIDATION_ERROR_SCROLLER_OPTIONS = {
+  delay: 0,
+  duration: 500,
+  offset: -200,
+  smooth: true,
+};

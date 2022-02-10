@@ -89,7 +89,8 @@ Run `yarn && yarn start`
 
 There are a feature flags which can be enabled in `.env`:
 
-`REACT_APP_SHOW_REGISTRATIOn`:
+`REACT_APP_SHOW_KEYWORD`:
+`REACT_APP_SHOW_REGISTRATION`:
 
 Features enabled:
 

@@ -10,6 +10,8 @@
     "noRightsUpdateEnrolmentLabel": "Ei oikeuksia muokata osallistujia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
+    "noRightsUpdateKeyword": "Sinulla ei ole oikeuksia muokata avainsanoja.",
+    "noRightsUpdateKeywordLabel": "Ei oikeuksia muokata avainsanoja.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
   },
@@ -31,12 +33,15 @@
     "at": "klo {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "breadcrumb": "Murupolku",
     "buttonActions": "Valinnat",
     "buttonAddEvent": "Lisää uusi tapahtuma",
+    "buttonAddKeyword": "Lisää avainsana",
     "buttonAddRegistration": "Lisää uusi",
     "buttonBack": "Takaisin",
     "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
     "cancel": "Peruuta",
+    "clear": "Tyhjennä",
     "close": "Sulje",
     "combobox": {
       "toggleButtonAriaLabel": "Valikko"
@@ -89,6 +94,7 @@
       "text": "Anna palautetta"
     },
     "goToHome": "Etusivulle",
+    "home": "Etusivu",
     "imageUploader": {
       "buttonDropImage": "Raahaa ja pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
@@ -116,6 +122,7 @@
     "placeholderDateTime": "pp.kk.vvvv hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Tallenna",
+    "search": "Etsi",
     "select": "Valitse",
     "showLess": "Näytä vähemmän",
     "showMore": "Näytä lisää",
@@ -181,9 +188,20 @@
       "volunteering": "Uusi vapaaehtoistehtävä"
     }
   },
+  "createKeywordPage": {
+    "pageTitle": "Lisää avainsana",
+    "title": "Lisää avainsana"
+  },
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"
+  },
+  "editEnrolmentPage": {
+    "pageTitle": "Muokkaa osallistujaa"
+  },
+  "editKeywordPage": {
+    "pageTitle": "Muokkaa avainsanaa",
+    "title": "Muokkaa avainsanaa"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -235,9 +253,6 @@
       "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen."
     }
   },
-  "editEnrolmentPage": {
-    "pageTitle": "Muokkaa osallistujaa"
-  },
   "enrolmentsPage": {
     "actionButtons": {
       "cancel": "Peruuta osallistuminen",
@@ -255,7 +270,6 @@
     },
     "pageTitle": "Ilmoittautuneet: {{name}}",
     "searchPanel": {
-      "buttonClear": "Tyhjennä",
       "buttonCreate": "Lisää osallistuja",
       "buttonSearch": "Etsi osallistujia",
       "labelSearch": "Hae osallistujia",
@@ -1029,7 +1043,6 @@
     "pageDescription": "Hae tapahtumia Linked Eventsistä. Voit suodattaa tuloksia päivämäärän, paikan ja tyypin mukaan.",
     "pageTitle": "Etsi tapahtumia",
     "searchPanel": {
-      "buttonClear": "Tyhjennä",
       "buttonCreateNew": "Lisää tekemistä",
       "buttonSearch": "Etsi tapahtumia",
       "labelEventType": "Tyyppi",
@@ -1148,6 +1161,24 @@
     "warningNoRightsToUpdate": "Sinulla ei ole oikeuksia muokata tätä kuvaa",
     "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia"
   },
+  "keyword": {
+    "deleteKeywordModal": {
+      "buttonDelete": "Poista avainsana",
+      "text": "Tämä toiminto poistaa avainsanan lopullisesti.",
+      "title": "Varmista avainsanan poistaminen"
+    },
+    "form": {
+      "buttonDelete": "Poista avainsana",
+      "labelDataSource": "Datan lähde",
+      "labelDeprecated": "Vanhentunut",
+      "labelId": "ID",
+      "labelName": "Nimi",
+      "labelOriginId": "Lähdetunniste",
+      "labelPublisher": "Julkaisija",
+      "labelReplacedBy": "Korvaus",
+      "notificationTitleCannotEdit": "Avainsanaa ei voi muokata"
+    }
+  },
   "keywords": {
     "admin": "admin",
     "api": "api",
@@ -1181,6 +1212,33 @@
     "technology": "teknologia",
     "termsOfUse": "käyttöehdot",
     "update": "päivitä"
+  },
+  "keywordsPage": {
+    "actionButtons": {
+      "edit": "Muokkaa avainsanaa"
+    },
+    "count": "{{count}} avainsana",
+    "count_plural": "{{count}} avainsanaa",
+    "keywordsTableCaption": "Avainsanat, järjestys {{sort}}",
+    "keywordsTableColumns": {
+      "id": "ID",
+      "name": "Nimi",
+      "nEvents": "Tapahtumien lkm"
+    },
+    "labelSearch": "Hae avainsanoja",
+    "pageDescription": "",
+    "pageTitle": "Avainsanat",
+    "sortOptions": {
+      "id": "Id, nouseva",
+      "idDesc": "Id, laskeva",
+      "name": "Nimi, nouseva",
+      "nameDesc": "Nimi, laskeva",
+      "nEvents": "Tapahtumien lukumäärä, nouseva",
+      "nEventsDesc": "Tapahtumien lukumäärä, laskeva"
+    },
+    "title": "Avainsanat",
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda avainsanoja.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä avainsanaa."
   },
   "landingPage": {
     "heroTitle": "Helsingin tapahtumat ja harrastukset",
@@ -1216,6 +1274,7 @@
     "tabs": {
       "events": "Tapahtumat",
       "help": "Tuki",
+      "keywords": "Avainsanat",
       "registrations": "Ilmoittautuminen"
     }
   },
@@ -1291,7 +1350,6 @@
       "waitingList": "Jono"
     },
     "searchPanel": {
-      "buttonClear": "Tyhjennä",
       "buttonSearch": "Etsi",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",

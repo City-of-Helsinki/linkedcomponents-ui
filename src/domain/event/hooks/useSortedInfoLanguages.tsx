@@ -1,19 +1,19 @@
 import { useMemo } from 'react';
 
 import {
-  EVENT_INFO_LANGUAGES,
-  ORDERED_EVENT_INFO_LANGUAGES,
-} from '../constants';
+  LE_DATA_LANGUAGES,
+  ORDERED_LE_DATA_LANGUAGES,
+} from '../../../constants';
 
 const useSortedInfoLanguages = (
-  eventInfoLanguages: EVENT_INFO_LANGUAGES[]
-): EVENT_INFO_LANGUAGES[] => {
+  eventInfoLanguages: LE_DATA_LANGUAGES[]
+): LE_DATA_LANGUAGES[] => {
   const sortedEventInfoLanguages = useMemo(
     () =>
       eventInfoLanguages.sort(
         (a, b) =>
-          ORDERED_EVENT_INFO_LANGUAGES.indexOf(a) -
-          ORDERED_EVENT_INFO_LANGUAGES.indexOf(b)
+          ORDERED_LE_DATA_LANGUAGES.indexOf(a) -
+          ORDERED_LE_DATA_LANGUAGES.indexOf(b)
       ),
     [eventInfoLanguages]
   );

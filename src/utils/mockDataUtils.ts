@@ -4,6 +4,7 @@ import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
+import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
 import {
   AttendeeStatus,
   Enrolment,
@@ -194,9 +195,12 @@ export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword => {
       id,
       atId: generateAtId(id, 'keyword'),
       dataSource: 'yso',
+      deprecated: false,
       hasUpcomingEvents: true,
       name: fakeLocalisedObject(),
       nEvents: 0,
+      publisher: TEST_PUBLISHER_ID,
+      replacedBy: null,
       __typename: 'Keyword',
     },
     overrides

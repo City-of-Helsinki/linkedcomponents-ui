@@ -11,7 +11,7 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../constants';
 import {
-  Enrolment,
+  EnrolmentFieldsFragment,
   EnrolmentQuery,
   EnrolmentQueryVariables,
   EventFieldsFragment,
@@ -23,6 +23,7 @@ import {
 import useLocale from '../../hooks/useLocale';
 import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
+import { showFormErrors } from '../../utils/validationUtils';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -48,10 +49,10 @@ import useEnrolmentUpdateActions, {
 import ConfirmCancelModal from './modals/ConfirmCancelModal';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
 import { enrolmentPathBuilder, getEnrolmentInitialValues } from './utils';
-import { enrolmentSchema, scrollToFirstError, showErrors } from './validation';
+import { enrolmentSchema, scrollToFirstError } from './validation';
 
 type Props = {
-  enrolment: Enrolment;
+  enrolment: EnrolmentFieldsFragment;
   event: EventFieldsFragment;
   refetch: (
     variables?: Partial<EnrolmentQueryVariables>
@@ -140,7 +141,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
 
             onUpdate(values);
           } catch (error) {
-            showErrors({
+            showFormErrors({
               error: error as ValidationError,
               setErrors,
               setTouched,

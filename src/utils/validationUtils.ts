@@ -1,7 +1,9 @@
 import isBefore from 'date-fns/isBefore';
 import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
+import { FormikErrors, FormikTouched } from 'formik';
 import { TFunction } from 'i18next';
+import set from 'lodash/set';
 import * as Yup from 'yup';
 
 import { DATE_FORMAT, DATETIME_FORMAT } from '../constants';
@@ -126,4 +128,37 @@ export const getErrorText = (
       ? t(error)
       : t(error.key, error)
     : '';
+};
+
+// This functions sets formik errors and touched values correctly after validation.
+// The reason for this is to show all errors after validating the form.
+// Errors are shown only for touched fields so set all fields with error touched
+export const showFormErrors = ({
+  error,
+  setErrors,
+  setTouched,
+}: {
+  error: Yup.ValidationError;
+  setErrors: (errors: FormikErrors<unknown>) => void;
+  setTouched: (
+    touched: FormikTouched<unknown>,
+    shouldValidate?: boolean
+  ) => void;
+}): void => {
+  /* istanbul ignore else */
+  if (error.name === 'ValidationError') {
+    const newErrors = error.inner.reduce(
+      (acc, e: Yup.ValidationError) =>
+        set(acc, e.path ?? /* istanbul ignore next */ '', e.errors[0]),
+      {}
+    );
+    const touchedFields = error.inner.reduce(
+      (acc, e: Yup.ValidationError) =>
+        set(acc, e.path ?? /* istanbul ignore next */ '', true),
+      {}
+    );
+
+    setErrors(newErrors);
+    setTouched(touchedFields);
+  }
 };

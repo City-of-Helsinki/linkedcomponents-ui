@@ -8,13 +8,10 @@ import {
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import { scrollToItem } from '../../../utils/scrollToItem';
 import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
 import { EnrolmentsLocationState } from '../types';
-import {
-  getEnrolmentFields,
-  getEnrolmentItemId,
-  scrollToEnrolmentItem,
-} from '../utils';
+import { getEnrolmentFields, getEnrolmentItemId } from '../utils';
 import styles from './enrolmentsTable.module.scss';
 
 interface Props {
@@ -62,7 +59,7 @@ const EnrolmentTableRow: React.FC<Props> = ({
 
   React.useEffect(() => {
     if (location.state?.enrolmentId) {
-      scrollToEnrolmentItem(getEnrolmentItemId(location.state.enrolmentId));
+      scrollToItem(getEnrolmentItemId(location.state.enrolmentId));
       // Clear registrationId value to keep scroll position correctly
       const state = omit(location.state, 'enrolmentId');
       // location.search seems to reset if not added here (...location)

@@ -12,6 +12,7 @@ import useLocale from '../../hooks/useLocale';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
+import TitleRow from '../app/layout/TitleRow';
 import { authenticatedSelector } from '../auth/selectors';
 import NotSigned from '../notSigned/NotSigned';
 import RegistrationAuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
@@ -59,20 +60,19 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
           action={REGISTRATION_ACTIONS.CREATE}
           className={styles.notification}
         />
-        <div className={styles.titleRow}>
-          <h1 className={styles.title}>{t('registrationsPage.title')}</h1>
-          <div className={styles.addButtonWrapper}>
+        <TitleRow
+          button={
             <Button
               {...buttonProps}
-              className={styles.addButton}
               fullWidth={true}
               iconLeft={<IconPlus aria-hidden={true} />}
               variant="primary"
             >
               {t('common.buttonAddRegistration')}
             </Button>
-          </div>
-        </div>
+          }
+          title={t('registrationsPage.title')}
+        />
 
         <SearchPanel />
         <FilterSummary className={styles.filterSummary} />

@@ -92,7 +92,7 @@ test('should focus to first validation error when trying to save new registratio
   await waitFor(() => expect(eventCombobox).toHaveFocus());
 });
 
-test('should move to registration page after creating new registration', async () => {
+test('should move to registration completed page after creating new registration', async () => {
   advanceTo('2020-07-05');
   setFormValues({
     ...REGISTRATION_INITIAL_VALUES,

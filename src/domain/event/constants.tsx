@@ -7,9 +7,8 @@ import {
   IconCross,
   IconPen,
 } from 'hds-react';
-import reduce from 'lodash/reduce';
 
-import { MAX_PAGE_SIZE } from '../../constants';
+import { EMPTY_MULTI_LANGUAGE_OBJECT, MAX_PAGE_SIZE } from '../../constants';
 import { EventsQueryVariables } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
 import { EVENT_LIST_INCLUDES, EVENT_SORT_OPTIONS } from '../events/constants';
@@ -18,7 +17,6 @@ import { DEFAULT_LICENSE_TYPE } from '../image/constants';
 import {
   AddImageSettings,
   EventFormFields,
-  MultiLanguageObject,
   RecurringEventSettings,
 } from './types';
 
@@ -110,31 +108,6 @@ export enum EVENT_FIELDS {
   TYPE = 'type',
   VIDEOS = 'videos',
 }
-
-// Don't change languege order. The defines order of backup languages in localised strings
-export enum EVENT_INFO_LANGUAGES {
-  FI = 'fi',
-  SV = 'sv',
-  EN = 'en',
-  RU = 'ru',
-  ZH_HANS = 'zhHans',
-  AR = 'ar',
-}
-
-export const ORDERED_EVENT_INFO_LANGUAGES = [
-  EVENT_INFO_LANGUAGES.FI,
-  EVENT_INFO_LANGUAGES.SV,
-  EVENT_INFO_LANGUAGES.EN,
-  EVENT_INFO_LANGUAGES.RU,
-  EVENT_INFO_LANGUAGES.ZH_HANS,
-  EVENT_INFO_LANGUAGES.AR,
-];
-
-export const EMPTY_MULTI_LANGUAGE_OBJECT = reduce(
-  EVENT_INFO_LANGUAGES,
-  (acc, lang) => ({ ...acc, [lang]: '' }),
-  {}
-) as MultiLanguageObject;
 
 export const RECURRING_EVENT_INITIAL_VALUES: RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.END_DATE]: null,
@@ -307,14 +280,14 @@ export const NOT_ALLOWED_WHEN_IN_PAST = [
 ];
 
 export const EVENT_EDIT_ICONS = {
-  [EVENT_EDIT_ACTIONS.CANCEL]: <IconCalendarCross />,
-  [EVENT_EDIT_ACTIONS.COPY]: <IconCalendarPlus />,
-  [EVENT_EDIT_ACTIONS.DELETE]: <IconCross />,
-  [EVENT_EDIT_ACTIONS.EDIT]: <IconCogwheel />,
-  [EVENT_EDIT_ACTIONS.POSTPONE]: <IconCalendarClock />,
-  [EVENT_EDIT_ACTIONS.PUBLISH]: <IconCheck />,
-  [EVENT_EDIT_ACTIONS.UPDATE_DRAFT]: <IconPen />,
-  [EVENT_EDIT_ACTIONS.UPDATE_PUBLIC]: <IconPen />,
+  [EVENT_EDIT_ACTIONS.CANCEL]: <IconCalendarCross aria-hidden={true} />,
+  [EVENT_EDIT_ACTIONS.COPY]: <IconCalendarPlus aria-hidden={true} />,
+  [EVENT_EDIT_ACTIONS.DELETE]: <IconCross aria-hidden={true} />,
+  [EVENT_EDIT_ACTIONS.EDIT]: <IconCogwheel aria-hidden={true} />,
+  [EVENT_EDIT_ACTIONS.POSTPONE]: <IconCalendarClock aria-hidden={true} />,
+  [EVENT_EDIT_ACTIONS.PUBLISH]: <IconCheck aria-hidden={true} />,
+  [EVENT_EDIT_ACTIONS.UPDATE_DRAFT]: <IconPen aria-hidden={true} />,
+  [EVENT_EDIT_ACTIONS.UPDATE_PUBLIC]: <IconPen aria-hidden={true} />,
 };
 
 export const EVENT_EDIT_LABEL_KEYS = {

@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { IconCrossCircle, IconSearch } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import React, { KeyboardEvent, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import InputWrapper from '../inputWrapper/InputWrapper';
 import styles from './searchInput.module.scss';
@@ -21,17 +22,18 @@ export type SearchInputProps = React.ComponentPropsWithoutRef<'input'> & {
 
 const SearchInput: React.FC<SearchInputProps> = ({
   className,
-  clearButtonAriaLabel = 'Clear',
+  clearButtonAriaLabel,
   helperText,
   hideLabel,
   id: _id,
   label,
   onSearch,
-  searchButtonAriaLabel = 'Search',
+  searchButtonAriaLabel,
   setValue,
   value,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const [id] = React.useState(() => _id || uniqueId('search-input-'));
 
@@ -77,7 +79,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           {value.length > 0 && (
             <button
               type="button"
-              aria-label={clearButtonAriaLabel}
+              aria-label={clearButtonAriaLabel || t('common.clear')}
               className={classNames(styles.button)}
               onClick={clear}
             >
@@ -86,7 +88,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           )}
           <button
             type="button"
-            aria-label={searchButtonAriaLabel}
+            aria-label={searchButtonAriaLabel || t('common.search')}
             className={classNames(styles.button)}
             onClick={search}
           >

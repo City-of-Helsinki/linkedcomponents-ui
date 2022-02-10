@@ -22,6 +22,11 @@ interface NoNavRowProps {
   props?: RouteProps;
 }
 
+interface NavigationItem {
+  labelKey: string;
+  url: ROUTES;
+}
+
 const NO_NAV_ROW_PATHS = [
   { pathname: ROUTES.EDIT_EVENT },
   { pathname: ROUTES.EDIT_REGISTRATION },
@@ -60,19 +65,18 @@ const Header: React.FC = () => {
       toggleMenu();
     };
 
-  const NAVIGATION_ITEMS = isFeatureEnabled('SHOW_REGISTRATION')
-    ? [
-        { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
-        {
-          labelKey: 'navigation.tabs.registrations',
-          url: ROUTES.REGISTRATIONS,
-        },
-        { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
-      ]
-    : [
-        { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
-        { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
-      ];
+  const NAVIGATION_ITEMS = [
+    { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
+    isFeatureEnabled('SHOW_REGISTRATION') && {
+      labelKey: 'navigation.tabs.registrations',
+      url: ROUTES.REGISTRATIONS,
+    },
+    isFeatureEnabled('SHOW_KEYWORD') && {
+      labelKey: 'navigation.tabs.keywords',
+      url: ROUTES.KEYWORDS,
+    },
+    { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
+  ].filter((i) => i) as NavigationItem[];
 
   const navigationItems = NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
     label: t(labelKey),

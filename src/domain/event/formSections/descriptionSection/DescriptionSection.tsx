@@ -8,12 +8,12 @@ import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import TabPanel from '../../../../common/components/tabs/TabPanel';
 import Tabs from '../../../../common/components/tabs/Tabs';
-import { CHARACTER_LIMITS } from '../../../../constants';
+import { CHARACTER_LIMITS, LE_DATA_LANGUAGES } from '../../../../constants';
 import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';
 import skipFalsyType from '../../../../utils/skipFalsyType';
 import FieldColumn from '../../../app/layout/FieldColumn';
 import FieldRow from '../../../app/layout/FieldRow';
-import { EVENT_FIELDS, EVENT_INFO_LANGUAGES } from '../../constants';
+import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useSortedInfoLanguages from '../../hooks/useSortedInfoLanguages';
 import { formatSingleDescription } from '../../utils';
@@ -25,8 +25,8 @@ const FIELDS = [
 ];
 
 export interface DescriptionSectionProps {
-  selectedLanguage: EVENT_INFO_LANGUAGES;
-  setSelectedLanguage: (value: EVENT_INFO_LANGUAGES) => void;
+  selectedLanguage: LE_DATA_LANGUAGES;
+  setSelectedLanguage: (value: LE_DATA_LANGUAGES) => void;
 }
 
 const DescriptionSection: React.FC<DescriptionSectionProps> = ({
@@ -35,7 +35,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
 }) => {
   const { getFieldMeta } = useFormikContext();
   const { t } = useTranslation();
-  const [{ value: eventInfoLanguages }] = useField<EVENT_INFO_LANGUAGES[]>({
+  const [{ value: eventInfoLanguages }] = useField<LE_DATA_LANGUAGES[]>({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
   const [{ value: audience }] = useField({ name: EVENT_FIELDS.AUDIENCE });
@@ -69,7 +69,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   );
 
   const handleSelectedLanguageChange = (language: string) => {
-    setSelectedLanguage(language as EVENT_INFO_LANGUAGES);
+    setSelectedLanguage(language as LE_DATA_LANGUAGES);
   };
 
   const sanitizeDescriptionAfterChange = React.useCallback(

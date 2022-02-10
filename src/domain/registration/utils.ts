@@ -4,7 +4,6 @@ import isPast from 'date-fns/isPast';
 import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import isNumber from 'lodash/isNumber';
-import { scroller } from 'react-scroll';
 import { toast } from 'react-toastify';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
@@ -16,10 +15,8 @@ import {
   RegistrationQueryVariables,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { Language, PathBuilderProps } from '../../types';
-import getPageHeaderHeight from '../../utils/getPageHeaderHeight';
+import { Editability, Language, PathBuilderProps } from '../../types';
 import queryBuilder from '../../utils/queryBuilder';
-import setFocusToFirstFocusable from '../../utils/setFocusToFirstFocusable';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -32,11 +29,6 @@ import { RegistrationFields, RegistrationFormFields } from './types';
 
 export const clearRegistrationFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.REGISTRATION_FORM);
-};
-
-type RegistrationEditability = {
-  editable: boolean;
-  warning: string;
 };
 
 export const checkCanUserDoAction = ({
@@ -114,7 +106,7 @@ export const checkIsEditActionAllowed = ({
   publisher: string;
   t: TFunction;
   user?: UserFieldsFragment;
-}): RegistrationEditability => {
+}): Editability => {
   const userCanDoAction = checkCanUserDoAction({
     action,
     organizationAncestors,
@@ -243,20 +235,6 @@ export const copyRegistrationToSessionStorage = async (
 
 export const getRegistrationItemId = (id: string): string =>
   `registration-item-${id}`;
-
-export const scrollToRegistrationItem = (id: string): void => {
-  const offset = 24;
-  const duration = 300;
-
-  scroller.scrollTo(id, {
-    delay: 50,
-    duration: 300,
-    offset: 0 - (getPageHeaderHeight() + offset),
-    smooth: true,
-  });
-
-  setTimeout(() => setFocusToFirstFocusable(id), duration);
-};
 
 export const getRegistrationPayload = (
   formValues: RegistrationFormFields

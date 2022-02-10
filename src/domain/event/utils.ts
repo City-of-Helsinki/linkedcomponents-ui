@@ -12,14 +12,13 @@ import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
-import { FormikErrors, FormikState, FormikTouched } from 'formik';
+import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import forEach from 'lodash/forEach';
 import isNumber from 'lodash/isNumber';
 import keys from 'lodash/keys';
 import reduce from 'lodash/reduce';
-import set from 'lodash/set';
 import sortBy from 'lodash/sortBy';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
@@ -28,8 +27,12 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuIt
 import { getTimeObject } from '../../common/components/timepicker/utils';
 import {
   CHARACTER_LIMITS,
+  EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
+  LE_DATA_LANGUAGES,
+  ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
+  VALIDATION_ERROR_SCROLLER_OPTIONS,
   WEEK_DAY,
 } from '../../constants';
 import {
@@ -44,15 +47,19 @@ import {
   EventTypeId,
   KeywordFieldsFragment,
   Language as LELanguage,
-  LocalisedFieldsFragment,
   LocalisedObject,
-  Maybe,
   OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { Language, PathBuilderProps } from '../../types';
+import {
+  Editability,
+  Language,
+  MultiLanguageObject,
+  PathBuilderProps,
+} from '../../types';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
@@ -79,7 +86,6 @@ import {
   AUTHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
   EDIT_EVENT_TIME_FORM_NAME,
-  EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_CREATE_ACTIONS,
   EVENT_EDIT_ACTIONS,
   EVENT_EDIT_ICONS,
@@ -87,7 +93,6 @@ import {
   EVENT_FIELD_ARRAYS,
   EVENT_FIELDS,
   EVENT_INCLUDES,
-  EVENT_INFO_LANGUAGES,
   EVENT_INITIAL_VALUES,
   EVENT_SELECT_FIELDS,
   EVENT_TIME_FIELDS,
@@ -98,7 +103,6 @@ import {
   NOT_ALLOWED_WHEN_CANCELLED,
   NOT_ALLOWED_WHEN_DELETED,
   NOT_ALLOWED_WHEN_IN_PAST,
-  ORDERED_EVENT_INFO_LANGUAGES,
   RECURRING_EVENT_FIELDS,
   SUB_EVENTS_VARIABLES,
   TEXT_EDITOR_ALLOWED_TAGS,
@@ -111,7 +115,6 @@ import {
   EventFormFields,
   EventTime,
   ImageDetails,
-  MultiLanguageObject,
   Offer,
   RecurringEventSettings,
   VideoDetails,
@@ -903,7 +906,7 @@ export const getEventBasePayload = (
       : null,
     externalLinks: externalLinks.map((item) => ({
       ...item,
-      language: EVENT_INFO_LANGUAGES.FI,
+      language: LE_DATA_LANGUAGES.FI,
     })),
     images: images.map((atId) => ({ atId })),
     infoUrl: filterUnselectedLanguages(infoUrl, eventInfoLanguages),
@@ -1027,7 +1030,7 @@ function* propertyNames(obj: Record<string, unknown>): any {
 }
 
 export const getEventInfoLanguages = (event: EventFieldsFragment): string[] => {
-  const languages = new Set(ORDERED_EVENT_INFO_LANGUAGES);
+  const languages = new Set(ORDERED_LE_DATA_LANGUAGES);
   const foundLanguages = new Set<string>();
 
   for (const name of propertyNames(event)) {
@@ -1040,21 +1043,6 @@ export const getEventInfoLanguages = (event: EventFieldsFragment): string[] => {
   }
   return Array.from(foundLanguages);
 };
-
-export const getLocalisedObject = (
-  obj?: Maybe<LocalisedFieldsFragment>,
-  defaultValue = ''
-): MultiLanguageObject => {
-  return reduce(
-    ORDERED_EVENT_INFO_LANGUAGES,
-    (acc, lang) => ({
-      ...acc,
-      [lang]: (obj && obj[lang]) || defaultValue,
-    }),
-    {}
-  ) as MultiLanguageObject;
-};
-
 const getSanitizedDescription = (event: EventFieldsFragment) => {
   const description = getLocalisedObject(event.description);
 
@@ -1207,9 +1195,9 @@ export const scrollToFirstError = ({
   error,
   setDescriptionLanguage,
 }: {
-  descriptionLanguage: EVENT_INFO_LANGUAGES;
+  descriptionLanguage: LE_DATA_LANGUAGES;
   error: Yup.ValidationError;
-  setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
+  setDescriptionLanguage: (value: LE_DATA_LANGUAGES) => void;
 }): void => {
   forEach(error.inner, (e) => {
     const path = e.path ?? /* istanbul ignore next */ '';
@@ -1222,7 +1210,7 @@ export const scrollToFirstError = ({
       // Change description section language if selected language
       // is different than field language
       if (fieldLanguage !== descriptionLanguage) {
-        setDescriptionLanguage(fieldLanguage as EVENT_INFO_LANGUAGES);
+        setDescriptionLanguage(fieldLanguage as LE_DATA_LANGUAGES);
       }
     }
 
@@ -1231,12 +1219,7 @@ export const scrollToFirstError = ({
 
     /* istanbul ignore else */
     if (field) {
-      scroller.scrollTo(fieldId, {
-        delay: 0,
-        duration: 500,
-        offset: -200,
-        smooth: true,
-      });
+      scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
 
       if (fieldType === 'checkboxGroup') {
         const focusable = field.querySelectorAll('input');
@@ -1255,44 +1238,6 @@ export const scrollToFirstError = ({
       return false;
     }
   });
-};
-
-// This functions sets formik errors and touched values correctly after validation.
-// The reason for this is to show all errors after validating the form.
-// Errors are shown only for touched fields so set all fields with error touched
-export const showErrors = ({
-  descriptionLanguage,
-  error,
-  setErrors,
-  setDescriptionLanguage,
-  setTouched,
-}: {
-  descriptionLanguage: EVENT_INFO_LANGUAGES;
-  error: Yup.ValidationError;
-  setErrors: (errors: FormikErrors<EventFormFields>) => void;
-  setDescriptionLanguage: (value: EVENT_INFO_LANGUAGES) => void;
-  setTouched: (
-    touched: FormikTouched<EventFormFields>,
-    shouldValidate?: boolean
-  ) => void;
-}): void => {
-  /* istanbul ignore else */
-  if (error.name === 'ValidationError') {
-    const newErrors = error.inner.reduce(
-      (acc, e: Yup.ValidationError) =>
-        set(acc, e.path ?? /* istanbul ignore next */ '', e.errors[0]),
-      {}
-    );
-    const touchedFields = error.inner.reduce(
-      (acc, e: Yup.ValidationError) =>
-        set(acc, e.path ?? /* istanbul ignore next */ '', true),
-      {}
-    );
-
-    setErrors(newErrors);
-    setTouched(touchedFields);
-    scrollToFirstError({ descriptionLanguage, error, setDescriptionLanguage });
-  }
 };
 
 const getSubEvents = async ({
@@ -1500,11 +1445,6 @@ export const getEditEventWarning = ({
   return '';
 };
 
-type EventEditability = {
-  editable: boolean;
-  warning: string;
-};
-
 export const checkIsEditActionAllowed = ({
   action,
   authenticated,
@@ -1519,7 +1459,7 @@ export const checkIsEditActionAllowed = ({
   organizationAncestors: OrganizationFieldsFragment[];
   t: TFunction;
   user?: UserFieldsFragment;
-}): EventEditability => {
+}): Editability => {
   const userCanDoAction = checkCanUserDoAction({
     action,
     event,

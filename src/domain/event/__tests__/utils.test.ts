@@ -1,7 +1,11 @@
 /* eslint-disable max-len */
 import { advanceTo, clear } from 'jest-date-mock';
 
-import { EXTLINK, WEEK_DAY } from '../../../constants';
+import {
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  EXTLINK,
+  WEEK_DAY,
+} from '../../../constants';
 import {
   EventQueryVariables,
   EventStatus,
@@ -24,7 +28,6 @@ import {
 } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import {
-  EMPTY_MULTI_LANGUAGE_OBJECT,
   EVENT_EDIT_ACTIONS,
   EVENT_INITIAL_VALUES,
   EVENT_TYPE,

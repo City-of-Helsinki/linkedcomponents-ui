@@ -10,6 +10,8 @@
     "noRightsUpdateEnrolmentLabel": "Inga rättigheter att redigera deltagare",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
+    "noRightsUpdateKeyword": "Du har inte behörighet att redigera nyckelord.",
+    "noRightsUpdateKeywordLabel": "Inga rättigheter att redigera nyckelord",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
     "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
   },
@@ -31,12 +33,15 @@
     "at": "kl {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
+    "breadcrumb": "Brödsmula",
     "buttonActions": "Funktioner",
     "buttonAddEvent": "Lägg till evenemang",
+    "buttonAddKeyword": "Lägg till nyckelord",
     "buttonAddRegistration": "Lägg till",
     "buttonBack": "Tillbaka",
     "buttonRemoveFilter": "Ta bort filtret: {{name}}",
     "cancel": "Ångra",
+    "clear": "Klar",
     "close": "Stäng",
     "combobox": {
       "toggleButtonAriaLabel": "Menyn"
@@ -89,6 +94,7 @@
       "text": "Ge feedback"
     },
     "goToHome": "Till startsidan",
+    "home": "Startsidan",
     "imageUploader": {
       "buttonDropImage": "Dra bilden hit eller klicka för att lägga till den från hårddisken ",
       "notAllowedFileFormat": "Filformatet stöds inte",
@@ -116,6 +122,7 @@
     "placeholderDateTime": "dd.mm.åååå hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Spara",
+    "search": "Sök",
     "select": "Välj",
     "showLess": "Visa mindre",
     "showMore": "Visa mer",
@@ -167,7 +174,7 @@
     "warning": "Varning!"
   },
   "createEnrolmentPage": {
-    "pageTitle": "Lägg till en deltagare"
+    "pageTitle": "Lägg till deltagare"
   },
   "createEventPage": {
     "pageTitle": {
@@ -181,12 +188,20 @@
       "volunteering": "Nytt volontärarbete"
     }
   },
+  "createKeywordPage": {
+    "pageTitle": "Lägg till nyckelord",
+    "title": "Lägg till nyckelord"
+  },
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"
   },
   "editEnrolmentPage": {
     "pageTitle": "Redigera deltagare"
+  },
+  "editKeywordPage": {
+    "pageTitle": "Redigera nyckelord",
+    "title": "Redigera nyckelord"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -255,7 +270,6 @@
     },
     "pageTitle": "Anmälningar: {{name}}",
     "searchPanel": {
-      "buttonClear": "Klar",
       "buttonCreate": "Lägg till deltagare",
       "buttonSearch": "Filtrera",
       "labelSearch": "Filtrera registreringar",
@@ -1029,7 +1043,6 @@
     "pageDescription": "Sök efter evenemang från Linked Events. Du kan filtrera resultat efter datum, plats och typ.",
     "pageTitle": "Sök efter evenemang",
     "searchPanel": {
-      "buttonClear": "Klar",
       "buttonCreateNew": "Lägg till nytt evenemang",
       "buttonSearch": "Sök efter evenemang",
       "labelEventType": "Typ",
@@ -1148,6 +1161,24 @@
     "warningNoRightsToUpdate": "Du har inte tillräckliga rättigheter för att redigera den här bilden.",
     "warningNoRightsToUpload": "You have insufficient rights to add images."
   },
+  "keyword": {
+    "deleteKeywordModal": {
+      "buttonDelete": "Radera nyckelord",
+      "text": "Denna åtgärd tar bort nyckelordet permanent.",
+      "title": "Bekräfta raderingen av nyckelordet"
+    },
+    "form": {
+      "buttonDelete": "Ta bort nyckelord",
+      "labelDataSource": "Datakälla",
+      "labelDeprecated": "Utfasad",
+      "labelId": "ID",
+      "labelName": "Namn",
+      "labelOriginId": "Ursprungs-ID",
+      "labelPublisher": "Utgivare",
+      "labelReplacedBy": "Ersatt av",
+      "notificationTitleCannotEdit": "Nyckelord kan inte redigeras"
+    }
+  },
   "keywords": {
     "admin": "admin",
     "api": "api",
@@ -1181,6 +1212,33 @@
     "technology": "teknologi",
     "termsOfUse": "villkor",
     "update": "uppdatering"
+  },
+  "keywordsPage": {
+    "actionButtons": {
+      "edit": "Redigera nyckelord"
+    },
+    "count": "{{count}} nyckelord",
+    "count_plural": "{{count}} nyckelord",
+    "keywordsTableCaption": "Nyckelord, sorterade efter {{sort}}",
+    "keywordsTableColumns": {
+      "id": "ID",
+      "name": "Namn",
+      "nEvents": "Antal evenemang"
+    },
+    "labelSearch": "Sök nyckelord",
+    "pageDescription": "",
+    "pageTitle": "Nyckelord",
+    "sortOptions": {
+      "id": "Id, stigande",
+      "idDesc": "Id, fallande",
+      "name": "Name, stigande",
+      "nameDesc": "Name, fallande",
+      "nEvents": "Antal evenemang, stigande",
+      "nEventsDesc": "Antal evenemang, fallande"
+    },
+    "title": "Nyckelord",
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
+        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
   },
   "landingPage": {
     "heroTitle": "Evenemang och hobbyer i Helsingfors",
@@ -1216,6 +1274,7 @@
     "tabs": {
       "events": "Evenemang",
       "help": "Stöd",
+      "keywords": "Nyckelord",
       "registrations": "Registrering"
     }
   },
@@ -1291,7 +1350,6 @@
       "waitingList": "Väntelista"
     },
     "searchPanel": {
-      "buttonClear": "Klar",
       "buttonSearch": "Sök",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",
