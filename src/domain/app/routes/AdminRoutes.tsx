@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import { Language } from '../../../types';
+import NotFoundPage from '../../notFound/NotFound';
 
 const CreateKeywordPage = React.lazy(
   () => import('.././../keyword/CreateKeywordPage')
@@ -19,6 +20,10 @@ const EditKeywordSetPage = React.lazy(
 const KeywordsPage = React.lazy(() => import('.././../keywords/KeywordsPage'));
 const KeywordSetsPage = React.lazy(
   () => import('.././../keywordSets/KeywordSetsPage')
+);
+
+const OrganizationsPage = React.lazy(
+  () => import('.././../organizations/OrganizationsPage')
 );
 
 interface Props {
@@ -66,6 +71,13 @@ const AdminPageRoutes: React.FC<Props> = ({ locale }) => {
         path={getLocalePath(ROUTES.KEYWORD_SETS)}
         component={KeywordSetsPage}
       />
+
+      <Route
+        exact
+        path={getLocalePath(ROUTES.ORGANIZATIONS)}
+        component={OrganizationsPage}
+      />
+      <Route component={NotFoundPage} />
     </Switch>
   );
 };

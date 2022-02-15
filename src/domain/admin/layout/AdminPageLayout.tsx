@@ -27,6 +27,10 @@ const AdminPageLayout: React.FC<Props> = ({ children }) => {
       label: t('keywordSetsPage.title'),
       to: ROUTES.KEYWORD_SETS,
     },
+    {
+      label: t('organizationsPage.title'),
+      to: ROUTES.ORGANIZATIONS,
+    },
   ];
 
   const levels = [

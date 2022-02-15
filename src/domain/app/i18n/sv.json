@@ -38,6 +38,7 @@
   },
   "common": {
     "add": "Lägg till",
+    "affiliate": "Dotterbolag",
     "and": "och",
     "at": "kl {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
@@ -47,6 +48,7 @@
     "buttonAddEvent": "Lägg till evenemang",
     "buttonAddKeyword": "Lägg till nyckelord",
     "buttonAddKeywordSet": "Lägg till nyckelorduppsättningar",
+    "buttonAddOrganization": "Lägg till organisation",
     "buttonAddRegistration": "Lägg till",
     "buttonBack": "Tillbaka",
     "buttonRemoveFilter": "Ta bort filtret: {{name}}",
@@ -1350,6 +1352,33 @@
   },
   "notSigned": {
     "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
+  },
+  "organizationsPage": {
+    "count": "{{count}} organisation",
+    "count_plural": "{{count}} organisationer",
+    "labelSearch": "Sök organisationer",
+    "organizationsTableCaption": "Organisationer, sorterade efter {{sort}}",
+    "organizationsTableColumns": {
+      "classification": "Klassificering",
+      "dataSource": "Datakälla",
+      "id": "ID",
+      "name": "Namn",
+      "parentOrganization": "Föräldraorganisation"
+    },
+    "pageRitle": "Organisationer",
+    "sortOptions": {
+      "classification": "Klassificering, stigande",
+      "classificationDesc": "Klassificering, fallande",
+      "dataSource": "Datakälla, stigande",
+      "dataSourceDesc": "Datakälla, fallande",
+      "id": "Id, stigande",
+      "idDesc": "Id, fallande",
+      "name": "Name, stigande",
+      "nameDesc": "Name, fallande",
+      "parentOrganization": "Föräldraorganisation, ascending",
+      "parentOrganizationDesc": "Föräldraorganisation, descending"
+    },
+    "title": "Organisationer"
   },
   "registration": {
     "deleteRegistrationModal": {

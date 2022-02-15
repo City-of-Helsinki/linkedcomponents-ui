@@ -40,7 +40,6 @@ import {
   isRegistrationPossible,
   registrationPathBuilder,
 } from '../registration/utils';
-import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
@@ -196,8 +195,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
 const CreateEnrolmentPageWrapper: React.FC = () => {
   const location = useLocation();
   const { registrationId } = useParams<{ registrationId: string }>();
-  const { user } = useUser();
-  const loadingUser = useDebouncedLoadingUser();
+  const { loading: loadingUser, user } = useUser();
 
   const { data: registrationData, loading: loadingRegistration } =
     useRegistrationQuery({

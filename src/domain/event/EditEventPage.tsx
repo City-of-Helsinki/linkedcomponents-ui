@@ -28,7 +28,7 @@ import Section from '../app/layout/Section';
 import { EventsLocationState } from '../eventSearch/types';
 import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotFound from '../notFound/NotFound';
-import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
+import useUser from '../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS, EVENT_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import AuthenticationNotification from './eventAuthenticationNotification/EventAuthenticationNotification';
@@ -355,7 +355,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 const EditEventPageWrapper: React.FC = () => {
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
-  const loadingUser = useDebouncedLoadingUser();
+  const { loading: loadingUser } = useUser();
 
   const {
     data: eventData,

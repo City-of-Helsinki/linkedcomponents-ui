@@ -18,7 +18,6 @@ import {
   clearRegistrationFormData,
   registrationPathBuilder,
 } from '../registration/utils';
-import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
 import styles from './registrationSavedPage.module.scss';
 
@@ -60,8 +59,7 @@ const RegistrationSavedPage: React.FC = () => {
 
 const RegistrationSavedPageWrapper: React.FC = () => {
   const { id: registrationId } = useParams<{ id: string }>();
-  const { user } = useUser();
-  const loadingUser = useDebouncedLoadingUser();
+  const { loading: loadingUser, user } = useUser();
 
   const { data: registrationData, loading } = useRegistrationQuery({
     skip: !registrationId || !user,

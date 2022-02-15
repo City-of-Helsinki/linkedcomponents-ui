@@ -49,7 +49,13 @@ const KeywordsTableRow: React.FC<Props> = ({ keyword, onRowClick }) => {
         onKeyDown={handleKeyDown}
         tabIndex={0}
       >
-        <td className={styles.idColumn}>{<Link to={keywordUrl}>{id}</Link>}</td>
+        <td className={styles.idColumn}>
+          {
+            <Link onClick={(e) => e.preventDefault()} to={keywordUrl}>
+              {id}
+            </Link>
+          }
+        </td>
         <td className={styles.nameColumn}>{name}</td>
         <td className={styles.nEventsColumn}>{nEvents}</td>
         <td className={styles.actionButtonsColumn}>

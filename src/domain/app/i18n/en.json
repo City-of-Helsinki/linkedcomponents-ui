@@ -38,6 +38,7 @@
   }, 
   "common": {
     "add": "Add",
+    "affiliate": "Affialate",
     "and": "and",
     "at": "at {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
@@ -47,6 +48,7 @@
     "buttonAddEvent": "Add new event",
     "buttonAddKeyword": "Add keyword",
     "buttonAddKeywordSet": "Add keyword set",
+    "buttonAddOrganization": "Add new organization",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
     "cancel": "Undo",
@@ -1350,6 +1352,33 @@
   },
   "notSigned": {
     "text": "You must be logged in to view this content. Log in or return to the home page."
+  },
+  "organizationsPage": {
+    "count": "{{count}} organization",
+    "count_plural": "{{count}} organization",
+    "labelSearch": "Search organizations",
+    "organizationsTableCaption": "Organizations, sorted by {{sort}}",
+    "organizationsTableColumns": {
+      "classification": "Classification",
+      "dataSource": "Data source",
+      "id": "ID",
+      "name": "Name",
+      "parentOrganization": "Parent organization"
+    },
+    "pageRitle": "Organizations",
+    "sortOptions": {
+      "classification": "Classification, ascending",
+      "classificationDesc": "Classification, descending",
+      "dataSource": "Data source, ascending",
+      "dataSourceDesc": "Data source, descending",
+      "id": "Id, ascending",
+      "idDesc": "Id, descending",
+      "name": "Name, ascending",
+      "nameDesc": "Name, descending",
+      "parentOrganization": "Parent organization, ascending",
+      "parentOrganizationDesc": "Parent organization, descending"
+    },
+    "title": "Organizations"
   },
   "registration": {
     "deleteRegistrationModal": {
