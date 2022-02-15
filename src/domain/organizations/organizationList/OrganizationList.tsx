@@ -24,53 +24,13 @@ export const testIds = {
   resultList: 'organization-result-list',
 };
 
-type OrganizationListProps = {
-  onSortChange: (sort: ORGANIZATION_SORT_OPTIONS) => void;
-  organizations: OrganizationFieldsFragment[];
-  showSubOrganization: boolean;
-  sort: ORGANIZATION_SORT_OPTIONS;
-  sortedOrganizations: OrganizationFieldsFragment[];
-};
-
-const OrganizationList: React.FC<OrganizationListProps> = ({
-  onSortChange,
-  organizations,
-  showSubOrganization = true,
-  sort,
-  sortedOrganizations,
-}) => {
+const OrganizationList: React.FC = () => {
   const { t } = useTranslation();
-  const sortOptions = useOrganizationSortOptions();
-
-  const getTableCaption = () => {
-    return t(`organizationsPage.organizationsTableCaption`, {
-      sort: sortOptions.find((option) => option.value === sort)?.label,
-    });
-  };
-
-  return (
-    <div>
-      <div className={styles.table}>
-        <OrganizationsTable
-          caption={getTableCaption()}
-          organizations={organizations}
-          setSort={onSortChange}
-          showSubOrganization={showSubOrganization}
-          sort={sort as ORGANIZATION_SORT_OPTIONS}
-          sortedOrganizations={sortedOrganizations}
-        />
-      </div>
-    </div>
-  );
-};
-
-const OrganizationListContainer: React.FC = () => {
   const location = useLocation();
   const history = useHistory();
   const [organizationListId] = React.useState(() =>
     uniqueId('organization-list-')
   );
-  const { t } = useTranslation();
   const { sort, text } = getOrganizationSearchInitialValues(location.search);
   const [search, setSearch] = React.useState(text);
 
@@ -83,7 +43,28 @@ const OrganizationListContainer: React.FC = () => {
     });
   };
 
-  const handleSortChange = (val: ORGANIZATION_SORT_OPTIONS) => {
+  const { loading: loadingOrganizations, organizations } =
+    useAllOrganizations();
+
+  const sortedOrganizations = orderBy(
+    organizations,
+    [sort.replace('-', '')],
+    [sort.startsWith('-') ? 'desc' : 'asc']
+  ) as OrganizationFieldsFragment[];
+
+  const filteredOrganizations = sortedOrganizations.filter((o) =>
+    o.name?.toLowerCase().includes(text.toLowerCase())
+  );
+
+  const rootOrganizations = sortedOrganizations.filter(
+    (o) => !o.parentOrganization
+  );
+  /* istanbul ignore next */
+  const organizationsCount = filteredOrganizations.length || 0;
+
+  const sortOptions = useOrganizationSortOptions();
+
+  const onSortChange = (val: ORGANIZATION_SORT_OPTIONS) => {
     history.push({
       pathname: location.pathname,
       search: replaceParamsToOrganizationQueryString(location.search, {
@@ -95,23 +76,11 @@ const OrganizationListContainer: React.FC = () => {
     });
   };
 
-  const { loading: loadingOrganizations, organizations } =
-    useAllOrganizations();
-  const sortedOrganizations = orderBy(
-    organizations,
-    [sort.replace('-', '')],
-    [sort.startsWith('-') ? 'desc' : 'asc']
-  ) as OrganizationFieldsFragment[];
-  const filteredOrganizations = sortedOrganizations.filter((o) =>
-    o.name?.toLowerCase().includes(text.toLowerCase())
-  );
-
-  const rootOrganizations = sortedOrganizations.filter(
-    (o) => !o.parentOrganization
-  );
-  /* istanbul ignore next */
-  const organizationsCount =
-    (text ? filteredOrganizations.length : sortedOrganizations.length) || 0;
+  const getTableCaption = () => {
+    return t(`organizationsPage.organizationsTableCaption`, {
+      sort: sortOptions.find((option) => option.value === sort)?.label,
+    });
+  };
 
   return (
     <div id={organizationListId} data-testid={testIds.resultList}>
@@ -130,16 +99,19 @@ const OrganizationListContainer: React.FC = () => {
       </div>
 
       <LoadingSpinner isLoading={loadingOrganizations}>
-        <OrganizationList
-          onSortChange={handleSortChange}
-          organizations={text ? filteredOrganizations : rootOrganizations}
-          showSubOrganization={!text}
-          sort={sort}
-          sortedOrganizations={sortedOrganizations}
-        />
+        <div className={styles.table}>
+          <OrganizationsTable
+            caption={getTableCaption()}
+            organizations={text ? filteredOrganizations : rootOrganizations}
+            setSort={onSortChange}
+            showSubOrganizations={!text}
+            sort={sort as ORGANIZATION_SORT_OPTIONS}
+            sortedOrganizations={sortedOrganizations}
+          />
+        </div>
       </LoadingSpinner>
     </div>
   );
 };
 
-export default OrganizationListContainer;
+export default OrganizationList;

@@ -12,6 +12,7 @@ import { getOrganizationFields } from '../../organization/utils';
 import { ORGANIZATION_SORT_OPTIONS } from '../constants';
 import useOrganizationsQueryStringWithReturnPath from '../hooks/useOrganizationsQueryStringWithReturnPath';
 import styles from './organizationsTable.module.scss';
+import OrganizationsTableContext from './OrganizationsTableContext';
 import OrganizationsTableRow from './OrganizationsTableRow';
 
 export interface OrganizationsTableProps {
@@ -19,7 +20,7 @@ export interface OrganizationsTableProps {
   className?: string;
   organizations: OrganizationFieldsFragment[];
   setSort: (sort: ORGANIZATION_SORT_OPTIONS) => void;
-  showSubOrganization: boolean;
+  showSubOrganizations: boolean;
   sort: ORGANIZATION_SORT_OPTIONS;
   sortedOrganizations: OrganizationFieldsFragment[];
 }
@@ -29,7 +30,7 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   className,
   organizations,
   setSort,
-  showSubOrganization = true,
+  showSubOrganizations,
   sort,
   sortedOrganizations,
 }) => {
@@ -41,7 +42,7 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);
 
-  const handleRowClick = (organization: OrganizationFieldsFragment) => {
+  const onRowClick = (organization: OrganizationFieldsFragment) => {
     const { organizationUrl } = getOrganizationFields(organization, locale, t);
 
     history.push({
@@ -55,75 +56,78 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   };
 
   return (
-    <Table ref={table} className={className}>
-      <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
-      <thead>
-        <tr>
-          <SortableColumn
-            className={styles.nameColumn}
-            label={t('organizationsPage.organizationsTableColumns.name')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={ORGANIZATION_SORT_OPTIONS.NAME}
-            type="text"
-          />
-          <SortableColumn
-            className={styles.idColumn}
-            label={t('organizationsPage.organizationsTableColumns.id')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={ORGANIZATION_SORT_OPTIONS.ID}
-            type="text"
-          />
+    <OrganizationsTableContext.Provider
+      value={{ onRowClick, showSubOrganizations, sortedOrganizations }}
+    >
+      <Table ref={table} className={className}>
+        <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
+        <thead>
+          <tr>
+            <SortableColumn
+              className={styles.nameColumn}
+              label={t('organizationsPage.organizationsTableColumns.name')}
+              onClick={handleSort}
+              sort={sort}
+              sortKey={ORGANIZATION_SORT_OPTIONS.NAME}
+              type="text"
+            />
+            <SortableColumn
+              className={styles.idColumn}
+              label={t('organizationsPage.organizationsTableColumns.id')}
+              onClick={handleSort}
+              sort={sort}
+              sortKey={ORGANIZATION_SORT_OPTIONS.ID}
+              type="text"
+            />
 
-          <SortableColumn
-            className={styles.dataSourceColumn}
-            label={t('organizationsPage.organizationsTableColumns.dataSource')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={ORGANIZATION_SORT_OPTIONS.DATA_SOURCE}
-            type="default"
-          />
-          <SortableColumn
-            className={styles.classificationColumn}
-            label={t(
-              'organizationsPage.organizationsTableColumns.classification'
-            )}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={ORGANIZATION_SORT_OPTIONS.CLASSIFICATION}
-            type="default"
-          />
-          <SortableColumn
-            className={styles.parentColumn}
-            label={t(
-              'organizationsPage.organizationsTableColumns.parentOrganization'
-            )}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={ORGANIZATION_SORT_OPTIONS.PARENT_ORGANIZATION}
-            type="default"
-          />
+            <SortableColumn
+              className={styles.dataSourceColumn}
+              label={t(
+                'organizationsPage.organizationsTableColumns.dataSource'
+              )}
+              onClick={handleSort}
+              sort={sort}
+              sortKey={ORGANIZATION_SORT_OPTIONS.DATA_SOURCE}
+              type="default"
+            />
+            <SortableColumn
+              className={styles.classificationColumn}
+              label={t(
+                'organizationsPage.organizationsTableColumns.classification'
+              )}
+              onClick={handleSort}
+              sort={sort}
+              sortKey={ORGANIZATION_SORT_OPTIONS.CLASSIFICATION}
+              type="default"
+            />
+            <SortableColumn
+              className={styles.parentColumn}
+              label={t(
+                'organizationsPage.organizationsTableColumns.parentOrganization'
+              )}
+              onClick={handleSort}
+              sort={sort}
+              sortKey={ORGANIZATION_SORT_OPTIONS.PARENT_ORGANIZATION}
+              type="default"
+            />
 
-          <th className={styles.actionButtonsColumn}></th>
-        </tr>
-      </thead>
-      <tbody>
-        {organizations.map(
-          (organization) =>
-            organization && (
-              <OrganizationsTableRow
-                key={organization?.id}
-                onRowClick={handleRowClick}
-                organization={organization}
-                showSubOrganization={showSubOrganization}
-                sortedOrganizations={sortedOrganizations}
-              />
-            )
-        )}
-        {!organizations.length && <NoDataRow colSpan={5} />}
-      </tbody>
-    </Table>
+            <th className={styles.actionButtonsColumn}></th>
+          </tr>
+        </thead>
+        <tbody>
+          {organizations.map(
+            (organization) =>
+              organization && (
+                <OrganizationsTableRow
+                  key={organization?.id}
+                  organization={organization}
+                />
+              )
+          )}
+          {!organizations.length && <NoDataRow colSpan={5} />}
+        </tbody>
+      </Table>
+    </OrganizationsTableContext.Provider>
   );
 };
 

@@ -1,6 +1,6 @@
 import { IconAngleDown, IconAngleUp } from 'hds-react';
 import omit from 'lodash/omit';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
@@ -18,23 +18,21 @@ import { expandedOrganizationsSelector } from '../selectors';
 import { OrganizationsLocationState } from '../types';
 import { getOrganizationItemId } from '../utils';
 import styles from './organizationsTable.module.scss';
+import OrganizationsTableContext from './OrganizationsTableContext';
 import SubOrganizationRows from './SubOrganizationRows';
 
 interface Props {
   level?: number;
-  onRowClick: (organization: OrganizationFieldsFragment) => void;
   organization: OrganizationFieldsFragment;
-  showSubOrganization: boolean;
-  sortedOrganizations: OrganizationFieldsFragment[];
 }
 
 const OrganizationsTableRow: React.FC<Props> = ({
   level = 0,
-  onRowClick,
   organization,
-  showSubOrganization = true,
-  sortedOrganizations,
 }) => {
+  const { onRowClick, showSubOrganizations, sortedOrganizations } = useContext(
+    OrganizationsTableContext
+  );
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation<OrganizationsLocationState>();
@@ -120,7 +118,7 @@ const OrganizationsTableRow: React.FC<Props> = ({
             className={styles.nameWrapper}
             style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}
           >
-            {showSubOrganization && !!subOrganizationIds.length && (
+            {showSubOrganizations && !!subOrganizationIds.length && (
               <button
                 aria-label={
                   open
@@ -166,13 +164,7 @@ const OrganizationsTableRow: React.FC<Props> = ({
         <td className={styles.actionButtonsColumn}></td>
       </tr>
       {!!subOrganizationIds.length && open && (
-        <SubOrganizationRows
-          organizationId={id}
-          level={level}
-          onRowClick={onRowClick}
-          showSubOrganization={showSubOrganization}
-          sortedOrganizations={sortedOrganizations}
-        />
+        <SubOrganizationRows organizationId={id} level={level} />
       )}
     </>
   );
