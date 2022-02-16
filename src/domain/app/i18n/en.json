@@ -87,6 +87,7 @@
       "placeholderStartDate": "Starts dd.mm.yyyy"
     },
     "delete": "Delete",
+    "dissolved": "Dissolved",
     "dropdown": {
       "buttonClear": "Clear"
     },

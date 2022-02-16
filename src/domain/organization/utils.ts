@@ -41,6 +41,19 @@ export const organizationsPathBuilder = ({
   return `/organization/${query}`;
 };
 
+export const getOrganizationName = (
+  organization: OrganizationFieldsFragment,
+  t: TFunction
+): string => {
+  const name = organization.name ?? '';
+  if (organization.dissolutionDate) {
+    return `${name} (${t('common.dissolved')})`;
+  } else if (organization.isAffiliated) {
+    return `${name} (${t('common.affiliate')})`;
+  }
+  return name;
+};
+
 export const getOrganizationFields = (
   organization: OrganizationFieldsFragment,
   locale: Language,
@@ -53,9 +66,7 @@ export const getOrganizationFields = (
     classification: organization.classification ?? '',
     dataSource: organization.dataSource ?? '',
     id: organization.id ?? '',
-    name: `${organization.name}${
-      organization.isAffiliated ? ` (${t('common.affiliate')})` : ''
-    }`,
+    name: getOrganizationName(organization, t),
     organizationUrl: `/${locale}${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`,
     parentOrganization: organization.parentOrganization ?? null,
     subOrganizations: organization.subOrganizations as string[],

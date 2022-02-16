@@ -88,6 +88,7 @@
       "placeholderStartDate": "Alkaa pp.kk.vvvv"
     },
     "delete": "Poista",
+    "dissolved": "Lakkautettu",
     "dropdown": {
       "buttonClear": "Tyhjennä"
     },
