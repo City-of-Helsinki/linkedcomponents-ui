@@ -227,7 +227,9 @@ it('should render edit keyword set page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /muokkaa avainsanaryhmää/i });
-  expect(history.location.pathname).toBe(`/fi/admin/keyword-sets/edit/${id}`);
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/keyword-sets/edit/${id}`)
+  );
 });
 
 it('should route to default help page', async () => {
