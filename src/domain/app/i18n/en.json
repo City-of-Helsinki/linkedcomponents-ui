@@ -38,7 +38,7 @@
   }, 
   "common": {
     "add": "Add",
-    "affiliate": "Affialate",
+    "affiliate": "Affiliate",
     "and": "and",
     "at": "at {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
@@ -100,6 +100,7 @@
       }
     },
     "edit": "Edit",
+    "errorLoadMode": "Failed to load more",
     "eventAmount": "{{count}} event",
     "eventAmount_plural": "{{count}} events",
     "feedback": {
@@ -1358,6 +1359,10 @@
     "count": "{{count}} organization",
     "count_plural": "{{count}} organization",
     "labelSearch": "Search organizations",
+    "organizationsTable": {
+      "hideSubOrganizations": "Hide sub-organizations: {{name}}",
+      "showSubOrganizations": "Show sub-organizations: {{name}}"
+    },
     "organizationsTableCaption": "Organizations, sorted by {{sort}}",
     "organizationsTableColumns": {
       "classification": "Classification",
@@ -1366,7 +1371,7 @@
       "name": "Name",
       "parentOrganization": "Parent organization"
     },
-    "pageRitle": "Organizations",
+    "pageTitle": "Organizations",
     "sortOptions": {
       "classification": "Classification, ascending",
       "classificationDesc": "Classification, descending",

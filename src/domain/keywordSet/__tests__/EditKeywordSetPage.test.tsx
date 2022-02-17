@@ -4,6 +4,7 @@ import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
+  configure,
   getMockReduxStore,
   renderWithRoute,
   screen,
@@ -20,6 +21,8 @@ import {
   mockedUpdateKeywordSetResponse,
 } from '../__mocks__/editKeywordSetPage';
 import EditKeywordSetPage from '../EditKeywordSetPage';
+
+configure({ defaultHidden: true });
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);

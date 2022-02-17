@@ -101,6 +101,7 @@
       }
     },
     "edit": "Redigera",
+    "errorLoadMode": "Det gick inte att ladda fler",
     "eventAmount": "{{count}} evenemang",
     "eventAmount_plural": "{{count}} evenemang",
     "feedback": {
@@ -1358,6 +1359,10 @@
     "count": "{{count}} organisation",
     "count_plural": "{{count}} organisationer",
     "labelSearch": "Sök organisationer",
+    "organizationsTable": {
+      "hideSubOrganizations": "Dölj underorganisationer: {{name}}",
+      "showSubOrganizations": "Visa underorganisationer: {{name}}"
+    },
     "organizationsTableCaption": "Organisationer, sorterade efter {{sort}}",
     "organizationsTableColumns": {
       "classification": "Klassificering",
@@ -1366,7 +1371,7 @@
       "name": "Namn",
       "parentOrganization": "Föräldraorganisation"
     },
-    "pageRitle": "Organisationer",
+    "pageTitle": "Organisationer",
     "sortOptions": {
       "classification": "Klassificering, stigande",
       "classificationDesc": "Klassificering, fallande",

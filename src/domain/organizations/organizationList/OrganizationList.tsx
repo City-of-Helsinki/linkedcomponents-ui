@@ -52,8 +52,10 @@ const OrganizationList: React.FC = () => {
     [sort.startsWith('-') ? 'desc' : 'asc']
   ) as OrganizationFieldsFragment[];
 
-  const filteredOrganizations = sortedOrganizations.filter((o) =>
-    o.name?.toLowerCase().includes(text.toLowerCase())
+  const filteredOrganizations = sortedOrganizations.filter(
+    (o) =>
+      o.name?.toLowerCase().includes(text.toLowerCase()) ||
+      o.id?.toLowerCase().includes(text.toLowerCase())
   );
 
   const rootOrganizations = sortedOrganizations.filter(

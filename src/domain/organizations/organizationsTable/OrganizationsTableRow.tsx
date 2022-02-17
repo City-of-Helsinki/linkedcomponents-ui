@@ -141,7 +141,10 @@ const OrganizationsTableRow: React.FC<Props> = ({
               </button>
             )}
             <span className={styles.organizationName} title={name}>
-              <Link onClick={(e) => e.preventDefault()} to={organizationUrl}>
+              <Link
+                onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
+                to={organizationUrl}
+              >
                 {name}
               </Link>
             </span>
@@ -149,15 +152,19 @@ const OrganizationsTableRow: React.FC<Props> = ({
         </td>
 
         <td className={styles.idColumn}>{id}</td>
-        <td className={styles.dataSourceColumn}>{dataSource || '–'}</td>
-        <td className={styles.classificationColumn}>{classification || '–'}</td>
+        <td className={styles.dataSourceColumn}>
+          {dataSource || /* istanbul ignore next */ '–'}
+        </td>
+        <td className={styles.classificationColumn}>
+          {classification || /* istanbul ignore next */ '–'}
+        </td>
         <td className={styles.parentColumn}>
           <div className={styles.nameWrapper}>
             <span
               className={styles.organizationName}
               title={parentOrganizationName}
             >
-              {parentOrganizationName || '–'}
+              {parentOrganizationName || /* istanbul ignore next */ '–'}
             </span>
           </div>
         </td>

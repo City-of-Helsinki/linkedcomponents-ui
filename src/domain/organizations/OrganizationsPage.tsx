@@ -54,7 +54,7 @@ const OrganizationsPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="keywordsPage.pageTitle">
+    <PageWrapper title="organizationsPage.pageTitle">
       <LoadingSpinner isLoading={loadingUser}>
         <OrganizationsPage />
       </LoadingSpinner>

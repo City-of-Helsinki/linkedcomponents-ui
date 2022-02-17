@@ -232,6 +232,14 @@ it('should render edit keyword set page', async () => {
   );
 });
 
+it('should render organizations page', async () => {
+  const { history } = renderRoute(`${ROUTES.ORGANIZATIONS}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /organisaatiot/i });
+  expect(history.location.pathname).toBe('/fi/admin/organizations');
+});
+
 it('should route to default help page', async () => {
   const { history } = renderRoute(ROUTES.HELP);
 

@@ -38,7 +38,7 @@ const useAllOrganizations = (): UseAllOrganizationsState => {
     async (page: number) => {
       try {
         await fetchMore({ variables: { page } });
-      } catch (e) {
+      } catch (e) /* istanbul ignore next */ {
         toast.error(t('common.errorLoadMode'));
       }
     },

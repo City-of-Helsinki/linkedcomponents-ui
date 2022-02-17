@@ -51,7 +51,10 @@ const KeywordsTableRow: React.FC<Props> = ({ keyword, onRowClick }) => {
       >
         <td className={styles.idColumn}>
           {
-            <Link onClick={(e) => e.preventDefault()} to={keywordUrl}>
+            <Link
+              onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
+              to={keywordUrl}
+            >
               {id}
             </Link>
           }

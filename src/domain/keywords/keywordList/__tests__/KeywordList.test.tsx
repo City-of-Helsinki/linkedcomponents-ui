@@ -1,5 +1,6 @@
 import {
   act,
+  configure,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -15,6 +16,8 @@ import {
   sortedKeywordNames,
 } from '../../__mocks__/keywordsPage';
 import KeywordList from '../KeywordList';
+
+configure({ defaultHidden: true });
 
 const mocks = [
   mockedKeywordsResponse,

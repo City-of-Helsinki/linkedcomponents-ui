@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
@@ -18,6 +19,8 @@ import {
   replacingKeyword,
 } from '../__mocks__/createKeyword';
 import CreateKeywordPage from '../CreateKeywordPage';
+
+configure({ defaultHidden: true });
 
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);

@@ -66,7 +66,10 @@ const KeywordSetsTableRow: React.FC<Props> = ({ keywordSet, onRowClick }) => {
     >
       <td className={styles.idColumn}>
         {
-          <Link onClick={(e) => e.preventDefault()} to={keywordSetUrl}>
+          <Link
+            onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
+            to={keywordSetUrl}
+          >
             {id}
           </Link>
         }

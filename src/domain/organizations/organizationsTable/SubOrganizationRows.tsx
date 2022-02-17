@@ -20,12 +20,14 @@ const SubOrganizationRows: React.FC<Props> = ({ level, organizationId }) => {
   const organization = sortedOrganizations.find((o) => o.id === organizationId);
   const { affiliatedOrganizations, subOrganizations } = organization
     ? getOrganizationFields(organization, locale, t)
-    : { affiliatedOrganizations: [], subOrganizations: [] };
+    : /* istanbul ignore next */
+      { affiliatedOrganizations: [], subOrganizations: [] };
   const subOrganizationIds = [...affiliatedOrganizations, ...subOrganizations];
   const subOrganizationsObjects = sortedOrganizations.filter((o) =>
     subOrganizationIds.includes(o.atId)
   );
 
+  /* istanbul ignore next */
   if (!showSubOrganizations) {
     return null;
   }
