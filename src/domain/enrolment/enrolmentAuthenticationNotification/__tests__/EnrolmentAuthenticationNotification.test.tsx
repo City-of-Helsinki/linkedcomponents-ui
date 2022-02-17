@@ -2,7 +2,6 @@ import { MockedResponse } from '@apollo/client/testing';
 import { clear } from 'jest-date-mock';
 import React from 'react';
 
-import { TEST_USER_ID } from '../../../../constants';
 import { UserDocument } from '../../../../generated/graphql';
 import { fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
@@ -19,17 +18,16 @@ import { hiddenStyles } from '../../../app/authenticationNotification/Authentica
 import userManager from '../../../auth/userManager';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { registration } from '../../../registration/__mocks__/registration';
-import { mockedUserResponse } from '../../../user/__mocks__/user';
+import {
+  mockedUserResponse,
+  userVariables,
+} from '../../../user/__mocks__/user';
 import { ENROLMENT_ACTIONS } from '../../constants';
 import EnrolmentAuthenticationNotification from '../EnrolmentAuthenticationNotification';
 
 configure({ defaultHidden: true });
-beforeEach(() => clear());
 
-const userVariables = {
-  createPath: undefined,
-  id: TEST_USER_ID,
-};
+beforeEach(() => clear());
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(
@@ -58,9 +56,7 @@ test("should show notification if user is signed in but doesn't have any organiz
   renderComponent({ mocks, store });
 
   screen.getByRole('region');
-  screen.getByRole('heading', {
-    name: 'Ei oikeuksia muokata osallistujia.',
-  });
+  screen.getByRole('heading', { name: 'Ei oikeuksia muokata osallistujia.' });
 });
 
 test('should not show notification if user is signed in and has an admin organization', async () => {

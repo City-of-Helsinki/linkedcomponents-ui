@@ -1,13 +1,10 @@
-import { MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import i18n from 'i18next';
 import React from 'react';
 
-import { ROUTES, TEST_USER_ID } from '../../../../constants';
-import { UserDocument } from '../../../../generated/graphql';
+import { ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import { StoreState } from '../../../../types';
-import { fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   act,
@@ -18,28 +15,11 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import translations from '../../../app/i18n/fi.json';
 import userManager from '../../../auth/userManager';
+import { mockedUserResponse, userName } from '../../../user/__mocks__/user';
 import Header from '../Header';
 
 configure({ defaultHidden: true });
-
-const userName = 'Test user';
-const user = fakeUser({
-  displayName: 'Test user',
-});
-const userVariables = {
-  createPath: undefined,
-  id: TEST_USER_ID,
-};
-const userResponse = { data: { user } };
-const mockedUserResponse: MockedResponse = {
-  request: {
-    query: UserDocument,
-    variables: userVariables,
-  },
-  result: userResponse,
-};
 
 const mocks = [mockedUserResponse];
 
@@ -49,14 +29,9 @@ const renderComponent = (store?: Store<StoreState, AnyAction>, route = '/fi') =>
 const getElement = (key: 'enOption' | 'menuButton') => {
   switch (key) {
     case 'enOption':
-      return screen.getByRole('link', {
-        hidden: false,
-        name: translations.navigation.languages.en,
-      });
+      return screen.getByRole('link', { hidden: false, name: /in english/i });
     case 'menuButton':
-      return screen.getByRole('button', {
-        name: translations.navigation.menuToggleAriaLabel,
-      });
+      return screen.getByRole('button', { name: 'Valikko' });
   }
 };
 
@@ -65,17 +40,11 @@ const getElements = (
 ) => {
   switch (key) {
     case 'languageSelector':
-      return screen.getAllByRole('button', {
-        name: translations.navigation.languageSelectorAriaLabel,
-      });
+      return screen.getAllByRole('button', { name: /suomi - kielivalikko/i });
     case 'signInButton':
-      return screen.getAllByRole('button', {
-        name: translations.common.signIn,
-      });
+      return screen.getAllByRole('button', { name: /kirjaudu sisään/i });
     case 'signOutLink':
-      return screen.getAllByRole('link', {
-        name: translations.common.signOut,
-      });
+      return screen.getAllByRole('link', { name: /kirjaudu ulos/i });
   }
 };
 
@@ -93,21 +62,13 @@ test.skip('matches snapshot', () => {
 });
 
 test('should show navigation links and should route to correct page after clicking link', async () => {
-  setFeatureFlags({ SHOW_REGISTRATION: true });
+  setFeatureFlags({ SHOW_KEYWORD: true, SHOW_REGISTRATION: true });
   const { history } = renderComponent();
   const links = [
-    {
-      name: translations.navigation.tabs.events,
-      url: `/fi${ROUTES.EVENTS}`,
-    },
-    {
-      name: translations.navigation.tabs.registrations,
-      url: `/fi${ROUTES.REGISTRATIONS}`,
-    },
-    {
-      name: translations.navigation.tabs.help,
-      url: `/fi${ROUTES.HELP}`,
-    },
+    { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
+    { name: /ilmoittautuminen/i, url: `/fi${ROUTES.REGISTRATIONS}` },
+    { name: /avainsanat/i, url: `/fi${ROUTES.KEYWORDS}` },
+    { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
   ];
 
   for (const { name, url } of links) {
@@ -124,19 +85,13 @@ test('should show navigation links and should route to correct page after clicki
   expect(history.location.pathname).toBe(`/fi${ROUTES.HOME}`);
 });
 
-test('should not show registrations link when registration feature is not enabled', async () => {
-  setFeatureFlags({ SHOW_REGISTRATION: false });
+test('should not show keywords and registrations link when those features are disabled', async () => {
+  setFeatureFlags({ SHOW_KEYWORD: false, SHOW_REGISTRATION: false });
 
   const { history } = renderComponent();
   const links = [
-    {
-      name: translations.navigation.tabs.events,
-      url: `/fi${ROUTES.EVENTS}`,
-    },
-    {
-      name: translations.navigation.tabs.help,
-      url: `/fi${ROUTES.HELP}`,
-    },
+    { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
+    { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
   ];
 
   for (const { name, url } of links) {
@@ -148,9 +103,10 @@ test('should not show registrations link when registration feature is not enable
   }
 
   expect(
-    screen.queryByRole('link', {
-      name: translations.navigation.tabs.registrations,
-    })
+    screen.queryByRole('link', { name: /avainsanat/i })
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole('link', { name: /ilmoittautuminen/i })
   ).not.toBeInTheDocument();
 });
 
