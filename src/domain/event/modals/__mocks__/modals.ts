@@ -1,38 +1,10 @@
-import { MockedResponse } from '@apollo/client/testing';
-
-import { MAX_PAGE_SIZE } from '../../../../constants';
-import {
-  EventsDocument,
-  OrganizationsDocument,
-  SuperEventType,
-} from '../../../../generated/graphql';
-import {
-  fakeEvent,
-  fakeEvents,
-  fakeOrganizations,
-} from '../../../../utils/mockDataUtils';
+import { EventsDocument, SuperEventType } from '../../../../generated/graphql';
+import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { SUB_EVENTS_VARIABLES } from '../../constants';
 
 const publisherId = TEST_PUBLISHER_ID;
-
-const organizationsVariables = {
-  child: publisherId,
-  createPath: undefined,
-  pageSize: MAX_PAGE_SIZE,
-};
-const organizationsResponse = {
-  data: {
-    organizations: fakeOrganizations(0),
-  },
-};
-const mockedOrganizationsResponse: MockedResponse = {
-  request: {
-    query: OrganizationsDocument,
-    variables: organizationsVariables,
-  },
-  result: organizationsResponse,
-};
 
 const subSubEventNames = ['Event 1', 'Event 2'];
 const subSubEvents = fakeEvents(
@@ -77,22 +49,26 @@ const subSubEventsVariables = {
 const subEventsResponse = { data: { events: subEvents } };
 const subSubEventsResponse = { data: { events: subSubEvents } };
 
+const mockedSubEventsResponse = {
+  request: {
+    query: EventsDocument,
+    variables: subEventsVariables,
+  },
+  result: subEventsResponse,
+};
+
+const mockedSubSubEventsResponse = {
+  request: {
+    query: EventsDocument,
+    variables: subSubEventsVariables,
+  },
+  result: subSubEventsResponse,
+};
+
 const mocks = [
-  mockedOrganizationsResponse,
-  {
-    request: {
-      query: EventsDocument,
-      variables: subEventsVariables,
-    },
-    result: subEventsResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: subSubEventsVariables,
-    },
-    result: subSubEventsResponse,
-  },
+  mockedOrganizationAncestorsResponse,
+  mockedSubEventsResponse,
+  mockedSubSubEventsResponse,
 ];
 
 export { event, eventName, mocks, subEventName, subSubEventNames };

@@ -4,9 +4,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
-import { DeleteEnrolmentDocument } from '../../../../generated/graphql';
 import { StoreState } from '../../../../types';
-import { fakeEnrolment } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
@@ -19,6 +17,10 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import {
+  enrolment,
+  mockedCancelEnrolmentResponse,
+} from '../../../enrolment/__mocks__/editEnrolmentPage';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { registration } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
@@ -26,23 +28,9 @@ import ActionsDropdown, { ActionsDropdownProps } from '../ActionsDropdown';
 
 configure({ defaultHidden: true });
 
-const enrolment = fakeEnrolment({ cancellationCode: 'xxx' });
-
 const defaultProps: ActionsDropdownProps = {
   enrolment,
   registration,
-};
-
-const cancelEnrolmentVariables = {
-  cancellationCode: enrolment.cancellationCode,
-};
-const cancelEnrolmentResponse = { data: { deleteEnrolment: null } };
-const mockedCancelEnrolmentResponse: MockedResponse = {
-  request: {
-    query: DeleteEnrolmentDocument,
-    variables: cancelEnrolmentVariables,
-  },
-  result: cancelEnrolmentResponse,
 };
 
 const defaultMocks = [
@@ -58,6 +46,7 @@ const route = `/fi${ROUTES.REGISTRATION_ENROLMENTS.replace(
   ':registrationId',
   registration.id
 )}`;
+
 const renderComponent = ({
   mocks = defaultMocks,
   props,

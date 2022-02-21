@@ -15,11 +15,7 @@ it('should set server error items', async () => {
   const { result } = getHookWrapper();
 
   const error = new ApolloError({
-    networkError: {
-      result: {
-        name: ['The name must be specified.'],
-      },
-    } as any,
+    networkError: { result: { name: ['The name must be specified.'] } } as any,
   });
 
   act(() => result.current.showServerErrors({ error }));

@@ -4,7 +4,7 @@ import {
   fakeLocalisedObject,
   fakeOffers,
 } from '../../../utils/mockDataUtils';
-import { imagesResponse } from '../../image/__mocks__/image';
+import { image } from '../../image/__mocks__/image';
 import { keywordsResponse } from '../../keyword/__mocks__/keyword';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { place } from '../../place/__mocks__/place';
@@ -18,7 +18,7 @@ const eventOverrides = {
   description: fakeLocalisedObject('Event description'),
   endTime: '2020-07-13T12:00:00.000000Z',
   keywords: keywordsResponse.data,
-  images: imagesResponse.data,
+  images: [image],
   name: fakeLocalisedObject(eventName),
   location: place,
   offers: fakeOffers(1, [
@@ -32,7 +32,7 @@ const streetAddress = place.streetAddress.fi as string;
 const addressLocality = place.addressLocality.fi as string;
 const locationText = [locationName, streetAddress, addressLocality].join(', ');
 
-const event = fakeEvent({ ...eventOverrides });
+const event = fakeEvent(eventOverrides);
 const eventVariables = {
   createPath: undefined,
   id: TEST_EVENT_ID,
@@ -40,10 +40,7 @@ const eventVariables = {
 };
 const eventResponse = { data: { event } };
 const mockedEventResponse = {
-  request: {
-    query: EventDocument,
-    variables: eventVariables,
-  },
+  request: { query: EventDocument, variables: eventVariables },
   result: eventResponse,
 };
 

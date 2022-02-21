@@ -16,9 +16,7 @@ import ButtonPanel, { ButtonPanelProps } from '../ButtonPanel';
 
 configure({ defaultHidden: true });
 
-const defaultProps: ButtonPanelProps = {
-  registration,
-};
+const defaultProps: ButtonPanelProps = { registration };
 
 const mocks = [mockedUserResponse];
 

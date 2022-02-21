@@ -41,9 +41,7 @@ test('should call onClose', async () => {
   const onClose = jest.fn();
   renderComponent({ onClose });
 
-  const closeButton = screen.getByRole('button', {
-    name: 'Peruuta',
-  });
+  const closeButton = screen.getByRole('button', { name: 'Peruuta' });
   userEvent.click(closeButton);
   expect(onClose).toBeCalled();
 });
