@@ -12,8 +12,8 @@ import {
   screen,
 } from '../../../../utils/testUtils';
 import translations from '../../../app/i18n/fi.json';
+import { organizationId } from '../../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import { organizationId } from '../../__mocks__/createEventPage';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import ButtonPanel from '../CreateButtonPanel';
 
@@ -55,10 +55,10 @@ test('buttons should be enabled when user is authenticated', async () => {
   renderComponent(store);
 
   const buttonSaveDraft = await screen.findByRole('button', {
-    name: translations.event.form.buttonSaveDraft,
+    name: /tallenna luonnos/i,
   });
   const buttonPublish = screen.getByRole('button', {
-    name: translations.event.form.buttonPublish.general,
+    name: /julkaise tapahtuma/i,
   });
   const buttons = [buttonSaveDraft, buttonPublish];
 

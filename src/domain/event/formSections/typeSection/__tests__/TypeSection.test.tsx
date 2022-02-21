@@ -1,12 +1,8 @@
 import { Formik } from 'formik';
-import range from 'lodash/range';
 import React from 'react';
 
-import {
-  EventsDocument,
-  SuperEventType,
-} from '../../../../../generated/graphql';
-import { fakeEvent, fakeEvents } from '../../../../../utils/mockDataUtils';
+import { SuperEventType } from '../../../../../generated/graphql';
+import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import {
   configure,
   render,
@@ -16,33 +12,14 @@ import {
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { EventTime, RecurringEventSettings } from '../../../types';
+import { mockedUmbrellaEventsResponse } from '../__mocks__/typeSection';
 import TypeSection, { TypeSectionProps } from '../TypeSection';
 
 configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
 
-const eventNames = range(1, 6).map((val) => `Event name ${val}`);
-const events = fakeEvents(
-  eventNames.length,
-  eventNames.map((name) => ({ name: { fi: name } }))
-);
-
-const eventsVariables = {
-  createPath: undefined,
-  superEventType: ['umbrella'],
-  text: '',
-};
-const eventsResponse = { data: { events } };
-const mockedEventsResponse = {
-  request: {
-    query: EventsDocument,
-    variables: eventsVariables,
-  },
-  result: eventsResponse,
-};
-
-const mocks = [mockedEventsResponse];
+const mocks = [mockedUmbrellaEventsResponse];
 
 type InitialValues = {
   [EVENT_FIELDS.EVENT_TIMES]: EventTime[];

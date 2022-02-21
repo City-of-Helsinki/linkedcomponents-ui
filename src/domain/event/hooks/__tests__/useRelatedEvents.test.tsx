@@ -3,129 +3,26 @@ import { renderHook } from '@testing-library/react-hooks';
 import map from 'lodash/map';
 import React from 'react';
 
-import { EventsDocument, SuperEventType } from '../../../../generated/graphql';
-import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import { createCache } from '../../../app/apollo/apolloClient';
-import { SUB_EVENTS_VARIABLES } from '../../constants';
+import {
+  event,
+  eventId,
+  mockedSubEventsResponse,
+  mockedSubSubEventsPage2Response,
+  mockedSubSubEventsResponse,
+  mockedSubSubSubEventsResponse,
+  subEventIds,
+  subSubEventIds,
+  subSubEventPage2Ids,
+  subSubSubEventIds,
+} from '../__mocks__/useRelatedEvents';
 import useRelatedEvents from '../useRelatedEvents';
 
-const eventId = 'umbrella:1';
-const subEventIds = ['recurring:1'];
-const subSubEventIds = ['event:1'];
-const subSubEventPage2Ids = ['event:2', 'event:3', 'event:4'];
-const subSubSubEventIds = ['subevent:1'];
-const subSubSubEvents = fakeEvents(
-  subSubSubEventIds.length,
-  subSubSubEventIds.map((id) => ({ id }))
-);
-const subSubEvents = fakeEvents(
-  subSubEventIds.length,
-  subSubEventIds.map((id) => ({
-    id,
-    subEvents: subSubSubEvents.data,
-    superEventType: SuperEventType.Recurring,
-  }))
-);
-
-const subSubPage2Events = fakeEvents(
-  subSubEventPage2Ids.length,
-  subSubEventPage2Ids.map((id) => ({ id }))
-);
-
-const subEvents = fakeEvents(
-  subEventIds.length,
-  subEventIds.map((id) => ({
-    id,
-    subEvents: subSubEvents.data,
-    superEventType: SuperEventType.Umbrella,
-  }))
-);
-
-const event = fakeEvent({
-  id: eventId,
-  subEvents: subEvents.data,
-  superEventType: SuperEventType.Umbrella,
-});
-
-const subEventsResponse = {
-  data: {
-    events: subEvents,
-  },
-};
-
-const count = subSubEventIds.length + subSubEventPage2Ids.length;
-const subSubEventsResponse = {
-  data: {
-    events: {
-      ...subSubEvents,
-      meta: {
-        ...subSubEvents.meta,
-        count,
-        next: 'http://localhost:8000/v1/event/?page=2',
-      },
-    },
-  },
-};
-const subSubEventsPage2Response = {
-  data: {
-    events: {
-      ...subSubPage2Events,
-      meta: {
-        ...subSubEvents.meta,
-        count,
-        previous: 'http://localhost:8000/v1/event/',
-      },
-    },
-  },
-};
-
-const subSubSubEventsResponse = {
-  data: {
-    events: subSubSubEvents,
-  },
-};
-const subEventsVariables = {
-  ...SUB_EVENTS_VARIABLES,
-  superEvent: eventId,
-};
-const subSubEventsVariables = {
-  ...SUB_EVENTS_VARIABLES,
-  superEvent: subEventIds[0],
-};
-const subSubSubEventsVariables = {
-  ...SUB_EVENTS_VARIABLES,
-  superEvent: subSubEventIds[0],
-};
-
 const mocks = [
-  {
-    request: {
-      query: EventsDocument,
-      variables: subEventsVariables,
-    },
-    result: subEventsResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: subSubEventsVariables,
-    },
-    result: subSubEventsResponse,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: { ...subSubEventsVariables, page: 2 },
-    },
-    result: subSubEventsPage2Response,
-  },
-  {
-    request: {
-      query: EventsDocument,
-      variables: subSubSubEventsVariables,
-    },
-    result: subSubSubEventsResponse,
-  },
+  mockedSubEventsResponse,
+  mockedSubSubEventsResponse,
+  mockedSubSubEventsPage2Response,
+  mockedSubSubSubEventsResponse,
 ];
 
 const getHookWrapper = (mocks = []) => {
@@ -136,9 +33,7 @@ const getHookWrapper = (mocks = []) => {
   );
   const { result, waitForNextUpdate } = renderHook(
     () => useRelatedEvents(event),
-    {
-      wrapper,
-    }
+    { wrapper }
   );
   // Test the initial state of the request
   expect(result.current.loading).toBe(true);

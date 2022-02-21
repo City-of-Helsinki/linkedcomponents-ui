@@ -72,13 +72,9 @@ const payload = {
   zipcode: enrolmentValues.zipcode,
 };
 
-const updateEnrolmentVariables = {
-  input: payload,
-};
+const updateEnrolmentVariables = { input: payload };
 
-const updateEnrolmentResponse = {
-  data: { updateEnrolment: enrolment },
-};
+const updateEnrolmentResponse = { data: { updateEnrolment: enrolment } };
 
 const mockedUpdateEnrolmentResponse: MockedResponse = {
   request: {

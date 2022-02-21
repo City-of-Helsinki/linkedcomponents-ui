@@ -1,14 +1,11 @@
-import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { addParamsToKeywordQueryString } from '../utils';
 
 const useKeywordsQueryStringWithReturnPath = (): string => {
   const { pathname, search } = useLocation();
-  return React.useMemo(
-    () => addParamsToKeywordQueryString(search, { returnPath: pathname }),
-    [pathname, search]
-  );
+
+  return addParamsToKeywordQueryString(search, { returnPath: pathname });
 };
 
 export default useKeywordsQueryStringWithReturnPath;

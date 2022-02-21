@@ -20,6 +20,7 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { DEFAULT_LICENSE_TYPE } from '../../../../image/constants';
+import { mockedOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, IMAGE_DETAILS_FIELDS } from '../../../constants';
 import { ImageDetails } from '../../../types';
@@ -32,7 +33,6 @@ import {
   imageUrl,
   mockedImageResponse,
   mockedImagesResponse,
-  mockedOrganizationsResponse,
   mockedUploadImage1Response,
   mockedUploadImage2Response,
   publisher,
@@ -46,7 +46,7 @@ const defaultMocks = [
   mockedImageResponse,
   mockedUploadImage1Response,
   mockedUploadImage2Response,
-  mockedOrganizationsResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
 
@@ -242,18 +242,13 @@ test('should show validation error if image name is too long', async () => {
   const imageVariables = { createPath: undefined, id: image.id };
   const imageResponse = { data: { image } };
   const mockedImageResponse: MockedResponse = {
-    request: {
-      query: ImageDocument,
-      variables: imageVariables,
-    },
+    request: { query: ImageDocument, variables: imageVariables },
     result: imageResponse,
   };
-  renderComponent(
-    {
-      [EVENT_FIELDS.IMAGES]: [image.atId],
-    },
-    [mockedImageResponse, mockedUserResponse]
-  );
+  renderComponent({ [EVENT_FIELDS.IMAGES]: [image.atId] }, [
+    mockedImageResponse,
+    mockedUserResponse,
+  ]);
 
   const altTextInput = getElement('altTextInput');
   const nameInput = getElement('nameInput');

@@ -2,21 +2,13 @@ import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 import React from 'react';
 
-import { MAX_PAGE_SIZE } from '../../../../constants';
 import {
   EventFieldsFragment,
   EventsDocument,
-  OrganizationDocument,
-  OrganizationsDocument,
   PublicationStatus,
   SuperEventType,
 } from '../../../../generated/graphql';
-import {
-  fakeEvent,
-  fakeEvents,
-  fakeOrganization,
-  fakeOrganizations,
-} from '../../../../utils/mockDataUtils';
+import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
   configure,
   render,
@@ -24,39 +16,15 @@ import {
   userEvent,
 } from '../../../../utils/testUtils';
 import { SUB_EVENTS_VARIABLES } from '../../../event/constants';
+import {
+  mockedOrganizationResponse,
+  organizationId,
+  organizationName,
+} from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import EventsTableRow from '../EventsTableRow';
 
 configure({ defaultHidden: true });
-
-const organizationId = 'hel:123';
-const organizationName = 'Organization name';
-const organization = fakeOrganization({
-  id: organizationId,
-  name: organizationName,
-});
-const organizationVariables = { id: organizationId, createPath: undefined };
-const organizationResponse = { data: { organization } };
-const mockedOrganizationResponse: MockedResponse = {
-  request: {
-    query: OrganizationDocument,
-    variables: organizationVariables,
-  },
-  result: organizationResponse,
-};
-
-const organizationsVariables = {
-  child: organizationId,
-  pageSize: MAX_PAGE_SIZE,
-  createPath: undefined,
-};
-const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
-const mockedOrganizationsResponse: MockedResponse = {
-  request: {
-    query: OrganizationsDocument,
-    variables: organizationsVariables,
-  },
-  result: organizationsResponse,
-};
 
 const renderComponent = (event: EventFieldsFragment, mocks: MockedResponse[]) =>
   render(
@@ -87,7 +55,10 @@ test('should render event data correctly', async () => {
     startTime: eventValues.startTime,
   });
 
-  const mocks = [mockedOrganizationResponse, mockedOrganizationsResponse];
+  const mocks = [
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+  ];
 
   renderComponent(event, mocks);
 
@@ -150,7 +121,7 @@ test('should show sub events', async () => {
 
   const mocks = [
     mockedOrganizationResponse,
-    mockedOrganizationsResponse,
+    mockedOrganizationAncestorsResponse,
     mockedSubEventsResponse,
   ];
 

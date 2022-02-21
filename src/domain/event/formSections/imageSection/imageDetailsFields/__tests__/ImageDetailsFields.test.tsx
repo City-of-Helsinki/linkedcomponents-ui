@@ -2,12 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
 
-import {
-  ImageDocument,
-  UserDocument,
-} from '../../../../../../generated/graphql';
-import generateAtId from '../../../../../../utils/generateAtId';
-import { fakeImage } from '../../../../../../utils/mockDataUtils';
+import { UserDocument } from '../../../../../../generated/graphql';
 import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
 import {
   configure,
@@ -19,21 +14,26 @@ import {
 } from '../../../../../../utils/testUtils';
 import translations from '../../../../../app/i18n/fi.json';
 import {
+  imageFields,
+  imageNotFoundAtId,
+  mockedImageNotFoundResponse,
+  mockedImageResponse,
+} from '../../../../../image/__mocks__/image';
+import {
   DEFAULT_LICENSE_TYPE,
   LICENSE_TYPES,
 } from '../../../../../image/constants';
-import { TEST_PUBLISHER_ID } from '../../../../../organization/constants';
-import { mockedUserResponse } from '../../../../../user/__mocks__/user';
+import { mockedOrganizationAncestorsResponse } from '../../../../../organization/__mocks__/organizationAncestors';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../../../../user/__mocks__/user';
 import {
   EVENT_FIELDS,
   EVENT_TYPE,
   IMAGE_DETAILS_FIELDS,
 } from '../../../../constants';
 import { publicEventSchema } from '../../../../utils';
-import {
-  mockedOrganizationsResponse,
-  mockedUserWithoutOrganizationsResponse,
-} from '../../__mocks__/imageSection';
 import ImageDetailsFields, {
   ImageDetailsFieldsProps,
 } from '../ImageDetailsFields';
@@ -45,45 +45,11 @@ const defaultProps: ImageDetailsFieldsProps = {
   imageAtId: '',
 };
 
-const id = 'hel:123';
-const atId = generateAtId(id, 'image');
-const publisher = TEST_PUBLISHER_ID;
-const imageFields = {
-  id,
-  atId,
-  altText: 'Alt',
-  license: LICENSE_TYPES.EVENT_ONLY,
-  name: 'Image name',
-  photographerName: 'Photographer name',
-  publisher,
-};
-const image = fakeImage(imageFields);
-const imageVariables = { createPath: undefined, id };
-const imageResponse = { data: { image } };
-const mockedImageResponse = {
-  request: {
-    query: ImageDocument,
-    variables: imageVariables,
-  },
-  result: imageResponse,
-};
-
-const notFoundId = 'not-found';
-const notFoundAtId = generateAtId(notFoundId, 'image');
-const notFoundVariables = { createPath: undefined, id: notFoundId };
-const mockedNotFoundResponse = {
-  request: {
-    query: ImageDocument,
-    variables: notFoundVariables,
-  },
-  error: new Error('not found'),
-};
-
 const defaultMocks = [
   mockedImageResponse,
-  mockedOrganizationsResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
-  mockedNotFoundResponse,
+  mockedImageNotFoundResponse,
 ];
 
 const state = fakeAuthenticatedStoreState();
@@ -213,7 +179,7 @@ test('should clear field values when imageAtId is null', async () => {
 test('should clear field values when image with imageAtId does not exist', async () => {
   renderComponent({
     initialValues: {
-      [EVENT_FIELDS.IMAGES]: [notFoundAtId],
+      [EVENT_FIELDS.IMAGES]: [imageNotFoundAtId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
         [IMAGE_DETAILS_FIELDS.ALT_TEXT]: 'Lorem ipsum',
         [IMAGE_DETAILS_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
@@ -222,7 +188,7 @@ test('should clear field values when image with imageAtId does not exist', async
       },
       [EVENT_FIELDS.TYPE]: eventType,
     },
-    props: { imageAtId: notFoundAtId },
+    props: { imageAtId: imageNotFoundAtId },
   });
 
   const ccByRadio = getElement('ccByRadio');

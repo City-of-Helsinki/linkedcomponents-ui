@@ -1,13 +1,6 @@
 import { Formik } from 'formik';
-import range from 'lodash/range';
 import React from 'react';
 
-import { INCLUDE, KEYWORD_SETS } from '../../../../../constants';
-import { KeywordSetDocument } from '../../../../../generated/graphql';
-import {
-  fakeKeywords,
-  fakeKeywordSet,
-} from '../../../../../utils/mockDataUtils';
 import {
   render,
   screen,
@@ -15,42 +8,19 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import {
-  mockedLanguagesResponse,
-  mockedTopicsKeywordSetResponse,
-} from '../../../__mocks__/editEventPage';
+import { mockedTopicsKeywordSetResponse } from '../../../../keywordSet/__mocks__/keywordSets';
+import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
+import {
+  audienceNames,
+  mockedAudiencesKeywordSetResponse,
+} from '../__mocks__/audienceSection';
 import AudienceSection from '../AudienceSection';
 
 const type = EVENT_TYPE.General;
 
-const keywordNames = range(1, 16).map((index) => `Keyword ${index}`);
-const keywords = fakeKeywords(
-  keywordNames.length,
-  keywordNames.map((name) => ({ name: { fi: name } }))
-).data;
-
-const audiencesKeywordSet = fakeKeywordSet({
-  id: KEYWORD_SETS.AUDIENCES,
-  keywords,
-});
-
-const audiencesKeywordSetResponse = {
-  data: { keywordSet: audiencesKeywordSet },
-};
-
 const mocks = [
-  {
-    request: {
-      query: KeywordSetDocument,
-      variables: {
-        createPath: undefined,
-        id: KEYWORD_SETS.AUDIENCES,
-        include: [INCLUDE.KEYWORDS],
-      },
-    },
-    result: audiencesKeywordSetResponse,
-  },
+  mockedAudiencesKeywordSetResponse,
   mockedLanguagesResponse,
   mockedTopicsKeywordSetResponse,
 ];
@@ -75,9 +45,7 @@ test('should render audience section', async () => {
 
   await waitFor(() => {
     expect(
-      screen.queryByRole('heading', {
-        name: translations.event.form.titleAudience,
-      })
+      screen.queryByRole('heading', { name: /kohderyhmät/i })
     ).toBeInTheDocument();
   });
 
@@ -90,10 +58,10 @@ test('should show 10 first audiences by default and rest by clicking show more',
   renderComponent();
 
   await waitFor(() => {
-    expect(screen.queryByLabelText(keywordNames[0])).toBeInTheDocument();
+    expect(screen.queryByLabelText(audienceNames[0])).toBeInTheDocument();
   });
-  const defaultKeywords = keywordNames.slice(0, 10);
-  const restKeywords = keywordNames.slice(10);
+  const defaultKeywords = audienceNames.slice(0, 10);
+  const restKeywords = audienceNames.slice(10);
 
   defaultKeywords.forEach((keyword) => {
     expect(screen.queryByLabelText(keyword)).toBeInTheDocument();
@@ -103,9 +71,7 @@ test('should show 10 first audiences by default and rest by clicking show more',
     expect(screen.queryByLabelText(keyword)).not.toBeInTheDocument();
   });
 
-  userEvent.click(
-    screen.getByRole('button', { name: translations.common.showMore })
-  );
+  userEvent.click(screen.getByRole('button', { name: /näytä lisää/i }));
 
   await waitFor(() => {
     expect(screen.queryByLabelText(restKeywords[0])).toBeInTheDocument();
