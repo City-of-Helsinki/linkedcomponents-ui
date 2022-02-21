@@ -13,7 +13,7 @@ import {
   mocks,
   subEventName,
   subSubEventNames,
-} from '../__mocks__/constants';
+} from '../__mocks__/modals';
 import ConfirmUpdateModal, {
   ConfirmUpdateModalProps,
 } from '../ConfirmUpdateModal';

@@ -21,33 +21,40 @@ import {
   waitFor,
 } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
+import {
+  imageFields,
+  mockedImageResponse,
+  mockedImagesResponse,
+  mockedUpdateImageResponse,
+} from '../../image/__mocks__/image';
+import {
+  mockedAudienceKeywordSetResponse,
+  mockedTopicsKeywordSetResponse,
+} from '../../keywordSet/__mocks__/keywordSets';
+import { mockedLanguagesResponse } from '../../language/__mocks__/language';
+import {
+  mockedOrganizationResponse,
+  organizationId,
+} from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import {
+  mockedFilteredPlacesResponse,
+  mockedPlaceResponse,
+  mockedPlacesResponse,
+  placeAtId,
+} from '../../place/__mocks__/place';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   eventValues,
-  imageAtId,
-  imageDetails,
   keywordAtId,
   keywordName,
-  mockedAudienceKeywordSetResponse,
   mockedCreateDraftEventResponse,
   mockedCreatePublicEventResponse,
   mockedCreateSubEventsResponse,
-  mockedFilteredPlacesResponse,
-  mockedImageResponse,
-  mockedImagesResponse,
   mockedInvalidCreateDraftEventResponse,
   mockedKeywordResponse,
   mockedKeywordsResponse,
-  mockedLanguagesResponse,
-  mockedOrganizationResponse,
-  mockedOrganizationsResponse,
-  mockedPlaceResponse,
-  mockedPlacesResponse,
-  mockedTopicsKeywordSetResponse,
   mockedUmbrellaEventsResponse,
-  mockedUpdateImageResponse,
-  organizationId,
-  placeAtId,
 } from '../__mocks__/createEventPage';
 import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from '../constants';
 import CreateEventPage from '../CreateEventPage';
@@ -70,7 +77,7 @@ const defaultMocks = [
   mockedFilteredPlacesResponse,
   mockedFilteredPlacesResponse,
   mockedOrganizationResponse,
-  mockedOrganizationsResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
 
@@ -265,8 +272,8 @@ test('should focus to first main category checkbox if none main category is sele
       fi: eventValues.description,
     },
     eventTimes: [eventValues.eventTimes[0]],
-    images: [imageAtId],
-    imageDetails,
+    images: [imageFields.atId],
+    imageDetails: imageFields,
     isVerified: true,
     keywords: [],
     location: placeAtId,
@@ -350,8 +357,8 @@ test('should route to event completed page after publishing event', async () => 
       fi: eventValues.description,
     },
     eventTimes: eventValues.eventTimes,
-    images: [imageAtId],
-    imageDetails,
+    images: [imageFields.atId],
+    imageDetails: imageFields,
     isVerified: true,
     keywords: [keywordAtId],
     location: placeAtId,

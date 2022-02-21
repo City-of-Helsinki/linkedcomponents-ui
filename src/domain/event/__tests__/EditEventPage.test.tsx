@@ -16,11 +16,25 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import {
+  mockedImageResponse,
+  mockedUpdateImageResponse,
+} from '../../image/__mocks__/image';
+import {
+  mockedAudienceKeywordSetResponse,
+  mockedTopicsKeywordSetResponse,
+} from '../../keywordSet/__mocks__/keywordSets';
+import { mockedLanguagesResponse } from '../../language/__mocks__/language';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import {
+  mockedFilteredPlacesResponse,
+  mockedPlacesResponse,
+} from '../../place/__mocks__/place';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   eventId,
   expectedValues,
-  mockedAudienceKeywordSetResponse,
   mockedCancelEventResponse,
   mockedCancelledEventResponse,
   mockedCreateNewSubEventsResponse,
@@ -29,24 +43,16 @@ import {
   mockedEventResponse,
   mockedEventTimeResponse,
   mockedEventWithSubEventResponse,
-  mockedFilteredPlacesResponse,
-  mockedImageResponse,
   mockedInvalidEventResponse,
   mockedInvalidUpdateEventResponse,
   mockedKeywordsResponse,
-  mockedLanguagesResponse,
-  mockedOrganizationAncestorsResponse,
-  mockedOrganizationResponse,
-  mockedPlacesResponse,
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
   mockedSubSubEventsResponse,
-  mockedTopicsKeywordSetResponse,
   mockedUpdatedEventResponse,
   mockedUpdatedRecurringEventResponse,
   mockedUpdateEventResponse,
-  mockedUpdateImageResponse,
   mockedUpdateRecurringEventResponse,
   mockedUpdateSubEventsResponse,
   newSubEventTimes,

@@ -18,4 +18,22 @@ const mockedUserResponse: MockedResponse = {
   result: userResponse,
 };
 
-export { mockedUserResponse, userName, userVariables };
+const userWithoutOrganizations = fakeUser({
+  organization: '',
+  adminOrganizations: [],
+  organizationMemberships: [],
+});
+const userWithoutOrganizationsResponse = {
+  data: { user: userWithoutOrganizations },
+};
+const mockedUserWithoutOrganizationsResponse: MockedResponse = {
+  request: { query: UserDocument, variables: userVariables },
+  result: userWithoutOrganizationsResponse,
+};
+
+export {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+  userName,
+  userVariables,
+};

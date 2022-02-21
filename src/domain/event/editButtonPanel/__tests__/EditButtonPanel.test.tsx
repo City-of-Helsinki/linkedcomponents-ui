@@ -14,11 +14,9 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import {
-  event,
-  mockedOrganizationAncestorsResponse,
-} from '../../__mocks__/editEventPage';
+import { event } from '../../__mocks__/editEventPage';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });

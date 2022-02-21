@@ -1,19 +1,12 @@
 import { MockedResponse } from '@apollo/client/testing';
 
 import { PAGE_SIZE } from '../../../../../common/components/imageSelector/constants';
-import { MAX_PAGE_SIZE, TEST_USER_ID } from '../../../../../constants';
 import {
   ImageDocument,
   ImagesDocument,
-  OrganizationsDocument,
   UploadImageDocument,
-  UserDocument,
 } from '../../../../../generated/graphql';
-import {
-  fakeImages,
-  fakeOrganizations,
-  fakeUser,
-} from '../../../../../utils/mockDataUtils';
+import { fakeImages } from '../../../../../utils/mockDataUtils';
 import { mockFile } from '../../../../../utils/testUtils';
 import { TEST_PUBLISHER_ID } from '../../../../organization/constants';
 import { EVENT_TYPE } from '../../../constants';
@@ -41,10 +34,7 @@ const imagesResponse = {
   },
 };
 const mockedImagesResponse: MockedResponse = {
-  request: {
-    query: ImagesDocument,
-    variables: imagesVariables,
-  },
+  request: { query: ImagesDocument, variables: imagesVariables },
   result: imagesResponse,
   newData: () => imagesResponse,
 };
@@ -53,10 +43,7 @@ const image = images.data[0];
 const imageVariables = { createPath: undefined, id: image.id };
 const imageResponse = { data: { image } };
 const mockedImageResponse: MockedResponse = {
-  request: {
-    query: ImageDocument,
-    variables: imageVariables,
-  },
+  request: { query: ImageDocument, variables: imageVariables },
   result: imageResponse,
 };
 
@@ -74,9 +61,7 @@ const uploadImageResponse = { data: { uploadImage: image } };
 const mockedUploadImage1Response: MockedResponse = {
   request: {
     query: UploadImageDocument,
-    variables: {
-      input: uploadImage1Variables,
-    },
+    variables: { input: uploadImage1Variables },
   },
   result: uploadImageResponse,
 };
@@ -90,46 +75,9 @@ const uploadImage2Variables = {
 const mockedUploadImage2Response: MockedResponse = {
   request: {
     query: UploadImageDocument,
-    variables: {
-      input: uploadImage2Variables,
-    },
+    variables: { input: uploadImage2Variables },
   },
   result: uploadImageResponse,
-};
-
-const organizationsVariables = {
-  child: publisher,
-  createPath: undefined,
-  pageSize: MAX_PAGE_SIZE,
-};
-const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
-const mockedOrganizationsResponse: MockedResponse = {
-  request: {
-    query: OrganizationsDocument,
-    variables: organizationsVariables,
-  },
-  result: organizationsResponse,
-};
-
-const userVariables = {
-  createPath: undefined,
-  id: TEST_USER_ID,
-};
-
-const userWithoutOrganizations = fakeUser({
-  organization: '',
-  adminOrganizations: [],
-  organizationMemberships: [],
-});
-const userWithoutOrganizationsResponse = {
-  data: { user: userWithoutOrganizations },
-};
-const mockedUserWithoutOrganizationsResponse: MockedResponse = {
-  request: {
-    query: UserDocument,
-    variables: userVariables,
-  },
-  result: userWithoutOrganizationsResponse,
 };
 
 export {
@@ -140,9 +88,7 @@ export {
   imageUrl,
   mockedImageResponse,
   mockedImagesResponse,
-  mockedOrganizationsResponse,
   mockedUploadImage1Response,
   mockedUploadImage2Response,
-  mockedUserWithoutOrganizationsResponse,
   publisher,
 };
