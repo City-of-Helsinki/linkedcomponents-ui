@@ -71,9 +71,9 @@ const Header: React.FC = () => {
       labelKey: 'navigation.tabs.registrations',
       url: ROUTES.REGISTRATIONS,
     },
-    isFeatureEnabled('SHOW_KEYWORD') && {
-      labelKey: 'navigation.tabs.keywords',
-      url: ROUTES.KEYWORDS,
+    isFeatureEnabled('SHOW_ADMIN') && {
+      labelKey: 'navigation.tabs.admin',
+      url: ROUTES.ADMIN,
     },
     { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
   ].filter((i) => i) as NavigationItem[];

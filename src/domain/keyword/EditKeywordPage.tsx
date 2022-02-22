@@ -15,13 +15,10 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
 import { authenticatedSelector } from '../auth/selectors';
 import NotFound from '../notFound/NotFound';
-import NotSignedPage from '../notSigned/NotSigned';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
 import { KEYWORD_ACTIONS } from './constants';
@@ -82,30 +79,31 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
         onClose={closeModal}
         onDelete={onDelete}
       />
-      <Container withOffset={true}>
-        <TitleRow
-          button={
-            <Button
-              {...buttonProps}
-              fullWidth={true}
-              iconLeft={buttonProps.icon}
-              variant="danger"
-            >
-              {buttonProps.label}
-            </Button>
-          }
-          title={t('editKeywordPage.title')}
-        />
-        <Breadcrumb>
-          <Breadcrumb.Item to="/">{t('common.home')}</Breadcrumb.Item>
-          <Breadcrumb.Item to={ROUTES.KEYWORDS}>
-            {t('keywordsPage.title')}
-          </Breadcrumb.Item>
-          <Breadcrumb.Item active={true}>
-            {t('editKeywordPage.title')}
-          </Breadcrumb.Item>
-        </Breadcrumb>
-      </Container>
+      <TitleRow
+        button={
+          <Button
+            {...buttonProps}
+            fullWidth={true}
+            iconLeft={buttonProps.icon}
+            variant="danger"
+          >
+            {buttonProps.label}
+          </Button>
+        }
+        title={t('editKeywordPage.title')}
+      />
+      <Breadcrumb>
+        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
+        <Breadcrumb.Item to={ROUTES.ADMIN}>
+          {t('adminPage.title')}
+        </Breadcrumb.Item>
+        <Breadcrumb.Item to={ROUTES.KEYWORDS}>
+          {t('keywordsPage.title')}
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active={true}>
+          {t('editKeywordPage.title')}
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <KeywordForm keyword={keyword} />
     </div>
   );
@@ -113,7 +111,7 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
 
 const EditKeywordPageWrapper: React.FC = () => {
   const location = useLocation();
-  const { loading: loadingUser, user } = useUser();
+  const { loading: loadingUser } = useUser();
   const { id } = useParams<{ id: string }>();
 
   const { data: keywordData, loading: loadingKeyword } = useKeywordQuery({
@@ -131,23 +129,15 @@ const EditKeywordPageWrapper: React.FC = () => {
 
   return (
     <PageWrapper title="editKeywordPage.pageTitle">
-      <MainContent>
-        <LoadingSpinner isLoading={loading}>
-          {user ? (
-            <>
-              {keyword ? (
-                <EditKeywordPage keyword={keyword} />
-              ) : (
-                <NotFound
-                  pathAfterSignIn={`${location.pathname}${location.search}`}
-                />
-              )}
-            </>
-          ) : (
-            <NotSignedPage />
-          )}
-        </LoadingSpinner>
-      </MainContent>
+      <LoadingSpinner isLoading={loading}>
+        {keyword ? (
+          <EditKeywordPage keyword={keyword} />
+        ) : (
+          <NotFound
+            pathAfterSignIn={`${location.pathname}${location.search}`}
+          />
+        )}
+      </LoadingSpinner>
     </PageWrapper>
   );
 };

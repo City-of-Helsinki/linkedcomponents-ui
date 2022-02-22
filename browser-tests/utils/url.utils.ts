@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import TestController, { ClientFunction } from 'testcafe';
 
-import { EventFieldsFragment } from '../../src/generated/graphql';
+import {
+  EventFieldsFragment,
+  KeywordFieldsFragment,
+  KeywordSetFieldsFragment,
+} from '../../src/generated/graphql';
 import { getCommonComponents } from '../common.components';
 import { getEnvUrl } from './settings';
 import { getErrorMessage, setDataToPrintOnFailure } from './testcafe.utils';
@@ -20,6 +24,20 @@ export const getUrlUtils = (t: TestController) => {
     },
     async navigateToLandingPage() {
       await t.navigateTo(getEnvUrl(`/fi`));
+    },
+    async navigateToKeywordsUrl(searchString: string) {
+      const url = getEnvUrl(
+        `/fi/admin/keywords?text=${encodeURIComponent(searchString)}`
+      );
+      setDataToPrintOnFailure(t, 'url', url);
+      await t.navigateTo(url);
+    },
+    async navigateToKeywordSetsUrl(searchString: string) {
+      const url = getEnvUrl(
+        `/fi/admin/keyword-sets?text=${encodeURIComponent(searchString)}`
+      );
+      setDataToPrintOnFailure(t, 'url', url);
+      await t.navigateTo(url);
     },
     async navigateToSearchUrl(searchString: string) {
       const url = getEnvUrl(
@@ -53,6 +71,16 @@ export const getUrlUtils = (t: TestController) => {
       await t
         .expect(getPathname())
         .eql(`/fi/events/create`, await getErrorMessage(t));
+    },
+    async urlChangedToCreateKeywordPage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/admin/keywords/create`, await getErrorMessage(t));
+    },
+    async urlChangedToCreateKeywordSetPage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/admin/keyword-sets/create`, await getErrorMessage(t));
     },
     async urlChangedToDocumentationPage() {
       await t
@@ -89,6 +117,37 @@ export const getUrlUtils = (t: TestController) => {
       await t
         .expect(getPathname())
         .eql(`/fi/help/technology/image-rights`, await getErrorMessage(t));
+    },
+    async urlChangedToKeywordPage(keyword: KeywordFieldsFragment) {
+      setDataToPrintOnFailure(t, 'expectedKeyword', keyword);
+      await t
+        .expect(getPathname())
+        .eql(`/fi/admin/keywords/edit/${keyword.id}`, await getErrorMessage(t));
+      await pageIsLoaded();
+      await t
+        .expect(getPageTitle())
+        .eql(`Muokkaa avainsanaa - Linked Events`, await getErrorMessage(t));
+    },
+    async urlChangedToKeywordSetPage(keywordSet: KeywordSetFieldsFragment) {
+      setDataToPrintOnFailure(t, 'expectedKeywordSet', keywordSet);
+      await t
+        .expect(getPathname())
+        .eql(
+          `/fi/admin/keyword-sets/edit/${keywordSet.id}`,
+          await getErrorMessage(t)
+        );
+      await pageIsLoaded();
+      await t
+        .expect(getPageTitle())
+        .eql(
+          `Muokkaa avainsanaryhmää - Linked Events`,
+          await getErrorMessage(t)
+        );
+    },
+    async urlChangedToKeywordsPage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/admin/keywords`, await getErrorMessage(t));
     },
     async urlChangedToLandingPage() {
       await t.expect(getPathname()).eql(`/fi`, await getErrorMessage(t));

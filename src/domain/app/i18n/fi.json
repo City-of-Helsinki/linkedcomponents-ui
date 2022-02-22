@@ -1,4 +1,11 @@
 {
+  "adminPage": {
+    "sideNavigation": {
+      "labelAdmin": "Hallinta",
+      "toggleButtonLabel": "Siirry hallintasivulle"
+    },
+    "title": "Hallinta"
+  },
   "appDescription": "Linked Events on ohjelmistokomponenttien ja API-päätepisteiden kokoelma, joka mahdollistaa tapahtumien hallinnan ja jakelun eri tapahtumapalvelujen tarjoajille Suomessa.",
   "appName": "Linked Events",
   "authentication": {
@@ -12,6 +19,8 @@
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
     "noRightsUpdateKeyword": "Sinulla ei ole oikeuksia muokata avainsanoja.",
     "noRightsUpdateKeywordLabel": "Ei oikeuksia muokata avainsanoja.",
+    "noRightsUpdateKeywordSet": "Sinulla ei ole oikeuksia muokata avainsanaryhmiä.",
+    "noRightsUpdateKeywordSetLabel": "Ei oikeuksia muokata avainsanaryhmiä.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
   },
@@ -37,6 +46,7 @@
     "buttonActions": "Valinnat",
     "buttonAddEvent": "Lisää uusi tapahtuma",
     "buttonAddKeyword": "Lisää avainsana",
+    "buttonAddKeywordSet": "Lisää avainsanaryhmä",
     "buttonAddRegistration": "Lisää uusi",
     "buttonBack": "Takaisin",
     "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
@@ -192,6 +202,10 @@
     "pageTitle": "Lisää avainsana",
     "title": "Lisää avainsana"
   },
+  "createKeywordSetPage": {
+    "pageTitle": "Lisää avainsanaryhmä",
+    "title": "Lisää avainsanaryhmä"
+  },
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"
@@ -202,6 +216,10 @@
   "editKeywordPage": {
     "pageTitle": "Muokkaa avainsanaa",
     "title": "Muokkaa avainsanaa"
+  },
+  "editKeywordSetPage": {
+    "pageTitle": "Muokkaa avainsanaryhmää",
+    "title": "Muokkaa avainsanaryhmää"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1226,7 +1244,6 @@
       "nEvents": "Tapahtumien lkm"
     },
     "labelSearch": "Hae avainsanoja",
-    "pageDescription": "",
     "pageTitle": "Avainsanat",
     "sortOptions": {
       "id": "Id, nouseva",
@@ -1239,6 +1256,55 @@
     "title": "Avainsanat",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda avainsanoja.",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä avainsanaa."
+  },
+  "keywordSet": {
+    "deleteKeywordSetModal": {
+      "buttonDelete": "Poista avainsanaryhmä",
+      "text": "Tämä toiminto poistaa avainsanaryhmän lopullisesti.",
+      "title": "Varmista avainsanaryhmän poistaminen"
+    },
+    "form": {
+      "buttonDelete": "Poista avainsanaryhmä",
+      "labelDataSource": "Datan lähde",
+      "labelId": "ID",
+      "labelKeywords": "Avainsanat",
+      "labelName": "Nimi",
+      "labelOrganization": "Julkaisija",
+      "labelOriginId": "Lähdetunniste",
+      "labelUsage": "Käyttötarkoitus",
+      "notificationTitleCannotEdit": "Avainsanaryhmää ei voi muokata"
+    }
+  },
+  "keywordSetsPage": {
+    "actionButtons": {
+      "edit": "Muokkaa avainsanaryhmää"
+    },
+    "count": "{{count}} avainsanaryhmä",
+    "count_plural": "{{count}} avainsanaryhmää",
+    "keywordSetsTableCaption": "Avainsanaryhmät, järjestys {{sort}}",
+    "keywordSetsTableColumns": {
+      "id": "ID",
+      "name": "Nimi",
+      "usage": "Käyttötarkoitus"
+    },
+    "labelSearch": "Hae avainsanaryhmiä",
+    "pageTitle": "Avainsanaryhmät",
+    "sortOptions": {
+      "id": "Id, nouseva",
+      "idDesc": "Id, laskeva",
+      "name": "Nimi, nouseva",
+      "nameDesc": "Nimi, laskeva",
+      "usage": "Käyttötarkoitus, nouseva",
+      "usageDesc": "Käyttötarkoitus, laskeva"
+    },
+    "title": "Avainsanaryhmät",
+    "usageOptions": {
+      "any": "Yleinen",
+      "audience": "Kohderyhmä",
+      "keyword": "Avainsana"
+    },
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda avainsanaryhmiä.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää."
   },
   "landingPage": {
     "heroTitle": "Helsingin tapahtumat ja harrastukset",
@@ -1272,9 +1338,9 @@
     "searchEvents": "Etsi tapahtumia",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
+      "admin": "Hallinta",
       "events": "Tapahtumat",
       "help": "Tuki",
-      "keywords": "Avainsanat",
       "registrations": "Ilmoittautuminen"
     }
   },
@@ -1372,6 +1438,9 @@
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
     "invalidUrl": "Syötä oikea URL-osoite.",
     "maxLength255": "Arvo saa olla enintään 255 merkkiä pitkä.",
+    "methodDeleteNotAllowed": "Metodi \"DELETE\" ei ole sallittu.",
+    "methodPostNotAllowed": "Metodi \"POST\" ei ole sallittu.",
+    "methodPutNotAllowed": "Metodi \"PUT\" ei ole sallittu.",
     "min0": "Tämän luvun on oltava vähintään 0.",
     "mustBeUnique": "Arvon tulee olla uniikki.",
     "nameIsRequired": "Nimi on pakollinen.",

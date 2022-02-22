@@ -3,9 +3,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
+import styles from '../../../common/components/dialog/dialog.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { KEYWORD_ACTION_ICONS, KEYWORD_ACTIONS } from '../constants';
-import styles from './modals.module.scss';
 
 export interface ConfirmDeleteModalProps {
   isOpen: boolean;
@@ -45,7 +45,7 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
       id={id}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
-      className={styles.modal}
+      className={styles.dialog}
       isOpen={isOpen}
       variant="danger"
     >

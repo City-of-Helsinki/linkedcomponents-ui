@@ -12,6 +12,8 @@ export const QUERY_KEYWORD_SET = gql`
     name {
       ...localisedFields
     }
+    organization
+    usage
   }
 
   query KeywordSet($id: ID!, $include: [String], $createPath: Any) {
@@ -21,9 +23,21 @@ export const QUERY_KEYWORD_SET = gql`
     }
   }
 
-  query KeywordSets($include: [String], $createPath: Any) {
-    keywordSets(include: $include)
-      @rest(type: "KeywordSetsResponse", pathBuilder: $createPath) {
+  query KeywordSets(
+    $include: [String]
+    $page: Int
+    $pageSize: Int
+    $sort: String
+    $text: String
+    $createPath: Any
+  ) {
+    keywordSets(
+      include: $include
+      page: $page
+      pageSize: $pageSize
+      sort: $sort
+      text: $text
+    ) @rest(type: "KeywordSetsResponse", pathBuilder: $createPath) {
       meta {
         ...metaFields
       }

@@ -48,7 +48,7 @@ jobs:
           DOCKER_BUILD_ARG_REACT_APP_MATOMO_ENABLED: 'true'
           DOCKER_BUILD_ARG_REACT_APP_INTERNET_PLACE_ID: 'helsinki:internet'
           DOCKER_BUILD_ARG_REACT_APP_KEYWORD_DATA_SOURCE: 'helsinki'
-          DOCKER_BUILD_ARG_REACT_APP_SHOW_KEYWORD: 'false'
+          DOCKER_BUILD_ARG_REACT_APP_SHOW_ADMIN: 'false'
           DOCKER_BUILD_ARG_REACT_APP_SHOW_REGISTRATION: 'false'
 
   production:
@@ -116,6 +116,7 @@ jobs:
         env:
           BROWSER_TESTS_ENV_URL: https://linkedevents.hel.fi
           BROWSER_TESTS_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
+          BROWSER_TESTS_SHOW_ADMIN: 'false'
           BROWSER_TESTS_SHOW_REGISTRATION: 'false'
           GITHUB_WORKFLOW_NAME: ${{ github.workflow }}
           GITHUB_WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

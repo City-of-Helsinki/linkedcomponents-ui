@@ -3,10 +3,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
+import styles from '../../../common/components/dialog/dialog.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import EventHierarchy from '../eventHierarchy/EventHierarchy';
-import styles from './modals.module.scss';
 
 export interface ConfirmUpdateModalProps {
   event: EventFieldsFragment;
@@ -48,7 +48,7 @@ const ConfirmUpdateModal: React.FC<ConfirmUpdateModalProps> = ({
       id={id}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
-      className={styles.modal}
+      className={styles.dialog}
       isOpen={isOpen}
       variant="primary"
     >

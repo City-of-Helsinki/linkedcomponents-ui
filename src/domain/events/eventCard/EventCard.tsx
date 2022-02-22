@@ -28,7 +28,7 @@ import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEvent
 import { getEventItemId } from '../../eventSearch/utils';
 import { getPlaceFields } from '../../place/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
-import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
+import EventActionsDropdown from '../eventActionsDropdown/EventActionsDropdown';
 import { expandedEventsSelector } from '../selectors';
 import AudienceAgeText from './AudienceAgeText';
 import DateText from './DateText';
@@ -139,7 +139,10 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
             />
           </div>
           <div className={styles.eventInfoWrapper}>
-            <ActionsDropdown className={styles.actionButtons} event={event} />
+            <EventActionsDropdown
+              className={styles.actionButtons}
+              event={event}
+            />
             <div className={styles.nameRow}>
               <h2>{name}</h2>
             </div>

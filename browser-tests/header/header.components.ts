@@ -70,6 +70,11 @@ export const findHeader = async (
 
   const headerTabs = () => {
     const selectors = {
+      adminTab() {
+        return withinHeader().findByRole('link', {
+          name: getTranslations(currentLang).navigation.tabs.admin,
+        });
+      },
       eventsTab() {
         return withinHeader().findByRole('link', {
           name: getTranslations(currentLang).navigation.tabs.events,
@@ -88,6 +93,11 @@ export const findHeader = async (
     };
 
     const expectations = {
+      async adminPageTabIsVisible() {
+        await t
+          .expect(selectors.adminTab().exists)
+          .ok(await getErrorMessage(t));
+      },
       async eventsPageTabIsVisible() {
         await t
           .expect(selectors.eventsTab().exists)
@@ -106,6 +116,9 @@ export const findHeader = async (
     };
 
     const actions = {
+      async clickAdminPageTab() {
+        await t.click(selectors.adminTab());
+      },
       async clickEventsPageTab() {
         await t.click(selectors.eventsTab());
       },

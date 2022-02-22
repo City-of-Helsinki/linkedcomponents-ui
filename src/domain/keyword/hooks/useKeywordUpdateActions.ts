@@ -126,7 +126,7 @@ const useKeywordUpdateActions = ({
       handleError({
         callbacks,
         error,
-        message: 'Failed to delete enrolment',
+        message: 'Failed to delete keyword',
       });
     }
   };

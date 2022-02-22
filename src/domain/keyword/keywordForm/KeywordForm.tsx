@@ -27,8 +27,12 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
-import { showFormErrors } from '../../../utils/validationUtils';
-import Container from '../../app/layout/Container';
+import {
+  scrollToFirstError,
+  showFormErrors,
+} from '../../../utils/validationUtils';
+import styles from '../../admin/layout/form.module.scss';
+import FormRow from '../../admin/layout/formRow/FormRow';
 import { reportError } from '../../app/sentry/utils';
 import { clearKeywordsQueries } from '../../keywords/utils';
 import useUser from '../../user/hooks/useUser';
@@ -44,9 +48,7 @@ import useKeywordUpdateActions from '../hooks/useKeywordUpdateActions';
 import KeywordAuthenticationNotification from '../keywordAuthenticationNotification/KeywordAuthenticationNotification';
 import { KeywordFormFields } from '../types';
 import { getKeywordInitialValues, getKeywordPayload } from '../utils';
-import { keywordSchema, scrollToFirstError } from '../validation';
-import FormRow from './FormRow';
-import styles from './keywordForm.module.scss';
+import { keywordSchema } from '../validation';
 
 type KeywordFormProps = {
   keyword?: KeywordFieldsFragment;
@@ -169,98 +171,94 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
 
         return (
           <Form className={styles.form} noValidate={true}>
-            <Container className={styles.form} withOffset>
-              <KeywordAuthenticationNotification
-                action={
-                  keyword ? KEYWORD_ACTIONS.UPDATE : KEYWORD_ACTIONS.CREATE
-                }
-                publisher={
-                  keyword ? (keyword.publisher as string) : values.publisher
-                }
+            <KeywordAuthenticationNotification
+              action={keyword ? KEYWORD_ACTIONS.UPDATE : KEYWORD_ACTIONS.CREATE}
+              publisher={
+                keyword ? (keyword.publisher as string) : values.publisher
+              }
+            />
+            <ServerErrorSummary errors={serverErrorItems} />
+
+            <FormRow className={styles.borderInMobile}>
+              <Field
+                className={styles.alignedInputWithFullBorder}
+                component={TextInputField}
+                label={t(`keyword.form.labelId`)}
+                name={KEYWORD_FIELDS.ID}
+                readOnly
               />
-              <ServerErrorSummary errors={serverErrorItems} />
+            </FormRow>
 
-              <FormRow className={styles.borderInMobile}>
-                <Field
-                  className={styles.alignedInputWithFullBorder}
-                  component={TextInputField}
-                  label={t(`keyword.form.labelId`)}
-                  name={KEYWORD_FIELDS.ID}
-                  readOnly
-                />
-              </FormRow>
+            <FormRow className={styles.borderInMobile}>
+              <Field
+                className={
+                  keyword
+                    ? styles.alignedInputWithFullBorder
+                    : styles.alignedInput
+                }
+                component={TextInputField}
+                label={t(`keyword.form.labelDataSource`)}
+                name={KEYWORD_FIELDS.DATA_SOURCE}
+                readOnly
+              />
+            </FormRow>
 
-              <FormRow className={styles.borderInMobile}>
-                <Field
-                  className={
-                    keyword
-                      ? styles.alignedInputWithFullBorder
-                      : styles.alignedInput
-                  }
-                  component={TextInputField}
-                  label={t(`keyword.form.labelDataSource`)}
-                  name={KEYWORD_FIELDS.DATA_SOURCE}
-                  readOnly
-                />
-              </FormRow>
+            <FormRow className={keyword && styles.borderInMobile}>
+              <Field
+                className={styles.alignedInput}
+                component={TextInputField}
+                label={t(`keyword.form.labelOriginId`)}
+                name={KEYWORD_FIELDS.ORIGIN_ID}
+                readOnly={!!keyword}
+              />
+            </FormRow>
 
-              <FormRow className={keyword && styles.borderInMobile}>
-                <Field
-                  className={styles.alignedInput}
-                  component={TextInputField}
-                  label={t(`keyword.form.labelOriginId`)}
-                  name={KEYWORD_FIELDS.ORIGIN_ID}
-                  readOnly={!!keyword}
-                />
-              </FormRow>
+            <FormRow>
+              <Field
+                className={styles.alignedSelect}
+                clearable
+                component={PublisherSelectorField}
+                label={t(`keyword.form.labelPublisher`)}
+                name={KEYWORD_FIELDS.PUBLISHER}
+                disabled={!!keyword}
+              />
+            </FormRow>
 
-              <FormRow>
-                <Field
-                  className={styles.alignedSelect}
-                  clearable
-                  component={PublisherSelectorField}
-                  label={t(`keyword.form.labelPublisher`)}
-                  name={KEYWORD_FIELDS.PUBLISHER}
-                  disabled={!!keyword}
-                />
-              </FormRow>
+            {ORDERED_LE_DATA_LANGUAGES.map((language) => {
+              const langText = lowerCaseFirstLetter(
+                t(`form.inLanguage.${language}`)
+              );
 
-              {ORDERED_LE_DATA_LANGUAGES.map((language) => {
-                const langText = lowerCaseFirstLetter(
-                  t(`form.inLanguage.${language}`)
-                );
+              return (
+                <FormRow key={language}>
+                  <Field
+                    className={styles.alignedInput}
+                    component={TextInputField}
+                    label={`${t('keyword.form.labelName')} (${langText})`}
+                    name={`${KEYWORD_FIELDS.NAME}.${language}`}
+                    required={language === LE_DATA_LANGUAGES.FI}
+                  />
+                </FormRow>
+              );
+            })}
 
-                return (
-                  <FormRow key={language}>
-                    <Field
-                      className={styles.alignedInput}
-                      component={TextInputField}
-                      label={`${t('keyword.form.labelName')} (${langText})`}
-                      name={`${KEYWORD_FIELDS.NAME}.${language}`}
-                      required={language === LE_DATA_LANGUAGES.FI}
-                    />
-                  </FormRow>
-                );
-              })}
+            <FormRow>
+              <Field
+                className={styles.alignedSelect}
+                clearable
+                component={SingleKeywordSelectorField}
+                label={t(`keyword.form.labelReplacedBy`)}
+                name={KEYWORD_FIELDS.REPLACED_BY}
+              />
+            </FormRow>
 
-              <FormRow>
-                <Field
-                  className={styles.alignedSelect}
-                  clearable
-                  component={SingleKeywordSelectorField}
-                  label={t(`keyword.form.labelReplacedBy`)}
-                  name={KEYWORD_FIELDS.REPLACED_BY}
-                />
-              </FormRow>
-
-              <FormRow>
-                <Field
-                  label={t(`keyword.form.labelDeprecated`)}
-                  name={KEYWORD_FIELDS.DEPRECATED}
-                  component={CheckboxField}
-                />
-              </FormRow>
-            </Container>
+            <FormRow>
+              <Field
+                label={t(`keyword.form.labelDeprecated`)}
+                name={KEYWORD_FIELDS.DEPRECATED}
+                component={CheckboxField}
+              />
+            </FormRow>
             {keyword ? (
               <EditButtonPanel
                 id={values.id}

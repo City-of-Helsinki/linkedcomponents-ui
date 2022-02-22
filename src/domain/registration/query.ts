@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-named-as-default
 import gql from 'graphql-tag';
 
-export const QUERY_EVENT = gql`
+export const QUERY_REGISTRATION = gql`
   fragment registrationFields on Registration {
     id
     atId

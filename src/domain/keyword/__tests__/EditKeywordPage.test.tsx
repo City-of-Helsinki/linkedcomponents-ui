@@ -69,8 +69,8 @@ test('should delete keyword', async () => {
     mockedDeleteKeywordResponse,
   ]);
 
-  const cancelButton = await findElement('deleteButton');
-  act(() => userEvent.click(cancelButton));
+  const deleteButton = await findElement('deleteButton');
+  act(() => userEvent.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteKeywordButton = withinModal.getByRole('button', {
@@ -78,13 +78,14 @@ test('should delete keyword', async () => {
   });
   userEvent.click(deleteKeywordButton);
 
-  await waitFor(() => expect(history.location.pathname).toBe(`/fi/keywords`));
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+  );
 });
 
 test('should update keyword', async () => {
   const { history } = renderComponent([
     ...defaultMocks,
-    mockedKeywordResponse,
     mockedUpdateKeywordResponse,
   ]);
 
@@ -93,12 +94,13 @@ test('should update keyword', async () => {
   const submitButton = getElement('saveButton');
   userEvent.click(submitButton);
 
-  await waitFor(() => expect(history.location.pathname).toBe(`/fi/keywords`));
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+  );
 });
 
 test('should show server errors', async () => {
-  const mocks = [...defaultMocks, mockedInvalidUpdateKeywordResponse];
-  renderComponent(mocks);
+  renderComponent([...defaultMocks, mockedInvalidUpdateKeywordResponse]);
 
   await findElement('nameInput');
 

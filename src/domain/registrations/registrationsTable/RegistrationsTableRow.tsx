@@ -12,7 +12,7 @@ import {
   getRegistrationFields,
   getRegistrationItemId,
 } from '../../registration/utils';
-import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
+import RegistrationActionsDropdown from '../registrationActionsDropdown/RegistrationActionsDropdown';
 import styles from './registrationsTable.module.scss';
 
 interface Props {
@@ -108,7 +108,7 @@ const RegistrationsTableRow: React.FC<Props> = ({
             : /* istanbul ignore next */ '-'}
         </td>
         <td className={styles.actionButtonsColumn}>
-          <ActionsDropdown
+          <RegistrationActionsDropdown
             ref={actionsDropdownRef}
             registration={registration}
           />

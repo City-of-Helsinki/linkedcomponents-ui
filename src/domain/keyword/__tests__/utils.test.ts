@@ -21,7 +21,7 @@ import {
   keywordsPathBuilder,
 } from '../utils';
 
-describe('keywordSetPathBuilder function', () => {
+describe('keywordPathBuilder function', () => {
   it('should build correct path', () => {
     expect(
       keywordPathBuilder({
@@ -31,7 +31,7 @@ describe('keywordSetPathBuilder function', () => {
   });
 });
 
-describe('keywordSetsPathBuilder function', () => {
+describe('keywordsPathBuilder function', () => {
   it('should build correct path', () => {
     const items = [
       {

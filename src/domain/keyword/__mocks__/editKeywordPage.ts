@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
 import {
   DeleteKeywordDocument,
@@ -38,7 +37,7 @@ const mockedKeywordResponse = {
 
 const updateKeywordVariables = { input: keywordValues };
 
-const updateKeywordResponse = { data: { updateKeyword: keyboard } };
+const updateKeywordResponse = { data: { updateKeyword: keyword } };
 
 const mockedUpdateKeywordResponse: MockedResponse = {
   request: { query: UpdateKeywordDocument, variables: updateKeywordVariables },

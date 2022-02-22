@@ -12,7 +12,7 @@ import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
 import { getEventItemId } from '../../eventSearch/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
-import ActionsDropdown from '../actionsDropdown/ActionsDropdown';
+import EventActionsDropdown from '../eventActionsDropdown/EventActionsDropdown';
 import PublisherName from '../eventCard/PublisherName';
 import { expandedEventsSelector } from '../selectors';
 import styles from './eventsTable.module.scss';
@@ -155,7 +155,7 @@ const EventTableRow: React.FC<Props> = ({
           </div>
         </td>
         <td className={styles.actionButtonsColumn}>
-          <ActionsDropdown ref={actionsDropdownRef} event={event} />
+          <EventActionsDropdown ref={actionsDropdownRef} event={event} />
         </td>
       </tr>
       {!!subEventAtIds.length && open && (

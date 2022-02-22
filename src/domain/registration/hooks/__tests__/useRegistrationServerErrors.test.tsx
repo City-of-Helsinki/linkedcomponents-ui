@@ -12,6 +12,7 @@ const getHookWrapper = () => {
 };
 
 it('should set server error items', async () => {
+  const callbackFn = jest.fn();
   const { result } = getHookWrapper();
 
   const error = new ApolloError({
@@ -30,7 +31,7 @@ it('should set server error items', async () => {
     } as any,
   });
 
-  act(() => result.current.showServerErrors({ error }));
+  act(() => result.current.showServerErrors({ callbackFn, error }));
 
   expect(result.current.serverErrorItems).toEqual([
     { label: 'Alaikäraja', message: 'Tämän luvun on oltava vähintään 0.' },
@@ -56,47 +57,6 @@ it('should set server error items', async () => {
       label: 'Varasijapaikkojen lukumäärä',
       message: 'Tämän luvun on oltava vähintään 0.',
     },
-  ]);
-});
-
-it('should return server error items when result is array', () => {
-  const { result } = getHookWrapper();
-  const callbackFn = jest.fn();
-  const error = new ApolloError({
-    networkError: {
-      result: [
-        { event: ['Tämän kentän arvo ei voi olla "null".'] },
-        { event: ['Arvon tulee olla uniikki.'] },
-      ],
-    } as any,
-  });
-
-  act(() => result.current.showServerErrors({ callbackFn, error }));
-
-  expect(result.current.serverErrorItems).toEqual([
-    {
-      label: 'Tapahtuma',
-      message: 'Tämän kentän arvo ei voi olla "null".',
-    },
-    {
-      label: 'Tapahtuma',
-      message: 'Arvon tulee olla uniikki.',
-    },
-  ]);
-  expect(callbackFn).toBeCalled();
-});
-
-it('should return server error items when result is array of string', () => {
-  const { result } = getHookWrapper();
-  const callbackFn = jest.fn();
-  const error = new ApolloError({
-    networkError: { result: ['Could not find all objects to update.'] } as any,
-  });
-
-  act(() => result.current.showServerErrors({ callbackFn, error }));
-
-  expect(result.current.serverErrorItems).toEqual([
-    { label: '', message: 'Kaikkia päivitettäviä objekteja ei löytynyt.' },
   ]);
   expect(callbackFn).toBeCalled();
 });

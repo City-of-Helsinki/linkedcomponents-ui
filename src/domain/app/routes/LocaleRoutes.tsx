@@ -5,6 +5,7 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { DEPRECATED_ROUTES, ROUTES } from '../../../constants';
 import { Language } from '../../../types';
 import { isFeatureEnabled } from '../../../utils/featureFlags';
+import AdminPageLayout from '../../admin/layout/AdminPageLayout';
 import EventSavedPage from '../../eventSaved/EventSavedPage';
 import HelpPageLayout from '../../help/layout/HelpPageLayout';
 import RegistrationSavedPage from '../../registrationSaved/RegistrationSavedPage';
@@ -12,15 +13,13 @@ import LogoutPage from '.././../auth/logoutPage/LogoutPage';
 import LandingPage from '.././../landingPage/LandingPage';
 import NotFound from '.././../notFound/NotFound';
 import PageLayout from '../layout/PageLayout';
+import AdminPageRoutes from './AdminRoutes';
 
 const CreateEnrolmentPage = React.lazy(
   () => import('.././../enrolment/CreateEnrolmentPage')
 );
 const CreateEventPage = React.lazy(
   () => import('.././../event/CreateEventPage')
-);
-const CreateKeywordPage = React.lazy(
-  () => import('.././../keyword/CreateKeywordPage')
 );
 const CreateRegistrationPage = React.lazy(
   () => import('.././../registration/CreateRegistrationPage')
@@ -29,9 +28,6 @@ const EditEnrolmentPage = React.lazy(
   () => import('../../enrolment/EditEnrolmentPage')
 );
 const EditEventPage = React.lazy(() => import('../../event/EditEventPage'));
-const EditKeywordPage = React.lazy(
-  () => import('../../keyword/EditKeywordPage')
-);
 const EditRegistrationPage = React.lazy(
   () => import('../../registration/EditRegistrationPage')
 );
@@ -43,7 +39,6 @@ const EventSearchPage = React.lazy(
   () => import('../../eventSearch/EventSearchPage')
 );
 const HelpPageRoutes = React.lazy(() => import('./HelpPageRoutes'));
-const KeywordsPage = React.lazy(() => import('.././../keywords/KeywordsPage'));
 const RegistrationsPage = React.lazy(
   () => import('.././../registrations/RegistrationsPage')
 );
@@ -167,27 +162,7 @@ const LocaleRoutes: React.FC<Props> = ({
               component={EditEnrolmentPage}
             />
           )}
-          {isFeatureEnabled('SHOW_KEYWORD') && (
-            <Route
-              exact
-              path={getLocalePath(ROUTES.CREATE_KEYWORD)}
-              component={CreateKeywordPage}
-            />
-          )}
-          {isFeatureEnabled('SHOW_KEYWORD') && (
-            <Route
-              exact
-              path={getLocalePath(ROUTES.EDIT_KEYWORD)}
-              component={EditKeywordPage}
-            />
-          )}
-          {isFeatureEnabled('SHOW_KEYWORD') && (
-            <Route
-              exact
-              path={getLocalePath(ROUTES.KEYWORDS)}
-              component={KeywordsPage}
-            />
-          )}
+
           <Route
             exact
             path={getLocalePath(ROUTES.LOGOUT)}
@@ -198,6 +173,13 @@ const LocaleRoutes: React.FC<Props> = ({
             path={getLocalePath(ROUTES.SEARCH)}
             component={EventSearchPage}
           />
+          {isFeatureEnabled('SHOW_ADMIN') && (
+            <Route path={getLocalePath(ROUTES.ADMIN)}>
+              <AdminPageLayout>
+                <AdminPageRoutes locale={locale} />
+              </AdminPageLayout>
+            </Route>
+          )}
           <Route path={getLocalePath(ROUTES.HELP)}>
             <HelpPageLayout>
               <HelpPageRoutes locale={locale} />

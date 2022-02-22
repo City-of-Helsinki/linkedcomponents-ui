@@ -8,11 +8,8 @@ import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
-import NotSigned from '../notSigned/NotSigned';
 import useUser from '../user/hooks/useUser';
 import KeywordList from './keywordList/KeywordList';
 import styles from './keywordsPage.module.scss';
@@ -28,46 +25,42 @@ const KeywordsPage: React.FC = () => {
 
   return (
     <div className={styles.keywordsPage}>
-      <Container withOffset={true}>
-        <TitleRow
-          button={
-            <Button
-              className={styles.addButton}
-              fullWidth={true}
-              iconLeft={<IconPlus aria-hidden={true} />}
-              onClick={goToCreateKeywordPage}
-              variant="primary"
-            >
-              {t('common.buttonAddKeyword')}
-            </Button>
-          }
-          title={t('keywordsPage.title')}
-        />
-        <Breadcrumb>
-          <Breadcrumb.Item to="/">{t('common.home')}</Breadcrumb.Item>
-          <Breadcrumb.Item active={true}>
-            {t('keywordsPage.title')}
-          </Breadcrumb.Item>
-        </Breadcrumb>
-        <KeywordList />
-      </Container>
+      <TitleRow
+        button={
+          <Button
+            className={styles.addButton}
+            fullWidth={true}
+            iconLeft={<IconPlus aria-hidden={true} />}
+            onClick={goToCreateKeywordPage}
+            variant="primary"
+          >
+            {t('common.buttonAddKeyword')}
+          </Button>
+        }
+        title={t('keywordsPage.title')}
+      />
+      <Breadcrumb>
+        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
+        <Breadcrumb.Item to={ROUTES.ADMIN}>
+          {t('adminPage.title')}
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active={true}>
+          {t('keywordsPage.title')}
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <KeywordList />
     </div>
   );
 };
 
 const KeywordsPageWrapper: React.FC = () => {
-  const { loading: loadingUser, user } = useUser();
+  const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper
-      description="keywordsPage.pageDescription"
-      title="keywordsPage.pageTitle"
-    >
-      <MainContent>
-        <LoadingSpinner isLoading={loadingUser}>
-          {user ? <KeywordsPage /> : <NotSigned />}
-        </LoadingSpinner>
-      </MainContent>
+    <PageWrapper title="keywordsPage.pageTitle">
+      <LoadingSpinner isLoading={loadingUser}>
+        <KeywordsPage />
+      </LoadingSpinner>
     </PageWrapper>
   );
 };

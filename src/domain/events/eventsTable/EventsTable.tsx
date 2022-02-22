@@ -48,7 +48,7 @@ const EventsTable: React.FC<EventsTableProps> = ({
   };
 
   return (
-    <Table ref={table} className={styles.eventsTable}>
+    <Table ref={table}>
       <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
       <thead>
         <tr>

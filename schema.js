@@ -10,10 +10,12 @@ module.exports = buildSchema(/* GraphQL */ `
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createKeyword(input: CreateKeywordMutationInput!): Keyword!
+    createKeywordSet(input: CreateKeywordSetMutationInput!): KeywordSet!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
+    deleteKeywordSet(id: ID!): NoContent
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
@@ -23,6 +25,7 @@ module.exports = buildSchema(/* GraphQL */ `
     updateImage(input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
     updateKeyword(input: UpdateKeywordMutationInput!): Keyword!
+    updateKeywordSet(input: UpdateKeywordSetMutationInput!): KeywordSet!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
   }
 
@@ -82,7 +85,13 @@ module.exports = buildSchema(/* GraphQL */ `
       text: String
     ): KeywordsResponse!
     keywordSet(id: ID!, include: [String]): KeywordSet
-    keywordSets(include: [String]): KeywordSetsResponse!
+    keywordSets(
+      include: [String]
+      page: Int
+      pageSize: Int
+      sort: String
+      text: String
+    ): KeywordSetsResponse!
     languages: LanguagesResponse!
     image(id: ID): Image!
     images(
@@ -314,9 +323,28 @@ module.exports = buildSchema(/* GraphQL */ `
   input UpdateKeywordMutationInput {
     dataSource: String
     deprecated: Boolean
+    id: String
     name: LocalisedObjectInput
     publisher: String
     replacedBy: String
+  }
+
+  input CreateKeywordSetMutationInput {
+    dataSource: String
+    id: String
+    keywords: [IdObjectInput!]
+    name: LocalisedObjectInput
+    organization: String
+    usage: String
+  }
+
+  input UpdateKeywordSetMutationInput {
+    dataSource: String
+    id: String
+    keywords: [IdObjectInput!]
+    name: LocalisedObjectInput
+    organization: String
+    usage: String
   }
 
   input CreateRegistrationMutationInput {

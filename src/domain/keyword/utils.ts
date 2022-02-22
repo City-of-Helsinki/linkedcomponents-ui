@@ -102,7 +102,6 @@ export const getKeywordFields = (
   };
 };
 
-// TODO: Check user permissions
 export const checkCanUserDoAction = ({
   action,
   organizationAncestors,

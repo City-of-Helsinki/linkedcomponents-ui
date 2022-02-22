@@ -1,6 +1,7 @@
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  configure,
   CustomRenderOptions,
   getMockReduxStore,
   render,
@@ -10,11 +11,12 @@ import {
 } from '../../../../utils/testUtils';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import { mockedKeywordResponse } from '../../__mocks__/editKeywordPage';
 import { keyword } from '../../__mocks__/keyword';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
-const mocks = [mockedKeywordResponse, mockedUserResponse];
+configure({ defaultHidden: true });
+
+const mocks = [mockedUserResponse];
 
 const state = fakeAuthenticatedStoreState();
 const defaultStore = getMockReduxStore(state);
@@ -59,7 +61,9 @@ test('should route to enrolments page when clicking back button', async () => {
 
   userEvent.click(getElement('backButton'));
 
-  await waitFor(() => expect(history.location.pathname).toBe(`/fi/keywords`));
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+  );
 });
 
 test('should call onSave', async () => {

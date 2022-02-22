@@ -35,7 +35,7 @@ test('should render help page layout', async () => {
   ).not.toBeInTheDocument();
 });
 
-test('should router to features help page', async () => {
+test('should route to features help page', async () => {
   const { history } = renderComponent();
 
   const featuresLink = screen.getByRole('link', {
@@ -48,7 +48,7 @@ test('should router to features help page', async () => {
   );
 });
 
-test('should router to platform help page', async () => {
+test('should route to platform help page', async () => {
   const { history } = renderComponent();
 
   const platformLink = screen.getByRole('link', { name: 'Alusta' });

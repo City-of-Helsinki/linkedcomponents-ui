@@ -2,6 +2,7 @@ import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
+import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
 
 export const parseRegistrationServerErrors = ({
@@ -11,30 +12,11 @@ export const parseRegistrationServerErrors = ({
   result: LEServerError;
   t: TFunction;
 }): ServerErrorItem[] => {
-  // LE returns errors as array when trying to create/edit multiple registrations in same request.
-  // In that case call parseRegistrationServerErrors recursively to get all single errors
-  if (Array.isArray(result)) {
-    return result.reduce(
-      (previous: ServerErrorItem[], r) => [
-        ...previous,
-        ...parseRegistrationServerErrors({ result: r, t }),
-      ],
-      []
-    );
-  }
-
-  return typeof result === 'string'
-    ? [{ label: '', message: parseServerErrorMessage({ error: [result], t }) }]
-    : Object.entries(result).reduce(
-        (previous: ServerErrorItem[], [key, error]) => [
-          ...previous,
-          ...parseRegistrationServerError({
-            error: error as LEServerError,
-            key,
-          }),
-        ],
-        []
-      );
+  return parseServerErrors({
+    parseServerError: parseRegistrationServerError,
+    result,
+    t,
+  });
 
   // Get error item for an single error.
   function parseRegistrationServerError({
@@ -44,15 +26,12 @@ export const parseRegistrationServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
-    switch (key) {
-      default:
-        return [
-          {
-            label: parseRegistrationServerErrorLabel({ key }),
-            message: parseServerErrorMessage({ error, t }),
-          },
-        ];
-    }
+    return [
+      {
+        label: parseRegistrationServerErrorLabel({ key }),
+        message: parseServerErrorMessage({ error, t }),
+      },
+    ];
   }
 
   // Get correct field name for an error item

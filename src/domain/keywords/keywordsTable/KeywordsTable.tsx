@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -55,7 +54,7 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
   };
 
   return (
-    <Table ref={table} className={classNames(styles.keywordsTable, className)}>
+    <Table ref={table} className={className}>
       <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
       <thead>
         <tr>

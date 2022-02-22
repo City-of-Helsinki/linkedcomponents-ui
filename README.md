@@ -89,7 +89,7 @@ Run `yarn && yarn start`
 
 There are a feature flags which can be enabled in `.env`:
 
-`REACT_APP_SHOW_KEYWORD`:
+`REACT_APP_SHOW_ADMIN`:
 `REACT_APP_SHOW_REGISTRATION`:
 
 Features enabled:
@@ -147,6 +147,10 @@ Browser tests are written in TypeScript with [TestCafe](https://devexpress.githu
 Running browser tests against local environment
 
 Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
+
+### `yarn browser-test:prod`
+
+Running browser tests against production environment
 
 ### `yarn build`
 

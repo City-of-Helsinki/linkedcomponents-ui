@@ -78,6 +78,15 @@ export type CreateKeywordMutationInput = {
   replacedBy?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateKeywordSetMutationInput = {
+  dataSource?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  keywords?: InputMaybe<Array<IdObjectInput>>;
+  name?: InputMaybe<LocalisedObjectInput>;
+  organization?: InputMaybe<Scalars['String']>;
+  usage?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateRegistrationMutationInput = {
   audienceMaxAge?: InputMaybe<Scalars['Int']>;
   audienceMinAge?: InputMaybe<Scalars['Int']>;
@@ -346,10 +355,12 @@ export type Mutation = {
   createEvent: Event;
   createEvents: Array<Event>;
   createKeyword: Keyword;
+  createKeywordSet: KeywordSet;
   createRegistration: Registration;
   deleteEnrolment?: Maybe<NoContent>;
   deleteEvent?: Maybe<NoContent>;
   deleteKeyword?: Maybe<NoContent>;
+  deleteKeywordSet?: Maybe<NoContent>;
   deleteRegistration?: Maybe<NoContent>;
   postFeedback?: Maybe<Feedback>;
   postGuestFeedback?: Maybe<Feedback>;
@@ -359,6 +370,7 @@ export type Mutation = {
   updateImage: Image;
   uploadImage: Image;
   updateKeyword: Keyword;
+  updateKeywordSet: KeywordSet;
   updateRegistration: Registration;
 };
 
@@ -383,6 +395,11 @@ export type MutationCreateKeywordArgs = {
 };
 
 
+export type MutationCreateKeywordSetArgs = {
+  input: CreateKeywordSetMutationInput;
+};
+
+
 export type MutationCreateRegistrationArgs = {
   input: CreateRegistrationMutationInput;
 };
@@ -399,6 +416,11 @@ export type MutationDeleteEventArgs = {
 
 
 export type MutationDeleteKeywordArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteKeywordSetArgs = {
   id: Scalars['ID'];
 };
 
@@ -445,6 +467,11 @@ export type MutationUploadImageArgs = {
 
 export type MutationUpdateKeywordArgs = {
   input: UpdateKeywordMutationInput;
+};
+
+
+export type MutationUpdateKeywordSetArgs = {
+  input: UpdateKeywordSetMutationInput;
 };
 
 
@@ -649,6 +676,10 @@ export type QueryKeywordSetArgs = {
 
 export type QueryKeywordSetsArgs = {
   include?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Scalars['String']>;
+  text?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -811,9 +842,19 @@ export type UpdateImageMutationInput = {
 export type UpdateKeywordMutationInput = {
   dataSource?: InputMaybe<Scalars['String']>;
   deprecated?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<LocalisedObjectInput>;
   publisher?: InputMaybe<Scalars['String']>;
   replacedBy?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateKeywordSetMutationInput = {
+  dataSource?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  keywords?: InputMaybe<Array<IdObjectInput>>;
+  name?: InputMaybe<LocalisedObjectInput>;
+  organization?: InputMaybe<Scalars['String']>;
+  usage?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateRegistrationMutationInput = {
@@ -1103,7 +1144,28 @@ export type KeywordsQueryVariables = Exact<{
 
 export type KeywordsQuery = { __typename?: 'Query', keywords: { __typename?: 'KeywordsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> } };
 
-export type KeywordSetFieldsFragment = { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined };
+export type CreateKeywordSetMutationVariables = Exact<{
+  input: CreateKeywordSetMutationInput;
+}>;
+
+
+export type CreateKeywordSetMutation = { __typename?: 'Mutation', createKeywordSet: { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, organization?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } };
+
+export type DeleteKeywordSetMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteKeywordSetMutation = { __typename?: 'Mutation', deleteKeywordSet?: { __typename?: 'NoContent', noContent?: boolean | null | undefined } | null | undefined };
+
+export type UpdateKeywordSetMutationVariables = Exact<{
+  input: UpdateKeywordSetMutationInput;
+}>;
+
+
+export type UpdateKeywordSetMutation = { __typename?: 'Mutation', updateKeywordSet: { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, organization?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } };
+
+export type KeywordSetFieldsFragment = { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, organization?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined };
 
 export type KeywordSetQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1112,15 +1174,19 @@ export type KeywordSetQueryVariables = Exact<{
 }>;
 
 
-export type KeywordSetQuery = { __typename?: 'Query', keywordSet?: { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined };
+export type KeywordSetQuery = { __typename?: 'Query', keywordSet?: { __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, organization?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined };
 
 export type KeywordSetsQueryVariables = Exact<{
   include?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Scalars['String']>;
+  text?: InputMaybe<Scalars['String']>;
   createPath?: InputMaybe<Scalars['Any']>;
 }>;
 
 
-export type KeywordSetsQuery = { __typename?: 'Query', keywordSets: { __typename?: 'KeywordSetsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> } };
+export type KeywordSetsQuery = { __typename?: 'Query', keywordSets: { __typename?: 'KeywordSetsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'KeywordSet', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, organization?: string | null | undefined, usage?: string | null | undefined, keywords?: Array<{ __typename?: 'Keyword', id?: string | null | undefined, atId: string, dataSource?: string | null | undefined, deprecated?: boolean | null | undefined, hasUpcomingEvents?: boolean | null | undefined, nEvents?: number | null | undefined, publisher?: string | null | undefined, replacedBy?: string | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> } };
 
 export type LanguageFieldsFragment = { __typename?: 'Language', id?: string | null | undefined, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined };
 
@@ -1465,6 +1531,8 @@ export const KeywordSetFieldsFragmentDoc = gql`
   name {
     ...localisedFields
   }
+  organization
+  usage
 }
     ${KeywordFieldsFragmentDoc}
 ${LocalisedFieldsFragmentDoc}`;
@@ -2438,6 +2506,105 @@ export function useKeywordsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<K
 export type KeywordsQueryHookResult = ReturnType<typeof useKeywordsQuery>;
 export type KeywordsLazyQueryHookResult = ReturnType<typeof useKeywordsLazyQuery>;
 export type KeywordsQueryResult = Apollo.QueryResult<KeywordsQuery, KeywordsQueryVariables>;
+export const CreateKeywordSetDocument = gql`
+    mutation CreateKeywordSet($input: CreateKeywordSetMutationInput!) {
+  createKeywordSet(input: $input) @rest(type: "Event", path: "/keyword_set/", method: "POST", bodyKey: "input") {
+    ...keywordSetFields
+  }
+}
+    ${KeywordSetFieldsFragmentDoc}`;
+export type CreateKeywordSetMutationFn = Apollo.MutationFunction<CreateKeywordSetMutation, CreateKeywordSetMutationVariables>;
+
+/**
+ * __useCreateKeywordSetMutation__
+ *
+ * To run a mutation, you first call `useCreateKeywordSetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateKeywordSetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createKeywordSetMutation, { data, loading, error }] = useCreateKeywordSetMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateKeywordSetMutation(baseOptions?: Apollo.MutationHookOptions<CreateKeywordSetMutation, CreateKeywordSetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateKeywordSetMutation, CreateKeywordSetMutationVariables>(CreateKeywordSetDocument, options);
+      }
+export type CreateKeywordSetMutationHookResult = ReturnType<typeof useCreateKeywordSetMutation>;
+export type CreateKeywordSetMutationResult = Apollo.MutationResult<CreateKeywordSetMutation>;
+export type CreateKeywordSetMutationOptions = Apollo.BaseMutationOptions<CreateKeywordSetMutation, CreateKeywordSetMutationVariables>;
+export const DeleteKeywordSetDocument = gql`
+    mutation DeleteKeywordSet($id: ID!) {
+  deleteKeywordSet(id: $id) @rest(type: "NoContent", path: "/keyword_set/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteKeywordSetMutationFn = Apollo.MutationFunction<DeleteKeywordSetMutation, DeleteKeywordSetMutationVariables>;
+
+/**
+ * __useDeleteKeywordSetMutation__
+ *
+ * To run a mutation, you first call `useDeleteKeywordSetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteKeywordSetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteKeywordSetMutation, { data, loading, error }] = useDeleteKeywordSetMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteKeywordSetMutation(baseOptions?: Apollo.MutationHookOptions<DeleteKeywordSetMutation, DeleteKeywordSetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteKeywordSetMutation, DeleteKeywordSetMutationVariables>(DeleteKeywordSetDocument, options);
+      }
+export type DeleteKeywordSetMutationHookResult = ReturnType<typeof useDeleteKeywordSetMutation>;
+export type DeleteKeywordSetMutationResult = Apollo.MutationResult<DeleteKeywordSetMutation>;
+export type DeleteKeywordSetMutationOptions = Apollo.BaseMutationOptions<DeleteKeywordSetMutation, DeleteKeywordSetMutationVariables>;
+export const UpdateKeywordSetDocument = gql`
+    mutation UpdateKeywordSet($input: UpdateKeywordSetMutationInput!) {
+  updateKeywordSet(input: $input) @rest(type: "KeywordSet", path: "/keyword_set/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    ...keywordSetFields
+  }
+}
+    ${KeywordSetFieldsFragmentDoc}`;
+export type UpdateKeywordSetMutationFn = Apollo.MutationFunction<UpdateKeywordSetMutation, UpdateKeywordSetMutationVariables>;
+
+/**
+ * __useUpdateKeywordSetMutation__
+ *
+ * To run a mutation, you first call `useUpdateKeywordSetMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateKeywordSetMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateKeywordSetMutation, { data, loading, error }] = useUpdateKeywordSetMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateKeywordSetMutation(baseOptions?: Apollo.MutationHookOptions<UpdateKeywordSetMutation, UpdateKeywordSetMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateKeywordSetMutation, UpdateKeywordSetMutationVariables>(UpdateKeywordSetDocument, options);
+      }
+export type UpdateKeywordSetMutationHookResult = ReturnType<typeof useUpdateKeywordSetMutation>;
+export type UpdateKeywordSetMutationResult = Apollo.MutationResult<UpdateKeywordSetMutation>;
+export type UpdateKeywordSetMutationOptions = Apollo.BaseMutationOptions<UpdateKeywordSetMutation, UpdateKeywordSetMutationVariables>;
 export const KeywordSetDocument = gql`
     query KeywordSet($id: ID!, $include: [String], $createPath: Any) {
   keywordSet(id: $id, include: $include) @rest(type: "KeywordSet", pathBuilder: $createPath) {
@@ -2476,8 +2643,14 @@ export type KeywordSetQueryHookResult = ReturnType<typeof useKeywordSetQuery>;
 export type KeywordSetLazyQueryHookResult = ReturnType<typeof useKeywordSetLazyQuery>;
 export type KeywordSetQueryResult = Apollo.QueryResult<KeywordSetQuery, KeywordSetQueryVariables>;
 export const KeywordSetsDocument = gql`
-    query KeywordSets($include: [String], $createPath: Any) {
-  keywordSets(include: $include) @rest(type: "KeywordSetsResponse", pathBuilder: $createPath) {
+    query KeywordSets($include: [String], $page: Int, $pageSize: Int, $sort: String, $text: String, $createPath: Any) {
+  keywordSets(
+    include: $include
+    page: $page
+    pageSize: $pageSize
+    sort: $sort
+    text: $text
+  ) @rest(type: "KeywordSetsResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -2502,6 +2675,10 @@ ${KeywordSetFieldsFragmentDoc}`;
  * const { data, loading, error } = useKeywordSetsQuery({
  *   variables: {
  *      include: // value for 'include'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *      sort: // value for 'sort'
+ *      text: // value for 'text'
  *      createPath: // value for 'createPath'
  *   },
  * });

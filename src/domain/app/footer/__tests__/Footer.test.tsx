@@ -31,13 +31,13 @@ test.skip('matches snapshot', async () => {
 });
 
 test('should show navigation links and should route to correct page after clicking link', async () => {
-  setFeatureFlags({ SHOW_KEYWORD: true, SHOW_REGISTRATION: true });
+  setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
   const { history } = renderComponent();
   const links = [
     { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
     { name: /etsi tapahtumia/i, url: `/fi${ROUTES.SEARCH}` },
     { name: /ilmoittautuminen/i, url: `/fi${ROUTES.REGISTRATIONS}` },
-    { name: /avainsanat/i, url: `/fi${ROUTES.KEYWORDS}` },
+    { name: /hallinta/i, url: `/fi${ROUTES.ADMIN}` },
     { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
   ];
   for (const { name, url } of links) {
@@ -50,7 +50,7 @@ test('should show navigation links and should route to correct page after clicki
 });
 
 test('should not show keywords and registrations link when those features are disabled', async () => {
-  setFeatureFlags({ SHOW_KEYWORD: false, SHOW_REGISTRATION: false });
+  setFeatureFlags({ SHOW_ADMIN: false, SHOW_REGISTRATION: false });
 
   const { history } = renderComponent();
   const links = [
@@ -68,7 +68,7 @@ test('should not show keywords and registrations link when those features are di
   }
 
   expect(
-    screen.queryByRole('link', { name: /avainsanat/i })
+    screen.queryByRole('link', { name: /hallinta/i })
   ).not.toBeInTheDocument();
   expect(
     screen.queryByRole('link', { name: /ilmoittautuminen/i })

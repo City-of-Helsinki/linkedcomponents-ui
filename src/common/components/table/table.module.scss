@@ -1,9 +1,12 @@
+@import 'mixins';
+
 .table {
   --table-body-background: var(--color-white);
   --table-body-row-border-color: var(--color-black-10);
   --table-head-background: var(--color-black-5);
 
   border-collapse: collapse;
+  min-width: 100%;
   font-size: var(--fontsize-body-m);
 
   thead tr,
@@ -30,11 +33,38 @@
 
   tbody {
     tr {
+      cursor: pointer;
+
+      &:focus {
+        outline: var(--focus-outline-width) solid var(--focus-outline-color);
+        outline-offset: calc(0px - var(--focus-outline-width));
+
+        &:not(:global(.focus-visible)) {
+          outline: none;
+        }
+      }
+
       td {
         background-color: var(--table-body-background);
         border-bottom: 1px solid var(--table-body-row-border-color);
+        white-space: nowrap;
       }
+
     }
+  }
+
+  button {
+    @include focus-outline(0px);
+  }
+
+  a {
+    color: var(--color-coat-of-arms);
+
+    @include focus-outline(2px);
+  }
+
+  caption {
+    @include hidden-from-screen;
   }
 }
 

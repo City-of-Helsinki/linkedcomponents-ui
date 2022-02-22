@@ -1,4 +1,11 @@
 {
+  "adminPage": {
+    "sideNavigation": {
+      "labelAdmin": "Admin",
+      "toggleButtonLabel": "Navigate to admin page"
+    },
+    "title": "Admin"
+  },
   "appDescription": "Linked Events is a collection of software components and API endpoints that enables event management and distribution for different event providers in Finland.",
   "appName": "Linked Events",
   "authentication": {
@@ -12,6 +19,8 @@
     "noRightsUpdateEventLabel": "No permissions to edit events",
     "noRightsUpdateKeyword": "You do not have permission to edit keywords.",
     "noRightsUpdateKeywordLabel": "No permissions to edit keywords.",
+    "noRightsUpdateKeywordSet": "You do not have permission to edit keyword sets.",
+    "noRightsUpdateKeywordSetLabel": "No permissions to edit keyword sets.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
   },
@@ -37,6 +46,7 @@
     "buttonActions": "Actions",
     "buttonAddEvent": "Add new event",
     "buttonAddKeyword": "Add keyword",
+    "buttonAddKeywordSet": "Add keyword set",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
     "cancel": "Undo",
@@ -191,6 +201,10 @@
     "pageTitle": "Add keyword",
     "title": "Add keyword"
   },
+  "createKeywordSetPage": {
+    "pageTitle": "Add keyword set",
+    "title": "Add keyword set"
+  },
   "createRegistrationPage": {
     "page": "New registration",
     "title": "New registration"
@@ -201,6 +215,10 @@
   "editKeywordPage": {
     "pageTitle": "Edit keyword",
     "title": "Edit keyword"
+  },
+  "editKeywordSetPage": {
+    "pageTitle": "Edit keyword set",
+    "title": "Edit keyword set"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1226,7 +1244,6 @@
       "nEvents": "Number of events"
     },
     "labelSearch": "Search keywords",
-    "pageDescription": "",
     "pageTitle": "Keywords",
     "sortOptions": {
       "id": "Id, ascending",
@@ -1237,8 +1254,57 @@
       "nEventsDesc": "Number of events, descending"
     },
     "title": "Keywords",
-    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa sökord.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här sökordet."
+    "warningNoRightsToCreate": "You have insufficient rights to create keywords.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this keyword."
+  },
+  "keywordSet": {
+    "deleteKeywordSetModal": {
+      "buttonDelete": "Delete keyword set",
+      "text": "This action will permanently remove the keyword set.",
+      "title": "Confirm keyword set deletion"
+    },
+    "form": {
+      "buttonDelete": "Delete keyword set",
+      "labelDataSource": "Data source",
+      "labelId": "ID",
+      "labelKeywords": "Keywords",
+      "labelName": "Name",
+      "labelOrganization": "Publisher",
+      "labelOriginId": "Origin ID",
+      "labelUsage": "Usage",
+      "notificationTitleCannotEdit": "The keyword set cannot be edited"
+    }
+  },
+  "keywordSetsPage": {
+    "actionButtons": {
+      "edit": "Edit keyword set"
+    },
+    "count": "{{count}} keyword set",
+    "count_plural": "{{count}} keyword sets",
+    "keywordSetsTableCaption": "Keyword sets, sorted by {{sort}}",
+    "keywordSetsTableColumns": {
+      "id": "ID",
+      "name": "Name",
+      "usage": "Usage"
+    },
+    "labelSearch": "Search keyword sets",
+    "pageTitle": "Keyword sets",
+    "sortOptions": {
+      "id": "Id, ascending",
+      "idDesc": "Id, descending",
+      "name": "Name, ascending",
+      "nameDesc": "Name, descending",
+      "usage": "Usage, ascending",
+      "usageDesc": "Usage, descending"
+    },
+    "title": "Keyword sets",
+    "usageOptions": {
+      "any": "General",
+      "audience": "Audience",
+      "keyword": "Keyword"
+    },
+    "warningNoRightsToCreate": "You have insufficient rights to create keyword sets.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this keyword set."
   },
   "landingPage": {
     "heroTitle": "Events and hobbies in Helsinki",
@@ -1272,9 +1338,9 @@
     "searchEvents": "Search events",
     "skipToContentLabel": "Skip to content",
     "tabs": {
+      "admin": "Admin",
       "events": "Events",
       "help": "Support",
-      "keywords": "Keywords",
       "registrations": "Registration"
     }
   },
@@ -1372,6 +1438,9 @@
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",
     "maxLength255": "The value can be up to 255 characters long.",
+    "methodDeleteNotAllowed": "\"DELETE\" method is not allowed.",
+    "methodPostNotAllowed": "\"POST\" method is not allowed.",
+    "methodPutNotAllowed": "\"PUT\" method is not allowed.",
     "min0": "This number must be at least 0.",
     "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",

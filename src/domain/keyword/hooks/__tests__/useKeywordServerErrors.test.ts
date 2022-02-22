@@ -12,8 +12,8 @@ const getHookWrapper = () => {
 };
 
 it('should set server error items', async () => {
-  const { result } = getHookWrapper();
   const callbackFn = jest.fn();
+  const { result } = getHookWrapper();
 
   const error = new ApolloError({
     networkError: { result: { name: ['The name must be specified.'] } } as any,
@@ -25,32 +25,4 @@ it('should set server error items', async () => {
     { label: 'Nimi', message: 'Nimi on pakollinen.' },
   ]);
   expect(callbackFn).toBeCalled();
-});
-
-it('should return server error items when result is array', () => {
-  const { result } = getHookWrapper();
-  const error = new ApolloError({
-    networkError: {
-      result: [{ name: ['Tämän kentän arvo ei voi olla "null".'] }],
-    } as any,
-  });
-
-  act(() => result.current.showServerErrors({ error }));
-
-  expect(result.current.serverErrorItems).toEqual([
-    { label: 'Nimi', message: 'Tämän kentän arvo ei voi olla "null".' },
-  ]);
-});
-
-it('should return server error items when result is array of string', () => {
-  const { result } = getHookWrapper();
-  const error = new ApolloError({
-    networkError: { result: ['Could not find all objects to update.'] } as any,
-  });
-
-  act(() => result.current.showServerErrors({ error }));
-
-  expect(result.current.serverErrorItems).toEqual([
-    { label: '', message: 'Kaikkia päivitettäviä objekteja ei löytynyt.' },
-  ]);
 });

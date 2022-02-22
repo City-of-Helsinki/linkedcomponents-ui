@@ -1,0 +1,18 @@
+@import 'mixins';
+
+.idColumn {
+  width: 30%;
+}
+
+.nameColumn {
+  width: 50%;
+}
+
+.usageColumn {
+  width: 20%;
+}
+
+.actionButtonsColumn {
+  width: 1px;
+  padding: var(--focus-outline-width) !important;
+}

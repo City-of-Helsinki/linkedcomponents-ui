@@ -28,6 +28,10 @@ import {
   mockedKeywordResponse,
 } from '../../../keyword/__mocks__/editKeywordPage';
 import {
+  keywordSet,
+  mockedKeywordSetResponse,
+} from '../../../keywordSet/__mocks__/editKeywordSetPage';
+import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../../registration/__mocks__/editRegistrationPage';
@@ -44,6 +48,7 @@ const mocks = [
   mockedEventResponse,
   mockedEventsResponse,
   mockedKeywordResponse,
+  mockedKeywordSetResponse,
   mockedPlacesResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
@@ -57,7 +62,7 @@ const renderRoute = (route: string, locale: Language = 'fi') =>
   });
 
 beforeEach(() => {
-  setFeatureFlags({ SHOW_KEYWORD: true, SHOW_REGISTRATION: true });
+  setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
 });
 
 it('should redirect to events page from deprecated modaration page', () => {
@@ -178,7 +183,7 @@ it('should render keywords page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /avainsanat/i });
-  expect(history.location.pathname).toBe('/fi/keywords');
+  expect(history.location.pathname).toBe('/fi/admin/keywords');
 });
 
 it('should render create keyword page', async () => {
@@ -186,17 +191,43 @@ it('should render create keyword page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /lisää avainsana/i });
-  expect(history.location.pathname).toBe('/fi/keywords/create');
+  expect(history.location.pathname).toBe('/fi/admin/keywords/create');
 });
 
 it('should render edit keyword page', async () => {
-  const { history } = renderRoute(
-    `${ROUTES.EDIT_KEYWORD.replace(':id', keyword.id)}`
-  );
+  const id = keyword.id;
+  const { history } = renderRoute(`${ROUTES.EDIT_KEYWORD.replace(':id', id)}`);
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /muokkaa avainsanaa/i });
-  expect(history.location.pathname).toBe(`/fi/keywords/edit/${keyword.id}`);
+  expect(history.location.pathname).toBe(`/fi/admin/keywords/edit/${id}`);
+});
+
+it('should render keyword sets page', async () => {
+  const { history } = renderRoute(`${ROUTES.KEYWORD_SETS}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /avainsanaryhmät/i });
+  expect(history.location.pathname).toBe('/fi/admin/keyword-sets');
+});
+
+it('should render create keyword set page', async () => {
+  const { history } = renderRoute(`${ROUTES.CREATE_KEYWORD_SET}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /lisää avainsanaryhmä/i });
+  expect(history.location.pathname).toBe('/fi/admin/keyword-sets/create');
+});
+
+it('should render edit keyword set page', async () => {
+  const id = keywordSet.id;
+  const { history } = renderRoute(
+    `${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /muokkaa avainsanaryhmää/i });
+  expect(history.location.pathname).toBe(`/fi/admin/keyword-sets/edit/${id}`);
 });
 
 it('should route to default help page', async () => {

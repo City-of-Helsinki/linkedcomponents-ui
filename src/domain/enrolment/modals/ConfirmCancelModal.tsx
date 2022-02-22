@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
+import styles from '../../../common/components/dialog/dialog.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import {
   EnrolmentFieldsFragment,
@@ -10,7 +11,6 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { getEnrolmentFields } from '../../enrolments/utils';
-import styles from './modals.module.scss';
 
 export interface ConfirmCancelModalProps {
   enrolment: EnrolmentFieldsFragment;
@@ -60,7 +60,7 @@ const ConfirmCancelModal: React.FC<ConfirmCancelModalProps> = ({
       id={id}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
-      className={styles.modal}
+      className={styles.dialog}
       isOpen={isOpen}
       variant="danger"
     >

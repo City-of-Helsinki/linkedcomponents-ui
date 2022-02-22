@@ -1,4 +1,11 @@
 {
+  "adminPage": {
+    "sideNavigation": {
+      "labelAdmin": "Admin",
+      "toggleButtonLabel": "Navigera till adminsidan"
+    },
+    "title": "Admin"
+  },
   "appDescription": "Linked Events är en samling mjukvarukomponenter och API-slutpunkter som möjliggör evenemnaghantering och distribution för olika evenemangsleverantörer i Finland.",
   "appName": "Linked Events",
   "authentication": {
@@ -12,6 +19,8 @@
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
     "noRightsUpdateKeyword": "Du har inte behörighet att redigera nyckelord.",
     "noRightsUpdateKeywordLabel": "Inga rättigheter att redigera nyckelord",
+    "noRightsUpdateKeywordSet": "Du har inte behörighet att redigera nyckelordsuppsättningar.",
+    "noRightsUpdateKeywordSetLabel": "Inga rättigheter att redigera nyckelordsuppsättningar",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
     "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
   },
@@ -37,6 +46,7 @@
     "buttonActions": "Funktioner",
     "buttonAddEvent": "Lägg till evenemang",
     "buttonAddKeyword": "Lägg till nyckelord",
+    "buttonAddKeywordSet": "Lägg till nyckelorduppsättningar",
     "buttonAddRegistration": "Lägg till",
     "buttonBack": "Tillbaka",
     "buttonRemoveFilter": "Ta bort filtret: {{name}}",
@@ -192,6 +202,10 @@
     "pageTitle": "Lägg till nyckelord",
     "title": "Lägg till nyckelord"
   },
+  "createKeywordSetPage": {
+    "pageTitle": "Lägg till nyckelordsuppsättning",
+    "title": "Lägg till nyckelordsuppsättning"
+  },
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"
@@ -202,6 +216,10 @@
   "editKeywordPage": {
     "pageTitle": "Redigera nyckelord",
     "title": "Redigera nyckelord"
+  },
+  "editKeywordSetPage": {
+    "pageTitle": "Redigera nyckelordsuppsättningen",
+    "title": "Redigera nyckelordsuppsättningen"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1226,7 +1244,6 @@
       "nEvents": "Antal evenemang"
     },
     "labelSearch": "Sök nyckelord",
-    "pageDescription": "",
     "pageTitle": "Nyckelord",
     "sortOptions": {
       "id": "Id, stigande",
@@ -1237,8 +1254,57 @@
       "nEventsDesc": "Antal evenemang, fallande"
     },
     "title": "Nyckelord",
-    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
-        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa nyckelord.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här nyckelordet."
+  },
+  "keywordSet": {
+    "deleteKeywordModal": {
+      "buttonDelete": "Radera nyckelordsuppsättning",
+      "text": "Denna åtgärd tar bort nyckelorsuppsättningen permanent.",
+      "title": "Bekräfta raderingen av nyckelorsuppsättningen"
+    },
+    "form": {
+      "buttonDelete": "Radera nyckelordsuppsättning",
+      "labelDataSource": "Datakälla",
+      "labelId": "ID",
+      "labelKeywords": "Nyckelord",
+      "labelName": "Namn",
+      "labelOrganization": "Utgivare",
+      "labelOriginId": "Ursprungs-ID",
+      "labelUsage": "Användande",
+      "notificationTitleCannotEdit": "Nyckelordsuppsättning kan inte redigeras"
+    }
+  },
+  "keywordSetsPage": {
+    "actionButtons": {
+      "edit": "Redigera nyckelordsuppsättning"
+    },
+    "count": "{{count}} nyckelordsuppsättning",
+    "count_plural": "{{count}} nyckelordsuppsättningar",
+    "keywordSetsTableCaption": "Nyckelordsuppsättningar, sorterade efter {{sort}}",
+    "keywordSetsTableColumns": {
+      "id": "ID",
+      "name": "Namn",
+      "usage": "Användande"
+    },
+    "labelSearch": "Sök nyckelordsuppsättningar",
+    "pageTitle": "Nyckelordsuppsättningar",
+    "sortOptions": {
+      "id": "Id, stigande",
+      "idDesc": "Id, fallande",
+      "name": "Name, stigande",
+      "nameDesc": "Name, fallande",
+      "usage": "Användande, stigande",
+      "usageDesc": "Användande, fallande"
+    },
+    "title": "Nyckelordsuppsättningar",
+    "usageOptions": {
+      "any": "Allmän",
+      "audience": "Målgrupp",
+      "keyword": "Nyckelord"
+    },
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa nyckelordsuppsättningar.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här nyckelordsuppsättningen."
   },
   "landingPage": {
     "heroTitle": "Evenemang och hobbyer i Helsingfors",
@@ -1272,9 +1338,9 @@
     "searchEvents": "Sök efter evenemang",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
+      "admin": "Admin",
       "events": "Evenemang",
       "help": "Stöd",
-      "keywords": "Nyckelord",
       "registrations": "Registrering"
     }
   },
@@ -1372,6 +1438,9 @@
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
+    "methodDeleteNotAllowed": "\"DELETE\"-metoden är inte tillåten.",
+    "methodPostNotAllowed": "\"POST\"-metoden är inte tillåten.",
+    "methodPutNotAllowed": "\"PUT\"-metoden är inte tillåten.",
     "mustBeUnique": "Värdet måste vara unikt.",
     "min0": "Detta nummer måste vara minst 0.",
     "nameIsRequired": "Namnet krävs.",

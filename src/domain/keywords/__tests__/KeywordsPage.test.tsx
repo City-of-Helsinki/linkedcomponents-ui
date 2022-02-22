@@ -80,7 +80,7 @@ test('should render keywords page', async () => {
   screen.getByRole('button', { name: keywordNames[0] });
 });
 
-test('should open create keywords page', async () => {
+test('should open create keyword page', async () => {
   const { history } = renderComponent();
 
   await findElement('title');
@@ -89,7 +89,7 @@ test('should open create keywords page', async () => {
   const createKeywordButton = getElement('createKeywordButton');
   userEvent.click(createKeywordButton);
 
-  expect(history.location.pathname).toBe('/fi/keywords/create');
+  expect(history.location.pathname).toBe('/fi/admin/keywords/create');
 });
 
 test('should add sort parameter to search query', async () => {
@@ -116,13 +116,11 @@ it('scrolls to keyword row and calls history.replace correctly (deletes keywordI
   renderComponent({ history });
 
   await loadingSpinnerIsNotInDocument();
-  screen.getByRole('button', { name: keywordNames[0] });
+  const keywordButton = screen.getByRole('button', { name: keywordNames[0] });
 
   expect(replaceSpy).toHaveBeenCalledWith(
     expect.objectContaining({ pathname: historyObject.pathname })
   );
-
-  const keywordButton = screen.getByRole('button', { name: keywordNames[0] });
 
   await waitFor(() => expect(keywordButton).toHaveFocus());
 });
