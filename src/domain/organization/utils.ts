@@ -41,7 +41,7 @@ export const organizationsPathBuilder = ({
   return `/organization/${query}`;
 };
 
-export const getOrganizationName = (
+export const getOrganizationFullName = (
   organization: OrganizationFieldsFragment,
   t: TFunction
 ): string => {
@@ -65,8 +65,9 @@ export const getOrganizationFields = (
     affiliatedOrganizations: organization.affiliatedOrganizations as string[],
     classification: organization.classification ?? '',
     dataSource: organization.dataSource ?? '',
+    fullName: getOrganizationFullName(organization, t),
     id: organization.id ?? '',
-    name: getOrganizationName(organization, t),
+    name: organization.name ?? '',
     organizationUrl: `/${locale}${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`,
     parentOrganization: organization.parentOrganization ?? null,
     subOrganizations: organization.subOrganizations as string[],

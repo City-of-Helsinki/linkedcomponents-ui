@@ -46,8 +46,8 @@ const OrganizationsTableRow: React.FC<Props> = ({
     affiliatedOrganizations,
     classification,
     dataSource,
+    fullName,
     id,
-    name,
     organizationUrl,
     parentOrganization: parentOrganizationAtId,
     subOrganizations,
@@ -107,7 +107,7 @@ const OrganizationsTableRow: React.FC<Props> = ({
       <tr
         ref={rowRef}
         role="button"
-        aria-label={name}
+        aria-label={fullName}
         id={getOrganizationItemId(id)}
         onClick={handleRowClick}
         onKeyDown={handleKeyDown}
@@ -124,11 +124,11 @@ const OrganizationsTableRow: React.FC<Props> = ({
                   open
                     ? t(
                         'organizationsPage.organizationsTable.hideSubOrganizations',
-                        { name }
+                        { name: fullName }
                       )
                     : t(
                         'organizationsPage.organizationsTable.showSubOrganizations',
-                        { name }
+                        { name: fullName }
                       )
                 }
                 onClick={toggle}
@@ -140,12 +140,12 @@ const OrganizationsTableRow: React.FC<Props> = ({
                 )}
               </button>
             )}
-            <span className={styles.organizationName} title={name}>
+            <span className={styles.organizationName} title={fullName}>
               <Link
                 onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
                 to={organizationUrl}
               >
-                {name}
+                {fullName}
               </Link>
             </span>
           </div>

@@ -10,7 +10,7 @@ import { TEST_PUBLISHER_ID } from '../constants';
 import {
   getOrganizationAncestorsQueryResult,
   getOrganizationFields,
-  getOrganizationName,
+  getOrganizationFullName,
   organizationPathBuilder,
   organizationsPathBuilder,
 } from '../utils';
@@ -31,11 +31,11 @@ describe('organizationsPathBuilder function', () => {
   });
 });
 
-describe('getOrganizationName', () => {
+describe('getOrganizationFullName', () => {
   const organizationName = 'Organization name';
   it('should return correct name when organization has dissolution data', () => {
     expect(
-      getOrganizationName(
+      getOrganizationFullName(
         fakeOrganization({
           dissolutionDate: '2021-12-12',
           name: organizationName,
@@ -47,7 +47,7 @@ describe('getOrganizationName', () => {
 
   it('should return correct name when organization is affiliated', () => {
     expect(
-      getOrganizationName(
+      getOrganizationFullName(
         fakeOrganization({ isAffiliated: true, name: organizationName }),
         i18n.t.bind(i18n)
       )
@@ -56,7 +56,7 @@ describe('getOrganizationName', () => {
 
   it('should return correct name', () => {
     expect(
-      getOrganizationName(
+      getOrganizationFullName(
         fakeOrganization({ name: organizationName }),
         i18n.t.bind(i18n)
       )

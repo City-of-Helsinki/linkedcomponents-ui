@@ -4,6 +4,7 @@ import { RequestLogger } from 'testcafe';
 import { SUPPORTED_LANGUAGES } from '../../src/constants';
 import { findCookieConsentModal } from '../cookieConsentModal/cookieConsentModal.components';
 import { getKeywords } from '../data/keywordData';
+import { isFeatureEnabled } from '../utils/featureFlag.utils';
 import { isLocalized } from '../utils/keyword.utils';
 import { getRandomSentence } from '../utils/random.utils';
 import { requestLogger } from '../utils/requestLogger';
@@ -31,33 +32,37 @@ fixture('Keywords page')
   })
   .requestHooks([requestLogger, keywordsLogger]);
 
-test('Create keyword button works', async (t) => {
-  const cookieConsentModal = await findCookieConsentModal(t);
-  await cookieConsentModal.actions.acceptAllCookies();
+if (isFeatureEnabled('SHOW_ADMIN')) {
+  test('Create keyword button works', async (t) => {
+    const cookieConsentModal = await findCookieConsentModal(t);
+    await cookieConsentModal.actions.acceptAllCookies();
 
-  const keywordsPage = await getKeywordsPage(t);
-  await keywordsPage.actions.clickCreateKeywordButton();
-  await urlUtils.expectations.urlChangedToCreateKeywordPage();
-});
+    const keywordsPage = await getKeywordsPage(t);
+    await keywordsPage.actions.clickCreateKeywordButton();
+    await urlUtils.expectations.urlChangedToCreateKeywordPage();
+  });
 
-test('Search url by keyword name shows keyword row data for an keyword', async (t) => {
-  const cookieConsentModal = await findCookieConsentModal(t);
-  await cookieConsentModal.actions.acceptAllCookies();
+  test('Search url by keyword name shows keyword row data for an keyword', async (t) => {
+    const cookieConsentModal = await findCookieConsentModal(t);
+    await cookieConsentModal.actions.acceptAllCookies();
 
-  const keywordsPage = await getKeywordsPage(t);
-  await keywordsPage.pageIsLoaded();
+    const keywordsPage = await getKeywordsPage(t);
+    await keywordsPage.pageIsLoaded();
 
-  const locale = SUPPORTED_LANGUAGES.FI;
-  const keywords = await getKeywords(t, keywordsLogger);
-  const [keyword] = keywords.filter((keyword) => isLocalized(keyword, locale));
+    const locale = SUPPORTED_LANGUAGES.FI;
+    const keywords = await getKeywords(t, keywordsLogger);
+    const [keyword] = keywords.filter((keyword) =>
+      isLocalized(keyword, locale)
+    );
 
-  await urlUtils.actions.navigateToKeywordsUrl(
-    getRandomSentence(keyword.name.fi)
-  );
+    await urlUtils.actions.navigateToKeywordsUrl(
+      getRandomSentence(keyword.name.fi)
+    );
 
-  const searchResults = await keywordsPage.findSearchResultList();
-  const keywordRow = await searchResults.keywordRow(keyword);
+    const searchResults = await keywordsPage.findSearchResultList();
+    const keywordRow = await searchResults.keywordRow(keyword);
 
-  await keywordRow.actions.clickKeywordRow();
-  await urlUtils.expectations.urlChangedToKeywordPage(keyword);
-});
+    await keywordRow.actions.clickKeywordRow();
+    await urlUtils.expectations.urlChangedToKeywordPage(keyword);
+  });
+}
