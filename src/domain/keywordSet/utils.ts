@@ -25,7 +25,6 @@ import {
   KEYWORD_SET_ACTION_ICONS,
   KEYWORD_SET_ACTION_LABEL_KEYS,
   KEYWORD_SET_ACTIONS,
-  KEYWORD_SET_DATA_SOURCE,
 } from './constants';
 import { KeywordSetFields, KeywordSetFormFields } from './types';
 
@@ -223,10 +222,7 @@ export const getKeywordSetPayload = (
     id,
     ...restFormValues
   } = formValues;
-  const dataSource =
-    formDataSource ||
-    userOrganization?.dataSource ||
-    /* istanbul ignore next */ KEYWORD_SET_DATA_SOURCE;
+  const dataSource = formDataSource || userOrganization?.dataSource;
 
   return {
     ...restFormValues,

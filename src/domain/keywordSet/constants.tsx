@@ -52,7 +52,4 @@ export const KEYWORD_SET_ACTION_LABEL_KEYS = {
 
 export const AUTHENTICATION_NOT_NEEDED = [KEYWORD_SET_ACTIONS.EDIT];
 
-export const KEYWORD_SET_DATA_SOURCE =
-  process.env.REACT_APP_KEYWORD_SET_DATA_SOURCE || 'helsinki';
-
 export const TEST_KEYWORD_SET_ID = 'keyword_set:1';
