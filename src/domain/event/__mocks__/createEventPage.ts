@@ -1,40 +1,19 @@
 import { MockedResponse } from '@apollo/client/testing';
-import range from 'lodash/range';
 
-import { PAGE_SIZE } from '../../../common/components/imageSelector/constants';
-import { INCLUDE, KEYWORD_SETS, MAX_PAGE_SIZE } from '../../../constants';
 import {
   CreateEventDocument,
   CreateEventsDocument,
   EventsDocument,
-  ImageDocument,
-  ImagesDocument,
   Keyword,
   KeywordDocument,
   KeywordsDocument,
-  KeywordSetDocument,
-  LanguagesDocument,
-  OrganizationDocument,
-  OrganizationsDocument,
-  PlaceDocument,
-  PlacesDocument,
-  UpdateImageDocument,
 } from '../../../generated/graphql';
 import generateAtId from '../../../utils/generateAtId';
-import {
-  fakeEvent,
-  fakeEvents,
-  fakeImage,
-  fakeImages,
-  fakeKeywords,
-  fakeKeywordSet,
-  fakeLanguages,
-  fakeOrganization,
-  fakeOrganizations,
-  fakePlace,
-  fakePlaces,
-} from '../../../utils/mockDataUtils';
-import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import { fakeEvent, fakeEvents } from '../../../utils/mockDataUtils';
+import { imageFields } from '../../image/__mocks__/image';
+import { topics } from '../../keywordSet/__mocks__/keywordSets';
+import { organizationId } from '../../organization/__mocks__/organization';
+import { placeAtId } from '../../place/__mocks__/place';
 
 const id = 'hel:123';
 const eventValues = {
@@ -58,46 +37,7 @@ const eventValues = {
   ],
 };
 
-const organizationId = TEST_PUBLISHER_ID;
-const organizationName = 'Organization name';
-
-const imageDetails = {
-  altText: 'Image alt text',
-  license: 'cc_by',
-  name: 'Image name',
-  photographerName: 'Imahe photographer',
-};
-const imageId = 'image:1';
-const imageAtId = generateAtId(imageId, 'image');
-const image = fakeImage({
-  ...imageDetails,
-  id: imageId,
-  publisher: organizationId,
-});
-
-const keywordNames = range(1, 5).map((index) => `Keyword name ${index}`);
-const keywords = fakeKeywords(
-  keywordNames.length,
-  keywordNames.map((name, index) => ({
-    id: `${index + 1}`,
-    name: { fi: name },
-  }))
-);
-
-const placeName = 'Place name';
-const streetAddress = 'Street address';
-const addressLocality = 'Address locality';
-const selectedPlaceText = `${placeName} (${streetAddress}, ${addressLocality})`;
-const placeId = 'location:1';
-const placeAtId = generateAtId(imageId, 'place');
-const place = fakePlace({
-  id: placeId,
-  addressLocality: { fi: addressLocality },
-  name: { fi: placeName },
-  streetAddress: { fi: streetAddress },
-});
-
-const keyword = keywords.data[0] as Keyword;
+const keyword = topics.data[0] as Keyword;
 const keywordName = keyword.name?.fi;
 const keywordId = keyword.id;
 const keywordAtId = keyword.atId;
@@ -162,7 +102,7 @@ const basePublicEventPayload = {
     sv: null,
     zhHans: null,
   },
-  images: [{ atId: imageAtId }],
+  images: [{ atId: imageFields.atId }],
   location: { atId: placeAtId },
   keywords: [{ atId: keywordAtId }],
   shortDescription: {
@@ -271,36 +211,6 @@ const mockedUmbrellaEventsResponse: MockedResponse = {
   result: umbrellaEventsResponse,
 };
 
-// Mock images
-const imageResponse = { data: { image } };
-const mockedImageResponse: MockedResponse = {
-  request: {
-    query: ImageDocument,
-    variables: { createPath: undefined, id: image.id },
-  },
-  result: imageResponse,
-};
-
-const updateImageVariables = { input: { id: imageId, ...imageDetails } };
-const updateImageResponse = { data: { updateImage: image } };
-const mockedUpdateImageResponse: MockedResponse = {
-  request: { query: UpdateImageDocument, variables: updateImageVariables },
-  result: updateImageResponse,
-};
-
-const images = fakeImages(PAGE_SIZE, [image]);
-const imagesVariables = {
-  createPath: undefined,
-  pageSize: PAGE_SIZE,
-  publisher: organizationId,
-};
-const imagesResponse = { data: { images } };
-const mockedImagesResponse: MockedResponse = {
-  request: { query: ImagesDocument, variables: imagesVariables },
-  result: imagesResponse,
-  newData: () => imagesResponse,
-};
-
 // Mock keywords
 const keywordVariables = { id: keywordId, createPath: undefined };
 const keywordResponse = { data: { keyword } };
@@ -315,131 +225,23 @@ const keywordsVariables = {
   showAllKeywords: true,
   text: '',
 };
-const keywordsResponse = { data: { keywords } };
+const keywordsResponse = { data: { keywords: topics } };
 const mockedKeywordsResponse: MockedResponse = {
   request: { query: KeywordsDocument, variables: keywordsVariables },
   result: keywordsResponse,
 };
 
-// Mock keyword sets
-const audienceKeywordSet = fakeKeywordSet({ id: KEYWORD_SETS.AUDIENCES });
-const audienceKeywordSetVariables = {
-  createPath: undefined,
-  id: KEYWORD_SETS.AUDIENCES,
-  include: [INCLUDE.KEYWORDS],
-};
-const audienceKeywordSetResponse = {
-  data: { keywordSet: audienceKeywordSet },
-};
-const mockedAudienceKeywordSetResponse: MockedResponse = {
-  request: {
-    query: KeywordSetDocument,
-    variables: audienceKeywordSetVariables,
-  },
-  result: audienceKeywordSetResponse,
-};
-
-const topicsKeywordSet = fakeKeywordSet({
-  id: KEYWORD_SETS.EVENT_TOPICS,
-  keywords: keywords.data,
-});
-const topicsKeywordSetVariables = {
-  createPath: undefined,
-  id: KEYWORD_SETS.EVENT_TOPICS,
-  include: [INCLUDE.KEYWORDS],
-};
-const topicsKeywordSetResponse = { data: { keywordSet: topicsKeywordSet } };
-const mockedTopicsKeywordSetResponse: MockedResponse = {
-  request: { query: KeywordSetDocument, variables: topicsKeywordSetVariables },
-  result: topicsKeywordSetResponse,
-};
-
-// Mock languages
-const languages = fakeLanguages(10);
-const languagesResponse = { data: { languages } };
-const mockedLanguagesResponse: MockedResponse = {
-  request: { query: LanguagesDocument },
-  result: languagesResponse,
-};
-
 // Mock places
-const placeVariables = { id: placeId, createPath: undefined };
-const placeResponse = { data: { place } };
-const mockedPlaceResponse: MockedResponse = {
-  request: { query: PlaceDocument, variables: placeVariables },
-  result: placeResponse,
-};
-
-const places = fakePlaces(10, [place]);
-const placesVariables = {
-  createPath: undefined,
-  showAllPlaces: true,
-  text: '',
-};
-const placesResponse = { data: { places } };
-const mockedPlacesResponse: MockedResponse = {
-  request: { query: PlacesDocument, variables: placesVariables },
-  result: placesResponse,
-};
-
-const filteredPlaces = fakePlaces(1, [place]);
-const filteredPlacesVariables = {
-  createPath: undefined,
-  showAllPlaces: true,
-  text: selectedPlaceText,
-};
-const filteredPlacesResponse = { data: { places: filteredPlaces } };
-const mockedFilteredPlacesResponse = {
-  request: { query: PlacesDocument, variables: filteredPlacesVariables },
-  result: filteredPlacesResponse,
-};
-
-const organization = fakeOrganization({
-  id: organizationId,
-  name: organizationName,
-});
-const organizationVariables = { createPath: undefined, id: organizationId };
-const organizationResponse = { data: { organization } };
-const mockedOrganizationResponse = {
-  request: { query: OrganizationDocument, variables: organizationVariables },
-  result: organizationResponse,
-};
-
-const organizationsVariables = {
-  createPath: undefined,
-  child: organizationId,
-  pageSize: MAX_PAGE_SIZE,
-};
-const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
-const mockedOrganizationsResponse = {
-  request: { query: OrganizationsDocument, variables: organizationsVariables },
-  result: organizationsResponse,
-};
 
 export {
   eventValues,
-  imageAtId,
-  imageDetails,
   keywordAtId,
   keywordName,
-  mockedAudienceKeywordSetResponse,
   mockedCreateDraftEventResponse,
   mockedCreatePublicEventResponse,
   mockedCreateSubEventsResponse,
-  mockedFilteredPlacesResponse,
-  mockedImageResponse,
-  mockedImagesResponse,
   mockedInvalidCreateDraftEventResponse,
   mockedKeywordResponse,
   mockedKeywordsResponse,
-  mockedLanguagesResponse,
-  mockedOrganizationResponse,
-  mockedOrganizationsResponse,
-  mockedPlaceResponse,
-  mockedPlacesResponse,
-  mockedTopicsKeywordSetResponse,
   mockedUmbrellaEventsResponse,
-  mockedUpdateImageResponse,
-  organizationId,
-  placeAtId,
 };

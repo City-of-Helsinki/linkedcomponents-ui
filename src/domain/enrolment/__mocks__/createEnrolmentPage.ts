@@ -35,9 +35,7 @@ const payload = {
   zipcode: enrolmentValues.zip,
 };
 
-const createEnrolmentVariables = {
-  input: payload,
-};
+const createEnrolmentVariables = { input: payload };
 
 const createEnrolmentResponse = {
   data: { createEnrolment: fakeEnrolment() },
@@ -58,9 +56,7 @@ const mockedInvalidCreateEnrolmentResponse: MockedResponse = {
   },
   error: {
     ...new Error(),
-    result: {
-      name: ['Tämän kentän arvo ei voi olla "null".'],
-    },
+    result: { name: ['Tämän kentän arvo ei voi olla "null".'] },
   } as Error,
 };
 

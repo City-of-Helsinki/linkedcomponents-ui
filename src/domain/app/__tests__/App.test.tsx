@@ -31,9 +31,33 @@ const texts = {
   modalTitle: 'Linked Events käyttöehdot ja evästeet',
 };
 
+const getElement = (
+  key:
+    | 'acceptAllButton'
+    | 'acceptOnlyNecessaryButton'
+    | 'acceptCheckbox'
+    | 'declineButton'
+    | 'modalTitle'
+) => {
+  switch (key) {
+    case 'acceptAllButton':
+      return screen.getByRole('button', { name: texts.acceptAllButton });
+    case 'acceptOnlyNecessaryButton':
+      return screen.getByRole('button', {
+        name: texts.acceptOnlyNecessaryButton,
+      });
+    case 'acceptCheckbox':
+      return screen.getByRole('checkbox', { name: texts.acceptCheckbox });
+    case 'declineButton':
+      return screen.getByRole('button', { name: texts.declinedButton });
+    case 'modalTitle':
+      return screen.getByRole('heading', { name: texts.modalTitle });
+  }
+};
+
 it('should show cookie consent modal if consent is not saved to cookie', async () => {
   renderApp();
-  screen.getByRole('heading', { name: texts.modalTitle });
+  getElement('modalTitle');
 });
 
 it('should not show cookie consent modal if consent is saved', async () => {
@@ -50,14 +74,10 @@ it('should close cookie consent modal by clicking Decline button', async () => {
   advanceTo('2021-12-12');
   renderApp();
 
-  const acceptCheckbox = screen.getByRole('checkbox', {
-    name: texts.acceptCheckbox,
-  });
+  const acceptCheckbox = getElement('acceptCheckbox');
   userEvent.click(acceptCheckbox);
 
-  const declineButton = screen.getByRole('button', {
-    name: texts.declinedButton,
-  });
+  const declineButton = getElement('declineButton');
   userEvent.click(declineButton);
 
   expect(setCookie).toBeCalledWith(
@@ -69,14 +89,10 @@ it('should store consent to cookie when clicing accept only necessary button', a
   advanceTo('2021-12-12');
   renderApp();
 
-  const acceptCheckbox = screen.getByRole('checkbox', {
-    name: texts.acceptCheckbox,
-  });
+  const acceptCheckbox = getElement('acceptCheckbox');
   userEvent.click(acceptCheckbox);
 
-  const acceptOnlyNecessaryButton = screen.getByRole('button', {
-    name: texts.acceptOnlyNecessaryButton,
-  });
+  const acceptOnlyNecessaryButton = getElement('acceptOnlyNecessaryButton');
   userEvent.click(acceptOnlyNecessaryButton);
 
   expect(setCookie).toBeCalledWith(
@@ -88,14 +104,10 @@ it('should store consent to cookie when clicing accept all button', async () => 
   advanceTo('2021-12-12');
   renderApp();
 
-  const acceptCheckbox = screen.getByRole('checkbox', {
-    name: texts.acceptCheckbox,
-  });
+  const acceptCheckbox = getElement('acceptCheckbox');
   userEvent.click(acceptCheckbox);
 
-  const acceptAllButton = screen.getByRole('button', {
-    name: texts.acceptAllButton,
-  });
+  const acceptAllButton = getElement('acceptAllButton');
   userEvent.click(acceptAllButton);
 
   expect(setCookie).toBeCalledWith(

@@ -7,6 +7,7 @@ import {
 } from '../../../generated/graphql';
 import { fakeKeywords, fakeKeywordSet } from '../../../utils/mockDataUtils';
 import { KEYWORDS_PAGE_SIZE } from '../../keywords/constants';
+import { TEST_DATA_SOURCE } from '../../organization/constants';
 
 const keywordNames = range(1, KEYWORDS_PAGE_SIZE).map(
   (val) => `Keyword name ${val}`
@@ -28,12 +29,14 @@ const mockedKeywordsResponse = {
 };
 
 const keywordSetValues = {
+  dataSource: TEST_DATA_SOURCE,
   name: 'Keyword set name',
   keyword: keywords.data[0],
+  originId: '123',
 };
 
 const payload = {
-  dataSource: 'helsinki',
+  dataSource: keywordSetValues.dataSource,
   keywords: [{ atId: keywordSetValues.keyword.atId }],
   name: {
     fi: keywordSetValues.name,
@@ -45,7 +48,7 @@ const payload = {
   },
   organization: '',
   usage: 'any',
-  id: undefined,
+  id: `${keywordSetValues.dataSource}:${keywordSetValues.originId}`,
 };
 
 const createKeywordSetVariables = { input: payload };

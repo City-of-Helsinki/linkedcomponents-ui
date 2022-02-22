@@ -12,6 +12,7 @@ import {
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import { getMockReduxStore } from '../../../../utils/testUtils';
 import { createCache } from '../../../app/apollo/apolloClient';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   baseFormValues,
@@ -19,7 +20,6 @@ import {
   mockedCancelEventResponse,
   mockedCreateNewSubEventsResponse,
   mockedDeleteEventResponse,
-  mockedOrganizationAncestorsResponse,
   mockedPostponeEventResponse,
   mockedUpdateEventResponse,
   mockedUpdateRecurringEventResponse,

@@ -2,6 +2,7 @@ import { MultiLanguageObject } from '../../types';
 import { KEYWORD_SET_FIELDS } from './constants';
 
 export type KeywordSetFields = {
+  dataSource: string;
   id: string;
   keywordSetUrl: string;
   name: string;

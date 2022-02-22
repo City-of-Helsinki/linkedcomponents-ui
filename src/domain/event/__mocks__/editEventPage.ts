@@ -4,12 +4,7 @@ import addHours from 'date-fns/addHours';
 import startOfDay from 'date-fns/startOfDay';
 import omit from 'lodash/omit';
 
-import {
-  DATETIME_FORMAT,
-  EXTLINK,
-  KEYWORD_SETS,
-  MAX_PAGE_SIZE,
-} from '../../../constants';
+import { DATETIME_FORMAT, EXTLINK } from '../../../constants';
 import {
   CreateEventsDocument,
   DeleteEventDocument,
@@ -17,33 +12,17 @@ import {
   EventsDocument,
   EventStatus,
   EventTypeId,
-  ImageDocument,
   KeywordsDocument,
-  KeywordSetDocument,
-  LanguagesDocument,
-  OrganizationDocument,
-  OrganizationsDocument,
-  PlacesDocument,
   PublicationStatus,
   SuperEventType,
   UpdateEventsDocument,
-  UpdateImageDocument,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
-import generateAtId from '../../../utils/generateAtId';
 import {
   fakeEvent,
   fakeEvents,
   fakeExternalLink,
-  fakeImages,
-  fakeKeywords,
-  fakeKeywordSet,
-  fakeLanguages,
   fakeOffers,
-  fakeOrganization,
-  fakeOrganizations,
-  fakePlace,
-  fakePlaces,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
 import {
@@ -51,14 +30,20 @@ import {
   EVENT_TYPE,
   SUB_EVENTS_VARIABLES,
 } from '../../event/constants';
+import { image, imageFields } from '../../image/__mocks__/image';
+import {
+  audience,
+  audienceAtIds,
+  topicAtIds,
+  topics,
+} from '../../keywordSet/__mocks__/keywordSets';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import { locationText, place, placeAtId } from '../../place/__mocks__/place';
 import { EventFormFields } from '../types';
 
 const now = new Date();
 
 const eventId = 'helsinki:1';
-const audienceName = 'Audience name';
-const audienceAtIds = [generateAtId('audience:1', 'keyword')];
 const audienceMaxAge = 18;
 const audienceMinAge = 12;
 const description = {
@@ -81,14 +66,6 @@ const formattedDescription = {
 const startTime = addDays(addHours(startOfDay(now), 12), 1);
 const endTime = addHours(startTime, 3);
 const facebookUrl = 'http://facebook.com';
-const imageDetails = {
-  altText: 'Image alt text',
-  license: 'cc_by',
-  name: 'Image name',
-  photographerName: 'Photographer name',
-};
-const imageId = 'image:1';
-const imageAtIds = [generateAtId(imageId, 'image')];
 
 const infoUrl = {
   ar: null,
@@ -98,20 +75,9 @@ const infoUrl = {
   sv: 'http://infourl.sv',
   zhHans: null,
 };
-const inLanguageAtIds = [
-  generateAtId('language:1', 'language'),
-  generateAtId('language:2', 'language'),
-];
 const instagramUrl = 'http://instagram.com';
-const keywordName = 'Keyword name';
-const keywordId = 'keyword:1';
-const keywordAtIds = [generateAtId(keywordId, 'keyword')];
 const lastModifiedTime = '2021-07-01T12:00:00.000Z';
-const locationName = 'Location name';
-const streetAddress = 'Venue address';
-const addressLocality = 'Helsinki';
-const locationId = 'location:1';
-const locationAtId = generateAtId(locationId, 'place');
+
 const locationExtraInfo = {
   ar: null,
   en: null,
@@ -182,48 +148,6 @@ const videoDetails = {
   url: 'http://videourl.com',
 };
 
-const audience = fakeKeywords(
-  audienceAtIds.length,
-  audienceAtIds.map((atId) => ({ atId, name: { fi: audienceName } }))
-);
-
-const images = fakeImages(
-  imageAtIds.length,
-  imageAtIds.map((atId) => ({ atId, id: imageId, ...imageDetails, publisher }))
-);
-
-const keywords = fakeKeywords(
-  keywordAtIds.length,
-  keywordAtIds.map((atId) => ({
-    atId,
-    id: keywordId,
-    name: { fi: keywordName },
-  }))
-);
-
-const audienceKeywordSet = fakeKeywordSet({
-  id: KEYWORD_SETS.AUDIENCES,
-  keywords: audience.data,
-});
-const topicsKeywordSet = fakeKeywordSet({
-  id: KEYWORD_SETS.EVENT_TOPICS,
-  keywords: keywords.data,
-});
-
-const languages = fakeLanguages(
-  inLanguageAtIds.length,
-  inLanguageAtIds.map((atId) => ({ atId }))
-);
-
-const location = fakePlace({
-  atId: locationAtId,
-  addressLocality: { fi: addressLocality },
-  name: { fi: locationName },
-  streetAddress: { fi: streetAddress },
-});
-
-const places = fakePlaces(1, [location]);
-
 const eventOverrides = {
   id: eventId,
   audience: audience.data,
@@ -236,12 +160,12 @@ const eventOverrides = {
     fakeExternalLink({ name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl }),
     fakeExternalLink({ name: EXTLINK.EXTLINK_TWITTER, link: twitterUrl }),
   ],
-  images: images.data,
+  images: [image],
   infoUrl,
-  inLanguage: languages.data,
-  keywords: keywords.data,
+  inLanguage: [],
+  keywords: topics.data,
   lastModifiedTime,
-  location,
+  location: place,
   locationExtraInfo,
   name,
   offers: fakeOffers(
@@ -269,11 +193,11 @@ const basePayload = {
     { name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl, language: 'fi' },
     { name: EXTLINK.EXTLINK_TWITTER, link: twitterUrl, language: 'fi' },
   ],
-  images: imageAtIds.map((atId) => ({ atId })),
+  images: [{ atId: imageFields.atId }],
   infoUrl,
-  inLanguage: inLanguageAtIds.map((atId) => ({ atId })),
-  keywords: keywordAtIds.map((atId) => ({ atId })),
-  location: { atId: locationAtId },
+  inLanguage: [],
+  keywords: topicAtIds.map((atId) => ({ atId })),
+  location: { atId: placeAtId },
   locationExtraInfo,
   maximumAttendeeCapacity: null,
   minimumAttendeeCapacity: null,
@@ -309,17 +233,17 @@ const baseFormValues: EventFormFields = {
 
   hasPrice: true,
   hasUmbrella: false,
-  images: [...imageAtIds],
-  imageDetails,
-  inLanguage: [...inLanguageAtIds],
+  images: [imageFields.atId],
+  imageDetails: imageFields,
+  inLanguage: [],
   isVerified: true,
   infoUrl,
   isImageEditable: true,
   isUmbrella: false,
-  keywords: [...keywordAtIds],
-  location: locationAtId,
+  keywords: [...topicAtIds],
+  location: placeAtId,
   locationExtraInfo,
-  mainCategories: [...keywordAtIds],
+  mainCategories: [...topicAtIds],
   maximumAttendeeCapacity: '',
   minimumAttendeeCapacity: '',
   name,
@@ -335,17 +259,15 @@ const baseFormValues: EventFormFields = {
   videos: [videoDetails],
 };
 
-const locationText = `${locationName} (${streetAddress}, ${addressLocality})`;
-
 const expectedValues = {
   audienceMaxAge,
   audienceMinAge,
   endTime: formatDate(endTime, DATETIME_FORMAT),
   description: description.fi,
   facebookUrl,
-  imageAltText: imageDetails.altText,
-  imageName: imageDetails.name,
-  imagePhotographerName: imageDetails.photographerName,
+  imageAltText: imageFields.altText,
+  imageName: imageFields.name,
+  imagePhotographerName: imageFields.photographerName,
   infoUrl: infoUrl.fi,
   instagramUrl,
   lastModifiedTime: '01.07.2021 12.00',
@@ -610,118 +532,19 @@ const mockedUpdatedRecurringEventResponse: MockedResponse = {
   result: updatedRecurringEventResponse,
 };
 
-// Image mocks
-const imageVariables = { createPath: undefined, id: imageId };
-const imageResponse = { data: { image: images.data[0] } };
-const mockedImageResponse: MockedResponse = {
-  request: { query: ImageDocument, variables: imageVariables },
-  result: imageResponse,
-};
-
-const updateImageVariables = { input: { id: imageId, ...imageDetails } };
-const updateImageResponse = { data: { updateImage: images.data[0] } };
-const mockedUpdateImageResponse: MockedResponse = {
-  request: { query: UpdateImageDocument, variables: updateImageVariables },
-  result: updateImageResponse,
-};
-
 const keywordsVariables = {
   createPath: undefined,
   dataSource: ['yso', 'helsinki'],
   showAllKeywords: true,
   text: '',
 };
-const keywordsResponse = { data: { keywords } };
+const keywordsResponse = { data: { keywords: topics } };
 const mockedKeywordsResponse: MockedResponse = {
   request: { query: KeywordsDocument, variables: keywordsVariables },
   result: keywordsResponse,
 };
 
-// Keyword set mocks
-const audienceKeywordSetVariables = {
-  createPath: undefined,
-  id: 'helsinki:audiences',
-  include: ['keywords'],
-};
-const audienceKeywordSetResponse = { data: { keywordSet: audienceKeywordSet } };
-const mockedAudienceKeywordSetResponse: MockedResponse = {
-  request: {
-    query: KeywordSetDocument,
-    variables: audienceKeywordSetVariables,
-  },
-  result: audienceKeywordSetResponse,
-};
-
-const topicsKeywordSetVariables = {
-  createPath: undefined,
-  id: 'helsinki:topics',
-  include: ['keywords'],
-};
-const topicsKeywordSetResponse = { data: { keywordSet: topicsKeywordSet } };
-const mockedTopicsKeywordSetResponse: MockedResponse = {
-  request: {
-    query: KeywordSetDocument,
-    variables: topicsKeywordSetVariables,
-  },
-  result: topicsKeywordSetResponse,
-};
-
-// Language mocks
-const languagesResponse = { data: { languages } };
-const mockedLanguagesResponse: MockedResponse = {
-  request: { query: LanguagesDocument },
-  result: languagesResponse,
-};
-
-// Organization mocked
-const organization = fakeOrganization({ id: publisher });
-const organizationVariables = { createPath: undefined, id: publisher };
-const organizationResponse = { data: { organization } };
-const mockedOrganizationResponse = {
-  request: { query: OrganizationDocument, variables: organizationVariables },
-  result: organizationResponse,
-};
-
-const organizationAncestorsVariables = {
-  createPath: undefined,
-  child: publisher,
-  pageSize: MAX_PAGE_SIZE,
-};
-const organizationAncestorsResponse = {
-  data: { organizations: fakeOrganizations(0) },
-};
-const mockedOrganizationAncestorsResponse: MockedResponse = {
-  request: {
-    query: OrganizationsDocument,
-    variables: organizationAncestorsVariables,
-  },
-  result: organizationAncestorsResponse,
-};
-
-// Place mocks
-const placesVariables = {
-  createPath: undefined,
-  showAllPlaces: true,
-  text: '',
-};
-const placesResponse = { data: { places } };
-const mockedPlacesResponse: MockedResponse = {
-  request: { query: PlacesDocument, variables: placesVariables },
-  result: placesResponse,
-};
-
-const filteredPlacesVariables = {
-  createPath: undefined,
-  showAllPlaces: true,
-  text: locationText,
-};
-const mockedFilteredPlacesResponse: MockedResponse = {
-  request: { query: PlacesDocument, variables: filteredPlacesVariables },
-  result: placesResponse,
-};
-
 export {
-  audienceName,
   baseFormValues,
   basePayload,
   cancelEventVariables,
@@ -731,8 +554,6 @@ export {
   eventOverrides,
   eventWithSubEvent,
   expectedValues,
-  keywordName,
-  mockedAudienceKeywordSetResponse,
   mockedCancelEventResponse,
   mockedCancelledEventResponse,
   mockedCreateNewSubEventsResponse,
@@ -741,24 +562,16 @@ export {
   mockedEventResponse,
   mockedEventTimeResponse,
   mockedEventWithSubEventResponse,
-  mockedFilteredPlacesResponse,
-  mockedImageResponse,
   mockedInvalidEventResponse,
   mockedInvalidUpdateEventResponse,
   mockedKeywordsResponse,
-  mockedLanguagesResponse,
-  mockedOrganizationAncestorsResponse,
-  mockedOrganizationResponse,
-  mockedPlacesResponse,
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
   mockedSubSubEventsResponse,
-  mockedTopicsKeywordSetResponse,
   mockedUpdatedEventResponse,
   mockedUpdatedRecurringEventResponse,
   mockedUpdateEventResponse,
-  mockedUpdateImageResponse,
   mockedUpdateRecurringEventResponse,
   mockedUpdateSubEventsResponse,
   newSubEventTimes,

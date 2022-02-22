@@ -126,9 +126,7 @@ it('should show toast error message when failing to get api token', async () => 
   expect(axiosGet).toHaveBeenCalledTimes(1);
   expect(axiosGet).toHaveBeenCalledWith(
     `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`,
-    {
-      headers: { Authorization: `bearer ${accessToken}` },
-    }
+    { headers: { Authorization: `bearer ${accessToken}` } }
   );
 
   const expectedActions = [
@@ -160,16 +158,11 @@ it('should show toast error message when failing to renew api token', async () =
   expect(axiosGet).toHaveBeenCalledTimes(1);
   expect(axiosGet).toHaveBeenCalledWith(
     `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`,
-    {
-      headers: { Authorization: `bearer ${accessToken}` },
-    }
+    { headers: { Authorization: `bearer ${accessToken}` } }
   );
 
   const expectedActions = [
-    {
-      type: API_TOKEN_ACTIONS.FETCH_TOKEN_ERROR,
-      payload: error,
-    },
+    { type: API_TOKEN_ACTIONS.FETCH_TOKEN_ERROR, payload: error },
   ];
   const actions = mockStore.getActions();
 

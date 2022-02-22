@@ -2,16 +2,8 @@ import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
-import {
-  EventsDocument,
-  OrganizationDocument,
-  OrganizationsDocument,
-} from '../../../generated/graphql';
-import {
-  fakeEvents,
-  fakeOrganization,
-  fakeOrganizations,
-} from '../../../utils/mockDataUtils';
+import { EventsDocument } from '../../../generated/graphql';
+import { fakeEvents } from '../../../utils/mockDataUtils';
 import {
   fakeAuthenticatedStoreState,
   fakeEventsListOptionsState,
@@ -26,7 +18,11 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import {
+  mockedOrganizationResponse,
+  organizationId,
+} from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   EVENT_LIST_INCLUDES,
@@ -41,30 +37,6 @@ configure({ defaultHidden: true });
 
 const storeState = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(storeState);
-
-const organizationId = TEST_PUBLISHER_ID;
-const organization = fakeOrganization();
-const organizationVariables = { createPath: undefined, id: organizationId };
-const organizationResponse = { data: { organization } };
-const mockedOrganizationResponse: MockedResponse = {
-  request: { query: OrganizationDocument, variables: organizationVariables },
-  // To make sure organization is found also after changing tab to published events
-  newData: () => organizationResponse,
-};
-
-const organizationsVariables = {
-  createPath: undefined,
-  child: organizationId,
-  pageSize: 100,
-};
-const organizationsResponse = {
-  data: { organizations: fakeOrganizations(0) },
-};
-const mockedOrganizationsResponse: MockedResponse = {
-  request: { query: OrganizationsDocument, variables: organizationsVariables },
-  // To make sure organization is found also after changing tab to published events
-  newData: () => organizationsResponse,
-};
 
 const baseEventsVariables = {
   createPath: undefined,
@@ -184,7 +156,7 @@ const mocks = [
   mockedBaseDraftEventsResponse,
   mockedDraftEventsResponse,
   mockedOrganizationResponse,
-  mockedOrganizationsResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
 

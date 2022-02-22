@@ -4,22 +4,22 @@ import { useSelector } from 'react-redux';
 
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { authenticatedSelector } from '../../auth/selectors';
-import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
+import useUserOrganization from '../../user/hooks/useUserOrganization';
 import { KEYWORD_SET_ACTIONS } from '../constants';
 import { checkIsEditActionAllowed } from '../utils';
 
 export type KeywordSetAuthenticationNotificationProps = {
   action: KEYWORD_SET_ACTIONS;
-  publisher: string;
+  dataSource: string;
 };
 
 const KeywordSetAuthenticationNotification: React.FC<KeywordSetAuthenticationNotificationProps> =
-  ({ action, publisher }) => {
+  ({ action, dataSource }) => {
     const authenticated = useSelector(authenticatedSelector);
     const { user } = useUser();
     const adminOrganizations = user?.adminOrganizations || [];
-    const { organizationAncestors } = useOrganizationAncestors(publisher);
+    const { organization: userOrganization } = useUserOrganization(user);
 
     const { t } = useTranslation();
 
@@ -35,10 +35,9 @@ const KeywordSetAuthenticationNotification: React.FC<KeywordSetAuthenticationNot
         const { warning } = checkIsEditActionAllowed({
           action,
           authenticated,
-          organizationAncestors,
-          publisher,
+          dataSource,
           t,
-          user,
+          userOrganization,
         });
 
         if (warning) {

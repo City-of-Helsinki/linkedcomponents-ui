@@ -10,7 +10,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import translations from '../../../app/i18n/fi.json';
 import Footer from '../Footer';
 
 configure({ defaultHidden: true });
@@ -32,25 +31,14 @@ test.skip('matches snapshot', async () => {
 });
 
 test('should show navigation links and should route to correct page after clicking link', async () => {
-  setFeatureFlags({ SHOW_REGISTRATION: true });
+  setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
   const { history } = renderComponent();
   const links = [
-    {
-      name: translations.navigation.tabs.events,
-      url: `/fi${ROUTES.EVENTS}`,
-    },
-    {
-      name: translations.navigation.searchEvents,
-      url: `/fi${ROUTES.SEARCH}`,
-    },
-    {
-      name: translations.navigation.tabs.registrations,
-      url: `/fi${ROUTES.REGISTRATIONS}`,
-    },
-    {
-      name: translations.navigation.tabs.help,
-      url: `/fi${ROUTES.HELP}`,
-    },
+    { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
+    { name: /etsi tapahtumia/i, url: `/fi${ROUTES.SEARCH}` },
+    { name: /ilmoittautuminen/i, url: `/fi${ROUTES.REGISTRATIONS}` },
+    { name: /hallinta/i, url: `/fi${ROUTES.ADMIN}` },
+    { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
   ];
   for (const { name, url } of links) {
     const link = screen.getByRole('link', { name });
@@ -61,23 +49,14 @@ test('should show navigation links and should route to correct page after clicki
   }
 });
 
-test('should not show registrations link when registration feature is not enabled', async () => {
-  setFeatureFlags({ SHOW_REGISTRATION: false });
+test('should not show keywords and registrations link when those features are disabled', async () => {
+  setFeatureFlags({ SHOW_ADMIN: false, SHOW_REGISTRATION: false });
 
   const { history } = renderComponent();
   const links = [
-    {
-      name: translations.navigation.tabs.events,
-      url: `/fi${ROUTES.EVENTS}`,
-    },
-    {
-      name: translations.navigation.searchEvents,
-      url: `/fi${ROUTES.SEARCH}`,
-    },
-    {
-      name: translations.navigation.tabs.help,
-      url: `/fi${ROUTES.HELP}`,
-    },
+    { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
+    { name: /etsi tapahtumia/i, url: `/fi${ROUTES.SEARCH}` },
+    { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
   ];
 
   for (const { name, url } of links) {
@@ -89,18 +68,17 @@ test('should not show registrations link when registration feature is not enable
   }
 
   expect(
-    screen.queryByRole('link', {
-      name: translations.navigation.tabs.registrations,
-    })
+    screen.queryByRole('link', { name: /hallinta/i })
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole('link', { name: /ilmoittautuminen/i })
   ).not.toBeInTheDocument();
 });
 
 test('should show feedback link and link should have correct href', async () => {
   const { history } = renderComponent();
 
-  const feedbackLink = screen.getByRole('link', {
-    name: translations.common.feedback.text,
-  });
+  const feedbackLink = screen.getByRole('link', { name: /anna palautetta/i });
   userEvent.click(feedbackLink);
 
   expect(history.location.pathname).toBe('/fi/help/support/contact');

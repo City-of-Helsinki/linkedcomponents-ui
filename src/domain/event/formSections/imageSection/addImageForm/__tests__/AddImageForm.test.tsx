@@ -1,18 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { PAGE_SIZE } from '../../../../../../common/components/imageSelector/constants';
-import { MAX_PAGE_SIZE } from '../../../../../../constants';
-import {
-  ImagesDocument,
-  OrganizationsDocument,
-  UserDocument,
-} from '../../../../../../generated/graphql';
-import {
-  fakeImages,
-  fakeOrganizations,
-  fakeUser,
-} from '../../../../../../utils/mockDataUtils';
+import { UserDocument } from '../../../../../../generated/graphql';
+import { fakeUser } from '../../../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
 import {
   act,
@@ -24,59 +14,23 @@ import {
   waitFor,
 } from '../../../../../../utils/testUtils';
 import translations from '../../../../../app/i18n/fi.json';
-import { TEST_PUBLISHER_ID } from '../../../../../organization/constants';
+import { mockedOrganizationAncestorsResponse } from '../../../../../organization/__mocks__/organizationAncestors';
 import {
   mockedUserResponse,
   userVariables,
 } from '../../../../../user/__mocks__/user';
+import {
+  images,
+  mockedImagesResponse,
+  publisher,
+} from '../../__mocks__/imageSection';
 import AddImageForm, { AddImageFormProps } from '../AddImageForm';
 
 configure({ defaultHidden: true });
 
-const publisher = TEST_PUBLISHER_ID;
-const images = fakeImages(PAGE_SIZE, [{ publisher }]);
-const imagesVariables = {
-  createPath: undefined,
-  pageSize: PAGE_SIZE,
-  publisher,
-};
-const imagesResponse = {
-  data: {
-    images: {
-      ...images,
-      meta: {
-        ...images.meta,
-        count: 15,
-        next: 'https://api.hel.fi/linkedevents/v1/image/?page=2',
-      },
-    },
-  },
-};
-const mockedImagesResponse = {
-  request: {
-    query: ImagesDocument,
-    variables: imagesVariables,
-  },
-  result: imagesResponse,
-};
-
-const organizationsVariables = {
-  child: publisher,
-  createPath: undefined,
-  pageSize: MAX_PAGE_SIZE,
-};
-const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
-const mockedOrganizationsResponse = {
-  request: {
-    query: OrganizationsDocument,
-    variables: organizationsVariables,
-  },
-  result: organizationsResponse,
-};
-
 const defaultMocks = [
   mockedImagesResponse,
-  mockedOrganizationsResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
 
@@ -87,7 +41,7 @@ const defaultProps: AddImageFormProps = {
   onCancel: jest.fn(),
   onFileChange: jest.fn(),
   onSubmit: jest.fn(),
-  publisher: publisher,
+  publisher,
 };
 
 const renderComponent = ({

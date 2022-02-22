@@ -12,6 +12,7 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keywordSet,
@@ -27,7 +28,11 @@ configure({ defaultHidden: true });
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
-const defaultMocks = [mockedKeywordSetResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedKeywordSetResponse,
+  mockedOrganizationResponse,
+  mockedUserResponse,
+];
 
 const route = ROUTES.EDIT_KEYWORD_SET.replace(':id', keywordSet.id);
 
@@ -39,19 +44,14 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     store,
   });
 
-const findElement = (key: 'deleteButton' | 'nameInput') => {
+const findElement = (key: 'deleteButton' | 'nameInput' | 'saveButton') => {
   switch (key) {
     case 'deleteButton':
       return screen.findByRole('button', { name: /poista avainsanaryhmä/i });
     case 'nameInput':
       return screen.findByRole('textbox', { name: /nimi \(suomeksi\)/i });
-  }
-};
-
-const getElement = (key: 'saveButton') => {
-  switch (key) {
     case 'saveButton':
-      return screen.getByRole('button', { name: /tallenna/i });
+      return screen.findByRole('button', { name: /tallenna/i });
   }
 };
 
@@ -60,7 +60,7 @@ test('should scroll to first validation error input field', async () => {
 
   const nameInput = await findElement('nameInput');
   userEvent.clear(nameInput);
-  const saveButton = getElement('saveButton');
+  const saveButton = await findElement('saveButton');
   userEvent.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
@@ -94,7 +94,7 @@ test('should update keyword set', async () => {
 
   await findElement('nameInput');
 
-  const submitButton = getElement('saveButton');
+  const submitButton = await findElement('saveButton');
   userEvent.click(submitButton);
 
   await waitFor(() =>
@@ -107,7 +107,7 @@ test('should show server errors', async () => {
 
   await findElement('nameInput');
 
-  const submitButton = getElement('saveButton');
+  const submitButton = await findElement('saveButton');
   userEvent.click(submitButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);

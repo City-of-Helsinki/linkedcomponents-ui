@@ -10,7 +10,6 @@ import {
   KeywordSetQueryVariables,
   KeywordSetsQueryVariables,
   OrganizationFieldsFragment,
-  UserFieldsFragment,
 } from '../../generated/graphql';
 import {
   Editability,
@@ -21,13 +20,11 @@ import {
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import queryBuilder from '../../utils/queryBuilder';
-import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
   KEYWORD_SET_ACTION_ICONS,
   KEYWORD_SET_ACTION_LABEL_KEYS,
   KEYWORD_SET_ACTIONS,
-  KEYWORD_SET_DATA_SOURCE,
 } from './constants';
 import { KeywordSetFields, KeywordSetFormFields } from './types';
 
@@ -77,6 +74,7 @@ export const getKeywordSetFields = (
   const id = keywordSet.id ?? '';
 
   return {
+    dataSource: keywordSet.dataSource ?? '',
     id,
     keywordSetUrl: `/${language}${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`,
     name: getLocalisedString(keywordSet.name, language),
@@ -118,54 +116,42 @@ export const getEditKeywordSetWarning = ({
 
 export const checkCanUserDoAction = ({
   action,
-  organizationAncestors,
-  publisher,
-  user,
+  dataSource,
+  userOrganization,
 }: {
   action: KEYWORD_SET_ACTIONS;
-  organizationAncestors: OrganizationFieldsFragment[];
-  publisher: string;
-  user?: UserFieldsFragment;
+  dataSource: string;
+  userOrganization: OrganizationFieldsFragment | null;
 }): boolean => {
   /* istanbul ignore next */
-  const adminOrganizations = user?.adminOrganizations ?? [];
-  const isAdminUser = isAdminUserInOrganization({
-    id: publisher,
-    organizationAncestors,
-    user,
-  });
-
   switch (action) {
     case KEYWORD_SET_ACTIONS.EDIT:
       return true;
     case KEYWORD_SET_ACTIONS.CREATE:
-      return publisher ? isAdminUser : !!adminOrganizations.length;
+      return !!userOrganization?.dataSource;
     case KEYWORD_SET_ACTIONS.DELETE:
     case KEYWORD_SET_ACTIONS.UPDATE:
-      return isAdminUser;
+      return userOrganization?.dataSource === dataSource;
   }
 };
 
 export const checkIsEditActionAllowed = ({
   action,
   authenticated,
-  organizationAncestors,
-  publisher,
+  dataSource,
   t,
-  user,
+  userOrganization,
 }: {
   action: KEYWORD_SET_ACTIONS;
   authenticated: boolean;
-  organizationAncestors: OrganizationFieldsFragment[];
-  publisher: string;
+  dataSource: string;
   t: TFunction;
-  user?: UserFieldsFragment;
+  userOrganization: OrganizationFieldsFragment | null;
 }): Editability => {
   const userCanDoAction = checkCanUserDoAction({
     action,
-    organizationAncestors,
-    publisher,
-    user,
+    dataSource,
+    userOrganization,
   });
 
   const warning = getEditKeywordSetWarning({
@@ -181,27 +167,24 @@ export const checkIsEditActionAllowed = ({
 export const getEditButtonProps = ({
   action,
   authenticated,
+  dataSource,
   onClick,
-  organizationAncestors,
-  publisher,
   t,
-  user,
+  userOrganization,
 }: {
   action: KEYWORD_SET_ACTIONS;
   authenticated: boolean;
+  dataSource: string;
   onClick: () => void;
-  organizationAncestors: OrganizationFieldsFragment[];
-  publisher: string;
   t: TFunction;
-  user?: UserFieldsFragment;
+  userOrganization: OrganizationFieldsFragment | null;
 }): MenuItemOptionProps => {
   const { editable, warning } = checkIsEditActionAllowed({
     action,
     authenticated,
-    organizationAncestors,
-    publisher,
+    dataSource,
     t,
-    user,
+    userOrganization,
   });
 
   return {
@@ -230,10 +213,16 @@ export const getKeywordSetInitialValues = (
 };
 
 export const getKeywordSetPayload = (
-  formValues: KeywordSetFormFields
+  formValues: KeywordSetFormFields,
+  userOrganization: OrganizationFieldsFragment | null
 ): CreateKeywordSetMutationInput => {
-  const { originId, id, ...restFormValues } = formValues;
-  const dataSource = formValues.dataSource || KEYWORD_SET_DATA_SOURCE;
+  const {
+    dataSource: formDataSource,
+    originId,
+    id,
+    ...restFormValues
+  } = formValues;
+  const dataSource = formDataSource || userOrganization?.dataSource;
 
   return {
     ...restFormValues,

@@ -8,6 +8,9 @@ import {
 } from './constants';
 
 export const keywordSetSchema = Yup.object().shape({
+  [KEYWORD_SET_FIELDS.ORIGIN_ID]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .nullable(),
   [KEYWORD_SET_FIELDS.NAME]: Yup.object().shape({
     [LE_DATA_LANGUAGES.FI]: Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)

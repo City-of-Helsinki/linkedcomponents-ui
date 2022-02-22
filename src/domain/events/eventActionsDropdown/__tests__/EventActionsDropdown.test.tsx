@@ -21,9 +21,9 @@ import {
   eventId,
   mockedCancelEventResponse,
   mockedDeleteEventResponse,
-  mockedOrganizationAncestorsResponse,
   mockedPostponeEventResponse,
 } from '../../../event/__mocks__/editEventPage';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import EventActionsDropdown, {
   EventActionsDropdownProps,

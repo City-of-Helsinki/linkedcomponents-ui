@@ -14,9 +14,7 @@ test('apiTokenSelector returns api token', () => {
   const apiToken = { [API_CLIENT_ID]: 'api-token' };
   expect(
     apiTokenSelector(
-      merge({}, defaultStoreState, {
-        authentication: { token: { apiToken } },
-      })
+      merge({}, defaultStoreState, { authentication: { token: { apiToken } } })
     )
   ).toEqual(apiToken);
 });
@@ -26,9 +24,7 @@ test('authenticatedSelector returns is authentication completed', () => {
   const user = { name: 'Test user' };
   expect(
     authenticatedSelector(
-      merge({}, defaultStoreState, {
-        authentication: { token: { apiToken } },
-      })
+      merge({}, defaultStoreState, { authentication: { token: { apiToken } } })
     )
   ).toEqual(false);
 

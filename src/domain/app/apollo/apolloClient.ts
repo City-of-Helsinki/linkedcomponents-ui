@@ -320,8 +320,18 @@ const QUERIES_TO_SHOW_ERROR = ['User'];
 const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = [
   'CreateEvent',
   'CreateEvents',
+  'CreateKeyword',
+  'CreateKeywordSet',
   'PostFeedback',
   'PostGuestFeedback',
+  'UpdateKeyword',
+  'UpdateKeywordSet',
+];
+const MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR = [
+  'CreateKeyword',
+  'CreateKeywordSet',
+  'UpdateKeyword',
+  'UpdateKeywordSet',
 ];
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
@@ -358,7 +368,13 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         toast.error(i18n.t('errors.authorizationRequired'));
         break;
       case 403:
-        toast.error(i18n.t('errors.forbidden'));
+        if (
+          !MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR.includes(
+            operation.operationName
+          )
+        ) {
+          toast.error(i18n.t('errors.forbidden'));
+        }
         break;
       case 404:
         toast.error(i18n.t('errors.notFound'));

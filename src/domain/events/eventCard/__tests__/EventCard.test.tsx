@@ -1,12 +1,8 @@
 import range from 'lodash/range';
 import React from 'react';
 
-import { MAX_PAGE_SIZE } from '../../../../constants';
 import {
   EventsDocument,
-  OrganizationDocument,
-  OrganizationsDocument,
-  PlaceDocument,
   PublicationStatus,
   SuperEventType,
 } from '../../../../generated/graphql';
@@ -16,9 +12,6 @@ import {
   fakeImages,
   fakeLanguages,
   fakeOffers,
-  fakeOrganization,
-  fakeOrganizations,
-  fakePlace,
 } from '../../../../utils/mockDataUtils';
 import {
   configure,
@@ -27,75 +20,37 @@ import {
   userEvent,
 } from '../../../../utils/testUtils';
 import { SUB_EVENTS_VARIABLES } from '../../../event/constants';
+import {
+  mockedOrganizationResponse,
+  organizationId,
+  organizationName,
+} from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import {
+  addressLocality,
+  locationName,
+  mockedPlaceResponse,
+  place,
+  streetAddress,
+} from '../../../place/__mocks__/place';
 import EventCard, { testIds } from '../EventCard';
 
 configure({ defaultHidden: true });
 
 const imageUrl = 'http://imageurl.com';
-const organizationId = 'hel:123';
+const locationText = [locationName, streetAddress, addressLocality].join(', ');
 
 const eventValues = {
   id: 'event:1',
-  addressLocality: 'Helsinki',
   audienceMaxAge: 18,
   audienceMinAge: 12,
   endTime: '2021-01-23T12:00:00+00:00',
   inLanguage: 'Suomi',
-  locationId: 'place:1',
-  locationName: 'Location name',
   publicationStatus: PublicationStatus.Public,
   publisher: organizationId,
   name: 'Event name',
   streetAddress: 'Street address',
   startTime: '2021-01-04T12:00:00+00:00',
-};
-
-const organizationName = 'Organization name';
-const organization = fakeOrganization({
-  id: organizationId,
-  name: organizationName,
-});
-const organizationVariables = { id: organizationId, createPath: undefined };
-const organizationResponse = { data: { organization } };
-const mockedOrganizationResponse = {
-  request: {
-    query: OrganizationDocument,
-    variables: organizationVariables,
-  },
-  result: organizationResponse,
-};
-
-const organizationsVariables = {
-  child: organizationId,
-  pageSize: MAX_PAGE_SIZE,
-  createPath: undefined,
-};
-const organizationsResponse = { data: { organizations: fakeOrganizations(0) } };
-const mockedOrganizationsResponse = {
-  request: {
-    query: OrganizationsDocument,
-    variables: organizationsVariables,
-  },
-  result: organizationsResponse,
-};
-
-const place = fakePlace({
-  addressLocality: { fi: eventValues.addressLocality },
-  id: eventValues.locationId,
-  name: { fi: eventValues.locationName },
-  streetAddress: { fi: eventValues.streetAddress },
-});
-const placeVariables = {
-  createPath: undefined,
-  id: eventValues.locationId,
-};
-const placeResponse = { data: { place } };
-const mockedPlaceResponse = {
-  request: {
-    query: PlaceDocument,
-    variables: placeVariables,
-  },
-  result: placeResponse,
 };
 
 const commonEventInfo = {
@@ -129,10 +84,7 @@ const subEventsVariables = {
 };
 const subEventsResponse = { data: { events: subEvents } };
 const mockedSubEventsResponse = {
-  request: {
-    query: EventsDocument,
-    variables: subEventsVariables,
-  },
+  request: { query: EventsDocument, variables: subEventsVariables },
   result: subEventsResponse,
 };
 
@@ -149,7 +101,7 @@ const event = fakeEvent({
 const mocks = [
   mockedSubEventsResponse,
   mockedOrganizationResponse,
-  mockedOrganizationsResponse,
+  mockedOrganizationAncestorsResponse,
   mockedPlaceResponse,
 ];
 
@@ -161,9 +113,7 @@ test('should render event card fields', async () => {
   expect(imageWrapper.style.backgroundImage).toBe('url(http://imageurl.com)');
   expect(screen.getAllByText('04.01.2021 – 23.01.2021')).toHaveLength(2);
   screen.getByText(eventValues.inLanguage);
-  const locationTexts = await screen.findAllByText(
-    'Location name, Street address, Helsinki'
-  );
+  const locationTexts = await screen.findAllByText(locationText);
   expect(locationTexts).toHaveLength(2);
   await screen.findByText(organizationName);
   screen.getByText('Maksuton');
