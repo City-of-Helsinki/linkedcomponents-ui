@@ -20,7 +20,6 @@ import { REGISTRATION_INCLUDES } from '../registration/constants';
 import useRegistrationName from '../registration/hooks/useRegistrationName';
 import RegistrationInfo from '../registration/registrationInfo/RegistrationInfo';
 import { registrationPathBuilder } from '../registration/utils';
-import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
 import ButtonPanel from './buttonPanel/ButtonPanel';
@@ -71,8 +70,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
 const EnrolmentsPageWrapper: React.FC = () => {
   const location = useLocation();
   const { registrationId } = useParams<{ registrationId: string }>();
-  const { user } = useUser();
-  const loadingUser = useDebouncedLoadingUser();
+  const { loading: loadingUser, user } = useUser();
 
   const { data: registrationData, loading: loadingRegistration } =
     useRegistrationQuery({

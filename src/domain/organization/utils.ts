@@ -1,6 +1,7 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { TFunction } from 'i18next';
 
-import { MAX_PAGE_SIZE } from '../../constants';
+import { MAX_PAGE_SIZE, ROUTES } from '../../constants';
 import {
   OrganizationDocument,
   OrganizationFieldsFragment,
@@ -11,7 +12,7 @@ import {
   OrganizationsQueryVariables,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { PathBuilderProps } from '../../types';
+import { Language, PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import { OrganizationFields } from './types';
@@ -27,21 +28,50 @@ export const organizationPathBuilder = ({
 export const organizationsPathBuilder = ({
   args,
 }: PathBuilderProps<OrganizationsQueryVariables>): string => {
-  const { child } = args;
+  const { child, page, pageSize } = args;
 
-  const variableToKeyItems = [{ key: 'child', value: child }];
+  const variableToKeyItems = [
+    { key: 'child', value: child },
+    { key: 'page', value: page },
+    { key: 'page_size', value: pageSize },
+  ];
 
   const query = queryBuilder(variableToKeyItems);
 
   return `/organization/${query}`;
 };
 
+export const getOrganizationName = (
+  organization: OrganizationFieldsFragment,
+  t: TFunction
+): string => {
+  const name = organization.name ?? '';
+  if (organization.dissolutionDate) {
+    return `${name} (${t('common.dissolved')})`;
+  } else if (organization.isAffiliated) {
+    return `${name} (${t('common.affiliate')})`;
+  }
+  return name;
+};
+
 export const getOrganizationFields = (
-  organization: OrganizationFieldsFragment
-): OrganizationFields => ({
-  id: organization.id || '',
-  name: organization.name || '',
-});
+  organization: OrganizationFieldsFragment,
+  locale: Language,
+  t: TFunction
+): OrganizationFields => {
+  const id = organization.id ?? '';
+
+  return {
+    affiliatedOrganizations: organization.affiliatedOrganizations as string[],
+    classification: organization.classification ?? '',
+    dataSource: organization.dataSource ?? '',
+    id: organization.id ?? '',
+    name: getOrganizationName(organization, t),
+    organizationUrl: `/${locale}${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`,
+    parentOrganization: organization.parentOrganization ?? null,
+    subOrganizations: organization.subOrganizations as string[],
+  };
+};
 
 export const getOrganizationQueryResult = async (
   id: string,

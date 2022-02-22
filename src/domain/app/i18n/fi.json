@@ -38,6 +38,7 @@
   },
   "common": {
     "add": "Lisää",
+    "affiliate": "Liittyvä",
     "and": "ja",
     "at": "klo {{time}}",
     "betweenDates": "{{startDate}} – {{endDate}}",
@@ -47,6 +48,7 @@
     "buttonAddEvent": "Lisää uusi tapahtuma",
     "buttonAddKeyword": "Lisää avainsana",
     "buttonAddKeywordSet": "Lisää avainsanaryhmä",
+    "buttonAddOrganization": "Lisää uusi organisaatio",
     "buttonAddRegistration": "Lisää uusi",
     "buttonBack": "Takaisin",
     "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
@@ -86,6 +88,7 @@
       "placeholderStartDate": "Alkaa pp.kk.vvvv"
     },
     "delete": "Poista",
+    "dissolved": "Lakkautettu",
     "dropdown": {
       "buttonClear": "Tyhjennä"
     },
@@ -98,6 +101,7 @@
       }
     },
     "edit": "Muokkaa",
+    "errorLoadMode": "Lataaminen epäonnistui",
     "eventAmount": "{{count}} tapahtuma",
     "eventAmount_plural": "{{count}} tapahtumaa",
     "feedback": {
@@ -1350,6 +1354,37 @@
   },
   "notSigned": {
     "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
+  },
+  "organizationsPage": {
+    "count": "{{count}} organisaatio",
+    "count_plural": "{{count}} organisaatiota",
+    "labelSearch": "Hae organisaatioita",
+    "organizationsTable": {
+      "hideSubOrganizations": "Piilota alaorganisaatiot: {{name}}",
+      "showSubOrganizations": "Näytä alaorganisaatiot: {{name}}"
+    },
+    "organizationsTableCaption": "Organisaatiot, järjestys {{sort}}",
+    "organizationsTableColumns": {
+      "classification": "Luokittelu",
+      "dataSource": "Datalähde",
+      "id": "ID",
+      "name": "Nimi",
+      "parentOrganization": "Pääorganisaatio"
+    },
+    "pageTitle": "Organisaatiot",
+    "sortOptions": {
+      "classification": "Luokittelu, nouseva",
+      "classificationDesc": "Luokittelu, laskeva",
+      "dataSource": "Datalähde, nouseva",
+      "dataSourceDesc": "Datalähde, laskeva",
+      "id": "Id, nouseva",
+      "idDesc": "Id, laskeva",
+      "name": "Nimi, nouseva",
+      "nameDesc": "Nimi, laskeva",
+      "parentOrganization": "Pääorganisaatio, nouseva",
+      "parentOrganizationDesc": "Pääorganisaatio, laskeva"
+    },
+    "title": "Organisaatiot"
   },
   "registration": {
     "deleteRegistrationModal": {

@@ -1,9 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   OrganizationFieldsFragment,
   useOrganizationQuery,
 } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import {
   getOrganizationFields,
@@ -19,7 +21,9 @@ interface PublisherNameWithIconProps {
 const PublisherNameWithIcon: React.FC<PublisherNameWithIconProps> = ({
   organization,
 }) => {
-  const { name } = getOrganizationFields(organization);
+  const { t } = useTranslation();
+  const locale = useLocale();
+  const { name } = getOrganizationFields(organization, locale, t);
 
   return <TextWithIcon icon={<PublisherBadge name={name} />} text={name} />;
 };

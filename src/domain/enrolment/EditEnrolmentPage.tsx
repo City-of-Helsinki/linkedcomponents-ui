@@ -33,7 +33,6 @@ import NotFound from '../notFound/NotFound';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import { registrationPathBuilder } from '../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
-import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
@@ -203,8 +202,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
 
 const EditEnrolmentPageWrapper: React.FC = () => {
   const location = useLocation();
-  const { user } = useUser();
-  const loadingUser = useDebouncedLoadingUser();
+  const { loading: loadingUser, user } = useUser();
   const { enrolmentId, registrationId } =
     useParams<{ enrolmentId: string; registrationId: string }>();
 

@@ -134,4 +134,4 @@ export const getEventSearchQuery = (
   });
 };
 
-export const getEventItemId = (id: string): string => `event-item${id}`;
+export const getEventItemId = (id: string): string => `event-item-${id}`;

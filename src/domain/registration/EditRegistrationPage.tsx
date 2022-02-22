@@ -34,7 +34,6 @@ import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
-import useDebouncedLoadingUser from '../user/hooks/useDebouncedLoadingUser';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
@@ -244,8 +243,7 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
 const EditRegistrationPageWrapper: React.FC = () => {
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
-  const { user } = useUser();
-  const loadingUser = useDebouncedLoadingUser();
+  const { loading: loadingUser, user } = useUser();
 
   const {
     data: registrationData,

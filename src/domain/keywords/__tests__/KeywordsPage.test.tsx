@@ -4,6 +4,7 @@ import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
+  configure,
   CustomRenderOptions,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -19,6 +20,8 @@ import {
   mockedKeywordsResponse,
 } from '../__mocks__/keywordsPage';
 import KeywordsPage from '../KeywordsPage';
+
+configure({ defaultHidden: true });
 
 const storeState = fakeAuthenticatedStoreState();
 const defaultStore = getMockReduxStore(storeState);

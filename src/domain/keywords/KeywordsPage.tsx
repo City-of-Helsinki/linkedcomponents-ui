@@ -28,7 +28,6 @@ const KeywordsPage: React.FC = () => {
       <TitleRow
         button={
           <Button
-            className={styles.addButton}
             fullWidth={true}
             iconLeft={<IconPlus aria-hidden={true} />}
             onClick={goToCreateKeywordPage}

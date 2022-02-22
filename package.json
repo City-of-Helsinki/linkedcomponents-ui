@@ -122,6 +122,7 @@
       "src/domain/auth/oidcCallback/OidcCallback.tsx",
       "src/domain/auth/silentCallback/SilentCallback.tsx",
       "src/domain/event/formSections/timeSection/TimeSectionContext.tsx",
+      "src/domain/organizations/organizationsTable/OrganizationsTableContext.tsx",
       "src/generated/graphql.tsx",
       "src/icons/",
       "src/utils/mockDataUtils.ts",

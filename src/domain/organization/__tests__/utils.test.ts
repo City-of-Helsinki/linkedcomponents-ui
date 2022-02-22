@@ -1,4 +1,5 @@
 import { NetworkStatus } from '@apollo/client';
+import i18n from 'i18next';
 
 import {
   fakeOrganization,
@@ -9,6 +10,7 @@ import { TEST_PUBLISHER_ID } from '../constants';
 import {
   getOrganizationAncestorsQueryResult,
   getOrganizationFields,
+  getOrganizationName,
   organizationPathBuilder,
   organizationsPathBuilder,
 } from '../utils';
@@ -29,12 +31,54 @@ describe('organizationsPathBuilder function', () => {
   });
 });
 
-describe('fakeOrganization function', () => {
+describe('getOrganizationName', () => {
+  const organizationName = 'Organization name';
+  it('should return correct name when organization has dissolution data', () => {
+    expect(
+      getOrganizationName(
+        fakeOrganization({
+          dissolutionDate: '2021-12-12',
+          name: organizationName,
+        }),
+        i18n.t.bind(i18n)
+      )
+    ).toBe(`${organizationName} (Lakkautettu)`);
+  });
+
+  it('should return correct name when organization is affiliated', () => {
+    expect(
+      getOrganizationName(
+        fakeOrganization({ isAffiliated: true, name: organizationName }),
+        i18n.t.bind(i18n)
+      )
+    ).toBe(`${organizationName} (Liittyvä)`);
+  });
+
+  it('should return correct name', () => {
+    expect(
+      getOrganizationName(
+        fakeOrganization({ name: organizationName }),
+        i18n.t.bind(i18n)
+      )
+    ).toBe(organizationName);
+  });
+});
+
+describe('getOrganizationFields function', () => {
   it('should return default values if value is not set', () => {
-    const { id, name } = getOrganizationFields(
-      fakeOrganization({ id: null, name: null })
+    const { classification, dataSource, id, name } = getOrganizationFields(
+      fakeOrganization({
+        classification: null,
+        dataSource: null,
+        id: null,
+        name: null,
+      }),
+      'fi',
+      i18n.t.bind(i18n)
     );
 
+    expect(classification).toBe('');
+    expect(dataSource).toBe('');
     expect(id).toBe('');
     expect(name).toBe('');
   });

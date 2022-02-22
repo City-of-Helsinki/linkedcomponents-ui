@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { UserFieldsFragment, useUserQuery } from '../../../generated/graphql';
+import useDebounce from '../../../hooks/useDebounce';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import {
   apiTokenSelector,
@@ -8,6 +9,8 @@ import {
   userSelector,
 } from '../../auth/selectors';
 import { userPathBuilder } from '../utils';
+
+const LOADING_USER_DEBOUNCE_TIME = 50;
 
 export type UserState = {
   loading: boolean;
@@ -28,7 +31,12 @@ const useUser = (): UserState => {
     },
   });
 
-  return { loading: loadingUser || loadingTokens, user: userData?.user };
+  const loading = useDebounce(
+    loadingUser || loadingTokens,
+    LOADING_USER_DEBOUNCE_TIME
+  );
+
+  return { loading, user: userData?.user };
 };
 
 export default useUser;

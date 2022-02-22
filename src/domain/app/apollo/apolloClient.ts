@@ -94,13 +94,13 @@ const mergeCache: FieldMergeFunction = (existing, incoming, { args }) => {
   const pageSize = Math.min(args?.pageSize ?? DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE);
   const offset = (page - 1) * pageSize;
 
-  const mergedImages = existing ? [...existing.data] : [];
+  const mergedItems = existing ? [...existing.data] : [];
 
   for (let i = 0; i < incoming.data.length; i = i + 1) {
-    mergedImages[offset + i] = incoming.data[i];
+    mergedItems[offset + i] = incoming.data[i];
   }
 
-  return { ...incoming, data: mergedImages };
+  return { ...incoming, data: mergedItems };
 };
 
 const keyFields = ['atId', 'id'];
@@ -159,6 +159,13 @@ export const createCache = (): InMemoryCache =>
           keyword: fieldFunction('Keyword', 'keyword'),
           keywordSet: fieldFunction('KeywordSet', 'keyword_set'),
           organization: fieldFunction('Organization', 'organization'),
+          organizations: {
+            keyArgs: (args) =>
+              args ? Object.keys(args).filter((arg) => arg !== 'page') : [],
+            merge(existing, incoming, options) {
+              return mergeCache(existing, incoming, options);
+            },
+          },
           place: fieldFunction('Place', 'place'),
         },
       },

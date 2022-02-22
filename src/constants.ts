@@ -2,6 +2,7 @@ import reduce from 'lodash/reduce';
 
 import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
 import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
+import { defaultReducerState as defaultOrganizationsReducerState } from './domain/organizations/constants';
 import { MultiLanguageObject, StoreState } from './types';
 
 export const BREAKPOINTS = {
@@ -27,10 +28,12 @@ export enum ROUTES {
   CREATE_EVENT = '/events/create',
   CREATE_KEYWORD = '/admin/keywords/create',
   CREATE_KEYWORD_SET = '/admin/keyword-sets/create',
+  CREATE_ORGANIZATION = '/admin/organizations/create',
   CREATE_REGISTRATION = '/registrations/create',
   EDIT_EVENT = '/events/edit/:id',
   EDIT_KEYWORD = '/admin/keywords/edit/:id',
   EDIT_KEYWORD_SET = '/admin/keyword-sets/edit/:id',
+  EDIT_ORGANIZATION = '/admin/organizations/edit/:id',
   EDIT_REGISTRATION = '/registrations/edit/:id',
   EDIT_REGISTRATION_ENROLMENT = '/registrations/:registrationId/enrolments/edit/:enrolmentId',
   EVENT_SAVED = '/events/completed/:id',
@@ -46,6 +49,7 @@ export enum ROUTES {
   KEYWORDS = '/admin/keywords',
   KEYWORD_SETS = '/admin/keyword-sets',
   LOGOUT = '/logout',
+  ORGANIZATIONS = '/admin/organizations',
   REGISTRATIONS = '/registrations',
   REGISTRATION_ENROLMENTS = '/registrations/:registrationId/enrolments',
   REGISTRATION_SAVED = '/registrations/completed/:id',
@@ -130,6 +134,7 @@ export enum FORM_NAMES {
 export const defaultStoreState: StoreState = {
   authentication: defaultAuthReducerState,
   events: defaultEventsReducerState,
+  organizations: defaultOrganizationsReducerState,
 };
 
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/gif', 'image/png'];

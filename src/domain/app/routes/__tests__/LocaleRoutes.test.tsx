@@ -227,7 +227,17 @@ it('should render edit keyword set page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /muokkaa avainsanaryhmää/i });
-  expect(history.location.pathname).toBe(`/fi/admin/keyword-sets/edit/${id}`);
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/keyword-sets/edit/${id}`)
+  );
+});
+
+it('should render organizations page', async () => {
+  const { history } = renderRoute(`${ROUTES.ORGANIZATIONS}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /organisaatiot/i });
+  expect(history.location.pathname).toBe('/fi/admin/organizations');
 });
 
 it('should route to default help page', async () => {
