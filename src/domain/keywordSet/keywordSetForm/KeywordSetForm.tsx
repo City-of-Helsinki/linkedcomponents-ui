@@ -38,6 +38,7 @@ import { reportError } from '../../app/sentry/utils';
 import useKeywordSetUsageOptions from '../../keywordSets/hooks/useKeywordSetUsageOptions';
 import { clearKeywordSetsQueries } from '../../keywordSets/utils';
 import useUser from '../../user/hooks/useUser';
+import useUserOrganization from '../../user/hooks/useUserOrganization';
 import {
   KEYWORD_SET_ACTIONS,
   KEYWORD_SET_FIELDS,
@@ -62,6 +63,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const location = useLocation();
   const locale = useLocale();
   const { user } = useUser();
+  const { organization: userOrganization } = useUserOrganization(user);
   const usageOptions = useKeywordSetUsageOptions();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
@@ -112,9 +114,9 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
     }
   };
 
-  const createKeyword = async (values: KeywordSetFormFields) => {
+  const createKeywordSet = async (values: KeywordSetFormFields) => {
     setSaving(KEYWORD_SET_ACTIONS.CREATE);
-    const payload = getKeywordSetPayload(values);
+    const payload = getKeywordSetPayload(values, userOrganization);
 
     const createdKeywordId = await createSingleKeywordSet(payload);
 
@@ -163,7 +165,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
             if (keywordSet) {
               await onUpdate(values);
             } else {
-              await createKeyword(values);
+              await createKeywordSet(values);
             }
           } catch (error) {
             showFormErrors({
@@ -187,10 +189,10 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
                   ? KEYWORD_SET_ACTIONS.UPDATE
                   : KEYWORD_SET_ACTIONS.CREATE
               }
-              publisher={
+              dataSource={
                 keywordSet
-                  ? (keywordSet.organization as string)
-                  : values.organization
+                  ? (keywordSet.dataSource as string)
+                  : values.dataSource
               }
             />
             <ServerErrorSummary errors={serverErrorItems} />
@@ -226,6 +228,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
                 label={t(`keywordSet.form.labelOriginId`)}
                 name={KEYWORD_SET_FIELDS.ORIGIN_ID}
                 readOnly={!!keywordSet}
+                required
               />
             </FormRow>
 
@@ -282,13 +285,13 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
               <EditButtonPanel
                 id={values.id}
                 onSave={handleSubmit}
-                publisher={keywordSet.organization as string}
+                dataSource={keywordSet.dataSource as string}
                 saving={saving}
               />
             ) : (
               <CreateButtonPanel
+                dataSource={values.dataSource}
                 onSave={handleSubmit}
-                publisher={values.organization}
                 saving={saving}
               />
             )}

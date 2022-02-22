@@ -11,6 +11,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keywordSetValues,
@@ -25,17 +26,30 @@ configure({ defaultHidden: true });
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
+const defaultMocks = [
+  mockedKeywordsResponse,
+  mockedOrganizationResponse,
+  mockedUserResponse,
+];
+
 const renderComponent = (mocks: MockedResponse[] = []) =>
   render(<CreateKeywordSetPage />, { mocks, store });
 
 const getElement = (
-  key: 'keywordsToggleButton' | 'nameInput' | 'saveButton' | 'usageToggleButton'
+  key:
+    | 'keywordsToggleButton'
+    | 'nameInput'
+    | 'originIdInput'
+    | 'saveButton'
+    | 'usageToggleButton'
 ) => {
   switch (key) {
     case 'keywordsToggleButton':
       return screen.getByRole('button', { name: /avainsanat/i });
     case 'nameInput':
       return screen.getByRole('textbox', { name: /nimi \(suomeksi\)/i });
+    case 'originIdInput':
+      return screen.getByRole('textbox', { name: /lähdetunniste/i });
     case 'saveButton':
       return screen.getByRole('button', { name: /tallenna/i });
     case 'usageToggleButton':
@@ -44,6 +58,7 @@ const getElement = (
 };
 
 const fillInputValues = async () => {
+  userEvent.type(getElement('originIdInput'), keywordSetValues.originId);
   userEvent.type(getElement('nameInput'), keywordSetValues.name);
 
   userEvent.click(getElement('keywordsToggleButton'));
@@ -58,16 +73,22 @@ const fillInputValues = async () => {
 };
 
 test('should focus to first validation error when trying to save new registration', async () => {
-  renderComponent([mockedUserResponse]);
+  renderComponent(defaultMocks);
 
   await loadingSpinnerIsNotInDocument();
+
+  const originIdInput = getElement('originIdInput');
+  userEvent.click(getElement('saveButton'));
+
+  await waitFor(() => expect(originIdInput).toHaveFocus());
+  userEvent.type(originIdInput, keywordSetValues.originId);
 
   const nameInput = getElement('nameInput');
   userEvent.click(getElement('saveButton'));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 
-  userEvent.type(getElement('nameInput'), keywordSetValues.name);
+  userEvent.type(nameInput, keywordSetValues.name);
   const keywordsToggleButton = getElement('keywordsToggleButton');
   userEvent.click(getElement('saveButton'));
 
@@ -76,9 +97,8 @@ test('should focus to first validation error when trying to save new registratio
 
 test('should move to keywords page after creating new keyword', async () => {
   const { history } = renderComponent([
+    ...defaultMocks,
     mockedCreateKeywordSetResponse,
-    mockedKeywordsResponse,
-    mockedUserResponse,
   ]);
 
   await loadingSpinnerIsNotInDocument();
@@ -93,11 +113,7 @@ test('should move to keywords page after creating new keyword', async () => {
 });
 
 test('should show server errors', async () => {
-  renderComponent([
-    mockedInvalidCreateKeywordSetResponse,
-    mockedKeywordsResponse,
-    mockedUserResponse,
-  ]);
+  renderComponent([...defaultMocks, mockedInvalidCreateKeywordSetResponse]);
 
   await loadingSpinnerIsNotInDocument();
 

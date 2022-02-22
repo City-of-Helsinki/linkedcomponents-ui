@@ -4,10 +4,12 @@ import {
   fakeKeyword,
   fakeKeywordSet,
   fakeOrganization,
-  fakeUser,
 } from '../../../utils/mockDataUtils';
 import { TEST_KEYWORD_ID } from '../../keyword/constants';
-import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import {
+  TEST_DATA_SOURCE,
+  TEST_PUBLISHER_ID,
+} from '../../organization/constants';
 import { KEYWORD_SET_ACTIONS, KEYWORD_SET_INITIAL_VALUES } from '../constants';
 import {
   checkCanUserDoAction,
@@ -67,8 +69,9 @@ describe('keywordSetsPathBuilder function', () => {
 
 describe('getKeywordSetFields function', () => {
   it('should return default values if value is not set', () => {
-    const { id, organization, usage } = getKeywordSetFields(
+    const { dataSource, id, organization, usage } = getKeywordSetFields(
       fakeKeywordSet({
+        dataSource: null,
         id: null,
         organization: null,
         usage: null,
@@ -76,6 +79,7 @@ describe('getKeywordSetFields function', () => {
       'fi'
     );
 
+    expect(dataSource).toBe('');
     expect(id).toBe('');
     expect(organization).toBe('');
     expect(usage).toBe('');
@@ -83,33 +87,10 @@ describe('getKeywordSetFields function', () => {
 });
 
 describe('checkCanUserDoAction function', () => {
-  const publisher = TEST_PUBLISHER_ID;
+  const dataSource = TEST_DATA_SOURCE;
 
-  it('should allow correct actions if adminArganizations contains publisher', () => {
-    const user = fakeUser({ adminOrganizations: [publisher] });
-
-    const allowedActions = [
-      KEYWORD_SET_ACTIONS.CREATE,
-      KEYWORD_SET_ACTIONS.DELETE,
-      KEYWORD_SET_ACTIONS.EDIT,
-      KEYWORD_SET_ACTIONS.UPDATE,
-    ];
-
-    allowedActions.forEach((action) => {
-      expect(
-        checkCanUserDoAction({
-          action,
-          organizationAncestors: [],
-          publisher,
-          user,
-        })
-      ).toBe(true);
-    });
-  });
-
-  it('should allow correct actions if organizationAncestores contains any of the adminArganizations', () => {
-    const adminOrganization = 'admin:1';
-    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+  it('should allow correct actions if user organization has same data source as keyword set', () => {
+    const userOrganization = fakeOrganization({ dataSource });
 
     const allowedActions = [
       KEYWORD_SET_ACTIONS.CREATE,
@@ -122,17 +103,15 @@ describe('checkCanUserDoAction function', () => {
       expect(
         checkCanUserDoAction({
           action,
-          organizationAncestors: [fakeOrganization({ id: adminOrganization })],
-          publisher,
-          user,
+          dataSource,
+          userOrganization,
         })
       ).toBe(true);
     });
   });
 
-  it('should allow correct actions if publisher is not defined and user has at least one admin organization', () => {
-    const adminOrganization = 'admin:1';
-    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+  it('should allow correct actions if dataSource is not defined and user has at least one admin organization', () => {
+    const userOrganization = fakeOrganization({ dataSource });
 
     const allowedActions = [
       KEYWORD_SET_ACTIONS.CREATE,
@@ -143,9 +122,8 @@ describe('checkCanUserDoAction function', () => {
       expect(
         checkCanUserDoAction({
           action,
-          organizationAncestors: [],
-          publisher: '',
-          user,
+          dataSource: '',
+          userOrganization,
         })
       ).toBe(true);
     });
@@ -270,9 +248,14 @@ describe('getKeywordInitialValues function', () => {
 });
 
 describe('getKeywordSetPayload function', () => {
+  const dataSource = TEST_DATA_SOURCE;
+  const userOrganization = fakeOrganization({ dataSource });
+
   it('should return keyword set payload', () => {
-    expect(getKeywordSetPayload(KEYWORD_SET_INITIAL_VALUES)).toEqual({
-      dataSource: 'helsinki',
+    expect(
+      getKeywordSetPayload(KEYWORD_SET_INITIAL_VALUES, userOrganization)
+    ).toEqual({
+      dataSource,
       id: undefined,
       keywords: [],
       name: {
@@ -288,22 +271,25 @@ describe('getKeywordSetPayload function', () => {
     });
 
     expect(
-      getKeywordSetPayload({
-        dataSource: 'helsinki',
-        id: '',
-        keywords: [TEST_KEYWORD_ID],
-        name: {
-          ar: 'ar',
-          en: 'en',
-          fi: 'fi',
-          ru: 'ru',
-          sv: 'sv',
-          zhHans: 'zhHans',
+      getKeywordSetPayload(
+        {
+          dataSource: 'helsinki',
+          id: '',
+          keywords: [TEST_KEYWORD_ID],
+          name: {
+            ar: 'ar',
+            en: 'en',
+            fi: 'fi',
+            ru: 'ru',
+            sv: 'sv',
+            zhHans: 'zhHans',
+          },
+          originId: '123',
+          organization: TEST_PUBLISHER_ID,
+          usage: 'any',
         },
-        originId: '123',
-        organization: TEST_PUBLISHER_ID,
-        usage: 'any',
-      })
+        userOrganization
+      )
     ).toEqual({
       dataSource: 'helsinki',
       id: 'helsinki:123',

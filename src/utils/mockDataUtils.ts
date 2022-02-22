@@ -4,7 +4,10 @@ import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
-import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
+import {
+  TEST_DATA_SOURCE,
+  TEST_PUBLISHER_ID,
+} from '../domain/organization/constants';
 import {
   AttendeeStatus,
   Enrolment,
@@ -223,7 +226,7 @@ export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet => {
     {
       id,
       atId: generateAtId(id, 'keyword_set'),
-      dataSource: 'helsinki',
+      dataSource: TEST_DATA_SOURCE,
       keywords: [],
       name: fakeLocalisedObject(),
       organization: TEST_PUBLISHER_ID,

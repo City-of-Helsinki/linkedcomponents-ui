@@ -19,8 +19,8 @@ import {
   getEditButtonProps,
   getKeywordSetFields,
 } from '../../keywordSet/utils';
-import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
+import useUserOrganization from '../../user/hooks/useUserOrganization';
 import { addParamsToKeywordSetQueryString } from '../utils';
 
 export interface KeywordSetActionsDropdownProps {
@@ -37,11 +37,8 @@ const KeywordSetActionsDropdown = React.forwardRef<
   const history = useHistory();
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
-  const { id, organization: publisher } = getKeywordSetFields(
-    keywordSet,
-    locale
-  );
-  const { organizationAncestors } = useOrganizationAncestors(publisher);
+  const { dataSource, id } = getKeywordSetFields(keywordSet, locale);
+  const { organization: userOrganization } = useUserOrganization(user);
   const { pathname, search } = useLocation();
 
   const { closeModal, deleteKeywordSet, openModal, saving, setOpenModal } =
@@ -74,11 +71,10 @@ const KeywordSetActionsDropdown = React.forwardRef<
     return getEditButtonProps({
       action,
       authenticated,
+      dataSource,
       onClick,
-      organizationAncestors,
-      publisher,
       t,
-      user,
+      userOrganization,
     });
   };
 

@@ -16,6 +16,7 @@ import {
   keywordSet,
   mockedDeleteKeywordSetResponse,
 } from '../../../keywordSet/__mocks__/editKeywordSetPage';
+import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import KeywordSetActionsDropdown, {
   KeywordSetActionsDropdownProps,
@@ -30,7 +31,11 @@ const defaultProps: KeywordSetActionsDropdownProps = { keywordSet };
 
 const route = `/fi${ROUTES.KEYWORD_SETS}`;
 
-const defaultMocks = [mockedDeleteKeywordSetResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedDeleteKeywordSetResponse,
+  mockedOrganizationResponse,
+  mockedUserResponse,
+];
 
 const renderComponent = (
   props?: Partial<KeywordSetActionsDropdownProps>,
@@ -68,23 +73,17 @@ const openMenu = () => {
   return toggleButton;
 };
 
-test('should toggle menu by clicking actions button', () => {
+test('should toggle menu by clicking actions button', async () => {
   renderComponent(undefined, { store });
 
   const toggleButton = openMenu();
+  getElement('editButton');
+  await findElement('deleteButton');
+
   userEvent.click(toggleButton);
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
-});
-
-test('should render correct buttons', async () => {
-  renderComponent(undefined, { store });
-
-  openMenu();
-
-  getElement('editButton');
-  await findElement('deleteButton');
 });
 
 test('should route to edit keyword set page', async () => {

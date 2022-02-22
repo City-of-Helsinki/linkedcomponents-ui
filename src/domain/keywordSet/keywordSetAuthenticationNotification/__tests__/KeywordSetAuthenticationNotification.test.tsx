@@ -3,8 +3,11 @@ import { clear } from 'jest-date-mock';
 import React from 'react';
 
 import { TEST_USER_ID } from '../../../../constants';
-import { UserDocument } from '../../../../generated/graphql';
-import { fakeUser } from '../../../../utils/mockDataUtils';
+import {
+  OrganizationDocument,
+  UserDocument,
+} from '../../../../generated/graphql';
+import { fakeOrganization, fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   configure,
@@ -18,7 +21,12 @@ import {
 import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
 import userManager from '../../../auth/userManager';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
-import { TEST_PUBLISHER_ID } from '../../../organization/constants';
+import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { TEST_DATA_SOURCE } from '../../../organization/constants';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../../user/__mocks__/user';
 import { KEYWORD_SET_ACTIONS } from '../../constants';
 import KeywordSetAuthenticationNotification, {
   KeywordSetAuthenticationNotificationProps,
@@ -31,7 +39,7 @@ const userVariables = { createPath: undefined, id: TEST_USER_ID };
 
 const props: KeywordSetAuthenticationNotificationProps = {
   action: KEYWORD_SET_ACTIONS.UPDATE,
-  publisher: TEST_PUBLISHER_ID,
+  dataSource: TEST_DATA_SOURCE,
 };
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
@@ -40,36 +48,22 @@ const renderComponent = (renderOptions?: CustomRenderOptions) =>
 const storeState = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(storeState);
 
-test("should show notification if user is signed in but doesn't have any organizations", () => {
-  const user = fakeUser({
-    adminOrganizations: [],
-    organizationMemberships: [],
-  });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
-  const mocks = [mockedEventResponse, mockedUserResponse];
+test("should show notification if user is signed in but doesn't have any organizations", async () => {
+  const mocks = [mockedEventResponse, mockedUserWithoutOrganizationsResponse];
 
   renderComponent({ mocks, store });
 
-  screen.getByRole('heading', {
+  await screen.findByRole('heading', {
     name: 'Ei oikeuksia muokata avainsanaryhmiä.',
   });
 });
 
 test('should not show notification if user is signed in and has an admin organization', async () => {
-  const user = fakeUser({
-    adminOrganizations: [TEST_PUBLISHER_ID],
-    organizationMemberships: [],
-  });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
-  const mocks = [mockedEventResponse, mockedUserResponse];
+  const mocks = [
+    mockedEventResponse,
+    mockedOrganizationResponse,
+    mockedUserResponse,
+  ];
 
   renderComponent({ mocks, store });
 
@@ -78,9 +72,21 @@ test('should not show notification if user is signed in and has an admin organiz
   );
 });
 
-test('should show notification if user has an admin organization but it is different than publisher', async () => {
+test('should show notification if user has an admin organization but the data source is different', async () => {
+  const dataSource = 'not-publisher';
+  const organizationId = 'not-publisher';
+
+  const organization = fakeOrganization({ dataSource });
+  const organizationVariables = { createPath: undefined, id: organizationId };
+  const organizationResponse = { data: { organization } };
+  const mockedOrganizationResponse: MockedResponse = {
+    request: { query: OrganizationDocument, variables: organizationVariables },
+    result: organizationResponse,
+  };
+
   const user = fakeUser({
-    adminOrganizations: ['not-publisher'],
+    organization: organizationId,
+    adminOrganizations: [organizationId],
     organizationMemberships: [],
   });
   const userResponse = { data: { user } };
@@ -88,7 +94,12 @@ test('should show notification if user has an admin organization but it is diffe
     request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
-  const mocks = [mockedEventResponse, mockedUserResponse];
+
+  const mocks = [
+    mockedEventResponse,
+    mockedOrganizationResponse,
+    mockedUserResponse,
+  ];
 
   renderComponent({ mocks, store });
 
@@ -98,7 +109,7 @@ test('should show notification if user has an admin organization but it is diffe
   screen.getByText('Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää.');
 });
 
-test('should start sign in process', () => {
+test('should start sign in process', async () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
 
   renderComponent();
@@ -106,7 +117,7 @@ test('should start sign in process', () => {
   const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
 
   userEvent.click(signInButton);
-  expect(signinRedirect).toBeCalled();
+  await waitFor(() => expect(signinRedirect).toBeCalled());
 });
 
 test('should hide notification when clicking close button', async () => {

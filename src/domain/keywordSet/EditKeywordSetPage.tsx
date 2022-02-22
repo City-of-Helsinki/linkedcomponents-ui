@@ -19,8 +19,8 @@ import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
 import { authenticatedSelector } from '../auth/selectors';
 import NotFound from '../notFound/NotFound';
-import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
+import useUserOrganization from '../user/hooks/useUserOrganization';
 import { KEYWORD_SET_ACTIONS } from './constants';
 import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
@@ -42,9 +42,9 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
   const locale = useLocale();
   const history = useHistory();
   const authenticated = useSelector(authenticatedSelector);
-  const { organization: publisher } = getKeywordSetFields(keywordSet, locale);
+  const { dataSource } = getKeywordSetFields(keywordSet, locale);
   const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(publisher);
+  const { organization: userOrganization } = useUserOrganization(user);
 
   const { closeModal, deleteKeywordSet, openModal, setOpenModal, saving } =
     useKeywordSetUpdateActions({
@@ -64,11 +64,10 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
   const buttonProps = getEditButtonProps({
     action: KEYWORD_SET_ACTIONS.DELETE,
     authenticated,
+    dataSource,
     onClick: () => setOpenModal(KEYWORD_SET_MODALS.DELETE),
-    organizationAncestors,
-    publisher,
     t,
-    user,
+    userOrganization,
   });
 
   return (
@@ -98,7 +97,7 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
         <Breadcrumb.Item to={ROUTES.ADMIN}>
           {t('adminPage.title')}
         </Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.KEYWORDS}>
+        <Breadcrumb.Item to={ROUTES.KEYWORD_SETS}>
           {t('keywordSetsPage.title')}
         </Breadcrumb.Item>
         <Breadcrumb.Item active={true}>

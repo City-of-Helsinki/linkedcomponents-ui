@@ -19,6 +19,7 @@ import {
   clearKeywordSetsQueries,
 } from '../../keywordSets/utils';
 import useUser from '../../user/hooks/useUser';
+import useUserOrganization from '../../user/hooks/useUserOrganization';
 import { KEYWORD_SET_ACTIONS } from '../constants';
 import { KeywordSetFormFields } from '../types';
 import { getKeywordSetPayload } from '../utils';
@@ -55,6 +56,7 @@ const useKeywordSetUpdateActions = ({
 }: Props): UseKeywordUpdateActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
+  const { organization: userOrganization } = useUserOrganization(user);
   const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<KEYWORD_SET_MODALS | null>(
     null
@@ -136,7 +138,10 @@ const useKeywordSetUpdateActions = ({
     values: KeywordSetFormFields,
     callbacks?: Callbacks
   ) => {
-    const payload: UpdateKeywordSetMutationInput = getKeywordSetPayload(values);
+    const payload: UpdateKeywordSetMutationInput = getKeywordSetPayload(
+      values,
+      userOrganization
+    );
 
     try {
       setSaving(KEYWORD_SET_ACTIONS.UPDATE);

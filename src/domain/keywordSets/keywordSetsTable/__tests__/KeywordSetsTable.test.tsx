@@ -1,6 +1,12 @@
-import { fakeKeywordSets } from '../../../../utils/mockDataUtils';
-import { act, render, screen, userEvent } from '../../../../utils/testUtils';
-import { TEST_KEYWORD_SET_ID } from '../../../keywordSet/constants';
+import {
+  act,
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '../../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { keywordSetNames, keywordSets } from '../../__mocks__/keywordSetsPage';
 import { KEYWORD_SET_SORT_OPTIONS } from '../../constants';
 import KeywordSetsTable, { KeywordSetsTableProps } from '../KeywordSetsTable';
@@ -12,8 +18,10 @@ const defaultProps: KeywordSetsTableProps = {
   sort: KEYWORD_SET_SORT_OPTIONS.NAME,
 };
 
+const mocks = [mockedOrganizationResponse, mockedUserResponse];
+
 const renderComponent = (props?: Partial<KeywordSetsTableProps>) =>
-  render(<KeywordSetsTable {...defaultProps} {...props} />);
+  render(<KeywordSetsTable {...defaultProps} {...props} />, { mocks });
 
 test('should render keywords table', () => {
   renderComponent();
@@ -26,41 +34,35 @@ test('should render keywords table', () => {
   screen.getByText('Ei tuloksia');
 });
 
-test('should render all keyword sets', () => {
+test('should render all keyword sets', async () => {
   renderComponent({ keywordSets: keywordSets.data });
 
   // Test only first 2 to keep this test performant
   for (const name of keywordSetNames.slice(0, 2)) {
-    screen.getByRole('button', { name });
+    await screen.findByRole('button', { name });
   }
 });
 
-test('should open edit keyword set page by clicking keyword set row', () => {
-  const keywordSetName = 'Keyword set';
-  const keywordSetId = TEST_KEYWORD_SET_ID;
-  const { history } = renderComponent({
-    keywordSets: fakeKeywordSets(1, [
-      { name: { fi: keywordSetName }, id: keywordSetId },
-    ]).data,
-  });
+test('should open edit keyword set page by clicking keyword set row', async () => {
+  const keywordSetName = keywordSets.data[0].name.fi as string;
+  const keywordSetId = keywordSets.data[0].id;
+  const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });
 
   act(() =>
     userEvent.click(screen.getByRole('button', { name: keywordSetName }))
   );
 
-  expect(history.location.pathname).toBe(
-    `/fi/admin/keyword-sets/edit/${keywordSetId}`
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/admin/keyword-sets/edit/${keywordSetId}`
+    )
   );
 });
 
-test('should open edit keyword set page by pressing enter on row', () => {
-  const keywordSetName = 'Keyword set';
-  const keywordSetId = TEST_KEYWORD_SET_ID;
-  const { history } = renderComponent({
-    keywordSets: fakeKeywordSets(1, [
-      { name: { fi: keywordSetName }, id: keywordSetId },
-    ]).data,
-  });
+test('should open edit keyword set page by pressing enter on row', async () => {
+  const keywordSetName = keywordSets.data[0].name.fi as string;
+  const keywordSetId = keywordSets.data[0].id;
+  const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });
 
   act(() =>
     userEvent.type(
@@ -69,8 +71,10 @@ test('should open edit keyword set page by pressing enter on row', () => {
     )
   );
 
-  expect(history.location.pathname).toBe(
-    `/fi/admin/keyword-sets/edit/${keywordSetId}`
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/admin/keyword-sets/edit/${keywordSetId}`
+    )
   );
 });
 

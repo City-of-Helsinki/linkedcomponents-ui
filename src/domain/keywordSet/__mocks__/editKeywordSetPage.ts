@@ -7,12 +7,15 @@ import {
   UpdateKeywordSetDocument,
 } from '../../../generated/graphql';
 import { fakeKeywordSet } from '../../../utils/mockDataUtils';
-import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import {
+  TEST_DATA_SOURCE,
+  TEST_PUBLISHER_ID,
+} from '../../organization/constants';
 import { TEST_KEYWORD_SET_ID } from '../constants';
 import { keywords } from './createKeywordSetPage';
 
 const keywordSetValues: Partial<KeywordSetFieldsFragment> = {
-  dataSource: 'helsinki',
+  dataSource: TEST_DATA_SOURCE,
   id: TEST_KEYWORD_SET_ID,
   keywords: [{ atId: keywords.data[0].atId }],
   name: {
