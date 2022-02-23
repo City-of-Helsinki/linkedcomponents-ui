@@ -1,13 +1,11 @@
 import React from 'react';
 
-import { DATETIME_FORMAT } from '../../../constants';
+import EditingInfo from '../../../common/components/editingInfo/EditingInfo';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import formatDate from '../../../utils/formatDate';
 import StatusTag from '../tags/StatusTag';
 import SuperEventTypeTag from '../tags/SuperEventTypeTag';
 import { getEventFields } from '../utils';
-import CreatorBadge from './CreatorBadge';
 import styles from './eventInfo.module.scss';
 
 interface Props {
@@ -39,15 +37,7 @@ const EventInfo: React.FC<Props> = ({ event }) => {
         <SuperEventTypeTag superEventType={superEventType} />
       </div>
 
-      <p className={styles.editingInfo}>
-        <span>{formatDate(lastModifiedTime, DATETIME_FORMAT)}</span>
-        {createdBy && (
-          <>
-            <CreatorBadge createdBy={createdBy} />
-            <span>{createdBy}</span>
-          </>
-        )}
-      </p>
+      <EditingInfo createdBy={createdBy} lastModifiedAt={lastModifiedTime} />
     </div>
   );
 };

@@ -5,6 +5,12 @@
   display: grid;
   grid-gap: var(--spacing-m);
 
+  .title {
+    *:not(:last-child) {
+      margin-right: var(--spacing-xs);
+    }
+  }
+
   .buttonWrapper {
     margin-bottom: var(--spacing-m);
   }

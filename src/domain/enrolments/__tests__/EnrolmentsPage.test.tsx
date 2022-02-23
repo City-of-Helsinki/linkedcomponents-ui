@@ -6,12 +6,14 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   CustomRenderOptions,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
+  userEvent,
   waitFor,
 } from '../../../utils/testUtils';
 import { mockedEventResponse } from '../../event/__mocks__/event';
@@ -120,5 +122,18 @@ test("should show not found page if registration doesn't exist", async () => {
 
   await screen.findByText(
     'Etsimääsi sisältöä ei löydy. Kirjaudu sisään tai palaa kotisivulle.'
+  );
+});
+
+test('should move to create enrolment page', async () => {
+  const { history } = renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const createButton = await findElement('createEnrolmentButton');
+  act(() => userEvent.click(createButton));
+
+  expect(history.location.pathname).toBe(
+    `/registrations/${registrationId}/enrolments/create`
   );
 });

@@ -1,12 +1,10 @@
 import React from 'react';
 
-import { DATETIME_FORMAT } from '../../../constants';
+import EditingInfo from '../../../common/components/editingInfo/EditingInfo';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import formatDate from '../../../utils/formatDate';
 import useRegistrationName from '../hooks/useRegistrationName';
 import { getRegistrationFields } from '../utils';
-import CreatorBadge from './CreatorBadge';
 import styles from './registrationInfo.module.scss';
 
 interface Props {
@@ -28,15 +26,7 @@ const RegistrationInfo: React.FC<Props> = ({ registration }) => {
         <h1>{name}</h1>
       </div>
 
-      <p className={styles.editingInfo}>
-        <span>{formatDate(lastModifiedAt, DATETIME_FORMAT)}</span>
-        {createdBy && (
-          <>
-            <CreatorBadge createdBy={createdBy} />
-            <span>{createdBy}</span>
-          </>
-        )}
-      </p>
+      <EditingInfo createdBy={createdBy} lastModifiedAt={lastModifiedAt} />
     </div>
   );
 };

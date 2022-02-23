@@ -21,17 +21,8 @@ import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
 
-const findElement = (key: 'createButton') => {
+const getElement = (key: 'searchInput') => {
   switch (key) {
-    case 'createButton':
-      return screen.findByRole('button', { name: /lisää osallistuja/i });
-  }
-};
-
-const getElement = (key: 'createButton' | 'searchInput') => {
-  switch (key) {
-    case 'createButton':
-      return screen.getByRole('button', { name: /lisää osallistuja/i });
     case 'searchInput':
       return screen.getByRole('searchbox', {
         name: /hae osallistujia/i,
@@ -83,15 +74,4 @@ test('should search enrolments with correct search params', async () => {
     `/registrations/${registrationId}/enrolments`
   );
   expect(history.location.search).toBe('?enrolmentText=search');
-});
-
-test('should move to create enrolment page', async () => {
-  const { history } = renderComponent();
-
-  const createButton = await findElement('createButton');
-  act(() => userEvent.click(createButton));
-
-  expect(history.location.pathname).toBe(
-    `/registrations/${registrationId}/enrolments/create`
-  );
 });

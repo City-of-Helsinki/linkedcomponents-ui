@@ -30,3 +30,9 @@
 .waitingList {
   margin-top: var(--spacing-l);
 }
+
+.createButton {
+  @include medium-up {
+    margin-top: calc(0px - var(--spacing-l));
+  }
+}
