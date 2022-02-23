@@ -51,6 +51,7 @@ test('Header tabs and search input field work', async (t) => {
   await urlUtils.expectations.urlChangedToEventSearchPage();
 
   // Events page
+  await urlUtils.actions.navigateToLandingPage();
   await headerTabs.actions.clickEventsPageTab();
   await urlUtils.expectations.urlChangedToEventsPage();
   // Registrations page
