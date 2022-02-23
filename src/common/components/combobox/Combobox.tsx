@@ -1,4 +1,3 @@
-import { css } from '@emotion/css';
 import classNames from 'classnames';
 import { Combobox as BaseCombobox, ComboboxProps } from 'hds-react';
 import React from 'react';
@@ -22,12 +21,13 @@ const Combobox: React.FC<ComboboxProps<OptionType>> = ({
   return (
     <BaseCombobox
       {...rest}
-      className={classNames(className, styles.combobox, css(theme.select))}
+      className={classNames(className, styles.combobox)}
       getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
       getA11ySelectionMessage={
         /* istanbul ignore next */
         (options) => getA11ySelectionMessage(options, t)
       }
+      theme={theme.select}
       virtualized={true}
     />
   );

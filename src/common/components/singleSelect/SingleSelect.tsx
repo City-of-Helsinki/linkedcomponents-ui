@@ -22,12 +22,13 @@ const SingleSelect: React.FC<SingleSelectProps<OptionType>> = ({
   return (
     <Select
       {...rest}
-      className={classNames(className, css(theme.select), styles.select)}
+      className={classNames(className, styles.select)}
       getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
       getA11ySelectionMessage={
         /* istanbul ignore next */
         (options) => getA11ySelectionMessage(options, t)
       }
+      theme={theme.select}
     />
   );
 };

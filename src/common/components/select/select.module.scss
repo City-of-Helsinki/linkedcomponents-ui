@@ -1,6 +1,4 @@
 .combobox {
-  --menu-z-index: 101 !important;
-
   > div:focus-within {
     box-shadow: none;
 
@@ -21,8 +19,6 @@
 }
 
 .select {
-  --menu-z-index: 101 !important;
-
   > div:focus-within {
     box-shadow: none;
 
