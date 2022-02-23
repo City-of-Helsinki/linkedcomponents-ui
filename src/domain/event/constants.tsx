@@ -328,9 +328,7 @@ export const TEST_EVENT_ID = 'helmet:222453';
 
 export const PUBLICATION_LIST_LINKS: Record<EVENT_TYPE, PublicationListLink[]> =
   {
-    [EVENT_TYPE.Course]: [
-      { href: 'https://tapahtumat.hel.fi', text: 'tapahtumat.hel.fi' },
-    ],
+    [EVENT_TYPE.Course]: [],
     [EVENT_TYPE.General]: [
       { href: 'https://tapahtumat.hel.fi', text: 'tapahtumat.hel.fi' },
     ],
