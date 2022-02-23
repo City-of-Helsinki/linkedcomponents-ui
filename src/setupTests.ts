@@ -12,11 +12,18 @@ window.scrollTo = jest.fn();
 
 const originalWarn = console.warn.bind(console.warn);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-console.warn = (msg: any, ...optionalParams: any[]) =>
-  !msg
-    .toString()
-    .includes(
+console.warn = (msg: any, ...optionalParams: any[]) => {
+  const msgStr = msg.toString();
+
+  return (
+    !msgStr.includes(
       'Using ReactElement as a label is against good usability and accessibility practices.'
-    ) && originalWarn(msg, ...optionalParams);
+    ) &&
+    !msgStr.match(
+      /Could not find the stylesheet to update with the ".*" selector!/i
+    ) &&
+    originalWarn(msg, ...optionalParams)
+  );
+};
 
 jest.setTimeout(1000000);

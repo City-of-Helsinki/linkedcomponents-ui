@@ -16,10 +16,16 @@ import {
 import useLocale from '../../../../hooks/useLocale';
 import FieldColumn from '../../../app/layout/FieldColumn';
 import FieldRow from '../../../app/layout/FieldRow';
-import { EVENT_FIELDS } from '../../constants';
+import {
+  EVENT_FIELDS,
+  EVENT_TYPE,
+  PUBLICATION_LIST_LINKS,
+} from '../../constants';
+import styles from '../../eventPage.module.scss';
 import useEventTypeOptions from '../../hooks/useEventTypeOptions';
 import { EventTime, RecurringEventSettings } from '../../types';
 import { getEventFields } from '../../utils';
+import PublicationListLinks from './PublicationListLinks';
 
 export interface TypeSectionProps {
   savedEvent?: EventFieldsFragment;
@@ -46,7 +52,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
   const locale = useLocale();
   const typeOptions = useEventTypeOptions();
 
-  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: type }] = useField<EVENT_TYPE>({ name: EVENT_FIELDS.TYPE });
   const [{ value: hasUmbrella }] = useField({
     name: EVENT_FIELDS.HAS_UMBRELLA,
   });
@@ -125,13 +131,23 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
       <h3>{t('event.form.titleEventType')}</h3>
       <FieldRow
         notification={
-          <Notification
-            label={t('event.form.notificationTitleType')}
-            type="info"
-          >
-            <p>{t('event.form.infoTextType1')}</p>
-            <p>{t('event.form.infoTextType2')}</p>
-          </Notification>
+          <>
+            <Notification
+              label={t('event.form.notificationTitleType')}
+              type="info"
+            >
+              <p>{t('event.form.infoTextType1')}</p>
+              <p>{t('event.form.infoTextType2')}</p>
+            </Notification>
+            <Notification
+              className={styles.secondNotification}
+              label={t('event.form.notificationTitlePublication')}
+              type="info"
+            >
+              <p>{t('event.form.infoTextPublication')}</p>
+              <PublicationListLinks links={PUBLICATION_LIST_LINKS[type]} />
+            </Notification>
+          </>
         }
       >
         <FieldColumn>

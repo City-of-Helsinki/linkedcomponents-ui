@@ -1,4 +1,3 @@
-import { css } from '@emotion/css';
 import classNames from 'classnames';
 import { Select, SingleSelectProps } from 'hds-react';
 import React from 'react';

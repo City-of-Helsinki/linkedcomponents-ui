@@ -542,6 +542,7 @@
         "general": "Ange namnet på organisationen som är värd för evenemanget om arrangören inte är densamma som utgivaren.",
         "volunteering": "Ange namnet på organisationen som är värd för volontärarbetet om arrangören inte är densamma som utgivaren."
       },
+      "infoTextPublication": "Evenemangtypen du valde kommer att publiceras på följande kanaler:",
       "infoTextPublisher": {
         "course": "Välj den organisation som ska visas som kurssutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
         "general": "Välj den organisation som ska visas som evenemangsutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
@@ -704,6 +705,7 @@
         "general": "Arrangör av evenemang",
         "volunteering": "Arrangör av volontärarbete"
       },
+      "notificationTitlePublication": "Offentliggörande",
       "notificationTitlePublisher": {
         "course": "Kursutgivare",
         "general": "Evenemangsutgivare",

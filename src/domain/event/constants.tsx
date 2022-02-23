@@ -14,6 +14,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import { EVENT_LIST_INCLUDES, EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
 import { DEFAULT_LICENSE_TYPE } from '../image/constants';
+import { PublicationListLink } from './formSections/typeSection/PublicationListLinks';
 import {
   AddImageSettings,
   EventFormFields,
@@ -324,3 +325,19 @@ export const AUDIENCE_ORDER = [
 ];
 
 export const TEST_EVENT_ID = 'helmet:222453';
+
+export const PUBLICATION_LIST_LINKS: Record<EVENT_TYPE, PublicationListLink[]> =
+  {
+    [EVENT_TYPE.Course]: [
+      { href: 'https://tapahtumat.hel.fi', text: 'tapahtumat.hel.fi' },
+    ],
+    [EVENT_TYPE.General]: [
+      { href: 'https://tapahtumat.hel.fi', text: 'tapahtumat.hel.fi' },
+    ],
+    [EVENT_TYPE.Volunteering]: [
+      {
+        href: 'https://vapaaehtoistoiminta.hel.fi',
+        text: 'vapaaehtoistoiminta.hel.fi',
+      },
+    ],
+  };

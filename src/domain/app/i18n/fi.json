@@ -542,6 +542,7 @@
         "general": "Kirjoita tähän tapahtuman järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija.",
         "volunteering": "Kirjoita tähän vapaaehtoistehtävän järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija."
       },
+      "infoTextPublication": "Valitsemasi tapahtumatyyppi julkaistaan seuraavissa kanavissa:",
       "infoTextPublisher": {
         "course": "Valitse organisaatio, joka näytetään kurssin julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet.",
         "general": "Valitse organisaatio, joka näytetään tapahtuman julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet.",
@@ -704,6 +705,7 @@
         "general": "Tapahtuman järjestäjä",
         "volunteering": "Vapaaehtoistehtävän järjestäjä"
       },
+      "notificationTitlePublication": "Julkaisu",
       "notificationTitlePublisher": {
         "course": "Kurssin julkaisija",
         "general": "Tapahtuman julkaisija",

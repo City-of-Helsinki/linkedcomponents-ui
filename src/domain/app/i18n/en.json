@@ -542,6 +542,7 @@
         "general": "Enter the name of the organization hosting the event if the organizer is not the same as the publisher.",
         "volunteering": "Enter the name of the organization hosting the volunteering if the organizer is not the same as the publisher."
       },
+      "infoTextPublication": "The event type you selected will be published on the following channels:",
       "infoTextPublisher": {
         "course": "Select the organization to be displayed as the course publisher. You do not need to make a selection if you only have rights to publish under one organization.",
         "general": "Select the organization to be displayed as the event publisher. You do not need to make a selection if you only have rights to publish under one organization.",
@@ -704,6 +705,7 @@
         "general": "Event organizer",
         "volunteering": "Volunteering organizer"
       },
+      "notificationTitlePublication": "Publication",
       "notificationTitlePublisher": {
         "course": "Course publisher",
         "general": "Event publisher",
