@@ -57,7 +57,6 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           {...buttonProps}
           className={buttonPanelStyles.fullWidthOnMobile}
           disabled={buttonProps.disabled}
-          fullWidth={true}
           loading={saving === KEYWORD_SET_ACTIONS.UPDATE}
           type="submit"
         >

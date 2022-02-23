@@ -63,7 +63,6 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
           {...buttonProps}
           className={buttonPanelStyles.fullWidthOnMobile}
           disabled={buttonProps.disabled || disabled}
-          fullWidth={true}
           loading={saving}
           type="submit"
         >

@@ -91,7 +91,6 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
         <LoadingButton
           key="save"
           className={buttonPanelStyles.fullWidthOnMobile}
-          fullWidth={true}
           icon={<IconPen aria-hidden={true} />}
           loading={saving === ENROLMENT_ACTIONS.UPDATE}
           onClick={onSave}

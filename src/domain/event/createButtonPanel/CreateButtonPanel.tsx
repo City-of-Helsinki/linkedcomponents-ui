@@ -61,7 +61,6 @@ const CreateButtonPanel: React.FC<Props> = ({
           <LoadingButton
             key="create-draft"
             disabled={Boolean(createWarning)}
-            fullWidth={true}
             icon={<IconPen aria-hidden={true} />}
             loading={saving === PublicationStatus.Draft}
             onClick={onSaveDraft}
@@ -76,7 +75,6 @@ const CreateButtonPanel: React.FC<Props> = ({
           <LoadingButton
             key="publish"
             disabled={Boolean(publishWarning || saving)}
-            fullWidth={true}
             icon={<IconCheck aria-hidden={true} />}
             loading={saving === PublicationStatus.Public}
             title={publishWarning}
