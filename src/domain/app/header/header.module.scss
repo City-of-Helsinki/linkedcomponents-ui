@@ -57,6 +57,12 @@
     }
   }
 
+  .navigationItemLast {
+    @include medium-up {
+      margin-left: auto !important;
+    }
+  }
+
   .navigationItemLabel {
     display: flex;
     align-items: center;

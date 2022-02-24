@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 import classNames from 'classnames';
-import { IconSignout, Navigation } from 'hds-react';
+import { IconInfoCircle, IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -23,6 +23,8 @@ interface NoNavRowProps {
 }
 
 interface NavigationItem {
+  className?: string;
+  icon?: React.ReactElement;
   labelKey: string;
   url: ROUTES;
 }
@@ -75,13 +77,21 @@ const Header: React.FC = () => {
       labelKey: 'navigation.tabs.admin',
       url: ROUTES.ADMIN,
     },
-    { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
+    {
+      className: styles.navigationItemLast,
+      icon: <IconInfoCircle aria-hidden={true} />,
+      labelKey: 'navigation.tabs.help',
+      url: ROUTES.HELP,
+    },
   ].filter((i) => i) as NavigationItem[];
 
-  const navigationItems = NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
-    label: t(labelKey),
-    url: `/${locale}${url}`,
-  }));
+  const navigationItems = NAVIGATION_ITEMS.map(
+    ({ labelKey, url, ...rest }) => ({
+      label: t(labelKey),
+      url: `/${locale}${url}`,
+      ...rest,
+    })
+  );
 
   const handleSignIn = () => {
     signIn(`${location.pathname}${location.search}`);
@@ -166,7 +176,8 @@ const Header: React.FC = () => {
           <Navigation.Item
             key={index}
             active={isTabActive(item.url)}
-            className={styles.navigationItem}
+            className={classNames(styles.navigationItem, item.className)}
+            icon={item.icon}
             href={item.url}
             label={item.label}
             onClick={goToPage(item.url)}
