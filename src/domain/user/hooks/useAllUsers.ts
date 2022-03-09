@@ -2,33 +2,33 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import {
-  OrganizationFieldsFragment,
-  useOrganizationsQuery,
-} from '../../../generated/graphql';
+import { MAX_PAGE_SIZE } from '../../../constants';
+import { UserFieldsFragment, useUsersQuery } from '../../../generated/graphql';
 import useDebounce from '../../../hooks/useDebounce';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
-import { MAX_OGRANIZATIONS_PAGE_SIZE } from '../constants';
-import { organizationsPathBuilder } from '../utils';
+import { usersPathBuilder } from '../utils';
+import useUser from './useUser';
 
 type UseAllOrganizationsState = {
   loading: boolean;
-  organizations: OrganizationFieldsFragment[];
+  users: UserFieldsFragment[];
 };
 
-const useAllOrganizations = (): UseAllOrganizationsState => {
+const useAllUsers = (): UseAllOrganizationsState => {
   const { t } = useTranslation();
+  const { user } = useUser();
 
   const {
-    data: organizationsData,
+    data: usersData,
     fetchMore,
     loading,
-  } = useOrganizationsQuery({
+  } = useUsersQuery({
     notifyOnNetworkStatusChange: true,
+    skip: !user,
     variables: {
-      createPath: getPathBuilder(organizationsPathBuilder),
-      pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
+      createPath: getPathBuilder(usersPathBuilder),
+      pageSize: MAX_PAGE_SIZE,
     },
   });
 
@@ -46,21 +46,19 @@ const useAllOrganizations = (): UseAllOrganizationsState => {
   );
 
   React.useEffect(() => {
-    const page = organizationsData?.organizations.meta
-      ? getNextPage(organizationsData.organizations.meta)
+    const page = usersData?.users.meta
+      ? getNextPage(usersData.users.meta)
       : null;
 
     if (page) {
       handleLoadMore(page);
     }
-  }, [handleLoadMore, organizationsData]);
+  }, [handleLoadMore, usersData]);
 
   return {
     loading: debouncedLoading,
-    organizations:
-      (organizationsData?.organizations.data as OrganizationFieldsFragment[]) ||
-      [],
+    users: (usersData?.users.data as UserFieldsFragment[]) || [],
   };
 };
 
-export default useAllOrganizations;
+export default useAllUsers;

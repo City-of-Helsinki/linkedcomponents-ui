@@ -21,4 +21,9 @@ const mockedOrganizationResponse: MockedResponse = {
   newData: () => organizationResponse,
 };
 
-export { mockedOrganizationResponse, organizationId, organizationName };
+export {
+  mockedOrganizationResponse,
+  organization,
+  organizationId,
+  organizationName,
+};

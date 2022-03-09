@@ -21,6 +21,8 @@
     "noRightsUpdateKeywordLabel": "No permissions to edit keywords.",
     "noRightsUpdateKeywordSet": "You do not have permission to edit keyword sets.",
     "noRightsUpdateKeywordSetLabel": "No permissions to edit keyword sets.",
+    "noRightsUpdateOrganization": "You do not have permission to edit organizations.",
+    "noRightsUpdateOrganizationLabel": "No permissions to edit organizations.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
   },
@@ -100,7 +102,7 @@
       }
     },
     "edit": "Edit",
-    "errorLoadMode": "Failed to load more",
+    "errorLoadMore": "Failed to load more",
     "eventAmount": "{{count}} event",
     "eventAmount_plural": "{{count}} events",
     "feedback": {
@@ -223,6 +225,10 @@
   "editKeywordSetPage": {
     "pageTitle": "Edit keyword set",
     "title": "Edit keyword set"
+  },
+  "editOrganizationPage": {
+    "pageTitle": "Edit organization",
+    "title": "Edit organization"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1357,6 +1363,31 @@
   "notSigned": {
     "text": "You must be logged in to view this content. Log in or return to the home page."
   },
+  "organization": {
+    "affiliatedOrganizationsTableTitle": "Affiliated organizations",
+    "form": {
+      "buttonDelete": "Delete organization",
+      "labelAdminUsers": "Admin users",
+      "labelClassification": "Classification",
+      "labelDataSource": "Data source",
+      "labelDissolutionDate": "Dissolution date",
+      "labelFoundingDate": "Founding date",
+      "labelId": "ID",
+      "labelInternalType": "Internal type",
+      "labelName": "Name",
+      "labelOriginId": "Origin ID",
+      "labelParentOrganization": "Parent organization",
+      "labelRegularUsers": "Regular users",
+      "labelReplacedBy": "Replaced by",
+      "notificationTitleCannotEdit": "The organization set cannot be edited"
+    },
+    "internalType": {
+      "affiliated": "Affiliated organization",
+      "normal": "Normal organization"
+    },
+    "subOrganizationsTableCaption": "{{title}}, sorted by {{sort}}",
+    "subOrganizationsTableTitle": "Sub organizations"
+  },
   "organizationsPage": {
     "count": "{{count}} organization",
     "count_plural": "{{count}} organization",
@@ -1386,7 +1417,8 @@
       "parentOrganization": "Parent organization, ascending",
       "parentOrganizationDesc": "Parent organization, descending"
     },
-    "title": "Organizations"
+    "title": "Organizations",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this organization."
   },
   "registration": {
     "deleteRegistrationModal": {

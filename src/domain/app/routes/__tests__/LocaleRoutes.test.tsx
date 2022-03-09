@@ -32,6 +32,10 @@ import {
   mockedKeywordSetResponse,
 } from '../../../keywordSet/__mocks__/editKeywordSetPage';
 import {
+  mockedOrganizationResponse,
+  organizationId,
+} from '../../../organization/__mocks__/organization';
+import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../../registration/__mocks__/editRegistrationPage';
@@ -49,6 +53,7 @@ const mocks = [
   mockedEventsResponse,
   mockedKeywordResponse,
   mockedKeywordSetResponse,
+  mockedOrganizationResponse,
   mockedPlacesResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
@@ -238,6 +243,19 @@ it('should render organizations page', async () => {
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /organisaatiot/i });
   expect(history.location.pathname).toBe('/fi/admin/organizations');
+});
+
+it('should render edit organization page', async () => {
+  const id = organizationId;
+  const { history } = renderRoute(
+    `${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`
+  );
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /muokkaa organisaatiota/i });
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/organizations/edit/${id}`)
+  );
 });
 
 it('should route to default help page', async () => {

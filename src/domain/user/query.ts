@@ -23,4 +23,16 @@ export const QUERY_USER = gql`
       ...userFields
     }
   }
+
+  query Users($createPath: Any, $page: Int, $pageSize: Int) {
+    users(page: $page, pageSize: $pageSize)
+      @rest(type: "UsersResponse", pathBuilder: $createPath) {
+      meta {
+        ...metaFields
+      }
+      data {
+        ...userFields
+      }
+    }
+  }
 `;

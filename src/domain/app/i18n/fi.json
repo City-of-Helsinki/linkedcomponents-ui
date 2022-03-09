@@ -21,6 +21,8 @@
     "noRightsUpdateKeywordLabel": "Ei oikeuksia muokata avainsanoja.",
     "noRightsUpdateKeywordSet": "Sinulla ei ole oikeuksia muokata avainsanaryhmiä.",
     "noRightsUpdateKeywordSetLabel": "Ei oikeuksia muokata avainsanaryhmiä.",
+    "noRightsUpdateOrganization": "Sinulla ei ole oikeuksia muokata organisaatioita.",
+    "noRightsUpdateOrganizationLabel": "Ei oikeuksia muokata organisaatioita.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
   },
@@ -101,7 +103,7 @@
       }
     },
     "edit": "Muokkaa",
-    "errorLoadMode": "Lataaminen epäonnistui",
+    "errorLoadMore": "Lataaminen epäonnistui",
     "eventAmount": "{{count}} tapahtuma",
     "eventAmount_plural": "{{count}} tapahtumaa",
     "feedback": {
@@ -224,6 +226,10 @@
   "editKeywordSetPage": {
     "pageTitle": "Muokkaa avainsanaryhmää",
     "title": "Muokkaa avainsanaryhmää"
+  },
+  "editOrganizationPage": {
+    "pageTitle": "Muokkaa organisaatiota",
+    "title": "Muokkaa organisaatiota"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1357,6 +1363,31 @@
   "notSigned": {
     "text": "Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle."
   },
+  "organization": {
+    "affiliatedOrganizationsTableTitle": "Liiteorganisaatiot",
+    "form": {
+      "buttonDelete": "Poista organisaatio",
+      "labelAdminUsers": "Pääkäyttäjät",
+      "labelClassification": "Luokittelu",
+      "labelDataSource": "Datan lähde",
+      "labelDissolutionDate": "Lakkautuspäivä",
+      "labelFoundingDate": "Perustuspäivä",
+      "labelId": "ID",
+      "labelInternalType": "Sisäinen tyyppi",
+      "labelName": "Nimi",
+      "labelOriginId": "Lähdetunniste",
+      "labelParentOrganization": "Pääorganisaatio",
+      "labelRegularUsers": "Peruskäyttäjät",
+      "labelReplacedBy": "Korvaava organisaatio",
+      "notificationTitleCannotEdit": "Organisaatiota ei voi muokata"
+    },
+    "internalType": {
+      "affiliated": "Liitännäisorganisaatio",
+      "normal": "Normaali organisaatio"
+    },
+    "subOrganizationsTableCaption": "{{title}}, järjestys {{sort}}",
+    "subOrganizationsTableTitle": "Aliorganisaatiot"
+  },
   "organizationsPage": {
     "count": "{{count}} organisaatio",
     "count_plural": "{{count}} organisaatiota",
@@ -1386,7 +1417,8 @@
       "parentOrganization": "Pääorganisaatio, nouseva",
       "parentOrganizationDesc": "Pääorganisaatio, laskeva"
     },
-    "title": "Organisaatiot"
+    "title": "Organisaatiot",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä organisaatiota."
   },
   "registration": {
     "deleteRegistrationModal": {

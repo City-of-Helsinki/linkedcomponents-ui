@@ -596,6 +596,7 @@ export type Query = {
   registration: Registration;
   registrations: RegistrationsResponse;
   user: User;
+  users: UsersResponse;
 };
 
 
@@ -743,6 +744,12 @@ export type QueryRegistrationsArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryUsersArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
 };
 
 export type Registration = {
@@ -896,6 +903,12 @@ export type User = {
   organizationMemberships: Array<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
   uuid?: Maybe<Scalars['String']>;
+};
+
+export type UsersResponse = {
+  __typename?: 'UsersResponse';
+  meta: Meta;
+  data: Array<Maybe<User>>;
 };
 
 export type Video = {
@@ -1298,6 +1311,15 @@ export type UserQueryVariables = Exact<{
 
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null | undefined, departmentName?: string | null | undefined, displayName?: string | null | undefined, email?: string | null | undefined, firstName?: string | null | undefined, isStaff?: boolean | null | undefined, lastLogin?: string | null | undefined, lastName?: string | null | undefined, organization?: string | null | undefined, organizationMemberships: Array<string>, username?: string | null | undefined, uuid?: string | null | undefined } };
+
+export type UsersQueryVariables = Exact<{
+  createPath?: InputMaybe<Scalars['Any']>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null | undefined, departmentName?: string | null | undefined, displayName?: string | null | undefined, email?: string | null | undefined, firstName?: string | null | undefined, isStaff?: boolean | null | undefined, lastLogin?: string | null | undefined, lastName?: string | null | undefined, organization?: string | null | undefined, organizationMemberships: Array<string>, username?: string | null | undefined, uuid?: string | null | undefined } | null | undefined> } };
 
 export const LocalisedFieldsFragmentDoc = gql`
     fragment localisedFields on LocalisedObject {
@@ -3133,3 +3155,46 @@ export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQ
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
+export const UsersDocument = gql`
+    query Users($createPath: Any, $page: Int, $pageSize: Int) {
+  users(page: $page, pageSize: $pageSize) @rest(type: "UsersResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...userFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${UserFieldsFragmentDoc}`;
+
+/**
+ * __useUsersQuery__
+ *
+ * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsersQuery({
+ *   variables: {
+ *      createPath: // value for 'createPath'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *   },
+ * });
+ */
+export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+      }
+export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+        }
+export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
+export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
+export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;

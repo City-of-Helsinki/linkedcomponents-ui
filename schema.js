@@ -127,6 +127,7 @@ module.exports = buildSchema(/* GraphQL */ `
       text: String
     ): RegistrationsResponse!
     user(id: ID!): User!
+    users(page: Int, pageSize: Int): UsersResponse!
   }
 
   enum AttendeeStatus {
@@ -410,6 +411,11 @@ module.exports = buildSchema(/* GraphQL */ `
   type PlacesResponse {
     meta: Meta!
     data: [Place]!
+  }
+
+  type UsersResponse {
+    meta: Meta!
+    data: [User]!
   }
 
   type Meta {

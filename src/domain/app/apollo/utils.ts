@@ -14,6 +14,7 @@ import {
   Place,
   Position,
   Registration,
+  User,
 } from '../../../generated/graphql';
 
 export const addTypenameDivision = (
@@ -196,5 +197,13 @@ export const addTypenameRegistration = (
             )
           : [],
         __typename: 'Registration',
+      }
+    : null;
+
+export const addTypenameUser = (user?: User | null): User | null =>
+  user
+    ? {
+        ...user,
+        __typename: 'User',
       }
     : null;

@@ -1,6 +1,7 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { MAX_PAGE_SIZE, ROUTES } from '../../constants';
 import {
   OrganizationDocument,
@@ -12,10 +13,17 @@ import {
   OrganizationsQueryVariables,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { Language, PathBuilderProps } from '../../types';
+import { Editability, Language, PathBuilderProps } from '../../types';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
-import { OrganizationFields } from './types';
+import {
+  AUTHENTICATION_NOT_NEEDED,
+  ORGANIZATION_ACTION_ICONS,
+  ORGANIZATION_ACTION_LABEL_KEYS,
+  ORGANIZATION_ACTIONS,
+  ORGANIZATION_INTERNAL_TYPE,
+} from './constants';
+import { OrganizationFields, OrganizationFormFields } from './types';
 
 export const organizationPathBuilder = ({
   args,
@@ -63,12 +71,17 @@ export const getOrganizationFields = (
 
   return {
     affiliatedOrganizations: organization.affiliatedOrganizations as string[],
+    atId: organization.atId ?? '',
     classification: organization.classification ?? '',
     dataSource: organization.dataSource ?? '',
+    foundingDate: organization.foundingDate
+      ? new Date(organization.foundingDate)
+      : null,
     fullName: getOrganizationFullName(organization, t),
     id: organization.id ?? '',
     name: organization.name ?? '',
     organizationUrl: `/${locale}${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`,
+    originId: id.split(':')[1] ?? '',
     parentOrganization: organization.parentOrganization ?? null,
     subOrganizations: organization.subOrganizations as string[],
   };
@@ -149,4 +162,155 @@ export const getOrganizationAncestorsQueryResult = async (
   } catch (e) {
     return [];
   }
+};
+
+export const checkCanUserDoAction = ({
+  action,
+  id,
+  organizationAncestors,
+  user,
+}: {
+  action: ORGANIZATION_ACTIONS;
+  id: string;
+  organizationAncestors: OrganizationFieldsFragment[];
+  user?: UserFieldsFragment;
+}): boolean => {
+  /* istanbul ignore next */
+  const isAdminUser = isAdminUserInOrganization({
+    id,
+    organizationAncestors,
+    user,
+  });
+  const adminOrganizations = user?.adminOrganizations || [];
+
+  switch (action) {
+    case ORGANIZATION_ACTIONS.EDIT:
+      return true;
+    case ORGANIZATION_ACTIONS.CREATE:
+      return !!adminOrganizations.length;
+    case ORGANIZATION_ACTIONS.DELETE:
+    case ORGANIZATION_ACTIONS.UPDATE:
+      return isAdminUser;
+  }
+};
+
+export const getEditOrganizationWarning = ({
+  action,
+  authenticated,
+  t,
+  userCanDoAction,
+}: {
+  action: ORGANIZATION_ACTIONS;
+  authenticated: boolean;
+  t: TFunction;
+  userCanDoAction: boolean;
+}): string => {
+  if (AUTHENTICATION_NOT_NEEDED.includes(action)) {
+    return '';
+  }
+
+  if (!authenticated) {
+    return t('authentication.noRightsUpdateOrganization');
+  }
+
+  if (!userCanDoAction) {
+    return t('organizationsPage.warningNoRightsToEdit');
+  }
+
+  return '';
+};
+
+export const checkIsEditActionAllowed = ({
+  action,
+  authenticated,
+  id,
+  organizationAncestors,
+  t,
+  user,
+}: {
+  action: ORGANIZATION_ACTIONS;
+  authenticated: boolean;
+  id: string;
+  organizationAncestors: OrganizationFieldsFragment[];
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): Editability => {
+  const userCanDoAction = checkCanUserDoAction({
+    action,
+    id,
+    organizationAncestors,
+    user,
+  });
+
+  const warning = getEditOrganizationWarning({
+    action,
+    authenticated,
+    t,
+    userCanDoAction,
+  });
+
+  return { editable: !warning, warning };
+};
+
+export const getEditButtonProps = ({
+  action,
+  authenticated,
+  id,
+  onClick,
+  organizationAncestors,
+  t,
+  user,
+}: {
+  action: ORGANIZATION_ACTIONS;
+  authenticated: boolean;
+  id: string;
+  onClick: () => void;
+  organizationAncestors: OrganizationFieldsFragment[];
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): MenuItemOptionProps => {
+  const { editable, warning } = checkIsEditActionAllowed({
+    action,
+    authenticated,
+    id,
+    organizationAncestors,
+    t,
+    user,
+  });
+
+  return {
+    disabled: !editable,
+    icon: ORGANIZATION_ACTION_ICONS[action],
+    label: t(ORGANIZATION_ACTION_LABEL_KEYS[action]),
+    onClick,
+    title: warning,
+  };
+};
+
+export const getOrganizationInitialValues = (
+  organization: OrganizationFieldsFragment
+): OrganizationFormFields => {
+  const id = organization.id ?? '';
+  const { dissolutionDate, foundingDate } = organization;
+  return {
+    // TODO: Initialize admin users
+    adminUsers: [],
+    affiliatedOrganizations:
+      (organization.affiliatedOrganizations as string[]) ?? [],
+    classification: organization.classification ?? '',
+    dataSource: organization.dataSource ?? '',
+    dissolutionDate: dissolutionDate ? new Date(dissolutionDate) : null,
+    foundingDate: foundingDate ? new Date(foundingDate) : null,
+    id,
+    internalType: organization.isAffiliated
+      ? ORGANIZATION_INTERNAL_TYPE.AFFILIATED
+      : ORGANIZATION_INTERNAL_TYPE.NORMAL,
+    name: organization.name ?? '',
+    originId: id.split(':')[1] ?? '',
+    parentOrganization: organization.parentOrganization ?? '',
+    // TODO: Initialize regular users
+    regularUsers: [],
+    replacedBy: '',
+    subOrganizations: (organization.subOrganizations as string[]) ?? [],
+  };
 };
