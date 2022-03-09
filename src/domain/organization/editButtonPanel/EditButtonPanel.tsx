@@ -8,21 +8,19 @@ import LoadingButton from '../../../common/components/loadingButton/LoadingButto
 import { ROUTES } from '../../../constants';
 import useGoBack from '../../../hooks/useGoBack';
 import { authenticatedSelector } from '../../auth/selectors';
-import { KeywordSetsLocationState } from '../../keywordSets/types';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { OrganizationsLocationState } from '../../organizations/types';
 import useUser from '../../user/hooks/useUser';
-import useUserOrganization from '../../user/hooks/useUserOrganization';
-import { KEYWORD_SET_ACTIONS } from '../constants';
+import { ORGANIZATION_ACTIONS } from '../constants';
 import { getEditButtonProps } from '../utils';
 
 export interface EditButtonPanelProps {
-  dataSource: string;
   id: string;
   onSave: () => void;
-  saving: KEYWORD_SET_ACTIONS | null;
+  saving: ORGANIZATION_ACTIONS | null;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
-  dataSource,
   id,
   onSave,
   saving,
@@ -32,20 +30,21 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
 
-  const { organization: userOrganization } = useUserOrganization(user);
+  const { organizationAncestors } = useOrganizationAncestors(id);
 
-  const goBack = useGoBack<KeywordSetsLocationState>({
-    defaultReturnPath: ROUTES.KEYWORD_SETS,
-    state: { keywordSetId: id },
+  const goBack = useGoBack<OrganizationsLocationState>({
+    defaultReturnPath: ROUTES.ORGANIZATIONS,
+    state: { organizationId: id },
   });
 
   const buttonProps = getEditButtonProps({
-    action: KEYWORD_SET_ACTIONS.UPDATE,
+    action: ORGANIZATION_ACTIONS.UPDATE,
     authenticated,
-    dataSource,
+    id,
     onClick: onSave,
+    organizationAncestors,
     t,
-    userOrganization,
+    user,
   });
 
   return (
@@ -57,7 +56,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           {...buttonProps}
           className={buttonPanelStyles.fullWidthOnMobile}
           disabled={buttonProps.disabled}
-          loading={saving === KEYWORD_SET_ACTIONS.UPDATE}
+          loading={saving === ORGANIZATION_ACTIONS.UPDATE}
           type="submit"
         >
           {buttonProps.label}

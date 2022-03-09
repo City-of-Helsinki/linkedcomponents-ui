@@ -1,8 +1,8 @@
 @import 'breakpoints';
 
 .formRow {
-  --border-width: 1px;
-  --border-color: var(--color-black-20);
+  --form-row-border-width: 1px;
+  --form-row-border-color: var(--color-black-20);
 
   display: grid;
   grid-gap: var(--spacing-s);
@@ -21,5 +21,5 @@
 }
 
 .withBorder {
-  border-bottom: var(--border-width) solid var(--border-color);
+  border-bottom: var(--form-row-border-width) solid var(--form-row-border-color);
 }

@@ -36,6 +36,7 @@ import {
   Registration,
   RegistrationsResponse,
   User,
+  UsersResponse,
   Video,
 } from '../generated/graphql';
 import generateAtId from './generateAtId';
@@ -289,7 +290,7 @@ export const fakeOrganization = (
       createdTime: null,
       dataSource: faker.datatype.uuid(),
       dissolutionDate: null,
-      foundingDate: null,
+      foundingDate: '2021-01-01',
       hasRegularUsers: false,
       isAffiliated: false,
       lastModifiedTime: null,
@@ -386,6 +387,15 @@ export const fakeRegistration = (
     overrides
   );
 };
+
+export const fakeUsers = (
+  count = 1,
+  users?: Partial<User>[]
+): UsersResponse => ({
+  data: generateNodeArray((i) => fakeUser(users?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'UsersResponse',
+});
 
 export const fakeUser = (overrides?: Partial<User>): User => {
   return merge<User, typeof overrides>(

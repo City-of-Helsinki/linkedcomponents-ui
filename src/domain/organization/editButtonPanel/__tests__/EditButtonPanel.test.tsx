@@ -9,10 +9,11 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
-import { TEST_DATA_SOURCE } from '../../../organization/constants';
+import {
+  mockedOrganizationResponse,
+  organizationId,
+} from '../../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import { keywordSet } from '../../__mocks__/editKeywordSetPage';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
@@ -23,13 +24,12 @@ const state = fakeAuthenticatedStoreState();
 const defaultStore = getMockReduxStore(state);
 
 const defaultProps: EditButtonPanelProps = {
-  dataSource: TEST_DATA_SOURCE,
-  id: keywordSet.id,
+  id: organizationId,
   onSave: jest.fn(),
   saving: null,
 };
 
-const route = `/fi/${ROUTES.EDIT_KEYWORD_SET.replace(':id', keywordSet.id)}`;
+const route = `/fi/${ROUTES.EDIT_ORGANIZATION.replace(':id', organizationId)}`;
 
 const renderComponent = (
   props?: Partial<EditButtonPanelProps>,
@@ -57,13 +57,13 @@ const getElement = (key: 'backButton' | 'saveButton') => {
   }
 };
 
-test('should route to keyword sets page when clicking back button', async () => {
+test('should route to organizations page when clicking back button', async () => {
   const { history } = renderComponent();
 
   userEvent.click(getElement('backButton'));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
+    expect(history.location.pathname).toBe(`/fi/admin/organizations`)
   );
 });
 

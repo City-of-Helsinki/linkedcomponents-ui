@@ -21,6 +21,8 @@
     "noRightsUpdateKeywordLabel": "Inga rättigheter att redigera nyckelord",
     "noRightsUpdateKeywordSet": "Du har inte behörighet att redigera nyckelordsuppsättningar.",
     "noRightsUpdateKeywordSetLabel": "Inga rättigheter att redigera nyckelordsuppsättningar",
+    "noRightsUpdateOrganization": "Du har inte behörighet att redigera organisationer.",
+    "noRightsUpdateOrganizationLabel": "Inga rättigheter att redigera organisationer",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
     "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
   },
@@ -101,7 +103,7 @@
       }
     },
     "edit": "Redigera",
-    "errorLoadMode": "Det gick inte att ladda fler",
+    "errorLoadMore": "Det gick inte att ladda fler",
     "eventAmount": "{{count}} evenemang",
     "eventAmount_plural": "{{count}} evenemang",
     "feedback": {
@@ -224,6 +226,10 @@
   "editKeywordSetPage": {
     "pageTitle": "Redigera nyckelordsuppsättningen",
     "title": "Redigera nyckelordsuppsättningen"
+  },
+  "editOrganizationPage": {
+    "pageTitle": "Redigera organisation",
+    "title": "Redigera organisation"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1192,7 +1198,7 @@
       "title": "Bekräfta raderingen av nyckelordet"
     },
     "form": {
-      "buttonDelete": "Ta bort nyckelord",
+      "buttonDelete": "Radera nyckelord",
       "labelDataSource": "Datakälla",
       "labelDeprecated": "Utfasad",
       "labelId": "ID",
@@ -1357,6 +1363,31 @@
   "notSigned": {
     "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
   },
+  "organization": {
+    "affiliatedOrganizationsTableTitle": "Anslutna organisationer",
+    "form": {
+      "buttonDelete": "Radera organisation",
+      "labelAdminUsers": "Adminanvändare",
+      "labelClassification": "Klassificering",
+      "labelDataSource": "Datakälla",
+      "labelDissolutionDate": "Upplösningsdatum",
+      "labelFoundingDate": "Grundningsdatum",
+      "labelId": "ID",
+      "labelInternalType": "Intern typ",
+      "labelName": "Namn",
+      "labelOriginId": "Ursprungs-ID",
+      "labelParentOrganization": "Föräldraorganisation",
+      "labelRegularUsers": "Regelbundna användare",
+      "labelReplacedBy": "Ersatt av",
+      "notificationTitleCannotEdit": "Organisation kan inte redigeras"
+    },
+    "internalType": {
+      "affiliated": "Ansluten organisation",
+      "normal": "Normal organisation"
+    },
+    "subOrganizationsTableCaption": "{{title}}, sorterade efter {{sort}}",
+    "subOrganizationsTableTitle": "Underorganisationer"
+  },
   "organizationsPage": {
     "count": "{{count}} organisation",
     "count_plural": "{{count}} organisationer",
@@ -1386,7 +1417,8 @@
       "parentOrganization": "Föräldraorganisation, ascending",
       "parentOrganizationDesc": "Föräldraorganisation, descending"
     },
-    "title": "Organisationer"
+    "title": "Organisationer",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här organisation."
   },
   "registration": {
     "deleteRegistrationModal": {

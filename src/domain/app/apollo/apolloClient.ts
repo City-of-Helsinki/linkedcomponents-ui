@@ -33,6 +33,8 @@ import {
   Registration,
   RegistrationsResponse,
   UploadImageMutationInput,
+  User,
+  UsersResponse,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
 import generateAtId from '../../../utils/generateAtId';
@@ -50,6 +52,7 @@ import {
   addTypenameOrganization,
   addTypenamePlace,
   addTypenameRegistration,
+  addTypenameUser,
 } from './utils';
 
 // This serializer is needed to send image upload data to API as multipart/form-data content.
@@ -167,6 +170,13 @@ export const createCache = (): InMemoryCache =>
             },
           },
           place: fieldFunction('Place', 'place'),
+          users: {
+            keyArgs: (args) =>
+              args ? Object.keys(args).filter((arg) => arg !== 'page') : [],
+            merge(existing, incoming, options) {
+              return mergeCache(existing, incoming, options);
+            },
+          },
         },
       },
       Registration: {
@@ -177,6 +187,7 @@ export const createCache = (): InMemoryCache =>
           },
         },
       },
+      User: { keyFields: ['username'] },
     },
   });
 
@@ -309,6 +320,13 @@ const linkedEventsLink = new RestLink({
       data.data = data.data.map((registration) =>
         addTypenameRegistration(registration)
       );
+
+      return data;
+    },
+    User: (user: User): User | null => addTypenameUser(user),
+    UsersResponse: (data: UsersResponse): UsersResponse => {
+      data.meta = addTypenameMeta(data.meta);
+      data.data = data.data.map((user) => addTypenameUser(user));
 
       return data;
     },

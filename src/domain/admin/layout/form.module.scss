@@ -4,8 +4,8 @@
 .alignedInput,
 .alignedSelect,
 .alignedInputWithFullBorder {
-  --border-width: 1px;
-  --border-color: var(--color-black-20);
+  --form-row-border-width: 1px;
+  --form-row-border-color: var(--color-black-20);
 
   label {
     @include medium-up {
@@ -13,7 +13,8 @@
       min-height: var(--input-height);
       align-items: center;
       display: flex;
-      border-bottom: var(--border-width) solid var(--border-color);
+      border-bottom: var(--form-row-border-width) solid
+        var(--form-row-border-color);
       margin-right: var(--spacing-xs);
 
       @include min-width-column(2);
@@ -38,12 +39,13 @@
       border-bottom: none;
     }
 
-    border-bottom: var(--border-width) solid var(--border-color);
+    border-bottom: var(--form-row-border-width) solid
+      var(--form-row-border-color);
   }
 }
 
 .borderInMobile {
-  border-bottom: var(--border-width) solid var(--border-color);
+  border-bottom: var(--form-row-border-width) solid var(--form-row-border-color);
 
   @include medium-up {
     border-bottom: none;
