@@ -1,8 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router';
-import { toast } from 'react-toastify';
+import { useHistory, useLocation, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
@@ -21,6 +20,10 @@ import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from './constants';
 import useOrganizationAncestors from './hooks/useOrganizationAncestors';
+import useOrganizationUpdateActions, {
+  ORGANIZATION_MODALS,
+} from './hooks/useOrganizationUpdateActions';
+import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
 import OrganizationForm from './organizationForm/OrganizationForm';
 import {
   getEditButtonProps,
@@ -35,16 +38,32 @@ type Props = {
 const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
   const { t } = useTranslation();
   const locale = useLocale();
+  const history = useHistory();
   const { id } = getOrganizationFields(organization, locale, t);
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const { organizationAncestors } = useOrganizationAncestors(id);
 
+  const { closeModal, deleteOrganization, openModal, setOpenModal, saving } =
+    useOrganizationUpdateActions({
+      organization,
+    });
+
+  const goToOrganizationsPage = () => {
+    history.push(`/${locale}${ROUTES.ORGANIZATIONS}`);
+  };
+
+  const onDelete = () => {
+    deleteOrganization({
+      onSuccess: () => goToOrganizationsPage(),
+    });
+  };
+
   const buttonProps = getEditButtonProps({
     action: ORGANIZATION_ACTIONS.DELETE,
     authenticated,
     id,
-    onClick: () => toast.error('TODO: Delete organization'),
+    onClick: () => setOpenModal(ORGANIZATION_MODALS.DELETE),
     organizationAncestors,
     t,
     user,
@@ -52,6 +71,12 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
 
   return (
     <div>
+      <ConfirmDeleteModal
+        isOpen={openModal === ORGANIZATION_MODALS.DELETE}
+        isSaving={saving === ORGANIZATION_ACTIONS.DELETE}
+        onClose={closeModal}
+        onDelete={onDelete}
+      />
       <TitleRow
         button={
           <Button

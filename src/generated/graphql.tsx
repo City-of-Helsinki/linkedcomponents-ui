@@ -361,6 +361,7 @@ export type Mutation = {
   deleteEvent?: Maybe<NoContent>;
   deleteKeyword?: Maybe<NoContent>;
   deleteKeywordSet?: Maybe<NoContent>;
+  deleteOrganization?: Maybe<NoContent>;
   deleteRegistration?: Maybe<NoContent>;
   postFeedback?: Maybe<Feedback>;
   postGuestFeedback?: Maybe<Feedback>;
@@ -421,6 +422,11 @@ export type MutationDeleteKeywordArgs = {
 
 
 export type MutationDeleteKeywordSetArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteOrganizationArgs = {
   id: Scalars['ID'];
 };
 
@@ -1207,6 +1213,13 @@ export type LanguagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LanguagesQuery = { __typename?: 'Query', languages: { __typename?: 'LanguagesResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'Language', id?: string | null | undefined, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> } };
+
+export type DeleteOrganizationMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteOrganizationMutation = { __typename?: 'Mutation', deleteOrganization?: { __typename?: 'NoContent', noContent?: boolean | null | undefined } | null | undefined };
 
 export type OrganizationFieldsFragment = { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null | undefined> | null | undefined, atId: string, classification?: string | null | undefined, createdTime?: string | null | undefined, dataSource?: string | null | undefined, dissolutionDate?: string | null | undefined, foundingDate?: string | null | undefined, hasRegularUsers?: boolean | null | undefined, id?: string | null | undefined, isAffiliated?: boolean | null | undefined, lastModifiedTime?: string | null | undefined, name?: string | null | undefined, parentOrganization?: string | null | undefined, replacedBy?: string | null | undefined, subOrganizations?: Array<string | null | undefined> | null | undefined };
 
@@ -2756,6 +2769,39 @@ export function useLanguagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type LanguagesQueryHookResult = ReturnType<typeof useLanguagesQuery>;
 export type LanguagesLazyQueryHookResult = ReturnType<typeof useLanguagesLazyQuery>;
 export type LanguagesQueryResult = Apollo.QueryResult<LanguagesQuery, LanguagesQueryVariables>;
+export const DeleteOrganizationDocument = gql`
+    mutation DeleteOrganization($id: ID!) {
+  deleteOrganization(id: $id) @rest(type: "NoContent", path: "/organization/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteOrganizationMutationFn = Apollo.MutationFunction<DeleteOrganizationMutation, DeleteOrganizationMutationVariables>;
+
+/**
+ * __useDeleteOrganizationMutation__
+ *
+ * To run a mutation, you first call `useDeleteOrganizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteOrganizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteOrganizationMutation, { data, loading, error }] = useDeleteOrganizationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteOrganizationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteOrganizationMutation, DeleteOrganizationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteOrganizationMutation, DeleteOrganizationMutationVariables>(DeleteOrganizationDocument, options);
+      }
+export type DeleteOrganizationMutationHookResult = ReturnType<typeof useDeleteOrganizationMutation>;
+export type DeleteOrganizationMutationResult = Apollo.MutationResult<DeleteOrganizationMutation>;
+export type DeleteOrganizationMutationOptions = Apollo.BaseMutationOptions<DeleteOrganizationMutation, DeleteOrganizationMutationVariables>;
 export const OrganizationDocument = gql`
     query Organization($id: ID!, $createPath: Any) {
   organization(id: $id) @rest(type: "Organization", pathBuilder: $createPath) {

@@ -1365,6 +1365,11 @@
   },
   "organization": {
     "affiliatedOrganizationsTableTitle": "Liiteorganisaatiot",
+    "deleteOrganizationModal": {
+      "buttonDelete": "Poista organisaatio",
+      "text": "Tämä toiminto poistaa organisaation lopullisesti.",
+      "title": "Varmista organisaation poistaminen"
+    },
     "form": {
       "buttonDelete": "Poista organisaatio",
       "labelAdminUsers": "Pääkäyttäjät",

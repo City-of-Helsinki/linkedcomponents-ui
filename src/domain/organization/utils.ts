@@ -314,3 +314,22 @@ export const getOrganizationInitialValues = (
     subOrganizations: (organization.subOrganizations as string[]) ?? [],
   };
 };
+
+/* istanbul ignore next */
+export const clearOrganizationQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>,
+  args?: OrganizationQueryVariables
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'organization',
+    args,
+  });
+
+export const clearOrganizationsQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'organizations',
+  });

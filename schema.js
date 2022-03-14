@@ -16,6 +16,7 @@ module.exports = buildSchema(/* GraphQL */ `
     deleteEvent(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
     deleteKeywordSet(id: ID!): NoContent
+    deleteOrganization(id: ID!): NoContent
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback

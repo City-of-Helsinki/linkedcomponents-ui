@@ -12,6 +12,7 @@ import useUser from './useUser';
 
 type UseAllOrganizationsState = {
   loading: boolean;
+  user: UserFieldsFragment | undefined;
   users: UserFieldsFragment[];
 };
 
@@ -57,6 +58,7 @@ const useAllUsers = (): UseAllOrganizationsState => {
 
   return {
     loading: debouncedLoading,
+    user,
     users: (usersData?.users.data as UserFieldsFragment[]) || [],
   };
 };

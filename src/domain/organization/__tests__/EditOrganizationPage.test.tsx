@@ -11,6 +11,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import {
   mockedOrganizationResponse,
@@ -25,6 +26,7 @@ import {
   mockedUsersResponse,
   userNames,
 } from '../../user/__mocks__/user';
+import { mockedDeleteOrganizationResponse } from '../__mocks__/editOrganizationPage';
 import EditOrganizationPage from '../EditOrganizationPage';
 
 configure({ defaultHidden: true });
@@ -82,14 +84,24 @@ test('should scroll to first validation error input field', async () => {
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
 
-test('should call toast error when trying to delete organization', async () => {
-  toast.error = jest.fn();
-  renderComponent();
+test('should delete organization', async () => {
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedDeleteOrganizationResponse,
+  ]);
 
   const deleteButton = await findElement('deleteButton');
   act(() => userEvent.click(deleteButton));
 
-  expect(toast.error).toBeCalledWith('TODO: Delete organization');
+  const withinModal = within(screen.getByRole('dialog'));
+  const deleteOrganizationButton = withinModal.getByRole('button', {
+    name: 'Poista organisaatio',
+  });
+  userEvent.click(deleteOrganizationButton);
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/organizations`)
+  );
 });
 
 test('should call toast error when trying to update organization', async () => {

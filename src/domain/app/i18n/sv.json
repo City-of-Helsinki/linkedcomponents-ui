@@ -1270,7 +1270,7 @@
     "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här nyckelordet."
   },
   "keywordSet": {
-    "deleteKeywordModal": {
+    "deleteKeywordSetModal": {
       "buttonDelete": "Radera nyckelordsuppsättning",
       "text": "Denna åtgärd tar bort nyckelorsuppsättningen permanent.",
       "title": "Bekräfta raderingen av nyckelorsuppsättningen"
@@ -1365,6 +1365,11 @@
   },
   "organization": {
     "affiliatedOrganizationsTableTitle": "Anslutna organisationer",
+    "deleteKeywordSetModal": {
+      "buttonDelete": "Radera organisation",
+      "text": "Denna åtgärd tar bort organisationen permanent.",
+      "title": "Bekräfta raderingen av organisationen"
+    },
     "form": {
       "buttonDelete": "Radera organisation",
       "labelAdminUsers": "Adminanvändare",
