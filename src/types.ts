@@ -74,3 +74,8 @@ export type UseServerErrorsState = {
   setServerErrorItems: (items: ServerErrorItem[]) => void;
   showServerErrors: (params: ShowServerErrorsFnParams) => void;
 };
+
+export type UpdateActionsCallbacks = {
+  onError?: (error: any) => void;
+  onSuccess?: () => void;
+};

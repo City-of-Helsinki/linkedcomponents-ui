@@ -7,24 +7,25 @@ import { useLocation } from 'react-router';
 
 import {
   OrganizationFieldsFragment,
-  UpdateKeywordSetMutationInput,
+  UpdateOrganizationMutationInput,
   useDeleteOrganizationMutation,
+  useUpdateOrganizationMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
+import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
-import { clearOrganizationQueries, clearOrganizationsQueries } from '../utils';
+import { OrganizationFormFields } from '../types';
+import {
+  clearOrganizationQueries,
+  clearOrganizationsQueries,
+  getOrganizationPayload,
+} from '../utils';
 
 export enum ORGANIZATION_MODALS {
   DELETE = 'delete',
-}
-
-interface Callbacks {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onError?: (error: any) => void;
-  onSuccess?: () => void;
 }
 
 interface Props {
@@ -33,11 +34,15 @@ interface Props {
 
 type UseKeywordUpdateActionsState = {
   closeModal: () => void;
-  deleteOrganization: (callbacks?: Callbacks) => Promise<void>;
+  deleteOrganization: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
   openModal: ORGANIZATION_MODALS | null;
   saving: ORGANIZATION_ACTIONS | null;
   setOpenModal: (modal: ORGANIZATION_MODALS | null) => void;
   setSaving: (action: ORGANIZATION_ACTIONS | null) => void;
+  updateOrganization: (
+    values: OrganizationFormFields,
+    callbacks?: UpdateActionsCallbacks
+  ) => Promise<void>;
 };
 
 const useOrganizationUpdateActions = ({
@@ -54,6 +59,7 @@ const useOrganizationUpdateActions = ({
   );
 
   const [deleteOrganizationMutation] = useDeleteOrganizationMutation();
+  const [updateOrganizationMutation] = useUpdateOrganizationMutation();
 
   const closeModal = () => {
     setOpenModal(null);
@@ -63,7 +69,7 @@ const useOrganizationUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: Callbacks) => {
+  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearOrganizationQueries(apolloClient);
     /* istanbul ignore next */
@@ -81,11 +87,11 @@ const useOrganizationUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: Callbacks;
+    callbacks?: UpdateActionsCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: UpdateKeywordSetMutationInput;
+    payload?: UpdateOrganizationMutationInput;
   }) => {
     savingFinished();
 
@@ -105,7 +111,7 @@ const useOrganizationUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deleteOrganization = async (callbacks?: Callbacks) => {
+  const deleteOrganization = async (callbacks?: UpdateActionsCallbacks) => {
     try {
       setSaving(ORGANIZATION_ACTIONS.DELETE);
 
@@ -123,6 +129,29 @@ const useOrganizationUpdateActions = ({
     }
   };
 
+  const updateOrganization = async (
+    values: OrganizationFormFields,
+    callbacks?: UpdateActionsCallbacks
+  ) => {
+    const payload: UpdateOrganizationMutationInput =
+      getOrganizationPayload(values);
+
+    try {
+      setSaving(ORGANIZATION_ACTIONS.UPDATE);
+
+      await updateOrganizationMutation({ variables: { input: payload } });
+
+      await cleanAfterUpdate(callbacks);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to update organization',
+        payload,
+      });
+    }
+  };
+
   return {
     closeModal,
     deleteOrganization,
@@ -130,6 +159,7 @@ const useOrganizationUpdateActions = ({
     saving,
     setOpenModal,
     setSaving,
+    updateOrganization,
   };
 };
 

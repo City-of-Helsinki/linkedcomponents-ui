@@ -7,7 +7,11 @@ import {
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import apolloClient from '../../app/apollo/apolloClient';
-import { ORGANIZATION_ACTIONS, TEST_PUBLISHER_ID } from '../constants';
+import {
+  ORGANIZATION_ACTIONS,
+  ORGANIZATION_INITIAL_VALUES,
+  TEST_PUBLISHER_ID,
+} from '../constants';
 import {
   checkCanUserDoAction,
   getEditOrganizationWarning,
@@ -15,6 +19,7 @@ import {
   getOrganizationFields,
   getOrganizationFullName,
   getOrganizationInitialValues,
+  getOrganizationPayload,
   organizationPathBuilder,
   organizationsPathBuilder,
 } from '../utils';
@@ -300,6 +305,59 @@ describe('getOrganizationInitialValues function', () => {
       parentOrganization: 'organization:parent',
       regularUsers: [],
       replacedBy: '',
+      subOrganizations: ['organization:sub'],
+    });
+  });
+});
+
+describe('getOrganizationPayload function', () => {
+  it('should return organization payload', () => {
+    expect(getOrganizationPayload(ORGANIZATION_INITIAL_VALUES)).toEqual({
+      adminUsers: [],
+      affiliatedOrganizations: [],
+      classification: '',
+      dataSource: '',
+      dissolutionDate: null,
+      foundingDate: null,
+      id: undefined,
+      internalType: '',
+      name: '',
+      parentOrganization: '',
+      regularUsers: [],
+      replacedBy: '',
+      subOrganizations: [],
+    });
+
+    expect(
+      getOrganizationPayload({
+        adminUsers: ['admin:1'],
+        affiliatedOrganizations: ['organization:affiliated'],
+        classification: 'ahjo:1',
+        dataSource: 'helsinki',
+        dissolutionDate: new Date('2021-12-12'),
+        foundingDate: new Date('2021-12-12'),
+        id: '',
+        internalType: 'normal',
+        name: 'name',
+        originId: '123',
+        parentOrganization: 'organization:parent',
+        regularUsers: ['regular:1'],
+        replacedBy: 'organization:replaced',
+        subOrganizations: ['organization:sub'],
+      })
+    ).toEqual({
+      adminUsers: ['admin:1'],
+      affiliatedOrganizations: ['organization:affiliated'],
+      classification: 'ahjo:1',
+      dataSource: 'helsinki',
+      dissolutionDate: '2021-12-12',
+      foundingDate: '2021-12-12',
+      id: 'helsinki:123',
+      internalType: 'normal',
+      name: 'name',
+      parentOrganization: 'organization:parent',
+      regularUsers: ['regular:1'],
+      replacedBy: 'organization:replaced',
       subOrganizations: ['organization:sub'],
     });
   });

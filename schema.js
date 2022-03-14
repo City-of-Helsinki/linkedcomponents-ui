@@ -27,6 +27,7 @@ module.exports = buildSchema(/* GraphQL */ `
     uploadImage(input: UploadImageMutationInput!): Image!
     updateKeyword(input: UpdateKeywordMutationInput!): Keyword!
     updateKeywordSet(input: UpdateKeywordSetMutationInput!): KeywordSet!
+    updateOrganization(input: UpdateOrganizationMutationInput!): Organization!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
   }
 
@@ -347,6 +348,38 @@ module.exports = buildSchema(/* GraphQL */ `
     name: LocalisedObjectInput
     organization: String
     usage: String
+  }
+
+  input CreateOrganizationMutationInput {
+    adminUsers: [String]
+    affiliatedOrganizations: [String]
+    classification: String
+    dataSource: String
+    dissolutionDate: String
+    foundingDate: String
+    id: String
+    internalType: String
+    name: String
+    parentOrganization: String
+    regularUsers: [String]
+    replacedBy: String
+    subOrganizations: [String]
+  }
+
+  input UpdateOrganizationMutationInput {
+    adminUsers: [String]
+    affiliatedOrganizations: [String]
+    classification: String
+    dataSource: String
+    dissolutionDate: String
+    foundingDate: String
+    id: String
+    internalType: String
+    name: String
+    parentOrganization: String
+    regularUsers: [String]
+    replacedBy: String
+    subOrganizations: [String]
   }
 
   input CreateRegistrationMutationInput {

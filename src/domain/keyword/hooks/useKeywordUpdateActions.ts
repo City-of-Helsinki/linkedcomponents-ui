@@ -12,6 +12,7 @@ import {
   useUpdateKeywordMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
+import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import {
@@ -27,26 +28,20 @@ export enum KEYWORD_MODALS {
   DELETE = 'delete',
 }
 
-interface Callbacks {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onError?: (error: any) => void;
-  onSuccess?: () => void;
-}
-
 interface Props {
   keyword: KeywordFieldsFragment;
 }
 
 type UseKeywordUpdateActionsState = {
   closeModal: () => void;
-  deleteKeyword: (callbacks?: Callbacks) => Promise<void>;
+  deleteKeyword: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
   openModal: KEYWORD_MODALS | null;
   saving: KEYWORD_ACTIONS | null;
   setOpenModal: (modal: KEYWORD_MODALS | null) => void;
   setSaving: (action: KEYWORD_ACTIONS | null) => void;
   updateKeyword: (
     values: KeywordFormFields,
-    callbacks?: Callbacks
+    callbacks?: UpdateActionsCallbacks
   ) => Promise<void>;
 };
 const useKeywordUpdateActions = ({
@@ -71,7 +66,7 @@ const useKeywordUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: Callbacks) => {
+  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearKeywordQueries(apolloClient);
     /* istanbul ignore next */
@@ -89,7 +84,7 @@ const useKeywordUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: Callbacks;
+    callbacks?: UpdateActionsCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -113,7 +108,7 @@ const useKeywordUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deleteKeyword = async (callbacks?: Callbacks) => {
+  const deleteKeyword = async (callbacks?: UpdateActionsCallbacks) => {
     try {
       setSaving(KEYWORD_ACTIONS.DELETE);
 
@@ -133,7 +128,7 @@ const useKeywordUpdateActions = ({
 
   const updateKeyword = async (
     values: KeywordFormFields,
-    callbacks?: Callbacks
+    callbacks?: UpdateActionsCallbacks
   ) => {
     const payload: UpdateKeywordMutationInput = getKeywordPayload(values);
 

@@ -4,6 +4,7 @@ import { TFunction } from 'i18next';
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { MAX_PAGE_SIZE, ROUTES } from '../../constants';
 import {
+  CreateOrganizationMutationInput,
   OrganizationDocument,
   OrganizationFieldsFragment,
   OrganizationQuery,
@@ -14,6 +15,7 @@ import {
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
+import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import {
@@ -315,6 +317,29 @@ export const getOrganizationInitialValues = (
   };
 };
 
+export const getOrganizationPayload = (
+  formValues: OrganizationFormFields
+): CreateOrganizationMutationInput => {
+  const {
+    dataSource,
+    dissolutionDate,
+    foundingDate,
+    originId,
+    id,
+    ...restFormValues
+  } = formValues;
+
+  return {
+    ...restFormValues,
+    dataSource,
+    dissolutionDate: dissolutionDate
+      ? formatDate(dissolutionDate, 'yyyy-MM-dd')
+      : null,
+    foundingDate: foundingDate ? formatDate(foundingDate, 'yyyy-MM-dd') : null,
+    id: id || (originId ? `${dataSource}:${originId}` : undefined),
+  };
+};
+
 /* istanbul ignore next */
 export const clearOrganizationQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>,
@@ -326,6 +351,7 @@ export const clearOrganizationQueries = (
     args,
   });
 
+/* istanbul ignore next */
 export const clearOrganizationsQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>
 ): boolean =>

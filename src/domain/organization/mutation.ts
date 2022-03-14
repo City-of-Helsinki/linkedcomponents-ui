@@ -12,4 +12,16 @@ export const MUTATION_ORGANIZATION = gql`
       noContent
     }
   }
+
+  mutation UpdateOrganization($input: UpdateOrganizationMutationInput!) {
+    updateOrganization(input: $input)
+      @rest(
+        type: "Organization"
+        path: "/organization/{args.input.id}/"
+        method: "PUT"
+        bodyKey: "input"
+      ) {
+      ...organizationFields
+    }
+  }
 `;

@@ -1,7 +1,9 @@
 /* eslint-disable max-len */
+import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import { ValidationError } from 'yup';
 
@@ -10,7 +12,10 @@ import SingleOrganizationSelectorField from '../../../common/components/formFiel
 import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
 import UserSelectorField from '../../../common/components/formFields/UserSelectorField';
+import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
+import { ROUTES } from '../../../constants';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import {
   scrollToFirstError,
   showFormErrors,
@@ -24,7 +29,10 @@ import {
 } from '../constants';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import useOrganizationInternalTypeOptions from '../hooks/useOrganizationInternalTypeOptions';
+import useOrganizationServerErrors from '../hooks/useOrganizationServerErrors';
+import useOrganizationUpdateActions from '../hooks/useOrganizationUpdateActions';
 import OrganizationAuthenticationNotification from '../organizationAuthenticationNotification/OrganizationAuthenticationNotification';
+import { OrganizationFormFields } from '../types';
 import { getOrganizationInitialValues } from '../utils';
 import { organizationSchema } from '../validation';
 import SubOrganizationTable from './subOrganizationTable/SubOrganizationTable';
@@ -37,7 +45,29 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   organization,
 }) => {
   const { t } = useTranslation();
+  const history = useHistory();
+  const locale = useLocale();
   const internalTypeOptions = useOrganizationInternalTypeOptions();
+
+  const goToOrganizationsPage = () => {
+    history.push(`/${locale}${ROUTES.ORGANIZATIONS}`);
+  };
+
+  const { saving, updateOrganization } = useOrganizationUpdateActions({
+    organization,
+  });
+
+  const { serverErrorItems, setServerErrorItems, showServerErrors } =
+    useOrganizationServerErrors();
+
+  const onUpdate = async (values: OrganizationFormFields) => {
+    await updateOrganization(values, {
+      onError: (error: ServerError) => showServerErrors({ error }),
+      onSuccess: async () => {
+        goToOrganizationsPage();
+      },
+    });
+  };
 
   return (
     <Formik
@@ -66,11 +96,16 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
           event?.preventDefault();
 
           try {
+            setServerErrorItems([]);
             clearErrors();
 
             await organizationSchema.validate(values, { abortEarly: false });
 
-            toast.error('TODO: Handle saving organization');
+            if (organization) {
+              await onUpdate(values);
+            } else {
+              toast.error('TODO: Handle saving organization');
+            }
           } catch (error) {
             showFormErrors({
               error: error as ValidationError,
@@ -88,6 +123,9 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
               action={ORGANIZATION_ACTIONS.UPDATE}
               id={organization?.id as string}
             />
+
+            <ServerErrorSummary errors={serverErrorItems} />
+
             <FormRow>
               <Field
                 className={styles.alignedSelect}
@@ -210,7 +248,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             <EditButtonPanel
               id={values.id}
               onSave={handleSubmit}
-              saving={null}
+              saving={saving}
             />
           </Form>
         );

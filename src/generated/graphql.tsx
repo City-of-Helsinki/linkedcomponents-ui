@@ -87,6 +87,22 @@ export type CreateKeywordSetMutationInput = {
   usage?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateOrganizationMutationInput = {
+  adminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  affiliatedOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  classification?: InputMaybe<Scalars['String']>;
+  dataSource?: InputMaybe<Scalars['String']>;
+  dissolutionDate?: InputMaybe<Scalars['String']>;
+  foundingDate?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  internalType?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  parentOrganization?: InputMaybe<Scalars['String']>;
+  regularUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  replacedBy?: InputMaybe<Scalars['String']>;
+  subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type CreateRegistrationMutationInput = {
   audienceMaxAge?: InputMaybe<Scalars['Int']>;
   audienceMinAge?: InputMaybe<Scalars['Int']>;
@@ -372,6 +388,7 @@ export type Mutation = {
   uploadImage: Image;
   updateKeyword: Keyword;
   updateKeywordSet: KeywordSet;
+  updateOrganization: Organization;
   updateRegistration: Registration;
 };
 
@@ -478,6 +495,11 @@ export type MutationUpdateKeywordArgs = {
 
 export type MutationUpdateKeywordSetArgs = {
   input: UpdateKeywordSetMutationInput;
+};
+
+
+export type MutationUpdateOrganizationArgs = {
+  input: UpdateOrganizationMutationInput;
 };
 
 
@@ -870,6 +892,22 @@ export type UpdateKeywordSetMutationInput = {
   usage?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateOrganizationMutationInput = {
+  adminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  affiliatedOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  classification?: InputMaybe<Scalars['String']>;
+  dataSource?: InputMaybe<Scalars['String']>;
+  dissolutionDate?: InputMaybe<Scalars['String']>;
+  foundingDate?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  internalType?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  parentOrganization?: InputMaybe<Scalars['String']>;
+  regularUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  replacedBy?: InputMaybe<Scalars['String']>;
+  subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type UpdateRegistrationMutationInput = {
   id: Scalars['ID'];
   audienceMaxAge?: InputMaybe<Scalars['Int']>;
@@ -1220,6 +1258,13 @@ export type DeleteOrganizationMutationVariables = Exact<{
 
 
 export type DeleteOrganizationMutation = { __typename?: 'Mutation', deleteOrganization?: { __typename?: 'NoContent', noContent?: boolean | null | undefined } | null | undefined };
+
+export type UpdateOrganizationMutationVariables = Exact<{
+  input: UpdateOrganizationMutationInput;
+}>;
+
+
+export type UpdateOrganizationMutation = { __typename?: 'Mutation', updateOrganization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null | undefined> | null | undefined, atId: string, classification?: string | null | undefined, createdTime?: string | null | undefined, dataSource?: string | null | undefined, dissolutionDate?: string | null | undefined, foundingDate?: string | null | undefined, hasRegularUsers?: boolean | null | undefined, id?: string | null | undefined, isAffiliated?: boolean | null | undefined, lastModifiedTime?: string | null | undefined, name?: string | null | undefined, parentOrganization?: string | null | undefined, replacedBy?: string | null | undefined, subOrganizations?: Array<string | null | undefined> | null | undefined } };
 
 export type OrganizationFieldsFragment = { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null | undefined> | null | undefined, atId: string, classification?: string | null | undefined, createdTime?: string | null | undefined, dataSource?: string | null | undefined, dissolutionDate?: string | null | undefined, foundingDate?: string | null | undefined, hasRegularUsers?: boolean | null | undefined, id?: string | null | undefined, isAffiliated?: boolean | null | undefined, lastModifiedTime?: string | null | undefined, name?: string | null | undefined, parentOrganization?: string | null | undefined, replacedBy?: string | null | undefined, subOrganizations?: Array<string | null | undefined> | null | undefined };
 
@@ -2802,6 +2847,39 @@ export function useDeleteOrganizationMutation(baseOptions?: Apollo.MutationHookO
 export type DeleteOrganizationMutationHookResult = ReturnType<typeof useDeleteOrganizationMutation>;
 export type DeleteOrganizationMutationResult = Apollo.MutationResult<DeleteOrganizationMutation>;
 export type DeleteOrganizationMutationOptions = Apollo.BaseMutationOptions<DeleteOrganizationMutation, DeleteOrganizationMutationVariables>;
+export const UpdateOrganizationDocument = gql`
+    mutation UpdateOrganization($input: UpdateOrganizationMutationInput!) {
+  updateOrganization(input: $input) @rest(type: "Organization", path: "/organization/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    ...organizationFields
+  }
+}
+    ${OrganizationFieldsFragmentDoc}`;
+export type UpdateOrganizationMutationFn = Apollo.MutationFunction<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;
+
+/**
+ * __useUpdateOrganizationMutation__
+ *
+ * To run a mutation, you first call `useUpdateOrganizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOrganizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOrganizationMutation, { data, loading, error }] = useUpdateOrganizationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateOrganizationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>(UpdateOrganizationDocument, options);
+      }
+export type UpdateOrganizationMutationHookResult = ReturnType<typeof useUpdateOrganizationMutation>;
+export type UpdateOrganizationMutationResult = Apollo.MutationResult<UpdateOrganizationMutation>;
+export type UpdateOrganizationMutationOptions = Apollo.BaseMutationOptions<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;
 export const OrganizationDocument = gql`
     query Organization($id: ID!, $createPath: Any) {
   organization(id: $id) @rest(type: "Organization", pathBuilder: $createPath) {

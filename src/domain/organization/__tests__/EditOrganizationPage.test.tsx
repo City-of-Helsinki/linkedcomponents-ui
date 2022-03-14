@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
@@ -26,7 +25,11 @@ import {
   mockedUsersResponse,
   userNames,
 } from '../../user/__mocks__/user';
-import { mockedDeleteOrganizationResponse } from '../__mocks__/editOrganizationPage';
+import {
+  mockedDeleteOrganizationResponse,
+  mockedInvalidUpdateOrganizationResponse,
+  mockedUpdateOrganizationResponse,
+} from '../__mocks__/editOrganizationPage';
 import EditOrganizationPage from '../EditOrganizationPage';
 
 configure({ defaultHidden: true });
@@ -73,6 +76,20 @@ const getElement = (
   }
 };
 
+const fillFormValues = async () => {
+  act(() => userEvent.click(getElement('adminUsersToggleButton')));
+  const userOption = await screen.findByRole('option', {
+    name: new RegExp(userNames[0]),
+  });
+  act(() => userEvent.click(userOption));
+
+  act(() => userEvent.click(getElement('replacedByToggleButton')));
+  const organizationOption = await screen.findByRole('option', {
+    name: organizations.data[0].name,
+  });
+  act(() => userEvent.click(organizationOption));
+};
+
 test('should scroll to first validation error input field', async () => {
   renderComponent();
 
@@ -104,26 +121,32 @@ test('should delete organization', async () => {
   );
 });
 
-test('should call toast error when trying to update organization', async () => {
-  toast.error = jest.fn();
-  renderComponent();
+test('should update organization', async () => {
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedUpdateOrganizationResponse,
+  ]);
+
   const submitButton = await findElement('saveButton');
 
-  act(() => userEvent.click(getElement('adminUsersToggleButton')));
-  const userOption = await screen.findByRole('option', {
-    name: new RegExp(userNames[0]),
-  });
-  act(() => userEvent.click(userOption));
-
-  act(() => userEvent.click(getElement('replacedByToggleButton')));
-  const organizationOption = await screen.findByRole('option', {
-    name: organizations.data[0].name,
-  });
-  act(() => userEvent.click(organizationOption));
+  await fillFormValues();
 
   act(() => userEvent.click(submitButton));
 
   await waitFor(() =>
-    expect(toast.error).toBeCalledWith('TODO: Handle saving organization')
+    expect(history.location.pathname).toBe(`/fi/admin/organizations`)
   );
+});
+
+test('should show server errors', async () => {
+  renderComponent([...defaultMocks, mockedInvalidUpdateOrganizationResponse]);
+
+  const submitButton = await findElement('saveButton');
+
+  await fillFormValues();
+
+  act(() => userEvent.click(submitButton));
+
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/Nimi on pakollinen./i);
 });

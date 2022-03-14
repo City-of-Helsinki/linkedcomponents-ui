@@ -13,6 +13,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
+import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
@@ -25,25 +26,19 @@ export enum MODALS {
   DELETE = 'delete',
 }
 
-interface Callbacks {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onError?: (error: any) => void;
-  onSuccess?: () => void;
-}
-
 interface Props {
   registration: RegistrationFieldsFragment;
 }
 
 type UseRegistrationUpdateActionsState = {
   closeModal: () => void;
-  deleteRegistration: (callbacks?: Callbacks) => Promise<void>;
+  deleteRegistration: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
   openModal: MODALS | null;
   saving: REGISTRATION_ACTIONS | false;
   setOpenModal: (modal: MODALS | null) => void;
   updateRegistration: (
     values: RegistrationFormFields,
-    callbacks?: Callbacks
+    callbacks?: UpdateActionsCallbacks
   ) => Promise<void>;
 };
 const useRegistrationUpdateActions = ({
@@ -69,7 +64,7 @@ const useRegistrationUpdateActions = ({
     setOpenModal(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: Callbacks) => {
+  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearRegistrationsQueries(apolloClient);
 
@@ -85,7 +80,7 @@ const useRegistrationUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: Callbacks;
+    callbacks?: UpdateActionsCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -109,7 +104,7 @@ const useRegistrationUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deleteRegistration = async (callbacks?: Callbacks) => {
+  const deleteRegistration = async (callbacks?: UpdateActionsCallbacks) => {
     try {
       setSaving(REGISTRATION_ACTIONS.DELETE);
       await deleteRegistrationMutation({ variables: { id } });
@@ -126,7 +121,7 @@ const useRegistrationUpdateActions = ({
 
   const updateRegistration = async (
     values: RegistrationFormFields,
-    callbacks?: Callbacks
+    callbacks?: UpdateActionsCallbacks
   ) => {
     let payload: UpdateRegistrationMutationInput = {
       event: values.event,
