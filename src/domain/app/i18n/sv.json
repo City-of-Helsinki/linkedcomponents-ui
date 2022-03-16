@@ -1394,6 +1394,9 @@
     "subOrganizationsTableTitle": "Underorganisationer"
   },
   "organizationsPage": {
+    "actionButtons": {
+      "edit": "Redigera organisation"
+    },
     "count": "{{count}} organisation",
     "count_plural": "{{count}} organisationer",
     "labelSearch": "Sök organisationer",

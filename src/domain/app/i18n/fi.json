@@ -1394,6 +1394,9 @@
     "subOrganizationsTableTitle": "Aliorganisaatiot"
   },
   "organizationsPage": {
+    "actionButtons": {
+      "edit": "Muokkaa organisaatiota"
+    },
     "count": "{{count}} organisaatio",
     "count_plural": "{{count}} organisaatiota",
     "labelSearch": "Hae organisaatioita",

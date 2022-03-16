@@ -1394,6 +1394,9 @@
     "subOrganizationsTableTitle": "Sub organizations"
   },
   "organizationsPage": {
+    "actionButtons": {
+      "edit": "Edit organization"
+    },
     "count": "{{count}} organization",
     "count_plural": "{{count}} organization",
     "labelSearch": "Search organizations",
