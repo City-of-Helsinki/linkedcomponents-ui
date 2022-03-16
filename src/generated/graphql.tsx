@@ -372,6 +372,7 @@ export type Mutation = {
   createEvents: Array<Event>;
   createKeyword: Keyword;
   createKeywordSet: KeywordSet;
+  createOrganization: Organization;
   createRegistration: Registration;
   deleteEnrolment?: Maybe<NoContent>;
   deleteEvent?: Maybe<NoContent>;
@@ -415,6 +416,11 @@ export type MutationCreateKeywordArgs = {
 
 export type MutationCreateKeywordSetArgs = {
   input: CreateKeywordSetMutationInput;
+};
+
+
+export type MutationCreateOrganizationArgs = {
+  input: CreateOrganizationMutationInput;
 };
 
 
@@ -1251,6 +1257,13 @@ export type LanguagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LanguagesQuery = { __typename?: 'Query', languages: { __typename?: 'LanguagesResponse', meta: { __typename?: 'Meta', count: number, next?: string | null | undefined, previous?: string | null | undefined }, data: Array<{ __typename?: 'Language', id?: string | null | undefined, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null | undefined, en?: string | null | undefined, fi?: string | null | undefined, ru?: string | null | undefined, sv?: string | null | undefined, zhHans?: string | null | undefined } | null | undefined } | null | undefined> } };
+
+export type CreateOrganizationMutationVariables = Exact<{
+  input: CreateOrganizationMutationInput;
+}>;
+
+
+export type CreateOrganizationMutation = { __typename?: 'Mutation', createOrganization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null | undefined> | null | undefined, atId: string, classification?: string | null | undefined, createdTime?: string | null | undefined, dataSource?: string | null | undefined, dissolutionDate?: string | null | undefined, foundingDate?: string | null | undefined, hasRegularUsers?: boolean | null | undefined, id?: string | null | undefined, isAffiliated?: boolean | null | undefined, lastModifiedTime?: string | null | undefined, name?: string | null | undefined, parentOrganization?: string | null | undefined, replacedBy?: string | null | undefined, subOrganizations?: Array<string | null | undefined> | null | undefined } };
 
 export type DeleteOrganizationMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -2395,7 +2408,7 @@ export type ImagesLazyQueryHookResult = ReturnType<typeof useImagesLazyQuery>;
 export type ImagesQueryResult = Apollo.QueryResult<ImagesQuery, ImagesQueryVariables>;
 export const CreateKeywordDocument = gql`
     mutation CreateKeyword($input: CreateKeywordMutationInput!) {
-  createKeyword(input: $input) @rest(type: "Event", path: "/keyword/", method: "POST", bodyKey: "input") {
+  createKeyword(input: $input) @rest(type: "Keyword", path: "/keyword/", method: "POST", bodyKey: "input") {
     ...keywordFields
   }
 }
@@ -2588,7 +2601,7 @@ export type KeywordsLazyQueryHookResult = ReturnType<typeof useKeywordsLazyQuery
 export type KeywordsQueryResult = Apollo.QueryResult<KeywordsQuery, KeywordsQueryVariables>;
 export const CreateKeywordSetDocument = gql`
     mutation CreateKeywordSet($input: CreateKeywordSetMutationInput!) {
-  createKeywordSet(input: $input) @rest(type: "Event", path: "/keyword_set/", method: "POST", bodyKey: "input") {
+  createKeywordSet(input: $input) @rest(type: "KeywordSet", path: "/keyword_set/", method: "POST", bodyKey: "input") {
     ...keywordSetFields
   }
 }
@@ -2814,6 +2827,39 @@ export function useLanguagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type LanguagesQueryHookResult = ReturnType<typeof useLanguagesQuery>;
 export type LanguagesLazyQueryHookResult = ReturnType<typeof useLanguagesLazyQuery>;
 export type LanguagesQueryResult = Apollo.QueryResult<LanguagesQuery, LanguagesQueryVariables>;
+export const CreateOrganizationDocument = gql`
+    mutation CreateOrganization($input: CreateOrganizationMutationInput!) {
+  createOrganization(input: $input) @rest(type: "Organization", path: "/organization/", method: "POST", bodyKey: "input") {
+    ...organizationFields
+  }
+}
+    ${OrganizationFieldsFragmentDoc}`;
+export type CreateOrganizationMutationFn = Apollo.MutationFunction<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
+
+/**
+ * __useCreateOrganizationMutation__
+ *
+ * To run a mutation, you first call `useCreateOrganizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrganizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrganizationMutation, { data, loading, error }] = useCreateOrganizationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateOrganizationMutation(baseOptions?: Apollo.MutationHookOptions<CreateOrganizationMutation, CreateOrganizationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateOrganizationMutation, CreateOrganizationMutationVariables>(CreateOrganizationDocument, options);
+      }
+export type CreateOrganizationMutationHookResult = ReturnType<typeof useCreateOrganizationMutation>;
+export type CreateOrganizationMutationResult = Apollo.MutationResult<CreateOrganizationMutation>;
+export type CreateOrganizationMutationOptions = Apollo.BaseMutationOptions<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
 export const DeleteOrganizationDocument = gql`
     mutation DeleteOrganization($id: ID!) {
   deleteOrganization(id: $id) @rest(type: "NoContent", path: "/organization/{args.id}/", method: "DELETE") {

@@ -211,6 +211,10 @@
     "pageTitle": "Add keyword set",
     "title": "Add keyword set"
   },
+  "createOrganizationPage": {
+    "pageTitle": "Add organization",
+    "title": "Add organization"
+  },
   "createRegistrationPage": {
     "page": "New registration",
     "title": "New registration"

@@ -8,6 +8,7 @@ import { scroller } from 'react-scroll';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
+import TableWrapper from '../../../common/components/table/TableWrapper';
 import { KeywordsQuery, useKeywordsQuery } from '../../../generated/graphql';
 import getPageCount from '../../../utils/getPageCount';
 import { scrollToItem } from '../../../utils/scrollToItem';
@@ -72,14 +73,14 @@ const KeywordList: React.FC<KeywordListProps> = ({
 
   return (
     <div>
-      <div className={styles.table}>
+      <TableWrapper>
         <KeywordsTable
           caption={getTableCaption()}
           keywords={keywords}
           setSort={onSortChange}
           sort={sort as KEYWORD_SORT_OPTIONS}
         />
-      </div>
+      </TableWrapper>
       {pageCount > 1 && (
         <Pagination
           pageCount={pageCount}

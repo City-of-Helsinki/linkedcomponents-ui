@@ -8,6 +8,7 @@ import { scroller } from 'react-scroll';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
+import TableWrapper from '../../../common/components/table/TableWrapper';
 import {
   KeywordSetsQuery,
   useKeywordSetsQuery,
@@ -75,14 +76,14 @@ const KeywordSetList: React.FC<KeywordSetListProps> = ({
 
   return (
     <div>
-      <div className={styles.table}>
+      <TableWrapper>
         <KeywordSetsTable
           caption={getTableCaption()}
           keywordSets={keywordSets}
           setSort={onSortChange}
           sort={sort as KEYWORD_SET_SORT_OPTIONS}
         />
-      </div>
+      </TableWrapper>
       {pageCount > 1 && (
         <Pagination
           pageCount={pageCount}

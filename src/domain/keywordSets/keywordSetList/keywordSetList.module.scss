@@ -34,12 +34,3 @@
     --input-border-color-default: var(--color-black-90);
   }
 }
-
-.table {
-  max-width: calc(100vw - 2 * var(--spacing-s));
-  overflow: auto;
-
-  @include medium-up {
-    max-width: calc(100vw - 2 * var(--spacing-m));
-  }
-}

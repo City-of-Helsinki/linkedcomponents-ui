@@ -212,6 +212,10 @@
     "pageTitle": "Lägg till nyckelordsuppsättning",
     "title": "Lägg till nyckelordsuppsättning"
   },
+  "createOrganizationPage": {
+    "pageTitle": "Lägg till organisation",
+    "title": "Lägg till organisation"
+  },
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"

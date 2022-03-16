@@ -1,10 +1,14 @@
 /* eslint-disable max-len */
-import { ServerError } from '@apollo/client';
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  ServerError,
+  useApolloClient,
+} from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
-import { toast } from 'react-toastify';
+import { useHistory, useLocation } from 'react-router';
 import { ValidationError } from 'yup';
 
 import DatepickerField from '../../../common/components/formFields/DatepickerField';
@@ -14,7 +18,11 @@ import TextInputField from '../../../common/components/formFields/TextInputField
 import UserSelectorField from '../../../common/components/formFields/UserSelectorField';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../../constants';
-import { OrganizationFieldsFragment } from '../../../generated/graphql';
+import {
+  CreateOrganizationMutationInput,
+  OrganizationFieldsFragment,
+  useCreateOrganizationMutation,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import {
   scrollToFirstError,
@@ -22,18 +30,25 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import { reportError } from '../../app/sentry/utils';
+import useUser from '../../user/hooks/useUser';
 import {
   ORGANIZATION_ACTIONS,
   ORGANIZATION_FIELDS,
   ORGANIZATION_INITIAL_VALUES,
 } from '../constants';
+import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import useOrganizationInternalTypeOptions from '../hooks/useOrganizationInternalTypeOptions';
 import useOrganizationServerErrors from '../hooks/useOrganizationServerErrors';
 import useOrganizationUpdateActions from '../hooks/useOrganizationUpdateActions';
 import OrganizationAuthenticationNotification from '../organizationAuthenticationNotification/OrganizationAuthenticationNotification';
 import { OrganizationFormFields } from '../types';
-import { getOrganizationInitialValues } from '../utils';
+import {
+  clearOrganizationsQueries,
+  getOrganizationInitialValues,
+  getOrganizationPayload,
+} from '../utils';
 import { organizationSchema } from '../validation';
 import SubOrganizationTable from './subOrganizationTable/SubOrganizationTable';
 
@@ -46,19 +61,25 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
+  const location = useLocation();
   const locale = useLocale();
   const internalTypeOptions = useOrganizationInternalTypeOptions();
+  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
+  const { user } = useUser();
 
   const goToOrganizationsPage = () => {
     history.push(`/${locale}${ROUTES.ORGANIZATIONS}`);
   };
 
-  const { saving, updateOrganization } = useOrganizationUpdateActions({
-    organization,
-  });
+  const { saving, setSaving, updateOrganization } =
+    useOrganizationUpdateActions({
+      organization,
+    });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useOrganizationServerErrors();
+
+  const [createOrganizationMutation] = useCreateOrganizationMutation();
 
   const onUpdate = async (values: OrganizationFormFields) => {
     await updateOrganization(values, {
@@ -69,13 +90,54 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
     });
   };
 
+  const createSingleOrganization = async (
+    payload: CreateOrganizationMutationInput
+  ) => {
+    try {
+      const data = await createOrganizationMutation({
+        variables: { input: payload },
+      });
+
+      return data.data?.createOrganization.id as string;
+    } catch (error) /* istanbul ignore next */ {
+      showServerErrors({ error });
+      // // Report error to Sentry
+      reportError({
+        data: {
+          error: error as Record<string, unknown>,
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to create keyword',
+        user,
+      });
+    }
+  };
+
+  const createOrganization = async (values: OrganizationFormFields) => {
+    setSaving(ORGANIZATION_ACTIONS.CREATE);
+    const payload = getOrganizationPayload(values);
+
+    const createdKeywordId = await createSingleOrganization(payload);
+
+    if (createdKeywordId) {
+      // Clear all keywords queries from apollo cache to show added registrations
+      // in registration list
+      clearOrganizationsQueries(apolloClient);
+      goToOrganizationsPage();
+    }
+
+    setSaving(null);
+  };
+
   return (
     <Formik
       enableReinitialize={true}
       initialValues={
         organization
           ? getOrganizationInitialValues(organization)
-          : /* istanbul ignore next */ ORGANIZATION_INITIAL_VALUES
+          : ORGANIZATION_INITIAL_VALUES
       }
       // We have custom way to handle onSubmit so here is empty function
       // to silent TypeScript error. The reason for custom onSubmit is that
@@ -104,7 +166,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             if (organization) {
               await onUpdate(values);
             } else {
-              toast.error('TODO: Handle saving organization');
+              await createOrganization(values);
             }
           } catch (error) {
             showFormErrors({
@@ -120,8 +182,12 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
         return (
           <Form className={styles.form} noValidate={true}>
             <OrganizationAuthenticationNotification
-              action={ORGANIZATION_ACTIONS.UPDATE}
-              id={organization?.id as string}
+              action={
+                organization
+                  ? ORGANIZATION_ACTIONS.UPDATE
+                  : ORGANIZATION_ACTIONS.CREATE
+              }
+              id={organization?.id ?? ''}
             />
 
             <ServerErrorSummary errors={serverErrorItems} />
@@ -158,16 +224,25 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 component={TextInputField}
                 label={t(`organization.form.labelId`)}
                 name={ORGANIZATION_FIELDS.ID}
-                readOnly={!!organization}
+                readOnly
               />
             </FormRow>
-            <FormRow className={styles.borderInMobile}>
+            <FormRow className={organization ? styles.borderInMobile : ''}>
               <Field
-                className={styles.alignedInput}
+                className={styles.alignedInputWithFullBorder}
                 component={TextInputField}
                 label={t(`organization.form.labelDataSource`)}
                 name={ORGANIZATION_FIELDS.DATA_SOURCE}
-                readOnly
+                readOnly={!!organization}
+              />
+            </FormRow>
+            <FormRow className={organization ? styles.borderInMobile : ''}>
+              <Field
+                className={styles.alignedInput}
+                component={TextInputField}
+                label={t(`organization.form.labelOriginId`)}
+                name={ORGANIZATION_FIELDS.ORIGIN_ID}
+                readOnly={!!organization}
               />
             </FormRow>
             <FormRow>
@@ -181,16 +256,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 disabled={!!organization}
               />
             </FormRow>
-            <FormRow className={styles.borderInMobile}>
-              <Field
-                className={styles.alignedInputWithFullBorder}
-                component={TextInputField}
-                label={t(`organization.form.labelOriginId`)}
-                name={ORGANIZATION_FIELDS.ORIGIN_ID}
-                readOnly={!!organization}
-              />
-            </FormRow>
-            <FormRow className={styles.borderInMobile}>
+            <FormRow className={organization ? styles.borderInMobile : ''}>
               <Field
                 className={styles.alignedInput}
                 component={TextInputField}
@@ -199,7 +265,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 readOnly={!!organization}
               />
             </FormRow>
-            <FormRow className={styles.borderInMobile}>
+            <FormRow>
               <Field
                 className={styles.alignedInput}
                 component={TextInputField}
@@ -207,7 +273,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 name={ORGANIZATION_FIELDS.NAME}
               />
             </FormRow>
-            <FormRow className={styles.borderInMobile}>
+            <FormRow className={organization ? styles.borderInMobile : ''}>
               <Field
                 className={styles.alignedInputWithFullBorder}
                 component={DatepickerField}
@@ -216,7 +282,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 readOnly={!!organization}
               />
             </FormRow>
-            <FormRow className={styles.borderInMobile}>
+            <FormRow className={organization ? styles.borderInMobile : ''}>
               <Field
                 className={styles.alignedInput}
                 component={DatepickerField}
@@ -245,11 +311,15 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
               title={t('organization.affiliatedOrganizationsTableTitle')}
             />
 
-            <EditButtonPanel
-              id={values.id}
-              onSave={handleSubmit}
-              saving={saving}
-            />
+            {organization ? (
+              <EditButtonPanel
+                id={values.id}
+                onSave={handleSubmit}
+                saving={saving}
+              />
+            ) : (
+              <CreateButtonPanel onSave={handleSubmit} saving={saving} />
+            )}
           </Form>
         );
       }}

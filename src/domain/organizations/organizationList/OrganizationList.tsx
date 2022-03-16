@@ -6,6 +6,7 @@ import { useHistory, useLocation } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
+import TableWrapper from '../../../common/components/table/TableWrapper';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useAllOrganizations from '../../organization/hooks/useAllOrganizations';
 import {
@@ -101,7 +102,7 @@ const OrganizationList: React.FC = () => {
       </div>
 
       <LoadingSpinner isLoading={loadingOrganizations}>
-        <div className={styles.table}>
+        <TableWrapper>
           <OrganizationsTable
             caption={getTableCaption()}
             organizations={text ? filteredOrganizations : rootOrganizations}
@@ -110,7 +111,7 @@ const OrganizationList: React.FC = () => {
             sort={sort as ORGANIZATION_SORT_OPTIONS}
             sortedOrganizations={sortedOrganizations}
           />
-        </div>
+        </TableWrapper>
       </LoadingSpinner>
     </div>
   );

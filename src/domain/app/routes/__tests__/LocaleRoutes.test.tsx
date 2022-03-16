@@ -245,6 +245,16 @@ it('should render organizations page', async () => {
   expect(history.location.pathname).toBe('/fi/admin/organizations');
 });
 
+it('should render create organization page', async () => {
+  const { history } = renderRoute(ROUTES.CREATE_ORGANIZATION);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /lisää organisaatio/i });
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/organizations/create`)
+  );
+});
+
 it('should render edit organization page', async () => {
   const id = organizationId;
   const { history } = renderRoute(

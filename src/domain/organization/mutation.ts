@@ -2,6 +2,18 @@
 import gql from 'graphql-tag';
 
 export const MUTATION_ORGANIZATION = gql`
+  mutation CreateOrganization($input: CreateOrganizationMutationInput!) {
+    createOrganization(input: $input)
+      @rest(
+        type: "Organization"
+        path: "/organization/"
+        method: "POST"
+        bodyKey: "input"
+      ) {
+      ...organizationFields
+    }
+  }
+
   mutation DeleteOrganization($id: ID!) {
     deleteOrganization(id: $id)
       @rest(

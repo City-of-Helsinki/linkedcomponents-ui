@@ -212,6 +212,10 @@
     "pageTitle": "Lisää avainsanaryhmä",
     "title": "Lisää avainsanaryhmä"
   },
+  "createOrganizationPage": {
+    "pageTitle": "Lisää organisaatio",
+    "title": "Lisää organisaatio"
+  },
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"

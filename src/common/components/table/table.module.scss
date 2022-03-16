@@ -1,3 +1,4 @@
+@import 'breakpoints';
 @import 'mixins';
 
 .table {
@@ -49,7 +50,6 @@
         border-bottom: 1px solid var(--table-body-row-border-color);
         white-space: nowrap;
       }
-
     }
   }
 
@@ -85,5 +85,14 @@
   td {
     text-align: center !important;
     font-weight: 500;
+  }
+}
+
+.tableWrapper {
+  max-width: calc(100vw - 2 * var(--spacing-s));
+  overflow: auto;
+
+  @include medium-up {
+    max-width: calc(100vw - 2 * var(--spacing-m));
   }
 }

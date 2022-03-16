@@ -11,6 +11,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createKeyword(input: CreateKeywordMutationInput!): Keyword!
     createKeywordSet(input: CreateKeywordSetMutationInput!): KeywordSet!
+    createOrganization(input: CreateOrganizationMutationInput!): Organization!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent

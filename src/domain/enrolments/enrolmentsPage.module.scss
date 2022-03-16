@@ -19,10 +19,11 @@
 .pageContentContainer {
   background-color: var(--color-white);
   margin: var(--spacing-m) calc(0px - var(--spacing-s));
-  padding: var(--spacing-m);
+  padding: var(--spacing-s);
 
   @include medium-up {
     margin: var(--spacing-m) calc(0px - var(--spacing-m));
+    padding: var(--spacing-m);
   }
 }
 
