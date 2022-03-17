@@ -110,6 +110,7 @@ const OrganizationsTableRow: React.FC<Props> = ({
         role="button"
         aria-label={fullName}
         id={getOrganizationItemId(id)}
+        data-testid={id}
         onClick={handleRowClick}
         onKeyDown={handleKeyDown}
         tabIndex={0}
