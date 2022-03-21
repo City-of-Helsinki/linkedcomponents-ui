@@ -16,14 +16,14 @@ import useMountedState from '../../../hooks/useMountedState';
 import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
-import {
-  clearRegistrationQueries,
-  clearRegistrationsQueries,
-} from '../../registrations/utils';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
 import { EnrolmentFormFields } from '../types';
-import { getEnrolmentPayload } from '../utils';
+import {
+  clearEnrolmentQueries,
+  clearEnrolmentsQueries,
+  getEnrolmentPayload,
+} from '../utils';
 
 export enum ENROLMENT_MODALS {
   CANCEL = 'cancel',
@@ -70,9 +70,9 @@ const useEnrolmentUpdateActions = ({
 
   const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
     /* istanbul ignore next */
-    !isTestEnv && clearRegistrationQueries(apolloClient);
+    !isTestEnv && clearEnrolmentQueries(apolloClient);
     /* istanbul ignore next */
-    !isTestEnv && clearRegistrationsQueries(apolloClient);
+    !isTestEnv && clearEnrolmentsQueries(apolloClient);
 
     savingFinished();
     closeModal();

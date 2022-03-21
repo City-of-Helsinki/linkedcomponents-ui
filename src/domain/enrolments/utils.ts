@@ -1,5 +1,3 @@
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-
 import { ROUTES } from '../../constants';
 import {
   AttendeeStatus,
@@ -57,11 +55,6 @@ export const getEnrolmentFields = ({
 
 export const getEnrolmentItemId = (id: string): string =>
   `enrolment-item-${id}`;
-
-export const clearEnrolmentsQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>
-): boolean =>
-  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'enrolments' });
 
 export const enrolmentsPathBuilder = ({
   args,

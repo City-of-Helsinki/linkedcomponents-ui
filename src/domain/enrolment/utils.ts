@@ -1,3 +1,4 @@
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
@@ -259,3 +260,19 @@ export const getEditButtonProps = ({
     title: warning,
   };
 };
+
+/* istanbul ignore next */
+export const clearEnrolmentQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>,
+  args?: EnrolmentQueryVariables
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'enrolment',
+    args,
+  });
+
+export const clearEnrolmentsQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'enrolments' });

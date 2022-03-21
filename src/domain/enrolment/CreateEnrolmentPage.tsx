@@ -30,7 +30,6 @@ import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import { reportError } from '../app/sentry/utils';
-import { clearEnrolmentsQueries } from '../enrolments/utils';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
@@ -50,7 +49,11 @@ import EventInfo from './eventInfo/EventInfo';
 import FormContainer from './formContainer/FormContainer';
 import useEnrolmentServerErrors from './hooks/useEnrolmentServerErrors';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
-import { getEnrolmentDefaultInitialValues, getEnrolmentPayload } from './utils';
+import {
+  clearEnrolmentsQueries,
+  getEnrolmentDefaultInitialValues,
+  getEnrolmentPayload,
+} from './utils';
 import { enrolmentSchema, scrollToFirstError } from './validation';
 
 type Props = {
