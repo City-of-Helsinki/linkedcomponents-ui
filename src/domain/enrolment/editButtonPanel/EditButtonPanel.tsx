@@ -2,7 +2,6 @@ import { IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
@@ -72,10 +71,6 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   };
 
   const actionItems: MenuItemOptionProps[] = [
-    getActionItemProps({
-      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
-      onClick: () => toast.error('TODO: Send message to attendee'),
-    }),
     getActionItemProps({
       action: ENROLMENT_ACTIONS.CANCEL,
       onClick: onCancel,

@@ -64,20 +64,16 @@ const renderComponent = ({
     store,
   });
 
-const findElement = (key: 'cancel' | 'edit' | 'sendMessage') => {
+const findElement = (key: 'cancel' | 'edit') => {
   switch (key) {
     case 'cancel':
       return screen.findByRole('button', { name: 'Peruuta osallistuminen' });
     case 'edit':
       return screen.findByRole('button', { name: 'Muokkaa tietoja' });
-    case 'sendMessage':
-      return screen.findByRole('button', { name: /lähetä viesti/i });
   }
 };
 
-const getElement = (
-  key: 'cancel' | 'edit' | 'menu' | 'sendMessage' | 'toggle'
-) => {
+const getElement = (key: 'cancel' | 'edit' | 'menu' | 'toggle') => {
   switch (key) {
     case 'cancel':
       return screen.getByRole('button', { name: 'Peruuta osallistuminen' });
@@ -85,8 +81,7 @@ const getElement = (
       return screen.getByRole('button', { name: 'Muokkaa tietoja' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
-    case 'sendMessage':
-      return screen.getByRole('button', { name: /lähetä viesti/i });
+
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
   }
@@ -117,7 +112,6 @@ test('should render correct buttons', async () => {
 
   getElement('edit');
   await findElement('cancel');
-  getElement('sendMessage');
 });
 
 test('should route to edit enrolment page when clicking edit button', async () => {
@@ -136,20 +130,6 @@ test('should route to edit enrolment page when clicking edit button', async () =
 
   expect(history.location.search).toBe(
     `?returnPath=${encodeURIComponent(stripLanguageFromPath(route))}`
-  );
-});
-
-test('should show toast message when clicking send message button', async () => {
-  toast.error = jest.fn();
-  renderComponent({ store });
-
-  openMenu();
-
-  const sendMessageButton = await findElement('sendMessage');
-  act(() => userEvent.click(sendMessageButton));
-
-  await waitFor(() =>
-    expect(toast.error).toBeCalledWith('TODO: Send message to attendee')
   );
 });
 

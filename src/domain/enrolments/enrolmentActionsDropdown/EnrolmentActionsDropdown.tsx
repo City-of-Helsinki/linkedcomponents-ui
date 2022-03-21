@@ -2,7 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
-import { toast } from 'react-toastify';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
@@ -98,10 +97,6 @@ const EnrolmentActionsDropdown = React.forwardRef<
     getActionItemProps({
       action: ENROLMENT_ACTIONS.EDIT,
       onClick: goToEditEnrolmentPage,
-    }),
-    getActionItemProps({
-      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
-      onClick: () => toast.error('TODO: Send message to attendee'),
     }),
     getActionItemProps({
       action: ENROLMENT_ACTIONS.CANCEL,

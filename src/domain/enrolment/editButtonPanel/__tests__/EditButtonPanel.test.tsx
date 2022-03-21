@@ -1,6 +1,5 @@
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
@@ -58,23 +57,15 @@ const renderComponent = ({
     store,
   });
 
-const findElement = (key: 'cancelButton' | 'sendMessageButton') => {
+const findElement = (key: 'cancelButton') => {
   switch (key) {
     case 'cancelButton':
       return screen.findByRole('button', { name: 'Peruuta osallistuminen' });
-    case 'sendMessageButton':
-      return screen.findByRole('button', { name: 'Lähetä viesti' });
   }
 };
 
 const getElement = (
-  key:
-    | 'backButton'
-    | 'cancelButton'
-    | 'menu'
-    | 'saveButton'
-    | 'sendMessageButton'
-    | 'toggleButton'
+  key: 'backButton' | 'cancelButton' | 'menu' | 'saveButton' | 'toggleButton'
 ) => {
   switch (key) {
     case 'backButton':
@@ -85,8 +76,6 @@ const getElement = (
       return screen.getByRole('region', { name: /valinnat/i });
     case 'saveButton':
       return screen.getByRole('button', { name: 'Tallenna osallistuja' });
-    case 'sendMessageButton':
-      return screen.getByRole('button', { name: 'Lähetä viesti' });
     case 'toggleButton':
       return screen.getByRole('button', { name: /valinnat/i });
   }
@@ -119,19 +108,6 @@ test('should call onCancel clicking cancel button', async () => {
   const cancelButton = await findElement('cancelButton');
   act(() => userEvent.click(cancelButton));
   expect(onCancel).toBeCalled();
-});
-
-test('should show toast message when clicking send message button', async () => {
-  toast.error = jest.fn();
-  renderComponent();
-
-  openMenu();
-  const sendMessageButton = await findElement('sendMessageButton');
-  act(() => userEvent.click(sendMessageButton));
-
-  await waitFor(() =>
-    expect(toast.error).toBeCalledWith('TODO: Send message to attendee')
-  );
 });
 
 test('should toggle menu by clicking actions button', () => {
