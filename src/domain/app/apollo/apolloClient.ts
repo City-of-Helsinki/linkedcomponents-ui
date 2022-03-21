@@ -340,16 +340,20 @@ const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = [
   'CreateEvents',
   'CreateKeyword',
   'CreateKeywordSet',
+  'CreateOrganization',
   'PostFeedback',
   'PostGuestFeedback',
   'UpdateKeyword',
   'UpdateKeywordSet',
+  'UpdateOrganization',
 ];
 const MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR = [
   'CreateKeyword',
   'CreateKeywordSet',
+  'CreateOrganization',
   'UpdateKeyword',
   'UpdateKeywordSet',
+  'UpdateOrganization',
 ];
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {

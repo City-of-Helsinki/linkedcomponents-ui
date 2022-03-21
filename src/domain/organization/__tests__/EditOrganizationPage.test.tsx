@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
@@ -11,6 +10,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import {
   mockedOrganizationResponse,
@@ -25,6 +25,11 @@ import {
   mockedUsersResponse,
   userNames,
 } from '../../user/__mocks__/user';
+import {
+  mockedDeleteOrganizationResponse,
+  mockedInvalidUpdateOrganizationResponse,
+  mockedUpdateOrganizationResponse,
+} from '../__mocks__/editOrganizationPage';
 import EditOrganizationPage from '../EditOrganizationPage';
 
 configure({ defaultHidden: true });
@@ -71,32 +76,7 @@ const getElement = (
   }
 };
 
-test('should scroll to first validation error input field', async () => {
-  renderComponent();
-
-  const nameInput = await findElement('nameInput');
-  userEvent.clear(nameInput);
-  const saveButton = await findElement('saveButton');
-  userEvent.click(saveButton);
-
-  await waitFor(() => expect(nameInput).toHaveFocus());
-});
-
-test('should call toast error when trying to delete organization', async () => {
-  toast.error = jest.fn();
-  renderComponent();
-
-  const deleteButton = await findElement('deleteButton');
-  act(() => userEvent.click(deleteButton));
-
-  expect(toast.error).toBeCalledWith('TODO: Delete organization');
-});
-
-test('should call toast error when trying to update organization', async () => {
-  toast.error = jest.fn();
-  renderComponent();
-  const submitButton = await findElement('saveButton');
-
+const fillFormValues = async () => {
   act(() => userEvent.click(getElement('adminUsersToggleButton')));
   const userOption = await screen.findByRole('option', {
     name: new RegExp(userNames[0]),
@@ -108,10 +88,65 @@ test('should call toast error when trying to update organization', async () => {
     name: organizations.data[0].name,
   });
   act(() => userEvent.click(organizationOption));
+};
+
+test('should scroll to first validation error input field', async () => {
+  renderComponent();
+
+  const nameInput = await findElement('nameInput');
+  userEvent.clear(nameInput);
+  const saveButton = await findElement('saveButton');
+  userEvent.click(saveButton);
+
+  await waitFor(() => expect(nameInput).toHaveFocus());
+});
+
+test('should delete organization', async () => {
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedDeleteOrganizationResponse,
+  ]);
+
+  const deleteButton = await findElement('deleteButton');
+  act(() => userEvent.click(deleteButton));
+
+  const withinModal = within(screen.getByRole('dialog'));
+  const deleteOrganizationButton = withinModal.getByRole('button', {
+    name: 'Poista organisaatio',
+  });
+  userEvent.click(deleteOrganizationButton);
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/organizations`)
+  );
+});
+
+test('should update organization', async () => {
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedUpdateOrganizationResponse,
+  ]);
+
+  const submitButton = await findElement('saveButton');
+
+  await fillFormValues();
 
   act(() => userEvent.click(submitButton));
 
   await waitFor(() =>
-    expect(toast.error).toBeCalledWith('TODO: Handle saving organization')
+    expect(history.location.pathname).toBe(`/fi/admin/organizations`)
   );
+});
+
+test('should show server errors', async () => {
+  renderComponent([...defaultMocks, mockedInvalidUpdateOrganizationResponse]);
+
+  const submitButton = await findElement('saveButton');
+
+  await fillFormValues();
+
+  act(() => userEvent.click(submitButton));
+
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/Nimi on pakollinen./i);
 });

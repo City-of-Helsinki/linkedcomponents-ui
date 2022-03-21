@@ -53,5 +53,6 @@ export {
   mockedUserWithoutOrganizationsResponse,
   userName,
   userNames,
+  users,
   userVariables,
 };

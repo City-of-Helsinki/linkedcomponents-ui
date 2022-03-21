@@ -5,6 +5,7 @@ import {
   EventFieldsFragment,
   KeywordFieldsFragment,
   KeywordSetFieldsFragment,
+  OrganizationFieldsFragment,
 } from '../../src/generated/graphql';
 import { getCommonComponents } from '../common.components';
 import { getEnvUrl } from './settings';
@@ -35,6 +36,13 @@ export const getUrlUtils = (t: TestController) => {
     async navigateToKeywordSetsUrl(searchString: string) {
       const url = getEnvUrl(
         `/fi/admin/keyword-sets?text=${encodeURIComponent(searchString)}`
+      );
+      setDataToPrintOnFailure(t, 'url', url);
+      await t.navigateTo(url);
+    },
+    async navigateToOrganizationsUrl(searchString: string) {
+      const url = getEnvUrl(
+        `/fi/admin/organizations?text=${encodeURIComponent(searchString)}`
       );
       setDataToPrintOnFailure(t, 'url', url);
       await t.navigateTo(url);
@@ -81,6 +89,11 @@ export const getUrlUtils = (t: TestController) => {
       await t
         .expect(getPathname())
         .eql(`/fi/admin/keyword-sets/create`, await getErrorMessage(t));
+    },
+    async urlChangedToCreateOrganizationPage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/admin/organizations/create`, await getErrorMessage(t));
     },
     async urlChangedToDocumentationPage() {
       await t
@@ -151,6 +164,24 @@ export const getUrlUtils = (t: TestController) => {
     },
     async urlChangedToLandingPage() {
       await t.expect(getPathname()).eql(`/fi`, await getErrorMessage(t));
+    },
+    async urlChangedToOrganizationPage(
+      organization: OrganizationFieldsFragment
+    ) {
+      setDataToPrintOnFailure(t, 'expectedOrganization', organization);
+      await t
+        .expect(getPathname())
+        .eql(
+          `/fi/admin/organizations/edit/${organization.id}`,
+          await getErrorMessage(t)
+        );
+      await pageIsLoaded();
+      await t
+        .expect(getPageTitle())
+        .eql(
+          `Muokkaa organisaatiota - Linked Events`,
+          await getErrorMessage(t)
+        );
     },
     async urlChangedToPlatformPage() {
       await t

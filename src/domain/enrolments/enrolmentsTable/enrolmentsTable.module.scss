@@ -1,12 +1,5 @@
 @import 'mixins';
 
-.tableWrapper {
-  display: grid;
-  grid-gap: var(--spacing-m);
-  max-width: calc(100vw - 2 * var(--spacing-m));
-  overflow: auto;
-}
-
 .enrolmentsTable {
   --table-head-background: var(--color-white);
 

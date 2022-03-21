@@ -14,6 +14,7 @@ import {
   addExpandedOrganization,
   removeExpandedOrganization,
 } from '../actions';
+import OrganizationActionsDropdown from '../organizationActionsDropdown/OrganizationActionsDropdown';
 import { expandedOrganizationsSelector } from '../selectors';
 import { OrganizationsLocationState } from '../types';
 import { getOrganizationItemId } from '../utils';
@@ -109,6 +110,7 @@ const OrganizationsTableRow: React.FC<Props> = ({
         role="button"
         aria-label={fullName}
         id={getOrganizationItemId(id)}
+        data-testid={id}
         onClick={handleRowClick}
         onKeyDown={handleKeyDown}
         tabIndex={0}
@@ -168,7 +170,12 @@ const OrganizationsTableRow: React.FC<Props> = ({
             </span>
           </div>
         </td>
-        <td className={styles.actionButtonsColumn}></td>
+        <td className={styles.actionButtonsColumn}>
+          <OrganizationActionsDropdown
+            ref={actionsDropdownRef}
+            organization={organization}
+          />
+        </td>
       </tr>
       {!!subOrganizationIds.length && open && (
         <SubOrganizationRows organizationId={id} level={level} />

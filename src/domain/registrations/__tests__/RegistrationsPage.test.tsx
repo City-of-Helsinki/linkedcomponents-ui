@@ -33,6 +33,13 @@ const mocks = [
 
 beforeEach(() => jest.clearAllMocks());
 
+const findElement = (key: 'createRegistrationButton') => {
+  switch (key) {
+    case 'createRegistrationButton':
+      return screen.findByRole('button', { name: /lisää uusi/i });
+  }
+};
+
 const getElement = (key: 'createRegistrationButton' | 'table') => {
   switch (key) {
     case 'createRegistrationButton':
@@ -64,7 +71,7 @@ test('should render registrations page', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  getElement('createRegistrationButton');
+  await findElement('createRegistrationButton');
   getElement('table');
 });
 
@@ -74,7 +81,9 @@ test('should open create registration page', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const createRegistrationButton = getElement('createRegistrationButton');
+  const createRegistrationButton = await findElement(
+    'createRegistrationButton'
+  );
   userEvent.click(createRegistrationButton);
 
   expect(history.location.pathname).toBe('/fi/registrations/create');

@@ -12,6 +12,7 @@ import {
   useUpdateKeywordSetMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
+import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import {
@@ -28,26 +29,20 @@ export enum KEYWORD_SET_MODALS {
   DELETE = 'delete',
 }
 
-interface Callbacks {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onError?: (error: any) => void;
-  onSuccess?: () => void;
-}
-
 interface Props {
   keywordSet?: KeywordSetFieldsFragment;
 }
 
 type UseKeywordUpdateActionsState = {
   closeModal: () => void;
-  deleteKeywordSet: (callbacks?: Callbacks) => Promise<void>;
+  deleteKeywordSet: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
   openModal: KEYWORD_SET_MODALS | null;
   saving: KEYWORD_SET_ACTIONS | null;
   setOpenModal: (modal: KEYWORD_SET_MODALS | null) => void;
   setSaving: (action: KEYWORD_SET_ACTIONS | null) => void;
   updateKeywordSet: (
     values: KeywordSetFormFields,
-    callbacks?: Callbacks
+    callbacks?: UpdateActionsCallbacks
   ) => Promise<void>;
 };
 
@@ -74,7 +69,7 @@ const useKeywordSetUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: Callbacks) => {
+  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearKeywordSetQueries(apolloClient);
     /* istanbul ignore next */
@@ -92,7 +87,7 @@ const useKeywordSetUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: Callbacks;
+    callbacks?: UpdateActionsCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -116,7 +111,7 @@ const useKeywordSetUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deleteKeywordSet = async (callbacks?: Callbacks) => {
+  const deleteKeywordSet = async (callbacks?: UpdateActionsCallbacks) => {
     try {
       setSaving(KEYWORD_SET_ACTIONS.DELETE);
 
@@ -136,7 +131,7 @@ const useKeywordSetUpdateActions = ({
 
   const updateKeywordSet = async (
     values: KeywordSetFormFields,
-    callbacks?: Callbacks
+    callbacks?: UpdateActionsCallbacks
   ) => {
     const payload: UpdateKeywordSetMutationInput = getKeywordSetPayload(
       values,

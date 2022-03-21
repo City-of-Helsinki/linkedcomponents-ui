@@ -211,6 +211,10 @@
     "pageTitle": "Add keyword set",
     "title": "Add keyword set"
   },
+  "createOrganizationPage": {
+    "pageTitle": "Add organization",
+    "title": "Add organization"
+  },
   "createRegistrationPage": {
     "page": "New registration",
     "title": "New registration"
@@ -1365,6 +1369,11 @@
   },
   "organization": {
     "affiliatedOrganizationsTableTitle": "Affiliated organizations",
+    "deleteOrganizationModal": {
+      "buttonDelete": "Delete organization",
+      "text": "This action will permanently remove the organization.",
+      "title": "Confirm organization deletion"
+    },
     "form": {
       "buttonDelete": "Delete organization",
       "labelAdminUsers": "Admin users",
@@ -1389,6 +1398,9 @@
     "subOrganizationsTableTitle": "Sub organizations"
   },
   "organizationsPage": {
+    "actionButtons": {
+      "edit": "Edit organization"
+    },
     "count": "{{count}} organization",
     "count_plural": "{{count}} organization",
     "labelSearch": "Search organizations",

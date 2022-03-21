@@ -11,11 +11,13 @@ module.exports = buildSchema(/* GraphQL */ `
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createKeyword(input: CreateKeywordMutationInput!): Keyword!
     createKeywordSet(input: CreateKeywordSetMutationInput!): KeywordSet!
+    createOrganization(input: CreateOrganizationMutationInput!): Organization!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
     deleteKeywordSet(id: ID!): NoContent
+    deleteOrganization(id: ID!): NoContent
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
@@ -26,6 +28,7 @@ module.exports = buildSchema(/* GraphQL */ `
     uploadImage(input: UploadImageMutationInput!): Image!
     updateKeyword(input: UpdateKeywordMutationInput!): Keyword!
     updateKeywordSet(input: UpdateKeywordSetMutationInput!): KeywordSet!
+    updateOrganization(input: UpdateOrganizationMutationInput!): Organization!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
   }
 
@@ -346,6 +349,38 @@ module.exports = buildSchema(/* GraphQL */ `
     name: LocalisedObjectInput
     organization: String
     usage: String
+  }
+
+  input CreateOrganizationMutationInput {
+    adminUsers: [String]
+    affiliatedOrganizations: [String]
+    classification: String
+    dataSource: String
+    dissolutionDate: String
+    foundingDate: String
+    id: String
+    internalType: String
+    name: String
+    parentOrganization: String
+    regularUsers: [String]
+    replacedBy: String
+    subOrganizations: [String]
+  }
+
+  input UpdateOrganizationMutationInput {
+    adminUsers: [String]
+    affiliatedOrganizations: [String]
+    classification: String
+    dataSource: String
+    dissolutionDate: String
+    foundingDate: String
+    id: String
+    internalType: String
+    name: String
+    parentOrganization: String
+    regularUsers: [String]
+    replacedBy: String
+    subOrganizations: [String]
   }
 
   input CreateRegistrationMutationInput {

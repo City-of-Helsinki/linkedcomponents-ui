@@ -5,7 +5,7 @@ export const MUTATION_KEYWORD = gql`
   mutation CreateKeyword($input: CreateKeywordMutationInput!) {
     createKeyword(input: $input)
       @rest(
-        type: "Event"
+        type: "Keyword"
         path: "/keyword/"
         method: "POST"
         bodyKey: "input"

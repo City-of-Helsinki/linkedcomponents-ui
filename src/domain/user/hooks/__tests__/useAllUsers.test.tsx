@@ -81,15 +81,16 @@ const getHookWrapper = async () => {
       wrapper,
     }
   );
-  // Test the initial state of the request
+
   expect(result.current.users).toEqual([]);
+  await waitFor(() => expect(result.current.user).toBeDefined());
+  // Test the initial state of the request
   return { result, waitFor, waitForValueToChange };
 };
 
 test('should return all users', async () => {
-  const { result, waitFor, waitForValueToChange } = await getHookWrapper();
+  const { result, waitFor } = await getHookWrapper();
   // Wait for the results
-  await waitForValueToChange(() => result.current.users);
   await waitFor(() =>
     expect(map(result.current.users, 'displayName')).toEqual([
       ...userNames,

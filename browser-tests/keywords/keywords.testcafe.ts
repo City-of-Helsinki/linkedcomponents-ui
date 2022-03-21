@@ -42,7 +42,7 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     await urlUtils.expectations.urlChangedToCreateKeywordPage();
   });
 
-  test('Search url by keyword name shows keyword row data for an keyword', async (t) => {
+  test('Search url by keyword name shows keyword row data for a keyword', async (t) => {
     const cookieConsentModal = await findCookieConsentModal(t);
     await cookieConsentModal.actions.acceptAllCookies();
 

@@ -8,6 +8,7 @@ import { scroller } from 'react-scroll';
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
+import TableWrapper from '../../../common/components/table/TableWrapper';
 import {
   EventsQueryVariables,
   RegistrationsQuery,
@@ -80,12 +81,12 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
   return (
     <div className={styles.contentWrapperTable}>
       <Container withOffset={true}>
-        <div className={styles.table}>
+        <TableWrapper className={styles.tableWrapper}>
           <RegistrationsTable
             caption={getTableCaption()}
             registrations={registrations}
           />
-        </div>
+        </TableWrapper>
         {pageCount > 1 && (
           <Pagination
             pageCount={pageCount}

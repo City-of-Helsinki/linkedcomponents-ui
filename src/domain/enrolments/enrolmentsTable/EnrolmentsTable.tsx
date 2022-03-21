@@ -9,6 +9,7 @@ import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpi
 import Pagination from '../../../common/components/pagination/Pagination';
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import Table from '../../../common/components/table/Table';
+import TableWrapper from '../../../common/components/table/TableWrapper';
 import {
   EnrolmentFieldsFragment,
   EnrolmentsQueryVariables,
@@ -107,7 +108,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   return (
     <div id={enrolmentListId}>
       <h2 className={styles.heading}>{heading}</h2>
-      <div className={styles.tableWrapper}>
+      <TableWrapper>
         <Table ref={table} className={classNames(styles.enrolmentsTable)}>
           <caption aria-live={focused ? 'polite' : undefined}>
             {caption}
@@ -161,7 +162,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
             setSelectedPage={onSelectedPageChange}
           />
         )}
-      </div>
+      </TableWrapper>
     </div>
   );
 };

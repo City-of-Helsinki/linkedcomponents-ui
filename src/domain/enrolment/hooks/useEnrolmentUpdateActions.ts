@@ -13,6 +13,7 @@ import {
   useUpdateEnrolmentMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
+import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
 import {
@@ -28,12 +29,6 @@ export enum ENROLMENT_MODALS {
   CANCEL = 'cancel',
 }
 
-interface Callbacks {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onError?: (error: any) => void;
-  onSuccess?: () => void;
-}
-
 interface Props {
   enrolment: EnrolmentFieldsFragment;
   registration: RegistrationFieldsFragment;
@@ -41,13 +36,13 @@ interface Props {
 
 type UseEnrolmentUpdateActionsState = {
   closeModal: () => void;
-  cancelEnrolment: (callbacks?: Callbacks) => Promise<void>;
+  cancelEnrolment: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
   openModal: ENROLMENT_MODALS | null;
   saving: ENROLMENT_ACTIONS | false;
   setOpenModal: (modal: ENROLMENT_MODALS | null) => void;
   updateEnrolment: (
     values: EnrolmentFormFields,
-    callbacks?: Callbacks
+    callbacks?: UpdateActionsCallbacks
   ) => Promise<void>;
 };
 const useEnrolmentUpdateActions = ({
@@ -73,7 +68,7 @@ const useEnrolmentUpdateActions = ({
     setSaving(false);
   };
 
-  const cleanAfterUpdate = async (callbacks?: Callbacks) => {
+  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearRegistrationQueries(apolloClient);
     /* istanbul ignore next */
@@ -91,7 +86,7 @@ const useEnrolmentUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: Callbacks;
+    callbacks?: UpdateActionsCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -115,7 +110,7 @@ const useEnrolmentUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const cancelEnrolment = async (callbacks?: Callbacks) => {
+  const cancelEnrolment = async (callbacks?: UpdateActionsCallbacks) => {
     try {
       setSaving(ENROLMENT_ACTIONS.CANCEL);
 
@@ -137,7 +132,7 @@ const useEnrolmentUpdateActions = ({
 
   const updateEnrolment = async (
     values: EnrolmentFormFields,
-    callbacks?: Callbacks
+    callbacks?: UpdateActionsCallbacks
   ) => {
     let payload: UpdateEnrolmentMutationInput = {
       id: enrolment.id as string,

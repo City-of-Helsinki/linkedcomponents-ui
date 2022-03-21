@@ -5,10 +5,12 @@ import { fakeOrganization } from '../../../utils/mockDataUtils';
 import { TEST_DATA_SOURCE, TEST_PUBLISHER_ID } from '../constants';
 
 const dataSource = TEST_DATA_SOURCE;
+const organizationClassification = 'ahjo:1';
 const organizationId = TEST_PUBLISHER_ID;
 const organizationName = 'Organization name';
 
 const organization = fakeOrganization({
+  classification: organizationClassification,
   dataSource,
   id: organizationId,
   name: organizationName,
@@ -24,6 +26,7 @@ const mockedOrganizationResponse: MockedResponse = {
 export {
   mockedOrganizationResponse,
   organization,
+  organizationClassification,
   organizationId,
   organizationName,
 };
