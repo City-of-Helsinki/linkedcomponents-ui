@@ -3,7 +3,7 @@
   "version": "0.7.3",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.5.5",
+    "@apollo/client": "^3.5.10",
     "@babel/plugin-proposal-private-methods": "^7.16.0",
     "@datapunt/matomo-tracker-react": "^0.5.1",
     "@datepicker-react/hooks": "2.8.4",
