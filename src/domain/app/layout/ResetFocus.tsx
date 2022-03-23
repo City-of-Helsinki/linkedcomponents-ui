@@ -1,5 +1,5 @@
 import React from 'react';
-import { matchPath, RouteProps, useLocation } from 'react-router';
+import { matchPath, PathPattern, useLocation } from 'react-router';
 
 import useLocale from '../../../hooks/useLocale';
 
@@ -7,13 +7,9 @@ import useLocale from '../../../hooks/useLocale';
  * Ensure that browser focus is set to body when navigating using
  * <Link> from react-router-dom.
  */
-interface IgnorePathProps {
-  pathname: string;
-  props?: RouteProps;
-}
 interface Props {
   disabled?: boolean;
-  ignoredPaths: IgnorePathProps[];
+  ignoredPaths: PathPattern[];
 }
 const ResetFocus: React.FC<Props> = ({ disabled, ignoredPaths }) => {
   const locale = useLocale();
@@ -21,13 +17,15 @@ const ResetFocus: React.FC<Props> = ({ disabled, ignoredPaths }) => {
   const node = React.useRef<HTMLDivElement>(null);
 
   const isMatch = React.useCallback(
-    (paths: IgnorePathProps[]) =>
+    (paths: PathPattern[]) =>
       paths.some((path) =>
-        matchPath(pathname, {
-          path: `/${locale}${path.pathname}`,
-          exact: path.props?.exact ?? /* istanbul ignore next */ true,
-          strict: path.props?.strict ?? true,
-        })
+        matchPath(
+          {
+            path: `/${locale}${path.path}`,
+            end: path.end ?? /* istanbul ignore next */ true,
+          },
+          pathname
+        )
       ),
     [locale, pathname]
   );

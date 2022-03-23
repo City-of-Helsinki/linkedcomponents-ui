@@ -2,7 +2,7 @@ import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -55,16 +55,17 @@ const EventList: React.FC<EventListProps> = ({
   page,
   pageCount,
 }) => {
-  const location = useLocation<EventsLocationState>();
-  const history = useHistory();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (location.state?.eventId) {
-      scrollToItem(getEventItemId(location.state.eventId));
+    const locationState = location.state as EventsLocationState;
+    if (locationState?.eventId) {
+      scrollToItem(getEventItemId(locationState.eventId));
       // Clear eventId value to keep scroll position correctly
-      const state = omit(location.state, 'eventId');
+      const state = omit(locationState, 'eventId');
       // location.search seems to reset if not added here (...location)
-      history.replace({ ...location, state });
+      navigate(location, { state, replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -94,8 +95,8 @@ const EventListContainer: React.FC<EventListContainerProps> = ({
 }) => {
   const [eventListId] = React.useState(() => uniqueId('event-list-'));
   const { t } = useTranslation();
-  const location = useLocation<EventsLocationState>();
-  const history = useHistory();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { page, sort } = getEventSearchInitialValues(location.search);
 
   const sortOptions = useEventSortOptions();
@@ -111,7 +112,7 @@ const EventListContainer: React.FC<EventListContainerProps> = ({
   const events = eventsData?.events?.data || [];
 
   const handleSelectedPageChange = (page: number) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToEventQueryString(location.search, {
         page: page > 1 ? page : null,
@@ -127,7 +128,7 @@ const EventListContainer: React.FC<EventListContainerProps> = ({
   };
 
   const handleSortChange = (val: EVENT_SORT_OPTIONS) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToEventQueryString(location.search, {
         page: null,

@@ -4,7 +4,7 @@ import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -40,7 +40,7 @@ type Props = {
 const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const authenticated = useSelector(authenticatedSelector);
   const { dataSource } = getKeywordSetFields(keywordSet, locale);
   const { user } = useUser();
@@ -52,7 +52,7 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
     });
 
   const goToKeywordSetsPage = () => {
-    history.push(`/${locale}${ROUTES.KEYWORD_SETS}`);
+    navigate(`/${locale}${ROUTES.KEYWORD_SETS}`);
   };
 
   const onDelete = () => {
@@ -119,7 +119,7 @@ const EditKeywordSetPageWrapper: React.FC = () => {
       fetchPolicy: 'no-cache',
       variables: {
         createPath: getPathBuilder(keywordSetPathBuilder),
-        id,
+        id: id as string,
       },
     });
 

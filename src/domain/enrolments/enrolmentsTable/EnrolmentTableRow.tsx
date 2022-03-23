@@ -1,7 +1,7 @@
 import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import {
   EnrolmentFieldsFragment,
@@ -27,8 +27,8 @@ const EnrolmentTableRow: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const location = useLocation<EnrolmentsLocationState>();
-  const history = useHistory();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const actionsDropdownRef = React.useRef<HTMLDivElement>(null);
   const rowRef = React.useRef<HTMLTableRowElement>(null);
@@ -58,12 +58,13 @@ const EnrolmentTableRow: React.FC<Props> = ({
   };
 
   React.useEffect(() => {
-    if (location.state?.enrolmentId) {
-      scrollToItem(getEnrolmentItemId(location.state.enrolmentId));
+    const locationState = location.state as EnrolmentsLocationState;
+    if (locationState?.enrolmentId === id) {
+      scrollToItem(getEnrolmentItemId(locationState.enrolmentId));
       // Clear registrationId value to keep scroll position correctly
-      const state = omit(location.state, 'enrolmentId');
+      const state = omit(locationState, 'enrolmentId');
       // location.search seems to reset if not added here (...location)
-      history.replace({ ...location, state });
+      navigate(location, { state, replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

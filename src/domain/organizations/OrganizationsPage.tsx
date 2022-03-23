@@ -1,7 +1,7 @@
 import { Button, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -14,11 +14,11 @@ import OrganizationList from './organizationList/OrganizationList';
 
 const OrganizationsPage: React.FC = () => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
 
   const goToCreateOrganizationPage = () => {
-    history.push(`/${locale}${ROUTES.CREATE_ORGANIZATION}`);
+    navigate(`/${locale}${ROUTES.CREATE_ORGANIZATION}`);
   };
 
   return (

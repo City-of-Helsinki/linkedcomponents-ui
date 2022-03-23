@@ -4,7 +4,7 @@ import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import EditingInfo from '../../common/components/editingInfo/EditingInfo';
@@ -48,7 +48,7 @@ interface EnrolmentsPageProps {
 
 const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
 
   const authenticated = useSelector(authenticatedSelector);
@@ -64,7 +64,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   );
 
   const handleCreate = () => {
-    history.push({
+    navigate({
       pathname: ROUTES.CREATE_ENROLMENT.replace(
         ':registrationId',
         registration.id as string
@@ -142,7 +142,7 @@ const EnrolmentsPageWrapper: React.FC = () => {
       skip: !registrationId || !user,
       fetchPolicy: 'network-only',
       variables: {
-        id: registrationId,
+        id: registrationId as string,
         createPath: getPathBuilder(registrationPathBuilder),
         include: REGISTRATION_INCLUDES,
       },

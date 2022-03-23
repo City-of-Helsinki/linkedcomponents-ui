@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import SortableColumn from '../../../common/components/table/SortableColumn';
@@ -33,7 +33,7 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
   sort,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
   const queryStringWithReturnPath = useKeywordsQueryStringWithReturnPath();
 
@@ -43,7 +43,7 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
   const handleRowClick = (keyword: KeywordFieldsFragment) => {
     const { keywordUrl } = getKeywordFields(keyword, locale);
 
-    history.push({
+    navigate({
       pathname: keywordUrl,
       search: queryStringWithReturnPath,
     });

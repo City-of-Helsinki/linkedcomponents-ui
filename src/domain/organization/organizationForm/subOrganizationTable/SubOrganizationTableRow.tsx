@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import { OrganizationFieldsFragment } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
@@ -19,7 +19,7 @@ const SubOrganizationTableRow: React.FC<SubOrganizationTableRowProps> = ({
   organization,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const locale = useLocale();
   const {
@@ -39,7 +39,7 @@ const SubOrganizationTableRow: React.FC<SubOrganizationTableRowProps> = ({
       returnPath: pathname,
     });
 
-    history.push({
+    navigate({
       pathname: organizationUrl,
       search: queryString,
     });

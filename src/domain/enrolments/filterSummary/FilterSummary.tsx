@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import FilterTag from '../../../common/components/filterTag/FilterTag';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
@@ -14,12 +14,12 @@ interface Props {
 
 const FilterSummary: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const { enrolmentText: text } = getEnrolmentSearchInitialValues(search);
 
   const clearFilters = () => {
-    history.push({
+    navigate({
       pathname,
       search: replaceParamsToRegistrationQueryString(search, {
         enrolmentText: '',

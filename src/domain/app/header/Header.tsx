@@ -4,7 +4,7 @@ import { IconInfoCircle, IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { matchPath, RouteProps, useHistory, useLocation } from 'react-router';
+import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
 import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
@@ -19,7 +19,7 @@ import styles from './header.module.scss';
 
 interface NoNavRowProps {
   pathname: string;
-  props?: RouteProps;
+  props?: PathPattern;
 }
 
 interface NavigationItem {
@@ -41,7 +41,7 @@ const SCROLL_OFFSET = 40;
 const Header: React.FC = () => {
   const { theme } = useTheme();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { changeLanguage, languageOptions } = useSelectLanguage();
 
@@ -56,14 +56,14 @@ const Header: React.FC = () => {
 
   const goToHomePage = (e?: Event) => {
     e?.preventDefault();
-    history.push({ pathname: `/${locale}${ROUTES.HOME}` });
+    navigate({ pathname: `/${locale}${ROUTES.HOME}` });
     setMenuOpen(false);
   };
 
   const goToPage =
     (pathname: string) => (e?: React.MouseEvent<HTMLAnchorElement>) => {
       e?.preventDefault();
-      history.push({ pathname });
+      navigate({ pathname });
       toggleMenu();
     };
 
@@ -104,11 +104,10 @@ const Header: React.FC = () => {
 
   const isMatch = (paths: NoNavRowProps[]) =>
     paths.some((path) =>
-      matchPath(location.pathname, {
-        path: `/${locale}${path.pathname}`,
-        exact: path.props?.exact ?? true,
-        strict: path.props?.strict ?? true,
-      })
+      matchPath(
+        { path: `/${locale}${path.pathname}`, end: path.props?.end ?? true },
+        location.pathname
+      )
     );
 
   const noNavRow = isMatch(NO_NAV_ROW_PATHS);
@@ -118,7 +117,7 @@ const Header: React.FC = () => {
   };
 
   const handleSearch = (text: string) => {
-    history.push({
+    navigate({
       pathname: `/${locale}${ROUTES.SEARCH}`,
       search: getEventSearchQuery({ text }),
     });

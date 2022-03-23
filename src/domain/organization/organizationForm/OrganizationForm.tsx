@@ -8,7 +8,7 @@ import {
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import DatepickerField from '../../../common/components/formFields/DatepickerField';
@@ -60,7 +60,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   organization,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
   const internalTypeOptions = useOrganizationInternalTypeOptions();
@@ -68,7 +68,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   const { user } = useUser();
 
   const goToOrganizationsPage = () => {
-    history.push(`/${locale}${ROUTES.ORGANIZATIONS}`);
+    navigate(`/${locale}${ROUTES.ORGANIZATIONS}`);
   };
 
   const { saving, setSaving, updateOrganization } =

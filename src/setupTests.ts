@@ -22,6 +22,7 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
     !msgStr.match(
       /Could not find the stylesheet to update with the ".*" selector!/i
     ) &&
+    !msgStr.match(/No routes matched location "*"/i) &&
     originalWarn(msg, ...optionalParams)
   );
 };

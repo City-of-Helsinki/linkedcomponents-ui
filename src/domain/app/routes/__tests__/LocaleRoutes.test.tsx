@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, Routes } from 'react-router-dom';
 
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
@@ -60,11 +60,16 @@ const mocks = [
 ];
 
 const renderRoute = (route: string, locale: Language = 'fi') =>
-  render(<Route path={`/:locale/`} component={LocaleRoutes} />, {
-    mocks,
-    routes: [`/${locale}${route}`],
-    store,
-  });
+  render(
+    <Routes>
+      <Route path={`/:locale/*`} element={<LocaleRoutes />} />
+    </Routes>,
+    {
+      mocks,
+      routes: [`/${locale}${route}`],
+      store,
+    }
+  );
 
 beforeEach(() => {
   setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });

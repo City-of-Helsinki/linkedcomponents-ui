@@ -108,11 +108,7 @@ test('should add sort parameter to search query', async () => {
 
 it('scrolls to keyword row and calls history.replace correctly (deletes keywordId from state)', async () => {
   const history = createMemoryHistory();
-  const historyObject = {
-    state: { keywordId: keywords.data[0].id },
-    pathname: route,
-  };
-  history.push(historyObject);
+  history.push(route, { keywordId: keywords.data[0].id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
@@ -122,7 +118,8 @@ it('scrolls to keyword row and calls history.replace correctly (deletes keywordI
   const keywordButton = screen.getByRole('button', { name: keywordNames[0] });
 
   expect(replaceSpy).toHaveBeenCalledWith(
-    expect.objectContaining({ pathname: historyObject.pathname })
+    { hash: '', pathname: route, search: '' },
+    {}
   );
 
   await waitFor(() => expect(keywordButton).toHaveFocus());

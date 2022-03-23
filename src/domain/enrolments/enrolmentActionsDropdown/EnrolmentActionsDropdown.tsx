@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
@@ -38,7 +38,7 @@ const EnrolmentActionsDropdown = React.forwardRef<
 >(({ className, enrolment, registration }, ref) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const publisher = useRegistrationPublisher({ registration }) as string;
@@ -62,7 +62,7 @@ const EnrolmentActionsDropdown = React.forwardRef<
       returnPath: pathname,
     });
 
-    history.push({
+    navigate({
       pathname: `/${locale}${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
         ':registrationId',
         registrationId

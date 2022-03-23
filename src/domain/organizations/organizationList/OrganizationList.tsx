@@ -2,7 +2,7 @@ import orderBy from 'lodash/orderBy';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
@@ -28,7 +28,7 @@ export const testIds = {
 const OrganizationList: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [organizationListId] = React.useState(() =>
     uniqueId('organization-list-')
   );
@@ -36,7 +36,7 @@ const OrganizationList: React.FC = () => {
   const [search, setSearch] = React.useState(text);
 
   const handleSearchChange = (text: string) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToOrganizationQueryString(location.search, {
         text,
@@ -68,7 +68,7 @@ const OrganizationList: React.FC = () => {
   const sortOptions = useOrganizationSortOptions();
 
   const onSortChange = (val: ORGANIZATION_SORT_OPTIONS) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToOrganizationQueryString(location.search, {
         sort:

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { IconCalendar, IconHeart, IconLocation, Koros } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import MultiSelectDropdown from '../../../common/components/multiSelectDropdown/MultiSelectDropdown';
@@ -43,7 +43,7 @@ type SearchState = {
 const SearchPanel: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
 
@@ -58,7 +58,7 @@ const SearchPanel: React.FC = () => {
   });
 
   const handleSearch = () => {
-    history.push({
+    navigate({
       pathname: `/${locale}${ROUTES.SEARCH}`,
       search: getEventSearchQuery(searchState, location.search),
     });

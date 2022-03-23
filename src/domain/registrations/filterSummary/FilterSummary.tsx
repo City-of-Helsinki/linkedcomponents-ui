@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import EventTypeFilterTag from '../../../common/components/filterTag/EventTypeFilterTag';
 import FilterTag from '../../../common/components/filterTag/FilterTag';
@@ -18,12 +18,12 @@ interface Props {
 
 const FilterSummary: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const { eventType, text } = getRegistrationSearchInitialValues(search);
 
   const clearFilters = () => {
-    history.push({
+    navigate({
       pathname,
       search: replaceParamsToRegistrationQueryString(search, {
         eventType: [],
@@ -47,7 +47,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
       text: type === 'text' ? '' : text,
     });
 
-    history.push({ pathname, search: newSearch });
+    navigate({ pathname, search: newSearch });
   };
 
   const hasFilters = Boolean(eventType.length || text);

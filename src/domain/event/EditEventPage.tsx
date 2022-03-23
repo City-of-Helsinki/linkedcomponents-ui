@@ -3,7 +3,7 @@ import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -25,7 +25,6 @@ import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
-import { EventsLocationState } from '../eventSearch/types';
 import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
@@ -76,7 +75,7 @@ interface EditEventPageProps {
 
 const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const { t } = useTranslation();
-  const history = useHistory<EventsLocationState>();
+  const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
@@ -118,13 +117,15 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       ROUTES.SEARCH
     );
 
-    history.push({
-      pathname: `/${locale}${returnPath}`,
-      search: replaceParamsToEventQueryString(remainingQueryString, {
-        page: null,
-      }),
-      state: { eventId: event.id },
-    });
+    navigate(
+      {
+        pathname: `/${locale}${returnPath}`,
+        search: replaceParamsToEventQueryString(remainingQueryString, {
+          page: null,
+        }),
+      },
+      { state: { eventId: event.id } }
+    );
   };
 
   const onCancel = (eventType: string) => {
@@ -367,7 +368,7 @@ const EditEventPageWrapper: React.FC = () => {
     skip: loadingUser,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
-      id,
+      id: id as string,
       include: EVENT_INCLUDES,
     },
   });

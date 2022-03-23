@@ -2,7 +2,7 @@ import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import ErrorTemplate from '../../../common/components/errorTemplate/ErrorTemplate';
@@ -20,26 +20,27 @@ const LogoutPage: React.FC = () => {
   const loading = useSelector(loadingSelector);
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const goToHome = () => {
-    history.push(`/${locale}${ROUTES.HOME}`);
+    navigate(`/${locale}${ROUTES.HOME}`);
   };
 
   const handleSignIn = () => {
     signIn(`/${locale}${ROUTES.HOME}`);
   };
 
+  React.useEffect(() => {
+    if (authenticated) {
+      navigate(`/${locale}${ROUTES.HOME}`, { replace: true });
+    }
+  }, [authenticated, locale, navigate]);
+
   // Show loading spinner while checking if user is authenticated. This is useful when user manually opens logout page
   if (loading) {
     return (
       <LoadingSpinner className={styles.loadingSpinner} isLoading={loading} />
     );
-  }
-
-  // Redirect user to home page if user is authenticated
-  if (authenticated) {
-    return <Redirect to={`/${locale}${ROUTES.HOME}`} />;
   }
 
   return (

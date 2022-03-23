@@ -1,8 +1,9 @@
 /* eslint-disable max-len */
+import { render } from '@testing-library/react';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { configure, render, screen, userEvent } from '../../../utils/testUtils';
+import { configure, screen, userEvent } from '../../../utils/testUtils';
 import App from '../App';
 
 configure({ defaultHidden: true });

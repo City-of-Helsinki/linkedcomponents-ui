@@ -1,7 +1,7 @@
 import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
@@ -14,11 +14,11 @@ import styles from './notSigned.module.scss';
 const NotSignedPage: React.FC = () => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const goToHome = () => {
-    history.push(`/${locale}${ROUTES.HOME}`);
+    navigate(`/${locale}${ROUTES.HOME}`);
   };
 
   const handleSignIn = () => {

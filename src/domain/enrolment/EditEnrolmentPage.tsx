@@ -3,7 +3,7 @@
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { ValidationError } from 'yup';
 
@@ -66,7 +66,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
   registration,
 }) => {
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrors();
@@ -91,14 +91,16 @@ const EditEnrolmentPage: React.FC<Props> = ({
       )
     );
 
-    history.push({
-      pathname: `/${locale}${returnPath}`,
-      search: replaceParamsToRegistrationQueryString(remainingQueryString, {
-        attendeePage: null,
-        waitingPage: null,
-      }),
-      state: { enrolmentId: enrolment.id },
-    });
+    navigate(
+      {
+        pathname: `/${locale}${returnPath}`,
+        search: replaceParamsToRegistrationQueryString(remainingQueryString, {
+          attendeePage: null,
+          waitingPage: null,
+        }),
+      },
+      { state: { enrolmentId: enrolment.id } }
+    );
   };
 
   const initialValues = React.useMemo(
@@ -210,7 +212,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     useRegistrationQuery({
       skip: !registrationId || !user,
       variables: {
-        id: registrationId,
+        id: registrationId as string,
         include: REGISTRATION_INCLUDES,
         createPath: getPathBuilder(registrationPathBuilder),
       },
@@ -236,7 +238,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
   } = useEnrolmentQuery({
     skip: !enrolmentId || !user,
     variables: {
-      id: enrolmentId,
+      id: enrolmentId as string,
       createPath: getPathBuilder(enrolmentPathBuilder),
     },
   });

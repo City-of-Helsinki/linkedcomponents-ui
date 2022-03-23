@@ -334,13 +334,12 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
   });
   const store = getMockReduxStore(storeState);
   const route = '/fi/events';
+  const search = '?dateTypes=tomorrow,this_week';
   const history = createMemoryHistory();
-  const historyObject = {
-    search: '?dateTypes=tomorrow,this_week',
-    state: { eventId: waitingApprovalEvents.data[0].id },
-    pathname: route,
-  };
-  history.push(historyObject);
+  history.push(
+    { search, pathname: route },
+    { eventId: waitingApprovalEvents.data[0].id }
+  );
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
@@ -354,10 +353,8 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
   await loadingSpinnerIsNotInDocument();
 
   expect(replaceSpy).toHaveBeenCalledWith(
-    expect.objectContaining({
-      search: historyObject.search,
-      pathname: historyObject.pathname,
-    })
+    { hash: '', pathname: route, search: search },
+    {}
   );
 
   const eventRowButton = screen.getByRole('button', {

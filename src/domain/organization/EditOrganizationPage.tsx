@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
@@ -38,7 +38,7 @@ type Props = {
 const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { id } = getOrganizationFields(organization, locale, t);
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
@@ -50,7 +50,7 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
     });
 
   const goToOrganizationsPage = () => {
-    history.push(`/${locale}${ROUTES.ORGANIZATIONS}`);
+    navigate(`/${locale}${ROUTES.ORGANIZATIONS}`);
   };
 
   const onDelete = () => {
@@ -116,7 +116,7 @@ const EditOrganizationPageWrapper: React.FC = () => {
     useOrganizationQuery({
       fetchPolicy: 'no-cache',
       variables: {
-        id,
+        id: id as string,
         createPath: getPathBuilder(organizationPathBuilder),
       },
     });

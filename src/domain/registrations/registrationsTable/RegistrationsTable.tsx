@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import Table from '../../../common/components/table/Table';
@@ -27,7 +27,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   registrations,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
   const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
 
@@ -37,7 +37,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   const handleRowClick = (registration: RegistrationFieldsFragment) => {
     const { registrationUrl } = getRegistrationFields(registration, locale);
 
-    history.push({
+    navigate({
       pathname: registrationUrl,
       search: queryStringWithReturnPath,
     });

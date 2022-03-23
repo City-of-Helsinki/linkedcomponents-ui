@@ -1,7 +1,7 @@
 import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
@@ -19,10 +19,10 @@ interface Props {
 const NotFoundPage: React.FC<Props> = ({ pathAfterSignIn }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const goToHome = () => {
-    history.push(`/${locale}${ROUTES.HOME}`);
+    navigate(`/${locale}${ROUTES.HOME}`);
   };
 
   const handleSignIn = () => {

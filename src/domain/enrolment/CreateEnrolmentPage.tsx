@@ -8,7 +8,7 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -65,7 +65,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const [saving, setSaving] = React.useState<boolean>(false);
   const [createEnrolmentMutation] = useCreateEnrolmentMutation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
   const locale = useLocale();
@@ -74,7 +74,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
     useEnrolmentServerErrors();
 
   const goToEnrolmentsPage = () => {
-    history.push(
+    navigate(
       `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
         ':registrationId',
         registration.id as string
@@ -204,7 +204,7 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
     useRegistrationQuery({
       skip: !registrationId || !user,
       variables: {
-        id: registrationId,
+        id: registrationId as string,
         include: REGISTRATION_INCLUDES,
         createPath: getPathBuilder(registrationPathBuilder),
       },

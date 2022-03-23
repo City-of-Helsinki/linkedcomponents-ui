@@ -4,7 +4,7 @@ import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { ValidationError } from 'yup';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -72,7 +72,7 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useRegistrationServerErrors();
 
@@ -100,13 +100,15 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
       ROUTES.REGISTRATIONS
     );
 
-    history.push({
-      pathname: `/${locale}${returnPath}`,
-      search: replaceParamsToRegistrationQueryString(remainingQueryString, {
-        page: null,
-      }),
-      state: { registrationId: registration.id },
-    });
+    navigate(
+      {
+        pathname: `/${locale}${returnPath}`,
+        search: replaceParamsToRegistrationQueryString(remainingQueryString, {
+          page: null,
+        }),
+      },
+      { state: { registrationId: registration.id } }
+    );
   };
 
   const onDelete = () => {
@@ -252,7 +254,7 @@ const EditRegistrationPageWrapper: React.FC = () => {
   } = useRegistrationQuery({
     skip: !id || !user,
     variables: {
-      id,
+      id: id as string,
       include: REGISTRATION_INCLUDES,
       createPath: getPathBuilder(registrationPathBuilder),
     },

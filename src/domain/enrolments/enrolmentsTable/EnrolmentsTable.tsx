@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -52,7 +52,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     uniqueId('enrolment-attendee-list-')
   );
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
   const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
@@ -74,7 +74,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     (enrolmentsData?.enrolments as EnrolmentFieldsFragment[]) || [];
 
   const onSelectedPageChange = (page: number) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToRegistrationQueryString(location.search, {
         [pagePath]: page > 1 ? page : null,
@@ -102,7 +102,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
       language: locale,
       registration,
     });
-    history.push({ pathname: enrolmentUrl, search: queryStringWithReturnPath });
+    navigate({ pathname: enrolmentUrl, search: queryStringWithReturnPath });
   };
 
   return (

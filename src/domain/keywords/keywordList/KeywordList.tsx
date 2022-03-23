@@ -2,7 +2,7 @@ import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -50,8 +50,8 @@ const KeywordList: React.FC<KeywordListProps> = ({
   sort,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
-  const location = useLocation<KeywordsLocationState>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const sortOptions = useKeywordSortOptions();
 
   const getTableCaption = () => {
@@ -61,12 +61,13 @@ const KeywordList: React.FC<KeywordListProps> = ({
   };
 
   React.useEffect(() => {
-    if (location.state?.keywordId) {
-      scrollToItem(getKeywordItemId(location.state.keywordId));
+    const locationState = location.state as KeywordsLocationState;
+    if (locationState?.keywordId) {
+      scrollToItem(getKeywordItemId(locationState.keywordId));
       // Clear keywordId value to keep scroll position correctly
-      const state = omit(location.state, 'keywordId');
+      const state = omit(locationState, 'keywordId');
       // location.search seems to reset if not added here (...location)
-      history.replace({ ...location, state });
+      navigate(location, { state, replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -94,14 +95,14 @@ const KeywordList: React.FC<KeywordListProps> = ({
 
 const KeywordListContainer: React.FC = () => {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [keywordListId] = React.useState(() => uniqueId('keyword-list-'));
   const { t } = useTranslation();
   const { page, sort, text } = getKeywordSearchInitialValues(location.search);
   const [search, setSearch] = React.useState(text);
 
   const handleSelectedPageChange = (page: number) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToKeywordQueryString(location.search, {
         page: page > 1 ? page : null,
@@ -112,7 +113,7 @@ const KeywordListContainer: React.FC = () => {
   };
 
   const handleSearchChange = (text: string) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToKeywordQueryString(location.search, {
         page: null,
@@ -122,7 +123,7 @@ const KeywordListContainer: React.FC = () => {
   };
 
   const handleSortChange = (val: KEYWORD_SORT_OPTIONS) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToKeywordQueryString(location.search, {
         sort:

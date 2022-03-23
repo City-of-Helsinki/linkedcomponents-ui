@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import { SUPPORTED_LANGUAGES } from '../constants';
 import { OptionType } from '../types';
@@ -17,7 +17,7 @@ type UseSelectLanguageState = {
 const useSelectLanguage = (): UseSelectLanguageState => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const languageOptions: OptionType[] = React.useMemo(() => {
@@ -31,7 +31,7 @@ const useSelectLanguage = (): UseSelectLanguageState => {
     (newLanguage: OptionType) =>
     (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
       event.preventDefault();
-      history.push({
+      navigate({
         pathname: updateLocaleParam(
           location.pathname,
           locale,

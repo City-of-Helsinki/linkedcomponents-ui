@@ -7,7 +7,7 @@ import {
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import * as Yup from 'yup';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
@@ -52,7 +52,7 @@ const CreateRegistrationPage: React.FC = () => {
   const { t } = useTranslation();
   const [saving, setSaving] = React.useState<boolean>(false);
   const [createRegistrationMutation] = useCreateRegistrationMutation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
   const { user } = useUser();
@@ -60,7 +60,7 @@ const CreateRegistrationPage: React.FC = () => {
     useRegistrationServerErrors();
 
   const goToRegistrationSavedPage = (id: string) => {
-    history.push(`/${locale}${ROUTES.REGISTRATION_SAVED.replace(':id', id)}`);
+    navigate(`/${locale}${ROUTES.REGISTRATION_SAVED.replace(':id', id)}`);
   };
 
   const createSingleRegistration = async (

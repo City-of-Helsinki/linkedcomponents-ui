@@ -2,7 +2,7 @@ import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
@@ -57,8 +57,8 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
   sort,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
-  const location = useLocation<RegistrationsLocationState>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const sortOptions = useRegistrationSortOptions();
 
   const getTableCaption = () => {
@@ -68,12 +68,13 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
   };
 
   React.useEffect(() => {
-    if (location.state?.registrationId) {
-      scrollToItem(getRegistrationItemId(location.state.registrationId));
+    const locationState = location.state as RegistrationsLocationState;
+    if (locationState?.registrationId) {
+      scrollToItem(getRegistrationItemId(locationState.registrationId));
       // Clear registrationId value to keep scroll position correctly
-      const state = omit(location.state, 'registrationId');
+      const state = omit(locationState, 'registrationId');
       // location.search seems to reset if not added here (...location)
-      history.replace({ ...location, state });
+      navigate(location, { state, replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -102,7 +103,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
 
 const RegistrationListContainer: React.FC = () => {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [registrationListId] = React.useState(() =>
     uniqueId('registration-list-')
   );
@@ -110,7 +111,7 @@ const RegistrationListContainer: React.FC = () => {
   const { page } = getRegistrationSearchInitialValues(location.search);
 
   const handleSelectedPageChange = (page: number) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToRegistrationQueryString(location.search, {
         page: page > 1 ? page : null,

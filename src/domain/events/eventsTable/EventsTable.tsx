@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import SortableColumn from '../../../common/components/table/SortableColumn';
@@ -28,7 +28,7 @@ const EventsTable: React.FC<EventsTableProps> = ({
   sort,
 }) => {
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const queryStringWithReturnPath = useEventsQueryStringWithReturnPath();
 
@@ -44,7 +44,7 @@ const EventsTable: React.FC<EventsTableProps> = ({
     const { eventUrl } = getEventFields(event, locale);
     const queryString = queryStringWithReturnPath;
 
-    history.push({ pathname: eventUrl, search: queryString });
+    navigate({ pathname: eventUrl, search: queryString });
   };
 
   return (

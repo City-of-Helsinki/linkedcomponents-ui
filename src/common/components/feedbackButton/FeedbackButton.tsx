@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { ButtonProps, IconAngleRight, IconSpeechbubbleText } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
@@ -11,11 +11,11 @@ import styles from './feedbackButton.module.scss';
 
 const FeedbackButton: React.FC<Omit<ButtonProps, 'children'>> = (props) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
 
   const goToFeedback = () => {
-    history.push(`/${locale}${ROUTES.SUPPORT_CONTACT}`);
+    navigate(`/${locale}${ROUTES.SUPPORT_CONTACT}`);
   };
 
   return (

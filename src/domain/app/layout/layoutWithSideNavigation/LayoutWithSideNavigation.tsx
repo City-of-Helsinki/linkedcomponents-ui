@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import SideNavigation from '../../../../common/components/sideNavigation/SideNavigation';
 import useLocale from '../../../../hooks/useLocale';
@@ -42,7 +42,7 @@ const LayoutWithSideNavigation: React.FC<Props> = ({
   );
   const windowSize = useWindowSize();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const getLocalePath = (path: string) => `/${locale}${path}`;
@@ -58,7 +58,7 @@ const LayoutWithSideNavigation: React.FC<Props> = ({
   const handleLinkClick =
     (href: string) => (e: React.MouseEvent | React.KeyboardEvent) => {
       e.preventDefault();
-      history.push(href);
+      navigate(href);
     };
 
   return (

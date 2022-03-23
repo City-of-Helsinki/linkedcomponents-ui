@@ -1,4 +1,4 @@
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import extractLatestReturnPath from '../utils/extractLatestReturnPath';
 import useLocale from './useLocale';
@@ -12,7 +12,7 @@ type Props<S> = {
 
 function useGoBack<S>({ defaultReturnPath, state }: Props<S>): UseGoBackState {
   const { search } = useLocation();
-  const history = useHistory<S>();
+  const navigate = useNavigate();
   const locale = useLocale();
 
   const goBack = () => {
@@ -21,11 +21,13 @@ function useGoBack<S>({ defaultReturnPath, state }: Props<S>): UseGoBackState {
       defaultReturnPath
     );
 
-    history.push({
-      pathname: `/${locale}${returnPath}`,
-      search: remainingQueryString,
-      state,
-    });
+    navigate(
+      {
+        pathname: `/${locale}${returnPath}`,
+        search: remainingQueryString,
+      },
+      { state }
+    );
   };
 
   return goBack;

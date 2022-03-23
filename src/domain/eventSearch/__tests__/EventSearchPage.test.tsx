@@ -79,12 +79,9 @@ test('should render events in the event list', async () => {
 it('scrolls to event card and calls history.replace correctly (deletes eventId from state)', async () => {
   const route = ROUTES.SEARCH;
   const history = createMemoryHistory();
-  const historyObject = {
-    search: `?text=${searchText}`,
-    state: { eventId: events.data[0].id },
-    pathname: route,
-  };
-  history.push(historyObject);
+  const search = `?text=${searchText}`;
+
+  history.push({ search, pathname: route }, { eventId: events.data[0].id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
@@ -97,10 +94,8 @@ it('scrolls to event card and calls history.replace correctly (deletes eventId f
   await loadingSpinnerIsNotInDocument();
 
   expect(replaceSpy).toHaveBeenCalledWith(
-    expect.objectContaining({
-      search: historyObject.search,
-      pathname: historyObject.pathname,
-    })
+    { hash: '', pathname: route, search: search },
+    {}
   );
 
   const eventCard = screen.getByRole('link', { name: eventNames[0] });

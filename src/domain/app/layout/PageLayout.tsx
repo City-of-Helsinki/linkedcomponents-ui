@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import classNames from 'classnames';
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { matchPath, RouteProps, useLocation } from 'react-router';
+import { matchPath, PathPattern, useLocation } from 'react-router';
 
 import { ROUTES, SUPPORTED_LANGUAGES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
@@ -14,21 +14,14 @@ import styles from './pageLayout.module.scss';
 import ResetFocus from './ResetFocus';
 import ScrollToTop from './ScrollToTop';
 
-interface IgnorePathProps {
-  pathname: string;
-  props?: RouteProps;
-}
+const RESET_IGNORED_PATHS: PathPattern[] = [{ end: false, path: ROUTES.HELP }];
 
-const RESET_IGNORED_PATHS = [
-  { pathname: ROUTES.HELP, props: { exact: false } },
-];
-
-const NO_KORO_PATHS = [
-  { pathname: ROUTES.HELP, props: { exact: false } },
-  { pathname: ROUTES.EDIT_EVENT },
-  { pathname: ROUTES.EDIT_REGISTRATION },
-  { pathname: ROUTES.EDIT_REGISTRATION_ENROLMENT },
-  { pathname: ROUTES.REGISTRATION_ENROLMENTS },
+const NO_KORO_PATHS: PathPattern[] = [
+  { path: ROUTES.HELP, end: false },
+  { path: ROUTES.EDIT_EVENT },
+  { path: ROUTES.EDIT_REGISTRATION },
+  { path: ROUTES.EDIT_REGISTRATION_ENROLMENT },
+  { path: ROUTES.REGISTRATION_ENROLMENTS },
 ];
 
 const PageLayout: React.FC = ({ children }) => {
@@ -40,13 +33,12 @@ const PageLayout: React.FC = ({ children }) => {
   const path = pathname.replace(`/${locale}`, '');
   const host = window.location.origin;
 
-  const isMatch = (paths: IgnorePathProps[]) =>
+  const isMatch = (paths: PathPattern[]) =>
     paths.some((path) =>
-      matchPath(pathname, {
-        path: `/${locale}${path.pathname}`,
-        exact: path.props?.exact ?? true,
-        strict: path.props?.strict ?? true,
-      })
+      matchPath(
+        { path: `/${locale}${path.path}`, end: path.end ?? true },
+        pathname
+      )
     );
 
   const noKoro = isMatch(NO_KORO_PATHS);
