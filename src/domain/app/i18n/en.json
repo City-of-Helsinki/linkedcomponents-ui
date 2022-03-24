@@ -98,13 +98,13 @@
         "noResults": "No options",
         "selectionMessage": "{{value}} has been selected.",
         "statusMessage": "{{count}} option available, move up or down with arrow keys. Press Enter to make a selection.",
-        "statusMessage_plural": "{{count}} options available, move up or down with arrow keys. Press Enter to make a selection."
+        "statusMessage_other": "{{count}} options available, move up or down with arrow keys. Press Enter to make a selection."
       }
     },
     "edit": "Edit",
     "errorLoadMore": "Failed to load more",
     "eventAmount": "{{count}} event",
-    "eventAmount_plural": "{{count}} events",
+    "eventAmount_other": "{{count}} events",
     "feedback": {
       "text": "Give feedback"
     },
@@ -280,7 +280,7 @@
     },
     "warnings": {
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
-      "capacityInWaitingList_plural": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
+      "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
       "closed": "Registration for this event is currently closed. Please try again later."
     }
   },
@@ -807,7 +807,7 @@
           "volunteering": "Volunteering starts at:"
         },
         "textRepeatInterval": "Every week",
-        "textRepeatInterval_plural": "Every {{count}} weeks"
+        "textRepeatInterval_other": "Every {{count}} weeks"
       },
       "sections": {
         "additionalInfo": "Additional information",
@@ -937,7 +937,7 @@
   "eventsPage": {
     "captionListTypes": "List type",
     "count": "{{count}} event",
-    "count_plural": "{{count}} events",
+    "count_other": "{{count}} events",
     "datetime": "{{date}} at {{time}}",
     "eventCard": {
       "hideSubEvents": "Hide sub-events",
@@ -1028,7 +1028,7 @@
       },
       "array": {
         "min": "At least {{min}} item must be selected",
-        "min_plural": "At least {{min}} item must be selected",
+        "min_other": "At least {{min}} item must be selected",
         "required": "At least 1 item must be selected"
       },
       "date": {
@@ -1052,7 +1052,7 @@
       "offersRequired": "At least 1 price information must be added",
       "string": {
         "charsLeft": "{{count}} character left",
-        "charsLeft_plural": "{{count}} characters left",
+        "charsLeft_other": "{{count}} characters left",
         "date": "This field must be a valid date",
         "email": "This field must be a valid email",
         "max": "This field can be up to {{max}} characters long",
@@ -1252,7 +1252,7 @@
       "edit": "Edit keyword"
     },
     "count": "{{count}} keyword",
-    "count_plural": "{{count}} keywords",
+    "count_other": "{{count}} keywords",
     "keywordsTableCaption": "Keywords, sorted by {{sort}}",
     "keywordsTableColumns": {
       "id": "ID",
@@ -1296,7 +1296,7 @@
       "edit": "Edit keyword set"
     },
     "count": "{{count}} keyword set",
-    "count_plural": "{{count}} keyword sets",
+    "count_other": "{{count}} keyword sets",
     "keywordSetsTableCaption": "Keyword sets, sorted by {{sort}}",
     "keywordSetsTableColumns": {
       "id": "ID",
@@ -1402,7 +1402,7 @@
       "edit": "Edit organization"
     },
     "count": "{{count}} organization",
-    "count_plural": "{{count}} organization",
+    "count_other": "{{count}} organization",
     "labelSearch": "Search organizations",
     "organizationsTable": {
       "hideSubOrganizations": "Hide sub-organizations: {{name}}",
@@ -1485,7 +1485,7 @@
     },
     "buttonClearFilters": "Clear filters",
     "count": "{{count}} registration",
-    "count_plural": "{{count}} registrations",
+    "count_other": "{{count}} registrations",
     "pageTitle": "Registration",
     "registrationsTableCaption": "Registrations, sorted by {{sort}}",
     "registrationsTableColumns": {

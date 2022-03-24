@@ -9,15 +9,9 @@ i18n.use(initReactI18next).init({
   lng: 'fi',
   fallbackLng: 'fi',
   resources: {
-    en: {
-      translation: en,
-    },
-    fi: {
-      translation: fi,
-    },
-    sv: {
-      translation: sv,
-    },
+    en: { translation: en },
+    fi: { translation: fi },
+    sv: { translation: sv },
   },
 });
 
