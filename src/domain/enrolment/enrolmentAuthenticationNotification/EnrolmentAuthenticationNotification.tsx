@@ -16,49 +16,50 @@ export type EnrolmentAuthenticationNotificationProps = {
   registration: RegistrationFieldsFragment;
 };
 
-const EnrolmentAuthenticationNotification: React.FC<EnrolmentAuthenticationNotificationProps> =
-  ({ action, registration }) => {
-    const authenticated = useSelector(authenticatedSelector);
-    const { user } = useUser();
-    const adminOrganizations = user?.adminOrganizations || [];
-    const publisher = useRegistrationPublisher({ registration }) as string;
-    const { organizationAncestors } = useOrganizationAncestors(publisher);
+const EnrolmentAuthenticationNotification: React.FC<
+  EnrolmentAuthenticationNotificationProps
+> = ({ action, registration }) => {
+  const authenticated = useSelector(authenticatedSelector);
+  const { user } = useUser();
+  const adminOrganizations = user?.adminOrganizations || [];
+  const publisher = useRegistrationPublisher({ registration }) as string;
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    const getNotificationProps = () => {
-      if (authenticated) {
-        if (!adminOrganizations.length) {
-          return {
-            children: <p>{t('authentication.noRightsUpdateEnrolment')}</p>,
-            label: t('authentication.noRightsUpdateEnrolmentLabel'),
-          };
-        }
-
-        /* istanbul ignore else */
-        if (registration) {
-          const { warning } = checkIsEditActionAllowed({
-            action,
-            authenticated,
-            organizationAncestors,
-            publisher,
-            t,
-            user,
-          });
-
-          if (warning) {
-            return {
-              children: <p>{warning}</p>,
-              label: t('enrolment.form.notificationTitleCannotEdit'),
-            };
-          }
-        }
+  const getNotificationProps = () => {
+    if (authenticated) {
+      if (!adminOrganizations.length) {
+        return {
+          children: <p>{t('authentication.noRightsUpdateEnrolment')}</p>,
+          label: t('authentication.noRightsUpdateEnrolmentLabel'),
+        };
       }
 
-      return { label: null };
-    };
+      /* istanbul ignore else */
+      if (registration) {
+        const { warning } = checkIsEditActionAllowed({
+          action,
+          authenticated,
+          organizationAncestors,
+          publisher,
+          t,
+          user,
+        });
 
-    return <AuthenticationNotification {...getNotificationProps()} />;
+        if (warning) {
+          return {
+            children: <p>{warning}</p>,
+            label: t('enrolment.form.notificationTitleCannotEdit'),
+          };
+        }
+      }
+    }
+
+    return { label: null };
   };
+
+  return <AuthenticationNotification {...getNotificationProps()} />;
+};
 
 export default EnrolmentAuthenticationNotification;

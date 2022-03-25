@@ -17,51 +17,52 @@ export type RegistrationAuthenticationNotificationProps = {
   registration?: RegistrationFieldsFragment;
 };
 
-const RegistrationAuthenticationNotification: React.FC<RegistrationAuthenticationNotificationProps> =
-  ({ action, className, registration }) => {
-    const authenticated = useSelector(authenticatedSelector);
-    const { user } = useUser();
-    const adminOrganizations = user?.adminOrganizations || [];
-    const publisher = useRegistrationPublisher({ registration }) as string;
-    const { organizationAncestors } = useOrganizationAncestors(publisher);
+const RegistrationAuthenticationNotification: React.FC<
+  RegistrationAuthenticationNotificationProps
+> = ({ action, className, registration }) => {
+  const authenticated = useSelector(authenticatedSelector);
+  const { user } = useUser();
+  const adminOrganizations = user?.adminOrganizations || [];
+  const publisher = useRegistrationPublisher({ registration }) as string;
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    const getNotificationProps = () => {
-      if (authenticated) {
-        if (!adminOrganizations.length) {
-          return {
-            children: <p>{t('authentication.noRightsUpdateRegistration')}</p>,
-            label: t('authentication.noRightsUpdateRegistrationLabel'),
-          };
-        }
-
-        const { warning } = checkIsEditActionAllowed({
-          action,
-          authenticated,
-          organizationAncestors,
-          publisher,
-          t,
-          user,
-        });
-
-        if (warning) {
-          return {
-            children: <p>{warning}</p>,
-            label: t('registration.form.notificationTitleCannotEdit'),
-          };
-        }
+  const getNotificationProps = () => {
+    if (authenticated) {
+      if (!adminOrganizations.length) {
+        return {
+          children: <p>{t('authentication.noRightsUpdateRegistration')}</p>,
+          label: t('authentication.noRightsUpdateRegistrationLabel'),
+        };
       }
 
-      return { label: null };
-    };
+      const { warning } = checkIsEditActionAllowed({
+        action,
+        authenticated,
+        organizationAncestors,
+        publisher,
+        t,
+        user,
+      });
 
-    return (
-      <AuthenticationNotification
-        {...getNotificationProps()}
-        className={className}
-      />
-    );
+      if (warning) {
+        return {
+          children: <p>{warning}</p>,
+          label: t('registration.form.notificationTitleCannotEdit'),
+        };
+      }
+    }
+
+    return { label: null };
   };
+
+  return (
+    <AuthenticationNotification
+      {...getNotificationProps()}
+      className={className}
+    />
+  );
+};
 
 export default RegistrationAuthenticationNotification;

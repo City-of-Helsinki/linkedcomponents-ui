@@ -14,45 +14,46 @@ export type OrganizationAuthenticationNotificationProps = {
   id: string;
 };
 
-const OrganizationAuthenticationNotification: React.FC<OrganizationAuthenticationNotificationProps> =
-  ({ action, id }) => {
-    const authenticated = useSelector(authenticatedSelector);
-    const { user } = useUser();
-    const adminOrganizations = user?.adminOrganizations || [];
-    const { organizationAncestors } = useOrganizationAncestors(id);
+const OrganizationAuthenticationNotification: React.FC<
+  OrganizationAuthenticationNotificationProps
+> = ({ action, id }) => {
+  const authenticated = useSelector(authenticatedSelector);
+  const { user } = useUser();
+  const adminOrganizations = user?.adminOrganizations || [];
+  const { organizationAncestors } = useOrganizationAncestors(id);
 
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    const getNotificationProps = () => {
-      if (authenticated) {
-        if (!adminOrganizations.length) {
-          return {
-            children: <p>{t('authentication.noRightsUpdateOrganization')}</p>,
-            label: t('authentication.noRightsUpdateOrganizationLabel'),
-          };
-        }
-
-        const { warning } = checkIsEditActionAllowed({
-          action,
-          authenticated,
-          id,
-          organizationAncestors,
-          t,
-          user,
-        });
-
-        if (warning) {
-          return {
-            children: <p>{warning}</p>,
-            label: t('organization.form.notificationTitleCannotEdit'),
-          };
-        }
+  const getNotificationProps = () => {
+    if (authenticated) {
+      if (!adminOrganizations.length) {
+        return {
+          children: <p>{t('authentication.noRightsUpdateOrganization')}</p>,
+          label: t('authentication.noRightsUpdateOrganizationLabel'),
+        };
       }
 
-      return { label: null };
-    };
+      const { warning } = checkIsEditActionAllowed({
+        action,
+        authenticated,
+        id,
+        organizationAncestors,
+        t,
+        user,
+      });
 
-    return <AuthenticationNotification {...getNotificationProps()} />;
+      if (warning) {
+        return {
+          children: <p>{warning}</p>,
+          label: t('organization.form.notificationTitleCannotEdit'),
+        };
+      }
+    }
+
+    return { label: null };
   };
+
+  return <AuthenticationNotification {...getNotificationProps()} />;
+};
 
 export default OrganizationAuthenticationNotification;

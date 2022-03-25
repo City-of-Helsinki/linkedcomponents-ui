@@ -17,55 +17,56 @@ export type EventAuthenticationNotificationProps = {
   event?: EventFieldsFragment;
 };
 
-const EventAuthenticationNotification: React.FC<EventAuthenticationNotificationProps> =
-  ({ event }) => {
-    const authenticated = useSelector(authenticatedSelector);
-    const { user } = useUser();
+const EventAuthenticationNotification: React.FC<
+  EventAuthenticationNotificationProps
+> = ({ event }) => {
+  const authenticated = useSelector(authenticatedSelector);
+  const { user } = useUser();
 
-    const userOrganizations = user
-      ? [...user?.adminOrganizations, ...user.organizationMemberships]
-      : [];
-    const { t } = useTranslation();
-    const { organizationAncestors } = useOrganizationAncestors(
-      event?.publisher as string
-    );
+  const userOrganizations = user
+    ? [...user?.adminOrganizations, ...user.organizationMemberships]
+    : [];
+  const { t } = useTranslation();
+  const { organizationAncestors } = useOrganizationAncestors(
+    event?.publisher as string
+  );
 
-    const getNotificationProps = () => {
-      if (authenticated) {
-        if (!userOrganizations.length) {
-          return {
-            children: <p>{t('authentication.noRightsUpdateEvent')}</p>,
-            label: t('authentication.noRightsUpdateEventLabel'),
-          };
-        }
-
-        if (event) {
-          const action =
-            event.publicationStatus === PublicationStatus.Draft
-              ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
-              : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
-          const { warning } = checkIsEditActionAllowed({
-            action,
-            authenticated,
-            event,
-            organizationAncestors,
-            t,
-            user,
-          });
-
-          if (warning) {
-            return {
-              children: <p>{warning}</p>,
-              label: t('event.form.notificationTitleCannotEdit'),
-            };
-          }
-        }
+  const getNotificationProps = () => {
+    if (authenticated) {
+      if (!userOrganizations.length) {
+        return {
+          children: <p>{t('authentication.noRightsUpdateEvent')}</p>,
+          label: t('authentication.noRightsUpdateEventLabel'),
+        };
       }
 
-      return { label: null };
-    };
+      if (event) {
+        const action =
+          event.publicationStatus === PublicationStatus.Draft
+            ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
+            : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
+        const { warning } = checkIsEditActionAllowed({
+          action,
+          authenticated,
+          event,
+          organizationAncestors,
+          t,
+          user,
+        });
 
-    return <AuthenticationNotification {...getNotificationProps()} />;
+        if (warning) {
+          return {
+            children: <p>{warning}</p>,
+            label: t('event.form.notificationTitleCannotEdit'),
+          };
+        }
+      }
+    }
+
+    return { label: null };
   };
+
+  return <AuthenticationNotification {...getNotificationProps()} />;
+};
 
 export default EventAuthenticationNotification;
