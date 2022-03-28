@@ -205,8 +205,10 @@ const EditEnrolmentPage: React.FC<Props> = ({
 const EditEnrolmentPageWrapper: React.FC = () => {
   const location = useLocation();
   const { loading: loadingUser, user } = useUser();
-  const { enrolmentId, registrationId } =
-    useParams<{ enrolmentId: string; registrationId: string }>();
+  const { enrolmentId, registrationId } = useParams<{
+    enrolmentId: string;
+    registrationId: string;
+  }>();
 
   const { data: registrationData, loading: loadingRegistration } =
     useRegistrationQuery({
