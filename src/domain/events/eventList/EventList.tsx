@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
@@ -72,8 +72,8 @@ const EventList: React.FC<EventListProps> = ({
   sort,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
-  const location = useLocation<EventsLocationState>();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const sortOptions = useEventSortOptions();
 
@@ -84,12 +84,13 @@ const EventList: React.FC<EventListProps> = ({
   };
 
   React.useEffect(() => {
-    if (location.state?.eventId) {
-      scrollToItem(getEventItemId(location.state.eventId));
+    const locationState = location.state as EventsLocationState;
+    if (locationState?.eventId) {
+      scrollToItem(getEventItemId(locationState.eventId));
       // Clear eventId value to keep scroll position correctly
-      const state = omit(location.state, 'eventId');
+      const state = omit(locationState, 'eventId');
       // location.search seems to reset if not added here (...location)
-      history.replace({ ...location, state });
+      navigate(location, { state, replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -131,8 +132,8 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   const { baseVariables, className, listType, setListType, skip } = props;
   const [eventListId] = React.useState(() => uniqueId('event-list-'));
   const { t } = useTranslation();
-  const history = useHistory();
-  const location = useLocation<EventsLocationState>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { page, sort } = getEventSearchInitialValues(location.search);
 
   const listTypeOptions = useEventListTypeOptions();
@@ -150,7 +151,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   const events = (eventsData?.events?.data as EventFieldsFragment[]) || [];
 
   const handleSelectedPageChange = (page: number) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToEventQueryString(location.search, {
         page: page > 1 ? page : null,
@@ -165,7 +166,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   };
 
   const handleSortChange = (val: EVENT_SORT_OPTIONS) => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToEventQueryString(location.search, {
         sort: val !== DEFAULT_EVENT_SORT ? val : null,

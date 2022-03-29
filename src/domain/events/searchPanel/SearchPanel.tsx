@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import { IconHeart, IconSearch } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import MultiSelectDropdown from '../../../common/components/multiSelectDropdown/MultiSelectDropdown';
@@ -30,7 +30,7 @@ type SearchState = {
 const SearchPanel: React.FC = () => {
   const { t } = useTranslation();
   const { theme } = useTheme();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
 
@@ -52,7 +52,7 @@ const SearchPanel: React.FC = () => {
   };
 
   const handleSearch = () => {
-    history.push({
+    navigate({
       pathname: `/${locale}${ROUTES.EVENTS}`,
       search: getEventSearchQuery(searchState, location.search),
     });

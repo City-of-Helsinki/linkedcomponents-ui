@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import SortableColumn from '../../../common/components/table/SortableColumn';
@@ -35,7 +35,7 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   sortedOrganizations,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
   const queryStringWithReturnPath = useOrganizationsQueryStringWithReturnPath();
 
@@ -45,7 +45,7 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   const onRowClick = (organization: OrganizationFieldsFragment) => {
     const { organizationUrl } = getOrganizationFields(organization, locale, t);
 
-    history.push({
+    navigate({
       pathname: organizationUrl,
       search: queryStringWithReturnPath,
     });

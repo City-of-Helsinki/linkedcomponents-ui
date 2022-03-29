@@ -2,7 +2,7 @@ import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -46,7 +46,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   };
 
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
 
@@ -97,12 +97,12 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 
   const goToCreateEvent = () => {
     clearEventFormData();
-    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+    navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
   const handleChangeTab = (newTab: string) => {
     setActiveTab(newTab as EVENTS_PAGE_TABS);
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToEventQueryString(location.search, { page: null }),
     });

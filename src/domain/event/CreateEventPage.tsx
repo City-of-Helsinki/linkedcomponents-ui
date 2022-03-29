@@ -7,7 +7,7 @@ import {
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
@@ -64,7 +64,7 @@ const CreateEventPage: React.FC = () => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEventServerErrors();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
   const { t } = useTranslation();
@@ -78,7 +78,7 @@ const CreateEventPage: React.FC = () => {
   const [saving, setSaving] = React.useState<PublicationStatus | null>(null);
 
   const goToEventSavedPage = (id: string) => {
-    history.push(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
+    navigate(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
   };
 
   const createRecurringEvent = async (

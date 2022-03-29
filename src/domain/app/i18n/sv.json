@@ -99,13 +99,13 @@
         "noResults": "Inga alternativ",
         "selectionMessage": "{{value}} är valt.",
         "statusMessage": "{{count}} alternativ är valbart, flytta upp eller ner med piltangenterna. Tryck Enter för att göra ett val.",
-        "statusMessage_plural": "{{count}} alternativ är valbart, flytta upp eller ner med piltangenterna. Tryck Enter för att göra ett val."
+        "statusMessage_other": "{{count}} alternativ är valbart, flytta upp eller ner med piltangenterna. Tryck Enter för att göra ett val."
       }
     },
     "edit": "Redigera",
     "errorLoadMore": "Det gick inte att ladda fler",
     "eventAmount": "{{count}} evenemang",
-    "eventAmount_plural": "{{count}} evenemang",
+    "eventAmount_other": "{{count}} evenemang",
     "feedback": {
       "text": "Ge feedback"
     },
@@ -281,7 +281,7 @@
     },
     "warnings": {
       "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
-      "capacityInWaitingList_plural": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
+      "capacityInWaitingList_other": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
       "closed": "Registreringen för detta evenemang är för närvarande stängd. Vänligen försök igen senare."
     }
   },
@@ -807,7 +807,7 @@
           "volunteering": "Volontärarbetet börjar kl:"
         },
         "textRepeatInterval": "Varje vecka",
-        "textRepeatInterval_plural": "Var {{count}}: e vecka"
+        "textRepeatInterval_other": "Var {{count}}: e vecka"
       },
       "sections": {
         "additionalInfo": "Ytterligare information",
@@ -937,7 +937,7 @@
   "eventsPage": {
     "captionListTypes": "Listtyp",
     "count": "{{count}} evenemang",
-    "count_plural": "{{count}} evenemang",
+    "count_other": "{{count}} evenemang",
     "datetime": "{{date}} på {{time}}",
     "eventCard": {
       "hideSubEvents": "Dölj underevenemangen",
@@ -1010,7 +1010,7 @@
       },
       "array": {
         "min": "Minst {{min}} objekt måste väljas",
-        "min_plural": "Minst {{min}} objekt måste väljas",
+        "min_other": "Minst {{min}} objekt måste väljas",
         "required": "Minst 1 objekt måste väljas"
       },
       "date": {
@@ -1034,7 +1034,7 @@
       "offersRequired": "Minst 1 prisinformation måste läggas till",
       "string": {
         "charsLeft": "{{count}} tecken kvar",
-        "charsLeft_plural": "{{count}} tecken kvar",
+        "charsLeft_other": "{{count}} tecken kvar",
         "date": "This field must be valid date",
         "email": "Detta fält måste vara en giltig e-postmeddelande",
         "max": "Detta fält kan vara upp till {{max}} tecken långt",
@@ -1252,7 +1252,7 @@
       "edit": "Redigera nyckelord"
     },
     "count": "{{count}} nyckelord",
-    "count_plural": "{{count}} nyckelord",
+    "count_other": "{{count}} nyckelord",
     "keywordsTableCaption": "Nyckelord, sorterade efter {{sort}}",
     "keywordsTableColumns": {
       "id": "ID",
@@ -1296,7 +1296,7 @@
       "edit": "Redigera nyckelordsuppsättning"
     },
     "count": "{{count}} nyckelordsuppsättning",
-    "count_plural": "{{count}} nyckelordsuppsättningar",
+    "count_other": "{{count}} nyckelordsuppsättningar",
     "keywordSetsTableCaption": "Nyckelordsuppsättningar, sorterade efter {{sort}}",
     "keywordSetsTableColumns": {
       "id": "ID",
@@ -1402,7 +1402,7 @@
       "edit": "Redigera organisation"
     },
     "count": "{{count}} organisation",
-    "count_plural": "{{count}} organisationer",
+    "count_other": "{{count}} organisationer",
     "labelSearch": "Sök organisationer",
     "organizationsTable": {
       "hideSubOrganizations": "Dölj underorganisationer: {{name}}",
@@ -1485,7 +1485,7 @@
     },
     "buttonClearFilters": "Töm sökfilter",
     "count": "{{count}} registrering",
-    "count_plural": "{{count}} registreringar",
+    "count_other": "{{count}} registreringar",
     "pageTitle": "Registrering",
     "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
     "registrationsTableColumns": {

@@ -1,7 +1,7 @@
 import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -30,18 +30,18 @@ type EventSavedPageProps = {
 
 const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
 
   const { publicationStatus } = getEventFields(event, locale);
 
   const goToEvents = () => {
-    history.push(`/${locale}${ROUTES.EVENTS}`);
+    navigate(`/${locale}${ROUTES.EVENTS}`);
   };
 
   const goToCreateEvent = () => {
     clearEventFormData();
-    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+    navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
   return (
@@ -82,7 +82,7 @@ const EventSavedPageWrapper: React.FC = () => {
   const { data: eventData, loading } = useEventQuery({
     skip: !eventId,
     variables: {
-      id: eventId,
+      id: eventId as string,
       createPath: getPathBuilder(eventPathBuilder),
     },
   });

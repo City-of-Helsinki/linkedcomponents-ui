@@ -48,7 +48,7 @@ export const getApiToken =
 
       dispatch(fetchTokenSuccess(res.data));
     } catch (e) {
-      dispatch(fetchTokenError(e));
+      dispatch(fetchTokenError(e as Error));
       toast.error(i18n.t('authentication.errorMessage'));
     }
   };
@@ -68,7 +68,7 @@ export const renewApiToken =
 
       dispatch(fetchTokenSuccess(res.data));
     } catch (e) {
-      dispatch(fetchTokenError(e));
+      dispatch(fetchTokenError(e as Error));
       toast.error(i18n.t('authentication.errorMessage'));
     }
   };

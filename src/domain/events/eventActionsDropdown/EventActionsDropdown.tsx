@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
@@ -38,7 +38,7 @@ const EventActionsDropdown = React.forwardRef<
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { eventUrl } = getEventFields(event, locale);
   const queryStringWithReturnPath = useEventsQueryStringWithReturnPath();
 
@@ -70,12 +70,12 @@ const EventActionsDropdown = React.forwardRef<
 
   const goToEditEventPage = () => {
     const eventUrlWithReturnPath = `${eventUrl}${queryStringWithReturnPath}`;
-    history.push(eventUrlWithReturnPath);
+    navigate(eventUrlWithReturnPath);
   };
 
   const copyEvent = async () => {
     await copyEventToSessionStorage(event);
-    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+    navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
   const getActionItemProps = ({

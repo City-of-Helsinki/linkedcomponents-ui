@@ -1,7 +1,8 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 
 import { ROUTES } from '../../../constants';
+import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import ApiPage from '../../help/pages/ApiPage';
 import ContactPage from '../../help/pages/ContactPage';
@@ -24,118 +25,134 @@ interface Props {
 }
 
 const InstructionsRoutes: React.FC<Props> = ({ locale }) => {
+  const getInstructionsRoutePath = (path: string) =>
+    path.replace(ROUTES.INSTRUCTIONS, '');
   const getLocalePath = (path: string) => `/${locale}${path}`;
 
   return (
-    <Switch>
-      <Redirect
-        exact
-        path={getLocalePath(ROUTES.INSTRUCTIONS)}
-        to={getLocalePath(ROUTES.INSTRUCTIONS_GENERAL)}
+    <Routes>
+      <Route
+        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS)}
+        element={
+          <Navigate replace to={getLocalePath(ROUTES.INSTRUCTIONS_GENERAL)} />
+        }
       />
       <Route
-        path={getLocalePath(ROUTES.INSTRUCTIONS_CONTROL_PANEL)}
-        component={ControlPanelPage}
+        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_CONTROL_PANEL)}
+        element={<ControlPanelPage />}
       />
       <Route
-        path={getLocalePath(ROUTES.INSTRUCTIONS_FAQ)}
-        component={FaqPage}
+        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_FAQ)}
+        element={<FaqPage />}
       />
       <Route
-        path={getLocalePath(ROUTES.INSTRUCTIONS_GENERAL)}
-        component={GeneralInstructionsPage}
+        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_GENERAL)}
+        element={<GeneralInstructionsPage />}
       />
       <Route
-        path={getLocalePath(ROUTES.INSTRUCTIONS_PLATFORM)}
-        component={PlatformPage}
+        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_PLATFORM)}
+        element={<PlatformPage />}
       />
-      <Route component={NotFound} />
-    </Switch>
+      <Route element={<NotFound />} />
+    </Routes>
   );
 };
 
 const TechnologyRoutes: React.FC<Props> = ({ locale }) => {
+  const getTechnologyRoutePath = (path: string) =>
+    path.replace(ROUTES.TECHNOLOGY, '');
   const getLocalePath = (path: string) => `/${locale}${path}`;
 
   return (
     <React.Suspense fallback={<div />}>
-      <Switch>
-        <Redirect
-          exact
-          path={getLocalePath(ROUTES.TECHNOLOGY)}
-          to={getLocalePath(ROUTES.TECHNOLOGY_GENERAL)}
+      <Routes>
+        <Route
+          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY)}
+          element={
+            <Navigate replace to={getLocalePath(ROUTES.TECHNOLOGY_GENERAL)} />
+          }
         />
         <Route
-          path={getLocalePath(ROUTES.TECHNOLOGY_API)}
-          component={ApiPage}
+          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_API)}
+          element={<ApiPage />}
         />
         <Route
-          path={getLocalePath(ROUTES.TECHNOLOGY_DOCUMENTATION)}
-          component={DocumentationPage}
+          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_DOCUMENTATION)}
+          element={<DocumentationPage />}
         />
         <Route
-          path={getLocalePath(ROUTES.TECHNOLOGY_GENERAL)}
-          component={GeneralTechnologyPage}
+          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_GENERAL)}
+          element={<GeneralTechnologyPage />}
         />
         <Route
-          path={getLocalePath(ROUTES.TECHNOLOGY_IMAGE_RIGHTS)}
-          component={ImageRightsPage}
+          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_IMAGE_RIGHTS)}
+          element={<ImageRightsPage />}
         />
         <Route
-          path={getLocalePath(ROUTES.TECHNOLOGY_SOURCE_CODE)}
-          component={SourceCodePage}
+          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_SOURCE_CODE)}
+          element={<SourceCodePage />}
         />
-        <Route component={NotFound} />
-      </Switch>
+        <Route element={<NotFound />} />
+      </Routes>
     </React.Suspense>
   );
 };
 
 const SupportRoutes: React.FC<Props> = ({ locale }) => {
+  const getSupportRoutePath = (path: string) =>
+    path.replace(ROUTES.SUPPORT, '');
   const getLocalePath = (path: string) => `/${locale}${path}`;
 
   return (
-    <Switch>
-      <Redirect
-        exact
-        path={getLocalePath(ROUTES.SUPPORT)}
-        to={getLocalePath(ROUTES.SUPPORT_TERMS_OF_USE)}
+    <Routes>
+      <Route
+        path={getSupportRoutePath(ROUTES.SUPPORT)}
+        element={
+          <Navigate replace to={getLocalePath(ROUTES.SUPPORT_TERMS_OF_USE)} />
+        }
       />
       <Route
-        path={getLocalePath(ROUTES.SUPPORT_CONTACT)}
-        component={ContactPage}
+        path={getSupportRoutePath(ROUTES.SUPPORT_CONTACT)}
+        element={<ContactPage />}
       />
       <Route
-        path={getLocalePath(ROUTES.SUPPORT_TERMS_OF_USE)}
-        component={TermsOfUsePage}
+        path={getSupportRoutePath(ROUTES.SUPPORT_TERMS_OF_USE)}
+        element={<TermsOfUsePage />}
       />
-      <Route component={NotFound} />
-    </Switch>
+      <Route element={<NotFound />} />
+    </Routes>
   );
 };
 
-const HelpPageRoutes: React.FC<Props> = ({ locale }) => {
+const HelpPageRoutes: React.FC = () => {
+  const locale = useLocale();
+  const getHelpRoutePath = (path: string) => path.replace(ROUTES.HELP, '');
   const getLocalePath = (path: string) => `/${locale}${path}`;
 
   return (
-    <Switch>
-      <Redirect
-        exact
-        path={getLocalePath(ROUTES.HELP)}
-        to={getLocalePath(ROUTES.INSTRUCTIONS)}
+    <Routes>
+      <Route
+        path={getHelpRoutePath(ROUTES.HELP)}
+        element={<Navigate replace to={getLocalePath(ROUTES.INSTRUCTIONS)} />}
       />
-      <Route path={getLocalePath(ROUTES.INSTRUCTIONS)}>
-        <InstructionsRoutes locale={locale} />
-      </Route>
-      <Route path={getLocalePath(ROUTES.TECHNOLOGY)}>
-        <TechnologyRoutes locale={locale} />
-      </Route>
-      <Route path={getLocalePath(ROUTES.SUPPORT)}>
-        <SupportRoutes locale={locale} />
-      </Route>
-      <Route path={getLocalePath(ROUTES.FEATURES)} component={FeaturesPage} />
-      <Route component={NotFound} />
-    </Switch>
+      <Route
+        path={`${getHelpRoutePath(ROUTES.INSTRUCTIONS)}/*`}
+        element={<InstructionsRoutes locale={locale} />}
+      />
+      <Route
+        path={`${getHelpRoutePath(ROUTES.TECHNOLOGY)}/*`}
+        element={<TechnologyRoutes locale={locale} />}
+      />
+      <Route
+        path={`${getHelpRoutePath(ROUTES.SUPPORT)}/*`}
+        element={<SupportRoutes locale={locale} />}
+      />
+      <Route
+        path={getHelpRoutePath(ROUTES.FEATURES)}
+        element={<FeaturesPage />}
+      />
+      <Route path="*" element={NotFound} />
+    </Routes>
   );
 };
 

@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/react';
 import { User } from 'oidc-client';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { RouteChildrenProps, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { CallbackComponent } from 'redux-oidc';
 
@@ -12,20 +12,21 @@ interface Error {
   stack?: string;
 }
 
-const OidcCallback: React.FC<RouteChildrenProps> = (props) => {
+const OidcCallback: React.FC = (props) => {
   const { t } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const onSuccess = (user: User) => {
-    if (user.state.path) props.history.push(user.state.path);
-    else props.history.replace('/');
+    if (user.state.path) navigate(user.state.path);
+    else navigate('/', { replace: true });
   };
 
   const onError = (error: Error) => {
     // In case used denies the access
     if (new URLSearchParams(location.hash.replace('#', '?')).get('error')) {
       // TODO: Store url where user clicked login to session storage and navigate to that url
-      props.history.replace('/');
+      navigate('/', { replace: true });
     } else {
       toast(t('authentication.errorMessage'), {
         type: toast.TYPE.ERROR,

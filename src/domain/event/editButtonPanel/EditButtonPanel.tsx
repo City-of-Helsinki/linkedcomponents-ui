@@ -2,7 +2,7 @@ import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
@@ -48,7 +48,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
   const locale = useLocale();
-  const history = useHistory<EventsLocationState>();
+  const navigate = useNavigate();
 
   const { organizationAncestors } = useOrganizationAncestors(
     event.publisher as string
@@ -62,7 +62,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const copyEvent = async () => {
     await copyEventToSessionStorage(event);
-    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+    navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
   const getActionItemProps = ({

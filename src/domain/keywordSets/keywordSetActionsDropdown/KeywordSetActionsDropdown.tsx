@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
@@ -34,7 +34,7 @@ const KeywordSetActionsDropdown = React.forwardRef<
 >(({ className, keywordSet }, ref) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const { dataSource, id } = getKeywordSetFields(keywordSet, locale);
@@ -51,7 +51,7 @@ const KeywordSetActionsDropdown = React.forwardRef<
       returnPath: pathname,
     });
 
-    history.push({
+    navigate({
       pathname: `/${locale}${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`,
       search: queryString,
     });

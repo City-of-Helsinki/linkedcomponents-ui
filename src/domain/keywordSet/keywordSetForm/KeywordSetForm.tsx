@@ -8,7 +8,7 @@ import {
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import KeywordSelectorField from '../../../common/components/formFields/KeywordSelectorField';
@@ -59,7 +59,7 @@ type KeywordSetFormProps = {
 
 const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
   const { user } = useUser();
@@ -77,7 +77,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const [createKeywordSetMutation] = useCreateKeywordSetMutation();
 
   const goToKeywordSetsPage = () => {
-    history.push(`/${locale}${ROUTES.KEYWORD_SETS}`);
+    navigate(`/${locale}${ROUTES.KEYWORD_SETS}`);
   };
 
   const onUpdate = async (values: KeywordSetFormFields) => {

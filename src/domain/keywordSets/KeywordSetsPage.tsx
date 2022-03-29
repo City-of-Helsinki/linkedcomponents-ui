@@ -1,7 +1,7 @@
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
@@ -16,11 +16,11 @@ import styles from './keywordSetsPage.module.scss';
 
 const KeywordsPage: React.FC = () => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
 
   const goToCreateKeywordSetPage = () => {
-    history.push(`/${locale}${ROUTES.CREATE_KEYWORD_SET}`);
+    navigate(`/${locale}${ROUTES.CREATE_KEYWORD_SET}`);
   };
 
   return (

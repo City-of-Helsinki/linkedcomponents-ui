@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
@@ -21,7 +21,7 @@ type SearchState = {
 
 const SearchPanel: React.FC<Props> = ({ registration }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [searchState, setSearchState] = useSearchState<SearchState>({
@@ -33,7 +33,7 @@ const SearchPanel: React.FC<Props> = ({ registration }) => {
   };
 
   const handleSearch = () => {
-    history.push({
+    navigate({
       pathname: location.pathname,
       search: replaceParamsToRegistrationQueryString(location.search, {
         ...searchState,

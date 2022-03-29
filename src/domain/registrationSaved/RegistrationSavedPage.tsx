@@ -1,7 +1,7 @@
 import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -23,16 +23,16 @@ import styles from './registrationSavedPage.module.scss';
 
 const RegistrationSavedPage: React.FC = () => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
 
   const goToRegistrations = () => {
-    history.push(`/${locale}${ROUTES.REGISTRATIONS}`);
+    navigate(`/${locale}${ROUTES.REGISTRATIONS}`);
   };
 
   const goToCreateRegistration = () => {
     clearRegistrationFormData();
-    history.push(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
+    navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 
   return (
@@ -64,7 +64,7 @@ const RegistrationSavedPageWrapper: React.FC = () => {
   const { data: registrationData, loading } = useRegistrationQuery({
     skip: !registrationId || !user,
     variables: {
-      id: registrationId,
+      id: registrationId as string,
       include: REGISTRATION_INCLUDES,
       createPath: getPathBuilder(registrationPathBuilder),
     },

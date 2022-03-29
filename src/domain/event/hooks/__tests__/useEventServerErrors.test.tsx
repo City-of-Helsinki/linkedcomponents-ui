@@ -96,7 +96,7 @@ it('should set server error items', async () => {
       label: 'Vähimmäisosallistujamäärä',
       message: 'Tämän luvun on oltava vähintään 0.',
     },
-    { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
+    { label: 'Tapahtuman otsikko suomeksi', message: 'Nimi on pakollinen.' },
     {
       label: 'Tapahtuman hintatiedot',
       message: 'Hintatiedot on määritettävä ennen tapahtuman julkaisemista.',
@@ -153,10 +153,10 @@ it('should return server error items when result is array', () => {
   );
 
   expect(result.current.serverErrorItems).toEqual([
-    { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
-    { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
-    { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
-    { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
+    { label: 'Tapahtuman otsikko suomeksi', message: 'Nimi on pakollinen.' },
+    { label: 'Tapahtuman otsikko suomeksi', message: 'Nimi on pakollinen.' },
+    { label: 'Tapahtuman otsikko suomeksi', message: 'Nimi on pakollinen.' },
+    { label: 'Tapahtuman otsikko suomeksi', message: 'Nimi on pakollinen.' },
   ]);
   expect(callbackFn).toBeCalled();
 });

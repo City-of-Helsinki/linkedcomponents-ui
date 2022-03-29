@@ -99,13 +99,13 @@
         "noResults": "Ei vaihtoehtoja",
         "selectionMessage": "{{value}} on valittu.",
         "statusMessage": "{{count}} vaihtoehto valittavissa, siirry nuolinäppäimillä ylös ja alas. Paina Enter-näppäintä valitaksesi.",
-        "statusMessage_plural": "{{count}} vaihtoehtoa valittavissa, siirry nuolinäppäimillä ylös ja alas. Paina Enter-näppäintä valitaksesi."
+        "statusMessage_other": "{{count}} vaihtoehtoa valittavissa, siirry nuolinäppäimillä ylös ja alas. Paina Enter-näppäintä valitaksesi."
       }
     },
     "edit": "Muokkaa",
     "errorLoadMore": "Lataaminen epäonnistui",
     "eventAmount": "{{count}} tapahtuma",
-    "eventAmount_plural": "{{count}} tapahtumaa",
+    "eventAmount_other": "{{count}} tapahtumaa",
     "feedback": {
       "text": "Anna palautetta"
     },
@@ -281,7 +281,7 @@
     },
     "warnings": {
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
-      "capacityInWaitingList_plural": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
+      "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
       "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen."
     }
   },
@@ -807,7 +807,7 @@
           "volunteering": "Vapaaehtoistehtävä alkaa klo:"
         },
         "textRepeatInterval": "Viikon välein",
-        "textRepeatInterval_plural": "{{count}} viikon välein"
+        "textRepeatInterval_other": "{{count}} viikon välein"
       },
       "sections": {
         "additionalInfo": "Lisätiedot",
@@ -937,7 +937,7 @@
   "eventsPage": {
     "captionListTypes": "Luettelotyyppi",
     "count": "{{count}} tapahtuma",
-    "count_plural": "{{count}} tapahtumaa",
+    "count_other": "{{count}} tapahtumaa",
     "datetime": "{{date}} klo {{time}}",
     "eventCard": {
       "hideSubEvents": "Piilota alatapahtumat",
@@ -1010,7 +1010,7 @@
       },
       "array": {
         "min": "Vähintään {{min}} vaihtoehto tulee olla valittuna",
-        "min_plural": "Vähintään {{min}} vaihtoehtoa tulee olla valittuna",
+        "min_other": "Vähintään {{min}} vaihtoehtoa tulee olla valittuna",
         "required": "Vähintään 1 vaihtoehto tulee olla valittuna"
       },
       "date": {
@@ -1034,7 +1034,7 @@
       "offersRequired": "Vähintään 1 hintatieto vaaditaan",
       "string": {
         "charsLeft": "{{count}} merkki jäljellä",
-        "charsLeft_plural": "{{count}} merkkiä jäljellä",
+        "charsLeft_other": "{{count}} merkkiä jäljellä",
         "date": "Tämän kentän on oltava kelvollinen päivämäärä",
         "email": "Tämän kentän on oltava kelvollinen sähköpostiosoite",
         "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
@@ -1252,7 +1252,7 @@
       "edit": "Muokkaa avainsanaa"
     },
     "count": "{{count}} avainsana",
-    "count_plural": "{{count}} avainsanaa",
+    "count_other": "{{count}} avainsanaa",
     "keywordsTableCaption": "Avainsanat, järjestys {{sort}}",
     "keywordsTableColumns": {
       "id": "ID",
@@ -1296,7 +1296,7 @@
       "edit": "Muokkaa avainsanaryhmää"
     },
     "count": "{{count}} avainsanaryhmä",
-    "count_plural": "{{count}} avainsanaryhmää",
+    "count_other": "{{count}} avainsanaryhmää",
     "keywordSetsTableCaption": "Avainsanaryhmät, järjestys {{sort}}",
     "keywordSetsTableColumns": {
       "id": "ID",
@@ -1402,7 +1402,7 @@
       "edit": "Muokkaa organisaatiota"
     },
     "count": "{{count}} organisaatio",
-    "count_plural": "{{count}} organisaatiota",
+    "count_other": "{{count}} organisaatiota",
     "labelSearch": "Hae organisaatioita",
     "organizationsTable": {
       "hideSubOrganizations": "Piilota alaorganisaatiot: {{name}}",
@@ -1485,7 +1485,7 @@
     },
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "count": "{{count}} ilmoittautuminen",
-    "count_plural": "{{count}} ilmoittautumista",
+    "count_other": "{{count}} ilmoittautumista",
     "pageTitle": "Ilmoittautuminen",
     "registrationsTableCaption": "Ilmoittautumiset, järjestys {{sort}}",
     "registrationsTableColumns": {

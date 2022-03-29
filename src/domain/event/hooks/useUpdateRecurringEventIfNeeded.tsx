@@ -151,7 +151,7 @@ const useUpdateRecurringEventIfNeeded =
       } catch (error) {
         reportError({
           data: {
-            error,
+            error: error as Record<string, unknown>,
             event,
           },
           location,

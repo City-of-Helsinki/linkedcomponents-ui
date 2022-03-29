@@ -7,7 +7,7 @@ import {
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import CheckboxField from '../../../common/components/formFields/CheckboxField';
@@ -57,7 +57,7 @@ type KeywordFormProps = {
 const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { user } = useUser();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
@@ -72,7 +72,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const [createKeywordMutation] = useCreateKeywordMutation();
 
   const goToKeywordsPage = () => {
-    history.push(`/${locale}${ROUTES.KEYWORDS}`);
+    navigate(`/${locale}${ROUTES.KEYWORDS}`);
   };
 
   const onUpdate = async (values: KeywordFormFields) => {

@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
@@ -40,7 +40,7 @@ type Props = {
 const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { publisher } = getKeywordFields(keyword, locale);
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
@@ -52,7 +52,7 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
     });
 
   const goToKeywordsPage = () => {
-    history.push(`/${locale}${ROUTES.KEYWORDS}`);
+    navigate(`/${locale}${ROUTES.KEYWORDS}`);
   };
 
   const onDelete = () => {
@@ -119,7 +119,7 @@ const EditKeywordPageWrapper: React.FC = () => {
     notifyOnNetworkStatusChange: true,
     variables: {
       createPath: getPathBuilder(keywordPathBuilder),
-      id,
+      id: id as string,
     },
   });
 

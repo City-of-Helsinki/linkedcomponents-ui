@@ -17,7 +17,10 @@ it('should render server error with label', () => {
   render(
     <ServerErrorSummary
       errors={[
-        { label: 'Tapahtuman otsikko ', message: 'Nimi on pakollinen.' },
+        {
+          label: 'Tapahtuman otsikko suomeksi',
+          message: 'Nimi on pakollinen.',
+        },
       ]}
     />
   );

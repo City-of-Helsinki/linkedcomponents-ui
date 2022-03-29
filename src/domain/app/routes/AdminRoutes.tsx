@@ -1,8 +1,8 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 
 import { ROUTES } from '../../../constants';
-import { Language } from '../../../types';
+import useLocale from '../../../hooks/useLocale';
 import NotFoundPage from '../../notFound/NotFound';
 
 const CreateKeywordPage = React.lazy(
@@ -32,69 +32,58 @@ const OrganizationsPage = React.lazy(
   () => import('.././../organizations/OrganizationsPage')
 );
 
-interface Props {
-  locale: Language;
-}
-
-const AdminPageRoutes: React.FC<Props> = ({ locale }) => {
+const AdminPageRoutes: React.FC = () => {
+  const locale = useLocale();
+  const getAdminRoutePath = (path: string) => path.replace(ROUTES.ADMIN, '');
   const getLocalePath = (path: string) => `/${locale}${path}`;
 
   return (
-    <Switch>
-      <Redirect
-        exact
-        path={getLocalePath(ROUTES.ADMIN)}
-        to={getLocalePath(ROUTES.KEYWORDS)}
-      />
+    <Routes>
       <Route
-        exact
-        path={getLocalePath(ROUTES.CREATE_KEYWORD)}
-        component={CreateKeywordPage}
-      />
-      <Route
-        exact
-        path={getLocalePath(ROUTES.EDIT_KEYWORD)}
-        component={EditKeywordPage}
-      />
-      <Route
-        exact
-        path={getLocalePath(ROUTES.KEYWORDS)}
-        component={KeywordsPage}
+        path={getAdminRoutePath(ROUTES.ADMIN)}
+        element={<Navigate replace to={getLocalePath(ROUTES.KEYWORDS)} />}
       />
 
       <Route
-        exact
-        path={getLocalePath(ROUTES.CREATE_KEYWORD_SET)}
-        component={CreateKeywordSetPage}
+        path={getAdminRoutePath(ROUTES.CREATE_KEYWORD)}
+        element={<CreateKeywordPage />}
       />
       <Route
-        exact
-        path={getLocalePath(ROUTES.EDIT_KEYWORD_SET)}
-        component={EditKeywordSetPage}
+        path={getAdminRoutePath(ROUTES.EDIT_KEYWORD)}
+        element={<EditKeywordPage />}
       />
       <Route
-        exact
-        path={getLocalePath(ROUTES.KEYWORD_SETS)}
-        component={KeywordSetsPage}
+        path={getAdminRoutePath(ROUTES.KEYWORDS)}
+        element={<KeywordsPage />}
       />
 
       <Route
-        exact
-        path={getLocalePath(ROUTES.CREATE_ORGANIZATION)}
-        component={CreateOrganizationPage}
+        path={getAdminRoutePath(ROUTES.CREATE_KEYWORD_SET)}
+        element={<CreateKeywordSetPage />}
       />
       <Route
-        exact
-        path={getLocalePath(ROUTES.EDIT_ORGANIZATION)}
-        component={EditOrganizationPage}
+        path={getAdminRoutePath(ROUTES.EDIT_KEYWORD_SET)}
+        element={<EditKeywordSetPage />}
       />
       <Route
-        exact
-        path={getLocalePath(ROUTES.ORGANIZATIONS)}
-        component={OrganizationsPage}
+        path={getAdminRoutePath(ROUTES.KEYWORD_SETS)}
+        element={<KeywordSetsPage />}
       />
-      <Route component={NotFoundPage} />
-    </Switch>
+
+      <Route
+        path={getAdminRoutePath(ROUTES.CREATE_ORGANIZATION)}
+        element={<CreateOrganizationPage />}
+      />
+      <Route
+        path={getAdminRoutePath(ROUTES.EDIT_ORGANIZATION)}
+        element={<EditOrganizationPage />}
+      />
+      <Route
+        path={getAdminRoutePath(ROUTES.ORGANIZATIONS)}
+        element={<OrganizationsPage />}
+      />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 };
 

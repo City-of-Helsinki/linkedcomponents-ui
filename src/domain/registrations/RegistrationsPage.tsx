@@ -3,7 +3,7 @@ import { Button, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
@@ -33,14 +33,14 @@ interface Props {
 
 const RegistrationsPage: React.FC<Props> = ({ user }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
 
   const authenticated = useSelector(authenticatedSelector);
 
   const goToCreateRegistrationPage = () => {
     clearRegistrationFormData();
-    history.push(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
+    navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 
   const buttonProps = getEditButtonProps({

@@ -14,44 +14,45 @@ export type KeywordSetAuthenticationNotificationProps = {
   dataSource: string;
 };
 
-const KeywordSetAuthenticationNotification: React.FC<KeywordSetAuthenticationNotificationProps> =
-  ({ action, dataSource }) => {
-    const authenticated = useSelector(authenticatedSelector);
-    const { user } = useUser();
-    const adminOrganizations = user?.adminOrganizations || [];
-    const { organization: userOrganization } = useUserOrganization(user);
+const KeywordSetAuthenticationNotification: React.FC<
+  KeywordSetAuthenticationNotificationProps
+> = ({ action, dataSource }) => {
+  const authenticated = useSelector(authenticatedSelector);
+  const { user } = useUser();
+  const adminOrganizations = user?.adminOrganizations || [];
+  const { organization: userOrganization } = useUserOrganization(user);
 
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
-    const getNotificationProps = () => {
-      if (authenticated) {
-        if (!adminOrganizations.length) {
-          return {
-            children: <p>{t('authentication.noRightsUpdateKeywordSet')}</p>,
-            label: t('authentication.noRightsUpdateKeywordSetLabel'),
-          };
-        }
-
-        const { warning } = checkIsEditActionAllowed({
-          action,
-          authenticated,
-          dataSource,
-          t,
-          userOrganization,
-        });
-
-        if (warning) {
-          return {
-            children: <p>{warning}</p>,
-            label: t('keywordSet.form.notificationTitleCannotEdit'),
-          };
-        }
+  const getNotificationProps = () => {
+    if (authenticated) {
+      if (!adminOrganizations.length) {
+        return {
+          children: <p>{t('authentication.noRightsUpdateKeywordSet')}</p>,
+          label: t('authentication.noRightsUpdateKeywordSetLabel'),
+        };
       }
 
-      return { label: null };
-    };
+      const { warning } = checkIsEditActionAllowed({
+        action,
+        authenticated,
+        dataSource,
+        t,
+        userOrganization,
+      });
 
-    return <AuthenticationNotification {...getNotificationProps()} />;
+      if (warning) {
+        return {
+          children: <p>{warning}</p>,
+          label: t('keywordSet.form.notificationTitleCannotEdit'),
+        };
+      }
+    }
+
+    return { label: null };
   };
+
+  return <AuthenticationNotification {...getNotificationProps()} />;
+};
 
 export default KeywordSetAuthenticationNotification;

@@ -91,11 +91,7 @@ test('should render enrolments page', async () => {
 
 it('scrolls to enrolment table row and calls history.replace correctly (deletes enrolmentId from state)', async () => {
   const history = createMemoryHistory();
-  const historyObject = {
-    state: { enrolmentId: attendees[0].id },
-    pathname: route,
-  };
-  history.push(historyObject);
+  history.push(route, { enrolmentId: attendees[0].id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
@@ -104,7 +100,8 @@ it('scrolls to enrolment table row and calls history.replace correctly (deletes 
   await loadingSpinnerIsNotInDocument();
 
   expect(replaceSpy).toHaveBeenCalledWith(
-    expect.objectContaining({ pathname: historyObject.pathname })
+    { hash: '', pathname: route, search: '' },
+    {}
   );
 
   const enrolmentRowButton = screen.getAllByRole('button', {

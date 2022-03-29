@@ -94,11 +94,7 @@ it('scrolls to registration table row and calls history.replace correctly (delet
   const store = getMockReduxStore(storeState);
   const route = '/fi/registrations';
   const history = createMemoryHistory();
-  const historyObject = {
-    state: { registrationId: registrations.data[0].id },
-    pathname: route,
-  };
-  history.push(historyObject);
+  history.push(route, { registrationId: registrations.data[0].id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
@@ -112,7 +108,8 @@ it('scrolls to registration table row and calls history.replace correctly (delet
   await loadingSpinnerIsNotInDocument();
 
   expect(replaceSpy).toHaveBeenCalledWith(
-    expect.objectContaining({ pathname: historyObject.pathname })
+    { hash: '', pathname: route, search: '' },
+    {}
   );
 
   const eventRowButton = await screen.findByRole('button', {

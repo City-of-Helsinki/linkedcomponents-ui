@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
@@ -38,7 +38,7 @@ const RegistrationActionsDropdown = React.forwardRef<
   const { t } = useTranslation();
   const authenticated = useSelector(authenticatedSelector);
   const locale = useLocale();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { id, registrationUrl } = getRegistrationFields(registration, locale);
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const { user } = useUser();
@@ -53,11 +53,11 @@ const RegistrationActionsDropdown = React.forwardRef<
 
   const goToEditRegistrationPage = () => {
     const registrationUrlWithReturnPath = `${registrationUrl}${queryStringWithReturnPath}`;
-    history.push(registrationUrlWithReturnPath);
+    navigate(registrationUrlWithReturnPath);
   };
 
   const goToRegistrationEnrolmentsPage = () => {
-    history.push({
+    navigate({
       pathname: `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
         ':registrationId',
         id
@@ -68,7 +68,7 @@ const RegistrationActionsDropdown = React.forwardRef<
 
   const copyRegistration = async () => {
     await copyRegistrationToSessionStorage(registration);
-    history.push(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
+    navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 
   const onDelete = () => {

@@ -5,7 +5,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 import omit from 'lodash/omit';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { unstable_HistoryRouter as Router } from 'react-router-dom';
 
 import {
   EventDocument,

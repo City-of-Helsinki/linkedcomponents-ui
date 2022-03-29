@@ -32,21 +32,22 @@ interface PublisherNameWithIconContainerProps {
   id?: string | null;
 }
 
-const PublisherNameWithIconContainer: React.FC<PublisherNameWithIconContainerProps> =
-  ({ id }) => {
-    const { data: organizationData } = useOrganizationQuery({
-      skip: !id,
-      variables: {
-        id: id as string,
-        createPath: getPathBuilder(organizationPathBuilder),
-      },
-    });
+const PublisherNameWithIconContainer: React.FC<
+  PublisherNameWithIconContainerProps
+> = ({ id }) => {
+  const { data: organizationData } = useOrganizationQuery({
+    skip: !id,
+    variables: {
+      id: id as string,
+      createPath: getPathBuilder(organizationPathBuilder),
+    },
+  });
 
-    return organizationData?.organization ? (
-      <PublisherNameWithIcon organization={organizationData?.organization} />
-    ) : (
-      <TextWithIcon icon={<PublisherBadge name="" />} text={'-'} />
-    );
-  };
+  return organizationData?.organization ? (
+    <PublisherNameWithIcon organization={organizationData?.organization} />
+  ) : (
+    <TextWithIcon icon={<PublisherBadge name="" />} text={'-'} />
+  );
+};
 
 export default PublisherNameWithIconContainer;

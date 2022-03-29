@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { IconPlus, Koros } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import bgImage from '../../../assets/images/jpg/landing-page-hero.jpg';
 import Button from '../../../common/components/button/Button';
@@ -20,17 +20,17 @@ import styles from './hero.module.scss';
 const Hero: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useLocale();
   const [searchValue, setSearchValue] = React.useState('');
 
   const goToCreateEventPage = () => {
     clearEventFormData();
-    history.push(`/${locale}${ROUTES.CREATE_EVENT}`);
+    navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
   const handleSearch = (text: string) => {
-    history.push({
+    navigate({
       pathname: `/${locale}${ROUTES.SEARCH}`,
       search: getEventSearchQuery({ text }),
     });

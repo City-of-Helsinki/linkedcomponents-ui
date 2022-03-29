@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
@@ -35,8 +35,8 @@ const OrganizationsTableRow: React.FC<Props> = ({
     OrganizationsTableContext
   );
   const { t } = useTranslation();
-  const history = useHistory();
-  const location = useLocation<OrganizationsLocationState>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const locale = useLocale();
   const dispatch = useDispatch();
   const expandedOrganizations = useSelector(expandedOrganizationsSelector);
@@ -93,12 +93,13 @@ const OrganizationsTableRow: React.FC<Props> = ({
   };
 
   React.useEffect(() => {
-    if (location.state?.organizationId) {
-      scrollToItem(getOrganizationItemId(location.state.organizationId));
+    const locationState = location.state as OrganizationsLocationState;
+    if (locationState?.organizationId) {
+      scrollToItem(getOrganizationItemId(locationState.organizationId));
       // Clear organizationId value to keep scroll position correctly
-      const state = omit(location.state, 'organizationId');
+      const state = omit(locationState, 'organizationId');
       // location.search seems to reset if not added here (...location)
-      history.replace({ ...location, state });
+      navigate(location, { state, replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
+import { Navigate, Route, Routes, useParams } from 'react-router';
 
 import { DEPRECATED_ROUTES, ROUTES } from '../../../constants';
-import { Language } from '../../../types';
+import useLocale from '../../../hooks/useLocale';
 import { isFeatureEnabled } from '../../../utils/featureFlags';
 import AdminPageLayout from '../../admin/layout/AdminPageLayout';
 import EventSavedPage from '../../eventSaved/EventSavedPage';
@@ -43,17 +43,22 @@ const RegistrationsPage = React.lazy(
   () => import('.././../registrations/RegistrationsPage')
 );
 
-interface Params {
-  locale: Language;
-}
+const DeprecetedEditEventPageRoute = () => {
+  const locale = useLocale();
+  const { id } = useParams<{ id: string }>();
 
-type Props = RouteComponentProps<Params>;
+  const getLocalePath = (path: string) => `/${locale}${path}`;
 
-const LocaleRoutes: React.FC<Props> = ({
-  match: {
-    params: { locale },
-  },
-}) => {
+  return (
+    <Navigate
+      replace
+      to={getLocalePath(ROUTES.EDIT_EVENT).replace(':id', id as string)}
+    />
+  );
+};
+
+const LocaleRoutes: React.FC = () => {
+  const { locale } = useParams<{ locale: string }>();
   const { i18n } = useTranslation();
 
   const getLocalePath = (path: string) => `/${locale}${path}`;
@@ -65,128 +70,95 @@ const LocaleRoutes: React.FC<Props> = ({
   return (
     <PageLayout>
       <React.Suspense fallback={<div style={{ minHeight: '100vh' }} />}>
-        <Switch>
+        <Routes>
           {/* Redirect old UI routes */}
-          <Redirect
-            from={getLocalePath(DEPRECATED_ROUTES.CREATE_EVENT)}
-            to={getLocalePath(ROUTES.CREATE_EVENT)}
+          <Route
+            path={DEPRECATED_ROUTES.CREATE_EVENT}
+            element={
+              <Navigate replace to={getLocalePath(ROUTES.CREATE_EVENT)} />
+            }
           />
-          <Redirect
-            from={getLocalePath(DEPRECATED_ROUTES.MODERATION)}
-            to={getLocalePath(ROUTES.EVENTS)}
+          <Route
+            path={DEPRECATED_ROUTES.MODERATION}
+            element={<Navigate replace to={getLocalePath(ROUTES.EVENTS)} />}
           />
-          <Redirect
-            from={getLocalePath(DEPRECATED_ROUTES.UPDATE_EVENT)}
-            to={getLocalePath(ROUTES.EDIT_EVENT)}
+          <Route
+            path={DEPRECATED_ROUTES.UPDATE_EVENT}
+            element={<DeprecetedEditEventPageRoute />}
           />
-          <Redirect
-            from={getLocalePath(DEPRECATED_ROUTES.VIEW_EVENT)}
-            to={getLocalePath(ROUTES.EDIT_EVENT)}
+          <Route
+            path={DEPRECATED_ROUTES.VIEW_EVENT}
+            element={<DeprecetedEditEventPageRoute />}
           />
-          <Redirect
-            from={getLocalePath(DEPRECATED_ROUTES.TERMS)}
-            to={getLocalePath(ROUTES.SUPPORT_TERMS_OF_USE)}
+          <Route
+            path={DEPRECATED_ROUTES.TERMS}
+            element={
+              <Navigate
+                replace
+                to={getLocalePath(ROUTES.SUPPORT_TERMS_OF_USE)}
+              />
+            }
           />
           {/* Locale routes */}
-          <Route
-            exact
-            path={getLocalePath(ROUTES.HOME)}
-            component={LandingPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.CREATE_EVENT)}
-            component={CreateEventPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.EVENT_SAVED)}
-            component={EventSavedPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.EDIT_EVENT)}
-            component={EditEventPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.EVENTS)}
-            component={EventsPage}
-          />
+          <Route path={ROUTES.HOME} element={<LandingPage />} />
+          <Route path={ROUTES.CREATE_EVENT} element={<CreateEventPage />} />
+          <Route path={ROUTES.EVENT_SAVED} element={<EventSavedPage />} />
+          <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />
+          <Route path={ROUTES.EVENTS} element={<EventsPage />} />
           {isFeatureEnabled('SHOW_REGISTRATION') && (
-            <Route
-              exact
-              path={getLocalePath(ROUTES.CREATE_REGISTRATION)}
-              component={CreateRegistrationPage}
-            />
+            <>
+              <Route
+                path={ROUTES.CREATE_REGISTRATION}
+                element={<CreateRegistrationPage />}
+              />
+              <Route
+                path={ROUTES.REGISTRATION_SAVED}
+                element={<RegistrationSavedPage />}
+              />
+              <Route
+                path={ROUTES.EDIT_REGISTRATION}
+                element={<EditRegistrationPage />}
+              />
+              <Route
+                path={ROUTES.REGISTRATIONS}
+                element={<RegistrationsPage />}
+              />
+              <Route
+                path={ROUTES.REGISTRATION_ENROLMENTS}
+                element={<EnrolmentsPage />}
+              />
+              <Route
+                path={ROUTES.CREATE_ENROLMENT}
+                element={<CreateEnrolmentPage />}
+              />
+              <Route
+                path={ROUTES.EDIT_REGISTRATION_ENROLMENT}
+                element={<EditEnrolmentPage />}
+              />
+            </>
           )}
-          {isFeatureEnabled('SHOW_REGISTRATION') && (
-            <Route
-              exact
-              path={getLocalePath(ROUTES.REGISTRATION_SAVED)}
-              component={RegistrationSavedPage}
-            />
-          )}
-          {isFeatureEnabled('SHOW_REGISTRATION') && (
-            <Route
-              exact
-              path={getLocalePath(ROUTES.EDIT_REGISTRATION)}
-              component={EditRegistrationPage}
-            />
-          )}
-          {isFeatureEnabled('SHOW_REGISTRATION') && (
-            <Route
-              exact
-              path={getLocalePath(ROUTES.REGISTRATIONS)}
-              component={RegistrationsPage}
-            />
-          )}
-          {isFeatureEnabled('SHOW_REGISTRATION') && (
-            <Route
-              exact
-              path={getLocalePath(ROUTES.REGISTRATION_ENROLMENTS)}
-              component={EnrolmentsPage}
-            />
-          )}
-          {isFeatureEnabled('SHOW_REGISTRATION') && (
-            <Route
-              exact
-              path={getLocalePath(ROUTES.CREATE_ENROLMENT)}
-              component={CreateEnrolmentPage}
-            />
-          )}
-          {isFeatureEnabled('SHOW_REGISTRATION') && (
-            <Route
-              exact
-              path={getLocalePath(ROUTES.EDIT_REGISTRATION_ENROLMENT)}
-              component={EditEnrolmentPage}
-            />
-          )}
-
-          <Route
-            exact
-            path={getLocalePath(ROUTES.LOGOUT)}
-            component={LogoutPage}
-          />
-          <Route
-            exact
-            path={getLocalePath(ROUTES.SEARCH)}
-            component={EventSearchPage}
-          />
+          <Route path={ROUTES.LOGOUT} element={<LogoutPage />} />
+          <Route path={ROUTES.SEARCH} element={<EventSearchPage />} />
           {isFeatureEnabled('SHOW_ADMIN') && (
-            <Route path={getLocalePath(ROUTES.ADMIN)}>
-              <AdminPageLayout>
-                <AdminPageRoutes locale={locale} />
-              </AdminPageLayout>
-            </Route>
+            <Route
+              path={`${ROUTES.ADMIN}/*`}
+              element={
+                <AdminPageLayout>
+                  <AdminPageRoutes />
+                </AdminPageLayout>
+              }
+            ></Route>
           )}
-          <Route path={getLocalePath(ROUTES.HELP)}>
-            <HelpPageLayout>
-              <HelpPageRoutes locale={locale} />
-            </HelpPageLayout>
-          </Route>
-          <Route component={NotFound} />
-        </Switch>
+          <Route
+            path={`${ROUTES.HELP}/*`}
+            element={
+              <HelpPageLayout>
+                <HelpPageRoutes />
+              </HelpPageLayout>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </React.Suspense>
     </PageLayout>
   );

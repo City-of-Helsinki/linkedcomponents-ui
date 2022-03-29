@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { unstable_HistoryRouter as Router } from 'react-router-dom';
 
 import {
   EventFieldsFragment,

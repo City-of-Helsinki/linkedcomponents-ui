@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Footer as HdsFooter } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { matchPath, RouteProps, useHistory, useLocation } from 'react-router';
+import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
@@ -11,27 +11,22 @@ import { isFeatureEnabled } from '../../../utils/featureFlags';
 import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
 
-interface NoFooterPathProps {
-  pathname: string;
-  props?: RouteProps;
-}
-
 interface NavigationItem {
   labelKey: string;
   url: ROUTES;
 }
 
-const NO_FOOTER_PATHS = [
-  { pathname: ROUTES.EDIT_EVENT },
-  { pathname: ROUTES.EDIT_REGISTRATION },
-  { pathname: ROUTES.EDIT_REGISTRATION_ENROLMENT },
-  { pathname: ROUTES.REGISTRATION_ENROLMENTS },
+const NO_FOOTER_PATHS: PathPattern[] = [
+  { path: ROUTES.EDIT_EVENT },
+  { path: ROUTES.EDIT_REGISTRATION },
+  { path: ROUTES.EDIT_REGISTRATION_ENROLMENT },
+  { path: ROUTES.REGISTRATION_ENROLMENTS },
 ];
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
   const { theme } = useTheme();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const locale = useLocale();
   /* istanbul ignore next */
@@ -59,7 +54,7 @@ const Footer: React.FC = () => {
   const goToPage =
     (pathname: string) => (event?: React.MouseEvent<HTMLAnchorElement>) => {
       event?.preventDefault();
-      history.push({ pathname });
+      navigate({ pathname });
     };
 
   const getFooterThemeClassName = () => {
@@ -70,13 +65,12 @@ const Footer: React.FC = () => {
     }
   };
 
-  const isMatch = (paths: NoFooterPathProps[]) =>
+  const isMatch = (paths: PathPattern[]) =>
     paths.some((path) =>
-      matchPath(pathname, {
-        path: `/${locale}${path.pathname}`,
-        exact: path.props?.exact ?? true,
-        strict: path.props?.strict ?? true,
-      })
+      matchPath(
+        { path: `/${locale}${path.path}`, end: path.end ?? true },
+        pathname
+      )
     );
 
   const noFooter = isMatch(NO_FOOTER_PATHS);

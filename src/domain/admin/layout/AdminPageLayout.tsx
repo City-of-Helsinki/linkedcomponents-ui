@@ -15,7 +15,7 @@ const AdminPageLayout: React.FC<Props> = ({ children }) => {
   const { pathname } = useLocation();
 
   const getIsActive = (localePath: string) => {
-    return !!matchPath(pathname, { path: localePath, exact: false });
+    return !!matchPath({ path: localePath, end: false }, pathname);
   };
 
   const adminSubLevels = [
