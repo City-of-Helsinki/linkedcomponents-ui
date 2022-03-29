@@ -273,6 +273,14 @@ it('should render edit organization page', async () => {
   );
 });
 
+it('should render places page', async () => {
+  const { history } = renderRoute(`${ROUTES.PLACES}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /paikat/i });
+  expect(history.location.pathname).toBe('/fi/admin/places');
+});
+
 it('should route to default help page', async () => {
   const { history } = renderRoute(ROUTES.HELP);
 

@@ -51,6 +51,7 @@
     "buttonAddKeyword": "Add keyword",
     "buttonAddKeywordSet": "Add keyword set",
     "buttonAddOrganization": "Add new organization",
+    "buttonAddPlace": "Add place",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
     "cancel": "Undo",
@@ -1431,6 +1432,30 @@
     },
     "title": "Organizations",
     "warningNoRightsToEdit": "You have insufficient rights to edit this organization."
+  },
+  "placesPage": {
+    "count": "{{count}} place",
+    "count_other": "{{count}} places",
+    "labelSearch": "Search places",
+    "pageTitle": "Places",
+    "placesTableCaption": "Places, sorted by {{sort}}",
+    "placesTableColumns": {
+      "id": "ID",
+      "name": "Name",
+      "nEvents": "Number of events",
+      "streetAddress": "Street address"
+    },
+    "sortOptions": {
+      "id": "Id, ascending",
+      "idDesc": "Id, descending",
+      "name": "Name, ascending",
+      "nameDesc": "Name, descending",
+      "nEvents": "Number of events, ascending",
+      "nEventsDesc": "Number of events, descending",
+      "streetAddress": "Street address, ascending",
+      "streetAddressDesc": "Street address, descending"
+    },
+    "title": "Places"
   },
   "registration": {
     "deleteRegistrationModal": {
