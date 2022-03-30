@@ -6,6 +6,7 @@ import {
   KeywordFieldsFragment,
   KeywordSetFieldsFragment,
   OrganizationFieldsFragment,
+  PlaceFieldsFragment,
 } from '../../src/generated/graphql';
 import { getCommonComponents } from '../common.components';
 import { getEnvUrl } from './settings';
@@ -43,6 +44,13 @@ export const getUrlUtils = (t: TestController) => {
     async navigateToOrganizationsUrl(searchString: string) {
       const url = getEnvUrl(
         `/fi/admin/organizations?text=${encodeURIComponent(searchString)}`
+      );
+      setDataToPrintOnFailure(t, 'url', url);
+      await t.navigateTo(url);
+    },
+    async navigateToPlacesUrl(searchString: string) {
+      const url = getEnvUrl(
+        `/fi/admin/places?text=${encodeURIComponent(searchString)}`
       );
       setDataToPrintOnFailure(t, 'url', url);
       await t.navigateTo(url);
@@ -89,6 +97,11 @@ export const getUrlUtils = (t: TestController) => {
       await t
         .expect(getPathname())
         .eql(`/fi/admin/keyword-sets/create`, await getErrorMessage(t));
+    },
+    async urlChangedToCreatePlacePage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/admin/places/create`, await getErrorMessage(t));
     },
     async urlChangedToCreateOrganizationPage() {
       await t
@@ -182,6 +195,17 @@ export const getUrlUtils = (t: TestController) => {
           `Muokkaa organisaatiota - Linked Events`,
           await getErrorMessage(t)
         );
+    },
+    async urlChangedToPlacePage(place: PlaceFieldsFragment) {
+      setDataToPrintOnFailure(t, 'expectedPlace', place);
+      await t
+        .expect(getPathname())
+        .eql(`/fi/admin/places/edit/${place.id}`, await getErrorMessage(t));
+      // TODO: Uncomment when edit place page is implemented
+      // await pageIsLoaded();
+      // await t
+      //   .expect(getPageTitle())
+      //   .eql(`Muokkaa paikkaa - Linked Events`, await getErrorMessage(t));
     },
     async urlChangedToPlatformPage() {
       await t
