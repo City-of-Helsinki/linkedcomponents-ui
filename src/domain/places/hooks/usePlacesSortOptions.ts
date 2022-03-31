@@ -9,9 +9,9 @@ const usePlacesSortOptions = (): OptionType[] => {
   const { t } = useTranslation();
   const sortOptions = React.useMemo(
     () =>
-      Object.keys(PLACE_SORT_OPTIONS).map((key) => ({
+      Object.entries(PLACE_SORT_OPTIONS).map(([key, value]) => ({
         label: t(`placesPage.sortOptions.${camelCase(key)}`),
-        value: (PLACE_SORT_OPTIONS as Record<string, PLACE_SORT_OPTIONS>)[key],
+        value,
       })),
     [t]
   );

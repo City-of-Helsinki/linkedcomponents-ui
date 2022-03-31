@@ -9,11 +9,9 @@ const useRegistrationSortOptions = (): OptionType[] => {
   const { t } = useTranslation();
   const sortOptions = React.useMemo(
     () =>
-      Object.keys(REGISTRATION_SORT_OPTIONS).map((key) => ({
+      Object.entries(REGISTRATION_SORT_OPTIONS).map(([key, value]) => ({
         label: t(`registrationsPage.sortOptions.${camelCase(key)}`),
-        value: (
-          REGISTRATION_SORT_OPTIONS as Record<string, REGISTRATION_SORT_OPTIONS>
-        )[key],
+        value,
       })),
     [t]
   );
