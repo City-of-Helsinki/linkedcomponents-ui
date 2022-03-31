@@ -99,7 +99,7 @@ const EventList: React.FC<EventListProps> = ({
     <div className={styles[`contentWrapper${upperCaseFirstLetter(listType)}`]}>
       <Container className={styles.contentContainer} withOffset={true}>
         {listType === EVENT_LIST_TYPES.TABLE && (
-          <TableWrapper>
+          <TableWrapper className={styles.tableWrapper}>
             <EventsTable
               caption={getTableCaption()}
               events={events}

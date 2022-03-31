@@ -51,6 +51,7 @@
     "buttonAddKeyword": "Lägg till nyckelord",
     "buttonAddKeywordSet": "Lägg till nyckelorduppsättningar",
     "buttonAddOrganization": "Lägg till organisation",
+    "buttonAddPlace": "Lägg till plats",
     "buttonAddRegistration": "Lägg till",
     "buttonBack": "Tillbaka",
     "buttonRemoveFilter": "Ta bort filtret: {{name}}",
@@ -1431,6 +1432,30 @@
     },
     "title": "Organisationer",
     "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här organisation."
+  },
+  "placesPage": {
+    "count": "{{count}} plats",
+    "count_other": "{{count}} platser",
+    "labelSearch": "Sök platser",
+    "pageTitle": "Platser",
+    "placesTableCaption": "Platser, sorterade efter {{sort}}",
+    "placesTableColumns": {
+      "id": "ID",
+      "name": "Namn",
+      "nEvents": "Antal evenemang",
+      "streetAddress": "Gatuadress"
+    },
+    "sortOptions": {
+      "id": "Id, stigande",
+      "idDesc": "Id, fallande",
+      "name": "Name, stigande",
+      "nameDesc": "Name, fallande",
+      "nEvents": "Antal evenemang, stigande",
+      "nEventsDesc": "Antal evenemang, fallande",
+      "streetAddress": "Gatuadress, stigande",
+      "streetAddressDesc": "Gatuadress, fallande"
+    },
+    "title": "Platser"
   },
   "registration": {
     "deleteRegistrationModal": {

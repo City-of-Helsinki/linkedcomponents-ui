@@ -3,14 +3,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../types';
-import { KEYWORD_SET_USAGE_OPTIONS } from '../constants';
+import { PLACE_SORT_OPTIONS } from '../constants';
 
-const useKeywordSetUsageOptions = (): OptionType[] => {
+const usePlacesSortOptions = (): OptionType[] => {
   const { t } = useTranslation();
   const sortOptions = React.useMemo(
     () =>
-      Object.entries(KEYWORD_SET_USAGE_OPTIONS).map(([key, value]) => ({
-        label: t(`keywordSetsPage.usageOptions.${camelCase(key)}`),
+      Object.entries(PLACE_SORT_OPTIONS).map(([key, value]) => ({
+        label: t(`placesPage.sortOptions.${camelCase(key)}`),
         value,
       })),
     [t]
@@ -19,4 +19,4 @@ const useKeywordSetUsageOptions = (): OptionType[] => {
   return sortOptions;
 };
 
-export default useKeywordSetUsageOptions;
+export default usePlacesSortOptions;

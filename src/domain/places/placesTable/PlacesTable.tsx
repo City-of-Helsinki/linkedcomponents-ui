@@ -5,52 +5,49 @@ import { useNavigate } from 'react-router';
 import NoDataRow from '../../../common/components/table/NoDataRow';
 import SortableColumn from '../../../common/components/table/SortableColumn';
 import Table from '../../../common/components/table/Table';
-import {
-  KeywordFieldsFragment,
-  KeywordsQuery,
-} from '../../../generated/graphql';
+import { PlaceFieldsFragment, PlacesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
-import { getKeywordFields } from '../../keyword/utils';
-import { KEYWORD_SORT_OPTIONS } from '../constants';
-import useKeywordsQueryStringWithReturnPath from '../hooks/useKeywordsQueryStringWithReturnPath';
-import styles from './keywordsTable.module.scss';
-import KeywordsTableRow from './KeywordsTableRow';
+import { getPlaceFields } from '../../place/utils';
+import { PLACE_SORT_OPTIONS } from '../constants';
+import usePlacesQueryStringWithReturnPath from '../hooks/usePlacesQueryStringWithReturnPath';
+import styles from './placesTable.module.scss';
+import PlacesTableRow from './PlacesTableRow';
 
-export interface KeywordsTableProps {
+export interface PlacesTableProps {
   caption: string;
   className?: string;
-  keywords: KeywordsQuery['keywords']['data'];
-  setSort: (sort: KEYWORD_SORT_OPTIONS) => void;
-  sort: KEYWORD_SORT_OPTIONS;
+  places: PlacesQuery['places']['data'];
+  setSort: (sort: PLACE_SORT_OPTIONS) => void;
+  sort: PLACE_SORT_OPTIONS;
 }
 
-const KeywordsTable: React.FC<KeywordsTableProps> = ({
+const PlacesTable: React.FC<PlacesTableProps> = ({
   caption,
   className,
-  keywords,
+  places,
   setSort,
   sort,
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locale = useLocale();
-  const queryStringWithReturnPath = useKeywordsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = usePlacesQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);
 
-  const handleRowClick = (keyword: KeywordFieldsFragment) => {
-    const { keywordUrl } = getKeywordFields(keyword, locale);
+  const handleRowClick = (place: PlaceFieldsFragment) => {
+    const { placeUrl } = getPlaceFields(place, locale);
 
     navigate({
-      pathname: keywordUrl,
+      pathname: placeUrl,
       search: queryStringWithReturnPath,
     });
   };
 
   const handleSort = (key: string) => {
-    setSort(key as KEYWORD_SORT_OPTIONS);
+    setSort(key as PLACE_SORT_OPTIONS);
   };
 
   return (
@@ -60,47 +57,55 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
         <tr>
           <SortableColumn
             className={styles.idColumn}
-            label={t('keywordsPage.keywordsTableColumns.id')}
+            label={t('placesPage.placesTableColumns.id')}
             onClick={handleSort}
             sort={sort}
-            sortKey={KEYWORD_SORT_OPTIONS.ID}
+            sortKey={PLACE_SORT_OPTIONS.ID}
             type="text"
           />
           <SortableColumn
             className={styles.nameColumn}
-            label={t('keywordsPage.keywordsTableColumns.name')}
+            label={t('placesPage.placesTableColumns.name')}
             onClick={handleSort}
             sort={sort}
-            sortKey={KEYWORD_SORT_OPTIONS.NAME}
+            sortKey={PLACE_SORT_OPTIONS.NAME}
             type="text"
           />
           <SortableColumn
             className={styles.nEventsColumn}
-            label={t('keywordsPage.keywordsTableColumns.nEvents')}
+            label={t('placesPage.placesTableColumns.nEvents')}
             onClick={handleSort}
             sort={sort}
-            sortKey={KEYWORD_SORT_OPTIONS.N_EVENTS}
+            sortKey={PLACE_SORT_OPTIONS.N_EVENTS}
             type="default"
+          />
+          <SortableColumn
+            className={styles.streetAddressColumn}
+            label={t('placesPage.placesTableColumns.streetAddress')}
+            onClick={handleSort}
+            sort={sort}
+            sortKey={PLACE_SORT_OPTIONS.STREET_ADDRESS}
+            type="text"
           />
 
           <th className={styles.actionButtonsColumn}></th>
         </tr>
       </thead>
       <tbody>
-        {keywords.map(
-          (keyword) =>
-            keyword && (
-              <KeywordsTableRow
-                key={keyword.id}
-                keyword={keyword}
+        {places.map(
+          (place) =>
+            place && (
+              <PlacesTableRow
+                key={place.id}
                 onRowClick={handleRowClick}
+                place={place}
               />
             )
         )}
-        {!keywords.length && <NoDataRow colSpan={4} />}
+        {!places.length && <NoDataRow colSpan={5} />}
       </tbody>
     </Table>
   );
 };
 
-export default KeywordsTable;
+export default PlacesTable;

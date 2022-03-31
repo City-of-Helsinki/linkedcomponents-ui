@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
+import { ROUTES } from '../../constants';
 import {
   PlaceDocument,
   PlaceFieldsFragment,
@@ -13,17 +14,22 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import { PlaceFields } from './types';
 
+export const getPlaceItemId = (id: string): string => `place-item-${id}`;
+
 export const getPlaceFields = (
   place: PlaceFieldsFragment,
   locale: Language
 ): PlaceFields => {
+  const id = place.id ?? '';
+
   return {
     addressLocality: getLocalisedString(place.addressLocality, locale),
     atId: place.atId ?? '',
     dataSource: place.dataSource ?? '',
-    id: place.id ?? '',
+    id,
     name: getLocalisedString(place.name, locale),
     nEvents: place.nEvents ?? 0,
+    placeUrl: `/${locale}${ROUTES.EDIT_PLACE.replace(':id', id)}`,
     streetAddress: getLocalisedString(place.streetAddress, locale),
   };
 };

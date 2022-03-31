@@ -17,6 +17,6 @@ export const getExpectedKeywordContext = (
   );
 
 export const isLocalized = (
-  event: KeywordFieldsFragment,
+  keyword: KeywordFieldsFragment,
   locale: Language
-): boolean => Boolean(event.name?.[locale]);
+): boolean => Boolean(keyword.name?.[locale]);

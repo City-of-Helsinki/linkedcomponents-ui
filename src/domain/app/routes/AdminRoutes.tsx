@@ -27,10 +27,10 @@ const KeywordsPage = React.lazy(() => import('.././../keywords/KeywordsPage'));
 const KeywordSetsPage = React.lazy(
   () => import('.././../keywordSets/KeywordSetsPage')
 );
-
 const OrganizationsPage = React.lazy(
   () => import('.././../organizations/OrganizationsPage')
 );
+const PlacesPage = React.lazy(() => import('.././../places/PlacesPage'));
 
 const AdminPageRoutes: React.FC = () => {
   const locale = useLocale();
@@ -82,6 +82,8 @@ const AdminPageRoutes: React.FC = () => {
         path={getAdminRoutePath(ROUTES.ORGANIZATIONS)}
         element={<OrganizationsPage />}
       />
+
+      <Route path={getAdminRoutePath(ROUTES.PLACES)} element={<PlacesPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

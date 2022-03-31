@@ -9,11 +9,9 @@ const useOrganizationSortOptions = (): OptionType[] => {
   const { t } = useTranslation();
   const sortOptions = React.useMemo(
     () =>
-      Object.keys(ORGANIZATION_SORT_OPTIONS).map((key) => ({
+      Object.entries(ORGANIZATION_SORT_OPTIONS).map(([key, value]) => ({
         label: t(`organizationsPage.sortOptions.${camelCase(key)}`),
-        value: (
-          ORGANIZATION_SORT_OPTIONS as Record<string, ORGANIZATION_SORT_OPTIONS>
-        )[key],
+        value,
       })),
     [t]
   );

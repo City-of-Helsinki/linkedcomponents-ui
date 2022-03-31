@@ -9,11 +9,9 @@ const useKeywordSortOptions = (): OptionType[] => {
   const { t } = useTranslation();
   const sortOptions = React.useMemo(
     () =>
-      Object.keys(KEYWORD_SORT_OPTIONS).map((key) => ({
+      Object.entries(KEYWORD_SORT_OPTIONS).map(([key, value]) => ({
         label: t(`keywordsPage.sortOptions.${camelCase(key)}`),
-        value: (KEYWORD_SORT_OPTIONS as Record<string, KEYWORD_SORT_OPTIONS>)[
-          key
-        ],
+        value,
       })),
     [t]
   );

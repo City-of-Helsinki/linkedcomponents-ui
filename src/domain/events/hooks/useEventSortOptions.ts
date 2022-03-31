@@ -9,9 +9,9 @@ const useEventSortOptions = (): OptionType[] => {
   const { t } = useTranslation();
   const sortOptions = React.useMemo(
     () =>
-      Object.keys(EVENT_SORT_OPTIONS).map((key) => ({
+      Object.entries(EVENT_SORT_OPTIONS).map(([key, value]) => ({
         label: t(`eventsPage.sortOptions.${camelCase(key)}`),
-        value: (EVENT_SORT_OPTIONS as Record<string, EVENT_SORT_OPTIONS>)[key],
+        value,
       })),
     [t]
   );

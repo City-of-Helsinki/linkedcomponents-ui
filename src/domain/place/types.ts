@@ -5,5 +5,6 @@ export type PlaceFields = {
   id: string;
   name: string;
   nEvents: number;
+  placeUrl: string;
   streetAddress: string;
 };

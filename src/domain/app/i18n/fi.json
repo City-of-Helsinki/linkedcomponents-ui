@@ -51,6 +51,7 @@
     "buttonAddKeyword": "Lisää avainsana",
     "buttonAddKeywordSet": "Lisää avainsanaryhmä",
     "buttonAddOrganization": "Lisää uusi organisaatio",
+    "buttonAddPlace": "Lisää paikka",
     "buttonAddRegistration": "Lisää uusi",
     "buttonBack": "Takaisin",
     "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
@@ -1431,6 +1432,30 @@
     },
     "title": "Organisaatiot",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä organisaatiota."
+  },
+  "placesPage": {
+    "count": "{{count}} paikka",
+    "count_other": "{{count}} paikkaa",
+    "labelSearch": "Hae paikkoja",
+    "pageTitle": "Paikat",
+    "placesTableCaption": "Paikat, järjestys {{sort}}",
+    "placesTableColumns": {
+      "id": "ID",
+      "name": "Nimi",
+      "nEvents": "Tapahtumien lkm",
+      "streetAddress": "Katuosoite"
+    },
+    "sortOptions": {
+      "id": "Id, nouseva",
+      "idDesc": "Id, laskeva",
+      "name": "Nimi, nouseva",
+      "nameDesc": "Nimi, laskeva",
+      "nEvents": "Tapahtumien lukumäärä, nouseva",
+      "nEventsDesc": "Tapahtumien lukumäärä, laskeva",
+      "streetAddress": "Katuosoite, nouseva",
+      "streetAddressDesc": "Katuosoite, laskeva"
+    },
+    "title": "Paikat"
   },
   "registration": {
     "deleteRegistrationModal": {
