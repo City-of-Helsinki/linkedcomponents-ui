@@ -23,6 +23,8 @@
     "noRightsUpdateKeywordSetLabel": "No permissions to edit keyword sets.",
     "noRightsUpdateOrganization": "You do not have permission to edit organizations.",
     "noRightsUpdateOrganizationLabel": "No permissions to edit organizations.",
+    "noRightsUpdatePlace": "You do not have permission to edit places.",
+    "noRightsUpdatePlaceLabel": "No permissions to edit places.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
   },
@@ -234,6 +236,10 @@
   "editOrganizationPage": {
     "pageTitle": "Edit organization",
     "title": "Edit organization"
+  },
+  "editPlacePage": {
+    "pageTitle": "Edit place",
+    "title": "Edit place"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1433,7 +1439,20 @@
     "title": "Organizations",
     "warningNoRightsToEdit": "You have insufficient rights to edit this organization."
   },
+  "place": {
+    "deletePlaceModal": {
+      "buttonDelete": "Delete place",
+      "text": "This action will permanently remove the place.",
+      "title": "Confirm place deletion"
+    },
+    "form": {
+      "buttonDelete": "Delete place"
+    }
+  },
   "placesPage": {
+    "actionButtons": {
+      "edit": "Edit place"
+    },
     "count": "{{count}} place",
     "count_other": "{{count}} places",
     "labelSearch": "Search places",
@@ -1455,7 +1474,9 @@
       "streetAddress": "Street address, ascending",
       "streetAddressDesc": "Street address, descending"
     },
-    "title": "Places"
+    "title": "Places",
+    "warningNoRightsToCreate": "You have insufficient rights to create places.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this place."
   },
   "registration": {
     "deleteRegistrationModal": {

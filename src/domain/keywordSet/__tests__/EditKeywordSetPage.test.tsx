@@ -6,6 +6,7 @@ import {
   act,
   configure,
   getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
   userEvent,
@@ -57,6 +58,7 @@ const findElement = (key: 'deleteButton' | 'nameInput' | 'saveButton') => {
 
 test('should scroll to first validation error input field', async () => {
   renderComponent();
+  await loadingSpinnerIsNotInDocument();
 
   const nameInput = await findElement('nameInput');
   userEvent.clear(nameInput);
@@ -72,6 +74,7 @@ test('should delete keyword', async () => {
     mockedDeleteKeywordSetResponse,
   ]);
 
+  await loadingSpinnerIsNotInDocument();
   const deleteButton = await findElement('deleteButton');
   act(() => userEvent.click(deleteButton));
 
@@ -92,6 +95,7 @@ test('should update keyword set', async () => {
     mockedUpdateKeywordSetResponse,
   ]);
 
+  await loadingSpinnerIsNotInDocument();
   await findElement('nameInput');
 
   const submitButton = await findElement('saveButton');
@@ -105,6 +109,7 @@ test('should update keyword set', async () => {
 test('should show server errors', async () => {
   renderComponent([...defaultMocks, mockedInvalidUpdateKeywordSetResponse]);
 
+  await loadingSpinnerIsNotInDocument();
   await findElement('nameInput');
 
   const submitButton = await findElement('saveButton');

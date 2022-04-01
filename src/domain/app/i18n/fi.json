@@ -23,6 +23,8 @@
     "noRightsUpdateKeywordSetLabel": "Ei oikeuksia muokata avainsanaryhmiä.",
     "noRightsUpdateOrganization": "Sinulla ei ole oikeuksia muokata organisaatioita.",
     "noRightsUpdateOrganizationLabel": "Ei oikeuksia muokata organisaatioita.",
+    "noRightsUpdatePlace": "Sinulla ei ole oikeuksia muokata paikkoja.",
+    "noRightsUpdatePlaceLabel": "Ei oikeuksia muokata paikkoja.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
   },
@@ -235,6 +237,10 @@
   "editOrganizationPage": {
     "pageTitle": "Muokkaa organisaatiota",
     "title": "Muokkaa organisaatiota"
+  },
+  "editPlacePage": {
+    "pageTitle": "Muokkaa paikkaa",
+    "title": "Muokkaa paikkaa"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1433,7 +1439,20 @@
     "title": "Organisaatiot",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä organisaatiota."
   },
+  "place": {
+    "deletePlaceModal": {
+      "buttonDelete": "Poista paikka",
+      "text": "Tämä toiminto poistaa paikan lopullisesti.",
+      "title": "Varmista paikan poistaminen"
+    },
+    "form": {
+      "buttonDelete": "Poista paikka"
+    }
+  },
   "placesPage": {
+    "actionButtons": {
+      "edit": "Muokkaa paikkaa"
+    },
     "count": "{{count}} paikka",
     "count_other": "{{count}} paikkaa",
     "labelSearch": "Hae paikkoja",
@@ -1455,7 +1474,9 @@
       "streetAddress": "Katuosoite, nouseva",
       "streetAddressDesc": "Katuosoite, laskeva"
     },
-    "title": "Paikat"
+    "title": "Paikat",
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda paikkoja.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä paikkaa."
   },
   "registration": {
     "deleteRegistrationModal": {

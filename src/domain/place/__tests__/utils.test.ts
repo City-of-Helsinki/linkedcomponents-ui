@@ -1,16 +1,152 @@
-import { fakePlace } from '../../../utils/mockDataUtils';
-import { getPlaceFields, placePathBuilder, placesPathBuilder } from '../utils';
+import i18n from 'i18next';
+
+import {
+  fakeOrganization,
+  fakePlace,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import { PLACE_ACTIONS } from '../constants';
+import {
+  checkCanUserDoAction,
+  getEditPlaceWarning,
+  getPlaceFields,
+  placePathBuilder,
+  placesPathBuilder,
+} from '../utils';
 
 describe('getPlaceFields function', () => {
   it('should return default values if value is not set', () => {
-    const { atId, dataSource, id, nEvents } = getPlaceFields(
-      fakePlace({ atId: null, dataSource: null, id: null, nEvents: null }),
+    const { atId, dataSource, id, nEvents, publisher } = getPlaceFields(
+      fakePlace({
+        atId: null,
+        dataSource: null,
+        id: null,
+        nEvents: null,
+        publisher: null,
+      }),
       'fi'
     );
     expect(atId).toBe('');
     expect(dataSource).toBe('');
     expect(id).toBe('');
     expect(nEvents).toBe(0);
+    expect(publisher).toBe('');
+  });
+});
+
+describe('checkCanUserDoAction function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
+  it('should allow correct actions if adminArganizations contains publisher', () => {
+    const user = fakeUser({ adminOrganizations: [publisher] });
+
+    const allowedActions = [
+      PLACE_ACTIONS.CREATE,
+      PLACE_ACTIONS.DELETE,
+      PLACE_ACTIONS.EDIT,
+      PLACE_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if organizationAncestores contains any of the adminArganizations', () => {
+    const adminOrganization = 'admin:1';
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    const allowedActions = [
+      PLACE_ACTIONS.CREATE,
+      PLACE_ACTIONS.DELETE,
+      PLACE_ACTIONS.EDIT,
+      PLACE_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [fakeOrganization({ id: adminOrganization })],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if publisher is not defined and user has at least one admin organization', () => {
+    const adminOrganization = 'admin:1';
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    const allowedActions = [PLACE_ACTIONS.CREATE, PLACE_ACTIONS.EDIT];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher: '',
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+});
+
+describe('getEditPlaceWarning function', () => {
+  it('should return correct warning if user is not authenticated', () => {
+    const allowedActions = [PLACE_ACTIONS.EDIT];
+
+    const commonProps = {
+      authenticated: false,
+      t: i18n.t.bind(i18n),
+      userCanDoAction: false,
+    };
+
+    allowedActions.forEach((action) => {
+      expect(getEditPlaceWarning({ action, ...commonProps })).toBe('');
+    });
+
+    const deniedActions = [
+      PLACE_ACTIONS.CREATE,
+      PLACE_ACTIONS.DELETE,
+      PLACE_ACTIONS.UPDATE,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(getEditPlaceWarning({ action, ...commonProps })).toBe(
+        'Sinulla ei ole oikeuksia muokata paikkoja.'
+      );
+    });
+  });
+
+  it('should return correct warning if user cannot do action', () => {
+    expect(
+      getEditPlaceWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: PLACE_ACTIONS.CREATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia luoda paikkoja.');
+
+    expect(
+      getEditPlaceWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: PLACE_ACTIONS.UPDATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia muokata tätä paikkaa.');
   });
 });
 

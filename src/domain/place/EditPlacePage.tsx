@@ -1,16 +1,13 @@
+import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
-import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
-import {
-  KeywordFieldsFragment,
-  useKeywordQuery,
-} from '../../generated/graphql';
+import { PlaceFieldsFragment, usePlaceQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import PageWrapper from '../app/layout/PageWrapper';
@@ -19,50 +16,45 @@ import { authenticatedSelector } from '../auth/selectors';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
-import { KEYWORD_ACTIONS } from './constants';
-import useKeywordUpdateActions, {
-  KEYWORD_MODALS,
-} from './hooks/useKeywordUpdateActions';
-import KeywordForm from './keywordForm/KeywordForm';
+import { PLACE_ACTIONS } from './constants';
+import usePlaceUpdateActions, {
+  PLACE_MODALS,
+} from './hooks/usePlaceUpdateActions';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
-import {
-  getEditButtonProps,
-  getKeywordFields,
-  keywordPathBuilder,
-} from './utils';
+import { getEditButtonProps, getPlaceFields, placePathBuilder } from './utils';
 
 type Props = {
-  keyword: KeywordFieldsFragment;
+  place: PlaceFieldsFragment;
 };
 
-const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
+const EditPlacePage: React.FC<Props> = ({ place }) => {
   const { t } = useTranslation();
-  const locale = useLocale();
   const navigate = useNavigate();
-  const { publisher } = getKeywordFields(keyword, locale);
+  const locale = useLocale();
+  const { publisher } = getPlaceFields(place, locale);
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const { closeModal, deleteKeyword, openModal, saving, setOpenModal } =
-    useKeywordUpdateActions({
-      keyword,
+  const { closeModal, deletePlace, openModal, saving, setOpenModal } =
+    usePlaceUpdateActions({
+      place,
     });
 
-  const goToKeywordsPage = () => {
-    navigate(`/${locale}${ROUTES.KEYWORDS}`);
+  const goToPlacesPage = () => {
+    navigate(`/${locale}${ROUTES.PLACES}`);
   };
 
   const onDelete = () => {
-    deleteKeyword({
-      onSuccess: () => goToKeywordsPage(),
+    deletePlace({
+      onSuccess: () => goToPlacesPage(),
     });
   };
 
   const buttonProps = getEditButtonProps({
-    action: KEYWORD_ACTIONS.DELETE,
+    action: PLACE_ACTIONS.DELETE,
     authenticated,
-    onClick: () => setOpenModal(KEYWORD_MODALS.DELETE),
+    onClick: () => setOpenModal(PLACE_MODALS.DELETE),
     organizationAncestors,
     publisher,
     t,
@@ -72,8 +64,8 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
   return (
     <div>
       <ConfirmDeleteModal
-        isOpen={openModal === KEYWORD_MODALS.DELETE}
-        isSaving={saving === KEYWORD_ACTIONS.DELETE}
+        isOpen={openModal === PLACE_MODALS.DELETE}
+        isSaving={saving === PLACE_ACTIONS.DELETE}
         onClose={closeModal}
         onDelete={onDelete}
       />
@@ -88,48 +80,46 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
             {buttonProps.label}
           </Button>
         }
-        title={t('editKeywordPage.title')}
+        title={t('editPlacePage.title')}
       />
       <Breadcrumb>
         <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
         <Breadcrumb.Item to={ROUTES.ADMIN}>
           {t('adminPage.title')}
         </Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.KEYWORDS}>
-          {t('keywordsPage.title')}
+        <Breadcrumb.Item to={ROUTES.PLACES}>
+          {t('placesPage.title')}
         </Breadcrumb.Item>
         <Breadcrumb.Item active={true}>
-          {t('editKeywordPage.title')}
+          {t('editPlacePage.title')}
         </Breadcrumb.Item>
       </Breadcrumb>
-      <KeywordForm keyword={keyword} />
     </div>
   );
 };
 
-const EditKeywordPageWrapper: React.FC = () => {
+const EditPlacePageWrapper: React.FC = () => {
   const location = useLocation();
   const { loading: loadingUser } = useUser();
   const { id } = useParams<{ id: string }>();
 
-  const { data: keywordData, loading: loadingKeyword } = useKeywordQuery({
+  const { data: placeData, loading: loadingPlace } = usePlaceQuery({
     fetchPolicy: 'no-cache',
     notifyOnNetworkStatusChange: true,
     variables: {
-      createPath: getPathBuilder(keywordPathBuilder),
+      createPath: getPathBuilder(placePathBuilder),
       id: id as string,
     },
   });
 
-  const keyword = keywordData?.keyword;
-
-  const loading = loadingUser || loadingKeyword;
+  const place = placeData?.place;
+  const loading = loadingUser || loadingPlace;
 
   return (
-    <PageWrapper title="editKeywordPage.pageTitle">
+    <PageWrapper title="editPlacePage.pageTitle">
       <LoadingSpinner isLoading={loading}>
-        {keyword ? (
-          <EditKeywordPage keyword={keyword} />
+        {place ? (
+          <EditPlacePage place={place} />
         ) : (
           <NotFound
             pathAfterSignIn={`${location.pathname}${location.search}`}
@@ -140,4 +130,4 @@ const EditKeywordPageWrapper: React.FC = () => {
   );
 };
 
-export default EditKeywordPageWrapper;
+export default EditPlacePageWrapper;

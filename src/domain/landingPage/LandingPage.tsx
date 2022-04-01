@@ -30,7 +30,6 @@ const LandingPage: React.FC = () => {
         <Hero />
         <Container withOffset={true}>
           <div className={styles.highlights}>
-            {/* TODO: Change to real content when material is ready */}
             <Highlight
               className={styles.highlight}
               icon={<IconCalendarClock aria-hidden={true} />}
@@ -65,7 +64,6 @@ const LandingPage: React.FC = () => {
           <Container withOffset={true}>
             <h2 className={styles.title}>{t('landingPage.titleServices')}</h2>
             <div className={styles.serviceCards}>
-              {/* TODO: Change to real content when material is ready */}
               <ServiceCard
                 backgroundColor="metro"
                 backgroundImageUrl={myHelsinkiImage}

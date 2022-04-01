@@ -23,6 +23,8 @@
     "noRightsUpdateKeywordSetLabel": "Inga rättigheter att redigera nyckelordsuppsättningar",
     "noRightsUpdateOrganization": "Du har inte behörighet att redigera organisationer.",
     "noRightsUpdateOrganizationLabel": "Inga rättigheter att redigera organisationer",
+    "noRightsUpdatePlace": "Du har inte behörighet att redigera platser.",
+    "noRightsUpdatePlaceLabel": "Inga rättigheter att redigera platser",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
     "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
   },
@@ -236,6 +238,10 @@
     "pageTitle": "Redigera organisation",
     "title": "Redigera organisation"
   },
+  "editPlacePage": {
+    "pageTitle": "Redigera plats",
+    "title": "Redigera plats"
+  },
   "enrolment": {
     "attendeeStatus": {
       "attending": "Deltar",
@@ -386,7 +392,7 @@
       "buttonAddVideo": "Lägg till video",
       "buttonCancel": "Ställ in evenemang",
       "buttonCopy": "Kopiera som mall",
-      "buttonDelete":  "Ta bort evenemang",
+      "buttonDelete":  "Radera evenemang",
       "buttonDeleteEventTime": "Ta bort tidpunkt",
       "buttonDeleteExternalLink": "Ta bort SoMe-länken",
       "buttonDeleteOffer": "Ta bort prisuppgift",
@@ -1433,7 +1439,20 @@
     "title": "Organisationer",
     "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här organisation."
   },
+  "place": {
+    "deletePlaceModal": {
+      "buttonDelete": "Radera plats",
+      "text": "Denna åtgärd tar bort plats permanent.",
+      "title": "Bekräfta raderingen av platsen"
+    },
+    "form": {
+      "buttonDelete": "Radera plats"
+    }
+  },
   "placesPage": {
+    "actionButtons": {
+      "edit": "Redigera plats"
+    },
     "count": "{{count}} plats",
     "count_other": "{{count}} platser",
     "labelSearch": "Sök platser",
@@ -1455,7 +1474,9 @@
       "streetAddress": "Gatuadress, stigande",
       "streetAddressDesc": "Gatuadress, fallande"
     },
-    "title": "Platser"
+    "title": "Platser",
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa platser.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här plats."
   },
   "registration": {
     "deleteRegistrationModal": {
