@@ -1,6 +1,8 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { ValidationError } from 'yup';
 
 import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
 import TextAreaField from '../../../common/components/formFields/TextAreaField';
@@ -11,6 +13,10 @@ import {
 } from '../../../constants';
 import { PlaceFieldsFragment } from '../../../generated/graphql';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
+import {
+  scrollToFirstError,
+  showFormErrors,
+} from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
 import Section from '../../app/layout/Section';
@@ -19,7 +25,10 @@ import {
   PLACE_FIELDS,
   PLACE_INITIAL_VALUES,
 } from '../constants';
+import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
+import usePlaceUpdateActions from '../hooks/usePlaceUpdateActions';
 import PlaceAuthenticationNotification from '../placeAuthenticationNotification/PlaceAuthenticationNotification';
+import { PlaceFormFields } from '../types';
 import { getPlaceInitialValues } from '../utils';
 import { placeSchema } from '../validation';
 
@@ -29,6 +38,20 @@ type PlaceFormProps = {
 
 const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
   const { t } = useTranslation();
+
+  const { saving } = usePlaceUpdateActions({
+    place: place as PlaceFieldsFragment,
+  });
+
+  const onUpdate = async (values: PlaceFormFields) => {
+    toast.error('TODO: Update place');
+    // await updateKeyword(values, {
+    //   onError: (error: ServerError) => showServerErrors({ error }),
+    //   onSuccess: async () => {
+    //     goToKeywordsPage();
+    //   },
+    // });
+  };
 
   return (
     <Formik
@@ -46,7 +69,36 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
       validateOnChange={true}
       validationSchema={placeSchema}
     >
-      {({ values }) => {
+      {({ setErrors, setTouched, values }) => {
+        const clearErrors = () => setErrors({});
+
+        const handleSubmit = async (
+          event?: React.FormEvent<HTMLFormElement>
+        ) => {
+          event?.preventDefault();
+
+          try {
+            // setServerErrorItems([]);
+            clearErrors();
+
+            await placeSchema.validate(values, { abortEarly: false });
+
+            if (place) {
+              await onUpdate(values);
+            } else {
+              // await createPlace(values);
+            }
+          } catch (error) {
+            showFormErrors({
+              error: error as ValidationError,
+              setErrors,
+              setTouched,
+            });
+
+            scrollToFirstError({ error: error as ValidationError });
+          }
+        };
+
         return (
           <Form className={styles.form} noValidate={true}>
             <PlaceAuthenticationNotification
@@ -246,6 +298,15 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 />
               </FormRow>
             </Section>
+
+            {place ? (
+              <EditButtonPanel
+                id={values.id}
+                onSave={handleSubmit}
+                publisher={place.publisher as string}
+                saving={saving}
+              />
+            ) : null}
           </Form>
         );
       }}
