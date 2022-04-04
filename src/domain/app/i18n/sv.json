@@ -1447,7 +1447,23 @@
     },
     "form": {
       "buttonDelete": "Radera plats",
-      "notificationTitleCannotEdit": "Platsen kan inte redigeras"
+      "labelAddressLocality": "Postdistrikt ({{langText}})",
+      "labelAddressRegion": "Adressregion",
+      "labelContactType": "Kontakt typ",
+      "labelDataSource": "Datakälla",
+      "labelDescription": "Beskrivning ({{langText}})",
+      "labelEmail": "E-postadress",
+      "labelId": "ID",
+      "labelInfoUrl": "Platsens hemsida ({{langText}})",
+      "labelName": "Namn",
+      "labelOriginId": "Ursprungs-ID",
+      "labelPostalCode": "Postnummer",
+      "labelPostOfficeBoxNum": "PO Box",
+      "labelPublisher": "Utgivare",
+      "labelStreetAddress": "Gatuadress ({{langText}})",
+      "labelTelephone": "Telefonnummer ({{langText}})",
+      "notificationTitleCannotEdit": "Platsen kan inte redigeras",
+      "titleContactInfo": "Kontaktinformation"
     }
   },
   "placesPage": {

@@ -1447,7 +1447,23 @@
     },
     "form": {
       "buttonDelete": "Delete place",
-      "notificationTitleCannotEdit": "The place cannot be edited"
+      "labelAddressLocality": "Address locality ({{langText}})",
+      "labelAddressRegion": "Address region",
+      "labelContactType": "Contact type",
+      "labelDataSource": "Data source",
+      "labelDescription": "Description ({{langText}})",
+      "labelEmail": "Email",
+      "labelId": "ID",
+      "labelInfoUrl": "Website of place ({{langText}})",
+      "labelName": "Name",
+      "labelOriginId": "Origin ID",
+      "labelPostalCode": "Postal code",
+      "labelPostOfficeBoxNum": "PO Box",
+      "labelPublisher": "Publisher",
+      "labelStreetAddress": "Street address ({{langText}})",
+      "labelTelephone": "Telephone number ({{langText}})",
+      "notificationTitleCannotEdit": "The place cannot be edited",
+      "titleContactInfo": "Contact info"
     }
   },
   "placesPage": {

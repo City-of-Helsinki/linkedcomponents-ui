@@ -13,6 +13,7 @@ import {
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
@@ -49,8 +50,24 @@ export const getPlaceFields = (
 export const getPlaceInitialValues = (
   place: PlaceFieldsFragment
 ): PlaceFormFields => {
+  const id = place.id ?? '';
+
   return {
+    addressLocality: getLocalisedObject(place.addressLocality),
+    addressRegion: place.addressRegion ?? '',
+    contactType: place.contactType ?? '',
+    dataSource: place.dataSource ?? '',
+    description: getLocalisedObject(place.description),
+    email: place.email ?? '',
+    id,
+    infoUrl: getLocalisedObject(place.infoUrl),
+    name: getLocalisedObject(place.name),
+    originId: id.split(':')[1],
+    postOfficeBoxNum: place.postOfficeBoxNum ?? '',
+    postalCode: place.postalCode ?? '',
     publisher: place.publisher ?? '',
+    streetAddress: getLocalisedObject(place.streetAddress),
+    telephone: getLocalisedObject(place.telephone),
   };
 };
 

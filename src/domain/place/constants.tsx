@@ -1,5 +1,6 @@
 import { IconCogwheel, IconCrossCircle, IconPen } from 'hds-react';
 
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../constants';
 import { PlaceFormFields } from './types';
 
 export enum PLACES_SORT_ORDER {
@@ -14,7 +15,21 @@ export const INTERNET_PLACE_ID =
   process.env.REACT_APP_INTERNET_PLACE_ID || 'helsinki:internet';
 
 export enum PLACE_FIELDS {
+  ADDRESS_LOCALITY = 'addressLocality',
+  ADDRESS_REGION = 'addressRegion',
+  CONTACT_TYPE = 'contactType',
+  DATA_SOURCE = 'dataSource',
+  DESCRIPTION = 'description',
+  EMAIL = 'email',
+  ID = 'id',
+  INFO_URL = 'infoUrl',
+  NAME = 'name',
+  ORIGIN_ID = 'originId',
+  POSTAL_CODE = 'postalCode',
+  POST_OFFICE_BOX_NUM = 'postOfficeBoxNum',
   PUBLISHER = 'publisher',
+  STREET_ADDRESS = 'streetAddress',
+  TELEPHONE = 'telephone',
 }
 
 export enum PLACE_ACTIONS {
@@ -39,7 +54,21 @@ export const PLACE_ACTION_LABEL_KEYS = {
 };
 
 export const PLACE_INITIAL_VALUES: PlaceFormFields = {
+  [PLACE_FIELDS.ADDRESS_LOCALITY]: EMPTY_MULTI_LANGUAGE_OBJECT,
+  [PLACE_FIELDS.ADDRESS_REGION]: '',
+  [PLACE_FIELDS.CONTACT_TYPE]: '',
+  [PLACE_FIELDS.DATA_SOURCE]: '',
+  [PLACE_FIELDS.DESCRIPTION]: EMPTY_MULTI_LANGUAGE_OBJECT,
+  [PLACE_FIELDS.EMAIL]: '',
+  [PLACE_FIELDS.ID]: '',
+  [PLACE_FIELDS.INFO_URL]: EMPTY_MULTI_LANGUAGE_OBJECT,
+  [PLACE_FIELDS.NAME]: EMPTY_MULTI_LANGUAGE_OBJECT,
+  [PLACE_FIELDS.ORIGIN_ID]: '',
+  [PLACE_FIELDS.POSTAL_CODE]: '',
+  [PLACE_FIELDS.POST_OFFICE_BOX_NUM]: '',
   [PLACE_FIELDS.PUBLISHER]: '',
+  [PLACE_FIELDS.STREET_ADDRESS]: EMPTY_MULTI_LANGUAGE_OBJECT,
+  [PLACE_FIELDS.TELEPHONE]: EMPTY_MULTI_LANGUAGE_OBJECT,
 };
 
 export const AUTHENTICATION_NOT_NEEDED = [PLACE_ACTIONS.EDIT];

@@ -652,7 +652,7 @@ module.exports = buildSchema(/* GraphQL */ `
     customData: String
     dataSource: String
     deleted: Boolean
-    description: String
+    description: LocalisedObject
     divisions: [Division]!
     email: String
     hasUpcomingEvents: Boolean

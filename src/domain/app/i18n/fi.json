@@ -1447,7 +1447,23 @@
     },
     "form": {
       "buttonDelete": "Poista paikka",
-      "notificationTitleCannotEdit": "Paikkaa ei voi muokata"
+      "labelAddressLocality": "Postitoimipaikka ({{langText}})",
+      "labelAddressRegion": "Osoitealue",
+      "labelContactType": "Yhteystiedon tyyppi",
+      "labelDataSource": "Datan lähde",
+      "labelDescription": "Kuvaus ({{langText}})",
+      "labelEmail": "Sähköposti",
+      "labelId": "ID",
+      "labelInfoUrl": "Paikan kotisivu ({{langText}})",
+      "labelName": "Nimi",
+      "labelOriginId": "Lähdetunniste",
+      "labelPostalCode": "Postinumero",
+      "labelPostOfficeBoxNum": "Postilokero",
+      "labelPublisher": "Julkaisija",
+      "labelStreetAddress": "Katuosoite ({{langText}})",
+      "labelTelephone": "Puhelinnumero ({{langText}})",
+      "notificationTitleCannotEdit": "Paikkaa ei voi muokata",
+      "titleContactInfo": "Yhteystiedot"
     }
   },
   "placesPage": {

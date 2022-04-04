@@ -1,11 +1,13 @@
 @import 'breakpoints';
 @import 'widths';
 
+.alignedTextArea,
 .alignedInput,
 .alignedSelect,
 .alignedInputWithFullBorder {
   --form-row-border-width: 1px;
   --form-row-border-color: var(--color-black-20);
+  --form-row-text-area-min-height: 149px;
 
   label {
     @include medium-up {
@@ -30,6 +32,20 @@
   > div:first-of-type {
     display: flex;
     width: unset;
+  }
+}
+
+.alignedTextArea {
+  label {
+    @include medium-up {
+      min-height: var(--form-row-text-area-min-height);
+      align-items: self-start;
+      line-height: var(--input-height);
+    }
+  }
+
+  textarea {
+    resize: none !important;
   }
 }
 
