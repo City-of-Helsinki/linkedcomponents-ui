@@ -6,17 +6,17 @@ import AuthenticationNotification from '../../app/authenticationNotification/Aut
 import { authenticatedSelector } from '../../auth/selectors';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import { KEYWORD_ACTIONS } from '../constants';
+import { PLACE_ACTIONS } from '../constants';
 import { checkIsEditActionAllowed } from '../utils';
 
-export type KeywordAuthenticationNotificationProps = {
-  action: KEYWORD_ACTIONS;
+export type PlaceAuthenticationNotificationProps = {
+  action: PLACE_ACTIONS;
   className?: string;
   publisher: string;
 };
 
-const KeywordAuthenticationNotification: React.FC<
-  KeywordAuthenticationNotificationProps
+const PlaceAuthenticationNotification: React.FC<
+  PlaceAuthenticationNotificationProps
 > = ({ action, className, publisher }) => {
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
@@ -29,8 +29,8 @@ const KeywordAuthenticationNotification: React.FC<
     if (authenticated) {
       if (!adminOrganizations.length) {
         return {
-          children: <p>{t('authentication.noRightsUpdateKeyword')}</p>,
-          label: t('authentication.noRightsUpdateKeywordLabel'),
+          children: <p>{t('authentication.noRightsUpdatePlace')}</p>,
+          label: t('authentication.noRightsUpdatePlaceLabel'),
         };
       }
 
@@ -46,7 +46,7 @@ const KeywordAuthenticationNotification: React.FC<
       if (warning) {
         return {
           children: <p>{warning}</p>,
-          label: t('keyword.form.notificationTitleCannotEdit'),
+          label: t('place.form.notificationTitleCannotEdit'),
         };
       }
     }
@@ -62,4 +62,4 @@ const KeywordAuthenticationNotification: React.FC<
   );
 };
 
-export default KeywordAuthenticationNotification;
+export default PlaceAuthenticationNotification;

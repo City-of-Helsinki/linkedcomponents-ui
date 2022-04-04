@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Button, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,8 +10,11 @@ import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
 import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
+import { ORGANIZATION_ACTIONS } from '../organization/constants';
+import OrganizationAuthenticationNotification from '../organization/organizationAuthenticationNotification/OrganizationAuthenticationNotification';
 import useUser from '../user/hooks/useUser';
 import OrganizationList from './organizationList/OrganizationList';
+import styles from './organizations.module.scss';
 
 const OrganizationsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -22,7 +26,7 @@ const OrganizationsPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles.organizationsPage}>
       <TitleRow
         button={
           <Button
@@ -45,6 +49,13 @@ const OrganizationsPage: React.FC = () => {
           {t('organizationsPage.title')}
         </Breadcrumb.Item>
       </Breadcrumb>
+
+      <OrganizationAuthenticationNotification
+        action={ORGANIZATION_ACTIONS.CREATE}
+        className={styles.notification}
+        id=""
+      />
+
       <OrganizationList />
     </div>
   );

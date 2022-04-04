@@ -1446,7 +1446,8 @@
       "title": "Varmista paikan poistaminen"
     },
     "form": {
-      "buttonDelete": "Poista paikka"
+      "buttonDelete": "Poista paikka",
+      "notificationTitleCannotEdit": "Paikkaa ei voi muokata"
     }
   },
   "placesPage": {

@@ -1446,7 +1446,8 @@
       "title": "Confirm place deletion"
     },
     "form": {
-      "buttonDelete": "Delete place"
+      "buttonDelete": "Delete place",
+      "notificationTitleCannotEdit": "The place cannot be edited"
     }
   },
   "placesPage": {

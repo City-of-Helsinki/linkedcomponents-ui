@@ -1,3 +1,5 @@
+import { PLACE_FIELDS } from './constants';
+
 export type PlaceFields = {
   addressLocality: string;
   atId: string;
@@ -8,4 +10,8 @@ export type PlaceFields = {
   placeUrl: string;
   publisher: string;
   streetAddress: string;
+};
+
+export type PlaceFormFields = {
+  [PLACE_FIELDS.PUBLISHER]: string;
 };

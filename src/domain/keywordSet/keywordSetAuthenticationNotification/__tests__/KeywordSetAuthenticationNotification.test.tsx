@@ -106,7 +106,9 @@ test('should show notification if user has an admin organization but the data so
   await screen.findByRole('heading', {
     name: 'Avainsanaryhmää ei voi muokata',
   });
-  screen.getByText('Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää.');
+  await screen.findByText(
+    'Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää.'
+  );
 });
 
 test('should start sign in process', async () => {

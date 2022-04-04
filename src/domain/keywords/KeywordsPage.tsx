@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +11,8 @@ import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
 import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
+import { KEYWORD_ACTIONS } from '../keyword/constants';
+import KeywordAuthenticationNotification from '../keyword/keywordAuthenticationNotification/KeywordAuthenticationNotification';
 import useUser from '../user/hooks/useUser';
 import KeywordList from './keywordList/KeywordList';
 import styles from './keywordsPage.module.scss';
@@ -47,6 +50,13 @@ const KeywordsPage: React.FC = () => {
           {t('keywordsPage.title')}
         </Breadcrumb.Item>
       </Breadcrumb>
+
+      <KeywordAuthenticationNotification
+        action={KEYWORD_ACTIONS.CREATE}
+        className={styles.notification}
+        publisher=""
+      />
+
       <KeywordList />
     </div>
   );

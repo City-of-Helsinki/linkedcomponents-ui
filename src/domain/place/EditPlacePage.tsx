@@ -21,6 +21,7 @@ import usePlaceUpdateActions, {
   PLACE_MODALS,
 } from './hooks/usePlaceUpdateActions';
 import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import PlaceForm from './placeForm/PlaceForm';
 import { getEditButtonProps, getPlaceFields, placePathBuilder } from './utils';
 
 type Props = {
@@ -94,6 +95,7 @@ const EditPlacePage: React.FC<Props> = ({ place }) => {
           {t('editPlacePage.title')}
         </Breadcrumb.Item>
       </Breadcrumb>
+      <PlaceForm place={place} />
     </div>
   );
 };

@@ -23,7 +23,7 @@ import {
   PLACE_ACTION_LABEL_KEYS,
   PLACE_ACTIONS,
 } from './constants';
-import { PlaceFields } from './types';
+import { PlaceFields, PlaceFormFields } from './types';
 
 export const getPlaceItemId = (id: string): string => `place-item-${id}`;
 
@@ -43,6 +43,14 @@ export const getPlaceFields = (
     placeUrl: `/${locale}${ROUTES.EDIT_PLACE.replace(':id', id)}`,
     publisher: place.publisher ?? '',
     streetAddress: getLocalisedString(place.streetAddress, locale),
+  };
+};
+
+export const getPlaceInitialValues = (
+  place: PlaceFieldsFragment
+): PlaceFormFields => {
+  return {
+    publisher: place.publisher ?? '',
   };
 };
 

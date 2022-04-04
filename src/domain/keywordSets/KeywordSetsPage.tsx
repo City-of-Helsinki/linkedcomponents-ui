@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +11,8 @@ import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
 import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
+import { KEYWORD_SET_ACTIONS } from '../keywordSet/constants';
+import KeywordSetAuthenticationNotification from '../keywordSet/keywordSetAuthenticationNotification/KeywordSetAuthenticationNotification';
 import useUser from '../user/hooks/useUser';
 import KeywordSetList from './keywordSetList/KeywordSetList';
 import styles from './keywordSetsPage.module.scss';
@@ -48,6 +51,13 @@ const KeywordsPage: React.FC = () => {
           {t('keywordSetsPage.title')}
         </Breadcrumb.Item>
       </Breadcrumb>
+
+      <KeywordSetAuthenticationNotification
+        action={KEYWORD_SET_ACTIONS.CREATE}
+        className={styles.notification}
+        dataSource=""
+      />
+
       <KeywordSetList />
     </div>
   );

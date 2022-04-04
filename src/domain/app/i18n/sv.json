@@ -1446,7 +1446,8 @@
       "title": "Bekräfta raderingen av platsen"
     },
     "form": {
-      "buttonDelete": "Radera plats"
+      "buttonDelete": "Radera plats",
+      "notificationTitleCannotEdit": "Platsen kan inte redigeras"
     }
   },
   "placesPage": {
