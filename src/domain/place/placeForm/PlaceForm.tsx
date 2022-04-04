@@ -83,6 +83,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 label={t(`place.form.labelOriginId`)}
                 name={PLACE_FIELDS.ORIGIN_ID}
                 readOnly={!!place}
+                required={true}
               />
             </FormRow>
             <FormRow>
@@ -93,6 +94,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 label={t(`place.form.labelPublisher`)}
                 name={PLACE_FIELDS.PUBLISHER}
                 disabled={!!place}
+                required={true}
               />
             </FormRow>
             {ORDERED_LE_DATA_LANGUAGES.map((language) => {
