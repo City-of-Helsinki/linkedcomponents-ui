@@ -391,6 +391,7 @@ export type Mutation = {
   updateKeyword: Keyword;
   updateKeywordSet: KeywordSet;
   updateOrganization: Organization;
+  updatePlace: Place;
   updateRegistration: Registration;
 };
 
@@ -512,6 +513,11 @@ export type MutationUpdateKeywordSetArgs = {
 
 export type MutationUpdateOrganizationArgs = {
   input: UpdateOrganizationMutationInput;
+};
+
+
+export type MutationUpdatePlaceArgs = {
+  input: UpdatePlaceMutationInput;
 };
 
 
@@ -920,6 +926,23 @@ export type UpdateOrganizationMutationInput = {
   subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type UpdatePlaceMutationInput = {
+  addressLocality?: InputMaybe<LocalisedObjectInput>;
+  addressRegion?: InputMaybe<Scalars['String']>;
+  contactType?: InputMaybe<Scalars['String']>;
+  dataSource?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<LocalisedObjectInput>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  infoUrl?: InputMaybe<LocalisedObjectInput>;
+  name?: InputMaybe<LocalisedObjectInput>;
+  postalCode?: InputMaybe<Scalars['String']>;
+  postOfficeBoxNum?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  streetAddress?: InputMaybe<LocalisedObjectInput>;
+  telephone?: InputMaybe<LocalisedObjectInput>;
+};
+
 export type UpdateRegistrationMutationInput = {
   id: Scalars['ID'];
   audienceMaxAge?: InputMaybe<Scalars['Int']>;
@@ -1312,6 +1335,13 @@ export type DeletePlaceMutationVariables = Exact<{
 
 
 export type DeletePlaceMutation = { __typename?: 'Mutation', deletePlace?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
+
+export type UpdatePlaceMutationVariables = Exact<{
+  input: UpdatePlaceMutationInput;
+}>;
+
+
+export type UpdatePlaceMutation = { __typename?: 'Mutation', updatePlace: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } };
 
 export type DivisionFieldsFragment = { __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null };
 
@@ -3060,6 +3090,39 @@ export function useDeletePlaceMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeletePlaceMutationHookResult = ReturnType<typeof useDeletePlaceMutation>;
 export type DeletePlaceMutationResult = Apollo.MutationResult<DeletePlaceMutation>;
 export type DeletePlaceMutationOptions = Apollo.BaseMutationOptions<DeletePlaceMutation, DeletePlaceMutationVariables>;
+export const UpdatePlaceDocument = gql`
+    mutation UpdatePlace($input: UpdatePlaceMutationInput!) {
+  updatePlace(input: $input) @rest(type: "Place", path: "/place/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    ...placeFields
+  }
+}
+    ${PlaceFieldsFragmentDoc}`;
+export type UpdatePlaceMutationFn = Apollo.MutationFunction<UpdatePlaceMutation, UpdatePlaceMutationVariables>;
+
+/**
+ * __useUpdatePlaceMutation__
+ *
+ * To run a mutation, you first call `useUpdatePlaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePlaceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePlaceMutation, { data, loading, error }] = useUpdatePlaceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdatePlaceMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePlaceMutation, UpdatePlaceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePlaceMutation, UpdatePlaceMutationVariables>(UpdatePlaceDocument, options);
+      }
+export type UpdatePlaceMutationHookResult = ReturnType<typeof useUpdatePlaceMutation>;
+export type UpdatePlaceMutationResult = Apollo.MutationResult<UpdatePlaceMutation>;
+export type UpdatePlaceMutationOptions = Apollo.BaseMutationOptions<UpdatePlaceMutation, UpdatePlaceMutationVariables>;
 export const PlaceDocument = gql`
     query Place($id: ID!, $createPath: Any) {
   place(id: $id) @rest(type: "Place", pathBuilder: $createPath) {

@@ -8,4 +8,16 @@ export const MUTATION_PLACE = gql`
       noContent
     }
   }
+
+  mutation UpdatePlace($input: UpdatePlaceMutationInput!) {
+    updatePlace(input: $input)
+      @rest(
+        type: "Place"
+        path: "/place/{args.input.id}/"
+        method: "PUT"
+        bodyKey: "input"
+      ) {
+      ...placeFields
+    }
+  }
 `;
