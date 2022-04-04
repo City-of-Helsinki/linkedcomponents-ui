@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
@@ -10,8 +10,10 @@ import TextInputField from '../../../common/components/formFields/TextInputField
 import {
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
+  ROUTES,
 } from '../../../constants';
 import { PlaceFieldsFragment } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
   scrollToFirstError,
@@ -38,19 +40,24 @@ type PlaceFormProps = {
 
 const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
+  const navigate = useNavigate();
 
-  const { saving } = usePlaceUpdateActions({
+  const { saving, updatePlace } = usePlaceUpdateActions({
     place: place as PlaceFieldsFragment,
   });
 
+  const goToPlacesPage = () => {
+    navigate(`/${locale}${ROUTES.PLACES}`);
+  };
+
   const onUpdate = async (values: PlaceFormFields) => {
-    toast.error('TODO: Update place');
-    // await updateKeyword(values, {
-    //   onError: (error: ServerError) => showServerErrors({ error }),
-    //   onSuccess: async () => {
-    //     goToKeywordsPage();
-    //   },
-    // });
+    await updatePlace(values, {
+      // onError: (error: ServerError) => showServerErrors({ error }),
+      onSuccess: async () => {
+        goToPlacesPage();
+      },
+    });
   };
 
   return (

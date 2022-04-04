@@ -10,6 +10,7 @@ import {
   PlaceQuery,
   PlaceQueryVariables,
   PlacesQueryVariables,
+  UpdatePlaceMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
@@ -17,6 +18,7 @@ import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
+import { KEYWORD_DATA_SOURCE } from '../keyword/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -68,6 +70,19 @@ export const getPlaceInitialValues = (
     publisher: place.publisher ?? '',
     streetAddress: getLocalisedObject(place.streetAddress),
     telephone: getLocalisedObject(place.telephone),
+  };
+};
+
+export const getPlacePayload = (
+  formValues: PlaceFormFields
+): UpdatePlaceMutationInput => {
+  const { originId, id, ...restFormValues } = formValues;
+  const dataSource = formValues.dataSource || KEYWORD_DATA_SOURCE;
+
+  return {
+    ...restFormValues,
+    dataSource,
+    id: id || (originId ? `${dataSource}:${originId}` : undefined),
   };
 };
 
