@@ -2,7 +2,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { ROUTES } from '../../constants';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE, ROUTES } from '../../constants';
 import {
   CreateKeywordMutationInput,
   Keyword,
@@ -25,7 +25,6 @@ import {
   KEYWORD_ACTION_ICONS,
   KEYWORD_ACTION_LABEL_KEYS,
   KEYWORD_ACTIONS,
-  KEYWORD_DATA_SOURCE,
 } from './constants';
 import { KeywordFields, KeywordFormFields } from './types';
 
@@ -249,7 +248,7 @@ export const getKeywordPayload = (
   formValues: KeywordFormFields
 ): CreateKeywordMutationInput => {
   const { originId, id, ...restFormValues } = formValues;
-  const dataSource = formValues.dataSource || KEYWORD_DATA_SOURCE;
+  const dataSource = formValues.dataSource || LINKED_EVENTS_SYSTEM_DATA_SOURCE;
 
   return {
     ...restFormValues,

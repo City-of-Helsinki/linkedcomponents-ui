@@ -2,7 +2,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { ROUTES } from '../../constants';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE, ROUTES } from '../../constants';
 import {
   OrganizationFieldsFragment,
   PlaceDocument,
@@ -18,7 +18,6 @@ import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
-import { KEYWORD_DATA_SOURCE } from '../keyword/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -77,7 +76,7 @@ export const getPlacePayload = (
   formValues: PlaceFormFields
 ): UpdatePlaceMutationInput => {
   const { originId, id, ...restFormValues } = formValues;
-  const dataSource = formValues.dataSource || KEYWORD_DATA_SOURCE;
+  const dataSource = formValues.dataSource || LINKED_EVENTS_SYSTEM_DATA_SOURCE;
 
   return {
     ...restFormValues,

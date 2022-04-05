@@ -53,6 +53,3 @@ export const KEYWORD_INITIAL_VALUES: KeywordFormFields = {
   [KEYWORD_FIELDS.PUBLISHER]: '',
   [KEYWORD_FIELDS.REPLACED_BY]: '',
 };
-
-export const KEYWORD_DATA_SOURCE =
-  process.env.REACT_APP_KEYWORD_DATA_SOURCE || 'helsinki';
