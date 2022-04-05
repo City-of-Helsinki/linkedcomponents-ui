@@ -1,3 +1,4 @@
+import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +8,7 @@ import { ValidationError } from 'yup';
 import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
 import TextAreaField from '../../../common/components/formFields/TextAreaField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
+import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
@@ -28,6 +30,7 @@ import {
   PLACE_INITIAL_VALUES,
 } from '../constants';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
+import usePlaceServerErrors from '../hooks/usePlaceServerErrors';
 import usePlaceUpdateActions from '../hooks/usePlaceUpdateActions';
 import PlaceAuthenticationNotification from '../placeAuthenticationNotification/PlaceAuthenticationNotification';
 import { PlaceFormFields } from '../types';
@@ -47,13 +50,16 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
     place: place as PlaceFieldsFragment,
   });
 
+  const { serverErrorItems, setServerErrorItems, showServerErrors } =
+    usePlaceServerErrors();
+
   const goToPlacesPage = () => {
     navigate(`/${locale}${ROUTES.PLACES}`);
   };
 
   const onUpdate = async (values: PlaceFormFields) => {
     await updatePlace(values, {
-      // onError: (error: ServerError) => showServerErrors({ error }),
+      onError: (error: ServerError) => showServerErrors({ error }),
       onSuccess: async () => {
         goToPlacesPage();
       },
@@ -85,7 +91,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
           event?.preventDefault();
 
           try {
-            // setServerErrorItems([]);
+            setServerErrorItems([]);
             clearErrors();
 
             await placeSchema.validate(values, { abortEarly: false });
@@ -112,6 +118,8 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
               action={place ? PLACE_ACTIONS.UPDATE : PLACE_ACTIONS.CREATE}
               publisher={place ? (place.publisher as string) : values.publisher}
             />
+
+            <ServerErrorSummary errors={serverErrorItems} />
 
             <FormRow className={styles.borderInMobile}>
               <Field

@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { createMaxErrorMessage } from '../../utils/validationUtils';
+import { createStringMaxErrorMessage } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { ContactFormFields } from './types';
 
@@ -37,9 +37,7 @@ export const contactFormSchema = Yup.object().shape({
   ),
   [CONTACT_FORM_FIELD.BODY]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .max(CONTACT_FORM_BODY_MAX_LENGTH, (param) =>
-      createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-    ),
+    .max(CONTACT_FORM_BODY_MAX_LENGTH, createStringMaxErrorMessage),
 });
 
 export const CONTACT_FORM_SELECT_FIELDS = [CONTACT_FORM_FIELD.TOPIC];

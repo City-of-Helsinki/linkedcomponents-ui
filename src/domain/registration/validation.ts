@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 import {
-  createMinErrorMessage,
+  createNumberMinErrorMessage,
   isMinStartDate,
   transformNumber,
 } from '../../utils/validationUtils';
@@ -25,9 +25,7 @@ export const registrationSchema = Yup.object().shape({
 
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-    )
+    .min(0, createNumberMinErrorMessage)
     .nullable()
     .transform(transformNumber),
   [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
@@ -35,9 +33,7 @@ export const registrationSchema = Yup.object().shape({
     (minimumAttendeeCapacity: number) => {
       return Yup.number()
         .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-        .min(minimumAttendeeCapacity || 0, (param) =>
-          createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-        )
+        .min(minimumAttendeeCapacity || 0, createNumberMinErrorMessage)
         .nullable()
         .transform(transformNumber);
     }
@@ -45,17 +41,13 @@ export const registrationSchema = Yup.object().shape({
 
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-    )
+    .min(0, createNumberMinErrorMessage)
     .nullable()
     .transform(transformNumber),
 
   [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-    )
+    .min(0, createNumberMinErrorMessage)
     .nullable()
     .transform(transformNumber),
   [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
@@ -63,9 +55,7 @@ export const registrationSchema = Yup.object().shape({
     .when(
       [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE],
       (audienceMinAge: number, schema: Yup.NumberSchema) =>
-        schema.min(audienceMinAge || 0, (param) =>
-          createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-        )
+        schema.min(audienceMinAge || 0, createNumberMinErrorMessage)
     )
     .nullable()
     .transform(transformNumber),

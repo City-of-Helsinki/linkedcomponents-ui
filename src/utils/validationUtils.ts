@@ -17,25 +17,43 @@ import { VALIDATION_MESSAGE_KEYS } from '../domain/app/i18n/constants';
 import { Error } from '../types';
 import formatDate from './formatDate';
 
-export const createMaxErrorMessage = (
+const createMaxErrorMessage = (
   message: { max: number },
   key: string
-): Record<string, unknown> => {
-  return {
-    ...message,
-    key,
-  };
-};
+): Record<string, unknown> => ({ ...message, key });
 
-export const createMinErrorMessage = (
+export const createNumberMaxErrorMessage = (message: {
+  max: number;
+}): Record<string, unknown> =>
+  createMaxErrorMessage(message, VALIDATION_MESSAGE_KEYS.NUMBER_MAX);
+
+export const createStringMaxErrorMessage = (message: {
+  max: number;
+}): Record<string, unknown> =>
+  createMaxErrorMessage(message, VALIDATION_MESSAGE_KEYS.STRING_MAX);
+
+const createMinErrorMessage = (
   message: { min: number },
   key: string
-): Record<string, unknown> => {
-  return {
-    ...message,
-    key,
-  };
-};
+): Record<string, unknown> => ({
+  ...message,
+  key,
+});
+
+export const createArrayMinErrorMessage = (message: {
+  min: number;
+}): Record<string, unknown> =>
+  createMinErrorMessage(message, VALIDATION_MESSAGE_KEYS.ARRAY_MIN);
+
+export const createNumberMinErrorMessage = (message: {
+  min: number;
+}): Record<string, unknown> =>
+  createMinErrorMessage(message, VALIDATION_MESSAGE_KEYS.NUMBER_MIN);
+
+export const createStringMinErrorMessage = (message: {
+  min: number;
+}): Record<string, unknown> =>
+  createMinErrorMessage(message, VALIDATION_MESSAGE_KEYS.STRING_MIN);
 
 export const transformNumber = (
   value: number,

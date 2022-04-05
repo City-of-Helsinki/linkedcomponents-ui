@@ -64,7 +64,7 @@ export const getPlaceInitialValues = (
     id,
     infoUrl: getLocalisedObject(place.infoUrl),
     name: getLocalisedObject(place.name),
-    originId: id.split(':')[1],
+    originId: id.split(':')[1] ?? '',
     postOfficeBoxNum: place.postOfficeBoxNum ?? '',
     postalCode: place.postalCode ?? '',
     publisher: place.publisher ?? '',

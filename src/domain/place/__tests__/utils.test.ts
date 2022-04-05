@@ -11,6 +11,7 @@ import {
   checkCanUserDoAction,
   getEditPlaceWarning,
   getPlaceFields,
+  getPlaceInitialValues,
   placePathBuilder,
   placesPathBuilder,
 } from '../utils';
@@ -32,6 +33,89 @@ describe('getPlaceFields function', () => {
     expect(id).toBe('');
     expect(nEvents).toBe(0);
     expect(publisher).toBe('');
+  });
+});
+
+describe('getPlaceInitialValues function', () => {
+  it('should return default values if value is not set', () => {
+    expect(
+      getPlaceInitialValues(
+        fakePlace({
+          addressLocality: null,
+          addressRegion: null,
+          contactType: null,
+          dataSource: null,
+          description: null,
+          email: null,
+          id: null,
+          infoUrl: null,
+          name: null,
+          postOfficeBoxNum: null,
+          postalCode: null,
+          publisher: null,
+          streetAddress: null,
+          telephone: null,
+        })
+      )
+    ).toEqual({
+      addressLocality: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      addressRegion: '',
+      contactType: '',
+      dataSource: '',
+      description: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      email: '',
+      id: '',
+      infoUrl: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      name: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      originId: '',
+      postOfficeBoxNum: '',
+      postalCode: '',
+      publisher: '',
+      streetAddress: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      telephone: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+    });
   });
 });
 
