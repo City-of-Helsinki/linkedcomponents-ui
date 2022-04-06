@@ -1463,7 +1463,8 @@
       "labelStreetAddress": "Katuosoite ({{langText}})",
       "labelTelephone": "Puhelinnumero ({{langText}})",
       "notificationTitleCannotEdit": "Paikkaa ei voi muokata",
-      "titleContactInfo": "Yhteystiedot"
+      "titleContactInfo": "Yhteystiedot",
+      "titleLocation": "Sijainti"
     }
   },
   "placesPage": {

@@ -1463,7 +1463,8 @@
       "labelStreetAddress": "Gatuadress ({{langText}})",
       "labelTelephone": "Telefonnummer ({{langText}})",
       "notificationTitleCannotEdit": "Platsen kan inte redigeras",
-      "titleContactInfo": "Kontaktinformation"
+      "titleContactInfo": "Kontaktinformation",
+      "titleLocation": "Position"
     }
   },
   "placesPage": {

@@ -8,6 +8,7 @@ import { ValidationError } from 'yup';
 import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
 import TextAreaField from '../../../common/components/formFields/TextAreaField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
+import Map from '../../../common/components/map/Map';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
   LE_DATA_LANGUAGES,
@@ -215,6 +216,12 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 </FormRow>
               );
             })}
+
+            <Section title={t('place.form.titleLocation')}>
+              <FormRow>
+                <Map position={values.coordinates} />
+              </FormRow>
+            </Section>
 
             <Section title={t('place.form.titleContactInfo')}>
               <FormRow>

@@ -617,6 +617,11 @@ export type Position = {
   type?: Maybe<Scalars['String']>;
 };
 
+export type PositionInput = {
+  type?: InputMaybe<Scalars['String']>;
+  coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+};
+
 export enum PublicationStatus {
   Draft = 'draft',
   Public = 'public'
@@ -936,6 +941,7 @@ export type UpdatePlaceMutationInput = {
   id?: InputMaybe<Scalars['String']>;
   infoUrl?: InputMaybe<LocalisedObjectInput>;
   name?: InputMaybe<LocalisedObjectInput>;
+  position?: InputMaybe<PositionInput>;
   postalCode?: InputMaybe<Scalars['String']>;
   postOfficeBoxNum?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;

@@ -395,11 +395,17 @@ module.exports = buildSchema(/* GraphQL */ `
     id: String
     infoUrl: LocalisedObjectInput
     name: LocalisedObjectInput
+    position: PositionInput
     postalCode: String
     postOfficeBoxNum: String
     publisher: String
     streetAddress: LocalisedObjectInput
     telephone: LocalisedObjectInput
+  }
+
+  input PositionInput {
+    coordinates: [Float]!
+    type: String
   }
 
   input CreateRegistrationMutationInput {

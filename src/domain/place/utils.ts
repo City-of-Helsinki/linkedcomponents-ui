@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
+import { LatLngTuple } from 'leaflet';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { LINKED_EVENTS_SYSTEM_DATA_SOURCE, ROUTES } from '../../constants';
@@ -56,6 +57,12 @@ export const getPlaceInitialValues = (
   return {
     addressLocality: getLocalisedObject(place.addressLocality),
     addressRegion: place.addressRegion ?? '',
+    coordinates: place.position?.coordinates
+      ? ([
+          place.position?.coordinates[1],
+          place.position?.coordinates[0],
+        ] as LatLngTuple)
+      : null,
     contactType: place.contactType ?? '',
     dataSource: place.dataSource ?? '',
     description: getLocalisedObject(place.description),
