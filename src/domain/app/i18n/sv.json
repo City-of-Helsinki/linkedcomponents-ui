@@ -119,6 +119,69 @@
       "notAllowedFileFormat": "Filformatet stöds inte",
       "tooLargeFileSize": "Filstorleken är för stor. Största tillåtna storlek är {{maxSize}} MB"
     },
+    "leaflet": {
+      "drawLocal": {
+        "draw": {
+          "handlers": {
+            "marker": {
+              "tooltip": {
+                "start": "Klicka på kartan för att fastställa en plats."
+              }
+            }
+          }, 
+          "toolbar": {
+            "actions": {
+              "text": "Avbryt",
+              "title": "Avbryt ritningen"
+            },
+            "buttons": {
+              "marker": "Rita en markör"
+            },
+            "finish": {
+              "text": "Avsluta",
+              "title": "Avsluta ritningen"
+            }
+          }
+        },
+        "edit": {
+          "handlers": {
+            "edit": {
+              "tooltip": {
+                "subtext": "Klicka på Avbryt för att ignorera dina ändringar",
+                "text": "Dra markören för att redigera platsen."
+              }
+            },
+            "remove": {
+              "tooltip": {
+                "text": "Klicka på platsen du vill ta bort."
+              }
+            }
+          },
+          "toolbar": {
+            "actions": {
+              "cancel": {
+                "text": "Avbryt",
+                "title": "Avbryt redigering, ignorera alla ändringar."
+              },
+              "clearAll": {
+                "text": "Ta bort allt",
+                "title": "Ta bort alla områden"
+              },
+              "save": {
+                "text": "Spara",
+                "title": "Spara ändringarna"
+              }
+            },
+            "buttons": {
+              "edit": "Redigera plats",
+              "editDisabled": "Ingen redigerbar plats",
+              "remove":"Ta bort plats",
+              "removeDisabled":"Ingen plats att ta bort"
+            }
+          }
+        }
+      }
+    },
     "loading": "Laddar...",
     "loadingFinished": "Laddningen är klar",
     "multiSelectDropdown": {

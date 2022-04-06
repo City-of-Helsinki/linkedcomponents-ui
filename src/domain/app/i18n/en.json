@@ -118,6 +118,69 @@
       "notAllowedFileFormat": "File format is not supported",
       "tooLargeFileSize": "File size is too large. The maximum file size is {{maxSize}} MB"
     },
+    "leaflet": {
+      "drawLocal": {
+        "draw": {
+          "handlers": {
+            "marker": {
+              "tooltip": {
+                "start": "Click on the map to set the location."
+              }
+            }
+          }, 
+          "toolbar": {
+            "actions": {
+              "text": "Cancel",
+              "title": "Cancel drawing"
+            },
+            "buttons": {
+              "marker": "Draw a marker"
+            },
+            "finish": {
+              "text": "Finish",
+              "title": "Finish drawing"
+            }
+          }
+        },
+        "edit": {
+          "handlers": {
+            "edit": {
+              "tooltip": {
+                "subtext": "Click Cancel to discard your changes",
+                "text": "Drag the marker to edit the location."
+              }
+            },
+            "remove": {
+              "tooltip": {
+                "text": "Click the location you want to delete."
+              }
+            }
+          },
+          "toolbar": {
+            "actions": {
+              "cancel": {
+                "text": "Cancel",
+                "title": "Cancel edit, discard all changes."
+              },
+              "clearAll": {
+                "text": "Clear all",
+                "title": "Clear all location"
+              },
+              "save": {
+                "text": "Save",
+                "title": "Save changes"
+              }
+            },
+            "buttons": {
+              "edit": "Edit location",
+              "editDisabled": "No location to edit",
+              "remove":"Delete location",
+              "removeDisabled":"No location to delete"
+            }
+          }
+        }
+      }
+    },
     "loading": "Loading...",
     "loadingFinished": "Loading finished",
     "multiSelectDropdown": {

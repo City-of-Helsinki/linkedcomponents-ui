@@ -119,6 +119,69 @@
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
+    "leaflet": {
+      "drawLocal": {
+        "draw": {
+          "handlers": {
+            "marker": {
+              "tooltip": {
+                "start": "Klikkaa karttaa määrittääksesi sijainnin."
+              }
+            }
+          }, 
+          "toolbar": {
+            "actions": {
+              "text": "Peruuta",
+              "title": "Peruuta piirtäminen"
+            },
+            "buttons": {
+              "marker": "Piirrä merkki"
+            },
+            "finish": {
+              "text": "Viimeistele",
+              "title": "Viimeistele piirustus"
+            }
+          }
+        },
+        "edit": {
+          "handlers": {
+            "edit": {
+              "tooltip": {
+                "subtext": "Kumoa muutokset napsauttamalla Peruuta",
+                "text": "Muokkaa sijaintia raahaamalla merkkiä."
+              }
+            },
+            "remove": {
+              "tooltip": {
+                "text": "Klikkaa poistettavaa sijaintia."
+              }
+            }
+          },
+          "toolbar": {
+            "actions": {
+              "cancel": {
+                "text": "Peruuta",
+                "title": "Peruuta muokkaus, hylkää kaikki muutokset."
+              },
+              "clearAll": {
+                "text": "Poista kaikki",
+                "title": "Poista kaikki alueet"
+              },
+              "save": {
+                "text": "Tallenna",
+                "title": "Tallenna muutokset"
+              }
+            },
+            "buttons": {
+              "edit": "Muokkaa sijaintia",
+              "editDisabled": "Ei muokattavaa sijaintia",
+              "remove":"Poista sijainti",
+              "removeDisabled":"Ei poistettavaa sijaintia"
+            }
+          }
+        }
+      }
+    },
     "loading": "Ladataan...",
     "loadingFinished": "Lataaminen päättynyt",
     "multiSelectDropdown": {

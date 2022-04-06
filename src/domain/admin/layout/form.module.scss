@@ -20,6 +20,7 @@
       margin-right: var(--spacing-xs);
 
       @include min-width-column(2);
+      @include max-width-column(2);
     }
   }
 
