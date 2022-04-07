@@ -1,4 +1,4 @@
-import { LatLngTuple } from 'leaflet';
+import { LatLng } from 'leaflet';
 
 import { MultiLanguageObject } from '../../types';
 import { PLACE_FIELDS } from './constants';
@@ -18,7 +18,7 @@ export type PlaceFields = {
 export type PlaceFormFields = {
   [PLACE_FIELDS.ADDRESS_LOCALITY]: MultiLanguageObject;
   [PLACE_FIELDS.ADDRESS_REGION]: string;
-  [PLACE_FIELDS.COORDINATES]: LatLngTuple | null;
+  [PLACE_FIELDS.COORDINATES]: LatLng | null;
   [PLACE_FIELDS.CONTACT_TYPE]: string;
   [PLACE_FIELDS.DATA_SOURCE]: string;
   [PLACE_FIELDS.DESCRIPTION]: MultiLanguageObject;

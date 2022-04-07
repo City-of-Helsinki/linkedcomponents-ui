@@ -1,4 +1,5 @@
 import i18n from 'i18next';
+import { LatLng } from 'leaflet';
 
 import {
   fakeOrganization,
@@ -6,12 +7,13 @@ import {
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
-import { PLACE_ACTIONS } from '../constants';
+import { PLACE_ACTIONS, PLACE_INITIAL_VALUES } from '../constants';
 import {
   checkCanUserDoAction,
   getEditPlaceWarning,
   getPlaceFields,
   getPlaceInitialValues,
+  getPlacePayload,
   placePathBuilder,
   placesPathBuilder,
 } from '../utils';
@@ -33,6 +35,25 @@ describe('getPlaceFields function', () => {
     expect(id).toBe('');
     expect(nEvents).toBe(0);
     expect(publisher).toBe('');
+  });
+});
+
+describe('getPlacePayload function', () => {
+  it('should return correct position', () => {
+    const { position } = getPlacePayload({
+      ...PLACE_INITIAL_VALUES,
+      coordinates: new LatLng(24.924889, 60.159661),
+    });
+    expect(position).toEqual({
+      type: 'Point',
+      coordinates: [60.159661, 24.924889],
+    });
+
+    const { position: positionNull } = getPlacePayload({
+      ...PLACE_INITIAL_VALUES,
+      coordinates: null,
+    });
+    expect(positionNull).toBe(null);
   });
 });
 
@@ -68,6 +89,7 @@ describe('getPlaceInitialValues function', () => {
       },
       addressRegion: '',
       contactType: '',
+      coordinates: null,
       dataSource: '',
       description: {
         ar: '',

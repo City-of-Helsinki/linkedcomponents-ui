@@ -1,24 +1,26 @@
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 
-import L, { LatLngTuple } from 'leaflet';
+import L, { LatLng } from 'leaflet';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FeatureGroup, MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 
 import useLocale from '../../../hooks/useLocale';
+import isTestEnv from '../../../utils/isTestEnv';
 import styles from './map.module.scss';
 import { localizeMap } from './utils';
 L.Icon.Default.imagePath = '/images/';
 
-const DEFAULT_CENTER: LatLngTuple = [60.171944, 24.941389];
+const DEFAULT_CENTER: LatLng = new LatLng(60.171944, 24.941389);
 
 interface Props {
-  position: LatLngTuple | null;
+  onChange: (position: LatLng | null) => void;
+  position: LatLng | null;
 }
 
-const Map: React.FC<Props> = ({ position }) => {
+const Map: React.FC<Props> = ({ onChange, position }) => {
   const center = position || DEFAULT_CENTER;
   const locale = useLocale();
   const { t } = useTranslation();
@@ -35,14 +37,29 @@ const Map: React.FC<Props> = ({ position }) => {
         featureGroup.current.removeLayer(layer);
       });
     }
+
+    handleChange();
   };
 
   const handleAction = () => {
-    console.log('action');
+    handleChange();
+  };
+
+  const handleChange = () => {
+    const drawnItems = featureGroup.current._layers;
+    if (Object.keys(drawnItems).length) {
+      Object.keys(drawnItems).forEach((layerid, index) => {
+        if (index > 0) return;
+        const layer = drawnItems[layerid];
+        onChange(layer._latlng);
+      });
+    } else {
+      onChange(null);
+    }
   };
 
   React.useEffect(() => {
-    localizeMap(t);
+    !isTestEnv && localizeMap(t);
   }, [locale, t]);
 
   return (
@@ -54,23 +71,25 @@ const Map: React.FC<Props> = ({ position }) => {
       zoom={15}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <FeatureGroup ref={featureGroup}>
-        <EditControl
-          position="topright"
-          onCreated={onCreated}
-          onDeleted={handleAction}
-          onEdited={handleAction}
-          draw={{
-            circlemarker: false,
-            circle: false,
-            marker: true,
-            polyline: false,
-            polygon: false,
-            rectangle: false,
-          }}
-        />
-        {position && <Marker position={position} />}
-      </FeatureGroup>
+      {!isTestEnv && (
+        <FeatureGroup ref={featureGroup}>
+          <EditControl
+            position="topright"
+            onCreated={onCreated}
+            onDeleted={handleAction}
+            onEdited={handleAction}
+            draw={{
+              circlemarker: false,
+              circle: false,
+              marker: true,
+              polyline: false,
+              polygon: false,
+              rectangle: false,
+            }}
+          />
+          {position && <Marker position={position} />}
+        </FeatureGroup>
+      )}
     </MapContainer>
   );
 };

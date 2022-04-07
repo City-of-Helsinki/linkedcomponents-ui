@@ -83,7 +83,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
       validateOnChange={true}
       validationSchema={placeSchema}
     >
-      {({ setErrors, setTouched, values }) => {
+      {({ setErrors, setFieldValue, setTouched, values }) => {
         const clearErrors = () => setErrors({});
 
         const handleSubmit = async (
@@ -219,7 +219,13 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
 
             <Section title={t('place.form.titleLocation')}>
               <FormRow>
-                <Map position={values.coordinates} />
+                <Map
+                  onChange={
+                    /* istanbul ignore next */ (coordinates) =>
+                      setFieldValue('coordinates', coordinates, true)
+                  }
+                  position={values.coordinates}
+                />
               </FormRow>
             </Section>
 

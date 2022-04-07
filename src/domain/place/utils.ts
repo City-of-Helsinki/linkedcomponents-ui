@@ -1,6 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
-import { LatLngTuple } from 'leaflet';
+import { LatLng } from 'leaflet';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { LINKED_EVENTS_SYSTEM_DATA_SOURCE, ROUTES } from '../../constants';
@@ -58,10 +58,10 @@ export const getPlaceInitialValues = (
     addressLocality: getLocalisedObject(place.addressLocality),
     addressRegion: place.addressRegion ?? '',
     coordinates: place.position?.coordinates
-      ? ([
-          place.position?.coordinates[1],
-          place.position?.coordinates[0],
-        ] as LatLngTuple)
+      ? new LatLng(
+          place.position?.coordinates[1] as number,
+          place.position?.coordinates[0] as number
+        )
       : null,
     contactType: place.contactType ?? '',
     dataSource: place.dataSource ?? '',
@@ -82,13 +82,16 @@ export const getPlaceInitialValues = (
 export const getPlacePayload = (
   formValues: PlaceFormFields
 ): UpdatePlaceMutationInput => {
-  const { originId, id, ...restFormValues } = formValues;
+  const { coordinates, originId, id, ...restFormValues } = formValues;
   const dataSource = formValues.dataSource || LINKED_EVENTS_SYSTEM_DATA_SOURCE;
 
   return {
     ...restFormValues,
     dataSource,
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
+    position: coordinates
+      ? { type: 'Point', coordinates: [coordinates?.lng, coordinates?.lat] }
+      : null,
   };
 };
 
