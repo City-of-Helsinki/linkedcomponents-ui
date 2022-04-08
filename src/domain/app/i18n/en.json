@@ -281,6 +281,10 @@
     "pageTitle": "Add organization",
     "title": "Add organization"
   },
+  "createPlacePage": {
+    "pageTitle": "Add place",
+    "title": "Add place"
+  },
   "createRegistrationPage": {
     "page": "New registration",
     "title": "New registration"

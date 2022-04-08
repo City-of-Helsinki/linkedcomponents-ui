@@ -5,13 +5,13 @@ import { LatLng } from 'leaflet';
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { LINKED_EVENTS_SYSTEM_DATA_SOURCE, ROUTES } from '../../constants';
 import {
+  CreatePlaceMutationInput,
   OrganizationFieldsFragment,
   PlaceDocument,
   PlaceFieldsFragment,
   PlaceQuery,
   PlaceQueryVariables,
   PlacesQueryVariables,
-  UpdatePlaceMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
@@ -25,6 +25,7 @@ import {
   PLACE_ACTION_ICONS,
   PLACE_ACTION_LABEL_KEYS,
   PLACE_ACTIONS,
+  PLACE_FORM_SELECT_FIELDS,
 } from './constants';
 import { PlaceFields, PlaceFormFields } from './types';
 
@@ -81,7 +82,7 @@ export const getPlaceInitialValues = (
 
 export const getPlacePayload = (
   formValues: PlaceFormFields
-): UpdatePlaceMutationInput => {
+): CreatePlaceMutationInput => {
   const { coordinates, originId, id, ...restFormValues } = formValues;
   const dataSource = formValues.dataSource || LINKED_EVENTS_SYSTEM_DATA_SOURCE;
 
@@ -89,6 +90,7 @@ export const getPlacePayload = (
     ...restFormValues,
     dataSource,
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
+    originId,
     position: coordinates
       ? { type: 'Point', coordinates: [coordinates?.lng, coordinates?.lat] }
       : null,
@@ -314,3 +316,12 @@ export const clearPlacesQueries = (
     id: 'ROOT_QUERY',
     fieldName: 'places',
   });
+
+export const getFocusableFieldId = (fieldName: string): string => {
+  // For the select elements, focus the toggle button
+  if (PLACE_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
+    return `${fieldName}-toggle-button`;
+  }
+
+  return fieldName;
+};

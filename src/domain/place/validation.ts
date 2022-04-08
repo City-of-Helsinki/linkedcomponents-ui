@@ -27,6 +27,9 @@ const createMultiLanguageValidation = (
 };
 
 export const placeSchema = Yup.object().shape({
+  [PLACE_FIELDS.ORIGIN_ID]: Yup.string().when([PLACE_FIELDS.ID], (id, schema) =>
+    id ? schema : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+  ),
   [PLACE_FIELDS.PUBLISHER]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .nullable(),

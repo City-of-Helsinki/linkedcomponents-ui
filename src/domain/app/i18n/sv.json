@@ -282,6 +282,10 @@
     "pageTitle": "Lägg till organisation",
     "title": "Lägg till organisation"
   },
+  "createPlacePage": {
+    "pageTitle": "Lägg till plats",
+    "title": "Lägg till plats"
+  },
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"

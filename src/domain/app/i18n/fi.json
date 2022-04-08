@@ -282,6 +282,10 @@
     "pageTitle": "Lisää organisaatio",
     "title": "Lisää organisaatio"
   },
+  "createPlacePage": {
+    "pageTitle": "Lisää paikka",
+    "title": "Lisää paikka"
+  },
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"

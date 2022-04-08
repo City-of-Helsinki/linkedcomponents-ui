@@ -14,6 +14,9 @@ const CreateKeywordSetPage = React.lazy(
 const CreateOrganizationPage = React.lazy(
   () => import('.././../organization/CreateOrganizationPage')
 );
+const CreatePlacePage = React.lazy(
+  () => import('.././../place/CreatePlacePage')
+);
 const EditKeywordPage = React.lazy(
   () => import('../../keyword/EditKeywordPage')
 );
@@ -84,6 +87,10 @@ const AdminPageRoutes: React.FC = () => {
         element={<OrganizationsPage />}
       />
 
+      <Route
+        path={getAdminRoutePath(ROUTES.CREATE_PLACE)}
+        element={<CreatePlacePage />}
+      />
       <Route
         path={getAdminRoutePath(ROUTES.EDIT_PLACE)}
         element={<EditPlacePage />}

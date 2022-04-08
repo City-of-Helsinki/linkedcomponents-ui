@@ -12,6 +12,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createKeyword(input: CreateKeywordMutationInput!): Keyword!
     createKeywordSet(input: CreateKeywordSetMutationInput!): KeywordSet!
     createOrganization(input: CreateOrganizationMutationInput!): Organization!
+    createPlace(input: CreatePlaceMutationInput!): Place!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
@@ -383,6 +384,25 @@ module.exports = buildSchema(/* GraphQL */ `
     regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
+  }
+
+  input CreatePlaceMutationInput {
+    addressLocality: LocalisedObjectInput
+    addressRegion: String
+    contactType: String
+    dataSource: String
+    description: LocalisedObjectInput
+    email: String
+    id: String
+    infoUrl: LocalisedObjectInput
+    name: LocalisedObjectInput
+    originId: String
+    position: PositionInput
+    postalCode: String
+    postOfficeBoxNum: String
+    publisher: String
+    streetAddress: LocalisedObjectInput
+    telephone: LocalisedObjectInput
   }
 
   input UpdatePlaceMutationInput {

@@ -63,6 +63,7 @@ const payload = {
   streetAddress: { ...emptyLangObj, fi: placeValues.streetAddress.fi },
   telephone: { ...emptyLangObj, fi: placeValues.telephone.fi },
   id: placeValues.id,
+  originId: placeValues.id.split(':')[1],
 };
 
 const updatePlaceVariables = { input: payload };

@@ -1,8 +1,13 @@
-import { ServerError } from '@apollo/client';
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  ServerError,
+  useApolloClient,
+} from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
@@ -15,7 +20,11 @@ import {
   ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
 } from '../../../constants';
-import { PlaceFieldsFragment } from '../../../generated/graphql';
+import {
+  CreatePlaceMutationInput,
+  PlaceFieldsFragment,
+  useCreatePlaceMutation,
+} from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
@@ -25,17 +34,25 @@ import {
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
 import Section from '../../app/layout/Section';
+import { reportError } from '../../app/sentry/utils';
+import useUser from '../../user/hooks/useUser';
 import {
   PLACE_ACTIONS,
   PLACE_FIELDS,
   PLACE_INITIAL_VALUES,
 } from '../constants';
+import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import usePlaceServerErrors from '../hooks/usePlaceServerErrors';
 import usePlaceUpdateActions from '../hooks/usePlaceUpdateActions';
 import PlaceAuthenticationNotification from '../placeAuthenticationNotification/PlaceAuthenticationNotification';
 import { PlaceFormFields } from '../types';
-import { getPlaceInitialValues } from '../utils';
+import {
+  clearPlacesQueries,
+  getFocusableFieldId,
+  getPlaceInitialValues,
+  getPlacePayload,
+} from '../utils';
 import { placeSchema } from '../validation';
 
 type PlaceFormProps = {
@@ -45,14 +62,19 @@ type PlaceFormProps = {
 const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
   const { t } = useTranslation();
   const locale = useLocale();
+  const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useUser();
+  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
-  const { saving, updatePlace } = usePlaceUpdateActions({
+  const { saving, setSaving, updatePlace } = usePlaceUpdateActions({
     place: place as PlaceFieldsFragment,
   });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     usePlaceServerErrors();
+
+  const [createPlaceMutation] = useCreatePlaceMutation();
 
   const goToPlacesPage = () => {
     navigate(`/${locale}${ROUTES.PLACES}`);
@@ -65,6 +87,43 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
         goToPlacesPage();
       },
     });
+  };
+
+  const createSinglePlace = async (payload: CreatePlaceMutationInput) => {
+    try {
+      const data = await createPlaceMutation({ variables: { input: payload } });
+
+      return data.data?.createPlace.id as string;
+    } catch (error) /* istanbul ignore next */ {
+      showServerErrors({ error });
+      // // Report error to Sentry
+      reportError({
+        data: {
+          error: error as Record<string, unknown>,
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to create place',
+        user,
+      });
+    }
+  };
+
+  const createPlace = async (values: PlaceFormFields) => {
+    setSaving(PLACE_ACTIONS.CREATE);
+    const payload = getPlacePayload(values);
+
+    const createdPlaceId = await createSinglePlace(payload);
+
+    if (createdPlaceId) {
+      // Clear all place queries from apollo cache to show added place
+      // in place list
+      clearPlacesQueries(apolloClient);
+      goToPlacesPage();
+    }
+
+    setSaving(null);
   };
 
   return (
@@ -100,7 +159,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
             if (place) {
               await onUpdate(values);
             } else {
-              // await createPlace(values);
+              await createPlace(values);
             }
           } catch (error) {
             showFormErrors({
@@ -109,7 +168,10 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
               setTouched,
             });
 
-            scrollToFirstError({ error: error as ValidationError });
+            scrollToFirstError({
+              error: error as ValidationError,
+              getFocusableFieldId,
+            });
           }
         };
 
@@ -151,7 +213,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 label={t(`place.form.labelOriginId`)}
                 name={PLACE_FIELDS.ORIGIN_ID}
                 readOnly={!!place}
-                required={true}
+                required={!place}
               />
             </FormRow>
             <FormRow>
@@ -334,7 +396,13 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 publisher={place.publisher as string}
                 saving={saving}
               />
-            ) : null}
+            ) : (
+              <CreateButtonPanel
+                onSave={handleSubmit}
+                publisher={values.publisher}
+                saving={saving}
+              />
+            )}
           </Form>
         );
       }}

@@ -286,6 +286,16 @@ it('should render places page', async () => {
   expect(history.location.pathname).toBe('/fi/admin/places');
 });
 
+it('should render create place page', async () => {
+  const { history } = renderRoute(ROUTES.CREATE_PLACE);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /lisää paikka/i });
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/places/create`)
+  );
+});
+
 it('should render edit place page', async () => {
   const id = place.id;
   const { history } = renderRoute(`${ROUTES.EDIT_PLACE.replace(':id', id)}`);

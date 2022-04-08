@@ -103,6 +103,25 @@ export type CreateOrganizationMutationInput = {
   subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type CreatePlaceMutationInput = {
+  addressLocality?: InputMaybe<LocalisedObjectInput>;
+  addressRegion?: InputMaybe<Scalars['String']>;
+  contactType?: InputMaybe<Scalars['String']>;
+  dataSource?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<LocalisedObjectInput>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  infoUrl?: InputMaybe<LocalisedObjectInput>;
+  name?: InputMaybe<LocalisedObjectInput>;
+  originId?: InputMaybe<Scalars['String']>;
+  position?: InputMaybe<PositionInput>;
+  postalCode?: InputMaybe<Scalars['String']>;
+  postOfficeBoxNum?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  streetAddress?: InputMaybe<LocalisedObjectInput>;
+  telephone?: InputMaybe<LocalisedObjectInput>;
+};
+
 export type CreateRegistrationMutationInput = {
   audienceMaxAge?: InputMaybe<Scalars['Int']>;
   audienceMinAge?: InputMaybe<Scalars['Int']>;
@@ -373,6 +392,7 @@ export type Mutation = {
   createKeyword: Keyword;
   createKeywordSet: KeywordSet;
   createOrganization: Organization;
+  createPlace: Place;
   createRegistration: Registration;
   deleteEnrolment?: Maybe<NoContent>;
   deleteEvent?: Maybe<NoContent>;
@@ -423,6 +443,11 @@ export type MutationCreateKeywordSetArgs = {
 
 export type MutationCreateOrganizationArgs = {
   input: CreateOrganizationMutationInput;
+};
+
+
+export type MutationCreatePlaceArgs = {
+  input: CreatePlaceMutationInput;
 };
 
 
@@ -618,8 +643,8 @@ export type Position = {
 };
 
 export type PositionInput = {
+  coordinates: Array<InputMaybe<Scalars['Float']>>;
   type?: InputMaybe<Scalars['String']>;
-  coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
 };
 
 export enum PublicationStatus {
@@ -1334,6 +1359,13 @@ export type OrganizationsQueryVariables = Exact<{
 
 
 export type OrganizationsQuery = { __typename?: 'Query', organizations: { __typename?: 'OrganizationsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null } | null> } };
+
+export type CreatePlaceMutationVariables = Exact<{
+  input: CreatePlaceMutationInput;
+}>;
+
+
+export type CreatePlaceMutation = { __typename?: 'Mutation', createPlace: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } };
 
 export type DeletePlaceMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -3063,6 +3095,39 @@ export function useOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type OrganizationsQueryHookResult = ReturnType<typeof useOrganizationsQuery>;
 export type OrganizationsLazyQueryHookResult = ReturnType<typeof useOrganizationsLazyQuery>;
 export type OrganizationsQueryResult = Apollo.QueryResult<OrganizationsQuery, OrganizationsQueryVariables>;
+export const CreatePlaceDocument = gql`
+    mutation CreatePlace($input: CreatePlaceMutationInput!) {
+  createPlace(input: $input) @rest(type: "Place", path: "/place/", method: "POST", bodyKey: "input") {
+    ...placeFields
+  }
+}
+    ${PlaceFieldsFragmentDoc}`;
+export type CreatePlaceMutationFn = Apollo.MutationFunction<CreatePlaceMutation, CreatePlaceMutationVariables>;
+
+/**
+ * __useCreatePlaceMutation__
+ *
+ * To run a mutation, you first call `useCreatePlaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePlaceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPlaceMutation, { data, loading, error }] = useCreatePlaceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreatePlaceMutation(baseOptions?: Apollo.MutationHookOptions<CreatePlaceMutation, CreatePlaceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePlaceMutation, CreatePlaceMutationVariables>(CreatePlaceDocument, options);
+      }
+export type CreatePlaceMutationHookResult = ReturnType<typeof useCreatePlaceMutation>;
+export type CreatePlaceMutationResult = Apollo.MutationResult<CreatePlaceMutation>;
+export type CreatePlaceMutationOptions = Apollo.BaseMutationOptions<CreatePlaceMutation, CreatePlaceMutationVariables>;
 export const DeletePlaceDocument = gql`
     mutation DeletePlace($id: ID!) {
   deletePlace(id: $id) @rest(type: "NoContent", path: "/place/{args.id}/", method: "DELETE") {
