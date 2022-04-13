@@ -11,21 +11,23 @@ import { checkIsEditActionAllowed } from '../utils';
 
 export type KeywordSetAuthenticationNotificationProps = {
   action: KEYWORD_SET_ACTIONS;
+  className?: string;
   dataSource: string;
 };
 
 const KeywordSetAuthenticationNotification: React.FC<
   KeywordSetAuthenticationNotificationProps
-> = ({ action, dataSource }) => {
+> = ({ action, className, dataSource }) => {
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const adminOrganizations = user?.adminOrganizations || [];
-  const { organization: userOrganization } = useUserOrganization(user);
+  const { organization: userOrganization, loading: loadingUserOrganization } =
+    useUserOrganization(user);
 
   const { t } = useTranslation();
 
   const getNotificationProps = () => {
-    if (authenticated) {
+    if (authenticated && !loadingUserOrganization) {
       if (!adminOrganizations.length) {
         return {
           children: <p>{t('authentication.noRightsUpdateKeywordSet')}</p>,
@@ -52,7 +54,12 @@ const KeywordSetAuthenticationNotification: React.FC<
     return { label: null };
   };
 
-  return <AuthenticationNotification {...getNotificationProps()} />;
+  return (
+    <AuthenticationNotification
+      {...getNotificationProps()}
+      className={className}
+    />
+  );
 };
 
 export default KeywordSetAuthenticationNotification;

@@ -1,16 +1,258 @@
-import { fakePlace } from '../../../utils/mockDataUtils';
-import { getPlaceFields, placePathBuilder, placesPathBuilder } from '../utils';
+import i18n from 'i18next';
+import { LatLng } from 'leaflet';
+
+import {
+  fakeOrganization,
+  fakePlace,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import { PLACE_ACTIONS, PLACE_INITIAL_VALUES } from '../constants';
+import {
+  checkCanUserDoAction,
+  getEditPlaceWarning,
+  getPlaceFields,
+  getPlaceInitialValues,
+  getPlacePayload,
+  placePathBuilder,
+  placesPathBuilder,
+} from '../utils';
 
 describe('getPlaceFields function', () => {
   it('should return default values if value is not set', () => {
-    const { atId, dataSource, id, nEvents } = getPlaceFields(
-      fakePlace({ atId: null, dataSource: null, id: null, nEvents: null }),
+    const { atId, dataSource, id, nEvents, publisher } = getPlaceFields(
+      fakePlace({
+        atId: null,
+        dataSource: null,
+        id: null,
+        nEvents: null,
+        publisher: null,
+      }),
       'fi'
     );
     expect(atId).toBe('');
     expect(dataSource).toBe('');
     expect(id).toBe('');
     expect(nEvents).toBe(0);
+    expect(publisher).toBe('');
+  });
+});
+
+describe('getPlacePayload function', () => {
+  it('should return correct position', () => {
+    const { position } = getPlacePayload({
+      ...PLACE_INITIAL_VALUES,
+      coordinates: new LatLng(24.924889, 60.159661),
+    });
+    expect(position).toEqual({
+      type: 'Point',
+      coordinates: [60.159661, 24.924889],
+    });
+
+    const { position: positionNull } = getPlacePayload({
+      ...PLACE_INITIAL_VALUES,
+      coordinates: null,
+    });
+    expect(positionNull).toBe(null);
+  });
+});
+
+describe('getPlaceInitialValues function', () => {
+  it('should return default values if value is not set', () => {
+    expect(
+      getPlaceInitialValues(
+        fakePlace({
+          addressLocality: null,
+          addressRegion: null,
+          contactType: null,
+          dataSource: null,
+          description: null,
+          email: null,
+          id: null,
+          infoUrl: null,
+          name: null,
+          postOfficeBoxNum: null,
+          postalCode: null,
+          publisher: null,
+          streetAddress: null,
+          telephone: null,
+        })
+      )
+    ).toEqual({
+      addressLocality: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      addressRegion: '',
+      contactType: '',
+      coordinates: null,
+      dataSource: '',
+      description: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      email: '',
+      id: '',
+      infoUrl: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      name: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      originId: '',
+      postOfficeBoxNum: '',
+      postalCode: '',
+      publisher: '',
+      streetAddress: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+      telephone: {
+        ar: '',
+        en: '',
+        fi: '',
+        ru: '',
+        sv: '',
+        zhHans: '',
+      },
+    });
+  });
+});
+
+describe('checkCanUserDoAction function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
+  it('should allow correct actions if adminArganizations contains publisher', () => {
+    const user = fakeUser({ adminOrganizations: [publisher] });
+
+    const allowedActions = [
+      PLACE_ACTIONS.CREATE,
+      PLACE_ACTIONS.DELETE,
+      PLACE_ACTIONS.EDIT,
+      PLACE_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if organizationAncestores contains any of the adminArganizations', () => {
+    const adminOrganization = 'admin:1';
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    const allowedActions = [
+      PLACE_ACTIONS.CREATE,
+      PLACE_ACTIONS.DELETE,
+      PLACE_ACTIONS.EDIT,
+      PLACE_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [fakeOrganization({ id: adminOrganization })],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if publisher is not defined and user has at least one admin organization', () => {
+    const adminOrganization = 'admin:1';
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    const allowedActions = [PLACE_ACTIONS.CREATE, PLACE_ACTIONS.EDIT];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher: '',
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+});
+
+describe('getEditPlaceWarning function', () => {
+  it('should return correct warning if user is not authenticated', () => {
+    const allowedActions = [PLACE_ACTIONS.EDIT];
+
+    const commonProps = {
+      authenticated: false,
+      t: i18n.t.bind(i18n),
+      userCanDoAction: false,
+    };
+
+    allowedActions.forEach((action) => {
+      expect(getEditPlaceWarning({ action, ...commonProps })).toBe('');
+    });
+
+    const deniedActions = [
+      PLACE_ACTIONS.CREATE,
+      PLACE_ACTIONS.DELETE,
+      PLACE_ACTIONS.UPDATE,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(getEditPlaceWarning({ action, ...commonProps })).toBe(
+        'Sinulla ei ole oikeuksia muokata paikkoja.'
+      );
+    });
+  });
+
+  it('should return correct warning if user cannot do action', () => {
+    expect(
+      getEditPlaceWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: PLACE_ACTIONS.CREATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia luoda paikkoja.');
+
+    expect(
+      getEditPlaceWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: PLACE_ACTIONS.UPDATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia muokata tätä paikkaa.');
   });
 });
 

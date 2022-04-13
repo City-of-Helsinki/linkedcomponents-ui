@@ -23,6 +23,8 @@
     "noRightsUpdateKeywordSetLabel": "Ei oikeuksia muokata avainsanaryhmiä.",
     "noRightsUpdateOrganization": "Sinulla ei ole oikeuksia muokata organisaatioita.",
     "noRightsUpdateOrganizationLabel": "Ei oikeuksia muokata organisaatioita.",
+    "noRightsUpdatePlace": "Sinulla ei ole oikeuksia muokata paikkoja.",
+    "noRightsUpdatePlaceLabel": "Ei oikeuksia muokata paikkoja.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
   },
@@ -116,6 +118,69 @@
       "buttonDropImage": "Raahaa ja pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
+    },
+    "leaflet": {
+      "drawLocal": {
+        "draw": {
+          "handlers": {
+            "marker": {
+              "tooltip": {
+                "start": "Klikkaa karttaa määrittääksesi sijainnin."
+              }
+            }
+          }, 
+          "toolbar": {
+            "actions": {
+              "text": "Peruuta",
+              "title": "Peruuta piirtäminen"
+            },
+            "buttons": {
+              "marker": "Piirrä merkki"
+            },
+            "finish": {
+              "text": "Viimeistele",
+              "title": "Viimeistele piirustus"
+            }
+          }
+        },
+        "edit": {
+          "handlers": {
+            "edit": {
+              "tooltip": {
+                "subtext": "Kumoa muutokset napsauttamalla Peruuta",
+                "text": "Muokkaa sijaintia raahaamalla merkkiä."
+              }
+            },
+            "remove": {
+              "tooltip": {
+                "text": "Klikkaa poistettavaa sijaintia."
+              }
+            }
+          },
+          "toolbar": {
+            "actions": {
+              "cancel": {
+                "text": "Peruuta",
+                "title": "Peruuta muokkaus, hylkää kaikki muutokset."
+              },
+              "clearAll": {
+                "text": "Poista kaikki",
+                "title": "Poista kaikki alueet"
+              },
+              "save": {
+                "text": "Tallenna",
+                "title": "Tallenna muutokset"
+              }
+            },
+            "buttons": {
+              "edit": "Muokkaa sijaintia",
+              "editDisabled": "Ei muokattavaa sijaintia",
+              "remove":"Poista sijainti",
+              "removeDisabled":"Ei poistettavaa sijaintia"
+            }
+          }
+        }
+      }
     },
     "loading": "Ladataan...",
     "loadingFinished": "Lataaminen päättynyt",
@@ -217,6 +282,10 @@
     "pageTitle": "Lisää organisaatio",
     "title": "Lisää organisaatio"
   },
+  "createPlacePage": {
+    "pageTitle": "Lisää paikka",
+    "title": "Lisää paikka"
+  },
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"
@@ -235,6 +304,10 @@
   "editOrganizationPage": {
     "pageTitle": "Muokkaa organisaatiota",
     "title": "Muokkaa organisaatiota"
+  },
+  "editPlacePage": {
+    "pageTitle": "Muokkaa paikkaa",
+    "title": "Muokkaa paikkaa"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1433,7 +1506,38 @@
     "title": "Organisaatiot",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä organisaatiota."
   },
+  "place": {
+    "deletePlaceModal": {
+      "buttonDelete": "Poista paikka",
+      "text": "Tämä toiminto poistaa paikan lopullisesti.",
+      "title": "Varmista paikan poistaminen"
+    },
+    "form": {
+      "buttonDelete": "Poista paikka",
+      "labelAddressLocality": "Postitoimipaikka ({{langText}})",
+      "labelAddressRegion": "Osoitealue",
+      "labelContactType": "Yhteystiedon tyyppi",
+      "labelDataSource": "Datan lähde",
+      "labelDescription": "Kuvaus ({{langText}})",
+      "labelEmail": "Sähköposti",
+      "labelId": "ID",
+      "labelInfoUrl": "Paikan kotisivu ({{langText}})",
+      "labelName": "Nimi",
+      "labelOriginId": "Lähdetunniste",
+      "labelPostalCode": "Postinumero",
+      "labelPostOfficeBoxNum": "Postilokero",
+      "labelPublisher": "Julkaisija",
+      "labelStreetAddress": "Katuosoite ({{langText}})",
+      "labelTelephone": "Puhelinnumero ({{langText}})",
+      "notificationTitleCannotEdit": "Paikkaa ei voi muokata",
+      "titleContactInfo": "Yhteystiedot",
+      "titleLocation": "Sijainti"
+    }
+  },
   "placesPage": {
+    "actionButtons": {
+      "edit": "Muokkaa paikkaa"
+    },
     "count": "{{count}} paikka",
     "count_other": "{{count}} paikkaa",
     "labelSearch": "Hae paikkoja",
@@ -1455,7 +1559,9 @@
       "streetAddress": "Katuosoite, nouseva",
       "streetAddressDesc": "Katuosoite, laskeva"
     },
-    "title": "Paikat"
+    "title": "Paikat",
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda paikkoja.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä paikkaa."
   },
   "registration": {
     "deleteRegistrationModal": {

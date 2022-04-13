@@ -12,12 +12,14 @@ module.exports = buildSchema(/* GraphQL */ `
     createKeyword(input: CreateKeywordMutationInput!): Keyword!
     createKeywordSet(input: CreateKeywordSetMutationInput!): KeywordSet!
     createOrganization(input: CreateOrganizationMutationInput!): Organization!
+    createPlace(input: CreatePlaceMutationInput!): Place!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
     deleteKeywordSet(id: ID!): NoContent
     deleteOrganization(id: ID!): NoContent
+    deletePlace(id: ID!): NoContent
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
@@ -29,6 +31,7 @@ module.exports = buildSchema(/* GraphQL */ `
     updateKeyword(input: UpdateKeywordMutationInput!): Keyword!
     updateKeywordSet(input: UpdateKeywordSetMutationInput!): KeywordSet!
     updateOrganization(input: UpdateOrganizationMutationInput!): Organization!
+    updatePlace(input: UpdatePlaceMutationInput!): Place!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
   }
 
@@ -383,6 +386,48 @@ module.exports = buildSchema(/* GraphQL */ `
     subOrganizations: [String]
   }
 
+  input CreatePlaceMutationInput {
+    addressLocality: LocalisedObjectInput
+    addressRegion: String
+    contactType: String
+    dataSource: String
+    description: LocalisedObjectInput
+    email: String
+    id: String
+    infoUrl: LocalisedObjectInput
+    name: LocalisedObjectInput
+    originId: String
+    position: PositionInput
+    postalCode: String
+    postOfficeBoxNum: String
+    publisher: String
+    streetAddress: LocalisedObjectInput
+    telephone: LocalisedObjectInput
+  }
+
+  input UpdatePlaceMutationInput {
+    addressLocality: LocalisedObjectInput
+    addressRegion: String
+    contactType: String
+    dataSource: String
+    description: LocalisedObjectInput
+    email: String
+    id: String
+    infoUrl: LocalisedObjectInput
+    name: LocalisedObjectInput
+    position: PositionInput
+    postalCode: String
+    postOfficeBoxNum: String
+    publisher: String
+    streetAddress: LocalisedObjectInput
+    telephone: LocalisedObjectInput
+  }
+
+  input PositionInput {
+    coordinates: [Float]!
+    type: String
+  }
+
   input CreateRegistrationMutationInput {
     audienceMaxAge: Int
     audienceMinAge: Int
@@ -651,7 +696,7 @@ module.exports = buildSchema(/* GraphQL */ `
     customData: String
     dataSource: String
     deleted: Boolean
-    description: String
+    description: LocalisedObject
     divisions: [Division]!
     email: String
     hasUpcomingEvents: Boolean

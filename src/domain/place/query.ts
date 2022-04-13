@@ -19,7 +19,12 @@ export const QUERY_PLACE = gql`
     addressLocality {
       ...localisedFields
     }
+    addressRegion
+    contactType
     dataSource
+    description {
+      ...localisedFields
+    }
     divisions {
       ...divisionFields
     }
@@ -32,7 +37,9 @@ export const QUERY_PLACE = gql`
       ...localisedFields
     }
     nEvents
+    publisher
     postalCode
+    postOfficeBoxNum
     streetAddress {
       ...localisedFields
     }

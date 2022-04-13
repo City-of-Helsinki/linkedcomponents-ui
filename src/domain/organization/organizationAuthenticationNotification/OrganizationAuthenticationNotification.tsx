@@ -11,12 +11,13 @@ import { checkIsEditActionAllowed } from '../utils';
 
 export type OrganizationAuthenticationNotificationProps = {
   action: ORGANIZATION_ACTIONS;
+  className?: string;
   id: string;
 };
 
 const OrganizationAuthenticationNotification: React.FC<
   OrganizationAuthenticationNotificationProps
-> = ({ action, id }) => {
+> = ({ action, className, id }) => {
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const adminOrganizations = user?.adminOrganizations || [];
@@ -53,7 +54,12 @@ const OrganizationAuthenticationNotification: React.FC<
     return { label: null };
   };
 
-  return <AuthenticationNotification {...getNotificationProps()} />;
+  return (
+    <AuthenticationNotification
+      {...getNotificationProps()}
+      className={className}
+    />
+  );
 };
 
 export default OrganizationAuthenticationNotification;

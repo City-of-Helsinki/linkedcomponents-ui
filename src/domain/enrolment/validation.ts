@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 
 import { VALIDATION_ERROR_SCROLLER_OPTIONS } from '../../constants';
 import {
-  createMinErrorMessage,
+  createArrayMinErrorMessage,
   isValidPhoneNumber,
   isValidZip,
 } from '../../utils/validationUtils';
@@ -123,9 +123,7 @@ export const enrolmentSchema = Yup.object().shape({
     ),
   [ENROLMENT_FIELDS.NOTIFICATIONS]: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-    .min(1, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
-    ),
+    .min(1, createArrayMinErrorMessage),
   [ENROLMENT_FIELDS.NATIVE_LANGUAGE]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),

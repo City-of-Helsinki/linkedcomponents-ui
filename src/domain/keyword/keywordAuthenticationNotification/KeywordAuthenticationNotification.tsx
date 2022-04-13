@@ -11,12 +11,13 @@ import { checkIsEditActionAllowed } from '../utils';
 
 export type KeywordAuthenticationNotificationProps = {
   action: KEYWORD_ACTIONS;
+  className?: string;
   publisher: string;
 };
 
 const KeywordAuthenticationNotification: React.FC<
   KeywordAuthenticationNotificationProps
-> = ({ action, publisher }) => {
+> = ({ action, className, publisher }) => {
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const adminOrganizations = user?.adminOrganizations || [];
@@ -53,7 +54,12 @@ const KeywordAuthenticationNotification: React.FC<
     return { label: null };
   };
 
-  return <AuthenticationNotification {...getNotificationProps()} />;
+  return (
+    <AuthenticationNotification
+      {...getNotificationProps()}
+      className={className}
+    />
+  );
 };
 
 export default KeywordAuthenticationNotification;

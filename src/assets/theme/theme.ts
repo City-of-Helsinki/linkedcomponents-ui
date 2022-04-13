@@ -309,7 +309,7 @@ const theme: Theme = {
     '--modal-heading-color-info': 'var(--color-white)',
   },
   navigation: {
-    '--header-z-index': 102,
+    '--header-z-index': 1001,
     '--header-background-color': 'var(--color-coat-of-arms)',
     '--header-color': 'var(--color-white)',
     '--header-divider-color': 'var(--color-black-20)',

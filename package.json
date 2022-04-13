@@ -15,6 +15,8 @@
     "@types/draftjs-to-html": "^0.8.1",
     "@types/faker": "^5.5.9",
     "@types/html-to-draftjs": "^1.4.0",
+    "@types/leaflet": "^1.7.9",
+    "@types/leaflet-draw": "^1.0.5",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.43",
     "@types/react-dom": "^17.0.14",
@@ -50,6 +52,8 @@
     "html-to-draftjs": "^1.5.0",
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.4",
+    "leaflet": "^1.7.1",
+    "leaflet-draw": "^1.0.4",
     "node-sass": "^5.0.0",
     "object-keys-normalizer": "^1.0.1",
     "oidc-client": "^1.11.5",
@@ -59,6 +63,8 @@
     "react-draft-wysiwyg": "^1.14.7",
     "react-helmet": "^6.1.0",
     "react-i18next": "^11.16.2",
+    "react-leaflet": "^3.2.5",
+    "react-leaflet-draw": "^0.19.8",
     "react-modal": "^3.14.4",
     "react-redux": "^7.2.6",
     "react-router": "^6.2.2",
@@ -112,6 +118,7 @@
       "src/index.tsx",
       "src/common/components/datepicker/datepickerContext.tsx",
       "src/common/components/sideNavigation/SideNavigationContext.tsx",
+      "src/common/components/map/",
       "src/domain/app/apollo/apolloClient.ts",
       "src/domain/app/apollo/utils.ts",
       "src/domain/app/hooks/useApiToken.tsx",
@@ -132,18 +139,11 @@
       "src/utils/typescript.ts"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@graphql-codegen/cli": "^1.21.8",

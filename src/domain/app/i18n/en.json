@@ -23,6 +23,8 @@
     "noRightsUpdateKeywordSetLabel": "No permissions to edit keyword sets.",
     "noRightsUpdateOrganization": "You do not have permission to edit organizations.",
     "noRightsUpdateOrganizationLabel": "No permissions to edit organizations.",
+    "noRightsUpdatePlace": "You do not have permission to edit places.",
+    "noRightsUpdatePlaceLabel": "No permissions to edit places.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
   },
@@ -115,6 +117,69 @@
       "buttonDropImage": "Drag and drop and image to this area or browse from your hard drive by clicking",
       "notAllowedFileFormat": "File format is not supported",
       "tooLargeFileSize": "File size is too large. The maximum file size is {{maxSize}} MB"
+    },
+    "leaflet": {
+      "drawLocal": {
+        "draw": {
+          "handlers": {
+            "marker": {
+              "tooltip": {
+                "start": "Click on the map to set the location."
+              }
+            }
+          }, 
+          "toolbar": {
+            "actions": {
+              "text": "Cancel",
+              "title": "Cancel drawing"
+            },
+            "buttons": {
+              "marker": "Draw a marker"
+            },
+            "finish": {
+              "text": "Finish",
+              "title": "Finish drawing"
+            }
+          }
+        },
+        "edit": {
+          "handlers": {
+            "edit": {
+              "tooltip": {
+                "subtext": "Click Cancel to discard your changes",
+                "text": "Drag the marker to edit the location."
+              }
+            },
+            "remove": {
+              "tooltip": {
+                "text": "Click the location you want to delete."
+              }
+            }
+          },
+          "toolbar": {
+            "actions": {
+              "cancel": {
+                "text": "Cancel",
+                "title": "Cancel edit, discard all changes."
+              },
+              "clearAll": {
+                "text": "Clear all",
+                "title": "Clear all location"
+              },
+              "save": {
+                "text": "Save",
+                "title": "Save changes"
+              }
+            },
+            "buttons": {
+              "edit": "Edit location",
+              "editDisabled": "No location to edit",
+              "remove":"Delete location",
+              "removeDisabled":"No location to delete"
+            }
+          }
+        }
+      }
     },
     "loading": "Loading...",
     "loadingFinished": "Loading finished",
@@ -216,6 +281,10 @@
     "pageTitle": "Add organization",
     "title": "Add organization"
   },
+  "createPlacePage": {
+    "pageTitle": "Add place",
+    "title": "Add place"
+  },
   "createRegistrationPage": {
     "page": "New registration",
     "title": "New registration"
@@ -234,6 +303,10 @@
   "editOrganizationPage": {
     "pageTitle": "Edit organization",
     "title": "Edit organization"
+  },
+  "editPlacePage": {
+    "pageTitle": "Edit place",
+    "title": "Edit place"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1433,7 +1506,38 @@
     "title": "Organizations",
     "warningNoRightsToEdit": "You have insufficient rights to edit this organization."
   },
+  "place": {
+    "deletePlaceModal": {
+      "buttonDelete": "Delete place",
+      "text": "This action will permanently remove the place.",
+      "title": "Confirm place deletion"
+    },
+    "form": {
+      "buttonDelete": "Delete place",
+      "labelAddressLocality": "Address locality ({{langText}})",
+      "labelAddressRegion": "Address region",
+      "labelContactType": "Contact type",
+      "labelDataSource": "Data source",
+      "labelDescription": "Description ({{langText}})",
+      "labelEmail": "Email",
+      "labelId": "ID",
+      "labelInfoUrl": "Website of place ({{langText}})",
+      "labelName": "Name",
+      "labelOriginId": "Origin ID",
+      "labelPostalCode": "Postal code",
+      "labelPostOfficeBoxNum": "PO Box",
+      "labelPublisher": "Publisher",
+      "labelStreetAddress": "Street address ({{langText}})",
+      "labelTelephone": "Telephone number ({{langText}})",
+      "notificationTitleCannotEdit": "The place cannot be edited",
+      "titleContactInfo": "Contact info",
+      "titleLocation": "Position"
+    }
+  },
   "placesPage": {
+    "actionButtons": {
+      "edit": "Edit place"
+    },
     "count": "{{count}} place",
     "count_other": "{{count}} places",
     "labelSearch": "Search places",
@@ -1455,7 +1559,9 @@
       "streetAddress": "Street address, ascending",
       "streetAddressDesc": "Street address, descending"
     },
-    "title": "Places"
+    "title": "Places",
+    "warningNoRightsToCreate": "You have insufficient rights to create places.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this place."
   },
   "registration": {
     "deleteRegistrationModal": {

@@ -36,6 +36,10 @@ import {
   organizationId,
 } from '../../../organization/__mocks__/organization';
 import {
+  mockedPlaceResponse,
+  place,
+} from '../../../place/__mocks__/editPlacePage';
+import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../../registration/__mocks__/editRegistrationPage';
@@ -54,6 +58,7 @@ const mocks = [
   mockedKeywordResponse,
   mockedKeywordSetResponse,
   mockedOrganizationResponse,
+  mockedPlaceResponse,
   mockedPlacesResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
@@ -279,6 +284,27 @@ it('should render places page', async () => {
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /paikat/i });
   expect(history.location.pathname).toBe('/fi/admin/places');
+});
+
+it('should render create place page', async () => {
+  const { history } = renderRoute(ROUTES.CREATE_PLACE);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /lisää paikka/i });
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/places/create`)
+  );
+});
+
+it('should render edit place page', async () => {
+  const id = place.id;
+  const { history } = renderRoute(`${ROUTES.EDIT_PLACE.replace(':id', id)}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /muokkaa paikkaa/i });
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/admin/places/edit/${id}`)
+  );
 });
 
 it('should route to default help page', async () => {

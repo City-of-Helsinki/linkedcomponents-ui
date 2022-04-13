@@ -84,6 +84,7 @@ export const supportedLanguages = Object.values(SUPPORTED_LANGUAGES);
 export const DEFAULT_LANGUAGE = SUPPORTED_LANGUAGES.FI;
 
 export enum CHARACTER_LIMITS {
+  EXTRA_SHORT_STRING = 128,
   SHORT_STRING = 160,
   MEDIUM_STRING = 255,
   LONG_STRING = 5000,
@@ -157,6 +158,9 @@ export const SWAGGER_URL =
 export const SWAGGER_SCHEMA_URL =
   process.env.REACT_APP_SWAGGER_SCHEMA_URL ||
   'https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml';
+
+export const LINKED_EVENTS_SYSTEM_DATA_SOURCE =
+  process.env.REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE || 'helsinki';
 
 export const TEST_USER_ID = 'user:1';
 

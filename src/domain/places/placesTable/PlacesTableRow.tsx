@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { PlaceFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { getPlaceFields, getPlaceItemId } from '../../place/utils';
+import PlaceActionsDropdown from '../placeActionsDropdown/PlaceActionsDropdown';
 import styles from './placesTable.module.scss';
 
 interface Props {
@@ -64,7 +65,9 @@ const PlacesTableRow: React.FC<Props> = ({ onRowClick, place }) => {
         <td className={styles.nameColumn}>{name}</td>
         <td className={styles.nEventsColumn}>{nEvents}</td>
         <td className={styles.streetAddressColumn}>{streetAddress}</td>
-        <td className={styles.actionButtonsColumn}></td>
+        <td className={styles.actionButtonsColumn}>
+          <PlaceActionsDropdown ref={actionsDropdownRef} place={place} />
+        </td>
       </tr>
     </>
   );

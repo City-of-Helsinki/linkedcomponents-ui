@@ -1,18 +1,33 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { TFunction } from 'i18next';
+import { LatLng } from 'leaflet';
 
-import { ROUTES } from '../../constants';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE, ROUTES } from '../../constants';
 import {
+  CreatePlaceMutationInput,
+  OrganizationFieldsFragment,
   PlaceDocument,
   PlaceFieldsFragment,
   PlaceQuery,
   PlaceQueryVariables,
   PlacesQueryVariables,
+  UserFieldsFragment,
 } from '../../generated/graphql';
-import { Language, PathBuilderProps } from '../../types';
+import { Editability, Language, PathBuilderProps } from '../../types';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
-import { PlaceFields } from './types';
+import { isAdminUserInOrganization } from '../organization/utils';
+import {
+  AUTHENTICATION_NOT_NEEDED,
+  PLACE_ACTION_ICONS,
+  PLACE_ACTION_LABEL_KEYS,
+  PLACE_ACTIONS,
+  PLACE_FORM_SELECT_FIELDS,
+} from './constants';
+import { PlaceFields, PlaceFormFields } from './types';
 
 export const getPlaceItemId = (id: string): string => `place-item-${id}`;
 
@@ -30,7 +45,55 @@ export const getPlaceFields = (
     name: getLocalisedString(place.name, locale),
     nEvents: place.nEvents ?? 0,
     placeUrl: `/${locale}${ROUTES.EDIT_PLACE.replace(':id', id)}`,
+    publisher: place.publisher ?? '',
     streetAddress: getLocalisedString(place.streetAddress, locale),
+  };
+};
+
+export const getPlaceInitialValues = (
+  place: PlaceFieldsFragment
+): PlaceFormFields => {
+  const id = place.id ?? '';
+
+  return {
+    addressLocality: getLocalisedObject(place.addressLocality),
+    addressRegion: place.addressRegion ?? '',
+    coordinates: place.position?.coordinates
+      ? new LatLng(
+          place.position?.coordinates[1] as number,
+          place.position?.coordinates[0] as number
+        )
+      : null,
+    contactType: place.contactType ?? '',
+    dataSource: place.dataSource ?? '',
+    description: getLocalisedObject(place.description),
+    email: place.email ?? '',
+    id,
+    infoUrl: getLocalisedObject(place.infoUrl),
+    name: getLocalisedObject(place.name),
+    originId: id.split(':')[1] ?? '',
+    postOfficeBoxNum: place.postOfficeBoxNum ?? '',
+    postalCode: place.postalCode ?? '',
+    publisher: place.publisher ?? '',
+    streetAddress: getLocalisedObject(place.streetAddress),
+    telephone: getLocalisedObject(place.telephone),
+  };
+};
+
+export const getPlacePayload = (
+  formValues: PlaceFormFields
+): CreatePlaceMutationInput => {
+  const { coordinates, originId, id, ...restFormValues } = formValues;
+  const dataSource = formValues.dataSource || LINKED_EVENTS_SYSTEM_DATA_SOURCE;
+
+  return {
+    ...restFormValues,
+    dataSource,
+    id: id || (originId ? `${dataSource}:${originId}` : undefined),
+    originId,
+    position: coordinates
+      ? { type: 'Point', coordinates: [coordinates?.lng, coordinates?.lat] }
+      : null,
   };
 };
 
@@ -104,4 +167,161 @@ export const getPlaceQueryResult = async (
   } catch (e) /* istanbul ignore next */ {
     return null;
   }
+};
+
+export const checkCanUserDoAction = ({
+  action,
+  organizationAncestors,
+  publisher,
+  user,
+}: {
+  action: PLACE_ACTIONS;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
+  user?: UserFieldsFragment;
+}): boolean => {
+  /* istanbul ignore next */
+  const adminOrganizations = user?.adminOrganizations ?? [];
+  const isAdminUser = isAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
+
+  switch (action) {
+    case PLACE_ACTIONS.EDIT:
+      return true;
+    case PLACE_ACTIONS.CREATE:
+      return publisher ? isAdminUser : !!adminOrganizations.length;
+    case PLACE_ACTIONS.DELETE:
+    case PLACE_ACTIONS.UPDATE:
+      return isAdminUser;
+  }
+};
+
+export const getEditPlaceWarning = ({
+  action,
+  authenticated,
+  t,
+  userCanDoAction,
+}: {
+  action: PLACE_ACTIONS;
+  authenticated: boolean;
+  t: TFunction;
+  userCanDoAction: boolean;
+}): string => {
+  if (AUTHENTICATION_NOT_NEEDED.includes(action)) {
+    return '';
+  }
+
+  if (!authenticated) {
+    return t('authentication.noRightsUpdatePlace');
+  }
+
+  if (!userCanDoAction) {
+    switch (action) {
+      case PLACE_ACTIONS.CREATE:
+        return t('placesPage.warningNoRightsToCreate');
+      default:
+        return t('placesPage.warningNoRightsToEdit');
+    }
+  }
+
+  return '';
+};
+
+export const checkIsEditActionAllowed = ({
+  action,
+  authenticated,
+  organizationAncestors,
+  publisher,
+  t,
+  user,
+}: {
+  action: PLACE_ACTIONS;
+  authenticated: boolean;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): Editability => {
+  const userCanDoAction = checkCanUserDoAction({
+    action,
+    organizationAncestors,
+    publisher,
+    user,
+  });
+
+  const warning = getEditPlaceWarning({
+    action,
+    authenticated,
+    t,
+    userCanDoAction,
+  });
+
+  return { editable: !warning, warning };
+};
+
+export const getEditButtonProps = ({
+  action,
+  authenticated,
+  onClick,
+  organizationAncestors,
+  publisher,
+  t,
+  user,
+}: {
+  action: PLACE_ACTIONS;
+  authenticated: boolean;
+  onClick: () => void;
+  organizationAncestors: OrganizationFieldsFragment[];
+  publisher: string;
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): MenuItemOptionProps => {
+  const { editable, warning } = checkIsEditActionAllowed({
+    action,
+    authenticated,
+    organizationAncestors,
+    publisher,
+    t,
+    user,
+  });
+
+  return {
+    disabled: !editable,
+    icon: PLACE_ACTION_ICONS[action],
+    label: t(PLACE_ACTION_LABEL_KEYS[action]),
+    onClick,
+    title: warning,
+  };
+};
+
+/* istanbul ignore next */
+export const clearPlaceQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>,
+  args?: PlaceQueryVariables
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'place',
+    args,
+  });
+
+/* istanbul ignore next */
+export const clearPlacesQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'places',
+  });
+
+export const getFocusableFieldId = (fieldName: string): string => {
+  // For the select elements, focus the toggle button
+  if (PLACE_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
+    return `${fieldName}-toggle-button`;
+  }
+
+  return fieldName;
 };

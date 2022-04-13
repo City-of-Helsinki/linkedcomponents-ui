@@ -67,8 +67,11 @@ import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
 import {
-  createMaxErrorMessage,
-  createMinErrorMessage,
+  createArrayMinErrorMessage,
+  createNumberMaxErrorMessage,
+  createNumberMinErrorMessage,
+  createStringMaxErrorMessage,
+  createStringMinErrorMessage,
   isAfterStartDate,
   isAfterStartTime,
   isMinStartDate,
@@ -225,17 +228,11 @@ const externalLinksSchema = Yup.array().of(
 const imageDetailsSchema = Yup.object().shape({
   [IMAGE_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .min(IMAGE_ALT_TEXT_MIN_LENGTH, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MIN)
-    )
-    .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
-      createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-    ),
+    .min(IMAGE_ALT_TEXT_MIN_LENGTH, createStringMinErrorMessage)
+    .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage),
   [IMAGE_DETAILS_FIELDS.NAME]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .max(CHARACTER_LIMITS.MEDIUM_STRING, (param) =>
-      createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-    ),
+    .max(CHARACTER_LIMITS.MEDIUM_STRING, createStringMaxErrorMessage),
 });
 
 const validateImageDetails = (
@@ -293,9 +290,7 @@ const validateMainCategories = (
 const enrolmentSchemaFields = {
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-    )
+    .min(0, createNumberMinErrorMessage)
     .nullable()
     .transform(transformNumber),
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
@@ -303,9 +298,7 @@ const enrolmentSchemaFields = {
     .when(
       [EVENT_FIELDS.AUDIENCE_MIN_AGE],
       (audienceMinAge: number, schema: Yup.NumberSchema) =>
-        schema.min(audienceMinAge || 0, (param) =>
-          createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-        )
+        schema.min(audienceMinAge || 0, createNumberMinErrorMessage)
     )
     .nullable()
     .transform(transformNumber),
@@ -319,9 +312,7 @@ const enrolmentSchemaFields = {
     .when([EVENT_FIELDS.ENROLMENT_START_TIME], isMinStartDate),
   [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-    )
+    .min(0, createNumberMinErrorMessage)
     .nullable()
     .transform(transformNumber),
   [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
@@ -329,9 +320,7 @@ const enrolmentSchemaFields = {
     (minimumAttendeeCapacity: number) => {
       return Yup.number()
         .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-        .min(minimumAttendeeCapacity || 0, (param) =>
-          createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-        )
+        .min(minimumAttendeeCapacity || 0, createNumberMinErrorMessage)
         .nullable()
         .transform(transformNumber);
     }
@@ -359,16 +348,12 @@ export const publicEventSchema = Yup.object().shape({
     createMultiLanguageValidationByInfoLanguages(
       Yup.string()
         .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-        .max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
-          createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-        )
+        .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
     ),
   [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
     Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .max(CHARACTER_LIMITS.LONG_STRING, (param) =>
-        createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
-      )
+      .max(CHARACTER_LIMITS.LONG_STRING, createStringMaxErrorMessage)
   ),
   [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
   [EVENT_FIELDS.LOCATION]: Yup.string()
@@ -376,8 +361,9 @@ export const publicEventSchema = Yup.object().shape({
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   [EVENT_FIELDS.LOCATION_EXTRA_INFO]:
     createMultiLanguageValidationByInfoLanguages(
-      Yup.string().max(CHARACTER_LIMITS.SHORT_STRING, (param) =>
-        createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.STRING_MAX)
+      Yup.string().max(
+        CHARACTER_LIMITS.SHORT_STRING,
+        createStringMaxErrorMessage
       )
     ),
   [EVENT_FIELDS.OFFERS]: Yup.array().when(
@@ -447,18 +433,12 @@ export const draftEventSchema = Yup.object().shape({
 export const recurringEventSchema = Yup.object().shape({
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
     .nullable()
-    .min(1, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MIN)
-    )
-    .max(4, (param) =>
-      createMaxErrorMessage(param, VALIDATION_MESSAGE_KEYS.NUMBER_MAX)
-    )
+    .min(1, createNumberMinErrorMessage)
+    .max(4, createNumberMaxErrorMessage)
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-    .min(1, (param) =>
-      createMinErrorMessage(param, VALIDATION_MESSAGE_KEYS.ARRAY_MIN)
-    ),
+    .min(1, createArrayMinErrorMessage),
   [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)

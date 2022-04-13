@@ -201,11 +201,10 @@ export const getUrlUtils = (t: TestController) => {
       await t
         .expect(getPathname())
         .eql(`/fi/admin/places/edit/${place.id}`, await getErrorMessage(t));
-      // TODO: Uncomment when edit place page is implemented
-      // await pageIsLoaded();
-      // await t
-      //   .expect(getPageTitle())
-      //   .eql(`Muokkaa paikkaa - Linked Events`, await getErrorMessage(t));
+      await pageIsLoaded();
+      await t
+        .expect(getPageTitle())
+        .eql(`Muokkaa paikkaa - Linked Events`, await getErrorMessage(t));
     },
     async urlChangedToPlatformPage() {
       await t

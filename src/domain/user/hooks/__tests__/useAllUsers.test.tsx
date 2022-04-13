@@ -19,7 +19,10 @@ const userNames = range(1, PAGE_SIZE + 1).map((n) => `User name ${n}`);
 const page2UserNames = range(1, PAGE_SIZE + 1).map((n) => `Page 2 user ${n}`);
 const users = fakeUsers(
   userNames.length,
-  userNames.map((displayName) => ({ displayName }))
+  userNames.map((displayName, index) => ({
+    displayName,
+    username: `user:${index}`,
+  }))
 );
 const count = userNames.length + page2UserNames.length;
 const meta: Meta = { ...users.meta, count };
@@ -41,7 +44,10 @@ const mockedUsersResponse = {
 
 const page2Users = fakeUsers(
   page2UserNames.length,
-  page2UserNames.map((displayName) => ({ displayName }))
+  page2UserNames.map((displayName, index) => ({
+    displayName,
+    username: `user:${index + PAGE_SIZE}`,
+  }))
 );
 const page2UsersVariables = { ...usersVariables, page: 2 };
 const page2UsersResponse = {

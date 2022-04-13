@@ -44,7 +44,11 @@ const renderComponent = (
 const findElement = (key: 'saveButton') => {
   switch (key) {
     case 'saveButton':
-      return screen.findByRole('button', { name: 'Tallenna' });
+      return screen.findByRole(
+        'button',
+        { name: 'Tallenna' },
+        { timeout: 10000 }
+      );
   }
 };
 

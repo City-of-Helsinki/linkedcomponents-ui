@@ -17,7 +17,6 @@ import {
 } from '../../../../utils/testUtils';
 import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
 import userManager from '../../../auth/userManager';
-import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { KEYWORD_ACTIONS } from '../../constants';
 import KeywordAuthenticationNotification, {
@@ -50,7 +49,7 @@ test("should show notification if user is signed in but doesn't have any organiz
     request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
-  const mocks = [mockedEventResponse, mockedUserResponse];
+  const mocks = [mockedUserResponse];
 
   renderComponent({ mocks, store });
 
@@ -67,7 +66,7 @@ test('should not show notification if user is signed in and has an admin organiz
     request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
-  const mocks = [mockedEventResponse, mockedUserResponse];
+  const mocks = [mockedUserResponse];
 
   renderComponent({ mocks, store });
 
@@ -86,7 +85,7 @@ test('should show notification if user has an admin organization but it is diffe
     request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
-  const mocks = [mockedEventResponse, mockedUserResponse];
+  const mocks = [mockedUserResponse];
 
   renderComponent({ mocks, store });
 

@@ -58,7 +58,10 @@ const useUserOrganizations = (
         setLoading(false);
       }
     };
-    getUserOrganizations();
+
+    if (user) {
+      getUserOrganizations();
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apolloClient, user]);

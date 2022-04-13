@@ -10,6 +10,8 @@ import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
 import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
+import { PLACE_ACTIONS } from '../place/constants';
+import PlaceAuthenticationNotification from '../place/placeAuthenticationNotification/PlaceAuthenticationNotification';
 import useUser from '../user/hooks/useUser';
 import PlaceList from './placeList/PlaceList';
 import styles from './placesPage.module.scss';
@@ -45,6 +47,13 @@ const PlacesPage: React.FC = () => {
         </Breadcrumb.Item>
         <Breadcrumb.Item active={true}>{t('placesPage.title')}</Breadcrumb.Item>
       </Breadcrumb>
+
+      <PlaceAuthenticationNotification
+        action={PLACE_ACTIONS.CREATE}
+        className={styles.notification}
+        publisher=""
+      />
+
       <PlaceList />
     </div>
   );

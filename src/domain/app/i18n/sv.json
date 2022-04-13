@@ -23,6 +23,8 @@
     "noRightsUpdateKeywordSetLabel": "Inga rättigheter att redigera nyckelordsuppsättningar",
     "noRightsUpdateOrganization": "Du har inte behörighet att redigera organisationer.",
     "noRightsUpdateOrganizationLabel": "Inga rättigheter att redigera organisationer",
+    "noRightsUpdatePlace": "Du har inte behörighet att redigera platser.",
+    "noRightsUpdatePlaceLabel": "Inga rättigheter att redigera platser",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
     "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
   },
@@ -116,6 +118,69 @@
       "buttonDropImage": "Dra bilden hit eller klicka för att lägga till den från hårddisken ",
       "notAllowedFileFormat": "Filformatet stöds inte",
       "tooLargeFileSize": "Filstorleken är för stor. Största tillåtna storlek är {{maxSize}} MB"
+    },
+    "leaflet": {
+      "drawLocal": {
+        "draw": {
+          "handlers": {
+            "marker": {
+              "tooltip": {
+                "start": "Klicka på kartan för att fastställa en plats."
+              }
+            }
+          }, 
+          "toolbar": {
+            "actions": {
+              "text": "Avbryt",
+              "title": "Avbryt ritningen"
+            },
+            "buttons": {
+              "marker": "Rita en markör"
+            },
+            "finish": {
+              "text": "Avsluta",
+              "title": "Avsluta ritningen"
+            }
+          }
+        },
+        "edit": {
+          "handlers": {
+            "edit": {
+              "tooltip": {
+                "subtext": "Klicka på Avbryt för att ignorera dina ändringar",
+                "text": "Dra markören för att redigera platsen."
+              }
+            },
+            "remove": {
+              "tooltip": {
+                "text": "Klicka på platsen du vill ta bort."
+              }
+            }
+          },
+          "toolbar": {
+            "actions": {
+              "cancel": {
+                "text": "Avbryt",
+                "title": "Avbryt redigering, ignorera alla ändringar."
+              },
+              "clearAll": {
+                "text": "Ta bort allt",
+                "title": "Ta bort alla områden"
+              },
+              "save": {
+                "text": "Spara",
+                "title": "Spara ändringarna"
+              }
+            },
+            "buttons": {
+              "edit": "Redigera plats",
+              "editDisabled": "Ingen redigerbar plats",
+              "remove":"Ta bort plats",
+              "removeDisabled":"Ingen plats att ta bort"
+            }
+          }
+        }
+      }
     },
     "loading": "Laddar...",
     "loadingFinished": "Laddningen är klar",
@@ -217,6 +282,10 @@
     "pageTitle": "Lägg till organisation",
     "title": "Lägg till organisation"
   },
+  "createPlacePage": {
+    "pageTitle": "Lägg till plats",
+    "title": "Lägg till plats"
+  },
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"
@@ -235,6 +304,10 @@
   "editOrganizationPage": {
     "pageTitle": "Redigera organisation",
     "title": "Redigera organisation"
+  },
+  "editPlacePage": {
+    "pageTitle": "Redigera plats",
+    "title": "Redigera plats"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -386,7 +459,7 @@
       "buttonAddVideo": "Lägg till video",
       "buttonCancel": "Ställ in evenemang",
       "buttonCopy": "Kopiera som mall",
-      "buttonDelete":  "Ta bort evenemang",
+      "buttonDelete":  "Radera evenemang",
       "buttonDeleteEventTime": "Ta bort tidpunkt",
       "buttonDeleteExternalLink": "Ta bort SoMe-länken",
       "buttonDeleteOffer": "Ta bort prisuppgift",
@@ -1433,7 +1506,38 @@
     "title": "Organisationer",
     "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här organisation."
   },
+  "place": {
+    "deletePlaceModal": {
+      "buttonDelete": "Radera plats",
+      "text": "Denna åtgärd tar bort plats permanent.",
+      "title": "Bekräfta raderingen av platsen"
+    },
+    "form": {
+      "buttonDelete": "Radera plats",
+      "labelAddressLocality": "Postdistrikt ({{langText}})",
+      "labelAddressRegion": "Adressregion",
+      "labelContactType": "Kontakt typ",
+      "labelDataSource": "Datakälla",
+      "labelDescription": "Beskrivning ({{langText}})",
+      "labelEmail": "E-postadress",
+      "labelId": "ID",
+      "labelInfoUrl": "Platsens hemsida ({{langText}})",
+      "labelName": "Namn",
+      "labelOriginId": "Ursprungs-ID",
+      "labelPostalCode": "Postnummer",
+      "labelPostOfficeBoxNum": "PO Box",
+      "labelPublisher": "Utgivare",
+      "labelStreetAddress": "Gatuadress ({{langText}})",
+      "labelTelephone": "Telefonnummer ({{langText}})",
+      "notificationTitleCannotEdit": "Platsen kan inte redigeras",
+      "titleContactInfo": "Kontaktinformation",
+      "titleLocation": "Position"
+    }
+  },
   "placesPage": {
+    "actionButtons": {
+      "edit": "Redigera plats"
+    },
     "count": "{{count}} plats",
     "count_other": "{{count}} platser",
     "labelSearch": "Sök platser",
@@ -1455,7 +1559,9 @@
       "streetAddress": "Gatuadress, stigande",
       "streetAddressDesc": "Gatuadress, fallande"
     },
-    "title": "Platser"
+    "title": "Platser",
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa platser.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här plats."
   },
   "registration": {
     "deleteRegistrationModal": {
