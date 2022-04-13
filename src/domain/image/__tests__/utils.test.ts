@@ -61,7 +61,10 @@ describe('getCollectionFields function', () => {
       name: null,
       photographerName: null,
     }) as ImageFieldsFragment;
-    const { altText, license, name, photographerName } = getImageFields(image);
+    const { altText, license, name, photographerName } = getImageFields(
+      image,
+      'fi'
+    );
 
     expect(altText).toBe('');
     expect(license).toBe(DEFAULT_LICENSE_TYPE);
@@ -129,23 +132,16 @@ describe('checkCanUserDoAction function', () => {
 describe('getImageActionWarning function', () => {
   const publisher = TEST_PUBLISHER_ID;
 
-  it('should return correct warning if publisher is empty', () => {
-    const actions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
-    actions.forEach((action) => {
-      expect(
-        getImageActionWarning({
-          action,
-          authenticated: false,
-          publisher: '',
-          t: (s) => i18.t(s),
-          userCanDoAction: false,
-        })
-      ).toBe('Kuvaa ei ole valittu');
-    });
-  });
-
   it('should return correct warning if user is not authenticates', () => {
     const actions = [
+      {
+        action: IMAGE_ACTIONS.CREATE,
+        warning: 'Kirjaudu sisään lisätäksesi kuvia.',
+      },
+      {
+        action: IMAGE_ACTIONS.DELETE,
+        warning: 'Sinulla ei ole oikeuksia muokata kuvia.',
+      },
       {
         action: IMAGE_ACTIONS.UPDATE,
         warning: 'Kirjaudu sisään muokataksesi kuvaa.',
@@ -171,12 +167,20 @@ describe('getImageActionWarning function', () => {
   it('should return correct warning if user is not allowed to do action', () => {
     const actions = [
       {
+        action: IMAGE_ACTIONS.CREATE,
+        warning: 'Sinulla ei ole oikeuksia lisätä kuvia.',
+      },
+      {
+        action: IMAGE_ACTIONS.DELETE,
+        warning: 'Sinulla ei ole oikeuksia muokata tätä kuvaa.',
+      },
+      {
         action: IMAGE_ACTIONS.UPDATE,
-        warning: 'Sinulla ei ole oikeuksia muokata tätä kuvaa',
+        warning: 'Sinulla ei ole oikeuksia muokata tätä kuvaa.',
       },
       {
         action: IMAGE_ACTIONS.UPLOAD,
-        warning: 'Sinulla ei ole oikeuksia lisätä kuvia',
+        warning: 'Sinulla ei ole oikeuksia lisätä kuvia.',
       },
     ];
     actions.forEach(({ action, warning }) => {

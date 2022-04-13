@@ -17,6 +17,8 @@
     "noRightsUpdateEnrolmentLabel": "No permissions to edit participants.",
     "noRightsUpdateEvent": "You do not have permission to edit events.",
     "noRightsUpdateEventLabel": "No permissions to edit events",
+    "noRightsUpdateImage": "You do not have permission to edit images.",
+    "noRightsUpdateImageLabel": "No permissions to edit images.",
     "noRightsUpdateKeyword": "You do not have permission to edit keywords.",
     "noRightsUpdateKeywordLabel": "No permissions to edit keywords.",
     "noRightsUpdateKeywordSet": "You do not have permission to edit keyword sets.",
@@ -50,6 +52,7 @@
     "breadcrumb": "Breadcrumb",
     "buttonActions": "Actions",
     "buttonAddEvent": "Add new event",
+    "buttonAddImage": "Add image",
     "buttonAddKeyword": "Add keyword",
     "buttonAddKeywordSet": "Add keyword set",
     "buttonAddOrganization": "Add new organization",
@@ -1263,11 +1266,40 @@
     }
   },
   "image": {
+    "form": {
+      "buttonDelete": "Delete image",
+      "buttonUpload": "Upload image",
+      "notificationTitleCannotEdit": "The image cannot be edited"
+    },
     "warningLogInToUpdate": "Sign in to edit this image.",
     "warningLogInToUpload": "Sign in to add images.",
     "warningNoImageSelected": "No image selected.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this image.",
     "warningNoRightsToUpdate": "You have insufficient rights to edit this image.",
     "warningNoRightsToUpload": "You have insufficient rights to add images."
+  },
+  "imagesPage": {
+    "actionButtons": {
+      "edit": "Edit image"
+    },
+    "count": "{{count}} image",
+    "count_other": "{{count}} images",
+    "imagesTableCaption": "Images, sorted by {{sort}}",
+    "imagesTableColumns": {
+      "id": "ID",
+      "image": "Image",
+      "lastModifiedTime": "Last modified",
+      "name": "Name"
+    },
+    "labelSearch": "Search images",
+    "pageTitle": "Images",
+    "sortOptions": {
+      "lastModifiedTime": "Last modified, ascending",
+      "lastModifiedTimeDesc": "Last modified, descending"
+    },
+    "title": "Images",
+    "warningNoRightsToCreate": "You have insufficient rights to create images.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this image."
   },
   "keyword": {
     "deleteKeywordModal": {

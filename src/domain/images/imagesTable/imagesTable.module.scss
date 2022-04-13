@@ -1,0 +1,46 @@
+@import 'breakpoints';
+@import 'mixins';
+
+.imageColumn {
+  width: 1%;
+}
+
+.idColumn {
+  width: 20%;
+}
+
+.nameColumn {
+  width: 50%;
+}
+
+.lastModifiedTimeColumn {
+  width: 20%;
+}
+
+.actionButtonsColumn {
+  width: 1px;
+  padding: var(--focus-outline-width) !important;
+}
+
+.imagePreview {
+  --image-preview-background-color: var(--color-black-10);
+  --image-preview-image-size: 100px;
+
+  background-color: var(--image-preview-background-color);
+  display: grid;
+  height: var(--image-preview-image-size);
+  width: var(--image-preview-image-size);
+
+  .image {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .placeholderImage {
+    align-items: center;
+    display: grid;
+    justify-items: center;
+    color: var(--color-black-40);
+  }
+}

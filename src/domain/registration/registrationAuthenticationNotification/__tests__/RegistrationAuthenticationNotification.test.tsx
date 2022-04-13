@@ -15,7 +15,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
 import userManager from '../../../auth/userManager';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { registration } from '../../../registration/__mocks__/registration';
@@ -85,14 +84,4 @@ test('should start sign in process', () => {
 
   userEvent.click(signInButton);
   expect(signinRedirect).toBeCalled();
-});
-
-test('should hide notification when clicking close button', async () => {
-  renderComponent();
-
-  const notification = screen.getByRole('region');
-  const closeButton = screen.getByRole('button', { name: 'Sulje' });
-
-  userEvent.click(closeButton);
-  await waitFor(() => expect(notification).toHaveStyle(hiddenStyles));
 });

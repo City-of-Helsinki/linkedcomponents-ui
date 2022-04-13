@@ -17,23 +17,23 @@ import {
 } from '../../../../utils/testUtils';
 import userManager from '../../../auth/userManager';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
-import { KEYWORD_ACTIONS } from '../../constants';
-import KeywordAuthenticationNotification, {
-  KeywordAuthenticationNotificationProps,
-} from '../KeywordAuthenticationNotification';
+import { IMAGE_ACTIONS } from '../../constants';
+import ImageAuthenticationNotification, {
+  ImageAuthenticationNotificationProps,
+} from '../ImageAuthenticationNotification';
 
 configure({ defaultHidden: true });
 beforeEach(() => clear());
 
 const userVariables = { createPath: undefined, id: TEST_USER_ID };
 
-const props: KeywordAuthenticationNotificationProps = {
-  action: KEYWORD_ACTIONS.UPDATE,
+const props: ImageAuthenticationNotificationProps = {
+  action: IMAGE_ACTIONS.UPDATE,
   publisher: TEST_PUBLISHER_ID,
 };
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
-  render(<KeywordAuthenticationNotification {...props} />, renderOptions);
+  render(<ImageAuthenticationNotification {...props} />, renderOptions);
 
 const storeState = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(storeState);
@@ -52,7 +52,7 @@ test("should show notification if user is signed in but doesn't have any organiz
 
   renderComponent({ mocks, store });
 
-  screen.getByRole('heading', { name: 'Ei oikeuksia muokata avainsanoja.' });
+  screen.getByRole('heading', { name: 'Ei oikeuksia muokata kuvia.' });
 });
 
 test('should not show notification if user is signed in and has an admin organization', async () => {
@@ -88,8 +88,8 @@ test('should show notification if user has an admin organization but it is diffe
 
   renderComponent({ mocks, store });
 
-  await screen.findByRole('heading', { name: 'Avainsanaa ei voi muokata' });
-  screen.getByText('Sinulla ei ole oikeuksia muokata tätä avainsanaa.');
+  await screen.findByRole('heading', { name: 'Kuvaa ei voi muokata' });
+  screen.getByText('Sinulla ei ole oikeuksia muokata tätä kuvaa.');
 });
 
 test('should start sign in process', () => {
