@@ -176,7 +176,7 @@ export const fakeImage = (overrides?: Partial<Image>): Image => {
       url: faker.internet.url(),
       cropping: '59,0,503,444',
       photographerName: faker.name.firstName(),
-      publisher: faker.datatype.uuid(),
+      publisher: TEST_PUBLISHER_ID,
       __typename: 'Image',
     },
     overrides

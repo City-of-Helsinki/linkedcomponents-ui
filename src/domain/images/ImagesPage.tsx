@@ -23,7 +23,7 @@ const KeywordsPage: React.FC = () => {
   const locale = useLocale();
 
   const goToCreateImagePage = () => {
-    navigate(`/${locale}${ROUTES.CREATE_KEYWORD}`);
+    navigate(`/${locale}${ROUTES.CREATE_IMAGE}`);
   };
 
   return (

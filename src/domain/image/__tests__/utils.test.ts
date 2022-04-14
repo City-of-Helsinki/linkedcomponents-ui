@@ -50,26 +50,49 @@ describe('imagesPathBuilder function', () => {
         args: { publisher: 'hel:123' },
       })
     ).toBe('/image/?publisher=hel:123');
+
+    expect(
+      imagesPathBuilder({
+        args: { sort: 'name' },
+      })
+    ).toBe('/image/?sort=name');
+
+    expect(
+      imagesPathBuilder({
+        args: { text: 'test' },
+      })
+    ).toBe('/image/?text=test');
   });
 });
 
-describe('getCollectionFields function', () => {
+describe('getImageFields function', () => {
   it('should return default values if field value is not defined', () => {
     const image = fakeImage({
       altText: null,
+      id: null,
       license: null,
       name: null,
       photographerName: null,
+      url: null,
     }) as ImageFieldsFragment;
-    const { altText, license, name, photographerName } = getImageFields(
-      image,
-      'fi'
-    );
+    const { altText, id, license, name, photographerName, url } =
+      getImageFields(image, 'fi');
 
     expect(altText).toBe('');
+    expect(id).toBe('');
     expect(license).toBe(DEFAULT_LICENSE_TYPE);
     expect(name).toBe('');
     expect(photographerName).toBe('');
+    expect(url).toBe('');
+  });
+
+  it('should return correct last modified time', () => {
+    const image = fakeImage({
+      lastModifiedTime: '2021-12-12',
+    }) as ImageFieldsFragment;
+    const { lastModifiedTime } = getImageFields(image, 'fi');
+
+    expect(lastModifiedTime).toEqual(new Date('2021-12-12'));
   });
 });
 
@@ -79,7 +102,13 @@ describe('checkCanUserDoAction function', () => {
   it('should allow correct actions if adminArganizations contains publisher', () => {
     const user = fakeUser({ adminOrganizations: [publisher] });
 
-    const allowedActions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
+    const allowedActions = [
+      IMAGE_ACTIONS.CREATE,
+      IMAGE_ACTIONS.DELETE,
+      IMAGE_ACTIONS.EDIT,
+      IMAGE_ACTIONS.UPDATE,
+      IMAGE_ACTIONS.UPLOAD,
+    ];
 
     allowedActions.forEach((action) => {
       expect(
@@ -97,7 +126,13 @@ describe('checkCanUserDoAction function', () => {
     const adminOrganization = 'admin:1';
     const user = fakeUser({ adminOrganizations: [adminOrganization] });
 
-    const allowedActions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
+    const allowedActions = [
+      IMAGE_ACTIONS.CREATE,
+      IMAGE_ACTIONS.DELETE,
+      IMAGE_ACTIONS.EDIT,
+      IMAGE_ACTIONS.UPDATE,
+      IMAGE_ACTIONS.UPLOAD,
+    ];
 
     allowedActions.forEach((action) => {
       expect(
@@ -114,7 +149,13 @@ describe('checkCanUserDoAction function', () => {
   it('should allow correct actions if organizationMembers contains publisher', () => {
     const user = fakeUser({ organizationMemberships: [publisher] });
 
-    const allowedActions = [IMAGE_ACTIONS.UPDATE, IMAGE_ACTIONS.UPLOAD];
+    const allowedActions = [
+      IMAGE_ACTIONS.CREATE,
+      IMAGE_ACTIONS.DELETE,
+      IMAGE_ACTIONS.EDIT,
+      IMAGE_ACTIONS.UPDATE,
+      IMAGE_ACTIONS.UPLOAD,
+    ];
 
     allowedActions.forEach((action) => {
       expect(
@@ -141,6 +182,10 @@ describe('getImageActionWarning function', () => {
       {
         action: IMAGE_ACTIONS.DELETE,
         warning: 'Sinulla ei ole oikeuksia muokata kuvia.',
+      },
+      {
+        action: IMAGE_ACTIONS.EDIT,
+        warning: '',
       },
       {
         action: IMAGE_ACTIONS.UPDATE,
@@ -173,6 +218,10 @@ describe('getImageActionWarning function', () => {
       {
         action: IMAGE_ACTIONS.DELETE,
         warning: 'Sinulla ei ole oikeuksia muokata tätä kuvaa.',
+      },
+      {
+        action: IMAGE_ACTIONS.EDIT,
+        warning: '',
       },
       {
         action: IMAGE_ACTIONS.UPDATE,

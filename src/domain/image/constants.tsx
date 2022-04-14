@@ -32,3 +32,5 @@ export const IMAGE_ACTION_LABEL_KEYS = {
 };
 
 export const AUTHENTICATION_NOT_NEEDED = [IMAGE_ACTIONS.EDIT];
+
+export const TEST_IMAGE_ID = 'image:1';
