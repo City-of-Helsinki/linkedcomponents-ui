@@ -73,9 +73,10 @@ describe('getImageFields function', () => {
       license: null,
       name: null,
       photographerName: null,
+      publisher: null,
       url: null,
     }) as ImageFieldsFragment;
-    const { altText, id, license, name, photographerName, url } =
+    const { altText, id, license, name, photographerName, publisher, url } =
       getImageFields(image, 'fi');
 
     expect(altText).toBe('');
@@ -83,6 +84,7 @@ describe('getImageFields function', () => {
     expect(license).toBe(DEFAULT_LICENSE_TYPE);
     expect(name).toBe('');
     expect(photographerName).toBe('');
+    expect(publisher).toBe('');
     expect(url).toBe('');
   });
 

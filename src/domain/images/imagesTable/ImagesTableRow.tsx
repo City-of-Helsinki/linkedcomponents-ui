@@ -6,6 +6,7 @@ import { ImageFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
 import { getImageFields, getImageItemId } from '../../image/utils';
+import ImageActionsDropdown from '../imageActionsDropdown/ImageActionsDropdown';
 import styles from './imagesTable.module.scss';
 
 interface Props {
@@ -55,7 +56,7 @@ const KeywordsTableRow: React.FC<Props> = ({ image, onRowClick }) => {
       >
         <td className={styles.imageColumn}>
           <div className={styles.imagePreview}>
-            {imageUrl ? (
+            {url ? (
               <div
                 className={styles.image}
                 style={{ backgroundImage: `url(${url})` }}
@@ -81,7 +82,9 @@ const KeywordsTableRow: React.FC<Props> = ({ image, onRowClick }) => {
         <td className={styles.lastModifiedTimeColumn}>
           {formatDate(lastModifiedTime)}
         </td>
-        <td className={styles.actionButtonsColumn}></td>
+        <td className={styles.actionButtonsColumn}>
+          <ImageActionsDropdown ref={actionsDropdownRef} image={image} />
+        </td>
       </tr>
     </>
   );

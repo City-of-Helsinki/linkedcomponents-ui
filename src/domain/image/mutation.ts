@@ -2,6 +2,13 @@
 import gql from 'graphql-tag';
 
 export const MUTATION_IMAGE = gql`
+  mutation DeleteImage($id: ID!) {
+    deleteImage(id: $id)
+      @rest(type: "NoContent", path: "/image/{args.id}/", method: "DELETE") {
+      noContent
+    }
+  }
+
   mutation UpdateImage($input: UpdateImageMutationInput!) {
     updateImage(input: $input)
       @rest(

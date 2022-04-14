@@ -396,6 +396,7 @@ export type Mutation = {
   createRegistration: Registration;
   deleteEnrolment?: Maybe<NoContent>;
   deleteEvent?: Maybe<NoContent>;
+  deleteImage?: Maybe<NoContent>;
   deleteKeyword?: Maybe<NoContent>;
   deleteKeywordSet?: Maybe<NoContent>;
   deleteOrganization?: Maybe<NoContent>;
@@ -462,6 +463,11 @@ export type MutationDeleteEnrolmentArgs = {
 
 
 export type MutationDeleteEventArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteImageArgs = {
   id: Scalars['ID'];
 };
 
@@ -1188,6 +1194,13 @@ export type FeedbackFieldsFragment = { __typename?: 'Feedback', id?: string | nu
 export type LocalisedFieldsFragment = { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null };
 
 export type MetaFieldsFragment = { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null };
+
+export type DeleteImageMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteImageMutation = { __typename?: 'Mutation', deleteImage?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
 export type UpdateImageMutationVariables = Exact<{
   input: UpdateImageMutationInput;
@@ -2349,6 +2362,39 @@ export function usePostGuestFeedbackMutation(baseOptions?: Apollo.MutationHookOp
 export type PostGuestFeedbackMutationHookResult = ReturnType<typeof usePostGuestFeedbackMutation>;
 export type PostGuestFeedbackMutationResult = Apollo.MutationResult<PostGuestFeedbackMutation>;
 export type PostGuestFeedbackMutationOptions = Apollo.BaseMutationOptions<PostGuestFeedbackMutation, PostGuestFeedbackMutationVariables>;
+export const DeleteImageDocument = gql`
+    mutation DeleteImage($id: ID!) {
+  deleteImage(id: $id) @rest(type: "NoContent", path: "/image/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteImageMutationFn = Apollo.MutationFunction<DeleteImageMutation, DeleteImageMutationVariables>;
+
+/**
+ * __useDeleteImageMutation__
+ *
+ * To run a mutation, you first call `useDeleteImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteImageMutation, { data, loading, error }] = useDeleteImageMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteImageMutation(baseOptions?: Apollo.MutationHookOptions<DeleteImageMutation, DeleteImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteImageMutation, DeleteImageMutationVariables>(DeleteImageDocument, options);
+      }
+export type DeleteImageMutationHookResult = ReturnType<typeof useDeleteImageMutation>;
+export type DeleteImageMutationResult = Apollo.MutationResult<DeleteImageMutation>;
+export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<DeleteImageMutation, DeleteImageMutationVariables>;
 export const UpdateImageDocument = gql`
     mutation UpdateImage($input: UpdateImageMutationInput!) {
   updateImage(input: $input) @rest(type: "Image", path: "/image/{args.input.id}/", method: "PUT", bodyKey: "input") {

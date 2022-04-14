@@ -1266,6 +1266,11 @@
     }
   },
   "image": {
+    "deleteImageModal": {
+      "buttonDelete": "Poista kuva",
+      "text": "Tämä toiminto poistaa kuvan lopullisesti.",
+      "title": "Varmista kuvan poistaminen"
+    },
     "form": {
       "buttonDelete": "Poista kuva",
       "buttonUpload": "Lataa kuva",

@@ -16,6 +16,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
+    deleteImage(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
     deleteKeywordSet(id: ID!): NoContent
     deleteOrganization(id: ID!): NoContent

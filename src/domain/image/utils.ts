@@ -63,6 +63,7 @@ type ImageFields = {
   license: LICENSE_TYPES;
   name: string;
   photographerName: string;
+  publisher: string;
   url: string;
 };
 
@@ -81,6 +82,7 @@ export const getImageFields = (
     license: (image.license as LICENSE_TYPES) || DEFAULT_LICENSE_TYPE,
     name: image.name || '',
     photographerName: image.photographerName || '',
+    publisher: image.publisher || '',
     url: image.url || '',
   };
 };
@@ -248,6 +250,17 @@ export const getImageQueryResult = async (
     return null;
   }
 };
+
+/* istanbul ignore next */
+export const clearImageQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>,
+  args?: ImageQueryVariables
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'image',
+    args,
+  });
 
 export const clearImagesQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>,

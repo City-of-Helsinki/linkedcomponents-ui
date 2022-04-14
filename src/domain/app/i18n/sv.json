@@ -1266,6 +1266,11 @@
     }
   },
   "image": {
+    "deleteImageModal": {
+      "buttonDelete": "Radera bild",
+      "text": "Denna åtgärd tar bort bilden permanent.",
+      "title": "Bekräfta raderingen av bilden"
+    },
     "form": {
       "buttonDelete": "Ta bort bild",
       "buttonUpload": "Ladda upp bild",

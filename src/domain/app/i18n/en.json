@@ -1266,6 +1266,11 @@
     }
   },
   "image": {
+    "deleteImageModal": {
+      "buttonDelete": "Delete image",
+      "text": "This action will permanently remove the image.",
+      "title": "Confirm image deletion"
+    },
     "form": {
       "buttonDelete": "Delete image",
       "buttonUpload": "Upload image",
