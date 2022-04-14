@@ -20,10 +20,15 @@ import {
   useUploadImageMutation,
 } from '../../../../generated/graphql';
 import getPathBuilder from '../../../../utils/getPathBuilder';
+import isTestEnv from '../../../../utils/isTestEnv';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import FieldColumn from '../../../app/layout/FieldColumn';
 import FieldRow from '../../../app/layout/FieldRow';
-import { clearImagesQueries, imagePathBuilder } from '../../../image/utils';
+import {
+  clearImageQueries,
+  clearImagesQueries,
+  imagePathBuilder,
+} from '../../../image/utils';
 import { EVENT_FIELDS } from '../../constants';
 import { AddImageSettings } from '../../types';
 import AddImageForm from './addImageForm/AddImageForm';
@@ -77,6 +82,13 @@ const ImageSection: React.FC = () => {
     setImagesValue([]);
   };
 
+  const cleanAfterUpdate = async () => {
+    /* istanbul ignore next */
+    !isTestEnv && clearImageQueries(apolloClient);
+    /* istanbul ignore next */
+    !isTestEnv && clearImagesQueries(apolloClient);
+  };
+
   const uploadImage = async ({
     image,
     url,
@@ -86,10 +98,9 @@ const ImageSection: React.FC = () => {
   }) => {
     try {
       const data = await uploadImageMutation({
-        variables: {
-          input: { image, name: '', publisher, url },
-        },
+        variables: { input: { image, name: '', publisher, url } },
       });
+      cleanAfterUpdate();
 
       setImagesValue([data.data?.uploadImage.atId]);
       closeModal();

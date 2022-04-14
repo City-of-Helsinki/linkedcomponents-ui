@@ -7,11 +7,14 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { useUpdateImageMutation } from '../../../generated/graphql';
+import isTestEnv from '../../../utils/isTestEnv';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import { authenticatedSelector } from '../../auth/selectors';
 import { IMAGE_ACTIONS } from '../../image/constants';
 import {
   checkIsImageActionAllowed,
+  clearImageQueries,
+  clearImagesQueries,
   getImageQueryResult,
 } from '../../image/utils';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
@@ -28,6 +31,13 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const [updateImage] = useUpdateImageMutation();
+
+  const cleanAfterUpdate = async () => {
+    /* istanbul ignore next */
+    !isTestEnv && clearImageQueries(apolloClient);
+    /* istanbul ignore next */
+    !isTestEnv && clearImagesQueries(apolloClient);
+  };
 
   const updateImageIfNeeded = async (values: EventFormFields) => {
     const { imageDetails, images } = values;
@@ -66,6 +76,8 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
             },
           },
         });
+
+        cleanAfterUpdate();
       }
     }
   };
