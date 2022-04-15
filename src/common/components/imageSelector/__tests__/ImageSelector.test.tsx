@@ -23,9 +23,11 @@ const defaultProps: ImageSelectorProps = {
 const images = fakeImages(PAGE_SIZE);
 const imagesVariables = {
   createPath: undefined,
+  mergePages: true,
   pageSize: PAGE_SIZE,
   publisher,
 };
+
 const imagesResponse = {
   data: {
     images: {
@@ -39,20 +41,13 @@ const imagesResponse = {
   },
 };
 const mockedImagesReponse = {
-  request: {
-    query: ImagesDocument,
-    variables: imagesVariables,
-  },
+  request: { query: ImagesDocument, variables: imagesVariables },
   result: imagesResponse,
 };
 
 const loadMoreImages = fakeImages(PAGE_SIZE);
-const loadMoreImagesVariables = {
-  createPath: undefined,
-  page: 2,
-  pageSize: PAGE_SIZE,
-  publisher,
-};
+const loadMoreImagesVariables = { ...imagesVariables, page: 2 };
+
 const loadMoreImagesResponse = {
   data: {
     images: {
@@ -66,10 +61,7 @@ const loadMoreImagesResponse = {
   },
 };
 const mockedLoadMoreImagesResponse = {
-  request: {
-    query: ImagesDocument,
-    variables: loadMoreImagesVariables,
-  },
+  request: { query: ImagesDocument, variables: loadMoreImagesVariables },
   result: loadMoreImagesResponse,
 };
 

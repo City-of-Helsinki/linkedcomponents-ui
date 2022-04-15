@@ -6,6 +6,7 @@ export const QUERY_IMAGE = gql`
     id
     atId
     altText
+    lastModifiedTime
     license
     name
     photographerName
@@ -21,16 +22,22 @@ export const QUERY_IMAGE = gql`
 
   query Images(
     $dataSource: String
+    $mergePages: Boolean
     $page: Int
     $pageSize: Int
     $publisher: ID
+    $sort: String
+    $text: String
     $createPath: Any
   ) {
     images(
       dataSource: $dataSource
+      mergePages: $mergePages
       page: $page
       pageSize: $pageSize
       publisher: $publisher
+      sort: $sort
+      text: $text
     ) @rest(type: "ImagesResponse", pathBuilder: $createPath) {
       meta {
         ...metaFields

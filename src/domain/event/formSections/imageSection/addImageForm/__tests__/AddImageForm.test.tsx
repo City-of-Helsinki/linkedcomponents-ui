@@ -164,7 +164,7 @@ test("inputs to add new images should be disabled if user doesn't have permissio
 
   await findElement('imageCheckbox');
   const uploadImageButton = screen.getByRole('button', {
-    name: 'Sinulla ei ole oikeuksia lisätä kuvia',
+    name: 'Sinulla ei ole oikeuksia lisätä kuvia.',
   });
   const urlInput = getElement('urlInput');
 

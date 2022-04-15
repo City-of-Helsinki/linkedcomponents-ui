@@ -17,6 +17,8 @@
     "noRightsUpdateEnrolmentLabel": "Ei oikeuksia muokata osallistujia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
+    "noRightsUpdateImage": "Sinulla ei ole oikeuksia muokata kuvia.",
+    "noRightsUpdateImageLabel": "Ei oikeuksia muokata kuvia.",
     "noRightsUpdateKeyword": "Sinulla ei ole oikeuksia muokata avainsanoja.",
     "noRightsUpdateKeywordLabel": "Ei oikeuksia muokata avainsanoja.",
     "noRightsUpdateKeywordSet": "Sinulla ei ole oikeuksia muokata avainsanaryhmiä.",
@@ -50,6 +52,7 @@
     "breadcrumb": "Murupolku",
     "buttonActions": "Valinnat",
     "buttonAddEvent": "Lisää uusi tapahtuma",
+    "buttonAddImage": "Lisää kuva",
     "buttonAddKeyword": "Lisää avainsana",
     "buttonAddKeywordSet": "Lisää avainsanaryhmä",
     "buttonAddOrganization": "Lisää uusi organisaatio",
@@ -1263,11 +1266,46 @@
     }
   },
   "image": {
+    "deleteImageModal": {
+      "buttonDelete": "Poista kuva",
+      "text": "Tämä toiminto poistaa kuvan lopullisesti.",
+      "title": "Varmista kuvan poistaminen"
+    },
+    "form": {
+      "buttonDelete": "Poista kuva",
+      "buttonUpload": "Lataa kuva",
+      "notificationTitleCannotEdit": "Kuvaa ei voi muokata"
+    },
     "warningLogInToUpdate": "Kirjaudu sisään muokataksesi kuvaa.",
     "warningLogInToUpload": "Kirjaudu sisään lisätäksesi kuvia.",
     "warningNoImageSelected": "Kuvaa ei ole valittu",
-    "warningNoRightsToUpdate": "Sinulla ei ole oikeuksia muokata tätä kuvaa",
-    "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia"
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä kuvaa.",
+    "warningNoRightsToUpdate": "Sinulla ei ole oikeuksia muokata tätä kuvaa.",
+    "warningNoRightsToUpload": "Sinulla ei ole oikeuksia lisätä kuvia."
+  },
+  "imagesPage": {
+    "actionButtons": {
+      "edit": "Muokkaa kuvaa"
+    },
+    "count": "{{count}} kuva",
+    "count_other": "{{count}} kuvaa",
+    "imagesTableCaption": "Kuvat, järjestys {{sort}}",
+    "imagesTableColumns": {
+      "id": "ID",
+      "image": "Kuva",
+      "lastModifiedTime": "Viimeksi muokattu",
+      "name": "Nimi"
+    },
+    "labelSearch": "Hae kuvia",
+    "pageTitle": "Kuvat",
+    "sortOptions": {
+      "lastModifiedTime": "Viimeksi muokattu, nouseva",
+      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva"
+    },
+    
+    "title": "Kuvat",
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda kuvia.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä kuvia."
   },
   "keyword": {
     "deleteKeywordModal": {

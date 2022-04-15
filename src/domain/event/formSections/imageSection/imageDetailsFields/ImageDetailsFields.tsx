@@ -8,6 +8,7 @@ import RadioButtonGroupField from '../../../../../common/components/formFields/R
 import TextInputField from '../../../../../common/components/formFields/TextInputField';
 import { CHARACTER_LIMITS } from '../../../../../constants';
 import { ImageDocument, ImageQuery } from '../../../../../generated/graphql';
+import useLocale from '../../../../../hooks/useLocale';
 import getPathBuilder from '../../../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../../../utils/parseIdFromAtId';
 import {
@@ -30,6 +31,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
   imageAtId,
 }) => {
   const { editable, warning } = useIsImageEditable({ imageAtId });
+  const locale = useLocale();
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
@@ -79,7 +81,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
             },
           });
 
-          const imageFields = getImageFields(data.image);
+          const imageFields = getImageFields(data.image, locale);
           setFieldValue(
             field,
             {
@@ -102,7 +104,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
       // clear values when error happens
       clearFields();
     }
-  }, [apolloClient, clearFields, field, imageAtId, setFieldValue]);
+  }, [apolloClient, clearFields, field, imageAtId, locale, setFieldValue]);
 
   React.useEffect(() => {
     setFieldValue(EVENT_FIELDS.IS_IMAGE_EDITABLE, editable, true);

@@ -49,6 +49,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   } = useImagesQuery({
     variables: {
       createPath: getPathBuilder(imagesPathBuilder),
+      mergePages: true,
       pageSize: PAGE_SIZE,
       publisher,
     },

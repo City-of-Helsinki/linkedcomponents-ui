@@ -146,18 +146,22 @@ export const createCache = (): InMemoryCache =>
               return incoming;
             },
           },
+          image: fieldFunction('Image', 'image'),
           images: {
-            keyArgs: (args) =>
-              args ? Object.keys(args).filter((arg) => arg !== 'page') : [],
-            merge(existing, incoming, options) {
-              return mergeCache(existing, incoming, options);
+            keyArgs: (args) => {
+              if (args?.mergePages) {
+                return Object.keys(args).filter((arg) => arg !== 'page');
+              }
+              return args ? Object.keys(args) : [];
             },
-          },
-          image(_, { args, toReference }) {
-            return toReference({
-              __typename: 'Image',
-              id: args?.id,
-            });
+            merge(existing, incoming, options) {
+              const { args } = options;
+
+              if (args?.mergePages) {
+                return mergeCache(existing, incoming, options);
+              }
+              return incoming;
+            },
           },
           keyword: fieldFunction('Keyword', 'keyword'),
           keywordSet: fieldFunction('KeywordSet', 'keyword_set'),

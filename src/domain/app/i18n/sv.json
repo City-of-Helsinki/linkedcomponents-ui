@@ -17,6 +17,8 @@
     "noRightsUpdateEnrolmentLabel": "Inga rättigheter att redigera deltagare",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
+    "noRightsUpdateImage": "Du har inte behörighet att redigera bilder.",
+    "noRightsUpdateImageLabel": "Inga rättigheter att redigera bilder",
     "noRightsUpdateKeyword": "Du har inte behörighet att redigera nyckelord.",
     "noRightsUpdateKeywordLabel": "Inga rättigheter att redigera nyckelord",
     "noRightsUpdateKeywordSet": "Du har inte behörighet att redigera nyckelordsuppsättningar.",
@@ -50,6 +52,7 @@
     "breadcrumb": "Brödsmula",
     "buttonActions": "Funktioner",
     "buttonAddEvent": "Lägg till evenemang",
+    "buttonAddImage": "Lägg till bild",
     "buttonAddKeyword": "Lägg till nyckelord",
     "buttonAddKeywordSet": "Lägg till nyckelorduppsättningar",
     "buttonAddOrganization": "Lägg till organisation",
@@ -1263,11 +1266,45 @@
     }
   },
   "image": {
+    "deleteImageModal": {
+      "buttonDelete": "Radera bild",
+      "text": "Denna åtgärd tar bort bilden permanent.",
+      "title": "Bekräfta raderingen av bilden"
+    },
+    "form": {
+      "buttonDelete": "Ta bort bild",
+      "buttonUpload": "Ladda upp bild",
+      "notificationTitleCannotEdit": "Bilden kan inte redigeras"
+    },
     "warningLogInToUpdate": "Logga in för att redigera den här bilden.",
     "warningLogInToUpload": "Logga in för att lägga till bilder.",
     "warningNoImageSelected": "Ingen bild vald.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här bilden.",
     "warningNoRightsToUpdate": "Du har inte tillräckliga rättigheter för att redigera den här bilden.",
     "warningNoRightsToUpload": "You have insufficient rights to add images."
+  },
+  "imagesPage": {
+    "actionButtons": {
+      "edit": "Redigera bild"
+    },
+    "count": "{{count}} bild",
+    "count_other": "{{count}} bilder",
+    "imagesTableCaption": "Bilder, sorterade efter {{sort}}",
+    "imagesTableColumns": {
+      "id": "ID",
+      "image": "Bild",
+      "lastModifiedTime": "Senast ändrad",
+      "name": "Namn"
+    },
+    "labelSearch": "Sök bilder",
+    "pageTitle": "Bilder",
+    "sortOptions": {
+      "lastModifiedTime": "Senast ändrad, stigande",
+      "lastModifiedTimeDesc": "Senast ändrad, fallande"
+    },
+    "title": "Bilder",
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa bilder.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här bilden."
   },
   "keyword": {
     "deleteKeywordModal": {

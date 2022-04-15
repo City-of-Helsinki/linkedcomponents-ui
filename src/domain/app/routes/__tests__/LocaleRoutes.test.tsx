@@ -23,6 +23,7 @@ import {
   mockedPlacesResponse,
   searchText,
 } from '../../../eventSearch/__mocks__/eventSearchPage';
+import { mockedImagesResponse } from '../../../image/__mocks__/image';
 import {
   keyword,
   mockedKeywordResponse,
@@ -55,6 +56,7 @@ const mocks = [
   mockedEnrolmentResponse,
   mockedEventResponse,
   mockedEventsResponse,
+  mockedImagesResponse,
   mockedKeywordResponse,
   mockedKeywordSetResponse,
   mockedOrganizationResponse,
@@ -191,6 +193,14 @@ it('should render edit enrolment page', async () => {
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
   );
+});
+
+it('should render images page', async () => {
+  const { history } = renderRoute(`${ROUTES.IMAGES}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /kuvat/i });
+  expect(history.location.pathname).toBe('/fi/admin/images');
 });
 
 it('should render keywords page', async () => {

@@ -27,6 +27,7 @@ const EditOrganizationPage = React.lazy(
   () => import('../../organization/EditOrganizationPage')
 );
 const EditPlacePage = React.lazy(() => import('../../place/EditPlacePage'));
+const ImagesPage = React.lazy(() => import('.././../images/ImagesPage'));
 const KeywordsPage = React.lazy(() => import('.././../keywords/KeywordsPage'));
 const KeywordSetsPage = React.lazy(
   () => import('.././../keywordSets/KeywordSetsPage')
@@ -47,6 +48,8 @@ const AdminPageRoutes: React.FC = () => {
         path={getAdminRoutePath(ROUTES.ADMIN)}
         element={<Navigate replace to={getLocalePath(ROUTES.KEYWORDS)} />}
       />
+
+      <Route path={getAdminRoutePath(ROUTES.IMAGES)} element={<ImagesPage />} />
 
       <Route
         path={getAdminRoutePath(ROUTES.CREATE_KEYWORD)}

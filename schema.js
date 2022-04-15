@@ -16,6 +16,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
+    deleteImage(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
     deleteKeywordSet(id: ID!): NoContent
     deleteOrganization(id: ID!): NoContent
@@ -79,6 +80,16 @@ module.exports = buildSchema(/* GraphQL */ `
       text: String
       translation: String
     ): EventsResponse!
+    image(id: ID): Image!
+    images(
+      dataSource: String
+      mergePages: Boolean
+      page: Int
+      pageSize: Int
+      publisher: ID
+      sort: String
+      text: String
+    ): ImagesResponse!
     keyword(id: ID!): Keyword!
     keywords(
       dataSource: [String]
@@ -99,13 +110,6 @@ module.exports = buildSchema(/* GraphQL */ `
       text: String
     ): KeywordSetsResponse!
     languages: LanguagesResponse!
-    image(id: ID): Image!
-    images(
-      dataSource: String
-      page: Int
-      pageSize: Int
-      publisher: ID
-    ): ImagesResponse!
     organization(id: ID!): Organization!
     organizations(
       child: ID
