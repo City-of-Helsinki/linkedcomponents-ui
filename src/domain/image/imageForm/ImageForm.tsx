@@ -1,3 +1,4 @@
+import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import camelCase from 'lodash/camelCase';
 import React from 'react';
@@ -9,10 +10,14 @@ import PublisherSelectorField from '../../../common/components/formFields/Publis
 import RadioButtonGroupField from '../../../common/components/formFields/RadioButtonGroupField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
 import ImagePreview from '../../../common/components/imagePreview/ImagePreview';
+import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../../constants';
 import { ImageFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import { scrollToFirstError } from '../../../utils/validationUtils';
+import {
+  scrollToFirstError,
+  showFormErrors,
+} from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
 import {
@@ -22,6 +27,7 @@ import {
   LICENSE_TYPES,
 } from '../constants';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
+import useImageServerErrors from '../hooks/useImageServerErrors';
 import useImageUpdateActions from '../hooks/useImageUpdateActions';
 import ImageAuthenticationNotification from '../imageAuthenticationNotification/ImageAuthenticationNotification';
 import { ImageFormFields } from '../types';
@@ -36,6 +42,9 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
+
+  const { serverErrorItems, setServerErrorItems, showServerErrors } =
+    useImageServerErrors();
 
   const licenseOptions = [
     {
@@ -58,7 +67,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
 
   const onUpdate = async (values: ImageFormFields) => {
     await updateImage(values, {
-      // onError: (error: ServerError) => showServerErrors({ error }),
+      onError: (error: ServerError) => showServerErrors({ error }),
       onSuccess: async () => {
         goToImagesPage();
       },
@@ -81,7 +90,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
       validateOnChange={true}
       validationSchema={imageSchema}
     >
-      {({ setErrors, values }) => {
+      {({ setErrors, setTouched, values }) => {
         const clearErrors = () => setErrors({});
 
         const handleSubmit = async (
@@ -90,7 +99,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
           event?.preventDefault();
 
           try {
-            // setServerErrorItems([]);
+            setServerErrorItems([]);
             clearErrors();
 
             await imageSchema.validate(values, { abortEarly: false });
@@ -100,11 +109,11 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
             } else {
             }
           } catch (error) {
-            // showFormErrors({
-            //   error: error as ValidationError,
-            //   setErrors,
-            //   setTouched,
-            // });
+            showFormErrors({
+              error: error as ValidationError,
+              setErrors,
+              setTouched,
+            });
 
             scrollToFirstError({ error: error as ValidationError });
           }
@@ -116,6 +125,8 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
               action={image ? IMAGE_ACTIONS.UPDATE : IMAGE_ACTIONS.CREATE}
               publisher={image ? (image.publisher as string) : values.publisher}
             />
+            <ServerErrorSummary errors={serverErrorItems} />
+
             <FormRow>
               <Field
                 className={styles.alignedSelect}
@@ -147,7 +158,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 component={TextInputField}
                 label={t(`image.form.labelAltText`)}
                 placeholder={t(`image.form.placeholderAltText`)}
-                requred
+                required
               />
             </FormRow>
             <FormRow>
