@@ -11,8 +11,11 @@ import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { TEST_IMAGE_ID } from '../constants';
 
 const imageValues: Partial<ImageFieldsFragment> = {
+  altText: 'Image alt text',
   id: TEST_IMAGE_ID,
+  license: 'cc_by',
   name: 'Image name',
+  photographerName: 'Photographer name',
   publisher: TEST_PUBLISHER_ID,
 };
 
@@ -27,7 +30,7 @@ const mockedImageResponse = {
 
 const updateImageVariables = { input: imageValues };
 
-const updateImageResponse = { data: { updateKeyword: image } };
+const updateImageResponse = { data: { updateImage: image } };
 
 const mockedUpdateImageResponse: MockedResponse = {
   request: { query: UpdateImageDocument, variables: updateImageVariables },

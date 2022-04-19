@@ -252,9 +252,7 @@ export const getImageInitialValues = (
 export const getImagePayload = (
   formValues: ImageFormFields
 ): UpdateImageMutationInput => {
-  return {
-    ...omit(formValues, 'url'),
-  };
+  return omit(formValues, 'url');
 };
 
 export const getImageQueryResult = async (
