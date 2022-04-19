@@ -929,6 +929,7 @@ export type UpdateImageMutationInput = {
   license?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   photographerName?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateKeywordMutationInput = {

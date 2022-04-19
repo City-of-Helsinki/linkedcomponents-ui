@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
+import omit from 'lodash/omit';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
 import { ROUTES } from '../../constants';
@@ -11,6 +12,7 @@ import {
   ImageQueryVariables,
   ImagesQueryVariables,
   OrganizationFieldsFragment,
+  UpdateImageMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
@@ -28,6 +30,7 @@ import {
   IMAGE_ACTIONS,
   LICENSE_TYPES,
 } from './constants';
+import { ImageFormFields } from './types';
 
 export const imagePathBuilder = ({
   args,
@@ -229,6 +232,28 @@ export const getEditButtonProps = ({
     label: t(IMAGE_ACTION_LABEL_KEYS[action]),
     onClick,
     title: warning,
+  };
+};
+
+export const getImageInitialValues = (
+  image: ImageFieldsFragment
+): ImageFormFields => {
+  return {
+    altText: image.altText ?? '',
+    id: image.id ?? '',
+    license: image.license ?? '',
+    name: image.name ?? '',
+    photographerName: image.photographerName ?? '',
+    publisher: image.publisher ?? '',
+    url: image.url ?? '',
+  };
+};
+
+export const getImagePayload = (
+  formValues: ImageFormFields
+): UpdateImageMutationInput => {
+  return {
+    ...omit(formValues, 'url'),
   };
 };
 

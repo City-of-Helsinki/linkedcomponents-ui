@@ -296,6 +296,10 @@
   "editEnrolmentPage": {
     "pageTitle": "Muokkaa osallistujaa"
   },
+  "editImagePage": {
+    "pageTitle": "Muokkaa kuvaa",
+    "title": "Muokkaa kuvaa"
+  },
   "editKeywordPage": {
     "pageTitle": "Muokkaa avainsanaa",
     "title": "Muokkaa avainsanaa"
@@ -506,25 +510,10 @@
       "helperRecurringEventRepeatInterval": "Viikon välein",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "image": {
-        "labelAltText": "Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti)",
-        "labelName": "Kuvateksti",
-        "labelPhotographerName": "Kuvaajan nimi",
         "labelUrl": "Kuvan URL-osoite",
-        "license": {
-          "ccBy": "Creative Commons BY 4.0",
-          "eventOnly": {
-            "course": "Käyttö rajattu kurssin yhteyteen",
-            "general": "Käyttö rajattu tapahtuman yhteyteen",
-            "volunteering": "Käyttö rajattu vapaaehtoistehtävän yhteyteen"
-          }
-        },
-        "placeholderAltText": "Syötä kuvan alt-teksti",
-        "placeholderName": "Syötä kuvateksti",
-        "placeholderPhotographerName": "Syötä kuvaajan nimi",
         "placeholderUrl": "Syötä kuvan URL-osoite",
         "titleImportFromHardDisk": "Tuo kiintolevyltä",
         "titleImportFromInternet": "Tuo internetistä",
-        "titleLicense": "Lisenssi",
         "titleUseImportedImage": "Käytä aiemmin tuotua kuvaa"
       },
       "infoTextAttendeeCapacity": {
@@ -1274,7 +1263,24 @@
     "form": {
       "buttonDelete": "Poista kuva",
       "buttonUpload": "Lataa kuva",
-      "notificationTitleCannotEdit": "Kuvaa ei voi muokata"
+      "labelAltText": "Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti)",
+      "labelImage": "Kuva",
+      "labelName": "Kuvateksti",
+      "labelPhotographerName": "Kuvaajan nimi",
+      "labelPublisher": "Julkaisija",
+      "notificationTitleCannotEdit": "Kuvaa ei voi muokata",
+      "placeholderAltText": "Syötä kuvan alt-teksti",
+      "placeholderName": "Syötä kuvateksti",
+      "placeholderPhotographerName": "Syötä kuvaajan nimi",
+      "titleLicense": "Lisenssi"
+    },
+    "license": {
+      "ccBy": "Creative Commons BY 4.0",
+      "eventOnly": {
+        "course": "Käyttö rajattu kurssin yhteyteen",
+        "general": "Käyttö rajattu tapahtuman yhteyteen",
+        "volunteering": "Käyttö rajattu vapaaehtoistehtävän yhteyteen"
+      }
     },
     "warningLogInToUpdate": "Kirjaudu sisään muokataksesi kuvaa.",
     "warningLogInToUpload": "Kirjaudu sisään lisätäksesi kuvia.",

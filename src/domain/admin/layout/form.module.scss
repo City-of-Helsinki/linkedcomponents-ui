@@ -76,3 +76,22 @@
 .formContainer {
   padding-bottom: var(--spacing-m);
 }
+
+.imagePreviewWrapper {
+  @include medium-up {
+    display: grid;
+    grid-template-columns: 212px 1fr; 
+    grid-gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-3-xs);
+  }
+
+  > label {
+    border-bottom: var(--form-row-border-width) solid
+        var(--form-row-border-color);
+    
+    color: var(--label-color-default,var(--color-black-90));
+    display: block;
+    font-size: var(--fontsize-body-m);
+    font-weight: 500;  
+  }
+}

@@ -37,15 +37,11 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const licenseOptions = [
     {
-      label: t(`event.form.image.license.${camelCase(LICENSE_TYPES.CC_BY)}`),
+      label: t(`image.license.${camelCase(LICENSE_TYPES.CC_BY)}`),
       value: LICENSE_TYPES.CC_BY,
     },
     {
-      label: t(
-        `event.form.image.license.${camelCase(
-          LICENSE_TYPES.EVENT_ONLY
-        )}.${type}`
-      ),
+      label: t(`image.license.${camelCase(LICENSE_TYPES.EVENT_ONLY)}.${type}`),
       value: LICENSE_TYPES.EVENT_ONLY,
     },
   ];
@@ -118,9 +114,9 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
           disabled={!editable}
           name={getFieldName(IMAGE_DETAILS_FIELDS.ALT_TEXT)}
           component={TextInputField}
-          label={t(`event.form.image.labelAltText`)}
+          label={t(`image.form.labelAltText`)}
           maxLength={CHARACTER_LIMITS.SHORT_STRING}
-          placeholder={t(`event.form.image.placeholderAltText`)}
+          placeholder={t(`image.form.placeholderAltText`)}
           required={editable}
           title={warning}
         />
@@ -130,9 +126,9 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
           disabled={!editable}
           name={getFieldName(IMAGE_DETAILS_FIELDS.NAME)}
           component={TextInputField}
-          label={t(`event.form.image.labelName`)}
+          label={t(`image.form.labelName`)}
           maxLength={CHARACTER_LIMITS.MEDIUM_STRING}
-          placeholder={t(`event.form.image.placeholderName`)}
+          placeholder={t(`image.form.placeholderName`)}
           required={editable}
           title={warning}
         />
@@ -142,14 +138,14 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
           disabled={!editable}
           name={getFieldName(IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME)}
           component={TextInputField}
-          label={t(`event.form.image.labelPhotographerName`)}
-          placeholder={t(`event.form.image.placeholderPhotographerName`)}
+          label={t(`image.form.labelPhotographerName`)}
+          placeholder={t(`image.form.placeholderPhotographerName`)}
           title={warning}
         />
       </div>
       <div>
         <h3 className={eventPageStyles.noTopMargin}>
-          {t(`event.form.image.titleLicense`)}
+          {t(`image.form.titleLicense`)}
         </h3>
         <Field
           disabled={!editable}

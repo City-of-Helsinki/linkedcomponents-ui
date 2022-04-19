@@ -295,6 +295,10 @@
   "editEnrolmentPage": {
     "pageTitle": "Edit participant"
   },
+  "editImagePage": {
+    "pageTitle": "Edit image",
+    "title": "Edit image"
+  },
   "editKeywordPage": {
     "pageTitle": "Edit keyword",
     "title": "Edit keyword"
@@ -506,25 +510,10 @@
       "helperRecurringEventRepeatInterval": "In weeks",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "image": {
-        "labelAltText": "Alternate image text for screen readers (alt text)",
-        "labelName": "Caption",
-        "labelPhotographerName": "Author name",
         "labelUrl": "Image URL",
-        "license": {
-          "ccBy": "Creative Commons BY 4.0",
-          "eventOnly": {
-            "course": "Image may be used only for this course",
-            "general": "Image may be used only for this event",
-            "volunteering": "Image may be used only for this volunteering"
-          }
-        },
-        "placeholderAltText": "Enter image alt text for screen readers",
-        "placeholderName": "Enter image caption",
-        "placeholderPhotographerName": "Enter author name",
         "placeholderUrl": "Enter image URL",
         "titleImportFromHardDisk": "Import from your hard disk",
         "titleImportFromInternet": "Import from the internet",
-        "titleLicense": "License",
         "titleUseImportedImage": "Use a previously imported image"
       },
       "infoTextAttendeeCapacity": {
@@ -1274,7 +1263,24 @@
     "form": {
       "buttonDelete": "Delete image",
       "buttonUpload": "Upload image",
-      "notificationTitleCannotEdit": "The image cannot be edited"
+      "labelAltText": "Alternate image text for screen readers (alt text)",
+      "labelImage": "Image",
+      "labelName": "Caption",
+      "labelPhotographerName": "Author name",
+      "labelPublisher": "Publisher",
+      "notificationTitleCannotEdit": "The image cannot be edited",
+      "placeholderAltText": "Enter image alt text for screen readers",
+      "placeholderName": "Enter image caption",
+      "placeholderPhotographerName": "Enter author name",
+      "titleLicense": "License"
+    },
+    "license": {
+      "ccBy": "Creative Commons BY 4.0",
+      "eventOnly": {
+        "course": "Image may be used only for this course",
+        "general": "Image may be used only for this event",
+        "volunteering": "Image may be used only for this volunteering"
+      }
     },
     "warningLogInToUpdate": "Sign in to edit this image.",
     "warningLogInToUpload": "Sign in to add images.",

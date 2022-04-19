@@ -310,6 +310,7 @@ module.exports = buildSchema(/* GraphQL */ `
     license: String
     name: String!
     photographerName: String
+    publisher: String
   }
 
   input UploadImageMutationInput {
