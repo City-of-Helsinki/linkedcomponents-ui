@@ -29,12 +29,14 @@ const Map: React.FC<Props> = ({ onChange, position }) => {
 
   const onCreated = () => {
     const drawnItems = featureGroup.current._layers;
+    const drawnItemKeys = Object.keys(drawnItems);
 
-    if (Object.keys(drawnItems).length > 1) {
-      Object.keys(drawnItems).forEach((layerid, index) => {
-        if (index > 0) return;
-        const layer = drawnItems[layerid];
-        featureGroup.current.removeLayer(layer);
+    if (drawnItemKeys.length > 1) {
+      drawnItemKeys.forEach((layerid, index) => {
+        if (index < drawnItemKeys.length - 1) {
+          const layer = drawnItems[layerid];
+          featureGroup.current.removeLayer(layer);
+        }
       });
     }
 
@@ -47,8 +49,10 @@ const Map: React.FC<Props> = ({ onChange, position }) => {
 
   const handleChange = () => {
     const drawnItems = featureGroup.current._layers;
-    if (Object.keys(drawnItems).length) {
-      Object.keys(drawnItems).forEach((layerid, index) => {
+    const drawnItemKeys = Object.keys(drawnItems);
+
+    if (drawnItemKeys.length) {
+      drawnItemKeys.forEach((layerid, index) => {
         if (index > 0) return;
         const layer = drawnItems[layerid];
         onChange(layer._latlng);
