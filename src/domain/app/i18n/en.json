@@ -272,6 +272,10 @@
       "volunteering": "New volunteering"
     }
   },
+  "createImagePage": {
+    "pageTitle": "Add image",
+    "title": "Add image"
+  },
   "createKeywordPage": {
     "pageTitle": "Add keyword",
     "title": "Add keyword"
@@ -509,13 +513,7 @@
       },
       "helperRecurringEventRepeatInterval": "In weeks",
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
-      "image": {
-        "labelUrl": "Image URL",
-        "placeholderUrl": "Enter image URL",
-        "titleImportFromHardDisk": "Import from your hard disk",
-        "titleImportFromInternet": "Import from the internet",
-        "titleUseImportedImage": "Use a previously imported image"
-      },
+      
       "infoTextAttendeeCapacity": {
         "course": "If the number of participants in the course is limited, specify the minimum and maximum number of participants here.",
         "general": "If the number of participants in the event is limited, specify the minimum and maximum number of participants here.",
@@ -1261,6 +1259,7 @@
       "title": "Confirm image deletion"
     },
     "form": {
+      "buttonAddImage": "Add image",
       "buttonDelete": "Delete image",
       "buttonUpload": "Upload image",
       "labelAltText": "Alternate image text for screen readers (alt text)",
@@ -1268,11 +1267,16 @@
       "labelName": "Caption",
       "labelPhotographerName": "Author name",
       "labelPublisher": "Publisher",
+      "labelUrl": "Image URL",
       "notificationTitleCannotEdit": "The image cannot be edited",
       "placeholderAltText": "Enter image alt text for screen readers",
       "placeholderName": "Enter image caption",
       "placeholderPhotographerName": "Enter author name",
-      "titleLicense": "License"
+      "placeholderUrl": "Enter image URL",
+      "titleImportFromHardDisk": "Import from your hard disk",
+      "titleImportFromInternet": "Import from the internet",
+      "titleLicense": "License",
+      "titleUseImportedImage": "Use a previously imported image"
     },
     "license": {
       "ccBy": "Creative Commons BY 4.0",
@@ -1282,6 +1286,7 @@
         "volunteering": "Image may be used only for this volunteering"
       }
     },
+    "modalTitleAddImage": "Add image",
     "warningLogInToUpdate": "Sign in to edit this image.",
     "warningLogInToUpload": "Sign in to add images.",
     "warningNoImageSelected": "No image selected.",

@@ -1,6 +1,6 @@
 import { IconCogwheel, IconCrossCircle, IconPen, IconUpload } from 'hds-react';
 
-import { ImageFormFields } from './types';
+import { AddImageSettings, ImageFormFields } from './types';
 
 export enum LICENSE_TYPES {
   CC_BY = 'cc_by',
@@ -55,4 +55,14 @@ export const IMAGE_INITIAL_VALUES: ImageFormFields = {
   [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
   [IMAGE_FIELDS.PUBLISHER]: '',
   [IMAGE_FIELDS.URL]: '',
+};
+
+export enum ADD_IMAGE_FIELDS {
+  SELECTED_IMAGE = 'selectedImage',
+  URL = 'url',
+}
+
+export const ADD_IMAGE_INITIAL_VALUES: AddImageSettings = {
+  [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [],
+  [ADD_IMAGE_FIELDS.URL]: '',
 };

@@ -273,6 +273,10 @@
       "volunteering": "Nytt volontärarbete"
     }
   },
+  "createImagePage": {
+    "pageTitle": "Lägg till bild",
+    "title": "Lägg till bild"
+  },
   "createKeywordPage": {
     "pageTitle": "Lägg till nyckelord",
     "title": "Lägg till nyckelord"
@@ -509,13 +513,6 @@
       },
       "helperRecurringEventRepeatInterval": "I veckor",
       "helperUmbrellaEvent": "Notera. Ett huvudevenemang måste skapas innan du kan lägga till underevenemangen till det.",
-      "image": {
-        "labelUrl": "Bildens URL-webbaddress",
-        "placeholderUrl": "Ange bildens URL",
-        "titleImportFromHardDisk": "Importera från din hårddisk",
-        "titleImportFromInternet": "Importera från internet",
-        "titleUseImportedImage": "Använd en tidigare importerad bild"
-      },
       "infoTextAttendeeCapacity": {
         "course": "Om antalet deltagare i kursen är begränsat, ange lägsta och högsta antal deltagare här.",
         "general": "Om antalet deltagare i evenemanget är begränsat, ange lägsta och högsta antal deltagare här.",
@@ -1261,6 +1258,7 @@
       "title": "Bekräfta raderingen av bilden"
     },
     "form": {
+      "buttonAddImage": "Lägg till bild",
       "buttonDelete": "Ta bort bild",
       "buttonUpload": "Ladda upp bild",
       "labelAltText": "Alternativ bildtext för skärmläsare (alt text)",
@@ -1268,11 +1266,16 @@
       "labelName": "Rubrik",
       "labelPhotographerName": "Författarens namn",
       "labelPublisher": "Utgivare",
+      "labelUrl": "Bildens URL-webbaddress",
       "notificationTitleCannotEdit": "Bilden kan inte redigeras",
       "placeholderAltText": "Ange bildens alt-text för skärmläsare",
       "placeholderName": "Ange bildtext",
       "placeholderPhotographerName": "Ange författarens namn",
-      "titleLicense": "Licens"
+      "placeholderUrl": "Ange bildens URL",
+      "titleImportFromHardDisk": "Importera från din hårddisk",
+      "titleImportFromInternet": "Importera från internet",
+      "titleLicense": "Licens",
+      "titleUseImportedImage": "Använd en tidigare importerad bild"
     },
     "license": {
       "ccBy": "Creative Commons BY 4.0",
@@ -1282,6 +1285,7 @@
         "volunteering": "Bilden får endast användas för detta volontärarbete"
       }
     },
+    "modalTitleAddImage": "Lägg till bild",
     "warningLogInToUpdate": "Logga in för att redigera den här bilden.",
     "warningLogInToUpload": "Logga in för att lägga till bilder.",
     "warningNoImageSelected": "Ingen bild vald.",

@@ -1,11 +1,13 @@
 import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
+import { IconPlusCircle } from 'hds-react';
 import camelCase from 'lodash/camelCase';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
+import Button from '../../../common/components/button/Button';
 import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
 import RadioButtonGroupField from '../../../common/components/formFields/RadioButtonGroupField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
@@ -26,10 +28,14 @@ import {
   IMAGE_INITIAL_VALUES,
   LICENSE_TYPES,
 } from '../constants';
+import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import useImageServerErrors from '../hooks/useImageServerErrors';
-import useImageUpdateActions from '../hooks/useImageUpdateActions';
+import useImageUpdateActions, {
+  IMAGE_MODALS,
+} from '../hooks/useImageUpdateActions';
 import ImageAuthenticationNotification from '../imageAuthenticationNotification/ImageAuthenticationNotification';
+import AddImageModal from '../modals/AddImageModal';
 import { ImageFormFields } from '../types';
 import { getImageInitialValues } from '../utils';
 import { imageSchema } from '../validation';
@@ -57,7 +63,14 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
     },
   ];
 
-  const { saving, updateImage } = useImageUpdateActions({
+  const {
+    closeModal,
+    openModal,
+    saving,
+    setOpenModal,
+    updateImage,
+    uploadImage,
+  } = useImageUpdateActions({
     image: image as ImageFieldsFragment,
   });
 
@@ -90,7 +103,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
       validateOnChange={true}
       validationSchema={imageSchema}
     >
-      {({ setErrors, setTouched, values }) => {
+      {({ setErrors, setFieldValue, setTouched, values }) => {
         const clearErrors = () => setErrors({});
 
         const handleSubmit = async (
@@ -104,10 +117,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
 
             await imageSchema.validate(values, { abortEarly: false });
 
-            if (image) {
-              await onUpdate(values);
-            } else {
-            }
+            await onUpdate(values);
           } catch (error) {
             showFormErrors({
               error: error as ValidationError,
@@ -119,85 +129,140 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
           }
         };
 
+        const setImageFields = (image: ImageFieldsFragment) => {
+          setFieldValue(IMAGE_FIELDS.ID, image.id);
+          setFieldValue(IMAGE_FIELDS.URL, image.url);
+          setFieldValue(IMAGE_FIELDS.ALT_TEXT, image.altText ?? '');
+          setFieldValue(IMAGE_FIELDS.NAME, image.name);
+          setFieldValue(
+            IMAGE_FIELDS.PHOTOGRAPHER_NAME,
+            image.photographerName ?? ''
+          );
+          setFieldValue(IMAGE_FIELDS.LICENSE, image.license);
+        };
+
         return (
-          <Form className={styles.form} noValidate={true}>
-            <ImageAuthenticationNotification
-              action={image ? IMAGE_ACTIONS.UPDATE : IMAGE_ACTIONS.CREATE}
-              publisher={image ? (image.publisher as string) : values.publisher}
+          <>
+            <AddImageModal
+              isOpen={openModal === IMAGE_MODALS.ADD_IMAGE}
+              onAddImage={({ url }) =>
+                uploadImage(
+                  { publisher: values.publisher, url },
+                  setImageFields
+                )
+              }
+              onClose={closeModal}
+              onFileChange={(image) =>
+                uploadImage(
+                  { publisher: values.publisher, image },
+                  setImageFields
+                )
+              }
+              publisher={values.publisher}
+              showImageSelector={false}
             />
-            <ServerErrorSummary errors={serverErrorItems} />
-
-            <FormRow>
-              <Field
-                className={styles.alignedSelect}
-                component={PublisherSelectorField}
-                label={t(`image.form.labelPublisher`)}
-                name={IMAGE_FIELDS.PUBLISHER}
-                disabled={!!image?.publisher}
+            <Form className={styles.form} noValidate={true}>
+              <ImageAuthenticationNotification
+                action={image ? IMAGE_ACTIONS.UPDATE : IMAGE_ACTIONS.CREATE}
+                publisher={
+                  image ? (image.publisher as string) : values.publisher
+                }
               />
-            </FormRow>
+              <ServerErrorSummary errors={serverErrorItems} />
 
-            <FormRow>
-              <div className={styles.imagePreviewWrapper}>
-                <label>{t(`image.form.labelImage`)}</label>
-                <div>
-                  <ImagePreview
-                    className={styles.imagePreview}
-                    disabled={!!image}
-                    imageUrl={values.url}
-                    label={t(`event.form.buttonAddImage.general`)}
-                    onClick={() => undefined}
-                  />
+              <FormRow>
+                <Field
+                  className={styles.alignedSelect}
+                  component={PublisherSelectorField}
+                  label={t(`image.form.labelPublisher`)}
+                  name={IMAGE_FIELDS.PUBLISHER}
+                  disabled={!!image?.publisher}
+                />
+              </FormRow>
+
+              <FormRow>
+                <div className={styles.imagePreviewWrapper}>
+                  <label>{t(`image.form.labelImage`)}</label>
+                  <div>
+                    <ImagePreview
+                      className={styles.imagePreview}
+                      disabled={true}
+                      imageUrl={values.url}
+                      label={t(`event.form.buttonAddImage.general`)}
+                      onClick={() => undefined}
+                    />
+                    {!values.url && (
+                      <Button
+                        className={styles.addButton}
+                        disabled={!values.publisher}
+                        fullWidth={true}
+                        iconLeft={<IconPlusCircle aria-hidden />}
+                        onClick={() => setOpenModal(IMAGE_MODALS.ADD_IMAGE)}
+                      >
+                        {t(`image.form.buttonAddImage`)}
+                      </Button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </FormRow>
-            <FormRow>
-              <Field
-                className={styles.alignedInput}
-                name={IMAGE_FIELDS.ALT_TEXT}
-                component={TextInputField}
-                label={t(`image.form.labelAltText`)}
-                placeholder={t(`image.form.placeholderAltText`)}
-                required
-              />
-            </FormRow>
-            <FormRow>
-              <Field
-                className={styles.alignedInput}
-                name={IMAGE_FIELDS.NAME}
-                component={TextInputField}
-                label={t(`image.form.labelName`)}
-                placeholder={t(`image.form.placeholderName`)}
-                required
-              />
-            </FormRow>
-            <FormRow>
-              <Field
-                className={styles.alignedInput}
-                name={IMAGE_FIELDS.PHOTOGRAPHER_NAME}
-                component={TextInputField}
-                label={t(`image.form.labelPhotographerName`)}
-                placeholder={t(`image.form.placeholderPhotographerName`)}
-              />
-            </FormRow>
-            <FormRow>
-              <h3>{t(`image.form.titleLicense`)}</h3>
-              <Field
-                name={IMAGE_FIELDS.LICENSE}
-                component={RadioButtonGroupField}
-                options={licenseOptions}
-              />
-            </FormRow>
+              </FormRow>
+              <FormRow>
+                <Field
+                  className={styles.alignedInput}
+                  component={TextInputField}
+                  disabled={!values.url}
+                  label={t(`image.form.labelAltText`)}
+                  name={IMAGE_FIELDS.ALT_TEXT}
+                  placeholder={t(`image.form.placeholderAltText`)}
+                  required
+                />
+              </FormRow>
+              <FormRow>
+                <Field
+                  className={styles.alignedInput}
+                  component={TextInputField}
+                  disabled={!values.url}
+                  label={t(`image.form.labelName`)}
+                  name={IMAGE_FIELDS.NAME}
+                  placeholder={t(`image.form.placeholderName`)}
+                  required
+                />
+              </FormRow>
+              <FormRow>
+                <Field
+                  className={styles.alignedInput}
+                  component={TextInputField}
+                  disabled={!values.url}
+                  label={t(`image.form.labelPhotographerName`)}
+                  name={IMAGE_FIELDS.PHOTOGRAPHER_NAME}
+                  placeholder={t(`image.form.placeholderPhotographerName`)}
+                />
+              </FormRow>
+              <FormRow>
+                <h3>{t(`image.form.titleLicense`)}</h3>
+                <Field
+                  disabled={!values.url}
+                  component={RadioButtonGroupField}
+                  name={IMAGE_FIELDS.LICENSE}
+                  options={licenseOptions}
+                />
+              </FormRow>
 
-            {image ? (
-              <EditButtonPanel
-                id={values.id}
-                onSave={handleSubmit}
-                publisher={image.publisher as string}
-                saving={saving}
-              />
-            ) : null}
-          </Form>
+              {image ? (
+                <EditButtonPanel
+                  id={values.id}
+                  onSave={handleSubmit}
+                  publisher={image.publisher as string}
+                  saving={saving}
+                />
+              ) : (
+                <CreateButtonPanel
+                  onSave={handleSubmit}
+                  publisher={values.publisher as string}
+                  saving={saving}
+                />
+              )}
+            </Form>
+          </>
         );
       }}
     </Formik>

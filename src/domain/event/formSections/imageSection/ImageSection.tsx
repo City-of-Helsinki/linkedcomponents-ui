@@ -24,14 +24,14 @@ import isTestEnv from '../../../../utils/isTestEnv';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import FieldColumn from '../../../app/layout/FieldColumn';
 import FieldRow from '../../../app/layout/FieldRow';
+import AddImageForm from '../../../image/addImageForm/AddImageForm';
+import { AddImageSettings } from '../../../image/types';
 import {
   clearImageQueries,
   clearImagesQueries,
   imagePathBuilder,
 } from '../../../image/utils';
 import { EVENT_FIELDS } from '../../constants';
-import { AddImageSettings } from '../../types';
-import AddImageForm from './addImageForm/AddImageForm';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';
 import styles from './imageSection.module.scss';
 
@@ -175,7 +175,7 @@ const ImageSection: React.FC = () => {
             {!!images.length ? (
               <Button
                 fullWidth={true}
-                iconLeft={<IconMinusCircle />}
+                iconLeft={<IconMinusCircle aria-hidden />}
                 onClick={removeImage}
               >
                 {t(`event.form.buttonRemoveImage.${type}`)}
@@ -183,7 +183,7 @@ const ImageSection: React.FC = () => {
             ) : (
               <Button
                 fullWidth={true}
-                iconLeft={<IconPlusCircle />}
+                iconLeft={<IconPlusCircle aria-hidden />}
                 onClick={openModal}
               >
                 {t(`event.form.buttonAddImage.${type}`)}

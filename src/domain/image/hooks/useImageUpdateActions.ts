@@ -10,6 +10,7 @@ import {
   UpdateImageMutationInput,
   useDeleteImageMutation,
   useUpdateImageMutation,
+  useUploadImageMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
 import { UpdateActionsCallbacks } from '../../../types';
@@ -25,11 +26,18 @@ import {
 } from '../utils';
 
 export enum IMAGE_MODALS {
+  ADD_IMAGE = 'addImage',
   DELETE = 'delete',
 }
 
 interface Props {
-  image: ImageFieldsFragment;
+  image?: ImageFieldsFragment;
+}
+
+interface UploadImageValues {
+  image?: File;
+  publisher: string;
+  url?: string;
 }
 
 type UseImageUpdateActionsState = {
@@ -43,6 +51,10 @@ type UseImageUpdateActionsState = {
     values: ImageFormFields,
     callbacks?: UpdateActionsCallbacks
   ) => Promise<void>;
+  uploadImage: (
+    { image, publisher, url }: UploadImageValues,
+    setValues: (image: ImageFieldsFragment) => void
+  ) => void;
 };
 const useImageUpdateActions = ({
   image,
@@ -55,6 +67,7 @@ const useImageUpdateActions = ({
 
   const [deleteImageMutation] = useDeleteImageMutation();
   const [updateImageMutation] = useUpdateImageMutation();
+  const [uploadImageMutation] = useUploadImageMutation();
 
   const closeModal = () => {
     setOpenModal(null);
@@ -111,7 +124,7 @@ const useImageUpdateActions = ({
       setSaving(IMAGE_ACTIONS.DELETE);
 
       await deleteImageMutation({
-        variables: { id: image.id as string },
+        variables: { id: image?.id as string },
       });
 
       await cleanAfterUpdate(callbacks);
@@ -146,6 +159,26 @@ const useImageUpdateActions = ({
     }
   };
 
+  const uploadImage = async (
+    { image, publisher, url }: UploadImageValues,
+    setValues: (image: ImageFieldsFragment) => void
+  ) => {
+    try {
+      const data = await uploadImageMutation({
+        variables: { input: { image, name: '', publisher, url } },
+      });
+      cleanAfterUpdate();
+
+      setValues(data.data?.uploadImage as ImageFieldsFragment);
+      closeModal();
+    } catch (e) {
+      handleError({
+        error: e,
+        message: 'Failed to upload image',
+      });
+    }
+  };
+
   return {
     closeModal,
     deleteImage,
@@ -154,6 +187,7 @@ const useImageUpdateActions = ({
     setOpenModal,
     setSaving,
     updateImage,
+    uploadImage,
   };
 };
 

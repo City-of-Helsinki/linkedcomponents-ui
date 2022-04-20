@@ -273,6 +273,10 @@
       "volunteering": "Uusi vapaaehtoistehtävä"
     }
   },
+  "createImagePage": {
+    "pageTitle": "Lisää kuva",
+    "title": "Lisää kuva"
+  },
   "createKeywordPage": {
     "pageTitle": "Lisää avainsana",
     "title": "Lisää avainsana"
@@ -509,13 +513,6 @@
       },
       "helperRecurringEventRepeatInterval": "Viikon välein",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
-      "image": {
-        "labelUrl": "Kuvan URL-osoite",
-        "placeholderUrl": "Syötä kuvan URL-osoite",
-        "titleImportFromHardDisk": "Tuo kiintolevyltä",
-        "titleImportFromInternet": "Tuo internetistä",
-        "titleUseImportedImage": "Käytä aiemmin tuotua kuvaa"
-      },
       "infoTextAttendeeCapacity": {
         "course": "Jos kurssin osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
         "general": "Jos tapahtuman osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
@@ -1261,6 +1258,7 @@
       "title": "Varmista kuvan poistaminen"
     },
     "form": {
+      "buttonAddImage": "Lisää kuva",
       "buttonDelete": "Poista kuva",
       "buttonUpload": "Lataa kuva",
       "labelAltText": "Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti)",
@@ -1268,11 +1266,16 @@
       "labelName": "Kuvateksti",
       "labelPhotographerName": "Kuvaajan nimi",
       "labelPublisher": "Julkaisija",
+      "labelUrl": "Kuvan URL-osoite",
       "notificationTitleCannotEdit": "Kuvaa ei voi muokata",
       "placeholderAltText": "Syötä kuvan alt-teksti",
       "placeholderName": "Syötä kuvateksti",
       "placeholderPhotographerName": "Syötä kuvaajan nimi",
-      "titleLicense": "Lisenssi"
+      "placeholderUrl": "Syötä kuvan URL-osoite",
+      "titleImportFromHardDisk": "Tuo kiintolevyltä",
+      "titleImportFromInternet": "Tuo internetistä",
+      "titleLicense": "Lisenssi",  
+      "titleUseImportedImage": "Käytä aiemmin tuotua kuvaa"
     },
     "license": {
       "ccBy": "Creative Commons BY 4.0",
@@ -1282,6 +1285,7 @@
         "volunteering": "Käyttö rajattu vapaaehtoistehtävän yhteyteen"
       }
     },
+    "modalTitleAddImage": "Lisää kuva",
     "warningLogInToUpdate": "Kirjaudu sisään muokataksesi kuvaa.",
     "warningLogInToUpload": "Kirjaudu sisään lisätäksesi kuvia.",
     "warningNoImageSelected": "Kuvaa ei ole valittu",
