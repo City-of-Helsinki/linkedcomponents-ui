@@ -1,4 +1,5 @@
 import { ResizeObserver } from '@juggle/resize-observer';
+import classNames from 'classnames';
 import { IconPhoto } from 'hds-react';
 import React from 'react';
 import useMeasure from 'react-use-measure';
@@ -16,12 +17,16 @@ type ContainerStyles = {
 };
 
 export interface ImagePreviewProps {
+  className?: string;
+  disabled?: boolean;
   imageUrl?: string | null;
   label: string;
   onClick: () => void;
 }
 
 const ImagePreview: React.FC<ImagePreviewProps> = ({
+  className,
+  disabled,
   imageUrl,
   label,
   onClick,
@@ -49,7 +54,9 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
   return (
     <div
       aria-label={label}
-      className={styles.imagePreview}
+      className={classNames(styles.imagePreview, className, {
+        [styles.disabled]: disabled,
+      })}
       onClick={onClick}
       onKeyDown={handleKeyDown}
       ref={ref}

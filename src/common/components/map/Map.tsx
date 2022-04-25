@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 
@@ -22,21 +23,23 @@ interface Props {
 
 const Map: React.FC<Props> = ({ onChange, position }) => {
   const center = position || DEFAULT_CENTER;
+  const [initialPosition] = React.useState(position);
   const locale = useLocale();
   const { t } = useTranslation();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const featureGroup = React.useRef<any>();
 
-  const onCreated = () => {
+  const onCreated = (e: any) => {
+    const layerId = e.layer._leaflet_id;
     const drawnItems = featureGroup.current._layers;
+    const drawnItemKeys = Object.keys(drawnItems);
 
-    if (Object.keys(drawnItems).length > 1) {
-      Object.keys(drawnItems).forEach((layerid, index) => {
-        if (index > 0) return;
-        const layer = drawnItems[layerid];
+    drawnItemKeys.forEach((id) => {
+      if (Number.parseInt(id) !== layerId) {
+        const layer = drawnItems[id];
         featureGroup.current.removeLayer(layer);
-      });
-    }
+      }
+    });
 
     handleChange();
   };
@@ -47,11 +50,14 @@ const Map: React.FC<Props> = ({ onChange, position }) => {
 
   const handleChange = () => {
     const drawnItems = featureGroup.current._layers;
-    if (Object.keys(drawnItems).length) {
-      Object.keys(drawnItems).forEach((layerid, index) => {
-        if (index > 0) return;
-        const layer = drawnItems[layerid];
-        onChange(layer._latlng);
+    const drawnItemKeys = Object.keys(drawnItems);
+
+    if (drawnItemKeys.length) {
+      drawnItemKeys.forEach((layerid, index) => {
+        if (index === drawnItemKeys.length - 1) {
+          const layer = drawnItems[layerid];
+          onChange(layer._latlng);
+        }
       });
     } else {
       onChange(null);
@@ -87,7 +93,7 @@ const Map: React.FC<Props> = ({ onChange, position }) => {
               rectangle: false,
             }}
           />
-          {position && <Marker position={position} />}
+          {initialPosition && <Marker position={initialPosition} />}
         </FeatureGroup>
       )}
     </MapContainer>

@@ -85,7 +85,6 @@ import {
 } from '../organization/utils';
 import {
   ADD_EVENT_TIME_FORM_NAME,
-  ADD_IMAGE_FIELDS,
   AUTHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
   EDIT_EVENT_TIME_FORM_NAME,
@@ -469,22 +468,6 @@ export const recurringEventSchema = Yup.object().shape({
     // test that endsAt is after startsAt time
     .when([RECURRING_EVENT_FIELDS.START_TIME], isAfterStartTime),
 });
-
-export const addImageSchema = Yup.object().shape(
-  {
-    [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: Yup.array().when(
-      [ADD_IMAGE_FIELDS.URL],
-      (url: string, schema: Yup.SchemaOf<string[]>) =>
-        url ? schema.min(0) : schema.min(1)
-    ),
-    [ADD_IMAGE_FIELDS.URL]: Yup.string().when(
-      [ADD_IMAGE_FIELDS.SELECTED_IMAGE],
-      (ids: string[], schema: Yup.StringSchema) =>
-        ids.length ? schema : schema.url(VALIDATION_MESSAGE_KEYS.URL)
-    ),
-  },
-  [[ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL]]
-);
 
 export const eventPathBuilder = ({
   args,

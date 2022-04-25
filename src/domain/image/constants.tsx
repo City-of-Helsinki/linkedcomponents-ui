@@ -1,5 +1,7 @@
 import { IconCogwheel, IconCrossCircle, IconPen, IconUpload } from 'hds-react';
 
+import { AddImageSettings, ImageFormFields } from './types';
+
 export enum LICENSE_TYPES {
   CC_BY = 'cc_by',
   EVENT_ONLY = 'event_only',
@@ -34,3 +36,35 @@ export const IMAGE_ACTION_LABEL_KEYS = {
 export const AUTHENTICATION_NOT_NEEDED = [IMAGE_ACTIONS.EDIT];
 
 export const TEST_IMAGE_ID = 'image:1';
+
+export enum IMAGE_FIELDS {
+  ALT_TEXT = 'altText',
+  ID = 'id',
+  LICENSE = 'license',
+  NAME = 'name',
+  PHOTOGRAPHER_NAME = 'photographerName',
+  PUBLISHER = 'publisher',
+  URL = 'url',
+}
+
+export const IMAGE_INITIAL_VALUES: ImageFormFields = {
+  [IMAGE_FIELDS.ALT_TEXT]: '',
+  [IMAGE_FIELDS.ID]: '',
+  [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.CC_BY,
+  [IMAGE_FIELDS.NAME]: '',
+  [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
+  [IMAGE_FIELDS.PUBLISHER]: '',
+  [IMAGE_FIELDS.URL]: '',
+};
+
+export enum ADD_IMAGE_FIELDS {
+  SELECTED_IMAGE = 'selectedImage',
+  URL = 'url',
+}
+
+export const ADD_IMAGE_INITIAL_VALUES: AddImageSettings = {
+  [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [],
+  [ADD_IMAGE_FIELDS.URL]: '',
+};
+
+export const IMAGE_SELECT_FIELDS = [IMAGE_FIELDS.PUBLISHER];

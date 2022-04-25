@@ -23,7 +23,11 @@ import {
   mockedPlacesResponse,
   searchText,
 } from '../../../eventSearch/__mocks__/eventSearchPage';
-import { mockedImagesResponse } from '../../../image/__mocks__/image';
+import {
+  image,
+  mockedImageResponse,
+  mockedImagesResponse,
+} from '../../../image/__mocks__/image';
 import {
   keyword,
   mockedKeywordResponse,
@@ -56,6 +60,7 @@ const mocks = [
   mockedEnrolmentResponse,
   mockedEventResponse,
   mockedEventsResponse,
+  mockedImageResponse,
   mockedImagesResponse,
   mockedKeywordResponse,
   mockedKeywordSetResponse,
@@ -201,6 +206,23 @@ it('should render images page', async () => {
   await loadingSpinnerIsNotInDocument();
   await screen.findByRole('heading', { name: /kuvat/i });
   expect(history.location.pathname).toBe('/fi/admin/images');
+});
+
+it('should render create image page', async () => {
+  const { history } = renderRoute(`${ROUTES.CREATE_IMAGE}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /lisää kuva/i });
+  expect(history.location.pathname).toBe('/fi/admin/images/create');
+});
+
+it('should render edit image page', async () => {
+  const id = image.id;
+  const { history } = renderRoute(`${ROUTES.EDIT_IMAGE.replace(':id', id)}`);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByRole('heading', { name: /muokkaa kuvaa/i });
+  expect(history.location.pathname).toBe(`/fi/admin/images/edit/${id}`);
 });
 
 it('should render keywords page', async () => {

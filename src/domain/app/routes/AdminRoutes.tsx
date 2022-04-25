@@ -5,6 +5,9 @@ import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import NotFoundPage from '../../notFound/NotFound';
 
+const CreateImagePage = React.lazy(
+  () => import('.././../image/CreateImagePage')
+);
 const CreateKeywordPage = React.lazy(
   () => import('.././../keyword/CreateKeywordPage')
 );
@@ -17,6 +20,7 @@ const CreateOrganizationPage = React.lazy(
 const CreatePlacePage = React.lazy(
   () => import('.././../place/CreatePlacePage')
 );
+const EditImagePage = React.lazy(() => import('../../image/EditImagePage'));
 const EditKeywordPage = React.lazy(
   () => import('../../keyword/EditKeywordPage')
 );
@@ -49,6 +53,14 @@ const AdminPageRoutes: React.FC = () => {
         element={<Navigate replace to={getLocalePath(ROUTES.KEYWORDS)} />}
       />
 
+      <Route
+        path={getAdminRoutePath(ROUTES.CREATE_IMAGE)}
+        element={<CreateImagePage />}
+      />
+      <Route
+        path={getAdminRoutePath(ROUTES.EDIT_IMAGE)}
+        element={<EditImagePage />}
+      />
       <Route path={getAdminRoutePath(ROUTES.IMAGES)} element={<ImagesPage />} />
 
       <Route

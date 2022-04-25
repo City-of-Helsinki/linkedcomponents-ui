@@ -1,9 +1,9 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { UserDocument } from '../../../../../../generated/graphql';
-import { fakeUser } from '../../../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
+import { UserDocument } from '../../../../generated/graphql';
+import { fakeUser } from '../../../../utils/mockDataUtils';
+import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
@@ -12,18 +12,18 @@ import {
   screen,
   userEvent,
   waitFor,
-} from '../../../../../../utils/testUtils';
-import translations from '../../../../../app/i18n/fi.json';
-import { mockedOrganizationAncestorsResponse } from '../../../../../organization/__mocks__/organizationAncestors';
-import {
-  mockedUserResponse,
-  userVariables,
-} from '../../../../../user/__mocks__/user';
+} from '../../../../utils/testUtils';
+import translations from '../../../app/i18n/fi.json';
 import {
   images,
   mockedImagesResponse,
   publisher,
-} from '../../__mocks__/imageSection';
+} from '../../../event/formSections/imageSection/__mocks__/imageSection';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import {
+  mockedUserResponse,
+  userVariables,
+} from '../../../user/__mocks__/user';
 import AddImageForm, { AddImageFormProps } from '../AddImageForm';
 
 configure({ defaultHidden: true });

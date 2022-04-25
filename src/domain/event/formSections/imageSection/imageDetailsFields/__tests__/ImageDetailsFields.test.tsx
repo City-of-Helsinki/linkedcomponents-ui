@@ -103,7 +103,7 @@ const findElement = (key: 'altText') => {
   switch (key) {
     case 'altText':
       return screen.findByRole('textbox', {
-        name: translations.event.form.image.labelAltText,
+        name: translations.image.form.labelAltText,
       });
   }
 };
@@ -114,23 +114,23 @@ const getElement = (
   switch (key) {
     case 'altText':
       return screen.getByRole('textbox', {
-        name: translations.event.form.image.labelAltText,
+        name: translations.image.form.labelAltText,
       });
     case 'ccByRadio':
       return screen.getByRole('radio', {
-        name: translations.event.form.image.license.ccBy,
+        name: translations.image.license.ccBy,
       });
     case 'eventOnlyRadio':
       return screen.getByRole('radio', {
-        name: translations.event.form.image.license.eventOnly[eventType],
+        name: translations.image.license.eventOnly[eventType],
       });
     case 'name':
       return screen.getByRole('textbox', {
-        name: translations.event.form.image.labelName,
+        name: translations.image.form.labelName,
       });
     case 'photographerName':
       return screen.getByRole('textbox', {
-        name: translations.event.form.image.labelPhotographerName,
+        name: translations.image.form.labelPhotographerName,
       });
   }
 };

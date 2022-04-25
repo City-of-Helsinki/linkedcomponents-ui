@@ -2,15 +2,15 @@ import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Button from '../../../../../common/components/button/Button';
-import ImageSelectorField from '../../../../../common/components/formFields/ImageSelectorField';
-import TextInputField from '../../../../../common/components/formFields/TextInputField';
-import ImageUploader from '../../../../../common/components/imageUploader/ImageUploader';
-import { Image } from '../../../../../generated/graphql';
-import useIsImageUploadAllowed from '../../../../image/hooks/useIsImageUploadAllowed';
-import { ADD_IMAGE_FIELDS, ADD_IMAGE_INITIAL_VALUES } from '../../../constants';
-import { AddImageSettings } from '../../../types';
-import { addImageSchema } from '../../../utils';
+import Button from '../../../common/components/button/Button';
+import ImageSelectorField from '../../../common/components/formFields/ImageSelectorField';
+import TextInputField from '../../../common/components/formFields/TextInputField';
+import ImageUploader from '../../../common/components/imageUploader/ImageUploader';
+import { Image } from '../../../generated/graphql';
+import { ADD_IMAGE_FIELDS, ADD_IMAGE_INITIAL_VALUES } from '../constants';
+import useIsImageUploadAllowed from '../hooks/useIsImageUploadAllowed';
+import { AddImageSettings } from '../types';
+import { addImageSchema } from '../validation';
 import styles from './addImageForm.module.scss';
 
 export interface AddImageFormProps {
@@ -18,6 +18,7 @@ export interface AddImageFormProps {
   onFileChange: (file: File) => void;
   onSubmit: (values: AddImageSettings) => void;
   publisher: string;
+  showImageSelector?: boolean;
 }
 
 const AddImageForm: React.FC<AddImageFormProps> = ({
@@ -25,6 +26,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
   onFileChange,
   onSubmit,
   publisher,
+  showImageSelector = true,
 }) => {
   const { t } = useTranslation();
   const { allowed, warning } = useIsImageUploadAllowed({ publisher });
@@ -41,23 +43,27 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
       {({ values: { selectedImage, url }, isValid }) => {
         return (
           <Form className={styles.addImageForm}>
-            <h3>{t('event.form.image.titleUseImportedImage')}</h3>
-            <Field
-              name={ADD_IMAGE_FIELDS.SELECTED_IMAGE}
-              component={ImageSelectorField}
-              disabled={Boolean(url)}
-              multiple={false}
-              onDoubleClick={(image: Image) => {
-                onSubmit({
-                  [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [image.atId as string],
-                  [ADD_IMAGE_FIELDS.URL]: '',
-                });
-              }}
-              publisher={publisher}
-            />
-            <div className={styles.separationLine} />
+            {showImageSelector && (
+              <>
+                <h3>{t('image.form.titleUseImportedImage')}</h3>
+                <Field
+                  name={ADD_IMAGE_FIELDS.SELECTED_IMAGE}
+                  component={ImageSelectorField}
+                  disabled={Boolean(url)}
+                  multiple={false}
+                  onDoubleClick={(image: Image) => {
+                    onSubmit({
+                      [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [image.atId as string],
+                      [ADD_IMAGE_FIELDS.URL]: '',
+                    });
+                  }}
+                  publisher={publisher}
+                />
+                <div className={styles.separationLine} />
+              </>
+            )}
 
-            <h3>{t('event.form.image.titleImportFromHardDisk')}</h3>
+            <h3>{t('image.form.titleImportFromHardDisk')}</h3>
             <ImageUploader
               disabled={!allowed}
               onChange={onFileChange}
@@ -65,15 +71,15 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
             />
             <div className={styles.separationLine} />
 
-            <h3>{t('event.form.image.titleImportFromInternet')}</h3>
+            <h3>{t('image.form.titleImportFromInternet')}</h3>
             <div className={styles.imageUrlRow}>
               <div>
                 <Field
                   disabled={!allowed || Boolean(selectedImage.length)}
                   name={ADD_IMAGE_FIELDS.URL}
                   component={TextInputField}
-                  label={t(`event.form.image.labelUrl`)}
-                  placeholder={t(`event.form.image.placeholderUrl`)}
+                  label={t(`image.form.labelUrl`)}
+                  placeholder={t(`image.form.placeholderUrl`)}
                   title={warning}
                 />
               </div>

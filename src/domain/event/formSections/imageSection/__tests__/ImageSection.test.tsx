@@ -129,7 +129,7 @@ const getElement = (
       });
     case 'urlInput':
       return screen.getByRole('textbox', {
-        name: translations.event.form.image.labelUrl,
+        name: translations.image.form.labelUrl,
       });
   }
 };

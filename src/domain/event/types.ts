@@ -7,7 +7,6 @@ import {
 import { MultiLanguageObject } from '../../types';
 import {
   ADD_EVENT_TIME_FORM_NAME,
-  ADD_IMAGE_FIELDS,
   EDIT_EVENT_TIME_FORM_NAME,
   EVENT_FIELDS,
   EVENT_TIME_FIELDS,
@@ -136,9 +135,4 @@ export type RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: number;
   [RECURRING_EVENT_FIELDS.START_DATE]: Date | string | null;
   [RECURRING_EVENT_FIELDS.START_TIME]: string;
-};
-
-export type AddImageSettings = {
-  [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: string[];
-  [ADD_IMAGE_FIELDS.URL]: string;
 };

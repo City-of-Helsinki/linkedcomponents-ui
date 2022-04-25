@@ -11,6 +11,7 @@ import {
   checkCanUserDoAction,
   getImageActionWarning,
   getImageFields,
+  getImageInitialValues,
   imagePathBuilder,
   imagesPathBuilder,
 } from '../utils';
@@ -95,6 +96,32 @@ describe('getImageFields function', () => {
     const { lastModifiedTime } = getImageFields(image, 'fi');
 
     expect(lastModifiedTime).toEqual(new Date('2021-12-12'));
+  });
+});
+
+describe('getImageInitialValues function', () => {
+  it('should return default values if value is not set', () => {
+    expect(
+      getImageInitialValues(
+        fakeImage({
+          altText: null,
+          id: null,
+          license: null,
+          name: null,
+          photographerName: null,
+          publisher: null,
+          url: null,
+        })
+      )
+    ).toEqual({
+      altText: '',
+      id: '',
+      license: '',
+      name: '',
+      photographerName: '',
+      publisher: '',
+      url: '',
+    });
   });
 });
 

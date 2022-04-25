@@ -15,11 +15,7 @@ import { EVENT_LIST_INCLUDES, EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
 import { DEFAULT_LICENSE_TYPE } from '../image/constants';
 import { PublicationListLink } from './formSections/typeSection/PublicationListLinks';
-import {
-  AddImageSettings,
-  EventFormFields,
-  RecurringEventSettings,
-} from './types';
+import { EventFormFields, RecurringEventSettings } from './types';
 
 export enum EVENT_TYPE {
   General = 'general',
@@ -35,11 +31,6 @@ export enum RECURRING_EVENT_FIELDS {
   REPEAT_INTERVAL = 'repeatInterval',
   START_DATE = 'startDate',
   START_TIME = 'startTime',
-}
-
-export enum ADD_IMAGE_FIELDS {
-  SELECTED_IMAGE = 'selectedImage',
-  URL = 'url',
 }
 
 export enum IMAGE_DETAILS_FIELDS {
@@ -118,11 +109,6 @@ export const RECURRING_EVENT_INITIAL_VALUES: RecurringEventSettings = {
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: 1,
   [RECURRING_EVENT_FIELDS.START_DATE]: null,
   [RECURRING_EVENT_FIELDS.START_TIME]: '',
-};
-
-export const ADD_IMAGE_INITIAL_VALUES: AddImageSettings = {
-  [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [],
-  [ADD_IMAGE_FIELDS.URL]: '',
 };
 
 export const EVENT_INITIAL_VALUES: EventFormFields = {

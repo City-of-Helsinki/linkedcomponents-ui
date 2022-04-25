@@ -16,22 +16,20 @@ import Modal from '../../../../common/components/modal/Modal';
 import Notification from '../../../../common/components/notification/Notification';
 import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import {
+  ImageFieldsFragment,
   useImageQuery,
-  useUploadImageMutation,
 } from '../../../../generated/graphql';
 import getPathBuilder from '../../../../utils/getPathBuilder';
-import isTestEnv from '../../../../utils/isTestEnv';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import FieldColumn from '../../../app/layout/FieldColumn';
 import FieldRow from '../../../app/layout/FieldRow';
-import {
-  clearImageQueries,
-  clearImagesQueries,
-  imagePathBuilder,
-} from '../../../image/utils';
+import AddImageForm from '../../../image/addImageForm/AddImageForm';
+import useImageUpdateActions, {
+  IMAGE_MODALS,
+} from '../../../image/hooks/useImageUpdateActions';
+import { AddImageSettings } from '../../../image/types';
+import { clearImagesQueries, imagePathBuilder } from '../../../image/utils';
 import { EVENT_FIELDS } from '../../constants';
-import { AddImageSettings } from '../../types';
-import AddImageForm from './addImageForm/AddImageForm';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';
 import styles from './imageSection.module.scss';
 
@@ -39,11 +37,21 @@ const ImageSection: React.FC = () => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
-  const [isModalOpen, setIsmodalOpen] = React.useState(false);
+  const { closeModal, openModal, setOpenModal, uploadImage } =
+    useImageUpdateActions({});
+
+  const isModalOpen = React.useMemo(
+    () => openModal === IMAGE_MODALS.ADD_IMAGE,
+    [openModal]
+  );
+
+  const openAddImageModal = () => {
+    setOpenModal(IMAGE_MODALS.ADD_IMAGE);
+  };
+
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: publisher }] = useField({ name: EVENT_FIELDS.PUBLISHER });
 
-  const [uploadImageMutation] = useUploadImageMutation();
   const [{ value: images }, , { setValue: setImagesValue }] = useField({
     name: EVENT_FIELDS.IMAGES,
   });
@@ -60,21 +68,13 @@ const ImageSection: React.FC = () => {
 
   const imageUrl = imageData?.image.url;
 
-  const openModal = () => {
-    setIsmodalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsmodalOpen(false);
-  };
-
   const handleAddImageFormSubmit = (values: AddImageSettings) => {
     /* istanbul ignore else  */
     if (values.selectedImage.length) {
       setImagesValue(values.selectedImage);
       closeModal();
     } else if (values.url) {
-      uploadImage({ url: values.url });
+      uploadImage({ publisher, url: values.url }, setImageFields);
     }
   };
 
@@ -82,34 +82,8 @@ const ImageSection: React.FC = () => {
     setImagesValue([]);
   };
 
-  const cleanAfterUpdate = async () => {
-    /* istanbul ignore next */
-    !isTestEnv && clearImageQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearImagesQueries(apolloClient);
-  };
-
-  const uploadImage = async ({
-    image,
-    url,
-  }: {
-    image?: File;
-    url?: string;
-  }) => {
-    try {
-      const data = await uploadImageMutation({
-        variables: { input: { image, name: '', publisher, url } },
-      });
-      cleanAfterUpdate();
-
-      setImagesValue([data.data?.uploadImage.atId]);
-      closeModal();
-    } catch (e) {
-      // Network errors will be handled on apolloClient error link. Only show error on console here.
-      /* istanbul ignore next */
-      // eslint-disable-next-line no-console
-      console.error(e);
-    }
+  const setImageFields = (image: ImageFieldsFragment) => {
+    setImagesValue([image.atId]);
   };
 
   React.useEffect(() => {
@@ -123,16 +97,16 @@ const ImageSection: React.FC = () => {
     <>
       {isModalOpen && (
         <Modal
-          isOpen={isModalOpen}
+          isOpen={openModal === IMAGE_MODALS.ADD_IMAGE}
           onClose={closeModal}
           shouldCloseOnEsc={false}
           title={t(`event.form.modalTitleImage.${type}`)}
         >
           <AddImageForm
             onCancel={closeModal}
-            onFileChange={(image: File) => {
-              uploadImage({ image });
-            }}
+            onFileChange={(image) =>
+              uploadImage({ publisher, image }, setImageFields)
+            }
             onSubmit={handleAddImageFormSubmit}
             publisher={publisher}
           />
@@ -167,7 +141,7 @@ const ImageSection: React.FC = () => {
             <ImagePreview
               imageUrl={imageUrl}
               label={t(`event.form.buttonAddImage.${type}`)}
-              onClick={openModal}
+              onClick={openAddImageModal}
             />
           </FormGroup>
 
@@ -175,7 +149,7 @@ const ImageSection: React.FC = () => {
             {!!images.length ? (
               <Button
                 fullWidth={true}
-                iconLeft={<IconMinusCircle />}
+                iconLeft={<IconMinusCircle aria-hidden />}
                 onClick={removeImage}
               >
                 {t(`event.form.buttonRemoveImage.${type}`)}
@@ -183,8 +157,8 @@ const ImageSection: React.FC = () => {
             ) : (
               <Button
                 fullWidth={true}
-                iconLeft={<IconPlusCircle />}
-                onClick={openModal}
+                iconLeft={<IconPlusCircle aria-hidden />}
+                onClick={openAddImageModal}
               >
                 {t(`event.form.buttonAddImage.${type}`)}
               </Button>
