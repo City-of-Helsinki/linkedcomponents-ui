@@ -7,7 +7,11 @@ import {
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { IMAGE_ALT_TEXT_MIN_LENGTH } from '../event/constants';
-import { ADD_IMAGE_FIELDS, IMAGE_FIELDS } from './constants';
+import {
+  ADD_IMAGE_FIELDS,
+  IMAGE_FIELDS,
+  IMAGE_SELECT_FIELDS,
+} from './constants';
 
 export const imageSchema = Yup.object().shape({
   [IMAGE_FIELDS.PUBLISHER]: Yup.string()
@@ -37,3 +41,10 @@ export const addImageSchema = Yup.object().shape(
   },
   [[ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL]]
 );
+
+export const getFocusableFieldId = (fieldName: string): string => {
+  if (IMAGE_SELECT_FIELDS.find((item) => item === fieldName)) {
+    return `${fieldName}-input`;
+  }
+  return fieldName;
+};

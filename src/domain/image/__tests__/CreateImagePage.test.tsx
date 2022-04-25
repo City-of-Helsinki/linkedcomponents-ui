@@ -44,7 +44,7 @@ const store = getMockReduxStore(state);
 const renderComponent = () => render(<CreateImagePage />, { mocks, store });
 
 const getElement = (
-  key: 'addButton' | 'publisherToggleButton' | 'saveButton'
+  key: 'addButton' | 'publisherInput' | 'publisherToggleButton' | 'saveButton'
 ) => {
   switch (key) {
     // Both add button and preview image component have same label
@@ -52,6 +52,8 @@ const getElement = (
       return screen.getAllByRole('button', {
         name: /Lisää kuva/i,
       })[0];
+    case 'publisherInput':
+      return screen.getByRole('combobox', { name: /julkaisija/i });
     case 'publisherToggleButton':
       return screen.getByRole('button', { name: /julkaisija: valikko/i });
     case 'saveButton':
@@ -99,6 +101,18 @@ const uploadImageByUrl = async () => {
   await waitFor(() => expect(submitButton).toBeEnabled());
   act(() => userEvent.click(submitButton));
 };
+
+test('should scroll to first validation error input field', async () => {
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const publisherInput = getElement('publisherInput');
+  const saveButton = getElement('saveButton');
+  userEvent.click(saveButton);
+
+  await waitFor(() => expect(publisherInput).toHaveFocus());
+});
 
 test('should create and select new image by selecting image file', async () => {
   renderComponent();

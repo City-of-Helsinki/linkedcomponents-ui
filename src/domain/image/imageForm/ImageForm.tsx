@@ -38,7 +38,7 @@ import ImageAuthenticationNotification from '../imageAuthenticationNotification/
 import AddImageModal from '../modals/AddImageModal';
 import { ImageFormFields } from '../types';
 import { getImageInitialValues } from '../utils';
-import { imageSchema } from '../validation';
+import { getFocusableFieldId, imageSchema } from '../validation';
 
 type ImageFormProps = {
   image?: ImageFieldsFragment;
@@ -125,7 +125,10 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
               setTouched,
             });
 
-            scrollToFirstError({ error: error as ValidationError });
+            scrollToFirstError({
+              error: error as ValidationError,
+              getFocusableFieldId,
+            });
           }
         };
 

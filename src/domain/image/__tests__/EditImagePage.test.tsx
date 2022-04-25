@@ -86,7 +86,7 @@ test('should delete keyword', async () => {
   );
 });
 
-test('should update keyword', async () => {
+test('should update image', async () => {
   const { history } = renderComponent([
     ...defaultMocks,
     mockedUpdateImageResponse,
