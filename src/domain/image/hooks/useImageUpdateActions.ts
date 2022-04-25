@@ -171,9 +171,9 @@ const useImageUpdateActions = ({
 
       setValues(data.data?.uploadImage as ImageFieldsFragment);
       closeModal();
-    } catch (e) {
+    } catch (error) /* istanbul ignore next */ {
       handleError({
-        error: e,
+        error,
         message: 'Failed to upload image',
       });
     }

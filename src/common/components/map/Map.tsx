@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 
@@ -25,7 +26,7 @@ const Map: React.FC<Props> = ({ onChange, position }) => {
   const [initialPosition] = React.useState(position);
   const locale = useLocale();
   const { t } = useTranslation();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const featureGroup = React.useRef<any>();
 
   const onCreated = (e: any) => {

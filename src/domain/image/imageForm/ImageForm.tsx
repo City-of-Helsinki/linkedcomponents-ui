@@ -132,8 +132,10 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
         const setImageFields = (image: ImageFieldsFragment) => {
           setFieldValue(IMAGE_FIELDS.ID, image.id);
           setFieldValue(IMAGE_FIELDS.URL, image.url);
+          /* istanbul ignore next */
           setFieldValue(IMAGE_FIELDS.ALT_TEXT, image.altText ?? '');
           setFieldValue(IMAGE_FIELDS.NAME, image.name);
+          /* istanbul ignore next */
           setFieldValue(
             IMAGE_FIELDS.PHOTOGRAPHER_NAME,
             image.photographerName ?? ''
@@ -189,7 +191,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                       disabled={true}
                       imageUrl={values.url}
                       label={t(`event.form.buttonAddImage.general`)}
-                      onClick={() => undefined}
+                      onClick={/* istanbul ignore next */ () => undefined}
                     />
                     {!values.url && (
                       <Button
