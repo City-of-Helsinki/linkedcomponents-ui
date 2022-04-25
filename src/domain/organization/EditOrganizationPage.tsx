@@ -115,6 +115,7 @@ const EditOrganizationPageWrapper: React.FC = () => {
   const { data: organizationData, loading: loadingOrganization } =
     useOrganizationQuery({
       fetchPolicy: 'no-cache',
+      skip: loadingUser,
       variables: {
         id: id as string,
         createPath: getPathBuilder(organizationPathBuilder),

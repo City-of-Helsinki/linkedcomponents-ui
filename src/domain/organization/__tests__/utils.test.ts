@@ -5,6 +5,7 @@ import {
   fakeOrganization,
   fakeOrganizations,
   fakeUser,
+  fakeUsers,
 } from '../../../utils/mockDataUtils';
 import apolloClient from '../../app/apollo/apolloClient';
 import {
@@ -245,6 +246,7 @@ describe('getOrganizationInitialValues function', () => {
     expect(
       getOrganizationInitialValues(
         fakeOrganization({
+          adminUsers: null,
           affiliatedOrganizations: null,
           classification: null,
           dataSource: null,
@@ -254,6 +256,7 @@ describe('getOrganizationInitialValues function', () => {
           isAffiliated: true,
           name: null,
           parentOrganization: null,
+          regularUsers: null,
           subOrganizations: null,
         })
       )
@@ -279,6 +282,7 @@ describe('getOrganizationInitialValues function', () => {
     expect(
       getOrganizationInitialValues(
         fakeOrganization({
+          adminUsers: fakeUsers(1, [{ username: 'admin:1' }]).data,
           affiliatedOrganizations: ['organization:affiliated'],
           classification: 'ahjo:123',
           dataSource: 'helsinki',
@@ -288,11 +292,12 @@ describe('getOrganizationInitialValues function', () => {
           isAffiliated: false,
           name: 'name',
           parentOrganization: 'organization:parent',
+          regularUsers: fakeUsers(1, [{ username: 'regular:1' }]).data,
           subOrganizations: ['organization:sub'],
         })
       )
     ).toEqual({
-      adminUsers: [],
+      adminUsers: ['admin:1'],
       affiliatedOrganizations: ['organization:affiliated'],
       classification: 'ahjo:123',
       dataSource: 'helsinki',
@@ -303,7 +308,7 @@ describe('getOrganizationInitialValues function', () => {
       name: 'name',
       originId: '1',
       parentOrganization: 'organization:parent',
-      regularUsers: [],
+      regularUsers: ['regular:1'],
       replacedBy: '',
       subOrganizations: ['organization:sub'],
     });

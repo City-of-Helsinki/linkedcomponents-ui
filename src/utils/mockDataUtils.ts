@@ -284,6 +284,7 @@ export const fakeOrganization = (
   const id = overrides?.id || faker.datatype.uuid();
   return merge<Organization, typeof overrides>(
     {
+      adminUsers: [],
       affiliatedOrganizations: [],
       id,
       atId: generateAtId(id, 'organization'),
@@ -298,6 +299,7 @@ export const fakeOrganization = (
       name: faker.random.words(),
       parentOrganization: null,
       replacedBy: null,
+      regularUsers: [],
       subOrganizations: [],
       __typename: 'Organization',
     },

@@ -295,8 +295,8 @@ export const getOrganizationInitialValues = (
   const id = organization.id ?? '';
   const { dissolutionDate, foundingDate } = organization;
   return {
-    // TODO: Initialize admin users
-    adminUsers: [],
+    adminUsers:
+      organization.adminUsers?.map((o) => o?.username as string) || [],
     affiliatedOrganizations:
       (organization.affiliatedOrganizations as string[]) ?? [],
     classification: organization.classification ?? '',
@@ -310,8 +310,8 @@ export const getOrganizationInitialValues = (
     name: organization.name ?? '',
     originId: id.split(':')[1] ?? '',
     parentOrganization: organization.parentOrganization ?? '',
-    // TODO: Initialize regular users
-    regularUsers: [],
+    regularUsers:
+      organization.regularUsers?.map((o) => o?.username as string) || [],
     replacedBy: '',
     subOrganizations: (organization.subOrganizations as string[]) ?? [],
   };

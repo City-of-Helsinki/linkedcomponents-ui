@@ -667,6 +667,7 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type Organization {
+    adminUsers: [User]
     affiliatedOrganizations: [String]
     classification: String
     createdTime: String
@@ -679,6 +680,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedTime: String
     name: String
     parentOrganization: String
+    regularUsers: [User]
     replacedBy: String
     subOrganizations: [String]
     atContext: String
