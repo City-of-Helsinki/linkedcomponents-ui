@@ -41,6 +41,8 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type Query {
+    dataSource(id: ID!): DataSource!
+    dataSources(page: Int, pageSize: Int): DataSourcesResponse!
     enrolment(id: ID): Enrolment!
     enrolments(
       attendeeStatus: AttendeeStatus
@@ -117,6 +119,8 @@ module.exports = buildSchema(/* GraphQL */ `
       pageSize: Int
       text: String
     ): OrganizationsResponse!
+    organizationClass(id: ID!): OrganizationClass!
+    organizationClasses(page: Int, pageSize: Int): OrganizationClassesResponse!
     place(id: ID!): Place!
     places(
       dataSource: String
@@ -460,6 +464,25 @@ module.exports = buildSchema(/* GraphQL */ `
     waitingListCapacity: Int
   }
 
+  type DataSource {
+    apiKey: String
+    createPastEvents: Boolean
+    editPastEvents: Boolean
+    id: ID
+    name: String
+    owner: String
+    private: Boolean
+    userEditable: Boolean
+    atContext: String
+    atId: String!
+    atType: String
+  }
+
+  type DataSourcesResponse {
+    meta: Meta!
+    data: [DataSource]!
+  }
+
   type EventsResponse {
     meta: Meta!
     data: [Event]!
@@ -691,6 +714,22 @@ module.exports = buildSchema(/* GraphQL */ `
   type OrganizationsResponse {
     meta: Meta!
     data: [Organization]!
+  }
+
+  type OrganizationClass {
+    createdTime: String
+    dataSource: String
+    id: String
+    lastModifiedTime: String
+    name: String
+    atContext: String
+    atId: String!
+    atType: String
+  }
+
+  type OrganizationClassesResponse {
+    meta: Meta!
+    data: [OrganizationClass]!
   }
 
   type Place {

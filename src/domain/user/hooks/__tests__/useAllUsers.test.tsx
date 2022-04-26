@@ -81,17 +81,14 @@ const getHookWrapper = async () => {
     </Provider>
   );
 
-  const { result, waitFor, waitForValueToChange } = renderHook(
-    () => useAllUsers(),
-    {
-      wrapper,
-    }
-  );
+  const { result, waitFor } = renderHook(() => useAllUsers(), {
+    wrapper,
+  });
 
   expect(result.current.users).toEqual([]);
   await waitFor(() => expect(result.current.user).toBeDefined());
   // Test the initial state of the request
-  return { result, waitFor, waitForValueToChange };
+  return { result, waitFor };
 };
 
 test('should return all users', async () => {
