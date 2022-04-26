@@ -3,11 +3,9 @@ import faker from 'faker';
 import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
+import { TEST_DATA_SOURCE_ID } from '../domain/dataSource/constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
-import {
-  TEST_DATA_SOURCE,
-  TEST_PUBLISHER_ID,
-} from '../domain/organization/constants';
+import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
 import {
   AttendeeStatus,
   DataSource,
@@ -261,7 +259,7 @@ export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet => {
     {
       id,
       atId: generateAtId(id, 'keyword_set'),
-      dataSource: TEST_DATA_SOURCE,
+      dataSource: TEST_DATA_SOURCE_ID,
       keywords: [],
       name: fakeLocalisedObject(),
       organization: TEST_PUBLISHER_ID,
@@ -370,7 +368,7 @@ export const fakeOrganizationClass = (
       id,
       atId: generateAtId(id, 'organization_class'),
       createdTime: null,
-      dataSource: TEST_DATA_SOURCE,
+      dataSource: TEST_DATA_SOURCE_ID,
       lastModifiedTime: null,
       name: faker.random.words(),
       __typename: 'OrganizationClass',

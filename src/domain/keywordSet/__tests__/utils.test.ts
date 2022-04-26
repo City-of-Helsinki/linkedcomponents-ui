@@ -5,11 +5,9 @@ import {
   fakeKeywordSet,
   fakeOrganization,
 } from '../../../utils/mockDataUtils';
+import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
 import { TEST_KEYWORD_ID } from '../../keyword/constants';
-import {
-  TEST_DATA_SOURCE,
-  TEST_PUBLISHER_ID,
-} from '../../organization/constants';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { KEYWORD_SET_ACTIONS, KEYWORD_SET_INITIAL_VALUES } from '../constants';
 import {
   checkCanUserDoAction,
@@ -87,7 +85,7 @@ describe('getKeywordSetFields function', () => {
 });
 
 describe('checkCanUserDoAction function', () => {
-  const dataSource = TEST_DATA_SOURCE;
+  const dataSource = TEST_DATA_SOURCE_ID;
 
   it('should allow correct actions if user organization has same data source as keyword set', () => {
     const userOrganization = fakeOrganization({ dataSource });
@@ -248,7 +246,7 @@ describe('getKeywordInitialValues function', () => {
 });
 
 describe('getKeywordSetPayload function', () => {
-  const dataSource = TEST_DATA_SOURCE;
+  const dataSource = TEST_DATA_SOURCE_ID;
   const userOrganization = fakeOrganization({ dataSource });
 
   it('should return keyword set payload', () => {

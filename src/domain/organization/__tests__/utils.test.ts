@@ -11,6 +11,7 @@ import apolloClient from '../../app/apollo/apolloClient';
 import {
   ORGANIZATION_ACTIONS,
   ORGANIZATION_INITIAL_VALUES,
+  ORGANIZATION_INTERNAL_TYPE,
   TEST_PUBLISHER_ID,
 } from '../constants';
 import {
@@ -26,7 +27,7 @@ import {
 } from '../utils';
 
 describe('organizationPathBuilder function', () => {
-  it('should create correct path for organization request', () => {
+  it('should create correct path for organization class request', () => {
     expect(organizationPathBuilder({ args: { id: '123' } })).toBe(
       '/organization/123/'
     );
@@ -325,7 +326,7 @@ describe('getOrganizationPayload function', () => {
       dissolutionDate: null,
       foundingDate: null,
       id: undefined,
-      internalType: '',
+      internalType: ORGANIZATION_INTERNAL_TYPE.NORMAL,
       name: '',
       parentOrganization: '',
       regularUsers: [],

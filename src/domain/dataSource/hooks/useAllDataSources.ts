@@ -20,7 +20,9 @@ type UseAllDataSourcesState = {
   user: UserFieldsFragment | undefined;
 };
 
-const useAllDataSources = (): UseAllDataSourcesState => {
+const useAllDataSources = (
+  showOnlyUserEditable?: boolean
+): UseAllDataSourcesState => {
   const { t } = useTranslation();
   const { user } = useUser();
 
@@ -62,7 +64,9 @@ const useAllDataSources = (): UseAllDataSourcesState => {
 
   return {
     dataSources:
-      (dataSourcesData?.dataSources.data as DataSourceFieldsFragment[]) || [],
+      (dataSourcesData?.dataSources.data.filter(
+        (ds) => !showOnlyUserEditable || ds?.userEditable
+      ) as DataSourceFieldsFragment[]) || [],
     loading: debouncedLoading,
     user,
   };

@@ -24,12 +24,12 @@ import styles from './organizationsTable.module.scss';
 import OrganizationsTableContext from './OrganizationsTableContext';
 import SubOrganizationRows from './SubOrganizationRows';
 
-interface Props {
+export interface OrganizationsTableRowProps {
   level?: number;
   organization: OrganizationFieldsFragment;
 }
 
-const OrganizationsTableRow: React.FC<Props> = ({
+const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
   level = 0,
   organization,
 }) => {

@@ -2,9 +2,13 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { CreateOrganizationDocument } from '../../../generated/graphql';
 import { fakeOrganization } from '../../../utils/mockDataUtils';
+import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
+import { TEST_ORGANIZATION_CLASS_ID } from '../../organizationClass/constants';
+import { ORGANIZATION_INTERNAL_TYPE } from '../constants';
 
 const organizationValues = {
-  dataSource: 'helsinki',
+  classification: TEST_ORGANIZATION_CLASS_ID,
+  dataSource: TEST_DATA_SOURCE_ID,
   name: 'Organization name',
   originId: '123',
 };
@@ -12,8 +16,8 @@ const organizationValues = {
 const payload = {
   adminUsers: [],
   affiliatedOrganizations: [],
-  classification: '',
-  internalType: '',
+  classification: organizationValues.classification,
+  internalType: ORGANIZATION_INTERNAL_TYPE.NORMAL,
   name: organizationValues.name,
   parentOrganization: '',
   regularUsers: [],

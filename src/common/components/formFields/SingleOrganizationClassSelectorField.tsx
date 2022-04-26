@@ -1,19 +1,19 @@
 import { FieldProps, useField } from 'formik';
-import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../types';
 import { getErrorText } from '../../../utils/validationUtils';
-import SingleSelect from '../singleSelect/SingleSelect';
+import SingleOrganizationClassSelector, {
+  SingleOrganizationClassSelectorProps,
+} from '../singleOrganizationClassSelector/SingleOrganizationClassSelector';
 
-type Props = SingleSelectProps<OptionType> & FieldProps;
+type Props = SingleOrganizationClassSelectorProps & FieldProps;
 
-const SingleSelectField: React.FC<Props> = ({
+const SingleOrganizationClassSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
   helper,
-  options,
   ...rest
 }) => {
   const { t } = useTranslation();
@@ -26,23 +26,17 @@ const SingleSelectField: React.FC<Props> = ({
   };
 
   const handleChange = (selected: OptionType | null) => {
-    onChange({
-      target: { id: name, value: selected?.value || null },
-    });
+    onChange({ target: { id: name, value: selected?.value || null } });
   };
 
   return (
-    <SingleSelect
+    <SingleOrganizationClassSelector
       {...rest}
       {...field}
-      id={name}
+      name={name}
       onBlur={handleBlur}
       onChange={handleChange}
-      options={options}
-      value={
-        options.find((option) => option.value === value) ??
-        (null as unknown as undefined)
-      }
+      value={value}
       helper={helper}
       error={errorText}
       invalid={!!errorText}
@@ -50,4 +44,4 @@ const SingleSelectField: React.FC<Props> = ({
   );
 };
 
-export default SingleSelectField;
+export default SingleOrganizationClassSelectorField;

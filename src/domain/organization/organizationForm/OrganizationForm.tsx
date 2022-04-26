@@ -12,6 +12,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import DatepickerField from '../../../common/components/formFields/DatepickerField';
+import SingleDataSourceSelectorField from '../../../common/components/formFields/SingleDataSourceSelectorField';
+import SingleOrganizationClassSelectorField from '../../../common/components/formFields/SingleOrganizationClassSelectorField';
 import SingleOrganizationSelectorField from '../../../common/components/formFields/SingleOrganizationSelectorField';
 import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
@@ -49,7 +51,7 @@ import {
   getOrganizationInitialValues,
   getOrganizationPayload,
 } from '../utils';
-import { organizationSchema } from '../validation';
+import { getFocusableFieldId, organizationSchema } from '../validation';
 import SubOrganizationTable from './subOrganizationTable/SubOrganizationTable';
 
 type OrganizationFormProps = {
@@ -175,7 +177,10 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
               setTouched,
             });
 
-            scrollToFirstError({ error: error as ValidationError });
+            scrollToFirstError({
+              error: error as ValidationError,
+              getFocusableFieldId,
+            });
           }
         };
 
@@ -192,6 +197,44 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
 
             <ServerErrorSummary errors={serverErrorItems} />
 
+            <FormRow className={styles.borderInMobile}>
+              <Field
+                className={styles.alignedInputWithFullBorder}
+                component={TextInputField}
+                label={t(`organization.form.labelId`)}
+                name={ORGANIZATION_FIELDS.ID}
+                readOnly
+              />
+            </FormRow>
+            <FormRow className={organization ? styles.borderInMobile : ''}>
+              <Field
+                className={styles.alignedSelect}
+                component={SingleDataSourceSelectorField}
+                disabled={!!organization}
+                label={t(`organization.form.labelDataSource`)}
+                name={ORGANIZATION_FIELDS.DATA_SOURCE}
+                required
+                showOnlyUserEditable={true}
+              />
+            </FormRow>
+            <FormRow className={organization ? styles.borderInMobile : ''}>
+              <Field
+                className={styles.alignedInput}
+                component={TextInputField}
+                label={t(`organization.form.labelOriginId`)}
+                name={ORGANIZATION_FIELDS.ORIGIN_ID}
+                readOnly={!!organization}
+                required
+              />
+            </FormRow>
+            <FormRow>
+              <Field
+                className={styles.alignedInput}
+                component={TextInputField}
+                label={t(`organization.form.labelName`)}
+                name={ORGANIZATION_FIELDS.NAME}
+              />
+            </FormRow>
             <FormRow>
               <Field
                 className={styles.alignedSelect}
@@ -213,42 +256,6 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             <FormRow>
               <Field
                 className={styles.alignedSelect}
-                component={SingleOrganizationSelectorField}
-                label={t(`organization.form.labelReplacedBy`)}
-                name={ORGANIZATION_FIELDS.REPLACED_BY}
-              />
-            </FormRow>
-            <FormRow className={styles.borderInMobile}>
-              <Field
-                className={styles.alignedInputWithFullBorder}
-                component={TextInputField}
-                label={t(`organization.form.labelId`)}
-                name={ORGANIZATION_FIELDS.ID}
-                readOnly
-              />
-            </FormRow>
-            <FormRow className={organization ? styles.borderInMobile : ''}>
-              <Field
-                className={styles.alignedInputWithFullBorder}
-                component={TextInputField}
-                label={t(`organization.form.labelDataSource`)}
-                name={ORGANIZATION_FIELDS.DATA_SOURCE}
-                readOnly={!!organization}
-              />
-            </FormRow>
-            <FormRow className={organization ? styles.borderInMobile : ''}>
-              <Field
-                className={styles.alignedInput}
-                component={TextInputField}
-                label={t(`organization.form.labelOriginId`)}
-                name={ORGANIZATION_FIELDS.ORIGIN_ID}
-                readOnly={!!organization}
-              />
-            </FormRow>
-            <FormRow>
-              <Field
-                className={styles.alignedSelect}
-                clearable
                 component={SingleSelectField}
                 label={t(`organization.form.labelInternalType`)}
                 options={internalTypeOptions}
@@ -258,19 +265,12 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow className={organization ? styles.borderInMobile : ''}>
               <Field
-                className={styles.alignedInput}
-                component={TextInputField}
+                className={styles.alignedSelect}
+                clearable
+                component={SingleOrganizationClassSelectorField}
                 label={t(`organization.form.labelClassification`)}
                 name={ORGANIZATION_FIELDS.CLASSIFICATION}
-                readOnly={!!organization}
-              />
-            </FormRow>
-            <FormRow>
-              <Field
-                className={styles.alignedInput}
-                component={TextInputField}
-                label={t(`organization.form.labelName`)}
-                name={ORGANIZATION_FIELDS.NAME}
+                disabled={!!organization}
               />
             </FormRow>
             <FormRow className={organization ? styles.borderInMobile : ''}>
@@ -298,6 +298,14 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 label={t(`organization.form.labelParentOrganization`)}
                 name={ORGANIZATION_FIELDS.PARENT_ORGANIZATION}
                 disabled={!!organization}
+              />
+            </FormRow>
+            <FormRow>
+              <Field
+                className={styles.alignedSelect}
+                component={SingleOrganizationSelectorField}
+                label={t(`organization.form.labelReplacedBy`)}
+                name={ORGANIZATION_FIELDS.REPLACED_BY}
               />
             </FormRow>
 

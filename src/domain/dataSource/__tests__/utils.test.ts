@@ -1,5 +1,18 @@
 import { DataSourcesQueryVariables } from '../../../generated/graphql';
-import { dataSourcesPathBuilder } from '../utils';
+import { fakeDataSource } from '../../../utils/mockDataUtils';
+import {
+  dataSourcePathBuilder,
+  dataSourcesPathBuilder,
+  getDataSourceFields,
+} from '../utils';
+
+describe('dataSourcePathBuilder function', () => {
+  it('should create correct path for data source request', () => {
+    expect(dataSourcePathBuilder({ args: { id: '123' } })).toBe(
+      '/data_source/123/'
+    );
+  });
+});
 
 describe('dataSourcesPathBuilder function', () => {
   const cases: [DataSourcesQueryVariables, string][] = [
@@ -10,4 +23,18 @@ describe('dataSourcesPathBuilder function', () => {
   it.each(cases)('should build correct path', (variables, expectedPath) =>
     expect(dataSourcesPathBuilder({ args: variables })).toBe(expectedPath)
   );
+});
+
+describe('getDataSourceFields function', () => {
+  it('should return default values if value is not set', () => {
+    const { id, name } = getDataSourceFields(
+      fakeDataSource({
+        id: null,
+        name: null,
+      })
+    );
+
+    expect(id).toBe('');
+    expect(name).toBe('');
+  });
 });

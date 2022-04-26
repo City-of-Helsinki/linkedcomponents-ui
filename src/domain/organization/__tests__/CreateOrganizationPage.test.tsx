@@ -10,6 +10,16 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import {
+  dataSourceName,
+  mockedDataSourceResponse,
+  mockedDataSourcesResponse,
+} from '../../dataSource/__mocks__/dataSource';
+import {
+  mockedOrganizationClassesResponse,
+  mockedOrganizationClassResponse,
+  organizationClassName,
+} from '../../organizationClass/__mocks__/organizationClass';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedCreateOrganizationResponse,
@@ -23,17 +33,36 @@ configure({ defaultHidden: true });
 const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
-const defaultMocks = [mockedUserResponse];
+const defaultMocks = [
+  mockedDataSourceResponse,
+  mockedDataSourcesResponse,
+  mockedOrganizationClassResponse,
+  mockedOrganizationClassesResponse,
+  mockedUserResponse,
+];
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
   render(<CreateOrganizationPage />, { mocks, store });
 
 const getElement = (
-  key: 'dataSourceInput' | 'nameInput' | 'originIdInput' | 'saveButton'
+  key:
+    | 'classificationInput'
+    | 'classificationToggleButton'
+    | 'dataSourceInput'
+    | 'dataSourceToggleButton'
+    | 'nameInput'
+    | 'originIdInput'
+    | 'saveButton'
 ) => {
   switch (key) {
+    case 'classificationInput':
+      return screen.getByRole('combobox', { name: /luokittelu/i });
+    case 'classificationToggleButton':
+      return screen.getByRole('button', { name: /luokittelu: valikko/i });
     case 'dataSourceInput':
-      return screen.getByRole('textbox', { name: /datan lähde/i });
+      return screen.getByRole('combobox', { name: /datan lähde/i });
+    case 'dataSourceToggleButton':
+      return screen.getByRole('button', { name: /datan lähde: valikko/i });
     case 'nameInput':
       return screen.getByRole('textbox', { name: /nimi/i });
     case 'originIdInput':
@@ -43,10 +72,29 @@ const getElement = (
   }
 };
 
+const fillDataSourceField = async () => {
+  const dataSourceToggleButton = getElement('dataSourceToggleButton');
+  userEvent.click(dataSourceToggleButton);
+
+  const option = await screen.findByRole('option', { name: dataSourceName });
+  userEvent.click(option);
+};
+
+const fillClassificationField = async () => {
+  const classificationToggleButton = getElement('classificationToggleButton');
+  userEvent.click(classificationToggleButton);
+
+  const option = await screen.findByRole('option', {
+    name: organizationClassName,
+  });
+  userEvent.click(option);
+};
+
 const fillInputValues = async () => {
-  userEvent.type(getElement('dataSourceInput'), organizationValues.dataSource);
+  await fillDataSourceField();
   userEvent.type(getElement('originIdInput'), organizationValues.originId);
   userEvent.type(getElement('nameInput'), organizationValues.name);
+  await fillClassificationField();
 };
 
 test('should focus to first validation error when trying to save new registration', async () => {
@@ -59,7 +107,7 @@ test('should focus to first validation error when trying to save new registratio
 
   const dataSourceInput = getElement('dataSourceInput');
   await waitFor(() => expect(dataSourceInput).toHaveFocus());
-  userEvent.type(dataSourceInput, organizationValues.originId);
+  await fillDataSourceField();
   userEvent.click(saveButton);
 
   const originIdInput = getElement('originIdInput');
