@@ -261,7 +261,7 @@
     "pageTitle": "Add participant"
   },
   "createEventPage": {
-    "page": {
+    "pageTitle": {
       "course": "New course",
       "general": "New event",
       "volunteering": "New volunteering"
@@ -293,7 +293,7 @@
     "title": "Add place"
   },
   "createRegistrationPage": {
-    "page": "New registration",
+    "pageTitle": "New registration",
     "title": "New registration"
   },
   "editEnrolmentPage": {

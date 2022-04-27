@@ -31,4 +31,5 @@ export {
   organizationClassification,
   organizationId,
   organizationName,
+  organizationVariables,
 };

@@ -11,9 +11,9 @@ import StatusTag from '../../event/tags/StatusTag';
 import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
 import { getEventItemId } from '../../eventSearch/utils';
+import OrganizationName from '../../organization/organizationName/OrganizationName';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import EventActionsDropdown from '../eventActionsDropdown/EventActionsDropdown';
-import PublisherName from '../eventCard/PublisherName';
 import { expandedEventsSelector } from '../selectors';
 import styles from './eventsTable.module.scss';
 import SubEventRows from './SubEventRows';
@@ -124,11 +124,7 @@ const EventTableRow: React.FC<Props> = ({
           </div>
         </td>
         <td className={styles.publisherColumn}>
-          {publisher ? (
-            <PublisherName id={publisher} />
-          ) : (
-            /* istanbul ignore next */ '-'
-          )}
+          <OrganizationName id={publisher} />
         </td>
         <td className={styles.timeColumn}>
           {startTime

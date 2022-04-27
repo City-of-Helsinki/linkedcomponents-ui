@@ -1,18 +1,25 @@
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
-import { getMockReduxStore, render, screen } from '../../../../utils/testUtils';
+import {
+  configure,
+  getMockReduxStore,
+  render,
+  screen,
+} from '../../../../utils/testUtils';
 import {
   dataSourceName,
-  mockedDataSourcesResponse,
+  mockedDataSourceResponse,
 } from '../../../dataSource/__mocks__/dataSource';
 import { organization } from '../../../organization/__mocks__/organization';
 import {
-  mockedOrganizationClassesResponse,
+  mockedOrganizationClassResponse,
   organizationClassName,
 } from '../../../organizationClass/__mocks__/organizationClass';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import OrganizationsTableRow, {
   OrganizationsTableRowProps,
 } from '../OrganizationsTableRow';
+
+configure({ defaultHidden: true });
 
 const defaultProps: OrganizationsTableRowProps = {
   organization,
@@ -22,8 +29,8 @@ const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
 const mocks = [
-  mockedDataSourcesResponse,
-  mockedOrganizationClassesResponse,
+  mockedDataSourceResponse,
+  mockedOrganizationClassResponse,
   mockedUserResponse,
 ];
 

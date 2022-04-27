@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import TextWithIcon from '../../../common/components/textWithIcon/TextWithIcon';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
@@ -26,6 +27,7 @@ import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
 import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
 import { getEventItemId } from '../../eventSearch/utils';
+import OrganizationName from '../../organization/organizationName/OrganizationName';
 import { getPlaceFields } from '../../place/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import EventActionsDropdown from '../eventActionsDropdown/EventActionsDropdown';
@@ -34,9 +36,7 @@ import AudienceAgeText from './AudienceAgeText';
 import DateText from './DateText';
 import styles from './eventCard.module.scss';
 import PriceText from './PriceText';
-import PublisherNameWithIcon from './PublisherNameWithIcon';
 import SubEventCards from './SubEventCards';
-import TextWithIcon from './TextWithIcon';
 
 export const testIds = {
   image: 'event-card-image',
@@ -148,7 +148,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
             </div>
             <div className={classNames(styles.row, styles.publisherRow)}>
               <div className={styles.publisherColumn}>
-                <PublisherNameWithIcon id={publisher} />
+                <OrganizationName id={publisher} withIcon={true} />
               </div>
               <div className={styles.statusTagColumn}>
                 <StatusTag

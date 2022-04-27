@@ -5,7 +5,7 @@ import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useTimeFormat from '../../../hooks/useTimeFormat';
 import formatDate from '../../../utils/formatDate';
-import PublisherName from '../../events/eventCard/PublisherName';
+import OrganizationName from '../../organization/organizationName/OrganizationName';
 import useRegistrationName from '../../registration/hooks/useRegistrationName';
 import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import {
@@ -79,11 +79,7 @@ const RegistrationsTableRow: React.FC<Props> = ({
           </div>
         </td>
         <td className={styles.publisherColumn}>
-          {publisher ? (
-            <PublisherName id={publisher} />
-          ) : (
-            /* istanbul ignore next */ '-'
-          )}
+          <OrganizationName id={publisher} />
         </td>
         <td className={styles.enrolmentsColumn}>
           {currentAttendeeCount} / {maximumAttendeeCapacity}

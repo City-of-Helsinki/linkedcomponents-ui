@@ -9,9 +9,9 @@ import { Link } from 'react-router-dom';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { scrollToItem } from '../../../utils/scrollToItem';
-import useAllDataSources from '../../dataSource/hooks/useAllDataSources';
+import DataSourceName from '../../dataSource/dataSourceName/DataSourceName';
 import { getOrganizationFields } from '../../organization/utils';
-import useAllOrganizationClasses from '../../organizationClass/hooks/useAllOrganizationClasses';
+import OrganizationClassName from '../../organizationClass/organizationClassName/OrganizationClassName';
 import {
   addExpandedOrganization,
   removeExpandedOrganization,
@@ -44,8 +44,6 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
   const expandedOrganizations = useSelector(expandedOrganizationsSelector);
   const actionsDropdownRef = React.useRef<HTMLDivElement>(null);
   const rowRef = React.useRef<HTMLTableRowElement>(null);
-  const { organizationClasses } = useAllOrganizationClasses();
-  const { dataSources } = useAllDataSources();
 
   const {
     affiliatedOrganizations,
@@ -108,11 +106,6 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const selectedOrganizationClass = organizationClasses.find(
-    (oc) => oc.id === classification
-  );
-  const selectedDataSource = dataSources.find((ds) => ds.id === dataSource);
-
   return (
     <>
       <tr
@@ -165,14 +158,10 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
 
         <td className={styles.idColumn}>{id}</td>
         <td className={styles.dataSourceColumn}>
-          {selectedDataSource?.name ||
-            dataSource ||
-            /* istanbul ignore next */ '–'}
+          <DataSourceName id={dataSource} />
         </td>
         <td className={styles.classificationColumn}>
-          {selectedOrganizationClass?.name ||
-            classification ||
-            /* istanbul ignore next */ '–'}
+          <OrganizationClassName id={classification} />
         </td>
         <td className={styles.parentColumn}>
           <div className={styles.nameWrapper}>
