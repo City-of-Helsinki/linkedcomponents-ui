@@ -35,6 +35,7 @@ import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
 import { reportError } from '../../app/sentry/utils';
 import { clearKeywordsQueries } from '../../keywords/utils';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import {
   KEYWORD_ACTIONS,
@@ -47,7 +48,11 @@ import useKeywordServerErrors from '../hooks/useKeywordServerErrors';
 import useKeywordUpdateActions from '../hooks/useKeywordUpdateActions';
 import KeywordAuthenticationNotification from '../keywordAuthenticationNotification/KeywordAuthenticationNotification';
 import { KeywordFormFields } from '../types';
-import { getKeywordInitialValues, getKeywordPayload } from '../utils';
+import {
+  checkCanUserDoAction,
+  getKeywordInitialValues,
+  getKeywordPayload,
+} from '../utils';
 import { keywordSchema } from '../validation';
 
 type KeywordFormProps = {
@@ -61,6 +66,16 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const location = useLocation();
   const { user } = useUser();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
+  const { organizationAncestors } = useOrganizationAncestors(
+    keyword?.publisher ?? ''
+  );
+
+  const isEditingAllowed = checkCanUserDoAction({
+    action: keyword ? KEYWORD_ACTIONS.UPDATE : KEYWORD_ACTIONS.CREATE,
+    organizationAncestors,
+    publisher: keyword?.publisher ?? '',
+    user,
+  });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useKeywordServerErrors();
@@ -137,7 +152,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
-      validationSchema={keywordSchema}
+      validationSchema={isEditingAllowed && keywordSchema}
     >
       {({ setErrors, setTouched, values }) => {
         const clearErrors = () => setErrors({});
@@ -192,7 +207,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
             <FormRow className={styles.borderInMobile}>
               <Field
                 className={
-                  keyword
+                  !isEditingAllowed || keyword
                     ? styles.alignedInputWithFullBorder
                     : styles.alignedInput
                 }
@@ -203,13 +218,17 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               />
             </FormRow>
 
-            <FormRow className={keyword && styles.borderInMobile}>
+            <FormRow
+              className={
+                !isEditingAllowed || keyword ? styles.borderInMobile : ''
+              }
+            >
               <Field
                 className={styles.alignedInput}
                 component={TextInputField}
                 label={t(`keyword.form.labelOriginId`)}
                 name={KEYWORD_FIELDS.ORIGIN_ID}
-                readOnly={!!keyword}
+                readOnly={!isEditingAllowed || !!keyword}
               />
             </FormRow>
 
@@ -220,22 +239,35 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                 component={PublisherSelectorField}
                 label={t(`keyword.form.labelPublisher`)}
                 name={KEYWORD_FIELDS.PUBLISHER}
-                disabled={!!keyword}
+                disabled={!isEditingAllowed || !!keyword}
               />
             </FormRow>
 
-            {ORDERED_LE_DATA_LANGUAGES.map((language) => {
+            {ORDERED_LE_DATA_LANGUAGES.map((language, i) => {
               const langText = lowerCaseFirstLetter(
                 t(`form.inLanguage.${language}`)
               );
+              const isLastRow = ORDERED_LE_DATA_LANGUAGES.length - 1 === i;
 
               return (
-                <FormRow key={language}>
+                <FormRow
+                  key={language}
+                  className={
+                    /* istanbul ignore next */
+                    !isEditingAllowed ? styles.borderInMobile : ''
+                  }
+                >
                   <Field
-                    className={styles.alignedInput}
+                    className={
+                      /* istanbul ignore next */
+                      !isEditingAllowed && !isLastRow
+                        ? styles.alignedInputWithFullBorder
+                        : styles.alignedInput
+                    }
                     component={TextInputField}
                     label={`${t('keyword.form.labelName')} (${langText})`}
                     name={`${KEYWORD_FIELDS.NAME}.${language}`}
+                    readOnly={!isEditingAllowed}
                     required={language === LE_DATA_LANGUAGES.FI}
                   />
                 </FormRow>
@@ -247,6 +279,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                 className={styles.alignedSelect}
                 clearable
                 component={SingleKeywordSelectorField}
+                disabled={!isEditingAllowed}
                 label={t(`keyword.form.labelReplacedBy`)}
                 name={KEYWORD_FIELDS.REPLACED_BY}
               />
@@ -254,9 +287,10 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
 
             <FormRow>
               <Field
+                component={CheckboxField}
+                disabled={!isEditingAllowed}
                 label={t(`keyword.form.labelDeprecated`)}
                 name={KEYWORD_FIELDS.DEPRECATED}
-                component={CheckboxField}
               />
             </FormRow>
             {keyword ? (
