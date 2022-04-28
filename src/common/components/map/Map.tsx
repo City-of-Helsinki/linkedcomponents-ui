@@ -17,11 +17,12 @@ L.Icon.Default.imagePath = '/images/';
 const DEFAULT_CENTER: LatLng = new LatLng(60.171944, 24.941389);
 
 interface Props {
+  disabled?: boolean;
   onChange: (position: LatLng | null) => void;
   position: LatLng | null;
 }
 
-const Map: React.FC<Props> = ({ onChange, position }) => {
+const Map: React.FC<Props> = ({ disabled, onChange, position }) => {
   const center = position || DEFAULT_CENTER;
   const [initialPosition] = React.useState(position);
   const locale = useLocale();
@@ -79,20 +80,22 @@ const Map: React.FC<Props> = ({ onChange, position }) => {
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {!isTestEnv && (
         <FeatureGroup ref={featureGroup}>
-          <EditControl
-            position="topright"
-            onCreated={onCreated}
-            onDeleted={handleAction}
-            onEdited={handleAction}
-            draw={{
-              circlemarker: false,
-              circle: false,
-              marker: true,
-              polyline: false,
-              polygon: false,
-              rectangle: false,
-            }}
-          />
+          {!disabled && (
+            <EditControl
+              position="topright"
+              onCreated={onCreated}
+              onDeleted={handleAction}
+              onEdited={handleAction}
+              draw={{
+                circlemarker: false,
+                circle: false,
+                marker: true,
+                polyline: false,
+                polygon: false,
+                rectangle: false,
+              }}
+            />
+          )}
           {initialPosition && <Marker position={initialPosition} />}
         </FeatureGroup>
       )}

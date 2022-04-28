@@ -35,6 +35,7 @@ import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
 import Section from '../../app/layout/Section';
 import { reportError } from '../../app/sentry/utils';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import {
   PLACE_ACTIONS,
@@ -48,6 +49,7 @@ import usePlaceUpdateActions from '../hooks/usePlaceUpdateActions';
 import PlaceAuthenticationNotification from '../placeAuthenticationNotification/PlaceAuthenticationNotification';
 import { PlaceFormFields } from '../types';
 import {
+  checkCanUserDoAction,
   clearPlacesQueries,
   getFocusableFieldId,
   getPlaceInitialValues,
@@ -66,6 +68,16 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
   const navigate = useNavigate();
   const { user } = useUser();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
+  const { organizationAncestors } = useOrganizationAncestors(
+    place?.publisher ?? ''
+  );
+
+  const isEditingAllowed = checkCanUserDoAction({
+    action: place ? PLACE_ACTIONS.UPDATE : PLACE_ACTIONS.CREATE,
+    organizationAncestors,
+    publisher: place?.publisher ?? '',
+    user,
+  });
 
   const { saving, setSaving, updatePlace } = usePlaceUpdateActions({
     place: place as PlaceFieldsFragment,
@@ -140,7 +152,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
-      validationSchema={placeSchema}
+      validationSchema={isEditingAllowed && placeSchema}
     >
       {({ setErrors, setFieldValue, setTouched, values }) => {
         const clearErrors = () => setErrors({});
@@ -196,7 +208,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
             <FormRow className={styles.borderInMobile}>
               <Field
                 className={
-                  place
+                  !isEditingAllowed || place
                     ? styles.alignedInputWithFullBorder
                     : styles.alignedInput
                 }
@@ -206,13 +218,17 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 readOnly
               />
             </FormRow>
-            <FormRow className={place && styles.borderInMobile}>
+            <FormRow
+              className={
+                !isEditingAllowed || place ? styles.borderInMobile : ''
+              }
+            >
               <Field
                 className={styles.alignedInput}
                 component={TextInputField}
                 label={t(`place.form.labelOriginId`)}
                 name={PLACE_FIELDS.ORIGIN_ID}
-                readOnly={!!place}
+                readOnly={!isEditingAllowed || !!place}
                 required={!place}
               />
             </FormRow>
@@ -221,9 +237,9 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 className={styles.alignedSelect}
                 clearable={!place}
                 component={PublisherSelectorField}
+                disabled={!isEditingAllowed || !!place}
                 label={t(`place.form.labelPublisher`)}
                 name={PLACE_FIELDS.PUBLISHER}
-                disabled={!!place}
                 required={true}
               />
             </FormRow>
@@ -233,12 +249,24 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
               );
 
               return (
-                <FormRow key={language}>
+                <FormRow
+                  key={language}
+                  className={
+                    /* istanbul ignore next */
+                    !isEditingAllowed ? styles.borderInMobile : ''
+                  }
+                >
                   <Field
-                    className={styles.alignedInput}
+                    className={
+                      /* istanbul ignore next */
+                      !isEditingAllowed
+                        ? styles.alignedInputWithFullBorder
+                        : styles.alignedInput
+                    }
                     component={TextInputField}
                     label={`${t('place.form.labelName')} (${langText})`}
                     name={`${PLACE_FIELDS.NAME}.${language}`}
+                    readOnly={!isEditingAllowed}
                     required={language === LE_DATA_LANGUAGES.FI}
                   />
                 </FormRow>
@@ -251,12 +279,24 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
               );
 
               return (
-                <FormRow key={language}>
+                <FormRow
+                  key={language}
+                  className={
+                    /* istanbul ignore next */
+                    !isEditingAllowed ? styles.borderInMobile : ''
+                  }
+                >
                   <Field
-                    className={styles.alignedTextArea}
+                    className={
+                      /* istanbul ignore next */
+                      !isEditingAllowed
+                        ? styles.alignedTextAreaWithFullBorder
+                        : styles.alignedTextArea
+                    }
                     component={TextAreaField}
                     label={t('place.form.labelDescription', { langText })}
                     name={`${PLACE_FIELDS.DESCRIPTION}.${language}`}
+                    readOnly={!isEditingAllowed}
                   />
                 </FormRow>
               );
@@ -268,12 +308,24 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
               );
 
               return (
-                <FormRow key={language}>
+                <FormRow
+                  key={language}
+                  className={
+                    /* istanbul ignore next */
+                    !isEditingAllowed ? styles.borderInMobile : ''
+                  }
+                >
                   <Field
-                    className={styles.alignedInput}
+                    className={
+                      /* istanbul ignore next */
+                      !isEditingAllowed
+                        ? styles.alignedInputWithFullBorder
+                        : styles.alignedInput
+                    }
                     component={TextInputField}
                     label={t('place.form.labelInfoUrl', { langText })}
                     name={`${PLACE_FIELDS.INFO_URL}.${language}`}
+                    readOnly={!isEditingAllowed}
                   />
                 </FormRow>
               );
@@ -282,6 +334,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
             <Section title={t('place.form.titleLocation')}>
               <FormRow>
                 <Map
+                  disabled={!isEditingAllowed}
                   onChange={
                     /* istanbul ignore next */ (coordinates) =>
                       setFieldValue('coordinates', coordinates, true)
@@ -292,12 +345,23 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
             </Section>
 
             <Section title={t('place.form.titleContactInfo')}>
-              <FormRow>
+              <FormRow
+                className={
+                  /* istanbul ignore next */
+                  !isEditingAllowed ? styles.borderInMobile : ''
+                }
+              >
                 <Field
-                  className={styles.alignedInput}
+                  className={
+                    /* istanbul ignore next */
+                    !isEditingAllowed
+                      ? styles.alignedInputWithFullBorder
+                      : styles.alignedInput
+                  }
                   component={TextInputField}
                   label={t(`place.form.labelEmail`)}
                   name={PLACE_FIELDS.EMAIL}
+                  readOnly={!isEditingAllowed}
                 />
               </FormRow>
 
@@ -307,23 +371,46 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 );
 
                 return (
-                  <FormRow key={language}>
+                  <FormRow
+                    key={language}
+                    className={
+                      /* istanbul ignore next */
+                      !isEditingAllowed ? styles.borderInMobile : ''
+                    }
+                  >
                     <Field
-                      className={styles.alignedInput}
+                      className={
+                        /* istanbul ignore next */
+                        !isEditingAllowed
+                          ? styles.alignedInputWithFullBorder
+                          : styles.alignedInput
+                      }
                       component={TextInputField}
                       label={t('place.form.labelTelephone', { langText })}
                       name={`${PLACE_FIELDS.TELEPHONE}.${language}`}
+                      readOnly={!isEditingAllowed}
                     />
                   </FormRow>
                 );
               })}
 
-              <FormRow>
+              <FormRow
+                className={
+                  /* istanbul ignore next */
+                  !isEditingAllowed ? styles.borderInMobile : ''
+                }
+              >
                 <Field
-                  className={styles.alignedInput}
+                  className={
+                    /* istanbul ignore next */
+                    !isEditingAllowed
+                      ? styles.alignedInputWithFullBorder
+                      : styles.alignedInput
+                  }
                   component={TextInputField}
                   label={t(`place.form.labelContactType`)}
                   name={PLACE_FIELDS.CONTACT_TYPE}
+                  readOnly={!isEditingAllowed}
                 />
               </FormRow>
 
@@ -333,12 +420,24 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 );
 
                 return (
-                  <FormRow key={language}>
+                  <FormRow
+                    key={language}
+                    className={
+                      /* istanbul ignore next */
+                      !isEditingAllowed ? styles.borderInMobile : ''
+                    }
+                  >
                     <Field
-                      className={styles.alignedInput}
+                      className={
+                        /* istanbul ignore next */
+                        !isEditingAllowed
+                          ? styles.alignedInputWithFullBorder
+                          : styles.alignedInput
+                      }
                       component={TextInputField}
                       label={t('place.form.labelStreetAddress', { langText })}
                       name={`${PLACE_FIELDS.STREET_ADDRESS}.${language}`}
+                      readOnly={!isEditingAllowed}
                     />
                   </FormRow>
                 );
@@ -350,41 +449,86 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 );
 
                 return (
-                  <FormRow key={language}>
+                  <FormRow
+                    key={language}
+                    className={
+                      /* istanbul ignore next */
+                      !isEditingAllowed ? styles.borderInMobile : ''
+                    }
+                  >
                     <Field
-                      className={styles.alignedInput}
+                      className={
+                        /* istanbul ignore next */
+                        !isEditingAllowed
+                          ? styles.alignedInputWithFullBorder
+                          : styles.alignedInput
+                      }
                       component={TextInputField}
                       label={t('place.form.labelAddressLocality', { langText })}
                       name={`${PLACE_FIELDS.ADDRESS_LOCALITY}.${language}`}
+                      readOnly={!isEditingAllowed}
                     />
                   </FormRow>
                 );
               })}
 
-              <FormRow>
+              <FormRow
+                className={
+                  /* istanbul ignore next */
+                  !isEditingAllowed ? styles.borderInMobile : ''
+                }
+              >
                 <Field
-                  className={styles.alignedInput}
+                  className={
+                    /* istanbul ignore next */
+                    !isEditingAllowed
+                      ? styles.alignedInputWithFullBorder
+                      : styles.alignedInput
+                  }
                   component={TextInputField}
                   label={t(`place.form.labelAddressRegion`)}
                   name={PLACE_FIELDS.ADDRESS_REGION}
+                  readOnly={!isEditingAllowed}
                 />
               </FormRow>
 
-              <FormRow>
+              <FormRow
+                className={
+                  /* istanbul ignore next */
+                  !isEditingAllowed ? styles.borderInMobile : ''
+                }
+              >
                 <Field
-                  className={styles.alignedInput}
+                  className={
+                    /* istanbul ignore next */
+                    !isEditingAllowed
+                      ? styles.alignedInputWithFullBorder
+                      : styles.alignedInput
+                  }
                   component={TextInputField}
                   label={t(`place.form.labelPostalCode`)}
                   name={PLACE_FIELDS.POSTAL_CODE}
+                  readOnly={!isEditingAllowed}
                 />
               </FormRow>
 
-              <FormRow>
+              <FormRow
+                className={
+                  /* istanbul ignore next */
+                  !isEditingAllowed ? styles.borderInMobile : ''
+                }
+              >
                 <Field
-                  className={styles.alignedInput}
+                  className={
+                    /* istanbul ignore next */
+                    !isEditingAllowed
+                      ? styles.alignedInputWithFullBorder
+                      : styles.alignedInput
+                  }
                   component={TextInputField}
                   label={t(`place.form.labelPostOfficeBoxNum`)}
                   name={PLACE_FIELDS.POST_OFFICE_BOX_NUM}
+                  readOnly={!isEditingAllowed}
                 />
               </FormRow>
             </Section>
