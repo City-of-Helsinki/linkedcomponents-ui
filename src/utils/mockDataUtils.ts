@@ -3,13 +3,13 @@ import faker from 'faker';
 import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
+import { TEST_DATA_SOURCE_ID } from '../domain/dataSource/constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
-import {
-  TEST_DATA_SOURCE,
-  TEST_PUBLISHER_ID,
-} from '../domain/organization/constants';
+import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
 import {
   AttendeeStatus,
+  DataSource,
+  DataSourcesResponse,
   Enrolment,
   Event,
   EventsResponse,
@@ -29,6 +29,8 @@ import {
   Meta,
   Offer,
   Organization,
+  OrganizationClass,
+  OrganizationClassesResponse,
   OrganizationsResponse,
   Place,
   PlacesResponse,
@@ -40,6 +42,35 @@ import {
   Video,
 } from '../generated/graphql';
 import generateAtId from './generateAtId';
+
+export const fakeDataSources = (
+  count = 1,
+  dataSources?: Partial<DataSource>[]
+): DataSourcesResponse => ({
+  data: generateNodeArray((i) => fakeDataSource(dataSources?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'DataSourcesResponse',
+});
+
+export const fakeDataSource = (overrides?: Partial<DataSource>): DataSource => {
+  const id = overrides?.id || faker.datatype.uuid();
+
+  return merge<DataSource, typeof overrides>(
+    {
+      id,
+      atId: generateAtId(id, 'data_source'),
+      apiKey: '',
+      createPastEvents: false,
+      editPastEvents: false,
+      name: faker.random.words(),
+      owner: null,
+      private: false,
+      userEditable: false,
+      __typename: 'DataSource',
+    },
+    overrides
+  );
+};
 
 export const fakeEnrolments = (
   count = 1,
@@ -228,7 +259,7 @@ export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet => {
     {
       id,
       atId: generateAtId(id, 'keyword_set'),
-      dataSource: TEST_DATA_SOURCE,
+      dataSource: TEST_DATA_SOURCE_ID,
       keywords: [],
       name: fakeLocalisedObject(),
       organization: TEST_PUBLISHER_ID,
@@ -284,6 +315,7 @@ export const fakeOrganization = (
   const id = overrides?.id || faker.datatype.uuid();
   return merge<Organization, typeof overrides>(
     {
+      adminUsers: [],
       affiliatedOrganizations: [],
       id,
       atId: generateAtId(id, 'organization'),
@@ -298,6 +330,7 @@ export const fakeOrganization = (
       name: faker.random.words(),
       parentOrganization: null,
       replacedBy: null,
+      regularUsers: [],
       subOrganizations: [],
       __typename: 'Organization',
     },
@@ -313,6 +346,36 @@ export const fakeOrganizations = (
   meta: fakeMeta(count),
   __typename: 'OrganizationsResponse',
 });
+
+export const fakeOrganizationClasses = (
+  count = 1,
+  organizationClasses?: Partial<OrganizationClass>[]
+): OrganizationClassesResponse => ({
+  data: generateNodeArray(
+    (i) => fakeOrganizationClass(organizationClasses?.[i]),
+    count
+  ),
+  meta: fakeMeta(count),
+  __typename: 'OrganizationClassesResponse',
+});
+
+export const fakeOrganizationClass = (
+  overrides?: Partial<OrganizationClass>
+): OrganizationClass => {
+  const id = overrides?.id || faker.datatype.uuid();
+  return merge<OrganizationClass, typeof overrides>(
+    {
+      id,
+      atId: generateAtId(id, 'organization_class'),
+      createdTime: null,
+      dataSource: TEST_DATA_SOURCE_ID,
+      lastModifiedTime: null,
+      name: faker.random.words(),
+      __typename: 'OrganizationClass',
+    },
+    overrides
+  );
+};
 
 export const fakePlaces = (
   count = 1,

@@ -5,10 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import useAllOrganizations from '../../../domain/organization/hooks/useAllOrganizations';
 import { getOrganizationFields } from '../../../domain/organization/utils';
-import {
-  EventsQueryVariables,
-  OrganizationFieldsFragment,
-} from '../../../generated/graphql';
+import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import Combobox from '../combobox/Combobox';
@@ -36,14 +33,12 @@ const getOption = ({
 export type SingleOrganizationSelectorProps = {
   name: string;
   value: ValueType;
-  variables: EventsQueryVariables;
 } & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
 
 const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
   label,
   name,
   value,
-  variables,
   ...rest
 }) => {
   const { t } = useTranslation();

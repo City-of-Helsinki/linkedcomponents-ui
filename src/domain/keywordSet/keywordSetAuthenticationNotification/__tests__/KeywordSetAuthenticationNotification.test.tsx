@@ -19,9 +19,9 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import userManager from '../../../auth/userManager';
+import { TEST_DATA_SOURCE_ID } from '../../../dataSource/constants';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
-import { TEST_DATA_SOURCE } from '../../../organization/constants';
 import {
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
@@ -38,7 +38,7 @@ const userVariables = { createPath: undefined, id: TEST_USER_ID };
 
 const props: KeywordSetAuthenticationNotificationProps = {
   action: KEYWORD_SET_ACTIONS.UPDATE,
-  dataSource: TEST_DATA_SOURCE,
+  dataSource: TEST_DATA_SOURCE_ID,
 };
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>

@@ -1,4 +1,5 @@
 import {
+  DataSource,
   Division,
   Enrolment,
   Event,
@@ -11,11 +12,22 @@ import {
   Meta,
   Offer,
   Organization,
+  OrganizationClass,
   Place,
   Position,
   Registration,
   User,
 } from '../../../generated/graphql';
+
+export const addTypenameDataSource = (
+  dataSource?: DataSource | null
+): DataSource | null =>
+  dataSource
+    ? {
+        ...dataSource,
+        __typename: 'DataSource',
+      }
+    : null;
 
 export const addTypenameDivision = (
   division?: Division | null
@@ -155,6 +167,16 @@ export const addTypenameOrganization = (
     ? {
         ...organization,
         __typename: 'Organization',
+      }
+    : null;
+
+export const addTypenameOrganizationClass = (
+  organizationClass?: OrganizationClass | null
+): OrganizationClass | null =>
+  organizationClass
+    ? {
+        ...organizationClass,
+        __typename: 'OrganizationClass',
       }
     : null;
 

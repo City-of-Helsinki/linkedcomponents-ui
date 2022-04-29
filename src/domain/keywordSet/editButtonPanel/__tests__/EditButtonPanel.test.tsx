@@ -9,8 +9,8 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { TEST_DATA_SOURCE_ID } from '../../../dataSource/constants';
 import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
-import { TEST_DATA_SOURCE } from '../../../organization/constants';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { keywordSet } from '../../__mocks__/editKeywordSetPage';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
@@ -23,7 +23,7 @@ const state = fakeAuthenticatedStoreState();
 const defaultStore = getMockReduxStore(state);
 
 const defaultProps: EditButtonPanelProps = {
-  dataSource: TEST_DATA_SOURCE,
+  dataSource: TEST_DATA_SOURCE_ID,
   id: keywordSet.id,
   onSave: jest.fn(),
   saving: null,

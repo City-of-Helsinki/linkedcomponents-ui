@@ -3,6 +3,9 @@ import gql from 'graphql-tag';
 
 export const QUERY_ORGANIZATION = gql`
   fragment organizationFields on Organization {
+    adminUsers {
+      ...userFields
+    }
     affiliatedOrganizations
     atId
     classification
@@ -16,6 +19,9 @@ export const QUERY_ORGANIZATION = gql`
     lastModifiedTime
     name
     parentOrganization
+    regularUsers {
+      ...userFields
+    }
     replacedBy
     subOrganizations
   }

@@ -2,6 +2,7 @@ import { IconClock, IconLocation, IconTicket, IconUser, Tag } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
+import TextWithIcon from '../../../common/components/textWithIcon/TextWithIcon';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getLocalisedString from '../../../utils/getLocalisedString';
@@ -11,7 +12,6 @@ import { getEventFields } from '../../event/utils';
 import AudienceAgeText from '../../events/eventCard/AudienceAgeText';
 import DateText from '../../events/eventCard/DateText';
 import PriceText from '../../events/eventCard/PriceText';
-import TextWithIcon from '../../events/eventCard/TextWithIcon';
 import { getPlaceFields } from '../../place/utils';
 import styles from './eventInfo.module.scss';
 

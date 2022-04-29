@@ -135,6 +135,27 @@ export type CreateRegistrationMutationInput = {
   waitingListCapacity?: InputMaybe<Scalars['Int']>;
 };
 
+export type DataSource = {
+  __typename?: 'DataSource';
+  apiKey?: Maybe<Scalars['String']>;
+  createPastEvents?: Maybe<Scalars['Boolean']>;
+  editPastEvents?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  owner?: Maybe<Scalars['String']>;
+  private?: Maybe<Scalars['Boolean']>;
+  userEditable?: Maybe<Scalars['Boolean']>;
+  atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atType?: Maybe<Scalars['String']>;
+};
+
+export type DataSourcesResponse = {
+  __typename?: 'DataSourcesResponse';
+  meta: Meta;
+  data: Array<Maybe<DataSource>>;
+};
+
 export type Division = {
   __typename?: 'Division';
   municipality?: Maybe<Scalars['String']>;
@@ -578,6 +599,7 @@ export type OfferInput = {
 
 export type Organization = {
   __typename?: 'Organization';
+  adminUsers?: Maybe<Array<Maybe<User>>>;
   affiliatedOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
   classification?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
@@ -590,11 +612,30 @@ export type Organization = {
   lastModifiedTime?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   parentOrganization?: Maybe<Scalars['String']>;
+  regularUsers?: Maybe<Array<Maybe<User>>>;
   replacedBy?: Maybe<Scalars['String']>;
   subOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
   atContext?: Maybe<Scalars['String']>;
   atId: Scalars['String'];
   atType?: Maybe<Scalars['String']>;
+};
+
+export type OrganizationClass = {
+  __typename?: 'OrganizationClass';
+  createdTime?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atType?: Maybe<Scalars['String']>;
+};
+
+export type OrganizationClassesResponse = {
+  __typename?: 'OrganizationClassesResponse';
+  meta: Meta;
+  data: Array<Maybe<OrganizationClass>>;
 };
 
 export type OrganizationsResponse = {
@@ -660,6 +701,8 @@ export enum PublicationStatus {
 
 export type Query = {
   __typename?: 'Query';
+  dataSource: DataSource;
+  dataSources: DataSourcesResponse;
   enrolment: Enrolment;
   enrolments: Array<Maybe<Enrolment>>;
   event: Event;
@@ -673,12 +716,25 @@ export type Query = {
   languages: LanguagesResponse;
   organization: Organization;
   organizations: OrganizationsResponse;
+  organizationClass: OrganizationClass;
+  organizationClasses: OrganizationClassesResponse;
   place: Place;
   places: PlacesResponse;
   registration: Registration;
   registrations: RegistrationsResponse;
   user: User;
   users: UsersResponse;
+};
+
+
+export type QueryDataSourceArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryDataSourcesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -792,6 +848,17 @@ export type QueryOrganizationsArgs = {
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
   text?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryOrganizationClassArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryOrganizationClassesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -1043,6 +1110,25 @@ export type VideoInput = {
   name?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
 };
+
+export type DataSourceFieldsFragment = { __typename?: 'DataSource', apiKey?: string | null, createPastEvents?: boolean | null, editPastEvents?: boolean | null, id?: string | null, name?: string | null, owner?: string | null, private?: boolean | null, userEditable?: boolean | null };
+
+export type DataSourceQueryVariables = Exact<{
+  id: Scalars['ID'];
+  createPath?: InputMaybe<Scalars['Any']>;
+}>;
+
+
+export type DataSourceQuery = { __typename?: 'Query', dataSource: { __typename?: 'DataSource', apiKey?: string | null, createPastEvents?: boolean | null, editPastEvents?: boolean | null, id?: string | null, name?: string | null, owner?: string | null, private?: boolean | null, userEditable?: boolean | null } };
+
+export type DataSourcesQueryVariables = Exact<{
+  createPath?: InputMaybe<Scalars['Any']>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type DataSourcesQuery = { __typename?: 'Query', dataSources: { __typename?: 'DataSourcesResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'DataSource', apiKey?: string | null, createPastEvents?: boolean | null, editPastEvents?: boolean | null, id?: string | null, name?: string | null, owner?: string | null, private?: boolean | null, userEditable?: boolean | null } | null> } };
 
 export type CreateEnrolmentMutationVariables = Exact<{
   input: CreateEnrolmentMutationInput;
@@ -1343,7 +1429,7 @@ export type CreateOrganizationMutationVariables = Exact<{
 }>;
 
 
-export type CreateOrganizationMutation = { __typename?: 'Mutation', createOrganization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null } };
+export type CreateOrganizationMutation = { __typename?: 'Mutation', createOrganization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null, adminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> | null, regularUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> | null } };
 
 export type DeleteOrganizationMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1357,9 +1443,9 @@ export type UpdateOrganizationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateOrganizationMutation = { __typename?: 'Mutation', updateOrganization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null } };
+export type UpdateOrganizationMutation = { __typename?: 'Mutation', updateOrganization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null, adminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> | null, regularUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> | null } };
 
-export type OrganizationFieldsFragment = { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null };
+export type OrganizationFieldsFragment = { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null, adminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> | null, regularUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> | null };
 
 export type OrganizationQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1367,7 +1453,7 @@ export type OrganizationQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationQuery = { __typename?: 'Query', organization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null } };
+export type OrganizationQuery = { __typename?: 'Query', organization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null, adminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> | null, regularUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> | null } };
 
 export type OrganizationsQueryVariables = Exact<{
   child?: InputMaybe<Scalars['ID']>;
@@ -1378,7 +1464,26 @@ export type OrganizationsQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationsQuery = { __typename?: 'Query', organizations: { __typename?: 'OrganizationsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null } | null> } };
+export type OrganizationsQuery = { __typename?: 'Query', organizations: { __typename?: 'OrganizationsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null, adminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> | null, regularUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> | null } | null> } };
+
+export type OrganizationClassFieldsFragment = { __typename?: 'OrganizationClass', createdTime?: string | null, dataSource?: string | null, id?: string | null, lastModifiedTime?: string | null, name?: string | null };
+
+export type OrganizationClassQueryVariables = Exact<{
+  id: Scalars['ID'];
+  createPath?: InputMaybe<Scalars['Any']>;
+}>;
+
+
+export type OrganizationClassQuery = { __typename?: 'Query', organizationClass: { __typename?: 'OrganizationClass', createdTime?: string | null, dataSource?: string | null, id?: string | null, lastModifiedTime?: string | null, name?: string | null } };
+
+export type OrganizationClassesQueryVariables = Exact<{
+  createPath?: InputMaybe<Scalars['Any']>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type OrganizationClassesQuery = { __typename?: 'Query', organizationClasses: { __typename?: 'OrganizationClassesResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'OrganizationClass', createdTime?: string | null, dataSource?: string | null, id?: string | null, lastModifiedTime?: string | null, name?: string | null } | null> } };
 
 export type CreatePlaceMutationVariables = Exact<{
   input: CreatePlaceMutationInput;
@@ -1493,6 +1598,18 @@ export type UsersQueryVariables = Exact<{
 
 export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UsersResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null } | null> } };
 
+export const DataSourceFieldsFragmentDoc = gql`
+    fragment dataSourceFields on DataSource {
+  apiKey
+  createPastEvents
+  editPastEvents
+  id
+  name
+  owner
+  private
+  userEditable
+}
+    `;
 export const LocalisedFieldsFragmentDoc = gql`
     fragment localisedFields on LocalisedObject {
   ar
@@ -1738,8 +1855,28 @@ export const KeywordSetFieldsFragmentDoc = gql`
 }
     ${KeywordFieldsFragmentDoc}
 ${LocalisedFieldsFragmentDoc}`;
+export const UserFieldsFragmentDoc = gql`
+    fragment userFields on User {
+  adminOrganizations
+  dateJoined
+  departmentName
+  displayName
+  email
+  firstName
+  isStaff
+  lastLogin
+  lastName
+  organization
+  organizationMemberships
+  username
+  uuid
+}
+    `;
 export const OrganizationFieldsFragmentDoc = gql`
     fragment organizationFields on Organization {
+  adminUsers {
+    ...userFields
+  }
   affiliatedOrganizations
   atId
   classification
@@ -1753,8 +1890,20 @@ export const OrganizationFieldsFragmentDoc = gql`
   lastModifiedTime
   name
   parentOrganization
+  regularUsers {
+    ...userFields
+  }
   replacedBy
   subOrganizations
+}
+    ${UserFieldsFragmentDoc}`;
+export const OrganizationClassFieldsFragmentDoc = gql`
+    fragment organizationClassFields on OrganizationClass {
+  createdTime
+  dataSource
+  id
+  lastModifiedTime
+  name
 }
     `;
 export const EnrolmentFieldsFragmentDoc = gql`
@@ -1799,23 +1948,85 @@ export const RegistrationFieldsFragmentDoc = gql`
   waitingListCapacity
 }
     ${EnrolmentFieldsFragmentDoc}`;
-export const UserFieldsFragmentDoc = gql`
-    fragment userFields on User {
-  adminOrganizations
-  dateJoined
-  departmentName
-  displayName
-  email
-  firstName
-  isStaff
-  lastLogin
-  lastName
-  organization
-  organizationMemberships
-  username
-  uuid
+export const DataSourceDocument = gql`
+    query DataSource($id: ID!, $createPath: Any) {
+  dataSource(id: $id) @rest(type: "DataSource", pathBuilder: $createPath) {
+    ...dataSourceFields
+  }
 }
-    `;
+    ${DataSourceFieldsFragmentDoc}`;
+
+/**
+ * __useDataSourceQuery__
+ *
+ * To run a query within a React component, call `useDataSourceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDataSourceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDataSourceQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useDataSourceQuery(baseOptions: Apollo.QueryHookOptions<DataSourceQuery, DataSourceQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DataSourceQuery, DataSourceQueryVariables>(DataSourceDocument, options);
+      }
+export function useDataSourceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DataSourceQuery, DataSourceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DataSourceQuery, DataSourceQueryVariables>(DataSourceDocument, options);
+        }
+export type DataSourceQueryHookResult = ReturnType<typeof useDataSourceQuery>;
+export type DataSourceLazyQueryHookResult = ReturnType<typeof useDataSourceLazyQuery>;
+export type DataSourceQueryResult = Apollo.QueryResult<DataSourceQuery, DataSourceQueryVariables>;
+export const DataSourcesDocument = gql`
+    query DataSources($createPath: Any, $page: Int, $pageSize: Int) {
+  dataSources(page: $page, pageSize: $pageSize) @rest(type: "DataSourcesResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...dataSourceFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${DataSourceFieldsFragmentDoc}`;
+
+/**
+ * __useDataSourcesQuery__
+ *
+ * To run a query within a React component, call `useDataSourcesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDataSourcesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDataSourcesQuery({
+ *   variables: {
+ *      createPath: // value for 'createPath'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *   },
+ * });
+ */
+export function useDataSourcesQuery(baseOptions?: Apollo.QueryHookOptions<DataSourcesQuery, DataSourcesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DataSourcesQuery, DataSourcesQueryVariables>(DataSourcesDocument, options);
+      }
+export function useDataSourcesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DataSourcesQuery, DataSourcesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DataSourcesQuery, DataSourcesQueryVariables>(DataSourcesDocument, options);
+        }
+export type DataSourcesQueryHookResult = ReturnType<typeof useDataSourcesQuery>;
+export type DataSourcesLazyQueryHookResult = ReturnType<typeof useDataSourcesLazyQuery>;
+export type DataSourcesQueryResult = Apollo.QueryResult<DataSourcesQuery, DataSourcesQueryVariables>;
 export const CreateEnrolmentDocument = gql`
     mutation CreateEnrolment($input: CreateEnrolmentMutationInput!) {
   createEnrolment(input: $input) @rest(type: "Enrolment", path: "/signup/", method: "POST", bodyKey: "input") {
@@ -3155,6 +3366,85 @@ export function useOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type OrganizationsQueryHookResult = ReturnType<typeof useOrganizationsQuery>;
 export type OrganizationsLazyQueryHookResult = ReturnType<typeof useOrganizationsLazyQuery>;
 export type OrganizationsQueryResult = Apollo.QueryResult<OrganizationsQuery, OrganizationsQueryVariables>;
+export const OrganizationClassDocument = gql`
+    query OrganizationClass($id: ID!, $createPath: Any) {
+  organizationClass(id: $id) @rest(type: "OrganizationClass", pathBuilder: $createPath) {
+    ...organizationClassFields
+  }
+}
+    ${OrganizationClassFieldsFragmentDoc}`;
+
+/**
+ * __useOrganizationClassQuery__
+ *
+ * To run a query within a React component, call `useOrganizationClassQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganizationClassQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrganizationClassQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useOrganizationClassQuery(baseOptions: Apollo.QueryHookOptions<OrganizationClassQuery, OrganizationClassQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OrganizationClassQuery, OrganizationClassQueryVariables>(OrganizationClassDocument, options);
+      }
+export function useOrganizationClassLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrganizationClassQuery, OrganizationClassQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OrganizationClassQuery, OrganizationClassQueryVariables>(OrganizationClassDocument, options);
+        }
+export type OrganizationClassQueryHookResult = ReturnType<typeof useOrganizationClassQuery>;
+export type OrganizationClassLazyQueryHookResult = ReturnType<typeof useOrganizationClassLazyQuery>;
+export type OrganizationClassQueryResult = Apollo.QueryResult<OrganizationClassQuery, OrganizationClassQueryVariables>;
+export const OrganizationClassesDocument = gql`
+    query OrganizationClasses($createPath: Any, $page: Int, $pageSize: Int) {
+  organizationClasses(page: $page, pageSize: $pageSize) @rest(type: "OrganizationClassesResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...organizationClassFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${OrganizationClassFieldsFragmentDoc}`;
+
+/**
+ * __useOrganizationClassesQuery__
+ *
+ * To run a query within a React component, call `useOrganizationClassesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganizationClassesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrganizationClassesQuery({
+ *   variables: {
+ *      createPath: // value for 'createPath'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
+ *   },
+ * });
+ */
+export function useOrganizationClassesQuery(baseOptions?: Apollo.QueryHookOptions<OrganizationClassesQuery, OrganizationClassesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OrganizationClassesQuery, OrganizationClassesQueryVariables>(OrganizationClassesDocument, options);
+      }
+export function useOrganizationClassesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrganizationClassesQuery, OrganizationClassesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OrganizationClassesQuery, OrganizationClassesQueryVariables>(OrganizationClassesDocument, options);
+        }
+export type OrganizationClassesQueryHookResult = ReturnType<typeof useOrganizationClassesQuery>;
+export type OrganizationClassesLazyQueryHookResult = ReturnType<typeof useOrganizationClassesLazyQuery>;
+export type OrganizationClassesQueryResult = Apollo.QueryResult<OrganizationClassesQuery, OrganizationClassesQueryVariables>;
 export const CreatePlaceDocument = gql`
     mutation CreatePlace($input: CreatePlaceMutationInput!) {
   createPlace(input: $input) @rest(type: "Place", path: "/place/", method: "POST", bodyKey: "input") {

@@ -12,6 +12,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import DatepickerField from '../../../common/components/formFields/DatepickerField';
+import SingleDataSourceSelectorField from '../../../common/components/formFields/SingleDataSourceSelectorField';
+import SingleOrganizationClassSelectorField from '../../../common/components/formFields/SingleOrganizationClassSelectorField';
 import SingleOrganizationSelectorField from '../../../common/components/formFields/SingleOrganizationSelectorField';
 import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
 import TextInputField from '../../../common/components/formFields/TextInputField';
@@ -39,17 +41,19 @@ import {
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
+import useOrganizationAncestors from '../hooks/useOrganizationAncestors';
 import useOrganizationInternalTypeOptions from '../hooks/useOrganizationInternalTypeOptions';
 import useOrganizationServerErrors from '../hooks/useOrganizationServerErrors';
 import useOrganizationUpdateActions from '../hooks/useOrganizationUpdateActions';
 import OrganizationAuthenticationNotification from '../organizationAuthenticationNotification/OrganizationAuthenticationNotification';
 import { OrganizationFormFields } from '../types';
 import {
+  checkCanUserDoAction,
   clearOrganizationsQueries,
   getOrganizationInitialValues,
   getOrganizationPayload,
 } from '../utils';
-import { organizationSchema } from '../validation';
+import { getFocusableFieldId, organizationSchema } from '../validation';
 import SubOrganizationTable from './subOrganizationTable/SubOrganizationTable';
 
 type OrganizationFormProps = {
@@ -66,6 +70,18 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   const internalTypeOptions = useOrganizationInternalTypeOptions();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
+  const { organizationAncestors } = useOrganizationAncestors(
+    organization?.id ?? ''
+  );
+
+  const isEditingAllowed = checkCanUserDoAction({
+    action: organization
+      ? ORGANIZATION_ACTIONS.UPDATE
+      : ORGANIZATION_ACTIONS.CREATE,
+    id: organization?.id ?? '',
+    organizationAncestors,
+    user,
+  });
 
   const goToOrganizationsPage = () => {
     navigate(`/${locale}${ROUTES.ORGANIZATIONS}`);
@@ -147,7 +163,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
-      validationSchema={organizationSchema}
+      validationSchema={isEditingAllowed && organizationSchema}
     >
       {({ setErrors, setTouched, values }) => {
         const clearErrors = () => setErrors({});
@@ -175,7 +191,10 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
               setTouched,
             });
 
-            scrollToFirstError({ error: error as ValidationError });
+            scrollToFirstError({
+              error: error as ValidationError,
+              getFocusableFieldId,
+            });
           }
         };
 
@@ -192,11 +211,65 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
 
             <ServerErrorSummary errors={serverErrorItems} />
 
+            <FormRow className={styles.borderInMobile}>
+              <Field
+                className={styles.alignedInput}
+                component={TextInputField}
+                label={t(`organization.form.labelId`)}
+                name={ORGANIZATION_FIELDS.ID}
+                readOnly
+              />
+            </FormRow>
+            <FormRow>
+              <Field
+                className={styles.alignedSelect}
+                component={SingleDataSourceSelectorField}
+                disabled={!isEditingAllowed || !!organization}
+                label={t(`organization.form.labelDataSource`)}
+                name={ORGANIZATION_FIELDS.DATA_SOURCE}
+                required
+                showOnlyUserEditable={true}
+              />
+            </FormRow>
+            <FormRow
+              className={
+                !isEditingAllowed || organization ? styles.borderInMobile : ''
+              }
+            >
+              <Field
+                className={
+                  /* istanbul ignore next */
+                  isEditingAllowed
+                    ? styles.alignedInput
+                    : styles.alignedInputWithFullBorder
+                }
+                component={TextInputField}
+                label={t(`organization.form.labelOriginId`)}
+                name={ORGANIZATION_FIELDS.ORIGIN_ID}
+                readOnly={!isEditingAllowed || !!organization}
+                required
+              />
+            </FormRow>
+            <FormRow
+              className={
+                /* istanbul ignore next */
+                !isEditingAllowed ? styles.borderInMobile : ''
+              }
+            >
+              <Field
+                className={styles.alignedInput}
+                component={TextInputField}
+                label={t(`organization.form.labelName`)}
+                name={ORGANIZATION_FIELDS.NAME}
+                readOnly={!isEditingAllowed}
+              />
+            </FormRow>
             <FormRow>
               <Field
                 className={styles.alignedSelect}
                 clearable
                 component={UserSelectorField}
+                disabled={!isEditingAllowed}
                 label={t(`organization.form.labelAdminUsers`)}
                 name={ORGANIZATION_FIELDS.ADMIN_USERS}
               />
@@ -206,6 +279,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 className={styles.alignedSelect}
                 clearable
                 component={UserSelectorField}
+                disabled={!isEditingAllowed}
                 label={t(`organization.form.labelRegularUsers`)}
                 name={ORGANIZATION_FIELDS.REGULAR_USERS}
               />
@@ -213,91 +287,65 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             <FormRow>
               <Field
                 className={styles.alignedSelect}
-                component={SingleOrganizationSelectorField}
-                label={t(`organization.form.labelReplacedBy`)}
-                name={ORGANIZATION_FIELDS.REPLACED_BY}
-              />
-            </FormRow>
-            <FormRow className={styles.borderInMobile}>
-              <Field
-                className={styles.alignedInputWithFullBorder}
-                component={TextInputField}
-                label={t(`organization.form.labelId`)}
-                name={ORGANIZATION_FIELDS.ID}
-                readOnly
-              />
-            </FormRow>
-            <FormRow className={organization ? styles.borderInMobile : ''}>
-              <Field
-                className={styles.alignedInputWithFullBorder}
-                component={TextInputField}
-                label={t(`organization.form.labelDataSource`)}
-                name={ORGANIZATION_FIELDS.DATA_SOURCE}
-                readOnly={!!organization}
-              />
-            </FormRow>
-            <FormRow className={organization ? styles.borderInMobile : ''}>
-              <Field
-                className={styles.alignedInput}
-                component={TextInputField}
-                label={t(`organization.form.labelOriginId`)}
-                name={ORGANIZATION_FIELDS.ORIGIN_ID}
-                readOnly={!!organization}
+                component={SingleSelectField}
+                disabled={!isEditingAllowed || !!organization}
+                label={t(`organization.form.labelInternalType`)}
+                options={internalTypeOptions}
+                name={ORGANIZATION_FIELDS.INTERNAL_TYPE}
               />
             </FormRow>
             <FormRow>
               <Field
                 className={styles.alignedSelect}
                 clearable
-                component={SingleSelectField}
-                label={t(`organization.form.labelInternalType`)}
-                options={internalTypeOptions}
-                name={ORGANIZATION_FIELDS.INTERNAL_TYPE}
-                disabled={!!organization}
-              />
-            </FormRow>
-            <FormRow className={organization ? styles.borderInMobile : ''}>
-              <Field
-                className={styles.alignedInput}
-                component={TextInputField}
+                component={SingleOrganizationClassSelectorField}
+                disabled={!isEditingAllowed || !!organization}
                 label={t(`organization.form.labelClassification`)}
                 name={ORGANIZATION_FIELDS.CLASSIFICATION}
-                readOnly={!!organization}
               />
             </FormRow>
-            <FormRow>
-              <Field
-                className={styles.alignedInput}
-                component={TextInputField}
-                label={t(`organization.form.labelName`)}
-                name={ORGANIZATION_FIELDS.NAME}
-              />
-            </FormRow>
-            <FormRow className={organization ? styles.borderInMobile : ''}>
+            <FormRow
+              className={
+                !isEditingAllowed || organization ? styles.borderInMobile : ''
+              }
+            >
               <Field
                 className={styles.alignedInputWithFullBorder}
                 component={DatepickerField}
                 label={t(`organization.form.labelFoundingDate`)}
                 name={ORGANIZATION_FIELDS.FOUNDING_DATE}
-                readOnly={!!organization}
+                readOnly={!isEditingAllowed || !!organization}
               />
             </FormRow>
-            <FormRow className={organization ? styles.borderInMobile : ''}>
+            <FormRow
+              className={
+                !isEditingAllowed || organization ? styles.borderInMobile : ''
+              }
+            >
               <Field
                 className={styles.alignedInput}
                 component={DatepickerField}
                 label={t(`organization.form.labelDissolutionDate`)}
                 name={ORGANIZATION_FIELDS.DISSOLUTION_DATE}
-                readOnly={!!organization}
+                readOnly={!isEditingAllowed || !!organization}
               />
             </FormRow>
             <FormRow>
               <Field
                 className={styles.alignedSelect}
                 component={SingleOrganizationSelectorField}
+                disabled={!isEditingAllowed || !!organization}
                 label={t(`organization.form.labelParentOrganization`)}
                 name={ORGANIZATION_FIELDS.PARENT_ORGANIZATION}
-                disabled={!!organization}
+              />
+            </FormRow>
+            <FormRow>
+              <Field
+                className={styles.alignedSelect}
+                component={SingleOrganizationSelectorField}
+                disabled={!isEditingAllowed}
+                label={t(`organization.form.labelReplacedBy`)}
+                name={ORGANIZATION_FIELDS.REPLACED_BY}
               />
             </FormRow>
 

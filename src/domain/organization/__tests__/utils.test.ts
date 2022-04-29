@@ -5,11 +5,13 @@ import {
   fakeOrganization,
   fakeOrganizations,
   fakeUser,
+  fakeUsers,
 } from '../../../utils/mockDataUtils';
 import apolloClient from '../../app/apollo/apolloClient';
 import {
   ORGANIZATION_ACTIONS,
   ORGANIZATION_INITIAL_VALUES,
+  ORGANIZATION_INTERNAL_TYPE,
   TEST_PUBLISHER_ID,
 } from '../constants';
 import {
@@ -25,7 +27,7 @@ import {
 } from '../utils';
 
 describe('organizationPathBuilder function', () => {
-  it('should create correct path for organization request', () => {
+  it('should create correct path for organization class request', () => {
     expect(organizationPathBuilder({ args: { id: '123' } })).toBe(
       '/organization/123/'
     );
@@ -245,6 +247,7 @@ describe('getOrganizationInitialValues function', () => {
     expect(
       getOrganizationInitialValues(
         fakeOrganization({
+          adminUsers: null,
           affiliatedOrganizations: null,
           classification: null,
           dataSource: null,
@@ -254,6 +257,7 @@ describe('getOrganizationInitialValues function', () => {
           isAffiliated: true,
           name: null,
           parentOrganization: null,
+          regularUsers: null,
           subOrganizations: null,
         })
       )
@@ -279,6 +283,7 @@ describe('getOrganizationInitialValues function', () => {
     expect(
       getOrganizationInitialValues(
         fakeOrganization({
+          adminUsers: fakeUsers(1, [{ username: 'admin:1' }]).data,
           affiliatedOrganizations: ['organization:affiliated'],
           classification: 'ahjo:123',
           dataSource: 'helsinki',
@@ -288,11 +293,12 @@ describe('getOrganizationInitialValues function', () => {
           isAffiliated: false,
           name: 'name',
           parentOrganization: 'organization:parent',
+          regularUsers: fakeUsers(1, [{ username: 'regular:1' }]).data,
           subOrganizations: ['organization:sub'],
         })
       )
     ).toEqual({
-      adminUsers: [],
+      adminUsers: ['admin:1'],
       affiliatedOrganizations: ['organization:affiliated'],
       classification: 'ahjo:123',
       dataSource: 'helsinki',
@@ -303,7 +309,7 @@ describe('getOrganizationInitialValues function', () => {
       name: 'name',
       originId: '1',
       parentOrganization: 'organization:parent',
-      regularUsers: [],
+      regularUsers: ['regular:1'],
       replacedBy: '',
       subOrganizations: ['organization:sub'],
     });
@@ -320,7 +326,7 @@ describe('getOrganizationPayload function', () => {
       dissolutionDate: null,
       foundingDate: null,
       id: undefined,
-      internalType: '',
+      internalType: ORGANIZATION_INTERNAL_TYPE.NORMAL,
       name: '',
       parentOrganization: '',
       regularUsers: [],

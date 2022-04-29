@@ -2,10 +2,12 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { OrganizationDocument } from '../../../generated/graphql';
 import { fakeOrganization } from '../../../utils/mockDataUtils';
-import { TEST_DATA_SOURCE, TEST_PUBLISHER_ID } from '../constants';
+import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
+import { TEST_ORGANIZATION_CLASS_ID } from '../../organizationClass/constants';
+import { TEST_PUBLISHER_ID } from '../constants';
 
-const dataSource = TEST_DATA_SOURCE;
-const organizationClassification = 'ahjo:1';
+const dataSource = TEST_DATA_SOURCE_ID;
+const organizationClassification = TEST_ORGANIZATION_CLASS_ID;
 const organizationId = TEST_PUBLISHER_ID;
 const organizationName = 'Organization name';
 
@@ -29,4 +31,5 @@ export {
   organizationClassification,
   organizationId,
   organizationName,
+  organizationVariables,
 };

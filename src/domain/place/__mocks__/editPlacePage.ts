@@ -8,15 +8,13 @@ import {
   UpdatePlaceDocument,
 } from '../../../generated/graphql';
 import { fakePlace } from '../../../utils/mockDataUtils';
-import {
-  TEST_DATA_SOURCE,
-  TEST_PUBLISHER_ID,
-} from '../../organization/constants';
+import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { TEST_PLACE_ID } from '../constants';
 
 const placeValues: Partial<PlaceFieldsFragment> = {
   addressLocality: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Helsinki' },
-  dataSource: TEST_DATA_SOURCE,
+  dataSource: TEST_DATA_SOURCE_ID,
   description: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Place description' },
   email: 'test@email.com',
   id: TEST_PLACE_ID,

@@ -25,9 +25,9 @@ const SingleSelectField: React.FC<Props> = ({
     onBlur({ target: { id: name, value } });
   };
 
-  const handleChange = (selected: OptionType) => {
+  const handleChange = (selected: OptionType | null) => {
     onChange({
-      target: { id: name, value: selected.value },
+      target: { id: name, value: selected?.value || null },
     });
   };
 

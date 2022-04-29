@@ -9,7 +9,9 @@ import { Link } from 'react-router-dom';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { scrollToItem } from '../../../utils/scrollToItem';
+import DataSourceName from '../../dataSource/dataSourceName/DataSourceName';
 import { getOrganizationFields } from '../../organization/utils';
+import OrganizationClassName from '../../organizationClass/organizationClassName/OrganizationClassName';
 import {
   addExpandedOrganization,
   removeExpandedOrganization,
@@ -22,12 +24,12 @@ import styles from './organizationsTable.module.scss';
 import OrganizationsTableContext from './OrganizationsTableContext';
 import SubOrganizationRows from './SubOrganizationRows';
 
-interface Props {
+export interface OrganizationsTableRowProps {
   level?: number;
   organization: OrganizationFieldsFragment;
 }
 
-const OrganizationsTableRow: React.FC<Props> = ({
+const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
   level = 0,
   organization,
 }) => {
@@ -156,10 +158,10 @@ const OrganizationsTableRow: React.FC<Props> = ({
 
         <td className={styles.idColumn}>{id}</td>
         <td className={styles.dataSourceColumn}>
-          {dataSource || /* istanbul ignore next */ '–'}
+          <DataSourceName id={dataSource} />
         </td>
         <td className={styles.classificationColumn}>
-          {classification || /* istanbul ignore next */ '–'}
+          <OrganizationClassName id={classification} />
         </td>
         <td className={styles.parentColumn}>
           <div className={styles.nameWrapper}>

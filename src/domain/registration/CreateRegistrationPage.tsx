@@ -153,48 +153,40 @@ const CreateRegistrationPage: React.FC = () => {
               name={FORM_NAMES.REGISTRATION_FORM}
               isSessionStorage={true}
             />
-            <PageWrapper
-              className={styles.registrationPage}
-              title={`createRegistrationPage.pageTitle`}
-            >
-              <MainContent>
-                <Container className={styles.createContainer} withOffset={true}>
-                  <AuthenticationNotification
-                    action={REGISTRATION_ACTIONS.CREATE}
-                  />
-                  <ServerErrorSummary errors={serverErrorItems} />
-                  <Section title={t('registration.form.sections.event')}>
-                    <EventSection />
-                  </Section>
-                  <Section
-                    title={t('registration.form.sections.enrolmentTime')}
-                  >
-                    <EnrolmentTimeSection />
-                  </Section>
-                  <Section
-                    title={t('registration.form.sections.attendeeCount')}
-                  >
-                    <AttendeeCapacitySection />
-                  </Section>
-                  <Section title={t('registration.form.sections.waitingList')}>
-                    <WaitingListSection />
-                  </Section>
-                  <Section title={t('registration.form.sections.instructions')}>
-                    <InstructionsSection />
-                  </Section>
-                  <Section
-                    title={t('registration.form.sections.confirmationMessage')}
-                  >
-                    <ConfirmationMessageSection />
-                  </Section>
-                  <Section title={t('registration.form.sections.audienceAge')}>
-                    <AudienceAgeSection />
-                  </Section>
-                </Container>
-                {/* TODO: Set correct saving state when integrating with API */}
-                <CreateButtonPanel onSave={handleSubmit} saving={saving} />
-              </MainContent>
-            </PageWrapper>
+
+            <MainContent>
+              <Container className={styles.createContainer} withOffset={true}>
+                <AuthenticationNotification
+                  action={REGISTRATION_ACTIONS.CREATE}
+                />
+                <ServerErrorSummary errors={serverErrorItems} />
+                <Section title={t('registration.form.sections.event')}>
+                  <EventSection />
+                </Section>
+                <Section title={t('registration.form.sections.enrolmentTime')}>
+                  <EnrolmentTimeSection />
+                </Section>
+                <Section title={t('registration.form.sections.attendeeCount')}>
+                  <AttendeeCapacitySection />
+                </Section>
+                <Section title={t('registration.form.sections.waitingList')}>
+                  <WaitingListSection />
+                </Section>
+                <Section title={t('registration.form.sections.instructions')}>
+                  <InstructionsSection />
+                </Section>
+                <Section
+                  title={t('registration.form.sections.confirmationMessage')}
+                >
+                  <ConfirmationMessageSection />
+                </Section>
+                <Section title={t('registration.form.sections.audienceAge')}>
+                  <AudienceAgeSection />
+                </Section>
+              </Container>
+
+              <CreateButtonPanel onSave={handleSubmit} saving={saving} />
+            </MainContent>
           </Form>
         );
       }}
@@ -206,9 +198,14 @@ const CreateRegistrationPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <LoadingSpinner isLoading={loadingUser}>
-      <CreateRegistrationPage />
-    </LoadingSpinner>
+    <PageWrapper
+      className={styles.registrationPage}
+      title={`createRegistrationPage.pageTitle`}
+    >
+      <LoadingSpinner isLoading={loadingUser}>
+        <CreateRegistrationPage />
+      </LoadingSpinner>
+    </PageWrapper>
   );
 };
 

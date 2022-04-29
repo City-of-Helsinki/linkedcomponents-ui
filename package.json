@@ -32,6 +32,7 @@
     "apollo-link-sentry": "^3.1.1",
     "axios": "^0.26.1",
     "browser-image-compression": "^1.0.17",
+    "caniuse-lite": "^1.0.30001332",
     "classnames": "^2.3.1",
     "copy-to-clipboard": "^3.3.1",
     "dompurify": "^2.3.6",

@@ -16,6 +16,8 @@ import { toast } from 'react-toastify';
 
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../../constants';
 import {
+  DataSource,
+  DataSourcesResponse,
   Enrolment,
   Event,
   EventsResponse,
@@ -27,6 +29,8 @@ import {
   KeywordsResponse,
   LanguagesResponse,
   Organization,
+  OrganizationClass,
+  OrganizationClassesResponse,
   OrganizationsResponse,
   Place,
   PlacesResponse,
@@ -42,6 +46,7 @@ import { apiTokenSelector } from '../../auth/selectors';
 import i18n from '../i18n/i18nInit';
 import { store } from '../store/store';
 import {
+  addTypenameDataSource,
   addTypenameEnrolment,
   addTypenameEvent,
   addTypenameImage,
@@ -50,6 +55,7 @@ import {
   addTypenameLanguage,
   addTypenameMeta,
   addTypenameOrganization,
+  addTypenameOrganizationClass,
   addTypenamePlace,
   addTypenameRegistration,
   addTypenameUser,
@@ -122,13 +128,23 @@ const fieldFunction =
 export const createCache = (): InMemoryCache =>
   new InMemoryCache({
     typePolicies: {
+      DataSource: { keyFields: ['id'] },
       Event: { keyFields },
       Keyword: { keyFields },
       KeywordSet: { keyFields },
       Organization: { keyFields },
+      OrganizationClass: { keyFields: ['id'] },
       Place: { keyFields },
       Query: {
         fields: {
+          dataSource: fieldFunction('DataSource', 'DataSource'),
+          dataSources: {
+            keyArgs: (args) =>
+              args ? Object.keys(args).filter((arg) => arg !== 'page') : [],
+            merge(existing, incoming, options) {
+              return mergeCache(existing, incoming, options);
+            },
+          },
           event: fieldFunction('Event', 'event'),
           events: {
             keyArgs: (args) => {
@@ -167,6 +183,17 @@ export const createCache = (): InMemoryCache =>
           keywordSet: fieldFunction('KeywordSet', 'keyword_set'),
           organization: fieldFunction('Organization', 'organization'),
           organizations: {
+            keyArgs: (args) =>
+              args ? Object.keys(args).filter((arg) => arg !== 'page') : [],
+            merge(existing, incoming, options) {
+              return mergeCache(existing, incoming, options);
+            },
+          },
+          organizationClass: fieldFunction(
+            'OrganizationClass',
+            'organizationClass'
+          ),
+          organizationClasses: {
             keyArgs: (args) =>
               args ? Object.keys(args).filter((arg) => arg !== 'page') : [],
             merge(existing, incoming, options) {
@@ -257,6 +284,16 @@ const linkedEventsLink = new RestLink({
     'Content-Type': 'application/json',
   },
   typePatcher: {
+    DataSource: (dataSource: DataSource): DataSource | null =>
+      addTypenameDataSource(dataSource),
+    DataSourcesResponse: (data: DataSourcesResponse): DataSourcesResponse => {
+      data.meta = addTypenameMeta(data.meta);
+      data.data = data.data.map((dataSource) =>
+        addTypenameDataSource(dataSource)
+      );
+
+      return data;
+    },
     Enrolment: (enrolment: Enrolment): Enrolment | null =>
       addTypenameEnrolment(enrolment),
     Event: (event: Event): Event | null => addTypenameEvent(event),
@@ -304,6 +341,20 @@ const linkedEventsLink = new RestLink({
       data.meta = addTypenameMeta(data.meta);
       data.data = data.data.map((organization) =>
         addTypenameOrganization(organization)
+      );
+
+      return data;
+    },
+    OrganizationClass: (
+      organizationClass: OrganizationClass
+    ): OrganizationClass | null =>
+      addTypenameOrganizationClass(organizationClass),
+    OrganizationClassesResponse: (
+      data: OrganizationClassesResponse
+    ): OrganizationClassesResponse => {
+      data.meta = addTypenameMeta(data.meta);
+      data.data = data.data.map((organizationClass) =>
+        addTypenameOrganizationClass(organizationClass)
       );
 
       return data;

@@ -147,7 +147,8 @@ test('should move to images page after creating new image', async () => {
   const saveButton = getElement('saveButton');
   userEvent.click(saveButton);
 
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/images`)
+  await waitFor(
+    () => expect(history.location.pathname).toBe(`/fi/admin/images`),
+    { timeout: 10000 }
   );
 });

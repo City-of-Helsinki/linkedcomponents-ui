@@ -4,9 +4,10 @@ import {
   DeleteOrganizationDocument,
   UpdateOrganizationDocument,
 } from '../../../generated/graphql';
+import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
 import { organizations } from '../../organizations/__mocks__/organizationsPage';
 import { users } from '../../user/__mocks__/user';
-import { TEST_DATA_SOURCE, TEST_PUBLISHER_ID } from '../constants';
+import { TEST_PUBLISHER_ID } from '../constants';
 import {
   organization,
   organizationClassification,
@@ -33,7 +34,7 @@ const payload = {
   regularUsers: [],
   replacedBy: organizations.data[0].atId,
   subOrganizations: [],
-  dataSource: TEST_DATA_SOURCE,
+  dataSource: TEST_DATA_SOURCE_ID,
   dissolutionDate: null,
   foundingDate: '2021-01-01',
   id: TEST_PUBLISHER_ID,
