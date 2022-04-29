@@ -7,7 +7,11 @@ import { ExternalLink as ExternalLinkType } from '../../../types';
 import ExternalLink from './ExternalLink';
 import NewExternalLink from './NewExternalLink';
 
-const ExternalLinks: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const ExternalLinks: React.FC<Props> = ({ isEditingAllowed }) => {
   const [{ value: externalLinks }] = useField<ExternalLinkType[]>({
     name: EVENT_FIELDS.EXTERNAL_LINKS,
   });
@@ -25,6 +29,7 @@ const ExternalLinks: React.FC = () => {
                   key={index}
                   externalLink={externalLink}
                   index={index}
+                  isEditingAllowed={isEditingAllowed}
                   onDelete={() => arrayHelpers.remove(index)}
                   type={type}
                 />
@@ -33,6 +38,7 @@ const ExternalLinks: React.FC = () => {
           })}
 
           <NewExternalLink
+            isEditingAllowed={isEditingAllowed}
             onChange={(item) =>
               arrayHelpers.push({
                 [EXTERNAL_LINK_FIELDS.NAME]: item.value,

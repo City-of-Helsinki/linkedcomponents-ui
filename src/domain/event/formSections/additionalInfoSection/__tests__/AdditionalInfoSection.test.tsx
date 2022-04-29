@@ -47,7 +47,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
       enableReinitialize={true}
       validationSchema={publicEventSchema}
     >
-      <AdditionalInfoSection />
+      <AdditionalInfoSection isEditingAllowed={true} />
     </Formik>
   );
 

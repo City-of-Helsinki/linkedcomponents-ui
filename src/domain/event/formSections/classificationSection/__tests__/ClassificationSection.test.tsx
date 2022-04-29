@@ -59,7 +59,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
       enableReinitialize={true}
       validationSchema={publicEventSchema}
     >
-      <ClassificationSection />
+      <ClassificationSection isEditingAllowed={true} />
     </Formik>,
     { mocks }
   );

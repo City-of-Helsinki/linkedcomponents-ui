@@ -13,6 +13,7 @@ import FieldWithButton from '../../layout/FieldWithButton';
 
 type Props = {
   canDelete: boolean;
+  isEditingAllowed: boolean;
   onDelete: () => void;
   showInstructions?: boolean;
   type: string;
@@ -24,6 +25,7 @@ const getFieldName = (videoPath: string, field: string) =>
 
 const Video: React.FC<Props> = ({
   canDelete,
+  isEditingAllowed,
   onDelete,
   showInstructions,
   type,
@@ -77,6 +79,7 @@ const Video: React.FC<Props> = ({
             canDelete && (
               <DeleteButton
                 ariaLabel={t('event.form.buttonDeleteVideo')}
+                disabled={!isEditingAllowed}
                 onClick={onDelete}
               />
             )
@@ -86,8 +89,9 @@ const Video: React.FC<Props> = ({
             <FormGroup>
               <FastField
                 component={TextInputField}
-                name={fieldNames.url}
+                disabled={!isEditingAllowed}
                 label={t(`event.form.labelVideoUrl`)}
+                name={fieldNames.url}
                 placeholder={t(`event.form.placeholderVideoUrl`)}
                 required={isRequired}
               />
@@ -95,8 +99,9 @@ const Video: React.FC<Props> = ({
             <FormGroup>
               <FastField
                 component={TextInputField}
-                name={fieldNames.name}
+                disabled={!isEditingAllowed}
                 label={t(`event.form.labelVideoName`)}
+                name={fieldNames.name}
                 placeholder={t(`event.form.placeholderVideoName`)}
                 required={isRequired}
               />
@@ -104,8 +109,9 @@ const Video: React.FC<Props> = ({
             <FormGroup>
               <FastField
                 component={TextInputField}
-                name={fieldNames.altText}
+                disabled={!isEditingAllowed}
                 label={t(`event.form.labelVideoAltText`)}
+                name={fieldNames.altText}
                 placeholder={t(`event.form.placeholderVideoAltText`)}
                 required={isRequired}
               />

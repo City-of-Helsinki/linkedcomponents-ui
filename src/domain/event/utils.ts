@@ -1483,6 +1483,28 @@ export const getEditButtonProps = ({
     : null;
 };
 
+export const canUserCreateEvent = ({
+  action,
+  publisher,
+  user,
+}: {
+  action: EVENT_CREATE_ACTIONS;
+  publisher: string;
+  user?: UserFieldsFragment;
+}): boolean => {
+  const adminOrganizations = user?.adminOrganizations ?? [];
+  const organizationMemberships = user?.organizationMemberships ?? [];
+  const canCreateDraft = organizationMemberships.includes(publisher);
+  const canPublish = adminOrganizations.includes(publisher);
+
+  switch (action) {
+    case EVENT_CREATE_ACTIONS.CREATE_DRAFT:
+      return canCreateDraft || canPublish;
+    case EVENT_CREATE_ACTIONS.PUBLISH:
+      return canPublish;
+  }
+};
+
 export const isCreateEventButtonVisible = ({
   action,
   authenticated,

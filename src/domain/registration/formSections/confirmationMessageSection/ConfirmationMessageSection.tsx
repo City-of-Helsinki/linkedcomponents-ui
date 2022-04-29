@@ -19,10 +19,10 @@ const ConfirmationMessageSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldColumn>
         <Field
           component={TextAreaField}
+          disabled={!isEditingAllowed}
           label={t(`registration.form.labelConfirmationMessage`)}
           name={REGISTRATION_FIELDS.CONFIRMATION_MESSAGE}
           placeholder={t(`registration.form.placeholderConfirmationMessage`)}
-          readOnly={!isEditingAllowed}
         />
       </FieldColumn>
     </FieldRow>

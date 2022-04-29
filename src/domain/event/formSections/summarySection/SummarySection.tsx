@@ -8,13 +8,18 @@ import useLocale from '../../../../hooks/useLocale';
 import { EVENT_FIELDS } from '../../constants';
 import styles from './summarySection.module.scss';
 
-const SummarySection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const SummarySection: React.FC<Props> = ({ isEditingAllowed }) => {
   const locale = useLocale();
   const { t } = useTranslation();
 
   return (
     <div className={styles.panel}>
       <Field
+        disabled={!isEditingAllowed}
         label={
           <span
             dangerouslySetInnerHTML={{

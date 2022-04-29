@@ -25,20 +25,20 @@ const EnrolmentTimeSection: React.FC<Props> = ({ isEditingAllowed }) => {
           <div className={styles.splittedRow}>
             <Field
               component={DatepickerField}
+              disabled={!isEditingAllowed}
               label={t(`registration.form.labelEnrolmentStartTime`)}
               name={REGISTRATION_FIELDS.ENROLMENT_START_TIME}
               placeholder={t(`common.placeholderDateTime`)}
-              readOnly={!isEditingAllowed}
               required={true}
               timeSelector={true}
             />
             <Field
               component={DatepickerField}
+              disabled={!isEditingAllowed}
               label={t(`registration.form.labelEnrolmentEndTime`)}
               minBookingDate={enrolmentStartTime}
               name={REGISTRATION_FIELDS.ENROLMENT_END_TIME}
               placeholder={t(`common.placeholderDateTime`)}
-              readOnly={!isEditingAllowed}
               required={true}
               timeSelector={true}
             />

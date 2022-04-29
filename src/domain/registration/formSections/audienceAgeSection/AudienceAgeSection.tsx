@@ -22,19 +22,19 @@ const AudienceAgeSection: React.FC<Props> = ({ isEditingAllowed }) => {
           <div className={styles.splittedRow}>
             <Field
               component={NumberInputField}
+              disabled={!isEditingAllowed}
               label={t(`registration.form.labelAudienceMinAge`)}
               min={0}
               name={REGISTRATION_FIELDS.AUDIENCE_MIN_AGE}
               placeholder={0}
-              readOnly={!isEditingAllowed}
             />
             <Field
               component={NumberInputField}
+              disabled={!isEditingAllowed}
               label={t(`registration.form.labelAudienceMaxAge`)}
               name={REGISTRATION_FIELDS.AUDIENCE_MAX_AGE}
               min={0}
               placeholder={0}
-              readOnly={!isEditingAllowed}
             />
           </div>
         </FieldColumn>

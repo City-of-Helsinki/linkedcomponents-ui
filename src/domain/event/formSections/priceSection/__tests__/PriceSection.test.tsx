@@ -31,7 +31,7 @@ const renderTimeSection = () =>
       onSubmit={jest.fn()}
       validationSchema={publicEventSchema}
     >
-      <PriceSection />
+      <PriceSection isEditingAllowed={true} />
     </Formik>
   );
 

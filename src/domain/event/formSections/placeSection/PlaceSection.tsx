@@ -14,7 +14,11 @@ import { EVENT_FIELDS } from '../../constants';
 import stylesEventPage from '../../eventPage.module.scss';
 import styles from './placeSection.module.scss';
 
-const PlaceSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const PlaceSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
@@ -44,6 +48,7 @@ const PlaceSection: React.FC = () => {
           <FormGroup>
             <Field
               component={PlaceSelectorField}
+              disabled={!isEditingAllowed}
               label={t('event.form.labelLocation')}
               name={EVENT_FIELDS.LOCATION}
               placeholder={t('event.form.placeholderLocation')}
@@ -55,6 +60,7 @@ const PlaceSection: React.FC = () => {
           </FormGroup>
           <h3>{t(`event.form.titleLocationExtraInfo`)}</h3>
           <MultiLanguageField
+            disabled={!isEditingAllowed}
             labelKey={`event.form.labelLocationExtraInfo`}
             languages={eventInfoLanguages}
             maxLength={CHARACTER_LIMITS.SHORT_STRING}

@@ -44,6 +44,7 @@ const defaultInitialValues: InitialValues = {
 };
 
 const defaultProps: DescriptionSectionProps = {
+  isEditingAllowed: true,
   selectedLanguage: languages[0],
   setSelectedLanguage: jest.fn(),
 };

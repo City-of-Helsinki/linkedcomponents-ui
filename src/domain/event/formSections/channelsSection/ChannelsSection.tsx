@@ -10,7 +10,11 @@ import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import ExternalLinks from './externalLinks/ExternalLinks';
 
-const ChannelsSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const ChannelsSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);
   const [{ value: eventInfoLanguages }] = useField({
@@ -24,6 +28,7 @@ const ChannelsSection: React.FC = () => {
         <FieldColumn>
           <FormGroup>
             <MultiLanguageField
+              disabled={!isEditingAllowed}
               languages={eventInfoLanguages}
               labelKey={`event.form.labelInfoUrl.${type}`}
               name={EVENT_FIELDS.INFO_URL}
@@ -43,7 +48,7 @@ const ChannelsSection: React.FC = () => {
           </Notification>
         }
       >
-        <ExternalLinks />
+        <ExternalLinks isEditingAllowed={isEditingAllowed} />
       </FieldRow>
     </>
   );

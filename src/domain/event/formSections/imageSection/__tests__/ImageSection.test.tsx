@@ -87,7 +87,7 @@ const renderComponent = (
       onSubmit={jest.fn()}
       validationSchema={publicEventSchema}
     >
-      <ImageSection />
+      <ImageSection isEditingAllowed={true} />
     </Formik>,
     { mocks, store }
   );

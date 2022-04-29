@@ -19,10 +19,10 @@ const InstructionsSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldColumn>
         <Field
           component={TextAreaField}
+          disabled={!isEditingAllowed}
           label={t(`registration.form.labelInstructions`)}
           name={REGISTRATION_FIELDS.INSTRUCTIONS}
           placeholder={t(`registration.form.placeholderInstructions`)}
-          readOnly={!isEditingAllowed}
         />
       </FieldColumn>
     </FieldRow>

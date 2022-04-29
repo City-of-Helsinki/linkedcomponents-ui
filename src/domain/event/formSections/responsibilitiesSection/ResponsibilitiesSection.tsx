@@ -14,10 +14,12 @@ import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 
 export interface ResponsibilitiesSectionProps {
+  isEditingAllowed: boolean;
   savedEvent?: EventFieldsFragment;
 }
 
 const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
+  isEditingAllowed,
   savedEvent,
 }) => {
   const { user } = useUser();
@@ -69,10 +71,10 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
       >
         <FieldColumn>
           <Field
-            disabled={getDisabled(EVENT_FIELDS.PUBLISHER)}
+            component={PublisherSelectorField}
+            disabled={!isEditingAllowed || getDisabled(EVENT_FIELDS.PUBLISHER)}
             label={t(`event.form.labelPublisher.${type}`)}
             name={EVENT_FIELDS.PUBLISHER}
-            component={PublisherSelectorField}
             publisher={savedEvent?.publisher}
           />
         </FieldColumn>
@@ -91,6 +93,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
       >
         <FieldColumn>
           <MultiLanguageField
+            disabled={!isEditingAllowed}
             labelKey={`event.form.labelProvider.${type}`}
             languages={eventInfoLanguages}
             name={EVENT_FIELDS.PROVIDER}

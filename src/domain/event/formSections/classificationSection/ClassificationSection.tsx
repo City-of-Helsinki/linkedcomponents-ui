@@ -17,7 +17,11 @@ import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useEventFieldOptionsData from '../../hooks/useEventFieldOptionsData';
 
-const ClassificationSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const locale = useLocale();
 
@@ -93,12 +97,13 @@ const ClassificationSection: React.FC = () => {
       >
         <FieldColumn>
           <Field
-            name={EVENT_FIELDS.KEYWORDS}
             component={CheckboxGroupField}
             columns={2}
+            disabled={!isEditingAllowed}
             disabledOptions={disabledMainCategoryOptions}
             errorName={EVENT_FIELDS.MAIN_CATEGORIES}
             options={keywordOptions}
+            name={EVENT_FIELDS.KEYWORDS}
             visibleOptionAmount={10}
           />
         </FieldColumn>
@@ -118,9 +123,10 @@ const ClassificationSection: React.FC = () => {
       >
         <FieldColumn>
           <Field
-            name={EVENT_FIELDS.KEYWORDS}
             component={KeywordSelectorField}
+            disabled={!isEditingAllowed}
             label={t(`event.form.labelKeywords`)}
+            name={EVENT_FIELDS.KEYWORDS}
             placeholder={t(`event.form.placeholderKeywords`)}
           />
         </FieldColumn>

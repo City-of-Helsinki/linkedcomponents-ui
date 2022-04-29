@@ -25,11 +25,13 @@ const FIELDS = [
 ];
 
 export interface DescriptionSectionProps {
+  isEditingAllowed: boolean;
   selectedLanguage: LE_DATA_LANGUAGES;
   setSelectedLanguage: (value: LE_DATA_LANGUAGES) => void;
 }
 
 const DescriptionSection: React.FC<DescriptionSectionProps> = ({
+  isEditingAllowed,
   selectedLanguage,
   setSelectedLanguage,
 }) => {
@@ -109,6 +111,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   <FormGroup>
                     <Field
                       component={TextInputField}
+                      disabled={!isEditingAllowed}
                       label={t(`event.form.labelName.${type}`, {
                         langText,
                       })}
@@ -120,14 +123,15 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   <FormGroup>
                     <Field
                       component={TextInputField}
+                      disabled={!isEditingAllowed}
                       label={t(`event.form.labelShortDescription.${type}`, {
                         langText,
                       })}
+                      maxLength={CHARACTER_LIMITS.SHORT_STRING}
                       name={`${EVENT_FIELDS.SHORT_DESCRIPTION}.${selectedLanguage}`}
                       placeholder={t(
                         `event.form.placeholderShortDescription.${type}`
                       )}
-                      maxLength={CHARACTER_LIMITS.SHORT_STRING}
                       required={true}
                     />
                   </FormGroup>
@@ -136,14 +140,15 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
               <FormGroup>
                 <Field
                   component={TextEditorField}
+                  disabled={!isEditingAllowed}
                   label={t(`event.form.labelDescription.${type}`, {
                     langText,
                   })}
+                  maxLength={CHARACTER_LIMITS.LONG_STRING}
                   name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
                   placeholder={t(`event.form.placeholderDescription.${type}`)}
-                  sanitizeAfterChange={sanitizeDescriptionAfterChange}
-                  maxLength={CHARACTER_LIMITS.LONG_STRING}
                   required={true}
+                  sanitizeAfterChange={sanitizeDescriptionAfterChange}
                 />
               </FormGroup>
             </TabPanel>

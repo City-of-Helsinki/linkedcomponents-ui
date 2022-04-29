@@ -9,7 +9,11 @@ import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import useAudienceOptions from '../../hooks/useAudienceOptions';
 
-const AudienceSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const AudienceSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   const audienceOptions = useAudienceOptions();
@@ -27,9 +31,10 @@ const AudienceSection: React.FC = () => {
       >
         <FieldColumn>
           <Field
-            name={EVENT_FIELDS.AUDIENCE}
             component={CheckboxGroupField}
             columns={2}
+            disabled={!isEditingAllowed}
+            name={EVENT_FIELDS.AUDIENCE}
             options={audienceOptions}
             visibleOptionAmount={10}
           />

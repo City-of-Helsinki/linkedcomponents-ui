@@ -36,7 +36,7 @@ const renderComponent = () =>
       onSubmit={jest.fn()}
       validationSchema={publicEventSchema}
     >
-      <ChannelsSection />
+      <ChannelsSection isEditingAllowed={true} />
     </Formik>
   );
 

@@ -28,9 +28,9 @@ import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
 import { reportError } from '../app/sentry/utils';
+import { EVENT_CREATE_ACTIONS, EVENT_INITIAL_VALUES } from '../event/constants';
 import { clearEventsQueries } from '../events/utils';
 import useUser from '../user/hooks/useUser';
-import { EVENT_INITIAL_VALUES } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
 import AuthenticationNotification from './eventAuthenticationNotification/EventAuthenticationNotification';
 import styles from './eventPage.module.scss';
@@ -53,6 +53,7 @@ import useEventServerErrors from './hooks/useEventServerErrors';
 import useUpdateImageIfNeeded from './hooks/useUpdateImageIfNeeded';
 import { EventFormFields } from './types';
 import {
+  canUserCreateEvent,
   draftEventSchema,
   getEventPayload,
   getRecurringEventPayload,
@@ -69,6 +70,7 @@ const CreateEventPage: React.FC = () => {
   const locale = useLocale();
   const { t } = useTranslation();
   const { user } = useUser();
+
   const [createEventMutation] = useCreateEventMutation();
   const [createEventsMutation] = useCreateEventsMutation();
   const { updateImageIfNeeded } = useUpdateImageIfNeeded();
@@ -232,6 +234,18 @@ const CreateEventPage: React.FC = () => {
         setErrors,
         setTouched,
       }) => {
+        const isCreateEventAllowed = (action: EVENT_CREATE_ACTIONS) => {
+          return canUserCreateEvent({
+            action,
+            publisher,
+            user,
+          });
+        };
+
+        const isEditingAllowed =
+          isCreateEventAllowed(EVENT_CREATE_ACTIONS.CREATE_DRAFT) ||
+          isCreateEventAllowed(EVENT_CREATE_ACTIONS.PUBLISH);
+
         const clearErrors = () => setErrors({});
 
         const handleSubmit = async (
@@ -285,50 +299,58 @@ const CreateEventPage: React.FC = () => {
                 <Container className={styles.createContainer} withOffset={true}>
                   <AuthenticationNotification />
                   <ServerErrorSummary errors={serverErrorItems} />
+
                   <Section title={t('event.form.sections.type')}>
-                    <TypeSection />
+                    <TypeSection isEditingAllowed={isEditingAllowed} />
                   </Section>
                   <Section title={t('event.form.sections.languages')}>
-                    <LanguagesSection />
+                    <LanguagesSection isEditingAllowed={isEditingAllowed} />
                   </Section>
                   <Section title={t('event.form.sections.responsibilities')}>
-                    <ResponsibilitiesSection />
+                    <ResponsibilitiesSection
+                      isEditingAllowed={isEditingAllowed}
+                    />
                   </Section>
                   <Section title={t('event.form.sections.description')}>
                     <DescriptionSection
+                      isEditingAllowed={isEditingAllowed}
                       selectedLanguage={descriptionLanguage}
                       setSelectedLanguage={setDescriptionLanguage}
                     />
                   </Section>
                   <Section title={t('event.form.sections.time')}>
-                    <TimeSection />
+                    <TimeSection isEditingAllowed={isEditingAllowed} />
                   </Section>
                   <Section title={t('event.form.sections.place')}>
-                    <PlaceSection />
+                    <PlaceSection isEditingAllowed={isEditingAllowed} />
                   </Section>
                   <Section title={t('event.form.sections.price')}>
-                    <PriceSection />
+                    <PriceSection isEditingAllowed={isEditingAllowed} />
                   </Section>
                   <Section title={t(`event.form.sections.channels.${type}`)}>
-                    <ChannelsSection />
+                    <ChannelsSection isEditingAllowed={isEditingAllowed} />
                   </Section>
                   <Section title={t('event.form.sections.image')}>
-                    <ImageSection />
+                    <ImageSection isEditingAllowed={isEditingAllowed} />
                   </Section>
                   <Section title={t('event.form.sections.video')}>
-                    <VideoSection />
+                    <VideoSection isEditingAllowed={isEditingAllowed} />
                   </Section>
                   <Section title={t('event.form.sections.classification')}>
-                    <ClassificationSection />
+                    <ClassificationSection
+                      isEditingAllowed={isEditingAllowed}
+                    />
                   </Section>
                   <Section title={t('event.form.sections.audience')}>
-                    <AudienceSection />
+                    <AudienceSection isEditingAllowed={isEditingAllowed} />
                   </Section>
                   <Section title={t('event.form.sections.additionalInfo')}>
-                    <AdditionalInfoSection />
+                    <AdditionalInfoSection
+                      isEditingAllowed={isEditingAllowed}
+                    />
                   </Section>
 
-                  <SummarySection />
+                  <SummarySection isEditingAllowed={isEditingAllowed} />
                 </Container>
                 <CreateButtonPanel
                   onSaveDraft={() => handleSubmit(PublicationStatus.Draft)}

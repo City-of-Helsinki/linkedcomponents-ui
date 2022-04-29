@@ -16,7 +16,11 @@ import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import { sortLanguage } from '../../utils';
 
-const LanguagesSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const [{ value: eventType }] = useField({ name: EVENT_FIELDS.TYPE });
   const locale = useLocale();
@@ -53,10 +57,11 @@ const LanguagesSection: React.FC = () => {
       >
         <FieldColumn>
           <Field
-            name={EVENT_FIELDS.EVENT_INFO_LANGUAGES}
             component={CheckboxGroupField}
             columns={3}
+            disabled={!isEditingAllowed}
             min={1}
+            name={EVENT_FIELDS.EVENT_INFO_LANGUAGES}
             options={eventInfoLanguageOptions}
           />
         </FieldColumn>
@@ -75,9 +80,10 @@ const LanguagesSection: React.FC = () => {
       >
         <FieldColumn>
           <Field
-            name={EVENT_FIELDS.IN_LANGUAGE}
             component={CheckboxGroupField}
             columns={3}
+            disabled={!isEditingAllowed}
+            name={EVENT_FIELDS.IN_LANGUAGE}
             options={inLanguageOptions}
             visibleOptionAmount={3}
           />

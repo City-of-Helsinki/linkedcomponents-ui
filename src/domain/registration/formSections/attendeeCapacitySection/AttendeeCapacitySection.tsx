@@ -22,19 +22,19 @@ const AttendeeCapacitySection: React.FC<Props> = ({ isEditingAllowed }) => {
           <div className={styles.splittedRow}>
             <Field
               component={NumberInputField}
+              disabled={!isEditingAllowed}
               label={t(`registration.form.labelMinimumAttendeeCapacity`)}
               min={0}
               name={REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY}
               placeholder={0}
-              readOnly={!isEditingAllowed}
             />
             <Field
               component={NumberInputField}
+              disabled={!isEditingAllowed}
               label={t(`registration.form.labelMaximumAttendeeCapacity`)}
               min={0}
               name={REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
               placeholder={0}
-              readOnly={!isEditingAllowed}
             />
           </div>
         </FieldColumn>

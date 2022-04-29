@@ -12,6 +12,7 @@ import { ExternalLink as ExternalLinkType } from '../../../types';
 import styles from './externalLinks.module.scss';
 
 type ExternalLinkProps = {
+  isEditingAllowed: boolean;
   onDelete: () => void;
   externalLink: ExternalLinkType;
   index: number;
@@ -22,6 +23,7 @@ const getExternalLinkPath = (index: number, path: string) =>
   `${EVENT_FIELDS.EXTERNAL_LINKS}[${index}].${path}`;
 
 const ExternalLink: React.FC<ExternalLinkProps> = ({
+  isEditingAllowed,
   onDelete,
   externalLink,
   index,
@@ -40,6 +42,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
       button={
         <DeleteButton
           ariaLabel={t('event.form.buttonDeleteExternalLink')}
+          disabled={!isEditingAllowed}
           onClick={onDelete}
         />
       }
@@ -49,6 +52,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
         <Field
           className={styles.nameSelector}
           component={SingleSelectField}
+          disabled={!isEditingAllowed}
           label={t(`event.form.labelExternalLinkName`)}
           name={getExternalLinkPath(index, EXTERNAL_LINK_FIELDS.NAME)}
           options={options}
@@ -57,6 +61,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
         />
         <Field
           component={TextInputField}
+          disabled={!isEditingAllowed}
           hideLabel={true}
           label={t(`event.form.labelExternalLinkLink.${type}`, {
             name: getExternalLinkName(externalLink.name),

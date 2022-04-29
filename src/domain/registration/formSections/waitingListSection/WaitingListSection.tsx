@@ -22,11 +22,11 @@ const WaitingListSection: React.FC<Props> = ({ isEditingAllowed }) => {
           <div className={styles.splittedRow}>
             <Field
               component={NumberInputField}
+              disabled={!isEditingAllowed}
               label={t(`registration.form.labelWaitingListCapacity`)}
               min={0}
               name={REGISTRATION_FIELDS.WAITING_LIST_CAPACITY}
               placeholder={0}
-              readOnly={!isEditingAllowed}
             />
           </div>
         </FieldColumn>

@@ -28,6 +28,7 @@ import { getEventFields } from '../../utils';
 import PublicationListLinks from './PublicationListLinks';
 
 export interface TypeSectionProps {
+  isEditingAllowed: boolean;
   savedEvent?: EventFieldsFragment;
 }
 
@@ -47,7 +48,10 @@ const isRecurringEvent = (
   recurringEvents: RecurringEventSettings[]
 ): boolean => getAllEventTimes(eventTimes, recurringEvents).length > 1;
 
-const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
+const TypeSection: React.FC<TypeSectionProps> = ({
+  isEditingAllowed,
+  savedEvent,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const typeOptions = useEventTypeOptions();
@@ -152,9 +156,10 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
       >
         <FieldColumn>
           <Field
-            name={EVENT_FIELDS.TYPE}
             columns={1}
             component={RadioButtonGroupField}
+            disabled={!isEditingAllowed}
+            name={EVENT_FIELDS.TYPE}
             options={typeOptions}
           />
         </FieldColumn>
@@ -188,10 +193,12 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
         <FieldColumn>
           <FormGroup>
             <Field
-              disabled={getDisabled(EVENT_FIELDS.IS_UMBRELLA)}
+              component={CheckboxField}
+              disabled={
+                !isEditingAllowed || getDisabled(EVENT_FIELDS.IS_UMBRELLA)
+              }
               label={t(`event.form.labelIsUmbrella.${type}`)}
               name={EVENT_FIELDS.IS_UMBRELLA}
-              component={CheckboxField}
               title={
                 disabledIsUmbrella ? t('event.form.tooltipEventIsUmbrella') : ''
               }
@@ -199,19 +206,22 @@ const TypeSection: React.FC<TypeSectionProps> = ({ savedEvent }) => {
           </FormGroup>
           <FormGroup>
             <Field
-              disabled={getDisabled(EVENT_FIELDS.HAS_UMBRELLA)}
+              component={CheckboxField}
+              disabled={
+                !isEditingAllowed || getDisabled(EVENT_FIELDS.HAS_UMBRELLA)
+              }
               label={t(`event.form.labelHasUmbrella.${type}`)}
               name={EVENT_FIELDS.HAS_UMBRELLA}
-              component={CheckboxField}
             />
           </FormGroup>
           {hasUmbrella && (
             <FormGroup>
               <Field
+                component={UmbrellaEventSelectorField}
+                disabled={!isEditingAllowed}
                 helper={t('event.form.helperUmbrellaEvent')}
                 label={t('event.form.labelUmbrellaEvent')}
                 name={EVENT_FIELDS.SUPER_EVENT}
-                component={UmbrellaEventSelectorField}
               />
             </FormGroup>
           )}

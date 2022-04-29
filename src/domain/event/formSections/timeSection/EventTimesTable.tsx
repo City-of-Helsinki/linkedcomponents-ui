@@ -44,7 +44,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   startIndex,
 }) => {
   const { t } = useTranslation();
-  const { savedEvent } = useContext(TimeSectionContext);
+  const { isEditingAllowed, savedEvent } = useContext(TimeSectionContext);
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
@@ -161,7 +161,10 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
         <td>
           <MenuDropdown
             button={
-              <button className={styles.toggleButton}>
+              <button
+                className={styles.toggleButton}
+                disabled={!isEditingAllowed}
+              >
                 <IconMenuDots aria-hidden={true} />
               </button>
             }

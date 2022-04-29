@@ -10,7 +10,11 @@ import { EVENT_FIELDS } from '../../constants';
 import Offers from './Offers';
 import ValidationError from './ValidationError';
 
-const PriceSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const PriceSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
@@ -23,15 +27,16 @@ const PriceSection: React.FC = () => {
         <FieldColumn>
           <FormGroup>
             <Field
+              component={CheckboxField}
+              disabled={!isEditingAllowed}
               label={t(`event.form.labelHasPrice.${type}`)}
               name={EVENT_FIELDS.HAS_PRICE}
-              component={CheckboxField}
             />
             <ValidationError />
           </FormGroup>
         </FieldColumn>
       </FieldRow>
-      {hasPrice && <Offers />}
+      {hasPrice && <Offers isEditingAllowed={isEditingAllowed} />}
     </>
   );
 };

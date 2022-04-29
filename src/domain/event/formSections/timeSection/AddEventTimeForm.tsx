@@ -19,9 +19,11 @@ interface Props {
 
 const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
   const { t } = useTranslation();
-  const { eventType, savedEvent } = React.useContext(TimeSectionContext);
+  const { eventType, isEditingAllowed, savedEvent } =
+    React.useContext(TimeSectionContext);
   const disabled =
-    savedEvent && savedEvent.superEventType !== SuperEventType.Recurring;
+    !isEditingAllowed ||
+    (savedEvent && savedEvent.superEventType !== SuperEventType.Recurring);
 
   const submitAddEventTime = (
     values: AddEventTimeFormFields,
