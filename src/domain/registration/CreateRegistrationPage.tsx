@@ -44,7 +44,7 @@ import useRegistrationServerErrors from './hooks/useRegistrationServerErrors';
 import AuthenticationNotification from './registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import styles from './registrationPage.module.scss';
 import { RegistrationFormFields } from './types';
-import { getRegistrationPayload } from './utils';
+import { checkCanUserDoAction, getRegistrationPayload } from './utils';
 import { getFocusableFieldId, registrationSchema } from './validation';
 
 const CreateRegistrationPage: React.FC = () => {
@@ -56,6 +56,14 @@ const CreateRegistrationPage: React.FC = () => {
   const location = useLocation();
   const locale = useLocale();
   const { user } = useUser();
+
+  const isEditingAllowed = checkCanUserDoAction({
+    action: REGISTRATION_ACTIONS.CREATE,
+    organizationAncestors: [],
+    publisher: '',
+    user,
+  });
+
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useRegistrationServerErrors();
 
@@ -161,27 +169,31 @@ const CreateRegistrationPage: React.FC = () => {
                 />
                 <ServerErrorSummary errors={serverErrorItems} />
                 <Section title={t('registration.form.sections.event')}>
-                  <EventSection />
+                  <EventSection isEditingAllowed={isEditingAllowed} />
                 </Section>
                 <Section title={t('registration.form.sections.enrolmentTime')}>
-                  <EnrolmentTimeSection />
+                  <EnrolmentTimeSection isEditingAllowed={isEditingAllowed} />
                 </Section>
                 <Section title={t('registration.form.sections.attendeeCount')}>
-                  <AttendeeCapacitySection />
+                  <AttendeeCapacitySection
+                    isEditingAllowed={isEditingAllowed}
+                  />
                 </Section>
                 <Section title={t('registration.form.sections.waitingList')}>
-                  <WaitingListSection />
+                  <WaitingListSection isEditingAllowed={isEditingAllowed} />
                 </Section>
                 <Section title={t('registration.form.sections.instructions')}>
-                  <InstructionsSection />
+                  <InstructionsSection isEditingAllowed={isEditingAllowed} />
                 </Section>
                 <Section
                   title={t('registration.form.sections.confirmationMessage')}
                 >
-                  <ConfirmationMessageSection />
+                  <ConfirmationMessageSection
+                    isEditingAllowed={isEditingAllowed}
+                  />
                 </Section>
                 <Section title={t('registration.form.sections.audienceAge')}>
-                  <AudienceAgeSection />
+                  <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
                 </Section>
               </Container>
 

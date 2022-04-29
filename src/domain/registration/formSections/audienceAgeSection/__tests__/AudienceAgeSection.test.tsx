@@ -32,7 +32,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
       enableReinitialize={true}
       validationSchema={registrationSchema}
     >
-      <AudienceAgeSection />
+      <AudienceAgeSection isEditingAllowed={true} />
     </Formik>
   );
 

@@ -8,7 +8,11 @@ import FieldRow from '../../../app/layout/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 import styles from '../../registrationPage.module.scss';
 
-const AudienceAgeSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const AudienceAgeSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   return (
@@ -17,18 +21,20 @@ const AudienceAgeSection: React.FC = () => {
         <FieldColumn>
           <div className={styles.splittedRow}>
             <Field
-              name={REGISTRATION_FIELDS.AUDIENCE_MIN_AGE}
               component={NumberInputField}
               label={t(`registration.form.labelAudienceMinAge`)}
               min={0}
+              name={REGISTRATION_FIELDS.AUDIENCE_MIN_AGE}
               placeholder={0}
+              readOnly={!isEditingAllowed}
             />
             <Field
-              name={REGISTRATION_FIELDS.AUDIENCE_MAX_AGE}
               component={NumberInputField}
               label={t(`registration.form.labelAudienceMaxAge`)}
+              name={REGISTRATION_FIELDS.AUDIENCE_MAX_AGE}
               min={0}
               placeholder={0}
+              readOnly={!isEditingAllowed}
             />
           </div>
         </FieldColumn>

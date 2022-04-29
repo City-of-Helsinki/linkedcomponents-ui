@@ -8,7 +8,11 @@ import FieldRow from '../../../app/layout/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 import styles from '../../registrationPage.module.scss';
 
-const EnrolmentTimeSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const EnrolmentTimeSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const [{ value: enrolmentStartTime }] = useField({
     name: REGISTRATION_FIELDS.ENROLMENT_START_TIME,
@@ -20,19 +24,21 @@ const EnrolmentTimeSection: React.FC = () => {
         <FieldColumn>
           <div className={styles.splittedRow}>
             <Field
-              name={REGISTRATION_FIELDS.ENROLMENT_START_TIME}
               component={DatepickerField}
               label={t(`registration.form.labelEnrolmentStartTime`)}
+              name={REGISTRATION_FIELDS.ENROLMENT_START_TIME}
               placeholder={t(`common.placeholderDateTime`)}
+              readOnly={!isEditingAllowed}
               required={true}
               timeSelector={true}
             />
             <Field
-              name={REGISTRATION_FIELDS.ENROLMENT_END_TIME}
               component={DatepickerField}
               label={t(`registration.form.labelEnrolmentEndTime`)}
               minBookingDate={enrolmentStartTime}
+              name={REGISTRATION_FIELDS.ENROLMENT_END_TIME}
               placeholder={t(`common.placeholderDateTime`)}
+              readOnly={!isEditingAllowed}
               required={true}
               timeSelector={true}
             />

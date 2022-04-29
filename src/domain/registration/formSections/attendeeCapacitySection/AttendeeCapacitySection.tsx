@@ -8,7 +8,11 @@ import FieldRow from '../../../app/layout/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 import styles from '../../registrationPage.module.scss';
 
-const AttendeeCapacitySection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const AttendeeCapacitySection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   return (
@@ -17,18 +21,20 @@ const AttendeeCapacitySection: React.FC = () => {
         <FieldColumn>
           <div className={styles.splittedRow}>
             <Field
-              name={REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY}
               component={NumberInputField}
               label={t(`registration.form.labelMinimumAttendeeCapacity`)}
               min={0}
+              name={REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY}
               placeholder={0}
+              readOnly={!isEditingAllowed}
             />
             <Field
-              name={REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
               component={NumberInputField}
               label={t(`registration.form.labelMaximumAttendeeCapacity`)}
               min={0}
+              name={REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
               placeholder={0}
+              readOnly={!isEditingAllowed}
             />
           </div>
         </FieldColumn>

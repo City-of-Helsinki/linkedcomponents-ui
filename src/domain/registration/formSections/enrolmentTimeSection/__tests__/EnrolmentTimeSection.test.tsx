@@ -34,7 +34,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
       enableReinitialize={true}
       validationSchema={registrationSchema}
     >
-      <EnrolmentTimeSection />
+      <EnrolmentTimeSection isEditingAllowed={true} />
     </Formik>
   );
 
