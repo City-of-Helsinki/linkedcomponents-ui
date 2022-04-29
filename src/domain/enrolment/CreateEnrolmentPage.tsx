@@ -50,6 +50,7 @@ import FormContainer from './formContainer/FormContainer';
 import useEnrolmentServerErrors from './hooks/useEnrolmentServerErrors';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
 import {
+  checkCanUserDoAction,
   clearEnrolmentsQueries,
   getEnrolmentDefaultInitialValues,
   getEnrolmentPayload,
@@ -126,7 +127,14 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
   };
 
   const initialValues = getEnrolmentDefaultInitialValues(registration);
-  const formDisabled = !isRegistrationPossible(registration);
+  const formDisabled =
+    !isRegistrationPossible(registration) ||
+    !checkCanUserDoAction({
+      action: ENROLMENT_ACTIONS.CREATE,
+      organizationAncestors: [],
+      publisher: event.publisher as string,
+      user,
+    });
   const registrationWarning = getRegistrationWarning(registration, t);
 
   return (
