@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import 'swagger-ui-react/swagger-ui.css';
 
 import React from 'react';
@@ -74,6 +75,7 @@ const DocumentationPage: React.FC = () => {
         );
     }
   };
+
   return (
     <PageWrapper
       description="helpPage.pageDescriptionDocumentation"
@@ -82,10 +84,7 @@ const DocumentationPage: React.FC = () => {
     >
       {getContent(locale)}
 
-      {!isTestEnv && (
-        /* istanbul ignore next */
-        <SwaggerUI url={SWAGGER_SCHEMA_URL} />
-      )}
+      {!isTestEnv && SwaggerUI && <SwaggerUI url={SWAGGER_SCHEMA_URL} />}
     </PageWrapper>
   );
 };
