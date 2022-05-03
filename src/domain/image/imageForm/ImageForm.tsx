@@ -22,6 +22,8 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import useUser from '../../user/hooks/useUser';
 import {
   IMAGE_ACTIONS,
   IMAGE_FIELDS,
@@ -37,7 +39,7 @@ import useImageUpdateActions, {
 import ImageAuthenticationNotification from '../imageAuthenticationNotification/ImageAuthenticationNotification';
 import AddImageModal from '../modals/AddImageModal';
 import { ImageFormFields } from '../types';
-import { getImageInitialValues } from '../utils';
+import { checkCanUserDoAction, getImageInitialValues } from '../utils';
 import { getFocusableFieldId, imageSchema } from '../validation';
 
 type ImageFormProps = {
@@ -48,6 +50,17 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
+  const { user } = useUser();
+  const { organizationAncestors } = useOrganizationAncestors(
+    image?.publisher ?? ''
+  );
+
+  const isEditingAllowed = checkCanUserDoAction({
+    action: image ? IMAGE_ACTIONS.UPDATE : IMAGE_ACTIONS.CREATE,
+    organizationAncestors,
+    publisher: image?.publisher ?? '',
+    user,
+  });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useImageServerErrors();
@@ -101,7 +114,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
-      validationSchema={imageSchema}
+      validationSchema={isEditingAllowed && imageSchema}
     >
       {({ setErrors, setFieldValue, setTouched, values }) => {
         const clearErrors = () => setErrors({});
@@ -179,9 +192,9 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 <Field
                   className={styles.alignedSelect}
                   component={PublisherSelectorField}
+                  disabled={!isEditingAllowed || !!image?.publisher}
                   label={t(`image.form.labelPublisher`)}
                   name={IMAGE_FIELDS.PUBLISHER}
-                  disabled={!!image?.publisher}
                 />
               </FormRow>
 
@@ -199,7 +212,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                     {!values.url && (
                       <Button
                         className={styles.addButton}
-                        disabled={!values.publisher}
+                        disabled={!isEditingAllowed || !values.publisher}
                         fullWidth={true}
                         iconLeft={<IconPlusCircle aria-hidden />}
                         onClick={() => setOpenModal(IMAGE_MODALS.ADD_IMAGE)}
@@ -214,7 +227,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 <Field
                   className={styles.alignedInput}
                   component={TextInputField}
-                  disabled={!values.url}
+                  disabled={!isEditingAllowed || !values.url}
                   label={t(`image.form.labelAltText`)}
                   name={IMAGE_FIELDS.ALT_TEXT}
                   placeholder={t(`image.form.placeholderAltText`)}
@@ -225,7 +238,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 <Field
                   className={styles.alignedInput}
                   component={TextInputField}
-                  disabled={!values.url}
+                  disabled={!isEditingAllowed || !values.url}
                   label={t(`image.form.labelName`)}
                   name={IMAGE_FIELDS.NAME}
                   placeholder={t(`image.form.placeholderName`)}
@@ -236,7 +249,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 <Field
                   className={styles.alignedInput}
                   component={TextInputField}
-                  disabled={!values.url}
+                  disabled={!isEditingAllowed || !values.url}
                   label={t(`image.form.labelPhotographerName`)}
                   name={IMAGE_FIELDS.PHOTOGRAPHER_NAME}
                   placeholder={t(`image.form.placeholderPhotographerName`)}
@@ -245,7 +258,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
               <FormRow>
                 <h3>{t(`image.form.titleLicense`)}</h3>
                 <Field
-                  disabled={!values.url}
+                  disabled={!isEditingAllowed || !values.url}
                   component={RadioButtonGroupField}
                   name={IMAGE_FIELDS.LICENSE}
                   options={licenseOptions}

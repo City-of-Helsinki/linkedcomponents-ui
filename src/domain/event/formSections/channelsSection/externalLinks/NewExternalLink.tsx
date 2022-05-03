@@ -9,11 +9,16 @@ import useExtlinkOptions from '../../../hooks/useExtlinkOptions';
 import styles from './externalLinks.module.scss';
 
 type ExternalLinkProps = {
+  isEditingAllowed: boolean;
   onChange: (item: OptionType) => void;
   type: string;
 };
 
-const NewExternalLink: React.FC<ExternalLinkProps> = ({ onChange, type }) => {
+const NewExternalLink: React.FC<ExternalLinkProps> = ({
+  isEditingAllowed,
+  onChange,
+  type,
+}) => {
   const { t } = useTranslation();
 
   const options = useExtlinkOptions();
@@ -27,6 +32,7 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({ onChange, type }) => {
       <div className={styles.externalLink}>
         <SingleSelect
           className={styles.nameSelector}
+          disabled={!isEditingAllowed}
           label={t(`event.form.labelNewExternalLinkName`)}
           onChange={handleChange}
           options={options}

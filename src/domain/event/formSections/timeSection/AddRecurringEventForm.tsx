@@ -30,10 +30,12 @@ interface Props {
 
 const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
   const { t } = useTranslation();
-  const { eventType, savedEvent } = React.useContext(TimeSectionContext);
+  const { eventType, isEditingAllowed, savedEvent } =
+    React.useContext(TimeSectionContext);
 
   const disabled =
-    savedEvent && savedEvent.superEventType !== SuperEventType.Recurring;
+    !isEditingAllowed ||
+    (savedEvent && savedEvent.superEventType !== SuperEventType.Recurring);
 
   const weekDayOptions = Object.values(WEEK_DAY).map((weekday) => ({
     label: t(`form.weekDayAbbreviation.${weekday}`),

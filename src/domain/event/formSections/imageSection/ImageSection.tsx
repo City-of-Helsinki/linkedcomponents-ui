@@ -33,7 +33,11 @@ import { EVENT_FIELDS } from '../../constants';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';
 import styles from './imageSection.module.scss';
 
-const ImageSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
@@ -139,6 +143,7 @@ const ImageSection: React.FC = () => {
         >
           <FormGroup>
             <ImagePreview
+              disabled={!isEditingAllowed}
               imageUrl={imageUrl}
               label={t(`event.form.buttonAddImage.${type}`)}
               onClick={openAddImageModal}
@@ -148,6 +153,7 @@ const ImageSection: React.FC = () => {
           <FormGroup>
             {!!images.length ? (
               <Button
+                disabled={!isEditingAllowed}
                 fullWidth={true}
                 iconLeft={<IconMinusCircle aria-hidden />}
                 onClick={removeImage}
@@ -156,6 +162,7 @@ const ImageSection: React.FC = () => {
               </Button>
             ) : (
               <Button
+                disabled={!isEditingAllowed}
                 fullWidth={true}
                 iconLeft={<IconPlusCircle aria-hidden />}
                 onClick={openAddImageModal}

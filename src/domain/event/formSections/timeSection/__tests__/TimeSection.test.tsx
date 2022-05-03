@@ -85,7 +85,7 @@ const renderComponent = (
       onSubmit={jest.fn()}
       validationSchema={publicEventSchema}
     >
-      <TimeSection savedEvent={savedEvent} />
+      <TimeSection isEditingAllowed={true} savedEvent={savedEvent} />
     </Formik>
   );
 

@@ -12,7 +12,11 @@ import Offer from './Offer';
 
 const getOfferPath = (index: number) => `${EVENT_FIELDS.OFFERS}[${index}]`;
 
-const Offers: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
@@ -29,6 +33,7 @@ const Offers: React.FC = () => {
             return (
               <Offer
                 key={index}
+                isEditingAllowed={isEditingAllowed}
                 offerPath={getOfferPath(index)}
                 onDelete={() => arrayHelpers.remove(index)}
                 showInstructions={!index}

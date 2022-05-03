@@ -12,7 +12,11 @@ import Video from './Video';
 
 const getVideoPath = (index: number) => `${EVENT_FIELDS.VIDEOS}[${index}]`;
 
-const VideoSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const VideoSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
@@ -30,6 +34,7 @@ const VideoSection: React.FC = () => {
               <Video
                 key={index}
                 canDelete={videos.length > 1}
+                isEditingAllowed={isEditingAllowed}
                 onDelete={() => arrayHelpers.remove(index)}
                 showInstructions={!index}
                 type={type}
@@ -40,10 +45,11 @@ const VideoSection: React.FC = () => {
 
           <FieldWithButton>
             <Button
-              type="button"
+              disabled={!isEditingAllowed}
               fullWidth={true}
-              onClick={() => arrayHelpers.push(getEmptyOffer())}
               iconLeft={<IconPlus />}
+              onClick={() => arrayHelpers.push(getEmptyOffer())}
+              type="button"
               variant="primary"
             >
               {t('event.form.buttonAddVideo')}

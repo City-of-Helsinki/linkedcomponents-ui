@@ -30,7 +30,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
       enableReinitialize={true}
       validationSchema={registrationSchema}
     >
-      <WaitingListSection />
+      <WaitingListSection isEditingAllowed={true} />
     </Formik>
   );
 

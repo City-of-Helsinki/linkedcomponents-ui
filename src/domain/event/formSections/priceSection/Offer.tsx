@@ -12,6 +12,7 @@ import styles from '../../eventPage.module.scss';
 import FieldWithButton from '../../layout/FieldWithButton';
 
 type Props = {
+  isEditingAllowed: boolean;
   offerPath: string;
   onDelete: () => void;
   showInstructions?: boolean;
@@ -22,6 +23,7 @@ const getFieldName = (offerPath: string, field: string) =>
   `${offerPath}.${field}`;
 
 const Offer: React.FC<Props> = ({
+  isEditingAllowed,
   offerPath,
   onDelete,
   showInstructions,
@@ -54,6 +56,7 @@ const Offer: React.FC<Props> = ({
           button={
             <DeleteButton
               ariaLabel={t('event.form.buttonDeleteOffer')}
+              disabled={!isEditingAllowed}
               onClick={onDelete}
             />
           }
@@ -61,9 +64,10 @@ const Offer: React.FC<Props> = ({
           <>
             <FormGroup>
               <MultiLanguageField
-                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_PRICE)}
+                disabled={!isEditingAllowed}
                 labelKey={`event.form.labelOfferPrice`}
                 languages={eventInfoLanguages}
+                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_PRICE)}
                 placeholderKey={`event.form.placeholderOfferPrice.${type}`}
                 required={true}
               />
@@ -71,18 +75,20 @@ const Offer: React.FC<Props> = ({
             <FormGroup>
               <h3>{t('event.form.titleOfferInfoUrl')}</h3>
               <MultiLanguageField
-                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_INFO_URL)}
+                disabled={!isEditingAllowed}
                 labelKey={`event.form.labelOfferInfoUrl`}
                 languages={eventInfoLanguages}
+                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_INFO_URL)}
                 placeholderKey={`event.form.placeholderOfferInfoUrl`}
               />
             </FormGroup>
             <FormGroup>
               <h3>{t('event.form.titleOfferDescription')}</h3>
               <MultiLanguageField
-                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_DESCRIPTION)}
+                disabled={!isEditingAllowed}
                 labelKey={`event.form.labelOfferDescription`}
                 languages={eventInfoLanguages}
+                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_DESCRIPTION)}
                 placeholderKey={`event.form.placeholderOfferDescription`}
               />
             </FormGroup>

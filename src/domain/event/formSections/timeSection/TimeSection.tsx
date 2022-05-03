@@ -18,10 +18,11 @@ enum EVENT_TIME_TAB {
 }
 
 interface Props {
+  isEditingAllowed: boolean;
   savedEvent?: EventFieldsFragment;
 }
 
-const TimeSection: React.FC<Props> = ({ savedEvent }) => {
+const TimeSection: React.FC<Props> = ({ isEditingAllowed, savedEvent }) => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);
@@ -55,6 +56,7 @@ const TimeSection: React.FC<Props> = ({ savedEvent }) => {
         events,
         eventTimes,
         eventType: type,
+        isEditingAllowed,
         recurringEvents,
         savedEvent,
         setEvents,

@@ -57,8 +57,8 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
       className={classNames(styles.imagePreview, className, {
         [styles.disabled]: disabled,
       })}
-      onClick={onClick}
-      onKeyDown={handleKeyDown}
+      onClick={disabled ? () => undefined : onClick}
+      onKeyDown={disabled ? () => undefined : handleKeyDown}
       ref={ref}
       role="button"
       style={containerStyles}

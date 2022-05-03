@@ -27,6 +27,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
 import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotFound from '../notFound/NotFound';
+import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS, EVENT_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
@@ -58,6 +59,7 @@ import ConfirmPostponeModal from './modals/ConfirmPostponeModal';
 import ConfirmUpdateModal from './modals/ConfirmUpdateModal';
 import { EventFormFields } from './types';
 import {
+  checkCanUserDoAction,
   draftEventSchema,
   eventPathBuilder,
   getEventFields,
@@ -78,6 +80,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
+  const { user } = useUser();
+  const { organizationAncestors } = useOrganizationAncestors(
+    event.publisher as string
+  );
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEventServerErrors();
   const { name, publicationStatus, superEventType } = getEventFields(
@@ -204,6 +210,20 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       validateOnChange={true}
     >
       {({ values, setErrors, setTouched }) => {
+        const isEventActionAllowed = (action: EVENT_EDIT_ACTIONS) => {
+          return checkCanUserDoAction({
+            action,
+            event,
+            organizationAncestors,
+            user,
+          });
+        };
+
+        const isEditingAllowed =
+          isEventActionAllowed(EVENT_EDIT_ACTIONS.UPDATE_DRAFT) ||
+          isEventActionAllowed(EVENT_EDIT_ACTIONS.UPDATE_PUBLIC) ||
+          isEventActionAllowed(EVENT_EDIT_ACTIONS.PUBLISH);
+
         const clearErrors = () => setErrors({});
         const handleUpdate = async (publicationStatus: PublicationStatus) => {
           try {
@@ -288,48 +308,62 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                     <ServerErrorSummary errors={serverErrorItems} />
 
                     <Section title={t('event.form.sections.type')}>
-                      <TypeSection savedEvent={event} />
+                      <TypeSection
+                        isEditingAllowed={isEditingAllowed}
+                        savedEvent={event}
+                      />
                     </Section>
                     <Section title={t('event.form.sections.languages')}>
-                      <LanguagesSection />
+                      <LanguagesSection isEditingAllowed={isEditingAllowed} />
                     </Section>
                     <Section title={t('event.form.sections.responsibilities')}>
-                      <ResponsibilitiesSection savedEvent={event} />
+                      <ResponsibilitiesSection
+                        isEditingAllowed={isEditingAllowed}
+                        savedEvent={event}
+                      />
                     </Section>
                     <Section title={t('event.form.sections.description')}>
                       <DescriptionSection
+                        isEditingAllowed={isEditingAllowed}
                         selectedLanguage={descriptionLanguage}
                         setSelectedLanguage={setDescriptionLanguage}
                       />
                     </Section>
                     <Section title={t('event.form.sections.time')}>
-                      <TimeSection savedEvent={event} />
+                      <TimeSection
+                        isEditingAllowed={isEditingAllowed}
+                        savedEvent={event}
+                      />
                     </Section>
                     <Section title={t('event.form.sections.place')}>
-                      <PlaceSection />
+                      <PlaceSection isEditingAllowed={isEditingAllowed} />
                     </Section>
                     <Section title={t('event.form.sections.price')}>
-                      <PriceSection />
+                      <PriceSection isEditingAllowed={isEditingAllowed} />
                     </Section>
                     <Section
                       title={t(`event.form.sections.channels.${values.type}`)}
                     >
-                      <ChannelsSection />
+                      <ChannelsSection isEditingAllowed={isEditingAllowed} />
                     </Section>
                     <Section title={t('event.form.sections.image')}>
-                      <ImageSection />
+                      <ImageSection isEditingAllowed={isEditingAllowed} />
                     </Section>
                     <Section title={t('event.form.sections.video')}>
-                      <VideoSection />
+                      <VideoSection isEditingAllowed={isEditingAllowed} />
                     </Section>
                     <Section title={t('event.form.sections.classification')}>
-                      <ClassificationSection />
+                      <ClassificationSection
+                        isEditingAllowed={isEditingAllowed}
+                      />
                     </Section>
                     <Section title={t('event.form.sections.audience')}>
-                      <AudienceSection />
+                      <AudienceSection isEditingAllowed={isEditingAllowed} />
                     </Section>
                     <Section title={t('event.form.sections.additionalInfo')}>
-                      <AdditionalInfoSection />
+                      <AdditionalInfoSection
+                        isEditingAllowed={isEditingAllowed}
+                      />
                     </Section>
                     <Section title={t('event.form.sections.linksToEvents')}>
                       <LinksToEventsSection event={event} />

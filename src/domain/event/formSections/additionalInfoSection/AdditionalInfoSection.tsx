@@ -11,7 +11,11 @@ import FieldRow from '../../../app/layout/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 
-const AdditionalInfoSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: enrolmentStartTime }] = useField({
@@ -36,19 +40,21 @@ const AdditionalInfoSection: React.FC = () => {
           <div className={styles.numberRow}>
             <FormGroup>
               <Field
-                name={EVENT_FIELDS.AUDIENCE_MIN_AGE}
                 component={NumberInputField}
+                disabled={!isEditingAllowed}
                 label={t(`event.form.labelAudienceMinAge`)}
                 min={0}
+                name={EVENT_FIELDS.AUDIENCE_MIN_AGE}
                 placeholder={0}
               />
             </FormGroup>
             <FormGroup>
               <Field
-                name={EVENT_FIELDS.AUDIENCE_MAX_AGE}
                 component={NumberInputField}
+                disabled={!isEditingAllowed}
                 label={t(`event.form.labelAudienceMaxAge`)}
                 min={0}
+                name={EVENT_FIELDS.AUDIENCE_MAX_AGE}
                 placeholder={0}
               />
             </FormGroup>
@@ -73,19 +79,21 @@ const AdditionalInfoSection: React.FC = () => {
         <FieldColumn>
           <FormGroup>
             <Field
-              name={EVENT_FIELDS.ENROLMENT_START_TIME}
               component={DatepickerField}
+              disabled={!isEditingAllowed}
               label={t(`event.form.labelEnrolmentStartTime`)}
+              name={EVENT_FIELDS.ENROLMENT_START_TIME}
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />
           </FormGroup>
           <FormGroup>
             <Field
-              name={EVENT_FIELDS.ENROLMENT_END_TIME}
               component={DatepickerField}
+              disabled={!isEditingAllowed}
               label={t(`event.form.labelEnrolmentEndTime`)}
               minBookingDate={enrolmentStartTime}
+              name={EVENT_FIELDS.ENROLMENT_END_TIME}
               placeholder={t(`common.placeholderDateTime`)}
               timeSelector={true}
             />
@@ -111,19 +119,21 @@ const AdditionalInfoSection: React.FC = () => {
           <div className={styles.numberRow}>
             <FormGroup>
               <Field
-                name={EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY}
                 component={NumberInputField}
+                disabled={!isEditingAllowed}
                 label={t(`event.form.labelMinimumAttendeeCapacity`)}
                 min={0}
+                name={EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY}
                 placeholder={0}
               />
             </FormGroup>
             <FormGroup>
               <Field
-                name={EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
                 component={NumberInputField}
+                disabled={!isEditingAllowed}
                 label={t(`event.form.labelMaximumAttendeeCapacity`)}
                 min={0}
+                name={EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
                 placeholder={0}
               />
             </FormGroup>

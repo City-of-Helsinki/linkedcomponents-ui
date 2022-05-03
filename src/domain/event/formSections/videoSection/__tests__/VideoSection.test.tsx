@@ -37,7 +37,7 @@ const renderVideoSection = (initialValues?: Partial<EventFormFields>) =>
       onSubmit={jest.fn()}
       validationSchema={publicEventSchema}
     >
-      <VideoSection />
+      <VideoSection isEditingAllowed={true} />
     </Formik>
   );
 

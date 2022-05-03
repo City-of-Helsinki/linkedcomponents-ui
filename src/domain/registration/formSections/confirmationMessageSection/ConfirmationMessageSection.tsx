@@ -7,16 +7,21 @@ import FieldColumn from '../../../app/layout/FieldColumn';
 import FieldRow from '../../../app/layout/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 
-const ConfirmationMessageSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const ConfirmationMessageSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   return (
     <FieldRow>
       <FieldColumn>
         <Field
-          name={REGISTRATION_FIELDS.CONFIRMATION_MESSAGE}
           component={TextAreaField}
+          disabled={!isEditingAllowed}
           label={t(`registration.form.labelConfirmationMessage`)}
+          name={REGISTRATION_FIELDS.CONFIRMATION_MESSAGE}
           placeholder={t(`registration.form.placeholderConfirmationMessage`)}
         />
       </FieldColumn>

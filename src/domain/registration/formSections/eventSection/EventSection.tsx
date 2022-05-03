@@ -7,16 +7,21 @@ import FieldColumn from '../../../app/layout/FieldColumn';
 import FieldRow from '../../../app/layout/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 
-const EventSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const EventSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   return (
     <FieldRow>
       <FieldColumn>
         <Field
-          name={REGISTRATION_FIELDS.EVENT}
           component={RegistrationEventSelectorField}
+          disabled={!isEditingAllowed}
           label={t(`registration.form.labelEvent`)}
+          name={REGISTRATION_FIELDS.EVENT}
           placeholder={t(`registration.form.placeholderEvent`)}
         />
       </FieldColumn>

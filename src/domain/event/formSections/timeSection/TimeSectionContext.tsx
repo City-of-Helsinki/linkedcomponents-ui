@@ -8,6 +8,7 @@ export const timeSectionContextDefaultValue: TimeSectionContextProps = {
   events: [],
   eventTimes: [],
   eventType: EVENT_TYPE.General,
+  isEditingAllowed: true,
   recurringEvents: [],
   setEvents: () => undefined,
   setEventTimes: () => undefined,
@@ -18,6 +19,7 @@ export type TimeSectionContextProps = {
   events: EventTime[];
   eventTimes: EventTime[];
   eventType: EVENT_TYPE;
+  isEditingAllowed: boolean;
   recurringEvents: RecurringEventSettings[];
   savedEvent?: EventFieldsFragment;
   setEvents: (events: EventTime[]) => void;

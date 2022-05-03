@@ -30,6 +30,7 @@ import PageWrapper from '../app/layout/PageWrapper';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
+import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import { registrationPathBuilder } from '../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
@@ -47,7 +48,11 @@ import useEnrolmentUpdateActions, {
 } from './hooks/useEnrolmentUpdateActions';
 import ConfirmCancelModal from './modals/ConfirmCancelModal';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
-import { enrolmentPathBuilder, getEnrolmentInitialValues } from './utils';
+import {
+  checkCanUserDoAction,
+  enrolmentPathBuilder,
+  getEnrolmentInitialValues,
+} from './utils';
 import { enrolmentSchema, scrollToFirstError } from './validation';
 
 type Props = {
@@ -68,6 +73,16 @@ const EditEnrolmentPage: React.FC<Props> = ({
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useUser();
+  const { organizationAncestors } = useOrganizationAncestors(
+    event.publisher as string
+  );
+  const isEditingAllowed = checkCanUserDoAction({
+    action: ENROLMENT_ACTIONS.EDIT,
+    organizationAncestors,
+    publisher: event.publisher as string,
+    user,
+  });
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrors();
   const {
@@ -182,7 +197,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
                       <ServerErrorSummary errors={serverErrorItems} />
                       <EventInfo event={event} />
                       <div className={styles.divider} />
-                      <EnrolmentFormFields />
+                      <EnrolmentFormFields disabled={!isEditingAllowed} />
                     </FormContainer>
                   </Container>
                   <EditButtonPanel

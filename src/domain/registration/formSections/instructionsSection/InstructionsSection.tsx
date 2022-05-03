@@ -7,16 +7,21 @@ import FieldColumn from '../../../app/layout/FieldColumn';
 import FieldRow from '../../../app/layout/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 
-const InstructionsSection: React.FC = () => {
+interface Props {
+  isEditingAllowed: boolean;
+}
+
+const InstructionsSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   return (
     <FieldRow>
       <FieldColumn>
         <Field
-          name={REGISTRATION_FIELDS.INSTRUCTIONS}
           component={TextAreaField}
+          disabled={!isEditingAllowed}
           label={t(`registration.form.labelInstructions`)}
+          name={REGISTRATION_FIELDS.INSTRUCTIONS}
           placeholder={t(`registration.form.placeholderInstructions`)}
         />
       </FieldColumn>
