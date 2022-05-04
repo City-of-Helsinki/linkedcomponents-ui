@@ -1,68 +1,27 @@
 import React from 'react';
 
-import { TEST_PUBLISHER_ID } from '../../../../domain/organization/constants';
-import { ImagesDocument } from '../../../../generated/graphql';
-import { fakeImages } from '../../../../utils/mockDataUtils';
 import {
+  configure,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { PAGE_SIZE } from '../constants';
+import {
+  images,
+  loadMoreImages,
+  mockedImagesReponse,
+  mockedLoadMoreImagesResponse,
+  publisher,
+} from '../__mocks__/imageSelector';
 import ImageSelector, { ImageSelectorProps } from '../ImageSelector';
 
-const publisher = TEST_PUBLISHER_ID;
+configure({ defaultHidden: true });
 
 const defaultProps: ImageSelectorProps = {
   onChange: jest.fn(),
   publisher,
   value: [],
-};
-
-const images = fakeImages(PAGE_SIZE);
-const imagesVariables = {
-  createPath: undefined,
-  mergePages: true,
-  pageSize: PAGE_SIZE,
-  publisher,
-};
-
-const imagesResponse = {
-  data: {
-    images: {
-      ...images,
-      meta: {
-        ...images.meta,
-        count: 15,
-        next: 'https://api.hel.fi/linkedevents/v1/image/?page=2',
-      },
-    },
-  },
-};
-const mockedImagesReponse = {
-  request: { query: ImagesDocument, variables: imagesVariables },
-  result: imagesResponse,
-};
-
-const loadMoreImages = fakeImages(PAGE_SIZE);
-const loadMoreImagesVariables = { ...imagesVariables, page: 2 };
-
-const loadMoreImagesResponse = {
-  data: {
-    images: {
-      ...loadMoreImages,
-      meta: {
-        ...loadMoreImages.meta,
-        count: 15,
-        next: 'https://api.hel.fi/linkedevents/v1/image/?page=3',
-      },
-    },
-  },
-};
-const mockedLoadMoreImagesResponse = {
-  request: { query: ImagesDocument, variables: loadMoreImagesVariables },
-  result: loadMoreImagesResponse,
 };
 
 const mocks = [mockedImagesReponse, mockedLoadMoreImagesResponse];
@@ -80,9 +39,7 @@ test('should render image selector', async () => {
   });
 
   images.data.forEach((image) => {
-    expect(
-      screen.getByRole('checkbox', { name: image.name })
-    ).toBeInTheDocument();
+    screen.getByRole('checkbox', { name: image.name });
   });
 });
 
@@ -94,18 +51,15 @@ test('should load more images', async () => {
   await waitFor(() => {
     expect(loadMoreButton).toBeEnabled();
   });
-
   userEvent.click(loadMoreButton);
 
   await waitFor(() => {
     expect(loadMoreButton).toBeEnabled();
   });
 
-  loadMoreImages.data.forEach((image) => {
-    expect(
-      screen.getByRole('checkbox', { name: image.name })
-    ).toBeInTheDocument();
-  });
+  for (const image of loadMoreImages.data) {
+    await screen.findByRole('checkbox', { name: image.name });
+  }
 });
 
 test('should call onChange', async () => {

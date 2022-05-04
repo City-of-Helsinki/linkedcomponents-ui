@@ -28,6 +28,7 @@ import {
 } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import {
+  EVENT_CREATE_ACTIONS,
   EVENT_EDIT_ACTIONS,
   EVENT_INITIAL_VALUES,
   EVENT_TYPE,
@@ -35,6 +36,7 @@ import {
 import { EventFormFields, RecurringEventSettings } from '../types';
 import {
   calculateSuperEventTime,
+  canUserCreateEvent,
   checkCanUserDoAction,
   eventPathBuilder,
   filterUnselectedLanguages,
@@ -1136,6 +1138,57 @@ describe('getEventInitialValues function', () => {
     expect(recurringEventEndTime).toBe(null);
     expect(recurringEventStartTime).toBe(null);
     expect(videos).toEqual([{ altText: '', name: '', url: '' }]);
+  });
+});
+
+describe('canUserCreateEvent function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
+  it('should allow/deny correct actions if adminArganizations contains event publisher', () => {
+    const user = fakeUser({ adminOrganizations: [publisher] });
+
+    const allowedActions = [
+      EVENT_CREATE_ACTIONS.CREATE_DRAFT,
+      EVENT_CREATE_ACTIONS.PUBLISH,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        canUserCreateEvent({
+          action,
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow/deny correct actions if organizationMembers contains publisher', () => {
+    const user = fakeUser({ organizationMemberships: [publisher] });
+
+    const allowedActions = [EVENT_CREATE_ACTIONS.CREATE_DRAFT];
+
+    allowedActions.forEach((action) => {
+      expect(
+        canUserCreateEvent({
+          action,
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+
+    const deniedActions = [EVENT_CREATE_ACTIONS.PUBLISH];
+
+    deniedActions.forEach((action) => {
+      expect(
+        canUserCreateEvent({
+          action,
+          publisher,
+          user,
+        })
+      ).toBe(false);
+    });
   });
 });
 

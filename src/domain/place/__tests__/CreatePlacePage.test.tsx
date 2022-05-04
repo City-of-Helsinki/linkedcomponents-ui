@@ -67,7 +67,7 @@ const fillInputValues = async () => {
   userEvent.type(nameInput, placeValues.name);
 };
 
-test('should focus to first validation error when trying to save new registration', async () => {
+test('should focus to first validation error when trying to save new place', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
   renderComponent(defaultMocks);
 

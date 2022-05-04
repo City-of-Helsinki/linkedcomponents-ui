@@ -56,7 +56,7 @@ const fillInputValues = async () => {
   userEvent.click(replacingKeywordOption);
 };
 
-test('should focus to first validation error when trying to save new registration', async () => {
+test('should focus to first validation error when trying to save new keyword', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
   renderComponent([mockedUserResponse]);
 

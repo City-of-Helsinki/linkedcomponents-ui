@@ -242,6 +242,7 @@ const CreateEventPage: React.FC = () => {
           });
         };
 
+        /* istanbul ignore next */
         const isEditingAllowed =
           isCreateEventAllowed(EVENT_CREATE_ACTIONS.CREATE_DRAFT) ||
           isCreateEventAllowed(EVENT_CREATE_ACTIONS.PUBLISH);

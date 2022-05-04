@@ -97,7 +97,7 @@ const fillInputValues = async () => {
   await fillClassificationField();
 };
 
-test('should focus to first validation error when trying to save new registration', async () => {
+test('should focus to first validation error when trying to save new organization', async () => {
   renderComponent(defaultMocks);
 
   await loadingSpinnerIsNotInDocument();

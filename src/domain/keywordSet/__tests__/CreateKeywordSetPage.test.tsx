@@ -35,6 +35,13 @@ const defaultMocks = [
 const renderComponent = (mocks: MockedResponse[] = []) =>
   render(<CreateKeywordSetPage />, { mocks, store });
 
+const findElement = (key: 'saveButton') => {
+  switch (key) {
+    case 'saveButton':
+      return screen.findByRole('button', { name: /tallenna/i });
+  }
+};
+
 const getElement = (
   key:
     | 'keywordsToggleButton'
@@ -62,35 +69,41 @@ const fillInputValues = async () => {
   userEvent.type(getElement('nameInput'), keywordSetValues.name);
 
   userEvent.click(getElement('keywordsToggleButton'));
-  const keywordsOption = await screen.findByRole('option', {
-    name: keywordSetValues.keyword.name.fi,
-  });
+  const keywordsOption = await screen.findByRole(
+    'option',
+    { name: keywordSetValues.keyword.name.fi },
+    { timeout: 10000 }
+  );
   userEvent.click(keywordsOption);
 
   act(() => userEvent.click(getElement('usageToggleButton')));
-  const usageOption = await screen.findByRole('option', { name: 'Yleinen' });
+  const usageOption = await screen.findByRole(
+    'option',
+    { name: 'Yleinen' },
+    { timeout: 10000 }
+  );
   act(() => userEvent.click(usageOption));
 };
 
-test('should focus to first validation error when trying to save new registration', async () => {
+test('should focus to first validation error when trying to save new keyword set', async () => {
   renderComponent(defaultMocks);
 
   await loadingSpinnerIsNotInDocument();
 
-  const originIdInput = getElement('originIdInput');
-  userEvent.click(getElement('saveButton'));
+  const saveButton = await findElement('saveButton');
 
+  const originIdInput = getElement('originIdInput');
+  userEvent.click(saveButton);
   await waitFor(() => expect(originIdInput).toHaveFocus());
   userEvent.type(originIdInput, keywordSetValues.originId);
 
   const nameInput = getElement('nameInput');
-  userEvent.click(getElement('saveButton'));
-
+  userEvent.click(saveButton);
   await waitFor(() => expect(nameInput).toHaveFocus());
-
   userEvent.type(nameInput, keywordSetValues.name);
+
   const keywordsToggleButton = getElement('keywordsToggleButton');
-  userEvent.click(getElement('saveButton'));
+  userEvent.click(saveButton);
 
   await waitFor(() => expect(keywordsToggleButton).toHaveFocus());
 });

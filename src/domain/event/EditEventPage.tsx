@@ -219,6 +219,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
           });
         };
 
+        /* istanbul ignore next */
         const isEditingAllowed =
           isEventActionAllowed(EVENT_EDIT_ACTIONS.UPDATE_DRAFT) ||
           isEventActionAllowed(EVENT_EDIT_ACTIONS.UPDATE_PUBLIC) ||

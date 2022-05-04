@@ -1492,7 +1492,9 @@ export const canUserCreateEvent = ({
   publisher: string;
   user?: UserFieldsFragment;
 }): boolean => {
+  /* istanbul ignore next */
   const adminOrganizations = user?.adminOrganizations ?? [];
+  /* istanbul ignore next */
   const organizationMemberships = user?.organizationMemberships ?? [];
   const canCreateDraft = organizationMemberships.includes(publisher);
   const canPublish = adminOrganizations.includes(publisher);
