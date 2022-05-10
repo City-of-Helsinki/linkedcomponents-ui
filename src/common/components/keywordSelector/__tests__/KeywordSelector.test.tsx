@@ -6,8 +6,16 @@ import {
   KeywordsDocument,
 } from '../../../../generated/graphql';
 import { fakeKeyword, fakeKeywords } from '../../../../utils/mockDataUtils';
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  act,
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
 import KeywordSelector, { KeywordSelectorProps } from '../KeywordSelector';
+
+configure({ defaultHidden: true });
 
 const keywordId = 'hel:123';
 const keywordAtId = `https://api.hel.fi/linkedevents/v1/keyword/${keywordId}/`;
@@ -44,10 +52,7 @@ const keywordsVariables = {
 };
 const keywordsResponse = { data: { keywords } };
 const mockedKeywordsResponse = {
-  request: {
-    query: KeywordsDocument,
-    variables: keywordsVariables,
-  },
+  request: { query: KeywordsDocument, variables: keywordsVariables },
   result: keywordsResponse,
 };
 
@@ -72,13 +77,15 @@ const renderComponent = (props?: Partial<KeywordSelectorProps>) =>
 test('should combobox input value to be selected place option label', async () => {
   renderComponent();
 
-  await screen.findByRole('button', {
-    name: new RegExp(keywordName, 'i'),
-    hidden: true,
-  });
+  await screen.findByRole(
+    'button',
+    { name: new RegExp(keywordName, 'i'), hidden: true },
+    { timeout: 2000 }
+  );
 });
 
 test('should open menu by clickin toggle button and list of options should be visible', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const combobox = screen.getByRole('combobox', {
@@ -90,7 +97,7 @@ test('should open menu by clickin toggle button and list of options should be vi
   const toggleButton = screen.queryByRole('button', {
     name: new RegExp(label),
   });
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   expect(combobox.getAttribute('aria-expanded')).toBe('true');
 

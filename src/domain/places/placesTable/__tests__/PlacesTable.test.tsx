@@ -1,5 +1,11 @@
 import { fakePlaces } from '../../../../utils/mockDataUtils';
-import { act, render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  act,
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '../../../../utils/testUtils';
 import { TEST_PLACE_ID } from '../../../place/constants';
 import { placeNames, places } from '../../__mocks__/placesPage';
 import { PLACE_SORT_OPTIONS } from '../../constants';
@@ -35,46 +41,57 @@ test('should render all places', () => {
   }
 });
 
-test('should open edit place page by clicking keyword', () => {
+test('should open edit place page by clicking keyword', async () => {
   const placeName = 'Place name';
   const placeId = TEST_PLACE_ID;
+  const user = userEvent.setup();
   const { history } = renderComponent({
     places: fakePlaces(1, [{ name: { fi: placeName }, id: placeId }]).data,
   });
 
-  act(() => userEvent.click(screen.getByRole('button', { name: placeName })));
+  await act(
+    async () =>
+      await user.click(screen.getByRole('button', { name: placeName }))
+  );
 
   expect(history.location.pathname).toBe(`/fi/admin/places/edit/${placeId}`);
 });
 
-test('should open edit keyword page by pressing enter on row', () => {
+test('should open edit keyword page by pressing enter on row', async () => {
   const placeName = 'Place name';
   const placeId = TEST_PLACE_ID;
+
+  const user = userEvent.setup();
   const { history } = renderComponent({
     places: fakePlaces(1, [{ name: { fi: placeName }, id: placeId }]).data,
   });
 
-  act(() =>
-    userEvent.type(screen.getByRole('button', { name: placeName }), '{enter}')
+  await act(
+    async () =>
+      await user.type(
+        screen.getByRole('button', { name: placeName }),
+        '{enter}'
+      )
   );
   expect(history.location.pathname).toBe(`/fi/admin/places/edit/${placeId}`);
 });
 
-test('should call setSort when clicking sortable column header', () => {
+test('should call setSort when clicking sortable column header', async () => {
   const setSort = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ setSort });
 
   const nameButton = screen.getByRole('button', { name: 'Nimi' });
-  act(() => userEvent.click(nameButton));
-  expect(setSort).toBeCalledWith('-name');
+  await act(async () => await user.click(nameButton));
+  await waitFor(() => expect(setSort).toBeCalledWith('-name'));
 
   const idButton = screen.getByRole('button', { name: 'ID' });
-  userEvent.click(idButton);
+  await act(async () => await user.click(idButton));
 
-  expect(setSort).toBeCalledWith('id');
+  await waitFor(() => expect(setSort).toBeCalledWith('id'));
 
   const nEventsButton = screen.getByRole('button', { name: 'Tapahtumien lkm' });
-  userEvent.click(nEventsButton);
+  await act(async () => await user.click(nEventsButton));
 
-  expect(setSort).toBeCalledWith('n_events');
+  await waitFor(() => expect(setSort).toBeCalledWith('n_events'));
 });

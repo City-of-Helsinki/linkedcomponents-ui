@@ -12,7 +12,7 @@ type Props = {
   maxWidth?: MaxWidth;
 };
 
-const FieldColumn: React.FC<Props> = ({
+const FieldColumn: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   className,
   maxWidth = INPUT_MAX_WIDTHS.MEDIUM,

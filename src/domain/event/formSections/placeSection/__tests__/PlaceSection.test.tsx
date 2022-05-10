@@ -7,6 +7,7 @@ import {
 } from '../../../../../constants';
 import { MultiLanguageObject } from '../../../../../types';
 import {
+  act,
   configure,
   mockString,
   render,
@@ -60,18 +61,20 @@ const getElement = (key: 'location' | 'locationExtraInfo') => {
 };
 
 test('should show validation error if location is missing', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const locationCombobox = getElement('location');
   const locationExtraInfoInput = getElement('locationExtraInfo');
 
-  userEvent.click(locationCombobox);
-  userEvent.click(locationExtraInfoInput);
+  await act(async () => await user.click(locationCombobox));
+  await act(async () => await user.click(locationExtraInfoInput));
 
   await screen.findByText('Tämä kenttä on pakollinen');
 });
 
 test('should show validation error if location extra info is too long', async () => {
+  const user = userEvent.setup();
   renderComponent({
     [EVENT_FIELDS.LOCATION_EXTRA_INFO]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -82,8 +85,8 @@ test('should show validation error if location extra info is too long', async ()
   const locationExtraInfoInput = getElement('locationExtraInfo');
   const locationCombobox = getElement('location');
 
-  userEvent.click(locationExtraInfoInput);
-  userEvent.click(locationCombobox);
+  await act(async () => await user.click(locationExtraInfoInput));
+  await act(async () => await user.click(locationCombobox));
 
   await screen.findByText('Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä');
 });

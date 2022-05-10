@@ -2,7 +2,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import translations from '../../../../domain/app/i18n/fi.json';
-import { configure, render, screen } from '../../../../utils/testUtils';
+import { act, configure, render, screen } from '../../../../utils/testUtils';
 import Pagination, { PaginationProps } from '../Pagination';
 
 configure({ defaultHidden: true });
@@ -54,12 +54,13 @@ test('previous button should be disabled', () => {
   expect(previousButton).toBeDisabled();
 });
 
-test('should call setSelected page when clicing previous button', () => {
+test('should call setSelected page when clicing previous button', async () => {
   const setSelectedPage = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ selectedPage: 2, setSelectedPage });
 
   const previousButton = getElement('previous');
-  userEvent.click(previousButton);
+  await act(async () => await user.click(previousButton));
 
   expect(setSelectedPage).toBeCalledWith(1);
 });
@@ -71,22 +72,24 @@ test('next button should be disabled', () => {
   expect(nextButton).toBeDisabled();
 });
 
-test('should call setSelected page when clicing next button', () => {
+test('should call setSelected page when clicing next button', async () => {
   const setSelectedPage = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ selectedPage: 9, setSelectedPage });
 
   const nextButton = getElement('next');
-  userEvent.click(nextButton);
+  await act(async () => await user.click(nextButton));
 
   expect(setSelectedPage).toBeCalledWith(10);
 });
 
-test('should call setSelected page when clicing page button', () => {
+test('should call setSelected page when clicing page button', async () => {
   const setSelectedPage = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ selectedPage: 1, setSelectedPage });
 
   const page2Button = screen.getByRole('button', { name: 'Sivu 2' });
-  userEvent.click(page2Button);
+  await act(async () => await user.click(page2Button));
 
   expect(setSelectedPage).toBeCalledWith(2);
 });

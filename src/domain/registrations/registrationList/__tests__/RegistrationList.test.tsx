@@ -1,6 +1,8 @@
+import { History } from 'history';
 import React from 'react';
 
 import {
+  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -9,14 +11,14 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import {
-  eventNames,
   mockedEventResponses,
   mockedPage2EventResponses,
   mockedPage2RegistrationsResponse,
   mockedRegistrationsResponse,
-  page2EventNames,
 } from '../__mocks__/registrationList';
 import RegistrationList from '../RegistrationList';
+
+let history: History;
 
 configure({ defaultHidden: true });
 
@@ -41,27 +43,24 @@ const getElement = (key: 'page1' | 'page2' | 'pagination') => {
 const renderComponent = () => render(<RegistrationList />, { mocks });
 
 test('should navigate between pages', async () => {
-  const { history } = renderComponent();
+  const user = userEvent.setup();
+  await act(() => {
+    const { history: newHistory } = renderComponent();
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  expect(
-    screen.queryByRole('button', { name: /Lajitteluperuste/i })
-  ).not.toBeInTheDocument();
-
-  // Page 1 event should be visible.
-  await screen.findByRole('button', { name: eventNames[0] });
 
   const page2Button = getElement('page2');
-  userEvent.click(page2Button);
+  await act(async () => await user.click(page2Button));
 
   await loadingSpinnerIsNotInDocument();
   // Page 2 event should be visible.
-  await screen.findByRole('button', { name: page2EventNames[0] });
   await waitFor(() => expect(history.location.search).toBe('?page=2'));
 
   // Should clear page from url search if selecting the first page
   const page1Button = getElement('page1');
-  userEvent.click(page1Button);
+  await act(async () => await user.click(page1Button));
 
   await waitFor(() => expect(history.location.search).toBe(''));
 });

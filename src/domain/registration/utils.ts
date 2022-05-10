@@ -383,5 +383,5 @@ export const copyEnrolmentLinkToClipboard = ({
   t: TFunction;
 }): void => {
   copyToClipboard(getEnrolmentLink(registration, locale));
-  toast.success(t('registration.registrationLinkCopied'));
+  toast.success(t('registration.registrationLinkCopied') as string);
 };

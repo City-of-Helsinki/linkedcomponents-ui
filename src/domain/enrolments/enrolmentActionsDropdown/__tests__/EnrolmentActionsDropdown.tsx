@@ -63,15 +63,6 @@ const renderComponent = ({
     store,
   });
 
-const findElement = (key: 'cancel' | 'edit') => {
-  switch (key) {
-    case 'cancel':
-      return screen.findByRole('button', { name: 'Peruuta osallistuminen' });
-    case 'edit':
-      return screen.findByRole('button', { name: 'Muokkaa tietoja' });
-  }
-};
-
 const getElement = (key: 'cancel' | 'edit' | 'menu' | 'toggle') => {
   switch (key) {
     case 'cancel':
@@ -80,25 +71,26 @@ const getElement = (key: 'cancel' | 'edit' | 'menu' | 'toggle') => {
       return screen.getByRole('button', { name: 'Muokkaa tietoja' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
-
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
   }
 };
 
-const openMenu = () => {
+const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   getElement('menu');
 
   return toggleButton;
 };
 
-test('should toggle menu by clicking actions button', () => {
+test('should toggle menu by clicking actions button', async () => {
+  const user = userEvent.setup();
   renderComponent({ store });
 
-  const toggleButton = openMenu();
-  userEvent.click(toggleButton);
+  const toggleButton = await openMenu();
+  await act(async () => await user.click(toggleButton));
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -107,19 +99,20 @@ test('should toggle menu by clicking actions button', () => {
 test('should render correct buttons', async () => {
   renderComponent({ store });
 
-  openMenu();
+  await openMenu();
 
-  getElement('edit');
-  await findElement('cancel');
+  const enabledButtons = [getElement('cancel'), getElement('edit')];
+  enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
 test('should route to edit enrolment page when clicking edit button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  openMenu();
+  await openMenu();
 
-  const editButton = await findElement('edit');
-  act(() => userEvent.click(editButton));
+  const editButton = getElement('edit');
+  await act(async () => await user.click(editButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -133,18 +126,19 @@ test('should route to edit enrolment page when clicking edit button', async () =
 });
 
 test('should try to cancel enrolment when clicking cancel button', async () => {
+  const user = userEvent.setup();
   renderComponent({ store });
 
-  openMenu();
+  await openMenu();
 
-  const cancelButton = await findElement('cancel');
-  act(() => userEvent.click(cancelButton));
+  const cancelButton = getElement('cancel');
+  await act(async () => await user.click(cancelButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });
-  userEvent.click(cancelEventButton);
+  await act(async () => await user.click(cancelEventButton));
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

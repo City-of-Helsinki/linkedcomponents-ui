@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import * as Sentry from '@sentry/react';
 import { User } from 'oidc-client';
 import React from 'react';
@@ -38,6 +39,7 @@ const OidcCallback: React.FC = (props) => {
   };
 
   return (
+    // @ts-ignore
     <CallbackComponent
       successCallback={onSuccess}
       errorCallback={onError}

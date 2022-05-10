@@ -12,6 +12,7 @@ import {
 } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -20,7 +21,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import translations from '../../app/i18n/fi.json';
 import {
   imageFields,
   mockedImageResponse,
@@ -139,29 +139,38 @@ const getElement = (
       });
     case 'publish':
       return screen.getByRole('button', {
-        name: translations.event.form.buttonPublish.general,
+        name: 'Julkaise tapahtuma',
       });
     case 'saveDraft':
       return screen.getByRole('button', {
-        name: translations.event.form.buttonSaveDraft,
+        name: 'Tallenna luonnos',
       });
     case 'superEvent':
       return screen.getByRole('combobox', {
-        name: new RegExp(translations.event.form.labelUmbrellaEvent),
+        name: new RegExp('Kattotapahtuma'),
       });
   }
 };
 
-const findElement = (key: 'nameSv') => {
+const findElement = (key: 'keyword' | 'nameSv' | 'superEvent') => {
   switch (key) {
+    case 'keyword':
+      return screen.findByRole('checkbox', { name: keywordName });
     case 'nameSv':
       return screen.findByRole('textbox', {
         name: /tapahtuman otsikko ruotsiksi/i,
       });
+    case 'superEvent':
+      return screen.findByRole(
+        'combobox',
+        { name: new RegExp('Kattotapahtuma') },
+        { timeout: 10000 }
+      );
   }
 };
 
 test('should focus to first validation error when trying to save draft event', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -169,7 +178,7 @@ test('should focus to first validation error when trying to save draft event', a
   const nameTextbox = getElement('name');
   const saveDraftButton = getElement('saveDraft');
 
-  userEvent.click(saveDraftButton);
+  await act(async () => await user.click(saveDraftButton));
 
   await waitFor(() => expect(nameTextbox).toHaveFocus());
 });
@@ -183,12 +192,17 @@ test('should focus to validation error of swedish name when trying to save draft
     ],
     name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
   });
+  const user = userEvent.setup();
+
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
+  const nameTextbox = getElement('name');
+  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+
   const saveDraftButton = getElement('saveDraft');
-  userEvent.click(saveDraftButton);
+  await act(async () => await user.click(saveDraftButton));
 
   const nameSvTextbox = await findElement('nameSv');
   await waitFor(() => expect(nameSvTextbox).toHaveFocus());
@@ -199,15 +213,16 @@ test('should focus to select component in case of validation error', async () =>
     ...EVENT_INITIAL_VALUES,
     hasUmbrella: true,
   });
+  const user = userEvent.setup();
+
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
-  const superEventSelect = getElement('superEvent');
+  const superEventSelect = await findElement('superEvent');
 
   const publishButton = getElement('publish');
-
-  userEvent.click(publishButton);
+  await act(async () => await user.click(publishButton));
 
   await waitFor(() => expect(superEventSelect).toHaveFocus());
 });
@@ -221,15 +236,19 @@ test('should focus to text editor component in case of validation error', async 
       fi: eventValues.shortDescription,
     },
   });
+  const user = userEvent.setup();
+
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
+  const nameTextbox = getElement('name');
+  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+
   const descriptionTextbox = getElement('description');
 
   const publishButton = getElement('publish');
-
-  userEvent.click(publishButton);
+  await act(async () => await user.click(publishButton));
 
   await waitFor(() => expect(descriptionTextbox).toHaveFocus());
 });
@@ -249,13 +268,17 @@ test('should focus to event times error if none event time exists', async () => 
       fi: eventValues.shortDescription,
     },
   });
+  const user = userEvent.setup();
+
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
-  const publishButton = getElement('publish');
+  const nameTextbox = getElement('name');
+  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
 
-  userEvent.click(publishButton);
+  const publishButton = getElement('publish');
+  await act(async () => await user.click(publishButton));
 
   const error = await screen.findByText(/vähintään 1 ajankohta vaaditaan/i);
   expect(error).toHaveFocus();
@@ -290,14 +313,18 @@ test('should focus to first main category checkbox if none main category is sele
     mockedCreatePublicEventResponse,
     mockedUpdateImageResponse,
   ];
+  const user = userEvent.setup();
+
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
-  const publishButton = getElement('publish');
-  userEvent.click(publishButton);
+  const nameTextbox = getElement('name');
+  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+  const keywordCheckbox = await findElement('keyword');
 
-  const keywordCheckbox = getElement('keyword');
+  const publishButton = getElement('publish');
+  await act(async () => await user.click(publishButton));
 
   await waitFor(() => expect(keywordCheckbox).toHaveFocus());
 });
@@ -309,14 +336,18 @@ test('should show server errors', async () => {
     isVerified: true,
     name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
   });
-
   const mocks = [...defaultMocks, mockedInvalidCreateDraftEventResponse];
+  const user = userEvent.setup();
+
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
+  const nameTextbox = getElement('name');
+  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+
   const saveDraftButton = getElement('saveDraft');
-  userEvent.click(saveDraftButton);
+  await act(async () => await user.click(saveDraftButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/lopetusaika ei voi olla menneisyydessä./i);
@@ -329,20 +360,25 @@ test('should route to event completed page after saving draft event', async () =
     isVerified: true,
     name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
   });
-
   const mocks = [...defaultMocks, mockedCreateDraftEventResponse];
+  const user = userEvent.setup();
+
   const { history } = renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
+  const nameTextbox = getElement('name');
+  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+
   const saveDraftButton = getElement('saveDraft');
+  await act(async () => await user.click(saveDraftButton));
 
-  userEvent.click(saveDraftButton);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(
-      `/fi/events/completed/${eventValues.id}`
-    )
+  await waitFor(
+    () =>
+      expect(history.location.pathname).toBe(
+        `/fi/events/completed/${eventValues.id}`
+      ),
+    { timeout: 20000 }
   );
 });
 
@@ -375,18 +411,23 @@ test('should route to event completed page after publishing event', async () => 
     mockedCreatePublicEventResponse,
     mockedUpdateImageResponse,
   ];
+  const user = userEvent.setup();
+
   const { history } = renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
+  const nameTextbox = getElement('name');
+  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+
   const publishButton = getElement('publish');
-  userEvent.click(publishButton);
+  await act(async () => await user.click(publishButton));
 
   await waitFor(
     () =>
       expect(history.location.pathname).toBe(
         `/fi/events/completed/${eventValues.id}`
       ),
-    { timeout: 10000 }
+    { timeout: 20000 }
   );
 });

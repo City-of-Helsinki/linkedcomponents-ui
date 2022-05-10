@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -53,18 +54,20 @@ test('should render component', async () => {
 
 test('should call onDelete', async () => {
   const onDelete = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onDelete });
 
   const deleteButton = getComponent('buttonDelete');
-  userEvent.click(deleteButton);
+  await act(async () => await user.click(deleteButton));
   expect(onDelete).toBeCalled();
 });
 
 test('should call onClose', async () => {
   const onClose = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onClose });
 
   const closeButton = getComponent('buttonCancel');
-  userEvent.click(closeButton);
+  await act(async () => await user.click(closeButton));
   expect(onClose).toBeCalled();
 });

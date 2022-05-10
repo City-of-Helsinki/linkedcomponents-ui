@@ -63,19 +63,6 @@ const renderComponent = ({
     store,
   });
 
-const findElement = (key: 'cancel' | 'delete' | 'edit' | 'postpone') => {
-  switch (key) {
-    case 'cancel':
-      return screen.findByRole('button', { name: 'Peruuta tapahtuma' });
-    case 'delete':
-      return screen.findByRole('button', { name: 'Poista tapahtuma' });
-    case 'edit':
-      return screen.findByRole('button', { name: 'Muokkaa tapahtumaa' });
-    case 'postpone':
-      return screen.findByRole('button', { name: 'Lykkää tapahtumaa' });
-  }
-};
-
 const getElement = (
   key: 'cancel' | 'copy' | 'delete' | 'edit' | 'menu' | 'postpone' | 'toggle'
 ) => {
@@ -97,28 +84,21 @@ const getElement = (
   }
 };
 
-const getElements = (key: 'disabledButtons') => {
-  switch (key) {
-    case 'disabledButtons':
-      return screen.getAllByRole('button', {
-        name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
-      });
-  }
-};
-
-const openMenu = () => {
+const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   getElement('menu');
 
   return toggleButton;
 };
 
-test('should toggle menu by clicking actions button', () => {
+test('should toggle menu by clicking actions button', async () => {
+  const user = userEvent.setup();
   renderComponent({ store });
 
-  const toggleButton = openMenu();
-  userEvent.click(toggleButton);
+  const toggleButton = await openMenu();
+  await act(async () => await user.click(toggleButton));
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -127,30 +107,33 @@ test('should toggle menu by clicking actions button', () => {
 test('should render correct buttons for draft event', async () => {
   renderComponent({ props: { event: draftEvent }, store });
 
-  openMenu();
+  await openMenu();
 
-  getElement('copy');
-  await findElement('delete');
-  getElement('edit');
+  const disabledButtons = [getElement('postpone'), getElement('cancel')];
+  disabledButtons.forEach((button) => expect(button).toBeDisabled());
 
-  const hiddenButtons = ['Lykkää tapahtumaa', 'Peruuta tapahtuma'];
-
-  hiddenButtons.forEach((name) =>
-    expect(screen.queryByRole('button', { name })).not.toBeInTheDocument()
-  );
+  const enabledButtons = [
+    getElement('copy'),
+    getElement('delete'),
+    getElement('edit'),
+  ];
+  enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
 test('only edit and copy buttons should be enabled when user is not logged in (draft)', async () => {
   renderComponent({ props: { event: draftEvent } });
 
-  openMenu();
+  await openMenu();
 
-  const disabledButtons = getElements('disabledButtons');
-  expect(disabledButtons).toHaveLength(3);
+  const disabledButtons = [
+    getElement('postpone'),
+    getElement('cancel'),
+    getElement('delete'),
+  ];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 
-  getElement('copy');
-  await findElement('edit');
+  const enabledButtons = [getElement('copy'), getElement('edit')];
+  enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
 test('should render correct buttons for public event', async () => {
@@ -159,51 +142,58 @@ test('should render correct buttons for public event', async () => {
     store,
   });
 
-  openMenu();
+  await openMenu();
 
-  await findElement('cancel');
-  getElement('copy');
-  getElement('delete');
-  getElement('edit');
-  getElement('postpone');
+  const enabledButtons = [
+    getElement('cancel'),
+    getElement('copy'),
+    getElement('delete'),
+    getElement('edit'),
+    getElement('postpone'),
+  ];
+  enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
 test('only copy, edit and delete button should be enabled when event is cancelled', async () => {
   renderComponent({ props: { event: cancelledEvent }, store });
 
-  openMenu();
+  await openMenu();
 
-  const disabledButtons = screen.getAllByRole('button', {
-    name: 'Peruttuja tapahtumia ei voi muokata.',
-  });
-  expect(disabledButtons).toHaveLength(2);
+  const disabledButtons = [getElement('postpone'), getElement('cancel')];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 
-  getElement('copy');
-  await findElement('delete');
-  getElement('edit');
+  const enabledButtons = [
+    getElement('copy'),
+    getElement('delete'),
+    getElement('edit'),
+  ];
+  enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
 test('only copy and edit button should be enabled when user is not logged in (public)', async () => {
   renderComponent({ props: { event: publicEvent } });
 
-  openMenu();
+  await openMenu();
 
-  const disabledButtons = getElements('disabledButtons');
-  expect(disabledButtons).toHaveLength(3);
+  const disabledButtons = [
+    getElement('postpone'),
+    getElement('cancel'),
+    getElement('delete'),
+  ];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 
-  getElement('copy');
-  await findElement('edit');
+  const enabledButtons = [getElement('copy'), getElement('edit')];
+  enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
 test('should route to create event page when clicking copy button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent({ props: { event: publicEvent } });
 
-  openMenu();
+  await openMenu();
 
   const copyButton = getElement('copy');
-  act(() => userEvent.click(copyButton));
+  await act(async () => await user.click(copyButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/events/create`)
@@ -211,12 +201,13 @@ test('should route to create event page when clicking copy button', async () => 
 });
 
 test('should route to edit page when clicking edit button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent({ props: { event: publicEvent } });
 
-  openMenu();
+  await openMenu();
 
-  const editButton = await findElement('edit');
-  act(() => userEvent.click(editButton));
+  const editButton = getElement('edit');
+  await act(async () => await user.click(editButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/events/edit/${eventId}`)
@@ -226,19 +217,20 @@ test('should route to edit page when clicking edit button', async () => {
 
 test('should cancel event', async () => {
   const mocks: MockedResponse[] = [...defaultMocks, mockedCancelEventResponse];
+  const user = userEvent.setup();
 
   renderComponent({ props: { event }, mocks, store });
 
-  openMenu();
+  await openMenu();
 
-  const cancelButton = await findElement('cancel');
-  userEvent.click(cancelButton);
+  const cancelButton = getElement('cancel');
+  await act(async () => await user.click(cancelButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta tapahtuma',
   });
-  userEvent.click(cancelEventButton);
+  await act(async () => await user.click(cancelEventButton));
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
@@ -247,19 +239,20 @@ test('should cancel event', async () => {
 
 test('should delete event', async () => {
   const mocks: MockedResponse[] = [...defaultMocks, mockedDeleteEventResponse];
+  const user = userEvent.setup();
 
   renderComponent({ props: { event }, mocks, store });
 
-  openMenu();
+  await openMenu();
 
-  const deleteButton = await findElement('delete');
-  userEvent.click(deleteButton);
+  const deleteButton = getElement('delete');
+  await act(async () => await user.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteEventButton = withinModal.getByRole('button', {
     name: 'Poista tapahtuma',
   });
-  userEvent.click(deleteEventButton);
+  await act(async () => await user.click(deleteEventButton));
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
@@ -271,19 +264,20 @@ test('should postpone event', async () => {
     ...defaultMocks,
     mockedPostponeEventResponse,
   ];
+  const user = userEvent.setup();
 
   renderComponent({ props: { event }, mocks, store });
 
-  openMenu();
+  await openMenu();
 
-  const postponeButton = await findElement('postpone');
-  userEvent.click(postponeButton);
+  const postponeButton = getElement('postpone');
+  await act(async () => await user.click(postponeButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
-  userEvent.click(cancelEventButton);
+  await act(async () => await user.click(cancelEventButton));
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

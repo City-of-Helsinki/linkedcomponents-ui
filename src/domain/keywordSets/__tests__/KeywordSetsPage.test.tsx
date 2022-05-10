@@ -81,24 +81,26 @@ test('should render keyword sets page', async () => {
 });
 
 test('should open create keyword set page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await findElement('title');
   await loadingSpinnerIsNotInDocument();
 
   const createKeywordSetButton = getElement('createKeywordSetButton');
-  userEvent.click(createKeywordSetButton);
+  await act(async () => await user.click(createKeywordSetButton));
 
   expect(history.location.pathname).toBe('/fi/admin/keyword-sets/create');
 });
 
 test('should add sort parameter to search query', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
   const sortNameButton = getElement('sortNameButton');
-  act(() => userEvent.click(sortNameButton));
+  await act(async () => await user.click(sortNameButton));
 
   expect(history.location.search).toBe('?sort=name');
 });
@@ -116,9 +118,11 @@ it('scrolls to keyword row and calls history.replace correctly (deletes keywordS
     name: keywordSetNames[0],
   });
 
-  expect(replaceSpy).toHaveBeenCalledWith(
-    { hash: '', pathname: route, search: '' },
-    {}
+  await waitFor(() =>
+    expect(replaceSpy).toHaveBeenCalledWith(
+      { hash: '', pathname: route, search: '' },
+      {}
+    )
   );
 
   await waitFor(() => expect(keywordSetButton).toHaveFocus());

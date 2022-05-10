@@ -13,14 +13,14 @@ import {
 import { EVENT_INCLUDES } from '../../../event/constants';
 import { REGISTRATIONS_PAGE_SIZE } from '../../constants';
 
-const registrationNames = range(1, REGISTRATIONS_PAGE_SIZE + 1).map(
+const PAGE_SIZE = 2;
+
+const registrationNames = range(1, PAGE_SIZE + 1).map(
   (n) => `Registration name ${n}`
 );
-const eventNames = range(1, REGISTRATIONS_PAGE_SIZE + 1).map(
-  (n) => `Event name ${n}`
-);
+const eventNames = range(1, PAGE_SIZE + 1).map((n) => `Event name ${n}`);
 const events = fakeEvents(
-  REGISTRATIONS_PAGE_SIZE,
+  PAGE_SIZE,
   eventNames.map((name, index) => ({
     id: `event:${index}`,
     name: fakeLocalisedObject(name),
@@ -42,7 +42,7 @@ const mockedEventResponses = [
 ];
 
 const registrations = fakeRegistrations(
-  REGISTRATIONS_PAGE_SIZE,
+  PAGE_SIZE,
   registrationNames.map((name, index) => ({
     id: `registration:${index}`,
     event: events.data[index].id,
@@ -50,7 +50,7 @@ const registrations = fakeRegistrations(
   }))
 );
 
-const count = 30;
+const count = REGISTRATIONS_PAGE_SIZE * 2;
 const meta: Meta = {
   ...registrations.meta,
   count,
@@ -74,18 +74,16 @@ const mockedRegistrationsResponse = {
   result: registrationsResponse,
 };
 
-const page2RegistrationNames = range(
-  REGISTRATIONS_PAGE_SIZE + 1,
-  2 * REGISTRATIONS_PAGE_SIZE + 1
-).map((n) => `Registration name ${n}`);
+const page2RegistrationNames = range(PAGE_SIZE + 1, 2 * PAGE_SIZE + 1).map(
+  (n) => `Registration name ${n}`
+);
 
-const page2EventNames = range(
-  REGISTRATIONS_PAGE_SIZE + 1,
-  2 * REGISTRATIONS_PAGE_SIZE + 1
-).map((n) => `Event name ${n}`);
+const page2EventNames = range(PAGE_SIZE + 1, 2 * PAGE_SIZE + 1).map(
+  (n) => `Event name ${n}`
+);
 
 const page2Events = fakeEvents(
-  REGISTRATIONS_PAGE_SIZE,
+  PAGE_SIZE,
   page2EventNames.map((name, index) => ({ name: fakeLocalisedObject(name) }))
 );
 

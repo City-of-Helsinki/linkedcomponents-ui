@@ -1,4 +1,3 @@
-import { clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
@@ -15,10 +14,6 @@ import TimeSectionContext, {
 } from '../TimeSectionContext';
 
 configure({ defaultHidden: true });
-
-beforeEach(() => {
-  clear();
-});
 
 const renderComponent = (context?: Partial<TimeSectionContextProps>) =>
   render(
@@ -73,11 +68,15 @@ const recurringEvent2 = {
 
 test('should render component', async () => {
   const recurringEvents = [recurringEvent1, recurringEvent2];
+  const user = userEvent.setup();
+
   renderComponent({ recurringEvents });
+
   const toggleButton1 = screen.getByRole('button', {
     name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
   });
-  userEvent.click(toggleButton1);
+  await act(async () => await user.click(toggleButton1));
+
   screen.getByRole('row', {
     name: '1 02.05.2021 12.00 – 02.05.2021 15.00',
     hidden: false,
@@ -90,7 +89,8 @@ test('should render component', async () => {
   const toggleButton2 = screen.getByRole('button', {
     name: 'Ma ja Ke, Viikon välein, 01.06.2021 – 15.06.2021',
   });
-  userEvent.click(toggleButton2);
+  await act(async () => await user.click(toggleButton2));
+
   screen.getByRole('row', {
     name: '3 02.06.2021 12.00 – 02.06.2021 15.00',
     hidden: false,
@@ -104,22 +104,24 @@ test('should render component', async () => {
 test('should call setRecurringEvents when deleting a single event time', async () => {
   const recurringEvents = [recurringEvent1, recurringEvent2];
   const setRecurringEvents = jest.fn();
+  const user = userEvent.setup();
 
   renderComponent({ recurringEvents, setRecurringEvents });
 
   const toggleButton1 = screen.getByRole('button', {
     name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
   });
-  userEvent.click(toggleButton1);
+  await act(async () => await user.click(toggleButton1));
+
   const toggleMenuButton = screen.getAllByRole('button', {
     name: 'Valinnat',
   })[0];
-  userEvent.click(toggleMenuButton);
+  await act(async () => await user.click(toggleMenuButton));
 
   const deleteButton = screen.getByRole('button', {
     name: 'Poista',
   });
-  act(() => userEvent.click(deleteButton));
+  await act(async () => await user.click(deleteButton));
 
   expect(setRecurringEvents).toBeCalledWith([
     {

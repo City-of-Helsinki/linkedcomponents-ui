@@ -65,6 +65,7 @@ const getElement = (
     | 'copy'
     | 'delete'
     | 'menu'
+    | 'postpone'
     | 'publish'
     | 'toggle'
     | 'updateDraft'
@@ -81,56 +82,48 @@ const getElement = (
       return screen.getByRole('button', { name: 'Poista tapahtuma' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
+    case 'postpone':
+      return screen.getByRole('button', { name: 'Lykkää tapahtumaa' });
     case 'publish':
       return screen.getByRole('button', { name: 'Hyväksy ja julkaise' });
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
     case 'updateDraft':
-      return screen.getByRole('button', {
-        name: 'Tallenna luonnos',
-      });
+      return screen.getByRole('button', { name: 'Tallenna luonnos' });
     case 'updatePublic':
-      return screen.getByRole('button', {
-        name: 'Tallenna muutokset',
-      });
+      return screen.getByRole('button', { name: 'Tallenna muutokset' });
   }
 };
 
-const getElements = (key: 'disabledButtons') => {
-  switch (key) {
-    case 'disabledButtons':
-      return screen.getAllByRole('button', {
-        name: 'Sinulla ei ole oikeuksia muokata tapahtumia.',
-      });
-  }
-};
-
-const openMenu = () => {
+const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   getElement('menu');
 
   return toggleButton;
 };
 
-test('should toggle menu by clicking actions button', () => {
+test('should toggle menu by clicking actions button', async () => {
+  const user = userEvent.setup();
   renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Draft } },
     store,
   });
 
-  const toggleButton = openMenu();
-  userEvent.click(toggleButton);
+  const toggleButton = await openMenu();
+  await act(async () => await user.click(toggleButton));
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
 });
 
-test('should render correct buttons for draft event', async () => {
+test('should show correct buttons for draft event', async () => {
   const onCancel = jest.fn();
   const onDelete = jest.fn();
   const onUpdate = jest.fn();
 
+  const user = userEvent.setup();
   renderComponent({
     props: {
       event: { ...event, publicationStatus: PublicationStatus.Draft },
@@ -141,46 +134,46 @@ test('should render correct buttons for draft event', async () => {
     store,
   });
 
-  openMenu();
+  await openMenu();
 
   getElement('copy');
 
   const deleteButton = await findElement('delete');
-  act(() => userEvent.click(deleteButton));
+  await act(async () => await user.click(deleteButton));
   expect(onDelete).toBeCalled();
 
   const updateButton = getElement('updateDraft');
-  userEvent.click(updateButton);
+  await act(async () => await user.click(updateButton));
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Draft);
 
   const publishButton = getElement('publish');
-  userEvent.click(publishButton);
+  await act(async () => await user.click(publishButton));
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
 
-  openMenu();
+  await openMenu();
 
-  const hiddenButtons = [
-    'Lykkää tapahtumaa',
-    'Peruuta tapahtuma',
-    'Tallenna muutokset',
-  ];
+  const disabledButtons = [getElement('postpone'), getElement('cancel')];
 
-  hiddenButtons.forEach((name) =>
-    expect(screen.queryByRole('button', { name })).not.toBeInTheDocument()
-  );
+  disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
-test('only copy button should be enabled when user is not logged in (draft)', () => {
+test('only copy button should be enabled when user is not logged in (draft)', async () => {
   renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Draft } },
   });
 
-  openMenu();
+  await openMenu();
 
   getElement('copy');
 
-  const disabledButtons = getElements('disabledButtons');
-  expect(disabledButtons).toHaveLength(4);
+  const deleteButton = await findElement('delete');
+  const disabledButtons = [
+    deleteButton,
+    getElement('updateDraft'),
+    getElement('postpone'),
+    getElement('cancel'),
+  ];
+
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
@@ -190,6 +183,7 @@ test('should render correct buttons for public event', async () => {
   const onPostpone = jest.fn();
   const onUpdate = jest.fn();
 
+  const user = userEvent.setup();
   renderComponent({
     props: {
       event: { ...event, publicationStatus: PublicationStatus.Public },
@@ -201,31 +195,31 @@ test('should render correct buttons for public event', async () => {
     store,
   });
 
-  openMenu();
+  await openMenu();
 
   getElement('copy');
 
   const postponeButton = await findElement('postpone');
-  act(() => userEvent.click(postponeButton));
+  await act(async () => await user.click(postponeButton));
   expect(onPostpone).toBeCalled();
 
-  openMenu();
+  await openMenu();
 
   const cancelButton = getElement('cancel');
-  act(() => userEvent.click(cancelButton));
+  await act(async () => await user.click(cancelButton));
   expect(onCancel).toBeCalled();
 
-  openMenu();
+  await openMenu();
 
   const deleteButton = getElement('delete');
-  act(() => userEvent.click(deleteButton));
+  await act(async () => await user.click(deleteButton));
   expect(onDelete).toBeCalled();
 
   const updateButton = getElement('updatePublic');
-  userEvent.click(updateButton);
+  await act(async () => await user.click(updateButton));
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
 
-  openMenu();
+  await openMenu();
 
   const hiddenButtons = ['Tallenna luonnos'];
 
@@ -246,41 +240,47 @@ test('only copy and delete button should be enabled when event is cancelled', as
     store,
   });
 
-  openMenu();
+  await openMenu();
 
   await findElement('delete');
   getElement('copy');
 
-  const disabledButtons = screen.getAllByRole('button', {
-    name: 'Peruttuja tapahtumia ei voi muokata.',
-  });
-  expect(disabledButtons).toHaveLength(3);
+  const disabledButtons = [
+    getElement('updatePublic'),
+    getElement('postpone'),
+    getElement('cancel'),
+  ];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
-test('only copy button should be enabled when user is not logged in (public)', () => {
+test('only copy button should be enabled when user is not logged in (public)', async () => {
   renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });
 
-  openMenu();
+  await openMenu();
 
   getElement('copy');
 
-  const disabledButtons = getElements('disabledButtons');
-  expect(disabledButtons).toHaveLength(4);
+  const disabledButtons = [
+    getElement('delete'),
+    getElement('updatePublic'),
+    getElement('postpone'),
+    getElement('cancel'),
+  ];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
 test('should route to create event page when clicking copy button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });
 
-  openMenu();
+  await openMenu();
 
   const copyButton = getElement('copy');
-  act(() => userEvent.click(copyButton));
+  await act(async () => await user.click(copyButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/events/create')
@@ -288,24 +288,26 @@ test('should route to create event page when clicking copy button', async () => 
 });
 
 test('should route to search page when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });
 
   const backButton = getElement('back');
-  userEvent.click(backButton);
+  await act(async () => await user.click(backButton));
 
   await waitFor(() => expect(history.location.pathname).toBe('/fi/search'));
 });
 
 test('should route to page defined in returnPath when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
     route: `/fi${ROUTES}?returnPath=${ROUTES.SEARCH}&returnPath=${ROUTES.EVENTS}`,
   });
 
   const backButton = getElement('back');
-  userEvent.click(backButton);
+  await act(async () => await user.click(backButton));
 
   await waitFor(() => expect(history.location.pathname).toBe('/fi/events'));
   expect(history.location.search).toBe(`?returnPath=%2Fsearch`);

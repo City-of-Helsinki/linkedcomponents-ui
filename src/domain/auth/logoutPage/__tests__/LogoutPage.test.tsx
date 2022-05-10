@@ -10,6 +10,8 @@ import {
   fakeStoreState,
 } from '../../../../utils/mockStoreUtils';
 import {
+  act,
+  configure,
   getMockReduxStore,
   render,
   screen,
@@ -19,43 +21,45 @@ import translations from '../../../app/i18n/fi.json';
 import userManager from '../../userManager';
 import LogoutPage from '../LogoutPage';
 
+configure({ defaultHidden: true });
+
 const renderComponent = (store?: Store<StoreState, AnyAction>) =>
   render(<LogoutPage />, { routes: ['/fi/events'], store });
+
+const getElement = (key: 'buttonHome' | 'buttonSignIn' | 'text') => {
+  switch (key) {
+    case 'buttonHome':
+      return screen.getByRole('button', { name: 'Takaisin etusivulle' });
+    case 'buttonSignIn':
+      return screen.getByRole('button', { name: 'Kirjaudu sisään' });
+    case 'text':
+      return screen.getByText(translations.logoutPage.text);
+  }
+};
 
 test('should render logout page', () => {
   renderComponent();
 
-  expect(screen.getByText(translations.logoutPage.text)).toBeInTheDocument();
-
-  const buttons = [
-    translations.common.signIn,
-    translations.logoutPage.buttonBackToHome,
-  ];
-
-  buttons.forEach((name) => {
-    expect(screen.getByRole('button', { name })).toBeInTheDocument();
-  });
+  getElement('text');
+  getElement('buttonSignIn');
+  getElement('buttonHome');
 });
 
-test('should route to home page', () => {
+test('should route to home page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  userEvent.click(
-    screen.getByRole('button', {
-      name: translations.logoutPage.buttonBackToHome,
-    })
-  );
+  await act(async () => await user.click(getElement('buttonHome')));
 
   expect(history.location.pathname).toBe('/fi/');
 });
 
-test('should start login process', () => {
+test('should start login process', async () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
+  const user = userEvent.setup();
   renderComponent();
 
-  userEvent.click(
-    screen.getByRole('button', { name: translations.common.signIn })
-  );
+  await act(async () => await user.click(getElement('buttonSignIn')));
 
   expect(signinRedirect).toBeCalled();
 });

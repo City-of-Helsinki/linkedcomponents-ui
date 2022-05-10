@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { advanceTo, clear } from 'jest-date-mock';
 import omit from 'lodash/omit';
@@ -71,6 +72,7 @@ const basePayload = {
 
 const getHookWrapper = (mocks = []) => {
   const wrapper = ({ children }) => (
+    // @ts-ignore
     <Provider store={store}>
       <Router history={createMemoryHistory()}>
         <MockedProvider mocks={mocks} addTypename={false}>
@@ -79,14 +81,13 @@ const getHookWrapper = (mocks = []) => {
       </Router>
     </Provider>
   );
-  const { result, waitForNextUpdate } = renderHook(
-    () => useUpdateRecurringEventIfNeeded(),
-    { wrapper }
-  );
+  const { result } = renderHook(() => useUpdateRecurringEventIfNeeded(), {
+    wrapper,
+  });
 
   // Test the initial state of the request
   expect(result.current.updateRecurringEventIfNeeded).toBeDefined();
-  return { result, waitForNextUpdate };
+  return { result };
 };
 
 test("should return null if event doesn't have super event ", async () => {
@@ -103,23 +104,21 @@ test('should return null if super event type of super event is not recurring ', 
     id: superEventId,
     superEventType: SuperEventType.Umbrella,
   });
-
   const superEventResponse = { data: { event: superEvent } };
   const mockedSuperEventResponse: MockedResponse = {
     request: { query: EventDocument, variables: superEventVariables },
     result: superEventResponse,
   };
-  const { result, waitForNextUpdate } = getHookWrapper([
+  const { result } = getHookWrapper([
     mockedSuperEventResponse,
     mockedUserResponse,
   ]);
 
-  await waitForNextUpdate();
-
   const event = fakeEvent({ superEvent });
-  const response = await result.current.updateRecurringEventIfNeeded(event);
-
-  expect(response).toBeNull();
+  await act(async () => {
+    const response = await result.current.updateRecurringEventIfNeeded(event);
+    expect(response).toBeNull();
+  });
 });
 
 test('should return null if event is not editable', async () => {
@@ -133,17 +132,17 @@ test('should return null if event is not editable', async () => {
     request: { query: EventDocument, variables: superEventVariables },
     result: superEventResponse,
   };
-  const { result, waitForNextUpdate } = getHookWrapper([
+  const { result } = getHookWrapper([
     mockedSuperEventResponse,
     mockedUserResponse,
   ]);
 
-  await waitForNextUpdate();
-
   const event = fakeEvent({ superEvent });
-  const response = await result.current.updateRecurringEventIfNeeded(event);
 
-  expect(response).toBeNull();
+  await act(async () => {
+    const response = await result.current.updateRecurringEventIfNeeded(event);
+    expect(response).toBeNull();
+  });
 });
 
 test('should return null if recurring event start/end time is not changed', async () => {
@@ -166,17 +165,17 @@ test('should return null if recurring event start/end time is not changed', asyn
     request: { query: EventDocument, variables: superEventVariables },
     result: superEventResponse,
   };
-  const { result, waitForNextUpdate } = getHookWrapper([
+  const { result } = getHookWrapper([
     mockedSuperEventResponse,
     mockedUserResponse,
   ]);
 
-  await waitForNextUpdate();
-
   const event = fakeEvent({ superEvent });
-  const response = await result.current.updateRecurringEventIfNeeded(event);
 
-  expect(response).toBeNull();
+  await act(async () => {
+    const response = await result.current.updateRecurringEventIfNeeded(event);
+    expect(response).toBeNull();
+  });
 });
 
 test('should return null if new end date would be in past', async () => {
@@ -199,17 +198,17 @@ test('should return null if new end date would be in past', async () => {
     request: { query: EventDocument, variables: superEventVariables },
     result: superEventResponse,
   };
-  const { result, waitForNextUpdate } = getHookWrapper([
+  const { result } = getHookWrapper([
     mockedSuperEventResponse,
     mockedUserResponse,
   ]);
 
-  await waitForNextUpdate();
-
   const event = fakeEvent({ superEvent });
-  const response = await result.current.updateRecurringEventIfNeeded(event);
 
-  expect(response).toBeNull();
+  await act(async () => {
+    const response = await result.current.updateRecurringEventIfNeeded(event);
+    expect(response).toBeNull();
+  });
 });
 
 test('should update only start time if new end time would be in past but start time is changed', async () => {
@@ -275,15 +274,14 @@ test('should update only start time if new end time would be in past but start t
     result: updateEventResponse,
   };
 
-  const { result, waitForNextUpdate } = getHookWrapper([
+  const { result } = getHookWrapper([
     mockedSuperEventResponse,
     mockedUserResponse,
     mockedUpdateEventResponse,
   ]);
-  await waitForNextUpdate();
-
   const event = fakeEvent({ superEvent });
 
+  await waitFor(() => expect(result.current.user).toBeDefined());
   await act(async () => {
     const response = await result.current.updateRecurringEventIfNeeded(event);
     expect(response).toEqual(updatedSuperEvent);
@@ -354,15 +352,14 @@ test('should return new super event if recurring event is updated', async () => 
     result: updateEventResponse,
   };
 
-  const { result, waitForNextUpdate } = getHookWrapper([
+  const { result } = getHookWrapper([
     mockedSuperEventResponse,
     mockedUserResponse,
     mockedUpdateEventResponse,
   ]);
-  await waitForNextUpdate();
-
   const event = fakeEvent({ superEvent });
 
+  await waitFor(() => expect(result.current.user).toBeDefined());
   await act(async () => {
     const response = await result.current.updateRecurringEventIfNeeded(event);
     expect(response).toEqual(updatedSuperEvent);

@@ -20,6 +20,7 @@ import {
 import useLocale from '../../hooks/useLocale';
 import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
+import isTestEnv from '../../utils/isTestEnv';
 import { showFormErrors } from '../../utils/validationUtils';
 import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
@@ -115,7 +116,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   );
 
   // Prefetch all related events which are used when postpone/delete/cancel events
-  useRelatedEvents(event);
+  useRelatedEvents(event, isTestEnv);
 
   const goToEventsPage = () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
@@ -250,7 +251,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
               setTouched,
             });
 
-            scrollToFirstError({
+            await scrollToFirstError({
               descriptionLanguage,
               error: error as ValidationError,
               setDescriptionLanguage,
@@ -410,7 +411,6 @@ const EditEventPageWrapper: React.FC = () => {
 
   // Load options for inLanguage, audience and keywords checkboxes
   const { loading: loadingEventFieldOptions } = useEventFieldOptionsData();
-
   const loading = loadingEvent || loadingEventFieldOptions || loadingUser;
 
   return (

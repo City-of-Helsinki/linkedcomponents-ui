@@ -50,13 +50,15 @@ test('should render all organizations', () => {
   }
 });
 
-test('should open edit organization page by clicking organization', () => {
+test('should open edit organization page by clicking organization', async () => {
   const organizationName = organizations.data[0].name;
   const organizationId = organizations.data[0].id;
+  const user = userEvent.setup();
   const { history } = renderComponent({ organizations: organizations.data });
 
-  act(() =>
-    userEvent.click(screen.getByRole('button', { name: organizationName }))
+  await act(
+    async () =>
+      await user.click(screen.getByRole('button', { name: organizationName }))
   );
 
   expect(history.location.pathname).toBe(
@@ -64,16 +66,18 @@ test('should open edit organization page by clicking organization', () => {
   );
 });
 
-test('should open edit organization page by pressing enter on row', () => {
+test('should open edit organization page by pressing enter on row', async () => {
   const organizationName = organizations.data[0].name;
   const organizationId = organizations.data[0].id;
+  const user = userEvent.setup();
   const { history } = renderComponent({ organizations: organizations.data });
 
-  act(() =>
-    userEvent.type(
-      screen.getByRole('button', { name: organizationName }),
-      '{enter}'
-    )
+  await act(
+    async () =>
+      await user.type(
+        screen.getByRole('button', { name: organizationName }),
+        '{enter}'
+      )
   );
 
   expect(history.location.pathname).toBe(
@@ -81,16 +85,17 @@ test('should open edit organization page by pressing enter on row', () => {
   );
 });
 
-test('should call setSort when clicking sortable column header', () => {
+test('should call setSort when clicking sortable column header', async () => {
   const setSort = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ setSort });
 
   const nameButton = screen.getByRole('button', { name: 'Nimi' });
-  act(() => userEvent.click(nameButton));
+  await act(async () => await user.click(nameButton));
   expect(setSort).toBeCalledWith('-name');
 
   const idButton = screen.getByRole('button', { name: 'ID' });
-  userEvent.click(idButton);
+  await act(async () => await user.click(idButton));
 
   expect(setSort).toBeCalledWith('id');
 });

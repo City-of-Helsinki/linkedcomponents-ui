@@ -8,6 +8,7 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../../utils/testUtils';
 import { EVENT_SORT_OPTIONS } from '../../constants';
 import EventsTable, { EventsTableProps } from '../EventsTable';
@@ -55,47 +56,60 @@ test('should render all events', () => {
   }
 });
 
-test('should open event page by clicking event', () => {
+test('should open event page by clicking event', async () => {
   const eventName = 'Event name';
   const eventId = 'event:1';
+
+  const user = userEvent.setup();
   const { history } = renderComponent({
     events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
   });
 
-  act(() => userEvent.click(screen.getByRole('button', { name: eventName })));
-
-  expect(history.location.pathname).toBe('/fi/events/edit/event:1');
-});
-
-test('should open event page by pressing enter on row', () => {
-  const eventName = 'Event name';
-  const eventId = 'event:1';
-  const { history } = renderComponent({
-    events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
-  });
-
-  act(() =>
-    userEvent.type(screen.getByRole('button', { name: eventName }), '{enter}')
+  await act(
+    async () =>
+      await user.click(screen.getByRole('button', { name: eventName }))
   );
 
   expect(history.location.pathname).toBe('/fi/events/edit/event:1');
 });
 
-test('should call setSort when clicking sortable column header', () => {
+test('should open event page by pressing enter on row', async () => {
+  const eventName = 'Event name';
+  const eventId = 'event:1';
+
+  const user = userEvent.setup();
+  const { history } = renderComponent({
+    events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
+  });
+
+  await act(
+    async () =>
+      await user.type(
+        screen.getByRole('button', { name: eventName }),
+        '{enter}'
+      )
+  );
+
+  expect(history.location.pathname).toBe('/fi/events/edit/event:1');
+});
+
+test('should call setSort when clicking sortable column header', async () => {
   const setSort = jest.fn();
+  const user = userEvent.setup();
+
   renderComponent({ setSort });
 
   const nameButton = screen.getByRole('button', { name: 'Nimi' });
-  act(() => userEvent.click(nameButton));
-  expect(setSort).toBeCalledWith('-name');
+  await act(async () => await user.click(nameButton));
+  await waitFor(() => expect(setSort).toBeCalledWith('-name'));
 
   const startTimeButton = screen.getByRole('button', { name: 'Alkuaika' });
-  userEvent.click(startTimeButton);
+  await act(async () => await user.click(startTimeButton));
 
-  expect(setSort).toBeCalledWith('start_time');
+  await waitFor(() => expect(setSort).toBeCalledWith('start_time'));
 
   const endTimeButton = screen.getByRole('button', { name: 'Loppuaika' });
-  userEvent.click(endTimeButton);
+  await act(async () => await user.click(endTimeButton));
 
-  expect(setSort).toBeCalledWith('end_time');
+  await waitFor(() => expect(setSort).toBeCalledWith('end_time'));
 });

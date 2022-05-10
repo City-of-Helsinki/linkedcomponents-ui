@@ -57,18 +57,20 @@ const getElement = (key: 'saveButton') => {
 };
 
 test('should scroll to first validation error input field', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
   const nameInput = await findElement('nameInput');
-  userEvent.clear(nameInput);
+  await act(async () => await user.clear(nameInput));
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
 
 test('should delete place', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedDeletePlaceResponse,
@@ -76,13 +78,13 @@ test('should delete place', async () => {
 
   await loadingSpinnerIsNotInDocument();
   const deleteButton = await findElement('deleteButton');
-  act(() => userEvent.click(deleteButton));
+  await act(async () => await user.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const deletePlaceButton = withinModal.getByRole('button', {
     name: 'Poista paikka',
   });
-  userEvent.click(deletePlaceButton);
+  await act(async () => await user.click(deletePlaceButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/places`)
@@ -90,6 +92,7 @@ test('should delete place', async () => {
 });
 
 test('should update place', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedUpdatePlaceResponse,
@@ -98,7 +101,7 @@ test('should update place', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const submitButton = getElement('saveButton');
-  userEvent.click(submitButton);
+  await act(async () => await user.click(submitButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/places`)
@@ -106,12 +109,13 @@ test('should update place', async () => {
 });
 
 test('should show server errors', async () => {
+  const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidUpdatePlaceResponse]);
 
   await findElement('nameInput');
 
   const submitButton = getElement('saveButton');
-  userEvent.click(submitButton);
+  await act(async () => await user.click(submitButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

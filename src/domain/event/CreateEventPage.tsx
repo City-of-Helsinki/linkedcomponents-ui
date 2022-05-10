@@ -275,7 +275,7 @@ const CreateEventPage: React.FC = () => {
               setTouched,
             });
 
-            scrollToFirstError({
+            await scrollToFirstError({
               descriptionLanguage,
               error: error as ValidationError,
               setDescriptionLanguage,

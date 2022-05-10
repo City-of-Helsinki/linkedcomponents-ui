@@ -5,6 +5,7 @@ import React from 'react';
 import { UserDocument } from '../../../../../../generated/graphql';
 import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   render,
@@ -125,18 +126,16 @@ const getElement = (
         name: translations.image.license.eventOnly[eventType],
       });
     case 'name':
-      return screen.getByRole('textbox', {
-        name: translations.image.form.labelName,
-      });
+      return screen.getByRole('textbox', { name: 'Kuvateksti' });
     case 'photographerName':
-      return screen.getByRole('textbox', {
-        name: translations.image.form.labelPhotographerName,
-      });
+      return screen.getByRole('textbox', { name: 'Kuvaajan nimi' });
   }
 };
 
 test('all fields should be disabled when imageAtId is null', async () => {
-  renderComponent({ props: { imageAtId: null } });
+  await act(async () => {
+    await renderComponent({ props: { imageAtId: null } });
+  });
 
   await findElement('altText');
   const textInputs = [
@@ -151,18 +150,20 @@ test('all fields should be disabled when imageAtId is null', async () => {
 });
 
 test('should clear field values when imageAtId is null', async () => {
-  renderComponent({
-    initialValues: {
-      [EVENT_FIELDS.IMAGES]: [],
-      [EVENT_FIELDS.IMAGE_DETAILS]: {
-        [IMAGE_DETAILS_FIELDS.ALT_TEXT]: 'Lorem ipsum',
-        [IMAGE_DETAILS_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
-        [IMAGE_DETAILS_FIELDS.NAME]: 'Lorem ipsum',
-        [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
+  await act(async () => {
+    await renderComponent({
+      initialValues: {
+        [EVENT_FIELDS.IMAGES]: [],
+        [EVENT_FIELDS.IMAGE_DETAILS]: {
+          [IMAGE_DETAILS_FIELDS.ALT_TEXT]: 'Lorem ipsum',
+          [IMAGE_DETAILS_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
+          [IMAGE_DETAILS_FIELDS.NAME]: 'Lorem ipsum',
+          [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
+        },
+        [EVENT_FIELDS.TYPE]: eventType,
       },
-      [EVENT_FIELDS.TYPE]: eventType,
-    },
-    props: { imageAtId: null },
+      props: { imageAtId: null },
+    });
   });
 
   await findElement('altText');
@@ -229,7 +230,9 @@ test("all fields should be disabled when user doesn't have permission to edit im
     ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),
     mockedUserWithoutOrganizationsResponse,
   ];
-  renderComponent({ mocks, props: { imageAtId: imageFields.atId } });
+  await act(async () => {
+    await renderComponent({ mocks, props: { imageAtId: imageFields.atId } });
+  });
 
   const textInputs = [
     getElement('altText'),
@@ -242,11 +245,11 @@ test("all fields should be disabled when user doesn't have permission to edit im
   }
 
   const eventOnlyRadio = getElement('eventOnlyRadio');
-  expect(eventOnlyRadio).toBeChecked();
   expect(eventOnlyRadio).toBeDisabled();
 });
 
 test('should show validation error when entering too short altText', async () => {
+  const user = userEvent.setup();
   renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageFields.atId],
@@ -265,11 +268,10 @@ test('should show validation error when entering too short altText', async () =>
 
   await waitFor(() => expect(altTextInput).toHaveValue(imageFields.altText));
 
-  userEvent.click(altTextInput);
-  userEvent.clear(altTextInput);
-  userEvent.type(altTextInput, '123');
-
-  userEvent.tab();
+  await act(async () => await user.click(altTextInput));
+  await act(async () => await user.clear(altTextInput));
+  await act(async () => await user.type(altTextInput, '123'));
+  await act(async () => await user.tab());
 
   await screen.findByText('Tämä kenttä tulee olla vähintään 6 merkkiä pitkä');
 });

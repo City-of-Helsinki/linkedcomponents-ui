@@ -442,11 +442,11 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
             operation.operationName
           )
         ) {
-          toast.error(i18n.t('errors.validationError'));
+          toast.error(i18n.t('errors.validationError') as string);
         }
         break;
       case 401:
-        toast.error(i18n.t('errors.authorizationRequired'));
+        toast.error(i18n.t('errors.authorizationRequired') as string);
         break;
       case 403:
         if (
@@ -454,17 +454,17 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
             operation.operationName
           )
         ) {
-          toast.error(i18n.t('errors.forbidden'));
+          toast.error(i18n.t('errors.forbidden') as string);
         }
         break;
       case 404:
-        toast.error(i18n.t('errors.notFound'));
+        toast.error(i18n.t('errors.notFound') as string);
         break;
       case 410:
-        toast.error(i18n.t('errors.deleted'));
+        toast.error(i18n.t('errors.deleted') as string);
         break;
       default:
-        toast.error(i18n.t('errors.serverError'));
+        toast.error(i18n.t('errors.serverError') as string);
     }
   }
 });

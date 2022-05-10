@@ -18,7 +18,7 @@ interface DropdownMenuProps {
   wrapperClassName?: string;
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({
+const DropdownMenu: React.FC<React.PropsWithChildren<DropdownMenuProps>> = ({
   children,
   clearButtonLabel,
   id,

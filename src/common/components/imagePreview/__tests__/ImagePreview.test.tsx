@@ -1,9 +1,11 @@
-import { render, screen } from '@testing-library/react';
+import { act, configure, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import { enterKeyPressHelper } from '../../../../utils/testUtils';
 import ImagePreview, { ImagePreviewProps } from '../ImagePreview';
+
+configure({ defaultHidden: true });
 
 const label = 'Label text';
 
@@ -16,12 +18,13 @@ const defaultProps: ImagePreviewProps = {
 const renderComponent = (props?: Partial<ImagePreviewProps>) =>
   render(<ImagePreview {...defaultProps} {...props} />);
 
-test('should call onClick', () => {
+test('should call onClick', async () => {
+  const user = userEvent.setup();
   const onClick = jest.fn();
   renderComponent({ onClick });
 
   const button = screen.getByRole('button', { name: label });
-  userEvent.click(button);
+  await act(async () => await user.click(button));
 
   expect(onClick).toBeCalled();
 });

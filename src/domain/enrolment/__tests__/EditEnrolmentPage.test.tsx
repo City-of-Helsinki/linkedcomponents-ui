@@ -94,9 +94,10 @@ const getElement = (
   }
 };
 
-const openMenu = () => {
+const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   getElement('menu');
 
   return toggleButton;
@@ -127,12 +128,13 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   });
 
 test('should scroll to first validation error input field', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const nameInput = await findElement('nameInput');
-  userEvent.clear(nameInput);
+  await act(async () => await user.clear(nameInput));
   const submitButton = getElement('submitButton');
-  userEvent.click(submitButton);
+  await act(async () => await user.click(submitButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
@@ -156,6 +158,7 @@ test('should initialize input fields', async () => {
 });
 
 test('should cancel enrolment', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedCancelEnrolmentResponse,
@@ -165,13 +168,13 @@ test('should cancel enrolment', async () => {
   await openMenu();
 
   const cancelButton = await findElement('cancelButton');
-  act(() => userEvent.click(cancelButton));
+  await act(async () => await user.click(cancelButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });
-  userEvent.click(cancelEventButton);
+  await act(async () => await user.click(cancelEventButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -182,7 +185,7 @@ test('should cancel enrolment', async () => {
 
 test('should update enrolment', async () => {
   global.scrollTo = jest.fn();
-
+  const user = userEvent.setup();
   renderComponent([
     ...defaultMocks,
     mockedUpdateEnrolmentResponse,
@@ -192,19 +195,20 @@ test('should update enrolment', async () => {
   await findElement('nameInput');
 
   const submitButton = getElement('submitButton');
-  userEvent.click(submitButton);
+  await act(async () => await user.click(submitButton));
 
   await waitFor(() => expect(global.scrollTo).toHaveBeenCalled());
 });
 
 test('should show server errors', async () => {
+  const user = userEvent.setup();
   const mocks = [...defaultMocks, mockedInvalidUpdateEnrolmentResponse];
   renderComponent(mocks);
 
   await findElement('nameInput');
 
   const submitButton = getElement('submitButton');
-  userEvent.click(submitButton);
+  await act(async () => await user.click(submitButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

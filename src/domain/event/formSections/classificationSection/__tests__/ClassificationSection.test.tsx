@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -104,7 +105,9 @@ const getElement = (
 };
 
 test('should render classification section', async () => {
-  renderComponent({ [EVENT_FIELDS.KEYWORDS]: [keyword.atId] });
+  await act(async () => {
+    await renderComponent({ [EVENT_FIELDS.KEYWORDS]: [keyword.atId] });
+  });
 
   getElement('titleMainCategories');
   getElement('titleNotification');
@@ -120,61 +123,74 @@ test('should render classification section', async () => {
 test('should show 10 first topics by default and rest by clicking show more', async () => {
   const sortedKeywords = [...eventTopicNames, removeParticipationName].sort();
   const defaultKeywords = sortedKeywords.slice(0, 10);
-  const restKeywords = [...eventTopicNames].sort().slice(10);
+  const restKeywords = [...sortedKeywords].slice(10);
 
+  const user = userEvent.setup();
   renderComponent();
 
   await screen.findByLabelText(eventTopicNames[0]);
-  defaultKeywords.slice(1).forEach((keyword) => screen.getByLabelText(keyword));
-  restKeywords.forEach((keyword) =>
-    expect(screen.queryByLabelText(keyword)).not.toBeInTheDocument()
-  );
 
-  userEvent.click(getElement('showMoreButton'));
+  for (const name of defaultKeywords.slice(1)) {
+    screen.getByLabelText(name);
+  }
+  for (const name of restKeywords) {
+    expect(screen.queryByLabelText(name)).not.toBeInTheDocument();
+  }
+
+  await act(async () => await user.click(getElement('showMoreButton')));
 
   await screen.findByLabelText(restKeywords[0]);
-  restKeywords.slice(1).forEach((keyword) => screen.getByLabelText(keyword));
+  for (const name of restKeywords.slice(1)) {
+    screen.getByLabelText(name);
+  }
 });
 
 test('should show course topics', async () => {
-  renderComponent({ type: EVENT_TYPE.Course });
+  await act(async () => {
+    await renderComponent({ type: EVENT_TYPE.Course });
+  });
 
   await screen.findByLabelText(courseTopicNames[0]);
-  courseTopicNames
-    .slice(1)
-    .forEach((keyword) => screen.getByLabelText(keyword));
+
+  for (const name of courseTopicNames.slice(1)) {
+    screen.getByLabelText(name);
+  }
 });
 
 test('should change keyword', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   const keywordOption = await findElement('keywordOption');
-  userEvent.click(keywordOption);
+  await act(async () => await user.click(keywordOption));
 
   await findElement('keywordButton');
 });
 
 test('should show correct validation error if none main category is selected', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const mainCategoryCheckbox = await screen.findByRole('checkbox', {
     name: eventTopicNames[0],
   });
-  userEvent.click(mainCategoryCheckbox);
-  userEvent.click(mainCategoryCheckbox);
+  await act(async () => await user.click(mainCategoryCheckbox));
+  await act(async () => await user.click(mainCategoryCheckbox));
 
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
-  userEvent.tab();
+  await act(async () => await user.click(toggleButton));
+  await act(async () => await user.tab());
 
   await screen.findByText('Vähintään 1 pääluokka tulee olla valittuna');
 });
 
 test('should select remote participation if internet is selected as a location', async () => {
-  renderComponent({ [EVENT_FIELDS.LOCATION]: INTERNET_PLACE_ID });
+  await act(async () => {
+    await renderComponent({ [EVENT_FIELDS.LOCATION]: INTERNET_PLACE_ID });
+  });
 
   const remoteParticipationCheckbox = await screen.findByRole('checkbox', {
     name: removeParticipationName,
@@ -185,11 +201,12 @@ test('should select remote participation if internet is selected as a location',
 });
 
 test('should show correct validation error if none keyword is selected', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
-  userEvent.tab();
+  await act(async () => await user.click(toggleButton));
+  await act(async () => await user.tab());
 
   await screen.findByText('Vähintään 1 avainsana tulee olla valittuna');
 });

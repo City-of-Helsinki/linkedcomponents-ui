@@ -10,6 +10,7 @@ import {
 } from '../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   render,
   screen,
@@ -63,7 +64,11 @@ test('should render event data correctly', async () => {
   renderComponent(event, mocks);
 
   screen.getByRole('button', { name: eventValues.name });
-  await screen.findByRole('cell', { name: organizationName });
+  await screen.findByRole(
+    'cell',
+    { name: organizationName },
+    { timeout: 10000 }
+  );
   screen.getByRole('cell', { name: '08.11.2019 klo 12.27' });
   screen.getByRole('cell', { name: '02.01.2020 klo 12.27' });
   screen.getByRole('cell', { name: 'Julkaistu' });
@@ -125,12 +130,13 @@ test('should show sub events', async () => {
     mockedSubEventsResponse,
   ];
 
+  const user = userEvent.setup();
   renderComponent(event, mocks);
 
   const showMoreButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat: ${eventValues.name}`,
   });
-  userEvent.click(showMoreButton);
+  await act(async () => await user.click(showMoreButton));
 
   // Should show sub-events
   await screen.findByRole('button', { name: subEventFields[0].name });
@@ -141,7 +147,7 @@ test('should show sub events', async () => {
   const hideButton = screen.getByRole('button', {
     name: `Piilota alatapahtumat: ${eventValues.name}`,
   });
-  userEvent.click(hideButton);
+  await act(async () => await user.click(hideButton));
 
   // Sub-events should be hidden
   for (const { name } of subEventFields) {

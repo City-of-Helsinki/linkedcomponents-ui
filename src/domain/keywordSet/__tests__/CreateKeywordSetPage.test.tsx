@@ -3,6 +3,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
+  actWait,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -65,60 +66,76 @@ const getElement = (
 };
 
 const fillInputValues = async () => {
-  userEvent.type(getElement('originIdInput'), keywordSetValues.originId);
-  userEvent.type(getElement('nameInput'), keywordSetValues.name);
+  const user = userEvent.setup();
+  await act(
+    async () =>
+      await user.type(getElement('originIdInput'), keywordSetValues.originId)
+  );
+  await act(
+    async () => await user.type(getElement('nameInput'), keywordSetValues.name)
+  );
 
-  userEvent.click(getElement('keywordsToggleButton'));
+  await act(async () => await user.click(getElement('keywordsToggleButton')));
   const keywordsOption = await screen.findByRole(
     'option',
     { name: keywordSetValues.keyword.name.fi },
     { timeout: 10000 }
   );
-  userEvent.click(keywordsOption);
+  await act(async () => await user.click(keywordsOption));
 
-  act(() => userEvent.click(getElement('usageToggleButton')));
+  await act(async () => await user.click(getElement('usageToggleButton')));
   const usageOption = await screen.findByRole(
     'option',
     { name: 'Yleinen' },
     { timeout: 10000 }
   );
-  act(() => userEvent.click(usageOption));
+  await act(async () => await user.click(usageOption));
 };
 
 test('should focus to first validation error when trying to save new keyword set', async () => {
+  const user = userEvent.setup();
   renderComponent(defaultMocks);
 
   await loadingSpinnerIsNotInDocument();
+  await actWait(100);
 
   const saveButton = await findElement('saveButton');
+  await waitFor(() => expect(saveButton).toBeEnabled());
 
   const originIdInput = getElement('originIdInput');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
   await waitFor(() => expect(originIdInput).toHaveFocus());
-  userEvent.type(originIdInput, keywordSetValues.originId);
+  await act(
+    async () => await user.type(originIdInput, keywordSetValues.originId)
+  );
 
   const nameInput = getElement('nameInput');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
   await waitFor(() => expect(nameInput).toHaveFocus());
-  userEvent.type(nameInput, keywordSetValues.name);
+  await act(async () => await user.type(nameInput, keywordSetValues.name));
 
   const keywordsToggleButton = getElement('keywordsToggleButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(keywordsToggleButton).toHaveFocus());
 });
 
 test('should move to keywords page after creating new keyword', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedCreateKeywordSetResponse,
   ]);
 
   await loadingSpinnerIsNotInDocument();
+  await actWait(100);
+
+  const saveButton = await findElement('saveButton');
+  await waitFor(() => expect(saveButton).toBeEnabled());
 
   await fillInputValues();
 
-  userEvent.click(getElement('saveButton'));
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
@@ -126,14 +143,18 @@ test('should move to keywords page after creating new keyword', async () => {
 });
 
 test('should show server errors', async () => {
+  const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidCreateKeywordSetResponse]);
 
   await loadingSpinnerIsNotInDocument();
+  await actWait(100);
+
+  const saveButton = await findElement('saveButton');
+  await waitFor(() => expect(saveButton).toBeEnabled());
 
   await fillInputValues();
 
-  const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider } from '@apollo/client/testing';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import range from 'lodash/range';
 import { Provider } from 'react-redux';
@@ -74,6 +75,7 @@ const store = getMockReduxStore(state);
 
 const getHookWrapper = async () => {
   const wrapper = ({ children }) => (
+    // @ts-ignore
     <Provider store={store}>
       <MockedProvider cache={createCache()} mocks={mocks}>
         {children}
@@ -81,19 +83,20 @@ const getHookWrapper = async () => {
     </Provider>
   );
 
-  const { result, waitFor } = renderHook(() => useAllUsers(), {
+  const { result } = renderHook(() => useAllUsers(), {
     wrapper,
   });
 
   expect(result.current.users).toEqual([]);
   await waitFor(() => expect(result.current.user).toBeDefined());
   // Test the initial state of the request
-  return { result, waitFor };
+  return { result };
 };
 
 test('should return all users', async () => {
-  const { result, waitFor } = await getHookWrapper();
+  const { result } = await getHookWrapper();
   // Wait for the results
+  await waitFor(() => expect(result.current.loading).toBeFalsy());
   await waitFor(() =>
     expect(map(result.current.users, 'displayName')).toEqual([
       ...userNames,

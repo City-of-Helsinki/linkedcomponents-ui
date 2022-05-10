@@ -82,7 +82,7 @@ const renderComponent = (
 test('should render enrolments page', async () => {
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
   await findElement('createEnrolmentButton');
   getElement('attendeeTable');
@@ -97,11 +97,13 @@ it('scrolls to enrolment table row and calls history.replace correctly (deletes 
 
   renderComponent(undefined, { history });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
-  expect(replaceSpy).toHaveBeenCalledWith(
-    { hash: '', pathname: route, search: '' },
-    {}
+  await waitFor(() =>
+    expect(replaceSpy).toHaveBeenCalledWith(
+      { hash: '', pathname: route, search: '' },
+      {}
+    )
   );
 
   const enrolmentRowButton = screen.getAllByRole('button', {
@@ -123,12 +125,13 @@ test("should show not found page if registration doesn't exist", async () => {
 });
 
 test('should move to create enrolment page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
   const createButton = await findElement('createEnrolmentButton');
-  act(() => userEvent.click(createButton));
+  await act(async () => await user.click(createButton));
 
   expect(history.location.pathname).toBe(
     `/registrations/${registrationId}/enrolments/create`

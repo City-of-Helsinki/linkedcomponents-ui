@@ -236,7 +236,7 @@ test('should show correct title, description and keywords', async () => {
 test('should render events page', async () => {
   render(<EventsPage />, { mocks, store });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
   getElement('waitingApprovalTab');
   getElement('publishedTab');
@@ -245,23 +245,25 @@ test('should render events page', async () => {
 });
 
 test('should open create event page', async () => {
+  const user = userEvent.setup();
   const { history } = render(<EventsPage />, { mocks, store });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
   const createEventButton = getElement('createEventButton');
-  userEvent.click(createEventButton);
+  await act(async () => await user.click(createEventButton));
 
   expect(history.location.pathname).toBe('/fi/events/create');
 });
 
 test('should store new listType to redux store', async () => {
+  const user = userEvent.setup();
   render(<EventsPage />, { mocks, store });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
   const eventCardTypeRadio = getElement('eventCardType');
-  userEvent.click(eventCardTypeRadio);
+  await act(async () => await user.click(eventCardTypeRadio));
 
   // Test if your store dispatched the expected actions
   const actions = store.getActions();
@@ -274,12 +276,14 @@ test('should store new listType to redux store', async () => {
 
 test('should store new active tab to redux store', async () => {
   const store = getMockReduxStore(storeState);
+  const user = userEvent.setup();
+
   render(<EventsPage />, { mocks, store });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
   const publishedTab = getElement('publishedTab');
-  userEvent.click(publishedTab);
+  await act(async () => await user.click(publishedTab));
 
   // Test if your store dispatched the expected actions
   const actions = store.getActions();
@@ -291,12 +295,13 @@ test('should store new active tab to redux store', async () => {
 });
 
 test('should add sort parameter to search query', async () => {
+  const user = userEvent.setup();
   const { history } = render(<EventsPage />, { mocks, store });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
   const sortNameButton = getElement('sortName');
-  act(() => userEvent.click(sortNameButton));
+  await act(async () => await user.click(sortNameButton));
 
   expect(history.location.search).toBe('?sort=name');
 });
@@ -310,7 +315,7 @@ test('should show public events when published tab is selected', async () => {
 
   render(<EventsPage />, { mocks, store });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
   getElement('publishedTable');
 });
 
@@ -323,7 +328,7 @@ test('should show draft events when drafts tab is selected', async () => {
 
   render(<EventsPage />, { mocks, store });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
   getElement('draftsTable');
 });
 
@@ -350,11 +355,13 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
     store,
   });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
-  expect(replaceSpy).toHaveBeenCalledWith(
-    { hash: '', pathname: route, search: search },
-    {}
+  await waitFor(() =>
+    expect(replaceSpy).toHaveBeenCalledWith(
+      { hash: '', pathname: route, search: search },
+      {}
+    )
   );
 
   const eventRowButton = screen.getByRole('button', {

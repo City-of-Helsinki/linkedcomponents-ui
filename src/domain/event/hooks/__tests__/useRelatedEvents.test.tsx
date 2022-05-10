@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import React from 'react';
 
@@ -31,22 +31,17 @@ const getHookWrapper = (mocks = []) => {
       {children}
     </MockedProvider>
   );
-  const { result, waitForNextUpdate } = renderHook(
-    () => useRelatedEvents(event),
-    { wrapper }
-  );
+  const { result } = renderHook(() => useRelatedEvents(event), { wrapper });
   // Test the initial state of the request
   expect(result.current.loading).toBe(true);
   expect(result.current.events).toEqual([]);
-  return { result, waitForNextUpdate };
+  return { result };
 };
 
 test('should return all related events', async () => {
-  const { result, waitForNextUpdate } = getHookWrapper(mocks);
-  // Wait for the results
-  await waitForNextUpdate();
+  const { result } = getHookWrapper(mocks);
 
-  expect(result.current.loading).toBeFalsy();
+  await waitFor(() => expect(result.current.loading).toBeFalsy());
   expect(map(result.current.events, 'id')).toEqual([
     eventId,
     ...subEventIds,

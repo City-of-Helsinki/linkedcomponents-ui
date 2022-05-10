@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import range from 'lodash/range';
 
@@ -71,21 +71,23 @@ const getHookWrapper = () => {
     </MockedProvider>
   );
 
-  const { result, waitFor } = renderHook(() => useAllOrganizations(), {
+  const { result } = renderHook(() => useAllOrganizations(), {
     wrapper,
   });
   // Test the initial state of the request
   expect(result.current.loading).toBe(true);
   expect(result.current.organizations).toEqual([]);
-  return { result, waitFor };
+  return { result };
 };
 
 test('should return all organizations', async () => {
-  const { result, waitFor } = getHookWrapper();
+  const { result } = getHookWrapper();
   // Wait for the results
   await waitFor(() => expect(result.current.loading).toBeFalsy());
-  expect(map(result.current.organizations, 'name')).toEqual([
-    ...organizationNames,
-    ...page2OrganizationNames,
-  ]);
+  await waitFor(() =>
+    expect(map(result.current.organizations, 'name')).toEqual([
+      ...organizationNames,
+      ...page2OrganizationNames,
+    ])
+  );
 });

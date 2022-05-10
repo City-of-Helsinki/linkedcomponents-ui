@@ -3,7 +3,6 @@ import { testIds as imageUploaderTestIds } from '../../../common/components/imag
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
-  actWait,
   configure,
   fireEvent,
   getMockReduxStore,
@@ -62,54 +61,63 @@ const getElement = (
 };
 
 const fillPublisherField = async () => {
+  const user = userEvent.setup();
   const publisherToggleButton = getElement('publisherToggleButton');
-  userEvent.click(publisherToggleButton);
+  await act(async () => await user.click(publisherToggleButton));
 
   const option = await screen.findByRole('option', { name: organizationName });
-  userEvent.click(option);
+  await act(async () => await user.click(option));
 };
 
 const uploadImageByFile = async () => {
-  const addButton = getElement('addButton');
-  userEvent.click(addButton);
+  const user = userEvent.setup();
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const addButton = getElement('addButton');
+  await act(async () => await user.click(addButton));
+
+  const dialog = await screen.findByRole('dialog');
+  const withinModal = within(dialog);
   withinModal.getByRole('heading', { name: /Lisää kuva/i });
 
   const fileInput = withinModal.getByTestId(imageUploaderTestIds.input);
   Object.defineProperty(fileInput, 'files', { value: [file] });
-  fireEvent.change(fileInput);
-  await actWait(1000);
+  await act(async () => {
+    await fireEvent.change(fileInput);
+  });
 };
 
 const uploadImageByUrl = async () => {
-  const addButton = getElement('addButton');
-  userEvent.click(addButton);
+  const user = userEvent.setup();
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const addButton = getElement('addButton');
+  await act(async () => await user.click(addButton));
+
+  const dialog = await screen.findByRole('dialog');
+  const withinModal = within(dialog);
   withinModal.getByRole('heading', { name: /Lisää kuva/i });
 
   const urlInput = withinModal.getByRole('textbox', {
     name: /kuvan url-osoite/i,
   });
   await waitFor(() => expect(urlInput).toBeEnabled());
-  act(() => userEvent.click(urlInput));
-  userEvent.type(urlInput, imageUrl);
+  await act(async () => await user.click(urlInput));
+  await act(async () => await user.type(urlInput, imageUrl));
   await waitFor(() => expect(urlInput).toHaveValue(imageUrl));
 
   const submitButton = withinModal.getByRole('button', { name: 'Lisää' });
   await waitFor(() => expect(submitButton).toBeEnabled());
-  act(() => userEvent.click(submitButton));
+  await act(async () => await user.click(submitButton));
 };
 
 test('should scroll to first validation error input field', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
   const publisherInput = getElement('publisherInput');
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(publisherInput).toHaveFocus());
 });
@@ -137,6 +145,7 @@ test('should create and select new image by entering image url', async () => {
 });
 
 test('should move to images page after creating new image', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -145,7 +154,7 @@ test('should move to images page after creating new image', async () => {
   await uploadImageByFile();
 
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(
     () => expect(history.location.pathname).toBe(`/fi/admin/images`),

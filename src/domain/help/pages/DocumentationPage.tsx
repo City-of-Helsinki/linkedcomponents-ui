@@ -84,7 +84,11 @@ const DocumentationPage: React.FC = () => {
     >
       {getContent(locale)}
 
-      {!isTestEnv && SwaggerUI && <SwaggerUI url={SWAGGER_SCHEMA_URL} />}
+      {!isTestEnv && (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        <SwaggerUI url={SWAGGER_SCHEMA_URL} />
+      )}
     </PageWrapper>
   );
 };

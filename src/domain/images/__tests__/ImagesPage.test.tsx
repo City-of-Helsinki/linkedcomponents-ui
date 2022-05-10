@@ -84,24 +84,26 @@ test('should render images page', async () => {
 });
 
 test('should open create image page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await findElement('title');
   await loadingSpinnerIsNotInDocument();
 
   const createImageButton = getElement('createImageButton');
-  userEvent.click(createImageButton);
+  await act(async () => await user.click(createImageButton));
 
   expect(history.location.pathname).toBe('/fi/admin/images/create');
 });
 
 test('should add sort parameter to search query', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
   const sortLastModifiedButton = getElement('sortLastModifiedButton');
-  act(() => userEvent.click(sortLastModifiedButton));
+  await act(async () => await user.click(sortLastModifiedButton));
 
   expect(history.location.search).toBe('?sort=last_modified_time');
 });
@@ -117,9 +119,11 @@ it('scrolls to image row and calls history.replace correctly (deletes imageId fr
   await loadingSpinnerIsNotInDocument();
   const imageButton = screen.getByRole('button', { name: imageNames[0] });
 
-  expect(replaceSpy).toHaveBeenCalledWith(
-    { hash: '', pathname: route, search: '' },
-    {}
+  await waitFor(() =>
+    expect(replaceSpy).toHaveBeenCalledWith(
+      { hash: '', pathname: route, search: '' },
+      {}
+    )
   );
 
   await waitFor(() => expect(imageButton).toHaveFocus());

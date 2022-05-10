@@ -1,9 +1,17 @@
 import { fakeImages } from '../../../../utils/mockDataUtils';
-import { act, render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  act,
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
 import { TEST_IMAGE_ID } from '../../../image/constants';
 import { imageNames, images } from '../../__mocks__/imagesPage';
 import { IMAGE_SORT_OPTIONS } from '../../constants';
 import ImagesTable, { ImagesTableProps } from '../ImagesTable';
+
+configure({ defaultHidden: true });
 
 const defaultProps: ImagesTableProps = {
   caption: 'Images table',
@@ -35,39 +43,52 @@ test('should render all images', () => {
   }
 });
 
-test('should open edit image page by clicking keyword', () => {
+test('should open edit image page by clicking keyword', async () => {
   const imageName = 'Image name';
   const imageId = TEST_IMAGE_ID;
+
+  const user = userEvent.setup();
   const { history } = renderComponent({
     images: fakeImages(1, [{ name: imageName, id: imageId, url: null }]).data,
   });
 
-  act(() => userEvent.click(screen.getByRole('button', { name: imageName })));
-
-  expect(history.location.pathname).toBe(`/fi/admin/images/edit/${imageId}`);
-});
-
-test('should open edit keyword page by pressing enter on row', () => {
-  const imageName = 'Image name';
-  const imageId = TEST_IMAGE_ID;
-  const { history } = renderComponent({
-    images: fakeImages(1, [{ name: imageName, id: imageId }]).data,
-  });
-
-  act(() =>
-    userEvent.type(screen.getByRole('button', { name: imageName }), '{enter}')
+  await act(
+    async () =>
+      await user.click(screen.getByRole('button', { name: imageName }))
   );
 
   expect(history.location.pathname).toBe(`/fi/admin/images/edit/${imageId}`);
 });
 
-test('should call setSort when clicking sortable column header', () => {
+test('should open edit keyword page by pressing enter on row', async () => {
+  const imageName = 'Image name';
+  const imageId = TEST_IMAGE_ID;
+
+  const user = userEvent.setup();
+  const { history } = renderComponent({
+    images: fakeImages(1, [{ name: imageName, id: imageId }]).data,
+  });
+
+  await act(
+    async () =>
+      await user.type(
+        screen.getByRole('button', { name: imageName }),
+        '{enter}'
+      )
+  );
+
+  expect(history.location.pathname).toBe(`/fi/admin/images/edit/${imageId}`);
+});
+
+test('should call setSort when clicking sortable column header', async () => {
   const setSort = jest.fn();
+  const user = userEvent.setup();
+
   renderComponent({ setSort });
 
   const lastModifiedButton = screen.getByRole('button', {
     name: 'Viimeksi muokattu',
   });
-  act(() => userEvent.click(lastModifiedButton));
+  await act(async () => await user.click(lastModifiedButton));
   expect(setSort).toBeCalledWith('last_modified_time');
 });

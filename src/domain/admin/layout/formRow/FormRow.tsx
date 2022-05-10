@@ -8,7 +8,11 @@ interface Props {
   withBorder?: boolean;
 }
 
-const FormRow: React.FC<Props> = ({ children, className, withBorder }) => {
+const FormRow: React.FC<React.PropsWithChildren<Props>> = ({
+  children,
+  className,
+  withBorder,
+}) => {
   return (
     <div
       className={classNames(

@@ -1,9 +1,18 @@
 import React from 'react';
 
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  act,
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
 import Collapsible from '../Collapsible';
 
+configure({ defaultHidden: true });
+
 it('should show and hide content by clicking title', async () => {
+  const user = userEvent.setup();
   const title = 'Collapsible content';
 
   render(
@@ -17,11 +26,9 @@ it('should show and hide content by clicking title', async () => {
 
   expect(region.getAttribute('hidden')).toBe('');
 
-  userEvent.click(toggleButton);
-
+  await act(async () => await user.click(toggleButton));
   expect(region.getAttribute('hidden')).toBeNull();
 
-  userEvent.click(toggleButton);
-
+  await act(async () => await user.click(toggleButton));
   expect(region.getAttribute('hidden')).toBe('');
 });

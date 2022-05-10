@@ -81,24 +81,26 @@ test('should render organizations page', async () => {
 });
 
 test('should open create organization page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await findElement('title');
   await loadingSpinnerIsNotInDocument();
 
   const createOrganizationButton = getElement('createOrganizationButton');
-  userEvent.click(createOrganizationButton);
+  await act(async () => await user.click(createOrganizationButton));
 
   expect(history.location.pathname).toBe('/fi/admin/organizations/create');
 });
 
 test('should add sort parameter to search query', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
   const sortNameButton = getElement('sortNameButton');
-  act(() => userEvent.click(sortNameButton));
+  await act(async () => await user.click(sortNameButton));
 
   expect(history.location.search).toBe('?sort=-name');
 });
@@ -116,9 +118,11 @@ it('scrolls to organization row and calls history.replace correctly (deletes org
     name: organizations.data[0].name,
   });
 
-  expect(replaceSpy).toHaveBeenCalledWith(
-    { hash: '', pathname: route, search: '' },
-    {}
+  await waitFor(() =>
+    expect(replaceSpy).toHaveBeenCalledWith(
+      { hash: '', pathname: route, search: '' },
+      {}
+    )
   );
 
   await waitFor(() => expect(organizationButton).toHaveFocus());

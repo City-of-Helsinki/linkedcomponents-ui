@@ -153,7 +153,7 @@ const HelpPageRoutes: React.FC = () => {
         path={getHelpRoutePath(ROUTES.FEATURES)}
         element={<FeaturesPage />}
       />
-      <Route path="*" element={NotFound} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

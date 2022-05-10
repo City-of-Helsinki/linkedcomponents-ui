@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -86,6 +92,7 @@ test('should call onChange', async () => {
 });
 
 test('should open file selection dialog by clicking button', async () => {
+  const user = userEvent.setup();
   const onChange = jest.fn();
   renderComponent({ onChange });
 
@@ -95,7 +102,7 @@ test('should open file selection dialog by clicking button', async () => {
   });
   const spy = jest.spyOn(fileInput, 'click');
 
-  userEvent.click(button);
+  await act(async () => await user.click(button));
 
   expect(spy).toBeCalled();
 });

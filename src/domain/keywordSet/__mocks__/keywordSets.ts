@@ -68,5 +68,6 @@ export {
   mockedAudienceKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
   topicAtIds,
+  topicName,
   topics,
 };

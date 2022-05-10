@@ -4,6 +4,8 @@ import { OrganizationDocument } from '../../../../generated/graphql';
 import { fakeOrganization } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
+  configure,
   CustomRenderOptions,
   getMockReduxStore,
   render,
@@ -21,6 +23,8 @@ import { ORGANIZATION_ACTIONS, TEST_PUBLISHER_ID } from '../../constants';
 import OrganizationAuthenticationNotification, {
   OrganizationAuthenticationNotificationProps,
 } from '../OrganizationAuthenticationNotification';
+
+configure({ defaultHidden: true });
 
 const defaultProps: OrganizationAuthenticationNotificationProps = {
   action: ORGANIZATION_ACTIONS.UPDATE,
@@ -83,11 +87,11 @@ test('should show notification if user has an admin organization but the id is d
 
 test('should start sign in process', async () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
-
+  const user = userEvent.setup();
   renderComponent();
 
   const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
 
-  userEvent.click(signInButton);
+  await act(async () => await user.click(signInButton));
   await waitFor(() => expect(signinRedirect).toBeCalled());
 });

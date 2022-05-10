@@ -2,6 +2,7 @@ import { IconPen } from 'hds-react';
 import React from 'react';
 
 import {
+  act,
   arrowDownKeyPressHelper,
   arrowUpKeyPressHelper,
   configure,
@@ -45,8 +46,9 @@ const findElement = (key: 'menu' | 'toggleButton') => {
 };
 
 const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   await findElement('menu');
 };
@@ -107,14 +109,15 @@ test('should call onClick when pressing enter key', async () => {
 });
 
 test('calls onClick callback correctly', async () => {
+  const user = userEvent.setup();
   const { getItemAtIndex } = renderMenuDropdown(defaultProps);
 
   await openMenu();
 
-  items.forEach((item, index) => {
-    userEvent.click(getItemAtIndex(index));
+  for (const [index, item] of items.entries()) {
+    await act(async () => await user.click(getItemAtIndex(index)));
     expect(item.onClick).toHaveBeenCalled();
-  });
+  }
 });
 
 test('menu should be closed with esc key', async () => {

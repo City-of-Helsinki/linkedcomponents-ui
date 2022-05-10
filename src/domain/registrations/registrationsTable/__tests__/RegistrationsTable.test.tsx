@@ -1,3 +1,4 @@
+import { History } from 'history';
 import React from 'react';
 
 import {
@@ -15,6 +16,8 @@ import {
 import RegistrationsTable, {
   RegistrationsTableProps,
 } from '../RegistrationsTable';
+
+let history: History;
 
 configure({ defaultHidden: true });
 
@@ -46,37 +49,51 @@ test('should render registrations table', () => {
   screen.getByText('Ei tuloksia');
 });
 
-test('should render all registrations', async () => {
-  renderComponent({
-    registrations: registrations.data,
-  });
+test('should open registration page by clicking event name', async () => {
+  const user = userEvent.setup();
 
-  // Test only first 2 to keep this test performant
-  for (const name of eventNames.slice(0, 2)) {
-    await screen.findByRole('button', { name });
-  }
-});
-
-test('should open event page by clicking event', async () => {
   const eventName = eventNames[0];
   const registrationId = registrations.data[0].id;
-  const { history } = renderComponent({ registrations: registrations.data });
+  const registration = registrations.data[0];
 
-  const button = await screen.findByRole('button', { name: eventName });
-  act(() => userEvent.click(button));
+  await act(async () => {
+    const { history: newHistory } = await renderComponent({
+      registrations: [registration],
+    });
+    history = newHistory;
+  });
 
+  const button = await screen.findByRole(
+    'button',
+    { name: eventName },
+    { timeout: 20000 }
+  );
+  await act(async () => await user.click(button));
   expect(history.location.pathname).toBe(
     `/fi/registrations/edit/${registrationId}`
   );
 });
 
-test('should open event page by pressing enter on row', async () => {
+test('should open registration page by pressing enter on row', async () => {
+  const user = userEvent.setup();
+
   const eventName = eventNames[0];
   const registrationId = registrations.data[0].id;
-  const { history } = renderComponent({ registrations: registrations.data });
+  const registration = registrations.data[0];
 
-  const button = await screen.findByRole('button', { name: eventName });
-  act(() => userEvent.type(button, '{enter}'));
+  await act(async () => {
+    const { history: newHistory } = await renderComponent({
+      registrations: [registration],
+    });
+    history = newHistory;
+  });
+  const button = await screen.findByRole(
+    'button',
+    { name: eventName },
+    { timeout: 20000 }
+  );
+  await act(async () => await user.click(button));
+  await act(async () => await user.type(button, '{enter}'));
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/edit/${registrationId}`

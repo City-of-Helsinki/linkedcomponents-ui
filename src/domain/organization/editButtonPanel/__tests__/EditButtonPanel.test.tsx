@@ -1,6 +1,7 @@
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   CustomRenderOptions,
   getMockReduxStore,
@@ -58,9 +59,10 @@ const getElement = (key: 'backButton' | 'saveButton') => {
 };
 
 test('should route to organizations page when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  userEvent.click(getElement('backButton'));
+  await act(async () => await user.click(getElement('backButton')));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/organizations`)
@@ -69,10 +71,12 @@ test('should route to organizations page when clicking back button', async () =>
 
 test('should call onSave', async () => {
   const onSave = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onSave });
 
   const saveButton = await findElement('saveButton');
-  userEvent.click(saveButton);
+  await waitFor(() => expect(saveButton).toBeEnabled());
+  await act(async () => await user.click(saveButton));
 
   expect(onSave).toBeCalled();
 });

@@ -25,7 +25,7 @@ export interface PageWrapperProps {
   titleText?: string;
 }
 
-const PageWrapper: React.FC<PageWrapperProps> = ({
+const PageWrapper: React.FC<React.PropsWithChildren<PageWrapperProps>> = ({
   backgroundColor = 'white',
   children,
   className,
@@ -98,6 +98,8 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
         className
       )}
     >
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       <Helmet>
         <title>{translatedTitle}</title>
         <meta name="description" content={translatedDescription} />

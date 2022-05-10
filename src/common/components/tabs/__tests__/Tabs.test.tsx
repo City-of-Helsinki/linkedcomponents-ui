@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  act,
   arrowLeftKeyPressHelper,
   arrowRightKeyPressHelper,
   configure,
@@ -78,12 +79,13 @@ test('renders the component', () => {
 });
 
 test('should call onKeyDown and change focused tab', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const tab1 = getElement('tab1');
   const tab2 = getElement('tab2');
   const tab3 = getElement('tab3');
-  userEvent.click(tab1);
+  await act(async () => await user.click(tab1));
   expect(tab1).toHaveFocus();
 
   arrowRightKeyPressHelper(tab1);
@@ -96,14 +98,15 @@ test('should call onKeyDown and change focused tab', async () => {
 
 test('should call onChange', async () => {
   const onChange = jest.fn();
+  const user = userEvent.setup();
   renderComponent(onChange);
 
   const tab1 = getElement('tab1');
   const tab2 = getElement('tab2');
-  userEvent.click(tab1);
+  await act(async () => await user.click(tab1));
   expect(tab1).toHaveFocus();
 
-  userEvent.click(tab2);
+  await act(async () => await user.click(tab2));
   expect(tab2).toHaveFocus();
   expect(onChange).toBeCalledWith('tab2');
 });

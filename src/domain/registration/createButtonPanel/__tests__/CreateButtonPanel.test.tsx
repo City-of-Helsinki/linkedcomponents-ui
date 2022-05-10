@@ -9,6 +9,7 @@ import {
   getMockReduxStore,
   render,
   screen,
+  waitFor,
 } from '../../../../utils/testUtils';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import CreateButtonPanel from '../CreateButtonPanel';
@@ -23,16 +24,20 @@ const renderComponent = (store?: Store<StoreState, AnyAction>) =>
     store,
   });
 
+const getElement = (key: 'saveButton') => {
+  switch (key) {
+    case 'saveButton':
+      return screen.getByRole('button', { name: 'Tallenna ilmoittautuminen' });
+  }
+};
+
 test('button should be disabled when user is not authenticated', () => {
   const store = getMockReduxStore(defaultStoreState);
 
   renderComponent(store);
 
-  expect(
-    screen.getByRole('button', {
-      name: /Sinulla ei ole oikeuksia muokata ilmoittautumisia./i,
-    })
-  ).toBeDisabled();
+  const saveButton = getElement('saveButton');
+  expect(saveButton).toBeDisabled();
 });
 
 test('button should be enabled when user is authenticated', async () => {
@@ -41,9 +46,6 @@ test('button should be enabled when user is authenticated', async () => {
 
   renderComponent(store);
 
-  const saveButton = await screen.findByRole('button', {
-    name: 'Tallenna ilmoittautuminen',
-  });
-
-  expect(saveButton).toBeEnabled();
+  const saveButton = await getElement('saveButton');
+  await waitFor(() => expect(saveButton).toBeEnabled());
 });

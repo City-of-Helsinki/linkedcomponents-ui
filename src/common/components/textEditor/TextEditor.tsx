@@ -151,6 +151,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
       onClick={setFocusToEditor}
     >
       <InputWrapper {...wrapperProps} className={styles.inputWrapper}>
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
         <Editor
           ref={editorRef}
           {...rest}

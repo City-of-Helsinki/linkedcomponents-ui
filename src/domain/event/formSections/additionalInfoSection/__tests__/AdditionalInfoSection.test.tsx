@@ -66,30 +66,21 @@ const getElement = (
 ) => {
   switch (key) {
     case 'endTime':
-      return screen.getByRole('textbox', {
-        name: translations.event.form.labelEnrolmentEndTime,
-      });
+      return screen.getByRole('textbox', { name: 'Ilmoittautuminen päättyy' });
     case 'maxAge':
-      return screen.getByRole('spinbutton', {
-        name: translations.event.form.labelAudienceMaxAge,
-      });
+      return screen.getByRole('spinbutton', { name: 'Yläikäraja' });
     case 'minAge':
-      return screen.getByRole('spinbutton', {
-        name: translations.event.form.labelAudienceMinAge,
-      });
+      return screen.getByRole('spinbutton', { name: 'Alaikäraja' });
     case 'maxCapacity':
       return screen.getByRole('spinbutton', {
-        name: translations.event.form.labelMinimumAttendeeCapacity,
+        name: 'Vähimmäisosallistujamäärä',
       });
-
     case 'minCapacity':
       return screen.getByRole('spinbutton', {
-        name: translations.event.form.labelMaximumAttendeeCapacity,
+        name: 'Enimmäisosallistujamäärä',
       });
     case 'startTime':
-      return screen.getByRole('textbox', {
-        name: translations.event.form.labelEnrolmentStartTime,
-      });
+      return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa' });
   }
 };
 
@@ -107,29 +98,16 @@ test('should render additional info section', async () => {
     expect(screen.getAllByRole('heading', { name: heading })).toHaveLength(2);
   });
 
-  const spinbuttons = [
-    translations.event.form.labelAudienceMinAge,
-    translations.event.form.labelAudienceMaxAge,
-    translations.event.form.labelMinimumAttendeeCapacity,
-    translations.event.form.labelMaximumAttendeeCapacity,
-  ];
-
-  spinbuttons.forEach((label) => {
-    // Notification has same heading so test that length is 2
-    screen.getByRole('spinbutton', { name: label });
-  });
-
-  const textboxs = [
-    translations.event.form.labelEnrolmentStartTime,
-    translations.event.form.labelEnrolmentEndTime,
-  ];
-
-  textboxs.forEach((label) => {
-    screen.getByRole('textbox', { name: label });
-  });
+  getElement('minAge');
+  getElement('maxAge');
+  getElement('minCapacity');
+  getElement('maxCapacity');
+  getElement('startTime');
+  getElement('endTime');
 });
 
 test('should show validation error if max age is less than min age', async () => {
+  const user = userEvent.setup();
   renderComponent({
     [EVENT_FIELDS.AUDIENCE_MAX_AGE]: 5,
     [EVENT_FIELDS.AUDIENCE_MIN_AGE]: 10,
@@ -138,14 +116,15 @@ test('should show validation error if max age is less than min age', async () =>
   const minAgeInput = getElement('minAge');
   const maxAgeInput = getElement('maxAge');
 
-  userEvent.click(maxAgeInput);
-  userEvent.click(minAgeInput);
-  userEvent.tab();
+  await act(async () => await user.click(maxAgeInput));
+  await act(async () => await user.click(minAgeInput));
+  await act(async () => await user.tab());
 
   await screen.findByText('Arvon tulee olla vähintään 10');
 });
 
 test('should show validation error if min age is less than 0', async () => {
+  const user = userEvent.setup();
   renderComponent({
     [EVENT_FIELDS.AUDIENCE_MIN_AGE]: -1,
   });
@@ -153,14 +132,15 @@ test('should show validation error if min age is less than 0', async () => {
   const minAgeInput = getElement('minAge');
   const maxAgeInput = getElement('maxAge');
 
-  userEvent.click(minAgeInput);
-  userEvent.click(maxAgeInput);
+  await act(async () => await user.click(minAgeInput));
+  await act(async () => await user.click(maxAgeInput));
 
   await screen.findByText('Arvon tulee olla vähintään 0');
 });
 
 test('should validate enrolment start and end dates', async () => {
   advanceTo('2020-11-10');
+  const user = userEvent.setup();
   renderComponent();
 
   const startTime = '19.12.2021 12.15';
@@ -168,19 +148,23 @@ test('should validate enrolment start and end dates', async () => {
   const startTimeInput = getElement('startTime');
   const endTimeInput = getElement('endTime');
 
-  act(() => userEvent.click(startTimeInput));
-  userEvent.type(startTimeInput, startTime);
-  act(() => userEvent.click(endTimeInput));
-  userEvent.type(endTimeInput, endTime);
-  act(() => userEvent.click(startTimeInput));
-
-  await waitFor(() => expect(startTimeInput).toHaveValue(startTime));
-  await waitFor(() => expect(endTimeInput).toHaveValue(endTime));
+  await act(async () => await user.click(startTimeInput));
+  user.type(startTimeInput, startTime);
+  await waitFor(() => expect(startTimeInput).toHaveValue(startTime), {
+    timeout: 10000,
+  });
+  await act(async () => await user.click(endTimeInput));
+  user.type(endTimeInput, endTime);
+  await waitFor(() => expect(endTimeInput).toHaveValue(endTime), {
+    timeout: 5000,
+  });
+  await act(async () => await user.click(startTimeInput));
 
   screen.getByText(`Tämän päivämäärän tulee olla vähintään ${startTime}`);
 });
 
 test('should show validation error if max capacity is less than min capacity', async () => {
+  const user = userEvent.setup();
   renderComponent({
     [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: 5,
     [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: 10,
@@ -189,14 +173,15 @@ test('should show validation error if max capacity is less than min capacity', a
   const minCapacityInput = getElement('minCapacity');
   const maxCapacityInput = getElement('maxCapacity');
 
-  userEvent.click(maxCapacityInput);
-  userEvent.click(minCapacityInput);
-  userEvent.tab();
+  await act(async () => await user.click(maxCapacityInput));
+  await act(async () => await user.click(minCapacityInput));
+  await act(async () => await user.tab());
 
   await screen.findByText('Arvon tulee olla vähintään 10');
 });
 
 test('should show validation error if min attendee capacity is less than 0', async () => {
+  const user = userEvent.setup();
   renderComponent({
     [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: -1,
   });
@@ -204,8 +189,8 @@ test('should show validation error if min attendee capacity is less than 0', asy
   const minCapacityInput = getElement('minCapacity');
   const maxCapacityInput = getElement('maxCapacity');
 
-  userEvent.click(maxCapacityInput);
-  userEvent.click(minCapacityInput);
+  await act(async () => await user.click(maxCapacityInput));
+  await act(async () => await user.click(minCapacityInput));
 
   await screen.findByText('Arvon tulee olla vähintään 0');
 });

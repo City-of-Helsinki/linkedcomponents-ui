@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -44,32 +45,36 @@ const getElement = (
 };
 
 const fillInputValues = async () => {
+  const user = userEvent.setup();
   const nameInput = getElement('nameInput');
-  userEvent.type(nameInput, keywordValues.name);
+  await act(async () => await user.type(nameInput, keywordValues.name));
 
   const replacedByToggleButton = getElement('replacedByToggleButton');
-  userEvent.click(replacedByToggleButton);
+  await act(async () => await user.click(replacedByToggleButton));
+
   const replacingKeywordOption = await screen.findByRole('option', {
     name: replacingKeyword.name.fi,
     hidden: true,
   });
-  userEvent.click(replacingKeywordOption);
+  await act(async () => await user.click(replacingKeywordOption));
 };
 
 test('should focus to first validation error when trying to save new keyword', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
+  const user = userEvent.setup();
   renderComponent([mockedUserResponse]);
 
   await loadingSpinnerIsNotInDocument();
 
   const nameInput = getElement('nameInput');
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
 
 test('should move to keywords page after creating new keyword', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     mockedCreateKeywordResponse,
     mockedKeywordsResponse,
@@ -81,7 +86,7 @@ test('should move to keywords page after creating new keyword', async () => {
   await fillInputValues();
 
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/keywords`)
@@ -89,6 +94,7 @@ test('should move to keywords page after creating new keyword', async () => {
 });
 
 test('should show server errors', async () => {
+  const user = userEvent.setup();
   renderComponent([
     mockedInvalidCreateKeywordResponse,
     mockedKeywordsResponse,
@@ -100,7 +106,7 @@ test('should show server errors', async () => {
   await fillInputValues();
 
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

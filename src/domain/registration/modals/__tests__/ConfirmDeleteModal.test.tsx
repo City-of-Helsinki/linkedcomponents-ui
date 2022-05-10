@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -37,20 +38,22 @@ test('should render component', async () => {
 
 test('should call onDelete', async () => {
   const onDelete = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onDelete });
 
   const deleteRegistrationButton = screen.getByRole('button', {
     name: 'Poista ilmoittautuminen',
   });
-  userEvent.click(deleteRegistrationButton);
+  await act(async () => await user.click(deleteRegistrationButton));
   expect(onDelete).toBeCalled();
 });
 
 test('should call onClose', async () => {
   const onClose = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onClose });
 
   const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  userEvent.click(closeButton);
+  await act(async () => await user.click(closeButton));
   expect(onClose).toBeCalled();
 });

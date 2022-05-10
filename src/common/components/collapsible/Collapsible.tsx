@@ -15,7 +15,7 @@ type Props = {
   title: string;
 };
 
-const Collabsible: React.FC<Props> = ({
+const Collabsible: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   defaultOpen = false,
   headingLevel = 3,

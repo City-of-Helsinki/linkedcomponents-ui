@@ -9,7 +9,7 @@ import TitleRow from '../app/layout/TitleRow';
 import useUser from '../user/hooks/useUser';
 import KeywordSetForm from './keywordSetForm/KeywordSetForm';
 
-const CreateKeywordPage: React.FC = () => {
+const CreateKeywordSetPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -38,7 +38,7 @@ const CreateKeywordSetPageWrapper: React.FC = () => {
   return (
     <PageWrapper title="createKeywordSetPage.pageTitle">
       <LoadingSpinner isLoading={loadingUser}>
-        <CreateKeywordPage />
+        <CreateKeywordSetPage />
       </LoadingSpinner>
     </PageWrapper>
   );

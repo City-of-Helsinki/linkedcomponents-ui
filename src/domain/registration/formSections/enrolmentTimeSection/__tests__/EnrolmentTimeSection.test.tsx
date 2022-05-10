@@ -57,6 +57,7 @@ const getElement = (key: 'endTime' | 'startTime') => {
 
 test('should validate enrolment start and end dates', async () => {
   advanceTo('2020-11-10');
+  const user = userEvent.setup();
   renderComponent();
 
   const startTime = '19.12.2021 12.15';
@@ -64,11 +65,11 @@ test('should validate enrolment start and end dates', async () => {
   const startTimeInput = getElement('startTime');
   const endTimeInput = getElement('endTime');
 
-  act(() => userEvent.click(startTimeInput));
-  userEvent.type(startTimeInput, startTime);
-  act(() => userEvent.click(endTimeInput));
-  userEvent.type(endTimeInput, endTime);
-  act(() => userEvent.click(startTimeInput));
+  await act(async () => await user.click(startTimeInput));
+  await act(async () => await user.type(startTimeInput, startTime));
+  await act(async () => await user.click(endTimeInput));
+  await act(async () => await user.type(endTimeInput, endTime));
+  await act(async () => await user.click(startTimeInput));
 
   await waitFor(() => expect(startTimeInput).toHaveValue(startTime));
   await waitFor(() => expect(endTimeInput).toHaveValue(endTime));

@@ -5,11 +5,13 @@ import { ROUTES } from '../../../constants';
 import { EventDocument, PublicationStatus } from '../../../generated/graphql';
 import { fakeEvent } from '../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
   userEvent,
+  waitFor,
 } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import EventSavedPage from '../EventSavedPage';
@@ -89,6 +91,7 @@ test('should render all components for published event', async () => {
 });
 
 test('should route to event list page', async () => {
+  const user = userEvent.setup();
   const mocks = getMocks(PublicationStatus.Draft);
   const { history } = renderComponent(mocks);
 
@@ -96,12 +99,15 @@ test('should route to event list page', async () => {
   getElement('draftSavedHeading');
 
   const backToEventsButton = getElement('backToEventsButton');
-  userEvent.click(backToEventsButton);
+  await act(async () => await user.click(backToEventsButton));
 
-  expect(history.location.pathname).toBe('/fi/events');
+  await waitFor(() => expect(history.location.pathname).toBe('/fi/events'), {
+    timeout: 10000,
+  });
 });
 
 test('should route to create event page', async () => {
+  const user = userEvent.setup();
   const mocks = getMocks(PublicationStatus.Draft);
   const { history } = renderComponent(mocks);
 
@@ -109,7 +115,10 @@ test('should route to create event page', async () => {
   getElement('draftSavedHeading');
 
   const addEventButton = getElement('addEventButton');
-  userEvent.click(addEventButton);
+  await act(async () => await user.click(addEventButton));
 
-  expect(history.location.pathname).toBe('/fi/events/create');
+  await waitFor(
+    () => expect(history.location.pathname).toBe('/fi/events/create'),
+    { timeout: 10000 }
+  );
 });

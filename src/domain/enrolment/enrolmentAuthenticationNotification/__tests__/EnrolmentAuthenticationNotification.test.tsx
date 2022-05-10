@@ -1,11 +1,11 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { clear } from 'jest-date-mock';
 import React from 'react';
 
 import { UserDocument } from '../../../../generated/graphql';
 import { fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   CustomRenderOptions,
   getMockReduxStore,
@@ -25,8 +25,6 @@ import { ENROLMENT_ACTIONS } from '../../constants';
 import EnrolmentAuthenticationNotification from '../EnrolmentAuthenticationNotification';
 
 configure({ defaultHidden: true });
-
-beforeEach(() => clear());
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(
@@ -71,13 +69,12 @@ test('should not show notification if user is signed in and has an admin organiz
   );
 });
 
-test('should start sign in process', () => {
+test('should start sign in process', async () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
-
+  const user = userEvent.setup();
   renderComponent();
 
   const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
-
-  userEvent.click(signInButton);
+  await act(async () => await user.click(signInButton));
   expect(signinRedirect).toBeCalled();
 });

@@ -1,4 +1,5 @@
 import { IconAngleRight } from 'hds-react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { FCWithName } from '../../../types';
@@ -11,12 +12,9 @@ type BreadcrumbItemCommonProps = {
 type BreadcrumbItemProps = BreadcrumbItemCommonProps &
   ({ active?: false; to: string } | { active: true; to?: never });
 
-const BreadcrumbItem: FCWithName<BreadcrumbItemProps> = ({
-  active,
-  children,
-  className,
-  to,
-}) => {
+const BreadcrumbItem: FCWithName<
+  React.PropsWithChildren<BreadcrumbItemProps>
+> = ({ active, children, className, to }) => {
   return (
     <>
       {active ? (

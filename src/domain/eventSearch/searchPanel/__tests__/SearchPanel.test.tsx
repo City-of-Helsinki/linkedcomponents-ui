@@ -115,49 +115,50 @@ test('should search events with correct search params', async () => {
     text: 'search',
   };
 
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   // Text filtering
   const searchInput = getElement('searchInput');
-  userEvent.type(searchInput, values.text);
+  await act(async () => await user.type(searchInput, values.text));
   await waitFor(() => expect(searchInput).toHaveValue(values.text));
 
   // Date filtering
   const dateSelectorButton = getElement('dateSelectorButton');
-  userEvent.click(dateSelectorButton);
+  await act(async () => await user.click(dateSelectorButton));
 
   const startDateInput = getElement('startDateInput');
-  userEvent.click(startDateInput);
-  userEvent.type(startDateInput, values.startDate);
+  await act(async () => await user.click(startDateInput));
+  await act(async () => await user.type(startDateInput, values.startDate));
   await waitFor(() => expect(startDateInput).toHaveValue(values.startDate));
 
   const endDateInput = getElement('endDateInput');
-  userEvent.click(endDateInput);
-  userEvent.type(endDateInput, values.endDate);
+  await act(async () => await user.click(endDateInput));
+  await act(async () => await user.type(endDateInput, values.endDate));
   await waitFor(() => expect(endDateInput).toHaveValue(values.endDate));
 
   // Place filtering
   const placeSelectorButton = getElement('placeSelectorButton');
-  act(() => userEvent.click(placeSelectorButton));
+  await act(async () => await user.click(placeSelectorButton));
   const placeCheckbox = screen.getByRole('checkbox', {
     name: placeOverrides[0].name,
     hidden: false,
   });
-  userEvent.click(placeCheckbox);
+  await act(async () => await user.click(placeCheckbox));
 
   // Event type filtering
   const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
-  act(() => userEvent.click(eventTypeSelectorButton));
+  await act(async () => await user.click(eventTypeSelectorButton));
   await waitFor(() => expect(placeCheckbox).not.toBeInTheDocument());
   const eventTypeCheckbox = screen.getByRole('checkbox', {
     name: 'Tapahtuma',
   });
-  userEvent.click(eventTypeCheckbox);
+  await act(async () => await user.click(eventTypeCheckbox));
 
   const searchButton = screen.getAllByRole('button', {
     name: translations.eventSearchPage.searchPanel.buttonSearch,
   })[1];
-  act(() => userEvent.click(searchButton));
+  await act(async () => await user.click(searchButton));
   await waitFor(() => expect(eventTypeCheckbox).not.toBeInTheDocument());
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe(

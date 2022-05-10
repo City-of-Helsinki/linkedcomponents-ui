@@ -4,6 +4,7 @@ import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
+  actWait,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -56,33 +57,49 @@ const findElement = (key: 'deleteButton' | 'nameInput' | 'saveButton') => {
   }
 };
 
-test('should scroll to first validation error input field', async () => {
-  renderComponent();
-  await loadingSpinnerIsNotInDocument();
+const getElement = (key: 'nameInput') => {
+  switch (key) {
+    case 'nameInput':
+      return screen.getByRole('textbox', { name: /nimi \(suomeksi\)/i });
+  }
+};
 
-  const nameInput = await findElement('nameInput');
-  userEvent.clear(nameInput);
+test('should scroll to first validation error input field', async () => {
+  const user = userEvent.setup();
+  await renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+  await actWait(100);
+
+  const nameInput = getElement('nameInput');
   const saveButton = await findElement('saveButton');
-  userEvent.click(saveButton);
+  await waitFor(() => expect(saveButton).toBeEnabled());
+
+  await act(async () => await user.clear(nameInput));
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
 
 test('should delete keyword', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedDeleteKeywordSetResponse,
   ]);
 
   await loadingSpinnerIsNotInDocument();
+  await actWait(100);
+
   const deleteButton = await findElement('deleteButton');
-  act(() => userEvent.click(deleteButton));
+  await waitFor(() => expect(deleteButton).toBeEnabled());
+  await act(async () => await user.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteKeywordSetButton = withinModal.getByRole('button', {
     name: 'Poista avainsanaryhmä',
   });
-  userEvent.click(deleteKeywordSetButton);
+  await act(async () => await user.click(deleteKeywordSetButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
@@ -90,16 +107,19 @@ test('should delete keyword', async () => {
 });
 
 test('should update keyword set', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedUpdateKeywordSetResponse,
   ]);
 
   await loadingSpinnerIsNotInDocument();
-  await findElement('nameInput');
+  await actWait(100);
 
-  const submitButton = await findElement('saveButton');
-  userEvent.click(submitButton);
+  const saveButton = await findElement('saveButton');
+  await waitFor(() => expect(saveButton).toBeEnabled());
+
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
@@ -107,13 +127,16 @@ test('should update keyword set', async () => {
 });
 
 test('should show server errors', async () => {
+  const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidUpdateKeywordSetResponse]);
 
   await loadingSpinnerIsNotInDocument();
-  await findElement('nameInput');
+  await actWait(100);
 
-  const submitButton = await findElement('saveButton');
-  userEvent.click(submitButton);
+  const saveButton = await findElement('saveButton');
+  await waitFor(() => expect(saveButton).toBeEnabled());
+
+  await act(async () => await user.click(saveButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

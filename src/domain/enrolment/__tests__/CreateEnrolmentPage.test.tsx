@@ -108,6 +108,7 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   });
 
 test('should validate enrolment form and focus invalid field and finally create enrolment', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedCreateEnrolmentResponse,
@@ -128,80 +129,86 @@ test('should validate enrolment form and focus invalid field and finally create 
 
   expect(nameInput).not.toHaveFocus();
 
-  userEvent.click(submitButton);
+  await waitFor(() => expect(submitButton).toBeEnabled());
+  await act(async () => await user.click(submitButton));
   await waitFor(() => expect(nameInput).toHaveFocus());
 
-  userEvent.type(nameInput, enrolmentValues.name);
-  userEvent.click(submitButton);
+  await act(async () => await user.type(nameInput, enrolmentValues.name));
+  await act(async () => await user.click(submitButton));
   await waitFor(() => expect(streetAddressInput).toHaveFocus());
 
-  userEvent.type(streetAddressInput, enrolmentValues.streetAddress);
-  userEvent.click(submitButton);
+  await act(
+    async () =>
+      await user.type(streetAddressInput, enrolmentValues.streetAddress)
+  );
+  await act(async () => await user.click(submitButton));
   await waitFor(() => expect(dateOfBirthInput).toHaveFocus());
 
   const oldAgeValue = formatDate(subYears(new Date(), 20));
-  userEvent.click(dateOfBirthInput);
-  userEvent.type(dateOfBirthInput, oldAgeValue);
+  await act(async () => await user.click(dateOfBirthInput));
+  await act(async () => await user.type(dateOfBirthInput, oldAgeValue));
   await waitFor(() => expect(dateOfBirthInput).toHaveValue(oldAgeValue));
-  act(() => userEvent.click(submitButton));
+  await act(async () => await user.click(submitButton));
   await screen.findByText('Yläikäraja on 18v.');
 
   const youngAgeValue = formatDate(subYears(new Date(), 7));
-  userEvent.click(dateOfBirthInput);
-  userEvent.clear(dateOfBirthInput);
-  userEvent.type(dateOfBirthInput, youngAgeValue);
+  await act(async () => await user.click(dateOfBirthInput));
+  await act(async () => await user.clear(dateOfBirthInput));
+  await act(async () => await user.type(dateOfBirthInput, youngAgeValue));
   await waitFor(() => expect(dateOfBirthInput).toHaveValue(youngAgeValue));
-  act(() => userEvent.click(submitButton));
+  await act(async () => await user.click(submitButton));
   await screen.findByText('Alaikäraja on 12v.');
 
-  userEvent.click(dateOfBirthInput);
-  userEvent.clear(dateOfBirthInput);
-  userEvent.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
+  await act(async () => await user.click(dateOfBirthInput));
+  await act(async () => await user.clear(dateOfBirthInput));
+  await act(
+    async () => await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth)
+  );
   await waitFor(() =>
     expect(dateOfBirthInput).toHaveValue(enrolmentValues.dateOfBirth)
   );
-  act(() => userEvent.click(submitButton));
+  await act(async () => await user.click(submitButton));
   await waitFor(() => expect(zipInput).toHaveFocus());
 
-  userEvent.type(zipInput, enrolmentValues.zip);
-  userEvent.click(submitButton);
+  await act(async () => await user.type(zipInput, enrolmentValues.zip));
+  await act(async () => await user.click(submitButton));
   await waitFor(() => expect(cityInput).toHaveFocus());
 
-  userEvent.type(cityInput, enrolmentValues.city);
-  userEvent.click(submitButton);
+  await act(async () => await user.type(cityInput, enrolmentValues.city));
+  await act(async () => await user.click(submitButton));
   await waitFor(() => expect(emailCheckbox).toHaveFocus());
 
   expect(emailInput).not.toBeRequired();
-  userEvent.click(emailCheckbox);
-  userEvent.click(submitButton);
+  await act(async () => await user.click(emailCheckbox));
+  await act(async () => await user.click(submitButton));
   await waitFor(() => expect(emailInput).toHaveFocus());
   expect(emailInput).toBeRequired();
 
   expect(phoneInput).not.toBeRequired();
-  userEvent.type(emailInput, enrolmentValues.email);
-  userEvent.click(phoneCheckbox);
-  userEvent.click(submitButton);
+  await act(async () => await user.type(emailInput, enrolmentValues.email));
+  await act(async () => await user.click(phoneCheckbox));
+  await act(async () => await user.click(submitButton));
   await waitFor(() => expect(phoneInput).toHaveFocus());
   expect(phoneInput).toBeRequired();
 
-  userEvent.type(phoneInput, enrolmentValues.phone);
-  userEvent.click(submitButton);
+  await act(async () => await user.type(phoneInput, enrolmentValues.phone));
+  await act(async () => await user.click(submitButton));
   await waitFor(() => expect(nativeLanguageButton).toHaveFocus());
 
-  userEvent.click(nativeLanguageButton);
+  await act(async () => await user.click(nativeLanguageButton));
   const nativeLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
   });
-  userEvent.click(nativeLanguageOption);
-  userEvent.click(submitButton);
+  await act(async () => await user.click(nativeLanguageOption));
+  await act(async () => await user.click(submitButton));
   await waitFor(() => expect(serviceLanguageButton).toHaveFocus());
 
-  userEvent.click(serviceLanguageButton);
+  await act(async () => await user.click(serviceLanguageButton));
   const serviceLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
   });
-  userEvent.click(serviceLanguageOption);
-  userEvent.click(submitButton);
+  await act(async () => await user.click(serviceLanguageOption));
+  await act(async () => await user.click(submitButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -211,6 +218,7 @@ test('should validate enrolment form and focus invalid field and finally create 
 });
 
 test('should show server errors', async () => {
+  const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidCreateEnrolmentResponse]);
 
   const nameInput = await findElement('nameInput');
@@ -226,29 +234,34 @@ test('should show server errors', async () => {
   const serviceLanguageButton = getElement('serviceLanguageButton');
   const submitButton = await findElement('submitButton');
 
-  userEvent.type(nameInput, enrolmentValues.name);
-  userEvent.type(streetAddressInput, enrolmentValues.streetAddress);
-  act(() => userEvent.click(dateOfBirthInput));
-  userEvent.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
-  act(() => userEvent.click(zipInput));
-  userEvent.type(zipInput, enrolmentValues.zip);
-  userEvent.type(cityInput, enrolmentValues.city);
-  userEvent.click(emailCheckbox);
-  userEvent.type(emailInput, enrolmentValues.email);
-  userEvent.click(phoneCheckbox);
-  userEvent.type(phoneInput, enrolmentValues.phone);
-  userEvent.click(nativeLanguageButton);
+  await act(async () => await user.type(nameInput, enrolmentValues.name));
+  await act(
+    async () =>
+      await user.type(streetAddressInput, enrolmentValues.streetAddress)
+  );
+  await act(async () => await user.click(dateOfBirthInput));
+  await act(
+    async () => await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth)
+  );
+  await act(async () => await user.click(zipInput));
+  await act(async () => await user.type(zipInput, enrolmentValues.zip));
+  await act(async () => await user.type(cityInput, enrolmentValues.city));
+  await act(async () => await user.click(emailCheckbox));
+  await act(async () => await user.type(emailInput, enrolmentValues.email));
+  await act(async () => await user.click(phoneCheckbox));
+  await act(async () => await user.type(phoneInput, enrolmentValues.phone));
+  await act(async () => await user.click(nativeLanguageButton));
   const nativeLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
   });
-  userEvent.click(nativeLanguageOption);
-  userEvent.click(serviceLanguageButton);
+  await act(async () => await user.click(nativeLanguageOption));
+  await act(async () => await user.click(serviceLanguageButton));
   const serviceLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
   });
-  userEvent.click(serviceLanguageOption);
+  await act(async () => await user.click(serviceLanguageOption));
 
-  userEvent.click(submitButton);
+  await act(async () => await user.click(submitButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

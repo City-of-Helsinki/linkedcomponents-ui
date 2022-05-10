@@ -7,7 +7,10 @@ interface Props {
   className?: string;
 }
 
-const TableWrapper: React.FC<Props> = ({ children, className }) => {
+const TableWrapper: React.FC<React.PropsWithChildren<Props>> = ({
+  children,
+  className,
+}) => {
   return (
     <div className={classNames(styles.tableWrapper, className)}>{children}</div>
   );

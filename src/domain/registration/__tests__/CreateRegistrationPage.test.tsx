@@ -3,9 +3,11 @@ import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { FORM_NAMES } from '../../../constants';
+import { DATETIME_FORMAT, FORM_NAMES } from '../../../constants';
+import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -60,6 +62,13 @@ const setFormValues = (values: RegistrationFormFields) => {
   });
 };
 
+const getInput = (key: 'enrolmentStartTime') => {
+  switch (key) {
+    case 'enrolmentStartTime':
+      return screen.getByRole('textbox', { name: /ilmoittautuminen alkaa/i });
+  }
+};
+
 const getElement = (
   key: 'eventCombobox' | 'enrolmentStartTime' | 'saveButton'
 ) => {
@@ -81,13 +90,14 @@ const getElement = (
 
 test('should focus to first validation error when trying to save new registration', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
+  const user = userEvent.setup();
   renderComponent([mockedUserResponse]);
 
   await loadingSpinnerIsNotInDocument();
 
   const eventCombobox = getElement('eventCombobox');
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(eventCombobox).toHaveFocus());
 });
@@ -99,15 +109,23 @@ test('should move to registration completed page after creating new registration
     ...registrationValues,
   });
 
+  const user = userEvent.setup();
   const { history } = renderComponent([
     mockedCreateRegistrationResponse,
     mockedUserResponse,
   ]);
 
   await loadingSpinnerIsNotInDocument();
+  const startTimeInput = getInput('enrolmentStartTime');
+  await waitFor(() =>
+    expect(startTimeInput).toHaveValue(
+      formatDate(registrationValues.enrolmentStartTime, DATETIME_FORMAT)
+    )
+  );
 
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await waitFor(() => expect(saveButton).toBeEnabled());
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -124,12 +142,20 @@ test('should show server errors', async () => {
   });
 
   const mocks = [mockedInvalidCreateRegistrationResponse, mockedUserResponse];
+  const user = userEvent.setup();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
+  const startTimeInput = getInput('enrolmentStartTime');
+  await waitFor(() =>
+    expect(startTimeInput).toHaveValue(
+      formatDate(registrationValues.enrolmentStartTime, DATETIME_FORMAT)
+    )
+  );
 
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await waitFor(() => expect(saveButton).toBeEnabled());
+  await act(async () => await user.click(saveButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

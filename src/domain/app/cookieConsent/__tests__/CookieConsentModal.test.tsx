@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -51,28 +52,30 @@ const getElement = (
   }
 };
 
-it('should change UI language to English', () => {
+it('should change UI language to English', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   expect(history.location.pathname).toBe(route);
   const languageMenuButton = getElement('languageMenuButton');
 
-  userEvent.click(languageMenuButton);
+  await act(async () => await user.click(languageMenuButton));
   const englishOption = getElement('englishOption');
-  userEvent.click(englishOption);
+  await act(async () => await user.click(englishOption));
 
   expect(history.location.pathname).toBe('/en');
 });
 
-it('should call saveConsentToCookie after clicking only decline button', () => {
+it('should call saveConsentToCookie after clicking only decline button', async () => {
   const saveConsentToCookie = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ saveConsentToCookie });
 
   const acceptCheckbox = getElement('acceptCheckbox');
-  userEvent.click(acceptCheckbox);
+  await act(async () => await user.click(acceptCheckbox));
 
   const declineButton = getElement('declineButton');
-  userEvent.click(declineButton);
+  await act(async () => await user.click(declineButton));
 
   expect(saveConsentToCookie).toBeCalledWith({
     required: false,
@@ -80,15 +83,16 @@ it('should call saveConsentToCookie after clicking only decline button', () => {
   });
 });
 
-it('should call saveConsentToCookie after clicking only required button', () => {
+it('should call saveConsentToCookie after clicking only required button', async () => {
   const saveConsentToCookie = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ saveConsentToCookie });
 
   const acceptCheckbox = getElement('acceptCheckbox');
-  userEvent.click(acceptCheckbox);
+  await act(async () => await user.click(acceptCheckbox));
 
   const onlyRequiredButton = getElement('onlyRequiredButton');
-  userEvent.click(onlyRequiredButton);
+  await act(async () => await user.click(onlyRequiredButton));
 
   expect(saveConsentToCookie).toBeCalledWith({
     required: true,
@@ -96,15 +100,16 @@ it('should call saveConsentToCookie after clicking only required button', () => 
   });
 });
 
-it('should call saveConsentToCookie after clicking accept all button', () => {
+it('should call saveConsentToCookie after clicking accept all button', async () => {
   const saveConsentToCookie = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ saveConsentToCookie });
 
   const acceptCheckbox = getElement('acceptCheckbox');
-  userEvent.click(acceptCheckbox);
+  await act(async () => await user.click(acceptCheckbox));
 
   const acceptAllButton = getElement('acceptAllButton');
-  userEvent.click(acceptAllButton);
+  await act(async () => await user.click(acceptAllButton));
 
   expect(saveConsentToCookie).toBeCalledWith({
     required: true,

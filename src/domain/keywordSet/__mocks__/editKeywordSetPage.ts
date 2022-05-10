@@ -72,6 +72,7 @@ const mockedDeleteKeywordSetResponse: MockedResponse = {
 
 export {
   keywordSet,
+  keywordSetValues,
   mockedDeleteKeywordSetResponse,
   mockedInvalidUpdateKeywordSetResponse,
   mockedKeywordSetResponse,

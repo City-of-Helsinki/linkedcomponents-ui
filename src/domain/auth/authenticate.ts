@@ -23,9 +23,9 @@ export const signIn = (path?: string): void => {
     })
     .catch((error) => {
       if (error.message === 'Network Error') {
-        toast.error(i18n.t('authentication.networkError.message'));
+        toast.error(i18n.t('authentication.networkError.message') as string);
       } else {
-        toast.error(i18n.t('authentication.errorMessage'));
+        toast.error(i18n.t('authentication.errorMessage') as string);
         Sentry.captureException(error);
       }
     });
@@ -49,7 +49,7 @@ export const getApiToken =
       dispatch(fetchTokenSuccess(res.data));
     } catch (e) {
       dispatch(fetchTokenError(e as Error));
-      toast.error(i18n.t('authentication.errorMessage'));
+      toast.error(i18n.t('authentication.errorMessage') as string);
     }
   };
 
@@ -69,7 +69,7 @@ export const renewApiToken =
       dispatch(fetchTokenSuccess(res.data));
     } catch (e) {
       dispatch(fetchTokenError(e as Error));
-      toast.error(i18n.t('authentication.errorMessage'));
+      toast.error(i18n.t('authentication.errorMessage') as string);
     }
   };
 

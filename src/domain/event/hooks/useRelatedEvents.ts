@@ -14,7 +14,8 @@ type UseRelatedEventsState = {
 };
 // This hook returns all events that should be updated when user saves changes to super event
 const useRelatedEvents = (
-  event: EventFieldsFragment
+  event: EventFieldsFragment,
+  skip = false
 ): UseRelatedEventsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const [events, setEvents] = React.useState<EventFieldsFragment[]>([]);
@@ -38,8 +39,10 @@ const useRelatedEvents = (
       }
     };
 
-    setRelatedEvents();
-  }, [apolloClient, event, setEvents]);
+    if (!skip) {
+      setRelatedEvents();
+    }
+  }, [apolloClient, event, setEvents, skip]);
 
   return { events, loading };
 };

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider } from '@apollo/client/testing';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -47,27 +48,24 @@ const commonMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const getHookWrapper = (event: EventFieldsFragment, mocks = []) => {
   const wrapper = ({ children }) => (
+    // @ts-ignore
     <Provider store={store}>
       <MockedProvider cache={createCache()} mocks={[...commonMocks, ...mocks]}>
         <Router history={history}>{children}</Router>
       </MockedProvider>
     </Provider>
   );
-  const { result, waitFor, waitForNextUpdate } = renderHook(
-    () => useEventUpdateActions({ event }),
-    { wrapper }
-  );
-  return { result, waitFor, waitForNextUpdate };
+  const { result } = renderHook(() => useEventUpdateActions({ event }), {
+    wrapper,
+  });
+  return { result };
 };
 
 test('should cancel single event', async () => {
   const onSuccess = jest.fn();
-  const { result, waitFor, waitForNextUpdate } = getHookWrapper(event, [
-    mockedCancelEventResponse,
-  ]);
-  // Wait for the results
-  await waitForNextUpdate();
+  const { result } = getHookWrapper(event, [mockedCancelEventResponse]);
 
+  await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() => result.current.cancelEvent({ onSuccess }));
 
   await waitFor(() => expect(onSuccess).toBeCalled());
@@ -75,17 +73,12 @@ test('should cancel single event', async () => {
 
 test('should postpone single event with recurring super event', async () => {
   const onSuccess = jest.fn();
-  const { result, waitFor, waitForNextUpdate } = getHookWrapper(
-    eventWithRecurringSuperEvent1,
-    [
-      mockedPostponeEventWithRecurringSuperEventResponse,
-      mockedRecurringEventWithDeletedSubEventResponse,
-      mockedUpdateRecurringEventWithDeletedSubEventResponse,
-    ]
-  );
-  // Wait for the results
-  await waitForNextUpdate();
-
+  const { result } = getHookWrapper(eventWithRecurringSuperEvent1, [
+    mockedPostponeEventWithRecurringSuperEventResponse,
+    mockedRecurringEventWithDeletedSubEventResponse,
+    mockedUpdateRecurringEventWithDeletedSubEventResponse,
+  ]);
+  await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() => result.current.postponeEvent({ onSuccess }));
 
   await waitFor(() => expect(onSuccess).toBeCalled());
@@ -93,12 +86,8 @@ test('should postpone single event with recurring super event', async () => {
 
 test('should postpone single event', async () => {
   const onSuccess = jest.fn();
-  const { result, waitFor, waitForNextUpdate } = getHookWrapper(event, [
-    mockedPostponeEventResponse,
-  ]);
-  // Wait for the results
-  await waitForNextUpdate();
-
+  const { result } = getHookWrapper(event, [mockedPostponeEventResponse]);
+  await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() => result.current.postponeEvent({ onSuccess }));
 
   await waitFor(() => expect(onSuccess).toBeCalled());
@@ -106,12 +95,8 @@ test('should postpone single event', async () => {
 
 test('should delete single event', async () => {
   const onSuccess = jest.fn();
-  const { result, waitFor, waitForNextUpdate } = getHookWrapper(event, [
-    mockedDeleteEventResponse,
-  ]);
-  // Wait for the results
-  await waitForNextUpdate();
-
+  const { result } = getHookWrapper(event, [mockedDeleteEventResponse]);
+  await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() => result.current.deleteEvent({ onSuccess }));
 
   await waitFor(() => expect(onSuccess).toBeCalled());
@@ -119,17 +104,12 @@ test('should delete single event', async () => {
 
 test('should delete single event with recurring super event', async () => {
   const onSuccess = jest.fn();
-  const { result, waitFor, waitForNextUpdate } = getHookWrapper(
-    eventWithRecurringSuperEvent1,
-    [
-      mockedDeleteEventWithRecurringSuperEventResponse,
-      mockedRecurringEventWithDeletedSubEventResponse,
-      mockedUpdateRecurringEventWithDeletedSubEventResponse,
-    ]
-  );
-  // Wait for the results
-  await waitForNextUpdate();
-
+  const { result } = getHookWrapper(eventWithRecurringSuperEvent1, [
+    mockedDeleteEventWithRecurringSuperEventResponse,
+    mockedRecurringEventWithDeletedSubEventResponse,
+    mockedUpdateRecurringEventWithDeletedSubEventResponse,
+  ]);
+  await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() => result.current.deleteEvent({ onSuccess }));
 
   await waitFor(() => expect(onSuccess).toBeCalled());
@@ -137,12 +117,8 @@ test('should delete single event with recurring super event', async () => {
 
 test('should update single event', async () => {
   const onSuccess = jest.fn();
-  const { result, waitFor, waitForNextUpdate } = getHookWrapper(event, [
-    mockedUpdateEventResponse,
-  ]);
-  // Wait for the results
-  await waitForNextUpdate();
-
+  const { result } = getHookWrapper(event, [mockedUpdateEventResponse]);
+  await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() =>
     result.current.updateEvent(
       {
@@ -165,16 +141,11 @@ test('should update single event', async () => {
 
 test('should update single event with recurring super event', async () => {
   const onSuccess = jest.fn();
-  const { result, waitFor, waitForNextUpdate } = getHookWrapper(
-    eventWithRecurringSuperEvent2,
-    [
-      mockedUpdateEventResponse,
-      mockedUpdateEventWithRecurringSuperEventResponse,
-    ]
-  );
-  // Wait for the results
-  await waitForNextUpdate();
-
+  const { result } = getHookWrapper(eventWithRecurringSuperEvent2, [
+    mockedUpdateEventResponse,
+    mockedUpdateEventWithRecurringSuperEventResponse,
+  ]);
+  await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() =>
     result.current.updateEvent(
       {
@@ -197,18 +168,13 @@ test('should update single event with recurring super event', async () => {
 
 test('should update recurring event', async () => {
   const onSuccess = jest.fn();
-  const { result, waitFor, waitForNextUpdate } = getHookWrapper(
-    recurringSuperEvent,
-    [
-      mockedDeleteSubEvent1Response,
-      mockedUpdateSubEventsResponse,
-      mockedCreateNewSubEventsResponse,
-      mockedUpdateRecurringEventResponse,
-    ]
-  );
-  // Wait for the results
-  await waitForNextUpdate();
-
+  const { result } = getHookWrapper(recurringSuperEvent, [
+    mockedDeleteSubEvent1Response,
+    mockedUpdateSubEventsResponse,
+    mockedCreateNewSubEventsResponse,
+    mockedUpdateRecurringEventResponse,
+  ]);
+  await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() =>
     result.current.updateEvent(
       {

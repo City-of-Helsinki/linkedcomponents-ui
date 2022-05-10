@@ -14,7 +14,7 @@ interface Props {
   offset?: number;
 }
 
-const MainContent: React.FC<Props> = ({
+const MainContent: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   className,
   duration = 100,

@@ -53,11 +53,12 @@ const renderComponent = (
   });
 
 const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = screen
     .getAllByRole('button', { name: /valinnat/i })
     .pop();
 
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   screen.getByRole('region', { name: /valinnat/i });
 
   return toggleButton;
@@ -85,19 +86,20 @@ const getInput = (key: 'enrolmentStartTime' | 'minimumAttendeeCapacity') => {
 
 test('should move to registrations page to deleting registration', async () => {
   const mocks = [...baseMocks, mockedDeleteRegistrationResponse];
+  const user = userEvent.setup();
   const { history } = renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
   await openMenu();
 
   const deleteButton = getButton('delete');
-  act(() => userEvent.click(deleteButton));
+  await act(async () => await user.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteRegistrationButton = withinModal.getByRole('button', {
     name: 'Poista ilmoittautuminen',
   });
-  userEvent.click(deleteRegistrationButton);
+  await act(async () => await user.click(deleteRegistrationButton));
 
   await waitFor(
     () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
@@ -112,28 +114,30 @@ test('should update registration', async () => {
     mockedUpdateRegistrationResponse,
     mockedUpdatedRegistationResponse,
   ];
+  const user = userEvent.setup();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
   const updateButton = getButton('update');
-  userEvent.click(updateButton);
+  await act(async () => await user.click(updateButton));
 
   await loadingSpinnerIsNotInDocument(30000);
   await screen.findByText('23.08.2021 12.00');
 });
 
 test('should scroll to first error when validation error is thrown', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
   const minimumAttendeeCapacityInput = getInput('minimumAttendeeCapacity');
-  act(() => userEvent.clear(minimumAttendeeCapacityInput));
-  userEvent.type(minimumAttendeeCapacityInput, '-1');
+  await act(async () => await user.clear(minimumAttendeeCapacityInput));
+  await act(async () => await user.type(minimumAttendeeCapacityInput, '-1'));
 
   const updateButton = getButton('update');
-  act(() => userEvent.click(updateButton));
+  await act(async () => await user.click(updateButton));
 
   await waitFor(() => expect(minimumAttendeeCapacityInput).toHaveFocus());
 });
@@ -150,12 +154,13 @@ test("should show not found page if registration doesn't exist", async () => {
 
 test('should show server errors', async () => {
   const mocks = [...baseMocks, mockedInvalidUpdateRegistrationResponse];
+  const user = userEvent.setup();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
   const updateButton = getButton('update');
-  userEvent.click(updateButton);
+  await act(async () => await user.click(updateButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

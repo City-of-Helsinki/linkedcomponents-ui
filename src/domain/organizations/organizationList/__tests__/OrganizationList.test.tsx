@@ -36,6 +36,7 @@ const getElement = (key: 'searchButton' | 'searchInput') => {
 
 test('should search by text', async () => {
   const searchValue = organizations.data[0].name;
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -44,8 +45,10 @@ test('should search by text', async () => {
   screen.getByRole('button', { name: organizations.data[2].name });
   await waitFor(() => expect(history.location.search).toBe(''));
 
-  userEvent.type(getElement('searchInput'), searchValue);
-  userEvent.click(getElement('searchButton'));
+  await act(
+    async () => await user.type(getElement('searchInput'), searchValue)
+  );
+  await act(async () => await user.click(getElement('searchButton')));
 
   await waitFor(() =>
     expect(history.location.search).toBe(
@@ -62,6 +65,7 @@ test('should search by text', async () => {
 });
 
 test('should show sub events', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -69,7 +73,7 @@ test('should show sub events', async () => {
   const showMoreButton = screen.getByRole('button', {
     name: `Näytä alaorganisaatiot: ${organizations.data[0].name}`,
   });
-  act(() => userEvent.click(showMoreButton));
+  await act(async () => await user.click(showMoreButton));
 
   // Should show sub-organization
   await screen.findByRole('button', { name: organizations.data[1].name });
@@ -77,7 +81,7 @@ test('should show sub events', async () => {
   const hideButton = screen.getByRole('button', {
     name: `Piilota alaorganisaatiot: ${organizations.data[0].name}`,
   });
-  act(() => userEvent.click(hideButton));
+  await act(async () => await user.click(hideButton));
 
   // Sub-organization should be hidden
   expect(

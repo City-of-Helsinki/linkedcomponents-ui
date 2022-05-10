@@ -42,25 +42,26 @@ test('should initialize search panel input', async () => {
 });
 
 test('should search registrations with correct search params', async () => {
+  const user = userEvent.setup();
   const values = { text: 'search' };
 
   const { history } = renderComponent();
 
   // Text filtering
   const searchInput = getElement('searchInput');
-  userEvent.type(searchInput, values.text);
+  user.type(searchInput, values.text);
   await waitFor(() => expect(searchInput).toHaveValue(values.text));
 
   // Event type filtering
   const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
-  userEvent.click(eventTypeSelectorButton);
+  await act(async () => await user.click(eventTypeSelectorButton));
   const eventTypeCheckbox = screen.getByRole('checkbox', {
     name: /tapahtuma/i,
   });
-  userEvent.click(eventTypeCheckbox);
+  await act(async () => await user.click(eventTypeCheckbox));
 
   const searchButton = screen.getAllByRole('button', { name: /etsi/i })[1];
-  act(() => userEvent.click(searchButton));
+  await act(async () => await user.click(searchButton));
 
   expect(history.location.pathname).toBe('/fi/registrations');
   expect(history.location.search).toBe('?eventType=general&text=search');

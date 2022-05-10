@@ -19,7 +19,7 @@ interface Props {
   options: TabOptionType[];
 }
 
-const Tabs: React.FC<Props> = ({
+const Tabs: React.FC<React.PropsWithChildren<Props>> = ({
   activeTab,
   className,
   children,

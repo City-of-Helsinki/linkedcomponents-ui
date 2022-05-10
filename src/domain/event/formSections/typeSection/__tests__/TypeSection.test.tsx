@@ -4,6 +4,7 @@ import React from 'react';
 import { SuperEventType } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   render,
   screen,
@@ -87,10 +88,11 @@ test('should render type section', async () => {
 });
 
 test('should render umbrella event selector if hasUmbrella is checked', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const hasUmbrellaCheckbox = getElement('hasUmbrellaCheckbox');
-  userEvent.click(hasUmbrellaCheckbox);
+  await act(async () => await user.click(hasUmbrellaCheckbox));
 
   await findElement('umbrellaSelector');
 });
@@ -141,13 +143,15 @@ test('should disable isUmbrella checkbox when editing recurring event', async ()
 });
 
 test('should uncheck isUmbrella checkbox if there is more than 1 event time', async () => {
-  renderComponent({
-    ...defaultInitialValues,
-    isUmbrella: true,
-    eventTimes: [
-      { id: null, endTime: new Date(), startTime: new Date() },
-      { id: null, endTime: new Date(), startTime: new Date() },
-    ],
+  await act(async () => {
+    await renderComponent({
+      ...defaultInitialValues,
+      isUmbrella: true,
+      eventTimes: [
+        { id: null, endTime: new Date(), startTime: new Date() },
+        { id: null, endTime: new Date(), startTime: new Date() },
+      ],
+    });
   });
 
   const isUmbrellaCheckbox = await findElement('isUmbrellaCheckbox');
@@ -155,23 +159,25 @@ test('should uncheck isUmbrella checkbox if there is more than 1 event time', as
 });
 
 test('should uncheck isUmbrella checkbox if there is more than 1 event times', async () => {
-  renderComponent({
-    ...defaultInitialValues,
-    isUmbrella: true,
-    recurringEvents: [
-      {
-        endDate: new Date(),
-        endTime: '12.00',
-        eventTimes: [
-          { id: null, endTime: new Date(), startTime: new Date() },
-          { id: null, endTime: new Date(), startTime: new Date() },
-        ],
-        repeatDays: [],
-        repeatInterval: 1,
-        startDate: new Date(),
-        startTime: '11.00',
-      },
-    ],
+  await act(async () => {
+    await renderComponent({
+      ...defaultInitialValues,
+      isUmbrella: true,
+      recurringEvents: [
+        {
+          endDate: new Date(),
+          endTime: '12.00',
+          eventTimes: [
+            { id: null, endTime: new Date(), startTime: new Date() },
+            { id: null, endTime: new Date(), startTime: new Date() },
+          ],
+          repeatDays: [],
+          repeatInterval: 1,
+          startDate: new Date(),
+          startTime: '11.00',
+        },
+      ],
+    });
   });
 
   const isUmbrellaCheckbox = await findElement('isUmbrellaCheckbox');

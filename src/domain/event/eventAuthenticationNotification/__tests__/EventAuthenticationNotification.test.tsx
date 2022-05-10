@@ -7,6 +7,7 @@ import { UserDocument } from '../../../../generated/graphql';
 import { fakeEvent, fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   CustomRenderOptions,
   getMockReduxStore,
@@ -107,23 +108,23 @@ test('should show notification if event is in the past', async () => {
   screen.getByText('Menneisyydessä olevia tapahtumia ei voi muokata.');
 });
 
-test('should start sign in process', () => {
+test('should start sign in process', async () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
-
+  const user = userEvent.setup();
   renderComponent();
 
   const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
-
-  userEvent.click(signInButton);
+  await act(async () => await user.click(signInButton));
   expect(signinRedirect).toBeCalled();
 });
 
 test('should hide notification when clicking close button', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const notification = screen.getByRole('region');
   const closeButton = screen.getByRole('button', { name: 'Sulje' });
 
-  userEvent.click(closeButton);
+  await act(async () => await user.click(closeButton));
   await waitFor(() => expect(notification).toHaveStyle(hiddenStyles));
 });

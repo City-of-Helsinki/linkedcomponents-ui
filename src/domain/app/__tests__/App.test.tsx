@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { configure, screen, userEvent } from '../../../utils/testUtils';
+import { act, configure, screen, userEvent } from '../../../utils/testUtils';
 import App from '../App';
 
 configure({ defaultHidden: true });
@@ -73,13 +73,14 @@ it('should not show cookie consent modal if consent is saved', async () => {
 
 it('should close cookie consent modal by clicking Decline button', async () => {
   advanceTo('2021-12-12');
+  const user = userEvent.setup();
   renderApp();
 
   const acceptCheckbox = getElement('acceptCheckbox');
-  userEvent.click(acceptCheckbox);
+  await act(async () => await user.click(acceptCheckbox));
 
   const declineButton = getElement('declineButton');
-  userEvent.click(declineButton);
+  await act(async () => await user.click(declineButton));
 
   expect(setCookie).toBeCalledWith(
     'CONSENT={"required":false,"tracking":false,"acceptedAt":"2021-12-12T00:00:00.000Z"};expires=Mon, 12 Dec 2022 00:00:00 GMT;path=/'
@@ -88,13 +89,14 @@ it('should close cookie consent modal by clicking Decline button', async () => {
 
 it('should store consent to cookie when clicing accept only necessary button', async () => {
   advanceTo('2021-12-12');
+  const user = userEvent.setup();
   renderApp();
 
   const acceptCheckbox = getElement('acceptCheckbox');
-  userEvent.click(acceptCheckbox);
+  await act(async () => await user.click(acceptCheckbox));
 
   const acceptOnlyNecessaryButton = getElement('acceptOnlyNecessaryButton');
-  userEvent.click(acceptOnlyNecessaryButton);
+  await act(async () => await user.click(acceptOnlyNecessaryButton));
 
   expect(setCookie).toBeCalledWith(
     'CONSENT={"required":true,"tracking":false,"acceptedAt":"2021-12-12T00:00:00.000Z"};expires=Mon, 12 Dec 2022 00:00:00 GMT;path=/'
@@ -103,13 +105,14 @@ it('should store consent to cookie when clicing accept only necessary button', a
 
 it('should store consent to cookie when clicing accept all button', async () => {
   advanceTo('2021-12-12');
+  const user = userEvent.setup();
   renderApp();
 
   const acceptCheckbox = getElement('acceptCheckbox');
-  userEvent.click(acceptCheckbox);
+  await act(async () => await user.click(acceptCheckbox));
 
   const acceptAllButton = getElement('acceptAllButton');
-  userEvent.click(acceptAllButton);
+  await act(async () => await user.click(acceptAllButton));
 
   expect(setCookie).toBeCalledWith(
     'CONSENT={"required":true,"tracking":true,"acceptedAt":"2021-12-12T00:00:00.000Z"};expires=Mon, 12 Dec 2022 00:00:00 GMT;path=/'

@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -55,45 +56,48 @@ const getElement = (
 };
 
 const fillInputValues = async () => {
+  const user = userEvent.setup();
   const originIdInput = getElement('originIdInput');
-  userEvent.type(originIdInput, placeValues.originId);
+  await act(async () => await user.type(originIdInput, placeValues.originId));
 
   const publisherToggleButton = getElement('publisherToggleButton');
-  userEvent.click(publisherToggleButton);
+  await act(async () => await user.click(publisherToggleButton));
   const option = await screen.findByRole('option', { name: organizationName });
-  userEvent.click(option);
+  await act(async () => await user.click(option));
 
   const nameInput = getElement('nameInput');
-  userEvent.type(nameInput, placeValues.name);
+  await act(async () => await user.type(nameInput, placeValues.name));
 };
 
 test('should focus to first validation error when trying to save new place', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
+  const user = userEvent.setup();
   renderComponent(defaultMocks);
 
   await loadingSpinnerIsNotInDocument();
 
   const originIdInput = getElement('originIdInput');
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(originIdInput).toHaveFocus());
-  userEvent.type(originIdInput, placeValues.originId);
+  await act(async () => await user.type(originIdInput, placeValues.originId));
 
   const publisherToggleButton = getElement('publisherToggleButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
   await waitFor(() => expect(publisherToggleButton).toHaveFocus());
 
-  userEvent.click(publisherToggleButton);
+  await act(async () => await user.click(publisherToggleButton));
   const option = await screen.findByRole('option', { name: organizationName });
-  userEvent.click(option);
+  await act(async () => await user.click(option));
 
   const nameInput = getElement('nameInput');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
 
 test('should move to places page after creating new place', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedCreatePlaceResponse,
@@ -104,7 +108,7 @@ test('should move to places page after creating new place', async () => {
   await fillInputValues();
 
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/places`)
@@ -112,6 +116,7 @@ test('should move to places page after creating new place', async () => {
 });
 
 test('should show server errors', async () => {
+  const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidCreatePlaceResponse]);
 
   await loadingSpinnerIsNotInDocument();
@@ -119,7 +124,7 @@ test('should show server errors', async () => {
   await fillInputValues();
 
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
