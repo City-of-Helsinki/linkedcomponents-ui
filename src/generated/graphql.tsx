@@ -115,8 +115,8 @@ export type CreatePlaceMutationInput = {
   name?: InputMaybe<LocalisedObjectInput>;
   originId?: InputMaybe<Scalars['String']>;
   position?: InputMaybe<PositionInput>;
-  postalCode?: InputMaybe<Scalars['String']>;
   postOfficeBoxNum?: InputMaybe<Scalars['String']>;
+  postalCode?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   streetAddress?: InputMaybe<LocalisedObjectInput>;
   telephone?: InputMaybe<LocalisedObjectInput>;
@@ -138,6 +138,9 @@ export type CreateRegistrationMutationInput = {
 export type DataSource = {
   __typename?: 'DataSource';
   apiKey?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atType?: Maybe<Scalars['String']>;
   createPastEvents?: Maybe<Scalars['Boolean']>;
   editPastEvents?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['ID']>;
@@ -145,15 +148,12 @@ export type DataSource = {
   owner?: Maybe<Scalars['String']>;
   private?: Maybe<Scalars['Boolean']>;
   userEditable?: Maybe<Scalars['Boolean']>;
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
 };
 
 export type DataSourcesResponse = {
   __typename?: 'DataSourcesResponse';
-  meta: Meta;
   data: Array<Maybe<DataSource>>;
+  meta: Meta;
 };
 
 export type Division = {
@@ -166,13 +166,13 @@ export type Division = {
 
 export type Enrolment = {
   __typename?: 'Enrolment';
-  id: Scalars['ID'];
   attendeeStatus?: Maybe<AttendeeStatus>;
   cancellationCode?: Maybe<Scalars['String']>;
   city?: Maybe<Scalars['String']>;
   dateOfBirth?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   extraInfo?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
   membershipNumber?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nativeLanguage?: Maybe<Scalars['String']>;
@@ -186,7 +186,9 @@ export type Enrolment = {
 
 export type Event = {
   __typename?: 'Event';
-  id: Scalars['ID'];
+  atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atType?: Maybe<Scalars['String']>;
   audience: Array<Maybe<Keyword>>;
   audienceMaxAge?: Maybe<Scalars['Int']>;
   audienceMinAge?: Maybe<Scalars['Int']>;
@@ -200,12 +202,13 @@ export type Event = {
   endTime?: Maybe<Scalars['String']>;
   enrolmentEndTime?: Maybe<Scalars['String']>;
   enrolmentStartTime?: Maybe<Scalars['String']>;
+  eventStatus?: Maybe<EventStatus>;
   extensionCourse?: Maybe<ExtensionCourse>;
   externalLinks: Array<Maybe<ExternalLink>>;
-  eventStatus?: Maybe<EventStatus>;
+  id: Scalars['ID'];
   images: Array<Maybe<Image>>;
-  infoUrl?: Maybe<LocalisedObject>;
   inLanguage: Array<Maybe<Language>>;
+  infoUrl?: Maybe<LocalisedObject>;
   keywords: Array<Maybe<Keyword>>;
   lastModifiedTime?: Maybe<Scalars['String']>;
   location?: Maybe<Place>;
@@ -216,8 +219,8 @@ export type Event = {
   offers: Array<Maybe<Offer>>;
   provider?: Maybe<LocalisedObject>;
   providerContactInfo?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['ID']>;
   publicationStatus?: Maybe<PublicationStatus>;
+  publisher?: Maybe<Scalars['ID']>;
   shortDescription?: Maybe<LocalisedObject>;
   startTime?: Maybe<Scalars['String']>;
   subEvents: Array<Maybe<Event>>;
@@ -225,9 +228,6 @@ export type Event = {
   superEventType?: Maybe<SuperEventType>;
   typeId?: Maybe<EventTypeId>;
   videos: Array<Maybe<Video>>;
-  atId: Scalars['String'];
-  atContext?: Maybe<Scalars['String']>;
-  atType?: Maybe<Scalars['String']>;
 };
 
 export enum EventStatus {
@@ -238,21 +238,21 @@ export enum EventStatus {
 }
 
 export enum EventTypeId {
-  General = 'General',
   Course = 'Course',
+  General = 'General',
   Volunteering = 'Volunteering'
 }
 
 export type EventsResponse = {
   __typename?: 'EventsResponse';
-  meta: Meta;
   data: Array<Maybe<Event>>;
+  meta: Meta;
 };
 
 export type ExtensionCourse = {
   __typename?: 'ExtensionCourse';
-  enrolmentStartTime?: Maybe<Scalars['String']>;
   enrolmentEndTime?: Maybe<Scalars['String']>;
+  enrolmentStartTime?: Maybe<Scalars['String']>;
   maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
   minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
@@ -260,31 +260,31 @@ export type ExtensionCourse = {
 
 export type ExternalLink = {
   __typename?: 'ExternalLink';
-  name?: Maybe<Scalars['String']>;
-  link?: Maybe<Scalars['String']>;
   language?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type ExternalLinkInput = {
-  name?: InputMaybe<Scalars['String']>;
-  link?: InputMaybe<Scalars['String']>;
   language?: InputMaybe<Scalars['String']>;
+  link?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type Feedback = {
   __typename?: 'Feedback';
+  body?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
   subject?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
 };
 
 export type FeedbackInput = {
-  name?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  subject?: InputMaybe<Scalars['String']>;
   body?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  subject?: InputMaybe<Scalars['String']>;
 };
 
 export type IdObjectInput = {
@@ -293,90 +293,90 @@ export type IdObjectInput = {
 
 export type Image = {
   __typename?: 'Image';
-  id?: Maybe<Scalars['ID']>;
   altText?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atType?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   cropping?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   lastModifiedTime?: Maybe<Scalars['String']>;
   license?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   photographerName?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atContext?: Maybe<Scalars['String']>;
-  atType?: Maybe<Scalars['String']>;
 };
 
 export type ImagesResponse = {
   __typename?: 'ImagesResponse';
-  meta: Meta;
   data: Array<Maybe<Image>>;
+  meta: Meta;
 };
 
 export type Keyword = {
   __typename?: 'Keyword';
-  id?: Maybe<Scalars['ID']>;
   aggregate?: Maybe<Scalars['Boolean']>;
   altLabels?: Maybe<Array<Maybe<Scalars['String']>>>;
+  atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atType?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
   deprecated?: Maybe<Scalars['Boolean']>;
   hasUpcomingEvents?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['ID']>;
   image?: Maybe<Image>;
   lastModifiedTime?: Maybe<Scalars['String']>;
-  name?: Maybe<LocalisedObject>;
   nEvents?: Maybe<Scalars['Int']>;
+  name?: Maybe<LocalisedObject>;
   publisher?: Maybe<Scalars['ID']>;
   replacedBy?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atContext?: Maybe<Scalars['String']>;
-  atType?: Maybe<Scalars['String']>;
 };
 
 export type KeywordSet = {
   __typename?: 'KeywordSet';
-  id?: Maybe<Scalars['ID']>;
-  keywords?: Maybe<Array<Maybe<Keyword>>>;
-  usage?: Maybe<Scalars['String']>;
-  createdTime?: Maybe<Scalars['String']>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
-  image?: Maybe<Image>;
-  dataSource?: Maybe<Scalars['String']>;
-  organization?: Maybe<Scalars['String']>;
-  name?: Maybe<LocalisedObject>;
-  atId: Scalars['String'];
   atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
   atType?: Maybe<Scalars['String']>;
+  createdTime?: Maybe<Scalars['String']>;
+  dataSource?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  image?: Maybe<Image>;
+  keywords?: Maybe<Array<Maybe<Keyword>>>;
+  lastModifiedTime?: Maybe<Scalars['String']>;
+  name?: Maybe<LocalisedObject>;
+  organization?: Maybe<Scalars['String']>;
+  usage?: Maybe<Scalars['String']>;
 };
 
 export type KeywordSetsResponse = {
   __typename?: 'KeywordSetsResponse';
-  meta: Meta;
   data: Array<Maybe<KeywordSet>>;
+  meta: Meta;
 };
 
 export type KeywordsResponse = {
   __typename?: 'KeywordsResponse';
-  meta: Meta;
   data: Array<Maybe<Keyword>>;
+  meta: Meta;
 };
 
 export type Language = {
   __typename?: 'Language';
-  id?: Maybe<Scalars['ID']>;
-  translationAvailable?: Maybe<Scalars['Boolean']>;
-  name?: Maybe<LocalisedObject>;
-  atId: Scalars['String'];
   atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
   atType?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<LocalisedObject>;
+  translationAvailable?: Maybe<Scalars['Boolean']>;
 };
 
 export type LanguagesResponse = {
   __typename?: 'LanguagesResponse';
-  meta: Meta;
   data: Array<Maybe<Language>>;
+  meta: Meta;
 };
 
 export type LocalisedObject = {
@@ -429,12 +429,12 @@ export type Mutation = {
   updateEvent: Event;
   updateEvents: Array<Event>;
   updateImage: Image;
-  uploadImage: Image;
   updateKeyword: Keyword;
   updateKeywordSet: KeywordSet;
   updateOrganization: Organization;
   updatePlace: Place;
   updateRegistration: Registration;
+  uploadImage: Image;
 };
 
 
@@ -548,11 +548,6 @@ export type MutationUpdateImageArgs = {
 };
 
 
-export type MutationUploadImageArgs = {
-  input: UploadImageMutationInput;
-};
-
-
 export type MutationUpdateKeywordArgs = {
   input: UpdateKeywordMutationInput;
 };
@@ -575,6 +570,11 @@ export type MutationUpdatePlaceArgs = {
 
 export type MutationUpdateRegistrationArgs = {
   input: UpdateRegistrationMutationInput;
+};
+
+
+export type MutationUploadImageArgs = {
+  input: UploadImageMutationInput;
 };
 
 export type NoContent = {
@@ -601,6 +601,9 @@ export type Organization = {
   __typename?: 'Organization';
   adminUsers?: Maybe<Array<Maybe<User>>>;
   affiliatedOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
+  atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atType?: Maybe<Scalars['String']>;
   classification?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
@@ -615,41 +618,40 @@ export type Organization = {
   regularUsers?: Maybe<Array<Maybe<User>>>;
   replacedBy?: Maybe<Scalars['String']>;
   subOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
 };
 
 export type OrganizationClass = {
   __typename?: 'OrganizationClass';
+  atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atType?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   lastModifiedTime?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
 };
 
 export type OrganizationClassesResponse = {
   __typename?: 'OrganizationClassesResponse';
-  meta: Meta;
   data: Array<Maybe<OrganizationClass>>;
+  meta: Meta;
 };
 
 export type OrganizationsResponse = {
   __typename?: 'OrganizationsResponse';
-  meta: Meta;
   data: Array<Maybe<Organization>>;
+  meta: Meta;
 };
 
 export type Place = {
   __typename?: 'Place';
-  id?: Maybe<Scalars['ID']>;
   addressCountry?: Maybe<Scalars['String']>;
   addressLocality?: Maybe<LocalisedObject>;
   addressRegion?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atType?: Maybe<Scalars['String']>;
   contactType?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   customData?: Maybe<Scalars['String']>;
@@ -659,28 +661,26 @@ export type Place = {
   divisions: Array<Maybe<Division>>;
   email?: Maybe<Scalars['String']>;
   hasUpcomingEvents?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['ID']>;
   image?: Maybe<Image>;
   infoUrl?: Maybe<LocalisedObject>;
   lastModifiedTime?: Maybe<Scalars['String']>;
-  name?: Maybe<LocalisedObject>;
   nEvents?: Maybe<Scalars['Int']>;
+  name?: Maybe<LocalisedObject>;
   parent?: Maybe<Scalars['ID']>;
   position?: Maybe<Position>;
-  postalCode?: Maybe<Scalars['String']>;
   postOfficeBoxNum?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['ID']>;
   replacedBy?: Maybe<Scalars['String']>;
   streetAddress?: Maybe<LocalisedObject>;
   telephone?: Maybe<LocalisedObject>;
-  atId: Scalars['String'];
-  atContext?: Maybe<Scalars['String']>;
-  atType?: Maybe<Scalars['String']>;
 };
 
 export type PlacesResponse = {
   __typename?: 'PlacesResponse';
-  meta: Meta;
   data: Array<Maybe<Place>>;
+  meta: Meta;
 };
 
 export type Position = {
@@ -710,14 +710,14 @@ export type Query = {
   image: Image;
   images: ImagesResponse;
   keyword: Keyword;
-  keywords: KeywordsResponse;
   keywordSet?: Maybe<KeywordSet>;
   keywordSets: KeywordSetsResponse;
+  keywords: KeywordsResponse;
   languages: LanguagesResponse;
   organization: Organization;
-  organizations: OrganizationsResponse;
   organizationClass: OrganizationClass;
   organizationClasses: OrganizationClassesResponse;
+  organizations: OrganizationsResponse;
   place: Place;
   places: PlacesResponse;
   registration: Registration;
@@ -759,8 +759,8 @@ export type QueryEventArgs = {
 
 export type QueryEventsArgs = {
   adminUser?: InputMaybe<Scalars['Boolean']>;
-  createdBy?: InputMaybe<Scalars['String']>;
   combinedText?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  createdBy?: InputMaybe<Scalars['String']>;
   division?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   end?: InputMaybe<Scalars['String']>;
   endsAfter?: InputMaybe<Scalars['String']>;
@@ -811,18 +811,6 @@ export type QueryKeywordArgs = {
 };
 
 
-export type QueryKeywordsArgs = {
-  dataSource?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  freeText?: InputMaybe<Scalars['String']>;
-  hasUpcomingEvents?: InputMaybe<Scalars['Boolean']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  showAllKeywords?: InputMaybe<Scalars['Boolean']>;
-  sort?: InputMaybe<Scalars['String']>;
-  text?: InputMaybe<Scalars['String']>;
-};
-
-
 export type QueryKeywordSetArgs = {
   id: Scalars['ID'];
   include?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -838,16 +826,20 @@ export type QueryKeywordSetsArgs = {
 };
 
 
-export type QueryOrganizationArgs = {
-  id: Scalars['ID'];
+export type QueryKeywordsArgs = {
+  dataSource?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  freeText?: InputMaybe<Scalars['String']>;
+  hasUpcomingEvents?: InputMaybe<Scalars['Boolean']>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+  showAllKeywords?: InputMaybe<Scalars['Boolean']>;
+  sort?: InputMaybe<Scalars['String']>;
+  text?: InputMaybe<Scalars['String']>;
 };
 
 
-export type QueryOrganizationsArgs = {
-  child?: InputMaybe<Scalars['ID']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  text?: InputMaybe<Scalars['String']>;
+export type QueryOrganizationArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -859,6 +851,14 @@ export type QueryOrganizationClassArgs = {
 export type QueryOrganizationClassesArgs = {
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryOrganizationsArgs = {
+  child?: InputMaybe<Scalars['ID']>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
+  text?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -906,7 +906,9 @@ export type QueryUsersArgs = {
 
 export type Registration = {
   __typename?: 'Registration';
-  id?: Maybe<Scalars['ID']>;
+  atContext?: Maybe<Scalars['String']>;
+  atId: Scalars['String'];
+  atType?: Maybe<Scalars['String']>;
   attendeeRegistration?: Maybe<Scalars['Boolean']>;
   audienceMaxAge?: Maybe<Scalars['Int']>;
   audienceMinAge?: Maybe<Scalars['Int']>;
@@ -918,6 +920,7 @@ export type Registration = {
   enrolmentEndTime?: Maybe<Scalars['String']>;
   enrolmentStartTime?: Maybe<Scalars['String']>;
   event?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
   instructions?: Maybe<Scalars['String']>;
   lastModifiedAt?: Maybe<Scalars['String']>;
   lastModifiedBy?: Maybe<Scalars['String']>;
@@ -925,15 +928,12 @@ export type Registration = {
   minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   signups?: Maybe<Array<Maybe<Enrolment>>>;
   waitingListCapacity?: Maybe<Scalars['Int']>;
-  atId: Scalars['String'];
-  atContext?: Maybe<Scalars['String']>;
-  atType?: Maybe<Scalars['String']>;
 };
 
 export type RegistrationsResponse = {
   __typename?: 'RegistrationsResponse';
-  meta: Meta;
   data: Array<Maybe<Registration>>;
+  meta: Meta;
 };
 
 export enum SuperEventType {
@@ -942,11 +942,11 @@ export enum SuperEventType {
 }
 
 export type UpdateEnrolmentMutationInput = {
-  id: Scalars['ID'];
   city?: InputMaybe<Scalars['String']>;
   dateOfBirth?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   extraInfo?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
   membershipNumber?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   nativeLanguage?: InputMaybe<Scalars['String']>;
@@ -959,7 +959,6 @@ export type UpdateEnrolmentMutationInput = {
 };
 
 export type UpdateEventMutationInput = {
-  id: Scalars['ID'];
   audience?: InputMaybe<Array<IdObjectInput>>;
   audienceMaxAge?: InputMaybe<Scalars['Int']>;
   audienceMinAge?: InputMaybe<Scalars['Int']>;
@@ -969,6 +968,7 @@ export type UpdateEventMutationInput = {
   enrolmentStartTime?: InputMaybe<Scalars['String']>;
   eventStatus?: InputMaybe<EventStatus>;
   externalLinks?: InputMaybe<Array<InputMaybe<ExternalLinkInput>>>;
+  id: Scalars['ID'];
   images?: InputMaybe<Array<IdObjectInput>>;
   inLanguage?: InputMaybe<Array<IdObjectInput>>;
   infoUrl?: InputMaybe<LocalisedObjectInput>;
@@ -1044,21 +1044,21 @@ export type UpdatePlaceMutationInput = {
   infoUrl?: InputMaybe<LocalisedObjectInput>;
   name?: InputMaybe<LocalisedObjectInput>;
   position?: InputMaybe<PositionInput>;
-  postalCode?: InputMaybe<Scalars['String']>;
   postOfficeBoxNum?: InputMaybe<Scalars['String']>;
+  postalCode?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   streetAddress?: InputMaybe<LocalisedObjectInput>;
   telephone?: InputMaybe<LocalisedObjectInput>;
 };
 
 export type UpdateRegistrationMutationInput = {
-  id: Scalars['ID'];
   audienceMaxAge?: InputMaybe<Scalars['Int']>;
   audienceMinAge?: InputMaybe<Scalars['Int']>;
   confirmationMessage?: InputMaybe<Scalars['String']>;
   enrolmentEndTime?: InputMaybe<Scalars['String']>;
   enrolmentStartTime?: InputMaybe<Scalars['String']>;
   event: Scalars['ID'];
+  id: Scalars['ID'];
   instructions?: InputMaybe<Scalars['String']>;
   maximumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
   minimumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
@@ -1094,8 +1094,8 @@ export type User = {
 
 export type UsersResponse = {
   __typename?: 'UsersResponse';
-  meta: Meta;
   data: Array<Maybe<User>>;
+  meta: Meta;
 };
 
 export type Video = {
