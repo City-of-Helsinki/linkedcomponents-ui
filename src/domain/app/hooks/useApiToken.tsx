@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,6 +18,7 @@ const useApiToken = (): void => {
   const dispatch = useDispatch();
   const apiToken = useSelector(apiTokenSelector);
   const user = useSelector(userSelector);
+  const previousAccessToken = React.useRef<string | undefined>();
 
   const startTimer = () => {
     apiTokenExpiring.current = new Date().valueOf() + API_TOKEN_EXPIRATION_TIME;
@@ -30,7 +32,7 @@ const useApiToken = (): void => {
           apiTokenExpiring.current - API_TOKEN_NOTIFICATION_TIME;
 
       if (user?.access_token && isApiTokenExpiring) {
-        dispatch(renewApiToken(user.access_token));
+        dispatch(renewApiToken(user.access_token) as any);
       }
     }, API_TOKEN_CHECK_INTERVAL);
   };
@@ -41,11 +43,15 @@ const useApiToken = (): void => {
 
   React.useEffect(() => {
     // Get new api token after new access token
-    if (user?.access_token) {
-      dispatch(getApiToken(user.access_token));
-    } else {
-      dispatch(resetApiTokenData());
+    if (previousAccessToken.current !== user?.access_token) {
+      if (user?.access_token) {
+        dispatch(getApiToken(user.access_token) as any);
+      } else {
+        dispatch(resetApiTokenData());
+      }
     }
+
+    previousAccessToken.current = user?.access_token;
   }, [dispatch, user]);
 
   React.useEffect(() => {

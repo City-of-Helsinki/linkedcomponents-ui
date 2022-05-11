@@ -17,10 +17,7 @@ import userManager from './userManager';
 
 export const signIn = (path?: string): void => {
   userManager
-    .signinRedirect({
-      data: { path: path || '/' },
-      ui_locales: i18n.language,
-    })
+    .signinRedirect({ data: { path: path || '/' }, ui_locales: i18n.language })
     .catch((error) => {
       if (error.message === 'Network Error') {
         toast.error(i18n.t('authentication.networkError.message') as string);
@@ -39,11 +36,7 @@ export const getApiToken =
 
       const res: AxiosResponse<TokenResponse> = await axios.get(
         OIDC_API_TOKEN_ENDPOINT,
-        {
-          headers: {
-            Authorization: `bearer ${accessToken}`,
-          },
-        }
+        { headers: { Authorization: `bearer ${accessToken}` } }
       );
 
       dispatch(fetchTokenSuccess(res.data));
@@ -59,11 +52,7 @@ export const renewApiToken =
     try {
       const res: AxiosResponse<TokenResponse> = await axios.get(
         OIDC_API_TOKEN_ENDPOINT,
-        {
-          headers: {
-            Authorization: `bearer ${accessToken}`,
-          },
-        }
+        { headers: { Authorization: `bearer ${accessToken}` } }
       );
 
       dispatch(fetchTokenSuccess(res.data));
