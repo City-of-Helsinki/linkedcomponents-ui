@@ -1,7 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { TEST_USER_ID } from '../../../../constants';
 import { UserDocument } from '../../../../generated/graphql';
 import { fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
