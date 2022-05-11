@@ -6,6 +6,7 @@ import { EventDocument, PublicationStatus } from '../../../generated/graphql';
 import { fakeEvent } from '../../../utils/mockDataUtils';
 import {
   act,
+  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -97,6 +98,7 @@ test('should route to event list page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   getElement('draftSavedHeading');
+  await actWait(100);
 
   const backToEventsButton = getElement('backToEventsButton');
   await act(async () => await user.click(backToEventsButton));
@@ -113,6 +115,7 @@ test('should route to create event page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   getElement('draftSavedHeading');
+  await actWait(100);
 
   const addEventButton = getElement('addEventButton');
   await act(async () => await user.click(addEventButton));
