@@ -1,5 +1,4 @@
-@import 'breakpoints';
-@import 'widths';
+@import '../../../assets/styles/widths';
 
 .errorTemplate {
   --error-template-icon-color: var(--color-bus);

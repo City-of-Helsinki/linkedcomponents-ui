@@ -8,11 +8,13 @@ export default function addParamsToQueryString<
   const searchParams = new URLSearchParams(queryString);
   Object.entries(queryParams).forEach(([key, values]) => {
     const param = key;
+
+    /* istanbul ignore else */
     if (Array.isArray(values)) {
       values.forEach((value) =>
         searchParams.append(param, getParamValue({ param, value }))
       );
-    } /* istanbul ignore else */ else if (values) {
+    } else if (values) {
       searchParams.append(
         param,
         getParamValue({ param, value: values.toString() })

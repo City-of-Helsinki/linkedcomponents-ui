@@ -65,13 +65,14 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
     { mocks }
   );
 
-const findElement = (key: 'keywordButton' | 'keywordOption') => {
+const findElement = (key: 'keywordText' | 'keywordOption') => {
   switch (key) {
-    case 'keywordButton':
-      return screen.findByRole('button', {
-        name: new RegExp(keyword.name.fi, 'i'),
-        hidden: true,
-      });
+    case 'keywordText':
+      return screen.findByText(
+        keyword.name.fi,
+        { selector: 'span' },
+        { timeout: 2000 }
+      );
     case 'keywordOption':
       return screen.findByRole('option', { name: keyword.name.fi });
   }
@@ -117,7 +118,7 @@ test('should render classification section', async () => {
   getElement('infoTextMainCategories');
   getElement('infoTextKeywords');
 
-  await findElement('keywordButton');
+  await findElement('keywordText');
 });
 
 test('should show 10 first topics by default and rest by clicking show more', async () => {
@@ -167,7 +168,10 @@ test('should change keyword', async () => {
   const keywordOption = await findElement('keywordOption');
   await act(async () => await user.click(keywordOption));
 
-  await findElement('keywordButton');
+  expect(
+    screen.queryByRole('listbox', { name: /avainsanahaku/i })
+  ).not.toBeInTheDocument();
+  await findElement('keywordText');
 });
 
 test('should show correct validation error if none main category is selected', async () => {

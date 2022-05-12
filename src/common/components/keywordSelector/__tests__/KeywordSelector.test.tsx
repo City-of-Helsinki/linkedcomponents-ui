@@ -74,14 +74,10 @@ const defaultProps: KeywordSelectorProps = {
 const renderComponent = (props?: Partial<KeywordSelectorProps>) =>
   render(<KeywordSelector {...defaultProps} {...props} />, { mocks });
 
-test('should combobox input value to be selected place option label', async () => {
+test('should combobox input value to be selected keyword option label', async () => {
   renderComponent();
 
-  await screen.findByRole(
-    'button',
-    { name: new RegExp(keywordName, 'i'), hidden: true },
-    { timeout: 2000 }
-  );
+  await screen.findByText(keywordName, undefined, { timeout: 2000 });
 });
 
 test('should open menu by clickin toggle button and list of options should be visible', async () => {

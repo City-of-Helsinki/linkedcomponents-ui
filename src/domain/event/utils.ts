@@ -1227,6 +1227,10 @@ export const scrollToFirstError = async ({
     });
 
     const { fieldId, type: fieldType } = getFocusableFieldId(path);
+
+    if (fieldType === 'array') {
+      await wait(100);
+    }
     const field = document.getElementById(fieldId);
 
     /* istanbul ignore else */

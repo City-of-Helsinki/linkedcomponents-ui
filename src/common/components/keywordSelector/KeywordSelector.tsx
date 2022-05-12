@@ -30,12 +30,9 @@ const getOption = ({
   keyword: KeywordFieldsFragment;
   locale: Language;
 }): OptionType => {
-  const { atId: value, name } = getKeywordFields(keyword, locale);
+  const { atId: value, name: label } = getKeywordFields(keyword, locale);
 
-  return {
-    label: name,
-    value,
-  };
+  return { label, value };
 };
 
 type ValueType = string;

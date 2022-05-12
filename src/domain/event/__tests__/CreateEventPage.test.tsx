@@ -281,7 +281,7 @@ test('should focus to event times error if none event time exists', async () => 
   await act(async () => await user.click(publishButton));
 
   const error = await screen.findByText(/vähintään 1 ajankohta vaaditaan/i);
-  expect(error).toHaveFocus();
+  await waitFor(() => expect(error).toHaveFocus());
 });
 
 test('should focus to first main category checkbox if none main category is selected', async () => {

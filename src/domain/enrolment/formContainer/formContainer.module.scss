@@ -1,4 +1,4 @@
-@import 'widths';
+@import '../../../assets/styles/widths';
 
 .formContainer {
   @include max-width-column(6);

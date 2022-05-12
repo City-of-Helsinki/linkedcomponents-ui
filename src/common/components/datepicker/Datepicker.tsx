@@ -146,11 +146,12 @@ const DatePicker: React.FC<DatepickerProps> = ({
   const handleChange = (dateStr: string) => {
     const parsedDate = parseDate(dateStr, dateFormat, new Date());
 
+    /* istanbul ignore else */
     if (isValidDate(parsedDate)) {
       onChange(parsedDate);
     } else if (!dateStr) {
       onChange(null);
-    } /* istanbul ignore else */ else if (value) {
+    } else if (value) {
       const formattedDate = formatDate(value, dateFormat);
       setInputValue(formattedDate);
     }
@@ -265,9 +266,10 @@ const DatePicker: React.FC<DatepickerProps> = ({
 
   // Update formatted input string when date value changes
   React.useEffect(() => {
+    /* istanbul ignore else */
     if (!value) {
       setInputValue('');
-    } /* istanbul ignore else */ else if (value && isValidDate(value)) {
+    } else if (value && isValidDate(value)) {
       const formattedDate = formatDate(value, dateFormat);
       setInputValue(formattedDate);
     }
