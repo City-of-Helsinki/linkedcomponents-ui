@@ -17,9 +17,10 @@ const OrganizationClassName: React.FC<OrganizationClassNameProps> = ({
 
   return (
     <>
-      {organizationClassData?.organizationClass.name ||
-        id ||
-        /* istanbul ignore next*/ '-'}
+      {
+        /* istanbul ignore next*/
+        organizationClassData?.organizationClass?.name || id || '-'
+      }
     </>
   );
 };

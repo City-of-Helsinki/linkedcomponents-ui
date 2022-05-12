@@ -15,7 +15,10 @@ const DataSourceName: React.FC<DataSourceNameProps> = ({ id }) => {
 
   return (
     <>
-      {dataSourceData?.dataSource.name || id || /* istanbul ignore next*/ '-'}
+      {
+        /* istanbul ignore next */
+        dataSourceData?.dataSource?.name || id || '-'
+      }
     </>
   );
 };
