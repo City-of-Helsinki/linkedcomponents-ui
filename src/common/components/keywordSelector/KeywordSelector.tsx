@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {
   ApolloClient,
   NormalizedCacheObject,
@@ -48,7 +49,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   value,
   ...rest
 }) => {
-  const timer = React.useRef<number>();
+  const timer = React.useRef<NodeJS.Timeout>();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
   const locale = useLocale();

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -34,7 +35,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
   variables,
   ...rest
 }) => {
-  const timer = React.useRef<number>();
+  const timer = React.useRef<NodeJS.Timeout>();
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');
