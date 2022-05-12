@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// eslint-disable-next-line simple-import-sort/imports
 import 'leaflet-draw';
 import 'leaflet-draw/dist/leaflet.draw.css';
 
