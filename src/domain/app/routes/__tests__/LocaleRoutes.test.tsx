@@ -1,3 +1,4 @@
+import { History } from 'history';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -6,6 +7,7 @@ import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -53,6 +55,7 @@ import LocaleRoutes from '../LocaleRoutes';
 
 configure({ defaultHidden: true });
 
+let history: History;
 const storeState = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(storeState);
 
@@ -87,42 +90,70 @@ beforeEach(() => {
   setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
 });
 
-it('should redirect to events page from deprecated modaration page', () => {
-  const { history } = renderRoute(DEPRECATED_ROUTES.MODERATION);
+it('should redirect to events page from deprecated modaration page', async () => {
+  await act(() => {
+    const { history: newHistory } = renderRoute(DEPRECATED_ROUTES.MODERATION);
+    history = newHistory;
+  });
 
-  expect(history.location.pathname).toBe('/fi/events');
+  await waitFor(() => expect(history.location.pathname).toBe('/fi/events'));
 });
 
-it('should redirect to create event page from deprecated create event page', () => {
-  const { history } = renderRoute(DEPRECATED_ROUTES.CREATE_EVENT);
+it('should redirect to create event page from deprecated create event page', async () => {
+  await act(() => {
+    const { history: newHistory } = renderRoute(DEPRECATED_ROUTES.CREATE_EVENT);
+    history = newHistory;
+  });
 
-  expect(history.location.pathname).toBe('/fi/events/create');
-});
-
-it('should redirect to edit event page from deprecated edit event page', () => {
-  const { history } = renderRoute(
-    DEPRECATED_ROUTES.UPDATE_EVENT.replace(':id', 'hel:123')
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/fi/events/create')
   );
-
-  expect(history.location.pathname).toBe('/fi/events/edit/hel:123');
 });
 
-it('should redirect to edit event page from deprecated event page', () => {
-  const { history } = renderRoute(
-    DEPRECATED_ROUTES.VIEW_EVENT.replace(':id', 'hel:123')
+it('should redirect to edit event page from deprecated edit event page', async () => {
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      DEPRECATED_ROUTES.UPDATE_EVENT.replace(':id', 'hel:123')
+    );
+    history = newHistory;
+  });
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/fi/events/edit/hel:123')
   );
-
-  expect(history.location.pathname).toBe('/fi/events/edit/hel:123');
 });
 
-it('should redirect to terms of use page from deprecated terms page', () => {
-  const { history } = renderRoute(DEPRECATED_ROUTES.TERMS);
+it('should redirect to edit event page from deprecated event page', async () => {
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      DEPRECATED_ROUTES.VIEW_EVENT.replace(':id', 'hel:123')
+    );
+    history = newHistory;
+  });
 
-  expect(history.location.pathname).toBe('/fi/help/support/terms-of-use');
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/fi/events/edit/hel:123')
+  );
+});
+
+it('should redirect to terms of use page from deprecated terms page', async () => {
+  await act(() => {
+    const { history: newHistory } = renderRoute(DEPRECATED_ROUTES.TERMS);
+    history = newHistory;
+  });
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/fi/help/support/terms-of-use')
+  );
 });
 
 it('should render event search page', async () => {
-  const { history } = renderRoute(`${ROUTES.SEARCH}?text=${searchText}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.SEARCH}?text=${searchText}`
+    );
+    history = newHistory;
+  });
 
   await screen.findByRole('searchbox', {
     name: /hae linked events -rajapinnasta/i,
@@ -131,216 +162,324 @@ it('should render event search page', async () => {
 });
 
 it('should render registrations page', async () => {
-  const { history } = renderRoute(`${ROUTES.REGISTRATIONS}?text=${searchText}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.REGISTRATIONS}?text=${searchText}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /ilmoittautuminen/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /ilmoittautuminen/i });
+  });
   expect(history.location.pathname).toBe('/fi/registrations');
 });
 
 it('should render create registration page', async () => {
-  const { history } = renderRoute(`${ROUTES.CREATE_REGISTRATION}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.CREATE_REGISTRATION}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  });
   expect(history.location.pathname).toBe('/fi/registrations/create');
 });
 
 it('should render edit registration page', async () => {
-  const { history } = renderRoute(
-    `${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`
-  );
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  });
   expect(history.location.pathname).toBe(
     `/fi/registrations/edit/${registrationId}`
   );
 });
 
 it('should render registration enrolments page', async () => {
-  const { history } = renderRoute(
-    `${ROUTES.REGISTRATION_ENROLMENTS.replace(
-      ':registrationId',
-      registrationId
-    )}`
-  );
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.REGISTRATION_ENROLMENTS.replace(
+        ':registrationId',
+        registrationId
+      )}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: eventName }, { timeout: 30000 });
+  await act(async () => {
+    await screen.findByRole('heading', { name: eventName }, { timeout: 30000 });
+  });
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments`
   );
 });
 
 it('should render create enrolment page', async () => {
-  const { history } = renderRoute(
-    `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', registrationId)}`
-  );
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', registrationId)}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByText(/ilmoittautujan perustiedot/i);
+  await act(async () => {
+    await screen.findByText(/ilmoittautujan perustiedot/i);
+  });
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments/create`
   );
 });
 
 it('should render edit enrolment page', async () => {
-  const { history } = renderRoute(
-    `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
-      ':registrationId',
-      registrationId
-    ).replace(':enrolmentId', enrolmentId)}`
-  );
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+        ':registrationId',
+        registrationId
+      ).replace(':enrolmentId', enrolmentId)}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByText(/ilmoittautujan perustiedot/i);
+  await act(async () => {
+    await screen.findByText(/ilmoittautujan perustiedot/i);
+  });
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
   );
 });
 
 it('should render images page', async () => {
-  const { history } = renderRoute(`${ROUTES.IMAGES}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(`${ROUTES.IMAGES}`);
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /kuvat/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /kuvat/i });
+  });
   expect(history.location.pathname).toBe('/fi/admin/images');
 });
 
 it('should render create image page', async () => {
-  const { history } = renderRoute(`${ROUTES.CREATE_IMAGE}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(`${ROUTES.CREATE_IMAGE}`);
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /lisää kuva/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /lisää kuva/i });
+  });
   expect(history.location.pathname).toBe('/fi/admin/images/create');
 });
 
 it('should render edit image page', async () => {
   const id = image.id;
-  const { history } = renderRoute(`${ROUTES.EDIT_IMAGE.replace(':id', id)}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.EDIT_IMAGE.replace(':id', id)}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /muokkaa kuvaa/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /muokkaa kuvaa/i });
+  });
   expect(history.location.pathname).toBe(`/fi/admin/images/edit/${id}`);
 });
 
 it('should render keywords page', async () => {
-  const { history } = renderRoute(`${ROUTES.KEYWORDS}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(`${ROUTES.KEYWORDS}`);
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /avainsanat/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /avainsanat/i });
+  });
   expect(history.location.pathname).toBe('/fi/admin/keywords');
 });
 
 it('should render create keyword page', async () => {
-  const { history } = renderRoute(`${ROUTES.CREATE_KEYWORD}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(`${ROUTES.CREATE_KEYWORD}`);
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /lisää avainsana/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /lisää avainsana/i });
+  });
   expect(history.location.pathname).toBe('/fi/admin/keywords/create');
 });
 
 it('should render edit keyword page', async () => {
   const id = keyword.id;
-  const { history } = renderRoute(`${ROUTES.EDIT_KEYWORD.replace(':id', id)}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.EDIT_KEYWORD.replace(':id', id)}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /muokkaa avainsanaa/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /muokkaa avainsanaa/i });
+  });
   expect(history.location.pathname).toBe(`/fi/admin/keywords/edit/${id}`);
 });
 
 it('should render keyword sets page', async () => {
-  const { history } = renderRoute(`${ROUTES.KEYWORD_SETS}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(`${ROUTES.KEYWORD_SETS}`);
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /avainsanaryhmät/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /avainsanaryhmät/i });
+  });
   expect(history.location.pathname).toBe('/fi/admin/keyword-sets');
 });
 
 it('should render create keyword set page', async () => {
-  const { history } = renderRoute(`${ROUTES.CREATE_KEYWORD_SET}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(`${ROUTES.CREATE_KEYWORD_SET}`);
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /lisää avainsanaryhmä/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /lisää avainsanaryhmä/i });
+  });
   expect(history.location.pathname).toBe('/fi/admin/keyword-sets/create');
 });
 
 it('should render edit keyword set page', async () => {
   const id = keywordSet.id;
-  const { history } = renderRoute(
-    `${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`
-  );
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /muokkaa avainsanaryhmää/i });
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keyword-sets/edit/${id}`)
-  );
+  await act(async () => {
+    await screen.findByRole('heading', { name: /muokkaa avainsanaryhmää/i });
+  });
+  expect(history.location.pathname).toBe(`/fi/admin/keyword-sets/edit/${id}`);
 });
 
 it('should render organizations page', async () => {
-  const { history } = renderRoute(`${ROUTES.ORGANIZATIONS}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(`${ROUTES.ORGANIZATIONS}`);
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /organisaatiot/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /organisaatiot/i });
+  });
   expect(history.location.pathname).toBe('/fi/admin/organizations');
 });
 
 it('should render create organization page', async () => {
-  const { history } = renderRoute(ROUTES.CREATE_ORGANIZATION);
+  await act(() => {
+    const { history: newHistory } = renderRoute(ROUTES.CREATE_ORGANIZATION);
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /lisää organisaatio/i });
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/organizations/create`)
-  );
+  await act(async () => {
+    await screen.findByRole('heading', { name: /lisää organisaatio/i });
+  });
+  expect(history.location.pathname).toBe(`/fi/admin/organizations/create`);
 });
 
 it('should render edit organization page', async () => {
   const id = organizationId;
-  const { history } = renderRoute(
-    `${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`
-  );
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /muokkaa organisaatiota/i });
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/organizations/edit/${id}`)
-  );
+  await act(async () => {
+    await screen.findByRole('heading', { name: /muokkaa organisaatiota/i });
+  });
+  expect(history.location.pathname).toBe(`/fi/admin/organizations/edit/${id}`);
 });
 
 it('should render places page', async () => {
-  const { history } = renderRoute(`${ROUTES.PLACES}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(`${ROUTES.PLACES}`);
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /paikat/i });
+  await act(async () => {
+    await screen.findByRole('heading', { name: /paikat/i });
+  });
   expect(history.location.pathname).toBe('/fi/admin/places');
 });
 
 it('should render create place page', async () => {
-  const { history } = renderRoute(ROUTES.CREATE_PLACE);
+  await act(() => {
+    const { history: newHistory } = renderRoute(ROUTES.CREATE_PLACE);
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /lisää paikka/i });
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places/create`)
-  );
+  await act(async () => {
+    await screen.findByRole('heading', { name: /lisää paikka/i });
+  });
+  expect(history.location.pathname).toBe(`/fi/admin/places/create`);
 });
 
 it('should render edit place page', async () => {
   const id = place.id;
-  const { history } = renderRoute(`${ROUTES.EDIT_PLACE.replace(':id', id)}`);
+  await act(() => {
+    const { history: newHistory } = renderRoute(
+      `${ROUTES.EDIT_PLACE.replace(':id', id)}`
+    );
+    history = newHistory;
+  });
 
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('heading', { name: /muokkaa paikkaa/i });
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places/edit/${id}`)
-  );
+  await act(async () => {
+    await screen.findByRole('heading', { name: /muokkaa paikkaa/i });
+  });
+  expect(history.location.pathname).toBe(`/fi/admin/places/edit/${id}`);
 });
 
 it('should route to default help page', async () => {
-  const { history } = renderRoute(ROUTES.HELP);
+  await act(() => {
+    const { history: newHistory } = renderRoute(ROUTES.HELP);
+    history = newHistory;
+  });
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/help/instructions/general')

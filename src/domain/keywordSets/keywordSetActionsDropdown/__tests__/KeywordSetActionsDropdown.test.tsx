@@ -65,34 +65,37 @@ const getElement = (key: 'editButton' | 'menu' | 'toggle') => {
   }
 };
 
-const openMenu = () => {
+const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   getElement('menu');
 
   return toggleButton;
 };
 
 test('should toggle menu by clicking actions button', async () => {
+  const user = userEvent.setup();
   renderComponent(undefined, { store });
 
-  const toggleButton = openMenu();
+  const toggleButton = await openMenu();
   getElement('editButton');
   await findElement('deleteButton');
 
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
 });
 
 test('should route to edit keyword set page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  openMenu();
+  await openMenu();
 
   const editButton = getElement('editButton');
-  act(() => userEvent.click(editButton));
+  await act(async () => await user.click(editButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -106,18 +109,20 @@ test('should route to edit keyword set page', async () => {
 });
 
 test('should delete keyword set', async () => {
+  const user = userEvent.setup();
   renderComponent(undefined, { store });
 
-  openMenu();
+  await openMenu();
 
   const deleteButton = await findElement('deleteButton');
-  act(() => userEvent.click(deleteButton));
+  await act(async () => await user.click(deleteButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const dialog = await screen.findByRole('dialog');
+  const withinModal = within(dialog);
   const deleteKeywordButton = withinModal.getByRole('button', {
     name: /Poista avainsanaryhmä/i,
   });
-  userEvent.click(deleteKeywordButton);
+  await act(async () => await user.click(deleteKeywordButton));
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

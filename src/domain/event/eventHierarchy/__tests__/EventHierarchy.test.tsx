@@ -1,7 +1,13 @@
 import map from 'lodash/map';
 import React from 'react';
 
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  act,
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   event,
@@ -17,6 +23,8 @@ import {
   superEventName,
 } from '../__mocks__/eventHierarchy';
 import EventHierarchy from '../EventHierarchy';
+
+configure({ defaultHidden: true });
 
 const mocks = [
   mockedOrganizationAncestorsResponse,
@@ -72,6 +80,7 @@ test('should render also super event', async () => {
 });
 
 test('should hide/show sub-events when clicking toggle button', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   await eventsShouldBeVisible([
@@ -85,7 +94,7 @@ test('should hide/show sub-events when clicking toggle button', async () => {
   const hideUmbrellaButton = screen.getByRole('button', {
     name: `Piilota alatapahtumat: ${eventName}`,
   });
-  userEvent.click(hideUmbrellaButton);
+  await act(async () => await user.click(hideUmbrellaButton));
 
   await eventsShouldBeVisible([eventName]);
 
@@ -99,7 +108,7 @@ test('should hide/show sub-events when clicking toggle button', async () => {
   const showUmbrellaButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat: ${eventName}`,
   });
-  userEvent.click(showUmbrellaButton);
+  await act(async () => await user.click(showUmbrellaButton));
 
   await eventsShouldBeVisible([
     eventName,
@@ -112,7 +121,7 @@ test('should hide/show sub-events when clicking toggle button', async () => {
   const hideRecurringButton = screen.getByRole('button', {
     name: `Piilota alatapahtumat: ${subSubEventFields[0].name}`,
   });
-  userEvent.click(hideRecurringButton);
+  await act(async () => await user.click(hideRecurringButton));
 
   await eventsShouldBeVisible([
     eventName,
@@ -121,12 +130,12 @@ test('should hide/show sub-events when clicking toggle button', async () => {
     ...map(subSubEventPage2Fields, 'name'),
   ]);
 
-  eventsShouldBeHidden([...map(subSubSubEventFields, 'name')]);
+  eventsShouldBeHidden(map(subSubSubEventFields, 'name'));
 
   const showRecurringButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat: ${subSubEventFields[0].name}`,
   });
-  userEvent.click(showRecurringButton);
+  await act(async () => await user.click(showRecurringButton));
 
   await eventsShouldBeVisible([
     eventName,

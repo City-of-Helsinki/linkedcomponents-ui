@@ -9,7 +9,7 @@ interface Props {
   withOffset?: boolean;
 }
 
-const Container: React.FC<Props> = ({
+const Container: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   className,
   contentWrapperClassName,

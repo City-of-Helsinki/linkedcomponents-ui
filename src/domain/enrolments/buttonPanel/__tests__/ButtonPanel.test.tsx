@@ -4,6 +4,7 @@ import React from 'react';
 import { ROUTES } from '../../../../constants';
 import { StoreState } from '../../../../types';
 import {
+  act,
   configure,
   render,
   screen,
@@ -43,10 +44,11 @@ const getElement = (key: 'back') => {
 };
 
 test('should route to edit registration page when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   const backButton = getElement('back');
-  userEvent.click(backButton);
+  await act(async () => await user.click(backButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -56,12 +58,13 @@ test('should route to edit registration page when clicking back button', async (
 });
 
 test('should route to page defined in returnPath when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent({
     route: `/fi${ROUTES}?returnPath=${ROUTES.REGISTRATIONS}`,
   });
 
   const backButton = getElement('back');
-  userEvent.click(backButton);
+  await act(async () => await user.click(backButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations')

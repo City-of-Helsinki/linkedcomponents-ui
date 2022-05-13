@@ -1,4 +1,4 @@
-import { configure, render, screen } from '@testing-library/react';
+import { act, configure, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -43,10 +43,14 @@ test.each(testCases)(
   }
 );
 
-test('should call onClick function when clicking column', () => {
+test('should call onClick function when clicking column', async () => {
   const onClick = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onClick });
 
-  userEvent.click(screen.getByRole('button', { name: defaultProps.label }));
+  await act(
+    async () =>
+      await user.click(screen.getByRole('button', { name: defaultProps.label }))
+  );
   expect(onClick).toBeCalledWith('-key');
 });

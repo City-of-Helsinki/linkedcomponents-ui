@@ -8,7 +8,7 @@ interface AccordionProps {
   toggleButtonLabel: string;
 }
 
-const Accordion: React.FC<AccordionProps> = ({
+const Accordion: React.FC<React.PropsWithChildren<AccordionProps>> = ({
   children,
   initiallyOpen = false,
   toggleButtonLabel,

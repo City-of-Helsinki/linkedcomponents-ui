@@ -62,20 +62,12 @@ const findElement = (key: 'delete' | 'showEnrolments') => {
   }
 };
 
-const getElements = (key: 'disabledButtons') => {
-  switch (key) {
-    case 'disabledButtons':
-      return screen.getAllByRole('button', {
-        name: 'Sinulla ei ole oikeuksia muokata ilmoittautumisia.',
-      });
-  }
-};
-
 const getElement = (
   key:
     | 'back'
     | 'copy'
     | 'copyLink'
+    | 'delete'
     | 'menu'
     | 'showEnrolments'
     | 'toggle'
@@ -88,6 +80,8 @@ const getElement = (
       return screen.getByRole('button', { name: /kopioi pohjaksi/i });
     case 'copyLink':
       return screen.getByRole('button', { name: /kopioi linkk/i });
+    case 'delete':
+      return screen.getByRole('button', { name: 'Poista ilmoittautuminen' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
     case 'showEnrolments':
@@ -99,20 +93,21 @@ const getElement = (
   }
 };
 
-const openMenu = () => {
+const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   getElement('menu');
 
   return toggleButton;
 };
 
-test('should toggle menu by clicking actions button', () => {
+test('should toggle menu by clicking actions button', async () => {
+  const user = userEvent.setup();
   renderComponent({ store });
 
-  const toggleButton = openMenu();
-
-  userEvent.click(toggleButton);
+  const toggleButton = await openMenu();
+  await act(async () => await user.click(toggleButton));
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -122,48 +117,49 @@ test('should render all buttons when user is authenticated', async () => {
   const onDelete = jest.fn();
   const onUpdate = jest.fn();
 
-  renderComponent({
-    props: { onDelete, onUpdate },
-    store,
-  });
+  const user = userEvent.setup();
+  renderComponent({ props: { onDelete, onUpdate }, store });
 
-  openMenu();
+  await openMenu();
 
   await findElement('showEnrolments');
   getElement('copy');
   getElement('copyLink');
 
   const deleteButton = await findElement('delete');
-  act(() => userEvent.click(deleteButton));
+  await act(async () => await user.click(deleteButton));
   expect(onDelete).toBeCalled();
 
   const updateButton = getElement('update');
-  userEvent.click(updateButton);
+  await act(async () => await user.click(updateButton));
   expect(onUpdate).toBeCalled();
 });
 
-test('only copy and copy link buttons should be enabled when user is not logged in', () => {
+test('only copy and copy link buttons should be enabled when user is not logged in', async () => {
   renderComponent();
 
-  openMenu();
+  await openMenu();
 
   getElement('copy');
   getElement('copyLink');
 
-  const disabledButtons = getElements('disabledButtons');
+  const disabledButtons = [
+    getElement('showEnrolments'),
+    getElement('delete'),
+    getElement('update'),
+  ];
   expect(disabledButtons).toHaveLength(3);
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
 test('should route to enrolments page when clicking show enrolments button', async () => {
-  const { history } = renderComponent({
-    store,
-  });
+  const user = userEvent.setup();
+  const { history } = renderComponent({ store });
 
-  openMenu();
+  await openMenu();
 
   const showEnrolmentsButton = await findElement('showEnrolments');
-  act(() => userEvent.click(showEnrolmentsButton));
+  await act(async () => await user.click(showEnrolmentsButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -173,12 +169,13 @@ test('should route to enrolments page when clicking show enrolments button', asy
 });
 
 test('should route to create registration page when clicking copy button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  openMenu();
+  await openMenu();
 
   const copyButton = getElement('copy');
-  act(() => userEvent.click(copyButton));
+  await act(async () => await user.click(copyButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations/create')
@@ -187,12 +184,13 @@ test('should route to create registration page when clicking copy button', async
 
 test('should copy registration link to clipboard', async () => {
   toast.success = jest.fn();
+  const user = userEvent.setup();
   renderComponent();
 
-  openMenu();
+  await openMenu();
 
   const copyLinkButton = getElement('copyLink');
-  act(() => userEvent.click(copyLinkButton));
+  await act(async () => await user.click(copyLinkButton));
 
   expect(copyToClipboard).toBeCalledWith(
     `https://linkedregistrations-ui.test.kuva.hel.ninja/fi/registration/${registrationId}/enrolment/create`
@@ -201,10 +199,11 @@ test('should copy registration link to clipboard', async () => {
 });
 
 test('should route to search page when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   const backButton = getElement('back');
-  userEvent.click(backButton);
+  await act(async () => await user.click(backButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations')
@@ -212,12 +211,13 @@ test('should route to search page when clicking back button', async () => {
 });
 
 test('should route to page defined in returnPath when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent({
     route: `/fi${ROUTES}?returnPath=${ROUTES.SEARCH}&returnPath=${ROUTES.REGISTRATIONS}`,
   });
 
   const backButton = getElement('back');
-  userEvent.click(backButton);
+  await act(async () => await user.click(backButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations')

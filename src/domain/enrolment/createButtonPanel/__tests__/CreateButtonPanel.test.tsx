@@ -3,6 +3,7 @@ import React from 'react';
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   render,
@@ -67,10 +68,11 @@ const getElement = (key: 'back' | 'saveButton') => {
 };
 
 test('should route to enrolments page when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   const backButton = getElement('back');
-  userEvent.click(backButton);
+  await act(async () => await user.click(backButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -80,6 +82,7 @@ test('should route to enrolments page when clicking back button', async () => {
 });
 
 test('should route to page defined in returnPath when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent({
     route: `/fi${ROUTES.CREATE_REGISTRATION.replace(
       ':registrationId',
@@ -88,7 +91,7 @@ test('should route to page defined in returnPath when clicking back button', asy
   });
 
   const backButton = getElement('back');
-  userEvent.click(backButton);
+  await act(async () => await user.click(backButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -99,10 +102,12 @@ test('should route to page defined in returnPath when clicking back button', asy
 
 test('should call onSave', async () => {
   const onSave = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ props: { onSave } });
 
   const saveButton = await findElement('saveButton');
-  userEvent.click(saveButton);
+  await waitFor(() => expect(saveButton).toBeEnabled());
+  await act(async () => await user.click(saveButton));
 
   expect(onSave).toBeCalled();
 });

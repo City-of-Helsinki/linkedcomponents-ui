@@ -4,6 +4,7 @@ import React from 'react';
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -109,6 +110,7 @@ test('should show events', async () => {
 });
 
 test('should navigate between pages', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -116,34 +118,35 @@ test('should navigate between pages', async () => {
   getElement('pagination');
 
   const page2Button = getElement('page2');
-  userEvent.click(page2Button);
+  await act(async () => await user.click(page2Button));
 
   await waitFor(() => expect(history.location.search).toBe('?page=2'));
 
   // Should clear page from url search if selecting the first page
   const page1Button = getElement('page1');
-  userEvent.click(page1Button);
+  await act(async () => await user.click(page1Button));
 
   await waitFor(() => expect(history.location.search).toBe(''));
 });
 
 test('should change sort order', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
   const sortSelect = getElement('sortSelect');
-  userEvent.click(sortSelect);
+  await act(async () => await user.click(sortSelect));
 
   const sortOptionName = getElement('sortOptionName');
-  userEvent.click(sortOptionName);
+  await act(async () => await user.click(sortOptionName));
 
   await waitFor(() => expect(history.location.search).toBe('?sort=name'));
 
   // Should clear sort from url search if selecting default sort value
-  userEvent.click(sortSelect);
+  await act(async () => await user.click(sortSelect));
   const sortOptionLastModified = getElement('sortOptionLastModified');
-  userEvent.click(sortOptionLastModified);
+  await act(async () => await user.click(sortOptionLastModified));
 
   await waitFor(() => expect(history.location.search).toBe(''));
 });

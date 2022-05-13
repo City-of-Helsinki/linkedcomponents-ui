@@ -17,15 +17,12 @@ import userManager from './userManager';
 
 export const signIn = (path?: string): void => {
   userManager
-    .signinRedirect({
-      data: { path: path || '/' },
-      ui_locales: i18n.language,
-    })
+    .signinRedirect({ data: { path: path || '/' }, ui_locales: i18n.language })
     .catch((error) => {
       if (error.message === 'Network Error') {
-        toast.error(i18n.t('authentication.networkError.message'));
+        toast.error(i18n.t('authentication.networkError.message') as string);
       } else {
-        toast.error(i18n.t('authentication.errorMessage'));
+        toast.error(i18n.t('authentication.errorMessage') as string);
         Sentry.captureException(error);
       }
     });
@@ -39,17 +36,13 @@ export const getApiToken =
 
       const res: AxiosResponse<TokenResponse> = await axios.get(
         OIDC_API_TOKEN_ENDPOINT,
-        {
-          headers: {
-            Authorization: `bearer ${accessToken}`,
-          },
-        }
+        { headers: { Authorization: `bearer ${accessToken}` } }
       );
 
       dispatch(fetchTokenSuccess(res.data));
     } catch (e) {
       dispatch(fetchTokenError(e as Error));
-      toast.error(i18n.t('authentication.errorMessage'));
+      toast.error(i18n.t('authentication.errorMessage') as string);
     }
   };
 
@@ -59,17 +52,13 @@ export const renewApiToken =
     try {
       const res: AxiosResponse<TokenResponse> = await axios.get(
         OIDC_API_TOKEN_ENDPOINT,
-        {
-          headers: {
-            Authorization: `bearer ${accessToken}`,
-          },
-        }
+        { headers: { Authorization: `bearer ${accessToken}` } }
       );
 
       dispatch(fetchTokenSuccess(res.data));
     } catch (e) {
       dispatch(fetchTokenError(e as Error));
-      toast.error(i18n.t('authentication.errorMessage'));
+      toast.error(i18n.t('authentication.errorMessage') as string);
     }
   };
 

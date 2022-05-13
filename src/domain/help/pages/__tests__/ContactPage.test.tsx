@@ -8,6 +8,7 @@ import {
 import { fakeFeedback } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   CustomRenderOptions,
   getMockReduxStore,
@@ -98,42 +99,48 @@ const renderComponent = (options?: CustomRenderOptions) =>
   render(<ContactPage />, options);
 
 test('should scroll to first error', async () => {
+  const user = userEvent.setup();
   renderComponent();
+
   const nameInput = getElement('name');
   const emailInput = getElement('email');
   const sendButton = getElement('sendButton');
 
-  userEvent.type(nameInput, values.name);
-  userEvent.click(sendButton);
+  await act(async () => await user.type(nameInput, values.name));
+  await act(async () => await user.click(sendButton));
 
   await waitFor(() => expect(emailInput).toHaveFocus());
 });
 
 test('should scroll to topic selector when topic is not selected', async () => {
+  const user = userEvent.setup();
   renderComponent();
+
   const nameInput = getElement('name');
   const emailInput = getElement('email');
   const topicToggleButton = getElement('topicToggleButton');
   const sendButton = getElement('sendButton');
 
-  userEvent.type(nameInput, values.name);
-  userEvent.type(emailInput, values.email);
-  userEvent.click(sendButton);
+  await act(async () => await user.type(nameInput, values.name));
+  await act(async () => await user.type(emailInput, values.email));
+  await act(async () => await user.click(sendButton));
 
   await waitFor(() => expect(topicToggleButton).toHaveFocus());
 });
 
 test('should show correct faq items when "event_form" topic is selected', async () => {
+  const user = userEvent.setup();
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
+
   const nameInput = getElement('name');
   const emailInput = getElement('email');
   const topicToggleButton = getElement('topicToggleButton');
 
-  userEvent.type(nameInput, values.name);
-  userEvent.type(emailInput, values.email);
-  userEvent.click(topicToggleButton);
+  await act(async () => await user.type(nameInput, values.name));
+  await act(async () => await user.type(emailInput, values.email));
+  await act(async () => await user.click(topicToggleButton));
   const eventFormTopic = getElement('eventFormTopicOption');
-  userEvent.click(eventFormTopic);
+  await act(async () => await user.click(eventFormTopic));
 
   const faqHeadings = [
     'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
@@ -146,16 +153,18 @@ test('should show correct faq items when "event_form" topic is selected', async 
 });
 
 test('should show correct faq items when "permissions" topic is selected', async () => {
+  const user = userEvent.setup();
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
+
   const nameInput = getElement('name');
   const emailInput = getElement('email');
   const topicToggleButton = getElement('topicToggleButton');
 
-  userEvent.type(nameInput, values.name);
-  userEvent.type(emailInput, values.email);
-  userEvent.click(topicToggleButton);
+  await act(async () => await user.type(nameInput, values.name));
+  await act(async () => await user.type(emailInput, values.email));
+  await act(async () => await user.click(topicToggleButton));
   const permissionsTopic = getElement('permissionsTopicOption');
-  userEvent.click(permissionsTopic);
+  await act(async () => await user.click(permissionsTopic));
 
   const faqHeadings = [
     'Saako Linked Events-rajapintaa käyttää omiin projekteihin?',
@@ -174,13 +183,15 @@ test.each([
 ] as [string, ElementKey][])(
   'should not show any faq item when %p topic is selected',
   async (topic, topicOption) => {
+    const user = userEvent.setup();
     renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
+
     const topicToggleButton = getElement('topicToggleButton');
 
-    userEvent.click(topicToggleButton);
+    await act(async () => await user.click(topicToggleButton));
 
     const eventFormTopic = getElement('eventFormTopicOption');
-    userEvent.click(eventFormTopic);
+    await act(async () => await user.click(eventFormTopic));
 
     const faqHeadings = [
       'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
@@ -193,9 +204,9 @@ test.each([
 
     await screen.findByRole('button', { name: faqHeadings[0] });
 
-    userEvent.click(topicToggleButton);
+    await act(async () => await user.click(topicToggleButton));
     const option = getElement(topicOption);
-    userEvent.click(option);
+    await act(async () => await user.click(option));
 
     await waitFor(() =>
       expect(
@@ -211,7 +222,9 @@ test.each([
 );
 
 test('should succesfully send feedback when user is not signed in', async () => {
+  const user = userEvent.setup();
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
+
   const nameInput = getElement('name');
   const emailInput = getElement('email');
   const topicToggleButton = getElement('topicToggleButton');
@@ -219,14 +232,14 @@ test('should succesfully send feedback when user is not signed in', async () => 
   const bodyInput = getElement('body');
   const sendButton = getElement('sendButton');
 
-  userEvent.type(nameInput, values.name);
-  userEvent.type(emailInput, values.email);
-  userEvent.click(topicToggleButton);
+  await act(async () => await user.type(nameInput, values.name));
+  await act(async () => await user.type(emailInput, values.email));
+  await act(async () => await user.click(topicToggleButton));
   const generalTopic = getElement('generalTopicOption');
-  userEvent.click(generalTopic);
-  userEvent.type(subjectInput, values.subject);
-  userEvent.type(bodyInput, values.body);
-  userEvent.click(sendButton);
+  await act(async () => await user.click(generalTopic));
+  await act(async () => await user.type(subjectInput, values.subject));
+  await act(async () => await user.type(bodyInput, values.body));
+  await act(async () => await user.click(sendButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
   getElement('success');
@@ -237,6 +250,8 @@ test('should succesfully send feedback when user is signed in', async () => {
   state.authentication.oidc.user.profile.email = values.email;
   state.authentication.oidc.user.profile.name = values.name;
   const store = getMockReduxStore(state);
+
+  const user = userEvent.setup();
   renderComponent({ mocks: [mockedPostFeedbackResponse], store });
 
   const topicToggleButton = getElement('topicToggleButton');
@@ -244,12 +259,12 @@ test('should succesfully send feedback when user is signed in', async () => {
   const bodyInput = getElement('body');
   const sendButton = getElement('sendButton');
 
-  userEvent.click(topicToggleButton);
+  await act(async () => await user.click(topicToggleButton));
   const generalTopic = getElement('generalTopicOption');
-  userEvent.click(generalTopic);
-  userEvent.type(subjectInput, values.subject);
-  userEvent.type(bodyInput, values.body);
-  userEvent.click(sendButton);
+  await act(async () => await user.click(generalTopic));
+  await act(async () => await user.type(subjectInput, values.subject));
+  await act(async () => await user.type(bodyInput, values.body));
+  await act(async () => await user.click(sendButton));
 
   await waitFor(() => expect(subjectInput).toHaveFocus());
   getElement('success');

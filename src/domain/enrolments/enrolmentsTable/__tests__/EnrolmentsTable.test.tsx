@@ -74,6 +74,7 @@ test('should render enrolments table', async () => {
 });
 
 test('should navigate between pages', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -85,7 +86,7 @@ test('should navigate between pages', async () => {
   ).not.toBeInTheDocument();
 
   const page2Button = getElement('page2');
-  userEvent.click(page2Button);
+  await act(async () => await user.click(page2Button));
 
   // Page 2 enrolment should be visible.
   screen.getByRole('button', { name: attendeeNames[ENROLMENTS_PAGE_SIZE] });
@@ -94,7 +95,7 @@ test('should navigate between pages', async () => {
   ).not.toBeInTheDocument();
 
   const page1Button = getElement('page1');
-  userEvent.click(page1Button);
+  await act(async () => await user.click(page1Button));
 
   // Page 1 enrolment should be visible.
   screen.getByRole('button', { name: attendeeNames[0] });
@@ -104,12 +105,13 @@ test('should navigate between pages', async () => {
 });
 
 test('should open enrolment page by clicking event', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   const enrolmentButton = await screen.findByRole('button', {
     name: enrolmentName,
   });
-  act(() => userEvent.click(enrolmentButton));
+  await act(async () => await user.click(enrolmentButton));
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
@@ -117,12 +119,13 @@ test('should open enrolment page by clicking event', async () => {
 });
 
 test('should open enrolment page by pressing enter on row', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   const enrolmentButton = await screen.findByRole('button', {
     name: enrolmentName,
   });
-  act(() => userEvent.type(enrolmentButton, '{enter}'));
+  await act(async () => await user.type(enrolmentButton, '{enter}'));
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`

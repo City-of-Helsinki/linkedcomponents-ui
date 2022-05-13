@@ -2,6 +2,8 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
+  act,
+  configure,
   render,
   screen,
   userEvent,
@@ -16,6 +18,8 @@ import {
   mockedAudiencesKeywordSetResponse,
 } from '../__mocks__/audienceSection';
 import AudienceSection from '../AudienceSection';
+
+configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
 
@@ -35,7 +39,7 @@ const renderComponent = () =>
       onSubmit={jest.fn()}
       enableReinitialize={true}
     >
-      <AudienceSection />
+      <AudienceSection isEditingAllowed={true} />
     </Formik>,
     { mocks }
   );
@@ -55,6 +59,7 @@ test('should render audience section', async () => {
 });
 
 test('should show 10 first audiences by default and rest by clicking show more', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   await waitFor(() => {
@@ -71,7 +76,10 @@ test('should show 10 first audiences by default and rest by clicking show more',
     expect(screen.queryByLabelText(keyword)).not.toBeInTheDocument();
   });
 
-  userEvent.click(screen.getByRole('button', { name: /näytä lisää/i }));
+  await act(
+    async () =>
+      await user.click(screen.getByRole('button', { name: /näytä lisää/i }))
+  );
 
   await waitFor(() => {
     expect(screen.queryByLabelText(restKeywords[0])).toBeInTheDocument();

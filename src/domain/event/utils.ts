@@ -15,7 +15,6 @@ import subDays from 'date-fns/subDays';
 import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
-import forEach from 'lodash/forEach';
 import isNumber from 'lodash/isNumber';
 import keys from 'lodash/keys';
 import reduce from 'lodash/reduce';
@@ -78,6 +77,7 @@ import {
   isValidTime,
   transformNumber,
 } from '../../utils/validationUtils';
+import wait from '../../utils/wait';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
   isAdminUserInOrganization,
@@ -1133,12 +1133,18 @@ export const getEventInitialValues = (
   };
 };
 
-const getFocusableFieldId = (
-  fieldName: string
-): {
+type EventErrorFieldType =
+  | 'array'
+  | 'default'
+  | 'checkboxGroup'
+  | 'select'
+  | 'textEditor';
+
+interface EventErrorField {
   fieldId: string;
-  type: 'default' | 'checkboxGroup' | 'eventTimes' | 'select' | 'textEditor';
-} => {
+  type: EventErrorFieldType;
+}
+const getFocusableFieldId = (fieldName: string): EventErrorField => {
   // For the select elements, focus the toggle button
   if (EVENT_SELECT_FIELDS.find((item) => item === fieldName)) {
     return { fieldId: `${fieldName}-input`, type: 'select' };
@@ -1147,13 +1153,62 @@ const getFocusableFieldId = (
   } else if (fieldName === EVENT_FIELDS.MAIN_CATEGORIES) {
     return { fieldId: fieldName, type: 'checkboxGroup' };
   } else if (EVENT_FIELD_ARRAYS.includes(fieldName)) {
-    return { fieldId: `${fieldName}-error`, type: 'default' };
+    return { fieldId: `${fieldName}-error`, type: 'array' };
   }
 
   return { fieldId: fieldName, type: 'default' };
 };
 
-export const scrollToFirstError = ({
+const changeLanguageIfNeeded = async ({
+  descriptionLanguage,
+  path,
+  setDescriptionLanguage,
+}: {
+  descriptionLanguage: LE_DATA_LANGUAGES;
+  path: string;
+  setDescriptionLanguage: (value: LE_DATA_LANGUAGES) => void;
+}): Promise<void> => {
+  const descriptionField = DESCRIPTION_SECTION_FIELDS.find((field) =>
+    path.startsWith(field)
+  );
+  if (descriptionField) {
+    const fieldLanguage = path.split('.')[1];
+
+    // Change description section language if selected language
+    // is different than field language
+    if (fieldLanguage !== descriptionLanguage) {
+      setDescriptionLanguage(fieldLanguage as LE_DATA_LANGUAGES);
+
+      await wait(100);
+    }
+  }
+};
+
+const focusToError = async ({
+  field,
+  fieldType,
+}: {
+  field: HTMLElement;
+  fieldType: EventErrorFieldType;
+}) => {
+  switch (fieldType) {
+    case 'checkboxGroup':
+      const focusable = field.querySelectorAll('input');
+
+      /* istanbul ignore else */
+      if (focusable?.[0]) {
+        focusable[0].focus();
+      }
+      break;
+    case 'textEditor':
+      field.click();
+      break;
+    default:
+      field.focus();
+  }
+};
+
+export const scrollToFirstError = async ({
   descriptionLanguage,
   error,
   setDescriptionLanguage,
@@ -1161,46 +1216,31 @@ export const scrollToFirstError = ({
   descriptionLanguage: LE_DATA_LANGUAGES;
   error: Yup.ValidationError;
   setDescriptionLanguage: (value: LE_DATA_LANGUAGES) => void;
-}): void => {
-  forEach(error.inner, (e) => {
+}): Promise<void> => {
+  for (const e of error.inner) {
     const path = e.path ?? /* istanbul ignore next */ '';
-    const descriptionField = DESCRIPTION_SECTION_FIELDS.find((field) =>
-      path.startsWith(field)
-    );
-    if (descriptionField) {
-      const fieldLanguage = path.split('.')[1];
 
-      // Change description section language if selected language
-      // is different than field language
-      if (fieldLanguage !== descriptionLanguage) {
-        setDescriptionLanguage(fieldLanguage as LE_DATA_LANGUAGES);
-      }
-    }
+    await changeLanguageIfNeeded({
+      descriptionLanguage,
+      path,
+      setDescriptionLanguage,
+    });
 
     const { fieldId, type: fieldType } = getFocusableFieldId(path);
+
+    if (fieldType === 'array') {
+      await wait(100);
+    }
     const field = document.getElementById(fieldId);
 
     /* istanbul ignore else */
     if (field) {
       scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
 
-      if (fieldType === 'checkboxGroup') {
-        const focusable = field.querySelectorAll('input');
-
-        /* istanbul ignore else */
-        if (focusable?.[0]) {
-          focusable[0].focus();
-        }
-      }
-      if (fieldType === 'textEditor') {
-        field.click();
-      } else {
-        field.focus();
-      }
-
-      return false;
+      await focusToError({ field, fieldType });
+      break;
     }
-  });
+  }
 };
 
 const getSubEvents = async ({
@@ -1492,7 +1532,9 @@ export const canUserCreateEvent = ({
   publisher: string;
   user?: UserFieldsFragment;
 }): boolean => {
+  /* istanbul ignore next */
   const adminOrganizations = user?.adminOrganizations ?? [];
+  /* istanbul ignore next */
   const organizationMemberships = user?.organizationMemberships ?? [];
   const canCreateDraft = organizationMemberships.includes(publisher);
   const canPublish = adminOrganizations.includes(publisher);

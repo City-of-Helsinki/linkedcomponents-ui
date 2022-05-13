@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {
   ApolloClient,
   NormalizedCacheObject,
@@ -30,12 +31,9 @@ const getOption = ({
   keyword: KeywordFieldsFragment;
   locale: Language;
 }): OptionType => {
-  const { atId: value, name } = getKeywordFields(keyword, locale);
+  const { atId: value, name: label } = getKeywordFields(keyword, locale);
 
-  return {
-    label: name,
-    value,
-  };
+  return { label, value };
 };
 
 type ValueType = string;
@@ -51,7 +49,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   value,
   ...rest
 }) => {
-  const timer = React.useRef<number>();
+  const timer = React.useRef<NodeJS.Timeout>();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
   const locale = useLocale();

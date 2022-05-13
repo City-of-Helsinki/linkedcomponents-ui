@@ -77,44 +77,47 @@ const getElement = (
 };
 
 const fillFormValues = async () => {
-  act(() => userEvent.click(getElement('adminUsersToggleButton')));
+  const user = userEvent.setup();
+  await act(async () => await user.click(getElement('adminUsersToggleButton')));
   const userOption = await screen.findByRole('option', {
     name: new RegExp(userNames[0]),
   });
-  act(() => userEvent.click(userOption));
+  await act(async () => await user.click(userOption));
 
-  act(() => userEvent.click(getElement('replacedByToggleButton')));
+  await act(async () => await user.click(getElement('replacedByToggleButton')));
   const organizationOption = await screen.findByRole('option', {
     name: organizations.data[0].name,
   });
-  act(() => userEvent.click(organizationOption));
+  await act(async () => await user.click(organizationOption));
 };
 
 test('should scroll to first validation error input field', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const nameInput = await findElement('nameInput');
-  userEvent.clear(nameInput);
+  await act(async () => await user.clear(nameInput));
   const saveButton = await findElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
 
 test('should delete organization', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedDeleteOrganizationResponse,
   ]);
 
   const deleteButton = await findElement('deleteButton');
-  act(() => userEvent.click(deleteButton));
+  await act(async () => await user.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteOrganizationButton = withinModal.getByRole('button', {
     name: 'Poista organisaatio',
   });
-  userEvent.click(deleteOrganizationButton);
+  await act(async () => await user.click(deleteOrganizationButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/organizations`)
@@ -122,6 +125,7 @@ test('should delete organization', async () => {
 });
 
 test('should update organization', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedUpdateOrganizationResponse,
@@ -131,7 +135,7 @@ test('should update organization', async () => {
 
   await fillFormValues();
 
-  act(() => userEvent.click(submitButton));
+  await act(async () => await user.click(submitButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/organizations`)
@@ -139,13 +143,14 @@ test('should update organization', async () => {
 });
 
 test('should show server errors', async () => {
+  const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidUpdateOrganizationResponse]);
 
   const submitButton = await findElement('saveButton');
 
   await fillFormValues();
 
-  act(() => userEvent.click(submitButton));
+  await act(async () => await user.click(submitButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

@@ -10,7 +10,7 @@ import {
 import { fakeOrganization, fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
-  actWait,
+  act,
   configure,
   getMockReduxStore,
   render,
@@ -109,26 +109,27 @@ const getElement = (key: 'searchInput' | 'toggleButton') => {
 };
 
 test('should show users organizations as menu options', async () => {
+  const user = userEvent.setup();
   renderComponent({ publisher: null, value: null });
 
   getElement('searchInput');
 
-  await actWait(1000);
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   await screen.findByRole('option', { name: organizationName });
   screen.getByRole('option', { name: adminOrganizationName });
 });
 
 test('should show publisher as menu option', async () => {
+  const user = userEvent.setup();
   renderComponent({ publisher: publisherId });
 
   const searchinput = getElement('searchInput');
   await waitFor(() => expect(searchinput).toHaveValue(publisherName));
 
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   await screen.findByRole('option', { name: publisherName });
 });

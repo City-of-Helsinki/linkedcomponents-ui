@@ -52,6 +52,7 @@ const getElement = (key: 'input' | 'toggleButton') => {
 
 it('autocompletes and selects time when user clicks an option', async () => {
   const onChange = jest.fn();
+  const user = userEvent.setup();
   const { rerender } = renderTimepicker({
     minuteInterval: 15,
     onChange,
@@ -59,16 +60,16 @@ it('autocompletes and selects time when user clicks an option', async () => {
 
   const input = getElement('input');
 
-  userEvent.type(input, '1');
+  await act(async () => await user.type(input, '1'));
   rerender({ value: '1' });
-  userEvent.type(input, '2');
+  await act(async () => await user.type(input, '2'));
   rerender({ value: '12' });
   expect(input).toHaveValue('12');
 
   expect(onChange.mock.calls).toEqual([['1'], ['12']]);
 
   const option = screen.getByRole('option', { name: '12.15' });
-  userEvent.click(option);
+  await act(async () => await user.click(option));
 
   await waitFor(() => expect(onChange).toHaveBeenLastCalledWith('12.15'));
 
@@ -82,19 +83,20 @@ it('autocompletes and selects time when user clicks an option', async () => {
 
 it('autocompletes and selects time when user navigates with keyboard', async () => {
   const onChange = jest.fn();
+  const user = userEvent.setup();
   const { rerender } = renderTimepicker({ minuteInterval: 15, onChange });
 
   const input = getElement('input');
 
   expect(screen.getByRole('listbox').children).toHaveLength(0);
 
-  userEvent.tab();
+  await act(async () => await user.tab());
 
   expect(screen.getByRole('listbox').children).toHaveLength(96);
 
-  userEvent.type(input, '1');
+  await act(async () => await user.type(input, '1'));
   rerender({ value: '1' });
-  userEvent.type(input, '4');
+  await act(async () => await user.type(input, '4'));
   rerender({ value: '14' });
 
   arrowDownKeyPressHelper(input);
@@ -118,6 +120,7 @@ it('autocompletes and selects time when user navigates with keyboard', async () 
 it('should call onBlur', async () => {
   const onBlur = jest.fn();
   const value = '12.15';
+  const user = userEvent.setup();
   const { container } = renderTimepicker({
     onBlur,
     value,
@@ -125,16 +128,17 @@ it('should call onBlur', async () => {
 
   const input = getElement('input');
 
-  userEvent.click(input);
+  await act(async () => await user.click(input));
   expect(onBlur).not.toBeCalled();
 
-  act(() => userEvent.click(container));
+  await act(async () => await user.click(container));
   expect(onBlur).toBeCalledWith('12.15');
 });
 
 it('should call onBlur with modified value', async () => {
   const onBlur = jest.fn();
   const value = '12:15';
+  const user = userEvent.setup();
   const { container } = renderTimepicker({
     onBlur,
     value,
@@ -142,14 +146,15 @@ it('should call onBlur with modified value', async () => {
 
   const input = getElement('input');
 
-  userEvent.click(input);
+  await act(async () => await user.click(input));
   expect(onBlur).not.toBeCalled();
 
-  act(() => userEvent.click(container));
+  await act(async () => await user.click(container));
   expect(onBlur).toBeCalledWith('12.15');
 });
 
-it('should toggle menu by clicking toggle button', () => {
+it('should toggle menu by clicking toggle button', async () => {
+  const user = userEvent.setup();
   renderTimepicker();
 
   expect(
@@ -158,10 +163,10 @@ it('should toggle menu by clicking toggle button', () => {
 
   const toggleButton = getElement('toggleButton');
 
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   expect(screen.queryByRole('option', { name: '00.00' })).toBeInTheDocument();
 
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   expect(
     screen.queryByRole('option', { name: '00.00' })
   ).not.toBeInTheDocument();
@@ -169,6 +174,7 @@ it('should toggle menu by clicking toggle button', () => {
 
 it('should set selected value to correct value', async () => {
   const onChange = jest.fn();
+  const user = userEvent.setup();
   const { rerender } = renderTimepicker({
     minuteInterval: 15,
     onChange,
@@ -176,7 +182,7 @@ it('should set selected value to correct value', async () => {
   });
 
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   expect(screen.getByRole('option', { name: '12.15' })).toHaveAttribute(
     'aria-selected',

@@ -1,5 +1,5 @@
-@import 'breakpoints';
-@import 'mixins';
+@import '../../../assets/styles/breakpoints';
+@import '../../../assets/styles/mixins';
 
 .modal {
   line-height: var(--lineheight-l);

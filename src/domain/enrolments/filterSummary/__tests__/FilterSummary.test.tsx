@@ -1,9 +1,17 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  act,
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
 import { registrationId } from '../../../registration/__mocks__/registration';
 import FilterSummary from '../FilterSummary';
+
+configure({ defaultHidden: true });
 
 const text = 'Search word';
 
@@ -16,18 +24,20 @@ const renderComponent = (route = defaultRoute) =>
   render(<FilterSummary />, { routes: [route] });
 
 test('should render and remove text filter', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent(`${defaultRoute}?enrolmentText=${text}`);
 
   const deleteFilterButton = screen.getByRole('button', {
     name: `Poista suodatusehto: ${text}`,
   });
-  userEvent.click(deleteFilterButton);
+  await act(async () => await user.click(deleteFilterButton));
 
   expect(history.location.pathname).toBe(defaultRoute);
   expect(history.location.search).toBe('');
 });
 
 test('should remove all filters with clear button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent(`${defaultRoute}?enrolmentText=${text}`);
 
   screen.getByRole('button', { name: `Poista suodatusehto: ${text}` });
@@ -35,7 +45,7 @@ test('should remove all filters with clear button', async () => {
   const clearButton = screen.getByRole('button', {
     name: 'Tyhjennä hakuehdot',
   });
-  userEvent.click(clearButton);
+  await act(async () => await user.click(clearButton));
 
   expect(history.location.pathname).toBe(defaultRoute);
   expect(history.location.search).toBe('');

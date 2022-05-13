@@ -4,6 +4,7 @@ import React from 'react';
 import { ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import {
+  act,
   configure,
   render,
   screen,
@@ -32,6 +33,7 @@ test.skip('matches snapshot', async () => {
 
 test('should show navigation links and should route to correct page after clicking link', async () => {
   setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
+  const user = userEvent.setup();
   const { history } = renderComponent();
   const links = [
     { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
@@ -43,7 +45,7 @@ test('should show navigation links and should route to correct page after clicki
   for (const { name, url } of links) {
     const link = screen.getByRole('link', { name });
 
-    userEvent.click(link);
+    await act(async () => await user.click(link));
 
     await waitFor(() => expect(history.location.pathname).toBe(url));
   }
@@ -51,6 +53,7 @@ test('should show navigation links and should route to correct page after clicki
 
 test('should not show keywords and registrations link when those features are disabled', async () => {
   setFeatureFlags({ SHOW_ADMIN: false, SHOW_REGISTRATION: false });
+  const user = userEvent.setup();
 
   const { history } = renderComponent();
   const links = [
@@ -62,7 +65,7 @@ test('should not show keywords and registrations link when those features are di
   for (const { name, url } of links) {
     const link = screen.getAllByRole('link', { name })[0];
 
-    userEvent.click(link);
+    await act(async () => await user.click(link));
 
     await waitFor(() => expect(history.location.pathname).toBe(url));
   }
@@ -76,10 +79,11 @@ test('should not show keywords and registrations link when those features are di
 });
 
 test('should show feedback link and link should have correct href', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   const feedbackLink = screen.getByRole('link', { name: /anna palautetta/i });
-  userEvent.click(feedbackLink);
+  await act(async () => await user.click(feedbackLink));
 
   expect(history.location.pathname).toBe('/fi/help/support/contact');
 });

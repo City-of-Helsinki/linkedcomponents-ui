@@ -174,7 +174,7 @@ describe('registrationsPathBuilder function', () => {
   const cases: [RegistrationsQueryVariables, string][] = [
     [
       { adminUser: true },
-      '/registration/?admin_user=true&event_type=General,Course,Volunteering',
+      '/registration/?admin_user=true&event_type=Course,General,Volunteering',
     ],
     [
       { eventType: [EventTypeId.Course, EventTypeId.General] },
@@ -182,15 +182,15 @@ describe('registrationsPathBuilder function', () => {
     ],
     [
       { page: 2 },
-      '/registration/?event_type=General,Course,Volunteering&page=2',
+      '/registration/?event_type=Course,General,Volunteering&page=2',
     ],
     [
       { pageSize: 10 },
-      '/registration/?event_type=General,Course,Volunteering&page_size=10',
+      '/registration/?event_type=Course,General,Volunteering&page_size=10',
     ],
     [
       { text: 'text' },
-      '/registration/?event_type=General,Course,Volunteering&text=text',
+      '/registration/?event_type=Course,General,Volunteering&text=text',
     ],
   ];
 

@@ -50,6 +50,7 @@ const getElement = (
 };
 
 test('should navigate between pages', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -58,7 +59,7 @@ test('should navigate between pages', async () => {
   screen.getByRole('button', { name: keywordNames[0] });
 
   const page2Button = getElement('page2Button');
-  userEvent.click(page2Button);
+  await act(async () => await user.click(page2Button));
 
   await loadingSpinnerIsNotInDocument();
   // Page 2 event should be visible.
@@ -67,12 +68,13 @@ test('should navigate between pages', async () => {
 
   // Should clear page from url search if selecting the first page
   const page1Button = getElement('page1Button');
-  userEvent.click(page1Button);
+  await act(async () => await user.click(page1Button));
 
   await waitFor(() => expect(history.location.search).toBe(''));
 });
 
 test('should change sort order', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -82,7 +84,7 @@ test('should change sort order', async () => {
   await waitFor(() => expect(history.location.search).toBe(''));
 
   const sortNameButton = getElement('sortNameButton');
-  act(() => userEvent.click(sortNameButton));
+  await act(async () => await user.click(sortNameButton));
 
   await loadingSpinnerIsNotInDocument();
   // Sorted keywords should be visible.
@@ -92,6 +94,8 @@ test('should change sort order', async () => {
 
 test('should search by text', async () => {
   const searchValue = 'search';
+
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -100,8 +104,10 @@ test('should search by text', async () => {
   screen.getByRole('button', { name: keywordNames[0] });
   await waitFor(() => expect(history.location.search).toBe(''));
 
-  userEvent.type(getElement('searchInput'), searchValue);
-  userEvent.click(getElement('searchButton'));
+  await act(
+    async () => await user.type(getElement('searchInput'), searchValue)
+  );
+  await act(async () => await user.click(getElement('searchButton')));
 
   await waitFor(() =>
     expect(history.location.search).toBe(`?text=${searchValue}`)

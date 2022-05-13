@@ -46,10 +46,12 @@ test('should render all keyword sets', async () => {
 test('should open edit keyword set page by clicking keyword set row', async () => {
   const keywordSetName = keywordSets.data[0].name.fi as string;
   const keywordSetId = keywordSets.data[0].id;
+  const user = userEvent.setup();
   const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });
 
-  act(() =>
-    userEvent.click(screen.getByRole('button', { name: keywordSetName }))
+  await act(
+    async () =>
+      await user.click(screen.getByRole('button', { name: keywordSetName }))
   );
 
   await waitFor(() =>
@@ -62,13 +64,16 @@ test('should open edit keyword set page by clicking keyword set row', async () =
 test('should open edit keyword set page by pressing enter on row', async () => {
   const keywordSetName = keywordSets.data[0].name.fi as string;
   const keywordSetId = keywordSets.data[0].id;
+
+  const user = userEvent.setup();
   const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });
 
-  act(() =>
-    userEvent.type(
-      screen.getByRole('button', { name: keywordSetName }),
-      '{enter}'
-    )
+  await act(
+    async () =>
+      await user.type(
+        screen.getByRole('button', { name: keywordSetName }),
+        '{enter}'
+      )
   );
 
   await waitFor(() =>
@@ -78,21 +83,23 @@ test('should open edit keyword set page by pressing enter on row', async () => {
   );
 });
 
-test('should call setSort when clicking sortable column header', () => {
+test('should call setSort when clicking sortable column header', async () => {
   const setSort = jest.fn();
+
+  const user = userEvent.setup();
   renderComponent({ setSort });
 
   const nameButton = screen.getByRole('button', { name: 'Nimi' });
-  act(() => userEvent.click(nameButton));
+  await act(async () => await user.click(nameButton));
   expect(setSort).toBeCalledWith('-name');
 
   const idButton = screen.getByRole('button', { name: 'ID' });
-  userEvent.click(idButton);
+  await act(async () => await user.click(idButton));
 
   expect(setSort).toBeCalledWith('id');
 
   const usageButton = screen.getByRole('button', { name: 'Käyttötarkoitus' });
-  userEvent.click(usageButton);
+  await act(async () => await user.click(usageButton));
 
   expect(setSort).toBeCalledWith('usage');
 });

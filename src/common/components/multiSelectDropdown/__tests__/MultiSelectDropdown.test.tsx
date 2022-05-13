@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  act,
   arrowDownKeyPressHelper,
   arrowUpKeyPressHelper,
   configure,
@@ -18,18 +19,9 @@ import MultiSelectDropdown, {
 configure({ defaultHidden: true });
 
 const options = [
-  {
-    label: 'Option1',
-    value: 'option1',
-  },
-  {
-    label: 'Option2',
-    value: 'option2',
-  },
-  {
-    label: 'Option3',
-    value: 'option3',
-  },
+  { label: 'Option1', value: 'option1' },
+  { label: 'Option2', value: 'option2' },
+  { label: 'Option3', value: 'option3' },
 ];
 
 const clearButtonLabel = 'Clear';
@@ -72,10 +64,11 @@ const getElement = (key: 'clearButton' | 'searchInput' | 'toggleButton') => {
 const renderComponentWithOpenMenu = async (
   props?: Partial<MultiselectDropdownProps>
 ) => {
+  const user = userEvent.setup();
   renderComponent(props);
 
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   await findElement('clearButton');
 };
@@ -136,12 +129,13 @@ test('should close menu with esc key', async () => {
 });
 
 test('should filter options', async () => {
+  const user = userEvent.setup();
   await renderComponentWithOpenMenu();
 
   options.forEach(({ label }) => screen.getByRole('checkbox', { name: label }));
 
   const searchInput = getElement('searchInput');
-  userEvent.type(searchInput, options[0].label);
+  await act(async () => await user.type(searchInput, options[0].label));
 
   const optionsNotVisible = [options[1].label, options[2].label];
   for (const optionLabel in optionsNotVisible) {
@@ -157,22 +151,24 @@ test('should filter options', async () => {
 
 test('should call onChange', async () => {
   const onChange = jest.fn();
+  const user = userEvent.setup();
   await renderComponentWithOpenMenu({ onChange });
 
-  options.forEach((option) => {
+  for (const option of options) {
     const checkbox = screen.getByRole('checkbox', { name: option.label });
-    userEvent.click(checkbox);
+    await act(async () => await user.click(checkbox));
 
     expect(onChange).toBeCalledWith([option]);
-  });
+  }
 });
 
 test('should uncheck option', async () => {
   const onChange = jest.fn();
+  const user = userEvent.setup();
   await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 
   const checkbox = screen.getByRole('checkbox', { name: options[0].label });
-  userEvent.click(checkbox);
+  await act(async () => await user.click(checkbox));
 
   expect(onChange).toBeCalledWith([]);
 });
@@ -192,10 +188,11 @@ test('should call onChange when pressing enter', async () => {
 
 test('should clear value', async () => {
   const onChange = jest.fn();
+  const user = userEvent.setup();
   await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 
   const clearButton = getElement('clearButton');
-  userEvent.click(clearButton);
+  await act(async () => await user.click(clearButton));
 
   expect(onChange).toBeCalledWith([]);
 });

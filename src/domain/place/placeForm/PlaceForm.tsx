@@ -26,6 +26,7 @@ import {
   useCreatePlaceMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import isTestEnv from '../../../utils/isTestEnv';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
   scrollToFirstError,
@@ -333,14 +334,18 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
 
             <Section title={t('place.form.titleLocation')}>
               <FormRow>
-                <Map
-                  disabled={!isEditingAllowed}
-                  onChange={
-                    /* istanbul ignore next */ (coordinates) =>
-                      setFieldValue('coordinates', coordinates, true)
-                  }
-                  position={values.coordinates}
-                />
+                {!isTestEnv && (
+                  // istanbul ignore next
+                  <Map
+                    disabled={!isEditingAllowed}
+                    onChange={
+                      /* istanbul ignore next */
+                      (coordinates) =>
+                        setFieldValue('coordinates', coordinates, true)
+                    }
+                    position={values.coordinates}
+                  />
+                )}
               </FormRow>
             </Section>
 

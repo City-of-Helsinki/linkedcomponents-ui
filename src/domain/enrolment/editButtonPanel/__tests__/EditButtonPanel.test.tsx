@@ -81,19 +81,21 @@ const getElement = (
   }
 };
 
-const openMenu = () => {
+const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   getElement('menu');
 
   return toggleButton;
 };
 
-test('should toggle menu by clicking actions button', () => {
+test('should toggle menu by clicking actions button', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
-  const toggleButton = openMenu();
-  userEvent.click(toggleButton);
+  const toggleButton = await openMenu();
+  await act(async () => await user.click(toggleButton));
 
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
@@ -102,30 +104,20 @@ test('should toggle menu by clicking actions button', () => {
 
 test('should call onCancel clicking cancel button', async () => {
   const onCancel = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ props: { onCancel } });
 
-  openMenu();
+  await openMenu();
   const cancelButton = await findElement('cancelButton');
-  act(() => userEvent.click(cancelButton));
+  await act(async () => await user.click(cancelButton));
   expect(onCancel).toBeCalled();
 });
 
-test('should toggle menu by clicking actions button', () => {
-  renderComponent();
-
-  const toggleButton = openMenu();
-  userEvent.click(toggleButton);
-
-  expect(
-    screen.queryByRole('region', { name: /valinnat/i })
-  ).not.toBeInTheDocument();
-});
-
 test('should route to enrolments page when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  const backButton = getElement('backButton');
-  userEvent.click(backButton);
+  await act(async () => await user.click(getElement('backButton')));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -135,6 +127,7 @@ test('should route to enrolments page when clicking back button', async () => {
 });
 
 test('should route to page defined in returnPath when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent({
     route: `/fi${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
       ':registrationId',
@@ -142,8 +135,7 @@ test('should route to page defined in returnPath when clicking back button', asy
     )}?returnPath=${ROUTES.EDIT_REGISTRATION.replace(':id', registration.id)}`,
   });
 
-  const backButton = getElement('backButton');
-  userEvent.click(backButton);
+  await act(async () => await user.click(getElement('backButton')));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -154,10 +146,12 @@ test('should route to page defined in returnPath when clicking back button', asy
 
 test('should call onSave', async () => {
   const onSave = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ props: { onSave } });
 
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await waitFor(() => expect(saveButton).toBeEnabled());
+  await act(async () => await user.click(saveButton));
 
   expect(onSave).toBeCalled();
 });

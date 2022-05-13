@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider } from '@apollo/client/testing';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import range from 'lodash/range';
 import { Provider } from 'react-redux';
@@ -93,6 +94,7 @@ const store = getMockReduxStore(state);
 
 const getHookWrapper = async () => {
   const wrapper = ({ children }) => (
+    // @ts-ignore
     <Provider store={store}>
       <MockedProvider cache={createCache()} mocks={mocks}>
         {children}
@@ -100,21 +102,23 @@ const getHookWrapper = async () => {
     </Provider>
   );
 
-  const { result, waitFor } = renderHook(() => useAllOrganizationClasses(), {
+  const { result } = renderHook(() => useAllOrganizationClasses(), {
     wrapper,
   });
   // Test the initial state of the request
   expect(result.current.organizationClasses).toEqual([]);
   await waitFor(() => expect(result.current.user).toBeDefined());
-  return { result, waitFor };
+  return { result };
 };
 
 test('should return all organization classes', async () => {
-  const { result, waitFor } = await getHookWrapper();
+  const { result } = await getHookWrapper();
   // Wait for the results
   await waitFor(() => expect(result.current.loading).toBeFalsy());
-  expect(map(result.current.organizationClasses, 'name')).toEqual([
-    ...organiozationClassNames,
-    ...page2OrganizationClassNames,
-  ]);
+  await waitFor(() =>
+    expect(map(result.current.organizationClasses, 'name')).toEqual([
+      ...organiozationClassNames,
+      ...page2OrganizationClassNames,
+    ])
+  );
 });

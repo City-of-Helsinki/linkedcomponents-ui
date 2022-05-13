@@ -19,7 +19,7 @@ configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
 
-const renderTimeSection = () =>
+const renderPriceSection = () =>
   render(
     <Formik
       initialValues={{
@@ -68,13 +68,12 @@ const getElement = (
 };
 
 test('should add and delete an offer', async () => {
-  renderTimeSection();
+  const user = userEvent.setup();
+  renderPriceSection();
 
-  getElement('heading');
-
-  userEvent.click(getElement('hasPriceCheckbox'));
+  await act(async () => await user.click(getElement('hasPriceCheckbox')));
   const addButton = await findElement('addButton');
-  act(() => userEvent.click(addButton));
+  await act(async () => await user.click(addButton));
 
   const placeholders = [
     /syötä tapahtuman hinta/i,
@@ -87,7 +86,7 @@ test('should add and delete an offer', async () => {
     screen.getByPlaceholderText(placeholder);
   }
 
-  userEvent.click(getElement('deleteButton'));
+  await act(async () => await user.click(getElement('deleteButton')));
 
   await waitFor(() =>
     expect(
@@ -97,13 +96,12 @@ test('should add and delete an offer', async () => {
 });
 
 test('should validate an offer', async () => {
-  renderTimeSection();
+  const user = userEvent.setup();
+  renderPriceSection();
 
-  getElement('heading');
-
-  userEvent.click(getElement('hasPriceCheckbox'));
+  await act(async () => await user.click(getElement('hasPriceCheckbox')));
   const addButton = await findElement('addButton');
-  act(() => userEvent.click(addButton));
+  await act(async () => await user.click(addButton));
 
   const priceInput = await screen.findByPlaceholderText(
     /syötä tapahtuman hinta/i
@@ -114,19 +112,20 @@ test('should validate an offer', async () => {
   const descriptionInput = screen.getByPlaceholderText(
     /syötä lisätietoa hinnasta/i
   );
-  userEvent.click(priceInput);
-  userEvent.click(urlInput);
+  await act(async () => await user.click(priceInput));
+  await act(async () => await user.click(urlInput));
   await screen.findByText(/tämä kenttä on pakollinen/i);
 
-  userEvent.type(urlInput, 'invalidurl.com');
-  userEvent.click(descriptionInput);
+  await act(async () => await user.type(urlInput, 'invalidurl.com'));
+  await act(async () => await user.click(descriptionInput));
   await screen.findByText(
     /kirjoita url osoite kokonaisena ja oikeassa muodossa/i
   );
 });
 
 test('should show instructions only once', async () => {
-  renderTimeSection();
+  const user = userEvent.setup();
+  renderPriceSection();
 
   getElement('heading');
 
@@ -134,9 +133,9 @@ test('should show instructions only once', async () => {
     screen.queryAllByText(/merkitse onko tapahtuma maksuton/i)
   ).toHaveLength(0);
 
-  userEvent.click(getElement('hasPriceCheckbox'));
+  await act(async () => await user.click(getElement('hasPriceCheckbox')));
   const addButton = await findElement('addButton');
-  act(() => userEvent.click(addButton));
+  await act(async () => await user.click(addButton));
 
   await waitFor(() =>
     expect(
@@ -148,7 +147,7 @@ test('should show instructions only once', async () => {
     screen.queryAllByText(/merkitse onko tapahtuma maksuton/i)
   ).toHaveLength(1);
 
-  act(() => userEvent.click(addButton));
+  await act(async () => await user.click(addButton));
 
   await waitFor(() =>
     expect(

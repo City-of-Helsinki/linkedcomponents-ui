@@ -5,12 +5,15 @@ import { RegistrationDocument } from '../../../generated/graphql';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
+  actWait,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
   userEvent,
+  waitFor,
 } from '../../../utils/testUtils';
 import { REGISTRATION_INCLUDES } from '../../registration/constants';
 import { mockedUserResponse } from '../../user/__mocks__/user';
@@ -79,25 +82,33 @@ test('should render all components', async () => {
 });
 
 test('should route to registration list page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
   getElement('registrationSavedHeading');
+  await actWait(100);
 
   const backToRegistrationsButton = getElement('backToRegistrationsButton');
-  userEvent.click(backToRegistrationsButton);
+  await act(async () => await user.click(backToRegistrationsButton));
 
-  expect(history.location.pathname).toBe('/fi/registrations');
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/fi/registrations')
+  );
 });
 
 test('should route to create registration page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
   getElement('registrationSavedHeading');
+  await actWait(100);
 
   const addEventButton = getElement('addRegistrationButton');
-  userEvent.click(addEventButton);
+  await act(async () => await user.click(addEventButton));
 
-  expect(history.location.pathname).toBe('/fi/registrations/create');
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/fi/registrations/create')
+  );
 });

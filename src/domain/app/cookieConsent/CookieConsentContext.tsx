@@ -64,7 +64,9 @@ const CookieConsentContext = React.createContext<CookieConsentContextType>({
   setIsConsentModalOpen: /* istanbul ignore next */ () => undefined,
 });
 
-export const CookieConsentProvider: React.FC = ({ children }) => {
+export const CookieConsentProvider: React.FC<
+  React.PropsWithChildren<unknown>
+> = ({ children }) => {
   const locale = useLocale();
   const { pathname } = useLocation();
   const [isConsentModalOpen, setIsConsentModalOpen] = React.useState(false);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import {
@@ -72,7 +73,10 @@ const customRender: CustomRender = (
     store = reduxStore,
   } = {}
 ) => {
-  const Wrapper: React.FC = ({ children }) => (
+  const Wrapper: React.FC<React.PropsWithChildren<unknown>> = ({
+    children,
+  }) => (
+    // @ts-ignore
     <Provider store={store}>
       <ThemeProvider>
         <MockedProvider cache={createCache()} mocks={mocks}>
@@ -119,7 +123,10 @@ const renderWithRoute: CustomRender = (
     store = reduxStore,
   } = {}
 ) => {
-  const Wrapper: React.FC = ({ children }) => (
+  const Wrapper: React.FC<React.PropsWithChildren<unknown>> = ({
+    children,
+  }) => (
+    // @ts-ignore
     <Provider store={store}>
       <ThemeProvider>
         <MockedProvider cache={createCache()} mocks={mocks}>

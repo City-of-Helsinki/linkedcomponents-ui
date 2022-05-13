@@ -8,6 +8,7 @@ import {
 } from '../../../../../generated/graphql';
 import { fakePlaces } from '../../../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   render,
   screen,
@@ -75,12 +76,13 @@ const getElement = (key: 'toggleButton') => {
   }
 };
 test('should render place selector', async () => {
+  const user = userEvent.setup();
   renderComponent({ value: [placeId] });
 
   await screen.findByText(place.name.fi);
 
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   for (const { name } of placeOverrides) {
     await screen.findByRole('checkbox', { name });

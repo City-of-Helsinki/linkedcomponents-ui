@@ -75,7 +75,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   };
 
   const sanitizeDescriptionAfterChange = React.useCallback(
-    (value) =>
+    (value: string) =>
       formatSingleDescription({
         audience,
         description: value,

@@ -17,6 +17,7 @@ import {
   UpdateEventMutationInput,
   useCreateEventsMutation,
   useDeleteEventMutation,
+  UserFieldsFragment,
   useUpdateEventsMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -67,6 +68,7 @@ type UseEventUpdateActionsState = {
     publicationStatus: PublicationStatus,
     callbacks?: UpdateActionsCallbacks
   ) => Promise<void>;
+  user: UserFieldsFragment | undefined;
 };
 const useEventUpdateActions = ({
   event,
@@ -173,6 +175,7 @@ const useEventUpdateActions = ({
 
   const cancelEvent = async (callbacks?: UpdateActionsCallbacks) => {
     let payload: UpdateEventMutationInput[] = [];
+
     try {
       setSaving(EVENT_EDIT_ACTIONS.CANCEL);
       // Check that user has permission to cancel events
@@ -484,6 +487,7 @@ const useEventUpdateActions = ({
     saving,
     setOpenModal,
     updateEvent,
+    user,
   };
 };
 

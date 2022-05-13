@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { clear } from 'jest-date-mock';
 import React from 'react';
 
 import { TEST_USER_ID } from '../../../../constants';
@@ -7,6 +6,7 @@ import { UserDocument } from '../../../../generated/graphql';
 import { fakeUser } from '../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   CustomRenderOptions,
   getMockReduxStore,
@@ -23,7 +23,6 @@ import PlaceAuthenticationNotification, {
 } from '../PlaceAuthenticationNotification';
 
 configure({ defaultHidden: true });
-beforeEach(() => clear());
 
 const userVariables = { createPath: undefined, id: TEST_USER_ID };
 
@@ -92,13 +91,13 @@ test('should show notification if user has an admin organization but it is diffe
   screen.getByText('Sinulla ei ole oikeuksia muokata tätä paikkaa.');
 });
 
-test('should start sign in process', () => {
+test('should start sign in process', async () => {
+  const user = userEvent.setup();
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
 
   renderComponent();
 
   const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
-
-  userEvent.click(signInButton);
+  await act(async () => await user.click(signInButton));
   expect(signinRedirect).toBeCalled();
 });

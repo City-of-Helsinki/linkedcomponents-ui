@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  act,
   escKeyPressHelper,
   render,
   screen,
@@ -38,9 +39,12 @@ const getElement = (
 
 test('should open menu by clicking toggle button', async () => {
   const onChangeDate = jest.fn();
+  const user = userEvent.setup();
+
   renderComponent({ onChangeDate });
+
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   screen.getByText('08.10.2021 - 15.10.2021');
   getElement('endDateInput');
@@ -50,9 +54,12 @@ test('should open menu by clicking toggle button', async () => {
 
 test('should close menu with esc button', async () => {
   const onChangeDate = jest.fn();
+  const user = userEvent.setup();
+
   renderComponent({ onChangeDate });
+
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   getElement('clearButton');
 
@@ -65,12 +72,15 @@ test('should close menu with esc button', async () => {
 
 test('should clear start and end date by clicking clear button', async () => {
   const onChangeDate = jest.fn();
+  const user = userEvent.setup();
+
   renderComponent({ onChangeDate });
+
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   const clearButton = getElement('clearButton');
-  userEvent.click(clearButton);
+  await act(async () => await user.click(clearButton));
 
   expect(onChangeDate).toBeCalledWith('endDate', null);
   expect(onChangeDate).toBeCalledWith('startDate', null);

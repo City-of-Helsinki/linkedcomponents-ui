@@ -533,10 +533,9 @@ type ThemeProvideProps = {
   initTheme?: Theme;
 };
 
-export const ThemeProvider: React.FC<ThemeProvideProps> = ({
-  children,
-  initTheme = defaultTheme,
-}) => {
+export const ThemeProvider: React.FC<
+  React.PropsWithChildren<ThemeProvideProps>
+> = ({ children, initTheme = defaultTheme }) => {
   const [theme, setTheme] = useState<Theme>(initTheme);
 
   return (

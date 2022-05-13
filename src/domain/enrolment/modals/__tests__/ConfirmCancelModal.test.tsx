@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -28,20 +29,22 @@ const renderComponent = (props: Partial<ConfirmCancelModalProps>) =>
 
 test('should call onCancel', async () => {
   const onCancel = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onCancel });
 
   const cancelEventButton = screen.getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });
-  userEvent.click(cancelEventButton);
+  await act(async () => await user.click(cancelEventButton));
   expect(onCancel).toBeCalled();
 });
 
 test('should call onClose', async () => {
   const onClose = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onClose });
 
   const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  userEvent.click(closeButton);
+  await act(async () => await user.click(closeButton));
   expect(onClose).toBeCalled();
 });

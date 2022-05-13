@@ -242,6 +242,7 @@ const CreateEventPage: React.FC = () => {
           });
         };
 
+        /* istanbul ignore next */
         const isEditingAllowed =
           isCreateEventAllowed(EVENT_CREATE_ACTIONS.CREATE_DRAFT) ||
           isCreateEventAllowed(EVENT_CREATE_ACTIONS.PUBLISH);
@@ -274,7 +275,7 @@ const CreateEventPage: React.FC = () => {
               setTouched,
             });
 
-            scrollToFirstError({
+            await scrollToFirstError({
               descriptionLanguage,
               error: error as ValidationError,
               setDescriptionLanguage,

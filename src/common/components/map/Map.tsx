@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'leaflet/dist/leaflet.css';
-import 'leaflet-draw/dist/leaflet.draw.css';
 
-import L, { LatLng } from 'leaflet';
+import L, { LatLng, LeafletEvent } from 'leaflet';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FeatureGroup, MapContainer, Marker, TileLayer } from 'react-leaflet';
-import { EditControl } from 'react-leaflet-draw';
 
 import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
+import EditControl from './EditControl';
 import styles from './map.module.scss';
 import { localizeMap } from './utils';
 L.Icon.Default.imagePath = '/images/';
@@ -30,7 +29,7 @@ const Map: React.FC<Props> = ({ disabled, onChange, position }) => {
 
   const featureGroup = React.useRef<any>();
 
-  const onCreated = (e: any) => {
+  const onCreated = (e: LeafletEvent) => {
     const layerId = e.layer._leaflet_id;
     const drawnItems = featureGroup.current._layers;
     const drawnItemKeys = Object.keys(drawnItems);
@@ -89,7 +88,6 @@ const Map: React.FC<Props> = ({ disabled, onChange, position }) => {
               draw={{
                 circlemarker: false,
                 circle: false,
-                marker: true,
                 polyline: false,
                 polygon: false,
                 rectangle: false,

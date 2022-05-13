@@ -1,5 +1,5 @@
-@import 'breakpoints';
-@import 'widths';
+@import '../../../assets/styles/breakpoints';
+@import '../../../assets/styles/widths';
 
 .searchPanel {
   --search-panel-background-color: var(--color-coat-of-arms);

@@ -93,9 +93,11 @@ it('scrolls to event card and calls history.replace correctly (deletes eventId f
 
   await loadingSpinnerIsNotInDocument();
 
-  expect(replaceSpy).toHaveBeenCalledWith(
-    { hash: '', pathname: route, search: search },
-    {}
+  await waitFor(() =>
+    expect(replaceSpy).toHaveBeenCalledWith(
+      { hash: '', pathname: route, search: search },
+      {}
+    )
   );
 
   const eventCard = screen.getByRole('link', { name: eventNames[0] });

@@ -14,6 +14,7 @@ import {
   fakeOffers,
 } from '../../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   render,
   screen,
@@ -106,6 +107,7 @@ const mocks = [
 ];
 
 test('should render event card fields', async () => {
+  const user = userEvent.setup();
   render(<EventCard event={event} />, { mocks });
 
   screen.getByRole('heading', { name: eventValues.name });
@@ -123,7 +125,7 @@ test('should render event card fields', async () => {
   const showMoreButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat (${subEvents.data.length})`,
   });
-  userEvent.click(showMoreButton);
+  await act(async () => await user.click(showMoreButton));
 
   // Should show sub-events
   await screen.findByRole('heading', { name: subEventFields[0].name });
@@ -134,7 +136,7 @@ test('should render event card fields', async () => {
   const hideButton = screen.getByRole('button', {
     name: `Piilota alatapahtumat`,
   });
-  userEvent.click(hideButton);
+  await act(async () => await user.click(hideButton));
 
   // Sub-events should be hidden
   for (const { name } of subEventFields) {

@@ -72,17 +72,21 @@ const getElement = (key: 'addButton' | 'cancelButton' | 'urlInput') => {
 
 test('should call onCancel', async () => {
   const onCancel = jest.fn();
+  const user = userEvent.setup();
+
   renderComponent({ props: { onCancel } });
 
   await findElement('imageCheckbox');
 
   const cancelButton = getElement('cancelButton');
-  act(() => userEvent.click(cancelButton));
+  await act(async () => await user.click(cancelButton));
   await waitFor(() => expect(onCancel).toBeCalled());
 });
 
 test('should call onSubmit with existing image', async () => {
   const onSubmit = jest.fn();
+  const user = userEvent.setup();
+
   renderComponent({ props: { onSubmit } });
 
   const imageCheckbox = await findElement('imageCheckbox');
@@ -91,11 +95,11 @@ test('should call onSubmit with existing image', async () => {
 
   await waitFor(() => expect(urlInput).toBeEnabled());
 
-  act(() => userEvent.click(imageCheckbox));
+  await act(async () => await user.click(imageCheckbox));
   expect(urlInput).toBeDisabled();
   await waitFor(() => expect(addButton).toBeEnabled());
 
-  act(() => userEvent.click(addButton));
+  await act(async () => await user.click(addButton));
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       selectedImage: [images.data[0].atId],
@@ -106,6 +110,8 @@ test('should call onSubmit with existing image', async () => {
 
 test('should call onSubmit by double clicking image', async () => {
   const onSubmit = jest.fn();
+  const user = userEvent.setup();
+
   renderComponent({ props: { onSubmit } });
 
   const imageCheckbox = await findElement('imageCheckbox');
@@ -113,7 +119,7 @@ test('should call onSubmit by double clicking image', async () => {
 
   await waitFor(() => expect(urlInput).toBeEnabled());
 
-  userEvent.dblClick(imageCheckbox);
+  await act(async () => await user.dblClick(imageCheckbox));
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       selectedImage: [images.data[0].atId],
@@ -123,6 +129,7 @@ test('should call onSubmit by double clicking image', async () => {
 });
 
 test('should validate url', async () => {
+  const user = userEvent.setup();
   renderComponent({});
 
   const invalidUrlText = 'invalid url';
@@ -131,10 +138,10 @@ test('should validate url', async () => {
   const addButton = getElement('addButton');
 
   await waitFor(() => expect(urlInput).toBeEnabled());
-  act(() => userEvent.click(urlInput));
-  userEvent.type(urlInput, invalidUrlText);
+  await act(async () => await user.click(urlInput));
+  await act(async () => await user.type(urlInput, invalidUrlText));
 
-  act(() => userEvent.tab());
+  await act(async () => await user.tab());
 
   await screen.findByText(translations.form.validation.string.url);
   expect(addButton).toBeDisabled();
@@ -148,10 +155,7 @@ test("inputs to add new images should be disabled if user doesn't have permissio
   });
   const userResponse = { data: { user } };
   const mockedUserResponse = {
-    request: {
-      query: UserDocument,
-      variables: userVariables,
-    },
+    request: { query: UserDocument, variables: userVariables },
     result: userResponse,
   };
 
@@ -164,7 +168,7 @@ test("inputs to add new images should be disabled if user doesn't have permissio
 
   await findElement('imageCheckbox');
   const uploadImageButton = screen.getByRole('button', {
-    name: 'Sinulla ei ole oikeuksia lisätä kuvia.',
+    name: 'Raahaa ja pudota kuva alueelle tai lisää omalta koneelta klikkaamalla',
   });
   const urlInput = getElement('urlInput');
 
@@ -174,6 +178,8 @@ test("inputs to add new images should be disabled if user doesn't have permissio
 
 test('should call onSubmit with image url', async () => {
   const onSubmit = jest.fn();
+  const user = userEvent.setup();
+
   renderComponent({ props: { onSubmit } });
 
   const url = 'http://test.com';
@@ -184,12 +190,12 @@ test('should call onSubmit with image url', async () => {
   expect(addButton).toBeDisabled();
   await waitFor(() => expect(urlInput).toBeEnabled());
 
-  act(() => userEvent.click(urlInput));
-  userEvent.type(urlInput, url);
+  await act(async () => await user.click(urlInput));
+  await act(async () => await user.type(urlInput, url));
   expect(imageCheckbox).toBeDisabled();
 
   await waitFor(() => expect(addButton).toBeEnabled());
-  act(() => userEvent.click(addButton));
+  await act(async () => await user.click(addButton));
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       selectedImage: [],

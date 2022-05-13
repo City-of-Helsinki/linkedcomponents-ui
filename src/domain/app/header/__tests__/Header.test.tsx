@@ -63,6 +63,7 @@ test.skip('matches snapshot', () => {
 
 test('should show navigation links and should route to correct page after clicking link', async () => {
   setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
+  const user = userEvent.setup();
   const { history } = renderComponent();
   const links = [
     { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
@@ -74,20 +75,20 @@ test('should show navigation links and should route to correct page after clicki
   for (const { name, url } of links) {
     const link = screen.getAllByRole('link', { name })[0];
 
-    userEvent.click(link);
+    await act(async () => await user.click(link));
 
     await waitFor(() => expect(history.location.pathname).toBe(url));
   }
 
   const homeLink = screen.getAllByRole('link', { name: /linked events/i })[0];
 
-  userEvent.click(homeLink);
+  await act(async () => await user.click(homeLink));
   expect(history.location.pathname).toBe(`/fi${ROUTES.HOME}`);
 });
 
 test('should not show keywords and registrations link when those features are disabled', async () => {
   setFeatureFlags({ SHOW_ADMIN: false, SHOW_REGISTRATION: false });
-
+  const user = userEvent.setup();
   const { history } = renderComponent();
   const links = [
     { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
@@ -97,7 +98,7 @@ test('should not show keywords and registrations link when those features are di
   for (const { name, url } of links) {
     const link = screen.getAllByRole('link', { name })[0];
 
-    userEvent.click(link);
+    await act(async () => await user.click(link));
 
     await waitFor(() => expect(history.location.pathname).toBe(url));
   }
@@ -112,40 +113,42 @@ test('should not show keywords and registrations link when those features are di
 
 test('should show mobile menu', async () => {
   global.innerWidth = 500;
+  const user = userEvent.setup();
   renderComponent();
 
   expect(screen.getAllByRole('navigation')).toHaveLength(1);
 
   const menuButton = getElement('menuButton');
-  userEvent.click(menuButton);
+  await act(async () => await user.click(menuButton));
 
   await waitFor(() =>
     expect(screen.getAllByRole('navigation')).toHaveLength(2)
   );
 });
 
-test('should change language', () => {
+test('should change language', async () => {
   global.innerWidth = 1200;
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   expect(history.location.pathname).toBe('/fi');
 
   const languageSelectors = getElements('languageSelector');
-  userEvent.click(languageSelectors[0]);
+  await act(async () => await user.click(languageSelectors[0]));
 
   const enOption = getElement('enOption');
-  userEvent.click(enOption);
+  await act(async () => await user.click(enOption));
 
   expect(history.location.pathname).toBe('/en');
 });
 
-test('should start login process', () => {
+test('should start login process', async () => {
   const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
-
+  const user = userEvent.setup();
   renderComponent();
 
   const signInButtons = getElements('signInButton');
-  userEvent.click(signInButtons[0]);
+  await act(async () => await user.click(signInButtons[0]));
 
   expect(signinRedirect).toBeCalled();
 });
@@ -156,30 +159,36 @@ test('should start logout process', async () => {
   const storeState = fakeAuthenticatedStoreState();
   const store = getMockReduxStore(storeState);
 
+  const user = userEvent.setup();
   renderComponent(store);
 
-  const userMenuButton = await screen.findByRole('button', { name: userName });
-  userEvent.click(userMenuButton);
+  const userMenuButton = await screen.findByRole(
+    'button',
+    { name: userName },
+    { timeout: 10000 }
+  );
+  await act(async () => await user.click(userMenuButton));
 
   const signOutLinks = getElements('signOutLink');
-  act(() => userEvent.click(signOutLinks[0]));
+  await act(async () => await user.click(signOutLinks[0]));
 
   await waitFor(() => expect(signoutRedirect).toBeCalled());
 });
 
-test('should route to search page', () => {
+test('should route to search page', async () => {
   const searchValue = 'search';
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   const openSearchButton = screen.getByRole('button', {
     name: 'Etsi tapahtumia',
   });
-  userEvent.click(openSearchButton);
+  await act(async () => await user.click(openSearchButton));
 
   const searchInput = screen.getByPlaceholderText('Etsi tapahtumia');
-  userEvent.click(searchInput);
-  userEvent.type(searchInput, searchValue);
-  userEvent.type(searchInput, '{enter}');
+  await act(async () => await user.click(searchInput));
+  await act(async () => await user.type(searchInput, searchValue));
+  await act(async () => await user.type(searchInput, '{enter}'));
 
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe(`?text=${searchValue}`);

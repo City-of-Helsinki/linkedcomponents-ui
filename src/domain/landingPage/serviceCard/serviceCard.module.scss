@@ -1,6 +1,5 @@
-@import 'breakpoints';
-@import 'mixins';
-@import 'widths';
+@import '../../../assets/styles/breakpoints';
+@import '../../../assets/styles/mixins';
 
 .serviceCard {
   --service-card-background-color: var(--color-suomenlinna);

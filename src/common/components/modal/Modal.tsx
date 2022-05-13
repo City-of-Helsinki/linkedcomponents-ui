@@ -21,7 +21,7 @@ type Props = {
   title: string;
 } & Omit<ReactModal.Props, 'onRequestClose'>;
 
-const Modal: React.FC<Props> = ({
+const Modal: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   className,
   onClose,
@@ -32,6 +32,8 @@ const Modal: React.FC<Props> = ({
   const { t } = useTranslation();
 
   return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     <ReactModal
       {...rest}
       ariaHideApp={!isTestEnv}

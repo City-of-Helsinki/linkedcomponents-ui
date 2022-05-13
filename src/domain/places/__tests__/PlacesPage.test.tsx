@@ -84,24 +84,26 @@ test('should render keywords page', async () => {
 });
 
 test('should open create place page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await findElement('title');
   await loadingSpinnerIsNotInDocument();
 
   const createKeywordButton = getElement('createPlaceButton');
-  userEvent.click(createKeywordButton);
+  await act(async () => await user.click(createKeywordButton));
 
   expect(history.location.pathname).toBe('/fi/admin/places/create');
 });
 
 test('should add sort parameter to search query', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
   const sortNameButton = getElement('sortNameButton');
-  act(() => userEvent.click(sortNameButton));
+  await act(async () => await user.click(sortNameButton));
 
   expect(history.location.search).toBe('?sort=name');
 });
@@ -117,9 +119,11 @@ it('scrolls to place row and calls history.replace correctly (deletes placeId fr
   await loadingSpinnerIsNotInDocument();
   const keywordButton = screen.getByRole('button', { name: placeNames[0] });
 
-  expect(replaceSpy).toHaveBeenCalledWith(
-    { hash: '', pathname: route, search: '' },
-    {}
+  await waitFor(() =>
+    expect(replaceSpy).toHaveBeenCalledWith(
+      { hash: '', pathname: route, search: '' },
+      {}
+    )
   );
 
   await waitFor(() => expect(keywordButton).toHaveFocus());

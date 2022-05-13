@@ -7,6 +7,7 @@ import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
+  actWait,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -23,6 +24,7 @@ import {
 import {
   mockedAudienceKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
+  topicName,
 } from '../../keywordSet/__mocks__/keywordSets';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
@@ -91,14 +93,22 @@ const renderComponent = (mocks: MockedResponse[] = baseMocks) =>
   });
 
 const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = screen
     .getAllByRole('button', { name: /valinnat/i })
     .pop();
 
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   screen.getByRole('region', { name: /valinnat/i });
 
   return toggleButton;
+};
+
+const findElement = (key: 'topicCheckbox') => {
+  switch (key) {
+    case 'topicCheckbox':
+      return screen.findByRole('checkbox', { name: topicName });
+  }
 };
 
 const getButton = (
@@ -143,26 +153,25 @@ const getAddEventTimeFormElement = (
 test('should cancel event', async () => {
   const mocks: MockedResponse[] = [
     ...baseMocks,
-    // Request to cancel event
     mockedCancelEventResponse,
-    // Request to get mutated event
     mockedCancelledEventResponse,
   ];
 
+  const user = userEvent.setup();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
   await openMenu();
 
   const cancelButton = getButton('cancel');
-  userEvent.click(cancelButton);
+  await act(async () => await user.click(cancelButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   // Cancel event button inside modal
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta tapahtuma',
   });
-  userEvent.click(cancelEventButton);
+  await act(async () => await user.click(cancelEventButton));
 
   await waitFor(
     () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
@@ -175,25 +184,24 @@ test('should cancel event', async () => {
 test('should postpone event', async () => {
   const mocks: MockedResponse[] = [
     ...baseMocks,
-    // Request to postpone event
     mockedPostponeEventResponse,
-    // Request to get mutated event
     mockedPostponedEventResponse,
   ];
 
+  const user = userEvent.setup();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
   await openMenu();
 
   const postponeButton = getButton('postpone');
-  userEvent.click(postponeButton);
+  await act(async () => await user.click(postponeButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const postponeEventButton = withinModal.getByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
-  userEvent.click(postponeEventButton);
+  await act(async () => await user.click(postponeEventButton));
 
   await waitFor(
     () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
@@ -210,20 +218,21 @@ test('should delete event', async () => {
     mockedDeleteEventResponse,
   ];
 
+  const user = userEvent.setup();
   const { history } = renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
   await openMenu();
 
   const deleteButton = getButton('delete');
-  userEvent.click(deleteButton);
+  await act(async () => await user.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   // Delete event button inside modal
   const deleteEventButton = withinModal.getByRole('button', {
     name: 'Poista tapahtuma',
   });
-  userEvent.click(deleteEventButton);
+  await act(async () => await user.click(deleteEventButton));
 
   await waitFor(
     () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
@@ -235,22 +244,24 @@ test('should delete event', async () => {
 test('should update event', async () => {
   const mocks: MockedResponse[] = [
     ...baseMocks,
-    // Request to update event
     mockedUpdateEventResponse,
-    // Request to get updated event
     mockedUpdatedEventResponse,
-    // Request to update image
     mockedUpdateImageResponse,
   ];
 
+  const user = userEvent.setup();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
-  screen.getByText(expectedValues.lastModifiedTime);
+  const topicCheckbox = await findElement('topicCheckbox');
+  await waitFor(() => expect(topicCheckbox).toBeChecked());
 
+  // Main categories are not visible in UI. Give some time to update main categories to formik
+  await actWait(100);
   const updateButton = getButton('updatePublic');
-  userEvent.click(updateButton);
+  await waitFor(() => expect(updateButton).toBeEnabled());
+  await act(async () => await user.click(updateButton));
 
   await loadingSpinnerIsNotInDocument(30000);
   await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
@@ -264,20 +275,18 @@ test('should update recurring event', async () => {
     mockedEventWithSubEventResponse,
     mockedSubEventsResponse,
     mockedSubSubEventsResponse,
-    // Request to update event
     mockedDeleteSubEvent1Response,
     mockedUpdateSubEventsResponse,
     mockedCreateNewSubEventsResponse,
     mockedUpdateRecurringEventResponse,
-    // Request to get mutated event
     mockedUpdatedRecurringEventResponse,
     mockedUpdatedRecurringEventResponse,
     mockedSubEventsResponse,
     mockedSubSubEventsResponse,
-    // Request to update image
     mockedUpdateImageResponse,
   ];
 
+  const user = userEvent.setup();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
@@ -293,12 +302,10 @@ test('should update recurring event', async () => {
       )} – ${formatDate(subEventTimes[0].endTime, DATETIME_FORMAT)}`,
     })
   );
-  const toggleMenuButton = withinRow.getByRole('button', {
-    name: /valinnat/i,
-  });
-  userEvent.click(toggleMenuButton);
+  const toggleMenuButton = withinRow.getByRole('button', { name: /valinnat/i });
+  await act(async () => await user.click(toggleMenuButton));
   const deleteButton = withinRow.getByRole('button', { name: /poista/i });
-  userEvent.click(deleteButton);
+  await act(async () => await user.click(deleteButton));
 
   const endTimeInput = getAddEventTimeFormElement('endTime');
   const startTimeInput = getAddEventTimeFormElement('startTime');
@@ -306,23 +313,28 @@ test('should update recurring event', async () => {
 
   for (const newEventTime of newSubEventTimes) {
     const startTimeValue = formatDate(newEventTime.startTime, DATETIME_FORMAT);
-    act(() => userEvent.click(startTimeInput));
-    userEvent.type(startTimeInput, startTimeValue);
-    await waitFor(() => expect(startTimeInput).toHaveValue(startTimeValue));
+    await act(async () => await user.click(startTimeInput));
+    await act(async () => await user.type(startTimeInput, startTimeValue));
+    await waitFor(() => expect(startTimeInput).toHaveValue(startTimeValue), {
+      timeout: 10000,
+    });
 
     const endTimeValue = formatDate(newEventTime.endTime, DATETIME_FORMAT);
-    act(() => userEvent.click(endTimeInput));
-    userEvent.type(endTimeInput, endTimeValue);
-    await waitFor(() => expect(endTimeInput).toHaveValue(endTimeValue));
+    await act(async () => await user.click(endTimeInput));
+    await act(async () => await user.type(endTimeInput, endTimeValue));
+    await waitFor(() => expect(endTimeInput).toHaveValue(endTimeValue), {
+      timeout: 10000,
+    });
 
     await waitFor(() => expect(addButton).toBeEnabled());
-    act(() => userEvent.click(addButton));
+    await act(async () => await user.click(addButton));
+
     await waitFor(() => expect(startTimeInput).toHaveValue(''));
     await waitFor(() => expect(endTimeInput).toHaveValue(''));
   }
 
   const updateButton = getButton('updatePublic');
-  userEvent.click(updateButton);
+  await act(async () => await user.click(updateButton));
 
   const modal = await screen.findByRole('dialog');
   const withinModal = within(modal);
@@ -330,7 +342,7 @@ test('should update recurring event', async () => {
   const updateEventButton = await withinModal.getByRole('button', {
     name: 'Tallenna',
   });
-  userEvent.click(updateEventButton);
+  await act(async () => await user.click(updateEventButton));
 
   // This test is pretty heavy so give DOM some time to update
   await waitFor(
@@ -347,15 +359,16 @@ test('should scroll to first error when validation error is thrown', async () =>
   const mocks: MockedResponse[] = [
     ...baseMocks.filter((item) => item.request.query !== EventDocument),
     mockedEventTimeResponse,
-    // Request to update event
     mockedInvalidEventResponse,
   ];
+
+  const user = userEvent.setup();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
   const updateButton = getButton('updateDraft');
-  userEvent.click(updateButton);
+  await act(async () => await user.click(updateButton));
 
   const nameFiInput = getInput('nameFi');
 
@@ -365,14 +378,19 @@ test('should scroll to first error when validation error is thrown', async () =>
 test('should show server errors', async () => {
   const mocks = [...baseMocks, mockedInvalidUpdateEventResponse];
 
+  const user = userEvent.setup();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
-  screen.getByText(expectedValues.lastModifiedTime);
+  const topicCheckbox = await findElement('topicCheckbox');
+  await waitFor(() => expect(topicCheckbox).toBeChecked());
 
+  // Main categories are not visible in UI. Give some time to update main categories to formik
+  await actWait(100);
   const updateButton = getButton('updatePublic');
-  userEvent.click(updateButton);
+  await waitFor(() => expect(updateButton).toBeEnabled());
+  await act(async () => await user.click(updateButton));
 
   await loadingSpinnerIsNotInDocument(10000);
   await screen.findByText(/lomakkeella on seuraavat virheet/i);

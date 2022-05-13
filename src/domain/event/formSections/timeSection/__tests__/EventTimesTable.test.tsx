@@ -59,14 +59,15 @@ test('should call setEventTimes when deleting an event time', async () => {
   const eventTimes = [eventTime1, eventTime2];
   const setEventTimes = jest.fn();
 
+  const user = userEvent.setup();
   renderComponent({ eventTimes, setEventTimes });
 
   const toggleMenuButton = screen.getAllByRole('button', {
     name: /valinnat/i,
   })[0];
-  userEvent.click(toggleMenuButton);
+  await act(async () => await user.click(toggleMenuButton));
   const deleteButton = screen.getByRole('button', { name: /poista/i });
-  act(() => userEvent.click(deleteButton));
+  await act(async () => await user.click(deleteButton));
 
   expect(setEventTimes).toBeCalledWith([eventTime2]);
 });
@@ -77,29 +78,30 @@ test('should call setEventTimes when updating an event time', async () => {
   const eventTimes = [eventTime1, eventTime2];
   const setEventTimes = jest.fn();
 
+  const user = userEvent.setup();
   renderComponent({ eventTimes, setEventTimes });
 
   const toggleMenuButton = screen.getAllByRole('button', {
     name: /valinnat/i,
   })[0];
-  userEvent.click(toggleMenuButton);
-  const editButton = screen.getByRole('button', {
-    name: /muokkaa/i,
-  });
-  userEvent.click(editButton);
+  await act(async () => await user.click(toggleMenuButton));
+  const editButton = screen.getByRole('button', { name: /muokkaa/i });
+  await act(async () => await user.click(editButton));
 
   const startTimeInput = screen.getByRole('textbox', {
     name: /tapahtuma alkaa/i,
   });
-  userEvent.click(startTimeInput);
-  userEvent.clear(startTimeInput);
-  userEvent.type(startTimeInput, '02.05.2021 13.00');
-  await waitFor(() => expect(startTimeInput).toHaveValue('02.05.2021 13.00'));
+  await act(async () => await user.click(startTimeInput));
+  await act(async () => await user.clear(startTimeInput));
+  await act(async () => await user.type(startTimeInput, '02.05.2021 13.00'));
+  await waitFor(() => expect(startTimeInput).toHaveValue('02.05.2021 13.00'), {
+    timeout: 10000,
+  });
 
   const updateButton = screen.getByRole('button', {
     name: /tallenna muutokset/i,
   });
-  act(() => userEvent.click(updateButton));
+  await act(async () => await user.click(updateButton));
 
   await waitFor(() => {
     expect(setEventTimes).toBeCalledWith([

@@ -41,13 +41,6 @@ const renderComponent = (
     store,
   });
 
-const findElement = (key: 'deleteButton') => {
-  switch (key) {
-    case 'deleteButton':
-      return screen.findByRole('button', { name: /poista kuva/i });
-  }
-};
-
 const getElement = (key: 'deleteButton' | 'editButton' | 'menu' | 'toggle') => {
   switch (key) {
     case 'deleteButton':
@@ -61,19 +54,21 @@ const getElement = (key: 'deleteButton' | 'editButton' | 'menu' | 'toggle') => {
   }
 };
 
-const openMenu = () => {
+const openMenu = async () => {
+  const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
   getElement('menu');
 
   return toggleButton;
 };
 
-test('should toggle menu by clicking actions button', () => {
+test('should toggle menu by clicking actions button', async () => {
+  const user = userEvent.setup();
   renderComponent(undefined, { store });
 
-  const toggleButton = openMenu();
-  userEvent.click(toggleButton);
+  const toggleButton = await openMenu();
+  await act(async () => await user.click(toggleButton));
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -82,19 +77,20 @@ test('should toggle menu by clicking actions button', () => {
 test('should render correct buttons', async () => {
   renderComponent(undefined, { store });
 
-  openMenu();
+  await openMenu();
 
-  getElement('editButton');
-  await findElement('deleteButton');
+  const enabledButtons = [getElement('deleteButton'), getElement('editButton')];
+  enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
 test('should route to edit image page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  openMenu();
+  await openMenu();
 
   const editButton = getElement('editButton');
-  act(() => userEvent.click(editButton));
+  await act(async () => await user.click(editButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/images/edit/${image.id}`)
@@ -106,18 +102,19 @@ test('should route to edit image page', async () => {
 });
 
 test('should delete image', async () => {
+  const user = userEvent.setup();
   renderComponent(undefined, { store });
 
-  openMenu();
+  await openMenu();
 
-  const deleteButton = await findElement('deleteButton');
-  act(() => userEvent.click(deleteButton));
+  const deleteButton = getElement('deleteButton');
+  await act(async () => await user.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteImageButton = withinModal.getByRole('button', {
     name: /Poista kuva/i,
   });
-  userEvent.click(deleteImageButton);
+  await act(async () => await user.click(deleteImageButton));
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

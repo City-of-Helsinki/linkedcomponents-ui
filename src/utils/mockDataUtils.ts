@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import faker from 'faker';
+import faker from '@faker-js/faker';
 import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
@@ -141,7 +141,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       locationExtraInfo: fakeLocalisedObject(faker.address.streetAddress()),
       maximumAttendeeCapacity: null,
       minimumAttendeeCapacity: null,
-      name: fakeLocalisedObject(faker.name.title()),
+      name: fakeLocalisedObject(faker.lorem.text()),
       offers: [],
       provider: fakeLocalisedObject(),
       publicationStatus: PublicationStatus.Public,
@@ -177,7 +177,7 @@ export const fakeFeedback = (overrides?: Partial<Feedback>): Feedback =>
       id: faker.datatype.uuid(),
       name: faker.name.firstName(),
       email: faker.internet.email(),
-      subject: faker.name.title(),
+      subject: faker.lorem.text(),
       body: faker.internet.exampleEmail(),
       __typename: 'Feedback',
     },
@@ -491,9 +491,9 @@ export const fakeUser = (overrides?: Partial<User>): User => {
 export const fakeVideo = (overrides?: Partial<Video>): Video =>
   merge<Video, typeof overrides>(
     {
-      altText: faker.random.image(),
-      name: faker.random.image(),
-      url: faker.internet.url(),
+      altText: faker.image.cats(),
+      name: faker.image.image(),
+      url: faker.image.imageUrl(),
       __typename: 'Video',
     },
     overrides

@@ -2,6 +2,7 @@ import { IconInfoCircle } from 'hds-react';
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -55,14 +56,16 @@ test('should render component', () => {
   getComponent('type2');
 });
 
-test('should call onChange', () => {
+test('should call onChange', async () => {
   const onChange = jest.fn();
+  const user = userEvent.setup();
+
   renderComponent(onChange);
 
   const type1Radio = getComponent('type1');
   const type2Radio = getComponent('type2');
   expect(type1Radio).toBeChecked();
 
-  userEvent.click(type2Radio);
+  await act(async () => await user.click(type2Radio));
   expect(onChange).toBeCalledWith('type2');
 });

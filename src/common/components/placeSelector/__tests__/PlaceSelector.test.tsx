@@ -6,6 +6,7 @@ import { OptionType } from '../../../../types';
 import generateAtId from '../../../../utils/generateAtId';
 import { fakePlace, fakePlaces } from '../../../../utils/mockDataUtils';
 import {
+  act,
   configure,
   render,
   screen,
@@ -91,13 +92,14 @@ test('should combobox input value to be selected place option label', async () =
 });
 
 test('should open menu by clickin toggle button and list of options should be visible', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const inputField = getElement('inputField');
   expect(inputField.getAttribute('aria-expanded')).toBe('false');
 
   const toggleButton = getElement('toggleButton');
-  userEvent.click(toggleButton);
+  await act(async () => await user.click(toggleButton));
 
   expect(inputField.getAttribute('aria-expanded')).toBe('true');
   for (const option of filteredPlaces.data) {

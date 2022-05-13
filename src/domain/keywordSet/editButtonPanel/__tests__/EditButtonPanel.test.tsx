@@ -1,6 +1,7 @@
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   CustomRenderOptions,
   getMockReduxStore,
@@ -41,17 +42,6 @@ const renderComponent = (
     store,
   });
 
-const findElement = (key: 'saveButton') => {
-  switch (key) {
-    case 'saveButton':
-      return screen.findByRole(
-        'button',
-        { name: 'Tallenna' },
-        { timeout: 10000 }
-      );
-  }
-};
-
 const getElement = (key: 'backButton' | 'saveButton') => {
   switch (key) {
     case 'backButton':
@@ -62,9 +52,10 @@ const getElement = (key: 'backButton' | 'saveButton') => {
 };
 
 test('should route to keyword sets page when clicking back button', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  userEvent.click(getElement('backButton'));
+  await act(async () => await user.click(getElement('backButton')));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
@@ -73,10 +64,12 @@ test('should route to keyword sets page when clicking back button', async () => 
 
 test('should call onSave', async () => {
   const onSave = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onSave });
 
-  const saveButton = await findElement('saveButton');
-  userEvent.click(saveButton);
+  const saveButton = getElement('saveButton');
+  await waitFor(() => expect(saveButton).toBeEnabled());
+  await act(async () => await user.click(saveButton));
 
   expect(onSave).toBeCalled();
 });

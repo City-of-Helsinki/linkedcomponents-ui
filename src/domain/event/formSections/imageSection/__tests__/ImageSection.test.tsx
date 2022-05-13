@@ -135,34 +135,36 @@ const getElement = (
 };
 
 test('should select existing image', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const addButton = getElement('addButton');
-  userEvent.click(addButton);
+  await act(async () => await user.click(addButton));
 
   getElement('modalHeading');
 
   const imageCheckbox = await screen.findByRole('checkbox', {
     name: images.data[0].name,
   });
-  userEvent.click(imageCheckbox);
+  await act(async () => await user.click(imageCheckbox));
 
   const submitButton = screen.getByRole('button', {
     name: translations.common.add,
   });
   await waitFor(() => expect(submitButton).toBeEnabled());
-  act(() => userEvent.click(submitButton));
+  await act(async () => await user.click(submitButton));
 
   await screen.findByTestId(imagePreviewTestIds.image);
 });
 
 test('should remove image', async () => {
+  const user = userEvent.setup();
   renderComponent({ [EVENT_FIELDS.IMAGES]: [imageAtId] });
 
   await screen.findByTestId(imagePreviewTestIds.image);
   // Both add button and preview image component have same label
   const removeButton = getElement('removeButton');
-  userEvent.click(removeButton);
+  await act(async () => await user.click(removeButton));
 
   await waitFor(() =>
     expect(
@@ -172,37 +174,41 @@ test('should remove image', async () => {
 });
 
 test('should create and select new image by selecting image file', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const addButton = getElement('addButton');
-  userEvent.click(addButton);
+  await act(async () => await user.click(addButton));
 
   getElement('modalHeading');
 
   const fileInput = screen.getByTestId(imageUploaderTestIds.input);
   Object.defineProperty(fileInput, 'files', { value: [file] });
-  fireEvent.change(fileInput);
+  await act(async () => {
+    await fireEvent.change(fileInput);
+  });
 
   await screen.findByTestId(imagePreviewTestIds.image);
 });
 
 test('should create and select new image by entering image url', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const addButton = getElement('addButton');
-  userEvent.click(addButton);
+  await act(async () => await user.click(addButton));
 
   getElement('modalHeading');
 
   const urlInput = getElement('urlInput');
   await waitFor(() => expect(urlInput).toBeEnabled());
-  act(() => userEvent.click(urlInput));
-  userEvent.type(urlInput, imageUrl);
+  await act(async () => await user.click(urlInput));
+  await act(async () => await user.type(urlInput, imageUrl));
   await waitFor(() => expect(urlInput).toHaveValue(imageUrl));
 
   const submitButton = getElement('submitButton');
   await waitFor(() => expect(submitButton).toBeEnabled());
-  act(() => userEvent.click(submitButton));
+  await act(async () => await user.click(submitButton));
 
   await screen.findByTestId(imagePreviewTestIds.image);
 });
@@ -213,25 +219,21 @@ test('should show validation error if image alt text is too long', async () => {
   const imageVariables = { createPath: undefined, id: image.id };
   const imageResponse = { data: { image } };
   const mockedImageResponse: MockedResponse = {
-    request: {
-      query: ImageDocument,
-      variables: imageVariables,
-    },
+    request: { query: ImageDocument, variables: imageVariables },
     result: imageResponse,
   };
-  renderComponent(
-    {
-      [EVENT_FIELDS.IMAGES]: [image.atId],
-    },
-    [mockedImageResponse, mockedUserResponse]
-  );
+  const user = userEvent.setup();
+  renderComponent({ [EVENT_FIELDS.IMAGES]: [image.atId] }, [
+    mockedImageResponse,
+    mockedUserResponse,
+  ]);
 
   const altTextInput = getElement('altTextInput');
   const nameInput = getElement('nameInput');
 
   await waitFor(() => expect(altTextInput).toBeEnabled());
-  act(() => userEvent.click(altTextInput));
-  act(() => userEvent.click(nameInput));
+  await act(async () => await user.click(altTextInput));
+  await act(async () => await user.click(nameInput));
 
   await screen.findByText('Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä');
 });
@@ -245,6 +247,7 @@ test('should show validation error if image name is too long', async () => {
     request: { query: ImageDocument, variables: imageVariables },
     result: imageResponse,
   };
+  const user = userEvent.setup();
   renderComponent({ [EVENT_FIELDS.IMAGES]: [image.atId] }, [
     mockedImageResponse,
     mockedUserResponse,
@@ -254,8 +257,8 @@ test('should show validation error if image name is too long', async () => {
   const nameInput = getElement('nameInput');
 
   await waitFor(() => expect(nameInput).toBeEnabled());
-  act(() => userEvent.click(nameInput));
-  act(() => userEvent.click(altTextInput));
+  await act(async () => await user.click(nameInput));
+  await act(async () => await user.click(altTextInput));
 
   await screen.findByText('Tämä kenttä voi olla korkeintaan 255 merkkiä pitkä');
 });

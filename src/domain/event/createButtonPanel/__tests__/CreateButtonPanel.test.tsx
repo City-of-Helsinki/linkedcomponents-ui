@@ -11,7 +11,6 @@ import {
   render,
   screen,
 } from '../../../../utils/testUtils';
-import translations from '../../../app/i18n/fi.json';
 import { organizationId } from '../../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
@@ -41,7 +40,7 @@ test('publish should be disabled when user is not authenticated', () => {
 
   renderComponent(store);
 
-  const buttons = [translations.event.form.buttonPanel.warningNotAuthenticated];
+  const buttons = ['Julkaise tapahtuma'];
 
   buttons.forEach((name) => {
     expect(screen.getByRole('button', { name })).toBeDisabled();

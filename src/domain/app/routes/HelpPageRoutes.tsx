@@ -16,6 +16,7 @@ import PlatformPage from '../../help/pages/PlatformPage';
 import SourceCodePage from '../../help/pages/SourceCodePage';
 import TermsOfUsePage from '../../help/pages/TermsOfUsePage';
 import NotFound from '.././../notFound/NotFound';
+/* istanbul ignore next */
 const DocumentationPage = React.lazy(
   () => import('../../help/pages/DocumentationPage')
 );
@@ -76,6 +77,7 @@ const TechnologyRoutes: React.FC<Props> = ({ locale }) => {
           path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_API)}
           element={<ApiPage />}
         />
+        {/* istanbul ignore next */}
         <Route
           path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_DOCUMENTATION)}
           element={<DocumentationPage />}
@@ -151,7 +153,7 @@ const HelpPageRoutes: React.FC = () => {
         path={getHelpRoutePath(ROUTES.FEATURES)}
         element={<FeaturesPage />}
       />
-      <Route path="*" element={NotFound} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

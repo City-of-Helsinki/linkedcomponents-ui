@@ -1,9 +1,11 @@
 import {
   act,
+  configure,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../../../utils/testUtils';
 import {
   mockedOrganizationsResponse,
@@ -12,6 +14,8 @@ import {
 import SubOrganizationTable, {
   SubOrganizationTableProps,
 } from '../SubOrganizationTable';
+
+configure({ defaultHidden: true });
 
 const props: SubOrganizationTableProps = {
   organizationIds: [organizations.data[0].atId],
@@ -35,18 +39,20 @@ test('should render sub organizations', async () => {
 });
 
 test('should sort sub organizations', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
   const nameColumn = await screen.findByRole('button', { name: /nimi/i });
 
-  act(() => userEvent.click(nameColumn));
+  await act(async () => await user.click(nameColumn));
   screen.getByRole('table', {
     name: `${props.title}, järjestys Nimi, laskeva`,
   });
 });
 
 test('should open sub organization edit page', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -54,14 +60,17 @@ test('should open sub organization edit page', async () => {
     name: organizations.data[0].name,
   });
 
-  act(() => userEvent.click(organizationButton));
+  await act(async () => await user.click(organizationButton));
 
-  expect(history.location.pathname).toBe(
-    `/fi/admin/organizations/edit/${organizations.data[0].id}`
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/admin/organizations/edit/${organizations.data[0].id}`
+    )
   );
 });
 
 test('should open sub organization edit page by pressing enter on row', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -69,9 +78,11 @@ test('should open sub organization edit page by pressing enter on row', async ()
     name: organizations.data[0].name,
   });
 
-  act(() => userEvent.type(organizationButton, '{enter}'));
+  await act(async () => await user.type(organizationButton, '{enter}'));
 
-  expect(history.location.pathname).toBe(
-    `/fi/admin/organizations/edit/${organizations.data[0].id}`
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/admin/organizations/edit/${organizations.data[0].id}`
+    )
   );
 });

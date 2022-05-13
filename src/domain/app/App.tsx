@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ApolloProvider } from '@apollo/client';
@@ -33,12 +34,15 @@ const instance = createInstance({
 
 const App: React.FC = () => {
   return (
+    // @ts-ignore
     <Provider store={store}>
+      {/* @ts-ignore */}
       <OidcProvider store={store} userManager={userManager}>
         <ThemeProvider initTheme={theme}>
           <ToastContainer hideProgressBar={true} theme="colored" />
           <BrowserRouter>
             <CookieConsentProvider>
+              {/* @ts-ignore */}
               <MatomoProvider value={instance}>
                 <ApolloProvider client={apolloClient}>
                   <AppRoutes />

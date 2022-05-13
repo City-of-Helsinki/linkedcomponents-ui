@@ -1,68 +1,28 @@
 import React from 'react';
 
-import { TEST_PUBLISHER_ID } from '../../../../domain/organization/constants';
-import { ImagesDocument } from '../../../../generated/graphql';
-import { fakeImages } from '../../../../utils/mockDataUtils';
 import {
+  act,
+  configure,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { PAGE_SIZE } from '../constants';
+import {
+  images,
+  loadMoreImages,
+  mockedImagesReponse,
+  mockedLoadMoreImagesResponse,
+  publisher,
+} from '../__mocks__/imageSelector';
 import ImageSelector, { ImageSelectorProps } from '../ImageSelector';
 
-const publisher = TEST_PUBLISHER_ID;
+configure({ defaultHidden: true });
 
 const defaultProps: ImageSelectorProps = {
   onChange: jest.fn(),
   publisher,
   value: [],
-};
-
-const images = fakeImages(PAGE_SIZE);
-const imagesVariables = {
-  createPath: undefined,
-  mergePages: true,
-  pageSize: PAGE_SIZE,
-  publisher,
-};
-
-const imagesResponse = {
-  data: {
-    images: {
-      ...images,
-      meta: {
-        ...images.meta,
-        count: 15,
-        next: 'https://api.hel.fi/linkedevents/v1/image/?page=2',
-      },
-    },
-  },
-};
-const mockedImagesReponse = {
-  request: { query: ImagesDocument, variables: imagesVariables },
-  result: imagesResponse,
-};
-
-const loadMoreImages = fakeImages(PAGE_SIZE);
-const loadMoreImagesVariables = { ...imagesVariables, page: 2 };
-
-const loadMoreImagesResponse = {
-  data: {
-    images: {
-      ...loadMoreImages,
-      meta: {
-        ...loadMoreImages.meta,
-        count: 15,
-        next: 'https://api.hel.fi/linkedevents/v1/image/?page=3',
-      },
-    },
-  },
-};
-const mockedLoadMoreImagesResponse = {
-  request: { query: ImagesDocument, variables: loadMoreImagesVariables },
-  result: loadMoreImagesResponse,
 };
 
 const mocks = [mockedImagesReponse, mockedLoadMoreImagesResponse];
@@ -74,84 +34,80 @@ test('should render image selector', async () => {
   renderComponent();
 
   const loadMoreButton = screen.getByRole('button', { name: /näytä lisää/i });
-
-  await waitFor(() => {
-    expect(loadMoreButton).toBeEnabled();
-  });
+  await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
   images.data.forEach((image) => {
-    expect(
-      screen.getByRole('checkbox', { name: image.name })
-    ).toBeInTheDocument();
+    screen.getByRole('checkbox', { name: image.name });
   });
 });
 
 test('should load more images', async () => {
+  const user = userEvent.setup();
   renderComponent();
 
   const loadMoreButton = screen.getByRole('button', { name: /näytä lisää/i });
 
-  await waitFor(() => {
-    expect(loadMoreButton).toBeEnabled();
-  });
+  await waitFor(() => expect(loadMoreButton).toBeEnabled());
+  await act(async () => await user.click(loadMoreButton));
 
-  userEvent.click(loadMoreButton);
+  await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
-  await waitFor(() => {
-    expect(loadMoreButton).toBeEnabled();
-  });
-
-  loadMoreImages.data.forEach((image) => {
-    expect(
-      screen.getByRole('checkbox', { name: image.name })
-    ).toBeInTheDocument();
-  });
+  for (const image of loadMoreImages.data) {
+    await screen.findByRole(
+      'checkbox',
+      { name: image.name },
+      { timeout: 5000 }
+    );
+  }
 });
 
 test('should call onChange', async () => {
   const onChange = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onChange });
 
   const loadMoreButton = screen.getByRole('button', { name: /näytä lisää/i });
 
-  await waitFor(() => {
-    expect(loadMoreButton).toBeEnabled();
-  });
+  await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
   const { name, atId } = images.data[0];
 
-  userEvent.click(screen.getByRole('checkbox', { name }));
+  await act(
+    async () => await user.click(screen.getByRole('checkbox', { name }))
+  );
   expect(onChange).toBeCalledWith([atId]);
 });
 
 test('should clear value when clicking selected image', async () => {
   const onChange = jest.fn();
   const { name, atId } = images.data[0];
+  const user = userEvent.setup();
   renderComponent({ onChange, value: [atId] });
 
   const loadMoreButton = screen.getByRole('button', { name: /näytä lisää/i });
 
-  await waitFor(() => {
-    expect(loadMoreButton).toBeEnabled();
-  });
+  await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
-  userEvent.click(screen.getByRole('checkbox', { name }));
+  await act(
+    async () => await user.click(screen.getByRole('checkbox', { name }))
+  );
   expect(onChange).toBeCalledWith([]);
 });
 
 test('should call onChange with multiple image ids', async () => {
   const onChange = jest.fn();
   const { atId } = images.data[0];
+  const user = userEvent.setup();
   renderComponent({ multiple: true, onChange, value: [atId] });
 
   const loadMoreButton = screen.getByRole('button', { name: /näytä lisää/i });
 
-  await waitFor(() => {
-    expect(loadMoreButton).toBeEnabled();
-  });
+  await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
   const { name, atId: atId2 } = images.data[1];
-  userEvent.click(screen.getByRole('checkbox', { name }));
+  await act(
+    async () => await user.click(screen.getByRole('checkbox', { name }))
+  );
 
   expect(onChange).toBeCalledWith([atId, atId2]);
 });

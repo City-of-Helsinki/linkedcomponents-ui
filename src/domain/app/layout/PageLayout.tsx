@@ -24,7 +24,9 @@ const NO_KORO_PATHS: PathPattern[] = [
   { path: ROUTES.REGISTRATION_ENROLMENTS },
 ];
 
-const PageLayout: React.FC = ({ children }) => {
+const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   const { isConsentModalOpen } = useCookieConsent();
   const { theme } = useTheme();
   const { pathname } = useLocation();
@@ -58,6 +60,8 @@ const PageLayout: React.FC = ({ children }) => {
           css(theme.root)
         )}
       >
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
         <Helmet>
           <html lang={locale} />
 

@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -41,6 +42,28 @@ const renderVideoSection = (initialValues?: Partial<EventFormFields>) =>
     </Formik>
   );
 
+const getElement = (
+  key: 'addButton' | 'altTextInput' | 'nameInput' | 'urlInput'
+) => {
+  switch (key) {
+    case 'addButton':
+      return screen.getByRole('button', { name: 'Lisää video' });
+    case 'altTextInput':
+      return screen.getByRole('textbox', { name: 'Videon alt-teksti' });
+    case 'nameInput':
+      return screen.getByRole('textbox', { name: 'Videon nimi' });
+    case 'urlInput':
+      return screen.getByRole('textbox', { name: 'Videon URL-osoite' });
+  }
+};
+
+const getElements = (key: 'deleteButtons') => {
+  switch (key) {
+    case 'deleteButtons':
+      return screen.getAllByRole('button', { name: 'Poista video' });
+  }
+};
+
 test('should render VideoSection', () => {
   renderVideoSection();
 
@@ -58,33 +81,24 @@ test('should render VideoSection', () => {
 
   texts.forEach((text) => screen.getByText(text));
 
-  const fields = [
-    translations.event.form.labelVideoAltText,
-    translations.event.form.labelVideoName,
-    translations.event.form.labelVideoUrl,
-  ];
+  getElement('nameInput');
+  getElement('altTextInput');
+  getElement('urlInput');
 
-  fields.forEach((name) => screen.getByRole('textbox', { name }));
-
-  screen.getByRole('button', { name: translations.event.form.buttonAddVideo });
+  getElement('addButton');
 });
 
 test('fields should be set required if any field is not empty', async () => {
+  const user = userEvent.setup();
   renderVideoSection();
 
-  const nameInput = screen.getByRole('textbox', {
-    name: translations.event.form.labelVideoName,
-  });
-  const altTextInput = screen.getByRole('textbox', {
-    name: translations.event.form.labelVideoAltText,
-  });
-  const urlInput = screen.getByRole('textbox', {
-    name: translations.event.form.labelVideoUrl,
-  });
+  const nameInput = getElement('nameInput');
+  const altTextInput = getElement('altTextInput');
+  const urlInput = getElement('urlInput');
   const inputs = [nameInput, altTextInput, urlInput];
 
   for (const input of inputs) {
-    userEvent.type(input, 'text');
+    await act(async () => await user.type(input, 'text'));
 
     for (const field of inputs) {
       await waitFor(() =>
@@ -92,7 +106,7 @@ test('fields should be set required if any field is not empty', async () => {
       );
     }
 
-    userEvent.clear(input);
+    await act(async () => await user.clear(input));
 
     for (const field of inputs) {
       await waitFor(() =>
@@ -103,31 +117,24 @@ test('fields should be set required if any field is not empty', async () => {
 });
 
 test('should add and remove video', async () => {
+  const user = userEvent.setup();
   renderVideoSection();
 
-  const fields = [
-    translations.event.form.labelVideoAltText,
-    translations.event.form.labelVideoName,
-    translations.event.form.labelVideoUrl,
-  ];
+  const fields = ['Videon nimi'];
 
   fields.forEach((name) => {
     expect(screen.getAllByRole('textbox', { name })).toHaveLength(1);
   });
 
-  const addButton = screen.getByRole('button', {
-    name: translations.event.form.buttonAddVideo,
-  });
-  userEvent.click(addButton);
+  const addButton = getElement('addButton');
+  await act(async () => await user.click(addButton));
 
   await waitFor(() =>
     expect(screen.getAllByRole('textbox', { name: fields[0] })).toHaveLength(2)
   );
 
-  const deleteButton = screen.getAllByRole('button', {
-    name: translations.event.form.buttonDeleteVideo,
-  })[1];
-  userEvent.click(deleteButton);
+  const deleteButton = getElements('deleteButtons')[1];
+  await act(async () => await user.click(deleteButton));
 
   await waitFor(() =>
     expect(screen.getAllByRole('textbox', { name: fields[0] })).toHaveLength(1)

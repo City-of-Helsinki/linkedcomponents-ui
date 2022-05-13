@@ -10,4 +10,5 @@
 !package.json
 !tsconfig.json
 !yarn.lock
+!config-overrides.js
 src/utils/testUtils.tsx

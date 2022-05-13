@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider } from '@apollo/client/testing';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import range from 'lodash/range';
 import { Provider } from 'react-redux';
@@ -77,6 +78,7 @@ const store = getMockReduxStore(state);
 
 const getHookWrapper = async () => {
   const wrapper = ({ children }) => (
+    // @ts-ignore
     <Provider store={store}>
       <MockedProvider cache={createCache()} mocks={mocks}>
         {children}
@@ -84,7 +86,7 @@ const getHookWrapper = async () => {
     </Provider>
   );
 
-  const { result, waitFor } = renderHook(() => useAllDataSources(), {
+  const { result } = renderHook(() => useAllDataSources(), {
     wrapper,
   });
   // Test the initial state of the request
@@ -97,8 +99,10 @@ test('should return all data sources', async () => {
   const { result, waitFor } = await getHookWrapper();
   // Wait for the results
   await waitFor(() => expect(result.current.loading).toBeFalsy());
-  expect(map(result.current.dataSources, 'name')).toEqual([
-    ...dataSourceNames,
-    ...page2DataSourceNames,
-  ]);
+  await waitFor(() =>
+    expect(map(result.current.dataSources, 'name')).toEqual([
+      ...dataSourceNames,
+      ...page2DataSourceNames,
+    ])
+  );
 });

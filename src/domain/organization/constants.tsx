@@ -1,11 +1,10 @@
 import { IconCogwheel, IconCrossCircle, IconPen } from 'hds-react';
 
-import { MAX_PAGE_SIZE } from '../../constants';
 import { OrganizationFormFields } from './types';
 
 export const TEST_PUBLISHER_ID = 'publisher:1';
 
-export const MAX_OGRANIZATIONS_PAGE_SIZE = MAX_PAGE_SIZE;
+export const MAX_OGRANIZATIONS_PAGE_SIZE = 1000;
 
 export enum ORGANIZATION_ACTIONS {
   CREATE = 'create',

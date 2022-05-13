@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { SingleSelectProps } from 'hds-react';
 import { TFunction } from 'i18next';
 import React from 'react';
@@ -68,7 +69,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   value,
   ...rest
 }) => {
-  const timer = React.useRef<number>();
+  const timer = React.useRef<NodeJS.Timeout>();
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');

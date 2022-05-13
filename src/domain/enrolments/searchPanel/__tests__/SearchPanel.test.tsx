@@ -57,18 +57,18 @@ test('should initialize search panel input', async () => {
 
 test('should search enrolments with correct search params', async () => {
   const values = { text: 'search' };
-
+  const user = userEvent.setup();
   const { history } = renderComponent();
 
   // Text filtering
   const searchInput = getElement('searchInput');
-  userEvent.type(searchInput, values.text);
+  await act(async () => await user.type(searchInput, values.text));
   await waitFor(() => expect(searchInput).toHaveValue(values.text));
 
   const searchButton = screen.getAllByRole('button', {
     name: /etsi osallistujia/i,
   })[1];
-  act(() => userEvent.click(searchButton));
+  await act(async () => await user.click(searchButton));
 
   expect(history.location.pathname).toBe(
     `/registrations/${registrationId}/enrolments`

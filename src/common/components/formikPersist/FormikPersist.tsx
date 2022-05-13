@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { FormikProps, useFormikContext } from 'formik';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
@@ -46,7 +47,7 @@ const FormikPersist = ({
   }, [formik, saveForm]);
 
   React.useEffect(() => {
-    let timeout: number;
+    let timeout: NodeJS.Timeout;
 
     const maybeState = isSessionStorage
       ? window.sessionStorage.getItem(name)

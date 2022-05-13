@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -73,55 +74,68 @@ const getElement = (
 };
 
 const fillDataSourceField = async () => {
+  const user = userEvent.setup();
   const dataSourceToggleButton = getElement('dataSourceToggleButton');
-  userEvent.click(dataSourceToggleButton);
+  await act(async () => await user.click(dataSourceToggleButton));
 
   const option = await screen.findByRole('option', { name: dataSourceName });
-  userEvent.click(option);
+  await act(async () => await user.click(option));
 };
 
 const fillClassificationField = async () => {
+  const user = userEvent.setup();
   const classificationToggleButton = getElement('classificationToggleButton');
-  userEvent.click(classificationToggleButton);
+  await act(async () => await user.click(classificationToggleButton));
 
   const option = await screen.findByRole('option', {
     name: organizationClassName,
   });
-  userEvent.click(option);
+  await act(async () => await user.click(option));
 };
 
 const fillInputValues = async () => {
+  const user = userEvent.setup();
   await fillDataSourceField();
-  userEvent.type(getElement('originIdInput'), organizationValues.originId);
-  userEvent.type(getElement('nameInput'), organizationValues.name);
+  await act(
+    async () =>
+      await user.type(getElement('originIdInput'), organizationValues.originId)
+  );
+  await act(
+    async () =>
+      await user.type(getElement('nameInput'), organizationValues.name)
+  );
   await fillClassificationField();
 };
 
-test('should focus to first validation error when trying to save new registration', async () => {
+test('should focus to first validation error when trying to save new organization', async () => {
+  const user = userEvent.setup();
   renderComponent(defaultMocks);
 
   await loadingSpinnerIsNotInDocument();
 
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   const dataSourceInput = getElement('dataSourceInput');
   await waitFor(() => expect(dataSourceInput).toHaveFocus());
   await fillDataSourceField();
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   const originIdInput = getElement('originIdInput');
   await waitFor(() => expect(originIdInput).toHaveFocus());
-  userEvent.type(originIdInput, organizationValues.originId);
-  userEvent.click(saveButton);
+  await act(
+    async () => await user.type(originIdInput, organizationValues.originId)
+  );
+  await act(async () => await user.click(saveButton));
 
   const nameInput = getElement('nameInput');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
 
 test('should move to organizations page after creating new organization', async () => {
+  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedCreateOrganizationResponse,
@@ -131,7 +145,7 @@ test('should move to organizations page after creating new organization', async 
 
   await fillInputValues();
 
-  userEvent.click(getElement('saveButton'));
+  await act(async () => await user.click(getElement('saveButton')));
 
   await waitFor(
     () => expect(history.location.pathname).toBe(`/fi/admin/organizations`),
@@ -140,6 +154,7 @@ test('should move to organizations page after creating new organization', async 
 });
 
 test('should show server errors', async () => {
+  const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidCreateOrganizationResponse]);
 
   await loadingSpinnerIsNotInDocument();
@@ -147,7 +162,7 @@ test('should show server errors', async () => {
   await fillInputValues();
 
   const saveButton = getElement('saveButton');
-  userEvent.click(saveButton);
+  await act(async () => await user.click(saveButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i, undefined, {
     timeout: 10000,

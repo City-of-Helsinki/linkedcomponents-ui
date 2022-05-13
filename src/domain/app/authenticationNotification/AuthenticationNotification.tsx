@@ -22,11 +22,9 @@ export type AuthenticationNotificationProps = {
   label: string | null;
 };
 
-const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
-  children,
-  className,
-  label,
-}) => {
+const AuthenticationNotification: React.FC<
+  React.PropsWithChildren<AuthenticationNotificationProps>
+> = ({ children, className, label }) => {
   const location = useLocation();
   const authenticated = useSelector(authenticatedSelector);
   const { t } = useTranslation();

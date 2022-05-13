@@ -14,6 +14,7 @@ import {
   EventFieldsFragment,
   PublicationStatus,
   SuperEventType,
+  UserFieldsFragment,
   useUpdateEventMutation,
 } from '../../../generated/graphql';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
@@ -35,6 +36,7 @@ type UpdateRecurringEventIfNeededState = {
   updateRecurringEventIfNeeded: (
     values: EventFieldsFragment
   ) => Promise<EventFieldsFragment | null>;
+  user: UserFieldsFragment | undefined;
 };
 
 const useUpdateRecurringEventIfNeeded =
@@ -162,7 +164,7 @@ const useUpdateRecurringEventIfNeeded =
       }
     };
 
-    return { updateRecurringEventIfNeeded };
+    return { updateRecurringEventIfNeeded, user };
   };
 
 export default useUpdateRecurringEventIfNeeded;

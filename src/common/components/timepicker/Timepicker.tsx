@@ -36,7 +36,7 @@ const Timepicker: React.FC<Props> = ({
   ...rest
 }) => {
   const { theme } = useTheme();
-  const [timesList] = React.useState(() => getTimes(minuteInterval));
+  const [timesList] = React.useState(getTimes(minuteInterval));
   const [inputItems, setInputItems] = React.useState(timesList);
   // used to prevent onBlur being called when user is clicking menu item with mouse
   const menuItemMouseDown = React.useRef<boolean>(false);

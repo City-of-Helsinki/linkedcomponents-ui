@@ -4,6 +4,7 @@ import React from 'react';
 
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
+  act,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -69,24 +70,27 @@ test('should render registrations page', async () => {
   const store = getMockReduxStore(storeState);
   render(<RegistrationsPage />, { mocks, store });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
   await findElement('createRegistrationButton');
   getElement('table');
 });
 
 test('should open create registration page', async () => {
+  const user = userEvent.setup();
   const store = getMockReduxStore(storeState);
   const { history } = render(<RegistrationsPage />, { mocks, store });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
   const createRegistrationButton = await findElement(
     'createRegistrationButton'
   );
-  userEvent.click(createRegistrationButton);
+  await act(async () => await user.click(createRegistrationButton));
 
-  expect(history.location.pathname).toBe('/fi/registrations/create');
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/fi/registrations/create')
+  );
 });
 
 it('scrolls to registration table row and calls history.replace correctly (deletes registrationId from state)', async () => {
@@ -105,15 +109,19 @@ it('scrolls to registration table row and calls history.replace correctly (delet
     store,
   });
 
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
 
-  expect(replaceSpy).toHaveBeenCalledWith(
-    { hash: '', pathname: route, search: '' },
-    {}
+  await waitFor(() =>
+    expect(replaceSpy).toHaveBeenCalledWith(
+      { hash: '', pathname: route, search: '' },
+      {}
+    )
   );
 
-  const eventRowButton = await screen.findByRole('button', {
-    name: eventNames[0],
-  });
+  const eventRowButton = await screen.findByRole(
+    'button',
+    { name: eventNames[0] },
+    { timeout: 20000 }
+  );
   await waitFor(() => expect(eventRowButton).toHaveFocus());
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  act,
   configure,
   render,
   screen,
@@ -44,6 +45,7 @@ test('should render component with default texts', async () => {
 });
 
 test('should clear search value', async () => {
+  const user = userEvent.setup();
   const searchValue = 'test';
   const setValue = jest.fn();
   renderComponent({ setValue, value: searchValue });
@@ -52,7 +54,7 @@ test('should clear search value', async () => {
   expect(searchInput).toHaveValue(searchValue);
 
   const clearButton = getElement('clearButton');
-  userEvent.click(clearButton);
+  await act(async () => await user.click(clearButton));
 
   expect(setValue).toBeCalledWith('');
 });
@@ -60,10 +62,11 @@ test('should clear search value', async () => {
 test('should call onSearch when clicking search button', async () => {
   const searchValue = 'test';
   const onSearch = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onSearch, value: searchValue });
 
   const searchButton = getElement('searchButton');
-  userEvent.click(searchButton);
+  await act(async () => await user.click(searchButton));
 
   expect(onSearch).toBeCalledWith(searchValue);
 });
@@ -71,11 +74,12 @@ test('should call onSearch when clicking search button', async () => {
 test('should call onSearch when pressing enter', async () => {
   const searchValue = 'test';
   const onSearch = jest.fn();
+  const user = userEvent.setup();
   renderComponent({ onSearch, value: searchValue });
 
   const searchInput = getElement('input');
-  userEvent.click(searchInput);
-  userEvent.type(searchInput, '{enter}');
+  await act(async () => await user.click(searchInput));
+  await act(async () => await user.type(searchInput, '{enter}'));
 
   expect(onSearch).toBeCalledWith(searchValue);
 });
