@@ -5,13 +5,13 @@ import {
   SuperEventType,
 } from '../../generated/graphql';
 import { MultiLanguageObject } from '../../types';
+import { IMAGE_FIELDS } from '../image/constants';
 import {
   ADD_EVENT_TIME_FORM_NAME,
   EDIT_EVENT_TIME_FORM_NAME,
   EVENT_FIELDS,
   EVENT_TIME_FIELDS,
   EXTERNAL_LINK_FIELDS,
-  IMAGE_DETAILS_FIELDS,
   RECURRING_EVENT_FIELDS,
   VIDEO_DETAILS_FIELDS,
 } from './constants';
@@ -109,10 +109,10 @@ export type ExternalLink = {
 };
 
 export type ImageDetails = {
-  [IMAGE_DETAILS_FIELDS.ALT_TEXT]: string;
-  [IMAGE_DETAILS_FIELDS.LICENSE]: string;
-  [IMAGE_DETAILS_FIELDS.NAME]: string;
-  [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: string;
+  [IMAGE_FIELDS.ALT_TEXT]: MultiLanguageObject;
+  [IMAGE_FIELDS.LICENSE]: string;
+  [IMAGE_FIELDS.NAME]: string;
+  [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: string;
 };
 
 export type VideoDetails = {

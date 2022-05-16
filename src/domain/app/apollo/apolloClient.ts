@@ -76,12 +76,9 @@ const uploadImageSerializer = (
     ? formData.append('image', image)
     : formData.append('url', url || '');
 
-  for (const key in restFields) {
-    if (restFields.hasOwnProperty(key)) {
-      formData.append(
-        snakeCase(key),
-        restFields[key as keyof typeof restFields] || ''
-      );
+  for (const [key, value] of Object.entries(restFields)) {
+    if (typeof value === 'string') {
+      formData.append(snakeCase(key), value || '');
     }
   }
 

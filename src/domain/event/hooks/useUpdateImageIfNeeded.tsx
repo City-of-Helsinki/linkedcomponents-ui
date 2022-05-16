@@ -11,11 +11,13 @@ import isTestEnv from '../../../utils/isTestEnv';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import { authenticatedSelector } from '../../auth/selectors';
 import { IMAGE_ACTIONS } from '../../image/constants';
+import { ImageFormFields } from '../../image/types';
 import {
   checkIsImageActionAllowed,
   clearImageQueries,
   clearImagesQueries,
   getImageQueryResult,
+  isImageUpdateNeeded,
 } from '../../image/utils';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
@@ -61,13 +63,11 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
         user,
       });
 
-      const needsToUpdate =
-        image?.altText !== imageDetails.altText ||
-        image?.license !== imageDetails.license ||
-        image?.name !== imageDetails.name ||
-        image?.photographerName !== imageDetails.photographerName;
-
-      if (editable && needsToUpdate) {
+      if (
+        editable &&
+        image &&
+        isImageUpdateNeeded(image, imageDetails as ImageFormFields)
+      ) {
         await updateImage({
           variables: {
             input: {

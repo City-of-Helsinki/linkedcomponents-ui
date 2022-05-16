@@ -17,7 +17,6 @@ import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import isNumber from 'lodash/isNumber';
 import keys from 'lodash/keys';
-import reduce from 'lodash/reduce';
 import sortBy from 'lodash/sortBy';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
@@ -67,10 +66,10 @@ import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
 import {
   createArrayMinErrorMessage,
+  createMultiLanguageValidation,
   createNumberMaxErrorMessage,
   createNumberMinErrorMessage,
   createStringMaxErrorMessage,
-  createStringMinErrorMessage,
   isAfterStartDate,
   isAfterStartTime,
   isMinStartDate,
@@ -79,6 +78,7 @@ import {
 } from '../../utils/validationUtils';
 import wait from '../../utils/wait';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
+import { imageDetailsSchema } from '../image/validation';
 import {
   isAdminUserInOrganization,
   isReqularUserInOrganization,
@@ -100,8 +100,6 @@ import {
   EVENT_TIME_FIELDS,
   EVENT_TYPE,
   EXTERNAL_LINK_FIELDS,
-  IMAGE_ALT_TEXT_MIN_LENGTH,
-  IMAGE_DETAILS_FIELDS,
   NOT_ALLOWED_WHEN_CANCELLED,
   NOT_ALLOWED_WHEN_DELETED,
   NOT_ALLOWED_WHEN_IN_PAST,
@@ -121,15 +119,6 @@ import {
   RecurringEventSettings,
   VideoDetails,
 } from './types';
-
-const createMultiLanguageValidation = (
-  languages: string[],
-  rule: Yup.StringSchema<string | null | undefined>
-) => {
-  return Yup.object().shape(
-    reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {})
-  );
-};
 
 const createMultiLanguageValidationByInfoLanguages = (
   rule: Yup.StringSchema<string | null | undefined>
@@ -218,21 +207,11 @@ const externalLinksSchema = Yup.array().of(
     [EXTERNAL_LINK_FIELDS.LINK]: Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       .url(VALIDATION_MESSAGE_KEYS.URL),
-    [IMAGE_DETAILS_FIELDS.NAME]: Yup.string().required(
+    [EXTERNAL_LINK_FIELDS.NAME]: Yup.string().required(
       VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
     ),
   })
 );
-
-const imageDetailsSchema = Yup.object().shape({
-  [IMAGE_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .min(IMAGE_ALT_TEXT_MIN_LENGTH, createStringMinErrorMessage)
-    .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage),
-  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .max(CHARACTER_LIMITS.MEDIUM_STRING, createStringMaxErrorMessage),
-});
 
 const validateImageDetails = (
   images: string[],
@@ -972,6 +951,7 @@ const SKIP_FIELDS = new Set([
   'location',
   'keywords',
   'audience',
+  'images',
   'languages',
   'inLanguage',
   'subEvents',
@@ -1075,8 +1055,7 @@ export const getEventInitialValues = (
     hasPrice,
     hasUmbrella: hasUmbrella,
     imageDetails: {
-      altText:
-        event.images[0]?.altText || EVENT_INITIAL_VALUES.imageDetails.altText,
+      altText: getLocalisedObject(event.images[0]?.altText),
       license:
         event.images[0]?.license || EVENT_INITIAL_VALUES.imageDetails.license,
       name: event.images[0]?.name || EVENT_INITIAL_VALUES.imageDetails.name,

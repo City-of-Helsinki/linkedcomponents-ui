@@ -4,6 +4,7 @@ import parseDate from 'date-fns/parse';
 import { FormikErrors, FormikTouched } from 'formik';
 import { TFunction } from 'i18next';
 import forEach from 'lodash/forEach';
+import reduce from 'lodash/reduce';
 import set from 'lodash/set';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
@@ -55,6 +56,14 @@ export const createStringMinErrorMessage = (message: {
 }): Record<string, unknown> =>
   createMinErrorMessage(message, VALIDATION_MESSAGE_KEYS.STRING_MIN);
 
+export const createMultiLanguageValidation = (
+  languages: string[],
+  rule: Yup.StringSchema<string | null | undefined>
+) => {
+  return Yup.object().shape(
+    reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {})
+  );
+};
 export const transformNumber = (
   value: number,
   originalValue: string

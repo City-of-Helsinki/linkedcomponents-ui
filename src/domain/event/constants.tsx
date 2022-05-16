@@ -13,7 +13,7 @@ import { EventsQueryVariables } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
 import { EVENT_LIST_INCLUDES, EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
-import { DEFAULT_LICENSE_TYPE } from '../image/constants';
+import { DEFAULT_LICENSE_TYPE, IMAGE_FIELDS } from '../image/constants';
 import { PublicationListLink } from './formSections/typeSection/PublicationListLinks';
 import { EventFormFields, RecurringEventSettings } from './types';
 
@@ -31,13 +31,6 @@ export enum RECURRING_EVENT_FIELDS {
   REPEAT_INTERVAL = 'repeatInterval',
   START_DATE = 'startDate',
   START_TIME = 'startTime',
-}
-
-export enum IMAGE_DETAILS_FIELDS {
-  ALT_TEXT = 'altText',
-  LICENSE = 'license',
-  NAME = 'name',
-  PHOTOGRAPHER_NAME = 'photographerName',
 }
 
 export enum VIDEO_DETAILS_FIELDS {
@@ -126,10 +119,10 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.HAS_UMBRELLA]: false,
   [EVENT_FIELDS.IMAGES]: [],
   [EVENT_FIELDS.IMAGE_DETAILS]: {
-    [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
-    [IMAGE_DETAILS_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
-    [IMAGE_DETAILS_FIELDS.NAME]: '',
-    [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+    [IMAGE_FIELDS.ALT_TEXT]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [IMAGE_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
+    [IMAGE_FIELDS.NAME]: '',
+    [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
   },
   [EVENT_FIELDS.IN_LANGUAGE]: [],
   [EVENT_FIELDS.IS_VERIFIED]: false,

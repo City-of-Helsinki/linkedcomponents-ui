@@ -96,6 +96,7 @@ export const addTypenameImage = (image?: Image | null): Image | null =>
   image
     ? {
         ...image,
+        altText: addTypenameLocalisedObject(image.altText),
         __typename: 'Image',
       }
     : null;
