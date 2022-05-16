@@ -1,7 +1,12 @@
 import * as Yup from 'yup';
 
-import { CHARACTER_LIMITS } from '../../constants';
 import {
+  CHARACTER_LIMITS,
+  LE_DATA_LANGUAGES,
+  ORDERED_LE_DATA_LANGUAGES,
+} from '../../constants';
+import {
+  createMultiLanguageValidation,
   createStringMaxErrorMessage,
   createStringMinErrorMessage,
 } from '../../utils/validationUtils';
@@ -13,17 +18,33 @@ import {
   IMAGE_SELECT_FIELDS,
 } from './constants';
 
+// This schema is used in event form when validating image fields
+export const imageDetailsSchema = Yup.object().shape({
+  [IMAGE_FIELDS.ALT_TEXT]: Yup.object().shape({
+    [LE_DATA_LANGUAGES.FI]: Yup.string()
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      .min(IMAGE_ALT_TEXT_MIN_LENGTH, createStringMinErrorMessage)
+      .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage),
+    ...createMultiLanguageValidation(
+      ORDERED_LE_DATA_LANGUAGES.filter((l) => l !== LE_DATA_LANGUAGES.FI),
+      Yup.string()
+        .nullable()
+        .transform((v, o) => (o === '' ? null : v))
+        .min(IMAGE_ALT_TEXT_MIN_LENGTH, createStringMinErrorMessage)
+        .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
+    ).fields,
+  }),
+
+  [IMAGE_FIELDS.NAME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(CHARACTER_LIMITS.MEDIUM_STRING, createStringMaxErrorMessage),
+});
+
 export const imageSchema = Yup.object().shape({
   [IMAGE_FIELDS.PUBLISHER]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .nullable(),
-  [IMAGE_FIELDS.ALT_TEXT]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .min(IMAGE_ALT_TEXT_MIN_LENGTH, createStringMinErrorMessage)
-    .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage),
-  [IMAGE_FIELDS.NAME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .max(CHARACTER_LIMITS.MEDIUM_STRING, createStringMaxErrorMessage),
+  ...imageDetailsSchema.fields,
 });
 
 export const addImageSchema = Yup.object().shape(

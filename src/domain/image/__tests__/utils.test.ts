@@ -1,3 +1,4 @@
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import { ImageFieldsFragment } from '../../../generated/graphql';
 import {
   fakeImage,
@@ -80,7 +81,7 @@ describe('getImageFields function', () => {
     const { altText, id, license, name, photographerName, publisher, url } =
       getImageFields(image, 'fi');
 
-    expect(altText).toBe('');
+    expect(altText).toEqual(EMPTY_MULTI_LANGUAGE_OBJECT);
     expect(id).toBe('');
     expect(license).toBe(DEFAULT_LICENSE_TYPE);
     expect(name).toBe('');
@@ -114,7 +115,7 @@ describe('getImageInitialValues function', () => {
         })
       )
     ).toEqual({
-      altText: '',
+      altText: EMPTY_MULTI_LANGUAGE_OBJECT,
       id: '',
       license: '',
       name: '',

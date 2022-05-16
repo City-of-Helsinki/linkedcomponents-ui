@@ -836,7 +836,7 @@ describe('getEventInitialValues function', () => {
     const facebookUrl = 'http://facebook.com';
     const id = 'event:1';
     const imageDetails = {
-      altText: '',
+      altText: EMPTY_MULTI_LANGUAGE_OBJECT,
       license: 'cc_by',
       name: '',
       photographerName: '',

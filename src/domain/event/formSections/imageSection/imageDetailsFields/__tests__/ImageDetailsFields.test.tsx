@@ -2,7 +2,9 @@ import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
 
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../../constants';
 import { UserDocument } from '../../../../../../generated/graphql';
+import { MultiLanguageObject } from '../../../../../../types';
 import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
 import {
   act,
@@ -22,6 +24,7 @@ import {
 } from '../../../../../image/__mocks__/image';
 import {
   DEFAULT_LICENSE_TYPE,
+  IMAGE_FIELDS,
   LICENSE_TYPES,
 } from '../../../../../image/constants';
 import { mockedOrganizationAncestorsResponse } from '../../../../../organization/__mocks__/organizationAncestors';
@@ -29,11 +32,7 @@ import {
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
 } from '../../../../../user/__mocks__/user';
-import {
-  EVENT_FIELDS,
-  EVENT_TYPE,
-  IMAGE_DETAILS_FIELDS,
-} from '../../../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../../../constants';
 import { publicEventSchema } from '../../../../utils';
 import ImageDetailsFields, {
   ImageDetailsFieldsProps,
@@ -61,10 +60,10 @@ const eventType = EVENT_TYPE.General;
 interface InitialValues {
   [EVENT_FIELDS.IMAGES]: string[];
   [EVENT_FIELDS.IMAGE_DETAILS]: {
-    [IMAGE_DETAILS_FIELDS.ALT_TEXT]: string;
-    [IMAGE_DETAILS_FIELDS.LICENSE]: string;
-    [IMAGE_DETAILS_FIELDS.NAME]: string;
-    [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: string;
+    [IMAGE_FIELDS.ALT_TEXT]: MultiLanguageObject;
+    [IMAGE_FIELDS.LICENSE]: string;
+    [IMAGE_FIELDS.NAME]: string;
+    [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: string;
   };
   [EVENT_FIELDS.TYPE]: string;
 }
@@ -72,10 +71,10 @@ interface InitialValues {
 const defaultInitialValus: InitialValues = {
   [EVENT_FIELDS.IMAGES]: [],
   [EVENT_FIELDS.IMAGE_DETAILS]: {
-    [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
-    [IMAGE_DETAILS_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
-    [IMAGE_DETAILS_FIELDS.NAME]: '',
-    [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+    [IMAGE_FIELDS.ALT_TEXT]: EMPTY_MULTI_LANGUAGE_OBJECT,
+    [IMAGE_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
+    [IMAGE_FIELDS.NAME]: '',
+    [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
   },
   [EVENT_FIELDS.TYPE]: eventType,
 };
@@ -104,7 +103,7 @@ const findElement = (key: 'altText') => {
   switch (key) {
     case 'altText':
       return screen.findByRole('textbox', {
-        name: translations.image.form.labelAltText,
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
       });
   }
 };
@@ -115,7 +114,7 @@ const getElement = (
   switch (key) {
     case 'altText':
       return screen.getByRole('textbox', {
-        name: translations.image.form.labelAltText,
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
       });
     case 'ccByRadio':
       return screen.getByRole('radio', {
@@ -155,10 +154,13 @@ test('should clear field values when imageAtId is null', async () => {
       initialValues: {
         [EVENT_FIELDS.IMAGES]: [],
         [EVENT_FIELDS.IMAGE_DETAILS]: {
-          [IMAGE_DETAILS_FIELDS.ALT_TEXT]: 'Lorem ipsum',
-          [IMAGE_DETAILS_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
-          [IMAGE_DETAILS_FIELDS.NAME]: 'Lorem ipsum',
-          [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
+          [IMAGE_FIELDS.ALT_TEXT]: {
+            ...EMPTY_MULTI_LANGUAGE_OBJECT,
+            fi: 'Lorem ipsum',
+          },
+          [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
+          [IMAGE_FIELDS.NAME]: 'Lorem ipsum',
+          [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
         },
         [EVENT_FIELDS.TYPE]: eventType,
       },
@@ -182,10 +184,13 @@ test('should clear field values when image with imageAtId does not exist', async
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageNotFoundAtId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
-        [IMAGE_DETAILS_FIELDS.ALT_TEXT]: 'Lorem ipsum',
-        [IMAGE_DETAILS_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
-        [IMAGE_DETAILS_FIELDS.NAME]: 'Lorem ipsum',
-        [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
+        [IMAGE_FIELDS.ALT_TEXT]: {
+          ...EMPTY_MULTI_LANGUAGE_OBJECT,
+          fi: 'Lorem ipsum',
+        },
+        [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
+        [IMAGE_FIELDS.NAME]: 'Lorem ipsum',
+        [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
       },
       [EVENT_FIELDS.TYPE]: eventType,
     },
@@ -208,7 +213,7 @@ test('should set field values', async () => {
   renderComponent({ props: { imageAtId: imageFields.atId } });
 
   const textInputCases = [
-    { input: getElement('altText'), expectedValue: imageFields.altText },
+    { input: getElement('altText'), expectedValue: imageFields.altText.fi },
     { input: getElement('name'), expectedValue: imageFields.name },
     {
       input: getElement('photographerName'),
@@ -254,10 +259,13 @@ test('should show validation error when entering too short altText', async () =>
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageFields.atId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
-        [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
-        [IMAGE_DETAILS_FIELDS.LICENSE]: LICENSE_TYPES.CC_BY,
-        [IMAGE_DETAILS_FIELDS.NAME]: '',
-        [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+        [IMAGE_FIELDS.ALT_TEXT]: {
+          ...EMPTY_MULTI_LANGUAGE_OBJECT,
+          fi: 'Lorem ipsum',
+        },
+        [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.CC_BY,
+        [IMAGE_FIELDS.NAME]: '',
+        [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
       },
       [EVENT_FIELDS.TYPE]: eventType,
     },
@@ -266,7 +274,7 @@ test('should show validation error when entering too short altText', async () =>
 
   const altTextInput = getElement('altText');
 
-  await waitFor(() => expect(altTextInput).toHaveValue(imageFields.altText));
+  await waitFor(() => expect(altTextInput).toHaveValue(imageFields.altText.fi));
 
   await act(async () => await user.click(altTextInput));
   await act(async () => await user.clear(altTextInput));

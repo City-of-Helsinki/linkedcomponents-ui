@@ -6,18 +6,25 @@ import { useTranslation } from 'react-i18next';
 
 import RadioButtonGroupField from '../../../../../common/components/formFields/RadioButtonGroupField';
 import TextInputField from '../../../../../common/components/formFields/TextInputField';
-import { CHARACTER_LIMITS } from '../../../../../constants';
+import {
+  CHARACTER_LIMITS,
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  LE_DATA_LANGUAGES,
+  ORDERED_LE_DATA_LANGUAGES,
+} from '../../../../../constants';
 import { ImageDocument, ImageQuery } from '../../../../../generated/graphql';
 import useLocale from '../../../../../hooks/useLocale';
 import getPathBuilder from '../../../../../utils/getPathBuilder';
+import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
 import parseIdFromAtId from '../../../../../utils/parseIdFromAtId';
 import {
   DEFAULT_LICENSE_TYPE,
+  IMAGE_FIELDS,
   LICENSE_TYPES,
 } from '../../../../image/constants';
 import useIsImageEditable from '../../../../image/hooks/useIsImageEditable';
 import { getImageFields, imagePathBuilder } from '../../../../image/utils';
-import { EVENT_FIELDS, IMAGE_DETAILS_FIELDS } from '../../../constants';
+import { EVENT_FIELDS } from '../../../constants';
 import eventPageStyles from '../../../eventPage.module.scss';
 import styles from './imageDetailsFields.module.scss';
 
@@ -56,10 +63,10 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
     setFieldValue(
       field,
       {
-        [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
-        [IMAGE_DETAILS_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
-        [IMAGE_DETAILS_FIELDS.NAME]: '',
-        [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+        [IMAGE_FIELDS.ALT_TEXT]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+        [IMAGE_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
+        [IMAGE_FIELDS.NAME]: '',
+        [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
       },
       true
     );
@@ -78,14 +85,14 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
           });
 
           const imageFields = getImageFields(data.image, locale);
+
           setFieldValue(
             field,
             {
-              [IMAGE_DETAILS_FIELDS.ALT_TEXT]: imageFields.altText,
-              [IMAGE_DETAILS_FIELDS.LICENSE]: imageFields.license,
-              [IMAGE_DETAILS_FIELDS.NAME]: imageFields.name,
-              [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]:
-                imageFields.photographerName,
+              [IMAGE_FIELDS.ALT_TEXT]: imageFields.altText,
+              [IMAGE_FIELDS.LICENSE]: imageFields.license,
+              [IMAGE_FIELDS.NAME]: imageFields.name,
+              [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: imageFields.photographerName,
             },
             true
           );
@@ -110,21 +117,32 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
   return (
     <div className={styles.imageDetailsFields}>
       <div>
-        <Field
-          disabled={!editable}
-          name={getFieldName(IMAGE_DETAILS_FIELDS.ALT_TEXT)}
-          component={TextInputField}
-          label={t(`image.form.labelAltText`)}
-          maxLength={CHARACTER_LIMITS.SHORT_STRING}
-          placeholder={t(`image.form.placeholderAltText`)}
-          required={editable}
-          title={warning}
-        />
+        {ORDERED_LE_DATA_LANGUAGES.map((language) => {
+          const langText = lowerCaseFirstLetter(
+            t(`form.inLanguage.${language}`)
+          );
+
+          return (
+            <Field
+              key={language}
+              className={styles.alignedInput}
+              component={TextInputField}
+              disabled={!editable}
+              label={`${t('image.form.labelAltText')} (${langText})`}
+              name={`${getFieldName(IMAGE_FIELDS.ALT_TEXT)}.${language}`}
+              placeholder={`${t(
+                'image.form.placeholderAltText'
+              )} (${langText})`}
+              required={language === LE_DATA_LANGUAGES.FI}
+              title={warning}
+            />
+          );
+        })}
       </div>
       <div>
         <Field
           disabled={!editable}
-          name={getFieldName(IMAGE_DETAILS_FIELDS.NAME)}
+          name={getFieldName(IMAGE_FIELDS.NAME)}
           component={TextInputField}
           label={t(`image.form.labelName`)}
           maxLength={CHARACTER_LIMITS.MEDIUM_STRING}
@@ -136,7 +154,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
       <div>
         <Field
           disabled={!editable}
-          name={getFieldName(IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME)}
+          name={getFieldName(IMAGE_FIELDS.PHOTOGRAPHER_NAME)}
           component={TextInputField}
           label={t(`image.form.labelPhotographerName`)}
           placeholder={t(`image.form.placeholderPhotographerName`)}
@@ -149,7 +167,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
         </h3>
         <Field
           disabled={!editable}
-          name={getFieldName(IMAGE_DETAILS_FIELDS.LICENSE)}
+          name={getFieldName(IMAGE_FIELDS.LICENSE)}
           component={RadioButtonGroupField}
           options={licenseOptions}
           title={warning}

@@ -41,6 +41,9 @@ const Modal: React.FC<React.PropsWithChildren<Props>> = ({
       portalClassName={styles.modalPortal}
       className={classNames(styles.modal, className, css(theme.modal))}
       overlayClassName={styles.overlay}
+      // There is a bug in react-modal and body class is not removed automatically
+      // So do it manually here
+      onAfterClose={() => document.body.classList.remove(styles.bodyOpen)}
       onRequestClose={onClose}
     >
       <div className={styles.headingWrapper}>

@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
+import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
@@ -15,7 +16,13 @@ import {
   UpdateImageMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import { Editability, Language, PathBuilderProps } from '../../types';
+import {
+  Editability,
+  Language,
+  MultiLanguageObject,
+  PathBuilderProps,
+} from '../../types';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import {
@@ -59,7 +66,7 @@ export const imagesPathBuilder = ({
 };
 
 type ImageFields = {
-  altText: string;
+  altText: MultiLanguageObject;
   id: string;
   imageUrl: string;
   lastModifiedTime: Date | null;
@@ -76,7 +83,7 @@ export const getImageFields = (
 ): ImageFields => {
   const id = image.id ?? '';
   return {
-    altText: image.altText || '',
+    altText: getLocalisedObject(image.altText),
     id,
     imageUrl: `/${language}${ROUTES.EDIT_IMAGE.replace(':id', id)}`,
     lastModifiedTime: image.lastModifiedTime
@@ -239,7 +246,7 @@ export const getImageInitialValues = (
   image: ImageFieldsFragment
 ): ImageFormFields => {
   return {
-    altText: image.altText ?? '',
+    altText: getLocalisedObject(image.altText),
     id: image.id ?? '',
     license: image.license ?? '',
     name: image.name ?? '',
@@ -252,7 +259,7 @@ export const getImageInitialValues = (
 export const getImagePayload = (
   formValues: ImageFormFields
 ): UpdateImageMutationInput => {
-  return omit(formValues, 'url');
+  return { ...omit(formValues, 'url') };
 };
 
 export const getImageQueryResult = async (
@@ -292,3 +299,17 @@ export const clearImagesQueries = (
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'images', args });
 
 export const getImageItemId = (id: string): string => `image-item-${id}`;
+
+export const isImageUpdateNeeded = (
+  image: ImageFieldsFragment,
+  values: ImageFormFields
+) => {
+  const initialValues = getImageInitialValues(image);
+
+  return (
+    !isEqual(initialValues.altText, values.altText) ||
+    initialValues.license !== values.license ||
+    initialValues.name !== values.name ||
+    initialValues.photographerName !== values.photographerName
+  );
+};
