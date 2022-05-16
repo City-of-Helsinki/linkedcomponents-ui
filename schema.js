@@ -373,7 +373,8 @@ module.exports = buildSchema(/* GraphQL */ `
     id: String
     internalType: String
     name: String
-    parentOrganization: String
+    originId: String
+    parent: String
     regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
