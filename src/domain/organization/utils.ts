@@ -2,7 +2,11 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { MAX_PAGE_SIZE, ROUTES } from '../../constants';
+import {
+  LINKED_EVENTS_SYSTEM_DATA_SOURCE,
+  MAX_PAGE_SIZE,
+  ROUTES,
+} from '../../constants';
 import {
   CreateOrganizationMutationInput,
   OrganizationDocument,
@@ -324,7 +328,6 @@ export const getOrganizationPayload = (
   formValues: OrganizationFormFields
 ): CreateOrganizationMutationInput => {
   const {
-    dataSource,
     dissolutionDate,
     foundingDate,
     id,
@@ -332,6 +335,8 @@ export const getOrganizationPayload = (
     parent,
     ...restFormValues
   } = formValues;
+
+  const dataSource = formValues.dataSource || LINKED_EVENTS_SYSTEM_DATA_SOURCE;
 
   return {
     ...restFormValues,
@@ -342,7 +347,7 @@ export const getOrganizationPayload = (
     foundingDate: foundingDate ? formatDate(foundingDate, 'yyyy-MM-dd') : null,
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
     originId,
-    parent: parent ? parseIdFromAtId(parent) : null,
+    parent: parent ? parseIdFromAtId(parent) : undefined,
   };
 };
 

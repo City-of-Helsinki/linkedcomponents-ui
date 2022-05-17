@@ -1,6 +1,8 @@
+/* eslint-disable import/no-named-as-default-member */
 import { NetworkStatus } from '@apollo/client';
 import i18n from 'i18next';
 
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
 import {
   fakeOrganization,
   fakeOrganizations,
@@ -272,7 +274,7 @@ describe('getOrganizationInitialValues function', () => {
       internalType: 'affiliated',
       name: '',
       originId: '',
-      parentOrganization: '',
+      parent: '',
       regularUsers: [],
       replacedBy: '',
       subOrganizations: [],
@@ -308,7 +310,7 @@ describe('getOrganizationInitialValues function', () => {
       internalType: 'normal',
       name: 'name',
       originId: '1',
-      parentOrganization: 'organization:parent',
+      parent: 'organization:parent',
       regularUsers: ['regular:1'],
       replacedBy: '',
       subOrganizations: ['organization:sub'],
@@ -322,13 +324,14 @@ describe('getOrganizationPayload function', () => {
       adminUsers: [],
       affiliatedOrganizations: [],
       classification: '',
-      dataSource: '',
+      dataSource: LINKED_EVENTS_SYSTEM_DATA_SOURCE,
       dissolutionDate: null,
       foundingDate: null,
       id: undefined,
       internalType: ORGANIZATION_INTERNAL_TYPE.NORMAL,
       name: '',
-      parentOrganization: '',
+      originId: '',
+      parent: undefined,
       regularUsers: [],
       replacedBy: '',
       subOrganizations: [],
@@ -346,7 +349,7 @@ describe('getOrganizationPayload function', () => {
         internalType: 'normal',
         name: 'name',
         originId: '123',
-        parentOrganization: 'organization:parent',
+        parent: 'organization:parent',
         regularUsers: ['regular:1'],
         replacedBy: 'organization:replaced',
         subOrganizations: ['organization:sub'],
@@ -361,7 +364,8 @@ describe('getOrganizationPayload function', () => {
       id: 'helsinki:123',
       internalType: 'normal',
       name: 'name',
-      parentOrganization: 'organization:parent',
+      originId: '123',
+      parent: 'organization:parent',
       regularUsers: ['regular:1'],
       replacedBy: 'organization:replaced',
       subOrganizations: ['organization:sub'],
