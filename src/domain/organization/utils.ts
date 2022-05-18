@@ -146,6 +146,18 @@ export const isReqularUserInOrganization = ({
   return Boolean(id && organizationMemberships.includes(id));
 };
 
+export const isInDefaultOrganization = ({
+  id,
+  user,
+}: {
+  id: string | null;
+  user?: UserFieldsFragment;
+}): boolean => {
+  const organization = user?.organization;
+
+  return id === organization;
+};
+
 export const getOrganizationAncestorsQueryResult = async (
   id: string,
   apolloClient: ApolloClient<NormalizedCacheObject>
