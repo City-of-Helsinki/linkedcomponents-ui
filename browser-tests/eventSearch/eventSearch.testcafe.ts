@@ -47,6 +47,7 @@ fixture('Event search page')
   .requestHooks([requestLogger, eventSearchLogger]);
 
 test('shows places in filter options', async (t) => {
+  console.log(getEnvUrl('/fi/search'));
   const cookieConsentModal = await findCookieConsentModal(t);
   await cookieConsentModal.actions.acceptAllCookies();
 
