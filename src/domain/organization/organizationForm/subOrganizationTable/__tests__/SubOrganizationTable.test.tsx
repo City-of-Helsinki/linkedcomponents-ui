@@ -64,7 +64,7 @@ test('should open sub organization edit page', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/admin/organizations/edit/${organizations.data[0].id}`
+      `/fi/administration/organizations/edit/${organizations.data[0].id}`
     )
   );
 });
@@ -82,7 +82,7 @@ test('should open sub organization edit page by pressing enter on row', async ()
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/admin/organizations/edit/${organizations.data[0].id}`
+      `/fi/administration/organizations/edit/${organizations.data[0].id}`
     )
   );
 });

@@ -57,7 +57,7 @@ test('should route to keywords page when clicking back button', async () => {
   await act(async () => await user.click(getElement('backButton')));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+    expect(history.location.pathname).toBe(`/fi/administration/keywords`)
   );
 });
 

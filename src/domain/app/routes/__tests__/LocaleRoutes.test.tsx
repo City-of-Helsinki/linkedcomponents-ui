@@ -275,7 +275,7 @@ it('should render images page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /kuvat/i });
   });
-  expect(history.location.pathname).toBe('/fi/admin/images');
+  expect(history.location.pathname).toBe('/fi/administration/images');
 });
 
 it('should render create image page', async () => {
@@ -288,7 +288,7 @@ it('should render create image page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /lisää kuva/i });
   });
-  expect(history.location.pathname).toBe('/fi/admin/images/create');
+  expect(history.location.pathname).toBe('/fi/administration/images/create');
 });
 
 it('should render edit image page', async () => {
@@ -304,7 +304,9 @@ it('should render edit image page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /muokkaa kuvaa/i });
   });
-  expect(history.location.pathname).toBe(`/fi/admin/images/edit/${id}`);
+  expect(history.location.pathname).toBe(
+    `/fi/administration/images/edit/${id}`
+  );
 });
 
 it('should render keywords page', async () => {
@@ -317,7 +319,7 @@ it('should render keywords page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /avainsanat/i });
   });
-  expect(history.location.pathname).toBe('/fi/admin/keywords');
+  expect(history.location.pathname).toBe('/fi/administration/keywords');
 });
 
 it('should render create keyword page', async () => {
@@ -330,7 +332,7 @@ it('should render create keyword page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /lisää avainsana/i });
   });
-  expect(history.location.pathname).toBe('/fi/admin/keywords/create');
+  expect(history.location.pathname).toBe('/fi/administration/keywords/create');
 });
 
 it('should render edit keyword page', async () => {
@@ -346,7 +348,9 @@ it('should render edit keyword page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /muokkaa avainsanaa/i });
   });
-  expect(history.location.pathname).toBe(`/fi/admin/keywords/edit/${id}`);
+  expect(history.location.pathname).toBe(
+    `/fi/administration/keywords/edit/${id}`
+  );
 });
 
 it('should render keyword sets page', async () => {
@@ -359,7 +363,7 @@ it('should render keyword sets page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /avainsanaryhmät/i });
   });
-  expect(history.location.pathname).toBe('/fi/admin/keyword-sets');
+  expect(history.location.pathname).toBe('/fi/administration/keyword-sets');
 });
 
 it('should render create keyword set page', async () => {
@@ -372,7 +376,9 @@ it('should render create keyword set page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /lisää avainsanaryhmä/i });
   });
-  expect(history.location.pathname).toBe('/fi/admin/keyword-sets/create');
+  expect(history.location.pathname).toBe(
+    '/fi/administration/keyword-sets/create'
+  );
 });
 
 it('should render edit keyword set page', async () => {
@@ -388,7 +394,9 @@ it('should render edit keyword set page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /muokkaa avainsanaryhmää/i });
   });
-  expect(history.location.pathname).toBe(`/fi/admin/keyword-sets/edit/${id}`);
+  expect(history.location.pathname).toBe(
+    `/fi/administration/keyword-sets/edit/${id}`
+  );
 });
 
 it('should render organizations page', async () => {
@@ -401,7 +409,7 @@ it('should render organizations page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /organisaatiot/i });
   });
-  expect(history.location.pathname).toBe('/fi/admin/organizations');
+  expect(history.location.pathname).toBe('/fi/administration/organizations');
 });
 
 it('should render create organization page', async () => {
@@ -414,7 +422,9 @@ it('should render create organization page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /lisää organisaatio/i });
   });
-  expect(history.location.pathname).toBe(`/fi/admin/organizations/create`);
+  expect(history.location.pathname).toBe(
+    `/fi/administration/organizations/create`
+  );
 });
 
 it('should render edit organization page', async () => {
@@ -430,7 +440,9 @@ it('should render edit organization page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /muokkaa organisaatiota/i });
   });
-  expect(history.location.pathname).toBe(`/fi/admin/organizations/edit/${id}`);
+  expect(history.location.pathname).toBe(
+    `/fi/administration/organizations/edit/${id}`
+  );
 });
 
 it('should render places page', async () => {
@@ -443,7 +455,7 @@ it('should render places page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /paikat/i });
   });
-  expect(history.location.pathname).toBe('/fi/admin/places');
+  expect(history.location.pathname).toBe('/fi/administration/places');
 });
 
 it('should render create place page', async () => {
@@ -456,7 +468,7 @@ it('should render create place page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /lisää paikka/i });
   });
-  expect(history.location.pathname).toBe(`/fi/admin/places/create`);
+  expect(history.location.pathname).toBe(`/fi/administration/places/create`);
 });
 
 it('should render edit place page', async () => {
@@ -472,7 +484,9 @@ it('should render edit place page', async () => {
   await act(async () => {
     await screen.findByRole('heading', { name: /muokkaa paikkaa/i });
   });
-  expect(history.location.pathname).toBe(`/fi/admin/places/edit/${id}`);
+  expect(history.location.pathname).toBe(
+    `/fi/administration/places/edit/${id}`
+  );
 });
 
 it('should route to default help page', async () => {

@@ -21,7 +21,7 @@ const keywordSetsLogger = RequestLogger(new RegExp(LINKED_EVENTS_URL), {
 let urlUtils: ReturnType<typeof getUrlUtils>;
 
 fixture('Keyword set page')
-  .page(getEnvUrl('/fi/admin/keyword-sets'))
+  .page(getEnvUrl('/fi/administration/keyword-sets'))
   .beforeEach(async (t) => {
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);

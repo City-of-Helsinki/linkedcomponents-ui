@@ -93,7 +93,9 @@ test('should route to edit place page', async () => {
   await act(async () => await user.click(editButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places/edit/${place.id}`)
+    expect(history.location.pathname).toBe(
+      `/fi/administration/places/edit/${place.id}`
+    )
   );
 
   expect(history.location.search).toBe(

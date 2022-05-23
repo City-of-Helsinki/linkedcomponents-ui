@@ -21,7 +21,7 @@ const keywordsLogger = RequestLogger(new RegExp(LINKED_EVENTS_URL), {
 let urlUtils: ReturnType<typeof getUrlUtils>;
 
 fixture('Keywords page')
-  .page(getEnvUrl('/fi/admin/keywords'))
+  .page(getEnvUrl('/fi/administration/keywords'))
   .beforeEach(async (t) => {
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);

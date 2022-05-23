@@ -90,7 +90,9 @@ test('should open create keyword set page', async () => {
   const createKeywordSetButton = getElement('createKeywordSetButton');
   await act(async () => await user.click(createKeywordSetButton));
 
-  expect(history.location.pathname).toBe('/fi/admin/keyword-sets/create');
+  expect(history.location.pathname).toBe(
+    '/fi/administration/keyword-sets/create'
+  );
 });
 
 test('should add sort parameter to search query', async () => {

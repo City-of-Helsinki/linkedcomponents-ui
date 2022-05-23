@@ -29,28 +29,32 @@ export const getUrlUtils = (t: TestController) => {
     },
     async navigateToKeywordsUrl(searchString: string) {
       const url = getEnvUrl(
-        `/fi/admin/keywords?text=${encodeURIComponent(searchString)}`
+        `/fi/administration/keywords?text=${encodeURIComponent(searchString)}`
       );
       setDataToPrintOnFailure(t, 'url', url);
       await t.navigateTo(url);
     },
     async navigateToKeywordSetsUrl(searchString: string) {
       const url = getEnvUrl(
-        `/fi/admin/keyword-sets?text=${encodeURIComponent(searchString)}`
+        `/fi/administration/keyword-sets?text=${encodeURIComponent(
+          searchString
+        )}`
       );
       setDataToPrintOnFailure(t, 'url', url);
       await t.navigateTo(url);
     },
     async navigateToOrganizationsUrl(searchString: string) {
       const url = getEnvUrl(
-        `/fi/admin/organizations?text=${encodeURIComponent(searchString)}`
+        `/fi/administration/organizations?text=${encodeURIComponent(
+          searchString
+        )}`
       );
       setDataToPrintOnFailure(t, 'url', url);
       await t.navigateTo(url);
     },
     async navigateToPlacesUrl(searchString: string) {
       const url = getEnvUrl(
-        `/fi/admin/places?text=${encodeURIComponent(searchString)}`
+        `/fi/administration/places?text=${encodeURIComponent(searchString)}`
       );
       setDataToPrintOnFailure(t, 'url', url);
       await t.navigateTo(url);
@@ -91,22 +95,28 @@ export const getUrlUtils = (t: TestController) => {
     async urlChangedToCreateKeywordPage() {
       await t
         .expect(getPathname())
-        .eql(`/fi/admin/keywords/create`, await getErrorMessage(t));
+        .eql(`/fi/administration/keywords/create`, await getErrorMessage(t));
     },
     async urlChangedToCreateKeywordSetPage() {
       await t
         .expect(getPathname())
-        .eql(`/fi/admin/keyword-sets/create`, await getErrorMessage(t));
+        .eql(
+          `/fi/administration/keyword-sets/create`,
+          await getErrorMessage(t)
+        );
     },
     async urlChangedToCreatePlacePage() {
       await t
         .expect(getPathname())
-        .eql(`/fi/admin/places/create`, await getErrorMessage(t));
+        .eql(`/fi/administration/places/create`, await getErrorMessage(t));
     },
     async urlChangedToCreateOrganizationPage() {
       await t
         .expect(getPathname())
-        .eql(`/fi/admin/organizations/create`, await getErrorMessage(t));
+        .eql(
+          `/fi/administration/organizations/create`,
+          await getErrorMessage(t)
+        );
     },
     async urlChangedToDocumentationPage() {
       await t
@@ -148,7 +158,10 @@ export const getUrlUtils = (t: TestController) => {
       setDataToPrintOnFailure(t, 'expectedKeyword', keyword);
       await t
         .expect(getPathname())
-        .eql(`/fi/admin/keywords/edit/${keyword.id}`, await getErrorMessage(t));
+        .eql(
+          `/fi/administration/keywords/edit/${keyword.id}`,
+          await getErrorMessage(t)
+        );
       await pageIsLoaded();
       await t
         .expect(getPageTitle())
@@ -159,7 +172,7 @@ export const getUrlUtils = (t: TestController) => {
       await t
         .expect(getPathname())
         .eql(
-          `/fi/admin/keyword-sets/edit/${keywordSet.id}`,
+          `/fi/administration/keyword-sets/edit/${keywordSet.id}`,
           await getErrorMessage(t)
         );
       await pageIsLoaded();
@@ -173,7 +186,7 @@ export const getUrlUtils = (t: TestController) => {
     async urlChangedToKeywordsPage() {
       await t
         .expect(getPathname())
-        .eql(`/fi/admin/keywords`, await getErrorMessage(t));
+        .eql(`/fi/administration/keywords`, await getErrorMessage(t));
     },
     async urlChangedToLandingPage() {
       await t.expect(getPathname()).eql(`/fi`, await getErrorMessage(t));
@@ -185,7 +198,7 @@ export const getUrlUtils = (t: TestController) => {
       await t
         .expect(getPathname())
         .eql(
-          `/fi/admin/organizations/edit/${organization.id}`,
+          `/fi/administration/organizations/edit/${organization.id}`,
           await getErrorMessage(t)
         );
       await pageIsLoaded();
@@ -200,7 +213,10 @@ export const getUrlUtils = (t: TestController) => {
       setDataToPrintOnFailure(t, 'expectedPlace', place);
       await t
         .expect(getPathname())
-        .eql(`/fi/admin/places/edit/${place.id}`, await getErrorMessage(t));
+        .eql(
+          `/fi/administration/places/edit/${place.id}`,
+          await getErrorMessage(t)
+        );
       await pageIsLoaded();
       await t
         .expect(getPageTitle())

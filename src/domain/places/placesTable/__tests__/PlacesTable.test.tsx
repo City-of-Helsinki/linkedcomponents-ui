@@ -54,7 +54,9 @@ test('should open edit place page by clicking keyword', async () => {
       await user.click(screen.getByRole('button', { name: placeName }))
   );
 
-  expect(history.location.pathname).toBe(`/fi/admin/places/edit/${placeId}`);
+  expect(history.location.pathname).toBe(
+    `/fi/administration/places/edit/${placeId}`
+  );
 });
 
 test('should open edit keyword page by pressing enter on row', async () => {
@@ -73,7 +75,9 @@ test('should open edit keyword page by pressing enter on row', async () => {
         '{enter}'
       )
   );
-  expect(history.location.pathname).toBe(`/fi/admin/places/edit/${placeId}`);
+  expect(history.location.pathname).toBe(
+    `/fi/administration/places/edit/${placeId}`
+  );
 });
 
 test('should call setSort when clicking sortable column header', async () => {

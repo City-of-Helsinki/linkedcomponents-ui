@@ -101,7 +101,7 @@ test('should route to edit organization page', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/admin/organizations/edit/${organization.id}`
+      `/fi/administration/organizations/edit/${organization.id}`
     )
   );
 

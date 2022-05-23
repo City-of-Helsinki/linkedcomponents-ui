@@ -93,7 +93,9 @@ test('should route to edit image page', async () => {
   await act(async () => await user.click(editButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/images/edit/${image.id}`)
+    expect(history.location.pathname).toBe(
+      `/fi/administration/images/edit/${image.id}`
+    )
   );
 
   expect(history.location.search).toBe(
