@@ -32,7 +32,7 @@ fixture('Places page')
   .requestHooks([requestLogger, placesLogger]);
 
 test('Create place button works', async (t) => {
-  console.log(process.env);
+  console.log(getEnvUrl('/fi/admin/places'));
   const cookieConsentModal = await findCookieConsentModal(t);
   await cookieConsentModal.actions.acceptAllCookies();
 
