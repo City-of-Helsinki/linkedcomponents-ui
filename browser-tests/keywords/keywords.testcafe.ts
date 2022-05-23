@@ -26,7 +26,7 @@ fixture('Keywords page')
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);
   })
-  .afterEach(async () => {
+  .after(async () => {
     requestLogger.clear();
     keywordsLogger.clear();
   })
@@ -42,27 +42,27 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     await urlUtils.expectations.urlChangedToCreateKeywordPage();
   });
 
-  test('Search url by keyword name shows keyword row data for a keyword', async (t) => {
-    const cookieConsentModal = await findCookieConsentModal(t);
-    await cookieConsentModal.actions.acceptAllCookies();
+  test.disablePageReloads(
+    'Search url by keyword name shows keyword row data for a keyword',
+    async (t) => {
+      const keywordsPage = await getKeywordsPage(t);
+      await keywordsPage.pageIsLoaded();
 
-    const keywordsPage = await getKeywordsPage(t);
-    await keywordsPage.pageIsLoaded();
+      const locale = SUPPORTED_LANGUAGES.FI;
+      const keywords = await getKeywords(t, keywordsLogger);
+      const [keyword] = keywords.filter((keyword) =>
+        isLocalized(keyword, locale)
+      );
 
-    const locale = SUPPORTED_LANGUAGES.FI;
-    const keywords = await getKeywords(t, keywordsLogger);
-    const [keyword] = keywords.filter((keyword) =>
-      isLocalized(keyword, locale)
-    );
+      await urlUtils.actions.navigateToKeywordsUrl(
+        getRandomSentence(keyword.name.fi)
+      );
 
-    await urlUtils.actions.navigateToKeywordsUrl(
-      getRandomSentence(keyword.name.fi)
-    );
+      const searchResults = await keywordsPage.findSearchResultList();
+      const keywordRow = await searchResults.keywordRow(keyword);
 
-    const searchResults = await keywordsPage.findSearchResultList();
-    const keywordRow = await searchResults.keywordRow(keyword);
-
-    await keywordRow.actions.clickKeywordRow();
-    await urlUtils.expectations.urlChangedToKeywordPage(keyword);
-  });
+      await keywordRow.actions.clickKeywordRow();
+      await urlUtils.expectations.urlChangedToKeywordPage(keyword);
+    }
+  );
 }

@@ -16,7 +16,7 @@ fixture('Landing page header')
     urlUtils = getUrlUtils(t);
   })
   .requestHooks(requestLogger)
-  .afterEach(async () => {
+  .after(async () => {
     requestLogger.clear();
   });
 
@@ -36,38 +36,38 @@ test('Changing language on landing page', async (t) => {
   await headerTabs.expectations.supportPageTabIsVisible();
 });
 
-test('Header tabs and search input field work', async (t) => {
-  const cookieConsentModal = await findCookieConsentModal(t);
-  await cookieConsentModal.actions.acceptAllCookies();
-
-  const header = await findHeader(t);
-  const headerTabs = header.headerTabs();
-  // Search input field
-  await urlUtils.actions.navigateToLandingPage();
-  const headerSearch = header.headerSearch();
-  await headerSearch.actions.clickSearchButton();
-  await headerSearch.actions.clickSearchInput();
-  await t.pressKey('enter');
-  await urlUtils.expectations.urlChangedToEventSearchPage();
-
-  // Events page
-  await urlUtils.actions.navigateToLandingPage();
-  await headerTabs.actions.clickEventsPageTab();
-  await urlUtils.expectations.urlChangedToEventsPage();
-  // Registrations page
-  if (isFeatureEnabled('SHOW_REGISTRATION')) {
+test.disablePageReloads(
+  'Header tabs and search input field work',
+  async (t) => {
+    const header = await findHeader(t);
+    const headerTabs = header.headerTabs();
+    // Search input field
     await urlUtils.actions.navigateToLandingPage();
-    await headerTabs.actions.clickRegistrationsPageTab();
-    await urlUtils.expectations.urlChangedToRegistrationsPage();
-  }
-  // Admin page
-  if (isFeatureEnabled('SHOW_ADMIN')) {
+    const headerSearch = header.headerSearch();
+    await headerSearch.actions.clickSearchButton();
+    await headerSearch.actions.clickSearchInput();
+    await t.pressKey('enter');
+    await urlUtils.expectations.urlChangedToEventSearchPage();
+
+    // Events page
     await urlUtils.actions.navigateToLandingPage();
-    await headerTabs.actions.clickAdminPageTab();
-    await urlUtils.expectations.urlChangedToKeywordsPage();
+    await headerTabs.actions.clickEventsPageTab();
+    await urlUtils.expectations.urlChangedToEventsPage();
+    // Registrations page
+    if (isFeatureEnabled('SHOW_REGISTRATION')) {
+      await urlUtils.actions.navigateToLandingPage();
+      await headerTabs.actions.clickRegistrationsPageTab();
+      await urlUtils.expectations.urlChangedToRegistrationsPage();
+    }
+    // Admin page
+    if (isFeatureEnabled('SHOW_ADMIN')) {
+      await urlUtils.actions.navigateToLandingPage();
+      await headerTabs.actions.clickAdminPageTab();
+      await urlUtils.expectations.urlChangedToKeywordsPage();
+    }
+    // Support page
+    await urlUtils.actions.navigateToLandingPage();
+    await headerTabs.actions.clickSupportPageTab();
+    await urlUtils.expectations.urlChangedToSupportPage();
   }
-  // Support page
-  await urlUtils.actions.navigateToLandingPage();
-  await headerTabs.actions.clickSupportPageTab();
-  await urlUtils.expectations.urlChangedToSupportPage();
-});
+);

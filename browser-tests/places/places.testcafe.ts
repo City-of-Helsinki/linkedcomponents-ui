@@ -26,7 +26,7 @@ fixture('Places page')
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);
   })
-  .afterEach(async () => {
+  .after(async () => {
     requestLogger.clear();
     placesLogger.clear();
   })
@@ -42,25 +42,25 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     await urlUtils.expectations.urlChangedToCreatePlacePage();
   });
 
-  test('Search url by place name shows place row data for a place', async (t) => {
-    const cookieConsentModal = await findCookieConsentModal(t);
-    await cookieConsentModal.actions.acceptAllCookies();
+  test.disablePageReloads(
+    'Search url by place name shows place row data for a place',
+    async (t) => {
+      const placesPage = await getPlacesPage(t);
+      await placesPage.pageIsLoaded();
 
-    const placesPage = await getPlacesPage(t);
-    await placesPage.pageIsLoaded();
+      const locale = SUPPORTED_LANGUAGES.FI;
+      const places = await getPlaces(t, placesLogger);
+      const [place] = places.filter((place) => isLocalized(place, locale));
 
-    const locale = SUPPORTED_LANGUAGES.FI;
-    const places = await getPlaces(t, placesLogger);
-    const [place] = places.filter((place) => isLocalized(place, locale));
+      await urlUtils.actions.navigateToPlacesUrl(
+        getRandomSentence(place.name.fi)
+      );
 
-    await urlUtils.actions.navigateToPlacesUrl(
-      getRandomSentence(place.name.fi)
-    );
+      const searchResults = await placesPage.findSearchResultList();
+      const placeRow = await searchResults.placeRow(place);
 
-    const searchResults = await placesPage.findSearchResultList();
-    const placeRow = await searchResults.placeRow(place);
-
-    await placeRow.actions.clickPlaceRow();
-    await urlUtils.expectations.urlChangedToPlacePage(place);
-  });
+      await placeRow.actions.clickPlaceRow();
+      await urlUtils.expectations.urlChangedToPlacePage(place);
+    }
+  );
 }

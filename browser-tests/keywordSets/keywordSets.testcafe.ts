@@ -26,7 +26,7 @@ fixture('Keyword set page')
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);
   })
-  .afterEach(async () => {
+  .after(async () => {
     requestLogger.clear();
     keywordSetsLogger.clear();
   })
@@ -42,27 +42,27 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     await urlUtils.expectations.urlChangedToCreateKeywordSetPage();
   });
 
-  test('Search url by keyword set name shows keyword set row data for an keyword set', async (t) => {
-    const cookieConsentModal = await findCookieConsentModal(t);
-    await cookieConsentModal.actions.acceptAllCookies();
+  test.disablePageReloads(
+    'Search url by keyword set name shows keyword set row data for an keyword set',
+    async (t) => {
+      const keywordSetsPage = await getKeywordSetsPage(t);
+      await keywordSetsPage.pageIsLoaded();
 
-    const keywordSetsPage = await getKeywordSetsPage(t);
-    await keywordSetsPage.pageIsLoaded();
+      const locale = SUPPORTED_LANGUAGES.FI;
+      const keywordSets = await getKeywordSets(t, keywordSetsLogger);
+      const [keywordSet] = keywordSets.filter((keywordSet) =>
+        isLocalized(keywordSet, locale)
+      );
 
-    const locale = SUPPORTED_LANGUAGES.FI;
-    const keywordSets = await getKeywordSets(t, keywordSetsLogger);
-    const [keywordSet] = keywordSets.filter((keywordSet) =>
-      isLocalized(keywordSet, locale)
-    );
+      await urlUtils.actions.navigateToKeywordSetsUrl(
+        getRandomSentence(keywordSet.name.fi)
+      );
 
-    await urlUtils.actions.navigateToKeywordSetsUrl(
-      getRandomSentence(keywordSet.name.fi)
-    );
+      const searchResults = await keywordSetsPage.findSearchResultList();
+      const keywordSetRow = await searchResults.keywordSetRow(keywordSet);
 
-    const searchResults = await keywordSetsPage.findSearchResultList();
-    const keywordSetRow = await searchResults.keywordSetRow(keywordSet);
-
-    await keywordSetRow.actions.clickKeywordSetRow();
-    await urlUtils.expectations.urlChangedToKeywordSetPage(keywordSet);
-  });
+      await keywordSetRow.actions.clickKeywordSetRow();
+      await urlUtils.expectations.urlChangedToKeywordSetPage(keywordSet);
+    }
+  );
 }
