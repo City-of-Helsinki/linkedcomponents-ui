@@ -111,7 +111,7 @@ test('should move to places page after creating new place', async () => {
   await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places`)
+    expect(history.location.pathname).toBe(`/fi/administration/places`)
   );
 });
 

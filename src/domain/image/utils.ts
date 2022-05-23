@@ -27,6 +27,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   isAdminUserInOrganization,
+  isInDefaultOrganization,
   isReqularUserInOrganization,
 } from '../organization/utils';
 import {
@@ -123,6 +124,7 @@ export const checkCanUserDoAction = ({
     case IMAGE_ACTIONS.CREATE:
       return hasOrganizations;
     case IMAGE_ACTIONS.DELETE:
+      return isInDefaultOrganization({ id: publisher, user });
     case IMAGE_ACTIONS.UPDATE:
       return isRegularUser || isAdminUser;
     case IMAGE_ACTIONS.UPLOAD:
@@ -133,13 +135,11 @@ export const checkCanUserDoAction = ({
 export const getImageActionWarning = ({
   action,
   authenticated,
-  publisher,
   t,
   userCanDoAction,
 }: {
   action: IMAGE_ACTIONS;
   authenticated: boolean;
-  publisher: string;
   t: TFunction;
   userCanDoAction: boolean;
 }): string => {
@@ -199,7 +199,6 @@ export const checkIsImageActionAllowed = ({
   const warning = getImageActionWarning({
     action,
     authenticated,
-    publisher,
     t,
     userCanDoAction,
   });

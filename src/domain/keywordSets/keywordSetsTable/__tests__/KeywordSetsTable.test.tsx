@@ -56,7 +56,7 @@ test('should open edit keyword set page by clicking keyword set row', async () =
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/admin/keyword-sets/edit/${keywordSetId}`
+      `/fi/administration/keyword-sets/edit/${keywordSetId}`
     )
   );
 });
@@ -78,7 +78,7 @@ test('should open edit keyword set page by pressing enter on row', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/admin/keyword-sets/edit/${keywordSetId}`
+      `/fi/administration/keyword-sets/edit/${keywordSetId}`
     )
   );
 });

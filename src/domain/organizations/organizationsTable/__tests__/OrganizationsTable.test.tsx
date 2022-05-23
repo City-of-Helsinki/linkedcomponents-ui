@@ -62,7 +62,7 @@ test('should open edit organization page by clicking organization', async () => 
   );
 
   expect(history.location.pathname).toBe(
-    `/fi/admin/organizations/edit/${organizationId}`
+    `/fi/administration/organizations/edit/${organizationId}`
   );
 });
 
@@ -81,7 +81,7 @@ test('should open edit organization page by pressing enter on row', async () => 
   );
 
   expect(history.location.pathname).toBe(
-    `/fi/admin/organizations/edit/${organizationId}`
+    `/fi/administration/organizations/edit/${organizationId}`
   );
 });
 

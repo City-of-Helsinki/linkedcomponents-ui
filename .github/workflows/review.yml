@@ -89,9 +89,9 @@ jobs:
           TESTCAFE_SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           TESTCAFE_SLACK_CHANNEL: '#linked-alerts'
           TESTCAFE_SLACK_USERNAME: TestCafé
-      - name: Upload screenshots of failed tests
+      - name: Upload screenshots and videos of failed tests to artifact
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: screenshots
-          path: screenshots/
+          name: report
+          path: report/

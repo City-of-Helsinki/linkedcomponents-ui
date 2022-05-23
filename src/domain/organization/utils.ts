@@ -2,7 +2,11 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { MAX_PAGE_SIZE, ROUTES } from '../../constants';
+import {
+  LINKED_EVENTS_SYSTEM_DATA_SOURCE,
+  MAX_PAGE_SIZE,
+  ROUTES,
+} from '../../constants';
 import {
   CreateOrganizationMutationInput,
   OrganizationDocument,
@@ -17,6 +21,7 @@ import {
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
+import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -139,6 +144,18 @@ export const isReqularUserInOrganization = ({
   const organizationMemberships = user?.organizationMemberships ?? [];
 
   return Boolean(id && organizationMemberships.includes(id));
+};
+
+export const isInDefaultOrganization = ({
+  id,
+  user,
+}: {
+  id: string | null;
+  user?: UserFieldsFragment;
+}): boolean => {
+  const organization = user?.organization;
+
+  return id === organization;
 };
 
 export const getOrganizationAncestorsQueryResult = async (
@@ -310,7 +327,7 @@ export const getOrganizationInitialValues = (
       : ORGANIZATION_INTERNAL_TYPE.NORMAL,
     name: organization.name ?? '',
     originId: id.split(':')[1] ?? '',
-    parentOrganization: organization.parentOrganization ?? '',
+    parent: organization.parentOrganization ?? '',
     regularUsers: organization.regularUsers?.length
       ? organization.regularUsers.map((o) => o?.username as string)
       : [],
@@ -323,13 +340,15 @@ export const getOrganizationPayload = (
   formValues: OrganizationFormFields
 ): CreateOrganizationMutationInput => {
   const {
-    dataSource,
     dissolutionDate,
     foundingDate,
-    originId,
     id,
+    originId,
+    parent,
     ...restFormValues
   } = formValues;
+
+  const dataSource = formValues.dataSource || LINKED_EVENTS_SYSTEM_DATA_SOURCE;
 
   return {
     ...restFormValues,
@@ -339,6 +358,8 @@ export const getOrganizationPayload = (
       : null,
     foundingDate: foundingDate ? formatDate(foundingDate, 'yyyy-MM-dd') : null,
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
+    originId,
+    parent: parent ? parseIdFromAtId(parent) : undefined,
   };
 };
 

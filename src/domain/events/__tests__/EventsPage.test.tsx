@@ -198,7 +198,7 @@ const getElement = (
         hidden: true,
       });
     case 'sortName':
-      return screen.getByRole('button', { name: /nimi/i });
+      return screen.getByRole('button', { name: 'Nimi' });
     case 'waitingApprovalTab':
       return screen.getByRole('tab', {
         name: `Odottaa (${waitingApprovalEventsCount})`,

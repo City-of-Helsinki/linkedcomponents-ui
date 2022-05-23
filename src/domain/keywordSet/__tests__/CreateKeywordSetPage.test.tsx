@@ -138,7 +138,7 @@ test('should move to keywords page after creating new keyword', async () => {
   await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
+    expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
   );
 });
 

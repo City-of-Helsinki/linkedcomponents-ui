@@ -18,7 +18,7 @@ const organizationsLogger = RequestLogger(new RegExp(LINKED_EVENTS_URL), {
 let urlUtils: ReturnType<typeof getUrlUtils>;
 
 fixture('Organizations page')
-  .page(getEnvUrl('/fi/admin/organizations'))
+  .page(getEnvUrl('/fi/administration/organizations'))
   .beforeEach(async (t) => {
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);

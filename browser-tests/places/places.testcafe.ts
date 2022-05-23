@@ -21,7 +21,7 @@ const placesLogger = RequestLogger(new RegExp(LINKED_EVENTS_URL), {
 let urlUtils: ReturnType<typeof getUrlUtils>;
 
 fixture('Places page')
-  .page(getEnvUrl('/fi/admin/places'))
+  .page(getEnvUrl('/fi/administration/places'))
   .beforeEach(async (t) => {
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);

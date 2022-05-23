@@ -120,7 +120,7 @@ test('should delete organization', async () => {
   await act(async () => await user.click(deleteOrganizationButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/organizations`)
+    expect(history.location.pathname).toBe(`/fi/administration/organizations`)
   );
 });
 
@@ -138,7 +138,7 @@ test('should update organization', async () => {
   await act(async () => await user.click(submitButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/organizations`)
+    expect(history.location.pathname).toBe(`/fi/administration/organizations`)
   );
 });
 

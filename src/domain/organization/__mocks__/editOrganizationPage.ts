@@ -30,7 +30,7 @@ const payload = {
   classification: organizationClassification,
   internalType: 'normal',
   name: organizationName,
-  parentOrganization: '',
+  parent: undefined,
   regularUsers: [],
   replacedBy: organizations.data[0].atId,
   subOrganizations: [],
@@ -38,6 +38,7 @@ const payload = {
   dissolutionDate: null,
   foundingDate: '2021-01-01',
   id: TEST_PUBLISHER_ID,
+  originId: '1',
 };
 
 const updateOrganizationVariables = { input: payload };

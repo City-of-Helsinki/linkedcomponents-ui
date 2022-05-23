@@ -64,7 +64,7 @@ test('should route to images page when clicking back button', async () => {
   await act(async () => await user.click(getElement('backButton')));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/images`)
+    expect(history.location.pathname).toBe(`/fi/administration/images`)
   );
 });
 

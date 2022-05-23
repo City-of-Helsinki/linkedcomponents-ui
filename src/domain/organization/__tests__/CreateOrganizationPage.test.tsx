@@ -12,15 +12,14 @@ import {
   waitFor,
 } from '../../../utils/testUtils';
 import {
-  dataSourceName,
-  mockedDataSourceResponse,
-  mockedDataSourcesResponse,
-} from '../../dataSource/__mocks__/dataSource';
-import {
   mockedOrganizationClassesResponse,
   mockedOrganizationClassResponse,
   organizationClassName,
 } from '../../organizationClass/__mocks__/organizationClass';
+import {
+  mockedOrganizationsResponse,
+  organizations,
+} from '../../organizations/__mocks__/organizationsPage';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedCreateOrganizationResponse,
@@ -35,8 +34,7 @@ const state = fakeAuthenticatedStoreState();
 const store = getMockReduxStore(state);
 
 const defaultMocks = [
-  mockedDataSourceResponse,
-  mockedDataSourcesResponse,
+  mockedOrganizationsResponse,
   mockedOrganizationClassResponse,
   mockedOrganizationClassesResponse,
   mockedUserResponse,
@@ -49,10 +47,10 @@ const getElement = (
   key:
     | 'classificationInput'
     | 'classificationToggleButton'
-    | 'dataSourceInput'
-    | 'dataSourceToggleButton'
     | 'nameInput'
     | 'originIdInput'
+    | 'parentInput'
+    | 'parentToggleButton'
     | 'saveButton'
 ) => {
   switch (key) {
@@ -60,26 +58,17 @@ const getElement = (
       return screen.getByRole('combobox', { name: /luokittelu/i });
     case 'classificationToggleButton':
       return screen.getByRole('button', { name: /luokittelu: valikko/i });
-    case 'dataSourceInput':
-      return screen.getByRole('combobox', { name: /datan lähde/i });
-    case 'dataSourceToggleButton':
-      return screen.getByRole('button', { name: /datan lähde: valikko/i });
     case 'nameInput':
       return screen.getByRole('textbox', { name: /nimi/i });
     case 'originIdInput':
       return screen.getByRole('textbox', { name: /lähdetunniste/i });
+    case 'parentInput':
+      return screen.getByRole('combobox', { name: /pääorganisaatio/i });
+    case 'parentToggleButton':
+      return screen.getByRole('button', { name: /pääorganisaatio: valikko/i });
     case 'saveButton':
       return screen.getByRole('button', { name: /tallenna/i });
   }
-};
-
-const fillDataSourceField = async () => {
-  const user = userEvent.setup();
-  const dataSourceToggleButton = getElement('dataSourceToggleButton');
-  await act(async () => await user.click(dataSourceToggleButton));
-
-  const option = await screen.findByRole('option', { name: dataSourceName });
-  await act(async () => await user.click(option));
 };
 
 const fillClassificationField = async () => {
@@ -93,9 +82,17 @@ const fillClassificationField = async () => {
   await act(async () => await user.click(option));
 };
 
+const fillParentField = async () => {
+  const user = userEvent.setup();
+  await act(async () => await user.click(getElement('parentToggleButton')));
+  const organizationOption = await screen.findByRole('option', {
+    name: organizations.data[0].name,
+  });
+  await act(async () => await user.click(organizationOption));
+};
+
 const fillInputValues = async () => {
   const user = userEvent.setup();
-  await fillDataSourceField();
   await act(
     async () =>
       await user.type(getElement('originIdInput'), organizationValues.originId)
@@ -105,6 +102,7 @@ const fillInputValues = async () => {
       await user.type(getElement('nameInput'), organizationValues.name)
   );
   await fillClassificationField();
+  await fillParentField();
 };
 
 test('should focus to first validation error when trying to save new organization', async () => {
@@ -114,11 +112,6 @@ test('should focus to first validation error when trying to save new organizatio
   await loadingSpinnerIsNotInDocument();
 
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
-
-  const dataSourceInput = getElement('dataSourceInput');
-  await waitFor(() => expect(dataSourceInput).toHaveFocus());
-  await fillDataSourceField();
   await act(async () => await user.click(saveButton));
 
   const originIdInput = getElement('originIdInput');
@@ -132,6 +125,14 @@ test('should focus to first validation error when trying to save new organizatio
   await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
+  await act(
+    async () =>
+      await user.type(getElement('nameInput'), organizationValues.name)
+  );
+  await act(async () => await user.click(saveButton));
+
+  const parentInput = getElement('parentInput');
+  await waitFor(() => expect(parentInput).toHaveFocus());
 });
 
 test('should move to organizations page after creating new organization', async () => {
@@ -148,7 +149,10 @@ test('should move to organizations page after creating new organization', async 
   await act(async () => await user.click(getElement('saveButton')));
 
   await waitFor(
-    () => expect(history.location.pathname).toBe(`/fi/admin/organizations`),
+    () =>
+      expect(history.location.pathname).toBe(
+        `/fi/administration/organizations`
+      ),
     { timeout: 10000 }
   );
 });

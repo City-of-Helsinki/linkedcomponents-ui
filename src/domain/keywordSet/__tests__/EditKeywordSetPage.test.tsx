@@ -102,7 +102,7 @@ test('should delete keyword', async () => {
   await act(async () => await user.click(deleteKeywordSetButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
+    expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
   );
 });
 
@@ -122,7 +122,7 @@ test('should update keyword set', async () => {
   await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
+    expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
   );
 });
 
