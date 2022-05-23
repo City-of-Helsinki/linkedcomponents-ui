@@ -20,7 +20,7 @@ const placesLogger = RequestLogger(new RegExp(LINKED_EVENTS_URL), {
 let urlUtils: ReturnType<typeof getUrlUtils>;
 
 fixture('Places page')
-  .page(getEnvUrl('/fi/admin/places'))
+  .page(getEnvUrl('/fi/search'))
   .beforeEach(async (t) => {
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);
@@ -32,7 +32,6 @@ fixture('Places page')
   .requestHooks([requestLogger, placesLogger]);
 
 test('Create place button works', async (t) => {
-  console.log(getEnvUrl('/fi/admin/places'));
   const cookieConsentModal = await findCookieConsentModal(t);
   await cookieConsentModal.actions.acceptAllCookies();
 
