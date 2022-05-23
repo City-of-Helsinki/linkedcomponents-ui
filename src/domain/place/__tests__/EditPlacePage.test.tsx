@@ -87,7 +87,7 @@ test('should delete place', async () => {
   await act(async () => await user.click(deletePlaceButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places`)
+    expect(history.location.pathname).toBe(`/fi/administration/places`)
   );
 });
 
@@ -104,7 +104,7 @@ test('should update place', async () => {
   await act(async () => await user.click(submitButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places`)
+    expect(history.location.pathname).toBe(`/fi/administration/places`)
   );
 });
 

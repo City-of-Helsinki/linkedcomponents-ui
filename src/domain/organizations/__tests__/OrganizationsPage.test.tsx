@@ -90,7 +90,9 @@ test('should open create organization page', async () => {
   const createOrganizationButton = getElement('createOrganizationButton');
   await act(async () => await user.click(createOrganizationButton));
 
-  expect(history.location.pathname).toBe('/fi/admin/organizations/create');
+  expect(history.location.pathname).toBe(
+    '/fi/administration/organizations/create'
+  );
 });
 
 test('should add sort parameter to search query', async () => {

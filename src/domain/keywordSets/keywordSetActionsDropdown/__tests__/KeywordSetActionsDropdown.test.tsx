@@ -99,7 +99,7 @@ test('should route to edit keyword set page', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/admin/keyword-sets/edit/${keywordSet.id}`
+      `/fi/administration/keyword-sets/edit/${keywordSet.id}`
     )
   );
 

@@ -84,7 +84,7 @@ test('should delete keyword', async () => {
   await act(async () => await user.click(deleteKeywordButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+    expect(history.location.pathname).toBe(`/fi/administration/keywords`)
   );
 });
 
@@ -101,7 +101,7 @@ test('should update keyword', async () => {
   await act(async () => await user.click(submitButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+    expect(history.location.pathname).toBe(`/fi/administration/keywords`)
   );
 });
 

@@ -64,7 +64,7 @@ test('should route to places page when clicking back button', async () => {
   await act(async () => await user.click(getElement('backButton')));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places`)
+    expect(history.location.pathname).toBe(`/fi/administration/places`)
   );
 });
 

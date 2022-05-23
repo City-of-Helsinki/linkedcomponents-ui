@@ -93,7 +93,7 @@ test('should open create image page', async () => {
   const createImageButton = getElement('createImageButton');
   await act(async () => await user.click(createImageButton));
 
-  expect(history.location.pathname).toBe('/fi/admin/images/create');
+  expect(history.location.pathname).toBe('/fi/administration/images/create');
 });
 
 test('should add sort parameter to search query', async () => {

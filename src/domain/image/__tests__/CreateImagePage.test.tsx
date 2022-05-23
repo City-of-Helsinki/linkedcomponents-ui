@@ -157,7 +157,7 @@ test('should move to images page after creating new image', async () => {
   await act(async () => await user.click(saveButton));
 
   await waitFor(
-    () => expect(history.location.pathname).toBe(`/fi/admin/images`),
+    () => expect(history.location.pathname).toBe(`/fi/administration/images`),
     { timeout: 10000 }
   );
 });

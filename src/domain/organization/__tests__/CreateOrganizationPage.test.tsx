@@ -149,7 +149,10 @@ test('should move to organizations page after creating new organization', async 
   await act(async () => await user.click(getElement('saveButton')));
 
   await waitFor(
-    () => expect(history.location.pathname).toBe(`/fi/admin/organizations`),
+    () =>
+      expect(history.location.pathname).toBe(
+        `/fi/administration/organizations`
+      ),
     { timeout: 10000 }
   );
 });
