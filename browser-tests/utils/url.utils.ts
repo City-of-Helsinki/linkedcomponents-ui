@@ -3,6 +3,7 @@ import TestController, { ClientFunction } from 'testcafe';
 
 import {
   EventFieldsFragment,
+  ImageFieldsFragment,
   KeywordFieldsFragment,
   KeywordSetFieldsFragment,
   OrganizationFieldsFragment,
@@ -23,6 +24,13 @@ export const getUrlUtils = (t: TestController) => {
   const actions = {
     async navigateToEventsPage() {
       await t.navigateTo(getEnvUrl(`/fi/events`));
+    },
+    async navigateToImagesUrl(searchString: string) {
+      const url = getEnvUrl(
+        `/fi/administration/images?text=${encodeURIComponent(searchString)}`
+      );
+      setDataToPrintOnFailure(t, 'url', url);
+      await t.navigateTo(url);
     },
     async navigateToLandingPage() {
       await t.navigateTo(getEnvUrl(`/fi`));
@@ -102,6 +110,11 @@ export const getUrlUtils = (t: TestController) => {
         .expect(getPathname())
         .eql(`/fi/events/create`, await getErrorMessage(t));
     },
+    async urlChangedToCreateImagePage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/administration/images/create`, await getErrorMessage(t));
+    },
     async urlChangedToCreateKeywordPage() {
       await t
         .expect(getPathname())
@@ -115,11 +128,6 @@ export const getUrlUtils = (t: TestController) => {
           await getErrorMessage(t)
         );
     },
-    async urlChangedToCreatePlacePage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/administration/places/create`, await getErrorMessage(t));
-    },
     async urlChangedToCreateOrganizationPage() {
       await t
         .expect(getPathname())
@@ -127,6 +135,11 @@ export const getUrlUtils = (t: TestController) => {
           `/fi/administration/organizations/create`,
           await getErrorMessage(t)
         );
+    },
+    async urlChangedToCreatePlacePage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/administration/places/create`, await getErrorMessage(t));
     },
     async urlChangedToDocumentationPage() {
       await t
@@ -158,6 +171,19 @@ export const getUrlUtils = (t: TestController) => {
       await t
         .expect(getPathname())
         .eql(`/fi/help/features`, await getErrorMessage(t));
+    },
+    async urlChangedToImagePage(image: ImageFieldsFragment) {
+      setDataToPrintOnFailure(t, 'expectedImage', image);
+      await t
+        .expect(getPathname())
+        .eql(
+          `/fi/administration/images/edit/${image.id}`,
+          await getErrorMessage(t)
+        );
+      await pageIsLoaded();
+      await t
+        .expect(getPageTitle())
+        .eql(`Muokkaa kuvaa - Linked Events`, await getErrorMessage(t));
     },
     async urlChangedToImageRightsPage() {
       await t
@@ -264,8 +290,5 @@ export const getUrlUtils = (t: TestController) => {
     },
   };
 
-  return {
-    actions,
-    expectations,
-  };
+  return { actions, expectations };
 };
