@@ -46,27 +46,29 @@ test('Header tabs and search input field work', async (t) => {
   const headerSearch = header.headerSearch();
   await headerSearch.actions.clickSearchButton();
   await headerSearch.actions.clickSearchInput();
+
   await t.pressKey('enter');
+  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToEventSearchPage();
 
   // Events page
-  await urlUtils.actions.navigateToLandingPage();
   await headerTabs.actions.clickEventsPageTab();
+  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToEventsPage();
   // Registrations page
   if (isFeatureEnabled('SHOW_REGISTRATION')) {
-    await urlUtils.actions.navigateToLandingPage();
     await headerTabs.actions.clickRegistrationsPageTab();
+    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToRegistrationsPage();
   }
   // Admin page
   if (isFeatureEnabled('SHOW_ADMIN')) {
-    await urlUtils.actions.navigateToLandingPage();
     await headerTabs.actions.clickAdminPageTab();
+    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToKeywordsPage();
   }
   // Support page
-  await urlUtils.actions.navigateToLandingPage();
   await headerTabs.actions.clickSupportPageTab();
+  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToSupportPage();
 });

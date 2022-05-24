@@ -27,29 +27,31 @@ test('Footer links work', async (t) => {
   const footerLinks = footer.footerLinks();
   // Events page
   await footerLinks.actions.clickEventsPageLink();
+  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToEventsPage();
   // Event search page
-  await urlUtils.actions.navigateToLandingPage();
   await footerLinks.actions.clickEventSearchPageLink();
+  await urlUtils.actions.forceReload();
+
   await urlUtils.expectations.urlChangedToEventSearchPage();
   // Registrations page
   if (isFeatureEnabled('SHOW_REGISTRATION')) {
-    await urlUtils.actions.navigateToLandingPage();
     await footerLinks.actions.clickRegistrationsPageLink();
+    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToRegistrationsPage();
   }
   // Admin page
   if (isFeatureEnabled('SHOW_ADMIN')) {
-    await urlUtils.actions.navigateToLandingPage();
     await footerLinks.actions.clickAdminPageLink();
+    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToKeywordsPage();
   }
   // Support page
-  await urlUtils.actions.navigateToLandingPage();
   await footerLinks.actions.clickSupportPageLink();
+  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToSupportPage();
   // Contact page
-  await urlUtils.actions.navigateToLandingPage();
   await footerLinks.actions.clickContactPageLink();
+  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToContactPage();
 });

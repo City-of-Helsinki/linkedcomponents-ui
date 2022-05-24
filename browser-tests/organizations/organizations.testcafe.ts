@@ -34,8 +34,10 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     const cookieConsentModal = await findCookieConsentModal(t);
     await cookieConsentModal.actions.acceptAllCookies();
 
-    const keywordsPage = await getOrganizationsPage(t);
-    await keywordsPage.actions.clickCreateOrganizationButton();
+    const organizationsPage = await getOrganizationsPage(t);
+
+    await organizationsPage.actions.clickCreateOrganizationButton();
+    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToCreateOrganizationPage();
   });
 
@@ -55,6 +57,7 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     const organizationRow = await searchResults.organizationRow(organization);
 
     await organizationRow.actions.clickOrganizationRow();
+    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToOrganizationPage(organization);
   });
 }

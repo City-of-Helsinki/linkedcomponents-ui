@@ -37,8 +37,10 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     const cookieConsentModal = await findCookieConsentModal(t);
     await cookieConsentModal.actions.acceptAllCookies();
 
-    const keywordsPage = await getPlacesPage(t);
-    await keywordsPage.actions.clickCreatePlaceButton();
+    const placesPage = await getPlacesPage(t);
+
+    await placesPage.actions.clickCreatePlaceButton();
+    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToCreatePlacePage();
   });
 
@@ -60,6 +62,7 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       const placeRow = await searchResults.placeRow(place);
 
       await placeRow.actions.clickPlaceRow();
+      await urlUtils.actions.forceReload();
       await urlUtils.expectations.urlChangedToPlacePage(place);
     }
   );

@@ -92,6 +92,7 @@ test.disablePageReloads(
     }
 
     await eventCard.actions.clickEventLink();
+    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToEventPage(event);
   }
 );

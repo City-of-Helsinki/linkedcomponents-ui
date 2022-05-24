@@ -69,6 +69,16 @@ export const getUrlUtils = (t: TestController) => {
     async navigateToSupportPage() {
       await t.navigateTo(getEnvUrl(`/fi/help`));
     },
+    async forceReload() {
+      await t.eval(() =>
+        // Force browser to reload all files to avoid file loading problem caused by code splitting
+        window.location.replace(
+          `${window.location.href}${window.location.search ? '&' : '?'}${
+            'testcafe_session=' + Math.floor(Math.random() * 1000000)
+          }`
+        )
+      );
+    },
   };
 
   const expectations = {

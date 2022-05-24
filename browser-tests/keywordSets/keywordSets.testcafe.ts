@@ -38,7 +38,9 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     await cookieConsentModal.actions.acceptAllCookies();
 
     const keywordSetsPage = await getKeywordSetsPage(t);
+
     await keywordSetsPage.actions.clickCreateKeywordSetButton();
+    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToCreateKeywordSetPage();
   });
 
@@ -62,6 +64,7 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       const keywordSetRow = await searchResults.keywordSetRow(keywordSet);
 
       await keywordSetRow.actions.clickKeywordSetRow();
+      await urlUtils.actions.forceReload();
       await urlUtils.expectations.urlChangedToKeywordSetPage(keywordSet);
     }
   );
