@@ -1,4 +1,5 @@
 {
+  "cache": true,
   "clientScripts": [
     { "module": "@testing-library/dom/dist/@testing-library/dom.umd.js" },
     "testcafeClientErrorHandler.js"
@@ -8,6 +9,5 @@
   },
   "compilerOptions": {
     "typescript": { "configPath": "./tsconfig.testcafe.json"}
-  },
-  "skipJsErrors": true
+  }
 }
