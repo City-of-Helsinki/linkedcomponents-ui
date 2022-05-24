@@ -8,7 +8,7 @@ import { findHelpPages } from './help.components';
 let urlUtils: ReturnType<typeof getUrlUtils>;
 
 fixture('Help page')
-  .page(getEnvUrl('/fi/help'))
+  .page(getEnvUrl('/fi/help/instructions/general'))
   .beforeEach(async (t) => {
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);
