@@ -10,6 +10,7 @@ interface DataSourceNameProps {
 
 const DataSourceName: React.FC<DataSourceNameProps> = ({ id }) => {
   const { data: dataSourceData } = useDataSourceQuery({
+    skip: !id,
     variables: { id, createPath: getPathBuilder(dataSourcePathBuilder) },
   });
 

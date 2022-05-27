@@ -12,6 +12,7 @@ const OrganizationClassName: React.FC<OrganizationClassNameProps> = ({
   id,
 }) => {
   const { data: organizationClassData } = useOrganizationClassQuery({
+    skip: !id,
     variables: { id, createPath: getPathBuilder(organizationClassPathBuilder) },
   });
 
