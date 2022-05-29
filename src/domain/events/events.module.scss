@@ -12,6 +12,10 @@
   }
 }
 
+.breadcrumb {
+    margin-bottom: var(--spacing-m);  
+}
+
 .tabPanel {
   flex: 1 1 0%;
   display: grid;

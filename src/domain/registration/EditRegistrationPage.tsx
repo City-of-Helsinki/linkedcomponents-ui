@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { ValidationError } from 'yup';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../constants';
@@ -44,7 +45,6 @@ import ConfirmationMessageSection from './formSections/confirmationMessageSectio
 import EnrolmentTimeSection from './formSections/enrolmentTimeSection/EnrolmentTimeSection';
 import InstructionsSection from './formSections/instructionsSection/InstructionsSection';
 import WaitingListSection from './formSections/waitingListSection/WaitingListSection';
-import useRegistrationName from './hooks/useRegistrationName';
 import useRegistrationServerErrors from './hooks/useRegistrationServerErrors';
 import useRegistrationUpdateActions, {
   MODALS,
@@ -107,8 +107,6 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
     () => getRegistrationInitialValues(registration),
     [registration]
   );
-
-  const name = useRegistrationName({ registration });
 
   const goToRegistrationsPage = () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
@@ -195,13 +193,25 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
                 backgroundColor="coatOfArms"
                 className={styles.registrationPage}
                 noFooter
-                titleText={name}
+                title={'editRegistrationPage.title'}
               >
                 <MainContent>
                   <Container
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
+                    <Breadcrumb className={styles.breadcrumb}>
+                      <Breadcrumb.Item to={ROUTES.HOME}>
+                        {t('common.home')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
+                        {t('registrationsPage.title')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item active={true}>
+                        {t(`editRegistrationPage.title`)}
+                      </Breadcrumb.Item>
+                    </Breadcrumb>
+
                     <AuthenticationNotification
                       action={REGISTRATION_ACTIONS.UPDATE}
                       registration={registration}

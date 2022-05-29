@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
@@ -298,6 +299,18 @@ const CreateEventPage: React.FC = () => {
             >
               <MainContent>
                 <Container className={styles.createContainer} withOffset={true}>
+                  <Breadcrumb className={styles.breadcrumb}>
+                    <Breadcrumb.Item to={ROUTES.HOME}>
+                      {t('common.home')}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item to={ROUTES.EVENTS}>
+                      {t('eventsPage.title')}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item active={true}>
+                      {t(`createEventPage.title.${type}`)}
+                    </Breadcrumb.Item>
+                  </Breadcrumb>
+
                   <AuthenticationNotification />
                   <ServerErrorSummary errors={serverErrorItems} />
 

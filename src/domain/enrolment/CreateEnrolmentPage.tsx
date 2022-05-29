@@ -11,6 +11,7 @@ import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ValidationError } from 'yup';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import Notification from '../../common/components/notification/Notification';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
@@ -172,6 +173,34 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
             return (
               <Form noValidate>
                 <Container withOffset>
+                  <Breadcrumb className={styles.createEnrolmentBreadcrumb}>
+                    <Breadcrumb.Item to={ROUTES.HOME}>
+                      {t('common.home')}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
+                      {t('registrationsPage.title')}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item
+                      to={ROUTES.EDIT_REGISTRATION.replace(
+                        ':id',
+                        registration.id as string
+                      )}
+                    >
+                      {t(`editRegistrationPage.title`)}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item
+                      to={ROUTES.REGISTRATION_ENROLMENTS.replace(
+                        ':registrationId',
+                        registration.id as string
+                      )}
+                    >
+                      {t(`enrolmentsPage.title`)}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item active={true}>
+                      {t(`createEnrolmentPage.pageTitle`)}
+                    </Breadcrumb.Item>
+                  </Breadcrumb>
+
                   <FormContainer>
                     <EnrolmentAuthenticationNotification
                       action={ENROLMENT_ACTIONS.CREATE}

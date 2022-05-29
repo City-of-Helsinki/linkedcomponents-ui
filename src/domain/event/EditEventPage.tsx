@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { ValidationError } from 'yup';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { LE_DATA_LANGUAGES, ROUTES } from '../../constants';
@@ -305,7 +306,20 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
+                    <Breadcrumb className={styles.breadcrumb}>
+                      <Breadcrumb.Item to={ROUTES.HOME}>
+                        {t('common.home')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item to={ROUTES.EVENTS}>
+                        {t('eventsPage.title')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item active={true}>
+                        {t(`editEventPage.title.${values.type}`)}
+                      </Breadcrumb.Item>
+                    </Breadcrumb>
+
                     <AuthenticationNotification event={event} />
+
                     <EventInfo event={event} />
                     <ServerErrorSummary errors={serverErrorItems} />
 

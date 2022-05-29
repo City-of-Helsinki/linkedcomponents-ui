@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
 import EditingInfo from '../../common/components/editingInfo/EditingInfo';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -100,6 +101,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
             registration={registration}
           />
           <TitleRow
+            buttonWrapperClassName={styles.titleButtonWrapper}
             button={
               <Button
                 {...buttonProps}
@@ -119,6 +121,25 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
             }
             title={name}
           />
+          <Breadcrumb className={styles.breadcrumb}>
+            <Breadcrumb.Item to={ROUTES.HOME}>
+              {t('common.home')}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
+              {t('registrationsPage.title')}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              to={ROUTES.EDIT_REGISTRATION.replace(
+                ':id',
+                registration.id as string
+              )}
+            >
+              {t(`editRegistrationPage.title`)}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item active={true}>
+              {t(`enrolmentsPage.title`)}
+            </Breadcrumb.Item>
+          </Breadcrumb>
 
           <SearchPanel registration={registration} />
           <FilterSummary />
