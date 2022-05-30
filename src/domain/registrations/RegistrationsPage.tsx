@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import { UserFieldsFragment } from '../../generated/graphql';
@@ -73,6 +74,12 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
           }
           title={t('registrationsPage.title')}
         />
+        <Breadcrumb className={styles.breadcrumb}>
+          <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
+          <Breadcrumb.Item active={true}>
+            {t('registrationsPage.title')}
+          </Breadcrumb.Item>
+        </Breadcrumb>
 
         <SearchPanel />
         <FilterSummary className={styles.filterSummary} />

@@ -300,6 +300,13 @@
   "editEnrolmentPage": {
     "pageTitle": "Redigera deltagare"
   },
+  "editEventPage": {
+    "title": {
+      "course": "Redigera kurs",
+      "general": "Redigera evenemang",
+      "volunteering": "Redigera volontärarbet"
+    }
+  },
   "editImagePage": {
     "pageTitle": "Redigera bild",
     "title": "Redigera bild"
@@ -319,6 +326,10 @@
   "editPlacePage": {
     "pageTitle": "Redigera plats",
     "title": "Redigera plats"
+  },
+  "editRegistrationPage": {
+    "pageTitle": "Redigera registrering",
+    "title": "Redigera registrering"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -392,6 +403,7 @@
       "labelSearch": "Filtrera registreringar",
       "placeholderSearch": "Filtrera registreringar"
     },
+    "title": "Anmälningar",
     "waitingListTableCaption": "Väntelista",
     "waitingListTableHeading": "Väntelista",
     "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import TabPanel from '../../common/components/tabs/TabPanel';
@@ -125,6 +126,12 @@ const EventsPage: React.FC<Props> = ({ user }) => {
           }
           title={t('eventsPage.title')}
         />
+        <Breadcrumb className={styles.breadcrumb}>
+          <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
+          <Breadcrumb.Item active={true}>
+            {t(`eventsPage.title`)}
+          </Breadcrumb.Item>
+        </Breadcrumb>
         <Tabs
           className={styles.tabSelector}
           name="event-list"

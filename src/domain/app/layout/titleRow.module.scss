@@ -9,6 +9,10 @@
     *:not(:last-child) {
       margin-right: var(--spacing-xs);
     }
+
+    h1 {
+      margin-bottom: 0;
+    }
   }
 
   .buttonWrapper {
@@ -23,7 +27,7 @@
     }
 
     .buttonWrapper {
-      align-self: center;
+      align-self: flex-end;
       margin-bottom: unset;
     }
 

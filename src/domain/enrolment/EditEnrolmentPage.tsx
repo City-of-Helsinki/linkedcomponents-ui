@@ -3,10 +3,12 @@
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { ValidationError } from 'yup';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../constants';
@@ -70,6 +72,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
   refetch,
   registration,
 }) => {
+  const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
@@ -189,6 +192,34 @@ const EditEnrolmentPage: React.FC<Props> = ({
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset
                   >
+                    <Breadcrumb>
+                      <Breadcrumb.Item to={ROUTES.HOME}>
+                        {t('common.home')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
+                        {t('registrationsPage.title')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item
+                        to={ROUTES.EDIT_REGISTRATION.replace(
+                          ':id',
+                          registration.id as string
+                        )}
+                      >
+                        {t(`editRegistrationPage.title`)}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item
+                        to={ROUTES.REGISTRATION_ENROLMENTS.replace(
+                          ':registrationId',
+                          registration.id as string
+                        )}
+                      >
+                        {t(`enrolmentsPage.title`)}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item active={true}>
+                        {t(`editEnrolmentPage.pageTitle`)}
+                      </Breadcrumb.Item>
+                    </Breadcrumb>
+
                     <FormContainer>
                       <EnrolmentAuthenticationNotification
                         action={ENROLMENT_ACTIONS.UPDATE}

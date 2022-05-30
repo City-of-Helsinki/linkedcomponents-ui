@@ -300,6 +300,13 @@
   "editEnrolmentPage": {
     "pageTitle": "Muokkaa osallistujaa"
   },
+  "editEventPage": {
+    "title": {
+      "course": "Muokkaa kurssia",
+      "general": "Muokka tapahtumaa",
+      "volunteering": "Muokkaa vapaaehtoistehtävää"
+    }
+  },
   "editImagePage": {
     "pageTitle": "Muokkaa kuvaa",
     "title": "Muokkaa kuvaa"
@@ -319,6 +326,10 @@
   "editPlacePage": {
     "pageTitle": "Muokkaa paikkaa",
     "title": "Muokkaa paikkaa"
+  },
+  "editRegistrationPage": {
+    "pageTitle": "Muokkaa ilmoittautumista",
+    "title": "Muokkaa ilmoittautumista"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -392,6 +403,7 @@
       "labelSearch": "Hae osallistujia",
       "placeholderSearch": "Hae osallistujia"
     },
+    "title": "Ilmoittautuneet",
     "waitingListTableCaption": "Jonopaikat",
     "waitingListTableHeading": "Jonopaikat",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda osallistujia tähän ilmoittautumiseen.",

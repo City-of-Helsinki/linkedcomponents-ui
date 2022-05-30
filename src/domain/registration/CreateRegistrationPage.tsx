@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import * as Yup from 'yup';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
@@ -164,6 +165,18 @@ const CreateRegistrationPage: React.FC = () => {
 
             <MainContent>
               <Container className={styles.createContainer} withOffset={true}>
+                <Breadcrumb className={styles.breadcrumb}>
+                  <Breadcrumb.Item to={ROUTES.HOME}>
+                    {t('common.home')}
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
+                    {t('registrationsPage.title')}
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item active={true}>
+                    {t(`createRegistrationPage.title`)}
+                  </Breadcrumb.Item>
+                </Breadcrumb>
+
                 <AuthenticationNotification
                   action={REGISTRATION_ACTIONS.CREATE}
                 />

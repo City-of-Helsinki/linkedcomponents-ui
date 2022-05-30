@@ -299,6 +299,13 @@
   "editEnrolmentPage": {
     "pageTitle": "Edit participant"
   },
+  "editEventPage": {
+    "title": {
+      "course": "Edit course",
+      "general": "Edit event",
+      "volunteering": "Edit volunteering"
+    }
+  },
   "editImagePage": {
     "pageTitle": "Edit image",
     "title": "Edit image"
@@ -318,6 +325,10 @@
   "editPlacePage": {
     "pageTitle": "Edit place",
     "title": "Edit place"
+  },
+  "editRegistrationPage": {
+    "pageTitle": "Edit registration",
+    "title": "Edit registration"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -392,6 +403,7 @@
       "labelSearch": "Filter participants",
       "placeholderSearch": "Filter participants"
     },
+    "title": "Enrolments",
     "waitingListTableCaption": "Waiting list",
     "waitingListTableHeading": "Waiting list",
     "warningNoRightsToCreate": "You have insufficient rights to create participants to this registration.",

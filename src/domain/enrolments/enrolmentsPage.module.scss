@@ -16,6 +16,14 @@
   }
 }
 
+.titleButtonWrapper {
+  align-self: center !important;
+}
+
+.breadcrumb {
+  margin-bottom: var(--spacing-m);  
+}
+
 .pageContentContainer {
   background-color: var(--color-white);
   margin: var(--spacing-m) calc(0px - var(--spacing-s));
