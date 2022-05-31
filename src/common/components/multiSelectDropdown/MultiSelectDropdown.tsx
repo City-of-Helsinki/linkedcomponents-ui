@@ -1,9 +1,9 @@
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useDropdownCloseEvents from '../../../hooks/useDropdownCloseEvents';
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import { OptionType } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Dropdown from '../dropdown/Dropdown';
@@ -46,7 +46,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   value,
 }) => {
   const { t } = useTranslation();
-  const [id] = React.useState(() => _id || uniqueId('multi-select-dropdown-'));
+  const id = useIdWithPrefix({ id: _id, prefix: 'multi-select-dropdown-' });
   const toggleButtonId = `${id}-toggle-button`;
   const menuId = `${id}-menu`;
   const [internalSearchValue, setInternalSearchValue] = React.useState('');

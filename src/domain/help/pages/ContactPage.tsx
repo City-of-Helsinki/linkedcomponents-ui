@@ -1,7 +1,6 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import camelCase from 'lodash/camelCase';
 import omit from 'lodash/omit';
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -20,6 +19,7 @@ import {
   usePostFeedbackMutation,
   usePostGuestFeedbackMutation,
 } from '../../../generated/graphql';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import {
   scrollToFirstError,
   showFormErrors,
@@ -45,7 +45,6 @@ import { getFocusableFieldId, getInitialValues } from '../utils';
 import styles from './contactPage.module.scss';
 
 const ContactPage: React.FC = () => {
-  const [successId] = React.useState(() => uniqueId('contact-form-success-'));
   const { t } = useTranslation();
   const location = useLocation();
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
@@ -57,6 +56,8 @@ const ContactPage: React.FC = () => {
   const authenticated = useSelector(authenticatedSelector);
   const user = useSelector(userSelector);
   const initialValues = React.useMemo(() => getInitialValues(user), [user]);
+
+  const successId = useIdWithPrefix({ prefix: 'contact-form-success-' });
 
   const [success, setSuccess] = React.useState(false);
 

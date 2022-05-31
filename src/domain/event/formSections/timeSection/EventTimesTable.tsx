@@ -1,5 +1,4 @@
 import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
-import uniqueId from 'lodash/uniqueId';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -12,6 +11,7 @@ import {
   EventFieldsFragment,
   SuperEventType,
 } from '../../../../generated/graphql';
+import useIdWithPrefix from '../../../../hooks/useIdWithPrefix';
 import formatDate from '../../../../utils/formatDate';
 import { authenticatedSelector } from '../../../auth/selectors';
 import useOrganizationAncestors from '../../../organization/hooks/useOrganizationAncestors';
@@ -137,7 +137,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
     }),
   ];
 
-  const [menuDropdownId] = React.useState(() => uniqueId('menu-dropdown-'));
+  const menuDropdownId = useIdWithPrefix({ prefix: 'menu-dropdown-' });
   const buttonId = `${menuDropdownId}-button`;
 
   return (

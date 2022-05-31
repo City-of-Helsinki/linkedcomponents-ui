@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -16,6 +15,7 @@ import {
   RegistrationFieldsFragment,
   useEnrolmentsQuery,
 } from '../../../generated/graphql';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
 import getPageCount from '../../../utils/getPageCount';
@@ -48,14 +48,15 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   pagePath,
   registration,
 }) => {
-  const [enrolmentListId] = React.useState(() =>
-    uniqueId('enrolment-attendee-list-')
-  );
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
   const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
+
+  const enrolmentListId = useIdWithPrefix({
+    prefix: 'enrolment-attendee-list-',
+  });
 
   const { id } = getRegistrationFields(registration, locale);
   const { enrolmentText, [pagePath]: page } = getEnrolmentSearchInitialValues(

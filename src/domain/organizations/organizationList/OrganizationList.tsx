@@ -1,5 +1,4 @@
 import orderBy from 'lodash/orderBy';
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -8,6 +7,7 @@ import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpi
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import TableWrapper from '../../../common/components/table/TableWrapper';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useAllOrganizations from '../../organization/hooks/useAllOrganizations';
 import {
   DEFAULT_ORGANIZATION_SORT,
@@ -29,11 +29,10 @@ const OrganizationList: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
-  const [organizationListId] = React.useState(() =>
-    uniqueId('organization-list-')
-  );
   const { sort, text } = getOrganizationSearchInitialValues(location.search);
   const [search, setSearch] = React.useState(text);
+
+  const organizationListId = useIdWithPrefix({ prefix: 'organization-list-' });
 
   const handleSearchChange = (text: string) => {
     navigate({

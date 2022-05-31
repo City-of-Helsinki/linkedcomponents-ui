@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import { IconCrossCircle, IconSearch } from 'hds-react';
-import uniqueId from 'lodash/uniqueId';
 import React, { KeyboardEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import InputWrapper from '../inputWrapper/InputWrapper';
 import styles from './searchInput.module.scss';
 
@@ -35,7 +35,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
 }) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [id] = React.useState(() => _id || uniqueId('search-input-'));
+  const id = useIdWithPrefix({ id: _id, prefix: 'search-input-' });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);

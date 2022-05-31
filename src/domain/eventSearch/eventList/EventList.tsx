@@ -1,5 +1,4 @@
 import omit from 'lodash/omit';
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -13,6 +12,7 @@ import {
   EventsQueryVariables,
   useEventsQuery,
 } from '../../../generated/graphql';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import { OptionType } from '../../../types';
 import getPageCount from '../../../utils/getPageCount';
 import getPathBuilder from '../../../utils/getPathBuilder';
@@ -93,11 +93,12 @@ const EventList: React.FC<EventListProps> = ({
 const EventListContainer: React.FC<EventListContainerProps> = ({
   baseVariables,
 }) => {
-  const [eventListId] = React.useState(() => uniqueId('event-list-'));
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const { page, sort } = getEventSearchInitialValues(location.search);
+
+  const eventListId = useIdWithPrefix({ prefix: 'event-list-' });
 
   const sortOptions = useEventSortOptions();
   const variables = {

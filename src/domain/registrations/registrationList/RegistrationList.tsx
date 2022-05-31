@@ -1,5 +1,4 @@
 import omit from 'lodash/omit';
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -14,6 +13,7 @@ import {
   RegistrationsQuery,
   useRegistrationsQuery,
 } from '../../../generated/graphql';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import Container from '../../app/layout/Container';
@@ -104,11 +104,10 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
 const RegistrationListContainer: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [registrationListId] = React.useState(() =>
-    uniqueId('registration-list-')
-  );
   const { t } = useTranslation();
   const { page } = getRegistrationSearchInitialValues(location.search);
+
+  const registrationListId = useIdWithPrefix({ prefix: 'registration-list-' });
 
   const handleSelectedPageChange = (page: number) => {
     navigate({

@@ -1,5 +1,4 @@
 import omit from 'lodash/omit';
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -13,6 +12,7 @@ import {
   KeywordSetsQuery,
   useKeywordSetsQuery,
 } from '../../../generated/graphql';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import { getKeywordSetItemId } from '../../keywordSet/utils';
@@ -99,14 +99,13 @@ const KeywordSetList: React.FC<KeywordSetListProps> = ({
 const KeywordSetListContainer: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [keywordSetListId] = React.useState(() =>
-    uniqueId('keyword-set-list-')
-  );
   const { t } = useTranslation();
   const { page, sort, text } = getKeywordSetSearchInitialValues(
     location.search
   );
   const [search, setSearch] = React.useState(text);
+
+  const keywordSetListId = useIdWithPrefix({ prefix: 'keyword-set-list-' });
 
   const handleSelectedPageChange = (page: number) => {
     navigate({

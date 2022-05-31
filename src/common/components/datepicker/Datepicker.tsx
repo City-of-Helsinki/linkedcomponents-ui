@@ -14,12 +14,12 @@ import {
   IconCalendar,
   TextInputProps,
 } from 'hds-react';
-import uniqueId from 'lodash/uniqueId';
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { DATE_FORMAT, DATETIME_FORMAT } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
 import TextInput from '../textInput/TextInput';
@@ -75,7 +75,7 @@ const DatePicker: React.FC<DatepickerProps> = ({
 
   const isComponentFocused = useIsComponentFocused(container);
 
-  const [dialogLabelId] = React.useState(() => uniqueId('dialog-label-'));
+  const dialogLabelId = useIdWithPrefix({ prefix: 'dialog-label-' });
 
   const setNewDateWithTime = (previousDate: Date, newDate: Date) => {
     const hours = previousDate.getHours();
