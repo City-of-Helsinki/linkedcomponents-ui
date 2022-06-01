@@ -7,22 +7,22 @@ import {
   EventsDocument,
   PublicationStatus,
   SuperEventType,
-} from '../../../../generated/graphql';
-import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
+} from '../../../../../generated/graphql';
+import { fakeEvent, fakeEvents } from '../../../../../utils/mockDataUtils';
 import {
   act,
   configure,
   render,
   screen,
   userEvent,
-} from '../../../../utils/testUtils';
-import { SUB_EVENTS_VARIABLES } from '../../../event/constants';
+} from '../../../../../utils/testUtils';
+import { SUB_EVENTS_VARIABLES } from '../../../../event/constants';
 import {
   mockedOrganizationResponse,
   organizationId,
   organizationName,
-} from '../../../organization/__mocks__/organization';
-import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+} from '../../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
 import EventsTableRow from '../EventsTableRow';
 
 configure({ defaultHidden: true });

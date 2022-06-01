@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { OptionType } from '../../../types';
-import { EVENT_LIST_TYPES } from '../constants';
+import { OptionType } from '../../../../types';
+import { EVENT_LIST_TYPES } from '../../constants';
 import styles from './listTypeSelector.module.scss';
 
 export type ListTypeOption = {

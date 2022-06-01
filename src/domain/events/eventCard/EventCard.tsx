@@ -32,11 +32,11 @@ import EventActionsDropdown from '../eventActionsDropdown/EventActionsDropdown';
 import useEventsQueryStringWithReturnPath from '../hooks/useEventsQueryStringWithReturnPath';
 import { expandedEventsSelector } from '../selectors';
 import { getEventItemId } from '../utils';
-import AudienceAgeText from './AudienceAgeText';
-import DateText from './DateText';
+import AudienceAgeText from './audienceAgeText/AudienceAgeText';
+import DateText from './dateText/DateText';
 import styles from './eventCard.module.scss';
-import PriceText from './PriceText';
-import SubEventCards from './SubEventCards';
+import PriceText from './priceText/PriceText';
+import SubEventCards from './subEventCards/SubEventCards';
 
 export const testIds = {
   image: 'event-card-image',

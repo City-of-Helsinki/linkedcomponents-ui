@@ -1,10 +1,10 @@
 import React from 'react';
 
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
-import { EventFieldsFragment } from '../../../generated/graphql';
-import useSubEvents from '../hooks/useSubEvents';
-import styles from './eventsTable.module.scss';
-import EventTableRow from './EventsTableRow';
+import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
+import { EventFieldsFragment } from '../../../../generated/graphql';
+import useSubEvents from '../../hooks/useSubEvents';
+import EventTableRow from '../eventsTableRow/EventsTableRow';
+import styles from './subEventRows.module.scss';
 
 interface Props {
   eventId: string;

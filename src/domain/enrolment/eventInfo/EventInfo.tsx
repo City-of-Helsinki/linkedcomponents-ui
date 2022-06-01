@@ -9,9 +9,9 @@ import getLocalisedString from '../../../utils/getLocalisedString';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import useEventLocation from '../../event/hooks/useEventLocation';
 import { getEventFields } from '../../event/utils';
-import AudienceAgeText from '../../events/eventCard/AudienceAgeText';
-import DateText from '../../events/eventCard/DateText';
-import PriceText from '../../events/eventCard/PriceText';
+import AudienceAgeText from '../../events/eventCard/audienceAgeText/AudienceAgeText';
+import DateText from '../../events/eventCard/dateText/DateText';
+import PriceText from '../../events/eventCard/priceText/PriceText';
 import { getPlaceFields } from '../../place/utils';
 import styles from './eventInfo.module.scss';
 

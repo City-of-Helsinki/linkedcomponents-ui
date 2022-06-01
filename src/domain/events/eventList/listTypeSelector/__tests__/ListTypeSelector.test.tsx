@@ -7,7 +7,7 @@ import {
   render,
   screen,
   userEvent,
-} from '../../../../utils/testUtils';
+} from '../../../../../utils/testUtils';
 import ListTypeSelector from '../ListTypeSelector';
 
 configure({ defaultHidden: true });

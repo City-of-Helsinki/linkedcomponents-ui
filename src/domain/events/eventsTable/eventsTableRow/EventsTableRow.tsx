@@ -3,20 +3,20 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { EventFieldsFragment } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
-import useTimeFormat from '../../../hooks/useTimeFormat';
-import formatDate from '../../../utils/formatDate';
-import StatusTag from '../../event/tags/StatusTag';
-import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
-import { getEventFields } from '../../event/utils';
-import OrganizationName from '../../organization/organizationName/OrganizationName';
-import { addExpandedEvent, removeExpandedEvent } from '../actions';
-import EventActionsDropdown from '../eventActionsDropdown/EventActionsDropdown';
-import { expandedEventsSelector } from '../selectors';
-import { getEventItemId } from '../utils';
-import styles from './eventsTable.module.scss';
-import SubEventRows from './SubEventRows';
+import { EventFieldsFragment } from '../../../../generated/graphql';
+import useLocale from '../../../../hooks/useLocale';
+import useTimeFormat from '../../../../hooks/useTimeFormat';
+import formatDate from '../../../../utils/formatDate';
+import StatusTag from '../../../event/tags/StatusTag';
+import SuperEventTypeTag from '../../../event/tags/SuperEventTypeTag';
+import { getEventFields } from '../../../event/utils';
+import OrganizationName from '../../../organization/organizationName/OrganizationName';
+import { addExpandedEvent, removeExpandedEvent } from '../../actions';
+import EventActionsDropdown from '../../eventActionsDropdown/EventActionsDropdown';
+import { expandedEventsSelector } from '../../selectors';
+import { getEventItemId } from '../../utils';
+import styles from '../eventsTable.module.scss';
+import SubEventRows from '../subEventRows/SubEventRows';
 
 interface Props {
   event: EventFieldsFragment;

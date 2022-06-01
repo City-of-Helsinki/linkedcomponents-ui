@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getEventDateText } from '../utils';
+import { getEventDateText } from '../../utils';
 
 export interface DateTextProps {
   endTime: Date | null;

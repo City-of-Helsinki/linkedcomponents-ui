@@ -1,9 +1,9 @@
 import React from 'react';
 
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
-import useSubEvents from '../hooks/useSubEvents';
-import EventCard from './EventCard';
-import styles from './eventCard.module.scss';
+import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
+import useSubEvents from '../../hooks/useSubEvents';
+import EventCard from '../EventCard';
+import styles from './subEventCards.module.scss';
 
 interface Props {
   eventId: string;

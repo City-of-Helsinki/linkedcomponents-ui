@@ -12,7 +12,7 @@ import { getEventFields } from '../../event/utils';
 import { EVENT_SORT_OPTIONS } from '../constants';
 import useEventsQueryStringWithReturnPath from '../hooks/useEventsQueryStringWithReturnPath';
 import styles from './eventsTable.module.scss';
-import EventTableRow from './EventsTableRow';
+import EventTableRow from './eventsTableRow/EventsTableRow';
 
 export interface EventsTableProps {
   caption: string;

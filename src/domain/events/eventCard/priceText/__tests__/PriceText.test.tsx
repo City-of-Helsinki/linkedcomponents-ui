@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { fakeOffers } from '../../../../utils/mockDataUtils';
+import { fakeOffers } from '../../../../../utils/mockDataUtils';
 import PriceText, { PriceTextProps } from '../PriceText';
 
 const renderComponent = (props: PriceTextProps) =>

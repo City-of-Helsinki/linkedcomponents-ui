@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Offer } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
-import getLocalisedString from '../../../utils/getLocalisedString';
-import skipFalsyType from '../../../utils/skipFalsyType';
+import { Offer } from '../../../../generated/graphql';
+import useLocale from '../../../../hooks/useLocale';
+import getLocalisedString from '../../../../utils/getLocalisedString';
+import skipFalsyType from '../../../../utils/skipFalsyType';
 
 export interface PriceTextProps {
   freeEvent: boolean;

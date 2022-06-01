@@ -41,7 +41,7 @@ import {
   replaceParamsToEventQueryString,
 } from '../utils';
 import styles from './eventList.module.scss';
-import ListTypeSelector from './ListTypeSelector';
+import ListTypeSelector from './listTypeSelector/ListTypeSelector';
 
 export const testIds = {
   resultList: 'event-result-list',
