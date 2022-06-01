@@ -149,7 +149,7 @@ const EventActionsDropdown = React.forwardRef<
         />
       )}
 
-      <ActionsDropdown className={className} items={actionItems} />
+      <ActionsDropdown items={actionItems} />
     </div>
   );
 });
