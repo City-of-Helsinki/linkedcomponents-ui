@@ -17,7 +17,7 @@ import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
-import { EventsLocationState } from '../../eventSearch/types';
+import { EventsLocationState } from '../../events/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';

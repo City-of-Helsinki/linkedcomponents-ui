@@ -21,6 +21,17 @@ export enum EVENT_LIST_TYPES {
 
 export const DEFAULT_EVENT_LIST_TYPE = EVENT_LIST_TYPES.TABLE;
 
+export enum EVENT_SEARCH_PARAMS {
+  END = 'end',
+  PAGE = 'page',
+  PLACE = 'place',
+  RETURN_PATH = 'returnPath',
+  SORT = 'sort',
+  START = 'start',
+  TEXT = 'text',
+  TYPE = 'type',
+}
+
 export enum EVENT_SORT_OPTIONS {
   END_TIME = 'end_time',
   END_TIME_DESC = '-end_time',

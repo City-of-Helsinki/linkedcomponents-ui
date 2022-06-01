@@ -17,17 +17,17 @@ import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import TitleRow from '../app/layout/TitleRow';
 import { clearEventFormData } from '../event/utils';
-import FilterSummary from '../eventSearch/filterSummary/FilterSummary';
-import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotSigned from '../notSigned/NotSigned';
 import useUser from '../user/hooks/useUser';
 import { setEventListOptions } from './actions';
 import { EVENT_LIST_TYPES, EVENTS_PAGE_TABS } from './constants';
 import EventList from './eventList/EventList';
 import styles from './events.module.scss';
+import FilterSummary from './filterSummary/FilterSummary';
 import useEventsQueryVariables from './hooks/useEventsQueryVariables';
 import SearchPanel from './searchPanel/SearchPanel';
 import { eventListTabSelector, eventListTypeSelector } from './selectors';
+import { replaceParamsToEventQueryString } from './utils';
 
 interface Props {
   user: UserFieldsFragment;
@@ -174,6 +174,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
               className={styles.eventList}
               listType={listType}
               setListType={setListType}
+              showListTypeSelector={true}
               skip={skip[tab]}
             />
           </TabPanel>

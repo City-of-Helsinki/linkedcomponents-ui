@@ -9,8 +9,8 @@ import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
 import { getEventFields } from '../../event/utils';
-import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
 import { EVENT_SORT_OPTIONS } from '../constants';
+import useEventsQueryStringWithReturnPath from '../hooks/useEventsQueryStringWithReturnPath';
 import styles from './eventsTable.module.scss';
 import EventTableRow from './EventsTableRow';
 

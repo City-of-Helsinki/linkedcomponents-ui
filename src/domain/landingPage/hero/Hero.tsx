@@ -13,7 +13,7 @@ import useLocale from '../../../hooks/useLocale';
 import Container from '../../app/layout/Container';
 import { useTheme } from '../../app/theme/Theme';
 import { clearEventFormData } from '../../event/utils';
-import { getEventSearchQuery } from '../../eventSearch/utils';
+import { getEventSearchQuery } from '../../events/utils';
 import { testIds } from '../LandingPage';
 import styles from './hero.module.scss';
 

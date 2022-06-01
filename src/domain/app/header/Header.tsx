@@ -12,7 +12,7 @@ import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { isFeatureEnabled } from '../../../utils/featureFlags';
 import { signIn, signOut } from '../../auth/authenticate';
 import { authenticatedSelector } from '../../auth/selectors';
-import { getEventSearchQuery } from '../../eventSearch/utils';
+import { getEventSearchQuery } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';

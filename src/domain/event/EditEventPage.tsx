@@ -27,7 +27,7 @@ import Container from '../app/layout/Container';
 import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
-import { replaceParamsToEventQueryString } from '../eventSearch/utils';
+import { replaceParamsToEventQueryString } from '../events/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';

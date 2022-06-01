@@ -17,11 +17,11 @@ import Container from '../../app/layout/Container';
 import { useTheme } from '../../app/theme/Theme';
 import { EVENT_TYPE } from '../../event/constants';
 import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
+import FilterSummary from '../../events/filterSummary/FilterSummary';
 import {
   getEventSearchInitialValues,
   getEventSearchQuery,
-} from '../../eventSearch/utils';
-import FilterSummary from '../filterSummary/FilterSummary';
+} from '../../events/utils';
 import DateSelectorDropdown, {
   DATE_FIELDS,
 } from './dateSelectorDropdown/DateSelectorDropdown';

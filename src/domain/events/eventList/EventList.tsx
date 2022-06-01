@@ -22,13 +22,6 @@ import getPageCount from '../../../utils/getPageCount';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import Container from '../../app/layout/Container';
-import { EventsLocationState } from '../../eventSearch/types';
-import {
-  getEventItemId,
-  getEventSearchInitialValues,
-  getEventsQueryVariables,
-  replaceParamsToEventQueryString,
-} from '../../eventSearch/utils';
 import {
   DEFAULT_EVENT_SORT,
   EVENT_LIST_TYPES,
@@ -40,26 +33,50 @@ import EventCard from '../eventCard/EventCard';
 import EventsTable from '../eventsTable/EventsTable';
 import useEventListTypeOptions from '../hooks/useEventListTypeOptions';
 import useEventSortOptions from '../hooks/useEventSortOptions';
+import { EventsLocationState } from '../types';
+import {
+  getEventItemId,
+  getEventSearchInitialValues,
+  getEventsQueryVariables,
+  replaceParamsToEventQueryString,
+} from '../utils';
 import styles from './eventList.module.scss';
 import ListTypeSelector from './ListTypeSelector';
 
-export interface EventListContainerProps {
-  activeTab: EVENTS_PAGE_TABS;
-  baseVariables: EventsQueryVariables;
+export const testIds = {
+  resultList: 'event-result-list',
+};
+
+type EventListContainerCommonProps = {
+  baseVariables?: EventsQueryVariables;
   className?: string;
-  listType: EVENT_LIST_TYPES;
-  setListType: (type: EVENT_LIST_TYPES) => void;
+  listType?: EVENT_LIST_TYPES;
   skip?: boolean;
-}
+};
+
+export type EventListContainerProps = EventListContainerCommonProps &
+  (
+    | {
+        showListTypeSelector?: false;
+        activeTab?: never;
+        setListType?: never;
+      }
+    | {
+        showListTypeSelector: true;
+        activeTab: EVENTS_PAGE_TABS;
+        setListType: (type: EVENT_LIST_TYPES) => void;
+      }
+  );
 
 type EventListProps = {
   events: EventsQuery['events']['data'];
+  listType: EVENT_LIST_TYPES;
   onSelectedPageChange: (page: number) => void;
   onSortChange: (sort: EVENT_SORT_OPTIONS) => void;
   pageCount: number;
   page: number;
   sort: EVENT_SORT_OPTIONS;
-} & Pick<EventListContainerProps, 'activeTab' | 'listType'>;
+} & Pick<EventListContainerProps, 'activeTab'>;
 
 const EventList: React.FC<EventListProps> = ({
   activeTab,
@@ -110,9 +127,9 @@ const EventList: React.FC<EventListProps> = ({
         )}
         {listType === EVENT_LIST_TYPES.CARD_LIST && (
           <div className={styles.eventCards}>
-            {events.map((event) => {
-              return event && <EventCard key={event.id} event={event} />;
-            })}
+            {events.map(
+              (event) => event && <EventCard key={event.id} event={event} />
+            )}
           </div>
         )}
         {pageCount > 1 && (
@@ -129,7 +146,14 @@ const EventList: React.FC<EventListProps> = ({
 };
 
 const EventListContainer: React.FC<EventListContainerProps> = (props) => {
-  const { baseVariables, className, listType, setListType, skip } = props;
+  const {
+    baseVariables,
+    className,
+    listType = EVENT_LIST_TYPES.CARD_LIST,
+    setListType,
+    showListTypeSelector,
+    skip,
+  } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -139,6 +163,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
 
   const listTypeOptions = useEventListTypeOptions();
   const sortOptions = useEventSortOptions();
+
   const variables = {
     ...baseVariables,
     ...getEventsQueryVariables(location.search),
@@ -179,17 +204,24 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   const pageCount = getPageCount(eventsCount, EVENTS_PAGE_SIZE);
 
   return (
-    <div id={eventListId} className={(styles.eventList, className)}>
+    <div
+      id={eventListId}
+      className={(styles.eventList, className)}
+      data-testid={testIds.resultList}
+    >
       <Container withOffset={true}>
         <div className={styles.listTypeRow}>
           <div className={styles.listTypeSelectorColumn}>
-            <ListTypeSelector
-              caption={t('eventsPage.captionListTypes')}
-              name="list-type"
-              onChange={setListType}
-              options={listTypeOptions}
-              value={listType}
-            />
+            {showListTypeSelector && (
+              <ListTypeSelector
+                caption={t('eventsPage.captionListTypes')}
+                name="list-type"
+                onChange={setListType}
+                options={listTypeOptions}
+                value={listType}
+              />
+            )}
+
             <span className={styles.count}>
               {t('eventsPage.count', { count: eventsCount })}
             </span>
@@ -211,6 +243,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
         <EventList
           {...props}
           events={events}
+          listType={listType}
           onSelectedPageChange={handleSelectedPageChange}
           onSortChange={handleSortChange}
           page={page}

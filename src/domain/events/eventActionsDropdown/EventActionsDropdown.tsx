@@ -22,9 +22,9 @@ import {
   getEditButtonProps,
   getEventFields,
 } from '../../event/utils';
-import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
+import useEventsQueryStringWithReturnPath from '../hooks/useEventsQueryStringWithReturnPath';
 
 export interface EventActionsDropdownProps {
   className?: string;
