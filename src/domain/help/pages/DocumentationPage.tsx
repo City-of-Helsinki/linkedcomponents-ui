@@ -10,7 +10,7 @@ import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import removeProtocolFromUrl from '../../../utils/removeProtocolFromUrl';
-import PageWrapper from '../../app/layout/PageWrapper';
+import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 
 const DocumentationPage: React.FC = () => {
   const locale = useLocale();

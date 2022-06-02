@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { scroller } from 'react-scroll';
 
-import { MAIN_CONTENT_ID } from '../../../../constants';
+import { MAIN_CONTENT_ID } from '../../../../../constants';
 import {
   configure,
   render,
   screen,
   waitFor,
-} from '../../../../utils/testUtils';
+} from '../../../../../utils/testUtils';
 import MainContent from '../MainContent';
 
 configure({ defaultHidden: true });

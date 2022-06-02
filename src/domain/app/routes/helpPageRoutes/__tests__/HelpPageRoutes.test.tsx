@@ -1,15 +1,16 @@
+/* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 import React from 'react';
 import { Route, Routes } from 'react-router';
 
-import { ROUTES } from '../../../../constants';
-import { Language } from '../../../../types';
+import { ROUTES } from '../../../../../constants';
+import { Language } from '../../../../../types';
 import {
   configure,
   render,
   screen,
   waitFor,
-} from '../../../../utils/testUtils';
+} from '../../../../../utils/testUtils';
 import HelpPageRoutes from '../HelpPageRoutes';
 
 configure({ defaultHidden: true });

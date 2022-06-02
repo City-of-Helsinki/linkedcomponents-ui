@@ -1,7 +1,7 @@
 import React from 'react';
 import { matchPath, PathPattern, useLocation } from 'react-router';
 
-import useLocale from '../../../hooks/useLocale';
+import useLocale from '../../../../hooks/useLocale';
 
 /**
  * Ensure that browser focus is set to body when navigating using

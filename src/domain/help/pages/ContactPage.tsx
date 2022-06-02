@@ -24,7 +24,7 @@ import {
   scrollToFirstError,
   showFormErrors,
 } from '../../../utils/validationUtils';
-import PageWrapper from '../../app/layout/PageWrapper';
+import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 import { reportError } from '../../app/sentry/utils';
 import { authenticatedSelector, userSelector } from '../../auth/selectors';
 import useFeedbackServerErrors from '../../feedback/hooks/useFeedbackServerErrors';

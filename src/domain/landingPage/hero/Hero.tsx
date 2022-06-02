@@ -10,7 +10,7 @@ import Button from '../../../common/components/button/Button';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
-import Container from '../../app/layout/Container';
+import Container from '../../app/layout/container/Container';
 import { useTheme } from '../../app/theme/Theme';
 import { clearEventFormData } from '../../event/utils';
 import { getEventSearchQuery } from '../../events/utils';

@@ -13,7 +13,7 @@ import theme from '../../assets/theme/theme';
 import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
 import { CookieConsentProvider } from './cookieConsent/CookieConsentContext';
-import AppRoutes from './routes/AppRoutes';
+import AppRoutes from './routes/appRoutes/AppRoutes';
 import { store } from './store/store';
 import { ThemeProvider } from './theme/Theme';
 

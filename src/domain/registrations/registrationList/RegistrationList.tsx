@@ -16,7 +16,7 @@ import {
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
 import { scrollToItem } from '../../../utils/scrollToItem';
-import Container from '../../app/layout/Container';
+import Container from '../../app/layout/container/Container';
 import { getRegistrationItemId } from '../../registration/utils';
 import {
   DEFAULT_REGISTRATION_SORT,

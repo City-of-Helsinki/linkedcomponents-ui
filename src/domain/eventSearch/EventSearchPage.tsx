@@ -1,7 +1,7 @@
 import React from 'react';
 
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import EventList from '../events/eventList/EventList';
 import SearchPanel from './searchPanel/SearchPanel';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { SUPPORTED_LANGUAGES } from '../../../../constants';
-import { actWait, render } from '../../../../utils/testUtils';
+import { SUPPORTED_LANGUAGES } from '../../../../../constants';
+import { actWait, render } from '../../../../../utils/testUtils';
 import PageLayout from '../PageLayout';
 
 const renderComponent = () => render(<PageLayout />);

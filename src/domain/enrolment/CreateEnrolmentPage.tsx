@@ -27,9 +27,9 @@ import {
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import { showFormErrors } from '../../utils/validationUtils';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import { reportError } from '../app/sentry/utils';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';

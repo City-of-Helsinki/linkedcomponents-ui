@@ -1,45 +1,45 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 
-import { ROUTES } from '../../../constants';
-import useLocale from '../../../hooks/useLocale';
-import NotFoundPage from '../../notFound/NotFound';
+import { ROUTES } from '../../../../constants';
+import useLocale from '../../../../hooks/useLocale';
+import NotFoundPage from '../../../notFound/NotFound';
 
 const CreateImagePage = React.lazy(
-  () => import('.././../image/CreateImagePage')
+  () => import('../../../image/CreateImagePage')
 );
 const CreateKeywordPage = React.lazy(
-  () => import('.././../keyword/CreateKeywordPage')
+  () => import('../../../keyword/CreateKeywordPage')
 );
 const CreateKeywordSetPage = React.lazy(
-  () => import('.././../keywordSet/CreateKeywordSetPage')
+  () => import('../../../keywordSet/CreateKeywordSetPage')
 );
 const CreateOrganizationPage = React.lazy(
-  () => import('.././../organization/CreateOrganizationPage')
+  () => import('../../../organization/CreateOrganizationPage')
 );
 const CreatePlacePage = React.lazy(
-  () => import('.././../place/CreatePlacePage')
+  () => import('../../../place/CreatePlacePage')
 );
-const EditImagePage = React.lazy(() => import('../../image/EditImagePage'));
+const EditImagePage = React.lazy(() => import('../../../image/EditImagePage'));
 const EditKeywordPage = React.lazy(
-  () => import('../../keyword/EditKeywordPage')
+  () => import('../../../keyword/EditKeywordPage')
 );
 const EditKeywordSetPage = React.lazy(
-  () => import('../../keywordSet/EditKeywordSetPage')
+  () => import('../../../keywordSet/EditKeywordSetPage')
 );
 const EditOrganizationPage = React.lazy(
-  () => import('../../organization/EditOrganizationPage')
+  () => import('../../../organization/EditOrganizationPage')
 );
-const EditPlacePage = React.lazy(() => import('../../place/EditPlacePage'));
-const ImagesPage = React.lazy(() => import('.././../images/ImagesPage'));
-const KeywordsPage = React.lazy(() => import('.././../keywords/KeywordsPage'));
+const EditPlacePage = React.lazy(() => import('../../../place/EditPlacePage'));
+const ImagesPage = React.lazy(() => import('../../../images/ImagesPage'));
+const KeywordsPage = React.lazy(() => import('../../../keywords/KeywordsPage'));
 const KeywordSetsPage = React.lazy(
-  () => import('.././../keywordSets/KeywordSetsPage')
+  () => import('../../../keywordSets/KeywordSetsPage')
 );
 const OrganizationsPage = React.lazy(
-  () => import('.././../organizations/OrganizationsPage')
+  () => import('../../../organizations/OrganizationsPage')
 );
-const PlacesPage = React.lazy(() => import('.././../places/PlacesPage'));
+const PlacesPage = React.lazy(() => import('../../../places/PlacesPage'));
 
 const AdminPageRoutes: React.FC = () => {
   const locale = useLocale();

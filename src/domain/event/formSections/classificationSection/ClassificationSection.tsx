@@ -8,8 +8,8 @@ import KeywordSelectorField from '../../../../common/components/formFields/Keywo
 import Notification from '../../../../common/components/notification/Notification';
 import useLocale from '../../../../hooks/useLocale';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { REMOTE_PARTICIPATION_KEYWORD } from '../../../keyword/constants';
 import { getKeywordOption } from '../../../keywordSet/utils';
 import { INTERNET_PLACE_ID } from '../../../place/constants';

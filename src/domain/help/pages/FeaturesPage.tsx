@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
-import PageWrapper from '../../app/layout/PageWrapper';
+import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 
 const FeaturesPage: React.FC = () => {
   const locale = useLocale();

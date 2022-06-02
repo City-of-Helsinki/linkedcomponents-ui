@@ -5,7 +5,7 @@ import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
-import PageWrapper from '../../app/layout/PageWrapper';
+import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 
 const ApiPage: React.FC = () => {
   const locale = useLocale();

@@ -11,8 +11,8 @@ import { Language, useLanguagesQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import { sortLanguage } from '../../utils';
 

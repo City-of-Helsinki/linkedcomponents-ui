@@ -3,8 +3,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import RegistrationEventSelectorField from '../../../../common/components/formFields/RegistrationEventSelectorField';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 
 interface Props {

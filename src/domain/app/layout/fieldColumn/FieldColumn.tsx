@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
-import { INPUT_MAX_WIDTHS } from '../../../constants';
+import { INPUT_MAX_WIDTHS } from '../../../../constants';
 import styles from './fieldColumn.module.scss';
 
 type MaxWidth = INPUT_MAX_WIDTHS.MEDIUM | INPUT_MAX_WIDTHS.LARGE;

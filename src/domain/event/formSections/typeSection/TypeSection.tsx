@@ -14,8 +14,8 @@ import {
   SuperEventType,
 } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import {
   EVENT_FIELDS,
   EVENT_TYPE,

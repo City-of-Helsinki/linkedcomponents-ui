@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { actWait, render } from '../../../../utils/testUtils';
-import translations from '../../i18n/fi.json';
+import { actWait, render } from '../../../../../utils/testUtils';
+import translations from '../../../i18n/fi.json';
 import PageWrapper, { PageWrapperProps } from '../PageWrapper';
 
 const getWrapper = (props?: Partial<PageWrapperProps>) =>

@@ -4,15 +4,15 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { matchPath, PathPattern, useLocation } from 'react-router';
 
-import { ROUTES, SUPPORTED_LANGUAGES } from '../../../constants';
-import useLocale from '../../../hooks/useLocale';
-import { useCookieConsent } from '../cookieConsent/CookieConsentContext';
-import Footer from '../footer/Footer';
-import Header from '../header/Header';
-import { useTheme } from '../theme/Theme';
+import { ROUTES, SUPPORTED_LANGUAGES } from '../../../../constants';
+import useLocale from '../../../../hooks/useLocale';
+import { useCookieConsent } from '../../cookieConsent/CookieConsentContext';
+import Footer from '../../footer/Footer';
+import Header from '../../header/Header';
+import { useTheme } from '../../theme/Theme';
+import ResetFocus from '../resetFocus/ResetFocus';
+import ScrollToTop from '../scrollToTop/ScrollToTop';
 import styles from './pageLayout.module.scss';
-import ResetFocus from './ResetFocus';
-import ScrollToTop from './ScrollToTop';
 
 const RESET_IGNORED_PATHS: PathPattern[] = [{ end: false, path: ROUTES.HELP }];
 

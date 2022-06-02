@@ -1,7 +1,8 @@
+/* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 import React from 'react';
 
-import { render } from '../../../../utils/testUtils';
+import { render } from '../../../../../utils/testUtils';
 import AppRoutes from '../AppRoutes';
 
 const getWrapper = (route: string) =>

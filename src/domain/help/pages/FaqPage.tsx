@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import PageWrapper from '../../app/layout/PageWrapper';
+import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 import AddingEventsFaq from '../faq/AddingEventsFaq';
 import AddingToOwnProjectsFaq from '../faq/AddingToOwnProjectsFaq';
 import EventFormNotWorkingFaq from '../faq/EventFormNotWorkingFaq';

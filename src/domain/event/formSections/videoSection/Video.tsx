@@ -6,7 +6,7 @@ import DeleteButton from '../../../../common/components/deleteButton/DeleteButto
 import TextInputField from '../../../../common/components/formFields/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { VIDEO_DETAILS_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import FieldWithButton from '../../layout/FieldWithButton';

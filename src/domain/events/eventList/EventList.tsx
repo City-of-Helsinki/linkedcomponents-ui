@@ -21,7 +21,7 @@ import { OptionType } from '../../../types';
 import getPageCount from '../../../utils/getPageCount';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
-import Container from '../../app/layout/Container';
+import Container from '../../app/layout/container/Container';
 import {
   DEFAULT_EVENT_SORT,
   EVENT_LIST_TYPES,

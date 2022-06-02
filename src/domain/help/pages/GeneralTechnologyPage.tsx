@@ -3,7 +3,7 @@ import React from 'react';
 import ExternalLink from '../../../common/components/externalLink/ExternalLink';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
-import PageWrapper from '../../app/layout/PageWrapper';
+import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 
 const GeneralTechnologyPage: React.FC = () => {
   const locale = useLocale();

@@ -3,7 +3,7 @@ import React from 'react';
 import { useLocation } from 'react-router';
 import { scroller } from 'react-scroll';
 
-import { MAIN_CONTENT_ID } from '../../../constants';
+import { MAIN_CONTENT_ID } from '../../../../constants';
 import styles from './mainContent.module.scss';
 
 interface Props {

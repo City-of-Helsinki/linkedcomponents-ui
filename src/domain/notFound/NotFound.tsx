@@ -7,8 +7,8 @@ import Button from '../../common/components/button/Button';
 import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import { signIn } from '../auth/authenticate';
 import styles from './notFound.module.scss';
 

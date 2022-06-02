@@ -2,45 +2,47 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes, useParams } from 'react-router';
 
-import { DEPRECATED_ROUTES, ROUTES } from '../../../constants';
-import useLocale from '../../../hooks/useLocale';
-import { isFeatureEnabled } from '../../../utils/featureFlags';
-import AdminPageLayout from '../../admin/layout/AdminPageLayout';
-import EventSavedPage from '../../eventSaved/EventSavedPage';
-import HelpPageLayout from '../../help/layout/HelpPageLayout';
-import RegistrationSavedPage from '../../registrationSaved/RegistrationSavedPage';
-import LogoutPage from '.././../auth/logoutPage/LogoutPage';
-import LandingPage from '.././../landingPage/LandingPage';
-import NotFound from '.././../notFound/NotFound';
-import PageLayout from '../layout/PageLayout';
-import AdminPageRoutes from './AdminRoutes';
+import { DEPRECATED_ROUTES, ROUTES } from '../../../../constants';
+import useLocale from '../../../../hooks/useLocale';
+import { isFeatureEnabled } from '../../../../utils/featureFlags';
+import AdminPageLayout from '../../../admin/layout/AdminPageLayout';
+import LogoutPage from '../../../auth/logoutPage/LogoutPage';
+import EventSavedPage from '../../../eventSaved/EventSavedPage';
+import HelpPageLayout from '../../../help/layout/HelpPageLayout';
+import LandingPage from '../../../landingPage/LandingPage';
+import NotFound from '../../../notFound/NotFound';
+import RegistrationSavedPage from '../../../registrationSaved/RegistrationSavedPage';
+import PageLayout from '../../layout/pageLayout/PageLayout';
+import AdminPageRoutes from '../adminRoutes/AdminRoutes';
 
 const CreateEnrolmentPage = React.lazy(
-  () => import('.././../enrolment/CreateEnrolmentPage')
+  () => import('../../../enrolment/CreateEnrolmentPage')
 );
 const CreateEventPage = React.lazy(
-  () => import('.././../event/CreateEventPage')
+  () => import('../../../event/CreateEventPage')
 );
 const CreateRegistrationPage = React.lazy(
-  () => import('.././../registration/CreateRegistrationPage')
+  () => import('../../../registration/CreateRegistrationPage')
 );
 const EditEnrolmentPage = React.lazy(
-  () => import('../../enrolment/EditEnrolmentPage')
+  () => import('../../../enrolment/EditEnrolmentPage')
 );
-const EditEventPage = React.lazy(() => import('../../event/EditEventPage'));
+const EditEventPage = React.lazy(() => import('../../../event/EditEventPage'));
 const EditRegistrationPage = React.lazy(
-  () => import('../../registration/EditRegistrationPage')
+  () => import('../../../registration/EditRegistrationPage')
 );
 const EnrolmentsPage = React.lazy(
-  () => import('../../enrolments/EnrolmentsPage')
+  () => import('../../../enrolments/EnrolmentsPage')
 );
-const EventsPage = React.lazy(() => import('.././../events/EventsPage'));
+const EventsPage = React.lazy(() => import('../../../events/EventsPage'));
 const EventSearchPage = React.lazy(
-  () => import('../../eventSearch/EventSearchPage')
+  () => import('../../../eventSearch/EventSearchPage')
 );
-const HelpPageRoutes = React.lazy(() => import('./HelpPageRoutes'));
+const HelpPageRoutes = React.lazy(
+  () => import('../helpPageRoutes/HelpPageRoutes')
+);
 const RegistrationsPage = React.lazy(
-  () => import('.././../registrations/RegistrationsPage')
+  () => import('../../../registrations/RegistrationsPage')
 );
 
 const DeprecetedEditEventPageRoute = () => {

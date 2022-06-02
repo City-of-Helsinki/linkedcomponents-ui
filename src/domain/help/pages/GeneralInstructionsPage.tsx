@@ -5,7 +5,7 @@ import { SWAGGER_URL } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { Language } from '../../../types';
 import removeProtocolFromUrl from '../../../utils/removeProtocolFromUrl';
-import PageWrapper from '../../app/layout/PageWrapper';
+import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 
 const GeneralInstructionsPage: React.FC = () => {
   const locale = useLocale();

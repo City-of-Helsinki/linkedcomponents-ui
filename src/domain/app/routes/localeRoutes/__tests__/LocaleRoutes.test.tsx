@@ -2,10 +2,10 @@ import { History } from 'history';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { DEPRECATED_ROUTES, ROUTES } from '../../../../constants';
-import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
-import { Language } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { DEPRECATED_ROUTES, ROUTES } from '../../../../../constants';
+import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
+import { Language } from '../../../../../types';
+import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
@@ -14,43 +14,46 @@ import {
   render,
   screen,
   waitFor,
-} from '../../../../utils/testUtils';
+} from '../../../../../utils/testUtils';
 import {
   enrolmentId,
   mockedEnrolmentResponse,
-} from '../../../enrolment/__mocks__/editEnrolmentPage';
-import { eventName, mockedEventResponse } from '../../../event/__mocks__/event';
+} from '../../../../enrolment/__mocks__/editEnrolmentPage';
+import {
+  eventName,
+  mockedEventResponse,
+} from '../../../../event/__mocks__/event';
 import {
   mockedEventsResponse,
   mockedPlacesResponse,
   searchText,
-} from '../../../eventSearch/__mocks__/eventSearchPage';
+} from '../../../../eventSearch/__mocks__/eventSearchPage';
 import {
   image,
   mockedImageResponse,
   mockedImagesResponse,
-} from '../../../image/__mocks__/image';
+} from '../../../../image/__mocks__/image';
 import {
   keyword,
   mockedKeywordResponse,
-} from '../../../keyword/__mocks__/editKeywordPage';
+} from '../../../../keyword/__mocks__/editKeywordPage';
 import {
   keywordSet,
   mockedKeywordSetResponse,
-} from '../../../keywordSet/__mocks__/editKeywordSetPage';
+} from '../../../../keywordSet/__mocks__/editKeywordSetPage';
 import {
   mockedOrganizationResponse,
   organizationId,
-} from '../../../organization/__mocks__/organization';
+} from '../../../../organization/__mocks__/organization';
 import {
   mockedPlaceResponse,
   place,
-} from '../../../place/__mocks__/editPlacePage';
+} from '../../../../place/__mocks__/editPlacePage';
 import {
   mockedRegistrationResponse,
   registrationId,
-} from '../../../registration/__mocks__/editRegistrationPage';
-import { mockedUserResponse } from '../../../user/__mocks__/user';
+} from '../../../../registration/__mocks__/editRegistrationPage';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import LocaleRoutes from '../LocaleRoutes';
 
 configure({ defaultHidden: true });

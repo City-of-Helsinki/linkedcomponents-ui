@@ -9,8 +9,8 @@ import ErrorTemplate from '../../../common/components/errorTemplate/ErrorTemplat
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
-import MainContent from '../../app/layout/MainContent';
-import PageWrapper from '../../app/layout/PageWrapper';
+import MainContent from '../../app/layout/mainContent/MainContent';
+import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 import { signIn } from '../authenticate';
 import { authenticatedSelector, loadingSelector } from '../selectors';
 import styles from './logoutPage.module.scss';

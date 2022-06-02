@@ -2,7 +2,7 @@ import { css } from '@emotion/css';
 import { IconAlertCircle } from 'hds-react';
 import React from 'react';
 
-import Container from '../../../domain/app/layout/Container';
+import Container from '../../../domain/app/layout/container/Container';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import FeedbackButton from '../feedbackButton/FeedbackButton';
 import styles from './errorTemplate.module.scss';

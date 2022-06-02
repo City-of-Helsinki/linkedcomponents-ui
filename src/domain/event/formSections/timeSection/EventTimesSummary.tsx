@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FieldColumn from '../../../app/layout/FieldColumn';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import EventTimesTable from './EventTimesTable';
 import RecurringEvents from './RecurringEvents';
 import SavedEvents from './SavedEvents';

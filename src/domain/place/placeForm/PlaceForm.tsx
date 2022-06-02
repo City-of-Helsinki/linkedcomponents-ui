@@ -34,7 +34,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
-import Section from '../../app/layout/Section';
+import Section from '../../app/layout/section/Section';
 import { reportError } from '../../app/sentry/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';

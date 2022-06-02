@@ -5,8 +5,8 @@ import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 
-import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
-import { useCookieConsent } from '../cookieConsent/CookieConsentContext';
+import upperCaseFirstLetter from '../../../../utils/upperCaseFirstLetter';
+import { useCookieConsent } from '../../cookieConsent/CookieConsentContext';
 import styles from './pageWrapper.module.scss';
 
 export interface PageWrapperProps {
