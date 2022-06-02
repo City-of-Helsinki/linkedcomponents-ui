@@ -48,7 +48,7 @@ import useEnrolmentServerErrors from './hooks/useEnrolmentServerErrors';
 import useEnrolmentUpdateActions, {
   ENROLMENT_MODALS,
 } from './hooks/useEnrolmentUpdateActions';
-import ConfirmCancelModal from './modals/ConfirmCancelModal';
+import ConfirmCancelModal from './modals/confirmCancelModal/ConfirmCancelModal';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
 import {
   checkCanUserDoAction,

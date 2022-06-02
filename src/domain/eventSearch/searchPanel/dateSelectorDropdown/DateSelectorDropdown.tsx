@@ -7,7 +7,7 @@ import useDropdownCloseEvents from '../../../../hooks/useDropdownCloseEvents';
 import useIdWithPrefix from '../../../../hooks/useIdWithPrefix';
 import useIsComponentFocused from '../../../../hooks/useIsComponentFocused';
 import formatDate from '../../../../utils/formatDate';
-import DateSelectorDropdownMenu from './DateSelectorDropdownMenu';
+import DateSelectorDropdownMenu from './dateSelectorDropdownMenu/DateSelectorDropdownMenu';
 
 export enum DATE_FIELDS {
   END_DATE = 'endDate',

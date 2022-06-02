@@ -26,7 +26,7 @@ import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
 } from './hooks/useKeywordSetUpdateActions';
 import KeywordSetForm from './keywordSetForm/KeywordSetForm';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   getEditButtonProps,
   getKeywordSetFields,

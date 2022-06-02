@@ -4,21 +4,21 @@ import { Navigate, Route, Routes } from 'react-router';
 import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
-import ApiPage from '../../../help/pages/ApiPage';
-import ContactPage from '../../../help/pages/ContactPage';
-import ControlPanelPage from '../../../help/pages/ControlPanelPage';
-import FaqPage from '../../../help/pages/FaqPage';
-import FeaturesPage from '../../../help/pages/FeaturesPage';
-import GeneralInstructionsPage from '../../../help/pages/GeneralInstructionsPage';
-import GeneralTechnologyPage from '../../../help/pages/GeneralTechnologyPage';
-import ImageRightsPage from '../../../help/pages/ImageRightsPage';
-import PlatformPage from '../../../help/pages/PlatformPage';
-import SourceCodePage from '../../../help/pages/SourceCodePage';
-import TermsOfUsePage from '../../../help/pages/TermsOfUsePage';
+import ApiPage from '../../../help/pages/apiPage/ApiPage';
+import ContactPage from '../../../help/pages/contactPage/ContactPage';
+import ControlPanelPage from '../../../help/pages/controlPanelPage/ControlPanelPage';
+import FaqPage from '../../../help/pages/faqPage/FaqPage';
+import FeaturesPage from '../../../help/pages/featuresPage/FeaturesPage';
+import GeneralInstructionsPage from '../../../help/pages/generalInstructionsPage/GeneralInstructionsPage';
+import GeneralTechnologyPage from '../../../help/pages/generalTechologyPage/GeneralTechnologyPage';
+import ImageRightsPage from '../../../help/pages/imageRightsPage/ImageRightsPage';
+import PlatformPage from '../../../help/pages/platformPage/PlatformPage';
+import SourceCodePage from '../../../help/pages/sourceCodePage/SourceCodePage';
+import TermsOfUsePage from '../../../help/pages/termsOfUsePage/TermsOfUsePage';
 import NotFound from '.././../../notFound/NotFound';
 /* istanbul ignore next */
 const DocumentationPage = React.lazy(
-  () => import('../../../help/pages/DocumentationPage')
+  () => import('../../../help/pages/documentationPage/DocumentationPage')
 );
 
 interface Props {

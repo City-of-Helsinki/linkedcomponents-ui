@@ -14,7 +14,7 @@ import { IMAGE_ACTIONS } from '../../image/constants';
 import useImageUpdateActions, {
   IMAGE_MODALS,
 } from '../../image/hooks/useImageUpdateActions';
-import ConfirmDeleteModal from '../../image/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../image/modals/confirmDeleteModal/ConfirmDeleteModal';
 import { getEditButtonProps, getImageFields } from '../../image/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';

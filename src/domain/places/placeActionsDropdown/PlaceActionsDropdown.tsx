@@ -15,7 +15,7 @@ import { PLACE_ACTIONS } from '../../place/constants';
 import usePlaceUpdateActions, {
   PLACE_MODALS,
 } from '../../place/hooks/usePlaceUpdateActions';
-import ConfirmDeleteModal from '../../place/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../place/modals/confirmDeleteModal/ConfirmDeleteModal';
 import { getEditButtonProps, getPlaceFields } from '../../place/utils';
 import useUser from '../../user/hooks/useUser';
 import { addParamsToPlaceQueryString } from '../utils';

@@ -15,7 +15,7 @@ import useRegistrationPublisher from '../../registration/hooks/useRegistrationPu
 import useRegistrationUpdateActions, {
   MODALS,
 } from '../../registration/hooks/useRegistrationUpdateActions';
-import ConfirmDeleteModal from '../../registration/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../registration/modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,

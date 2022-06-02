@@ -14,7 +14,7 @@ import { KEYWORD_SET_ACTIONS } from '../../keywordSet/constants';
 import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
 } from '../../keywordSet/hooks/useKeywordSetUpdateActions';
-import ConfirmDeleteModal from '../../keywordSet/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../keywordSet/modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   getEditButtonProps,
   getKeywordSetFields,

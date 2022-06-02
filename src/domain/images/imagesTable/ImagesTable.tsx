@@ -12,7 +12,7 @@ import { getImageFields } from '../../image/utils';
 import { IMAGE_SORT_OPTIONS } from '../constants';
 import useImagesQueryStringWithReturnPath from '../hooks/useImagesQueryStringWithReturnPath';
 import styles from './imagesTable.module.scss';
-import ImagesTableRow from './ImagesTableRow';
+import ImagesTableRow from './imagesTableRow/ImagesTableRow';
 
 export interface ImagesTableProps {
   caption: string;

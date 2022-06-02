@@ -23,7 +23,7 @@ import useOrganizationAncestors from './hooks/useOrganizationAncestors';
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
 } from './hooks/useOrganizationUpdateActions';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import OrganizationForm from './organizationForm/OrganizationForm';
 import {
   getEditButtonProps,

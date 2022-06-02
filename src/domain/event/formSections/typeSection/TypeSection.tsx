@@ -25,7 +25,7 @@ import styles from '../../eventPage.module.scss';
 import useEventTypeOptions from '../../hooks/useEventTypeOptions';
 import { EventTime, RecurringEventSettings } from '../../types';
 import { getEventFields } from '../../utils';
-import PublicationListLinks from './PublicationListLinks';
+import PublicationListLinks from './publicationListLinks/PublicationListLinks';
 
 export interface TypeSectionProps {
   isEditingAllowed: boolean;

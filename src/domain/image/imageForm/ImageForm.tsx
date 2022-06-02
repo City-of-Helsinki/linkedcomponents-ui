@@ -43,7 +43,7 @@ import useImageUpdateActions, {
   IMAGE_MODALS,
 } from '../hooks/useImageUpdateActions';
 import ImageAuthenticationNotification from '../imageAuthenticationNotification/ImageAuthenticationNotification';
-import AddImageModal from '../modals/AddImageModal';
+import AddImageModal from '../modals/addImageModal/AddImageModal';
 import { ImageFormFields } from '../types';
 import { checkCanUserDoAction, getImageInitialValues } from '../utils';
 import { getFocusableFieldId, imageSchema } from '../validation';

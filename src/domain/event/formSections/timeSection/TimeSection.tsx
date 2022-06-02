@@ -8,8 +8,8 @@ import { EventFieldsFragment } from '../../../../generated/graphql';
 import pascalCase from '../../../../utils/pascalCase';
 import { EVENT_FIELDS } from '../../constants';
 import { EventTime, RecurringEventSettings } from '../../types';
-import EventTimeTab from './EventTimeTab';
-import RecurringEventTab from './RecurringEventTab';
+import EventTimeTab from './eventTimeTab/EventTimeTab';
+import RecurringEventTab from './recurringEventTab/RecurringEventTab';
 import TimeSectionContext from './TimeSectionContext';
 
 enum EVENT_TIME_TAB {

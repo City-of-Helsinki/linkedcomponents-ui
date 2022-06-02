@@ -14,9 +14,9 @@ import { EVENT_EDIT_ACTIONS } from '../../event/constants';
 import useEventUpdateActions, {
   MODALS,
 } from '../../event/hooks/useEventUpdateActions';
-import ConfirmCancelModal from '../../event/modals/ConfirmCancelModal';
-import ConfirmDeleteModal from '../../event/modals/ConfirmDeleteModal';
-import ConfirmPostponeModal from '../../event/modals/ConfirmPostponeModal';
+import ConfirmCancelModal from '../../event/modals/confirmCancelModal/ConfirmCancelModal';
+import ConfirmDeleteModal from '../../event/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmPostponeModal from '../../event/modals/confirmPostponeModal/ConfirmPostponeModal';
 import {
   copyEventToSessionStorage,
   getEditButtonProps,

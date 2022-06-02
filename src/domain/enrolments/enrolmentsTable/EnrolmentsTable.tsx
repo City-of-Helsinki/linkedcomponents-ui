@@ -31,7 +31,7 @@ import {
   getEnrolmentSearchInitialValues,
 } from '../utils';
 import styles from './enrolmentsTable.module.scss';
-import EnrolmentTableRow from './EnrolmentTableRow';
+import EnrolmentTableRow from './enrolmentsTableRow/EnrolmentsTableRow';
 
 export interface EnrolmentsTableProps {
   caption: string;

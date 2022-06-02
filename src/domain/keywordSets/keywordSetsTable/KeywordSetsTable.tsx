@@ -15,7 +15,7 @@ import { getKeywordSetFields } from '../../keywordSet/utils';
 import { KEYWORD_SET_SORT_OPTIONS } from '../constants';
 import useKeywordSetsQueryStringWithReturnPath from '../hooks/useKeywordSetsQueryStringWithReturnPath';
 import styles from './keywordSetsTable.module.scss';
-import KeywordSetsTableRow from './KeywordSetsTableRow';
+import KeywordSetsTableRow from './keywordSetsTableRow/KeywordSetsTableRow';
 
 export interface KeywordSetsTableProps {
   caption: string;

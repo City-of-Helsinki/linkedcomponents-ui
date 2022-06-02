@@ -55,10 +55,10 @@ import useEventServerErrors from './hooks/useEventServerErrors';
 import useEventUpdateActions, { MODALS } from './hooks/useEventUpdateActions';
 import useRelatedEvents from './hooks/useRelatedEvents';
 import useSortedInfoLanguages from './hooks/useSortedInfoLanguages';
-import ConfirmCancelModal from './modals/ConfirmCancelModal';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
-import ConfirmPostponeModal from './modals/ConfirmPostponeModal';
-import ConfirmUpdateModal from './modals/ConfirmUpdateModal';
+import ConfirmCancelModal from './modals/confirmCancelModal/ConfirmCancelModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmPostponeModal from './modals/confirmPostponeModal/ConfirmPostponeModal';
+import ConfirmUpdateModal from './modals/confirmUpdateModal/ConfirmUpdateModal';
 import { EventFormFields } from './types';
 import {
   checkCanUserDoAction,

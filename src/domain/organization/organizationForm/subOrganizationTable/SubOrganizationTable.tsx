@@ -12,7 +12,7 @@ import useOrganizationSortOptions from '../../../organizations/hooks/useOrganiza
 import { ORGANIZATION_FIELDS } from '../../constants';
 import useAllOrganizations from '../../hooks/useAllOrganizations';
 import styles from './subOrganizationTable.module.scss';
-import SubOrganizationTableRow from './SubOrganizationTableRow';
+import SubOrganizationTableRow from './subOrganizationTableRow/SubOrganizationTableRow';
 
 export type SubOrganizationTableProps = {
   organizationIds: string[];

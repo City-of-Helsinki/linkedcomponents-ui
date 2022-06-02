@@ -13,7 +13,7 @@ import useSetFocused from '../../../hooks/useSetFocused';
 import { getRegistrationFields } from '../../registration/utils';
 import useRegistrationsQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
 import styles from './registrationsTable.module.scss';
-import RegistrationsTableRow from './RegistrationsTableRow';
+import RegistrationsTableRow from './registrationsTableRow/RegistrationsTableRow';
 
 export interface RegistrationsTableProps {
   caption: string;

@@ -14,7 +14,7 @@ import { KEYWORD_ACTIONS } from '../../keyword/constants';
 import useKeywordUpdateActions, {
   KEYWORD_MODALS,
 } from '../../keyword/hooks/useKeywordUpdateActions';
-import ConfirmDeleteModal from '../../keyword/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../keyword/modals/confirmDeleteModal/ConfirmDeleteModal';
 import { getEditButtonProps, getKeywordFields } from '../../keyword/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';

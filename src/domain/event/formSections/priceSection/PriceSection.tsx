@@ -7,8 +7,8 @@ import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
-import Offers from './Offers';
-import ValidationError from './ValidationError';
+import Offers from './offers/Offers';
+import ValidationError from './validationError/ValidationError';
 
 interface Props {
   isEditingAllowed: boolean;

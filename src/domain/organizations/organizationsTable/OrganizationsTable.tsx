@@ -13,7 +13,7 @@ import { ORGANIZATION_SORT_OPTIONS } from '../constants';
 import useOrganizationsQueryStringWithReturnPath from '../hooks/useOrganizationsQueryStringWithReturnPath';
 import styles from './organizationsTable.module.scss';
 import OrganizationsTableContext from './OrganizationsTableContext';
-import OrganizationsTableRow from './OrganizationsTableRow';
+import OrganizationsTableRow from './organizationsTableRow/OrganizationsTableRow';
 
 export interface OrganizationsTableProps {
   caption: string;

@@ -12,7 +12,7 @@ import { getPlaceFields } from '../../place/utils';
 import { PLACE_SORT_OPTIONS } from '../constants';
 import usePlacesQueryStringWithReturnPath from '../hooks/usePlacesQueryStringWithReturnPath';
 import styles from './placesTable.module.scss';
-import PlacesTableRow from './PlacesTableRow';
+import PlacesTableRow from './placesTableRow/PlacesTableRow';
 
 export interface PlacesTableProps {
   caption: string;

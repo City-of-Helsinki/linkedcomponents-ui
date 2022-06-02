@@ -15,7 +15,7 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
 } from '../../organization/hooks/useOrganizationUpdateActions';
-import ConfirmDeleteModal from '../../organization/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../organization/modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   getEditButtonProps,
   getOrganizationFields,

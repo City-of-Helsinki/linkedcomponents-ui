@@ -20,7 +20,7 @@ import { PLACE_ACTIONS } from './constants';
 import usePlaceUpdateActions, {
   PLACE_MODALS,
 } from './hooks/usePlaceUpdateActions';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import PlaceForm from './placeForm/PlaceForm';
 import { getEditButtonProps, getPlaceFields, placePathBuilder } from './utils';
 

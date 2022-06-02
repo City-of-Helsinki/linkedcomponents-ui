@@ -49,7 +49,7 @@ import useRegistrationServerErrors from './hooks/useRegistrationServerErrors';
 import useRegistrationUpdateActions, {
   MODALS,
 } from './hooks/useRegistrationUpdateActions';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import AuthenticationNotification from './registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import RegistrationInfo from './registrationInfo/RegistrationInfo';
 import styles from './registrationPage.module.scss';
