@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import styles from './table.module.scss';
+import styles from '../table.module.scss';
 
 interface Props {
   className?: string;
