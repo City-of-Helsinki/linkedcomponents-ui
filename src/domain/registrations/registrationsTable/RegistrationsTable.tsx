@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import NoDataRow from '../../../common/components/table/NoDataRow';
+import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
 import Table from '../../../common/components/table/Table';
 import {
   RegistrationFieldsFragment,

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   ApolloClient,
   NormalizedCacheObject,
@@ -10,10 +11,10 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
-import CheckboxField from '../../../common/components/formFields/CheckboxField';
-import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
-import SingleKeywordSelectorField from '../../../common/components/formFields/SingleKeywordSelectorField';
-import TextInputField from '../../../common/components/formFields/TextInputField';
+import CheckboxField from '../../../common/components/formFields/checkboxField/CheckboxField';
+import PublisherSelectorField from '../../../common/components/formFields/publisherSelectorField/PublisherSelectorField';
+import SingleKeywordSelectorField from '../../../common/components/formFields/singleKeywordSelectorField/SingleKeywordSelectorField';
+import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
   LE_DATA_LANGUAGES,

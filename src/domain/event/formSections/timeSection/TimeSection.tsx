@@ -2,7 +2,7 @@ import { useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import TabPanel from '../../../../common/components/tabs/TabPanel';
+import TabPanel from '../../../../common/components/tabs/tabPanel/TabPanel';
 import Tabs from '../../../../common/components/tabs/Tabs';
 import { EventFieldsFragment } from '../../../../generated/graphql';
 import pascalCase from '../../../../utils/pascalCase';

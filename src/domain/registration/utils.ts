@@ -6,7 +6,7 @@ import { TFunction } from 'i18next';
 import isNumber from 'lodash/isNumber';
 import { toast } from 'react-toastify';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/menuItem/MenuItem';
 import { FORM_NAMES, ROUTES } from '../../constants';
 import {
   CreateRegistrationMutationInput,

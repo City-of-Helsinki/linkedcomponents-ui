@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DeleteButton from '../../../../../../common/components/deleteButton/DeleteButton';
-import MultiLanguageField from '../../../../../../common/components/formFields/MultiLanguageField';
+import MultiLanguageField from '../../../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
 import FormGroup from '../../../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../../../common/components/notification/Notification';
 import FieldRow from '../../../../../app/layout/fieldRow/FieldRow';

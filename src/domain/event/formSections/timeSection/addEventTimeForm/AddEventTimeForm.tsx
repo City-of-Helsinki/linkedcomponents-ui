@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../../common/components/button/Button';
-import DatepickerField from '../../../../../common/components/formFields/DatepickerField';
+import DatepickerField from '../../../../../common/components/formFields/datepickerField/DatepickerField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { SuperEventType } from '../../../../../generated/graphql';
 import {

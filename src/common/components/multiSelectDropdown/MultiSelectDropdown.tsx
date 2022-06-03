@@ -7,8 +7,8 @@ import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import { OptionType } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Dropdown from '../dropdown/Dropdown';
-import ToggleButton from '../dropdown/ToggleButton';
-import MultiSelectDropdownMenu from './MultiSelectDropdownMenu';
+import ToggleButton from '../dropdown/toggleButton/ToggleButton';
+import MultiSelectDropdownMenu from './multiSelectDropdownMenu/MultiSelectDropdownMenu';
 
 export interface MultiselectDropdownProps {
   clearButtonLabel?: string;

@@ -11,10 +11,10 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
-import KeywordSelectorField from '../../../common/components/formFields/KeywordSelectorField';
-import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
-import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
-import TextInputField from '../../../common/components/formFields/TextInputField';
+import KeywordSelectorField from '../../../common/components/formFields/keywordSelectorField/KeywordSelectorField';
+import PublisherSelectorField from '../../../common/components/formFields/publisherSelectorField/PublisherSelectorField';
+import SingleSelectField from '../../../common/components/formFields/singleSelectField/SingleSelectField';
+import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
   LE_DATA_LANGUAGES,

@@ -2,7 +2,7 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxField from '../../../../common/components/formFields/CheckboxField';
+import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';

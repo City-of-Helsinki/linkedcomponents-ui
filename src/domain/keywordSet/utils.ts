@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/menuItem/MenuItem';
 import { ROUTES } from '../../constants';
 import {
   CreateKeywordSetMutationInput,

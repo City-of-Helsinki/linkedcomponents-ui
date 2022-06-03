@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../common/components/dropdown/Dropdown';
-import ToggleButton from '../../../../common/components/dropdown/ToggleButton';
+import ToggleButton from '../../../../common/components/dropdown/toggleButton/ToggleButton';
 import useDropdownCloseEvents from '../../../../hooks/useDropdownCloseEvents';
 import useIdWithPrefix from '../../../../hooks/useIdWithPrefix';
 import useIsComponentFocused from '../../../../hooks/useIsComponentFocused';

@@ -9,9 +9,9 @@ import { scroller } from 'react-scroll';
 import { ValidationError } from 'yup';
 
 import Button from '../../../../common/components/button/Button';
-import SingleSelectField from '../../../../common/components/formFields/SingleSelectField';
-import TextAreaField from '../../../../common/components/formFields/TextAreaField';
-import TextInputField from '../../../../common/components/formFields/TextInputField';
+import SingleSelectField from '../../../../common/components/formFields/singleSelectField/SingleSelectField';
+import TextAreaField from '../../../../common/components/formFields/textAreaField/TextAreaField';
+import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import ServerErrorSummary from '../../../../common/components/serverErrorSummary/ServerErrorSummary';

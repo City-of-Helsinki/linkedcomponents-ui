@@ -8,7 +8,7 @@ import { FeatureGroup, MapContainer, Marker, TileLayer } from 'react-leaflet';
 
 import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
-import EditControl from './EditControl';
+import EditControl from './editControl/EditControl';
 import styles from './map.module.scss';
 import { localizeMap } from './utils';
 L.Icon.Default.imagePath = '/images/';

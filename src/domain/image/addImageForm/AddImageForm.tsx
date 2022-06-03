@@ -3,8 +3,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
-import ImageSelectorField from '../../../common/components/formFields/ImageSelectorField';
-import TextInputField from '../../../common/components/formFields/TextInputField';
+import ImageSelectorField from '../../../common/components/formFields/imageSelectorField/ImageSelectorField';
+import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import ImageUploader from '../../../common/components/imageUploader/ImageUploader';
 import { Image } from '../../../generated/graphql';
 import { ADD_IMAGE_FIELDS, ADD_IMAGE_INITIAL_VALUES } from '../constants';

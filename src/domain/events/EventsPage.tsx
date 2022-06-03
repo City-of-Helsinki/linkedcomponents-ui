@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router';
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import TabPanel from '../../common/components/tabs/TabPanel';
+import TabPanel from '../../common/components/tabs/tabPanel/TabPanel';
 import Tabs from '../../common/components/tabs/Tabs';
 import { ROUTES } from '../../constants';
 import { useEventsQuery, UserFieldsFragment } from '../../generated/graphql';

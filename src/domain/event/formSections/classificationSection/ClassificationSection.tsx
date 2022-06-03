@@ -3,8 +3,8 @@ import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
-import KeywordSelectorField from '../../../../common/components/formFields/KeywordSelectorField';
+import CheckboxGroupField from '../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
+import KeywordSelectorField from '../../../../common/components/formFields/keywordSelectorField/KeywordSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
 import useLocale from '../../../../hooks/useLocale';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';

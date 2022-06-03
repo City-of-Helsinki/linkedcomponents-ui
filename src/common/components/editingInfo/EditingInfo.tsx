@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DATETIME_FORMAT } from '../../../constants';
 import formatDate from '../../../utils/formatDate';
-import CreatorBadge from './CreatorBadge';
+import CreatorBadge from './creatorBadge/CreatorBadge';
 import styles from './editingInfo.module.scss';
 
 interface Props {

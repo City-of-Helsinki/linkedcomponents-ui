@@ -3,10 +3,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
-import DateFilterTag from '../../../common/components/filterTag/DateFilterTag';
-import EventTypeFilterTag from '../../../common/components/filterTag/EventTypeFilterTag';
+import DateFilterTag from '../../../common/components/filterTag/dateFilterTag/DateFilterTag';
+import EventTypeFilterTag from '../../../common/components/filterTag/evenTypeFilterTag/EventTypeFilterTag';
 import FilterTag from '../../../common/components/filterTag/FilterTag';
-import PlaceFilterTag from '../../../common/components/filterTag/PlaceFilterTag';
+import PlaceFilterTag from '../../../common/components/filterTag/placeFilterTag/PlaceFilterTag';
 import { FilterType } from '../../../types';
 import {
   getEventSearchInitialValues,

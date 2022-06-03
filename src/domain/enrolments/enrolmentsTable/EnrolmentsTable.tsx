@@ -6,9 +6,9 @@ import { scroller } from 'react-scroll';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import NoDataRow from '../../../common/components/table/NoDataRow';
+import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
 import Table from '../../../common/components/table/Table';
-import TableWrapper from '../../../common/components/table/TableWrapper';
+import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import {
   EnrolmentFieldsFragment,
   EnrolmentsQueryVariables,

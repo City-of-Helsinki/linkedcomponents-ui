@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DatePicker from '../../../../../common/components/datepicker/Datepicker';
-import DropdownMenu from '../../../../../common/components/dropdown/DropdownMenu';
+import DropdownMenu from '../../../../../common/components/dropdown/dropdownMenu/DropdownMenu';
 import styles from '../dateSelector.module.scss';
 import { DATE_FIELDS } from '../DateSelectorDropdown';
 

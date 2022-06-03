@@ -7,7 +7,7 @@ import { scroller } from 'react-scroll';
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import TableWrapper from '../../../common/components/table/TableWrapper';
+import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import {
   EventsQueryVariables,
   RegistrationsQuery,

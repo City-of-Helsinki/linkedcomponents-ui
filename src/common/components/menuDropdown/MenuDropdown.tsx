@@ -12,9 +12,9 @@ import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import Button from '../button/Button';
 // eslint-disable-next-line import/no-named-as-default
-import Menu, { MenuPosition } from './Menu';
+import Menu, { MenuPosition } from './menu/Menu';
 import styles from './menuDropdown.module.scss';
-import { MenuItemOptionProps } from './MenuItem';
+import { MenuItemOptionProps } from './menuItem/MenuItem';
 
 export type MenuDropdownProps = React.PropsWithChildren<{
   button?: React.ReactElement;

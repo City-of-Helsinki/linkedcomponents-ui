@@ -2,8 +2,8 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
-import PlaceSelectorField from '../../../../common/components/formFields/PlaceSelectorField';
+import MultiLanguageField from '../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
+import PlaceSelectorField from '../../../../common/components/formFields/placeSelectorField/PlaceSelectorField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import { CHARACTER_LIMITS } from '../../../../constants';

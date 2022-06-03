@@ -27,9 +27,9 @@ import { TimeObject } from '../timepicker/types';
 import { dateLocales, dateRegex, datetimeRegex } from './constants';
 import styles from './datepicker.module.scss';
 import DatePickerContext from './datepickerContext';
-import Month from './Month';
-import MonthNavButton from './MonthNavButton';
-import TimesList from './TimesList';
+import Month from './month/Month';
+import MonthNavButton from './monthNavButton/MonthNavButton';
+import TimesList from './timesList/TimesList';
 
 export type DatepickerProps = {
   focusedDate?: Date | null;

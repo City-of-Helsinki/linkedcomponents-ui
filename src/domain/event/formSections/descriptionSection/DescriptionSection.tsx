@@ -2,11 +2,11 @@ import { Field, useField, useFormikContext } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import TextEditorField from '../../../../common/components/formFields/TextEditorField';
-import TextInputField from '../../../../common/components/formFields/TextInputField';
+import TextEditorField from '../../../../common/components/formFields/textEditorField/TextEditorField';
+import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
-import TabPanel from '../../../../common/components/tabs/TabPanel';
+import TabPanel from '../../../../common/components/tabs/tabPanel/TabPanel';
 import Tabs from '../../../../common/components/tabs/Tabs';
 import { CHARACTER_LIMITS, LE_DATA_LANGUAGES } from '../../../../constants';
 import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';

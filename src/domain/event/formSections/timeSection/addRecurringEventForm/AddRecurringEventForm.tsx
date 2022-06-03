@@ -4,10 +4,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../../common/components/button/Button';
-import CheckboxGroupField from '../../../../../common/components/formFields/CheckboxGroupField';
-import DatepickerField from '../../../../../common/components/formFields/DatepickerField';
-import NumberInputField from '../../../../../common/components/formFields/NumberInputField';
-import TimepickerField from '../../../../../common/components/formFields/TimepickerField';
+import CheckboxGroupField from '../../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
+import DatepickerField from '../../../../../common/components/formFields/datepickerField/DatepickerField';
+import NumberInputField from '../../../../../common/components/formFields/numberInputField/NumberInputField';
+import TimepickerField from '../../../../../common/components/formFields/timepickerField/TimepickerField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { WEEK_DAY } from '../../../../../constants';
 import { SuperEventType } from '../../../../../generated/graphql';

@@ -1,0 +1,36 @@
+@import '../../../../assets/styles/breakpoints';
+
+.radioButtonsWrapper {
+  display: grid;
+  align-items: flex-start;
+  grid-gap: var(--spacing-s);
+
+  & > div {
+    margin-top: 0 !important;
+  }
+
+  &.columns1 {
+    grid-template-columns: 1fr;
+  }
+
+  &.columns2 {
+    @include medium_up {
+      grid-gap: var(--spacing-m);
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &.columns3 {
+    @include medium_up {
+      grid-gap: var(--spacing-m);
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &.columns4 {
+    @include medium_up {
+      grid-gap: var(--spacing-m);
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
