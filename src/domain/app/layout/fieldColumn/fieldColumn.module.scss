@@ -1,0 +1,16 @@
+@import '../../../../assets/styles/breakpoints';
+
+.fieldColumn {
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    .maxWidthLarge {
+      max-width: var(--input-max-width-l);
+    }
+
+    .maxWidthMedium {
+      max-width: var(--input-max-width-m);
+    }
+  }
+}

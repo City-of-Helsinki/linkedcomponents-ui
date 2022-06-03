@@ -1,0 +1,4 @@
+.errorText {
+    --icon-size: var(--spacing-m);
+    composes: hds-text-input__error-text from '~hds-core/lib/components/text-input/text-input.css';
+}

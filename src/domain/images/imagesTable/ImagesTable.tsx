@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import NoDataRow from '../../../common/components/table/NoDataRow';
-import SortableColumn from '../../../common/components/table/SortableColumn';
+import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
+import SortableColumn from '../../../common/components/table/sortableColumn/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import { ImageFieldsFragment, ImagesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -12,7 +12,7 @@ import { getImageFields } from '../../image/utils';
 import { IMAGE_SORT_OPTIONS } from '../constants';
 import useImagesQueryStringWithReturnPath from '../hooks/useImagesQueryStringWithReturnPath';
 import styles from './imagesTable.module.scss';
-import ImagesTableRow from './ImagesTableRow';
+import ImagesTableRow from './imagesTableRow/ImagesTableRow';
 
 export interface ImagesTableProps {
   caption: string;

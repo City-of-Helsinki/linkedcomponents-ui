@@ -24,10 +24,10 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import { showFormErrors } from '../../utils/validationUtils';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
-import Section from '../app/layout/Section';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import Section from '../app/layout/section/Section';
 import { reportError } from '../app/sentry/utils';
 import { EVENT_CREATE_ACTIONS, EVENT_INITIAL_VALUES } from '../event/constants';
 import { clearEventsQueries } from '../events/utils';

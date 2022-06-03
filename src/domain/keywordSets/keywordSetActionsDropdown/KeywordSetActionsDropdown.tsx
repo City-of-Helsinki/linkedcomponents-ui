@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/menuItem/MenuItem';
 import { ROUTES } from '../../../constants';
 import { KeywordSetFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -14,7 +14,7 @@ import { KEYWORD_SET_ACTIONS } from '../../keywordSet/constants';
 import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
 } from '../../keywordSet/hooks/useKeywordSetUpdateActions';
-import ConfirmDeleteModal from '../../keywordSet/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../keywordSet/modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   getEditButtonProps,
   getKeywordSetFields,

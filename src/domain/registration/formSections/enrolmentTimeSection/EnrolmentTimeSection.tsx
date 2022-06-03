@@ -2,9 +2,9 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DatepickerField from '../../../../common/components/formFields/DatepickerField';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import DatepickerField from '../../../../common/components/formFields/datepickerField/DatepickerField';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 import styles from '../../registrationPage.module.scss';
 

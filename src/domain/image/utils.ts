@@ -3,7 +3,7 @@ import { TFunction } from 'i18next';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/menuItem/MenuItem';
 import { ROUTES } from '../../constants';
 import {
   Image,

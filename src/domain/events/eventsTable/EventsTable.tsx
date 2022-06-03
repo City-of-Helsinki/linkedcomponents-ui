@@ -2,17 +2,17 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import NoDataRow from '../../../common/components/table/NoDataRow';
-import SortableColumn from '../../../common/components/table/SortableColumn';
+import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
+import SortableColumn from '../../../common/components/table/sortableColumn/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
 import { getEventFields } from '../../event/utils';
-import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
 import { EVENT_SORT_OPTIONS } from '../constants';
+import useEventsQueryStringWithReturnPath from '../hooks/useEventsQueryStringWithReturnPath';
 import styles from './eventsTable.module.scss';
-import EventTableRow from './EventsTableRow';
+import EventTableRow from './eventsTableRow/EventsTableRow';
 
 export interface EventsTableProps {
   caption: string;

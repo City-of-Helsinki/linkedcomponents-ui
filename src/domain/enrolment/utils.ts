@@ -1,7 +1,7 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/menuItem/MenuItem';
 import {
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,

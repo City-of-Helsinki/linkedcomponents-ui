@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/menuItem/MenuItem';
 import { ROUTES } from '../../../constants';
 import {
   EnrolmentFieldsFragment,
@@ -17,7 +17,7 @@ import { ENROLMENT_ACTIONS } from '../../enrolment/constants';
 import useEnrolmentUpdateActions, {
   ENROLMENT_MODALS,
 } from '../../enrolment/hooks/useEnrolmentUpdateActions';
-import ConfirmCancelModal from '../../enrolment/modals/ConfirmCancelModal';
+import ConfirmCancelModal from '../../enrolment/modals/confirmCancelModal/ConfirmCancelModal';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';

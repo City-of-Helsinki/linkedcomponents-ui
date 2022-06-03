@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/menuItem/MenuItem';
 import { ROUTES } from '../../../constants';
 import {
   EnrolmentFieldsFragment,

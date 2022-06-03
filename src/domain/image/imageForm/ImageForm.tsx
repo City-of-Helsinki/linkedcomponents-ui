@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import { IconPlusCircle } from 'hds-react';
@@ -8,9 +9,9 @@ import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import Button from '../../../common/components/button/Button';
-import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
-import RadioButtonGroupField from '../../../common/components/formFields/RadioButtonGroupField';
-import TextInputField from '../../../common/components/formFields/TextInputField';
+import PublisherSelectorField from '../../../common/components/formFields/publisherSelectorField/PublisherSelectorField';
+import RadioButtonGroupField from '../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
+import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import ImagePreview from '../../../common/components/imagePreview/ImagePreview';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
@@ -43,7 +44,7 @@ import useImageUpdateActions, {
   IMAGE_MODALS,
 } from '../hooks/useImageUpdateActions';
 import ImageAuthenticationNotification from '../imageAuthenticationNotification/ImageAuthenticationNotification';
-import AddImageModal from '../modals/AddImageModal';
+import AddImageModal from '../modals/addImageModal/AddImageModal';
 import { ImageFormFields } from '../types';
 import { checkCanUserDoAction, getImageInitialValues } from '../utils';
 import { getFocusableFieldId, imageSchema } from '../validation';

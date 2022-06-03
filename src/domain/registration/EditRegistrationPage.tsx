@@ -26,10 +26,10 @@ import {
   scrollToFirstError,
   showFormErrors,
 } from '../../utils/validationUtils';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
-import Section from '../app/layout/Section';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import Section from '../app/layout/section/Section';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
@@ -49,7 +49,7 @@ import useRegistrationServerErrors from './hooks/useRegistrationServerErrors';
 import useRegistrationUpdateActions, {
   MODALS,
 } from './hooks/useRegistrationUpdateActions';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import AuthenticationNotification from './registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import RegistrationInfo from './registrationInfo/RegistrationInfo';
 import styles from './registrationPage.module.scss';

@@ -3,7 +3,7 @@ import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
+import CheckboxGroupField from '../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import Notification from '../../../../common/components/notification/Notification';
 import { ORDERED_LE_DATA_LANGUAGES } from '../../../../constants';
@@ -11,8 +11,8 @@ import { Language, useLanguagesQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import { sortLanguage } from '../../utils';
 

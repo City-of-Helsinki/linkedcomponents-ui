@@ -1,11 +1,12 @@
+/* eslint-disable max-len */
 import { useApolloClient } from '@apollo/client';
 import { Field, useField, useFormikContext } from 'formik';
 import camelCase from 'lodash/camelCase';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import RadioButtonGroupField from '../../../../../common/components/formFields/RadioButtonGroupField';
-import TextInputField from '../../../../../common/components/formFields/TextInputField';
+import RadioButtonGroupField from '../../../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
+import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import {
   CHARACTER_LIMITS,
   EMPTY_MULTI_LANGUAGE_OBJECT,

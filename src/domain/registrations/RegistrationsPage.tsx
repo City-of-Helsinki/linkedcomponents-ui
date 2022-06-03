@@ -10,10 +10,10 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import { ROUTES } from '../../constants';
 import { UserFieldsFragment } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
 import { authenticatedSelector } from '../auth/selectors';
 import NotSigned from '../notSigned/NotSigned';
 import RegistrationAuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';

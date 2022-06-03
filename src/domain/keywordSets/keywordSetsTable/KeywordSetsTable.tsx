@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import NoDataRow from '../../../common/components/table/NoDataRow';
-import SortableColumn from '../../../common/components/table/SortableColumn';
+import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
+import SortableColumn from '../../../common/components/table/sortableColumn/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import {
   KeywordSetFieldsFragment,
@@ -15,7 +15,7 @@ import { getKeywordSetFields } from '../../keywordSet/utils';
 import { KEYWORD_SET_SORT_OPTIONS } from '../constants';
 import useKeywordSetsQueryStringWithReturnPath from '../hooks/useKeywordSetsQueryStringWithReturnPath';
 import styles from './keywordSetsTable.module.scss';
-import KeywordSetsTableRow from './KeywordSetsTableRow';
+import KeywordSetsTableRow from './keywordSetsTableRow/KeywordSetsTableRow';
 
 export interface KeywordSetsTableProps {
   caption: string;

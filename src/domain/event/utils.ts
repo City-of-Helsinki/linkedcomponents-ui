@@ -21,7 +21,7 @@ import sortBy from 'lodash/sortBy';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/menuItem/MenuItem';
 import { getTimeObject } from '../../common/components/timepicker/utils';
 import {
   CHARACTER_LIMITS,

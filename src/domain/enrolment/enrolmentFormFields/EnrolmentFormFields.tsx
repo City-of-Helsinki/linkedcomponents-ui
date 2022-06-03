@@ -5,12 +5,12 @@ import { Fieldset } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxGroupField from '../../../common/components/formFields/CheckboxGroupField';
-import DatepickerField from '../../../common/components/formFields/DatepickerField';
-import PhoneInputField from '../../../common/components/formFields/PhoneInputField';
-import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
-import TextAreaField from '../../../common/components/formFields/TextAreaField';
-import TextInputField from '../../../common/components/formFields/TextInputField';
+import CheckboxGroupField from '../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
+import DatepickerField from '../../../common/components/formFields/datepickerField/DatepickerField';
+import PhoneInputField from '../../../common/components/formFields/phoneInputField/PhoneInputField';
+import SingleSelectField from '../../../common/components/formFields/singleSelectField/SingleSelectField';
+import TextAreaField from '../../../common/components/formFields/textAreaField/TextAreaField';
+import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../common/components/formGroup/FormGroup';
 import { ENROLMENT_FIELDS, NOTIFICATIONS } from '../constants';
 import useLanguageOptions from '../hooks/useLanguageOptions';

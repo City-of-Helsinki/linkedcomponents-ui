@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
-import Container from '../../../domain/app/layout/Container';
+import Container from '../../../domain/app/layout/container/Container';
 import useIsMobile from '../../../hooks/useIsMobile';
+import { MenuItemOptionProps } from '../menuDropdown/menuItem/MenuItem';
 import styles from './buttonPanel.module.scss';
 
 export interface ButtonPanelProps {

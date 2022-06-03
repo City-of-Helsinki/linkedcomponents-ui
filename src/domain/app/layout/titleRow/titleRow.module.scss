@@ -1,0 +1,40 @@
+@import '../../../../assets/styles/breakpoints';
+@import '../../../../assets/styles/widths';
+
+.titleRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+
+  .title {
+    *:not(:last-child) {
+      margin-right: var(--spacing-xs);
+    }
+
+    h1 {
+      margin-bottom: 0;
+    }
+  }
+
+  .buttonWrapper {
+    margin-bottom: var(--spacing-m);
+  }
+
+  @include medium-up {
+    display: flex;
+
+    .title {
+      flex: 1 1 0%;
+    }
+
+    .buttonWrapper {
+      align-self: flex-end;
+      margin-bottom: unset;
+    }
+
+    button {
+      @include min-width-column(2);
+
+      white-space: nowrap;
+    }
+  }
+}

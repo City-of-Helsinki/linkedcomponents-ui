@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/menuItem/MenuItem';
 import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -15,7 +15,7 @@ import useRegistrationPublisher from '../../registration/hooks/useRegistrationPu
 import useRegistrationUpdateActions, {
   MODALS,
 } from '../../registration/hooks/useRegistrationUpdateActions';
-import ConfirmDeleteModal from '../../registration/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../registration/modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,

@@ -1,13 +1,13 @@
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Dropdown from '../../../../common/components/dropdown/Dropdown';
-import ToggleButton from '../../../../common/components/dropdown/ToggleButton';
+import ToggleButton from '../../../../common/components/dropdown/toggleButton/ToggleButton';
 import useDropdownCloseEvents from '../../../../hooks/useDropdownCloseEvents';
+import useIdWithPrefix from '../../../../hooks/useIdWithPrefix';
 import useIsComponentFocused from '../../../../hooks/useIsComponentFocused';
 import formatDate from '../../../../utils/formatDate';
-import DateSelectorDropdownMenu from './DateSelectorDropdownMenu';
+import DateSelectorDropdownMenu from './dateSelectorDropdownMenu/DateSelectorDropdownMenu';
 
 export enum DATE_FIELDS {
   END_DATE = 'endDate',
@@ -33,7 +33,7 @@ const DateSelectorDropdown: React.FC<DateSelectorProps> = ({
   value,
 }) => {
   const { endDate, startDate } = value;
-  const [id] = React.useState(() => _id || uniqueId('date-selector-'));
+  const id = useIdWithPrefix({ id: _id, prefix: 'date-selector-' });
   const menuId = `${id}-menu`;
   const toggleButtonId = `${id}-toggle-button`;
   const { t } = useTranslation();

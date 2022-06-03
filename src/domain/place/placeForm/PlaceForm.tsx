@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   ApolloClient,
   NormalizedCacheObject,
@@ -10,9 +11,9 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
-import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
-import TextAreaField from '../../../common/components/formFields/TextAreaField';
-import TextInputField from '../../../common/components/formFields/TextInputField';
+import PublisherSelectorField from '../../../common/components/formFields/publisherSelectorField/PublisherSelectorField';
+import TextAreaField from '../../../common/components/formFields/textAreaField/TextAreaField';
+import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import Map from '../../../common/components/map/Map';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
@@ -34,7 +35,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
-import Section from '../../app/layout/Section';
+import Section from '../../app/layout/section/Section';
 import { reportError } from '../../app/sentry/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';

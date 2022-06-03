@@ -14,12 +14,12 @@ import {
   IconCalendar,
   TextInputProps,
 } from 'hds-react';
-import uniqueId from 'lodash/uniqueId';
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { DATE_FORMAT, DATETIME_FORMAT } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
 import TextInput from '../textInput/TextInput';
@@ -27,9 +27,9 @@ import { TimeObject } from '../timepicker/types';
 import { dateLocales, dateRegex, datetimeRegex } from './constants';
 import styles from './datepicker.module.scss';
 import DatePickerContext from './datepickerContext';
-import Month from './Month';
-import MonthNavButton from './MonthNavButton';
-import TimesList from './TimesList';
+import Month from './month/Month';
+import MonthNavButton from './monthNavButton/MonthNavButton';
+import TimesList from './timesList/TimesList';
 
 export type DatepickerProps = {
   focusedDate?: Date | null;
@@ -75,7 +75,7 @@ const DatePicker: React.FC<DatepickerProps> = ({
 
   const isComponentFocused = useIsComponentFocused(container);
 
-  const [dialogLabelId] = React.useState(() => uniqueId('dialog-label-'));
+  const dialogLabelId = useIdWithPrefix({ prefix: 'dialog-label-' });
 
   const setNewDateWithTime = (previousDate: Date, newDate: Date) => {
     const hours = previousDate.getHours();

@@ -2,19 +2,19 @@ import { css } from '@emotion/css';
 import { ResizeObserver } from '@juggle/resize-observer';
 import classNames from 'classnames';
 import { ButtonProps, IconAngleDown, IconAngleUp } from 'hds-react';
-import uniqueId from 'lodash/uniqueId';
 import React, { useRef, useState } from 'react';
 import mergeRefs from 'react-merge-refs';
 import useMeasure from 'react-use-measure';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import useDropdownKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import Button from '../button/Button';
 // eslint-disable-next-line import/no-named-as-default
-import Menu, { MenuPosition } from './Menu';
+import Menu, { MenuPosition } from './menu/Menu';
 import styles from './menuDropdown.module.scss';
-import { MenuItemOptionProps } from './MenuItem';
+import { MenuItemOptionProps } from './menuItem/MenuItem';
 
 export type MenuDropdownProps = React.PropsWithChildren<{
   button?: React.ReactElement;
@@ -57,7 +57,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
 
   const isComponentFocused = useIsComponentFocused(containerRef);
 
-  const [id] = React.useState(() => _id || uniqueId('menu-dropdown-'));
+  const id = useIdWithPrefix({ id: _id, prefix: 'menu-dropdown-' });
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
 

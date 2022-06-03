@@ -3,13 +3,13 @@ import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
-import KeywordSelectorField from '../../../../common/components/formFields/KeywordSelectorField';
+import CheckboxGroupField from '../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
+import KeywordSelectorField from '../../../../common/components/formFields/keywordSelectorField/KeywordSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
 import useLocale from '../../../../hooks/useLocale';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { REMOTE_PARTICIPATION_KEYWORD } from '../../../keyword/constants';
 import { getKeywordOption } from '../../../keywordSet/utils';
 import { INTERNET_PLACE_ID } from '../../../place/constants';

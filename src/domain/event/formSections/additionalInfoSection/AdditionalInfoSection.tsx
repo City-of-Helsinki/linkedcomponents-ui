@@ -2,12 +2,12 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DatepickerField from '../../../../common/components/formFields/DatepickerField';
-import NumberInputField from '../../../../common/components/formFields/NumberInputField';
+import DatepickerField from '../../../../common/components/formFields/datepickerField/DatepickerField';
+import NumberInputField from '../../../../common/components/formFields/numberInputField/NumberInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 

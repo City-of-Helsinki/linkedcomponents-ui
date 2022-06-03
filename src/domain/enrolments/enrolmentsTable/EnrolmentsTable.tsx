@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -7,15 +6,16 @@ import { scroller } from 'react-scroll';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import NoDataRow from '../../../common/components/table/NoDataRow';
+import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
 import Table from '../../../common/components/table/Table';
-import TableWrapper from '../../../common/components/table/TableWrapper';
+import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import {
   EnrolmentFieldsFragment,
   EnrolmentsQueryVariables,
   RegistrationFieldsFragment,
   useEnrolmentsQuery,
 } from '../../../generated/graphql';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useLocale from '../../../hooks/useLocale';
 import useSetFocused from '../../../hooks/useSetFocused';
 import getPageCount from '../../../utils/getPageCount';
@@ -31,7 +31,7 @@ import {
   getEnrolmentSearchInitialValues,
 } from '../utils';
 import styles from './enrolmentsTable.module.scss';
-import EnrolmentTableRow from './EnrolmentTableRow';
+import EnrolmentTableRow from './enrolmentsTableRow/EnrolmentsTableRow';
 
 export interface EnrolmentsTableProps {
   caption: string;
@@ -48,14 +48,15 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   pagePath,
   registration,
 }) => {
-  const [enrolmentListId] = React.useState(() =>
-    uniqueId('enrolment-attendee-list-')
-  );
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
   const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
+
+  const enrolmentListId = useIdWithPrefix({
+    prefix: 'enrolment-attendee-list-',
+  });
 
   const { id } = getRegistrationFields(registration, locale);
   const { enrolmentText, [pagePath]: page } = getEnrolmentSearchInitialValues(

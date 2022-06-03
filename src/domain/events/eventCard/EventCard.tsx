@@ -22,21 +22,21 @@ import IconFlag from '../../../icons/IconFlag';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useTheme } from '../../app/theme/Theme';
 import useEventLocation from '../../event/hooks/useEventLocation';
-import StatusTag from '../../event/tags/StatusTag';
-import SuperEventTypeTag from '../../event/tags/SuperEventTypeTag';
+import StatusTag from '../../event/tags/statusTag/StatusTag';
+import SuperEventTypeTag from '../../event/tags/superEventTypeTag/SuperEventTypeTag';
 import { getEventFields } from '../../event/utils';
-import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
-import { getEventItemId } from '../../eventSearch/utils';
 import OrganizationName from '../../organization/organizationName/OrganizationName';
 import { getPlaceFields } from '../../place/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import EventActionsDropdown from '../eventActionsDropdown/EventActionsDropdown';
+import useEventsQueryStringWithReturnPath from '../hooks/useEventsQueryStringWithReturnPath';
 import { expandedEventsSelector } from '../selectors';
-import AudienceAgeText from './AudienceAgeText';
-import DateText from './DateText';
+import { getEventItemId } from '../utils';
+import AudienceAgeText from './audienceAgeText/AudienceAgeText';
+import DateText from './dateText/DateText';
 import styles from './eventCard.module.scss';
-import PriceText from './PriceText';
-import SubEventCards from './SubEventCards';
+import PriceText from './priceText/PriceText';
+import SubEventCards from './subEventCards/SubEventCards';
 
 export const testIds = {
   image: 'event-card-image',

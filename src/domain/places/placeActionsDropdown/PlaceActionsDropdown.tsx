@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/menuItem/MenuItem';
 import { ROUTES } from '../../../constants';
 import { PlaceFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -15,7 +15,7 @@ import { PLACE_ACTIONS } from '../../place/constants';
 import usePlaceUpdateActions, {
   PLACE_MODALS,
 } from '../../place/hooks/usePlaceUpdateActions';
-import ConfirmDeleteModal from '../../place/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../place/modals/confirmDeleteModal/ConfirmDeleteModal';
 import { getEditButtonProps, getPlaceFields } from '../../place/utils';
 import useUser from '../../user/hooks/useUser';
 import { addParamsToPlaceQueryString } from '../utils';

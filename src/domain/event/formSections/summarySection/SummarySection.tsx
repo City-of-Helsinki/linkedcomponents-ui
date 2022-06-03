@@ -2,7 +2,7 @@ import { Field } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxField from '../../../../common/components/formFields/CheckboxField';
+import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
 import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { EVENT_FIELDS } from '../../constants';

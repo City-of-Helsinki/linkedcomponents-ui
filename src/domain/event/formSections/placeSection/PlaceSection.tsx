@@ -2,14 +2,14 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
-import PlaceSelectorField from '../../../../common/components/formFields/PlaceSelectorField';
+import MultiLanguageField from '../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
+import PlaceSelectorField from '../../../../common/components/formFields/placeSelectorField/PlaceSelectorField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import { CHARACTER_LIMITS } from '../../../../constants';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import stylesEventPage from '../../eventPage.module.scss';
 import styles from './placeSection.module.scss';

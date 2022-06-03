@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import NoDataRow from '../../../common/components/table/NoDataRow';
-import SortableColumn from '../../../common/components/table/SortableColumn';
+import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
+import SortableColumn from '../../../common/components/table/sortableColumn/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import { PlaceFieldsFragment, PlacesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -12,7 +12,7 @@ import { getPlaceFields } from '../../place/utils';
 import { PLACE_SORT_OPTIONS } from '../constants';
 import usePlacesQueryStringWithReturnPath from '../hooks/usePlacesQueryStringWithReturnPath';
 import styles from './placesTable.module.scss';
-import PlacesTableRow from './PlacesTableRow';
+import PlacesTableRow from './placesTableRow/PlacesTableRow';
 
 export interface PlacesTableProps {
   caption: string;

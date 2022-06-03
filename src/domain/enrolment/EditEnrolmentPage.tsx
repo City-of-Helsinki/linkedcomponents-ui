@@ -26,9 +26,9 @@ import useLocale from '../../hooks/useLocale';
 import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
 import { showFormErrors } from '../../utils/validationUtils';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
@@ -48,7 +48,7 @@ import useEnrolmentServerErrors from './hooks/useEnrolmentServerErrors';
 import useEnrolmentUpdateActions, {
   ENROLMENT_MODALS,
 } from './hooks/useEnrolmentUpdateActions';
-import ConfirmCancelModal from './modals/ConfirmCancelModal';
+import ConfirmCancelModal from './modals/confirmCancelModal/ConfirmCancelModal';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
 import {
   checkCanUserDoAction,

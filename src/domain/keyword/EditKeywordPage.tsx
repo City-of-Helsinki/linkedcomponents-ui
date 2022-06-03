@@ -13,8 +13,8 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
 import { authenticatedSelector } from '../auth/selectors';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
@@ -24,7 +24,7 @@ import useKeywordUpdateActions, {
   KEYWORD_MODALS,
 } from './hooks/useKeywordUpdateActions';
 import KeywordForm from './keywordForm/KeywordForm';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   getEditButtonProps,
   getKeywordFields,

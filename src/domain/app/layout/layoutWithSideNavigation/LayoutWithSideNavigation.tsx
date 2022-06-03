@@ -6,8 +6,8 @@ import SideNavigation from '../../../../common/components/sideNavigation/SideNav
 import useLocale from '../../../../hooks/useLocale';
 import useWindowSize from '../../../../hooks/useWindowSize';
 import getPageHeaderHeight from '../../../../utils/getPageHeaderHeight';
-import Container from '../Container';
-import MainContent from '../MainContent';
+import Container from '../container/Container';
+import MainContent from '../mainContent/MainContent';
 import styles from './layoutWithSideNavigation.module.scss';
 
 interface Level {

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/menuItem/MenuItem';
 import { ROUTES } from '../../../constants';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -15,7 +15,7 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
 } from '../../organization/hooks/useOrganizationUpdateActions';
-import ConfirmDeleteModal from '../../organization/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../organization/modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   getEditButtonProps,
   getOrganizationFields,

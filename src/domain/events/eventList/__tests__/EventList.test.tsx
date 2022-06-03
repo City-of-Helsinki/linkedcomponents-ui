@@ -111,6 +111,7 @@ const defaultProps: EventListContainerProps = {
   baseVariables: variables,
   listType: EVENT_LIST_TYPES.TABLE,
   setListType: jest.fn(),
+  showListTypeSelector: true,
   skip: false,
 };
 
@@ -145,8 +146,9 @@ const getElement = (
   }
 };
 
-const renderComponent = (props?: Partial<EventListContainerProps>) =>
-  render(<EventList {...defaultProps} {...props} />, { mocks });
+const renderComponent = (
+  props?: Partial<Omit<EventListContainerProps, 'showListTypeSelector'>>
+) => render(<EventList {...defaultProps} {...props} />, { mocks });
 
 test('should navigate between pages', async () => {
   const user = userEvent.setup();

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import { FCWithName } from '../../../types';
 import styles from './breadcrumb.module.scss';
-import BreadcrumbItem from './BreadcrumbItem';
+import BreadcrumbItem from './breadcrumbItem/BreadcrumbItem';
 
 type BreadcrumbProps = {
   ariaLabel?: string;

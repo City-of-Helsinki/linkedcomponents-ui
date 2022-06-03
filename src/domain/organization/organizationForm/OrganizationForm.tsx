@@ -11,12 +11,12 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
-import DatepickerField from '../../../common/components/formFields/DatepickerField';
-import SingleOrganizationClassSelectorField from '../../../common/components/formFields/SingleOrganizationClassSelectorField';
-import SingleOrganizationSelectorField from '../../../common/components/formFields/SingleOrganizationSelectorField';
-import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
-import TextInputField from '../../../common/components/formFields/TextInputField';
-import UserSelectorField from '../../../common/components/formFields/UserSelectorField';
+import DatepickerField from '../../../common/components/formFields/datepickerField/DatepickerField';
+import SingleOrganizationClassSelectorField from '../../../common/components/formFields/singleOrganizationClassSelectorField/SingleOrganizationClassSelectorField';
+import SingleOrganizationSelectorField from '../../../common/components/formFields/singleOrganizationSelectorField/SingleOrganizationSelectorField';
+import SingleSelectField from '../../../common/components/formFields/singleSelectField/SingleSelectField';
+import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
+import UserSelectorField from '../../../common/components/formFields/userSelectorField/UserSelectorField';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../../constants';
 import {

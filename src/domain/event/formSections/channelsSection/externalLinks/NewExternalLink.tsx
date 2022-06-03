@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import SingleSelect from '../../../../../common/components/singleSelect/SingleSelect';
 import TextInput from '../../../../../common/components/textInput/TextInput';
 import { OptionType } from '../../../../../types';
-import FieldColumn from '../../../../app/layout/FieldColumn';
+import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import useExtlinkOptions from '../../../hooks/useExtlinkOptions';
 import styles from './externalLinks.module.scss';
 

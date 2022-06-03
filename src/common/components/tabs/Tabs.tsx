@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import { FCWithName, OptionType } from '../../../types';
-import Tab from './Tab';
+import Tab from './tab/Tab';
 import styles from './tabs.module.scss';
 
 type TabOptionType = {

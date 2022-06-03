@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/menuItem/MenuItem';
 import { ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -14,17 +14,17 @@ import { EVENT_EDIT_ACTIONS } from '../../event/constants';
 import useEventUpdateActions, {
   MODALS,
 } from '../../event/hooks/useEventUpdateActions';
-import ConfirmCancelModal from '../../event/modals/ConfirmCancelModal';
-import ConfirmDeleteModal from '../../event/modals/ConfirmDeleteModal';
-import ConfirmPostponeModal from '../../event/modals/ConfirmPostponeModal';
+import ConfirmCancelModal from '../../event/modals/confirmCancelModal/ConfirmCancelModal';
+import ConfirmDeleteModal from '../../event/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmPostponeModal from '../../event/modals/confirmPostponeModal/ConfirmPostponeModal';
 import {
   copyEventToSessionStorage,
   getEditButtonProps,
   getEventFields,
 } from '../../event/utils';
-import useEventsQueryStringWithReturnPath from '../../eventSearch/hooks/useEventsQueryStringWithReturnPath';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
+import useEventsQueryStringWithReturnPath from '../hooks/useEventsQueryStringWithReturnPath';
 
 export interface EventActionsDropdownProps {
   className?: string;
@@ -149,7 +149,7 @@ const EventActionsDropdown = React.forwardRef<
         />
       )}
 
-      <ActionsDropdown className={className} items={actionItems} />
+      <ActionsDropdown items={actionItems} />
     </div>
   );
 });
