@@ -9,7 +9,7 @@ import {
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
-import TabPanel from '../TabPanel';
+import TabPanel from '../tabPanel/TabPanel';
 import Tabs from '../Tabs';
 
 configure({ defaultHidden: true });

@@ -218,37 +218,29 @@
       "add": "Lisää",
       "cancel": "Peruuta",
       "blocktype": {
-        "blocktype": "Tekstityyppi",
-        "blockquote": "Lohkolainaus",
-        "h1": "H1",
-        "h2": "H2",
-        "h3": "H3",
-        "h4": "H4",
-        "h5": "H5",
-        "h6": "H6",
-        "normal": "Normaali"
+        "blockquote": "Lohkolainaus"
       },
       "history": {
-        "history": "Historia",
         "redo": "Tee uudelleen",
         "undo": "Peruuta"
       },
       "inline": {
         "bold": "Lihavoitu",
-        "italic": "Kursivoitu",
-        "underline": "Alleviivattu"
+        "code": "Koodi",
+        "italic": "Kursivoitu"
       },
       "link": {
         "link": "Linkki",
-        "linkTarget": "Linkin kohde",
+        "linkTarget": "Linkin URL",
         "linkTargetOption": "Avaa linkki uudessa ikkunassa",
         "linkTitle": "Linkin otsikko",
+        "promptTitle": "Lisää linkki",
         "unlink": "Poista linkitys"
       },
       "list": {
-        "list": "Lista",
-        "ordered": "Järjestetty",
-        "unordered": "Järjestämätön"
+        "ordered": "Järjestetty lista",
+        "outdent": "Poista lista",
+        "unordered": "Järjestämätön lista"
       }
     },
     "timepicker": {
