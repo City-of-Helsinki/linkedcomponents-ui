@@ -4,8 +4,9 @@ import { TFunction } from 'i18next';
 import { Plugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 
-const placeholder = (placeholderKey: string, t: TFunction) => {
+const placeholder = (t: TFunction, placeholderKey?: string) => {
   const update = (view: EditorView) => {
+    /* istanbul ignore else */
     if (view.state.doc.textContent) {
       view.dom.removeAttribute('data-placeholder');
     } else if (placeholderKey) {

@@ -57,6 +57,7 @@ export abstract class Field {
   }
 
   clean(value: any): any {
+    /* istanbul ignore next */
     return this.options.clean ? this.options.clean(value) : value;
   }
 
@@ -67,6 +68,7 @@ export abstract class Field {
 const reportInvalid = (dom: HTMLElement, message: string) => {
   const parent = dom.parentNode?.parentNode;
 
+  /* istanbul ignore else */
   if (parent) {
     const errorClassName = `${prefix}-input__error-text`;
     const msg = parent.appendChild(document.createElement('div'));
@@ -123,6 +125,7 @@ export const openPrompt = (options: {
 
   const close = () => {
     window.removeEventListener('mousedown', mouseOutside);
+    /* istanbul ignore else */
     if (dialogContainer.parentNode)
       dialogContainer.parentNode.removeChild(dialogContainer);
   };
@@ -131,14 +134,21 @@ export const openPrompt = (options: {
 
   const dialogBackdrop = document.createElement('div');
   dialogBackdrop.className = `${prefix}-dialogBackdrop`;
+  const dialogId = 'prosemirror-modal';
+  const dialogLabelId = `${dialogId}-label`;
   const dialog = document.createElement('div');
   dialog.className = `${prefix}-dialog`;
+  dialog.setAttribute('role', 'dialog');
+  dialog.setAttribute('aria-modal', 'dialog');
+  dialog.setAttribute('aria-labelledby', dialogLabelId);
+  dialog.id = dialogId;
 
   dialogContainer.appendChild(dialogBackdrop);
   dialogContainer.appendChild(dialog);
 
   const form = dialog.appendChild(document.createElement('form'));
 
+  /* istanbul ignore else */
   if (options.title) {
     const dialogHeader = document.createElement('div');
     dialogHeader.className = `${prefix}-dialogHeader`;
@@ -147,6 +157,7 @@ export const openPrompt = (options: {
     const dialogTitle = document.createElement('h2');
     dialogTitle.textContent = options.title;
     dialogTitle.className = `${prefix}-dialogTitle`;
+    dialogTitle.id = dialogLabelId;
 
     dialogHeaderContent.appendChild(dialogTitle);
     dialogHeader.appendChild(dialogHeaderContent);
@@ -207,13 +218,15 @@ export const openPrompt = (options: {
   });
 
   form.addEventListener('keydown', (e) => {
-    if (e.keyCode === 27) {
+    /* istanbul ignore else */
+    if (e.key === 'esc') {
       e.preventDefault();
       close();
-    } else if (e.keyCode === 13 && !(e.ctrlKey || e.metaKey || e.shiftKey)) {
+    } else if (e.key === 'enter' && !(e.ctrlKey || e.metaKey || e.shiftKey)) {
       e.preventDefault();
       submit();
-    } else if (e.keyCode === 9) {
+    } else if (e.key === 'tab') {
+      /* istanbul ignore next */
       window.setTimeout(() => {
         if (!dialog.contains(document.activeElement)) close();
       }, 500);
@@ -221,6 +234,7 @@ export const openPrompt = (options: {
   });
 
   const input = form.elements[0] as HTMLElement;
+  /* istanbul ignore next */
   if (input) input.focus();
 };
 

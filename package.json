@@ -126,6 +126,8 @@
       "src/index.tsx",
       "src/common/components/datepicker/datepickerContext.tsx",
       "src/common/components/sideNavigation/SideNavigationContext.tsx",
+      "src/common/components/textEditor/config/commands.ts",
+      "src/common/components/textEditor/config/rules.ts",
       "src/common/components/map/",
       "src/domain/app/apollo/apolloClient.ts",
       "src/domain/app/apollo/utils.ts",
@@ -148,7 +150,7 @@
       "src/utils/typescript.ts"
     ],
     "transformIgnorePatterns": [
-      "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|react-toastify|@aeaton/prosemirror-transformers|@aeaton/react-prosemirror|@aeaton/prosemirror-commands|@aeaton/prosemirror-schema|prosemirror-transform|prosemirror-view)"
+      "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|react-toastify|swagger-ui-react|swagger-client|react-syntax-highlighter|@aeaton/prosemirror-transformers|@aeaton/react-prosemirror|@aeaton/prosemirror-commands|@aeaton/prosemirror-schema|prosemirror-transform|prosemirror-view)"
     ]
   },
   "browserslist": [

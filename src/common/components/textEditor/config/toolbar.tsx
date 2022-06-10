@@ -5,6 +5,7 @@ import {
   isMarkActive,
   isWrapped,
 } from '@aeaton/prosemirror-commands';
+import { ToolbarGroup } from '@aeaton/react-prosemirror';
 import { TFunction } from 'i18next';
 import { redo, undo } from 'prosemirror-history';
 import { EditorState } from 'prosemirror-state';
@@ -22,7 +23,10 @@ import {
 import { icons } from './icons';
 import schema from './schema';
 
-export const generateToolbar = (t: TFunction) => [
+export const generateToolbar = (
+  disabled: boolean,
+  t: TFunction
+): ToolbarGroup[] => [
   {
     id: 'marks',
     items: [
@@ -31,7 +35,7 @@ export const generateToolbar = (t: TFunction) => [
         title: t('common.textEditor.inline.bold'),
         content: icons.bold,
         action: toggleMarkBold,
-        enable: toggleMarkBold,
+        enable: (state: EditorState) => !disabled && toggleMarkBold(state),
         active: isMarkActive(schema.marks.bold),
       },
       {
@@ -39,7 +43,7 @@ export const generateToolbar = (t: TFunction) => [
         title: t('common.textEditor.inline.italic'),
         content: icons.italic,
         action: toggleMarkItalic,
-        enable: toggleMarkItalic,
+        enable: (state: EditorState) => !disabled && toggleMarkItalic(state),
         active: isMarkActive(schema.marks.italic),
       },
       {
@@ -47,7 +51,7 @@ export const generateToolbar = (t: TFunction) => [
         title: t('common.textEditor.inline.code'),
         content: icons.code,
         action: toggleMarkCode,
-        enable: toggleMarkCode,
+        enable: (state: EditorState) => !disabled && toggleMarkCode(state),
         active: isMarkActive(schema.marks.code),
       },
 
@@ -57,7 +61,7 @@ export const generateToolbar = (t: TFunction) => [
         content: icons.link,
         action: toggleLink(t),
         enable: (state: EditorState) => {
-          return !state.selection.empty;
+          return !disabled && !state.selection.empty;
         },
         active: isMarkActive(schema.marks.link),
       },
@@ -66,7 +70,7 @@ export const generateToolbar = (t: TFunction) => [
         title: t('common.textEditor.list.unordered'),
         content: icons.bulletList,
         action: setListTypeBullet,
-        enable: setListTypeBullet,
+        enable: (state: EditorState) => !disabled && setListTypeBullet(state),
         active: isBlockActive(schema.nodes.list, { type: 'bullet' }),
       },
       {
@@ -74,14 +78,14 @@ export const generateToolbar = (t: TFunction) => [
         title: t('common.textEditor.list.ordered'),
         content: icons.orderedList,
         action: setListTypeOrdered,
-        enable: setListTypeOrdered,
+        enable: (state: EditorState) => !disabled && setListTypeOrdered(state),
         active: isBlockActive(schema.nodes.list, { type: 'ordered' }),
       },
       {
         id: 'outdent',
         title: t('common.textEditor.list.outdent'),
         action: liftListItemCommand,
-        enable: liftListItemCommand,
+        enable: (state: EditorState) => !disabled && liftListItemCommand(state),
         content: icons.outdent,
       },
     ],
@@ -94,7 +98,8 @@ export const generateToolbar = (t: TFunction) => [
         title: t('common.textEditor.blocktype.blockquote'),
         content: icons.blockquote,
         action: toggleWrapBlockquote,
-        enable: toggleWrapBlockquote,
+        enable: (state: EditorState) =>
+          !disabled && toggleWrapBlockquote(state),
         active: isWrapped(schema.nodes.blockquote),
       },
       {
@@ -102,14 +107,14 @@ export const generateToolbar = (t: TFunction) => [
         title: t('common.textEditor.history.undo'),
         content: icons.undo,
         action: undo,
-        enable: undo,
+        enable: (state: EditorState) => !disabled && undo(state),
       },
       {
         id: 'block-redo',
         title: t('common.textEditor.history.redo'),
         content: icons.redo,
         action: redo,
-        enable: redo,
+        enable: (state: EditorState) => !disabled && redo(state),
       },
     ],
   },

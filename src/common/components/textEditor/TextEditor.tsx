@@ -9,10 +9,11 @@ import {
 } from '@aeaton/react-prosemirror';
 import { css } from '@emotion/css';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useSetFocused from '../../../hooks/useSetFocused';
 import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
 import plugins from './config/plugins';
@@ -25,6 +26,7 @@ const initialValue = '<p></p>';
 
 export type TextEditorProps = {
   disabled?: boolean;
+  isFocused?: boolean;
   label: string;
   onBlur: (event?: React.SyntheticEvent) => void;
   onChange: (value: string) => void;
@@ -37,6 +39,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   className,
   disabled,
   errorText,
+  isFocused,
   helperText,
   hideLabel,
   id,
@@ -89,30 +92,50 @@ const TextEditor: React.FC<TextEditorProps> = ({
 
   const handleChange = React.useCallback(
     (value: string) => {
-      if (
-        !containerRef.current?.contains(document.activeElement) &&
-        sanitizeAfterChange
-      ) {
-        const sanitizedValue = sanitizeAfterChange(value);
+      /* istanbul ignore next */
+      const sanitizedValue = sanitizeAfterChange
+        ? sanitizeAfterChange(value)
+        : value;
 
-        if (sanitizedValue !== value) {
-          const tr = editorState.tr;
-          const newDoc = htmlTransformer.parse(sanitizedValue);
+      if (sanitizedValue !== value) {
+        const tr = editorState.tr;
+        const newDoc = htmlTransformer.parse(sanitizedValue || initialValue);
 
-          tr.replaceWith(0, editorState.doc.content.size, newDoc.content);
-          const newState = editorState.apply(tr);
+        tr.replaceWith(0, editorState.doc.content.size, newDoc.content);
+        const newState = editorState.apply(tr);
 
-          view.updateState(newState);
-          onChange && onChange(sanitizeAfterChange(value));
-        }
+        view.updateState(newState);
+        onChange(sanitizedValue);
       }
     },
     [editorState, htmlTransformer, onChange, sanitizeAfterChange, view]
   );
 
   React.useEffect(() => {
+    if (!isFocused) {
+      const newDoc = htmlTransformer.parse(value || initialValue);
+
+      if (view.state.doc.toString() !== newDoc.toString()) {
+        const tr = editorState.tr;
+
+        tr.replaceWith(0, editorState.doc.content.size, newDoc.content);
+        const newState = editorState.apply(tr);
+
+        view.updateState(newState);
+        onChange(value);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  React.useEffect(() => {
+    view.setProps({ editable: () => !disabled });
+  }, [disabled, view]);
+
+  React.useEffect(() => {
     // Editor component doens't support aria label so set it manually here
     const editor = document.querySelector('[contenteditable=true]');
+    /* istanbul ignore else */
     if (editor) {
       editor.ariaLabel = label;
       editor.setAttribute('title', label);
@@ -137,7 +160,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
     >
       <InputWrapper {...wrapperProps} className={styles.inputWrapper}>
         {/* @ts-ignore */}
-        <Toolbar toolbar={generateToolbar(t)} />
+        <Toolbar toolbar={generateToolbar(disabled, t)} />
         <div
           className={classNames(styles.editor, {
             [styles.focused]: focused,
@@ -152,31 +175,46 @@ const TextEditor: React.FC<TextEditorProps> = ({
 
 const TextEditorContainer: React.FC<TextEditorProps> = ({
   onChange,
-  placeholderKey = '',
+  placeholderKey,
   value,
   ...rest
 }) => {
   const { t } = useTranslation();
+  const container = useRef<HTMLDivElement>(null);
+
+  const isComponentFocused = useIsComponentFocused(container);
 
   const handleChange = React.useCallback((val: string) => {
     const newValue = val === initialValue ? '' : val;
-    if (newValue !== value) {
-      onChange(newValue);
+
+    onChange(newValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleEditorChange = React.useCallback((val: string) => {
+    if (isComponentFocused()) {
+      handleChange(val);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    // @ts-ignore
-    <HtmlEditor
-      schema={schema}
-      plugins={[...plugins, placeholderPlugin(placeholderKey, t)]}
-      value={value || initialValue}
-      handleChange={handleChange}
-      // debounce={250}
-    >
-      <TextEditor {...rest} onChange={handleChange} value={value} />
-    </HtmlEditor>
+    <div ref={container}>
+      {/* @ts-ignore */}
+      <HtmlEditor
+        schema={schema}
+        plugins={[...plugins, placeholderPlugin(t, placeholderKey)]}
+        value={value || initialValue}
+        handleChange={handleEditorChange}
+      >
+        <TextEditor
+          {...rest}
+          isFocused={isComponentFocused()}
+          onChange={handleChange}
+          value={value}
+        />
+      </HtmlEditor>
+    </div>
   );
 };
 

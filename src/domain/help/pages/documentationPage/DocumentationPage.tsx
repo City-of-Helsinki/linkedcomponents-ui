@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-require-imports */
 import 'swagger-ui-react/swagger-ui.css';
 
@@ -8,7 +9,6 @@ import ExternalLink from '../../../../common/components/externalLink/ExternalLin
 import { SWAGGER_SCHEMA_URL, SWAGGER_URL } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
-import isTestEnv from '../../../../utils/isTestEnv';
 import removeProtocolFromUrl from '../../../../utils/removeProtocolFromUrl';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
 
@@ -83,12 +83,8 @@ const DocumentationPage: React.FC = () => {
       title="helpPage.pageTitleDocumentation"
     >
       {getContent(locale)}
-
-      {!isTestEnv && (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <SwaggerUI url={SWAGGER_SCHEMA_URL} />
-      )}
+      {/* @ts-ignore */}
+      <SwaggerUI url={SWAGGER_SCHEMA_URL} />
     </PageWrapper>
   );
 };

@@ -356,6 +356,42 @@ it('should render source code help page in Swedish', async () => {
   expect(history.location.pathname).toBe('/sv/help/technology/source-code');
 });
 
+it('should render documentation help page in English', async () => {
+  i18n.changeLanguage('en');
+  const { history } = await renderRoute(ROUTES.TECHNOLOGY_DOCUMENTATION, 'en');
+
+  await screen.findByRole('heading', { name: 'Documentation' });
+  await shouldHaveCorrectMetaData({
+    description: 'Read more about Linked Events documentation and API design.',
+    keywords:
+      'documentation, help, linked, events, event, management, api, admin, Helsinki, Finland',
+    title: 'Documentation - Linked Events',
+  });
+  expect(history.location.pathname).toBe('/en/help/technology/documentation');
+});
+
+it('should render documentation help page in Finnish', async () => {
+  const { history } = renderRoute(ROUTES.TECHNOLOGY_DOCUMENTATION);
+
+  await screen.findByRole('heading', { name: 'Dokumentaatio' });
+  await shouldHaveCorrectMetaData({
+    description:
+      'Lue lisää Linked Eventsin dokumentaatiosta ja API-suunnittelusta.',
+    keywords:
+      'dokumentaatio, apu, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    title: 'Dokumentaatio - Linked Events',
+  });
+  expect(history.location.pathname).toBe('/fi/help/technology/documentation');
+});
+
+it('should render documentation help page in Swedish', async () => {
+  i18n.changeLanguage('sv');
+  const { history } = renderRoute(ROUTES.TECHNOLOGY_DOCUMENTATION, 'sv');
+
+  await screen.findByRole('heading', { name: 'Dokumentation' });
+  expect(history.location.pathname).toBe('/sv/help/technology/documentation');
+});
+
 it('should render terms of use help page in English', async () => {
   i18n.changeLanguage('en');
   const { history } = renderRoute(ROUTES.SUPPORT_TERMS_OF_USE, 'en');

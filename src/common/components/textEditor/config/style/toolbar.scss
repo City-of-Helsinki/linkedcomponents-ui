@@ -40,6 +40,10 @@
         background-color: var(--toolbar-button-background-color-active);
         color: var(--toolbar-button-color-active);
     }
+
+    .prosemirror-toolbar-item[disabled] {
+        cursor: not-allowed;
+    }
     
     .prosemirror-toolbar-item[data-active='true']:hover {
         background-color: var(--toolbar-button-background-color-active-hover);

@@ -17,6 +17,7 @@ const plugins = [
   dropCursor(),
   gapCursor(),
 ];
+/* istanbul ignore next */
 if (!isTestEnv) {
   document.execCommand('enableObjectResizing', false, 'false');
   document.execCommand('enableInlineTableEditing', false, 'false');
