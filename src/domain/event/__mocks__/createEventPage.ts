@@ -17,7 +17,7 @@ import { placeAtId } from '../../place/__mocks__/place';
 
 const id = 'hel:123';
 const eventValues = {
-  description: 'Description',
+  description: '<p>Description</p>',
   id,
   subEventIds: ['event:1', 'event:2'],
   atId: generateAtId(id, 'event'),

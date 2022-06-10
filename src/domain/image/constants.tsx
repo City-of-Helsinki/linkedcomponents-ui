@@ -1,4 +1,5 @@
 import { IconCogwheel, IconCrossCircle, IconPen, IconUpload } from 'hds-react';
+import React from 'react';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../constants';
 import { AddImageSettings, ImageFormFields } from './types';

@@ -1,0 +1,167 @@
+// BUTTONS
+.ProseMirror-prompt-button {
+    --border-width: 2px;
+    --color: inherit;
+    --min-size: 44px;
+    --outline-gutter: 2px;
+    --outline-width: 3px;
+
+    align-content: flex-start;
+    align-items: center;
+    background-color: var(--background-color, transparent);
+    border: var(--border-width) solid var(--border-color, transparent);
+    border-radius: 0;
+    color: var(--color);
+    cursor: pointer;
+    display: inline-flex;
+    font-weight: 500;
+    justify-content: center;
+    min-height: var(--min-size);
+    min-width: var(--min-size);
+    padding: 0 var(--spacing-2-xs);
+    position: relative;
+    vertical-align: top;
+}
+
+/* button transitions */
+.ProseMirror-prompt-button:hover,
+.ProseMirror-prompt-button:focus {
+    transition-property: background-color, border-color, color;
+    transition-duration: 85ms;
+    transition-timing-function: ease-out;
+}
+
+.ProseMirror-prompt-button:hover {
+    background-color: var(--background-color-hover, transparent);
+    color: var(--color-hover);
+}
+
+.ProseMirror-prompt-button:focus {
+    background-color: var(--background-color-focus, transparent);
+    color: var(--color-focus);
+    outline: none;
+}
+
+.ProseMirror-prompt-button:active {
+    background-color: var(--background-color-focus, transparent);
+    color: var(--color-focus);
+    outline: none;
+}
+
+.ProseMirror-prompt-button:focus:hover {
+    background-color: var(--background-color-hover-focus, transparent);
+}
+
+.ProseMirror-prompt-button:active:hover {
+    background-color: var(--background-color-hover-focus, transparent);
+}
+
+.ProseMirror-prompt-button:not(:disabled) {
+    border-color: var(--border-color, transparent);
+}
+
+.ProseMirror-prompt-button:not(:disabled):hover {
+    border-color: var(--border-color-hover, transparent);
+}
+
+.ProseMirror-prompt-button:not(:disabled):focus {
+    border-color: var(--border-color-focus, transparent);
+}
+
+.ProseMirror-prompt-button:not(:disabled):active {
+    border-color: var(--border-color-focus, transparent);
+}
+
+.ProseMirror-prompt-button:not(:disabled):focus:hover {
+    border-color: var(--border-color-hover-focus, transparent);
+    color: var(--color-hover-focus);
+}
+
+.ProseMirror-prompt-button:not(:disabled):active:hover {
+    border-color: var(--border-color-hover-focus, transparent);
+    color: var(--color-hover-focus);
+}
+
+/* FOCUS OUTLINE */
+
+.ProseMirror-prompt-button::after {
+    --size: 100%;
+
+    border: var(--outline-width) solid transparent;
+    content: '';
+    height: var(--size);
+    position: absolute;
+    width: var(--size);
+}
+
+.ProseMirror-prompt-button:focus::after {
+    --size: calc(100% + calc(var(--outline-width) * 2 + var(--border-width) * 2 + var(--outline-gutter) * 2));
+    border-color: var(--focus-outline-color);
+}
+
+.ProseMirror-prompt-button:active::after {
+    --size: calc(100% + calc(var(--outline-width) * 2 + var(--border-width) * 2 + var(--outline-gutter) * 2));
+    border-color: var(--focus-outline-color);
+}
+
+/* LABEL */
+
+input[type="submit"].ProseMirror-prompt-button,
+.ProseMirror-prompt-button__label {
+  font-weight: inherit;
+  line-height: 1.25em;
+  padding: var(--spacing-s);
+}
+
+/* no icons */
+.ProseMirror-prompt-button__label:only-child {
+  margin: 0 var(--spacing-2-xs);
+}
+
+/* PRIMARY */
+.ProseMirror-prompt-button--primary {
+    --background-color: var(--color-bus);
+    --background-color-hover: var(--color-bus-dark);
+    --background-color-focus: var(--color-bus);
+    --background-color-hover-focus: var(--color-bus-dark);
+    --background-color-disabled: var(--color-black-20);
+  
+    --border-color: var(--color-bus);
+    --border-color-hover: var(--color-bus-dark);
+    --border-color-focus: var(--color-bus);
+    --border-color-hover-focus: var(--color-bus-dark);
+    --border-color-disabled: var(--color-black-20);
+  
+    --color: var(--color-white);
+    --color-hover: var(--color-white);
+    --color-focus: var(--color-white);
+    --color-hover-focus: var(--color-white);
+    --color-disabled: var(--color-white);
+  
+    --focus-outline-color: var(--color-coat-of-arms);
+    --submit-input-focus-gutter-color: var(--color-white);
+}
+  
+/* SECONDARY */
+.ProseMirror-prompt-button--secondary {
+    --background-color: transparent;
+    --background-color-hover: var(--color-bus-light);
+    --background-color-focus: transparent;
+    --background-color-hover-focus: var(--color-bus-light);
+    --background-color-disabled: transparent;
+  
+    --border-color: var(--color-bus);
+    --border-color-hover: var(--color-bus-dark);
+    --border-color-focus: var(--color-bus);
+    --border-color-hover-focus: var(--color-bus-dark);
+    --border-color-disabled: var(--color-black-50);
+  
+    --color: var(--color-bus);
+    --color-hover: var(--color-bus-dark);
+    --color-focus: var(--color-bus);
+    --color-hover-focus: var(--color-bus-dark);
+    --color-disabled: var(--color-black-40);
+  
+    --focus-outline-color: var(--color-coat-of-arms);
+    --submit-input-focus-gutter-color: var(--color-white);
+}

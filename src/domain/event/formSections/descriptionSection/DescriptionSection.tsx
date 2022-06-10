@@ -146,7 +146,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   })}
                   maxLength={CHARACTER_LIMITS.LONG_STRING}
                   name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
-                  placeholder={t(`event.form.placeholderDescription.${type}`)}
+                  placeholderKey={`event.form.placeholderDescription.${type}`}
                   required={true}
                   sanitizeAfterChange={sanitizeDescriptionAfterChange}
                 />

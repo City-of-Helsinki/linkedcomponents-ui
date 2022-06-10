@@ -77,7 +77,6 @@ const TechnologyRoutes: React.FC<Props> = ({ locale }) => {
           path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_API)}
           element={<ApiPage />}
         />
-        {/* istanbul ignore next */}
         <Route
           path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_DOCUMENTATION)}
           element={<DocumentationPage />}

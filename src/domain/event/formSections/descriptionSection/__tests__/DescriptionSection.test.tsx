@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Formik } from 'formik';
+import { EditorView } from 'prosemirror-view';
 import React from 'react';
 
 import {
@@ -125,17 +127,22 @@ test('should change form section language', async () => {
 });
 
 // eslint-disable-next-line max-len
-test('should change selected language when current selected language is removed from event info languages', () => {
+test('should change selected language when current selected language is removed from event info languages', async () => {
   const setSelectedLanguage = jest.fn();
-  const { rerender } = renderComponent(
-    {
-      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
-        LE_DATA_LANGUAGES.FI,
-        LE_DATA_LANGUAGES.SV,
-      ],
-    },
-    { setSelectedLanguage }
-  );
+  let rerender: any;
+
+  await act(async () => {
+    const renderResult = await renderComponent(
+      {
+        [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
+          LE_DATA_LANGUAGES.FI,
+          LE_DATA_LANGUAGES.SV,
+        ],
+      },
+      { setSelectedLanguage }
+    );
+    rerender = renderResult.rerender;
+  });
 
   const fiButton = getElement('fiButton');
   const svButton = getElement('svButton');
@@ -224,6 +231,10 @@ test('should show validation error if short description is too long', async () =
 });
 
 test('should show validation error if description is missing', async () => {
+  jest
+    .spyOn(EditorView.prototype, 'posAtCoords')
+    .mockImplementation(() => null);
+
   const setSelectedLanguage = jest.fn();
   const user = userEvent.setup();
   renderComponent(
@@ -251,6 +262,10 @@ test('should show validation error if description is missing', async () => {
 });
 
 test('should show validation error if description is too long', async () => {
+  jest
+    .spyOn(EditorView.prototype, 'posAtCoords')
+    .mockImplementation(() => null);
+
   const setSelectedLanguage = jest.fn();
   const user = userEvent.setup();
   renderComponent(

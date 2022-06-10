@@ -218,37 +218,29 @@
       "add": "Lägg till",
       "cancel": "Avbryt",
       "blocktype": {
-        "blocktype": "Texttyp",
-        "blockquote": "Block citat",
-        "h1": "H1",
-        "h2": "H2",
-        "h3": "H3",
-        "h4": "H4",
-        "h5": "H5",
-        "h6": "H6",
-        "normal": "Normal"
+        "blockquote": "Block citat"
       },
       "history": {
-        "history": "Historia",
         "redo": "Gör om",
         "undo": "Avbryt"
       },
       "inline": {
         "bold": "Fet stil",
-        "italic": "Kursivt",
-        "underline": "Understreckat"
+        "code": "Koda",
+        "italic": "Kursivt"
       },
       "link": {
         "link": "Länk",
-        "linkTarget": "Länkens mål",
+        "linkTarget": "Länkens URL",
         "linkTargetOption": "Öppna länken i ett nytt fönster",
         "linkTitle": "Länkens rubrik",
+        "promptTitle": "Lägg till en länk",
         "unlink": "Ta bort länken"
       },
       "list": {
-        "list": "Lista",
-        "ordered": "Sorterad",
-        "unordered": "Osorterad"
+        "ordered": "Sorterad lista",
+        "outdented": "Ta bort lista",
+        "unordered": "Osorterad lista"
       }
     },
     "timepicker": {
