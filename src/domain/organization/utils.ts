@@ -21,7 +21,6 @@ import {
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
-import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -327,7 +326,7 @@ export const getOrganizationInitialValues = (
       : ORGANIZATION_INTERNAL_TYPE.NORMAL,
     name: organization.name ?? '',
     originId: id.split(':')[1] ?? '',
-    parent: organization.parentOrganization ?? '',
+    parentOrganization: organization.parentOrganization ?? '',
     regularUsers: organization.regularUsers?.length
       ? organization.regularUsers.map((o) => o?.username as string)
       : [],
@@ -344,7 +343,7 @@ export const getOrganizationPayload = (
     foundingDate,
     id,
     originId,
-    parent,
+    parentOrganization,
     ...restFormValues
   } = formValues;
 
@@ -359,7 +358,7 @@ export const getOrganizationPayload = (
     foundingDate: foundingDate ? formatDate(foundingDate, 'yyyy-MM-dd') : null,
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
     originId,
-    parent: parent ? parseIdFromAtId(parent) : undefined,
+    parentOrganization: parentOrganization || undefined,
   };
 };
 

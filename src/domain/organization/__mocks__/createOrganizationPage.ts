@@ -21,7 +21,7 @@ const payload = {
   dataSource: organizationValues.dataSource,
   internalType: ORGANIZATION_INTERNAL_TYPE.NORMAL,
   name: organizationValues.name,
-  parent: organizations.data[0].id,
+  parentOrganization: organizations.data[0].atId,
   regularUsers: [],
   replacedBy: '',
   subOrganizations: [],

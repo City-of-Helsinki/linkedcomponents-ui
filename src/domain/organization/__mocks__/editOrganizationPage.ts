@@ -30,7 +30,7 @@ const payload = {
   classification: organizationClassification,
   internalType: 'normal',
   name: organizationName,
-  parent: undefined,
+  parentOrganization: undefined,
   regularUsers: [],
   replacedBy: organizations.data[0].atId,
   subOrganizations: [],

@@ -342,7 +342,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 component={SingleOrganizationSelectorField}
                 disabled={!isEditingAllowed || !!organization}
                 label={t(`organization.form.labelParentOrganization`)}
-                name={ORGANIZATION_FIELDS.PARENT}
+                name={ORGANIZATION_FIELDS.PARENT_ORGANIZATION}
                 required={!organization}
               />
             </FormRow>

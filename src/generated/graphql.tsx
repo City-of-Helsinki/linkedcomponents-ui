@@ -98,7 +98,7 @@ export type CreateOrganizationMutationInput = {
   internalType?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   originId?: InputMaybe<Scalars['String']>;
-  parent?: InputMaybe<Scalars['String']>;
+  parentOrganization?: InputMaybe<Scalars['String']>;
   regularUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   replacedBy?: InputMaybe<Scalars['String']>;
   subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;

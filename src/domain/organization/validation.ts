@@ -12,7 +12,7 @@ export const organizationSchema = Yup.object().shape({
   [ORGANIZATION_FIELDS.NAME]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .nullable(),
-  [ORGANIZATION_FIELDS.PARENT]: Yup.string().when(
+  [ORGANIZATION_FIELDS.PARENT_ORGANIZATION]: Yup.string().when(
     [ORGANIZATION_FIELDS.ID],
     (id, schema) =>
       id ? schema : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
