@@ -175,6 +175,7 @@ export const DESCRIPTION_SECTION_FIELDS = [
 ];
 
 export const EVENT_SELECT_FIELDS = [
+  EVENT_FIELDS.PUBLISHER,
   EVENT_FIELDS.KEYWORDS,
   EVENT_FIELDS.LOCATION,
   EVENT_FIELDS.SUPER_EVENT,
@@ -265,6 +266,16 @@ export const NOT_ALLOWED_WHEN_IN_PAST = [
   EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
   EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
 ];
+
+export const EVENT_CREATE_ICONS = {
+  [EVENT_CREATE_ACTIONS.CREATE_DRAFT]: <IconPen aria-hidden={true} />,
+  [EVENT_CREATE_ACTIONS.PUBLISH]: <IconCheck aria-hidden={true} />,
+};
+
+export const EVENT_CREATE_LABEL_KEYS = {
+  [EVENT_CREATE_ACTIONS.CREATE_DRAFT]: 'event.form.buttonSaveDraft',
+  [EVENT_CREATE_ACTIONS.PUBLISH]: 'event.form.buttonPublish',
+};
 
 export const EVENT_EDIT_ICONS = {
   [EVENT_EDIT_ACTIONS.CANCEL]: <IconCalendarCross aria-hidden={true} />,

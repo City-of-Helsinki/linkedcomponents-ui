@@ -7,6 +7,7 @@ import {
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
@@ -28,6 +29,7 @@ import MainContent from '../app/layout/MainContent';
 import PageWrapper from '../app/layout/PageWrapper';
 import Section from '../app/layout/Section';
 import { reportError } from '../app/sentry/utils';
+import { authenticatedSelector } from '../auth/selectors';
 import { EVENT_CREATE_ACTIONS, EVENT_INITIAL_VALUES } from '../event/constants';
 import { clearEventsQueries } from '../events/utils';
 import useUser from '../user/hooks/useUser';
@@ -69,6 +71,8 @@ const CreateEventPage: React.FC = () => {
   const location = useLocation();
   const locale = useLocale();
   const { t } = useTranslation();
+
+  const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
 
   const [createEventMutation] = useCreateEventMutation();
@@ -77,7 +81,7 @@ const CreateEventPage: React.FC = () => {
   const [descriptionLanguage, setDescriptionLanguage] = React.useState(
     EVENT_INITIAL_VALUES.eventInfoLanguages[0] as LE_DATA_LANGUAGES
   );
-  const [saving, setSaving] = React.useState<PublicationStatus | null>(null);
+  const [saving, setSaving] = React.useState<EVENT_CREATE_ACTIONS | null>(null);
 
   const goToEventSavedPage = (id: string) => {
     navigate(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
@@ -168,11 +172,22 @@ const CreateEventPage: React.FC = () => {
     }
   };
 
+  const getAction = (
+    publicationStatus: PublicationStatus
+  ): EVENT_CREATE_ACTIONS => {
+    switch (publicationStatus) {
+      case PublicationStatus.Draft:
+        return EVENT_CREATE_ACTIONS.CREATE_DRAFT;
+      case PublicationStatus.Public:
+        return EVENT_CREATE_ACTIONS.PUBLISH;
+    }
+  };
+
   const createEvent = async (
     values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
-    setSaving(publicationStatus);
+    setSaving(getAction(publicationStatus));
     try {
       await updateImageIfNeeded(values);
     } catch (error) /* istanbul ignore next */ {
@@ -237,6 +252,7 @@ const CreateEventPage: React.FC = () => {
         const isCreateEventAllowed = (action: EVENT_CREATE_ACTIONS) => {
           return canUserCreateEvent({
             action,
+            authenticated,
             publisher,
             user,
           });
@@ -284,10 +300,7 @@ const CreateEventPage: React.FC = () => {
         };
 
         return (
-          <Form
-            onSubmit={(event) => handleSubmit(PublicationStatus.Public, event)}
-            noValidate={true}
-          >
+          <Form noValidate={true}>
             <FormikPersist
               name={FORM_NAMES.EVENT_FORM}
               isSessionStorage={true}
@@ -354,6 +367,7 @@ const CreateEventPage: React.FC = () => {
                   <SummarySection isEditingAllowed={isEditingAllowed} />
                 </Container>
                 <CreateButtonPanel
+                  onPublish={() => handleSubmit(PublicationStatus.Public)}
                   onSaveDraft={() => handleSubmit(PublicationStatus.Draft)}
                   publisher={publisher}
                   saving={saving}
