@@ -89,6 +89,8 @@ import {
   DESCRIPTION_SECTION_FIELDS,
   EDIT_EVENT_TIME_FORM_NAME,
   EVENT_CREATE_ACTIONS,
+  EVENT_CREATE_ICONS,
+  EVENT_CREATE_LABEL_KEYS,
   EVENT_EDIT_ACTIONS,
   EVENT_EDIT_ICONS,
   EVENT_EDIT_LABEL_KEYS,
@@ -316,9 +318,9 @@ export const publicEventSchema = Yup.object().shape({
       then: (schema) =>
         schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
     }),
-  [EVENT_FIELDS.PUBLISHER]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
+  [EVENT_FIELDS.PUBLISHER]: Yup.string()
+    .nullable()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
   ),
@@ -373,9 +375,9 @@ export const publicEventSchema = Yup.object().shape({
 });
 
 export const draftEventSchema = Yup.object().shape({
-  [EVENT_FIELDS.PUBLISHER]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
+  [EVENT_FIELDS.PUBLISHER]: Yup.string()
+    .nullable()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
   [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
     Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
   ),
@@ -1504,10 +1506,12 @@ export const getEditButtonProps = ({
 
 export const canUserCreateEvent = ({
   action,
+  authenticated,
   publisher,
   user,
 }: {
   action: EVENT_CREATE_ACTIONS;
+  authenticated: boolean;
   publisher: string;
   user?: UserFieldsFragment;
 }): boolean => {
@@ -1515,7 +1519,10 @@ export const canUserCreateEvent = ({
   const adminOrganizations = user?.adminOrganizations ?? [];
   /* istanbul ignore next */
   const organizationMemberships = user?.organizationMemberships ?? [];
-  const canCreateDraft = organizationMemberships.includes(publisher);
+  const organization = user?.organization;
+  const canCreateDraft =
+    (authenticated && !publisher && !!organization) ||
+    organizationMemberships.includes(publisher);
   const canPublish = adminOrganizations.includes(publisher);
 
   switch (action) {
@@ -1539,7 +1546,10 @@ export const isCreateEventButtonVisible = ({
 }): boolean => {
   const adminOrganizations = user?.adminOrganizations ?? [];
   const organizationMemberships = user?.organizationMemberships ?? [];
-  const canCreateDraft = organizationMemberships.includes(publisher);
+  const organization = user?.organization;
+  const canCreateDraft =
+    (authenticated && !publisher && !!organization) ||
+    organizationMemberships.includes(publisher);
   const canPublish = adminOrganizations.includes(publisher);
 
   switch (action) {
@@ -1563,27 +1573,69 @@ export const getCreateEventButtonWarning = ({
   t: TFunction;
   user?: UserFieldsFragment;
 }): string => {
-  const adminOrganizations = user?.adminOrganizations ?? [];
-  const organizationMemberships = user?.organizationMemberships ?? [];
-  const canCreateDraft = organizationMemberships.includes(publisher);
-  const canPublish = adminOrganizations.includes(publisher);
-
+  const actionAllowed = canUserCreateEvent({
+    action,
+    authenticated,
+    publisher,
+    user,
+  });
   if (!authenticated) {
     return t('event.form.buttonPanel.warningNotAuthenticated');
   }
 
-  if (
-    action === EVENT_CREATE_ACTIONS.CREATE_DRAFT &&
-    !(canCreateDraft || canPublish)
-  ) {
+  if (action === EVENT_CREATE_ACTIONS.CREATE_DRAFT && !actionAllowed) {
     return t('event.form.buttonPanel.warningNoRightsCreate');
   }
 
-  if (action === EVENT_CREATE_ACTIONS.PUBLISH && !canPublish) {
+  if (action === EVENT_CREATE_ACTIONS.PUBLISH && !actionAllowed) {
     return t('event.form.buttonPanel.warningNoRightsPublish');
   }
 
   return '';
+};
+
+export const getCreateButtonProps = ({
+  action,
+  authenticated,
+  eventType,
+  onClick,
+  publisher,
+  t,
+  user,
+}: {
+  action: EVENT_CREATE_ACTIONS;
+  authenticated: boolean;
+  eventType: EVENT_TYPE;
+  onClick: () => void;
+  publisher: string;
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): MenuItemOptionProps | null => {
+  const warning = getCreateEventButtonWarning({
+    action,
+    authenticated,
+    publisher,
+    t,
+    user,
+  });
+
+  return isCreateEventButtonVisible({
+    action,
+    authenticated,
+    publisher,
+    user,
+  })
+    ? {
+        disabled: !!warning,
+        icon: EVENT_CREATE_ICONS[action],
+        label:
+          action === EVENT_CREATE_ACTIONS.PUBLISH
+            ? t(`${EVENT_CREATE_LABEL_KEYS[action]}.${eventType}`)
+            : t(EVENT_CREATE_LABEL_KEYS[action]),
+        onClick,
+        title: warning,
+      }
+    : null;
 };
 
 export const copyEventToSessionStorage = async (
