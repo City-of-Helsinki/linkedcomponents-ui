@@ -334,7 +334,11 @@
       "title": "Are you sure you want to cancel the registration?"
     },
     "form": {
+      "attendeeDefaultTitle": "Participant {{index}}",
+      "buttonDeleteAttendee": "Delete participant",
       "buttonSave": "Save participant",
+      "buttonUpdateParticipantAmount": "Update",
+      "labelAttendeeExtraInfo": "Additional information (optional)",
       "labelCity": "City",
       "labelDateOfBirth": "Date of birth",
       "labelEmail": "Email address",
@@ -342,11 +346,13 @@
       "labelMembershipNumber": "Membership card number (optional)",
       "labelName": "Name",
       "labelNativeLanguage": "Native language",
+      "labelParticipantAmount": "Number of registrants",
       "labelPhoneNumber": "Telephone number",
       "labelServiceLanguage": "Language of communication",
       "labelStreetAddress": "Street address",
       "labelZip": "Postcode",
       "notificationTitleCannotEdit": "Participants cannot be edited",
+      "placeholderAttendeeExtraInfo": "Enter any additional information or request",
       "placeholderCity": "Enter city",
       "placeholderEmail": "Enter your email address",
       "placeholderExtraInfo": "Enter any additional information or request",
@@ -360,7 +366,8 @@
       "titleAdditionalInfo": "Additional information",
       "titleBasicInfo": "Basic information of the registrant",
       "titleContactInfo": "Contact information",
-      "titleNotifications": "Event notifications"
+      "titleNotifications": "Event notifications",
+      "titleRegistration": "Registration"
     },
     "notifications": {
       "email": "By email",
@@ -1098,6 +1105,10 @@
         "min": "At least {{min}} item must be selected",
         "min_other": "At least {{min}} item must be selected",
         "required": "At least 1 item must be selected"
+      },
+      "capacity": {
+        "max": "The maximum number of participants is {{max}}.",
+        "min": "The minimum number of participants is {{min}}."
       },
       "date": {
         "after": "This date must be after {{after}}",

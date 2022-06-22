@@ -10,6 +10,7 @@ import {
   act,
   configure,
   getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
   userEvent,
@@ -49,11 +50,13 @@ const getElement = (
     | 'emailInput'
     | 'nameInput'
     | 'nativeLanguageButton'
+    | 'participantAmountInput'
     | 'phoneCheckbox'
     | 'phoneInput'
     | 'serviceLanguageButton'
     | 'streetAddressInput'
     | 'submitButton'
+    | 'updateParticipantAmountButton'
     | 'zipInput'
 ) => {
   switch (key) {
@@ -69,6 +72,11 @@ const getElement = (
       return screen.getByRole('textbox', { name: /nimi/i });
     case 'nativeLanguageButton':
       return screen.getByRole('button', { name: /äidinkieli/i });
+    case 'participantAmountInput':
+      return screen.getByRole('spinbutton', {
+        name: /ilmoittautujien määrä \*/i,
+      });
+
     case 'phoneCheckbox':
       return screen.getByRole('checkbox', { name: /tekstiviestillä/i });
     case 'phoneInput':
@@ -79,6 +87,8 @@ const getElement = (
       return screen.getByRole('textbox', { name: /katuosoite/i });
     case 'submitButton':
       return screen.getByRole('button', { name: /tallenna osallistuja/i });
+    case 'updateParticipantAmountButton':
+      return screen.getByRole('button', { name: /päivitä/i });
     case 'zipInput':
       return screen.getByRole('textbox', { name: /postinumero/i });
   }
@@ -265,4 +275,84 @@ test('should show server errors', async () => {
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
+});
+
+test('should add and delete participants', async () => {
+  const user = userEvent.setup();
+
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const participantAmountInput = getElement('participantAmountInput');
+  const updateParticipantAmountButton = getElement(
+    'updateParticipantAmountButton'
+  );
+
+  expect(
+    screen.queryByRole('button', { name: 'Osallistuja 2' })
+  ).not.toBeInTheDocument();
+
+  await act(async () => await user.clear(participantAmountInput));
+  await act(async () => await user.type(participantAmountInput, '2'));
+  await act(async () => await user.click(updateParticipantAmountButton));
+
+  screen.getByRole('button', { name: 'Osallistuja 2' });
+
+  await act(async () => await user.clear(participantAmountInput));
+  await act(async () => await user.type(participantAmountInput, '1'));
+  await act(async () => await user.click(updateParticipantAmountButton));
+
+  expect(
+    screen.queryByRole('button', { name: 'Osallistuja 2' })
+  ).not.toBeInTheDocument();
+});
+
+test('should show and hide participant specific fields', async () => {
+  const user = userEvent.setup();
+
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const nameInput = getElement('nameInput');
+  const toggleButton = screen.getByRole('button', { name: 'Osallistuja 1' });
+
+  await act(async () => await await user.click(toggleButton));
+  expect(nameInput).not.toBeInTheDocument();
+
+  await act(async () => await await user.click(toggleButton));
+  getElement('nameInput');
+});
+
+test('should delete participants by clicking delete participant button', async () => {
+  const user = userEvent.setup();
+
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const participantAmountInput = getElement('participantAmountInput');
+  const updateParticipantAmountButton = getElement(
+    'updateParticipantAmountButton'
+  );
+
+  expect(
+    screen.queryByRole('button', { name: 'Osallistuja 2' })
+  ).not.toBeInTheDocument();
+
+  await act(async () => await user.clear(participantAmountInput));
+  await act(async () => await user.type(participantAmountInput, '2'));
+  await act(async () => await await user.click(updateParticipantAmountButton));
+
+  screen.getByRole('button', { name: 'Osallistuja 2' });
+
+  const deleteParticipantButton = screen.getAllByRole('button', {
+    name: /poista osallistuja/i,
+  })[1];
+  await act(async () => await await user.click(deleteParticipantButton));
+
+  expect(
+    screen.queryByRole('button', { name: 'Osallistuja 2' })
+  ).not.toBeInTheDocument();
 });

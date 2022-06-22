@@ -12,8 +12,10 @@ import {
 } from '../../generated/graphql';
 import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
+import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
+  ATTENDEE_INITIAL_VALUES,
   AUTHENTICATION_NOT_NEEDED,
   ENROLMENT_ACTIONS,
   ENROLMENT_ICONS,
@@ -22,7 +24,7 @@ import {
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
 } from './constants';
-import { EnrolmentFormFields } from './types';
+import { AttendeeFields, EnrolmentFormFields } from './types';
 
 export const getEnrolmentNotificationTypes = (
   notifications: string
@@ -39,15 +41,20 @@ export const getEnrolmentNotificationTypes = (
   }
 };
 
+export const getAttendeeDefaultInitialValues = (
+  registration: RegistrationFieldsFragment
+): AttendeeFields => ({
+  ...ATTENDEE_INITIAL_VALUES,
+  audienceMaxAge: registration.audienceMaxAge ?? null,
+  audienceMinAge: registration.audienceMinAge ?? null,
+});
+
 export const getEnrolmentDefaultInitialValues = (
   registration: RegistrationFieldsFragment
-): EnrolmentFormFields => {
-  return {
-    ...ENROLMENT_INITIAL_VALUES,
-    audienceMaxAge: registration.audienceMaxAge ?? null,
-    audienceMinAge: registration.audienceMinAge ?? null,
-  };
-};
+): EnrolmentFormFields => ({
+  ...ENROLMENT_INITIAL_VALUES,
+  attendees: [getAttendeeDefaultInitialValues(registration)],
+});
 
 export const getEnrolmentInitialValues = (
   enrolment: EnrolmentFieldsFragment,
@@ -55,20 +62,29 @@ export const getEnrolmentInitialValues = (
 ): EnrolmentFormFields => {
   return {
     ...getEnrolmentDefaultInitialValues(registration),
-    city: enrolment.city ?? '',
-    dateOfBirth: enrolment.dateOfBirth ? new Date(enrolment.dateOfBirth) : null,
+    attendees: [
+      {
+        audienceMaxAge: registration.audienceMaxAge ?? null,
+        audienceMinAge: registration.audienceMinAge ?? null,
+        city: enrolment.city ?? '',
+        dateOfBirth: enrolment.dateOfBirth
+          ? new Date(enrolment.dateOfBirth)
+          : null,
+        extraInfo: '',
+        name: enrolment.name ?? '',
+        streetAddress: enrolment.streetAddress ?? '',
+        zip: enrolment.zipcode ?? '',
+      },
+    ],
     email: enrolment.email ?? '',
     extraInfo: enrolment.extraInfo ?? '',
     membershipNumber: enrolment.membershipNumber ?? '',
-    name: enrolment.name ?? '',
     nativeLanguage: enrolment.nativeLanguage ?? '',
     notifications: getEnrolmentNotificationTypes(
       enrolment.notifications as string
     ),
     phoneNumber: enrolment.phoneNumber ?? '',
     serviceLanguage: enrolment.serviceLanguage ?? '',
-    streetAddress: enrolment.streetAddress ?? '',
-    zip: enrolment.zipcode ?? '',
   };
 };
 
@@ -94,19 +110,16 @@ export const getEnrolmentPayload = (
   registration: RegistrationFieldsFragment
 ): CreateEnrolmentMutationInput => {
   const {
-    city,
-    dateOfBirth,
+    attendees,
     email,
     extraInfo,
     membershipNumber,
-    name,
     nativeLanguage,
     notifications,
     phoneNumber,
     serviceLanguage,
-    streetAddress,
-    zip,
   } = formValues;
+  const { city, dateOfBirth, name, streetAddress, zip } = attendees[0] || {};
 
   return {
     city: city || null,
@@ -133,6 +146,40 @@ export const enrolmentPathBuilder = ({
   return `/signup_edit/${id}/`;
 };
 
+export const getFreeAttendeeCapacity = (
+  registration: RegistrationFieldsFragment
+): number | undefined => {
+  // If there are seats in the event
+  if (!registration.maximumAttendeeCapacity) {
+    return undefined;
+  }
+  return Math.max(
+    registration.maximumAttendeeCapacity -
+      (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0),
+    0
+  );
+};
+
+export const getAttendeeCapacityError = (
+  registration: RegistrationFieldsFragment,
+  participantAmount: number,
+  t: TFunction
+): string | undefined => {
+  if (participantAmount < 1) {
+    return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MIN, { min: 1 });
+  }
+
+  const freeCapacity = getFreeAttendeeCapacity(registration);
+
+  if (freeCapacity && participantAmount > freeCapacity) {
+    return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MAX, {
+      max: freeCapacity,
+    });
+  }
+
+  return undefined;
+};
+
 export const checkCanUserDoAction = ({
   action,
   organizationAncestors,
@@ -149,6 +196,7 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
+
   switch (action) {
     case ENROLMENT_ACTIONS.EDIT:
       return true;

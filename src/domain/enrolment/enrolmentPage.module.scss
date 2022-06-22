@@ -1,24 +1,13 @@
 @import '../../assets/styles/breakpoints';
 
-.divider {
-  border-top: 1px solid var(--color-black-20);
-  margin: var(--spacing-m) 0;
-}
 
-.warning {
-  margin: var(--spacing-m) 0;
-}
-
-.createEnrolmentBreadcrumb {
-  margin-top: var(--spacing-m);  
-}
-
-.editPageContentContainer {
+.breadcrumbContainer {
   background-color: var(--color-white);
-  margin: var(--spacing-m) calc(0px - var(--spacing-s));
-  padding: var(--spacing-m);
+  margin: var(--spacing-m) calc(0px - var(--spacing-s)) 0;
+  padding: var(--spacing-m) var(--spacing-m) 0;
 
   @include medium-up {
-    margin: var(--spacing-m) calc(0px - var(--spacing-m));
+    margin: var(--spacing-m) calc(0px - var(--spacing-m)) 0;
   }
 }
+

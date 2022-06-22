@@ -3,18 +3,18 @@ import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import startOfDay from 'date-fns/startOfDay';
 import subYears from 'date-fns/subYears';
-import forEach from 'lodash/forEach';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
-import { VALIDATION_ERROR_SCROLLER_OPTIONS } from '../../constants';
 import {
   createArrayMinErrorMessage,
   isValidPhoneNumber,
   isValidZip,
 } from '../../utils/validationUtils';
+import wait from '../../utils/wait';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
+  ATTENDEE_FIELDS,
   ENROLMENT_FIELDS,
   ENROLMENT_FORM_SELECT_FIELDS,
   NOTIFICATIONS,
@@ -74,29 +74,32 @@ export const isBelowMaxAge = (
   }
 };
 
-export const enrolmentSchema = Yup.object().shape({
-  [ENROLMENT_FIELDS.NAME]: Yup.string().required(
+export const attendeeSchema = Yup.object().shape({
+  [ATTENDEE_FIELDS.NAME]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
-  [ENROLMENT_FIELDS.STREET_ADDRESS]: Yup.string().required(
+  [ATTENDEE_FIELDS.STREET_ADDRESS]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
-
-  [ENROLMENT_FIELDS.DATE_OF_BIRTH]: Yup.date()
+  [ATTENDEE_FIELDS.DATE_OF_BIRTH]: Yup.date()
     .nullable()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .when([ENROLMENT_FIELDS.AUDIENCE_MIN_AGE], isAboveMinAge)
-    .when([ENROLMENT_FIELDS.AUDIENCE_MAX_AGE], isBelowMaxAge),
-  [ENROLMENT_FIELDS.ZIP]: Yup.string()
+    .when([ATTENDEE_FIELDS.AUDIENCE_MIN_AGE], isAboveMinAge)
+    .when([ATTENDEE_FIELDS.AUDIENCE_MAX_AGE], isBelowMaxAge),
+  [ATTENDEE_FIELDS.ZIP]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .test(
       'isValidZip',
       VALIDATION_MESSAGE_KEYS.ZIP,
       (value) => !value || isValidZip(value)
     ),
-  [ENROLMENT_FIELDS.CITY]: Yup.string().required(
+  [ATTENDEE_FIELDS.CITY]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
+});
+
+export const enrolmentSchema = Yup.object().shape({
+  [ENROLMENT_FIELDS.ATTENDEES]: Yup.array().of(attendeeSchema),
   [ENROLMENT_FIELDS.EMAIL]: Yup.string()
     .email(VALIDATION_MESSAGE_KEYS.EMAIL)
     .when(
@@ -147,19 +150,34 @@ const getFocusableFieldId = (
   return { fieldId: fieldName, fieldType: 'default' };
 };
 
-export const scrollToFirstError = ({
+export const scrollToFirstError = async ({
   error,
+  setOpenAccordion,
 }: {
   error: Yup.ValidationError;
-}): void => {
-  forEach(error.inner, (e) => {
+  setOpenAccordion: (index: number) => void;
+}): Promise<void> => {
+  for (const e of error.inner) {
     const path = e.path ?? /* istanbul ignore next */ '';
+
+    if (/^attendees\[[0-9]*\]\./.test(path)) {
+      const attendeeIndex = Number(path.match(/(?<=\[)[[0-9]*(?=\])/)?.[0]);
+      setOpenAccordion(attendeeIndex);
+
+      await wait(100);
+    }
+
     const { fieldId, fieldType } = getFocusableFieldId(path);
     const field = document.getElementById(fieldId);
 
     /* istanbul ignore else */
     if (field) {
-      scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
+      scroller.scrollTo(fieldId, {
+        delay: 0,
+        duration: 500,
+        offset: -200,
+        smooth: true,
+      });
 
       if (fieldType === 'checkboxGroup') {
         const focusable = field.querySelectorAll('input');
@@ -172,7 +190,7 @@ export const scrollToFirstError = ({
         field.focus();
       }
 
-      return false;
+      break;
     }
-  });
+  }
 };

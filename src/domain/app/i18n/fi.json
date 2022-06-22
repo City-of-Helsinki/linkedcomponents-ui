@@ -335,7 +335,11 @@
       "title": "Haluatko varmasti poistaa ilmoittautumisen?"
     },
     "form": {
+      "attendeeDefaultTitle": "Osallistuja {{index}}",
+      "buttonDeleteAttendee": "Poista osallistuja",
       "buttonSave": "Tallenna osallistuja",
+      "buttonUpdateParticipantAmount": "Päivitä",
+      "labelAttendeeExtraInfo": "Lisätietoa (valinnainen)",
       "labelCity": "Kaupunki",
       "labelDateOfBirth": "Syntymäaika",
       "labelEmail": "Sähköpostiosoite",
@@ -343,11 +347,13 @@
       "labelMembershipNumber": "Jäsenkortin numero (valinnainen)",
       "labelName": "Nimi",
       "labelNativeLanguage": "Äidinkieli",
+      "labelParticipantAmount": "Ilmoittautujien määrä",
       "labelPhoneNumber": "Puhelinnumero",
       "labelServiceLanguage": "Asiointikieli",
       "labelStreetAddress": "Katuosoite",
       "labelZip": "Postinumero",
       "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
+      "placeholderAttendeeExtraInfo": "Syötä mahdollinen lisätieto tai toive",
       "placeholderCity": "Syötä kaupunki",
       "placeholderEmail": "Syötä sähköpostiosoite",
       "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
@@ -361,7 +367,8 @@
       "titleAdditionalInfo": "Lisätiedot",
       "titleBasicInfo": "Ilmoittautujan perustiedot",
       "titleContactInfo": "Yhteystiedot",
-      "titleNotifications": "Tapahtumaa koskevat ilmoitukset"
+      "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
+      "titleRegistration": "Ilmoittautuminen"
     },
     "notifications": {
       "email": "Sähköpostilla",
@@ -1079,6 +1086,10 @@
         "min": "Vähintään {{min}} vaihtoehto tulee olla valittuna",
         "min_other": "Vähintään {{min}} vaihtoehtoa tulee olla valittuna",
         "required": "Vähintään 1 vaihtoehto tulee olla valittuna"
+      },
+      "capacity": {
+        "max": "Osallistujien enimmäismäärä on {{max}}.",
+        "min": "Osallistujien vähimmäismäärä on {{min}}."
       },
       "date": {
         "after": "Tämän päivämäärän tulee olla {{after}} jälkeen",

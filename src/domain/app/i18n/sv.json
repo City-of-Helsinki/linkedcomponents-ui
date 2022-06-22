@@ -335,7 +335,11 @@
       "title": "Är du säker på att du vill avbryta registreringen?"
     },
     "form": {
+      "attendeeDefaultTitle": "Deltagare {{index}}",
+      "buttonDeleteAttendee": "Ta bort deltagare",
       "buttonSave": "Spara deltagare",
+      "buttonUpdateParticipantAmount": "Uppdatera",
+      "labelAttendeeExtraInfo": "Ytterligare information (valfritt)",
       "labelCity": "Staden",
       "labelDateOfBirth": "Födelsedatum",
       "labelEmail": "E-postadress",
@@ -343,11 +347,13 @@
       "labelMembershipNumber": "Medlemskortnummer (valfritt)",
       "labelName": "Namn",
       "labelNativeLanguage": "Modersmål",
+      "labelParticipantAmount": "Antal registrerade",
       "labelPhoneNumber": "Telefonnummer",
       "labelServiceLanguage": "Transaktionsspråk",
       "labelStreetAddress": "Gatuadress",
       "labelZip": "Postnummer",
       "notificationTitleCannotEdit": "Deltagaren kan inte redigeras",
+      "placeholderAttendeeExtraInfo": "Ange ytterligare information eller begäran",
       "placeholderCity": "Ange staden",
       "placeholderEmail": "Skriv in din mailadress",
       "placeholderExtraInfo": "Ange ytterligare information eller begäran",
@@ -361,7 +367,8 @@
       "titleAdditionalInfo": "Ytterligare information",
       "titleBasicInfo": "Grundläggande information om registranten",
       "titleContactInfo": "Kontaktinformation",
-      "titleNotifications": "Evenemangmeddelanden"
+      "titleNotifications": "Evenemangmeddelanden",
+      "titleRegistration": "Registrering"
     },
     "notifications": {
       "email": "Via e-post",
@@ -1079,6 +1086,10 @@
         "min": "Minst {{min}} objekt måste väljas",
         "min_other": "Minst {{min}} objekt måste väljas",
         "required": "Minst 1 objekt måste väljas"
+      },
+      "capacity": {
+        "max": "Max antal deltagare är {{max}}.",
+        "min": "Minsta antal deltagare är {{min}}."
       },
       "date": {
         "after": "Detta datum måste vara efter {{after}}",
