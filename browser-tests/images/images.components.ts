@@ -80,7 +80,7 @@ export const getImagesPage = async (t: TestController) => {
       );
 
       const imageRow = () => {
-        return withinSearchResultList().getAllByTestId(image.id);
+        return withinSearchResultList().getAllByTestId(image.id as string);
       };
 
       if (searchedField) {

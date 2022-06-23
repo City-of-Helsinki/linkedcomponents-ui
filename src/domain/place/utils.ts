@@ -2,7 +2,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 import { LatLng } from 'leaflet';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/menuItem/MenuItem';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { LINKED_EVENTS_SYSTEM_DATA_SOURCE, ROUTES } from '../../constants';
 import {
   CreatePlaceMutationInput,

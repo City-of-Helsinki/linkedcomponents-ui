@@ -82,7 +82,9 @@ export const getOrganizationsPage = async (t: TestController) => {
       );
 
       const organizationRow = () => {
-        return withinSearchResultList().getAllByTestId(organization.id);
+        return withinSearchResultList().getAllByTestId(
+          organization.id as string
+        );
       };
 
       if (searchedField) {

@@ -154,7 +154,7 @@ export const getUrlUtils = (t: TestController) => {
       await pageIsLoaded();
       await t
         .expect(getPageTitle())
-        .eql(`${event.name.fi} - Linked Events`, await getErrorMessage(t));
+        .eql(`${event.name?.fi} - Linked Events`, await getErrorMessage(t));
     },
     async urlChangedToEventsPage() {
       await t.expect(getPathname()).eql(`/fi/events`, await getErrorMessage(t));

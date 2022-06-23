@@ -11,7 +11,7 @@ export const getExpectedEventContext = (
       (fields, field) => ({ ...fields, [field]: event[field] }),
       {
         id: event.id,
-        name: event.name.fi,
+        name: event.name?.fi,
       }
     )
   );

@@ -55,7 +55,7 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       const [place] = places.filter((place) => isLocalized(place, locale));
 
       await urlUtils.actions.navigateToPlacesUrl(
-        getRandomSentence(place.name.fi)
+        getRandomSentence(place.name?.fi as string)
       );
 
       const searchResults = await placesPage.findSearchResultList();

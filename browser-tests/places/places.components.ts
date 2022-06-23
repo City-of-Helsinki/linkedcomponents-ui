@@ -80,7 +80,7 @@ export const getPlacesPage = async (t: TestController) => {
       );
 
       const placeRow = () => {
-        return withinSearchResultList().getAllByTestId(place.id);
+        return withinSearchResultList().getAllByTestId(place.id as string);
       };
 
       if (searchedField) {

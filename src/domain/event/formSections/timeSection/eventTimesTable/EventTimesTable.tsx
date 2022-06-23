@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDropdown';
-import { MenuItemOptionProps } from '../../../../../common/components/menuDropdown/menuItem/MenuItem';
+import { MenuItemOptionProps } from '../../../../../common/components/menuDropdown/types';
 import Table from '../../../../../common/components/table/Table';
 import { DATETIME_FORMAT } from '../../../../../constants';
 import {

@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import MenuDropdown from '../menuDropdown/MenuDropdown';
-import { MenuItemOptionProps } from '../menuDropdown/menuItem/MenuItem';
+import { MenuItemOptionProps } from '../menuDropdown/types';
 import styles from './actionsDropdown.module.scss';
 
 interface Props {

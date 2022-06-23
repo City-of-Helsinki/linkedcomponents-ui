@@ -1,15 +1,8 @@
 import classNames from 'classnames';
-import React, { MouseEvent } from 'react';
+import React from 'react';
 
-import styles from '../menu/menu.module.scss';
-
-export type MenuItemOptionProps = {
-  disabled?: boolean;
-  icon: React.ReactNode;
-  label: string;
-  onClick: (event?: MouseEvent<HTMLElement>) => void;
-  title?: string;
-};
+import { MenuItemOptionProps } from '../types';
+import styles from './menuItem.module.scss';
 
 export type MenuItemProps = MenuItemOptionProps & {
   index: number;

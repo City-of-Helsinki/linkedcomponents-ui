@@ -4,7 +4,7 @@ import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { ThunkAction } from 'redux-thunk';
 
-import { MenuItemOptionProps } from './common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from './common/components/menuDropdown/types';
 import { LE_DATA_LANGUAGES, SEARCH_PARAMS } from './constants';
 import rootReducer from './domain/app/store/reducers';
 
