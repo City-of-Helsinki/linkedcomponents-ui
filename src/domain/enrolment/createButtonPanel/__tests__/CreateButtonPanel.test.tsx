@@ -17,6 +17,9 @@ import {
   registrationId,
 } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
+import EnrolmentPageContext, {
+  enrolmentPageContextDefaultValue,
+} from '../../enrolmentPageContext/EnrolmentPageContext';
 import CreateButtonPanel, {
   CreateButtonPanelProps,
 } from '../CreateButtonPanel';
@@ -25,7 +28,6 @@ configure({ defaultHidden: true });
 
 const defaultProps: CreateButtonPanelProps = {
   disabled: false,
-  registration,
   onSave: jest.fn(),
   saving: false,
 };
@@ -45,11 +47,18 @@ const renderComponent = ({
   props?: Partial<CreateButtonPanelProps>;
   route?: string;
 } = {}) =>
-  render(<CreateButtonPanel {...defaultProps} {...props} />, {
-    mocks,
-    routes: [route],
-    store,
-  });
+  render(
+    <EnrolmentPageContext.Provider
+      value={{ ...enrolmentPageContextDefaultValue, registration }}
+    >
+      <CreateButtonPanel {...defaultProps} {...props} />
+    </EnrolmentPageContext.Provider>,
+    {
+      mocks,
+      routes: [route],
+      store,
+    }
+  );
 
 const findElement = (key: 'saveButton') => {
   switch (key) {

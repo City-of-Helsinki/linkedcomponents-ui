@@ -6,26 +6,28 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
+import isPast from 'date-fns/isPast';
 import { Form, Formik } from 'formik';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
+import FormikPersist from '../../../common/components/formikPersist/FormikPersist';
 import Notification from '../../../common/components/notification/Notification';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
-import { ROUTES } from '../../../constants';
+import { FORM_NAMES, ROUTES } from '../../../constants';
 import {
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
   EnrolmentQuery,
   EnrolmentQueryVariables,
   EventFieldsFragment,
-  RegistrationFieldsFragment,
   useCreateEnrolmentMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
+import unixTimeToMs from '../../../utils/unixTimeToMs';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
 import { reportError } from '../../app/sentry/utils';
@@ -46,8 +48,15 @@ import useEnrolmentUpdateActions, {
 } from '../hooks/useEnrolmentUpdateActions';
 import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
+import ReservationTimer from '../reservationTimer/ReservationTimer';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from '../types';
-import { clearEnrolmentsQueries, getEnrolmentPayload } from '../utils';
+import {
+  clearCreateEnrolmentFormData,
+  clearEnrolmentReservationData,
+  clearEnrolmentsQueries,
+  getEnrolmentPayload,
+  getEnrolmentReservationData,
+} from '../utils';
 import { enrolmentSchema, scrollToFirstError } from '../validation';
 import styles from './enrolmentForm.module.scss';
 
@@ -59,7 +68,6 @@ type Props = {
   refetchEnrolment?: (
     variables?: Partial<EnrolmentQueryVariables>
   ) => Promise<ApolloQueryResult<EnrolmentQuery>>;
-  registration: RegistrationFieldsFragment;
 };
 
 const EnrolmentForm: React.FC<Props> = ({
@@ -68,13 +76,15 @@ const EnrolmentForm: React.FC<Props> = ({
   event,
   initialValues,
   refetchEnrolment,
-  registration,
 }) => {
+  const { registration } = useContext(EnrolmentPageContext);
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const formSavingDisabled = React.useRef(!!enrolment);
 
   const { setOpenParticipant } = useContext(EnrolmentPageContext);
 
@@ -97,6 +107,10 @@ const EnrolmentForm: React.FC<Props> = ({
   const [createEnrolmentMutation] = useCreateEnrolmentMutation();
 
   const goToEnrolmentsPageAfterCreate = () => {
+    formSavingDisabled.current = true;
+    clearCreateEnrolmentFormData(registration.id as string);
+    clearEnrolmentReservationData(registration.id as string);
+
     navigate(
       `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
         ':registrationId',
@@ -190,6 +204,11 @@ const EnrolmentForm: React.FC<Props> = ({
 
   const registrationWarning = getRegistrationWarning(registration, t);
 
+  const isRestoringDisabled = () => {
+    const data = getEnrolmentReservationData(registration.id as string);
+    return !enrolment && (!data || isPast(unixTimeToMs(data.expires)));
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -239,6 +258,12 @@ const EnrolmentForm: React.FC<Props> = ({
             )}
 
             <Form noValidate>
+              <FormikPersist
+                isSessionStorage={true}
+                name={`${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registration.id}`}
+                restoringDisabled={isRestoringDisabled()}
+                savingDisabled={formSavingDisabled.current}
+              />
               <Container
                 contentWrapperClassName={styles.editPageContentContainer}
                 withOffset
@@ -256,11 +281,16 @@ const EnrolmentForm: React.FC<Props> = ({
                       {registrationWarning}
                     </Notification>
                   )}
+                  {!enrolment && (
+                    <>
+                      <ReservationTimer registration={registration} />
+                      <div className={styles.divider} />
+                    </>
+                  )}
                   <h2>{t('enrolment.form.titleRegistration')}</h2>
 
                   <ParticipantAmountSelector
-                    disabled={disabled}
-                    registration={registration}
+                    disabled={disabled || !!enrolment}
                   />
 
                   <EnrolmentFormFields disabled={disabled} />
@@ -269,7 +299,6 @@ const EnrolmentForm: React.FC<Props> = ({
               {enrolment ? (
                 <EditButtonPanel
                   enrolment={enrolment}
-                  registration={registration}
                   onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
                   onSave={handleSubmit}
                   saving={saving}
@@ -278,7 +307,6 @@ const EnrolmentForm: React.FC<Props> = ({
                 <CreateButtonPanel
                   disabled={disabled}
                   onSave={handleSubmit}
-                  registration={registration}
                   saving={creatingEnrolment}
                 />
               )}

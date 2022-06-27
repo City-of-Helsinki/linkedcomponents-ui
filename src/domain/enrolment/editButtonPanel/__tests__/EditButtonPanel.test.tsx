@@ -20,6 +20,9 @@ import {
 } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { enrolment } from '../../__mocks__/enrolment';
+import EnrolmentPageContext, {
+  enrolmentPageContextDefaultValue,
+} from '../../enrolmentPageContext/EnrolmentPageContext';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
@@ -28,7 +31,6 @@ const defaultProps: EditButtonPanelProps = {
   enrolment,
   onCancel: jest.fn(),
   onSave: jest.fn(),
-  registration: registration,
   saving: false,
 };
 
@@ -51,11 +53,18 @@ const renderComponent = ({
   route?: string;
   store?: Store<StoreState, AnyAction>;
 } = {}) =>
-  render(<EditButtonPanel {...defaultProps} {...props} />, {
-    mocks,
-    routes: [route],
-    store,
-  });
+  render(
+    <EnrolmentPageContext.Provider
+      value={{ ...enrolmentPageContextDefaultValue, registration }}
+    >
+      <EditButtonPanel {...defaultProps} {...props} />
+    </EnrolmentPageContext.Provider>,
+    {
+      mocks,
+      routes: [route],
+      store,
+    }
+  );
 
 const findElement = (key: 'cancelButton') => {
   switch (key) {
@@ -121,7 +130,7 @@ test('should route to enrolments page when clicking back button', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registration.id}/enrolments`
+      `/fi/registrations/${registrationId}/enrolments`
     )
   );
 });
@@ -131,15 +140,15 @@ test('should route to page defined in returnPath when clicking back button', asy
   const { history } = renderComponent({
     route: `/fi${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
       ':registrationId',
-      registration.id
-    )}?returnPath=${ROUTES.EDIT_REGISTRATION.replace(':id', registration.id)}`,
+      registrationId
+    )}?returnPath=${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`,
   });
 
   await act(async () => await user.click(getElement('backButton')));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/edit/${registration.id}`
+      `/fi/registrations/edit/${registrationId}`
     )
   );
 });

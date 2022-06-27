@@ -24,7 +24,11 @@ import TitleRow from '../app/layout/titleRow/TitleRow';
 import { authenticatedSelector } from '../auth/selectors';
 import { ENROLMENT_ACTIONS } from '../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
-import { getEditButtonProps } from '../enrolment/utils';
+import {
+  clearCreateEnrolmentFormData,
+  clearEnrolmentReservationData,
+  getEditButtonProps,
+} from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
@@ -65,6 +69,9 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   );
 
   const handleCreate = () => {
+    clearCreateEnrolmentFormData(registration.id as string);
+    clearEnrolmentReservationData(registration.id as string);
+
     navigate({
       pathname: ROUTES.CREATE_ENROLMENT.replace(
         ':registrationId',

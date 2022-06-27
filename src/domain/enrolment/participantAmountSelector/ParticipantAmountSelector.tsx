@@ -1,30 +1,30 @@
 import { useField } from 'formik';
 import isEqual from 'lodash/isEqual';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
-import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import { ENROLMENT_FIELDS } from '../constants';
+import EnrolmentPageContext from '../enrolmentPageContext/EnrolmentPageContext';
 import { AttendeeFields } from '../types';
 import {
   getAttendeeCapacityError,
   getAttendeeDefaultInitialValues,
+  getEnrolmentReservationData,
   getFreeAttendeeCapacity,
+  updateEnrolmentReservationData,
 } from '../utils';
 import styles from './participantAmountSelector.module.scss';
 
 interface Props {
   disabled: boolean;
-  registration: RegistrationFieldsFragment;
 }
 
-const ParticipantAmountSelector: React.FC<Props> = ({
-  disabled,
-  registration,
-}) => {
+const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
   const { t } = useTranslation();
+
+  const { registration } = useContext(EnrolmentPageContext);
 
   const [{ value: attendees }, , { setValue: setAttendees }] = useField<
     AttendeeFields[]
@@ -32,7 +32,12 @@ const ParticipantAmountSelector: React.FC<Props> = ({
     name: ENROLMENT_FIELDS.ATTENDEES,
   });
 
-  const [participantAmount, setParticipantAmount] = useState(1);
+  const [participantAmount, setParticipantAmount] = useState(
+    Math.max(
+      getEnrolmentReservationData(registration.id as string)?.participants ?? 0,
+      1
+    )
+  );
   const freeCapacity = getFreeAttendeeCapacity(registration);
 
   const handleParticipantAmountChange: React.ChangeEventHandler<
@@ -66,6 +71,8 @@ const ParticipantAmountSelector: React.FC<Props> = ({
       ].slice(0, participantAmount);
 
       setAttendees(newAttendees);
+      // TODO: Update reservation from API when BE is ready
+      updateEnrolmentReservationData(registration, newAttendees.length);
     }
   };
 

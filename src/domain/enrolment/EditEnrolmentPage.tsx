@@ -117,7 +117,6 @@ const EditEnrolmentPage: React.FC<Props> = ({
           event={event}
           initialValues={initialValues}
           refetchEnrolment={refetch}
-          registration={registration}
         />
       </MainContent>
     </PageWrapper>
@@ -179,7 +178,12 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     <LoadingSpinner isLoading={loading}>
       {event && registration && enrolment ? (
         <EnrolmentPageContext.Provider
-          value={{ openParticipant, setOpenParticipant, toggleOpenParticipant }}
+          value={{
+            openParticipant,
+            registration,
+            setOpenParticipant,
+            toggleOpenParticipant,
+          }}
         >
           <EditEnrolmentPage
             enrolment={enrolment}

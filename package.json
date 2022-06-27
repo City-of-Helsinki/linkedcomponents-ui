@@ -149,6 +149,7 @@
       "src/utils/testUtils.ts",
       "src/utils/typescript.ts"
     ],
+    "resetMocks": false,
     "transformIgnorePatterns": [
       "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|react-toastify|swagger-ui-react|swagger-client|react-syntax-highlighter|@aeaton/prosemirror-transformers|@aeaton/react-prosemirror|@aeaton/prosemirror-commands|@aeaton/prosemirror-schema|prosemirror-transform|prosemirror-view)"
     ]

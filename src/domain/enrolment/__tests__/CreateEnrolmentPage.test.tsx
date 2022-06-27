@@ -33,6 +33,13 @@ import CreateEnrolmentPage from '../CreateEnrolmentPage';
 
 configure({ defaultHidden: true });
 
+beforeEach(() => {
+  // to fully reset the state between tests, clear the storage
+  localStorage.clear();
+  // clearAllMocks will impact your other mocks too, so you can optionally reset individual mocks instead:
+  (localStorage.setItem as any).mockClear();
+});
+
 const findElement = (key: 'nameInput' | 'submitButton') => {
   switch (key) {
     case 'nameInput':

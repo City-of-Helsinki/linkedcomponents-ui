@@ -21,3 +21,10 @@ export type EnrolmentFormFields = {
   [ENROLMENT_FIELDS.PHONE_NUMBER]: string;
   [ENROLMENT_FIELDS.SERVICE_LANGUAGE]: string;
 };
+
+export type EnrolmentReservation = {
+  expires: number;
+  participants: number;
+  started: number;
+  session: string;
+};

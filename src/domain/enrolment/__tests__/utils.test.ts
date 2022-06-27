@@ -19,6 +19,7 @@ import {
   getEnrolmentNotificationTypes,
   getEnrolmentPayload,
   getFreeAttendeeCapacity,
+  getRegistrationTimeLeft,
 } from '../utils';
 
 describe('getEnrolmentInitialValues function', () => {
@@ -345,5 +346,11 @@ describe('getFreeAttendeeCapacity', () => {
         })
       )
     ).toBe(36);
+  });
+});
+
+describe('getRegistrationTimeLeft function', () => {
+  it('should return 0 if data is not stored to session storage', () => {
+    expect(getRegistrationTimeLeft(registration)).toEqual(0);
   });
 });

@@ -1,8 +1,10 @@
 import { FieldArray, useField } from 'formik';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { ENROLMENT_FIELDS } from '../../constants';
+import EnrolmentPageContext from '../../enrolmentPageContext/EnrolmentPageContext';
 import { AttendeeFields } from '../../types';
+import { updateEnrolmentReservationData } from '../../utils';
 import Attendee from './attendee/Attendee';
 import styles from './attendees.module.scss';
 
@@ -14,6 +16,7 @@ interface Props {
 }
 
 const Attendees: React.FC<Props> = ({ disabled }) => {
+  const { registration } = useContext(EnrolmentPageContext);
   const [{ value: attendees }] = useField<AttendeeFields[]>({
     name: ENROLMENT_FIELDS.ATTENDEES,
   });
@@ -33,6 +36,11 @@ const Attendees: React.FC<Props> = ({ disabled }) => {
                   disabled={disabled}
                   index={index}
                   onDelete={() => {
+                    // TODO: Update reservation from API when BE is ready
+                    updateEnrolmentReservationData(
+                      registration,
+                      attendees.length - 1
+                    );
                     arrayHelpers.remove(index);
                   }}
                   showDelete={attendees.length > 1}

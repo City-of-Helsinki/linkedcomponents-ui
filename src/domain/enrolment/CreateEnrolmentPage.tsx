@@ -98,7 +98,6 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
           disabled={formDisabled}
           event={event}
           initialValues={initialValues}
-          registration={registration}
         />
       </MainContent>
     </PageWrapper>
@@ -143,7 +142,12 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
     <LoadingSpinner isLoading={loading}>
       {event && registration ? (
         <EnrolmentPageContext.Provider
-          value={{ openParticipant, setOpenParticipant, toggleOpenParticipant }}
+          value={{
+            openParticipant,
+            registration,
+            setOpenParticipant,
+            toggleOpenParticipant,
+          }}
         >
           <CreateEnrolmentPage event={event} registration={registration} />
         </EnrolmentPageContext.Provider>

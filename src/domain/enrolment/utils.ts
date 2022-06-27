@@ -1,7 +1,10 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import addMinutes from 'date-fns/addMinutes';
+import isPast from 'date-fns/isPast';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/menuItem/MenuItem';
+import { FORM_NAMES, RESERVATION_NAMES } from '../../constants';
 import {
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
@@ -12,6 +15,7 @@ import {
 } from '../../generated/graphql';
 import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
+import getUnixTime from '../../utils/getUnixTime';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -21,10 +25,16 @@ import {
   ENROLMENT_ICONS,
   ENROLMENT_INITIAL_VALUES,
   ENROLMENT_LABEL_KEYS,
+  ENROLMENT_TIME_IN_MINUTES,
+  ENROLMENT_TIME_PER_PARTICIPANT_IN_MINUTES,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
 } from './constants';
-import { AttendeeFields, EnrolmentFormFields } from './types';
+import {
+  AttendeeFields,
+  EnrolmentFormFields,
+  EnrolmentReservation,
+} from './types';
 
 export const getEnrolmentNotificationTypes = (
   notifications: string
@@ -324,3 +334,72 @@ export const clearEnrolmentsQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>
 ): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'enrolments' });
+
+export const clearCreateEnrolmentFormData = (registrationId: string): void => {
+  sessionStorage?.removeItem(
+    `${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registrationId}`
+  );
+};
+
+export const clearEnrolmentReservationData = (registrationId: string): void => {
+  sessionStorage?.removeItem(
+    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`
+  );
+};
+
+export const getEnrolmentReservationData = (
+  registrationId: string
+): EnrolmentReservation | null => {
+  /* istanbul ignore next */
+  if (typeof sessionStorage === 'undefined') return null;
+
+  const data = sessionStorage?.getItem(
+    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`
+  );
+
+  return data ? JSON.parse(data) : null;
+};
+
+export const setEnrolmentReservationData = (
+  registrationId: string,
+  reservationData: EnrolmentReservation
+): void => {
+  sessionStorage?.setItem(
+    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`,
+    JSON.stringify(reservationData)
+  );
+};
+
+export const updateEnrolmentReservationData = (
+  registration: RegistrationFieldsFragment,
+  participants: number
+) => {
+  const data = getEnrolmentReservationData(registration.id as string);
+  // TODO: Get this data from the API when BE part is implemented
+  /* istanbul ignore else */
+  if (data && !isPast(data.expires * 1000)) {
+    setEnrolmentReservationData(registration.id as string, {
+      ...data,
+      expires: getUnixTime(
+        addMinutes(
+          data.started * 1000,
+          ENROLMENT_TIME_IN_MINUTES +
+            Math.max(participants - 1, 0) *
+              ENROLMENT_TIME_PER_PARTICIPANT_IN_MINUTES
+        )
+      ),
+      participants,
+    });
+  }
+};
+
+export const getRegistrationTimeLeft = (
+  registration: RegistrationFieldsFragment
+) => {
+  const now = new Date();
+
+  const reservationData = getEnrolmentReservationData(
+    registration.id as string
+  );
+  return reservationData ? reservationData.expires - getUnixTime(now) : 0;
+};
