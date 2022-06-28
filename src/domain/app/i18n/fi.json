@@ -334,6 +334,15 @@
       "text2": "Seuraavat ilmoittautumiset poistetaan:",
       "title": "Haluatko varmasti poistaa ilmoittautumisen?"
     },
+    "deleteParticipantModal": {
+      "buttonDelete": "Poista osallistuja",
+      "buttonDelete_other": "Poista osallistujat",
+      "text1": "Haluatko varmasti poistaa osallistujan? Myös osallistujan varaus poistetaan.",
+      "text1_other": "Haluatko varmasti poistaa osallistujat? Myös osallistujien varaukset poistetaan.",
+      "text2": "Tätä toimintoa ei voi perua.",
+      "title": "Vahvista osallistujan poistaminen",
+      "title_other": "Vahvista osallistujien poistaminen"
+    },
     "form": {
       "attendeeDefaultTitle": "Osallistuja {{index}}",
       "buttonDeleteAttendee": "Poista osallistuja",

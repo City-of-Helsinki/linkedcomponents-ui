@@ -15,6 +15,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import { mockedEventResponse } from '../../event/__mocks__/event';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
@@ -310,6 +311,12 @@ test('should add and delete participants', async () => {
   await act(async () => await user.type(participantAmountInput, '1'));
   await act(async () => await user.click(updateParticipantAmountButton));
 
+  const deleteParticipantButton = within(screen.getByRole('dialog')).getByRole(
+    'button',
+    { name: 'Poista osallistuja' }
+  );
+  await act(async () => await user.click(deleteParticipantButton));
+
   expect(
     screen.queryByRole('button', { name: 'Osallistuja 2' })
   ).not.toBeInTheDocument();
@@ -354,10 +361,16 @@ test('should delete participants by clicking delete participant button', async (
 
   screen.getByRole('button', { name: 'Osallistuja 2' });
 
-  const deleteParticipantButton = screen.getAllByRole('button', {
+  const deleteButton = screen.getAllByRole('button', {
     name: /poista osallistuja/i,
   })[1];
-  await act(async () => await await user.click(deleteParticipantButton));
+  await act(async () => await await user.click(deleteButton));
+
+  const deleteParticipantButton = within(screen.getByRole('dialog')).getByRole(
+    'button',
+    { name: 'Poista osallistuja' }
+  );
+  await act(async () => await user.click(deleteParticipantButton));
 
   expect(
     screen.queryByRole('button', { name: 'Osallistuja 2' })

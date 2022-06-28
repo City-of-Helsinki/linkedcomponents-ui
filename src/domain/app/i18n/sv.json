@@ -334,6 +334,15 @@
       "text2": "Följande registreringar kommer att raderas",
       "title": "Är du säker på att du vill avbryta registreringen?"
     },
+    "deleteParticipantModal": {
+      "buttonDelete": "Ta bort deltagare",
+      "buttonDelete_other": "Ta bort deltagare",
+      "text1": "Är du säker på att du vill ta bort deltagaren? Deltagarens reservationer tas också bort.",
+      "text1_other": "Är du säker på att du vill ta bort deltagare? Deltagarnas reservationer tas också bort.",
+      "text2": "Denna operation kan inte ångras.",
+      "title": "Bekräfta borttagning av deltagare",
+      "title_other": "Bekräfta borttagning av deltagare"
+    },
     "form": {
       "attendeeDefaultTitle": "Deltagare {{index}}",
       "buttonDeleteAttendee": "Ta bort deltagare",

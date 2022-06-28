@@ -7,6 +7,7 @@ import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
 import { ENROLMENT_FIELDS } from '../constants';
 import EnrolmentPageContext from '../enrolmentPageContext/EnrolmentPageContext';
+import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { AttendeeFields } from '../types';
 import {
   getAttendeeCapacityError,
@@ -23,6 +24,10 @@ interface Props {
 
 const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
   const { t } = useTranslation();
+
+  const [openModal, setOpenModal] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [participantsToDelete, setParticipantsToDelete] = useState(0);
 
   const { registration } = useContext(EnrolmentPageContext);
 
@@ -57,9 +62,11 @@ const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
     [registration]
   );
 
-  const handleUpdateParticipantAmount = () => {
+  const updateParticipantAmount = () => {
     /* istanbul ignore next */
     if (participantAmount !== attendees.length) {
+      setSaving(true);
+
       const filledAttendees = attendees.filter(
         (a) => !isEqual(a, attendeeInitialValues)
       );
@@ -73,35 +80,64 @@ const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
       setAttendees(newAttendees);
       // TODO: Update reservation from API when BE is ready
       updateEnrolmentReservationData(registration, newAttendees.length);
+
+      setSaving(false);
+      closeModal();
+    }
+  };
+
+  const closeModal = () => {
+    setOpenModal(false);
+  };
+
+  const openParticipantModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleUpdateClick = () => {
+    if (participantAmount < attendees.length) {
+      setParticipantsToDelete(attendees.length - participantAmount);
+      openParticipantModal();
+    } else {
+      updateParticipantAmount();
     }
   };
 
   return (
-    <div className={styles.participantAmountSelector}>
-      <NumberInput
-        id="participant-amount-field"
-        disabled={disabled}
-        errorText={attendeeCapacityError}
-        invalid={!!attendeeCapacityError}
-        label={t(`enrolment.form.labelParticipantAmount`)}
-        min={1}
-        max={freeCapacity}
-        onChange={handleParticipantAmountChange}
-        required
-        step={1}
-        value={participantAmount}
+    <>
+      <ConfirmDeleteParticipantModal
+        isOpen={openModal}
+        isSaving={saving}
+        onClose={closeModal}
+        onDelete={updateParticipantAmount}
+        participantCount={participantsToDelete}
       />
-      <div className={styles.buttonWrapper}>
-        <Button
-          disabled={disabled || !!attendeeCapacityError}
-          onClick={handleUpdateParticipantAmount}
-          type="button"
-          variant="secondary"
-        >
-          {t(`enrolment.form.buttonUpdateParticipantAmount`)}
-        </Button>
+      <div className={styles.participantAmountSelector}>
+        <NumberInput
+          id="participant-amount-field"
+          disabled={disabled}
+          errorText={attendeeCapacityError}
+          invalid={!!attendeeCapacityError}
+          label={t(`enrolment.form.labelParticipantAmount`)}
+          min={1}
+          max={freeCapacity}
+          onChange={handleParticipantAmountChange}
+          required
+          step={1}
+          value={participantAmount}
+        />
+        <div className={styles.buttonWrapper}>
+          <Button
+            disabled={disabled || !!attendeeCapacityError}
+            onClick={handleUpdateClick}
+            type="button"
+            variant="secondary"
+          >
+            {t(`enrolment.form.buttonUpdateParticipantAmount`)}
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

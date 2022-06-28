@@ -333,6 +333,15 @@
       "text2": "Following registrations will be deleted:",
       "title": "Are you sure you want to cancel the registration?"
     },
+    "deleteParticipantModal": {
+      "buttonDelete": "Delete participant",
+      "buttonDelete_other": "Delete participants",
+      "text1": "Are you sure you want to delete the participant? Participant's reservations will also be removed.",
+      "text1_other": "Are you sure you want to delete participants? Participants' reservations will also be removed.",
+      "text2": "This operation cannot be undone.",
+      "title": "Confirm deleting participant",
+      "title_other": "Confirm deleting participants"
+    },
     "form": {
       "attendeeDefaultTitle": "Participant {{index}}",
       "buttonDeleteAttendee": "Delete participant",
