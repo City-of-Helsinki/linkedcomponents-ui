@@ -1,89 +1,92 @@
 import { useField } from 'formik';
-import { IconCheck, IconPen } from 'hds-react';
+import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import { PublicationStatus } from '../../../generated/graphql';
+import { ActionButtonProps, ButtonType } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import useUser from '../../user/hooks/useUser';
-import { EVENT_CREATE_ACTIONS, EVENT_FIELDS } from '../constants';
-import {
-  getCreateEventButtonWarning,
-  isCreateEventButtonVisible,
-} from '../utils';
+import { EVENT_CREATE_ACTIONS, EVENT_FIELDS, EVENT_TYPE } from '../constants';
+import { getCreateButtonProps } from '../utils';
 
 interface Props {
+  onPublish: () => void;
   onSaveDraft: () => void;
   publisher: string;
-  saving: PublicationStatus | null;
+  saving: EVENT_CREATE_ACTIONS | null;
 }
 
 const CreateButtonPanel: React.FC<Props> = ({
+  onPublish,
   onSaveDraft,
   publisher,
   saving,
 }) => {
   const { user } = useUser();
   const { t } = useTranslation();
-  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: eventType }] = useField<EVENT_TYPE>({
+    name: EVENT_FIELDS.TYPE,
+  });
   const authenticated = useSelector(authenticatedSelector);
 
-  const isEventButtonVisible = (action: EVENT_CREATE_ACTIONS) => {
-    return isCreateEventButtonVisible({
+  const getActionButtonProps = ({
+    action,
+    onClick,
+    type,
+    variant,
+  }: {
+    action: EVENT_CREATE_ACTIONS;
+    onClick: () => void;
+    type: ButtonType;
+    variant: Exclude<ButtonVariant, 'supplementary'>;
+  }): ActionButtonProps | null => {
+    const buttonProps = getCreateButtonProps({
       action,
       authenticated,
-      publisher,
-      user,
-    });
-  };
-
-  const getButtonWarning = (action: EVENT_CREATE_ACTIONS) => {
-    return getCreateEventButtonWarning({
-      action,
-      authenticated,
+      eventType,
+      onClick,
       publisher,
       t,
       user,
     });
+    return buttonProps
+      ? { ...buttonProps, isSaving: saving === action, type, variant }
+      : null;
   };
 
-  const createWarning = getButtonWarning(EVENT_CREATE_ACTIONS.CREATE_DRAFT);
-  const publishWarning = getButtonWarning(EVENT_CREATE_ACTIONS.PUBLISH);
+  const actionButtons: ActionButtonProps[] = [
+    getActionButtonProps({
+      action: EVENT_CREATE_ACTIONS.CREATE_DRAFT,
+      onClick: onSaveDraft,
+      type: 'button',
+      variant: 'secondary',
+    }),
+    getActionButtonProps({
+      action: EVENT_CREATE_ACTIONS.PUBLISH,
+      onClick: onPublish,
+      type: 'button',
+      variant: 'primary',
+    }),
+  ].filter(skipFalsyType);
 
   return (
     <ButtonPanel
-      submitButtons={[
-        isEventButtonVisible(EVENT_CREATE_ACTIONS.CREATE_DRAFT) && (
+      submitButtons={actionButtons.map(
+        ({ disabled, label, isSaving, ...rest }, index) => (
           <LoadingButton
-            key="create-draft"
-            disabled={Boolean(createWarning)}
-            icon={<IconPen aria-hidden={true} />}
-            loading={saving === PublicationStatus.Draft}
-            onClick={onSaveDraft}
-            title={createWarning}
-            type="button"
-            variant="secondary"
+            key={index}
+            {...rest}
+            disabled={disabled || Boolean(saving)}
+            loading={isSaving}
           >
-            {t('event.form.buttonSaveDraft')}
+            {label}
           </LoadingButton>
-        ),
-        isEventButtonVisible(EVENT_CREATE_ACTIONS.PUBLISH) && (
-          <LoadingButton
-            key="publish"
-            disabled={Boolean(publishWarning || saving)}
-            icon={<IconCheck aria-hidden={true} />}
-            loading={saving === PublicationStatus.Public}
-            title={publishWarning}
-            type="submit"
-          >
-            {t(`event.form.buttonPublish.${type}`)}
-          </LoadingButton>
-        ),
-      ].filter(skipFalsyType)}
+        )
+      )}
     />
   );
 };

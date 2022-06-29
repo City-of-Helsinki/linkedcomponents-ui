@@ -34,5 +34,5 @@ export const waitRequest = async ({
 
   await t.expect(requestLogger.requests.find(findFn)).ok();
 
-  return requestLogger.requests.find(findFn);
+  return requestLogger.requests.find(findFn) as LoggedRequest;
 };

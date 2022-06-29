@@ -82,7 +82,7 @@ export const getKeywordSetsPage = async (t: TestController) => {
       );
 
       const keywordSetRow = () => {
-        return withinSearchResultList().getAllByTestId(keywordSet.id);
+        return withinSearchResultList().getAllByTestId(keywordSet.id as string);
       };
 
       if (searchedField) {

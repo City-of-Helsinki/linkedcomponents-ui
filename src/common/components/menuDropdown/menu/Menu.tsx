@@ -3,7 +3,8 @@ import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { RectReadOnly } from 'react-use-measure';
 
-import MenuItem, { MenuItemOptionProps } from '../menuItem/MenuItem';
+import MenuItem from '../menuItem/MenuItem';
+import { MenuItemOptionProps } from '../types';
 import styles from './menu.module.scss';
 
 const MENU_MIN_WIDTH = 190;

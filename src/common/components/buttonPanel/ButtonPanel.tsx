@@ -7,7 +7,7 @@ import Button from '../../../common/components/button/Button';
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import Container from '../../../domain/app/layout/container/Container';
 import useIsMobile from '../../../hooks/useIsMobile';
-import { MenuItemOptionProps } from '../menuDropdown/menuItem/MenuItem';
+import { MenuItemOptionProps } from '../menuDropdown/types';
 import styles from './buttonPanel.module.scss';
 
 export interface ButtonPanelProps {

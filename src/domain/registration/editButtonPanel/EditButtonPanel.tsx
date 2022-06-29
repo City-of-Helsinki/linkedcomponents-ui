@@ -7,11 +7,12 @@ import { useNavigate } from 'react-router';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/menuItem/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
+import { ActionButtonProps, ButtonType } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -25,14 +26,6 @@ import {
   getEditButtonProps,
   getRegistrationFields,
 } from '../utils';
-
-type ButtonType = 'button' | 'reset' | 'submit' | undefined;
-
-type ActionButtonProps = {
-  isSaving: boolean;
-  type: ButtonType;
-  variant: Exclude<ButtonVariant, 'supplementary'>;
-} & MenuItemOptionProps;
 
 export interface EditButtonPanelProps {
   onDelete: () => void;

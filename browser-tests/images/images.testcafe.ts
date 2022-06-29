@@ -51,7 +51,9 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       const images = await getImages(t, imagesLogger);
       const [image] = images;
 
-      await urlUtils.actions.navigateToImagesUrl(getRandomSentence(image.name));
+      await urlUtils.actions.navigateToImagesUrl(
+        getRandomSentence(image.name as string)
+      );
 
       const searchResults = await imagesPage.findSearchResultList();
       const imageRow = await searchResults.imageRow(image);

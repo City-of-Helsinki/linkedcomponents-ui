@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/menuItem/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import { KeywordFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';

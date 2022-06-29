@@ -40,7 +40,7 @@ export const getEventSearchPage = (t: TestController) => {
       },
       placeCheckbox(place: PlaceFieldsFragment) {
         return withinSearchBanner().findAllByRole('checkbox', {
-          name: place.name.fi,
+          name: place.name?.fi as string,
         });
       },
       placeFilter() {
@@ -71,11 +71,11 @@ export const getEventSearchPage = (t: TestController) => {
       },
 
       async selectPlaceFilter(place: PlaceFieldsFragment) {
-        setDataToPrintOnFailure(t, 'typeText', place.name.fi);
+        setDataToPrintOnFailure(t, 'typeText', place.name?.fi as string);
         await t
           .click(selectors.placeSearchInput())
           .pressKey('ctrl+a delete') // clears previous input
-          .typeText(selectors.placeSearchInput(), place.name.fi)
+          .typeText(selectors.placeSearchInput(), place.name?.fi as string)
           .click(selectors.placeCheckbox(place));
       },
     };
@@ -138,7 +138,7 @@ export const getEventSearchPage = (t: TestController) => {
           );
         },
         publisherText(publisher: OrganizationFieldsFragment) {
-          return withinEventCard().findByText(publisher.name);
+          return withinEventCard().findByText(publisher.name as string);
         },
         containsText(text: string) {
           return withinEventCard().findByText(RegExp(text, 'gi'));

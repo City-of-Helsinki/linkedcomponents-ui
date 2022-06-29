@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/menuItem/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import {
   EventFieldsFragment,
@@ -15,6 +15,7 @@ import {
 } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
+import { ActionButtonProps } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EventsLocationState } from '../../events/types';
@@ -22,11 +23,6 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
 import { copyEventToSessionStorage, getEditButtonProps } from '../utils';
-
-type ActionButtonProps = {
-  isSaving: boolean;
-  variant: Exclude<ButtonVariant, 'supplementary'>;
-} & MenuItemOptionProps;
 
 export interface EditButtonPanelProps {
   event: EventFieldsFragment;

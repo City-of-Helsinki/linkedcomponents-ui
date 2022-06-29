@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action } from '@reduxjs/toolkit';
+import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { ThunkAction } from 'redux-thunk';
 
+import { MenuItemOptionProps } from './common/components/menuDropdown/types';
 import { LE_DATA_LANGUAGES, SEARCH_PARAMS } from './constants';
 import rootReducer from './domain/app/store/reducers';
 
@@ -79,3 +81,11 @@ export type UpdateActionsCallbacks = {
   onError?: (error: any) => void;
   onSuccess?: () => void;
 };
+
+export type ButtonType = 'button' | 'reset' | 'submit' | undefined;
+
+export type ActionButtonProps = {
+  isSaving: boolean;
+  type?: ButtonType;
+  variant: Exclude<ButtonVariant, 'supplementary'>;
+} & MenuItemOptionProps;

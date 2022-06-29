@@ -81,11 +81,13 @@ test.disablePageReloads(
     );
 
     await urlUtils.actions.navigateToSearchUrl(
-      getRandomSentence(event.name.fi)
+      getRandomSentence(event.name?.fi as string)
     );
     const searchResults = await eventSearchPage.findSearchResultList();
     const eventCard = await searchResults.eventCard(event);
-    await eventCard.expectations.publisherIsPresent(eventPublisher);
+    if (eventPublisher) {
+      await eventCard.expectations.publisherIsPresent(eventPublisher);
+    }
 
     if (!isInternetLocation(eventLocation)) {
       await eventCard.expectations.addressIsPresent(eventLocation);
@@ -113,17 +115,22 @@ test.disablePageReloads(
     );
 
     for (const locale of eventLanguages) {
-      await testSearchEventByText(t, event, event.name[locale], 'name');
       await testSearchEventByText(
         t,
         event,
-        event.shortDescription[locale],
+        event.name?.[locale] as string,
+        'name'
+      );
+      await testSearchEventByText(
+        t,
+        event,
+        event.shortDescription?.[locale] as string,
         'shortDescription'
       );
       await testSearchEventByText(
         t,
         event,
-        event.description[locale],
+        event.description?.[locale] as string,
         'description'
       );
 
@@ -134,7 +141,7 @@ test.disablePageReloads(
       await testSearchEventByText(
         t,
         eventWithLocation,
-        eventLocation.name[locale],
+        eventLocation.name?.[locale] as string,
         'location'
       );
 
@@ -145,7 +152,7 @@ test.disablePageReloads(
         await testSearchEventByText(
           t,
           eventWithLocation,
-          eventLocation.streetAddress[locale],
+          eventLocation.streetAddress?.[locale] as string,
           'location'
         );
       }

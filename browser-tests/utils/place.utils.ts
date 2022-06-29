@@ -9,7 +9,7 @@ export const getExpectedPlaceContext = (
   removeEmpty(
     fieldsToPick.reduce(
       (fields, field) => ({ ...fields, [field]: place[field] }),
-      { id: place.id, name: place.name.fi }
+      { id: place.id, name: place.name?.fi }
     )
   );
 

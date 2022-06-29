@@ -49,6 +49,7 @@ import {
   getEventTimes,
   getNewEventTimes,
   getRecurringEventPayload,
+  isCreateEventButtonVisible,
   sortLanguage,
   sortWeekDays,
 } from '../utils';
@@ -1143,6 +1144,7 @@ describe('getEventInitialValues function', () => {
 
 describe('canUserCreateEvent function', () => {
   const publisher = TEST_PUBLISHER_ID;
+  const authenticated = true;
 
   it('should allow/deny correct actions if adminArganizations contains event publisher', () => {
     const user = fakeUser({ adminOrganizations: [publisher] });
@@ -1156,6 +1158,7 @@ describe('canUserCreateEvent function', () => {
       expect(
         canUserCreateEvent({
           action,
+          authenticated,
           publisher,
           user,
         })
@@ -1172,6 +1175,7 @@ describe('canUserCreateEvent function', () => {
       expect(
         canUserCreateEvent({
           action,
+          authenticated,
           publisher,
           user,
         })
@@ -1184,7 +1188,73 @@ describe('canUserCreateEvent function', () => {
       expect(
         canUserCreateEvent({
           action,
+          authenticated,
           publisher,
+          user,
+        })
+      ).toBe(false);
+    });
+  });
+
+  it('should allow/deny correct actions if publisher is empty but user has an organizations', () => {
+    const user = fakeUser({ organization: publisher });
+
+    const allowedActions = [EVENT_CREATE_ACTIONS.CREATE_DRAFT];
+
+    allowedActions.forEach((action) => {
+      expect(
+        canUserCreateEvent({
+          action,
+          authenticated,
+          publisher: '',
+          user,
+        })
+      ).toBe(true);
+    });
+
+    const deniedActions = [EVENT_CREATE_ACTIONS.PUBLISH];
+
+    deniedActions.forEach((action) => {
+      expect(
+        canUserCreateEvent({
+          action,
+          authenticated,
+          publisher: '',
+          user,
+        })
+      ).toBe(false);
+    });
+  });
+});
+
+describe('isCreateEventButtonVisible function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+  const authenticated = true;
+
+  it('should show/hide correct buttons if publisher is empty but user has an organizations', () => {
+    const user = fakeUser({ organization: publisher });
+
+    const visibleButtons = [EVENT_CREATE_ACTIONS.CREATE_DRAFT];
+
+    visibleButtons.forEach((action) => {
+      expect(
+        isCreateEventButtonVisible({
+          action,
+          authenticated,
+          publisher: '',
+          user,
+        })
+      ).toBe(true);
+    });
+
+    const hiddenButtons = [EVENT_CREATE_ACTIONS.PUBLISH];
+
+    hiddenButtons.forEach((action) => {
+      expect(
+        isCreateEventButtonVisible({
+          action,
+          authenticated,
+          publisher: '',
           user,
         })
       ).toBe(false);

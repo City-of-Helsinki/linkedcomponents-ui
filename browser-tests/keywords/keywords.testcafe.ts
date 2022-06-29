@@ -57,7 +57,7 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       );
 
       await urlUtils.actions.navigateToKeywordsUrl(
-        getRandomSentence(keyword.name.fi)
+        getRandomSentence(keyword.name?.fi as string)
       );
 
       const searchResults = await keywordsPage.findSearchResultList();

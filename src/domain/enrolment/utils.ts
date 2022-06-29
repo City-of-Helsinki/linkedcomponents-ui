@@ -3,7 +3,7 @@ import addMinutes from 'date-fns/addMinutes';
 import isPast from 'date-fns/isPast';
 import { TFunction } from 'i18next';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/menuItem/MenuItem';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { FORM_NAMES, RESERVATION_NAMES } from '../../constants';
 import {
   CreateEnrolmentMutationInput,
