@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -6,31 +6,30 @@ import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { ROUTES } from '../../../constants';
-import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import { authenticatedSelector } from '../../auth/selectors';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
+import EnrolmentPageContext from '../enrolmentPageContext/EnrolmentPageContext';
 import { getEditButtonProps } from '../utils';
 import styles from './createButtonPanel.module.scss';
 
 export interface CreateButtonPanelProps {
   disabled: boolean;
   onSave: () => void;
-  registration: RegistrationFieldsFragment;
   saving: boolean;
 }
 
 const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
   disabled,
   onSave,
-  registration,
   saving,
 }) => {
   const { t } = useTranslation();
 
+  const { registration } = useContext(EnrolmentPageContext);
   const authenticated = useSelector(authenticatedSelector);
   const publisher = useRegistrationPublisher({ registration }) as string;
   const { organizationAncestors } = useOrganizationAncestors(publisher);

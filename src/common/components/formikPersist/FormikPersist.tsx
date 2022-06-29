@@ -9,30 +9,33 @@ export interface PersistProps {
   name: string;
   debounceTime?: number;
   isSessionStorage?: boolean;
+  restoringDisabled?: boolean;
+  savingDisabled?: boolean;
 }
 
 const FormikPersist = ({
   debounceTime = 300,
   isSessionStorage = false,
   name,
+  restoringDisabled,
+  savingDisabled,
 }: PersistProps): null => {
   const isMounted = useIsMounted();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formik = useFormikContext<any>();
 
-  const debouncedSaveForm = React.useMemo(
-    () =>
-      debounce((data: FormikProps<Record<string, unknown>>) => {
-        /* istanbul ignore next */
-        if (!isMounted.current) return;
+  const debouncedSaveForm = debounce(
+    (data: FormikProps<Record<string, unknown>>) => {
+      /* istanbul ignore next */
+      if (savingDisabled || !isMounted.current) return;
 
-        if (isSessionStorage) {
-          window.sessionStorage.setItem(name, JSON.stringify(data));
-        } else {
-          window.localStorage.setItem(name, JSON.stringify(data));
-        }
-      }, debounceTime),
-    [debounceTime, isMounted, isSessionStorage, name]
+      if (isSessionStorage) {
+        window.sessionStorage.setItem(name, JSON.stringify(data));
+      } else {
+        window.localStorage.setItem(name, JSON.stringify(data));
+      }
+    },
+    debounceTime
   );
 
   const saveForm = React.useCallback(
@@ -53,7 +56,7 @@ const FormikPersist = ({
       ? window.sessionStorage.getItem(name)
       : window.localStorage.getItem(name);
 
-    if (maybeState) {
+    if (!restoringDisabled && maybeState) {
       formik.setFormikState(JSON.parse(maybeState));
 
       // Validate form after setting state

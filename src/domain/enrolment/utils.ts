@@ -1,7 +1,10 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import addMinutes from 'date-fns/addMinutes';
+import isPast from 'date-fns/isPast';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
+import { FORM_NAMES, RESERVATION_NAMES } from '../../constants';
 import {
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
@@ -12,17 +15,26 @@ import {
 } from '../../generated/graphql';
 import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
+import getUnixTime from '../../utils/getUnixTime';
+import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
+  ATTENDEE_INITIAL_VALUES,
   AUTHENTICATION_NOT_NEEDED,
   ENROLMENT_ACTIONS,
   ENROLMENT_ICONS,
   ENROLMENT_INITIAL_VALUES,
   ENROLMENT_LABEL_KEYS,
+  ENROLMENT_TIME_IN_MINUTES,
+  ENROLMENT_TIME_PER_PARTICIPANT_IN_MINUTES,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
 } from './constants';
-import { EnrolmentFormFields } from './types';
+import {
+  AttendeeFields,
+  EnrolmentFormFields,
+  EnrolmentReservation,
+} from './types';
 
 export const getEnrolmentNotificationTypes = (
   notifications: string
@@ -39,15 +51,20 @@ export const getEnrolmentNotificationTypes = (
   }
 };
 
+export const getAttendeeDefaultInitialValues = (
+  registration: RegistrationFieldsFragment
+): AttendeeFields => ({
+  ...ATTENDEE_INITIAL_VALUES,
+  audienceMaxAge: registration.audienceMaxAge ?? null,
+  audienceMinAge: registration.audienceMinAge ?? null,
+});
+
 export const getEnrolmentDefaultInitialValues = (
   registration: RegistrationFieldsFragment
-): EnrolmentFormFields => {
-  return {
-    ...ENROLMENT_INITIAL_VALUES,
-    audienceMaxAge: registration.audienceMaxAge ?? null,
-    audienceMinAge: registration.audienceMinAge ?? null,
-  };
-};
+): EnrolmentFormFields => ({
+  ...ENROLMENT_INITIAL_VALUES,
+  attendees: [getAttendeeDefaultInitialValues(registration)],
+});
 
 export const getEnrolmentInitialValues = (
   enrolment: EnrolmentFieldsFragment,
@@ -55,20 +72,29 @@ export const getEnrolmentInitialValues = (
 ): EnrolmentFormFields => {
   return {
     ...getEnrolmentDefaultInitialValues(registration),
-    city: enrolment.city ?? '',
-    dateOfBirth: enrolment.dateOfBirth ? new Date(enrolment.dateOfBirth) : null,
+    attendees: [
+      {
+        audienceMaxAge: registration.audienceMaxAge ?? null,
+        audienceMinAge: registration.audienceMinAge ?? null,
+        city: enrolment.city ?? '',
+        dateOfBirth: enrolment.dateOfBirth
+          ? new Date(enrolment.dateOfBirth)
+          : null,
+        extraInfo: '',
+        name: enrolment.name ?? '',
+        streetAddress: enrolment.streetAddress ?? '',
+        zip: enrolment.zipcode ?? '',
+      },
+    ],
     email: enrolment.email ?? '',
     extraInfo: enrolment.extraInfo ?? '',
     membershipNumber: enrolment.membershipNumber ?? '',
-    name: enrolment.name ?? '',
     nativeLanguage: enrolment.nativeLanguage ?? '',
     notifications: getEnrolmentNotificationTypes(
       enrolment.notifications as string
     ),
     phoneNumber: enrolment.phoneNumber ?? '',
     serviceLanguage: enrolment.serviceLanguage ?? '',
-    streetAddress: enrolment.streetAddress ?? '',
-    zip: enrolment.zipcode ?? '',
   };
 };
 
@@ -94,19 +120,16 @@ export const getEnrolmentPayload = (
   registration: RegistrationFieldsFragment
 ): CreateEnrolmentMutationInput => {
   const {
-    city,
-    dateOfBirth,
+    attendees,
     email,
     extraInfo,
     membershipNumber,
-    name,
     nativeLanguage,
     notifications,
     phoneNumber,
     serviceLanguage,
-    streetAddress,
-    zip,
   } = formValues;
+  const { city, dateOfBirth, name, streetAddress, zip } = attendees[0] || {};
 
   return {
     city: city || null,
@@ -133,6 +156,40 @@ export const enrolmentPathBuilder = ({
   return `/signup_edit/${id}/`;
 };
 
+export const getFreeAttendeeCapacity = (
+  registration: RegistrationFieldsFragment
+): number | undefined => {
+  // If there are seats in the event
+  if (!registration.maximumAttendeeCapacity) {
+    return undefined;
+  }
+  return Math.max(
+    registration.maximumAttendeeCapacity -
+      (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0),
+    0
+  );
+};
+
+export const getAttendeeCapacityError = (
+  registration: RegistrationFieldsFragment,
+  participantAmount: number,
+  t: TFunction
+): string | undefined => {
+  if (participantAmount < 1) {
+    return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MIN, { min: 1 });
+  }
+
+  const freeCapacity = getFreeAttendeeCapacity(registration);
+
+  if (freeCapacity && participantAmount > freeCapacity) {
+    return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MAX, {
+      max: freeCapacity,
+    });
+  }
+
+  return undefined;
+};
+
 export const checkCanUserDoAction = ({
   action,
   organizationAncestors,
@@ -149,6 +206,7 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
+
   switch (action) {
     case ENROLMENT_ACTIONS.EDIT:
       return true;
@@ -276,3 +334,72 @@ export const clearEnrolmentsQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>
 ): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'enrolments' });
+
+export const clearCreateEnrolmentFormData = (registrationId: string): void => {
+  sessionStorage?.removeItem(
+    `${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registrationId}`
+  );
+};
+
+export const clearEnrolmentReservationData = (registrationId: string): void => {
+  sessionStorage?.removeItem(
+    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`
+  );
+};
+
+export const getEnrolmentReservationData = (
+  registrationId: string
+): EnrolmentReservation | null => {
+  /* istanbul ignore next */
+  if (typeof sessionStorage === 'undefined') return null;
+
+  const data = sessionStorage?.getItem(
+    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`
+  );
+
+  return data ? JSON.parse(data) : null;
+};
+
+export const setEnrolmentReservationData = (
+  registrationId: string,
+  reservationData: EnrolmentReservation
+): void => {
+  sessionStorage?.setItem(
+    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`,
+    JSON.stringify(reservationData)
+  );
+};
+
+export const updateEnrolmentReservationData = (
+  registration: RegistrationFieldsFragment,
+  participants: number
+) => {
+  const data = getEnrolmentReservationData(registration.id as string);
+  // TODO: Get this data from the API when BE part is implemented
+  /* istanbul ignore else */
+  if (data && !isPast(data.expires * 1000)) {
+    setEnrolmentReservationData(registration.id as string, {
+      ...data,
+      expires: getUnixTime(
+        addMinutes(
+          data.started * 1000,
+          ENROLMENT_TIME_IN_MINUTES +
+            Math.max(participants - 1, 0) *
+              ENROLMENT_TIME_PER_PARTICIPANT_IN_MINUTES
+        )
+      ),
+      participants,
+    });
+  }
+};
+
+export const getRegistrationTimeLeft = (
+  registration: RegistrationFieldsFragment
+) => {
+  const now = new Date();
+
+  const reservationData = getEnrolmentReservationData(
+    registration.id as string
+  );
+  return reservationData ? reservationData.expires - getUnixTime(now) : 0;
+};

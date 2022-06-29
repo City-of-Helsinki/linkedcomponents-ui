@@ -1,18 +1,30 @@
-import { ENROLMENT_FIELDS } from './constants';
+import { ATTENDEE_FIELDS, ENROLMENT_FIELDS } from './constants';
+
+export type AttendeeFields = {
+  [ATTENDEE_FIELDS.AUDIENCE_MAX_AGE]: number | null;
+  [ATTENDEE_FIELDS.AUDIENCE_MIN_AGE]: number | null;
+  [ATTENDEE_FIELDS.CITY]: string;
+  [ATTENDEE_FIELDS.DATE_OF_BIRTH]: Date | null;
+  [ATTENDEE_FIELDS.EXTRA_INFO]: string;
+  [ATTENDEE_FIELDS.NAME]: string;
+  [ATTENDEE_FIELDS.STREET_ADDRESS]: string;
+  [ATTENDEE_FIELDS.ZIP]: string;
+};
 
 export type EnrolmentFormFields = {
-  [ENROLMENT_FIELDS.AUDIENCE_MAX_AGE]: number | null;
-  [ENROLMENT_FIELDS.AUDIENCE_MIN_AGE]: number | null;
-  [ENROLMENT_FIELDS.CITY]: string;
-  [ENROLMENT_FIELDS.DATE_OF_BIRTH]: Date | null;
+  [ENROLMENT_FIELDS.ATTENDEES]: AttendeeFields[];
   [ENROLMENT_FIELDS.EMAIL]: string;
   [ENROLMENT_FIELDS.EXTRA_INFO]: string;
   [ENROLMENT_FIELDS.MEMBERSHIP_NUMBER]: string;
-  [ENROLMENT_FIELDS.NAME]: string;
   [ENROLMENT_FIELDS.NATIVE_LANGUAGE]: string;
   [ENROLMENT_FIELDS.NOTIFICATIONS]: string[];
   [ENROLMENT_FIELDS.PHONE_NUMBER]: string;
   [ENROLMENT_FIELDS.SERVICE_LANGUAGE]: string;
-  [ENROLMENT_FIELDS.STREET_ADDRESS]: string;
-  [ENROLMENT_FIELDS.ZIP]: string;
+};
+
+export type EnrolmentReservation = {
+  expires: number;
+  participants: number;
+  started: number;
+  session: string;
 };

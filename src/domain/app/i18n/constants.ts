@@ -3,6 +3,8 @@ export enum VALIDATION_MESSAGE_KEYS {
   AGE_MIN = 'form.validation.age.min',
   ARRAY_MIN = 'form.validation.array.min',
   ARRAY_REQUIRED = 'form.validation.array.required',
+  CAPACITY_MAX = 'form.validation.capacity.max',
+  CAPACITY_MIN = 'form.validation.capacity.min',
   DATE = 'form.validation.string.date',
   DATE_FUTURE = 'form.validation.date.future',
   DATE_AFTER = 'form.validation.date.after',

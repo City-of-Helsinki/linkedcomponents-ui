@@ -1,5 +1,5 @@
 import { IconPen } from 'hds-react';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -8,10 +8,7 @@ import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPane
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
-import {
-  EnrolmentFieldsFragment,
-  RegistrationFieldsFragment,
-} from '../../../generated/graphql';
+import { EnrolmentFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
@@ -20,6 +17,7 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
+import EnrolmentPageContext from '../enrolmentPageContext/EnrolmentPageContext';
 import { getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
@@ -27,7 +25,6 @@ export interface EditButtonPanelProps {
   enrolment: EnrolmentFieldsFragment;
   onCancel: () => void;
   onSave: () => void;
-  registration: RegistrationFieldsFragment;
   saving: ENROLMENT_ACTIONS | false;
 }
 
@@ -35,10 +32,11 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   enrolment,
   onCancel,
   onSave,
-  registration,
   saving,
 }) => {
   const { t } = useTranslation();
+
+  const { registration } = useContext(EnrolmentPageContext);
   const authenticated = useSelector(authenticatedSelector);
   const { user } = useUser();
   const publisher = useRegistrationPublisher({ registration }) as string;

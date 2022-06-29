@@ -333,8 +333,21 @@
       "text2": "Following registrations will be deleted:",
       "title": "Are you sure you want to cancel the registration?"
     },
+    "deleteParticipantModal": {
+      "buttonDelete": "Delete participant",
+      "buttonDelete_other": "Delete participants",
+      "text1": "Are you sure you want to delete the participant? Participant's reservations will also be removed.",
+      "text1_other": "Are you sure you want to delete participants? Participants' reservations will also be removed.",
+      "text2": "This operation cannot be undone.",
+      "title": "Confirm deleting participant",
+      "title_other": "Confirm deleting participants"
+    },
     "form": {
+      "attendeeDefaultTitle": "Participant {{index}}",
+      "buttonDeleteAttendee": "Delete participant",
       "buttonSave": "Save participant",
+      "buttonUpdateParticipantAmount": "Update",
+      "labelAttendeeExtraInfo": "Additional information (optional)",
       "labelCity": "City",
       "labelDateOfBirth": "Date of birth",
       "labelEmail": "Email address",
@@ -342,11 +355,13 @@
       "labelMembershipNumber": "Membership card number (optional)",
       "labelName": "Name",
       "labelNativeLanguage": "Native language",
+      "labelParticipantAmount": "Number of registrants",
       "labelPhoneNumber": "Telephone number",
       "labelServiceLanguage": "Language of communication",
       "labelStreetAddress": "Street address",
       "labelZip": "Postcode",
       "notificationTitleCannotEdit": "Participants cannot be edited",
+      "placeholderAttendeeExtraInfo": "Enter any additional information or request",
       "placeholderCity": "Enter city",
       "placeholderEmail": "Enter your email address",
       "placeholderExtraInfo": "Enter any additional information or request",
@@ -357,10 +372,12 @@
       "placeholderServiceLanguage": "Select language",
       "placeholderStreetAddress": "Enter a street address",
       "placeholderZip": "Enter postcode",
+      "timeLeft": "Time left to register",
       "titleAdditionalInfo": "Additional information",
       "titleBasicInfo": "Basic information of the registrant",
       "titleContactInfo": "Contact information",
-      "titleNotifications": "Event notifications"
+      "titleNotifications": "Event notifications",
+      "titleRegistration": "Registration"
     },
     "notifications": {
       "email": "By email",
@@ -1098,6 +1115,10 @@
         "min": "At least {{min}} item must be selected",
         "min_other": "At least {{min}} item must be selected",
         "required": "At least 1 item must be selected"
+      },
+      "capacity": {
+        "max": "The maximum number of participants is {{max}}.",
+        "min": "The minimum number of participants is {{min}}."
       },
       "date": {
         "after": "This date must be after {{after}}",

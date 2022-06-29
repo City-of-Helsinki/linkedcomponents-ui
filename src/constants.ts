@@ -134,6 +134,7 @@ export enum EXTLINK {
 }
 
 export enum FORM_NAMES {
+  CREATE_ENROLMENT_FORM = 'create-enrolment-form',
   EVENT_FORM = 'event-form',
   REGISTRATION_FORM = 'registration-form',
 }
@@ -202,3 +203,7 @@ export const VALIDATION_ERROR_SCROLLER_OPTIONS = {
   offset: -200,
   smooth: true,
 };
+
+export enum RESERVATION_NAMES {
+  ENROLMENT_RESERVATION = 'enrolment-reservation',
+}

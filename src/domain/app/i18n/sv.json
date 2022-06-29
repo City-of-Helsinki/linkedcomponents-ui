@@ -334,8 +334,21 @@
       "text2": "Följande registreringar kommer att raderas",
       "title": "Är du säker på att du vill avbryta registreringen?"
     },
+    "deleteParticipantModal": {
+      "buttonDelete": "Ta bort deltagare",
+      "buttonDelete_other": "Ta bort deltagare",
+      "text1": "Är du säker på att du vill ta bort deltagaren? Deltagarens reservationer tas också bort.",
+      "text1_other": "Är du säker på att du vill ta bort deltagare? Deltagarnas reservationer tas också bort.",
+      "text2": "Denna operation kan inte ångras.",
+      "title": "Bekräfta borttagning av deltagare",
+      "title_other": "Bekräfta borttagning av deltagare"
+    },
     "form": {
+      "attendeeDefaultTitle": "Deltagare {{index}}",
+      "buttonDeleteAttendee": "Ta bort deltagare",
       "buttonSave": "Spara deltagare",
+      "buttonUpdateParticipantAmount": "Uppdatera",
+      "labelAttendeeExtraInfo": "Ytterligare information (valfritt)",
       "labelCity": "Staden",
       "labelDateOfBirth": "Födelsedatum",
       "labelEmail": "E-postadress",
@@ -343,11 +356,13 @@
       "labelMembershipNumber": "Medlemskortnummer (valfritt)",
       "labelName": "Namn",
       "labelNativeLanguage": "Modersmål",
+      "labelParticipantAmount": "Antal registrerade",
       "labelPhoneNumber": "Telefonnummer",
       "labelServiceLanguage": "Transaktionsspråk",
       "labelStreetAddress": "Gatuadress",
       "labelZip": "Postnummer",
       "notificationTitleCannotEdit": "Deltagaren kan inte redigeras",
+      "placeholderAttendeeExtraInfo": "Ange ytterligare information eller begäran",
       "placeholderCity": "Ange staden",
       "placeholderEmail": "Skriv in din mailadress",
       "placeholderExtraInfo": "Ange ytterligare information eller begäran",
@@ -358,10 +373,12 @@
       "placeholderServiceLanguage": "Välj transaktionsspråk",
       "placeholderStreetAddress": "Ange en gatuadress",
       "placeholderZip": "Ange postnummer",
+      "timeLeft": "Tid kvar att registrera sig",
       "titleAdditionalInfo": "Ytterligare information",
       "titleBasicInfo": "Grundläggande information om registranten",
       "titleContactInfo": "Kontaktinformation",
-      "titleNotifications": "Evenemangmeddelanden"
+      "titleNotifications": "Evenemangmeddelanden",
+      "titleRegistration": "Registrering"
     },
     "notifications": {
       "email": "Via e-post",
@@ -1079,6 +1096,10 @@
         "min": "Minst {{min}} objekt måste väljas",
         "min_other": "Minst {{min}} objekt måste väljas",
         "required": "Minst 1 objekt måste väljas"
+      },
+      "capacity": {
+        "max": "Max antal deltagare är {{max}}.",
+        "min": "Minsta antal deltagare är {{min}}."
       },
       "date": {
         "after": "Detta datum måste vara efter {{after}}",

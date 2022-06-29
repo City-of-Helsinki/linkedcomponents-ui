@@ -334,8 +334,21 @@
       "text2": "Seuraavat ilmoittautumiset poistetaan:",
       "title": "Haluatko varmasti poistaa ilmoittautumisen?"
     },
+    "deleteParticipantModal": {
+      "buttonDelete": "Poista osallistuja",
+      "buttonDelete_other": "Poista osallistujat",
+      "text1": "Haluatko varmasti poistaa osallistujan? Myös osallistujan varaus poistetaan.",
+      "text1_other": "Haluatko varmasti poistaa osallistujat? Myös osallistujien varaukset poistetaan.",
+      "text2": "Tätä toimintoa ei voi perua.",
+      "title": "Vahvista osallistujan poistaminen",
+      "title_other": "Vahvista osallistujien poistaminen"
+    },
     "form": {
+      "attendeeDefaultTitle": "Osallistuja {{index}}",
+      "buttonDeleteAttendee": "Poista osallistuja",
       "buttonSave": "Tallenna osallistuja",
+      "buttonUpdateParticipantAmount": "Päivitä",
+      "labelAttendeeExtraInfo": "Lisätietoa (valinnainen)",
       "labelCity": "Kaupunki",
       "labelDateOfBirth": "Syntymäaika",
       "labelEmail": "Sähköpostiosoite",
@@ -343,11 +356,13 @@
       "labelMembershipNumber": "Jäsenkortin numero (valinnainen)",
       "labelName": "Nimi",
       "labelNativeLanguage": "Äidinkieli",
+      "labelParticipantAmount": "Ilmoittautujien määrä",
       "labelPhoneNumber": "Puhelinnumero",
       "labelServiceLanguage": "Asiointikieli",
       "labelStreetAddress": "Katuosoite",
       "labelZip": "Postinumero",
       "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
+      "placeholderAttendeeExtraInfo": "Syötä mahdollinen lisätieto tai toive",
       "placeholderCity": "Syötä kaupunki",
       "placeholderEmail": "Syötä sähköpostiosoite",
       "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
@@ -358,10 +373,12 @@
       "placeholderServiceLanguage": "Valitse asiointikieli",
       "placeholderStreetAddress": "Syötä katuosoite",
       "placeholderZip": "Syötä postinumero",
+      "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon",
       "titleAdditionalInfo": "Lisätiedot",
       "titleBasicInfo": "Ilmoittautujan perustiedot",
       "titleContactInfo": "Yhteystiedot",
-      "titleNotifications": "Tapahtumaa koskevat ilmoitukset"
+      "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
+      "titleRegistration": "Ilmoittautuminen"
     },
     "notifications": {
       "email": "Sähköpostilla",
@@ -1079,6 +1096,10 @@
         "min": "Vähintään {{min}} vaihtoehto tulee olla valittuna",
         "min_other": "Vähintään {{min}} vaihtoehtoa tulee olla valittuna",
         "required": "Vähintään 1 vaihtoehto tulee olla valittuna"
+      },
+      "capacity": {
+        "max": "Osallistujien enimmäismäärä on {{max}}.",
+        "min": "Osallistujien vähimmäismäärä on {{min}}."
       },
       "date": {
         "after": "Tämän päivämäärän tulee olla {{after}} jälkeen",
