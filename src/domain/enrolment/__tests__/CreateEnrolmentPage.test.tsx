@@ -332,10 +332,10 @@ test('should show and hide participant specific fields', async () => {
   const nameInput = getElement('nameInput');
   const toggleButton = screen.getByRole('button', { name: 'Osallistuja 1' });
 
-  await act(async () => await await user.click(toggleButton));
+  await act(async () => await user.click(toggleButton));
   expect(nameInput).not.toBeInTheDocument();
 
-  await act(async () => await await user.click(toggleButton));
+  await act(async () => await user.click(toggleButton));
   getElement('nameInput');
 });
 
@@ -357,14 +357,14 @@ test('should delete participants by clicking delete participant button', async (
 
   await act(async () => await user.clear(participantAmountInput));
   await act(async () => await user.type(participantAmountInput, '2'));
-  await act(async () => await await user.click(updateParticipantAmountButton));
+  await act(async () => await user.click(updateParticipantAmountButton));
 
   screen.getByRole('button', { name: 'Osallistuja 2' });
 
   const deleteButton = screen.getAllByRole('button', {
     name: /poista osallistuja/i,
   })[1];
-  await act(async () => await await user.click(deleteButton));
+  await act(async () => await user.click(deleteButton));
 
   const deleteParticipantButton = within(screen.getByRole('dialog')).getByRole(
     'button',
