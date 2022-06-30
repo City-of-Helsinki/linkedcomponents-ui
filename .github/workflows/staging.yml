@@ -28,7 +28,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: andersinno/kolga-build-action@v2
+        # uses: andersinno/kolga-build-action@v2
+        # https://helsinkisolutionoffice.atlassian.net/browse/DEVOPS-424
+        uses: docker://ghcr.io/andersinno/kolga:2c6028bb7f478301d53928b0a72d5e87f58c0ac8-production
+        with:
+          entrypoint: /app/devops
+          args: create_images
         env:
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-staging
           DOCKER_BUILD_ARG_PUBLIC_URL: 'https://linkedcomponents-ui.test.kuva.hel.ninja'
