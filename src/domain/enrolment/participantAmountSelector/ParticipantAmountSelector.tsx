@@ -38,10 +38,13 @@ const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
   });
 
   const [participantAmount, setParticipantAmount] = useState(
-    Math.max(
-      getEnrolmentReservationData(registration.id as string)?.participants ?? 0,
-      1
-    )
+    disabled
+      ? 1
+      : Math.max(
+          getEnrolmentReservationData(registration.id as string)
+            ?.participants ?? 0,
+          1
+        )
   );
   const freeCapacity = getFreeAttendeeCapacity(registration);
 
@@ -79,7 +82,8 @@ const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
 
       setAttendees(newAttendees);
       // TODO: Update reservation from API when BE is ready
-      updateEnrolmentReservationData(registration, newAttendees.length);
+      disabled &&
+        updateEnrolmentReservationData(registration, newAttendees.length);
 
       setSaving(false);
       closeModal();

@@ -206,7 +206,7 @@ const EnrolmentForm: React.FC<Props> = ({
 
   const isRestoringDisabled = () => {
     const data = getEnrolmentReservationData(registration.id as string);
-    return !enrolment && (!data || isPast(unixTimeToMs(data.expires)));
+    return !!enrolment || !data || isPast(unixTimeToMs(data.expires));
   };
 
   return (
