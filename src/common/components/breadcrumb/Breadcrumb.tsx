@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import React, { cloneElement, isValidElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -33,14 +32,18 @@ const Breadcrumb = ({
   });
 
   return (
-    <nav
-      className={classNames(styles.breadcrumb, className)}
-      aria-label={ariaLabel || t('common.breadcrumb')}
-    >
-      <ol className={classNames(styles.breadcrumbList, css(theme.breadcrumb))}>
-        {items}
-      </ol>
-    </nav>
+    <ClassNames>
+      {({ css, cx }) => (
+        <nav
+          className={cx(styles.breadcrumb, className)}
+          aria-label={ariaLabel || t('common.breadcrumb')}
+        >
+          <ol className={cx(styles.breadcrumbList, css(theme.breadcrumb))}>
+            {items}
+          </ol>
+        </nav>
+      )}
+    </ClassNames>
   );
 };
 

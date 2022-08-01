@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { Footer as HdsFooter } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -80,38 +79,42 @@ const Footer: React.FC = () => {
   }
 
   return (
-    <HdsFooter
-      className={classNames(
-        styles.footer,
-        css(theme.footer),
-        getFooterThemeClassName()
-      )}
-      logoLanguage={logoLanguage}
-      title={t('appName')}
-    >
-      <HdsFooter.Navigation>
-        {navigationItems.map((item, index) => (
-          <HdsFooter.Item
-            key={index}
-            href={item.url}
-            label={item.label}
-            onClick={goToPage(item.url)}
-          />
-        ))}
-      </HdsFooter.Navigation>
+    <ClassNames>
+      {({ css, cx }) => (
+        <HdsFooter
+          className={cx(
+            styles.footer,
+            css(theme.footer),
+            getFooterThemeClassName()
+          )}
+          logoLanguage={logoLanguage}
+          title={t('appName')}
+        >
+          <HdsFooter.Navigation>
+            {navigationItems.map((item, index) => (
+              <HdsFooter.Item
+                key={index}
+                href={item.url}
+                label={item.label}
+                onClick={goToPage(item.url)}
+              />
+            ))}
+          </HdsFooter.Navigation>
 
-      <HdsFooter.Utilities backToTopLabel={t('footer.backToTopLabel')}>
-        <HdsFooter.Item
-          href={`/${locale}${ROUTES.SUPPORT_CONTACT}`}
-          onClick={goToPage(`/${locale}${ROUTES.SUPPORT_CONTACT}`)}
-          label={t('common.feedback.text')}
-        />
-      </HdsFooter.Utilities>
-      <HdsFooter.Base
-        copyrightHolder={t('footer.copyrightHolder')}
-        copyrightText={t('footer.copyrightText')}
-      />
-    </HdsFooter>
+          <HdsFooter.Utilities backToTopLabel={t('footer.backToTopLabel')}>
+            <HdsFooter.Item
+              href={`/${locale}${ROUTES.SUPPORT_CONTACT}`}
+              onClick={goToPage(`/${locale}${ROUTES.SUPPORT_CONTACT}`)}
+              label={t('common.feedback.text')}
+            />
+          </HdsFooter.Utilities>
+          <HdsFooter.Base
+            copyrightHolder={t('footer.copyrightHolder')}
+            copyrightText={t('footer.copyrightText')}
+          />
+        </HdsFooter>
+      )}
+    </ClassNames>
   );
 };
 

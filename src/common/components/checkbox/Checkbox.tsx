@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { Checkbox as BaseCheckbox, CheckboxProps } from 'hds-react';
 import React from 'react';
 
@@ -10,11 +9,15 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ({ className, ...rest }, ref) => {
     const { theme } = useTheme();
     return (
-      <BaseCheckbox
-        {...rest}
-        className={classNames(className, styles.checkbox, css(theme.checkbox))}
-        ref={ref}
-      />
+      <ClassNames>
+        {({ css, cx }) => (
+          <BaseCheckbox
+            {...rest}
+            className={cx(className, styles.checkbox, css(theme.checkbox))}
+            ref={ref}
+          />
+        )}
+      </ClassNames>
     );
   }
 );

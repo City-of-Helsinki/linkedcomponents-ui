@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 
@@ -30,33 +29,37 @@ const Collabsible: React.FC<React.PropsWithChildren<Props>> = ({
   };
 
   return (
-    <div
-      className={classNames(styles.collapsible, css(theme.collapsible), {
-        [styles.expanded]: isOpen,
-      })}
-    >
-      <div role="heading" aria-level={headingLevel}>
-        <button
-          className={styles.button}
-          id={collapsibleHeadingId}
-          aria-expanded={isOpen}
-          aria-controls={collapsiblePanelId}
-          onClick={togglePanel}
-          type="button"
+    <ClassNames>
+      {({ css, cx }) => (
+        <div
+          className={cx(styles.collapsible, css(theme.collapsible), {
+            [styles.expanded]: isOpen,
+          })}
         >
-          {isOpen ? <IconAngleUp size="m" /> : <IconAngleDown size="m" />}
-          <span>{title}</span>
-        </button>
-      </div>
-      <div
-        role="region"
-        aria-labelledby={collapsibleHeadingId}
-        id={collapsiblePanelId}
-        hidden={!isOpen}
-      >
-        {children}
-      </div>
-    </div>
+          <div role="heading" aria-level={headingLevel}>
+            <button
+              className={styles.button}
+              id={collapsibleHeadingId}
+              aria-expanded={isOpen}
+              aria-controls={collapsiblePanelId}
+              onClick={togglePanel}
+              type="button"
+            >
+              {isOpen ? <IconAngleUp size="m" /> : <IconAngleDown size="m" />}
+              <span>{title}</span>
+            </button>
+          </div>
+          <div
+            role="region"
+            aria-labelledby={collapsibleHeadingId}
+            id={collapsiblePanelId}
+            hidden={!isOpen}
+          >
+            {children}
+          </div>
+        </div>
+      )}
+    </ClassNames>
   );
 };
 

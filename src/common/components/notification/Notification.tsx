@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import {
   Notification as BaseNotification,
   NotificationProps,
@@ -18,16 +17,20 @@ const Notification: React.FC<NotificationProps> = ({
   const { theme } = useTheme();
 
   return (
-    <BaseNotification
-      {...rest}
-      className={classNames(
-        className,
-        css(theme.notification.type?.[type]),
-        css(theme.notification.size?.[size])
+    <ClassNames>
+      {({ css, cx }) => (
+        <BaseNotification
+          {...rest}
+          className={cx(
+            className,
+            css(theme.notification.type?.[type]),
+            css(theme.notification.size?.[size])
+          )}
+          size={size as NotificationSizeToast}
+          type={type}
+        />
       )}
-      size={size as NotificationSizeToast}
-      type={type}
-    />
+    </ClassNames>
   );
 };
 

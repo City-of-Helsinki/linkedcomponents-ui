@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import {
   SideNavigation as BaseSideNavigation,
   SideNavigationProps,
@@ -15,12 +14,16 @@ const SideNavigation = ({
 }: SideNavigationProps): React.ReactElement => {
   const { theme } = useTheme();
   return (
-    <BaseSideNavigation
-      {...rest}
-      className={classNames(className, css(theme.sideNavigation))}
-    >
-      {children}
-    </BaseSideNavigation>
+    <ClassNames>
+      {({ css, cx }) => (
+        <BaseSideNavigation
+          {...rest}
+          className={cx(className, css(theme.sideNavigation))}
+        >
+          {children}
+        </BaseSideNavigation>
+      )}
+    </ClassNames>
   );
 };
 

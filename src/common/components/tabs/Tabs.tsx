@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
@@ -64,35 +63,39 @@ const Tabs: React.FC<React.PropsWithChildren<Props>> = ({
     });
 
   return (
-    <div
-      className={className}
-      onBlur={() => (isFocused.current = false)}
-      onFocus={() => (isFocused.current = true)}
-    >
-      <div
-        className={classNames(styles.tabList, css(theme.tabs))}
-        role="tablist"
-        onKeyDown={onKeyDown}
-      >
-        {options.map((option, index) => {
-          return (
-            <Tab
-              key={option.value}
-              autoFocusChange={isFocused.current}
-              index={index}
-              isCompleted={option.isCompleted}
-              isFocused={index === focusedTab}
-              isActive={option.value === activeTab}
-              name={name}
-              option={option}
-              onClick={handleChange}
-              setFocusedTab={setFocusedTab}
-            />
-          );
-        })}
-      </div>
-      {tabPanels}
-    </div>
+    <ClassNames>
+      {({ css, cx }) => (
+        <div
+          className={className}
+          onBlur={() => (isFocused.current = false)}
+          onFocus={() => (isFocused.current = true)}
+        >
+          <div
+            className={cx(styles.tabList, css(theme.tabs))}
+            role="tablist"
+            onKeyDown={onKeyDown}
+          >
+            {options.map((option, index) => {
+              return (
+                <Tab
+                  key={option.value}
+                  autoFocusChange={isFocused.current}
+                  index={index}
+                  isCompleted={option.isCompleted}
+                  isFocused={index === focusedTab}
+                  isActive={option.value === activeTab}
+                  name={name}
+                  option={option}
+                  onClick={handleChange}
+                  setFocusedTab={setFocusedTab}
+                />
+              );
+            })}
+          </div>
+          {tabPanels}
+        </div>
+      )}
+    </ClassNames>
   );
 };
 

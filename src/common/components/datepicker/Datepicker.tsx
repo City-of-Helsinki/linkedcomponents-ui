@@ -3,8 +3,7 @@ import {
   START_DATE,
   useDatepicker,
 } from '@datepicker-react/hooks';
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import formatDate from 'date-fns/format';
 import isValidDate from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
@@ -303,94 +302,98 @@ const DatePicker: React.FC<DatepickerProps> = ({
         selectedDate: value,
       }}
     >
-      <div
-        ref={container}
-        onFocus={() => (isFocused.current = true)}
-        className={classNames(styles.datepickerWrapper, css(theme.datepicker))}
-        onKeyDown={preventArrowKeyScroll}
-      >
-        <TextInput
-          {...textInputProps}
-          buttonIcon={<IconCalendar aria-hidden />}
-          buttonAriaLabel={t('common.datepicker.accessibility.buttonOpen')}
-          onButtonClick={toggleCalendar}
-          onChange={(event) => {
-            handleInputChange(event.target.value);
-          }}
-          onBlur={handleInputBlur}
-          onKeyDown={handleInputKeyDown}
-          value={inputValue}
-          ref={inputRef}
-          inputMode="numeric"
-        >
-          {isCalendarOpen && (
-            <div
-              className={styles.datepickerContainer}
-              ref={datepickerContainer}
-              role="dialog"
-              aria-modal="true"
-              labelled-by={dialogLabelId}
+      <ClassNames>
+        {({ css, cx }) => (
+          <div
+            ref={container}
+            onFocus={() => (isFocused.current = true)}
+            className={cx(styles.datepickerWrapper, css(theme.datepicker))}
+            onKeyDown={preventArrowKeyScroll}
+          >
+            <TextInput
+              {...textInputProps}
+              buttonIcon={<IconCalendar aria-hidden />}
+              buttonAriaLabel={t('common.datepicker.accessibility.buttonOpen')}
+              onButtonClick={toggleCalendar}
+              onChange={(event) => {
+                handleInputChange(event.target.value);
+              }}
+              onBlur={handleInputBlur}
+              onKeyDown={handleInputKeyDown}
+              value={inputValue}
+              ref={inputRef}
+              inputMode="numeric"
             >
-              <div className={styles.selectorsWrapper}>
-                <div>
-                  <div className={styles.monthNavigation}>
-                    <MonthNavButton
-                      onClick={goToPreviousMonths}
-                      aria-label={t(
-                        'common.datepicker.accessibility.buttonPreviousMonth'
-                      )}
-                    >
-                      <IconAngleLeft aria-hidden />
-                    </MonthNavButton>
-                    <div
-                      className={styles.currentMonth}
-                      aria-live="polite"
-                      id={dialogLabelId}
-                    >
-                      {formatDate(new Date(year, month), 'LLLL yyyy', {
-                        locale: dateLocales[locale],
-                      })}
+              {isCalendarOpen && (
+                <div
+                  className={styles.datepickerContainer}
+                  ref={datepickerContainer}
+                  role="dialog"
+                  aria-modal="true"
+                  labelled-by={dialogLabelId}
+                >
+                  <div className={styles.selectorsWrapper}>
+                    <div>
+                      <div className={styles.monthNavigation}>
+                        <MonthNavButton
+                          onClick={goToPreviousMonths}
+                          aria-label={t(
+                            'common.datepicker.accessibility.buttonPreviousMonth'
+                          )}
+                        >
+                          <IconAngleLeft aria-hidden />
+                        </MonthNavButton>
+                        <div
+                          className={styles.currentMonth}
+                          aria-live="polite"
+                          id={dialogLabelId}
+                        >
+                          {formatDate(new Date(year, month), 'LLLL yyyy', {
+                            locale: dateLocales[locale],
+                          })}
+                        </div>
+                        <MonthNavButton
+                          onClick={goToNextMonths}
+                          aria-label={t(
+                            'common.datepicker.accessibility.buttonNextMonth'
+                          )}
+                        >
+                          <IconAngleRight aria-hidden />
+                        </MonthNavButton>
+                      </div>
+                      <div className={styles.daysContainer}>
+                        <Month
+                          key={`${year}-${month}`}
+                          year={year}
+                          month={month}
+                          firstDayOfWeek={firstDayOfWeek}
+                        />
+                      </div>
+                      <button
+                        ref={closeButton}
+                        className={styles.closeButton}
+                        onClick={ensureCalendarIsClosed}
+                        type="button"
+                        tabIndex={-1}
+                      >
+                        {t('common.datepicker.buttonClose')}
+                      </button>
                     </div>
-                    <MonthNavButton
-                      onClick={goToNextMonths}
-                      aria-label={t(
-                        'common.datepicker.accessibility.buttonNextMonth'
-                      )}
-                    >
-                      <IconAngleRight aria-hidden />
-                    </MonthNavButton>
+                    {timeSelector && (
+                      <TimesList
+                        ref={timesContainer}
+                        datetime={value}
+                        minuteInterval={minuteInterval}
+                        onTimeClick={handleTimeClick}
+                      />
+                    )}
                   </div>
-                  <div className={styles.daysContainer}>
-                    <Month
-                      key={`${year}-${month}`}
-                      year={year}
-                      month={month}
-                      firstDayOfWeek={firstDayOfWeek}
-                    />
-                  </div>
-                  <button
-                    ref={closeButton}
-                    className={styles.closeButton}
-                    onClick={ensureCalendarIsClosed}
-                    type="button"
-                    tabIndex={-1}
-                  >
-                    {t('common.datepicker.buttonClose')}
-                  </button>
                 </div>
-                {timeSelector && (
-                  <TimesList
-                    ref={timesContainer}
-                    datetime={value}
-                    minuteInterval={minuteInterval}
-                    onTimeClick={handleTimeClick}
-                  />
-                )}
-              </div>
-            </div>
-          )}
-        </TextInput>
-      </div>
+              )}
+            </TextInput>
+          </div>
+        )}
+      </ClassNames>
     </DatePickerContext.Provider>
   );
 };

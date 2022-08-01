@@ -1,4 +1,4 @@
-import { css } from '@emotion/css';
+import { ClassNames } from '@emotion/react';
 import classNames from 'classnames';
 import { useCombobox, UseComboboxState } from 'downshift';
 import { IconCheck, IconClock, TextInputProps } from 'hds-react';
@@ -135,65 +135,72 @@ const Timepicker: React.FC<Props> = ({
   }, [value]);
 
   return (
-    <InputWrapper
-      className={classNames(styles.wrapper, className, css(theme.timepicker))}
-      {...rest}
-      {...labelProps}
-      hasIcon={true}
-      id={htmlFor}
-      labelId={labelProps.id}
-    >
-      <div {...getComboboxProps()} className={styles.inputWrapper}>
-        <input {...inputProps} id={inputId} placeholder={placeholder} />
-        <button
-          type="button"
-          aria-label={t('common.timepicker.accessibility.buttonTimeList')}
-          className={styles.calendarButton}
-          disabled={disabled}
-          onClick={toggleCalendar}
+    <ClassNames>
+      {({ css, cx }) => (
+        <InputWrapper
+          className={cx(styles.wrapper, className, css(theme.timepicker))}
+          {...rest}
+          {...labelProps}
+          hasIcon={true}
+          id={htmlFor}
+          labelId={labelProps.id}
         >
-          <IconClock />
-        </button>
-      </div>
-      <ul
-        {...getMenuProps({
-          className: classNames(styles.dropdownMenu, {
-            [styles.isOpen]: showDropdown,
-          }),
-        })}
-      >
-        {showDropdown &&
-          inputItems.map((item, index) => {
-            const isHighlighted = highlightedIndex === index;
-            const { ref, ...itemProps } = getItemProps({
-              as: 'li',
-              key: `${item}${index}`,
-              item,
-              index,
-              className: classNames(styles.dropdownMenuItem, {
-                [styles.isHighlighted]: isHighlighted,
+          <div {...getComboboxProps()} className={styles.inputWrapper}>
+            <input {...inputProps} id={inputId} placeholder={placeholder} />
+            <button
+              type="button"
+              aria-label={t('common.timepicker.accessibility.buttonTimeList')}
+              className={styles.calendarButton}
+              disabled={disabled}
+              onClick={toggleCalendar}
+            >
+              <IconClock />
+            </button>
+          </div>
+          <ul
+            {...getMenuProps({
+              className: cx(styles.dropdownMenu, {
+                [styles.isOpen]: showDropdown,
               }),
-              // prevent onBlur being called when clicking menu item
-              onMouseDown: () => {
-                menuItemMouseDown.current = true;
-              },
-              // prevent input to be focused when clicking menu item
-              onMouseUp: () => {
-                menuItemMouseUp.current = true;
-              },
-            });
+            })}
+          >
+            {showDropdown &&
+              inputItems.map((item, index) => {
+                const isHighlighted = highlightedIndex === index;
+                const { ref, ...itemProps } = getItemProps({
+                  as: 'li',
+                  key: `${item}${index}`,
+                  item,
+                  index,
+                  className: cx(styles.dropdownMenuItem, {
+                    [styles.isHighlighted]: isHighlighted,
+                  }),
+                  // prevent onBlur being called when clicking menu item
+                  onMouseDown: () => {
+                    menuItemMouseDown.current = true;
+                  },
+                  // prevent input to be focused when clicking menu item
+                  onMouseUp: () => {
+                    menuItemMouseUp.current = true;
+                  },
+                });
 
-            const isSelected = item === selectedItem;
+                const isSelected = item === selectedItem;
 
-            return (
-              <ScrollIntoViewWithFocus isFocused={isHighlighted} {...itemProps}>
-                <span>{item}</span>
-                {isSelected && <IconCheck aria-hidden={true} />}
-              </ScrollIntoViewWithFocus>
-            );
-          })}
-      </ul>
-    </InputWrapper>
+                return (
+                  <ScrollIntoViewWithFocus
+                    isFocused={isHighlighted}
+                    {...itemProps}
+                  >
+                    <span>{item}</span>
+                    {isSelected && <IconCheck aria-hidden={true} />}
+                  </ScrollIntoViewWithFocus>
+                );
+              })}
+          </ul>
+        </InputWrapper>
+      )}
+    </ClassNames>
   );
 };
 

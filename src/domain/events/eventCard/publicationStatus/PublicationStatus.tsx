@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,15 +16,19 @@ const PublicationStatus: React.FC<Props> = ({ publicationStatus }) => {
   const { theme } = useTheme();
 
   return (
-    <span
-      className={classNames(
-        styles.publicationStatus,
-        css(theme.publicationStatus),
-        styles[`status${capitalize(publicationStatus)}`]
+    <ClassNames>
+      {({ css, cx }) => (
+        <span
+          className={cx(
+            styles.publicationStatus,
+            css(theme.publicationStatus),
+            styles[`status${capitalize(publicationStatus)}`]
+          )}
+        >
+          {t(`event.publicationStatus.${publicationStatus}`)}
+        </span>
       )}
-    >
-      {t(`event.publicationStatus.${publicationStatus}`)}
-    </span>
+    </ClassNames>
   );
 };
 

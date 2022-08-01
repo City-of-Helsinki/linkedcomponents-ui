@@ -1,4 +1,4 @@
-import { css } from '@emotion/css';
+import { ClassNames } from '@emotion/react';
 import { ResizeObserver } from '@juggle/resize-observer';
 import classNames from 'classnames';
 import { ButtonProps, IconAngleDown, IconAngleUp } from 'hds-react';
@@ -186,28 +186,32 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
   };
 
   return (
-    <div
-      ref={mergeRefs<HTMLDivElement>([ref, containerRef])}
-      className={classNames(
-        styles.menuDropdown,
-        css(theme.menuDropdown),
-        className
+    <ClassNames>
+      {({ css }) => (
+        <div
+          ref={mergeRefs<HTMLDivElement>([ref, containerRef])}
+          className={classNames(
+            styles.menuDropdown,
+            className,
+            css(theme.menuDropdown)
+          )}
+        >
+          {getToggleButton()}
+          <Menu
+            ariaLabelledBy={buttonId}
+            fixedPosition={fixedPosition}
+            focusedIndex={focusedIndex}
+            id={menuId}
+            items={items}
+            onItemClick={handleItemClick}
+            menuContainerSize={menuContainerSize}
+            menuOpen={menuOpen}
+            menuPosition={menuPosition}
+            setFocusedIndex={setFocusedIndex}
+          />
+        </div>
       )}
-    >
-      {getToggleButton()}
-      <Menu
-        ariaLabelledBy={buttonId}
-        fixedPosition={fixedPosition}
-        focusedIndex={focusedIndex}
-        id={menuId}
-        items={items}
-        onItemClick={handleItemClick}
-        menuContainerSize={menuContainerSize}
-        menuOpen={menuOpen}
-        menuPosition={menuPosition}
-        setFocusedIndex={setFocusedIndex}
-      />
-    </div>
+    </ClassNames>
   );
 };
 

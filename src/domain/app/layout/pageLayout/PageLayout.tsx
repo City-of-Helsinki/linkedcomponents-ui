@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { matchPath, PathPattern, useLocation } from 'react-router';
@@ -47,51 +46,53 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
   const canonicalUrl = host + pathname;
 
   return (
-    <>
-      <ResetFocus
-        disabled={isConsentModalOpen}
-        ignoredPaths={RESET_IGNORED_PATHS}
-      />
-      <ScrollToTop />
-      <div
-        className={classNames(
-          styles.pageLayout,
-          css(theme.layout),
-          css(theme.root)
-        )}
-      >
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/* @ts-ignore */}
-        <Helmet>
-          <html lang={locale} />
+    <ClassNames>
+      {({ css, cx }) => (
+        <>
+          <ResetFocus
+            disabled={isConsentModalOpen}
+            ignoredPaths={RESET_IGNORED_PATHS}
+          />
+          <ScrollToTop />
+          <div
+            className={cx(
+              styles.pageLayout,
+              css(theme.layout),
+              css(theme.root)
+            )}
+          >
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            {/* @ts-ignore */}
+            <Helmet>
+              <html lang={locale} />
 
-          <link rel="canonical" href={canonicalUrl} />
-          <meta property="og:url" content={canonicalUrl} />
-          <meta property="twitter:url" content={canonicalUrl} />
+              <link rel="canonical" href={canonicalUrl} />
+              <meta property="og:url" content={canonicalUrl} />
+              <meta property="twitter:url" content={canonicalUrl} />
 
-          {Object.values(SUPPORTED_LANGUAGES).map((language) => {
-            const langCode = language.toLowerCase();
-            return (
-              <link
-                key={langCode}
-                rel="alternate"
-                hrefLang={langCode}
-                href={`${host}/${langCode}${path}`}
-              />
-            );
-          })}
-        </Helmet>
+              {Object.values(SUPPORTED_LANGUAGES).map((language) => {
+                const langCode = language.toLowerCase();
+                return (
+                  <link
+                    key={langCode}
+                    rel="alternate"
+                    hrefLang={langCode}
+                    href={`${host}/${langCode}${path}`}
+                  />
+                );
+              })}
+            </Helmet>
 
-        <Header />
-        <div
-          className={classNames(styles.pageBody, { [styles.noKoro]: noKoro })}
-        >
-          {children}
-        </div>
+            <Header />
+            <div className={cx(styles.pageBody, { [styles.noKoro]: noKoro })}>
+              {children}
+            </div>
 
-        <Footer />
-      </div>
-    </>
+            <Footer />
+          </div>
+        </>
+      )}
+    </ClassNames>
   );
 };
 
