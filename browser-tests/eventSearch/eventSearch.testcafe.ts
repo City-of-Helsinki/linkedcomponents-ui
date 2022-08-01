@@ -71,6 +71,11 @@ test.disablePageReloads(
     const locale = SUPPORTED_LANGUAGES.FI;
     const events = await getEvents(t, eventSearchLogger);
     const [event] = events.filter((event) => isLocalized(event, locale));
+
+    if (!event) {
+      return;
+    }
+
     const eventPublisher = await getPublisher(t, eventSearchLogger, event);
     const eventLocation = await getPlace(t, eventSearchLogger, event);
 
@@ -107,6 +112,11 @@ test.disablePageReloads(
     const locale = SUPPORTED_LANGUAGES.FI;
     const events = await getEvents(t, eventSearchLogger);
     const [event] = events.filter((event) => isLocalized(event, locale));
+
+    if (!event) {
+      return;
+    }
+
     const eventLocation = await getPlace(t, eventSearchLogger, event);
 
     setDataToPrintOnFailure(t, 'expectedEvent', getExpectedEventContext(event));
