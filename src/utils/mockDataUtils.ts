@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
@@ -94,7 +94,7 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
       name: faker.name.firstName(),
       nativeLanguage: 'fi',
       notifications: NOTIFICATION_TYPE.SMS_EMAIL,
-      phoneNumber: faker.phone.phoneNumberFormat(),
+      phoneNumber: faker.phone.number(),
       serviceLanguage: 'fi',
       streetAddress: faker.address.streetAddress(),
       zipcode: faker.address.zipCode('#####'),
