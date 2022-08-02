@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 import React from 'react';
 
@@ -105,7 +106,7 @@ test('should open menu by clickin toggle button and list of options should be vi
   for (const option of filteredPlaces.data) {
     await screen.findByRole('option', {
       hidden: true,
-      name: new RegExp(option.name.fi),
+      name: new RegExp(option?.name?.fi as string),
     });
   }
 });

@@ -15,7 +15,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import MenuDropdown, { MenuDropdownProps } from '../MenuDropdown';
-import { MenuItemOptionProps } from '../MenuItem';
+import { MenuItemOptionProps } from '../types';
 
 configure({ defaultHidden: true });
 
@@ -31,14 +31,14 @@ const renderMenuDropdown = (props: MenuDropdownProps) => {
   };
 };
 
-const getElement = (key: 'menu' | 'toggleButton') => {
+const getElement = (key: 'toggleButton') => {
   switch (key) {
     case 'toggleButton':
       return screen.getByRole('button', { name: defaultProps.buttonLabel });
   }
 };
 
-const findElement = (key: 'menu' | 'toggleButton') => {
+const findElement = (key: 'menu') => {
   switch (key) {
     case 'menu':
       return screen.findByRole('region', { name: defaultProps.buttonLabel });
