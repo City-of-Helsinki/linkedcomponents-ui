@@ -42,6 +42,7 @@
     "formik": "2.2.9",
     "graphql": "16.5.0",
     "graphql-anywhere": "^4.2.7",
+    "graphql-tag": "^2.12.6",
     "gzipper": "^7.1.0",
     "hds-core": "^2.1.1",
     "hds-react": "^2.1.1",
