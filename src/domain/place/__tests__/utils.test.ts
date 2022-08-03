@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 import { LatLng } from 'leaflet';
 
@@ -22,7 +23,8 @@ describe('getPlaceFields function', () => {
   it('should return default values if value is not set', () => {
     const { atId, dataSource, id, nEvents, publisher } = getPlaceFields(
       fakePlace({
-        atId: null,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        atId: null as any,
         dataSource: null,
         id: null,
         nEvents: null,

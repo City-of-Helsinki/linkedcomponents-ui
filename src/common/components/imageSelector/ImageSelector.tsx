@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { IconEye } from 'hds-react';
 import xor from 'lodash/xor';
 import React from 'react';
@@ -112,49 +111,53 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   const disabledLoadMore = disabled || !imagesLeft || loading || loadingMore;
 
   return (
-    <div
-      className={classNames(styles.imageSelector, css(theme.imageSelector))}
-      ref={container}
-    >
-      <div className={styles.imagesGrid}>
-        {imagesData?.images.data.length ? (
-          imagesData?.images.data.map((image) => {
-            const checked = !!image && value.includes(image?.atId);
-
-            return (
-              image?.url && (
-                <button
-                  key={image.id}
-                  className={classNames(styles.image, {
-                    [styles.checked]: checked,
-                  })}
-                  aria-label={image.name as string}
-                  disabled={disabled}
-                  style={{ backgroundImage: `url(${image.url})` }}
-                  role="checkbox"
-                  type="button"
-                  aria-checked={checked}
-                  onClick={handleChange(image)}
-                  onDoubleClick={handleDoubleClick(image)}
-                />
-              )
-            );
-          })
-        ) : (
-          <div className={styles.noImages}>Ei kuvia</div>
-        )}
-      </div>
-      <div className={styles.buttonWrapper}>
-        <Button
-          disabled={disabledLoadMore}
-          iconLeft={<IconEye />}
-          onClick={fetchMore}
-          variant="supplementary"
+    <ClassNames>
+      {({ css, cx }) => (
+        <div
+          className={cx(styles.imageSelector, css(theme.imageSelector))}
+          ref={container}
         >
-          {t('common.showMoreWithCount', { count: imagesLeft })}
-        </Button>
-      </div>
-    </div>
+          <div className={styles.imagesGrid}>
+            {imagesData?.images.data.length ? (
+              imagesData?.images.data.map((image) => {
+                const checked = !!image && value.includes(image?.atId);
+
+                return (
+                  image?.url && (
+                    <button
+                      key={image.id}
+                      className={cx(styles.image, {
+                        [styles.checked]: checked,
+                      })}
+                      aria-label={image.name as string}
+                      disabled={disabled}
+                      style={{ backgroundImage: `url(${image.url})` }}
+                      role="checkbox"
+                      type="button"
+                      aria-checked={checked}
+                      onClick={handleChange(image)}
+                      onDoubleClick={handleDoubleClick(image)}
+                    />
+                  )
+                );
+              })
+            ) : (
+              <div className={styles.noImages}>Ei kuvia</div>
+            )}
+          </div>
+          <div className={styles.buttonWrapper}>
+            <Button
+              disabled={disabledLoadMore}
+              iconLeft={<IconEye />}
+              onClick={fetchMore}
+              variant="supplementary"
+            >
+              {t('common.showMoreWithCount', { count: imagesLeft })}
+            </Button>
+          </div>
+        </div>
+      )}
+    </ClassNames>
   );
 };
 

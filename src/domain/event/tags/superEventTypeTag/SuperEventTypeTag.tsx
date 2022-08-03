@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,17 +21,21 @@ const SuperEventTypeTag: React.FC<Props> = ({
   const { t } = useTranslation();
 
   return superEventType ? (
-    <div
-      className={classNames(
-        styles.superEventTypeTag,
-        css(theme.superEventTypeTag),
-        styles[`size${capitalize(size)}`],
-        styles[`superEventType${capitalize(superEventType)}`],
-        className
+    <ClassNames>
+      {({ css, cx }) => (
+        <div
+          className={cx(
+            styles.superEventTypeTag,
+            css(theme.superEventTypeTag),
+            styles[`size${capitalize(size)}`],
+            styles[`superEventType${capitalize(superEventType)}`],
+            className
+          )}
+        >
+          {t(`event.superEventType.${superEventType}`)}
+        </div>
       )}
-    >
-      {t(`event.superEventType.${superEventType}`)}
-    </div>
+    </ClassNames>
   ) : null;
 };
 

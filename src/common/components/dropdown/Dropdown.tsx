@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
@@ -15,12 +14,16 @@ const Dropdown = React.forwardRef<HTMLDivElement, Props>(
     const { theme } = useTheme();
 
     return (
-      <div
-        className={classNames(styles.dropdown, className, css(theme.dropdown))}
-        ref={ref}
-      >
-        {children}
-      </div>
+      <ClassNames>
+        {({ css, cx }) => (
+          <div
+            className={cx(styles.dropdown, className, css(theme.dropdown))}
+            ref={ref}
+          >
+            {children}
+          </div>
+        )}
+      </ClassNames>
     );
   }
 );

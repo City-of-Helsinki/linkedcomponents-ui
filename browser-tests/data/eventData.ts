@@ -55,12 +55,12 @@ export const getPlace = async (
 ): Promise<PlaceFieldsFragment> => {
   // First try to find place from the places request response
   const places = await getPlaces(t, requestLogger);
-  const place = places.find((p) => p.atId === event.location.atId);
+  const place = places.find((p) => p.atId === event.location?.atId);
   if (place) {
     return place;
   }
 
-  const findFn = findPlaceRequest(event.location.atId);
+  const findFn = findPlaceRequest(event.location?.atId as string);
 
   const placeResponse = await waitRequest({
     findFn,
@@ -104,7 +104,7 @@ export const getPublisher = async (
   requestLogger: RequestLogger,
   event: EventFieldsFragment
 ): Promise<OrganizationFieldsFragment | undefined> => {
-  const findFn = findPublisherRequest(event.publisher);
+  const findFn = findPublisherRequest(event.publisher as string);
 
   const publisherResponse = await waitRequest({
     findFn,

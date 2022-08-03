@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { PhoneInput as BasePhoneInput, PhoneInputProps } from 'hds-react';
 import React from 'react';
 
@@ -9,10 +8,14 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ className, ...rest }) => {
   const { theme } = useTheme();
 
   return (
-    <BasePhoneInput
-      {...rest}
-      className={classNames(className, css(theme.textInput))}
-    />
+    <ClassNames>
+      {({ css, cx }) => (
+        <BasePhoneInput
+          {...rest}
+          className={cx(className, css(theme.textInput))}
+        />
+      )}
+    </ClassNames>
   );
 };
 

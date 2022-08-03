@@ -1,6 +1,7 @@
+/* eslint-disable import/export */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { AnyAction, Store } from '@reduxjs/toolkit';
+import { AnyAction, getDefaultMiddleware, Store } from '@reduxjs/toolkit';
 import {
   act,
   createEvent,
@@ -19,7 +20,6 @@ import {
   unstable_HistoryRouter as Router,
 } from 'react-router-dom';
 import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import wait from 'waait';
 
 import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
@@ -146,7 +146,10 @@ const renderWithRoute: CustomRender = (
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const getMockReduxStore = (initialState: StoreState = defaultStoreState) => {
-  const middlewares = [thunk];
+  const middlewares = getDefaultMiddleware({
+    serializableCheck: false,
+  });
+
   return configureMockStore<StoreState>(middlewares)(initialState);
 };
 

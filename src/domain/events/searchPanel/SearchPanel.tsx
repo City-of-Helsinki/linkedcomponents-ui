@@ -1,4 +1,4 @@
-import { css } from '@emotion/css';
+import { ClassNames } from '@emotion/react';
 import { IconHeart, IconSearch } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -61,55 +61,61 @@ const SearchPanel: React.FC = () => {
   }, [location.search, setSearchState]);
 
   return (
-    <div className={styles.searchPanel}>
-      <Container className={css(theme.eventSearchPanel)} withOffset={true}>
-        <div className={styles.inputRow}>
-          <div className={styles.typeSelectorWrapper}>
-            <MultiSelectDropdown
-              icon={<IconHeart aria-hidden />}
-              onChange={handleChangeEventTypes}
-              options={eventTypeOptions}
-              showSearch={true}
-              toggleButtonLabel={t(
-                'eventSearchPage.searchPanel.labelEventType'
-              )}
-              value={
-                searchState.type
-                  .filter(skipFalsyType)
-                  .map((type) =>
-                    eventTypeOptions.find((item) => item.value === type)
-                  ) as OptionType[]
-              }
-            />
-          </div>
-          <div className={styles.searchInputWrapper}>
-            <SearchInput
-              className={styles.searchInput}
-              hideLabel={true}
-              label={t('eventSearchPage.searchPanel.labelSearch')}
-              onSearch={handleSearch}
-              placeholder={t('eventSearchPage.searchPanel.placeholderSearch')}
-              searchButtonAriaLabel={t(
-                'eventSearchPage.searchPanel.buttonSearch'
-              )}
-              setValue={handleChangeText}
-              value={searchState.text}
-            />
-          </div>
-          <div className={styles.buttonWrapper}>
-            <Button
-              className={styles.button}
-              fullWidth={true}
-              iconLeft={<IconSearch aria-hidden />}
-              onClick={handleSearch}
-              variant="secondary"
-            >
-              {t('eventSearchPage.searchPanel.buttonSearch')}
-            </Button>
-          </div>
+    <ClassNames>
+      {({ css }) => (
+        <div className={styles.searchPanel}>
+          <Container className={css(theme.eventSearchPanel)} withOffset={true}>
+            <div className={styles.inputRow}>
+              <div className={styles.typeSelectorWrapper}>
+                <MultiSelectDropdown
+                  icon={<IconHeart aria-hidden />}
+                  onChange={handleChangeEventTypes}
+                  options={eventTypeOptions}
+                  showSearch={true}
+                  toggleButtonLabel={t(
+                    'eventSearchPage.searchPanel.labelEventType'
+                  )}
+                  value={
+                    searchState.type
+                      .filter(skipFalsyType)
+                      .map((type) =>
+                        eventTypeOptions.find((item) => item.value === type)
+                      ) as OptionType[]
+                  }
+                />
+              </div>
+              <div className={styles.searchInputWrapper}>
+                <SearchInput
+                  className={styles.searchInput}
+                  hideLabel={true}
+                  label={t('eventSearchPage.searchPanel.labelSearch')}
+                  onSearch={handleSearch}
+                  placeholder={t(
+                    'eventSearchPage.searchPanel.placeholderSearch'
+                  )}
+                  searchButtonAriaLabel={t(
+                    'eventSearchPage.searchPanel.buttonSearch'
+                  )}
+                  setValue={handleChangeText}
+                  value={searchState.text}
+                />
+              </div>
+              <div className={styles.buttonWrapper}>
+                <Button
+                  className={styles.button}
+                  fullWidth={true}
+                  iconLeft={<IconSearch aria-hidden />}
+                  onClick={handleSearch}
+                  variant="secondary"
+                >
+                  {t('eventSearchPage.searchPanel.buttonSearch')}
+                </Button>
+              </div>
+            </div>
+          </Container>
         </div>
-      </Container>
-    </div>
+      )}
+    </ClassNames>
   );
 };
 

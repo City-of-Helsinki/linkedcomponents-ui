@@ -7,8 +7,7 @@ import {
   useEditorState,
   useEditorView,
 } from '@aeaton/react-prosemirror';
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -144,32 +143,32 @@ const TextEditor: React.FC<TextEditorProps> = ({
   }, [label]);
 
   return (
-    <div
-      ref={containerRef}
-      className={classNames(
-        styles.textEditor,
-        { [styles.invalid]: invalid },
-        css(theme.textEditor)
-      )}
-      id={`${id}-text-editor`}
-      onClick={setFocusToEditor}
-      onBlur={(ev: React.SyntheticEvent) => {
-        onBlur && onBlur(ev);
-        handleChange(value as string);
-      }}
-    >
-      <InputWrapper {...wrapperProps} className={styles.inputWrapper}>
-        {/* @ts-ignore */}
-        <Toolbar toolbar={generateToolbar(disabled, t)} />
+    <ClassNames>
+      {({ css, cx }) => (
         <div
-          className={classNames(styles.editor, {
-            [styles.focused]: focused,
-          })}
+          ref={containerRef}
+          className={cx(
+            styles.textEditor,
+            { [styles.invalid]: invalid },
+            css(theme.textEditor)
+          )}
+          id={`${id}-text-editor`}
+          onClick={setFocusToEditor}
+          onBlur={(ev: React.SyntheticEvent) => {
+            onBlur && onBlur(ev);
+            handleChange(value as string);
+          }}
         >
-          <Editor />
+          <InputWrapper {...wrapperProps} className={styles.inputWrapper}>
+            {/* @ts-ignore */}
+            <Toolbar toolbar={generateToolbar(disabled, t)} />
+            <div className={cx(styles.editor, { [styles.focused]: focused })}>
+              <Editor />
+            </div>
+          </InputWrapper>
         </div>
-      </InputWrapper>
-    </div>
+      )}
+    </ClassNames>
   );
 };
 

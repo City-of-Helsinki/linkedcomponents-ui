@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import { AnyAction, Store } from '@reduxjs/toolkit';
 import i18n from 'i18next';
 import React from 'react';

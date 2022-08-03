@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { IconArrowRedo, IconCheck, IconCross, IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -43,29 +42,35 @@ const StatusTag: React.FC<Props> = ({
   const showEventStatus = eventStatusWhiteList.includes(eventStatus);
 
   return (
-    <div
-      className={classNames(
-        styles.statusTag,
-        css(theme.statusTag),
-        styles[`size${upperCaseFirstLetter(size)}`],
-        styles[
-          `status${upperCaseFirstLetter(
-            showEventStatus ? eventStatus : publicationStatus
-          )}`
-        ]
-      )}
-    >
-      {/* Icon */}
-      {showEventStatus
-        ? eventStatusIconMap[eventStatus]
-        : publicationStatusIconMap[publicationStatus]}
-      {/* Text */}
-      {showEventStatus
-        ? t(`event.eventStatus.${lowerCaseFirstLetter(eventStatus)}`)
-        : t(
-            `event.publicationStatus.${lowerCaseFirstLetter(publicationStatus)}`
+    <ClassNames>
+      {({ css, cx }) => (
+        <div
+          className={cx(
+            styles.statusTag,
+            css(theme.statusTag),
+            styles[`size${upperCaseFirstLetter(size)}`],
+            styles[
+              `status${upperCaseFirstLetter(
+                showEventStatus ? eventStatus : publicationStatus
+              )}`
+            ]
           )}
-    </div>
+        >
+          {/* Icon */}
+          {showEventStatus
+            ? eventStatusIconMap[eventStatus]
+            : publicationStatusIconMap[publicationStatus]}
+          {/* Text */}
+          {showEventStatus
+            ? t(`event.eventStatus.${lowerCaseFirstLetter(eventStatus)}`)
+            : t(
+                `event.publicationStatus.${lowerCaseFirstLetter(
+                  publicationStatus
+                )}`
+              )}
+        </div>
+      )}
+    </ClassNames>
   );
 };
 

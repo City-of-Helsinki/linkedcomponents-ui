@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { NumberInput as HdsNumberInput, NumberInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,22 +21,22 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     const { t } = useTranslation();
 
     return (
-      <HdsNumberInput
-        {...props}
-        ref={ref}
-        className={classNames(
-          className,
-          styles.numberInput,
-          css(theme.textEditor)
+      <ClassNames>
+        {({ css, cx }) => (
+          <HdsNumberInput
+            {...props}
+            ref={ref}
+            className={cx(className, styles.numberInput, css(theme.textEditor))}
+            minusStepButtonAriaLabel={
+              minusStepButtonAriaLabel || t('common.numberInput.buttonDecrease')
+            }
+            plusStepButtonAriaLabel={
+              plusStepButtonAriaLabel || t('common.numberInput.buttonIncrease')
+            }
+            step={step || 1}
+          />
         )}
-        minusStepButtonAriaLabel={
-          minusStepButtonAriaLabel || t('common.numberInput.buttonDecrease')
-        }
-        plusStepButtonAriaLabel={
-          plusStepButtonAriaLabel || t('common.numberInput.buttonIncrease')
-        }
-        step={step || 1}
-      />
+      </ClassNames>
     );
   }
 );

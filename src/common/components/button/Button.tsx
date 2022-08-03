@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { Button as BaseButton, ButtonProps, ButtonVariant } from 'hds-react';
 import React from 'react';
 
@@ -10,16 +9,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', ...rest }, ref) => {
     const { theme } = useTheme();
     return (
-      <BaseButton
-        variant={variant as Exclude<ButtonVariant, 'supplementary'>}
-        className={classNames(
-          className,
-          styles.button,
-          css(theme.button[variant])
+      <ClassNames>
+        {({ css, cx }) => (
+          <BaseButton
+            variant={variant as Exclude<ButtonVariant, 'supplementary'>}
+            className={cx(className, styles.button, css(theme.button[variant]))}
+            ref={ref}
+            {...rest}
+          />
         )}
-        ref={ref}
-        {...rest}
-      />
+      </ClassNames>
     );
   }
 );
