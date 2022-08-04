@@ -6,7 +6,15 @@ import reducer from './reducers';
 
 const store: Store = configureStore({
   devTools: true,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types
+        ignoredActions: ['redux-oidc/USER_FOUND'],
+        // Ignore these paths in the state
+        ignoredPaths: ['authentication.oidc.user'],
+      },
+    }),
   reducer,
 });
 

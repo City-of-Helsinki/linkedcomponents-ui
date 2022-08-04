@@ -1,4 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
@@ -86,7 +87,7 @@ const fillFormValues = async () => {
 
   await act(async () => await user.click(getElement('replacedByToggleButton')));
   const organizationOption = await screen.findByRole('option', {
-    name: organizations.data[0].name,
+    name: organizations.data[0]?.name as string,
   });
   await act(async () => await user.click(organizationOption));
 };
@@ -113,7 +114,9 @@ test('should delete organization', async () => {
   const deleteButton = await findElement('deleteButton');
   await act(async () => await user.click(deleteButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const withinModal = within(
+    screen.getByRole('dialog', { name: 'Varmista organisaation poistaminen' })
+  );
   const deleteOrganizationButton = withinModal.getByRole('button', {
     name: 'Poista organisaatio',
   });

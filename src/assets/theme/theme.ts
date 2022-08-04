@@ -155,7 +155,7 @@ const theme: Theme = {
   },
   dateInput: {
     '--date-background': 'transparent',
-    '--date-color': 'red',
+    '--date-color': 'var(--color-black-90)',
     '--outside-date-background': 'transparent',
     '--outside-date-color': 'var(--color-black-40)',
     '--selected-date-background': 'var(--color-bus)',

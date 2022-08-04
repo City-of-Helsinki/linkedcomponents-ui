@@ -119,6 +119,7 @@ export enum WEEK_DAY {
 }
 
 export const DATE_FORMAT = 'dd.MM.yyyy';
+export const DATE_FORMAT_2 = 'd.M.yyyy';
 export const DATETIME_FORMAT = `${DATE_FORMAT} HH.mm`;
 
 export enum EXTLINK {

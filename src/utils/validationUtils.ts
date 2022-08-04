@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 
 import {
   DATE_FORMAT,
+  DATE_FORMAT_2,
   DATETIME_FORMAT,
   VALIDATION_ERROR_SCROLLER_OPTIONS,
 } from '../constants';
@@ -73,6 +74,14 @@ export const isValidPhoneNumber = (phone: string): boolean =>
   /^\+?\(?[0-9]{1,3}\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?/.test(
     phone
   );
+
+export const isValidDate = (date?: string): boolean => {
+  return date
+    ? isValid(parseDate(date, DATE_FORMAT_2, new Date())) &&
+        // Make sure year has 4 digits
+        date.split('.')[2].length === 4
+    : true;
+};
 
 export const isValidTime = (time: string): boolean =>
   /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);

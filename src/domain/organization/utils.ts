@@ -1,8 +1,10 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import parseDate from 'date-fns/parse';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import {
+  DATE_FORMAT_2,
   LINKED_EVENTS_SYSTEM_DATA_SOURCE,
   MAX_PAGE_SIZE,
   ROUTES,
@@ -318,8 +320,12 @@ export const getOrganizationInitialValues = (
       (organization.affiliatedOrganizations as string[]) ?? [],
     classification: organization.classification ?? '',
     dataSource: organization.dataSource ?? '',
-    dissolutionDate: dissolutionDate ? new Date(dissolutionDate) : null,
-    foundingDate: foundingDate ? new Date(foundingDate) : null,
+    dissolutionDate: dissolutionDate
+      ? formatDate(new Date(dissolutionDate), DATE_FORMAT_2)
+      : '',
+    foundingDate: foundingDate
+      ? formatDate(new Date(foundingDate), DATE_FORMAT_2)
+      : '',
     id,
     internalType: organization.isAffiliated
       ? ORGANIZATION_INTERNAL_TYPE.AFFILIATED
@@ -353,9 +359,17 @@ export const getOrganizationPayload = (
     ...restFormValues,
     dataSource,
     dissolutionDate: dissolutionDate
-      ? formatDate(dissolutionDate, 'yyyy-MM-dd')
+      ? formatDate(
+          parseDate(dissolutionDate, DATE_FORMAT_2, new Date()),
+          'yyyy-MM-dd'
+        )
       : null,
-    foundingDate: foundingDate ? formatDate(foundingDate, 'yyyy-MM-dd') : null,
+    foundingDate: foundingDate
+      ? formatDate(
+          parseDate(foundingDate, DATE_FORMAT_2, new Date()),
+          'yyyy-MM-dd'
+        )
+      : null,
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
     originId,
     parentOrganization: parentOrganization || undefined,

@@ -9,7 +9,7 @@ import DateInput from '../../dateInput/DateInput';
 type Props = FieldProps & DateInputProps;
 
 const DateInputField: React.FC<Props> = ({
-  field: { name, value, ...field },
+  field: { name, onBlur, onChange, value, ...field },
   form,
   helperText,
   ...rest
@@ -19,16 +19,29 @@ const DateInputField: React.FC<Props> = ({
 
   const errorText = getErrorText(error, touched, t);
 
+  const handleBlur = () => {
+    onBlur({ target: { id: name, value } });
+  };
+
+  const handleChange = (val: string) => {
+    onChange({
+      target: { id: name, value: val },
+    });
+  };
+
   return (
     <DateInput
       {...rest}
       {...field}
       id={name}
       name={name}
-      value={value}
       errorText={errorText}
       helperText={helperText}
       invalid={Boolean(errorText)}
+      onBlur={handleBlur}
+      onChange={handleChange}
+      value={value}
+      disableConfirmation
     />
   );
 };
