@@ -74,6 +74,15 @@ type CollapsibleCSSProperties = {
   '--heading-color-expanded-hover'?: string;
 };
 
+type DateInputCSSProperties = {
+  '--date-background'?: string;
+  '--date-color'?: string;
+  '--outside-date-background'?: string;
+  '--outside-date-color'?: string;
+  '--selected-date-background'?: string;
+  '--selected-date-color'?: string;
+};
+
 type DatepickerCSSProperties = {
   '--close-button-color'?: string;
   '--day-background-color'?: string;
@@ -440,6 +449,7 @@ export type Theme = {
   };
   checkbox: CheckboxCSSProperties;
   collapsible: CollapsibleCSSProperties;
+  dateInput: DateInputCSSProperties;
   datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   dropdown: DropdownCSSProperties;
@@ -490,6 +500,7 @@ const defaultTheme: Theme = {
   button: {},
   checkbox: {},
   collapsible: {},
+  dateInput: {},
   datepicker: {},
   deleteButton: {},
   dropdown: {},

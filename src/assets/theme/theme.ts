@@ -153,6 +153,14 @@ const theme: Theme = {
     '--heading-color-expanded': 'var(--color-white)',
     '--heading-color-expanded-hover': 'var(--color-white)',
   },
+  dateInput: {
+    '--date-background': 'transparent',
+    '--date-color': 'red',
+    '--outside-date-background': 'transparent',
+    '--outside-date-color': 'var(--color-black-40)',
+    '--selected-date-background': 'var(--color-bus)',
+    '--selected-date-color': '#fff',
+  },
   datepicker: {
     '--close-button-color': 'var(--color-bus)',
     '--day-background-color': 'transparent',
