@@ -7,7 +7,12 @@ import isNumber from 'lodash/isNumber';
 import { toast } from 'react-toastify';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
-import { FORM_NAMES, ROUTES } from '../../constants';
+import {
+  DATE_FORMAT_2,
+  FORM_NAMES,
+  ROUTES,
+  TIME_FORMAT,
+} from '../../constants';
 import {
   CreateRegistrationMutationInput,
   OrganizationFieldsFragment,
@@ -16,6 +21,8 @@ import {
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
+import formatDate from '../../utils/formatDate';
+import parseDateForPayload from '../../utils/parseDateForPayload';
 import queryBuilder from '../../utils/queryBuilder';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -199,12 +206,20 @@ export const getRegistrationInitialValues = (
     [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE]: registration.audienceMinAge ?? '',
     [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]:
       registration.confirmationMessage ?? '',
-    [REGISTRATION_FIELDS.ENROLMENT_END_TIME]: registration.enrolmentEndTime
-      ? new Date(registration.enrolmentEndTime)
-      : null,
-    [REGISTRATION_FIELDS.ENROLMENT_START_TIME]: registration.enrolmentStartTime
-      ? new Date(registration.enrolmentStartTime)
-      : null,
+    [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: registration.enrolmentEndTime
+      ? formatDate(new Date(registration.enrolmentEndTime), DATE_FORMAT_2)
+      : '',
+    [REGISTRATION_FIELDS.ENROLMENT_END_TIME_TIME]: registration.enrolmentEndTime
+      ? formatDate(new Date(registration.enrolmentEndTime), TIME_FORMAT)
+      : '',
+    [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]:
+      registration.enrolmentStartTime
+        ? formatDate(new Date(registration.enrolmentStartTime), DATE_FORMAT_2)
+        : '',
+    [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]:
+      registration.enrolmentStartTime
+        ? formatDate(new Date(registration.enrolmentStartTime), TIME_FORMAT)
+        : '',
     [REGISTRATION_FIELDS.EVENT]: registration.event ?? '',
     [REGISTRATION_FIELDS.INSTRUCTIONS]: registration.instructions ?? '',
     [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]:
@@ -243,8 +258,10 @@ export const getRegistrationPayload = (
     audienceMaxAge,
     audienceMinAge,
     confirmationMessage,
-    enrolmentEndTime,
-    enrolmentStartTime,
+    enrolmentEndTimeDate,
+    enrolmentEndTimeTime,
+    enrolmentStartTimeDate,
+    enrolmentStartTimeTime,
     event,
     instructions,
     maximumAttendeeCapacity,
@@ -256,12 +273,14 @@ export const getRegistrationPayload = (
     audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
     audienceMinAge: isNumber(audienceMinAge) ? audienceMinAge : null,
     confirmationMessage: confirmationMessage ? confirmationMessage : null,
-    enrolmentEndTime: enrolmentEndTime
-      ? new Date(enrolmentEndTime).toISOString()
-      : null,
-    enrolmentStartTime: enrolmentStartTime
-      ? new Date(enrolmentStartTime).toISOString()
-      : null,
+    enrolmentEndTime:
+      enrolmentEndTimeDate && enrolmentEndTimeTime
+        ? parseDateForPayload(enrolmentEndTimeDate, enrolmentEndTimeTime)
+        : null,
+    enrolmentStartTime:
+      enrolmentStartTimeDate && enrolmentStartTimeTime
+        ? parseDateForPayload(enrolmentStartTimeDate, enrolmentStartTimeTime)
+        : null,
     event,
     instructions: instructions ? instructions : null,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)

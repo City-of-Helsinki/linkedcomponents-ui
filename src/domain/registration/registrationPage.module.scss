@@ -42,3 +42,9 @@
     grid-gap: var(--spacing-m);
   }
 }
+
+.noLineBreakInLabel {
+  label {
+      white-space: nowrap;
+  }
+}

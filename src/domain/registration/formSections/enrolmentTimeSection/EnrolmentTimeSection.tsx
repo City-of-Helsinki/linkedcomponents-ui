@@ -1,8 +1,9 @@
-import { Field, useField } from 'formik';
+import { Field } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DatepickerField from '../../../../common/components/formFields/datepickerField/DatepickerField';
+import DateInputField from '../../../../common/components/formFields/dateInputField/DateInputField';
+import TimeInputField from '../../../../common/components/formFields/timeInputField/TimeInputField';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
@@ -14,9 +15,6 @@ interface Props {
 
 const EnrolmentTimeSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
-  const [{ value: enrolmentStartTime }] = useField({
-    name: REGISTRATION_FIELDS.ENROLMENT_START_TIME,
-  });
 
   return (
     <>
@@ -24,23 +22,46 @@ const EnrolmentTimeSection: React.FC<Props> = ({ isEditingAllowed }) => {
         <FieldColumn>
           <div className={styles.splittedRow}>
             <Field
-              component={DatepickerField}
+              component={DateInputField}
+              className={styles.noLineBreakInLabel}
               disabled={!isEditingAllowed}
-              label={t(`registration.form.labelEnrolmentStartTime`)}
-              name={REGISTRATION_FIELDS.ENROLMENT_START_TIME}
-              placeholder={t(`common.placeholderDateTime`)}
+              label={t(`registration.form.labelEnrolmentStartTimeDate`)}
+              name={REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE}
+              placeholder={t(`common.placeholderDate`)}
               required={true}
-              timeSelector={true}
             />
             <Field
-              component={DatepickerField}
+              component={TimeInputField}
+              className={styles.noLineBreakInLabel}
               disabled={!isEditingAllowed}
-              label={t(`registration.form.labelEnrolmentEndTime`)}
-              minBookingDate={enrolmentStartTime}
-              name={REGISTRATION_FIELDS.ENROLMENT_END_TIME}
-              placeholder={t(`common.placeholderDateTime`)}
+              label={t(`registration.form.labelEnrolmentStartTimeTime`)}
+              name={REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME}
+              placeholder={t(`common.placeholderTime`)}
               required={true}
-              timeSelector={true}
+            />
+          </div>
+        </FieldColumn>
+      </FieldRow>
+      <FieldRow>
+        <FieldColumn>
+          <div className={styles.splittedRow}>
+            <Field
+              component={DateInputField}
+              className={styles.noLineBreakInLabel}
+              disabled={!isEditingAllowed}
+              label={t(`registration.form.labelEnrolmentEndTimeDate`)}
+              name={REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE}
+              placeholder={t(`common.placeholderDate`)}
+              required={true}
+            />
+            <Field
+              component={TimeInputField}
+              className={styles.noLineBreakInLabel}
+              disabled={!isEditingAllowed}
+              label={t(`registration.form.labelEnrolmentEndTimeTime`)}
+              name={REGISTRATION_FIELDS.ENROLMENT_END_TIME_TIME}
+              placeholder={t(`common.placeholderTime`)}
+              required={true}
             />
           </div>
         </FieldColumn>

@@ -1,9 +1,10 @@
-import parseDate from 'date-fns/parse';
-
-import { DATE_FORMAT_2 } from '../constants';
 import formatDate from './formatDate';
+import parseDateText from './parseDateText';
 
-const parseDateForPayload = (dateStr: string) =>
-  formatDate(parseDate(dateStr, DATE_FORMAT_2, new Date()), 'yyyy-MM-dd');
+const parseDateForPayload = (dateStr: string, timeStr?: string) => {
+  const date = parseDateText(dateStr, timeStr);
+
+  return timeStr ? date.toISOString() : formatDate(date, 'yyyy-MM-dd');
+};
 
 export default parseDateForPayload;

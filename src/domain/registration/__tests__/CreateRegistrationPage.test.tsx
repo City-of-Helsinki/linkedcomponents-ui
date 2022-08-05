@@ -3,8 +3,7 @@ import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { DATETIME_FORMAT, FORM_NAMES } from '../../../constants';
-import formatDate from '../../../utils/formatDate';
+import { FORM_NAMES } from '../../../constants';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
@@ -62,13 +61,6 @@ const setFormValues = (values: RegistrationFormFields) => {
   });
 };
 
-const getInput = (key: 'enrolmentStartTime') => {
-  switch (key) {
-    case 'enrolmentStartTime':
-      return screen.getByRole('textbox', { name: /ilmoittautuminen alkaa/i });
-  }
-};
-
 const getElement = (
   key: 'eventCombobox' | 'enrolmentStartTime' | 'saveButton'
 ) => {
@@ -78,9 +70,7 @@ const getElement = (
         name: /tapahtuma/i,
       });
     case 'enrolmentStartTime':
-      return screen.getByRole('textbox', {
-        name: /Ilmoittautuminen alkaa/i,
-      });
+      return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa *' });
     case 'saveButton':
       return screen.getByRole('button', {
         name: /tallenna ilmoittautuminen/i,
@@ -116,10 +106,10 @@ test('should move to registration completed page after creating new registration
   ]);
 
   await loadingSpinnerIsNotInDocument();
-  const startTimeInput = getInput('enrolmentStartTime');
+  const startTimeInput = getElement('enrolmentStartTime');
   await waitFor(() =>
     expect(startTimeInput).toHaveValue(
-      formatDate(registrationValues.enrolmentStartTime, DATETIME_FORMAT)
+      registrationValues.enrolmentStartTimeDate
     )
   );
 
@@ -146,10 +136,10 @@ test('should show server errors', async () => {
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
-  const startTimeInput = getInput('enrolmentStartTime');
+  const startTimeInput = getElement('enrolmentStartTime');
   await waitFor(() =>
     expect(startTimeInput).toHaveValue(
-      formatDate(registrationValues.enrolmentStartTime, DATETIME_FORMAT)
+      registrationValues.enrolmentStartTimeDate
     )
   );
 

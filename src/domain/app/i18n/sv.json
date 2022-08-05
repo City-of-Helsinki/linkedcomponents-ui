@@ -203,8 +203,8 @@
       "page": "Sida {{page}}",
       "previous": "Föregående sida"
     },
-    "placeholderDate": "dd.mm.åååå",
-    "placeholderDateTime": "dd.mm.åååå hh.mm",
+    "placeholderDate": "d.m.åååå",
+    "placeholderDateTime": "d.m.åååå hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Spara",
     "search": "Sök",
@@ -242,6 +242,10 @@
         "outdented": "Ta bort lista",
         "unordered": "Osorterad lista"
       }
+    },
+    "timeInput": {
+      "hoursLabel": "timmar",
+      "minutsLabel": "minuter"
     },
     "timepicker": {
       "accessibility": {
@@ -1653,8 +1657,10 @@
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
       "labelConfirmationMessage": "Bekräftelsemeddelande att skicka (valfritt)",
-      "labelEnrolmentEndTime": "Registreringen avslutas",
-      "labelEnrolmentStartTime": "Registreringen börjar",
+      "labelEnrolmentEndTimeDate": "Registreringen avslutas",
+      "labelEnrolmentEndTimeTime": "Registreringen avslutas kl",
+      "labelEnrolmentStartTimeDate": "Registreringen börjar",
+      "labelEnrolmentStartTimeTime": "Registreringen börjar kl",
       "labelEvent": "Evenemang",
       "labelInstructions": "Anvisningar för registrering (valfritt)",
       "labelMaximumAttendeeCapacity": "Max antal platser",

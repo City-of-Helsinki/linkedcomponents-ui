@@ -203,8 +203,8 @@
       "page": "Sivu {{page}}",
       "previous": "Edellinen sivu"
     },
-    "placeholderDate": "pp.kk.vvvv",
-    "placeholderDateTime": "pp.kk.vvvv hh.mm",
+    "placeholderDate": "p.k.vvvv",
+    "placeholderDateTime": "p.k.vvvv hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Tallenna",
     "search": "Etsi",
@@ -242,6 +242,10 @@
         "outdent": "Poista lista",
         "unordered": "Järjestämätön lista"
       }
+    },
+    "timeInput": {
+      "hoursLabel": "tunnit",
+      "minutsLabel": "minuutit"
     },
     "timepicker": {
       "accessibility": {
@@ -1654,8 +1658,10 @@
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
       "labelConfirmationMessage": "Lähetettävä vahvistusviesti (valinnainen)",
-      "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
-      "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
+      "labelEnrolmentEndTimeDate": "Ilmoittautuminen päättyy",
+      "labelEnrolmentEndTimeTime": "Ilmoittautuminen päättyy klo",
+      "labelEnrolmentStartTimeDate": "Ilmoittautuminen alkaa",
+      "labelEnrolmentStartTimeTime": "Ilmoittautuminen alkaa klo",
       "labelEvent": "Tapahtuma",
       "labelInstructions": "Ilmoittautumisohjeet (valinnainen)",
       "labelMaximumAttendeeCapacity": "Paikkojen enimmäismäärä",

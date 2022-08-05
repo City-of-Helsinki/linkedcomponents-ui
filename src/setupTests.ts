@@ -19,6 +19,9 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
     !msgStr.includes(
       'Using ReactElement as a label is against good usability and accessibility practices.'
     ) &&
+    !msgStr.includes(
+      'Invalid default value for TimeInput. The default value must be in hh:mm format'
+    ) &&
     !msgStr.match(
       /Could not find the stylesheet to update with the ".*" selector!/i
     ) &&

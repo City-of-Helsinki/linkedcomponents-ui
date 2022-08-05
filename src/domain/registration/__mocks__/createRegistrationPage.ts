@@ -5,8 +5,10 @@ import { fakeRegistration } from '../../../utils/mockDataUtils';
 
 const registrationValues = {
   event: 'event:1',
-  enrolmentEndTime: new Date('2020-12-31T21:00:00.000Z'),
-  enrolmentStartTime: new Date('2020-12-31T18:00:00.000Z'),
+  enrolmentEndTimeDate: '31.12.2020',
+  enrolmentEndTimeTime: '21:00',
+  enrolmentStartTimeDate: '31.12.2020',
+  enrolmentStartTimeTime: '18:00',
 };
 const registrationId = 'registration:1';
 

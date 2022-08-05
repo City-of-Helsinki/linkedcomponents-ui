@@ -202,8 +202,8 @@
       "page": "Page {{page}}",
       "previous": "Previous page"
     },
-    "placeholderDate": "dd.mm.yyyy",
-    "placeholderDateTime": "dd.mm.yyyy hh.mm",
+    "placeholderDate": "d.m.yyyy",
+    "placeholderDateTime": "d.m.yyyy hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Save",
     "search": "Search",
@@ -241,6 +241,10 @@
         "outdent": "Outdent",
         "unordered": "Unordered list"
       }
+    },
+    "timeInput": {
+      "hoursLabel": "hours",
+      "minutsLabel": "minutes"
     },
     "timepicker": {
       "accessibility": {
@@ -1654,8 +1658,10 @@
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
       "labelConfirmationMessage": "Confirmation message to send (optional)",
-      "labelEnrolmentEndTime": "Registration ends",
-      "labelEnrolmentStartTime": "Registration begins",
+      "labelEnrolmentEndTimeDate": "Registration ends",
+      "labelEnrolmentEndTimeTime": "Registration ends at",
+      "labelEnrolmentStartTimeDate": "Registration begins",
+      "labelEnrolmentStartTimeTime": "Registration begins at",
       "labelEvent": "Event",
       "labelInstructions": "Registration instructions (optional)",
       "labelMaximumAttendeeCapacity": "Maximum number of seats",

@@ -138,6 +138,7 @@ export const isAfterStartTime = (
         after: startsAt,
       }),
       (endsAt) => {
+        // istanbul ignore else
         if (endsAt && isValidTime(endsAt)) {
           const modifiedStartsAt = startsAt.replace(':', '.');
           const modifiedEndsAt = endsAt.replace(':', '.');
