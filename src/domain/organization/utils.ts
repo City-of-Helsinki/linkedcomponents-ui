@@ -1,5 +1,4 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import parseDate from 'date-fns/parse';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
@@ -23,6 +22,7 @@ import {
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
+import parseDateForPayload from '../../utils/parseDateForPayload';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -359,17 +359,9 @@ export const getOrganizationPayload = (
     ...restFormValues,
     dataSource,
     dissolutionDate: dissolutionDate
-      ? formatDate(
-          parseDate(dissolutionDate, DATE_FORMAT_2, new Date()),
-          'yyyy-MM-dd'
-        )
+      ? parseDateForPayload(dissolutionDate)
       : null,
-    foundingDate: foundingDate
-      ? formatDate(
-          parseDate(foundingDate, DATE_FORMAT_2, new Date()),
-          'yyyy-MM-dd'
-        )
-      : null,
+    foundingDate: foundingDate ? parseDateForPayload(foundingDate) : null,
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
     originId,
     parentOrganization: parentOrganization || undefined,

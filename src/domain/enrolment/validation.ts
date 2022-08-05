@@ -1,13 +1,16 @@
 import endOfDay from 'date-fns/endOfDay';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
+import parseDate from 'date-fns/parse';
 import startOfDay from 'date-fns/startOfDay';
 import subYears from 'date-fns/subYears';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
+import { DATE_FORMAT_2 } from '../../constants';
 import {
   createArrayMinErrorMessage,
+  isValidDate,
   isValidPhoneNumber,
   isValidZip,
 } from '../../utils/validationUtils';
@@ -22,8 +25,8 @@ import {
 
 export const isAboveMinAge = (
   minAge: string,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
+  schema: Yup.StringSchema<string | null | undefined>
+): Yup.StringSchema<string | null | undefined> => {
   /* istanbul ignore else */
   if (minAge) {
     return schema.test(
@@ -32,8 +35,10 @@ export const isAboveMinAge = (
         key: VALIDATION_MESSAGE_KEYS.AGE_MIN,
         min: parseInt(minAge),
       }),
-      (date) => {
-        if (date) {
+      (dateStr) => {
+        if (dateStr && isValidDate(dateStr)) {
+          const date = parseDate(dateStr, DATE_FORMAT_2, new Date());
+
           return isBefore(
             date,
             subYears(endOfDay(new Date()), parseInt(minAge))
@@ -49,8 +54,8 @@ export const isAboveMinAge = (
 
 export const isBelowMaxAge = (
   maxAge: string,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
+  schema: Yup.StringSchema<string | null | undefined>
+): Yup.StringSchema<string | null | undefined> => {
   /* istanbul ignore else */
   if (maxAge) {
     return schema.test(
@@ -59,8 +64,10 @@ export const isBelowMaxAge = (
         key: VALIDATION_MESSAGE_KEYS.AGE_MAX,
         max: parseInt(maxAge),
       }),
-      (date) => {
-        if (date) {
+      (dateStr) => {
+        if (dateStr && isValidDate(dateStr)) {
+          const date = parseDate(dateStr, DATE_FORMAT_2, new Date());
+
           return isAfter(
             date,
             subYears(startOfDay(new Date()), parseInt(maxAge) + 1)
@@ -81,9 +88,11 @@ export const attendeeSchema = Yup.object().shape({
   [ATTENDEE_FIELDS.STREET_ADDRESS]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
-  [ATTENDEE_FIELDS.DATE_OF_BIRTH]: Yup.date()
-    .nullable()
+  [ATTENDEE_FIELDS.DATE_OF_BIRTH]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
+      isValidDate(value)
+    )
     .when([ATTENDEE_FIELDS.AUDIENCE_MIN_AGE], isAboveMinAge)
     .when([ATTENDEE_FIELDS.AUDIENCE_MAX_AGE], isBelowMaxAge),
   [ATTENDEE_FIELDS.ZIP]: Yup.string()

@@ -53,6 +53,7 @@ const findElement = (key: 'nameInput' | 'submitButton') => {
 const getElement = (
   key:
     | 'cityInput'
+    | 'confirmDeleteModal'
     | 'dateOfBirthInput'
     | 'emailCheckbox'
     | 'emailInput'
@@ -70,6 +71,10 @@ const getElement = (
   switch (key) {
     case 'cityInput':
       return screen.getByRole('textbox', { name: /kaupunki/i });
+    case 'confirmDeleteModal':
+      return screen.getByRole('dialog', {
+        name: 'Vahvista osallistujan poistaminen',
+      });
     case 'dateOfBirthInput':
       return screen.getByRole('textbox', { name: /syntymäaika/i });
     case 'emailCheckbox':
@@ -311,10 +316,9 @@ test('should add and delete participants', async () => {
   await act(async () => await user.type(participantAmountInput, '1'));
   await act(async () => await user.click(updateParticipantAmountButton));
 
-  const deleteParticipantButton = within(screen.getByRole('dialog')).getByRole(
-    'button',
-    { name: 'Poista osallistuja' }
-  );
+  const deleteParticipantButton = within(
+    getElement('confirmDeleteModal')
+  ).getByRole('button', { name: 'Poista osallistuja' });
   await act(async () => await user.click(deleteParticipantButton));
 
   expect(
@@ -366,10 +370,9 @@ test('should delete participants by clicking delete participant button', async (
   })[1];
   await act(async () => await user.click(deleteButton));
 
-  const deleteParticipantButton = within(screen.getByRole('dialog')).getByRole(
-    'button',
-    { name: 'Poista osallistuja' }
-  );
+  const deleteParticipantButton = within(
+    getElement('confirmDeleteModal')
+  ).getByRole('button', { name: 'Poista osallistuja' });
   await act(async () => await user.click(deleteParticipantButton));
 
   expect(

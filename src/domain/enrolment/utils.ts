@@ -4,7 +4,7 @@ import isPast from 'date-fns/isPast';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
-import { FORM_NAMES, RESERVATION_NAMES } from '../../constants';
+import { DATE_FORMAT_2, FORM_NAMES, RESERVATION_NAMES } from '../../constants';
 import {
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
@@ -16,6 +16,7 @@ import {
 import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getUnixTime from '../../utils/getUnixTime';
+import parseDateForPayload from '../../utils/parseDateForPayload';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -78,8 +79,8 @@ export const getEnrolmentInitialValues = (
         audienceMinAge: registration.audienceMinAge ?? null,
         city: enrolment.city ?? '',
         dateOfBirth: enrolment.dateOfBirth
-          ? new Date(enrolment.dateOfBirth)
-          : null,
+          ? formatDate(new Date(enrolment.dateOfBirth), DATE_FORMAT_2)
+          : '',
         extraInfo: '',
         name: enrolment.name ?? '',
         streetAddress: enrolment.streetAddress ?? '',
@@ -133,7 +134,7 @@ export const getEnrolmentPayload = (
 
   return {
     city: city || null,
-    dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, 'yyyy-MM-dd') : null,
+    dateOfBirth: dateOfBirth ? parseDateForPayload(dateOfBirth) : null,
     email: email || null,
     extraInfo: extraInfo,
     membershipNumber: membershipNumber,

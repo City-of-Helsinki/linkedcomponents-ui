@@ -170,7 +170,11 @@ test('should cancel enrolment', async () => {
   const cancelButton = await findElement('cancelButton');
   await act(async () => await user.click(cancelButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const withinModal = within(
+    screen.getByRole('dialog', {
+      name: 'Haluatko varmasti poistaa ilmoittautumisen?',
+    })
+  );
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });
