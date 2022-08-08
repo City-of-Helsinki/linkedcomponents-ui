@@ -8,7 +8,7 @@ const parseDateText = (dateStr: string, timeStr?: string) => {
   let date = parseDate(dateStr, DATE_FORMAT_2, new Date());
 
   if (timeStr) {
-    const [hours, minutes] = timeStr.split(':');
+    const [hours, minutes] = timeStr.replace('.', ':').split(':');
 
     date = setHours(date, Number(hours));
     date = setMinutes(date, Number(minutes));

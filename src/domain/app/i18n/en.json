@@ -676,8 +676,10 @@
         "general": "Event ends",
         "volunteering": "Volunteering ends"
       },
-      "labelEnrolmentEndTime": "Registration ends",
-      "labelEnrolmentStartTime": "Registration begins",
+      "labelEnrolmentEndTimeDate": "Registration ends",
+      "labelEnrolmentEndTimeTime": "Registration ends at",
+      "labelEnrolmentStartTimeDate": "Registration begins",
+      "labelEnrolmentStartTimeTime": "Registration begins at",
       "labelExternalLinkLink": {
         "course": "The course's {{name}} URL",
         "general": "The event's {{name}} URL",

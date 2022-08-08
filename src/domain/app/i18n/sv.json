@@ -675,8 +675,10 @@
         "general": "Evenemanget avslutas",
         "volunteering": "Volontärarbetet avslutas"
       },
-      "labelEnrolmentEndTime": "Registreringen avslutas",
-      "labelEnrolmentStartTime": "Registreringen börjar",
+      "labelEnrolmentEndTimeDate": "Registreringen avslutas",
+      "labelEnrolmentEndTimeTime": "Registreringen avslutas kl",
+      "labelEnrolmentStartTimeDate": "Registreringen börjar",
+      "labelEnrolmentStartTimeTime": "Registreringen börjar kl",
       "labelExternalLinkLink": {
         "course": "Kursens Facebook-URL",
         "general": "Evenemangets Facebook-URL",

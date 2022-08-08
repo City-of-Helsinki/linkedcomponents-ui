@@ -17,8 +17,8 @@ import {
   within,
 } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { RecurringEventSettings } from '../../../types';
-import { publicEventSchema } from '../../../utils';
+import { EventTime, RecurringEventSettings } from '../../../types';
+import { publicEventSchema } from '../../../validation';
 import TimeSection from '../TimeSection';
 
 configure({
@@ -28,7 +28,14 @@ configure({
 beforeEach(() => clear());
 
 const type = EVENT_TYPE.General;
-const defaultInitialValue = {
+
+type InitialValues = {
+  [EVENT_FIELDS.EVENT_TIMES]: EventTime[];
+  [EVENT_FIELDS.EVENTS]: EventTime[];
+  [EVENT_FIELDS.RECURRING_EVENTS]: RecurringEventSettings[];
+  [EVENT_FIELDS.TYPE]: string;
+};
+const defaultInitialValue: InitialValues = {
   [EVENT_FIELDS.EVENT_TIMES]: [],
   [EVENT_FIELDS.EVENTS]: [],
   [EVENT_FIELDS.RECURRING_EVENTS]: [],

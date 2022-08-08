@@ -41,15 +41,15 @@ const mockedImagesResponse: MockedResponse = {
 };
 
 const image = images.data[0];
-const imageVariables = { createPath: undefined, id: image.id };
+const imageVariables = { createPath: undefined, id: image?.id };
 const imageResponse = { data: { image } };
 const mockedImageResponse: MockedResponse = {
   request: { query: ImageDocument, variables: imageVariables },
   result: imageResponse,
 };
 
-const imageAtId = image.atId;
-const imageUrl = image.url;
+const imageAtId = image?.atId as string;
+const imageUrl = image?.url as string;
 const file = mockFile({});
 
 const uploadImage1Variables = {

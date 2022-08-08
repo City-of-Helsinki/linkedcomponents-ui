@@ -38,7 +38,7 @@ const eventValues = {
 };
 
 const keyword = topics.data[0] as Keyword;
-const keywordName = keyword.name?.fi;
+const keywordName = keyword.name?.fi as string;
 const keywordId = keyword.id;
 const keywordAtId = keyword.atId;
 

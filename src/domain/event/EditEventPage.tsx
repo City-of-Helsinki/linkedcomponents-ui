@@ -62,13 +62,12 @@ import ConfirmUpdateModal from './modals/confirmUpdateModal/ConfirmUpdateModal';
 import { EventFormFields } from './types';
 import {
   checkCanUserDoAction,
-  draftEventSchema,
   eventPathBuilder,
   getEventFields,
   getEventInitialValues,
-  publicEventSchema,
   scrollToFirstError,
 } from './utils';
+import { draftEventSchema, publicEventSchema } from './validation';
 
 interface EditEventPageProps {
   event: EventFieldsFragment;

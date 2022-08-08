@@ -96,7 +96,7 @@ const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = screen
     .getAllByRole('button', { name: /valinnat/i })
-    .pop();
+    .pop() as HTMLElement;
 
   await act(async () => await user.click(toggleButton));
   screen.getByRole('region', { name: /valinnat/i });
@@ -166,17 +166,19 @@ test('should cancel event', async () => {
   const cancelButton = getButton('cancel');
   await act(async () => await user.click(cancelButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const modal = screen.getByRole('dialog', {
+    name: 'Varmista tapahtuman peruminen',
+  });
+  const withinModal = within(modal);
   // Cancel event button inside modal
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta tapahtuma',
   });
   await act(async () => await user.click(cancelEventButton));
 
-  await waitFor(
-    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
-    { timeout: 10000 }
-  );
+  await waitFor(() => expect(modal).not.toBeInTheDocument(), {
+    timeout: 10000,
+  });
   await loadingSpinnerIsNotInDocument(10000);
   screen.getByText('Peruutettu');
 });
@@ -197,16 +199,18 @@ test('should postpone event', async () => {
   const postponeButton = getButton('postpone');
   await act(async () => await user.click(postponeButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const modal = screen.getByRole('dialog', {
+    name: 'Varmista tapahtuman lykkääminen',
+  });
+  const withinModal = within(modal);
   const postponeEventButton = withinModal.getByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
   await act(async () => await user.click(postponeEventButton));
 
-  await waitFor(
-    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
-    { timeout: 10000 }
-  );
+  await waitFor(() => expect(modal).not.toBeInTheDocument(), {
+    timeout: 10000,
+  });
   await loadingSpinnerIsNotInDocument(10000);
   screen.getByText('Lykätty');
 });
@@ -227,17 +231,19 @@ test('should delete event', async () => {
   const deleteButton = getButton('delete');
   await act(async () => await user.click(deleteButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const modal = screen.getByRole('dialog', {
+    name: 'Varmista tapahtuman poistaminen',
+  });
+  const withinModal = within(modal);
   // Delete event button inside modal
   const deleteEventButton = withinModal.getByRole('button', {
     name: 'Poista tapahtuma',
   });
   await act(async () => await user.click(deleteEventButton));
 
-  await waitFor(
-    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
-    { timeout: 10000 }
-  );
+  await waitFor(() => expect(modal).not.toBeInTheDocument(), {
+    timeout: 10000,
+  });
   expect(history.location.pathname).toBe('/fi/search');
 });
 
@@ -336,7 +342,9 @@ test('should update recurring event', async () => {
   const updateButton = getButton('updatePublic');
   await act(async () => await user.click(updateButton));
 
-  const modal = await screen.findByRole('dialog');
+  const modal = await screen.findByRole('dialog', {
+    name: 'Varmista tapahtuman tallentaminen',
+  });
   const withinModal = within(modal);
   // Update event button inside modal
   const updateEventButton = await withinModal.getByRole('button', {
@@ -345,10 +353,9 @@ test('should update recurring event', async () => {
   await act(async () => await user.click(updateEventButton));
 
   // This test is pretty heavy so give DOM some time to update
-  await waitFor(
-    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
-    { timeout: 30000 }
-  );
+  await waitFor(() => expect(modal).not.toBeInTheDocument(), {
+    timeout: 30000,
+  });
   await loadingSpinnerIsNotInDocument(30000);
   await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
     timeout: 30000,

@@ -15,7 +15,7 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { publicEventSchema } from '../../../utils';
+import { publicEventSchema } from '../../../validation';
 import ChannelsSection from '../ChannelsSection';
 
 configure({ defaultHidden: true });

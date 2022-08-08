@@ -15,7 +15,7 @@ import {
   userEvent,
 } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { publicEventSchema } from '../../../utils';
+import { publicEventSchema } from '../../../validation';
 import PlaceSection from '../PlaceSection';
 
 configure({ defaultHidden: true });

@@ -2,8 +2,9 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DatepickerField from '../../../../common/components/formFields/datepickerField/DatepickerField';
+import DateInputField from '../../../../common/components/formFields/dateInputField/DateInputField';
 import NumberInputField from '../../../../common/components/formFields/numberInputField/NumberInputField';
+import TimeInputField from '../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
@@ -18,9 +19,6 @@ interface Props {
 const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
-  const [{ value: enrolmentStartTime }] = useField({
-    name: EVENT_FIELDS.ENROLMENT_START_TIME,
-  });
 
   return (
     <>
@@ -79,23 +77,42 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
         <FieldColumn>
           <FormGroup>
             <Field
-              component={DatepickerField}
+              component={DateInputField}
               disabled={!isEditingAllowed}
-              label={t(`event.form.labelEnrolmentStartTime`)}
-              name={EVENT_FIELDS.ENROLMENT_START_TIME}
-              placeholder={t(`common.placeholderDateTime`)}
-              timeSelector={true}
+              label={t(`event.form.labelEnrolmentStartTimeDate`)}
+              name={EVENT_FIELDS.ENROLMENT_START_TIME_DATE}
+              placeholder={t(`common.placeholderDate`)}
             />
           </FormGroup>
           <FormGroup>
             <Field
-              component={DatepickerField}
+              component={TimeInputField}
               disabled={!isEditingAllowed}
-              label={t(`event.form.labelEnrolmentEndTime`)}
-              minBookingDate={enrolmentStartTime}
-              name={EVENT_FIELDS.ENROLMENT_END_TIME}
-              placeholder={t(`common.placeholderDateTime`)}
-              timeSelector={true}
+              label={t(`event.form.labelEnrolmentStartTimeTime`)}
+              name={EVENT_FIELDS.ENROLMENT_START_TIME_TIME}
+              placeholder={t(`common.placeholderTime`)}
+            />
+          </FormGroup>
+        </FieldColumn>
+      </FieldRow>
+      <FieldRow>
+        <FieldColumn>
+          <FormGroup>
+            <Field
+              component={DateInputField}
+              disabled={!isEditingAllowed}
+              label={t(`event.form.labelEnrolmentEndTimeDate`)}
+              name={EVENT_FIELDS.ENROLMENT_END_TIME_DATE}
+              placeholder={t(`common.placeholderDate`)}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Field
+              component={TimeInputField}
+              disabled={!isEditingAllowed}
+              label={t(`event.form.labelEnrolmentEndTimeTime`)}
+              name={EVENT_FIELDS.ENROLMENT_END_TIME_TIME}
+              placeholder={t(`common.placeholderTime`)}
             />
           </FormGroup>
         </FieldColumn>

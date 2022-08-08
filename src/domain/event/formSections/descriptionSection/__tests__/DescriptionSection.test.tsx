@@ -17,7 +17,7 @@ import {
   userEvent,
 } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { publicEventSchema } from '../../../utils';
+import { publicEventSchema } from '../../../validation';
 import DescriptionSection, {
   DescriptionSectionProps,
 } from '../DescriptionSection';

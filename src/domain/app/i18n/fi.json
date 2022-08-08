@@ -675,8 +675,10 @@
         "general": "Tapahtuma päättyy",
         "volunteering": "Vapaaehtoistehtävä päättyy"
       },
-      "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
-      "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",  
+      "labelEnrolmentEndTimeDate": "Ilmoittautuminen päättyy",
+      "labelEnrolmentEndTimeTime": "Ilmoittautuminen päättyy klo",
+      "labelEnrolmentStartTimeDate": "Ilmoittautuminen alkaa",
+      "labelEnrolmentStartTimeTime": "Ilmoittautuminen alkaa klo",
       "labelExternalLinkLink": {
         "course": "Kurssin {{name}} URL",
         "general": "Tapahtuman {{name}} URL",
