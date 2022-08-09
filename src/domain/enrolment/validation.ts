@@ -1,13 +1,12 @@
 import endOfDay from 'date-fns/endOfDay';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
-import parseDate from 'date-fns/parse';
 import startOfDay from 'date-fns/startOfDay';
 import subYears from 'date-fns/subYears';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
-import { DATE_FORMAT_2 } from '../../constants';
+import parseDateText from '../../utils/parseDateText';
 import {
   createArrayMinErrorMessage,
   isValidDate,
@@ -37,7 +36,7 @@ export const isAboveMinAge = (
       }),
       (dateStr) => {
         if (dateStr && isValidDate(dateStr)) {
-          const date = parseDate(dateStr, DATE_FORMAT_2, new Date());
+          const date = parseDateText(dateStr) as Date;
 
           return isBefore(
             date,
@@ -66,7 +65,7 @@ export const isBelowMaxAge = (
       }),
       (dateStr) => {
         if (dateStr && isValidDate(dateStr)) {
-          const date = parseDate(dateStr, DATE_FORMAT_2, new Date());
+          const date = parseDateText(dateStr) as Date;
 
           return isAfter(
             date,

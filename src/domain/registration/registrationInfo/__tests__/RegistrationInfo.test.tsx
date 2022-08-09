@@ -22,6 +22,6 @@ test('should render event info with creator info', async () => {
   renderComponent(registration);
 
   await screen.findByRole('heading', { name: eventName });
-  screen.getByText('04.01.2021 12.00');
+  screen.getByText('4.1.2021 12.00');
   screen.getByText("Creator's name - organization");
 });

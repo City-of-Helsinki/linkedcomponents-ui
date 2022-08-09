@@ -4,7 +4,11 @@ import addHours from 'date-fns/addHours';
 import startOfDay from 'date-fns/startOfDay';
 import omit from 'lodash/omit';
 
-import { DATETIME_FORMAT, EXTLINK } from '../../../constants';
+import {
+  DATETIME_FORMAT,
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  EXTLINK,
+} from '../../../constants';
 import {
   CreateEventsDocument,
   DeleteEventDocument,
@@ -17,6 +21,7 @@ import {
   SuperEventType,
   UpdateEventsDocument,
 } from '../../../generated/graphql';
+import { MultiLanguageObject } from '../../../types';
 import formatDate from '../../../utils/formatDate';
 import {
   fakeEvent,
@@ -47,13 +52,14 @@ const eventId = 'helsinki:1';
 const audienceMaxAge = 18;
 const audienceMinAge = 12;
 const description = {
+  ...EMPTY_MULTI_LANGUAGE_OBJECT,
   ar: null,
   en: null,
   fi: 'Description fi',
   ru: null,
   sv: 'Description sv',
   zhHans: null,
-};
+} as unknown as MultiLanguageObject;
 const formattedDescription = {
   ar: null,
   en: null,
@@ -61,7 +67,7 @@ const formattedDescription = {
   ru: null,
   sv: '<p>Description sv</p>',
   zhHans: null,
-};
+} as unknown as MultiLanguageObject;
 
 const startTime = addDays(addHours(startOfDay(now), 12), 1);
 const endTime = addHours(startTime, 3);
@@ -74,7 +80,7 @@ const infoUrl = {
   ru: null,
   sv: 'http://infourl.sv',
   zhHans: null,
-};
+} as unknown as MultiLanguageObject;
 const instagramUrl = 'http://instagram.com';
 const lastModifiedTime = '2021-07-01T12:00:00.000Z';
 
@@ -85,7 +91,7 @@ const locationExtraInfo = {
   ru: null,
   sv: 'Location extra info sv',
   zhHans: null,
-};
+} as unknown as MultiLanguageObject;
 const name = {
   ar: null,
   en: null,
@@ -93,7 +99,7 @@ const name = {
   ru: null,
   sv: 'Name sv',
   zhHans: null,
-};
+} as unknown as MultiLanguageObject;
 const offers = [
   {
     description: {
@@ -103,7 +109,7 @@ const offers = [
       ru: null,
       sv: 'Description sv',
       zhHans: null,
-    },
+    } as unknown as MultiLanguageObject,
     infoUrl: {
       ar: null,
       en: null,
@@ -111,7 +117,7 @@ const offers = [
       ru: null,
       sv: 'http://infourl.com',
       zhHans: null,
-    },
+    } as unknown as MultiLanguageObject,
     price: {
       ar: null,
       en: null,
@@ -119,7 +125,7 @@ const offers = [
       ru: null,
       sv: 'Price sv',
       zhHans: null,
-    },
+    } as unknown as MultiLanguageObject,
   },
 ];
 const provider = {
@@ -129,7 +135,7 @@ const provider = {
   ru: null,
   sv: 'Provider sv',
   zhHans: null,
-};
+} as unknown as MultiLanguageObject;
 const publisher = TEST_PUBLISHER_ID;
 const shortDescription = {
   ar: null,
@@ -138,7 +144,7 @@ const shortDescription = {
   ru: null,
   sv: 'Short description sv',
   zhHans: null,
-};
+} as unknown as MultiLanguageObject;
 
 const superEventType = null;
 const twitterUrl = 'http://twitter.com';
@@ -220,8 +226,10 @@ const baseFormValues: EventFormFields = {
   audienceMaxAge,
   audienceMinAge,
   description,
-  enrolmentEndTime: null,
-  enrolmentStartTime: null,
+  enrolmentEndTimeDate: '',
+  enrolmentEndTimeTime: '',
+  enrolmentStartTimeDate: '',
+  enrolmentStartTimeTime: '',
   eventInfoLanguages: ['fi', 'sv'],
   eventTimes: [],
   events: [],
@@ -270,7 +278,7 @@ const expectedValues = {
   imagePhotographerName: imageFields.photographerName,
   infoUrl: infoUrl.fi,
   instagramUrl,
-  lastModifiedTime: '01.07.2021 12.00',
+  lastModifiedTime: '1.7.2021 12.00',
   location: locationText,
   locationExtraInfo: locationExtraInfo.fi,
   name: name.fi,
@@ -278,7 +286,7 @@ const expectedValues = {
   shortDescription: shortDescription.fi,
   startTime: formatDate(startTime, DATETIME_FORMAT),
   twitterUrl,
-  updatedLastModifiedTime: '23.08.2021 12.00',
+  updatedLastModifiedTime: '23.8.2021 12.00',
   videoAltText: videoDetails.altText,
   videoName: videoDetails.name,
   videoUrl: videoDetails.url,
@@ -460,8 +468,8 @@ const updateRecurringEventVariables = {
       startTime: subEventTimes[1].startTime.toISOString(),
       superEventType: SuperEventType.Recurring,
       subEvents: [
-        { atId: subEvents.data[1].atId },
-        ...newSubEvents.data.map(({ atId }) => ({ atId })),
+        { atId: subEvents.data[1]?.atId },
+        ...newSubEvents.data.map((event) => ({ atId: event?.atId })),
       ],
     },
   ],

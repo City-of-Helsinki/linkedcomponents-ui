@@ -4,7 +4,7 @@ import isPast from 'date-fns/isPast';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
-import { DATE_FORMAT_2, FORM_NAMES, RESERVATION_NAMES } from '../../constants';
+import { DATE_FORMAT, FORM_NAMES, RESERVATION_NAMES } from '../../constants';
 import {
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
@@ -79,7 +79,7 @@ export const getEnrolmentInitialValues = (
         audienceMinAge: registration.audienceMinAge ?? null,
         city: enrolment.city ?? '',
         dateOfBirth: enrolment.dateOfBirth
-          ? formatDate(new Date(enrolment.dateOfBirth), DATE_FORMAT_2)
+          ? formatDate(new Date(enrolment.dateOfBirth), DATE_FORMAT)
           : '',
         extraInfo: '',
         name: enrolment.name ?? '',

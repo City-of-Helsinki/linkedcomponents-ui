@@ -427,17 +427,6 @@ type TextInputCSSProperties = {
   '--focus-outline-color'?: string;
 };
 
-type TimepickerCSSProperties = {
-  '--menu-background-color'?: string;
-  '--menu-border-color'?: string;
-  '--menu-max-height'?: string;
-  '--menu-z-index'?: number;
-  '--menu-item-background-color'?: string;
-  '--menu-item-background-color-highlighted'?: string;
-  '--menu-item-fontsize'?: string;
-  '--menu-item-spacing'?: string;
-};
-
 export type Theme = {
   breadcrumb: BreadcrumbCSSProperties;
   button: {
@@ -492,7 +481,6 @@ export type Theme = {
   tabs: TabsCSSProperties;
   textEditor: TextEditorCSSProperties;
   textInput: TextInputCSSProperties;
-  timepicker: TimepickerCSSProperties;
 };
 
 const defaultTheme: Theme = {
@@ -531,7 +519,6 @@ const defaultTheme: Theme = {
   tabs: {},
   textEditor: {},
   textInput: {},
-  timepicker: {},
 };
 
 type ThemeContextType = { setTheme: (theme: Theme) => void; theme: Theme };

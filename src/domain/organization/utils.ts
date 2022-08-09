@@ -3,7 +3,7 @@ import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import {
-  DATE_FORMAT_2,
+  DATE_FORMAT,
   LINKED_EVENTS_SYSTEM_DATA_SOURCE,
   MAX_PAGE_SIZE,
   ROUTES,
@@ -321,10 +321,10 @@ export const getOrganizationInitialValues = (
     classification: organization.classification ?? '',
     dataSource: organization.dataSource ?? '',
     dissolutionDate: dissolutionDate
-      ? formatDate(new Date(dissolutionDate), DATE_FORMAT_2)
+      ? formatDate(new Date(dissolutionDate), DATE_FORMAT)
       : '',
     foundingDate: foundingDate
-      ? formatDate(new Date(foundingDate), DATE_FORMAT_2)
+      ? formatDate(new Date(foundingDate), DATE_FORMAT)
       : '',
     id,
     internalType: organization.isAffiliated

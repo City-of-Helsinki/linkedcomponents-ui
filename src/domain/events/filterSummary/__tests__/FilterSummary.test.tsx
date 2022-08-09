@@ -72,7 +72,7 @@ test('should render and remove date filter', async () => {
   );
 
   const deleteFilterButton = screen.getByRole('button', {
-    name: `Poista suodatusehto: 05.10.2021 - 13.10.2021`,
+    name: `Poista suodatusehto: 5.10.2021 - 13.10.2021`,
   });
   await act(async () => await user.click(deleteFilterButton));
 
@@ -106,7 +106,7 @@ test('should remove all filters with clear button', async () => {
     name: `Poista suodatusehto: ${placeName}`,
   });
   screen.getByRole('button', {
-    name: `Poista suodatusehto: 05.10.2021 - 13.10.2021`,
+    name: `Poista suodatusehto: 5.10.2021 - 13.10.2021`,
   });
   screen.getByRole('button', {
     name: `Poista suodatusehto: Tapahtuma`,

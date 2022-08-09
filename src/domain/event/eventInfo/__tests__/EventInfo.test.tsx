@@ -26,6 +26,6 @@ test('should render event info with creator info', () => {
   screen.getByText('Julkaistu');
   screen.getByRole('heading', { name: 'Event name' });
   screen.getByText('Kattotapahtuma');
-  screen.getByText('04.01.2021 12.00');
+  screen.getByText('4.1.2021 12.00');
   screen.getByText("Creator's name - organization");
 });

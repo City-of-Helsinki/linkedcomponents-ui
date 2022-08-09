@@ -10,7 +10,7 @@ type Props = Omit<TimeInputProps, 'hoursLabel' | 'minutesLabel'> &
   FieldProps & { hoursLabel?: string; minutesLabel?: string };
 
 const TimeInputField: React.FC<Props> = ({
-  field: { name, value, ...field },
+  field: { name, onBlur, value, ...field },
   form,
   hoursLabel,
   ...rest
@@ -20,18 +20,24 @@ const TimeInputField: React.FC<Props> = ({
 
   const errorText = getErrorText(error, touched, t);
 
+  const handleBlur = () => {
+    onBlur({ target: { id: name, value } });
+  };
+
   return (
-    <TimeInput
-      {...rest}
-      {...field}
-      id={name}
-      name={name}
-      errorText={errorText}
-      invalid={!!errorText}
-      value={value}
-      hoursLabel={hoursLabel || t('common.timeInput.hoursLabel')}
-      minutesLabel={hoursLabel || t('common.timeInput.minutsLabel')}
-    />
+    <div onBlur={handleBlur}>
+      <TimeInput
+        {...rest}
+        {...field}
+        id={name}
+        name={name}
+        errorText={errorText}
+        invalid={!!errorText}
+        value={value}
+        hoursLabel={hoursLabel || t('common.timeInput.hoursLabel')}
+        minutesLabel={hoursLabel || t('common.timeInput.minutsLabel')}
+      />
+    </div>
   );
 };
 

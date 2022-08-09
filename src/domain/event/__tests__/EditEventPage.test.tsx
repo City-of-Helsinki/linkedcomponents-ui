@@ -1,7 +1,12 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { DATETIME_FORMAT, ROUTES } from '../../../constants';
+import {
+  DATE_FORMAT,
+  DATETIME_FORMAT,
+  ROUTES,
+  TIME_FORMAT_DATA,
+} from '../../../constants';
 import { EventDocument } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
@@ -138,15 +143,19 @@ const getInput = (key: 'nameFi') => {
 };
 
 const getAddEventTimeFormElement = (
-  key: 'addButton' | 'endTime' | 'startTime'
+  key: 'addButton' | 'endDate' | 'endTime' | 'startDate' | 'startTime'
 ) => {
   switch (key) {
     case 'addButton':
       return screen.getByRole('button', { name: /lisää ajankohta/i });
+    case 'endDate':
+      return screen.getByRole('textbox', { name: 'Tapahtuma päättyy *' });
     case 'endTime':
-      return screen.getByRole('textbox', { name: /tapahtuma päättyy/i });
+      return screen.getByRole('textbox', { name: /tapahtuma päättyy klo/i });
+    case 'startDate':
+      return screen.getByRole('textbox', { name: 'Tapahtuma alkaa *' });
     case 'startTime':
-      return screen.getByRole('textbox', { name: /tapahtuma alkaa/i });
+      return screen.getByRole('textbox', { name: /tapahtuma alkaa klo/i });
   }
 };
 
@@ -313,30 +322,29 @@ test('should update recurring event', async () => {
   const deleteButton = withinRow.getByRole('button', { name: /poista/i });
   await act(async () => await user.click(deleteButton));
 
+  const endDateInput = getAddEventTimeFormElement('endDate');
   const endTimeInput = getAddEventTimeFormElement('endTime');
+  const startDateInput = getAddEventTimeFormElement('startDate');
   const startTimeInput = getAddEventTimeFormElement('startTime');
   const addButton = getAddEventTimeFormElement('addButton');
 
   for (const newEventTime of newSubEventTimes) {
-    const startTimeValue = formatDate(newEventTime.startTime, DATETIME_FORMAT);
+    const startDateValue = formatDate(newEventTime.startTime, DATE_FORMAT);
+    const startTimeValue = formatDate(newEventTime.startTime, TIME_FORMAT_DATA);
+    await act(async () => await user.click(startDateInput));
+    await act(async () => await user.type(startDateInput, startDateValue));
     await act(async () => await user.click(startTimeInput));
     await act(async () => await user.type(startTimeInput, startTimeValue));
-    await waitFor(() => expect(startTimeInput).toHaveValue(startTimeValue), {
-      timeout: 10000,
-    });
 
-    const endTimeValue = formatDate(newEventTime.endTime, DATETIME_FORMAT);
+    const endDateValue = formatDate(newEventTime.endTime, DATE_FORMAT);
+    const endTimeValue = formatDate(newEventTime.endTime, TIME_FORMAT_DATA);
+    await act(async () => await user.click(endDateInput));
+    await act(async () => await user.type(endDateInput, endDateValue));
     await act(async () => await user.click(endTimeInput));
     await act(async () => await user.type(endTimeInput, endTimeValue));
-    await waitFor(() => expect(endTimeInput).toHaveValue(endTimeValue), {
-      timeout: 10000,
-    });
 
     await waitFor(() => expect(addButton).toBeEnabled());
     await act(async () => await user.click(addButton));
-
-    await waitFor(() => expect(startTimeInput).toHaveValue(''));
-    await waitFor(() => expect(endTimeInput).toHaveValue(''));
   }
 
   const updateButton = getButton('updatePublic');

@@ -4,9 +4,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useDropdownKeyboardNavigation from '../../../../hooks/useDropdownKeyboardNavigation';
+import { TimeObject } from '../../../../types';
 import ScrollIntoViewWithFocus from '../../scrollIntoViewWithFocus/ScrollIntoViewWithFocus';
 import { DEFAULT_TIME_INTERVAL } from '../../timepicker/constants';
-import { TimeObject } from '../../timepicker/types';
 import { formatTime, getTimeObjects } from '../../timepicker/utils';
 import styles from '../datepicker.module.scss';
 

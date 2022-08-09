@@ -1,4 +1,5 @@
 import isBefore from 'date-fns/isBefore';
+import isFuture from 'date-fns/isFuture';
 import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import { FormikErrors, FormikTouched } from 'formik';
@@ -11,9 +12,8 @@ import * as Yup from 'yup';
 
 import {
   DATE_FORMAT,
-  DATE_FORMAT_2,
   DATETIME_FORMAT,
-  DATETIME_FORMAT_2,
+  TIME_FORMAT,
   VALIDATION_ERROR_SCROLLER_OPTIONS,
 } from '../constants';
 import { VALIDATION_MESSAGE_KEYS } from '../domain/app/i18n/constants';
@@ -79,7 +79,7 @@ export const isValidPhoneNumber = (phone: string): boolean =>
 
 export const isValidDate = (date?: string): boolean => {
   return date
-    ? isValid(parseDate(date, DATE_FORMAT_2, new Date())) &&
+    ? isValid(parseDate(date, DATE_FORMAT, new Date())) &&
         // Make sure year has 4 digits
         date.split('.')[2].length === 4
     : true;
@@ -105,18 +105,18 @@ export const isAfterStartDateAndTime = (
     endTimeStr &&
     isValidTime(endTimeStr)
   ) {
-    const startDate = parseDateText(startDateStr, startTimeStr);
+    const startDate = parseDateText(startDateStr, startTimeStr) as Date;
 
     return schema.test(
       'isAfterStartDateAndTime',
       () => ({
         key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
-        after: formatDate(startDate, DATETIME_FORMAT_2),
+        after: formatDate(startDate, DATETIME_FORMAT),
       }),
       (endDateStr) => {
         // istanbul ignore else
         if (endDateStr && isValidDate(endDateStr)) {
-          const endDate = parseDateText(endDateStr, endTimeStr);
+          const endDate = parseDateText(endDateStr, endTimeStr) as Date;
 
           return !isBefore(endDate, startDate);
         }
@@ -128,54 +128,51 @@ export const isAfterStartDateAndTime = (
   }
 };
 
-export const isAfterStartDate = (
-  startDate: Date | null,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
-  if (startDate && isValid(startDate)) {
+export const isFutureDate = (date?: string): boolean => {
+  if (date && isValidDate(date)) {
+    return isFuture(parseDateText(date) as Date);
+  } else {
+    return true;
+  }
+};
+
+export const isAfterDate = (
+  startDateStr: string,
+  schema: Yup.StringSchema<string | null | undefined>
+): Yup.StringSchema<string | null | undefined> => {
+  if (startDateStr && isValidDate(startDateStr)) {
+    const startDate = parseDateText(startDateStr) as Date;
+
     return schema.test(
-      'isAfterStartDate',
+      'isAfterDate',
       () => ({
         key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
         after: formatDate(startDate, DATE_FORMAT),
       }),
-      (endDate) => {
-        return !endDate || isBefore(startDate, endDate);
+      (endDateStr) => {
+        // istanbul ignore else
+        if (endDateStr && isValidDate(endDateStr)) {
+          const endDate = parseDateText(endDateStr) as Date;
+
+          return isBefore(startDate, endDate);
+        }
+        return true;
       }
     );
   }
   return schema;
 };
 
-export const isMinStartDate = (
-  startDate: Date | null,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
-  if (startDate && isValid(startDate)) {
-    return schema.test(
-      'isMinStartDate',
-      () => ({
-        key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-        min: formatDate(startDate, DATETIME_FORMAT),
-      }),
-      (endTime) => {
-        return !endTime || isBefore(startDate, endTime);
-      }
-    );
-  }
-  return schema;
-};
-
-export const isAfterStartTime = (
+export const isAfterTime = (
   startsAt: string,
   schema: Yup.StringSchema
 ): Yup.StringSchema => {
   if (isValidTime(startsAt)) {
     return schema.test(
-      'isAfterStartTime',
+      'isAfterTime',
       () => ({
         key: VALIDATION_MESSAGE_KEYS.TIME_AFTER,
-        after: startsAt,
+        after: startsAt.replace(':', '.'),
       }),
       (endsAt) => {
         // istanbul ignore else
@@ -184,8 +181,8 @@ export const isAfterStartTime = (
           const modifiedEndsAt = endsAt.replace(':', '.');
 
           return isBefore(
-            parseDate(modifiedStartsAt, 'HH.mm', new Date()),
-            parseDate(modifiedEndsAt, 'HH.mm', new Date())
+            parseDate(modifiedStartsAt, TIME_FORMAT, new Date()),
+            parseDate(modifiedEndsAt, TIME_FORMAT, new Date())
           );
         }
         return true;

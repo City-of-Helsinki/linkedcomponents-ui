@@ -131,7 +131,7 @@ test('should update registration', async () => {
   await act(async () => await user.click(updateButton));
 
   await loadingSpinnerIsNotInDocument(30000);
-  await screen.findByText('23.08.2021 12.00');
+  await screen.findByText('23.8.2021 12.00');
 });
 
 test('should scroll to first error when validation error is thrown', async () => {

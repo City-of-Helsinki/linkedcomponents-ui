@@ -8,6 +8,7 @@ import isNil from 'lodash/isNil';
 import React, { useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { DATE_FORMAT } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { dateLocales } from '../constants';
 import styles from '../datepicker.module.scss';
@@ -104,7 +105,7 @@ const Day: React.FC<{ date: Date; dayLabel: string }> = ({
     <button
       ref={dayRef}
       aria-label={t('common.datepicker.accessibility.selectDate', {
-        value: formatDate(date, 'dd.MM.yyyy', { locale: dateLocales[locale] }),
+        value: formatDate(date, DATE_FORMAT, { locale: dateLocales[locale] }),
       })}
       className={classNames(styles.dayButton, {
         [styles.dayDisabled]: disabledDate,

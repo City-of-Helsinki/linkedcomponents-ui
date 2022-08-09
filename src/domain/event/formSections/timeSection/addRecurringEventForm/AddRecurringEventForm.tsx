@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../../common/components/button/Button';
 import CheckboxGroupField from '../../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
-import DatepickerField from '../../../../../common/components/formFields/datepickerField/DatepickerField';
+import DateInputField from '../../../../../common/components/formFields/dateInputField/DateInputField';
 import NumberInputField from '../../../../../common/components/formFields/numberInputField/NumberInputField';
-import TimepickerField from '../../../../../common/components/formFields/timepickerField/TimepickerField';
+import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
+import TimeInputField from '../../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { WEEK_DAY } from '../../../../../constants';
 import { SuperEventType } from '../../../../../generated/graphql';
@@ -17,18 +18,17 @@ import {
 } from '../../../constants';
 import styles from '../../../eventPage.module.scss';
 import { RecurringEventSettings } from '../../../types';
-import {
-  generateEventTimesFromRecurringEvent,
-  recurringEventSchema,
-} from '../../../utils';
+import { generateEventTimesFromRecurringEvent } from '../../../utils';
+import { recurringEventSchema } from '../../../validation';
 import TimeSectionContext from '../TimeSectionContext';
-import { getMinBookingDate, sortEventTimes } from '../utils';
+import { sortEventTimes } from '../utils';
 
 interface Props {
   onSubmit: (values: RecurringEventSettings) => void;
 }
 
 const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
+  const [resetTimeInputs, setResetTimeInputs] = React.useState(false);
   const { t } = useTranslation();
   const { eventType, isEditingAllowed, savedEvent } =
     React.useContext(TimeSectionContext);
@@ -55,7 +55,16 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
     });
     resetForm();
     validateForm();
+    setResetTimeInputs(true);
   };
+
+  // TODO: Remove this hack when time input component is fixed
+  // Unmount time input components after form reset to reset the input fields
+  React.useEffect(() => {
+    if (resetTimeInputs) {
+      setResetTimeInputs(false);
+    }
+  }, [resetTimeInputs]);
 
   return (
     <Formik
@@ -66,7 +75,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
       validateOnMount
       validationSchema={recurringEventSchema}
     >
-      {({ handleSubmit, isValid, values: { startDate } }) => {
+      {({ handleSubmit, isValid }) => {
         return (
           <div>
             <FormGroup>
@@ -102,34 +111,33 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
             </FormGroup>
             <FormGroup>
               <Field
-                component={DatepickerField}
+                component={DateInputField}
                 disabled={disabled}
                 label={t('event.form.labelRecurringEventStartDate')}
-                minBookingDate={new Date()}
                 name={RECURRING_EVENT_FIELDS.START_DATE}
                 placeholder={t('common.placeholderDate')}
                 required={true}
-                timeSelector={false}
               />
             </FormGroup>
             <FormGroup>
               <Field
-                component={DatepickerField}
+                component={DateInputField}
                 disabled={disabled}
-                focusedDate={getMinBookingDate(startDate)}
-                minBookingDate={getMinBookingDate(startDate)}
                 name={RECURRING_EVENT_FIELDS.END_DATE}
                 label={t('event.form.labelRecurringEventEndDate')}
                 placeholder={t('common.placeholderDate')}
                 required={true}
-                timeSelector={false}
               />
             </FormGroup>
             <FormGroup>
               <div className={styles.splittedRow}>
                 <div>
                   <Field
-                    component={TimepickerField}
+                    component={
+                      // TODO: Remove this hack when time input component is fixed
+                      // Unmount time input after form reset to reset the input fields
+                      resetTimeInputs ? TextInputField : TimeInputField
+                    }
                     disabled={disabled}
                     name={RECURRING_EVENT_FIELDS.START_TIME}
                     label={t(
@@ -141,7 +149,11 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
                 </div>
                 <div>
                   <Field
-                    component={TimepickerField}
+                    component={
+                      // TODO: Remove this hack when time input component is fixed
+                      // Unmount time input after form reset to reset the input fields
+                      resetTimeInputs ? TextInputField : TimeInputField
+                    }
                     disabled={disabled}
                     name={RECURRING_EVENT_FIELDS.END_TIME}
                     label={t(

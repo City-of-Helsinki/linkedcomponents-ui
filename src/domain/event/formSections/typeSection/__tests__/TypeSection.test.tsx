@@ -165,7 +165,7 @@ test('should uncheck isUmbrella checkbox if there is more than 1 event times', a
       isUmbrella: true,
       recurringEvents: [
         {
-          endDate: new Date(),
+          endDate: '1.1.2011',
           endTime: '12.00',
           eventTimes: [
             { id: null, endTime: new Date(), startTime: new Date() },
@@ -173,7 +173,7 @@ test('should uncheck isUmbrella checkbox if there is more than 1 event times', a
           ],
           repeatDays: [],
           repeatInterval: 1,
-          startDate: new Date(),
+          startDate: '3.1.2011',
           startTime: '11.00',
         },
       ],

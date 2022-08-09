@@ -19,7 +19,7 @@ test('should render date filter when start and end date are defined', async () =
   renderComponent();
 
   screen.getByRole('button', {
-    name: `Poista suodatusehto: 05.10.2021 - 13.10.2021`,
+    name: `Poista suodatusehto: 5.10.2021 - 13.10.2021`,
   });
 });
 
@@ -27,7 +27,7 @@ test('should render date filter when only start date is defined', async () => {
   renderComponent({ end: null });
 
   screen.getByRole('button', {
-    name: `Poista suodatusehto: 05.10.2021 -`,
+    name: `Poista suodatusehto: 5.10.2021 -`,
   });
 });
 

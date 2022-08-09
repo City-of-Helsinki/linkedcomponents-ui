@@ -25,7 +25,7 @@ const renderComponent = (context?: Partial<TimeSectionContextProps>) =>
   );
 
 const recurringEvent1 = {
-  endDate: new Date('2021-05-15T00:00:00.000Z'),
+  endDate: '15.5.2021',
   endTime: '15.00',
   eventTimes: [
     {
@@ -41,11 +41,11 @@ const recurringEvent1 = {
   ],
   repeatDays: ['mon'],
   repeatInterval: 1,
-  startDate: new Date('2021-05-01T00:00:00.000Z'),
+  startDate: '1.5.2021',
   startTime: '12.00',
 };
 const recurringEvent2 = {
-  endDate: new Date('2021-06-15T00:00:00.000Z'),
+  endDate: '15.6.2021',
   endTime: '15.00',
   eventTimes: [
     {
@@ -62,7 +62,7 @@ const recurringEvent2 = {
   ],
   repeatDays: ['mon', 'wed'],
   repeatInterval: 1,
-  startDate: new Date('2021-06-01T00:00:00.000Z'),
+  startDate: '1.6.2021',
   startTime: '12.00',
 };
 
@@ -73,30 +73,30 @@ test('should render component', async () => {
   renderComponent({ recurringEvents });
 
   const toggleButton1 = screen.getByRole('button', {
-    name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
+    name: 'Ma, Viikon välein, 1.5.2021 – 15.5.2021',
   });
   await act(async () => await user.click(toggleButton1));
 
   screen.getByRole('row', {
-    name: '1 02.05.2021 12.00 – 02.05.2021 15.00',
+    name: '1 2.5.2021 12.00 – 2.5.2021 15.00',
     hidden: false,
   });
   screen.getByRole('row', {
-    name: '2 09.05.2021 12.00 – 09.05.2021 15.00',
+    name: '2 9.5.2021 12.00 – 9.5.2021 15.00',
     hidden: false,
   });
 
   const toggleButton2 = screen.getByRole('button', {
-    name: 'Ma ja Ke, Viikon välein, 01.06.2021 – 15.06.2021',
+    name: 'Ma ja Ke, Viikon välein, 1.6.2021 – 15.6.2021',
   });
   await act(async () => await user.click(toggleButton2));
 
   screen.getByRole('row', {
-    name: '3 02.06.2021 12.00 – 02.06.2021 15.00',
+    name: '3 2.6.2021 12.00 – 2.6.2021 15.00',
     hidden: false,
   });
   screen.getByRole('row', {
-    name: '4 09.06.2021 12.00 – 09.06.2021 15.00',
+    name: '4 9.6.2021 12.00 – 9.6.2021 15.00',
     hidden: false,
   });
 });
@@ -109,7 +109,7 @@ test('should call setRecurringEvents when deleting a single event time', async (
   renderComponent({ recurringEvents, setRecurringEvents });
 
   const toggleButton1 = screen.getByRole('button', {
-    name: 'Ma, Viikon välein, 01.05.2021 – 15.05.2021',
+    name: 'Ma, Viikon välein, 1.5.2021 – 15.5.2021',
   });
   await act(async () => await user.click(toggleButton1));
 

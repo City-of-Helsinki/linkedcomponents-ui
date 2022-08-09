@@ -3,7 +3,6 @@ import addDays from 'date-fns/addDays';
 import addWeeks from 'date-fns/addWeeks';
 import endOfDay from 'date-fns/endOfDay';
 import isBefore from 'date-fns/isBefore';
-import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
 import isWithinInterval from 'date-fns/isWithinInterval';
 import maxDate from 'date-fns/max';
@@ -22,15 +21,14 @@ import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
-import { getTimeObject } from '../../common/components/timepicker/utils';
 import {
-  DATE_FORMAT_2,
+  DATE_FORMAT,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
-  TIME_FORMAT,
+  TIME_FORMAT_DATA,
   VALIDATION_ERROR_SCROLLER_OPTIONS,
   WEEK_DAY,
 } from '../../constants';
@@ -63,30 +61,21 @@ import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getTimeObject from '../../utils/getTimeObject';
 import parseDateForPayload from '../../utils/parseDateForPayload';
+import parseDateText from '../../utils/parseDateText';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
-import {
-  createArrayMinErrorMessage,
-  createNumberMaxErrorMessage,
-  createNumberMinErrorMessage,
-  isAfterStartDate,
-  isAfterStartTime,
-  isMinStartDate,
-  isValidTime,
-} from '../../utils/validationUtils';
+import { isValidDate } from '../../utils/validationUtils';
 import wait from '../../utils/wait';
-import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
   isAdminUserInOrganization,
   isReqularUserInOrganization,
 } from '../organization/utils';
 import {
-  ADD_EVENT_TIME_FORM_NAME,
   AUTHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
-  EDIT_EVENT_TIME_FORM_NAME,
   EVENT_CREATE_ACTIONS,
   EVENT_CREATE_ICONS,
   EVENT_CREATE_LABEL_KEYS,
@@ -98,12 +87,10 @@ import {
   EVENT_INCLUDES,
   EVENT_INITIAL_VALUES,
   EVENT_SELECT_FIELDS,
-  EVENT_TIME_FIELDS,
   EVENT_TYPE,
   NOT_ALLOWED_WHEN_CANCELLED,
   NOT_ALLOWED_WHEN_DELETED,
   NOT_ALLOWED_WHEN_IN_PAST,
-  RECURRING_EVENT_FIELDS,
   SUB_EVENTS_VARIABLES,
   TEXT_EDITOR_ALLOWED_TAGS,
   TEXT_EDITOR_FIELDS,
@@ -118,68 +105,6 @@ import {
   RecurringEventSettings,
   VideoDetails,
 } from './types';
-
-export const eventTimeSchema = Yup.object().shape({
-  [EVENT_TIME_FIELDS.START_TIME]: Yup.date()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
-  [EVENT_TIME_FIELDS.END_TIME]: Yup.date()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (endTime) => !endTime || isFuture(endTime)
-    )
-    // test that end time is after start time
-    .when([EVENT_TIME_FIELDS.START_TIME], isMinStartDate),
-});
-
-export const addEventTimeSchema = Yup.object().shape({
-  [ADD_EVENT_TIME_FORM_NAME]: eventTimeSchema,
-});
-
-export const editEventTimeSchema = Yup.object().shape({
-  [EDIT_EVENT_TIME_FORM_NAME]: eventTimeSchema,
-});
-
-export const recurringEventSchema = Yup.object().shape({
-  [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
-    .nullable()
-    .min(1, createNumberMinErrorMessage)
-    .max(4, createNumberMaxErrorMessage)
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
-    .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-    .min(1, createArrayMinErrorMessage),
-  [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (startTime) => !startTime || isFuture(startTime)
-    ),
-  [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    // test that startsTime is before endsTime
-    .when([RECURRING_EVENT_FIELDS.START_DATE], isAfterStartDate),
-  [RECURRING_EVENT_FIELDS.START_TIME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-    .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
-      isValidTime(value)
-    ),
-  [RECURRING_EVENT_FIELDS.END_TIME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-    .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
-      isValidTime(value)
-    )
-    // test that endsAt is after startsAt time
-    .when([RECURRING_EVENT_FIELDS.START_TIME], isAfterStartTime),
-});
 
 export const eventPathBuilder = ({
   args,
@@ -296,12 +221,27 @@ export const getEventFields = (
 export const generateEventTimesFromRecurringEvent = (
   settings: RecurringEventSettings
 ): EventTime[] => {
-  const { startDate, startTime, endDate, endTime, repeatDays, repeatInterval } =
-    settings;
+  const {
+    startDate: startDateStr,
+    startTime,
+    endDate: endDateStr,
+    endTime,
+    repeatDays,
+    repeatInterval,
+  } = settings;
   const eventTimes: EventTime[] = [];
 
   /* istanbul ignore else  */
-  if (startDate && endDate && repeatInterval > 0) {
+  if (
+    startDateStr &&
+    isValidDate(startDateStr) &&
+    endDateStr &&
+    isValidDate(endDateStr) &&
+    repeatInterval > 0
+  ) {
+    const startDate = parseDateText(startDateStr) as Date;
+    const endDate = parseDateText(endDateStr) as Date;
+
     const dayCodes: Record<string, number> = {
       [WEEK_DAY.MON]: 1,
       [WEEK_DAY.TUE]: 2,
@@ -777,16 +717,16 @@ export const getEventInitialValues = (
     description: getSanitizedDescription(event),
     events,
     enrolmentEndTimeDate: event.enrolmentEndTime
-      ? formatDate(new Date(event.enrolmentEndTime), DATE_FORMAT_2)
+      ? formatDate(new Date(event.enrolmentEndTime), DATE_FORMAT)
       : '',
     enrolmentEndTimeTime: event.enrolmentEndTime
-      ? formatDate(new Date(event.enrolmentEndTime), TIME_FORMAT)
+      ? formatDate(new Date(event.enrolmentEndTime), TIME_FORMAT_DATA)
       : '',
     enrolmentStartTimeDate: event.enrolmentStartTime
-      ? formatDate(new Date(event.enrolmentStartTime), DATE_FORMAT_2)
+      ? formatDate(new Date(event.enrolmentStartTime), DATE_FORMAT)
       : '',
     enrolmentStartTimeTime: event.enrolmentStartTime
-      ? formatDate(new Date(event.enrolmentStartTime), TIME_FORMAT)
+      ? formatDate(new Date(event.enrolmentStartTime), TIME_FORMAT_DATA)
       : '',
     eventInfoLanguages: getEventInfoLanguages(event),
     externalLinks: sortBy(event.externalLinks, ['name']).map(

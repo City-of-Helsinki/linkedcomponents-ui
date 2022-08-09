@@ -154,7 +154,11 @@ export const parseEventServerErrors = ({
     switch (key) {
       case 'end_time':
       case 'start_time':
-        return t(`event.form.label${pascalCase(key)}.${eventType}`);
+        return t(
+          `event.form.label${pascalCase(
+            key.replace('time', 'date')
+          )}.${eventType}`
+        );
       case 'name':
         return t(`event.form.label${pascalCase(key)}.${eventType}`, {
           langText: lowerCaseFirstLetter(t(`form.inLanguage.fi`)),

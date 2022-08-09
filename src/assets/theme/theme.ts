@@ -575,16 +575,6 @@ const theme: Theme = {
     '--placeholder-color': 'var(--color-black-60)',
     '--focus-outline-color': 'var(--color-coat-of-arms)',
   },
-  timepicker: {
-    '--menu-background-color': 'var(--color-white)',
-    '--menu-border-color': 'var(--input-border-color-default)',
-    '--menu-max-height': '20rem',
-    '--menu-z-index': 101,
-    '--menu-item-background-color': 'transparent',
-    '--menu-item-background-color-highlighted': 'var(--color-black-10)',
-    '--menu-item-fontsize': 'var(--fontsize-body-l)',
-    '--menu-item-spacing': 'var(--spacing-s)',
-  },
 };
 
 export default theme;

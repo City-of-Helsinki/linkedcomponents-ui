@@ -69,8 +69,8 @@ test('should render event data correctly', async () => {
     { name: organizationName },
     { timeout: 10000 }
   );
-  screen.getByRole('cell', { name: '08.11.2019 klo 12.27' });
-  screen.getByRole('cell', { name: '02.01.2020 klo 12.27' });
+  screen.getByRole('cell', { name: '8.11.2019 klo 12.27' });
+  screen.getByRole('cell', { name: '2.1.2020 klo 12.27' });
   screen.getByRole('cell', { name: 'Julkaistu' });
 
   // Toggle button should not be visible

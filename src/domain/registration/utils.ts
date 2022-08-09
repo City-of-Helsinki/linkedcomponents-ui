@@ -8,10 +8,10 @@ import { toast } from 'react-toastify';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import {
-  DATE_FORMAT_2,
+  DATE_FORMAT,
   FORM_NAMES,
   ROUTES,
-  TIME_FORMAT,
+  TIME_FORMAT_DATA,
 } from '../../constants';
 import {
   CreateRegistrationMutationInput,
@@ -207,18 +207,21 @@ export const getRegistrationInitialValues = (
     [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]:
       registration.confirmationMessage ?? '',
     [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: registration.enrolmentEndTime
-      ? formatDate(new Date(registration.enrolmentEndTime), DATE_FORMAT_2)
+      ? formatDate(new Date(registration.enrolmentEndTime), DATE_FORMAT)
       : '',
     [REGISTRATION_FIELDS.ENROLMENT_END_TIME_TIME]: registration.enrolmentEndTime
-      ? formatDate(new Date(registration.enrolmentEndTime), TIME_FORMAT)
+      ? formatDate(new Date(registration.enrolmentEndTime), TIME_FORMAT_DATA)
       : '',
     [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]:
       registration.enrolmentStartTime
-        ? formatDate(new Date(registration.enrolmentStartTime), DATE_FORMAT_2)
+        ? formatDate(new Date(registration.enrolmentStartTime), DATE_FORMAT)
         : '',
     [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]:
       registration.enrolmentStartTime
-        ? formatDate(new Date(registration.enrolmentStartTime), TIME_FORMAT)
+        ? formatDate(
+            new Date(registration.enrolmentStartTime),
+            TIME_FORMAT_DATA
+          )
         : '',
     [REGISTRATION_FIELDS.EVENT]: registration.event ?? '',
     [REGISTRATION_FIELDS.INSTRUCTIONS]: registration.instructions ?? '',

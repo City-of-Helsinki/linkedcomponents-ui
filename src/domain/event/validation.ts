@@ -2,10 +2,15 @@ import * as Yup from 'yup';
 
 import { CHARACTER_LIMITS } from '../../constants';
 import {
+  createArrayMinErrorMessage,
   createMultiLanguageValidation,
+  createNumberMaxErrorMessage,
   createNumberMinErrorMessage,
   createStringMaxErrorMessage,
+  isAfterDate,
   isAfterStartDateAndTime,
+  isAfterTime,
+  isFutureDate,
   isValidDate,
   isValidTime,
   transformNumber,
@@ -13,8 +18,12 @@ import {
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { imageDetailsSchema } from '../image/validation';
 import {
+  ADD_EVENT_TIME_FORM_NAME,
+  EDIT_EVENT_TIME_FORM_NAME,
   EVENT_FIELDS,
+  EVENT_TIME_FIELDS,
   EXTERNAL_LINK_FIELDS,
+  RECURRING_EVENT_FIELDS,
   VIDEO_DETAILS_FIELDS,
 } from './constants';
 import {
@@ -354,3 +363,81 @@ export const draftEventSchema = Yup.object().shape(
     ],
   ]
 );
+
+export const eventTimeSchema = Yup.object().shape({
+  [EVENT_TIME_FIELDS.START_DATE]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
+      isValidDate(value)
+    ),
+  [EVENT_TIME_FIELDS.START_TIME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
+      isValidTime(value)
+    ),
+  [EVENT_TIME_FIELDS.END_DATE]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
+      isValidDate(value)
+    )
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startDate) =>
+      isFutureDate(startDate)
+    )
+    .when(
+      [
+        EVENT_TIME_FIELDS.START_DATE,
+        EVENT_TIME_FIELDS.START_TIME,
+        EVENT_TIME_FIELDS.END_TIME,
+      ],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      isAfterStartDateAndTime as any
+    ),
+  [EVENT_TIME_FIELDS.END_TIME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
+      isValidTime(value)
+    ),
+});
+
+export const addEventTimeSchema = Yup.object().shape({
+  [ADD_EVENT_TIME_FORM_NAME]: eventTimeSchema,
+});
+
+export const editEventTimeSchema = Yup.object().shape({
+  [EDIT_EVENT_TIME_FORM_NAME]: eventTimeSchema,
+});
+
+export const recurringEventSchema = Yup.object().shape({
+  [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
+    .nullable()
+    .min(1, createNumberMinErrorMessage)
+    .max(4, createNumberMaxErrorMessage)
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+  [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
+    .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
+    .min(1, createArrayMinErrorMessage),
+  [RECURRING_EVENT_FIELDS.START_DATE]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
+      isValidDate(value)
+    )
+    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startDate) =>
+      isFutureDate(startDate)
+    ),
+  [RECURRING_EVENT_FIELDS.END_DATE]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    // test that startsTime is before endsTime
+    .when([RECURRING_EVENT_FIELDS.START_DATE], isAfterDate),
+  [RECURRING_EVENT_FIELDS.START_TIME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
+      isValidTime(value)
+    ),
+  [RECURRING_EVENT_FIELDS.END_TIME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
+    .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
+      isValidTime(value)
+    )
+    // test that endsAt is after startsAt time
+    .when([RECURRING_EVENT_FIELDS.START_TIME], isAfterTime),
+});

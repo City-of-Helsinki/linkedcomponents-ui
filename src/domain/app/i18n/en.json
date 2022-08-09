@@ -91,8 +91,8 @@
     },
     "dateSelector": {
       "buttonToggle": "Choose dates",
-      "placeholderEndDate": "Ends dd.mm.yyyy",
-      "placeholderStartDate": "Starts dd.mm.yyyy"
+      "placeholderEndDate": "Ends d.m.yyyy",
+      "placeholderStartDate": "Starts d.m.yyyy"
     },
     "delete": "Delete",
     "dissolved": "Dissolved",
@@ -245,11 +245,6 @@
     "timeInput": {
       "hoursLabel": "hours",
       "minutsLabel": "minutes"
-    },
-    "timepicker": {
-      "accessibility": {
-        "buttonTimeList": "Times"
-      }
     },
     "warning": "Warning!"
   },
@@ -671,10 +666,15 @@
         "general": "Event description {{langText}}",
         "volunteering": "Volunteering description {{langText}}"
       },
-      "labelEndTime": {
+      "labelEndDate": {
         "course": "Course ends",
         "general": "Event ends",
         "volunteering": "Volunteering ends"
+      },
+      "labelEndTime": {
+        "course": "Course ends at",
+        "general": "Event ends at",
+        "volunteering": "Volunteering ends at"
       },
       "labelEnrolmentEndTimeDate": "Registration ends",
       "labelEnrolmentEndTimeTime": "Registration ends at",
@@ -758,10 +758,15 @@
         "general": "Short description {{langText}} (up to 160 characters)",
         "volunteering": "Short description {{langText}} (up to 160 characters)"
       },
-      "labelStartTime": {
+      "labelStartDate": {
         "course": "Course starts",
         "general": "Event starts",
         "volunteering": "Volunteering starts"
+      },
+      "labelStartTime": {
+        "course": "Course starts at",
+        "general": "Event starts at",
+        "volunteering": "Volunteering starts at"
       },
       "labelTime": "Time",
       "labelUmbrellaEvent": "Umbrella event",

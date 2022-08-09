@@ -92,8 +92,8 @@
     },
     "dateSelector": {
       "buttonToggle": "Valitse päivämäärät",
-      "placeholderEndDate": "Loppuu pp.kk.vvvv",
-      "placeholderStartDate": "Alkaa pp.kk.vvvv"
+      "placeholderEndDate": "Loppuu p.k.vvvv",
+      "placeholderStartDate": "Alkaa p.k.vvvv"
     },
     "delete": "Poista",
     "dissolved": "Lakkautettu",
@@ -246,11 +246,6 @@
     "timeInput": {
       "hoursLabel": "tunnit",
       "minutsLabel": "minuutit"
-    },
-    "timepicker": {
-      "accessibility": {
-        "buttonTimeList": "Kellonajat"
-      }
     },
     "warning": "Varoitus!"
   },
@@ -670,10 +665,15 @@
         "general": "Tapahtuman kuvaus {{langText}}",
         "volunteering": "Vapaaehtoistehtävän kuvaus {{langText}}"
       },
-      "labelEndTime": {
+      "labelEndDate": {
         "course": "Kurssi päättyy",
         "general": "Tapahtuma päättyy",
         "volunteering": "Vapaaehtoistehtävä päättyy"
+      },
+      "labelEndTime": {
+        "course": "Kurssi päättyy klo",
+        "general": "Tapahtuma päättyy klo",
+        "volunteering": "Vapaaehtoistehtävä päättyy klo"
       },
       "labelEnrolmentEndTimeDate": "Ilmoittautuminen päättyy",
       "labelEnrolmentEndTimeTime": "Ilmoittautuminen päättyy klo",
@@ -757,10 +757,15 @@
         "general": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
         "volunteering": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
       },
-      "labelStartTime": {
+      "labelStartDate": {
         "course": "Kurssi alkaa",
         "general": "Tapahtuma alkaa",
         "volunteering": "Vapaaehtoistehtävä alkaa"
+      },
+      "labelStartTime": {
+        "course": "Kurssi alkaa klo",
+        "general": "Tapahtuma alkaa klo",
+        "volunteering": "Vapaaehtoistehtävä alkaa klo"
       },
       "labelTime": "Ajankohta",
       "labelUmbrellaEvent": "Kattotapahtuma",

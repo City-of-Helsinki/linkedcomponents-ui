@@ -92,8 +92,8 @@
     },
     "dateSelector": {
       "buttonToggle": "Välj datum",
-      "placeholderEndDate": "Avslutar dd.mm.åååå",
-      "placeholderStartDate": "Börjar dd.mm.åååå"
+      "placeholderEndDate": "Avslutar d.m.åååå",
+      "placeholderStartDate": "Börjar d.m.åååå"
     },
     "delete": "Radera",
     "dissolved": "Avskaffas",
@@ -246,11 +246,6 @@
     "timeInput": {
       "hoursLabel": "timmar",
       "minutsLabel": "minuter"
-    },
-    "timepicker": {
-      "accessibility": {
-        "buttonTimeList": "Tider"
-      }
     },
     "warning": "Varning!"
   },
@@ -670,10 +665,15 @@
         "general": "Evenemangsbeskrivning {{langText}}",
         "volunteering": "Volontärarbetetsbeskrivning {{langText}}"
       },
-      "labelEndTime": {
+      "labelEndDate": {
         "course": "Kursen avslutas",
         "general": "Evenemanget avslutas",
         "volunteering": "Volontärarbetet avslutas"
+      },
+      "labelEndTime": {
+        "course": "Kursen avslutas kl",
+        "general": "Evenemanget avslutas kl",
+        "volunteering": "Volontärarbetet avslutas kl"
       },
       "labelEnrolmentEndTimeDate": "Registreringen avslutas",
       "labelEnrolmentEndTimeTime": "Registreringen avslutas kl",
@@ -757,10 +757,15 @@
         "general": "Kort beskrivning {{langText}} (upp till 160 tecken)",
         "volunteering": "Kort beskrivning {{langText}} (upp till 160 tecken)"
       },
-      "labelStartTime": {
+      "labelStartDate": {
         "course": "Kursen börjar",
         "general": "Evenemanget börjar",
         "volunteering": "Volontärarbetet börjar"
+      },
+      "labelStartTime": {
+        "course": "Kursen börjar kl",
+        "general": "Evenemanget börjar kl",
+        "volunteering": "Volontärarbetet börjar kl"
       },
       "labelTime": "Tid",
       "labelUmbrellaEvent": "Huvudevenemang",
