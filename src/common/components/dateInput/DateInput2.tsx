@@ -31,7 +31,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
       onBlur && onBlur(event);
     };
 
-    const handleChange = (valueAsString: string, valueAsDate: Date) => {
+    const handleChange = (valueAsString: string) => {
       if (!valueAsString) {
         onChange(null);
       } else if (isValidDate(valueAsString)) {

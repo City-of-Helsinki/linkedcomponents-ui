@@ -56,7 +56,7 @@ describe('getEnrolmentInitialValues function', () => {
         audienceMaxAge: null,
         audienceMinAge: null,
         city: '',
-        dateOfBirth: '',
+        dateOfBirth: null,
         extraInfo: '',
         name: '',
         streetAddress: '',
@@ -74,7 +74,7 @@ describe('getEnrolmentInitialValues function', () => {
 
   it('should return enrolment initial values', () => {
     const expectedCity = 'City';
-    const expectedDateOfBirth = '10.10.2021';
+    const expectedDateOfBirth = new Date('2021-10-10');
     const expectedEmail = 'user@email.com';
     const expectedExtraInfo = 'Extra info';
     const expectedMembershipNumber = 'XXX-XXX-XXX';
@@ -192,7 +192,7 @@ describe('getEnrolmentPayload function', () => {
     );
 
     const city = 'City',
-      dateOfBirth = '10.10.1999',
+      dateOfBirth = new Date('1999-10-10'),
       email = 'Email',
       extraInfo = 'Extra info',
       membershipNumber = 'XXX-123',

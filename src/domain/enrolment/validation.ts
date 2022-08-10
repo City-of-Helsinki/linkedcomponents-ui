@@ -6,10 +6,8 @@ import subYears from 'date-fns/subYears';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
-import parseDateText from '../../utils/parseDateText';
 import {
   createArrayMinErrorMessage,
-  isValidDate,
   isValidPhoneNumber,
   isValidZip,
 } from '../../utils/validationUtils';
@@ -24,8 +22,8 @@ import {
 
 export const isAboveMinAge = (
   minAge: string,
-  schema: Yup.StringSchema<string | null | undefined>
-): Yup.StringSchema<string | null | undefined> => {
+  schema: Yup.DateSchema<Date | null | undefined>
+): Yup.DateSchema<Date | null | undefined> => {
   /* istanbul ignore else */
   if (minAge) {
     return schema.test(
@@ -34,10 +32,8 @@ export const isAboveMinAge = (
         key: VALIDATION_MESSAGE_KEYS.AGE_MIN,
         min: parseInt(minAge),
       }),
-      (dateStr) => {
-        if (dateStr && isValidDate(dateStr)) {
-          const date = parseDateText(dateStr) as Date;
-
+      (date) => {
+        if (date) {
           return isBefore(
             date,
             subYears(endOfDay(new Date()), parseInt(minAge))
@@ -53,8 +49,8 @@ export const isAboveMinAge = (
 
 export const isBelowMaxAge = (
   maxAge: string,
-  schema: Yup.StringSchema<string | null | undefined>
-): Yup.StringSchema<string | null | undefined> => {
+  schema: Yup.DateSchema<Date | null | undefined>
+): Yup.DateSchema<Date | null | undefined> => {
   /* istanbul ignore else */
   if (maxAge) {
     return schema.test(
@@ -63,10 +59,8 @@ export const isBelowMaxAge = (
         key: VALIDATION_MESSAGE_KEYS.AGE_MAX,
         max: parseInt(maxAge),
       }),
-      (dateStr) => {
-        if (dateStr && isValidDate(dateStr)) {
-          const date = parseDateText(dateStr) as Date;
-
+      (date) => {
+        if (date) {
           return isAfter(
             date,
             subYears(startOfDay(new Date()), parseInt(maxAge) + 1)
@@ -87,11 +81,10 @@ export const attendeeSchema = Yup.object().shape({
   [ATTENDEE_FIELDS.STREET_ADDRESS]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
   ),
-  [ATTENDEE_FIELDS.DATE_OF_BIRTH]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
-      isValidDate(value)
-    )
+  [ATTENDEE_FIELDS.DATE_OF_BIRTH]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .when([ATTENDEE_FIELDS.AUDIENCE_MIN_AGE], isAboveMinAge)
     .when([ATTENDEE_FIELDS.AUDIENCE_MAX_AGE], isBelowMaxAge),
   [ATTENDEE_FIELDS.ZIP]: Yup.string()
