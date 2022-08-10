@@ -3,6 +3,7 @@ import isSameDay from 'date-fns/isSameDay';
 import isValid from 'date-fns/isValid';
 import capitalize from 'lodash/capitalize';
 
+import { DATE_FORMAT_API } from '../../constants';
 import {
   EventsQueryVariables,
   EventTypeId,
@@ -222,9 +223,9 @@ export const getEventSearchQuery = (
 
   return getSearchQuery({
     ...rest,
-    end: end ? formatDate(end, 'yyyy-MM-dd') : undefined,
+    end: end ? formatDate(end, DATE_FORMAT_API) : undefined,
     sort: sort !== DEFAULT_EVENT_SORT ? sort : null,
-    start: start ? formatDate(start, 'yyyy-MM-dd') : undefined,
+    start: start ? formatDate(start, DATE_FORMAT_API) : undefined,
   });
 };
 
@@ -254,7 +255,7 @@ export const getEventParamValue = ({
   switch (param) {
     case EVENT_SEARCH_PARAMS.END:
     case EVENT_SEARCH_PARAMS.START:
-      return formatDate(new Date(value), 'yyyy-MM-dd');
+      return formatDate(new Date(value), DATE_FORMAT_API);
     case EVENT_SEARCH_PARAMS.PAGE:
     case EVENT_SEARCH_PARAMS.PLACE:
     case EVENT_SEARCH_PARAMS.SORT:

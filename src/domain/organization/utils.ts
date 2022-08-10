@@ -3,7 +3,7 @@ import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import {
-  DATE_FORMAT,
+  DATE_FORMAT_API,
   LINKED_EVENTS_SYSTEM_DATA_SOURCE,
   MAX_PAGE_SIZE,
   ROUTES,
@@ -22,7 +22,6 @@ import {
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
-import parseDateForPayload from '../../utils/parseDateForPayload';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -320,12 +319,8 @@ export const getOrganizationInitialValues = (
       (organization.affiliatedOrganizations as string[]) ?? [],
     classification: organization.classification ?? '',
     dataSource: organization.dataSource ?? '',
-    dissolutionDate: dissolutionDate
-      ? formatDate(new Date(dissolutionDate), DATE_FORMAT)
-      : '',
-    foundingDate: foundingDate
-      ? formatDate(new Date(foundingDate), DATE_FORMAT)
-      : '',
+    dissolutionDate: dissolutionDate ? new Date(dissolutionDate) : null,
+    foundingDate: foundingDate ? new Date(foundingDate) : null,
     id,
     internalType: organization.isAffiliated
       ? ORGANIZATION_INTERNAL_TYPE.AFFILIATED
@@ -359,9 +354,11 @@ export const getOrganizationPayload = (
     ...restFormValues,
     dataSource,
     dissolutionDate: dissolutionDate
-      ? parseDateForPayload(dissolutionDate)
+      ? formatDate(dissolutionDate, DATE_FORMAT_API)
       : null,
-    foundingDate: foundingDate ? parseDateForPayload(foundingDate) : null,
+    foundingDate: foundingDate
+      ? formatDate(foundingDate, DATE_FORMAT_API)
+      : null,
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
     originId,
     parentOrganization: parentOrganization || undefined,

@@ -1,3 +1,4 @@
+import { DATE_FORMAT_API } from '../constants';
 import formatDate from './formatDate';
 import parseDateText from './parseDateText';
 
@@ -8,7 +9,7 @@ const parseDateForPayload = (dateStr: string, timeStr?: string) => {
     return '';
   }
 
-  return timeStr ? date.toISOString() : formatDate(date, 'yyyy-MM-dd');
+  return timeStr ? date.toISOString() : formatDate(date, DATE_FORMAT_API);
 };
 
 export default parseDateForPayload;

@@ -8,7 +8,7 @@ import DateInput, { DateInputProps } from '../../dateInput/DateInput2';
 type Props = FieldProps & DateInputProps;
 
 const DateInputField: React.FC<Props> = ({
-  field: { name, onBlur, onChange, value, ...field },
+  field: { name, onChange, value, ...field },
   form,
   helperText,
   ...rest

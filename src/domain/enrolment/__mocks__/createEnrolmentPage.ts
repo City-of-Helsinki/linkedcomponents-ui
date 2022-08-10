@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import subYears from 'date-fns/subYears';
 
+import { DATE_FORMAT_API } from '../../../constants';
 import { CreateEnrolmentDocument } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import { fakeEnrolment } from '../../../utils/mockDataUtils';
@@ -21,7 +22,7 @@ const enrolmentValues = {
 
 const payload = {
   city: enrolmentValues.city,
-  dateOfBirth: formatDate(dateOfBirth, 'yyyy-MM-dd'),
+  dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
   email: enrolmentValues.email,
   extraInfo: '',
   membershipNumber: '',

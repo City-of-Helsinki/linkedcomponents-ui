@@ -119,6 +119,7 @@ export enum WEEK_DAY {
 }
 
 export const DATE_FORMAT = 'd.M.yyyy';
+export const DATE_FORMAT_API = 'yyyy-MM-dd';
 export const TIME_FORMAT = 'HH.mm';
 export const TIME_FORMAT_DATA = 'HH:mm';
 
