@@ -3,10 +3,12 @@ import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { FORM_NAMES } from '../../../constants';
+import { DATE_FORMAT, FORM_NAMES } from '../../../constants';
+import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
+  actWait,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -107,11 +109,13 @@ test('should move to registration completed page after creating new registration
 
   await loadingSpinnerIsNotInDocument();
   const startTimeInput = getElement('enrolmentStartTime');
-  await waitFor(() =>
-    expect(startTimeInput).toHaveValue(
-      registrationValues.enrolmentStartTimeDate
-    )
+  await actWait(1000);
+
+  const expectedValue = formatDate(
+    registrationValues.enrolmentStartTimeDate,
+    DATE_FORMAT
   );
+  await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
 
   const saveButton = getElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
@@ -137,11 +141,13 @@ test('should show server errors', async () => {
 
   await loadingSpinnerIsNotInDocument();
   const startTimeInput = getElement('enrolmentStartTime');
-  await waitFor(() =>
-    expect(startTimeInput).toHaveValue(
-      registrationValues.enrolmentStartTimeDate
-    )
+  await actWait(1000);
+
+  const expectedValue = formatDate(
+    registrationValues.enrolmentStartTimeDate,
+    DATE_FORMAT
   );
+  await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
 
   const saveButton = getElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());

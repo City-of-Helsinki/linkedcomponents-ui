@@ -7,12 +7,7 @@ import isNumber from 'lodash/isNumber';
 import { toast } from 'react-toastify';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
-import {
-  DATE_FORMAT,
-  FORM_NAMES,
-  ROUTES,
-  TIME_FORMAT_DATA,
-} from '../../constants';
+import { FORM_NAMES, ROUTES, TIME_FORMAT_DATA } from '../../constants';
 import {
   CreateRegistrationMutationInput,
   OrganizationFieldsFragment,
@@ -22,7 +17,7 @@ import {
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
-import parseDateForPayload from '../../utils/parseDateForPayload';
+import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import queryBuilder from '../../utils/queryBuilder';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -207,15 +202,15 @@ export const getRegistrationInitialValues = (
     [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]:
       registration.confirmationMessage ?? '',
     [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: registration.enrolmentEndTime
-      ? formatDate(new Date(registration.enrolmentEndTime), DATE_FORMAT)
-      : '',
+      ? new Date(registration.enrolmentEndTime)
+      : null,
     [REGISTRATION_FIELDS.ENROLMENT_END_TIME_TIME]: registration.enrolmentEndTime
       ? formatDate(new Date(registration.enrolmentEndTime), TIME_FORMAT_DATA)
       : '',
     [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]:
       registration.enrolmentStartTime
-        ? formatDate(new Date(registration.enrolmentStartTime), DATE_FORMAT)
-        : '',
+        ? new Date(registration.enrolmentStartTime)
+        : null,
     [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]:
       registration.enrolmentStartTime
         ? formatDate(
@@ -278,11 +273,14 @@ export const getRegistrationPayload = (
     confirmationMessage: confirmationMessage ? confirmationMessage : null,
     enrolmentEndTime:
       enrolmentEndTimeDate && enrolmentEndTimeTime
-        ? parseDateForPayload(enrolmentEndTimeDate, enrolmentEndTimeTime)
+        ? formatDateAndTimeForApi(enrolmentEndTimeDate, enrolmentEndTimeTime)
         : null,
     enrolmentStartTime:
       enrolmentStartTimeDate && enrolmentStartTimeTime
-        ? parseDateForPayload(enrolmentStartTimeDate, enrolmentStartTimeTime)
+        ? formatDateAndTimeForApi(
+            enrolmentStartTimeDate,
+            enrolmentStartTimeTime
+          )
         : null,
     event,
     instructions: instructions ? instructions : null,

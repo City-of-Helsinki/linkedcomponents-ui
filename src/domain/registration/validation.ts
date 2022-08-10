@@ -2,8 +2,7 @@ import * as Yup from 'yup';
 
 import {
   createNumberMinErrorMessage,
-  isAfterStartDateAndTime,
-  isValidDate,
+  isAfterStartDateAndTime2 as isAfterStartDateAndTime,
   isValidTime,
   transformNumber,
 } from '../../utils/validationUtils';
@@ -14,21 +13,19 @@ export const registrationSchema = Yup.object().shape({
   [REGISTRATION_FIELDS.EVENT]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .nullable(),
-  [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]: Yup.string()
+  [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]: Yup.date()
+    .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
-      isValidDate(value)
-    ),
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
   [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
     .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
       isValidTime(value)
     ),
-  [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: Yup.string()
+  [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: Yup.date()
+    .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
-      isValidDate(value)
-    )
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .when(
       [
         REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE,

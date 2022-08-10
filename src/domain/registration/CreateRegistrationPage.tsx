@@ -127,7 +127,7 @@ const CreateRegistrationPage: React.FC = () => {
       validateOnChange={true}
       validationSchema={registrationSchema}
     >
-      {({ setErrors, setTouched, values }) => {
+      {({ errors, setErrors, setTouched, values }) => {
         const clearErrors = () => setErrors({});
 
         const handleSubmit = async (

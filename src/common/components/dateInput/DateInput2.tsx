@@ -17,6 +17,9 @@ export type DateInputProps = {
   value: Date | null;
 } & Omit<BaseDateInputProps, 'onChange' | 'value'>;
 
+const formatDateStr = (date: Date | string | null) =>
+  date ? formatDate(new Date(date), DATE_FORMAT) : '';
+
 const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
   ({ className, onBlur, onChange, value, ...rest }, ref) => {
     const isFocused = React.useRef(false);
@@ -27,8 +30,8 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const handleBlur: React.FocusEventHandler<HTMLInputElement> = (event) => {
       const dateStr = value ? formatDate(value, DATE_FORMAT) : '';
 
-      setInputValue(dateStr);
       onBlur && onBlur(event);
+      setInputValue(dateStr);
     };
 
     const handleChange = (valueAsString: string) => {
@@ -43,8 +46,10 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
 
     React.useEffect(() => {
       if (!isFocused.current) {
-        setInputValue(value ? formatDate(value, DATE_FORMAT) : '');
+        const newInputValue = formatDateStr(value);
+        setInputValue(newInputValue);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
 
     return (

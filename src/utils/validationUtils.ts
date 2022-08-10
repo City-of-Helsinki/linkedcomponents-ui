@@ -20,6 +20,7 @@ import { VALIDATION_MESSAGE_KEYS } from '../domain/app/i18n/constants';
 import { Error } from '../types';
 import formatDate from './formatDate';
 import parseDateText from './parseDateText';
+import setDateTime from './setDateTime';
 
 const createMaxErrorMessage = (
   message: { max: number },
@@ -119,6 +120,44 @@ export const isAfterStartDateAndTime = (
           const endDate = parseDateText(endDateStr, endTimeStr) as Date;
 
           return !isBefore(endDate, startDate);
+        }
+        return true;
+      }
+    );
+  } else {
+    return schema;
+  }
+};
+
+export const isAfterStartDateAndTime2 = (
+  startDate: Date | null,
+  startTimeStr: string,
+  endTimeStr: string,
+  schema: Yup.DateSchema<Date | null | undefined>
+): Yup.DateSchema<Date | null | undefined> => {
+  /* istanbul ignore else */
+  if (
+    startDate &&
+    startTimeStr &&
+    isValidTime(startTimeStr) &&
+    endTimeStr &&
+    isValidTime(endTimeStr)
+  ) {
+    const startDateWithTime = setDateTime(startDate, startTimeStr);
+
+    return schema.test(
+      'isAfterStartDateAndTime',
+      () => ({
+        key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
+        after: formatDate(startDateWithTime, DATETIME_FORMAT),
+      }),
+      (endDate) => {
+        // istanbul ignore else
+
+        if (endDate) {
+          const endDateWithTime = setDateTime(endDate, endTimeStr);
+
+          return !isBefore(endDateWithTime, startDateWithTime);
         }
         return true;
       }

@@ -16,6 +16,6 @@ const formatDate = (
   dateFormat = 'd.M.yyyy',
   locale: Language = 'fi'
 ): string =>
-  date ? format(new Date(date), dateFormat, { locale: locales[locale] }) : '';
+  date ? format(date, dateFormat, { locale: locales[locale] }) : '';
 
 export default formatDate;

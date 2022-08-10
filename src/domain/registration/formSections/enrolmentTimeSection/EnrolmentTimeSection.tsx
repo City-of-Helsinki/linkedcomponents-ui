@@ -2,7 +2,7 @@ import { Field } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DateInputField from '../../../../common/components/formFields/dateInputField/DateInputField';
+import DateInputField from '../../../../common/components/formFields/dateInputField/DateInputField2';
 import TimeInputField from '../../../../common/components/formFields/timeInputField/TimeInputField';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';

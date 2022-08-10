@@ -57,12 +57,12 @@ const FormikPersist = ({
       : window.localStorage.getItem(name);
 
     if (!restoringDisabled && maybeState) {
-      formik.setFormikState(JSON.parse(maybeState));
+      formik.setFormikState(JSON.parse(maybeState), formik.validateForm);
 
       // Validate form after setting state
       timeout = setTimeout(() => {
         formik.validateForm();
-      });
+      }, 100);
     }
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
