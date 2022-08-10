@@ -9,6 +9,7 @@ import {
   createStringMaxErrorMessage,
   isAfterDate,
   isAfterStartDateAndTime,
+  isAfterStartDateAndTime2,
   isAfterTime,
   isFutureDate,
   isValidDate,
@@ -167,16 +168,15 @@ const enrolmentSchemaFields = {
     )
     .nullable()
     .transform(transformNumber),
-  [EVENT_FIELDS.ENROLMENT_START_TIME_DATE]: Yup.string()
+  [EVENT_FIELDS.ENROLMENT_START_TIME_DATE]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .when(
-      [EVENT_FIELDS.ENROLMENT_START_TIME_TIME],
-      (startTime: string, schema: Yup.StringSchema) =>
-        startTime
+      [EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
+      (endTime: string, schema: Yup.DateSchema<Date | null | undefined>) =>
+        endTime
           ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
           : schema
-    )
-    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
-      isValidDate(value)
     ),
   [EVENT_FIELDS.ENROLMENT_START_TIME_TIME]: Yup.string()
     .when(
@@ -189,17 +189,17 @@ const enrolmentSchemaFields = {
     .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
       isValidTime(value)
     ),
-  [EVENT_FIELDS.ENROLMENT_END_TIME_DATE]: Yup.string()
+  [EVENT_FIELDS.ENROLMENT_END_TIME_DATE]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .when(
       [EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
-      (endTime: string, schema: Yup.StringSchema) =>
+      (endTime: string, schema: Yup.DateSchema<Date | null | undefined>) =>
         endTime
           ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
           : schema
     )
-    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
-      isValidDate(value)
-    )
+
     .when(
       [
         EVENT_FIELDS.ENROLMENT_START_TIME_DATE,
@@ -207,7 +207,7 @@ const enrolmentSchemaFields = {
         EVENT_FIELDS.ENROLMENT_END_TIME_TIME,
       ],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      isAfterStartDateAndTime as any
+      isAfterStartDateAndTime2 as any
     ),
   [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: Yup.string()
     .when(
@@ -236,6 +236,30 @@ const enrolmentSchemaFields = {
     }
   ),
 };
+
+const CYCLIC_DEPENDENCIES: [string, string][] = [
+  [
+    EVENT_FIELDS.ENROLMENT_START_TIME_DATE,
+    EVENT_FIELDS.ENROLMENT_START_TIME_TIME,
+  ],
+  [
+    EVENT_FIELDS.ENROLMENT_START_TIME_DATE,
+    EVENT_FIELDS.ENROLMENT_END_TIME_DATE,
+  ],
+  [
+    EVENT_FIELDS.ENROLMENT_START_TIME_DATE,
+    EVENT_FIELDS.ENROLMENT_END_TIME_TIME,
+  ],
+  [
+    EVENT_FIELDS.ENROLMENT_START_TIME_TIME,
+    EVENT_FIELDS.ENROLMENT_END_TIME_DATE,
+  ],
+  [
+    EVENT_FIELDS.ENROLMENT_START_TIME_TIME,
+    EVENT_FIELDS.ENROLMENT_END_TIME_TIME,
+  ],
+  [EVENT_FIELDS.ENROLMENT_END_TIME_DATE, EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
+];
 
 export const publicEventSchema = Yup.object().shape(
   {
@@ -304,16 +328,7 @@ export const publicEventSchema = Yup.object().shape(
       VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
     ),
   },
-  [
-    [
-      EVENT_FIELDS.ENROLMENT_START_TIME_DATE,
-      EVENT_FIELDS.ENROLMENT_START_TIME_TIME,
-    ],
-    [
-      EVENT_FIELDS.ENROLMENT_END_TIME_DATE,
-      EVENT_FIELDS.ENROLMENT_END_TIME_TIME,
-    ],
-  ]
+  CYCLIC_DEPENDENCIES
 );
 
 export const draftEventSchema = Yup.object().shape(
@@ -352,16 +367,7 @@ export const draftEventSchema = Yup.object().shape(
       VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
     ),
   },
-  [
-    [
-      EVENT_FIELDS.ENROLMENT_START_TIME_DATE,
-      EVENT_FIELDS.ENROLMENT_START_TIME_TIME,
-    ],
-    [
-      EVENT_FIELDS.ENROLMENT_END_TIME_DATE,
-      EVENT_FIELDS.ENROLMENT_END_TIME_TIME,
-    ],
-  ]
+  CYCLIC_DEPENDENCIES
 );
 
 export const eventTimeSchema = Yup.object().shape({

@@ -379,9 +379,9 @@ describe('getEventPayload function', () => {
           en: 'Description en',
           sv: '',
         },
-        enrolmentEndTimeDate: '1.1.2020',
+        enrolmentEndTimeDate: new Date(enrolmentEndTime),
         enrolmentEndTimeTime: '15:15',
-        enrolmentStartTimeDate: '1.1.2020',
+        enrolmentStartTimeDate: new Date(enrolmentStartTime),
         enrolmentStartTimeTime: '9:15',
         eventInfoLanguages: ['fi', 'sv'],
         eventTimes: [
@@ -1011,9 +1011,9 @@ describe('getEventInitialValues function', () => {
       audienceMaxAge,
       audienceMinAge,
       description,
-      enrolmentEndTimeDate: '15.6.2021',
+      enrolmentEndTimeDate: enrolmentEndTime,
       enrolmentEndTimeTime: '05:51',
-      enrolmentStartTimeDate: '5.5.2021',
+      enrolmentStartTimeDate: enrolmentStartTime,
       enrolmentStartTimeTime: '05:51',
       eventInfoLanguages: ['ar', 'en', 'fi', 'ru', 'sv', 'zhHans'],
       eventTimes: [],
@@ -1119,9 +1119,9 @@ describe('getEventInitialValues function', () => {
 
     expect(audienceMaxAge).toEqual('');
     expect(audienceMinAge).toEqual('');
-    expect(enrolmentEndTimeDate).toEqual('');
+    expect(enrolmentEndTimeDate).toEqual(null);
     expect(enrolmentEndTimeTime).toEqual('');
-    expect(enrolmentStartTimeDate).toEqual('');
+    expect(enrolmentStartTimeDate).toEqual(null);
     expect(enrolmentStartTimeTime).toEqual('');
     expect(externalLinks).toEqual([{ link: '', name: '' }]);
     expect(location).toEqual('');

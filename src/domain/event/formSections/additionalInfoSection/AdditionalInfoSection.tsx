@@ -2,7 +2,7 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DateInputField from '../../../../common/components/formFields/dateInputField/DateInputField';
+import DateInputField from '../../../../common/components/formFields/dateInputField/DateInputField2';
 import NumberInputField from '../../../../common/components/formFields/numberInputField/NumberInputField';
 import TimeInputField from '../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
@@ -19,6 +19,9 @@ interface Props {
 const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: enrolmentStartTime }] = useField({
+    name: EVENT_FIELDS.ENROLMENT_START_TIME_DATE,
+  });
 
   return (
     <>
@@ -102,6 +105,7 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
               component={DateInputField}
               disabled={!isEditingAllowed}
               label={t(`event.form.labelEnrolmentEndTimeDate`)}
+              minDate={enrolmentStartTime ?? null}
               name={EVENT_FIELDS.ENROLMENT_END_TIME_DATE}
               placeholder={t(`common.placeholderDate`)}
             />

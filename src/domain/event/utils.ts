@@ -22,7 +22,6 @@ import * as Yup from 'yup';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import {
-  DATE_FORMAT,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
   LE_DATA_LANGUAGES,
@@ -57,12 +56,12 @@ import {
   PathBuilderProps,
 } from '../../types';
 import formatDate from '../../utils/formatDate';
+import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getTimeObject from '../../utils/getTimeObject';
-import parseDateForPayload from '../../utils/parseDateForPayload';
 import parseDateText from '../../utils/parseDateText';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
@@ -517,11 +516,14 @@ export const getEventBasePayload = (
     ),
     enrolmentEndTime:
       enrolmentEndTimeDate && enrolmentEndTimeTime
-        ? parseDateForPayload(enrolmentEndTimeDate, enrolmentEndTimeTime)
+        ? formatDateAndTimeForApi(enrolmentEndTimeDate, enrolmentEndTimeTime)
         : null,
     enrolmentStartTime:
       enrolmentStartTimeDate && enrolmentStartTimeTime
-        ? parseDateForPayload(enrolmentStartTimeDate, enrolmentStartTimeTime)
+        ? formatDateAndTimeForApi(
+            enrolmentStartTimeDate,
+            enrolmentStartTimeTime
+          )
         : null,
     externalLinks: externalLinks.map((item) => ({
       ...item,
@@ -717,14 +719,14 @@ export const getEventInitialValues = (
     description: getSanitizedDescription(event),
     events,
     enrolmentEndTimeDate: event.enrolmentEndTime
-      ? formatDate(new Date(event.enrolmentEndTime), DATE_FORMAT)
-      : '',
+      ? new Date(event.enrolmentEndTime)
+      : null,
     enrolmentEndTimeTime: event.enrolmentEndTime
       ? formatDate(new Date(event.enrolmentEndTime), TIME_FORMAT_DATA)
       : '',
     enrolmentStartTimeDate: event.enrolmentStartTime
-      ? formatDate(new Date(event.enrolmentStartTime), DATE_FORMAT)
-      : '',
+      ? new Date(event.enrolmentStartTime)
+      : null,
     enrolmentStartTimeTime: event.enrolmentStartTime
       ? formatDate(new Date(event.enrolmentStartTime), TIME_FORMAT_DATA)
       : '',
