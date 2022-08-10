@@ -79,17 +79,6 @@
       "text3": "Käytämme evästeitä parantaaksemme käyttökokemustasi sivustolla.",
       "title": "Linked Events käyttöehdot ja evästeet"
     },
-    "datepicker": {
-      "accessibility": {
-        "buttonNextMonth": "Seuraava kuukausi",
-        "buttonOpen": "Valitse päivämäärä",
-        "buttonPreviousMonth": "Edellinen kuukausi",
-        "selectDate": "Valitse {{value}}",
-        "selectTime": "Valitse kellonajaksi {{value}}",
-        "timeInstructions": "Valitse kellonaika nuolinäppäimillä"
-      },
-      "buttonClose": "Sulje"
-    },
     "dateSelector": {
       "buttonToggle": "Valitse päivämäärät",
       "placeholderEndDate": "Loppuu p.k.vvvv",

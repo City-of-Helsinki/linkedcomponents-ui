@@ -78,17 +78,6 @@
       "text3": "We use cookies to improve your experience using the service.",
       "title": "Linked Events terms and cookies"
     },
-    "datepicker": {
-      "accessibility": {
-        "buttonNextMonth": "Next month",
-        "buttonOpen": "Choose date",
-        "buttonPreviousMonth": "Previous month",
-        "selectDate": "Select {{value}}",
-        "selectTime": "Select the time {{value}}",
-        "timeInstructions": "Select the time with arrow keys"
-      },
-      "buttonClose": "Close"
-    },
     "dateSelector": {
       "buttonToggle": "Choose dates",
       "placeholderEndDate": "Ends d.m.yyyy",

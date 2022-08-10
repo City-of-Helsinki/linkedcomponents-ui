@@ -79,17 +79,6 @@
       "text3": "Vi använder cookies för att förbättra användarupplevelsen på vår tjänst.",
       "title": "Linked Events användarvillkor och cookies"
     },
-    "datepicker": {
-      "accessibility": {
-        "buttonNextMonth": "Nästa månad",
-        "buttonOpen": "Välj datum",
-        "buttonPreviousMonth": "Föregående månad",
-        "selectDate": "Välj {{value}}",
-        "selectTime": "Välj klockslag {{value}}",
-        "timeInstructions": "Välj klockslag med piltangenterna"
-      },
-      "buttonClose": "Stäng"
-    },
     "dateSelector": {
       "buttonToggle": "Välj datum",
       "placeholderEndDate": "Avslutar d.m.åååå",

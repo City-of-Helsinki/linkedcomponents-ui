@@ -83,40 +83,6 @@ type DateInputCSSProperties = {
   '--selected-date-color'?: string;
 };
 
-type DatepickerCSSProperties = {
-  '--close-button-color'?: string;
-  '--day-background-color'?: string;
-  '--day-background-color-disabled'?: string;
-  '--day-background-color-focused'?: string;
-  '--day-background-color-hovered'?: string;
-  '--day-background-color-selected'?: string;
-  '--day-border-color'?: string;
-  '--day-border-color-disabled'?: string;
-  '--day-border-color-focused'?: string;
-  '--day-border-color-hovered'?: string;
-  '--day-border-color-selected'?: string;
-  '--day-color'?: string;
-  '--day-color-disabled'?: string;
-  '--day-color-focused'?: string;
-  '--day-color-hovered'?: string;
-  '--day-color-selected'?: string;
-  '--day-size'?: string;
-  '--datepicker-background-color'?: string;
-  '--datepicker-container-padding'?: string;
-  '--datepicker-z-index'?: number;
-  '--icon-width'?: string;
-  '--input-spacing'?: string;
-  '--month-title-color'?: string;
-  '--times-divider-border-color'?: string;
-  '--times-list-width'?: string;
-  '--time-item-background-color'?: string;
-  '--time-item-background-color-focused'?: string;
-  '--time-item-background-color-selected'?: string;
-  '--time-item-color'?: string;
-  '--time-item-color-focused'?: string;
-  '--time-item-color-selected'?: string;
-};
-
 type DeleteButtonCSSProperties = {
   '--delete-button-color'?: string;
   '--delete-button-color-icon'?: string;
@@ -439,7 +405,6 @@ export type Theme = {
   checkbox: CheckboxCSSProperties;
   collapsible: CollapsibleCSSProperties;
   dateInput: DateInputCSSProperties;
-  datepicker: DatepickerCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   dropdown: DropdownCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
@@ -489,7 +454,6 @@ const defaultTheme: Theme = {
   checkbox: {},
   collapsible: {},
   dateInput: {},
-  datepicker: {},
   deleteButton: {},
   dropdown: {},
   errorTemplate: {},
