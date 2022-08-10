@@ -1,12 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DateInput from '../../../../../common/components/dateInput/DateInput';
+import DateInput from '../../../../../common/components/dateInput/DateInput2';
 import DropdownMenu from '../../../../../common/components/dropdown/dropdownMenu/DropdownMenu';
-import { DATE_FORMAT } from '../../../../../constants';
-import formatDate from '../../../../../utils/formatDate';
-import parseDateText from '../../../../../utils/parseDateText';
-import { isValidDate } from '../../../../../utils/validationUtils';
 import styles from '../dateSelector.module.scss';
 import { DATE_FIELDS } from '../DateSelectorDropdown';
 
@@ -28,56 +24,13 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
   onChangeDate,
   value: { endDate, startDate },
 }) => {
-  const [startDateStr, setStartDateStr] = React.useState('');
-  const [endDateStr, setEndDateStr] = React.useState('');
   const { t } = useTranslation();
   const startDateInputId = `${id}-start-date`;
   const endDateInputId = `${id}-end-date`;
 
-  const changeDateStr = (field: DATE_FIELDS, dateStr: string) => {
-    switch (field) {
-      case DATE_FIELDS.END_DATE:
-        setEndDateStr(dateStr);
-        break;
-      case DATE_FIELDS.START_DATE:
-        setStartDateStr(dateStr);
-        break;
-    }
-  };
-  const handleBlurDate = (field: DATE_FIELDS) => {
-    const date = field === DATE_FIELDS.END_DATE ? endDate : startDate;
-    const dateStr = date ? formatDate(date, DATE_FORMAT) : '';
-
-    changeDateStr(field, dateStr);
-  };
-
-  const handleChangeDate = (field: DATE_FIELDS, dateStr: string) => {
-    if (!dateStr) {
-      onChangeDate(field, null);
-    } else if (isValidDate(dateStr)) {
-      onChangeDate(field, parseDateText(dateStr));
-    }
-
-    changeDateStr(field, dateStr);
-  };
-
-  const handleClear = () => {
-    setEndDateStr('');
-    setStartDateStr('');
-    onClear();
-  };
-
-  React.useEffect(() => {
-    if (isOpen) {
-      setStartDateStr(startDate ? formatDate(startDate, DATE_FORMAT) : '');
-      setEndDateStr(endDate ? formatDate(endDate, DATE_FORMAT) : '');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
-
   return (
     <DropdownMenu
-      onClear={handleClear}
+      onClear={onClear}
       id={id}
       isOpen={isOpen}
       wrapperClassName={styles.dropdownMenuWrapper}
@@ -85,18 +38,20 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
       <DateInput
         id={startDateInputId}
         disableConfirmation
-        onBlur={() => handleBlurDate(DATE_FIELDS.START_DATE)}
-        onChange={(value) => handleChangeDate(DATE_FIELDS.START_DATE, value)}
+        initialMonth={endDate || undefined}
+        maxDate={endDate || undefined}
+        onChange={(value) => onChangeDate(DATE_FIELDS.START_DATE, value)}
         placeholder={t('common.dateSelector.placeholderStartDate')}
-        value={startDateStr}
+        value={startDate}
       />
       <DateInput
         id={endDateInputId}
         disableConfirmation
-        onBlur={() => handleBlurDate(DATE_FIELDS.END_DATE)}
-        onChange={(value) => handleChangeDate(DATE_FIELDS.END_DATE, value)}
+        initialMonth={startDate || undefined}
+        minDate={startDate || undefined}
+        onChange={(value) => onChangeDate(DATE_FIELDS.END_DATE, value)}
         placeholder={t('common.dateSelector.placeholderEndDate')}
-        value={endDateStr}
+        value={endDate}
       />
     </DropdownMenu>
   );
