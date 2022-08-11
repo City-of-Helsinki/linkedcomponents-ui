@@ -75,7 +75,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
       validateOnMount
       validationSchema={recurringEventSchema}
     >
-      {({ handleSubmit, isValid }) => {
+      {({ handleSubmit, isValid, values: { startDate } }) => {
         return (
           <div>
             <FormGroup>
@@ -123,6 +123,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
               <Field
                 component={DateInputField}
                 disabled={disabled}
+                minDate={startDate}
                 name={RECURRING_EVENT_FIELDS.END_DATE}
                 label={t('event.form.labelRecurringEventEndDate')}
                 placeholder={t('common.placeholderDate')}

@@ -86,9 +86,9 @@ export type EventFormFields = {
 };
 
 type EventTimeFormFields = {
-  [EVENT_TIME_FIELDS.END_DATE]: string;
+  [EVENT_TIME_FIELDS.END_DATE]: Date | null;
   [EVENT_TIME_FIELDS.END_TIME]: string;
-  [EVENT_TIME_FIELDS.START_DATE]: string;
+  [EVENT_TIME_FIELDS.START_DATE]: Date | null;
   [EVENT_TIME_FIELDS.START_TIME]: string;
 };
 
@@ -131,11 +131,11 @@ export type Offer = {
 };
 
 export type RecurringEventSettings = {
-  [RECURRING_EVENT_FIELDS.END_DATE]: string;
+  [RECURRING_EVENT_FIELDS.END_DATE]: Date | null;
   [RECURRING_EVENT_FIELDS.END_TIME]: string;
   [RECURRING_EVENT_FIELDS.EVENT_TIMES]: EventTime[];
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: string[];
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: number;
-  [RECURRING_EVENT_FIELDS.START_DATE]: string;
+  [RECURRING_EVENT_FIELDS.START_DATE]: Date | null;
   [RECURRING_EVENT_FIELDS.START_TIME]: string;
 };

@@ -47,7 +47,7 @@ test('should render event times summary', async () => {
 
   const recurringEvents: RecurringEventSettings[] = [
     {
-      endDate: '7.5.2021',
+      endDate: new Date('2021-05-07'),
       endTime: '12.00',
       eventTimes: [
         {
@@ -63,7 +63,7 @@ test('should render event times summary', async () => {
       ],
       repeatDays: ['mon', 'wed'],
       repeatInterval: 1,
-      startDate: '7.5.2021',
+      startDate: new Date('2021-05-07'),
       startTime: '12.00',
     },
   ];

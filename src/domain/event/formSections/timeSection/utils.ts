@@ -6,7 +6,6 @@ import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../../generated/graphql';
-import parseDateText from '../../../../utils/parseDateText';
 import { EVENT_EDIT_ACTIONS } from '../../constants';
 import { EventTime, RecurringEventSettings } from '../../types';
 
@@ -55,15 +54,7 @@ export const sortRecurringEvents = (
   b: RecurringEventSettings
 ): number => {
   return sortEventTimes(
-    {
-      id: null,
-      startTime: parseDateText(a.startDate),
-      endTime: parseDateText(a.endDate),
-    },
-    {
-      id: null,
-      startTime: parseDateText(b.startDate),
-      endTime: parseDateText(b.endDate),
-    }
+    { id: null, startTime: a.startDate as Date, endTime: a.endDate as Date },
+    { id: null, startTime: b.startDate as Date, endTime: b.endDate as Date }
   );
 };

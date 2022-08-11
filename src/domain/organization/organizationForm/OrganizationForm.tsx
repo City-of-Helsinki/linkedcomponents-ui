@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
-import DateInputField from '../../../common/components/formFields/dateInputField/DateInputField2';
+import DateInputField from '../../../common/components/formFields/dateInputField/DateInputField';
 import SingleOrganizationClassSelectorField from '../../../common/components/formFields/singleOrganizationClassSelectorField/SingleOrganizationClassSelectorField';
 import SingleOrganizationSelectorField from '../../../common/components/formFields/singleOrganizationSelectorField/SingleOrganizationSelectorField';
 import SingleSelectField from '../../../common/components/formFields/singleSelectField/SingleSelectField';

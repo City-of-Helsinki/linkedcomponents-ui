@@ -3,7 +3,6 @@
 import { advanceTo, clear } from 'jest-date-mock';
 
 import {
-  DATE_FORMAT,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EXTLINK,
   WEEK_DAY,
@@ -15,7 +14,6 @@ import {
   PublicationStatus,
   SuperEventType,
 } from '../../../generated/graphql';
-import formatDate from '../../../utils/formatDate';
 import {
   fakeEvent,
   fakeExternalLink,
@@ -188,9 +186,9 @@ describe('sortWeekDays function', () => {
 describe('generateEventTimesFromRecurringEvent function', () => {
   it('should generate event times from recurring event settings', () => {
     const eventTimes = generateEventTimesFromRecurringEvent({
-      startDate: '1.1.2020',
+      startDate: new Date('2020-01-01'),
       startTime: '12:15',
-      endDate: '31.12.2020',
+      endDate: new Date('2020-12-31'),
       endTime: '14:15',
       eventTimes: [],
       repeatInterval: 2,
@@ -289,9 +287,9 @@ describe('getEventTimes function', () => {
       ],
       recurringEvents: [
         {
-          startDate: '1.1.2020',
+          startDate: new Date('2020-01-01'),
           startTime: '12:15',
-          endDate: '31.12.2020',
+          endDate: new Date('2020-12-31'),
           endTime: '14:15',
           eventTimes: [
             {
@@ -585,7 +583,7 @@ describe('getEventPayload function', () => {
     ];
     const recurringEvents: RecurringEventSettings[] = [
       {
-        endDate: '15.5.2020',
+        endDate: new Date('2020-05-15T00:00:00.000Z'),
         endTime: '12.00',
         eventTimes: [
           {
@@ -601,7 +599,7 @@ describe('getEventPayload function', () => {
         ],
         repeatDays: [],
         repeatInterval: 1,
-        startDate: '14.5.2020',
+        startDate: new Date('2020-05-14T00:00:00.000Z'),
         startTime: '14.00',
       },
     ];
@@ -697,12 +695,12 @@ describe('getNewEventTimes function', () => {
       getNewEventTimes(
         [eventTime1, eventTime2],
         [eventTime3, eventTime4].map((eventTime) => ({
-          endDate: formatDate(eventTime.endTime, DATE_FORMAT),
+          endDate: eventTime.endTime,
           endTime: '16.15',
           eventTimes: [eventTime],
           repeatDays: ['mon'],
           repeatInterval: 1,
-          startDate: formatDate(eventTime.startTime, DATE_FORMAT),
+          startDate: eventTime.startTime,
           startTime: '16.15',
         }))
       )

@@ -19,7 +19,6 @@ import {
 import { VALIDATION_MESSAGE_KEYS } from '../domain/app/i18n/constants';
 import { Error } from '../types';
 import formatDate from './formatDate';
-import parseDateText from './parseDateText';
 import setDateTime from './setDateTime';
 
 const createMaxErrorMessage = (
@@ -78,7 +77,7 @@ export const isValidPhoneNumber = (phone: string): boolean =>
     phone
   );
 
-export const isValidDate = (date?: string): boolean => {
+export const isValidDateText = (date?: string): boolean => {
   return date
     ? isValid(parseDate(date, DATE_FORMAT, new Date())) &&
         // Make sure year has 4 digits
@@ -92,44 +91,6 @@ export const isValidTime = (time?: string): boolean =>
 export const isValidZip = (zip: string): boolean => /^[0-9]{5}$/.test(zip);
 
 export const isAfterStartDateAndTime = (
-  startDateStr: string,
-  startTimeStr: string,
-  endTimeStr: string,
-  schema: Yup.StringSchema<string | null | undefined>
-): Yup.StringSchema<string | null | undefined> => {
-  /* istanbul ignore else */
-  if (
-    startDateStr &&
-    isValidDate(startDateStr) &&
-    startTimeStr &&
-    isValidTime(startTimeStr) &&
-    endTimeStr &&
-    isValidTime(endTimeStr)
-  ) {
-    const startDate = parseDateText(startDateStr, startTimeStr) as Date;
-
-    return schema.test(
-      'isAfterStartDateAndTime',
-      () => ({
-        key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
-        after: formatDate(startDate, DATETIME_FORMAT),
-      }),
-      (endDateStr) => {
-        // istanbul ignore else
-        if (endDateStr && isValidDate(endDateStr)) {
-          const endDate = parseDateText(endDateStr, endTimeStr) as Date;
-
-          return !isBefore(endDate, startDate);
-        }
-        return true;
-      }
-    );
-  } else {
-    return schema;
-  }
-};
-
-export const isAfterStartDateAndTime2 = (
   startDate: Date | null,
   startTimeStr: string,
   endTimeStr: string,
@@ -167,32 +128,45 @@ export const isAfterStartDateAndTime2 = (
   }
 };
 
-export const isFutureDate = (date?: string): boolean => {
-  if (date && isValidDate(date)) {
-    return isFuture(parseDateText(date) as Date);
+export const isFutureDateAndTime = (
+  timeStr: string,
+  schema: Yup.DateSchema<Date | null | undefined>
+): Yup.DateSchema<Date | null | undefined> => {
+  /* istanbul ignore else */
+  if (timeStr && isValidTime(timeStr)) {
+    return schema.test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (date) => {
+        // istanbul ignore else
+
+        if (date) {
+          const dateWithTime = setDateTime(date, timeStr);
+
+          return isFuture(dateWithTime);
+        }
+        return true;
+      }
+    );
   } else {
-    return true;
+    return schema;
   }
 };
 
 export const isAfterDate = (
-  startDateStr: string,
-  schema: Yup.StringSchema<string | null | undefined>
-): Yup.StringSchema<string | null | undefined> => {
-  if (startDateStr && isValidDate(startDateStr)) {
-    const startDate = parseDateText(startDateStr) as Date;
-
+  startDate: Date | null,
+  schema: Yup.DateSchema<Date | null | undefined>
+): Yup.DateSchema<Date | null | undefined> => {
+  if (startDate && isValid(startDate)) {
     return schema.test(
       'isAfterDate',
       () => ({
         key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
         after: formatDate(startDate, DATE_FORMAT),
       }),
-      (endDateStr) => {
+      (endDate) => {
         // istanbul ignore else
-        if (endDateStr && isValidDate(endDateStr)) {
-          const endDate = parseDateText(endDateStr) as Date;
-
+        if (endDate && isValid(endDate)) {
           return isBefore(startDate, endDate);
         }
         return true;

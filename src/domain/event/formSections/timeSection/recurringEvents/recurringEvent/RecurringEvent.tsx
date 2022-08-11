@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import Collapsible from '../../../../../../common/components/collapsible/Collapsible';
 import DeleteButton from '../../../../../../common/components/deleteButton/DeleteButton';
 import { DATE_FORMAT } from '../../../../../../constants';
-import parseDateText from '../../../../../../utils/parseDateText';
 import FieldWithButton from '../../../../layout/FieldWithButton';
 import { EventTime, RecurringEventSettings } from '../../../../types';
 import { sortWeekDays } from '../../../../utils';
@@ -27,11 +26,14 @@ const RecurringEvent: React.FC<Props> = ({
   recurringEvent,
   startIndex,
 }) => {
-  const startDate = parseDateText(
-    recurringEvent.startDate,
-    recurringEvent.startTime
-  );
-  const endDate = parseDateText(recurringEvent.endDate, recurringEvent.endTime);
+  const startDate =
+    typeof recurringEvent.startDate === 'string'
+      ? new Date(recurringEvent.startDate)
+      : recurringEvent.startDate;
+  const endDate =
+    typeof recurringEvent.endDate === 'string'
+      ? new Date(recurringEvent.endDate)
+      : recurringEvent.endDate;
 
   const { t } = useTranslation();
   const sortedRepeatDays = [...recurringEvent.repeatDays].sort(sortWeekDays);

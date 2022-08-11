@@ -1,10 +1,9 @@
 import { FieldProps, useField } from 'formik';
-import { DateInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { getErrorText } from '../../../../utils/validationUtils';
-import DateInput from '../../dateInput/DateInput';
+import DateInput, { DateInputProps } from '../../dateInput/DateInput';
 
 type Props = FieldProps & DateInputProps;
 
@@ -23,7 +22,7 @@ const DateInputField: React.FC<Props> = ({
     onBlur({ target: { id: name, value } });
   };
 
-  const handleChange = (val: string) => {
+  const handleChange = (val: Date | null) => {
     onChange({
       target: { id: name, value: val },
     });
@@ -35,13 +34,13 @@ const DateInputField: React.FC<Props> = ({
       {...field}
       id={name}
       name={name}
+      disableConfirmation
       errorText={errorText}
       helperText={helperText}
       invalid={Boolean(errorText)}
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      disableConfirmation
     />
   );
 };

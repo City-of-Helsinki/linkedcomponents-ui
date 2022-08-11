@@ -7,9 +7,9 @@ import Button from '../../../../../common/components/button/Button';
 import DateInputField from '../../../../../common/components/formFields/dateInputField/DateInputField';
 import TimeInputField from '../../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
-import { DATE_FORMAT, TIME_FORMAT_DATA } from '../../../../../constants';
+import { TIME_FORMAT_DATA } from '../../../../../constants';
 import formatDate from '../../../../../utils/formatDate';
-import parseDateText from '../../../../../utils/parseDateText';
+import setDateTime from '../../../../../utils/setDateTime';
 import {
   EDIT_EVENT_TIME_FORM_NAME,
   EVENT_TIME_FIELDS,
@@ -36,12 +36,12 @@ const ModalContent: React.FC<ModalContentProps> = ({
   const submitEditEventTime = (values: EditEventTimeFormFields) => {
     onSave({
       id: eventTime.id,
-      endTime: parseDateText(
-        values[EDIT_EVENT_TIME_FORM_NAME].endDate,
+      endTime: setDateTime(
+        values[EDIT_EVENT_TIME_FORM_NAME].endDate as Date,
         values[EDIT_EVENT_TIME_FORM_NAME].endTime
       ),
-      startTime: parseDateText(
-        values[EDIT_EVENT_TIME_FORM_NAME].startDate,
+      startTime: setDateTime(
+        values[EDIT_EVENT_TIME_FORM_NAME].startDate as Date,
         values[EDIT_EVENT_TIME_FORM_NAME].startTime
       ),
     });
@@ -51,9 +51,9 @@ const ModalContent: React.FC<ModalContentProps> = ({
     <Formik
       initialValues={{
         [EDIT_EVENT_TIME_FORM_NAME]: {
-          endDate: formatDate(eventTime.endTime, DATE_FORMAT),
+          endDate: eventTime.endTime,
           endTime: formatDate(eventTime.endTime, TIME_FORMAT_DATA),
-          startDate: formatDate(eventTime.startTime, DATE_FORMAT),
+          startDate: eventTime.startTime,
           startTime: formatDate(eventTime.startTime, TIME_FORMAT_DATA),
         },
       }}
@@ -63,7 +63,12 @@ const ModalContent: React.FC<ModalContentProps> = ({
       validateOnMount
       validationSchema={editEventTimeSchema}
     >
-      {({ handleSubmit }) => {
+      {({
+        handleSubmit,
+        values: {
+          [EDIT_EVENT_TIME_FORM_NAME]: { startDate },
+        },
+      }) => {
         return (
           <>
             <Dialog.Content>
@@ -90,6 +95,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
                   component={DateInputField}
                   name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_DATE}`}
                   label={t(`event.form.labelEndDate.${eventType}`)}
+                  minDate={startDate}
                   placeholder={t('common.placeholderDate')}
                   required={true}
                 />

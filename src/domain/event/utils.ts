@@ -62,11 +62,9 @@ import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getTimeObject from '../../utils/getTimeObject';
-import parseDateText from '../../utils/parseDateText';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
-import { isValidDate } from '../../utils/validationUtils';
 import wait from '../../utils/wait';
 import {
   isAdminUserInOrganization,
@@ -220,27 +218,12 @@ export const getEventFields = (
 export const generateEventTimesFromRecurringEvent = (
   settings: RecurringEventSettings
 ): EventTime[] => {
-  const {
-    startDate: startDateStr,
-    startTime,
-    endDate: endDateStr,
-    endTime,
-    repeatDays,
-    repeatInterval,
-  } = settings;
+  const { startDate, startTime, endDate, endTime, repeatDays, repeatInterval } =
+    settings;
   const eventTimes: EventTime[] = [];
 
   /* istanbul ignore else  */
-  if (
-    startDateStr &&
-    isValidDate(startDateStr) &&
-    endDateStr &&
-    isValidDate(endDateStr) &&
-    repeatInterval > 0
-  ) {
-    const startDate = parseDateText(startDateStr) as Date;
-    const endDate = parseDateText(endDateStr) as Date;
-
+  if (startDate && endDate && repeatInterval > 0) {
     const dayCodes: Record<string, number> = {
       [WEEK_DAY.MON]: 1,
       [WEEK_DAY.TUE]: 2,

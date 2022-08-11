@@ -60,7 +60,7 @@ const eventTimes = [
 
 const recurringEvents: RecurringEventSettings[] = [
   {
-    endDate: '15.5.2021',
+    endDate: new Date('2021-05-15T00:00:00.000Z'),
     endTime: '15.00',
     eventTimes: [
       {
@@ -76,7 +76,7 @@ const recurringEvents: RecurringEventSettings[] = [
     ],
     repeatDays: ['mon'],
     repeatInterval: 1,
-    startDate: '1.5.2021',
+    startDate: new Date('2021-05-01T00:00:00.000Z'),
     startTime: '12.00',
   },
 ];

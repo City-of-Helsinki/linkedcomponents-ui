@@ -1,3 +1,4 @@
+import isFuture from 'date-fns/isFuture';
 import * as Yup from 'yup';
 
 import { CHARACTER_LIMITS } from '../../constants';
@@ -9,10 +10,8 @@ import {
   createStringMaxErrorMessage,
   isAfterDate,
   isAfterStartDateAndTime,
-  isAfterStartDateAndTime2,
   isAfterTime,
-  isFutureDate,
-  isValidDate,
+  isFutureDateAndTime,
   isValidTime,
   transformNumber,
 } from '../../utils/validationUtils';
@@ -207,7 +206,7 @@ const enrolmentSchemaFields = {
         EVENT_FIELDS.ENROLMENT_END_TIME_TIME,
       ],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      isAfterStartDateAndTime2 as any
+      isAfterStartDateAndTime as any
     ),
   [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: Yup.string()
     .when(
@@ -371,24 +370,20 @@ export const draftEventSchema = Yup.object().shape(
 );
 
 export const eventTimeSchema = Yup.object().shape({
-  [EVENT_TIME_FIELDS.START_DATE]: Yup.string()
+  [EVENT_TIME_FIELDS.START_DATE]: Yup.date()
+    .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
-      isValidDate(value)
-    ),
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
   [EVENT_TIME_FIELDS.START_TIME]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
       isValidTime(value)
     ),
-  [EVENT_TIME_FIELDS.END_DATE]: Yup.string()
+  [EVENT_TIME_FIELDS.END_DATE]: Yup.date()
+    .nullable()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
-      isValidDate(value)
-    )
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startDate) =>
-      isFutureDate(startDate)
-    )
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .when([EVENT_TIME_FIELDS.END_TIME], isFutureDateAndTime)
     .when(
       [
         EVENT_TIME_FIELDS.START_DATE,
@@ -422,15 +417,18 @@ export const recurringEventSchema = Yup.object().shape({
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
     .min(1, createArrayMinErrorMessage),
-  [RECURRING_EVENT_FIELDS.START_DATE]: Yup.string()
+  [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test('isValidDate', VALIDATION_MESSAGE_KEYS.DATE, (value) =>
-      isValidDate(value)
-    )
-    .test('isInTheFuture', VALIDATION_MESSAGE_KEYS.DATE_FUTURE, (startDate) =>
-      isFutureDate(startDate)
+    .test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (startDate) => !startDate || isFuture(startDate)
     ),
-  [RECURRING_EVENT_FIELDS.END_DATE]: Yup.string()
+  [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     // test that startsTime is before endsTime
     .when([RECURRING_EVENT_FIELDS.START_DATE], isAfterDate),

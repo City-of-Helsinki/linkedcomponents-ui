@@ -9,7 +9,7 @@ import TextInputField from '../../../../../common/components/formFields/textInpu
 import TimeInputField from '../../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { SuperEventType } from '../../../../../generated/graphql';
-import parseDateText from '../../../../../utils/parseDateText';
+import setDateTime from '../../../../../utils/setDateTime';
 import {
   ADD_EVENT_TIME_FORM_NAME,
   EVENT_TIME_FIELDS,
@@ -39,12 +39,12 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
     const { resetForm, validateForm } = formikHelpers;
     addEventTime({
       id: null,
-      endTime: parseDateText(
-        values[ADD_EVENT_TIME_FORM_NAME].endDate,
+      endTime: setDateTime(
+        values[ADD_EVENT_TIME_FORM_NAME].endDate as Date,
         values[ADD_EVENT_TIME_FORM_NAME].endTime
       ),
-      startTime: parseDateText(
-        values[ADD_EVENT_TIME_FORM_NAME].startDate,
+      startTime: setDateTime(
+        values[ADD_EVENT_TIME_FORM_NAME].startDate as Date,
         values[ADD_EVENT_TIME_FORM_NAME].startTime
       ),
     });
@@ -66,9 +66,9 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
       initialValues={
         {
           [ADD_EVENT_TIME_FORM_NAME]: {
-            endDate: '',
+            endDate: null,
             endTime: '',
-            startDate: '',
+            startDate: null,
             startTime: '',
           },
         } as AddEventTimeFormFields
@@ -79,7 +79,13 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
       validateOnMount
       validationSchema={addEventTimeSchema}
     >
-      {({ handleSubmit, isValid }) => {
+      {({
+        handleSubmit,
+        isValid,
+        values: {
+          [ADD_EVENT_TIME_FORM_NAME]: { startDate },
+        },
+      }) => {
         return (
           <div>
             <FormGroup>
@@ -111,6 +117,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                 <Field
                   component={DateInputField}
                   disabled={disabled}
+                  minDate={startDate}
                   name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_DATE}`}
                   label={t(`event.form.labelEndDate.${eventType}`)}
                   placeholder={t('common.placeholderDate')}

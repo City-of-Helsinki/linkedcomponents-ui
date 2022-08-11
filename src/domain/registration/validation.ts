@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 import {
   createNumberMinErrorMessage,
-  isAfterStartDateAndTime2 as isAfterStartDateAndTime,
+  isAfterStartDateAndTime,
   isValidTime,
   transformNumber,
 } from '../../utils/validationUtils';
