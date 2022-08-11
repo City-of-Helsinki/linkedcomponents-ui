@@ -343,9 +343,9 @@ describe('filterUnselectedLanguages function', () => {
 
 describe('getEventPayload function', () => {
   it('should return single event as payload', () => {
-    // expect(
-    //   getEventPayload(EVENT_INITIAL_VALUES, PublicationStatus.Draft)
-    // ).toEqual(defaultEventPayload);
+    expect(
+      getEventPayload(EVENT_INITIAL_VALUES, PublicationStatus.Draft)
+    ).toEqual(defaultEventPayload);
 
     const audienceMaxAge = 18,
       audienceMinAge = 12,
