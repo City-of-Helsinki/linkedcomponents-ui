@@ -1,6 +1,5 @@
 import isBefore from 'date-fns/isBefore';
 import isEqual from 'date-fns/isEqual';
-import max from 'date-fns/max';
 
 import {
   EventFieldsFragment,
@@ -26,11 +25,6 @@ export const getEventEditAction = ({
         ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
         : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
   }
-};
-
-export const getMinBookingDate = (date: string | Date | null): Date => {
-  const formattedDate = typeof date === 'string' ? new Date(date) : date;
-  return formattedDate ? max([formattedDate, new Date()]) : new Date();
 };
 
 export const sortEventTimes = (a: EventTime, b: EventTime): number => {

@@ -113,14 +113,14 @@ export const isAfterStartDateAndTime = (
         after: formatDate(startDateWithTime, DATETIME_FORMAT),
       }),
       (endDate) => {
-        // istanbul ignore else
-
+        /* istanbul ignore else */
         if (endDate) {
           const endDateWithTime = setDateTime(endDate, endTimeStr);
 
           return !isBefore(endDateWithTime, startDateWithTime);
+        } else {
+          return true;
         }
-        return true;
       }
     );
   } else {
@@ -138,14 +138,14 @@ export const isFutureDateAndTime = (
       'isInTheFuture',
       VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
       (date) => {
-        // istanbul ignore else
-
+        /* istanbul ignore else */
         if (date) {
           const dateWithTime = setDateTime(date, timeStr);
 
           return isFuture(dateWithTime);
+        } else {
+          return true;
         }
-        return true;
       }
     );
   } else {
@@ -165,11 +165,12 @@ export const isAfterDate = (
         after: formatDate(startDate, DATE_FORMAT),
       }),
       (endDate) => {
-        // istanbul ignore else
+        /* istanbul ignore else */
         if (endDate && isValid(endDate)) {
           return isBefore(startDate, endDate);
+        } else {
+          return true;
         }
-        return true;
       }
     );
   }
@@ -188,7 +189,7 @@ export const isAfterTime = (
         after: startsAt.replace(':', '.'),
       }),
       (endsAt) => {
-        // istanbul ignore else
+        /* istanbul ignore else */
         if (endsAt && isValidTime(endsAt)) {
           const modifiedStartsAt = startsAt.replace(':', '.');
           const modifiedEndsAt = endsAt.replace(':', '.');
@@ -197,8 +198,9 @@ export const isAfterTime = (
             parseDate(modifiedStartsAt, TIME_FORMAT, new Date()),
             parseDate(modifiedEndsAt, TIME_FORMAT, new Date())
           );
+        } else {
+          return true;
         }
-        return true;
       }
     );
   }

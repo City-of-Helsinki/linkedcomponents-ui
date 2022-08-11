@@ -26,10 +26,12 @@ const RecurringEvent: React.FC<Props> = ({
   recurringEvent,
   startIndex,
 }) => {
+  // istanbul ignore next
   const startDate =
     typeof recurringEvent.startDate === 'string'
       ? new Date(recurringEvent.startDate)
       : recurringEvent.startDate;
+  // istanbul ignore next
   const endDate =
     typeof recurringEvent.endDate === 'string'
       ? new Date(recurringEvent.endDate)

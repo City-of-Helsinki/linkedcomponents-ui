@@ -1,10 +1,12 @@
+import isValid from 'date-fns/isValid';
+
 import setDateTime from './setDateTime';
 
 const formatDateAndTimeForApi = (
   date: Date | string,
   timeStr: string
 ): string | null => {
-  if (!date || !timeStr) {
+  if (!date || !isValid(new Date(date))) {
     return null;
   }
 
