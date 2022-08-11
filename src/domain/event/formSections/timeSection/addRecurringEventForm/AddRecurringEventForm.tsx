@@ -12,6 +12,7 @@ import TimeInputField from '../../../../../common/components/formFields/timeInpu
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { WEEK_DAY } from '../../../../../constants';
 import { SuperEventType } from '../../../../../generated/graphql';
+import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import {
   RECURRING_EVENT_FIELDS,
   RECURRING_EVENT_INITIAL_VALUES,
@@ -79,7 +80,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
         return (
           <div>
             <FormGroup>
-              <div className={styles.splittedRow}>
+              <SplittedRow>
                 <div>
                   <Field
                     component={NumberInputField}
@@ -96,7 +97,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
                     required={true}
                   />
                 </div>
-              </div>
+              </SplittedRow>
             </FormGroup>
 
             <h3>{t('event.form.titleRecurringEventRepeatDays')}</h3>
@@ -131,7 +132,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
               />
             </FormGroup>
             <FormGroup>
-              <div className={styles.splittedRow}>
+              <SplittedRow>
                 <div>
                   <Field
                     component={
@@ -164,7 +165,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
                     required={true}
                   />
                 </div>
-              </div>
+              </SplittedRow>
             </FormGroup>
             <FormGroup className={styles.buttonWrapper}>
               <Button

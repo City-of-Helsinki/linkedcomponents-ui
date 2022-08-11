@@ -9,6 +9,7 @@ import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
+import SplittedRow from '../../../app/layout/splittedRow/SplittedRow';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 
@@ -79,45 +80,46 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
       >
         <FieldColumn>
           <FormGroup>
-            <Field
-              component={DateInputField}
-              disabled={!isEditingAllowed}
-              label={t(`event.form.labelEnrolmentStartTimeDate`)}
-              name={EVENT_FIELDS.ENROLMENT_START_TIME_DATE}
-              placeholder={t(`common.placeholderDate`)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Field
-              component={TimeInputField}
-              disabled={!isEditingAllowed}
-              label={t(`event.form.labelEnrolmentStartTimeTime`)}
-              name={EVENT_FIELDS.ENROLMENT_START_TIME_TIME}
-              placeholder={t(`common.placeholderTime`)}
-            />
+            <SplittedRow>
+              <Field
+                component={DateInputField}
+                disabled={!isEditingAllowed}
+                label={t(`event.form.labelEnrolmentStartTimeDate`)}
+                name={EVENT_FIELDS.ENROLMENT_START_TIME_DATE}
+                placeholder={t(`common.placeholderDate`)}
+              />
+              <Field
+                component={TimeInputField}
+                disabled={!isEditingAllowed}
+                label={t(`event.form.labelEnrolmentStartTimeTime`)}
+                name={EVENT_FIELDS.ENROLMENT_START_TIME_TIME}
+                placeholder={t(`common.placeholderTime`)}
+              />
+            </SplittedRow>
           </FormGroup>
         </FieldColumn>
       </FieldRow>
       <FieldRow>
         <FieldColumn>
           <FormGroup>
-            <Field
-              component={DateInputField}
-              disabled={!isEditingAllowed}
-              label={t(`event.form.labelEnrolmentEndTimeDate`)}
-              minDate={enrolmentStartTime ?? null}
-              name={EVENT_FIELDS.ENROLMENT_END_TIME_DATE}
-              placeholder={t(`common.placeholderDate`)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Field
-              component={TimeInputField}
-              disabled={!isEditingAllowed}
-              label={t(`event.form.labelEnrolmentEndTimeTime`)}
-              name={EVENT_FIELDS.ENROLMENT_END_TIME_TIME}
-              placeholder={t(`common.placeholderTime`)}
-            />
+            <SplittedRow>
+              <Field
+                component={DateInputField}
+                disabled={!isEditingAllowed}
+                label={t(`event.form.labelEnrolmentEndTimeDate`)}
+                minDate={enrolmentStartTime ?? null}
+                name={EVENT_FIELDS.ENROLMENT_END_TIME_DATE}
+                placeholder={t(`common.placeholderDate`)}
+              />
+
+              <Field
+                component={TimeInputField}
+                disabled={!isEditingAllowed}
+                label={t(`event.form.labelEnrolmentEndTimeTime`)}
+                name={EVENT_FIELDS.ENROLMENT_END_TIME_TIME}
+                placeholder={t(`common.placeholderTime`)}
+              />
+            </SplittedRow>
           </FormGroup>
         </FieldColumn>
       </FieldRow>

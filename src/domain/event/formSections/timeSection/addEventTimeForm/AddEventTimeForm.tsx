@@ -10,11 +10,11 @@ import TimeInputField from '../../../../../common/components/formFields/timeInpu
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { SuperEventType } from '../../../../../generated/graphql';
 import setDateTime from '../../../../../utils/setDateTime';
+import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import {
   ADD_EVENT_TIME_FORM_NAME,
   EVENT_TIME_FIELDS,
 } from '../../../constants';
-import styles from '../../../eventPage.module.scss';
 import { AddEventTimeFormFields, EventTime } from '../../../types';
 import { addEventTimeSchema } from '../../../validation';
 import TimeSectionContext from '../TimeSectionContext';
@@ -89,7 +89,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
         return (
           <div>
             <FormGroup>
-              <div className={styles.splittedRow}>
+              <SplittedRow>
                 <Field
                   component={DateInputField}
                   disabled={disabled}
@@ -110,10 +110,10 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                   placeholder={t('common.placeholderTime')}
                   required={true}
                 />
-              </div>
+              </SplittedRow>
             </FormGroup>
             <FormGroup>
-              <div className={styles.splittedRow}>
+              <SplittedRow>
                 <Field
                   component={DateInputField}
                   disabled={disabled}
@@ -135,7 +135,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                   placeholder={t('common.placeholderTime')}
                   required={true}
                 />
-              </div>
+              </SplittedRow>
             </FormGroup>
             <Button
               disabled={disabled || !isValid}

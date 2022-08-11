@@ -1,0 +1,14 @@
+@import "../../../../assets//styles//breakpoints.scss";
+
+.splittedRow {
+  display: grid;
+  grid-gap: var(--spacing-s);
+  
+  @include small-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include medium-up {
+    grid-gap: var(--spacing-m);
+  }
+}

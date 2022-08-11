@@ -6,6 +6,7 @@ import DateInputField from '../../../../common/components/formFields/dateInputFi
 import TimeInputField from '../../../../common/components/formFields/timeInputField/TimeInputField';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
+import SplittedRow from '../../../app/layout/splittedRow/SplittedRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 import styles from '../../registrationPage.module.scss';
 
@@ -20,7 +21,7 @@ const EnrolmentTimeSection: React.FC<Props> = ({ isEditingAllowed }) => {
     <>
       <FieldRow>
         <FieldColumn>
-          <div className={styles.splittedRow}>
+          <SplittedRow>
             <Field
               component={DateInputField}
               className={styles.noLineBreakInLabel}
@@ -39,12 +40,12 @@ const EnrolmentTimeSection: React.FC<Props> = ({ isEditingAllowed }) => {
               placeholder={t(`common.placeholderTime`)}
               required={true}
             />
-          </div>
+          </SplittedRow>
         </FieldColumn>
       </FieldRow>
       <FieldRow>
         <FieldColumn>
-          <div className={styles.splittedRow}>
+          <SplittedRow>
             <Field
               component={DateInputField}
               className={styles.noLineBreakInLabel}
@@ -63,7 +64,7 @@ const EnrolmentTimeSection: React.FC<Props> = ({ isEditingAllowed }) => {
               placeholder={t(`common.placeholderTime`)}
               required={true}
             />
-          </div>
+          </SplittedRow>
         </FieldColumn>
       </FieldRow>
     </>

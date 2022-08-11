@@ -10,6 +10,7 @@ import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { TIME_FORMAT_DATA } from '../../../../../constants';
 import formatDate from '../../../../../utils/formatDate';
 import setDateTime from '../../../../../utils/setDateTime';
+import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import {
   EDIT_EVENT_TIME_FORM_NAME,
   EVENT_TIME_FIELDS,
@@ -73,40 +74,42 @@ const ModalContent: React.FC<ModalContentProps> = ({
           <>
             <Dialog.Content>
               <FormGroup>
-                <Field
-                  component={DateInputField}
-                  label={t(`event.form.labelStartDate.${eventType}`)}
-                  name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_DATE}`}
-                  placeholder={t('common.placeholderDate')}
-                  required={true}
-                />
+                <SplittedRow>
+                  <Field
+                    component={DateInputField}
+                    label={t(`event.form.labelStartDate.${eventType}`)}
+                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_DATE}`}
+                    placeholder={t('common.placeholderDate')}
+                    required={true}
+                  />
+                  <Field
+                    component={TimeInputField}
+                    label={t(`event.form.labelStartTime.${eventType}`)}
+                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
+                    placeholder={t('common.placeholderTime')}
+                    required={true}
+                  />
+                </SplittedRow>
               </FormGroup>
               <FormGroup>
-                <Field
-                  component={TimeInputField}
-                  label={t(`event.form.labelStartTime.${eventType}`)}
-                  name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
-                  placeholder={t('common.placeholderTime')}
-                  required={true}
-                />
+                <SplittedRow>
+                  <Field
+                    component={DateInputField}
+                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_DATE}`}
+                    label={t(`event.form.labelEndDate.${eventType}`)}
+                    minDate={startDate}
+                    placeholder={t('common.placeholderDate')}
+                    required={true}
+                  />
+                  <Field
+                    component={TimeInputField}
+                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
+                    label={t(`event.form.labelEndTime.${eventType}`)}
+                    placeholder={t('common.placeholderTime')}
+                    required={true}
+                  />
+                </SplittedRow>
               </FormGroup>
-              <FormGroup>
-                <Field
-                  component={DateInputField}
-                  name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_DATE}`}
-                  label={t(`event.form.labelEndDate.${eventType}`)}
-                  minDate={startDate}
-                  placeholder={t('common.placeholderDate')}
-                  required={true}
-                />
-              </FormGroup>
-              <Field
-                component={TimeInputField}
-                name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
-                label={t(`event.form.labelEndTime.${eventType}`)}
-                placeholder={t('common.placeholderTime')}
-                required={true}
-              />
             </Dialog.Content>
             <Dialog.ActionButtons>
               <Button
