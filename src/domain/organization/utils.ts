@@ -3,6 +3,7 @@ import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import {
+  DATE_FORMAT_API,
   LINKED_EVENTS_SYSTEM_DATA_SOURCE,
   MAX_PAGE_SIZE,
   ROUTES,
@@ -353,9 +354,11 @@ export const getOrganizationPayload = (
     ...restFormValues,
     dataSource,
     dissolutionDate: dissolutionDate
-      ? formatDate(dissolutionDate, 'yyyy-MM-dd')
+      ? formatDate(dissolutionDate, DATE_FORMAT_API)
       : null,
-    foundingDate: foundingDate ? formatDate(foundingDate, 'yyyy-MM-dd') : null,
+    foundingDate: foundingDate
+      ? formatDate(foundingDate, DATE_FORMAT_API)
+      : null,
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
     originId,
     parentOrganization: parentOrganization || undefined,

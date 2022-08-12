@@ -49,8 +49,8 @@ test('should render event times table', async () => {
   renderComponent({ eventTimes });
 
   screen.getByRole('table');
-  screen.getByRole('row', { name: '1 02.05.2021 12.00 – 02.05.2021 15.00' });
-  screen.getByRole('row', { name: '2 03.05.2021 12.00 – 03.05.2021 15.00' });
+  screen.getByRole('row', { name: '1 2.5.2021 12.00 – 2.5.2021 15.00' });
+  screen.getByRole('row', { name: '2 3.5.2021 12.00 – 3.5.2021 15.00' });
 });
 
 test('should call setEventTimes when deleting an event time', async () => {
@@ -88,15 +88,12 @@ test('should call setEventTimes when updating an event time', async () => {
   const editButton = screen.getByRole('button', { name: /muokkaa/i });
   await act(async () => await user.click(editButton));
 
-  const startTimeInput = screen.getByRole('textbox', {
-    name: /tapahtuma alkaa/i,
+  const startDateInput = screen.getByRole('textbox', {
+    name: 'Tapahtuma alkaa *',
   });
-  await act(async () => await user.click(startTimeInput));
-  await act(async () => await user.clear(startTimeInput));
-  await act(async () => await user.type(startTimeInput, '02.05.2021 13.00'));
-  await waitFor(() => expect(startTimeInput).toHaveValue('02.05.2021 13.00'), {
-    timeout: 10000,
-  });
+  await act(async () => await user.click(startDateInput));
+  await act(async () => await user.clear(startDateInput));
+  await act(async () => await user.type(startDateInput, '2.5.2021'));
 
   const updateButton = screen.getByRole('button', {
     name: /tallenna muutokset/i,
@@ -105,7 +102,7 @@ test('should call setEventTimes when updating an event time', async () => {
 
   await waitFor(() => {
     expect(setEventTimes).toBeCalledWith([
-      { ...eventTime1, startTime: new Date('2021-05-02T13:00:00.000Z') },
+      { ...eventTime1, startTime: new Date('2021-05-02T12:00:00.000Z') },
       eventTime2,
     ]);
   });

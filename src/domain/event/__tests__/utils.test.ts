@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
 import { advanceTo, clear } from 'jest-date-mock';
 
@@ -376,8 +377,10 @@ describe('getEventPayload function', () => {
           en: 'Description en',
           sv: '',
         },
-        enrolmentEndTime: new Date(enrolmentEndTime),
-        enrolmentStartTime: new Date(enrolmentStartTime),
+        enrolmentEndTimeDate: new Date(enrolmentEndTime),
+        enrolmentEndTimeTime: '15:15',
+        enrolmentStartTimeDate: new Date(enrolmentStartTime),
+        enrolmentStartTimeTime: '9:15',
         eventInfoLanguages: ['fi', 'sv'],
         eventTimes: [
           {
@@ -769,13 +772,13 @@ describe('getEventFields function', () => {
       fakeEvent({
         endTime: '',
         eventStatus: null,
-        id: null,
-        atId: null,
+        id: null as any,
+        atId: null as any,
         images: [],
         lastModifiedTime: '',
         publisher: '',
         publicationStatus: null,
-        subEvents: null,
+        subEvents: null as any,
         superEvent: null,
         startTime: '',
       }),
@@ -1006,8 +1009,10 @@ describe('getEventInitialValues function', () => {
       audienceMaxAge,
       audienceMinAge,
       description,
-      enrolmentEndTime,
-      enrolmentStartTime,
+      enrolmentEndTimeDate: enrolmentEndTime,
+      enrolmentEndTimeTime: '05:51',
+      enrolmentStartTimeDate: enrolmentStartTime,
+      enrolmentStartTimeTime: '05:51',
       eventInfoLanguages: ['ar', 'en', 'fi', 'ru', 'sv', 'zhHans'],
       eventTimes: [],
       events: [
@@ -1072,8 +1077,10 @@ describe('getEventInitialValues function', () => {
     const {
       audienceMaxAge,
       audienceMinAge,
-      enrolmentEndTime,
-      enrolmentStartTime,
+      enrolmentEndTimeDate,
+      enrolmentEndTimeTime,
+      enrolmentStartTimeDate,
+      enrolmentStartTimeTime,
       externalLinks,
       location,
       name,
@@ -1099,7 +1106,7 @@ describe('getEventInitialValues function', () => {
           sv: null,
           zhHans: null,
         },
-        offers: null,
+        offers: null as any,
         publisher: null,
         startTime: null,
         superEvent: null,
@@ -1110,8 +1117,10 @@ describe('getEventInitialValues function', () => {
 
     expect(audienceMaxAge).toEqual('');
     expect(audienceMinAge).toEqual('');
-    expect(enrolmentEndTime).toEqual(null);
-    expect(enrolmentStartTime).toEqual(null);
+    expect(enrolmentEndTimeDate).toEqual(null);
+    expect(enrolmentEndTimeTime).toEqual('');
+    expect(enrolmentStartTimeDate).toEqual(null);
+    expect(enrolmentStartTimeTime).toEqual('');
     expect(externalLinks).toEqual([{ link: '', name: '' }]);
     expect(location).toEqual('');
     expect(name).toEqual(expectedName);

@@ -1,8 +1,7 @@
-import { IconCalendarPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DatePicker from '../../../../../common/components/datepicker/Datepicker';
+import DateInput from '../../../../../common/components/dateInput/DateInput';
 import DropdownMenu from '../../../../../common/components/dropdown/dropdownMenu/DropdownMenu';
 import styles from '../dateSelector.module.scss';
 import { DATE_FIELDS } from '../DateSelectorDropdown';
@@ -36,19 +35,20 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
       isOpen={isOpen}
       wrapperClassName={styles.dropdownMenuWrapper}
     >
-      <DatePicker
+      <DateInput
         id={startDateInputId}
-        icon={<IconCalendarPlus aria-hidden />}
-        maxBookingDate={endDate || undefined}
+        disableConfirmation
+        initialMonth={endDate || undefined}
+        maxDate={endDate || undefined}
         onChange={(value) => onChangeDate(DATE_FIELDS.START_DATE, value)}
         placeholder={t('common.dateSelector.placeholderStartDate')}
         value={startDate}
       />
-      <DatePicker
+      <DateInput
         id={endDateInputId}
-        focusedDate={startDate}
-        icon={<IconCalendarPlus aria-hidden />}
-        minBookingDate={startDate || undefined}
+        disableConfirmation
+        initialMonth={startDate || undefined}
+        minDate={startDate || undefined}
         onChange={(value) => onChangeDate(DATE_FIELDS.END_DATE, value)}
         placeholder={t('common.dateSelector.placeholderEndDate')}
         value={endDate}

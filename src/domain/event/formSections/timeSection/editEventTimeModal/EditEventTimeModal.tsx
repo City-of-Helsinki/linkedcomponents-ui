@@ -4,17 +4,21 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../../common/components/button/Button';
-import DatepickerField from '../../../../../common/components/formFields/datepickerField/DatepickerField';
+import DateInputField from '../../../../../common/components/formFields/dateInputField/DateInputField';
+import TimeInputField from '../../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
+import { TIME_FORMAT_DATA } from '../../../../../constants';
+import formatDate from '../../../../../utils/formatDate';
+import setDateTime from '../../../../../utils/setDateTime';
+import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import {
   EDIT_EVENT_TIME_FORM_NAME,
   EVENT_TIME_FIELDS,
 } from '../../../constants';
 import { EditEventTimeFormFields, EventTime } from '../../../types';
-import { editEventTimeSchema } from '../../../utils';
+import { editEventTimeSchema } from '../../../validation';
 import styles from '../timeSection.module.scss';
 import TimeSectionContext from '../TimeSectionContext';
-import { getMinBookingDate } from '../utils';
 
 export interface ModalContentProps {
   eventTime: EventTime;
@@ -32,9 +36,15 @@ const ModalContent: React.FC<ModalContentProps> = ({
 
   const submitEditEventTime = (values: EditEventTimeFormFields) => {
     onSave({
-      ...eventTime,
-      endTime: values[EDIT_EVENT_TIME_FORM_NAME].endTime,
-      startTime: values[EDIT_EVENT_TIME_FORM_NAME].startTime,
+      id: eventTime.id,
+      endTime: setDateTime(
+        values[EDIT_EVENT_TIME_FORM_NAME].endDate as Date,
+        values[EDIT_EVENT_TIME_FORM_NAME].endTime
+      ),
+      startTime: setDateTime(
+        values[EDIT_EVENT_TIME_FORM_NAME].startDate as Date,
+        values[EDIT_EVENT_TIME_FORM_NAME].startTime
+      ),
     });
   };
 
@@ -42,8 +52,10 @@ const ModalContent: React.FC<ModalContentProps> = ({
     <Formik
       initialValues={{
         [EDIT_EVENT_TIME_FORM_NAME]: {
-          endTime: eventTime.endTime,
-          startTime: eventTime.startTime,
+          endDate: eventTime.endTime,
+          endTime: formatDate(eventTime.endTime, TIME_FORMAT_DATA),
+          startDate: eventTime.startTime,
+          startTime: formatDate(eventTime.startTime, TIME_FORMAT_DATA),
         },
       }}
       onSubmit={submitEditEventTime}
@@ -55,32 +67,49 @@ const ModalContent: React.FC<ModalContentProps> = ({
       {({
         handleSubmit,
         values: {
-          [EDIT_EVENT_TIME_FORM_NAME]: { startTime },
+          [EDIT_EVENT_TIME_FORM_NAME]: { startDate },
         },
       }) => {
         return (
           <>
             <Dialog.Content>
               <FormGroup>
-                <Field
-                  component={DatepickerField}
-                  label={t(`event.form.labelStartTime.${eventType}`)}
-                  name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
-                  placeholder={t('common.placeholderDateTime')}
-                  required={true}
-                  timeSelector={true}
-                />
+                <SplittedRow>
+                  <Field
+                    component={DateInputField}
+                    label={t(`event.form.labelStartDate.${eventType}`)}
+                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_DATE}`}
+                    placeholder={t('common.placeholderDate')}
+                    required={true}
+                  />
+                  <Field
+                    component={TimeInputField}
+                    label={t(`event.form.labelStartTime.${eventType}`)}
+                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
+                    placeholder={t('common.placeholderTime')}
+                    required={true}
+                  />
+                </SplittedRow>
               </FormGroup>
-              <Field
-                component={DatepickerField}
-                focusedDate={getMinBookingDate(startTime)}
-                label={t(`event.form.labelEndTime.${eventType}`)}
-                minBookingDate={getMinBookingDate(startTime)}
-                name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
-                placeholder={t('common.placeholderDateTime')}
-                required={true}
-                timeSelector={true}
-              />
+              <FormGroup>
+                <SplittedRow>
+                  <Field
+                    component={DateInputField}
+                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_DATE}`}
+                    label={t(`event.form.labelEndDate.${eventType}`)}
+                    minDate={startDate}
+                    placeholder={t('common.placeholderDate')}
+                    required={true}
+                  />
+                  <Field
+                    component={TimeInputField}
+                    name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
+                    label={t(`event.form.labelEndTime.${eventType}`)}
+                    placeholder={t('common.placeholderTime')}
+                    required={true}
+                  />
+                </SplittedRow>
+              </FormGroup>
             </Dialog.Content>
             <Dialog.ActionButtons>
               <Button

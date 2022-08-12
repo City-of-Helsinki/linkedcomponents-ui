@@ -52,8 +52,10 @@ export type EventFormFields = {
   [EVENT_FIELDS.EVENTS]: EventTime[];
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: string[];
   [EVENT_FIELDS.EVENT_TIMES]: EventTime[];
-  [EVENT_FIELDS.ENROLMENT_END_TIME]: Date | null;
-  [EVENT_FIELDS.ENROLMENT_START_TIME]: Date | null;
+  [EVENT_FIELDS.ENROLMENT_END_TIME_DATE]: Date | null;
+  [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: string;
+  [EVENT_FIELDS.ENROLMENT_START_TIME_DATE]: Date | null;
+  [EVENT_FIELDS.ENROLMENT_START_TIME_TIME]: string;
   [EVENT_FIELDS.EXTERNAL_LINKS]: ExternalLink[];
   [EVENT_FIELDS.HAS_PRICE]: boolean;
   [EVENT_FIELDS.HAS_UMBRELLA]: boolean;
@@ -83,18 +85,19 @@ export type EventFormFields = {
   [EVENT_FIELDS.VIDEOS]: VideoDetails[];
 };
 
+type EventTimeFormFields = {
+  [EVENT_TIME_FIELDS.END_DATE]: Date | null;
+  [EVENT_TIME_FIELDS.END_TIME]: string;
+  [EVENT_TIME_FIELDS.START_DATE]: Date | null;
+  [EVENT_TIME_FIELDS.START_TIME]: string;
+};
+
 export type AddEventTimeFormFields = {
-  [ADD_EVENT_TIME_FORM_NAME]: {
-    [EVENT_TIME_FIELDS.END_TIME]: Date | null;
-    [EVENT_TIME_FIELDS.START_TIME]: Date | null;
-  };
+  [ADD_EVENT_TIME_FORM_NAME]: EventTimeFormFields;
 };
 
 export type EditEventTimeFormFields = {
-  [EDIT_EVENT_TIME_FORM_NAME]: {
-    [EVENT_TIME_FIELDS.END_TIME]: Date | null;
-    [EVENT_TIME_FIELDS.START_TIME]: Date | null;
-  };
+  [EDIT_EVENT_TIME_FORM_NAME]: EventTimeFormFields;
 };
 
 export type EventTime = {
@@ -128,11 +131,11 @@ export type Offer = {
 };
 
 export type RecurringEventSettings = {
-  [RECURRING_EVENT_FIELDS.END_DATE]: Date | string | null;
+  [RECURRING_EVENT_FIELDS.END_DATE]: Date | null;
   [RECURRING_EVENT_FIELDS.END_TIME]: string;
   [RECURRING_EVENT_FIELDS.EVENT_TIMES]: EventTime[];
   [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: string[];
   [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: number;
-  [RECURRING_EVENT_FIELDS.START_DATE]: Date | string | null;
+  [RECURRING_EVENT_FIELDS.START_DATE]: Date | null;
   [RECURRING_EVENT_FIELDS.START_TIME]: string;
 };

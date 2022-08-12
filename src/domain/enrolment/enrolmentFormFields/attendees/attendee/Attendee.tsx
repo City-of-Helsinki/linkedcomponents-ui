@@ -3,7 +3,7 @@ import { Fieldset, IconTrash } from 'hds-react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DatepickerField from '../../../../../common/components/formFields/datepickerField/DatepickerField';
+import DateInputField from '../../../../../common/components/formFields/dateInputField/DateInputField';
 import TextAreaField from '../../../../../common/components/formFields/textAreaField/TextAreaField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
@@ -81,7 +81,7 @@ const Attendee: React.FC<Props> = ({
             />
             <Field
               name={getFieldName(attendeePath, ATTENDEE_FIELDS.DATE_OF_BIRTH)}
-              component={DatepickerField}
+              component={DateInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelDateOfBirth`)}
               placeholder={t('common.placeholderDate')}

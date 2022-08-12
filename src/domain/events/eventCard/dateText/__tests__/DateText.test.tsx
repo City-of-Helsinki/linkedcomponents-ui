@@ -11,7 +11,7 @@ test('should render correct text when startTime and endTime at same day', () => 
     endTime: new Date('2021-01-04'),
     startTime: new Date('2021-01-04'),
   });
-  screen.getByText('04.01.2021');
+  screen.getByText('4.1.2021');
 });
 
 test('should render correct text when startTime and endTime are defined', () => {
@@ -19,7 +19,7 @@ test('should render correct text when startTime and endTime are defined', () => 
     endTime: new Date('2021-01-24'),
     startTime: new Date('2021-01-04'),
   });
-  screen.getByText('04.01.2021 – 24.01.2021');
+  screen.getByText('4.1.2021 – 24.1.2021');
 });
 
 test('should render correct text when only startTime is defined', () => {
@@ -27,7 +27,7 @@ test('should render correct text when only startTime is defined', () => {
     endTime: null,
     startTime: new Date('2021-01-24'),
   });
-  screen.getByText('24.01.2021 –');
+  screen.getByText('24.1.2021 –');
 });
 
 test('should render correct text when only endTime is defined', () => {
@@ -35,7 +35,7 @@ test('should render correct text when only endTime is defined', () => {
     endTime: new Date('2021-01-04'),
     startTime: null,
   });
-  screen.getByText('– 04.01.2021');
+  screen.getByText('– 4.1.2021');
 });
 
 test('should render correct text when startTime and endTime are not defined', () => {

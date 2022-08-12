@@ -343,7 +343,7 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
   const history = createMemoryHistory();
   history.push(
     { search, pathname: route },
-    { eventId: waitingApprovalEvents.data[0].id }
+    { eventId: waitingApprovalEvents.data[0]?.id }
   );
 
   const replaceSpy = jest.spyOn(history, 'replace');
@@ -365,7 +365,7 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
   );
 
   const eventRowButton = screen.getByRole('button', {
-    name: waitingApprovalEvents.data[0].name.fi,
+    name: waitingApprovalEvents.data[0]?.name?.fi as string,
   });
   await waitFor(() => expect(eventRowButton).toHaveFocus());
 });

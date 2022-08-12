@@ -191,7 +191,8 @@ describe('getOrganizationFields function', () => {
     const { atId, classification, dataSource, foundingDate, id, name } =
       getOrganizationFields(
         fakeOrganization({
-          atId: null,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          atId: null as any,
           classification: null,
           dataSource: null,
           foundingDate: '',

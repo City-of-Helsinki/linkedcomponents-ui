@@ -72,13 +72,13 @@ test('should render event times summary', async () => {
   renderComponent({ eventTimes, recurringEvents });
 
   const toggleButton = screen.getByRole('button', {
-    name: 'Ma ja Ke, Viikon välein, 07.05.2021 – 07.05.2021',
+    name: 'Ma ja Ke, Viikon välein, 7.5.2021 – 7.5.2021',
   });
   await act(async () => await user.click(toggleButton));
 
-  screen.getByRole('row', { name: '1 07.05.2021 12.00 – 07.05.2021 15.00' });
-  screen.getByRole('row', { name: '2 09.05.2021 12.00 – 09.05.2021 15.00' });
+  screen.getByRole('row', { name: '1 7.5.2021 12.00 – 7.5.2021 15.00' });
+  screen.getByRole('row', { name: '2 9.5.2021 12.00 – 9.5.2021 15.00' });
 
-  screen.getByRole('row', { name: '3 02.05.2021 12.00 – 02.05.2021 15.00' });
-  screen.getByRole('row', { name: '4 03.05.2021 12.00 – 03.05.2021 15.00' });
+  screen.getByRole('row', { name: '3 2.5.2021 12.00 – 2.5.2021 15.00' });
+  screen.getByRole('row', { name: '4 3.5.2021 12.00 – 3.5.2021 15.00' });
 });

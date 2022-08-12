@@ -16,7 +16,7 @@ import {
   EVENT_TYPE,
 } from '../../../constants';
 import { EventFormFields } from '../../../types';
-import { publicEventSchema } from '../../../utils';
+import { publicEventSchema } from '../../../validation';
 import VideoSection from '../VideoSection';
 
 configure({ defaultHidden: true });

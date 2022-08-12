@@ -118,8 +118,12 @@ export enum WEEK_DAY {
   SUN = 'sun',
 }
 
-export const DATE_FORMAT = 'dd.MM.yyyy';
-export const DATETIME_FORMAT = `${DATE_FORMAT} HH.mm`;
+export const DATE_FORMAT = 'd.M.yyyy';
+export const DATE_FORMAT_API = 'yyyy-MM-dd';
+export const TIME_FORMAT = 'HH.mm';
+export const TIME_FORMAT_DATA = 'HH:mm';
+
+export const DATETIME_FORMAT = `${DATE_FORMAT} ${TIME_FORMAT}`;
 
 export enum EXTLINK {
   EXTLINK_FACEBOOK = 'extlink_facebook',

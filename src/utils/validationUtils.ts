@@ -1,4 +1,5 @@
 import isBefore from 'date-fns/isBefore';
+import isFuture from 'date-fns/isFuture';
 import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import { FormikErrors, FormikTouched } from 'formik';
@@ -12,11 +13,13 @@ import * as Yup from 'yup';
 import {
   DATE_FORMAT,
   DATETIME_FORMAT,
+  TIME_FORMAT,
   VALIDATION_ERROR_SCROLLER_OPTIONS,
 } from '../constants';
 import { VALIDATION_MESSAGE_KEYS } from '../domain/app/i18n/constants';
 import { Error } from '../types';
 import formatDate from './formatDate';
+import setDateTime from './setDateTime';
 
 const createMaxErrorMessage = (
   message: { max: number },
@@ -74,71 +77,130 @@ export const isValidPhoneNumber = (phone: string): boolean =>
     phone
   );
 
-export const isValidTime = (time: string): boolean =>
-  /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time);
+export const isValidDateText = (date?: string): boolean => {
+  return date
+    ? isValid(parseDate(date, DATE_FORMAT, new Date())) &&
+        // Make sure year has 4 digits
+        date.split('.')[2].length === 4
+    : true;
+};
+
+export const isValidTime = (time?: string): boolean =>
+  time ? /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time) : true;
 
 export const isValidZip = (zip: string): boolean => /^[0-9]{5}$/.test(zip);
 
-export const isAfterStartDate = (
+export const isAfterStartDateAndTime = (
+  startDate: Date | null,
+  startTimeStr: string,
+  endTimeStr: string,
+  schema: Yup.DateSchema<Date | null | undefined>
+): Yup.DateSchema<Date | null | undefined> => {
+  /* istanbul ignore else */
+  if (
+    startDate &&
+    startTimeStr &&
+    isValidTime(startTimeStr) &&
+    endTimeStr &&
+    isValidTime(endTimeStr)
+  ) {
+    const startDateWithTime = setDateTime(startDate, startTimeStr);
+
+    return schema.test(
+      'isAfterStartDateAndTime',
+      () => ({
+        key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
+        after: formatDate(startDateWithTime, DATETIME_FORMAT),
+      }),
+      (endDate) => {
+        /* istanbul ignore else */
+        if (endDate) {
+          const endDateWithTime = setDateTime(endDate, endTimeStr);
+
+          return !isBefore(endDateWithTime, startDateWithTime);
+        } else {
+          return true;
+        }
+      }
+    );
+  } else {
+    return schema;
+  }
+};
+
+export const isFutureDateAndTime = (
+  timeStr: string,
+  schema: Yup.DateSchema<Date | null | undefined>
+): Yup.DateSchema<Date | null | undefined> => {
+  /* istanbul ignore else */
+  if (timeStr && isValidTime(timeStr)) {
+    return schema.test(
+      'isInTheFuture',
+      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
+      (date) => {
+        /* istanbul ignore else */
+        if (date) {
+          const dateWithTime = setDateTime(date, timeStr);
+
+          return isFuture(dateWithTime);
+        } else {
+          return true;
+        }
+      }
+    );
+  } else {
+    return schema;
+  }
+};
+
+export const isAfterDate = (
   startDate: Date | null,
   schema: Yup.DateSchema<Date | null | undefined>
 ): Yup.DateSchema<Date | null | undefined> => {
   if (startDate && isValid(startDate)) {
     return schema.test(
-      'isAfterStartDate',
+      'isAfterDate',
       () => ({
         key: VALIDATION_MESSAGE_KEYS.DATE_AFTER,
         after: formatDate(startDate, DATE_FORMAT),
       }),
       (endDate) => {
-        return !endDate || isBefore(startDate, endDate);
+        /* istanbul ignore else */
+        if (endDate && isValid(endDate)) {
+          return isBefore(startDate, endDate);
+        } else {
+          return true;
+        }
       }
     );
   }
   return schema;
 };
 
-export const isMinStartDate = (
-  startDate: Date | null,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
-  if (startDate && isValid(startDate)) {
-    return schema.test(
-      'isMinStartDate',
-      () => ({
-        key: VALIDATION_MESSAGE_KEYS.DATE_MIN,
-        min: formatDate(startDate, DATETIME_FORMAT),
-      }),
-      (endTime) => {
-        return !endTime || isBefore(startDate, endTime);
-      }
-    );
-  }
-  return schema;
-};
-
-export const isAfterStartTime = (
+export const isAfterTime = (
   startsAt: string,
   schema: Yup.StringSchema
 ): Yup.StringSchema => {
   if (isValidTime(startsAt)) {
     return schema.test(
-      'isAfterStartTime',
+      'isAfterTime',
       () => ({
         key: VALIDATION_MESSAGE_KEYS.TIME_AFTER,
-        after: startsAt,
+        after: startsAt.replace(':', '.'),
       }),
       (endsAt) => {
+        /* istanbul ignore else */
         if (endsAt && isValidTime(endsAt)) {
           const modifiedStartsAt = startsAt.replace(':', '.');
           const modifiedEndsAt = endsAt.replace(':', '.');
 
           return isBefore(
-            parseDate(modifiedStartsAt, 'HH.mm', new Date()),
-            parseDate(modifiedEndsAt, 'HH.mm', new Date())
+            parseDate(modifiedStartsAt, TIME_FORMAT, new Date()),
+            parseDate(modifiedEndsAt, TIME_FORMAT, new Date())
           );
+        } else {
+          return true;
         }
-        return true;
       }
     );
   }

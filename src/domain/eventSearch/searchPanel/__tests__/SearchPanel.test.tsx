@@ -3,7 +3,11 @@ import range from 'lodash/range';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { PlaceDocument, PlacesDocument } from '../../../../generated/graphql';
+import {
+  PlaceDocument,
+  PlaceFieldsFragment,
+  PlacesDocument,
+} from '../../../../generated/graphql';
 import { fakePlaces } from '../../../../utils/mockDataUtils';
 import {
   act,
@@ -42,7 +46,7 @@ const mockedPlacesResponse: MockedResponse = {
   result: placesResponse,
 };
 
-const place = places.data[0];
+const place = places.data[0] as PlaceFieldsFragment;
 const placeId = place.id;
 const placeVariables = {
   id: placeId,
@@ -109,9 +113,9 @@ test('should initialize search panel inputs', async () => {
 
 test('should search events with correct search params', async () => {
   const values = {
-    endDate: '12.03.2021',
+    endDate: '12.3.2021',
     place: placeId,
-    startDate: '05.03.2021',
+    startDate: '5.3.2021',
     text: 'search',
   };
 

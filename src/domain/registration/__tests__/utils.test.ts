@@ -118,8 +118,10 @@ describe('getRegistrationInitialValues function', () => {
       audienceMaxAge,
       audienceMinAge,
       confirmationMessage,
-      enrolmentEndTime,
-      enrolmentStartTime,
+      enrolmentEndTimeDate,
+      enrolmentEndTimeTime,
+      enrolmentStartTimeDate,
+      enrolmentStartTimeTime,
       instructions,
       maximumAttendeeCapacity,
       minimumAttendeeCapacity,
@@ -141,8 +143,10 @@ describe('getRegistrationInitialValues function', () => {
     expect(audienceMaxAge).toBe('');
     expect(audienceMinAge).toBe('');
     expect(confirmationMessage).toBe('');
-    expect(enrolmentEndTime).toBe(null);
-    expect(enrolmentStartTime).toBe(null);
+    expect(enrolmentEndTimeDate).toBe(null);
+    expect(enrolmentEndTimeTime).toBe('');
+    expect(enrolmentStartTimeDate).toBe(null);
+    expect(enrolmentStartTimeTime).toBe('');
     expect(instructions).toBe('');
     expect(maximumAttendeeCapacity).toBe('');
     expect(minimumAttendeeCapacity).toBe('');
@@ -184,8 +188,10 @@ describe('getRegistrationPayload function', () => {
       audienceMaxAge,
       audienceMinAge,
       confirmationMessage,
-      enrolmentEndTime: new Date(enrolmentEndTime),
-      enrolmentStartTime: new Date(enrolmentStartTime),
+      enrolmentEndTimeDate: new Date(enrolmentEndTime),
+      enrolmentEndTimeTime: '15:15',
+      enrolmentStartTimeDate: new Date(enrolmentStartTime),
+      enrolmentStartTimeTime: '09:15',
       event,
       instructions,
       maximumAttendeeCapacity,

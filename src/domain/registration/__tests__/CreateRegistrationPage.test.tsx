@@ -3,11 +3,12 @@ import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { DATETIME_FORMAT, FORM_NAMES } from '../../../constants';
+import { DATE_FORMAT, FORM_NAMES } from '../../../constants';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
+  actWait,
   configure,
   getMockReduxStore,
   loadingSpinnerIsNotInDocument,
@@ -62,13 +63,6 @@ const setFormValues = (values: RegistrationFormFields) => {
   });
 };
 
-const getInput = (key: 'enrolmentStartTime') => {
-  switch (key) {
-    case 'enrolmentStartTime':
-      return screen.getByRole('textbox', { name: /ilmoittautuminen alkaa/i });
-  }
-};
-
 const getElement = (
   key: 'eventCombobox' | 'enrolmentStartTime' | 'saveButton'
 ) => {
@@ -78,9 +72,7 @@ const getElement = (
         name: /tapahtuma/i,
       });
     case 'enrolmentStartTime':
-      return screen.getByRole('textbox', {
-        name: /Ilmoittautuminen alkaa/i,
-      });
+      return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa *' });
     case 'saveButton':
       return screen.getByRole('button', {
         name: /tallenna ilmoittautuminen/i,
@@ -116,12 +108,14 @@ test('should move to registration completed page after creating new registration
   ]);
 
   await loadingSpinnerIsNotInDocument();
-  const startTimeInput = getInput('enrolmentStartTime');
-  await waitFor(() =>
-    expect(startTimeInput).toHaveValue(
-      formatDate(registrationValues.enrolmentStartTime, DATETIME_FORMAT)
-    )
+  const startTimeInput = getElement('enrolmentStartTime');
+  await actWait(1000);
+
+  const expectedValue = formatDate(
+    registrationValues.enrolmentStartTimeDate,
+    DATE_FORMAT
   );
+  await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
 
   const saveButton = getElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
@@ -146,12 +140,14 @@ test('should show server errors', async () => {
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
-  const startTimeInput = getInput('enrolmentStartTime');
-  await waitFor(() =>
-    expect(startTimeInput).toHaveValue(
-      formatDate(registrationValues.enrolmentStartTime, DATETIME_FORMAT)
-    )
+  const startTimeInput = getElement('enrolmentStartTime');
+  await actWait(1000);
+
+  const expectedValue = formatDate(
+    registrationValues.enrolmentStartTimeDate,
+    DATE_FORMAT
   );
+  await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
 
   const saveButton = getElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());

@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
-import DatepickerField from '../../../common/components/formFields/datepickerField/DatepickerField';
+import DateInputField from '../../../common/components/formFields/dateInputField/DateInputField';
 import SingleOrganizationClassSelectorField from '../../../common/components/formFields/singleOrganizationClassSelectorField/SingleOrganizationClassSelectorField';
 import SingleOrganizationSelectorField from '../../../common/components/formFields/singleOrganizationSelectorField/SingleOrganizationSelectorField';
 import SingleSelectField from '../../../common/components/formFields/singleSelectField/SingleSelectField';
@@ -211,12 +211,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
 
             <FormRow className={styles.borderInMobile}>
               <Field
-                className={
-                  /* istanbul ignore next */
-                  isEditingAllowed || organization
-                    ? styles.alignedInputWithFullBorder
-                    : styles.alignedInput
-                }
+                className={styles.alignedInputWithFullBorder}
                 component={TextInputField}
                 label={t(`organization.form.labelId`)}
                 name={ORGANIZATION_FIELDS.ID}
@@ -259,7 +254,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             <FormRow
               className={
                 /* istanbul ignore next */
-                !isEditingAllowed ? styles.borderInMobile : ''
+                isEditingAllowed ? '' : styles.borderInMobile
               }
             >
               <Field
@@ -316,8 +311,12 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
               }
             >
               <Field
-                className={styles.alignedInputWithFullBorder}
-                component={DatepickerField}
+                className={
+                  !isEditingAllowed || !!organization
+                    ? styles.alignedInputWithFullBorder
+                    : styles.alignedInput
+                }
+                component={DateInputField}
                 label={t(`organization.form.labelFoundingDate`)}
                 name={ORGANIZATION_FIELDS.FOUNDING_DATE}
                 readOnly={!isEditingAllowed || !!organization}
@@ -330,7 +329,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             >
               <Field
                 className={styles.alignedInput}
-                component={DatepickerField}
+                component={DateInputField}
                 label={t(`organization.form.labelDissolutionDate`)}
                 name={ORGANIZATION_FIELDS.DISSOLUTION_DATE}
                 readOnly={!isEditingAllowed || !!organization}

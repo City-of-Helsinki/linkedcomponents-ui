@@ -57,12 +57,11 @@ import useUpdateImageIfNeeded from './hooks/useUpdateImageIfNeeded';
 import { EventFormFields } from './types';
 import {
   canUserCreateEvent,
-  draftEventSchema,
   getEventPayload,
   getRecurringEventPayload,
-  publicEventSchema,
   scrollToFirstError,
 } from './utils';
+import { draftEventSchema, publicEventSchema } from './validation';
 
 const CreateEventPage: React.FC = () => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
@@ -246,6 +245,7 @@ const CreateEventPage: React.FC = () => {
       validateOnChange={true}
     >
       {({
+        errors,
         values: { publisher, type, ...restValues },
         setErrors,
         setTouched,

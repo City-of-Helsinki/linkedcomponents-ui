@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import subYears from 'date-fns/subYears';
 
+import { DATE_FORMAT_API } from '../../../constants';
 import {
   DeleteEnrolmentDocument,
   EnrolmentDocument,
@@ -32,7 +33,7 @@ const enrolmentValues = {
 
 const enrolment = fakeEnrolment({
   ...enrolmentValues,
-  dateOfBirth: formatDate(dateOfBirth, 'yyyy-MM-dd'),
+  dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
   id: enrolmentId,
 });
 
@@ -58,7 +59,7 @@ const mockedCancelEnrolmentResponse: MockedResponse = {
 const payload = {
   id: enrolmentId,
   city: enrolmentValues.city,
-  dateOfBirth: formatDate(dateOfBirth, 'yyyy-MM-dd'),
+  dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
   email: enrolmentValues.email,
   extraInfo: '',
   membershipNumber: '',

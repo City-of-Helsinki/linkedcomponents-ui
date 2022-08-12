@@ -8,11 +8,10 @@ import {
   render,
   screen,
   userEvent,
-  waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { publicEventSchema } from '../../../utils';
+import { publicEventSchema } from '../../../validation';
 import AdditionalInfoSection from '../AdditionalInfoSection';
 
 configure({ defaultHidden: true });
@@ -22,8 +21,10 @@ const type = EVENT_TYPE.General;
 type InitialValues = {
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: number | '';
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: number | '';
-  [EVENT_FIELDS.ENROLMENT_END_TIME]: Date | null;
-  [EVENT_FIELDS.ENROLMENT_START_TIME]: Date | null;
+  [EVENT_FIELDS.ENROLMENT_END_TIME_DATE]: Date | null;
+  [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: string;
+  [EVENT_FIELDS.ENROLMENT_START_TIME_DATE]: Date | null;
+  [EVENT_FIELDS.ENROLMENT_START_TIME_TIME]: string;
   [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
   [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
   [EVENT_FIELDS.TYPE]: string;
@@ -32,8 +33,10 @@ type InitialValues = {
 const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: '',
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: '',
-  [EVENT_FIELDS.ENROLMENT_END_TIME]: null,
-  [EVENT_FIELDS.ENROLMENT_START_TIME]: null,
+  [EVENT_FIELDS.ENROLMENT_END_TIME_DATE]: null,
+  [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: '',
+  [EVENT_FIELDS.ENROLMENT_START_TIME_DATE]: null,
+  [EVENT_FIELDS.ENROLMENT_START_TIME_TIME]: '',
   [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: '',
   [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
   [EVENT_FIELDS.TYPE]: type,
@@ -57,16 +60,22 @@ afterAll(() => {
 
 const getElement = (
   key:
-    | 'endTime'
+    | 'endTimeDate'
+    | 'endTimeTime'
     | 'maxAge'
     | 'minAge'
     | 'maxCapacity'
     | 'minCapacity'
-    | 'startTime'
+    | 'startTimeDate'
+    | 'startTimeTime'
 ) => {
   switch (key) {
-    case 'endTime':
+    case 'endTimeDate':
       return screen.getByRole('textbox', { name: 'Ilmoittautuminen päättyy' });
+    case 'endTimeTime':
+      return screen.getByRole('textbox', {
+        name: /Ilmoittautuminen päättyy klo/i,
+      });
     case 'maxAge':
       return screen.getByRole('spinbutton', { name: 'Yläikäraja' });
     case 'minAge':
@@ -79,13 +88,19 @@ const getElement = (
       return screen.getByRole('spinbutton', {
         name: 'Enimmäisosallistujamäärä',
       });
-    case 'startTime':
+    case 'startTimeDate':
       return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa' });
+    case 'startTimeTime':
+      return screen.getByRole('textbox', {
+        name: /Ilmoittautuminen alkaa klo/i,
+      });
   }
 };
 
 test('should render additional info section', async () => {
-  renderComponent();
+  await act(async () => {
+    await renderComponent();
+  });
 
   const headings = [
     translations.event.form.titleAudienceAge,
@@ -102,8 +117,10 @@ test('should render additional info section', async () => {
   getElement('maxAge');
   getElement('minCapacity');
   getElement('maxCapacity');
-  getElement('startTime');
-  getElement('endTime');
+  getElement('startTimeDate');
+  getElement('startTimeTime');
+  getElement('endTimeDate');
+  getElement('endTimeTime');
 });
 
 test('should show validation error if max age is less than min age', async () => {
@@ -143,24 +160,29 @@ test('should validate enrolment start and end dates', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  const startTime = '19.12.2021 12.15';
-  const endTime = '18.12.2021 12.15';
-  const startTimeInput = getElement('startTime');
-  const endTimeInput = getElement('endTime');
+  const startDate = '19.12.2021';
+  const startTime = '12:15';
+  const endDate = '18.12.2021';
+  const endTime = '12:15';
 
-  await act(async () => await user.click(startTimeInput));
-  user.type(startTimeInput, startTime);
-  await waitFor(() => expect(startTimeInput).toHaveValue(startTime), {
-    timeout: 10000,
-  });
-  await act(async () => await user.click(endTimeInput));
-  user.type(endTimeInput, endTime);
-  await waitFor(() => expect(endTimeInput).toHaveValue(endTime), {
-    timeout: 5000,
-  });
-  await act(async () => await user.click(startTimeInput));
+  const startTimeDateInput = getElement('startTimeDate');
+  const startTimeTimeInput = getElement('startTimeTime');
+  const endTimeDateInput = getElement('endTimeDate');
+  const endTimeTimeInput = getElement('endTimeTime');
 
-  screen.getByText(`Tämän päivämäärän tulee olla vähintään ${startTime}`);
+  await act(async () => await user.click(startTimeDateInput));
+  await act(async () => await user.type(startTimeDateInput, startDate));
+  await act(async () => await user.click(startTimeTimeInput));
+  await act(async () => await user.type(startTimeTimeInput, startTime));
+
+  await act(async () => await user.click(endTimeDateInput));
+  await act(async () => await user.type(endTimeDateInput, endDate));
+  await act(async () => await user.click(endTimeTimeInput));
+  await act(async () => await user.type(endTimeTimeInput, endTime));
+
+  await act(async () => await user.click(startTimeDateInput));
+
+  screen.getByText('Tämän päivämäärän tulee olla 19.12.2021 12.15 jälkeen');
 });
 
 test('should show validation error if max capacity is less than min capacity', async () => {

@@ -1,7 +1,7 @@
-import { getTimeObject } from '../utils';
+import getTimeObject from '../getTimeObject';
 
 describe('getTimeObject', () => {
-  it('should return time object', () => {
+  it('should return time object', () => {
     expect(getTimeObject('')).toEqual({ hours: 0, minutes: 0 });
     expect(getTimeObject('12:15')).toEqual({ hours: 12, minutes: 15 });
     expect(getTimeObject('12.15')).toEqual({ hours: 12, minutes: 15 });

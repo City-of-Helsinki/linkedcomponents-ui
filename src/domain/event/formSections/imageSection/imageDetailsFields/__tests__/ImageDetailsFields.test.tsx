@@ -33,7 +33,7 @@ import {
   mockedUserWithoutOrganizationsResponse,
 } from '../../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../../constants';
-import { publicEventSchema } from '../../../../utils';
+import { publicEventSchema } from '../../../../validation';
 import ImageDetailsFields, {
   ImageDetailsFieldsProps,
 } from '../ImageDetailsFields';
@@ -131,9 +131,9 @@ const getElement = (
   }
 };
 
-test('all fields should be disabled when imageAtId is null', async () => {
+test('all fields should be disabled when imageAtId is empty', async () => {
   await act(async () => {
-    await renderComponent({ props: { imageAtId: null } });
+    await renderComponent({ props: { imageAtId: '' } });
   });
 
   await findElement('altText');
@@ -148,7 +148,7 @@ test('all fields should be disabled when imageAtId is null', async () => {
   expect(getElement('ccByRadio')).toBeDisabled();
 });
 
-test('should clear field values when imageAtId is null', async () => {
+test('should clear field values when imageAtId is empty', async () => {
   await act(async () => {
     await renderComponent({
       initialValues: {
@@ -164,7 +164,7 @@ test('should clear field values when imageAtId is null', async () => {
         },
         [EVENT_FIELDS.TYPE]: eventType,
       },
-      props: { imageAtId: null },
+      props: { imageAtId: '' },
     });
   });
 

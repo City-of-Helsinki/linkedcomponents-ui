@@ -12,6 +12,12 @@ export const organizationSchema = Yup.object().shape({
   [ORGANIZATION_FIELDS.NAME]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .nullable(),
+  [ORGANIZATION_FIELDS.FOUNDING_DATE]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
+  [ORGANIZATION_FIELDS.DISSOLUTION_DATE]: Yup.date()
+    .nullable()
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
   [ORGANIZATION_FIELDS.PARENT_ORGANIZATION]: Yup.string().when(
     [ORGANIZATION_FIELDS.ID],
     (id, schema) =>

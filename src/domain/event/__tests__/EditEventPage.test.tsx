@@ -1,7 +1,12 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { DATETIME_FORMAT, ROUTES } from '../../../constants';
+import {
+  DATE_FORMAT,
+  DATETIME_FORMAT,
+  ROUTES,
+  TIME_FORMAT_DATA,
+} from '../../../constants';
 import { EventDocument } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
@@ -96,7 +101,7 @@ const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = screen
     .getAllByRole('button', { name: /valinnat/i })
-    .pop();
+    .pop() as HTMLElement;
 
   await act(async () => await user.click(toggleButton));
   screen.getByRole('region', { name: /valinnat/i });
@@ -138,15 +143,19 @@ const getInput = (key: 'nameFi') => {
 };
 
 const getAddEventTimeFormElement = (
-  key: 'addButton' | 'endTime' | 'startTime'
+  key: 'addButton' | 'endDate' | 'endTime' | 'startDate' | 'startTime'
 ) => {
   switch (key) {
     case 'addButton':
       return screen.getByRole('button', { name: /lisää ajankohta/i });
+    case 'endDate':
+      return screen.getByRole('textbox', { name: 'Tapahtuma päättyy *' });
     case 'endTime':
-      return screen.getByRole('textbox', { name: /tapahtuma päättyy/i });
+      return screen.getByRole('textbox', { name: /tapahtuma päättyy klo/i });
+    case 'startDate':
+      return screen.getByRole('textbox', { name: 'Tapahtuma alkaa *' });
     case 'startTime':
-      return screen.getByRole('textbox', { name: /tapahtuma alkaa/i });
+      return screen.getByRole('textbox', { name: /tapahtuma alkaa klo/i });
   }
 };
 
@@ -166,17 +175,19 @@ test('should cancel event', async () => {
   const cancelButton = getButton('cancel');
   await act(async () => await user.click(cancelButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const modal = screen.getByRole('dialog', {
+    name: 'Varmista tapahtuman peruminen',
+  });
+  const withinModal = within(modal);
   // Cancel event button inside modal
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta tapahtuma',
   });
   await act(async () => await user.click(cancelEventButton));
 
-  await waitFor(
-    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
-    { timeout: 10000 }
-  );
+  await waitFor(() => expect(modal).not.toBeInTheDocument(), {
+    timeout: 10000,
+  });
   await loadingSpinnerIsNotInDocument(10000);
   screen.getByText('Peruutettu');
 });
@@ -197,16 +208,18 @@ test('should postpone event', async () => {
   const postponeButton = getButton('postpone');
   await act(async () => await user.click(postponeButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const modal = screen.getByRole('dialog', {
+    name: 'Varmista tapahtuman lykkääminen',
+  });
+  const withinModal = within(modal);
   const postponeEventButton = withinModal.getByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
   await act(async () => await user.click(postponeEventButton));
 
-  await waitFor(
-    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
-    { timeout: 10000 }
-  );
+  await waitFor(() => expect(modal).not.toBeInTheDocument(), {
+    timeout: 10000,
+  });
   await loadingSpinnerIsNotInDocument(10000);
   screen.getByText('Lykätty');
 });
@@ -227,17 +240,19 @@ test('should delete event', async () => {
   const deleteButton = getButton('delete');
   await act(async () => await user.click(deleteButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const modal = screen.getByRole('dialog', {
+    name: 'Varmista tapahtuman poistaminen',
+  });
+  const withinModal = within(modal);
   // Delete event button inside modal
   const deleteEventButton = withinModal.getByRole('button', {
     name: 'Poista tapahtuma',
   });
   await act(async () => await user.click(deleteEventButton));
 
-  await waitFor(
-    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
-    { timeout: 10000 }
-  );
+  await waitFor(() => expect(modal).not.toBeInTheDocument(), {
+    timeout: 10000,
+  });
   expect(history.location.pathname).toBe('/fi/search');
 });
 
@@ -307,36 +322,37 @@ test('should update recurring event', async () => {
   const deleteButton = withinRow.getByRole('button', { name: /poista/i });
   await act(async () => await user.click(deleteButton));
 
+  const endDateInput = getAddEventTimeFormElement('endDate');
   const endTimeInput = getAddEventTimeFormElement('endTime');
+  const startDateInput = getAddEventTimeFormElement('startDate');
   const startTimeInput = getAddEventTimeFormElement('startTime');
   const addButton = getAddEventTimeFormElement('addButton');
 
   for (const newEventTime of newSubEventTimes) {
-    const startTimeValue = formatDate(newEventTime.startTime, DATETIME_FORMAT);
+    const startDateValue = formatDate(newEventTime.startTime, DATE_FORMAT);
+    const startTimeValue = formatDate(newEventTime.startTime, TIME_FORMAT_DATA);
+    await act(async () => await user.click(startDateInput));
+    await act(async () => await user.type(startDateInput, startDateValue));
     await act(async () => await user.click(startTimeInput));
     await act(async () => await user.type(startTimeInput, startTimeValue));
-    await waitFor(() => expect(startTimeInput).toHaveValue(startTimeValue), {
-      timeout: 10000,
-    });
 
-    const endTimeValue = formatDate(newEventTime.endTime, DATETIME_FORMAT);
+    const endDateValue = formatDate(newEventTime.endTime, DATE_FORMAT);
+    const endTimeValue = formatDate(newEventTime.endTime, TIME_FORMAT_DATA);
+    await act(async () => await user.click(endDateInput));
+    await act(async () => await user.type(endDateInput, endDateValue));
     await act(async () => await user.click(endTimeInput));
     await act(async () => await user.type(endTimeInput, endTimeValue));
-    await waitFor(() => expect(endTimeInput).toHaveValue(endTimeValue), {
-      timeout: 10000,
-    });
 
     await waitFor(() => expect(addButton).toBeEnabled());
     await act(async () => await user.click(addButton));
-
-    await waitFor(() => expect(startTimeInput).toHaveValue(''));
-    await waitFor(() => expect(endTimeInput).toHaveValue(''));
   }
 
   const updateButton = getButton('updatePublic');
   await act(async () => await user.click(updateButton));
 
-  const modal = await screen.findByRole('dialog');
+  const modal = await screen.findByRole('dialog', {
+    name: 'Varmista tapahtuman tallentaminen',
+  });
   const withinModal = within(modal);
   // Update event button inside modal
   const updateEventButton = await withinModal.getByRole('button', {
@@ -345,10 +361,9 @@ test('should update recurring event', async () => {
   await act(async () => await user.click(updateEventButton));
 
   // This test is pretty heavy so give DOM some time to update
-  await waitFor(
-    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
-    { timeout: 30000 }
-  );
+  await waitFor(() => expect(modal).not.toBeInTheDocument(), {
+    timeout: 30000,
+  });
   await loadingSpinnerIsNotInDocument(30000);
   await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
     timeout: 30000,

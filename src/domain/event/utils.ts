@@ -3,7 +3,6 @@ import addDays from 'date-fns/addDays';
 import addWeeks from 'date-fns/addWeeks';
 import endOfDay from 'date-fns/endOfDay';
 import isBefore from 'date-fns/isBefore';
-import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
 import isWithinInterval from 'date-fns/isWithinInterval';
 import maxDate from 'date-fns/max';
@@ -22,14 +21,13 @@ import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
-import { getTimeObject } from '../../common/components/timepicker/utils';
 import {
-  CHARACTER_LIMITS,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
+  TIME_FORMAT_DATA,
   VALIDATION_ERROR_SCROLLER_OPTIONS,
   WEEK_DAY,
 } from '../../constants';
@@ -57,37 +55,24 @@ import {
   MultiLanguageObject,
   PathBuilderProps,
 } from '../../types';
+import formatDate from '../../utils/formatDate';
+import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getTimeObject from '../../utils/getTimeObject';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
-import {
-  createArrayMinErrorMessage,
-  createMultiLanguageValidation,
-  createNumberMaxErrorMessage,
-  createNumberMinErrorMessage,
-  createStringMaxErrorMessage,
-  isAfterStartDate,
-  isAfterStartTime,
-  isMinStartDate,
-  isValidTime,
-  transformNumber,
-} from '../../utils/validationUtils';
 import wait from '../../utils/wait';
-import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { imageDetailsSchema } from '../image/validation';
 import {
   isAdminUserInOrganization,
   isReqularUserInOrganization,
 } from '../organization/utils';
 import {
-  ADD_EVENT_TIME_FORM_NAME,
   AUTHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
-  EDIT_EVENT_TIME_FORM_NAME,
   EVENT_CREATE_ACTIONS,
   EVENT_CREATE_ICONS,
   EVENT_CREATE_LABEL_KEYS,
@@ -99,13 +84,10 @@ import {
   EVENT_INCLUDES,
   EVENT_INITIAL_VALUES,
   EVENT_SELECT_FIELDS,
-  EVENT_TIME_FIELDS,
   EVENT_TYPE,
-  EXTERNAL_LINK_FIELDS,
   NOT_ALLOWED_WHEN_CANCELLED,
   NOT_ALLOWED_WHEN_DELETED,
   NOT_ALLOWED_WHEN_IN_PAST,
-  RECURRING_EVENT_FIELDS,
   SUB_EVENTS_VARIABLES,
   TEXT_EDITOR_ALLOWED_TAGS,
   TEXT_EDITOR_FIELDS,
@@ -116,339 +98,10 @@ import {
   EventFields,
   EventFormFields,
   EventTime,
-  ImageDetails,
   Offer,
   RecurringEventSettings,
   VideoDetails,
 } from './types';
-
-const createMultiLanguageValidationByInfoLanguages = (
-  rule: Yup.StringSchema<string | null | undefined>
-) => {
-  return Yup.object().when(
-    [EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-    (languages: string[]) => createMultiLanguageValidation(languages, rule)
-  );
-};
-
-export const eventTimeSchema = Yup.object().shape({
-  [EVENT_TIME_FIELDS.START_TIME]: Yup.date()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
-  [EVENT_TIME_FIELDS.END_TIME]: Yup.date()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (endTime) => !endTime || isFuture(endTime)
-    )
-    // test that end time is after start time
-    .when([EVENT_TIME_FIELDS.START_TIME], isMinStartDate),
-});
-
-export const addEventTimeSchema = Yup.object().shape({
-  [ADD_EVENT_TIME_FORM_NAME]: eventTimeSchema,
-});
-
-export const editEventTimeSchema = Yup.object().shape({
-  [EDIT_EVENT_TIME_FORM_NAME]: eventTimeSchema,
-});
-
-const validateEventTimes = (
-  recurringEvents: RecurringEventSettings[] | null,
-  events: EventTime[] | null,
-  schema: Yup.SchemaOf<EventTime[]>
-) =>
-  schema.test(
-    'hasAtLeaseOneEventTime',
-    VALIDATION_MESSAGE_KEYS.EVENT_TIMES_REQUIRED,
-    (eventTimes) => {
-      const allEventTimes = [...(eventTimes ?? []), ...(events ?? [])];
-      recurringEvents?.forEach((recurringEvent) => {
-        allEventTimes.push(...recurringEvent.eventTimes);
-      });
-      return Boolean(
-        allEventTimes.filter(({ endTime, startTime }) => endTime && startTime)
-          .length
-      );
-    }
-  );
-
-const eventTimesSchema = Yup.array().when(
-  [EVENT_FIELDS.RECURRING_EVENTS, EVENT_FIELDS.EVENTS],
-  validateEventTimes as () => Yup.SchemaOf<EventTime[]>
-);
-
-const validateOffers = (
-  hasPrice: boolean,
-  eventInfoLanguage: string[],
-  schema: Yup.SchemaOf<Offer[]>
-) =>
-  hasPrice
-    ? Yup.array()
-        .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
-        .of(
-          Yup.object().shape({
-            [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
-              eventInfoLanguage,
-              Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-            ),
-            [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
-              eventInfoLanguage,
-              Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-            ),
-          })
-        )
-    : schema;
-
-const externalLinksSchema = Yup.array().of(
-  Yup.object().shape({
-    [EXTERNAL_LINK_FIELDS.LINK]: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .url(VALIDATION_MESSAGE_KEYS.URL),
-    [EXTERNAL_LINK_FIELDS.NAME]: Yup.string().required(
-      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-    ),
-  })
-);
-
-const validateImageDetails = (
-  images: string[],
-  isImageEditable: boolean,
-  schema: Yup.SchemaOf<ImageDetails>
-) => (isImageEditable && images && images.length ? imageDetailsSchema : schema);
-
-const validateVideoFields = (
-  field1: string,
-  field2: string,
-  schema: Yup.StringSchema
-) =>
-  field1 || field2
-    ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    : schema;
-
-const videoSchema = Yup.object().shape(
-  {
-    [VIDEO_DETAILS_FIELDS.ALT_TEXT]: Yup.string().when(
-      [VIDEO_DETAILS_FIELDS.NAME, VIDEO_DETAILS_FIELDS.URL],
-      validateVideoFields as () => Yup.StringSchema
-    ),
-    [VIDEO_DETAILS_FIELDS.NAME]: Yup.string().when(
-      [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.URL],
-      validateVideoFields as () => Yup.StringSchema
-    ),
-    [VIDEO_DETAILS_FIELDS.URL]: Yup.string()
-      .url(VALIDATION_MESSAGE_KEYS.URL)
-      .when(
-        [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.NAME],
-        validateVideoFields as () => Yup.StringSchema
-      ),
-  },
-  [
-    [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.NAME],
-    [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.URL],
-    [VIDEO_DETAILS_FIELDS.NAME, VIDEO_DETAILS_FIELDS.URL],
-  ]
-);
-
-const validateMainCategories = (
-  keywords: string[],
-  schema: Yup.SchemaOf<string[]>
-) =>
-  schema.test(
-    'atLeastOneMainCategoryIsSelected',
-    VALIDATION_MESSAGE_KEYS.MAIN_CATEGORY_REQUIRED,
-    (mainCategories) =>
-      mainCategories?.some(
-        (category) => category && keywords.includes(category)
-      ) ?? false
-  );
-
-const enrolmentSchemaFields = {
-  [EVENT_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, createNumberMinErrorMessage)
-    .nullable()
-    .transform(transformNumber),
-  [EVENT_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .when(
-      [EVENT_FIELDS.AUDIENCE_MIN_AGE],
-      (audienceMinAge: number, schema: Yup.NumberSchema) =>
-        schema.min(audienceMinAge || 0, createNumberMinErrorMessage)
-    )
-    .nullable()
-    .transform(transformNumber),
-  [EVENT_FIELDS.ENROLMENT_START_TIME]: Yup.date()
-    .nullable()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
-  [EVENT_FIELDS.ENROLMENT_END_TIME]: Yup.date()
-    .nullable()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    // test that startsTime is before endsTime
-    .when([EVENT_FIELDS.ENROLMENT_START_TIME], isMinStartDate),
-  [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, createNumberMinErrorMessage)
-    .nullable()
-    .transform(transformNumber),
-  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
-    [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-    (minimumAttendeeCapacity: number) => {
-      return Yup.number()
-        .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-        .min(minimumAttendeeCapacity || 0, createNumberMinErrorMessage)
-        .nullable()
-        .transform(transformNumber);
-    }
-  ),
-};
-
-export const publicEventSchema = Yup.object().shape({
-  [EVENT_FIELDS.TYPE]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-  [EVENT_FIELDS.SUPER_EVENT]: Yup.string()
-    .nullable()
-    .when([EVENT_FIELDS.HAS_UMBRELLA], {
-      is: (value: string) => value,
-      then: (schema) =>
-        schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    }),
-  [EVENT_FIELDS.PUBLISHER]: Yup.string()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-  ),
-  [EVENT_FIELDS.SHORT_DESCRIPTION]:
-    createMultiLanguageValidationByInfoLanguages(
-      Yup.string()
-        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-        .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
-    ),
-  [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .max(CHARACTER_LIMITS.LONG_STRING, createStringMaxErrorMessage)
-  ),
-  [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
-  [EVENT_FIELDS.LOCATION]: Yup.string()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  [EVENT_FIELDS.LOCATION_EXTRA_INFO]:
-    createMultiLanguageValidationByInfoLanguages(
-      Yup.string().max(
-        CHARACTER_LIMITS.SHORT_STRING,
-        createStringMaxErrorMessage
-      )
-    ),
-  [EVENT_FIELDS.OFFERS]: Yup.array().when(
-    [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-    validateOffers as () => Yup.SchemaOf<Offer[]>
-  ),
-  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-  ),
-  [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
-  [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
-    [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
-    validateImageDetails as () => Yup.SchemaOf<ImageDetails>
-  ),
-  [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoSchema),
-  [EVENT_FIELDS.MAIN_CATEGORIES]: Yup.array().when(
-    [EVENT_FIELDS.KEYWORDS],
-    validateMainCategories
-  ),
-  [EVENT_FIELDS.KEYWORDS]: Yup.array()
-    .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-    .min(1, VALIDATION_MESSAGE_KEYS.KEYWORD_REQUIRED),
-  // Validate enrolment related fields
-  ...enrolmentSchemaFields,
-  [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
-    [true],
-    VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
-  ),
-});
-
-export const draftEventSchema = Yup.object().shape({
-  [EVENT_FIELDS.PUBLISHER]: Yup.string()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-  ),
-  [EVENT_FIELDS.SHORT_DESCRIPTION]:
-    createMultiLanguageValidationByInfoLanguages(
-      Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
-    ),
-  [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().max(CHARACTER_LIMITS.LONG_STRING)
-  ),
-  [EVENT_FIELDS.LOCATION_EXTRA_INFO]:
-    createMultiLanguageValidationByInfoLanguages(
-      Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
-    ),
-  [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
-  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-  ),
-  [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
-  [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
-    [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
-    validateImageDetails as () => Yup.SchemaOf<ImageDetails>
-  ),
-  [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoSchema),
-  // Validate enrolment related fields
-  ...enrolmentSchemaFields,
-  [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
-    [true],
-    VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
-  ),
-});
-
-export const recurringEventSchema = Yup.object().shape({
-  [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
-    .nullable()
-    .min(1, createNumberMinErrorMessage)
-    .max(4, createNumberMaxErrorMessage)
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
-    .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-    .min(1, createArrayMinErrorMessage),
-  [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (startTime) => !startTime || isFuture(startTime)
-    ),
-  [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    // test that startsTime is before endsTime
-    .when([RECURRING_EVENT_FIELDS.START_DATE], isAfterStartDate),
-  [RECURRING_EVENT_FIELDS.START_TIME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-    .test(
-      'isValidTime',
-      VALIDATION_MESSAGE_KEYS.TIME,
-      (value) => !!value && isValidTime(value)
-    ),
-  [RECURRING_EVENT_FIELDS.END_TIME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-    .test(
-      'isValidTime',
-      VALIDATION_MESSAGE_KEYS.TIME,
-      (value) => !!value && isValidTime(value)
-    )
-    // test that endsAt is after startsAt time
-    .when([RECURRING_EVENT_FIELDS.START_TIME], isAfterStartTime),
-});
 
 export const eventPathBuilder = ({
   args,
@@ -808,8 +461,10 @@ export const getEventBasePayload = (
     audience,
     audienceMaxAge,
     audienceMinAge,
-    enrolmentEndTime,
-    enrolmentStartTime,
+    enrolmentEndTimeDate,
+    enrolmentEndTimeTime,
+    enrolmentStartTimeDate,
+    enrolmentStartTimeTime,
     eventInfoLanguages,
     externalLinks,
     hasPrice,
@@ -842,12 +497,17 @@ export const getEventBasePayload = (
       formatDescription(formValues),
       eventInfoLanguages
     ),
-    enrolmentEndTime: enrolmentEndTime
-      ? new Date(enrolmentEndTime).toISOString()
-      : null,
-    enrolmentStartTime: enrolmentStartTime
-      ? new Date(enrolmentStartTime).toISOString()
-      : null,
+    enrolmentEndTime:
+      enrolmentEndTimeDate && enrolmentEndTimeTime
+        ? formatDateAndTimeForApi(enrolmentEndTimeDate, enrolmentEndTimeTime)
+        : null,
+    enrolmentStartTime:
+      enrolmentStartTimeDate && enrolmentStartTimeTime
+        ? formatDateAndTimeForApi(
+            enrolmentStartTimeDate,
+            enrolmentStartTimeTime
+          )
+        : null,
     externalLinks: externalLinks.map((item) => ({
       ...item,
       language: LE_DATA_LANGUAGES.FI,
@@ -1041,12 +701,18 @@ export const getEventInitialValues = (
     audienceMinAge: event.audienceMinAge ?? '',
     description: getSanitizedDescription(event),
     events,
-    enrolmentStartTime: event.enrolmentStartTime
-      ? new Date(event.enrolmentStartTime)
-      : null,
-    enrolmentEndTime: event.enrolmentEndTime
+    enrolmentEndTimeDate: event.enrolmentEndTime
       ? new Date(event.enrolmentEndTime)
       : null,
+    enrolmentEndTimeTime: event.enrolmentEndTime
+      ? formatDate(new Date(event.enrolmentEndTime), TIME_FORMAT_DATA)
+      : '',
+    enrolmentStartTimeDate: event.enrolmentStartTime
+      ? new Date(event.enrolmentStartTime)
+      : null,
+    enrolmentStartTimeTime: event.enrolmentStartTime
+      ? formatDate(new Date(event.enrolmentStartTime), TIME_FORMAT_DATA)
+      : '',
     eventInfoLanguages: getEventInfoLanguages(event),
     externalLinks: sortBy(event.externalLinks, ['name']).map(
       (externalLink) => ({

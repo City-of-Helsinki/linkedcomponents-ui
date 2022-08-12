@@ -28,7 +28,7 @@ import { mockedOrganizationAncestorsResponse } from '../../../../organization/__
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS } from '../../../constants';
 import { ImageDetails } from '../../../types';
-import { publicEventSchema } from '../../../utils';
+import { publicEventSchema } from '../../../validation';
 import {
   eventType,
   file,
@@ -148,7 +148,7 @@ test('should select existing image', async () => {
   getElement('modalHeading');
 
   const imageCheckbox = await screen.findByRole('checkbox', {
-    name: images.data[0].name,
+    name: images.data[0]?.name as string,
   });
   await act(async () => await user.click(imageCheckbox));
 

@@ -56,13 +56,21 @@ const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = screen
     .getAllByRole('button', { name: /valinnat/i })
-    .pop();
+    .pop() as HTMLElement;
 
   await act(async () => await user.click(toggleButton));
   screen.getByRole('region', { name: /valinnat/i });
 
   return toggleButton;
 };
+
+const getConfirmDeleteModal = () =>
+  screen.getByRole('dialog', { name: 'Varmista ilmoittautumisen poistaminen' });
+
+const queryConfirmDeleteModal = () =>
+  screen.queryByRole('dialog', {
+    name: 'Varmista ilmoittautumisen poistaminen',
+  });
 
 const getButton = (key: 'delete' | 'update') => {
   switch (key) {
@@ -95,14 +103,14 @@ test('should move to registrations page to deleting registration', async () => {
   const deleteButton = getButton('delete');
   await act(async () => await user.click(deleteButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const withinModal = within(getConfirmDeleteModal());
   const deleteRegistrationButton = withinModal.getByRole('button', {
     name: 'Poista ilmoittautuminen',
   });
   await act(async () => await user.click(deleteRegistrationButton));
 
   await waitFor(
-    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
+    () => expect(queryConfirmDeleteModal()).not.toBeInTheDocument(),
     { timeout: 10000 }
   );
   expect(history.location.pathname).toBe('/fi/registrations');
@@ -123,7 +131,7 @@ test('should update registration', async () => {
   await act(async () => await user.click(updateButton));
 
   await loadingSpinnerIsNotInDocument(30000);
-  await screen.findByText('23.08.2021 12.00');
+  await screen.findByText('23.8.2021 12.00');
 });
 
 test('should scroll to first error when validation error is thrown', async () => {

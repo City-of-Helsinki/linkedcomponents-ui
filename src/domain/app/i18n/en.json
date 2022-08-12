@@ -78,21 +78,10 @@
       "text3": "We use cookies to improve your experience using the service.",
       "title": "Linked Events terms and cookies"
     },
-    "datepicker": {
-      "accessibility": {
-        "buttonNextMonth": "Next month",
-        "buttonOpen": "Choose date",
-        "buttonPreviousMonth": "Previous month",
-        "selectDate": "Select {{value}}",
-        "selectTime": "Select the time {{value}}",
-        "timeInstructions": "Select the time with arrow keys"
-      },
-      "buttonClose": "Close"
-    },
     "dateSelector": {
       "buttonToggle": "Choose dates",
-      "placeholderEndDate": "Ends dd.mm.yyyy",
-      "placeholderStartDate": "Starts dd.mm.yyyy"
+      "placeholderEndDate": "Ends d.m.yyyy",
+      "placeholderStartDate": "Starts d.m.yyyy"
     },
     "delete": "Delete",
     "dissolved": "Dissolved",
@@ -202,8 +191,8 @@
       "page": "Page {{page}}",
       "previous": "Previous page"
     },
-    "placeholderDate": "dd.mm.yyyy",
-    "placeholderDateTime": "dd.mm.yyyy hh.mm",
+    "placeholderDate": "d.m.yyyy",
+    "placeholderDateTime": "d.m.yyyy hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Save",
     "search": "Search",
@@ -242,10 +231,9 @@
         "unordered": "Unordered list"
       }
     },
-    "timepicker": {
-      "accessibility": {
-        "buttonTimeList": "Times"
-      }
+    "timeInput": {
+      "hoursLabel": "hours",
+      "minutsLabel": "minutes"
     },
     "warning": "Warning!"
   },
@@ -667,13 +655,20 @@
         "general": "Event description {{langText}}",
         "volunteering": "Volunteering description {{langText}}"
       },
-      "labelEndTime": {
+      "labelEndDate": {
         "course": "Course ends",
         "general": "Event ends",
         "volunteering": "Volunteering ends"
       },
-      "labelEnrolmentEndTime": "Registration ends",
-      "labelEnrolmentStartTime": "Registration begins",
+      "labelEndTime": {
+        "course": "Course ends at",
+        "general": "Event ends at",
+        "volunteering": "Volunteering ends at"
+      },
+      "labelEnrolmentEndTimeDate": "Registration ends",
+      "labelEnrolmentEndTimeTime": "Registration ends at",
+      "labelEnrolmentStartTimeDate": "Registration begins",
+      "labelEnrolmentStartTimeTime": "Registration begins at",
       "labelExternalLinkLink": {
         "course": "The course's {{name}} URL",
         "general": "The event's {{name}} URL",
@@ -752,10 +747,15 @@
         "general": "Short description {{langText}} (up to 160 characters)",
         "volunteering": "Short description {{langText}} (up to 160 characters)"
       },
-      "labelStartTime": {
+      "labelStartDate": {
         "course": "Course starts",
         "general": "Event starts",
         "volunteering": "Volunteering starts"
+      },
+      "labelStartTime": {
+        "course": "Course starts at",
+        "general": "Event starts at",
+        "volunteering": "Volunteering starts at"
       },
       "labelTime": "Time",
       "labelUmbrellaEvent": "Umbrella event",
@@ -1654,8 +1654,10 @@
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
       "labelConfirmationMessage": "Confirmation message to send (optional)",
-      "labelEnrolmentEndTime": "Registration ends",
-      "labelEnrolmentStartTime": "Registration begins",
+      "labelEnrolmentEndTimeDate": "Registration ends",
+      "labelEnrolmentEndTimeTime": "Registration ends at",
+      "labelEnrolmentStartTimeDate": "Registration begins",
+      "labelEnrolmentStartTimeTime": "Registration begins at",
       "labelEvent": "Event",
       "labelInstructions": "Registration instructions (optional)",
       "labelMaximumAttendeeCapacity": "Maximum number of seats",

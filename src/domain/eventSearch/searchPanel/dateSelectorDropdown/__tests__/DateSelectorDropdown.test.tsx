@@ -29,9 +29,9 @@ const getElement = (
     case 'clearButton':
       return screen.getByRole('button', { name: 'Tyhjennä' });
     case 'endDateInput':
-      return screen.getByPlaceholderText('Loppuu pp.kk.vvvv');
+      return screen.getByPlaceholderText('Loppuu p.k.vvvv');
     case 'startDateInput':
-      return screen.getByPlaceholderText('Alkaa pp.kk.vvvv');
+      return screen.getByPlaceholderText('Alkaa p.k.vvvv');
     case 'toggleButton':
       return screen.getByRole('button', { name: 'Valitse päivämäärät' });
   }
@@ -46,7 +46,7 @@ test('should open menu by clicking toggle button', async () => {
   const toggleButton = getElement('toggleButton');
   await act(async () => await user.click(toggleButton));
 
-  screen.getByText('08.10.2021 - 15.10.2021');
+  screen.getByText('8.10.2021 - 15.10.2021');
   getElement('endDateInput');
   getElement('startDateInput');
   getElement('clearButton');

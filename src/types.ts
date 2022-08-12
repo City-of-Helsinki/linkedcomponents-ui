@@ -16,6 +16,8 @@ export type OptionType = {
   value: string;
 };
 
+export type TimeObject = { hours: number; minutes: number };
+
 export type Error<T> = {
   key: string;
 } & T;

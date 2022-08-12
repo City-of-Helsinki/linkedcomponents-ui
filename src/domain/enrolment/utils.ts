@@ -4,7 +4,11 @@ import isPast from 'date-fns/isPast';
 import { TFunction } from 'i18next';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
-import { FORM_NAMES, RESERVATION_NAMES } from '../../constants';
+import {
+  DATE_FORMAT_API,
+  FORM_NAMES,
+  RESERVATION_NAMES,
+} from '../../constants';
 import {
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
@@ -133,7 +137,7 @@ export const getEnrolmentPayload = (
 
   return {
     city: city || null,
-    dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, 'yyyy-MM-dd') : null,
+    dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
     email: email || null,
     extraInfo: extraInfo,
     membershipNumber: membershipNumber,

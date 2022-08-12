@@ -83,7 +83,8 @@ export const attendeeSchema = Yup.object().shape({
   ),
   [ATTENDEE_FIELDS.DATE_OF_BIRTH]: Yup.date()
     .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
     .when([ATTENDEE_FIELDS.AUDIENCE_MIN_AGE], isAboveMinAge)
     .when([ATTENDEE_FIELDS.AUDIENCE_MAX_AGE], isBelowMaxAge),
   [ATTENDEE_FIELDS.ZIP]: Yup.string()

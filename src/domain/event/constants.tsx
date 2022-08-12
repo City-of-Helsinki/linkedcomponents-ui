@@ -41,8 +41,10 @@ export enum VIDEO_DETAILS_FIELDS {
 }
 
 export enum EVENT_TIME_FIELDS {
+  END_DATE = 'endDate',
   END_TIME = 'endTime',
   ID = 'id',
+  START_DATE = 'startDate',
   START_TIME = 'startTime',
 }
 
@@ -56,8 +58,10 @@ export enum EVENT_FIELDS {
   AUDIENCE_MAX_AGE = 'audienceMaxAge',
   AUDIENCE_MIN_AGE = 'audienceMinAge',
   DESCRIPTION = 'description',
-  ENROLMENT_END_TIME = 'enrolmentEndTime',
-  ENROLMENT_START_TIME = 'enrolmentStartTime',
+  ENROLMENT_END_TIME_DATE = 'enrolmentEndTimeDate',
+  ENROLMENT_END_TIME_TIME = 'enrolmentEndTimeTime',
+  ENROLMENT_START_TIME_DATE = 'enrolmentStartTimeDate',
+  ENROLMENT_START_TIME_TIME = 'enrolmentStartTimeTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
   EVENT_TIMES = 'eventTimes',
   EVENTS = 'events',
@@ -110,8 +114,10 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: '',
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: '',
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-  [EVENT_FIELDS.ENROLMENT_END_TIME]: null,
-  [EVENT_FIELDS.ENROLMENT_START_TIME]: null,
+  [EVENT_FIELDS.ENROLMENT_END_TIME_DATE]: null,
+  [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: '',
+  [EVENT_FIELDS.ENROLMENT_START_TIME_DATE]: null,
+  [EVENT_FIELDS.ENROLMENT_START_TIME_TIME]: '',
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
   [EVENT_FIELDS.EVENT_TIMES]: [],
   [EVENT_FIELDS.EVENTS]: [],
