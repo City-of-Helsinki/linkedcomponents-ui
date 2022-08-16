@@ -67,6 +67,7 @@
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-i18next": "^11.18.3",
+    "react-image-crop": "^10.0.6",
     "react-leaflet": "^4.0.1",
     "react-modal": "^3.15.1",
     "react-redux": "^8.0.2",
@@ -122,6 +123,8 @@
       "query.ts",
       ".*.d.ts",
       "src/index.tsx",
+      "src/common/components/imageUploader/utils.ts",
+      "src/common/components/imageUploader/imageCropper/ImageCropper.tsx",
       "src/common/components/sideNavigation/SideNavigationContext.tsx",
       "src/common/components/textEditor/config/commands.ts",
       "src/common/components/textEditor/config/rules.ts",
@@ -148,7 +151,7 @@
     ],
     "resetMocks": false,
     "transformIgnorePatterns": [
-      "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|react-toastify|swagger-ui-react|swagger-client|react-syntax-highlighter|@aeaton/prosemirror-transformers|@aeaton/react-prosemirror|@aeaton/prosemirror-commands|@aeaton/prosemirror-schema|prosemirror-transform|prosemirror-view)"
+      "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|react-toastify|swagger-ui-react|swagger-client|react-syntax-highlighter|@aeaton/prosemirror-transformers|@aeaton/react-prosemirror|@aeaton/prosemirror-commands|@aeaton/prosemirror-schema|prosemirror-transform|prosemirror-view|react-image-crop)"
     ]
   },
   "browserslist": [

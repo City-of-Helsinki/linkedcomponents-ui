@@ -1,0 +1,39 @@
+.imageDropzone {
+  --image-dropzone-background-color: var(--color-white);
+  --image-dropzone-background-color-disabled: var(--color-white);
+  --image-dropzone-border-color: var(--color-coat-of-arms);
+  --image-dropzone-border-color-disabled: var(--color-black-40);
+  --image-dropzone-color: var(--color-coat-of-arms);
+  --image-dropzone-color-disabled: var(--color-black-40);
+  --image-dropzone-color-hover: var(--color-coat-of-arms);
+  --image-dropzone-min-height: 104px;
+}
+  
+.dropZone {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--image-dropzone-min-height);
+  background: var(--image-dropzone-background-color);
+  border: 2px dashed var(--image-dropzone-border-color);
+  border-radius: 4px;
+  color: var(--image-dropzone-color);
+
+  svg {
+    margin-right: var(--spacing-xs);
+  }
+
+  &.hover {
+    border-style: solid;
+    color: var(--image-dropzone-color-hover);
+  }
+
+  &:disabled {
+    cursor: no-drop;
+    background-color: var(--image-dropzone-background-color-disabled);
+    border-color: var(--image-dropzone-border-color-disabled);
+    color: var(--image-dropzone-color-disabled);
+  }
+}

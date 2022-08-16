@@ -106,8 +106,29 @@
     "goToHome": "To front page",
     "home": "Front page",
     "imageUploader": {
+      "areaLabel": {
+          "cropArea": "Use the arrow keys to move the crop selection area",
+          "nwDragHandle":
+            "Use the arrow keys to move the north west drag handle to change the crop selection area",
+          "nDragHandle":
+            "Use the up and down arrow keys to move the north drag handle to change the crop selection area",
+          "neDragHandle":
+            "Use the arrow keys to move the north east drag handle to change the crop selection area",
+          "eDragHandle":
+            "Use the up and down arrow keys to move the east drag handle to change the crop selection area",
+          "seDragHandle":
+            "Use the arrow keys to move the south east drag handle to change the crop selection area",
+          "sDragHandle":
+            "Use the up and down arrow keys to move the south drag handle to change the crop selection area",
+          "swDragHandle":
+            "Use the arrow keys to move the south west drag handle to change the crop selection area",
+          "wDragHandle":
+            "Use the up and down arrow keys to move the west drag handle to change the crop selection area"
+      },
       "buttonDropImage": "Drag and drop and image to this area or browse from your hard drive by clicking",
+      "buttonRemoveImage": "Remove image",
       "notAllowedFileFormat": "File format is not supported",
+      "titleCropImage": "Crop image",
       "tooLargeFileSize": "File size is too large. The maximum file size is {{maxSize}} MB"
     },
     "leaflet": {

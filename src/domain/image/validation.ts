@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Yup from 'yup';
 
 import {
@@ -47,20 +48,38 @@ export const imageSchema = Yup.object().shape({
   ...imageDetailsSchema.fields,
 });
 
+const validateSelectedImage = (
+  file: File | null,
+  url: string,
+  schema: Yup.SchemaOf<string[]>
+) => (!!file || url ? schema.min(0) : schema.min(1));
+const validateFile = (ids: string[], url: string, schema: Yup.StringSchema) =>
+  ids.length || url
+    ? schema
+    : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
+const validateUrl = (ids: string[], imageFile: any, schema: Yup.StringSchema) =>
+  imageFile || ids.length ? schema : schema.url(VALIDATION_MESSAGE_KEYS.URL);
+
 export const addImageSchema = Yup.object().shape(
   {
     [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: Yup.array().when(
-      [ADD_IMAGE_FIELDS.URL],
-      (url: string, schema: Yup.SchemaOf<string[]>) =>
-        url ? schema.min(0) : schema.min(1)
+      [ADD_IMAGE_FIELDS.IMAGE_FILE, ADD_IMAGE_FIELDS.URL],
+      validateSelectedImage as any
+    ),
+    [ADD_IMAGE_FIELDS.IMAGE_FILE]: Yup.mixed().when(
+      [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL],
+      validateFile as any
     ),
     [ADD_IMAGE_FIELDS.URL]: Yup.string().when(
-      [ADD_IMAGE_FIELDS.SELECTED_IMAGE],
-      (ids: string[], schema: Yup.StringSchema) =>
-        ids.length ? schema : schema.url(VALIDATION_MESSAGE_KEYS.URL)
+      [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.IMAGE_FILE],
+      validateUrl as any
     ),
   },
-  [[ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL]]
+  [
+    [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.IMAGE_FILE],
+    [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL],
+    [ADD_IMAGE_FIELDS.IMAGE_FILE, ADD_IMAGE_FIELDS.URL],
+  ]
 );
 
 export const getFocusableFieldId = (fieldName: string): string => {

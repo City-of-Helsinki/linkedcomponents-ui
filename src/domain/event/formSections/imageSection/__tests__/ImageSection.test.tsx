@@ -192,6 +192,12 @@ test('should create and select new image by selecting image file', async () => {
     await fireEvent.change(fileInput);
   });
 
+  const submitButton = screen.getByRole('button', {
+    name: translations.common.add,
+  });
+  await waitFor(() => expect(submitButton).toBeEnabled());
+  await act(async () => await user.click(submitButton));
+
   await screen.findByTestId(imagePreviewTestIds.image);
 });
 

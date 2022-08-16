@@ -1,3 +1,5 @@
+import { PixelCrop } from 'react-image-crop';
+
 import { MultiLanguageObject } from '../../types';
 import { ADD_IMAGE_FIELDS, IMAGE_FIELDS } from './constants';
 
@@ -12,6 +14,8 @@ export type ImageFormFields = {
 };
 
 export type AddImageSettings = {
+  [ADD_IMAGE_FIELDS.IMAGE_CROP]: PixelCrop | null;
+  [ADD_IMAGE_FIELDS.IMAGE_FILE]: File | null;
   [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: string[];
   [ADD_IMAGE_FIELDS.URL]: string;
 };

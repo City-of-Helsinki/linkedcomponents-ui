@@ -108,7 +108,7 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
         >
           <AddImageForm
             onCancel={closeModal}
-            onFileChange={(image) =>
+            onAddImageByFile={(image) =>
               uploadImage({ publisher, image }, setImageFields)
             }
             onSubmit={handleAddImageFormSubmit}
