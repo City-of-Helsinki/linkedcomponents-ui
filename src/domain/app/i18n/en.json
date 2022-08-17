@@ -125,6 +125,7 @@
           "wDragHandle":
             "Use the up and down arrow keys to move the west drag handle to change the crop selection area"
       },
+      "belowMinDimensions": "The minimum allowed image size is 300 x 200 pixels",
       "buttonDropImage": "Drag and drop and image to this area or browse from your hard drive by clicking",
       "buttonRemoveImage": "Remove image",
       "notAllowedFileFormat": "File format is not supported",

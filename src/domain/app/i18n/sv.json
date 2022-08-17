@@ -126,6 +126,7 @@
         "wDragHandle":
           "Använd piltangenterna för att flytta det västliga draghandtaget för att ändra området för val av beskärning"
     },
+      "belowMinDimensions": "Minsta tillåtna bildstorlek är 300 x 200 pixlar",
       "buttonDropImage": "Dra bilden hit eller klicka för att lägga till den från hårddisken",
       "buttonRemoveImage": "Ta bort bild",
       "notAllowedFileFormat": "Filformatet stöds inte",

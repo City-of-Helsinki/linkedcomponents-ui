@@ -141,13 +141,16 @@ test('should show error message if trying to enter too large image file', async 
 
   renderComponent({});
 
+  const addButton = getElement('addButton');
+  await waitFor(() => expect(addButton).toBeDisabled());
+
   const fileInput = screen.getByTestId(testIds.input);
   const file = mockFile({ size: 3000000 });
 
   Object.defineProperty(fileInput, 'files', { value: [file] });
   fireEvent.change(fileInput);
 
-  const addButton = getElement('addButton');
+  await waitFor(() => expect(addButton).toBeEnabled());
   await act(async () => await user.click(addButton));
 
   await waitFor(() => {

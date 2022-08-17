@@ -126,6 +126,7 @@
         "wDragHandle":
           "Käytä nuolinäppäimiä siirtääksesi läntistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta"
       },
+      "belowMinDimensions": "Kuvan pienin sallittu koko on 300 x 200 pikseliä",
       "buttonDropImage": "Raahaa ja pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
       "buttonRemoveImage": "Poista kuva",
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",

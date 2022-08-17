@@ -9,6 +9,7 @@ import { TEST_PIXEL_CROP } from './contants';
 import ImageCropper from './imageCropper/ImageCropper';
 import ImageDropzone from './imageDropzone/ImageDropzone';
 import styles from './imageUploader.module.scss';
+import { getFileDataUrl } from './utils';
 
 export const testIds = {
   input: 'image-dropzone-file-input',
@@ -33,11 +34,9 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   const [file, setFile] = useState<File>();
   const [imgSrc, setImgSrc] = useState<string>();
 
-  const handleChangeFile = (file: File) => {
+  const handleChangeFile = async (file: File) => {
     setFile(file);
-    const reader = new FileReader();
-    reader.addEventListener('load', () => setImgSrc(reader.result?.toString()));
-    reader.readAsDataURL(file);
+    setImgSrc(await getFileDataUrl(file));
 
     // istanbul ignore else
     if (isTestEnv) {
@@ -83,4 +82,5 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     </>
   );
 };
+
 export default ImageUploader;

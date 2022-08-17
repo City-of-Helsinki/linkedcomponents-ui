@@ -152,6 +152,8 @@ export const defaultStoreState: StoreState = {
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/gif', 'image/png'];
 export const COMPRESSABLE_IMAGE_TYPES = ['image/jpeg', 'image/png'];
 export const MAX_IMAGE_SIZE_MB = 2;
+export const MIN_IMAGE_HEIGHT = 200;
+export const MIN_IMAGE_WIDTH = 300;
 export const MAX_IMAGE_WIDTH = 1200;
 
 export const DEFAULT_PAGE_SIZE = 20;

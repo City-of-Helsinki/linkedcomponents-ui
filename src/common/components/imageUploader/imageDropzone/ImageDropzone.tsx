@@ -4,8 +4,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { ACCEPTED_IMAGE_TYPES } from '../../../../constants';
+import {
+  ACCEPTED_IMAGE_TYPES,
+  MIN_IMAGE_HEIGHT,
+  MIN_IMAGE_WIDTH,
+} from '../../../../constants';
+import isTestEnv from '../../../../utils/isTestEnv';
 import { testIds } from '../ImageUploader';
+import { getImageDimensions } from '../utils';
 import styles from './imageDropzone.module.scss';
 
 export interface ImageDropzoneProps {
@@ -27,6 +33,12 @@ const ImageUploader: React.FC<ImageDropzoneProps> = ({
     if (!validateImageFileType(file)) {
       toast.error(t('common.imageUploader.notAllowedFileFormat'));
       return;
+    } /* istanbul ignore next */ else if (
+      !isTestEnv &&
+      !(await validateImageMinDimensions(file))
+    ) {
+      toast.error(t('common.imageUploader.belowMinDimensions'));
+      return;
     }
 
     onChange(file);
@@ -34,6 +46,12 @@ const ImageUploader: React.FC<ImageDropzoneProps> = ({
 
   const validateImageFileType = (file: File): boolean =>
     ACCEPTED_IMAGE_TYPES.includes(file.type);
+
+  /* istanbul ignore next */
+  const validateImageMinDimensions = async (file: File): Promise<boolean> => {
+    const { height, width } = await getImageDimensions(file);
+    return height >= MIN_IMAGE_HEIGHT && width >= MIN_IMAGE_WIDTH;
+  };
 
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault();

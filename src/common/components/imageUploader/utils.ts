@@ -120,3 +120,27 @@ export const getCompressedImageFile = async (file: File) => {
     return file;
   }
 };
+
+export const getFileDataUrl = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () =>
+      resolve(reader.result?.toString() || '')
+    );
+
+    reader.readAsDataURL(file);
+  });
+
+export const getImageDimensions = async (
+  file: File
+): Promise<{ width: number; height: number }> =>
+  new Promise(async (resolve, reject) => {
+    const url = await getFileDataUrl(file);
+    const img = new Image();
+
+    img.onload = () => resolve({ width: img.width, height: img.height });
+    img.onerror = (error) => reject(error);
+
+    img.src = url;
+  });
