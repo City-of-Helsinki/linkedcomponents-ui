@@ -154,7 +154,9 @@ export const COMPRESSABLE_IMAGE_TYPES = ['image/jpeg', 'image/png'];
 export const MAX_IMAGE_SIZE_MB = 2;
 export const MIN_IMAGE_HEIGHT = 200;
 export const MIN_IMAGE_WIDTH = 300;
-export const MAX_IMAGE_WIDTH = 1200;
+export const MIN_UPSCALED_IMAGE_HEIGHT = 400;
+export const MIN_UPSCALED_IMAGE_WIDTH = 600;
+export const MAX_IMAGE_WIDTH = 2400;
 
 export const DEFAULT_PAGE_SIZE = 20;
 export const MAX_PAGE_SIZE = 100;

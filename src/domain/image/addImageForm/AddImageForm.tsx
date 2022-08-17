@@ -11,6 +11,7 @@ import ImageUploader from '../../../common/components/imageUploader/ImageUploade
 import {
   getCompressedImageFile,
   getCroppedImageFile,
+  getUpscaledImageFile,
 } from '../../../common/components/imageUploader/utils';
 import { MAX_IMAGE_SIZE_MB } from '../../../constants';
 import { Image } from '../../../generated/graphql';
@@ -56,10 +57,8 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
             values.imageCrop,
             values.imageFile
           );
-
-          const compressedFile = await getCompressedImageFile(
-            croppedImageFile as File
-          );
+          const upscaledImage = await getUpscaledImageFile(croppedImageFile);
+          const compressedFile = await getCompressedImageFile(upscaledImage);
 
           if (!validateFileSize(compressedFile)) {
             toast.error(

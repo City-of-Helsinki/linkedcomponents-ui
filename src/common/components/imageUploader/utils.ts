@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import imageCompression from 'browser-image-compression';
+import Compressor from 'compressorjs';
 import { PixelCrop } from 'react-image-crop';
 
 import {
   COMPRESSABLE_IMAGE_TYPES,
   MAX_IMAGE_SIZE_MB,
   MAX_IMAGE_WIDTH,
+  MIN_UPSCALED_IMAGE_HEIGHT,
+  MIN_UPSCALED_IMAGE_WIDTH,
 } from '../../../constants';
 import isTestEnv from '../../../utils/isTestEnv';
 
@@ -119,6 +122,28 @@ export const getCompressedImageFile = async (file: File) => {
   } catch (e) {
     return file;
   }
+};
+
+const needsToUpscale = async (file: File): Promise<boolean> => {
+  const { height, width } = await getImageDimensions(file);
+  return height < MIN_UPSCALED_IMAGE_HEIGHT || width < MIN_UPSCALED_IMAGE_WIDTH;
+};
+
+export const getUpscaledImageFile = async (file: File): Promise<File> => {
+  return !isTestEnv || (await needsToUpscale(file))
+    ? new Promise(async (resolve, reject) => {
+        new Compressor(file, {
+          minHeight: MIN_UPSCALED_IMAGE_HEIGHT,
+          minWidth: MIN_UPSCALED_IMAGE_WIDTH,
+          success(result) {
+            resolve(result as File);
+          },
+          error(err) {
+            resolve(file);
+          },
+        });
+      })
+    : file;
 };
 
 export const getFileDataUrl = (file: File): Promise<string> =>
