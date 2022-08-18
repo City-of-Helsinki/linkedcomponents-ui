@@ -130,7 +130,7 @@ const needsToUpscale = async (file: File): Promise<boolean> => {
 };
 
 export const getUpscaledImageFile = async (file: File): Promise<File> => {
-  return !isTestEnv || (await needsToUpscale(file))
+  return !isTestEnv && (await needsToUpscale(file))
     ? new Promise(async (resolve, reject) => {
         new Compressor(file, {
           minHeight: MIN_UPSCALED_IMAGE_HEIGHT,
@@ -147,15 +147,7 @@ export const getUpscaledImageFile = async (file: File): Promise<File> => {
 };
 
 export const getFileDataUrl = (file: File): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.addEventListener('load', () =>
-      resolve(reader.result?.toString() || '')
-    );
-
-    reader.readAsDataURL(file);
-  });
+  imageCompression.getDataUrlFromFile(file);
 
 export const getImageDimensions = async (
   file: File

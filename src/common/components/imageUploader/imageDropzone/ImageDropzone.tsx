@@ -20,7 +20,7 @@ export interface ImageDropzoneProps {
   title?: string;
 }
 
-const ImageUploader: React.FC<ImageDropzoneProps> = ({
+const ImageDropzone: React.FC<ImageDropzoneProps> = ({
   disabled,
   onChange,
   title,
@@ -33,10 +33,9 @@ const ImageUploader: React.FC<ImageDropzoneProps> = ({
     if (!validateImageFileType(file)) {
       toast.error(t('common.imageUploader.notAllowedFileFormat'));
       return;
-    } /* istanbul ignore next */ else if (
-      !isTestEnv &&
-      !(await validateImageMinDimensions(file))
-    ) {
+    }
+    /* istanbul ignore next */
+    if (!isTestEnv && !(await validateImageMinDimensions(file))) {
       toast.error(t('common.imageUploader.belowMinDimensions'));
       return;
     }
@@ -120,4 +119,4 @@ const ImageUploader: React.FC<ImageDropzoneProps> = ({
     </div>
   );
 };
-export default ImageUploader;
+export default ImageDropzone;
