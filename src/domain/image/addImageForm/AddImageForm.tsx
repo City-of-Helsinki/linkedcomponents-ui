@@ -1,11 +1,19 @@
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PixelCrop } from 'react-image-crop';
+import { toast } from 'react-toastify';
 
 import Button from '../../../common/components/button/Button';
 import ImageSelectorField from '../../../common/components/formFields/imageSelectorField/ImageSelectorField';
 import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import ImageUploader from '../../../common/components/imageUploader/ImageUploader';
+import {
+  getCompressedImageFile,
+  getCroppedImageFile,
+  getUpscaledImageFile,
+} from '../../../common/components/imageUploader/utils';
+import { MAX_IMAGE_SIZE_MB } from '../../../constants';
 import { Image } from '../../../generated/graphql';
 import { ADD_IMAGE_FIELDS, ADD_IMAGE_INITIAL_VALUES } from '../constants';
 import useIsImageUploadAllowed from '../hooks/useIsImageUploadAllowed';
@@ -14,35 +22,73 @@ import { addImageSchema } from '../validation';
 import styles from './addImageForm.module.scss';
 
 export interface AddImageFormProps {
+  onAddImageByFile: (file: File) => void;
   onCancel: () => void;
-  onFileChange: (file: File) => void;
   onSubmit: (values: AddImageSettings) => void;
   publisher: string;
   showImageSelector?: boolean;
 }
 
 const AddImageForm: React.FC<AddImageFormProps> = ({
+  onAddImageByFile,
   onCancel,
-  onFileChange,
   onSubmit,
   publisher,
   showImageSelector = true,
 }) => {
+  const [imageEl, setImageEl] = useState<HTMLImageElement | null>(null);
   const { t } = useTranslation();
   const { allowed, warning } = useIsImageUploadAllowed({ publisher });
+
+  const validateFileSize = (file: File): boolean => {
+    const decimalFactor = 1000 * 1000;
+    const fileSizeInMB = file.size / decimalFactor;
+
+    return fileSizeInMB <= MAX_IMAGE_SIZE_MB;
+  };
 
   return (
     <Formik
       initialValues={ADD_IMAGE_INITIAL_VALUES}
-      onSubmit={(values) => {
-        onSubmit(values);
+      onSubmit={async (values) => {
+        if (values.imageCrop && values.imageFile) {
+          const croppedImageFile = await getCroppedImageFile(
+            imageEl as HTMLImageElement,
+            values.imageCrop,
+            values.imageFile
+          );
+          const upscaledImage = await getUpscaledImageFile(croppedImageFile);
+          const compressedFile = await getCompressedImageFile(upscaledImage);
+
+          if (!validateFileSize(compressedFile)) {
+            toast.error(
+              t('common.imageUploader.tooLargeFileSize', {
+                maxSize: MAX_IMAGE_SIZE_MB,
+              })
+            );
+          } else {
+            onAddImageByFile(compressedFile);
+          }
+        } else {
+          onSubmit(values);
+        }
       }}
       validateOnMount={true}
       validationSchema={addImageSchema}
     >
-      {({ values: { selectedImage, url }, isValid }) => {
+      {({ values: { selectedImage, url }, isValid, setFieldValue }) => {
+        const handleImageFileChange = (
+          file: File | null,
+          crop: PixelCrop | null,
+          image: HTMLImageElement | null
+        ) => {
+          setImageEl(image);
+          setFieldValue(ADD_IMAGE_FIELDS.IMAGE_FILE, file, true);
+          setFieldValue(ADD_IMAGE_FIELDS.IMAGE_CROP, crop, false);
+        };
+
         return (
-          <Form className={styles.addImageForm}>
+          <Form className={styles.addImageForm} noValidate={true}>
             {showImageSelector && (
               <>
                 <h3>{t('image.form.titleUseImportedImage')}</h3>
@@ -53,8 +99,8 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
                   multiple={false}
                   onDoubleClick={(image: Image) => {
                     onSubmit({
+                      ...ADD_IMAGE_INITIAL_VALUES,
                       [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [image.atId as string],
-                      [ADD_IMAGE_FIELDS.URL]: '',
                     });
                   }}
                   publisher={publisher}
@@ -66,7 +112,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
             <h3>{t('image.form.titleImportFromHardDisk')}</h3>
             <ImageUploader
               disabled={!allowed}
-              onChange={onFileChange}
+              onChange={handleImageFileChange}
               title={warning}
             />
             <div className={styles.separationLine} />

@@ -60,11 +60,15 @@ export const IMAGE_INITIAL_VALUES: ImageFormFields = {
 };
 
 export enum ADD_IMAGE_FIELDS {
+  IMAGE_CROP = 'imageCrop',
+  IMAGE_FILE = 'imageFile',
   SELECTED_IMAGE = 'selectedImage',
   URL = 'url',
 }
 
 export const ADD_IMAGE_INITIAL_VALUES: AddImageSettings = {
+  [ADD_IMAGE_FIELDS.IMAGE_CROP]: null,
+  [ADD_IMAGE_FIELDS.IMAGE_FILE]: null,
   [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [],
   [ADD_IMAGE_FIELDS.URL]: '',
 };

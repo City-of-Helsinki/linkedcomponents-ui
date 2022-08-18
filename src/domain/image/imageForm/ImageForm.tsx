@@ -180,7 +180,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 )
               }
               onClose={closeModal}
-              onFileChange={(image) =>
+              onAddImageByFile={(image) =>
                 uploadImage(
                   { publisher: values.publisher, image },
                   setImageFields

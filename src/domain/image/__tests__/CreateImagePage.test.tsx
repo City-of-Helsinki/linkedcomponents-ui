@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { testIds as imagePreviewTestIds } from '../../../common/components/imagePreview/ImagePreview';
 import { testIds as imageUploaderTestIds } from '../../../common/components/imageUploader/ImageUploader';
 import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
@@ -84,6 +86,10 @@ const uploadImageByFile = async () => {
   await act(async () => {
     await fireEvent.change(fileInput);
   });
+
+  const submitButton = withinModal.getByRole('button', { name: 'Lisää' });
+  await waitFor(() => expect(submitButton).toBeEnabled());
+  await act(async () => await user.click(submitButton));
 };
 
 const uploadImageByUrl = async () => {

@@ -107,8 +107,30 @@
     "goToHome": "Etusivulle",
     "home": "Etusivu",
     "imageUploader": {
+      "areaLabel": {
+        "cropArea": "Siirrä rajausaluetta nuolinäppäimillä",
+        "nwDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi luoteista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "nDragHandle":
+          "Käytä ylä- ja alanuolinäppäimiä siirtääksesi pohjoista vetämiskahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "neDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi koillista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "eDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi itäistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "seDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi lounaista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "sDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi eteläistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "swDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi kaakkoista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "wDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi läntistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta"
+      },
+      "belowMinDimensions": "Kuvan pienin sallittu koko on 300 x 200 pikseliä",
       "buttonDropImage": "Raahaa ja pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
+      "buttonRemoveImage": "Poista kuva",
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
+      "titleCropImage": "Rajaa kuva",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
     "leaflet": {

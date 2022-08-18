@@ -19,7 +19,7 @@ const OrganizationClassName: React.FC<OrganizationClassNameProps> = ({
   return (
     <>
       {
-        /* istanbul ignore next*/
+        /* istanbul ignore next */
         organizationClassData?.organizationClass?.name || id || '-'
       }
     </>

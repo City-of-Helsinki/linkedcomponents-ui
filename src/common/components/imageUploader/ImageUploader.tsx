@@ -1,26 +1,27 @@
-import imageCompression from 'browser-image-compression';
-import classNames from 'classnames';
-import { IconDownload } from 'hds-react';
-import React from 'react';
+import { IconMinusCircle } from 'hds-react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
+import { PixelCrop } from 'react-image-crop';
 
-import {
-  ACCEPTED_IMAGE_TYPES,
-  COMPRESSABLE_IMAGE_TYPES,
-  MAX_IMAGE_SIZE_MB,
-  MAX_IMAGE_WIDTH,
-} from '../../../constants';
 import isTestEnv from '../../../utils/isTestEnv';
+import Button from '../button/Button';
+import { TEST_PIXEL_CROP } from './contants';
+import ImageCropper from './imageCropper/ImageCropper';
+import ImageDropzone from './imageDropzone/ImageDropzone';
 import styles from './imageUploader.module.scss';
+import { getFileDataUrl } from './utils';
 
 export const testIds = {
-  input: 'image-uploader-file-input',
+  input: 'image-dropzone-file-input',
 };
 
 export interface ImageUploaderProps {
   disabled?: boolean;
-  onChange: (file: File) => void;
+  onChange: (
+    file: File | null,
+    crop: PixelCrop | null,
+    imageEl: HTMLImageElement | null
+  ) => void;
   title?: string;
 }
 
@@ -30,120 +31,56 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   title,
 }) => {
   const { t } = useTranslation();
-  const fileInput = React.useRef<HTMLInputElement | null>(null);
-  const [hovered, setHovered] = React.useState(false);
+  const [file, setFile] = useState<File>();
+  const [imgSrc, setImgSrc] = useState<string>();
 
-  /* istanbul ignore next */
-  const getCompressedFile = async (file: File) => {
-    try {
-      if (!isTestEnv && COMPRESSABLE_IMAGE_TYPES.includes(file.type)) {
-        const blob = await imageCompression(file, {
-          maxSizeMB: MAX_IMAGE_SIZE_MB,
-          maxWidthOrHeight: MAX_IMAGE_WIDTH,
-        });
+  const handleChangeFile = async (file: File) => {
+    setFile(file);
+    setImgSrc(await getFileDataUrl(file));
 
-        return new File([blob], file.name, { type: file.type });
-      }
-      return file;
-    } catch (e) {
-      return file;
+    // istanbul ignore else
+    if (isTestEnv) {
+      onChange(file, TEST_PIXEL_CROP, null);
     }
   };
 
-  const handleFile = async (file: File) => {
-    if (!validateImageFileType(file)) {
-      toast.error(t('common.imageUploader.notAllowedFileFormat'));
-      return;
-    }
-
-    const compressedFile = await getCompressedFile(file);
-
-    if (!validateFileSize(compressedFile)) {
-      toast.error(
-        t('common.imageUploader.tooLargeFileSize', {
-          maxSize: MAX_IMAGE_SIZE_MB,
-        })
-      );
-    } else {
-      onChange(compressedFile);
-    }
+  const removeImageFile = () => {
+    setFile(undefined);
+    setImgSrc(undefined);
+    onChange(null, null, null);
   };
 
-  const validateImageFileType = (file: File): boolean => {
-    return ACCEPTED_IMAGE_TYPES.includes(file.type);
-  };
-
-  const validateFileSize = (file: File): boolean => {
-    const decimalFactor = 1000 * 1000;
-    const fileSizeInMB = file.size / decimalFactor;
-
-    return fileSizeInMB <= MAX_IMAGE_SIZE_MB;
-  };
-
-  const handleDragOver = (event: React.DragEvent) => {
-    event.preventDefault();
-    /* istanbul ignore else */
-    if (!disabled) {
-      setHovered(true);
-    }
-  };
-
-  const handleDragLeave = () => {
-    setHovered(false);
-  };
-
-  const handleDrop = (event: React.DragEvent) => {
-    //prevent the browser from opening the image
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (disabled) return;
-
-    //let's grab the image file
-    const imageFile = event.dataTransfer.files[0];
-
-    handleFile(imageFile);
-
-    setHovered(false);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const imageFile = event.target.files?.[0];
-
-    /* istanbul ignore else */
-    if (imageFile) {
-      handleFile(imageFile);
-    }
-  };
-
-  const handleClick = () => {
-    fileInput.current?.click();
+  // istanbul ignore next
+  const handleChangeCrop = (crop: PixelCrop, imageEl: HTMLImageElement) => {
+    onChange(file as File, crop, imageEl);
   };
 
   return (
-    <div className={styles.imageUploader}>
-      <input
-        data-testid={testIds.input}
+    <>
+      <ImageDropzone
         disabled={disabled}
-        ref={fileInput}
-        type="file"
-        onChange={handleChange}
-        accept={'image/*'}
-        hidden={true}
-      />
-      <button
-        className={classNames(styles.dropZone, { [styles.hover]: hovered })}
-        disabled={disabled}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        onClick={handleClick}
+        onChange={handleChangeFile}
         title={title}
-      >
-        <IconDownload aria-hidden={true} />
-        {t('common.imageUploader.buttonDropImage')}
-      </button>
-    </div>
+      />
+      {!!imgSrc && (
+        <div>
+          <h3>{t('common.imageUploader.titleCropImage')}</h3>
+          <div className={styles.imageCropperWrapper}>
+            <ImageCropper imgUrl={imgSrc} onChange={handleChangeCrop} />
+          </div>
+          <Button
+            className={styles.removeButton}
+            iconLeft={<IconMinusCircle aria-hidden={true} />}
+            onClick={removeImageFile}
+            type="button"
+            variant="danger"
+          >
+            {t('common.imageUploader.buttonRemoveImage')}
+          </Button>
+        </div>
+      )}
+    </>
   );
 };
+
 export default ImageUploader;

@@ -20,7 +20,7 @@ const imageValues: Partial<ImageFieldsFragment> = {
 };
 
 const image = fakeImage(imageValues);
-const imageUrl = image.url;
+const imageUrl = image.url as string;
 const file = mockFile({});
 
 const uploadImageByUrlVariables = {

@@ -1,42 +1,22 @@
-.imageUploader {
-  --image-loader-background-color: var(--color-white);
-  --image-loader-background-color-disabled: var(--color-white);
-  --image-loader-border-color: var(--color-coat-of-arms);
-  --image-loader-border-color-disabled: var(--color-black-40);
-  --image-loader-color: var(--color-coat-of-arms);
-  --image-loader-color-disabled: var(--color-black-40);
-  --image-loader-color-hover: var(--color-coat-of-arms);
-  --image-loader-min-height: 104px;
-}
+@import "../../../assets/styles/breakpoints.scss";
 
-.dropZone {
-  display: flex;
-  position: relative;
-  min-height: var(--image-loader-min-height);
-  background: var(--image-loader-background-color);
-  border: 2px dashed var(--image-loader-border-color);
-  border-radius: 4px;
-  color: var(--image-loader-color);
-
-  &.hover {
-    border-style: solid;
-    color: var(--image-loader-color-hover);
+.removeButton {
+  @include small-down {
+    width: 100%;
   }
 }
 
-.dropZone {
-  width: 100%;
-  align-items: center;
-  justify-content: center;
+.imageCropperWrapper {
+  display: grid;
+  margin-bottom: var(--spacing-s);
 
-  svg {
-    margin-right: var(--spacing-xs);
-  }
+  @include medium-up {
+    margin-bottom: var(--spacing-m);
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: var(--spacing-m);
 
-  &:disabled {
-    cursor: no-drop;
-    background-color: var(--image-loader-background-color-disabled);
-    border-color: var(--image-loader-border-color-disabled);
-    color: var(--image-loader-color-disabled);
-  }
+    > div {
+      grid-column: 1 / 4;
+    }
+  } 
 }

@@ -107,8 +107,30 @@
     "goToHome": "Till startsidan",
     "home": "Startsidan",
     "imageUploader": {
-      "buttonDropImage": "Dra bilden hit eller klicka för att lägga till den från hårddisken ",
+      "areaLabel": {
+        "cropArea": "Använd piltangenterna för att flytta området för val av beskärning",
+        "nwDragHandle":
+          "Använd piltangenterna för att flytta det nordvästliga draghandtaget för att ändra området för val av beskärning",
+        "nDragHandle":
+          "Använd upp- och nedpiltangenterna för att flytta det norra draghandtaget för att ändra området för val av beskärning",
+        "neDragHandle":
+          "Använd piltangenterna för att flytta det nordöstra draghandtaget för att ändra området för val av beskärning",
+        "eDragHandle":
+          "Använd piltangenterna för att flytta det östliga draghandtaget för att ändra området för val av beskärning",
+        "seDragHandle":
+          "Använd piltangenterna för att flytta det sydöstra draghandtaget för att ändra området för val av beskärning",
+        "sDragHandle":
+          "Använd piltangenterna för att flytta det södra draghandtaget för att ändra området för val av beskärning",
+        "swDragHandle":
+          "Använd piltangenterna för att flytta det sydvästliga draghandtaget för att ändra området för val av beskärning",
+        "wDragHandle":
+          "Använd piltangenterna för att flytta det västliga draghandtaget för att ändra området för val av beskärning"
+    },
+      "belowMinDimensions": "Minsta tillåtna bildstorlek är 300 x 200 pixlar",
+      "buttonDropImage": "Dra bilden hit eller klicka för att lägga till den från hårddisken",
+      "buttonRemoveImage": "Ta bort bild",
       "notAllowedFileFormat": "Filformatet stöds inte",
+      "titleCropImage": "Beskära bild",
       "tooLargeFileSize": "Filstorleken är för stor. Största tillåtna storlek är {{maxSize}} MB"
     },
     "leaflet": {

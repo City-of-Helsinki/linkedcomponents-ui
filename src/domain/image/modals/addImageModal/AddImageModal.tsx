@@ -7,9 +7,11 @@ import { AddImageSettings } from '../../types';
 
 interface AddImageModalProps {
   isOpen: boolean;
+
   onAddImage: (values: AddImageSettings) => void;
+  onAddImageByFile: (image: File) => void;
   onClose: () => void;
-  onFileChange: (image: File) => void;
+
   publisher: string;
   showImageSelector?: boolean;
 }
@@ -17,8 +19,8 @@ interface AddImageModalProps {
 const AddImageModal: React.FC<AddImageModalProps> = ({
   isOpen,
   onAddImage,
+  onAddImageByFile,
   onClose,
-  onFileChange,
   publisher,
   showImageSelector,
 }) => {
@@ -32,8 +34,8 @@ const AddImageModal: React.FC<AddImageModalProps> = ({
       title={t(`image.modalTitleAddImage`)}
     >
       <AddImageForm
+        onAddImageByFile={onAddImageByFile}
         onCancel={onClose}
-        onFileChange={onFileChange}
         onSubmit={onAddImage}
         publisher={publisher}
         showImageSelector={showImageSelector}
