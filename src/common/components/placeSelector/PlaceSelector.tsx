@@ -4,6 +4,7 @@ import { TFunction } from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
   getPlaceFields,
   placePathBuilder,
@@ -14,6 +15,7 @@ import {
   usePlaceQuery,
   usePlacesQuery,
 } from '../../../generated/graphql';
+import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
@@ -21,6 +23,7 @@ import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Combobox from '../combobox/Combobox';
+import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 import styles from './placeSelector.module.scss';
 
 export type GetOptionArgs = {
@@ -73,16 +76,19 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');
+  const debouncedSearch = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
-  const { data: placesData, previousData: previousPlacesData } = usePlacesQuery(
-    {
-      variables: {
-        createPath: getPathBuilder(placesPathBuilder),
-        showAllPlaces: true,
-        text: search,
-      },
-    }
-  );
+  const {
+    data: placesData,
+    loading,
+    previousData: previousPlacesData,
+  } = usePlacesQuery({
+    variables: {
+      createPath: getPathBuilder(placesPathBuilder),
+      showAllPlaces: true,
+      text: debouncedSearch,
+    },
+  });
 
   const { data: placeData } = usePlaceQuery({
     skip: !value,
@@ -128,19 +134,21 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   );
 
   return (
-    <Combobox
-      {...rest}
-      className={styles.placeSelector}
-      multiselect={false}
-      filter={handleFilter}
-      id={name}
-      label={label}
-      options={options}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
-      // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
-      // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedPlace as OptionType | undefined}
-    />
+    <ComboboxLoadingSpinner isLoading={loading}>
+      <Combobox
+        {...rest}
+        className={styles.placeSelector}
+        multiselect={false}
+        filter={handleFilter}
+        id={name}
+        label={label}
+        options={options}
+        toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+        // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
+        // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
+        value={selectedPlace as OptionType | undefined}
+      />
+    </ComboboxLoadingSpinner>
   );
 };
 
