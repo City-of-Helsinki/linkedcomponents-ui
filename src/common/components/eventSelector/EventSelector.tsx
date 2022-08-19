@@ -3,6 +3,7 @@ import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import { eventPathBuilder } from '../../../domain/event/utils';
 import { eventsPathBuilder } from '../../../domain/events/utils';
 import {
@@ -41,7 +42,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');
-  const debouncedSearch = useDebounce(search, 300);
+  const debouncedSearch = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const {
     data: eventsData,

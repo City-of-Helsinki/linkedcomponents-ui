@@ -179,7 +179,7 @@ const pasteToTextEditor = (
   fireEvent(editor, pasteEvent);
 };
 
-const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
+const loadingSpinnerIsNotInDocument = async (timeout = 5000): Promise<void> =>
   waitFor(
     () => {
       expect(screen.queryAllByTestId(testId)).toHaveLength(0);

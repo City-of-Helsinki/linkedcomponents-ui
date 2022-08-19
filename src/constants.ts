@@ -215,3 +215,5 @@ export const VALIDATION_ERROR_SCROLLER_OPTIONS = {
 export enum RESERVATION_NAMES {
   ENROLMENT_RESERVATION = 'enrolment-reservation',
 }
+
+export const COMBOBOX_DEBOUNCE_TIME_MS = 300;

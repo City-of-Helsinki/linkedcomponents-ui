@@ -8,17 +8,18 @@ import React from 'react';
 import MultiSelectDropdown, {
   MultiselectDropdownProps,
 } from '../../../../common/components/multiSelectDropdown/MultiSelectDropdown';
+import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../../constants';
 import {
   PlaceFieldsFragment,
   usePlacesQuery,
 } from '../../../../generated/graphql';
-import useIsMounted from '../../../../hooks/useIsMounted';
+import useDebounce from '../../../../hooks/useDebounce';
 import useLocale from '../../../../hooks/useLocale';
+import useMountedState from '../../../../hooks/useMountedState';
 import useShowLoadingSpinner from '../../../../hooks/useShowLoadingSpinner';
 import { Language, OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import getPathBuilder from '../../../../utils/getPathBuilder';
-import skipFalsyType from '../../../../utils/skipFalsyType';
 import { PLACES_SORT_ORDER } from '../../../place/constants';
 import {
   getPlaceFromCache,
@@ -37,10 +38,7 @@ const getOption = (
 ): OptionType => {
   const { name: label, id: value } = getPlaceFields(place, locale);
 
-  return {
-    label,
-    value,
-  };
+  return { label, value };
 };
 
 export type PlaceSelectorProps = { value: string[] } & Omit<
@@ -54,12 +52,11 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   value,
   ...rest
 }) => {
-  const isMounted = useIsMounted();
-
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const locale = useLocale();
   const [searchValue, setSearchValue] = React.useState('');
-  const [selectedPlaces, setSelectedPlaces] = React.useState<OptionType[]>([]);
+  const debouncedSearch = useDebounce(searchValue, COMBOBOX_DEBOUNCE_TIME_MS);
+  const [selectedPlaces, setSelectedPlaces] = useMountedState<OptionType[]>([]);
 
   const {
     data: placesData,
@@ -69,7 +66,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     variables: {
       createPath: getPathBuilder(placesPathBuilder),
       sort: PLACES_SORT_ORDER.NAME,
-      text: searchValue,
+      text: debouncedSearch,
     },
   });
   const showLoadingSpinner = useShowLoadingSpinner(loading);
@@ -83,20 +80,17 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   );
 
   React.useEffect(() => {
-    const getSelectedPlacesFromCache = async () => {
-      const places = await Promise.all(
-        value.map(async (id) => {
-          const place = await getPlaceQueryResult(id, apolloClient);
-          /* istanbul ignore next */
-          return place ? getOption(place, locale) : null;
-        })
+    const getSelectedPlacesFromCache = async () =>
+      setSelectedPlaces(
+        await Promise.all(
+          value.map(async (id) => {
+            const place = await getPlaceQueryResult(id, apolloClient);
+            /* istanbul ignore next */
+            return place ? getOption(place, locale) : { label: '', value: '' };
+          })
+        )
       );
 
-      /* istanbul ignore else */
-      if (isMounted.current) {
-        setSelectedPlaces(places.filter(skipFalsyType));
-      }
-    };
     getSelectedPlacesFromCache();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apolloClient, locale, value]);
