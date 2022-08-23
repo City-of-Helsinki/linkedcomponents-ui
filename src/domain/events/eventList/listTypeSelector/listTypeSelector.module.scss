@@ -34,6 +34,7 @@
     display: flex;
     justify-content: center;
     cursor: pointer;
+    border-color: transparent;
 
     @include focus-outline(0px);
   }
