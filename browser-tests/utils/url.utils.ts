@@ -18,7 +18,9 @@ const getPageTitle = ClientFunction(() => document.title);
 
 export const getUrlUtils = (t: TestController) => {
   const pageIsLoaded = async () => {
-    await getCommonComponents(t).loadingSpinner().expectations.isNotPresent();
+    await getCommonComponents(t)
+      .loadingSpinner()
+      .expectations.isNotPresent({ timeout: 20000 });
   };
 
   const actions = {
