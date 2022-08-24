@@ -30,7 +30,7 @@ export interface EditButtonPanelProps {
   onDelete: () => void;
   onPostpone: () => void;
   onUpdate: (publicationStatus: PublicationStatus) => void;
-  saving: EVENT_EDIT_ACTIONS | false;
+  saving: EVENT_EDIT_ACTIONS | null;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
@@ -57,7 +57,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   });
 
   const copyEvent = async () => {
-    await copyEventToSessionStorage(event);
+    await copyEventToSessionStorage(event, user);
     navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
