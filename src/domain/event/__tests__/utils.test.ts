@@ -5,6 +5,7 @@ import { advanceTo, clear } from 'jest-date-mock';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   EXTLINK,
+  FORM_NAMES,
   WEEK_DAY,
 } from '../../../constants';
 import {
@@ -17,6 +18,7 @@ import {
 import {
   fakeEvent,
   fakeExternalLink,
+  fakeImage,
   fakeImages,
   fakeKeywords,
   fakeLanguage,
@@ -27,6 +29,7 @@ import {
   fakeUser,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
+import { TEST_IMAGE_ID } from '../../image/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import {
   EVENT_CREATE_ACTIONS,
@@ -39,6 +42,7 @@ import {
   calculateSuperEventTime,
   canUserCreateEvent,
   checkCanUserDoAction,
+  copyEventToSessionStorage,
   eventPathBuilder,
   filterUnselectedLanguages,
   generateEventTimesFromRecurringEvent,
@@ -1694,5 +1698,21 @@ describe('getEditEventWarning function', () => {
         action: EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
       })
     ).toBe('event.form.editButtonPanel.warningNoRightsToEdit');
+  });
+});
+
+describe('copyEventToSessionStorage function', () => {
+  const event = fakeEvent({
+    images: [fakeImage({ id: TEST_IMAGE_ID })],
+    publisher: TEST_PUBLISHER_ID,
+  });
+
+  it('should remove image and publisher is user is undefined', async () => {
+    copyEventToSessionStorage(event);
+
+    expect(sessionStorage.setItem).toHaveBeenCalledWith(
+      FORM_NAMES.EVENT_FORM,
+      expect.stringContaining('"images":[],"publisher":""')
+    );
   });
 });

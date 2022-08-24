@@ -1660,8 +1660,22 @@ export const getCreateButtonProps = ({
 };
 
 export const copyEventToSessionStorage = async (
-  event: EventFieldsFragment
+  event: EventFieldsFragment,
+  user?: UserFieldsFragment
 ): Promise<void> => {
+  const {
+    publisher: eventPublisher,
+    images,
+    ...restInitialValues
+  } = getEventInitialValues(event);
+  const organizations = [
+    ...(user?.adminOrganizations || []),
+    ...(user?.organizationMemberships || []),
+  ];
+  const publisher = organizations.includes(eventPublisher)
+    ? eventPublisher
+    : '';
+
   const state: FormikState<EventFormFields> = {
     errors: {},
     isSubmitting: false,
@@ -1669,16 +1683,17 @@ export const copyEventToSessionStorage = async (
     submitCount: 0,
     touched: {},
     values: {
-      ...getEventInitialValues(event),
+      ...restInitialValues,
       events: [],
       eventTimes: [],
       recurringEvents: [],
       recurringEventEndTime: null,
       recurringEventStartTime: null,
       hasUmbrella: false,
+      images: publisher ? images : [],
       isUmbrella: false,
       isVerified: false,
-      publisher: '',
+      publisher,
       superEvent: null,
     },
   };

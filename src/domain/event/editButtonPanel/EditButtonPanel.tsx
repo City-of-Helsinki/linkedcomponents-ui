@@ -57,7 +57,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   });
 
   const copyEvent = async () => {
-    await copyEventToSessionStorage(event);
+    await copyEventToSessionStorage(event, user);
     navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
