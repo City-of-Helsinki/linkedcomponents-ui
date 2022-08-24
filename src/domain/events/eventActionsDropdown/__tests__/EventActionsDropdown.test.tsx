@@ -120,19 +120,20 @@ test('should render correct buttons for draft event', async () => {
   enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
-test('only edit and copy buttons should be enabled when user is not logged in (draft)', async () => {
+test('only edit button should be enabled when user is not logged in (draft)', async () => {
   renderComponent({ props: { event: draftEvent } });
 
   await openMenu();
 
   const disabledButtons = [
+    getElement('copy'),
     getElement('postpone'),
     getElement('cancel'),
     getElement('delete'),
   ];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 
-  const enabledButtons = [getElement('copy'), getElement('edit')];
+  const enabledButtons = [getElement('edit')];
   enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
@@ -170,29 +171,31 @@ test('only copy, edit and delete button should be enabled when event is cancelle
   enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
-test('only copy and edit button should be enabled when user is not logged in (public)', async () => {
+test('only edit button should be enabled when user is not logged in (public)', async () => {
   renderComponent({ props: { event: publicEvent } });
 
   await openMenu();
 
   const disabledButtons = [
+    getElement('copy'),
     getElement('postpone'),
     getElement('cancel'),
     getElement('delete'),
   ];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 
-  const enabledButtons = [getElement('copy'), getElement('edit')];
+  const enabledButtons = [getElement('edit')];
   enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
 test('should route to create event page when clicking copy button', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent({ props: { event: publicEvent } });
+  const { history } = renderComponent({ props: { event: publicEvent }, store });
 
   await openMenu();
 
   const copyButton = getElement('copy');
+  await waitFor(() => expect(copyButton).toBeEnabled());
   await act(async () => await user.click(copyButton));
 
   await waitFor(() =>

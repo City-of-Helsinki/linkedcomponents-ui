@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
 import { advanceTo, clear } from 'jest-date-mock';
 
@@ -769,13 +770,13 @@ describe('getEventFields function', () => {
       fakeEvent({
         endTime: '',
         eventStatus: null,
-        id: null,
-        atId: null,
+        id: null as any,
+        atId: null as any,
         images: [],
         lastModifiedTime: '',
         publisher: '',
         publicationStatus: null,
-        subEvents: null,
+        subEvents: null as any,
         superEvent: null,
         startTime: '',
       }),
@@ -1099,7 +1100,7 @@ describe('getEventInitialValues function', () => {
           sv: null,
           zhHans: null,
         },
-        offers: null,
+        offers: null as any,
         publisher: null,
         startTime: null,
         superEvent: null,
@@ -1455,7 +1456,7 @@ describe('getEditEventWarning function', () => {
   it('should return correct warning if user is not authenticated', () => {
     const event = fakeEvent();
 
-    const allowedActions = [EVENT_EDIT_ACTIONS.COPY, EVENT_EDIT_ACTIONS.EDIT];
+    const allowedActions = [EVENT_EDIT_ACTIONS.EDIT];
 
     const commonProps = {
       authenticated: false,
@@ -1475,6 +1476,7 @@ describe('getEditEventWarning function', () => {
 
     const deniedActions = [
       EVENT_EDIT_ACTIONS.CANCEL,
+      EVENT_EDIT_ACTIONS.COPY,
       EVENT_EDIT_ACTIONS.DELETE,
       EVENT_EDIT_ACTIONS.POSTPONE,
       EVENT_EDIT_ACTIONS.PUBLISH,
