@@ -49,15 +49,6 @@ const renderComponent = ({
     store,
   });
 
-const findElement = (key: 'delete' | 'postpone') => {
-  switch (key) {
-    case 'delete':
-      return screen.findByRole('button', { name: 'Poista tapahtuma' });
-    case 'postpone':
-      return screen.findByRole('button', { name: 'Lykkää tapahtumaa' });
-  }
-};
-
 const getElement = (
   key:
     | 'back'
@@ -138,15 +129,18 @@ test('should show correct buttons for draft event', async () => {
 
   getElement('copy');
 
-  const deleteButton = await findElement('delete');
+  const deleteButton = getElement('delete');
+  await waitFor(() => expect(deleteButton).toBeEnabled());
   await act(async () => await user.click(deleteButton));
   expect(onDelete).toBeCalled();
 
   const updateButton = getElement('updateDraft');
+  await waitFor(() => expect(updateButton).toBeEnabled());
   await act(async () => await user.click(updateButton));
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Draft);
 
   const publishButton = getElement('publish');
+  await waitFor(() => expect(publishButton).toBeEnabled());
   await act(async () => await user.click(publishButton));
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
 
@@ -157,18 +151,16 @@ test('should show correct buttons for draft event', async () => {
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
-test('only copy button should be enabled when user is not logged in (draft)', async () => {
+test('all buttons should be disabled when user is not logged in (draft)', async () => {
   renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Draft } },
   });
 
   await openMenu();
 
-  getElement('copy');
-
-  const deleteButton = await findElement('delete');
   const disabledButtons = [
-    deleteButton,
+    getElement('copy'),
+    getElement('delete'),
     getElement('updateDraft'),
     getElement('postpone'),
     getElement('cancel'),
@@ -199,23 +191,27 @@ test('should render correct buttons for public event', async () => {
 
   getElement('copy');
 
-  const postponeButton = await findElement('postpone');
+  const postponeButton = getElement('postpone');
+  await waitFor(() => expect(postponeButton).toBeEnabled());
   await act(async () => await user.click(postponeButton));
   expect(onPostpone).toBeCalled();
 
   await openMenu();
 
   const cancelButton = getElement('cancel');
+  await waitFor(() => expect(cancelButton).toBeEnabled());
   await act(async () => await user.click(cancelButton));
   expect(onCancel).toBeCalled();
 
   await openMenu();
 
   const deleteButton = getElement('delete');
+  await waitFor(() => expect(deleteButton).toBeEnabled());
   await act(async () => await user.click(deleteButton));
   expect(onDelete).toBeCalled();
 
   const updateButton = getElement('updatePublic');
+  await waitFor(() => expect(updateButton).toBeEnabled());
   await act(async () => await user.click(updateButton));
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
 
@@ -242,8 +238,8 @@ test('only copy and delete button should be enabled when event is cancelled', as
 
   await openMenu();
 
-  await findElement('delete');
-  getElement('copy');
+  const enabledButtons = [getElement('delete'), getElement('copy')];
+  enabledButtons.forEach((button) => expect(button).toBeEnabled());
 
   const disabledButtons = [
     getElement('updatePublic'),
@@ -253,16 +249,15 @@ test('only copy and delete button should be enabled when event is cancelled', as
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
-test('only copy button should be enabled when user is not logged in (public)', async () => {
+test('all buttons should be enabled when user is not logged in (public)', async () => {
   renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });
 
   await openMenu();
 
-  getElement('copy');
-
   const disabledButtons = [
+    getElement('copy'),
     getElement('delete'),
     getElement('updatePublic'),
     getElement('postpone'),
@@ -275,11 +270,13 @@ test('should route to create event page when clicking copy button', async () => 
   const user = userEvent.setup();
   const { history } = renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
+    store,
   });
 
   await openMenu();
 
   const copyButton = getElement('copy');
+  await waitFor(() => expect(copyButton).toBeEnabled());
   await act(async () => await user.click(copyButton));
 
   await waitFor(() =>

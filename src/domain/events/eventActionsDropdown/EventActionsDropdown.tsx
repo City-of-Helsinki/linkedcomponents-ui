@@ -74,7 +74,7 @@ const EventActionsDropdown = React.forwardRef<
   };
 
   const copyEvent = async () => {
-    await copyEventToSessionStorage(event);
+    await copyEventToSessionStorage(event, user);
     navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
