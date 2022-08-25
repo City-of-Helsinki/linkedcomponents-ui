@@ -39,6 +39,7 @@ import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
+import EventLink from './eventLink/EventLink';
 import AttendeeCapacitySection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
 import AudienceAgeSection from './formSections/audienceAgeSection/AudienceAgeSection';
 import ConfirmationMessageSection from './formSections/confirmationMessageSection/ConfirmationMessageSection';
@@ -218,6 +219,9 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
                     />
                     <ServerErrorSummary errors={serverErrorItems} />
                     <RegistrationInfo registration={registration} />
+                    <Section title={t('registration.form.sections.event')}>
+                      <EventLink registration={registration} />
+                    </Section>
                     <Section
                       title={t('registration.form.sections.enrolmentTime')}
                     >

@@ -166,6 +166,7 @@ export const getRegistrationFields = (
   language: Language
 ): RegistrationFields => {
   const id = registration.id || '';
+  const event = registration.event ?? '';
 
   return {
     id,
@@ -179,7 +180,8 @@ export const getRegistrationFields = (
     enrolmentStartTime: registration.enrolmentStartTime
       ? new Date(registration.enrolmentStartTime)
       : null,
-    event: registration.event ?? '',
+    event,
+    eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', event)}`,
     lastModifiedAt: registration.lastModifiedAt
       ? new Date(registration.lastModifiedAt)
       : null,
