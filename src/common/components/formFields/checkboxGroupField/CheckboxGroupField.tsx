@@ -87,9 +87,10 @@ const CheckboxGroupField: React.FC<Props> = ({
         })}
       </div>
       {errorText && <div className={styles.errorText}>{errorText}</div>}
-      {visibleOptionAmount && (
+      {visibleOptionAmount && options.length > visibleOptionAmount && (
         <div className={styles.buttonWrapper}>
           <Button
+            disabled={disabled}
             fullWidth={true}
             iconLeft={showAll ? <IconAngleUp /> : <IconAngleDown />}
             onClick={toggleShowAll}
