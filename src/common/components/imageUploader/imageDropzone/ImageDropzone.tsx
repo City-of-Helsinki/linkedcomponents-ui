@@ -85,6 +85,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({
     /* istanbul ignore else */
     if (imageFile) {
       handleFile(imageFile);
+      event.target.value = '';
     }
   };
 
