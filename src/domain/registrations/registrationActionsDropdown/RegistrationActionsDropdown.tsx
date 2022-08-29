@@ -8,6 +8,7 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/typ
 import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -24,7 +25,6 @@ import {
 } from '../../registration/utils';
 import useUser from '../../user/hooks/useUser';
 import { REGISTRATION_ACTIONS } from '../constants';
-import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
 
 export interface RegistrationActionsDropdownProps {
   className?: string;

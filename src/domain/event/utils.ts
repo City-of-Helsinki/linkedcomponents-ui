@@ -62,6 +62,7 @@ import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getTimeObject from '../../utils/getTimeObject';
+import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
@@ -70,6 +71,8 @@ import {
   isAdminUserInOrganization,
   isReqularUserInOrganization,
 } from '../organization/utils';
+import { REGISTRATION_INITIAL_VALUES } from '../registration/constants';
+import { RegistrationFormFields } from '../registration/types';
 import {
   AUTHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
@@ -179,6 +182,8 @@ export const getEventFields = (
   const id = event.id || '';
   const publicationStatus = event.publicationStatus || PublicationStatus.Public;
 
+  const registrationAtId = event.registration?.atId;
+
   return {
     id,
     atId: event.atId || '',
@@ -207,6 +212,13 @@ export const getEventFields = (
     ) as Offer[],
     publisher: event.publisher || null,
     publicationStatus,
+    registrationAtId: registrationAtId ?? null,
+    registrationUrl: registrationAtId
+      ? `/${language}${ROUTES.EDIT_REGISTRATION.replace(
+          ':id',
+          parseIdFromAtId(registrationAtId) as string
+        )}`
+      : null,
     subEventAtIds:
       event.subEvents?.map((subEvent) => subEvent?.atId as string) || [],
     superEventAtId: event.superEvent?.atId || null,
@@ -1344,6 +1356,43 @@ export const copyEventToSessionStorage = async (
   };
 
   sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
+};
+
+export const copyEventInfoToRegistrationSessionStorage = async (
+  event: EventFieldsFragment
+): Promise<void> => {
+  const {
+    audienceMaxAge,
+    audienceMinAge,
+    enrolmentEndTimeDate,
+    enrolmentEndTimeTime,
+    enrolmentStartTimeDate,
+    enrolmentStartTimeTime,
+    maximumAttendeeCapacity,
+    minimumAttendeeCapacity,
+  } = getEventInitialValues(event);
+
+  const state: FormikState<RegistrationFormFields> = {
+    errors: {},
+    isSubmitting: false,
+    isValidating: false,
+    submitCount: 0,
+    touched: {},
+    values: {
+      ...REGISTRATION_INITIAL_VALUES,
+      audienceMaxAge,
+      audienceMinAge,
+      enrolmentEndTimeDate,
+      enrolmentEndTimeTime,
+      enrolmentStartTimeDate,
+      enrolmentStartTimeTime,
+      event: event.id,
+      maximumAttendeeCapacity,
+      minimumAttendeeCapacity,
+    },
+  };
+
+  sessionStorage.setItem(FORM_NAMES.REGISTRATION_FORM, JSON.stringify(state));
 };
 
 export const getRecurringEvent = async (

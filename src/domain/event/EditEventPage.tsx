@@ -46,6 +46,7 @@ import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import LinksToEventsSection from './formSections/linksToEventsSection/LinksToEventsSection';
 import PlaceSection from './formSections/placeSection/PlaceSection';
 import PriceSection from './formSections/priceSection/PriceSection';
+import RegistrationSection from './formSections/registrationSection/RegistrationSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
@@ -380,6 +381,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                         isEditingAllowed={isEditingAllowed}
                       />
                     </Section>
+                    <RegistrationSection event={event} />
                     <Section title={t('event.form.sections.linksToEvents')}>
                       <LinksToEventsSection event={event} />
                     </Section>

@@ -27,6 +27,7 @@ const renderComponent = (store?: Store<StoreState, AnyAction>) =>
       onSubmit={jest.fn()}
     >
       <ButtonPanel
+        onPublish={jest.fn()}
         onSaveDraft={jest.fn()}
         publisher={organizationId}
         saving={null}

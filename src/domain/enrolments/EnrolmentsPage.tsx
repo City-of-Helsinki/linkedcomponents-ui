@@ -16,6 +16,7 @@ import {
   useRegistrationQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../hooks/useQueryStringWithReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
@@ -38,7 +39,6 @@ import {
   getRegistrationFields,
   registrationPathBuilder,
 } from '../registration/utils';
-import useRegistrationsQueryStringWithReturnPath from '../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
 import ButtonPanel from './buttonPanel/ButtonPanel';
@@ -60,7 +60,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   const publisher = useRegistrationPublisher({ registration }) as string;
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { user } = useUser();
-  const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const name = useRegistrationName({ registration });
 
   const { createdBy, lastModifiedAt } = getRegistrationFields(

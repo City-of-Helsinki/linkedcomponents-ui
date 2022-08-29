@@ -8,6 +8,7 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/typ
 import { ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { authenticatedSelector } from '../../auth/selectors';
 import { EVENT_EDIT_ACTIONS } from '../../event/constants';
@@ -24,7 +25,6 @@ import {
 } from '../../event/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import useEventsQueryStringWithReturnPath from '../hooks/useEventsQueryStringWithReturnPath';
 
 export interface EventActionsDropdownProps {
   className?: string;
@@ -40,7 +40,7 @@ const EventActionsDropdown = React.forwardRef<
   const locale = useLocale();
   const navigate = useNavigate();
   const { eventUrl } = getEventFields(event, locale);
-  const queryStringWithReturnPath = useEventsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const {
     cancelEvent,

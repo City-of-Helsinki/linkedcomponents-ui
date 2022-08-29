@@ -498,6 +498,11 @@
         "general": "Lisää toistuva tapahtuma",
         "volunteering": "Lisää toistuva vapaaehtoistehtävä"
       },
+      "buttonAddRegistration": {
+        "course": "Lisää kurssille ilmoittautuminen",
+        "general": "Lisää tapahtumalle ilmoittautuminen",
+        "volunteering": "Lisää vapaaehtoistehtävälle ilmoittautuminen"
+      },
       "buttonAddVideo": "Lisää video",
       "buttonCancel":  "Peruuta tapahtuma",
       "buttonCopy": "Kopioi pohjaksi",
@@ -783,6 +788,7 @@
       "labelVideoAltText": "Videon alt-teksti",
       "labelVideoName": "Videon nimi",
       "labelVideoUrl": "Videon URL-osoite",
+      "linkGoToRegistration": "Siirry ilmoittautumiseen",
       "modalTitleImage": {
         "course": "Lisää kurssin kuva",
         "general": "Lisää tapahtuman kuva",
@@ -930,6 +936,7 @@
         "linksToEvents": "Kytkökset muihin tapahtumiin",
         "place": "Paikka",
         "price": "Hinta",
+        "registration": "Ilmoittautuminen",
         "responsibilities": "Vastuut",
         "time": "Ajankohta",
         "type": "Tapahtumatyyppi",

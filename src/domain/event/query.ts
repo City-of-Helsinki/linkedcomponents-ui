@@ -78,6 +78,9 @@ export const QUERY_EVENT = gql`
       ...localisedFields
     }
     publisher
+    registration {
+      ...idObjectFields
+    }
     shortDescription {
       ...localisedFields
     }

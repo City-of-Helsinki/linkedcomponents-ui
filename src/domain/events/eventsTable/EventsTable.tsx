@@ -7,10 +7,10 @@ import SortableColumn from '../../../common/components/table/sortableColumn/Sort
 import Table from '../../../common/components/table/Table';
 import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useSetFocused from '../../../hooks/useSetFocused';
 import { getEventFields } from '../../event/utils';
 import { EVENT_SORT_OPTIONS } from '../constants';
-import useEventsQueryStringWithReturnPath from '../hooks/useEventsQueryStringWithReturnPath';
 import styles from './eventsTable.module.scss';
 import EventTableRow from './eventsTableRow/EventsTableRow';
 
@@ -30,7 +30,7 @@ const EventsTable: React.FC<EventsTableProps> = ({
   const locale = useLocale();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const queryStringWithReturnPath = useEventsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
 

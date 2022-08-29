@@ -17,6 +17,7 @@ import TextWithIcon from '../../../common/components/textWithIcon/TextWithIcon';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import IconFlag from '../../../icons/IconFlag';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useTheme } from '../../app/theme/Theme';
@@ -28,7 +29,6 @@ import OrganizationName from '../../organization/organizationName/OrganizationNa
 import { getPlaceFields } from '../../place/utils';
 import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import EventActionsDropdown from '../eventActionsDropdown/EventActionsDropdown';
-import useEventsQueryStringWithReturnPath from '../hooks/useEventsQueryStringWithReturnPath';
 import { expandedEventsSelector } from '../selectors';
 import { getEventItemId } from '../utils';
 import AudienceAgeText from './audienceAgeText/AudienceAgeText';
@@ -53,7 +53,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
   const isMobile = useIsMobile();
   const dispatch = useDispatch();
   const expandedEvents = useSelector(expandedEventsSelector);
-  const queryStringWithReturnPath = useEventsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const { location } = useEventLocation(event);
 

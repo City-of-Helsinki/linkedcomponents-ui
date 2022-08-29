@@ -49,7 +49,7 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
-  const adminOrganizations = user ? [...user?.adminOrganizations] : [];
+  const adminOrganizations = [...(user?.adminOrganizations || [])];
 
   switch (action) {
     case REGISTRATION_ACTIONS.COPY:
@@ -57,7 +57,7 @@ export const checkCanUserDoAction = ({
     case REGISTRATION_ACTIONS.EDIT:
       return true;
     case REGISTRATION_ACTIONS.CREATE:
-      return !!adminOrganizations.length;
+      return publisher ? isAdminUser : !!adminOrganizations.length;
     case REGISTRATION_ACTIONS.DELETE:
     case REGISTRATION_ACTIONS.SHOW_ENROLMENTS:
     case REGISTRATION_ACTIONS.UPDATE:

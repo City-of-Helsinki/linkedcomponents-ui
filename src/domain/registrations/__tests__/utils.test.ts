@@ -93,7 +93,7 @@ describe('getRegistrationSearchQuery function', () => {
       'text=text&sort=last_modified_time',
     ],
     ['', { ...defaultParams, waitingPage: 2 }, 'text=text&waitingPage=2'],
-    [undefined, { ...defaultParams, text: 'search' }, 'text=search'],
+    ['', { ...defaultParams, text: 'search' }, 'text=search'],
   ];
 
   it.each(cases)(

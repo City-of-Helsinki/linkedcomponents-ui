@@ -497,6 +497,10 @@ module.exports = buildSchema(/* GraphQL */ `
     body: String
   }
 
+  type IdObject {
+    atId: String
+  }
+
   type ImagesResponse {
     meta: Meta!
     data: [Image]!
@@ -573,6 +577,7 @@ module.exports = buildSchema(/* GraphQL */ `
     providerContactInfo: String
     publisher: ID
     publicationStatus: PublicationStatus
+    registration: IdObject
     shortDescription: LocalisedObject
     startTime: String
     subEvents: [Event]!

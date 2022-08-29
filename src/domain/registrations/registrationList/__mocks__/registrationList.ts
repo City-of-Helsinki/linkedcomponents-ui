@@ -33,7 +33,7 @@ const mockedEventResponses = [
       query: EventDocument,
       variables: {
         createPath: undefined,
-        id: event.id,
+        id: event?.id,
         include: EVENT_INCLUDES,
       },
     },
@@ -45,7 +45,7 @@ const registrations = fakeRegistrations(
   PAGE_SIZE,
   registrationNames.map((name, index) => ({
     id: `registration:${index}`,
-    event: events.data[index].id,
+    event: events.data[index]?.id,
     name,
   }))
 );
@@ -93,7 +93,7 @@ const mockedPage2EventResponses = [
       query: EventDocument,
       variables: {
         createPath: undefined,
-        id: event.id,
+        id: event?.id,
         include: EVENT_INCLUDES,
       },
     },
@@ -104,7 +104,7 @@ const mockedPage2EventResponses = [
 const page2Registrations = fakeRegistrations(
   REGISTRATIONS_PAGE_SIZE,
   page2RegistrationNames.map((name, index) => ({
-    event: page2Events.data[index].id,
+    event: page2Events.data[index]?.id,
     name,
   }))
 );

@@ -36,12 +36,14 @@ import {
   EVENT_EDIT_ACTIONS,
   EVENT_INITIAL_VALUES,
   EVENT_TYPE,
+  TEST_EVENT_ID,
 } from '../constants';
 import { EventFormFields, RecurringEventSettings } from '../types';
 import {
   calculateSuperEventTime,
   canUserCreateEvent,
   checkCanUserDoAction,
+  copyEventInfoToRegistrationSessionStorage,
   copyEventToSessionStorage,
   eventPathBuilder,
   filterUnselectedLanguages,
@@ -1721,6 +1723,29 @@ describe('copyEventToSessionStorage function', () => {
     expect(sessionStorage.setItem).toHaveBeenCalledWith(
       FORM_NAMES.EVENT_FORM,
       expect.stringContaining('"images":[],"publisher":""')
+    );
+  });
+});
+
+describe('copyEventInfoToRegistrationSessionStorage function', () => {
+  const event = fakeEvent({
+    id: TEST_EVENT_ID,
+    audienceMaxAge: 18,
+    audienceMinAge: 12,
+    enrolmentEndTime: '2021-06-15T12:00:00.000Z',
+    enrolmentStartTime: '2021-06-13T12:00:00.000Z',
+    maximumAttendeeCapacity: 10,
+    minimumAttendeeCapacity: 5,
+  });
+
+  it('should copy registration info from event to new event', async () => {
+    copyEventInfoToRegistrationSessionStorage(event);
+
+    expect(sessionStorage.setItem).toHaveBeenCalledWith(
+      FORM_NAMES.REGISTRATION_FORM,
+      expect.stringContaining(
+        '"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":"","enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"helmet:222453","instructions":"","maximumAttendeeCapacity":10,"minimumAttendeeCapacity":5,"waitingListCapacity":""'
+      )
     );
   });
 });

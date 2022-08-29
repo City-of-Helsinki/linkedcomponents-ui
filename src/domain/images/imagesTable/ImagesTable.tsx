@@ -7,10 +7,10 @@ import SortableColumn from '../../../common/components/table/sortableColumn/Sort
 import Table from '../../../common/components/table/Table';
 import { ImageFieldsFragment, ImagesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useSetFocused from '../../../hooks/useSetFocused';
 import { getImageFields } from '../../image/utils';
 import { IMAGE_SORT_OPTIONS } from '../constants';
-import useImagesQueryStringWithReturnPath from '../hooks/useImagesQueryStringWithReturnPath';
 import styles from './imagesTable.module.scss';
 import ImagesTableRow from './imagesTableRow/ImagesTableRow';
 
@@ -32,7 +32,7 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locale = useLocale();
-  const queryStringWithReturnPath = useImagesQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);

@@ -3,7 +3,7 @@ export default function addParamsToQueryString<
 >(
   queryString: string,
   queryParams: Partial<U>,
-  getParamValue: (o: { param: keyof U; value: string }) => string
+  getParamValue?: (o: { param: keyof U; value: string }) => string
 ): string {
   const searchParams = new URLSearchParams(queryString);
   Object.entries(queryParams).forEach(([key, values]) => {
@@ -12,12 +12,17 @@ export default function addParamsToQueryString<
     /* istanbul ignore else */
     if (Array.isArray(values)) {
       values.forEach((value) =>
-        searchParams.append(param, getParamValue({ param, value }))
+        searchParams.append(
+          param,
+          getParamValue ? getParamValue({ param, value }) : value
+        )
       );
     } else if (values) {
       searchParams.append(
         param,
-        getParamValue({ param, value: values.toString() })
+        getParamValue
+          ? getParamValue({ param, value: values.toString() })
+          : values.toString()
       );
     }
   });
