@@ -146,6 +146,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       provider: fakeLocalisedObject(),
       publicationStatus: PublicationStatus.Public,
       publisher: 'provider:123',
+      registration: { atId: null },
       shortDescription: fakeLocalisedObject(),
       startTime: '2020-07-13T05:51:05.761000Z',
       subEvents: [],

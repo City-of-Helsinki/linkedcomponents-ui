@@ -38,7 +38,6 @@ const ReservationTimer: React.FC<Props> = ({ registration }) => {
   React.useEffect(() => {
     const data = getEnrolmentReservationData(registration.id as string);
     // TODO: Get this data from the API when BE part is implemented
-
     if (!data || isPast(unixTimeToMs(data.expires))) {
       const now = new Date();
 

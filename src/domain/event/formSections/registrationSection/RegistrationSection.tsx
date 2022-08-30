@@ -1,0 +1,92 @@
+import { useField } from 'formik';
+import { IconPlus } from 'hds-react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
+
+import Button from '../../../../common/components/button/Button';
+import { ROUTES } from '../../../../constants';
+import {
+  EventFieldsFragment,
+  PublicationStatus,
+} from '../../../../generated/graphql';
+import useLocale from '../../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../../hooks/useQueryStringWithReturnPath';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
+import Section from '../../../app/layout/section/Section';
+import useOrganizationAncestors from '../../../organization/hooks/useOrganizationAncestors';
+import { checkCanUserDoAction } from '../../../registration/utils';
+import { REGISTRATION_ACTIONS } from '../../../registrations/constants';
+import useUser from '../../../user/hooks/useUser';
+import { EVENT_FIELDS } from '../../constants';
+import {
+  copyEventInfoToRegistrationSessionStorage,
+  getEventFields,
+} from '../../utils';
+import styles from './registrationSection.module.scss';
+
+export type RegistrationSectionProps = {
+  event: EventFieldsFragment;
+};
+
+const RegistrationSection: React.FC<RegistrationSectionProps> = ({ event }) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const locale = useLocale();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
+  const { publisher, registrationUrl } = getEventFields(event, locale);
+  const { organizationAncestors } = useOrganizationAncestors(
+    publisher as string
+  );
+  const { user } = useUser();
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+
+  const renderSection = (children: React.ReactNode) => {
+    return (
+      <Section title={t('event.form.sections.registration')}>
+        <FieldRow>
+          <FieldColumn>{children}</FieldColumn>
+        </FieldRow>
+      </Section>
+    );
+  };
+
+  if (registrationUrl) {
+    const registrationUrlWithReturnPath = `${registrationUrl}${queryStringWithReturnPath}`;
+
+    return renderSection(
+      <Link className={styles.eventLink} to={registrationUrlWithReturnPath}>
+        {t('event.form.linkGoToRegistration')}
+      </Link>
+    );
+  }
+
+  if (
+    event.superEventType === null &&
+    event.publicationStatus === PublicationStatus.Public &&
+    checkCanUserDoAction({
+      action: REGISTRATION_ACTIONS.CREATE,
+      organizationAncestors,
+      publisher: publisher as string,
+      user,
+    })
+  ) {
+    return renderSection(
+      <Button
+        iconLeft={<IconPlus aria-hidden />}
+        onClick={async () => {
+          await copyEventInfoToRegistrationSessionStorage(event);
+          navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
+        }}
+        type="button"
+      >
+        {t(`event.form.buttonAddRegistration.${type}`)}
+      </Button>
+    );
+  }
+
+  return null;
+};
+
+export default RegistrationSection;

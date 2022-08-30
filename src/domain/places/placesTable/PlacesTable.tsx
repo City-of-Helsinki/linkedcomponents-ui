@@ -7,10 +7,10 @@ import SortableColumn from '../../../common/components/table/sortableColumn/Sort
 import Table from '../../../common/components/table/Table';
 import { PlaceFieldsFragment, PlacesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useSetFocused from '../../../hooks/useSetFocused';
 import { getPlaceFields } from '../../place/utils';
 import { PLACE_SORT_OPTIONS } from '../constants';
-import usePlacesQueryStringWithReturnPath from '../hooks/usePlacesQueryStringWithReturnPath';
 import styles from './placesTable.module.scss';
 import PlacesTableRow from './placesTableRow/PlacesTableRow';
 
@@ -32,7 +32,7 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locale = useLocale();
-  const queryStringWithReturnPath = usePlacesQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);

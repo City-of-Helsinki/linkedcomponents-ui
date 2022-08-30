@@ -24,6 +24,7 @@ export type RegistrationFields = {
   enrolmentEndTime: Date | null;
   enrolmentStartTime: Date | null;
   event: string;
+  eventUrl: string;
   lastModifiedAt: Date | null;
   maximumAttendeeCapacity: number;
   registrationUrl: string;

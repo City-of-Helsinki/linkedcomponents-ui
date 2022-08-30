@@ -30,6 +30,7 @@ import {
 import {
   mockedAudienceKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
+  topicAtIds,
 } from '../../keywordSet/__mocks__/keywordSets';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
 import {
@@ -88,7 +89,8 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   render(<CreateEventPage />, { mocks, store });
 
 beforeEach(() => {
-  // values stored with FormikPersist will also be available in other tests unless you run
+  // values stored in tests will also be available in other tests unless you run
+  localStorage.clear();
   sessionStorage.clear();
 });
 
@@ -97,14 +99,19 @@ afterAll(() => {
   clear();
 });
 
-const setFormValues = (values: EventFormFields) => {
+const setFormValues = (values: Partial<EventFormFields>) => {
   const state: FormikState<EventFormFields> = {
     errors: {},
     isSubmitting: false,
     isValidating: false,
     submitCount: 0,
     touched: {},
-    values,
+    values: {
+      ...EVENT_INITIAL_VALUES,
+      [EVENT_FIELDS.PUBLISHER]: organizationId,
+      [EVENT_FIELDS.MAIN_CATEGORIES]: topicAtIds,
+      ...values,
+    },
   };
 
   jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
@@ -152,10 +159,14 @@ const getElement = (
   }
 };
 
-const findElement = (key: 'keyword' | 'nameSv' | 'superEvent') => {
+const findElement = (key: 'keyword' | 'name' | 'nameSv' | 'superEvent') => {
   switch (key) {
     case 'keyword':
       return screen.findByRole('checkbox', { name: keywordName });
+    case 'name':
+      return screen.findByRole('textbox', {
+        name: /tapahtuman otsikko suomeksi/i,
+      });
     case 'nameSv':
       return screen.findByRole('textbox', {
         name: /tapahtuman otsikko ruotsiksi/i,
@@ -169,13 +180,16 @@ const findElement = (key: 'keyword' | 'nameSv' | 'superEvent') => {
   }
 };
 
+const waitLoadingAndGetNameInput = async () => {
+  await loadingSpinnerIsNotInDocument();
+  return await findElement('name');
+};
+
 test('should focus to first validation error when trying to save draft event', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  const nameTextbox = getElement('name');
+  const nameTextbox = await waitLoadingAndGetNameInput();
   const saveDraftButton = getElement('saveDraft');
 
   await act(async () => await user.click(saveDraftButton));
@@ -185,21 +199,20 @@ test('should focus to first validation error when trying to save draft event', a
 
 test('should focus to validation error of swedish name when trying to save draft event', async () => {
   setFormValues({
-    ...EVENT_INITIAL_VALUES,
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
       LE_DATA_LANGUAGES.FI,
       LE_DATA_LANGUAGES.SV,
     ],
-    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
+    [EVENT_FIELDS.NAME]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
   });
   const user = userEvent.setup();
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  const nameTextbox = getElement('name');
-  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+  await waitLoadingAndGetNameInput();
 
   const saveDraftButton = getElement('saveDraft');
   await act(async () => await user.click(saveDraftButton));
@@ -209,10 +222,7 @@ test('should focus to validation error of swedish name when trying to save draft
 });
 
 test('should focus to select component in case of validation error', async () => {
-  setFormValues({
-    ...EVENT_INITIAL_VALUES,
-    hasUmbrella: true,
-  });
+  setFormValues({ [EVENT_FIELDS.HAS_UMBRELLA]: true });
   const user = userEvent.setup();
 
   renderComponent();
@@ -229,9 +239,11 @@ test('should focus to select component in case of validation error', async () =>
 
 test('should focus to text editor component in case of validation error', async () => {
   setFormValues({
-    ...EVENT_INITIAL_VALUES,
-    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
-    shortDescription: {
+    [EVENT_FIELDS.NAME]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
+    [EVENT_FIELDS.SHORT_DESCRIPTION]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.shortDescription,
     },
@@ -240,10 +252,7 @@ test('should focus to text editor component in case of validation error', async 
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  const nameTextbox = getElement('name');
-  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+  await waitLoadingAndGetNameInput();
 
   const descriptionTextbox = getElement('description');
 
@@ -255,15 +264,16 @@ test('should focus to text editor component in case of validation error', async 
 
 test('should focus to event times error if none event time exists', async () => {
   setFormValues({
-    ...EVENT_INITIAL_VALUES,
-    publisher: organizationId,
-    description: {
+    [EVENT_FIELDS.DESCRIPTION]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.description,
     },
-    eventTimes: [],
-    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
-    shortDescription: {
+    [EVENT_FIELDS.EVENT_TIMES]: [],
+    [EVENT_FIELDS.NAME]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
+    [EVENT_FIELDS.SHORT_DESCRIPTION]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.shortDescription,
     },
@@ -272,10 +282,7 @@ test('should focus to event times error if none event time exists', async () => 
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  const nameTextbox = getElement('name');
-  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+  await waitLoadingAndGetNameInput();
 
   const publishButton = getElement('publish');
   await act(async () => await user.click(publishButton));
@@ -288,20 +295,21 @@ test('should focus to first main category checkbox if none main category is sele
   advanceTo('2020-12-20');
 
   setFormValues({
-    ...EVENT_INITIAL_VALUES,
-    publisher: organizationId,
-    description: {
+    [EVENT_FIELDS.DESCRIPTION]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.description,
     },
-    eventTimes: [eventValues.eventTimes[0]],
-    images: [imageFields.atId],
-    imageDetails: imageFields,
-    isVerified: true,
-    keywords: [],
-    location: placeAtId,
-    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
-    shortDescription: {
+    [EVENT_FIELDS.EVENT_TIMES]: [eventValues.eventTimes[0]],
+    [EVENT_FIELDS.IMAGES]: [imageFields.atId],
+    [EVENT_FIELDS.IMAGE_DETAILS]: imageFields,
+    [EVENT_FIELDS.IS_VERIFIED]: true,
+    [EVENT_FIELDS.KEYWORDS]: [],
+    [EVENT_FIELDS.LOCATION]: placeAtId,
+    [EVENT_FIELDS.NAME]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
+    [EVENT_FIELDS.SHORT_DESCRIPTION]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.shortDescription,
     },
@@ -317,10 +325,8 @@ test('should focus to first main category checkbox if none main category is sele
 
   renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndGetNameInput();
 
-  const nameTextbox = getElement('name');
-  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
   const keywordCheckbox = await findElement('keyword');
 
   const publishButton = getElement('publish');
@@ -331,20 +337,19 @@ test('should focus to first main category checkbox if none main category is sele
 
 test('should show server errors', async () => {
   setFormValues({
-    ...EVENT_INITIAL_VALUES,
-    eventTimes: [eventValues.eventTimes[0]],
-    isVerified: true,
-    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
+    [EVENT_FIELDS.EVENT_TIMES]: [eventValues.eventTimes[0]],
+    [EVENT_FIELDS.IS_VERIFIED]: true,
+    [EVENT_FIELDS.NAME]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
   });
   const mocks = [...defaultMocks, mockedInvalidCreateDraftEventResponse];
   const user = userEvent.setup();
 
   renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
-
-  const nameTextbox = getElement('name');
-  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+  await waitLoadingAndGetNameInput();
 
   const saveDraftButton = getElement('saveDraft');
   await act(async () => await user.click(saveDraftButton));
@@ -355,20 +360,19 @@ test('should show server errors', async () => {
 
 test('should route to event completed page after saving draft event', async () => {
   setFormValues({
-    ...EVENT_INITIAL_VALUES,
-    eventTimes: [eventValues.eventTimes[0]],
-    isVerified: true,
-    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
+    [EVENT_FIELDS.EVENT_TIMES]: [eventValues.eventTimes[0]],
+    [EVENT_FIELDS.IS_VERIFIED]: true,
+    [EVENT_FIELDS.NAME]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
   });
   const mocks = [...defaultMocks, mockedCreateDraftEventResponse];
   const user = userEvent.setup();
 
   const { history } = renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
-
-  const nameTextbox = getElement('name');
-  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+  await waitLoadingAndGetNameInput();
 
   const saveDraftButton = getElement('saveDraft');
   await act(async () => await user.click(saveDraftButton));
@@ -386,20 +390,21 @@ test('should route to event completed page after publishing event', async () => 
   advanceTo('2020-12-20');
 
   setFormValues({
-    ...EVENT_INITIAL_VALUES,
-    publisher: organizationId,
-    description: {
+    [EVENT_FIELDS.DESCRIPTION]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.description,
     },
-    eventTimes: eventValues.eventTimes,
-    images: [imageFields.atId],
-    imageDetails: imageFields,
-    isVerified: true,
-    keywords: [keywordAtId],
-    location: placeAtId,
-    name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: eventValues.name },
-    shortDescription: {
+    [EVENT_FIELDS.EVENT_TIMES]: eventValues.eventTimes,
+    [EVENT_FIELDS.IMAGES]: [imageFields.atId],
+    [EVENT_FIELDS.IMAGE_DETAILS]: imageFields,
+    [EVENT_FIELDS.IS_VERIFIED]: true,
+    [EVENT_FIELDS.KEYWORDS]: [keywordAtId],
+    [EVENT_FIELDS.LOCATION]: placeAtId,
+    [EVENT_FIELDS.NAME]: {
+      ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      fi: eventValues.name,
+    },
+    [EVENT_FIELDS.SHORT_DESCRIPTION]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.shortDescription,
     },
@@ -415,10 +420,7 @@ test('should route to event completed page after publishing event', async () => 
 
   const { history } = renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
-
-  const nameTextbox = getElement('name');
-  await waitFor(() => expect(nameTextbox).toHaveValue(eventValues.name));
+  await waitLoadingAndGetNameInput();
 
   const publishButton = getElement('publish');
   await act(async () => await user.click(publishButton));

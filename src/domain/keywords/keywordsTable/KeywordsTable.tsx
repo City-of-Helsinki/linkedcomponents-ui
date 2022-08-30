@@ -10,10 +10,10 @@ import {
   KeywordsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useSetFocused from '../../../hooks/useSetFocused';
 import { getKeywordFields } from '../../keyword/utils';
 import { KEYWORD_SORT_OPTIONS } from '../constants';
-import useKeywordsQueryStringWithReturnPath from '../hooks/useKeywordsQueryStringWithReturnPath';
 import styles from './keywordsTable.module.scss';
 import KeywordsTableRow from './keywordsTableRow/KeywordsTableRow';
 
@@ -35,7 +35,7 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locale = useLocale();
-  const queryStringWithReturnPath = useKeywordsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);

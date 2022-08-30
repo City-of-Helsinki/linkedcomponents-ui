@@ -49,7 +49,7 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
-  const adminOrganizations = user ? [...user?.adminOrganizations] : [];
+  const adminOrganizations = [...(user?.adminOrganizations || [])];
 
   switch (action) {
     case REGISTRATION_ACTIONS.COPY:
@@ -57,7 +57,7 @@ export const checkCanUserDoAction = ({
     case REGISTRATION_ACTIONS.EDIT:
       return true;
     case REGISTRATION_ACTIONS.CREATE:
-      return !!adminOrganizations.length;
+      return publisher ? isAdminUser : !!adminOrganizations.length;
     case REGISTRATION_ACTIONS.DELETE:
     case REGISTRATION_ACTIONS.SHOW_ENROLMENTS:
     case REGISTRATION_ACTIONS.UPDATE:
@@ -166,6 +166,7 @@ export const getRegistrationFields = (
   language: Language
 ): RegistrationFields => {
   const id = registration.id || '';
+  const event = registration.event ?? '';
 
   return {
     id,
@@ -179,7 +180,8 @@ export const getRegistrationFields = (
     enrolmentStartTime: registration.enrolmentStartTime
       ? new Date(registration.enrolmentStartTime)
       : null,
-    event: registration.event ?? '',
+    event,
+    eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', event)}`,
     lastModifiedAt: registration.lastModifiedAt
       ? new Date(registration.lastModifiedAt)
       : null,

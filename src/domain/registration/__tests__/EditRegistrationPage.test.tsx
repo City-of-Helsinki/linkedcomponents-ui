@@ -17,6 +17,7 @@ import {
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
+  event,
   mockedDeleteRegistrationResponse,
   mockedEventResponse,
   mockedInvalidUpdateRegistrationResponse,
@@ -92,7 +93,22 @@ const getInput = (key: 'enrolmentStartTime' | 'minimumAttendeeCapacity') => {
   }
 };
 
-test('should move to registrations page to deleting registration', async () => {
+test('should show link to event page', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+  const eventLink = screen.getByRole('link', {
+    name: event.name?.fi as string,
+  });
+
+  await act(async () => await user.click(eventLink));
+  expect(history.location.pathname).toBe(
+    `/fi${ROUTES.EDIT_EVENT.replace(':id', event.id)}`
+  );
+});
+
+test('should move to registrations page after deleting registration', async () => {
   const mocks = [...baseMocks, mockedDeleteRegistrationResponse];
   const user = userEvent.setup();
   const { history } = renderComponent(mocks);
@@ -150,7 +166,7 @@ test('should scroll to first error when validation error is thrown', async () =>
   await waitFor(() => expect(minimumAttendeeCapacityInput).toHaveFocus());
 });
 
-test("should show not found page if registration doesn't exist", async () => {
+test('should show "not found" page if registration doesn\'t exist', async () => {
   renderComponent(undefined, {
     routes: [ROUTES.EDIT_REGISTRATION.replace(':id', 'not-exist')],
   });

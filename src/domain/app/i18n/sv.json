@@ -498,6 +498,11 @@
         "general": "Lägg till återkommande evenemang",
         "volunteering": "Lägg till återkommande volontärarbete"
       },
+      "buttonAddRegistration": {
+        "course": "Lägg till registrering för kursen",
+        "general": "Lägg till registrering för evenemanget",
+        "volunteering": "Lägg till registrering för volontärarbetet"
+      },
       "buttonAddVideo": "Lägg till video",
       "buttonCancel": "Ställ in evenemang",
       "buttonCopy": "Kopiera som mall",
@@ -783,6 +788,7 @@
       "labelVideoAltText": "Videons alt-text",
       "labelVideoName": "Namn på videon",
       "labelVideoUrl": "Videons URL-webaddress",
+      "linkGoToRegistration": "Gå till registrering",
       "modalTitleImage": {
         "course": "Lägg till kursens bild",
         "general": "Lägg till evenemangets bild",
@@ -930,6 +936,7 @@
         "linksToEvents": "Länkar till andra evenemang",
         "place": "Plats",
         "price": "Pris",
+        "registration": "Registrering",
         "responsibilities": "Ansvar",
         "time": "Tid",
         "type": "Evenemangstyp",

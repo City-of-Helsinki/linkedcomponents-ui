@@ -34,6 +34,12 @@ import CreateEnrolmentPage from '../CreateEnrolmentPage';
 
 configure({ defaultHidden: true });
 
+beforeEach(() => {
+  // values stored in tests will also be available in other tests unless you run
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
 const findElement = (key: 'nameInput' | 'submitButton') => {
   switch (key) {
     case 'nameInput':
@@ -123,6 +129,11 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     store,
   });
 
+const waitLoadingAndGetNameInput = async () => {
+  await loadingSpinnerIsNotInDocument();
+  return await findElement('nameInput');
+};
+
 test('should validate enrolment form and focus invalid field and finally create enrolment', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent([
@@ -130,7 +141,7 @@ test('should validate enrolment form and focus invalid field and finally create 
     mockedCreateEnrolmentResponse,
   ]);
 
-  const nameInput = await findElement('nameInput');
+  const nameInput = await waitLoadingAndGetNameInput();
   const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
@@ -237,7 +248,7 @@ test('should show server errors', async () => {
   const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidCreateEnrolmentResponse]);
 
-  const nameInput = await findElement('nameInput');
+  const nameInput = await waitLoadingAndGetNameInput();
   const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
@@ -288,7 +299,7 @@ test('should add and delete participants', async () => {
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndGetNameInput();
 
   const participantAmountInput = getElement('participantAmountInput');
   const updateParticipantAmountButton = getElement(
@@ -324,10 +335,10 @@ test('should show and hide participant specific fields', async () => {
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  const nameInput = getElement('nameInput');
-  const toggleButton = screen.getByRole('button', { name: 'Osallistuja 1' });
+  const nameInput = await waitLoadingAndGetNameInput();
+  const toggleButton = screen.getByRole('button', {
+    name: 'Osallistuja 1',
+  });
 
   await act(async () => await user.click(toggleButton));
   expect(nameInput).not.toBeInTheDocument();
@@ -341,7 +352,7 @@ test('should delete participants by clicking delete participant button', async (
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndGetNameInput();
 
   const participantAmountInput = getElement('participantAmountInput');
   const updateParticipantAmountButton = getElement(

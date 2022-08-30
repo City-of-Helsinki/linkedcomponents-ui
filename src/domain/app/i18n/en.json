@@ -498,6 +498,11 @@
         "general": "Add recurring event",
         "volunteering": "Add recurring volunteering"
       },
+      "buttonAddRegistration": {
+        "course": "Add registration for course",
+        "general": "Add registration for event",
+        "volunteering": "Add registration for volunteering"
+      },
       "buttonAddVideo": "Add video",
       "buttonCancel": "Cancel event",
       "buttonCopy": "Copy as template",
@@ -784,6 +789,7 @@
       "labelVideoAltText": "Video alt text",
       "labelVideoName": "Name for video",
       "labelVideoUrl": "Video URL",
+      "linkGoToRegistration": "Go to registration",
       "modalTitleImage": {
         "course": "Add course image",
         "general": "Add event image",
@@ -931,6 +937,7 @@
         "linksToEvents": "Links to other events",
         "place": "Location",
         "price": "Price",
+        "registration": "Registration",
         "responsibilities": "Responsibilities",
         "time": "Time",
         "type": "Event type",

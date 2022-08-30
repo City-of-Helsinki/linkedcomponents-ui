@@ -17,12 +17,12 @@ import {
 } from '../../../generated/graphql';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useSetFocused from '../../../hooks/useSetFocused';
 import getPageCount from '../../../utils/getPageCount';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { getRegistrationFields } from '../../registration/utils';
 // eslint-disable-next-line max-len
-import useRegistrationsQueryStringWithReturnPath from '../../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 import {
@@ -52,7 +52,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
-  const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const enrolmentListId = useIdWithPrefix({
     prefix: 'enrolment-attendee-list-',

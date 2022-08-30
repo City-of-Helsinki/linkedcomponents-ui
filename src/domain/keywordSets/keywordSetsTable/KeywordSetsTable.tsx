@@ -10,10 +10,10 @@ import {
   KeywordSetsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useSetFocused from '../../../hooks/useSetFocused';
 import { getKeywordSetFields } from '../../keywordSet/utils';
 import { KEYWORD_SET_SORT_OPTIONS } from '../constants';
-import useKeywordSetsQueryStringWithReturnPath from '../hooks/useKeywordSetsQueryStringWithReturnPath';
 import styles from './keywordSetsTable.module.scss';
 import KeywordSetsTableRow from './keywordSetsTableRow/KeywordSetsTableRow';
 
@@ -35,7 +35,7 @@ const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locale = useLocale();
-  const queryStringWithReturnPath = useKeywordSetsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);
