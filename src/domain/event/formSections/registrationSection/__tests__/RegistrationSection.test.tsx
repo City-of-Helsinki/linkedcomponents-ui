@@ -2,6 +2,10 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import { ROUTES } from '../../../../../constants';
+import {
+  PublicationStatus,
+  SuperEventType,
+} from '../../../../../generated/graphql';
 import generateAtId from '../../../../../utils/generateAtId';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
@@ -62,7 +66,10 @@ test('should show registration link if event has registration', async () => {
 test('should show create registration button if user has permissions to create registration', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
-    event: fakeEvent({ publisher: TEST_PUBLISHER_ID }),
+    event: fakeEvent({
+      publicationStatus: PublicationStatus.Public,
+      publisher: TEST_PUBLISHER_ID,
+    }),
   });
 
   const createButton = await screen.findByRole('button', {
@@ -72,4 +79,35 @@ test('should show create registration button if user has permissions to create r
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi${ROUTES.CREATE_REGISTRATION}`)
   );
+});
+
+test('should not show create registration button for draft event', async () => {
+  renderComponent({
+    event: fakeEvent({
+      publicationStatus: PublicationStatus.Draft,
+      publisher: TEST_PUBLISHER_ID,
+    }),
+  });
+
+  expect(
+    screen.queryByRole('button', {
+      name: 'Lisää tapahtumalle ilmoittautuminen',
+    })
+  ).not.toBeInTheDocument();
+});
+
+test('should not show create registration button for umbrella event', async () => {
+  renderComponent({
+    event: fakeEvent({
+      publicationStatus: PublicationStatus.Public,
+      publisher: TEST_PUBLISHER_ID,
+      superEventType: SuperEventType.Umbrella,
+    }),
+  });
+
+  expect(
+    screen.queryByRole('button', {
+      name: 'Lisää tapahtumalle ilmoittautuminen',
+    })
+  ).not.toBeInTheDocument();
 });

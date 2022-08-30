@@ -6,7 +6,10 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '../../../../common/components/button/Button';
 import { ROUTES } from '../../../../constants';
-import { EventFieldsFragment } from '../../../../generated/graphql';
+import {
+  EventFieldsFragment,
+  PublicationStatus,
+} from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../../hooks/useQueryStringWithReturnPath';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
@@ -61,6 +64,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({ event }) => {
 
   if (
     event.superEventType === null &&
+    event.publicationStatus === PublicationStatus.Public &&
     checkCanUserDoAction({
       action: REGISTRATION_ACTIONS.CREATE,
       organizationAncestors,
