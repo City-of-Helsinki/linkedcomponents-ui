@@ -39,7 +39,8 @@ const renderComponent = (mocks: MockedResponse[] = []) =>
   render(<CreateRegistrationPage />, { mocks, store });
 
 beforeEach(() => {
-  // values stored with FormikPersist will also be available in other tests unless you run
+  // values stored in tests will also be available in other tests unless you run
+  localStorage.clear();
   sessionStorage.clear();
 });
 
@@ -63,6 +64,15 @@ const setFormValues = (values: RegistrationFormFields) => {
   });
 };
 
+const findElement = (key: 'saveButton') => {
+  switch (key) {
+    case 'saveButton':
+      return screen.findByRole('button', {
+        name: /tallenna ilmoittautuminen/i,
+      });
+  }
+};
+
 const getElement = (
   key: 'eventCombobox' | 'enrolmentStartTime' | 'saveButton'
 ) => {
@@ -80,15 +90,19 @@ const getElement = (
   }
 };
 
+const waitLoadingAndGetSaveButton = async () => {
+  await loadingSpinnerIsNotInDocument();
+  return await findElement('saveButton');
+};
+
 test('should focus to first validation error when trying to save new registration', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
   const user = userEvent.setup();
   renderComponent([mockedUserResponse]);
 
-  await loadingSpinnerIsNotInDocument();
-
+  const saveButton = await waitLoadingAndGetSaveButton();
   const eventCombobox = getElement('eventCombobox');
-  const saveButton = getElement('saveButton');
+
   await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(eventCombobox).toHaveFocus());
@@ -107,7 +121,7 @@ test('should move to registration completed page after creating new registration
     mockedUserResponse,
   ]);
 
-  await loadingSpinnerIsNotInDocument();
+  const saveButton = await waitLoadingAndGetSaveButton();
   const startTimeInput = getElement('enrolmentStartTime');
   await actWait(1000);
 
@@ -117,7 +131,6 @@ test('should move to registration completed page after creating new registration
   );
   await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
 
-  const saveButton = getElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
   await act(async () => await user.click(saveButton));
 
@@ -139,7 +152,7 @@ test('should show server errors', async () => {
   const user = userEvent.setup();
   renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
+  const saveButton = await waitLoadingAndGetSaveButton();
   const startTimeInput = getElement('enrolmentStartTime');
   await actWait(1000);
 
@@ -149,7 +162,6 @@ test('should show server errors', async () => {
   );
   await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
 
-  const saveButton = getElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
   await act(async () => await user.click(saveButton));
 

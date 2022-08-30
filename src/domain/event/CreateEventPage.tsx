@@ -245,7 +245,6 @@ const CreateEventPage: React.FC = () => {
       validateOnChange={true}
     >
       {({
-        errors,
         values: { publisher, type, ...restValues },
         setErrors,
         setTouched,
@@ -283,7 +282,6 @@ const CreateEventPage: React.FC = () => {
             } else {
               await publicEventSchema.validate(values, { abortEarly: false });
             }
-
             await createEvent(values, publicationStatus);
           } catch (error) {
             showFormErrors({
@@ -302,91 +300,92 @@ const CreateEventPage: React.FC = () => {
 
         return (
           <Form noValidate={true}>
-            <FormikPersist
-              name={FORM_NAMES.EVENT_FORM}
-              isSessionStorage={true}
-            />
-            <PageWrapper
-              className={styles.eventPage}
-              title={`createEventPage.pageTitle.${type}`}
-            >
-              <MainContent>
-                <Container className={styles.createContainer} withOffset={true}>
-                  <Breadcrumb className={styles.breadcrumb}>
-                    <Breadcrumb.Item to={ROUTES.HOME}>
-                      {t('common.home')}
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item to={ROUTES.EVENTS}>
-                      {t('eventsPage.title')}
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item active={true}>
-                      {t(`createEventPage.title.${type}`)}
-                    </Breadcrumb.Item>
-                  </Breadcrumb>
+            <FormikPersist name={FORM_NAMES.EVENT_FORM} isSessionStorage={true}>
+              <PageWrapper
+                className={styles.eventPage}
+                title={`createEventPage.pageTitle.${type}`}
+              >
+                <MainContent>
+                  <Container
+                    className={styles.createContainer}
+                    withOffset={true}
+                  >
+                    <Breadcrumb className={styles.breadcrumb}>
+                      <Breadcrumb.Item to={ROUTES.HOME}>
+                        {t('common.home')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item to={ROUTES.EVENTS}>
+                        {t('eventsPage.title')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item active={true}>
+                        {t(`createEventPage.title.${type}`)}
+                      </Breadcrumb.Item>
+                    </Breadcrumb>
 
-                  <AuthenticationNotification />
-                  <ServerErrorSummary errors={serverErrorItems} />
+                    <AuthenticationNotification />
+                    <ServerErrorSummary errors={serverErrorItems} />
 
-                  <Section title={t('event.form.sections.type')}>
-                    <TypeSection isEditingAllowed={isEditingAllowed} />
-                  </Section>
-                  <Section title={t('event.form.sections.languages')}>
-                    <LanguagesSection isEditingAllowed={isEditingAllowed} />
-                  </Section>
-                  <Section title={t('event.form.sections.responsibilities')}>
-                    <ResponsibilitiesSection
-                      isEditingAllowed={isEditingAllowed}
-                    />
-                  </Section>
-                  <Section title={t('event.form.sections.description')}>
-                    <DescriptionSection
-                      isEditingAllowed={isEditingAllowed}
-                      selectedLanguage={descriptionLanguage}
-                      setSelectedLanguage={setDescriptionLanguage}
-                    />
-                  </Section>
-                  <Section title={t('event.form.sections.time')}>
-                    <TimeSection isEditingAllowed={isEditingAllowed} />
-                  </Section>
-                  <Section title={t('event.form.sections.place')}>
-                    <PlaceSection isEditingAllowed={isEditingAllowed} />
-                  </Section>
-                  <Section title={t('event.form.sections.price')}>
-                    <PriceSection isEditingAllowed={isEditingAllowed} />
-                  </Section>
-                  <Section title={t(`event.form.sections.channels.${type}`)}>
-                    <ChannelsSection isEditingAllowed={isEditingAllowed} />
-                  </Section>
-                  <Section title={t('event.form.sections.image')}>
-                    <ImageSection isEditingAllowed={isEditingAllowed} />
-                  </Section>
-                  <Section title={t('event.form.sections.video')}>
-                    <VideoSection isEditingAllowed={isEditingAllowed} />
-                  </Section>
-                  <Section title={t('event.form.sections.classification')}>
-                    <ClassificationSection
-                      isEditingAllowed={isEditingAllowed}
-                    />
-                  </Section>
-                  <Section title={t('event.form.sections.audience')}>
-                    <AudienceSection isEditingAllowed={isEditingAllowed} />
-                  </Section>
-                  <Section title={t('event.form.sections.additionalInfo')}>
-                    <AdditionalInfoSection
-                      isEditingAllowed={isEditingAllowed}
-                    />
-                  </Section>
+                    <Section title={t('event.form.sections.type')}>
+                      <TypeSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section title={t('event.form.sections.languages')}>
+                      <LanguagesSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section title={t('event.form.sections.responsibilities')}>
+                      <ResponsibilitiesSection
+                        isEditingAllowed={isEditingAllowed}
+                      />
+                    </Section>
+                    <Section title={t('event.form.sections.description')}>
+                      <DescriptionSection
+                        isEditingAllowed={isEditingAllowed}
+                        selectedLanguage={descriptionLanguage}
+                        setSelectedLanguage={setDescriptionLanguage}
+                      />
+                    </Section>
+                    <Section title={t('event.form.sections.time')}>
+                      <TimeSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section title={t('event.form.sections.place')}>
+                      <PlaceSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section title={t('event.form.sections.price')}>
+                      <PriceSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section title={t(`event.form.sections.channels.${type}`)}>
+                      <ChannelsSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section title={t('event.form.sections.image')}>
+                      <ImageSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section title={t('event.form.sections.video')}>
+                      <VideoSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section title={t('event.form.sections.classification')}>
+                      <ClassificationSection
+                        isEditingAllowed={isEditingAllowed}
+                      />
+                    </Section>
+                    <Section title={t('event.form.sections.audience')}>
+                      <AudienceSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section title={t('event.form.sections.additionalInfo')}>
+                      <AdditionalInfoSection
+                        isEditingAllowed={isEditingAllowed}
+                      />
+                    </Section>
 
-                  <SummarySection isEditingAllowed={isEditingAllowed} />
-                </Container>
-                <CreateButtonPanel
-                  onPublish={() => handleSubmit(PublicationStatus.Public)}
-                  onSaveDraft={() => handleSubmit(PublicationStatus.Draft)}
-                  publisher={publisher}
-                  saving={saving}
-                />
-              </MainContent>
-            </PageWrapper>
+                    <SummarySection isEditingAllowed={isEditingAllowed} />
+                  </Container>
+                  <CreateButtonPanel
+                    onPublish={() => handleSubmit(PublicationStatus.Public)}
+                    onSaveDraft={() => handleSubmit(PublicationStatus.Draft)}
+                    publisher={publisher}
+                    saving={saving}
+                  />
+                </MainContent>
+              </PageWrapper>
+            </FormikPersist>
           </Form>
         );
       }}

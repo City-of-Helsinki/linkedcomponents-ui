@@ -263,53 +263,54 @@ const EnrolmentForm: React.FC<Props> = ({
                 name={`${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registration.id}`}
                 restoringDisabled={isRestoringDisabled()}
                 savingDisabled={formSavingDisabled.current}
-              />
-              <Container
-                contentWrapperClassName={styles.editPageContentContainer}
-                withOffset
               >
-                <FormContainer>
-                  <EnrolmentAuthenticationNotification
-                    action={ENROLMENT_ACTIONS.UPDATE}
-                    registration={registration}
-                  />
-                  <ServerErrorSummary errors={serverErrorItems} />
-                  <EventInfo event={event} />
-                  <div className={styles.divider} />
-                  {!enrolment && registrationWarning && (
-                    <Notification type="info" className={styles.warning}>
-                      {registrationWarning}
-                    </Notification>
-                  )}
-                  {!enrolment && (
-                    <>
-                      <ReservationTimer registration={registration} />
-                      <div className={styles.divider} />
-                    </>
-                  )}
-                  <h2>{t('enrolment.form.titleRegistration')}</h2>
+                <Container
+                  contentWrapperClassName={styles.editPageContentContainer}
+                  withOffset
+                >
+                  <FormContainer>
+                    <EnrolmentAuthenticationNotification
+                      action={ENROLMENT_ACTIONS.UPDATE}
+                      registration={registration}
+                    />
+                    <ServerErrorSummary errors={serverErrorItems} />
+                    <EventInfo event={event} />
+                    <div className={styles.divider} />
+                    {!enrolment && registrationWarning && (
+                      <Notification type="info" className={styles.warning}>
+                        {registrationWarning}
+                      </Notification>
+                    )}
+                    {!enrolment && (
+                      <>
+                        <ReservationTimer registration={registration} />
+                        <div className={styles.divider} />
+                      </>
+                    )}
+                    <h2>{t('enrolment.form.titleRegistration')}</h2>
 
-                  <ParticipantAmountSelector
-                    disabled={disabled || !!enrolment}
-                  />
+                    <ParticipantAmountSelector
+                      disabled={disabled || !!enrolment}
+                    />
 
-                  <EnrolmentFormFields disabled={disabled} />
-                </FormContainer>
-              </Container>
-              {enrolment ? (
-                <EditButtonPanel
-                  enrolment={enrolment}
-                  onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
-                  onSave={handleSubmit}
-                  saving={saving}
-                />
-              ) : (
-                <CreateButtonPanel
-                  disabled={disabled}
-                  onSave={handleSubmit}
-                  saving={creatingEnrolment}
-                />
-              )}
+                    <EnrolmentFormFields disabled={disabled} />
+                  </FormContainer>
+                </Container>
+                {enrolment ? (
+                  <EditButtonPanel
+                    enrolment={enrolment}
+                    onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
+                    onSave={handleSubmit}
+                    saving={saving}
+                  />
+                ) : (
+                  <CreateButtonPanel
+                    disabled={disabled}
+                    onSave={handleSubmit}
+                    saving={creatingEnrolment}
+                  />
+                )}
+              </FormikPersist>
             </Form>
           </>
         );

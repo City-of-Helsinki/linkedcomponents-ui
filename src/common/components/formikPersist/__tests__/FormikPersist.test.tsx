@@ -47,7 +47,9 @@ test('attempts to rehydrate on mount', async () => {
 
         return (
           <div>
-            <Persist name={formName} debounceTime={0} />
+            <Persist name={formName} debounceTime={0}>
+              Content
+            </Persist>
           </div>
         );
       }}
@@ -89,7 +91,9 @@ test('attempts to rehydrate on mount if session storage is true on props', async
 
         return (
           <div>
-            <Persist name={formName} debounceTime={0} isSessionStorage={true} />
+            <Persist name={formName} debounceTime={0} isSessionStorage={true}>
+              Content
+            </Persist>
           </div>
         );
       }}

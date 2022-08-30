@@ -114,6 +114,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
     if (!isFocused) {
       const newDoc = htmlTransformer.parse(value || initialValue);
 
+      /* istanbul ignore next */
       if (view.state.doc.toString() !== newDoc.toString()) {
         const tr = editorState.tr;
 

@@ -161,57 +161,62 @@ const CreateRegistrationPage: React.FC = () => {
             <FormikPersist
               name={FORM_NAMES.REGISTRATION_FORM}
               isSessionStorage={true}
-            />
+            >
+              <MainContent>
+                <Container className={styles.createContainer} withOffset={true}>
+                  <Breadcrumb className={styles.breadcrumb}>
+                    <Breadcrumb.Item to={ROUTES.HOME}>
+                      {t('common.home')}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
+                      {t('registrationsPage.title')}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item active={true}>
+                      {t(`createRegistrationPage.title`)}
+                    </Breadcrumb.Item>
+                  </Breadcrumb>
 
-            <MainContent>
-              <Container className={styles.createContainer} withOffset={true}>
-                <Breadcrumb className={styles.breadcrumb}>
-                  <Breadcrumb.Item to={ROUTES.HOME}>
-                    {t('common.home')}
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
-                    {t('registrationsPage.title')}
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item active={true}>
-                    {t(`createRegistrationPage.title`)}
-                  </Breadcrumb.Item>
-                </Breadcrumb>
-
-                <AuthenticationNotification
-                  action={REGISTRATION_ACTIONS.CREATE}
-                />
-                <ServerErrorSummary errors={serverErrorItems} />
-                <Section title={t('registration.form.sections.event')}>
-                  <EventSection isEditingAllowed={isEditingAllowed} />
-                </Section>
-                <Section title={t('registration.form.sections.enrolmentTime')}>
-                  <EnrolmentTimeSection isEditingAllowed={isEditingAllowed} />
-                </Section>
-                <Section title={t('registration.form.sections.attendeeCount')}>
-                  <AttendeeCapacitySection
-                    isEditingAllowed={isEditingAllowed}
+                  <AuthenticationNotification
+                    action={REGISTRATION_ACTIONS.CREATE}
                   />
-                </Section>
-                <Section title={t('registration.form.sections.waitingList')}>
-                  <WaitingListSection isEditingAllowed={isEditingAllowed} />
-                </Section>
-                <Section title={t('registration.form.sections.instructions')}>
-                  <InstructionsSection isEditingAllowed={isEditingAllowed} />
-                </Section>
-                <Section
-                  title={t('registration.form.sections.confirmationMessage')}
-                >
-                  <ConfirmationMessageSection
-                    isEditingAllowed={isEditingAllowed}
-                  />
-                </Section>
-                <Section title={t('registration.form.sections.audienceAge')}>
-                  <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
-                </Section>
-              </Container>
+                  <ServerErrorSummary errors={serverErrorItems} />
 
-              <CreateButtonPanel onSave={handleSubmit} saving={saving} />
-            </MainContent>
+                  <Section title={t('registration.form.sections.event')}>
+                    <EventSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                  <Section
+                    title={t('registration.form.sections.enrolmentTime')}
+                  >
+                    <EnrolmentTimeSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                  <Section
+                    title={t('registration.form.sections.attendeeCount')}
+                  >
+                    <AttendeeCapacitySection
+                      isEditingAllowed={isEditingAllowed}
+                    />
+                  </Section>
+                  <Section title={t('registration.form.sections.waitingList')}>
+                    <WaitingListSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                  <Section title={t('registration.form.sections.instructions')}>
+                    <InstructionsSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                  <Section
+                    title={t('registration.form.sections.confirmationMessage')}
+                  >
+                    <ConfirmationMessageSection
+                      isEditingAllowed={isEditingAllowed}
+                    />
+                  </Section>
+                  <Section title={t('registration.form.sections.audienceAge')}>
+                    <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                </Container>
+
+                <CreateButtonPanel onSave={handleSubmit} saving={saving} />
+              </MainContent>
+            </FormikPersist>
           </Form>
         );
       }}
