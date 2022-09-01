@@ -28,11 +28,15 @@ FROM appbase as development
 ARG NODE_ENV=development
 ENV NODE_ENV $NODE_ENV
 
+ENV PORT 8000
+
 # Copy all files
 COPY --chown=appuser:appuser . /app/
 
 # Bake package.json start command into the image
 CMD ["yarn", "start"]
+
+EXPOSE 8000
 
 # ===================================
 FROM appbase as staticbuilder
@@ -88,12 +92,23 @@ RUN yarn generate-robots
 RUN yarn compress
 
 # =============================
-FROM nginx:1.17 as production
+FROM registry.access.redhat.com/ubi8/nginx-118 as production
 # =============================
+USER root
 
-# Nginx runs with user "nginx" by default
-COPY --from=staticbuilder --chown=nginx:nginx /app/build /usr/share/nginx/html
+RUN chgrp -R 0 /usr/share/nginx/html && \
+    chmod -R g=u /usr/share/nginx/html
 
-COPY .prod/nginx.conf /etc/nginx/conf.d/default.conf
+# Copy static build
+COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
-EXPOSE 80
+# Copy nginx config
+COPY .prod/nginx.conf /etc/nginx/nginx.conf
+
+COPY .env .
+
+USER 1001
+
+CMD ["/bin/bash", "-c", "nginx -g \"daemon off;\""]
+
+EXPOSE 8000

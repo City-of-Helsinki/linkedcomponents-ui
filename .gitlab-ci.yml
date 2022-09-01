@@ -4,7 +4,7 @@ include:
     file: '/.gitlab-ci-template.yml'
 
 variables:
-  SERVICE_PORT: 80
+  SERVICE_PORT: 8000
 
 build-review:
   # These variables are available only for review env and are merged with the general variables defined above.

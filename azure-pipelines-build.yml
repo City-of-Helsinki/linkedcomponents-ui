@@ -4,10 +4,7 @@ trigger:
   batch: true
   branches:
     include:
-      - main
-      # other examples:
-      - release/*
-      - refs/tags/*
+      - develop
   paths:
     exclude:
       - README.md
