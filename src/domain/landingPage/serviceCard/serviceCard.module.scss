@@ -13,7 +13,6 @@
   position: relative;
   display: grid;
   text-decoration: none;
-  display: grid;
 
   @include medium-up {
     grid-template-columns: repeat(2, 1fr);
