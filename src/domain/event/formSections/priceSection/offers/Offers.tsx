@@ -19,7 +19,6 @@ interface Props {
 const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
-  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: offers }] = useField<OfferType[]>({
     name: EVENT_FIELDS.OFFERS,
   });
@@ -28,16 +27,16 @@ const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
     <FieldArray
       name={EVENT_FIELDS.OFFERS}
       render={(arrayHelpers) => (
-        <div>
-          {offers.map((offer, index: number) => {
+        <>
+          {offers.map((_, index: number) => {
             return (
               <Offer
                 key={index}
                 isEditingAllowed={isEditingAllowed}
                 offerPath={getOfferPath(index)}
                 onDelete={() => arrayHelpers.remove(index)}
+                showDelete={offers.length > 1}
                 showInstructions={!index}
-                type={type}
               />
             );
           })}
@@ -53,7 +52,7 @@ const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
               {t('event.form.buttonAddOffer')}
             </Button>
           </FieldWithButton>
-        </div>
+        </>
       )}
     />
   );

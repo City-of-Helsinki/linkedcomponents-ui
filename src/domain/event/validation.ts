@@ -67,27 +67,51 @@ const eventTimesSchema = Yup.array().when(
   validateEventTimes as () => Yup.SchemaOf<EventTime[]>
 );
 
+const createPaidOfferSchema = (eventInfoLanguage: string[]) =>
+  Yup.object().shape({
+    [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
+      eventInfoLanguage,
+      Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    ),
+    [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
+      eventInfoLanguage,
+      Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+    ),
+  });
+
+const createFreeOfferSchema = (eventInfoLanguage: string[]) =>
+  Yup.object().test(async (values, { options }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const index: number = (options as any).index;
+
+    if (index === 0) {
+      try {
+        await Yup.object()
+          .shape({
+            [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
+              eventInfoLanguage,
+              Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+            ),
+          })
+          .validate(values, options);
+      } catch (e) {
+        return e as Yup.ValidationError;
+      }
+
+      return true;
+    }
+
+    return true;
+  });
+
 const validateOffers = (
   hasPrice: boolean,
   eventInfoLanguage: string[],
   schema: Yup.SchemaOf<Offer[]>
 ) =>
   hasPrice
-    ? Yup.array()
-        .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
-        .of(
-          Yup.object().shape({
-            [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
-              eventInfoLanguage,
-              Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-            ),
-            [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
-              eventInfoLanguage,
-              Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-            ),
-          })
-        )
-    : schema;
+    ? schema.of(createPaidOfferSchema(eventInfoLanguage))
+    : schema.of(createFreeOfferSchema(eventInfoLanguage));
 
 const externalLinksSchema = Yup.array().of(
   Yup.object().shape({
@@ -300,10 +324,12 @@ export const publicEventSchema = Yup.object().shape(
           createStringMaxErrorMessage
         )
       ),
-    [EVENT_FIELDS.OFFERS]: Yup.array().when(
-      [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-      validateOffers as () => Yup.SchemaOf<Offer[]>
-    ),
+    [EVENT_FIELDS.OFFERS]: Yup.array()
+      .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
+      .when(
+        [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
+        validateOffers as () => Yup.SchemaOf<Offer[]>
+      ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
       Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
     ),
@@ -345,11 +371,17 @@ export const draftEventSchema = Yup.object().shape(
     [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
       Yup.string().max(CHARACTER_LIMITS.LONG_STRING)
     ),
+    [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
     [EVENT_FIELDS.LOCATION_EXTRA_INFO]:
       createMultiLanguageValidationByInfoLanguages(
         Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
       ),
-    [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
+    [EVENT_FIELDS.OFFERS]: Yup.array()
+      .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
+      .when(
+        [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
+        validateOffers as () => Yup.SchemaOf<Offer[]>
+      ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
       Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
     ),

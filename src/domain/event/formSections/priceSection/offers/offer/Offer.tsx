@@ -5,18 +5,17 @@ import { useTranslation } from 'react-i18next';
 import DeleteButton from '../../../../../../common/components/deleteButton/DeleteButton';
 import MultiLanguageField from '../../../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
 import FormGroup from '../../../../../../common/components/formGroup/FormGroup';
-import Notification from '../../../../../../common/components/notification/Notification';
 import FieldRow from '../../../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../../../constants';
-import styles from '../../../../eventPage.module.scss';
 import FieldWithButton from '../../../../layout/FieldWithButton';
+import PriceNotification from '../../priceNotification/PriceNotification';
 
 type Props = {
   isEditingAllowed: boolean;
   offerPath: string;
   onDelete: () => void;
+  showDelete: boolean;
   showInstructions?: boolean;
-  type: string;
 };
 
 const getFieldName = (offerPath: string, field: string) =>
@@ -26,43 +25,35 @@ const Offer: React.FC<Props> = ({
   isEditingAllowed,
   offerPath,
   onDelete,
+  showDelete,
   showInstructions,
-  type,
 }) => {
   const { t } = useTranslation();
 
+  const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: eventInfoLanguages }] = useField({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
 
   return (
     <>
-      <h3>{t('event.form.titleOfferPrice')}</h3>
       <FieldRow
-        notification={
-          showInstructions ? (
-            <Notification
-              className={styles.notification}
-              label={t(`event.form.notificationTitleOffers`)}
-              type="info"
-            >
-              <p>{t(`event.form.infoTextOffers1.${type}`)}</p>
-              <p>{t(`event.form.infoTextOffers2.${type}`)}</p>
-            </Notification>
-          ) : undefined
-        }
+        notification={showInstructions ? <PriceNotification /> : undefined}
       >
         <FieldWithButton
           button={
-            <DeleteButton
-              ariaLabel={t('event.form.buttonDeleteOffer')}
-              disabled={!isEditingAllowed}
-              onClick={onDelete}
-            />
+            showDelete && (
+              <DeleteButton
+                ariaLabel={t('event.form.buttonDeleteOffer')}
+                disabled={!isEditingAllowed}
+                onClick={onDelete}
+              />
+            )
           }
         >
           <>
             <FormGroup>
+              <h3>{t('event.form.titleOfferPrice')}</h3>
               <MultiLanguageField
                 disabled={!isEditingAllowed}
                 labelKey={`event.form.labelOfferPrice`}

@@ -7,7 +7,6 @@ import {
   IconCross,
   IconPen,
 } from 'hds-react';
-import React from 'react';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT, MAX_PAGE_SIZE } from '../../constants';
 import { EventsQueryVariables } from '../../generated/graphql';
@@ -143,7 +142,13 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: '',
   [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
   [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-  [EVENT_FIELDS.OFFERS]: [],
+  [EVENT_FIELDS.OFFERS]: [
+    {
+      [EVENT_FIELDS.OFFER_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+      [EVENT_FIELDS.OFFER_INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+      [EVENT_FIELDS.OFFER_PRICE]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    },
+  ],
   [EVENT_FIELDS.PROVIDER]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.PUBLISHER]: '',
   [EVENT_FIELDS.RECURRING_EVENTS]: [],
