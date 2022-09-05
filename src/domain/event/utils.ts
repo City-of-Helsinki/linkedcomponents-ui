@@ -547,10 +547,18 @@ export const getEventBasePayload = (
             eventInfoLanguages
           ),
           infoUrl: filterUnselectedLanguages(offer.infoUrl, eventInfoLanguages),
-          price: filterUnselectedLanguages(offer.price, eventInfoLanguages),
           isFree: false,
+          price: filterUnselectedLanguages(offer.price, eventInfoLanguages),
         }))
-      : [{ isFree: true }],
+      : [
+          {
+            infoUrl: filterUnselectedLanguages(
+              offers[0]?.infoUrl,
+              eventInfoLanguages
+            ),
+            isFree: true,
+          },
+        ],
     provider: filterUnselectedLanguages(provider, eventInfoLanguages),
     publisher,
     shortDescription: filterUnselectedLanguages(
@@ -706,6 +714,18 @@ export const getEventInitialValues = (
           },
         ];
 
+  const offers = event.offers
+    .filter((offer) => !!offer?.isFree !== hasPrice)
+    .map((offer) => ({
+      description: getLocalisedObject(offer?.description),
+      infoUrl: getLocalisedObject(offer?.infoUrl),
+      price: getLocalisedObject(offer?.price),
+    }));
+
+  if (!offers.length) {
+    offers.push(getEmptyOffer());
+  }
+
   return {
     ...EVENT_INITIAL_VALUES,
     audience: event.audience.map((keyword) => keyword?.atId as string),
@@ -756,15 +776,7 @@ export const getEventInitialValues = (
     maximumAttendeeCapacity: event.maximumAttendeeCapacity ?? '',
     minimumAttendeeCapacity: event.minimumAttendeeCapacity ?? '',
     name: getLocalisedObject(event.name),
-    offers: hasPrice
-      ? event.offers
-          .filter((offer) => !offer?.isFree)
-          .map((offer) => ({
-            description: getLocalisedObject(offer?.description),
-            infoUrl: getLocalisedObject(offer?.infoUrl),
-            price: getLocalisedObject(offer?.price),
-          }))
-      : [],
+    offers,
     publisher: event.publisher ?? '',
     provider: getLocalisedObject(event.provider),
     recurringEventEndTime:

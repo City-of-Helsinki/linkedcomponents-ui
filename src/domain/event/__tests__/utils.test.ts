@@ -49,6 +49,7 @@ import {
   filterUnselectedLanguages,
   generateEventTimesFromRecurringEvent,
   getEditEventWarning,
+  getEmptyOffer,
   getEventFields,
   getEventInfoLanguages,
   getEventInitialValues,
@@ -109,6 +110,7 @@ const defaultEventPayload = {
   },
   offers: [
     {
+      infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
       isFree: true,
     },
   ],
@@ -1112,7 +1114,6 @@ describe('getEventInitialValues function', () => {
           sv: null,
           zhHans: null,
         },
-        offers: null as any,
         publisher: null,
         startTime: null,
         superEvent: null,
@@ -1130,7 +1131,7 @@ describe('getEventInitialValues function', () => {
     expect(externalLinks).toEqual([{ link: '', name: '' }]);
     expect(location).toEqual('');
     expect(name).toEqual(expectedName);
-    expect(offers).toEqual([]);
+    expect(offers).toEqual([getEmptyOffer()]);
     expect(publisher).toEqual('');
     expect(superEvent).toEqual(superEvent);
     expect(type).toEqual(EVENT_TYPE.General);

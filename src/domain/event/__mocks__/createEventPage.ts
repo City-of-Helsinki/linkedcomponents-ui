@@ -74,7 +74,12 @@ const baseEventPayload = {
     sv: null,
     zhHans: null,
   },
-  offers: [{ isFree: true }],
+  offers: [
+    {
+      infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
+      isFree: true,
+    },
+  ],
   provider: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
   publisher: organizationId,
   shortDescription: {

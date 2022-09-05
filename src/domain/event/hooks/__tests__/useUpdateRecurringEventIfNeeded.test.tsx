@@ -8,6 +8,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { unstable_HistoryRouter as Router } from 'react-router-dom';
 
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../constants';
 import {
   EventDocument,
   SuperEventType,
@@ -61,7 +62,7 @@ const basePayload = {
   keywords: [],
   maximumAttendeeCapacity: null,
   minimumAttendeeCapacity: null,
-  offers: [{ isFree: true }],
+  offers: [{ infoUrl: EMPTY_MULTI_LANGUAGE_OBJECT, isFree: true }],
   publisher,
   superEvent: null,
   superEventType: 'recurring',
@@ -70,7 +71,7 @@ const basePayload = {
   id: superEventId,
 };
 
-const getHookWrapper = (mocks = []) => {
+const getHookWrapper = (mocks: MockedResponse[] = []) => {
   const wrapper = ({ children }) => (
     // @ts-ignore
     <Provider store={store}>
@@ -245,7 +246,7 @@ test('should update only start time if new end time would be in past but start t
       description: omit(superEvent.description, '__typename'),
       infoUrl: omit(superEvent.infoUrl, '__typename'),
       location: {
-        atId: superEvent.location.atId,
+        atId: superEvent.location?.atId,
       },
       locationExtraInfo: omit(superEvent.locationExtraInfo, '__typename'),
       name: omit(superEvent.name, '__typename'),
@@ -261,11 +262,7 @@ test('should update only start time if new end time would be in past but start t
     ...superEvent,
     startTime: '2020-12-30T18:00:00.000Z',
   };
-  const updateEventResponse = {
-    data: {
-      updateEvent: updatedSuperEvent,
-    },
-  };
+  const updateEventResponse = { data: { updateEvent: updatedSuperEvent } };
   const mockedUpdateEventResponse: MockedResponse = {
     request: {
       query: UpdateEventDocument,
@@ -322,9 +319,7 @@ test('should return new super event if recurring event is updated', async () => 
       ...basePayload,
       description: omit(superEvent.description, '__typename'),
       infoUrl: omit(superEvent.infoUrl, '__typename'),
-      location: {
-        atId: superEvent.location.atId,
-      },
+      location: { atId: superEvent.location?.atId },
       locationExtraInfo: omit(superEvent.locationExtraInfo, '__typename'),
       name: omit(superEvent.name, '__typename'),
       provider: omit(superEvent.provider, '__typename'),
@@ -340,9 +335,7 @@ test('should return new super event if recurring event is updated', async () => 
     startTime: '2021-12-30T18:00:00.000Z',
   };
   const updateEventResponse = {
-    data: {
-      updateEvent: updatedSuperEvent,
-    },
+    data: { updateEvent: updatedSuperEvent },
   };
   const mockedUpdateEventResponse: MockedResponse = {
     request: {
