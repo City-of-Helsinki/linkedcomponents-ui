@@ -1,13 +1,10 @@
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { StoreState } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -36,8 +33,7 @@ const defaultProps: EditButtonPanelProps = {
 
 const mocks = [mockedEventResponse, mockedUserResponse];
 
-const state = fakeAuthenticatedStoreState();
-const defaultStore = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultRoute = `/fi/${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
   ':registrationId',
@@ -47,11 +43,9 @@ const defaultRoute = `/fi/${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
 const renderComponent = ({
   props,
   route = defaultRoute,
-  store = defaultStore,
 }: {
   props?: Partial<EditButtonPanelProps>;
   route?: string;
-  store?: Store<StoreState, AnyAction>;
 } = {}) =>
   render(
     <EnrolmentPageContext.Provider
@@ -60,9 +54,9 @@ const renderComponent = ({
       <EditButtonPanel {...defaultProps} {...props} />
     </EnrolmentPageContext.Provider>,
     {
+      authContextValue,
       mocks,
       routes: [route],
-      store,
     }
   );
 

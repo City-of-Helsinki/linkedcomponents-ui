@@ -1,18 +1,17 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { TEST_USER_ID } from '../../../../constants';
 import { TEST_PUBLISHER_ID } from '../../../../domain/organization/constants';
+import { userVariables } from '../../../../domain/user/__mocks__/user';
 import {
   OrganizationDocument,
   UserDocument,
 } from '../../../../generated/graphql';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeOrganization, fakeUser } from '../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -21,7 +20,6 @@ import {
 import PublisherSelector, {
   PublisherSelectorProps,
 } from '../PublisherSelector';
-
 configure({ defaultHidden: true });
 
 const label = 'Select publisher';
@@ -73,12 +71,13 @@ const user = fakeUser({
   adminOrganizations: [adminOrganizationId],
   organizationMemberships: [organizationId],
 });
-const userVariables = { createPath: undefined, id: TEST_USER_ID };
 const userResponse = { data: { user } };
 const mockedUserResponse: MockedResponse = {
   request: { query: UserDocument, variables: userVariables },
   result: userResponse,
 };
+
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const mocks = [
   mockedAdminOrganizationResponse,
@@ -87,9 +86,6 @@ const mocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
-
 const defaultProps: PublisherSelectorProps = {
   label,
   name: 'publisher-selector',
@@ -97,7 +93,10 @@ const defaultProps: PublisherSelectorProps = {
 };
 
 const renderComponent = (props?: Partial<PublisherSelectorProps>) =>
-  render(<PublisherSelector {...defaultProps} {...props} />, { mocks, store });
+  render(<PublisherSelector {...defaultProps} {...props} />, {
+    authContextValue,
+    mocks,
+  });
 
 const getElement = (key: 'searchInput' | 'toggleButton') => {
   switch (key) {

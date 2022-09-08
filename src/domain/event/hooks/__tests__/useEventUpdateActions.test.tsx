@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { MockedProvider } from '@apollo/client/testing';
+import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import React from 'react';
-import { Provider } from 'react-redux';
 import { unstable_HistoryRouter as Router } from 'react-router-dom';
 
 import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../../generated/graphql';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
-import { getMockReduxStore } from '../../../../utils/testUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { createCache } from '../../../app/apollo/apolloClient';
+import { AuthContext } from '../../../auth/AuthContext';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
@@ -41,19 +40,21 @@ import {
 } from '../__mocks__/useEventUpdateActions';
 import useEventUpdateActions from '../useEventUpdateActions';
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const history = createMemoryHistory();
 const commonMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
-const getHookWrapper = (event: EventFieldsFragment, mocks = []) => {
+const getHookWrapper = (
+  event: EventFieldsFragment,
+  mocks: MockedResponse[] = []
+) => {
   const wrapper = ({ children }) => (
-    // @ts-ignore
-    <Provider store={store}>
+    <AuthContext.Provider value={authContextValue}>
       <MockedProvider cache={createCache()} mocks={[...commonMocks, ...mocks]}>
         <Router history={history}>{children}</Router>
       </MockedProvider>
-    </Provider>
+    </AuthContext.Provider>
   );
   const { result } = renderHook(() => useEventUpdateActions({ event }), {
     wrapper,
@@ -126,8 +127,8 @@ test('should update single event', async () => {
         events: [
           {
             id: event.id,
-            endTime: new Date(event.endTime),
-            startTime: new Date(event.startTime),
+            endTime: new Date(event.endTime as string),
+            startTime: new Date(event.startTime as string),
           },
         ],
       },
@@ -153,8 +154,10 @@ test('should update single event with recurring super event', async () => {
         events: [
           {
             id: eventWithRecurringSuperEvent2.id,
-            endTime: new Date(eventWithRecurringSuperEvent2.endTime),
-            startTime: new Date(eventWithRecurringSuperEvent2.startTime),
+            endTime: new Date(eventWithRecurringSuperEvent2.endTime as string),
+            startTime: new Date(
+              eventWithRecurringSuperEvent2.startTime as string
+            ),
           },
         ],
       },

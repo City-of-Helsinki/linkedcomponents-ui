@@ -5,7 +5,6 @@ import { createMemoryHistory } from 'history';
 import { advanceTo, clear } from 'jest-date-mock';
 import omit from 'lodash/omit';
 import React from 'react';
-import { Provider } from 'react-redux';
 import { unstable_HistoryRouter as Router } from 'react-router-dom';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../constants';
@@ -15,9 +14,9 @@ import {
   UpdateEventDocument,
 } from '../../../../generated/graphql';
 import generateAtId from '../../../../utils/generateAtId';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeEvent } from '../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
-import { getMockReduxStore } from '../../../../utils/testUtils';
+import { AuthContext } from '../../../auth/AuthContext';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { EVENT_INCLUDES } from '../../constants';
@@ -46,8 +45,7 @@ const superEventVariables = {
   createPath: undefined,
 };
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const basePayload = {
   publicationStatus: 'public',
@@ -73,14 +71,13 @@ const basePayload = {
 
 const getHookWrapper = (mocks: MockedResponse[] = []) => {
   const wrapper = ({ children }) => (
-    // @ts-ignore
-    <Provider store={store}>
+    <AuthContext.Provider value={authContextValue}>
       <Router history={createMemoryHistory()}>
         <MockedProvider mocks={mocks} addTypename={false}>
           {children}
         </MockedProvider>
       </Router>
-    </Provider>
+    </AuthContext.Provider>
   );
   const { result } = renderHook(() => useUpdateRecurringEventIfNeeded(), {
     wrapper,

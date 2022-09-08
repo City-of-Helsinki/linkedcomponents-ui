@@ -1,12 +1,12 @@
 import { createMemoryHistory } from 'history';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -23,19 +23,20 @@ import KeywordsPage from '../KeywordsPage';
 
 configure({ defaultHidden: true });
 
-const storeState = fakeAuthenticatedStoreState();
-const defaultStore = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedKeywordsResponse, mockedUserResponse];
+const mocks = [mockedKeywordsResponse, mockedUserResponse];
+
 const route = ROUTES.KEYWORDS;
+const routes = [route];
 
-const renderComponent = ({
-  mocks = defaultMocks,
-  routes = [route],
-  store = defaultStore,
-  ...restRenderOptions
-}: CustomRenderOptions = {}) =>
-  render(<KeywordsPage />, { mocks, routes, store, ...restRenderOptions });
+const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
+  render(<KeywordsPage />, {
+    authContextValue,
+    mocks,
+    routes,
+    ...renderOptions,
+  });
 
 const findElement = (key: 'title') => {
   switch (key) {
@@ -110,7 +111,7 @@ test('should add sort parameter to search query', async () => {
 
 it('scrolls to keyword row and calls history.replace correctly (deletes keywordId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { keywordId: keywords.data[0].id });
+  history.push(route, { keywordId: keywords.data[0]?.id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 

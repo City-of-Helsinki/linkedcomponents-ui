@@ -5,13 +5,17 @@ import {
   PostFeedbackDocument,
   PostGuestFeedbackDocument,
 } from '../../../../../generated/graphql';
+import {
+  fakeAuthenticatedAuthContextValue,
+  fakeOidcReducerState,
+  fakeOidcUserProfileState,
+  fakeOidcUserState,
+} from '../../../../../utils/mockAuthContextValue';
 import { fakeFeedback } from '../../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -246,13 +250,14 @@ test('should succesfully send feedback when user is not signed in', async () => 
 });
 
 test('should succesfully send feedback when user is signed in', async () => {
-  const state = fakeAuthenticatedStoreState();
-  state.authentication.oidc.user.profile.email = values.email;
-  state.authentication.oidc.user.profile.name = values.name;
-  const store = getMockReduxStore(state);
+  const authContextValue = fakeAuthenticatedAuthContextValue(
+    fakeOidcReducerState({
+      user: fakeOidcUserState({ profile: fakeOidcUserProfileState(values) }),
+    })
+  );
 
   const user = userEvent.setup();
-  renderComponent({ mocks: [mockedPostFeedbackResponse], store });
+  renderComponent({ mocks: [mockedPostFeedbackResponse], authContextValue });
 
   const topicToggleButton = getElement('topicToggleButton');
   const subjectInput = getElement('subject');

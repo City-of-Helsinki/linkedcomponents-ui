@@ -3,6 +3,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import {
   DeleteEventDocument,
   EventDocument,
+  EventFieldsFragment,
   EventStatus,
   SuperEventType,
   UpdateEventDocument,
@@ -14,18 +15,18 @@ import { EVENT_INCLUDES } from '../../constants';
 const eventWithRecurringSuperEvent1 = {
   ...subEvents.data[0],
   superEvent: event,
-};
+} as EventFieldsFragment;
 
 const eventWithRecurringSuperEvent2 = {
   ...subEvents.data[1],
   superEvent: { ...event, superEventType: SuperEventType.Recurring },
-};
+} as EventFieldsFragment;
 
 const postponeEventWithRecurringSuperEventVariables = {
   input: [
     {
       ...basePayload,
-      id: subEvents.data[0].id,
+      id: subEvents.data[0]?.id,
       superEvent: { atId: event.atId },
       startTime: null,
       endTime: null,
@@ -51,7 +52,7 @@ const mockedPostponeEventWithRecurringSuperEventResponse: MockedResponse = {
 };
 
 const deleteEventWithRecurringSuperEventVariables = {
-  id: subEvents.data[0].id,
+  id: subEvents.data[0]?.id,
 };
 const deleteEventWithRecurringSuperEventResponse = {
   data: { deleteEvent: null },
@@ -92,10 +93,10 @@ const updateRecurringEventWithDeletedSubEventResponse = {
 const updateRecurringEventWithDeletedSubEventVariables = {
   input: {
     ...basePayload,
-    endTime: subEvents.data[1].endTime,
-    startTime: subEvents.data[1].startTime,
+    endTime: subEvents.data[1]?.endTime,
+    startTime: subEvents.data[1]?.startTime,
     superEventType: SuperEventType.Recurring,
-    subEvents: [{ atId: subEvents.data[1].atId }],
+    subEvents: [{ atId: subEvents.data[1]?.atId }],
   },
 };
 const mockedUpdateRecurringEventWithDeletedSubEventResponse: MockedResponse = {
@@ -110,10 +111,10 @@ const updateEventWithRecurringSuperEventVariables = {
   input: [
     {
       ...basePayload,
-      id: subEvents.data[1].id,
+      id: subEvents.data[1]?.id,
       superEvent: { atId: event.atId },
-      startTime: subEvents.data[1].startTime,
-      endTime: subEvents.data[1].endTime,
+      startTime: subEvents.data[1]?.startTime,
+      endTime: subEvents.data[1]?.endTime,
     },
   ],
 };
@@ -121,8 +122,8 @@ const updateEventWithRecurringSuperEventResponse = {
   data: {
     updateEvents: {
       ...eventWithRecurringSuperEvent1,
-      startTime: subEvents.data[1].startTime,
-      endTime: subEvents.data[1].endTime,
+      startTime: subEvents.data[1]?.startTime,
+      endTime: subEvents.data[1]?.endTime,
       eventStatus: EventStatus.EventPostponed,
     },
   },
@@ -140,7 +141,7 @@ const recurringSuperEvent = {
   subEvents: subEvents.data,
   superEventType: SuperEventType.Recurring,
 };
-const deleteSubEvent1Variables = { id: subEvents.data[0].id };
+const deleteSubEvent1Variables = { id: subEvents.data[0]?.id };
 const deleteSubEvent1Response = { data: { deleteEvent: null } };
 const mockedDeleteSubEvent1Response: MockedResponse = {
   request: { query: DeleteEventDocument, variables: deleteSubEvent1Variables },

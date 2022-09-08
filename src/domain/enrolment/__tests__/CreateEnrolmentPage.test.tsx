@@ -5,11 +5,10 @@ import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import formatDate from '../../../utils/formatDate';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
@@ -106,8 +105,8 @@ const getElement = (
   }
 };
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const defaultMocks = [
   mockedEventResponse,
   mockedEventResponse,
@@ -123,10 +122,10 @@ const route = ROUTES.CREATE_ENROLMENT.replace(
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<CreateEnrolmentPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.CREATE_ENROLMENT,
-    store,
   });
 
 const waitLoadingAndGetNameInput = async () => {

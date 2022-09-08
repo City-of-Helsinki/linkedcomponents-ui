@@ -1,11 +1,10 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -34,8 +33,7 @@ const defaultProps: CreateButtonPanelProps = {
 
 const mocks = [mockedEventResponse, mockedUserResponse];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderComponent = ({
   props,
@@ -54,9 +52,9 @@ const renderComponent = ({
       <CreateButtonPanel {...defaultProps} {...props} />
     </EnrolmentPageContext.Provider>,
     {
+      authContextValue,
       mocks,
       routes: [route],
-      store,
     }
   );
 

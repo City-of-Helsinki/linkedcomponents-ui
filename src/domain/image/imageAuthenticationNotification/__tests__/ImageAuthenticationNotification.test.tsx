@@ -1,21 +1,22 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { TEST_USER_ID } from '../../../../constants';
+import { userVariables } from '../../../../domain/user/__mocks__/user';
 import { UserDocument } from '../../../../generated/graphql';
+import {
+  fakeAuthContextValue,
+  fakeAuthenticatedAuthContextValue,
+} from '../../../../utils/mockAuthContextValue';
 import { fakeUser } from '../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import userManager from '../../../auth/userManager';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { IMAGE_ACTIONS } from '../../constants';
 import ImageAuthenticationNotification, {
@@ -23,8 +24,6 @@ import ImageAuthenticationNotification, {
 } from '../ImageAuthenticationNotification';
 
 configure({ defaultHidden: true });
-
-const userVariables = { createPath: undefined, id: TEST_USER_ID };
 
 const props: ImageAuthenticationNotificationProps = {
   action: IMAGE_ACTIONS.UPDATE,
@@ -34,8 +33,7 @@ const props: ImageAuthenticationNotificationProps = {
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(<ImageAuthenticationNotification {...props} />, renderOptions);
 
-const storeState = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 test("should show notification if user is signed in but doesn't have any organizations", () => {
   const user = fakeUser({
@@ -49,7 +47,7 @@ test("should show notification if user is signed in but doesn't have any organiz
   };
   const mocks = [mockedUserResponse];
 
-  renderComponent({ mocks, store });
+  renderComponent({ authContextValue, mocks });
 
   screen.getByRole('heading', { name: 'Ei oikeuksia muokata kuvia.' });
 });
@@ -66,7 +64,7 @@ test('should not show notification if user is signed in and has an admin organiz
   };
   const mocks = [mockedUserResponse];
 
-  renderComponent({ mocks, store });
+  renderComponent({ authContextValue, mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
@@ -85,19 +83,21 @@ test('should show notification if user has an admin organization but it is diffe
   };
   const mocks = [mockedUserResponse];
 
-  renderComponent({ mocks, store });
+  renderComponent({ authContextValue, mocks });
 
   await screen.findByRole('heading', { name: 'Kuvaa ei voi muokata' });
   screen.getByText('Sinulla ei ole oikeuksia muokata tätä kuvaa.');
 });
 
 test('should start sign in process', async () => {
-  const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
   const user = userEvent.setup();
 
-  renderComponent();
+  const signIn = jest.fn();
+  const authContextValue = fakeAuthContextValue({ signIn });
+  renderComponent({ authContextValue });
 
   const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
   await act(async () => await user.click(signInButton));
-  expect(signinRedirect).toBeCalled();
+
+  expect(signIn).toBeCalled();
 });

@@ -4,13 +4,12 @@ import { toast } from 'react-toastify';
 
 import { testIds } from '../../../../common/components/imageUploader/ImageUploader';
 import { UserDocument } from '../../../../generated/graphql';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeUser } from '../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
   fireEvent,
-  getMockReduxStore,
   mockFile,
   render,
   screen,
@@ -39,8 +38,7 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: AddImageFormProps = {
   onAddImageByFile: jest.fn(),
@@ -55,7 +53,11 @@ const renderComponent = ({
 }: {
   mocks?: MockedResponse[];
   props?: Partial<AddImageFormProps>;
-}) => render(<AddImageForm {...defaultProps} {...props} />, { mocks, store });
+}) =>
+  render(<AddImageForm {...defaultProps} {...props} />, {
+    authContextValue,
+    mocks,
+  });
 
 const findElement = (key: 'imageCheckbox') => {
   switch (key) {

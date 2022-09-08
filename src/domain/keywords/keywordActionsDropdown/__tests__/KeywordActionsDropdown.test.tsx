@@ -1,11 +1,11 @@
+import React from 'react';
+
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   act,
   configure,
-  CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -23,25 +23,22 @@ import KeywordActionsDropdown, {
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
+const mocks = [mockedDeleteKeywordResponse, mockedUserResponse];
+
+const route = `/fi${ROUTES.KEYWORDS}`;
+const routes = [route];
 
 const defaultProps: KeywordActionsDropdownProps = {
   keyword,
 };
 
-const route = `/fi${ROUTES.KEYWORDS}`;
-
-const defaultMocks = [mockedDeleteKeywordResponse, mockedUserResponse];
-
-const renderComponent = (
-  props?: Partial<KeywordActionsDropdownProps>,
-  { mocks = defaultMocks, store }: CustomRenderOptions = {}
-) =>
+const renderComponent = (props?: Partial<KeywordActionsDropdownProps>) =>
   render(<KeywordActionsDropdown {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
-    routes: [route],
-    store,
+    routes,
   });
 
 const findElement = (key: 'deleteButton') => {
@@ -75,7 +72,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { store });
+  renderComponent();
 
   const toggleButton = await openMenu();
   await act(async () => await user.click(toggleButton));
@@ -85,7 +82,7 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render correct buttons', async () => {
-  renderComponent(undefined, { store });
+  renderComponent();
 
   await openMenu();
 
@@ -115,7 +112,7 @@ test('should route to edit keyword page', async () => {
 
 test('should delete keyword', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { store });
+  renderComponent();
 
   await openMenu();
 

@@ -27,8 +27,8 @@ export interface OidcAction {
 }
 
 export interface OidcReducerState {
-  user: User | null;
   isLoadingUser: boolean;
+  user: User | null;
 }
 
 export interface ApiTokenAction {

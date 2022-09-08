@@ -1,12 +1,12 @@
 import { createMemoryHistory } from 'history';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -23,19 +23,20 @@ import ImagesPage from '../ImagesPage';
 
 configure({ defaultHidden: true });
 
-const storeState = fakeAuthenticatedStoreState();
-const defaultStore = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedImagesResponse, mockedUserResponse];
+const mocks = [mockedImagesResponse, mockedUserResponse];
+
 const route = ROUTES.KEYWORDS;
+const routes = [route];
 
-const renderComponent = ({
-  mocks = defaultMocks,
-  routes = [route],
-  store = defaultStore,
-  ...restRenderOptions
-}: CustomRenderOptions = {}) =>
-  render(<ImagesPage />, { mocks, routes, store, ...restRenderOptions });
+const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
+  render(<ImagesPage />, {
+    authContextValue,
+    mocks,
+    routes,
+    ...renderOptions,
+  });
 
 const findElement = (key: 'title') => {
   switch (key) {
@@ -110,7 +111,7 @@ test('should add sort parameter to search query', async () => {
 
 it('scrolls to image row and calls history.replace correctly (deletes imageId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { imageId: images.data[0].id });
+  history.push(route, { imageId: images.data[0]?.id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 

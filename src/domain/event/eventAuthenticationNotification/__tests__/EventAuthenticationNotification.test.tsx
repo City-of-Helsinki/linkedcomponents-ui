@@ -2,22 +2,23 @@ import { MockedResponse } from '@apollo/client/testing';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { TEST_USER_ID } from '../../../../constants';
+import { userVariables } from '../../../../domain/user/__mocks__/user';
 import { UserDocument } from '../../../../generated/graphql';
+import {
+  fakeAuthContextValue,
+  fakeAuthenticatedAuthContextValue,
+} from '../../../../utils/mockAuthContextValue';
 import { fakeEvent, fakeUser } from '../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
 import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
-import userManager from '../../../auth/userManager';
 import EventAuthenticationNotification, {
   EventAuthenticationNotificationProps,
 } from '../EventAuthenticationNotification';
@@ -25,15 +26,12 @@ import EventAuthenticationNotification, {
 configure({ defaultHidden: true });
 beforeEach(() => clear());
 
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const renderComponent = (
   renderOptions?: CustomRenderOptions,
   props?: EventAuthenticationNotificationProps
 ) => render(<EventAuthenticationNotification {...props} />, renderOptions);
-
-const userVariables = {
-  createPath: undefined,
-  id: TEST_USER_ID,
-};
 
 test('should not show notification if user is signed in and has organizations', async () => {
   const user = fakeUser({
@@ -47,10 +45,7 @@ test('should not show notification if user is signed in and has organizations', 
   };
   const mocks = [mockedUserResponse];
 
-  const storeState = fakeAuthenticatedStoreState();
-  const store = getMockReduxStore(storeState);
-
-  renderComponent({ mocks, store });
+  renderComponent({ authContextValue, mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
@@ -69,10 +64,7 @@ test("should show notification if user is signed in but doesn't have any organiz
   };
   const mocks = [mockedUserResponse];
 
-  const storeState = fakeAuthenticatedStoreState();
-  const store = getMockReduxStore(storeState);
-
-  renderComponent({ mocks, store });
+  renderComponent({ authContextValue, mocks });
 
   screen.getByRole('region');
   screen.getByRole('heading', { name: 'Ei oikeuksia muokata tapahtumia.' });
@@ -98,10 +90,7 @@ test('should show notification if event is in the past', async () => {
   };
   const mocks = [mockedUserResponse];
 
-  const storeState = fakeAuthenticatedStoreState();
-  const store = getMockReduxStore(storeState);
-
-  renderComponent({ mocks, store }, { event });
+  renderComponent({ authContextValue, mocks }, { event });
 
   screen.getByRole('region');
   await screen.findByRole('heading', { name: 'Tapahtumaa ei voi muokata' });
@@ -109,13 +98,16 @@ test('should show notification if event is in the past', async () => {
 });
 
 test('should start sign in process', async () => {
-  const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
   const user = userEvent.setup();
-  renderComponent();
+
+  const signIn = jest.fn();
+  const authContextValue = fakeAuthContextValue({ signIn });
+  renderComponent({ authContextValue });
 
   const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
   await act(async () => await user.click(signInButton));
-  expect(signinRedirect).toBeCalled();
+
+  expect(signIn).toBeCalled();
 });
 
 test('should hide notification when clicking close button', async () => {

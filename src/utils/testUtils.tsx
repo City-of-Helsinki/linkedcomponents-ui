@@ -27,9 +27,13 @@ import { defaultStoreState } from '../constants';
 import { createCache } from '../domain/app/apollo/apolloClient';
 import { store as reduxStore } from '../domain/app/store/store';
 import { ThemeProvider } from '../domain/app/theme/Theme';
+import { AuthContext } from '../domain/auth/AuthContext';
+import { AuthContextProps } from '../domain/auth/types';
 import { StoreState } from '../types';
+import { authContextDefaultValue } from '../utils/mockAuthContextValue';
 
 export type CustomRenderOptions = {
+  authContextValue?: AuthContextProps;
   history?: History;
   mocks?: MockedResponse[];
   path?: string;
@@ -67,6 +71,7 @@ const tabKeyPressHelper = (el?: HTMLElement): boolean =>
 const customRender: CustomRender = (
   ui,
   {
+    authContextValue = authContextDefaultValue,
     mocks,
     routes = ['/'],
     history = createMemoryHistory({ initialEntries: routes }),
@@ -76,14 +81,15 @@ const customRender: CustomRender = (
   const Wrapper: React.FC<React.PropsWithChildren<unknown>> = ({
     children,
   }) => (
-    // @ts-ignore
-    <Provider store={store}>
-      <ThemeProvider>
-        <MockedProvider cache={createCache()} mocks={mocks}>
-          <Router history={history}>{children}</Router>
-        </MockedProvider>
-      </ThemeProvider>
-    </Provider>
+    <AuthContext.Provider value={authContextValue}>
+      <Provider store={store}>
+        <ThemeProvider>
+          <MockedProvider cache={createCache()} mocks={mocks}>
+            <Router history={history}>{children}</Router>
+          </MockedProvider>
+        </ThemeProvider>
+      </Provider>
+    </AuthContext.Provider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
@@ -116,6 +122,7 @@ const mockFile = ({
 const renderWithRoute: CustomRender = (
   ui,
   {
+    authContextValue = authContextDefaultValue,
     mocks = [],
     path = '/',
     routes = ['/'],
@@ -126,18 +133,19 @@ const renderWithRoute: CustomRender = (
   const Wrapper: React.FC<React.PropsWithChildren<unknown>> = ({
     children,
   }) => (
-    // @ts-ignore
-    <Provider store={store}>
-      <ThemeProvider>
-        <MockedProvider cache={createCache()} mocks={mocks}>
-          <Router history={history}>
-            <Routes>
-              <Route path={path} element={children} />
-            </Routes>
-          </Router>
-        </MockedProvider>
-      </ThemeProvider>
-    </Provider>
+    <AuthContext.Provider value={authContextValue}>
+      <Provider store={store}>
+        <ThemeProvider>
+          <MockedProvider cache={createCache()} mocks={mocks}>
+            <Router history={history}>
+              <Routes>
+                <Route path={path} element={children} />
+              </Routes>
+            </Router>
+          </MockedProvider>
+        </ThemeProvider>
+      </Provider>
+    </AuthContext.Provider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });

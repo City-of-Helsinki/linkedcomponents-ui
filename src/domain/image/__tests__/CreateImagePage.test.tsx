@@ -2,12 +2,11 @@ import React from 'react';
 
 import { testIds as imagePreviewTestIds } from '../../../common/components/imagePreview/ImagePreview';
 import { testIds as imageUploaderTestIds } from '../../../common/components/imageUploader/ImageUploader';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   fireEvent,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -39,10 +38,10 @@ const mocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const renderComponent = () => render(<CreateImagePage />, { mocks, store });
+const renderComponent = () =>
+  render(<CreateImagePage />, { authContextValue, mocks });
 
 const getElement = (
   key: 'addButton' | 'publisherInput' | 'publisherToggleButton' | 'saveButton'

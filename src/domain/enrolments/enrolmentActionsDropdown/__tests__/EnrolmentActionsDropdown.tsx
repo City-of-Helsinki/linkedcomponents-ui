@@ -1,21 +1,19 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { StoreState } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { AuthContextProps } from '../../../auth/types';
 import {
   enrolment,
   mockedCancelEnrolmentResponse,
@@ -40,27 +38,26 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const route = `/fi${ROUTES.REGISTRATION_ENROLMENTS.replace(
   ':registrationId',
-  registration.id
+  registration.id as string
 )}`;
 
 const renderComponent = ({
+  authContextValue,
   mocks = defaultMocks,
   props,
-  store,
 }: {
+  authContextValue?: AuthContextProps;
   mocks?: MockedResponse[];
   props?: Partial<EnrolmentActionsDropdownProps>;
-  store?: Store<StoreState, AnyAction>;
 } = {}) =>
   render(<EnrolmentActionsDropdown {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
     routes: [route],
-    store,
   });
 
 const getElement = (key: 'cancel' | 'edit' | 'menu' | 'toggle') => {
@@ -87,7 +84,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent({ store });
+  renderComponent({ authContextValue });
 
   const toggleButton = await openMenu();
   await act(async () => await user.click(toggleButton));
@@ -97,7 +94,7 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render correct buttons', async () => {
-  renderComponent({ store });
+  renderComponent({ authContextValue });
 
   await openMenu();
 
@@ -127,7 +124,7 @@ test('should route to edit enrolment page when clicking edit button', async () =
 
 test('should try to cancel enrolment when clicking cancel button', async () => {
   const user = userEvent.setup();
-  renderComponent({ store });
+  renderComponent({ authContextValue });
 
   await openMenu();
 

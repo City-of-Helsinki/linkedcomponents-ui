@@ -5,11 +5,10 @@ import { Route, Routes } from 'react-router-dom';
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../../constants';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -59,8 +58,7 @@ import LocaleRoutes from '../LocaleRoutes';
 configure({ defaultHidden: true });
 
 let history: History;
-const storeState = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const mocks = [
   mockedEnrolmentResponse,
@@ -83,9 +81,9 @@ const renderRoute = (route: string, locale: Language = 'fi') =>
       <Route path={`/:locale/*`} element={<LocaleRoutes />} />
     </Routes>,
     {
+      authContextValue,
       mocks,
       routes: [`/${locale}${route}`],
-      store,
     }
   );
 
@@ -295,7 +293,7 @@ it('should render create image page', async () => {
 });
 
 it('should render edit image page', async () => {
-  const id = image.id;
+  const id = image.id as string;
   await act(() => {
     const { history: newHistory } = renderRoute(
       `${ROUTES.EDIT_IMAGE.replace(':id', id)}`
@@ -339,7 +337,7 @@ it('should render create keyword page', async () => {
 });
 
 it('should render edit keyword page', async () => {
-  const id = keyword.id;
+  const id = keyword.id as string;
   await act(() => {
     const { history: newHistory } = renderRoute(
       `${ROUTES.EDIT_KEYWORD.replace(':id', id)}`
@@ -385,7 +383,7 @@ it('should render create keyword set page', async () => {
 });
 
 it('should render edit keyword set page', async () => {
-  const id = keywordSet.id;
+  const id = keywordSet.id as string;
   await act(() => {
     const { history: newHistory } = renderRoute(
       `${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`
@@ -475,7 +473,7 @@ it('should render create place page', async () => {
 });
 
 it('should render edit place page', async () => {
-  const id = place.id;
+  const id = place.id as string;
   await act(() => {
     const { history: newHistory } = renderRoute(
       `${ROUTES.EDIT_PLACE.replace(':id', id)}`

@@ -3,14 +3,14 @@ import { MockedProvider } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import range from 'lodash/range';
-import { Provider } from 'react-redux';
+import React from 'react';
 
 import { MAX_PAGE_SIZE } from '../../../../constants';
 import { Meta, UsersDocument } from '../../../../generated/graphql';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeUsers } from '../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
-import { getMockReduxStore } from '../../../../utils/testUtils';
 import { createCache } from '../../../app/apollo/apolloClient';
+import { AuthContext } from '../../../auth/AuthContext';
 import { mockedUserResponse } from '../../__mocks__/user';
 import useAllUsers from '../useAllUsers';
 
@@ -70,17 +70,15 @@ const mocks = [
   mockedPage2UsersResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const getHookWrapper = async () => {
   const wrapper = ({ children }) => (
-    // @ts-ignore
-    <Provider store={store}>
+    <AuthContext.Provider value={authContextValue}>
       <MockedProvider cache={createCache()} mocks={mocks}>
         {children}
       </MockedProvider>
-    </Provider>
+    </AuthContext.Provider>
   );
 
   const { result } = renderHook(() => useAllUsers(), {

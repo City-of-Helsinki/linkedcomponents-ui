@@ -5,11 +5,10 @@ import React from 'react';
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../../constants';
 import { UserDocument } from '../../../../../../generated/graphql';
 import { MultiLanguageObject } from '../../../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -52,8 +51,7 @@ const defaultMocks = [
   mockedImageNotFoundResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const eventType = EVENT_TYPE.General;
 
@@ -96,7 +94,7 @@ const renderComponent = ({
     >
       <ImageDetailsFields {...defaultProps} {...props} />
     </Formik>,
-    { mocks, store }
+    { mocks, authContextValue }
   );
 
 const findElement = (key: 'altText') => {

@@ -9,12 +9,11 @@ import {
 } from '../../../constants';
 import { EventDocument } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   actWait,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
@@ -84,17 +83,16 @@ const baseMocks = [
   mockedOrganizationAncestorsResponse,
 ];
 
-const storeState = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const route = ROUTES.EDIT_EVENT.replace(':id', eventId);
 
 const renderComponent = (mocks: MockedResponse[] = baseMocks) =>
   renderWithRoute(<EditEventPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_EVENT,
-    store,
   });
 
 const openMenu = async () => {

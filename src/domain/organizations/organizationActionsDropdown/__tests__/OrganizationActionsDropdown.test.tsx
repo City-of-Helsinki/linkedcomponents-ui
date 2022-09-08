@@ -1,11 +1,12 @@
+import React from 'react';
+
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -24,8 +25,7 @@ import OrganizationActionsDropdown, {
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: OrganizationActionsDropdownProps = {
   organization,
@@ -41,12 +41,12 @@ const defaultMocks = [
 
 const renderComponent = (
   props?: Partial<OrganizationActionsDropdownProps>,
-  { mocks = defaultMocks, store }: CustomRenderOptions = {}
+  { authContextValue, mocks = defaultMocks }: CustomRenderOptions = {}
 ) =>
   render(<OrganizationActionsDropdown {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
     routes: [route],
-    store,
   });
 
 const findElement = (key: 'deleteButton') => {
@@ -78,7 +78,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { store });
+  renderComponent(undefined, { authContextValue });
 
   const toggleButton = await openMenu();
   getElement('editButton');
@@ -112,7 +112,7 @@ test('should route to edit organization page', async () => {
 
 test('should delete organization', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { store });
+  renderComponent(undefined, { authContextValue });
 
   await openMenu();
 

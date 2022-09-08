@@ -1,10 +1,10 @@
+import React from 'react';
+
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -19,26 +19,22 @@ configure({ defaultHidden: true });
 
 const mocks = [mockedUserResponse];
 
-const state = fakeAuthenticatedStoreState();
-const defaultStore = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: EditButtonPanelProps = {
-  id: place.id,
+  id: place.id as string,
   onSave: jest.fn(),
   publisher: TEST_PUBLISHER_ID,
   saving: null,
 };
 
-const route = `/fi/${ROUTES.EDIT_PLACE.replace(':id', place.id)}`;
+const route = `/fi/${ROUTES.EDIT_PLACE.replace(':id', place.id as string)}`;
 
-const renderComponent = (
-  props?: Partial<EditButtonPanelProps>,
-  { store = defaultStore }: CustomRenderOptions = {}
-) =>
+const renderComponent = (props?: Partial<EditButtonPanelProps>) =>
   render(<EditButtonPanel {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
     routes: [route],
-    store,
   });
 
 const findElement = (key: 'saveButton') => {
