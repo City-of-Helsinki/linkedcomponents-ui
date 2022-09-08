@@ -1,7 +1,7 @@
 import Oidc, { UserManagerSettings } from 'oidc-client';
-import { createUserManager } from 'redux-oidc';
 
 import { ROUTES } from '../../constants';
+import { createUserManager } from './utils';
 
 const origin = window.location.origin;
 
@@ -22,7 +22,7 @@ const settings: UserManagerSettings = {
   loadUserInfo: true,
   response_type: 'id_token token',
   silent_redirect_uri: `${origin}${ROUTES.SILENT_CALLBACK}`,
-  scope: process.env.REACT_APP_OIDC_SCOPE,
+  scope: `openid profile email ${process.env.REACT_APP_OIDC_API_SCOPE}`,
   post_logout_redirect_uri: `${origin}${ROUTES.LOGOUT}`,
 };
 

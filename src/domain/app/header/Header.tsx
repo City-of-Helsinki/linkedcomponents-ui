@@ -2,15 +2,13 @@ import { ClassNames } from '@emotion/react';
 import { IconInfoCircle, IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
 import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { isFeatureEnabled } from '../../../utils/featureFlags';
-import { signIn, signOut } from '../../auth/authenticate';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import { getEventSearchQuery } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
 import { useTheme } from '../theme/Theme';
@@ -43,9 +41,9 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { changeLanguage, languageOptions } = useSelectLanguage();
+  const { isAuthenticated: authenticated, signIn, signOut } = useAuth();
 
   const { t } = useTranslation();
-  const authenticated = useSelector(authenticatedSelector);
   const user = useUser();
   const [menuOpen, setMenuOpen] = React.useState(false);
 

@@ -3,7 +3,6 @@
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
@@ -17,7 +16,7 @@ import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
-import { authenticatedSelector } from '../auth/selectors';
+import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
 import useUserOrganization from '../user/hooks/useUserOrganization';
@@ -41,7 +40,7 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { dataSource } = getKeywordSetFields(keywordSet, locale);
   const { user } = useUser();
   const { organization: userOrganization } = useUserOrganization(user);

@@ -42,9 +42,8 @@ import {
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
 import generateAtId from '../../../utils/generateAtId';
-import { apiTokenSelector } from '../../auth/selectors';
+import { getApiTokenFromStorage } from '../../auth/utils';
 import i18n from '../i18n/i18nInit';
-import { store } from '../store/store';
 import {
   addTypenameDataSource,
   addTypenameEnrolment,
@@ -219,8 +218,8 @@ export const createCache = (): InMemoryCache =>
     },
   });
 
-const authLink = setContext((_, { headers }) => {
-  const token = apiTokenSelector(store.getState());
+const authLink = setContext(async (_, { headers }) => {
+  const token = getApiTokenFromStorage();
 
   return {
     headers: {

@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import merge from 'lodash/merge';
 import { Profile, User } from 'oidc-client';
-import { UserState } from 'redux-oidc';
 
 import { defaultStoreState, TEST_USER_ID } from '../constants';
-import { API_CLIENT_ID } from '../domain/auth/constants';
-import { ReducerState as AuthState, TokenState } from '../domain/auth/types';
+import { API_SCOPE } from '../domain/auth/constants';
 import {
   EventListOptionsState,
   ExpandedEventsState,
@@ -24,13 +22,7 @@ export const fakeStoreState = (overrides?: Partial<StoreState>): StoreState =>
 export const fakeAuthenticatedStoreState = (
   overrides?: Partial<StoreState>
 ): StoreState =>
-  merge<StoreState, typeof overrides>(
-    {
-      ...defaultStoreState,
-      authentication: fakeAuthenticationState(),
-    },
-    overrides
-  );
+  merge<StoreState, typeof overrides>({ ...defaultStoreState }, overrides);
 
 export const fakeEventsState = (
   overrides?: Partial<EventsState>
@@ -59,6 +51,10 @@ export const fakeExpandedEventsState = (
     overrides
   );
 
+type AuthState = any;
+type TokenState = any;
+type UserState = any;
+
 export const fakeAuthenticationState = (
   overrides?: Partial<AuthState>
 ): AuthState =>
@@ -73,7 +69,7 @@ export const fakeAuthenticationState = (
 export const fakeTokenState = (overrides?: Partial<TokenState>): TokenState =>
   merge<TokenState, typeof overrides>(
     {
-      apiToken: { [API_CLIENT_ID]: 'api-token' },
+      apiToken: { [API_SCOPE]: 'api-token' },
       errors: {},
       loading: false,
     },
@@ -81,13 +77,7 @@ export const fakeTokenState = (overrides?: Partial<TokenState>): TokenState =>
   );
 
 export const fakeOidcState = (overrides?: Partial<UserState>): UserState =>
-  merge<UserState, typeof overrides>(
-    {
-      ...defaultStoreState.authentication.oidc,
-      user: fakeOidcUserState(),
-    },
-    overrides
-  );
+  merge<UserState, typeof overrides>({ user: fakeOidcUserState() }, overrides);
 
 export const fakeOidcUserState = (overrides?: Partial<User>): User =>
   merge<User, typeof overrides>(

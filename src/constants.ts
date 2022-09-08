@@ -1,6 +1,5 @@
 import reduce from 'lodash/reduce';
 
-import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
 import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
 import { defaultReducerState as defaultOrganizationsReducerState } from './domain/organizations/constants';
 import { MultiLanguageObject, StoreState } from './types';
@@ -144,7 +143,6 @@ export enum FORM_NAMES {
 }
 
 export const defaultStoreState: StoreState = {
-  authentication: defaultAuthReducerState,
   events: defaultEventsReducerState,
   organizations: defaultOrganizationsReducerState,
 };

@@ -1,7 +1,6 @@
 import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
@@ -15,7 +14,7 @@ import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import { ActionButtonProps, ButtonType } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { RegistrationsLocationState } from '../../registrations/types';
@@ -43,7 +42,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   saving,
 }) => {
   const { t } = useTranslation();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
   const { id } = getRegistrationFields(registration, locale);

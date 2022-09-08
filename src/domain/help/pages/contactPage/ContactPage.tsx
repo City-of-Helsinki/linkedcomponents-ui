@@ -3,7 +3,6 @@ import camelCase from 'lodash/camelCase';
 import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { scroller } from 'react-scroll';
 import { ValidationError } from 'yup';
@@ -26,7 +25,7 @@ import {
 } from '../../../../utils/validationUtils';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
 import { reportError } from '../../../app/sentry/utils';
-import { authenticatedSelector, userSelector } from '../../../auth/selectors';
+import { useAuth } from '../../../auth/hooks/useAuth';
 import useFeedbackServerErrors from '../../../feedback/hooks/useFeedbackServerErrors';
 import {
   CONTACT_FORM_BODY_MAX_LENGTH,
@@ -53,8 +52,7 @@ const ContactPage: React.FC = () => {
     label: t(`helpPage.contactPage.topics.${camelCase(topic)}`),
     value: topic,
   }));
-  const authenticated = useSelector(authenticatedSelector);
-  const user = useSelector(userSelector);
+  const { isAuthenticated: authenticated, user } = useAuth();
   const initialValues = React.useMemo(() => getInitialValues(user), [user]);
 
   const successId = useIdWithPrefix({ prefix: 'contact-form-success-' });

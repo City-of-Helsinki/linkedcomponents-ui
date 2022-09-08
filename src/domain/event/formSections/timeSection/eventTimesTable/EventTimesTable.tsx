@@ -1,7 +1,6 @@
 import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../../../common/components/menuDropdown/types';
@@ -13,7 +12,7 @@ import {
 } from '../../../../../generated/graphql';
 import useIdWithPrefix from '../../../../../hooks/useIdWithPrefix';
 import formatDate from '../../../../../utils/formatDate';
-import { authenticatedSelector } from '../../../../auth/selectors';
+import { useAuth } from '../../../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../../../constants';
@@ -45,7 +44,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
 }) => {
   const { t } = useTranslation();
   const { isEditingAllowed, savedEvent } = useContext(TimeSectionContext);
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
   // Get the event by event time id. This variable is used to check

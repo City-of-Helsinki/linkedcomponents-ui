@@ -12,7 +12,7 @@ export const getFocusableFieldId = (fieldName: string): string => {
   return fieldName;
 };
 
-export const getInitialValues = (user?: User): ContactFormFields =>
+export const getInitialValues = (user: User | null): ContactFormFields =>
   user
     ? {
         ...initialValues,

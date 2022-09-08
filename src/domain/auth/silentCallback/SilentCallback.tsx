@@ -1,7 +1,7 @@
-import { processSilentRenew } from 'redux-oidc';
+import { processSilentRenew } from '../utils';
 
 const SilentCallback = (): null => {
-  processSilentRenew();
+  processSilentRenew({});
 
   return null;
 };

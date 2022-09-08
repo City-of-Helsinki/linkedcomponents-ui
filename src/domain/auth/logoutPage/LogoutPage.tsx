@@ -1,7 +1,6 @@
 import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
@@ -11,16 +10,15 @@ import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import MainContent from '../../app/layout/mainContent/MainContent';
 import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
-import { signIn } from '../authenticate';
-import { authenticatedSelector, loadingSelector } from '../selectors';
+import { useAuth } from '../hooks/useAuth';
 import styles from './logoutPage.module.scss';
 
 const LogoutPage: React.FC = () => {
-  const authenticated = useSelector(authenticatedSelector);
-  const loading = useSelector(loadingSelector);
+  const { isAuthenticated, isLoading } = useAuth();
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const goToHome = () => {
     navigate(`/${locale}${ROUTES.HOME}`);
@@ -31,15 +29,15 @@ const LogoutPage: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (authenticated) {
+    if (isAuthenticated) {
       navigate(`/${locale}${ROUTES.HOME}`, { replace: true });
     }
-  }, [authenticated, locale, navigate]);
+  }, [isAuthenticated, locale, navigate]);
 
   // Show loading spinner while checking if user is authenticated. This is useful when user manually opens logout page
-  if (loading) {
+  if (isLoading) {
     return (
-      <LoadingSpinner className={styles.loadingSpinner} isLoading={loading} />
+      <LoadingSpinner className={styles.loadingSpinner} isLoading={isLoading} />
     );
   }
 

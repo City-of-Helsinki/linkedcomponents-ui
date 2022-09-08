@@ -7,9 +7,9 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { OidcProvider } from 'redux-oidc';
 
 import theme from '../../assets/theme/theme';
+import { AuthProvider } from '../auth/AuthContext';
 import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
 import { CookieConsentProvider } from './cookieConsent/CookieConsentContext';
@@ -36,8 +36,7 @@ const App: React.FC = () => {
   return (
     // @ts-ignore
     <Provider store={store}>
-      {/* @ts-ignore */}
-      <OidcProvider store={store} userManager={userManager}>
+      <AuthProvider userManager={userManager}>
         <ThemeProvider initTheme={theme}>
           <ToastContainer hideProgressBar={true} theme="colored" />
           <BrowserRouter>
@@ -51,7 +50,7 @@ const App: React.FC = () => {
             </CookieConsentProvider>
           </BrowserRouter>
         </ThemeProvider>
-      </OidcProvider>
+      </AuthProvider>
     </Provider>
   );
 };

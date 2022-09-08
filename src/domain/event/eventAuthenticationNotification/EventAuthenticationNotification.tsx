@@ -1,13 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../generated/graphql';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
@@ -20,7 +19,7 @@ export type EventAuthenticationNotificationProps = {
 const EventAuthenticationNotification: React.FC<
   EventAuthenticationNotificationProps
 > = ({ event }) => {
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
 
   const userOrganizations = user

@@ -7,7 +7,6 @@ import isEqual from 'date-fns/isEqual';
 import isFuture from 'date-fns/isFuture';
 import isNull from 'lodash/isNull';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import {
@@ -19,7 +18,7 @@ import {
 } from '../../../generated/graphql';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import { reportError } from '../../app/sentry/utils';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
@@ -45,7 +44,7 @@ const useUpdateRecurringEventIfNeeded =
       useApolloClient() as ApolloClient<NormalizedCacheObject>;
     const location = useLocation();
     const { t } = useTranslation();
-    const authenticated = useSelector(authenticatedSelector);
+    const { isAuthenticated: authenticated } = useAuth();
 
     const { user } = useUser();
     const [updateEvent] = useUpdateEventMutation();

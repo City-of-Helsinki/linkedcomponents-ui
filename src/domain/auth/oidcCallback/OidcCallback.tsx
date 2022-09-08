@@ -2,8 +2,8 @@
 import { User } from 'oidc-client';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { CallbackComponent } from 'redux-oidc';
 
+import CallbackComponent from '../callbackComponent/CallbackComponent';
 import userManager from '../userManager';
 
 const OidcCallback: React.FC = () => {
@@ -23,14 +23,11 @@ const OidcCallback: React.FC = () => {
   };
 
   return (
-    // @ts-ignore
     <CallbackComponent
       successCallback={onSuccess}
       errorCallback={onError}
       userManager={userManager}
-    >
-      <div />
-    </CallbackComponent>
+    />
   );
 };
 

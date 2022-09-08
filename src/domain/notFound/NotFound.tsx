@@ -9,7 +9,7 @@ import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import { signIn } from '../auth/authenticate';
+import { useAuth } from '../auth/hooks/useAuth';
 import styles from './notFound.module.scss';
 
 interface Props {
@@ -20,6 +20,7 @@ const NotFoundPage: React.FC<Props> = ({ pathAfterSignIn }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const goToHome = () => {
     navigate(`/${locale}${ROUTES.HOME}`);
