@@ -36,7 +36,7 @@ const CreatePlacePageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="createKeywordPage.pageTitle">
+    <PageWrapper title="createPlacePage.pageTitle">
       <LoadingSpinner isLoading={loadingUser}>
         <CreatePlacePage />
       </LoadingSpinner>

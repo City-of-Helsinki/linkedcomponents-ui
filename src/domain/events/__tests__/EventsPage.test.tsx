@@ -3,14 +3,9 @@ import React from 'react';
 
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  fakeEventsListOptionsState,
-  fakeStoreState,
-} from '../../../utils/mockStoreUtils';
-import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -33,11 +28,6 @@ import {
   waitingApprovalEvents,
   waitingApprovalEventsCount,
 } from '../__mocks__/eventPage';
-import {
-  EVENT_LIST_TYPES,
-  EVENTS_ACTIONS,
-  EVENTS_PAGE_TABS,
-} from '../constants';
 import EventsPage from '../EventsPage';
 
 configure({ defaultHidden: true });
@@ -66,10 +56,8 @@ const getElement = (
   key:
     | 'createEventButton'
     | 'draftsTab'
-    | 'draftsTable'
     | 'eventCardType'
     | 'publishedTab'
-    | 'publishedTable'
     | 'sortName'
     | 'waitingApprovalTab'
     | 'waitingApprovalTable'
@@ -81,21 +69,11 @@ const getElement = (
       return screen.getByRole('tab', {
         name: `Luonnokset (${draftEventsCount})`,
       });
-    case 'draftsTable':
-      return screen.getByRole('table', {
-        name: /luonnokset, järjestys viimeksi muokattu, laskeva/i,
-        hidden: true,
-      });
     case 'eventCardType':
       return screen.getByRole('radio', { name: /korttinäkymä/i });
     case 'publishedTab':
       return screen.getByRole('tab', {
         name: `Julkaistut (${publicEventsCount})`,
-      });
-    case 'publishedTable':
-      return screen.getByRole('table', {
-        name: /julkaistut tapahtumat, järjestys viimeksi muokattu, laskeva/i,
-        hidden: true,
       });
     case 'sortName':
       return screen.getByRole('button', { name: 'Nimi' });
@@ -107,6 +85,23 @@ const getElement = (
       return screen.getByRole('table', {
         name: /hyväksyntää odottavat tapahtumat, järjestys viimeksi muokattu, laskeva/i,
       });
+  }
+};
+
+const findElement = (
+  key: 'draftsTable' | 'publishedTable' | 'sortOrderButton'
+) => {
+  switch (key) {
+    case 'draftsTable':
+      return screen.findByRole('table', {
+        name: /luonnokset, järjestys viimeksi muokattu, laskeva/i,
+      });
+    case 'publishedTable':
+      return screen.findByRole('table', {
+        name: /julkaistut tapahtumat, järjestys viimeksi muokattu, laskeva/i,
+      });
+    case 'sortOrderButton':
+      return screen.findByRole('button', { name: 'Lajitteluperuste' });
   }
 };
 
@@ -156,46 +151,48 @@ test('should open create event page', async () => {
   expect(history.location.pathname).toBe('/fi/events/create');
 });
 
-test('should store new listType to redux store', async () => {
+test('should change list type to event card', async () => {
   const user = userEvent.setup();
 
-  const storeState = fakeStoreState();
-  const store = getMockReduxStore(storeState);
-  renderComponent({ store });
+  renderComponent();
 
   await loadingSpinnerIsNotInDocument(10000);
+  expect(
+    screen.queryByRole('button', { name: 'Listteluperuste' })
+  ).not.toBeInTheDocument();
 
   const eventCardTypeRadio = getElement('eventCardType');
   await act(async () => await user.click(eventCardTypeRadio));
 
-  // Test if your store dispatched the expected actions
-  const actions = store.getActions();
-  const expectedAction = {
-    payload: { listType: EVENT_LIST_TYPES.CARD_LIST },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
-  };
-  expect(actions).toEqual([expectedAction]);
+  await findElement('sortOrderButton');
 });
 
-test('should store new active tab to redux store', async () => {
+test('should change active tab to published', async () => {
   const user = userEvent.setup();
 
-  const storeState = fakeStoreState();
-  const store = getMockReduxStore(storeState);
-  renderComponent({ store });
+  renderComponent();
 
   await loadingSpinnerIsNotInDocument(10000);
+
+  getElement('waitingApprovalTable');
 
   const publishedTab = getElement('publishedTab');
   await act(async () => await user.click(publishedTab));
 
-  // Test if your store dispatched the expected actions
-  const actions = store.getActions();
-  const expectedAction = {
-    payload: { tab: EVENTS_PAGE_TABS.PUBLISHED },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
-  };
-  expect(actions).toEqual([expectedAction]);
+  await findElement('publishedTable');
+});
+
+test('should change active tab to drafts', async () => {
+  const user = userEvent.setup();
+
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument(10000);
+
+  const draftsTab = getElement('draftsTab');
+  await act(async () => await user.click(draftsTab));
+
+  await findElement('draftsTable');
 });
 
 test('should add sort parameter to search query', async () => {
@@ -211,39 +208,7 @@ test('should add sort parameter to search query', async () => {
   expect(history.location.search).toBe('?sort=name');
 });
 
-test('should show public events when published tab is selected', async () => {
-  const storeState = fakeStoreState();
-  storeState.events.listOptions = fakeEventsListOptionsState({
-    tab: EVENTS_PAGE_TABS.PUBLISHED,
-  });
-  const store = getMockReduxStore(storeState);
-
-  renderComponent({ store });
-
-  await loadingSpinnerIsNotInDocument(10000);
-  getElement('publishedTable');
-});
-
-test('should show draft events when drafts tab is selected', async () => {
-  const storeState = fakeStoreState();
-  storeState.events.listOptions = fakeEventsListOptionsState({
-    tab: EVENTS_PAGE_TABS.DRAFTS,
-  });
-  const store = getMockReduxStore(storeState);
-
-  renderComponent({ store });
-
-  await loadingSpinnerIsNotInDocument(10000);
-  getElement('draftsTable');
-});
-
 it('scrolls to event table row and calls history.replace correctly (deletes eventId from state)', async () => {
-  const storeState = fakeStoreState();
-  storeState.events.listOptions = fakeEventsListOptionsState({
-    tab: EVENTS_PAGE_TABS.WAITING_APPROVAL,
-  });
-  const store = getMockReduxStore(storeState);
-
   const route = '/fi/events';
   const search = '?dateTypes=tomorrow,this_week';
   const history = createMemoryHistory();
@@ -254,11 +219,7 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
-  renderComponent({
-    history,
-    routes: [route],
-    store,
-  });
+  renderComponent({ history, routes: [route] });
 
   await loadingSpinnerIsNotInDocument(10000);
 

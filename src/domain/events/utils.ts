@@ -2,6 +2,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import isSameDay from 'date-fns/isSameDay';
 import isValid from 'date-fns/isValid';
 import capitalize from 'lodash/capitalize';
+import React from 'react';
 
 import { DATE_FORMAT_API } from '../../constants';
 import {
@@ -24,13 +25,18 @@ import {
   EVENT_LIST_INCLUDES,
   EVENT_SEARCH_PARAMS,
   EVENT_SORT_OPTIONS,
+  EventListOptionsActionTypes,
   EVENTS_PAGE_SIZE,
   EVENTS_PAGE_TABS,
+  ExpandedEventsActionTypes,
 } from './constants';
 import {
+  EventListOptionsAction,
+  EventListOptionsState,
   EventSearchInitialValues,
   EventSearchParam,
   EventSearchParams,
+  ExpandedEventsAction,
 } from './types';
 
 export const eventsPathBuilder = ({
@@ -292,3 +298,42 @@ export const replaceParamsToEventQueryString = (
 };
 
 export const getEventItemId = (id: string): string => `event-item-${id}`;
+
+export const addExpandedEvent = ({
+  dispatchExpandedEventsState,
+  id,
+}: {
+  dispatchExpandedEventsState: React.Dispatch<ExpandedEventsAction>;
+  id: string;
+}) => {
+  dispatchExpandedEventsState({
+    type: ExpandedEventsActionTypes.ADD_EXPANDED_EVENT,
+    payload: id,
+  });
+};
+
+export const removeExpandedEvent = ({
+  dispatchExpandedEventsState,
+  id,
+}: {
+  dispatchExpandedEventsState: React.Dispatch<ExpandedEventsAction>;
+  id: string;
+}) => {
+  dispatchExpandedEventsState({
+    type: ExpandedEventsActionTypes.REMOVE_EXPANDED_EVENT,
+    payload: id,
+  });
+};
+
+export const setEventListOptions = ({
+  dispatchListOptionsState,
+  listOptions,
+}: {
+  dispatchListOptionsState: React.Dispatch<EventListOptionsAction>;
+  listOptions: Partial<EventListOptionsState>;
+}) => {
+  dispatchListOptionsState({
+    type: EventListOptionsActionTypes.SET_EVENT_LIST_OPTIONS,
+    payload: listOptions,
+  });
+};

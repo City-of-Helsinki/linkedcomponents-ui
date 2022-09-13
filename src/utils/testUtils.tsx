@@ -25,6 +25,7 @@ import wait from 'waait';
 import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
 import { defaultStoreState } from '../constants';
 import { createCache } from '../domain/app/apollo/apolloClient';
+import { PageSettingsProvider } from '../domain/app/pageSettingsContext/PageSettingsContext';
 import { store as reduxStore } from '../domain/app/store/store';
 import { ThemeProvider } from '../domain/app/theme/Theme';
 import { AuthContext } from '../domain/auth/AuthContext';
@@ -45,7 +46,7 @@ type CustomRender = {
   (ui: React.ReactElement, options?: CustomRenderOptions): CustomRenderResult;
 };
 
-type CustomRenderResult = RenderResult & { history: History };
+export type CustomRenderResult = RenderResult & { history: History };
 
 const arrowUpKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 38, key: 'ArrowUp' });
@@ -82,13 +83,15 @@ const customRender: CustomRender = (
     children,
   }) => (
     <AuthContext.Provider value={authContextValue}>
-      <Provider store={store}>
-        <ThemeProvider>
-          <MockedProvider cache={createCache()} mocks={mocks}>
-            <Router history={history}>{children}</Router>
-          </MockedProvider>
-        </ThemeProvider>
-      </Provider>
+      <PageSettingsProvider>
+        <Provider store={store}>
+          <ThemeProvider>
+            <MockedProvider cache={createCache()} mocks={mocks}>
+              <Router history={history}>{children}</Router>
+            </MockedProvider>
+          </ThemeProvider>
+        </Provider>
+      </PageSettingsProvider>
     </AuthContext.Provider>
   );
 
@@ -134,17 +137,19 @@ const renderWithRoute: CustomRender = (
     children,
   }) => (
     <AuthContext.Provider value={authContextValue}>
-      <Provider store={store}>
-        <ThemeProvider>
-          <MockedProvider cache={createCache()} mocks={mocks}>
-            <Router history={history}>
-              <Routes>
-                <Route path={path} element={children} />
-              </Routes>
-            </Router>
-          </MockedProvider>
-        </ThemeProvider>
-      </Provider>
+      <PageSettingsProvider>
+        <Provider store={store}>
+          <ThemeProvider>
+            <MockedProvider cache={createCache()} mocks={mocks}>
+              <Router history={history}>
+                <Routes>
+                  <Route path={path} element={children} />
+                </Routes>
+              </Router>
+            </MockedProvider>
+          </ThemeProvider>
+        </Provider>
+      </PageSettingsProvider>
     </AuthContext.Provider>
   );
 

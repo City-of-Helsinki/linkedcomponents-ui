@@ -4,6 +4,10 @@ import { Profile, User } from 'oidc-client';
 
 import { TEST_USER_ID } from '../constants';
 import {
+  apiTokenInitialState,
+  oidcInitialState,
+} from '../domain/auth/constants';
+import {
   ApiTokenReducerState,
   AuthContextProps,
   OidcReducerState,
@@ -11,15 +15,12 @@ import {
 import userManager from '../domain/auth/userManager';
 
 export const authContextDefaultValue: AuthContextProps = {
-  apiToken: null,
+  ...apiTokenInitialState,
+  ...oidcInitialState,
   isAuthenticated: false,
   isLoading: false,
-  isLoadingApiToken: false,
-  isLoadingUser: false,
   signIn: jest.fn(),
   signOut: jest.fn(),
-  tokenErrors: {},
-  user: null,
   userManager,
 };
 
@@ -60,10 +61,7 @@ export const fakeOidcReducerState = (
   overrides?: Partial<OidcReducerState>
 ): OidcReducerState =>
   merge<OidcReducerState, typeof overrides>(
-    {
-      user: fakeOidcUserState(),
-      isLoadingUser: false,
-    },
+    { user: fakeOidcUserState(), isLoadingUser: false },
     overrides
   );
 

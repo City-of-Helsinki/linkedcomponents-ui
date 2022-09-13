@@ -20,6 +20,7 @@ import useShowLoadingSpinner from '../../../../hooks/useShowLoadingSpinner';
 import { Language, OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import getPathBuilder from '../../../../utils/getPathBuilder';
+import skipFalsyType from '../../../../utils/skipFalsyType';
 import { PLACES_SORT_ORDER } from '../../../place/constants';
 import {
   getPlaceFromCache,
@@ -82,13 +83,15 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   React.useEffect(() => {
     const getSelectedPlacesFromCache = async () =>
       setSelectedPlaces(
-        await Promise.all(
-          value.map(async (id) => {
-            const place = await getPlaceQueryResult(id, apolloClient);
-            /* istanbul ignore next */
-            return place ? getOption(place, locale) : { label: '', value: '' };
-          })
-        )
+        (
+          await Promise.all(
+            value.map(async (id) => {
+              const place = await getPlaceQueryResult(id, apolloClient);
+              /* istanbul ignore next */
+              return place ? getOption(place, locale) : null;
+            })
+          )
+        ).filter(skipFalsyType)
       );
 
     getSelectedPlacesFromCache();

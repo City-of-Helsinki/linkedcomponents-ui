@@ -81,7 +81,7 @@ it('scrolls to event card and calls history.replace correctly (deletes eventId f
   const history = createMemoryHistory();
   const search = `?text=${searchText}`;
 
-  history.push({ search, pathname: route }, { eventId: events.data[0].id });
+  history.push({ search, pathname: route }, { eventId: events.data[0]?.id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
