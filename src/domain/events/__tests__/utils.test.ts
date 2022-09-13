@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReducerAction } from 'react';
-
 import { ROUTES } from '../../../constants';
 import {
   EventsQueryVariables,
   EventTypeId,
   PublicationStatus,
 } from '../../../generated/graphql';
-import { waitFor } from '../../../utils/testUtils';
+import { waitReducerToBeCalled } from '../../../utils/testUtils';
 import { EVENT_TYPE, TEST_EVENT_ID } from '../../event/constants';
 import {
   DEFAULT_EVENT_SORT,
@@ -186,7 +183,10 @@ describe('getEventsQueryVariables', () => {
     ['?text=search', { ...defaultVariables, text: 'search' }],
     [
       '?type=general&type=course',
-      { ...defaultVariables, eventType: ['General', 'Course'] },
+      {
+        ...defaultVariables,
+        eventType: [EventTypeId.General, EventTypeId.Course],
+      },
     ],
   ];
   it.each(testCases)(
@@ -314,11 +314,6 @@ describe('replaceParamsToEventQueryString', () => {
     }
   );
 });
-
-const waitReducerToBeCalled = async (
-  dispatch: jest.SpyInstance,
-  action: ReducerAction<any>
-) => await waitFor(() => expect(dispatch).toBeCalledWith(action));
 
 describe('addExpandedEvent function', () => {
   it('should call reducer correcly', async () => {

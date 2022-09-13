@@ -1,8 +1,6 @@
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { StoreState } from '../../../../types';
 import {
   act,
   configure,
@@ -24,16 +22,13 @@ const mocks = [mockedUserResponse];
 const renderComponent = ({
   props,
   route = `/fi/${ROUTES.EDIT_REGISTRATION}`,
-  store,
 }: {
   props?: Partial<ButtonPanelProps>;
   route?: string;
-  store?: Store<StoreState, AnyAction>;
 } = {}) =>
   render(<ButtonPanel {...defaultProps} {...props} />, {
     mocks,
     routes: [route],
-    store,
   });
 
 const getElement = (key: 'back') => {

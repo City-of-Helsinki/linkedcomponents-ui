@@ -4,7 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ApolloProvider } from '@apollo/client';
 import { createInstance, MatomoProvider } from '@datapunt/matomo-tracker-react';
 import React from 'react';
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -15,7 +14,6 @@ import apolloClient from './apollo/apolloClient';
 import { CookieConsentProvider } from './cookieConsent/CookieConsentContext';
 import { PageSettingsProvider } from './pageSettingsContext/PageSettingsContext';
 import AppRoutes from './routes/appRoutes/AppRoutes';
-import { store } from './store/store';
 import { ThemeProvider } from './theme/Theme';
 
 const getMatomoUrlPath = (path: string) =>
@@ -35,26 +33,23 @@ const instance = createInstance({
 
 const App: React.FC = () => {
   return (
-    // @ts-ignore
-    <Provider store={store}>
-      <AuthProvider userManager={userManager}>
-        <PageSettingsProvider>
-          <ThemeProvider initTheme={theme}>
-            <ToastContainer hideProgressBar={true} theme="colored" />
-            <BrowserRouter>
-              <CookieConsentProvider>
-                {/* @ts-ignore */}
-                <MatomoProvider value={instance}>
-                  <ApolloProvider client={apolloClient}>
-                    <AppRoutes />
-                  </ApolloProvider>
-                </MatomoProvider>
-              </CookieConsentProvider>
-            </BrowserRouter>
-          </ThemeProvider>
-        </PageSettingsProvider>
-      </AuthProvider>
-    </Provider>
+    <AuthProvider userManager={userManager}>
+      <PageSettingsProvider>
+        <ThemeProvider initTheme={theme}>
+          <ToastContainer hideProgressBar={true} theme="colored" />
+          <BrowserRouter>
+            <CookieConsentProvider>
+              {/* @ts-ignore */}
+              <MatomoProvider value={instance}>
+                <ApolloProvider client={apolloClient}>
+                  <AppRoutes />
+                </ApolloProvider>
+              </MatomoProvider>
+            </CookieConsentProvider>
+          </BrowserRouter>
+        </ThemeProvider>
+      </PageSettingsProvider>
+    </AuthProvider>
   );
 };
 

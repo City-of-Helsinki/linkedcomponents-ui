@@ -2,22 +2,17 @@ import { IconAngleDown, IconAngleUp } from 'hds-react';
 import omit from 'lodash/omit';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import { OrganizationFieldsFragment } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { scrollToItem } from '../../../../utils/scrollToItem';
+import { usePageSettings } from '../../../app/hooks/usePageSettings';
 import DataSourceName from '../../../dataSource/dataSourceName/DataSourceName';
 import { getOrganizationFields } from '../../../organization/utils';
 import OrganizationClassName from '../../../organizationClass/organizationClassName/OrganizationClassName';
-import {
-  addExpandedOrganization,
-  removeExpandedOrganization,
-} from '../../actions';
 import OrganizationActionsDropdown from '../../organizationActionsDropdown/OrganizationActionsDropdown';
-import { expandedOrganizationsSelector } from '../../selectors';
 import { OrganizationsLocationState } from '../../types';
 import { getOrganizationItemId } from '../../utils';
 import styles from '../organizationsTable.module.scss';
@@ -40,8 +35,13 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
-  const dispatch = useDispatch();
-  const expandedOrganizations = useSelector(expandedOrganizationsSelector);
+  const {
+    organizations: {
+      addExpandedOrganization,
+      expandedOrganizations,
+      removeExpandedOrganization,
+    },
+  } = usePageSettings();
   const actionsDropdownRef = React.useRef<HTMLDivElement>(null);
   const rowRef = React.useRef<HTMLTableRowElement>(null);
 
@@ -70,9 +70,9 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
     ev.stopPropagation();
 
     if (open) {
-      dispatch(removeExpandedOrganization(id));
+      removeExpandedOrganization(id);
     } else {
-      dispatch(addExpandedOrganization(id));
+      addExpandedOrganization(id);
     }
   };
 

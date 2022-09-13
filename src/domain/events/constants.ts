@@ -1,6 +1,6 @@
 import {
   EventListOptionsState,
-  EventsReducerState,
+  EventsPageSettings,
   ExpandedEventsState,
 } from './types';
 
@@ -62,7 +62,7 @@ export const listOptionsInitialState: EventListOptionsState = {
 
 export const expandedEventsInitialState: ExpandedEventsState = [];
 
-export const eventsReducerInitialState: EventsReducerState = {
+export const eventsReducerInitialState: EventsPageSettings = {
   expandedEvents: expandedEventsInitialState,
   listOptions: listOptionsInitialState,
 };

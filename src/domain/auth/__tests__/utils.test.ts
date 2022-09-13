@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable import/no-named-as-default-member */
-import { waitFor } from '@testing-library/react';
 import mockAxios from 'axios';
 import i18n from 'i18next';
 import { advanceTo, clear } from 'jest-date-mock';
-import { ReducerAction } from 'react';
 import { toast } from 'react-toastify';
 
 import { fakeOidcUserState } from '../../../utils/mockAuthContextValue';
+import { waitReducerToBeCalled } from '../../../utils/testUtils';
 import { API_SCOPE, ApiTokenActionTypes, OidcActionTypes } from '../constants';
 import userManager from '../userManager';
 import {
@@ -55,11 +54,6 @@ const events = {
   removeUserSignedOut: () => undefined,
   removeUserUnloaded: () => undefined,
 };
-
-const waitReducerToBeCalled = async (
-  dispatch: jest.SpyInstance,
-  action: ReducerAction<any>
-) => await waitFor(() => expect(dispatch).toBeCalledWith(action));
 
 const axiousCalled = async ({
   accessToken,

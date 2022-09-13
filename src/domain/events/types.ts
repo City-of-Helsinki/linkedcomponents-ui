@@ -25,7 +25,7 @@ export interface EventListOptionsAction {
   payload: Partial<EventListOptionsState>;
 }
 
-export type EventsReducerState = {
+export type EventsPageSettings = {
   expandedEvents: ExpandedEventsState;
   listOptions: EventListOptionsState;
 };
@@ -36,7 +36,7 @@ export interface EventsActions {
   setEventListOptions: (options: Partial<EventListOptionsState>) => void;
 }
 
-export type EventsPageSettingsState = EventsReducerState & EventsActions;
+export type EventsPageSettingsState = EventsPageSettings & EventsActions;
 
 export type EventSearchInitialValues = {
   end: Date | null;
