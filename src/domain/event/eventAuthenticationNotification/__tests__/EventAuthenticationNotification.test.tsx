@@ -1,14 +1,11 @@
-import { MockedResponse } from '@apollo/client/testing';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { userVariables } from '../../../../domain/user/__mocks__/user';
-import { UserDocument } from '../../../../generated/graphql';
 import {
   fakeAuthContextValue,
   fakeAuthenticatedAuthContextValue,
 } from '../../../../utils/mockAuthContextValue';
-import { fakeEvent, fakeUser } from '../../../../utils/mockDataUtils';
+import { fakeEvent } from '../../../../utils/mockDataUtils';
 import {
   act,
   configure,
@@ -19,6 +16,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
+import { getMockedUserResponse } from '../../../user/__mocks__/user';
 import EventAuthenticationNotification, {
   EventAuthenticationNotificationProps,
 } from '../EventAuthenticationNotification';
@@ -34,15 +32,10 @@ const renderComponent = (
 ) => render(<EventAuthenticationNotification {...props} />, renderOptions);
 
 test('should not show notification if user is signed in and has organizations', async () => {
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: ['helsinki:123'],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
   const mocks = [mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
@@ -53,15 +46,10 @@ test('should not show notification if user is signed in and has organizations', 
 });
 
 test("should show notification if user is signed in but doesn't have any organizations", () => {
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
   const mocks = [mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
@@ -73,21 +61,16 @@ test("should show notification if user is signed in but doesn't have any organiz
 test('should show notification if event is in the past', async () => {
   advanceTo('2021-07-09');
   const publisher = 'helsinki:123';
-  const user = fakeUser({
-    adminOrganizations: [publisher],
-    organization: publisher,
-    organizationMemberships: [],
-  });
   const event = fakeEvent({
     publisher,
     startTime: '2019-11-08T12:27:34+00:00',
   });
 
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
+  const mockedUserResponse = getMockedUserResponse({
+    adminOrganizations: [publisher],
+    organization: publisher,
+    organizationMemberships: [],
+  });
   const mocks = [mockedUserResponse];
 
   renderComponent({ authContextValue, mocks }, { event });

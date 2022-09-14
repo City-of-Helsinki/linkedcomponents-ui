@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { testIds } from '../../../../common/components/imageUploader/ImageUploader';
 import { UserDocument } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
-import { fakeUser } from '../../../../utils/mockDataUtils';
 import {
   act,
   configure,
@@ -24,8 +23,8 @@ import {
 } from '../../../event/formSections/imageSection/__mocks__/imageSection';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
+  getMockedUserResponse,
   mockedUserResponse,
-  userVariables,
 } from '../../../user/__mocks__/user';
 import { ADD_IMAGE_INITIAL_VALUES } from '../../constants';
 import AddImageForm, { AddImageFormProps } from '../AddImageForm';
@@ -182,16 +181,11 @@ test('should validate url', async () => {
 });
 
 test("inputs to add new images should be disabled if user doesn't have permissions to add images", async () => {
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     organization: '',
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
 
   const mocks = [
     ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),

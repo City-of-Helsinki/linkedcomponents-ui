@@ -1,13 +1,9 @@
-import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { userVariables } from '../../../../domain/user/__mocks__/user';
-import { UserDocument } from '../../../../generated/graphql';
 import {
   fakeAuthContextValue,
   fakeAuthenticatedAuthContextValue,
 } from '../../../../utils/mockAuthContextValue';
-import { fakeUser } from '../../../../utils/mockDataUtils';
 import {
   act,
   configure,
@@ -18,6 +14,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
+import { getMockedUserResponse } from '../../../user/__mocks__/user';
 import { IMAGE_ACTIONS } from '../../constants';
 import ImageAuthenticationNotification, {
   ImageAuthenticationNotificationProps,
@@ -35,16 +32,11 @@ const renderComponent = (renderOptions?: CustomRenderOptions) =>
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-test("should show notification if user is signed in but doesn't have any organizations", () => {
-  const user = fakeUser({
+test("should show notification if user is signed in but doesn't have any organizations", async () => {
+  const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
   const mocks = [mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
@@ -53,15 +45,10 @@ test("should show notification if user is signed in but doesn't have any organiz
 });
 
 test('should not show notification if user is signed in and has an admin organization', async () => {
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: [TEST_PUBLISHER_ID],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
   const mocks = [mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
@@ -72,15 +59,10 @@ test('should not show notification if user is signed in and has an admin organiz
 });
 
 test('should show notification if user has an admin organization but it is different than publisher', async () => {
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: ['not-publisher'],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
   const mocks = [mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });

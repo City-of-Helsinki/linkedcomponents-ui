@@ -2,19 +2,16 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import {
+  getMockedUserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
-  userVariables,
 } from '../../../../domain/user/__mocks__/user';
-import {
-  OrganizationDocument,
-  UserDocument,
-} from '../../../../generated/graphql';
+import { OrganizationDocument } from '../../../../generated/graphql';
 import {
   fakeAuthContextValue,
   fakeAuthenticatedAuthContextValue,
 } from '../../../../utils/mockAuthContextValue';
-import { fakeOrganization, fakeUser } from '../../../../utils/mockDataUtils';
+import { fakeOrganization } from '../../../../utils/mockDataUtils';
 import {
   act,
   configure,
@@ -80,16 +77,11 @@ test('should show notification if user has an admin organization but the data so
     result: organizationResponse,
   };
 
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     organization: organizationId,
     adminOrganizations: [organizationId],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
 
   const mocks = [
     mockedEventResponse,

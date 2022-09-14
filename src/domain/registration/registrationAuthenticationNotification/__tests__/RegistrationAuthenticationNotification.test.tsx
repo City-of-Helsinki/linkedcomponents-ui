@@ -1,12 +1,9 @@
-import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { UserDocument } from '../../../../generated/graphql';
 import {
   fakeAuthContextValue,
   fakeAuthenticatedAuthContextValue,
 } from '../../../../utils/mockAuthContextValue';
-import { fakeUser } from '../../../../utils/mockDataUtils';
 import {
   act,
   configure,
@@ -20,8 +17,8 @@ import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { registration } from '../../../registration/__mocks__/registration';
 import { REGISTRATION_ACTIONS } from '../../../registrations/constants';
 import {
+  getMockedUserResponse,
   mockedUserResponse,
-  userVariables,
 } from '../../../user/__mocks__/user';
 import RegistrationAuthenticationNotification from '../RegistrationAuthenticationNotification';
 
@@ -41,15 +38,10 @@ const renderComponent = (renderOptions?: CustomRenderOptions) =>
   );
 
 test("should show notification if user is signed in but doesn't have any organizations", () => {
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
   const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
@@ -61,15 +53,10 @@ test("should show notification if user is signed in but doesn't have any organiz
 });
 
 test('should show notification if user has an admin organization but the id is different', async () => {
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: ['not-publisher'],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
   const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });

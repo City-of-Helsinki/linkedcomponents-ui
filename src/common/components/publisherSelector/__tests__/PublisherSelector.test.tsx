@@ -2,13 +2,10 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { TEST_PUBLISHER_ID } from '../../../../domain/organization/constants';
-import { userVariables } from '../../../../domain/user/__mocks__/user';
-import {
-  OrganizationDocument,
-  UserDocument,
-} from '../../../../generated/graphql';
+import { getMockedUserResponse } from '../../../../domain/user/__mocks__/user';
+import { OrganizationDocument } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
-import { fakeOrganization, fakeUser } from '../../../../utils/mockDataUtils';
+import { fakeOrganization } from '../../../../utils/mockDataUtils';
 import {
   act,
   configure,
@@ -66,16 +63,11 @@ const mockedAdminOrganizationResponse: MockedResponse = {
   result: adminOrganizationResponse,
 };
 
-const user = fakeUser({
+const mockedUserResponse: MockedResponse = getMockedUserResponse({
   organization: adminOrganizationId,
   adminOrganizations: [adminOrganizationId],
   organizationMemberships: [organizationId],
 });
-const userResponse = { data: { user } };
-const mockedUserResponse: MockedResponse = {
-  request: { query: UserDocument, variables: userVariables },
-  result: userResponse,
-};
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
