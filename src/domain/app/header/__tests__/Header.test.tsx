@@ -1,22 +1,19 @@
 /* eslint-disable import/no-named-as-default-member */
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import i18n from 'i18next';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
-import { StoreState } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import userManager from '../../../auth/userManager';
+import { AuthContextProps } from '../../../auth/types';
 import { mockedUserResponse, userName } from '../../../user/__mocks__/user';
 import Header from '../Header';
 
@@ -24,8 +21,8 @@ configure({ defaultHidden: true });
 
 const mocks = [mockedUserResponse];
 
-const renderComponent = (store?: Store<StoreState, AnyAction>, route = '/fi') =>
-  render(<Header />, { mocks, routes: [route], store });
+const renderComponent = (authContextValue?: AuthContextProps, route = '/fi') =>
+  render(<Header />, { authContextValue, mocks, routes: [route] });
 
 const getElement = (key: 'enOption' | 'menuButton') => {
   switch (key) {
@@ -144,24 +141,24 @@ test('should change language', async () => {
 });
 
 test('should start login process', async () => {
-  const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
   const user = userEvent.setup();
-  renderComponent();
+
+  const signIn = jest.fn();
+  const authContextValue = fakeAuthenticatedAuthContextValue({ signIn });
+  renderComponent(authContextValue);
 
   const signInButtons = getElements('signInButton');
   await act(async () => await user.click(signInButtons[0]));
 
-  expect(signinRedirect).toBeCalled();
+  expect(signIn).toBeCalled();
 });
 
 test('should start logout process', async () => {
-  const signoutRedirect = jest.spyOn(userManager, 'signoutRedirect');
-
-  const storeState = fakeAuthenticatedStoreState();
-  const store = getMockReduxStore(storeState);
-
   const user = userEvent.setup();
-  renderComponent(store);
+
+  const signOut = jest.fn();
+  const authContextValue = fakeAuthenticatedAuthContextValue({ signOut });
+  renderComponent(authContextValue);
 
   const userMenuButton = await screen.findByRole(
     'button',
@@ -173,7 +170,7 @@ test('should start logout process', async () => {
   const signOutLinks = getElements('signOutLink');
   await act(async () => await user.click(signOutLinks[0]));
 
-  await waitFor(() => expect(signoutRedirect).toBeCalled());
+  await waitFor(() => expect(signOut).toBeCalled());
 });
 
 test('should route to search page', async () => {

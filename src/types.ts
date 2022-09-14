@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { ButtonVariant } from 'hds-react';
 import React from 'react';
 
 import { MenuItemOptionProps } from './common/components/menuDropdown/types';
 import { LE_DATA_LANGUAGES, SEARCH_PARAMS } from './constants';
-import rootReducer from './domain/app/store/reducers';
 
 export type Language = 'en' | 'fi' | 'sv';
 
@@ -29,15 +27,6 @@ export interface PathBuilderProps<T> {
 export type FCWithName<P = Record<string, unknown>> = React.FC<P> & {
   componentName: string;
 };
-
-export type StoreState = ReturnType<typeof rootReducer>;
-
-export type StoreThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  StoreState,
-  null,
-  Action<string>
->;
 
 export type LEServerError =
   | string

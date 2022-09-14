@@ -2,12 +2,11 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
@@ -36,8 +35,7 @@ const baseMocks = [
   mockedUserResponse,
 ];
 
-const storeState = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const route = ROUTES.EDIT_REGISTRATION.replace(':id', registrationId);
 
@@ -46,10 +44,10 @@ const renderComponent = (
   renderOptions?: CustomRenderOptions
 ) =>
   renderWithRoute(<EditRegistrationPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_REGISTRATION,
-    store,
     ...renderOptions,
   });
 

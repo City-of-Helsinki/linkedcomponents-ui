@@ -29,6 +29,6 @@
     "src/test/*",
     "src/utils/testUtils.tsx",
     "src/utils/mockDataUtils.ts",
-    "src/utils/mockStoreUtils.ts"
+    "src/utils/mockAuthContextValue.ts",
   ]
 }

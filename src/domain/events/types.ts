@@ -3,18 +3,40 @@ import {
   EVENT_LIST_TYPES,
   EVENT_SEARCH_PARAMS,
   EVENT_SORT_OPTIONS,
+  EventListOptionsActionTypes,
   EVENTS_PAGE_TABS,
+  ExpandedEventsActionTypes,
 } from './constants';
-import reducers from './reducers';
+
+export type ExpandedEventsState = string[];
+
+export interface ExpandedEventsAction {
+  type: ExpandedEventsActionTypes;
+  payload: string;
+}
 
 export interface EventListOptionsState {
   listType: EVENT_LIST_TYPES;
   tab: EVENTS_PAGE_TABS;
 }
 
-export type ExpandedEventsState = string[];
+export interface EventListOptionsAction {
+  type: EventListOptionsActionTypes;
+  payload: Partial<EventListOptionsState>;
+}
 
-export type ReducerState = ReturnType<typeof reducers>;
+export type EventsPageSettings = {
+  expandedEvents: ExpandedEventsState;
+  listOptions: EventListOptionsState;
+};
+
+export interface EventsActions {
+  addExpandedEvent: (id: string) => void;
+  removeExpandedEvent: (id: string) => void;
+  setEventListOptions: (options: Partial<EventListOptionsState>) => void;
+}
+
+export type EventsPageSettingsState = EventsPageSettings & EventsActions;
 
 export type EventSearchInitialValues = {
   end: Date | null;

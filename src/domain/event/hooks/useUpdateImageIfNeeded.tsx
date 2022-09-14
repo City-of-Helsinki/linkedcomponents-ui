@@ -4,12 +4,11 @@ import {
   useApolloClient,
 } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import { useUpdateImageMutation } from '../../../generated/graphql';
 import isTestEnv from '../../../utils/isTestEnv';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import { IMAGE_ACTIONS } from '../../image/constants';
 import { ImageFormFields } from '../../image/types';
 import {
@@ -30,7 +29,7 @@ type UpdateImageIfNeededState = {
 const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const [updateImage] = useUpdateImageMutation();
 

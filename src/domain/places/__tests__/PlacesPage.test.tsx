@@ -1,12 +1,12 @@
 import { createMemoryHistory } from 'history';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -23,8 +23,7 @@ import PlacesPage from '../PlacesPage';
 
 configure({ defaultHidden: true });
 
-const storeState = fakeAuthenticatedStoreState();
-const defaultStore = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [mockedPlacesResponse, mockedUserResponse];
 const route = ROUTES.PLACES;
@@ -32,10 +31,14 @@ const route = ROUTES.PLACES;
 const renderComponent = ({
   mocks = defaultMocks,
   routes = [route],
-  store = defaultStore,
   ...restRenderOptions
 }: CustomRenderOptions = {}) =>
-  render(<PlacesPage />, { mocks, routes, store, ...restRenderOptions });
+  render(<PlacesPage />, {
+    authContextValue,
+    mocks,
+    routes,
+    ...restRenderOptions,
+  });
 
 const findElement = (key: 'title') => {
   switch (key) {
@@ -110,7 +113,7 @@ test('should add sort parameter to search query', async () => {
 
 it('scrolls to place row and calls history.replace correctly (deletes placeId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { placeId: places.data[0].id });
+  history.push(route, { placeId: places.data[0]?.id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 

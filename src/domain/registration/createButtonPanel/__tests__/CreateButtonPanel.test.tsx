@@ -1,16 +1,13 @@
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
 
-import { defaultStoreState } from '../../../../constants';
-import { StoreState } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   configure,
-  getMockReduxStore,
   render,
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
+import { AuthContextProps } from '../../../auth/types';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import CreateButtonPanel from '../CreateButtonPanel';
 
@@ -18,10 +15,10 @@ configure({ defaultHidden: true });
 
 const mocks = [mockedUserResponse];
 
-const renderComponent = (store?: Store<StoreState, AnyAction>) =>
-  render(<CreateButtonPanel onSave={jest.fn()} saving={null} />, {
+const renderComponent = (authContextValue?: AuthContextProps) =>
+  render(<CreateButtonPanel onSave={jest.fn()} saving={false} />, {
+    authContextValue,
     mocks,
-    store,
   });
 
 const getElement = (key: 'saveButton') => {
@@ -32,19 +29,16 @@ const getElement = (key: 'saveButton') => {
 };
 
 test('button should be disabled when user is not authenticated', () => {
-  const store = getMockReduxStore(defaultStoreState);
-
-  renderComponent(store);
+  renderComponent();
 
   const saveButton = getElement('saveButton');
   expect(saveButton).toBeDisabled();
 });
 
 test('button should be enabled when user is authenticated', async () => {
-  const storeState = fakeAuthenticatedStoreState();
-  const store = getMockReduxStore(storeState);
+  const authContextValue = fakeAuthenticatedAuthContextValue();
 
-  renderComponent(store);
+  renderComponent(authContextValue);
 
   const saveButton = await getElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());

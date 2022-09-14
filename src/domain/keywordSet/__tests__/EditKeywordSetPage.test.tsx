@@ -1,12 +1,12 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   actWait,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
@@ -27,8 +27,7 @@ import EditKeywordSetPage from '../EditKeywordSetPage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedKeywordSetResponse,
@@ -36,14 +35,14 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const route = ROUTES.EDIT_KEYWORD_SET.replace(':id', keywordSet.id);
+const route = ROUTES.EDIT_KEYWORD_SET.replace(':id', keywordSet.id as string);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditKeywordSetPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_KEYWORD_SET,
-    store,
   });
 
 const findElement = (key: 'deleteButton' | 'nameInput' | 'saveButton') => {

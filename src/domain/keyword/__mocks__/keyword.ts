@@ -1,6 +1,6 @@
 import range from 'lodash/range';
 
-import { Keyword } from '../../../generated/graphql';
+import { Keyword, KeywordFieldsFragment } from '../../../generated/graphql';
 import {
   fakeKeywords,
   fakeLocalisedObject,
@@ -18,4 +18,4 @@ export const keywordsResponse = fakeKeywords(
   keywordsOverrides.length,
   keywordsOverrides
 );
-export const keyword = keywordsResponse.data[0];
+export const keyword = keywordsResponse.data[0] as KeywordFieldsFragment;

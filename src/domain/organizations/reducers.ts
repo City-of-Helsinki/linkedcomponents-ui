@@ -1,25 +1,24 @@
-import { combineReducers, createReducer } from '@reduxjs/toolkit';
+import uniq from 'lodash/uniq';
 
+import { ExpandedOrganizationsActionTypes } from './constants';
 import {
-  defaultExpandedOrganizationsState,
-  ORGANIZATIONS_ACTIONS,
-} from './constants';
+  ExpandedOrganizationsAction,
+  ExpandedOrganizationsState,
+} from './types';
 
-const expandedOrganizationsReducer = createReducer(
-  defaultExpandedOrganizationsState,
-  {
-    [ORGANIZATIONS_ACTIONS.ADD_EXPANDED_ORGANIZATION]: (state, action) => {
-      // Add new event if already doesn't exist
-      return state.includes(action.payload)
-        ? state
-        : [...state, action.payload];
-    },
-    [ORGANIZATIONS_ACTIONS.REMOVE_EXPANDED_ORGANIZATION]: (state, action) => {
-      return state.filter((id) => action.payload !== id);
-    },
+export const expandedOrganizationsReducer = (
+  state: ExpandedOrganizationsState,
+  action: ExpandedOrganizationsAction
+): ExpandedOrganizationsState => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ExpandedOrganizationsActionTypes.ADD_EXPANDED_ORGANIZATION:
+      return uniq([...state, payload]);
+    case ExpandedOrganizationsActionTypes.REMOVE_EXPANDED_ORGANIZATION:
+      return uniq(state.filter((id) => action.payload !== id));
   }
-);
-
-export default combineReducers({
-  expandedOrganizations: expandedOrganizationsReducer,
-});
+};
+export const reducers = {
+  expandedOrganizationsReducer,
+};

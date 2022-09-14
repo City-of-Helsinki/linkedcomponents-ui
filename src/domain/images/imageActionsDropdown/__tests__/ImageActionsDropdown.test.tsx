@@ -1,10 +1,10 @@
+import React from 'react';
+
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   act,
-  CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -20,25 +20,20 @@ import ImageActionsDropdown, {
   ImageActionsDropdownProps,
 } from '../ImageActionsDropdown';
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultProps: ImageActionsDropdownProps = {
-  image,
-};
+const mocks = [mockedDeleteImageResponse, mockedUserResponse];
 
 const route = `/fi${ROUTES.IMAGES}`;
+const routes = [route];
 
-const defaultMocks = [mockedDeleteImageResponse, mockedUserResponse];
+const props: ImageActionsDropdownProps = { image };
 
-const renderComponent = (
-  props?: Partial<ImageActionsDropdownProps>,
-  { mocks = defaultMocks, store }: CustomRenderOptions = {}
-) =>
-  render(<ImageActionsDropdown {...defaultProps} {...props} />, {
+const renderComponent = () =>
+  render(<ImageActionsDropdown {...props} />, {
+    authContextValue,
     mocks,
-    routes: [route],
-    store,
+    routes,
   });
 
 const getElement = (key: 'deleteButton' | 'editButton' | 'menu' | 'toggle') => {
@@ -65,7 +60,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { store });
+  renderComponent();
 
   const toggleButton = await openMenu();
   await act(async () => await user.click(toggleButton));
@@ -75,7 +70,7 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render correct buttons', async () => {
-  renderComponent(undefined, { store });
+  renderComponent();
 
   await openMenu();
 
@@ -105,7 +100,7 @@ test('should route to edit image page', async () => {
 
 test('should delete image', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { store });
+  renderComponent();
 
   await openMenu();
 

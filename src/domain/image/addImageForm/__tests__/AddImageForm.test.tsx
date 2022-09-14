@@ -4,13 +4,11 @@ import { toast } from 'react-toastify';
 
 import { testIds } from '../../../../common/components/imageUploader/ImageUploader';
 import { UserDocument } from '../../../../generated/graphql';
-import { fakeUser } from '../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   fireEvent,
-  getMockReduxStore,
   mockFile,
   render,
   screen,
@@ -25,8 +23,8 @@ import {
 } from '../../../event/formSections/imageSection/__mocks__/imageSection';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
+  getMockedUserResponse,
   mockedUserResponse,
-  userVariables,
 } from '../../../user/__mocks__/user';
 import { ADD_IMAGE_INITIAL_VALUES } from '../../constants';
 import AddImageForm, { AddImageFormProps } from '../AddImageForm';
@@ -39,8 +37,7 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: AddImageFormProps = {
   onAddImageByFile: jest.fn(),
@@ -55,7 +52,11 @@ const renderComponent = ({
 }: {
   mocks?: MockedResponse[];
   props?: Partial<AddImageFormProps>;
-}) => render(<AddImageForm {...defaultProps} {...props} />, { mocks, store });
+}) =>
+  render(<AddImageForm {...defaultProps} {...props} />, {
+    authContextValue,
+    mocks,
+  });
 
 const findElement = (key: 'imageCheckbox') => {
   switch (key) {
@@ -180,16 +181,11 @@ test('should validate url', async () => {
 });
 
 test("inputs to add new images should be disabled if user doesn't have permissions to add images", async () => {
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     organization: '',
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
 
   const mocks = [
     ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),

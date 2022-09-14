@@ -2,7 +2,6 @@
 import { Button, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
@@ -14,7 +13,7 @@ import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
-import { authenticatedSelector } from '../auth/selectors';
+import { useAuth } from '../auth/hooks/useAuth';
 import NotSigned from '../notSigned/NotSigned';
 import RegistrationAuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import {
@@ -37,7 +36,7 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
   const navigate = useNavigate();
   const locale = useLocale();
 
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
 
   const goToCreateRegistrationPage = () => {
     clearRegistrationFormData();

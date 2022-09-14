@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
@@ -9,7 +8,7 @@ import { ROUTES } from '../../../constants';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import { ORGANIZATION_ACTIONS } from '../../organization/constants';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useOrganizationUpdateActions, {
@@ -35,7 +34,7 @@ const OrganizationActionsDropdown = React.forwardRef<
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const { id } = getOrganizationFields(organization, locale, t);
   const { pathname, search } = useLocation();

@@ -5,12 +5,11 @@ import React from 'react';
 
 import { DATE_FORMAT, FORM_NAMES } from '../../../constants';
 import formatDate from '../../../utils/formatDate';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   actWait,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -30,13 +29,12 @@ import { RegistrationFormFields } from '../types';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 beforeEach(() => clear());
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
-  render(<CreateRegistrationPage />, { mocks, store });
+  render(<CreateRegistrationPage />, { authContextValue, mocks });
 
 beforeEach(() => {
   // values stored in tests will also be available in other tests unless you run

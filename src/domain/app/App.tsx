@@ -4,17 +4,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ApolloProvider } from '@apollo/client';
 import { createInstance, MatomoProvider } from '@datapunt/matomo-tracker-react';
 import React from 'react';
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { OidcProvider } from 'redux-oidc';
 
 import theme from '../../assets/theme/theme';
+import { AuthProvider } from '../auth/AuthContext';
 import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
 import { CookieConsentProvider } from './cookieConsent/CookieConsentContext';
+import { PageSettingsProvider } from './pageSettingsContext/PageSettingsContext';
 import AppRoutes from './routes/appRoutes/AppRoutes';
-import { store } from './store/store';
 import { ThemeProvider } from './theme/Theme';
 
 const getMatomoUrlPath = (path: string) =>
@@ -34,10 +33,8 @@ const instance = createInstance({
 
 const App: React.FC = () => {
   return (
-    // @ts-ignore
-    <Provider store={store}>
-      {/* @ts-ignore */}
-      <OidcProvider store={store} userManager={userManager}>
+    <AuthProvider userManager={userManager}>
+      <PageSettingsProvider>
         <ThemeProvider initTheme={theme}>
           <ToastContainer hideProgressBar={true} theme="colored" />
           <BrowserRouter>
@@ -51,8 +48,8 @@ const App: React.FC = () => {
             </CookieConsentProvider>
           </BrowserRouter>
         </ThemeProvider>
-      </OidcProvider>
-    </Provider>
+      </PageSettingsProvider>
+    </AuthProvider>
   );
 };
 

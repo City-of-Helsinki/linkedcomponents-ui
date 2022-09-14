@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
@@ -10,7 +9,7 @@ import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import { EVENT_EDIT_ACTIONS } from '../../event/constants';
 import useEventUpdateActions, {
   MODALS,
@@ -36,7 +35,7 @@ const EventActionsDropdown = React.forwardRef<
   EventActionsDropdownProps
 >(({ className, event }, ref) => {
   const { t } = useTranslation();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
   const { eventUrl } = getEventFields(event, locale);

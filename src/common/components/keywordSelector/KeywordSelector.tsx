@@ -25,6 +25,7 @@ import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import Combobox from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
@@ -97,18 +98,18 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   React.useEffect(() => {
     const getSelectedKeywordsFromCache = async () =>
       setSelectedKeywords(
-        await Promise.all(
-          value.map(async (atId) => {
-            const keyword = await getKeywordQueryResult(
-              parseIdFromAtId(atId) as string,
-              apolloClient
-            );
-            /* istanbul ignore next */
-            return keyword
-              ? getOption({ keyword: keyword, locale })
-              : { label: '', value: '' };
-          })
-        )
+        (
+          await Promise.all(
+            value.map(async (atId) => {
+              const keyword = await getKeywordQueryResult(
+                parseIdFromAtId(atId) as string,
+                apolloClient
+              );
+              /* istanbul ignore next */
+              return keyword ? getOption({ keyword: keyword, locale }) : null;
+            })
+          )
+        ).filter(skipFalsyType)
       );
 
     getSelectedKeywordsFromCache();

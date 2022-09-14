@@ -1,10 +1,10 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -23,11 +23,10 @@ import CreateKeywordPage from '../CreateKeywordPage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
-  render(<CreateKeywordPage />, { mocks, store });
+  render(<CreateKeywordPage />, { authContextValue, mocks });
 
 const getElement = (
   key: 'nameInput' | 'replacedByInput' | 'replacedByToggleButton' | 'saveButton'
@@ -53,7 +52,7 @@ const fillInputValues = async () => {
   await act(async () => await user.click(replacedByToggleButton));
 
   const replacingKeywordOption = await screen.findByRole('option', {
-    name: replacingKeyword.name.fi,
+    name: replacingKeyword?.name?.fi as string,
     hidden: true,
   });
   await act(async () => await user.click(replacingKeywordOption));

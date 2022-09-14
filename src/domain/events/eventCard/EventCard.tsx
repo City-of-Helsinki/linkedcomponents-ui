@@ -10,7 +10,6 @@ import {
 } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import TextWithIcon from '../../../common/components/textWithIcon/TextWithIcon';
@@ -20,6 +19,7 @@ import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import IconFlag from '../../../icons/IconFlag';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { usePageSettings } from '../../app/hooks/usePageSettings';
 import { useTheme } from '../../app/theme/Theme';
 import useEventLocation from '../../event/hooks/useEventLocation';
 import StatusTag from '../../event/tags/statusTag/StatusTag';
@@ -27,9 +27,7 @@ import SuperEventTypeTag from '../../event/tags/superEventTypeTag/SuperEventType
 import { getEventFields } from '../../event/utils';
 import OrganizationName from '../../organization/organizationName/OrganizationName';
 import { getPlaceFields } from '../../place/utils';
-import { addExpandedEvent, removeExpandedEvent } from '../actions';
 import EventActionsDropdown from '../eventActionsDropdown/EventActionsDropdown';
-import { expandedEventsSelector } from '../selectors';
 import { getEventItemId } from '../utils';
 import AudienceAgeText from './audienceAgeText/AudienceAgeText';
 import DateText from './dateText/DateText';
@@ -51,8 +49,10 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
   const { theme } = useTheme();
   const locale = useLocale();
   const isMobile = useIsMobile();
-  const dispatch = useDispatch();
-  const expandedEvents = useSelector(expandedEventsSelector);
+  const {
+    events: { addExpandedEvent, expandedEvents, removeExpandedEvent },
+  } = usePageSettings();
+
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const { location } = useEventLocation(event);
@@ -96,9 +96,9 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
 
   const toggle = () => {
     if (open) {
-      dispatch(removeExpandedEvent(id));
+      removeExpandedEvent(id);
     } else {
-      dispatch(addExpandedEvent(id));
+      addExpandedEvent(id);
     }
   };
 

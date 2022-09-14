@@ -3,16 +3,16 @@ import { MockedProvider } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import range from 'lodash/range';
-import { Provider } from 'react-redux';
+import React from 'react';
 
 import {
   Meta,
   OrganizationClassesDocument,
 } from '../../../../generated/graphql';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeOrganizationClasses } from '../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
-import { getMockReduxStore } from '../../../../utils/testUtils';
 import { createCache } from '../../../app/apollo/apolloClient';
+import { AuthContext } from '../../../auth/AuthContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { MAX_OGRANIZATION_CLASSES_PAGE_SIZE } from '../../constants';
 import useAllOrganizationClasses from '../useAllOrganizationClasses';
@@ -89,17 +89,15 @@ const mocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const getHookWrapper = async () => {
   const wrapper = ({ children }) => (
-    // @ts-ignore
-    <Provider store={store}>
+    <AuthContext.Provider value={authContextValue}>
       <MockedProvider cache={createCache()} mocks={mocks}>
         {children}
       </MockedProvider>
-    </Provider>
+    </AuthContext.Provider>
   );
 
   const { result } = renderHook(() => useAllOrganizationClasses(), {

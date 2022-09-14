@@ -57,7 +57,10 @@ const getElement = (
 };
 
 it('should show cookie consent modal if consent is not saved to cookie', async () => {
-  renderApp();
+  await act(async () => {
+    await renderApp();
+  });
+
   getElement('modalTitle');
 });
 
@@ -65,7 +68,11 @@ it('should not show cookie consent modal if consent is saved', async () => {
   getCookie.mockImplementation(() => {
     return 'CONSENT={"required":true,"tracking":true,"acceptedAt":"2021-12-12T00:00:00.000Z"}';
   });
-  renderApp();
+
+  await act(async () => {
+    await renderApp();
+  });
+
   expect(
     screen.queryByRole('heading', { name: texts.modalTitle })
   ).not.toBeInTheDocument();
@@ -74,7 +81,10 @@ it('should not show cookie consent modal if consent is saved', async () => {
 it('should close cookie consent modal by clicking Decline button', async () => {
   advanceTo('2021-12-12');
   const user = userEvent.setup();
-  renderApp();
+
+  await act(async () => {
+    await renderApp();
+  });
 
   const acceptCheckbox = getElement('acceptCheckbox');
   await act(async () => await user.click(acceptCheckbox));
@@ -90,7 +100,10 @@ it('should close cookie consent modal by clicking Decline button', async () => {
 it('should store consent to cookie when clicing accept only necessary button', async () => {
   advanceTo('2021-12-12');
   const user = userEvent.setup();
-  renderApp();
+
+  await act(async () => {
+    await renderApp();
+  });
 
   const acceptCheckbox = getElement('acceptCheckbox');
   await act(async () => await user.click(acceptCheckbox));
@@ -106,7 +119,10 @@ it('should store consent to cookie when clicing accept only necessary button', a
 it('should store consent to cookie when clicing accept all button', async () => {
   advanceTo('2021-12-12');
   const user = userEvent.setup();
-  renderApp();
+
+  await act(async () => {
+    await renderApp();
+  });
 
   const acceptCheckbox = getElement('acceptCheckbox');
   await act(async () => await user.click(acceptCheckbox));

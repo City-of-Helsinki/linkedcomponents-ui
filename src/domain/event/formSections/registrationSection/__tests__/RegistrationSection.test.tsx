@@ -7,12 +7,11 @@ import {
   SuperEventType,
 } from '../../../../../generated/graphql';
 import generateAtId from '../../../../../utils/generateAtId';
+import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -30,8 +29,7 @@ configure({ defaultHidden: true });
 
 const mocks = [mockedUserResponse];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderComponent = (props: RegistrationSectionProps) =>
   render(
@@ -41,7 +39,7 @@ const renderComponent = (props: RegistrationSectionProps) =>
     >
       <RegistrationSection {...props} />
     </Formik>,
-    { mocks, store }
+    { authContextValue, mocks }
   );
 
 test('should show registration link if event has registration', async () => {

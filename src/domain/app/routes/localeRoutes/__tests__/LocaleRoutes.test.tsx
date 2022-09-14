@@ -5,11 +5,11 @@ import { Route, Routes } from 'react-router-dom';
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../../constants';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
+  CustomRenderResult,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -23,6 +23,7 @@ import {
   eventName,
   mockedEventResponse,
 } from '../../../../event/__mocks__/event';
+import { TEST_EVENT_ID } from '../../../../event/constants';
 import {
   mockedEventsResponse,
   mockedPlacesResponse,
@@ -58,9 +59,7 @@ import LocaleRoutes from '../LocaleRoutes';
 
 configure({ defaultHidden: true });
 
-let history: History;
-const storeState = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const mocks = [
   mockedEnrolmentResponse,
@@ -77,428 +76,355 @@ const mocks = [
   mockedUserResponse,
 ];
 
-const renderRoute = (route: string, locale: Language = 'fi') =>
-  render(
-    <Routes>
-      <Route path={`/:locale/*`} element={<LocaleRoutes />} />
-    </Routes>,
-    {
-      mocks,
-      routes: [`/${locale}${route}`],
-      store,
-    }
-  );
+const renderRoute = async (route: string, locale: Language = 'fi') => {
+  let result: CustomRenderResult | null = null;
+
+  await act(async () => {
+    result = await render(
+      <Routes>
+        <Route path={`/:locale/*`} element={<LocaleRoutes />} />
+      </Routes>,
+      { authContextValue, mocks, routes: [`/${locale}${route}`] }
+    );
+  });
+
+  return result as unknown as CustomRenderResult;
+};
+const isPageRendered = async ({
+  history,
+  pageTitle,
+  pathname,
+}: {
+  history: History;
+  pageTitle: string;
+  pathname: string;
+}) => {
+  await loadingSpinnerIsNotInDocument();
+  await waitFor(() => expect(history.location.pathname).toBe(pathname));
+  await waitFor(() => expect(document.title).toBe(pageTitle));
+};
+
+const isHeadingRendered = async (heading: string | RegExp) => {
+  await loadingSpinnerIsNotInDocument();
+  await act(async () => {
+    await screen.findByRole('heading', { name: heading });
+  });
+};
 
 beforeEach(() => {
   setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
 });
 
-it('should redirect to events page from deprecated modaration page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(DEPRECATED_ROUTES.MODERATION);
-    history = newHistory;
-  });
-
-  await waitFor(() => expect(history.location.pathname).toBe('/fi/events'));
-});
-
-it('should redirect to create event page from deprecated create event page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(DEPRECATED_ROUTES.CREATE_EVENT);
-    history = newHistory;
-  });
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/events/create')
-  );
-});
-
-it('should redirect to edit event page from deprecated edit event page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      DEPRECATED_ROUTES.UPDATE_EVENT.replace(':id', 'hel:123')
-    );
-    history = newHistory;
-  });
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/events/edit/hel:123')
-  );
-});
-
-it('should redirect to edit event page from deprecated event page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      DEPRECATED_ROUTES.VIEW_EVENT.replace(':id', 'hel:123')
-    );
-    history = newHistory;
-  });
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/events/edit/hel:123')
-  );
-});
-
 it('should redirect to terms of use page from deprecated terms page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(DEPRECATED_ROUTES.TERMS);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(DEPRECATED_ROUTES.TERMS);
 
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/help/support/terms-of-use')
-  );
+  await isPageRendered({
+    history,
+    pageTitle: `Käyttöehdot - Linked Events`,
+    pathname: '/fi/help/support/terms-of-use',
+  });
 });
 
 it('should render event search page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.SEARCH}?text=${searchText}`
-    );
-    history = newHistory;
-  });
+  const { history } = await renderRoute(`${ROUTES.SEARCH}?text=${searchText}`);
 
-  await screen.findByRole('searchbox', {
-    name: /hae linked events -rajapinnasta/i,
+  await isPageRendered({
+    history,
+    pageTitle: `Etsi tapahtumia - Linked Events`,
+    pathname: '/fi/search',
   });
-  expect(history.location.pathname).toBe('/fi/search');
+});
+
+it.each([DEPRECATED_ROUTES.MODERATION, ROUTES.EVENTS])(
+  'should render events page, route %p',
+  async (route) => {
+    const { history } = await renderRoute(`${route}?text=${searchText}`);
+
+    await isPageRendered({
+      history,
+      pageTitle: `Omat tapahtumat - Linked Events`,
+      pathname: '/fi/events',
+    });
+  }
+);
+
+it.each([DEPRECATED_ROUTES.CREATE_EVENT, ROUTES.CREATE_EVENT])(
+  'should render create event page, route %p',
+  async (route) => {
+    const { history } = await renderRoute(route);
+
+    await isPageRendered({
+      history,
+      pageTitle: `Uusi tapahtuma - Linked Events`,
+      pathname: `/fi/events/create`,
+    });
+  }
+);
+
+it.each([
+  DEPRECATED_ROUTES.UPDATE_EVENT.replace(':id', TEST_EVENT_ID),
+  DEPRECATED_ROUTES.VIEW_EVENT.replace(':id', TEST_EVENT_ID),
+  ROUTES.EDIT_EVENT.replace(':id', TEST_EVENT_ID),
+])('should render edit event page, route %p', async (route) => {
+  const { history } = await renderRoute(route);
+
+  await isHeadingRendered(eventName);
+  await isPageRendered({
+    history,
+    pageTitle: `${eventName} - Linked Events`,
+    pathname: `/fi/events/edit/${TEST_EVENT_ID}`,
+  });
 });
 
 it('should render registrations page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.REGISTRATIONS}?text=${searchText}`
-    );
-    history = newHistory;
-  });
+  const { history } = await renderRoute(
+    `${ROUTES.REGISTRATIONS}?text=${searchText}`
+  );
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /ilmoittautuminen/i });
+  await isPageRendered({
+    history,
+    pageTitle: `Ilmoittautuminen - Linked Events`,
+    pathname: '/fi/registrations',
   });
-  expect(history.location.pathname).toBe('/fi/registrations');
 });
 
 it('should render create registration page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.CREATE_REGISTRATION}`
-    );
-    history = newHistory;
-  });
+  const { history } = await renderRoute(`${ROUTES.CREATE_REGISTRATION}`);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
+  await isPageRendered({
+    history,
+    pageTitle: `Uusi ilmoittautuminen - Linked Events`,
+    pathname: '/fi/registrations/create',
   });
-  expect(history.location.pathname).toBe('/fi/registrations/create');
 });
 
 it('should render edit registration page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`
-    );
-    history = newHistory;
-  });
-
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /ilmoittautumisaika/i });
-  });
-  expect(history.location.pathname).toBe(
-    `/fi/registrations/edit/${registrationId}`
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`
   );
+
+  await isPageRendered({
+    history,
+    pageTitle: `Muokkaa ilmoittautumista - Linked Events`,
+    pathname: `/fi/registrations/edit/${registrationId}`,
+  });
 });
 
 it('should render registration enrolments page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.REGISTRATION_ENROLMENTS.replace(
-        ':registrationId',
-        registrationId
-      )}`
-    );
-    history = newHistory;
-  });
-
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: eventName }, { timeout: 30000 });
-  });
-  expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/enrolments`
+  const { history } = await renderRoute(
+    `${ROUTES.REGISTRATION_ENROLMENTS.replace(
+      ':registrationId',
+      registrationId
+    )}`
   );
+
+  await isPageRendered({
+    history,
+    pageTitle: `Ilmoittautuneet: ${eventName} - Linked Events`,
+    pathname: `/fi/registrations/${registrationId}/enrolments`,
+  });
 });
 
 it('should render create enrolment page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', registrationId)}`
-    );
-    history = newHistory;
-  });
-
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByText(/ilmoittautujan perustiedot/i);
-  });
-  expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/enrolments/create`
+  const { history } = await renderRoute(
+    `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', registrationId)}`
   );
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Lisää osallistuja - Linked Events',
+    pathname: `/fi/registrations/${registrationId}/enrolments/create`,
+  });
 });
 
 it('should render edit enrolment page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
-        ':registrationId',
-        registrationId
-      ).replace(':enrolmentId', enrolmentId)}`
-    );
-    history = newHistory;
-  });
-
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByText(/ilmoittautujan perustiedot/i);
-  });
-  expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+      ':registrationId',
+      registrationId
+    ).replace(':enrolmentId', enrolmentId)}`
   );
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Muokkaa osallistujaa - Linked Events',
+    pathname: `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`,
+  });
 });
 
 it('should render images page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(`${ROUTES.IMAGES}`);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(`${ROUTES.IMAGES}`);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /kuvat/i });
+  await isPageRendered({
+    history,
+    pageTitle: 'Kuvat - Linked Events',
+    pathname: '/fi/administration/images',
   });
-  expect(history.location.pathname).toBe('/fi/administration/images');
 });
 
 it('should render create image page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(`${ROUTES.CREATE_IMAGE}`);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(`${ROUTES.CREATE_IMAGE}`);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /lisää kuva/i });
+  await isHeadingRendered(/lisää kuva/i);
+  await isPageRendered({
+    history,
+    pageTitle: 'Lisää kuva - Linked Events',
+    pathname: '/fi/administration/images/create',
   });
-  expect(history.location.pathname).toBe('/fi/administration/images/create');
 });
 
 it('should render edit image page', async () => {
-  const id = image.id;
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.EDIT_IMAGE.replace(':id', id)}`
-    );
-    history = newHistory;
-  });
-
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /muokkaa kuvaa/i });
-  });
-  expect(history.location.pathname).toBe(
-    `/fi/administration/images/edit/${id}`
+  const id = image.id as string;
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_IMAGE.replace(':id', id)}`
   );
+
+  await isHeadingRendered(/muokkaa kuvaa/i);
+  await isPageRendered({
+    history,
+    pageTitle: 'Muokkaa kuvaa - Linked Events',
+    pathname: `/fi/administration/images/edit/${id}`,
+  });
 });
 
 it('should render keywords page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(`${ROUTES.KEYWORDS}`);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(`${ROUTES.KEYWORDS}`);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /avainsanat/i });
+  await isPageRendered({
+    history,
+    pageTitle: 'Avainsanat - Linked Events',
+    pathname: '/fi/administration/keywords',
   });
-  expect(history.location.pathname).toBe('/fi/administration/keywords');
 });
 
 it('should render create keyword page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(`${ROUTES.CREATE_KEYWORD}`);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(`${ROUTES.CREATE_KEYWORD}`);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /lisää avainsana/i });
+  await isPageRendered({
+    history,
+    pageTitle: 'Lisää avainsana - Linked Events',
+    pathname: '/fi/administration/keywords/create',
   });
-  expect(history.location.pathname).toBe('/fi/administration/keywords/create');
 });
 
 it('should render edit keyword page', async () => {
-  const id = keyword.id;
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.EDIT_KEYWORD.replace(':id', id)}`
-    );
-    history = newHistory;
-  });
-
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /muokkaa avainsanaa/i });
-  });
-  expect(history.location.pathname).toBe(
-    `/fi/administration/keywords/edit/${id}`
+  const id = keyword.id as string;
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_KEYWORD.replace(':id', id)}`
   );
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Muokkaa avainsanaa - Linked Events',
+    pathname: `/fi/administration/keywords/edit/${id}`,
+  });
 });
 
 it('should render keyword sets page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(`${ROUTES.KEYWORD_SETS}`);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(`${ROUTES.KEYWORD_SETS}`);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /avainsanaryhmät/i });
+  await isPageRendered({
+    history,
+    pageTitle: 'Avainsanaryhmät - Linked Events',
+    pathname: '/fi/administration/keyword-sets',
   });
-  expect(history.location.pathname).toBe('/fi/administration/keyword-sets');
 });
 
 it('should render create keyword set page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(`${ROUTES.CREATE_KEYWORD_SET}`);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(`${ROUTES.CREATE_KEYWORD_SET}`);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /lisää avainsanaryhmä/i });
+  await isPageRendered({
+    history,
+    pageTitle: 'Lisää avainsanaryhmä - Linked Events',
+    pathname: '/fi/administration/keyword-sets/create',
   });
-  expect(history.location.pathname).toBe(
-    '/fi/administration/keyword-sets/create'
-  );
 });
 
 it('should render edit keyword set page', async () => {
-  const id = keywordSet.id;
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`
-    );
-    history = newHistory;
-  });
-
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /muokkaa avainsanaryhmää/i });
-  });
-  expect(history.location.pathname).toBe(
-    `/fi/administration/keyword-sets/edit/${id}`
+  const id = keywordSet.id as string;
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`
   );
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Muokkaa avainsanaryhmää - Linked Events',
+    pathname: `/fi/administration/keyword-sets/edit/${id}`,
+  });
 });
 
 it('should render organizations page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(`${ROUTES.ORGANIZATIONS}`);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(`${ROUTES.ORGANIZATIONS}`);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /organisaatiot/i });
+  await isPageRendered({
+    history,
+    pageTitle: 'Organisaatiot - Linked Events',
+    pathname: '/fi/administration/organizations',
   });
-  expect(history.location.pathname).toBe('/fi/administration/organizations');
 });
 
 it('should render create organization page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(ROUTES.CREATE_ORGANIZATION);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(ROUTES.CREATE_ORGANIZATION);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /lisää organisaatio/i });
+  await isPageRendered({
+    history,
+    pageTitle: 'Lisää organisaatio - Linked Events',
+    pathname: '/fi/administration/organizations/create',
   });
-  expect(history.location.pathname).toBe(
-    `/fi/administration/organizations/create`
-  );
 });
 
 it('should render edit organization page', async () => {
   const id = organizationId;
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`
-    );
-    history = newHistory;
-  });
-
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /muokkaa organisaatiota/i });
-  });
-  expect(history.location.pathname).toBe(
-    `/fi/administration/organizations/edit/${id}`
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`
   );
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Muokkaa organisaatiota - Linked Events',
+    pathname: `/fi/administration/organizations/edit/${id}`,
+  });
 });
 
 it('should render places page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(`${ROUTES.PLACES}`);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(`${ROUTES.PLACES}`);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /paikat/i });
+  await isPageRendered({
+    history,
+    pageTitle: 'Paikat - Linked Events',
+    pathname: '/fi/administration/places',
   });
-  expect(history.location.pathname).toBe('/fi/administration/places');
 });
 
 it('should render create place page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(ROUTES.CREATE_PLACE);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(ROUTES.CREATE_PLACE);
 
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /lisää paikka/i });
+  await isPageRendered({
+    history,
+    pageTitle: 'Lisää paikka - Linked Events',
+    pathname: '/fi/administration/places/create',
   });
-  expect(history.location.pathname).toBe(`/fi/administration/places/create`);
 });
 
 it('should render edit place page', async () => {
-  const id = place.id;
-  await act(() => {
-    const { history: newHistory } = renderRoute(
-      `${ROUTES.EDIT_PLACE.replace(':id', id)}`
-    );
-    history = newHistory;
-  });
-
-  await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: /muokkaa paikkaa/i });
-  });
-  expect(history.location.pathname).toBe(
-    `/fi/administration/places/edit/${id}`
+  const id = place.id as string;
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_PLACE.replace(':id', id)}`
   );
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Muokkaa paikkaa - Linked Events',
+    pathname: `/fi/administration/places/edit/${id}`,
+  });
 });
 
 it('should route to default help page', async () => {
-  await act(() => {
-    const { history: newHistory } = renderRoute(ROUTES.HELP);
-    history = newHistory;
-  });
+  const { history } = await renderRoute(ROUTES.HELP);
 
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/help/instructions/general')
-  );
+  await isPageRendered({
+    history,
+    pageTitle: 'Tuki - Linked Events',
+    pathname: '/fi/help/instructions/general',
+  });
 });

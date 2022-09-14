@@ -1,4 +1,4 @@
-import { ExpandedOrganizationsState, ReducerState } from './types';
+import { ExpandedOrganizationsState, OrganizationsPageSettings } from './types';
 
 export enum ORGANIZATION_SORT_OPTIONS {
   CLASSIFICATION = 'classification',
@@ -21,13 +21,15 @@ export enum ORGANIZATION_SEARCH_PARAMS {
   TEXT = 'text',
 }
 
-export const ORGANIZATIONS_ACTIONS = {
-  ADD_EXPANDED_ORGANIZATION: 'ADD_EXPANDED_ORGANIZATION',
-  REMOVE_EXPANDED_ORGANIZATION: 'REMOVE_EXPANDED_ORGANIZATION',
-};
+export const ORGANIZATIONS_ACTIONS = {};
 
-export const defaultExpandedOrganizationsState: ExpandedOrganizationsState = [];
+export enum ExpandedOrganizationsActionTypes {
+  ADD_EXPANDED_ORGANIZATION = 'ADD_EXPANDED_ORGANIZATION',
+  REMOVE_EXPANDED_ORGANIZATION = 'REMOVE_EXPANDED_ORGANIZATION',
+}
 
-export const defaultReducerState: ReducerState = {
-  expandedOrganizations: defaultExpandedOrganizationsState,
+export const expandedOrganizationsInitialState: ExpandedOrganizationsState = [];
+
+export const organizationsReducerInitialState: OrganizationsPageSettings = {
+  expandedOrganizations: expandedOrganizationsInitialState,
 };

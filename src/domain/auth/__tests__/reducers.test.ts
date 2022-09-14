@@ -1,58 +1,119 @@
-import expect from 'expect';
-
+import { fakeOidcUserState } from '../../../utils/mockAuthContextValue';
 import {
-  API_CLIENT_ID,
-  API_TOKEN_ACTIONS,
-  defaultReducerState,
+  ApiTokenActionTypes,
+  apiTokenInitialState,
+  OidcActionTypes,
+  oidcInitialState,
 } from '../constants';
-import reducer from '../reducers';
+import { apiTokenReducer, oidcReducer } from '../reducers';
+import {
+  ApiTokenAction,
+  ApiTokenReducerState,
+  OidcAction,
+  OidcReducerState,
+} from '../types';
 
-it('should return the initial state', () => {
-  expect(reducer(undefined, { type: null })).toEqual(defaultReducerState);
+describe('apiTokenReducer function', () => {
+  const loadingApiTokenState = {
+    ...apiTokenInitialState,
+    isLoadingApiToken: true,
+  };
+
+  const cases: [ApiTokenAction, ApiTokenReducerState, ApiTokenReducerState][] =
+    [
+      [
+        {
+          type: ApiTokenActionTypes.FETCH_TOKEN_ERROR,
+          payload: { error: 'fail' },
+        },
+        loadingApiTokenState,
+        {
+          apiToken: null,
+          isLoadingApiToken: false,
+          tokenErrors: { error: 'fail' },
+        },
+      ],
+      [
+        { type: ApiTokenActionTypes.FETCH_TOKEN_SUCCESS, payload: 'api-token' },
+        loadingApiTokenState,
+        { apiToken: 'api-token', isLoadingApiToken: false, tokenErrors: {} },
+      ],
+      [
+        { type: ApiTokenActionTypes.RESET_API_TOKEN_DATA, payload: null },
+        loadingApiTokenState,
+        { apiToken: null, isLoadingApiToken: false, tokenErrors: {} },
+      ],
+      [
+        { type: ApiTokenActionTypes.START_FETCHING_TOKEN, payload: null },
+        apiTokenInitialState,
+        { apiToken: null, isLoadingApiToken: true, tokenErrors: {} },
+      ],
+      [
+        { type: ApiTokenActionTypes.TOKEN_FETCHED, payload: null },
+        loadingApiTokenState,
+        { apiToken: null, isLoadingApiToken: false, tokenErrors: {} },
+      ],
+    ];
+
+  it.each(cases)(
+    'should return correct state with action %p',
+    async (action, initialState, state) => {
+      expect(apiTokenReducer(initialState, action)).toEqual(state);
+    }
+  );
 });
 
-it('should set loading state', () => {
-  const state = reducer(undefined, {
-    type: API_TOKEN_ACTIONS.START_FETCHING_TOKEN,
-  });
+describe('oidcReducer function', () => {
+  const user = fakeOidcUserState();
+  const loadingOidcState = { isLoadingUser: true, user };
 
-  expect(state.token.loading).toEqual(true);
+  const cases: [OidcAction, OidcReducerState, OidcReducerState][] = [
+    [
+      { type: OidcActionTypes.LOADING_USER, payload: null },
+      oidcInitialState,
+      { isLoadingUser: true, user: null },
+    ],
+    [
+      { type: OidcActionTypes.LOAD_USER_ERROR, payload: null },
+      loadingOidcState,
+      { isLoadingUser: true, user },
+    ],
+    [
+      { type: OidcActionTypes.SESSION_TERMINATED, payload: null },
+      loadingOidcState,
+      { isLoadingUser: false, user: null },
+    ],
+    [
+      { type: OidcActionTypes.SILENT_RENEW_ERROR, payload: null },
+      loadingOidcState,
+      { isLoadingUser: false, user: null },
+    ],
+    [
+      { type: OidcActionTypes.USER_EXPIRED, payload: null },
+      loadingOidcState,
+      { isLoadingUser: false, user: null },
+    ],
+    [
+      { type: OidcActionTypes.USER_EXPIRING, payload: null },
+      loadingOidcState,
+      { isLoadingUser: true, user },
+    ],
+    [
+      { type: OidcActionTypes.USER_FOUND, payload: user },
+      { isLoadingUser: true, user: null },
+      { isLoadingUser: false, user },
+    ],
+    [
+      { type: OidcActionTypes.USER_SIGNED_OUT, payload: null },
+      loadingOidcState,
+      { isLoadingUser: false, user: null },
+    ],
+  ];
 
-  expect(
-    reducer(state, { type: API_TOKEN_ACTIONS.TOKEN_FETCHED }).token.loading
-  ).toEqual(false);
-});
-
-it('should reset state', () => {
-  const state = reducer(undefined, {
-    type: API_TOKEN_ACTIONS.START_FETCHING_TOKEN,
-  });
-
-  expect(state.token.loading).toEqual(true);
-
-  expect(
-    reducer(state, { type: API_TOKEN_ACTIONS.RESET_API_TOKEN_DATA })
-  ).toEqual(defaultReducerState);
-});
-
-it('should set error', () => {
-  const errors = ['error'];
-
-  const state = reducer(undefined, {
-    payload: errors,
-    type: API_TOKEN_ACTIONS.FETCH_TOKEN_ERROR,
-  });
-
-  expect(state.token.errors).toEqual(errors);
-});
-
-it('should set api token', () => {
-  const apiToken = 'api-token';
-
-  const state = reducer(undefined, {
-    payload: { [API_CLIENT_ID]: apiToken },
-    type: API_TOKEN_ACTIONS.FETCH_TOKEN_SUCCESS,
-  });
-
-  expect(state.token.apiToken).toEqual(apiToken);
+  it.each(cases)(
+    'should return correct state with action %p',
+    async (action, initialState, state) => {
+      expect(oidcReducer(initialState, action)).toEqual(state);
+    }
+  );
 });

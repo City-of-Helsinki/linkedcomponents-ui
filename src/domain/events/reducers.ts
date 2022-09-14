@@ -1,32 +1,43 @@
-import { combineReducers, createReducer } from '@reduxjs/toolkit';
+import uniq from 'lodash/uniq';
 
 import {
-  defaultExpandedEventsState,
-  defaultListOptionsState,
-  EVENTS_ACTIONS,
+  EventListOptionsActionTypes,
+  ExpandedEventsActionTypes,
 } from './constants';
+import {
+  EventListOptionsAction,
+  EventListOptionsState,
+  ExpandedEventsAction,
+  ExpandedEventsState,
+} from './types';
 
-const listOptionsReducer = createReducer(defaultListOptionsState, {
-  [EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS]: (state, action) => {
-    // Reset selected page if sort order or tab is changed
-    return {
-      ...state,
-      ...action.payload,
-    };
-  },
-});
+export const expandedEventsReducer = (
+  state: ExpandedEventsState,
+  action: ExpandedEventsAction
+): ExpandedEventsState => {
+  const { type, payload } = action;
 
-const expandedEventsReducer = createReducer(defaultExpandedEventsState, {
-  [EVENTS_ACTIONS.ADD_EXPANDED_EVENT]: (state, action) => {
-    // Add new event if already doesn't exist
-    return state.includes(action.payload) ? state : [...state, action.payload];
-  },
-  [EVENTS_ACTIONS.REMOVE_EXPANDED_EVENT]: (state, action) => {
-    return state.filter((id) => action.payload !== id);
-  },
-});
+  switch (type) {
+    case ExpandedEventsActionTypes.ADD_EXPANDED_EVENT:
+      return uniq([...state, payload]);
+    case ExpandedEventsActionTypes.REMOVE_EXPANDED_EVENT:
+      return uniq(state.filter((id) => action.payload !== id));
+  }
+};
 
-export default combineReducers({
-  listOptions: listOptionsReducer,
-  expandedEvents: expandedEventsReducer,
-});
+export const eventListOptionsReducer = (
+  state: EventListOptionsState,
+  action: EventListOptionsAction
+): EventListOptionsState => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case EventListOptionsActionTypes.SET_EVENT_LIST_OPTIONS:
+      return { ...state, ...payload };
+  }
+};
+
+export const reducers = {
+  expandedEventsReducer,
+  eventListOptionsReducer,
+};

@@ -1,10 +1,10 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -30,8 +30,7 @@ import CreateOrganizationPage from '../CreateOrganizationPage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedOrganizationsResponse,
@@ -41,7 +40,7 @@ const defaultMocks = [
 ];
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
-  render(<CreateOrganizationPage />, { mocks, store });
+  render(<CreateOrganizationPage />, { authContextValue, mocks });
 
 const getElement = (
   key:
@@ -86,7 +85,7 @@ const fillParentField = async () => {
   const user = userEvent.setup();
   await act(async () => await user.click(getElement('parentToggleButton')));
   const organizationOption = await screen.findByRole('option', {
-    name: organizations.data[0].name,
+    name: organizations.data[0]?.name as string,
   });
   await act(async () => await user.click(organizationOption));
 };

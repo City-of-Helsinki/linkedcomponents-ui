@@ -1,6 +1,10 @@
 import { MockedResponse } from '@apollo/client/testing';
 
-import { PlaceDocument, PlacesDocument } from '../../../generated/graphql';
+import {
+  PlaceDocument,
+  PlaceFieldsFragment,
+  PlacesDocument,
+} from '../../../generated/graphql';
 import generateAtId from '../../../utils/generateAtId';
 import { fakePlace, fakePlaces } from '../../../utils/mockDataUtils';
 import { TEST_PLACE_ID } from '../constants';
@@ -21,7 +25,7 @@ const placeOverrides = {
 
 const locationText = `${locationName} (${streetAddress}, ${addressLocality})`;
 
-const place = fakePlace({ ...placeOverrides });
+const place = fakePlace({ ...placeOverrides }) as PlaceFieldsFragment;
 const places = fakePlaces(1, [place]);
 
 const placeResponse = { data: { place } };

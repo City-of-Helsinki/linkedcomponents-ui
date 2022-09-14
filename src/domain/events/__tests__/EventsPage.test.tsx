@@ -1,151 +1,38 @@
-import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
-import { EventsDocument } from '../../../generated/graphql';
-import { fakeEvents } from '../../../utils/mockDataUtils';
-import {
-  fakeAuthenticatedStoreState,
-  fakeEventsListOptionsState,
-} from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
+  CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import {
-  mockedOrganizationResponse,
-  organizationId,
-} from '../../organization/__mocks__/organization';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
-  EVENT_LIST_INCLUDES,
-  EVENT_LIST_TYPES,
-  EVENTS_ACTIONS,
-  EVENTS_PAGE_SIZE,
-  EVENTS_PAGE_TABS,
-} from '../constants';
+  draftEventsCount,
+  mockedBaseDraftEventsResponse,
+  mockedBasePublicEventsResponse,
+  mockedBaseWaitingApprovalEventsResponse,
+  mockedDraftEventsResponse,
+  mockedPublicEventsResponse,
+  mockedSortedWaitingApprovalEventsResponse,
+  mockedWaitingApprovalEventsResponse,
+  publicEventsCount,
+  waitingApprovalEvents,
+  waitingApprovalEventsCount,
+} from '../__mocks__/eventPage';
 import EventsPage from '../EventsPage';
 
 configure({ defaultHidden: true });
 
-const storeState = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(storeState);
-
-const baseEventsVariables = {
-  createPath: undefined,
-  include: EVENT_LIST_INCLUDES,
-  pageSize: EVENTS_PAGE_SIZE,
-  superEvent: 'none',
-};
-const commonSearchVariables = {
-  end: null,
-  eventType: [],
-  location: [],
-  page: 1,
-  sort: '-last_modified_time',
-  start: null,
-  text: '',
-};
-
-const waitingApprovalEventsCount = 3;
-const waitingApprovalEvents = fakeEvents(
-  waitingApprovalEventsCount,
-  Array(waitingApprovalEventsCount).fill({ publisher: organizationId })
-);
-const baseWaitingApprovalEventsVariables = {
-  ...baseEventsVariables,
-  adminUser: true,
-  publisher: [organizationId],
-  publicationStatus: 'draft',
-};
-const waitingApprovalEventsResponse = {
-  data: { events: waitingApprovalEvents },
-};
-const mockedBaseWaitingApprovalEventsResponse: MockedResponse = {
-  request: {
-    query: EventsDocument,
-    variables: baseWaitingApprovalEventsVariables,
-  },
-  result: waitingApprovalEventsResponse,
-};
-
-const waitingApprovalEventsVariables = {
-  ...baseWaitingApprovalEventsVariables,
-  ...commonSearchVariables,
-};
-
-const mockedWaitingApprovalEventsResponse: MockedResponse = {
-  request: { query: EventsDocument, variables: waitingApprovalEventsVariables },
-  result: waitingApprovalEventsResponse,
-};
-
-const mockedSortedWaitingApprovalEventsResponse: MockedResponse = {
-  request: {
-    query: EventsDocument,
-    variables: { ...waitingApprovalEventsVariables, sort: 'name' },
-  },
-  result: waitingApprovalEventsResponse,
-};
-
-const publicEventsCount = 2;
-const publicEvents = fakeEvents(
-  publicEventsCount,
-  Array(publicEventsCount).fill({ publisher: organizationId })
-);
-const basePublicEventsVariables = {
-  ...baseEventsVariables,
-  adminUser: true,
-  publisher: [organizationId],
-  publicationStatus: 'public',
-};
-const publicEventsResponse = { data: { events: publicEvents } };
-const mockedBasePublicEventsResponse: MockedResponse = {
-  request: { query: EventsDocument, variables: basePublicEventsVariables },
-  result: publicEventsResponse,
-};
-
-const publicEventsVariables = {
-  ...basePublicEventsVariables,
-  ...commonSearchVariables,
-};
-const mockedPublicEventsResponse: MockedResponse = {
-  request: { query: EventsDocument, variables: publicEventsVariables },
-  result: publicEventsResponse,
-};
-
-const draftEventsCount = 7;
-const draftEvents = fakeEvents(
-  draftEventsCount,
-  Array(draftEventsCount).fill({ publisher: organizationId })
-);
-const baseDraftEventsVariables = {
-  ...baseEventsVariables,
-  createdBy: 'me',
-  publicationStatus: 'draft',
-  showAll: true,
-};
-const draftEventsResponse = {
-  data: { events: draftEvents },
-};
-const mockedBaseDraftEventsResponse: MockedResponse = {
-  request: { query: EventsDocument, variables: baseDraftEventsVariables },
-  result: draftEventsResponse,
-};
-const draftEventsVariables = {
-  ...baseDraftEventsVariables,
-  ...commonSearchVariables,
-};
-const mockedDraftEventsResponse: MockedResponse = {
-  request: { query: EventsDocument, variables: draftEventsVariables },
-  result: draftEventsResponse,
-};
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const mocks = [
   mockedBaseWaitingApprovalEventsResponse,
@@ -160,16 +47,17 @@ const mocks = [
   mockedUserResponse,
 ];
 
+const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
+  render(<EventsPage />, { authContextValue, mocks, ...renderOptions });
+
 beforeEach(() => jest.clearAllMocks());
 
 const getElement = (
   key:
     | 'createEventButton'
     | 'draftsTab'
-    | 'draftsTable'
     | 'eventCardType'
     | 'publishedTab'
-    | 'publishedTable'
     | 'sortName'
     | 'waitingApprovalTab'
     | 'waitingApprovalTable'
@@ -181,21 +69,11 @@ const getElement = (
       return screen.getByRole('tab', {
         name: `Luonnokset (${draftEventsCount})`,
       });
-    case 'draftsTable':
-      return screen.getByRole('table', {
-        name: /luonnokset, järjestys viimeksi muokattu, laskeva/i,
-        hidden: true,
-      });
     case 'eventCardType':
       return screen.getByRole('radio', { name: /korttinäkymä/i });
     case 'publishedTab':
       return screen.getByRole('tab', {
         name: `Julkaistut (${publicEventsCount})`,
-      });
-    case 'publishedTable':
-      return screen.getByRole('table', {
-        name: /julkaistut tapahtumat, järjestys viimeksi muokattu, laskeva/i,
-        hidden: true,
       });
     case 'sortName':
       return screen.getByRole('button', { name: 'Nimi' });
@@ -210,6 +88,23 @@ const getElement = (
   }
 };
 
+const findElement = (
+  key: 'draftsTable' | 'publishedTable' | 'sortOrderButton'
+) => {
+  switch (key) {
+    case 'draftsTable':
+      return screen.findByRole('table', {
+        name: /luonnokset, järjestys viimeksi muokattu, laskeva/i,
+      });
+    case 'publishedTable':
+      return screen.findByRole('table', {
+        name: /julkaistut tapahtumat, järjestys viimeksi muokattu, laskeva/i,
+      });
+    case 'sortOrderButton':
+      return screen.findByRole('button', { name: 'Lajitteluperuste' });
+  }
+};
+
 test('should show correct title, description and keywords', async () => {
   const pageTitle = 'Omat tapahtumat - Linked Events';
   const pageDescription =
@@ -217,7 +112,7 @@ test('should show correct title, description and keywords', async () => {
   const pageKeywords =
     'minun, luetteloni, muokkaa, päivitä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
 
-  render(<EventsPage />);
+  renderComponent();
 
   await waitFor(() => expect(document.title).toEqual(pageTitle));
 
@@ -234,7 +129,7 @@ test('should show correct title, description and keywords', async () => {
 });
 
 test('should render events page', async () => {
-  render(<EventsPage />, { mocks, store });
+  renderComponent();
 
   await loadingSpinnerIsNotInDocument(10000);
 
@@ -246,7 +141,7 @@ test('should render events page', async () => {
 
 test('should open create event page', async () => {
   const user = userEvent.setup();
-  const { history } = render(<EventsPage />, { mocks, store });
+  const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument(10000);
 
@@ -256,47 +151,54 @@ test('should open create event page', async () => {
   expect(history.location.pathname).toBe('/fi/events/create');
 });
 
-test('should store new listType to redux store', async () => {
+test('should change list type to event card', async () => {
   const user = userEvent.setup();
-  render(<EventsPage />, { mocks, store });
+
+  renderComponent();
 
   await loadingSpinnerIsNotInDocument(10000);
+  expect(
+    screen.queryByRole('button', { name: 'Listteluperuste' })
+  ).not.toBeInTheDocument();
 
   const eventCardTypeRadio = getElement('eventCardType');
   await act(async () => await user.click(eventCardTypeRadio));
 
-  // Test if your store dispatched the expected actions
-  const actions = store.getActions();
-  const expectedAction = {
-    payload: { listType: EVENT_LIST_TYPES.CARD_LIST },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
-  };
-  expect(actions).toEqual([expectedAction]);
+  await findElement('sortOrderButton');
 });
 
-test('should store new active tab to redux store', async () => {
-  const store = getMockReduxStore(storeState);
+test('should change active tab to published', async () => {
   const user = userEvent.setup();
 
-  render(<EventsPage />, { mocks, store });
+  renderComponent();
 
   await loadingSpinnerIsNotInDocument(10000);
+
+  getElement('waitingApprovalTable');
 
   const publishedTab = getElement('publishedTab');
   await act(async () => await user.click(publishedTab));
 
-  // Test if your store dispatched the expected actions
-  const actions = store.getActions();
-  const expectedAction = {
-    payload: { tab: EVENTS_PAGE_TABS.PUBLISHED },
-    type: EVENTS_ACTIONS.SET_EVENT_LIST_OPTIONS,
-  };
-  expect(actions).toEqual([expectedAction]);
+  await findElement('publishedTable');
+});
+
+test('should change active tab to drafts', async () => {
+  const user = userEvent.setup();
+
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument(10000);
+
+  const draftsTab = getElement('draftsTab');
+  await act(async () => await user.click(draftsTab));
+
+  await findElement('draftsTable');
 });
 
 test('should add sort parameter to search query', async () => {
   const user = userEvent.setup();
-  const { history } = render(<EventsPage />, { mocks, store });
+
+  const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument(10000);
 
@@ -306,38 +208,7 @@ test('should add sort parameter to search query', async () => {
   expect(history.location.search).toBe('?sort=name');
 });
 
-test('should show public events when published tab is selected', async () => {
-  const storeState = fakeAuthenticatedStoreState();
-  storeState.events.listOptions = fakeEventsListOptionsState({
-    tab: EVENTS_PAGE_TABS.PUBLISHED,
-  });
-  const store = getMockReduxStore(storeState);
-
-  render(<EventsPage />, { mocks, store });
-
-  await loadingSpinnerIsNotInDocument(10000);
-  getElement('publishedTable');
-});
-
-test('should show draft events when drafts tab is selected', async () => {
-  const storeState = fakeAuthenticatedStoreState();
-  storeState.events.listOptions = fakeEventsListOptionsState({
-    tab: EVENTS_PAGE_TABS.DRAFTS,
-  });
-  const store = getMockReduxStore(storeState);
-
-  render(<EventsPage />, { mocks, store });
-
-  await loadingSpinnerIsNotInDocument(10000);
-  getElement('draftsTable');
-});
-
 it('scrolls to event table row and calls history.replace correctly (deletes eventId from state)', async () => {
-  const storeState = fakeAuthenticatedStoreState();
-  storeState.events.listOptions = fakeEventsListOptionsState({
-    tab: EVENTS_PAGE_TABS.WAITING_APPROVAL,
-  });
-  const store = getMockReduxStore(storeState);
   const route = '/fi/events';
   const search = '?dateTypes=tomorrow,this_week';
   const history = createMemoryHistory();
@@ -348,12 +219,7 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
-  render(<EventsPage />, {
-    history,
-    mocks,
-    routes: [route],
-    store,
-  });
+  renderComponent({ history, routes: [route] });
 
   await loadingSpinnerIsNotInDocument(10000);
 

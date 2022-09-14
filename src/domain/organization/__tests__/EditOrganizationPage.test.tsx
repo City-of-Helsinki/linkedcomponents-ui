@@ -2,11 +2,10 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   renderWithRoute,
   screen,
   userEvent,
@@ -35,8 +34,7 @@ import EditOrganizationPage from '../EditOrganizationPage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedOrganizationResponse,
@@ -49,10 +47,10 @@ const route = ROUTES.EDIT_ORGANIZATION.replace(':id', organizationId);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditOrganizationPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_ORGANIZATION,
-    store,
   });
 
 const findElement = (key: 'deleteButton' | 'nameInput' | 'saveButton') => {

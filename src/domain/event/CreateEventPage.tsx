@@ -7,7 +7,6 @@ import {
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
@@ -30,7 +29,7 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import Section from '../app/layout/section/Section';
 import { reportError } from '../app/sentry/utils';
-import { authenticatedSelector } from '../auth/selectors';
+import { useAuth } from '../auth/hooks/useAuth';
 import { EVENT_CREATE_ACTIONS, EVENT_INITIAL_VALUES } from '../event/constants';
 import { clearEventsQueries } from '../events/utils';
 import useUser from '../user/hooks/useUser';
@@ -72,7 +71,7 @@ const CreateEventPage: React.FC = () => {
   const locale = useLocale();
   const { t } = useTranslation();
 
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
 
   const [createEventMutation] = useCreateEventMutation();

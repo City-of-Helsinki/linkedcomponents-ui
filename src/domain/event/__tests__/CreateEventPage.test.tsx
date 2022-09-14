@@ -10,11 +10,10 @@ import {
   FORM_NAMES,
   LE_DATA_LANGUAGES,
 } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -82,11 +81,10 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
-  render(<CreateEventPage />, { mocks, store });
+  render(<CreateEventPage />, { authContextValue, mocks });
 
 beforeEach(() => {
   // values stored in tests will also be available in other tests unless you run

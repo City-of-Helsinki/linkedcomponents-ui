@@ -1,10 +1,7 @@
-import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
-import {
-  configure,
-  getMockReduxStore,
-  render,
-  screen,
-} from '../../../../../utils/testUtils';
+import React from 'react';
+
+import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
+import { configure, render, screen } from '../../../../../utils/testUtils';
 import {
   dataSourceName,
   mockedDataSourceResponse,
@@ -25,8 +22,7 @@ const defaultProps: OrganizationsTableRowProps = {
   organization,
 };
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const mocks = [
   mockedDataSourceResponse,
@@ -41,14 +37,14 @@ const renderComponent = () =>
         <OrganizationsTableRow {...defaultProps} />
       </tbody>
     </table>,
-    { mocks, store }
+    { authContextValue, mocks }
   );
 
 test('should render organizations table row', async () => {
   renderComponent();
 
-  screen.getByRole('link', { name: organization.name });
-  screen.getByText(organization.id);
+  screen.getByRole('link', { name: organization.name as string });
+  screen.getByText(organization.id as string);
   await screen.findByText(dataSourceName);
   await screen.findByText(organizationClassName);
 });

@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { IMAGE_ACTIONS } from '../constants';
@@ -20,7 +19,7 @@ type IsImageUploadAllowedState = {
 const useIsImageUploadAllowed = ({
   publisher,
 }: Props): IsImageUploadAllowedState => {
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { t } = useTranslation();
   const { user } = useUser();
   const { organizationAncestors } = useOrganizationAncestors(publisher);

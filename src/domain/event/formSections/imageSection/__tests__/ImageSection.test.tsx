@@ -6,13 +6,12 @@ import { testIds as imagePreviewTestIds } from '../../../../../common/components
 import { testIds as imageUploaderTestIds } from '../../../../../common/components/imageUploader/ImageUploader';
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../constants';
 import { ImageDocument } from '../../../../../generated/graphql';
+import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { fakeImage } from '../../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
   fireEvent,
-  getMockReduxStore,
   mockString,
   render,
   screen,
@@ -54,8 +53,7 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 type InitialValues = {
   [EVENT_FIELDS.TYPE]: string;
@@ -93,7 +91,7 @@ const renderComponent = (
     >
       <ImageSection isEditingAllowed={true} />
     </Formik>,
-    { mocks, store }
+    { authContextValue, mocks }
   );
 
 const getElement = (

@@ -4,21 +4,29 @@ import {
   EventTypeId,
   PublicationStatus,
 } from '../../../generated/graphql';
-import { EVENT_TYPE } from '../../event/constants';
+import { waitReducerToBeCalled } from '../../../utils/testUtils';
+import { EVENT_TYPE, TEST_EVENT_ID } from '../../event/constants';
 import {
   DEFAULT_EVENT_SORT,
   EVENT_LIST_INCLUDES,
+  EVENT_LIST_TYPES,
   EVENT_SEARCH_PARAMS,
   EVENT_SORT_OPTIONS,
+  EventListOptionsActionTypes,
+  EVENTS_PAGE_TABS,
+  ExpandedEventsActionTypes,
 } from '../constants';
 import { EventSearchParam, EventSearchParams } from '../types';
 import {
+  addExpandedEvent,
   addParamsToEventQueryString,
   eventsPathBuilder,
   getEventParamValue,
   getEventSearchQuery,
   getEventsQueryVariables,
+  removeExpandedEvent,
   replaceParamsToEventQueryString,
+  setEventListOptions,
 } from '../utils';
 
 describe('eventsPathBuilder function', () => {
@@ -175,7 +183,10 @@ describe('getEventsQueryVariables', () => {
     ['?text=search', { ...defaultVariables, text: 'search' }],
     [
       '?type=general&type=course',
-      { ...defaultVariables, eventType: ['General', 'Course'] },
+      {
+        ...defaultVariables,
+        eventType: [EventTypeId.General, EventTypeId.Course],
+      },
     ],
   ];
   it.each(testCases)(
@@ -302,4 +313,49 @@ describe('replaceParamsToEventQueryString', () => {
       );
     }
   );
+});
+
+describe('addExpandedEvent function', () => {
+  it('should call reducer correcly', async () => {
+    const dispatchExpandedEventsState = jest.fn();
+    const id = TEST_EVENT_ID;
+
+    addExpandedEvent({ dispatchExpandedEventsState, id });
+
+    await waitReducerToBeCalled(dispatchExpandedEventsState, {
+      payload: id,
+      type: ExpandedEventsActionTypes.ADD_EXPANDED_EVENT,
+    });
+  });
+});
+
+describe('removeExpandedEvent function', () => {
+  it('should call reducer correcly', async () => {
+    const dispatchExpandedEventsState = jest.fn();
+    const id = TEST_EVENT_ID;
+
+    removeExpandedEvent({ dispatchExpandedEventsState, id });
+
+    await waitReducerToBeCalled(dispatchExpandedEventsState, {
+      payload: id,
+      type: ExpandedEventsActionTypes.REMOVE_EXPANDED_EVENT,
+    });
+  });
+});
+
+describe('setEventListOptions function', () => {
+  it('should call reducer correcly', async () => {
+    const dispatchListOptionsState = jest.fn();
+    const listOptions = {
+      listType: EVENT_LIST_TYPES.TABLE,
+      tab: EVENTS_PAGE_TABS.PUBLISHED,
+    };
+
+    setEventListOptions({ dispatchListOptionsState, listOptions });
+
+    await waitReducerToBeCalled(dispatchListOptionsState, {
+      payload: listOptions,
+      type: EventListOptionsActionTypes.SET_EVENT_LIST_OPTIONS,
+    });
+  });
 });

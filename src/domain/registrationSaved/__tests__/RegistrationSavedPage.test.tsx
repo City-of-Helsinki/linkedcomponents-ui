@@ -2,13 +2,12 @@ import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import { RegistrationDocument } from '../../../generated/graphql';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
 import {
   act,
   actWait,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
@@ -39,8 +38,7 @@ const mockedRegistrationResponse = {
 };
 
 const mocks = [mockedRegistrationResponse, mockedUserResponse];
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const getElement = (
   key:
@@ -66,10 +64,10 @@ const getElement = (
 
 const renderComponent = () =>
   renderWithRoute(<RegistrationSavedPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.REGISTRATION_SAVED,
-    store,
   });
 
 test('should render all components', async () => {

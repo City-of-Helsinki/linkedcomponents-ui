@@ -2,12 +2,10 @@ import classNames from 'classnames';
 import { NotificationType } from 'hds-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import Notification from '../../../common/components/notification/Notification';
-import { signIn } from '../../auth/authenticate';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import styles from './authenticationNotification.module.scss';
 
 export const hiddenStyles = {
@@ -26,9 +24,10 @@ const AuthenticationNotification: React.FC<
   React.PropsWithChildren<AuthenticationNotificationProps>
 > = ({ children, className, label }) => {
   const location = useLocation();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { t } = useTranslation();
   const [hidden, setHidden] = useState(false);
+  const { signIn } = useAuth();
 
   const notificationProps = {
     className: classNames(styles.authenticationNotification, className),

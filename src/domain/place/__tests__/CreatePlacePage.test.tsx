@@ -1,10 +1,10 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -25,13 +25,12 @@ import CreatePlacePage from '../CreatePlacePage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [mockedOrganizationResponse, mockedUserResponse];
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
-  render(<CreatePlacePage />, { mocks, store });
+  render(<CreatePlacePage />, { authContextValue, mocks });
 
 const getElement = (
   key:

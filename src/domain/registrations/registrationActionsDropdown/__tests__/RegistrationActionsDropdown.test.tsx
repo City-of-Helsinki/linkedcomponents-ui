@@ -1,16 +1,16 @@
-import { MockedResponse } from '@apollo/client/testing';
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import copyToClipboard from 'copy-to-clipboard';
 import React from 'react';
 import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
-import { StoreState } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import {
+  fakeAuthContextValue,
+  fakeAuthenticatedAuthContextValue,
+} from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
+  CustomRenderOptions,
   render,
   screen,
   userEvent,
@@ -34,24 +34,21 @@ const defaultProps: RegistrationActionsDropdownProps = {
   registration: registration,
 };
 
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const defaultMocks = [mockedEventResponse, mockedUserResponse];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const routes = [`/fi${ROUTES.REGISTRATIONS}`];
 
 const renderComponent = ({
   mocks = defaultMocks,
-  props,
-  store,
-}: {
-  mocks?: MockedResponse[];
-  props?: Partial<RegistrationActionsDropdownProps>;
-  store?: Store<StoreState, AnyAction>;
-} = {}) =>
-  render(<RegistrationActionsDropdown {...defaultProps} {...props} />, {
+  ...restRenderOptions
+}: CustomRenderOptions = {}) =>
+  render(<RegistrationActionsDropdown {...defaultProps} />, {
+    authContextValue,
     mocks,
-    routes: [`/fi${ROUTES.REGISTRATIONS}`],
-    store,
+    routes,
+    ...restRenderOptions,
   });
 
 const findElement = (key: 'delete' | 'edit' | 'showEnrolments') => {
@@ -106,7 +103,8 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent({ store });
+
+  renderComponent();
 
   const toggleButton = await openMenu();
   await act(async () => await user.click(toggleButton));
@@ -116,7 +114,7 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render correct buttons', async () => {
-  renderComponent({ store });
+  renderComponent();
 
   await openMenu();
 
@@ -128,7 +126,8 @@ test('should render correct buttons', async () => {
 });
 
 test('only copy, copy link and edit buttons should be enabled when user is not logged in', async () => {
-  renderComponent();
+  const authContextValue = fakeAuthContextValue();
+  renderComponent({ authContextValue });
 
   await openMenu();
 
@@ -143,6 +142,7 @@ test('only copy, copy link and edit buttons should be enabled when user is not l
 
 test('should route to edit registration page when clicking edit button', async () => {
   const user = userEvent.setup();
+
   const { history } = renderComponent();
 
   await openMenu();
@@ -160,7 +160,8 @@ test('should route to edit registration page when clicking edit button', async (
 
 test('should route to enrolments page when clicking show enrolments button', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent({ store });
+
+  const { history } = renderComponent();
 
   await openMenu();
 
@@ -177,6 +178,7 @@ test('should route to enrolments page when clicking show enrolments button', asy
 
 test('should route to create registration page when clicking copy button', async () => {
   const user = userEvent.setup();
+
   const { history } = renderComponent();
 
   await openMenu();
@@ -192,6 +194,7 @@ test('should route to create registration page when clicking copy button', async
 test('should copy registration link to clipboard', async () => {
   toast.success = jest.fn();
   const user = userEvent.setup();
+
   renderComponent();
 
   await openMenu();
@@ -206,9 +209,10 @@ test('should copy registration link to clipboard', async () => {
 });
 
 test('should delete registration', async () => {
-  const mocks = [...defaultMocks, mockedDeleteRegistrationResponse];
   const user = userEvent.setup();
-  renderComponent({ mocks, store });
+
+  const mocks = [...defaultMocks, mockedDeleteRegistrationResponse];
+  renderComponent({ mocks });
 
   await openMenu();
 

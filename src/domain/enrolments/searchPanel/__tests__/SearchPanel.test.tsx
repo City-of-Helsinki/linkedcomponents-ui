@@ -1,11 +1,10 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -37,14 +36,13 @@ const defaultRoute = `${ROUTES.REGISTRATION_ENROLMENTS.replace(
 
 const mocks = [mockedEventResponse, mockedUserResponse];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderComponent = (route: string = defaultRoute) =>
   render(<SearchPanel registration={registration} />, {
+    authContextValue,
     mocks,
     routes: [route],
-    store,
   });
 
 test('should initialize search panel input', async () => {

@@ -2,13 +2,12 @@ import { useField } from 'formik';
 import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { ActionButtonProps, ButtonType } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_CREATE_ACTIONS, EVENT_FIELDS, EVENT_TYPE } from '../constants';
 import { getCreateButtonProps } from '../utils';
@@ -31,7 +30,7 @@ const CreateButtonPanel: React.FC<Props> = ({
   const [{ value: eventType }] = useField<EVENT_TYPE>({
     name: EVENT_FIELDS.TYPE,
   });
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
 
   const getActionButtonProps = ({
     action,

@@ -1,9 +1,6 @@
 import reduce from 'lodash/reduce';
 
-import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
-import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
-import { defaultReducerState as defaultOrganizationsReducerState } from './domain/organizations/constants';
-import { MultiLanguageObject, StoreState } from './types';
+import { MultiLanguageObject } from './types';
 
 export const BREAKPOINTS = {
   XS: 576,
@@ -142,12 +139,6 @@ export enum FORM_NAMES {
   EVENT_FORM = 'event-form',
   REGISTRATION_FORM = 'registration-form',
 }
-
-export const defaultStoreState: StoreState = {
-  authentication: defaultAuthReducerState,
-  events: defaultEventsReducerState,
-  organizations: defaultOrganizationsReducerState,
-};
 
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/gif', 'image/png'];
 export const COMPRESSABLE_IMAGE_TYPES = ['image/jpeg', 'image/png'];
