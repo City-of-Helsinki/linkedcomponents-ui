@@ -17,18 +17,33 @@ configure({ defaultHidden: true });
 
 let initialHeadInnerHTML: string | null = null;
 
-beforeEach(() => {
+beforeEach(async () => {
   const head: HTMLHeadElement | null = document.querySelector('head');
   initialHeadInnerHTML = head?.innerHTML || null;
 
   document.head.innerHTML = '';
 
-  i18n.changeLanguage('fi');
+  await i18n.changeLanguage('fi');
 });
 
 afterEach(() => {
   document.head.innerHTML = initialHeadInnerHTML || '';
 });
+
+const renderRoute = (route: string, locale: Language = 'fi') =>
+  render(
+    <Routes>
+      <Route
+        path={`/:locale/*`}
+        element={
+          <Routes>
+            <Route path={`${ROUTES.HELP}/*`} element={<HelpPageRoutes />} />
+          </Routes>
+        }
+      />
+    </Routes>,
+    { routes: [`/${locale}${route}`] }
+  );
 
 const shouldHaveCorrectMetaData = async ({
   description: pageDescription,
@@ -59,421 +74,587 @@ const shouldHaveCorrectMetaData = async ({
   expect(twitterDescription).toHaveAttribute('content', pageDescription);
 };
 
-const renderRoute = (route: string, locale: Language = 'fi') =>
-  render(
-    <Routes>
-      <Route
-        path={`/:locale/*`}
-        element={
-          <Routes>
-            <Route path={`${ROUTES.HELP}/*`} element={<HelpPageRoutes />} />
-          </Routes>
-        }
-      />
-    </Routes>,
+type PageValues = {
+  description: string;
+  expectedRoute: string;
+  pageTitle: string;
+  keywords: string;
+  title: string;
+};
+
+const testHelpPage = async (
+  language: Language,
+  route: ROUTES,
+  expectedValues: PageValues
+) => {
+  const { description, expectedRoute, keywords, pageTitle, title } =
+    expectedValues;
+
+  await i18n.changeLanguage(language);
+
+  const { history } = await renderRoute(route, language);
+
+  await screen.findByRole('heading', { name: pageTitle });
+
+  // Swedish is not supported language at the moment
+  if (language !== 'sv') {
+    await shouldHaveCorrectMetaData({
+      description,
+      keywords,
+      title,
+    });
+  }
+  expect(history.location.pathname).toBe(expectedRoute);
+};
+
+const testRedirect = async (route: ROUTES, expectedRoute: string) => {
+  const { history } = renderRoute(route);
+
+  await waitFor(() => expect(history.location.pathname).toBe(expectedRoute));
+};
+
+const redirectCases: [ROUTES, string][] = [
+  [ROUTES.INSTRUCTIONS, '/fi/help/instructions/general'],
+  [ROUTES.SUPPORT, '/fi/help/support/terms-of-use'],
+  [ROUTES.TECHNOLOGY, '/fi/help/technology/general'],
+];
+
+it.each(redirectCases)(
+  'should redirect from  %p to %p',
+  async (route, expectedRoute) => {
+    await testRedirect(route, expectedRoute);
+  }
+);
+
+const generalInstructionCases: [Language, PageValues][] = [
+  [
+    'en',
     {
-      routes: [`/${locale}${route}`],
-    }
-  );
-
-it('should route to default instructions help page', async () => {
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/help/instructions/general')
-  );
-});
-
-it('should route to default support help page', async () => {
-  const { history } = renderRoute(ROUTES.SUPPORT);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/help/support/terms-of-use')
-  );
-});
-
-it('should route to default technology help page', async () => {
-  const { history } = renderRoute(ROUTES.TECHNOLOGY);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/help/technology/general')
-  );
-});
-
-it('should render platform help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS_PLATFORM);
-
-  await screen.findByRole('heading', { name: 'Alusta' });
-  await shouldHaveCorrectMetaData({
-    description: 'Johdatus Linked Events -alustaan ja ohjauspaneeliin.',
-    keywords:
-      'alusta, apu, ohjeet, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Alusta - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/instructions/platform');
-});
-
-it('should render general instructions help page in English', async () => {
-  i18n.changeLanguage('en');
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS_GENERAL, 'en');
-
-  await screen.findByRole('heading', { name: 'General' });
-  await shouldHaveCorrectMetaData({
-    description: 'Help and instructions how to use the service and the API.',
-    keywords:
-      'support, help, instructions, linked, events, event, management, api, admin, Helsinki, Finland',
-    title: 'Support - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/en/help/instructions/general');
-});
-
-it('should render general instructions help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS_GENERAL);
-
-  await screen.findByRole('heading', { name: 'Yleistä' });
-  await shouldHaveCorrectMetaData({
-    description: 'Ohjeet sovelluksen ja Linked Events -rajapinnan käyttöön',
-    keywords:
-      'tuki, apu, ohjeet, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Tuki - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/instructions/general');
-});
-
-it('should render general instructions help page in Swedish', async () => {
-  i18n.changeLanguage('sv');
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS_GENERAL, 'sv');
-
-  await screen.findByRole('heading', { name: 'Allmänt' });
-  expect(history.location.pathname).toBe('/sv/help/instructions/general');
-});
-
-it('should render control panel help page in English', async () => {
-  i18n.changeLanguage('en');
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS_CONTROL_PANEL, 'en');
-
-  await screen.findByRole('heading', { name: 'Control panel' });
-  await shouldHaveCorrectMetaData({
-    description: 'How to use control panel and Linked events admin features.',
-    keywords:
-      'control, panel, help, linked, events, event, management, api, admin, Helsinki, Finland',
-    title: 'Control panel - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/en/help/instructions/control-panel');
-});
-
-it('should render control panel help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS_CONTROL_PANEL);
-
-  await screen.findByRole('heading', { name: 'Hallintapaneeli' });
-  await shouldHaveCorrectMetaData({
-    description:
-      'Ohjauspaneelin ja Linked Eventsin järjestelmänvalvojan ominaisuuksien käyttäminen.',
-    keywords:
-      'ohjauspaneeli, apu, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Hallintapaneeli - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/instructions/control-panel');
-});
-
-it('should render control panel help page in Swedish', async () => {
-  i18n.changeLanguage('sv');
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS_CONTROL_PANEL, 'sv');
-
-  await screen.findByRole('heading', { name: 'Kontrollpanel' });
-  expect(history.location.pathname).toBe('/sv/help/instructions/control-panel');
-});
-
-it('should render FAQ help page in English', async () => {
-  i18n.changeLanguage('en');
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS_FAQ, 'en');
-
-  await screen.findByRole('button', {
-    name: 'How do I enter events into Linked Events?',
-  });
-  await shouldHaveCorrectMetaData({
-    description: 'Frequently asked questions about Linked Events.',
-    keywords:
-      'faq, asked, questions, linked, events, event, management, api, admin, Helsinki, Finland',
-    title: 'Frequently asked questions - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/en/help/instructions/faq');
-});
-
-it('should render FAQ help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS_FAQ);
-
-  await screen.findByRole('button', {
-    name: 'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
-  });
-  await shouldHaveCorrectMetaData({
-    description: 'Linked Eventsin usen kysytyt kysymykset.',
-    keywords:
-      'ukk, kysytyt, kysymykset, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Usein kysytyt kysymykset - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/instructions/faq');
-});
-
-// Add this when Swedish is supported
-it.skip('should render FAQ help page in Swedish', async () => {
-  i18n.changeLanguage('sv');
-  const { history } = renderRoute(ROUTES.INSTRUCTIONS_FAQ, 'sv');
-
-  await screen.findByRole('button', {
-    name: 'Hur anger jag evenemang i Linked Events?',
-  });
-  expect(history.location.pathname).toBe('/sv/help/instructions/faq');
-});
-
-it('should render general technology help page in English', async () => {
-  i18n.changeLanguage('en');
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_GENERAL, 'en');
-
-  await screen.findByRole('heading', { name: 'General' });
-  await shouldHaveCorrectMetaData({
-    description: 'More information about the technology behind Linked Events.',
-    keywords:
-      'technology, help, support, linked, events, event, management, api, admin, Helsinki, Finland',
-    title: 'Technology - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/en/help/technology/general');
-});
-
-it('should render general technology help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_GENERAL);
-
-  await screen.findByRole('heading', { name: 'Yleistä' });
-  await shouldHaveCorrectMetaData({
-    description: 'Lisätietoja Linked Eventsin taustalla olevasta tekniikasta.',
-    keywords:
-      'teknologia, apu, tuki, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Teknologia - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/technology/general');
-});
-
-it('should render general technology help page in Swedish', async () => {
-  i18n.changeLanguage('sv');
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_GENERAL, 'sv');
-
-  await screen.findByRole('heading', { name: 'Allmänt' });
-  expect(history.location.pathname).toBe('/sv/help/technology/general');
-});
-
-it('should render API help page in English', async () => {
-  i18n.changeLanguage('en');
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_API, 'en');
-
-  await screen.findByRole('heading', { name: 'API' });
-  await shouldHaveCorrectMetaData({
-    description:
-      'More information about the API (application protocol interface) of Linked Events.',
-    keywords:
-      'help, documentation, linked, events, event, management, api, admin, Helsinki, Finland',
-    title: 'API - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/en/help/technology/api');
-});
-
-it('should render API help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_API);
-
-  await screen.findByRole('heading', { name: 'Rajapinta' });
-  await shouldHaveCorrectMetaData({
-    description:
-      'Lisätietoja Linked Eventsin API: sta (application protocol interface).',
-    keywords:
-      'apu, dokumentaatio, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Rajapinta - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/technology/api');
-});
-
-it('should render API help page in Swedish', async () => {
-  i18n.changeLanguage('sv');
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_API, 'sv');
-
-  await screen.findByRole('heading', { name: 'API' });
-  expect(history.location.pathname).toBe('/sv/help/technology/api');
-});
-
-it('should render image rights help page in English', async () => {
-  i18n.changeLanguage('en');
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_IMAGE_RIGHTS, 'en');
-
-  await screen.findByRole('heading', { name: 'Image rights' });
-  expect(history.location.pathname).toBe('/en/help/technology/image-rights');
-});
-
-it('should render image rights help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_IMAGE_RIGHTS);
-
-  await screen.findByRole('heading', { name: 'Kuvaoikeudet' });
-  expect(history.location.pathname).toBe('/fi/help/technology/image-rights');
-});
-
-it('should render image rights help page in Swedish', async () => {
-  i18n.changeLanguage('sv');
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_IMAGE_RIGHTS, 'sv');
-
-  await screen.findByRole('heading', { name: 'Bildrättigheter' });
-  expect(history.location.pathname).toBe('/sv/help/technology/image-rights');
-});
-
-it('should render source code help page in English', async () => {
-  i18n.changeLanguage('en');
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_SOURCE_CODE, 'en');
-
-  await screen.findByRole('heading', { name: 'Source code' });
-  await shouldHaveCorrectMetaData({
-    description: 'Get a deeper look for Linked Events source code in Github.',
-    keywords:
-      'source, code, help, linked, events, event, management, api, admin, Helsinki, Finland',
-    title: 'Source code - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/en/help/technology/source-code');
-});
-
-it('should render source code help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_SOURCE_CODE);
-
-  await screen.findByRole('heading', { name: 'Lähdekoodi' });
-  await shouldHaveCorrectMetaData({
-    description: 'Tutustu Linked Eventsin lähdekoodiin Githubissa.',
-    keywords:
-      'lähdekoodi, apu, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Lähdekoodi - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/technology/source-code');
-});
-
-it('should render source code help page in Swedish', async () => {
-  i18n.changeLanguage('sv');
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_SOURCE_CODE, 'sv');
-
-  await screen.findByRole('heading', { name: 'Källkod' });
-  expect(history.location.pathname).toBe('/sv/help/technology/source-code');
-});
-
-it('should render documentation help page in English', async () => {
-  i18n.changeLanguage('en');
-  const { history } = await renderRoute(ROUTES.TECHNOLOGY_DOCUMENTATION, 'en');
-
-  await screen.findByRole('heading', { name: 'Documentation' });
-  await shouldHaveCorrectMetaData({
-    description: 'Read more about Linked Events documentation and API design.',
-    keywords:
-      'documentation, help, linked, events, event, management, api, admin, Helsinki, Finland',
-    title: 'Documentation - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/en/help/technology/documentation');
-});
-
-it('should render documentation help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_DOCUMENTATION);
-
-  await screen.findByRole('heading', { name: 'Dokumentaatio' });
-  await shouldHaveCorrectMetaData({
-    description:
-      'Lue lisää Linked Eventsin dokumentaatiosta ja API-suunnittelusta.',
-    keywords:
-      'dokumentaatio, apu, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Dokumentaatio - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/technology/documentation');
-});
-
-it('should render documentation help page in Swedish', async () => {
-  i18n.changeLanguage('sv');
-  const { history } = renderRoute(ROUTES.TECHNOLOGY_DOCUMENTATION, 'sv');
-
-  await screen.findByRole('heading', { name: 'Dokumentation' });
-  expect(history.location.pathname).toBe('/sv/help/technology/documentation');
-});
-
-it('should render terms of use help page in English', async () => {
-  i18n.changeLanguage('en');
-  const { history } = renderRoute(ROUTES.SUPPORT_TERMS_OF_USE, 'en');
-
-  await screen.findByRole('heading', { name: 'Terms of use' });
-  await shouldHaveCorrectMetaData({
-    description: 'Linked Events service terms and restrictions.',
-    keywords:
-      'terms, of, use, linked, events, event, management, api, admin, Helsinki, Finland',
-    title: 'Terms of use - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/en/help/support/terms-of-use');
-});
-
-it('should render terms of use help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.SUPPORT_TERMS_OF_USE);
-
-  await screen.findByRole('heading', { name: 'Käyttöehdot' });
-  await shouldHaveCorrectMetaData({
-    description: 'Linked Eventsin palvelusehdot ja rajoitukset.',
-    keywords:
-      'käyttöehdot, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Käyttöehdot - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/support/terms-of-use');
-});
-
-it('should render terms of use help page in Swedish', async () => {
-  i18n.changeLanguage('sv');
-  const { history } = renderRoute(ROUTES.SUPPORT_TERMS_OF_USE, 'sv');
-
-  await screen.findByRole('heading', { name: 'Villkor' });
-  expect(history.location.pathname).toBe('/sv/help/support/terms-of-use');
-});
-
-it('should render contact help page', async () => {
-  const { history } = renderRoute(ROUTES.SUPPORT_CONTACT);
-
-  await screen.findByRole('heading', { name: 'Ota yhteyttä' });
-  await shouldHaveCorrectMetaData({
-    description:
-      'Lähetä virheraportti tai ominaisuuspyyntö. Tai lähetä meille palautetta palvelusta.',
-    keywords:
-      'ota yhteyttä, lomake, vika, ilmoita, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Ota yhteyttä - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/support/contact');
-});
-
-it('should render features help page in English', async () => {
-  i18n.changeLanguage('en');
-  const { history } = renderRoute(ROUTES.FEATURES, 'en');
-
-  await screen.findByRole('heading', { name: 'Service features' });
-  await shouldHaveCorrectMetaData({
-    description:
-      'Read about Linked Events features. Get familiar with event management and Linked Events API.',
-    keywords:
-      'features, linked, events, event, management, api, admin, Helsinki, Finland',
-    title: 'Service features - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/en/help/features');
-});
-
-it('should render features help page in Finnish', async () => {
-  const { history } = renderRoute(ROUTES.FEATURES);
-
-  await screen.findByRole('heading', { name: 'Palvelun ominaisuudet' });
-  await shouldHaveCorrectMetaData({
-    description:
-      'Lue Linked Eventsin ominaisuuksista. Tutustu tapahtumien hallintaan ja Linked Events -rajapintaan.',
-    keywords:
-      'ominaisuudet, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    title: 'Palvelun ominaisuudet - Linked Events',
-  });
-  expect(history.location.pathname).toBe('/fi/help/features');
-});
-
-it('should render features help page in Swedish', async () => {
-  i18n.changeLanguage('sv');
-  const { history } = renderRoute(ROUTES.FEATURES, 'sv');
-
-  await screen.findByRole('heading', { name: 'Tjänstens egenskaper' });
-  expect(history.location.pathname).toBe('/sv/help/features');
-});
+      description: 'Help and instructions how to use the service and the API.',
+      expectedRoute: '/en/help/instructions/general',
+      keywords:
+        'support, help, instructions, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'General',
+      title: 'Support - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description: 'Ohjeet sovelluksen ja Linked Events -rajapinnan käyttöön',
+      expectedRoute: '/fi/help/instructions/general',
+      keywords:
+        'tuki, apu, ohjeet, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Yleistä',
+      title: 'Tuki - Linked Events',
+    },
+  ],
+  [
+    'sv',
+    {
+      description: '',
+      expectedRoute: '/sv/help/instructions/general',
+      keywords: '',
+      pageTitle: 'Allmänt',
+      title: '',
+    },
+  ],
+];
+
+it.each(generalInstructionCases)(
+  'should render general instructions help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(language, ROUTES.INSTRUCTIONS_GENERAL, expectedValues);
+  }
+);
+
+const platformCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description: 'Introduction to Linked Events platform and control panel.',
+      expectedRoute: '/en/help/instructions/platform',
+
+      keywords:
+        'platform, help, instructions, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'Platform',
+      title: 'Platform - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description: 'Johdatus Linked Events -alustaan ja ohjauspaneeliin.',
+      expectedRoute: '/fi/help/instructions/platform',
+      keywords:
+        'alusta, apu, ohjeet, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Alusta',
+      title: 'Alusta - Linked Events',
+    },
+  ],
+  // TODO: Add this when Swedish is supported
+  // [
+  //   'sv',
+  //   {
+  //     description: '',
+  //     expectedRoute: '/sv/help/instructions/platform',
+  //     keywords: '',
+  //     pageTitle: 'Plattform',
+  //     title: '',
+  //   },
+  // ],
+];
+
+it.each(platformCases)(
+  'should render platform help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(language, ROUTES.INSTRUCTIONS_PLATFORM, expectedValues);
+  }
+);
+
+const controlPanelCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description: 'How to use control panel and Linked events admin features.',
+      expectedRoute: '/en/help/instructions/control-panel',
+      keywords:
+        'control, panel, help, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'Control panel',
+      title: 'Control panel - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description:
+        'Ohjauspaneelin ja Linked Eventsin järjestelmänvalvojan ominaisuuksien käyttäminen.',
+      expectedRoute: '/fi/help/instructions/control-panel',
+      keywords:
+        'ohjauspaneeli, apu, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Hallintapaneeli',
+      title: 'Hallintapaneeli - Linked Events',
+    },
+  ],
+  [
+    'sv',
+    {
+      description: '',
+      expectedRoute: '/sv/help/instructions/control-panel',
+      keywords: '',
+      pageTitle: 'Kontrollpanel',
+      title: '',
+    },
+  ],
+];
+
+it.each(controlPanelCases)(
+  'should render control panel help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(
+      language,
+      ROUTES.INSTRUCTIONS_CONTROL_PANEL,
+      expectedValues
+    );
+  }
+);
+
+const faqCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description: 'Frequently asked questions about Linked Events.',
+      expectedRoute: '/en/help/instructions/faq',
+      keywords:
+        'faq, asked, questions, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'Frequently asked questions',
+      title: 'Frequently asked questions - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description: 'Linked Eventsin usen kysytyt kysymykset.',
+      expectedRoute: '/fi/help/instructions/faq',
+      keywords:
+        'ukk, kysytyt, kysymykset, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Usein kysytyt kysymykset',
+      title: 'Usein kysytyt kysymykset - Linked Events',
+    },
+  ],
+  // TODO: Add this when Swedish is supported
+  // [
+  //   'sv',
+  //   {
+  //     description: '',
+  //     expectedRoute: '/sv/help/instructions/faq',
+  //     keywords: '',
+  //     pageTitle: 'Vanliga frågor',
+  //     title: '',
+  //   },
+  // ],
+];
+
+it.each(faqCases)(
+  'should render FAQ help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(language, ROUTES.INSTRUCTIONS_FAQ, expectedValues);
+  }
+);
+
+const generalTechnologyCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description:
+        'More information about the technology behind Linked Events.',
+      expectedRoute: '/en/help/technology/general',
+      keywords:
+        'technology, help, support, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'General',
+      title: 'Technology - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description:
+        'Lisätietoja Linked Eventsin taustalla olevasta tekniikasta.',
+      expectedRoute: '/fi/help/technology/general',
+      keywords:
+        'teknologia, apu, tuki, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Yleistä',
+      title: 'Teknologia - Linked Events',
+    },
+  ],
+  [
+    'sv',
+    {
+      description: '',
+      expectedRoute: '/sv/help/technology/general',
+      keywords: '',
+      pageTitle: 'Allmänt',
+      title: '',
+    },
+  ],
+];
+
+it.each(generalTechnologyCases)(
+  'should render general technology help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(language, ROUTES.TECHNOLOGY_GENERAL, expectedValues);
+  }
+);
+
+const apiCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description:
+        'More information about the API (application protocol interface) of Linked Events.',
+      expectedRoute: '/en/help/technology/api',
+      keywords:
+        'help, documentation, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'API',
+      title: 'API - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description:
+        'Lisätietoja Linked Eventsin API: sta (application protocol interface).',
+      expectedRoute: '/fi/help/technology/api',
+      keywords:
+        'apu, dokumentaatio, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Rajapinta',
+      title: 'Rajapinta - Linked Events',
+    },
+  ],
+  [
+    'sv',
+    {
+      description: '',
+      expectedRoute: '/sv/help/technology/api',
+      keywords: '',
+      pageTitle: 'API',
+      title: '',
+    },
+  ],
+];
+
+it.each(apiCases)(
+  'should render API help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(language, ROUTES.TECHNOLOGY_API, expectedValues);
+  }
+);
+
+const imageRightsCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description: '',
+      expectedRoute: '/en/help/technology/image-rights',
+      keywords: '',
+      pageTitle: 'Image rights',
+      title: '',
+    },
+  ],
+  [
+    'fi',
+    {
+      description: '',
+      expectedRoute: '/fi/help/technology/image-rights',
+      keywords: '',
+      pageTitle: 'Kuvaoikeudet',
+      title: '',
+    },
+  ],
+  [
+    'sv',
+    {
+      description: '',
+      expectedRoute: '/sv/help/technology/image-rights',
+      keywords: '',
+      pageTitle: 'Bildrättigheter',
+      title: '',
+    },
+  ],
+];
+
+// TODO: Test also page meta data when information is added to literals
+it.each(imageRightsCases)(
+  'should render image rights help page, language %p',
+  async (language, { expectedRoute, pageTitle }) => {
+    i18n.changeLanguage(language);
+
+    const { history } = renderRoute(ROUTES.TECHNOLOGY_IMAGE_RIGHTS, language);
+
+    await screen.findByRole('heading', { name: pageTitle });
+
+    expect(history.location.pathname).toBe(expectedRoute);
+  }
+);
+
+const sourceCodeCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description: 'Get a deeper look for Linked Events source code in Github.',
+      expectedRoute: '/en/help/technology/source-code',
+      keywords:
+        'source, code, help, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'Source code',
+      title: 'Source code - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description: 'Tutustu Linked Eventsin lähdekoodiin Githubissa.',
+      expectedRoute: '/fi/help/technology/source-code',
+      keywords:
+        'lähdekoodi, apu, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Lähdekoodi',
+      title: 'Lähdekoodi - Linked Events',
+    },
+  ],
+  [
+    'sv',
+    {
+      description: '',
+      expectedRoute: '/sv/help/technology/source-code',
+      keywords: '',
+      pageTitle: 'Källkod',
+      title: '',
+    },
+  ],
+];
+
+it.each(sourceCodeCases)(
+  'should render source code help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(language, ROUTES.TECHNOLOGY_SOURCE_CODE, expectedValues);
+  }
+);
+
+const documentationCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description:
+        'Read more about Linked Events documentation and API design.',
+      expectedRoute: '/en/help/technology/documentation',
+
+      keywords:
+        'documentation, help, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'Documentation',
+      title: 'Documentation - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description:
+        'Lue lisää Linked Eventsin dokumentaatiosta ja API-suunnittelusta.',
+      expectedRoute: '/fi/help/technology/documentation',
+      keywords:
+        'dokumentaatio, apu, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Dokumentaatio',
+      title: 'Dokumentaatio - Linked Events',
+    },
+  ],
+  [
+    'sv',
+    {
+      description: '',
+      expectedRoute: '/sv/help/technology/documentation',
+      keywords: '',
+      pageTitle: 'Dokumentation',
+      title: '',
+    },
+  ],
+];
+
+it.each(documentationCases)(
+  'should render documentation help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(
+      language,
+      ROUTES.TECHNOLOGY_DOCUMENTATION,
+      expectedValues
+    );
+  }
+);
+
+const termsOfUseCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description: 'Linked Events service terms and restrictions.',
+      expectedRoute: '/en/help/support/terms-of-use',
+      keywords:
+        'terms, of, use, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'Terms of use',
+      title: 'Terms of use - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description: 'Linked Eventsin palvelusehdot ja rajoitukset.',
+      expectedRoute: '/fi/help/support/terms-of-use',
+      keywords:
+        'käyttöehdot, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Käyttöehdot',
+      title: 'Käyttöehdot - Linked Events',
+    },
+  ],
+  [
+    'sv',
+    {
+      description: '',
+      expectedRoute: '/sv/help/support/terms-of-use',
+      keywords: '',
+      pageTitle: 'Villkor',
+      title: '',
+    },
+  ],
+];
+
+it.each(termsOfUseCases)(
+  'should render terms of use help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(language, ROUTES.SUPPORT_TERMS_OF_USE, expectedValues);
+  }
+);
+
+const contactCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description:
+        'Send a bug report or feature request. Or send us some feedback about the service.',
+      expectedRoute: '/en/help/support/contact',
+      keywords:
+        'contact, form, bug, report, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'Contact us',
+      title: 'Contact us - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description:
+        'Lähetä virheraportti tai ominaisuuspyyntö. Tai lähetä meille palautetta palvelusta.',
+      expectedRoute: '/fi/help/support/contact',
+      keywords:
+        'ota yhteyttä, lomake, vika, ilmoita, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Ota yhteyttä',
+      title: 'Ota yhteyttä - Linked Events',
+    },
+  ],
+  // TODO: Add this when Swedish is supported
+  // [
+  //   'sv',
+  //   {
+  //     description: '',
+  //     expectedRoute: '/sv/help/support/contact',
+  //     keywords: '',
+  //     pageTitle: 'Ta kontakt',
+  //     title: '',
+  //   },
+  // ],
+];
+
+it.each(contactCases)(
+  'should render contact help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(language, ROUTES.SUPPORT_CONTACT, expectedValues);
+  }
+);
+
+const featuresCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description:
+        'Read about Linked Events features. Get familiar with event management and Linked Events API.',
+      expectedRoute: '/en/help/features',
+      keywords:
+        'features, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'Service features',
+      title: 'Service features - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description:
+        'Lue Linked Eventsin ominaisuuksista. Tutustu tapahtumien hallintaan ja Linked Events -rajapintaan.',
+      expectedRoute: '/fi/help/features',
+      keywords:
+        'ominaisuudet, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Palvelun ominaisuudet',
+      title: 'Palvelun ominaisuudet - Linked Events',
+    },
+  ],
+  [
+    'sv',
+    {
+      description: '',
+      expectedRoute: '/sv/help/features',
+      keywords: '',
+      pageTitle: 'Tjänstens egenskaper',
+      title: '',
+    },
+  ],
+];
+
+it.each(featuresCases)(
+  'should render features help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(language, ROUTES.FEATURES, expectedValues);
+  }
+);
