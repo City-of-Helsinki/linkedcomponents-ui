@@ -1,11 +1,10 @@
 import React from 'react';
 
-import ExternalLink from '../../../../common/components/externalLink/ExternalLink';
-import { SWAGGER_URL } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
-import removeProtocolFromUrl from '../../../../utils/removeProtocolFromUrl';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import SourceCodeLinks from '../../sourceCodeLinks/SourceCodeLinks';
+import SwaggerLink from '../swaggerLink/SwaggerLink';
 
 const GeneralInstructionsPage: React.FC = () => {
   const locale = useLocale();
@@ -22,24 +21,6 @@ const GeneralInstructionsPage: React.FC = () => {
               panel and interface. More detailed information about the Linked
               Events interface, software and documentation can be found at:
             </p>
-            <p>
-              <ExternalLink href="https://api.hel.fi/linkedevents/v1">
-                api.hel.fi/linkedevents/v1
-              </ExternalLink>{' '}
-              (API)
-            </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                github.com/City-of-Helsinki/linkedevents
-              </ExternalLink>{' '}
-              (software)
-            </p>
-            <p>
-              <ExternalLink href={SWAGGER_URL}>
-                {removeProtocolFromUrl(SWAGGER_URL)}
-              </ExternalLink>{' '}
-              (documentation)
-            </p>
           </>
         );
       case 'fi':
@@ -51,24 +32,6 @@ const GeneralInstructionsPage: React.FC = () => {
               kysymyksiin sekä ohjeet hallintapaneelin ja rajapinnan käyttöön.
               Tarkemmat tiedot Linked Events-rajapinnasta, -ohjelmistosta ja
               -dokumentaatiosta löytyy osoitteista:
-            </p>
-            <p>
-              <ExternalLink href="https://api.hel.fi/linkedevents/v1">
-                api.hel.fi/linkedevents/v1
-              </ExternalLink>{' '}
-              (rajapinta)
-            </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                github.com/City-of-Helsinki/linkedevents
-              </ExternalLink>{' '}
-              (ohjelmisto)
-            </p>
-            <p>
-              <ExternalLink href={SWAGGER_URL}>
-                {removeProtocolFromUrl(SWAGGER_URL)}
-              </ExternalLink>{' '}
-              (dokumentaatio)
             </p>
           </>
         );
@@ -82,24 +45,6 @@ const GeneralInstructionsPage: React.FC = () => {
               och gränssnittet. Mer detaljerad information om Linked Events
               gränssnitt, programvara och dokumentation finns på:
             </p>
-            <p>
-              <ExternalLink href="https://api.hel.fi/linkedevents/v1">
-                api.hel.fi/linkedevents/v1
-              </ExternalLink>{' '}
-              (gränssnitt)
-            </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                github.com/City-of-Helsinki/linkedevents
-              </ExternalLink>{' '}
-              (programvara)
-            </p>
-            <p>
-              <ExternalLink href={SWAGGER_URL}>
-                {removeProtocolFromUrl(SWAGGER_URL)}
-              </ExternalLink>{' '}
-              (dokumentation)
-            </p>
           </>
         );
     }
@@ -111,6 +56,8 @@ const GeneralInstructionsPage: React.FC = () => {
       title="helpPage.pageTitleInstructions"
     >
       {getContent(locale)}
+      <SourceCodeLinks showExplanations />
+      <SwaggerLink showExplanations />
     </PageWrapper>
   );
 };

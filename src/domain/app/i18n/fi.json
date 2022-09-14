@@ -1303,6 +1303,12 @@
       "labelTechnology": "Teknologia",
       "labelTermsOfUse": "Käyttöehdot",
       "toggleButtonLabel": "Siirry ohjesivulle"
+    },
+    "sourceCodeLinks": {
+      "api": "rajapinta",
+      "documentation": "dokumentaatio",
+      "linkedEventsUi": "tapahtumien hallinnan käyttöliittymä",
+      "linkedRegistrationsUi": "ilmoittautumisen käyttöliittymä"
     }
   },
   "image": {

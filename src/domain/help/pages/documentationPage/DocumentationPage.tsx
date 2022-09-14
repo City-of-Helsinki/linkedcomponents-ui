@@ -5,12 +5,11 @@ import 'swagger-ui-react/swagger-ui.css';
 import React from 'react';
 import SwaggerUI from 'swagger-ui-react';
 
-import ExternalLink from '../../../../common/components/externalLink/ExternalLink';
-import { SWAGGER_SCHEMA_URL, SWAGGER_URL } from '../../../../constants';
+import { SWAGGER_SCHEMA_URL } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
-import removeProtocolFromUrl from '../../../../utils/removeProtocolFromUrl';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import SwaggerLink from '../swaggerLink/SwaggerLink';
 
 const DocumentationPage: React.FC = () => {
   const locale = useLocale();
@@ -25,11 +24,7 @@ const DocumentationPage: React.FC = () => {
               The latest documentation for the API in the Open API 2.0 markup
               language can be found at:
             </p>
-            <p>
-              <ExternalLink href={SWAGGER_URL}>
-                {removeProtocolFromUrl(SWAGGER_URL)}
-              </ExternalLink>
-            </p>
+            <SwaggerLink />
             <p>
               We will also update the documentation to Github in upcoming
               releases.
@@ -44,11 +39,7 @@ const DocumentationPage: React.FC = () => {
               Rajapinnan tuorein dokumentaatio Open API 2.0-kuvauskielellä
               löytyy osoitteesta:
             </p>
-            <p>
-              <ExternalLink href={SWAGGER_URL}>
-                {removeProtocolFromUrl(SWAGGER_URL)}
-              </ExternalLink>
-            </p>
+            <SwaggerLink />
             <p>
               Päivitämme dokumentaation myös Githubiin julkaisujen yhteydessä.
             </p>
@@ -62,11 +53,7 @@ const DocumentationPage: React.FC = () => {
               Den senaste dokumentationen för gränssnittet i Open API
               2.0-märkningsspråket finns på:
             </p>
-            <p>
-              <ExternalLink href={SWAGGER_URL}>
-                {removeProtocolFromUrl(SWAGGER_URL)}
-              </ExternalLink>
-            </p>
+            <SwaggerLink />
             <p>
               Vi kommer också att uppdatera dokumentationen till Github i
               samband med utgåvor.

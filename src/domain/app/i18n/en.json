@@ -1304,6 +1304,12 @@
       "labelTechnology": "Technology",
       "labelTermsOfUse": "Terms of use",
       "toggleButtonLabel": "Navigate to help page"
+    },
+    "sourceCodeLinks": {
+      "api": "API",
+      "documentation": "documentation",
+      "linkedEventsUi": "event management UI",
+      "linkedRegistrationsUi": "registration UI"
     }
   },
   "image": {

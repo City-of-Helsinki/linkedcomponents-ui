@@ -1,9 +1,9 @@
 import React from 'react';
 
-import ExternalLink from '../../../../common/components/externalLink/ExternalLink';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import SourceCodeLinks from '../../sourceCodeLinks/SourceCodeLinks';
 
 const GeneralTechnologyPage: React.FC = () => {
   const locale = useLocale();
@@ -21,16 +21,6 @@ const GeneralTechnologyPage: React.FC = () => {
               application for event management and its and the platform's source
               code can be found in Github version control at:
             </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                github.com/City-of-Helsinki/linkedevents
-              </ExternalLink>
-            </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedcomponents-ui">
-                github.com/City-of-Helsinki/linkedcomponents-ui
-              </ExternalLink>
-            </p>
           </>
         );
       case 'fi':
@@ -45,16 +35,6 @@ const GeneralTechnologyPage: React.FC = () => {
               alustan lähdekoodit löytyvät Github-versionhallinnasta
               osoitteista:
             </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                github.com/City-of-Helsinki/linkedevents
-              </ExternalLink>
-            </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedcomponents-ui">
-                github.com/City-of-Helsinki/linkedcomponents-ui
-              </ExternalLink>
-            </p>
           </>
         );
       case 'sv':
@@ -68,16 +48,6 @@ const GeneralTechnologyPage: React.FC = () => {
               React-baserad applikation för evenemangshantering och dess och
               plattformens källkod finns i Github-versionskontrollen på:
             </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                github.com/City-of-Helsinki/linkedevents
-              </ExternalLink>
-            </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedcomponents-ui">
-                github.com/City-of-Helsinki/linkedcomponents-ui
-              </ExternalLink>
-            </p>
           </>
         );
     }
@@ -89,6 +59,7 @@ const GeneralTechnologyPage: React.FC = () => {
       title="helpPage.pageTitleTechnology"
     >
       {getContent(locale)}
+      <SourceCodeLinks />
     </PageWrapper>
   );
 };

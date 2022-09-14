@@ -1303,6 +1303,12 @@
       "labelTechnology": "Teknologi",
       "labelTermsOfUse": "Villkor",
       "toggleButtonLabel": "Navigera till hjälpsidan"
+    },
+    "sourceCodeLinks": {
+      "api": "gränssnitt",
+      "documentation": "dokumentation",
+      "linkedEventsUi": "användargränssnitt för evenemnaghantering",
+      "linkedRegistrationsUi": "användargränssnitt för registrering"
     }
   },
   "image": {

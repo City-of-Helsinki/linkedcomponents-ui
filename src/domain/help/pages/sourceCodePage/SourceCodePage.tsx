@@ -1,9 +1,9 @@
 import React from 'react';
 
-import ExternalLink from '../../../../common/components/externalLink/ExternalLink';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import SourceCodeLinks from '../../sourceCodeLinks/SourceCodeLinks';
 
 const SourceCodePage: React.FC = () => {
   const locale = useLocale();
@@ -18,16 +18,7 @@ const SourceCodePage: React.FC = () => {
               The complete code base of Linked Events can be found in the City
               of Helsinki's Github:
             </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                github.com/City-of-Helsinki/linkedevents
-              </ExternalLink>
-            </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedcomponents-ui">
-                github.com/City-of-Helsinki/linkedcomponents-ui
-              </ExternalLink>
-            </p>
+            <SourceCodeLinks />
             <p>
               We regularly review development requests and bug reports sent to
               Github.
@@ -42,16 +33,7 @@ const SourceCodePage: React.FC = () => {
               Linked Eventsin koodikanta löytyy kokonaisuudessaan Helsingin
               kaupungin Githubista:
             </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                github.com/City-of-Helsinki/linkedevents
-              </ExternalLink>
-            </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedcomponents-ui">
-                github.com/City-of-Helsinki/linkedcomponents-ui
-              </ExternalLink>
-            </p>
+            <SourceCodeLinks />
             <p>
               Käymme läpi säännöllisesti Githubiin lähetettyjä kehitystoiveita
               ja virheraportteja.
@@ -66,16 +48,7 @@ const SourceCodePage: React.FC = () => {
               Den kompletta kodbasen för Linked Events finns i Helsingfors stads
               Github:
             </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedevents">
-                github.com/City-of-Helsinki/linkedevents
-              </ExternalLink>
-            </p>
-            <p>
-              <ExternalLink href="https://github.com/City-of-Helsinki/linkedcomponents-ui">
-                github.com/City-of-Helsinki/linkedcomponents-ui
-              </ExternalLink>
-            </p>
+            <SourceCodeLinks />
             <p>
               Vi granskar regelbundet utvecklingsförfrågningar och felrapporter
               som skickas till Github.
