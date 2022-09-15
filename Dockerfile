@@ -50,10 +50,6 @@ ARG PUBLIC_URL
 ARG GENERATE_SITEMAP
 ARG GENERATE_ROBOTS
 
-# set sass path to support scss import
-ARG SASS_PATH=./src/assets/styles
-ENV SASS_PATH $SASS_PATH
-
 # Set LinkedEvents url
 ARG REACT_APP_LINKED_EVENTS_URL
 # Set LinkedRegistrations UI url
