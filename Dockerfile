@@ -1,6 +1,11 @@
 # ===============================================
-FROM helsinkitest/node:14-slim as appbase
+FROM registry.access.redhat.com/ubi8/nodejs-16 as appbase
 # ===============================================
+
+USER root
+RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
+RUN yum -y install yarn
+
 # Offical image has npm log verbosity as info. More info - https://github.com/nodejs/docker-node#verbosity
 ENV NPM_CONFIG_LOGLEVEL warn
 
@@ -13,11 +18,12 @@ ENV NODE_ENV $NODE_ENV
 ENV YARN_VERSION 1.22.5
 RUN yarn policies set-version $YARN_VERSION
 
-# Use non-root user
-USER appuser
+COPY package.json yarn.lock /opt/app-root/src/
+RUN chown -R default:root /opt/app-root/src
+
+USER default
 
 # Install dependencies
-COPY --chown=appuser:appuser package*.json *yarn* /app/
 RUN yarn && yarn cache clean --force
 
 # =============================
@@ -31,7 +37,7 @@ ENV NODE_ENV $NODE_ENV
 ENV PORT 8000
 
 # Copy all files
-COPY --chown=appuser:appuser . /app/
+COPY --chown=appuser:appuser . /opt/app-root/src/
 
 # Bake package.json start command into the image
 CMD ["yarn", "start"]
@@ -41,7 +47,7 @@ EXPOSE 8000
 # ===================================
 FROM appbase as staticbuilder
 # ===================================
-COPY . /app/
+COPY . /opt/app-root/src/
 
 # Set public url
 ARG PUBLIC_URL
@@ -86,7 +92,6 @@ RUN yarn build
 RUN yarn generate-sitemap
 RUN yarn generate-robots
 RUN yarn compress
-
 # =============================
 FROM registry.access.redhat.com/ubi8/nginx-118 as production
 # =============================
@@ -96,7 +101,7 @@ RUN chgrp -R 0 /usr/share/nginx/html && \
     chmod -R g=u /usr/share/nginx/html
 
 # Copy static build
-COPY --from=staticbuilder /app/build /usr/share/nginx/html
+COPY --from=staticbuilder /opt/app-root/src/build /usr/share/nginx/html
 
 # Copy nginx config
 COPY .prod/nginx.conf /etc/nginx/nginx.conf

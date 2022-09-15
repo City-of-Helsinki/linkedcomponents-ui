@@ -10,7 +10,7 @@ Start the container
 
     docker compose up
 
-The web application should run at http://localhost:8000
+The web application should run at http://localhost:3000
 
 ## Running production version with Docker
 
@@ -22,7 +22,7 @@ Start the container
 
     docker compose up
 
-The web application should run at http://localhost:8000
+The web application should run at http://localhost:3000
 
 ## Setting up development environment locally with docker
 
