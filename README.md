@@ -2,9 +2,18 @@
 
 UI for Linked Events. Linked Events is a collection of software components and API endpoints that enables event management and distribution for different event providers in Finland
 
+## Prerequisites
+
+1. Node 16 (`nvm use`)
+1. Yarn
+
 ## Development with Docker
 
 To build the project, you will need [Docker](https://www.docker.com/community-edition).
+
+Build the docker image
+
+    docker compose build
 
 Start the container
 
@@ -24,57 +33,32 @@ Start the container
 
 The web application should run at http://localhost:3000
 
-## Setting up development environment locally with docker
+## Configurable environment variables
 
-### Set tunnistamo hostname
+Use .env.development.local for development.
 
-Add the following line to your hosts file (`/etc/hosts` on mac and linux):
+| Name                                       | Description                                                                                            |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| REACT_APP_LINKED_EVENTS_URL                | linkedevents api base url                                                                              |
+| REACT_APP_LINKED_REGISTRATIONS_UI_URL      | Linked registration UI url. Used to get signup form url                                                |
+| REACT_APP_OIDC_AUTHORITY                   | https://api.hel.fi/sso                                                                                 |
+| REACT_APP_OIDC_CLIENT_ID                   | linkedcomponents-ui-test                                                                               |
+| REACT_APP_OIDC_API_SCOPE                   | https://api.hel.fi/auth/linkedeventsdev                                                                |
+| REACT_APP_SENTRY_DSN                       | https://9b104b8db52740ffb5002e0c9e40da45@sentry.hel.ninja/12                                           |
+| REACT_APP_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                           |
+| REACT_APP_MATOMO_SITE_ID                   | 69                                                                                                     |
+| REACT_APP_MATOMO_SRC_URL                   | matomo.js                                                                                              |
+| REACT_APP_MATOMO_TRACKER_URL               | matomo.php                                                                                             |
+| REACT_APP_MATOMO_ENABLED                   | Flag to enable matomo. Default false.                                                                  |
+| REACT_APP_SWAGGER_URL                      | https://dev.hel.fi/apis/linkedevents                                                                   |
+| REACT_APP_SWAGGER_SCHEMA_URL               | https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml |
+| REACT_APP_INTERNET_PLACE_ID                | Id of the internet place. system:internet in development server, helsinki:internet in production       |
+| REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID  | yso:p26626                                                                                             |
+| REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE | helsinki                                                                                               |
+| REACT_APP_SHOW_ADMIN                       | Flag to show admin, Default true. pages                                                                |
+| REACT_APP_SHOW_REGISTRATION                | Flag to show registration related pages, Default true.                                                 |
 
-    127.0.0.1 tunnistamo-backend
-
-### Create a new OAuth app on GitHub
-
-Go to https://github.com/settings/developers/ and add a new app with the following settings:
-
-- Application name: can be anything, e.g. local tunnistamo
-- Homepage URL: http://tunnistamo-backend:8000
-- Authorization callback URL: http://tunnistamo-backend:8000/accounts/github/login/callback/
-
-Save. You'll need the created **Client ID** and **Client Secret** for configuring tunnistamo in the next step.
-
-### Install local tunnistamo
-
-Clone https://github.com/City-of-Helsinki/tunnistamo/.
-
-Follow the instructions for setting up tunnistamo locally. Before running `docker-compose up` set the following settings in tunnistamo roots `docker-compose.env.yaml`:
-
-- SOCIAL_AUTH_GITHUB_KEY: **Client ID** from the GitHub OAuth app
-- SOCIAL_AUTH_GITHUB_SECRET: **Client Secret** from the GitHub OAuth app
-
-To get silent renew to work locally you also need to set:
-
-- ALLOW_CROSS_SITE_SESSION_COOKIE=True
-
-After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
-
-`docker compose exec django bash`
-
-and execute the following four commands inside your docker container:
-
-```bash
-./manage.py add_oidc_client -n linkedevents-ui -t "id_token token" -u "http://localhost:3000/callback" "http://localhost:3000/silent-renew.html" -i https://api.hel.fi/auth/linkedevents-ui -m github -s dev -234 we
-./manage.py add_oidc_client -n linkedevents -t "code" -u http://localhost:8081/return -i https://api.hel.fi/auth/linkedevents -m github -s dev -c
-./manage.py add_oidc_api -n linkedevents -d https://api.hel.fi/auth -s email,profile -c https://api.hel.fi/auth/linkedevents
-./manage.py add_oidc_api_scope -an linkedevents -c https://api.hel.fi/auth/linkedevents-ui -n "Linked Events UI" -d "Lorem ipsum"
-```
-
-Also add http:localhost:3000/ to Post Logout Redirect URIs of palvelutarjotin-admin client on Tunnistamo Django admin http://tunnistamo-backend:8000/admin/oidc_provider/client/
-
-### Install Linked Events REST API server locally
-
-TODO: Add instructions to set up local Linked Events REST API server when OIDC authentication is implemented there
-
-### linkedcomponents-ui
+## Running development environment locally without docker
 
 Copy `cp .env.development.local.example .env.development.local`
 
@@ -87,7 +71,7 @@ Run `yarn && yarn start`
 
 ## Feature flags
 
-There are a feature flags which can be enabled in `.env`:
+There are a feature flags which can be enabled in `.env.development.local`:
 
 `REACT_APP_SHOW_ADMIN`:
 `REACT_APP_SHOW_REGISTRATION`:
@@ -146,8 +130,6 @@ Browser tests are written in TypeScript with [TestCafe](https://devexpress.githu
 
 Running browser tests against local environment
 
-Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
-
 ### `yarn browser-test:prod`
 
 Running browser tests against production environment
@@ -179,7 +161,3 @@ Run linter to all the files in app
 ### `yarn lint:fix`
 
 Run linter and fix all the linter errors
-
-## Browser tests
-
-Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
