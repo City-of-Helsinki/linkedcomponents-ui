@@ -19,7 +19,7 @@ Start the container
 
     docker compose up
 
-The web application should run at http://localhost:3000
+The web application is running at http://localhost:3000
 
 ## Running production version with Docker
 
@@ -31,7 +31,11 @@ Start the container
 
     docker compose up
 
-The web application should run at http://localhost:3000
+The web application is running at http://localhost:3000
+
+## Running development environment locally without docker
+
+Run `yarn && yarn start`
 
 ## Configurable environment variables
 
@@ -58,16 +62,6 @@ Use .env.development.local for development.
 | REACT_APP_SHOW_ADMIN                       | Flag to show admin, Default true. pages                                                                |
 | REACT_APP_SHOW_REGISTRATION                | Flag to show registration related pages, Default true.                                                 |
 
-## Running development environment locally without docker
-
-Copy `cp .env.development.local.example .env.development.local`
-
-Run `docker compose up`, now the app should be running at `http://localhost:3000/`!
-`docker compose down` stops the container.
-
-OR
-
-Run `yarn && yarn start`
 
 ## Feature flags
 
