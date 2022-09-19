@@ -27,7 +27,6 @@ jobs:
         uses: andersinno/kolga-build-action@v2
         env:
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-review
-          DOCKER_BUILD_ARG_SASS_PATH: './src/assets/styles'
           DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
           DOCKER_BUILD_ARG_REACT_APP_LINKED_REGISTRATIONS_UI_URL: 'https://linkedregistrations-ui.test.kuva.hel.ninja'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
@@ -65,7 +64,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.2
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"

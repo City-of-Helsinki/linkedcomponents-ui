@@ -34,7 +34,6 @@ jobs:
           DOCKER_BUILD_ARG_PUBLIC_URL: 'https://linkedevents.hel.fi'
           DOCKER_BUILD_ARG_GENERATE_SITEMAP: 'true'
           DOCKER_BUILD_ARG_GENERATE_ROBOTS: 'true'
-          DOCKER_BUILD_ARG_SASS_PATH: './src/assets/styles'
           DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
           DOCKER_BUILD_ARG_REACT_APP_LINKED_REGISTRATIONS_UI_URL: 'https://linkedregistrations-ui.test.kuva.hel.ninja'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://api.hel.fi/sso'
@@ -97,7 +96,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.2
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
