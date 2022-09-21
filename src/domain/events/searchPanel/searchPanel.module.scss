@@ -19,4 +19,12 @@
       }
     }
   }
+
+  .filterSummary {
+    --filter-summary-color: var(--color-black);
+
+    div {
+      --tag-background: var(--color-white);
+    }
+  }
 }

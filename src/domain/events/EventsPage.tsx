@@ -22,7 +22,6 @@ import useUser from '../user/hooks/useUser';
 import { EVENT_LIST_TYPES, EVENTS_PAGE_TABS } from './constants';
 import EventList from './eventList/EventList';
 import styles from './events.module.scss';
-import FilterSummary from './filterSummary/FilterSummary';
 import useEventsQueryVariables from './hooks/useEventsQueryVariables';
 import SearchPanel from './searchPanel/SearchPanel';
 import { replaceParamsToEventQueryString } from './utils';
@@ -165,9 +164,6 @@ const EventsPage: React.FC<Props> = ({ user }) => {
             name="event-list"
           >
             <SearchPanel />
-            <Container withOffset={true}>
-              <FilterSummary className={styles.filterSummary} />
-            </Container>
 
             <EventList
               activeTab={activeTab}

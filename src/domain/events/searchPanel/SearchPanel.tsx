@@ -16,6 +16,7 @@ import Container from '../../app/layout/container/Container';
 import { useTheme } from '../../app/theme/Theme';
 import { EVENT_TYPE } from '../../event/constants';
 import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
+import FilterSummary from '../filterSummary/FilterSummary';
 import { getEventSearchInitialValues, getEventSearchQuery } from '../utils';
 import styles from './searchPanel.module.scss';
 
@@ -112,6 +113,7 @@ const SearchPanel: React.FC = () => {
                 </Button>
               </div>
             </div>
+            <FilterSummary className={styles.filterSummary} />
           </Container>
         </div>
       )}
