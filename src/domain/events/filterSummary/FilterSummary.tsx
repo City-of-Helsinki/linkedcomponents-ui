@@ -38,56 +38,63 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     });
   };
 
-  const removeFilter = ({
-    value,
-    type,
-  }: {
-    value: string;
-    type: FilterType;
-  }) => {
-    const newSearch = replaceParamsToEventQueryString(search, {
-      end: type === 'date' ? null : end,
-      type:
-        type === 'eventType' ? types.filter((item) => item !== value) : types,
-      place:
-        type === 'place' ? places.filter((item) => item !== value) : places,
-      start: type === 'date' ? null : start,
-      text: type === 'text' ? '' : text,
-    });
+  const filters = React.useMemo(() => {
+    const removeFilter = ({
+      value,
+      type,
+    }: {
+      value: string;
+      type: FilterType;
+    }) => {
+      const newSearch = replaceParamsToEventQueryString(search, {
+        end: type === 'date' ? null : end,
+        type:
+          type === 'eventType' ? types.filter((item) => item !== value) : types,
+        place:
+          type === 'place' ? places.filter((item) => item !== value) : places,
+        start: type === 'date' ? null : start,
+        text: type === 'text' ? '' : text,
+      });
 
-    navigate({ pathname, search: newSearch });
-  };
+      navigate({ pathname, search: newSearch });
+    };
 
-  const hasFilters = Boolean(
-    end || places.length || start || text || types.length
-  );
+    const filters: React.ReactElement[] = [];
 
-  if (!hasFilters) return null;
-
-  return (
-    <div className={classNames(styles.filterSummary, className)}>
-      {text && (
+    if (text) {
+      filters.push(
         <FilterTag
           text={text}
           onDelete={removeFilter}
           type="text"
           value={text}
         />
-      )}
-      {(end || start) && (
+      );
+    }
+    if (end || start) {
+      filters.push(
         <DateFilterTag end={end} onDelete={removeFilter} start={start} />
-      )}
-      {places.map((place) => {
-        return (
-          <PlaceFilterTag key={place} onDelete={removeFilter} value={place} />
-        );
-      })}
-      {types.map((type) => {
-        return (
-          <EventTypeFilterTag key={type} onDelete={removeFilter} value={type} />
-        );
-      })}
+      );
+    }
+    filters.push(
+      ...places.map((place) => (
+        <PlaceFilterTag key={place} onDelete={removeFilter} value={place} />
+      ))
+    );
+    filters.push(
+      ...types.map((type) => (
+        <EventTypeFilterTag key={type} onDelete={removeFilter} value={type} />
+      ))
+    );
 
+    return filters;
+  }, [end, navigate, pathname, places, search, start, text, types]);
+
+  if (!filters.length) return null;
+
+  return (
+    <div className={classNames(styles.filterSummary, className)}>
+      {filters.map((filter) => filter)}
       <button
         className={styles.clearButton}
         onClick={clearFilters}
