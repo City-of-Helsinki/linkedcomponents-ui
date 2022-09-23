@@ -122,6 +122,7 @@ const CookieConsent = () => {
           }
         },
         onConsentsParsed: (consents) => {
+          /* istanbul ignore next */
           if (consents.matomo === undefined) {
             // tell matomo to wait for consent:
             window._paq.push(['requireConsent']);
