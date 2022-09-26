@@ -1,9 +1,8 @@
 import { CookieModal } from 'hds-react';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { FC, useState } from 'react';
 
 import { PAGE_HEADER_ID } from '../../../constants';
-import useLocale from '../../../hooks/useLocale';
+import i18n from '../i18n/i18nInit';
 
 type SupportedLanguage = 'en' | 'fi' | 'sv';
 
@@ -51,24 +50,27 @@ const translations = {
       sv: 'Cookie för registrering formulär',
     },
   },
+  siteName: {
+    en: 'Linked Events',
+    fi: 'Linked Events',
+    sv: 'Linked Events',
+  },
 };
 
 const origin = window.location.origin;
 
-const CookieConsent = () => {
-  const { t } = useTranslation();
-  const locale = useLocale();
-  const [language, setLanguage] = useState<SupportedLanguage>(locale);
+const CookieConsent: FC = () => {
+  const [language, setLanguage] = useState<SupportedLanguage>(
+    i18n.language as SupportedLanguage
+  );
 
   const onLanguageChange = async (newLang: string) =>
     setLanguage(newLang as SupportedLanguage);
 
-  useEffect(() => setLanguage(locale), [locale]);
-
   return (
     <CookieModal
       contentSource={{
-        siteName: t('appName'),
+        siteName: translations.siteName[language],
         currentLanguage: language,
         requiredCookies: {
           groups: [
@@ -132,6 +134,7 @@ const CookieConsent = () => {
             window._paq.push(['forgetConsentGiven']);
           }
         },
+
         focusTargetSelector: `#${PAGE_HEADER_ID}`,
       }}
     />
