@@ -7,13 +7,6 @@ import i18n from '../i18n/i18nInit';
 type SupportedLanguage = 'en' | 'fi' | 'sv';
 
 const translations = {
-  expiration: {
-    session: {
-      en: 'Session',
-      fi: 'Istunto',
-      sv: 'Session',
-    },
-  },
   enrolmentForm: {
     description: {
       en: 'The cookie required to save the enrolment form data',
@@ -21,7 +14,7 @@ const translations = {
       sv: 'Cookien som krävs för att spara deltagande formulär data',
     },
     name: {
-      en: 'Registration form cookie',
+      en: 'Enrolment form cookie',
       fi: 'Osallistumislomakkeen eväste',
       sv: 'Cookie för deltagande formulär',
     },
@@ -36,6 +29,13 @@ const translations = {
       en: 'Event form cookie',
       fi: 'Tapahtumalomakkeen eväste',
       sv: 'Cookie för evenemang formulär',
+    },
+  },
+  expiration: {
+    session: {
+      en: 'Session',
+      fi: 'Istunto',
+      sv: 'Session',
     },
   },
   registrationForm: {
