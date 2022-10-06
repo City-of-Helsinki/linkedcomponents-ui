@@ -8,8 +8,8 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../../utils/testUtils';
-import translations from '../../../app/i18n/fi.json';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
@@ -17,12 +17,10 @@ configure({ defaultHidden: true });
 const getElement = (key: 'eventTypeSelectorButton' | 'searchInput') => {
   switch (key) {
     case 'eventTypeSelectorButton':
-      return screen.getByRole('button', {
-        name: translations.eventSearchPage.searchPanel.labelEventType,
-      });
+      return screen.getByRole('button', { name: 'Tyyppi' });
     case 'searchInput':
       return screen.getByRole('searchbox', {
-        name: translations.eventSearchPage.searchPanel.labelSearch,
+        name: 'Hae Linked Events -rajapinnasta',
       });
   }
 };
@@ -36,7 +34,9 @@ test('should initialize search panel input', async () => {
 
   const searchInput = getElement('searchInput');
   await waitFor(() => expect(searchInput).toHaveValue(searchValue));
-  screen.getByText(/tapahtuma/i);
+
+  const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
+  within(eventTypeSelectorButton).getByText(/tapahtuma/i);
 });
 
 test('should search events with correct search params', async () => {

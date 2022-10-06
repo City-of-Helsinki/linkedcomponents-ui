@@ -1016,7 +1016,10 @@ describe('getEventInitialValues function', () => {
       audience: audienceAtIds,
       audienceMaxAge,
       audienceMinAge,
-      description,
+      description: Object.entries(description).reduce(
+        (prev, [key, val]) => ({ ...prev, [key]: `<p>${val}</p>` }),
+        {}
+      ),
       enrolmentEndTimeDate: enrolmentEndTime,
       enrolmentEndTimeTime: '05:51',
       enrolmentStartTimeDate: enrolmentStartTime,

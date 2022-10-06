@@ -12,55 +12,41 @@ export const findCookieConsentModal = async (t: TestController) => {
   const screen = screenContext(t);
 
   await t
-    .expect(screen.findByRole('dialog').exists)
+    .expect(screen.findByTestId('cookie-consent').exists)
     .ok(await getErrorMessage(t));
 
   const withinCookieConsentModal = () => {
-    return within(screen.getByRole('dialog'));
+    return within(screen.findByTestId('cookie-consent'));
   };
 
   const selectors = {
-    acceptCheckbox() {
-      return withinCookieConsentModal().findByRole('checkbox', {
-        name: /olen lukenut ja hyväksyn palvelun käyttöehdot/i,
-      });
-    },
     acceptAllButton() {
       return withinCookieConsentModal().findByRole('button', {
-        name: /kaikki/i,
+        name: /Hyväksy kaikki evästeet/i,
       });
     },
     heading() {
       return withinCookieConsentModal().findByRole('heading', {
-        name: /linked events käyttöehdot ja evästeet/i,
+        name: /Linked Events käyttää evästeitä/i,
       });
     },
   };
 
   const actions = {
-    async clickAcceptCheckbox() {
-      const result = await t.click(selectors.acceptCheckbox());
-      return result;
-    },
     async clickAcceptAllButton() {
       const result = await t.click(selectors.acceptAllButton());
       return result;
     },
     async acceptAllCookies() {
       await expectations.headingIsVisible();
-      await actions.clickAcceptCheckbox();
-      await expectations.acceptCheckboxIsChecked();
       await expectations.acceptAllButtonIsEnabled();
       await actions.clickAcceptAllButton();
+
+      await t.expect(screen.findByTestId('cookie-consent').exists).notOk();
     },
   };
 
   const expectations = {
-    async acceptCheckboxIsChecked() {
-      await t
-        .expect(selectors.acceptCheckbox().checked)
-        .eql(true, await getErrorMessage(t));
-    },
     async acceptAllButtonIsEnabled() {
       await t
         .expect(selectors.acceptAllButton().hasAttribute('disabled'))

@@ -11,7 +11,7 @@ import {
   getPublisher,
 } from '../data/eventData';
 import { getExpectedEventContext, isLocalized } from '../utils/event.utils';
-import { hasStreetAddress, isInternetLocation } from '../utils/place.utils';
+import { isInternetLocation } from '../utils/place.utils';
 import {
   getRandomSentence,
   selectRandomValuesFromArray,
@@ -125,40 +125,52 @@ test.disablePageReloads(
     );
 
     for (const locale of eventLanguages) {
-      await testSearchEventByText(
-        t,
-        event,
-        event.name?.[locale] as string,
-        'name'
-      );
-      await testSearchEventByText(
-        t,
-        event,
-        event.shortDescription?.[locale] as string,
-        'shortDescription'
-      );
-      await testSearchEventByText(
-        t,
-        event,
-        event.description?.[locale] as string,
-        'description'
-      );
+      const {
+        description,
+        locationName,
+        name,
+        shortDescription,
+        streetAddress,
+      } = {
+        description: event.description?.[locale]?.trim(),
+        locationName: eventLocation.name?.[locale]?.trim(),
+        name: event.name?.[locale]?.trim(),
+        shortDescription: event.shortDescription?.[locale]?.trim(),
+        streetAddress: eventLocation.streetAddress?.[locale]?.trim(),
+      };
+
+      if (name) {
+        await testSearchEventByText(t, event, name, 'name');
+      }
+
+      if (shortDescription) {
+        await testSearchEventByText(
+          t,
+          event,
+          shortDescription,
+          'shortDescription'
+        );
+      }
+
+      if (description) {
+        await testSearchEventByText(t, event, description, 'description');
+      }
 
       const eventWithLocation = {
         ...event,
         location: eventLocation,
       };
-      await testSearchEventByText(
-        t,
-        eventWithLocation,
-        eventLocation.name?.[locale] as string,
-        'location'
-      );
 
-      if (
-        !isInternetLocation(eventLocation) &&
-        hasStreetAddress(eventLocation)
-      ) {
+      if (locationName) {
+        await testSearchEventByText(
+          t,
+          eventWithLocation,
+          locationName,
+          'location'
+        );
+      }
+
+      if (!isInternetLocation(eventLocation) && streetAddress) {
         await testSearchEventByText(
           t,
           eventWithLocation,

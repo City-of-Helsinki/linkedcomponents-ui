@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { cloneElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -78,12 +78,10 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     }
     filters.push(
       ...places.map((place) => (
-        <PlaceFilterTag key={place} onDelete={removeFilter} value={place} />
-      ))
-    );
-    filters.push(
+        <PlaceFilterTag onDelete={removeFilter} value={place} />
+      )),
       ...types.map((type) => (
-        <EventTypeFilterTag key={type} onDelete={removeFilter} value={type} />
+        <EventTypeFilterTag onDelete={removeFilter} value={type} />
       ))
     );
 
@@ -94,7 +92,9 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(styles.filterSummary, className)}>
-      {filters.map((filter) => filter)}
+      {React.Children.map(filters, (filter, index) =>
+        cloneElement(filter, { ...filter.props, key: index })
+      )}
       <button
         className={styles.clearButton}
         onClick={clearFilters}

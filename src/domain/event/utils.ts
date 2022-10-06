@@ -62,6 +62,7 @@ import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getTimeObject from '../../utils/getTimeObject';
+import isHtml from '../../utils/isHtml';
 import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
@@ -674,9 +675,14 @@ const getSanitizedDescription = (event: EventFieldsFragment) => {
   for (const lang in description) {
     /* istanbul ignore else */
     if (description[lang as keyof MultiLanguageObject]) {
-      description[lang as keyof MultiLanguageObject] = sanitizeHtml(
+      const sanitizedDescription = sanitizeHtml(
         description[lang as keyof MultiLanguageObject]
       );
+      description[lang as keyof MultiLanguageObject] = isHtml(
+        sanitizedDescription
+      )
+        ? sanitizedDescription
+        : `<p>${sanitizedDescription}</p>`;
     }
   }
   return description;

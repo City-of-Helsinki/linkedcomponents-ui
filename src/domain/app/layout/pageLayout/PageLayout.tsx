@@ -5,7 +5,6 @@ import { matchPath, PathPattern, useLocation } from 'react-router';
 
 import { ROUTES, SUPPORTED_LANGUAGES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
-import { useCookieConsent } from '../../cookieConsent/CookieConsentContext';
 import Footer from '../../footer/Footer';
 import Header from '../../header/Header';
 import { useTheme } from '../../theme/Theme';
@@ -26,7 +25,6 @@ const NO_KORO_PATHS: PathPattern[] = [
 const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
   children,
 }) => {
-  const { isConsentModalOpen } = useCookieConsent();
   const { theme } = useTheme();
   const { pathname } = useLocation();
   const locale = useLocale();
@@ -49,10 +47,7 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
     <ClassNames>
       {({ css, cx }) => (
         <>
-          <ResetFocus
-            disabled={isConsentModalOpen}
-            ignoredPaths={RESET_IGNORED_PATHS}
-          />
+          <ResetFocus ignoredPaths={RESET_IGNORED_PATHS} />
           <ScrollToTop />
           <div
             className={cx(
@@ -87,7 +82,6 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
             <div className={cx(styles.pageBody, { [styles.noKoro]: noKoro })}>
               {children}
             </div>
-
             <Footer />
           </div>
         </>
