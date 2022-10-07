@@ -94,6 +94,8 @@ const RegistrationsPageWrapper: React.FC = () => {
   return (
     <PageWrapper
       backgroundColor={user ? 'gray' : 'white'}
+      description="registrationsPage.description"
+      keywords={['keywords.registration', 'keywords.listing', 'keywords.edit']}
       title="registrationsPage.pageTitle"
     >
       <MainContent>

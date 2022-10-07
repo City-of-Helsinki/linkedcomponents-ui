@@ -276,22 +276,27 @@
     }
   },
   "createImagePage": {
+    "description": "Lisää uusi kuva Linked Eventsiin.",
     "pageTitle": "Lisää kuva",
     "title": "Lisää kuva"
   },
   "createKeywordPage": {
+    "description": "Lisää uusi avainsana Linked Eventsiin.",
     "pageTitle": "Lisää avainsana",
     "title": "Lisää avainsana"
   },
   "createKeywordSetPage": {
+    "description": "Lisää uusi avainsanaryhmä Linked Eventsiin.",
     "pageTitle": "Lisää avainsanaryhmä",
     "title": "Lisää avainsanaryhmä"
   },
   "createOrganizationPage": {
+    "description": "Lisää uusi organisaatio Linked Eventsiin.",
     "pageTitle": "Lisää organisaatio",
     "title": "Lisää organisaatio"
   },
   "createPlacePage": {
+    "description": "Lisää uusi paikka Linked Eventsiin.",
     "pageTitle": "Lisää paikka",
     "title": "Lisää paikka"
   },
@@ -1078,7 +1083,7 @@
       "cardList": "Korttinäkymä",
       "table": "Listanäkymä"
     },
-    "pageDescription": "Tapahtumalistaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.",
+    "pageDescription": "Tapahtumien listaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.",
     "pageTitle": "Omat tapahtumat",
     "sortOptions": {
       "duration": "Kesto, nouseva",
@@ -1257,6 +1262,7 @@
     "pageDescriptionDocumentation": "Lue lisää Linked Eventsin dokumentaatiosta ja API-suunnittelusta.",
     "pageDescriptionFaq": "Linked Eventsin usen kysytyt kysymykset.",
     "pageDescriptionFeatures": "Lue Linked Eventsin ominaisuuksista. Tutustu tapahtumien hallintaan ja Linked Events -rajapintaan.",
+    "pageDescriptionImageRights": "Lisätietoja Linked Events -palvelun kuvaoikeuksista ja lisensseistä.",
     "pageDescriptionInstructions": "Ohjeet sovelluksen ja Linked Events -rajapinnan käyttöön",
     "pageDescriptionSourceCode": "Tutustu Linked Eventsin lähdekoodiin Githubissa.",
     "pageDescriptionTechnology": "Lisätietoja Linked Eventsin taustalla olevasta tekniikasta.",
@@ -1359,6 +1365,7 @@
     },
     "count": "{{count}} kuva",
     "count_other": "{{count}} kuvaa",
+    "description": "Kuvien listaus. Selaa, suodata ja muokkaa Linked Events -kuvia.",
     "imagesTableCaption": "Kuvat, järjestys {{sort}}",
     "imagesTableColumns": {
       "id": "ID",
@@ -1396,9 +1403,11 @@
     }
   },
   "keywords": {
+    "add": "lisää",
     "admin": "admin",
     "api": "api",
     "asked": "kysytyt",
+    "browse": "selailla",
     "bug": "vika",
     "contact": "ota yhteyttä",
     "controlPanel": "ohjauspaneeli",
@@ -1414,20 +1423,30 @@
     "form": "lomake",
     "help": "apu",
     "helsinki": "Helsinki",
+    "image": "kuva",
     "instructions": "ohjeet",
+    "keyword": "avainsana",
+    "license": "lisenssi",
     "linked": "linked",
+    "listing": "lista",
     "management": "hallinta",
     "myListing": "minun, luetteloni",
+    "new": "uusi",
+    "organization": "organisaatio",
     "place": "paikka",
     "platform": "alusta",
     "questions": "kysymykset",
+    "registration": "ilmoittautuminen",
     "report": "ilmoita",
+    "rights": "oikeudet",
     "search": "haku",
+    "set": "ryhmä",
     "sourceCode": "lähdekoodi",
     "support": "tuki",
     "technology": "teknologia",
     "termsOfUse": "käyttöehdot",
-    "update": "päivitä"
+    "update": "päivitä",
+    "upload": "lataa"
   },
   "keywordsPage": {
     "actionButtons": {
@@ -1435,6 +1454,7 @@
     },
     "count": "{{count}} avainsana",
     "count_other": "{{count}} avainsanaa",
+    "description": "Avainsanojen listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanoja",
     "keywordsTableCaption": "Avainsanat, järjestys {{sort}}",
     "keywordsTableColumns": {
       "id": "ID",
@@ -1479,6 +1499,7 @@
     },
     "count": "{{count}} avainsanaryhmä",
     "count_other": "{{count}} avainsanaryhmää",
+    "description": "Avainsanaryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanaryhmiä.",
     "keywordSetsTableCaption": "Avainsanaryhmät, järjestys {{sort}}",
     "keywordSetsTableColumns": {
       "id": "ID",
@@ -1585,6 +1606,7 @@
     },
     "count": "{{count}} organisaatio",
     "count_other": "{{count}} organisaatiota",
+    "description": "Organisaatioiden listaus. Selaa, suodata ja muokkaa Linked Eventsin organisaatioita.",
     "labelSearch": "Hae organisaatioita",
     "organizationsTable": {
       "hideSubOrganizations": "Piilota alaorganisaatiot: {{name}}",
@@ -1648,6 +1670,7 @@
     },
     "count": "{{count}} paikka",
     "count_other": "{{count}} paikkaa",
+    "description": "Paikkojen listaus. Selaa, suodata ja muokkaa Linked Eventsin paikkoja.",
     "labelSearch": "Hae paikkoja",
     "pageTitle": "Paikat",
     "placesTableCaption": "Paikat, järjestys {{sort}}",
@@ -1727,6 +1750,7 @@
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "count": "{{count}} ilmoittautuminen",
     "count_other": "{{count}} ilmoittautumista",
+    "description": "Ilmoittautumisten listaus. Selaa, suodata ja muokkaa ilmoittautumisiasi.",
     "pageTitle": "Ilmoittautuminen",
     "registrationsTableCaption": "Ilmoittautumiset, järjestys {{sort}}",
     "registrationsTableColumns": {

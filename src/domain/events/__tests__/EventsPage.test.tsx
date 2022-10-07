@@ -108,7 +108,7 @@ const findElement = (
 test('should show correct title, description and keywords', async () => {
   const pageTitle = 'Omat tapahtumat - Linked Events';
   const pageDescription =
-    'Tapahtumalistaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.';
+    'Tapahtumien listaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.';
   const pageKeywords =
     'minun, luetteloni, muokkaa, päivitä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
 

@@ -276,22 +276,27 @@
     }
   },
   "createImagePage": {
+    "description": "Lägg till ny bild till Linked Events.",
     "pageTitle": "Lägg till bild",
     "title": "Lägg till bild"
   },
   "createKeywordPage": {
+    "description": "Lägg till nytt nyckelord till Linked Events.",
     "pageTitle": "Lägg till nyckelord",
     "title": "Lägg till nyckelord"
   },
   "createKeywordSetPage": {
+    "description": "Lägg till ny nyckelordsuppsättning till Linked Events.",
     "pageTitle": "Lägg till nyckelordsuppsättning",
     "title": "Lägg till nyckelordsuppsättning"
   },
   "createOrganizationPage": {
+    "description": "Lägg till ny organisation till Linked Events.",
     "pageTitle": "Lägg till organisation",
     "title": "Lägg till organisation"
   },
   "createPlacePage": {
+    "description": "Lägg till ny plats till länkade evenemang.",
     "pageTitle": "Lägg till plats",
     "title": "Lägg till plats"
   },
@@ -1257,6 +1262,7 @@
     "pageDescriptionDocumentation": "Läs mer om Linked Events dokumentation och API-design.",
     "pageDescriptionFaq": "Vanliga frågor om Linked Events.",
     "pageDescriptionFeatures": "Läs om Linked Eventsfunktioner. Bli bekant med event management och Linked Events API.",
+    "pageDescriptionImageRights": "Mer information om Linked Events bildrättigheter och licenser.",
     "pageDescriptionInstructions": "Hjälp och instruktioner om hur du använder tjänsten och API: et.",
     "pageDescriptionSourceCode": "Få en djupare titt på källkoden för Linked Events i Github.",
     "pageDescriptionTechnology": "Mer information om tekniken bakom Linked Events.",
@@ -1359,6 +1365,7 @@
     },
     "count": "{{count}} bild",
     "count_other": "{{count}} bilder",
+    "description": "Bildlista. Bläddra, filtrera och redigera Linked Events bilder.",
     "imagesTableCaption": "Bilder, sorterade efter {{sort}}",
     "imagesTableColumns": {
       "id": "ID",
@@ -1395,9 +1402,11 @@
     }
   },
   "keywords": {
+    "add": "lägg till",
     "admin": "admin",
     "api": "api",
     "asked": "frågade",
+    "browse": "bläddra",
     "bug": "bugg",
     "contact": "kontakt",
     "controlPanel": "kontrollpanel",
@@ -1413,20 +1422,30 @@
     "form": "formulär",
     "help": "hjälp",
     "helsinki": "Helsingfors",
+    "image": "bild",
     "instructions": "instruktioner",
+    "keyword": "nyckelord",
+    "license": "licens",
     "linked": "linked",
+    "listing": "lista",
     "management": "ledning",
     "myListing": "min, lista",
+    "new": "ny",
+    "organization": "organisation",
     "place": "plats",
     "platform": "plattform",
     "questions": "frågor",
+    "registration": "registrering",
     "report": "rapport",
+    "rights": "rättigheter",
+    "set": "uppsättning",
     "search": "sök",
     "sourceCode": "källkod",
     "support": "stöd",
     "technology": "teknologi",
     "termsOfUse": "villkor",
-    "update": "uppdatering"
+    "update": "uppdatering",
+    "upload": "ladda upp"
   },
   "keywordsPage": {
     "actionButtons": {
@@ -1434,6 +1453,7 @@
     },
     "count": "{{count}} nyckelord",
     "count_other": "{{count}} nyckelord",
+    "description": "Nyckelordslista. Bläddra, filtrera och redigera nyckelord för Linked Events",
     "keywordsTableCaption": "Nyckelord, sorterade efter {{sort}}",
     "keywordsTableColumns": {
       "id": "ID",
@@ -1478,6 +1498,7 @@
     },
     "count": "{{count}} nyckelordsuppsättning",
     "count_other": "{{count}} nyckelordsuppsättningar",
+    "description": "Sökordsuppsättning. Bläddra, filtrera och redigera sökordsuppsättningar för Linked Events.",
     "keywordSetsTableCaption": "Nyckelordsuppsättningar, sorterade efter {{sort}}",
     "keywordSetsTableColumns": {
       "id": "ID",
@@ -1584,6 +1605,7 @@
     },
     "count": "{{count}} organisation",
     "count_other": "{{count}} organisationer",
+    "description": "Organisationsförteckning. Bläddra, filtrera och redigera Linked Events organisationer.",
     "labelSearch": "Sök organisationer",
     "organizationsTable": {
       "hideSubOrganizations": "Dölj underorganisationer: {{name}}",
@@ -1647,6 +1669,7 @@
     },
     "count": "{{count}} plats",
     "count_other": "{{count}} platser",
+    "description": "Platsnotering. Bläddra, filtrera och redigera Linked Events platser.",
     "labelSearch": "Sök platser",
     "pageTitle": "Platser",
     "placesTableCaption": "Platser, sorterade efter {{sort}}",
@@ -1726,6 +1749,7 @@
     "buttonClearFilters": "Töm sökfilter",
     "count": "{{count}} registrering",
     "count_other": "{{count}} registreringar",
+    "description": "Registreringsförteckning. Bläddra, filtrera och redigera dina registreringar.",
     "pageTitle": "Registrering",
     "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
     "registrationsTableColumns": {

@@ -275,22 +275,27 @@
     }
   },
   "createImagePage": {
+    "description": "Add new image to Linked Events.",
     "pageTitle": "Add image",
     "title": "Add image"
   },
   "createKeywordPage": {
+    "description": "Add new keyword to Linked Events.",
     "pageTitle": "Add keyword",
     "title": "Add keyword"
   },
   "createKeywordSetPage": {
+    "description": "Add new keyword set to Linked Events.",
     "pageTitle": "Add keyword set",
     "title": "Add keyword set"
   },
   "createOrganizationPage": {
+    "description": "Add new organization to Linked Events.",
     "pageTitle": "Add organization",
     "title": "Add organization"
   },
   "createPlacePage": {
+    "description": "Add new place to Linked Events.",
     "pageTitle": "Add place",
     "title": "Add place"
   },
@@ -1258,6 +1263,7 @@
     "pageDescriptionDocumentation": "Read more about Linked Events documentation and API design.",
     "pageDescriptionFaq": "Frequently asked questions about Linked Events.",
     "pageDescriptionFeatures": "Read about Linked Events features. Get familiar with event management and Linked Events API.",
+    "pageDescriptionImageRights": "More information about the image rights and licenses for Linked Events.",
     "pageDescriptionInstructions": "Help and instructions how to use the service and the API.",
     "pageDescriptionSourceCode": "Get a deeper look for Linked Events source code in Github.",
     "pageDescriptionTechnology": "More information about the technology behind Linked Events.",
@@ -1268,7 +1274,7 @@
     "pageTitleDocumentation": "Documentation",
     "pageTitleFaq": "Frequently asked questions",
     "pageTitleFeatures": "Service features",
-    "pageTitleImageRights": "Image rights",
+    "pageTitleImageRights": "Image Rights",
     "pageTitleInstructions": "Support",
     "pageTitleSourceCode": "Source code",
     "pageTitleTechnology": "Technology",
@@ -1360,6 +1366,7 @@
     },
     "count": "{{count}} image",
     "count_other": "{{count}} images",
+    "description": "Image listing. Browse, filter and edit Linked Events images.",
     "imagesTableCaption": "Images, sorted by {{sort}}",
     "imagesTableColumns": {
       "id": "ID",
@@ -1396,9 +1403,11 @@
     }
   },
   "keywords": {
+    "add": "add",
     "admin": "admin",
     "api": "api",
     "asked": "asked",
+    "browse": "browse",
     "bug": "bug",
     "contact": "contact",
     "controlPanel": "control, panel",
@@ -1414,20 +1423,30 @@
     "form": "form",
     "help": "help",
     "helsinki": "Helsinki",
+    "image": "image",
     "instructions": "instructions",
+    "keyword": "keyword",
+    "license": "license",
     "linked": "linked",
+    "listing": "listing",
     "management": "management",
     "myListing": "my, listing",
+    "new": "new",
+    "organization": "organization",
     "place": "place",
     "platform": "platform",
     "questions": "questions",
+    "registration": "registration",
     "report": "report",
+    "rights": "rights",
     "search": "search",
+    "set": "set",
     "sourceCode": "source, code",
     "support": "support",
     "technology": "technology",
     "termsOfUse": "terms, of, use",
-    "update": "update"
+    "update": "update",
+    "upload": "upload"
   },
   "keywordsPage": {
     "actionButtons": {
@@ -1435,6 +1454,7 @@
     },
     "count": "{{count}} keyword",
     "count_other": "{{count}} keywords",
+    "description": "Keyword listing. Browse, filter and edit Linked Events keywor",
     "keywordsTableCaption": "Keywords, sorted by {{sort}}",
     "keywordsTableColumns": {
       "id": "ID",
@@ -1479,6 +1499,7 @@
     },
     "count": "{{count}} keyword set",
     "count_other": "{{count}} keyword sets",
+    "description": "Keyword set listing. Browse, filter and edit Linked Events keyword sets.",
     "keywordSetsTableCaption": "Keyword sets, sorted by {{sort}}",
     "keywordSetsTableColumns": {
       "id": "ID",
@@ -1585,6 +1606,7 @@
     },
     "count": "{{count}} organization",
     "count_other": "{{count}} organization",
+    "description": "Organization listing. Browse, filter and edit Linked Events organizations.",
     "labelSearch": "Search organizations",
     "organizationsTable": {
       "hideSubOrganizations": "Hide sub-organizations: {{name}}",
@@ -1648,6 +1670,7 @@
     },
     "count": "{{count}} place",
     "count_other": "{{count}} places",
+    "description": "Place listing. Browse, filter and edit Linked Events places.",
     "labelSearch": "Search places",
     "pageTitle": "Places",
     "placesTableCaption": "Places, sorted by {{sort}}",
@@ -1727,6 +1750,7 @@
     "buttonClearFilters": "Clear filters",
     "count": "{{count}} registration",
     "count_other": "{{count}} registrations",
+    "description": "Registration listing. Browse, filter and edit your registrations.",
     "pageTitle": "Registration",
     "registrationsTableCaption": "Registrations, sorted by {{sort}}",
     "registrationsTableColumns": {

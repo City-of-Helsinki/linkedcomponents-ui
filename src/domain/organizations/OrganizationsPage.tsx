@@ -65,7 +65,11 @@ const OrganizationsPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="organizationsPage.pageTitle">
+    <PageWrapper
+      description="organizationsPage.description"
+      keywords={['keywords.organization', 'keywords.listing']}
+      title="organizationsPage.pageTitle"
+    >
       <LoadingSpinner isLoading={loadingUser}>
         <OrganizationsPage />
       </LoadingSpinner>

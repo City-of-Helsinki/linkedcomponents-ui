@@ -394,21 +394,25 @@ const imageRightsCases: [Language, PageValues][] = [
   [
     'en',
     {
-      description: '',
+      description:
+        'More information about the image rights and licenses for Linked Events.',
       expectedRoute: '/en/help/technology/image-rights',
-      keywords: '',
+      keywords:
+        'image, rights, license, linked, events, event, management, api, admin, Helsinki, Finland',
       pageTitle: 'Image rights',
-      title: '',
+      title: 'Image Rights - Linked Events',
     },
   ],
   [
     'fi',
     {
-      description: '',
+      description:
+        'Lisätietoja Linked Events -palvelun kuvaoikeuksista ja lisensseistä.',
       expectedRoute: '/fi/help/technology/image-rights',
-      keywords: '',
+      keywords:
+        'kuva, oikeudet, lisenssi, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
       pageTitle: 'Kuvaoikeudet',
-      title: '',
+      title: 'Kuvaoikeudet - Linked Events',
     },
   ],
   [
@@ -423,17 +427,14 @@ const imageRightsCases: [Language, PageValues][] = [
   ],
 ];
 
-// TODO: Test also page meta data when information is added to literals
 it.each(imageRightsCases)(
   'should render image rights help page, language %p',
-  async (language, { expectedRoute, pageTitle }) => {
-    i18n.changeLanguage(language);
-
-    const { history } = renderRoute(ROUTES.TECHNOLOGY_IMAGE_RIGHTS, language);
-
-    await screen.findByRole('heading', { name: pageTitle });
-
-    expect(history.location.pathname).toBe(expectedRoute);
+  async (language, expectedValues) => {
+    await testHelpPage(
+      language,
+      ROUTES.TECHNOLOGY_IMAGE_RIGHTS,
+      expectedValues
+    );
   }
 );
 

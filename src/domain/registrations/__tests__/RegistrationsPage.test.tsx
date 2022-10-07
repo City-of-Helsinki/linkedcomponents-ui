@@ -54,15 +54,25 @@ const getElement = (key: 'createRegistrationButton' | 'table') => {
 
 test('should show correct title, description and keywords', async () => {
   const pageTitle = 'Ilmoittautuminen - Linked Events';
+  const pageDescription =
+    'Ilmoittautumisten listaus. Selaa, suodata ja muokkaa ilmoittautumisiasi.';
+  const pageKeywords =
+    'ilmoittautuminen, lista, muokkaa, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
 
   render(<RegistrationsPage />);
 
   await waitFor(() => expect(document.title).toEqual(pageTitle));
 
   const head = document.querySelector('head');
+  const description = head?.querySelector('[name="description"]');
+  const keywords = head?.querySelector('[name="keywords"]');
   const ogTitle = head?.querySelector('[property="og:title"]');
+  const ogDescription = head?.querySelector('[property="og:description"]');
 
   expect(ogTitle).toHaveAttribute('content', pageTitle);
+  expect(description).toHaveAttribute('content', pageDescription);
+  expect(keywords).toHaveAttribute('content', pageKeywords);
+  expect(ogDescription).toHaveAttribute('content', pageDescription);
 });
 
 test('should render registrations page', async () => {

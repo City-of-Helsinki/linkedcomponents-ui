@@ -63,7 +63,11 @@ const PlacesPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="placesPage.pageTitle">
+    <PageWrapper
+      description="placesPage.description"
+      keywords={['keywords.place', 'keywords.listing']}
+      title="placesPage.pageTitle"
+    >
       <LoadingSpinner isLoading={loadingUser}>
         <PlacesPage />
       </LoadingSpinner>

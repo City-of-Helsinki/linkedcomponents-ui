@@ -36,7 +36,16 @@ const CreateKeywordSetPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="createKeywordSetPage.pageTitle">
+    <PageWrapper
+      description="createKeywordSetPage.description"
+      keywords={[
+        'keywords.add',
+        'keywords.new',
+        'keywords.keyword',
+        'keywords.set',
+      ]}
+      title="createKeywordSetPage.pageTitle"
+    >
       <LoadingSpinner isLoading={loadingUser}>
         <CreateKeywordSetPage />
       </LoadingSpinner>
