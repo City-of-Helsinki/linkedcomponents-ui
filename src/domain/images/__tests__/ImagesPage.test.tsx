@@ -12,6 +12,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -82,6 +83,19 @@ test('should render images page', async () => {
   getElement('searchInput');
   getElement('table');
   screen.getByRole('button', { name: imageNames[0] });
+});
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Kuvat - Linked Events';
+  const pageDescription =
+    'Kuvien listaus. Selaa, suodata ja muokkaa Linked Events -kuvia.';
+  const pageKeywords =
+    'kuva, lista, selailla, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
 test('should open create image page', async () => {

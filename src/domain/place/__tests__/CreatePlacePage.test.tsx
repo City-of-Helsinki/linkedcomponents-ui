@@ -4,12 +4,14 @@ import React from 'react';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
+  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import {
   mockedOrganizationResponse,
@@ -67,6 +69,20 @@ const fillInputValues = async () => {
   const nameInput = getElement('nameInput');
   await act(async () => await user.type(nameInput, placeValues.name));
 };
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Lisää paikka - Linked Events';
+  const pageDescription = 'Lisää uusi paikka Linked Eventsiin.';
+  const pageKeywords =
+    'lisää, uusi, paikka, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent(defaultMocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await actWait(10);
+});
 
 test('should focus to first validation error when trying to save new place', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();

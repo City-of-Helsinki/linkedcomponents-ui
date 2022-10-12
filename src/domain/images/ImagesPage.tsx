@@ -64,7 +64,11 @@ const ImagesPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="imagesPage.pageTitle">
+    <PageWrapper
+      description="imagesPage.pageDescription"
+      keywords={['keywords.image', 'keywords.listing', 'keywords.browse']}
+      title="imagesPage.pageTitle"
+    >
       <LoadingSpinner isLoading={loadingUser}>
         <KeywordsPage />
       </LoadingSpinner>

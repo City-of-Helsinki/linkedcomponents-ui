@@ -11,6 +11,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -54,15 +55,14 @@ const getElement = (key: 'createRegistrationButton' | 'table') => {
 
 test('should show correct title, description and keywords', async () => {
   const pageTitle = 'Ilmoittautuminen - Linked Events';
+  const pageDescription =
+    'Ilmoittautumisten listaus. Selaa, suodata ja muokkaa ilmoittautumisiasi.';
+  const pageKeywords =
+    'ilmoittautuminen, lista, muokkaa, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
 
   render(<RegistrationsPage />);
 
-  await waitFor(() => expect(document.title).toEqual(pageTitle));
-
-  const head = document.querySelector('head');
-  const ogTitle = head?.querySelector('[property="og:title"]');
-
-  expect(ogTitle).toHaveAttribute('content', pageTitle);
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
 test('should render registrations page', async () => {

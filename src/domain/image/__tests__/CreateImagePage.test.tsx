@@ -5,6 +5,7 @@ import { testIds as imageUploaderTestIds } from '../../../common/components/imag
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
+  actWait,
   configure,
   fireEvent,
   loadingSpinnerIsNotInDocument,
@@ -12,6 +13,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
   within,
 } from '../../../utils/testUtils';
 import {
@@ -113,6 +115,19 @@ const uploadImageByUrl = async () => {
   await waitFor(() => expect(submitButton).toBeEnabled());
   await act(async () => await user.click(submitButton));
 };
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Lisää kuva - Linked Events';
+  const pageDescription = 'Lisää uusi kuva Linked Eventsiin.';
+  const pageKeywords =
+    'lisää, uusi, kuva, muokkaa, lataa, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await actWait(10);
+});
 
 test('should scroll to first validation error input field', async () => {
   const user = userEvent.setup();

@@ -56,8 +56,13 @@ const ImageRightsPage: React.FC = () => {
         );
     }
   };
+
   return (
-    <PageWrapper title="helpPage.pageTitleImageRights">
+    <PageWrapper
+      description="helpPage.pageDescriptionImageRights"
+      keywords={['keywords.image', 'keywords.rights', 'keywords.license']}
+      title="helpPage.pageTitleImageRights"
+    >
       {getContent(locale)}
     </PageWrapper>
   );

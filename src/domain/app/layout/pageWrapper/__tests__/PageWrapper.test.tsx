@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { actWait, render } from '../../../../../utils/testUtils';
+import {
+  actWait,
+  render,
+  waitPageMetaDataToBeSet,
+} from '../../../../../utils/testUtils';
 import translations from '../../../i18n/fi.json';
 import PageWrapper, { PageWrapperProps } from '../PageWrapper';
 
@@ -28,11 +32,12 @@ afterEach(() => {
   document.head.innerHTML = initialHeadInnerHTML || '';
 });
 
+const pageDescription = translations.appDescription;
+const pageKeywords =
+  'linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
 test('applies expected metadata', async () => {
   const pageTitle = translations.appName;
-  const pageDescription = translations.appDescription;
-  const pageKeywords =
-    'linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
 
   // This function is usually used for the helpers it returns. However, the
   // scope f the helpers is limited to `body`. As we need to assert against
@@ -42,18 +47,7 @@ test('applies expected metadata', async () => {
 
   await actWait(50);
 
-  const title = document.title;
-  const head = document.querySelector('head');
-  const description = head?.querySelector('[name="description"]');
-  const keywords = head?.querySelector('[name="keywords"]');
-  const ogTitle = head?.querySelector('[property="og:title"]');
-  const ogDescription = head?.querySelector('[property="og:description"]');
-
-  expect(title).toEqual(pageTitle);
-  expect(ogTitle).toHaveAttribute('content', pageTitle);
-  expect(description).toHaveAttribute('content', pageDescription);
-  expect(keywords).toHaveAttribute('content', pageKeywords);
-  expect(ogDescription).toHaveAttribute('content', pageDescription);
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
 test('applies custom page title', async () => {
@@ -64,6 +58,11 @@ test('applies custom page title', async () => {
 
   await actWait(50);
 
+  await waitPageMetaDataToBeSet({
+    pageDescription,
+    pageKeywords,
+    pageTitle: fullPageTitle,
+  });
   const title = document.title;
   const head = document.querySelector('head');
   const ogTitle = head?.querySelector('[property="og:title"]');

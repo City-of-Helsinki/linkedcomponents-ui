@@ -11,6 +11,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -108,24 +109,13 @@ const findElement = (
 test('should show correct title, description and keywords', async () => {
   const pageTitle = 'Omat tapahtumat - Linked Events';
   const pageDescription =
-    'Tapahtumalistaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.';
+    'Tapahtumien listaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.';
   const pageKeywords =
     'minun, luetteloni, muokkaa, päivitä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
 
   renderComponent();
 
-  await waitFor(() => expect(document.title).toEqual(pageTitle));
-
-  const head = document.querySelector('head');
-  const description = head?.querySelector('[name="description"]');
-  const keywords = head?.querySelector('[name="keywords"]');
-  const ogTitle = head?.querySelector('[property="og:title"]');
-  const ogDescription = head?.querySelector('[property="og:description"]');
-
-  expect(ogTitle).toHaveAttribute('content', pageTitle);
-  expect(description).toHaveAttribute('content', pageDescription);
-  expect(keywords).toHaveAttribute('content', pageKeywords);
-  expect(ogDescription).toHaveAttribute('content', pageDescription);
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
 test('should render events page', async () => {

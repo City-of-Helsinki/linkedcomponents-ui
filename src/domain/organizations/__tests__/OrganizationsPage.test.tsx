@@ -12,6 +12,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -78,6 +79,20 @@ test('should render organizations page', async () => {
   getElement('searchInput');
   getElement('table');
   screen.getByRole('button', { name: organizations.data[0]?.name as string });
+});
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Organisaatiot - Linked Events';
+  const pageDescription =
+    'Organisaatioiden listaus. Selaa, suodata ja muokkaa Linked Eventsin organisaatioita.';
+  const pageKeywords =
+    'organisaatio, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
 test('should open create organization page', async () => {
