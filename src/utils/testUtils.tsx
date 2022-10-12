@@ -184,6 +184,29 @@ const waitReducerToBeCalled = async (
   action: ReducerAction<any>
 ) => await waitFor(() => expect(dispatch).toBeCalledWith(action));
 
+const waitPageMetaDataToBeSet = async ({
+  pageDescription,
+  pageKeywords,
+  pageTitle,
+}: {
+  pageDescription: string;
+  pageKeywords: string;
+  pageTitle: string;
+}) => {
+  await waitFor(() => expect(document.title).toEqual(pageTitle));
+
+  const head = document.querySelector('head');
+  const description = head?.querySelector('[name="description"]');
+  const keywords = head?.querySelector('[name="keywords"]');
+  const ogTitle = head?.querySelector('[property="og:title"]');
+  const ogDescription = head?.querySelector('[property="og:description"]');
+
+  expect(ogTitle).toHaveAttribute('content', pageTitle);
+  expect(description).toHaveAttribute('content', pageDescription);
+  expect(keywords).toHaveAttribute('content', pageKeywords);
+  expect(ogDescription).toHaveAttribute('content', pageDescription);
+};
+
 export {
   actWait,
   arrowDownKeyPressHelper,
@@ -202,6 +225,7 @@ export {
   customRender as render,
   renderWithRoute,
   tabKeyPressHelper,
+  waitPageMetaDataToBeSet,
   waitReducerToBeCalled,
 };
 

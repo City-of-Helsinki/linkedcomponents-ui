@@ -11,6 +11,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../user/__mocks__/user';
@@ -90,6 +91,18 @@ const fillInputValues = async () => {
   );
   await act(async () => await user.click(usageOption));
 };
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Lisää avainsanaryhmä - Linked Events';
+  const pageDescription = 'Lisää uusi avainsanaryhmä Linked Eventsiin.';
+  const pageKeywords =
+    'lisää, uusi, avainsana, ryhmä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+});
 
 test('should focus to first validation error when trying to save new keyword set', async () => {
   const user = userEvent.setup();

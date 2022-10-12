@@ -4,12 +4,14 @@ import React from 'react';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
+  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import {
   mockedOrganizationClassesResponse,
@@ -103,6 +105,20 @@ const fillInputValues = async () => {
   await fillClassificationField();
   await fillParentField();
 };
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Lisää organisaatio - Linked Events';
+  const pageDescription = 'Lisää uusi organisaatio Linked Eventsiin.';
+  const pageKeywords =
+    'lisää, uusi, organisaatio, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent(defaultMocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await actWait(10);
+});
 
 test('should focus to first validation error when trying to save new organization', async () => {
   const user = userEvent.setup();

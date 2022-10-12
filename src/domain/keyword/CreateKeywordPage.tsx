@@ -37,7 +37,7 @@ const CreateKeywordPageWrapper: React.FC = () => {
 
   return (
     <PageWrapper
-      description="createKeywordPage.description"
+      description="createKeywordPage.pageDescription"
       keywords={['keywords.add', 'keywords.new', 'keywords.keyword']}
       title="createKeywordPage.pageTitle"
     >

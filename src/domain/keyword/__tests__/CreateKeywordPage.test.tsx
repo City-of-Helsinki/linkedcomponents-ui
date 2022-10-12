@@ -10,6 +10,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -57,6 +58,18 @@ const fillInputValues = async () => {
   });
   await act(async () => await user.click(replacingKeywordOption));
 };
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Lisää avainsana - Linked Events';
+  const pageDescription = 'Lisää uusi avainsana Linked Eventsiin.';
+  const pageKeywords =
+    'lisää, uusi, avainsana, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+});
 
 test('should focus to first validation error when trying to save new keyword', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();

@@ -68,7 +68,7 @@ const KeywordSetsPageWrapper: React.FC = () => {
 
   return (
     <PageWrapper
-      description="keywordSetsPage.description"
+      description="keywordSetsPage.pageDescription"
       keywords={['keywords.keyword', 'keywords.set', 'keywords.listing']}
       title="keywordSetsPage.pageTitle"
     >

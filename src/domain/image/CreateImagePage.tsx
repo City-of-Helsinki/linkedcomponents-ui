@@ -37,7 +37,7 @@ const CreateImagePageWrapper: React.FC = () => {
 
   return (
     <PageWrapper
-      description="createImagePage.description"
+      description="createImagePage.pageDescription"
       keywords={[
         'keywords.add',
         'keywords.new',

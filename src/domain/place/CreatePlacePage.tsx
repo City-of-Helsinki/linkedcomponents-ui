@@ -37,7 +37,7 @@ const CreatePlacePageWrapper: React.FC = () => {
 
   return (
     <PageWrapper
-      description="createPlacePage.description"
+      description="createPlacePage.pageDescription"
       keywords={['keywords.add', 'keywords.new', 'keywords.place']}
       title="createPlacePage.pageTitle"
     >

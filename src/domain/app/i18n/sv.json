@@ -276,27 +276,27 @@
     }
   },
   "createImagePage": {
-    "description": "Lägg till ny bild till Linked Events.",
+    "pageDescription": "Lägg till ny bild till Linked Events.",
     "pageTitle": "Lägg till bild",
     "title": "Lägg till bild"
   },
   "createKeywordPage": {
-    "description": "Lägg till nytt nyckelord till Linked Events.",
+    "pageDescription": "Lägg till nytt nyckelord till Linked Events.",
     "pageTitle": "Lägg till nyckelord",
     "title": "Lägg till nyckelord"
   },
   "createKeywordSetPage": {
-    "description": "Lägg till ny nyckelordsuppsättning till Linked Events.",
+    "pageDescription": "Lägg till ny nyckelordsuppsättning till Linked Events.",
     "pageTitle": "Lägg till nyckelordsuppsättning",
     "title": "Lägg till nyckelordsuppsättning"
   },
   "createOrganizationPage": {
-    "description": "Lägg till ny organisation till Linked Events.",
+    "pageDescription": "Lägg till ny organisation till Linked Events.",
     "pageTitle": "Lägg till organisation",
     "title": "Lägg till organisation"
   },
   "createPlacePage": {
-    "description": "Lägg till ny plats till länkade evenemang.",
+    "pageDescription": "Lägg till ny plats till länkade evenemang.",
     "pageTitle": "Lägg till plats",
     "title": "Lägg till plats"
   },
@@ -1365,7 +1365,6 @@
     },
     "count": "{{count}} bild",
     "count_other": "{{count}} bilder",
-    "description": "Bildlista. Bläddra, filtrera och redigera Linked Events bilder.",
     "imagesTableCaption": "Bilder, sorterade efter {{sort}}",
     "imagesTableColumns": {
       "id": "ID",
@@ -1374,6 +1373,7 @@
       "name": "Namn"
     },
     "labelSearch": "Sök bilder",
+    "pageDescription": "Bildlista. Bläddra, filtrera och redigera Linked Events bilder.",
     "pageTitle": "Bilder",
     "sortOptions": {
       "lastModifiedTime": "Senast ändrad, stigande",
@@ -1453,7 +1453,6 @@
     },
     "count": "{{count}} nyckelord",
     "count_other": "{{count}} nyckelord",
-    "description": "Nyckelordslista. Bläddra, filtrera och redigera nyckelord för Linked Events",
     "keywordsTableCaption": "Nyckelord, sorterade efter {{sort}}",
     "keywordsTableColumns": {
       "id": "ID",
@@ -1461,6 +1460,7 @@
       "nEvents": "Antal evenemang"
     },
     "labelSearch": "Sök nyckelord",
+    "pageDescription": "Nyckelordslista. Bläddra, filtrera och redigera nyckelord för Linked Events.",
     "pageTitle": "Nyckelord",
     "sortOptions": {
       "id": "Id, stigande",
@@ -1498,7 +1498,6 @@
     },
     "count": "{{count}} nyckelordsuppsättning",
     "count_other": "{{count}} nyckelordsuppsättningar",
-    "description": "Sökordsuppsättning. Bläddra, filtrera och redigera sökordsuppsättningar för Linked Events.",
     "keywordSetsTableCaption": "Nyckelordsuppsättningar, sorterade efter {{sort}}",
     "keywordSetsTableColumns": {
       "id": "ID",
@@ -1506,6 +1505,7 @@
       "usage": "Användande"
     },
     "labelSearch": "Sök nyckelordsuppsättningar",
+    "pageDescription": "Sökordsuppsättning. Bläddra, filtrera och redigera sökordsuppsättningar för Linked Events.",
     "pageTitle": "Nyckelordsuppsättningar",
     "sortOptions": {
       "id": "Id, stigande",
@@ -1605,7 +1605,6 @@
     },
     "count": "{{count}} organisation",
     "count_other": "{{count}} organisationer",
-    "description": "Organisationsförteckning. Bläddra, filtrera och redigera Linked Events organisationer.",
     "labelSearch": "Sök organisationer",
     "organizationsTable": {
       "hideSubOrganizations": "Dölj underorganisationer: {{name}}",
@@ -1619,6 +1618,7 @@
       "name": "Namn",
       "parentOrganization": "Föräldraorganisation"
     },
+    "pageDescription": "Organisationsförteckning. Bläddra, filtrera och redigera Linked Events organisationer.",
     "pageTitle": "Organisationer",
     "sortOptions": {
       "classification": "Klassificering, stigande",
@@ -1669,8 +1669,8 @@
     },
     "count": "{{count}} plats",
     "count_other": "{{count}} platser",
-    "description": "Platsnotering. Bläddra, filtrera och redigera Linked Events platser.",
     "labelSearch": "Sök platser",
+    "pageDescription": "Platsnotering. Bläddra, filtrera och redigera Linked Events platser.",
     "pageTitle": "Platser",
     "placesTableCaption": "Platser, sorterade efter {{sort}}",
     "placesTableColumns": {
@@ -1749,7 +1749,7 @@
     "buttonClearFilters": "Töm sökfilter",
     "count": "{{count}} registrering",
     "count_other": "{{count}} registreringar",
-    "description": "Registreringsförteckning. Bläddra, filtrera och redigera dina registreringar.",
+    "pageDescription": "Registreringsförteckning. Bläddra, filtrera och redigera dina registreringar.",
     "pageTitle": "Registrering",
     "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
     "registrationsTableColumns": {

@@ -7,6 +7,7 @@ import {
   render,
   screen,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import {
   eventNames,
@@ -46,18 +47,7 @@ test('applies expected metadata', async () => {
   renderComponent();
   await loadingSpinnerIsNotInDocument();
 
-  await waitFor(() => expect(document.title).toEqual(pageTitle));
-
-  const head = document.querySelector('head');
-  const description = head?.querySelector('[name="description"]');
-  const keywords = head?.querySelector('[name="keywords"]');
-  const ogTitle = head?.querySelector('[property="og:title"]');
-  const ogDescription = head?.querySelector('[property="og:description"]');
-
-  expect(ogTitle).toHaveAttribute('content', pageTitle);
-  expect(description).toHaveAttribute('content', pageDescription);
-  expect(keywords).toHaveAttribute('content', pageKeywords);
-  expect(ogDescription).toHaveAttribute('content', pageDescription);
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
 test('should render events in the event list', async () => {

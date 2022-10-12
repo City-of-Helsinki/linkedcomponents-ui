@@ -65,7 +65,7 @@ const ImagesPageWrapper: React.FC = () => {
 
   return (
     <PageWrapper
-      description="imagesPage.description"
+      description="imagesPage.pageDescription"
       keywords={['keywords.image', 'keywords.listing', 'keywords.browse']}
       title="imagesPage.pageTitle"
     >

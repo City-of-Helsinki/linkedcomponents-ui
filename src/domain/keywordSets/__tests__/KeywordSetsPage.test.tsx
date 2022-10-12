@@ -12,6 +12,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -79,6 +80,19 @@ test('should render keyword sets page', async () => {
   getElement('searchInput');
   getElement('table');
   screen.getByRole('button', { name: keywordSetNames[0] });
+});
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Avainsanaryhmät - Linked Events';
+  const pageDescription =
+    'Avainsanaryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanaryhmiä.';
+  const pageKeywords =
+    'avainsana, ryhmä, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
 test('should open create keyword set page', async () => {

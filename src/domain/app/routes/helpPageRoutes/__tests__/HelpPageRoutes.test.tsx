@@ -10,6 +10,7 @@ import {
   render,
   screen,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../../../utils/testUtils';
 import HelpPageRoutes from '../HelpPageRoutes';
 
@@ -54,24 +55,7 @@ const shouldHaveCorrectMetaData = async ({
   keywords: string;
   title: string;
 }) => {
-  await waitFor(() => expect(document.title).toEqual(pageTitle));
-
-  const head = document.querySelector('head');
-  const description = head?.querySelector('[name="description"]');
-  const keywords = head?.querySelector('[name="keywords"]');
-  const ogTitle = head?.querySelector('[property="og:title"]');
-  const ogDescription = head?.querySelector('[property="og:description"]');
-  const twitterTitle = head?.querySelector('[property="twitter:title"]');
-  const twitterDescription = head?.querySelector(
-    '[property="twitter:description"]'
-  );
-
-  expect(description).toHaveAttribute('content', pageDescription);
-  expect(keywords).toHaveAttribute('content', pageKeywords);
-  expect(ogTitle).toHaveAttribute('content', pageTitle);
-  expect(ogDescription).toHaveAttribute('content', pageDescription);
-  expect(twitterTitle).toHaveAttribute('content', pageTitle);
-  expect(twitterDescription).toHaveAttribute('content', pageDescription);
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 };
 
 type PageValues = {

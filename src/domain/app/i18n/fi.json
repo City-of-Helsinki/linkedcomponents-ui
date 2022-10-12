@@ -276,27 +276,27 @@
     }
   },
   "createImagePage": {
-    "description": "Lisää uusi kuva Linked Eventsiin.",
+    "pageDescription": "Lisää uusi kuva Linked Eventsiin.",
     "pageTitle": "Lisää kuva",
     "title": "Lisää kuva"
   },
   "createKeywordPage": {
-    "description": "Lisää uusi avainsana Linked Eventsiin.",
+    "pageDescription": "Lisää uusi avainsana Linked Eventsiin.",
     "pageTitle": "Lisää avainsana",
     "title": "Lisää avainsana"
   },
   "createKeywordSetPage": {
-    "description": "Lisää uusi avainsanaryhmä Linked Eventsiin.",
+    "pageDescription": "Lisää uusi avainsanaryhmä Linked Eventsiin.",
     "pageTitle": "Lisää avainsanaryhmä",
     "title": "Lisää avainsanaryhmä"
   },
   "createOrganizationPage": {
-    "description": "Lisää uusi organisaatio Linked Eventsiin.",
+    "pageDescription": "Lisää uusi organisaatio Linked Eventsiin.",
     "pageTitle": "Lisää organisaatio",
     "title": "Lisää organisaatio"
   },
   "createPlacePage": {
-    "description": "Lisää uusi paikka Linked Eventsiin.",
+    "pageDescription": "Lisää uusi paikka Linked Eventsiin.",
     "pageTitle": "Lisää paikka",
     "title": "Lisää paikka"
   },
@@ -1365,7 +1365,6 @@
     },
     "count": "{{count}} kuva",
     "count_other": "{{count}} kuvaa",
-    "description": "Kuvien listaus. Selaa, suodata ja muokkaa Linked Events -kuvia.",
     "imagesTableCaption": "Kuvat, järjestys {{sort}}",
     "imagesTableColumns": {
       "id": "ID",
@@ -1374,6 +1373,7 @@
       "name": "Nimi"
     },
     "labelSearch": "Hae kuvia",
+    "pageDescription": "Kuvien listaus. Selaa, suodata ja muokkaa Linked Events -kuvia.",
     "pageTitle": "Kuvat",
     "sortOptions": {
       "lastModifiedTime": "Viimeksi muokattu, nouseva",
@@ -1454,7 +1454,6 @@
     },
     "count": "{{count}} avainsana",
     "count_other": "{{count}} avainsanaa",
-    "description": "Avainsanojen listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanoja",
     "keywordsTableCaption": "Avainsanat, järjestys {{sort}}",
     "keywordsTableColumns": {
       "id": "ID",
@@ -1462,6 +1461,7 @@
       "nEvents": "Tapahtumien lkm"
     },
     "labelSearch": "Hae avainsanoja",
+    "pageDescription": "Avainsanojen listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanoja.",
     "pageTitle": "Avainsanat",
     "sortOptions": {
       "id": "Id, nouseva",
@@ -1499,7 +1499,7 @@
     },
     "count": "{{count}} avainsanaryhmä",
     "count_other": "{{count}} avainsanaryhmää",
-    "description": "Avainsanaryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanaryhmiä.",
+    
     "keywordSetsTableCaption": "Avainsanaryhmät, järjestys {{sort}}",
     "keywordSetsTableColumns": {
       "id": "ID",
@@ -1507,6 +1507,7 @@
       "usage": "Käyttötarkoitus"
     },
     "labelSearch": "Hae avainsanaryhmiä",
+    "pageDescription": "Avainsanaryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanaryhmiä.",
     "pageTitle": "Avainsanaryhmät",
     "sortOptions": {
       "id": "Id, nouseva",
@@ -1606,7 +1607,6 @@
     },
     "count": "{{count}} organisaatio",
     "count_other": "{{count}} organisaatiota",
-    "description": "Organisaatioiden listaus. Selaa, suodata ja muokkaa Linked Eventsin organisaatioita.",
     "labelSearch": "Hae organisaatioita",
     "organizationsTable": {
       "hideSubOrganizations": "Piilota alaorganisaatiot: {{name}}",
@@ -1620,6 +1620,7 @@
       "name": "Nimi",
       "parentOrganization": "Pääorganisaatio"
     },
+    "pageDescription": "Organisaatioiden listaus. Selaa, suodata ja muokkaa Linked Eventsin organisaatioita.",
     "pageTitle": "Organisaatiot",
     "sortOptions": {
       "classification": "Luokittelu, nouseva",
@@ -1670,8 +1671,8 @@
     },
     "count": "{{count}} paikka",
     "count_other": "{{count}} paikkaa",
-    "description": "Paikkojen listaus. Selaa, suodata ja muokkaa Linked Eventsin paikkoja.",
     "labelSearch": "Hae paikkoja",
+    "pageDescription": "Paikkojen listaus. Selaa, suodata ja muokkaa Linked Eventsin paikkoja.",
     "pageTitle": "Paikat",
     "placesTableCaption": "Paikat, järjestys {{sort}}",
     "placesTableColumns": {
@@ -1750,7 +1751,7 @@
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "count": "{{count}} ilmoittautuminen",
     "count_other": "{{count}} ilmoittautumista",
-    "description": "Ilmoittautumisten listaus. Selaa, suodata ja muokkaa ilmoittautumisiasi.",
+    "pageDescription": "Ilmoittautumisten listaus. Selaa, suodata ja muokkaa ilmoittautumisiasi.",
     "pageTitle": "Ilmoittautuminen",
     "registrationsTableCaption": "Ilmoittautumiset, järjestys {{sort}}",
     "registrationsTableColumns": {

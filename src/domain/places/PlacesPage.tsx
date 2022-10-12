@@ -64,7 +64,7 @@ const PlacesPageWrapper: React.FC = () => {
 
   return (
     <PageWrapper
-      description="placesPage.description"
+      description="placesPage.pageDescription"
       keywords={['keywords.place', 'keywords.listing']}
       title="placesPage.pageTitle"
     >
