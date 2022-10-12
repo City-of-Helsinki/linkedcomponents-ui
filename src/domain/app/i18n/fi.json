@@ -1498,7 +1498,6 @@
     },
     "count": "{{count}} avainsanaryhmä",
     "count_other": "{{count}} avainsanaryhmää",
-    
     "keywordSetsTableCaption": "Avainsanaryhmät, järjestys {{sort}}",
     "keywordSetsTableColumns": {
       "id": "ID",
