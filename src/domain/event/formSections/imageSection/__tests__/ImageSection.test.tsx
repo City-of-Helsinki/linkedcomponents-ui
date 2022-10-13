@@ -6,6 +6,7 @@ import { testIds as imagePreviewTestIds } from '../../../../../common/components
 import { testIds as imageUploaderTestIds } from '../../../../../common/components/imageUploader/ImageUploader';
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../constants';
 import { ImageDocument } from '../../../../../generated/graphql';
+import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { fakeImage } from '../../../../../utils/mockDataUtils';
 import {
@@ -43,6 +44,14 @@ import {
 import ImageSection from '../ImageSection';
 
 configure({ defaultHidden: true });
+
+beforeEach(() => {
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: true,
+    SHOW_REGISTRATION: true,
+  });
+});
 
 const defaultMocks = [
   mockedImagesResponse,

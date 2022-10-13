@@ -4,6 +4,7 @@ import React from 'react';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../../constants';
 import { UserDocument } from '../../../../../../generated/graphql';
+import { setFeatureFlags } from '../../../../../../test/featureFlags/featureFlags';
 import { MultiLanguageObject } from '../../../../../../types';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../../utils/mockAuthContextValue';
 import {
@@ -129,7 +130,56 @@ const getElement = (
   }
 };
 
+const setLocalizedImageFeatureFlag = (localizedImage: boolean) => {
+  setFeatureFlags({
+    LOCALIZED_IMAGE: localizedImage,
+    SHOW_ADMIN: true,
+    SHOW_REGISTRATION: true,
+  });
+};
+
+test('should show localized alt-text fields', async () => {
+  setLocalizedImageFeatureFlag(true);
+
+  await act(async () => {
+    await renderComponent({});
+  });
+
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+  });
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (ruotsiksi)',
+  });
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (englanniksi)',
+  });
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (venäjäksi)',
+  });
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (kiinaksi)',
+  });
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (arabiaksi)',
+  });
+});
+
+test('should show only Finnish alt-text field', async () => {
+  setLocalizedImageFeatureFlag(false);
+
+  await act(async () => {
+    await renderComponent({});
+  });
+
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *',
+  });
+});
+
 test('all fields should be disabled when imageAtId is empty', async () => {
+  setLocalizedImageFeatureFlag(true);
+
   await act(async () => {
     await renderComponent({ props: { imageAtId: '' } });
   });
@@ -147,6 +197,8 @@ test('all fields should be disabled when imageAtId is empty', async () => {
 });
 
 test('should clear field values when imageAtId is empty', async () => {
+  setLocalizedImageFeatureFlag(true);
+
   await act(async () => {
     await renderComponent({
       initialValues: {
@@ -178,6 +230,8 @@ test('should clear field values when imageAtId is empty', async () => {
 });
 
 test('should clear field values when image with imageAtId does not exist', async () => {
+  setLocalizedImageFeatureFlag(true);
+
   renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageNotFoundAtId],
@@ -208,6 +262,8 @@ test('should clear field values when image with imageAtId does not exist', async
 });
 
 test('should set field values', async () => {
+  setLocalizedImageFeatureFlag(true);
+
   renderComponent({ props: { imageAtId: imageFields.atId } });
 
   const textInputCases = [
@@ -229,6 +285,8 @@ test('should set field values', async () => {
 });
 
 test("all fields should be disabled when user doesn't have permission to edit image", async () => {
+  setLocalizedImageFeatureFlag(true);
+
   const mocks = [
     ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),
     mockedUserWithoutOrganizationsResponse,
@@ -252,7 +310,10 @@ test("all fields should be disabled when user doesn't have permission to edit im
 });
 
 test('should show validation error when entering too short altText', async () => {
+  setLocalizedImageFeatureFlag(true);
+
   const user = userEvent.setup();
+
   renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageFields.atId],

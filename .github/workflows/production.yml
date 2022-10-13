@@ -49,6 +49,7 @@ jobs:
           DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE: 'helsinki'
           DOCKER_BUILD_ARG_REACT_APP_SHOW_ADMIN: 'false'
           DOCKER_BUILD_ARG_REACT_APP_SHOW_REGISTRATION: 'false'
+          DOCKER_BUILD_ARG_REACT_APP_LOCALIZED_IMAGE: 'false'
 
   production:
     runs-on: ubuntu-latest

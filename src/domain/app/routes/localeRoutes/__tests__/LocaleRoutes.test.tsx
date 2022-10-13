@@ -112,7 +112,11 @@ const isHeadingRendered = async (heading: string | RegExp) => {
 };
 
 beforeEach(() => {
-  setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: true,
+    SHOW_REGISTRATION: true,
+  });
 });
 
 it('should redirect to terms of use page from deprecated terms page', async () => {

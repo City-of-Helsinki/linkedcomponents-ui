@@ -15,6 +15,7 @@ import {
 } from '../../../../../constants';
 import { ImageDocument, ImageQuery } from '../../../../../generated/graphql';
 import useLocale from '../../../../../hooks/useLocale';
+import { isFeatureEnabled } from '../../../../../utils/featureFlags';
 import getPathBuilder from '../../../../../utils/getPathBuilder';
 import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
 import parseIdFromAtId from '../../../../../utils/parseIdFromAtId';
@@ -118,27 +119,41 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
   return (
     <div className={styles.imageDetailsFields}>
       <div>
-        {ORDERED_LE_DATA_LANGUAGES.map((language) => {
-          const langText = lowerCaseFirstLetter(
-            t(`form.inLanguage.${language}`)
-          );
+        {/* TODO: Remove LOCALIZED_IMAGE feature flag when localized image alt
+            text is deployed to production of API */}
+        {isFeatureEnabled('LOCALIZED_IMAGE') ? (
+          ORDERED_LE_DATA_LANGUAGES.map((language) => {
+            const langText = lowerCaseFirstLetter(
+              t(`form.inLanguage.${language}`)
+            );
 
-          return (
-            <Field
-              key={language}
-              className={styles.alignedInput}
-              component={TextInputField}
-              disabled={!editable}
-              label={`${t('image.form.labelAltText')} (${langText})`}
-              name={`${getFieldName(IMAGE_FIELDS.ALT_TEXT)}.${language}`}
-              placeholder={`${t(
-                'image.form.placeholderAltText'
-              )} (${langText})`}
-              required={language === LE_DATA_LANGUAGES.FI}
-              title={warning}
-            />
-          );
-        })}
+            return (
+              <Field
+                key={language}
+                className={styles.alignedInput}
+                component={TextInputField}
+                disabled={!editable}
+                label={`${t('image.form.labelAltText')} (${langText})`}
+                name={`${getFieldName(IMAGE_FIELDS.ALT_TEXT)}.${language}`}
+                placeholder={`${t(
+                  'image.form.placeholderAltText'
+                )} (${langText})`}
+                required={language === LE_DATA_LANGUAGES.FI}
+                title={warning}
+              />
+            );
+          })
+        ) : (
+          <Field
+            className={styles.alignedInput}
+            component={TextInputField}
+            disabled={!editable}
+            label={t('image.form.labelAltText')}
+            name={`${IMAGE_FIELDS.ALT_TEXT}.fi`}
+            placeholder={t('image.form.placeholderAltText')}
+            required={true}
+          />
+        )}
       </div>
       <div>
         <Field
