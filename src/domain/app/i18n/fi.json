@@ -579,6 +579,11 @@
         "general": "Kuvaus on pidempi ja tarkempi selostus tapahtuman sisällöstä.",
         "volunteering": "Kuvaus on pidempi ja tarkempi selostus vapaaehtoistehtävän sisällöstä."
       },
+      "infoTextDescription3": {
+        "course": "Kirjaa myös kurssin <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja.",
+        "general": "Kirjaa myös tapahtuman <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja.",
+        "volunteering": "Kirjaa myös vapaaehtoistehtävän <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja."
+      },
       "infoTextEnrolmentTime": {
         "course": "Jos kurssille on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
         "general": "Jos tapahtumaan on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
@@ -636,6 +641,7 @@
       },
       "infoTextLocation3": "Jos tapahtumapaikka löytyy listasta, sen sijaintia ei tarvitse kuvailla erikseen. Voit kuitenkin antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi kerrosnumeron tai luokkahuoneen nimen.",
       "infoTextLocation4": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
+      "infoTextLocation5": "Jos paikan tiedot ovat muuttuneet, päivitä ne toimipisterekisterissä. Muiden kuin kaupungin palvelujen osalta, lisää tai päivitä tiedot <a href=\"https://kaupunkialustana.hel.fi/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Kaupunki alustana {{openInNewTab}}\">Kaupunki alustana</a> -palvelussa.",
       "infoTextMainCategories": {
         "course": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa kurssin löytämistä.",
         "general": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa tapahtuman löytämistä.",

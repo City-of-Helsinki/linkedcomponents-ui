@@ -104,6 +104,13 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   >
                     <p>{t(`event.form.infoTextDescription1.${type}`)}</p>
                     <p>{t(`event.form.infoTextDescription2.${type}`)}</p>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: t(`event.form.infoTextDescription3.${type}`, {
+                          openInNewTab: t('common.openInNewTab'),
+                        }),
+                      }}
+                    />
                   </Notification>
                 }
               >

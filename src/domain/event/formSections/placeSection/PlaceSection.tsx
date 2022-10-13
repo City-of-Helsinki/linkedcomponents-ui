@@ -41,6 +41,13 @@ const PlaceSection: React.FC<Props> = ({ isEditingAllowed }) => {
             <p>{t(`event.form.infoTextLocation2.${type}`)}</p>
             <p>{t(`event.form.infoTextLocation3`)}</p>
             <p>{t(`event.form.infoTextLocation4`)}</p>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: t(`event.form.infoTextLocation5`, {
+                  openInNewTab: t('common.openInNewTab'),
+                }),
+              }}
+            />
           </Notification>
         }
       >
