@@ -37,7 +37,7 @@ ENV NODE_ENV $NODE_ENV
 ENV PORT 8000
 
 # Copy all files
-COPY --chown=default:default . /opt/app-root/src/
+COPY . /opt/app-root/src/
 
 # Bake package.json start command into the image
 CMD ["yarn", "start"]
