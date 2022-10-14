@@ -27,12 +27,12 @@ jobs:
         uses: andersinno/kolga-build-action@v2
         env:
           DOCKER_IMAGE_NAME: ${{ env.REPO_NAME }}-review
-          DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
+          DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1'
           DOCKER_BUILD_ARG_REACT_APP_LINKED_REGISTRATIONS_UI_URL: 'https://linkedregistrations-ui.test.kuva.hel.ninja'
-          DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
-          DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'https://api.hel.fi/auth/linkedevents-ui'
-          DOCKER_BUILD_ARG_REACT_APP_OIDC_API_SCOPE: 'https://api.hel.fi/auth/linkedevents'
-          DOCKER_BUILD_ARG_REACT_APP_INTERNET_PLACE_ID: 'helsinki:internet'
+          DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://api.hel.fi/sso'
+          DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'linkedcomponents-ui-test'
+          DOCKER_BUILD_ARG_REACT_APP_OIDC_API_SCOPE: 'https://api.hel.fi/auth/linkedeventsdev'
+          DOCKER_BUILD_ARG_REACT_APP_INTERNET_PLACE_ID: 'system:internet'
           DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE: 'helsinki'
           DOCKER_BUILD_ARG_REACT_APP_SHOW_ADMIN: 'true'
           DOCKER_BUILD_ARG_REACT_APP_SHOW_REGISTRATION: 'true'
