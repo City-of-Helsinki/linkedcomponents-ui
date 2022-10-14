@@ -216,7 +216,8 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: search },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 

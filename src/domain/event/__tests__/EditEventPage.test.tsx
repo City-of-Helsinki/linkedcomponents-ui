@@ -149,11 +149,21 @@ const getAddEventTimeFormElement = (
     case 'endDate':
       return screen.getByRole('textbox', { name: 'Tapahtuma päättyy *' });
     case 'endTime':
-      return screen.getByRole('textbox', { name: /tapahtuma päättyy klo/i });
+      const endTimeGroup = screen.getByRole('group', {
+        name: /tapahtuma päättyy klo/i,
+      });
+      return within(endTimeGroup).getByRole('textbox', {
+        name: 'tunnit',
+      });
     case 'startDate':
       return screen.getByRole('textbox', { name: 'Tapahtuma alkaa *' });
     case 'startTime':
-      return screen.getByRole('textbox', { name: /tapahtuma alkaa klo/i });
+      const startTimeGroup = screen.getByRole('group', {
+        name: /tapahtuma alkaa klo/i,
+      });
+      return within(startTimeGroup).getByRole('textbox', {
+        name: 'tunnit',
+      });
   }
 };
 

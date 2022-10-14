@@ -137,7 +137,8 @@ it('scrolls to keyword row and calls history.replace correctly (deletes keywordI
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 

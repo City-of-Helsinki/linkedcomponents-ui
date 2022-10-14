@@ -86,7 +86,8 @@ it('scrolls to event card and calls history.replace correctly (deletes eventId f
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: search },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 

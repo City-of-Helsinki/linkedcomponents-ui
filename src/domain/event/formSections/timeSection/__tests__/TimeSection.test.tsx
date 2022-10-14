@@ -105,9 +105,9 @@ const getElement = (key: 'recurringEventTab') => {
   }
 };
 
-const findSingleEventElement = (key: 'startTime') => {
+const findSingleEventElement = (key: 'startDate') => {
   switch (key) {
-    case 'startTime':
+    case 'startDate':
       return screen.findByRole('textbox', { name: 'Tapahtuma alkaa *' });
   }
 };
@@ -130,20 +130,30 @@ const getSingleEventElement = (
     case 'endDate':
       return screen.getByRole('textbox', { name: 'Tapahtuma päättyy *' });
     case 'endTime':
-      return screen.getByRole('textbox', { name: /tapahtuma päättyy klo/i });
+      const endTimeGroup = screen.getByRole('group', {
+        name: /tapahtuma päättyy klo/i,
+      });
+      return within(endTimeGroup).getByRole('textbox', {
+        name: 'tunnit',
+      });
     case 'toggle':
       return screen.getAllByRole('button', { name: /valinnat/i })[0];
     case 'startDate':
       return screen.getByRole('textbox', { name: 'Tapahtuma alkaa *' });
     case 'startTime':
-      return screen.getByRole('textbox', { name: /tapahtuma alkaa klo/i });
+      const startTimeGroup = screen.getByRole('group', {
+        name: /tapahtuma alkaa klo/i,
+      });
+      return within(startTimeGroup).getByRole('textbox', {
+        name: 'tunnit',
+      });
   }
 };
 
-const findRecurringEventElement = (key: 'startTime') => {
+const findRecurringEventElement = (key: 'startDate') => {
   switch (key) {
-    case 'startTime':
-      return screen.findByRole('textbox', { name: /tapahtuma alkaa klo/i });
+    case 'startDate':
+      return screen.getByRole('textbox', { name: /toisto alkaa/i });
   }
 };
 
@@ -164,7 +174,12 @@ const getRecurringEventElement = (
     case 'endDate':
       return screen.getByRole('textbox', { name: /toisto päättyy/i });
     case 'endTime':
-      return screen.getByRole('textbox', { name: /tapahtuma päättyy klo/i });
+      const endTimeGroup = screen.getByRole('group', {
+        name: /tapahtuma päättyy klo/i,
+      });
+      return within(endTimeGroup).getByRole('textbox', {
+        name: 'tunnit',
+      });
     case 'monCheckbox':
       return screen.getByRole('checkbox', { name: /ma/i });
     case 'repeatInterval':
@@ -172,7 +187,12 @@ const getRecurringEventElement = (
     case 'startDate':
       return screen.getByRole('textbox', { name: /toisto alkaa/i });
     case 'startTime':
-      return screen.getByRole('textbox', { name: /tapahtuma alkaa klo/i });
+      const startTimeGroup = screen.getByRole('group', {
+        name: /tapahtuma alkaa klo/i,
+      });
+      return within(startTimeGroup).getByRole('textbox', {
+        name: 'tunnit',
+      });
     case 'tueCheckbox':
       return screen.getByRole('checkbox', { name: /ti/i });
   }
@@ -487,16 +507,16 @@ test('should not be able to add new event times when editing single event', asyn
     })
   );
 
-  const singleEventStartTimeInput = await findSingleEventElement('startTime');
-  expect(singleEventStartTimeInput).toBeDisabled();
+  const singleEventStartDateInput = await findSingleEventElement('startDate');
+  expect(singleEventStartDateInput).toBeDisabled();
 
   const recurringEventTab = getElement('recurringEventTab');
   await act(async () => await user.click(recurringEventTab));
 
-  const recurringEventStartTimeInput = await findRecurringEventElement(
-    'startTime'
+  const recurringEventStartDateInput = await findRecurringEventElement(
+    'startDate'
   );
-  expect(recurringEventStartTimeInput).toBeDisabled();
+  expect(recurringEventStartDateInput).toBeDisabled();
 });
 
 test('should be able to add new event times when editing recurring event', async () => {
@@ -517,8 +537,8 @@ test('should be able to add new event times when editing recurring event', async
   const recurringEventTab = getElement('recurringEventTab');
   await act(async () => await user.click(recurringEventTab));
 
-  const recurringEventStartTimeInput = await findRecurringEventElement(
-    'startTime'
+  const recurringEventStartDateInput = await findRecurringEventElement(
+    'startDate'
   );
-  expect(recurringEventStartTimeInput).toBeEnabled();
+  expect(recurringEventStartDateInput).toBeEnabled();
 });

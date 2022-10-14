@@ -8,6 +8,7 @@ import {
   render,
   screen,
   userEvent,
+  within,
 } from '../../../../../utils/testUtils';
 import { REGISTRATION_FIELDS } from '../../../constants';
 import { registrationSchema } from '../../../validation';
@@ -52,16 +53,22 @@ const getElement = (key: 'endDate' | 'endTime' | 'startDate' | 'startTime') => {
         name: 'Ilmoittautuminen päättyy *',
       });
     case 'endTime':
-      return screen.getByRole('textbox', {
-        name: /ilmoittautuminen päättyy klo \* tunnit/i,
+      const endTimeGroup = screen.getByRole('group', {
+        name: 'Ilmoittautuminen päättyy klo *',
+      });
+      return within(endTimeGroup).getByRole('textbox', {
+        name: 'tunnit',
       });
     case 'startDate':
       return screen.getByRole('textbox', {
         name: 'Ilmoittautuminen alkaa *',
       });
     case 'startTime':
-      return screen.getByRole('textbox', {
-        name: /ilmoittautuminen alkaa klo \* tunnit/i,
+      const startTimeGroup = screen.getByRole('group', {
+        name: 'Ilmoittautuminen alkaa klo *',
+      });
+      return within(startTimeGroup).getByRole('textbox', {
+        name: 'tunnit',
       });
   }
 };
@@ -75,6 +82,7 @@ test('should validate enrolment start and end dates', async () => {
   const startTime = '12:15';
   const endDate = '18.12.2021';
   const endTime = '12:15';
+
   const startDateInput = getElement('startDate');
   const startTimeInput = getElement('startTime');
   const endDateInput = getElement('endDate');

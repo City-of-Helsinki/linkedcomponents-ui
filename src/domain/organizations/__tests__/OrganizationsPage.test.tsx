@@ -138,7 +138,8 @@ it('scrolls to organization row and calls history.replace correctly (deletes org
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 
