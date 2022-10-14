@@ -61,13 +61,22 @@ Use .env.development.local for development.
 | REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE | helsinki                                                                                               |
 | REACT_APP_SHOW_ADMIN                       | Flag to show admin, Default true. pages                                                                |
 | REACT_APP_SHOW_REGISTRATION                | Flag to show registration related pages, Default true.                                                 |
-
+| REACT_APP_LOCALIZED_IMAGE                  | Flag to disabled localized image alt texts, Default true.                                              |
 
 ## Feature flags
 
 There are a feature flags which can be enabled in `.env.development.local`:
 
 `REACT_APP_SHOW_ADMIN`:
+
+Features enabled:
+
+- Editing keywords.
+- Editing keyword sets.
+- Editing image.
+- Editing organizations.
+- Editing places.
+
 `REACT_APP_SHOW_REGISTRATION`:
 
 Features enabled:
@@ -76,6 +85,12 @@ Features enabled:
 - Link to the registrations in the footer.
 - Registration search, creation and update pages routes.
 - Enrolment search, creation and update pages routes.
+
+`REACT_APP_LOCALIZED_IMAGE`:
+
+Features enabled:
+
+- Localized alt-text of image.
 
 ## Available Scripts
 

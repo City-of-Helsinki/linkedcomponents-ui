@@ -52,7 +52,7 @@ beforeEach(() => {
 });
 
 // TODO: Skip this test because SV UI language is temporarily disabled
-test.skip('matches snapshot', () => {
+test.skip('matches snapshot', async () => {
   i18n.changeLanguage('sv');
   const { container } = renderComponent(undefined, '/sv');
 
@@ -60,7 +60,11 @@ test.skip('matches snapshot', () => {
 });
 
 test('should show navigation links and should route to correct page after clicking link', async () => {
-  setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: true,
+    SHOW_REGISTRATION: true,
+  });
   const user = userEvent.setup();
   const { history } = renderComponent();
   const links = [
@@ -85,7 +89,11 @@ test('should show navigation links and should route to correct page after clicki
 });
 
 test('should not show keywords and registrations link when those features are disabled', async () => {
-  setFeatureFlags({ SHOW_ADMIN: false, SHOW_REGISTRATION: false });
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: false,
+    SHOW_REGISTRATION: false,
+  });
   const user = userEvent.setup();
   const { history } = renderComponent();
   const links = [
