@@ -88,6 +88,17 @@ export const isValidDateText = (date?: string): boolean => {
 export const isValidTime = (time?: string): boolean =>
   time ? /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time) : true;
 
+export const isValidUrl = (url?: string): boolean => {
+  if (!url) return true;
+
+  try {
+    new URL(url);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
+
 export const isValidZip = (zip: string): boolean => /^[0-9]{5}$/.test(zip);
 
 export const isAfterStartDateAndTime = (

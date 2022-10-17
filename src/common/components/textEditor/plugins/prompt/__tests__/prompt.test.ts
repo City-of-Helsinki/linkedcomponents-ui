@@ -6,7 +6,7 @@ import { Attrs } from 'prosemirror-model';
 
 import { VALIDATION_MESSAGE_KEYS } from '../../../../../../domain/app/i18n/constants';
 import { actWait } from '../../../../../../utils/testUtils';
-import { rUrl } from '../../../config/validate';
+import { isValidUrl } from '../../../../../../utils/validationUtils';
 import { openPrompt, TextField } from '../prompt';
 
 const getElement = (key: 'addButton' | 'cancelButton' | 'urlInput') => {
@@ -30,13 +30,13 @@ const renderPrompt = (callback?: (attrs: Attrs) => void) => {
         label: t('common.textEditor.link.linkTarget'),
         required: true,
         validate: (value: string) => {
-          return rUrl.test(value) ? '' : t(VALIDATION_MESSAGE_KEYS.URL);
+          return isValidUrl(value) ? '' : t(VALIDATION_MESSAGE_KEYS.URL);
         },
       }),
       title: new TextField({ label: t('common.textEditor.link.linkTitle') }),
     },
     callback(attrs) {
-      callback(attrs);
+      callback && callback(attrs);
     },
     t,
   });

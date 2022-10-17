@@ -10,6 +10,7 @@ import {
   createMultiLanguageValidation,
   createStringMaxErrorMessage,
   createStringMinErrorMessage,
+  isValidUrl,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { IMAGE_ALT_TEXT_MIN_LENGTH } from '../event/constants';
@@ -58,7 +59,11 @@ const validateFile = (ids: string[], url: string, schema: Yup.StringSchema) =>
     ? schema
     : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
 const validateUrl = (ids: string[], imageFile: any, schema: Yup.StringSchema) =>
-  imageFile || ids.length ? schema : schema.url(VALIDATION_MESSAGE_KEYS.URL);
+  imageFile || ids.length
+    ? schema
+    : schema.test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+        isValidUrl(value)
+      );
 
 export const addImageSchema = Yup.object().shape(
   {

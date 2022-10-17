@@ -14,9 +14,9 @@ import {
 import { EditorState, Transaction } from 'prosemirror-state';
 
 import { VALIDATION_MESSAGE_KEYS } from '../../../../domain/app/i18n/constants';
+import { isValidUrl } from '../../../../utils/validationUtils';
 import { openPrompt, TextField } from '../plugins/prompt/prompt';
 import schema from './schema';
-import { rUrl } from './validate';
 // marks
 export const toggleMarkBold = toggleMark(schema.marks.bold);
 export const toggleMarkItalic = toggleMark(schema.marks.italic);
@@ -37,7 +37,7 @@ export const toggleLink =
           label: t('common.textEditor.link.linkTarget'),
           required: true,
           validate: (value: string) => {
-            return rUrl.test(value) ? '' : t(VALIDATION_MESSAGE_KEYS.URL);
+            return isValidUrl(value) ? '' : t(VALIDATION_MESSAGE_KEYS.URL);
           },
         }),
         title: new TextField({ label: t('common.textEditor.link.linkTitle') }),

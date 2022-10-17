@@ -92,6 +92,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   const handleChange = React.useCallback(
     (value: string) => {
       /* istanbul ignore next */
+
       const sanitizedValue = sanitizeAfterChange
         ? sanitizeAfterChange(value)
         : value;
