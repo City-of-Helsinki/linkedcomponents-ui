@@ -1,44 +1,66 @@
-import expect from 'expect';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import {
+  ExpandedOrganizationsActionTypes,
+  expandedOrganizationsInitialState,
+} from '../constants';
+import { expandedOrganizationsReducer } from '../reducers';
+import {
+  ExpandedOrganizationsAction,
+  ExpandedOrganizationsState,
+} from '../types';
 
-import { defaultReducerState, ORGANIZATIONS_ACTIONS } from '../constants';
-import reducer from '../reducers';
+describe('expandedOrganizationsReducer function', () => {
+  const cases: [
+    ExpandedOrganizationsAction,
+    ExpandedOrganizationsState,
+    ExpandedOrganizationsState
+  ][] = [
+    [
+      {
+        type: ExpandedOrganizationsActionTypes.ADD_EXPANDED_ORGANIZATION,
+        payload: TEST_PUBLISHER_ID,
+      },
+      expandedOrganizationsInitialState,
+      [TEST_PUBLISHER_ID],
+    ],
+    [
+      {
+        type: ExpandedOrganizationsActionTypes.ADD_EXPANDED_ORGANIZATION,
+        payload: TEST_PUBLISHER_ID,
+      },
+      [TEST_PUBLISHER_ID],
+      [TEST_PUBLISHER_ID],
+    ],
+    [
+      {
+        type: ExpandedOrganizationsActionTypes.REMOVE_EXPANDED_ORGANIZATION,
+        payload: TEST_PUBLISHER_ID,
+      },
+      [TEST_PUBLISHER_ID],
+      [],
+    ],
+    [
+      {
+        type: ExpandedOrganizationsActionTypes.REMOVE_EXPANDED_ORGANIZATION,
+        payload: TEST_PUBLISHER_ID,
+      },
+      [TEST_PUBLISHER_ID, 'organization:2'],
+      ['organization:2'],
+    ],
+    [
+      {
+        type: ExpandedOrganizationsActionTypes.REMOVE_EXPANDED_ORGANIZATION,
+        payload: TEST_PUBLISHER_ID,
+      },
+      [TEST_PUBLISHER_ID, 'organization:2', 'organization:2'],
+      ['organization:2'],
+    ],
+  ];
 
-it('should return the initial state', () => {
-  expect(reducer(undefined, { type: null })).toEqual(defaultReducerState);
-});
-
-it('should add/remove expanded organizations', () => {
-  let state = reducer(undefined, {
-    payload: 'organization:1',
-    type: ORGANIZATIONS_ACTIONS.ADD_EXPANDED_ORGANIZATION,
-  });
-
-  expect(state.expandedOrganizations).toEqual(['organization:1']);
-
-  state = reducer(state, {
-    payload: 'organization:2',
-    type: ORGANIZATIONS_ACTIONS.ADD_EXPANDED_ORGANIZATION,
-  });
-
-  expect(state.expandedOrganizations).toEqual([
-    'organization:1',
-    'organization:2',
-  ]);
-
-  state = reducer(state, {
-    payload: 'organization:1',
-    type: ORGANIZATIONS_ACTIONS.ADD_EXPANDED_ORGANIZATION,
-  });
-
-  expect(state.expandedOrganizations).toEqual([
-    'organization:1',
-    'organization:2',
-  ]);
-
-  state = reducer(state, {
-    payload: 'organization:1',
-    type: ORGANIZATIONS_ACTIONS.REMOVE_EXPANDED_ORGANIZATION,
-  });
-
-  expect(state.expandedOrganizations).toEqual(['organization:2']);
+  it.each(cases)(
+    'should return correct state with action %p',
+    async (action, initialState, state) => {
+      expect(expandedOrganizationsReducer(initialState, action)).toEqual(state);
+    }
+  );
 });

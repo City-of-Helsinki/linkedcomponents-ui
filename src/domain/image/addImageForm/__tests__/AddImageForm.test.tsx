@@ -1,13 +1,15 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
+import { toast } from 'react-toastify';
 
+import { testIds } from '../../../../common/components/imageUploader/ImageUploader';
 import { UserDocument } from '../../../../generated/graphql';
-import { fakeUser } from '../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
+  fireEvent,
+  mockFile,
   render,
   screen,
   userEvent,
@@ -21,9 +23,10 @@ import {
 } from '../../../event/formSections/imageSection/__mocks__/imageSection';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
+  getMockedUserResponse,
   mockedUserResponse,
-  userVariables,
 } from '../../../user/__mocks__/user';
+import { ADD_IMAGE_INITIAL_VALUES } from '../../constants';
 import AddImageForm, { AddImageFormProps } from '../AddImageForm';
 
 configure({ defaultHidden: true });
@@ -34,12 +37,11 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: AddImageFormProps = {
+  onAddImageByFile: jest.fn(),
   onCancel: jest.fn(),
-  onFileChange: jest.fn(),
   onSubmit: jest.fn(),
   publisher,
 };
@@ -50,12 +52,18 @@ const renderComponent = ({
 }: {
   mocks?: MockedResponse[];
   props?: Partial<AddImageFormProps>;
-}) => render(<AddImageForm {...defaultProps} {...props} />, { mocks, store });
+}) =>
+  render(<AddImageForm {...defaultProps} {...props} />, {
+    authContextValue,
+    mocks,
+  });
 
 const findElement = (key: 'imageCheckbox') => {
   switch (key) {
     case 'imageCheckbox':
-      return screen.findByRole('checkbox', { name: images.data[0].name });
+      return screen.findByRole('checkbox', {
+        name: images.data[0]?.name as string,
+      });
   }
 };
 
@@ -102,8 +110,8 @@ test('should call onSubmit with existing image', async () => {
   await act(async () => await user.click(addButton));
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
-      selectedImage: [images.data[0].atId],
-      url: '',
+      ...ADD_IMAGE_INITIAL_VALUES,
+      selectedImage: [images.data[0]?.atId],
     })
   );
 });
@@ -122,10 +130,35 @@ test('should call onSubmit by double clicking image', async () => {
   await act(async () => await user.dblClick(imageCheckbox));
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
-      selectedImage: [images.data[0].atId],
-      url: '',
+      ...ADD_IMAGE_INITIAL_VALUES,
+      selectedImage: [images.data[0]?.atId],
     })
   );
+});
+
+test('should show error message if trying to enter too large image file', async () => {
+  toast.error = jest.fn();
+  const user = userEvent.setup();
+
+  renderComponent({});
+
+  const addButton = getElement('addButton');
+  await waitFor(() => expect(addButton).toBeDisabled());
+
+  const fileInput = screen.getByTestId(testIds.input);
+  const file = mockFile({ size: 3000000 });
+
+  Object.defineProperty(fileInput, 'files', { value: [file] });
+  fireEvent.change(fileInput);
+
+  await waitFor(() => expect(addButton).toBeEnabled());
+  await act(async () => await user.click(addButton));
+
+  await waitFor(() => {
+    expect(toast.error).toBeCalledWith(
+      'Tiedostokoko on liian suuri. Tiedoston maksimikoko on 2 Mt'
+    );
+  });
 });
 
 test('should validate url', async () => {
@@ -148,16 +181,11 @@ test('should validate url', async () => {
 });
 
 test("inputs to add new images should be disabled if user doesn't have permissions to add images", async () => {
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     organization: '',
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
 
   const mocks = [
     ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),
@@ -198,7 +226,7 @@ test('should call onSubmit with image url', async () => {
   await act(async () => await user.click(addButton));
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
-      selectedImage: [],
+      ...ADD_IMAGE_INITIAL_VALUES,
       url,
     })
   );

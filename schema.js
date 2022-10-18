@@ -309,7 +309,7 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input UpdateImageMutationInput {
-    altText: String
+    altText: LocalisedObjectInput
     id: ID!
     license: String
     name: String!
@@ -318,7 +318,7 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input UploadImageMutationInput {
-    altText: String
+    altText: LocalisedObjectInput
     image: Any
     license: String
     name: String!
@@ -373,6 +373,7 @@ module.exports = buildSchema(/* GraphQL */ `
     id: String
     internalType: String
     name: String
+    originId: String
     parentOrganization: String
     regularUsers: [String]
     replacedBy: String
@@ -496,6 +497,10 @@ module.exports = buildSchema(/* GraphQL */ `
     body: String
   }
 
+  type IdObject {
+    atId: String
+  }
+
   type ImagesResponse {
     meta: Meta!
     data: [Image]!
@@ -572,6 +577,7 @@ module.exports = buildSchema(/* GraphQL */ `
     providerContactInfo: String
     publisher: ID
     publicationStatus: PublicationStatus
+    registration: IdObject
     shortDescription: LocalisedObject
     startTime: String
     subEvents: [Event]!
@@ -603,7 +609,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Image {
     id: ID
-    altText: String
+    altText: LocalisedObject
     createdTime: String
     cropping: String
     dataSource: String

@@ -1,15 +1,16 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -23,11 +24,10 @@ import CreateKeywordPage from '../CreateKeywordPage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
-  render(<CreateKeywordPage />, { mocks, store });
+  render(<CreateKeywordPage />, { authContextValue, mocks });
 
 const getElement = (
   key: 'nameInput' | 'replacedByInput' | 'replacedByToggleButton' | 'saveButton'
@@ -53,11 +53,23 @@ const fillInputValues = async () => {
   await act(async () => await user.click(replacedByToggleButton));
 
   const replacingKeywordOption = await screen.findByRole('option', {
-    name: replacingKeyword.name.fi,
+    name: replacingKeyword?.name?.fi as string,
     hidden: true,
   });
   await act(async () => await user.click(replacingKeywordOption));
 };
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Lisää avainsana - Linked Events';
+  const pageDescription = 'Lisää uusi avainsana Linked Eventsiin.';
+  const pageKeywords =
+    'lisää, uusi, avainsana, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+});
 
 test('should focus to first validation error when trying to save new keyword', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
@@ -89,7 +101,7 @@ test('should move to keywords page after creating new keyword', async () => {
   await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+    expect(history.location.pathname).toBe(`/fi/administration/keywords`)
   );
 });
 

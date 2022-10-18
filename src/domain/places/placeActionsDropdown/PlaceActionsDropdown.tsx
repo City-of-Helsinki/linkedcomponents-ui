@@ -1,21 +1,20 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import { PlaceFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { PLACE_ACTIONS } from '../../place/constants';
 import usePlaceUpdateActions, {
   PLACE_MODALS,
 } from '../../place/hooks/usePlaceUpdateActions';
-import ConfirmDeleteModal from '../../place/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../place/modals/confirmDeleteModal/ConfirmDeleteModal';
 import { getEditButtonProps, getPlaceFields } from '../../place/utils';
 import useUser from '../../user/hooks/useUser';
 import { addParamsToPlaceQueryString } from '../utils';
@@ -32,7 +31,7 @@ const PlaceActionsDropdown = React.forwardRef<
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const { id, publisher } = getPlaceFields(place, locale);
   const { organizationAncestors } = useOrganizationAncestors(publisher);

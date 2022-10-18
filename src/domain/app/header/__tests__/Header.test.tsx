@@ -1,21 +1,19 @@
-import { AnyAction, Store } from '@reduxjs/toolkit';
+/* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
-import { StoreState } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import userManager from '../../../auth/userManager';
+import { AuthContextProps } from '../../../auth/types';
 import { mockedUserResponse, userName } from '../../../user/__mocks__/user';
 import Header from '../Header';
 
@@ -23,8 +21,8 @@ configure({ defaultHidden: true });
 
 const mocks = [mockedUserResponse];
 
-const renderComponent = (store?: Store<StoreState, AnyAction>, route = '/fi') =>
-  render(<Header />, { mocks, routes: [route], store });
+const renderComponent = (authContextValue?: AuthContextProps, route = '/fi') =>
+  render(<Header />, { authContextValue, mocks, routes: [route] });
 
 const getElement = (key: 'enOption' | 'menuButton') => {
   switch (key) {
@@ -54,7 +52,7 @@ beforeEach(() => {
 });
 
 // TODO: Skip this test because SV UI language is temporarily disabled
-test.skip('matches snapshot', () => {
+test.skip('matches snapshot', async () => {
   i18n.changeLanguage('sv');
   const { container } = renderComponent(undefined, '/sv');
 
@@ -62,7 +60,11 @@ test.skip('matches snapshot', () => {
 });
 
 test('should show navigation links and should route to correct page after clicking link', async () => {
-  setFeatureFlags({ SHOW_ADMIN: true, SHOW_REGISTRATION: true });
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: true,
+    SHOW_REGISTRATION: true,
+  });
   const user = userEvent.setup();
   const { history } = renderComponent();
   const links = [
@@ -87,7 +89,11 @@ test('should show navigation links and should route to correct page after clicki
 });
 
 test('should not show keywords and registrations link when those features are disabled', async () => {
-  setFeatureFlags({ SHOW_ADMIN: false, SHOW_REGISTRATION: false });
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: false,
+    SHOW_REGISTRATION: false,
+  });
   const user = userEvent.setup();
   const { history } = renderComponent();
   const links = [
@@ -143,24 +149,24 @@ test('should change language', async () => {
 });
 
 test('should start login process', async () => {
-  const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
   const user = userEvent.setup();
-  renderComponent();
+
+  const signIn = jest.fn();
+  const authContextValue = fakeAuthenticatedAuthContextValue({ signIn });
+  renderComponent(authContextValue);
 
   const signInButtons = getElements('signInButton');
   await act(async () => await user.click(signInButtons[0]));
 
-  expect(signinRedirect).toBeCalled();
+  expect(signIn).toBeCalled();
 });
 
 test('should start logout process', async () => {
-  const signoutRedirect = jest.spyOn(userManager, 'signoutRedirect');
-
-  const storeState = fakeAuthenticatedStoreState();
-  const store = getMockReduxStore(storeState);
-
   const user = userEvent.setup();
-  renderComponent(store);
+
+  const signOut = jest.fn();
+  const authContextValue = fakeAuthenticatedAuthContextValue({ signOut });
+  renderComponent(authContextValue);
 
   const userMenuButton = await screen.findByRole(
     'button',
@@ -172,7 +178,7 @@ test('should start logout process', async () => {
   const signOutLinks = getElements('signOutLink');
   await act(async () => await user.click(signOutLinks[0]));
 
-  await waitFor(() => expect(signoutRedirect).toBeCalled());
+  await waitFor(() => expect(signOut).toBeCalled());
 });
 
 test('should route to search page', async () => {

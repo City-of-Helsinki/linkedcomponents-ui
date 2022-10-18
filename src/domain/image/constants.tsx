@@ -1,5 +1,7 @@
 import { IconCogwheel, IconCrossCircle, IconPen, IconUpload } from 'hds-react';
+import React from 'react';
 
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../constants';
 import { AddImageSettings, ImageFormFields } from './types';
 
 export enum LICENSE_TYPES {
@@ -48,7 +50,7 @@ export enum IMAGE_FIELDS {
 }
 
 export const IMAGE_INITIAL_VALUES: ImageFormFields = {
-  [IMAGE_FIELDS.ALT_TEXT]: '',
+  [IMAGE_FIELDS.ALT_TEXT]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [IMAGE_FIELDS.ID]: '',
   [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.CC_BY,
   [IMAGE_FIELDS.NAME]: '',
@@ -58,11 +60,15 @@ export const IMAGE_INITIAL_VALUES: ImageFormFields = {
 };
 
 export enum ADD_IMAGE_FIELDS {
+  IMAGE_CROP = 'imageCrop',
+  IMAGE_FILE = 'imageFile',
   SELECTED_IMAGE = 'selectedImage',
   URL = 'url',
 }
 
 export const ADD_IMAGE_INITIAL_VALUES: AddImageSettings = {
+  [ADD_IMAGE_FIELDS.IMAGE_CROP]: null,
+  [ADD_IMAGE_FIELDS.IMAGE_FILE]: null,
   [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [],
   [ADD_IMAGE_FIELDS.URL]: '',
 };

@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { IconCalendar, IconHeart, IconLocation, Koros } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,15 +12,15 @@ import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
 import { OptionType } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import Container from '../../app/layout/Container';
+import Container from '../../app/layout/container/Container';
 import { useTheme } from '../../app/theme/Theme';
 import { EVENT_TYPE } from '../../event/constants';
 import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
+import FilterSummary from '../../events/filterSummary/FilterSummary';
 import {
   getEventSearchInitialValues,
   getEventSearchQuery,
-} from '../../eventSearch/utils';
-import FilterSummary from '../filterSummary/FilterSummary';
+} from '../../events/utils';
 import DateSelectorDropdown, {
   DATE_FIELDS,
 } from './dateSelectorDropdown/DateSelectorDropdown';
@@ -97,82 +96,90 @@ const SearchPanel: React.FC = () => {
   }, [location.search, setSearchState]);
 
   return (
-    <div
-      data-testid={testIds.searchPanel}
-      className={classNames(styles.searchPanel, css(theme.searchPanel))}
-    >
-      <section className={styles.searchPanelWrapper}>
-        <Container withOffset={true}>
-          <div className={styles.searchRow}>
-            <div className={styles.inputWrapper}>
-              <SearchInput
-                className={styles.searchInput}
-                label={t('eventSearchPage.searchPanel.labelSearch')}
-                onSearch={handleSearch}
-                placeholder={t('eventSearchPage.searchPanel.placeholderSearch')}
-                searchButtonAriaLabel={t(
-                  'eventSearchPage.searchPanel.buttonSearch'
-                )}
-                setValue={handleChangeText}
-                value={searchState.text}
-              />
-              <div className={styles.advancedFilters}>
-                <div>
-                  <DateSelectorDropdown
-                    icon={<IconCalendar aria-hidden={true} />}
-                    onChangeDate={handleChangeDate}
-                    value={{
-                      endDate: searchState.end,
-                      startDate: searchState.start,
-                    }}
-                  />
-                </div>
-                <div>
-                  <PlaceSelector
-                    icon={<IconLocation />}
-                    onChange={handleChangePlaces}
-                    toggleButtonLabel={t(
-                      'eventSearchPage.searchPanel.labelPlace'
+    <ClassNames>
+      {({ css, cx }) => (
+        <div
+          data-testid={testIds.searchPanel}
+          className={cx(styles.searchPanel, css(theme.searchPanel))}
+        >
+          <section className={styles.searchPanelWrapper}>
+            <Container withOffset={true}>
+              <div className={styles.searchRow}>
+                <div className={styles.inputWrapper}>
+                  <SearchInput
+                    className={styles.searchInput}
+                    label={t('eventSearchPage.searchPanel.labelSearch')}
+                    onSearch={handleSearch}
+                    placeholder={t(
+                      'eventSearchPage.searchPanel.placeholderSearch'
                     )}
-                    value={searchState.place}
-                  />
-                </div>
-                <div>
-                  <MultiSelectDropdown
-                    icon={<IconHeart />}
-                    onChange={handleChangeEventTypes}
-                    options={eventTypeOptions}
-                    showSearch={true}
-                    toggleButtonLabel={t(
-                      'eventSearchPage.searchPanel.labelEventType'
+                    searchButtonAriaLabel={t(
+                      'eventSearchPage.searchPanel.buttonSearch'
                     )}
-                    value={
-                      searchState.type
-                        .filter(skipFalsyType)
-                        .map((type) =>
-                          eventTypeOptions.find((item) => item.value === type)
-                        ) as OptionType[]
-                    }
+                    setValue={handleChangeText}
+                    value={searchState.text}
                   />
+                  <div className={styles.advancedFilters}>
+                    <div>
+                      <DateSelectorDropdown
+                        icon={<IconCalendar aria-hidden={true} />}
+                        onChangeDate={handleChangeDate}
+                        value={{
+                          endDate: searchState.end,
+                          startDate: searchState.start,
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <PlaceSelector
+                        icon={<IconLocation />}
+                        onChange={handleChangePlaces}
+                        toggleButtonLabel={t(
+                          'eventSearchPage.searchPanel.labelPlace'
+                        )}
+                        value={searchState.place}
+                      />
+                    </div>
+                    <div>
+                      <MultiSelectDropdown
+                        icon={<IconHeart />}
+                        onChange={handleChangeEventTypes}
+                        options={eventTypeOptions}
+                        showSearch={true}
+                        toggleButtonLabel={t(
+                          'eventSearchPage.searchPanel.labelEventType'
+                        )}
+                        value={
+                          searchState.type
+                            .filter(skipFalsyType)
+                            .map((type) =>
+                              eventTypeOptions.find(
+                                (item) => item.value === type
+                              )
+                            ) as OptionType[]
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.buttonWrapper}>
+                  <Button
+                    className={styles.button}
+                    fullWidth={true}
+                    onClick={handleSearch}
+                    variant="success"
+                  >
+                    {t('eventSearchPage.searchPanel.buttonSearch')}
+                  </Button>
                 </div>
               </div>
-            </div>
-            <div className={styles.buttonWrapper}>
-              <Button
-                className={styles.button}
-                fullWidth={true}
-                onClick={handleSearch}
-                variant="success"
-              >
-                {t('eventSearchPage.searchPanel.buttonSearch')}
-              </Button>
-            </div>
-          </div>
-          <FilterSummary />
-        </Container>
-      </section>
-      <Koros flipHorizontal={true} className={styles.koros} type="basic" />
-    </div>
+              <FilterSummary />
+            </Container>
+          </section>
+          <Koros flipHorizontal={true} className={styles.koros} type="basic" />
+        </div>
+      )}
+    </ClassNames>
   );
 };
 

@@ -1,120 +1,176 @@
 /* eslint-disable max-len */
-import { render } from '@testing-library/react';
-import { advanceTo, clear } from 'jest-date-mock';
+import { render, within } from '@testing-library/react';
 import React from 'react';
 
-import { act, configure, screen, userEvent } from '../../../utils/testUtils';
+import {
+  act,
+  configure,
+  screen,
+  userEvent,
+  waitFor,
+} from '../../../utils/testUtils';
 import App from '../App';
 
 configure({ defaultHidden: true });
 
-const getCookie = jest.fn();
-const setCookie = jest.fn();
-
-Object.defineProperty(document, 'cookie', {
-  get: getCookie,
-  set: setCookie,
-});
+const clearAllCookies = () =>
+  document.cookie.split(';').forEach((c) => {
+    document.cookie =
+      c.trim().split('=')[0] + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+  });
 
 beforeEach(() => {
-  clear();
   jest.clearAllMocks();
-  getCookie.mockImplementation(() => '');
+  global.ResizeObserver = jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+  }));
+  clearAllCookies();
 });
 
-const renderApp = () => render(<App />);
+const renderApp = async () =>
+  act(async () => {
+    await render(<App />);
+  });
 
-const texts = {
-  acceptCheckbox: /olen lukenut ja hyväksyn palvelun käyttöehdot/i,
-  acceptAllButton: /kaikki/i,
-  acceptOnlyNecessaryButton: /vain välttämättömät/i,
-  declinedButton: 'En hyväksy',
-  modalTitle: 'Linked Events käyttöehdot ja evästeet',
+const acceptAllCookieText =
+  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22eventForm%22%3Atrue%2C%22registrationForm%22%3Atrue%2C%22enrolmentForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22matomo%22%3Atrue%7D';
+const acceptOnlyNecessaryCookieText =
+  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22eventForm%22%3Atrue%2C%22registrationForm%22%3Atrue%2C%22enrolmentForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22matomo%22%3Afalse%7D';
+
+const findElement = (key: 'cookieConsentModal') => {
+  switch (key) {
+    case 'cookieConsentModal':
+      return screen.findByTestId('cookie-consent');
+  }
 };
 
-const getElement = (
+const waitCookieConsentModalToBeVisible = async () => {
+  const cookieConsentModal = await findElement('cookieConsentModal');
+  await within(cookieConsentModal).findByRole('heading', {
+    name: 'Linked Events käyttää evästeitä',
+  });
+
+  return cookieConsentModal;
+};
+
+const waitCookieConsentModalToBeHidden = async () => {
+  await waitFor(() =>
+    expect(screen.queryByTestId('cookie-consent')).not.toBeInTheDocument()
+  );
+};
+
+const findCookieConsentModalElement = async (
+  cookieConsentModal: HTMLElement,
   key:
     | 'acceptAllButton'
     | 'acceptOnlyNecessaryButton'
-    | 'acceptCheckbox'
-    | 'declineButton'
-    | 'modalTitle'
+    | 'enOption'
+    | 'languageSelector'
+    | 'svOption'
 ) => {
   switch (key) {
     case 'acceptAllButton':
-      return screen.getByRole('button', { name: texts.acceptAllButton });
-    case 'acceptOnlyNecessaryButton':
-      return screen.getByRole('button', {
-        name: texts.acceptOnlyNecessaryButton,
+      return within(cookieConsentModal).findByRole('button', {
+        name: 'Hyväksy kaikki evästeet',
       });
-    case 'acceptCheckbox':
-      return screen.getByRole('checkbox', { name: texts.acceptCheckbox });
-    case 'declineButton':
-      return screen.getByRole('button', { name: texts.declinedButton });
-    case 'modalTitle':
-      return screen.getByRole('heading', { name: texts.modalTitle });
+    case 'acceptOnlyNecessaryButton':
+      return within(cookieConsentModal).findByRole('button', {
+        name: 'Hyväksy vain pakolliset evästeet',
+      });
+    case 'enOption':
+      return within(cookieConsentModal).findByRole('link', {
+        name: 'English (EN)',
+      });
+    case 'languageSelector':
+      return within(cookieConsentModal).findByRole('button', {
+        name: /Vaihda kieli. Change language. Ändra språk./i,
+      });
+    case 'svOption':
+      return within(cookieConsentModal).findByRole('link', {
+        name: 'Svenska (SV)',
+      });
   }
 };
 
 it('should show cookie consent modal if consent is not saved to cookie', async () => {
-  renderApp();
-  getElement('modalTitle');
+  await renderApp();
+
+  await waitCookieConsentModalToBeVisible();
 });
 
-it('should not show cookie consent modal if consent is saved', async () => {
-  getCookie.mockImplementation(() => {
-    return 'CONSENT={"required":true,"tracking":true,"acceptedAt":"2021-12-12T00:00:00.000Z"}';
-  });
-  renderApp();
-  expect(
-    screen.queryByRole('heading', { name: texts.modalTitle })
-  ).not.toBeInTheDocument();
-});
-
-it('should close cookie consent modal by clicking Decline button', async () => {
-  advanceTo('2021-12-12');
+it('should change cookie consent modal language', async () => {
   const user = userEvent.setup();
-  renderApp();
+  await renderApp();
 
-  const acceptCheckbox = getElement('acceptCheckbox');
-  await act(async () => await user.click(acceptCheckbox));
-
-  const declineButton = getElement('declineButton');
-  await act(async () => await user.click(declineButton));
-
-  expect(setCookie).toBeCalledWith(
-    'CONSENT={"required":false,"tracking":false,"acceptedAt":"2021-12-12T00:00:00.000Z"};expires=Mon, 12 Dec 2022 00:00:00 GMT;path=/'
+  const cookieConsentModal = await waitCookieConsentModalToBeVisible();
+  const languageSelector = await findCookieConsentModalElement(
+    cookieConsentModal,
+    'languageSelector'
   );
-});
 
-it('should store consent to cookie when clicing accept only necessary button', async () => {
-  advanceTo('2021-12-12');
-  const user = userEvent.setup();
-  renderApp();
+  const languageElements: {
+    optionKey: 'enOption' | 'svOption';
+    headingText: string;
+  }[] = [
+    { optionKey: 'enOption', headingText: 'Linked Events uses cookies' },
+    { optionKey: 'svOption', headingText: 'Linked Events använder kakor' },
+  ];
 
-  const acceptCheckbox = getElement('acceptCheckbox');
-  await act(async () => await user.click(acceptCheckbox));
+  for (const { optionKey, headingText } of languageElements) {
+    await act(async () => await user.click(languageSelector));
+    const languageOption = await findCookieConsentModalElement(
+      cookieConsentModal,
+      optionKey
+    );
+    await act(async () => await user.click(languageOption));
 
-  const acceptOnlyNecessaryButton = getElement('acceptOnlyNecessaryButton');
-  await act(async () => await user.click(acceptOnlyNecessaryButton));
-
-  expect(setCookie).toBeCalledWith(
-    'CONSENT={"required":true,"tracking":false,"acceptedAt":"2021-12-12T00:00:00.000Z"};expires=Mon, 12 Dec 2022 00:00:00 GMT;path=/'
-  );
+    await within(cookieConsentModal).findByRole('heading', {
+      name: headingText,
+    });
+  }
 });
 
 it('should store consent to cookie when clicing accept all button', async () => {
-  advanceTo('2021-12-12');
   const user = userEvent.setup();
-  renderApp();
 
-  const acceptCheckbox = getElement('acceptCheckbox');
-  await act(async () => await user.click(acceptCheckbox));
+  await renderApp();
 
-  const acceptAllButton = getElement('acceptAllButton');
+  const cookieConsentModal = await waitCookieConsentModalToBeVisible();
+  const acceptAllButton = await findCookieConsentModalElement(
+    cookieConsentModal,
+    'acceptAllButton'
+  );
   await act(async () => await user.click(acceptAllButton));
 
-  expect(setCookie).toBeCalledWith(
-    'CONSENT={"required":true,"tracking":true,"acceptedAt":"2021-12-12T00:00:00.000Z"};expires=Mon, 12 Dec 2022 00:00:00 GMT;path=/'
+  expect(document.cookie).toEqual(expect.stringContaining(acceptAllCookieText));
+  await waitCookieConsentModalToBeHidden();
+});
+
+it('should store consent to cookie when clicing accept only necessary button', async () => {
+  const user = userEvent.setup();
+
+  await renderApp();
+
+  const cookieConsentModal = await waitCookieConsentModalToBeVisible();
+  const acceptOnlyNecessaryButton = await findCookieConsentModalElement(
+    cookieConsentModal,
+    'acceptOnlyNecessaryButton'
   );
+
+  await act(async () => await user.click(acceptOnlyNecessaryButton));
+
+  expect(document.cookie).toEqual(
+    expect.stringContaining(acceptOnlyNecessaryCookieText)
+  );
+  await waitCookieConsentModalToBeHidden();
+});
+
+it('should not show cookie consent modal if consent is saved', async () => {
+  document.cookie = acceptAllCookieText;
+
+  await renderApp();
+
+  await waitCookieConsentModalToBeHidden();
 });

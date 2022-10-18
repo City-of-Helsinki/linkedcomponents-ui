@@ -41,10 +41,10 @@ import {
   UsersResponse,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
+import { isFeatureEnabled } from '../../../utils/featureFlags';
 import generateAtId from '../../../utils/generateAtId';
-import { apiTokenSelector } from '../../auth/selectors';
+import { getApiTokenFromStorage } from '../../auth/utils';
 import i18n from '../i18n/i18nInit';
-import { store } from '../store/store';
 import {
   addTypenameDataSource,
   addTypenameEnrolment,
@@ -76,12 +76,9 @@ const uploadImageSerializer = (
     ? formData.append('image', image)
     : formData.append('url', url || '');
 
-  for (const key in restFields) {
-    if (restFields.hasOwnProperty(key)) {
-      formData.append(
-        snakeCase(key),
-        restFields[key as keyof typeof restFields] || ''
-      );
+  for (const [key, value] of Object.entries(restFields)) {
+    if (typeof value === 'string') {
+      formData.append(snakeCase(key), value || '');
     }
   }
 
@@ -222,8 +219,8 @@ export const createCache = (): InMemoryCache =>
     },
   });
 
-const authLink = setContext((_, { headers }) => {
-  const token = apiTokenSelector(store.getState());
+const authLink = setContext(async (_, { headers }) => {
+  const token = getApiTokenFromStorage();
 
   return {
     headers: {
@@ -266,6 +263,20 @@ const linkedEventsLink = new RestLink({
         return fetch(request.replace(requestParts[1], ''), {
           ...config,
           body: JSON.stringify({ cancellation_code: requestParts[1] }),
+        });
+      } else if (config.method === 'PUT' && requestParts[0] === 'image') {
+        // TODO: Remove LOCALIZED_IMAGE feature flag when localized image alt text
+        // is deployed to production of API
+        const bodyObj = JSON.parse(config.body as string);
+
+        return fetch(request, {
+          ...config,
+          body: JSON.stringify({
+            ...bodyObj,
+            alt_text: isFeatureEnabled('LOCALIZED_IMAGE')
+              ? bodyObj.alt_text
+              : bodyObj.alt_text?.fi ?? null,
+          }),
         });
       }
     }

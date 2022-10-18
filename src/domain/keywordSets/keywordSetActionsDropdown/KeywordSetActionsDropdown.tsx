@@ -1,20 +1,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import { KeywordSetFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import { KEYWORD_SET_ACTIONS } from '../../keywordSet/constants';
 import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
 } from '../../keywordSet/hooks/useKeywordSetUpdateActions';
-import ConfirmDeleteModal from '../../keywordSet/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../keywordSet/modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   getEditButtonProps,
   getKeywordSetFields,
@@ -35,7 +34,7 @@ const KeywordSetActionsDropdown = React.forwardRef<
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const { dataSource, id } = getKeywordSetFields(keywordSet, locale);
   const { organization: userOrganization } = useUserOrganization(user);

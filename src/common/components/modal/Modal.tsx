@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
@@ -16,6 +15,7 @@ if (!isTestEnv) {
 }
 
 type Props = {
+  className?: string;
   onClose?: (event: React.MouseEvent | React.KeyboardEvent) => void;
   showLanguageSelector?: boolean;
   title: string;
@@ -32,33 +32,40 @@ const Modal: React.FC<React.PropsWithChildren<Props>> = ({
   const { t } = useTranslation();
 
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    <ReactModal
-      {...rest}
-      ariaHideApp={!isTestEnv}
-      bodyOpenClassName={styles.bodyOpen}
-      portalClassName={styles.modalPortal}
-      className={classNames(styles.modal, className, css(theme.modal))}
-      overlayClassName={styles.overlay}
-      onRequestClose={onClose}
-    >
-      <div className={styles.headingWrapper}>
-        <div className={styles.heading}>
-          <h2>{title}</h2>
-          {onClose && (
-            <CloseButton
-              className={styles.closeButton}
-              onClick={onClose}
-              label={t('common.close')}
-            />
-          )}
-        </div>
-      </div>
-      <div className={styles.contentWrapper}>
-        <div className={styles.content}>{children}</div>
-      </div>
-    </ReactModal>
+    <ClassNames>
+      {({ css, cx }) => (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        <ReactModal
+          {...rest}
+          ariaHideApp={!isTestEnv}
+          bodyOpenClassName={styles.bodyOpen}
+          portalClassName={styles.modalPortal}
+          className={cx(styles.modal, className, css(theme.modal))}
+          overlayClassName={styles.overlay}
+          // There is a bug in react-modal and body class is not removed automatically
+          // So do it manually here
+          onAfterClose={() => document.body.classList.remove(styles.bodyOpen)}
+          onRequestClose={onClose}
+        >
+          <div className={styles.headingWrapper}>
+            <div className={styles.heading}>
+              <h2>{title}</h2>
+              {onClose && (
+                <CloseButton
+                  className={styles.closeButton}
+                  onClick={onClose}
+                  label={t('common.close')}
+                />
+              )}
+            </div>
+          </div>
+          <div className={styles.contentWrapper}>
+            <div className={styles.content}>{children}</div>
+          </div>
+        </ReactModal>
+      )}
+    </ClassNames>
   );
 };
 

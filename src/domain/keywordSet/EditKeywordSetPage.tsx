@@ -3,7 +3,6 @@
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
@@ -15,9 +14,9 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
-import { authenticatedSelector } from '../auth/selectors';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
+import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
 import useUserOrganization from '../user/hooks/useUserOrganization';
@@ -26,7 +25,7 @@ import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
 } from './hooks/useKeywordSetUpdateActions';
 import KeywordSetForm from './keywordSetForm/KeywordSetForm';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   getEditButtonProps,
   getKeywordSetFields,
@@ -41,7 +40,7 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { dataSource } = getKeywordSetFields(keywordSet, locale);
   const { user } = useUser();
   const { organization: userOrganization } = useUserOrganization(user);

@@ -9,9 +9,9 @@ import { ROUTES } from '../../constants';
 import { useRegistrationQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import NotFound from '../notFound/NotFound';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import {

@@ -3,8 +3,8 @@ import React from 'react';
 
 import { EventFieldsFragment } from '../../../generated/graphql';
 import styles from './eventHierarchy.module.scss';
-import EventHierarchyRow from './EventHierarchyRow';
-import SubEvents from './SubEvents';
+import EventHierarchyRow from './eventHierarchyRow/EventHierarchyRow';
+import SubEvents from './subEvents/SubEvents';
 
 interface Props {
   eventNameRenderer?: (event: EventFieldsFragment) => React.ReactElement;

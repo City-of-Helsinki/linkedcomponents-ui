@@ -2,18 +2,18 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import NoDataRow from '../../../common/components/table/NoDataRow';
+import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
 import Table from '../../../common/components/table/Table';
 import {
   RegistrationFieldsFragment,
   RegistrationsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useSetFocused from '../../../hooks/useSetFocused';
 import { getRegistrationFields } from '../../registration/utils';
-import useRegistrationsQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
 import styles from './registrationsTable.module.scss';
-import RegistrationsTableRow from './RegistrationsTableRow';
+import RegistrationsTableRow from './registrationsTableRow/RegistrationsTableRow';
 
 export interface RegistrationsTableProps {
   caption: string;
@@ -29,7 +29,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locale = useLocale();
-  const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);

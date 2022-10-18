@@ -1,6 +1,10 @@
+/* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 
-import { RegistrationQueryVariables } from '../../../generated/graphql';
+import {
+  RegistrationFieldsFragment,
+  RegistrationQueryVariables,
+} from '../../../generated/graphql';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { registrationsResponse } from '../__mocks__/registration';
@@ -80,7 +84,8 @@ describe('getRegistrationFields function', () => {
       waitingListCapacity,
     } = getRegistrationFields(
       fakeRegistration({
-        atId: null,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        atId: null as any,
         createdBy: null,
         currentAttendeeCount: null,
         currentWaitingListCount: null,
@@ -113,8 +118,10 @@ describe('getRegistrationInitialValues function', () => {
       audienceMaxAge,
       audienceMinAge,
       confirmationMessage,
-      enrolmentEndTime,
-      enrolmentStartTime,
+      enrolmentEndTimeDate,
+      enrolmentEndTimeTime,
+      enrolmentStartTimeDate,
+      enrolmentStartTimeTime,
       instructions,
       maximumAttendeeCapacity,
       minimumAttendeeCapacity,
@@ -136,8 +143,10 @@ describe('getRegistrationInitialValues function', () => {
     expect(audienceMaxAge).toBe('');
     expect(audienceMinAge).toBe('');
     expect(confirmationMessage).toBe('');
-    expect(enrolmentEndTime).toBe(null);
-    expect(enrolmentStartTime).toBe(null);
+    expect(enrolmentEndTimeDate).toBe(null);
+    expect(enrolmentEndTimeTime).toBe('');
+    expect(enrolmentStartTimeDate).toBe(null);
+    expect(enrolmentStartTimeTime).toBe('');
     expect(instructions).toBe('');
     expect(maximumAttendeeCapacity).toBe('');
     expect(minimumAttendeeCapacity).toBe('');
@@ -179,8 +188,10 @@ describe('getRegistrationPayload function', () => {
       audienceMaxAge,
       audienceMinAge,
       confirmationMessage,
-      enrolmentEndTime: new Date(enrolmentEndTime),
-      enrolmentStartTime: new Date(enrolmentStartTime),
+      enrolmentEndTimeDate: new Date(enrolmentEndTime),
+      enrolmentEndTimeTime: '15:15',
+      enrolmentStartTimeDate: new Date(enrolmentStartTime),
+      enrolmentStartTimeTime: '09:15',
       event,
       instructions,
       maximumAttendeeCapacity,
@@ -216,13 +227,19 @@ describe('registrationPathBuilder function', () => {
 describe('getRegistrationWarning', () => {
   it('should return empty string if it is possible to enrol to the event', () => {
     expect(
-      getRegistrationWarning(registrationsResponse.data[0], i18n.t.bind(i18n))
+      getRegistrationWarning(
+        registrationsResponse.data[0] as RegistrationFieldsFragment,
+        i18n.t.bind(i18n)
+      )
     ).toBe('');
   });
 
   it('should return correct warning if there is space in waiting list', () => {
     expect(
-      getRegistrationWarning(registrationsResponse.data[1], i18n.t.bind(i18n))
+      getRegistrationWarning(
+        registrationsResponse.data[1] as RegistrationFieldsFragment,
+        i18n.t.bind(i18n)
+      )
     ).toBe(
       'Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain 10 kpl.'
     );
@@ -230,14 +247,20 @@ describe('getRegistrationWarning', () => {
 
   it('should return correct warning if all spaces are gone and there are no waiting list', () => {
     expect(
-      getRegistrationWarning(registrationsResponse.data[2], i18n.t.bind(i18n))
+      getRegistrationWarning(
+        registrationsResponse.data[2] as RegistrationFieldsFragment,
+        i18n.t.bind(i18n)
+      )
     ).toBe(
       'Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen.'
     );
   });
   it('should return correct warning if it is not possible to enrol to the event', () => {
     expect(
-      getRegistrationWarning(registrationsResponse.data[3], i18n.t.bind(i18n))
+      getRegistrationWarning(
+        registrationsResponse.data[3] as RegistrationFieldsFragment,
+        i18n.t.bind(i18n)
+      )
     ).toBe(
       'Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen.'
     );
@@ -245,7 +268,10 @@ describe('getRegistrationWarning', () => {
 
   it('should return empty string if maximum attendee capacity is not set', () => {
     expect(
-      getRegistrationWarning(registrationsResponse.data[4], i18n.t.bind(i18n))
+      getRegistrationWarning(
+        registrationsResponse.data[4] as RegistrationFieldsFragment,
+        i18n.t.bind(i18n)
+      )
     ).toBe('');
   });
 });

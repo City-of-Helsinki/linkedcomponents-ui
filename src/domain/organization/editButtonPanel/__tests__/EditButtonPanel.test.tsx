@@ -1,10 +1,10 @@
+import React from 'react';
+
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -19,10 +19,12 @@ import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
 
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const mocks = [mockedOrganizationResponse, mockedUserResponse];
 
-const state = fakeAuthenticatedStoreState();
-const defaultStore = getMockReduxStore(state);
+const route = `/fi/${ROUTES.EDIT_ORGANIZATION.replace(':id', organizationId)}`;
+const routes = [route];
 
 const defaultProps: EditButtonPanelProps = {
   id: organizationId,
@@ -30,16 +32,11 @@ const defaultProps: EditButtonPanelProps = {
   saving: null,
 };
 
-const route = `/fi/${ROUTES.EDIT_ORGANIZATION.replace(':id', organizationId)}`;
-
-const renderComponent = (
-  props?: Partial<EditButtonPanelProps>,
-  { store = defaultStore }: CustomRenderOptions = {}
-) =>
+const renderComponent = (props?: Partial<EditButtonPanelProps>) =>
   render(<EditButtonPanel {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
-    routes: [route],
-    store,
+    routes,
   });
 
 const findElement = (key: 'saveButton') => {
@@ -65,7 +62,7 @@ test('should route to organizations page when clicking back button', async () =>
   await act(async () => await user.click(getElement('backButton')));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/organizations`)
+    expect(history.location.pathname).toBe(`/fi/administration/organizations`)
   );
 });
 

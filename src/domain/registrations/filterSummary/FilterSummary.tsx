@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
-import EventTypeFilterTag from '../../../common/components/filterTag/EventTypeFilterTag';
+import EventTypeFilterTag from '../../../common/components/filterTag/evenTypeFilterTag/EventTypeFilterTag';
 import FilterTag from '../../../common/components/filterTag/FilterTag';
 import { FilterType } from '../../../types';
 import {

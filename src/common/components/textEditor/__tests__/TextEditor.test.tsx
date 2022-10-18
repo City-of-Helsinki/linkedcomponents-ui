@@ -1,16 +1,7 @@
 import React from 'react';
 
-import {
-  act,
-  configure,
-  pasteToTextEditor,
-  render,
-  screen,
-  userEvent,
-} from '../../../../utils/testUtils';
+import { render, screen, userEvent } from '../../../../utils/testUtils';
 import TextEditor, { TextEditorProps } from '../TextEditor';
-
-configure({ defaultHidden: true });
 
 const label = 'Text editor label';
 
@@ -26,16 +17,19 @@ const renderComponent = (props?: Partial<TextEditorProps>) =>
   render(<TextEditor {...defaultProps} {...props} />);
 
 test('should call onChange', async () => {
-  const onChange = jest.fn();
   const user = userEvent.setup();
+  const onChange = jest.fn();
   renderComponent({ onChange });
 
-  const editor = screen.getByRole('textbox', { name: label });
+  const editor = await screen.findByRole('textbox', {
+    name: /editorin muokkausalue: main/i,
+  });
 
-  pasteToTextEditor(editor, 'test');
-  expect(onChange).toBeCalledWith('<p>test</p>\n');
+  await user.type(editor, 'test');
+  expect(onChange).lastCalledWith(expect.stringContaining('<p>test</p>'));
 
-  const undoButton = screen.getByTitle(/peruuta/i);
-  await act(async () => await user.click(undoButton));
-  expect(onChange).toBeCalledWith('');
+  const undoButton = screen.getByRole('button', { name: /peru/i });
+
+  await userEvent.click(undoButton);
+  expect(onChange).lastCalledWith('');
 });

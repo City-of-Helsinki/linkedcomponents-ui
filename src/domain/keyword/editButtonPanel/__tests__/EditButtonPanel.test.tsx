@@ -1,10 +1,10 @@
+import React from 'react';
+
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -17,28 +17,25 @@ import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
 
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const mocks = [mockedUserResponse];
 
-const state = fakeAuthenticatedStoreState();
-const defaultStore = getMockReduxStore(state);
+const route = `/fi/${ROUTES.EDIT_KEYWORD.replace(':id', keyword.id as string)}`;
+const routes = [route];
 
 const defaultProps: EditButtonPanelProps = {
-  id: keyword.id,
+  id: keyword.id as string,
   onSave: jest.fn(),
   publisher: TEST_PUBLISHER_ID,
   saving: null,
 };
 
-const route = `/fi/${ROUTES.EDIT_KEYWORD.replace(':id', keyword.id)}`;
-
-const renderComponent = (
-  props?: Partial<EditButtonPanelProps>,
-  { store = defaultStore }: CustomRenderOptions = {}
-) =>
+const renderComponent = (props?: Partial<EditButtonPanelProps>) =>
   render(<EditButtonPanel {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
-    routes: [route],
-    store,
+    routes,
   });
 
 const getElement = (key: 'backButton' | 'saveButton') => {
@@ -57,7 +54,7 @@ test('should route to keywords page when clicking back button', async () => {
   await act(async () => await user.click(getElement('backButton')));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keywords`)
+    expect(history.location.pathname).toBe(`/fi/administration/keywords`)
   );
 });
 

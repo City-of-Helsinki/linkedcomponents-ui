@@ -2,14 +2,10 @@
   display: flex;
   height: 100%;
   flex-direction: column;
+}
 
-  .filterSummary {
-    --filter-summary-color: var(--color-black);
-
-    div {
-      --tag-background: var(--color-white);
-    }
-  }
+.breadcrumb {
+    margin-bottom: var(--spacing-m);  
 }
 
 .tabPanel {

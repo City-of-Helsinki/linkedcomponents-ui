@@ -3,16 +3,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
-import NoDataRow from '../../../../common/components/table/NoDataRow';
-import SortableColumn from '../../../../common/components/table/SortableColumn';
+import NoDataRow from '../../../../common/components/table/noDataRow/NoDataRow';
+import SortableColumn from '../../../../common/components/table/sortableColumn/SortableColumn';
 import Table from '../../../../common/components/table/Table';
-import TableWrapper from '../../../../common/components/table/TableWrapper';
+import TableWrapper from '../../../../common/components/table/tableWrapper/TableWrapper';
 import useSetFocused from '../../../../hooks/useSetFocused';
 import useOrganizationSortOptions from '../../../organizations/hooks/useOrganizationSortOptions';
 import { ORGANIZATION_FIELDS } from '../../constants';
 import useAllOrganizations from '../../hooks/useAllOrganizations';
 import styles from './subOrganizationTable.module.scss';
-import SubOrganizationTableRow from './SubOrganizationTableRow';
+import SubOrganizationTableRow from './subOrganizationTableRow/SubOrganizationTableRow';
 
 export type SubOrganizationTableProps = {
   organizationIds: string[];

@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable import/export */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import {
   act,
   createEvent,
@@ -11,30 +12,28 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
-import React from 'react';
-import { Provider } from 'react-redux';
+import React, { ReducerAction } from 'react';
 import {
   Route,
   Routes,
   unstable_HistoryRouter as Router,
 } from 'react-router-dom';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import wait from 'waait';
 
 import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
-import { defaultStoreState } from '../constants';
 import { createCache } from '../domain/app/apollo/apolloClient';
-import { store as reduxStore } from '../domain/app/store/store';
+import { PageSettingsProvider } from '../domain/app/pageSettingsContext/PageSettingsContext';
 import { ThemeProvider } from '../domain/app/theme/Theme';
-import { StoreState } from '../types';
+import { AuthContext } from '../domain/auth/AuthContext';
+import { AuthContextProps } from '../domain/auth/types';
+import { authContextDefaultValue } from '../utils/mockAuthContextValue';
 
-export type CustomRenderOptions = {
+type CustomRenderOptions = {
+  authContextValue?: AuthContextProps;
   history?: History;
   mocks?: MockedResponse[];
   path?: string;
   routes?: string[];
-  store?: Store<StoreState, AnyAction>;
 };
 
 type CustomRender = {
@@ -67,23 +66,24 @@ const tabKeyPressHelper = (el?: HTMLElement): boolean =>
 const customRender: CustomRender = (
   ui,
   {
+    authContextValue = authContextDefaultValue,
     mocks,
     routes = ['/'],
     history = createMemoryHistory({ initialEntries: routes }),
-    store = reduxStore,
   } = {}
 ) => {
   const Wrapper: React.FC<React.PropsWithChildren<unknown>> = ({
     children,
   }) => (
-    // @ts-ignore
-    <Provider store={store}>
-      <ThemeProvider>
-        <MockedProvider cache={createCache()} mocks={mocks}>
-          <Router history={history}>{children}</Router>
-        </MockedProvider>
-      </ThemeProvider>
-    </Provider>
+    <AuthContext.Provider value={authContextValue}>
+      <PageSettingsProvider>
+        <ThemeProvider>
+          <MockedProvider cache={createCache()} mocks={mocks}>
+            <Router history={history}>{children}</Router>
+          </MockedProvider>
+        </ThemeProvider>
+      </PageSettingsProvider>
+    </AuthContext.Provider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
@@ -116,38 +116,33 @@ const mockFile = ({
 const renderWithRoute: CustomRender = (
   ui,
   {
+    authContextValue = authContextDefaultValue,
     mocks = [],
     path = '/',
     routes = ['/'],
     history = createMemoryHistory({ initialEntries: routes }),
-    store = reduxStore,
   } = {}
 ) => {
   const Wrapper: React.FC<React.PropsWithChildren<unknown>> = ({
     children,
   }) => (
-    // @ts-ignore
-    <Provider store={store}>
-      <ThemeProvider>
-        <MockedProvider cache={createCache()} mocks={mocks}>
-          <Router history={history}>
-            <Routes>
-              <Route path={path} element={children} />
-            </Routes>
-          </Router>
-        </MockedProvider>
-      </ThemeProvider>
-    </Provider>
+    <AuthContext.Provider value={authContextValue}>
+      <PageSettingsProvider>
+        <ThemeProvider>
+          <MockedProvider cache={createCache()} mocks={mocks}>
+            <Router history={history}>
+              <Routes>
+                <Route path={path} element={children} />
+              </Routes>
+            </Router>
+          </MockedProvider>
+        </ThemeProvider>
+      </PageSettingsProvider>
+    </AuthContext.Provider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper });
   return { ...renderResult, history };
-};
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const getMockReduxStore = (initialState: StoreState = defaultStoreState) => {
-  const middlewares = [thunk];
-  return configureMockStore<StoreState>(middlewares)(initialState);
 };
 
 type PasteEvent = {
@@ -176,13 +171,41 @@ const pasteToTextEditor = (
   fireEvent(editor, pasteEvent);
 };
 
-const loadingSpinnerIsNotInDocument = async (timeout = 1000): Promise<void> =>
+const loadingSpinnerIsNotInDocument = async (timeout = 5000): Promise<void> =>
   waitFor(
     () => {
       expect(screen.queryAllByTestId(testId)).toHaveLength(0);
     },
     { timeout }
   );
+
+const waitReducerToBeCalled = async (
+  dispatch: jest.SpyInstance,
+  action: ReducerAction<any>
+) => await waitFor(() => expect(dispatch).toBeCalledWith(action));
+
+const waitPageMetaDataToBeSet = async ({
+  pageDescription,
+  pageKeywords,
+  pageTitle,
+}: {
+  pageDescription: string;
+  pageKeywords: string;
+  pageTitle: string;
+}) => {
+  await waitFor(() => expect(document.title).toEqual(pageTitle));
+
+  const head = document.querySelector('head');
+  const description = head?.querySelector('[name="description"]');
+  const keywords = head?.querySelector('[name="keywords"]');
+  const ogTitle = head?.querySelector('[property="og:title"]');
+  const ogDescription = head?.querySelector('[property="og:description"]');
+
+  expect(ogTitle).toHaveAttribute('content', pageTitle);
+  expect(description).toHaveAttribute('content', pageDescription);
+  expect(keywords).toHaveAttribute('content', pageKeywords);
+  expect(ogDescription).toHaveAttribute('content', pageDescription);
+};
 
 export {
   actWait,
@@ -191,9 +214,10 @@ export {
   arrowRightKeyPressHelper,
   arrowUpKeyPressHelper,
   createPasteEvent,
+  CustomRenderOptions,
+  CustomRenderResult,
   enterKeyPressHelper,
   escKeyPressHelper,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   mockFile,
   mockString,
@@ -201,6 +225,8 @@ export {
   customRender as render,
   renderWithRoute,
   tabKeyPressHelper,
+  waitPageMetaDataToBeSet,
+  waitReducerToBeCalled,
 };
 
 // re-export everything

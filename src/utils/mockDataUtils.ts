@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
@@ -94,7 +94,7 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
       name: faker.name.firstName(),
       nativeLanguage: 'fi',
       notifications: NOTIFICATION_TYPE.SMS_EMAIL,
-      phoneNumber: faker.phone.phoneNumberFormat(),
+      phoneNumber: faker.phone.number(),
       serviceLanguage: 'fi',
       streetAddress: faker.address.streetAddress(),
       zipcode: faker.address.zipCode('#####'),
@@ -146,6 +146,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       provider: fakeLocalisedObject(),
       publicationStatus: PublicationStatus.Public,
       publisher: 'provider:123',
+      registration: { atId: null },
       shortDescription: fakeLocalisedObject(),
       startTime: '2020-07-13T05:51:05.761000Z',
       subEvents: [],
@@ -200,7 +201,7 @@ export const fakeImage = (overrides?: Partial<Image>): Image => {
     {
       id,
       atId: generateAtId(id, 'image'),
-      altText: faker.image.cats(),
+      altText: fakeLocalisedObject(faker.image.cats()),
       lastModifiedTime: null,
       license: 'cc_by',
       name: faker.random.words(),

@@ -7,8 +7,8 @@ import Button from '../../common/components/button/Button';
 import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
-import MainContent from '../app/layout/MainContent';
-import { signIn } from '../auth/authenticate';
+import MainContent from '../app/layout/mainContent/MainContent';
+import { useAuth } from '../auth/hooks/useAuth';
 import styles from './notSigned.module.scss';
 
 const NotSignedPage: React.FC = () => {
@@ -16,6 +16,7 @@ const NotSignedPage: React.FC = () => {
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
+  const { signIn } = useAuth();
 
   const goToHome = () => {
     navigate(`/${locale}${ROUTES.HOME}`);

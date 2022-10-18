@@ -9,6 +9,7 @@ import {
 import {
   createStringMaxErrorMessage,
   isValidPhoneNumber,
+  isValidUrl,
   isValidZip,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
@@ -46,7 +47,9 @@ export const placeSchema = Yup.object().shape({
     })
   ),
   [PLACE_FIELDS.INFO_URL]: createMultiLanguageValidation(
-    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+    Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+      isValidUrl(value)
+    )
   ),
   [PLACE_FIELDS.EMAIL]: Yup.string()
     .email(VALIDATION_MESSAGE_KEYS.EMAIL)

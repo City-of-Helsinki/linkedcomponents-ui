@@ -1,21 +1,19 @@
 import { MockedResponse } from '@apollo/client/testing';
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
-import { StoreState } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { AuthContextProps } from '../../../auth/types';
 import {
   event,
   eventId,
@@ -37,6 +35,8 @@ const defaultProps: EventActionsDropdownProps = {
 
 const defaultMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const cancelledEvent = {
   ...event,
   eventStatus: EventStatus.EventCancelled,
@@ -45,22 +45,19 @@ const cancelledEvent = {
 const draftEvent = { ...event, publicationStatus: PublicationStatus.Draft };
 const publicEvent = { ...event, publicationStatus: PublicationStatus.Public };
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
-
 const renderComponent = ({
+  authContextValue,
   mocks = defaultMocks,
   props,
-  store,
 }: {
+  authContextValue?: AuthContextProps;
   mocks?: MockedResponse[];
   props?: Partial<EventActionsDropdownProps>;
-  store?: Store<StoreState, AnyAction>;
 }) =>
   render(<EventActionsDropdown {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
     routes: [`/fi${ROUTES.SEARCH}`],
-    store,
   });
 
 const getElement = (
@@ -95,7 +92,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent({ store });
+  renderComponent({ authContextValue });
 
   const toggleButton = await openMenu();
   await act(async () => await user.click(toggleButton));
@@ -105,7 +102,7 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render correct buttons for draft event', async () => {
-  renderComponent({ props: { event: draftEvent }, store });
+  renderComponent({ props: { event: draftEvent }, authContextValue });
 
   await openMenu();
 
@@ -139,8 +136,8 @@ test('only edit button should be enabled when user is not logged in (draft)', as
 
 test('should render correct buttons for public event', async () => {
   renderComponent({
+    authContextValue,
     props: { event: publicEvent },
-    store,
   });
 
   await openMenu();
@@ -156,7 +153,7 @@ test('should render correct buttons for public event', async () => {
 });
 
 test('only copy, edit and delete button should be enabled when event is cancelled', async () => {
-  renderComponent({ props: { event: cancelledEvent }, store });
+  renderComponent({ authContextValue, props: { event: cancelledEvent } });
 
   await openMenu();
 
@@ -190,7 +187,10 @@ test('only edit button should be enabled when user is not logged in (public)', a
 
 test('should route to create event page when clicking copy button', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent({ props: { event: publicEvent }, store });
+  const { history } = renderComponent({
+    authContextValue,
+    props: { event: publicEvent },
+  });
 
   await openMenu();
 
@@ -222,7 +222,7 @@ test('should cancel event', async () => {
   const mocks: MockedResponse[] = [...defaultMocks, mockedCancelEventResponse];
   const user = userEvent.setup();
 
-  renderComponent({ props: { event }, mocks, store });
+  renderComponent({ authContextValue, props: { event }, mocks });
 
   await openMenu();
 
@@ -244,7 +244,7 @@ test('should delete event', async () => {
   const mocks: MockedResponse[] = [...defaultMocks, mockedDeleteEventResponse];
   const user = userEvent.setup();
 
-  renderComponent({ props: { event }, mocks, store });
+  renderComponent({ authContextValue, props: { event }, mocks });
 
   await openMenu();
 
@@ -269,7 +269,7 @@ test('should postpone event', async () => {
   ];
   const user = userEvent.setup();
 
-  renderComponent({ props: { event }, mocks, store });
+  renderComponent({ authContextValue, props: { event }, mocks });
 
   await openMenu();
 

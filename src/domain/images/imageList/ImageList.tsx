@@ -1,5 +1,4 @@
 import omit from 'lodash/omit';
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -8,8 +7,9 @@ import { scroller } from 'react-scroll';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
-import TableWrapper from '../../../common/components/table/TableWrapper';
+import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { ImagesQuery, useImagesQuery } from '../../../generated/graphql';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import { getImageItemId } from '../../image/utils';
@@ -96,10 +96,11 @@ const ImageList: React.FC<ImageListProps> = ({
 const ImageListContainer: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [imageListId] = React.useState(() => uniqueId('image-list-'));
   const { t } = useTranslation();
   const { page, sort, text } = getImageSearchInitialValues(location.search);
   const [search, setSearch] = React.useState(text);
+
+  const imageListId = useIdWithPrefix({ prefix: 'image-list-' });
 
   const handleSelectedPageChange = (page: number) => {
     navigate({

@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { TextArea as BaseTextArea, TextAreaProps } from 'hds-react';
 import React from 'react';
 
@@ -9,10 +8,14 @@ const TextArea: React.FC<TextAreaProps> = ({ className, ...rest }) => {
   const { theme } = useTheme();
 
   return (
-    <BaseTextArea
-      {...rest}
-      className={classNames(className, css(theme.textInput))}
-    />
+    <ClassNames>
+      {({ css, cx }) => (
+        <BaseTextArea
+          {...rest}
+          className={cx(className, css(theme.textInput))}
+        />
+      )}
+    </ClassNames>
   );
 };
 

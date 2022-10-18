@@ -4,12 +4,11 @@ import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
@@ -31,8 +30,8 @@ import EnrolmentsPage from '../EnrolmentsPage';
 
 configure({ defaultHidden: true });
 
-const storeState = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const route = ROUTES.REGISTRATION_ENROLMENTS.replace(
   ':registrationId',
   registrationId
@@ -72,10 +71,10 @@ const renderComponent = (
   renderOptions?: CustomRenderOptions
 ) =>
   renderWithRoute(<EnrolmentsPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.REGISTRATION_ENROLMENTS,
-    store,
     ...renderOptions,
   });
 
@@ -102,12 +101,13 @@ it('scrolls to enrolment table row and calls history.replace correctly (deletes 
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 
   const enrolmentRowButton = screen.getAllByRole('button', {
-    name: attendees[0].name,
+    name: attendees[0].name as string,
   })[0];
   await waitFor(() => expect(enrolmentRowButton).toHaveFocus());
 });

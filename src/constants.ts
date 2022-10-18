@@ -1,9 +1,6 @@
 import reduce from 'lodash/reduce';
 
-import { defaultReducerState as defaultAuthReducerState } from './domain/auth/constants';
-import { defaultReducerState as defaultEventsReducerState } from './domain/events/constants';
-import { defaultReducerState as defaultOrganizationsReducerState } from './domain/organizations/constants';
-import { MultiLanguageObject, StoreState } from './types';
+import { MultiLanguageObject } from './types';
 
 export const BREAKPOINTS = {
   XS: 576,
@@ -22,22 +19,22 @@ export enum DEPRECATED_ROUTES {
 }
 
 export enum ROUTES {
-  ADMIN = '/admin',
+  ADMIN = '/administration',
   CALLBACK = '/callback',
   CREATE_ENROLMENT = '/registrations/:registrationId/enrolments/create',
   CREATE_EVENT = '/events/create',
-  CREATE_IMAGE = '/admin/images/create',
-  CREATE_KEYWORD = '/admin/keywords/create',
-  CREATE_KEYWORD_SET = '/admin/keyword-sets/create',
-  CREATE_ORGANIZATION = '/admin/organizations/create',
-  CREATE_PLACE = '/admin/places/create',
+  CREATE_IMAGE = '/administration/images/create',
+  CREATE_KEYWORD = '/administration/keywords/create',
+  CREATE_KEYWORD_SET = '/administration/keyword-sets/create',
+  CREATE_ORGANIZATION = '/administration/organizations/create',
+  CREATE_PLACE = '/administration/places/create',
   CREATE_REGISTRATION = '/registrations/create',
   EDIT_EVENT = '/events/edit/:id',
-  EDIT_IMAGE = '/admin/images/edit/:id',
-  EDIT_KEYWORD = '/admin/keywords/edit/:id',
-  EDIT_KEYWORD_SET = '/admin/keyword-sets/edit/:id',
-  EDIT_ORGANIZATION = '/admin/organizations/edit/:id',
-  EDIT_PLACE = '/admin/places/edit/:id',
+  EDIT_IMAGE = '/administration/images/edit/:id',
+  EDIT_KEYWORD = '/administration/keywords/edit/:id',
+  EDIT_KEYWORD_SET = '/administration/keyword-sets/edit/:id',
+  EDIT_ORGANIZATION = '/administration/organizations/edit/:id',
+  EDIT_PLACE = '/administration/places/edit/:id',
   EDIT_REGISTRATION = '/registrations/edit/:id',
   EDIT_REGISTRATION_ENROLMENT = '/registrations/:registrationId/enrolments/edit/:enrolmentId',
   EVENT_SAVED = '/events/completed/:id',
@@ -45,17 +42,17 @@ export enum ROUTES {
   FEATURES = '/help/features',
   HELP = '/help',
   HOME = '/',
-  IMAGES = '/admin/images',
+  IMAGES = '/administration/images',
   INSTRUCTIONS = '/help/instructions',
   INSTRUCTIONS_CONTROL_PANEL = '/help/instructions/control-panel',
   INSTRUCTIONS_FAQ = '/help/instructions/faq',
   INSTRUCTIONS_GENERAL = '/help/instructions/general',
   INSTRUCTIONS_PLATFORM = '/help/instructions/platform',
-  KEYWORDS = '/admin/keywords',
-  KEYWORD_SETS = '/admin/keyword-sets',
+  KEYWORDS = '/administration/keywords',
+  KEYWORD_SETS = '/administration/keyword-sets',
   LOGOUT = '/logout',
-  ORGANIZATIONS = '/admin/organizations',
-  PLACES = '/admin/places',
+  ORGANIZATIONS = '/administration/organizations',
+  PLACES = '/administration/places',
   REGISTRATIONS = '/registrations',
   REGISTRATION_ENROLMENTS = '/registrations/:registrationId/enrolments',
   REGISTRATION_SAVED = '/registrations/completed/:id',
@@ -118,8 +115,12 @@ export enum WEEK_DAY {
   SUN = 'sun',
 }
 
-export const DATE_FORMAT = 'dd.MM.yyyy';
-export const DATETIME_FORMAT = `${DATE_FORMAT} HH.mm`;
+export const DATE_FORMAT = 'd.M.yyyy';
+export const DATE_FORMAT_API = 'yyyy-MM-dd';
+export const TIME_FORMAT = 'HH.mm';
+export const TIME_FORMAT_DATA = 'HH:mm';
+
+export const DATETIME_FORMAT = `${DATE_FORMAT} ${TIME_FORMAT}`;
 
 export enum EXTLINK {
   EXTLINK_FACEBOOK = 'extlink_facebook',
@@ -134,20 +135,19 @@ export enum EXTLINK {
 }
 
 export enum FORM_NAMES {
+  CREATE_ENROLMENT_FORM = 'create-enrolment-form',
   EVENT_FORM = 'event-form',
   REGISTRATION_FORM = 'registration-form',
 }
 
-export const defaultStoreState: StoreState = {
-  authentication: defaultAuthReducerState,
-  events: defaultEventsReducerState,
-  organizations: defaultOrganizationsReducerState,
-};
-
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/gif', 'image/png'];
 export const COMPRESSABLE_IMAGE_TYPES = ['image/jpeg', 'image/png'];
 export const MAX_IMAGE_SIZE_MB = 2;
-export const MAX_IMAGE_WIDTH = 1200;
+export const MIN_IMAGE_HEIGHT = 200;
+export const MIN_IMAGE_WIDTH = 300;
+export const MIN_UPSCALED_IMAGE_HEIGHT = 400;
+export const MIN_UPSCALED_IMAGE_WIDTH = 600;
+export const MAX_IMAGE_WIDTH = 2400;
 
 export const DEFAULT_PAGE_SIZE = 20;
 export const MAX_PAGE_SIZE = 100;
@@ -202,3 +202,9 @@ export const VALIDATION_ERROR_SCROLLER_OPTIONS = {
   offset: -200,
   smooth: true,
 };
+
+export enum RESERVATION_NAMES {
+  ENROLMENT_RESERVATION = 'enrolment-reservation',
+}
+
+export const COMBOBOX_DEBOUNCE_TIME_MS = 300;

@@ -34,6 +34,6 @@ test('should route to features help page', async () => {
   await act(async () => await user.click(keywordsLink));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/admin/keywords')
+    expect(history.location.pathname).toBe('/fi/administration/keywords')
   );
 });

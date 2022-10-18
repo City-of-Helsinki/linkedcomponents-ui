@@ -1,18 +1,15 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { IconInfoCircle, IconSignout, Navigation } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
 import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { isFeatureEnabled } from '../../../utils/featureFlags';
-import { signIn, signOut } from '../../auth/authenticate';
-import { authenticatedSelector } from '../../auth/selectors';
-import { getEventSearchQuery } from '../../eventSearch/utils';
+import { useAuth } from '../../auth/hooks/useAuth';
+import { getEventSearchQuery } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
@@ -44,9 +41,9 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { changeLanguage, languageOptions } = useSelectLanguage();
+  const { isAuthenticated: authenticated, signIn, signOut } = useAuth();
 
   const { t } = useTranslation();
-  const authenticated = useSelector(authenticatedSelector);
   const user = useUser();
   const [menuOpen, setMenuOpen] = React.useState(false);
 
@@ -155,78 +152,81 @@ const Header: React.FC = () => {
   });
 
   return (
-    <Navigation
-      id={PAGE_HEADER_ID}
-      menuOpen={menuOpen}
-      onMenuToggle={toggleMenu}
-      menuToggleAriaLabel={t('navigation.menuToggleAriaLabel')}
-      skipTo={`#${MAIN_CONTENT_ID}`}
-      skipToContentLabel={t('navigation.skipToContentLabel')}
-      className={classNames(css(theme.navigation), styles.navigation, {
-        [styles.hideNavRow]: noNavRow,
-      })}
-      onTitleClick={goToHomePage}
-      title={t('appName')}
-      titleUrl={`/${locale}${ROUTES.HOME}`}
-      logoLanguage={locale === 'sv' ? /* istanbul ignore next */ 'sv' : 'fi'}
-    >
-      <Navigation.Row>
-        {navigationItems.map((item, index) => (
-          <Navigation.Item
-            key={index}
-            active={isTabActive(item.url)}
-            className={classNames(styles.navigationItem, item.className)}
-            icon={item.icon}
-            href={item.url}
-            label={item.label}
-            onClick={goToPage(item.url)}
-          />
-        ))}
-      </Navigation.Row>
-      <Navigation.Actions>
-        <Navigation.Search
-          onSearch={handleSearch}
-          searchLabel={t('navigation.searchEvents')}
-        />
-        {/* USER */}
-        <Navigation.User
-          authenticated={Boolean(authenticated && user.user)}
-          className={classNames(
-            styles.userDropdown,
-            css(theme.navigationDropdown)
-          )}
-          label={t('common.signIn')}
-          onSignIn={handleSignIn}
-          userName={user?.user?.displayName || user?.user?.email}
+    <ClassNames>
+      {({ css, cx }) => (
+        <Navigation
+          id={PAGE_HEADER_ID}
+          menuOpen={menuOpen}
+          onMenuToggle={toggleMenu}
+          menuToggleAriaLabel={t('navigation.menuToggleAriaLabel')}
+          skipTo={`#${MAIN_CONTENT_ID}`}
+          skipToContentLabel={t('navigation.skipToContentLabel')}
+          className={cx(styles.navigation, css(theme.navigation), {
+            [styles.hideNavRow]: noNavRow,
+          })}
+          onTitleClick={goToHomePage}
+          title={t('appName')}
+          titleUrl={`/${locale}${ROUTES.HOME}`}
+          logoLanguage={
+            locale === 'sv' ? /* istanbul ignore next */ 'sv' : 'fi'
+          }
         >
-          <Navigation.Item
-            label={t('common.signOut')}
-            href="#"
-            icon={<IconSignout aria-hidden />}
-            variant="supplementary"
-            onClick={handleSignOut}
-          />
-        </Navigation.User>
-        <Navigation.LanguageSelector
-          buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
-          className={classNames(
-            styles.languageSelector,
-            css(theme.navigationDropdown)
-          )}
-          label={t(`navigation.languages.${locale}`)}
-        >
-          {languageOptions.map((option) => (
-            <Navigation.Item
-              key={option.value}
-              href="#"
-              lang={option.value}
-              label={option.label}
-              onClick={changeLanguage(option)}
+          <Navigation.Row>
+            {navigationItems.map((item, index) => (
+              <Navigation.Item
+                key={index}
+                active={isTabActive(item.url)}
+                className={cx(styles.navigationItem, item.className)}
+                icon={item.icon}
+                href={item.url}
+                label={item.label}
+                onClick={goToPage(item.url)}
+              />
+            ))}
+          </Navigation.Row>
+          <Navigation.Actions>
+            <Navigation.Search
+              onSearch={handleSearch}
+              searchLabel={t('navigation.searchEvents')}
             />
-          ))}
-        </Navigation.LanguageSelector>
-      </Navigation.Actions>
-    </Navigation>
+            {/* USER */}
+            <Navigation.User
+              authenticated={Boolean(authenticated && user.user)}
+              className={cx(styles.userDropdown, css(theme.navigationDropdown))}
+              label={t('common.signIn')}
+              onSignIn={handleSignIn}
+              userName={user?.user?.displayName || user?.user?.email}
+            >
+              <Navigation.Item
+                label={t('common.signOut')}
+                href="#"
+                icon={<IconSignout aria-hidden />}
+                variant="supplementary"
+                onClick={handleSignOut}
+              />
+            </Navigation.User>
+            <Navigation.LanguageSelector
+              buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
+              className={cx(
+                styles.languageSelector,
+                css(theme.navigationDropdown)
+              )}
+              label={t(`navigation.languages.${locale}`)}
+            >
+              {languageOptions.map((option) => (
+                <Navigation.Item
+                  key={option.value}
+                  href="#"
+                  lang={option.value}
+                  label={option.label}
+                  onClick={changeLanguage(option)}
+                />
+              ))}
+            </Navigation.LanguageSelector>
+          </Navigation.Actions>
+        </Navigation>
+      )}
+    </ClassNames>
   );
 };
 

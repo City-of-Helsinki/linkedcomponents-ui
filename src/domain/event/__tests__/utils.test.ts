@@ -36,17 +36,20 @@ import {
   EVENT_EDIT_ACTIONS,
   EVENT_INITIAL_VALUES,
   EVENT_TYPE,
+  TEST_EVENT_ID,
 } from '../constants';
 import { EventFormFields, RecurringEventSettings } from '../types';
 import {
   calculateSuperEventTime,
   canUserCreateEvent,
   checkCanUserDoAction,
+  copyEventInfoToRegistrationSessionStorage,
   copyEventToSessionStorage,
   eventPathBuilder,
   filterUnselectedLanguages,
   generateEventTimesFromRecurringEvent,
   getEditEventWarning,
+  getEmptyOffer,
   getEventFields,
   getEventInfoLanguages,
   getEventInitialValues,
@@ -107,6 +110,7 @@ const defaultEventPayload = {
   },
   offers: [
     {
+      infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
       isFree: true,
     },
   ],
@@ -381,8 +385,10 @@ describe('getEventPayload function', () => {
           en: 'Description en',
           sv: '',
         },
-        enrolmentEndTime: new Date(enrolmentEndTime),
-        enrolmentStartTime: new Date(enrolmentStartTime),
+        enrolmentEndTimeDate: new Date(enrolmentEndTime),
+        enrolmentEndTimeTime: '15:15',
+        enrolmentStartTimeDate: new Date(enrolmentStartTime),
+        enrolmentStartTimeTime: '9:15',
         eventInfoLanguages: ['fi', 'sv'],
         eventTimes: [
           {
@@ -842,7 +848,7 @@ describe('getEventInitialValues function', () => {
     const facebookUrl = 'http://facebook.com';
     const id = 'event:1';
     const imageDetails = {
-      altText: '',
+      altText: EMPTY_MULTI_LANGUAGE_OBJECT,
       license: 'cc_by',
       name: '',
       photographerName: '',
@@ -1010,9 +1016,14 @@ describe('getEventInitialValues function', () => {
       audience: audienceAtIds,
       audienceMaxAge,
       audienceMinAge,
-      description,
-      enrolmentEndTime,
-      enrolmentStartTime,
+      description: Object.entries(description).reduce(
+        (prev, [key, val]) => ({ ...prev, [key]: `<p>${val}</p>` }),
+        {}
+      ),
+      enrolmentEndTimeDate: enrolmentEndTime,
+      enrolmentEndTimeTime: '05:51',
+      enrolmentStartTimeDate: enrolmentStartTime,
+      enrolmentStartTimeTime: '05:51',
       eventInfoLanguages: ['ar', 'en', 'fi', 'ru', 'sv', 'zhHans'],
       eventTimes: [],
       events: [
@@ -1077,8 +1088,10 @@ describe('getEventInitialValues function', () => {
     const {
       audienceMaxAge,
       audienceMinAge,
-      enrolmentEndTime,
-      enrolmentStartTime,
+      enrolmentEndTimeDate,
+      enrolmentEndTimeTime,
+      enrolmentStartTimeDate,
+      enrolmentStartTimeTime,
       externalLinks,
       location,
       name,
@@ -1104,7 +1117,6 @@ describe('getEventInitialValues function', () => {
           sv: null,
           zhHans: null,
         },
-        offers: null as any,
         publisher: null,
         startTime: null,
         superEvent: null,
@@ -1115,12 +1127,14 @@ describe('getEventInitialValues function', () => {
 
     expect(audienceMaxAge).toEqual('');
     expect(audienceMinAge).toEqual('');
-    expect(enrolmentEndTime).toEqual(null);
-    expect(enrolmentStartTime).toEqual(null);
+    expect(enrolmentEndTimeDate).toEqual(null);
+    expect(enrolmentEndTimeTime).toEqual('');
+    expect(enrolmentStartTimeDate).toEqual(null);
+    expect(enrolmentStartTimeTime).toEqual('');
     expect(externalLinks).toEqual([{ link: '', name: '' }]);
     expect(location).toEqual('');
     expect(name).toEqual(expectedName);
-    expect(offers).toEqual([]);
+    expect(offers).toEqual([getEmptyOffer()]);
     expect(publisher).toEqual('');
     expect(superEvent).toEqual(superEvent);
     expect(type).toEqual(EVENT_TYPE.General);
@@ -1713,6 +1727,29 @@ describe('copyEventToSessionStorage function', () => {
     expect(sessionStorage.setItem).toHaveBeenCalledWith(
       FORM_NAMES.EVENT_FORM,
       expect.stringContaining('"images":[],"publisher":""')
+    );
+  });
+});
+
+describe('copyEventInfoToRegistrationSessionStorage function', () => {
+  const event = fakeEvent({
+    id: TEST_EVENT_ID,
+    audienceMaxAge: 18,
+    audienceMinAge: 12,
+    enrolmentEndTime: '2021-06-15T12:00:00.000Z',
+    enrolmentStartTime: '2021-06-13T12:00:00.000Z',
+    maximumAttendeeCapacity: 10,
+    minimumAttendeeCapacity: 5,
+  });
+
+  it('should copy registration info from event to new event', async () => {
+    copyEventInfoToRegistrationSessionStorage(event);
+
+    expect(sessionStorage.setItem).toHaveBeenCalledWith(
+      FORM_NAMES.REGISTRATION_FORM,
+      expect.stringContaining(
+        '"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":"","enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"helmet:222453","instructions":"","maximumAttendeeCapacity":10,"minimumAttendeeCapacity":5,"waitingListCapacity":""'
+      )
     );
   });
 });

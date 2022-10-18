@@ -1,10 +1,11 @@
+import React from 'react';
+
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   act,
   CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -20,8 +21,7 @@ import PlaceActionsDropdown, {
   PlaceActionsDropdownProps,
 } from '../PlaceActionsDropdown';
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: PlaceActionsDropdownProps = {
   place,
@@ -33,12 +33,12 @@ const defaultMocks = [mockedDeletePlaceResponse, mockedUserResponse];
 
 const renderComponent = (
   props?: Partial<PlaceActionsDropdownProps>,
-  { mocks = defaultMocks, store }: CustomRenderOptions = {}
+  { authContextValue, mocks = defaultMocks }: CustomRenderOptions = {}
 ) =>
   render(<PlaceActionsDropdown {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
     routes: [route],
-    store,
   });
 
 const getElement = (key: 'deleteButton' | 'editButton' | 'menu' | 'toggle') => {
@@ -65,7 +65,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { store });
+  renderComponent(undefined, { authContextValue });
 
   const toggleButton = await openMenu();
   await act(async () => await user.click(toggleButton));
@@ -75,7 +75,7 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render correct buttons', async () => {
-  renderComponent(undefined, { store });
+  renderComponent(undefined, { authContextValue });
 
   await openMenu();
 
@@ -93,7 +93,9 @@ test('should route to edit place page', async () => {
   await act(async () => await user.click(editButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places/edit/${place.id}`)
+    expect(history.location.pathname).toBe(
+      `/fi/administration/places/edit/${place.id}`
+    )
   );
 
   expect(history.location.search).toBe(
@@ -103,7 +105,7 @@ test('should route to edit place page', async () => {
 
 test('should delete keyword', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { store });
+  renderComponent(undefined, { authContextValue });
 
   await openMenu();
 

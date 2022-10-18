@@ -1,20 +1,18 @@
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import copyToClipboard from 'copy-to-clipboard';
 import React from 'react';
 import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
-import { StoreState } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { AuthContextProps } from '../../../auth/types';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   publisher,
@@ -34,23 +32,22 @@ const defaultProps: EditButtonPanelProps = {
   saving: false,
 };
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 const mocks = [mockedUserResponse];
 
 const renderComponent = ({
+  authContextValue,
   props,
   route = `/fi/${ROUTES.EDIT_REGISTRATION}`,
-  store,
 }: {
+  authContextValue?: AuthContextProps;
   props?: Partial<EditButtonPanelProps>;
   route?: string;
-  store?: Store<StoreState, AnyAction>;
 } = {}) =>
   render(<EditButtonPanel {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
     routes: [route],
-    store,
   });
 
 const findElement = (key: 'delete' | 'showEnrolments') => {
@@ -104,7 +101,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent({ store });
+  renderComponent({ authContextValue });
 
   const toggleButton = await openMenu();
   await act(async () => await user.click(toggleButton));
@@ -118,7 +115,7 @@ test('should render all buttons when user is authenticated', async () => {
   const onUpdate = jest.fn();
 
   const user = userEvent.setup();
-  renderComponent({ props: { onDelete, onUpdate }, store });
+  renderComponent({ props: { onDelete, onUpdate }, authContextValue });
 
   await openMenu();
 
@@ -154,7 +151,7 @@ test('only copy and copy link buttons should be enabled when user is not logged 
 
 test('should route to enrolments page when clicking show enrolments button', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent({ store });
+  const { history } = renderComponent({ authContextValue });
 
   await openMenu();
 

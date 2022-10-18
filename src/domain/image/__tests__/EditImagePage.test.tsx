@@ -1,11 +1,11 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   renderWithRoute,
   screen,
   userEvent,
@@ -24,19 +24,18 @@ import EditImagePage from '../EditImagePage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [mockedImageResponse, mockedUserResponse];
 
-const route = ROUTES.EDIT_IMAGE.replace(':id', image.id);
+const route = ROUTES.EDIT_IMAGE.replace(':id', image.id as string);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditImagePage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_IMAGE,
-    store,
   });
 
 const findElement = (key: 'deleteButton' | 'nameInput') => {
@@ -84,7 +83,7 @@ test('should delete keyword', async () => {
   await act(async () => await user.click(deleteKeywordButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/images`)
+    expect(history.location.pathname).toBe(`/fi/administration/images`)
   );
 });
 
@@ -101,7 +100,7 @@ test('should update image', async () => {
   await act(async () => await user.click(submitButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/images`)
+    expect(history.location.pathname).toBe(`/fi/administration/images`)
   );
 });
 

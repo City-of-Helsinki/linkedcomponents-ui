@@ -1,13 +1,14 @@
+/* eslint-disable max-len */
 import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import MultiLanguageField from '../../../../common/components/formFields/MultiLanguageField';
-import PublisherSelectorField from '../../../../common/components/formFields/PublisherSelectorField';
+import MultiLanguageField from '../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
+import PublisherSelectorField from '../../../../common/components/formFields/publisherSelectorField/PublisherSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
 import { EventFieldsFragment } from '../../../../generated/graphql';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import useUser from '../../../user/hooks/useUser';
 import useUserOrganizations from '../../../user/hooks/useUserOrganizations';
 import { EVENT_FIELDS } from '../../constants';

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { ValidationError } from 'yup';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { LE_DATA_LANGUAGES, ROUTES } from '../../constants';
@@ -22,11 +23,11 @@ import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
 import isTestEnv from '../../utils/isTestEnv';
 import { showFormErrors } from '../../utils/validationUtils';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
-import Section from '../app/layout/Section';
-import { replaceParamsToEventQueryString } from '../eventSearch/utils';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import Section from '../app/layout/section/Section';
+import { replaceParamsToEventQueryString } from '../events/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
@@ -45,6 +46,7 @@ import LanguagesSection from './formSections/languagesSection/LanguagesSection';
 import LinksToEventsSection from './formSections/linksToEventsSection/LinksToEventsSection';
 import PlaceSection from './formSections/placeSection/PlaceSection';
 import PriceSection from './formSections/priceSection/PriceSection';
+import RegistrationSection from './formSections/registrationSection/RegistrationSection';
 import ResponsibilitiesSection from './formSections/responsibilitiesSection/ResponsibilitiesSection';
 import TimeSection from './formSections/timeSection/TimeSection';
 import TypeSection from './formSections/typeSection/TypeSection';
@@ -54,20 +56,19 @@ import useEventServerErrors from './hooks/useEventServerErrors';
 import useEventUpdateActions, { MODALS } from './hooks/useEventUpdateActions';
 import useRelatedEvents from './hooks/useRelatedEvents';
 import useSortedInfoLanguages from './hooks/useSortedInfoLanguages';
-import ConfirmCancelModal from './modals/ConfirmCancelModal';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
-import ConfirmPostponeModal from './modals/ConfirmPostponeModal';
-import ConfirmUpdateModal from './modals/ConfirmUpdateModal';
+import ConfirmCancelModal from './modals/confirmCancelModal/ConfirmCancelModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmPostponeModal from './modals/confirmPostponeModal/ConfirmPostponeModal';
+import ConfirmUpdateModal from './modals/confirmUpdateModal/ConfirmUpdateModal';
 import { EventFormFields } from './types';
 import {
   checkCanUserDoAction,
-  draftEventSchema,
   eventPathBuilder,
   getEventFields,
   getEventInitialValues,
-  publicEventSchema,
   scrollToFirstError,
 } from './utils';
+import { draftEventSchema, publicEventSchema } from './validation';
 
 interface EditEventPageProps {
   event: EventFieldsFragment;
@@ -305,7 +306,20 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
+                    <Breadcrumb className={styles.breadcrumb}>
+                      <Breadcrumb.Item to={ROUTES.HOME}>
+                        {t('common.home')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item to={ROUTES.EVENTS}>
+                        {t('eventsPage.title')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item active={true}>
+                        {t(`editEventPage.title.${values.type}`)}
+                      </Breadcrumb.Item>
+                    </Breadcrumb>
+
                     <AuthenticationNotification event={event} />
+
                     <EventInfo event={event} />
                     <ServerErrorSummary errors={serverErrorItems} />
 
@@ -367,6 +381,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                         isEditingAllowed={isEditingAllowed}
                       />
                     </Section>
+                    <RegistrationSection event={event} />
                     <Section title={t('event.form.sections.linksToEvents')}>
                       <LinksToEventsSection event={event} />
                     </Section>

@@ -1,39 +1,35 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { TEST_USER_ID } from '../../../../constants';
 import {
-  OrganizationDocument,
-  UserDocument,
-} from '../../../../generated/graphql';
-import { fakeOrganization, fakeUser } from '../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+  getMockedUserResponse,
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../../../domain/user/__mocks__/user';
+import { OrganizationDocument } from '../../../../generated/graphql';
+import {
+  fakeAuthContextValue,
+  fakeAuthenticatedAuthContextValue,
+} from '../../../../utils/mockAuthContextValue';
+import { fakeOrganization } from '../../../../utils/mockDataUtils';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import userManager from '../../../auth/userManager';
 import { TEST_DATA_SOURCE_ID } from '../../../dataSource/constants';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
-import {
-  mockedUserResponse,
-  mockedUserWithoutOrganizationsResponse,
-} from '../../../user/__mocks__/user';
 import { KEYWORD_SET_ACTIONS } from '../../constants';
 import KeywordSetAuthenticationNotification, {
   KeywordSetAuthenticationNotificationProps,
 } from '../KeywordSetAuthenticationNotification';
 
 configure({ defaultHidden: true });
-
-const userVariables = { createPath: undefined, id: TEST_USER_ID };
 
 const props: KeywordSetAuthenticationNotificationProps = {
   action: KEYWORD_SET_ACTIONS.UPDATE,
@@ -43,13 +39,12 @@ const props: KeywordSetAuthenticationNotificationProps = {
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(<KeywordSetAuthenticationNotification {...props} />, renderOptions);
 
-const storeState = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 test("should show notification if user is signed in but doesn't have any organizations", async () => {
   const mocks = [mockedEventResponse, mockedUserWithoutOrganizationsResponse];
 
-  renderComponent({ mocks, store });
+  renderComponent({ authContextValue, mocks });
 
   await screen.findByRole('heading', {
     name: 'Ei oikeuksia muokata avainsanaryhmiä.',
@@ -63,7 +58,7 @@ test('should not show notification if user is signed in and has an admin organiz
     mockedUserResponse,
   ];
 
-  renderComponent({ mocks, store });
+  renderComponent({ authContextValue, mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
@@ -82,16 +77,11 @@ test('should show notification if user has an admin organization but the data so
     result: organizationResponse,
   };
 
-  const user = fakeUser({
+  const mockedUserResponse = getMockedUserResponse({
     organization: organizationId,
     adminOrganizations: [organizationId],
     organizationMemberships: [],
   });
-  const userResponse = { data: { user } };
-  const mockedUserResponse: MockedResponse = {
-    request: { query: UserDocument, variables: userVariables },
-    result: userResponse,
-  };
 
   const mocks = [
     mockedEventResponse,
@@ -99,7 +89,7 @@ test('should show notification if user has an admin organization but the data so
     mockedUserResponse,
   ];
 
-  renderComponent({ mocks, store });
+  renderComponent({ authContextValue, mocks });
 
   await screen.findByRole('heading', {
     name: 'Avainsanaryhmää ei voi muokata',
@@ -110,12 +100,14 @@ test('should show notification if user has an admin organization but the data so
 });
 
 test('should start sign in process', async () => {
-  const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
-
   const user = userEvent.setup();
-  renderComponent();
+
+  const signIn = jest.fn();
+  const authContextValue = fakeAuthContextValue({ signIn });
+  renderComponent({ authContextValue });
 
   const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
   await act(async () => await user.click(signInButton));
-  await waitFor(() => expect(signinRedirect).toBeCalled());
+
+  await waitFor(() => expect(signIn).toBeCalled());
 });

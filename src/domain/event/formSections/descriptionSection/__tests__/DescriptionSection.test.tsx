@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Formik } from 'formik';
 import React from 'react';
 
@@ -15,7 +16,7 @@ import {
   userEvent,
 } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { publicEventSchema } from '../../../utils';
+import { publicEventSchema } from '../../../validation';
 import DescriptionSection, {
   DescriptionSectionProps,
 } from '../DescriptionSection';
@@ -85,19 +86,19 @@ const renderComponent = (
   };
 };
 
-const getElement = (
-  key:
-    | 'descriptionFi'
-    | 'fiButton'
-    | 'nameFi'
-    | 'shortDescriptionFi'
-    | 'svButton'
-) => {
+const findElement = (key: 'descriptionFi') => {
   switch (key) {
     case 'descriptionFi':
-      return screen.getByRole('textbox', {
-        name: /tapahtuman kuvaus suomeksi/i,
+      return screen.findByRole('textbox', {
+        name: /editorin muokkausalue: main/i,
       });
+  }
+};
+
+const getElement = (
+  key: 'fiButton' | 'nameFi' | 'shortDescriptionFi' | 'svButton'
+) => {
+  switch (key) {
     case 'fiButton':
       return screen.getByRole('tab', { name: /suomi/i });
     case 'nameFi':
@@ -125,17 +126,22 @@ test('should change form section language', async () => {
 });
 
 // eslint-disable-next-line max-len
-test('should change selected language when current selected language is removed from event info languages', () => {
+test('should change selected language when current selected language is removed from event info languages', async () => {
   const setSelectedLanguage = jest.fn();
-  const { rerender } = renderComponent(
-    {
-      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
-        LE_DATA_LANGUAGES.FI,
-        LE_DATA_LANGUAGES.SV,
-      ],
-    },
-    { setSelectedLanguage }
-  );
+  let rerender: any;
+
+  await act(async () => {
+    const renderResult = await renderComponent(
+      {
+        [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
+          LE_DATA_LANGUAGES.FI,
+          LE_DATA_LANGUAGES.SV,
+        ],
+      },
+      { setSelectedLanguage }
+    );
+    rerender = renderResult.rerender;
+  });
 
   const fiButton = getElement('fiButton');
   const svButton = getElement('svButton');
@@ -241,7 +247,7 @@ test('should show validation error if description is missing', async () => {
     { setSelectedLanguage }
   );
 
-  const descriptionInput = getElement('descriptionFi');
+  const descriptionInput = await findElement('descriptionFi');
   const shortDescriptionInput = getElement('shortDescriptionFi');
 
   await act(async () => await user.click(descriptionInput));
@@ -269,7 +275,7 @@ test('should show validation error if description is too long', async () => {
     { setSelectedLanguage }
   );
 
-  const descriptionInput = getElement('descriptionFi');
+  const descriptionInput = await findElement('descriptionFi');
   const shortDescriptionInput = getElement('shortDescriptionFi');
 
   await act(async () => await user.click(descriptionInput));

@@ -52,7 +52,7 @@ export const getRegistrationSearchInitialValues = (
 
 export const getRegistrationSearchQuery = (
   params: Omit<RegistrationSearchParams, 'sort'>,
-  search = ''
+  search: string
 ): string => {
   const { sort } = getRegistrationSearchInitialValues(search);
 

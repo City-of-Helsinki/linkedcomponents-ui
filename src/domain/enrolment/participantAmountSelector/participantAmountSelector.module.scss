@@ -1,0 +1,21 @@
+@import '../../../assets/styles/breakpoints.scss';
+
+.participantAmountSelector {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  grid-template-columns: repeat(2, 1fr);
+
+  @include medium-up {
+    grid-template-columns: 2fr 4fr;
+  }
+
+  .buttonWrapper {
+    padding-top: var(--label-height);
+
+    button {
+      @include small-down {
+        width: 100%;
+      }
+    }
+  }
+}

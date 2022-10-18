@@ -9,8 +9,8 @@ import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
 import { KEYWORD_SET_ACTIONS } from '../keywordSet/constants';
 import KeywordSetAuthenticationNotification from '../keywordSet/keywordSetAuthenticationNotification/KeywordSetAuthenticationNotification';
 import useUser from '../user/hooks/useUser';
@@ -67,7 +67,11 @@ const KeywordSetsPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="keywordSetsPage.pageTitle">
+    <PageWrapper
+      description="keywordSetsPage.pageDescription"
+      keywords={['keywords.keyword', 'keywords.set', 'keywords.listing']}
+      title="keywordSetsPage.pageTitle"
+    >
       <LoadingSpinner isLoading={loadingUser}>
         <KeywordsPage />
       </LoadingSpinner>

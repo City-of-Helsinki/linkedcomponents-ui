@@ -1,19 +1,17 @@
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
-import { StoreState } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { AuthContextProps } from '../../../auth/types';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { event } from '../../__mocks__/editEventPage';
@@ -30,23 +28,23 @@ const defaultProps: EditButtonPanelProps = {
   saving: null,
 };
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const renderComponent = ({
+  authContextValue,
   props,
   route = `/fi/${ROUTES.EDIT_EVENT}`,
-  store,
 }: {
+  authContextValue?: AuthContextProps;
   props?: Partial<EditButtonPanelProps>;
   route?: string;
-  store?: Store<StoreState, AnyAction>;
 }) =>
   render(<EditButtonPanel {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
     routes: [route],
-    store,
   });
 
 const getElement = (
@@ -98,8 +96,8 @@ const openMenu = async () => {
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
   renderComponent({
+    authContextValue,
     props: { event: { ...event, publicationStatus: PublicationStatus.Draft } },
-    store,
   });
 
   const toggleButton = await openMenu();
@@ -116,13 +114,13 @@ test('should show correct buttons for draft event', async () => {
 
   const user = userEvent.setup();
   renderComponent({
+    authContextValue,
     props: {
       event: { ...event, publicationStatus: PublicationStatus.Draft },
       onCancel,
       onDelete,
       onUpdate,
     },
-    store,
   });
 
   await openMenu();
@@ -177,6 +175,7 @@ test('should render correct buttons for public event', async () => {
 
   const user = userEvent.setup();
   renderComponent({
+    authContextValue,
     props: {
       event: { ...event, publicationStatus: PublicationStatus.Public },
       onCancel,
@@ -184,7 +183,6 @@ test('should render correct buttons for public event', async () => {
       onPostpone,
       onUpdate,
     },
-    store,
   });
 
   await openMenu();
@@ -226,6 +224,7 @@ test('should render correct buttons for public event', async () => {
 
 test('only copy and delete button should be enabled when event is cancelled', async () => {
   renderComponent({
+    authContextValue,
     props: {
       event: {
         ...event,
@@ -233,7 +232,6 @@ test('only copy and delete button should be enabled when event is cancelled', as
         publicationStatus: PublicationStatus.Public,
       },
     },
-    store,
   });
 
   await openMenu();
@@ -269,8 +267,8 @@ test('all buttons should be enabled when user is not logged in (public)', async 
 test('should route to create event page when clicking copy button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
+    authContextValue,
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
-    store,
   });
 
   await openMenu();

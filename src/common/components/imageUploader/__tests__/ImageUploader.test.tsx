@@ -1,16 +1,18 @@
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { toast } from 'react-toastify';
 
 import translations from '../../../../domain/app/i18n/fi.json';
-import { mockFile } from '../../../../utils/testUtils';
+import {
+  act,
+  actWait,
+  fireEvent,
+  mockFile,
+  render,
+  screen,
+  waitFor,
+} from '../../../../utils/testUtils';
+import { TEST_PIXEL_CROP } from '../contants';
 import ImageUploader, { ImageUploaderProps, testIds } from '../ImageUploader';
 
 const defaultProps: ImageUploaderProps = {
@@ -20,15 +22,21 @@ const defaultProps: ImageUploaderProps = {
 const renderComponent = (props?: Partial<ImageUploaderProps>) =>
   render(<ImageUploader {...defaultProps} {...props} />);
 
-test('should render ImageUploader', () => {
-  renderComponent();
+const getElement = (key: 'addImageButton') => {
+  switch (key) {
+    case 'addImageButton':
+      return screen.getByRole('button', {
+        name: translations.common.imageUploader.buttonDropImage,
+      });
+  }
+};
 
-  expect(
-    screen.getByRole('button', {
-      name: translations.common.imageUploader.buttonDropImage,
-    })
-  ).toBeInTheDocument();
-});
+const findElement = (key: 'removeImageButton') => {
+  switch (key) {
+    case 'removeImageButton':
+      return screen.findByRole('button', { name: 'Poista kuva' });
+  }
+};
 
 test('should show error message if trying to enter file with invalid type', async () => {
   toast.error = jest.fn();
@@ -44,32 +52,11 @@ test('should show error message if trying to enter file with invalid type', asyn
 
   fireEvent.change(fileInput);
 
-  await waitFor(() => {
+  await waitFor(() =>
     expect(toast.error).toBeCalledWith(
       translations.common.imageUploader.notAllowedFileFormat
-    );
-  });
-});
-
-test('should show error message if trying to enter too large file', async () => {
-  toast.error = jest.fn();
-  renderComponent();
-
-  const fileInput = screen.getByTestId(testIds.input);
-
-  const file = mockFile({ size: 3000000 });
-
-  Object.defineProperty(fileInput, 'files', {
-    value: [file],
-  });
-
-  fireEvent.change(fileInput);
-
-  await waitFor(() => {
-    expect(toast.error).toBeCalledWith(
-      'Tiedostokoko on liian suuri. Tiedoston maksimikoko on 2 Mt'
-    );
-  });
+    )
+  );
 });
 
 test('should call onChange', async () => {
@@ -80,15 +67,15 @@ test('should call onChange', async () => {
 
   const file = mockFile({});
 
-  Object.defineProperty(fileInput, 'files', {
-    value: [file],
-  });
+  Object.defineProperty(fileInput, 'files', { value: [file] });
 
   fireEvent.change(fileInput);
 
-  await waitFor(() => {
-    expect(onChange).toBeCalledWith(file);
-  });
+  await actWait(1000);
+
+  await waitFor(() =>
+    expect(onChange).toBeCalledWith(file, TEST_PIXEL_CROP, null)
+  );
 });
 
 test('should open file selection dialog by clicking button', async () => {
@@ -107,23 +94,35 @@ test('should open file selection dialog by clicking button', async () => {
   expect(spy).toBeCalled();
 });
 
+test('should call onChange with empty values when unselecting an image file', async () => {
+  const onChange = jest.fn();
+  renderComponent({ onChange });
+
+  const addImageButton = getElement('addImageButton');
+  const file = mockFile({});
+
+  fireEvent.drop(addImageButton, { dataTransfer: { files: [file] } });
+
+  await waitFor(() =>
+    expect(onChange).toBeCalledWith(file, TEST_PIXEL_CROP, null)
+  );
+
+  const removeImageButton = await findElement('removeImageButton');
+  await act(async () => await userEvent.click(removeImageButton));
+  await waitFor(() => expect(onChange).lastCalledWith(null, null, null));
+});
+
 test('should call onChange when droping file', async () => {
   const onChange = jest.fn();
   renderComponent({ onChange });
 
-  const button = screen.getByRole('button', {
-    name: translations.common.imageUploader.buttonDropImage,
-  });
+  const addImageButton = getElement('addImageButton');
   const file = mockFile({});
 
-  fireEvent.drop(button, {
-    dataTransfer: {
-      files: [file],
-    },
-  });
+  fireEvent.drop(addImageButton, { dataTransfer: { files: [file] } });
 
   await waitFor(() => {
-    expect(onChange).toBeCalledWith(file);
+    expect(onChange).toBeCalledWith(file, TEST_PIXEL_CROP, null);
   });
 });
 
@@ -131,32 +130,24 @@ test('should not call onChange when droping file if component is disabled', asyn
   const onChange = jest.fn();
   renderComponent({ disabled: true, onChange });
 
-  const button = screen.getByRole('button', {
-    name: translations.common.imageUploader.buttonDropImage,
-  });
+  const addImageButton = getElement('addImageButton');
   const file = mockFile({});
 
-  fireEvent.drop(button, {
-    dataTransfer: {
-      files: [file],
-    },
-  });
+  fireEvent.drop(addImageButton, { dataTransfer: { files: [file] } });
 
-  expect(onChange).not.toBeCalledWith(file);
+  expect(onChange).not.toBeCalled();
 });
 
 test('should show border for label by dragOver', async () => {
   renderComponent();
 
-  const button = screen.getByRole('button', {
-    name: translations.common.imageUploader.buttonDropImage,
-  });
+  const addImageButton = getElement('addImageButton');
 
-  fireEvent.dragOver(button);
+  fireEvent.dragOver(addImageButton);
 
-  expect(button).toHaveClass('hover');
+  expect(addImageButton).toHaveClass('hover');
 
-  fireEvent.dragLeave(button);
+  fireEvent.dragLeave(addImageButton);
 
-  expect(button).not.toHaveClass('hover');
+  expect(addImageButton).not.toHaveClass('hover');
 });

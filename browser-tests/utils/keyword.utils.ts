@@ -11,7 +11,7 @@ export const getExpectedKeywordContext = (
       (fields, field) => ({ ...fields, [field]: keyword[field] }),
       {
         id: keyword.id,
-        name: keyword.name.fi,
+        name: keyword.name?.fi,
       }
     )
   );

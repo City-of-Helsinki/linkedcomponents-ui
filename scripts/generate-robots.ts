@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 
 import { DEPRECATED_ROUTES, ROUTES } from '../src/constants';
+import { isFeatureEnabled } from '../src/utils/featureFlags';
 import {
   HOST,
   PATH_TO_BUILD_FOLDER,
@@ -14,7 +15,23 @@ const DISALLOWED_URLS = [
   DEPRECATED_ROUTES.CREATE_EVENT,
   `${DEPRECATED_ROUTES.UPDATE_EVENT.replace(':id', '*')}`,
   `${DEPRECATED_ROUTES.VIEW_EVENT.replace(':id', '*')}`,
-];
+]
+  .concat(
+    isFeatureEnabled('SHOW_ADMIN')
+      ? [
+          `/*${ROUTES.EDIT_IMAGE.replace(':id', '*')}`,
+          `/*${ROUTES.EDIT_KEYWORD.replace(':id', '*')}`,
+          `/*${ROUTES.EDIT_KEYWORD_SET.replace(':id', '*')}`,
+          `/*${ROUTES.EDIT_ORGANIZATION.replace(':id', '*')}`,
+          `/*${ROUTES.EDIT_PLACE.replace(':id', '*')}`,
+        ]
+      : []
+  )
+  .concat(
+    isFeatureEnabled('SHOW_REGISTRATION')
+      ? [`/*${ROUTES.REGISTRATIONS}`, `/*${ROUTES.REGISTRATIONS}/*`]
+      : []
+  );
 
 const generateRobotsTxt = async () => {
   try {

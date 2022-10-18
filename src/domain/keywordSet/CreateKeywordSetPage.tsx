@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
 import useUser from '../user/hooks/useUser';
 import KeywordSetForm from './keywordSetForm/KeywordSetForm';
 
@@ -36,7 +36,16 @@ const CreateKeywordSetPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="createKeywordSetPage.pageTitle">
+    <PageWrapper
+      description="createKeywordSetPage.pageDescription"
+      keywords={[
+        'keywords.add',
+        'keywords.new',
+        'keywords.keyword',
+        'keywords.set',
+      ]}
+      title="createKeywordSetPage.pageTitle"
+    >
       <LoadingSpinner isLoading={loadingUser}>
         <CreateKeywordSetPage />
       </LoadingSpinner>

@@ -59,7 +59,7 @@ test('should open edit keyword page by clicking keyword', async () => {
   );
 
   expect(history.location.pathname).toBe(
-    `/fi/admin/keywords/edit/${keywordId}`
+    `/fi/administration/keywords/edit/${keywordId}`
   );
 });
 
@@ -82,7 +82,7 @@ test('should open edit keyword page by pressing enter on row', async () => {
   );
 
   expect(history.location.pathname).toBe(
-    `/fi/admin/keywords/edit/${keywordId}`
+    `/fi/administration/keywords/edit/${keywordId}`
   );
 });
 

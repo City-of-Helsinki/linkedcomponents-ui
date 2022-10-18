@@ -36,6 +36,12 @@ export const parseRegistrationServerErrors = ({
 
   // Get correct field name for an error item
   function parseRegistrationServerErrorLabel({ key }: { key: string }): string {
-    return t(`registration.form.label${pascalCase(key)}`);
+    switch (key) {
+      case 'enrolment_end_time':
+      case 'enrolment_start_time':
+        return t(`registration.form.label${pascalCase(key)}Date`);
+      default:
+        return t(`registration.form.label${pascalCase(key)}`);
+    }
   }
 };

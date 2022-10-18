@@ -1,15 +1,17 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
+  actWait,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import {
   mockedOrganizationResponse,
@@ -25,13 +27,12 @@ import CreatePlacePage from '../CreatePlacePage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [mockedOrganizationResponse, mockedUserResponse];
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
-  render(<CreatePlacePage />, { mocks, store });
+  render(<CreatePlacePage />, { authContextValue, mocks });
 
 const getElement = (
   key:
@@ -68,6 +69,20 @@ const fillInputValues = async () => {
   const nameInput = getElement('nameInput');
   await act(async () => await user.type(nameInput, placeValues.name));
 };
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Lisää paikka - Linked Events';
+  const pageDescription = 'Lisää uusi paikka Linked Eventsiin.';
+  const pageKeywords =
+    'lisää, uusi, paikka, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent(defaultMocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await actWait(10);
+});
 
 test('should focus to first validation error when trying to save new place', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
@@ -111,7 +126,7 @@ test('should move to places page after creating new place', async () => {
   await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places`)
+    expect(history.location.pathname).toBe(`/fi/administration/places`)
   );
 });
 

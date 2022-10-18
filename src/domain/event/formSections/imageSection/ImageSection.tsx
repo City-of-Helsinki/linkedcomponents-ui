@@ -21,8 +21,8 @@ import {
 } from '../../../../generated/graphql';
 import getPathBuilder from '../../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import AddImageForm from '../../../image/addImageForm/AddImageForm';
 import useImageUpdateActions, {
   IMAGE_MODALS,
@@ -108,7 +108,7 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
         >
           <AddImageForm
             onCancel={closeModal}
-            onFileChange={(image) =>
+            onAddImageByFile={(image) =>
               uploadImage({ publisher, image }, setImageFields)
             }
             onSubmit={handleAddImageFormSubmit}

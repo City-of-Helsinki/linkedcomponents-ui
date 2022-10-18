@@ -1,11 +1,11 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
@@ -25,19 +25,18 @@ import EditPlacePage from '../EditPlacePage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [mockedPlaceResponse, mockedUserResponse];
 
-const route = ROUTES.EDIT_PLACE.replace(':id', place.id);
+const route = ROUTES.EDIT_PLACE.replace(':id', place.id as string);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditPlacePage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_PLACE,
-    store,
   });
 
 const findElement = (key: 'deleteButton' | 'nameInput') => {
@@ -87,7 +86,7 @@ test('should delete place', async () => {
   await act(async () => await user.click(deletePlaceButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places`)
+    expect(history.location.pathname).toBe(`/fi/administration/places`)
   );
 });
 
@@ -104,7 +103,7 @@ test('should update place', async () => {
   await act(async () => await user.click(submitButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/places`)
+    expect(history.location.pathname).toBe(`/fi/administration/places`)
   );
 });
 

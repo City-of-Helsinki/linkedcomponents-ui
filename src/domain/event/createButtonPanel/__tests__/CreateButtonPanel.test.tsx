@@ -1,16 +1,9 @@
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import { Formik } from 'formik';
 import React from 'react';
 
-import { defaultStoreState } from '../../../../constants';
-import { StoreState } from '../../../../types';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
-import {
-  configure,
-  getMockReduxStore,
-  render,
-  screen,
-} from '../../../../utils/testUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { configure, render, screen } from '../../../../utils/testUtils';
+import { AuthContextProps } from '../../../auth/types';
 import { organizationId } from '../../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
@@ -20,25 +13,24 @@ configure({ defaultHidden: true });
 
 const mocks = [mockedUserResponse];
 
-const renderComponent = (store?: Store<StoreState, AnyAction>) =>
+const renderComponent = (authContextValue?: AuthContextProps) =>
   render(
     <Formik
       initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.General }}
       onSubmit={jest.fn()}
     >
       <ButtonPanel
+        onPublish={jest.fn()}
         onSaveDraft={jest.fn()}
         publisher={organizationId}
         saving={null}
       />
     </Formik>,
-    { mocks, store }
+    { authContextValue, mocks }
   );
 
 test('publish should be disabled when user is not authenticated', () => {
-  const store = getMockReduxStore(defaultStoreState);
-
-  renderComponent(store);
+  renderComponent();
 
   const buttons = ['Julkaise tapahtuma'];
 
@@ -48,10 +40,9 @@ test('publish should be disabled when user is not authenticated', () => {
 });
 
 test('buttons should be enabled when user is authenticated', async () => {
-  const storeState = fakeAuthenticatedStoreState();
-  const store = getMockReduxStore(storeState);
+  const authContextValue = fakeAuthenticatedAuthContextValue();
 
-  renderComponent(store);
+  renderComponent(authContextValue);
 
   const buttonSaveDraft = await screen.findByRole('button', {
     name: /tallenna luonnos/i,

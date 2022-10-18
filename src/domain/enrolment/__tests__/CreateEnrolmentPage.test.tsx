@@ -5,15 +5,16 @@ import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import formatDate from '../../../utils/formatDate';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
+  loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import { mockedEventResponse } from '../../event/__mocks__/event';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
@@ -32,6 +33,12 @@ import CreateEnrolmentPage from '../CreateEnrolmentPage';
 
 configure({ defaultHidden: true });
 
+beforeEach(() => {
+  // values stored in tests will also be available in other tests unless you run
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
 const findElement = (key: 'nameInput' | 'submitButton') => {
   switch (key) {
     case 'nameInput':
@@ -44,21 +51,28 @@ const findElement = (key: 'nameInput' | 'submitButton') => {
 const getElement = (
   key:
     | 'cityInput'
+    | 'confirmDeleteModal'
     | 'dateOfBirthInput'
     | 'emailCheckbox'
     | 'emailInput'
     | 'nameInput'
     | 'nativeLanguageButton'
+    | 'participantAmountInput'
     | 'phoneCheckbox'
     | 'phoneInput'
     | 'serviceLanguageButton'
     | 'streetAddressInput'
     | 'submitButton'
+    | 'updateParticipantAmountButton'
     | 'zipInput'
 ) => {
   switch (key) {
     case 'cityInput':
       return screen.getByRole('textbox', { name: /kaupunki/i });
+    case 'confirmDeleteModal':
+      return screen.getByRole('dialog', {
+        name: 'Vahvista osallistujan poistaminen',
+      });
     case 'dateOfBirthInput':
       return screen.getByRole('textbox', { name: /syntymäaika/i });
     case 'emailCheckbox':
@@ -69,6 +83,11 @@ const getElement = (
       return screen.getByRole('textbox', { name: /nimi/i });
     case 'nativeLanguageButton':
       return screen.getByRole('button', { name: /äidinkieli/i });
+    case 'participantAmountInput':
+      return screen.getByRole('spinbutton', {
+        name: /ilmoittautujien määrä \*/i,
+      });
+
     case 'phoneCheckbox':
       return screen.getByRole('checkbox', { name: /tekstiviestillä/i });
     case 'phoneInput':
@@ -79,13 +98,15 @@ const getElement = (
       return screen.getByRole('textbox', { name: /katuosoite/i });
     case 'submitButton':
       return screen.getByRole('button', { name: /tallenna osallistuja/i });
+    case 'updateParticipantAmountButton':
+      return screen.getByRole('button', { name: /päivitä/i });
     case 'zipInput':
       return screen.getByRole('textbox', { name: /postinumero/i });
   }
 };
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const defaultMocks = [
   mockedEventResponse,
   mockedEventResponse,
@@ -101,11 +122,16 @@ const route = ROUTES.CREATE_ENROLMENT.replace(
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<CreateEnrolmentPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.CREATE_ENROLMENT,
-    store,
   });
+
+const waitLoadingAndGetNameInput = async () => {
+  await loadingSpinnerIsNotInDocument();
+  return await findElement('nameInput');
+};
 
 test('should validate enrolment form and focus invalid field and finally create enrolment', async () => {
   const user = userEvent.setup();
@@ -114,7 +140,7 @@ test('should validate enrolment form and focus invalid field and finally create 
     mockedCreateEnrolmentResponse,
   ]);
 
-  const nameInput = await findElement('nameInput');
+  const nameInput = await waitLoadingAndGetNameInput();
   const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
@@ -221,7 +247,7 @@ test('should show server errors', async () => {
   const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidCreateEnrolmentResponse]);
 
-  const nameInput = await findElement('nameInput');
+  const nameInput = await waitLoadingAndGetNameInput();
   const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
@@ -265,4 +291,94 @@ test('should show server errors', async () => {
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
+});
+
+test('should add and delete participants', async () => {
+  const user = userEvent.setup();
+
+  renderComponent();
+
+  await waitLoadingAndGetNameInput();
+
+  const participantAmountInput = getElement('participantAmountInput');
+  const updateParticipantAmountButton = getElement(
+    'updateParticipantAmountButton'
+  );
+
+  expect(
+    screen.queryByRole('button', { name: 'Osallistuja 2' })
+  ).not.toBeInTheDocument();
+
+  await act(async () => await user.clear(participantAmountInput));
+  await act(async () => await user.type(participantAmountInput, '2'));
+  await act(async () => await user.click(updateParticipantAmountButton));
+
+  screen.getByRole('button', { name: 'Osallistuja 2' });
+
+  await act(async () => await user.clear(participantAmountInput));
+  await act(async () => await user.type(participantAmountInput, '1'));
+  await act(async () => await user.click(updateParticipantAmountButton));
+
+  const deleteParticipantButton = within(
+    getElement('confirmDeleteModal')
+  ).getByRole('button', { name: 'Poista osallistuja' });
+  await act(async () => await user.click(deleteParticipantButton));
+
+  expect(
+    screen.queryByRole('button', { name: 'Osallistuja 2' })
+  ).not.toBeInTheDocument();
+});
+
+test('should show and hide participant specific fields', async () => {
+  const user = userEvent.setup();
+
+  renderComponent();
+
+  const nameInput = await waitLoadingAndGetNameInput();
+  const toggleButton = screen.getByRole('button', {
+    name: 'Osallistuja 1',
+  });
+
+  await act(async () => await user.click(toggleButton));
+  expect(nameInput).not.toBeInTheDocument();
+
+  await act(async () => await user.click(toggleButton));
+  getElement('nameInput');
+});
+
+test('should delete participants by clicking delete participant button', async () => {
+  const user = userEvent.setup();
+
+  renderComponent();
+
+  await waitLoadingAndGetNameInput();
+
+  const participantAmountInput = getElement('participantAmountInput');
+  const updateParticipantAmountButton = getElement(
+    'updateParticipantAmountButton'
+  );
+
+  expect(
+    screen.queryByRole('button', { name: 'Osallistuja 2' })
+  ).not.toBeInTheDocument();
+
+  await act(async () => await user.clear(participantAmountInput));
+  await act(async () => await user.type(participantAmountInput, '2'));
+  await act(async () => await user.click(updateParticipantAmountButton));
+
+  screen.getByRole('button', { name: 'Osallistuja 2' });
+
+  const deleteButton = screen.getAllByRole('button', {
+    name: /poista osallistuja/i,
+  })[1];
+  await act(async () => await user.click(deleteButton));
+
+  const deleteParticipantButton = within(
+    getElement('confirmDeleteModal')
+  ).getByRole('button', { name: 'Poista osallistuja' });
+  await act(async () => await user.click(deleteParticipantButton));
+
+  expect(
+    screen.queryByRole('button', { name: 'Osallistuja 2' })
+  ).not.toBeInTheDocument();
 });

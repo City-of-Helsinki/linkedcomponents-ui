@@ -2,18 +2,18 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import NoDataRow from '../../../common/components/table/NoDataRow';
-import SortableColumn from '../../../common/components/table/SortableColumn';
+import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
+import SortableColumn from '../../../common/components/table/sortableColumn/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useSetFocused from '../../../hooks/useSetFocused';
 import { getOrganizationFields } from '../../organization/utils';
 import { ORGANIZATION_SORT_OPTIONS } from '../constants';
-import useOrganizationsQueryStringWithReturnPath from '../hooks/useOrganizationsQueryStringWithReturnPath';
 import styles from './organizationsTable.module.scss';
 import OrganizationsTableContext from './OrganizationsTableContext';
-import OrganizationsTableRow from './OrganizationsTableRow';
+import OrganizationsTableRow from './organizationsTableRow/OrganizationsTableRow';
 
 export interface OrganizationsTableProps {
   caption: string;
@@ -37,7 +37,7 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locale = useLocale();
-  const queryStringWithReturnPath = useOrganizationsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const table = React.useRef<HTMLTableElement>(null);
   const { focused } = useSetFocused(table);

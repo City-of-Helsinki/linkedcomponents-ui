@@ -1,12 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Action } from '@reduxjs/toolkit';
 import { ButtonVariant } from 'hds-react';
 import React from 'react';
-import { ThunkAction } from 'redux-thunk';
 
-import { MenuItemOptionProps } from './common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from './common/components/menuDropdown/types';
 import { LE_DATA_LANGUAGES, SEARCH_PARAMS } from './constants';
-import rootReducer from './domain/app/store/reducers';
 
 export type Language = 'en' | 'fi' | 'sv';
 
@@ -16,6 +13,8 @@ export type OptionType = {
   label: string;
   value: string;
 };
+
+export type TimeObject = { hours: number; minutes: number };
 
 export type Error<T> = {
   key: string;
@@ -28,10 +27,6 @@ export interface PathBuilderProps<T> {
 export type FCWithName<P = Record<string, unknown>> = React.FC<P> & {
   componentName: string;
 };
-
-export type StoreState = ReturnType<typeof rootReducer>;
-
-export type StoreThunk = ThunkAction<void, StoreState, null, Action<string>>;
 
 export type LEServerError =
   | string

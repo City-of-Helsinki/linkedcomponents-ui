@@ -23,10 +23,13 @@ test('Landing page buttons work', async (t) => {
   await cookieConsentModal.actions.acceptAllCookies();
 
   const landingPage = await findLandingPage(t);
+
   await landingPage.actions.clickCreateEventButton();
+  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToCreateEventPage();
 
   await urlUtils.actions.navigateToLandingPage();
   await landingPage.actions.clickSearchEventsButton();
+  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToEventSearchPage();
 });

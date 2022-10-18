@@ -11,13 +11,12 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
-import DatepickerField from '../../../common/components/formFields/DatepickerField';
-import SingleDataSourceSelectorField from '../../../common/components/formFields/SingleDataSourceSelectorField';
-import SingleOrganizationClassSelectorField from '../../../common/components/formFields/SingleOrganizationClassSelectorField';
-import SingleOrganizationSelectorField from '../../../common/components/formFields/SingleOrganizationSelectorField';
-import SingleSelectField from '../../../common/components/formFields/SingleSelectField';
-import TextInputField from '../../../common/components/formFields/TextInputField';
-import UserSelectorField from '../../../common/components/formFields/UserSelectorField';
+import DateInputField from '../../../common/components/formFields/dateInputField/DateInputField';
+import SingleOrganizationClassSelectorField from '../../../common/components/formFields/singleOrganizationClassSelectorField/SingleOrganizationClassSelectorField';
+import SingleOrganizationSelectorField from '../../../common/components/formFields/singleOrganizationSelectorField/SingleOrganizationSelectorField';
+import SingleSelectField from '../../../common/components/formFields/singleSelectField/SingleSelectField';
+import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
+import UserSelectorField from '../../../common/components/formFields/userSelectorField/UserSelectorField';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../../constants';
 import {
@@ -134,7 +133,6 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   const createOrganization = async (values: OrganizationFormFields) => {
     setSaving(ORGANIZATION_ACTIONS.CREATE);
     const payload = getOrganizationPayload(values);
-
     const createdKeywordId = await createSingleOrganization(payload);
 
     if (createdKeywordId) {
@@ -213,22 +211,25 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
 
             <FormRow className={styles.borderInMobile}>
               <Field
-                className={styles.alignedInput}
+                className={styles.alignedInputWithFullBorder}
                 component={TextInputField}
                 label={t(`organization.form.labelId`)}
                 name={ORGANIZATION_FIELDS.ID}
                 readOnly
               />
             </FormRow>
-            <FormRow>
+            <FormRow className={styles.borderInMobile}>
               <Field
-                className={styles.alignedSelect}
-                component={SingleDataSourceSelectorField}
-                disabled={!isEditingAllowed || !!organization}
+                className={
+                  /* istanbul ignore next */
+                  !isEditingAllowed || organization
+                    ? styles.alignedInputWithFullBorder
+                    : styles.alignedInput
+                }
+                component={TextInputField}
                 label={t(`organization.form.labelDataSource`)}
                 name={ORGANIZATION_FIELDS.DATA_SOURCE}
-                required
-                showOnlyUserEditable={true}
+                readOnly
               />
             </FormRow>
             <FormRow
@@ -247,13 +248,13 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 label={t(`organization.form.labelOriginId`)}
                 name={ORGANIZATION_FIELDS.ORIGIN_ID}
                 readOnly={!isEditingAllowed || !!organization}
-                required
+                required={!organization}
               />
             </FormRow>
             <FormRow
               className={
                 /* istanbul ignore next */
-                !isEditingAllowed ? styles.borderInMobile : ''
+                isEditingAllowed ? '' : styles.borderInMobile
               }
             >
               <Field
@@ -310,8 +311,12 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
               }
             >
               <Field
-                className={styles.alignedInputWithFullBorder}
-                component={DatepickerField}
+                className={
+                  !isEditingAllowed || !!organization
+                    ? styles.alignedInputWithFullBorder
+                    : styles.alignedInput
+                }
+                component={DateInputField}
                 label={t(`organization.form.labelFoundingDate`)}
                 name={ORGANIZATION_FIELDS.FOUNDING_DATE}
                 readOnly={!isEditingAllowed || !!organization}
@@ -324,7 +329,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             >
               <Field
                 className={styles.alignedInput}
-                component={DatepickerField}
+                component={DateInputField}
                 label={t(`organization.form.labelDissolutionDate`)}
                 name={ORGANIZATION_FIELDS.DISSOLUTION_DATE}
                 readOnly={!isEditingAllowed || !!organization}
@@ -337,6 +342,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 disabled={!isEditingAllowed || !!organization}
                 label={t(`organization.form.labelParentOrganization`)}
                 name={ORGANIZATION_FIELDS.PARENT_ORGANIZATION}
+                required={!organization}
               />
             </FormRow>
             <FormRow>

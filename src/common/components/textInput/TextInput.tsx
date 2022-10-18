@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { TextInput as BaseTextInput, TextInputProps } from 'hds-react';
 import React from 'react';
 
@@ -9,11 +8,15 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ className, ...rest }, ref) => {
     const { theme } = useTheme();
     return (
-      <BaseTextInput
-        {...rest}
-        ref={ref}
-        className={classNames(className, css(theme.textInput))}
-      />
+      <ClassNames>
+        {({ css, cx }) => (
+          <BaseTextInput
+            {...rest}
+            ref={ref}
+            className={cx(className, css(theme.textInput))}
+          />
+        )}
+      </ClassNames>
     );
   }
 );

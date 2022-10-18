@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
 import useUser from '../user/hooks/useUser';
 import OrganizationForm from './organizationForm/OrganizationForm';
 
@@ -36,7 +36,11 @@ const CreateOrganizationPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="createOrganizationPage.pageTitle">
+    <PageWrapper
+      description="createOrganizationPage.pageDescription"
+      keywords={['keywords.add', 'keywords.new', 'keywords.organization']}
+      title="createOrganizationPage.pageTitle"
+    >
       <LoadingSpinner isLoading={loadingUser}>
         <CreateOrganizationPage />
       </LoadingSpinner>

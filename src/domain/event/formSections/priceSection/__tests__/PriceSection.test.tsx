@@ -12,7 +12,8 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { publicEventSchema } from '../../../utils';
+import { getEmptyOffer } from '../../../utils';
+import { publicEventSchema } from '../../../validation';
 import PriceSection from '../PriceSection';
 
 configure({ defaultHidden: true });
@@ -25,7 +26,7 @@ const renderPriceSection = () =>
       initialValues={{
         [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.FI],
         [EVENT_FIELDS.HAS_PRICE]: false,
-        [EVENT_FIELDS.OFFERS]: [],
+        [EVENT_FIELDS.OFFERS]: [getEmptyOffer()],
         [EVENT_FIELDS.TYPE]: type,
       }}
       onSubmit={jest.fn()}
@@ -44,18 +45,23 @@ const findElement = (key: 'addButton') => {
   }
 };
 
-const getElement = (
-  key: 'addButton' | 'deleteButton' | 'hasPriceCheckbox' | 'heading'
+const queryElements = (
+  key: 'deleteButtons' | 'instructions' | 'priceInputs'
 ) => {
   switch (key) {
-    case 'addButton':
-      return screen.getByRole('button', {
-        name: /lisää hintatieto/i,
-      });
-    case 'deleteButton':
-      return screen.getByRole('button', {
+    case 'deleteButtons':
+      return screen.queryAllByRole('button', {
         name: translations.event.form.buttonDeleteOffer,
       });
+    case 'instructions':
+      return screen.queryAllByText(/merkitse onko tapahtuma maksuton/i);
+    case 'priceInputs':
+      return screen.queryAllByPlaceholderText(/syötä tapahtuman hinta/i);
+  }
+};
+
+const getElement = (key: 'hasPriceCheckbox' | 'heading') => {
+  switch (key) {
     case 'hasPriceCheckbox':
       return screen.getByRole('checkbox', {
         name: /tapahtuma on maksullinen/i,
@@ -72,8 +78,6 @@ test('should add and delete an offer', async () => {
   renderPriceSection();
 
   await act(async () => await user.click(getElement('hasPriceCheckbox')));
-  const addButton = await findElement('addButton');
-  await act(async () => await user.click(addButton));
 
   const placeholders = [
     /syötä tapahtuman hinta/i,
@@ -81,17 +85,25 @@ test('should add and delete an offer', async () => {
     /syötä lisätietoa hinnasta/i,
   ];
 
-  await screen.findByPlaceholderText(placeholders[0]);
+  await waitFor(() =>
+    expect(screen.queryAllByPlaceholderText(placeholders[0])).toHaveLength(1)
+  );
   for (const placeholder of placeholders.slice(1)) {
     screen.getByPlaceholderText(placeholder);
   }
 
-  await act(async () => await user.click(getElement('deleteButton')));
+  const addButton = await findElement('addButton');
+  await act(async () => await user.click(addButton));
 
   await waitFor(() =>
-    expect(
-      screen.queryByPlaceholderText(placeholders[0])
-    ).not.toBeInTheDocument()
+    expect(screen.queryAllByPlaceholderText(placeholders[0])).toHaveLength(2)
+  );
+
+  const deleteButton = queryElements('deleteButtons')[0];
+  await act(async () => await user.click(deleteButton));
+
+  await waitFor(() =>
+    expect(screen.queryAllByPlaceholderText(placeholders[0])).toHaveLength(1)
   );
 });
 
@@ -100,8 +112,6 @@ test('should validate an offer', async () => {
   renderPriceSection();
 
   await act(async () => await user.click(getElement('hasPriceCheckbox')));
-  const addButton = await findElement('addButton');
-  await act(async () => await user.click(addButton));
 
   const priceInput = await screen.findByPlaceholderText(
     /syötä tapahtuman hinta/i
@@ -129,33 +139,16 @@ test('should show instructions only once', async () => {
 
   getElement('heading');
 
-  expect(
-    screen.queryAllByText(/merkitse onko tapahtuma maksuton/i)
-  ).toHaveLength(0);
+  // Should be instructions to free event
+  expect(queryElements('instructions')).toHaveLength(1);
 
   await act(async () => await user.click(getElement('hasPriceCheckbox')));
+
+  await waitFor(() => expect(queryElements('priceInputs')).toHaveLength(1));
+
   const addButton = await findElement('addButton');
   await act(async () => await user.click(addButton));
 
-  await waitFor(() =>
-    expect(
-      screen.queryAllByPlaceholderText(/syötä tapahtuman hinta/i)
-    ).toHaveLength(1)
-  );
-
-  expect(
-    screen.queryAllByText(/merkitse onko tapahtuma maksuton/i)
-  ).toHaveLength(1);
-
-  await act(async () => await user.click(addButton));
-
-  await waitFor(() =>
-    expect(
-      screen.queryAllByPlaceholderText(/syötä tapahtuman hinta/i)
-    ).toHaveLength(2)
-  );
-
-  expect(
-    screen.queryAllByText(/merkitse onko tapahtuma maksuton/i)
-  ).toHaveLength(1);
+  await waitFor(() => expect(queryElements('priceInputs')).toHaveLength(2));
+  expect(queryElements('instructions')).toHaveLength(1);
 });

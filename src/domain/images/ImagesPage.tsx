@@ -9,8 +9,8 @@ import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
 import { IMAGE_ACTIONS } from '../image/constants';
 import ImageAuthenticationNotification from '../image/imageAuthenticationNotification/ImageAuthenticationNotification';
 import useUser from '../user/hooks/useUser';
@@ -64,7 +64,11 @@ const ImagesPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="imagesPage.pageTitle">
+    <PageWrapper
+      description="imagesPage.pageDescription"
+      keywords={['keywords.image', 'keywords.listing', 'keywords.browse']}
+      title="imagesPage.pageTitle"
+    >
       <LoadingSpinner isLoading={loadingUser}>
         <KeywordsPage />
       </LoadingSpinner>

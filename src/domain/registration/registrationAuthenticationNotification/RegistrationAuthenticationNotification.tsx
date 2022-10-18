@@ -1,10 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useUser from '../../user/hooks/useUser';
@@ -20,7 +19,7 @@ export type RegistrationAuthenticationNotificationProps = {
 const RegistrationAuthenticationNotification: React.FC<
   RegistrationAuthenticationNotificationProps
 > = ({ action, className, registration }) => {
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const adminOrganizations = user?.adminOrganizations || [];
   const publisher = useRegistrationPublisher({ registration }) as string;

@@ -12,13 +12,14 @@ const OrganizationClassName: React.FC<OrganizationClassNameProps> = ({
   id,
 }) => {
   const { data: organizationClassData } = useOrganizationClassQuery({
+    skip: !id,
     variables: { id, createPath: getPathBuilder(organizationClassPathBuilder) },
   });
 
   return (
     <>
       {
-        /* istanbul ignore next*/
+        /* istanbul ignore next */
         organizationClassData?.organizationClass?.name || id || '-'
       }
     </>

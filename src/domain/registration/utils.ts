@@ -6,8 +6,8 @@ import { TFunction } from 'i18next';
 import isNumber from 'lodash/isNumber';
 import { toast } from 'react-toastify';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { FORM_NAMES, ROUTES } from '../../constants';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
+import { FORM_NAMES, ROUTES, TIME_FORMAT_DATA } from '../../constants';
 import {
   CreateRegistrationMutationInput,
   OrganizationFieldsFragment,
@@ -16,6 +16,8 @@ import {
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
+import formatDate from '../../utils/formatDate';
+import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import queryBuilder from '../../utils/queryBuilder';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -47,7 +49,7 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
-  const adminOrganizations = user ? [...user?.adminOrganizations] : [];
+  const adminOrganizations = [...(user?.adminOrganizations || [])];
 
   switch (action) {
     case REGISTRATION_ACTIONS.COPY:
@@ -55,7 +57,7 @@ export const checkCanUserDoAction = ({
     case REGISTRATION_ACTIONS.EDIT:
       return true;
     case REGISTRATION_ACTIONS.CREATE:
-      return !!adminOrganizations.length;
+      return publisher ? isAdminUser : !!adminOrganizations.length;
     case REGISTRATION_ACTIONS.DELETE:
     case REGISTRATION_ACTIONS.SHOW_ENROLMENTS:
     case REGISTRATION_ACTIONS.UPDATE:
@@ -164,6 +166,7 @@ export const getRegistrationFields = (
   language: Language
 ): RegistrationFields => {
   const id = registration.id || '';
+  const event = registration.event ?? '';
 
   return {
     id,
@@ -177,7 +180,8 @@ export const getRegistrationFields = (
     enrolmentStartTime: registration.enrolmentStartTime
       ? new Date(registration.enrolmentStartTime)
       : null,
-    event: registration.event ?? '',
+    event,
+    eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', event)}`,
     lastModifiedAt: registration.lastModifiedAt
       ? new Date(registration.lastModifiedAt)
       : null,
@@ -199,12 +203,23 @@ export const getRegistrationInitialValues = (
     [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE]: registration.audienceMinAge ?? '',
     [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]:
       registration.confirmationMessage ?? '',
-    [REGISTRATION_FIELDS.ENROLMENT_END_TIME]: registration.enrolmentEndTime
+    [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: registration.enrolmentEndTime
       ? new Date(registration.enrolmentEndTime)
       : null,
-    [REGISTRATION_FIELDS.ENROLMENT_START_TIME]: registration.enrolmentStartTime
-      ? new Date(registration.enrolmentStartTime)
-      : null,
+    [REGISTRATION_FIELDS.ENROLMENT_END_TIME_TIME]: registration.enrolmentEndTime
+      ? formatDate(new Date(registration.enrolmentEndTime), TIME_FORMAT_DATA)
+      : '',
+    [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]:
+      registration.enrolmentStartTime
+        ? new Date(registration.enrolmentStartTime)
+        : null,
+    [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]:
+      registration.enrolmentStartTime
+        ? formatDate(
+            new Date(registration.enrolmentStartTime),
+            TIME_FORMAT_DATA
+          )
+        : '',
     [REGISTRATION_FIELDS.EVENT]: registration.event ?? '',
     [REGISTRATION_FIELDS.INSTRUCTIONS]: registration.instructions ?? '',
     [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]:
@@ -243,8 +258,10 @@ export const getRegistrationPayload = (
     audienceMaxAge,
     audienceMinAge,
     confirmationMessage,
-    enrolmentEndTime,
-    enrolmentStartTime,
+    enrolmentEndTimeDate,
+    enrolmentEndTimeTime,
+    enrolmentStartTimeDate,
+    enrolmentStartTimeTime,
     event,
     instructions,
     maximumAttendeeCapacity,
@@ -256,12 +273,17 @@ export const getRegistrationPayload = (
     audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
     audienceMinAge: isNumber(audienceMinAge) ? audienceMinAge : null,
     confirmationMessage: confirmationMessage ? confirmationMessage : null,
-    enrolmentEndTime: enrolmentEndTime
-      ? new Date(enrolmentEndTime).toISOString()
-      : null,
-    enrolmentStartTime: enrolmentStartTime
-      ? new Date(enrolmentStartTime).toISOString()
-      : null,
+    enrolmentEndTime:
+      enrolmentEndTimeDate && enrolmentEndTimeTime
+        ? formatDateAndTimeForApi(enrolmentEndTimeDate, enrolmentEndTimeTime)
+        : null,
+    enrolmentStartTime:
+      enrolmentStartTimeDate && enrolmentStartTimeTime
+        ? formatDateAndTimeForApi(
+            enrolmentStartTimeDate,
+            enrolmentStartTimeTime
+          )
+        : null,
     event,
     instructions: instructions ? instructions : null,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)

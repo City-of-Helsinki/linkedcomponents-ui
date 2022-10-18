@@ -1,8 +1,13 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { MAX_PAGE_SIZE, ROUTES } from '../../constants';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
+import {
+  DATE_FORMAT_API,
+  LINKED_EVENTS_SYSTEM_DATA_SOURCE,
+  MAX_PAGE_SIZE,
+  ROUTES,
+} from '../../constants';
 import {
   CreateOrganizationMutationInput,
   OrganizationDocument,
@@ -139,6 +144,18 @@ export const isReqularUserInOrganization = ({
   const organizationMemberships = user?.organizationMemberships ?? [];
 
   return Boolean(id && organizationMemberships.includes(id));
+};
+
+export const isInDefaultOrganization = ({
+  id,
+  user,
+}: {
+  id: string | null;
+  user?: UserFieldsFragment;
+}): boolean => {
+  const organization = user?.organization;
+
+  return id === organization;
 };
 
 export const getOrganizationAncestorsQueryResult = async (
@@ -323,22 +340,28 @@ export const getOrganizationPayload = (
   formValues: OrganizationFormFields
 ): CreateOrganizationMutationInput => {
   const {
-    dataSource,
     dissolutionDate,
     foundingDate,
-    originId,
     id,
+    originId,
+    parentOrganization,
     ...restFormValues
   } = formValues;
+
+  const dataSource = formValues.dataSource || LINKED_EVENTS_SYSTEM_DATA_SOURCE;
 
   return {
     ...restFormValues,
     dataSource,
     dissolutionDate: dissolutionDate
-      ? formatDate(dissolutionDate, 'yyyy-MM-dd')
+      ? formatDate(dissolutionDate, DATE_FORMAT_API)
       : null,
-    foundingDate: foundingDate ? formatDate(foundingDate, 'yyyy-MM-dd') : null,
+    foundingDate: foundingDate
+      ? formatDate(foundingDate, DATE_FORMAT_API)
+      : null,
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
+    originId,
+    parentOrganization: parentOrganization || undefined,
   };
 };
 

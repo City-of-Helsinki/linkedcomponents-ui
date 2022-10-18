@@ -1,20 +1,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import { KeywordFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import { KEYWORD_ACTIONS } from '../../keyword/constants';
 import useKeywordUpdateActions, {
   KEYWORD_MODALS,
 } from '../../keyword/hooks/useKeywordUpdateActions';
-import ConfirmDeleteModal from '../../keyword/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../keyword/modals/confirmDeleteModal/ConfirmDeleteModal';
 import { getEditButtonProps, getKeywordFields } from '../../keyword/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -32,7 +31,7 @@ const KeywordActionsDropdown = React.forwardRef<
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const { id, publisher } = getKeywordFields(keyword, locale);
   const { organizationAncestors } = useOrganizationAncestors(publisher);

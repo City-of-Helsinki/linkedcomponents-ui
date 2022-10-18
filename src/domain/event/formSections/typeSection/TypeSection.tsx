@@ -1,11 +1,12 @@
+/* eslint-disable max-len */
 import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import CheckboxField from '../../../../common/components/formFields/CheckboxField';
-import RadioButtonGroupField from '../../../../common/components/formFields/RadioButtonGroupField';
-import UmbrellaEventSelectorField from '../../../../common/components/formFields/UmbrellaEventSelectorField';
+import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
+import RadioButtonGroupField from '../../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
+import UmbrellaEventSelectorField from '../../../../common/components/formFields/umbrellaEventSelectorField/UmbrellaEventSelectorField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import { ROUTES } from '../../../../constants';
@@ -14,8 +15,8 @@ import {
   SuperEventType,
 } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import {
   EVENT_FIELDS,
   EVENT_TYPE,
@@ -25,7 +26,7 @@ import styles from '../../eventPage.module.scss';
 import useEventTypeOptions from '../../hooks/useEventTypeOptions';
 import { EventTime, RecurringEventSettings } from '../../types';
 import { getEventFields } from '../../utils';
-import PublicationListLinks from './PublicationListLinks';
+import PublicationListLinks from './publicationListLinks/PublicationListLinks';
 
 export interface TypeSectionProps {
   isEditingAllowed: boolean;

@@ -1,10 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import {
   EnrolmentFieldsFragment,
@@ -12,12 +11,12 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS } from '../../enrolment/constants';
 import useEnrolmentUpdateActions, {
   ENROLMENT_MODALS,
 } from '../../enrolment/hooks/useEnrolmentUpdateActions';
-import ConfirmCancelModal from '../../enrolment/modals/ConfirmCancelModal';
+import ConfirmCancelModal from '../../enrolment/modals/confirmCancelModal/ConfirmCancelModal';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
@@ -39,7 +38,7 @@ const EnrolmentActionsDropdown = React.forwardRef<
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const publisher = useRegistrationPublisher({ registration }) as string;
   const { organizationAncestors } = useOrganizationAncestors(publisher);

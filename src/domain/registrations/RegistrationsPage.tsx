@@ -2,18 +2,18 @@
 import { Button, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import { UserFieldsFragment } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
-import { authenticatedSelector } from '../auth/selectors';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
+import { useAuth } from '../auth/hooks/useAuth';
 import NotSigned from '../notSigned/NotSigned';
 import RegistrationAuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import {
@@ -36,7 +36,7 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
   const navigate = useNavigate();
   const locale = useLocale();
 
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
 
   const goToCreateRegistrationPage = () => {
     clearRegistrationFormData();
@@ -73,6 +73,12 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
           }
           title={t('registrationsPage.title')}
         />
+        <Breadcrumb className={styles.breadcrumb}>
+          <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
+          <Breadcrumb.Item active={true}>
+            {t('registrationsPage.title')}
+          </Breadcrumb.Item>
+        </Breadcrumb>
 
         <SearchPanel />
         <FilterSummary className={styles.filterSummary} />
@@ -88,6 +94,8 @@ const RegistrationsPageWrapper: React.FC = () => {
   return (
     <PageWrapper
       backgroundColor={user ? 'gray' : 'white'}
+      description="registrationsPage.pageDescription"
+      keywords={['keywords.registration', 'keywords.listing', 'keywords.edit']}
       title="registrationsPage.pageTitle"
     >
       <MainContent>

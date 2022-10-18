@@ -78,21 +78,10 @@
       "text3": "We use cookies to improve your experience using the service.",
       "title": "Linked Events terms and cookies"
     },
-    "datepicker": {
-      "accessibility": {
-        "buttonNextMonth": "Next month",
-        "buttonOpen": "Choose date",
-        "buttonPreviousMonth": "Previous month",
-        "selectDate": "Select {{value}}",
-        "selectTime": "Select the time {{value}}",
-        "timeInstructions": "Select the time with arrow keys"
-      },
-      "buttonClose": "Close"
-    },
     "dateSelector": {
       "buttonToggle": "Choose dates",
-      "placeholderEndDate": "Ends dd.mm.yyyy",
-      "placeholderStartDate": "Starts dd.mm.yyyy"
+      "placeholderEndDate": "Ends d.m.yyyy",
+      "placeholderStartDate": "Starts d.m.yyyy"
     },
     "delete": "Delete",
     "dissolved": "Dissolved",
@@ -117,8 +106,30 @@
     "goToHome": "To front page",
     "home": "Front page",
     "imageUploader": {
+      "areaLabel": {
+          "cropArea": "Use the arrow keys to move the crop selection area",
+          "nwDragHandle":
+            "Use the arrow keys to move the north west drag handle to change the crop selection area",
+          "nDragHandle":
+            "Use the up and down arrow keys to move the north drag handle to change the crop selection area",
+          "neDragHandle":
+            "Use the arrow keys to move the north east drag handle to change the crop selection area",
+          "eDragHandle":
+            "Use the up and down arrow keys to move the east drag handle to change the crop selection area",
+          "seDragHandle":
+            "Use the arrow keys to move the south east drag handle to change the crop selection area",
+          "sDragHandle":
+            "Use the up and down arrow keys to move the south drag handle to change the crop selection area",
+          "swDragHandle":
+            "Use the arrow keys to move the south west drag handle to change the crop selection area",
+          "wDragHandle":
+            "Use the up and down arrow keys to move the west drag handle to change the crop selection area"
+      },
+      "belowMinDimensions": "The minimum allowed image size is 300 x 200 pixels",
       "buttonDropImage": "Drag and drop and image to this area or browse from your hard drive by clicking",
+      "buttonRemoveImage": "Remove image",
       "notAllowedFileFormat": "File format is not supported",
+      "titleCropImage": "Crop image",
       "tooLargeFileSize": "File size is too large. The maximum file size is {{maxSize}} MB"
     },
     "leaflet": {
@@ -202,8 +213,8 @@
       "page": "Page {{page}}",
       "previous": "Previous page"
     },
-    "placeholderDate": "dd.mm.yyyy",
-    "placeholderDateTime": "dd.mm.yyyy hh.mm",
+    "placeholderDate": "d.m.yyyy",
+    "placeholderDateTime": "d.m.yyyy hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Save",
     "search": "Search",
@@ -213,47 +224,9 @@
     "showMoreWithCount": "Show more ({{count}})",
     "signIn": "Sign in",
     "signOut": "Sign out",
-    "textEditor": {
-      "add": "Add",
-      "cancel": "Cancel",
-      "blocktype": {
-        "blocktype": "Text type",
-        "blockquote": "Blockquote",
-        "h1": "H1",
-        "h2": "H2",
-        "h3": "H3",
-        "h4": "H4",
-        "h5": "H5",
-        "h6": "H6",
-        "normal": "Normal"
-      },
-      "history": {
-        "history": "History",
-        "redo": "Redo",
-        "undo": "Undo"
-      },
-      "inline": {
-        "bold": "Bold",
-        "italic": "Italic",
-        "underline": "Underline"
-      },
-      "link": {
-        "link": "Link",
-        "linkTarget": "Link target",
-        "linkTargetOption": "Open link in a new window",
-        "linkTitle": "Link title",
-        "unlink": "Remove link"
-      },
-      "list": {
-        "list": "List",
-        "ordered": "Ordered",
-        "unordered": "Unordered"
-      }
-    },
-    "timepicker": {
-      "accessibility": {
-        "buttonTimeList": "Times"
-      }
+    "timeInput": {
+      "hoursLabel": "hours",
+      "minutsLabel": "minutes"
     },
     "warning": "Warning!"
   },
@@ -273,22 +246,27 @@
     }
   },
   "createImagePage": {
+    "pageDescription": "Add new image to Linked Events.",
     "pageTitle": "Add image",
     "title": "Add image"
   },
   "createKeywordPage": {
+    "pageDescription": "Add new keyword to Linked Events.",
     "pageTitle": "Add keyword",
     "title": "Add keyword"
   },
   "createKeywordSetPage": {
+    "pageDescription": "Add new keyword set to Linked Events.",
     "pageTitle": "Add keyword set",
     "title": "Add keyword set"
   },
   "createOrganizationPage": {
+    "pageDescription": "Add new organization to Linked Events.",
     "pageTitle": "Add organization",
     "title": "Add organization"
   },
   "createPlacePage": {
+    "pageDescription": "Add new place to Linked Events.",
     "pageTitle": "Add place",
     "title": "Add place"
   },
@@ -298,6 +276,13 @@
   },
   "editEnrolmentPage": {
     "pageTitle": "Edit participant"
+  },
+  "editEventPage": {
+    "title": {
+      "course": "Edit course",
+      "general": "Edit event",
+      "volunteering": "Edit volunteering"
+    }
   },
   "editImagePage": {
     "pageTitle": "Edit image",
@@ -319,6 +304,10 @@
     "pageTitle": "Edit place",
     "title": "Edit place"
   },
+  "editRegistrationPage": {
+    "pageTitle": "Edit registration",
+    "title": "Edit registration"
+  },
   "enrolment": {
     "attendeeStatus": {
       "attending": "Attending",
@@ -330,8 +319,21 @@
       "text2": "Following registrations will be deleted:",
       "title": "Are you sure you want to cancel the registration?"
     },
+    "deleteParticipantModal": {
+      "buttonDelete": "Delete participant",
+      "buttonDelete_other": "Delete participants",
+      "text1": "Are you sure you want to delete the participant? Participant's reservations will also be removed.",
+      "text1_other": "Are you sure you want to delete participants? Participants' reservations will also be removed.",
+      "text2": "This operation cannot be undone.",
+      "title": "Confirm deleting participant",
+      "title_other": "Confirm deleting participants"
+    },
     "form": {
+      "attendeeDefaultTitle": "Participant {{index}}",
+      "buttonDeleteAttendee": "Delete participant",
       "buttonSave": "Save participant",
+      "buttonUpdateParticipantAmount": "Update",
+      "labelAttendeeExtraInfo": "Additional information (optional)",
       "labelCity": "City",
       "labelDateOfBirth": "Date of birth",
       "labelEmail": "Email address",
@@ -339,11 +341,13 @@
       "labelMembershipNumber": "Membership card number (optional)",
       "labelName": "Name",
       "labelNativeLanguage": "Native language",
+      "labelParticipantAmount": "Number of registrants",
       "labelPhoneNumber": "Telephone number",
       "labelServiceLanguage": "Language of communication",
       "labelStreetAddress": "Street address",
       "labelZip": "Postcode",
       "notificationTitleCannotEdit": "Participants cannot be edited",
+      "placeholderAttendeeExtraInfo": "Enter any additional information or request",
       "placeholderCity": "Enter city",
       "placeholderEmail": "Enter your email address",
       "placeholderExtraInfo": "Enter any additional information or request",
@@ -354,10 +358,12 @@
       "placeholderServiceLanguage": "Select language",
       "placeholderStreetAddress": "Enter a street address",
       "placeholderZip": "Enter postcode",
+      "timeLeft": "Time left to register",
       "titleAdditionalInfo": "Additional information",
       "titleBasicInfo": "Basic information of the registrant",
       "titleContactInfo": "Contact information",
-      "titleNotifications": "Event notifications"
+      "titleNotifications": "Event notifications",
+      "titleRegistration": "Registration"
     },
     "notifications": {
       "email": "By email",
@@ -392,6 +398,7 @@
       "labelSearch": "Filter participants",
       "placeholderSearch": "Filter participants"
     },
+    "title": "Enrolments",
     "waitingListTableCaption": "Waiting list",
     "waitingListTableHeading": "Waiting list",
     "warningNoRightsToCreate": "You have insufficient rights to create participants to this registration.",
@@ -467,6 +474,11 @@
         "general": "Add recurring event",
         "volunteering": "Add recurring volunteering"
       },
+      "buttonAddRegistration": {
+        "course": "Add registration for course",
+        "general": "Add registration for event",
+        "volunteering": "Add registration for volunteering"
+      },
       "buttonAddVideo": "Add video",
       "buttonCancel": "Cancel event",
       "buttonCopy": "Copy as template",
@@ -539,6 +551,11 @@
         "general": "The description is a longer and more detailed description of the content of the event.",
         "volunteering": "The description is a longer and more detailed description of the content of the volunteering."
       },
+      "infoTextDescription3": {
+        "course": "Also record the course's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.", 
+        "general": "Also record the event's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.",
+        "volunteering": "Also record the volunteering's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form."
+      },
       "infoTextEnrolmentTime": {
         "course": "If it is possible to register for the course, specify the start and end times of the registration here.",
         "general": "If it is possible to register for the event, specify the start and end times of the registration here.",
@@ -596,6 +613,7 @@
       },
       "infoTextLocation3": "If the venue is found on the list, its location does not need to be described separately. However, you can provide additional information for finding the venue, such as the floor number or classroom name.",
       "infoTextLocation4": "If the exact venue is not found on the list, select the nearest street address as the venue, enter the name of the venue or other brief arrival instructions in the additional information field.",
+      "infoTextLocation5": "If the location information has changed, update it in the location register. For services other than the city, add or update the information in the <a href=\"https://kaupunkialustana.hel.fi/en/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"City Platform {{openInNewTab}}\">City Platform</a> service.",
       "infoTextMainCategories": {
         "course": "Select at least one main category. Using the correct main categories makes it easier to find the course.",
         "general": "Select at least one main category. Using the correct main categories makes it easier to find the event.",
@@ -646,13 +664,20 @@
         "general": "Event description {{langText}}",
         "volunteering": "Volunteering description {{langText}}"
       },
-      "labelEndTime": {
+      "labelEndDate": {
         "course": "Course ends",
         "general": "Event ends",
         "volunteering": "Volunteering ends"
       },
-      "labelEnrolmentEndTime": "Registration ends",
-      "labelEnrolmentStartTime": "Registration begins",
+      "labelEndTime": {
+        "course": "Course ends at",
+        "general": "Event ends at",
+        "volunteering": "Volunteering ends at"
+      },
+      "labelEnrolmentEndTimeDate": "Registration ends",
+      "labelEnrolmentEndTimeTime": "Registration ends at",
+      "labelEnrolmentStartTimeDate": "Registration begins",
+      "labelEnrolmentStartTimeTime": "Registration begins at",
       "labelExternalLinkLink": {
         "course": "The course's {{name}} URL",
         "general": "The event's {{name}} URL",
@@ -731,16 +756,22 @@
         "general": "Short description {{langText}} (up to 160 characters)",
         "volunteering": "Short description {{langText}} (up to 160 characters)"
       },
-      "labelStartTime": {
+      "labelStartDate": {
         "course": "Course starts",
         "general": "Event starts",
         "volunteering": "Volunteering starts"
+      },
+      "labelStartTime": {
+        "course": "Course starts at",
+        "general": "Event starts at",
+        "volunteering": "Volunteering starts at"
       },
       "labelTime": "Time",
       "labelUmbrellaEvent": "Umbrella event",
       "labelVideoAltText": "Video alt text",
       "labelVideoName": "Name for video",
       "labelVideoUrl": "Video URL",
+      "linkGoToRegistration": "Go to registration",
       "modalTitleImage": {
         "course": "Add course image",
         "general": "Add event image",
@@ -888,6 +919,7 @@
         "linksToEvents": "Links to other events",
         "place": "Location",
         "price": "Price",
+        "registration": "Registration",
         "responsibilities": "Responsibilities",
         "time": "Time",
         "type": "Event type",
@@ -1095,6 +1127,10 @@
         "min_other": "At least {{min}} item must be selected",
         "required": "At least 1 item must be selected"
       },
+      "capacity": {
+        "max": "The maximum number of participants is {{max}}.",
+        "min": "The minimum number of participants is {{min}}."
+      },
       "date": {
         "after": "This date must be after {{after}}",
         "before": "This date must be before {{before}}",
@@ -1204,6 +1240,7 @@
     "pageDescriptionDocumentation": "Read more about Linked Events documentation and API design.",
     "pageDescriptionFaq": "Frequently asked questions about Linked Events.",
     "pageDescriptionFeatures": "Read about Linked Events features. Get familiar with event management and Linked Events API.",
+    "pageDescriptionImageRights": "More information about the image rights and licenses for Linked Events.",
     "pageDescriptionInstructions": "Help and instructions how to use the service and the API.",
     "pageDescriptionSourceCode": "Get a deeper look for Linked Events source code in Github.",
     "pageDescriptionTechnology": "More information about the technology behind Linked Events.",
@@ -1214,7 +1251,7 @@
     "pageTitleDocumentation": "Documentation",
     "pageTitleFaq": "Frequently asked questions",
     "pageTitleFeatures": "Service features",
-    "pageTitleImageRights": "Image rights",
+    "pageTitleImageRights": "Image Rights",
     "pageTitleInstructions": "Support",
     "pageTitleSourceCode": "Source code",
     "pageTitleTechnology": "Technology",
@@ -1250,6 +1287,12 @@
       "labelTechnology": "Technology",
       "labelTermsOfUse": "Terms of use",
       "toggleButtonLabel": "Navigate to help page"
+    },
+    "sourceCodeLinks": {
+      "api": "API",
+      "documentation": "documentation",
+      "linkedEventsUi": "event management UI",
+      "linkedRegistrationsUi": "registration UI"
     }
   },
   "image": {
@@ -1308,6 +1351,7 @@
       "name": "Name"
     },
     "labelSearch": "Search images",
+    "pageDescription": "Image listing. Browse, filter and edit Linked Events images.",
     "pageTitle": "Images",
     "sortOptions": {
       "lastModifiedTime": "Last modified, ascending",
@@ -1336,9 +1380,11 @@
     }
   },
   "keywords": {
+    "add": "add",
     "admin": "admin",
     "api": "api",
     "asked": "asked",
+    "browse": "browse",
     "bug": "bug",
     "contact": "contact",
     "controlPanel": "control, panel",
@@ -1354,20 +1400,30 @@
     "form": "form",
     "help": "help",
     "helsinki": "Helsinki",
+    "image": "image",
     "instructions": "instructions",
+    "keyword": "keyword",
+    "license": "license",
     "linked": "linked",
+    "listing": "listing",
     "management": "management",
     "myListing": "my, listing",
+    "new": "new",
+    "organization": "organization",
     "place": "place",
     "platform": "platform",
     "questions": "questions",
+    "registration": "registration",
     "report": "report",
+    "rights": "rights",
     "search": "search",
+    "set": "set",
     "sourceCode": "source, code",
     "support": "support",
     "technology": "technology",
     "termsOfUse": "terms, of, use",
-    "update": "update"
+    "update": "update",
+    "upload": "upload"
   },
   "keywordsPage": {
     "actionButtons": {
@@ -1382,6 +1438,7 @@
       "nEvents": "Number of events"
     },
     "labelSearch": "Search keywords",
+    "pageDescription": "Keyword listing. Browse, filter and edit Linked Events keywords.",
     "pageTitle": "Keywords",
     "sortOptions": {
       "id": "Id, ascending",
@@ -1426,6 +1483,7 @@
       "usage": "Usage"
     },
     "labelSearch": "Search keyword sets",
+    "pageDescription": "Keyword set listing. Browse, filter and edit Linked Events keyword sets.",
     "pageTitle": "Keyword sets",
     "sortOptions": {
       "id": "Id, ascending",
@@ -1538,6 +1596,7 @@
       "name": "Name",
       "parentOrganization": "Parent organization"
     },
+    "pageDescription": "Organization listing. Browse, filter and edit Linked Events organizations.",
     "pageTitle": "Organizations",
     "sortOptions": {
       "classification": "Classification, ascending",
@@ -1589,6 +1648,7 @@
     "count": "{{count}} place",
     "count_other": "{{count}} places",
     "labelSearch": "Search places",
+    "pageDescription": "Place listing. Browse, filter and edit Linked Events places.",
     "pageTitle": "Places",
     "placesTableCaption": "Places, sorted by {{sort}}",
     "placesTableColumns": {
@@ -1629,8 +1689,10 @@
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
       "labelConfirmationMessage": "Confirmation message to send (optional)",
-      "labelEnrolmentEndTime": "Registration ends",
-      "labelEnrolmentStartTime": "Registration begins",
+      "labelEnrolmentEndTimeDate": "Registration ends",
+      "labelEnrolmentEndTimeTime": "Registration ends at",
+      "labelEnrolmentStartTimeDate": "Registration begins",
+      "labelEnrolmentStartTimeTime": "Registration begins at",
       "labelEvent": "Event",
       "labelInstructions": "Registration instructions (optional)",
       "labelMaximumAttendeeCapacity": "Maximum number of seats",
@@ -1665,6 +1727,7 @@
     "buttonClearFilters": "Clear filters",
     "count": "{{count}} registration",
     "count_other": "{{count}} registrations",
+    "pageDescription": "Registration listing. Browse, filter and edit your registrations.",
     "pageTitle": "Registration",
     "registrationsTableCaption": "Registrations, sorted by {{sort}}",
     "registrationsTableColumns": {

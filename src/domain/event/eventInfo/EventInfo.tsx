@@ -3,8 +3,8 @@ import React from 'react';
 import EditingInfo from '../../../common/components/editingInfo/EditingInfo';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import StatusTag from '../tags/StatusTag';
-import SuperEventTypeTag from '../tags/SuperEventTypeTag';
+import StatusTag from '../tags/statusTag/StatusTag';
+import SuperEventTypeTag from '../tags/superEventTypeTag/SuperEventTypeTag';
 import { getEventFields } from '../utils';
 import styles from './eventInfo.module.scss';
 

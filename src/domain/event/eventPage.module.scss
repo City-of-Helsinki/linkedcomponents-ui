@@ -16,6 +16,10 @@
   }
 }
 
+.breadcrumb {
+  margin-bottom: var(--spacing-m);
+}
+
 .createContainer {
   margin-top: var(--spacing-m);
 }
@@ -28,15 +32,6 @@
 
 .secondNotification {
   margin-top: var(--spacing-m);
-}
-
-.splittedRow {
-  display: grid;
-  grid-gap: var(--spacing-m);
-
-  @include medium-up {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 .numberRow {

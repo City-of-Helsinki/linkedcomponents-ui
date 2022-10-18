@@ -4,14 +4,15 @@ import React from 'react';
 
 import { testIds as imagePreviewTestIds } from '../../../../../common/components/imagePreview/ImagePreview';
 import { testIds as imageUploaderTestIds } from '../../../../../common/components/imageUploader/ImageUploader';
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../constants';
 import { ImageDocument } from '../../../../../generated/graphql';
+import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
+import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { fakeImage } from '../../../../../utils/mockDataUtils';
-import { fakeAuthenticatedStoreState } from '../../../../../utils/mockStoreUtils';
 import {
   act,
   configure,
   fireEvent,
-  getMockReduxStore,
   mockString,
   render,
   screen,
@@ -19,12 +20,15 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import { DEFAULT_LICENSE_TYPE } from '../../../../image/constants';
+import {
+  DEFAULT_LICENSE_TYPE,
+  IMAGE_FIELDS,
+} from '../../../../image/constants';
 import { mockedOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
-import { EVENT_FIELDS, IMAGE_DETAILS_FIELDS } from '../../../constants';
+import { EVENT_FIELDS } from '../../../constants';
 import { ImageDetails } from '../../../types';
-import { publicEventSchema } from '../../../utils';
+import { publicEventSchema } from '../../../validation';
 import {
   eventType,
   file,
@@ -41,6 +45,14 @@ import ImageSection from '../ImageSection';
 
 configure({ defaultHidden: true });
 
+beforeEach(() => {
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: true,
+    SHOW_REGISTRATION: true,
+  });
+});
+
 const defaultMocks = [
   mockedImagesResponse,
   mockedImageResponse,
@@ -50,8 +62,7 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 type InitialValues = {
   [EVENT_FIELDS.TYPE]: string;
@@ -65,10 +76,10 @@ const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.TYPE]: eventType,
   [EVENT_FIELDS.IMAGES]: [],
   [EVENT_FIELDS.IMAGE_DETAILS]: {
-    [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
-    [IMAGE_DETAILS_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
-    [IMAGE_DETAILS_FIELDS.NAME]: '',
-    [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+    [IMAGE_FIELDS.ALT_TEXT]: EMPTY_MULTI_LANGUAGE_OBJECT,
+    [IMAGE_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
+    [IMAGE_FIELDS.NAME]: '',
+    [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
   },
   [EVENT_FIELDS.IS_IMAGE_EDITABLE]: true,
   [EVENT_FIELDS.PUBLISHER]: publisher,
@@ -89,7 +100,7 @@ const renderComponent = (
     >
       <ImageSection isEditingAllowed={true} />
     </Formik>,
-    { mocks, store }
+    { authContextValue, mocks }
   );
 
 const getElement = (
@@ -110,7 +121,7 @@ const getElement = (
       })[0];
     case 'altTextInput':
       return screen.getByRole('textbox', {
-        name: /kuvan vaihtoehtoinen teksti ruudunlukijoille/i,
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
       });
     case 'modalHeading':
       return screen.getByRole('heading', {
@@ -144,7 +155,7 @@ test('should select existing image', async () => {
   getElement('modalHeading');
 
   const imageCheckbox = await screen.findByRole('checkbox', {
-    name: images.data[0].name,
+    name: images.data[0]?.name as string,
   });
   await act(async () => await user.click(imageCheckbox));
 
@@ -188,6 +199,12 @@ test('should create and select new image by selecting image file', async () => {
     await fireEvent.change(fileInput);
   });
 
+  const submitButton = screen.getByRole('button', {
+    name: translations.common.add,
+  });
+  await waitFor(() => expect(submitButton).toBeEnabled());
+  await act(async () => await user.click(submitButton));
+
   await screen.findByTestId(imagePreviewTestIds.image);
 });
 
@@ -215,7 +232,10 @@ test('should create and select new image by entering image url', async () => {
 
 test('should show validation error if image alt text is too long', async () => {
   const altText = mockString(161);
-  const image = fakeImage({ altText, publisher });
+  const image = fakeImage({
+    altText: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: altText },
+    publisher,
+  });
   const imageVariables = { createPath: undefined, id: image.id };
   const imageResponse = { data: { image } };
   const mockedImageResponse: MockedResponse = {

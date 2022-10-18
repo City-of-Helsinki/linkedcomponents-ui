@@ -1,0 +1,45 @@
+@import '../../../../../../assets/styles/mixins.scss';
+
+.accordion {
+  --accordion-background-color: transparent;
+
+  background-color: var(--accordion-background-color);
+  border-bottom: 1px solid var(--color-black-30);
+  border-top: 1px solid transparent;
+
+  .headingWrapper {
+    display: flex;
+  }
+  
+  .toggleButton {
+    flex: 1 1 0%;
+    min-height: var(--spacing-5-xl);
+    padding: var(--spacing-s);
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    color: var(--color-black);
+    cursor: pointer;
+    font-weight: normal;
+    font-size: var(--fontsize-body-m);
+    border: none;
+
+    @include focus-outline(-3px);
+
+    span:not(:last-child) {
+      margin-right: var(--spacing-xs);
+    }
+  }
+
+  .content {
+    padding: var(--spacing-s) 0;
+
+    color: var(--color-black);
+    font-weight: normal;
+
+    & > *:first-child {
+      margin-top: 0;
+    }
+  }
+}

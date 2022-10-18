@@ -3,7 +3,6 @@ import addDays from 'date-fns/addDays';
 import addWeeks from 'date-fns/addWeeks';
 import endOfDay from 'date-fns/endOfDay';
 import isBefore from 'date-fns/isBefore';
-import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
 import isWithinInterval from 'date-fns/isWithinInterval';
 import maxDate from 'date-fns/max';
@@ -17,20 +16,18 @@ import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import isNumber from 'lodash/isNumber';
 import keys from 'lodash/keys';
-import reduce from 'lodash/reduce';
 import sortBy from 'lodash/sortBy';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
-import { getTimeObject } from '../../common/components/timepicker/utils';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import {
-  CHARACTER_LIMITS,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
+  TIME_FORMAT_DATA,
   VALIDATION_ERROR_SCROLLER_OPTIONS,
   WEEK_DAY,
 } from '../../constants';
@@ -58,36 +55,28 @@ import {
   MultiLanguageObject,
   PathBuilderProps,
 } from '../../types';
+import formatDate from '../../utils/formatDate';
+import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getTimeObject from '../../utils/getTimeObject';
+import isHtml from '../../utils/isHtml';
+import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
-import {
-  createArrayMinErrorMessage,
-  createNumberMaxErrorMessage,
-  createNumberMinErrorMessage,
-  createStringMaxErrorMessage,
-  createStringMinErrorMessage,
-  isAfterStartDate,
-  isAfterStartTime,
-  isMinStartDate,
-  isValidTime,
-  transformNumber,
-} from '../../utils/validationUtils';
 import wait from '../../utils/wait';
-import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
   isAdminUserInOrganization,
   isReqularUserInOrganization,
 } from '../organization/utils';
+import { REGISTRATION_INITIAL_VALUES } from '../registration/constants';
+import { RegistrationFormFields } from '../registration/types';
 import {
-  ADD_EVENT_TIME_FORM_NAME,
   AUTHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
-  EDIT_EVENT_TIME_FORM_NAME,
   EVENT_CREATE_ACTIONS,
   EVENT_CREATE_ICONS,
   EVENT_CREATE_LABEL_KEYS,
@@ -99,15 +88,10 @@ import {
   EVENT_INCLUDES,
   EVENT_INITIAL_VALUES,
   EVENT_SELECT_FIELDS,
-  EVENT_TIME_FIELDS,
   EVENT_TYPE,
-  EXTERNAL_LINK_FIELDS,
-  IMAGE_ALT_TEXT_MIN_LENGTH,
-  IMAGE_DETAILS_FIELDS,
   NOT_ALLOWED_WHEN_CANCELLED,
   NOT_ALLOWED_WHEN_DELETED,
   NOT_ALLOWED_WHEN_IN_PAST,
-  RECURRING_EVENT_FIELDS,
   SUB_EVENTS_VARIABLES,
   TEXT_EDITOR_ALLOWED_TAGS,
   TEXT_EDITOR_FIELDS,
@@ -118,358 +102,10 @@ import {
   EventFields,
   EventFormFields,
   EventTime,
-  ImageDetails,
   Offer,
   RecurringEventSettings,
   VideoDetails,
 } from './types';
-
-const createMultiLanguageValidation = (
-  languages: string[],
-  rule: Yup.StringSchema<string | null | undefined>
-) => {
-  return Yup.object().shape(
-    reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {})
-  );
-};
-
-const createMultiLanguageValidationByInfoLanguages = (
-  rule: Yup.StringSchema<string | null | undefined>
-) => {
-  return Yup.object().when(
-    [EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-    (languages: string[]) => createMultiLanguageValidation(languages, rule)
-  );
-};
-
-export const eventTimeSchema = Yup.object().shape({
-  [EVENT_TIME_FIELDS.START_TIME]: Yup.date()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
-  [EVENT_TIME_FIELDS.END_TIME]: Yup.date()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (endTime) => !endTime || isFuture(endTime)
-    )
-    // test that end time is after start time
-    .when([EVENT_TIME_FIELDS.START_TIME], isMinStartDate),
-});
-
-export const addEventTimeSchema = Yup.object().shape({
-  [ADD_EVENT_TIME_FORM_NAME]: eventTimeSchema,
-});
-
-export const editEventTimeSchema = Yup.object().shape({
-  [EDIT_EVENT_TIME_FORM_NAME]: eventTimeSchema,
-});
-
-const validateEventTimes = (
-  recurringEvents: RecurringEventSettings[] | null,
-  events: EventTime[] | null,
-  schema: Yup.SchemaOf<EventTime[]>
-) =>
-  schema.test(
-    'hasAtLeaseOneEventTime',
-    VALIDATION_MESSAGE_KEYS.EVENT_TIMES_REQUIRED,
-    (eventTimes) => {
-      const allEventTimes = [...(eventTimes ?? []), ...(events ?? [])];
-      recurringEvents?.forEach((recurringEvent) => {
-        allEventTimes.push(...recurringEvent.eventTimes);
-      });
-      return Boolean(
-        allEventTimes.filter(({ endTime, startTime }) => endTime && startTime)
-          .length
-      );
-    }
-  );
-
-const eventTimesSchema = Yup.array().when(
-  [EVENT_FIELDS.RECURRING_EVENTS, EVENT_FIELDS.EVENTS],
-  validateEventTimes as () => Yup.SchemaOf<EventTime[]>
-);
-
-const validateOffers = (
-  hasPrice: boolean,
-  eventInfoLanguage: string[],
-  schema: Yup.SchemaOf<Offer[]>
-) =>
-  hasPrice
-    ? Yup.array()
-        .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
-        .of(
-          Yup.object().shape({
-            [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
-              eventInfoLanguage,
-              Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-            ),
-            [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
-              eventInfoLanguage,
-              Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-            ),
-          })
-        )
-    : schema;
-
-const externalLinksSchema = Yup.array().of(
-  Yup.object().shape({
-    [EXTERNAL_LINK_FIELDS.LINK]: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .url(VALIDATION_MESSAGE_KEYS.URL),
-    [IMAGE_DETAILS_FIELDS.NAME]: Yup.string().required(
-      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-    ),
-  })
-);
-
-const imageDetailsSchema = Yup.object().shape({
-  [IMAGE_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .min(IMAGE_ALT_TEXT_MIN_LENGTH, createStringMinErrorMessage)
-    .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage),
-  [IMAGE_DETAILS_FIELDS.NAME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .max(CHARACTER_LIMITS.MEDIUM_STRING, createStringMaxErrorMessage),
-});
-
-const validateImageDetails = (
-  images: string[],
-  isImageEditable: boolean,
-  schema: Yup.SchemaOf<ImageDetails>
-) => (isImageEditable && images && images.length ? imageDetailsSchema : schema);
-
-const validateVideoFields = (
-  field1: string,
-  field2: string,
-  schema: Yup.StringSchema
-) =>
-  field1 || field2
-    ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    : schema;
-
-const videoSchema = Yup.object().shape(
-  {
-    [VIDEO_DETAILS_FIELDS.ALT_TEXT]: Yup.string().when(
-      [VIDEO_DETAILS_FIELDS.NAME, VIDEO_DETAILS_FIELDS.URL],
-      validateVideoFields as () => Yup.StringSchema
-    ),
-    [VIDEO_DETAILS_FIELDS.NAME]: Yup.string().when(
-      [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.URL],
-      validateVideoFields as () => Yup.StringSchema
-    ),
-    [VIDEO_DETAILS_FIELDS.URL]: Yup.string()
-      .url(VALIDATION_MESSAGE_KEYS.URL)
-      .when(
-        [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.NAME],
-        validateVideoFields as () => Yup.StringSchema
-      ),
-  },
-  [
-    [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.NAME],
-    [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.URL],
-    [VIDEO_DETAILS_FIELDS.NAME, VIDEO_DETAILS_FIELDS.URL],
-  ]
-);
-
-const validateMainCategories = (
-  keywords: string[],
-  schema: Yup.SchemaOf<string[]>
-) =>
-  schema.test(
-    'atLeastOneMainCategoryIsSelected',
-    VALIDATION_MESSAGE_KEYS.MAIN_CATEGORY_REQUIRED,
-    (mainCategories) =>
-      mainCategories?.some(
-        (category) => category && keywords.includes(category)
-      ) ?? false
-  );
-
-const enrolmentSchemaFields = {
-  [EVENT_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, createNumberMinErrorMessage)
-    .nullable()
-    .transform(transformNumber),
-  [EVENT_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .when(
-      [EVENT_FIELDS.AUDIENCE_MIN_AGE],
-      (audienceMinAge: number, schema: Yup.NumberSchema) =>
-        schema.min(audienceMinAge || 0, createNumberMinErrorMessage)
-    )
-    .nullable()
-    .transform(transformNumber),
-  [EVENT_FIELDS.ENROLMENT_START_TIME]: Yup.date()
-    .nullable()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
-  [EVENT_FIELDS.ENROLMENT_END_TIME]: Yup.date()
-    .nullable()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    // test that startsTime is before endsTime
-    .when([EVENT_FIELDS.ENROLMENT_START_TIME], isMinStartDate),
-  [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, createNumberMinErrorMessage)
-    .nullable()
-    .transform(transformNumber),
-  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
-    [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-    (minimumAttendeeCapacity: number) => {
-      return Yup.number()
-        .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-        .min(minimumAttendeeCapacity || 0, createNumberMinErrorMessage)
-        .nullable()
-        .transform(transformNumber);
-    }
-  ),
-};
-
-export const publicEventSchema = Yup.object().shape({
-  [EVENT_FIELDS.TYPE]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-  [EVENT_FIELDS.SUPER_EVENT]: Yup.string()
-    .nullable()
-    .when([EVENT_FIELDS.HAS_UMBRELLA], {
-      is: (value: string) => value,
-      then: (schema) =>
-        schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    }),
-  [EVENT_FIELDS.PUBLISHER]: Yup.string()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-  ),
-  [EVENT_FIELDS.SHORT_DESCRIPTION]:
-    createMultiLanguageValidationByInfoLanguages(
-      Yup.string()
-        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-        .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
-    ),
-  [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .max(CHARACTER_LIMITS.LONG_STRING, createStringMaxErrorMessage)
-  ),
-  [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
-  [EVENT_FIELDS.LOCATION]: Yup.string()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  [EVENT_FIELDS.LOCATION_EXTRA_INFO]:
-    createMultiLanguageValidationByInfoLanguages(
-      Yup.string().max(
-        CHARACTER_LIMITS.SHORT_STRING,
-        createStringMaxErrorMessage
-      )
-    ),
-  [EVENT_FIELDS.OFFERS]: Yup.array().when(
-    [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-    validateOffers as () => Yup.SchemaOf<Offer[]>
-  ),
-  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-  ),
-  [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
-  [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
-    [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
-    validateImageDetails as () => Yup.SchemaOf<ImageDetails>
-  ),
-  [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoSchema),
-  [EVENT_FIELDS.MAIN_CATEGORIES]: Yup.array().when(
-    [EVENT_FIELDS.KEYWORDS],
-    validateMainCategories
-  ),
-  [EVENT_FIELDS.KEYWORDS]: Yup.array()
-    .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-    .min(1, VALIDATION_MESSAGE_KEYS.KEYWORD_REQUIRED),
-  // Validate enrolment related fields
-  ...enrolmentSchemaFields,
-  [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
-    [true],
-    VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
-  ),
-});
-
-export const draftEventSchema = Yup.object().shape({
-  [EVENT_FIELDS.PUBLISHER]: Yup.string()
-    .nullable()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-  ),
-  [EVENT_FIELDS.SHORT_DESCRIPTION]:
-    createMultiLanguageValidationByInfoLanguages(
-      Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
-    ),
-  [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().max(CHARACTER_LIMITS.LONG_STRING)
-  ),
-  [EVENT_FIELDS.LOCATION_EXTRA_INFO]:
-    createMultiLanguageValidationByInfoLanguages(
-      Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
-    ),
-  [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
-  [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-    Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
-  ),
-  [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
-  [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
-    [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
-    validateImageDetails as () => Yup.SchemaOf<ImageDetails>
-  ),
-  [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoSchema),
-  // Validate enrolment related fields
-  ...enrolmentSchemaFields,
-  [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
-    [true],
-    VALIDATION_MESSAGE_KEYS.EVENT_INFO_VERIFIED
-  ),
-});
-
-export const recurringEventSchema = Yup.object().shape({
-  [RECURRING_EVENT_FIELDS.REPEAT_INTERVAL]: Yup.number()
-    .nullable()
-    .min(1, createNumberMinErrorMessage)
-    .max(4, createNumberMaxErrorMessage)
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-  [RECURRING_EVENT_FIELDS.REPEAT_DAYS]: Yup.array()
-    .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-    .min(1, createArrayMinErrorMessage),
-  [RECURRING_EVENT_FIELDS.START_DATE]: Yup.date()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .test(
-      'isInTheFuture',
-      VALIDATION_MESSAGE_KEYS.DATE_FUTURE,
-      (startTime) => !startTime || isFuture(startTime)
-    ),
-  [RECURRING_EVENT_FIELDS.END_DATE]: Yup.date()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    // test that startsTime is before endsTime
-    .when([RECURRING_EVENT_FIELDS.START_DATE], isAfterStartDate),
-  [RECURRING_EVENT_FIELDS.START_TIME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-    .test(
-      'isValidTime',
-      VALIDATION_MESSAGE_KEYS.TIME,
-      (value) => !!value && isValidTime(value)
-    ),
-  [RECURRING_EVENT_FIELDS.END_TIME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.TIME_REQUIRED)
-    .test(
-      'isValidTime',
-      VALIDATION_MESSAGE_KEYS.TIME,
-      (value) => !!value && isValidTime(value)
-    )
-    // test that endsAt is after startsAt time
-    .when([RECURRING_EVENT_FIELDS.START_TIME], isAfterStartTime),
-});
 
 export const eventPathBuilder = ({
   args,
@@ -547,6 +183,8 @@ export const getEventFields = (
   const id = event.id || '';
   const publicationStatus = event.publicationStatus || PublicationStatus.Public;
 
+  const registrationAtId = event.registration?.atId;
+
   return {
     id,
     atId: event.atId || '',
@@ -575,6 +213,13 @@ export const getEventFields = (
     ) as Offer[],
     publisher: event.publisher || null,
     publicationStatus,
+    registrationAtId: registrationAtId ?? null,
+    registrationUrl: registrationAtId
+      ? `/${language}${ROUTES.EDIT_REGISTRATION.replace(
+          ':id',
+          parseIdFromAtId(registrationAtId) as string
+        )}`
+      : null,
     subEventAtIds:
       event.subEvents?.map((subEvent) => subEvent?.atId as string) || [],
     superEventAtId: event.superEvent?.atId || null,
@@ -829,8 +474,10 @@ export const getEventBasePayload = (
     audience,
     audienceMaxAge,
     audienceMinAge,
-    enrolmentEndTime,
-    enrolmentStartTime,
+    enrolmentEndTimeDate,
+    enrolmentEndTimeTime,
+    enrolmentStartTimeDate,
+    enrolmentStartTimeTime,
     eventInfoLanguages,
     externalLinks,
     hasPrice,
@@ -863,12 +510,17 @@ export const getEventBasePayload = (
       formatDescription(formValues),
       eventInfoLanguages
     ),
-    enrolmentEndTime: enrolmentEndTime
-      ? new Date(enrolmentEndTime).toISOString()
-      : null,
-    enrolmentStartTime: enrolmentStartTime
-      ? new Date(enrolmentStartTime).toISOString()
-      : null,
+    enrolmentEndTime:
+      enrolmentEndTimeDate && enrolmentEndTimeTime
+        ? formatDateAndTimeForApi(enrolmentEndTimeDate, enrolmentEndTimeTime)
+        : null,
+    enrolmentStartTime:
+      enrolmentStartTimeDate && enrolmentStartTimeTime
+        ? formatDateAndTimeForApi(
+            enrolmentStartTimeDate,
+            enrolmentStartTimeTime
+          )
+        : null,
     externalLinks: externalLinks.map((item) => ({
       ...item,
       language: LE_DATA_LANGUAGES.FI,
@@ -896,10 +548,18 @@ export const getEventBasePayload = (
             eventInfoLanguages
           ),
           infoUrl: filterUnselectedLanguages(offer.infoUrl, eventInfoLanguages),
-          price: filterUnselectedLanguages(offer.price, eventInfoLanguages),
           isFree: false,
+          price: filterUnselectedLanguages(offer.price, eventInfoLanguages),
         }))
-      : [{ isFree: true }],
+      : [
+          {
+            infoUrl: filterUnselectedLanguages(
+              offers[0]?.infoUrl,
+              eventInfoLanguages
+            ),
+            isFree: true,
+          },
+        ],
     provider: filterUnselectedLanguages(provider, eventInfoLanguages),
     publisher,
     shortDescription: filterUnselectedLanguages(
@@ -974,6 +634,7 @@ const SKIP_FIELDS = new Set([
   'location',
   'keywords',
   'audience',
+  'images',
   'languages',
   'inLanguage',
   'subEvents',
@@ -1014,9 +675,14 @@ const getSanitizedDescription = (event: EventFieldsFragment) => {
   for (const lang in description) {
     /* istanbul ignore else */
     if (description[lang as keyof MultiLanguageObject]) {
-      description[lang as keyof MultiLanguageObject] = sanitizeHtml(
+      const sanitizedDescription = sanitizeHtml(
         description[lang as keyof MultiLanguageObject]
       );
+      description[lang as keyof MultiLanguageObject] = isHtml(
+        sanitizedDescription
+      )
+        ? sanitizedDescription
+        : `<p>${sanitizedDescription}</p>`;
     }
   }
   return description;
@@ -1054,6 +720,18 @@ export const getEventInitialValues = (
           },
         ];
 
+  const offers = event.offers
+    .filter((offer) => !!offer?.isFree !== hasPrice)
+    .map((offer) => ({
+      description: getLocalisedObject(offer?.description),
+      infoUrl: getLocalisedObject(offer?.infoUrl),
+      price: getLocalisedObject(offer?.price),
+    }));
+
+  if (!offers.length) {
+    offers.push(getEmptyOffer());
+  }
+
   return {
     ...EVENT_INITIAL_VALUES,
     audience: event.audience.map((keyword) => keyword?.atId as string),
@@ -1061,12 +739,18 @@ export const getEventInitialValues = (
     audienceMinAge: event.audienceMinAge ?? '',
     description: getSanitizedDescription(event),
     events,
-    enrolmentStartTime: event.enrolmentStartTime
-      ? new Date(event.enrolmentStartTime)
-      : null,
-    enrolmentEndTime: event.enrolmentEndTime
+    enrolmentEndTimeDate: event.enrolmentEndTime
       ? new Date(event.enrolmentEndTime)
       : null,
+    enrolmentEndTimeTime: event.enrolmentEndTime
+      ? formatDate(new Date(event.enrolmentEndTime), TIME_FORMAT_DATA)
+      : '',
+    enrolmentStartTimeDate: event.enrolmentStartTime
+      ? new Date(event.enrolmentStartTime)
+      : null,
+    enrolmentStartTimeTime: event.enrolmentStartTime
+      ? formatDate(new Date(event.enrolmentStartTime), TIME_FORMAT_DATA)
+      : '',
     eventInfoLanguages: getEventInfoLanguages(event),
     externalLinks: sortBy(event.externalLinks, ['name']).map(
       (externalLink) => ({
@@ -1077,8 +761,7 @@ export const getEventInitialValues = (
     hasPrice,
     hasUmbrella: hasUmbrella,
     imageDetails: {
-      altText:
-        event.images[0]?.altText || EVENT_INITIAL_VALUES.imageDetails.altText,
+      altText: getLocalisedObject(event.images[0]?.altText),
       license:
         event.images[0]?.license || EVENT_INITIAL_VALUES.imageDetails.license,
       name: event.images[0]?.name || EVENT_INITIAL_VALUES.imageDetails.name,
@@ -1099,15 +782,7 @@ export const getEventInitialValues = (
     maximumAttendeeCapacity: event.maximumAttendeeCapacity ?? '',
     minimumAttendeeCapacity: event.minimumAttendeeCapacity ?? '',
     name: getLocalisedObject(event.name),
-    offers: hasPrice
-      ? event.offers
-          .filter((offer) => !offer?.isFree)
-          .map((offer) => ({
-            description: getLocalisedObject(offer?.description),
-            infoUrl: getLocalisedObject(offer?.infoUrl),
-            price: getLocalisedObject(offer?.price),
-          }))
-      : [],
+    offers,
     publisher: event.publisher ?? '',
     provider: getLocalisedObject(event.provider),
     recurringEventEndTime:
@@ -1699,6 +1374,43 @@ export const copyEventToSessionStorage = async (
   };
 
   sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
+};
+
+export const copyEventInfoToRegistrationSessionStorage = async (
+  event: EventFieldsFragment
+): Promise<void> => {
+  const {
+    audienceMaxAge,
+    audienceMinAge,
+    enrolmentEndTimeDate,
+    enrolmentEndTimeTime,
+    enrolmentStartTimeDate,
+    enrolmentStartTimeTime,
+    maximumAttendeeCapacity,
+    minimumAttendeeCapacity,
+  } = getEventInitialValues(event);
+
+  const state: FormikState<RegistrationFormFields> = {
+    errors: {},
+    isSubmitting: false,
+    isValidating: false,
+    submitCount: 0,
+    touched: {},
+    values: {
+      ...REGISTRATION_INITIAL_VALUES,
+      audienceMaxAge,
+      audienceMinAge,
+      enrolmentEndTimeDate,
+      enrolmentEndTimeTime,
+      enrolmentStartTimeDate,
+      enrolmentStartTimeTime,
+      event: event.id,
+      maximumAttendeeCapacity,
+      minimumAttendeeCapacity,
+    },
+  };
+
+  sessionStorage.setItem(FORM_NAMES.REGISTRATION_FORM, JSON.stringify(state));
 };
 
 export const getRecurringEvent = async (

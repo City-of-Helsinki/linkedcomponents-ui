@@ -1,9 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import useUserOrganization from '../../user/hooks/useUserOrganization';
 import { KEYWORD_SET_ACTIONS } from '../constants';
@@ -18,7 +17,7 @@ export type KeywordSetAuthenticationNotificationProps = {
 const KeywordSetAuthenticationNotification: React.FC<
   KeywordSetAuthenticationNotificationProps
 > = ({ action, className, dataSource }) => {
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const adminOrganizations = user?.adminOrganizations || [];
   const { organization: userOrganization, loading: loadingUserOrganization } =

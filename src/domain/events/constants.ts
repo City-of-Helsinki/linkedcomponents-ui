@@ -1,18 +1,12 @@
 import {
   EventListOptionsState,
+  EventsPageSettings,
   ExpandedEventsState,
-  ReducerState,
 } from './types';
 
 export const EVENTS_PAGE_SIZE = 10;
 
 export const EVENT_LIST_INCLUDES = ['in_language'];
-
-export const EVENTS_ACTIONS = {
-  ADD_EXPANDED_EVENT: 'ADD_EXPANDED_EVENT',
-  REMOVE_EXPANDED_EVENT: 'REMOVE_EXPANDED_EVENT',
-  SET_EVENT_LIST_OPTIONS: 'SET_EVENT_LIST_OPTIONS',
-};
 
 export enum EVENT_LIST_TYPES {
   CARD_LIST = 'cardList',
@@ -20,6 +14,17 @@ export enum EVENT_LIST_TYPES {
 }
 
 export const DEFAULT_EVENT_LIST_TYPE = EVENT_LIST_TYPES.TABLE;
+
+export enum EVENT_SEARCH_PARAMS {
+  END = 'end',
+  PAGE = 'page',
+  PLACE = 'place',
+  RETURN_PATH = 'returnPath',
+  SORT = 'sort',
+  START = 'start',
+  TEXT = 'text',
+  TYPE = 'type',
+}
 
 export enum EVENT_SORT_OPTIONS {
   END_TIME = 'end_time',
@@ -41,14 +46,23 @@ export enum EVENTS_PAGE_TABS {
 export const DEFAULT_EVENT_SORT = EVENT_SORT_OPTIONS.LAST_MODIFIED_TIME_DESC;
 export const DEFAULT_EVENT_TAB = EVENTS_PAGE_TABS.WAITING_APPROVAL;
 
-export const defaultListOptionsState: EventListOptionsState = {
+export enum EventListOptionsActionTypes {
+  SET_EVENT_LIST_OPTIONS = 'SET_EVENT_LIST_OPTIONS',
+}
+
+export enum ExpandedEventsActionTypes {
+  ADD_EXPANDED_EVENT = 'ADD_EXPANDED_EVENT',
+  REMOVE_EXPANDED_EVENT = 'REMOVE_EXPANDED_EVENT',
+}
+
+export const listOptionsInitialState: EventListOptionsState = {
   listType: DEFAULT_EVENT_LIST_TYPE,
   tab: DEFAULT_EVENT_TAB,
 };
 
-export const defaultExpandedEventsState: ExpandedEventsState = [];
+export const expandedEventsInitialState: ExpandedEventsState = [];
 
-export const defaultReducerState: ReducerState = {
-  expandedEvents: defaultExpandedEventsState,
-  listOptions: defaultListOptionsState,
+export const eventsReducerInitialState: EventsPageSettings = {
+  expandedEvents: expandedEventsInitialState,
+  listOptions: listOptionsInitialState,
 };

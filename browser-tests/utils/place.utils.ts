@@ -9,7 +9,7 @@ export const getExpectedPlaceContext = (
   removeEmpty(
     fieldsToPick.reduce(
       (fields, field) => ({ ...fields, [field]: place[field] }),
-      { id: place.id, name: place.name.fi }
+      { id: place.id, name: place.name?.fi }
     )
   );
 
@@ -20,6 +20,3 @@ export const isLocalized = (
 
 export const isInternetLocation = (location: PlaceFieldsFragment): boolean =>
   location.id === 'helsinki:internet' || location.id === 'system:internet';
-
-export const hasStreetAddress = (location: PlaceFieldsFragment): boolean =>
-  !!location.streetAddress;

@@ -11,6 +11,10 @@ export const QUERY_GLOBAL = gql`
     zhHans
   }
 
+  fragment idObjectFields on IdObject {
+    atId
+  }
+
   fragment metaFields on Meta {
     count
     next

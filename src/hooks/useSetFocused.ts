@@ -22,10 +22,20 @@ const useSetFocused = (
     }
   };
 
+  const onDocumentClick = (event: MouseEvent) => {
+    const target = event.target;
+
+    setFocused(
+      !!(target instanceof Node && container.current?.contains(target))
+    );
+  };
+
   React.useEffect(() => {
+    document.addEventListener('click', onDocumentClick);
     document.addEventListener('focusin', onDocumentFocusin);
 
     return () => {
+      document.removeEventListener('click', onDocumentClick);
       document.removeEventListener('focusin', onDocumentFocusin);
     };
   });

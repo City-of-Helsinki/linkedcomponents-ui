@@ -2,13 +2,13 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxField from '../../../../common/components/formFields/CheckboxField';
-import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
-import Offers from './Offers';
-import ValidationError from './ValidationError';
+import FreeEventFields from './freeEventFields/FreeEventFields';
+import Offers from './offers/Offers';
+import ValidationError from './validationError/ValidationError';
 
 interface Props {
   isEditingAllowed: boolean;
@@ -25,18 +25,20 @@ const PriceSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <h3>{t(`event.form.titlePriceInfo.${type}`)}</h3>
       <FieldRow>
         <FieldColumn>
-          <FormGroup>
-            <Field
-              component={CheckboxField}
-              disabled={!isEditingAllowed}
-              label={t(`event.form.labelHasPrice.${type}`)}
-              name={EVENT_FIELDS.HAS_PRICE}
-            />
-            <ValidationError />
-          </FormGroup>
+          <Field
+            component={CheckboxField}
+            disabled={!isEditingAllowed}
+            label={t(`event.form.labelHasPrice.${type}`)}
+            name={EVENT_FIELDS.HAS_PRICE}
+          />
+          <ValidationError />
         </FieldColumn>
       </FieldRow>
-      {hasPrice && <Offers isEditingAllowed={isEditingAllowed} />}
+      {hasPrice ? (
+        <Offers isEditingAllowed={isEditingAllowed} />
+      ) : (
+        <FreeEventFields isEditingAllowed={isEditingAllowed} />
+      )}
     </>
   );
 };

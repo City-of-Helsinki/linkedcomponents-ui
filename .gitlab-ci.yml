@@ -11,11 +11,10 @@ build-review:
   extends: .build
   variables:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-review'
-    DOCKER_BUILD_ARG_SASS_PATH: './src/assets/styles'
     DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'https://api.hel.fi/auth/linkedevents-ui'
-    DOCKER_BUILD_ARG_REACT_APP_OIDC_SCOPE: 'openid profile https://api.hel.fi/auth/linkedevents'
+    DOCKER_BUILD_ARG_REACT_APP_OIDC_API_SCOPE: 'https://api.hel.fi/auth/linkedevents'
   only:
     refs:
       - external_pull_requests
@@ -24,11 +23,10 @@ build-staging:
   extends: .build
   variables:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-staging'
-    DOCKER_BUILD_ARG_SASS_PATH: './src/assets/styles'
     DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://tunnistamo.test.kuva.hel.ninja'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'https://api.hel.fi/auth/linkedevents-ui'
-    DOCKER_BUILD_ARG_REACT_APP_OIDC_SCOPE: 'openid profile https://api.hel.fi/auth/linkedevents'
+    DOCKER_BUILD_ARG_REACT_APP_OIDC_API_SCOPE: 'https://api.hel.fi/auth/linkedevents'
   only:
     refs:
       - develop
@@ -37,11 +35,10 @@ build-production:
   extends: .build
   variables:
     DOCKER_IMAGE_NAME: '$CI_PROJECT_NAME-production'
-    DOCKER_BUILD_ARG_SASS_PATH: './src/assets/styles'
     DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://api.hel.fi/linkedevents/v1'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://api.hel.fi/sso'
     DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'https://api.hel.fi/auth/linkedevents-ui'
-    DOCKER_BUILD_ARG_REACT_APP_OIDC_SCOPE: 'openid profile https://api.hel.fi/auth/linkedevents'
+    DOCKER_BUILD_ARG_REACT_APP_OIDC_API_SCOPE: 'https://api.hel.fi/auth/linkedevents'
   only:
     refs:
       - /^release-.*$/

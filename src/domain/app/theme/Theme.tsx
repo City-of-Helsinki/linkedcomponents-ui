@@ -74,38 +74,13 @@ type CollapsibleCSSProperties = {
   '--heading-color-expanded-hover'?: string;
 };
 
-type DatepickerCSSProperties = {
-  '--close-button-color'?: string;
-  '--day-background-color'?: string;
-  '--day-background-color-disabled'?: string;
-  '--day-background-color-focused'?: string;
-  '--day-background-color-hovered'?: string;
-  '--day-background-color-selected'?: string;
-  '--day-border-color'?: string;
-  '--day-border-color-disabled'?: string;
-  '--day-border-color-focused'?: string;
-  '--day-border-color-hovered'?: string;
-  '--day-border-color-selected'?: string;
-  '--day-color'?: string;
-  '--day-color-disabled'?: string;
-  '--day-color-focused'?: string;
-  '--day-color-hovered'?: string;
-  '--day-color-selected'?: string;
-  '--day-size'?: string;
-  '--datepicker-background-color'?: string;
-  '--datepicker-container-padding'?: string;
-  '--datepicker-z-index'?: number;
-  '--icon-width'?: string;
-  '--input-spacing'?: string;
-  '--month-title-color'?: string;
-  '--times-divider-border-color'?: string;
-  '--times-list-width'?: string;
-  '--time-item-background-color'?: string;
-  '--time-item-background-color-focused'?: string;
-  '--time-item-background-color-selected'?: string;
-  '--time-item-color'?: string;
-  '--time-item-color-focused'?: string;
-  '--time-item-color-selected'?: string;
+type DateInputCSSProperties = {
+  '--date-background'?: string;
+  '--date-color'?: string;
+  '--outside-date-background'?: string;
+  '--outside-date-color'?: string;
+  '--selected-date-background'?: string;
+  '--selected-date-color'?: string;
 };
 
 type DeleteButtonCSSProperties = {
@@ -392,7 +367,6 @@ type TextEditorCSSProperties = {
   '--text-editor-border-color'?: string;
   '--text-editor-editor-max-height'?: string;
   '--text-editor-editor-min-height'?: string;
-  '--text-editor-toolbar-border-color'?: string;
 };
 
 type TextInputCSSProperties = {
@@ -418,17 +392,6 @@ type TextInputCSSProperties = {
   '--focus-outline-color'?: string;
 };
 
-type TimepickerCSSProperties = {
-  '--menu-background-color'?: string;
-  '--menu-border-color'?: string;
-  '--menu-max-height'?: string;
-  '--menu-z-index'?: number;
-  '--menu-item-background-color'?: string;
-  '--menu-item-background-color-highlighted'?: string;
-  '--menu-item-fontsize'?: string;
-  '--menu-item-spacing'?: string;
-};
-
 export type Theme = {
   breadcrumb: BreadcrumbCSSProperties;
   button: {
@@ -440,7 +403,7 @@ export type Theme = {
   };
   checkbox: CheckboxCSSProperties;
   collapsible: CollapsibleCSSProperties;
-  datepicker: DatepickerCSSProperties;
+  dateInput: DateInputCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   dropdown: DropdownCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
@@ -482,7 +445,6 @@ export type Theme = {
   tabs: TabsCSSProperties;
   textEditor: TextEditorCSSProperties;
   textInput: TextInputCSSProperties;
-  timepicker: TimepickerCSSProperties;
 };
 
 const defaultTheme: Theme = {
@@ -490,7 +452,7 @@ const defaultTheme: Theme = {
   button: {},
   checkbox: {},
   collapsible: {},
-  datepicker: {},
+  dateInput: {},
   deleteButton: {},
   dropdown: {},
   errorTemplate: {},
@@ -520,7 +482,6 @@ const defaultTheme: Theme = {
   tabs: {},
   textEditor: {},
   textInput: {},
-  timepicker: {},
 };
 
 type ThemeContextType = { setTheme: (theme: Theme) => void; theme: Theme };

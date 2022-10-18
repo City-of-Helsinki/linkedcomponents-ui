@@ -1,14 +1,11 @@
-/* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloQueryResult } from '@apollo/client';
-import { Form, Formik } from 'formik';
 import React from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import { ValidationError } from 'yup';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../constants';
 import {
   EnrolmentFieldsFragment,
@@ -20,40 +17,28 @@ import {
   useEventQuery,
   useRegistrationQuery,
 } from '../../generated/graphql';
-import useLocale from '../../hooks/useLocale';
-import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
-import { showFormErrors } from '../../utils/validationUtils';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import { registrationPathBuilder } from '../registration/utils';
-import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
-import EditButtonPanel from './editButtonPanel/EditButtonPanel';
-import EnrolmentAuthenticationNotification from './enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
-import EnrolmentFormFields from './enrolmentFormFields/EnrolmentFormFields';
+import EnrolmentForm from './enrolmentForm/EnrolmentForm';
 import styles from './enrolmentPage.module.scss';
-import EventInfo from './eventInfo/EventInfo';
-import FormContainer from './formContainer/FormContainer';
-import useEnrolmentServerErrors from './hooks/useEnrolmentServerErrors';
-import useEnrolmentUpdateActions, {
-  ENROLMENT_MODALS,
-} from './hooks/useEnrolmentUpdateActions';
-import ConfirmCancelModal from './modals/ConfirmCancelModal';
-import { EnrolmentFormFields as EnrolmentFormFieldsType } from './types';
+import EnrolmentPageContext, {
+  useEnrolmentPageContextValue,
+} from './enrolmentPageContext/EnrolmentPageContext';
 import {
   checkCanUserDoAction,
   enrolmentPathBuilder,
   getEnrolmentInitialValues,
 } from './utils';
-import { enrolmentSchema, scrollToFirstError } from './validation';
 
 type Props = {
   enrolment: EnrolmentFieldsFragment;
@@ -70,9 +55,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
   refetch,
   registration,
 }) => {
-  const locale = useLocale();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { t } = useTranslation();
   const { user } = useUser();
   const { organizationAncestors } = useOrganizationAncestors(
     event.publisher as string
@@ -83,137 +66,60 @@ const EditEnrolmentPage: React.FC<Props> = ({
     publisher: event.publisher as string,
     user,
   });
-  const { serverErrorItems, setServerErrorItems, showServerErrors } =
-    useEnrolmentServerErrors();
-  const {
-    cancelEnrolment,
-    closeModal,
-    openModal,
-    saving,
-    setOpenModal,
-    updateEnrolment,
-  } = useEnrolmentUpdateActions({
-    enrolment,
-    registration,
-  });
-
-  const goToEnrolmentsPage = () => {
-    const { returnPath, remainingQueryString } = extractLatestReturnPath(
-      location.search,
-      ROUTES.REGISTRATION_ENROLMENTS.replace(
-        ':registrationId',
-        registration.id as string
-      )
-    );
-
-    navigate(
-      {
-        pathname: `/${locale}${returnPath}`,
-        search: replaceParamsToRegistrationQueryString(remainingQueryString, {
-          attendeePage: null,
-          waitingPage: null,
-        }),
-      },
-      { state: { enrolmentId: enrolment.id } }
-    );
-  };
 
   const initialValues = React.useMemo(
     () => getEnrolmentInitialValues(enrolment, registration),
     [enrolment, registration]
   );
 
-  const onCancel = () => {
-    cancelEnrolment({
-      onSuccess: () => goToEnrolmentsPage(),
-    });
-  };
-
-  const onUpdate = (values: EnrolmentFormFieldsType) => {
-    updateEnrolment(values, {
-      onError: (error: any) => showServerErrors({ error }),
-      onSuccess: async () => {
-        await refetch();
-        window.scrollTo(0, 0);
-      },
-    });
-  };
-
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={enrolmentSchema}
+    <PageWrapper
+      backgroundColor="coatOfArms"
+      noFooter
+      title={`editEnrolmentPage.pageTitle`}
     >
-      {({ setErrors, setTouched, values }) => {
-        const clearErrors = () => setErrors({});
-
-        const handleSubmit = async () => {
-          try {
-            setServerErrorItems([]);
-            clearErrors();
-
-            await enrolmentSchema.validate(values, { abortEarly: false });
-
-            onUpdate(values);
-          } catch (error) {
-            showFormErrors({
-              error: error as ValidationError,
-              setErrors,
-              setTouched,
-            });
-
-            scrollToFirstError({ error: error as ValidationError });
-          }
-        };
-
-        return (
-          <>
-            <ConfirmCancelModal
-              enrolment={enrolment}
-              isOpen={openModal === ENROLMENT_MODALS.CANCEL}
-              isSaving={saving === ENROLMENT_ACTIONS.CANCEL}
-              onClose={closeModal}
-              onCancel={onCancel}
-              registration={registration}
-            />
-
-            <Form noValidate>
-              <PageWrapper
-                backgroundColor="coatOfArms"
-                noFooter
-                title={`editEnrolmentPage.pageTitle`}
-              >
-                <MainContent>
-                  <Container
-                    contentWrapperClassName={styles.editPageContentContainer}
-                    withOffset
-                  >
-                    <FormContainer>
-                      <EnrolmentAuthenticationNotification
-                        action={ENROLMENT_ACTIONS.UPDATE}
-                        registration={registration}
-                      />
-                      <ServerErrorSummary errors={serverErrorItems} />
-                      <EventInfo event={event} />
-                      <div className={styles.divider} />
-                      <EnrolmentFormFields disabled={!isEditingAllowed} />
-                    </FormContainer>
-                  </Container>
-                  <EditButtonPanel
-                    enrolment={enrolment}
-                    registration={registration}
-                    onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
-                    onSave={handleSubmit}
-                    saving={saving}
-                  />
-                </MainContent>
-              </PageWrapper>
-            </Form>
-          </>
-        );
-      }}
-    </Formik>
+      <MainContent>
+        <Container
+          contentWrapperClassName={styles.breadcrumbContainer}
+          withOffset
+        >
+          <Breadcrumb>
+            <Breadcrumb.Item to={ROUTES.HOME}>
+              {t('common.home')}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
+              {t('registrationsPage.title')}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              to={ROUTES.EDIT_REGISTRATION.replace(
+                ':id',
+                registration.id as string
+              )}
+            >
+              {t(`editRegistrationPage.title`)}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              to={ROUTES.REGISTRATION_ENROLMENTS.replace(
+                ':registrationId',
+                registration.id as string
+              )}
+            >
+              {t(`enrolmentsPage.title`)}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item active={true}>
+              {t(`editEnrolmentPage.pageTitle`)}
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </Container>
+        <EnrolmentForm
+          disabled={!isEditingAllowed}
+          enrolment={enrolment}
+          event={event}
+          initialValues={initialValues}
+          refetchEnrolment={refetch}
+        />
+      </MainContent>
+    </PageWrapper>
   );
 };
 
@@ -265,15 +171,27 @@ const EditEnrolmentPageWrapper: React.FC = () => {
   const loading =
     loadingUser || loadingRegistration || loadingEvent || loadingEnrolment;
 
+  const { openParticipant, setOpenParticipant, toggleOpenParticipant } =
+    useEnrolmentPageContextValue();
+
   return (
     <LoadingSpinner isLoading={loading}>
       {event && registration && enrolment ? (
-        <EditEnrolmentPage
-          enrolment={enrolment}
-          event={event}
-          refetch={refetch}
-          registration={registration}
-        />
+        <EnrolmentPageContext.Provider
+          value={{
+            openParticipant,
+            registration,
+            setOpenParticipant,
+            toggleOpenParticipant,
+          }}
+        >
+          <EditEnrolmentPage
+            enrolment={enrolment}
+            event={event}
+            refetch={refetch}
+            registration={registration}
+          />
+        </EnrolmentPageContext.Provider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

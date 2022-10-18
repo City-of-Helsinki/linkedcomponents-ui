@@ -1,16 +1,19 @@
+import React from 'react';
+
 import { testIds as imagePreviewTestIds } from '../../../common/components/imagePreview/ImagePreview';
 import { testIds as imageUploaderTestIds } from '../../../common/components/imageUploader/ImageUploader';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
+  actWait,
   configure,
   fireEvent,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
   within,
 } from '../../../utils/testUtils';
 import {
@@ -37,10 +40,10 @@ const mocks = [
   mockedUserResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const renderComponent = () => render(<CreateImagePage />, { mocks, store });
+const renderComponent = () =>
+  render(<CreateImagePage />, { authContextValue, mocks });
 
 const getElement = (
   key: 'addButton' | 'publisherInput' | 'publisherToggleButton' | 'saveButton'
@@ -84,6 +87,10 @@ const uploadImageByFile = async () => {
   await act(async () => {
     await fireEvent.change(fileInput);
   });
+
+  const submitButton = withinModal.getByRole('button', { name: 'Lisää' });
+  await waitFor(() => expect(submitButton).toBeEnabled());
+  await act(async () => await user.click(submitButton));
 };
 
 const uploadImageByUrl = async () => {
@@ -108,6 +115,19 @@ const uploadImageByUrl = async () => {
   await waitFor(() => expect(submitButton).toBeEnabled());
   await act(async () => await user.click(submitButton));
 };
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Lisää kuva - Linked Events';
+  const pageDescription = 'Lisää uusi kuva Linked Eventsiin.';
+  const pageKeywords =
+    'lisää, uusi, kuva, muokkaa, lataa, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await actWait(10);
+});
 
 test('should scroll to first validation error input field', async () => {
   const user = userEvent.setup();
@@ -157,7 +177,7 @@ test('should move to images page after creating new image', async () => {
   await act(async () => await user.click(saveButton));
 
   await waitFor(
-    () => expect(history.location.pathname).toBe(`/fi/admin/images`),
+    () => expect(history.location.pathname).toBe(`/fi/administration/images`),
     { timeout: 10000 }
   );
 });

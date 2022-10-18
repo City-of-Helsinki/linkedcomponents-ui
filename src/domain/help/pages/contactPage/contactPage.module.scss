@@ -1,0 +1,22 @@
+@import '../../../../assets/styles/breakpoints';
+
+.contactForm {
+  display: grid;
+
+  color: var(--color-black-90);
+
+  @include medium-up {
+    max-width: var(--input-max-width-m);
+  }
+
+  h2,
+  h3 {
+    font-weight: normal !important;
+  }
+}
+
+.accordions {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  margin-bottom: var(--spacing-m);
+}

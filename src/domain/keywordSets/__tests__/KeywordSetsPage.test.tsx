@@ -1,17 +1,18 @@
 import { createMemoryHistory } from 'history';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -23,19 +24,20 @@ import KeywordSetsPage from '../KeywordSetsPage';
 
 configure({ defaultHidden: true });
 
-const storeState = fakeAuthenticatedStoreState();
-const defaultStore = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedKeywordSetsResponse, mockedUserResponse];
+const mocks = [mockedKeywordSetsResponse, mockedUserResponse];
+
 const route = ROUTES.KEYWORD_SETS;
+const routes = [route];
 
-const renderComponent = ({
-  mocks = defaultMocks,
-  routes = [route],
-  store = defaultStore,
-  ...restRenderOptions
-}: CustomRenderOptions = {}) =>
-  render(<KeywordSetsPage />, { mocks, routes, store, ...restRenderOptions });
+const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
+  render(<KeywordSetsPage />, {
+    authContextValue,
+    mocks,
+    routes,
+    ...renderOptions,
+  });
 
 const findElement = (key: 'title') => {
   switch (key) {
@@ -80,6 +82,19 @@ test('should render keyword sets page', async () => {
   screen.getByRole('button', { name: keywordSetNames[0] });
 });
 
+test('applies expected metadata', async () => {
+  const pageTitle = 'Avainsanaryhmät - Linked Events';
+  const pageDescription =
+    'Avainsanaryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanaryhmiä.';
+  const pageKeywords =
+    'avainsana, ryhmä, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+});
+
 test('should open create keyword set page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
@@ -90,7 +105,9 @@ test('should open create keyword set page', async () => {
   const createKeywordSetButton = getElement('createKeywordSetButton');
   await act(async () => await user.click(createKeywordSetButton));
 
-  expect(history.location.pathname).toBe('/fi/admin/keyword-sets/create');
+  expect(history.location.pathname).toBe(
+    '/fi/administration/keyword-sets/create'
+  );
 });
 
 test('should add sort parameter to search query', async () => {
@@ -107,7 +124,7 @@ test('should add sort parameter to search query', async () => {
 
 it('scrolls to keyword row and calls history.replace correctly (deletes keywordSetId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { keywordSetId: keywordSets.data[0].id });
+  history.push(route, { keywordSetId: keywordSets.data[0]?.id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
@@ -121,7 +138,8 @@ it('scrolls to keyword row and calls history.replace correctly (deletes keywordS
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 

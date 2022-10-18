@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import IconGallery from '../../../icons/IconGallery';
 import IconList from '../../../icons/IconList';
 import { EVENT_LIST_TYPES } from '../constants';
-import { ListTypeOption } from '../eventList/ListTypeSelector';
+import { ListTypeOption } from '../eventList/listTypeSelector/ListTypeSelector';
 
 const useEventListTypeOptions = (): ListTypeOption[] => {
   const { t } = useTranslation();

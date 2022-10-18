@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import { act, renderHook } from '@testing-library/react';
 import i18n from 'i18next';
 

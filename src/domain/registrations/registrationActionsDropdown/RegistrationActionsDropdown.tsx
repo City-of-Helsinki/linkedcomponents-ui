@@ -1,21 +1,21 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import useRegistrationUpdateActions, {
   MODALS,
 } from '../../registration/hooks/useRegistrationUpdateActions';
-import ConfirmDeleteModal from '../../registration/modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from '../../registration/modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
@@ -24,7 +24,6 @@ import {
 } from '../../registration/utils';
 import useUser from '../../user/hooks/useUser';
 import { REGISTRATION_ACTIONS } from '../constants';
-import useQueryStringWithReturnPath from '../hooks/useRegistrationsQueryStringWithReturnPath';
 
 export interface RegistrationActionsDropdownProps {
   className?: string;
@@ -36,7 +35,7 @@ const RegistrationActionsDropdown = React.forwardRef<
   RegistrationActionsDropdownProps
 >(({ className, registration }, ref) => {
   const { t } = useTranslation();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
   const { id, registrationUrl } = getRegistrationFields(registration, locale);

@@ -2,12 +2,11 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
@@ -17,6 +16,7 @@ import {
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
+  event,
   mockedDeleteRegistrationResponse,
   mockedEventResponse,
   mockedInvalidUpdateRegistrationResponse,
@@ -35,8 +35,7 @@ const baseMocks = [
   mockedUserResponse,
 ];
 
-const storeState = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const route = ROUTES.EDIT_REGISTRATION.replace(':id', registrationId);
 
@@ -45,10 +44,10 @@ const renderComponent = (
   renderOptions?: CustomRenderOptions
 ) =>
   renderWithRoute(<EditRegistrationPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_REGISTRATION,
-    store,
     ...renderOptions,
   });
 
@@ -56,13 +55,21 @@ const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = screen
     .getAllByRole('button', { name: /valinnat/i })
-    .pop();
+    .pop() as HTMLElement;
 
   await act(async () => await user.click(toggleButton));
   screen.getByRole('region', { name: /valinnat/i });
 
   return toggleButton;
 };
+
+const getConfirmDeleteModal = () =>
+  screen.getByRole('dialog', { name: 'Varmista ilmoittautumisen poistaminen' });
+
+const queryConfirmDeleteModal = () =>
+  screen.queryByRole('dialog', {
+    name: 'Varmista ilmoittautumisen poistaminen',
+  });
 
 const getButton = (key: 'delete' | 'update') => {
   switch (key) {
@@ -84,7 +91,22 @@ const getInput = (key: 'enrolmentStartTime' | 'minimumAttendeeCapacity') => {
   }
 };
 
-test('should move to registrations page to deleting registration', async () => {
+test('should show link to event page', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+  const eventLink = screen.getByRole('link', {
+    name: event.name?.fi as string,
+  });
+
+  await act(async () => await user.click(eventLink));
+  expect(history.location.pathname).toBe(
+    `/fi${ROUTES.EDIT_EVENT.replace(':id', event.id)}`
+  );
+});
+
+test('should move to registrations page after deleting registration', async () => {
   const mocks = [...baseMocks, mockedDeleteRegistrationResponse];
   const user = userEvent.setup();
   const { history } = renderComponent(mocks);
@@ -95,14 +117,14 @@ test('should move to registrations page to deleting registration', async () => {
   const deleteButton = getButton('delete');
   await act(async () => await user.click(deleteButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const withinModal = within(getConfirmDeleteModal());
   const deleteRegistrationButton = withinModal.getByRole('button', {
     name: 'Poista ilmoittautuminen',
   });
   await act(async () => await user.click(deleteRegistrationButton));
 
   await waitFor(
-    () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
+    () => expect(queryConfirmDeleteModal()).not.toBeInTheDocument(),
     { timeout: 10000 }
   );
   expect(history.location.pathname).toBe('/fi/registrations');
@@ -123,7 +145,7 @@ test('should update registration', async () => {
   await act(async () => await user.click(updateButton));
 
   await loadingSpinnerIsNotInDocument(30000);
-  await screen.findByText('23.08.2021 12.00');
+  await screen.findByText('23.8.2021 12.00');
 });
 
 test('should scroll to first error when validation error is thrown', async () => {
@@ -142,7 +164,7 @@ test('should scroll to first error when validation error is thrown', async () =>
   await waitFor(() => expect(minimumAttendeeCapacityInput).toHaveFocus());
 });
 
-test("should show not found page if registration doesn't exist", async () => {
+test('should show "not found" page if registration doesn\'t exist', async () => {
   renderComponent(undefined, {
     routes: [ROUTES.EDIT_REGISTRATION.replace(':id', 'not-exist')],
   });

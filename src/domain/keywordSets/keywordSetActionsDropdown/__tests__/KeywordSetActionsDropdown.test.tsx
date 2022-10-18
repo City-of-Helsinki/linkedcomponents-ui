@@ -1,11 +1,12 @@
+import React from 'react';
+
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -24,8 +25,7 @@ import KeywordSetActionsDropdown, {
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: KeywordSetActionsDropdownProps = { keywordSet };
 
@@ -39,12 +39,12 @@ const defaultMocks = [
 
 const renderComponent = (
   props?: Partial<KeywordSetActionsDropdownProps>,
-  { mocks = defaultMocks, store }: CustomRenderOptions = {}
+  { authContextValue, mocks = defaultMocks }: CustomRenderOptions = {}
 ) =>
   render(<KeywordSetActionsDropdown {...defaultProps} {...props} />, {
+    authContextValue,
     mocks,
     routes: [route],
-    store,
   });
 
 const findElement = (key: 'deleteButton') => {
@@ -76,7 +76,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { store });
+  renderComponent(undefined, { authContextValue });
 
   const toggleButton = await openMenu();
   getElement('editButton');
@@ -99,7 +99,7 @@ test('should route to edit keyword set page', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/admin/keyword-sets/edit/${keywordSet.id}`
+      `/fi/administration/keyword-sets/edit/${keywordSet.id}`
     )
   );
 
@@ -110,7 +110,7 @@ test('should route to edit keyword set page', async () => {
 
 test('should delete keyword set', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { store });
+  renderComponent(undefined, { authContextValue });
 
   await openMenu();
 

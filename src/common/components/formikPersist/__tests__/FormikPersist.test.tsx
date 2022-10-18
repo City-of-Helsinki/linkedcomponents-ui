@@ -31,7 +31,7 @@ const defaultState = {
 };
 
 test('attempts to rehydrate on mount', async () => {
-  let injected: FormikProps<{ name: string }>;
+  let injected: Partial<FormikProps<{ name: string }>> = {};
 
   (localStorage.getItem as jest.Mock).mockReturnValueOnce(
     JSON.stringify({
@@ -47,7 +47,9 @@ test('attempts to rehydrate on mount', async () => {
 
         return (
           <div>
-            <Persist name={formName} debounceTime={0} />
+            <Persist name={formName} debounceTime={0}>
+              Content
+            </Persist>
           </div>
         );
       }}
@@ -56,13 +58,13 @@ test('attempts to rehydrate on mount', async () => {
 
   expect(localStorage.getItem).toHaveBeenCalled();
 
-  expect(injected.values.name).toEqual('Name from local storage');
+  expect(injected.values?.name).toEqual('Name from local storage');
 
   act(() => {
-    injected.setValues({ name: 'changed value' });
+    injected.setValues?.({ name: 'changed value' });
   });
 
-  expect(injected.values.name).toEqual('changed value');
+  expect(injected.values?.name).toEqual('changed value');
 
   await waitFor(() => {
     expect(localStorage.setItem).toHaveBeenCalledWith(
@@ -73,7 +75,7 @@ test('attempts to rehydrate on mount', async () => {
 });
 
 test('attempts to rehydrate on mount if session storage is true on props', async () => {
-  let injected: FormikProps<{ name: string }>;
+  let injected: Partial<FormikProps<{ name: string }>> = {};
 
   (sessionStorage.getItem as jest.Mock).mockReturnValueOnce(
     JSON.stringify({
@@ -89,7 +91,9 @@ test('attempts to rehydrate on mount if session storage is true on props', async
 
         return (
           <div>
-            <Persist name={formName} debounceTime={0} isSessionStorage={true} />
+            <Persist name={formName} debounceTime={0} isSessionStorage={true}>
+              Content
+            </Persist>
           </div>
         );
       }}
@@ -98,13 +102,13 @@ test('attempts to rehydrate on mount if session storage is true on props', async
 
   expect(sessionStorage.getItem).toHaveBeenCalled();
 
-  expect(injected.values.name).toEqual('Name from session storage');
+  expect(injected.values?.name).toEqual('Name from session storage');
 
   act(() => {
-    injected.setValues({ name: 'changed value' });
+    injected.setValues?.({ name: 'changed value' });
   });
 
-  expect(injected.values.name).toEqual('changed value');
+  expect(injected.values?.name).toEqual('changed value');
 
   await waitFor(() => {
     expect(sessionStorage.setItem).toHaveBeenCalledWith(

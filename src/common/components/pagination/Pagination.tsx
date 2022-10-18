@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import { IconAngleLeft, IconAngleRight } from 'hds-react';
 import range from 'lodash/range';
 import React from 'react';
@@ -77,62 +76,62 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <nav aria-label={t('common.pagination.navigation')}>
-      <ul
-        className={classNames(
-          styles.pagination,
-          className,
-          css(theme.pagination)
-        )}
-      >
-        <li className={styles.pageItem}>
-          <button
-            aria-label={t('common.pagination.previous')}
-            className={styles.pageLink}
-            disabled={isPreviousDisabled}
-            onClick={handlePreviousClick}
+    <ClassNames>
+      {({ css, cx }) => (
+        <nav aria-label={t('common.pagination.navigation')}>
+          <ul
+            className={cx(styles.pagination, className, css(theme.pagination))}
           >
-            <IconAngleLeft />
-          </button>
-        </li>
-        {getPageNumbers().map((page, index) => {
-          return (
-            <li
-              key={page ? page : `break_${index}`}
-              className={styles.pageItem}
-            >
+            <li className={styles.pageItem}>
               <button
-                aria-label={
-                  page ? t('common.pagination.page', { page }) : undefined
-                }
-                className={classNames(styles.pageLink, {
-                  [styles.selected]: selectedPage === page,
-                })}
-                disabled={!page}
-                onClick={() => {
-                  /* istanbul ignore else */
-                  if (page) {
-                    setSelectedPage(page);
-                  }
-                }}
+                aria-label={t('common.pagination.previous')}
+                className={styles.pageLink}
+                disabled={isPreviousDisabled}
+                onClick={handlePreviousClick}
               >
-                {page || '...'}
+                <IconAngleLeft />
               </button>
             </li>
-          );
-        })}
-        <li className={styles.pageItem}>
-          <button
-            aria-label={t('common.pagination.next')}
-            className={styles.pageLink}
-            disabled={isNextDisabled}
-            onClick={handleNextClick}
-          >
-            <IconAngleRight />
-          </button>
-        </li>
-      </ul>
-    </nav>
+            {getPageNumbers().map((page, index) => {
+              return (
+                <li
+                  key={page ? page : `break_${index}`}
+                  className={styles.pageItem}
+                >
+                  <button
+                    aria-label={
+                      page ? t('common.pagination.page', { page }) : undefined
+                    }
+                    className={cx(styles.pageLink, {
+                      [styles.selected]: selectedPage === page,
+                    })}
+                    disabled={!page}
+                    onClick={() => {
+                      /* istanbul ignore else */
+                      if (page) {
+                        setSelectedPage(page);
+                      }
+                    }}
+                  >
+                    {page || '...'}
+                  </button>
+                </li>
+              );
+            })}
+            <li className={styles.pageItem}>
+              <button
+                aria-label={t('common.pagination.next')}
+                className={styles.pageLink}
+                disabled={isNextDisabled}
+                onClick={handleNextClick}
+              >
+                <IconAngleRight />
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )}
+    </ClassNames>
   );
 };
 

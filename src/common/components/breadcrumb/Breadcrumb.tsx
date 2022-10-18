@@ -1,12 +1,11 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import React, { cloneElement, isValidElement } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import { FCWithName } from '../../../types';
 import styles from './breadcrumb.module.scss';
-import BreadcrumbItem from './BreadcrumbItem';
+import BreadcrumbItem from './breadcrumbItem/BreadcrumbItem';
 
 type BreadcrumbProps = {
   ariaLabel?: string;
@@ -33,14 +32,18 @@ const Breadcrumb = ({
   });
 
   return (
-    <nav
-      className={classNames(styles.breadcrumb, className)}
-      aria-label={ariaLabel || t('common.breadcrumb')}
-    >
-      <ol className={classNames(styles.breadcrumbList, css(theme.breadcrumb))}>
-        {items}
-      </ol>
-    </nav>
+    <ClassNames>
+      {({ css, cx }) => (
+        <nav
+          className={cx(styles.breadcrumb, className)}
+          aria-label={ariaLabel || t('common.breadcrumb')}
+        >
+          <ol className={cx(styles.breadcrumbList, css(theme.breadcrumb))}>
+            {items}
+          </ol>
+        </nav>
+      )}
+    </ClassNames>
   );
 };
 

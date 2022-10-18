@@ -1,20 +1,20 @@
-import { css } from '@emotion/css';
+import { ClassNames } from '@emotion/react';
 import { ResizeObserver } from '@juggle/resize-observer';
 import classNames from 'classnames';
 import { ButtonProps, IconAngleDown, IconAngleUp } from 'hds-react';
-import uniqueId from 'lodash/uniqueId';
 import React, { useRef, useState } from 'react';
 import mergeRefs from 'react-merge-refs';
 import useMeasure from 'react-use-measure';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import useDropdownKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import Button from '../button/Button';
 // eslint-disable-next-line import/no-named-as-default
-import Menu, { MenuPosition } from './Menu';
+import Menu, { MenuPosition } from './menu/Menu';
 import styles from './menuDropdown.module.scss';
-import { MenuItemOptionProps } from './MenuItem';
+import { MenuItemOptionProps } from './types';
 
 export type MenuDropdownProps = React.PropsWithChildren<{
   button?: React.ReactElement;
@@ -57,7 +57,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
 
   const isComponentFocused = useIsComponentFocused(containerRef);
 
-  const [id] = React.useState(() => _id || uniqueId('menu-dropdown-'));
+  const id = useIdWithPrefix({ id: _id, prefix: 'menu-dropdown-' });
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
 
@@ -186,28 +186,32 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
   };
 
   return (
-    <div
-      ref={mergeRefs<HTMLDivElement>([ref, containerRef])}
-      className={classNames(
-        styles.menuDropdown,
-        css(theme.menuDropdown),
-        className
+    <ClassNames>
+      {({ css }) => (
+        <div
+          ref={mergeRefs<HTMLDivElement>([ref, containerRef])}
+          className={classNames(
+            styles.menuDropdown,
+            className,
+            css(theme.menuDropdown)
+          )}
+        >
+          {getToggleButton()}
+          <Menu
+            ariaLabelledBy={buttonId}
+            fixedPosition={fixedPosition}
+            focusedIndex={focusedIndex}
+            id={menuId}
+            items={items}
+            onItemClick={handleItemClick}
+            menuContainerSize={menuContainerSize}
+            menuOpen={menuOpen}
+            menuPosition={menuPosition}
+            setFocusedIndex={setFocusedIndex}
+          />
+        </div>
       )}
-    >
-      {getToggleButton()}
-      <Menu
-        ariaLabelledBy={buttonId}
-        fixedPosition={fixedPosition}
-        focusedIndex={focusedIndex}
-        id={menuId}
-        items={items}
-        onItemClick={handleItemClick}
-        menuContainerSize={menuContainerSize}
-        menuOpen={menuOpen}
-        menuPosition={menuPosition}
-        setFocusedIndex={setFocusedIndex}
-      />
-    </div>
+    </ClassNames>
   );
 };
 

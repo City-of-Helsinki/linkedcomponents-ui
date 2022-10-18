@@ -1,3 +1,4 @@
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import { ImageFieldsFragment } from '../../../generated/graphql';
 import {
   fakeImage,
@@ -80,7 +81,7 @@ describe('getImageFields function', () => {
     const { altText, id, license, name, photographerName, publisher, url } =
       getImageFields(image, 'fi');
 
-    expect(altText).toBe('');
+    expect(altText).toEqual(EMPTY_MULTI_LANGUAGE_OBJECT);
     expect(id).toBe('');
     expect(license).toBe(DEFAULT_LICENSE_TYPE);
     expect(name).toBe('');
@@ -114,7 +115,7 @@ describe('getImageInitialValues function', () => {
         })
       )
     ).toEqual({
-      altText: '',
+      altText: EMPTY_MULTI_LANGUAGE_OBJECT,
       id: '',
       license: '',
       name: '',
@@ -129,11 +130,13 @@ describe('checkCanUserDoAction function', () => {
   const publisher = TEST_PUBLISHER_ID;
 
   it('should allow correct actions if adminArganizations contains publisher', () => {
-    const user = fakeUser({ adminOrganizations: [publisher] });
+    const user = fakeUser({
+      adminOrganizations: [publisher],
+      organization: null,
+    });
 
     const allowedActions = [
       IMAGE_ACTIONS.CREATE,
-      IMAGE_ACTIONS.DELETE,
       IMAGE_ACTIONS.EDIT,
       IMAGE_ACTIONS.UPDATE,
       IMAGE_ACTIONS.UPLOAD,
@@ -149,15 +152,30 @@ describe('checkCanUserDoAction function', () => {
         })
       ).toBe(true);
     });
+
+    const deniedActions = [IMAGE_ACTIONS.DELETE];
+
+    deniedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(false);
+    });
   });
 
   it('should allow correct actions if organizationAncestores contains any of the adminArganizations', () => {
     const adminOrganization = 'admin:1';
-    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+    const user = fakeUser({
+      adminOrganizations: [adminOrganization],
+      organization: null,
+    });
 
     const allowedActions = [
       IMAGE_ACTIONS.CREATE,
-      IMAGE_ACTIONS.DELETE,
       IMAGE_ACTIONS.EDIT,
       IMAGE_ACTIONS.UPDATE,
       IMAGE_ACTIONS.UPLOAD,
@@ -173,14 +191,29 @@ describe('checkCanUserDoAction function', () => {
         })
       ).toBe(true);
     });
+
+    const deniedActions = [IMAGE_ACTIONS.DELETE];
+
+    deniedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(false);
+    });
   });
 
   it('should allow correct actions if organizationMembers contains publisher', () => {
-    const user = fakeUser({ organizationMemberships: [publisher] });
+    const user = fakeUser({
+      organizationMemberships: [publisher],
+      organization: null,
+    });
 
     const allowedActions = [
       IMAGE_ACTIONS.CREATE,
-      IMAGE_ACTIONS.DELETE,
       IMAGE_ACTIONS.EDIT,
       IMAGE_ACTIONS.UPDATE,
       IMAGE_ACTIONS.UPLOAD,
@@ -196,12 +229,61 @@ describe('checkCanUserDoAction function', () => {
         })
       ).toBe(true);
     });
+
+    const deniedActions = [IMAGE_ACTIONS.DELETE];
+
+    deniedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(false);
+    });
+  });
+
+  it('should allow correct actions if organization equals publisher', () => {
+    const user = fakeUser({
+      adminOrganizations: [],
+      organizationMemberships: [],
+      organization: publisher,
+    });
+
+    const allowedActions = [IMAGE_ACTIONS.DELETE, IMAGE_ACTIONS.EDIT];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+
+    const deniedActions = [
+      IMAGE_ACTIONS.CREATE,
+      IMAGE_ACTIONS.UPDATE,
+      IMAGE_ACTIONS.UPLOAD,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(false);
+    });
   });
 });
 
 describe('getImageActionWarning function', () => {
-  const publisher = TEST_PUBLISHER_ID;
-
   it('should return correct warning if user is not authenticates', () => {
     const actions = [
       {
@@ -230,7 +312,6 @@ describe('getImageActionWarning function', () => {
         getImageActionWarning({
           action,
           authenticated: false,
-          publisher,
           t: (s) => i18.t(s),
           userCanDoAction: false,
         })
@@ -266,7 +347,6 @@ describe('getImageActionWarning function', () => {
         getImageActionWarning({
           action,
           authenticated: true,
-          publisher,
           t: (s) => i18.t(s),
           userCanDoAction: false,
         })

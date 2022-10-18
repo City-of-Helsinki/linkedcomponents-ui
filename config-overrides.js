@@ -2,6 +2,7 @@ module.exports = function override(config) {
   //do stuff with the webpack config...
   config.resolve.fallback = {
     path: require.resolve('path-browserify'),
+    util: false,
   };
 
   return {

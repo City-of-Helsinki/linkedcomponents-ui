@@ -8,8 +8,8 @@ import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
 import { ORGANIZATION_ACTIONS } from '../organization/constants';
 import OrganizationAuthenticationNotification from '../organization/organizationAuthenticationNotification/OrganizationAuthenticationNotification';
 import useUser from '../user/hooks/useUser';
@@ -65,7 +65,11 @@ const OrganizationsPageWrapper: React.FC = () => {
   const { loading: loadingUser } = useUser();
 
   return (
-    <PageWrapper title="organizationsPage.pageTitle">
+    <PageWrapper
+      description="organizationsPage.pageDescription"
+      keywords={['keywords.organization', 'keywords.listing']}
+      title="organizationsPage.pageTitle"
+    >
       <LoadingSpinner isLoading={loadingUser}>
         <OrganizationsPage />
       </LoadingSpinner>

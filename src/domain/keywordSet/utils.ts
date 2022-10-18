@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 
-import { MenuItemOptionProps } from '../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { ROUTES } from '../../constants';
 import {
   CreateKeywordSetMutationInput,
@@ -42,9 +42,11 @@ export const keywordSetPathBuilder = ({
 export const keywordSetsPathBuilder = ({
   args,
 }: PathBuilderProps<KeywordSetsQueryVariables>): string => {
-  const { include, sort, text } = args;
+  const { include, page, pageSize, sort, text } = args;
   const variableToKeyItems = [
     { key: 'include', value: include },
+    { key: 'page', value: page },
+    { key: 'page_size', value: pageSize },
     { key: 'sort', value: sort },
     { key: 'text', value: text },
   ];

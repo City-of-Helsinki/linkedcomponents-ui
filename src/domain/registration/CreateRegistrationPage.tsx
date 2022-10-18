@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import * as Yup from 'yup';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import FormikPersist from '../../common/components/formikPersist/FormikPersist';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
@@ -23,10 +24,10 @@ import {
   scrollToFirstError,
   showFormErrors,
 } from '../../utils/validationUtils';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
-import Section from '../app/layout/Section';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import Section from '../app/layout/section/Section';
 import { reportError } from '../app/sentry/utils';
 import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { clearRegistrationsQueries } from '../registrations/utils';
@@ -160,45 +161,62 @@ const CreateRegistrationPage: React.FC = () => {
             <FormikPersist
               name={FORM_NAMES.REGISTRATION_FORM}
               isSessionStorage={true}
-            />
+            >
+              <MainContent>
+                <Container className={styles.createContainer} withOffset={true}>
+                  <Breadcrumb className={styles.breadcrumb}>
+                    <Breadcrumb.Item to={ROUTES.HOME}>
+                      {t('common.home')}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
+                      {t('registrationsPage.title')}
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item active={true}>
+                      {t(`createRegistrationPage.title`)}
+                    </Breadcrumb.Item>
+                  </Breadcrumb>
 
-            <MainContent>
-              <Container className={styles.createContainer} withOffset={true}>
-                <AuthenticationNotification
-                  action={REGISTRATION_ACTIONS.CREATE}
-                />
-                <ServerErrorSummary errors={serverErrorItems} />
-                <Section title={t('registration.form.sections.event')}>
-                  <EventSection isEditingAllowed={isEditingAllowed} />
-                </Section>
-                <Section title={t('registration.form.sections.enrolmentTime')}>
-                  <EnrolmentTimeSection isEditingAllowed={isEditingAllowed} />
-                </Section>
-                <Section title={t('registration.form.sections.attendeeCount')}>
-                  <AttendeeCapacitySection
-                    isEditingAllowed={isEditingAllowed}
+                  <AuthenticationNotification
+                    action={REGISTRATION_ACTIONS.CREATE}
                   />
-                </Section>
-                <Section title={t('registration.form.sections.waitingList')}>
-                  <WaitingListSection isEditingAllowed={isEditingAllowed} />
-                </Section>
-                <Section title={t('registration.form.sections.instructions')}>
-                  <InstructionsSection isEditingAllowed={isEditingAllowed} />
-                </Section>
-                <Section
-                  title={t('registration.form.sections.confirmationMessage')}
-                >
-                  <ConfirmationMessageSection
-                    isEditingAllowed={isEditingAllowed}
-                  />
-                </Section>
-                <Section title={t('registration.form.sections.audienceAge')}>
-                  <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
-                </Section>
-              </Container>
+                  <ServerErrorSummary errors={serverErrorItems} />
 
-              <CreateButtonPanel onSave={handleSubmit} saving={saving} />
-            </MainContent>
+                  <Section title={t('registration.form.sections.event')}>
+                    <EventSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                  <Section
+                    title={t('registration.form.sections.enrolmentTime')}
+                  >
+                    <EnrolmentTimeSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                  <Section
+                    title={t('registration.form.sections.attendeeCount')}
+                  >
+                    <AttendeeCapacitySection
+                      isEditingAllowed={isEditingAllowed}
+                    />
+                  </Section>
+                  <Section title={t('registration.form.sections.waitingList')}>
+                    <WaitingListSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                  <Section title={t('registration.form.sections.instructions')}>
+                    <InstructionsSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                  <Section
+                    title={t('registration.form.sections.confirmationMessage')}
+                  >
+                    <ConfirmationMessageSection
+                      isEditingAllowed={isEditingAllowed}
+                    />
+                  </Section>
+                  <Section title={t('registration.form.sections.audienceAge')}>
+                    <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                </Container>
+
+                <CreateButtonPanel onSave={handleSubmit} saving={saving} />
+              </MainContent>
+            </FormikPersist>
           </Form>
         );
       }}

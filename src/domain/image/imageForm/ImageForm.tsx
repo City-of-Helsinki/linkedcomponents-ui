@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import { IconPlusCircle } from 'hds-react';
@@ -8,14 +9,21 @@ import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import Button from '../../../common/components/button/Button';
-import PublisherSelectorField from '../../../common/components/formFields/PublisherSelectorField';
-import RadioButtonGroupField from '../../../common/components/formFields/RadioButtonGroupField';
-import TextInputField from '../../../common/components/formFields/TextInputField';
+import PublisherSelectorField from '../../../common/components/formFields/publisherSelectorField/PublisherSelectorField';
+import RadioButtonGroupField from '../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
+import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import ImagePreview from '../../../common/components/imagePreview/ImagePreview';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
-import { ROUTES } from '../../../constants';
+import {
+  LE_DATA_LANGUAGES,
+  ORDERED_LE_DATA_LANGUAGES,
+  ROUTES,
+} from '../../../constants';
 import { ImageFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import { isFeatureEnabled } from '../../../utils/featureFlags';
+import getLocalisedObject from '../../../utils/getLocalisedObject';
+import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
   scrollToFirstError,
   showFormErrors,
@@ -37,7 +45,7 @@ import useImageUpdateActions, {
   IMAGE_MODALS,
 } from '../hooks/useImageUpdateActions';
 import ImageAuthenticationNotification from '../imageAuthenticationNotification/ImageAuthenticationNotification';
-import AddImageModal from '../modals/AddImageModal';
+import AddImageModal from '../modals/addImageModal/AddImageModal';
 import { ImageFormFields } from '../types';
 import { checkCanUserDoAction, getImageInitialValues } from '../utils';
 import { getFocusableFieldId, imageSchema } from '../validation';
@@ -117,6 +125,8 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
       validationSchema={isEditingAllowed && imageSchema}
     >
       {({ setErrors, setFieldValue, setTouched, values }) => {
+        const isAltTextDisabled = !isEditingAllowed || !values.url;
+
         const clearErrors = () => setErrors({});
 
         const handleSubmit = async (
@@ -149,7 +159,10 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
           setFieldValue(IMAGE_FIELDS.ID, image.id);
           setFieldValue(IMAGE_FIELDS.URL, image.url);
           /* istanbul ignore next */
-          setFieldValue(IMAGE_FIELDS.ALT_TEXT, image.altText ?? '');
+          setFieldValue(
+            IMAGE_FIELDS.ALT_TEXT,
+            getLocalisedObject(image.altText)
+          );
           setFieldValue(IMAGE_FIELDS.NAME, image.name);
           /* istanbul ignore next */
           setFieldValue(
@@ -170,7 +183,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 )
               }
               onClose={closeModal}
-              onFileChange={(image) =>
+              onAddImageByFile={(image) =>
                 uploadImage(
                   { publisher: values.publisher, image },
                   setImageFields
@@ -223,17 +236,45 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                   </div>
                 </div>
               </FormRow>
-              <FormRow>
-                <Field
-                  className={styles.alignedInput}
-                  component={TextInputField}
-                  disabled={!isEditingAllowed || !values.url}
-                  label={t(`image.form.labelAltText`)}
-                  name={IMAGE_FIELDS.ALT_TEXT}
-                  placeholder={t(`image.form.placeholderAltText`)}
-                  required
-                />
-              </FormRow>
+
+              {/* TODO: Remove LOCALIZED_IMAGE feature flag when localized image alt
+                  text is deployed to production of API */}
+              {isFeatureEnabled('LOCALIZED_IMAGE') ? (
+                ORDERED_LE_DATA_LANGUAGES.map((language) => {
+                  const langText = lowerCaseFirstLetter(
+                    t(`form.inLanguage.${language}`)
+                  );
+
+                  return (
+                    <FormRow key={language}>
+                      <Field
+                        className={styles.alignedInput}
+                        component={TextInputField}
+                        disabled={isAltTextDisabled}
+                        label={`${t('image.form.labelAltText')} (${langText})`}
+                        name={`${IMAGE_FIELDS.ALT_TEXT}.${language}`}
+                        placeholder={`${t(
+                          'image.form.placeholderAltText'
+                        )} (${langText})`}
+                        required={language === LE_DATA_LANGUAGES.FI}
+                      />
+                    </FormRow>
+                  );
+                })
+              ) : (
+                <FormRow>
+                  <Field
+                    className={styles.alignedInput}
+                    component={TextInputField}
+                    disabled={isAltTextDisabled}
+                    label={t('image.form.labelAltText')}
+                    name={`${IMAGE_FIELDS.ALT_TEXT}.fi`}
+                    placeholder={t('image.form.placeholderAltText')}
+                    required={true}
+                  />
+                </FormRow>
+              )}
+
               <FormRow>
                 <Field
                   className={styles.alignedInput}

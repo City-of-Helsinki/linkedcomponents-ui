@@ -1,0 +1,29 @@
+@import '../../../../assets/styles/breakpoints';
+
+.platformPage {
+  --platform-page-image-min-height: 250px;
+
+  h2 {
+    font-size: var(--fontsize-heading-l) !important;
+  }
+}
+
+.mainContent {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  margin-bottom: var(--spacing-5-xl);
+  min-height: var(--platform-page-image-min-height);
+
+  img {
+    width: 100%;
+  }
+}
+
+.highlights {
+  display: grid;
+  grid-gap: var(--spacing-2-xl);
+
+  @include medium-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

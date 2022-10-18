@@ -1,0 +1,66 @@
+@import '../../../../assets/styles/mixins';
+
+.listTypeSelector {
+  --list-type-selector-option-color: var(--color-black-90);
+  --list-type-selector-option-color-checked: var(--color-black-40);
+  --list-type-selector-option-background-color: var(--color-black-5);
+  --list-type-selector-option-background-color-checked: var(--color-black-10);
+  --list-type-selector-option-border-color: var(--color-black-40);
+  --list-type-selector-option-size: 2rem;
+
+  display: flex;
+  border: none;
+  padding: 0 var(--spacing-s);
+  align-self: center;
+}
+
+.caption {
+  @include hidden-from-screen;
+}
+.option {
+  height: var(--list-type-selector-option-size);
+  width: var(--list-type-selector-option-size);
+  position: relative;
+  border: 1px solid var(--list-type-selector-option-border-color);
+  background-color: var(--list-type-selector-option-background-color);
+  color: var(--list-type-selector-option-color);
+  margin-right: var(--spacing-s);
+
+  input {
+    appearance: none;
+    height: var(--list-type-selector-option-size);
+    width: var(--list-type-selector-option-size);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    border-color: transparent;
+
+    @include focus-outline(0px);
+  }
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .optionText {
+    @include hidden-from-screen;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &.isChecked {
+    background-color: var(--list-type-selector-option-background-color-checked);
+    color: var(--list-type-selector-option-color-checked);
+  }
+}

@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.2
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
@@ -42,3 +42,9 @@ jobs:
           TESTCAFE_SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           TESTCAFE_SLACK_CHANNEL: '#linked-alerts'
           TESTCAFE_SLACK_USERNAME: TestCafé
+      - name: Upload screenshots and videos of failed tests to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: report
+          path: report/
+        if: always() && steps.testcafe.outcome == 'failure'

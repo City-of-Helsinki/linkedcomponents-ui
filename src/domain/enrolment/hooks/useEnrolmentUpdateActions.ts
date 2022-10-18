@@ -30,7 +30,7 @@ export enum ENROLMENT_MODALS {
 }
 
 interface Props {
-  enrolment: EnrolmentFieldsFragment;
+  enrolment?: EnrolmentFieldsFragment;
   registration: RegistrationFieldsFragment;
 }
 
@@ -116,7 +116,7 @@ const useEnrolmentUpdateActions = ({
 
       await deleteEnrolmentMutation({
         variables: {
-          cancellationCode: enrolment.cancellationCode as string,
+          cancellationCode: enrolment?.cancellationCode as string,
         },
       });
 
@@ -135,7 +135,7 @@ const useEnrolmentUpdateActions = ({
     callbacks?: UpdateActionsCallbacks
   ) => {
     let payload: UpdateEnrolmentMutationInput = {
-      id: enrolment.id as string,
+      id: enrolment?.id as string,
       registration: registration.id as string,
     };
 
@@ -144,7 +144,7 @@ const useEnrolmentUpdateActions = ({
 
       payload = {
         ...getEnrolmentPayload(values, registration),
-        id: enrolment.id as string,
+        id: enrolment?.id as string,
       };
 
       await updateEnrolmentMutation({ variables: { input: payload } });

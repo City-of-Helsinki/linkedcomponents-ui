@@ -41,22 +41,13 @@ const variables = {
 const eventNames = range(1, EVENTS_PAGE_SIZE + 1).map((n) => `Event name ${n}`);
 const events = fakeEvents(
   EVENTS_PAGE_SIZE,
-  eventNames.map((name) => ({
-    name: { fi: name },
-    publisher: null,
-  }))
+  eventNames.map((name) => ({ name: { fi: name }, publisher: null }))
 );
 const count = 30;
-const meta: Meta = {
-  ...events.meta,
-  count,
-};
+const meta: Meta = { ...events.meta, count };
 const eventsResponse = { data: { events: { ...events, meta } } };
 const mockedEventsResponse = {
-  request: {
-    query: EventsDocument,
-    variables,
-  },
+  request: { query: EventsDocument, variables },
   result: eventsResponse,
 };
 
@@ -65,18 +56,12 @@ const page2EventNames = range(1, EVENTS_PAGE_SIZE + 1).map(
 );
 const page2Events = fakeEvents(
   EVENTS_PAGE_SIZE,
-  page2EventNames.map((name) => ({
-    name: { fi: name },
-    publisher: null,
-  }))
+  page2EventNames.map((name) => ({ name: { fi: name }, publisher: null }))
 );
 const page2EventsResponse = { data: { events: { ...page2Events, meta } } };
 const page2EventsVariables = { ...variables, page: 2 };
 const mockedPage2EventsResponse = {
-  request: {
-    query: EventsDocument,
-    variables: page2EventsVariables,
-  },
+  request: { query: EventsDocument, variables: page2EventsVariables },
   result: page2EventsResponse,
 };
 
@@ -85,18 +70,12 @@ const sortedEventNames = range(1, EVENTS_PAGE_SIZE + 1).map(
 );
 const sortedEvents = fakeEvents(
   EVENTS_PAGE_SIZE,
-  sortedEventNames.map((name) => ({
-    name: { fi: name },
-    publisher: null,
-  }))
+  sortedEventNames.map((name) => ({ name: { fi: name }, publisher: null }))
 );
 const sortedEventsResponse = { data: { events: { ...sortedEvents, meta } } };
 const sortedEventsVariables = { ...variables, sort: EVENT_SORT_OPTIONS.NAME };
 const mockedSortedEventsResponse = {
-  request: {
-    query: EventsDocument,
-    variables: sortedEventsVariables,
-  },
+  request: { query: EventsDocument, variables: sortedEventsVariables },
   result: sortedEventsResponse,
 };
 
@@ -111,6 +90,7 @@ const defaultProps: EventListContainerProps = {
   baseVariables: variables,
   listType: EVENT_LIST_TYPES.TABLE,
   setListType: jest.fn(),
+  showListTypeSelector: true,
   skip: false,
 };
 
@@ -145,8 +125,9 @@ const getElement = (
   }
 };
 
-const renderComponent = (props?: Partial<EventListContainerProps>) =>
-  render(<EventList {...defaultProps} {...props} />, { mocks });
+const renderComponent = (
+  props?: Partial<Omit<EventListContainerProps, 'showListTypeSelector'>>
+) => render(<EventList {...defaultProps} {...props} />, { mocks });
 
 test('should navigate between pages', async () => {
   const user = userEvent.setup();

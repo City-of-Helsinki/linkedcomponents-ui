@@ -1,7 +1,6 @@
-import { AnyAction, Store } from '@reduxjs/toolkit';
 import React from 'react';
 
-import { StoreState } from '../../../types';
+import { fakeAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
@@ -10,13 +9,13 @@ import {
   userEvent,
 } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
-import userManager from '../../auth/userManager';
+import { AuthContextProps } from '../../auth/types';
 import NotFound from '../NotFound';
 
 configure({ defaultHidden: true });
 
-const renderComponent = (store?: Store<StoreState, AnyAction>) =>
-  render(<NotFound />, { routes: ['/fi/events'], store });
+const renderComponent = (authContextValue?: AuthContextProps) =>
+  render(<NotFound />, { routes: ['/fi/events'], authContextValue });
 
 const getElement = (key: 'buttonHome' | 'buttonSignIn') => {
   switch (key) {
@@ -37,6 +36,7 @@ test('should render not found page', () => {
 
 test('should route to home page', async () => {
   const user = userEvent.setup();
+
   const { history } = renderComponent();
 
   await act(async () => await user.click(getElement('buttonHome')));
@@ -45,11 +45,13 @@ test('should route to home page', async () => {
 });
 
 test('should start login process', async () => {
-  const signinRedirect = jest.spyOn(userManager, 'signinRedirect');
   const user = userEvent.setup();
-  renderComponent();
+
+  const signIn = jest.fn();
+  const authContextValue = fakeAuthContextValue({ signIn });
+  renderComponent(authContextValue);
 
   await act(async () => await user.click(getElement('buttonSignIn')));
 
-  expect(signinRedirect).toBeCalled();
+  expect(signIn).toBeCalled();
 });

@@ -3,8 +3,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DeleteButton from '../../../../../common/components/deleteButton/DeleteButton';
-import SingleSelectField from '../../../../../common/components/formFields/SingleSelectField';
-import TextInputField from '../../../../../common/components/formFields/TextInputField';
+import SingleSelectField from '../../../../../common/components/formFields/singleSelectField/SingleSelectField';
+import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import { EVENT_FIELDS, EXTERNAL_LINK_FIELDS } from '../../../constants';
 import useExtlinkOptions from '../../../hooks/useExtlinkOptions';
 import FieldWithButton from '../../../layout/FieldWithButton';

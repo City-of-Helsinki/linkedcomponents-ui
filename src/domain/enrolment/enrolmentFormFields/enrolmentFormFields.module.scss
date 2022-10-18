@@ -1,24 +1,5 @@
 @import '../../../assets/styles/breakpoints';
 
-.streetAddressRow {
-  display: grid;
-  grid-gap: var(--spacing-m);
-  grid-template-columns: repeat(2, 1fr);
-
-  @include medium-up {
-    grid-template-columns: 4fr 2fr;
-  }
-}
-
-.zipRow {
-  display: grid;
-  grid-gap: var(--spacing-m);
-  grid-template-columns: repeat(2, 1fr);
-
-  @include medium-up {
-    grid-template-columns: 2fr 4fr;
-  }
-}
 
 .emailRow,
 .membershipNumberRow,
@@ -26,7 +7,7 @@
 .notificationLanguageRow {
   display: grid;
   grid-gap: var(--spacing-m);
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
 
   @include medium-up {
     grid-template-columns: 1fr 1fr;

@@ -2,12 +2,14 @@ import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
 
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../../constants';
 import { UserDocument } from '../../../../../../generated/graphql';
-import { fakeAuthenticatedStoreState } from '../../../../../../utils/mockStoreUtils';
+import { setFeatureFlags } from '../../../../../../test/featureFlags/featureFlags';
+import { MultiLanguageObject } from '../../../../../../types';
+import { fakeAuthenticatedAuthContextValue } from '../../../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -22,6 +24,7 @@ import {
 } from '../../../../../image/__mocks__/image';
 import {
   DEFAULT_LICENSE_TYPE,
+  IMAGE_FIELDS,
   LICENSE_TYPES,
 } from '../../../../../image/constants';
 import { mockedOrganizationAncestorsResponse } from '../../../../../organization/__mocks__/organizationAncestors';
@@ -29,12 +32,8 @@ import {
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
 } from '../../../../../user/__mocks__/user';
-import {
-  EVENT_FIELDS,
-  EVENT_TYPE,
-  IMAGE_DETAILS_FIELDS,
-} from '../../../../constants';
-import { publicEventSchema } from '../../../../utils';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../../../constants';
+import { publicEventSchema } from '../../../../validation';
 import ImageDetailsFields, {
   ImageDetailsFieldsProps,
 } from '../ImageDetailsFields';
@@ -53,18 +52,17 @@ const defaultMocks = [
   mockedImageNotFoundResponse,
 ];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const eventType = EVENT_TYPE.General;
 
 interface InitialValues {
   [EVENT_FIELDS.IMAGES]: string[];
   [EVENT_FIELDS.IMAGE_DETAILS]: {
-    [IMAGE_DETAILS_FIELDS.ALT_TEXT]: string;
-    [IMAGE_DETAILS_FIELDS.LICENSE]: string;
-    [IMAGE_DETAILS_FIELDS.NAME]: string;
-    [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: string;
+    [IMAGE_FIELDS.ALT_TEXT]: MultiLanguageObject;
+    [IMAGE_FIELDS.LICENSE]: string;
+    [IMAGE_FIELDS.NAME]: string;
+    [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: string;
   };
   [EVENT_FIELDS.TYPE]: string;
 }
@@ -72,10 +70,10 @@ interface InitialValues {
 const defaultInitialValus: InitialValues = {
   [EVENT_FIELDS.IMAGES]: [],
   [EVENT_FIELDS.IMAGE_DETAILS]: {
-    [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
-    [IMAGE_DETAILS_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
-    [IMAGE_DETAILS_FIELDS.NAME]: '',
-    [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+    [IMAGE_FIELDS.ALT_TEXT]: EMPTY_MULTI_LANGUAGE_OBJECT,
+    [IMAGE_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
+    [IMAGE_FIELDS.NAME]: '',
+    [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
   },
   [EVENT_FIELDS.TYPE]: eventType,
 };
@@ -97,14 +95,14 @@ const renderComponent = ({
     >
       <ImageDetailsFields {...defaultProps} {...props} />
     </Formik>,
-    { mocks, store }
+    { mocks, authContextValue }
   );
 
 const findElement = (key: 'altText') => {
   switch (key) {
     case 'altText':
       return screen.findByRole('textbox', {
-        name: translations.image.form.labelAltText,
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
       });
   }
 };
@@ -115,7 +113,7 @@ const getElement = (
   switch (key) {
     case 'altText':
       return screen.getByRole('textbox', {
-        name: translations.image.form.labelAltText,
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
       });
     case 'ccByRadio':
       return screen.getByRole('radio', {
@@ -132,9 +130,58 @@ const getElement = (
   }
 };
 
-test('all fields should be disabled when imageAtId is null', async () => {
+const setLocalizedImageFeatureFlag = (localizedImage: boolean) => {
+  setFeatureFlags({
+    LOCALIZED_IMAGE: localizedImage,
+    SHOW_ADMIN: true,
+    SHOW_REGISTRATION: true,
+  });
+};
+
+test('should show localized alt-text fields', async () => {
+  setLocalizedImageFeatureFlag(true);
+
   await act(async () => {
-    await renderComponent({ props: { imageAtId: null } });
+    await renderComponent({});
+  });
+
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+  });
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (ruotsiksi)',
+  });
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (englanniksi)',
+  });
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (venäjäksi)',
+  });
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (kiinaksi)',
+  });
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (arabiaksi)',
+  });
+});
+
+test('should show only Finnish alt-text field', async () => {
+  setLocalizedImageFeatureFlag(false);
+
+  await act(async () => {
+    await renderComponent({});
+  });
+
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *',
+  });
+});
+
+test('all fields should be disabled when imageAtId is empty', async () => {
+  setLocalizedImageFeatureFlag(true);
+
+  await act(async () => {
+    await renderComponent({ props: { imageAtId: '' } });
   });
 
   await findElement('altText');
@@ -149,20 +196,25 @@ test('all fields should be disabled when imageAtId is null', async () => {
   expect(getElement('ccByRadio')).toBeDisabled();
 });
 
-test('should clear field values when imageAtId is null', async () => {
+test('should clear field values when imageAtId is empty', async () => {
+  setLocalizedImageFeatureFlag(true);
+
   await act(async () => {
     await renderComponent({
       initialValues: {
         [EVENT_FIELDS.IMAGES]: [],
         [EVENT_FIELDS.IMAGE_DETAILS]: {
-          [IMAGE_DETAILS_FIELDS.ALT_TEXT]: 'Lorem ipsum',
-          [IMAGE_DETAILS_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
-          [IMAGE_DETAILS_FIELDS.NAME]: 'Lorem ipsum',
-          [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
+          [IMAGE_FIELDS.ALT_TEXT]: {
+            ...EMPTY_MULTI_LANGUAGE_OBJECT,
+            fi: 'Lorem ipsum',
+          },
+          [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
+          [IMAGE_FIELDS.NAME]: 'Lorem ipsum',
+          [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
         },
         [EVENT_FIELDS.TYPE]: eventType,
       },
-      props: { imageAtId: null },
+      props: { imageAtId: '' },
     });
   });
 
@@ -178,14 +230,19 @@ test('should clear field values when imageAtId is null', async () => {
 });
 
 test('should clear field values when image with imageAtId does not exist', async () => {
+  setLocalizedImageFeatureFlag(true);
+
   renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageNotFoundAtId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
-        [IMAGE_DETAILS_FIELDS.ALT_TEXT]: 'Lorem ipsum',
-        [IMAGE_DETAILS_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
-        [IMAGE_DETAILS_FIELDS.NAME]: 'Lorem ipsum',
-        [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
+        [IMAGE_FIELDS.ALT_TEXT]: {
+          ...EMPTY_MULTI_LANGUAGE_OBJECT,
+          fi: 'Lorem ipsum',
+        },
+        [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
+        [IMAGE_FIELDS.NAME]: 'Lorem ipsum',
+        [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
       },
       [EVENT_FIELDS.TYPE]: eventType,
     },
@@ -205,10 +262,12 @@ test('should clear field values when image with imageAtId does not exist', async
 });
 
 test('should set field values', async () => {
+  setLocalizedImageFeatureFlag(true);
+
   renderComponent({ props: { imageAtId: imageFields.atId } });
 
   const textInputCases = [
-    { input: getElement('altText'), expectedValue: imageFields.altText },
+    { input: getElement('altText'), expectedValue: imageFields.altText.fi },
     { input: getElement('name'), expectedValue: imageFields.name },
     {
       input: getElement('photographerName'),
@@ -226,6 +285,8 @@ test('should set field values', async () => {
 });
 
 test("all fields should be disabled when user doesn't have permission to edit image", async () => {
+  setLocalizedImageFeatureFlag(true);
+
   const mocks = [
     ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),
     mockedUserWithoutOrganizationsResponse,
@@ -249,15 +310,21 @@ test("all fields should be disabled when user doesn't have permission to edit im
 });
 
 test('should show validation error when entering too short altText', async () => {
+  setLocalizedImageFeatureFlag(true);
+
   const user = userEvent.setup();
+
   renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageFields.atId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
-        [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
-        [IMAGE_DETAILS_FIELDS.LICENSE]: LICENSE_TYPES.CC_BY,
-        [IMAGE_DETAILS_FIELDS.NAME]: '',
-        [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+        [IMAGE_FIELDS.ALT_TEXT]: {
+          ...EMPTY_MULTI_LANGUAGE_OBJECT,
+          fi: 'Lorem ipsum',
+        },
+        [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.CC_BY,
+        [IMAGE_FIELDS.NAME]: '',
+        [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
       },
       [EVENT_FIELDS.TYPE]: eventType,
     },
@@ -266,7 +333,7 @@ test('should show validation error when entering too short altText', async () =>
 
   const altTextInput = getElement('altText');
 
-  await waitFor(() => expect(altTextInput).toHaveValue(imageFields.altText));
+  await waitFor(() => expect(altTextInput).toHaveValue(imageFields.altText.fi));
 
   await act(async () => await user.click(altTextInput));
   await act(async () => await user.clear(altTextInput));

@@ -1,48 +1,49 @@
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import TabPanel from '../../common/components/tabs/TabPanel';
+import TabPanel from '../../common/components/tabs/tabPanel/TabPanel';
 import Tabs from '../../common/components/tabs/Tabs';
 import { ROUTES } from '../../constants';
 import { useEventsQuery, UserFieldsFragment } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
+import { usePageSettings } from '../app/hooks/usePageSettings';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
 import { clearEventFormData } from '../event/utils';
-import FilterSummary from '../eventSearch/filterSummary/FilterSummary';
-import { replaceParamsToEventQueryString } from '../eventSearch/utils';
 import NotSigned from '../notSigned/NotSigned';
 import useUser from '../user/hooks/useUser';
-import { setEventListOptions } from './actions';
 import { EVENT_LIST_TYPES, EVENTS_PAGE_TABS } from './constants';
 import EventList from './eventList/EventList';
 import styles from './events.module.scss';
 import useEventsQueryVariables from './hooks/useEventsQueryVariables';
 import SearchPanel from './searchPanel/SearchPanel';
-import { eventListTabSelector, eventListTypeSelector } from './selectors';
+import { replaceParamsToEventQueryString } from './utils';
 
 interface Props {
   user: UserFieldsFragment;
 }
 
 const EventsPage: React.FC<Props> = ({ user }) => {
-  const dispatch = useDispatch();
-  const activeTab = useSelector(eventListTabSelector);
-  const listType = useSelector(eventListTypeSelector);
+  const {
+    events: {
+      listOptions: { tab: activeTab, listType },
+      setEventListOptions,
+    },
+  } = usePageSettings();
 
   const setActiveTab = async (selectedTab: EVENTS_PAGE_TABS) => {
-    dispatch(setEventListOptions({ tab: selectedTab }));
+    setEventListOptions({ tab: selectedTab });
   };
 
   const setListType = (selectedListType: EVENT_LIST_TYPES) => {
-    dispatch(setEventListOptions({ listType: selectedListType }));
+    setEventListOptions({ listType: selectedListType });
   };
 
   const locale = useLocale();
@@ -125,6 +126,12 @@ const EventsPage: React.FC<Props> = ({ user }) => {
           }
           title={t('eventsPage.title')}
         />
+        <Breadcrumb className={styles.breadcrumb}>
+          <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
+          <Breadcrumb.Item active={true}>
+            {t(`eventsPage.title`)}
+          </Breadcrumb.Item>
+        </Breadcrumb>
         <Tabs
           className={styles.tabSelector}
           name="event-list"
@@ -157,9 +164,6 @@ const EventsPage: React.FC<Props> = ({ user }) => {
             name="event-list"
           >
             <SearchPanel />
-            <Container withOffset={true}>
-              <FilterSummary className={styles.filterSummary} />
-            </Container>
 
             <EventList
               activeTab={activeTab}
@@ -167,6 +171,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
               className={styles.eventList}
               listType={listType}
               setListType={setListType}
+              showListTypeSelector={true}
               skip={skip[tab]}
             />
           </TabPanel>

@@ -21,12 +21,12 @@ const placesLogger = RequestLogger(new RegExp(LINKED_EVENTS_URL), {
 let urlUtils: ReturnType<typeof getUrlUtils>;
 
 fixture('Places page')
-  .page(getEnvUrl('/fi/admin/places'))
+  .page(getEnvUrl('/fi/administration/places'))
   .beforeEach(async (t) => {
     clearDataToPrintOnFailure(t);
     urlUtils = getUrlUtils(t);
   })
-  .afterEach(async () => {
+  .after(async () => {
     requestLogger.clear();
     placesLogger.clear();
   })
@@ -37,30 +37,33 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     const cookieConsentModal = await findCookieConsentModal(t);
     await cookieConsentModal.actions.acceptAllCookies();
 
-    const keywordsPage = await getPlacesPage(t);
-    await keywordsPage.actions.clickCreatePlaceButton();
+    const placesPage = await getPlacesPage(t);
+
+    await placesPage.actions.clickCreatePlaceButton();
+    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToCreatePlacePage();
   });
 
-  test('Search url by place name shows place row data for a place', async (t) => {
-    const cookieConsentModal = await findCookieConsentModal(t);
-    await cookieConsentModal.actions.acceptAllCookies();
+  test.disablePageReloads(
+    'Search url by place name shows place row data for a place',
+    async (t) => {
+      const placesPage = await getPlacesPage(t);
+      await placesPage.pageIsLoaded();
 
-    const placesPage = await getPlacesPage(t);
-    await placesPage.pageIsLoaded();
+      const locale = SUPPORTED_LANGUAGES.FI;
+      const places = await getPlaces(t, placesLogger);
+      const [place] = places.filter((place) => isLocalized(place, locale));
 
-    const locale = SUPPORTED_LANGUAGES.FI;
-    const places = await getPlaces(t, placesLogger);
-    const [place] = places.filter((place) => isLocalized(place, locale));
+      await urlUtils.actions.navigateToPlacesUrl(
+        getRandomSentence(place.name?.fi as string)
+      );
 
-    await urlUtils.actions.navigateToPlacesUrl(
-      getRandomSentence(place.name.fi)
-    );
+      const searchResults = await placesPage.findSearchResultList();
+      const placeRow = await searchResults.placeRow(place);
 
-    const searchResults = await placesPage.findSearchResultList();
-    const placeRow = await searchResults.placeRow(place);
-
-    await placeRow.actions.clickPlaceRow();
-    await urlUtils.expectations.urlChangedToPlacePage(place);
-  });
+      await placeRow.actions.clickPlaceRow();
+      await urlUtils.actions.forceReload();
+      await urlUtils.expectations.urlChangedToPlacePage(place);
+    }
+  );
 }

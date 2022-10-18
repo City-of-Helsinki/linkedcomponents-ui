@@ -2,11 +2,11 @@ import { Field } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import NumberInputField from '../../../../common/components/formFields/NumberInputField';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import NumberInputField from '../../../../common/components/formFields/numberInputField/NumberInputField';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
+import SplittedRow from '../../../app/layout/splittedRow/SplittedRow';
 import { REGISTRATION_FIELDS } from '../../constants';
-import styles from '../../registrationPage.module.scss';
 
 interface Props {
   isEditingAllowed: boolean;
@@ -19,7 +19,7 @@ const AttendeeCapacitySection: React.FC<Props> = ({ isEditingAllowed }) => {
     <>
       <FieldRow>
         <FieldColumn>
-          <div className={styles.splittedRow}>
+          <SplittedRow>
             <Field
               component={NumberInputField}
               disabled={!isEditingAllowed}
@@ -36,7 +36,7 @@ const AttendeeCapacitySection: React.FC<Props> = ({ isEditingAllowed }) => {
               name={REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
               placeholder={0}
             />
-          </div>
+          </SplittedRow>
         </FieldColumn>
       </FieldRow>
     </>

@@ -8,7 +8,7 @@ import { EVENT_FIELDS } from '../../constants';
 import FieldWithButton from '../../layout/FieldWithButton';
 import { VideoDetails } from '../../types';
 import { getEmptyOffer } from '../../utils';
-import Video from './Video';
+import Video from './video/Video';
 
 const getVideoPath = (index: number) => `${EVENT_FIELDS.VIDEOS}[${index}]`;
 

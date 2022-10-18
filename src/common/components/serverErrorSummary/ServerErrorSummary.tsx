@@ -1,9 +1,9 @@
 import { ErrorSummary } from 'hds-react';
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { scroller } from 'react-scroll';
 
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import { ServerErrorItem } from '../../../types';
 import getPageHeaderHeight from '../../../utils/getPageHeaderHeight';
 import styles from './serverErrorSummary.module.scss';
@@ -13,7 +13,7 @@ interface Props {
   id?: string;
 }
 const ServerErrorSummary: React.FC<Props> = ({ errors, id: _id }) => {
-  const [id] = React.useState(_id || uniqueId('server-error-summary-'));
+  const id = useIdWithPrefix({ id: _id, prefix: 'server-error-summary-' });
   const { t } = useTranslation();
 
   React.useEffect(() => {

@@ -57,7 +57,9 @@ test('should open edit image page by clicking keyword', async () => {
       await user.click(screen.getByRole('button', { name: imageName }))
   );
 
-  expect(history.location.pathname).toBe(`/fi/admin/images/edit/${imageId}`);
+  expect(history.location.pathname).toBe(
+    `/fi/administration/images/edit/${imageId}`
+  );
 });
 
 test('should open edit keyword page by pressing enter on row', async () => {
@@ -77,7 +79,9 @@ test('should open edit keyword page by pressing enter on row', async () => {
       )
   );
 
-  expect(history.location.pathname).toBe(`/fi/admin/images/edit/${imageId}`);
+  expect(history.location.pathname).toBe(
+    `/fi/administration/images/edit/${imageId}`
+  );
 });
 
 test('should call setSort when clicking sortable column header', async () => {

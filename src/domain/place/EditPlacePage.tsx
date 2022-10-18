@@ -1,7 +1,6 @@
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
@@ -10,9 +9,9 @@ import { ROUTES } from '../../constants';
 import { PlaceFieldsFragment, usePlaceQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
-import { authenticatedSelector } from '../auth/selectors';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
+import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
@@ -20,7 +19,7 @@ import { PLACE_ACTIONS } from './constants';
 import usePlaceUpdateActions, {
   PLACE_MODALS,
 } from './hooks/usePlaceUpdateActions';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import PlaceForm from './placeForm/PlaceForm';
 import { getEditButtonProps, getPlaceFields, placePathBuilder } from './utils';
 
@@ -33,7 +32,7 @@ const EditPlacePage: React.FC<Props> = ({ place }) => {
   const navigate = useNavigate();
   const locale = useLocale();
   const { publisher } = getPlaceFields(place, locale);
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 

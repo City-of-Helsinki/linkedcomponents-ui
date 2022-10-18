@@ -1,16 +1,17 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   actWait,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../user/__mocks__/user';
@@ -24,8 +25,7 @@ import CreateKeywordSetPage from '../CreateKeywordSetPage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedKeywordsResponse,
@@ -34,7 +34,7 @@ const defaultMocks = [
 ];
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
-  render(<CreateKeywordSetPage />, { mocks, store });
+  render(<CreateKeywordSetPage />, { authContextValue, mocks });
 
 const findElement = (key: 'saveButton') => {
   switch (key) {
@@ -78,7 +78,7 @@ const fillInputValues = async () => {
   await act(async () => await user.click(getElement('keywordsToggleButton')));
   const keywordsOption = await screen.findByRole(
     'option',
-    { name: keywordSetValues.keyword.name.fi },
+    { name: keywordSetValues.keyword?.name?.fi as string },
     { timeout: 10000 }
   );
   await act(async () => await user.click(keywordsOption));
@@ -91,6 +91,18 @@ const fillInputValues = async () => {
   );
   await act(async () => await user.click(usageOption));
 };
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Lisää avainsanaryhmä - Linked Events';
+  const pageDescription = 'Lisää uusi avainsanaryhmä Linked Eventsiin.';
+  const pageKeywords =
+    'lisää, uusi, avainsana, ryhmä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+});
 
 test('should focus to first validation error when trying to save new keyword set', async () => {
   const user = userEvent.setup();
@@ -138,7 +150,7 @@ test('should move to keywords page after creating new keyword', async () => {
   await act(async () => await user.click(saveButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/keyword-sets`)
+    expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
   );
 });
 

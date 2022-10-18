@@ -1,0 +1,27 @@
+@import '../../../../assets/styles/breakpoints';
+
+.fieldRow {
+  display: grid;
+  margin: var(--spacing-m) 0;
+  grid-gap: var(--spacing-m);
+
+  @include medium-up {
+    grid-template-columns: 6fr 4fr;
+  }
+
+  .fieldColumn {
+    order: 2;
+
+    @include medium-up {
+      order: 1;
+    }
+  }
+
+  .notificationColumn {
+    order: 1;
+
+    @include medium-up {
+      order: 2;
+    }
+  }
+}

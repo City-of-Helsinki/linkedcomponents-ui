@@ -3,13 +3,13 @@ import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import { DATETIME_FORMAT, FORM_NAMES } from '../../../constants';
+import { DATE_FORMAT, FORM_NAMES } from '../../../constants';
 import formatDate from '../../../utils/formatDate';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
+  actWait,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -29,16 +29,16 @@ import { RegistrationFormFields } from '../types';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 beforeEach(() => clear());
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
-  render(<CreateRegistrationPage />, { mocks, store });
+  render(<CreateRegistrationPage />, { authContextValue, mocks });
 
 beforeEach(() => {
-  // values stored with FormikPersist will also be available in other tests unless you run
+  // values stored in tests will also be available in other tests unless you run
+  localStorage.clear();
   sessionStorage.clear();
 });
 
@@ -62,10 +62,12 @@ const setFormValues = (values: RegistrationFormFields) => {
   });
 };
 
-const getInput = (key: 'enrolmentStartTime') => {
+const findElement = (key: 'saveButton') => {
   switch (key) {
-    case 'enrolmentStartTime':
-      return screen.getByRole('textbox', { name: /ilmoittautuminen alkaa/i });
+    case 'saveButton':
+      return screen.findByRole('button', {
+        name: /tallenna ilmoittautuminen/i,
+      });
   }
 };
 
@@ -78,9 +80,7 @@ const getElement = (
         name: /tapahtuma/i,
       });
     case 'enrolmentStartTime':
-      return screen.getByRole('textbox', {
-        name: /Ilmoittautuminen alkaa/i,
-      });
+      return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa *' });
     case 'saveButton':
       return screen.getByRole('button', {
         name: /tallenna ilmoittautuminen/i,
@@ -88,15 +88,19 @@ const getElement = (
   }
 };
 
+const waitLoadingAndGetSaveButton = async () => {
+  await loadingSpinnerIsNotInDocument();
+  return await findElement('saveButton');
+};
+
 test('should focus to first validation error when trying to save new registration', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
   const user = userEvent.setup();
   renderComponent([mockedUserResponse]);
 
-  await loadingSpinnerIsNotInDocument();
-
+  const saveButton = await waitLoadingAndGetSaveButton();
   const eventCombobox = getElement('eventCombobox');
-  const saveButton = getElement('saveButton');
+
   await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(eventCombobox).toHaveFocus());
@@ -115,15 +119,16 @@ test('should move to registration completed page after creating new registration
     mockedUserResponse,
   ]);
 
-  await loadingSpinnerIsNotInDocument();
-  const startTimeInput = getInput('enrolmentStartTime');
-  await waitFor(() =>
-    expect(startTimeInput).toHaveValue(
-      formatDate(registrationValues.enrolmentStartTime, DATETIME_FORMAT)
-    )
-  );
+  const saveButton = await waitLoadingAndGetSaveButton();
+  const startTimeInput = getElement('enrolmentStartTime');
+  await actWait(1000);
 
-  const saveButton = getElement('saveButton');
+  const expectedValue = formatDate(
+    registrationValues.enrolmentStartTimeDate,
+    DATE_FORMAT
+  );
+  await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
+
   await waitFor(() => expect(saveButton).toBeEnabled());
   await act(async () => await user.click(saveButton));
 
@@ -145,15 +150,16 @@ test('should show server errors', async () => {
   const user = userEvent.setup();
   renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
-  const startTimeInput = getInput('enrolmentStartTime');
-  await waitFor(() =>
-    expect(startTimeInput).toHaveValue(
-      formatDate(registrationValues.enrolmentStartTime, DATETIME_FORMAT)
-    )
-  );
+  const saveButton = await waitLoadingAndGetSaveButton();
+  const startTimeInput = getElement('enrolmentStartTime');
+  await actWait(1000);
 
-  const saveButton = getElement('saveButton');
+  const expectedValue = formatDate(
+    registrationValues.enrolmentStartTimeDate,
+    DATE_FORMAT
+  );
+  await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
+
   await waitFor(() => expect(saveButton).toBeEnabled());
   await act(async () => await user.click(saveButton));
 

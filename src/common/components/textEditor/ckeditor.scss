@@ -1,0 +1,69 @@
+.text-editor {
+  .ck.ck-editor__main > .ck-editor__editable {
+    border: var(--text-editor-border-width) solid
+      var(--text-editor-border-color);
+    padding: 0 var(--spacing-s);
+    min-height: var(--text-editor-editor-min-height);
+    max-height: var(--text-editor-editor-max-height);
+    font-size: var(--fontsize-body-l);
+  
+    &.ck-focused {
+      box-shadow: 0 0 0 var(--outline-width) var(--focus-outline-color);
+      transform: translateZ(0);
+      transition: 85ms ease-out;
+      transition-property: box-shadow, transform;
+    }
+  
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ul {
+      margin: var(--spacing-xs) 0;
+      font-weight: normal;
+    }
+    h1 {
+      font-size: var(--fontsize-heading-xl);
+    }
+    h2 {
+      font-size: var(--fontsize-heading-l);
+    }
+    h3 {
+      font-size: var(--fontsize-heading-m);
+    }
+    h4 {
+      font-size: var(--fontsize-heading-s);
+    }
+    h5 {
+      font-size: var(--fontsize-heading-xs);
+    }
+    h6 {
+      font-size: var(--fontsize-heading-xxs);
+    }
+
+    li {
+      p {
+        margin: var(--spacing-3-xs) 0;
+      }
+    }
+    ol, ul {
+      padding: 0 var(--spacing-s);
+    }
+
+    blockquote {
+      border-left: 5px solid var(--color-black-5);
+      padding-left: 5px;
+    }
+  }
+  
+  &.invalid {
+    .ck.ck-editor__main > .ck-editor__editable {
+      border-color: var(--color-error);
+    }
+  }
+}
+
+  

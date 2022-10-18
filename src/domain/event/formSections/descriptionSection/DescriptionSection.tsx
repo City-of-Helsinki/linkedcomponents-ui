@@ -2,17 +2,17 @@ import { Field, useField, useFormikContext } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import TextEditorField from '../../../../common/components/formFields/TextEditorField';
-import TextInputField from '../../../../common/components/formFields/TextInputField';
+import TextEditorField from '../../../../common/components/formFields/textEditorField/TextEditorField';
+import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
-import TabPanel from '../../../../common/components/tabs/TabPanel';
+import TabPanel from '../../../../common/components/tabs/tabPanel/TabPanel';
 import Tabs from '../../../../common/components/tabs/Tabs';
 import { CHARACTER_LIMITS, LE_DATA_LANGUAGES } from '../../../../constants';
 import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';
 import skipFalsyType from '../../../../utils/skipFalsyType';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useSortedInfoLanguages from '../../hooks/useSortedInfoLanguages';
@@ -74,7 +74,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
     setSelectedLanguage(language as LE_DATA_LANGUAGES);
   };
 
-  const sanitizeDescriptionAfterChange = React.useCallback(
+  const sanitizeDescription = React.useCallback(
     (value: string) =>
       formatSingleDescription({
         audience,
@@ -104,6 +104,13 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   >
                     <p>{t(`event.form.infoTextDescription1.${type}`)}</p>
                     <p>{t(`event.form.infoTextDescription2.${type}`)}</p>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: t(`event.form.infoTextDescription3.${type}`, {
+                          openInNewTab: t('common.openInNewTab'),
+                        }),
+                      }}
+                    />
                   </Notification>
                 }
               >
@@ -148,7 +155,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
                   placeholder={t(`event.form.placeholderDescription.${type}`)}
                   required={true}
-                  sanitizeAfterChange={sanitizeDescriptionAfterChange}
+                  sanitizeAfterBlur={sanitizeDescription}
                 />
               </FormGroup>
             </TabPanel>

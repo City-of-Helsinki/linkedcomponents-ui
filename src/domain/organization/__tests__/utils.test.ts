@@ -1,6 +1,8 @@
+/* eslint-disable import/no-named-as-default-member */
 import { NetworkStatus } from '@apollo/client';
 import i18n from 'i18next';
 
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
 import {
   fakeOrganization,
   fakeOrganizations,
@@ -189,7 +191,8 @@ describe('getOrganizationFields function', () => {
     const { atId, classification, dataSource, foundingDate, id, name } =
       getOrganizationFields(
         fakeOrganization({
-          atId: null,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          atId: null as any,
           classification: null,
           dataSource: null,
           foundingDate: '',
@@ -322,13 +325,14 @@ describe('getOrganizationPayload function', () => {
       adminUsers: [],
       affiliatedOrganizations: [],
       classification: '',
-      dataSource: '',
+      dataSource: LINKED_EVENTS_SYSTEM_DATA_SOURCE,
       dissolutionDate: null,
       foundingDate: null,
       id: undefined,
       internalType: ORGANIZATION_INTERNAL_TYPE.NORMAL,
       name: '',
-      parentOrganization: '',
+      originId: '',
+      parentOrganization: undefined,
       regularUsers: [],
       replacedBy: '',
       subOrganizations: [],
@@ -361,6 +365,7 @@ describe('getOrganizationPayload function', () => {
       id: 'helsinki:123',
       internalType: 'normal',
       name: 'name',
+      originId: '123',
       parentOrganization: 'organization:parent',
       regularUsers: ['regular:1'],
       replacedBy: 'organization:replaced',

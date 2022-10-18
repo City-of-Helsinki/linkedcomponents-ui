@@ -1,5 +1,4 @@
 import omit from 'lodash/omit';
-import uniqueId from 'lodash/uniqueId';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -8,15 +7,16 @@ import { scroller } from 'react-scroll';
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import TableWrapper from '../../../common/components/table/TableWrapper';
+import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import {
   EventsQueryVariables,
   RegistrationsQuery,
   useRegistrationsQuery,
 } from '../../../generated/graphql';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
 import { scrollToItem } from '../../../utils/scrollToItem';
-import Container from '../../app/layout/Container';
+import Container from '../../app/layout/container/Container';
 import { getRegistrationItemId } from '../../registration/utils';
 import {
   DEFAULT_REGISTRATION_SORT,
@@ -104,11 +104,10 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
 const RegistrationListContainer: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [registrationListId] = React.useState(() =>
-    uniqueId('registration-list-')
-  );
   const { t } = useTranslation();
   const { page } = getRegistrationSearchInitialValues(location.search);
+
+  const registrationListId = useIdWithPrefix({ prefix: 'registration-list-' });
 
   const handleSelectedPageChange = (page: number) => {
     navigate({

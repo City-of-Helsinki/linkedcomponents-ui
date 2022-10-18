@@ -2,9 +2,9 @@ import { Field } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import TextAreaField from '../../../../common/components/formFields/TextAreaField';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import TextAreaField from '../../../../common/components/formFields/textAreaField/TextAreaField';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { REGISTRATION_FIELDS } from '../../constants';
 
 interface Props {

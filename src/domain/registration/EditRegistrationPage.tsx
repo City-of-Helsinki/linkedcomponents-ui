@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { ValidationError } from 'yup';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../constants';
@@ -25,10 +26,10 @@ import {
   scrollToFirstError,
   showFormErrors,
 } from '../../utils/validationUtils';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
-import Section from '../app/layout/Section';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import Section from '../app/layout/section/Section';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
@@ -38,18 +39,18 @@ import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
+import EventLink from './eventLink/EventLink';
 import AttendeeCapacitySection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
 import AudienceAgeSection from './formSections/audienceAgeSection/AudienceAgeSection';
 import ConfirmationMessageSection from './formSections/confirmationMessageSection/ConfirmationMessageSection';
 import EnrolmentTimeSection from './formSections/enrolmentTimeSection/EnrolmentTimeSection';
 import InstructionsSection from './formSections/instructionsSection/InstructionsSection';
 import WaitingListSection from './formSections/waitingListSection/WaitingListSection';
-import useRegistrationName from './hooks/useRegistrationName';
 import useRegistrationServerErrors from './hooks/useRegistrationServerErrors';
 import useRegistrationUpdateActions, {
   MODALS,
 } from './hooks/useRegistrationUpdateActions';
-import ConfirmDeleteModal from './modals/ConfirmDeleteModal';
+import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import AuthenticationNotification from './registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import RegistrationInfo from './registrationInfo/RegistrationInfo';
 import styles from './registrationPage.module.scss';
@@ -107,8 +108,6 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
     () => getRegistrationInitialValues(registration),
     [registration]
   );
-
-  const name = useRegistrationName({ registration });
 
   const goToRegistrationsPage = () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
@@ -195,19 +194,34 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
                 backgroundColor="coatOfArms"
                 className={styles.registrationPage}
                 noFooter
-                titleText={name}
+                title={'editRegistrationPage.title'}
               >
                 <MainContent>
                   <Container
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
+                    <Breadcrumb className={styles.breadcrumb}>
+                      <Breadcrumb.Item to={ROUTES.HOME}>
+                        {t('common.home')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
+                        {t('registrationsPage.title')}
+                      </Breadcrumb.Item>
+                      <Breadcrumb.Item active={true}>
+                        {t(`editRegistrationPage.title`)}
+                      </Breadcrumb.Item>
+                    </Breadcrumb>
+
                     <AuthenticationNotification
                       action={REGISTRATION_ACTIONS.UPDATE}
                       registration={registration}
                     />
                     <ServerErrorSummary errors={serverErrorItems} />
                     <RegistrationInfo registration={registration} />
+                    <Section title={t('registration.form.sections.event')}>
+                      <EventLink registration={registration} />
+                    </Section>
                     <Section
                       title={t('registration.form.sections.enrolmentTime')}
                     >

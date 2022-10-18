@@ -3,9 +3,9 @@
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
+import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
 import EditingInfo from '../../common/components/editingInfo/EditingInfo';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -15,15 +15,20 @@ import {
   useRegistrationQuery,
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../hooks/useQueryStringWithReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
-import Container from '../app/layout/Container';
-import MainContent from '../app/layout/MainContent';
-import PageWrapper from '../app/layout/PageWrapper';
-import TitleRow from '../app/layout/TitleRow';
-import { authenticatedSelector } from '../auth/selectors';
+import Container from '../app/layout/container/Container';
+import MainContent from '../app/layout/mainContent/MainContent';
+import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../app/layout/titleRow/TitleRow';
+import { useAuth } from '../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS } from '../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
-import { getEditButtonProps } from '../enrolment/utils';
+import {
+  clearCreateEnrolmentFormData,
+  clearEnrolmentReservationData,
+  getEditButtonProps,
+} from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
@@ -33,7 +38,6 @@ import {
   getRegistrationFields,
   registrationPathBuilder,
 } from '../registration/utils';
-import useRegistrationsQueryStringWithReturnPath from '../registrations/hooks/useRegistrationsQueryStringWithReturnPath';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
 import ButtonPanel from './buttonPanel/ButtonPanel';
@@ -51,11 +55,11 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   const navigate = useNavigate();
   const locale = useLocale();
 
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const publisher = useRegistrationPublisher({ registration }) as string;
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { user } = useUser();
-  const queryStringWithReturnPath = useRegistrationsQueryStringWithReturnPath();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const name = useRegistrationName({ registration });
 
   const { createdBy, lastModifiedAt } = getRegistrationFields(
@@ -64,6 +68,9 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   );
 
   const handleCreate = () => {
+    clearCreateEnrolmentFormData(registration.id as string);
+    clearEnrolmentReservationData(registration.id as string);
+
     navigate({
       pathname: ROUTES.CREATE_ENROLMENT.replace(
         ':registrationId',
@@ -100,6 +107,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
             registration={registration}
           />
           <TitleRow
+            buttonWrapperClassName={styles.titleButtonWrapper}
             button={
               <Button
                 {...buttonProps}
@@ -119,6 +127,25 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
             }
             title={name}
           />
+          <Breadcrumb className={styles.breadcrumb}>
+            <Breadcrumb.Item to={ROUTES.HOME}>
+              {t('common.home')}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
+              {t('registrationsPage.title')}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              to={ROUTES.EDIT_REGISTRATION.replace(
+                ':id',
+                registration.id as string
+              )}
+            >
+              {t(`editRegistrationPage.title`)}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item active={true}>
+              {t(`enrolmentsPage.title`)}
+            </Breadcrumb.Item>
+          </Breadcrumb>
 
           <SearchPanel registration={registration} />
           <FilterSummary />

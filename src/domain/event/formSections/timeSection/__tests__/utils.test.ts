@@ -1,16 +1,11 @@
-import { advanceTo, clear } from 'jest-date-mock';
-
 import { PublicationStatus } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import { EVENT_EDIT_ACTIONS } from '../../../constants';
 import {
   getEventEditAction,
   GetEventEditActionParams,
-  getMinBookingDate,
   sortEventTimes,
 } from '../utils';
-
-afterEach(() => clear());
 
 describe('getEventEditAction function', () => {
   const testCases: [EVENT_EDIT_ACTIONS, GetEventEditActionParams][] = [
@@ -35,22 +30,6 @@ describe('getEventEditAction function', () => {
     (expectedAction, params) =>
       expect(getEventEditAction(params)).toBe(expectedAction)
   );
-});
-
-describe('getMinBookingDate function', () => {
-  it('should get correct minBooking date when date is string', () => {
-    advanceTo('2021-05-11');
-    expect(getMinBookingDate('2021-05-12T15:00:00.000Z')).toEqual(
-      new Date('2021-05-12T15:00:00.000Z')
-    );
-  });
-
-  it('should return current date if date is in the past', () => {
-    advanceTo('2021-05-11');
-    expect(getMinBookingDate('2021-05-10T15:00:00.000Z')).toEqual(
-      new Date('2021-05-11')
-    );
-  });
 });
 
 describe('sortEventTimes function', () => {

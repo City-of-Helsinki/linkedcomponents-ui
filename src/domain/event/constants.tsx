@@ -13,8 +13,8 @@ import { EventsQueryVariables } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
 import { EVENT_LIST_INCLUDES, EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
-import { DEFAULT_LICENSE_TYPE } from '../image/constants';
-import { PublicationListLink } from './formSections/typeSection/PublicationListLinks';
+import { DEFAULT_LICENSE_TYPE, IMAGE_FIELDS } from '../image/constants';
+import { PublicationListLink } from './formSections/typeSection/publicationListLinks/PublicationListLinks';
 import { EventFormFields, RecurringEventSettings } from './types';
 
 export enum EVENT_TYPE {
@@ -33,13 +33,6 @@ export enum RECURRING_EVENT_FIELDS {
   START_TIME = 'startTime',
 }
 
-export enum IMAGE_DETAILS_FIELDS {
-  ALT_TEXT = 'altText',
-  LICENSE = 'license',
-  NAME = 'name',
-  PHOTOGRAPHER_NAME = 'photographerName',
-}
-
 export enum VIDEO_DETAILS_FIELDS {
   ALT_TEXT = 'altText',
   NAME = 'name',
@@ -47,8 +40,10 @@ export enum VIDEO_DETAILS_FIELDS {
 }
 
 export enum EVENT_TIME_FIELDS {
+  END_DATE = 'endDate',
   END_TIME = 'endTime',
   ID = 'id',
+  START_DATE = 'startDate',
   START_TIME = 'startTime',
 }
 
@@ -62,8 +57,10 @@ export enum EVENT_FIELDS {
   AUDIENCE_MAX_AGE = 'audienceMaxAge',
   AUDIENCE_MIN_AGE = 'audienceMinAge',
   DESCRIPTION = 'description',
-  ENROLMENT_END_TIME = 'enrolmentEndTime',
-  ENROLMENT_START_TIME = 'enrolmentStartTime',
+  ENROLMENT_END_TIME_DATE = 'enrolmentEndTimeDate',
+  ENROLMENT_END_TIME_TIME = 'enrolmentEndTimeTime',
+  ENROLMENT_START_TIME_DATE = 'enrolmentStartTimeDate',
+  ENROLMENT_START_TIME_TIME = 'enrolmentStartTimeTime',
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
   EVENT_TIMES = 'eventTimes',
   EVENTS = 'events',
@@ -116,8 +113,10 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: '',
   [EVENT_FIELDS.AUDIENCE_MIN_AGE]: '',
   [EVENT_FIELDS.DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-  [EVENT_FIELDS.ENROLMENT_END_TIME]: null,
-  [EVENT_FIELDS.ENROLMENT_START_TIME]: null,
+  [EVENT_FIELDS.ENROLMENT_END_TIME_DATE]: null,
+  [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: '',
+  [EVENT_FIELDS.ENROLMENT_START_TIME_DATE]: null,
+  [EVENT_FIELDS.ENROLMENT_START_TIME_TIME]: '',
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
   [EVENT_FIELDS.EVENT_TIMES]: [],
   [EVENT_FIELDS.EVENTS]: [],
@@ -126,10 +125,10 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.HAS_UMBRELLA]: false,
   [EVENT_FIELDS.IMAGES]: [],
   [EVENT_FIELDS.IMAGE_DETAILS]: {
-    [IMAGE_DETAILS_FIELDS.ALT_TEXT]: '',
-    [IMAGE_DETAILS_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
-    [IMAGE_DETAILS_FIELDS.NAME]: '',
-    [IMAGE_DETAILS_FIELDS.PHOTOGRAPHER_NAME]: '',
+    [IMAGE_FIELDS.ALT_TEXT]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [IMAGE_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
+    [IMAGE_FIELDS.NAME]: '',
+    [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
   },
   [EVENT_FIELDS.IN_LANGUAGE]: [],
   [EVENT_FIELDS.IS_VERIFIED]: false,
@@ -143,7 +142,13 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: '',
   [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
   [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-  [EVENT_FIELDS.OFFERS]: [],
+  [EVENT_FIELDS.OFFERS]: [
+    {
+      [EVENT_FIELDS.OFFER_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+      [EVENT_FIELDS.OFFER_INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+      [EVENT_FIELDS.OFFER_PRICE]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    },
+  ],
   [EVENT_FIELDS.PROVIDER]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.PUBLISHER]: '',
   [EVENT_FIELDS.RECURRING_EVENTS]: [],

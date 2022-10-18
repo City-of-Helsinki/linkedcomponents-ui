@@ -11,7 +11,7 @@ import {
   getPublisher,
 } from '../data/eventData';
 import { getExpectedEventContext, isLocalized } from '../utils/event.utils';
-import { hasStreetAddress, isInternetLocation } from '../utils/place.utils';
+import { isInternetLocation } from '../utils/place.utils';
 import {
   getRandomSentence,
   selectRandomValuesFromArray,
@@ -40,7 +40,7 @@ fixture('Event search page')
     eventSearchPage = getEventSearchPage(t);
     urlUtils = getUrlUtils(t);
   })
-  .afterEach(async () => {
+  .after(async () => {
     requestLogger.clear();
     eventSearchLogger.clear();
   })
@@ -63,89 +63,124 @@ test('shows places in filter options', async (t) => {
   }
 });
 
-test('Search url by event name shows event card data for an event', async (t) => {
-  const cookieConsentModal = await findCookieConsentModal(t);
-  await cookieConsentModal.actions.acceptAllCookies();
+test.disablePageReloads(
+  'Search url by event name shows event card data for an event',
+  async (t) => {
+    await eventSearchPage.pageIsLoaded();
 
-  await eventSearchPage.pageIsLoaded();
+    const locale = SUPPORTED_LANGUAGES.FI;
+    const events = await getEvents(t, eventSearchLogger);
+    const [event] = events.filter((event) => isLocalized(event, locale));
 
-  const locale = SUPPORTED_LANGUAGES.FI;
-  const events = await getEvents(t, eventSearchLogger);
-  const [event] = events.filter((event) => isLocalized(event, locale));
-  const eventPublisher = await getPublisher(t, eventSearchLogger, event);
-  const eventLocation = await getPlace(t, eventSearchLogger, event);
+    if (!event) {
+      return;
+    }
 
-  setDataToPrintOnFailure(
-    t,
-    'expectedEvent',
-    getExpectedEventContext(event, 'startTime', 'endTime')
-  );
+    const eventPublisher = await getPublisher(t, eventSearchLogger, event);
+    const eventLocation = await getPlace(t, eventSearchLogger, event);
 
-  await urlUtils.actions.navigateToSearchUrl(getRandomSentence(event.name.fi));
-  const searchResults = await eventSearchPage.findSearchResultList();
-  const eventCard = await searchResults.eventCard(event);
-  await eventCard.expectations.publisherIsPresent(eventPublisher);
+    setDataToPrintOnFailure(
+      t,
+      'expectedEvent',
+      getExpectedEventContext(event, 'startTime', 'endTime')
+    );
 
-  if (!isInternetLocation(eventLocation)) {
-    await eventCard.expectations.addressIsPresent(eventLocation);
+    await urlUtils.actions.navigateToSearchUrl(
+      getRandomSentence(event.name?.fi as string)
+    );
+    const searchResults = await eventSearchPage.findSearchResultList();
+    const eventCard = await searchResults.eventCard(event);
+    if (eventPublisher) {
+      await eventCard.expectations.publisherIsPresent(eventPublisher);
+    }
+
+    if (!isInternetLocation(eventLocation)) {
+      await eventCard.expectations.addressIsPresent(eventLocation);
+    }
+
+    await eventCard.actions.clickEventLink();
+    await urlUtils.actions.forceReload();
+    await urlUtils.expectations.urlChangedToEventPage(event);
   }
+);
 
-  await eventCard.actions.clickEventLink();
-  await urlUtils.expectations.urlChangedToEventPage(event);
-});
+test.disablePageReloads(
+  'Free text search finds event by free text search',
+  async (t) => {
+    await eventSearchPage.pageIsLoaded();
 
-test('Free text search finds event by free text search', async (t) => {
-  const cookieConsentModal = await findCookieConsentModal(t);
-  await cookieConsentModal.actions.acceptAllCookies();
+    const locale = SUPPORTED_LANGUAGES.FI;
+    const events = await getEvents(t, eventSearchLogger);
+    const [event] = events.filter((event) => isLocalized(event, locale));
 
-  await eventSearchPage.pageIsLoaded();
+    if (!event) {
+      return;
+    }
 
-  const locale = SUPPORTED_LANGUAGES.FI;
-  const events = await getEvents(t, eventSearchLogger);
-  const [event] = events.filter((event) => isLocalized(event, locale));
-  const eventLocation = await getPlace(t, eventSearchLogger, event);
+    const eventLocation = await getPlace(t, eventSearchLogger, event);
 
-  setDataToPrintOnFailure(t, 'expectedEvent', getExpectedEventContext(event));
-  const eventLanguages = supportedLanguages.filter((locale) =>
-    isLocalized(event, locale)
-  );
-
-  for (const locale of eventLanguages) {
-    await testSearchEventByText(t, event, event.name[locale], 'name');
-    await testSearchEventByText(
-      t,
-      event,
-      event.shortDescription[locale],
-      'shortDescription'
-    );
-    await testSearchEventByText(
-      t,
-      event,
-      event.description[locale],
-      'description'
+    setDataToPrintOnFailure(t, 'expectedEvent', getExpectedEventContext(event));
+    const eventLanguages = supportedLanguages.filter((locale) =>
+      isLocalized(event, locale)
     );
 
-    const eventWithLocation = {
-      ...event,
-      location: eventLocation,
-    };
-    await testSearchEventByText(
-      t,
-      eventWithLocation,
-      eventLocation.name[locale],
-      'location'
-    );
+    for (const locale of eventLanguages) {
+      const {
+        description,
+        locationName,
+        name,
+        shortDescription,
+        streetAddress,
+      } = {
+        description: event.description?.[locale]?.trim(),
+        locationName: eventLocation.name?.[locale]?.trim(),
+        name: event.name?.[locale]?.trim(),
+        shortDescription: event.shortDescription?.[locale]?.trim(),
+        streetAddress: eventLocation.streetAddress?.[locale]?.trim(),
+      };
 
-    if (!isInternetLocation(eventLocation) && hasStreetAddress(eventLocation)) {
-      await testSearchEventByText(
-        t,
-        eventWithLocation,
-        eventLocation.streetAddress[locale],
-        'location'
-      );
+      if (name) {
+        await testSearchEventByText(t, event, name, 'name');
+      }
+
+      if (shortDescription) {
+        await testSearchEventByText(
+          t,
+          event,
+          shortDescription,
+          'shortDescription'
+        );
+      }
+
+      if (description) {
+        await testSearchEventByText(t, event, description, 'description');
+      }
+
+      const eventWithLocation = {
+        ...event,
+        location: eventLocation,
+      };
+
+      if (locationName) {
+        await testSearchEventByText(
+          t,
+          eventWithLocation,
+          locationName,
+          'location'
+        );
+      }
+
+      if (!isInternetLocation(eventLocation) && streetAddress) {
+        await testSearchEventByText(
+          t,
+          eventWithLocation,
+          eventLocation.streetAddress?.[locale] as string,
+          'location'
+        );
+      }
     }
   }
-});
+);
 
 const testSearchEventByText = async (
   t: TestController,

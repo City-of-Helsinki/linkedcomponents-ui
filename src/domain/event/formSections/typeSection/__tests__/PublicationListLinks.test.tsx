@@ -3,7 +3,7 @@ import React from 'react';
 import { configure, render, screen } from '../../../../../utils/testUtils';
 import PublicationListLinks, {
   PublicationListLink,
-} from '../PublicationListLinks';
+} from '../publicationListLinks/PublicationListLinks';
 
 configure({ defaultHidden: true });
 

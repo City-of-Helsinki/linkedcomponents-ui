@@ -13,7 +13,7 @@ import { mockedAudienceKeywordSetResponse } from '../../../../keywordSet/__mocks
 import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
 import { INTERNET_PLACE_ID } from '../../../../place/constants';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { publicEventSchema } from '../../../utils';
+import { publicEventSchema } from '../../../validation';
 import {
   courseTopicNames,
   eventTopicNames,
@@ -69,12 +69,12 @@ const findElement = (key: 'keywordText' | 'keywordOption') => {
   switch (key) {
     case 'keywordText':
       return screen.findByText(
-        keyword.name.fi,
+        keyword?.name?.fi as string,
         { selector: 'span' },
         { timeout: 2000 }
       );
     case 'keywordOption':
-      return screen.findByRole('option', { name: keyword.name.fi });
+      return screen.findByRole('option', { name: keyword?.name?.fi as string });
   }
 };
 
@@ -107,7 +107,9 @@ const getElement = (
 
 test('should render classification section', async () => {
   await act(async () => {
-    await renderComponent({ [EVENT_FIELDS.KEYWORDS]: [keyword.atId] });
+    await renderComponent({
+      [EVENT_FIELDS.KEYWORDS]: [keyword?.atId as string],
+    });
   });
 
   getElement('titleMainCategories');

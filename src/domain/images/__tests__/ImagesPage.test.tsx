@@ -1,17 +1,18 @@
 import { createMemoryHistory } from 'history';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -23,19 +24,20 @@ import ImagesPage from '../ImagesPage';
 
 configure({ defaultHidden: true });
 
-const storeState = fakeAuthenticatedStoreState();
-const defaultStore = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedImagesResponse, mockedUserResponse];
+const mocks = [mockedImagesResponse, mockedUserResponse];
+
 const route = ROUTES.KEYWORDS;
+const routes = [route];
 
-const renderComponent = ({
-  mocks = defaultMocks,
-  routes = [route],
-  store = defaultStore,
-  ...restRenderOptions
-}: CustomRenderOptions = {}) =>
-  render(<ImagesPage />, { mocks, routes, store, ...restRenderOptions });
+const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
+  render(<ImagesPage />, {
+    authContextValue,
+    mocks,
+    routes,
+    ...renderOptions,
+  });
 
 const findElement = (key: 'title') => {
   switch (key) {
@@ -83,6 +85,19 @@ test('should render images page', async () => {
   screen.getByRole('button', { name: imageNames[0] });
 });
 
+test('applies expected metadata', async () => {
+  const pageTitle = 'Kuvat - Linked Events';
+  const pageDescription =
+    'Kuvien listaus. Selaa, suodata ja muokkaa Linked Events -kuvia.';
+  const pageKeywords =
+    'kuva, lista, selailla, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+});
+
 test('should open create image page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
@@ -93,7 +108,7 @@ test('should open create image page', async () => {
   const createImageButton = getElement('createImageButton');
   await act(async () => await user.click(createImageButton));
 
-  expect(history.location.pathname).toBe('/fi/admin/images/create');
+  expect(history.location.pathname).toBe('/fi/administration/images/create');
 });
 
 test('should add sort parameter to search query', async () => {
@@ -110,7 +125,7 @@ test('should add sort parameter to search query', async () => {
 
 it('scrolls to image row and calls history.replace correctly (deletes imageId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { imageId: images.data[0].id });
+  history.push(route, { imageId: images.data[0]?.id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
@@ -122,7 +137,8 @@ it('scrolls to image row and calls history.replace correctly (deletes imageId fr
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 

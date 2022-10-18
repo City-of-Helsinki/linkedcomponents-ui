@@ -1,11 +1,11 @@
 import { MockedResponse } from '@apollo/client/testing';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   renderWithRoute,
   screen,
   userEvent,
@@ -34,8 +34,7 @@ import EditOrganizationPage from '../EditOrganizationPage';
 
 configure({ defaultHidden: true });
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedOrganizationResponse,
@@ -48,10 +47,10 @@ const route = ROUTES.EDIT_ORGANIZATION.replace(':id', organizationId);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditOrganizationPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_ORGANIZATION,
-    store,
   });
 
 const findElement = (key: 'deleteButton' | 'nameInput' | 'saveButton') => {
@@ -86,7 +85,7 @@ const fillFormValues = async () => {
 
   await act(async () => await user.click(getElement('replacedByToggleButton')));
   const organizationOption = await screen.findByRole('option', {
-    name: organizations.data[0].name,
+    name: organizations.data[0]?.name as string,
   });
   await act(async () => await user.click(organizationOption));
 };
@@ -113,14 +112,16 @@ test('should delete organization', async () => {
   const deleteButton = await findElement('deleteButton');
   await act(async () => await user.click(deleteButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const withinModal = within(
+    screen.getByRole('dialog', { name: 'Varmista organisaation poistaminen' })
+  );
   const deleteOrganizationButton = withinModal.getByRole('button', {
     name: 'Poista organisaatio',
   });
   await act(async () => await user.click(deleteOrganizationButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/organizations`)
+    expect(history.location.pathname).toBe(`/fi/administration/organizations`)
   );
 });
 
@@ -138,7 +139,7 @@ test('should update organization', async () => {
   await act(async () => await user.click(submitButton));
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/admin/organizations`)
+    expect(history.location.pathname).toBe(`/fi/administration/organizations`)
   );
 });
 

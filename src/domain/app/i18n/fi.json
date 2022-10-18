@@ -79,21 +79,10 @@
       "text3": "Käytämme evästeitä parantaaksemme käyttökokemustasi sivustolla.",
       "title": "Linked Events käyttöehdot ja evästeet"
     },
-    "datepicker": {
-      "accessibility": {
-        "buttonNextMonth": "Seuraava kuukausi",
-        "buttonOpen": "Valitse päivämäärä",
-        "buttonPreviousMonth": "Edellinen kuukausi",
-        "selectDate": "Valitse {{value}}",
-        "selectTime": "Valitse kellonajaksi {{value}}",
-        "timeInstructions": "Valitse kellonaika nuolinäppäimillä"
-      },
-      "buttonClose": "Sulje"
-    },
     "dateSelector": {
       "buttonToggle": "Valitse päivämäärät",
-      "placeholderEndDate": "Loppuu pp.kk.vvvv",
-      "placeholderStartDate": "Alkaa pp.kk.vvvv"
+      "placeholderEndDate": "Loppuu p.k.vvvv",
+      "placeholderStartDate": "Alkaa p.k.vvvv"
     },
     "delete": "Poista",
     "dissolved": "Lakkautettu",
@@ -118,8 +107,30 @@
     "goToHome": "Etusivulle",
     "home": "Etusivu",
     "imageUploader": {
+      "areaLabel": {
+        "cropArea": "Siirrä rajausaluetta nuolinäppäimillä",
+        "nwDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi luoteista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "nDragHandle":
+          "Käytä ylä- ja alanuolinäppäimiä siirtääksesi pohjoista vetämiskahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "neDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi koillista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "eDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi itäistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "seDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi lounaista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "sDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi eteläistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "swDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi kaakkoista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "wDragHandle":
+          "Käytä nuolinäppäimiä siirtääksesi läntistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta"
+      },
+      "belowMinDimensions": "Kuvan pienin sallittu koko on 300 x 200 pikseliä",
       "buttonDropImage": "Raahaa ja pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
+      "buttonRemoveImage": "Poista kuva",
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
+      "titleCropImage": "Rajaa kuva",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
     "leaflet": {
@@ -203,8 +214,8 @@
       "page": "Sivu {{page}}",
       "previous": "Edellinen sivu"
     },
-    "placeholderDate": "pp.kk.vvvv",
-    "placeholderDateTime": "pp.kk.vvvv hh.mm",
+    "placeholderDate": "p.k.vvvv",
+    "placeholderDateTime": "p.k.vvvv hh.mm",
     "placeholderTime": "hh.mm",
     "save": "Tallenna",
     "search": "Etsi",
@@ -214,47 +225,9 @@
     "showMoreWithCount": "Näytä lisää ({{count}})",
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
-    "textEditor": {
-      "add": "Lisää",
-      "cancel": "Peruuta",
-      "blocktype": {
-        "blocktype": "Tekstityyppi",
-        "blockquote": "Lohkolainaus",
-        "h1": "H1",
-        "h2": "H2",
-        "h3": "H3",
-        "h4": "H4",
-        "h5": "H5",
-        "h6": "H6",
-        "normal": "Normaali"
-      },
-      "history": {
-        "history": "Historia",
-        "redo": "Tee uudelleen",
-        "undo": "Peruuta"
-      },
-      "inline": {
-        "bold": "Lihavoitu",
-        "italic": "Kursivoitu",
-        "underline": "Alleviivattu"
-      },
-      "link": {
-        "link": "Linkki",
-        "linkTarget": "Linkin kohde",
-        "linkTargetOption": "Avaa linkki uudessa ikkunassa",
-        "linkTitle": "Linkin otsikko",
-        "unlink": "Poista linkitys"
-      },
-      "list": {
-        "list": "Lista",
-        "ordered": "Järjestetty",
-        "unordered": "Järjestämätön"
-      }
-    },
-    "timepicker": {
-      "accessibility": {
-        "buttonTimeList": "Kellonajat"
-      }
+    "timeInput": {
+      "hoursLabel": "tunnit",
+      "minutsLabel": "minuutit"
     },
     "warning": "Varoitus!"
   },
@@ -274,22 +247,27 @@
     }
   },
   "createImagePage": {
+    "pageDescription": "Lisää uusi kuva Linked Eventsiin.",
     "pageTitle": "Lisää kuva",
     "title": "Lisää kuva"
   },
   "createKeywordPage": {
+    "pageDescription": "Lisää uusi avainsana Linked Eventsiin.",
     "pageTitle": "Lisää avainsana",
     "title": "Lisää avainsana"
   },
   "createKeywordSetPage": {
+    "pageDescription": "Lisää uusi avainsanaryhmä Linked Eventsiin.",
     "pageTitle": "Lisää avainsanaryhmä",
     "title": "Lisää avainsanaryhmä"
   },
   "createOrganizationPage": {
+    "pageDescription": "Lisää uusi organisaatio Linked Eventsiin.",
     "pageTitle": "Lisää organisaatio",
     "title": "Lisää organisaatio"
   },
   "createPlacePage": {
+    "pageDescription": "Lisää uusi paikka Linked Eventsiin.",
     "pageTitle": "Lisää paikka",
     "title": "Lisää paikka"
   },
@@ -299,6 +277,13 @@
   },
   "editEnrolmentPage": {
     "pageTitle": "Muokkaa osallistujaa"
+  },
+  "editEventPage": {
+    "title": {
+      "course": "Muokkaa kurssia",
+      "general": "Muokka tapahtumaa",
+      "volunteering": "Muokkaa vapaaehtoistehtävää"
+    }
   },
   "editImagePage": {
     "pageTitle": "Muokkaa kuvaa",
@@ -320,6 +305,10 @@
     "pageTitle": "Muokkaa paikkaa",
     "title": "Muokkaa paikkaa"
   },
+  "editRegistrationPage": {
+    "pageTitle": "Muokkaa ilmoittautumista",
+    "title": "Muokkaa ilmoittautumista"
+  },
   "enrolment": {
     "attendeeStatus": {
       "attending": "Osallistuu",
@@ -331,8 +320,21 @@
       "text2": "Seuraavat ilmoittautumiset poistetaan:",
       "title": "Haluatko varmasti poistaa ilmoittautumisen?"
     },
+    "deleteParticipantModal": {
+      "buttonDelete": "Poista osallistuja",
+      "buttonDelete_other": "Poista osallistujat",
+      "text1": "Haluatko varmasti poistaa osallistujan? Myös osallistujan varaus poistetaan.",
+      "text1_other": "Haluatko varmasti poistaa osallistujat? Myös osallistujien varaukset poistetaan.",
+      "text2": "Tätä toimintoa ei voi perua.",
+      "title": "Vahvista osallistujan poistaminen",
+      "title_other": "Vahvista osallistujien poistaminen"
+    },
     "form": {
+      "attendeeDefaultTitle": "Osallistuja {{index}}",
+      "buttonDeleteAttendee": "Poista osallistuja",
       "buttonSave": "Tallenna osallistuja",
+      "buttonUpdateParticipantAmount": "Päivitä",
+      "labelAttendeeExtraInfo": "Lisätietoa (valinnainen)",
       "labelCity": "Kaupunki",
       "labelDateOfBirth": "Syntymäaika",
       "labelEmail": "Sähköpostiosoite",
@@ -340,11 +342,13 @@
       "labelMembershipNumber": "Jäsenkortin numero (valinnainen)",
       "labelName": "Nimi",
       "labelNativeLanguage": "Äidinkieli",
+      "labelParticipantAmount": "Ilmoittautujien määrä",
       "labelPhoneNumber": "Puhelinnumero",
       "labelServiceLanguage": "Asiointikieli",
       "labelStreetAddress": "Katuosoite",
       "labelZip": "Postinumero",
       "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
+      "placeholderAttendeeExtraInfo": "Syötä mahdollinen lisätieto tai toive",
       "placeholderCity": "Syötä kaupunki",
       "placeholderEmail": "Syötä sähköpostiosoite",
       "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
@@ -355,10 +359,12 @@
       "placeholderServiceLanguage": "Valitse asiointikieli",
       "placeholderStreetAddress": "Syötä katuosoite",
       "placeholderZip": "Syötä postinumero",
+      "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon",
       "titleAdditionalInfo": "Lisätiedot",
       "titleBasicInfo": "Ilmoittautujan perustiedot",
       "titleContactInfo": "Yhteystiedot",
-      "titleNotifications": "Tapahtumaa koskevat ilmoitukset"
+      "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
+      "titleRegistration": "Ilmoittautuminen"
     },
     "notifications": {
       "email": "Sähköpostilla",
@@ -392,6 +398,7 @@
       "labelSearch": "Hae osallistujia",
       "placeholderSearch": "Hae osallistujia"
     },
+    "title": "Ilmoittautuneet",
     "waitingListTableCaption": "Jonopaikat",
     "waitingListTableHeading": "Jonopaikat",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda osallistujia tähän ilmoittautumiseen.",
@@ -467,6 +474,11 @@
         "general": "Lisää toistuva tapahtuma",
         "volunteering": "Lisää toistuva vapaaehtoistehtävä"
       },
+      "buttonAddRegistration": {
+        "course": "Lisää kurssille ilmoittautuminen",
+        "general": "Lisää tapahtumalle ilmoittautuminen",
+        "volunteering": "Lisää vapaaehtoistehtävälle ilmoittautuminen"
+      },
       "buttonAddVideo": "Lisää video",
       "buttonCancel":  "Peruuta tapahtuma",
       "buttonCopy": "Kopioi pohjaksi",
@@ -538,6 +550,11 @@
         "general": "Kuvaus on pidempi ja tarkempi selostus tapahtuman sisällöstä.",
         "volunteering": "Kuvaus on pidempi ja tarkempi selostus vapaaehtoistehtävän sisällöstä."
       },
+      "infoTextDescription3": {
+        "course": "Kirjaa myös kurssin <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja.",
+        "general": "Kirjaa myös tapahtuman <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja.",
+        "volunteering": "Kirjaa myös vapaaehtoistehtävän <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja."
+      },
       "infoTextEnrolmentTime": {
         "course": "Jos kurssille on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
         "general": "Jos tapahtumaan on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
@@ -595,6 +612,7 @@
       },
       "infoTextLocation3": "Jos tapahtumapaikka löytyy listasta, sen sijaintia ei tarvitse kuvailla erikseen. Voit kuitenkin antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi kerrosnumeron tai luokkahuoneen nimen.",
       "infoTextLocation4": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
+      "infoTextLocation5": "Jos paikan tiedot ovat muuttuneet, päivitä ne toimipisterekisterissä. Muiden kuin kaupungin palvelujen osalta, lisää tai päivitä tiedot <a href=\"https://kaupunkialustana.hel.fi/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Kaupunki alustana {{openInNewTab}}\">Kaupunki alustana</a> -palvelussa.",
       "infoTextMainCategories": {
         "course": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa kurssin löytämistä.",
         "general": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa tapahtuman löytämistä.",
@@ -645,13 +663,20 @@
         "general": "Tapahtuman kuvaus {{langText}}",
         "volunteering": "Vapaaehtoistehtävän kuvaus {{langText}}"
       },
-      "labelEndTime": {
+      "labelEndDate": {
         "course": "Kurssi päättyy",
         "general": "Tapahtuma päättyy",
         "volunteering": "Vapaaehtoistehtävä päättyy"
       },
-      "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
-      "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",  
+      "labelEndTime": {
+        "course": "Kurssi päättyy klo",
+        "general": "Tapahtuma päättyy klo",
+        "volunteering": "Vapaaehtoistehtävä päättyy klo"
+      },
+      "labelEnrolmentEndTimeDate": "Ilmoittautuminen päättyy",
+      "labelEnrolmentEndTimeTime": "Ilmoittautuminen päättyy klo",
+      "labelEnrolmentStartTimeDate": "Ilmoittautuminen alkaa",
+      "labelEnrolmentStartTimeTime": "Ilmoittautuminen alkaa klo",
       "labelExternalLinkLink": {
         "course": "Kurssin {{name}} URL",
         "general": "Tapahtuman {{name}} URL",
@@ -730,16 +755,22 @@
         "general": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
         "volunteering": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)"
       },
-      "labelStartTime": {
+      "labelStartDate": {
         "course": "Kurssi alkaa",
         "general": "Tapahtuma alkaa",
         "volunteering": "Vapaaehtoistehtävä alkaa"
+      },
+      "labelStartTime": {
+        "course": "Kurssi alkaa klo",
+        "general": "Tapahtuma alkaa klo",
+        "volunteering": "Vapaaehtoistehtävä alkaa klo"
       },
       "labelTime": "Ajankohta",
       "labelUmbrellaEvent": "Kattotapahtuma",
       "labelVideoAltText": "Videon alt-teksti",
       "labelVideoName": "Videon nimi",
       "labelVideoUrl": "Videon URL-osoite",
+      "linkGoToRegistration": "Siirry ilmoittautumiseen",
       "modalTitleImage": {
         "course": "Lisää kurssin kuva",
         "general": "Lisää tapahtuman kuva",
@@ -887,6 +918,7 @@
         "linksToEvents": "Kytkökset muihin tapahtumiin",
         "place": "Paikka",
         "price": "Hinta",
+        "registration": "Ilmoittautuminen",
         "responsibilities": "Vastuut",
         "time": "Ajankohta",
         "type": "Tapahtumatyyppi",
@@ -1028,7 +1060,7 @@
       "cardList": "Korttinäkymä",
       "table": "Listanäkymä"
     },
-    "pageDescription": "Tapahtumalistaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.",
+    "pageDescription": "Tapahtumien listaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.",
     "pageTitle": "Omat tapahtumat",
     "sortOptions": {
       "duration": "Kesto, nouseva",
@@ -1075,6 +1107,10 @@
         "min": "Vähintään {{min}} vaihtoehto tulee olla valittuna",
         "min_other": "Vähintään {{min}} vaihtoehtoa tulee olla valittuna",
         "required": "Vähintään 1 vaihtoehto tulee olla valittuna"
+      },
+      "capacity": {
+        "max": "Osallistujien enimmäismäärä on {{max}}.",
+        "min": "Osallistujien vähimmäismäärä on {{min}}."
       },
       "date": {
         "after": "Tämän päivämäärän tulee olla {{after}} jälkeen",
@@ -1203,6 +1239,7 @@
     "pageDescriptionDocumentation": "Lue lisää Linked Eventsin dokumentaatiosta ja API-suunnittelusta.",
     "pageDescriptionFaq": "Linked Eventsin usen kysytyt kysymykset.",
     "pageDescriptionFeatures": "Lue Linked Eventsin ominaisuuksista. Tutustu tapahtumien hallintaan ja Linked Events -rajapintaan.",
+    "pageDescriptionImageRights": "Lisätietoja Linked Events -palvelun kuvaoikeuksista ja lisensseistä.",
     "pageDescriptionInstructions": "Ohjeet sovelluksen ja Linked Events -rajapinnan käyttöön",
     "pageDescriptionSourceCode": "Tutustu Linked Eventsin lähdekoodiin Githubissa.",
     "pageDescriptionTechnology": "Lisätietoja Linked Eventsin taustalla olevasta tekniikasta.",
@@ -1249,6 +1286,12 @@
       "labelTechnology": "Teknologia",
       "labelTermsOfUse": "Käyttöehdot",
       "toggleButtonLabel": "Siirry ohjesivulle"
+    },
+    "sourceCodeLinks": {
+      "api": "rajapinta",
+      "documentation": "dokumentaatio",
+      "linkedEventsUi": "tapahtumien hallinnan käyttöliittymä",
+      "linkedRegistrationsUi": "ilmoittautumisen käyttöliittymä"
     }
   },
   "image": {
@@ -1307,12 +1350,12 @@
       "name": "Nimi"
     },
     "labelSearch": "Hae kuvia",
+    "pageDescription": "Kuvien listaus. Selaa, suodata ja muokkaa Linked Events -kuvia.",
     "pageTitle": "Kuvat",
     "sortOptions": {
       "lastModifiedTime": "Viimeksi muokattu, nouseva",
       "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva"
     },
-    
     "title": "Kuvat",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda kuvia.",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä kuvia."
@@ -1336,9 +1379,11 @@
     }
   },
   "keywords": {
+    "add": "lisää",
     "admin": "admin",
     "api": "api",
     "asked": "kysytyt",
+    "browse": "selailla",
     "bug": "vika",
     "contact": "ota yhteyttä",
     "controlPanel": "ohjauspaneeli",
@@ -1354,20 +1399,30 @@
     "form": "lomake",
     "help": "apu",
     "helsinki": "Helsinki",
+    "image": "kuva",
     "instructions": "ohjeet",
+    "keyword": "avainsana",
+    "license": "lisenssi",
     "linked": "linked",
+    "listing": "lista",
     "management": "hallinta",
     "myListing": "minun, luetteloni",
+    "new": "uusi",
+    "organization": "organisaatio",
     "place": "paikka",
     "platform": "alusta",
     "questions": "kysymykset",
+    "registration": "ilmoittautuminen",
     "report": "ilmoita",
+    "rights": "oikeudet",
     "search": "haku",
+    "set": "ryhmä",
     "sourceCode": "lähdekoodi",
     "support": "tuki",
     "technology": "teknologia",
     "termsOfUse": "käyttöehdot",
-    "update": "päivitä"
+    "update": "päivitä",
+    "upload": "lataa"
   },
   "keywordsPage": {
     "actionButtons": {
@@ -1382,6 +1437,7 @@
       "nEvents": "Tapahtumien lkm"
     },
     "labelSearch": "Hae avainsanoja",
+    "pageDescription": "Avainsanojen listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanoja.",
     "pageTitle": "Avainsanat",
     "sortOptions": {
       "id": "Id, nouseva",
@@ -1426,6 +1482,7 @@
       "usage": "Käyttötarkoitus"
     },
     "labelSearch": "Hae avainsanaryhmiä",
+    "pageDescription": "Avainsanaryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanaryhmiä.",
     "pageTitle": "Avainsanaryhmät",
     "sortOptions": {
       "id": "Id, nouseva",
@@ -1538,6 +1595,7 @@
       "name": "Nimi",
       "parentOrganization": "Pääorganisaatio"
     },
+    "pageDescription": "Organisaatioiden listaus. Selaa, suodata ja muokkaa Linked Eventsin organisaatioita.",
     "pageTitle": "Organisaatiot",
     "sortOptions": {
       "classification": "Luokittelu, nouseva",
@@ -1589,6 +1647,7 @@
     "count": "{{count}} paikka",
     "count_other": "{{count}} paikkaa",
     "labelSearch": "Hae paikkoja",
+    "pageDescription": "Paikkojen listaus. Selaa, suodata ja muokkaa Linked Eventsin paikkoja.",
     "pageTitle": "Paikat",
     "placesTableCaption": "Paikat, järjestys {{sort}}",
     "placesTableColumns": {
@@ -1629,8 +1688,10 @@
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
       "labelConfirmationMessage": "Lähetettävä vahvistusviesti (valinnainen)",
-      "labelEnrolmentEndTime": "Ilmoittautuminen päättyy",
-      "labelEnrolmentStartTime": "Ilmoittautuminen alkaa",
+      "labelEnrolmentEndTimeDate": "Ilmoittautuminen päättyy",
+      "labelEnrolmentEndTimeTime": "Ilmoittautuminen päättyy klo",
+      "labelEnrolmentStartTimeDate": "Ilmoittautuminen alkaa",
+      "labelEnrolmentStartTimeTime": "Ilmoittautuminen alkaa klo",
       "labelEvent": "Tapahtuma",
       "labelInstructions": "Ilmoittautumisohjeet (valinnainen)",
       "labelMaximumAttendeeCapacity": "Paikkojen enimmäismäärä",
@@ -1665,6 +1726,7 @@
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "count": "{{count}} ilmoittautuminen",
     "count_other": "{{count}} ilmoittautumista",
+    "pageDescription": "Ilmoittautumisten listaus. Selaa, suodata ja muokkaa ilmoittautumisiasi.",
     "pageTitle": "Ilmoittautuminen",
     "registrationsTableCaption": "Ilmoittautumiset, järjestys {{sort}}",
     "registrationsTableColumns": {

@@ -1,5 +1,4 @@
-import { css } from '@emotion/css';
-import classNames from 'classnames';
+import { ClassNames } from '@emotion/react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
@@ -12,14 +11,19 @@ type TableProps = React.ComponentPropsWithoutRef<'table'> & {
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, children, ...rest }, ref) => {
     const { theme } = useTheme();
+
     return (
-      <table
-        {...rest}
-        ref={ref}
-        className={classNames(styles.table, css(theme.table), className)}
-      >
-        {children}
-      </table>
+      <ClassNames>
+        {({ css, cx }) => (
+          <table
+            {...rest}
+            ref={ref}
+            className={cx(styles.table, css(theme.table), className)}
+          >
+            {children}
+          </table>
+        )}
+      </ClassNames>
     );
   }
 );

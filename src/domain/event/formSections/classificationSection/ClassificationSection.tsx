@@ -3,13 +3,13 @@ import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import CheckboxGroupField from '../../../../common/components/formFields/CheckboxGroupField';
-import KeywordSelectorField from '../../../../common/components/formFields/KeywordSelectorField';
+import CheckboxGroupField from '../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
+import KeywordSelectorField from '../../../../common/components/formFields/keywordSelectorField/KeywordSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
 import useLocale from '../../../../hooks/useLocale';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
-import FieldColumn from '../../../app/layout/FieldColumn';
-import FieldRow from '../../../app/layout/FieldRow';
+import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
+import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { REMOTE_PARTICIPATION_KEYWORD } from '../../../keyword/constants';
 import { getKeywordOption } from '../../../keywordSet/utils';
 import { INTERNET_PLACE_ID } from '../../../place/constants';
@@ -28,10 +28,11 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: eventLocation }] = useField({ name: EVENT_FIELDS.LOCATION });
   const [{ value: keywords }, , { setValue: setKeywords }] = useField<string[]>(
-    {
-      name: EVENT_FIELDS.KEYWORDS,
-    }
+    { name: EVENT_FIELDS.KEYWORDS }
   );
+  const [, , { setValue: setMainCategories }] = useField<string[]>({
+    name: EVENT_FIELDS.MAIN_CATEGORIES,
+  });
 
   const { topicsData } = useEventFieldOptionsData(type);
 
@@ -46,17 +47,11 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
     [locale, topicsData]
   );
 
-  const [, , { setValue: setMainCategories }] = useField<string[]>({
-    name: EVENT_FIELDS.MAIN_CATEGORIES,
-  });
-
   React.useEffect(() => {
     // Set main categories to validate that at least one main category is selected
-    setMainCategories(
-      topicsData?.keywordSet?.keywords?.map((k) => k?.atId as string) || []
-    );
+    setMainCategories(keywordOptions?.map((k) => k.value));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicsData]);
+  }, [keywordOptions]);
 
   // Internet location automatically implies "remote participation"
   React.useEffect(() => {

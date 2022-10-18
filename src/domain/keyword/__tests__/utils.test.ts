@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 
 import {
@@ -81,7 +82,8 @@ describe('getKeywordFields function', () => {
   it('should return default values if value is not set', () => {
     const { atId, id, name, nEvents, publisher } = getKeywordFields(
       fakeKeyword({
-        atId: null,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        atId: null as any,
         id: null,
         name: null,
         nEvents: null,

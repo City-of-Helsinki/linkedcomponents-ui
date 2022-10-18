@@ -1,13 +1,12 @@
 import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import { MenuItemOptionProps } from '../../../common/components/menuDropdown/MenuItem';
+import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import {
   EventFieldsFragment,
@@ -17,8 +16,8 @@ import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
 import { ActionButtonProps } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { authenticatedSelector } from '../../auth/selectors';
-import { EventsLocationState } from '../../eventSearch/types';
+import { useAuth } from '../../auth/hooks/useAuth';
+import { EventsLocationState } from '../../events/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_EDIT_ACTIONS } from '../constants';
@@ -42,7 +41,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   saving,
 }) => {
   const { t } = useTranslation();
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
 

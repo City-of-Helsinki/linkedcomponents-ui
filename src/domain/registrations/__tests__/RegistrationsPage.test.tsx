@@ -2,16 +2,16 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -24,13 +24,13 @@ import RegistrationsPage from '../RegistrationsPage';
 
 configure({ defaultHidden: true });
 
-const storeState = fakeAuthenticatedStoreState();
-
 const mocks = [
   ...mockedEventResponses,
   mockedRegistrationsResponse,
   mockedUserResponse,
 ];
+
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 beforeEach(() => jest.clearAllMocks());
 
@@ -55,20 +55,18 @@ const getElement = (key: 'createRegistrationButton' | 'table') => {
 
 test('should show correct title, description and keywords', async () => {
   const pageTitle = 'Ilmoittautuminen - Linked Events';
+  const pageDescription =
+    'Ilmoittautumisten listaus. Selaa, suodata ja muokkaa ilmoittautumisiasi.';
+  const pageKeywords =
+    'ilmoittautuminen, lista, muokkaa, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
 
   render(<RegistrationsPage />);
 
-  await waitFor(() => expect(document.title).toEqual(pageTitle));
-
-  const head = document.querySelector('head');
-  const ogTitle = head?.querySelector('[property="og:title"]');
-
-  expect(ogTitle).toHaveAttribute('content', pageTitle);
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
 test('should render registrations page', async () => {
-  const store = getMockReduxStore(storeState);
-  render(<RegistrationsPage />, { mocks, store });
+  render(<RegistrationsPage />, { authContextValue, mocks });
 
   await loadingSpinnerIsNotInDocument(10000);
 
@@ -78,8 +76,10 @@ test('should render registrations page', async () => {
 
 test('should open create registration page', async () => {
   const user = userEvent.setup();
-  const store = getMockReduxStore(storeState);
-  const { history } = render(<RegistrationsPage />, { mocks, store });
+  const { history } = render(<RegistrationsPage />, {
+    authContextValue,
+    mocks,
+  });
 
   await loadingSpinnerIsNotInDocument(10000);
 
@@ -94,19 +94,17 @@ test('should open create registration page', async () => {
 });
 
 it('scrolls to registration table row and calls history.replace correctly (deletes registrationId from state)', async () => {
-  const storeState = fakeAuthenticatedStoreState();
-  const store = getMockReduxStore(storeState);
   const route = '/fi/registrations';
   const history = createMemoryHistory();
-  history.push(route, { registrationId: registrations.data[0].id });
+  history.push(route, { registrationId: registrations.data[0]?.id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
   render(<RegistrationsPage />, {
+    authContextValue,
     history,
     mocks,
     routes: [route],
-    store,
   });
 
   await loadingSpinnerIsNotInDocument(10000);
@@ -114,7 +112,8 @@ it('scrolls to registration table row and calls history.replace correctly (delet
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 

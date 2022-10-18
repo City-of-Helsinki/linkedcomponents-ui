@@ -1,10 +1,17 @@
 import { ROUTES } from '../../../constants';
+import { waitReducerToBeCalled } from '../../../utils/testUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import {
+  ExpandedOrganizationsActionTypes,
   ORGANIZATION_SEARCH_PARAMS,
   ORGANIZATION_SORT_OPTIONS,
 } from '../constants';
 import { OrganizationSearchParam } from '../types';
-import { getOrganizationParamValue } from '../utils';
+import {
+  addExpandedOrganization,
+  getOrganizationParamValue,
+  removeExpandedOrganization,
+} from '../utils';
 
 describe('getOrganizationParamValue function', () => {
   it('should get sort value', () => {
@@ -41,5 +48,33 @@ describe('getOrganizationParamValue function', () => {
         value: 'value',
       })
     ).toThrowError();
+  });
+});
+
+describe('addExpandedOrganization function', () => {
+  it('should call reducer correcly', async () => {
+    const dispatchExpandedOrganizationsState = jest.fn();
+    const id = TEST_PUBLISHER_ID;
+
+    addExpandedOrganization({ dispatchExpandedOrganizationsState, id });
+
+    await waitReducerToBeCalled(dispatchExpandedOrganizationsState, {
+      payload: id,
+      type: ExpandedOrganizationsActionTypes.ADD_EXPANDED_ORGANIZATION,
+    });
+  });
+});
+
+describe('removeExpandedOrganization function', () => {
+  it('should call reducer correcly', async () => {
+    const dispatchExpandedOrganizationsState = jest.fn();
+    const id = TEST_PUBLISHER_ID;
+
+    removeExpandedOrganization({ dispatchExpandedOrganizationsState, id });
+
+    await waitReducerToBeCalled(dispatchExpandedOrganizationsState, {
+      payload: id,
+      type: ExpandedOrganizationsActionTypes.REMOVE_EXPANDED_ORGANIZATION,
+    });
   });
 });

@@ -6,7 +6,6 @@ import {
 } from '@apollo/client';
 import map from 'lodash/map';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import {
@@ -25,7 +24,7 @@ import useMountedState from '../../../hooks/useMountedState';
 import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import { reportError } from '../../app/sentry/utils';
-import { authenticatedSelector } from '../../auth/selectors';
+import { useAuth } from '../../auth/hooks/useAuth';
 import { clearEventsQueries } from '../../events/utils';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
@@ -75,7 +74,7 @@ const useEventUpdateActions = ({
 }: Props): UseEventUpdateActionsState => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const authenticated = useSelector(authenticatedSelector);
+  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const locale = useLocale();
   const location = useLocation();

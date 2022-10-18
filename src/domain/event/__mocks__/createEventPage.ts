@@ -17,7 +17,7 @@ import { placeAtId } from '../../place/__mocks__/place';
 
 const id = 'hel:123';
 const eventValues = {
-  description: 'Description',
+  description: '<p>Description</p>',
   id,
   subEventIds: ['event:1', 'event:2'],
   atId: generateAtId(id, 'event'),
@@ -38,7 +38,7 @@ const eventValues = {
 };
 
 const keyword = topics.data[0] as Keyword;
-const keywordName = keyword.name?.fi;
+const keywordName = keyword.name?.fi as string;
 const keywordId = keyword.id;
 const keywordAtId = keyword.atId;
 
@@ -74,7 +74,12 @@ const baseEventPayload = {
     sv: null,
     zhHans: null,
   },
-  offers: [{ isFree: true }],
+  offers: [
+    {
+      infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
+      isFree: true,
+    },
+  ],
   provider: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
   publisher: organizationId,
   shortDescription: {

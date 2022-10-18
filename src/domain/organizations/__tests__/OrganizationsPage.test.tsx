@@ -1,17 +1,18 @@
 import { createMemoryHistory } from 'history';
+import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
   CustomRenderOptions,
-  getMockReduxStore,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
   waitFor,
+  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -22,20 +23,20 @@ import OrganizationsPage from '../OrganizationsPage';
 
 configure({ defaultHidden: true });
 
-const storeState = fakeAuthenticatedStoreState();
-const defaultStore = getMockReduxStore(storeState);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedOrganizationsResponse, mockedUserResponse];
+const mocks = [mockedOrganizationsResponse, mockedUserResponse];
 
 const route = ROUTES.ORGANIZATIONS;
+const routes = [route];
 
-const renderComponent = ({
-  mocks = defaultMocks,
-  routes = [route],
-  store = defaultStore,
-  ...restRenderOptions
-}: CustomRenderOptions = {}) =>
-  render(<OrganizationsPage />, { mocks, routes, store, ...restRenderOptions });
+const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
+  render(<OrganizationsPage />, {
+    authContextValue,
+    mocks,
+    routes,
+    ...renderOptions,
+  });
 
 const findElement = (key: 'title') => {
   switch (key) {
@@ -77,7 +78,21 @@ test('should render organizations page', async () => {
   getElement('createOrganizationButton');
   getElement('searchInput');
   getElement('table');
-  screen.getByRole('button', { name: organizations.data[0].name });
+  screen.getByRole('button', { name: organizations.data[0]?.name as string });
+});
+
+test('applies expected metadata', async () => {
+  const pageTitle = 'Organisaatiot - Linked Events';
+  const pageDescription =
+    'Organisaatioiden listaus. Selaa, suodata ja muokkaa Linked Eventsin organisaatioita.';
+  const pageKeywords =
+    'organisaatio, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
+
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
 test('should open create organization page', async () => {
@@ -90,7 +105,9 @@ test('should open create organization page', async () => {
   const createOrganizationButton = getElement('createOrganizationButton');
   await act(async () => await user.click(createOrganizationButton));
 
-  expect(history.location.pathname).toBe('/fi/admin/organizations/create');
+  expect(history.location.pathname).toBe(
+    '/fi/administration/organizations/create'
+  );
 });
 
 test('should add sort parameter to search query', async () => {
@@ -107,7 +124,7 @@ test('should add sort parameter to search query', async () => {
 
 it('scrolls to organization row and calls history.replace correctly (deletes organizationId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { organizationId: organizations.data[0].id });
+  history.push(route, { organizationId: organizations.data[0]?.id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
@@ -115,13 +132,14 @@ it('scrolls to organization row and calls history.replace correctly (deletes org
 
   await loadingSpinnerIsNotInDocument();
   const organizationButton = screen.getByRole('button', {
-    name: organizations.data[0].name,
+    name: organizations.data[0]?.name as string,
   });
 
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 

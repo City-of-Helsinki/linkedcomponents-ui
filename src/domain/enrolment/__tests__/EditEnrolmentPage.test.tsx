@@ -3,11 +3,10 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   renderWithRoute,
   screen,
   userEvent,
@@ -103,8 +102,8 @@ const openMenu = async () => {
   return toggleButton;
 };
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const defaultMocks = [
   mockedEnrolmentResponse,
   mockedEventResponse,
@@ -121,10 +120,10 @@ const route = ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditEnrolmentPage />, {
+    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_REGISTRATION_ENROLMENT,
-    store,
   });
 
 test('should scroll to first validation error input field', async () => {
@@ -170,7 +169,11 @@ test('should cancel enrolment', async () => {
   const cancelButton = await findElement('cancelButton');
   await act(async () => await user.click(cancelButton));
 
-  const withinModal = within(screen.getByRole('dialog'));
+  const withinModal = within(
+    screen.getByRole('dialog', {
+      name: 'Haluatko varmasti poistaa ilmoittautumisen?',
+    })
+  );
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });

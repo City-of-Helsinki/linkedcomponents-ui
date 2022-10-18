@@ -1,11 +1,10 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedStoreState } from '../../../../utils/mockStoreUtils';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   act,
   configure,
-  getMockReduxStore,
   render,
   screen,
   userEvent,
@@ -17,6 +16,9 @@ import {
   registrationId,
 } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
+import EnrolmentPageContext, {
+  enrolmentPageContextDefaultValue,
+} from '../../enrolmentPageContext/EnrolmentPageContext';
 import CreateButtonPanel, {
   CreateButtonPanelProps,
 } from '../CreateButtonPanel';
@@ -25,15 +27,13 @@ configure({ defaultHidden: true });
 
 const defaultProps: CreateButtonPanelProps = {
   disabled: false,
-  registration,
   onSave: jest.fn(),
   saving: false,
 };
 
 const mocks = [mockedEventResponse, mockedUserResponse];
 
-const state = fakeAuthenticatedStoreState();
-const store = getMockReduxStore(state);
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderComponent = ({
   props,
@@ -45,11 +45,18 @@ const renderComponent = ({
   props?: Partial<CreateButtonPanelProps>;
   route?: string;
 } = {}) =>
-  render(<CreateButtonPanel {...defaultProps} {...props} />, {
-    mocks,
-    routes: [route],
-    store,
-  });
+  render(
+    <EnrolmentPageContext.Provider
+      value={{ ...enrolmentPageContextDefaultValue, registration }}
+    >
+      <CreateButtonPanel {...defaultProps} {...props} />
+    </EnrolmentPageContext.Provider>,
+    {
+      authContextValue,
+      mocks,
+      routes: [route],
+    }
+  );
 
 const findElement = (key: 'saveButton') => {
   switch (key) {
