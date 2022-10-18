@@ -1,36 +1,26 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { createHTMLTransformer } from '@aeaton/prosemirror-transformers';
-import {
-  Editor,
-  HtmlEditor,
-  Toolbar,
-  useEditorState,
-  useEditorView,
-} from '@aeaton/react-prosemirror';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import '@ckeditor/ckeditor5-build-classic/build/translations/fi';
+import '@ckeditor/ckeditor5-build-classic/build/translations/sv';
+import './ckeditor.scss';
+
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassNames } from '@emotion/react';
-import React, { useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
-import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
-import useSetFocused from '../../../hooks/useSetFocused';
+import useLocale from '../../../hooks/useLocale';
 import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
-import plugins from './config/plugins';
-import schema from './config/schema';
-import { generateToolbar } from './config/toolbar';
-import placeholderPlugin from './plugins/placeholder/placeholder';
 import styles from './textEditor.module.scss';
-
-const initialValue = '<p></p>';
 
 export type TextEditorProps = {
   disabled?: boolean;
-  isFocused?: boolean;
   label: string;
-  onBlur: (event?: React.SyntheticEvent) => void;
+  onBlur: () => void;
   onChange: (value: string) => void;
-  placeholderKey?: string;
-  sanitizeAfterChange?: (html: string) => string;
+  placeholder?: string;
+  sanitizeAfterBlur?: (html: string) => string;
   value: string;
 } & InputWrapperProps;
 
@@ -38,7 +28,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
   className,
   disabled,
   errorText,
-  isFocused,
   helperText,
   hideLabel,
   id,
@@ -46,26 +35,18 @@ const TextEditor: React.FC<TextEditorProps> = ({
   label,
   onBlur,
   onChange,
-  placeholderKey = '',
+  placeholder,
   required,
-  sanitizeAfterChange,
+  sanitizeAfterBlur,
   style,
   tooltipButtonLabel,
   tooltipLabel,
   tooltipText,
   value,
-  ...rest
 }) => {
-  const htmlTransformer = useState(function () {
-    return createHTMLTransformer(schema);
-  })[0];
-  const { t } = useTranslation();
-  const view = useEditorView();
-  const editorState = useEditorState();
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const editor = React.useRef<ClassicEditor>();
   const { theme } = useTheme();
-
-  const { focused } = useSetFocused(containerRef);
+  const locale = useLocale();
 
   const wrapperProps = {
     className,
@@ -79,93 +60,68 @@ const TextEditor: React.FC<TextEditorProps> = ({
     label,
     required,
     style,
+    tooltipButtonLabel,
     tooltipLabel,
     tooltipText,
-    tooltipButtonLabel,
-    ...rest,
   };
 
   const setFocusToEditor = () => {
-    view.focus();
+    editor.current?.editing?.view?.focus();
   };
-
-  const handleChange = React.useCallback(
-    (value: string) => {
-      /* istanbul ignore next */
-      const sanitizedValue = sanitizeAfterChange
-        ? sanitizeAfterChange(value)
-        : value;
-
-      if (sanitizedValue !== value) {
-        const tr = editorState.tr;
-        const newDoc = htmlTransformer.parse(sanitizedValue || initialValue);
-
-        tr.replaceWith(0, editorState.doc.content.size, newDoc.content);
-        const newState = editorState.apply(tr);
-
-        view.updateState(newState);
-        onChange(sanitizedValue);
-      }
-    },
-    [editorState, htmlTransformer, onChange, sanitizeAfterChange, view]
-  );
-
-  React.useEffect(() => {
-    if (!isFocused) {
-      const newDoc = htmlTransformer.parse(value || initialValue);
-
-      /* istanbul ignore next */
-      if (view.state.doc.toString() !== newDoc.toString()) {
-        const tr = editorState.tr;
-
-        tr.replaceWith(0, editorState.doc.content.size, newDoc.content);
-        const newState = editorState.apply(tr);
-
-        view.updateState(newState);
-        onChange(value);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
-
-  React.useEffect(() => {
-    view.setProps({ editable: () => !disabled });
-  }, [disabled, view]);
-
-  React.useEffect(() => {
-    // Editor component doens't support aria label so set it manually here
-    const editor = document.querySelector('[contenteditable=true]');
-    /* istanbul ignore else */
-    if (editor) {
-      editor.ariaLabel = label;
-      editor.setAttribute('title', label);
-      editor.setAttribute('role', 'textbox');
-    }
-  }, [label]);
 
   return (
     <ClassNames>
       {({ css, cx }) => (
         <div
-          ref={containerRef}
           className={cx(
+            'text-editor',
             styles.textEditor,
-            { [styles.invalid]: invalid },
-            css(theme.textEditor)
+            css(theme.textEditor),
+            { invalid: invalid }
           )}
           id={`${id}-text-editor`}
           onClick={setFocusToEditor}
-          onBlur={(ev: React.SyntheticEvent) => {
-            onBlur && onBlur(ev);
-            handleChange(value as string);
-          }}
         >
           <InputWrapper {...wrapperProps} className={styles.inputWrapper}>
-            {/* @ts-ignore */}
-            <Toolbar toolbar={generateToolbar(disabled, t)} />
-            <div className={cx(styles.editor, { [styles.focused]: focused })}>
-              <Editor />
-            </div>
+            <CKEditor
+              key={locale}
+              editor={ClassicEditor}
+              config={{
+                language: locale,
+                placeholder,
+                toolbar: {
+                  items: [
+                    'bold',
+                    'italic',
+                    'blockQuote',
+                    'link',
+                    '|',
+                    'bulletedList',
+                    'numberedList',
+                    '|',
+                    'undo',
+                    'redo',
+                  ],
+                  shouldNotGroupWhenFull: true,
+                },
+              }}
+              data={value}
+              onBlur={() => {
+                const sanitizedValue = sanitizeAfterBlur
+                  ? sanitizeAfterBlur(value)
+                  : value;
+                onChange(sanitizedValue);
+
+                onBlur();
+              }}
+              onChange={(_, editor) => {
+                const data = editor.getData();
+                onChange(data);
+              }}
+              onReady={(instance) => {
+                editor.current = instance;
+              }}
+            />
           </InputWrapper>
         </div>
       )}
@@ -173,49 +129,4 @@ const TextEditor: React.FC<TextEditorProps> = ({
   );
 };
 
-const TextEditorContainer: React.FC<TextEditorProps> = ({
-  onChange,
-  placeholderKey,
-  value,
-  ...rest
-}) => {
-  const { t } = useTranslation();
-  const container = useRef<HTMLDivElement>(null);
-
-  const isComponentFocused = useIsComponentFocused(container);
-
-  const handleChange = React.useCallback((val: string) => {
-    const newValue = val === initialValue ? '' : val;
-
-    onChange(newValue);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleEditorChange = React.useCallback((val: string) => {
-    if (isComponentFocused()) {
-      handleChange(val);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <div ref={container}>
-      {/* @ts-ignore */}
-      <HtmlEditor
-        schema={schema}
-        plugins={[...plugins, placeholderPlugin(t, placeholderKey)]}
-        value={value || initialValue}
-        handleChange={handleEditorChange}
-      >
-        <TextEditor
-          {...rest}
-          isFocused={isComponentFocused()}
-          onChange={handleChange}
-          value={value}
-        />
-      </HtmlEditor>
-    </div>
-  );
-};
-
-export default TextEditorContainer;
+export default TextEditor;

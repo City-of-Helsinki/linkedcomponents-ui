@@ -225,35 +225,6 @@
     "showMoreWithCount": "Visa mer ({{count}})",
     "signIn": "Logga in",
     "signOut": "Logga ut",
-    "textEditor": {
-      "add": "Lägg till",
-      "cancel": "Avbryt",
-      "blocktype": {
-        "blockquote": "Block citat"
-      },
-      "history": {
-        "redo": "Gör om",
-        "undo": "Avbryt"
-      },
-      "inline": {
-        "bold": "Fet stil",
-        "code": "Koda",
-        "italic": "Kursivt"
-      },
-      "link": {
-        "link": "Länk",
-        "linkTarget": "Länkens URL",
-        "linkTargetOption": "Öppna länken i ett nytt fönster",
-        "linkTitle": "Länkens rubrik",
-        "promptTitle": "Lägg till en länk",
-        "unlink": "Ta bort länken"
-      },
-      "list": {
-        "ordered": "Sorterad lista",
-        "outdented": "Ta bort lista",
-        "unordered": "Osorterad lista"
-      }
-    },
     "timeInput": {
       "hoursLabel": "timmar",
       "minutsLabel": "minuter"

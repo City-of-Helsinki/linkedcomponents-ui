@@ -8,6 +8,7 @@ import {
   render,
   screen,
   userEvent,
+  within,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
@@ -73,8 +74,11 @@ const getElement = (
     case 'endTimeDate':
       return screen.getByRole('textbox', { name: 'Ilmoittautuminen päättyy' });
     case 'endTimeTime':
-      return screen.getByRole('textbox', {
-        name: /Ilmoittautuminen päättyy klo/i,
+      const endTimeGroup = screen.getByRole('group', {
+        name: /ilmoittautuminen päättyy klo/i,
+      });
+      return within(endTimeGroup).getByRole('textbox', {
+        name: 'tunnit',
       });
     case 'maxAge':
       return screen.getByRole('spinbutton', { name: 'Yläikäraja' });
@@ -91,8 +95,11 @@ const getElement = (
     case 'startTimeDate':
       return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa' });
     case 'startTimeTime':
-      return screen.getByRole('textbox', {
-        name: /Ilmoittautuminen alkaa klo/i,
+      const startTimeGroup = screen.getByRole('group', {
+        name: /ilmoittautuminen alkaa klo/i,
+      });
+      return within(startTimeGroup).getByRole('textbox', {
+        name: 'tunnit',
       });
   }
 };

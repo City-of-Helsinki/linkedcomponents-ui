@@ -225,35 +225,6 @@
     "showMoreWithCount": "Näytä lisää ({{count}})",
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
-    "textEditor": {
-      "add": "Lisää",
-      "cancel": "Peruuta",
-      "blocktype": {
-        "blockquote": "Lohkolainaus"
-      },
-      "history": {
-        "redo": "Tee uudelleen",
-        "undo": "Peruuta"
-      },
-      "inline": {
-        "bold": "Lihavoitu",
-        "code": "Koodi",
-        "italic": "Kursivoitu"
-      },
-      "link": {
-        "link": "Linkki",
-        "linkTarget": "Linkin URL",
-        "linkTargetOption": "Avaa linkki uudessa ikkunassa",
-        "linkTitle": "Linkin otsikko",
-        "promptTitle": "Lisää linkki",
-        "unlink": "Poista linkitys"
-      },
-      "list": {
-        "ordered": "Järjestetty lista",
-        "outdent": "Poista lista",
-        "unordered": "Järjestämätön lista"
-      }
-    },
     "timeInput": {
       "hoursLabel": "tunnit",
       "minutsLabel": "minuutit"

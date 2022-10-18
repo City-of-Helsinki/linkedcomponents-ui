@@ -101,7 +101,8 @@ it('scrolls to enrolment table row and calls history.replace correctly (deletes 
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 

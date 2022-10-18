@@ -137,7 +137,8 @@ it('scrolls to image row and calls history.replace correctly (deletes imageId fr
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 

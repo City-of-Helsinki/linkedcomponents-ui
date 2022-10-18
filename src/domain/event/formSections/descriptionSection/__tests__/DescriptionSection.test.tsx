@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Formik } from 'formik';
-import { EditorView } from 'prosemirror-view';
 import React from 'react';
 
 import {
@@ -87,19 +86,19 @@ const renderComponent = (
   };
 };
 
-const getElement = (
-  key:
-    | 'descriptionFi'
-    | 'fiButton'
-    | 'nameFi'
-    | 'shortDescriptionFi'
-    | 'svButton'
-) => {
+const findElement = (key: 'descriptionFi') => {
   switch (key) {
     case 'descriptionFi':
-      return screen.getByRole('textbox', {
-        name: /tapahtuman kuvaus suomeksi/i,
+      return screen.findByRole('textbox', {
+        name: /editorin muokkausalue: main/i,
       });
+  }
+};
+
+const getElement = (
+  key: 'fiButton' | 'nameFi' | 'shortDescriptionFi' | 'svButton'
+) => {
+  switch (key) {
     case 'fiButton':
       return screen.getByRole('tab', { name: /suomi/i });
     case 'nameFi':
@@ -231,10 +230,6 @@ test('should show validation error if short description is too long', async () =
 });
 
 test('should show validation error if description is missing', async () => {
-  jest
-    .spyOn(EditorView.prototype, 'posAtCoords')
-    .mockImplementation(() => null);
-
   const setSelectedLanguage = jest.fn();
   const user = userEvent.setup();
   renderComponent(
@@ -252,7 +247,7 @@ test('should show validation error if description is missing', async () => {
     { setSelectedLanguage }
   );
 
-  const descriptionInput = getElement('descriptionFi');
+  const descriptionInput = await findElement('descriptionFi');
   const shortDescriptionInput = getElement('shortDescriptionFi');
 
   await act(async () => await user.click(descriptionInput));
@@ -262,10 +257,6 @@ test('should show validation error if description is missing', async () => {
 });
 
 test('should show validation error if description is too long', async () => {
-  jest
-    .spyOn(EditorView.prototype, 'posAtCoords')
-    .mockImplementation(() => null);
-
   const setSelectedLanguage = jest.fn();
   const user = userEvent.setup();
   renderComponent(
@@ -284,7 +275,7 @@ test('should show validation error if description is too long', async () => {
     { setSelectedLanguage }
   );
 
-  const descriptionInput = getElement('descriptionFi');
+  const descriptionInput = await findElement('descriptionFi');
   const shortDescriptionInput = getElement('shortDescriptionFi');
 
   await act(async () => await user.click(descriptionInput));

@@ -74,7 +74,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
     setSelectedLanguage(language as LE_DATA_LANGUAGES);
   };
 
-  const sanitizeDescriptionAfterChange = React.useCallback(
+  const sanitizeDescription = React.useCallback(
     (value: string) =>
       formatSingleDescription({
         audience,
@@ -153,9 +153,9 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   })}
                   maxLength={CHARACTER_LIMITS.LONG_STRING}
                   name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
-                  placeholderKey={`event.form.placeholderDescription.${type}`}
+                  placeholder={t(`event.form.placeholderDescription.${type}`)}
                   required={true}
-                  sanitizeAfterChange={sanitizeDescriptionAfterChange}
+                  sanitizeAfterBlur={sanitizeDescription}
                 />
               </FormGroup>
             </TabPanel>

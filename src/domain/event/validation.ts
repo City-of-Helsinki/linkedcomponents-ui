@@ -13,6 +13,7 @@ import {
   isAfterTime,
   isFutureDateAndTime,
   isValidTime,
+  isValidUrl,
   transformNumber,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
@@ -75,7 +76,9 @@ const createPaidOfferSchema = (eventInfoLanguage: string[]) =>
     ),
     [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
       eventInfoLanguage,
-      Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+      Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+        isValidUrl(value)
+      )
     ),
   });
 
@@ -90,7 +93,11 @@ const createFreeOfferSchema = (eventInfoLanguage: string[]) =>
           .shape({
             [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
               eventInfoLanguage,
-              Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+              Yup.string().test(
+                'is-url-valid',
+                VALIDATION_MESSAGE_KEYS.URL,
+                (value) => isValidUrl(value)
+              )
             ),
           })
           .validate(values, options);
@@ -117,7 +124,9 @@ const externalLinksSchema = Yup.array().of(
   Yup.object().shape({
     [EXTERNAL_LINK_FIELDS.LINK]: Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .url(VALIDATION_MESSAGE_KEYS.URL),
+      .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+        isValidUrl(value)
+      ),
     [EXTERNAL_LINK_FIELDS.NAME]: Yup.string().required(
       VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
     ),
@@ -150,7 +159,9 @@ const videoSchema = Yup.object().shape(
       validateVideoFields as () => Yup.StringSchema
     ),
     [VIDEO_DETAILS_FIELDS.URL]: Yup.string()
-      .url(VALIDATION_MESSAGE_KEYS.URL)
+      .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+        isValidUrl(value)
+      )
       .when(
         [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.NAME],
         validateVideoFields as () => Yup.StringSchema
@@ -331,7 +342,9 @@ export const publicEventSchema = Yup.object().shape(
         validateOffers as () => Yup.SchemaOf<Offer[]>
       ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+      Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+        isValidUrl(value)
+      )
     ),
     [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
     [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
@@ -383,7 +396,9 @@ export const draftEventSchema = Yup.object().shape(
         validateOffers as () => Yup.SchemaOf<Offer[]>
       ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string().url(VALIDATION_MESSAGE_KEYS.URL)
+      Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+        isValidUrl(value)
+      )
     ),
     [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
     [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(

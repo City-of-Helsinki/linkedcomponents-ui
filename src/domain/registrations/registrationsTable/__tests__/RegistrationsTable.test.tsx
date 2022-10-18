@@ -53,7 +53,7 @@ test('should open registration page by clicking event name', async () => {
   const user = userEvent.setup();
 
   const eventName = eventNames[0];
-  const registrationId = registrations.data[0].id;
+  const registrationId = registrations.data[0]?.id;
   const registration = registrations.data[0];
 
   await act(async () => {
@@ -78,7 +78,7 @@ test('should open registration page by pressing enter on row', async () => {
   const user = userEvent.setup();
 
   const eventName = eventNames[0];
-  const registrationId = registrations.data[0].id;
+  const registrationId = registrations.data[0]?.id;
   const registration = registrations.data[0];
 
   await act(async () => {

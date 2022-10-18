@@ -140,7 +140,8 @@ it('scrolls to place row and calls history.replace correctly (deletes placeId fr
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 

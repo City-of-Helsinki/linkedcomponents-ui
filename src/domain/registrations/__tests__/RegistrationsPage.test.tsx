@@ -112,7 +112,8 @@ it('scrolls to registration table row and calls history.replace correctly (delet
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: '' },
-      {}
+      {},
+      { replace: true, state: {} }
     )
   );
 
