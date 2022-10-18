@@ -85,6 +85,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           <InputWrapper {...wrapperProps} className={styles.inputWrapper}>
             <CKEditor
               key={locale}
+              disabled={disabled}
               editor={ClassicEditor}
               config={{
                 language: locale,
@@ -102,7 +103,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
                     'undo',
                     'redo',
                   ],
-                  shouldNotGroupWhenFull: true,
                 },
               }}
               data={value}
