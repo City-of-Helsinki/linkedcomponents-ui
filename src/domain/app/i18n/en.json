@@ -224,35 +224,6 @@
     "showMoreWithCount": "Show more ({{count}})",
     "signIn": "Sign in",
     "signOut": "Sign out",
-    "textEditor": {
-      "add": "Add",
-      "cancel": "Cancel",
-      "blocktype": {
-        "blockquote": "Blockquote"
-      },
-      "history": {
-        "redo": "Redo",
-        "undo": "Undo"
-      },
-      "inline": {
-        "bold": "Bold",
-        "code": "code",
-        "italic": "Italic"
-      },
-      "link": {
-        "link": "Link",
-        "linkTarget": "URL of the link",
-        "linkTargetOption": "Open link in a new window",
-        "linkTitle": "Link title",
-        "promptTitle": "Create link",
-        "unlink": "Remove link"
-      },
-      "list": {
-        "ordered": "Ordered list",
-        "outdent": "Outdent",
-        "unordered": "Unordered list"
-      }
-    },
     "timeInput": {
       "hoursLabel": "hours",
       "minutsLabel": "minutes"

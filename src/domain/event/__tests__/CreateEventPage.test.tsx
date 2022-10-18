@@ -123,19 +123,9 @@ const setFormValues = (values: Partial<EventFormFields>) => {
 };
 
 const getElement = (
-  key:
-    | 'description'
-    | 'keyword'
-    | 'name'
-    | 'publish'
-    | 'saveDraft'
-    | 'superEvent'
+  key: 'keyword' | 'name' | 'publish' | 'saveDraft' | 'superEvent'
 ) => {
   switch (key) {
-    case 'description':
-      return screen.getByRole('textbox', {
-        name: /tapahtuman kuvaus suomeksi/i,
-      });
     case 'keyword':
       return screen.getByRole('checkbox', { name: keywordName });
     case 'name':
@@ -157,8 +147,14 @@ const getElement = (
   }
 };
 
-const findElement = (key: 'keyword' | 'name' | 'nameSv' | 'superEvent') => {
+const findElement = (
+  key: 'description' | 'keyword' | 'name' | 'nameSv' | 'superEvent'
+) => {
   switch (key) {
+    case 'description':
+      return screen.findByRole('textbox', {
+        name: /editorin muokkausalue: main/i,
+      });
     case 'keyword':
       return screen.findByRole('checkbox', { name: keywordName });
     case 'name':
@@ -252,7 +248,7 @@ test('should focus to text editor component in case of validation error', async 
 
   await waitLoadingAndGetNameInput();
 
-  const descriptionTextbox = getElement('description');
+  const descriptionTextbox = await findElement('description');
 
   const publishButton = getElement('publish');
   await act(async () => await user.click(publishButton));
