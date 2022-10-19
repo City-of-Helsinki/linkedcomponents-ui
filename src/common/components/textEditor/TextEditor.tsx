@@ -11,6 +11,7 @@ import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import useLocale from '../../../hooks/useLocale';
+import isTestEnv from '../../../utils/isTestEnv';
 import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
 import styles from './textEditor.module.scss';
 
@@ -103,6 +104,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
                     'undo',
                     'redo',
                   ],
+                  shouldNotGroupWhenFull: isTestEnv,
                 },
               }}
               data={value}
