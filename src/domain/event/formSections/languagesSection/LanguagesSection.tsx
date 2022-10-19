@@ -85,7 +85,7 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
             disabled={!isEditingAllowed}
             name={EVENT_FIELDS.IN_LANGUAGE}
             options={inLanguageOptions}
-            visibleOptionAmount={3}
+            visibleOptionAmount={10}
           />
         </FieldColumn>
       </FieldRow>
