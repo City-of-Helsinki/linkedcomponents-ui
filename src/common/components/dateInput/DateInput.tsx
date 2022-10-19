@@ -61,6 +61,9 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
           >
             <BaseDateInput
               {...rest}
+              // TODO: Remove next line when minDate issue is fixed to HDS.
+              // https://helsinkisolutionoffice.atlassian.net/browse/HDS-1437
+              minDate={undefined}
               onBlur={handleBlur}
               onChange={handleChange}
               value={inputValue}
