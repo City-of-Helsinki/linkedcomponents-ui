@@ -522,10 +522,8 @@
         "warningDeletedEvent": "Deleted events can't be edited.",
         "warningEventInPast": "Past events can't be edited.",
         "warningNoRightsToEdit": "You have insufficient rights to edit this event."
-      },
-      "helperRecurringEventRepeatInterval": "In weeks",
+      },      
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
-      
       "infoTextAttendeeCapacity": {
         "course": "If the number of participants in the course is limited, specify the minimum and maximum number of participants here.",
         "general": "If the number of participants in the event is limited, specify the minimum and maximum number of participants here.",
@@ -669,11 +667,7 @@
         "general": "Event ends",
         "volunteering": "Volunteering ends"
       },
-      "labelEndTime": {
-        "course": "Course ends at",
-        "general": "Event ends at",
-        "volunteering": "Volunteering ends at"
-      },
+      "labelEndTime": "End time",
       "labelEnrolmentEndTimeDate": "Registration ends",
       "labelEnrolmentEndTimeTime": "Registration ends at",
       "labelEnrolmentStartTimeDate": "Registration begins",
@@ -734,23 +728,6 @@
         "general": "Event publisher",
         "volunteering": "Volunteering publisher"
       },
-      "labelRecurringEventEndDate": "Repetition ends",
-      "labelRecurringEventEndTime": {
-        "course": "Course ends at",
-        "general": "Event ends at",
-        "volunteering": "Volunteering ends at"
-      },
-      "labelRecurringEventRepeatInterval": {
-        "course": "Course is repeated",
-        "general": "Event is repeated",
-        "volunteering": "Volunteering is repeated"
-      },
-      "labelRecurringEventStartDate": "Repetition starts",
-      "labelRecurringEventStartTime": {
-        "course": "Course starts at",
-        "general": "Event starts at",
-        "volunteering": "Volunteering starts at"
-      },
       "labelShortDescription": {
         "course": "Short description {{langText}} (up to 160 characters)",
         "general": "Short description {{langText}} (up to 160 characters)",
@@ -761,11 +738,7 @@
         "general": "Event starts",
         "volunteering": "Volunteering starts"
       },
-      "labelStartTime": {
-        "course": "Course starts at",
-        "general": "Event starts at",
-        "volunteering": "Volunteering starts at"
-      },
+      "labelStartTime": "Start time",
       "labelTime": "Time",
       "labelUmbrellaEvent": "Umbrella event",
       "labelVideoAltText": "Video alt text",
@@ -883,26 +856,27 @@
       "placeholderVideoName": "Enter video name",
       "placeholderVideoUrl": "Enter video URL",
       "recurringEvent": {
-        "labelEndDate": "Repetition ends:",
+        "helperRepeatInterval": "In weeks",
+        "labelEndDate": "Repetition ends",
         "labelEndTime": {
-          "course": "Course ends at:",
-          "general": "Event ends at:",
-          "volunteering": "Volunteering ends at:"
+          "course": "Course ends at",
+          "general": "Event ends at",
+          "volunteering": "Volunteering ends at"
         },
         "labelRepeatInterval": {
-          "course": "Course repeats:",
-          "general": "Event repeats:",
-          "volunteering": "Volunteering repeats:"
+          "course": "Course is repeated",
+          "general": "Event is repeated",
+          "volunteering": "Volunteering is repeated"
         },
-        "labelRepeatDays": "Repeat days:",
-        "labelStartDate": "Repetition starts:",
+        "labelStartDate": "Repetition starts",
         "labelStartTime": {
-          "course": "Course starts at:",
-          "general": "Event starts at:",
-          "volunteering": "Volunteering starts at:"
+          "course": "Course starts at",
+          "general": "Event starts at",
+          "volunteering": "Volunteering starts at"
         },
         "textRepeatInterval": "Every week",
-        "textRepeatInterval_other": "Every {{count}} weeks"
+        "textRepeatInterval_other": "Every {{count}} weeks",
+        "titleRepeatDays": "Repeat days"
       },
       "sections": {
         "additionalInfo": "Additional information",
@@ -972,7 +946,6 @@
       },
       "titlePrice": "Price",
       "titleRecurringEvent": "Recurring event",
-      "titleRecurringEventRepeatDays": "Repeat days",
       "titleServerErrorSummary": "Form contains following errors",
       "titleSocialMedia": {
         "course": "Course on social media",

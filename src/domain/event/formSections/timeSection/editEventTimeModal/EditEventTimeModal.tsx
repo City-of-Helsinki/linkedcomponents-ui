@@ -84,7 +84,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
                   />
                   <Field
                     component={TimeInputField}
-                    label={t(`event.form.labelStartTime.${eventType}`)}
+                    label={t(`event.form.labelStartTime`)}
                     name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
                     placeholder={t('common.placeholderTime')}
                     required={true}
@@ -104,7 +104,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
                   <Field
                     component={TimeInputField}
                     name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
-                    label={t(`event.form.labelEndTime.${eventType}`)}
+                    label={t(`event.form.labelEndTime`)}
                     placeholder={t('common.placeholderTime')}
                     required={true}
                   />

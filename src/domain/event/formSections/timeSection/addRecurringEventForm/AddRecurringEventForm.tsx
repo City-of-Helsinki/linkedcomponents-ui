@@ -86,10 +86,10 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
                     component={NumberInputField}
                     disabled={disabled}
                     helperText={t(
-                      `event.form.helperRecurringEventRepeatInterval`
+                      `event.form.recurringEvent.helperRepeatInterval`
                     )}
                     label={t(
-                      `event.form.labelRecurringEventRepeatInterval.${eventType}`
+                      `event.form.recurringEvent.labelRepeatInterval.${eventType}`
                     )}
                     min={1}
                     max={4}
@@ -100,7 +100,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
               </SplittedRow>
             </FormGroup>
 
-            <h3>{t('event.form.titleRecurringEventRepeatDays')}</h3>
+            <h3>{t('event.form.recurringEvent.titleRepeatDays')}</h3>
             <FormGroup>
               <Field
                 component={CheckboxGroupField}
@@ -114,7 +114,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
               <Field
                 component={DateInputField}
                 disabled={disabled}
-                label={t('event.form.labelRecurringEventStartDate')}
+                label={t('event.form.recurringEvent.labelStartDate')}
                 name={RECURRING_EVENT_FIELDS.START_DATE}
                 placeholder={t('common.placeholderDate')}
                 required={true}
@@ -126,7 +126,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
                 disabled={disabled}
                 minDate={startDate}
                 name={RECURRING_EVENT_FIELDS.END_DATE}
-                label={t('event.form.labelRecurringEventEndDate')}
+                label={t('event.form.recurringEvent.labelEndDate')}
                 placeholder={t('common.placeholderDate')}
                 required={true}
               />
@@ -143,7 +143,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
                     disabled={disabled}
                     name={RECURRING_EVENT_FIELDS.START_TIME}
                     label={t(
-                      `event.form.labelRecurringEventStartTime.${eventType}`
+                      `event.form.recurringEvent.labelStartTime.${eventType}`
                     )}
                     placeholder={t('common.placeholderTime')}
                     required={true}
@@ -159,7 +159,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
                     disabled={disabled}
                     name={RECURRING_EVENT_FIELDS.END_TIME}
                     label={t(
-                      `event.form.labelRecurringEventEndTime.${eventType}`
+                      `event.form.recurringEvent.labelEndTime.${eventType}`
                     )}
                     placeholder={t('common.placeholderTime')}
                     required={true}

@@ -523,7 +523,6 @@
         "warningEventInPast": "Menneisyydessä olevia tapahtumia ei voi muokata.",
         "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa."
       },
-      "helperRecurringEventRepeatInterval": "Viikon välein",
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "infoTextAttendeeCapacity": {
         "course": "Jos kurssin osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
@@ -668,11 +667,7 @@
         "general": "Tapahtuma päättyy",
         "volunteering": "Vapaaehtoistehtävä päättyy"
       },
-      "labelEndTime": {
-        "course": "Kurssi päättyy klo",
-        "general": "Tapahtuma päättyy klo",
-        "volunteering": "Vapaaehtoistehtävä päättyy klo"
-      },
+      "labelEndTime": "Päättymisaika",
       "labelEnrolmentEndTimeDate": "Ilmoittautuminen päättyy",
       "labelEnrolmentEndTimeTime": "Ilmoittautuminen päättyy klo",
       "labelEnrolmentStartTimeDate": "Ilmoittautuminen alkaa",
@@ -733,23 +728,6 @@
         "general": "Tapahtuman julkaisija",
         "volunteering": "Vapaaehtoistehtävän julkaisija"
       },
-      "labelRecurringEventEndDate": "Toisto päättyy",
-      "labelRecurringEventEndTime": {
-        "course": "Kurssi päättyy klo",
-        "general": "Tapahtuma päättyy klo",
-        "volunteering": "Vapaaehtoistehtävä päättyy klo"
-      },
-      "labelRecurringEventRepeatInterval": {
-        "course": "Kurssi toistu",
-        "general": "Tapahtuma toistuu",
-        "volunteering": "Vapaaehtoistehtävä toistuu"
-      },
-      "labelRecurringEventStartDate": "Toisto alkaa",
-      "labelRecurringEventStartTime": {
-        "course": "Kurssi alkaa klo",
-        "general": "Tapahtuma alkaa klo",
-        "volunteering": "Vapaaehtoistehtävä alkaa klo"
-      },
       "labelShortDescription": {
         "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
         "general": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
@@ -760,11 +738,7 @@
         "general": "Tapahtuma alkaa",
         "volunteering": "Vapaaehtoistehtävä alkaa"
       },
-      "labelStartTime": {
-        "course": "Kurssi alkaa klo",
-        "general": "Tapahtuma alkaa klo",
-        "volunteering": "Vapaaehtoistehtävä alkaa klo"
-      },
+      "labelStartTime": "Alkamisaika",
       "labelTime": "Ajankohta",
       "labelUmbrellaEvent": "Kattotapahtuma",
       "labelVideoAltText": "Videon alt-teksti",
@@ -882,26 +856,27 @@
       "placeholderVideoName": "Syötä videon nimi",
       "placeholderVideoUrl": "Syötä videon URL-osoite",
       "recurringEvent": {
-        "labelEndDate": "Toisto päättyy:",
+        "helperRepeatInterval": "Viikon välein",
+        "labelEndDate": "Toisto päättyy",
         "labelEndTime": {
-          "course": "Kurssi päättyy klo:",
-          "general": "Tapahtuma päättyy klo:",
-          "volunteering": "Vapaaehtoistehtävä päättyy klo:"
+          "course": "Kurssi päättyy klo",
+          "general": "Tapahtuma päättyy klo",
+          "volunteering": "Vapaaehtoistehtävä päättyy klo"
         },
         "labelRepeatInterval": {
-          "course": "Kurssi toistuu:",
-          "general": "Tapahtuma toistuu:",
-          "volunteering": "Vapaaehtoistehtävä toistuu:"
+          "course": "Kurssi toistuu",
+          "general": "Tapahtuma toistuu",
+          "volunteering": "Vapaaehtoistehtävä toistuu"
         },
-        "labelRepeatDays": "Toistopäivät:",
-        "labelStartDate": "Toisto alkaa:",
+        "labelStartDate": "Toisto alkaa",
         "labelStartTime": {
-          "course": "Kurssi alkaa klo:",
-          "general": "Tapahtuma alkaa klo:",
-          "volunteering": "Vapaaehtoistehtävä alkaa klo:"
+          "course": "Kurssi alkaa klo",
+          "general": "Tapahtuma alkaa klo",
+          "volunteering": "Vapaaehtoistehtävä alkaa klo"
         },
         "textRepeatInterval": "Viikon välein",
-        "textRepeatInterval_other": "{{count}} viikon välein"
+        "textRepeatInterval_other": "{{count}} viikon välein",
+        "titleRepeatDays": "Toistopäivät"
       },
       "sections": {
         "additionalInfo": "Lisätiedot",
@@ -971,7 +946,6 @@
       },
       "titlePrice": "Hinta",
       "titleRecurringEvent": "Toistuva tapahtuma",
-      "titleRecurringEventRepeatDays": "Toistopäivät",
       "titleServerErrorSummary": "Lomakkeella on seuraavat virheet",
       "titleSocialMedia": {
         "course": "Kurssi sosiaalisessa mediassa",
