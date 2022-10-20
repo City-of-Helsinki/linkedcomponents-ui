@@ -12,6 +12,8 @@ import {
   ImageQuery,
   ImageQueryVariables,
   ImagesQueryVariables,
+  LocalisedFieldsFragment,
+  Maybe,
   OrganizationFieldsFragment,
   UpdateImageMutationInput,
   UserFieldsFragment,
@@ -83,8 +85,9 @@ export const getImageFields = (
   language: Language
 ): ImageFields => {
   const id = image.id ?? '';
+
   return {
-    altText: getLocalisedObject(image.altText),
+    altText: getImageAltText(image.altText),
     id,
     imageUrl: `/${language}${ROUTES.EDIT_IMAGE.replace(':id', id)}`,
     lastModifiedTime: image.lastModifiedTime
@@ -97,6 +100,11 @@ export const getImageFields = (
     url: image.url || '',
   };
 };
+
+export const getImageAltText = (
+  altText?: Maybe<LocalisedFieldsFragment> | string
+) =>
+  getLocalisedObject(typeof altText === 'string' ? { fi: altText } : altText);
 
 export const checkCanUserDoAction = ({
   action,

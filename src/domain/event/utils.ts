@@ -68,6 +68,7 @@ import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
 import wait from '../../utils/wait';
+import { getImageAltText } from '../image/utils';
 import {
   isAdminUserInOrganization,
   isReqularUserInOrganization,
@@ -761,7 +762,7 @@ export const getEventInitialValues = (
     hasPrice,
     hasUmbrella: hasUmbrella,
     imageDetails: {
-      altText: getLocalisedObject(event.images[0]?.altText),
+      altText: getImageAltText(event.images[0]?.altText),
       license:
         event.images[0]?.license || EVENT_INITIAL_VALUES.imageDetails.license,
       name: event.images[0]?.name || EVENT_INITIAL_VALUES.imageDetails.name,

@@ -6,6 +6,7 @@ import {
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
 } from '../../constants';
+import { isFeatureEnabled } from '../../utils/featureFlags';
 import {
   createMultiLanguageValidation,
   createStringMaxErrorMessage,
@@ -27,14 +28,15 @@ export const imageDetailsSchema = Yup.object().shape({
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       .min(IMAGE_ALT_TEXT_MIN_LENGTH, createStringMinErrorMessage)
       .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage),
-    ...createMultiLanguageValidation(
-      ORDERED_LE_DATA_LANGUAGES.filter((l) => l !== LE_DATA_LANGUAGES.FI),
-      Yup.string()
-        .nullable()
-        .transform((v, o) => (o === '' ? null : v))
-        .min(IMAGE_ALT_TEXT_MIN_LENGTH, createStringMinErrorMessage)
-        .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
-    ).fields,
+    ...(isFeatureEnabled('LOCALIZED_IMAGE') &&
+      createMultiLanguageValidation(
+        ORDERED_LE_DATA_LANGUAGES.filter((l) => l !== LE_DATA_LANGUAGES.FI),
+        Yup.string()
+          .nullable()
+          .transform((v, o) => (o === '' ? null : v))
+          .min(IMAGE_ALT_TEXT_MIN_LENGTH, createStringMinErrorMessage)
+          .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
+      ).fields),
   }),
 
   [IMAGE_FIELDS.NAME]: Yup.string()

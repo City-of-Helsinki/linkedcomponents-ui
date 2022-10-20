@@ -148,7 +148,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
           component={TextInputField}
           disabled={!editable}
           label={t('image.form.labelAltText')}
-          name={`${IMAGE_FIELDS.ALT_TEXT}.fi`}
+          name={getFieldName(`${IMAGE_FIELDS.ALT_TEXT}.fi`)}
           placeholder={t('image.form.placeholderAltText')}
           required={true}
         />

@@ -18,7 +18,6 @@ import {
   Registration,
   User,
 } from '../../../generated/graphql';
-import { isFeatureEnabled } from '../../../utils/featureFlags';
 
 export const addTypenameDataSource = (
   dataSource?: DataSource | null
@@ -98,11 +97,9 @@ export const addTypenameImage = (image?: Image | null): Image | null =>
     ? {
         ...image,
         altText: addTypenameLocalisedObject(
-          // TODO: Remove LOCALIZED_IMAGE feature flag when localized image alt text
-          // is deployed to production of API
-          isFeatureEnabled('LOCALIZED_IMAGE')
-            ? image.altText
-            : { fi: image.altText as string }
+          typeof image.altText === 'string'
+            ? { fi: image.altText }
+            : image.altText
         ),
         __typename: 'Image',
       }
