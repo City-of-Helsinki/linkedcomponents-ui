@@ -1,14 +1,14 @@
 # Continuous integration (CI) triggers cause a pipeline to run whenever you push
 # an update to the specified branches or you push specified tags.
-# trigger:
-#   batch: true
-#   branches:
-#     include:
-#     - master
-#   paths:
-#     exclude:
-#     - README.md
-trigger: none
+trigger:
+  batch: true
+  branches:
+    include:
+      - production
+  paths:
+    exclude:
+      - README.md
+
 # Pull request (PR) triggers cause a pipeline to run whenever a pull request is
 # opened with one of the specified target branches, or when updates are made to
 # such a pull request.
@@ -37,18 +37,11 @@ resources:
       type: git
       # Azure DevOps project/repository
       name: linkedevents/linkedevents-pipelines
-  pipelines:
-    # Pipeline trigger
-    - pipeline: build
-      source: build-linkedcomponents-ui
-      # Run deploy-dev pipeline when any run of build pipeline completes
-      trigger: true
 
 extends:
   # Filename in Azure DevOps Repository (note possible -ui or -api)
-  # Django example: azure-pipelines-linkedevents-api-master.yml
-  # Drupal example: azure-pipelines-drupal-master.yml
-  template: azure-pipelines-deploy-linkedcomponents-ui-dev.yml@linkedevents-pipelines
-  # Image tag name for Fuse projects
+  # Django example: azure-pipelines-PROJECTNAME-api-release.yml
+  # Drupal example: azure-pipelines-drupal-release.yml
+  template: azure-pipelines-build-linkedcomponents-ui-staging.yml@linkedevents-pipelines
   #parameters:
   #imagetag: ${{ parameters.imagetag }}
