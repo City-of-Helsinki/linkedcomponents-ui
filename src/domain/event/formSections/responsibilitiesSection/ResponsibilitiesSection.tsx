@@ -12,7 +12,6 @@ import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import useUser from '../../../user/hooks/useUser';
 import useUserOrganizations from '../../../user/hooks/useUserOrganizations';
 import { EVENT_FIELDS } from '../../constants';
-import styles from '../../eventPage.module.scss';
 
 export interface ResponsibilitiesSectionProps {
   isEditingAllowed: boolean;
@@ -62,7 +61,6 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
       <FieldRow
         notification={
           <Notification
-            className={styles.notification}
             label={t(`event.form.notificationTitlePublisher.${type}`)}
             type="info"
           >
@@ -84,7 +82,6 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
       <FieldRow
         notification={
           <Notification
-            className={styles.notification}
             label={t(`event.form.notificationTitleProvider.${type}`)}
             type="info"
           >

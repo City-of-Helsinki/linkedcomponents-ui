@@ -33,7 +33,7 @@ const PlaceSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldRow
         notification={
           <Notification
-            className={stylesEventPage.notification}
+            className={stylesEventPage.notificationForTitle}
             label={t(`event.form.notificationTitleLocation`)}
             type="info"
           >

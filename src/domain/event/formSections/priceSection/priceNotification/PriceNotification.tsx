@@ -11,7 +11,7 @@ const PriceNotification = () => {
 
   return (
     <Notification
-      className={styles.notification}
+      className={styles.notificationForTitle}
       label={t(`event.form.notificationTitleOffers`)}
       type="info"
     >

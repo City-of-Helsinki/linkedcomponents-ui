@@ -64,7 +64,7 @@ const Video: React.FC<Props> = ({
         notification={
           showInstructions ? (
             <Notification
-              className={styles.notification}
+              className={styles.notificationForTitle}
               label={t(`event.form.notificationTitleVideo.${type}`)}
               type="info"
             >

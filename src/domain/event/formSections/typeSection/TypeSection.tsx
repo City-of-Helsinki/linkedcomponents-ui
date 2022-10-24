@@ -138,6 +138,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({
         notification={
           <>
             <Notification
+              className={styles.notificationForTitle}
               label={t('event.form.notificationTitleType')}
               type="info"
             >
@@ -169,6 +170,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({
       <FieldRow
         notification={
           <Notification
+            className={styles.notificationForTitle}
             label={t('event.form.notificationTitleUmrellaEvent')}
             type="info"
           >

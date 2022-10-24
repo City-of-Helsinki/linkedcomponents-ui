@@ -77,6 +77,7 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldRow
         notification={
           <Notification
+            className={styles.notificationForTitle}
             label={t(`event.form.notificationTitleMainCategories.${type}`)}
             type="info"
           >
@@ -102,7 +103,7 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldRow
         notification={
           <Notification
-            className={styles.notification}
+            className={styles.notificationForTitle}
             label={t(`event.form.titleKeywords`)}
             type="info"
           >

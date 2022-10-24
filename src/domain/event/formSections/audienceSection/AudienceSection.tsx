@@ -7,6 +7,7 @@ import Notification from '../../../../common/components/notification/Notificatio
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
+import styles from '../../eventPage.module.scss';
 import useAudienceOptions from '../../hooks/useAudienceOptions';
 
 interface Props {
@@ -24,7 +25,11 @@ const AudienceSection: React.FC<Props> = ({ isEditingAllowed }) => {
     <>
       <FieldRow
         notification={
-          <Notification label={t(`event.form.titleAudience`)} type="info">
+          <Notification
+            className={styles.notificationForTitle}
+            label={t(`event.form.titleAudience`)}
+            type="info"
+          >
             <p>{t(`event.form.infoTextAudience.${type}`)}</p>
           </Notification>
         }

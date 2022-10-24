@@ -36,7 +36,6 @@ const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
                 offerPath={getOfferPath(index)}
                 onDelete={() => arrayHelpers.remove(index)}
                 showDelete={offers.length > 1}
-                showInstructions={!index}
               />
             );
           })}

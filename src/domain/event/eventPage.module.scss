@@ -30,6 +30,12 @@
   }
 }
 
+.notificationForTitle {
+  @include medium-up {
+    margin-top: -54px;
+  }
+}
+
 .secondNotification {
   margin-top: var(--spacing-m);
 }

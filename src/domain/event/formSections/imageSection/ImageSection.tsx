@@ -30,6 +30,7 @@ import useImageUpdateActions, {
 import { AddImageSettings } from '../../../image/types';
 import { clearImagesQueries, imagePathBuilder } from '../../../image/utils';
 import { EVENT_FIELDS } from '../../constants';
+import eventPageStyles from '../../eventPage.module.scss';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';
 import styles from './imageSection.module.scss';
 
@@ -121,6 +122,7 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldRow
         notification={
           <Notification
+            className={eventPageStyles.notificationForTitle}
             label={t(`event.form.notificationTitleImage.${type}`)}
             type="info"
           >
