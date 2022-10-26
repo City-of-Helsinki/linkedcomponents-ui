@@ -2,7 +2,14 @@
 import 'leaflet-draw';
 import 'leaflet-draw/dist/leaflet.draw.css';
 
-import { createControlComponent, useLeafletContext } from '@react-leaflet/core';
+import {
+  createControlHook,
+  createElementHook,
+  createElementObject,
+  createLeafComponent,
+  LeafletContextInterface,
+  LeafletElement,
+} from '@react-leaflet/core';
 import leaflet, {
   Control,
   ControlPosition,
@@ -10,7 +17,6 @@ import leaflet, {
   LeafletEvent,
   LeafletEventHandlerFn,
 } from 'leaflet';
-import React from 'react';
 
 interface EditControlProps {
   onEdited?: LeafletEventHandlerFn;
@@ -46,77 +52,80 @@ const eventHandlers = {
   onDeleteStop: 'draw:deletestop',
 };
 
-const EditControl = createControlComponent<Control, EditControlProps>(
-  (props) => {
-    const context = useLeafletContext();
+export function createEditControlComponent(
+  createInstance: (
+    props: EditControlProps,
+    context: LeafletContextInterface
+  ) => Control
+) {
+  const createElement = (
+    props: EditControlProps,
+    context: LeafletContextInterface
+  ): LeafletElement<Control> => {
+    const { map } = context;
 
-    const onDrawCreate = (e: LeafletEvent) => {
+    const onDrawCreated = (e: LeafletEvent) => {
       const { onCreated } = props;
-      const container = context.layerContainer || context.map;
 
+      const container = context.layerContainer || context.map;
       container.addLayer(e.layer);
+
       onCreated && onCreated(e);
     };
 
-    React.useEffect(() => {
-      const { map } = context;
+    for (const key in eventHandlers) {
+      const type = eventHandlers[key as keyof typeof eventHandlers];
 
-      for (const key in eventHandlers) {
-        const type = eventHandlers[key as keyof typeof eventHandlers];
+      map.on(type, (evt) => {
+        const handlers = Object.keys(eventHandlers).filter(
+          (handler) =>
+            eventHandlers[handler as keyof typeof eventHandlers] === evt.type
+        );
 
-        map.on(type, (evt) => {
-          const handlers = Object.keys(eventHandlers).filter(
-            (handler) =>
-              eventHandlers[handler as keyof typeof eventHandlers] === evt.type
-          );
-          if (handlers.length === 1) {
-            const handler = handlers[0];
-            const fn = props[handler as keyof typeof props];
+        if (handlers.length === 1) {
+          const handler = handlers[0];
+          const fn = props[handler as keyof typeof props] as
+            | LeafletEventHandlerFn
+            | undefined;
 
-            fn && (fn as LeafletEventHandlerFn)(evt);
-          }
-        });
-      }
-      map.on(leaflet.Draw.Event.CREATED, onDrawCreate);
-
-      return () => {
-        map.off(leaflet.Draw.Event.CREATED, onDrawCreate);
-
-        for (const key in eventHandlers) {
-          const type = eventHandlers[key as keyof typeof eventHandlers];
-          const fn = props[key as keyof typeof props];
-
-          if (fn) {
-            map.off(type, fn as LeafletEventHandlerFn);
-          }
+          fn && fn(evt);
         }
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+      });
+    }
 
-    const getDrawOptions = () => {
-      const { layerContainer } = context;
-      const { draw, edit, position } = props;
-      const options: Control.DrawConstructorOptions = {
-        edit: {
-          ...edit,
-          featureGroup: layerContainer as FeatureGroup,
-        },
-      };
+    map.on(leaflet.Draw.Event.CREATED, onDrawCreated);
 
-      if (draw) {
-        options.draw = { ...(draw as Control.DrawOptions) };
-      }
+    return createElementObject(createInstance(props, context), context);
+  };
 
-      if (position) {
-        options.position = position;
-      }
+  const useElement = createElementHook(createElement);
+  const useControl = createControlHook(useElement);
+  return createLeafComponent(useControl);
+}
 
-      return options;
+const EditControl = createEditControlComponent((props, context) => {
+  const getDrawOptions = () => {
+    const { layerContainer } = context;
+    const { draw, edit, position } = props;
+    const options: Control.DrawConstructorOptions = {
+      edit: {
+        ...edit,
+        featureGroup: layerContainer as FeatureGroup,
+      },
     };
 
-    return new Control.Draw(getDrawOptions());
-  }
-);
+    if (draw) {
+      options.draw = { ...(draw as Control.DrawOptions) };
+    }
+
+    if (position) {
+      options.position = position;
+    }
+
+    return options;
+  };
+
+  return new Control.Draw(getDrawOptions());
+});
 
 export default EditControl;
