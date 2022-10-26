@@ -28,6 +28,15 @@ const PlacesPage: React.FC = () => {
   return (
     <div className={styles.placesPage}>
       <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('adminPage.title'), to: ROUTES.ADMIN },
+              { active: true, label: t('placesPage.title') },
+            ]}
+          />
+        }
         button={
           <Button
             fullWidth={true}
@@ -40,13 +49,6 @@ const PlacesPage: React.FC = () => {
         }
         title={t('placesPage.title')}
       />
-      <Breadcrumb>
-        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ADMIN}>
-          {t('adminPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active={true}>{t('placesPage.title')}</Breadcrumb.Item>
-      </Breadcrumb>
 
       <PlaceAuthenticationNotification
         action={PLACE_ACTIONS.CREATE}

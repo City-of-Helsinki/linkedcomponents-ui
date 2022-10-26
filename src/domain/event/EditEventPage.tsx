@@ -306,17 +306,17 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
-                    <Breadcrumb className={styles.breadcrumb}>
-                      <Breadcrumb.Item to={ROUTES.HOME}>
-                        {t('common.home')}
-                      </Breadcrumb.Item>
-                      <Breadcrumb.Item to={ROUTES.EVENTS}>
-                        {t('eventsPage.title')}
-                      </Breadcrumb.Item>
-                      <Breadcrumb.Item active={true}>
-                        {t(`editEventPage.title.${values.type}`)}
-                      </Breadcrumb.Item>
-                    </Breadcrumb>
+                    <Breadcrumb
+                      className={styles.breadcrumb}
+                      items={[
+                        { label: t('common.home'), to: ROUTES.HOME },
+                        { label: t('eventsPage.title'), to: ROUTES.EVENTS },
+                        {
+                          active: true,
+                          label: t(`editEventPage.title.${values.type}`),
+                        },
+                      ]}
+                    />
 
                     <AuthenticationNotification event={event} />
 

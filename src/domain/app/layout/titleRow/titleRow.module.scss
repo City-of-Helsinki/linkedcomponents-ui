@@ -1,40 +1,58 @@
 @import '../../../../assets/styles/breakpoints';
 @import '../../../../assets/styles/widths';
 
-.titleRow {
+.titleRowWrapper {
   display: grid;
-  grid-gap: var(--spacing-m);
 
-  .title {
-    *:not(:last-child) {
-      margin-right: var(--spacing-xs);
-    }
-
-    h1 {
-      margin-bottom: 0;
+  .breadcrumb {
+    @include medium-up {
+      order: 2;
     }
   }
 
-  .buttonWrapper {
-    margin-bottom: var(--spacing-m);
-  }
-
-  @include medium-up {
-    display: flex;
-
+  .titleRow {
+    display: grid;
+    grid-gap: var(--spacing-m);
+  
     .title {
-      flex: 1 1 0%;
-    }
+      *:not(:last-child) {
+        margin-right: var(--spacing-xs);
+      }
+  
+      h1 {
+        margin: 0;
 
+        @include medium-up {
+          margin: var(--spacing-m) 0 0;
+        }
+        
+      }
+    }
+  
     .buttonWrapper {
-      align-self: flex-end;
-      margin-bottom: unset;
+      margin-bottom: var(--spacing-m);
     }
-
-    button {
-      @include min-width-column(2);
-
-      white-space: nowrap;
+  
+    @include medium-up {
+      order: 1;
+      display: flex;
+  
+      .title {
+        flex: 1 1 0%;
+      }
+  
+      .buttonWrapper {
+        align-self: flex-end;
+        margin-bottom: unset;
+      }
+  
+      button {
+        @include min-width-column(2);
+  
+        white-space: nowrap;
+      }
     }
   }
 }
+
+

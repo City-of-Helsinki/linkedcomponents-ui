@@ -201,17 +201,20 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
                     contentWrapperClassName={styles.editPageContentContainer}
                     withOffset={true}
                   >
-                    <Breadcrumb className={styles.breadcrumb}>
-                      <Breadcrumb.Item to={ROUTES.HOME}>
-                        {t('common.home')}
-                      </Breadcrumb.Item>
-                      <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
-                        {t('registrationsPage.title')}
-                      </Breadcrumb.Item>
-                      <Breadcrumb.Item active={true}>
-                        {t(`editRegistrationPage.title`)}
-                      </Breadcrumb.Item>
-                    </Breadcrumb>
+                    <Breadcrumb
+                      className={styles.breadcrumb}
+                      items={[
+                        { label: t('common.home'), to: ROUTES.HOME },
+                        {
+                          label: t('registrationsPage.title'),
+                          to: ROUTES.REGISTRATIONS,
+                        },
+                        {
+                          active: true,
+                          label: t(`editRegistrationPage.title`),
+                        },
+                      ]}
+                    />
 
                     <AuthenticationNotification
                       action={REGISTRATION_ACTIONS.UPDATE}

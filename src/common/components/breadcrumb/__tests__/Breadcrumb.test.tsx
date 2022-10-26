@@ -5,10 +5,12 @@ import Breadcrumb from '../Breadcrumb';
 
 const renderComponent = () =>
   render(
-    <Breadcrumb>
-      <Breadcrumb.Item to="/">Etusivu</Breadcrumb.Item>
-      <Breadcrumb.Item active={true}>Avainsanat</Breadcrumb.Item>
-    </Breadcrumb>
+    <Breadcrumb
+      items={[
+        { label: 'Etusivu', to: '/' },
+        { active: true, label: 'Avainsanat' },
+      ]}
+    />
   );
 
 test('should render breadcrumb', () => {

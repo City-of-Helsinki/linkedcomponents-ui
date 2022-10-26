@@ -1,52 +1,47 @@
 import { ClassNames } from '@emotion/react';
-import React, { cloneElement, isValidElement } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
-import { FCWithName } from '../../../types';
 import styles from './breadcrumb.module.scss';
-import BreadcrumbItem from './breadcrumbItem/BreadcrumbItem';
+import BreadcrumbItem, {
+  BreadcrumbCurrentItemProps,
+  BreadcrumbLinkItemProps,
+} from './breadcrumbItem/BreadcrumbItem';
 
 type BreadcrumbProps = {
   ariaLabel?: string;
   className?: string;
-  children: React.ReactNode;
+  items: [
+    BreadcrumbLinkItemProps,
+    ...BreadcrumbLinkItemProps[],
+    BreadcrumbCurrentItemProps
+  ];
 };
 
 const Breadcrumb = ({
   ariaLabel,
-  children,
   className,
+  items,
 }: BreadcrumbProps): React.ReactElement => {
   const { t } = useTranslation();
   const { theme } = useTheme();
-
-  const items = React.Children.map(children, (child) => {
-    /* istanbul ignore else */
-    if (
-      isValidElement(child) &&
-      (child.type as FCWithName).componentName === 'BreadcrumbItem'
-    ) {
-      return cloneElement(child);
-    }
-  });
 
   return (
     <ClassNames>
       {({ css, cx }) => (
         <nav
-          className={cx(styles.breadcrumb, className)}
+          className={cx(styles.breadcrumb, className, css(theme.breadcrumb))}
           aria-label={ariaLabel || t('common.breadcrumb')}
+          role="navigation"
         >
-          <ol className={cx(styles.breadcrumbList, css(theme.breadcrumb))}>
-            {items}
-          </ol>
+          {items.map((props, index) => (
+            <BreadcrumbItem key={index} {...props} />
+          ))}
         </nav>
       )}
     </ClassNames>
   );
 };
-
-Breadcrumb.Item = BreadcrumbItem;
 
 export default Breadcrumb;

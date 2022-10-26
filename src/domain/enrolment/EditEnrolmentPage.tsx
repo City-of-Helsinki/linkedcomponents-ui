@@ -83,33 +83,28 @@ const EditEnrolmentPage: React.FC<Props> = ({
           contentWrapperClassName={styles.breadcrumbContainer}
           withOffset
         >
-          <Breadcrumb>
-            <Breadcrumb.Item to={ROUTES.HOME}>
-              {t('common.home')}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
-              {t('registrationsPage.title')}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              to={ROUTES.EDIT_REGISTRATION.replace(
-                ':id',
-                registration.id as string
-              )}
-            >
-              {t(`editRegistrationPage.title`)}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              to={ROUTES.REGISTRATION_ENROLMENTS.replace(
-                ':registrationId',
-                registration.id as string
-              )}
-            >
-              {t(`enrolmentsPage.title`)}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active={true}>
-              {t(`editEnrolmentPage.pageTitle`)}
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumb
+            className={styles.breadcrumb}
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('registrationsPage.title'), to: ROUTES.REGISTRATIONS },
+              {
+                label: t(`editRegistrationPage.title`),
+                to: ROUTES.EDIT_REGISTRATION.replace(
+                  ':id',
+                  registration.id as string
+                ),
+              },
+              {
+                label: t(`enrolmentsPage.title`),
+                to: ROUTES.REGISTRATION_ENROLMENTS.replace(
+                  ':registrationId',
+                  registration.id as string
+                ),
+              },
+              { active: true, label: t(`editEnrolmentPage.pageTitle`) },
+            ]}
+          />
         </Container>
         <EnrolmentForm
           disabled={!isEditingAllowed}

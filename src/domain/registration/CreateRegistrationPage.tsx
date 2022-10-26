@@ -164,17 +164,20 @@ const CreateRegistrationPage: React.FC = () => {
             >
               <MainContent>
                 <Container className={styles.createContainer} withOffset={true}>
-                  <Breadcrumb className={styles.breadcrumb}>
-                    <Breadcrumb.Item to={ROUTES.HOME}>
-                      {t('common.home')}
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
-                      {t('registrationsPage.title')}
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item active={true}>
-                      {t(`createRegistrationPage.title`)}
-                    </Breadcrumb.Item>
-                  </Breadcrumb>
+                  <Breadcrumb
+                    className={styles.breadcrumb}
+                    items={[
+                      { label: t('common.home'), to: ROUTES.HOME },
+                      {
+                        label: t('registrationsPage.title'),
+                        to: ROUTES.REGISTRATIONS,
+                      },
+                      {
+                        active: true,
+                        label: t(`createRegistrationPage.title`),
+                      },
+                    ]}
+                  />
 
                   <AuthenticationNotification
                     action={REGISTRATION_ACTIONS.CREATE}

@@ -309,17 +309,17 @@ const CreateEventPage: React.FC = () => {
                     className={styles.createContainer}
                     withOffset={true}
                   >
-                    <Breadcrumb className={styles.breadcrumb}>
-                      <Breadcrumb.Item to={ROUTES.HOME}>
-                        {t('common.home')}
-                      </Breadcrumb.Item>
-                      <Breadcrumb.Item to={ROUTES.EVENTS}>
-                        {t('eventsPage.title')}
-                      </Breadcrumb.Item>
-                      <Breadcrumb.Item active={true}>
-                        {t(`createEventPage.title.${type}`)}
-                      </Breadcrumb.Item>
-                    </Breadcrumb>
+                    <Breadcrumb
+                      className={styles.breadcrumb}
+                      items={[
+                        { label: t('common.home'), to: ROUTES.HOME },
+                        { label: t('eventsPage.title'), to: ROUTES.EVENTS },
+                        {
+                          active: true,
+                          label: t(`createEventPage.title.${type}`),
+                        },
+                      ]}
+                    />
 
                     <AuthenticationNotification />
                     <ServerErrorSummary errors={serverErrorItems} />

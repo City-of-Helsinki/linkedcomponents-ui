@@ -29,6 +29,15 @@ const KeywordsPage: React.FC = () => {
   return (
     <div className={styles.keywordSetsPage}>
       <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('adminPage.title'), to: ROUTES.ADMIN },
+              { active: true, label: t('keywordSetsPage.title') },
+            ]}
+          />
+        }
         button={
           <Button
             className={styles.addButton}
@@ -42,15 +51,6 @@ const KeywordsPage: React.FC = () => {
         }
         title={t('keywordSetsPage.title')}
       />
-      <Breadcrumb>
-        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ADMIN}>
-          {t('adminPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active={true}>
-          {t('keywordSetsPage.title')}
-        </Breadcrumb.Item>
-      </Breadcrumb>
 
       <KeywordSetAuthenticationNotification
         action={KEYWORD_SET_ACTIONS.CREATE}
