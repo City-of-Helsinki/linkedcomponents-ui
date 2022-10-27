@@ -27,22 +27,22 @@ export const parseEnrolmentServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
-    switch (key) {
-      case 'detail':
-      case 'non_field_errors':
-        return [{ label: '', message: parseServerErrorMessage({ error, t }) }];
-      default:
-        return [
-          {
-            label: parseEnrolmentServerErrorLabel({ key }),
-            message: parseServerErrorMessage({ error, t }),
-          },
-        ];
-    }
+    return [
+      {
+        label: parseEnrolmentServerErrorLabel({ key }),
+        message: parseServerErrorMessage({ error, t }),
+      },
+    ];
   }
 
   // Get correct field name for an error item
   function parseEnrolmentServerErrorLabel({ key }: { key: string }): string {
-    return t(`enrolment.form.label${pascalCase(key)}`);
+    switch (key) {
+      case 'detail':
+      case 'non_field_errors':
+        return '';
+      default:
+        return t(`enrolment.form.label${pascalCase(key)}`);
+    }
   }
 };

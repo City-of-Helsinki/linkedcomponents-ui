@@ -36,6 +36,11 @@ export const parsePlaceServerErrors = ({
 
   // Get correct field name for an error item
   function parsePlaceServerErrorLabel({ key }: { key: string }): string {
-    return t(`place.form.label${pascalCase(key)}`);
+    switch (key) {
+      case 'detail':
+        return '';
+      default:
+        return t(`place.form.label${pascalCase(key)}`);
+    }
   }
 };
