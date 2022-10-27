@@ -19,37 +19,43 @@ import leaflet, {
 } from 'leaflet';
 
 interface EditControlProps {
-  onEdited?: LeafletEventHandlerFn;
-  onDrawStart?: LeafletEventHandlerFn;
-  onDrawStop?: LeafletEventHandlerFn;
-  onDrawVertex?: LeafletEventHandlerFn;
-  onEditStart?: LeafletEventHandlerFn;
-  onEditMove?: LeafletEventHandlerFn;
-  onEditResize?: LeafletEventHandlerFn;
-  onEditVertex?: LeafletEventHandlerFn;
-  onEditStop?: LeafletEventHandlerFn;
+  onCreated?: LeafletEventHandlerFn;
   onDeleted?: LeafletEventHandlerFn;
   onDeleteStart?: LeafletEventHandlerFn;
   onDeleteStop?: LeafletEventHandlerFn;
-  onCreated?: LeafletEventHandlerFn;
+  onDrawStart?: LeafletEventHandlerFn;
+  onDrawStop?: LeafletEventHandlerFn;
+  onDrawVertex?: LeafletEventHandlerFn;
+  onEdited?: LeafletEventHandlerFn;
+  onEditMove?: LeafletEventHandlerFn;
+  onEditResize?: LeafletEventHandlerFn;
+  onEditStart?: LeafletEventHandlerFn;
+  onEditStop?: LeafletEventHandlerFn;
+  onEditVertex?: LeafletEventHandlerFn;
+  onMarkerContext?: LeafletEventHandlerFn;
+  onToolbarClosed?: LeafletEventHandlerFn;
+  onToolbarOpened?: LeafletEventHandlerFn;
   draw?: Control.DrawOptions;
   edit?: Control.EditOptions;
   position: ControlPosition;
 }
 
 const eventHandlers = {
-  onEdited: 'draw:edited',
-  onDrawStart: 'draw:drawstart',
-  onDrawStop: 'draw:drawstop',
-  onDrawVertex: 'draw:drawvertex',
-  onEditStart: 'draw:editstart',
-  onEditMove: 'draw:editmove',
-  onEditResize: 'draw:editresize',
-  onEditVertex: 'draw:editvertex',
-  onEditStop: 'draw:editstop',
-  onDeleted: 'draw:deleted',
-  onDeleteStart: 'draw:deletestart',
-  onDeleteStop: 'draw:deletestop',
+  onDeleted: leaflet.Draw.Event.DELETED,
+  onDeleteStart: leaflet.Draw.Event.DELETESTART,
+  onDeleteStop: leaflet.Draw.Event.DELETESTOP,
+  onDrawStart: leaflet.Draw.Event.DRAWSTART,
+  onDrawStop: leaflet.Draw.Event.DRAWSTOP,
+  onDrawVertex: leaflet.Draw.Event.DRAWVERTEX,
+  onEdited: leaflet.Draw.Event.EDITED,
+  onEditMove: leaflet.Draw.Event.EDITMOVE,
+  onEditResize: leaflet.Draw.Event.EDITRESIZE,
+  onEditStart: leaflet.Draw.Event.EDITSTART,
+  onEditStop: leaflet.Draw.Event.EDITSTOP,
+  onEditVertex: leaflet.Draw.Event.EDITVERTEX,
+  onMarkerContext: leaflet.Draw.Event.MARKERCONTEXT,
+  onToolbarClosed: leaflet.Draw.Event.TOOLBARCLOSED,
+  onToolbarOpened: leaflet.Draw.Event.TOOLBAROPENED,
 };
 
 export function createEditControlComponent(
@@ -73,59 +79,43 @@ export function createEditControlComponent(
       onCreated && onCreated(e);
     };
 
+    map.on(leaflet.Draw.Event.CREATED, onDrawCreated);
+
     for (const key in eventHandlers) {
       const type = eventHandlers[key as keyof typeof eventHandlers];
 
       map.on(type, (evt) => {
-        const handlers = Object.keys(eventHandlers).filter(
+        const handler = Object.keys(eventHandlers).find(
           (handler) =>
             eventHandlers[handler as keyof typeof eventHandlers] === evt.type
         );
 
-        if (handlers.length === 1) {
-          const handler = handlers[0];
-          const fn = props[handler as keyof typeof props] as
-            | LeafletEventHandlerFn
-            | undefined;
+        const fn = props[handler as keyof typeof props] as
+          | LeafletEventHandlerFn
+          | undefined;
 
-          fn && fn(evt);
-        }
+        fn && fn(evt);
       });
     }
-
-    map.on(leaflet.Draw.Event.CREATED, onDrawCreated);
 
     return createElementObject(createInstance(props, context), context);
   };
 
   const useElement = createElementHook(createElement);
   const useControl = createControlHook(useElement);
+
   return createLeafComponent(useControl);
 }
 
 const EditControl = createEditControlComponent((props, context) => {
-  const getDrawOptions = () => {
-    const { layerContainer } = context;
-    const { draw, edit, position } = props;
-    const options: Control.DrawConstructorOptions = {
-      edit: {
-        ...edit,
-        featureGroup: layerContainer as FeatureGroup,
-      },
-    };
+  const { layerContainer } = context;
+  const { draw, edit, position } = props;
 
-    if (draw) {
-      options.draw = { ...(draw as Control.DrawOptions) };
-    }
-
-    if (position) {
-      options.position = position;
-    }
-
-    return options;
-  };
-
-  return new Control.Draw(getDrawOptions());
+  return new Control.Draw({
+    draw,
+    edit: { ...edit, featureGroup: layerContainer as FeatureGroup },
+    position,
+  });
 });
 
 export default EditControl;
