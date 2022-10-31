@@ -5,6 +5,17 @@
 
   display: grid;
   grid-template-columns: var(--external-link-select-width) 1fr;
+  padding: 0;
+  border: 0;
+  margin: 0;
+
+  legend {
+    color: var(--label-color-default, var(--color-black-90));
+    display: block;
+    font-size: var(--fontsize-body-m);
+    font-weight: 500;
+    margin-bottom: var(--spacing-3-xs);
+  }
 }
 
 .nameSelector > label {

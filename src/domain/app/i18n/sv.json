@@ -672,6 +672,7 @@
       "labelEnrolmentEndTimeTime": "Registreringen avslutas kl",
       "labelEnrolmentStartTimeDate": "Registreringen börjar",
       "labelEnrolmentStartTimeTime": "Registreringen börjar kl",
+      "labelExternalLink": "SoMe-länkstyp och URL",
       "labelExternalLinkLink": {
         "course": "Kursens Facebook-URL",
         "general": "Evenemangets Facebook-URL",

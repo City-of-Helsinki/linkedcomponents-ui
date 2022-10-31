@@ -672,6 +672,7 @@
       "labelEnrolmentEndTimeTime": "Registration ends at",
       "labelEnrolmentStartTimeDate": "Registration begins",
       "labelEnrolmentStartTimeTime": "Registration begins at",
+      "labelExternalLink": "SoMe link type and URL",
       "labelExternalLinkLink": {
         "course": "The course's {{name}} URL",
         "general": "The event's {{name}} URL",

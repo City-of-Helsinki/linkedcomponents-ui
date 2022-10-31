@@ -29,7 +29,9 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
 
   return (
     <FieldColumn>
-      <div className={styles.externalLink}>
+      <fieldset className={styles.externalLink}>
+        <legend>{t(`event.form.labelNewExternalLinkName`)}</legend>
+
         <SingleSelect
           className={styles.nameSelector}
           disabled={!isEditingAllowed}
@@ -37,7 +39,6 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
           onChange={handleChange}
           options={options}
           placeholder={t(`common.select`)}
-          required
           value={null as unknown as undefined}
         />
         <TextInput
@@ -48,7 +49,7 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
           label={t(`event.form.labelNewExternalLinkLink.${type}`)}
           placeholder={t('event.form.placeholderNewExternalLinkLink')}
         />
-      </div>
+      </fieldset>
     </FieldColumn>
   );
 };

@@ -672,6 +672,7 @@
       "labelEnrolmentEndTimeTime": "Ilmoittautuminen päättyy klo",
       "labelEnrolmentStartTimeDate": "Ilmoittautuminen alkaa",
       "labelEnrolmentStartTimeTime": "Ilmoittautuminen alkaa klo",
+      "labelExternalLink": "SoMe-linkin tyyppi ja URL",
       "labelExternalLinkLink": {
         "course": "Kurssin {{name}} URL",
         "general": "Tapahtuman {{name}} URL",

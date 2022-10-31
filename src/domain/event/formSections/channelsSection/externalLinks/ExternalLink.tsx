@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import DeleteButton from '../../../../../common/components/deleteButton/DeleteButton';
 import SingleSelectField from '../../../../../common/components/formFields/singleSelectField/SingleSelectField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
+import { RequiredIndicator } from '../../../../../common/components/requiredIndicator/RequiredIndicator';
 import { EVENT_FIELDS, EXTERNAL_LINK_FIELDS } from '../../../constants';
 import useExtlinkOptions from '../../../hooks/useExtlinkOptions';
 import FieldWithButton from '../../../layout/FieldWithButton';
@@ -46,9 +47,14 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
           onClick={onDelete}
         />
       }
-      hasLabel={false}
+      hasLabel={true}
     >
-      <div className={styles.externalLink}>
+      <fieldset className={styles.externalLink}>
+        <legend>
+          {t(`event.form.labelExternalLink`)}
+          <RequiredIndicator />
+        </legend>
+
         <Field
           className={styles.nameSelector}
           component={SingleSelectField}
@@ -72,7 +78,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
           })}
           required
         />
-      </div>
+      </fieldset>
     </FieldWithButton>
   );
 };
