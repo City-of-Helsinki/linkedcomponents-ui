@@ -11,6 +11,7 @@ import { DEFAULT_LICENSE_TYPE, IMAGE_ACTIONS } from '../constants';
 import {
   checkCanUserDoAction,
   getImageActionWarning,
+  getImageAltText,
   getImageFields,
   getImageInitialValues,
   imagePathBuilder,
@@ -279,6 +280,30 @@ describe('checkCanUserDoAction function', () => {
           user,
         })
       ).toBe(false);
+    });
+  });
+});
+
+describe('getImageAltText function', () => {
+  it('should return alt text when entered data is string', () => {
+    expect(getImageAltText('Alt text')).toEqual({
+      ar: '',
+      en: '',
+      fi: 'Alt text',
+      ru: '',
+      sv: '',
+      zhHans: '',
+    });
+  });
+
+  it('should return alt text when entered data is object', () => {
+    expect(getImageAltText({ fi: 'Alt text' })).toEqual({
+      ar: '',
+      en: '',
+      fi: 'Alt text',
+      ru: '',
+      sv: '',
+      zhHans: '',
     });
   });
 });

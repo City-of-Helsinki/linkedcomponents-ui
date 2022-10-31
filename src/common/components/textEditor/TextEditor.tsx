@@ -11,6 +11,7 @@ import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import useLocale from '../../../hooks/useLocale';
+import isTestEnv from '../../../utils/isTestEnv';
 import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
 import styles from './textEditor.module.scss';
 
@@ -85,6 +86,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           <InputWrapper {...wrapperProps} className={styles.inputWrapper}>
             <CKEditor
               key={locale}
+              disabled={disabled}
               editor={ClassicEditor}
               config={{
                 language: locale,
@@ -102,7 +104,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
                     'undo',
                     'redo',
                   ],
-                  shouldNotGroupWhenFull: true,
+                  shouldNotGroupWhenFull: isTestEnv,
                 },
               }}
               data={value}

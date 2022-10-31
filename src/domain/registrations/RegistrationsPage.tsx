@@ -61,6 +61,14 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
           className={styles.notification}
         />
         <TitleRow
+          breadcrumb={
+            <Breadcrumb
+              items={[
+                { label: t('common.home'), to: ROUTES.HOME },
+                { active: true, label: t('registrationsPage.title') },
+              ]}
+            />
+          }
           button={
             <Button
               {...buttonProps}
@@ -73,12 +81,6 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
           }
           title={t('registrationsPage.title')}
         />
-        <Breadcrumb className={styles.breadcrumb}>
-          <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-          <Breadcrumb.Item active={true}>
-            {t('registrationsPage.title')}
-          </Breadcrumb.Item>
-        </Breadcrumb>
 
         <SearchPanel />
         <FilterSummary className={styles.filterSummary} />

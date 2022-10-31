@@ -64,7 +64,7 @@ const Video: React.FC<Props> = ({
         notification={
           showInstructions ? (
             <Notification
-              className={styles.notification}
+              className={styles.notificationForTitle}
               label={t(`event.form.notificationTitleVideo.${type}`)}
               type="info"
             >
@@ -106,16 +106,14 @@ const Video: React.FC<Props> = ({
                 required={isRequired}
               />
             </FormGroup>
-            <FormGroup>
-              <FastField
-                component={TextInputField}
-                disabled={!isEditingAllowed}
-                label={t(`event.form.labelVideoAltText`)}
-                name={fieldNames.altText}
-                placeholder={t(`event.form.placeholderVideoAltText`)}
-                required={isRequired}
-              />
-            </FormGroup>
+            <FastField
+              component={TextInputField}
+              disabled={!isEditingAllowed}
+              label={t(`event.form.labelVideoAltText`)}
+              name={fieldNames.altText}
+              placeholder={t(`event.form.placeholderVideoAltText`)}
+              required={isRequired}
+            />
           </>
         </FieldWithButton>
       </FieldRow>

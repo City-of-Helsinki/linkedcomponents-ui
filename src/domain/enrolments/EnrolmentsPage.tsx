@@ -107,6 +107,25 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
             registration={registration}
           />
           <TitleRow
+            breadcrumb={
+              <Breadcrumb
+                items={[
+                  { label: t('common.home'), to: ROUTES.HOME },
+                  {
+                    label: t('registrationsPage.title'),
+                    to: ROUTES.REGISTRATIONS,
+                  },
+                  {
+                    label: t(`editRegistrationPage.title`),
+                    to: ROUTES.EDIT_REGISTRATION.replace(
+                      ':id',
+                      registration.id as string
+                    ),
+                  },
+                  { active: true, label: t(`enrolmentsPage.title`) },
+                ]}
+              />
+            }
             buttonWrapperClassName={styles.titleButtonWrapper}
             button={
               <Button
@@ -127,25 +146,6 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
             }
             title={name}
           />
-          <Breadcrumb className={styles.breadcrumb}>
-            <Breadcrumb.Item to={ROUTES.HOME}>
-              {t('common.home')}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item to={ROUTES.REGISTRATIONS}>
-              {t('registrationsPage.title')}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              to={ROUTES.EDIT_REGISTRATION.replace(
-                ':id',
-                registration.id as string
-              )}
-            >
-              {t(`editRegistrationPage.title`)}
-            </Breadcrumb.Item>
-            <Breadcrumb.Item active={true}>
-              {t(`enrolmentsPage.title`)}
-            </Breadcrumb.Item>
-          </Breadcrumb>
 
           <SearchPanel registration={registration} />
           <FilterSummary />

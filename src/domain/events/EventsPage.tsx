@@ -113,6 +113,15 @@ const EventsPage: React.FC<Props> = ({ user }) => {
     <div className={styles.eventsPage}>
       <Container withOffset={true}>
         <TitleRow
+          breadcrumb={
+            <Breadcrumb
+              className={styles.breadcrumb}
+              items={[
+                { label: t('common.home'), to: ROUTES.HOME },
+                { active: true, label: t(`eventsPage.title`) },
+              ]}
+            />
+          }
           button={
             <Button
               className={styles.addButton}
@@ -126,12 +135,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
           }
           title={t('eventsPage.title')}
         />
-        <Breadcrumb className={styles.breadcrumb}>
-          <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-          <Breadcrumb.Item active={true}>
-            {t(`eventsPage.title`)}
-          </Breadcrumb.Item>
-        </Breadcrumb>
+
         <Tabs
           className={styles.tabSelector}
           name="event-list"

@@ -49,7 +49,7 @@ test('should search registrations with correct search params', async () => {
 
   // Text filtering
   const searchInput = getElement('searchInput');
-  await user.type(searchInput, values.text);
+  await act(async () => user.type(searchInput, values.text));
   await waitFor(() => expect(searchInput).toHaveValue(values.text));
 
   // Event type filtering

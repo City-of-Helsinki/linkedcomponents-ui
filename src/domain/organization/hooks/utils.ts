@@ -27,21 +27,21 @@ export const parseOrganizationServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
-    switch (key) {
-      case 'detail':
-        return [{ label: '', message: parseServerErrorMessage({ error, t }) }];
-      default:
-        return [
-          {
-            label: parseOrganizationServerErrorLabel({ key }),
-            message: parseServerErrorMessage({ error, t }),
-          },
-        ];
-    }
+    return [
+      {
+        label: parseOrganizationServerErrorLabel({ key }),
+        message: parseServerErrorMessage({ error, t }),
+      },
+    ];
   }
 
   // Get correct field name for an error item
   function parseOrganizationServerErrorLabel({ key }: { key: string }): string {
-    return t(`organization.form.label${pascalCase(key)}`);
+    switch (key) {
+      case 'detail':
+        return '';
+      default:
+        return t(`organization.form.label${pascalCase(key)}`);
+    }
   }
 };

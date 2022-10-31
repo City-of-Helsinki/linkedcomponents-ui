@@ -131,7 +131,7 @@ const getSingleEventElement = (
       return screen.getByRole('textbox', { name: 'Tapahtuma päättyy *' });
     case 'endTime':
       const endTimeGroup = screen.getByRole('group', {
-        name: /tapahtuma päättyy klo/i,
+        name: /päättymisaika/i,
       });
       return within(endTimeGroup).getByRole('textbox', {
         name: 'tunnit',
@@ -142,7 +142,7 @@ const getSingleEventElement = (
       return screen.getByRole('textbox', { name: 'Tapahtuma alkaa *' });
     case 'startTime':
       const startTimeGroup = screen.getByRole('group', {
-        name: /tapahtuma alkaa klo/i,
+        name: /alkamisaika/i,
       });
       return within(startTimeGroup).getByRole('textbox', {
         name: 'tunnit',

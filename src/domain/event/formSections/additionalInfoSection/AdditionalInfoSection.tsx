@@ -30,7 +30,7 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldRow
         notification={
           <Notification
-            className={styles.notification}
+            className={styles.notificationForTitle}
             label={t(`event.form.titleAudienceAge`)}
             type="info"
           >
@@ -70,7 +70,7 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldRow
         notification={
           <Notification
-            className={styles.notification}
+            className={styles.notificationForTitle}
             label={t(`event.form.titleEnrolmentTime`)}
             type="info"
           >
@@ -130,7 +130,7 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldRow
         notification={
           <Notification
-            className={styles.notification}
+            className={styles.notificationForTitle}
             label={t(`event.form.titleAttendeeCapacity`)}
             type="info"
           >

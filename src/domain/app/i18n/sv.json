@@ -523,7 +523,6 @@
         "warningEventInPast": "Tidigare evenemnag kan inte redigeras.",
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta evenemang."
       },
-      "helperRecurringEventRepeatInterval": "I veckor",
       "helperUmbrellaEvent": "Notera. Ett huvudevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "infoTextAttendeeCapacity": {
         "course": "Om antalet deltagare i kursen är begränsat, ange lägsta och högsta antal deltagare här.",
@@ -668,15 +667,12 @@
         "general": "Evenemanget avslutas",
         "volunteering": "Volontärarbetet avslutas"
       },
-      "labelEndTime": {
-        "course": "Kursen avslutas kl",
-        "general": "Evenemanget avslutas kl",
-        "volunteering": "Volontärarbetet avslutas kl"
-      },
+      "labelEndTime": "Sluttid",
       "labelEnrolmentEndTimeDate": "Registreringen avslutas",
       "labelEnrolmentEndTimeTime": "Registreringen avslutas kl",
       "labelEnrolmentStartTimeDate": "Registreringen börjar",
       "labelEnrolmentStartTimeTime": "Registreringen börjar kl",
+      "labelExternalLink": "SoMe-länkstyp och URL",
       "labelExternalLinkLink": {
         "course": "Kursens Facebook-URL",
         "general": "Evenemangets Facebook-URL",
@@ -733,23 +729,6 @@
         "general": "Evenemangsutgivare",
         "volunteering": "Volontärarbetesutgivare"
       },
-      "labelRecurringEventEndDate": "Upprepningen slutar",
-      "labelRecurringEventEndTime": {
-        "course": "Kursen slutar kl",
-        "general": "Evenemanget slutar kl",
-        "volunteering": "Volontärarbetet slutar kl"
-      },
-      "labelRecurringEventRepeatInterval": {
-        "course": "Kursen upprepas",
-        "general": "Evenemanget upprepas",
-        "volunteering": "Volontärarbetet upprepas"
-      },
-      "labelRecurringEventStartDate": "Upprepningen börjar",
-      "labelRecurringEventStartTime": {
-        "course": "Kursen börjar kl",
-        "general": "Evenemanget börjar kl",
-        "volunteering": "Volontärarbetet börjar kl"
-      },
       "labelShortDescription": {
         "course": "Kort beskrivning {{langText}} (upp till 160 tecken)",
         "general": "Kort beskrivning {{langText}} (upp till 160 tecken)",
@@ -760,11 +739,7 @@
         "general": "Evenemanget börjar",
         "volunteering": "Volontärarbetet börjar"
       },
-      "labelStartTime": {
-        "course": "Kursen börjar kl",
-        "general": "Evenemanget börjar kl",
-        "volunteering": "Volontärarbetet börjar kl"
-      },
+      "labelStartTime": "Starttid",
       "labelTime": "Tid",
       "labelUmbrellaEvent": "Huvudevenemang",
       "labelVideoAltText": "Videons alt-text",
@@ -882,26 +857,27 @@
       "placeholderVideoName": "Ange videon namn",
       "placeholderVideoUrl": "Ange videons URL-webbaddress",
       "recurringEvent": {
-        "labelEndDate": "Upprepningen avslutas:",
+        "helperRepeatInterval": "I veckor",
+        "labelEndDate": "Upprepningen slutar",
         "labelEndTime": {
-          "course": "Kursen avslutas kl:",
-          "general": "Evenemanget avslutas kl:",
-          "volunteering": "Volontärarbetet avslutas kl:"
+          "course": "Kursen slutar kl",
+          "general": "Evenemanget slutar kl",
+          "volunteering": "Volontärarbetet slutar kl"
         },
         "labelRepeatInterval": {
-          "course": "Kursen upprepas:",
-          "general": "Evenemanget upprepas:",
-          "volunteering": "Volontärarbetet upprepas:"
+          "course": "Kursen upprepas",
+          "general": "Evenemanget upprepas",
+          "volunteering": "Volontärarbetet upprepas"
         },
-        "labelRepeatDays": "Uppspelningsdagar:",
-        "labelStartDate": "Upprepningen börjar:",
+        "labelStartDate": "Upprepningen börjar",
         "labelStartTime": {
-          "course": "Kursen börjar kl:",
-          "general": "Evenemanget börjar kl:",
-          "volunteering": "Volontärarbetet börjar kl:"
+          "course": "Kursen börjar kl",
+          "general": "Evenemanget börjar kl",
+          "volunteering": "Volontärarbetet börjar kl"
         },
         "textRepeatInterval": "Varje vecka",
-        "textRepeatInterval_other": "Var {{count}}: e vecka"
+        "textRepeatInterval_other": "Var {{count}}: e vecka",
+        "titleRepeatDays": "Uppspelningsdagar"
       },
       "sections": {
         "additionalInfo": "Ytterligare information",
@@ -960,7 +936,7 @@
       "titleKeywords": "Lägg till nyckelord",
       "titleLocation": "Venue",
       "titleLocationExtraInfo": "Platsinformation",
-      "titleMainCategories": "Huvudkategorier",
+      "titleMainCategories": "Välj kategori(er)",
       "titleOfferDescription": "Ytterligare prisinformation",
       "titleOfferInfoUrl": "Länk till biljettförsäljning eller registrering",
       "titleOfferPrice": "Pris",
@@ -971,7 +947,6 @@
       },
       "titlePrice": "Pris",
       "titleRecurringEvent": "Återkommande evenemang",
-      "titleRecurringEventRepeatDays": "Uppspelningsdagar",
       "titleServerErrorSummary": "Formuläret innehåller följande fel",
       "titleSocialMedia": {
         "course": "Kursen på sociala medier",

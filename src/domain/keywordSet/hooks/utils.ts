@@ -27,21 +27,21 @@ export const parseKeywordSetServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
-    switch (key) {
-      case 'detail':
-        return [{ label: '', message: parseServerErrorMessage({ error, t }) }];
-      default:
-        return [
-          {
-            label: parseKeywordSetServerErrorLabel({ key }),
-            message: parseServerErrorMessage({ error, t }),
-          },
-        ];
-    }
+    return [
+      {
+        label: parseKeywordSetServerErrorLabel({ key }),
+        message: parseServerErrorMessage({ error, t }),
+      },
+    ];
   }
 
   // Get correct field name for an error item
   function parseKeywordSetServerErrorLabel({ key }: { key: string }): string {
-    return t(`keywordSet.form.label${pascalCase(key)}`);
+    switch (key) {
+      case 'detail':
+        return '';
+      default:
+        return t(`keywordSet.form.label${pascalCase(key)}`);
+    }
   }
 };

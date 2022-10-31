@@ -12,9 +12,10 @@
 .editPageContentContainer {
   background-color: var(--color-white);
   margin: 0 calc(0px - var(--spacing-s)) var(--spacing-m);
-  padding: var(--spacing-m);
+  padding: 0 var(--spacing-s) var(--spacing-s);
   
   @include medium-up {
     margin: 0 calc(0px - var(--spacing-m)) var(--spacing-m);
+    padding: 0 var(--spacing-m) var(--spacing-m);
   }
 }

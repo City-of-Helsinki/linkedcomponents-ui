@@ -1,5 +1,6 @@
 import range from 'lodash/range';
 
+import { INCLUDE } from '../../../constants';
 import { KeywordSetsDocument, Meta } from '../../../generated/graphql';
 import { fakeKeywordSets } from '../../../utils/mockDataUtils';
 import {
@@ -10,6 +11,7 @@ import {
 
 const variables = {
   createPath: undefined,
+  include: [INCLUDE.KEYWORDS],
   page: 1,
   pageSize: KEYWORD_SETS_PAGE_SIZE,
   sort: DEFAULT_KEYWORD_SET_SORT,

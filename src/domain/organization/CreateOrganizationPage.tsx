@@ -14,19 +14,20 @@ const CreateOrganizationPage: React.FC = () => {
 
   return (
     <div>
-      <TitleRow title={t('createOrganizationPage.title')} />
-      <Breadcrumb>
-        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ADMIN}>
-          {t('adminPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ORGANIZATIONS}>
-          {t('organizationsPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active={true}>
-          {t('createOrganizationPage.title')}
-        </Breadcrumb.Item>
-      </Breadcrumb>
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('adminPage.title'), to: ROUTES.ADMIN },
+              { label: t('organizationsPage.title'), to: ROUTES.ORGANIZATIONS },
+              { active: true, label: t('createOrganizationPage.title') },
+            ]}
+          />
+        }
+        title={t('createOrganizationPage.title')}
+      />
+
       <OrganizationForm />
     </div>
   );

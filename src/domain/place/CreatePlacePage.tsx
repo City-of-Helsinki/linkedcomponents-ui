@@ -14,19 +14,20 @@ const CreatePlacePage: React.FC = () => {
 
   return (
     <div>
-      <TitleRow title={t('createPlacePage.title')} />
-      <Breadcrumb>
-        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ADMIN}>
-          {t('adminPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.PLACES}>
-          {t('placesPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active={true}>
-          {t('createPlacePage.title')}
-        </Breadcrumb.Item>
-      </Breadcrumb>
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('adminPage.title'), to: ROUTES.ADMIN },
+              { label: t('placesPage.title'), to: ROUTES.PLACES },
+              { active: true, label: t('createPlacePage.title') },
+            ]}
+          />
+        }
+        title={t('createPlacePage.title')}
+      />
+
       <PlaceForm />
     </div>
   );

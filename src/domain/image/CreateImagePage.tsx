@@ -14,19 +14,20 @@ const CreateImagePage: React.FC = () => {
 
   return (
     <div>
-      <TitleRow title={t('createImagePage.title')} />
-      <Breadcrumb>
-        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ADMIN}>
-          {t('adminPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.IMAGES}>
-          {t('imagesPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active={true}>
-          {t('createImagePage.title')}
-        </Breadcrumb.Item>
-      </Breadcrumb>
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('adminPage.title'), to: ROUTES.ADMIN },
+              { label: t('imagesPage.title'), to: ROUTES.IMAGES },
+              { active: true, label: t('createImagePage.title') },
+            ]}
+          />
+        }
+        title={t('createImagePage.title')}
+      />
+
       <ImageForm />
     </div>
   );

@@ -1,42 +1,44 @@
 import { IconAngleRight } from 'hds-react';
-import React from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { FCWithName } from '../../../../types';
 import styles from '../breadcrumb.module.scss';
 
 type BreadcrumbItemCommonProps = {
-  className?: string;
+  label: string;
 };
 
-type BreadcrumbItemProps = BreadcrumbItemCommonProps &
-  ({ active?: false; to: string } | { active: true; to?: never });
+export type BreadcrumbCurrentItemProps = BreadcrumbItemCommonProps & {
+  active: true;
+  to?: never;
+};
 
-const BreadcrumbItem: FCWithName<
-  React.PropsWithChildren<BreadcrumbItemProps>
-> = ({ active, children, className, to }) => {
+export type BreadcrumbLinkItemProps = BreadcrumbItemCommonProps & {
+  active?: false;
+  to: string;
+};
+
+export type BreadcrumbItemProps =
+  | BreadcrumbCurrentItemProps
+  | BreadcrumbLinkItemProps;
+
+const BreadcrumbItem: FC<BreadcrumbItemProps> = ({ active, label, to }) => {
   return (
     <>
       {active ? (
-        <li className={className}>
-          <p className={styles.breadcrumbActiveItem}>{children}</p>
-        </li>
+        <span aria-current="page" className={styles.current}>
+          {label}
+        </span>
       ) : (
         <>
-          <li className={className}>
-            <Link to={to as string} className={styles.breadcrumbLink}>
-              {children}
-            </Link>
-          </li>
-          <li className={styles.breadcrumbSeparator} aria-hidden={true}>
-            <IconAngleRight aria-hidden={true} />
-          </li>
+          <Link to={to as string} className={styles.link}>
+            {label}
+          </Link>
+          <IconAngleRight aria-hidden={true} className={styles.icon} />
         </>
       )}
     </>
   );
 };
-
-BreadcrumbItem.componentName = 'BreadcrumbItem';
 
 export default BreadcrumbItem;

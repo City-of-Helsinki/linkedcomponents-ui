@@ -17,7 +17,8 @@
 }
 
 .breadcrumb {
-  margin-bottom: var(--spacing-m);  
+  margin-top: calc(0px - var(--spacing-2-xs)) !important;
+  margin-bottom: var(--spacing-s) !important;
 }
 
 .createContainer {

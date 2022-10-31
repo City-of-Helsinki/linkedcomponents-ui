@@ -8,6 +8,7 @@ import Notification from '../../../../common/components/notification/Notificatio
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
+import styles from '../../eventPage.module.scss';
 import ExternalLinks from './externalLinks/ExternalLinks';
 
 interface Props {
@@ -41,6 +42,7 @@ const ChannelsSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldRow
         notification={
           <Notification
+            className={styles.notificationForTitle}
             label={t(`event.form.titleSocialMedia.${type}`)}
             type="info"
           >

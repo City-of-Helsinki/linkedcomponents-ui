@@ -79,6 +79,16 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
       />
 
       <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('adminPage.title'), to: ROUTES.ADMIN },
+              { label: t('keywordSetsPage.title'), to: ROUTES.KEYWORD_SETS },
+              { active: true, label: t('editKeywordSetPage.title') },
+            ]}
+          />
+        }
         button={
           <Button
             {...buttonProps}
@@ -91,18 +101,7 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
         }
         title={t('editKeywordSetPage.title')}
       />
-      <Breadcrumb>
-        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ADMIN}>
-          {t('adminPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.KEYWORD_SETS}>
-          {t('keywordSetsPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active={true}>
-          {t('editKeywordSetPage.title')}
-        </Breadcrumb.Item>
-      </Breadcrumb>
+
       <KeywordSetForm keywordSet={keywordSet} />
     </div>
   );

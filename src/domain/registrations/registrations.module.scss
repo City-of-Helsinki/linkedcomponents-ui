@@ -1,3 +1,5 @@
+@import "../../assets/styles/breakpoints.scss";
+
 .registrationsPage {
   display: flex;
   height: 100%;
@@ -12,10 +14,6 @@
   }
 }
 
-.breadcrumb {
-  margin-bottom: var(--spacing-m);  
-}
-
 .notification {
-  margin: var(--spacing-m) 0;
+  margin: var(--spacing-m) 0 !important;
 }

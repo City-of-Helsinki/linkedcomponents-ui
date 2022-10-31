@@ -143,5 +143,7 @@ it('scrolls to keyword row and calls history.replace correctly (deletes keywordS
     )
   );
 
-  await waitFor(() => expect(keywordSetButton).toHaveFocus());
+  await waitFor(() => expect(keywordSetButton).toHaveFocus(), {
+    timeout: 5000,
+  });
 });

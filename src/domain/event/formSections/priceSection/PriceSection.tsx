@@ -8,6 +8,7 @@ import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 import FreeEventFields from './freeEventFields/FreeEventFields';
 import Offers from './offers/Offers';
+import PriceNotification from './priceNotification/PriceNotification';
 import ValidationError from './validationError/ValidationError';
 
 interface Props {
@@ -23,7 +24,7 @@ const PriceSection: React.FC<Props> = ({ isEditingAllowed }) => {
   return (
     <>
       <h3>{t(`event.form.titlePriceInfo.${type}`)}</h3>
-      <FieldRow>
+      <FieldRow notification={<PriceNotification />}>
         <FieldColumn>
           <Field
             component={CheckboxField}

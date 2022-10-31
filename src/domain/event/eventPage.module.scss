@@ -17,7 +17,8 @@
 }
 
 .breadcrumb {
-  margin-bottom: var(--spacing-m);
+  margin-top: calc(0px - var(--spacing-2-xs)) !important;
+  margin-bottom: var(--spacing-s) !important;
 }
 
 .createContainer {
@@ -27,6 +28,12 @@
 .notification {
   @include medium-up {
     margin-top: var(--label-height);
+  }
+}
+
+.notificationForTitle {
+  @include medium-up {
+    margin-top: -54px;
   }
 }
 

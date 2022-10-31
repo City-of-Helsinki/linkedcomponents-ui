@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
+import { INCLUDE } from '../../constants';
 import {
   KeywordSetQueryVariables,
   KeywordSetsQueryVariables,
@@ -48,6 +49,7 @@ export const getKeywordSetsQueryVariables = (
 
   return {
     createPath: getPathBuilder(keywordSetsPathBuilder),
+    include: [INCLUDE.KEYWORDS],
     page,
     pageSize: KEYWORD_SETS_PAGE_SIZE,
     sort,

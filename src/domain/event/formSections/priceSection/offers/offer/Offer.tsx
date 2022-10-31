@@ -8,14 +8,12 @@ import FormGroup from '../../../../../../common/components/formGroup/FormGroup';
 import FieldRow from '../../../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../../../constants';
 import FieldWithButton from '../../../../layout/FieldWithButton';
-import PriceNotification from '../../priceNotification/PriceNotification';
 
 type Props = {
   isEditingAllowed: boolean;
   offerPath: string;
   onDelete: () => void;
   showDelete: boolean;
-  showInstructions?: boolean;
 };
 
 const getFieldName = (offerPath: string, field: string) =>
@@ -26,7 +24,6 @@ const Offer: React.FC<Props> = ({
   offerPath,
   onDelete,
   showDelete,
-  showInstructions,
 }) => {
   const { t } = useTranslation();
 
@@ -37,9 +34,7 @@ const Offer: React.FC<Props> = ({
 
   return (
     <>
-      <FieldRow
-        notification={showInstructions ? <PriceNotification /> : undefined}
-      >
+      <FieldRow>
         <FieldWithButton
           button={
             showDelete && (

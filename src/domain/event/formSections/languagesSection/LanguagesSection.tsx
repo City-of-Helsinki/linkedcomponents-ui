@@ -14,6 +14,7 @@ import getLocalisedString from '../../../../utils/getLocalisedString';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
+import styles from '../../eventPage.module.scss';
 import { sortLanguage } from '../../utils';
 
 interface Props {
@@ -48,6 +49,7 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldRow
         notification={
           <Notification
+            className={styles.notificationForTitle}
             label={t(`event.form.titleInfoLanguages.${eventType}`)}
             type="info"
           >
@@ -71,6 +73,7 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
       <FieldRow
         notification={
           <Notification
+            className={styles.notificationForTitle}
             label={t(`event.form.titleInLanguages.${eventType}`)}
             type="info"
           >
@@ -85,7 +88,7 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
             disabled={!isEditingAllowed}
             name={EVENT_FIELDS.IN_LANGUAGE}
             options={inLanguageOptions}
-            visibleOptionAmount={3}
+            visibleOptionAmount={10}
           />
         </FieldColumn>
       </FieldRow>

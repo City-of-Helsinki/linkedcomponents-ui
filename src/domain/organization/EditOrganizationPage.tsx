@@ -77,6 +77,16 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
         onDelete={onDelete}
       />
       <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('adminPage.title'), to: ROUTES.ADMIN },
+              { label: t('organizationsPage.title'), to: ROUTES.ORGANIZATIONS },
+              { active: true, label: t('editOrganizationPage.title') },
+            ]}
+          />
+        }
         button={
           <Button
             {...buttonProps}
@@ -89,18 +99,7 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
         }
         title={t('editOrganizationPage.title')}
       />
-      <Breadcrumb>
-        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ADMIN}>
-          {t('adminPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ORGANIZATIONS}>
-          {t('organizationsPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active={true}>
-          {t('editOrganizationPage.title')}
-        </Breadcrumb.Item>
-      </Breadcrumb>
+
       <OrganizationForm organization={organization} />
     </div>
   );

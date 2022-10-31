@@ -14,19 +14,20 @@ const CreateKeywordSetPage: React.FC = () => {
 
   return (
     <div>
-      <TitleRow title={t('createKeywordSetPage.title')} />
-      <Breadcrumb>
-        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ADMIN}>
-          {t('adminPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.KEYWORD_SETS}>
-          {t('keywordSetsPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active={true}>
-          {t('createKeywordSetPage.title')}
-        </Breadcrumb.Item>
-      </Breadcrumb>
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('adminPage.title'), to: ROUTES.ADMIN },
+              { label: t('keywordSetsPage.title'), to: ROUTES.KEYWORD_SETS },
+              { active: true, label: t('createKeywordSetPage.title') },
+            ]}
+          />
+        }
+        title={t('createKeywordSetPage.title')}
+      />
+
       <KeywordSetForm />
     </div>
   );

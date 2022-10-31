@@ -6,7 +6,6 @@ import MultiLanguageField from '../../../../../common/components/formFields/mult
 import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../../constants';
-import PriceNotification from '../priceNotification/PriceNotification';
 
 type Props = {
   isEditingAllowed: boolean;
@@ -23,7 +22,7 @@ const FreeEventFields: React.FC<Props> = ({ isEditingAllowed }) => {
   });
 
   return (
-    <FieldRow notification={<PriceNotification />}>
+    <FieldRow>
       <FieldColumn>
         <h3>{t('event.form.titleOfferInfoUrl')}</h3>
         <MultiLanguageField

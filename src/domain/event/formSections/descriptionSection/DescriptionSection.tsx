@@ -14,7 +14,6 @@ import skipFalsyType from '../../../../utils/skipFalsyType';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
-import styles from '../../eventPage.module.scss';
 import useSortedInfoLanguages from '../../hooks/useSortedInfoLanguages';
 import { formatSingleDescription } from '../../utils';
 
@@ -98,7 +97,6 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
               <FieldRow
                 notification={
                   <Notification
-                    className={styles.notification}
                     label={t(`event.form.notificationTitleDescription.${type}`)}
                     type="info"
                   >

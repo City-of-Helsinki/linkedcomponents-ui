@@ -22,7 +22,6 @@ import {
 import { ImageFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { isFeatureEnabled } from '../../../utils/featureFlags';
-import getLocalisedObject from '../../../utils/getLocalisedObject';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
   scrollToFirstError,
@@ -47,7 +46,11 @@ import useImageUpdateActions, {
 import ImageAuthenticationNotification from '../imageAuthenticationNotification/ImageAuthenticationNotification';
 import AddImageModal from '../modals/addImageModal/AddImageModal';
 import { ImageFormFields } from '../types';
-import { checkCanUserDoAction, getImageInitialValues } from '../utils';
+import {
+  checkCanUserDoAction,
+  getImageFields,
+  getImageInitialValues,
+} from '../utils';
 import { getFocusableFieldId, imageSchema } from '../validation';
 
 type ImageFormProps = {
@@ -156,20 +159,15 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
         };
 
         const setImageFields = (image: ImageFieldsFragment) => {
-          setFieldValue(IMAGE_FIELDS.ID, image.id);
-          setFieldValue(IMAGE_FIELDS.URL, image.url);
-          /* istanbul ignore next */
-          setFieldValue(
-            IMAGE_FIELDS.ALT_TEXT,
-            getLocalisedObject(image.altText)
-          );
-          setFieldValue(IMAGE_FIELDS.NAME, image.name);
-          /* istanbul ignore next */
-          setFieldValue(
-            IMAGE_FIELDS.PHOTOGRAPHER_NAME,
-            image.photographerName ?? ''
-          );
-          setFieldValue(IMAGE_FIELDS.LICENSE, image.license);
+          const { altText, id, license, name, photographerName, url } =
+            getImageFields(image, locale);
+
+          setFieldValue(IMAGE_FIELDS.ID, id);
+          setFieldValue(IMAGE_FIELDS.URL, url);
+          setFieldValue(IMAGE_FIELDS.ALT_TEXT, altText);
+          setFieldValue(IMAGE_FIELDS.NAME, name);
+          setFieldValue(IMAGE_FIELDS.PHOTOGRAPHER_NAME, photographerName);
+          setFieldValue(IMAGE_FIELDS.LICENSE, license);
         };
 
         return (

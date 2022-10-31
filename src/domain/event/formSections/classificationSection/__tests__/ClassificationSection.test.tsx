@@ -97,7 +97,7 @@ const getElement = (
     case 'showMoreButton':
       return screen.getByRole('button', { name: /näytä lisää/i });
     case 'titleMainCategories':
-      return screen.getByRole('heading', { name: /pääluokat \(kategoriat\)/i });
+      return screen.getByRole('heading', { name: /Valitse kategoria\(t\)/i });
     case 'titleNotification':
       return screen.getByRole('heading', { name: /tapahtuman luokittelu/i });
     case 'toggleButton':

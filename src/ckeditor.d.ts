@@ -8,6 +8,7 @@ declare module '@ckeditor/ckeditor5-react' {
   interface CKEditorProps {
     config: EditorConfig;
     data: string;
+    disabled?: boolean;
     editor: typeof ClassicEditor;
     onBlur: () => void;
     onChange: (event: any, editor: ClassicEditor) => void;

@@ -105,7 +105,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                     resetTimeInputs ? TextInputField : TimeInputField
                   }
                   disabled={disabled}
-                  label={t(`event.form.labelStartTime.${eventType}`)}
+                  label={t(`event.form.labelStartTime`)}
                   name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
                   placeholder={t('common.placeholderTime')}
                   required={true}
@@ -131,7 +131,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                   }
                   disabled={disabled}
                   name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
-                  label={t(`event.form.labelEndTime.${eventType}`)}
+                  label={t(`event.form.labelEndTime`)}
                   placeholder={t('common.placeholderTime')}
                   required={true}
                 />

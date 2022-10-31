@@ -70,6 +70,16 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
         onDelete={onDelete}
       />
       <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('adminPage.title'), to: ROUTES.ADMIN },
+              { label: t('imagesPage.title'), to: ROUTES.IMAGES },
+              { active: true, label: t('editImagePage.title') },
+            ]}
+          />
+        }
         button={
           <Button
             {...buttonProps}
@@ -82,18 +92,6 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
         }
         title={t('editImagePage.title')}
       />
-      <Breadcrumb>
-        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ADMIN}>
-          {t('adminPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.IMAGES}>
-          {t('imagesPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active={true}>
-          {t('editImagePage.title')}
-        </Breadcrumb.Item>
-      </Breadcrumb>
 
       <ImageForm image={image} />
     </div>

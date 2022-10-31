@@ -14,19 +14,20 @@ const CreateKeywordPage: React.FC = () => {
 
   return (
     <div>
-      <TitleRow title={t('createKeywordPage.title')} />
-      <Breadcrumb>
-        <Breadcrumb.Item to={ROUTES.HOME}>{t('common.home')}</Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.ADMIN}>
-          {t('adminPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item to={ROUTES.KEYWORDS}>
-          {t('keywordsPage.title')}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active={true}>
-          {t('createKeywordPage.title')}
-        </Breadcrumb.Item>
-      </Breadcrumb>
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: t('common.home'), to: ROUTES.HOME },
+              { label: t('adminPage.title'), to: ROUTES.ADMIN },
+              { label: t('keywordsPage.title'), to: ROUTES.KEYWORDS },
+              { active: true, label: t('createKeywordPage.title') },
+            ]}
+          />
+        }
+        title={t('createKeywordPage.title')}
+      />
+
       <KeywordForm />
     </div>
   );
