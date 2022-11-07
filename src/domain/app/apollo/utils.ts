@@ -1,3 +1,4 @@
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import {
   DataSource,
   Division,
@@ -98,7 +99,7 @@ export const addTypenameImage = (image?: Image | null): Image | null =>
         ...image,
         altText: addTypenameLocalisedObject(
           typeof image.altText === 'string'
-            ? { fi: image.altText }
+            ? { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: image.altText }
             : image.altText
         ),
         __typename: 'Image',
