@@ -393,25 +393,16 @@ export const formatSingleDescription = ({
   );
   const descriptionDataMapping = {
     fi: {
-      text: [
-        'Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on',
-        'palvelukeskuskortti',
-      ],
-      link: 'https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252',
+      text: 'Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on palvelukeskuskortti.',
+      expectedText: 'palvelukeskuskortti',
     },
     sv: {
-      text: [
-        'Evenemanget är avsett endast för pensionärer eller arbetslösa med',
-        'servicecentralkort',
-      ],
-      link: 'https://www.hel.fi/sote/sv/tjanster/tjanstebeskrivning?id=3252',
+      text: 'Evenemanget är avsett endast för pensionärer eller arbetslösa med servicecentralkort.',
+      expectedText: 'servicecentralkort',
     },
     en: {
-      text: [
-        'The event is intended only for retired or unemployed persons with a',
-        'Service Centre Card',
-      ],
-      link: 'https://www.hel.fi/sote/en/services/service-desription?id=3252',
+      text: 'The event is intended only for retired or unemployed persons with a Service Centre Card.',
+      expectedText: 'Service Centre Card',
     },
   };
 
@@ -436,10 +427,12 @@ export const formatSingleDescription = ({
     if (
       shouldAppendDescription &&
       descriptionDataMapping.hasOwnProperty(lang) &&
-      !formattedDescription.includes(descriptionAppendData.link)
+      !formattedDescription
+        .toLowerCase()
+        .includes(descriptionAppendData.expectedText.toLowerCase())
     ) {
       // eslint-disable-next-line max-len
-      const specialDescription = `<p>${descriptionAppendData.text[0]} <a href="${descriptionAppendData.link}">${descriptionAppendData.text[1]}</a>.</p>`;
+      const specialDescription = `<p>${descriptionAppendData.text}</p>`;
       return specialDescription + formattedDescription;
     } else {
       return formattedDescription;

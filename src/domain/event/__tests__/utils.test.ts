@@ -674,10 +674,10 @@ describe('getEventPayload function', () => {
 
     expect(!Array.isArray(payload) && payload.description).toEqual({
       ar: null,
-      en: '<p>The event is intended only for retired or unemployed persons with a <a href="https://www.hel.fi/sote/en/services/service-desription?id=3252">Service Centre Card</a>.</p><p>Description en</p>',
-      fi: '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on <a href="https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252">palvelukeskuskortti</a>.</p><p>Description fi</p>',
+      en: '<p>The event is intended only for retired or unemployed persons with a Service Centre Card.</p><p>Description en</p>',
+      fi: '<p>Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on palvelukeskuskortti.</p><p>Description fi</p>',
       ru: null,
-      sv: '<p>Evenemanget är avsett endast för pensionärer eller arbetslösa med <a href="https://www.hel.fi/sote/sv/tjanster/tjanstebeskrivning?id=3252">servicecentralkort</a>.</p><p>Description sv</p>',
+      sv: '<p>Evenemanget är avsett endast för pensionärer eller arbetslösa med servicecentralkort.</p><p>Description sv</p>',
       zhHans: null,
     });
   });
