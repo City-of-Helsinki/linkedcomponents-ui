@@ -11,10 +11,6 @@ import ImageDropzone from './imageDropzone/ImageDropzone';
 import styles from './imageUploader.module.scss';
 import { getFileDataUrl } from './utils';
 
-export const testIds = {
-  input: 'image-dropzone-file-input',
-};
-
 export interface ImageUploaderProps {
   disabled?: boolean;
   onChange: (

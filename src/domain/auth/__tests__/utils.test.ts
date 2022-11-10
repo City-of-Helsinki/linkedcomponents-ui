@@ -7,10 +7,11 @@ import { advanceTo, clear } from 'jest-date-mock';
 import { toast } from 'react-toastify';
 
 import { fakeOidcUserState } from '../../../utils/mockAuthContextValue';
-import { waitReducerToBeCalled } from '../../../utils/testUtils';
+import { waitFor, waitReducerToBeCalled } from '../../../utils/testUtils';
 import { API_SCOPE, ApiTokenActionTypes, OidcActionTypes } from '../constants';
 import userManager from '../userManager';
 import {
+  clearAllState,
   clearApiTokenFromStorage,
   errorCallback,
   fetchTokenError,
@@ -338,6 +339,17 @@ describe('signOut function', () => {
     await signOut({ resetApiTokenData, userManager });
 
     expect(resetApiTokenData).toBeCalled();
+    expect(sessionStorage.clear).toHaveBeenCalled();
+  });
+});
+
+describe('clearAllState function', () => {
+  it('should clear user data', async () => {
+    const resetApiTokenData = jest.fn();
+
+    clearAllState(resetApiTokenData);
+
+    await waitFor(() => expect(resetApiTokenData).toBeCalled());
     expect(sessionStorage.clear).toHaveBeenCalled();
   });
 });

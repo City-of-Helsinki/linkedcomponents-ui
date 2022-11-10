@@ -10,5 +10,6 @@
 !package.json
 !tsconfig.json
 !yarn.lock
-!config-overrides.js
+!plugins
+!craco.config.js
 src/utils/testUtils.tsx

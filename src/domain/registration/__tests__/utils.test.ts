@@ -1,22 +1,33 @@
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
+import { advanceTo, clear } from 'jest-date-mock';
 
 import {
   RegistrationFieldsFragment,
   RegistrationQueryVariables,
 } from '../../../generated/graphql';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
+import { TEST_ENROLMENT_ID } from '../../enrolment/constants';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { registrationsResponse } from '../__mocks__/registration';
 import { REGISTRATION_INITIAL_VALUES } from '../constants';
 import {
   getEditRegistrationWarning,
+  getEnrolmentLink,
+  getFreeWaitingAttendeeCapacity,
   getRegistrationFields,
   getRegistrationInitialValues,
   getRegistrationPayload,
   getRegistrationWarning,
+  isAttendeeCapacityUsed,
+  isRegistrationOpen,
+  isWaitingCapacityUsed,
   registrationPathBuilder,
 } from '../utils';
+
+afterEach(() => {
+  clear();
+});
 
 describe('getEditRegistrationWarning function', () => {
   it('should return correct warning if user is not authenticated', () => {
@@ -222,6 +233,182 @@ describe('registrationPathBuilder function', () => {
   it.each(cases)('should build correct path', (variables, expectedPath) =>
     expect(registrationPathBuilder({ args: variables })).toBe(expectedPath)
   );
+});
+
+describe('isRegistrationOpen', () => {
+  it('should return false if enrolment_start_time is not defined', () => {
+    expect(
+      isRegistrationOpen(fakeRegistration({ enrolmentStartTime: '' }))
+    ).toBe(false);
+  });
+
+  it('should return false if enrolment_start_time is not in the past', () => {
+    advanceTo('2022-11-07');
+
+    expect(
+      isRegistrationOpen(
+        fakeRegistration({
+          enrolmentStartTime: new Date('2022-11-08').toISOString(),
+        })
+      )
+    ).toBe(false);
+  });
+
+  it('should return false if enrolment_start_time is in the past and enrolment_start_time is in the past', () => {
+    advanceTo('2022-11-07');
+
+    expect(
+      isRegistrationOpen(
+        fakeRegistration({
+          enrolmentEndTime: new Date('2022-11-06').toISOString(),
+          enrolmentStartTime: new Date('2022-11-06').toISOString(),
+        })
+      )
+    ).toBe(false);
+  });
+
+  it('should return true if enrolment_start_time is in the past and enrolment_start_time is not defined', () => {
+    advanceTo('2022-11-07');
+
+    expect(
+      isRegistrationOpen(
+        fakeRegistration({
+          enrolmentEndTime: '',
+          enrolmentStartTime: new Date('2022-11-06').toISOString(),
+        })
+      )
+    ).toBe(true);
+  });
+
+  it('should return true if enrolment_start_time is in the past and enrolment_start_time is in the future', () => {
+    advanceTo('2022-11-07');
+
+    expect(
+      isRegistrationOpen(
+        fakeRegistration({
+          enrolmentEndTime: new Date('2022-11-08').toISOString(),
+          enrolmentStartTime: new Date('2022-11-06').toISOString(),
+        })
+      )
+    ).toBe(true);
+  });
+});
+
+describe('isAttendeeCapacityUsed', () => {
+  it('should return false if maximum_attendee_capacity is not defined', () => {
+    expect(
+      isAttendeeCapacityUsed(
+        fakeRegistration({ maximumAttendeeCapacity: null })
+      )
+    ).toBe(false);
+  });
+
+  it('should return correct false if current attendee count is less than maximum attendee capacity', () => {
+    expect(
+      isAttendeeCapacityUsed(
+        fakeRegistration({
+          currentAttendeeCount: 4,
+          maximumAttendeeCapacity: 40,
+        })
+      )
+    ).toBe(false);
+  });
+
+  it('should return correct true if current attendee count equals maximum attendee capacity', () => {
+    expect(
+      isAttendeeCapacityUsed(
+        fakeRegistration({
+          currentAttendeeCount: 40,
+          maximumAttendeeCapacity: 40,
+        })
+      )
+    ).toBe(true);
+  });
+
+  it('should return correct true if current attendee count is greater than maximum attendee capacity', () => {
+    expect(
+      isAttendeeCapacityUsed(
+        fakeRegistration({
+          currentAttendeeCount: 41,
+          maximumAttendeeCapacity: 40,
+        })
+      )
+    ).toBe(true);
+  });
+});
+
+describe('isWaitingCapacityUsed', () => {
+  it('should return true if waiting_list_capacity is not defined', () => {
+    expect(
+      isWaitingCapacityUsed(fakeRegistration({ waitingListCapacity: null }))
+    ).toBe(true);
+  });
+
+  it('should return true if current waiting list count is greater than waiting_list_capacity', () => {
+    expect(
+      isWaitingCapacityUsed(
+        fakeRegistration({
+          waitingListCapacity: 15,
+          currentWaitingListCount: 16,
+        })
+      )
+    ).toBe(true);
+  });
+
+  it('should return true if current waiting list count equals waiting_list_capacity', () => {
+    expect(
+      isWaitingCapacityUsed(
+        fakeRegistration({
+          waitingListCapacity: 15,
+          currentWaitingListCount: 15,
+        })
+      )
+    ).toBe(true);
+  });
+
+  it('should return true if current waiting list count is less than waiting_list_capacity', () => {
+    expect(
+      isWaitingCapacityUsed(
+        fakeRegistration({
+          waitingListCapacity: 15,
+          currentWaitingListCount: 14,
+        })
+      )
+    ).toBe(false);
+  });
+});
+
+describe('getFreeWaitingAttendeeCapacity', () => {
+  it('should return 0 if waiting_list_capacity is not defined', () => {
+    expect(
+      getFreeWaitingAttendeeCapacity(
+        fakeRegistration({ waitingListCapacity: null })
+      )
+    ).toBe(0);
+  });
+
+  it('should return correct amount if waiting_list_capacity is defined', () => {
+    expect(
+      getFreeWaitingAttendeeCapacity(
+        fakeRegistration({
+          currentWaitingListCount: 4,
+          waitingListCapacity: 40,
+        })
+      )
+    ).toBe(36);
+  });
+});
+
+describe('getEnrolmentLink', () => {
+  it('should get correct enrolment link', () => {
+    expect(
+      getEnrolmentLink(fakeRegistration({ id: TEST_ENROLMENT_ID }), 'fi')
+    ).toEqual(
+      expect.stringContaining(
+        `/fi/registration/${TEST_ENROLMENT_ID}/enrolment/create`
+      )
+    );
+  });
 });
 
 describe('getRegistrationWarning', () => {

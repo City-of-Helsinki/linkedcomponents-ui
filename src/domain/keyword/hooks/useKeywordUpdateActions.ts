@@ -14,11 +14,11 @@ import {
 import useMountedState from '../../../hooks/useMountedState';
 import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
-import { reportError } from '../../app/sentry/utils';
 import {
   clearKeywordQueries,
   clearKeywordsQueries,
-} from '../../keywords/utils';
+} from '../../app/apollo/clearCacheUtils';
+import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import { KEYWORD_ACTIONS } from '../constants';
 import { KeywordFormFields } from '../types';

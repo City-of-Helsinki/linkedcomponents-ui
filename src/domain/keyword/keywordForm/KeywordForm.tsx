@@ -34,8 +34,8 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import { clearKeywordsQueries } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
-import { clearKeywordsQueries } from '../../keywords/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import {

@@ -1,4 +1,3 @@
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import addMinutes from 'date-fns/addMinutes';
 import isPast from 'date-fns/isPast';
 import { TFunction } from 'i18next';
@@ -322,22 +321,6 @@ export const getEditButtonProps = ({
     title: warning,
   };
 };
-
-/* istanbul ignore next */
-export const clearEnrolmentQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>,
-  args?: EnrolmentQueryVariables
-): boolean =>
-  apolloClient.cache.evict({
-    id: 'ROOT_QUERY',
-    fieldName: 'enrolment',
-    args,
-  });
-
-export const clearEnrolmentsQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>
-): boolean =>
-  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'enrolments' });
 
 export const clearCreateEnrolmentFormData = (registrationId: string): void => {
   sessionStorage?.removeItem(

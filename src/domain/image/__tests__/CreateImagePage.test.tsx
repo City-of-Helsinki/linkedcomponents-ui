@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { testIds as imagePreviewTestIds } from '../../../common/components/imagePreview/ImagePreview';
-import { testIds as imageUploaderTestIds } from '../../../common/components/imageUploader/ImageUploader';
+import { testIds } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
@@ -82,7 +81,7 @@ const uploadImageByFile = async () => {
   const withinModal = within(dialog);
   withinModal.getByRole('heading', { name: /Lisää kuva/i });
 
-  const fileInput = withinModal.getByTestId(imageUploaderTestIds.input);
+  const fileInput = withinModal.getByTestId(testIds.imageUploader.input);
   Object.defineProperty(fileInput, 'files', { value: [file] });
   await act(async () => {
     await fireEvent.change(fileInput);
@@ -150,7 +149,7 @@ test('should create and select new image by selecting image file', async () => {
   await fillPublisherField();
   await uploadImageByFile();
 
-  await screen.findByTestId(imagePreviewTestIds.image);
+  await screen.findByTestId(testIds.imagePreview.image);
 });
 
 test('should create and select new image by entering image url', async () => {
@@ -161,7 +160,7 @@ test('should create and select new image by entering image url', async () => {
   await fillPublisherField();
   await uploadImageByUrl();
 
-  await screen.findByTestId(imagePreviewTestIds.image);
+  await screen.findByTestId(testIds.imagePreview.image);
 });
 
 test('should move to images page after creating new image', async () => {

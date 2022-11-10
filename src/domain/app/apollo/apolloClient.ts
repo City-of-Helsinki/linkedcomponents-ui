@@ -41,7 +41,7 @@ import {
   UsersResponse,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
-import { isFeatureEnabled } from '../../../utils/featureFlags';
+import { featureFlagUtils } from '../../../utils/featureFlags';
 import generateAtId from '../../../utils/generateAtId';
 import { getApiTokenFromStorage } from '../../auth/utils';
 import i18n from '../i18n/i18nInit';
@@ -273,7 +273,7 @@ const linkedEventsLink = new RestLink({
           ...config,
           body: JSON.stringify({
             ...bodyObj,
-            alt_text: isFeatureEnabled('LOCALIZED_IMAGE')
+            alt_text: featureFlagUtils.isFeatureEnabled('LOCALIZED_IMAGE')
               ? bodyObj.alt_text
               : bodyObj.alt_text?.fi ?? null,
           }),

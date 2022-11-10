@@ -21,6 +21,7 @@ import {
 } from '../../../../generated/graphql';
 import getPathBuilder from '../../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
+import { clearImagesQueries } from '../../../app/apollo/clearCacheUtils';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import AddImageForm from '../../../image/addImageForm/AddImageForm';
@@ -28,7 +29,7 @@ import useImageUpdateActions, {
   IMAGE_MODALS,
 } from '../../../image/hooks/useImageUpdateActions';
 import { AddImageSettings } from '../../../image/types';
-import { clearImagesQueries, imagePathBuilder } from '../../../image/utils';
+import { imagePathBuilder } from '../../../image/utils';
 import { EVENT_FIELDS } from '../../constants';
 import eventPageStyles from '../../eventPage.module.scss';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';

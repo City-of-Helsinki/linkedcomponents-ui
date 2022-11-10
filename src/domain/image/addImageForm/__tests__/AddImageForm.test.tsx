@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 import { toast } from 'react-toastify';
 
-import { testIds } from '../../../../common/components/imageUploader/ImageUploader';
+import { testIds } from '../../../../constants';
 import { UserDocument } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
@@ -145,7 +145,7 @@ test('should show error message if trying to enter too large image file', async 
   const addButton = getElement('addButton');
   await waitFor(() => expect(addButton).toBeDisabled());
 
-  const fileInput = screen.getByTestId(testIds.input);
+  const fileInput = screen.getByTestId(testIds.imageUploader.input);
   const file = mockFile({ size: 3000000 });
 
   Object.defineProperty(fileInput, 'files', { value: [file] });

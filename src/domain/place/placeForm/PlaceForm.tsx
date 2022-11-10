@@ -35,6 +35,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import { clearPlacesQueries } from '../../app/apollo/clearCacheUtils';
 import Section from '../../app/layout/section/Section';
 import { reportError } from '../../app/sentry/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -52,7 +53,6 @@ import PlaceAuthenticationNotification from '../placeAuthenticationNotification/
 import { PlaceFormFields } from '../types';
 import {
   checkCanUserDoAction,
-  clearPlacesQueries,
   getFocusableFieldId,
   getPlaceInitialValues,
   getPlacePayload,

@@ -4,11 +4,8 @@ import { IconPhoto } from 'hds-react';
 import React from 'react';
 import useMeasure from 'react-use-measure';
 
+import { testIds } from '../../../constants';
 import styles from './imagePreview.module.scss';
-
-export const testIds = {
-  image: 'image-preview-image',
-};
 
 const RATIO = 2 / 3;
 
@@ -72,7 +69,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
     >
       {imageUrl ? (
         <div
-          data-testid={testIds.image}
+          data-testid={testIds.imagePreview.image}
           className={styles.image}
           style={{ backgroundImage: `url(${imageUrl})` }}
         />

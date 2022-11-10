@@ -34,9 +34,9 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import { clearKeywordSetsQueries } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import useKeywordSetUsageOptions from '../../keywordSets/hooks/useKeywordSetUsageOptions';
-import { clearKeywordSetsQueries } from '../../keywordSets/utils';
 import useUser from '../../user/hooks/useUser';
 import useUserOrganization from '../../user/hooks/useUserOrganization';
 import {

@@ -6,7 +6,7 @@ import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
-import { isFeatureEnabled } from '../../../utils/featureFlags';
+import { featureFlagUtils } from '../../../utils/featureFlags';
 import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
 
@@ -34,11 +34,11 @@ const Footer: React.FC = () => {
   const FOOTER_NAVIGATION_ITEMS = [
     { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
     { labelKey: 'navigation.searchEvents', url: ROUTES.SEARCH },
-    isFeatureEnabled('SHOW_REGISTRATION') && {
+    featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') && {
       labelKey: 'navigation.tabs.registrations',
       url: ROUTES.REGISTRATIONS,
     },
-    isFeatureEnabled('SHOW_ADMIN') && {
+    featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') && {
       labelKey: 'navigation.tabs.admin',
       url: ROUTES.ADMIN,
     },

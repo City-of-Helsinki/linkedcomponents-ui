@@ -8,6 +8,7 @@ import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpi
 import Pagination from '../../../common/components/pagination/Pagination';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
+import { testIds } from '../../../constants';
 import { PlacesQuery, usePlacesQuery } from '../../../generated/graphql';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
@@ -27,10 +28,6 @@ import {
   replaceParamsToPlaceQueryString,
 } from '../utils';
 import styles from './placeList.module.scss';
-
-export const testIds = {
-  resultList: 'place-result-list',
-};
 
 type PlaceListProps = {
   onSelectedPageChange: (page: number) => void;
@@ -144,7 +141,7 @@ const PlaceListContainer: React.FC = () => {
   const pageCount = getPageCount(placesCount, PLACES_PAGE_SIZE);
 
   return (
-    <div id={placeListId} data-testid={testIds.resultList}>
+    <div id={placeListId} data-testid={testIds.placeList.resultList}>
       <div className={styles.searchRow}>
         <span className={styles.count}>
           {t('placesPage.count', { count: placesCount })}

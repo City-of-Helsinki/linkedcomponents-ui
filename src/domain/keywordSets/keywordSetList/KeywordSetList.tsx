@@ -8,6 +8,7 @@ import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpi
 import Pagination from '../../../common/components/pagination/Pagination';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
+import { testIds } from '../../../constants';
 import {
   KeywordSetsQuery,
   useKeywordSetsQuery,
@@ -30,10 +31,6 @@ import {
   replaceParamsToKeywordSetQueryString,
 } from '../utils';
 import styles from './keywordSetList.module.scss';
-
-export const testIds = {
-  resultList: 'keyword-set-result-list',
-};
 
 type KeywordSetListProps = {
   keywordSets: KeywordSetsQuery['keywordSets']['data'];
@@ -151,7 +148,7 @@ const KeywordSetListContainer: React.FC = () => {
   const pageCount = getPageCount(keywordSetsCount, KEYWORD_SETS_PAGE_SIZE);
 
   return (
-    <div id={keywordSetListId} data-testid={testIds.resultList}>
+    <div id={keywordSetListId} data-testid={testIds.keywordSetList.resultList}>
       <div className={styles.searchRow}>
         <span className={styles.count}>
           {t('keywordSetsPage.count', { count: keywordSetsCount })}

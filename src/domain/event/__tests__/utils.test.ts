@@ -1,5 +1,7 @@
+/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
+import i18n from 'i18next';
 import { advanceTo, clear } from 'jest-date-mock';
 
 import {
@@ -48,8 +50,10 @@ import {
   eventPathBuilder,
   filterUnselectedLanguages,
   generateEventTimesFromRecurringEvent,
+  getCreateEventButtonWarning,
   getEditEventWarning,
   getEmptyOffer,
+  getEmptyVideo,
   getEventFields,
   getEventInfoLanguages,
   getEventInitialValues,
@@ -61,6 +65,8 @@ import {
   sortLanguage,
   sortWeekDays,
 } from '../utils';
+
+const t = i18n.t.bind(i18n);
 
 const defaultEventPayload = {
   audience: [],
@@ -1161,6 +1167,12 @@ describe('getEventInitialValues function', () => {
   });
 });
 
+describe('getEmptyVideo function', () => {
+  test('should return empty video object', () => {
+    expect(getEmptyVideo()).toEqual({ altText: '', name: '', url: '' });
+  });
+});
+
 describe('canUserCreateEvent function', () => {
   const publisher = TEST_PUBLISHER_ID;
   const authenticated = true;
@@ -1247,37 +1259,108 @@ describe('canUserCreateEvent function', () => {
 });
 
 describe('isCreateEventButtonVisible function', () => {
-  const publisher = TEST_PUBLISHER_ID;
-  const authenticated = true;
+  it('should show/hide correct buttons if action is not allowed but user is not authenticated', () => {
+    const authenticated = false;
+    const actionAllowed = false;
 
-  it('should show/hide correct buttons if publisher is empty but user has an organizations', () => {
-    const user = fakeUser({ organization: publisher });
-
-    const visibleButtons = [EVENT_CREATE_ACTIONS.CREATE_DRAFT];
+    const visibleButtons = [EVENT_CREATE_ACTIONS.PUBLISH];
 
     visibleButtons.forEach((action) => {
       expect(
         isCreateEventButtonVisible({
           action,
+          actionAllowed,
           authenticated,
-          publisher: '',
-          user,
         })
       ).toBe(true);
     });
 
-    const hiddenButtons = [EVENT_CREATE_ACTIONS.PUBLISH];
+    const hiddenButtons = [EVENT_CREATE_ACTIONS.CREATE_DRAFT];
 
     hiddenButtons.forEach((action) => {
       expect(
         isCreateEventButtonVisible({
           action,
+          actionAllowed,
           authenticated,
-          publisher: '',
-          user,
         })
       ).toBe(false);
     });
+  });
+
+  it('should hide all buttons if action is not allowed but user is authenticated', () => {
+    const authenticated = true;
+    const actionAllowed = false;
+
+    const hiddenButtons = [
+      EVENT_CREATE_ACTIONS.CREATE_DRAFT,
+      EVENT_CREATE_ACTIONS.PUBLISH,
+    ];
+
+    hiddenButtons.forEach((action) => {
+      expect(
+        isCreateEventButtonVisible({
+          action,
+          actionAllowed,
+          authenticated,
+        })
+      ).toBe(false);
+    });
+  });
+
+  it('should show all buttons if action is allowed and user is authenticated', () => {
+    const authenticated = true;
+    const actionAllowed = true;
+
+    const visibleButtons = [
+      EVENT_CREATE_ACTIONS.CREATE_DRAFT,
+      EVENT_CREATE_ACTIONS.PUBLISH,
+    ];
+
+    visibleButtons.forEach((action) => {
+      expect(
+        isCreateEventButtonVisible({
+          action,
+          actionAllowed,
+          authenticated,
+        })
+      ).toBe(true);
+    });
+  });
+});
+
+describe('getCreateEventButtonWarning function', () => {
+  test('should show correct if user is not authenticated', () => {
+    expect(
+      getCreateEventButtonWarning({
+        action: EVENT_CREATE_ACTIONS.CREATE_DRAFT,
+        actionAllowed: true,
+        authenticated: false,
+        t,
+      })
+    ).toBe('Jos haluat julkaista tapahtuman, kirjaudu ensin sisään.');
+  });
+
+  test('should show correct warning if creating draft is not allowed', () => {
+    expect(
+      getCreateEventButtonWarning({
+        action: EVENT_CREATE_ACTIONS.CREATE_DRAFT,
+        actionAllowed: false,
+        authenticated: true,
+        t,
+      })
+    ).toBe('Sinulla ei ole oikeuksia luoda tätä tapahtumaa.');
+  });
+
+  test('should show correct warning if publishing event is not allowed', () => {
+    expect(
+      getCreateEventButtonWarning({
+        action: EVENT_CREATE_ACTIONS.PUBLISH,
+        actionAllowed: false,
+        authenticated: true,
+        t,
+      })
+    ).toBe('Sinulla ei ole oikeuksia julkaista tätä tapahtumaa.');
   });
 });
 
@@ -1479,7 +1562,7 @@ describe('getEditEventWarning function', () => {
     const commonProps = {
       authenticated: false,
       event,
-      t: (s) => s,
+      t,
       userCanDoAction: false,
     };
 
@@ -1508,7 +1591,7 @@ describe('getEditEventWarning function', () => {
           action,
           ...commonProps,
         })
-      ).toBe('authentication.noRightsUpdateEvent');
+      ).toBe('Sinulla ei ole oikeuksia muokata tapahtumia.');
     });
   });
 
@@ -1524,7 +1607,7 @@ describe('getEditEventWarning function', () => {
     const commonProps = {
       authenticated: true,
       event,
-      t: (s) => s,
+      t,
       userCanDoAction: true,
     };
     allowedActions.forEach((action) => {
@@ -1550,7 +1633,7 @@ describe('getEditEventWarning function', () => {
           ...commonProps,
           action,
         })
-      ).toBe('event.form.editButtonPanel.warningCancelledEvent');
+      ).toBe('Peruttuja tapahtumia ei voi muokata.');
     });
   });
 
@@ -1562,7 +1645,7 @@ describe('getEditEventWarning function', () => {
     const commonProps = {
       authenticated: true,
       event,
-      t: (s) => s,
+      t,
       userCanDoAction: true,
     };
     allowedActions.forEach((action) => {
@@ -1589,7 +1672,7 @@ describe('getEditEventWarning function', () => {
           ...commonProps,
           action,
         })
-      ).toBe('event.form.editButtonPanel.warningDeletedEvent');
+      ).toBe('Poistettuja tapahtumia ei voi muokata.');
     });
   });
 
@@ -1606,7 +1689,7 @@ describe('getEditEventWarning function', () => {
     const commonProps = {
       authenticated: true,
       event,
-      t: (s) => s,
+      t,
       userCanDoAction: true,
     };
     allowedActions.forEach((action) => {
@@ -1632,7 +1715,7 @@ describe('getEditEventWarning function', () => {
           ...commonProps,
           action,
         })
-      ).toBe('event.form.editButtonPanel.warningEventInPast');
+      ).toBe('Menneisyydessä olevia tapahtumia ei voi muokata.');
     });
   });
 
@@ -1648,11 +1731,11 @@ describe('getEditEventWarning function', () => {
       getEditEventWarning({
         authenticated: true,
         event,
-        t: (s) => s,
+        t,
         userCanDoAction: true,
         action: EVENT_EDIT_ACTIONS.CANCEL,
       })
-    ).toBe('event.form.editButtonPanel.warningCannotCancelDraft');
+    ).toBe('Tapahtumaluonnosta ei voi perua.');
   });
 
   it('should return correct warning if trying to postpone draft event', () => {
@@ -1667,11 +1750,11 @@ describe('getEditEventWarning function', () => {
       getEditEventWarning({
         authenticated: true,
         event,
-        t: (s) => s,
+        t,
         userCanDoAction: true,
         action: EVENT_EDIT_ACTIONS.POSTPONE,
       })
-    ).toBe('event.form.editButtonPanel.warningCannotPostponeDraft');
+    ).toBe('Tapahtumaluonnosta ei voi lykätä.');
   });
 
   it('should return correct warning if trying to publish sub-event', () => {
@@ -1687,11 +1770,11 @@ describe('getEditEventWarning function', () => {
       getEditEventWarning({
         authenticated: true,
         event,
-        t: (s) => s,
+        t,
         userCanDoAction: true,
         action: EVENT_EDIT_ACTIONS.PUBLISH,
       })
-    ).toBe('event.form.editButtonPanel.warningCannotPublishSubEvent');
+    ).toBe('Sarjan alatapahtumia ei voi julkaista.');
   });
 
   it('should return correct warning if user cannot do action', () => {
@@ -1707,11 +1790,11 @@ describe('getEditEventWarning function', () => {
       getEditEventWarning({
         authenticated: true,
         event,
-        t: (s) => s,
+        t,
         userCanDoAction: false,
         action: EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
       })
-    ).toBe('event.form.editButtonPanel.warningNoRightsToEdit');
+    ).toBe('Sinulla ei ole oikeuksia muokata tätä tapahtumaa.');
   });
 });
 

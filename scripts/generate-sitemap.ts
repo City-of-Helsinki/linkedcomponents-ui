@@ -3,7 +3,7 @@ import { promisify } from 'util';
 import * as convert from 'xml-js';
 
 import { ROUTES, SUPPORTED_LANGUAGES } from '../src/constants';
-import { isFeatureEnabled } from '../src/utils/featureFlags';
+import { featureFlagUtils } from '../src/utils/featureFlags';
 import { HOST, PATH_TO_BUILD_FOLDER, SITEMAP_FILENAME } from './constants';
 
 const LANGUAGES = Object.values(SUPPORTED_LANGUAGES);
@@ -34,7 +34,7 @@ const STATIC_URLS_BLACK_LIST = [
   ROUTES.SUPPORT,
   ROUTES.TECHNOLOGY,
 ].concat(
-  isFeatureEnabled('SHOW_ADMIN')
+  featureFlagUtils.isFeatureEnabled('SHOW_ADMIN')
     ? []
     : [
         ROUTES.CREATE_IMAGE,

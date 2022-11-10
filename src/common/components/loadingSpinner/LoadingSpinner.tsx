@@ -6,10 +6,9 @@ import {
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { testIds } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import styles from './loadingSpinner.module.scss';
-
-export const testId = 'loading-spinner';
 
 type Props = {
   className?: string;
@@ -34,7 +33,7 @@ const LoadingSpinner: React.FC<Props> = ({
           {({ css, cx }) => (
             <div
               className={cx(className, styles.loadingSpinnerWrapper)}
-              data-testid={testId}
+              data-testid={testIds.loadingSpinner}
             >
               <HdsLoadingSpinner
                 {...rest}

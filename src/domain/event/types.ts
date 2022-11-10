@@ -87,7 +87,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.VIDEOS]: VideoDetails[];
 };
 
-type EventTimeFormFields = {
+export type EventTimeFormFields = {
   [EVENT_TIME_FIELDS.END_DATE]: Date | null;
   [EVENT_TIME_FIELDS.END_TIME]: string;
   [EVENT_TIME_FIELDS.START_DATE]: Date | null;

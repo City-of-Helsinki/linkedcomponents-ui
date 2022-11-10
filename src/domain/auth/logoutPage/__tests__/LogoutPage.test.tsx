@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { testId as loadingSpinnerTestId } from '../../../../common/components/loadingSpinner/LoadingSpinner';
+import { testIds } from '../../../../constants';
 import {
   fakeAuthContextValue,
   fakeAuthenticatedAuthContextValue,
@@ -74,5 +74,5 @@ test('should render loading spinner when loading authenticion state', () => {
 
   renderComponent(authContextValue);
 
-  expect(screen.getByTestId(loadingSpinnerTestId)).toBeInTheDocument();
+  expect(screen.getByTestId(testIds.loadingSpinner)).toBeInTheDocument();
 });

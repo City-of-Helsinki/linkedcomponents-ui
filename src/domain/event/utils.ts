@@ -1232,60 +1232,42 @@ export const canUserCreateEvent = ({
 
 export const isCreateEventButtonVisible = ({
   action,
+  actionAllowed,
   authenticated,
-  publisher,
-  user,
 }: {
   action: EVENT_CREATE_ACTIONS;
+  actionAllowed: boolean;
   authenticated: boolean;
-  publisher: string;
-  user?: UserFieldsFragment;
 }): boolean => {
-  const adminOrganizations = user?.adminOrganizations ?? [];
-  const organizationMemberships = user?.organizationMemberships ?? [];
-  const organization = user?.organization;
-  const canCreateDraft =
-    (authenticated && !publisher && !!organization) ||
-    organizationMemberships.includes(publisher);
-  const canPublish = adminOrganizations.includes(publisher);
-
   switch (action) {
     case EVENT_CREATE_ACTIONS.CREATE_DRAFT:
-      return canCreateDraft || canPublish;
+      return actionAllowed;
     case EVENT_CREATE_ACTIONS.PUBLISH:
-      return !authenticated || canPublish;
+      return !authenticated || actionAllowed;
   }
 };
 
 export const getCreateEventButtonWarning = ({
   action,
+  actionAllowed,
   authenticated,
-  publisher,
   t,
-  user,
 }: {
   action: EVENT_CREATE_ACTIONS;
+  actionAllowed: boolean;
   authenticated: boolean;
-  publisher: string;
   t: TFunction;
-  user?: UserFieldsFragment;
 }): string => {
-  const actionAllowed = canUserCreateEvent({
-    action,
-    authenticated,
-    publisher,
-    user,
-  });
   if (!authenticated) {
     return t('event.form.buttonPanel.warningNotAuthenticated');
   }
 
   if (action === EVENT_CREATE_ACTIONS.CREATE_DRAFT && !actionAllowed) {
-    return t('event.form.buttonPanel.warningNoRightsCreate');
+    return t('event.form.buttonPanel.warningNoRightsToCreate');
   }
 
   if (action === EVENT_CREATE_ACTIONS.PUBLISH && !actionAllowed) {
-    return t('event.form.buttonPanel.warningNoRightsPublish');
+    return t('event.form.buttonPanel.warningNoRightsToPublish');
   }
 
   return '';
@@ -1308,19 +1290,23 @@ export const getCreateButtonProps = ({
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps | null => {
-  const warning = getCreateEventButtonWarning({
+  const actionAllowed = canUserCreateEvent({
     action,
     authenticated,
     publisher,
-    t,
     user,
+  });
+  const warning = getCreateEventButtonWarning({
+    action,
+    actionAllowed,
+    authenticated,
+    t,
   });
 
   return isCreateEventButtonVisible({
     action,
+    actionAllowed,
     authenticated,
-    publisher,
-    user,
   })
     ? {
         disabled: !!warning,

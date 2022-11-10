@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router';
 import Button from '../../../common/components/button/Button';
 import MultiSelectDropdown from '../../../common/components/multiSelectDropdown/MultiSelectDropdown';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
-import { ROUTES } from '../../../constants';
+import { ROUTES, testIds } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
 import { OptionType } from '../../../types';
@@ -26,10 +26,6 @@ import DateSelectorDropdown, {
 } from './dateSelectorDropdown/DateSelectorDropdown';
 import PlaceSelector from './placeSelector/PlaceSelector';
 import styles from './searchPanel.module.scss';
-
-export const testIds = {
-  searchPanel: 'event-search-panel',
-};
 
 type SearchState = {
   end: Date | null;
@@ -99,7 +95,7 @@ const SearchPanel: React.FC = () => {
     <ClassNames>
       {({ css, cx }) => (
         <div
-          data-testid={testIds.searchPanel}
+          data-testid={testIds.eventSearchPanel.searchPanel}
           className={cx(styles.searchPanel, css(theme.searchPanel))}
         >
           <section className={styles.searchPanelWrapper}>

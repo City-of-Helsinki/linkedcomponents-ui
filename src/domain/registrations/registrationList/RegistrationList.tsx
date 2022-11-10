@@ -8,6 +8,7 @@ import FeedbackButton from '../../../common/components/feedbackButton/FeedbackBu
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
+import { testIds } from '../../../constants';
 import {
   EventsQueryVariables,
   RegistrationsQuery,
@@ -36,10 +37,6 @@ import styles from './registrationList.module.scss';
 export interface EventListContainerProps {
   baseVariables: EventsQueryVariables;
 }
-
-export const testIds = {
-  resultList: 'registration-result-list',
-};
 
 type RegistrationListProps = {
   onSelectedPageChange: (page: number) => void;
@@ -134,7 +131,7 @@ const RegistrationListContainer: React.FC = () => {
     <div
       id={registrationListId}
       className={styles.registrationList}
-      data-testid={testIds.resultList}
+      data-testid={testIds.registrationList.resultList}
     >
       <Container withOffset={true}>
         <span className={styles.count}>
